@@ -1,0 +1,78 @@
+name: FA3 Permanent Canonical + Promotion Gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-permanent-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  canonical-regression:
+    name: canonical-regression / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare gate
+        run: chmod +x bin/fa3-enforce
+      - name: Syntax check
+        run: python -m py_compile src/fa3_enforce.py
+      - name: Canonical static enforcement
+        run: ./bin/fa3-enforce static
+      - name: Upload static report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-static-gate-report
+          path: reports/static-gate-report.json
+
+  promotion-safety:
+    name: promotion-safety / fail-closed
+    needs: canonical-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare gate
+        run: chmod +x bin/fa3-enforce
+      - name: Prove runtime promotion cannot bypass evidence
+        shell: bash
+        run: |
+          set +e
+          ./bin/fa3-enforce promote
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "Promotion is valid: all runtime evidence and all 19 acceptance criteria are PASS."
+          elif [ "$rc" -eq 2 ]; then
+            echo "Promotion correctly blocked by fail-closed runtime evidence/acceptance gate."
+          else
+            exit "$rc"
+          fi
+      - name: Upload promotion reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-promotion-reports
+          path: |
+            reports/runtime-gate-report.json
+            acceptance/acceptance-report.json
+            promotion/runtime-status.json
