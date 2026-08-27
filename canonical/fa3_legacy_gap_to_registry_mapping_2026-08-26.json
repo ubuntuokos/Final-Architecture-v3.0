@@ -1,0 +1,678 @@
+{
+  "record_id": "FA3-CGR-2026-08-26",
+  "record_type": "CANONICAL_GAP_RECONCILIATION_MAPPING",
+  "mapping_version": "1.1.0",
+  "architecture": "FINAL ARCHITECTURE v3.0",
+  "date": "2026-08-26",
+  "governed_by": "FA3-REGISTRY-001",
+  "status": "CANONICAL_CLOSED",
+  "priority_scope": {
+    "P0": 17,
+    "P1": 19,
+    "total": 36
+  },
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "invariants": [
+    "Every legacy gap MUST map to at least one canonical Registry ID.",
+    "No legacy gap may remain OPEN, ORPHANED, or UNCLASSIFIED.",
+    "Authority Registry IDs introduced in this record identify pre-existing authorities only.",
+    "A NOT_STANDALONE disposition MUST NOT create a new capability, authority, or root profile.",
+    "Primary and secondary targets MUST be registry-addressable IDs."
+  ],
+  "authority_registry_normalization": {
+    "FA3-AUTH-SECURITY-GOV-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Security/Governance",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing Security/Governance authority; creates no new authority."
+    },
+    "FA3-AUTH-MCP-GATEWAY-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Central MCP/Capability Gateway",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing tool/capability mediation authority."
+    },
+    "FA3-AUTH-MODEL-ROUTER-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Central Model/Provider Routing Authority",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing model/provider routing authority."
+    },
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Host Resource Broker",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing host admission/placement/reservation authority."
+    },
+    "FA3-AUTH-OBS-EVIDENCE-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Unified Observability/Evidence",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing telemetry/audit/evidence authority."
+    },
+    "FA3-AUTH-SECRETS-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Central Secrets/Secret Broker",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing credential/secret authority."
+    },
+    "FA3-AUTH-ORCHESTRATION-001": {
+      "registry": "Authority Registry",
+      "kind": "AUTHORITY",
+      "name": "Durable Orchestration / Workflow Execution Authority",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing durable orchestration/workflow execution authority."
+    },
+    "FA3-REG-ARTIFACT-MODEL-001": {
+      "registry": "Capability/Metadata Registry",
+      "kind": "REGISTRY",
+      "name": "Artifact/Model Registry",
+      "status": "CANONICAL",
+      "note": "Registry identity for the pre-existing Artifact/Model Registry."
+    }
+  },
+  "mappings": [
+    {
+      "legacy_gap": "IDENTITY",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-REGISTRY-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Canonical metadata identity is governed by FA3-REGISTRY-001; authorization/risk identity policy remains Security/Governance."
+    },
+    {
+      "legacy_gap": "PROVENANCE",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-SCS-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-OBS-EVIDENCE-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Artifact/software provenance and attestations are SCS-governed; evidence/audit remains Unified Observability/Evidence."
+    },
+    {
+      "legacy_gap": "ARTIFACT",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-REG-ARTIFACT-MODEL-001",
+          "kind": "REGISTRY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-SCS-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Artifact identity/lifecycle metadata belongs to Artifact/Model Registry; trust/admission/provenance to SCS."
+    },
+    {
+      "legacy_gap": "MODEL-PKG",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-REG-ARTIFACT-MODEL-001",
+          "kind": "REGISTRY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-SCS-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Model package identity/version metadata is registry-owned; package trust, SBOM, signature and admission are SCS-owned."
+    },
+    {
+      "legacy_gap": "DATASET",
+      "priority": "P0",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-DATA-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Dataset lifecycle, governance projection and dataset-level controls are canonicalized under FA3-DATA-001."
+    },
+    {
+      "legacy_gap": "INVOKE",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-AUTH-MCP-GATEWAY-001",
+          "kind": "AUTHORITY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-MODEL-ROUTER-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Tool/capability invocation is mediated by Central MCP/Capability Gateway; model/provider invocation routing remains the routing authority."
+    },
+    {
+      "legacy_gap": "RESOURCE",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-HW-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-HW-MGPU-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        },
+        {
+          "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Discovery/classification is FA3-HW-001; heterogeneous accelerator projection is FA3-HW-MGPU-001; admission/placement/reservation remains Host Resource Broker."
+    },
+    {
+      "legacy_gap": "EVENT",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-CONTRACT-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-ORCHESTRATION-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Canonical event envelopes/schema/version semantics are contract-owned; durable event execution belongs to orchestration."
+    },
+    {
+      "legacy_gap": "WORKFLOW-SEM",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-AUTH-ORCHESTRATION-001",
+          "kind": "AUTHORITY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-CONTRACT-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Workflow execution semantics are owned by durable orchestration with canonical workflow/event contracts under FA3-CONTRACT-001."
+    },
+    {
+      "legacy_gap": "POLICY",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Policy authorization, exception, risk and enforcement authority remain Security/Governance; no standalone policy authority is created."
+    },
+    {
+      "legacy_gap": "SCHEMA",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-CONTRACT-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Canonical schema identity, compatibility and evolution are part of FA3-CONTRACT-001."
+    },
+    {
+      "legacy_gap": "CONFIG",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-CONTRACT-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Configuration contracts/versioning are contract-owned; security-sensitive configuration policy remains Security/Governance."
+    },
+    {
+      "legacy_gap": "NET-EGRESS",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "DR-FA3-NETFW-001",
+          "kind": "DECISION",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Network/egress enforcement is governed by the canonical firewall/traffic policy fabric decision; Security/Governance remains policy authority."
+    },
+    {
+      "legacy_gap": "DR",
+      "priority": "P0",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-RESILIENCE-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Disaster recovery, recovery objectives and resilience controls are canonicalized under FA3-RESILIENCE-001."
+    },
+    {
+      "legacy_gap": "HUMAN-GATE",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-ORCHESTRATION-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Human approval/escalation policy is Security/Governance-owned and executed durably by orchestration."
+    },
+    {
+      "legacy_gap": "EVAL-PROMOTE",
+      "priority": "P0",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-EVAL-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Evaluation, promotion gates and promotion evidence are canonicalized under FA3-EVAL-001."
+    },
+    {
+      "legacy_gap": "DISPATCH",
+      "priority": "P0",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-AUTH-MCP-GATEWAY-001",
+          "kind": "AUTHORITY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-MODEL-ROUTER-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Capability/tool dispatch is gateway-owned; model/provider dispatch selection remains the model/provider routing authority."
+    },
+    {
+      "legacy_gap": "RAG",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-KNOWLEDGE-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Retrieval-augmented knowledge access is canonicalized under FA3-KNOWLEDGE-001."
+    },
+    {
+      "legacy_gap": "CONTEXT",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-KNOWLEDGE-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Context assembly/optimization and knowledge-context projection are canonicalized under FA3-KNOWLEDGE-001."
+    },
+    {
+      "legacy_gap": "CACHE",
+      "priority": "P1",
+      "disposition": "NOT_STANDALONE",
+      "targets": [
+        {
+          "id": "FA3-KNOWLEDGE-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Cache is an optimization mechanism, not an authority/capability; semantic/context cache policy is knowledge-layer scoped and physical resource constraints remain Host Resource Broker-owned."
+    },
+    {
+      "legacy_gap": "ERROR",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-RESILIENCE-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-CONTRACT-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Failure taxonomy/recovery is resilience-owned; machine-stable error envelopes and versioning are contract-owned."
+    },
+    {
+      "legacy_gap": "SECRETS-LEASE",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-AUTH-SECRETS-001",
+          "kind": "AUTHORITY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Secret issuance/lease/rotation/revocation belongs to Central Secrets/Secret Broker; access policy remains Security/Governance."
+    },
+    {
+      "legacy_gap": "UPDATE",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-SCS-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-REG-ARTIFACT-MODEL-001",
+          "kind": "REGISTRY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Update artifacts must pass SCS trust/admission/re-evaluation gates; version/identity state is tracked in Artifact/Model Registry."
+    },
+    {
+      "legacy_gap": "EXTENSION",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-SCS-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-MCP-GATEWAY-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Extensions/plugins are treated as governed artifacts/providers: trust/admission by SCS, callable capability projection through the MCP/Capability Gateway."
+    },
+    {
+      "legacy_gap": "RECONCILE",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-REGISTRY-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-OBS-EVIDENCE-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Canonical metadata/state reconciliation is registry-governed with reconciliation evidence emitted through Unified Observability/Evidence."
+    },
+    {
+      "legacy_gap": "DATA-GOV",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-DATA-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Data governance is canonicalized under FA3-DATA-001; authorization/risk policy remains Security/Governance."
+    },
+    {
+      "legacy_gap": "RIGHTS",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-DATA-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Data/media rights metadata and governance projection live under FA3-DATA-001; enforcement/exception policy remains Security/Governance."
+    },
+    {
+      "legacy_gap": "MEDIA-TIME",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-MEDIA-FINISH-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-TEMPORAL-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Media timeline/timebase/finishing semantics are canonicalized under FA3-MEDIA-FINISH-001 with cross-domain temporal semantics from FA3-TEMPORAL-001."
+    },
+    {
+      "legacy_gap": "COLOR",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-MEDIA-FINISH-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Color management/finishing is canonicalized under FA3-MEDIA-FINISH-001."
+    },
+    {
+      "legacy_gap": "AUDIO-MASTER",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-MEDIA-FINISH-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Audio mastering/finishing is canonicalized under FA3-MEDIA-FINISH-001."
+    },
+    {
+      "legacy_gap": "CAPTION",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-MEDIA-FINISH-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Caption/subtitle finishing and interchange semantics are canonicalized under FA3-MEDIA-FINISH-001."
+    },
+    {
+      "legacy_gap": "ASSET-IDENTITY",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-REG-ARTIFACT-MODEL-001",
+          "kind": "REGISTRY",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-SCS-001",
+          "kind": "PROFILE",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Asset identity/version metadata belongs to Artifact/Model Registry; trust/provenance/attestation remains SCS-owned."
+    },
+    {
+      "legacy_gap": "INCIDENT",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-RESILIENCE-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-OBS-EVIDENCE-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Incident lifecycle/recovery is canonicalized under FA3-RESILIENCE-001; telemetry/evidence/audit stays Unified Observability/Evidence-owned."
+    },
+    {
+      "legacy_gap": "COMPAT",
+      "priority": "P1",
+      "disposition": "ABSORBED_BY",
+      "targets": [
+        {
+          "id": "FA3-CONTRACT-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Compatibility/version negotiation and schema evolution are canonical contract concerns under FA3-CONTRACT-001."
+    },
+    {
+      "legacy_gap": "TIME",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-TEMPORAL-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        }
+      ],
+      "closure": "Cross-domain time, deadlines, durations and temporal semantics are canonicalized under FA3-TEMPORAL-001."
+    },
+    {
+      "legacy_gap": "BUDGET",
+      "priority": "P1",
+      "disposition": "CANONICALIZED_AS",
+      "targets": [
+        {
+          "id": "FA3-BUDGET-001",
+          "kind": "PROFILE",
+          "role": "PRIMARY"
+        },
+        {
+          "id": "FA3-AUTH-SECURITY-GOV-001",
+          "kind": "AUTHORITY",
+          "role": "SECONDARY"
+        }
+      ],
+      "closure": "Budget/cost/quota envelopes are canonicalized under FA3-BUDGET-001; policy/exception authorization remains Security/Governance."
+    }
+  ]
+}
