@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.enforcement.policy.v1",
+  "architecture_release": "2026-08-23/v3.0.11",
+  "canonical_capability_count": 143,
+  "fail_closed": true,
+  "forbidden_statuses": ["OPEN", "ORPHANED", "UNCLASSIFIED"],
+  "runtime_promotion_requires_current_host_evidence": true,
+  "document_only_promotion_forbidden": true,
+  "out_of_scope": ["Linux Recovery/Rebuild Projection"],
+  "protected_geometry": {
+    "root": "FA3-3D-GEOM-001",
+    "child": "FA3-MESH-GEN-001",
+    "relationship": "SUBPROFILE-OF",
+    "root_count": 1
+  }
+}
