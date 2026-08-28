@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-TERAX-001",
+  "name": "crynta/terax-ai",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "TERMINAL_FIRST_NATIVE_DEVELOPER_ADE",
+  "classification": ["OPTIONAL_PROVIDER", "REFERENCE_IMPLEMENTATION", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "authority_boundaries": {
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "policy": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "registry": "FA3-REGISTRY-001"
+  }
+}

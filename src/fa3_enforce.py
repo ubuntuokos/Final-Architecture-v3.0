@@ -2,6 +2,7 @@
 from __future__ import annotations
 import argparse,csv,json,sys
 from pathlib import Path
+from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 
 OK=0
 BLOCKED=2
@@ -74,6 +75,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-002","Fail-closed/document-only promotion invariant disabled"))
     if "Linux Recovery/Rebuild Projection" not in pol.get("out_of_scope",[]):
         fs.append(finding("FA3-STATIC-003","Removed Linux Recovery/Rebuild Projection returned to scope"))
+    if "FA3-TERAX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-015","Terax mandatory reference gate is not bound into global enforcement policy"))
 
     if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
@@ -114,9 +117,13 @@ def static_check(root:Path):
     ):
         fs.append(finding("FA3-STATIC-014","Geometry canonical closure invariant failed"))
 
+    terax_ref=terax_reference_check(root)
+    if terax_ref["result"]!="PASS":
+        fs.extend(terax_ref.get("findings",[]))
+
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256")}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -164,6 +171,7 @@ def receipt_ok(p:Path,signed=False,human=False,independent=False):
 def acceptance_check(root:Path):
     s=static_check(root)
     r=runtime_check(root)
+    t=terax_gate(root,require_current_host=True)
     results=[]
     for i in range(1,20):
         reasons=[]
@@ -184,10 +192,10 @@ def acceptance_check(root:Path):
                     ok=False
                     reasons.append(f"{fn}: {why}")
         results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons})
-    all_ok=all(x["status"]=="PASS" for x in results) and r["result"]=="PASS"
+    all_ok=all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
-         "static_gate":s["result"],"runtime_gate":r["result"],
+         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
          "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
@@ -197,14 +205,15 @@ def promote(root:Path):
     allowed=a["status"]=="PASS"
     state={"schema":"fa3.runtime-status.v1","architecture_release":RELEASE,"target_state":"PROMOTED",
            "actual_state":"PROMOTED" if allowed else "PROMOTION_BLOCKED","promotion_allowed":allowed,"acceptance":a["status"],
-           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence and all 19 acceptance criteria are PASS."}
+           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, and the mandatory Terax gate are PASS."}
     writej(root/"promotion/runtime-status.json",state)
     return state,OK if allowed else BLOCKED
 
 def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
-    ap.add_argument("command",choices=("static","runtime","acceptance","promote","all","status"))
+    ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
+    ap.add_argument("command",choices=("static","runtime","terax","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -212,6 +221,8 @@ def main():
             x=static_check(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="runtime":
             x=runtime_check(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="terax":
+            x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
