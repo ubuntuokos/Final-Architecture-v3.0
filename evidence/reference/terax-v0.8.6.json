@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.terax-reference-evidence.v1",
+  "provider_id": "FA3-PROVIDER-TERAX-001",
+  "repository": "crynta/terax-ai",
+  "floating_main_allowed": false,
+  "stable_reference": {
+    "release": "v0.8.6",
+    "release_date": "2026-07-27",
+    "tag_object_sha": "0165b39c2e52760316aa3202b6acf0f25fad0551",
+    "commit_sha": "1fdbc50e53b3ac53db3ba80057805a2d54258545",
+    "git_tag_verified": false,
+    "git_tag_verification_reason": "unsigned",
+    "source_blobs": {
+      "TERAX.md": "6444656a00ed1895af236d65100f10a5622c5c5e",
+      "docs/architecture/security-model.md": "20b92f576d219d1a91804fca9c9fcf6c1384d861",
+      "docs/architecture/ai-subsystem.md": "faf1e4d70bea4ac81d83dd5b81833920763a4c03",
+      "src/modules/ai/lib/security.ts": "346e7aaef55030f3412c1535b20a181e7f08753e",
+      "src/modules/ai/tools/tools.ts": "942285325813a5a1a996536ab368c064eb60ddc3"
+    }
+  },
+  "local_control_reference": {
+    "reason": "local-control architecture post-dates v0.8.6 and is therefore pinned to an exact unreleased commit",
+    "commit_sha": "e9b489c5d50cb9e654fc9a61f901c0eb9f341be3",
+    "path": "docs/architecture/cli-control.md",
+    "blob_sha": "2c997c54be458e146cb35bbfb93351cb04853bcb"
+  },
+  "evidence_policy": {
+    "stable_features": "release tag + commit SHA + blob SHA",
+    "unreleased_features": "exact commit SHA + blob SHA",
+    "floating_branch": "FORBIDDEN_FOR_PROMOTION"
+  }
+}
