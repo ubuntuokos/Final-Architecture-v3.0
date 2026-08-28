@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.terax-enforcement.v1",
+  "provider_id": "FA3-PROVIDER-TERAX-001",
+  "classification": ["OPTIONAL_DEVELOPER_ADE_PROVIDER", "REFERENCE_IMPLEMENTATION", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "mandatory_rule_count": 17,
+  "p0_invariants": [
+    "READ_BEFORE_EDIT",
+    "DIFF_BEFORE_APPLY",
+    "TYPED_AUTHENTICATED_LOCAL_CONTROL",
+    "SECURITY_INVARIANT_EXECUTABLE_EVIDENCE",
+    "DISABLED_CAPABILITY_ZERO_RUNTIME_COST"
+  ],
+  "floating_main_allowed_as_promotion_evidence": false,
+  "fail_closed": true,
+  "current_host_mode": "DISABLED_REFERENCE_ONLY_ALLOWED",
+  "rules": [
+    "boundary-first host access",
+    "explicit workspace authorization",
+    "capability-scoped tool execution",
+    "mutations require authorization/approval",
+    "read-before-edit",
+    "diff-before-apply",
+    "canonical-path/symlink revalidation",
+    "SSRF + DNS-rebinding resistant egress",
+    "provider-neutral model projection",
+    "project instruction manifests are untrusted scoped context",
+    "subagent capability narrowing",
+    "bounded agent execution",
+    "typed authenticated local-control contracts",
+    "explicit delegated caller context",
+    "security invariant -> executable regression evidence",
+    "unsupported/unverified path -> fail closed",
+    "disabled capability -> effectively zero runtime resource cost"
+  ]
+}
