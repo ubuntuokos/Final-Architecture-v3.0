@@ -115,6 +115,62 @@ class TeraxGateTests(unittest.TestCase):
         r = t.reference_check(root)
         self.assertEqual(r["result"], "PASS", r)
 
+    def test_current_host_receipt_pass_fixture(self):
+        import json
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            p = root / "evidence" / "receipts"
+            p.mkdir(parents=True)
+            receipt = {
+                "schema":"fa3.terax-current-host.v1",
+                "provider_id":t.PROVIDER_ID,
+                "host_scope":"CURRENT_HOST",
+                "provider_state":"DISABLED_REFERENCE_ONLY",
+                "status":"PASS",
+                "expires_at":"2099-01-01T00:00:00Z",
+                "gpu_telemetry":"AVAILABLE",
+                "metrics":{
+                    "resident_process_count":0,
+                    "worker_thread_count":0,
+                    "ram_resident_bytes":0,
+                    "gpu_memory_bytes":0,
+                    "network_session_count":0,
+                    "accelerator_reservation_count":0,
+                    "active_polling":False,
+                    "background_inference":False
+                }
+            }
+            (p / "terax-current-host.json").write_text(json.dumps(receipt))
+            self.assertEqual(t.current_host_check(root)["result"], "PASS")
+
+    def test_current_host_receipt_resource_leak_fails(self):
+        import json
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            p = root / "evidence" / "receipts"
+            p.mkdir(parents=True)
+            receipt = {
+                "schema":"fa3.terax-current-host.v1",
+                "provider_id":t.PROVIDER_ID,
+                "host_scope":"CURRENT_HOST",
+                "provider_state":"DISABLED_REFERENCE_ONLY",
+                "status":"PASS",
+                "expires_at":"2099-01-01T00:00:00Z",
+                "gpu_telemetry":"AVAILABLE",
+                "metrics":{
+                    "resident_process_count":1,
+                    "worker_thread_count":1,
+                    "ram_resident_bytes":4096,
+                    "gpu_memory_bytes":0,
+                    "network_session_count":0,
+                    "accelerator_reservation_count":0,
+                    "active_polling":False,
+                    "background_inference":False
+                }
+            }
+            (p / "terax-current-host.json").write_text(json.dumps(receipt))
+            self.assertEqual(t.current_host_check(root)["result"], "FAIL")
+
 
 if __name__ == "__main__":
     unittest.main()
