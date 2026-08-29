@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-DEMUCS-2026-08-29",
+  "date": "2026-08-29",
+  "status": "CANONICAL_CLOSED",
+  "subject": "adefossez/demucs",
+  "decision": "ACCEPT",
+  "profile_id": "FA3-AUDIO-SEPARATION-001",
+  "provider_id": "FA3-PROVIDER-DEMUCS-001",
+  "gate_id": "FA3-DEMUCS-GATESET-001",
+  "role": [
+    "OPTIONAL_LOCAL_AUDIO_SOURCE_SEPARATION_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "capability_projection": [
+    "CAP-017",
+    "CAP-066"
+  ],
+  "mandatory_canonical_rules": [
+    "FA3-DEMUCS-P0-001",
+    "FA3-DEMUCS-P0-002",
+    "FA3-DEMUCS-P0-003",
+    "FA3-DEMUCS-P0-004",
+    "FA3-DEMUCS-P0-005",
+    "FA3-DEMUCS-P0-006",
+    "FA3-DEMUCS-P0-007",
+    "FA3-DEMUCS-P0-008",
+    "FA3-DEMUCS-P0-009",
+    "FA3-DEMUCS-P0-010",
+    "FA3-DEMUCS-P0-011",
+    "FA3-DEMUCS-P0-012",
+    "FA3-DEMUCS-P0-013",
+    "FA3-DEMUCS-P0-014",
+    "FA3-DEMUCS-P0-015",
+    "FA3-DEMUCS-P0-016",
+    "FA3-DEMUCS-P0-017",
+    "FA3-DEMUCS-P0-018"
+  ],
+  "cross_cutting_rules": [
+    "FA3-MODEL-LOAD-TRUST",
+    "FA3-MODEL-CLASS-ALLOWLIST"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust_authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "telemetry_audit_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry_governance": "FA3-REGISTRY-001"
+  },
+  "prohibited_promotions": [
+    "DEMUCS_AS_CANONICAL_ROOT",
+    "DEMUCS_AS_ARCHITECTURAL_AUTHORITY",
+    "DEMUCS_AS_HOST_PLACEMENT_AUTHORITY",
+    "DEMUCS_AS_MODEL_ROUTING_AUTHORITY",
+    "UNTRUSTED_LEGACY_CHECKPOINT_EXECUTION",
+    "EXTERNAL_METADATA_ARBITRARY_CLASS_IMPORT"
+  ]
+}
