@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.kaneo-enforcement.v1",
+  "gate_id": "FA3-KANEO-GATESET-001",
+  "provider_id": "FA3-PROVIDER-KANEO-001",
+  "classification": [
+    "OPTIONAL_WORK_MANAGEMENT_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "mandatory_rule_count": 4,
+  "p0_invariants": [
+    "HUMAN_AGENT_COMMON_AUTHORIZATION_BOUNDARY",
+    "CAPABILITY_SURFACE_DRIFT_FAIL_CLOSED",
+    "CHANGE_SURFACE_CLOSURE_REQUIRED",
+    "DISTRIBUTED_SECURITY_STATE_SHARED"
+  ],
+  "fail_closed": true,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "runtime_provider_required_for_global_promotion": false,
+  "rules": [
+    {
+      "id": "FA3-KANEO-P0-001",
+      "name": "human/agent common authorization boundary",
+      "requirement": "Human UI, REST/API, MCP and agent-originated operations MUST resolve through the same authoritative FA3 policy boundary and MUST NOT gain an agent-only bypass."
+    },
+    {
+      "id": "FA3-KANEO-P0-002",
+      "name": "capability-surface drift gate",
+      "requirement": "Declared equivalent capability projections MUST match the canonical capability manifest; missing, extra or widened capability/permission projections MUST fail closed."
+    },
+    {
+      "id": "FA3-KANEO-P0-003",
+      "name": "change-surface closure",
+      "requirement": "Every change MUST declare applicable contract, authorization, API, MCP, SDK/client, event/realtime, persistence/migration and deployment surfaces, and every declared applicable surface MUST have PASS evidence before closure."
+    },
+    {
+      "id": "FA3-KANEO-P0-004",
+      "name": "distributed security-state",
+      "requirement": "Security-relevant ephemeral state crossing replicas MUST use shared state with expiry, atomic consume and replay protection; replica-local state is forbidden for distributed protocol continuity."
+    }
+  ]
+}

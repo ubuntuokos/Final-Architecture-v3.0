@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.kaneo-reference-evidence.v1",
+  "provider_id": "FA3-PROVIDER-KANEO-001",
+  "repository": "usekaneo/kaneo",
+  "floating_main_allowed": false,
+  "stable_reference": {
+    "release": "v2.22.0",
+    "release_date": "2026-08-21",
+    "commit_sha": "4faa14858913801cfc62991cb326f35fe5fcae00",
+    "git_tag_type": "lightweight",
+    "git_commit_verified": false,
+    "git_commit_verification_reason": "unsigned",
+    "source_blobs": {
+      "AGENTS.md": "98455101df0f398b200904e3f0ab3de537ca3122",
+      "package.json": "9b612efc615b690b320eb260d49492c0148345bc"
+    }
+  },
+  "evidence_policy": {
+    "stable_features": "release tag + exact commit SHA + source blob SHA",
+    "floating_branch": "FORBIDDEN_FOR_PROMOTION"
+  }
+}

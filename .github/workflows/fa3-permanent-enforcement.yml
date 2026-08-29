@@ -29,11 +29,13 @@ jobs:
       - name: Prepare gate
         run: chmod +x bin/fa3-enforce
       - name: Syntax check
-        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py evidence/collect-terax-current-host.py
-      - name: Terax executable invariant tests
+        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py evidence/collect-terax-current-host.py
+      - name: Executable invariant tests
         run: PYTHONPATH=src python -m unittest discover -s tests -v
       - name: Terax immutable reference gate
         run: ./bin/fa3-enforce --ci-only terax
+      - name: Kaneo mandatory canonical invariant gate
+        run: ./bin/fa3-enforce kaneo
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Upload static report
@@ -44,6 +46,7 @@ jobs:
           path: |
             reports/static-gate-report.json
             reports/terax-gate-report.json
+            reports/kaneo-gate-report.json
 
   promotion-safety:
     name: promotion-safety / fail-closed
@@ -81,5 +84,6 @@ jobs:
           path: |
             reports/runtime-gate-report.json
             reports/terax-gate-report.json
+            reports/kaneo-gate-report.json
             acceptance/acceptance-report.json
             promotion/runtime-status.json
