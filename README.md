@@ -70,3 +70,23 @@ Run the gate directly with:
 ```
 
 The provider runtime itself is **not** required for global FA3 promotion while Kaneo is disabled. The canonical rules remain mandatory regardless of whether the optional provider is deployed. Reference evidence is pinned to Kaneo `v2.22.0` / commit `4faa14858913801cfc62991cb326f35fe5fcae00`; floating `main` is forbidden as promotion evidence.
+
+
+## Demucs optional-provider canonical enforcement
+
+`FA3-PROVIDER-DEMUCS-001` registers `adefossez/demucs` strictly as an optional local audio source-separation / stem-decomposition provider, reference implementation and architectural pattern source under `FA3-AUDIO-SEPARATION-001`. The profile is a non-root `SUBPROFILE-OF FA3-AUDIO-001` projection over existing `CAP-017` and `CAP-066`; it creates no new capability and no new architectural authority, so the canonical capability count remains **143**.
+
+The executable `FA3-DEMUCS-GATESET-001` enforces 18 audio-separation invariants plus two cross-cutting model-loading trust rules. In particular: unsupported/experimental stem handling is fail-closed; accelerator execution requires a Host Resource Broker lease; model variants, quantized weights, bags and separated stems are typed first-class artifacts with lineage; chunk/overlap/normalization/clipping policies are explicit; and safe model containers do not by themselves authorize execution.
+
+Two global model-loading rules are canonicalized:
+
+- `FA3-MODEL-LOAD-TRUST`: container safety is not execution authorization; provenance, admission, implementation identity and execution policy must also PASS.
+- `FA3-MODEL-CLASS-ALLOWLIST`: external model metadata cannot select arbitrary local classes/modules; resolution must use an allowlisted registry implementation mapping.
+
+Run directly with:
+
+```bash
+./bin/fa3-enforce demucs
+```
+
+The provider runtime is **not** required for global FA3 promotion while Demucs is disabled. Reference evidence is pinned to Demucs `v4.1.0` / commit `6a604bb002d12c4fbabb303ba64db40b5c5743f0`; floating `main` is forbidden as promotion evidence.
