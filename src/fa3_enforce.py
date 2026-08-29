@@ -4,6 +4,7 @@ import argparse,csv,json,sys
 from pathlib import Path
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
+from fa3_demucs_gate import gate as demucs_gate
 
 OK=0
 BLOCKED=2
@@ -80,6 +81,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-015","Terax mandatory reference gate is not bound into global enforcement policy"))
     if "FA3-KANEO-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-016","Kaneo mandatory canonical gate is not bound into global enforcement policy"))
+    if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-018","Demucs mandatory canonical gate is not bound into global enforcement policy"))
 
     if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
@@ -126,10 +129,13 @@ def static_check(root:Path):
     kaneo_ref=kaneo_gate(root)
     if kaneo_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-017","Kaneo mandatory canonical invariant gate failed",kaneo_gate=kaneo_ref))
+    demucs_ref=demucs_gate(root)
+    if demucs_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-019","Demucs mandatory canonical invariant gate failed",demucs_gate=demucs_ref))
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"demucs_gate_status":demucs_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -219,7 +225,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","runtime","terax","kaneo","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","runtime","terax","kaneo","demucs","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -231,6 +237,8 @@ def main():
             x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kaneo":
             x=kaneo_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="demucs":
+            x=demucs_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):

@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-DEMUCS-001",
+  "name": "adefossez/demucs",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "LOCAL_AUDIO_SOURCE_SEPARATION_AND_STEM_DECOMPOSITION",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "LOCAL_OFFLINE_CAPABLE"
+  ],
+  "profile": "FA3-AUDIO-SEPARATION-001",
+  "capability_projection": [
+    "CAP-017",
+    "CAP-066"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "device_selection_authority": false,
+  "model_routing_authority": false,
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.demucs-reference-evidence.v1",
+  "provider_id": "FA3-PROVIDER-DEMUCS-001",
+  "repository": "adefossez/demucs",
+  "floating_main_allowed": false,
+  "stable_reference": {
+    "release": "v4.1.0",
+    "release_date": "2026-07-11",
+    "commit_sha": "6a604bb002d12c4fbabb303ba64db40b5c5743f0",
+    "git_tag_type": "lightweight",
+    "source_blobs": {
+      "README.md": "bf9e90e60122c13801cfabbcc94c3c9b51469121",
+      "pyproject.toml": "267a8a5240baf8043095d4f931043324acf75032",
+      "demucs/states.py": "3b1057a43201d69f73039715780423324bbd8657",
+      "demucs/hf.py": "bbd7ab2449d630e57b914f5f613dea15155b3803",
+      "docs/release.md": "1f3565cad88734e8d07919fd9b005804c84ae09c"
+    }
+  },
+  "observed_security_boundary": {
+    "preferred_model_transport": "HUGGINGFACE_SAFETENSORS",
+    "legacy_checkpoint_path_present": true,
+    "legacy_loader": "torch.load(weights_only=False)",
+    "metadata_driven_class_resolution_present": true,
+    "fa3_disposition": "TRUST_GATED_ALLOWLISTED_ONLY"
+  },
+  "evidence_policy": {
+    "stable_features": "release tag + exact commit SHA + source blob SHA",
+    "floating_branch": "FORBIDDEN_FOR_PROMOTION"
+  }
+}
