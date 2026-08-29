@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-KLING-001",
+  "name": "Kling AI",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "CLOUD_CINEMATIC_MULTISHOT_REFERENCE_VIDEO_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "REMOTE_CLOUD_PROVIDER"
+  ],
+  "profile": "FA3-VIDEO-001",
+  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "integration_patterns": [
+    "cinematic_multishot_control",
+    "typed_reference_binding",
+    "high_resolution_capability_discovery",
+    "agent_batch_execution_projection",
+    "native_av_projection"
+  ],
+  "provider_interfaces": ["API", "MCP", "CLI"],
+  "mcp_boundary": "MUST_ROUTE_THROUGH_FA3_CENTRAL_MCP_GATEWAY",
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
+  }
+}
