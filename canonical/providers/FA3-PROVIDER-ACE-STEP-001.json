@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ACE-STEP-001",
+  "name": "ace-step/ACE-Step-1.5",
+  "status": "ACCEPTED_REQUIRED_PRIMARY_REFERENCE",
+  "provider_role": "LOCAL_GENERATIVE_MUSIC_SONG_PLANNING_AUDIO_EDITING_AND_PERSONALIZATION",
+  "classification": [
+    "MANDATORY_SUPPORTED_PROVIDER",
+    "PRIMARY_REFERENCE_IMPLEMENTATION",
+    "LOCAL_OFFLINE_CAPABLE",
+    "REST_ADAPTER_REQUIRED",
+    "CURRENT_HOST_PROMOTION_EVIDENCE_GATED"
+  ],
+  "profile": "FA3-MUSIC-001",
+  "capability_projection": [
+    "CAP-017",
+    "CAP-066",
+    "CAP-131"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "REQUIRED_PROVIDER_BASELINE_RUNTIME_EVIDENCE_GATED",
+  "global_runtime_promotion_required": true,
+  "device_selection_authority": false,
+  "model_routing_authority": false,
+  "orchestration_authority": false,
+  "automation_surface": "TYPED_AUTHENTICATED_REST_ADAPTER_VIA_CENTRAL_GATEWAY",
+  "gradio_surface": "OPTIONAL_HUMAN_UI_NOT_AUTOMATION_AUTHORITY",
+  "runtime_isolation": {
+    "required": true,
+    "environment": "DEDICATED_VENV_OR_UV_ENV",
+    "python_range": "3.11-3.12",
+    "shared_environment_with_other_ai_stacks_forbidden": true
+  },
+  "model_family_status": {
+    "turbo_2b": "PRODUCTION_CANDIDATE_CURRENT_HOST_EVIDENCE_REQUIRED",
+    "xl_turbo": "PRODUCTION_CANDIDATE_CURRENT_HOST_EVIDENCE_REQUIRED",
+    "sft_2b": "FIX_CANDIDATE_NOT_PROMOTED",
+    "xl_sft": "FIX_CANDIDATE_NOT_PROMOTED",
+    "base_2b": "MEASUREMENT_GATED",
+    "xl_base": "MEASUREMENT_GATED"
+  },
+  "upstream_fix_state": {
+    "latest_formal_release": "v0.1.8",
+    "formal_release_contains_august_fix_set": false,
+    "merged_fix_commits": {
+      "non_turbo_dcw_api_cli": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b",
+      "text2music_cover_state_hygiene": "c86889f488b657c176d1ca857df3450ad1c495d2",
+      "reinit_kv_cache_invariance": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
+    },
+    "pending_fix_prs": {
+      "lm_engine_reinit_teardown": "#1311"
+    }
+  },
+  "production_policy": {
+    "floating_main_forbidden": true,
+    "immutable_commit_or_release_pin_required": true,
+    "provider_auto_update_forbidden": true,
+    "provider_model_auto_download_forbidden": true,
+    "lossless_master_formats": [
+      "wav",
+      "flac"
+    ],
+    "silent_model_fallback_forbidden": true,
+    "in_process_lm_reinit_requires_clean_teardown_evidence_or_process_recycle": true
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY"
+  },
+  "implementation_status": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED"
+}
