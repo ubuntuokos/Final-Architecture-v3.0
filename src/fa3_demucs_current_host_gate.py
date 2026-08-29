@@ -60,7 +60,7 @@ def validate_receipt(root: Path, require_production: bool = True) -> dict[str, A
     if require_production and receipt.get("synthetic_input") is not False:
         fail("DEMUCS-HOST-006", "Production current-host PASS cannot use synthetic input")
     conf = receipt.get("executable_conformance", {})
-    if conf.get("result") != "PASS" or conf.get("passed") != conf.get("total") or int(conf.get("total", 0)) < 12:
+    if conf.get("result") != "PASS" or conf.get("passed") != conf.get("total") or int(conf.get("total", 0)) < 13:
         fail("DEMUCS-HOST-007", "Executable provider/security conformance is not complete PASS")
     if receipt.get("hrb_enforced") is not True:
         fail("DEMUCS-HOST-008", "Host Resource Broker enforcement is not proven")
