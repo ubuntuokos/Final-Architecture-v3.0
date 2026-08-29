@@ -20,6 +20,9 @@ PROVIDER_ID = "FA3-PROVIDER-DEMUCS-001"
 PROFILE_ID = "FA3-AUDIO-SEPARATION-001"
 PROVIDER_VERSION = "1.0.0"
 HRB_AUTHORITY_ID = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+HRB_PROFILE_ID = "FA3-HOST-RESOURCE-BROKER-001"
+HRB_LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
+DEFAULT_HRB_VERIFY_COMMAND = ("/usr/local/bin/fa3-host-resource-broker", "validate-lease", "{lease}")
 MODEL_ALLOWLIST_ID = "FA3-DEMUCS-MODEL-ALLOWLIST-001"
 
 class ProviderError(RuntimeError):
@@ -45,7 +48,7 @@ class SeparationRequest:
     stems: tuple[str, ...] = ("drums", "bass", "other", "vocals")
     device: str = "cpu"
     hrb_lease_path: str | None = None
-    hrb_verify_command: tuple[str, ...] = ()
+    hrb_verify_command: tuple[str, ...] = DEFAULT_HRB_VERIFY_COMMAND
     segment: float | None = 7.0
     overlap: float = 0.25
     shifts: int = 1
@@ -65,7 +68,7 @@ class SeparationRequest:
             stems=tuple(str(x) for x in data.get("stems", ["drums", "bass", "other", "vocals"])),
             device=str(data.get("device", "cpu")),
             hrb_lease_path=(None if data.get("hrb_lease_path") in (None, "") else str(data["hrb_lease_path"])),
-            hrb_verify_command=tuple(str(x) for x in data.get("hrb_verify_command", [])),
+            hrb_verify_command=tuple(str(x) for x in data.get("hrb_verify_command", DEFAULT_HRB_VERIFY_COMMAND)),
             segment=(None if data.get("segment") is None else float(data.get("segment"))),
             overlap=float(data.get("overlap", 0.25)),
             shifts=int(data.get("shifts", 1)),
@@ -177,39 +180,82 @@ def validate_request(request: SeparationRequest, allowlist: dict[str, Any]) -> d
 def _read_json(path: str | Path) -> dict[str, Any]:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
+def _cuda_ordinal(device: str) -> int:
+    if not _device_is_cuda(device):
+        raise HRBLeaseDenied("CUDA device must be explicit cuda:N")
+    return int(device.split(":", 1)[1])
+
+def _nvidia_uuid_for_ordinal(ordinal: int) -> str:
+    command = [
+        "nvidia-smi",
+        "--query-gpu=index,uuid",
+        "--format=csv,noheader,nounits",
+    ]
+    try:
+        completed = subprocess.run(
+            command,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=15,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
+        raise HRBLeaseDenied("NVIDIA ordinal-to-UUID projection unavailable") from exc
+    if completed.returncode != 0:
+        raise HRBLeaseDenied("nvidia-smi ordinal-to-UUID projection failed")
+    mapping: dict[int, str] = {}
+    for line in completed.stdout.splitlines():
+        parts = [part.strip() for part in line.split(",", 1)]
+        if len(parts) != 2:
+            raise HRBLeaseDenied("unexpected nvidia-smi UUID projection output")
+        mapping[int(parts[0])] = parts[1]
+    uuid = mapping.get(ordinal)
+    if not uuid or not uuid.startswith("GPU-"):
+        raise HRBLeaseDenied("requested CUDA ordinal has no canonical GPU UUID")
+    return uuid
+
 def validate_hrb_lease_document(lease: dict[str, Any], request: SeparationRequest) -> None:
-    required = ("authority_id", "lease_id", "provider_id", "device", "status", "expires_at")
-    missing = [key for key in required if not lease.get(key)]
+    required = (
+        "schema", "lease_id", "issuer", "accelerator_uuid", "memory_max_bytes",
+        "expires_epoch", "issued_epoch", "purpose", "host", "status", "nonce",
+        "placement", "enforcement", "signature",
+    )
+    missing = [key for key in required if key not in lease]
     if missing:
         raise HRBLeaseDenied("lease missing fields: " + ",".join(missing))
-    if lease["authority_id"] != HRB_AUTHORITY_ID:
-        raise HRBLeaseDenied("lease authority mismatch")
-    if lease["provider_id"] != PROVIDER_ID:
-        raise HRBLeaseDenied("lease provider mismatch")
-    if lease["device"] != request.device:
-        raise HRBLeaseDenied("lease device mismatch")
-    if str(lease["status"]).upper() != "ACTIVE":
+    if lease.get("schema") != HRB_LEASE_SCHEMA:
+        raise HRBLeaseDenied("lease schema mismatch")
+    if lease.get("issuer") != HRB_PROFILE_ID:
+        raise HRBLeaseDenied("lease issuer mismatch")
+    if str(lease.get("status")) != "ACTIVE":
         raise HRBLeaseDenied("lease is not ACTIVE")
-    if _parse_time(str(lease["expires_at"])) <= datetime.now(timezone.utc):
+    if int(lease.get("expires_epoch", 0)) <= int(time.time()):
         raise HRBLeaseDenied("lease expired")
+    if int(lease.get("memory_max_bytes", 0)) < 4:
+        raise HRBLeaseDenied("lease memory budget invalid")
+    accelerator_uuid = str(lease.get("accelerator_uuid", ""))
+    if not accelerator_uuid.startswith("GPU-"):
+        raise HRBLeaseDenied("lease accelerator UUID invalid")
+    if not str(lease.get("purpose", "")).startswith("FA3 Demucs"):
+        raise HRBLeaseDenied("lease purpose is not scoped to FA3 Demucs")
+    signature = lease.get("signature")
+    if not isinstance(signature, dict):
+        raise HRBLeaseDenied("lease signature missing")
+    if signature.get("alg") != "HMAC-SHA256" or signature.get("key_id") != "host-local-v1":
+        raise HRBLeaseDenied("lease signature descriptor invalid")
+    value = str(signature.get("value", ""))
+    if not re.fullmatch(r"[0-9a-f]{64}", value):
+        raise HRBLeaseDenied("lease signature value invalid")
+    placement = lease.get("placement")
+    if not isinstance(placement, dict) or "pci_bus_id" not in placement or "numa_node" not in placement:
+        raise HRBLeaseDenied("lease placement metadata invalid")
 
-def validate_hrb_verification_response(
-    verification: dict[str, Any],
-    lease: dict[str, Any],
-    request: SeparationRequest,
-) -> None:
-    if str(verification.get("status", "")).upper() != "PASS":
-        raise HRBLeaseDenied("HRB verifier did not return PASS")
-    if verification.get("authority_id") != HRB_AUTHORITY_ID:
-        raise HRBLeaseDenied("HRB verifier authority mismatch")
-    if verification.get("lease_id") != lease.get("lease_id"):
-        raise HRBLeaseDenied("HRB verifier lease mismatch")
-    if verification.get("provider_id") != PROVIDER_ID:
-        raise HRBLeaseDenied("HRB verifier provider mismatch")
-    if verification.get("device") != request.device:
-        raise HRBLeaseDenied("HRB verifier device mismatch")
-    if verification.get("active") is not True:
-        raise HRBLeaseDenied("HRB verifier did not confirm active lease")
+def validate_hrb_broker_output(returncode: int, stdout: str) -> None:
+    if returncode != 0:
+        raise HRBLeaseDenied("HRB broker validate-lease failed")
+    if stdout.strip().splitlines()[-1:] != ["VALID"]:
+        raise HRBLeaseDenied("HRB broker did not return VALID")
 
 def verify_hrb_lease(request: SeparationRequest) -> dict[str, Any] | None:
     if not _device_is_cuda(request.device):
@@ -234,19 +280,23 @@ def verify_hrb_lease(request: SeparationRequest) -> dict[str, Any] | None:
         text=True,
         timeout=30,
     )
-    if completed.returncode != 0:
-        raise HRBLeaseDenied("HRB verifier command failed")
-    try:
-        verification = json.loads(completed.stdout)
-    except json.JSONDecodeError as exc:
-        raise HRBLeaseDenied("HRB verifier returned invalid JSON") from exc
-    validate_hrb_verification_response(verification, lease, request)
+    validate_hrb_broker_output(completed.returncode, completed.stdout)
+    ordinal = _cuda_ordinal(request.device)
+    current_uuid = _nvidia_uuid_for_ordinal(ordinal)
+    if current_uuid != lease.get("accelerator_uuid"):
+        raise HRBLeaseDenied("CUDA ordinal resolves to a GPU UUID different from the broker lease")
     return {
         "lease_id": lease["lease_id"],
-        "authority_id": lease["authority_id"],
-        "device": lease["device"],
-        "expires_at": lease["expires_at"],
-        "verification": verification,
+        "authority_id": HRB_AUTHORITY_ID,
+        "issuer": lease["issuer"],
+        "schema": lease["schema"],
+        "accelerator_uuid": lease["accelerator_uuid"],
+        "memory_max_bytes": int(lease["memory_max_bytes"]),
+        "expires_epoch": int(lease["expires_epoch"]),
+        "purpose": lease["purpose"],
+        "device": request.device,
+        "current_ordinal": ordinal,
+        "broker_validation": "VALID",
     }
 
 def _decode_json(value: Any) -> Any:
@@ -414,6 +464,26 @@ def _tensor_quality(tensor: Any, expected_length: int) -> dict[str, Any]:
     rms = float(th.sqrt(th.mean(tensor.float() ** 2)).detach().cpu())
     return {"samples": int(tensor.shape[-1]), "channels": int(tensor.shape[-2]), "peak": peak, "rms": rms}
 
+def apply_hrb_cuda_memory_guard(hrb: dict[str, Any] | None, device: str) -> dict[str, Any] | None:
+    if hrb is None:
+        return None
+    import torch
+    ordinal = int(hrb["current_ordinal"])
+    props = torch.cuda.get_device_properties(ordinal)
+    total = int(props.total_memory)
+    budget = int(hrb["memory_max_bytes"])
+    if budget <= 0 or budget > total:
+        raise HRBLeaseDenied("HRB memory budget is outside current device capacity")
+    fraction = min(0.99, budget / total)
+    torch.cuda.set_per_process_memory_fraction(fraction, ordinal)
+    return {
+        "mechanism": "torch.cuda.set_per_process_memory_fraction",
+        "memory_max_bytes": budget,
+        "device_total_bytes": total,
+        "fraction": fraction,
+        "scope": "PYTORCH_ALLOCATOR_GUARD",
+    }
+
 def execute_separation(root: Path, request: SeparationRequest) -> dict[str, Any]:
     allowlist = load_allowlist(root)
     model_descriptor = validate_request(request, allowlist)
@@ -429,6 +499,7 @@ def execute_separation(root: Path, request: SeparationRequest) -> dict[str, Any]
     from demucs.apply import apply_model
     from demucs.audio import save_audio
 
+    allocator_guard = apply_hrb_cuda_memory_guard(hrb, request.device)
     model = loaded.model
     samplerate = int(model.samplerate)
     channels = int(model.audio_channels)
@@ -535,6 +606,7 @@ def execute_separation(root: Path, request: SeparationRequest) -> dict[str, Any]
         "channels": channels,
         "device_lease": None if hrb is None else hrb["lease_id"],
         "hrb": hrb,
+        "resource_guard": allocator_guard,
         "clipping_policy": request.clipping,
         "output_hashes": output_hashes,
         "quality_evidence": quality,
@@ -612,39 +684,38 @@ def run_executable_conformance(root: Path) -> dict[str, Any]:
         output_dir="/tmp/out",
         device="cuda:0",
         hrb_lease_path="/tmp/lease.json",
-        hrb_verify_command=("verify-hrb", "--lease", "{lease}"),
+        hrb_verify_command=DEFAULT_HRB_VERIFY_COMMAND,
     )
-    future = (datetime.now(timezone.utc).replace(microsecond=0)).isoformat().replace("+00:00", "Z")
     lease = {
-        "authority_id": HRB_AUTHORITY_ID,
-        "lease_id": "LEASE-1",
-        "provider_id": PROVIDER_ID,
-        "device": "cuda:0",
+        "schema": HRB_LEASE_SCHEMA,
+        "lease_id": "hrb-test",
+        "issuer": HRB_PROFILE_ID,
+        "accelerator_uuid": "GPU-test",
+        "memory_max_bytes": 4096,
+        "expires_epoch": int(time.time()) + 60,
+        "issued_epoch": int(time.time()),
+        "purpose": "FA3 Demucs provider conformance",
+        "host": "test-host",
         "status": "ACTIVE",
-        "expires_at": "2999-01-01T00:00:00Z",
-    }
-    verification = {
-        "status": "PASS",
-        "authority_id": HRB_AUTHORITY_ID,
-        "lease_id": "LEASE-1",
-        "provider_id": PROVIDER_ID,
-        "device": "cuda:0",
-        "active": True,
+        "nonce": "00" * 16,
+        "placement": {"ordinal_at_issue": 0, "pci_bus_id": "00000000:01:00.0", "numa_node": 0},
+        "enforcement": {"gpu_memory": "provider_guard+broker_reservation"},
+        "signature": {"alg": "HMAC-SHA256", "key_id": "host-local-v1", "value": "11" * 32},
     }
     try:
         validate_hrb_lease_document(lease, good_request)
-        validate_hrb_verification_response(verification, lease, good_request)
-        case("typed_hrb_lease_accepts_valid", True, "valid typed HRB lease/verifier response accepted")
+        validate_hrb_broker_output(0, "VALID\n")
+        case("typed_hrb_lease_accepts_valid", True, "canonical AcceleratorExecutionLease@1 structure and broker VALID response accepted")
     except Exception as exc:
         case("typed_hrb_lease_accepts_valid", False, repr(exc))
 
-    bad_verification = dict(verification)
-    bad_verification["provider_id"] = "FAKE"
+    bad_lease = dict(lease)
+    bad_lease["issuer"] = "OTHER"
     try:
-        validate_hrb_verification_response(bad_verification, lease, good_request)
-        case("hrb_provider_mismatch_rejected", False, "mismatched verification unexpectedly accepted")
+        validate_hrb_lease_document(bad_lease, good_request)
+        case("hrb_issuer_mismatch_rejected", False, "mismatched issuer unexpectedly accepted")
     except HRBLeaseDenied:
-        case("hrb_provider_mismatch_rejected", True, "HRB verification is provider-scoped")
+        case("hrb_issuer_mismatch_rejected", True, "HRB lease issuer is pinned to canonical broker profile")
 
     try:
         validate_request(SeparationRequest(input_path="/tmp/in.wav", output_dir="/tmp/out", overlap=1.0), allowlist)
