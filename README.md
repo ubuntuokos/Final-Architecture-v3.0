@@ -90,3 +90,24 @@ Run directly with:
 ```
 
 The provider runtime is **not** required for global FA3 promotion while Demucs is disabled. Reference evidence is pinned to Demucs `v4.1.0` / commit `6a604bb002d12c4fbabb303ba64db40b5c5743f0`; floating `main` is forbidden as promotion evidence.
+
+
+## FA3 generative-video canonical baseline
+
+`FA3-VIDEO-001` is the P0/MUST provider-independent generative-video production profile over existing `CAP-016`, `CAP-123` and `CAP-126`. It creates **no new capability** and **no new architectural authority**; the canonical capability count remains **143**.
+
+The baseline requires a provider-neutral `VideoGenerationIR`, typed multimodal references, cinematic/shot controls, temporal edit/extend/regenerate semantics, fail-closed licence/policy admission, provider capability discovery, local/remote/hybrid execution projection, AV/continuity QC and full provenance.
+
+Initial provider registry roles:
+
+- `FA3-PROVIDER-KLING-001`: optional cloud cinematic/multi-shot/high-resolution/agent-facing reference provider. Provider MCP/CLI access must remain behind the FA3 Central MCP/Capability Gateway.
+- `FA3-PROVIDER-SEEDANCE-001`: optional primary reference provider for large multimodal reference bundles, temporal editing, longer sequences and DCC/clay-reference projection.
+- `FA3-PROVIDER-MINIMAX-H3-001`: conditional hybrid reference provider. H3 Context-IR is a pattern source only; canonical context compilation remains the FA3 Video Context Compiler + `VideoGenerationIR`.
+
+MiniMax H3 native **Diffusers** and **ComfyUI** projections are registered as `PRODUCTION_INTEGRATION_TARGET`, but are **not current-host promoted**. Local H3 deployment remains licence/territory/authorization gated and fail-closed. Promotion requires explicit licence admission, artifact trust, Host Resource Broker admission, adapter conformance, video E2E execution, and QC/provenance PASS evidence.
+
+Registry regression coverage:
+
+```bash
+PYTHONPATH=src python -m unittest tests.test_video_registry -v
+```
