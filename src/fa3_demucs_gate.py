@@ -121,6 +121,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         "contracts": root / "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
         "enforcement": root / "canonical/demucs-enforcement.json",
         "evidence": root / "evidence/reference/demucs-v4.1.0.json",
+        "model_allowlist": root / "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
+        "runtime_conformance": root / "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
     }
     for idx, path in enumerate(paths.values(), 1):
         if not path.exists():
@@ -134,6 +136,8 @@ def reference_check(root: Path) -> dict[str, Any]:
     contracts = _load(paths["contracts"])
     enforcement = _load(paths["enforcement"])
     evidence = _load(paths["evidence"])
+    model_allowlist = _load(paths["model_allowlist"])
+    runtime_conformance = _load(paths["runtime_conformance"])
 
     if decision.get("status") != "CANONICAL_CLOSED" or decision.get("decision") != "ACCEPT":
         findings.append(_finding("DEMUCS-REF-010", "Demucs canonical decision is not closed ACCEPT"))
@@ -146,6 +150,9 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("DEMUCS-REF-013", "Demucs provider was promoted to forbidden authority/root/capability"))
     if provider.get("global_runtime_promotion_required_when_disabled") is not False:
         findings.append(_finding("DEMUCS-REF-014", "Disabled optional Demucs provider became mandatory for global promotion"))
+    implementation = provider.get("implementation", {})
+    if provider.get("status") != "IMPLEMENTED_OPTIONAL_PROVIDER" or implementation.get("adapter") != "src/fa3_demucs_provider.py":
+        findings.append(_finding("DEMUCS-REF-029", "Demucs executable provider implementation binding drift"))
 
     if profile.get("id") != PROFILE_ID or profile.get("subprofile_of") != "FA3-AUDIO-001":
         findings.append(_finding("DEMUCS-REF-015", "Audio separation profile identity/parent drift"))
@@ -188,6 +195,20 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("DEMUCS-REF-027", "Demucs evidence permits floating main"))
     if evidence.get("observed_security_boundary", {}).get("fa3_disposition") != "TRUST_GATED_ALLOWLISTED_ONLY":
         findings.append(_finding("DEMUCS-REF-028", "Demucs model-loading security disposition drift"))
+
+    if model_allowlist.get("id") != "FA3-DEMUCS-MODEL-ALLOWLIST-001" or model_allowlist.get("policy") != "ALLOWLIST_ONLY_FAIL_CLOSED":
+        findings.append(_finding("DEMUCS-REF-030", "Demucs model allowlist identity/fail-closed policy drift"))
+    if model_allowlist.get("allowed_namespace") != "adefossez":
+        findings.append(_finding("DEMUCS-REF-031", "Demucs model namespace allowlist widened or changed"))
+    allowed_classes = set(model_allowlist.get("allowed_model_classes", []))
+    if allowed_classes != {"demucs.htdemucs.HTDemucs", "demucs.hdemucs.HDemucs"}:
+        findings.append(_finding("DEMUCS-REF-032", "Demucs model-class allowlist drift"))
+    if runtime_conformance.get("id") != "FA3-DEMUCS-RUNTIME-CONFORMANCE-001" or runtime_conformance.get("fail_closed") is not True:
+        findings.append(_finding("DEMUCS-REF-033", "Demucs runtime conformance contract identity/fail-closed drift"))
+    if runtime_conformance.get("current_host_production_e2e", {}).get("synthetic_input_forbidden") is not True:
+        findings.append(_finding("DEMUCS-REF-034", "Synthetic input was permitted to claim current-host production PASS"))
+    if runtime_conformance.get("current_host_production_e2e", {}).get("cuda_requires_hrb_lease") is not True:
+        findings.append(_finding("DEMUCS-REF-035", "Demucs CUDA current-host path no longer requires HRB lease"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
