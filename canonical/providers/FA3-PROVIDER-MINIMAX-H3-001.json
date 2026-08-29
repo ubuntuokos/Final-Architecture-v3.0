@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "name": "MiniMax H3",
+  "status": "ACCEPTED_CONDITIONAL_REFERENCE",
+  "provider_role": "HYBRID_LOCAL_REMOTE_MULTIMODAL_VIDEO_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_ARCHITECTURE",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "LOCAL_HYBRID_CAPABLE",
+    "LICENSE_GATED"
+  ],
+  "profile": "FA3-VIDEO-001",
+  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "architectural_patterns": [
+    "context_compilation_before_generation",
+    "base_generation_vs_context_aware_regeneration",
+    "boundary_frame_conditioning",
+    "local_remote_hybrid_execution"
+  ],
+  "context_ir_policy": {
+    "provider_context_ir": "REFERENCE_PATTERN_ONLY",
+    "hosted_context_ir_required_for_fa3": false,
+    "canonical_replacement": "FA3_VIDEO_CONTEXT_COMPILER_PLUS_VideoGenerationIR"
+  },
+  "execution_topologies": [
+    "LOCAL",
+    "REMOTE",
+    "HYBRID",
+    "LOCAL_GENERATE_REMOTE_REGENERATE"
+  ],
+  "integration_targets": {
+    "diffusers": {
+      "status": "PRODUCTION_INTEGRATION_TARGET",
+      "projection": "H3_BASE_LOCAL_EXECUTION",
+      "requires_host_resource_broker": true
+    },
+    "comfyui": {
+      "status": "PRODUCTION_INTEGRATION_TARGET",
+      "projection": "GRAPH_WORKFLOW_EXECUTION_ADAPTER",
+      "requires_host_resource_broker_for_local_accelerator": true
+    }
+  },
+  "license_admission": {
+    "mode": "FAIL_CLOSED",
+    "local_deployment": "CONDITIONAL",
+    "requires": [
+      "license_metadata",
+      "territory_evaluation",
+      "intended_use_evaluation",
+      "deployment_authorization_evidence"
+    ],
+    "hosted_service_terms_evaluated_separately": true
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "implementation_status": "DIFFUSERS_AND_COMFYUI_PROJECTION_TARGET_REGISTERED_NOT_YET_CURRENT_HOST_PROMOTED"
+}
