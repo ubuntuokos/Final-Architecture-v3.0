@@ -230,9 +230,10 @@ def reference_check(root: Path) -> dict[str, Any]:
         "evidence/collect-demucs-current-host.py": root / "evidence/collect-demucs-current-host.py",
         "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json": root / "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
     }
-    stale = [name for name, path in tracked.items() if blob_expect.get(name) != _git_blob_sha(path)]
+    actual_blobs = {name: _git_blob_sha(path) for name, path in tracked.items()}
+    stale = [name for name in tracked if blob_expect.get(name) != actual_blobs[name]]
     if stale:
-        findings.append(_finding("DEMUCS-REF-038", "Demucs provider CI evidence is stale against implementation blobs", stale=stale))
+        findings.append(_finding("DEMUCS-REF-038", "Demucs provider CI evidence is stale against implementation blobs", stale=stale, expected={name: blob_expect.get(name) for name in stale}, actual={name: actual_blobs[name] for name in stale}))
     host_state = provider_ci_evidence.get("current_host_production_e2e", {})
     if host_state.get("status") not in {"PENDING_REAL_HOST_EXECUTION", "PASS"}:
         findings.append(_finding("DEMUCS-REF-039", "Demucs current-host evidence state is invalid"))
