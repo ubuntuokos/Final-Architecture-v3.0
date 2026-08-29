@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-DEMUCS-001",
   "name": "adefossez/demucs",
-  "status": "ACCEPTED_REFERENCE",
+  "status": "IMPLEMENTED_OPTIONAL_PROVIDER",
   "provider_role": "LOCAL_AUDIO_SOURCE_SEPARATION_AND_STEM_DECOMPOSITION",
   "classification": [
     "OPTIONAL_PROVIDER",
@@ -29,5 +29,15 @@
     "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
-  }
+  },
+  "implementation": {
+    "adapter": "src/fa3_demucs_provider.py",
+    "version": "1.0.0",
+    "model_allowlist": "FA3-DEMUCS-MODEL-ALLOWLIST-001",
+    "current_host_collector": "evidence/collect-demucs-current-host.py",
+    "current_host_gate": "src/fa3_demucs_current_host_gate.py",
+    "executable_conformance_command": "./bin/fa3-enforce demucs-provider",
+    "current_host_production_gate_command": "./bin/fa3-enforce demucs-current-host"
+  },
+  "current_host_evidence_status": "PENDING_REAL_HOST_EXECUTION"
 }
