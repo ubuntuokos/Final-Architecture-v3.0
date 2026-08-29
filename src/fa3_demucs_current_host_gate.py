@@ -93,7 +93,7 @@ def validate_receipt(root: Path, require_production: bool = True) -> dict[str, A
                 if device.startswith("cuda:"):
                     if not execution.get("device_lease"):
                         fail("DEMUCS-HOST-016", "CUDA execution evidence lacks HRB lease")
-                    hrb = execution.get("hrb", {})
+                    hrb = execution.get("hrb") or {}
                     if (
                         hrb.get("schema") != HRB_LEASE_SCHEMA
                         or hrb.get("issuer") != HRB_PROFILE_ID
@@ -101,7 +101,7 @@ def validate_receipt(root: Path, require_production: bool = True) -> dict[str, A
                         or not str(hrb.get("accelerator_uuid", "")).startswith("GPU-")
                     ):
                         fail("DEMUCS-HOST-018", "CUDA execution evidence lacks canonical HRB lease/broker validation")
-                    guard = execution.get("resource_guard", {})
+                    guard = execution.get("resource_guard") or {}
                     if (
                         guard.get("mechanism") != "torch.cuda.set_per_process_memory_fraction"
                         or int(guard.get("memory_max_bytes", 0)) <= 0
