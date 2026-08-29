@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VIDEO-H3-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3-VIDEO-001 provider projection update after Kling AI, ByteDance Seedance and MiniMax H3 review",
+  "decision": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_ids": [
+    "FA3-PROVIDER-KLING-001",
+    "FA3-PROVIDER-SEEDANCE-001",
+    "FA3-PROVIDER-MINIMAX-H3-001"
+  ],
+  "materialized_baseline": true,
+  "changes": [
+    "materialize FA3-VIDEO-001 canonical profile record",
+    "materialize provider-neutral FA3-VIDEO-CONTRACTS-001",
+    "register Kling as optional cloud cinematic/multishot reference provider",
+    "register Seedance as optional primary longform/reference/temporal-edit provider",
+    "register MiniMax H3 as conditional hybrid reference provider",
+    "register native Diffusers projection as MiniMax H3 production integration target",
+    "register ComfyUI projection as MiniMax H3 production integration target",
+    "retain H3 Context-IR as noncanonical hosted/reference pattern only",
+    "retain fail-closed MiniMax H3 local license and territory admission"
+  ],
+  "canonical_semantics_changed": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "promotion_state": {
+    "FA3-VIDEO-001": "CANONICAL_BASELINE_CLOSED",
+    "FA3-PROVIDER-MINIMAX-H3-001": "INTEGRATION_TARGET_NOT_CURRENT_HOST_PROMOTED"
+  },
+  "current_host_evidence_required_before_h3_promotion": [
+    "license_admission_pass",
+    "artifact_trust_pass",
+    "host_resource_broker_admission_pass",
+    "diffusers_or_comfyui_adapter_conformance_pass",
+    "video_execution_e2e_pass",
+    "qc_and_provenance_evidence_pass"
+  ],
+  "authority_boundaries_unchanged": true
+}
