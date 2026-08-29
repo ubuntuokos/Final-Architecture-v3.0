@@ -19,10 +19,10 @@
     "artifact_id": 9723260227,
     "artifact_name": "fa3-static-gate-report",
     "artifact_digest": "sha256:b222ed55d9167fa2b6a4b0463c5990560ded19920e8b73a329ddb0a7d81e01e7",
-    "note": "Pinned CI evidence covers the provider implementation prior to the bounded-cancellation extension; blob integrity is revalidated by the current PR CI on every change."
+    "note": "CI evidence is scope-limited to executable provider conformance; implementation blob pins are revalidated from the PR checkout and do not constitute current-host evidence."
   },
   "implementation_blobs": {
-    "src/fa3_demucs_provider.py": "e0bb7cd92ad63a44ffc8eed878c7dc837b040d28",
+    "src/fa3_demucs_provider.py": "ea1538a8e77582801db447876228ff06e211b9b0",
     "src/fa3_demucs_current_host_gate.py": "68d5afdada7bf6da8cd3f703a9ac4ce4aa89e90a",
     "tests/test_demucs_provider_runtime.py": "4c1ebc8e5017995c4d8006e24f320ebfcca999cc",
     "evidence/collect-demucs-current-host.py": "73ac226fc11fcd7fbfe6d3e43b9c5a23501c6cf1",
