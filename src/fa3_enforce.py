@@ -5,6 +5,8 @@ from pathlib import Path
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_demucs_gate import gate as demucs_gate
+from fa3_demucs_provider import run_executable_conformance as demucs_provider_conformance
+from fa3_demucs_current_host_gate import gate as demucs_current_host_gate
 from fa3_acestep_gate import gate as ace_step_gate
 
 OK=0
@@ -231,7 +233,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","runtime","terax","kaneo","demucs","acestep","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","runtime","terax","kaneo","demucs","demucs-provider","demucs-current-host","acestep","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -245,6 +247,10 @@ def main():
             x=kaneo_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="demucs":
             x=demucs_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="demucs-provider":
+            x=demucs_provider_conformance(root); writej(root/"reports/demucs-provider-conformance-report.json",x); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="demucs-current-host":
+            x=demucs_current_host_gate(root,require_production=True); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acestep":
             x=ace_step_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
