@@ -34,7 +34,7 @@ class DemucsProviderRuntimeTests(unittest.TestCase):
         report = run_executable_conformance(ROOT)
         self.assertEqual(report["result"], "PASS")
         self.assertEqual(report["passed"], report["total"])
-        self.assertGreaterEqual(report["total"], 12)
+        self.assertGreaterEqual(report["total"], 13)
 
     def test_arbitrary_hf_model_is_rejected(self):
         request = SeparationRequest(
@@ -126,8 +126,8 @@ class DemucsProviderRuntimeTests(unittest.TestCase):
             "synthetic_input":synthetic,
             "executable_conformance":{
                 "result":"PASS",
-                "passed":12,
-                "total":12,
+                "passed":13,
+                "total":13,
             },
             "hrb_enforced":not device.startswith("cuda") or bool(lease),
             "model_trust_enforced":trust,
