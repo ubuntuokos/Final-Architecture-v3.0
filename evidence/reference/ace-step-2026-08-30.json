@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.ace-step-reference-evidence.v1",
+  "observed_at": "2026-08-30",
+  "repository": "ace-step/ACE-Step-1.5",
+  "latest_formal_release": {
+    "tag": "v0.1.8",
+    "published_at": "2026-05-18T14:04:34Z",
+    "contains_august_fix_set": false
+  },
+  "observed_main_commit": {
+    "sha": "ca1e85fe9430179831e6bc6be790c332190a3866",
+    "observed_only": true,
+    "promotable_as_floating_main": false
+  },
+  "merged_fix_candidates": [
+    {
+      "pr": 1282,
+      "merge_commit": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b",
+      "topic": "REST/CLI non-turbo DCW plumbing and quality fix"
+    },
+    {
+      "pr": 1305,
+      "merge_commit": "c86889f488b657c176d1ca857df3450ad1c495d2",
+      "topic": "text2music cover-state hygiene"
+    },
+    {
+      "pr": 1310,
+      "merge_commit": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99",
+      "topic": "KV-cache reinit sizing invariance"
+    }
+  ],
+  "pending_upstream": [
+    {
+      "pr": 1311,
+      "state": "OPEN",
+      "head_commit": "49354c10929b94f75e22268357ee96ada20932e2",
+      "topic": "LM engine memory teardown on service reinit"
+    }
+  ],
+  "floating_main_allowed": false,
+  "promotion_disposition": "UPSTREAM_FIXES_ARE_REFERENCE_EVIDENCE_ONLY_UNTIL_IMMUTABLY_PINNED_AND_CURRENT_HOST_REGRESSIONS_PASS",
+  "current_host_evidence_claimed": false
+}
