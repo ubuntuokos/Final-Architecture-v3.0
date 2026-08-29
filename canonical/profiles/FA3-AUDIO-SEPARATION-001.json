@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AUDIO-SEPARATION-001",
+  "name": "Audio Source Separation, Stem Decomposition & Reconstruction Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "subprofile_of": "FA3-AUDIO-001",
+  "capabilities": [
+    "CAP-017",
+    "CAP-066"
+  ],
+  "contracts": [
+    "FA3-AUDIO-SEPARATION-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-CONTRACT-001",
+    "FA3-SCS-001",
+    "FA3-HW-001"
+  ],
+  "overlays": [
+    "FA3-MEDIA-FINISH-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-DEMUCS-001"
+  ],
+  "authority": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "evidence_requirements": [
+    "provider/model immutable identity",
+    "input/output artifact hashes",
+    "stem schema and maturity",
+    "segment/overlap/shifts execution parameters",
+    "audio normalization and clipping policy",
+    "resource lease when accelerator execution is used",
+    "model-loading trust admission",
+    "stem-level provenance and quality evidence"
+  ],
+  "implementation_status": "CANONICAL_PROVIDER_OPTIONAL"
+}
