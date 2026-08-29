@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from fractions import Fraction
@@ -52,6 +53,8 @@ class SeparationRequest:
     clipping: str = "rescale"
     offline: bool = True
     allow_experimental_stems: bool = False
+    timeout_seconds: float = 3600.0
+    cancel_file: str | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SeparationRequest":
@@ -70,6 +73,8 @@ class SeparationRequest:
             clipping=str(data.get("clipping", "rescale")),
             offline=bool(data.get("offline", True)),
             allow_experimental_stems=bool(data.get("allow_experimental_stems", False)),
+            timeout_seconds=float(data.get("timeout_seconds", 3600.0)),
+            cancel_file=(None if data.get("cancel_file") in (None, "") else str(data["cancel_file"])),
         )
 
 @dataclass
@@ -156,6 +161,8 @@ def validate_request(request: SeparationRequest, allowlist: dict[str, Any]) -> d
         findings.append("INVALID_JOBS")
     if request.clipping not in {"rescale", "clamp", "none", "tanh"}:
         findings.append("INVALID_CLIPPING_POLICY")
+    if request.timeout_seconds <= 0:
+        findings.append("INVALID_TIMEOUT")
     if request.device != "cpu" and not _device_is_cuda(request.device):
         findings.append("UNSUPPORTED_DEVICE")
     if _device_is_cuda(request.device):
@@ -432,7 +439,15 @@ def execute_separation(root: Path, request: SeparationRequest) -> dict[str, Any]
     mean = ref.mean()
     std = ref.std() + 1e-8
     device = th.device(request.device)
-    out = apply_model(
+    deadline = time.monotonic() + request.timeout_seconds
+    cancel_path = Path(request.cancel_file).resolve() if request.cancel_file else None
+    def cancellation_callback(_: dict[str, Any]) -> None:
+        if time.monotonic() > deadline:
+            raise KeyboardInterrupt("FA3 Demucs execution deadline exceeded")
+        if cancel_path is not None and cancel_path.exists():
+            raise KeyboardInterrupt("FA3 Demucs cancellation requested")
+    try:
+        out = apply_model(
         model,
         ((wav - mean) / std)[None],
         segment=request.segment,
@@ -442,7 +457,10 @@ def execute_separation(root: Path, request: SeparationRequest) -> dict[str, Any]
         device=device,
         num_workers=request.jobs,
         progress=False,
+        callback=cancellation_callback,
     )
+    except KeyboardInterrupt as exc:
+        raise ExecutionFailed(str(exc) or "Demucs execution cancelled") from exc
     out = out * std + mean
     result = dict(zip(model.sources, out[0]))
     output_hashes: dict[str, str] = {}
@@ -508,6 +526,8 @@ def execute_separation(root: Path, request: SeparationRequest) -> dict[str, Any]
             "shifts": request.shifts,
             "jobs": request.jobs,
             "offline": request.offline,
+            "timeout_seconds": request.timeout_seconds,
+            "cancel_file": request.cancel_file,
         },
         "stem_schema": list(model.sources),
         "requested_stems": list(request.stems),
@@ -637,6 +657,12 @@ def run_executable_conformance(root: Path) -> dict[str, Any]:
         case("implicit_clipping_rejected", False, "implicit clipping unexpectedly accepted")
     except PolicyDenied:
         case("implicit_clipping_rejected", True, "clipping policy must be explicit")
+
+    try:
+        validate_request(SeparationRequest(input_path="/tmp/in.wav", output_dir="/tmp/out", timeout_seconds=0), allowlist)
+        case("bounded_execution_required", False, "unbounded execution unexpectedly accepted")
+    except PolicyDenied:
+        case("bounded_execution_required", True, "execution requires a positive deadline")
 
     sample_evidence = {
         "status":"PASS","provider_id":PROVIDER_ID,"provider_version":PROVIDER_VERSION,
