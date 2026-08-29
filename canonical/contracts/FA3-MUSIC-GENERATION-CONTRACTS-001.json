@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MUSIC-GENERATION-CONTRACTS-001",
+  "profile_id": "FA3-MUSIC-001",
+  "provider_neutral": true,
+  "contracts": [
+    "MusicGenerationRequest",
+    "MusicEditRequest",
+    "MusicGenerationResult",
+    "MusicModelSelection",
+    "MusicRuntimePlan",
+    "AudioConditioningReference",
+    "AudioMasterArtifact",
+    "GenerationProvenance"
+  ],
+  "rules": {
+    "provider_names_forbidden_in_contract_identity": true,
+    "requested_model_must_equal_executed_model_or_fail_closed": true,
+    "accelerator_execution_requires_host_resource_broker_lease": true,
+    "automation_must_use_typed_authenticated_adapter": true,
+    "provider_ui_is_not_orchestration_authority": true,
+    "generation_mode_state_must_be_scoped_and_reset": true,
+    "model_variant_and_runtime_identity_must_be_immutable": true,
+    "production_auto_update_forbidden": true,
+    "production_model_auto_download_forbidden": true,
+    "lossless_master_required": true,
+    "sft_family_requires_explicit_quality_promotion": true,
+    "current_host_evidence_required_for_runtime_promotion": true
+  }
+}
