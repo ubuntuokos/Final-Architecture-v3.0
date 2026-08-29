@@ -50,3 +50,23 @@ python3 evidence/collect-terax-current-host.py --state disabled-reference
 The collector is read-only, performs no network access, and does not read credentials. A PASS proves the disabled Terax provider has zero observed process/RAM/VRAM/polling/background-inference cost on that collecting host. It does not by itself promote the full 143-capability runtime.
 
 Reference evidence is pinned to Terax v0.8.6 / commit `1fdbc50e53b3ac53db3ba80057805a2d54258545`. The later local-control pattern is separately pinned to exact commit `e9b489c5d50cb9e654fc9a61f901c0eb9f341be3`; floating `main` is forbidden as promotion evidence.
+
+
+## Kaneo optional-provider canonical enforcement
+
+`FA3-PROVIDER-KANEO-001` registers `usekaneo/kaneo` strictly as an optional self-hosted work-management / human-agent coordination provider and architectural pattern source. It creates no new capability and no new architectural authority; the canonical capability count remains **143**.
+
+Four Kaneo-derived rules are mandatory P0 canonical invariants and are executable in CI through `FA3-KANEO-GATESET-001`:
+
+1. human and agent operations share the same authoritative authorization boundary;
+2. equivalent API/MCP/SDK capability projections fail closed on surface drift;
+3. changes cannot close until every declared applicable surface has PASS evidence;
+4. security-relevant state that crosses replicas must be shared, expiring, atomically consumed, and replay-protected.
+
+Run the gate directly with:
+
+```bash
+./bin/fa3-enforce kaneo
+```
+
+The provider runtime itself is **not** required for global FA3 promotion while Kaneo is disabled. The canonical rules remain mandatory regardless of whether the optional provider is deployed. Reference evidence is pinned to Kaneo `v2.22.0` / commit `4faa14858913801cfc62991cb326f35fe5fcae00`; floating `main` is forbidden as promotion evidence.

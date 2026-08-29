@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KANEO-2026-08-29",
+  "date": "2026-08-29",
+  "status": "CANONICAL_CLOSED",
+  "subject": "usekaneo/kaneo",
+  "decision": "ACCEPT",
+  "provider_id": "FA3-PROVIDER-KANEO-001",
+  "gate_id": "FA3-KANEO-GATESET-001",
+  "role": [
+    "OPTIONAL_SELF_HOSTED_WORK_MANAGEMENT_PROVIDER",
+    "HUMAN_AGENT_COORDINATION_PROJECTION",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "mandatory_canonical_rules": [
+    "FA3-KANEO-P0-001",
+    "FA3-KANEO-P0-002",
+    "FA3-KANEO-P0-003",
+    "FA3-KANEO-P0-004"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "authority_boundaries": {
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "policy": "FA3-AUTH-SECURITY-GOV-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_promotions": [
+    "KANEO_AS_CANONICAL_ROOT",
+    "KANEO_AS_ARCHITECTURAL_AUTHORITY",
+    "KANEO_AS_GLOBAL_WORKFLOW_ORCHESTRATION_AUTHORITY",
+    "KANEO_IDENTITY_AS_FA3_CANONICAL_IDENTITY"
+  ]
+}

@@ -20,7 +20,15 @@
     "root_count": 1
   },
   "mandatory_reference_gates": [
-    "FA3-TERAX-GATESET-001"
+    "FA3-TERAX-GATESET-001",
+    "FA3-KANEO-GATESET-001"
   ],
-  "terax_provider_id": "FA3-PROVIDER-TERAX-001"
+  "terax_provider_id": "FA3-PROVIDER-TERAX-001",
+  "kaneo_provider_id": "FA3-PROVIDER-KANEO-001",
+  "kaneo_mandatory_p0_rules": [
+    "HUMAN_AGENT_COMMON_AUTHORIZATION_BOUNDARY",
+    "CAPABILITY_SURFACE_DRIFT_FAIL_CLOSED",
+    "CHANGE_SURFACE_CLOSURE_REQUIRED",
+    "DISTRIBUTED_SECURITY_STATE_SHARED"
+  ]
 }
