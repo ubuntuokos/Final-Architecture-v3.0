@@ -20,6 +20,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_demucs_provider import (
+    DEFAULT_HRB_VERIFY_COMMAND,
+    HRB_LEASE_SCHEMA,
+    HRB_PROFILE_ID,
     PROVIDER_ID,
     PROVIDER_VERSION,
     SeparationRequest,
@@ -93,7 +96,11 @@ def nvidia_inventory() -> list[dict[str, Any]]:
         })
     return rows
 
-def resolve_device(requested: str) -> tuple[str, dict[str, Any]]:
+def resolve_device(
+    requested: str,
+    hrb_lease_path: str | None,
+    inventory: list[dict[str, Any]],
+) -> tuple[str, dict[str, Any]]:
     try:
         import torch
     except Exception as exc:
@@ -105,10 +112,27 @@ def resolve_device(requested: str) -> tuple[str, dict[str, Any]]:
         "cuda_device_count": int(torch.cuda.device_count()) if torch.cuda.is_available() else 0,
     }
     if requested != "auto":
+        if requested == "cuda":
+            raise RuntimeError("bare 'cuda' is forbidden; use explicit cuda:N or --device auto with an HRB lease")
         return requested, runtime
-    if torch.cuda.is_available():
-        return "cuda:0", runtime
-    return "cpu", runtime
+    if not torch.cuda.is_available():
+        return "cpu", runtime
+    if not hrb_lease_path:
+        raise RuntimeError(
+            "CUDA is available, but --device auto cannot self-place: supply --hrb-lease "
+            "or explicitly choose --device cpu"
+        )
+    lease_path = Path(hrb_lease_path).resolve()
+    if not lease_path.is_file():
+        raise RuntimeError("HRB lease file not found")
+    lease = json.loads(lease_path.read_text(encoding="utf-8"))
+    if lease.get("schema") != HRB_LEASE_SCHEMA or lease.get("issuer") != HRB_PROFILE_ID:
+        raise RuntimeError("HRB lease schema/issuer mismatch")
+    uuid = str(lease.get("accelerator_uuid", ""))
+    matches = [row for row in inventory if row.get("uuid") == uuid]
+    if len(matches) != 1:
+        raise RuntimeError("HRB lease accelerator UUID does not resolve to exactly one current NVIDIA ordinal")
+    return f"cuda:{matches[0]['index']}", runtime
 
 def make_synthetic_mix(path: Path, seconds: float = 3.0, samplerate: int = 44100) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -143,10 +167,13 @@ def main() -> int:
     ap.add_argument("--input", help="Real audio input. If omitted, a deterministic synthetic mixture is generated.")
     ap.add_argument("--model", default="htdemucs")
     ap.add_argument("--stems", default="drums,bass,other,vocals")
-    ap.add_argument("--device", default="auto", help="auto, cpu, cuda or cuda:N")
-    ap.add_argument("--hrb-lease")
-    ap.add_argument("--hrb-verify-command-json", default="[]",
-                    help='JSON argv array; must contain "{lease}" for CUDA, e.g. ["/usr/local/bin/fa3-hrb","verify","--lease","{lease}","--json"]')
+    ap.add_argument("--device", default="auto", help="auto, cpu or explicit cuda:N")
+    ap.add_argument("--hrb-lease", help="Canonical AcceleratorExecutionLease@1 JSON from FA3 Host Resource Broker")
+    ap.add_argument(
+        "--hrb-verify-command-json",
+        default=json.dumps(list(DEFAULT_HRB_VERIFY_COMMAND)),
+        help='JSON argv array; default is the canonical broker validate-lease command and must contain "{lease}"',
+    )
     ap.add_argument("--allow-network-model-fetch", action="store_true",
                     help="Permit HuggingFace fetch when trusted model is absent from the local cache.")
     ap.add_argument("--segment", type=float, default=7.0)
@@ -154,6 +181,7 @@ def main() -> int:
     ap.add_argument("--shifts", type=int, default=1)
     ap.add_argument("--jobs", type=int, default=0)
     ap.add_argument("--clipping", default="rescale")
+    ap.add_argument("--timeout-seconds", type=float, default=3600.0)
     ap.add_argument("--runtime-dir")
     ap.add_argument("--receipt", default="evidence/receipts/demucs-current-host.json")
     args = ap.parse_args()
@@ -180,6 +208,11 @@ def main() -> int:
             "sphn": package_version("sphn"),
         },
         "nvidia_inventory": nvidia_inventory(),
+        "hrb_contract": {
+            "profile_id": HRB_PROFILE_ID,
+            "lease_schema": HRB_LEASE_SCHEMA,
+            "validation": "broker validate-lease + current ordinal-to-UUID revalidation",
+        },
         "synthetic_input": args.input is None,
         "model": args.model,
         "requested_stems": [s.strip() for s in args.stems.split(",") if s.strip()],
@@ -196,17 +229,20 @@ def main() -> int:
         return fail_receipt(base, receipt_path, "provider executable conformance failed")
 
     try:
-        device, torch_runtime = resolve_device(args.device)
+        device, torch_runtime = resolve_device(args.device, args.hrb_lease, base["nvidia_inventory"])
         base["device"] = device
         base["torch_runtime"] = torch_runtime
         try:
-            hrb_command = tuple(str(x) for x in json.loads(args.hrb_verify_command_json))
+            hrb_command_raw = json.loads(args.hrb_verify_command_json)
         except Exception as exc:
             raise RuntimeError("invalid --hrb-verify-command-json") from exc
-        if not isinstance(json.loads(args.hrb_verify_command_json), list):
-            raise RuntimeError("--hrb-verify-command-json must be a JSON array")
-        if (device == "cuda" or device.startswith("cuda:")) and (not args.hrb_lease or not hrb_command):
-            raise RuntimeError("CUDA current-host evidence requires both --hrb-lease and --hrb-verify-command-json; no implicit CPU fallback is permitted")
+        if not isinstance(hrb_command_raw, list) or not all(isinstance(x, str) for x in hrb_command_raw):
+            raise RuntimeError("--hrb-verify-command-json must be a JSON string array")
+        hrb_command = tuple(hrb_command_raw)
+        if device.startswith("cuda:") and not args.hrb_lease:
+            raise RuntimeError("CUDA current-host evidence requires a canonical HRB lease; no implicit CPU fallback is permitted")
+        if device.startswith("cuda:") and "{lease}" not in hrb_command:
+            raise RuntimeError("HRB verifier command must contain {lease}")
 
         if args.input:
             input_path = Path(args.input).resolve()
@@ -232,6 +268,7 @@ def main() -> int:
             clipping=args.clipping,
             offline=not args.allow_network_model_fetch,
             allow_experimental_stems=False,
+            timeout_seconds=args.timeout_seconds,
         )
         evidence = execute_separation(root, request)
         if not evidence_complete(evidence):
@@ -255,10 +292,21 @@ def main() -> int:
             "model_hash": evidence["model_hash"],
             "output_hashes": evidence["output_hashes"],
             "device_lease": evidence["device_lease"],
+            "hrb": evidence.get("hrb"),
+            "resource_guard": evidence.get("resource_guard"),
             "model_classes": evidence["model_classes"],
         }
         base["security_regression_pass"] = conformance["result"] == "PASS"
-        base["hrb_enforced"] = not (device == "cuda" or device.startswith("cuda:")) or bool(evidence["device_lease"])
+        base["hrb_enforced"] = (
+            not device.startswith("cuda:")
+            or (
+                bool(evidence["device_lease"])
+                and evidence.get("hrb", {}).get("schema") == HRB_LEASE_SCHEMA
+                and evidence.get("hrb", {}).get("issuer") == HRB_PROFILE_ID
+                and evidence.get("hrb", {}).get("broker_validation") == "VALID"
+                and evidence.get("resource_guard", {}).get("mechanism") == "torch.cuda.set_per_process_memory_fraction"
+            )
+        )
         base["model_trust_enforced"] = bool(evidence.get("model_trust", {}).get("class_allowlisted"))
         base["completed_at"] = utc_now()
         write_json(receipt_path, base)
