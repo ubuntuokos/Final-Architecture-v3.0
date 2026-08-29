@@ -34,7 +34,15 @@
       "execution-evidence.json",
       "evidence/receipts/demucs-current-host.json",
       "stem WAV artifacts"
-    ]
+    ],
+    "hrb_contract": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
+    "hrb_issuer": "FA3-HOST-RESOURCE-BROKER-001",
+    "hrb_default_verifier": "/usr/local/bin/fa3-host-resource-broker validate-lease {lease}",
+    "hrb_placement_rule": "broker-selected accelerator UUID; runtime cuda:N ordinal must re-resolve to the same UUID",
+    "hrb_memory_guard": "torch.cuda.set_per_process_memory_fraction derived from lease memory_max_bytes",
+    "silent_cpu_fallback_forbidden": true,
+    "bare_cuda_device_forbidden": true,
+    "production_harness": "bin/fa3-demucs-hrb-production-e2e.sh"
   },
   "fail_closed": true,
   "global_promotion_dependency_when_provider_disabled": false,
