@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.video-enforcement.v1",
+  "gate_id": "FA3-VIDEO-GATESET-001",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_ids": [
+    "FA3-PROVIDER-KLING-001",
+    "FA3-PROVIDER-SEEDANCE-001",
+    "FA3-PROVIDER-MINIMAX-H3-001"
+  ],
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion_when_disabled": false,
+  "p0_invariants": [
+    "VIDEO_PROVIDER_IS_NOT_ARCHITECTURAL_AUTHORITY",
+    "CANONICAL_VIDEO_IR_IS_PROVIDER_NEUTRAL",
+    "PROVIDER_MCP_MUST_NOT_BYPASS_CENTRAL_GATEWAY",
+    "LOCAL_ACCELERATOR_EXECUTION_REQUIRES_HRB_ADMISSION",
+    "LICENSE_POLICY_ADMISSION_FAILS_CLOSED",
+    "H3_CONTEXT_IR_IS_REFERENCE_PATTERN_ONLY",
+    "H3_LOCAL_PROMOTION_REQUIRES_CURRENT_HOST_EVIDENCE",
+    "H3_DIFFUSERS_AND_COMFYUI_ARE_INTEGRATION_TARGETS_NOT_PROMOTED_RUNTIME"
+  ],
+  "h3_promotion_requirements": [
+    "license_admission_pass",
+    "artifact_trust_pass",
+    "host_resource_broker_admission_pass",
+    "diffusers_or_comfyui_adapter_conformance_pass",
+    "video_execution_e2e_pass",
+    "qc_and_provenance_evidence_pass"
+  ]
+}
