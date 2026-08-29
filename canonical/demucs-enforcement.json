@@ -1,0 +1,139 @@
+{
+  "schema": "fa3.demucs-enforcement.v1",
+  "gate_id": "FA3-DEMUCS-GATESET-001",
+  "profile_id": "FA3-AUDIO-SEPARATION-001",
+  "provider_id": "FA3-PROVIDER-DEMUCS-001",
+  "classification": [
+    "OPTIONAL_AUDIO_SEPARATION_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "demucs_rule_count": 18,
+  "cross_cutting_model_trust_rule_count": 2,
+  "p0_invariants": [
+    "PROVIDER_NEUTRAL_SOURCE_SEPARATION_CONTRACT",
+    "EXPLICIT_STEM_CAPABILITY_DECLARATION",
+    "UNSUPPORTED_STEM_FAIL_CLOSED",
+    "EXPERIMENTAL_STEM_NOT_PRODUCTION_PROMOTED",
+    "MODEL_VARIANT_TYPED_ARTIFACT",
+    "QUANTIZATION_CREATES_DISTINCT_ARTIFACT",
+    "CHUNK_SEGMENT_POLICY_EXPLICIT",
+    "OVERLAP_RECONSTRUCTION_POLICY_EXPLICIT",
+    "RESOURCE_QUALITY_TRADEOFF_EVIDENCED",
+    "PROVIDER_CANNOT_OWN_DEVICE_PLACEMENT",
+    "HRB_LEASE_REQUIRED_FOR_ACCELERATOR",
+    "AUDIO_NORMALIZATION_TYPED",
+    "CLIPPING_POLICY_EXPLICIT",
+    "DERIVED_TWO_STEM_LINEAGE_REQUIRED",
+    "MODEL_BAG_FIRST_CLASS_ARTIFACT",
+    "LONG_RUNNING_SEPARATION_CANCELLABLE",
+    "INFERENCE_TRAINING_DEPENDENCY_SURFACES_SEPARATED",
+    "STEM_OUTPUT_FIRST_CLASS_ARTIFACT_WITH_PROVENANCE",
+    "MODEL_CONTAINER_SAFETY_NOT_EXECUTION_AUTHORIZATION",
+    "EXTERNAL_MODEL_CLASS_ALLOWLIST"
+  ],
+  "fail_closed": true,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "runtime_provider_required_for_global_promotion": false,
+  "rules": [
+    {
+      "id": "FA3-DEMUCS-P0-001",
+      "name": "provider neutral source separation contract",
+      "requirement": "Source-separation contracts MUST remain provider-neutral; provider names are implementation metadata only."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-002",
+      "name": "explicit stem capability declaration",
+      "requirement": "Providers MUST explicitly declare supported stems and stem maturity."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-003",
+      "name": "unsupported stem fail closed",
+      "requirement": "Requests for unsupported stems MUST fail closed."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-004",
+      "name": "experimental stem not production promoted",
+      "requirement": "Experimental stems MUST NOT satisfy production promotion without explicit quality evidence and promotion."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-005",
+      "name": "model variant typed artifact",
+      "requirement": "Every model variant MUST have a distinct typed artifact identity."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-006",
+      "name": "quantization creates distinct artifact",
+      "requirement": "Quantized weights MUST be represented as a distinct model artifact, not a hidden flag on the base model."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-007",
+      "name": "chunk segment policy explicit",
+      "requirement": "Chunk/segment processing policy MUST be explicit and recorded in execution evidence."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-008",
+      "name": "overlap reconstruction policy explicit",
+      "requirement": "Overlap/reconstruction policy MUST be explicit and recorded in execution evidence."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-009",
+      "name": "resource quality tradeoff evidenced",
+      "requirement": "Resource-to-quality trade-offs MUST be surfaced as evidence rather than hidden provider behavior."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-010",
+      "name": "provider cannot own device placement",
+      "requirement": "Audio-separation providers MUST NOT own host device placement."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-011",
+      "name": "hrb lease required for accelerator",
+      "requirement": "Accelerator execution MUST be backed by a valid Host Resource Broker lease."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-012",
+      "name": "audio normalization typed",
+      "requirement": "Samplerate, channels, bit depth/representation and codec normalization MUST be typed."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-013",
+      "name": "clipping policy explicit",
+      "requirement": "Clipping behavior MUST be an explicit policy decision."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-014",
+      "name": "derived two stem lineage required",
+      "requirement": "Derived two-stem outputs MUST retain lineage to the full separation or source mixture and derivation method."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-015",
+      "name": "model bag first class artifact",
+      "requirement": "Model ensembles/bags MUST be first-class model artifacts including members, weights and segment policy."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-016",
+      "name": "long running separation cancellable",
+      "requirement": "Long-running separation MUST support bounded cancellation/abort semantics."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-017",
+      "name": "inference training dependency surfaces separated",
+      "requirement": "Inference, training and quantization dependency surfaces MUST be separable."
+    },
+    {
+      "id": "FA3-DEMUCS-P0-018",
+      "name": "stem output first class artifact with provenance",
+      "requirement": "Each output stem MUST be a first-class media artifact with identity, provenance, parent-mixture relation and output hash."
+    },
+    {
+      "id": "FA3-MODEL-LOAD-TRUST",
+      "name": "model container safety is not execution safety",
+      "requirement": "A safe weight container format MUST NOT by itself authorize model execution; artifact provenance, admission, architecture implementation and execution policy MUST also pass."
+    },
+    {
+      "id": "FA3-MODEL-CLASS-ALLOWLIST",
+      "name": "external model metadata class allowlist",
+      "requirement": "External model metadata MUST NOT select arbitrary local runtime classes/modules; class resolution MUST use an allowlisted registry implementation mapping."
+    }
+  ]
+}
