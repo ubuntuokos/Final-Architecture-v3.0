@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from fa3_demucs_provider import PROVIDER_ID, PROVIDER_VERSION
+from fa3_demucs_provider import HRB_LEASE_SCHEMA, HRB_PROFILE_ID, PROVIDER_ID, PROVIDER_VERSION
 
 RECEIPT = "evidence/receipts/demucs-current-host.json"
 PRODUCTION_LEVEL = "CURRENT_HOST_PRODUCTION_E2E_PASS"
@@ -90,8 +90,23 @@ def validate_receipt(root: Path, require_production: bool = True) -> dict[str, A
                 if trust.get("container") != "SAFETENSORS" or trust.get("class_allowlisted") is not True or trust.get("legacy_pickle_used") is not False:
                     fail("DEMUCS-HOST-015", "Execution evidence does not prove safe allowlisted model loading")
                 device = str(execution.get("provider_runtime", {}).get("device", ""))
-                if device.startswith("cuda") and not execution.get("device_lease"):
-                    fail("DEMUCS-HOST-016", "CUDA execution evidence lacks HRB lease")
+                if device.startswith("cuda:"):
+                    if not execution.get("device_lease"):
+                        fail("DEMUCS-HOST-016", "CUDA execution evidence lacks HRB lease")
+                    hrb = execution.get("hrb", {})
+                    if (
+                        hrb.get("schema") != HRB_LEASE_SCHEMA
+                        or hrb.get("issuer") != HRB_PROFILE_ID
+                        or hrb.get("broker_validation") != "VALID"
+                        or not str(hrb.get("accelerator_uuid", "")).startswith("GPU-")
+                    ):
+                        fail("DEMUCS-HOST-018", "CUDA execution evidence lacks canonical HRB lease/broker validation")
+                    guard = execution.get("resource_guard", {})
+                    if (
+                        guard.get("mechanism") != "torch.cuda.set_per_process_memory_fraction"
+                        or int(guard.get("memory_max_bytes", 0)) <= 0
+                    ):
+                        fail("DEMUCS-HOST-019", "CUDA execution evidence lacks lease-derived PyTorch allocator guard")
                 if not execution.get("output_hashes") or not execution.get("quality_evidence"):
                     fail("DEMUCS-HOST-017", "Stem output/quality evidence missing")
 
