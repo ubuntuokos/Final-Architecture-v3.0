@@ -156,15 +156,22 @@ For the actual workstation, use an isolated per-provider venv (no conda/mamba):
 bash bin/fa3-demucs-bootstrap.sh
 ```
 
-Then collect production E2E evidence with a real audio file. CUDA has no implicit CPU fallback; the actual HRB verifier command must be supplied:
+Then collect production E2E evidence with a **real** audio file through the existing Host Resource Broker v1.0.0 interface. The harness asks the broker to choose the accelerator, issues an `AcceleratorExecutionLease@1`, resolves the leased GPU UUID back to the current CUDA ordinal, applies the lease-derived PyTorch allocator guard, runs Demucs, validates evidence, and revokes the lease on exit:
+
+```bash
+bash bin/fa3-demucs-hrb-production-e2e.sh /path/to/real-audio.wav
+```
+
+The default broker path is `/usr/local/bin/fa3-host-resource-broker`; override it with `FA3_HRB_BIN` only when the canonical HRB is installed elsewhere. The default lease asks for 6 GiB VRAM for one hour and can be changed with `FA3_DEMUCS_HRB_MEMORY_BYTES` and `FA3_DEMUCS_HRB_TTL_SECONDS`. CUDA has **no implicit CPU fallback** and bare `cuda` is rejected: execution must resolve to explicit `cuda:N` from the broker-issued GPU UUID.
+
+For an already-issued canonical lease, the lower-level collector is also available:
 
 ```bash
 bash bin/fa3-demucs-current-host.sh \
   --input /path/to/real-audio.wav \
   --model htdemucs \
-  --device cuda:0 \
-  --hrb-lease /path/to/hrb-lease.json \
-  --hrb-verify-command-json '["/path/to/actual-hrb-verifier","verify","--lease","{lease}","--device","{device}","--json"]'
+  --device auto \
+  --hrb-lease /path/to/accelerator-execution-lease.json
 ```
 
 By default model resolution is offline/cache-only. Add `--allow-network-model-fetch` only when the trusted model is not cached and the applicable FA3 egress policy permits the fetch.
@@ -175,4 +182,4 @@ The collector writes `evidence/receipts/demucs-current-host.json` plus runtime e
 ./bin/fa3-enforce demucs-current-host
 ```
 
-accepts only `CURRENT_HOST_PRODUCTION_E2E_PASS`, rejects synthetic input, verifies the execution-evidence digest, requires safetensors + class-allowlist proof, and requires an HRB lease for CUDA evidence. A synthetic collector run may be useful as a smoke test but cannot claim production current-host PASS.
+accepts only `CURRENT_HOST_PRODUCTION_E2E_PASS`, rejects synthetic input, verifies the execution-evidence digest, requires safetensors + class-allowlist proof, and for CUDA requires the canonical HRB lease schema/issuer, broker `VALID` result, GPU UUID revalidation, and lease-derived allocator guard. A synthetic collector run may be useful as a smoke test but cannot claim production current-host PASS.
