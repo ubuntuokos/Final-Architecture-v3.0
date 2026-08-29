@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.demucs-provider-ci-evidence.v1",
+  "id": "FA3-EVID-DEMUCS-PROVIDER-CI-2026-08-30",
+  "provider_id": "FA3-PROVIDER-DEMUCS-001",
+  "provider_version": "1.0.0",
+  "evidence_type": "EXECUTABLE_PROVIDER_CONFORMANCE",
+  "status": "PASS",
+  "evidence_scope": "CI_NOT_CURRENT_HOST",
+  "github": {
+    "pull_request": 5,
+    "workflow_name": "FA3 Permanent Canonical + Promotion Gate",
+    "workflow_run_id": 33282018413,
+    "workflow_run_number": 20,
+    "tested_head_sha": "894b8bad659dc7c92bb7480227055335d2dbe56e",
+    "canonical_regression_job_id": 99178655079,
+    "canonical_regression_conclusion": "success",
+    "promotion_safety_job_id": 99178672493,
+    "promotion_safety_conclusion": "success",
+    "artifact_id": 9723260227,
+    "artifact_name": "fa3-static-gate-report",
+    "artifact_digest": "sha256:b222ed55d9167fa2b6a4b0463c5990560ded19920e8b73a329ddb0a7d81e01e7"
+  },
+  "implementation_blobs": {
+    "src/fa3_demucs_provider.py": "e0bb7cd92ad63a44ffc8eed878c7dc837b040d28",
+    "src/fa3_demucs_current_host_gate.py": "68d5afdada7bf6da8cd3f703a9ac4ce4aa89e90a",
+    "tests/test_demucs_provider_runtime.py": "4c1ebc8e5017995c4d8006e24f320ebfcca999cc",
+    "evidence/collect-demucs-current-host.py": "73ac226fc11fcd7fbfe6d3e43b9c5a23501c6cf1",
+    "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json": "e44b8d3d3ca8936dd59331cc994d1cebea1b95c0"
+  },
+  "results": {
+    "repository_unit_tests": {
+      "status": "PASS",
+      "passed": 64,
+      "total": 64
+    },
+    "demucs_provider_conformance": {
+      "status": "PASS",
+      "passed": 13,
+      "total": 13,
+      "report_sha256": "2b45acbed45f95437bbf26d47b2e402aa770e1be4d197e8e486220eacd83aa26"
+    },
+    "demucs_canonical_gate": {
+      "status": "PASS",
+      "report_sha256": "5c7077516edc400986010355e85dd8dcbbcf0a64cf17235685dc46a362de5973"
+    },
+    "global_static_gate": {
+      "status": "PASS",
+      "report_sha256": "5a40ea6b3b1870b4b4d17b5c6bc3ad8b6d88074cc63ef52361a179d05c781f4e"
+    },
+    "promotion_safety": {
+      "status": "PASS"
+    }
+  },
+  "current_host_production_e2e": {
+    "status": "PENDING_REAL_HOST_EXECUTION",
+    "required_receipt": "evidence/receipts/demucs-current-host.json",
+    "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "synthetic_or_ci_evidence_accepted": false
+  }
+}
