@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MUSIC-001",
+  "name": "AI Songwriting, Composition & Generative Music Production",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "scope": "Provider-independent editable-first generative music, songwriting, composition, audio-conditioned editing and production projection.",
+  "capabilities": [
+    "CAP-017",
+    "CAP-066",
+    "CAP-131"
+  ],
+  "contracts": [
+    "FA3-MUSIC-GENERATION-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-ACE-STEP-001"
+  ],
+  "canonical_root": false,
+  "materializes_existing_catalog_profile": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust_authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "telemetry_audit_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry_governance": "FA3-REGISTRY-001"
+  },
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_PROVIDER_PROMOTION_EVIDENCE_GATED"
+}

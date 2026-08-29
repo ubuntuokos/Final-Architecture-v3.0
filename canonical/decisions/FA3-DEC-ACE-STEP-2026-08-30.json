@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ACE-STEP-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "ACE-Step 1.5 mandatory provider materialization and August 2026 upstream fix disposition",
+  "decision": "MANDATORY_PROVIDER_BASELINE_MATERIALIZATION_AND_FIX_CANDIDATE_UPDATE",
+  "profile_id": "FA3-MUSIC-001",
+  "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+  "gate_id": "FA3-ACE-STEP-GATESET-001",
+  "materialized_baseline": true,
+  "capability_projection": [
+    "CAP-017",
+    "CAP-066",
+    "CAP-131"
+  ],
+  "changes": [
+    "materialize existing FA3-MUSIC-001 canonical profile without adding a capability",
+    "materialize provider-neutral FA3-MUSIC-GENERATION-CONTRACTS-001",
+    "register ACE-Step 1.5 as required primary reference provider",
+    "retain all routing, resource, policy, evidence and artifact authority outside ACE-Step",
+    "classify merged PR 1282 non-turbo DCW fix as upstream FIX_CANDIDATE evidence",
+    "classify merged PR 1305 text2music cover-state hygiene fix as upstream FIX_CANDIDATE evidence",
+    "classify merged PR 1310 KV-cache reinit sizing fix as upstream FIX_CANDIDATE evidence",
+    "retain PR 1311 LM engine reinit teardown as pending and non-promotable evidence",
+    "require current-host audio-quality, state-hygiene and memory-lifecycle regression evidence before runtime promotion"
+  ],
+  "upstream_observation": {
+    "latest_formal_release": {
+      "tag": "v0.1.8",
+      "published_at": "2026-05-18T14:04:34Z"
+    },
+    "merged_prs": {
+      "1282": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b",
+      "1305": "c86889f488b657c176d1ca857df3450ad1c495d2",
+      "1310": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
+    },
+    "pending_prs": {
+      "1311": {
+        "state": "OPEN",
+        "head_sha": "49354c10929b94f75e22268357ee96ada20932e2"
+      }
+    }
+  },
+  "promotion_state": {
+    "provider": "NOT_CURRENT_HOST_PROMOTED",
+    "turbo_2b": "CURRENT_HOST_EVIDENCE_REQUIRED",
+    "xl_turbo": "CURRENT_HOST_EVIDENCE_REQUIRED",
+    "sft_2b": "FIX_CANDIDATE_QUALITY_GATE_REQUIRED",
+    "xl_sft": "FIX_CANDIDATE_QUALITY_GATE_REQUIRED"
+  },
+  "current_host_evidence_required": [
+    "immutable_runtime_and_model_pin_pass",
+    "artifact_and_model_hash_pass",
+    "host_resource_broker_admission_pass",
+    "authenticated_loopback_rest_adapter_pass",
+    "requested_model_identity_match_pass",
+    "turbo_or_xl_turbo_audio_quality_e2e_pass",
+    "text2music_cover_state_hygiene_regression_pass",
+    "non_turbo_dcw_off_quality_pass_before_sft_promotion",
+    "reinit_kv_cache_invariance_pass",
+    "lm_reinit_clean_teardown_or_process_recycle_pass",
+    "lossless_master_and_provenance_pass"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "authority_boundaries_unchanged": true
+}

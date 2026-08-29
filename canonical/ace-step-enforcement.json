@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.ace-step-enforcement.v1",
+  "gate_id": "FA3-ACE-STEP-GATESET-001",
+  "profile_id": "FA3-MUSIC-001",
+  "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+  "classification": [
+    "REQUIRED_PRIMARY_REFERENCE_PROVIDER",
+    "CURRENT_HOST_PROMOTION_EVIDENCE_GATED"
+  ],
+  "fail_closed": true,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "runtime_provider_required_for_global_promotion": true,
+  "p0_invariants": [
+    "ACE_STEP_IS_NOT_ARCHITECTURAL_AUTHORITY",
+    "PROVIDER_NEUTRAL_MUSIC_CONTRACT",
+    "IMMUTABLE_RUNTIME_AND_MODEL_IDENTITY",
+    "HRB_ADMISSION_REQUIRED_FOR_ACCELERATOR",
+    "REQUESTED_MODEL_MUST_EQUAL_EXECUTED_MODEL_OR_FAIL_CLOSED",
+    "TYPED_AUTHENTICATED_LOOPBACK_REST_ADAPTER_REQUIRED",
+    "GRADIO_IS_NOT_AUTOMATION_OR_ORCHESTRATION_AUTHORITY",
+    "TEXT2MUSIC_STATE_HYGIENE_REQUIRED",
+    "NON_TURBO_DCW_MUST_BE_EXPLICIT_AND_QUALITY_GATED",
+    "SFT_AND_XL_SFT_REQUIRE_EXPLICIT_CURRENT_HOST_QUALITY_PROMOTION",
+    "REINIT_KV_CACHE_MUST_BE_INVARIANT",
+    "LM_REINIT_REQUIRES_CLEAN_TEARDOWN_OR_PROCESS_RECYCLE",
+    "PROVIDER_VRAM_PREFLIGHT_CANNOT_REPLACE_HRB_ADMISSION",
+    "LOSSLESS_MASTER_REQUIRED",
+    "PRODUCTION_AUTO_UPDATE_AND_MODEL_AUTO_DOWNLOAD_FORBIDDEN",
+    "UPSTREAM_MERGE_IS_NOT_CURRENT_HOST_PROMOTION_EVIDENCE"
+  ],
+  "provider_promotion_requirements": [
+    "immutable_runtime_and_model_pin_pass",
+    "artifact_and_model_hash_pass",
+    "host_resource_broker_admission_pass",
+    "authenticated_loopback_rest_adapter_pass",
+    "requested_model_identity_match_pass",
+    "turbo_or_xl_turbo_audio_quality_e2e_pass",
+    "text2music_cover_state_hygiene_regression_pass",
+    "reinit_kv_cache_invariance_pass",
+    "lm_reinit_clean_teardown_or_process_recycle_pass",
+    "lossless_master_and_provenance_pass"
+  ],
+  "sft_family_additional_promotion_requirements": [
+    "non_turbo_dcw_explicitly_disabled_pass",
+    "sft_audio_quality_positive_and_negative_regression_pass"
+  ],
+  "tracked_upstream_fixes": {
+    "PR-1282": {
+      "state": "MERGED_FIX_CANDIDATE",
+      "merge_commit": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b"
+    },
+    "PR-1305": {
+      "state": "MERGED_FIX_CANDIDATE",
+      "merge_commit": "c86889f488b657c176d1ca857df3450ad1c495d2"
+    },
+    "PR-1310": {
+      "state": "MERGED_FIX_CANDIDATE",
+      "merge_commit": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
+    },
+    "PR-1311": {
+      "state": "OPEN_NOT_PROMOTION_EVIDENCE",
+      "head_commit": "49354c10929b94f75e22268357ee96ada20932e2"
+    }
+  }
+}

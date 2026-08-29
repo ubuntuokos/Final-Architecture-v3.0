@@ -111,3 +111,28 @@ Registry regression coverage:
 ```bash
 PYTHONPATH=src python -m unittest tests.test_video_registry -v
 ```
+
+## ACE-Step mandatory generative-music provider
+
+`FA3-PROVIDER-ACE-STEP-001` registers `ace-step/ACE-Step-1.5` as the **required primary reference provider** under the materialized existing `FA3-MUSIC-001` profile. This adds no capability and no architectural authority: the canonical capability count remains **143**, with projection over `CAP-017`, `CAP-066` and `CAP-131`.
+
+ACE-Step does not own model routing, GPU placement, durable orchestration, policy, evidence, or artifact identity. Local accelerator execution remains Host Resource Broker admitted; automation must use a typed authenticated loopback REST adapter behind the Central MCP/Capability Gateway; Gradio remains an optional human UI.
+
+The executable `FA3-ACE-STEP-GATESET-001` makes the following upstream changes reference evidence, **not automatic promotion**:
+
+- PR #1282 / `2c513f9e...`: non-turbo DCW REST/CLI plumbing and SFT/XL-SFT quality fix candidate;
+- PR #1305 / `c86889f4...`: text2music cover-state hygiene fix;
+- PR #1310 / `0b5ff8ac...`: KV-cache sizing invariance across service re-init;
+- PR #1311 remains open and therefore is not promotion evidence for LM engine teardown/re-init memory safety.
+
+The latest formal upstream release remains `v0.1.8` and does not contain the August fix set. Production therefore requires an immutable commit/release pin; floating `main`, provider self-update and production model auto-download are forbidden.
+
+Run the canonical gate with:
+
+```bash
+./bin/fa3-enforce acestep
+PYTHONPATH=src python -m unittest tests.test_acestep_gate -v
+```
+
+Runtime promotion remains separately fail-closed on `evidence/receipts/ace-step-current-host.json`. Required current-host evidence includes model-identity matching, HRB admission, authenticated REST conformance, Turbo/XL-Turbo audio-quality E2E, text2music state-hygiene regression, KV-cache re-init invariance, LM clean-teardown or process-recycle behavior, lossless WAV/FLAC master provenance, and additional DCW-off positive/negative quality evidence before any SFT/XL-SFT promotion.
+
