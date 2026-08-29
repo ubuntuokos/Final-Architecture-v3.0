@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -53,6 +54,10 @@ def _write(path: Path, obj: dict[str, Any]) -> None:
 
 def _finding(code: str, message: str, **details: Any) -> dict[str, Any]:
     return {"code": code, "severity": "P0", "message": message, **details}
+
+def _git_blob_sha(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(f"blob {len(data)}\\0".encode() + data).hexdigest()
 
 def provider_neutral_contract_valid(contract_identity: str, provider_name: str) -> bool:
     return bool(contract_identity and provider_name and provider_name.lower() not in contract_identity.lower())
@@ -123,6 +128,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         "evidence": root / "evidence/reference/demucs-v4.1.0.json",
         "model_allowlist": root / "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
         "runtime_conformance": root / "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
+        "provider_ci_evidence": root / "evidence/reference/demucs-provider-ci-2026-08-30.json",
     }
     for idx, path in enumerate(paths.values(), 1):
         if not path.exists():
@@ -138,6 +144,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     evidence = _load(paths["evidence"])
     model_allowlist = _load(paths["model_allowlist"])
     runtime_conformance = _load(paths["runtime_conformance"])
+    provider_ci_evidence = _load(paths["provider_ci_evidence"])
 
     if decision.get("status") != "CANONICAL_CLOSED" or decision.get("decision") != "ACCEPT":
         findings.append(_finding("DEMUCS-REF-010", "Demucs canonical decision is not closed ACCEPT"))
@@ -209,6 +216,28 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("DEMUCS-REF-034", "Synthetic input was permitted to claim current-host production PASS"))
     if runtime_conformance.get("current_host_production_e2e", {}).get("cuda_requires_hrb_lease") is not True:
         findings.append(_finding("DEMUCS-REF-035", "Demucs CUDA current-host path no longer requires HRB lease"))
+
+    if provider_ci_evidence.get("status") != "PASS" or provider_ci_evidence.get("evidence_scope") != "CI_NOT_CURRENT_HOST":
+        findings.append(_finding("DEMUCS-REF-036", "Demucs executable provider CI evidence missing or scope drifted"))
+    ci_result = provider_ci_evidence.get("results", {}).get("demucs_provider_conformance", {})
+    if ci_result.get("status") != "PASS" or ci_result.get("passed") != 13 or ci_result.get("total") != 13:
+        findings.append(_finding("DEMUCS-REF-037", "Demucs executable provider CI conformance is not pinned 13/13 PASS"))
+    blob_expect = provider_ci_evidence.get("implementation_blobs", {})
+    tracked = {
+        "src/fa3_demucs_provider.py": root / "src/fa3_demucs_provider.py",
+        "src/fa3_demucs_current_host_gate.py": root / "src/fa3_demucs_current_host_gate.py",
+        "tests/test_demucs_provider_runtime.py": root / "tests/test_demucs_provider_runtime.py",
+        "evidence/collect-demucs-current-host.py": root / "evidence/collect-demucs-current-host.py",
+        "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json": root / "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
+    }
+    stale = [name for name, path in tracked.items() if blob_expect.get(name) != _git_blob_sha(path)]
+    if stale:
+        findings.append(_finding("DEMUCS-REF-038", "Demucs provider CI evidence is stale against implementation blobs", stale=stale))
+    host_state = provider_ci_evidence.get("current_host_production_e2e", {})
+    if host_state.get("status") not in {"PENDING_REAL_HOST_EXECUTION", "PASS"}:
+        findings.append(_finding("DEMUCS-REF-039", "Demucs current-host evidence state is invalid"))
+    if host_state.get("synthetic_or_ci_evidence_accepted") is not False:
+        findings.append(_finding("DEMUCS-REF-040", "Synthetic/CI evidence was enabled for current-host production claim"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
