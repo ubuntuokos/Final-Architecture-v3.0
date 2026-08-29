@@ -57,7 +57,7 @@ def _finding(code: str, message: str, **details: Any) -> dict[str, Any]:
 
 def _git_blob_sha(path: Path) -> str:
     data = path.read_bytes()
-    return hashlib.sha1(f"blob {len(data)}".encode() + b"\\0" + data).hexdigest()
+    return hashlib.sha1(f"blob {len(data)}".encode() + bytes([0]) + data).hexdigest()
 
 def provider_neutral_contract_valid(contract_identity: str, provider_name: str) -> bool:
     return bool(contract_identity and provider_name and provider_name.lower() not in contract_identity.lower())
