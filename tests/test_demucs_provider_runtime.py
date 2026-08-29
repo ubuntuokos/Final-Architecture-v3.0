@@ -9,7 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_demucs_provider import (
-    HRB_AUTHORITY_ID,
+    HRB_LEASE_SCHEMA,
+    HRB_PROFILE_ID,
     HRBLeaseDenied,
     PROVIDER_ID,
     PROVIDER_VERSION,
@@ -18,7 +19,7 @@ from fa3_demucs_provider import (
     load_allowlist,
     run_executable_conformance,
     validate_hrb_lease_document,
-    validate_hrb_verification_response,
+    validate_hrb_broker_output,
     validate_request,
 )
 from fa3_demucs_current_host_gate import validate_receipt
@@ -54,51 +55,56 @@ class DemucsProviderRuntimeTests(unittest.TestCase):
         with self.assertRaises(PolicyDenied):
             validate_request(request, self.allowlist)
 
+    def _valid_hrb_lease(self):
+        import time
+        return {
+            "schema": HRB_LEASE_SCHEMA,
+            "lease_id": "hrb-test",
+            "issuer": HRB_PROFILE_ID,
+            "accelerator_uuid": "GPU-test",
+            "memory_max_bytes": 4096,
+            "expires_epoch": int(time.time()) + 60,
+            "issued_epoch": int(time.time()),
+            "purpose": "FA3 Demucs provider test",
+            "host": "test-host",
+            "status": "ACTIVE",
+            "nonce": "00" * 16,
+            "placement": {"ordinal_at_issue": 0, "pci_bus_id": "00000000:01:00.0", "numa_node": 0},
+            "enforcement": {"gpu_memory": "provider_guard+broker_reservation"},
+            "signature": {"alg": "HMAC-SHA256", "key_id": "host-local-v1", "value": "11" * 32},
+        }
+
     def test_expired_hrb_lease_is_rejected(self):
+        import time
         request = SeparationRequest(
             input_path="/tmp/in.wav",
             output_dir="/tmp/out",
             device="cuda:0",
             hrb_lease_path="/tmp/lease.json",
-            hrb_verify_command=("verify", "{lease}"),
         )
-        lease = {
-            "authority_id": HRB_AUTHORITY_ID,
-            "lease_id": "LEASE-1",
-            "provider_id": PROVIDER_ID,
-            "device": "cuda:0",
-            "status": "ACTIVE",
-            "expires_at": "2000-01-01T00:00:00Z",
-        }
+        lease = self._valid_hrb_lease()
+        lease["expires_epoch"] = int(time.time()) - 1
         with self.assertRaises(HRBLeaseDenied):
             validate_hrb_lease_document(lease, request)
 
-    def test_hrb_verifier_must_match_provider_scope(self):
+    def test_hrb_issuer_mismatch_is_rejected(self):
         request = SeparationRequest(
             input_path="/tmp/in.wav",
             output_dir="/tmp/out",
             device="cuda:0",
             hrb_lease_path="/tmp/lease.json",
-            hrb_verify_command=("verify", "{lease}"),
         )
-        lease = {
-            "authority_id": HRB_AUTHORITY_ID,
-            "lease_id": "LEASE-1",
-            "provider_id": PROVIDER_ID,
-            "device": "cuda:0",
-            "status": "ACTIVE",
-            "expires_at": "2999-01-01T00:00:00Z",
-        }
-        bad = {
-            "status":"PASS",
-            "authority_id":HRB_AUTHORITY_ID,
-            "lease_id":"LEASE-1",
-            "provider_id":"OTHER",
-            "device":"cuda:0",
-            "active":True,
-        }
+        lease = self._valid_hrb_lease()
+        lease["issuer"] = "OTHER"
         with self.assertRaises(HRBLeaseDenied):
-            validate_hrb_verification_response(bad, lease, request)
+            validate_hrb_lease_document(lease, request)
+
+    def test_hrb_broker_must_return_valid(self):
+        validate_hrb_broker_output(0, "VALID\n")
+        with self.assertRaises(HRBLeaseDenied):
+            validate_hrb_broker_output(0, "INVALID\n")
+        with self.assertRaises(HRBLeaseDenied):
+            validate_hrb_broker_output(2, "")
 
     def _build_receipt(self, root: Path, *, level: str, synthetic: bool, device: str = "cpu", lease=None, trust=True):
         runtime = root / "runtime"
@@ -113,6 +119,21 @@ class DemucsProviderRuntimeTests(unittest.TestCase):
             },
             "provider_runtime":{"device":device},
             "device_lease":lease,
+            "hrb": (
+                None if not device.startswith("cuda:") or not lease else {
+                    "schema": HRB_LEASE_SCHEMA,
+                    "issuer": HRB_PROFILE_ID,
+                    "broker_validation": "VALID",
+                    "accelerator_uuid": "GPU-test",
+                    "lease_id": lease,
+                }
+            ),
+            "resource_guard": (
+                None if not device.startswith("cuda:") or not lease else {
+                    "mechanism":"torch.cuda.set_per_process_memory_fraction",
+                    "memory_max_bytes":4096,
+                }
+            ),
             "output_hashes":{"vocals":"abc"},
             "quality_evidence":{"vocals":{"samples":44100}},
         }
