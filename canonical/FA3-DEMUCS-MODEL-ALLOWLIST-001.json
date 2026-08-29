@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.demucs-model-allowlist.v1",
+  "id": "FA3-DEMUCS-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-DEMUCS-001",
+  "policy": "ALLOWLIST_ONLY_FAIL_CLOSED",
+  "source_release": "v4.1.0",
+  "allowed_namespace": "adefossez",
+  "allowed_model_classes": [
+    "demucs.htdemucs.HTDemucs",
+    "demucs.hdemucs.HDemucs"
+  ],
+  "models": {
+    "htdemucs": {
+      "repo_id": "adefossez/HTDemucs",
+      "maturity": "PRODUCTION",
+      "stems": [
+        "drums",
+        "bass",
+        "other",
+        "vocals"
+      ],
+      "quantized": false
+    },
+    "htdemucs_ft": {
+      "repo_id": "adefossez/HTDemucs-ft",
+      "maturity": "PRODUCTION",
+      "stems": [
+        "drums",
+        "bass",
+        "other",
+        "vocals"
+      ],
+      "quantized": false
+    },
+    "htdemucs_6s": {
+      "repo_id": "adefossez/HTDemucs-6s",
+      "maturity": "EXPERIMENTAL",
+      "stems": [
+        "drums",
+        "bass",
+        "other",
+        "vocals",
+        "guitar",
+        "piano"
+      ],
+      "experimental_stems": [
+        "guitar",
+        "piano"
+      ],
+      "quantized": false
+    },
+    "hdemucs_mmi": {
+      "repo_id": "adefossez/Demucs-hdemucs_mmi",
+      "maturity": "REFERENCE",
+      "stems": [
+        "drums",
+        "bass",
+        "other",
+        "vocals"
+      ],
+      "quantized": false
+    },
+    "mdx": {
+      "repo_id": "adefossez/Demucs-mdx",
+      "maturity": "REFERENCE",
+      "stems": [
+        "drums",
+        "bass",
+        "other",
+        "vocals"
+      ],
+      "quantized": false
+    },
+    "mdx_extra": {
+      "repo_id": "adefossez/Demucs-mdx_extra",
+      "maturity": "REFERENCE",
+      "stems": [
+        "drums",
+        "bass",
+        "other",
+        "vocals"
+      ],
+      "quantized": false
+    }
+  },
+  "denied_model_forms": [
+    "floating arbitrary HuggingFace namespace",
+    "unregistered local .th/.pt/.pth pickle checkpoint",
+    "metadata-selected class outside allowed_model_classes",
+    "quantized model until quantized-state class graph is separately allowlisted"
+  ]
+}
