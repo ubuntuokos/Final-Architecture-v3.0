@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STT-001",
+  "name": "Local Speech Recognition, Dictation & Secure Text Injection Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-STT-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capabilities": [
+    "CAP-017",
+    "CAP-115",
+    "CAP-116"
+  ],
+  "contracts": [
+    "FA3-STT-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-CONTRACT-001",
+    "FA3-SCS-001",
+    "FA3-HW-001"
+  ],
+  "providers": [
+    "Myna",
+    "Whisper-family",
+    "Nemotron-compatible STT providers"
+  ],
+  "authority": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "implementation_status": "CANONICAL_PROVIDER_NEUTRAL",
+  "notes": [
+    "Desktop dictation and long-form media transcription share provider contracts but are separate execution domains.",
+    "This profile does not own model routing, host placement, policy, artifact trust, or observability authority."
+  ]
+}
