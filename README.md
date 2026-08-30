@@ -424,3 +424,16 @@ Canonical records:
 - `canonical/buzz-enforcement.json` (`FA3-BUZZ-GATESET-001`, fail-closed policy record)
 
 Any future registry, profile, contract, runtime or promotion projection that assigns Buzz one of those prohibited authority roles must be rejected rather than promoted.
+
+
+### Buzz executable regression gate
+
+The permanent fail-closed gate is executable with:
+
+```bash
+./bin/fa3-enforce buzz
+```
+
+`FA3-BUZZ-GATESET-001` performs canonical record integrity checks, recursively scans canonical JSON for prohibited Buzz authority assignments, and executes 10 regression cases: eight authority-escalation denials plus canonical-root and capability/authority-count drift denials. The gate is also invoked by the global `static` enforcement path and GitHub CI.
+
+The generated report is `reports/buzz-gate-report.json`. Buzz remains optional at runtime; the authority-separation rule is mandatory regardless of provider deployment.

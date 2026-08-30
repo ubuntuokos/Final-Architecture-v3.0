@@ -4,6 +4,7 @@ import argparse,csv,json,sys
 from pathlib import Path
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
+from fa3_buzz_gate import gate as buzz_gate
 from fa3_demucs_gate import gate as demucs_gate
 from fa3_demucs_provider import run_executable_conformance as demucs_provider_conformance
 from fa3_demucs_current_host_gate import gate as demucs_current_host_gate
@@ -88,6 +89,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-015","Terax mandatory reference gate is not bound into global enforcement policy"))
     if "FA3-KANEO-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-016","Kaneo mandatory canonical gate is not bound into global enforcement policy"))
+    if "FA3-BUZZ-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-028","Buzz authority-separation gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-018","Demucs mandatory canonical gate is not bound into global enforcement policy"))
     if "FA3-ACE-STEP-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -144,6 +147,9 @@ def static_check(root:Path):
     kaneo_ref=kaneo_gate(root)
     if kaneo_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-017","Kaneo mandatory canonical invariant gate failed",kaneo_gate=kaneo_ref))
+    buzz_ref=buzz_gate(root)
+    if buzz_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-029","Buzz mandatory authority-separation regression gate failed",buzz_gate=buzz_ref))
     demucs_ref=demucs_gate(root)
     if demucs_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-019","Demucs mandatory canonical invariant gate failed",demucs_gate=demucs_ref))
@@ -162,7 +168,7 @@ def static_check(root:Path):
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -252,7 +258,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","runtime","terax","kaneo","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","runtime","terax","kaneo","buzz","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -264,6 +270,8 @@ def main():
             x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kaneo":
             x=kaneo_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="buzz":
+            x=buzz_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="demucs":
             x=demucs_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="demucs-provider":

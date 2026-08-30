@@ -29,5 +29,19 @@
     "remote-agent lifecycle",
     "workflow traceability",
     "release integrity"
+  ],
+  "executable_gate": "./bin/fa3-enforce buzz",
+  "report_path": "reports/buzz-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 10,
+  "mutation_test_domains": [
+    "identity",
+    "authorization",
+    "mcp",
+    "workflow",
+    "evidence",
+    "secrets",
+    "host_resource",
+    "developer_execution"
   ]
 }
