@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Controlled multi-source external API, service and MCP discovery",
+  "decision": "ACCEPT_CONTROLLED_MULTI_SOURCE_DISCOVERY_PROJECTION",
+  "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+  "contract_family_id": "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001",
+  "gate_id": "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
+  "source_ids": [
+    "FA3-SOURCE-PUBLIC-APIS-001",
+    "FA3-SOURCE-PUBLIC-API-LISTS-001",
+    "FA3-SOURCE-API-MEGA-LIST-001"
+  ],
+  "pattern_source_id": "FA3-PATTERN-MEGALIST-001",
+  "canonical_rule": "External discovery is not authorization.",
+  "admission_pipeline": [
+    "DISCOVER",
+    "NORMALIZE",
+    "DEDUPLICATE",
+    "PROVENANCE",
+    "LICENSE_TERMS",
+    "ENDPOINT_VERIFICATION",
+    "PROTOCOL_SCHEMA_DISCOVERY",
+    "SECURITY_CLASSIFICATION",
+    "SECRETS_REQUIREMENTS",
+    "EGRESS_CLASSIFICATION",
+    "CAPABILITY_MAPPING",
+    "POLICY_APPROVAL",
+    "SANDBOX_PROBE",
+    "CONFORMANCE_EVIDENCE",
+    "REGISTRY_ADMISSION",
+    "EXECUTION"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+}

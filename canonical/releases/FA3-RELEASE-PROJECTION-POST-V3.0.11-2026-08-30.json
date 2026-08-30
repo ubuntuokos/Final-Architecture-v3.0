@@ -41,10 +41,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 124,
+    "canonical_files_in_post_baseline_delta": 132,
     "evidence_files_in_post_baseline_delta": 21,
-    "source_files_in_post_baseline_delta": 21,
-    "test_files_in_post_baseline_delta": 19,
+    "source_files_in_post_baseline_delta": 22,
+    "test_files_in_post_baseline_delta": 20,
     "workflow_files_in_post_baseline_delta": 2,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -95,7 +95,8 @@
       "canonical/profiles/FA3-STT-001.json",
       "canonical/profiles/FA3-STT-MEDIA-001.json",
       "canonical/profiles/FA3-VIDEO-001.json",
-      "canonical/profiles/FA3-WEB-AI-001.json"
+      "canonical/profiles/FA3-WEB-AI-001.json",
+      "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json"
     ],
     "contract_records": [
       "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
@@ -114,7 +115,8 @@
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
-      "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json"
+      "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
+      "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json"
     ],
     "decision_records": [
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
@@ -144,7 +146,8 @@
       "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
-      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json"
+      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json"
     ],
     "upstream_reference_records": [
       "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -153,7 +156,11 @@
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json",
-      "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json"
+      "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json"
     ],
     "reference_evidence_records": [
       "evidence/reference/ace-step-2026-08-30.json",
@@ -186,7 +193,8 @@
     "FA3-KANBOARD-GATESET-001",
     "FA3-AIENG-GATESET-001",
     "FA3-AUTOGPT-GATESET-001",
-    "FA3-MENTOR-GATESET-001"
+    "FA3-MENTOR-GATESET-001",
+    "FA3-EXTERNAL-API-DISCOVERY-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -204,7 +212,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 220,
+  "manifest_entry_count": 230,
   "manifest": [
     {
       "path": ".github/workflows/fa3-modular-current-host.yml",
@@ -213,8 +221,8 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "a943a72564e4916c21d6a4aa29f432be3be09c19",
-      "baseline_delta_status": "mentor_integration_update"
+      "git_blob_sha": "d94ab951364cf27e34a346e639472788dd5682b4",
+      "baseline_delta_status": "external_api_discovery_integration_update"
     },
     {
       "path": ".gitignore",
@@ -335,6 +343,11 @@
       "path": "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
+      "git_blob_sha": "110adf6335693c741b33c5db5c77870f988c1961",
+      "baseline_delta_status": "external_api_discovery_added"
     },
     {
       "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
@@ -467,6 +480,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
+      "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac",
+      "baseline_delta_status": "external_api_discovery_added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0",
       "baseline_delta_status": "added"
@@ -563,8 +581,13 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "a77e99a5e829b0adec71efa4b520586ab46e4bb4",
-      "baseline_delta_status": "mentor_integration_update"
+      "git_blob_sha": "f6c6982af0cd3584ece7abfdf53fa4db98295945",
+      "baseline_delta_status": "external_api_discovery_integration_update"
+    },
+    {
+      "path": "canonical/external-api-discovery-enforcement.json",
+      "git_blob_sha": "6886a361f89b5568e52cdc81fe598e2dbfe0ee19",
+      "baseline_delta_status": "external_api_discovery_added"
     },
     {
       "path": "canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json",
@@ -675,6 +698,11 @@
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
       "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
+      "git_blob_sha": "52efeb7ec1d632beb1a726fef4c67a4d380ac5af",
+      "baseline_delta_status": "external_api_discovery_added"
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
@@ -897,6 +925,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
+      "git_blob_sha": "23c1dab9ecee3fb3581246d32082a02e2157042e",
+      "baseline_delta_status": "external_api_discovery_added"
+    },
+    {
       "path": "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "203db018b0d6b7bd0faf60953060c0e271e22f8d",
       "baseline_delta_status": "added"
@@ -912,6 +945,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
+      "git_blob_sha": "d68eba09d84f462d421b9a04dae055362992251b",
+      "baseline_delta_status": "external_api_discovery_added"
+    },
+    {
       "path": "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "872a1306e04fea7205eaec4035e1684234443d48",
       "baseline_delta_status": "added"
@@ -920,6 +958,16 @@
       "path": "canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "cb70cc4a81cddec3f1099894d305f04f0431d477",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "git_blob_sha": "9ff75ab39affa897f820ad4a249590eb8425f103",
+      "baseline_delta_status": "external_api_discovery_added"
+    },
+    {
+      "path": "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "git_blob_sha": "bf647a09dbd26420bc0cff540594612353d6f59a",
+      "baseline_delta_status": "external_api_discovery_added"
     },
     {
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -1083,8 +1131,8 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "f2f1db00f36b183fa3ab7c9bd33289308b5d5400",
-      "baseline_delta_status": "added"
+      "git_blob_sha": "eebeebe9a826972bc90717283dc6692c52e150fd",
+      "baseline_delta_status": "external_api_discovery_integration_update"
     },
     {
       "path": "src/fa3_acestep_gate.py",
@@ -1133,8 +1181,13 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "8791642bfe2b51cba0408316505eaae063111d67",
-      "baseline_delta_status": "mentor_integration_update"
+      "git_blob_sha": "188e5d11b2c55e97a84cf0fc7e2ef555b8f0ffe5",
+      "baseline_delta_status": "external_api_discovery_integration_update"
+    },
+    {
+      "path": "src/fa3_external_api_discovery_gate.py",
+      "git_blob_sha": "bf65258ba9d8fed9e63d41f524ce80f75845a52c",
+      "baseline_delta_status": "external_api_discovery_added"
     },
     {
       "path": "src/fa3_kanboard_gate.py",
@@ -1242,6 +1295,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_external_api_discovery_gate.py",
+      "git_blob_sha": "e569c674f7b696e00e3d0a6e17e0901b0e97dcda",
+      "baseline_delta_status": "external_api_discovery_added"
+    },
+    {
       "path": "tests/test_kanboard_gate.py",
       "git_blob_sha": "ece5cb4f947d9cc8022e0d18089935217f0fbe0e",
       "baseline_delta_status": "added"
@@ -1338,6 +1396,21 @@
     "added_manifest_files": 51
   },
   "projection_notes": [
-    "FA3-MENTOR-001 P0/MUST profile and FA3 Mentor v0.2 reference implementation projection added without capability-count or architectural-authority change."
-  ]
+    "FA3-MENTOR-001 P0/MUST profile and FA3 Mentor v0.2 reference implementation projection added without capability-count or architectural-authority change.",
+    "FA3-EXTERNAL-API-DISCOVERY-001 added as a fail-closed multi-source API/service/MCP discovery projection; external discovery does not authorize registration or execution, capability count remains 143, and no architectural authority is added."
+  ],
+  "external_api_discovery": {
+    "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+    "gate_id": "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
+    "source_ids": [
+      "FA3-SOURCE-PUBLIC-APIS-001",
+      "FA3-SOURCE-PUBLIC-API-LISTS-001",
+      "FA3-SOURCE-API-MEGA-LIST-001"
+    ],
+    "pattern_source_id": "FA3-PATTERN-MEGALIST-001",
+    "semantics": "CONTROLLED_DISCOVERY_ONLY_NO_AUTOMATIC_PROVIDER_OR_MCP_ADMISSION",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  }
 }
