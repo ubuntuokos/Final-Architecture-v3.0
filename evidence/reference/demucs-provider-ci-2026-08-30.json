@@ -9,17 +9,17 @@
   "github": {
     "pull_request": 5,
     "workflow_name": "FA3 Permanent Canonical + Promotion Gate",
-    "workflow_run_id": 33282018413,
-    "workflow_run_number": 20,
-    "tested_head_sha": "894b8bad659dc7c92bb7480227055335d2dbe56e",
-    "canonical_regression_job_id": 99178655079,
+    "workflow_run_id": 33282247283,
+    "workflow_run_number": 36,
+    "tested_head_sha": "35e66ae6655f740230bba86d380eb74c2c69fe11",
+    "canonical_regression_job_id": 99179251557,
     "canonical_regression_conclusion": "success",
-    "promotion_safety_job_id": 99178672493,
+    "promotion_safety_job_id": 99179274715,
     "promotion_safety_conclusion": "success",
-    "artifact_id": 9723260227,
+    "artifact_id": 9723326856,
     "artifact_name": "fa3-static-gate-report",
-    "artifact_digest": "sha256:b222ed55d9167fa2b6a4b0463c5990560ded19920e8b73a329ddb0a7d81e01e7",
-    "note": "CI evidence is scope-limited to executable provider conformance; implementation blob pins are revalidated from the PR checkout and do not constitute current-host evidence."
+    "artifact_digest": "sha256:87f70a68878528b1a059a043849d39652602f1c6e214eb2d26050acc97d6bea5",
+    "note": "CI evidence is scope-limited to executable provider conformance; CURRENT_HOST_PRODUCTION_E2E_PASS requires the real workstation collector and cannot be satisfied by GitHub-hosted CI."
   },
   "implementation_blobs": {
     "src/fa3_demucs_provider.py": "ea1538a8e77582801db447876228ff06e211b9b0",
@@ -31,14 +31,14 @@
   "results": {
     "repository_unit_tests": {
       "status": "PASS",
-      "passed": 64,
-      "total": 64
+      "passed": 65,
+      "total": 65
     },
     "demucs_provider_conformance": {
       "status": "PASS",
       "passed": 13,
       "total": 13,
-      "report_sha256": "2b45acbed45f95437bbf26d47b2e402aa770e1be4d197e8e486220eacd83aa26"
+      "report_sha256": "0e70014d57a8e5a2dec771d44e4e1930916feda382f86c6fc788f78d130cc15f"
     },
     "demucs_canonical_gate": {
       "status": "PASS",
