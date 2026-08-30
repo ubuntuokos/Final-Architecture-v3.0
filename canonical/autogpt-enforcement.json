@@ -139,5 +139,15 @@
   "executable_gate": "./bin/fa3-enforce autogpt",
   "report_path": "reports/autogpt-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 17
+  "regression_case_count": 17,
+  "contract_id": "FA3-AUTOGPT-CONTRACTS-001",
+  "runtime_conformance_id": "FA3-AUTOGPT-RUNTIME-CONFORMANCE-001",
+  "provider_adapter": "src/fa3_autogpt_provider.py",
+  "current_host_collector": "evidence/collect-autogpt-current-host.py",
+  "current_host_wrapper": "bin/fa3-autogpt-current-host.sh",
+  "current_host_workflow": ".github/workflows/fa3-autogpt-current-host.yml",
+  "current_host_receipt": "evidence/receipts/autogpt-current-host.json",
+  "current_host_gate": "./bin/fa3-enforce autogpt-current-host",
+  "current_host_evidence_target": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "github_hosted_ci_may_claim_current_host_pass": false
 }
