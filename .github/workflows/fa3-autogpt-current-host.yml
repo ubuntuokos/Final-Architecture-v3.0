@@ -32,7 +32,6 @@ jobs:
     timeout-minutes: 90
     env:
       FA3_CURRENT_HOST_ASSERTION: "1"
-      FA3_AUTOGPT_STATE_DIR: ${{ runner.temp }}/fa3-autogpt-current-host
     steps:
       - uses: actions/checkout@v4
         with:
