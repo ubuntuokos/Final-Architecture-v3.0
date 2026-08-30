@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.ai-engineering-enforcement.v1",
+  "gate_id": "FA3-AIENG-GATESET-001",
+  "source_id": "FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001",
+  "reference_id": "FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30",
+  "fail_closed": true,
+  "runtime_source_required_for_global_promotion": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "mandatory_rule_count": 11,
+  "p0_invariants": [
+    "REGISTRY_PUBLICATION_NOT_PRODUCTION_ADMISSION",
+    "SKILL_CONTEXT_NOT_EXECUTION_AUTHORITY",
+    "AGENT_ASSERTION_NOT_COMPLETION_EVIDENCE",
+    "ATTRIBUTABLE_EXECUTION_EVIDENCE_REQUIRED",
+    "POSITIVE_NEGATIVE_BOUNDARY_CONFORMANCE_REQUIRED",
+    "RAW_BOUNDARY_AND_ADAPTER_PROJECTION_EVIDENCE_REQUIRED",
+    "INGRESS_ORIGIN_EGRESS_TRACE_REQUIRED",
+    "COMPATIBILITY_DOWNGRADE_FAIL_CLOSED",
+    "EVIDENCE_REDACTION_BEFORE_PERSISTENCE",
+    "ROLLBACK_READINESS_REQUIRED_BEFORE_PROMOTION",
+    "PROGRESSIVE_DISCLOSURE_WITHOUT_AUTHORITY_ESCALATION"
+  ],
+  "rules": [
+    {
+      "id": "FA3-AIENG-P0-001",
+      "name": "registry publication is not production admission",
+      "requirement": "External registry or catalog publication is discovery/publication evidence only. Local FA3 production admission requires immutable identity, integrity/provenance checks and authoritative local policy admission."
+    },
+    {
+      "id": "FA3-AIENG-P0-002",
+      "name": "skill and context are not execution authority",
+      "requirement": "Skill/context availability, capability exposure, authorization, approval, sandboxing and verification are distinct control layers. Activation of one layer MUST NOT imply authority in another."
+    },
+    {
+      "id": "FA3-AIENG-P0-003",
+      "name": "agent assertion is not completion evidence",
+      "requirement": "An agent, builder or provider MUST NOT self-authorize PASS, CONFORMANT, ACCEPTED, PROMOTION_ELIGIBLE or PROMOTED. Such states require deterministic evidence-backed gates independent of the actor claim."
+    },
+    {
+      "id": "FA3-AIENG-P0-004",
+      "name": "attributable execution evidence",
+      "requirement": "Material execution evidence MUST bind command/argv, working directory, actor identity, capability/request identity, input/output artifact identity, exit status and environment identity."
+    },
+    {
+      "id": "FA3-AIENG-P0-005",
+      "name": "positive negative and boundary conformance",
+      "requirement": "Protocol/security-critical conformance requires positive evidence, negative/refusal evidence and boundary evidence. Happy-path PASS alone is insufficient."
+    },
+    {
+      "id": "FA3-AIENG-P0-006",
+      "name": "raw boundary and adapter projection evidence",
+      "requirement": "For boundary-critical protocols, raw wire/boundary evidence and normalized SDK/adapter projection evidence MUST both be available and attributable to the same exchange."
+    },
+    {
+      "id": "FA3-AIENG-P0-007",
+      "name": "ingress origin egress trace",
+      "requirement": "Gateway/proxy transformations that affect security or semantics MUST preserve correlated ingress, origin and egress evidence."
+    },
+    {
+      "id": "FA3-AIENG-P0-008",
+      "name": "compatibility downgrade fail closed",
+      "requirement": "Failure of a preferred protocol/API/security mode MUST NOT automatically authorize legacy fallback. Downgrade requires explicit permission, bounded scope, exact target version and compatibility evidence."
+    },
+    {
+      "id": "FA3-AIENG-P0-009",
+      "name": "redact before persistence",
+      "requirement": "Secrets and sensitive fields MUST be redacted before serialization, hashing, logging, persistence or artifact upload."
+    },
+    {
+      "id": "FA3-AIENG-P0-010",
+      "name": "rollback readiness before promotion",
+      "requirement": "Where rollback is applicable, promotion requires an exact rollback target, immutable artifact identity, health evidence, route-restoration procedure and trusted readiness evidence before deployment."
+    },
+    {
+      "id": "FA3-AIENG-P0-011",
+      "name": "progressive disclosure without authority escalation",
+      "requirement": "Discovery MAY expose minimal metadata, but branch-specific context/resources MUST be materialized only after activation and MUST NOT confer policy, identity, secret, network, host-resource or execution authority."
+    }
+  ],
+  "executable_gate": "./bin/fa3-enforce ai-engineering",
+  "report_path": "reports/ai-engineering-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 11
+}
