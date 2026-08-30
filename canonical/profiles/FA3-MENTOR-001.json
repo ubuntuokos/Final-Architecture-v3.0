@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MENTOR-001",
+  "name": "Adaptive AI Mentoring, Guidance, Learning & Human Capability Development Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_INTERACTION_LEARNING_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-MENTOR-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-MENTOR-LOCAL-001"
+  ],
+  "dependencies": [
+    "FA3-AGENT-EXEC-001",
+    "FA3-KNOWLEDGE-001",
+    "FA3-REGISTRY-001"
+  ],
+  "authority": {
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "mandatory_modes": [
+    "EXPLAIN",
+    "TEACH",
+    "GUIDE",
+    "REVIEW",
+    "CHALLENGE",
+    "PAIR",
+    "OBSERVE",
+    "SAFETY",
+    "ARCHITECTURE",
+    "ADAPTIVE_TUTOR",
+    "EVALUATOR"
+  ],
+  "invariants": [
+    "MENTOR_ADVISORY_ONLY",
+    "TYPED_CENTRAL_MCP_ESCALATION_REQUIRED_FOR_ACTIONABLE_REQUESTS",
+    "MENTOR_DIRECT_TOOL_EXECUTION_FORBIDDEN",
+    "KNOWLEDGE_RAG_READ_PROJECTION_ONLY",
+    "CANONICAL_MEMORY_WRITE_REQUIRES_EXPLICIT_USER_CONSENT_AND_AUTHORITY_ESCALATION",
+    "LOCAL_MASTERY_STATE_NOT_CANONICAL_MEMORY",
+    "LOCAL_EVIDENCE_OUTBOX_NOT_CANONICAL_EVIDENCE_AUTHORITY",
+    "BKT_FSRS_MASTERY_UPDATE_EVIDENCE_BOUND",
+    "PRACTICE_LAB_REQUIRES_AUTHENTICATED_DELEGATED_AGENT_EXECUTION",
+    "SANDBOX_FAIL_CLOSED_NETWORK_DENY_BOUNDED",
+    "DECISION_REGISTRY_CONFORMANCE_MATRIX_DIRECT_LINK",
+    "MENTOR_PROVIDER_CANNOT_CREATE_ARCHITECTURAL_AUTHORITY"
+  ],
+  "implementation": {
+    "canonical_app": "FA3 Mentor",
+    "minimum_version": "0.2.0",
+    "source_distribution": "FA3_MENTOR_RELEASE_ARTIFACT",
+    "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT"
+  },
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_REFERENCE_APP_V0.2.0"
+}
