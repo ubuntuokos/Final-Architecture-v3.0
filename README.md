@@ -307,3 +307,101 @@ Current-host evidence levels are distinct:
 Neither status can be claimed by GitHub-hosted CI.
 
 Runtime policy remains native Linux/KDE: system FFmpeg plus per-provider Python venvs. Conda/Miniforge and a separate Blackhole GUI are not part of this projection.
+
+
+## Whisper STT provider materialization
+
+`FA3-PROVIDER-WHISPER-001` is the first executable local production-candidate provider behind the provider-neutral `FA3-STT-MEDIA-001` contract. It does not become STT authority, model-routing authority or GPU-placement authority. The canonical capability count remains **143** and no new architectural authority is created.
+
+The provider is pinned to `openai/whisper v20250625` / commit `31243bad24cc746f07d4c8bfdd2d974872cb1803`. The default local long-form model is `turbo`; `large-v3`, `medium`, `small`, `base` and `tiny` are registry-allowlisted fallback/quality tiers. Arbitrary checkpoint paths are not accepted by the FA3 production surface.
+
+The execution contract is:
+
+```text
+fa3.stt-media-request.v1
+        ↓
+FA3-PROVIDER-WHISPER-001
+        ↓
+official model allowlist + SHA256 verification
+        ↓
+explicit CPU or HRB-leased cuda:N
+        ↓
+Whisper transcribe + native word timestamps
+        ↓
+timing validation
+        ↓
+fa3.stt-media-result.v1
+```
+
+Upstream Whisper `translate` is intentionally not exposed by this adapter. Translation remains the separate typed FA3 translation stage so source text, source language, target language, provider identity and lineage are not collapsed into the STT result.
+
+CI-safe gates:
+
+```bash
+./bin/fa3-enforce whisper-stt
+./bin/fa3-enforce whisper-stt-provider
+```
+
+The executable provider conformance contains 18 positive/negative cases covering typed request/result, exact prepared-audio hash binding, 16 kHz mono PCM16 enforcement, official model allowlisting, arbitrary checkpoint denial, offline cache behavior, runtime version pinning, HRB CUDA admission, timing validation, word-timestamp preservation and execution lineage.
+
+### Install the provider runtime
+
+No Conda/Miniforge is used:
+
+```bash
+bash bin/fa3-whisper-bootstrap.sh
+```
+
+This creates `.venv-whisper` and installs the exact upstream commit. Override the venv with `FA3_WHISPER_VENV`. Model cache defaults to `${XDG_CACHE_HOME:-$HOME/.cache}/whisper`; set `FA3_WHISPER_MODEL_CACHE` to place it on the workstation AI cache.
+
+Model fetch is **offline by default**. The first trusted fetch must be explicit with `--allow-network-model-fetch`; the downloaded bytes are then checked against the canonical SHA256.
+
+### Blackhole → Whisper → Kdenlive
+
+Use `examples/blackhole-kdenlive-whisper-request.json` as the full pipeline template. Because the provider has its own venv, Blackhole invokes the wrapper explicitly through `bash` while still using `shell=False` at the subprocess boundary.
+
+A current-host full pipeline can be started with:
+
+```bash
+FA3_WHISPER_MODEL_CACHE=/path/to/whisper-cache \
+FA3_WHISPER_ALLOW_NETWORK_MODEL_FETCH=1 \
+bash bin/fa3-blackhole-whisper-e2e.sh \
+  /path/to/blackhole-kdenlive-request.json
+```
+
+After the model is cached, remove `FA3_WHISPER_ALLOW_NETWORK_MODEL_FETCH=1` for offline execution.
+
+The successful chain produces:
+
+```text
+media / Kdenlive timeline range
+→ optional Demucs preprocessing
+→ 16 kHz mono PCM16 STT audio
+→ real Whisper transcription
+→ word/segment timing evidence
+→ validated fa3.stt-media-result.v1
+→ SRT + VTT + caption JSON
+→ Kdenlive subtitle import descriptor
+```
+
+### HRB-backed Whisper CUDA production E2E
+
+For direct provider current-host evidence through a broker-selected GPU:
+
+```bash
+bash bin/fa3-whisper-hrb-production-e2e.sh \
+  /path/to/fa3-stt-media-request.json \
+  --allow-network-model-fetch
+```
+
+The harness issues `AcceleratorExecutionLease@1` with purpose `FA3 Whisper STT production E2E`, maps the broker-selected GPU UUID to the current `cuda:N`, projects `memory_max_bytes` into `torch.cuda.set_per_process_memory_fraction`, runs transcription, and revokes the lease on exit.
+
+The current-host collector writes `evidence/receipts/whisper-stt-current-host.json` only after a real transcription returns at least one validated speech segment. GitHub-hosted CI is explicitly forbidden from claiming this receipt.
+
+Canonical provider-production promotion therefore remains:
+
+```text
+EXECUTABLE_PROVIDER_CONFORMANCE = PASS
+CANONICAL_WHISPER_STT_GATE       = PASS
+CURRENT_HOST_WHISPER_STT_E2E     = required for production promotion
+```

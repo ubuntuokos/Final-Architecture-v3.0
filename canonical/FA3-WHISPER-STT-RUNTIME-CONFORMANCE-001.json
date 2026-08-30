@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.provider-runtime-conformance.v1",
+  "id": "FA3-WHISPER-STT-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-WHISPER-001",
+  "gate_id": "FA3-WHISPER-STT-GATESET-001",
+  "capability_count": 143,
+  "execution_scope": "CI_EXECUTABLE_CONFORMANCE_NOT_CURRENT_HOST",
+  "required_cases": [
+    "typed_request_contract",
+    "audio_hash_mismatch_rejected",
+    "non_wav_input_rejected",
+    "wrong_samplerate_rejected",
+    "stereo_input_rejected",
+    "non_pcm16_input_rejected",
+    "unknown_model_rejected",
+    "arbitrary_checkpoint_path_rejected",
+    "offline_missing_model_rejected",
+    "runtime_version_drift_rejected",
+    "cuda_without_hrb_rejected",
+    "invalid_hrb_purpose_rejected",
+    "invalid_hrb_issuer_rejected",
+    "invalid_hrb_signature_rejected",
+    "segment_overlap_rejected",
+    "translation_task_rejected",
+    "word_timing_preserved",
+    "execution_evidence_complete"
+  ],
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION"
+}

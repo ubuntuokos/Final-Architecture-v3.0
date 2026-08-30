@@ -1,0 +1,124 @@
+{
+  "schema": "fa3.whisper-stt-enforcement.v1",
+  "gate_id": "FA3-WHISPER-STT-GATESET-001",
+  "provider_id": "FA3-PROVIDER-WHISPER-001",
+  "profile_id": "FA3-STT-MEDIA-001",
+  "model_allowlist_id": "FA3-WHISPER-MODEL-ALLOWLIST-001",
+  "mandatory_rule_count": 18,
+  "p0_invariants": [
+    "FA3-WHISPER-P0-001",
+    "FA3-WHISPER-P0-002",
+    "FA3-WHISPER-P0-003",
+    "FA3-WHISPER-P0-004",
+    "FA3-WHISPER-P0-005",
+    "FA3-WHISPER-P0-006",
+    "FA3-WHISPER-P0-007",
+    "FA3-WHISPER-P0-008",
+    "FA3-WHISPER-P0-009",
+    "FA3-WHISPER-P0-010",
+    "FA3-WHISPER-P0-011",
+    "FA3-WHISPER-P0-012",
+    "FA3-WHISPER-P0-013",
+    "FA3-WHISPER-P0-014",
+    "FA3-WHISPER-P0-015",
+    "FA3-WHISPER-P0-016",
+    "FA3-WHISPER-P0-017",
+    "FA3-WHISPER-P0-018"
+  ],
+  "fail_closed": true,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "runtime_provider_required_for_global_promotion": false,
+  "current_host_required_for_provider_production_promotion": true,
+  "rules": [
+    {
+      "id": "FA3-WHISPER-P0-001",
+      "name": "provider-neutral STT contract",
+      "requirement": "Whisper MUST consume fa3.stt-media-request.v1 and produce fa3.stt-media-result.v1 without changing canonical STT semantics."
+    },
+    {
+      "id": "FA3-WHISPER-P0-002",
+      "name": "official model allowlist only",
+      "requirement": "Only registry-allowlisted official Whisper model names may be loaded."
+    },
+    {
+      "id": "FA3-WHISPER-P0-003",
+      "name": "arbitrary checkpoint path forbidden",
+      "requirement": "Arbitrary local .pt checkpoint paths MUST NOT be accepted by the production provider surface."
+    },
+    {
+      "id": "FA3-WHISPER-P0-004",
+      "name": "model artifact hash verification",
+      "requirement": "Model bytes MUST match the canonical SHA256 before execution; post-download bytes MUST be reverified."
+    },
+    {
+      "id": "FA3-WHISPER-P0-005",
+      "name": "runtime version pin",
+      "requirement": "The installed openai-whisper runtime version MUST match the canonical pinned version."
+    },
+    {
+      "id": "FA3-WHISPER-P0-006",
+      "name": "network fetch explicit",
+      "requirement": "Network model fetch MUST be disabled by default and requires explicit per-run opt-in."
+    },
+    {
+      "id": "FA3-WHISPER-P0-007",
+      "name": "explicit device selection",
+      "requirement": "Upstream implicit CUDA auto-selection MUST NOT be used; device is explicit FA3 execution input."
+    },
+    {
+      "id": "FA3-WHISPER-P0-008",
+      "name": "HRB lease required for CUDA",
+      "requirement": "CUDA execution MUST require a valid AcceleratorExecutionLease@1 from the Host Resource Broker."
+    },
+    {
+      "id": "FA3-WHISPER-P0-009",
+      "name": "GPU UUID revalidation",
+      "requirement": "The CUDA ordinal MUST resolve to the same GPU UUID carried by the active HRB lease."
+    },
+    {
+      "id": "FA3-WHISPER-P0-010",
+      "name": "HRB memory budget projection",
+      "requirement": "The HRB memory_max_bytes budget MUST be projected into the PyTorch allocator guard before model inference."
+    },
+    {
+      "id": "FA3-WHISPER-P0-011",
+      "name": "prepared audio hash binding",
+      "requirement": "The request audio_hash MUST equal the actual prepared-audio SHA256 before transcription."
+    },
+    {
+      "id": "FA3-WHISPER-P0-012",
+      "name": "canonical STT audio shape",
+      "requirement": "Production media STT input MUST be 16 kHz mono PCM16 WAV as emitted by FA3-BLACKHOLE-KDENLIVE-001."
+    },
+    {
+      "id": "FA3-WHISPER-P0-013",
+      "name": "timing validation",
+      "requirement": "Provider-native segment timings MUST be finite, nonnegative, increasing and non-overlapping before result promotion."
+    },
+    {
+      "id": "FA3-WHISPER-P0-014",
+      "name": "word timing preservation",
+      "requirement": "When word timestamps are requested, word timing evidence MUST be preserved in the typed result."
+    },
+    {
+      "id": "FA3-WHISPER-P0-015",
+      "name": "translation separation",
+      "requirement": "Whisper upstream translate mode MUST NOT be exposed through this STT provider; translation remains a distinct FA3 typed artifact/stage."
+    },
+    {
+      "id": "FA3-WHISPER-P0-016",
+      "name": "typed shell-free integration",
+      "requirement": "Blackhole MUST invoke the provider through explicit request/result artifacts with shell=False semantics."
+    },
+    {
+      "id": "FA3-WHISPER-P0-017",
+      "name": "no Conda/Miniforge runtime",
+      "requirement": "The provider implementation MUST use a normal per-provider Python venv and MUST NOT require Conda/Miniforge."
+    },
+    {
+      "id": "FA3-WHISPER-P0-018",
+      "name": "execution lineage evidence",
+      "requirement": "Every PASS result MUST identify provider/runtime/model/artifact hash/device/HRB lease and transcription timing evidence."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "fa3.model-allowlist.v1",
+  "id": "FA3-WHISPER-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-WHISPER-001",
+  "policy": "ALLOWLIST_ONLY_FAIL_CLOSED",
+  "upstream_release": "v20250625",
+  "upstream_commit": "31243bad24cc746f07d4c8bfdd2d974872cb1803",
+  "runtime_version": "20250625",
+  "model_source": "OPENAI_OFFICIAL_HASHED_PT",
+  "arbitrary_local_checkpoint_paths_allowed": false,
+  "network_fetch_default": false,
+  "allowed_download_host": "openaipublic.azureedge.net",
+  "models": {
+    "turbo": {
+      "upstream_name": "turbo",
+      "artifact_filename": "large-v3-turbo.pt",
+      "sha256": "aff26ae408abcba5fbf8813c21e62b0941638c5f6eebfb145be0c9839262a19a",
+      "multilingual": true,
+      "production_role": "PRIMARY_LOCAL_LONGFORM",
+      "task_allowlist": [
+        "transcribe"
+      ]
+    },
+    "large-v3": {
+      "upstream_name": "large-v3",
+      "artifact_filename": "large-v3.pt",
+      "sha256": "e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb",
+      "multilingual": true,
+      "production_role": "QUALITY_TIER_RESOURCE_GATED",
+      "task_allowlist": [
+        "transcribe"
+      ]
+    },
+    "medium": {
+      "upstream_name": "medium",
+      "artifact_filename": "medium.pt",
+      "sha256": "345ae4da62f9b3d59415adc60127b97c714f32e89e936602e85993674d08dcb1",
+      "multilingual": true,
+      "production_role": "BALANCED_FALLBACK",
+      "task_allowlist": [
+        "transcribe"
+      ]
+    },
+    "small": {
+      "upstream_name": "small",
+      "artifact_filename": "small.pt",
+      "sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "multilingual": true,
+      "production_role": "LOW_RESOURCE_FALLBACK",
+      "task_allowlist": [
+        "transcribe"
+      ]
+    },
+    "base": {
+      "upstream_name": "base",
+      "artifact_filename": "base.pt",
+      "sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+      "multilingual": true,
+      "production_role": "DEGRADED_RESOURCE_FALLBACK",
+      "task_allowlist": [
+        "transcribe"
+      ]
+    },
+    "tiny": {
+      "upstream_name": "tiny",
+      "artifact_filename": "tiny.pt",
+      "sha256": "65147644a518d12f04e32d6f3b26facc3f8dd46e5390956a9424a650c0ce22b9",
+      "multilingual": true,
+      "production_role": "SMOKE_TEST_ONLY",
+      "task_allowlist": [
+        "transcribe"
+      ]
+    }
+  },
+  "model_loading_invariants": [
+    "Only allowlisted official model names may reach whisper.load_model.",
+    "Arbitrary local checkpoint paths are forbidden on the production adapter surface.",
+    "Cached model bytes must match the canonical SHA256 before offline execution.",
+    "Network model fetch requires an explicit per-run opt-in and is re-hashed after download.",
+    "The installed openai-whisper runtime version must equal the pinned canonical runtime version."
+  ]
+}
