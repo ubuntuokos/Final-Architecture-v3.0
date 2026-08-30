@@ -1,23 +1,10 @@
 name: FA3 Modular Current-Host Production E2E
 
 on:
+  push:
+    branches:
+      - fa3/modular-current-host-exec
   workflow_dispatch:
-    inputs:
-      devices:
-        description: "cpu or explicit gpu:N"
-        required: true
-        default: "cpu"
-        type: string
-      hrb_lease:
-        description: "Absolute HRB lease path on the self-hosted runner (required for gpu:N)"
-        required: false
-        default: ""
-        type: string
-      allow_network_model_fetch:
-        description: "Explicitly permit Hugging Face model fetch when the pinned snapshot is not cached"
-        required: true
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -26,35 +13,34 @@ jobs:
   modular-current-host:
     name: modular-current-host / production-e2e
     runs-on: [self-hosted, linux, x64, fa3-current-host]
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
 
-      - name: Verify pre-materialized runtime
+      - name: Materialize isolated stable MAX/Mojo runtime
         shell: bash
         run: |
-          test -x "${FA3_MODULAR_VENV:-$GITHUB_WORKSPACE/.venv-modular}/bin/max"
-          test -x "${FA3_MODULAR_VENV:-$GITHUB_WORKSPACE/.venv-modular}/bin/mojo"
+          set -euo pipefail
+          export PATH="$HOME/.local/bin:$PATH"
+          if ! command -v uv >/dev/null 2>&1; then
+            python3 -m pip install --user uv
+          fi
+          export FA3_MODULAR_VENV="${RUNNER_TEMP}/fa3-modular-venv"
+          echo "FA3_MODULAR_VENV=$FA3_MODULAR_VENV" >> "$GITHUB_ENV"
+          bash bin/fa3-modular-bootstrap.sh
 
-      - name: Run production E2E collector and gate
+      - name: Run real CPU MAX inference + Mojo compile/execute E2E
         shell: bash
-        env:
-          FA3_MODULAR_VENV: ${{ vars.FA3_MODULAR_VENV }}
         run: |
-          args=(
-            --model-revision 9e6c6ccf47cd318696e137d381a7ded8fe4df09f
-            --devices "${{ inputs.devices }}"
-            --evidence-channel stable
-          )
-          if [[ -n "${{ inputs.hrb_lease }}" ]]; then
-            args+=(--hrb-lease "${{ inputs.hrb_lease }}")
-          fi
-          if [[ "${{ inputs.allow_network_model_fetch }}" == "true" ]]; then
-            args+=(--allow-network-model-fetch)
-          fi
-          bash bin/fa3-modular-current-host.sh "${args[@]}"
+          set -euo pipefail
+          export PATH="$FA3_MODULAR_VENV/bin:$HOME/.local/bin:$PATH"
+          bash bin/fa3-modular-current-host.sh \
+            --model-revision 9e6c6ccf47cd318696e137d381a7ded8fe4df09f \
+            --devices cpu \
+            --evidence-channel stable \
+            --allow-network-model-fetch
 
       - name: Upload current-host evidence
         if: always()
