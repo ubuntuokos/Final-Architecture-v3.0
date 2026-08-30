@@ -252,5 +252,32 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             td.cleanup()
 
 
+    def test_developer_agent_coordination_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["developer_agent_coordination_reconciliation"]["contract_id"] = "INVALID"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-024" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_developer_agent_coordination_ci_e2e_cannot_claim_current_host_production(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["developer_agent_coordination_reconciliation"]["current_host_production_claim"] = True
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-024" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+
 if __name__ == "__main__":
     unittest.main()
