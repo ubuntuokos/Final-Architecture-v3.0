@@ -7,7 +7,7 @@ import fa3_autogpt_gate as a
 
 class AutoGPTGateTests(unittest.TestCase):
  def _copy(self):
-  td=tempfile.TemporaryDirectory();root=Path(td.name);shutil.copytree(ROOT/"canonical",root/"canonical");return td,root
+  td=tempfile.TemporaryDirectory();root=Path(td.name);shutil.copytree(ROOT/"canonical",root/"canonical");(root/"evidence").mkdir();shutil.copy2(ROOT/"evidence/evidence-registry.json",root/"evidence/evidence-registry.json");return td,root
  def _write(self,p,o): p.write_text(json.dumps(o,indent=2)+"\n",encoding="utf-8")
  def test_baseline_gate_passes(self):
   r=a.gate(ROOT);self.assertEqual(r["result"],"PASS",r);self.assertEqual((r["regressions"]["passed"],r["regressions"]["total"]),(17,17));self.assertEqual(r["authority_scan"]["result"],"PASS");self.assertFalse(r["runtime_provider_required"])
@@ -48,7 +48,19 @@ class AutoGPTGateTests(unittest.TestCase):
    r=a.gate(root);self.assertEqual(r["result"],"FAIL");self.assertTrue(any(x["code"]=="AUTOGPT-REF-007" for x in r["reference"]["findings"]))
   finally: td.cleanup()
  def test_runtime_admission_is_fail_closed_and_not_promoted(self):
-  o=json.loads((ROOT/"canonical/autogpt-runtime-admission.json").read_text());self.assertEqual(o["status"],"NOT_ADMITTED");self.assertTrue(o["fail_closed"]);self.assertTrue(o["current_host_evidence_required"]);self.assertTrue(o["license_admission_required"])
+  o=json.loads((ROOT/"canonical/autogpt-runtime-admission.json").read_text());self.assertEqual(o["status"],"CURRENT_HOST_CANDIDATE_ADMITTED");self.assertTrue(o["fail_closed"]);self.assertTrue(o["current_host_evidence_required"]);self.assertTrue(o["license_admission_required"]);self.assertEqual(o["technical_license_boundary_admission"]["legal_conclusion"],"NOT_ASSERTED")
  def test_reference_is_not_promotion_evidence(self):
   o=json.loads((ROOT/"canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json").read_text());self.assertFalse(o["promotion_evidence"]);self.assertFalse(o["floating_master_allowed_as_promotion_evidence"]);self.assertEqual(o["latest_release_commit"],a.REFERENCE_RELEASE_COMMIT)
+
+ def test_current_host_gate_rejects_synthetic_receipt(self):
+  td=tempfile.TemporaryDirectory();root=Path(td.name)
+  try:
+   p=root/"evidence/receipts/autogpt-current-host.json";p.parent.mkdir(parents=True)
+   p.write_text(json.dumps({
+    "schema":"fa3.autogpt-current-host-receipt.v1","provider_id":a.PROVIDER_ID,
+    "capability_id":"CAP-028","status":"PASS","evidence_level":a.EVIDENCE_LEVEL,
+    "synthetic":True,"collector_mode":"REAL_CURRENT_HOST_ROOTLESS_AUTOGPT_SERVICE"
+   })+"\n")
+   self.assertEqual(a.current_host_gate(root)["result"],"FAIL")
+  finally: td.cleanup()
 if __name__=="__main__": unittest.main()
