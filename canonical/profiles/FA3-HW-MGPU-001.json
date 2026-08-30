@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HW-MGPU-001",
+  "name": "Heterogeneous Multi-GPU Placement & Accelerator Binding Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-HW-001"
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-HW-MGPU-CONTRACTS-001"
+  ],
+  "authority": {
+    "admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "resource_enforcement": "systemd+cgroup-v2",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "optional_reference_providers": [
+    "switcheroo-control"
+  ],
+  "invariants": [
+    "HETEROGENEOUS_PLACEMENT_IS_MANDATORY_BASELINE",
+    "DISPLAY_SAFETY_RESERVE_EXPLICIT",
+    "LEASE_TO_RUNTIME_BINDING_EVIDENCED",
+    "PLACEMENT_PROVIDER_CANNOT_REPLACE_HRB_AUTHORITY",
+    "FALLBACK_AND_PREEMPTION_EXPLICIT",
+    "NUMA_TOPOLOGY_MUST_BE_CONSIDERED_WHEN_RELEVANT"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

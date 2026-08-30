@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-WEB-AI-001",
+  "name": "Browser-Resident AI Execution, Capability Discovery & Hybrid Fallback Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-WEB-AI-CONTRACTS-001"
+  ],
+  "authority": {
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_privacy_fallback": "FA3-AUTH-SECURITY-GOV-001",
+    "host_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "BROWSER_RUNTIME_IS_EXECUTION_DOMAIN_NOT_AUTHORITY",
+    "CAPABILITY_DISCOVERY_TYPED_AND_VERSIONED",
+    "LOCAL_REMOTE_HYBRID_FALLBACK_EXPLICIT_AND_POLICY_GATED",
+    "NO_SILENT_DATA_EGRESS_ON_FALLBACK",
+    "BROWSER_MODEL_IDENTITY_AND_PROVENANCE_REQUIRED",
+    "BROWSER_ADAPTER_CANNOT_BYPASS_CENTRAL_GATEWAY_OR_ROUTER"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

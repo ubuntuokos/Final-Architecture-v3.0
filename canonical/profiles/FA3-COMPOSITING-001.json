@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-COMPOSITING-001",
+  "name": "Provider-Neutral Node-Based Compositing & Render Projection Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-COMPOSITING-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-COMPOSITING-CONTRACTS-001"
+  ],
+  "authority": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "CANONICAL_COMPOSITING_INTENT_PROVIDER_NEUTRAL",
+    "PROVIDER_PROJECT_FORMAT_IS_PROJECTION_NOT_CANONICAL_IR",
+    "COLORSPACE_AND_MEDIA_BINDINGS_EXPLICIT",
+    "RENDER_OUTPUT_HASH_AND_PROVENANCE_REQUIRED",
+    "COMPOSITING_PROVIDER_NOT_EDITORIAL_TIMELINE_AUTHORITY"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

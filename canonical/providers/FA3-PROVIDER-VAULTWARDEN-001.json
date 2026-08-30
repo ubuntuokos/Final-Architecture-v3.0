@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-VAULTWARDEN-001",
+  "name": "Vaultwarden",
+  "status": "ACCEPTED_WITH_CONSTRAINTS",
+  "parent_profile": "FA3-SCS-001",
+  "provider_role": "CREDENTIAL_VAULT_AND_VAULT_BACKED_SECRET_RETRIEVAL_PROVIDER",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "SELECTED_SECRET_VAULT_PROJECTION_WHEN_ENABLED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "legacy_aliases": [
+    "VALT-VAULTWARDEN",
+    "FA3-SEC-IDENTITY-VAULTWARDEN"
+  ],
+  "invariants": [
+    "NO_DUAL_WRITE_OR_SHADOW_VAULT",
+    "NO_SILENT_PROVIDER_SUBSTITUTION",
+    "SECRET_VALUES_NEVER_ENTER_LOGS_TRACES_PROMPTS_EVIDENCE_OR_MODEL_CONTEXT",
+    "SECRET_REFERENCE_AND_SHORT_LIVED_RETRIEVAL_ONLY",
+    "EVERY_ACCESS_POLICY_GATED_AND_EVIDENCE_LINKED",
+    "NO_RUNTIME_SECRET_PERSISTENCE_BEYOND_LEASE_TTL"
+  ],
+  "prohibited_authorities": [
+    "identity_lifecycle",
+    "session_issuance",
+    "token_or_credential_minting",
+    "policy_decision",
+    "capability_grant",
+    "workflow_execution"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-NEMOTRON-001",
+  "name": "NVIDIA-NeMo/Nemotron",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-REGISTRY-001",
+  "provider_role": "REFERENCE_MODEL_LIFECYCLE_PROVIDER_AND_ARCHITECTURAL_PATTERN_SOURCE",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "mandatory_patterns": [
+    "TYPED_LIFECYCLE_STEPS",
+    "EXPLICIT_CONSUMES_PRODUCES_ARTIFACTS",
+    "DATASET_CHECKPOINT_FINAL_MODEL_LINEAGE",
+    "REPRODUCIBLE_RECIPE_IDENTITY",
+    "EVALUATION_IS_PROMOTION_STAGE",
+    "QUANTIZATION_CREATES_NEW_MODEL_ARTIFACT",
+    "BACKEND_INDEPENDENT_SERVING_PROJECTION",
+    "HARDWARE_RESOURCE_REQUIREMENTS_DECLARED",
+    "MODEL_VARIANT_COMPATIBILITY_EVIDENCE",
+    "FAIL_CLOSED_PROMOTION_WITHOUT_LINEAGE_OR_EVALUATION"
+  ]
+}

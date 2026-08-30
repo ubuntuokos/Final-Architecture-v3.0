@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HOST-RESOURCE-BROKER-001",
+  "name": "Host Resource Broker",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "existing_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-HW-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001"
+  ],
+  "authority_scope": [
+    "admission",
+    "placement",
+    "reservation",
+    "lease"
+  ],
+  "non_authority_scope": [
+    "provider execution semantics",
+    "model routing",
+    "security policy"
+  ],
+  "implementation_status": "CURRENT_HOST_PRODUCTION_E2E_PASS_COMPONENT_SCOPE"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-3D-GEOM-001",
+  "name": "Production Geometry Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-GEOMETRY-CONTRACTS-001"
+  ],
+  "authority_role": "SOLE_CANONICAL_GEOMETRY_SEMANTIC_AUTHORITY",
+  "children": [
+    "FA3-MESH-GEN-001"
+  ],
+  "invariants": [
+    "SINGLE_GEOMETRY_ROOT",
+    "GEOMETRY_IDENTITY_TOPOLOGY_VALIDATION_LIFECYCLE_INTERCHANGE_DEFINED_ONLY_HERE",
+    "CHILD_PROFILES_REFERENCE_PARENT_CONTRACTS",
+    "NO_PARALLEL_GEOMETRY_AUTHORITY"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
+  "name": "Tencent/AI-Infra-Guard",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-SCS-001",
+  "provider_role": "OPTIONAL_AI_INFRA_SECURITY_SCANNER_REDTEAM_REFERENCE_PROVIDER_AND_PATTERN_SOURCE",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "invariants": [
+    "SCANNER_FINDING_IS_NOT_SECURITY_AUTHORIZATION",
+    "SCAN_OUTPUT_IS_NOT_PROMOTION_EVIDENCE_WITHOUT_CANONICAL_ATTESTATION",
+    "SCANNER_TOOL_EXECUTION_REQUIRES_SCOPED_AUTHORIZATION",
+    "REDTEAM_MUTATIONS_REQUIRE_ISOLATION_AND_APPROVAL",
+    "EGRESS_AND_SHELL_CAPABILITIES_MEDIATED",
+    "FINDINGS_MUST_BE_ATTRIBUTABLE_TO_PINNED_SCANNER_IDENTITY"
+  ],
+  "prohibited_authorities": [
+    "security_policy",
+    "authorization",
+    "MCP",
+    "host_resource",
+    "evidence",
+    "secrets"
+  ]
+}

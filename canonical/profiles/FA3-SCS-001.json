@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SCS-001",
+  "name": "Software & Model Supply-Chain Security, Provenance and Trust Overlay",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-SCS-CONTRACTS-001"
+  ],
+  "authority": {
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "IMMUTABLE_SOURCE_AND_ARTIFACT_IDENTITY_REQUIRED",
+    "HASH_SIGNATURE_LICENSE_PROVENANCE_ARE_DISTINCT_ATTESTATIONS",
+    "PACKAGE_OR_MODEL_AVAILABILITY_IS_NOT_EXECUTION_AUTHORIZATION",
+    "DEPENDENCY_LOCK_AND_BUILD_RECIPE_IDENTITY_REQUIRED_WHEN_BUILDING",
+    "TRUST_DECISIONS_FAIL_CLOSED",
+    "PROVENANCE_CONTINUES_ACROSS_DERIVED_AND_QUANTIZED_ARTIFACTS"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

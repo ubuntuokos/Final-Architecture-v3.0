@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MUSE-IMAGE-001",
+  "name": "Muse Image",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-IMGGEN-001",
+  "provider_role": "OPTIONAL_IMAGE_GENERATION_REFERENCE_PROVIDER",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "invariants": [
+    "PROVIDER_NATIVE_PROMPT_OR_WORKFLOW_NOT_CANONICAL",
+    "TYPED_REFERENCE_MASK_COMPOSITION_CONTROL_PROJECTED_FROM_FA3_INTENT",
+    "CAPABILITY_LOSS_REPORTED",
+    "PROVENANCE_REQUIRED"
+  ],
+  "prohibited_authorities": [
+    "model_routing",
+    "capability_mediation",
+    "artifact_identity",
+    "security"
+  ]
+}

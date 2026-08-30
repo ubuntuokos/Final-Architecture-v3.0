@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.evidence.reference.v1",
+  "id": "FA3-EVID-HRB-CUDA-CURRENT-HOST-2026-08-28",
+  "date": "2026-08-28",
+  "scope": "FA3-HOST-RESOURCE-BROKER-001 <-> FA3-CUDA-PY-001 component closure",
+  "status": "CURRENT_HOST_PRODUCTION_E2E_PASS_SECURITY_REGRESSION_PASS_EVIDENCE_REGISTRY_PASS_PROMOTION_ELIGIBLE",
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "evidence": {
+    "hrb_conformance_sha256": "4249bde6a6312f5264d308ec222c72e9847fdf90dcf04be5392ab555d6ddf3f4",
+    "cuda_broker_auth_security_regression_sha256": "b94a1c083f8bd0f25fae358a8be84515a6c04e1f8a6f03152af4bef399ad4f5b",
+    "authenticated_cuda_production_e2e": {
+      "status": "PASS",
+      "sha256": null,
+      "hash_recovery_status": "NOT_RESTATED_IN_CURRENT_RECONCILIATION_CONTEXT"
+    }
+  },
+  "invariants": [
+    "HRB_IS_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+    "CUDA_PYTHON_IS_EXECUTION_PROVIDER_NOT_AUTHORITY",
+    "COMPONENT_PROMOTION_ELIGIBLE_DOES_NOT_EQUAL_GLOBAL_PROMOTED"
+  ]
+}

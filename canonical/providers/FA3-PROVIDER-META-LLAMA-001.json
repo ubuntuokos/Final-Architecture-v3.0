@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-META-LLAMA-001",
+  "name": "meta-llama / llama-models",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-SCS-001",
+  "provider_role": "MODEL_FAMILY_SPECIFICATION_AND_ARTIFACT_REFERENCE_PROVIDER",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "invariants": [
+    "MODEL_FAMILY_AND_VARIANT_IDENTITY_TYPED",
+    "WEIGHTS_CONFIG_TOKENIZER_LICENSE_PROVENANCE_BOUND_TO_MODEL_ARTIFACT",
+    "QUANTIZATION_DISTINCT_ARTIFACT",
+    "BACKEND_INDEPENDENT_SERVING_PROJECTION",
+    "MODEL_VARIANT_COMPATIBILITY_EVIDENCE_REQUIRED",
+    "HOME_PC_RESOURCE_ADMISSION_REQUIRED",
+    "UNREALISTIC_CLUSTER_SCALE_RECIPES_EXCLUDED_FROM_LOCAL_BASELINE"
+  ],
+  "prohibited_authorities": [
+    "model_routing",
+    "provider_routing",
+    "artifact_registry",
+    "host_resource",
+    "security",
+    "promotion"
+  ]
+}
