@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d7da217aed8bc44f37bf7b785051379958048bf4",
-    "pre_projection_root_tree_sha": "d7b32be97ae0b6932d087ccc69d0ff1992a6f3ef",
-    "pre_projection_canonical_tree_sha": "4b1220a445ba709cdd003b1d43d684706135e250",
-    "commits_ahead_of_v3_0_11_conformance_commit": 65,
-    "total_post_baseline_commits": 65,
+    "pre_projection_head_sha": "719518061ada1703bf2735a3ecde595e15428c23",
+    "pre_projection_root_tree_sha": "332e13f6043cddee0c1f6d62b2855eb15af94467",
+    "pre_projection_canonical_tree_sha": "653ef046e4c50a34ca24a9b7038d6d59dfad9900",
+    "commits_ahead_of_v3_0_11_conformance_commit": 66,
+    "total_post_baseline_commits": 66,
     "delta_file_count": 227,
     "delta_added_files": 224,
     "delta_modified_files": 3,
@@ -1240,8 +1240,8 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "db22416b5738e3fe50238f4f9cd906c2bfb74172",
-      "baseline_delta_status": "projection_metadata_coherence_update"
+      "git_blob_sha": "6a8674685db453d0aaf4c5df874b296fc1708835",
+      "baseline_delta_status": "kanboard_release_inventory_reconciliation_update"
     },
     {
       "path": "src/fa3_terax_gate.py",
@@ -1345,8 +1345,8 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "2f0c962b44792c615c0f7588b30a773b2a30f81a",
-      "baseline_delta_status": "projection_metadata_coherence_update"
+      "git_blob_sha": "52031d239ca295f996687dbd4cde242bdda1cbf2",
+      "baseline_delta_status": "kanboard_release_inventory_reconciliation_update"
     },
     {
       "path": "tests/test_terax_gate.py",
@@ -1407,7 +1407,8 @@
   "projection_notes": [
     "FA3-MENTOR-001 P0/MUST profile and FA3 Mentor v0.2 reference implementation projection added without capability-count or architectural-authority change.",
     "FA3-EXTERNAL-API-DISCOVERY-001 added as a fail-closed multi-source API/service/MCP discovery projection; external discovery does not authorize registration or execution, capability count remains 143, and no architectural authority is added.",
-    "Release projection metadata coherence is anchored to the pre-maintenance canonical main snapshot and fail-closed against Git lineage, tree identity, delta counts, overlay counts and exact inventory record sets."
+    "Release projection metadata coherence is anchored to the pre-maintenance canonical main snapshot and fail-closed against Git lineage, tree identity, delta counts, overlay counts and exact inventory record sets.",
+    "FA3-PROVIDER-KANBOARD-001 globally reconciled into the unified release projection: provider/decision/upstream-reference/PASS-evidence records, mandatory reference gate and complete manifest coverage are fail-closed while capability count remains 143 and architectural-authority delta remains 0."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -1419,6 +1420,19 @@
     ],
     "pattern_source_id": "FA3-PATTERN-MEGALIST-001",
     "semantics": "CONTROLLED_DISCOVERY_ONLY_NO_AUTOMATIC_PROVIDER_OR_MCP_ADMISSION",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "kanboard_reconciliation": {
+    "provider_id": "FA3-PROVIDER-KANBOARD-001",
+    "decision_id": "FA3-DEC-KANBOARD-2026-08-30",
+    "gate_id": "FA3-KANBOARD-GATESET-001",
+    "evidence_path": "evidence/reference/kanboard-ci-2026-08-30.json",
+    "classification": "OPTIONAL_REFERENCE_PROVIDER",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "release_projection_inclusion": "PROVIDER_DECISION_REFERENCE_EVIDENCE_GATE_MANIFEST_AND_OVERLAY_INVENTORY",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

@@ -16,6 +16,16 @@ EXPECTED_SOURCE_GRAPH_SHA256 = "0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d7
 EXPECTED_SOURCE_GRAPH_NODES = 1615
 EXPECTED_SOURCE_GRAPH_EDGES = 6144
 SNAPSHOT_SEMANTICS = "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR"
+KANBOARD_PROVIDER_ID = "FA3-PROVIDER-KANBOARD-001"
+KANBOARD_GATE_ID = "FA3-KANBOARD-GATESET-001"
+KANBOARD_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-KANBOARD-001.json"
+KANBOARD_DECISION_PATH = "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json"
+KANBOARD_REFERENCE_PATH = "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json"
+KANBOARD_EVIDENCE_PATH = "evidence/reference/kanboard-ci-2026-08-30.json"
+KANBOARD_ENFORCEMENT_PATH = "canonical/kanboard-enforcement.json"
+KANBOARD_GATE_PATH = "src/fa3_kanboard_gate.py"
+KANBOARD_TEST_PATH = "tests/test_kanboard_gate.py"
+KANBOARD_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -223,6 +233,66 @@ def gate(root: Path):
     if projection.get("manifest_entry_count") != len(manifest) or len(manifest_paths) != len(manifest):
         findings.append(finding("FA3-RELEASE-PROJECTION-008", "Projection manifest cardinality/uniqueness mismatch"))
 
+    kanboard = projection.get("kanboard_reconciliation", {})
+    inventory = projection.get("overlay_inventory", {})
+    required_kanboard_manifest_paths = {
+        KANBOARD_PROVIDER_PATH,
+        KANBOARD_DECISION_PATH,
+        KANBOARD_REFERENCE_PATH,
+        KANBOARD_EVIDENCE_PATH,
+        KANBOARD_ENFORCEMENT_PATH,
+        KANBOARD_GATE_PATH,
+        KANBOARD_TEST_PATH,
+    }
+    missing_overlay_members = []
+    for key, required in {
+        "provider_records": KANBOARD_PROVIDER_PATH,
+        "decision_records": KANBOARD_DECISION_PATH,
+        "upstream_reference_records": KANBOARD_REFERENCE_PATH,
+        "reference_evidence_records": KANBOARD_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_overlay_members.append({"inventory": key, "path": required})
+
+    kanboard_provider = loadj(root / KANBOARD_PROVIDER_PATH) if (root / KANBOARD_PROVIDER_PATH).is_file() else {}
+    kanboard_evidence = loadj(root / KANBOARD_EVIDENCE_PATH) if (root / KANBOARD_EVIDENCE_PATH).is_file() else {}
+    kanboard_manifest_missing = sorted(required_kanboard_manifest_paths - manifest_paths)
+    if (
+        kanboard.get("provider_id") != KANBOARD_PROVIDER_ID
+        or kanboard.get("gate_id") != KANBOARD_GATE_ID
+        or kanboard.get("classification") != "OPTIONAL_REFERENCE_PROVIDER"
+        or kanboard.get("reconciliation_status") != KANBOARD_RECONCILIATION_STATUS
+        or kanboard.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or kanboard.get("new_capabilities") != 0
+        or kanboard.get("new_architectural_authorities") != 0
+        or kanboard.get("capability_count_after") != CAPABILITY_COUNT
+        or KANBOARD_GATE_ID not in projection_gates
+        or KANBOARD_GATE_ID not in policy_gates
+        or missing_overlay_members
+        or kanboard_manifest_missing
+        or kanboard_provider.get("id") != KANBOARD_PROVIDER_ID
+        or kanboard_provider.get("canonical_root") is not False
+        or kanboard_provider.get("architectural_authority") is not False
+        or kanboard_provider.get("new_capability") is not False
+        or kanboard_provider.get("capability_count") != CAPABILITY_COUNT
+        or "OPTIONAL_PROVIDER" not in kanboard_provider.get("classification", [])
+        or kanboard_evidence.get("provider_id") != KANBOARD_PROVIDER_ID
+        or kanboard_evidence.get("gate_id") != KANBOARD_GATE_ID
+        or kanboard_evidence.get("status") != "PASS"
+        or kanboard_evidence.get("new_capabilities") != 0
+        or kanboard_evidence.get("new_architectural_authorities") != 0
+        or kanboard_evidence.get("capability_count_after") != CAPABILITY_COUNT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-021",
+                "Kanboard global projection/inventory reconciliation invariant mismatch",
+                reconciliation_status=kanboard.get("reconciliation_status"),
+                missing_overlay_members=missing_overlay_members,
+                missing_manifest_paths=kanboard_manifest_missing,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -428,6 +498,7 @@ def gate(root: Path):
             "snapshot_anchor": snapshot_head,
             "snapshot_commit_count": facts.get("commit_count") if facts else None,
             "snapshot_delta_files": facts.get("delta_file_count") if facts else None,
+            "kanboard_reconciliation": kanboard.get("reconciliation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
