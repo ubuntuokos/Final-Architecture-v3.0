@@ -9,6 +9,7 @@ from fa3_demucs_provider import run_executable_conformance as demucs_provider_co
 from fa3_demucs_current_host_gate import gate as demucs_current_host_gate
 from fa3_acestep_gate import gate as ace_step_gate
 from fa3_blackhole_kdenlive_gate import gate as blackhole_kdenlive_gate
+from fa3_kdenlive_editorial_gate import gate as kdenlive_editorial_gate
 
 OK=0
 BLOCKED=2
@@ -91,6 +92,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-020","ACE-Step mandatory provider gate is not bound into global enforcement policy"))
     if "FA3-BLACKHOLE-KDENLIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-022","Blackhole/Kdenlive integration gate is not bound into global enforcement policy"))
+    if "FA3-KDENLIVE-EDITORIAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-024","Kdenlive editorial canonical gate is not bound into global enforcement policy"))
 
     if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
@@ -143,13 +146,16 @@ def static_check(root:Path):
     ace_ref=ace_step_gate(root)
     if ace_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-021","ACE-Step mandatory provider invariant gate failed",ace_step_gate=ace_ref))
+    kdenlive_ref=kdenlive_editorial_gate(root)
+    if kdenlive_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-025","Kdenlive mandatory editorial gate failed",kdenlive_editorial_gate=kdenlive_ref))
     blackhole_ref=blackhole_kdenlive_gate(root)
     if blackhole_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-023","Blackhole/Kdenlive mandatory integration gate failed",blackhole_kdenlive_gate=blackhole_ref))
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -239,7 +245,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","runtime","terax","kaneo","demucs","demucs-provider","demucs-current-host","acestep","blackhole-kdenlive","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","runtime","terax","kaneo","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -259,6 +265,8 @@ def main():
             x=demucs_current_host_gate(root,require_production=True); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acestep":
             x=ace_step_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="kdenlive-editorial":
+            x=kdenlive_editorial_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="blackhole-kdenlive":
             x=blackhole_kdenlive_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
