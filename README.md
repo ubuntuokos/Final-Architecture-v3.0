@@ -183,3 +183,98 @@ The collector writes `evidence/receipts/demucs-current-host.json` plus runtime e
 ```
 
 accepts only `CURRENT_HOST_PRODUCTION_E2E_PASS`, rejects synthetic input, verifies the execution-evidence digest, requires safetensors + class-allowlist proof, and for CUDA requires the canonical HRB lease schema/issuer, broker `VALID` result, GPU UUID revalidation, and lease-derived allocator guard. A synthetic collector run may be useful as a smoke test but cannot claim production current-host PASS.
+
+
+## Blackhole / Kdenlive long-form transcription integration
+
+`FA3-STT-001` and its child `FA3-STT-MEDIA-001` are now materialized as provider-neutral speech-recognition profiles. `FA3-BLACKHOLE-KDENLIVE-001` is a non-root integration projection over existing `CAP-017` and `CAP-121`; it creates no new capability or architectural authority, so the canonical count remains **143**.
+
+The executable bridge is `src/fa3_blackhole_kdenlive.py`. It implements:
+
+```text
+Kdenlive media / timeline zone
+        ↓
+FFmpeg PCM24 stereo extraction
+        ↓
+optional FA3 Demucs vocals preprocessing
+        ↓
+FFmpeg 16 kHz mono PCM16 normalization
+        ↓
+provider-neutral STT request/result artifacts
+        ↓
+timestamp validation + timeline offset projection
+        ↓
+SRT + VTT + canonical caption JSON
+        ↓
+Kdenlive subtitle import descriptor
+```
+
+Demucs is **optional preprocessing only**. STT remains valid when `preprocessing = "none"`; when Demucs is explicitly requested, a Demucs failure is fail-closed and there is no silent raw-audio fallback.
+
+The integration deliberately does **not** modify `.kdenlive` project XML. It produces sidecar subtitle artifacts for Kdenlive's supported subtitle-import path. This keeps human editorial state and project mutation inside Kdenlive rather than giving the Blackhole worker direct project-write authority.
+
+CI gate:
+
+```bash
+./bin/fa3-enforce blackhole-kdenlive
+```
+
+The gate validates canonical registry relationships and runs the executable integration conformance suite.
+
+### Prepare a timeline/media range
+
+Copy and edit `examples/blackhole-kdenlive-request.json`, then:
+
+```bash
+bash bin/fa3-blackhole-kdenlive prepare \
+  --request examples/blackhole-kdenlive-request.json
+```
+
+The output directory receives:
+
+- `decoded-audio.wav`
+- optional `demucs/vocals.wav` and Demucs execution evidence
+- `stt-input.wav` (16 kHz mono PCM16)
+- `blackhole-media-handoff.json`
+
+### Provider-neutral STT command contract
+
+For a full pipeline, `stt_command` must contain both `{request}` and `{result}` placeholders. The command is executed with `shell=False`. The STT worker receives a `fa3.stt-media-request.v1` JSON and must return `fa3.stt-media-result.v1` bound to the exact prepared-audio SHA256.
+
+Run:
+
+```bash
+bash bin/fa3-blackhole-kdenlive pipeline \
+  --request examples/blackhole-kdenlive-request.json
+```
+
+A complete run additionally produces:
+
+- `blackhole-subtitles.srt`
+- `blackhole-subtitles.vtt`
+- `blackhole-caption-track.json`
+- `kdenlive-subtitle-import.json`
+- `blackhole-kdenlive-pipeline-result.json`
+
+Import the generated SRT/VTT through Kdenlive's subtitle import function. No direct project XML write is performed.
+
+### CUDA Demucs preprocessing through HRB
+
+The Blackhole integration reuses the existing Demucs per-provider venv and canonical Host Resource Broker contract. It does not select a GPU itself.
+
+```bash
+FA3_BLACKHOLE_PYTHON="$PWD/.venv-demucs/bin/python" \
+bash bin/fa3-blackhole-kdenlive-hrb-e2e.sh \
+  /path/to/blackhole-kdenlive-request.json
+```
+
+The harness requests a broker-selected accelerator lease, maps the lease GPU UUID back to the current CUDA ordinal, injects the canonical HRB verifier into the Demucs subrequest, runs the current-host collector, and revokes the lease on exit.
+
+Current-host evidence levels are distinct:
+
+- `CURRENT_HOST_MEDIA_PREP_PASS`: media/range extraction and STT handoff completed, but no STT backend was executed.
+- `CURRENT_HOST_KDENLIVE_BLACKHOLE_E2E_PASS`: STT result validation plus SRT/VTT/Kdenlive import projection also completed.
+
+Neither status can be claimed by GitHub-hosted CI.
+
+Runtime policy remains native Linux/KDE: system FFmpeg plus per-provider Python venvs. Conda/Miniforge and a separate Blackhole GUI are not part of this projection.
