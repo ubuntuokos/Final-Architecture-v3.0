@@ -185,6 +185,35 @@ The collector writes `evidence/receipts/demucs-current-host.json` plus runtime e
 accepts only `CURRENT_HOST_PRODUCTION_E2E_PASS`, rejects synthetic input, verifies the execution-evidence digest, requires safetensors + class-allowlist proof, and for CUDA requires the canonical HRB lease schema/issuer, broker `VALID` result, GPU UUID revalidation, and lease-derived allocator guard. A synthetic collector run may be useful as a smoke test but cannot claim production current-host PASS.
 
 
+## Kdenlive canonical editorial baseline
+
+`FA3-KDENLIVE-EDITORIAL-001` and `FA3-PROVIDER-KDENLIVE-001` consolidate the FA3 Kdenlive decisions as a non-root projection over existing `CAP-121` and `CAP-126`. Kdenlive is the **primary Linux/Kubuntu human NLE and final-assembly frontend**, but it is **not a hard backend dependency**, does not own orchestration or timeline semantics, and adds no capability or architectural authority. The canonical capability count remains **143**.
+
+The automated editing representation is **OpenTimelineIO (OTIO)**. The canonical flow is:
+
+```text
+AI / agent editorial intent
+        ↓
+canonical OTIO timeline artifact
+        ↓
+Kdenlive import / human refinement / finishing
+        ↓
+evidence-backed export or delivery
+```
+
+Automation is **API-first**. Native OTIO import/export is the preferred interchange path; typed/versioned Kdenlive/MLT or D-Bus surfaces may be used only when capability-discovered. GUI automation is fallback-only and requires explicit unavailable-surface evidence, an auditable/reproducible action trace, pre/post project identity evidence, and HITL approval for critical mutations. External direct `.kdenlive` XML mutation remains forbidden.
+
+Deterministic media inspection/transformation uses explicit `ffprobe` / `ffmpeg` commands with artifact lineage. Linux/Kubuntu/KDE Plasma/Wayland remains the first-class desktop projection.
+
+Canonical gate:
+
+```bash
+./bin/fa3-enforce kdenlive-editorial
+```
+
+The upstream reference record is `canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json`; it records Kdenlive 26.04 native OTIO import/export and supported subtitle import as reference evidence only, never as current-host promotion evidence.
+
+
 ## Blackhole / Kdenlive long-form transcription integration
 
 `FA3-STT-001` and its child `FA3-STT-MEDIA-001` are now materialized as provider-neutral speech-recognition profiles. `FA3-BLACKHOLE-KDENLIVE-001` is a non-root integration projection over existing `CAP-017` and `CAP-121`; it creates no new capability or architectural authority, so the canonical count remains **143**.
