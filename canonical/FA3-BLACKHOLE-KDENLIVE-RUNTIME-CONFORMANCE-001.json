@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.blackhole-kdenlive-runtime-conformance.v1",
+  "id": "FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-BLACKHOLE-KDENLIVE-001",
+  "integration_version": "1.0.0",
+  "capability_projection": [
+    "CAP-017",
+    "CAP-121"
+  ],
+  "implementation": {
+    "adapter": "src/fa3_blackhole_kdenlive.py",
+    "gate": "src/fa3_blackhole_kdenlive_gate.py",
+    "cli": "bin/fa3-blackhole-kdenlive",
+    "current_host_collector": "evidence/collect-blackhole-kdenlive-current-host.py"
+  },
+  "ci_conformance": {
+    "command": "./bin/fa3-enforce blackhole-kdenlive",
+    "required_result": "PASS",
+    "current_host_claim_forbidden": true
+  },
+  "media_pipeline": [
+    "input media / Kdenlive timeline range",
+    "FFmpeg PCM24 stereo extraction",
+    "optional FA3 Demucs vocals preprocessing",
+    "FFmpeg 16kHz mono PCM16 STT normalization",
+    "provider-neutral STT request/result artifact exchange",
+    "subtitle time validation and timeline-offset projection",
+    "SRT/VTT/JSON sidecar artifacts",
+    "Kdenlive subtitle import descriptor"
+  ],
+  "current_host_levels": {
+    "preparation_only": "CURRENT_HOST_MEDIA_PREP_PASS",
+    "full_stt_and_subtitle_projection": "CURRENT_HOST_KDENLIVE_BLACKHOLE_E2E_PASS"
+  },
+  "restrictions": {
+    "direct_kdenlive_project_xml_mutation": false,
+    "silent_demucs_fallback": false,
+    "demucs_required_for_stt": false,
+    "conda_miniforge": false,
+    "separate_blackhole_gui": false
+  },
+  "global_promotion_dependency": false
+}
