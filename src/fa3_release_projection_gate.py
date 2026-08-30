@@ -64,6 +64,7 @@ DAC_GATE_PATH = "src/fa3_developer_agent_coordination_gate.py"
 DAC_TEST_PATH = "tests/test_developer_agent_coordination.py"
 DAC_COLLECTOR_PATH = "evidence/collect-developer-agent-coordination-e2e.py"
 DAC_EXAMPLE_PATH = "examples/developer-agent-coordination-request.json"
+DAC_RUNNER_PATH = "bin/fa3-developer-agent-coordination-e2e"
 DAC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_REQUIRED"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
@@ -502,6 +503,7 @@ def gate(root: Path):
         DAC_TEST_PATH,
         DAC_COLLECTOR_PATH,
         DAC_EXAMPLE_PATH,
+        DAC_RUNNER_PATH,
         "canonical/profiles/FA3-AGENT-EXEC-001.json",
     }
     missing_dac_overlay_members = []
