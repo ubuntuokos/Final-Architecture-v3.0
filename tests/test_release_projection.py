@@ -61,6 +61,17 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_unmanifested_release_surface_fails_closed(self):
+        td, dst = self._copy_repo()
+        try:
+            path = dst / "canonical/providers/FA3-PROVIDER-UNMANIFESTED-TEST.json"
+            path.write_text("{}\n", encoding="utf-8")
+            report = gate(dst)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-014" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -14,6 +14,9 @@ EXPECTED_SOURCE_GRAPH_SHA256 = "0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d7
 EXPECTED_SOURCE_GRAPH_NODES = 1615
 EXPECTED_SOURCE_GRAPH_EDGES = 6144
 
+_MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
+_MUTABLE_DIR_NAMES = {"__pycache__"}
+
 
 def loadj(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
@@ -32,6 +35,19 @@ def git_blob_sha(path: Path) -> str:
 
 def finding(code: str, message: str, **extra):
     return {"code": code, "severity": "P0", "message": message, **extra}
+
+
+def is_mutable_runtime_path(rel: str) -> bool:
+    parts = Path(rel).parts
+    if not parts:
+        return True
+    if parts[0] in _MUTABLE_TOP_LEVEL:
+        return True
+    if any(part in _MUTABLE_DIR_NAMES for part in parts):
+        return True
+    if rel.startswith("evidence/receipts/") and rel != "evidence/receipts/.gitkeep":
+        return True
+    return False
 
 
 def gate(root: Path):
@@ -102,7 +118,8 @@ def gate(root: Path):
         findings.append(finding("FA3-RELEASE-PROJECTION-007", "Projection/global mandatory reference gate set mismatch"))
 
     manifest = projection.get("manifest", [])
-    if projection.get("manifest_entry_count") != len(manifest) or len({m.get("path") for m in manifest}) != len(manifest):
+    manifest_paths = {m.get("path") for m in manifest}
+    if projection.get("manifest_entry_count") != len(manifest) or len(manifest_paths) != len(manifest):
         findings.append(finding("FA3-RELEASE-PROJECTION-008", "Projection manifest cardinality/uniqueness mismatch"))
 
     missing = []
@@ -153,6 +170,33 @@ def gate(root: Path):
     ):
         findings.append(finding("FA3-RELEASE-PROJECTION-013", "Promotion safety semantics weakened"))
 
+    tracked_surface = []
+    for path in root.rglob("*"):
+        if not path.is_file():
+            continue
+        rel = path.relative_to(root).as_posix()
+        if rel == PROJECTION_PATH or is_mutable_runtime_path(rel):
+            continue
+        tracked_surface.append(rel)
+    unmanifested = sorted(set(tracked_surface) - manifest_paths)
+    if unmanifested:
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-014",
+                "Repository release-surface contains unmanifested file",
+                count=len(unmanifested),
+                sample=unmanifested[:20],
+            )
+        )
+
+    scope = projection.get("manifest_scope", {})
+    if (
+        scope.get("repository_release_surface_complete") is not True
+        or scope.get("self_excluded_path") != PROJECTION_PATH
+        or scope.get("mutable_runtime_evidence_receipts_excluded") is not True
+    ):
+        findings.append(finding("FA3-RELEASE-PROJECTION-015", "Manifest scope contract mismatch"))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -163,6 +207,7 @@ def gate(root: Path):
         "findings": findings,
         "details": {
             "manifest_entries": len(manifest),
+            "tracked_release_surface_files": len(tracked_surface),
             "canonical_capability_count": CAPABILITY_COUNT,
             "mandatory_reference_gates": len(projection_gates),
             "source_graph_sha256": EXPECTED_SOURCE_GRAPH_SHA256,

@@ -154,7 +154,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 156,
+  "manifest_entry_count": 160,
   "manifest": [
     {
       "path": ".github/workflows/fa3-modular-current-host.yml",
@@ -200,6 +200,11 @@
       "path": "bin/fa3-demucs-hrb-production-e2e.sh",
       "git_blob_sha": "22afacd773b6c0063b92edbb1e996716e6061914",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-enforce",
+      "git_blob_sha": "78efaead3832a083e72d7863c845b4376bded4d5",
+      "baseline_delta_status": "baseline_anchor_unchanged"
     },
     {
       "path": "bin/fa3-modular-bootstrap.sh",
@@ -255,6 +260,11 @@
       "path": "canonical/buzz-enforcement.json",
       "git_blob_sha": "b12d9e5ef8a645df4e6a2c8a36221fb2f62ace9a",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/conformance-matrix.csv",
+      "git_blob_sha": "b1494375c2e158bcec2b6c29264db9053cdebc14",
+      "baseline_delta_status": "baseline_anchor_unchanged"
     },
     {
       "path": "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
@@ -415,6 +425,11 @@
       "path": "canonical/FA3-WHISPER-STT-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/geometry-closure.json",
+      "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
+      "baseline_delta_status": "baseline_anchor_unchanged"
     },
     {
       "path": "canonical/kanboard-enforcement.json",
@@ -590,6 +605,11 @@
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/source-graph-attestation.json",
+      "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
+      "baseline_delta_status": "baseline_anchor_unchanged"
     },
     {
       "path": "canonical/terax-enforcement.json",
@@ -818,8 +838,8 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "778901d0ac1ad11aca36e6f906bf1d830fbadb26",
-      "baseline_delta_status": "added_by_projection_materialization"
+      "git_blob_sha": "d9c6fe9024dc48b3400a561eff1e3785be070adc",
+      "baseline_delta_status": "projection_control_update"
     },
     {
       "path": "src/fa3_terax_gate.py",
@@ -908,8 +928,8 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "de5a7d601f67d612e9ea8485ae44d422ea829356",
-      "baseline_delta_status": "added_by_projection_materialization"
+      "git_blob_sha": "7565b9a91b5aae92dda8de507e92b7ccbe1652f6",
+      "baseline_delta_status": "projection_control_update"
     },
     {
       "path": "tests/test_terax_gate.py",
@@ -940,6 +960,21 @@
   "self_hash_policy": {
     "excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "reason": "SELF_REFERENTIAL_HASH_EXCLUSION",
-    "protection": "Projection content is validated by the executable release-projection gate and branch CI; every other projected file is Git-blob pinned."
+    "protection": "Projection content is validated by the executable release-projection gate and branch CI; all other committed repository release-surface files are Git-blob pinned."
+  },
+  "manifest_scope": {
+    "repository_release_surface_complete": true,
+    "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+    "mutable_runtime_evidence_receipts_excluded": true,
+    "mutable_runtime_exclusions": [
+      ".git/**",
+      "reports/**",
+      "acceptance/**",
+      "promotion/**",
+      "**/__pycache__/**",
+      ".pytest_cache/**",
+      ".mypy_cache/**",
+      "evidence/receipts/* except evidence/receipts/.gitkeep"
+    ]
   }
 }
