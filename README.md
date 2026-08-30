@@ -658,3 +658,52 @@ bash bin/fa3-presenton-current-host.sh \
 ```
 
 The collector requires the active rootless Quadlet and pinned OCI digest, proves unauthenticated denial, performs real asynchronous generation, downloads and hashes the PPTX, re-exports the same presentation to PDF, renders every PDF page with Poppler, and then submits the receipt to `./bin/fa3-enforce presenton-current-host`. CI or synthetic files cannot claim `CURRENT_HOST_PRODUCTION_E2E_PASS`; until that real-host run succeeds, the CAP-033 registry entry and Presenton production E2E remain `PENDING_CURRENT_HOST`.
+
+
+## FA3-native multi-agent developer coordination reference runtime v0.1
+
+`FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001` extends the existing mandatory `FA3-AGENT-EXEC-001` profile; it is **not a new capability or architectural authority**. The canonical capability count remains **143**. The contract family defines typed `AgentTask`, `AgentDelegation`, `WorkspaceLease`, `AgentMessage`, `AgentResult`, `HumanEscalation`, `CircuitBreakerAction`, `IntegrationIntent`, provider-adapter descriptors, coordination events and execution evidence.
+
+The reference runtime is `FA3-DEVELOPER-AGENT-COORDINATION-REF-RUNTIME-001 v0.1.0` in `src/fa3_developer_agent_coordination.py`. It proves the provider-neutral coordination mechanics with real local Git worktrees and real subprocess workers while using a deterministic built-in fixture adapter rather than claiming Codex/Claude/Gemini production admission.
+
+The positive E2E flow is:
+
+```text
+typed task/delegation
+        ↓
+3 isolated Git worktrees
+        ↓
+atomic mailbox + independent cursor
+        ↓
+3 separate worker processes
+        ↓
+uncommitted worker diffs
+        ↓
+path-conflict check
+        ↓
+single FA3 Integration committer
+        ↓
+integration commit + evidence
+        ↓
+complete process/worktree/message cleanup
+```
+
+The executable negative cases deny or terminate: duplicate mutating workspaces, worker direct commits to `main`, message-hop overflow, destructive action without human approval, cleanup leaks, provider authority escalation and overlapping worker diffs.
+
+Run the reference E2E evidence collector:
+
+```bash
+chmod +x bin/fa3-developer-agent-coordination-e2e
+./bin/fa3-developer-agent-coordination-e2e
+```
+
+It writes `evidence/receipts/developer-agent-coordination-ci-e2e.json` and `reports/developer-agent-coordination-e2e-report.json`. The receipt status is `CI_REFERENCE_RUNTIME_E2E_PASS`; it is explicitly **not** current-host production evidence for any external agent provider.
+
+Run the permanent gate:
+
+```bash
+./bin/fa3-enforce developer-agent-coordination
+PYTHONPATH=src python -m unittest tests.test_developer_agent_coordination -v
+```
+
+The provider adapter boundary exposes spawn/assign/observe/interrupt/constrain/terminate/collect-result semantics so future Codex, Claude Code, Gemini CLI, OpenCode, AutoGPT or Munder Difflin adapters can be attached without giving those providers FA3 authorization, tool-mediation, host-resource, evidence or repository-integration authority.
