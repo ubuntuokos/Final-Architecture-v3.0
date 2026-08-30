@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AGENT-EXEC-001",
   "name": "Agent Execution, Delegation, Tool Mediation & Evolvable Policy Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -12,7 +12,8 @@
   "new_architectural_authority": false,
   "capability_count": 143,
   "contracts": [
-    "FA3-AGENT-EXEC-CONTRACTS-001"
+    "FA3-AGENT-EXEC-CONTRACTS-001",
+    "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
   ],
   "authority": {
     "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
@@ -27,7 +28,13 @@
     "MUTATIONS_REQUIRE_AUTHORIZATION_OR_APPROVAL",
     "BOUNDED_AGENT_EXECUTION",
     "PROJECT_INSTRUCTIONS_ARE_UNTRUSTED_SCOPED_CONTEXT",
-    "AGENT_PROVIDER_CANNOT_CREATE_AUTHORITY"
+    "AGENT_PROVIDER_CANNOT_CREATE_AUTHORITY",
+    "ISOLATED_MUTATING_AGENT_WORKSPACES",
+    "SINGLE_INTEGRATION_COMMITTER",
+    "ATOMIC_IDEMPOTENT_AGENT_MESSAGING",
+    "BOUNDED_AGENT_MESSAGE_HOPS",
+    "PROGRESSIVE_AGENT_CIRCUIT_BREAKER",
+    "COORDINATION_REFERENCE_E2E_REQUIRED"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_PLUS_REFERENCE_COORDINATION_RUNTIME_V0_1"
 }
