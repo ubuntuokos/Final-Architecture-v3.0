@@ -7,6 +7,7 @@
   "decision": "IMPLEMENT",
   "profile_id": "FA3-BLACKHOLE-KDENLIVE-001",
   "parent_stt_profile": "FA3-STT-MEDIA-001",
+  "kdenlive_editorial_profile": "FA3-KDENLIVE-EDITORIAL-001",
   "demucs_provider_id": "FA3-PROVIDER-DEMUCS-001",
   "capability_projection": [
     "CAP-017",
@@ -27,8 +28,12 @@
     "STT_PROVIDER_COMMAND_TYPED_AND_SHELL_FALSE",
     "MEDIA_AND_DERIVED_AUDIO_HASH_LINEAGE_REQUIRED",
     "NO_CONDA_OR_MINIFORGE_RUNTIME",
-    "SEPARATE_BLACKHOLE_GUI_NOT_REQUIRED"
-  ],
+    "SEPARATE_BLACKHOLE_GUI_NOT_REQUIRED",
+    "OPTIONAL_DIARIZATION_AND_TRANSLATION_SUPPORTED",
+    "FORCED_ALIGNMENT_TYPED_ARTIFACT_SUPPORTED",
+    "CAPTION_QC_EVIDENCE_REQUIRED_BEFORE_PRODUCTION_PROJECTION",
+    "OTIO_CANONICAL_TIMELINE_IR_PRESERVED"
+],
   "authority_boundaries": {
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
@@ -39,5 +44,14 @@
       "FA3-MEDIA-FINISH-001",
       "FA3-TEMPORAL-001"
     ]
+  },
+  "long_form_requirements": {
+    "diarization": "OPTIONAL_TYPED_ARTIFACT",
+    "word_segment_timing": "REQUIRED_VALIDATION",
+    "forced_alignment": "REQUIRED_WHEN_NATIVE_TIMING_INSUFFICIENT_TYPED_DISTINCT_ARTIFACT",
+    "subtitle_segmentation": "REQUIRED",
+    "translation": "OPTIONAL_WITH_SOURCE_TARGET_PROVIDER_LINEAGE",
+    "caption_qc": "REQUIRED_BEFORE_PRODUCTION_PROJECTION",
+    "timeline_projection": "OTIO_CANONICAL_KDENLIVE_HUMAN_EDITORIAL"
   }
 }
