@@ -1085,11 +1085,13 @@
       "blocking": true,
       "provider_projection_status": {
         "provider_id": "FA3-PROVIDER-AUTOGPT-001",
-        "classification": "OPTIONAL_REFERENCE_PROVIDER",
-        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED",
-        "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
-        "current_host_runtime_evidence": "NOT_CLAIMED",
-        "global_runtime_promotion_effect": "NONE_WHILE_DISABLED",
+        "classification": "OPTIONAL_PRODUCTION_CANDIDATE_PROVIDER",
+        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED_CURRENT_HOST_PENDING",
+        "contract_id": "FA3-AUTOGPT-CONTRACTS-001",
+        "runtime_conformance_id": "FA3-AUTOGPT-RUNTIME-CONFORMANCE-001",
+        "runtime_activation_status": "CURRENT_HOST_ADMISSION_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "global_runtime_promotion_effect": "NONE_UNTIL_PROVIDER_CURRENT_HOST_PASS_AND_GLOBAL_ACCEPTANCE_REMAINS_FAIL_CLOSED",
         "reconciliation_evidence": "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
       }
     },
