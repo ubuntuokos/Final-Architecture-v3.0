@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-CODEGRAFF-001",
+  "name": "Codegraff-derived patterns",
+  "status": "REFERENCE_PATTERN_SOURCE_ONLY",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_role": "OPTIONAL_AGENT_EXECUTION_PATTERN_SOURCE",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "NOT_A_RUNTIME_DEPENDENCY",
+  "global_runtime_promotion_required_when_disabled": false,
+  "prohibited_authorities": [
+    "tool_mediation",
+    "security_policy",
+    "host_resource",
+    "evidence",
+    "workflow_authority"
+  ]
+}

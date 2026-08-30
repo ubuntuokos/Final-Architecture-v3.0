@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-NATRON-001",
+  "name": "NatronGitHub/Natron",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-COMPOSITING-001",
+  "provider_role": "OPTIONAL_NODE_BASED_COMPOSITING_REFERENCE_PROVIDER_AND_PATTERN_SOURCE",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "invariants": [
+    "OPENFX_PLUGIN_SURFACE_NOT_CANONICAL_AUTHORITY",
+    "NATRON_PROJECT_FORMAT_IS_PROVIDER_PROJECTION",
+    "RENDER_PROVENANCE_REQUIRED",
+    "PLUGIN_ADMISSION_REQUIRES_SUPPLY_CHAIN_EVIDENCE"
+  ],
+  "prohibited_authorities": [
+    "editorial_timeline",
+    "artifact_identity",
+    "security",
+    "host_resource"
+  ]
+}

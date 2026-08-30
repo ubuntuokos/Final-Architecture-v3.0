@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-CAVEMAN-001",
+  "name": "JuliusBrussee/caveman",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "provider_role": "OPTIONAL_CONTEXT_COMPRESSION_REFERENCE_PROVIDER_AND_PATTERN_SOURCE",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "mandatory_patterns": [
+    "RECOVER_BEFORE_LOSSY_TRANSFORM",
+    "CANONICAL_ORIGINAL_PRESERVED",
+    "FAIL_TO_PASS_THROUGH",
+    "PROVIDER_NEUTRAL_PROJECTION",
+    "RECORD_BEFORE_OPTIMIZE",
+    "QUALITY_EVALUATION_GATE",
+    "MEASUREMENT_PROVENANCE",
+    "BOUNDED_SENSITIVE_RECOVERY_STORAGE",
+    "CACHE_STABILITY_VOLATILITY_EXPLICIT",
+    "SEMANTIC_ROLLBACK",
+    "UNKNOWN_NO_TRANSFORM"
+  ],
+  "prohibited_authorities": [
+    "routing",
+    "MCP",
+    "security",
+    "cache-policy",
+    "artifact",
+    "knowledge"
+  ]
+}

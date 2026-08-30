@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MYNA-001",
+  "name": "Myna",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-STT-001",
+  "provider_role": "OPTIONAL_DESKTOP_DICTATION_AND_STT_REFERENCE_PROVIDER",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "scope": [
+    "desktop_dictation",
+    "local_speech_recognition",
+    "secure_text_injection_reference"
+  ],
+  "out_of_scope": [
+    "long_form_media_engine",
+    "diarization_authority",
+    "translation_authority",
+    "timeline_alignment_authority"
+  ]
+}

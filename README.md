@@ -592,3 +592,8 @@ PYTHONPATH=src python -m unittest tests.test_autogpt_gate -v
 
 AutoGPT runtime activation remains **NOT_PROMOTED_REFERENCE_ONLY** and is not required for global FA3 promotion while disabled. `autogpt_platform/` is PolyForm Shield 1.0.0 while Classic and repository content outside `autogpt_platform/` are MIT; production runtime/code use therefore requires explicit component-license admission plus separate current-host conformance. Architectural pattern absorption does not copy AutoGPT Platform source code into the FA3 canonical core.
 
+
+
+## Cross-conversation canonical reconciliation (2026-08-30)
+
+The repository now materializes previously accepted FA3 decisions that were present in conversation/specification state but absent from the GitHub canonical SSOT. The reconciliation preserves the 143-capability baseline, creates no new architectural authority, keeps provider/reference implementations authority-free, and does not claim global runtime promotion. Permanent regression coverage: `tests/test_conversation_reconciliation.py` and `canonical/conversation-reconciliation-enforcement.json`.
