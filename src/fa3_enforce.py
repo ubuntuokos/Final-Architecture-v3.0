@@ -9,7 +9,7 @@ from fa3_buzz_gate import gate as buzz_gate
 from fa3_xcmd_gate import gate as xcmd_gate
 from fa3_ai_engineering_gate import gate as ai_engineering_gate
 from fa3_external_api_discovery_gate import gate as external_api_discovery_gate
-from fa3_autogpt_gate import gate as autogpt_gate
+from fa3_autogpt_gate import gate as autogpt_gate, current_host_gate as autogpt_current_host_gate
 from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_modular_gate import gate as modular_gate
 from fa3_modular_runtime import run_executable_conformance as modular_provider_conformance
@@ -312,7 +312,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","munder-difflin","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","autogpt-current-host","munder-difflin","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -338,6 +338,8 @@ def main():
             x=external_api_discovery_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="autogpt":
             x=autogpt_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="autogpt-current-host":
+            x=autogpt_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="munder-difflin":
             x=munder_difflin_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular":
