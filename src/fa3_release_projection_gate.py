@@ -133,6 +133,36 @@ def _git_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
     )
 
 
+def _snapshot_release_surface_equivalent_except_projection(
+    root: Path, snapshot_head: str, current_head: str = "HEAD"
+) -> bool:
+    proc = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(root),
+            "diff",
+            "--quiet",
+            snapshot_head,
+            current_head,
+            "--",
+            ".",
+            f":(exclude){PROJECTION_PATH}",
+        ],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode == 0:
+        return True
+    if proc.returncode == 1:
+        return False
+    raise RuntimeError(
+        "git diff --quiet snapshot/current release surface failed "
+        f"with rc={proc.returncode}: {proc.stderr.strip()}"
+    )
+
+
 def _diff_rows(root: Path, snapshot_head: str):
     raw = _git(root, "diff", "--name-status", "--find-renames", BASE_COMMIT, snapshot_head)
     rows = []
@@ -176,6 +206,8 @@ def collect_git_snapshot_facts(root: Path, snapshot_head: str):
         "canonical_tree_sha": _git(root, "rev-parse", f"{snapshot_head}:canonical"),
         "baseline_is_ancestor": _git_is_ancestor(root, BASE_COMMIT, snapshot_head),
         "snapshot_is_ancestor_of_current_head": _git_is_ancestor(root, snapshot_head, "HEAD"),
+        "snapshot_release_surface_equivalent_except_projection":
+            _snapshot_release_surface_equivalent_except_projection(root, snapshot_head, "HEAD"),
         "commit_count": int(_git(root, "rev-list", "--count", f"{BASE_COMMIT}..{snapshot_head}")),
         "delta_file_count": len(rows),
         "delta_added_files": added,
@@ -659,10 +691,14 @@ def gate(root: Path):
         )
 
     if facts is not None:
+        lineage_preserved = (
+            facts.get("snapshot_is_ancestor_of_current_head") is True
+            or facts.get("snapshot_release_surface_equivalent_except_projection") is True
+        )
         if (
             facts.get("snapshot_head_sha") != snapshot_head
             or facts.get("baseline_is_ancestor") is not True
-            or facts.get("snapshot_is_ancestor_of_current_head") is not True
+            or not lineage_preserved
         ):
             findings.append(
                 finding(
@@ -670,6 +706,10 @@ def gate(root: Path):
                     "Source snapshot lineage mismatch",
                     snapshot_head=snapshot_head,
                     current_head=facts.get("current_head_sha"),
+                    snapshot_is_ancestor=facts.get("snapshot_is_ancestor_of_current_head"),
+                    release_surface_equivalent_except_projection=facts.get(
+                        "snapshot_release_surface_equivalent_except_projection"
+                    ),
                 )
             )
 
@@ -763,6 +803,10 @@ def gate(root: Path):
             "snapshot_anchor": snapshot_head,
             "snapshot_commit_count": facts.get("commit_count") if facts else None,
             "snapshot_delta_files": facts.get("delta_file_count") if facts else None,
+            "snapshot_is_ancestor": facts.get("snapshot_is_ancestor_of_current_head") if facts else None,
+            "snapshot_release_surface_equivalent_except_projection": facts.get(
+                "snapshot_release_surface_equivalent_except_projection"
+            ) if facts else None,
             "kanboard_reconciliation": kanboard.get("reconciliation_status"),
             "presenton_reconciliation": presenton.get("reconciliation_status"),
             "presenton_current_host_production_e2e": presenton.get("current_host_production_e2e"),
