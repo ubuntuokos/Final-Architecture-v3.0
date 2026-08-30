@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODULAR-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "modular/modular",
+  "decision": "ACCEPT",
+  "provider_ids": [
+    "FA3-PROVIDER-MAX-001",
+    "FA3-PROVIDER-MOJO-001"
+  ],
+  "gate_id": "FA3-MODULAR-GATESET-001",
+  "canonical_classification": "OPTIONAL AI serving / accelerator-execution provider family + STRONG architectural pattern source, split into MAX serving/execution and Mojo portable-kernel projections.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "canonical_root_created": false,
+  "mandatory_rule_ids": [
+    "MODULAR_EXECUTION_TOPOLOGY_NOT_RESOURCE_AUTHORITY",
+    "MODULAR_LOCAL_SCHEDULER_NOT_GLOBAL_AUTHORITY",
+    "MODULAR_PORTABLE_SEMANTICS_TARGET_ARTIFACT_IDENTITY_SEPARATE",
+    "MODULAR_TARGET_SPECIALIZATION_SEMANTICS_PRESERVED",
+    "MODULAR_MODEL_VARIANT_COMPATIBILITY_EVIDENCE_REQUIRED",
+    "MODULAR_COMPILED_ARTIFACT_LINEAGE_REQUIRED",
+    "MODULAR_WARM_CACHE_SCOPED_IDENTITY_REQUIRED",
+    "MODULAR_CACHE_OWNERSHIP_LIFECYCLE_EXPLICIT",
+    "MODULAR_CANCELLATION_RELEASES_RESOURCES",
+    "MODULAR_SHARED_CACHE_SECURITY_BOUNDARIES_REQUIRED",
+    "MODULAR_BENCHMARK_TOPOLOGY_BOUND_EVIDENCE",
+    "MODULAR_OPENAI_API_PROJECTION_NOT_ROUTING_AUTHORITY",
+    "MODULAR_STABLE_NIGHTLY_EVIDENCE_SEPARATE",
+    "MODULAR_SOURCE_AVAILABILITY_NOT_REDISTRIBUTION_AUTHORIZATION"
+  ],
+  "mandatory_constraints": [
+    "MAX and Mojo SHALL remain provider projections under existing FA3 authorities.",
+    "Execution topology SHALL NOT confer host-resource admission or placement authority.",
+    "Provider-local scheduling SHALL NOT confer global FA3 scheduling authority.",
+    "Compiled and warm-cache artifacts SHALL carry explicit reproducible lineage.",
+    "Shared cache state SHALL preserve security/tenant boundaries and cancellation SHALL release resources.",
+    "Stable and nightly provider evidence SHALL be independent.",
+    "Source availability SHALL NOT be treated as redistribution authorization."
+  ],
+  "upstream_snapshot_commit": "f08ac164e2743513f60e46621de6dc4a5a5a30e7"
+}
