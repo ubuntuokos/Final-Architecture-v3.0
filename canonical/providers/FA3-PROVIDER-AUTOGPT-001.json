@@ -2,8 +2,8 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-AUTOGPT-001",
   "name": "Significant-Gravitas/AutoGPT",
-  "status": "ACCEPTED_REFERENCE",
-  "provider_role": "AGENTIC_WORKFLOW_WORKBENCH_EXECUTION_REFERENCE_PROVIDER",
+  "status": "ACCEPTED_OPTIONAL_PRODUCTION_CANDIDATE",
+  "provider_role": "AGENTIC_WORKFLOW_WORKBENCH_EXECUTION_PROVIDER",
   "classification": [
     "OPTIONAL_PROVIDER",
     "AGENTIC_WORKFLOW_PROVIDER",
@@ -22,7 +22,7 @@
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "runtime_activation_requires_current_host_conformance": true,
-  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "runtime_activation_status": "CURRENT_HOST_ADMISSION_PENDING",
   "upstream_reference": "FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30",
   "runtime_admission": "FA3-AUTOGPT-RUNTIME-ADMISSION-001",
   "integration_patterns": [
@@ -73,5 +73,31 @@
     "FA3_ARTIFACT_TRUST_AUTHORITY",
     "FA3_CANONICAL_REGISTRY_AUTHORITY"
   ],
-  "normative_constraint": "AutoGPT SHALL NOT become an FA3 identity, authentication, authorization, secrets, MCP/capability-gateway, model-routing, durable-workflow, evidence/provenance, network-egress, host-resource, developer-execution, artifact-trust or canonical-registry authority."
+  "normative_constraint": "AutoGPT SHALL NOT become an FA3 identity, authentication, authorization, secrets, MCP/capability-gateway, model-routing, durable-workflow, evidence/provenance, network-egress, host-resource, developer-execution, artifact-trust or canonical-registry authority.",
+  "contract_id": "FA3-AUTOGPT-CONTRACTS-001",
+  "runtime_conformance_id": "FA3-AUTOGPT-RUNTIME-CONFORMANCE-001",
+  "projects_existing_capabilities": [
+    "CAP-028"
+  ],
+  "runtime_profile": {
+    "profile_id": "FA3_AUTOGPT_CONSTRAINED_BLOCK_RUNTIME_V1",
+    "source_commit": "f49bcca95ed327396d8ebdd0bdf7810de482ac1a",
+    "allowed_block_ids": [
+      "1ff065e9-88e8-4358-9d82-8dc91f622ba9"
+    ],
+    "rootless": true,
+    "loopback_only": true,
+    "external_network_egress": false,
+    "gpu_device_passthrough": false,
+    "frontend": false,
+    "scheduler": false,
+    "executor_service": false,
+    "marketplace_execution": false
+  },
+  "current_host_evidence": {
+    "required": true,
+    "evidence_level_target": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "receipt_path": "evidence/receipts/autogpt-current-host.json",
+    "canonical_evidence_status": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  }
 }
