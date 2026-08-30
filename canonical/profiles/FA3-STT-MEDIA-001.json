@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-STT-MEDIA-001",
   "name": "Long-Form Media Transcription, Alignment & Caption Projection Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-LONGFORM-MEDIA-STT-USED",
@@ -33,8 +33,10 @@
     "optional source separation",
     "speech recognition",
     "optional diarization",
-    "word/segment alignment",
+    "word/segment timing validation",
+    "forced alignment when provider-native timing is absent or insufficient",
     "subtitle segmentation",
+    "optional translation with source/target language provenance",
     "caption quality control",
     "timeline/editor projection"
   ],
@@ -42,6 +44,10 @@
     "Source separation is optional preprocessing and is never STT authority.",
     "STT must remain executable with source separation disabled.",
     "Requested preprocessing failures must fail closed; silent fallback is forbidden.",
-    "Timeline offsets and timebase must be explicit and preserved through subtitle projection."
+    "Timeline offsets and timebase must be explicit and preserved through subtitle projection.",
+    "Diarization is optional but, when requested, speaker-turn evidence must be preserved.",
+    "Forced alignment is a distinct typed artifact and cannot silently overwrite provider-native timing.",
+    "Translation is optional and must preserve source text, source language, target language, provider identity and lineage.",
+    "Caption QC evidence is required before production subtitle/timeline projection is promoted."
   ]
 }
