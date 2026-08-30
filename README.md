@@ -480,3 +480,25 @@ PYTHONPATH=src python -m unittest tests.test_modular_gate -v
 ```
 
 The provider runtime remains optional when disabled; the 14 architectural invariants are mandatory globally.
+
+
+## Munder Difflin optional multi-agent coordination provider
+
+`FA3-PROVIDER-MUNDER-DIFFLIN-001` registers `chaitanyagiri/munder-difflin` as an **OPTIONAL local multi-agent developer-workspace / coordination reference provider + strong provider-neutral architectural pattern source**. It adds **no new capability**, **no new architectural authority**, and **no required runtime dependency**; the canonical capability count remains **143**.
+
+The absorbed value is deliberately narrower than the upstream application. FA3 adopts the coordination invariants, not the office UI or provider-local authority model: isolated agent processes/sessions; single-writer mutable coordination state; single-committer repository mutation; atomic one-file-per-message mailboxes; idempotent consumption with independent cursors; bounded request/reply hops; isolated concurrent worktrees; policy-classified human escalation; steer → constrain → terminate circuit breaking; strict telemetry allowlisting; context that cannot grant authority; transition-specific lifecycle evidence; fault injection for normally unreachable failure paths; and complete ephemeral-worker teardown.
+
+The mandatory boundary is:
+
+> **Munder Difflin SHALL NOT become an FA3 identity, authorization, MCP/tool-mediation, model-routing, secrets, network-egress, host-resource, workflow/orchestration, evidence, developer-execution, git/release or registry authority.**
+
+The upstream reference is pinned in `canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json`: latest release `v0.4.6` at commit `64bd64df0e8d315a6e895283f776b81f84eef2cc`, plus observed `main` commit `fc436bd8b673913c71e3230de08e44f355ffc2e3`. Upstream explicitly describes security support as **main-only / early prototype**, and the release tag is not treated as signed promotion evidence. Therefore provider runtime activation remains **NOT_PROMOTED_REFERENCE_ONLY** until a separate immutable current-host conformance path exists.
+
+Run the executable gate with:
+
+```bash
+./bin/fa3-enforce munder-difflin
+PYTHONPATH=src python -m unittest tests.test_munder_difflin_gate -v
+```
+
+`FA3-MUNDER-DIFFLIN-GATESET-001` executes 16 positive/negative regressions and recursively rejects canonical records that promote Munder Difflin into an FA3 authority. The gate is bound into the global static enforcement and permanent GitHub CI.
