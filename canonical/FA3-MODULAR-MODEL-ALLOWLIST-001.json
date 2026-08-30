@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.modular-model-allowlist.v1",
+  "id": "FA3-MODULAR-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-MAX-001",
+  "purpose": "Current-host production E2E smoke-model admission for MAX serving",
+  "models": [
+    {
+      "model_id": "LiquidAI/LFM2.5-350M",
+      "architecture": "Lfm2ForCausalLM",
+      "modality": "text-to-text",
+      "weight_container": "SAFETENSORS",
+      "approx_parameter_count": "0.4B",
+      "default_current_host_smoke": true,
+      "network_fetch_requires_explicit_egress_admission": true,
+      "immutable_revision_required": true,
+      "trust_remote_code": false,
+      "license": "lfm1.0",
+      "reference_weight_sha256": "1c9c77a4471a7f590f85240f74ed1fc26df7fbde88c3006724e2f93ca993ea4e",
+      "reference_revision": "9e6c6ccf47cd318696e137d381a7ded8fe4df09f"
+    }
+  ],
+  "floating_revision_forbidden": true,
+  "arbitrary_model_path_forbidden": true,
+  "remote_code_forbidden": true
+}
