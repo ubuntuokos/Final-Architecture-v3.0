@@ -1,0 +1,7 @@
+[Unit]
+Description=FA3 optional creative workers
+Wants=presenton.service
+After=network-online.target
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PRESENTON-001",
+  "name": "presenton/presenton",
+  "status": "ACCEPTED_OPTIONAL_PRODUCTION_CANDIDATE",
+  "provider_role": "SELF_HOSTED_PRESENTATION_GENERATION_EDITING_AND_EXPORT_WORKER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "PRESENTATION_GENERATION_PROVIDER",
+    "DOCUMENT_GENERATION_PROVIDER",
+    "CREATIVE_WORKER",
+    "REST_PROVIDER",
+    "MCP_PROVIDER_BEHIND_CENTRAL_GATEWAY",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "projects_existing_capabilities": [
+    "CAP-018",
+    "CAP-030",
+    "CAP-033"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "upstream_reference": "FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30",
+  "runtime_projection": {
+    "release": "v0.9.8-beta",
+    "source_commit": "88c28f18a63e29742e4922facdba6b95c67959cd",
+    "oci_index": "ghcr.io/presenton/presenton@sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4dd03131ad78f397d6fb11b3d1",
+    "linux_amd64_manifest": "sha256:2db3979c90d70952de075e301f6ba8cac207e5d06fe89e698d5b22101f9074dd",
+    "container_mode": "ROOTLESS_PODMAN_QUADLET",
+    "bind": "127.0.0.1:5001",
+    "gpu_access": "DENIED",
+    "llm_route": "CENTRAL_LITELLM_GATEWAY_ONLY",
+    "image_route": "SEPARATELY_ADMITTED_COMFYUI_PROVIDER",
+    "database": "POSTGRESQL_REQUIRED_NO_SQLITE_FALLBACK",
+    "workflow": "presentation.generate.v1"
+  },
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "event": "EXISTING_FA3_EVENT_AUTHORITY_ONLY",
+    "model_routing": "EXISTING_FA3_MODEL_ROUTING_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "image_generation": "EXISTING_FA3_IMAGE_GENERATION_AUTHORITY_ONLY",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_EVENT_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_IMAGE_GENERATION_AUTHORITY",
+    "FA3_MEMORY_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_NETWORK_EGRESS_AUTHORITY",
+    "FA3_ARTIFACT_TRUST_AUTHORITY"
+  ],
+  "normative_constraint": "Presenton SHALL NOT become an FA3 identity, authorization, MCP, workflow, event, model-routing, host-resource, image-generation, memory, evidence, secrets, network-egress or artifact-trust authority."
+}

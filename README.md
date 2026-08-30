@@ -629,3 +629,32 @@ Run the executable gate with:
 ```
 
 The gate includes 13 positive/negative regressions covering non-authorization, immutable source identity, licence/terms handling, endpoint/schema verification, secret and egress boundaries, provider-neutral capability mapping, sandbox admission, MCP auto-registration denial, source-failure isolation, and source non-authority.
+
+## Presenton optional presentation worker
+
+`FA3-PROVIDER-PRESENTON-001` registers `presenton/presenton` as the optional self-hosted presentation/document generation, editing and PPTX/PDF export worker projected over existing `CAP-018`, `CAP-030` and `CAP-033`. It adds no capability and no architectural authority; the canonical capability count remains **143**.
+
+The production candidate is pinned to upstream `v0.9.8-beta` / `88c28f18a63e29742e4922facdba6b95c67959cd` and OCI index `sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4dd03131ad78f397d6fb11b3d1` (`linux/amd64` manifest `sha256:2db3979c90d70952de075e301f6ba8cac207e5d06fe89e698d5b22101f9074dd`). Floating tags and `latest` are forbidden.
+
+The checked-in deployment projection uses a rootless Podman Quadlet, binds only `127.0.0.1:5001`, passes no GPU device, requires PostgreSQL, routes text generation only through the central LiteLLM gateway and routes image work to the separately admitted ComfyUI service. Web grounding and anonymous tracking are disabled, parallel image generation is disabled, and credentials/workflow JSON arrive through Podman secrets materialized from Infisical. Presenton-local Mem0 remains presentation-scoped working memory and is not canonical FA3 memory.
+
+The authority boundary is mandatory:
+
+> **Presenton SHALL NOT become an FA3 identity, authorization, MCP, workflow, event, model-routing, host-resource, image-generation, memory, evidence, secrets, network-egress or artifact-trust authority.**
+
+CI-safe canonical and executable conformance:
+
+```bash
+./bin/fa3-enforce presenton
+PYTHONPATH=src python -m unittest tests.test_presenton_gate -v
+```
+
+The real workstation path is documented in `deployment/presenton/README.md`. After the service, LiteLLM, ComfyUI, PostgreSQL, Caddy and access key are materialized, run:
+
+```bash
+bash bin/fa3-presenton-current-host.sh \
+  --base-url http://127.0.0.1:5001 \
+  --access-key-file /path/to/infisical-materialized-access-key
+```
+
+The collector requires the active rootless Quadlet and pinned OCI digest, proves unauthenticated denial, performs real asynchronous generation, downloads and hashes the PPTX, re-exports the same presentation to PDF, renders every PDF page with Poppler, and then submits the receipt to `./bin/fa3-enforce presenton-current-host`. CI or synthetic files cannot claim `CURRENT_HOST_PRODUCTION_E2E_PASS`; until that real-host run succeeds, the CAP-033 registry entry and Presenton production E2E remain `PENDING_CURRENT_HOST`.
