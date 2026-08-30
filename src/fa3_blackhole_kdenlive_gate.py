@@ -11,6 +11,7 @@ from fa3_blackhole_kdenlive import run_executable_conformance
 PROFILE_ID = "FA3-BLACKHOLE-KDENLIVE-001"
 STT_PROFILE_ID = "FA3-STT-001"
 STT_MEDIA_PROFILE_ID = "FA3-STT-MEDIA-001"
+KDENLIVE_EDITORIAL_PROFILE_ID = "FA3-KDENLIVE-EDITORIAL-001"
 GATE_ID = "FA3-BLACKHOLE-KDENLIVE-GATESET-001"
 CAPABILITY_COUNT = 143
 
@@ -27,6 +28,10 @@ RULES = [
     "MEDIA_AND_DERIVED_AUDIO_HASH_LINEAGE_REQUIRED",
     "NO_CONDA_OR_MINIFORGE_RUNTIME",
     "SEPARATE_BLACKHOLE_GUI_NOT_REQUIRED",
+    "OPTIONAL_DIARIZATION_AND_TRANSLATION_SUPPORTED",
+    "FORCED_ALIGNMENT_TYPED_ARTIFACT_SUPPORTED",
+    "CAPTION_QC_EVIDENCE_REQUIRED_BEFORE_PRODUCTION_PROJECTION",
+    "OTIO_CANONICAL_TIMELINE_IR_PRESERVED",
 ]
 
 def _load(path: Path) -> dict[str, Any]:
@@ -45,6 +50,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         "stt": root/"canonical/profiles/FA3-STT-001.json",
         "stt_media": root/"canonical/profiles/FA3-STT-MEDIA-001.json",
         "integration": root/"canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
+        "kdenlive_editorial": root/"canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
         "stt_contracts": root/"canonical/contracts/FA3-STT-CONTRACTS-001.json",
         "media_contracts": root/"canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
         "integration_contracts": root/"canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
@@ -62,6 +68,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     media=_load(paths["stt_media"])
     integ=_load(paths["integration"])
     contracts=_load(paths["media_contracts"])
+    integ_contracts=_load(paths["integration_contracts"])
     decision=_load(paths["decision"])
     enforcement=_load(paths["enforcement"])
 
@@ -77,39 +84,62 @@ def reference_check(root: Path) -> dict[str, Any]:
     invariants=set(media.get("invariants",[]))
     if not any("STT must remain executable" in x for x in invariants):
         findings.append(finding("BLACKHOLE-REF-024","STT-without-Demucs invariant missing"))
+    required_stages=set(media.get("required_stages",[]))
+    if "optional diarization" not in required_stages or "optional translation with source/target language provenance" not in required_stages:
+        findings.append(finding("BLACKHOLE-REF-025","Diarization/translation long-form stages missing"))
+    if "forced alignment when provider-native timing is absent or insufficient" not in required_stages:
+        findings.append(finding("BLACKHOLE-REF-026","Forced-alignment stage missing"))
+    if "caption quality control" not in required_stages:
+        findings.append(finding("BLACKHOLE-REF-027","Caption QC stage missing"))
 
     if integ.get("id")!=PROFILE_ID or integ.get("profile_type")!="INTEGRATION_PROJECTION":
-        findings.append(finding("BLACKHOLE-REF-025","Blackhole/Kdenlive integration identity/type drift"))
+        findings.append(finding("BLACKHOLE-REF-028","Blackhole/Kdenlive integration identity/type drift"))
+    if KDENLIVE_EDITORIAL_PROFILE_ID not in integ.get("dependencies",[]):
+        findings.append(finding("BLACKHOLE-REF-029","Global Kdenlive editorial profile dependency missing"))
+    if integ.get("canonical_timeline_ir")!="OpenTimelineIO":
+        findings.append(finding("BLACKHOLE-REF-030","OTIO canonical timeline IR missing from Blackhole projection"))
     if integ.get("demucs_role")!="OPTIONAL_PREPROCESSOR_ONLY":
-        findings.append(finding("BLACKHOLE-REF-026","Demucs was promoted beyond optional preprocessing"))
+        findings.append(finding("BLACKHOLE-REF-031","Demucs was promoted beyond optional preprocessing"))
     if integ.get("direct_kdenlive_project_xml_mutation") is not False:
-        findings.append(finding("BLACKHOLE-REF-027","Direct Kdenlive project XML mutation was enabled"))
+        findings.append(finding("BLACKHOLE-REF-032","Direct Kdenlive project XML mutation was enabled"))
     if integ.get("conda_or_miniforge_allowed") is not False:
-        findings.append(finding("BLACKHOLE-REF-028","Conda/Miniforge runtime was enabled"))
+        findings.append(finding("BLACKHOLE-REF-033","Conda/Miniforge runtime was enabled"))
     if integ.get("separate_blackhole_gui_required") is not False:
-        findings.append(finding("BLACKHOLE-REF-029","Separate Blackhole GUI became required"))
+        findings.append(finding("BLACKHOLE-REF-034","Separate Blackhole GUI became required"))
     if any(integ.get(k) is not False for k in ("canonical_root","new_capability","new_architectural_authority")):
-        findings.append(finding("BLACKHOLE-REF-030","Integration created forbidden root/capability/authority"))
+        findings.append(finding("BLACKHOLE-REF-035","Integration created forbidden root/capability/authority"))
 
     optional=contracts.get("optional_preprocessing",{})
     if optional.get("demucs_provider")!="FA3-PROVIDER-DEMUCS-001" or optional.get("silent_fallback_forbidden") is not True or optional.get("stt_without_preprocessor_required") is not True:
-        findings.append(finding("BLACKHOLE-REF-031","Media STT optional-preprocessing contract drift"))
+        findings.append(finding("BLACKHOLE-REF-036","Media STT optional-preprocessing contract drift"))
+    required_contracts=set(contracts.get("contracts",[]))
+    for name in ("ForcedAlignmentArtifact","TranslationArtifact","CaptionQualityEvidence"):
+        if name not in required_contracts:
+            findings.append(finding("BLACKHOLE-REF-037",f"Missing mandatory long-form contract: {name}"))
+    if contracts.get("caption_qc_policy",{}).get("required_before_production_projection") is not True:
+        findings.append(finding("BLACKHOLE-REF-038","Caption QC is not required before production projection"))
+    if contracts.get("translation_policy",{}).get("optional") is not True:
+        findings.append(finding("BLACKHOLE-REF-039","Optional translation contract missing"))
+    if contracts.get("alignment_policy",{}).get("forced_alignment_is_distinct_artifact") is not True:
+        findings.append(finding("BLACKHOLE-REF-040","Forced alignment is not a distinct typed artifact"))
+    if integ_contracts.get("canonical_timeline_ir")!="OpenTimelineIO" or integ_contracts.get("production_projection_requires_caption_qc_evidence") is not True:
+        findings.append(finding("BLACKHOLE-REF-041","Blackhole Kdenlive contract lost OTIO/caption-QC binding"))
 
     if decision.get("status")!="CANONICAL_CLOSED" or decision.get("decision")!="IMPLEMENT":
-        findings.append(finding("BLACKHOLE-REF-032","Blackhole/Kdenlive decision is not closed IMPLEMENT"))
+        findings.append(finding("BLACKHOLE-REF-042","Blackhole/Kdenlive decision is not closed IMPLEMENT"))
     if decision.get("new_capabilities")!=0 or decision.get("new_architectural_authorities")!=0 or decision.get("capability_count_after")!=CAPABILITY_COUNT:
-        findings.append(finding("BLACKHOLE-REF-033","Integration changed capability/authority invariant"))
+        findings.append(finding("BLACKHOLE-REF-043","Integration changed capability/authority invariant"))
     if decision.get("mandatory_rules")!=RULES:
-        findings.append(finding("BLACKHOLE-REF-034","Blackhole/Kdenlive mandatory rule set drift"))
+        findings.append(finding("BLACKHOLE-REF-044","Blackhole/Kdenlive mandatory rule set drift"))
 
     if enforcement.get("gate_id")!=GATE_ID or enforcement.get("profile_id")!=PROFILE_ID:
-        findings.append(finding("BLACKHOLE-REF-035","Blackhole/Kdenlive gate/profile identity mismatch"))
+        findings.append(finding("BLACKHOLE-REF-045","Blackhole/Kdenlive gate/profile identity mismatch"))
     if enforcement.get("capability_count")!=CAPABILITY_COUNT or enforcement.get("rule_count")!=len(RULES):
-        findings.append(finding("BLACKHOLE-REF-036","Blackhole/Kdenlive count invariant drift"))
+        findings.append(finding("BLACKHOLE-REF-046","Blackhole/Kdenlive count invariant drift"))
     if enforcement.get("rules")!=RULES or enforcement.get("fail_closed") is not True:
-        findings.append(finding("BLACKHOLE-REF-037","Blackhole/Kdenlive fail-closed rule set drift"))
+        findings.append(finding("BLACKHOLE-REF-047","Blackhole/Kdenlive fail-closed rule set drift"))
     if enforcement.get("runtime_required_for_global_promotion") is not False:
-        findings.append(finding("BLACKHOLE-REF-038","Optional integration became global runtime promotion dependency"))
+        findings.append(finding("BLACKHOLE-REF-048","Optional integration became global runtime promotion dependency"))
 
     return {"result":"PASS" if not findings else "FAIL","findings":findings}
 
