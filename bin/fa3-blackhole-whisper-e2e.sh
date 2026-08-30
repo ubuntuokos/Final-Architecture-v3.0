@@ -15,7 +15,7 @@ if [[ $# -lt 1 ]]; then
 fi
 REQUEST="$(realpath "$1")"
 [[ -f "$REQUEST" ]] || { echo "Request not found: $REQUEST" >&2; exit 66; }
-[[ -x "$WHISPER_CLI" ]] || { echo "Whisper CLI unavailable: $WHISPER_CLI" >&2; exit 69; }
+[[ -f "$WHISPER_CLI" ]] || { echo "Whisper CLI unavailable: $WHISPER_CLI" >&2; exit 69; }
 
 RUNDIR="$(mktemp -d -p "${XDG_RUNTIME_DIR:-/tmp}" fa3-blackhole-whisper.XXXXXX)"
 PATCHED="$RUNDIR/request.json"
@@ -25,7 +25,7 @@ trap 'rm -rf "$RUNDIR"' EXIT INT TERM
 import json,sys
 src,dst,cli,model,device,cache,lease,fetch=sys.argv[1:]
 r=json.load(open(src,encoding="utf-8"))
-cmd=[cli,"transcribe","--request","{request}","--result","{result}","--model",model,"--device",device,"--model-cache",cache]
+cmd=["bash",cli,"transcribe","--request","{request}","--result","{result}","--model",model,"--device",device,"--model-cache",cache]
 if fetch=="1":
     cmd.append("--allow-network-model-fetch")
 if device.startswith("cuda:"):
