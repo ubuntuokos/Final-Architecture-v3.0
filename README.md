@@ -597,3 +597,35 @@ AutoGPT runtime activation remains **NOT_PROMOTED_REFERENCE_ONLY** and is not re
 ## Cross-conversation canonical reconciliation (2026-08-30)
 
 The repository now materializes previously accepted FA3 decisions that were present in conversation/specification state but absent from the GitHub canonical SSOT. The reconciliation preserves the 143-capability baseline, creates no new architectural authority, keeps provider/reference implementations authority-free, and does not claim global runtime promotion. Permanent regression coverage: `tests/test_conversation_reconciliation.py` and `canonical/conversation-reconciliation-enforcement.json`.
+
+
+## Controlled external API / service / MCP discovery
+
+`FA3-EXTERNAL-API-DISCOVERY-001` is the P1 / MUST-IF-EXTERNAL-DISCOVERY-USED projection for controlled discovery of external APIs, services and MCP endpoints over existing `CAP-011`, `CAP-074` and `CAP-075`. It adds **no capability** and **no architectural authority**; the canonical capability count remains **143**.
+
+Pinned discovery/reference sources:
+
+- `FA3-SOURCE-PUBLIC-APIS-001` — primary curated reference source (`public-apis/public-apis`);
+- `FA3-SOURCE-PUBLIC-API-LISTS-001` — primary machine-readable ingestion source (`public-api-lists/public-api-lists`);
+- `FA3-SOURCE-API-MEGA-LIST-001` — secondary high-breadth untrusted discovery source (`cporter202/API-mega-list`), restricted to discovery metadata until licence/terms admission;
+- `FA3-PATTERN-MEGALIST-001` — optional UI virtualization/windowing pattern source only (`meganz/megalist`), not an API catalog or runtime dependency.
+
+The normative rule is: **external discovery is not authorization**. Catalog publication, popularity, sponsorship, advertised auth/CORS/schema metadata, or an MCP listing cannot directly register a tool, authorize egress, obtain secrets, create a capability, or execute anything.
+
+The fail-closed admission sequence is:
+
+```text
+discover -> normalize -> deduplicate -> provenance -> licence/terms
+-> endpoint verification -> protocol/schema discovery -> security classification
+-> secrets requirements -> egress classification -> capability mapping
+-> policy approval -> sandbox probe -> conformance evidence
+-> registry admission -> execution
+```
+
+Run the executable gate with:
+
+```bash
+./bin/fa3-enforce external-api-discovery
+```
+
+The gate includes 13 positive/negative regressions covering non-authorization, immutable source identity, licence/terms handling, endpoint/schema verification, secret and egress boundaries, provider-neutral capability mapping, sandbox admission, MCP auto-registration denial, source-failure isolation, and source non-authority.
