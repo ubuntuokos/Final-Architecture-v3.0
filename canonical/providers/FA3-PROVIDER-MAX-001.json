@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MAX-001",
+  "name": "Modular MAX",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_HIGH_PERFORMANCE_MODEL_SERVING_AND_ACCELERATOR_EXECUTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "MODEL_INFERENCE_SERVING_EXECUTION_PROVIDER",
+    "OPENAI_COMPATIBLE_SERVING_PROJECTION",
+    "MODEL_GRAPH_EXECUTION_PROVIDER",
+    "ACCELERATOR_EXECUTION_PROVIDER",
+    "PROVIDER_LOCAL_SCHEDULER",
+    "DISTRIBUTED_MODEL_EXECUTION_PROVIDER",
+    "KV_CACHE_IMPLEMENTATION",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "upstream_repository": "modular/modular",
+  "upstream_snapshot_commit": "f08ac164e2743513f60e46621de6dc4a5a5a30e7",
+  "upstream_snapshot_observed_versions": {
+    "mojo": "1.1.0.dev2026083005",
+    "max": "26.6.0.dev2026083005"
+  },
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "EXISTING_FA3_UNIFIED_OBSERVABILITY_EVIDENCE_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_AUTHORIZATION_POLICY_AUTHORITY",
+    "FA3_ARTIFACT_MODEL_IDENTITY_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_GLOBAL_SCHEDULING_AUTHORITY"
+  ],
+  "normative_constraint": "MAX may schedule and optimize execution only inside an already authorized provider invocation; it SHALL NOT become an FA3 model-routing, host-resource, workflow, authorization/policy, artifact/model identity, secrets, evidence or global scheduling authority."
+}

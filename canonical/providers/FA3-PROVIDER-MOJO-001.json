@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MOJO-001",
+  "name": "Modular Mojo",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_PORTABLE_KERNEL_AND_ACCELERATOR_EXECUTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "PORTABLE_KERNEL_EXECUTION_PROVIDER",
+    "TARGET_SPECIALIZATION_PROVIDER",
+    "CPU_GPU_EXECUTION_PROVIDER",
+    "CUSTOM_MAX_OPERATION_PROVIDER",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "upstream_repository": "modular/modular",
+  "upstream_snapshot_commit": "f08ac164e2743513f60e46621de6dc4a5a5a30e7",
+  "upstream_snapshot_observed_versions": {
+    "mojo": "1.1.0.dev2026083005",
+    "max": "26.6.0.dev2026083005"
+  },
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "authority_boundaries": {
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "EXISTING_FA3_UNIFIED_OBSERVABILITY_EVIDENCE_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_ARTIFACT_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_POLICY_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY"
+  ],
+  "normative_constraint": "Mojo may implement portable kernels and target specialization only after FA3 admission; it SHALL NOT own host-resource placement, canonical artifact identity, security policy, workflow, model routing or evidence authority."
+}

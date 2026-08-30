@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30",
+  "date": "2026-08-30",
+  "repository": "modular/modular",
+  "snapshot_commit": "f08ac164e2743513f60e46621de6dc4a5a5a30e7",
+  "snapshot_branch": "main",
+  "snapshot_channel": "NIGHTLY_DEVELOPMENT_REFERENCE",
+  "observed_versions": {
+    "mojo": "1.1.0.dev2026083005",
+    "max": "26.6.0.dev2026083005"
+  },
+  "observed_components": [
+    "Mojo compiler",
+    "Mojo standard library",
+    "MAX accelerator library",
+    "MAX inference server with OpenAI-compatible endpoint",
+    "MAX model pipelines"
+  ],
+  "license_boundary": {
+    "repository_components": "Apache License v2.0 with LLVM Exceptions as stated by upstream README",
+    "max_usage_distribution": "Modular Community License as stated by upstream README",
+    "canonical_rule": "Source availability is not redistribution authorization; production/redistribution requires explicit licence admission evidence."
+  },
+  "promotion_semantics": "REFERENCE_ONLY_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
+  "floating_main_allowed_as_promotion_evidence": false
+}
