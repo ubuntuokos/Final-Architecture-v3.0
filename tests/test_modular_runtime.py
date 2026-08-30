@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_modular_runtime import (
     DEFAULT_MODEL,
+    DEFAULT_MODEL_REVISION,
     HRB_LEASE_SCHEMA,
     HRB_PROFILE_ID,
     MAX_PROVIDER_ID,
@@ -36,14 +37,14 @@ class ModularRuntimeTests(unittest.TestCase):
 
     def test_gpu_requires_hrb_and_guard(self):
         with self.assertRaises(PolicyDenied):
-            validate_request(MaxServeRequest(model_revision="9e6c6cc", devices="gpu:0"), self.allowlist)
+            validate_request(MaxServeRequest(model_revision=DEFAULT_MODEL_REVISION, devices="gpu:0"), self.allowlist)
         with self.assertRaises(PolicyDenied):
             validate_request(MaxServeRequest(
-                model_revision="9e6c6cc", devices="gpu:0", hrb_lease_path="/tmp/lease.json"
+                model_revision=DEFAULT_MODEL_REVISION, devices="gpu:0", hrb_lease_path="/tmp/lease.json"
             ), self.allowlist)
 
     def test_serve_command_is_loopback_pinned_revision_and_remote_code_off(self):
-        req = MaxServeRequest(model_revision="9e6c6cc", devices="cpu")
+        req = MaxServeRequest(model_revision=DEFAULT_MODEL_REVISION, devices="cpu")
         validate_request(req, self.allowlist)
         cmd = build_max_serve_command(req)
         self.assertIn("--huggingface-model-revision", cmd)
@@ -52,7 +53,7 @@ class ModularRuntimeTests(unittest.TestCase):
 
     def test_hrb_lease_needs_broker_memory_reservation(self):
         req = MaxServeRequest(
-            model_revision="9e6c6cc", devices="gpu:0",
+            model_revision=DEFAULT_MODEL_REVISION, devices="gpu:0",
             hrb_lease_path="/tmp/lease.json", device_memory_utilization=0.5,
         )
         lease = {
