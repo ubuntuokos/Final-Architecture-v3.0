@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.developer-agent-coordination-enforcement.v1",
+  "gate_id": "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
+  "profile_id": "FA3-AGENT-EXEC-001",
+  "contract_family": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+  "runtime_conformance": "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001",
+  "fail_closed": true,
+  "mandatory_rule_count": 16,
+  "p0_invariants": [
+    "DAC_EXPLICIT_TYPED_TASK_AND_DELEGATION",
+    "DAC_ISOLATED_MUTATING_WORKSPACES",
+    "DAC_SINGLE_WRITER_COORDINATION_STATE",
+    "DAC_SINGLE_INTEGRATION_COMMITTER",
+    "DAC_ATOMIC_IDEMPOTENT_MESSAGING",
+    "DAC_BOUNDED_MESSAGE_HOPS",
+    "DAC_PROVIDER_ADAPTER_NON_AUTHORITY",
+    "DAC_CRITICAL_ACTION_HUMAN_ESCALATION",
+    "DAC_STEER_CONSTRAIN_TERMINATE",
+    "DAC_READ_DIFF_CHECK_BEFORE_INTEGRATION",
+    "DAC_WORKER_DIRECT_MAIN_COMMIT_DENIED",
+    "DAC_CONFLICT_DETECTION_FAIL_CLOSED",
+    "DAC_EXECUTION_EVIDENCE_ATTRIBUTABLE",
+    "DAC_EPHEMERAL_WORKER_CLEANUP_REQUIRED",
+    "DAC_REFERENCE_E2E_POSITIVE_AND_NEGATIVE_PASS",
+    "DAC_REFERENCE_E2E_NOT_CURRENT_HOST_PROVIDER_PROMOTION"
+  ],
+  "runtime_reference_e2e_required": true,
+  "external_provider_runtime_required": false,
+  "current_host_production_promotion_claim": false,
+  "executable_gate": "./bin/fa3-enforce developer-agent-coordination",
+  "e2e_collector": "python evidence/collect-developer-agent-coordination-e2e.py --root .",
+  "report_paths": [
+    "reports/developer-agent-coordination-gate-report.json",
+    "reports/developer-agent-coordination-e2e-report.json"
+  ]
+}
