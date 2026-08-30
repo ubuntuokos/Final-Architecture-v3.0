@@ -12,6 +12,8 @@ PROVIDER_IDS = (MAX_PROVIDER_ID, MOJO_PROVIDER_ID)
 DECISION_ID = "FA3-DEC-MODULAR-2026-08-30"
 REFERENCE_ID = "FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30"
 GATE_ID = "FA3-MODULAR-GATESET-001"
+RUNTIME_ID = "FA3-MODULAR-RUNTIME-CONFORMANCE-001"
+MODEL_ALLOWLIST_ID = "FA3-MODULAR-MODEL-ALLOWLIST-001"
 CAPABILITY_COUNT = 143
 UPSTREAM_COMMIT = "f08ac164e2743513f60e46621de6dc4a5a5a30e7"
 
@@ -167,6 +169,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         "reference": root / "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
         "enforcement": root / "canonical/modular-enforcement.json",
         "policy": root / "canonical/enforcement-policy.json",
+        "runtime": root / "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
+        "model_allowlist": root / "canonical/FA3-MODULAR-MODEL-ALLOWLIST-001.json",
     }
     for key, path in paths.items():
         if not path.exists():
@@ -177,6 +181,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     maxp, mojop = _load(paths["max"]), _load(paths["mojo"])
     decision, reference = _load(paths["decision"]), _load(paths["reference"])
     enforcement, policy = _load(paths["enforcement"]), _load(paths["policy"])
+    runtime, model_allowlist = _load(paths["runtime"]), _load(paths["model_allowlist"])
 
     if not _provider_shape_valid(maxp, MAX_PROVIDER_ID):
         findings.append(_finding("MODULAR-REF-010", "MAX provider root/authority/capability/snapshot invariant drift"))
@@ -222,6 +227,36 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("MODULAR-REF-016", "Global policy Modular provider identity drift"))
     if policy.get("modular_mandatory_p0_rules") != list(RULES):
         findings.append(_finding("MODULAR-REF-017", "Global policy Modular mandatory rule set drift"))
+
+    runtime_status = runtime.get("current_host_status")
+    if not (
+        runtime.get("id") == RUNTIME_ID
+        and runtime.get("provider_ids") == list(PROVIDER_IDS)
+        and runtime.get("capability_count") == CAPABILITY_COUNT
+        and runtime.get("implementation", {}).get("runtime_contract") == "src/fa3_modular_runtime.py"
+        and runtime.get("ci_conformance", {}).get("command") == "./bin/fa3-enforce modular-provider"
+        and runtime.get("current_host_production_e2e", {}).get("gate_command") == "./bin/fa3-enforce modular-current-host"
+        and runtime.get("current_host_production_e2e", {}).get("required_evidence_level") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and runtime.get("current_host_production_e2e", {}).get("gpu_requires_hrb_lease") is True
+        and runtime.get("current_host_production_e2e", {}).get("immutable_model_revision_required") is True
+        and runtime_status in {"PENDING_REAL_HOST_EXECUTION", "CURRENT_HOST_PRODUCTION_E2E_PASS"}
+    ):
+        findings.append(_finding("MODULAR-REF-018", "Modular runtime conformance contract drift"))
+
+    models = model_allowlist.get("models", [])
+    smoke = models[0] if len(models) == 1 else {}
+    if not (
+        model_allowlist.get("id") == MODEL_ALLOWLIST_ID
+        and model_allowlist.get("provider_id") == MAX_PROVIDER_ID
+        and model_allowlist.get("floating_revision_forbidden") is True
+        and model_allowlist.get("remote_code_forbidden") is True
+        and smoke.get("model_id") == "LiquidAI/LFM2.5-350M"
+        and smoke.get("weight_container") == "SAFETENSORS"
+        and smoke.get("immutable_revision_required") is True
+        and smoke.get("trust_remote_code") is False
+        and len(str(smoke.get("reference_weight_sha256", ""))) == 64
+    ):
+        findings.append(_finding("MODULAR-REF-019", "Modular production smoke-model allowlist drift"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
