@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-STT-001",
   "name": "Local Speech Recognition, Dictation & Secure Text Injection Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-STT-USED",
@@ -34,9 +34,12 @@
     "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
   },
-  "implementation_status": "CANONICAL_PROVIDER_NEUTRAL",
+  "implementation_status": "CANONICAL_PROVIDER_NEUTRAL_WITH_EXECUTABLE_WHISPER_PROVIDER",
   "notes": [
     "Desktop dictation and long-form media transcription share provider contracts but are separate execution domains.",
     "This profile does not own model routing, host placement, policy, artifact trust, or observability authority."
+  ],
+  "production_provider_registry": [
+    "FA3-PROVIDER-WHISPER-001"
   ]
 }
