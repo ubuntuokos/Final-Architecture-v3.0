@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.autogpt-ci-evidence.v1",
+  "id": "FA3-EVID-AUTOGPT-REGRESSION-CI-2026-08-30",
+  "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+  "gate_id": "FA3-AUTOGPT-GATESET-001",
+  "evidence_type": "EXECUTABLE_AGENTIC_WORKFLOW_AUTHORITY_BOUNDARY_REGRESSION",
+  "status": "PASS",
+  "evidence_scope": "CI_CANONICAL_REGRESSION",
+  "canonical_constraint": "AutoGPT SHALL NOT become an FA3 identity, authentication, authorization, secrets, MCP/capability-gateway, model-routing, durable-workflow, evidence/provenance, network-egress, host-resource, developer-execution, artifact-trust or canonical-registry authority.",
+  "upstream_reference": {
+    "observed_master": "32a43d005c0c42079ceba68d9a49c28e0eeaa6c7",
+    "release": "autogpt-platform-beta-v0.7.3",
+    "release_commit": "f49bcca95ed327396d8ebdd0bdf7810de482ac1a",
+    "platform_license": "PolyForm Shield License 1.0.0",
+    "classic_license": "MIT",
+    "runtime_promotion_evidence": false
+  },
+  "github": {
+    "pull_request": 15,
+    "pr_validation_run_id": 33315510498,
+    "pr_validation_run_number": 86,
+    "merge_commit": "8105388642bcd8c9dbb454c204c64460c8e959fe",
+    "merge_tree": "05273de907b255dc1a2bc7211974f0590868c1b3",
+    "merge_commit_signature_verified": true,
+    "workflow_name": "FA3 Permanent Canonical + Promotion Gate",
+    "workflow_run_id": 33315547186,
+    "workflow_run_number": 87,
+    "workflow_event": "push",
+    "tested_head_sha": "8105388642bcd8c9dbb454c204c64460c8e959fe",
+    "tested_tree_sha": "05273de907b255dc1a2bc7211974f0590868c1b3",
+    "workflow_conclusion": "success",
+    "canonical_regression_job_id": 99268203824,
+    "canonical_regression_conclusion": "success",
+    "promotion_safety_job_id": 99268238003,
+    "promotion_safety_conclusion": "success",
+    "static_artifact_id": 9733319716,
+    "static_artifact_name": "fa3-static-gate-report",
+    "static_artifact_digest": "sha256:35ebda5773df24334475fc4d6a86b84200346e2a48ec560b5839ef1591826ade",
+    "promotion_artifact_id": 9733322673,
+    "promotion_artifact_name": "fa3-promotion-reports",
+    "promotion_artifact_digest": "sha256:56da2da82c1199dda9c31ba50c68d10713e62f9a468d2ff216fbfbb3efd3ac3a"
+  },
+  "implementation_blobs": {
+    "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json": "a7bfca4623da0d68e33687bff3aca78d6418d500",
+    "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json": "51026b2102376f15d02d8502d2363fceeffcb054",
+    "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json": "203db018b0d6b7bd0faf60953060c0e271e22f8d",
+    "canonical/autogpt-runtime-admission.json": "8e89f4307d0546728b7221cf08feba19118bbc31",
+    "canonical/autogpt-enforcement.json": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
+    "src/fa3_autogpt_gate.py": "372041a127d371d1097954345746b3b18967a84e",
+    "tests/test_autogpt_gate.py": "0bd2a76d476d80194db6a26652880026f5492e81",
+    "canonical/enforcement-policy.json": "0a9ac9961e5771c356f4bfb11133dad68944dac6",
+    "src/fa3_enforce.py": "fa693ea4d2c43cddf6d6c2c69b1505bbdbeffa51",
+    ".github/workflows/fa3-permanent-enforcement.yml": "14698fed12fff576587cbb0d9b5659295bf15d05",
+    "README.md": "0205f9a2fa5b1386152f95cdca1fcac69163d3b6"
+  },
+  "results": {
+    "repository_unit_tests": {
+      "status": "PASS",
+      "passed": 172,
+      "total": 172
+    },
+    "autogpt_regression_gate": {
+      "status": "PASS",
+      "passed": 17,
+      "total": 17,
+      "scanned_canonical_json_files": 78,
+      "blocking_findings": 0
+    },
+    "authority_boundary_regressions": {
+      "graph_auth_not_transitive": "PASS",
+      "delegated_capability_narrowing": "PASS",
+      "credential_scope_narrowing": "PASS",
+      "trigger_schedule_non_authority": "PASS",
+      "model_router_separation": "PASS",
+      "secrets_separation": "PASS",
+      "host_and_developer_execution_separation": "PASS",
+      "integration_boundary_separation": "PASS",
+      "canonical_authority_assignment_denial": "PASS"
+    },
+    "lifecycle_and_supply_chain_regressions": {
+      "validate_before_activate": "PASS",
+      "marketplace_not_admission": "PASS",
+      "immutable_runtime_identity": "PASS",
+      "component_license_admission": "PASS",
+      "disabled_provider_zero_near_zero_cost": "PASS"
+    },
+    "evidence_regressions": {
+      "attributable_node_execution_evidence": "PASS"
+    },
+    "canonical_static_gate": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "capability_count": 143,
+      "autogpt_gate_status": "PASS"
+    },
+    "promotion_safety": {
+      "status": "PASS"
+    }
+  },
+  "runtime_provider_required": false,
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "conclusion": "CURRENT_CANONICAL_CI_PASS"
+}
