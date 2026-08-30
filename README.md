@@ -480,3 +480,41 @@ PYTHONPATH=src python -m unittest tests.test_modular_gate -v
 ```
 
 The provider runtime remains optional when disabled; the 14 architectural invariants are mandatory globally.
+
+
+## Modular MAX/Mojo executable runtime + current-host production evidence
+
+The optional Modular provider family now has a separate executable runtime contract at `canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json`, a production smoke-model allowlist at `canonical/FA3-MODULAR-MODEL-ALLOWLIST-001.json`, and fail-closed provider/current-host gates.
+
+CI-safe provider conformance:
+
+```bash
+./bin/fa3-enforce modular-provider
+```
+
+This validates the MAX/Mojo runtime contract, exact model/revision admission, loopback-only serving, remote-code denial, stable/nightly separation, explicit HRB GPU admission and lease-derived MAX memory guarding without claiming execution on the FA3 workstation.
+
+Materialize the stable runtime in an isolated `uv` venv:
+
+```bash
+bash bin/fa3-modular-bootstrap.sh
+```
+
+Then execute the real current-host production E2E:
+
+```bash
+bash bin/fa3-modular-current-host.sh \
+  --model-revision 9e6c6ccf47cd318696e137d381a7ded8fe4df09f \
+  --devices cpu \
+  --allow-network-model-fetch
+```
+
+The one-time network flag is explicit; after the pinned model is cached, omit it. The collector verifies the canonical `LiquidAI/LFM2.5-350M` safetensors digest, performs real loopback MAX `/v1/chat/completions` inference, compiles and executes a native Mojo program, and hashes all evidence artifacts. GPU execution requires explicit `gpu:N` plus a broker-valid `AcceleratorExecutionLease@1`; broad `gpu` / `gpu:all` placement is rejected.
+
+Production validation:
+
+```bash
+./bin/fa3-enforce modular-current-host
+```
+
+Only a real host run can create `CURRENT_HOST_PRODUCTION_E2E_PASS`. GitHub-hosted CI cannot claim it. `.github/workflows/fa3-modular-current-host.yml` is restricted to a self-hosted Linux/x64 runner carrying the `fa3-current-host` label. See `docs/modular-current-host.md`.
