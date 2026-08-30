@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30",
+  "provider_id": "FA3-PROVIDER-PRESENTON-001",
+  "repository": "presenton/presenton",
+  "repository_url": "https://github.com/presenton/presenton",
+  "observed_at": "2026-08-30",
+  "license": {
+    "spdx": "Apache-2.0",
+    "license_file_sha256": "23d6fd64bfcbd46b331098ed89454717fd1719faccbf632f8234b962aa43ed1a"
+  },
+  "stable_reference": {
+    "release": "v0.9.8-beta",
+    "commit_sha": "88c28f18a63e29742e4922facdba6b95c67959cd",
+    "committed_at": "2026-08-26T15:11:16+05:45",
+    "release_channel": "BETA",
+    "floating_main_allowed_as_promotion_evidence": false
+  },
+  "oci_reference": {
+    "repository": "ghcr.io/presenton/presenton",
+    "tag_observed": "v0.9.8-beta",
+    "index_digest": "sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4dd03131ad78f397d6fb11b3d1",
+    "linux_amd64_manifest_digest": "sha256:2db3979c90d70952de075e301f6ba8cac207e5d06fe89e698d5b22101f9074dd",
+    "linux_arm64_manifest_digest": "sha256:9301d36615b1c970a46645ea7d7978a18f6274932ca3dc2e0304eb29b93c3196",
+    "observed_via": "GHCR_DISTRIBUTION_API_V2"
+  },
+  "verified_upstream_surfaces": {
+    "mcp_tools": [
+      "generate_presentation",
+      "generate_presentation_async",
+      "get_presentation_generation_status"
+    ],
+    "rest_endpoints": [
+      "POST /api/v1/ppt/presentation/generate",
+      "POST /api/v1/ppt/presentation/generate/async",
+      "GET /api/v1/ppt/presentation/status/{id}",
+      "POST /api/v1/ppt/presentation/{id}/export"
+    ],
+    "supported_output_formats": [
+      "pptx",
+      "pdf"
+    ],
+    "provider_integrations": [
+      "litellm",
+      "comfyui",
+      "open_webui",
+      "ollama"
+    ],
+    "server_authentication": "MULTI_USER_PLUS_ADMIN_OWNED_BEARER_ACCESS_KEYS",
+    "electron_mcp": "DISABLED",
+    "database_behavior": "DATABASE_URL_SUPPORTS_POSTGRESQL_OTHERWISE_SQLITE_FALLBACK",
+    "memory_behavior": "MEM0_LOCAL_QDRANT_PLUS_SQLITE_SCOPED_PER_PRESENTATION"
+  },
+  "fa3_disposition": {
+    "deployment_variant": "SERVER_CONTAINER_ONLY",
+    "electron_is_canonical_service_runtime": false,
+    "image_digest_pin_required": true,
+    "central_mcp_gateway_required": true,
+    "direct_model_provider_keys_allowed": false,
+    "direct_gpu_access_allowed": false,
+    "sqlite_primary_database_allowed": false,
+    "provider_memory_is_global_fa3_memory": false,
+    "current_host_promotion_requires_real_e2e": true
+  }
+}

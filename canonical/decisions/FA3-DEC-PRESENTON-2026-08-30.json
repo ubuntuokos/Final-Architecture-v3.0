@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-PRESENTON-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "presenton/presenton",
+  "decision": "ACCEPT",
+  "provider_id": "FA3-PROVIDER-PRESENTON-001",
+  "contract_id": "FA3-PRESENTON-CONTRACTS-001",
+  "gate_id": "FA3-PRESENTON-GATESET-001",
+  "canonical_classification": "OPTIONAL self-hosted presentation/document generation, editing and PPTX/PDF export worker behind existing FA3 authorities.",
+  "projects_existing_capabilities": [
+    "CAP-018",
+    "CAP-030",
+    "CAP-033"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "mandatory_constraint": "Presenton SHALL NOT become an FA3 identity, authorization, MCP, workflow, event, model-routing, host-resource, image-generation, memory, evidence, secrets, network-egress or artifact-trust authority.",
+  "mandatory_canonical_rules": [
+    "PRESENTON_IMMUTABLE_SOURCE_AND_OCI_PIN_REQUIRED",
+    "PRESENTON_ROOTLESS_LOOPBACK_ONLY",
+    "PRESENTON_AUTHENTICATED_GATEWAY_MEDIATION_REQUIRED",
+    "PRESENTON_LITELLM_ONLY_MODEL_ROUTE",
+    "PRESENTON_DIRECT_GPU_ACCESS_FORBIDDEN",
+    "PRESENTON_COMFYUI_SEPARATE_ADMISSION_REQUIRED",
+    "PRESENTON_POSTGRESQL_REQUIRED_SQLITE_FALLBACK_FORBIDDEN",
+    "PRESENTON_MEMORY_PRESENTATION_SCOPED_NON_AUTHORITATIVE",
+    "PRESENTON_WEB_GROUNDING_AND_TELEMETRY_DISABLED_BY_DEFAULT",
+    "PRESENTON_PARALLEL_IMAGE_GENERATION_DISABLED",
+    "PRESENTON_UPLOAD_POLICY_AND_LOCAL_REFERENCE_REQUIRED",
+    "PRESENTON_ASYNC_EXECUTION_BOUNDED_AND_FAIL_CLOSED",
+    "PRESENTON_PPTX_PDF_ARTIFACT_INTEGRITY_AND_LINEAGE_REQUIRED",
+    "PRESENTON_SECRETS_EXTERNALIZED",
+    "PRESENTON_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+    "PRESENTON_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "current_host_claim": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+}

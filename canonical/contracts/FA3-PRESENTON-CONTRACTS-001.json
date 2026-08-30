@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-PRESENTON-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-PRESENTON-001",
+  "version": "1.0.0",
+  "new_capability": false,
+  "canonical_capability_count": 143,
+  "contracts": {
+    "generation_request": {
+      "schema": "fa3.presenton-generation-request.v1",
+      "required": [
+        "request_id",
+        "caller_identity",
+        "workspace_id",
+        "authorization_decision",
+        "content",
+        "n_slides",
+        "language",
+        "export_formats"
+      ],
+      "constraints": {
+        "authorization_decision": "ALLOW_FROM_FA3_AUTH_SECURITY_GOV_001",
+        "web_search": false,
+        "trigger_webhook": false,
+        "file_references": "CANONICAL_LOCAL_ARTIFACT_REFERENCES_ONLY",
+        "export_formats": [
+          "pptx",
+          "pdf"
+        ],
+        "max_slides": 40,
+        "max_source_bytes": 67108864
+      }
+    },
+    "generation_result": {
+      "schema": "fa3.presenton-generation-result.v1",
+      "required": [
+        "request_id",
+        "provider_id",
+        "provider_release",
+        "presentation_id",
+        "artifacts",
+        "artifact_lineage",
+        "started_at",
+        "completed_at",
+        "status"
+      ],
+      "artifact_requirements": {
+        "pptx": "ZIP_PACKAGE_WITH_PPT_PRESENTATION_XML_AND_SHA256",
+        "pdf": "PDF_HEADER_PAGE_COUNT_RENDER_QA_AND_SHA256"
+      }
+    },
+    "current_host_receipt": {
+      "schema": "fa3.presenton-current-host-receipt.v1",
+      "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+      "synthetic_or_ci_evidence_accepted": false,
+      "requires": [
+        "pinned_running_oci_digest",
+        "active_rootless_quadlet",
+        "loopback_only_bind",
+        "no_gpu_devices",
+        "postgresql_backend",
+        "litellm_route",
+        "comfyui_route",
+        "unauthenticated_request_denied",
+        "authenticated_async_generation",
+        "pptx_integrity",
+        "pdf_integrity",
+        "pdf_render_qa",
+        "artifact_sha256_lineage"
+      ]
+    }
+  }
+}

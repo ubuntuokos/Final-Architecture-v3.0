@@ -1,0 +1,64 @@
+{
+  "schema": "fa3.presenton-provider-ci-evidence.v1",
+  "id": "FA3-EVID-PRESENTON-PROVIDER-CI-2026-08-30",
+  "provider_id": "FA3-PROVIDER-PRESENTON-001",
+  "contract_id": "FA3-PRESENTON-CONTRACTS-001",
+  "gate_id": "FA3-PRESENTON-GATESET-001",
+  "evidence_type": "EXECUTABLE_PROVIDER_BOUNDARY_DEPLOYMENT_AND_ARTIFACT_REGRESSION",
+  "status": "PASS",
+  "evidence_scope": "LOCAL_EXECUTABLE_CONFORMANCE_NOT_CURRENT_HOST_PRODUCTION",
+  "observed_at": "2026-08-30",
+  "upstream_reference": {
+    "release": "v0.9.8-beta",
+    "commit_sha": "88c28f18a63e29742e4922facdba6b95c67959cd",
+    "oci_index_digest": "sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4dd03131ad78f397d6fb11b3d1",
+    "linux_amd64_manifest_digest": "sha256:2db3979c90d70952de075e301f6ba8cac207e5d06fe89e698d5b22101f9074dd"
+  },
+  "results": {
+    "presenton_gate": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "executable_regressions_passed": 16,
+      "executable_regressions_total": 16
+    },
+    "presenton_unit_tests": {
+      "status": "PASS",
+      "passed": 10,
+      "total": 10
+    },
+    "authority_scan": "PASS",
+    "deployment_projection": "PASS",
+    "typed_contract": "PASS",
+    "negative_paths": {
+      "authorization_denial": "PASS",
+      "central_gateway_bypass_denial": "PASS",
+      "web_search_denial": "PASS",
+      "remote_source_denial": "PASS",
+      "oversize_source_denial": "PASS",
+      "unbounded_execution_denial": "PASS",
+      "sqlite_fallback_denial": "PASS",
+      "direct_gpu_denial": "PASS",
+      "direct_model_route_denial": "PASS",
+      "invalid_artifact_denial": "PASS"
+    }
+  },
+  "current_host_production_e2e": {
+    "status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "required_receipt": "evidence/receipts/presenton-current-host.json",
+    "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "requires_real_presenton_service": true,
+    "requires_real_litellm_and_comfyui_routes": true,
+    "requires_real_pptx_and_pdf_export": true,
+    "requires_pdf_render_qa": true,
+    "synthetic_or_github_hosted_ci_evidence_accepted": false
+  },
+  "registry_projection": {
+    "capability_id": "CAP-033",
+    "registry_status_unchanged": "PENDING_CURRENT_HOST",
+    "document_only_runtime_promotion": false
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "conclusion": "EXECUTABLE_PROVIDER_CONFORMANCE_PASS_CURRENT_HOST_PRODUCTION_PENDING"
+}

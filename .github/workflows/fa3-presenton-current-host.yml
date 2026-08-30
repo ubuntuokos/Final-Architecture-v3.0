@@ -1,0 +1,58 @@
+name: FA3 Presenton Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Loopback Presenton URL"
+        required: true
+        default: "http://127.0.0.1:5001"
+        type: string
+      access_key_file:
+        description: "Absolute Infisical-materialized Presenton access-key file on the runner"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  presenton-current-host:
+    name: presenton-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify current-host dependencies
+        shell: bash
+        env:
+          FA3_PRESENTON_ACCESS_KEY_FILE: ${{ inputs.access_key_file }}
+        run: |
+          command -v podman
+          command -v systemctl
+          command -v pdfinfo
+          command -v pdftoppm
+          test -r "$FA3_PRESENTON_ACCESS_KEY_FILE"
+      - name: Run real Presenton production E2E and evidence gate
+        shell: bash
+        env:
+          FA3_PRESENTON_BASE_URL: ${{ inputs.base_url }}
+          FA3_PRESENTON_ACCESS_KEY_FILE: ${{ inputs.access_key_file }}
+        run: |
+          bash bin/fa3-presenton-current-host.sh \
+            --base-url "$FA3_PRESENTON_BASE_URL" \
+            --access-key-file "$FA3_PRESENTON_ACCESS_KEY_FILE"
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-presenton-current-host-evidence
+          path: |
+            evidence/receipts/presenton-current-host.json
+            evidence/runtime/presenton-current-host/
+            reports/presenton-current-host-gate-report.json
