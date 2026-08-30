@@ -502,3 +502,33 @@ PYTHONPATH=src python -m unittest tests.test_munder_difflin_gate -v
 ```
 
 `FA3-MUNDER-DIFFLIN-GATESET-001` executes 16 positive/negative regressions and recursively rejects canonical records that promote Munder Difflin into an FA3 authority. The gate is bound into the global static enforcement and permanent GitHub CI.
+
+
+## AI Engineering from Scratch cross-cutting reference
+
+`FA3-SOURCE-AI-ENGINEERING-FROM-SCRATCH-001` registers `rohitg00/ai-engineering-from-scratch` as an **ACCEPTED cross-cutting architectural pattern source + engineering/evidence reference + agent-skill/MCP conformance reference + educational reference**.
+
+It is deliberately **not** a runtime provider, capability, canonical specification or architectural authority. It creates no new capability and no new architectural authority; the canonical capability count remains **143**. The observed upstream source is pinned to commit `a56b4b8ad43a3767c771953d217036813f697bc7`; floating `main` is reference discovery only and is forbidden as promotion evidence.
+
+The permanent `FA3-AIENG-GATESET-001` absorbs and enforces 11 provider-neutral P0 invariants:
+
+1. registry publication is not production admission;
+2. skill/context availability is not execution authority;
+3. an agent/provider assertion is not completion or promotion evidence;
+4. material execution requires attributable evidence;
+5. protocol/security conformance requires positive + negative/refusal + boundary evidence;
+6. raw boundary/wire evidence and SDK/adapter projection evidence must both exist for critical protocols;
+7. gateways/proxies preserve correlated ingress → origin → egress evidence;
+8. compatibility/security downgrade is fail-closed unless explicitly authorized and evidenced;
+9. sensitive evidence is redacted before serialization, hashing, logging or storage;
+10. rollback readiness is established before applicable production promotion;
+11. progressive disclosure may load branch-specific context only after activation and never grants authority.
+
+Run directly with:
+
+```bash
+./bin/fa3-enforce ai-engineering
+PYTHONPATH=src python -m unittest tests.test_ai_engineering_gate -v
+```
+
+The gate is also part of the global `static` enforcement path and the permanent GitHub CI workflow. It checks the immutable upstream reference, canonical decision/policy binding, source non-authority status and 11 executable negative regression cases.
