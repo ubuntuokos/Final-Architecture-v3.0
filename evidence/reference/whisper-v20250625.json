@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.whisper-reference-evidence.v1",
+  "provider_id": "FA3-PROVIDER-WHISPER-001",
+  "repository": "openai/whisper",
+  "floating_main_allowed": false,
+  "stable_reference": {
+    "release": "v20250625",
+    "commit_sha": "31243bad24cc746f07d4c8bfdd2d974872cb1803",
+    "runtime_version": "20250625",
+    "source_blobs": {
+      "whisper/__init__.py": "f284ec0453b2c5efb025963f6a56a5dc404f78a7",
+      "whisper/transcribe.py": "0a4cc3623991154263814409f20bd44e8c6ad394",
+      "whisper/version.py": "67426aa1c9e68af9408a51fff224c3ac566634a4",
+      "pyproject.toml": "21b90e737abc3fea0bf0270deb81e6e79e03e4d7"
+    }
+  },
+  "observed_security_properties": {
+    "official_model_urls_embed_sha256": true,
+    "official_download_rehashes_model": true,
+    "torch_load_weights_only_true_on_supported_torch": true,
+    "load_model_accepts_arbitrary_local_path_upstream": true,
+    "fa3_disposition": "OFFICIAL_NAME_ALLOWLIST_ONLY_ARBITRARY_PATH_SURFACE_DISABLED"
+  }
+}
