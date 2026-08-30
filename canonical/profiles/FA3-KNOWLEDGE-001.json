@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-KNOWLEDGE-001",
+  "name": "Knowledge, RAG, Context & Ingestion Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-KNOWLEDGE-CONTRACTS-001"
+  ],
+  "authority": {
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "ORIGINAL_SOURCE_PRESERVED",
+    "DERIVED_CONTEXT_HAS_LINEAGE",
+    "TRANSFORMATIONS_REVERSIBLE_OR_FAIL_TO_PASS_THROUGH",
+    "UNKNOWN_SEMANTIC_STATE_NO_LOSSY_TRANSFORM",
+    "RETRIEVAL_PROVIDER_NOT_KNOWLEDGE_AUTHORITY",
+    "MEASUREMENT_AND_EVALUATION_PROVENANCE_REQUIRED"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

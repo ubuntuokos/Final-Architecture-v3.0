@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-IMGGEN-001",
+  "name": "Generative Visual Media Request, Editing & Provider Interchange Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "capabilities": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-IMGGEN-CONTRACTS-001"
+  ],
+  "authority": {
+    "model_provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "invariants": [
+    "PROMPT_IS_NOT_COMPLETE_CANONICAL_INTENT",
+    "REFERENCE_COMPOSITION_MASK_CONTROL_ARE_TYPED",
+    "CAPABILITY_DISCOVERY_REQUIRED",
+    "PROVENANCE_AND_EXECUTION_RECEIPT_REQUIRED",
+    "CAPABILITY_LOSS_MUST_BE_REPORTED",
+    "PROVIDER_NATIVE_WORKFLOW_FORMAT_NOT_CANONICAL_INTERCHANGE",
+    "BROWSER_COOKIE_SCRAPING_PRIVATE_UNDOCUMENTED_API_FORBIDDEN_IN_PRODUCTION"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MESH-GEN-001",
+  "name": "Mesh & Generative Geometry Specialization",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-3D-GEOM-001"
+  },
+  "absorbed_by": [
+    "FA3-3D-GEOM-001: general geometry identity/topology/validation/lifecycle/interchange semantics"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-GEOMETRY-CONTRACTS-001"
+  ],
+  "owned_scope": [
+    "mesh_generation",
+    "generative_geometry_generation",
+    "reconstruction",
+    "conditioning",
+    "provider_capability_projection",
+    "generation_request_result",
+    "generation_specific_quality_evidence"
+  ],
+  "prohibited_scope": [
+    "parallel_geometry_identity",
+    "parallel_topology_semantics",
+    "parallel_validation_semantics",
+    "parallel_lifecycle_semantics",
+    "parallel_interchange_semantics"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

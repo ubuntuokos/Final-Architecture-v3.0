@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-CUDA-PY-001",
+  "name": "CUDA Python NVIDIA Accelerator Execution Provider Profile",
+  "version": "1.2.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "dependencies": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-SCS-001"
+  ],
+  "provider_role": "NVIDIA_ACCELERATOR_EXECUTION_PROVIDER_NOT_AUTHORITY",
+  "invariants": [
+    "LEASE_DEVICE_CONTEXT_STREAM_ALLOCATION_EXECUTION_LINEAGE_REQUIRED",
+    "SOURCE_COMPILATION_ARTIFACT_AUTHORIZATION_EXECUTION_JIT_LINEAGE_REQUIRED",
+    "DISCOVERY_TELEMETRY_NOT_PLACEMENT_OR_POLICY_AUTHORITY",
+    "SECURITY_INVARIANTS_REQUIRE_EXECUTABLE_REGRESSION_EVIDENCE",
+    "HRB_LEASE_REQUIRED_BEFORE_ACCELERATOR_EXECUTION"
+  ],
+  "implementation_status": "CURRENT_HOST_PRODUCTION_E2E_PASS_SECURITY_REGRESSION_PASS_EVIDENCE_REGISTRY_PASS_PROMOTION_ELIGIBLE_COMPONENT_SCOPE"
+}

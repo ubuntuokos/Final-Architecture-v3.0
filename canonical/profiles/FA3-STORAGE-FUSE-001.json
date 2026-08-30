@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STORAGE-FUSE-001",
+  "name": "Userspace Filesystem Mount, Access & Lifecycle Projection Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-STORAGE-FUSE-CONTRACTS-001"
+  ],
+  "providers": [
+    "FUSE",
+    "SSHFS",
+    "rclone",
+    "other userspace filesystem adapters"
+  ],
+  "authority": {
+    "mount_access_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "credential": "Central Secrets/Secret Broker",
+    "service_lifecycle": "systemd",
+    "resource_budget": "FA3-AUTH-HOST-RESOURCE-BROKER-001 + unified cgroup v2",
+    "health_audit_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_trust": "FA3-SCS-001 + Artifact/Model Registry"
+  },
+  "invariants": [
+    "FUSE_PROVIDER_IS_ADAPTER_NOT_AUTHORITY",
+    "CREDENTIALS_ONLY_BY_REFERENCE_OR_SHORT_LIVED_LEASE",
+    "MOUNT_INTENT_AUTHORIZED_BEFORE_ACTIVATION",
+    "CANONICAL_PATH_AND_SYMLINK_REVALIDATION_REQUIRED",
+    "LIFECYCLE_OWNED_BY_SYSTEMD_NOT_PROVIDER",
+    "RESOURCE_LIMITS_EXTERNAL_TO_PROVIDER",
+    "UNMOUNT_AND_FAILURE_RECEIPTS_REQUIRED"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

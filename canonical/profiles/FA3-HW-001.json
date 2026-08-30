@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HW-001",
+  "name": "Provider-Neutral Hardware Capability & Heterogeneous Accelerator Baseline",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-HW-CONTRACTS-001"
+  ],
+  "reference_hosts": [
+    "Dell Precision Tower 7910 is reference-only, never canonical hardware identity"
+  ],
+  "authority": {
+    "admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "CAPABILITY_BASED_NOT_MACHINE_MODEL_BASED",
+    "CPU_GPU_NPU_AND_OTHER_ACCELERATORS_TYPED",
+    "RUNTIME_OPERATOR_COMPATIBILITY_REQUIRED",
+    "PARTITION_AND_MEMORY_EVIDENCE_REQUIRED",
+    "NO_SILENT_FALLBACK",
+    "CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_CANONICAL_SEMANTICS"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}

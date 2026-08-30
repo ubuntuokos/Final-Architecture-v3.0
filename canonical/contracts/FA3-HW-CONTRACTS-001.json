@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-HW-CONTRACTS-001",
+  "status": "CANONICAL",
+  "capability_count": 143,
+  "contracts": [
+    "HardwareCapabilityDescriptor",
+    "AcceleratorCapabilityDescriptor",
+    "AcceleratorRuntimeDescriptor",
+    "HardwareTopologyDescriptor",
+    "HardwareHealthDescriptor",
+    "HardwareRoleDescriptor",
+    "NpuCapabilityDescriptor",
+    "RuntimeOperatorCompatibilityDescriptor",
+    "PartitionEvidence",
+    "HardwareAdmissionReceipt"
+  ],
+  "invariants": [
+    "PROVIDER_NEUTRAL",
+    "NPU_FIRST_CLASS",
+    "NO_SILENT_ACCELERATOR_FALLBACK",
+    "HARDWARE_DISCOVERY_NOT_PLACEMENT_AUTHORITY"
+  ]
+}
