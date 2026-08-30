@@ -1,0 +1,62 @@
+name: FA3 AutoGPT Current-Host Production E2E
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "canonical/FA3-AUTOGPT-RUNTIME-CONFORMANCE-001.json"
+      - "canonical/autogpt-runtime-admission.json"
+      - "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json"
+      - "canonical/contracts/FA3-AUTOGPT-CONTRACTS-001.json"
+      - "canonical/autogpt-enforcement.json"
+      - "src/fa3_autogpt_provider.py"
+      - "src/fa3_autogpt_gate.py"
+      - "evidence/collect-autogpt-current-host.py"
+      - "bin/fa3-autogpt-bootstrap.sh"
+      - "bin/fa3-autogpt-current-host.sh"
+      - "deployment/autogpt/**"
+      - ".github/workflows/fa3-autogpt-current-host.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-autogpt-current-host
+  cancel-in-progress: false
+
+jobs:
+  autogpt-current-host:
+    name: autogpt-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 90
+    env:
+      FA3_CURRENT_HOST_ASSERTION: "1"
+      FA3_AUTOGPT_STATE_DIR: ${{ runner.temp }}/fa3-autogpt-current-host
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host dependencies
+        shell: bash
+        run: |
+          command -v podman
+          command -v git
+          command -v python3
+          podman info
+          test "$(podman info --format '{{.Host.Security.Rootless}}')" = "true"
+      - name: Run real constrained AutoGPT production E2E
+        shell: bash
+        run: |
+          bash bin/fa3-autogpt-current-host.sh
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-autogpt-current-host-evidence
+          path: |
+            evidence/receipts/autogpt-current-host.json
+            evidence/runtime/autogpt-current-host/
+            reports/autogpt-current-host-gate-report.json
+          if-no-files-found: warn
