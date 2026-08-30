@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30",
+  "provider_id": "FA3-PROVIDER-MUNDER-DIFFLIN-001",
+  "repository": "chaitanyagiri/munder-difflin",
+  "observed_at": "2026-08-30",
+  "observed_main_commit": "fc436bd8b673913c71e3230de08e44f355ffc2e3",
+  "latest_release": "v0.4.6",
+  "latest_release_published_at": "2026-08-27T01:00:08Z",
+  "latest_release_commit": "64bd64df0e8d315a6e895283f776b81f84eef2cc",
+  "latest_release_tag_object": "ecda5a9aa700f0d0a14c67cdd4e34c6dd80e29b7",
+  "release_tag_verified_signature": false,
+  "security_support_scope": "MAIN_ONLY_EARLY_PROTOTYPE",
+  "promotion_evidence": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "reference_use": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_PROVIDER_REFERENCE_ONLY",
+  "runtime_activation_requires_separate_current_host_conformance": true,
+  "absorbed_upstream_patterns": [
+    "real_cli_agent_per_pty_process",
+    "single_committer_git_coordination",
+    "single_writer_per_file",
+    "atomic_mailbox_temp_then_rename",
+    "append_only_event_log_with_consumer_cursor",
+    "bounded_reply_hops",
+    "human_escalation",
+    "ephemeral_worker_teardown",
+    "typed_renderer_main_privilege_boundary",
+    "telemetry_hard_allowlist",
+    "release_proving_hop",
+    "fault_injection_for_error_paths"
+  ]
+}
