@@ -50,7 +50,19 @@ AUTOGPT_ADMISSION_PATH = "canonical/autogpt-runtime-admission.json"
 AUTOGPT_GATE_PATH = "src/fa3_autogpt_gate.py"
 AUTOGPT_TEST_PATH = "tests/test_autogpt_gate.py"
 AUTOGPT_CAPABILITY_ID = "CAP-028"
-AUTOGPT_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED"
+AUTOGPT_CONTRACT_PATH = "canonical/contracts/FA3-AUTOGPT-CONTRACTS-001.json"
+AUTOGPT_RUNTIME_PATH = "canonical/FA3-AUTOGPT-RUNTIME-CONFORMANCE-001.json"
+AUTOGPT_PROVIDER_ADAPTER_PATH = "src/fa3_autogpt_provider.py"
+AUTOGPT_PROVIDER_TEST_PATH = "tests/test_autogpt_provider.py"
+AUTOGPT_COLLECTOR_PATH = "evidence/collect-autogpt-current-host.py"
+AUTOGPT_BOOTSTRAP_PATH = "bin/fa3-autogpt-bootstrap.sh"
+AUTOGPT_WRAPPER_PATH = "bin/fa3-autogpt-current-host.sh"
+AUTOGPT_WORKFLOW_PATH = ".github/workflows/fa3-autogpt-current-host.yml"
+AUTOGPT_DOCKERFILE_PATH = "deployment/autogpt/Dockerfile.fa3"
+AUTOGPT_RUNBOOK_PATH = "deployment/autogpt/README.md"
+AUTOGPT_CURRENT_HOST_EVIDENCE_PATH = "evidence/reference/autogpt-current-host-2026-08-30.json"
+AUTOGPT_RECONCILIATION_PENDING = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING"
+AUTOGPT_RECONCILIATION_PASS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PASS"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -395,15 +407,13 @@ def gate(root: Path):
 
     autogpt = projection.get("autogpt_reconciliation", {})
     required_autogpt_manifest_paths = {
-        AUTOGPT_PROVIDER_PATH,
-        AUTOGPT_DECISION_PATH,
-        AUTOGPT_REFERENCE_PATH,
-        AUTOGPT_EVIDENCE_PATH,
-        AUTOGPT_RECONCILIATION_EVIDENCE_PATH,
-        AUTOGPT_ENFORCEMENT_PATH,
-        AUTOGPT_ADMISSION_PATH,
-        AUTOGPT_GATE_PATH,
-        AUTOGPT_TEST_PATH,
+        AUTOGPT_PROVIDER_PATH, AUTOGPT_DECISION_PATH, AUTOGPT_REFERENCE_PATH,
+        AUTOGPT_EVIDENCE_PATH, AUTOGPT_RECONCILIATION_EVIDENCE_PATH,
+        AUTOGPT_ENFORCEMENT_PATH, AUTOGPT_ADMISSION_PATH, AUTOGPT_GATE_PATH,
+        AUTOGPT_TEST_PATH, AUTOGPT_CONTRACT_PATH, AUTOGPT_RUNTIME_PATH,
+        AUTOGPT_PROVIDER_ADAPTER_PATH, AUTOGPT_PROVIDER_TEST_PATH,
+        AUTOGPT_COLLECTOR_PATH, AUTOGPT_BOOTSTRAP_PATH, AUTOGPT_WRAPPER_PATH,
+        AUTOGPT_WORKFLOW_PATH, AUTOGPT_DOCKERFILE_PATH, AUTOGPT_RUNBOOK_PATH,
         "evidence/evidence-registry.json",
     }
     autogpt_overlay_requirements = {
@@ -411,6 +421,7 @@ def gate(root: Path):
         "decision_records": AUTOGPT_DECISION_PATH,
         "upstream_reference_records": AUTOGPT_REFERENCE_PATH,
         "reference_evidence_records": AUTOGPT_EVIDENCE_PATH,
+        "contract_records": AUTOGPT_CONTRACT_PATH,
     }
     missing_autogpt_overlay_members = [
         {"inventory": key, "path": required}
@@ -422,15 +433,45 @@ def gate(root: Path):
     autogpt_evidence = loadj(root / AUTOGPT_EVIDENCE_PATH) if (root / AUTOGPT_EVIDENCE_PATH).is_file() else {}
     autogpt_reconciliation_evidence = loadj(root / AUTOGPT_RECONCILIATION_EVIDENCE_PATH) if (root / AUTOGPT_RECONCILIATION_EVIDENCE_PATH).is_file() else {}
     autogpt_admission = loadj(root / AUTOGPT_ADMISSION_PATH) if (root / AUTOGPT_ADMISSION_PATH).is_file() else {}
+    autogpt_contract = loadj(root / AUTOGPT_CONTRACT_PATH) if (root / AUTOGPT_CONTRACT_PATH).is_file() else {}
+    autogpt_runtime = loadj(root / AUTOGPT_RUNTIME_PATH) if (root / AUTOGPT_RUNTIME_PATH).is_file() else {}
     cap028 = next((item for item in records if item.get("subject_id") == AUTOGPT_CAPABILITY_ID), {})
+
+    runtime_state = autogpt.get("runtime_activation_status")
+    pending_state = (
+        autogpt.get("reconciliation_status") == AUTOGPT_RECONCILIATION_PENDING
+        and runtime_state == "CURRENT_HOST_ADMISSION_PENDING"
+        and autogpt.get("current_host_runtime_evidence") == "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        and autogpt_provider.get("runtime_activation_status") == "CURRENT_HOST_ADMISSION_PENDING"
+        and autogpt_admission.get("status") == "CURRENT_HOST_CANDIDATE_ADMITTED"
+        and cap028.get("runtime_conformance") == "EVIDENCE-PENDING"
+        and cap028.get("status") == "PENDING_CURRENT_HOST"
+        and cap028.get("promotion_state") == "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+    )
+    current_host_evidence = (
+        loadj(root / AUTOGPT_CURRENT_HOST_EVIDENCE_PATH)
+        if (root / AUTOGPT_CURRENT_HOST_EVIDENCE_PATH).is_file() else {}
+    )
+    pass_state = (
+        autogpt.get("reconciliation_status") == AUTOGPT_RECONCILIATION_PASS
+        and runtime_state == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and autogpt.get("current_host_runtime_evidence") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and autogpt_provider.get("runtime_activation_status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and autogpt_admission.get("status") == "ADMITTED_CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and cap028.get("runtime_conformance") == "CURRENT-HOST-PASS"
+        and cap028.get("status") == "PASS"
+        and AUTOGPT_CURRENT_HOST_EVIDENCE_PATH in cap028.get("evidence_artifacts", [])
+        and AUTOGPT_CURRENT_HOST_EVIDENCE_PATH in manifest_paths
+        and current_host_evidence.get("provider_id") == AUTOGPT_PROVIDER_ID
+        and current_host_evidence.get("status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+    )
+
     if (
         autogpt.get("provider_id") != AUTOGPT_PROVIDER_ID
         or autogpt.get("gate_id") != AUTOGPT_GATE_ID
         or autogpt.get("capability_id") != AUTOGPT_CAPABILITY_ID
-        or autogpt.get("classification") != "OPTIONAL_AGENTIC_WORKFLOW_REFERENCE_PROVIDER"
-        or autogpt.get("reconciliation_status") != AUTOGPT_RECONCILIATION_STATUS
-        or autogpt.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
-        or autogpt.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or autogpt.get("classification") != "OPTIONAL_AGENTIC_WORKFLOW_PRODUCTION_CANDIDATE"
+        or not (pending_state or pass_state)
         or autogpt.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
         or autogpt.get("new_capabilities") != 0
         or autogpt.get("new_architectural_authorities") != 0
@@ -445,34 +486,36 @@ def gate(root: Path):
         or autogpt_provider.get("new_capability") is not False
         or autogpt_provider.get("capability_count") != CAPABILITY_COUNT
         or "OPTIONAL_PROVIDER" not in autogpt_provider.get("classification", [])
-        or autogpt_provider.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or autogpt_provider.get("contract_id") != "FA3-AUTOGPT-CONTRACTS-001"
+        or autogpt_provider.get("runtime_conformance_id") != "FA3-AUTOGPT-RUNTIME-CONFORMANCE-001"
         or autogpt_evidence.get("provider_id") != AUTOGPT_PROVIDER_ID
         or autogpt_evidence.get("gate_id") != AUTOGPT_GATE_ID
         or autogpt_evidence.get("status") != "PASS"
-        or autogpt_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
         or autogpt_reconciliation_evidence.get("provider_id") != AUTOGPT_PROVIDER_ID
         or autogpt_reconciliation_evidence.get("capability_id") != AUTOGPT_CAPABILITY_ID
         or autogpt_reconciliation_evidence.get("status") != "PASS"
         or autogpt_reconciliation_evidence.get("conclusion") != "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS"
         or autogpt_admission.get("provider_id") != AUTOGPT_PROVIDER_ID
-        or autogpt_admission.get("status") != "NOT_ADMITTED"
         or autogpt_admission.get("fail_closed") is not True
         or autogpt_admission.get("current_host_evidence_required") is not True
+        or autogpt_contract.get("id") != "FA3-AUTOGPT-CONTRACTS-001"
+        or autogpt_runtime.get("id") != "FA3-AUTOGPT-RUNTIME-CONFORMANCE-001"
+        or autogpt_runtime.get("upstream", {}).get("source_commit") != "f49bcca95ed327396d8ebdd0bdf7810de482ac1a"
         or "FA3-DEC-AUTOGPT-2026-08-30" not in cap028.get("source_decision_ids", [])
         or AUTOGPT_EVIDENCE_PATH not in cap028.get("evidence_artifacts", [])
         or AUTOGPT_RECONCILIATION_EVIDENCE_PATH not in cap028.get("evidence_artifacts", [])
-        or cap028.get("runtime_conformance") != "EVIDENCE-PENDING"
-        or cap028.get("status") != "PENDING_CURRENT_HOST"
-        or cap028.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
     ):
         findings.append(
             finding(
                 "FA3-RELEASE-PROJECTION-023",
-                "AutoGPT global release/inventory/evidence reconciliation invariant mismatch",
+                "AutoGPT global release/inventory/evidence/current-host transition invariant mismatch",
                 reconciliation_status=autogpt.get("reconciliation_status"),
-                runtime_activation_status=autogpt.get("runtime_activation_status"),
+                runtime_activation_status=runtime_state,
+                pending_state=pending_state,
+                pass_state=pass_state,
                 missing_overlay_members=missing_autogpt_overlay_members,
                 missing_manifest_paths=autogpt_manifest_missing,
+                cap028_status=cap028.get("status"),
                 cap028_evidence_artifacts=cap028.get("evidence_artifacts", []),
             )
         )
