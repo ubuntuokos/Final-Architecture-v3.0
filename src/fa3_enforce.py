@@ -123,6 +123,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-024","Kdenlive editorial canonical gate is not bound into global enforcement policy"))
     if "FA3-WHISPER-STT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-026","Whisper STT provider gate is not bound into global enforcement policy"))
+    if "FA3-MENTOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-040","FA3 Mentor mandatory gate is not bound into global enforcement policy"))
 
     if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
@@ -202,6 +204,9 @@ def static_check(root:Path):
     whisper_ref=whisper_stt_gate(root)
     if whisper_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-027","Whisper STT mandatory provider gate failed",whisper_stt_gate=whisper_ref))
+    mentor_ref=mentor_gate(root)
+    if mentor_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-041","FA3 Mentor mandatory canonical/regression gate failed",mentor_gate=mentor_ref))
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
@@ -343,6 +348,8 @@ def main():
             x=whisper_stt_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="whisper-stt-provider":
             x=whisper_stt_provider_conformance(root); writej(root/"reports/whisper-stt-conformance-report.json",x); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="mentor":
+            x=mentor_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
