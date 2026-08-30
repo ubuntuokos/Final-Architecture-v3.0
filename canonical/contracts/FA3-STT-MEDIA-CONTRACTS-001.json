@@ -12,8 +12,12 @@
     "MediaTranscriptionResult",
     "DiarizationArtifact",
     "AlignmentArtifact",
+    "ForcedAlignmentArtifact",
+    "WordTimingArtifact",
     "SubtitleSegmentationPolicy",
+    "TranslationArtifact",
     "CaptionTrackArtifact",
+    "CaptionQualityEvidence",
     "KdenliveSubtitleImportDescriptor",
     "OTIOCaptionProjectionDescriptor",
     "MediaTranscriptionExecutionEvidence"
@@ -28,5 +32,26 @@
     "demucs_provider": "FA3-PROVIDER-DEMUCS-001",
     "silent_fallback_forbidden": true,
     "stt_without_preprocessor_required": true
+  },
+  "diarization_policy": {
+    "optional": true,
+    "speaker_turn_lineage_required_when_used": true
+  },
+  "alignment_policy": {
+    "provider_native_timing_may_be_used": true,
+    "forced_alignment_required_when_native_timing_insufficient": true,
+    "forced_alignment_is_distinct_artifact": true,
+    "silent_timing_replacement_forbidden": true
+  },
+  "translation_policy": {
+    "optional": true,
+    "source_text_preserved": true,
+    "source_and_target_language_required": true,
+    "provider_and_lineage_required": true
+  },
+  "caption_qc_policy": {
+    "required_before_production_projection": true,
+    "timing_nonoverlap_and_range_validation": true,
+    "source_text_traceability": true
   }
 }
