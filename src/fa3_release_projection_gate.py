@@ -26,6 +26,18 @@ KANBOARD_ENFORCEMENT_PATH = "canonical/kanboard-enforcement.json"
 KANBOARD_GATE_PATH = "src/fa3_kanboard_gate.py"
 KANBOARD_TEST_PATH = "tests/test_kanboard_gate.py"
 KANBOARD_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED"
+PRESENTON_PROVIDER_ID = "FA3-PROVIDER-PRESENTON-001"
+PRESENTON_GATE_ID = "FA3-PRESENTON-GATESET-001"
+PRESENTON_CONTRACT_ID = "FA3-PRESENTON-CONTRACTS-001"
+PRESENTON_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-PRESENTON-001.json"
+PRESENTON_DECISION_PATH = "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json"
+PRESENTON_REFERENCE_PATH = "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json"
+PRESENTON_EVIDENCE_PATH = "evidence/reference/presenton-provider-ci-2026-08-30.json"
+PRESENTON_CONTRACT_PATH = "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json"
+PRESENTON_ENFORCEMENT_PATH = "canonical/presenton-enforcement.json"
+PRESENTON_GATE_PATH = "src/fa3_presenton_gate.py"
+PRESENTON_TEST_PATH = "tests/test_presenton_gate.py"
+PRESENTON_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -293,6 +305,81 @@ def gate(root: Path):
             )
         )
 
+    presenton = projection.get("presenton_reconciliation", {})
+    required_presenton_manifest_paths = {
+        PRESENTON_PROVIDER_PATH,
+        PRESENTON_DECISION_PATH,
+        PRESENTON_REFERENCE_PATH,
+        PRESENTON_EVIDENCE_PATH,
+        PRESENTON_CONTRACT_PATH,
+        PRESENTON_ENFORCEMENT_PATH,
+        PRESENTON_GATE_PATH,
+        PRESENTON_TEST_PATH,
+        "evidence/collect-presenton-current-host.py",
+        "bin/fa3-presenton-current-host.sh",
+        ".github/workflows/fa3-presenton-current-host.yml",
+        "deployment/presenton/README.md",
+        "deployment/presenton/ai-creative.target",
+        "deployment/presenton/postgresql-bootstrap.sql",
+        "deployment/presenton/presenton.caddy",
+        "deployment/presenton/presenton.container",
+    }
+    presenton_overlay_requirements = {
+        "provider_records": PRESENTON_PROVIDER_PATH,
+        "decision_records": PRESENTON_DECISION_PATH,
+        "upstream_reference_records": PRESENTON_REFERENCE_PATH,
+        "reference_evidence_records": PRESENTON_EVIDENCE_PATH,
+        "contract_records": PRESENTON_CONTRACT_PATH,
+    }
+    missing_presenton_overlay_members = [
+        {"inventory": key, "path": required}
+        for key, required in presenton_overlay_requirements.items()
+        if required not in inventory.get(key, [])
+    ]
+    presenton_manifest_missing = sorted(required_presenton_manifest_paths - manifest_paths)
+    presenton_provider = loadj(root / PRESENTON_PROVIDER_PATH) if (root / PRESENTON_PROVIDER_PATH).is_file() else {}
+    presenton_evidence = loadj(root / PRESENTON_EVIDENCE_PATH) if (root / PRESENTON_EVIDENCE_PATH).is_file() else {}
+    cap033 = next((item for item in evidence.get("records", []) if item.get("subject_id") == "CAP-033"), {})
+    if (
+        presenton.get("provider_id") != PRESENTON_PROVIDER_ID
+        or presenton.get("contract_id") != PRESENTON_CONTRACT_ID
+        or presenton.get("gate_id") != PRESENTON_GATE_ID
+        or presenton.get("classification") != "OPTIONAL_PRODUCTION_CANDIDATE_PROVIDER"
+        or presenton.get("reconciliation_status") != PRESENTON_RECONCILIATION_STATUS
+        or presenton.get("current_host_production_e2e") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or presenton.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or presenton.get("new_capabilities") != 0
+        or presenton.get("new_architectural_authorities") != 0
+        or presenton.get("capability_count_after") != CAPABILITY_COUNT
+        or PRESENTON_GATE_ID not in projection_gates
+        or PRESENTON_GATE_ID not in policy_gates
+        or missing_presenton_overlay_members
+        or presenton_manifest_missing
+        or presenton_provider.get("id") != PRESENTON_PROVIDER_ID
+        or presenton_provider.get("canonical_root") is not False
+        or presenton_provider.get("architectural_authority") is not False
+        or presenton_provider.get("new_capability") is not False
+        or presenton_provider.get("capability_count") != CAPABILITY_COUNT
+        or "OPTIONAL_PROVIDER" not in presenton_provider.get("classification", [])
+        or presenton_evidence.get("provider_id") != PRESENTON_PROVIDER_ID
+        or presenton_evidence.get("gate_id") != PRESENTON_GATE_ID
+        or presenton_evidence.get("status") != "PASS"
+        or presenton_evidence.get("current_host_production_e2e", {}).get("status") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or "FA3-DEC-PRESENTON-2026-08-30" not in cap033.get("source_decision_ids", [])
+        or PRESENTON_EVIDENCE_PATH not in cap033.get("evidence_artifacts", [])
+        or cap033.get("status") != "PENDING_CURRENT_HOST"
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-022",
+                "Presenton global projection/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=presenton.get("reconciliation_status"),
+                current_host_production_e2e=presenton.get("current_host_production_e2e"),
+                missing_overlay_members=missing_presenton_overlay_members,
+                missing_manifest_paths=presenton_manifest_missing,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -499,6 +586,8 @@ def gate(root: Path):
             "snapshot_commit_count": facts.get("commit_count") if facts else None,
             "snapshot_delta_files": facts.get("delta_file_count") if facts else None,
             "kanboard_reconciliation": kanboard.get("reconciliation_status"),
+            "presenton_reconciliation": presenton.get("reconciliation_status"),
+            "presenton_current_host_production_e2e": presenton.get("current_host_production_e2e"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
