@@ -1,0 +1,110 @@
+{
+  "schema": "fa3.modular-enforcement.v1",
+  "gate_id": "FA3-MODULAR-GATESET-001",
+  "provider_ids": [
+    "FA3-PROVIDER-MAX-001",
+    "FA3-PROVIDER-MOJO-001"
+  ],
+  "decision_id": "FA3-DEC-MODULAR-2026-08-30",
+  "reference_id": "FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30",
+  "classification": [
+    "OPTIONAL_PROVIDER_FAMILY",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "mandatory_rule_count": 14,
+  "p0_invariants": [
+    "MODULAR_EXECUTION_TOPOLOGY_NOT_RESOURCE_AUTHORITY",
+    "MODULAR_LOCAL_SCHEDULER_NOT_GLOBAL_AUTHORITY",
+    "MODULAR_PORTABLE_SEMANTICS_TARGET_ARTIFACT_IDENTITY_SEPARATE",
+    "MODULAR_TARGET_SPECIALIZATION_SEMANTICS_PRESERVED",
+    "MODULAR_MODEL_VARIANT_COMPATIBILITY_EVIDENCE_REQUIRED",
+    "MODULAR_COMPILED_ARTIFACT_LINEAGE_REQUIRED",
+    "MODULAR_WARM_CACHE_SCOPED_IDENTITY_REQUIRED",
+    "MODULAR_CACHE_OWNERSHIP_LIFECYCLE_EXPLICIT",
+    "MODULAR_CANCELLATION_RELEASES_RESOURCES",
+    "MODULAR_SHARED_CACHE_SECURITY_BOUNDARIES_REQUIRED",
+    "MODULAR_BENCHMARK_TOPOLOGY_BOUND_EVIDENCE",
+    "MODULAR_OPENAI_API_PROJECTION_NOT_ROUTING_AUTHORITY",
+    "MODULAR_STABLE_NIGHTLY_EVIDENCE_SEPARATE",
+    "MODULAR_SOURCE_AVAILABILITY_NOT_REDISTRIBUTION_AUTHORIZATION"
+  ],
+  "rules": [
+    {
+      "id": "FA3-MODULAR-P0-001",
+      "invariant": "MODULAR_EXECUTION_TOPOLOGY_NOT_RESOURCE_AUTHORITY",
+      "requirement": "Execution topology declarations may request device count/mesh/parallelism, but Host Resource Broker remains admission, placement, reservation and lease authority."
+    },
+    {
+      "id": "FA3-MODULAR-P0-002",
+      "invariant": "MODULAR_LOCAL_SCHEDULER_NOT_GLOBAL_AUTHORITY",
+      "requirement": "MAX provider-local queues/batching/prefill/decode scheduling may optimize an admitted invocation, but SHALL NOT become global FA3 scheduling authority."
+    },
+    {
+      "id": "FA3-MODULAR-P0-003",
+      "invariant": "MODULAR_PORTABLE_SEMANTICS_TARGET_ARTIFACT_IDENTITY_SEPARATE",
+      "requirement": "Portable kernel semantics and each target-specific compiled artifact SHALL have distinct identities linked by lineage."
+    },
+    {
+      "id": "FA3-MODULAR-P0-004",
+      "invariant": "MODULAR_TARGET_SPECIALIZATION_SEMANTICS_PRESERVED",
+      "requirement": "Hardware/target specialization SHALL preserve canonical workload semantics; semantic drift requires a new canonical artifact/contract identity and evidence."
+    },
+    {
+      "id": "FA3-MODULAR-P0-005",
+      "invariant": "MODULAR_MODEL_VARIANT_COMPATIBILITY_EVIDENCE_REQUIRED",
+      "requirement": "Model support claims SHALL NOT promote a model variant; compatibility evidence MUST bind model variant, provider version and hardware profile."
+    },
+    {
+      "id": "FA3-MODULAR-P0-006",
+      "invariant": "MODULAR_COMPILED_ARTIFACT_LINEAGE_REQUIRED",
+      "requirement": "Compiled execution artifacts MUST bind model artifact, provider version, compiler version, target architecture, kernel set and compilation config."
+    },
+    {
+      "id": "FA3-MODULAR-P0-007",
+      "invariant": "MODULAR_WARM_CACHE_SCOPED_IDENTITY_REQUIRED",
+      "requirement": "Warm-cache artifacts MUST be scoped to compiled artifact/model variant/provider/compiler/target/config identity and SHALL invalidate on incompatible drift."
+    },
+    {
+      "id": "FA3-MODULAR-P0-008",
+      "invariant": "MODULAR_CACHE_OWNERSHIP_LIFECYCLE_EXPLICIT",
+      "requirement": "Cache ownership, scope and lifecycle MUST be explicit."
+    },
+    {
+      "id": "FA3-MODULAR-P0-009",
+      "invariant": "MODULAR_CANCELLATION_RELEASES_RESOURCES",
+      "requirement": "Cancellation/abort MUST release provider-local reservations and cache resources; leak behavior fails closed."
+    },
+    {
+      "id": "FA3-MODULAR-P0-010",
+      "invariant": "MODULAR_SHARED_CACHE_SECURITY_BOUNDARIES_REQUIRED",
+      "requirement": "Shared KV/cache state MUST preserve tenant/security context boundaries and MUST NOT cross incompatible model/provider/config identities."
+    },
+    {
+      "id": "FA3-MODULAR-P0-011",
+      "invariant": "MODULAR_BENCHMARK_TOPOLOGY_BOUND_EVIDENCE",
+      "requirement": "Performance evidence MUST bind provider/model/hardware/execution topology/parallelism/warm-state identity."
+    },
+    {
+      "id": "FA3-MODULAR-P0-012",
+      "invariant": "MODULAR_OPENAI_API_PROJECTION_NOT_ROUTING_AUTHORITY",
+      "requirement": "OpenAI-compatible MAX endpoints are serving projections only and SHALL NOT become the FA3 model-routing authority."
+    },
+    {
+      "id": "FA3-MODULAR-P0-013",
+      "invariant": "MODULAR_STABLE_NIGHTLY_EVIDENCE_SEPARATE",
+      "requirement": "Stable and nightly/development provider states MUST have independent evidence; one channel SHALL NOT satisfy promotion for another."
+    },
+    {
+      "id": "FA3-MODULAR-P0-014",
+      "invariant": "MODULAR_SOURCE_AVAILABILITY_NOT_REDISTRIBUTION_AUTHORIZATION",
+      "requirement": "Source availability SHALL NOT imply production-use or redistribution authorization; licence admission remains explicit and fail-closed."
+    }
+  ],
+  "executable_gate": "./bin/fa3-enforce modular",
+  "report_path": "reports/modular-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 14
+}
