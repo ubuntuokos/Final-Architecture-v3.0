@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYTHON="${FA3_WHISPER_PYTHON:-$ROOT/.venv-whisper/bin/python}"
+if [[ ! -x "$PYTHON" ]]; then
+  echo "Whisper provider Python not found: $PYTHON" >&2
+  echo "Run: bash $ROOT/bin/fa3-whisper-bootstrap.sh" >&2
+  exit 69
+fi
+exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" "$PYTHON" "$ROOT/src/fa3_whisper_stt_provider.py" --root "$ROOT" "$@"
