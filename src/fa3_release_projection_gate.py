@@ -421,7 +421,6 @@ def gate(root: Path):
         "decision_records": AUTOGPT_DECISION_PATH,
         "upstream_reference_records": AUTOGPT_REFERENCE_PATH,
         "reference_evidence_records": AUTOGPT_EVIDENCE_PATH,
-        "contract_records": AUTOGPT_CONTRACT_PATH,
     }
     missing_autogpt_overlay_members = [
         {"inventory": key, "path": required}
