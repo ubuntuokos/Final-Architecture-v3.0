@@ -145,6 +145,29 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_squash_lineage_requires_release_surface_equivalence(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            broken = dict(facts)
+            broken["snapshot_is_ancestor_of_current_head"] = False
+            broken["snapshot_release_surface_equivalent_except_projection"] = False
+            report = self._gate_copy(dst, broken)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-016" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_squash_lineage_accepts_content_equivalent_snapshot(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            equivalent = dict(facts)
+            equivalent["snapshot_is_ancestor_of_current_head"] = False
+            equivalent["snapshot_release_surface_equivalent_except_projection"] = True
+            report = self._gate_copy(dst, equivalent)
+            self.assertEqual("PASS", report["result"], report)
+        finally:
+            td.cleanup()
+
     def test_wrong_snapshot_tree_sha_fails_closed(self):
         td, dst, facts = self._copy_repo()
         try:
