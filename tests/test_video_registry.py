@@ -76,5 +76,72 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertIn("qc_and_provenance_evidence_pass", gate["h3_promotion_requirements"])
 
 
+    def test_h3_all_official_execution_frameworks_are_targets_not_promoted(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        for name in ("sglang", "vllm", "diffusers", "comfyui"):
+            self.assertEqual(
+                h3["integration_targets"][name]["status"],
+                "PRODUCTION_INTEGRATION_TARGET",
+            )
+        self.assertIn("NOT_YET_CURRENT_HOST_PROMOTED", h3["implementation_status"])
+
+    def test_h3_prompt_skill_is_reference_knowledge_only(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        prompt = h3["prompt_knowledge_adapter"]
+        self.assertEqual(prompt["status"], "REFERENCE_KNOWLEDGE_ADAPTER")
+        self.assertFalse(prompt["architectural_authority"])
+        self.assertFalse(prompt["canonical_ir"])
+        self.assertFalse(prompt["context_compiler_authority"])
+        self.assertFalse(prompt["execution_authority"])
+        self.assertEqual(
+            prompt["skills_lock_computed_hash"],
+            "3d01859464bc9438585c8fdbf7fcd4b4c54404fadd3f1a64ab7970ae8877d086",
+        )
+
+    def test_h3_runtime_targets_require_immutable_version_pin(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        for name in ("sglang", "vllm", "diffusers", "comfyui"):
+            self.assertTrue(
+                h3["integration_targets"][name]["immutable_runtime_version_pin_required"]
+            )
+
+    def test_h3_comfyui_promotion_is_compatibility_gated(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        comfy = h3["integration_targets"]["comfyui"]
+        self.assertTrue(comfy["adapter_compatibility_regression_required"])
+        self.assertTrue(comfy["audio_path_regression_required"])
+        self.assertTrue(comfy["current_host_e2e_required"])
+        self.assertIn("Comfy-Org/ComfyUI#15960", comfy["known_open_compatibility_risks"])
+        self.assertIn("Comfy-Org/ComfyUI#15970", comfy["known_open_compatibility_risks"])
+
+    def test_h3_projection_decision_preserves_baseline(self):
+        decision = load(
+            "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json"
+        )
+        self.assertFalse(decision["canonical_semantics_changed"])
+        self.assertEqual(decision["new_capabilities"], 0)
+        self.assertEqual(decision["new_architectural_authorities"], 0)
+        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertEqual(
+            decision["promotion_state"],
+            "INTEGRATION_TARGETS_REGISTERED_NOT_CURRENT_HOST_PROMOTED",
+        )
+
+    def test_h3_upstream_reference_is_immutable_and_skill_locked(self):
+        ref = load(
+            "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json"
+        )
+        self.assertEqual(
+            ref["observed_commit"],
+            "d21241f0a4b3acbb34c97dae47fa417b7065e438",
+        )
+        self.assertFalse(ref["rules"]["floating_main_for_promotion_evidence"])
+        self.assertEqual(
+            ref["prompt_skill"]["skills_lock_computed_hash"],
+            "3d01859464bc9438585c8fdbf7fcd4b4c54404fadd3f1a64ab7970ae8877d086",
+        )
+
+
+
 if __name__ == "__main__":
     unittest.main()

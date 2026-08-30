@@ -17,14 +17,45 @@
     "LICENSE_POLICY_ADMISSION_FAILS_CLOSED",
     "H3_CONTEXT_IR_IS_REFERENCE_PATTERN_ONLY",
     "H3_LOCAL_PROMOTION_REQUIRES_CURRENT_HOST_EVIDENCE",
-    "H3_DIFFUSERS_AND_COMFYUI_ARE_INTEGRATION_TARGETS_NOT_PROMOTED_RUNTIME"
+    "H3_SGLANG_VLLM_DIFFUSERS_COMFYUI_ARE_INTEGRATION_TARGETS_NOT_PROMOTED_RUNTIME",
+    "H3_PROMPT_SKILL_IS_REFERENCE_KNOWLEDGE_NOT_AUTHORITY",
+    "H3_SELECTED_RUNTIME_REQUIRES_IMMUTABLE_VERSION_PIN",
+    "H3_COMFYUI_COMPATIBILITY_AND_AUDIO_REGRESSION_FAIL_CLOSED"
   ],
   "h3_promotion_requirements": [
     "license_admission_pass",
     "artifact_trust_pass",
     "host_resource_broker_admission_pass",
-    "diffusers_or_comfyui_adapter_conformance_pass",
+    "immutable_runtime_version_pin_pass",
+    "selected_execution_adapter_conformance_pass",
+    "known_compatibility_regression_pass_when_applicable",
     "video_execution_e2e_pass",
     "qc_and_provenance_evidence_pass"
-  ]
+  ],
+  "h3_integration_targets": [
+    "sglang",
+    "vllm",
+    "diffusers",
+    "comfyui"
+  ],
+  "h3_prompt_knowledge_policy": {
+    "source": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+    "classification": "REFERENCE_KNOWLEDGE_ONLY",
+    "provider_prompt_projection_allowed": true,
+    "canonical_ir_authority": false,
+    "context_compiler_authority": false,
+    "provider_selection_authority": false,
+    "execution_authority": false
+  },
+  "h3_comfyui_promotion_policy": {
+    "fail_closed": true,
+    "immutable_runtime_version_pin_required": true,
+    "adapter_compatibility_regression_required": true,
+    "audio_path_regression_required": true,
+    "current_host_e2e_required": true,
+    "observed_open_risks": [
+      "Comfy-Org/ComfyUI#15960",
+      "Comfy-Org/ComfyUI#15970"
+    ]
+  }
 }
