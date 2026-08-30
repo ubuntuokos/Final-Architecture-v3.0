@@ -12,7 +12,11 @@
     "LICENSE_GATED"
   ],
   "profile": "FA3-VIDEO-001",
-  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -39,12 +43,44 @@
     "diffusers": {
       "status": "PRODUCTION_INTEGRATION_TARGET",
       "projection": "H3_BASE_LOCAL_EXECUTION",
-      "requires_host_resource_broker": true
+      "requires_host_resource_broker": true,
+      "immutable_runtime_version_pin_required": true,
+      "current_host_e2e_required": true
     },
     "comfyui": {
       "status": "PRODUCTION_INTEGRATION_TARGET",
       "projection": "GRAPH_WORKFLOW_EXECUTION_ADAPTER",
-      "requires_host_resource_broker_for_local_accelerator": true
+      "requires_host_resource_broker_for_local_accelerator": true,
+      "immutable_runtime_version_pin_required": true,
+      "adapter_compatibility_regression_required": true,
+      "audio_path_regression_required": true,
+      "current_host_e2e_required": true,
+      "known_open_compatibility_risks": [
+        "Comfy-Org/ComfyUI#15960",
+        "Comfy-Org/ComfyUI#15970"
+      ]
+    },
+    "sglang": {
+      "status": "PRODUCTION_INTEGRATION_TARGET",
+      "projection": "LOCAL_SERVICE_EXECUTION_ADAPTER",
+      "model_variants": [
+        "FL2VA",
+        "Ref2VA"
+      ],
+      "requires_host_resource_broker_for_local_accelerator": true,
+      "immutable_runtime_version_pin_required": true,
+      "current_host_e2e_required": true
+    },
+    "vllm": {
+      "status": "PRODUCTION_INTEGRATION_TARGET",
+      "projection": "LOCAL_SERVICE_EXECUTION_ADAPTER",
+      "model_variants": [
+        "FL2VA",
+        "Ref2VA"
+      ],
+      "requires_host_resource_broker_for_local_accelerator": true,
+      "immutable_runtime_version_pin_required": true,
+      "current_host_e2e_required": true
     }
   },
   "license_admission": {
@@ -65,5 +101,27 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
   },
-  "implementation_status": "DIFFUSERS_AND_COMFYUI_PROJECTION_TARGET_REGISTERED_NOT_YET_CURRENT_HOST_PROMOTED"
+  "implementation_status": "SGLANG_VLLM_DIFFUSERS_COMFYUI_PROJECTION_TARGETS_REGISTERED_PROMPT_SKILL_REFERENCE_REGISTERED_NOT_YET_CURRENT_HOST_PROMOTED",
+  "upstream_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+  "prompt_knowledge_adapter": {
+    "id": "FA3-H3-PROMPT-KNOWLEDGE-001",
+    "status": "REFERENCE_KNOWLEDGE_ADAPTER",
+    "source_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+    "upstream_skill": "h3-prompt-writing",
+    "source_path": "skills/h3-prompt-writing/SKILL.md",
+    "skills_lock_computed_hash": "3d01859464bc9438585c8fdbf7fcd4b4c54404fadd3f1a64ab7970ae8877d086",
+    "supported_generation_modes": [
+      "T2VA",
+      "I2VA",
+      "FL2VA",
+      "L2VA",
+      "Ref2VA"
+    ],
+    "external_api_required_by_skill": false,
+    "architectural_authority": false,
+    "canonical_ir": false,
+    "context_compiler_authority": false,
+    "execution_authority": false,
+    "rule": "MAY_HELP_PROJECT_VideoGenerationIR_TO_PROVIDER_PROMPT_BUT_MUST_NOT_REPLACE_OR_MUTATE_CANONICAL_IR"
+  }
 }

@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "MiniMax H3 provider projection expansion",
+  "decision": "PROVIDER_PROJECTION_UPDATE_NO_BASELINE_SEMANTIC_CHANGE",
+  "supersedes": null,
+  "extends_decision": "FA3-DEC-VIDEO-H3-2026-08-30",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "upstream_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+  "changes": [
+    "register SGLang as MiniMax H3 production integration target",
+    "register vLLM as MiniMax H3 production integration target",
+    "retain Diffusers as MiniMax H3 production integration target",
+    "retain ComfyUI as MiniMax H3 production integration target",
+    "register h3-prompt-writing as non-authoritative prompt/recipe knowledge adapter",
+    "require immutable runtime version pin for every selected local execution adapter",
+    "require ComfyUI H3 compatibility and audio-path regressions before promotion",
+    "retain all H3 execution targets as not current-host promoted"
+  ],
+  "canonical_semantics_changed": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "promotion_state": "INTEGRATION_TARGETS_REGISTERED_NOT_CURRENT_HOST_PROMOTED",
+  "selected_adapter_promotion_requirements": [
+    "license_admission_pass",
+    "artifact_trust_pass",
+    "host_resource_broker_admission_pass",
+    "immutable_runtime_version_pin_pass",
+    "selected_execution_adapter_conformance_pass",
+    "known_compatibility_regression_pass_when_applicable",
+    "video_execution_e2e_pass",
+    "qc_and_provenance_evidence_pass"
+  ],
+  "prompt_skill_boundary": {
+    "classification": "REFERENCE_KNOWLEDGE_ONLY",
+    "may_translate_provider_neutral_intent_to_provider_prompt": true,
+    "may_replace_VideoGenerationIR": false,
+    "may_be_context_compiler_authority": false,
+    "may_select_provider": false,
+    "may_execute_provider": false
+  },
+  "authority_boundaries_unchanged": true
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+  "observed_at": "2026-08-30",
+  "upstream": "MiniMax-AI/MiniMax-H3",
+  "observed_default_branch": "main",
+  "observed_commit": "d21241f0a4b3acbb34c97dae47fa417b7065e438",
+  "evidence_role": "REFERENCE_AND_PROVIDER_PROJECTION_SOURCE_NOT_RUNTIME_PROMOTION",
+  "official_inference_frameworks": [
+    "SGLang",
+    "vLLM",
+    "Diffusers",
+    "ComfyUI"
+  ],
+  "prompt_skill": {
+    "name": "h3-prompt-writing",
+    "path": "skills/h3-prompt-writing/SKILL.md",
+    "source_commit": "d21241f0a4b3acbb34c97dae47fa417b7065e438",
+    "git_blob_sha": "b6d9b2839384a588763a9c24315225dd8ce19d56",
+    "skills_lock_computed_hash": "3d01859464bc9438585c8fdbf7fcd4b4c54404fadd3f1a64ab7970ae8877d086",
+    "classification": "NON_AUTHORITATIVE_PROMPT_RECIPE_KNOWLEDGE",
+    "external_api_required_by_skill": false,
+    "supported_generation_modes": [
+      "T2VA",
+      "I2VA",
+      "FL2VA",
+      "L2VA",
+      "Ref2VA"
+    ]
+  },
+  "observed_compatibility_risks": [
+    {
+      "component": "ComfyUI",
+      "reference": "Comfy-Org/ComfyUI#15960",
+      "state_at_observation": "OPEN",
+      "risk": "MiniMax H3 FinalLayer.forward calling-contract compatibility after PDD support",
+      "promotion_effect": "REQUIRES_VERSION_PINNED_ADAPTER_COMPATIBILITY_REGRESSION"
+    },
+    {
+      "component": "ComfyUI",
+      "reference": "Comfy-Org/ComfyUI#15970",
+      "state_at_observation": "OPEN",
+      "risk": "MiniMax H3 AudioVAE input handling / latent-length correctness",
+      "promotion_effect": "REQUIRES_AUDIO_PATH_REGRESSION_EVIDENCE"
+    }
+  ],
+  "rules": {
+    "floating_main_for_promotion_evidence": false,
+    "upstream_framework_recommendation_is_not_fa3_admission": true,
+    "prompt_skill_is_not_VideoGenerationIR": true,
+    "prompt_skill_is_not_context_compiler_authority": true,
+    "provider_runtime_requires_separate_current_host_evidence": true
+  }
+}
