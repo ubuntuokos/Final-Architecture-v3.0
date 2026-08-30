@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30",
+  "source_id": "FA3-SOURCE-PUBLIC-API-LISTS-001",
+  "repository": "public-api-lists/public-api-lists",
+  "observed_at": "2026-08-30",
+  "default_branch": "master",
+  "observed_default_branch_head": "1026cf8fb5a6824c308285d7f449ea795f357831",
+  "observed_head_committed_at": "2026-08-01T11:25:46Z",
+  "immutable_reference_commit": "1026cf8fb5a6824c308285d7f449ea795f357831",
+  "reference_kind": "PINNED_COMMIT",
+  "license": "MIT",
+  "classification": [
+    "PRIMARY_MACHINE_READABLE_EXTERNAL_API_DISCOVERY_SOURCE",
+    "CURATED_CATALOG",
+    "LIFECYCLE_VALIDATION_PATTERN_SOURCE"
+  ],
+  "observed_machine_surface": {
+    "advertised_api": "public-api-lists.github.io/public-api-lists/api/all.json",
+    "advertised_api_kind": "JSON_CATALOG"
+  },
+  "observed_controls": [
+    "pull-request validation workflow",
+    "link checking workflow",
+    "scheduled link checking workflow"
+  ],
+  "fa3_disposition": {
+    "accepted": true,
+    "discovery_source": true,
+    "preferred_machine_readable_ingestion_projection": true,
+    "runtime_provider": false,
+    "canonical_root": false,
+    "architectural_authority": false,
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "canonical_capability_count": 143,
+    "catalog_listing_is_authorization": false,
+    "floating_master_allowed_as_promotion_evidence": false
+  }
+}
