@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-STT-CONTRACTS-001",
+  "profile": "FA3-STT-001",
+  "provider_neutral": true,
+  "contracts": [
+    "SpeechRecognitionProviderCapabilityDescriptor",
+    "SpeechRecognitionRequest",
+    "SpeechRecognitionResult",
+    "SpeechSegment",
+    "WordTiming",
+    "SpeakerTurn",
+    "LanguageDescriptor",
+    "TranscriptionQualityEvidence",
+    "SpeechRecognitionExecutionEvidence"
+  ],
+  "required_result_fields": [
+    "status",
+    "provider_id",
+    "segments",
+    "language",
+    "audio_hash"
+  ],
+  "authority_exclusions": [
+    "provider cannot own model routing",
+    "provider cannot own host placement",
+    "provider cannot own policy authorization"
+  ]
+}
