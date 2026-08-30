@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "AgentTask",
+    "AgentDelegation",
+    "WorkspaceLease",
+    "AgentMessage",
+    "AgentMessageCursor",
+    "AgentResult",
+    "HumanEscalation",
+    "CircuitBreakerAction",
+    "IntegrationIntent",
+    "ProviderAdapterDescriptor",
+    "CoordinationEvent",
+    "ExecutionEvidence"
+  ],
+  "provider_adapter_lifecycle": [
+    "spawn",
+    "assign_task",
+    "observe",
+    "interrupt",
+    "constrain",
+    "terminate",
+    "collect_result"
+  ],
+  "coordination_semantics": {
+    "mutation_workspace": "ISOLATED_WORKTREE_OR_EQUIVALENT_COLLISION_RESISTANT_WORKSPACE",
+    "shared_repository_mutation": "SINGLE_INTEGRATION_COMMITTER_ONLY",
+    "message_publication": "ONE_MESSAGE_PER_FILE_TEMP_THEN_ATOMIC_RENAME",
+    "message_consumption": "IDEMPOTENT_WITH_INDEPENDENT_CONSUMER_CURSOR",
+    "message_hops": "EXPLICIT_MAX_HOPS_FAIL_CLOSED",
+    "event_log": "APPEND_ONLY_SINGLE_WRITER",
+    "integration": "DIFF_COLLECT_CHECK_THEN_APPLY",
+    "critical_actions": "POLICY_CLASSIFIED_HUMAN_ESCALATION",
+    "circuit_breaker": [
+      "STEER",
+      "CONSTRAIN",
+      "TERMINATE"
+    ],
+    "cleanup": "PROCESS_WORKTREE_LEASE_PENDING_MESSAGE_ZEROIZATION"
+  },
+  "authority_boundaries": {
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "execution_profile": "FA3-AGENT-EXEC-001"
+  },
+  "forbidden_semantics": [
+    "PROVIDER_IMPLIES_AUTHORITY",
+    "WORKER_DIRECT_MAIN_COMMIT",
+    "SHARED_MUTATING_WORKTREE_WITHOUT_SERIALIZATION",
+    "MESSAGE_REPLAY_AS_NEW_EXECUTION",
+    "UNBOUNDED_AGENT_TO_AGENT_HOPS",
+    "CRITICAL_MUTATION_WITHOUT_REQUIRED_APPROVAL",
+    "VERIFIED_WITHOUT_EXECUTABLE_EVIDENCE"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001",
+  "profile": "FA3-AGENT-EXEC-001",
+  "contract_family": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+  "runtime_id": "FA3-DEVELOPER-AGENT-COORDINATION-REF-RUNTIME-001",
+  "runtime_version": "0.1.0",
+  "status": "REFERENCE_RUNTIME",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "implementation": "src/fa3_developer_agent_coordination.py",
+  "gate": "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
+  "executable_e2e": {
+    "required": true,
+    "environment": "CI_SAFE_LOCAL_GIT_AND_SUBPROCESS",
+    "provider_adapter": "FA3-BUILTIN-DETERMINISTIC-FIXTURE-ADAPTER-001",
+    "external_provider_credentials_required": false,
+    "current_host_production_claim": false,
+    "pass_status": "CI_REFERENCE_RUNTIME_E2E_PASS",
+    "required_positive_flow": [
+      "CREATE_TEMP_GIT_REPOSITORY",
+      "CREATE_THREE_ISOLATED_WORKTREES",
+      "ATOMIC_MESSAGE_PUBLISH_AND_IDEMPOTENT_CONSUME",
+      "SPAWN_THREE_WORKER_PROCESSES",
+      "COLLECT_UNCOMMITTED_WORKER_DIFFS",
+      "VERIFY_NO_WORKER_COMMIT",
+      "DETECT_PATH_CONFLICTS",
+      "SINGLE_INTEGRATION_COMMIT",
+      "RUN_CANONICAL_GUARDS",
+      "TEARDOWN_ALL_WORKTREES_AND_PROCESS_STATE"
+    ],
+    "required_negative_cases": [
+      "DUPLICATE_MUTATING_WORKSPACE_DENIED",
+      "WORKER_DIRECT_MAIN_COMMIT_DENIED",
+      "MESSAGE_HOP_BUDGET_OVERFLOW_TERMINATES",
+      "DESTRUCTIVE_ACTION_WITHOUT_HUMAN_APPROVAL_DENIED",
+      "WORKER_CLEANUP_LEAK_FAILS",
+      "PROVIDER_AUTHORITY_ASSIGNMENT_DENIED",
+      "OVERLAPPING_WORKER_DIFFS_DENIED"
+    ]
+  },
+  "evidence": {
+    "collector": "evidence/collect-developer-agent-coordination-e2e.py",
+    "report": "reports/developer-agent-coordination-e2e-report.json",
+    "receipt": "evidence/receipts/developer-agent-coordination-ci-e2e.json",
+    "receipt_is_current_host_production_evidence": false
+  }
+}

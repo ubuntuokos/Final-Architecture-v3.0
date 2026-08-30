@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3-native provider-neutral multi-agent developer coordination",
+  "decision": "MATERIALIZE_CONTRACT_REFERENCE_RUNTIME_V0_1_AND_EXECUTABLE_E2E",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "contract_family": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+  "runtime_conformance": "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001",
+  "gate_id": "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
+  "source_pattern_provider": "FA3-PROVIDER-MUNDER-DIFFLIN-001",
+  "provider_dependency_created": false,
+  "external_agent_provider_required": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "evidence_claim": "CI_REFERENCE_RUNTIME_E2E_PASS_IS_REFERENCE_RUNTIME_EVIDENCE_ONLY",
+  "future_provider_adapters": [
+    "Codex",
+    "Claude Code",
+    "Gemini CLI",
+    "OpenCode",
+    "AutoGPT",
+    "Munder Difflin"
+  ],
+  "prohibited_promotions": [
+    "REFERENCE_FIXTURE_AS_PRODUCTION_AGENT_PROVIDER",
+    "COORDINATOR_AS_AUTHORIZATION_AUTHORITY",
+    "COORDINATOR_AS_TOOL_MEDIATION_AUTHORITY",
+    "COORDINATOR_AS_HOST_RESOURCE_AUTHORITY",
+    "COORDINATOR_AS_EVIDENCE_AUTHORITY",
+    "WORKER_AS_MAIN_COMMITTER"
+  ]
+}
