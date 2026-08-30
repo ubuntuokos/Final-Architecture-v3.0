@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Consolidation of all mandatory Kdenlive editorial and automation decisions",
+  "decision": "IMPLEMENT",
+  "profile_id": "FA3-KDENLIVE-EDITORIAL-001",
+  "provider_id": "FA3-PROVIDER-KDENLIVE-001",
+  "capability_projection": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "kdenlive_role": "PRIMARY_LINUX_KUBUNTU_HUMAN_NLE_AND_FINAL_ASSEMBLY_FRONTEND",
+  "hard_backend_dependency": false,
+  "automation": "API_FIRST_GUI_FALLBACK_ONLY",
+  "mandatory_rules": [
+    "KDENLIVE_PRIMARY_LINUX_EDITORIAL_FRONTEND",
+    "KDENLIVE_NOT_HARD_BACKEND_DEPENDENCY",
+    "OTIO_CANONICAL_TIMELINE_IR",
+    "KDENLIVE_NATIVE_OTIO_IMPORT_EXPORT_PROJECTION",
+    "API_FIRST_EDITORIAL_AUTOMATION",
+    "GUI_AUTOMATION_FALLBACK_ONLY",
+    "GUI_FALLBACK_AUDITED_REPRODUCIBLE",
+    "CRITICAL_EDITORIAL_MUTATION_REQUIRES_HITL",
+    "DIRECT_KDENLIVE_PROJECT_XML_MUTATION_FORBIDDEN",
+    "DETERMINISTIC_FFMPEG_FFPROBE_MEDIA_CORE",
+    "PROVIDER_NEUTRAL_TIMELINE_AND_ARTIFACT_CONTRACTS",
+    "ROUNDTRIP_PROVENANCE_AND_HASH_LINEAGE_REQUIRED",
+    "KDENLIVE_MLT_DBUS_CONTROL_MUST_BE_TYPED_VERSIONED_CAPABILITY_DISCOVERED",
+    "HUMAN_EDITORIAL_STATE_REMAINS_KDENLIVE_OWNED",
+    "KUBUNTU_KDE_WAYLAND_FIRST_CLASS",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ],
+  "pipeline": "AI/agent intent -> canonical OTIO -> Kdenlive human editorial/refinement -> evidence-backed export/delivery",
+  "notes": [
+    "Kdenlive is the primary Linux editorial frontend, not a hard backend dependency.",
+    "OTIO remains the canonical automated timeline representation.",
+    "GUI automation is permitted only as an audited, reproducible fallback after preferred control surfaces are unavailable.",
+    "Critical mutations require a human approval gate.",
+    "The decision preserves the 143-capability baseline and introduces no architectural authority."
+  ]
+}
