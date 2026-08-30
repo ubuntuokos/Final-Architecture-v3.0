@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-REGISTRY-001",
+  "name": "Canonical Registry & Single Source of Truth Governance Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "registry_families": [
+    "Capability Registry",
+    "Profile Registry",
+    "Contract Registry",
+    "Authority Registry",
+    "Provider Registry",
+    "Supersedence Registry",
+    "Decision Registry",
+    "Evidence Registry"
+  ],
+  "authority_role": "METADATA_IDENTITY_STATUS_RELATIONSHIP_SSOT_NOT_RUNTIME_AUTHORITY",
+  "invariants": [
+    "REGISTRY_IDS_ARE_THE_ONLY_CANONICAL_CROSS_RECORD_REFERENCES",
+    "NO_REGISTRY_RECORD_NO_CANONICAL_STATUS_CHANGE",
+    "NO_DECISION_RECORD_NO_AUTHORITY_CHANGE",
+    "REFERENTIAL_INTEGRITY_FAILS_CLOSED",
+    "SUPERSEDENCE_MUST_BE_EXPLICIT_AND_ACYCLIC",
+    "PROVIDER_RECORD_DOES_NOT_GRANT_ARCHITECTURAL_AUTHORITY",
+    "EVIDENCE_STATUS_IS_SEPARATE_FROM_DESIGN_STATUS",
+    "CAPABILITY_COUNT_REMAINS_143_UNLESS_EXPLICIT_CANONICAL_DECISION_CHANGES_IT"
+  ],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+}
