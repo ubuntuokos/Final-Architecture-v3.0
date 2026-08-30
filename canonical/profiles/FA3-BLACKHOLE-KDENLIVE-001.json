@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-BLACKHOLE-KDENLIVE-001",
   "name": "Blackhole Kdenlive Long-Form Transcription & Subtitle Integration Projection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-BLACKHOLE-KDENLIVE-USED",
@@ -19,12 +19,14 @@
   ],
   "dependencies": [
     "FA3-STT-MEDIA-001",
+    "FA3-KDENLIVE-EDITORIAL-001",
     "FA3-MEDIA-FINISH-001",
     "FA3-TEMPORAL-001",
     "FA3-AUDIO-SEPARATION-001"
   ],
   "demucs_role": "OPTIONAL_PREPROCESSOR_ONLY",
   "kdenlive_role": "HUMAN_EDITORIAL_AND_SUBTITLE_IMPORT_SURFACE",
+  "canonical_timeline_ir": "OpenTimelineIO",
   "direct_kdenlive_project_xml_mutation": false,
   "conda_or_miniforge_allowed": false,
   "separate_blackhole_gui_required": false,
