@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30",
+  "provider_id": "FA3-PROVIDER-KANBOARD-001",
+  "repository": "kanboard/kanboard",
+  "observed_at": "2026-08-30",
+  "stable_reference": {
+    "release": "v1.2.54",
+    "commit_sha": "9ce6a5edc5b646ef15780cb445bc6d2c39d9898f",
+    "published_at": "2026-08-29T02:38:58Z"
+  },
+  "release_security_observations": [
+    "permission enforcement on project creation paths",
+    "task/project relationship validation for task files and API tag assignment",
+    "project membership validation for subtask assignees",
+    "owner/project scoping for notifications and custom filters",
+    "request-token validation for tag, board and comment actions",
+    "automatic-action parameter and destination-scope validation"
+  ],
+  "fa3_disposition": {
+    "floating_main_allowed_as_promotion_evidence": false,
+    "application_wide_credential_authorization_bypass_allowed": false,
+    "webhook_payload_is_authorization_or_canonical_evidence": false,
+    "plugin_curation_implies_transitive_trust": false,
+    "provider_configured_url_implies_egress_authorization": false,
+    "provider_runtime_required_for_global_promotion": false
+  }
+}

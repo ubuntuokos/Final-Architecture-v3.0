@@ -4,6 +4,7 @@ import argparse,csv,json,sys
 from pathlib import Path
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
+from fa3_kanboard_gate import gate as kanboard_gate
 from fa3_buzz_gate import gate as buzz_gate
 from fa3_xcmd_gate import gate as xcmd_gate
 from fa3_munder_difflin_gate import gate as munder_difflin_gate
@@ -276,7 +277,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","runtime","terax","kaneo","buzz","xcmd","munder-difflin","modular","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","runtime","terax","kaneo","kanboard","buzz","xcmd","munder-difflin","modular","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -288,6 +289,8 @@ def main():
             x=terax_gate(root,require_current_host=not a.ci_only); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kaneo":
             x=kaneo_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="kanboard":
+            x=kanboard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="buzz":
             x=buzz_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="xcmd":

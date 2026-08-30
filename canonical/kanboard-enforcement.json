@@ -1,0 +1,89 @@
+{
+  "schema": "fa3.kanboard-enforcement.v1",
+  "gate_id": "FA3-KANBOARD-GATESET-001",
+  "provider_id": "FA3-PROVIDER-KANBOARD-001",
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "mandatory_rule_count": 12,
+  "p0_invariants": [
+    "KANBOARD_STATE_TRANSITION_REQUIRES_SCOPED_AUTHORIZATION",
+    "KANBOARD_EVENT_DOES_NOT_IMPLY_ACTION_AUTHORIZATION",
+    "KANBOARD_INTEGRATION_CREDENTIAL_CANNOT_BYPASS_SCOPED_AUTHORIZATION",
+    "KANBOARD_PROVIDER_NEUTRAL_WORK_ITEM_IDENTITY_REQUIRED",
+    "KANBOARD_REMOTE_PROVIDER_STATE_RECONCILIATION_EXPLICIT",
+    "KANBOARD_WEBHOOK_REQUIRES_TYPED_NORMALIZATION_AND_IS_NOT_EVIDENCE",
+    "KANBOARD_PLUGIN_ADMISSION_REQUIRES_SUPPLY_CHAIN_EVIDENCE",
+    "KANBOARD_PLUGIN_EXTENSIBILITY_DOES_NOT_GRANT_AUTHORITY",
+    "KANBOARD_PROVIDER_URL_REQUIRES_CANONICAL_EGRESS_AUTHORIZATION",
+    "KANBOARD_PROVIDER_FAILURE_MUST_NOT_REPLACE_CANONICAL_STATE",
+    "KANBOARD_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+    "KANBOARD_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "rules": [
+    {
+      "id": "FA3-KANBOARD-P0-001",
+      "name": "state-transition authorization",
+      "requirement": "Every security-relevant work-item state transition MUST carry caller identity, project/workspace scope, explicit transition capability and an ALLOW decision from the canonical FA3 authorization authority."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-002",
+      "name": "event/action authorization separation",
+      "requirement": "The occurrence or receipt of an event MUST NOT itself authorize the action triggered by that event; action execution requires a separate canonical authorization decision."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-003",
+      "name": "no integration-wide authorization bypass",
+      "requirement": "A global/application integration credential MUST NOT bypass actor-, project-, workspace- or capability-scoped authorization on the canonical runtime path."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-004",
+      "name": "provider-neutral work-item identity",
+      "requirement": "Kanboard task/project identifiers are provider projection identifiers and MUST NOT replace canonical FA3 work-item identity."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-005",
+      "name": "explicit remote-state reconciliation",
+      "requirement": "Remote provider state MUST carry an observed provider revision plus explicit synchronization/reconciliation state before it can affect canonical workflow state."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-006",
+      "name": "webhook normalization boundary",
+      "requirement": "Kanboard webhook input MUST be authenticated/validated and normalized into a typed canonical event envelope; the webhook payload alone is neither authorization proof nor canonical evidence."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-007",
+      "name": "plugin supply-chain admission",
+      "requirement": "A Kanboard plugin used by FA3 requires source identity, pinned version, immutable digest, provenance verification, licence admission and policy admission; ad-hoc web installation is forbidden on the canonical production path."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-008",
+      "name": "plugin non-authority",
+      "requirement": "Plugin extensibility MUST NOT grant identity, authorization, workflow, event, evidence, secrets, egress, artifact-trust or other FA3 architectural authority."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-009",
+      "name": "provider URL egress boundary",
+      "requirement": "A provider- or plugin-configured outbound URL does not constitute network-egress authorization; canonical egress admission plus SSRF and DNS-rebinding controls are required."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-010",
+      "name": "provider failure isolation",
+      "requirement": "Loss or inconsistency of the optional Kanboard provider MUST NOT replace, corrupt or become fail-open authority for canonical FA3 workflow/work-item state."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-011",
+      "name": "disabled provider near-zero runtime cost",
+      "requirement": "When disabled/reference-only, Kanboard MUST impose no resident provider process, background worker, network session, accelerator reservation or active polling requirement on FA3."
+    },
+    {
+      "id": "FA3-KANBOARD-P0-012",
+      "name": "provider non-authority invariant",
+      "requirement": "FA3-PROVIDER-KANBOARD-001 remains optional, non-root and non-authoritative, adds no capability and preserves the canonical capability count of 143."
+    }
+  ],
+  "executable_gate": "./bin/fa3-enforce kanboard",
+  "report_path": "reports/kanboard-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 12
+}
