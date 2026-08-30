@@ -1073,12 +1073,25 @@
         "FA3-CORE-008",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-AUTOGPT-2026-08-30"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/autogpt-ci-2026-08-30.json",
+        "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "provider_projection_status": {
+        "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+        "classification": "OPTIONAL_REFERENCE_PROVIDER",
+        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED",
+        "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "global_runtime_promotion_effect": "NONE_WHILE_DISABLED",
+        "reconciliation_evidence": "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
+      }
     },
     {
       "evidence_id": "EVID-CAP-029-CURRENT-HOST",

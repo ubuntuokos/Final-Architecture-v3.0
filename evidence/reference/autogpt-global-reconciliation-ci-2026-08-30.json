@@ -1,0 +1,111 @@
+{
+  "schema": "fa3.autogpt-global-reconciliation-ci-evidence.v1",
+  "id": "FA3-EVID-AUTOGPT-GLOBAL-RECONCILIATION-CI-2026-08-30",
+  "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+  "capability_id": "CAP-028",
+  "projection_id": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
+  "gate_id": "FA3-AUTOGPT-GATESET-001",
+  "status": "PASS",
+  "evidence_scope": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION",
+  "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED",
+  "source_snapshot": {
+    "pre_projection_head_sha": "1f48670cfa99db0104cf41c8388c5a230ce10140",
+    "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
+    "post_baseline_commits": 70,
+    "delta_files": 243,
+    "manifest_entries": 246
+  },
+  "github": {
+    "pull_request": 22,
+    "workflow_name": "FA3 Permanent Canonical + Promotion Gate",
+    "workflow_run_id": 33329280895,
+    "workflow_run_number": 103,
+    "workflow_event": "pull_request",
+    "tested_head_sha": "5afca20b1a03710cda1606a73e96bebaa860cc63",
+    "tested_tree_sha": "c36f7495f0d45ce1637073a006db1811cda6d61e",
+    "workflow_conclusion": "success",
+    "canonical_regression_job_id": 99304816475,
+    "canonical_regression_conclusion": "success",
+    "promotion_safety_job_id": 99304850471,
+    "promotion_safety_conclusion": "success",
+    "static_artifact_id": 9737156902,
+    "static_artifact_digest": "sha256:464d0d206e57256d29f8066606db38b0220f0402f30b56485d71d22ad596a378",
+    "promotion_artifact_id": 9737159576,
+    "promotion_artifact_digest": "sha256:ff45956b107dc77ae5a6d53d7224069630c3a661d58f43c9455f938487f2ee8d"
+  },
+  "results": {
+    "repository_unit_tests": {
+      "status": "PASS",
+      "passed": 215,
+      "total": 215
+    },
+    "release_projection_gate": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "manifest_entries": 246,
+      "tracked_release_surface_files": 246,
+      "canonical_capability_count": 143,
+      "autogpt_reconciliation": "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED"
+    },
+    "autogpt_provider_gate": {
+      "status": "PASS"
+    },
+    "canonical_static_gate": {
+      "status": "PASS",
+      "blocking_findings": 0
+    },
+    "promotion_safety": {
+      "status": "PASS"
+    }
+  },
+  "evidence_registry_binding": {
+    "subject_id": "CAP-028",
+    "decision_id": "FA3-DEC-AUTOGPT-2026-08-30",
+    "provider_ci_evidence": "evidence/reference/autogpt-ci-2026-08-30.json",
+    "runtime_conformance": "EVIDENCE-PENDING",
+    "status": "PENDING_CURRENT_HOST",
+    "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+  },
+  "implementation_blobs": {
+    "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json": "6beecbdce949fefd5008efb2aef28531933ccd1e",
+    "evidence/evidence-registry.json": "f56b101417ce189c614b1b9e0ed22cd53bac19b5",
+    "src/fa3_release_projection_gate.py": "bed79f3b66dcdf982796d27dad1dc09732617940",
+    "tests/test_release_projection.py": "62b1a0c39a3d497e82c33837aa0545d16f297f08",
+    "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json": "a7bfca4623da0d68e33687bff3aca78d6418d500",
+    "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json": "51026b2102376f15d02d8502d2363fceeffcb054",
+    "evidence/reference/autogpt-ci-2026-08-30.json": "9c094f6d550312986590b40d02813595ddfafc1e"
+  },
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "conclusion": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS",
+  "final_validation_chain": {
+    "workflow_run_id": 33329385980,
+    "workflow_run_number": 108,
+    "workflow_event": "pull_request",
+    "tested_head_sha": "ddf7e3d7aa7bdccdd1ed81c0ec96020351d7030a",
+    "workflow_conclusion": "success",
+    "canonical_regression_job_id": 99305100434,
+    "canonical_regression_conclusion": "success",
+    "promotion_safety_job_id": 99305143504,
+    "promotion_safety_conclusion": "success",
+    "repository_unit_tests": {
+      "status": "PASS",
+      "passed": 215,
+      "total": 215
+    },
+    "release_projection_gate": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "manifest_entries": 247,
+      "tracked_release_surface_files": 247,
+      "autogpt_reconciliation": "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED"
+    },
+    "static_artifact_id": 9737186852,
+    "static_artifact_digest": "sha256:77a690b3561cdf40e9a5e146fca85d2a66d984e9d1bc7e34ff72ddcc7e59da59",
+    "promotion_artifact_id": 9737189858,
+    "promotion_artifact_digest": "sha256:bb84c9bd17f2a098b7ae50cf7097ed5e5affc9f9ca89c188418387538d8dd1dd"
+  }
+}

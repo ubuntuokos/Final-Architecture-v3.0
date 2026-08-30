@@ -38,6 +38,19 @@ PRESENTON_ENFORCEMENT_PATH = "canonical/presenton-enforcement.json"
 PRESENTON_GATE_PATH = "src/fa3_presenton_gate.py"
 PRESENTON_TEST_PATH = "tests/test_presenton_gate.py"
 PRESENTON_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING"
+AUTOGPT_PROVIDER_ID = "FA3-PROVIDER-AUTOGPT-001"
+AUTOGPT_GATE_ID = "FA3-AUTOGPT-GATESET-001"
+AUTOGPT_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json"
+AUTOGPT_DECISION_PATH = "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json"
+AUTOGPT_REFERENCE_PATH = "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json"
+AUTOGPT_EVIDENCE_PATH = "evidence/reference/autogpt-ci-2026-08-30.json"
+AUTOGPT_RECONCILIATION_EVIDENCE_PATH = "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
+AUTOGPT_ENFORCEMENT_PATH = "canonical/autogpt-enforcement.json"
+AUTOGPT_ADMISSION_PATH = "canonical/autogpt-runtime-admission.json"
+AUTOGPT_GATE_PATH = "src/fa3_autogpt_gate.py"
+AUTOGPT_TEST_PATH = "tests/test_autogpt_gate.py"
+AUTOGPT_CAPABILITY_ID = "CAP-028"
+AUTOGPT_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -380,6 +393,90 @@ def gate(root: Path):
             )
         )
 
+    autogpt = projection.get("autogpt_reconciliation", {})
+    required_autogpt_manifest_paths = {
+        AUTOGPT_PROVIDER_PATH,
+        AUTOGPT_DECISION_PATH,
+        AUTOGPT_REFERENCE_PATH,
+        AUTOGPT_EVIDENCE_PATH,
+        AUTOGPT_RECONCILIATION_EVIDENCE_PATH,
+        AUTOGPT_ENFORCEMENT_PATH,
+        AUTOGPT_ADMISSION_PATH,
+        AUTOGPT_GATE_PATH,
+        AUTOGPT_TEST_PATH,
+        "evidence/evidence-registry.json",
+    }
+    autogpt_overlay_requirements = {
+        "provider_records": AUTOGPT_PROVIDER_PATH,
+        "decision_records": AUTOGPT_DECISION_PATH,
+        "upstream_reference_records": AUTOGPT_REFERENCE_PATH,
+        "reference_evidence_records": AUTOGPT_EVIDENCE_PATH,
+    }
+    missing_autogpt_overlay_members = [
+        {"inventory": key, "path": required}
+        for key, required in autogpt_overlay_requirements.items()
+        if required not in inventory.get(key, [])
+    ]
+    autogpt_manifest_missing = sorted(required_autogpt_manifest_paths - manifest_paths)
+    autogpt_provider = loadj(root / AUTOGPT_PROVIDER_PATH) if (root / AUTOGPT_PROVIDER_PATH).is_file() else {}
+    autogpt_evidence = loadj(root / AUTOGPT_EVIDENCE_PATH) if (root / AUTOGPT_EVIDENCE_PATH).is_file() else {}
+    autogpt_reconciliation_evidence = loadj(root / AUTOGPT_RECONCILIATION_EVIDENCE_PATH) if (root / AUTOGPT_RECONCILIATION_EVIDENCE_PATH).is_file() else {}
+    autogpt_admission = loadj(root / AUTOGPT_ADMISSION_PATH) if (root / AUTOGPT_ADMISSION_PATH).is_file() else {}
+    cap028 = next((item for item in records if item.get("subject_id") == AUTOGPT_CAPABILITY_ID), {})
+    if (
+        autogpt.get("provider_id") != AUTOGPT_PROVIDER_ID
+        or autogpt.get("gate_id") != AUTOGPT_GATE_ID
+        or autogpt.get("capability_id") != AUTOGPT_CAPABILITY_ID
+        or autogpt.get("classification") != "OPTIONAL_AGENTIC_WORKFLOW_REFERENCE_PROVIDER"
+        or autogpt.get("reconciliation_status") != AUTOGPT_RECONCILIATION_STATUS
+        or autogpt.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or autogpt.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or autogpt.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or autogpt.get("new_capabilities") != 0
+        or autogpt.get("new_architectural_authorities") != 0
+        or autogpt.get("capability_count_after") != CAPABILITY_COUNT
+        or AUTOGPT_GATE_ID not in projection_gates
+        or AUTOGPT_GATE_ID not in policy_gates
+        or missing_autogpt_overlay_members
+        or autogpt_manifest_missing
+        or autogpt_provider.get("id") != AUTOGPT_PROVIDER_ID
+        or autogpt_provider.get("canonical_root") is not False
+        or autogpt_provider.get("architectural_authority") is not False
+        or autogpt_provider.get("new_capability") is not False
+        or autogpt_provider.get("capability_count") != CAPABILITY_COUNT
+        or "OPTIONAL_PROVIDER" not in autogpt_provider.get("classification", [])
+        or autogpt_provider.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or autogpt_evidence.get("provider_id") != AUTOGPT_PROVIDER_ID
+        or autogpt_evidence.get("gate_id") != AUTOGPT_GATE_ID
+        or autogpt_evidence.get("status") != "PASS"
+        or autogpt_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or autogpt_reconciliation_evidence.get("provider_id") != AUTOGPT_PROVIDER_ID
+        or autogpt_reconciliation_evidence.get("capability_id") != AUTOGPT_CAPABILITY_ID
+        or autogpt_reconciliation_evidence.get("status") != "PASS"
+        or autogpt_reconciliation_evidence.get("conclusion") != "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS"
+        or autogpt_admission.get("provider_id") != AUTOGPT_PROVIDER_ID
+        or autogpt_admission.get("status") != "NOT_ADMITTED"
+        or autogpt_admission.get("fail_closed") is not True
+        or autogpt_admission.get("current_host_evidence_required") is not True
+        or "FA3-DEC-AUTOGPT-2026-08-30" not in cap028.get("source_decision_ids", [])
+        or AUTOGPT_EVIDENCE_PATH not in cap028.get("evidence_artifacts", [])
+        or AUTOGPT_RECONCILIATION_EVIDENCE_PATH not in cap028.get("evidence_artifacts", [])
+        or cap028.get("runtime_conformance") != "EVIDENCE-PENDING"
+        or cap028.get("status") != "PENDING_CURRENT_HOST"
+        or cap028.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-023",
+                "AutoGPT global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=autogpt.get("reconciliation_status"),
+                runtime_activation_status=autogpt.get("runtime_activation_status"),
+                missing_overlay_members=missing_autogpt_overlay_members,
+                missing_manifest_paths=autogpt_manifest_missing,
+                cap028_evidence_artifacts=cap028.get("evidence_artifacts", []),
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -588,6 +685,8 @@ def gate(root: Path):
             "kanboard_reconciliation": kanboard.get("reconciliation_status"),
             "presenton_reconciliation": presenton.get("reconciliation_status"),
             "presenton_current_host_production_e2e": presenton.get("current_host_production_e2e"),
+            "autogpt_reconciliation": autogpt.get("reconciliation_status"),
+            "autogpt_runtime_activation_status": autogpt.get("runtime_activation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
