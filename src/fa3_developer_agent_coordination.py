@@ -506,8 +506,7 @@ class Coordinator:
 
 def _init_fixture_repo(path: Path, files: dict[str, str]) -> None:
     path.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["git", "-C", str(path), "init"], check=True, capture_output=True, text=True)
-    subprocess.run(["git", "-C", str(path), "checkout", "-b", "main"], check=True, capture_output=True, text=True)
+    subprocess.run(["git", "-C", str(path), "init", "-b", "main"], check=True, capture_output=True, text=True)
     subprocess.run(["git", "-C", str(path), "config", "user.name", "FA3 Fixture"], check=True)
     subprocess.run(["git", "-C", str(path), "config", "user.email", "fa3-fixture@localhost"], check=True)
     for rel, content in files.items():
