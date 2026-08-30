@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-BLACKHOLE-KDENLIVE-001",
   "name": "Blackhole Kdenlive Long-Form Transcription & Subtitle Integration Projection",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-BLACKHOLE-KDENLIVE-USED",
@@ -34,7 +34,14 @@
     "adapter": "src/fa3_blackhole_kdenlive.py",
     "gate": "src/fa3_blackhole_kdenlive_gate.py",
     "cli": "bin/fa3-blackhole-kdenlive",
-    "current_host_collector": "evidence/collect-blackhole-kdenlive-current-host.py"
+    "current_host_collector": "evidence/collect-blackhole-kdenlive-current-host.py",
+    "whisper_provider": "src/fa3_whisper_stt_provider.py",
+    "blackhole_whisper_e2e": "bin/fa3-blackhole-whisper-e2e.sh"
   },
-  "implementation_status": "EXECUTABLE_INTEGRATION_IMPLEMENTED"
+  "implementation_status": "EXECUTABLE_INTEGRATION_WITH_MATERIALIZED_WHISPER_PROVIDER",
+  "stt_provider_projection": {
+    "default_local_provider": "FA3-PROVIDER-WHISPER-001",
+    "provider_neutral_contract": "FA3-STT-MEDIA-CONTRACTS-001",
+    "provider_routing_authority": "FA3-AUTH-MODEL-ROUTER-001"
+  }
 }
