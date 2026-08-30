@@ -254,6 +254,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and smoke.get("weight_container") == "SAFETENSORS"
         and smoke.get("immutable_revision_required") is True
         and smoke.get("trust_remote_code") is False
+        and smoke.get("reference_revision") == "9e6c6ccf47cd318696e137d381a7ded8fe4df09f"
         and len(str(smoke.get("reference_weight_sha256", ""))) == 64
     ):
         findings.append(_finding("MODULAR-REF-019", "Modular production smoke-model allowlist drift"))
