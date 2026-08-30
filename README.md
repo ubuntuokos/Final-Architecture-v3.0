@@ -455,3 +455,28 @@ PYTHONPATH=src python -m unittest tests.test_xcmd_gate -v
 ```
 
 Canonical production provisioning explicitly rejects direct `curl/wget -> eval/sh` execution even though upstream documents such bootstrap convenience. Network-retrieved executable content must first be materialized, pinned, integrity/provenance checked, policy-admitted and then executed through the FA3-controlled tool path.
+
+
+## Modular MAX / Mojo optional execution provider family
+
+`FA3-PROVIDER-MAX-001` and `FA3-PROVIDER-MOJO-001` register `modular/modular` as an **OPTIONAL AI serving / accelerator-execution provider family + STRONG architectural pattern source**. This creates **no new capability**, **no new architectural authority**, and **no new canonical root**; the canonical capability count remains **143**.
+
+The provider family is deliberately split:
+
+- **MAX**: optional high-performance model inference/serving, OpenAI-compatible serving projection, model-graph execution, provider-local scheduling, distributed execution and KV-cache implementation.
+- **Mojo**: optional portable kernel/accelerator execution, target specialization and custom MAX-operation implementation.
+
+Neither provider may absorb FA3 authority. Model routing remains `FA3-AUTH-MODEL-ROUTER-001`; accelerator admission/placement/reservation remains `FA3-AUTH-HOST-RESOURCE-BROKER-001`; authorization/policy remains `FA3-AUTH-SECURITY-GOV-001`; workflow, secrets, artifact/model identity and evidence remain under their existing FA3 authorities.
+
+The permanent `FA3-MODULAR-GATESET-001` enforces 14 fail-closed invariants covering execution-topology/resource-authority separation, provider-local/global scheduling separation, portable semantic vs target-artifact identity, specialization semantic preservation, model-variant compatibility evidence, compiled-artifact lineage, warm-cache scoping, cache ownership/lifecycle, cancellation cleanup, shared-cache security boundaries, topology-bound benchmark evidence, OpenAI API projection boundaries, stable/nightly evidence separation and explicit licence/redistribution admission.
+
+The upstream reference is pinned to `modular/modular@f08ac164e2743513f60e46621de6dc4a5a5a30e7` (observed `Mojo 1.1.0.dev2026083005`, `MAX 26.6.0.dev2026083005`) as **nightly development reference evidence only**. Floating `main` is forbidden as promotion evidence.
+
+Run the canonical gate with:
+
+```bash
+./bin/fa3-enforce modular
+PYTHONPATH=src python -m unittest tests.test_modular_gate -v
+```
+
+The provider runtime remains optional when disabled; the 14 architectural invariants are mandatory globally.
