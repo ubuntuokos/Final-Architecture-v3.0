@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL",
+  "decision": "REGENERATE_UNIFIED_POST_V3_0_11_CANONICAL_RELEASE_PROJECTION",
+  "projection_id": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
+  "base_release": "2026-08-23/v3.0.11",
+  "disposition": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "rationale": [
+    "The canonical v3.0.11 source graph remains the structural baseline.",
+    "Post-v3.0.11 changes add provider, profile, contract, decision, enforcement, executable conformance and evidence projections without creating a new capability or architectural authority.",
+    "A unified immutable delta manifest is required so post-baseline canonical drift fails closed."
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "authority_model_changed": false,
+  "source_graph_rebased": false,
+  "promotion_semantics_changed": false,
+  "promotion_rule": "PROMOTED remains forbidden until all required current-host evidence and all 19 acceptance criteria PASS.",
+  "required_gate": "FA3-RELEASE-PROJECTION-GATESET-001"
+}
