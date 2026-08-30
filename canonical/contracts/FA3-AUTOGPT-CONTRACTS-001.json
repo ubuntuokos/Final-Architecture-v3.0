@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.provider-contract-set.v1",
+  "id": "FA3-AUTOGPT-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "canonical_capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "runtime_profile": "FA3_AUTOGPT_CONSTRAINED_BLOCK_RUNTIME_V1",
+  "allowed_block_ids": {
+    "store_value": "1ff065e9-88e8-4358-9d82-8dc91f622ba9"
+  },
+  "request_contract": {
+    "schema": "fa3.autogpt-block-execution-request.v1",
+    "required": [
+      "request_id",
+      "caller_identity",
+      "delegation_id",
+      "workflow_run_id",
+      "capability_id",
+      "provider_id",
+      "block_id",
+      "authorization_decision",
+      "mcp_admission",
+      "host_resource_admission",
+      "input",
+      "timeout_seconds"
+    ],
+    "capability_id": "CAP-028",
+    "capability": "managed_external_agent_runtime.autogpt.block.execute",
+    "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "input_limits": {
+      "max_utf8_bytes": 4096,
+      "network_egress": false,
+      "credential_fields_forbidden": true
+    },
+    "timeout_seconds": {
+      "min": 1,
+      "max": 30
+    }
+  },
+  "result_contract": {
+    "schema": "fa3.autogpt-block-execution-result.v1",
+    "required": [
+      "request_id",
+      "provider_id",
+      "block_id",
+      "result_status",
+      "output",
+      "input_digest",
+      "output_digest",
+      "authorization_decision_id",
+      "caller_identity",
+      "delegation_id",
+      "workflow_run_id"
+    ],
+    "secret_material_forbidden": true,
+    "raw_api_key_forbidden": true
+  },
+  "runtime_negative_paths": [
+    "unauthenticated_external_api_request_denied",
+    "api_key_without_EXECUTE_GRAPH_cannot_execute_graph",
+    "unknown_or_non_allowlisted_block_denied_by_FA3_adapter",
+    "non_loopback_provider_url_denied",
+    "missing_or_denied_FA3_authorization_denied"
+  ],
+  "authority_boundary": "AutoGPT executes an admitted provider operation only; all authority decisions remain external to AutoGPT."
+}
