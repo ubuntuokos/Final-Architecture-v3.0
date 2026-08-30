@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STT-MEDIA-001",
+  "name": "Long-Form Media Transcription, Alignment & Caption Projection Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-LONGFORM-MEDIA-STT-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "subprofile_of": "FA3-STT-001",
+  "capabilities": [
+    "CAP-017",
+    "CAP-121"
+  ],
+  "contracts": [
+    "FA3-STT-MEDIA-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-STT-001",
+    "FA3-MEDIA-FINISH-001",
+    "FA3-TEMPORAL-001",
+    "FA3-CONTRACT-001"
+  ],
+  "optional_preprocessors": [
+    "FA3-AUDIO-SEPARATION-001"
+  ],
+  "implementation_status": "CANONICAL_EXECUTION_DOMAIN",
+  "required_stages": [
+    "media/range acquisition",
+    "audio extraction and normalization",
+    "optional source separation",
+    "speech recognition",
+    "optional diarization",
+    "word/segment alignment",
+    "subtitle segmentation",
+    "caption quality control",
+    "timeline/editor projection"
+  ],
+  "invariants": [
+    "Source separation is optional preprocessing and is never STT authority.",
+    "STT must remain executable with source separation disabled.",
+    "Requested preprocessing failures must fail closed; silent fallback is forbidden.",
+    "Timeline offsets and timebase must be explicit and preserved through subtitle projection."
+  ]
+}

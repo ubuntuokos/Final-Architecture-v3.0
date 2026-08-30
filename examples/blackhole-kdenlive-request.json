@@ -1,0 +1,23 @@
+{
+  "input_media": "/path/to/project-media.mp4",
+  "output_dir": "/path/to/fa3-blackhole-job",
+  "zone_start_seconds": 120,
+  "zone_end_seconds": 180,
+  "preprocessing": "demucs_vocals",
+  "kdenlive_project": "/path/to/project.kdenlive",
+  "project_fps": 25,
+  "language": "hu",
+  "timeout_seconds": 7200,
+  "demucs": {
+    "model": "htdemucs",
+    "device": "cpu",
+    "offline": true
+  },
+  "stt_command": [
+    "/absolute/path/to/fa3-stt-provider",
+    "--request",
+    "{request}",
+    "--result",
+    "{result}"
+  ]
+}

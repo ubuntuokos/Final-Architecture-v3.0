@@ -29,7 +29,7 @@ jobs:
       - name: Prepare gate
         run: chmod +x bin/fa3-enforce
       - name: Syntax check
-        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py evidence/collect-terax-current-host.py evidence/collect-demucs-current-host.py
+        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py evidence/collect-terax-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py
       - name: Executable invariant tests
         run: PYTHONPATH=src python -m unittest discover -s tests -v
       - name: Terax immutable reference gate
@@ -42,6 +42,8 @@ jobs:
         run: ./bin/fa3-enforce demucs-provider
       - name: ACE-Step mandatory provider invariant gate
         run: ./bin/fa3-enforce acestep
+      - name: Blackhole Kdenlive integration gate
+        run: ./bin/fa3-enforce blackhole-kdenlive
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Upload static report
@@ -56,6 +58,8 @@ jobs:
             reports/demucs-gate-report.json
             reports/demucs-provider-conformance-report.json
             reports/ace-step-gate-report.json
+            reports/blackhole-kdenlive-gate-report.json
+            reports/blackhole-kdenlive-conformance-report.json
 
   promotion-safety:
     name: promotion-safety / fail-closed

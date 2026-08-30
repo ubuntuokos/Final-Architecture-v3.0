@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Blackhole long-form STT + Kdenlive + optional Demucs preprocessing",
+  "decision": "IMPLEMENT",
+  "profile_id": "FA3-BLACKHOLE-KDENLIVE-001",
+  "parent_stt_profile": "FA3-STT-MEDIA-001",
+  "demucs_provider_id": "FA3-PROVIDER-DEMUCS-001",
+  "capability_projection": [
+    "CAP-017",
+    "CAP-121"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "mandatory_rules": [
+    "BLACKHOLE_MEDIA_STT_PROVIDER_NEUTRAL",
+    "DEMUCS_OPTIONAL_PREPROCESSOR_ONLY",
+    "STT_MUST_WORK_WITHOUT_DEMUCS",
+    "NO_SILENT_PREPROCESSING_FALLBACK",
+    "TIMELINE_RANGE_AND_OFFSET_EXPLICIT",
+    "TRANSCRIPTION_RESULT_TIMING_VALIDATED",
+    "KDENLIVE_PROJECT_XML_DIRECT_MUTATION_FORBIDDEN",
+    "SRT_VTT_SIDECAR_IMPORT_PROJECTION_REQUIRED",
+    "STT_PROVIDER_COMMAND_TYPED_AND_SHELL_FALSE",
+    "MEDIA_AND_DERIVED_AUDIO_HASH_LINEAGE_REQUIRED",
+    "NO_CONDA_OR_MINIFORGE_RUNTIME",
+    "SEPARATE_BLACKHOLE_GUI_NOT_REQUIRED"
+  ],
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "timeline_and_caption_semantics": [
+      "FA3-MEDIA-FINISH-001",
+      "FA3-TEMPORAL-001"
+    ]
+  }
+}

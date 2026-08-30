@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-STT-MEDIA-CONTRACTS-001",
+  "profile": "FA3-STT-MEDIA-001",
+  "provider_neutral": true,
+  "contracts": [
+    "MediaTranscriptionIntent",
+    "TimelineRange",
+    "DecodedAudioArtifact",
+    "MediaAudioPreprocessingPlan",
+    "MediaTranscriptionHandoff",
+    "MediaTranscriptionResult",
+    "DiarizationArtifact",
+    "AlignmentArtifact",
+    "SubtitleSegmentationPolicy",
+    "CaptionTrackArtifact",
+    "KdenliveSubtitleImportDescriptor",
+    "OTIOCaptionProjectionDescriptor",
+    "MediaTranscriptionExecutionEvidence"
+  ],
+  "time_semantics": {
+    "source_range": "absolute source/timeline seconds",
+    "stt_result": "relative to prepared audio",
+    "caption_projection": "absolute timeline seconds after offset application"
+  },
+  "optional_preprocessing": {
+    "source_separation_profile": "FA3-AUDIO-SEPARATION-001",
+    "demucs_provider": "FA3-PROVIDER-DEMUCS-001",
+    "silent_fallback_forbidden": true,
+    "stt_without_preprocessor_required": true
+  }
+}
