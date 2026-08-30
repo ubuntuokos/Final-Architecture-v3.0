@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.external-api-discovery-enforcement.v1",
+  "gate_id": "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
+  "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
+  "contract_family_id": "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001",
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "mandatory_rule_count": 13,
+  "p0_invariants": [
+    "EXTERNAL_DISCOVERY_IS_NOT_AUTHORIZATION",
+    "UPSTREAM_CATALOG_METADATA_IS_UNTRUSTED_INPUT",
+    "IMMUTABLE_SOURCE_SNAPSHOT_REQUIRED",
+    "MULTI_SOURCE_NORMALIZATION_AND_DEDUPLICATION_REQUIRED",
+    "LICENSE_AND_TERMS_ADMISSION_REQUIRED_BEFORE_RUNTIME_USE",
+    "ENDPOINT_PROTOCOL_AND_SCHEMA_VERIFICATION_REQUIRED",
+    "SECRET_REQUIREMENTS_DECLARED_BUT_SECRET_VALUES_NOT_INGESTED",
+    "CANONICAL_EGRESS_AUTHORIZATION_WITH_SSRF_AND_DNS_REBINDING_CONTROLS_REQUIRED",
+    "PROVIDER_NEUTRAL_CAPABILITY_MAPPING_REQUIRED",
+    "SANDBOX_PROBE_AND_CONFORMANCE_EVIDENCE_REQUIRED_BEFORE_REGISTRY_ADMISSION",
+    "MCP_CATALOG_ENTRY_MUST_NOT_AUTO_REGISTER_OR_AUTO_EXECUTE",
+    "SOURCE_FAILURE_OR_DRIFT_MUST_NOT_REPLACE_CANONICAL_STATE",
+    "DISCOVERY_SOURCE_CANNOT_BECOME_ARCHITECTURAL_AUTHORITY"
+  ],
+  "rules": [
+    {
+      "id": "FA3-EXTDISC-P0-001",
+      "name": "discovery is not authorization",
+      "requirement": "Presence in any upstream API, service, MCP or tool catalog is discovery metadata only and MUST NOT authorize registration, invocation or execution."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-002",
+      "name": "untrusted metadata boundary",
+      "requirement": "Descriptions, URLs, auth claims, CORS claims, schemas and capability labels from upstream catalogs MUST be treated as untrusted input until locally verified."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-003",
+      "name": "immutable source snapshot",
+      "requirement": "Every admitted discovery candidate MUST retain source identity plus immutable commit/snapshot identity; floating branches are not promotion evidence."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-004",
+      "name": "normalization and deduplication",
+      "requirement": "Multi-source candidates MUST be normalized and deduplicated by provider-neutral identity before policy or registry admission."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-005",
+      "name": "license and terms admission",
+      "requirement": "Runtime use MUST fail closed until applicable repository/content/service licence and terms are assessed and admitted; missing licence information is not permission."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-006",
+      "name": "endpoint protocol schema verification",
+      "requirement": "Endpoint reachability, transport security, protocol version and advertised schema/tool surface MUST be independently verified before admission."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-007",
+      "name": "secret boundary",
+      "requirement": "Discovery metadata MAY declare required auth type but MUST NOT ingest or persist secret values; credentials remain under the canonical secrets authority."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-008",
+      "name": "egress boundary",
+      "requirement": "Provider URLs never authorize egress. Canonical egress approval plus SSRF and DNS-rebinding resistance are required before network probes or runtime calls."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-009",
+      "name": "provider-neutral capability mapping",
+      "requirement": "External labels MUST map to existing FA3 capability IDs/contracts and MUST NOT create vendor-defined canonical capabilities."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-010",
+      "name": "sandbox probe before admission",
+      "requirement": "Registry admission requires bounded sandbox probing with positive and negative conformance evidence and local policy approval."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-011",
+      "name": "MCP auto-registration forbidden",
+      "requirement": "An MCP catalog entry MUST NOT be auto-registered into the Central MCP/Capability Gateway and MUST NOT self-declare execution authority."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-012",
+      "name": "source failure isolation",
+      "requirement": "Catalog outage, stale metadata, sponsorship changes or source drift MUST NOT replace canonical registry state or cause fail-open execution."
+    },
+    {
+      "id": "FA3-EXTDISC-P0-013",
+      "name": "source non-authority",
+      "requirement": "Discovery and UI pattern sources remain non-root, non-provider and non-authoritative; capability count remains 143."
+    }
+  ],
+  "executable_gate": "./bin/fa3-enforce external-api-discovery",
+  "report_path": "reports/external-api-discovery-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 13
+}
