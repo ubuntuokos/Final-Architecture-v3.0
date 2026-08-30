@@ -7,7 +7,7 @@ import fa3_autogpt_gate as a
 
 class AutoGPTGateTests(unittest.TestCase):
  def _copy(self):
-  td=tempfile.TemporaryDirectory();root=Path(td.name);shutil.copytree(ROOT/"canonical",root/"canonical");return td,root
+  td=tempfile.TemporaryDirectory();root=Path(td.name);shutil.copytree(ROOT/"canonical",root/"canonical");(root/"evidence").mkdir();shutil.copy2(ROOT/"evidence/evidence-registry.json",root/"evidence/evidence-registry.json");return td,root
  def _write(self,p,o): p.write_text(json.dumps(o,indent=2)+"\n",encoding="utf-8")
  def test_baseline_gate_passes(self):
   r=a.gate(ROOT);self.assertEqual(r["result"],"PASS",r);self.assertEqual((r["regressions"]["passed"],r["regressions"]["total"]),(17,17));self.assertEqual(r["authority_scan"]["result"],"PASS");self.assertFalse(r["runtime_provider_required"])
