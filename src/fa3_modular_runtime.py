@@ -54,6 +54,8 @@ def validate_request(req: MaxServeRequest, allowlist: dict[str, Any]) -> None:
         raise PolicyDenied("production allowlist cannot require remote code")
     if not req.model_revision or not re.fullmatch(r"[0-9a-f]{40}", req.model_revision):
         raise PolicyDenied("production MAX execution requires an immutable Hugging Face revision pin")
+    if req.model_revision != model.get("reference_revision"):
+        raise PolicyDenied("MAX production smoke model revision is not the canonical allowlisted revision")
     if req.evidence_channel not in {"stable", "nightly"}:
         raise PolicyDenied("evidence_channel must be stable or nightly")
     if req.host not in {"127.0.0.1", "localhost"}:
