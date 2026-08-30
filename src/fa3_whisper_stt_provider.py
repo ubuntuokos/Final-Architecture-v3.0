@@ -474,7 +474,7 @@ def _write_test_wav(path: Path, *, rate: int = 16000, channels: int = 1, width: 
         wav.setnchannels(channels)
         wav.setsampwidth(width)
         wav.setframerate(rate)
-        wav.writeframes(b"\x00" * rate * channels * width // 10)
+        wav.writeframes(b"\\x00" * (rate * channels * width // 10))
 
 def run_executable_conformance(root: Path) -> dict[str, Any]:
     import tempfile
