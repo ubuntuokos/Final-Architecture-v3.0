@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-KDENLIVE-EDITORIAL-CONTRACTS-001",
+  "profile": "FA3-KDENLIVE-EDITORIAL-001",
+  "provider_neutral": true,
+  "contracts": [
+    "EditorialTimelineIntent",
+    "CanonicalOTIOTimelineArtifact",
+    "KdenliveImportExportProjection",
+    "KdenliveControlSurfaceDescriptor",
+    "EditorialMutationIntent",
+    "EditorialMutationRiskAssessment",
+    "HumanApprovalReceipt",
+    "KdenliveRoundTripEvidence",
+    "DeterministicMediaProbe",
+    "EditorialArtifactLineage",
+    "KdenliveExecutionEvidence"
+  ],
+  "timeline_semantics": {
+    "canonical_ir": "OpenTimelineIO",
+    "kdenlive_project_format_is_canonical_ir": false,
+    "roundtrip_metadata_must_be_namespaced": true
+  },
+  "control_surface_priority": [
+    "OTIO_NATIVE_IMPORT_EXPORT",
+    "TYPED_VERSIONED_API_OR_MLT_SURFACE",
+    "TYPED_VERSIONED_DBUS_SURFACE",
+    "AUDITED_REPRODUCIBLE_GUI_FALLBACK"
+  ],
+  "gui_fallback": {
+    "allowed": true,
+    "fallback_only": true,
+    "requires_capability_unavailable_evidence": true,
+    "requires_audit_trace": true,
+    "requires_reproducible_action_specification": true,
+    "critical_mutation_requires_hitl": true
+  },
+  "critical_mutations": [
+    "destructive timeline mutation",
+    "bulk replacement or overwrite",
+    "final render or delivery mutation",
+    "project-format migration",
+    "operation that can discard human editorial state"
+  ],
+  "project_mutation_policy": "NO_EXTERNAL_DIRECT_KDENLIVE_XML_MUTATION",
+  "media_core_policy": "DETERMINISTIC_FFMPEG_FFPROBE",
+  "hard_backend_dependency": false
+}
