@@ -44,6 +44,7 @@ AUTOGPT_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json"
 AUTOGPT_DECISION_PATH = "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json"
 AUTOGPT_REFERENCE_PATH = "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json"
 AUTOGPT_EVIDENCE_PATH = "evidence/reference/autogpt-ci-2026-08-30.json"
+AUTOGPT_RECONCILIATION_EVIDENCE_PATH = "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
 AUTOGPT_ENFORCEMENT_PATH = "canonical/autogpt-enforcement.json"
 AUTOGPT_ADMISSION_PATH = "canonical/autogpt-runtime-admission.json"
 AUTOGPT_GATE_PATH = "src/fa3_autogpt_gate.py"
@@ -398,6 +399,7 @@ def gate(root: Path):
         AUTOGPT_DECISION_PATH,
         AUTOGPT_REFERENCE_PATH,
         AUTOGPT_EVIDENCE_PATH,
+        AUTOGPT_RECONCILIATION_EVIDENCE_PATH,
         AUTOGPT_ENFORCEMENT_PATH,
         AUTOGPT_ADMISSION_PATH,
         AUTOGPT_GATE_PATH,
@@ -418,6 +420,7 @@ def gate(root: Path):
     autogpt_manifest_missing = sorted(required_autogpt_manifest_paths - manifest_paths)
     autogpt_provider = loadj(root / AUTOGPT_PROVIDER_PATH) if (root / AUTOGPT_PROVIDER_PATH).is_file() else {}
     autogpt_evidence = loadj(root / AUTOGPT_EVIDENCE_PATH) if (root / AUTOGPT_EVIDENCE_PATH).is_file() else {}
+    autogpt_reconciliation_evidence = loadj(root / AUTOGPT_RECONCILIATION_EVIDENCE_PATH) if (root / AUTOGPT_RECONCILIATION_EVIDENCE_PATH).is_file() else {}
     autogpt_admission = loadj(root / AUTOGPT_ADMISSION_PATH) if (root / AUTOGPT_ADMISSION_PATH).is_file() else {}
     cap028 = next((item for item in records if item.get("subject_id") == AUTOGPT_CAPABILITY_ID), {})
     if (
@@ -447,12 +450,17 @@ def gate(root: Path):
         or autogpt_evidence.get("gate_id") != AUTOGPT_GATE_ID
         or autogpt_evidence.get("status") != "PASS"
         or autogpt_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or autogpt_reconciliation_evidence.get("provider_id") != AUTOGPT_PROVIDER_ID
+        or autogpt_reconciliation_evidence.get("capability_id") != AUTOGPT_CAPABILITY_ID
+        or autogpt_reconciliation_evidence.get("status") != "PASS"
+        or autogpt_reconciliation_evidence.get("conclusion") != "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS"
         or autogpt_admission.get("provider_id") != AUTOGPT_PROVIDER_ID
         or autogpt_admission.get("status") != "NOT_ADMITTED"
         or autogpt_admission.get("fail_closed") is not True
         or autogpt_admission.get("current_host_evidence_required") is not True
         or "FA3-DEC-AUTOGPT-2026-08-30" not in cap028.get("source_decision_ids", [])
         or AUTOGPT_EVIDENCE_PATH not in cap028.get("evidence_artifacts", [])
+        or AUTOGPT_RECONCILIATION_EVIDENCE_PATH not in cap028.get("evidence_artifacts", [])
         or cap028.get("runtime_conformance") != "EVIDENCE-PENDING"
         or cap028.get("status") != "PENDING_CURRENT_HOST"
         or cap028.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
