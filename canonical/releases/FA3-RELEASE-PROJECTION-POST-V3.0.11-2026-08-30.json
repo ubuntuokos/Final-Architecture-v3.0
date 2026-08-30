@@ -185,7 +185,8 @@
     "FA3-MUNDER-DIFFLIN-GATESET-001",
     "FA3-KANBOARD-GATESET-001",
     "FA3-AIENG-GATESET-001",
-    "FA3-AUTOGPT-GATESET-001"
+    "FA3-AUTOGPT-GATESET-001",
+    "FA3-MENTOR-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -203,7 +204,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 211,
+  "manifest_entry_count": 220,
   "manifest": [
     {
       "path": ".github/workflows/fa3-modular-current-host.yml",
@@ -212,8 +213,8 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "f6c77d37f63d4f78962494b45b18d94da52ee230",
-      "baseline_delta_status": "added"
+      "git_blob_sha": "a943a72564e4916c21d6a4aa29f432be3be09c19",
+      "baseline_delta_status": "mentor_integration_update"
     },
     {
       "path": ".gitignore",
@@ -366,6 +367,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
+      "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "git_blob_sha": "4ef7455f7c342e9aa2f42103e9604f951d424db9",
       "baseline_delta_status": "added"
@@ -481,6 +487,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
+      "git_blob_sha": "b3b0535d3cb70b8100e8a7b759108a95dc4e32df",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "git_blob_sha": "a930c955adcc26daefaff33ea66768e1d50bd90a",
       "baseline_delta_status": "added"
@@ -552,8 +563,8 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "0891eeb4377a0c63f615468622023c9d1477fe92",
-      "baseline_delta_status": "modified"
+      "git_blob_sha": "a77e99a5e829b0adec71efa4b520586ab46e4bb4",
+      "baseline_delta_status": "mentor_integration_update"
     },
     {
       "path": "canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json",
@@ -573,6 +584,11 @@
     {
       "path": "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "0f4ef99eded354332013e2809106bce842bd223c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MENTOR-CONFORMANCE-MATRIX-001.json",
+      "git_blob_sha": "78a28927d7a273a8be5ad703952bf89c0df61420",
       "baseline_delta_status": "added"
     },
     {
@@ -613,6 +629,11 @@
     {
       "path": "canonical/kdenlive-editorial-enforcement.json",
       "git_blob_sha": "015e67cf7df2e30b632d803d7f2cf5b227ef768b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/mentor-enforcement.json",
+      "git_blob_sha": "9cc5df062983caff69a073ead54fce9b06acbf71",
       "baseline_delta_status": "added"
     },
     {
@@ -683,6 +704,11 @@
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "git_blob_sha": "3851ccbde649724a24b61f81bee625016e6b915f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-MENTOR-001.json",
+      "git_blob_sha": "b6a4831869636a4dccedbd6dd077d4c766d60d99",
       "baseline_delta_status": "added"
     },
     {
@@ -788,6 +814,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-MAX-001.json",
       "git_blob_sha": "689e9f5808bd434b48da567fcb4a83e52cce2e17",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
+      "git_blob_sha": "8b1630e37fb0d1e8eba9e7b93ed67f83e851bb87",
       "baseline_delta_status": "added"
     },
     {
@@ -996,6 +1027,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-mentor-v0.2.0.json",
+      "git_blob_sha": "f08d8a5c59f94db5bca400085505c902272ae429",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "git_blob_sha": "ab2e038d9b0a28cc987132eed31b75f2f40c461d",
       "baseline_delta_status": "added"
@@ -1097,8 +1133,8 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "b114daa8ca59c8548345eed4c276baad6e71eadd",
-      "baseline_delta_status": "modified"
+      "git_blob_sha": "8791642bfe2b51cba0408316505eaae063111d67",
+      "baseline_delta_status": "mentor_integration_update"
     },
     {
       "path": "src/fa3_kanboard_gate.py",
@@ -1113,6 +1149,11 @@
     {
       "path": "src/fa3_kdenlive_editorial_gate.py",
       "git_blob_sha": "dfeceb4b69ada20e9ef62b369e21566d8893cf56",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_mentor_gate.py",
+      "git_blob_sha": "979052f5791f429f5cc22c5697ec04feacf82362",
       "baseline_delta_status": "added"
     },
     {
@@ -1216,6 +1257,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_mentor_gate.py",
+      "git_blob_sha": "25127303b7e544c13a534c11e4833be52a0a6dd9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_modular_gate.py",
       "git_blob_sha": "bcbc1a5300ed991fe34740ae27194705a5777287",
       "baseline_delta_status": "added"
@@ -1290,5 +1336,8 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143,
     "added_manifest_files": 51
-  }
+  },
+  "projection_notes": [
+    "FA3-MENTOR-001 P0/MUST profile and FA3 Mentor v0.2 reference implementation projection added without capability-count or architectural-authority change."
+  ]
 }
