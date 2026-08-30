@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.modular-runtime-conformance.v1",
+  "id": "FA3-MODULAR-RUNTIME-CONFORMANCE-001",
+  "provider_ids": ["FA3-PROVIDER-MAX-001", "FA3-PROVIDER-MOJO-001"],
+  "capability_count": 143,
+  "implementation": {
+    "runtime_contract": "src/fa3_modular_runtime.py",
+    "current_host_collector": "evidence/collect-modular-current-host.py",
+    "current_host_gate": "src/fa3_modular_current_host_gate.py",
+    "model_allowlist": "FA3-MODULAR-MODEL-ALLOWLIST-001"
+  },
+  "ci_conformance": {
+    "command": "./bin/fa3-enforce modular-provider",
+    "required_result": "PASS",
+    "minimum_cases": 13,
+    "may_claim_current_host": false
+  },
+  "current_host_production_e2e": {
+    "collector_command": "PYTHONPATH=src python3 evidence/collect-modular-current-host.py --model-revision <PINNED_HF_REVISION> --devices cpu|gpu:N [--hrb-lease <LEASE> for GPU]",
+    "gate_command": "./bin/fa3-enforce modular-current-host",
+    "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "max_e2e": "loopback max serve -> /v1/chat/completions -> non-empty model response -> response digest",
+    "mojo_e2e": "Mojo source -> mojo build -> native executable -> expected stdout -> source/binary/compiled-artifact digests",
+    "stable_nightly_evidence_separated": true,
+    "loopback_bind_required": true,
+    "immutable_model_revision_required": true,
+    "remote_code_forbidden": true,
+    "network_model_fetch_default": "OFFLINE_CACHE_ONLY",
+    "gpu_requires_hrb_lease": true,
+    "gpu_requires_broker_validation": true,
+    "gpu_ordinal_uuid_revalidation": true,
+    "bare_gpu_or_gpu_all_forbidden": true,
+    "cpu_path_requires_hrb": false,
+    "global_promotion_dependency_when_provider_disabled": false
+  },
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION"
+}
