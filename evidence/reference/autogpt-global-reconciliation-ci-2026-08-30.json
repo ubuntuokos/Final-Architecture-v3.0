@@ -80,5 +80,32 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
-  "conclusion": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS"
+  "conclusion": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS",
+  "final_validation_chain": {
+    "workflow_run_id": 33329385980,
+    "workflow_run_number": 108,
+    "workflow_event": "pull_request",
+    "tested_head_sha": "ddf7e3d7aa7bdccdd1ed81c0ec96020351d7030a",
+    "workflow_conclusion": "success",
+    "canonical_regression_job_id": 99305100434,
+    "canonical_regression_conclusion": "success",
+    "promotion_safety_job_id": 99305143504,
+    "promotion_safety_conclusion": "success",
+    "repository_unit_tests": {
+      "status": "PASS",
+      "passed": 215,
+      "total": 215
+    },
+    "release_projection_gate": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "manifest_entries": 247,
+      "tracked_release_surface_files": 247,
+      "autogpt_reconciliation": "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED"
+    },
+    "static_artifact_id": 9737186852,
+    "static_artifact_digest": "sha256:77a690b3561cdf40e9a5e146fca85d2a66d984e9d1bc7e34ff72ddcc7e59da59",
+    "promotion_artifact_id": 9737189858,
+    "promotion_artifact_digest": "sha256:bb84c9bd17f2a098b7ae50cf7097ed5e5affc9f9ca89c188418387538d8dd1dd"
+  }
 }
