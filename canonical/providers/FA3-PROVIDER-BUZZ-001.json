@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-BUZZ-001",
+  "name": "block/buzz",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "HUMAN_AGENT_COLLABORATIVE_WORKSPACE_EVENTED_DEVELOPMENT_FORGE_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "HUMAN_AGENT_COLLABORATIVE_WORKSPACE",
+    "EVENTED_DEVELOPMENT_FORGE_REFERENCE_PROVIDER",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE",
+    "DELEGATED_AGENT_IDENTITY_PATTERN_SOURCE",
+    "SIGNED_EVENT_PROVENANCE_PATTERN_SOURCE",
+    "PROVIDER_BOUNDARY_PATTERN_SOURCE",
+    "REMOTE_AGENT_LIFECYCLE_PATTERN_SOURCE",
+    "WORKFLOW_TRACEABILITY_PATTERN_SOURCE",
+    "RELEASE_INTEGRITY_PATTERN_SOURCE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "evidence": "EXISTING_FA3_UNIFIED_OBSERVABILITY_EVIDENCE_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "developer_execution": "EXISTING_FA3_DEVELOPER_EXECUTION_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_DEVELOPER_EXECUTION_AUTHORITY"
+  ],
+  "normative_constraint": "Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, secrets, host-resource or developer-execution authority."
+}
