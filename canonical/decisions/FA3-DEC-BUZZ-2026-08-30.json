@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-BUZZ-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "block/buzz",
+  "decision": "ACCEPT",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "gate_id": "FA3-BUZZ-GATESET-001",
+  "canonical_classification": "OPTIONAL human–agent collaborative workspace / evented development-forge reference provider + STRONG architectural pattern source for delegated agent identity, signed event provenance, provider boundaries, remote-agent lifecycle, workflow traceability and release integrity.",
+  "role": [
+    "OPTIONAL_HUMAN_AGENT_COLLABORATIVE_WORKSPACE_PROVIDER",
+    "EVENTED_DEVELOPMENT_FORGE_REFERENCE_PROVIDER",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "pattern_sources": [
+    "DELEGATED_AGENT_IDENTITY",
+    "SIGNED_EVENT_PROVENANCE",
+    "PROVIDER_BOUNDARIES",
+    "REMOTE_AGENT_LIFECYCLE",
+    "WORKFLOW_TRACEABILITY",
+    "RELEASE_INTEGRITY"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "mandatory_constraint": "Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, secrets, host-resource or developer-execution authority.",
+  "prohibited_promotions": [
+    "BUZZ_AS_CANONICAL_ROOT",
+    "BUZZ_AS_FA3_IDENTITY_AUTHORITY",
+    "BUZZ_AS_FA3_AUTHORIZATION_AUTHORITY",
+    "BUZZ_AS_FA3_MCP_AUTHORITY",
+    "BUZZ_AS_FA3_WORKFLOW_AUTHORITY",
+    "BUZZ_AS_FA3_EVIDENCE_AUTHORITY",
+    "BUZZ_AS_FA3_SECRETS_AUTHORITY",
+    "BUZZ_AS_FA3_HOST_RESOURCE_AUTHORITY",
+    "BUZZ_AS_FA3_DEVELOPER_EXECUTION_AUTHORITY"
+  ]
+}
