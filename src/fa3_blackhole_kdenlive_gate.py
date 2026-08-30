@@ -116,6 +116,7 @@ def reference_check(root: Path) -> dict[str, Any]:
 def gate(root: Path) -> dict[str, Any]:
     reference=reference_check(root)
     conformance=run_executable_conformance(root)
+    _write(root/"reports/blackhole-kdenlive-conformance-report.json",conformance)
     ok=reference["result"]=="PASS" and conformance["result"]=="PASS"
     report={
         "schema":"fa3.blackhole-kdenlive-gate-report.v1",
