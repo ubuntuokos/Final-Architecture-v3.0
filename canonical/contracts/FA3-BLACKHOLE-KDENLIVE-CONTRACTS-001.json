@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001",
+  "profile": "FA3-BLACKHOLE-KDENLIVE-001",
+  "contracts": [
+    "BlackholeKdenlivePreparationRequest",
+    "BlackholeSTTProviderCommand",
+    "BlackholeMediaHandoff",
+    "BlackholeSubtitleProjectionRequest",
+    "BlackholeKdenliveImportBundle",
+    "BlackholeKdenliveExecutionEvidence"
+  ],
+  "kdenlive_import_formats": [
+    "SRT",
+    "VTT"
+  ],
+  "project_mutation_policy": "SIDECAR_ONLY_NO_DIRECT_KDENLIVE_XML_MUTATION",
+  "runtime_dependency_policy": "SYSTEM_FFMPEG_PLUS_PER_PROVIDER_VENV_NO_CONDA"
+}
