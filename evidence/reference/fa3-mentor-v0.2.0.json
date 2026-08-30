@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.mentor-reference-evidence.v1",
+  "id": "FA3-MENTOR-REF-EVIDENCE-0.2.0",
+  "profile_id": "FA3-MENTOR-001",
+  "implementation_version": "0.2.0",
+  "evidence_scope": "BUILD_REFERENCE_ENVIRONMENT_NOT_FA3_CURRENT_HOST",
+  "automated_tests": {
+    "status": "PASS",
+    "passed": 13,
+    "total": 13
+  },
+  "compile_check": "PASS",
+  "decision_registry_conformance_matrix_link": "PASS",
+  "requested_integrations": {
+    "central_mcp_typed_escalation": "PASS",
+    "knowledge_rag_memory_projection": "PASS",
+    "evidence_sink": "PASS",
+    "bkt_fsrs_mastery": "PASS",
+    "sandbox_projection_and_fail_closed_guard": "PASS"
+  },
+  "local_sandbox_backend": "BLOCKED_MISSING_BUBBLEWRAP",
+  "interpretation": "The absence of Bubblewrap prevented local arbitrary lab execution and was correctly fail-closed. No current-host production PASS is claimed.",
+  "current_host_promotion_claimed": false
+}
