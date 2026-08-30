@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.buzz-ci-evidence.v1",
+  "id": "FA3-EVID-BUZZ-AUTHORITY-REGRESSION-CI-2026-08-30",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "gate_id": "FA3-BUZZ-GATESET-001",
+  "evidence_type": "EXECUTABLE_AUTHORITY_SEPARATION_REGRESSION",
+  "status": "PASS",
+  "evidence_scope": "CI_CANONICAL_REGRESSION",
+  "canonical_constraint": "Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, secrets, host-resource or developer-execution authority.",
+  "github": {
+    "workflow_name": "FA3 Permanent Canonical + Promotion Gate",
+    "workflow_run_id": 33312454271,
+    "workflow_run_number": 70,
+    "workflow_event": "push",
+    "tested_head_sha": "1b4ce48758221ca7440ece16e649ce7519ee8e49",
+    "tested_tree_sha": "1b227ea856699b26c0f47ef87e13d2d069b94a31",
+    "workflow_conclusion": "success",
+    "canonical_regression_job_id": 99259843766,
+    "canonical_regression_conclusion": "success",
+    "promotion_safety_job_id": 99259865021,
+    "promotion_safety_conclusion": "success",
+    "artifact_id": 9732397353,
+    "artifact_name": "fa3-static-gate-report",
+    "artifact_digest": "sha256:3a17e8890fde9bbd46fbbb226f318afcd200e1c06bf1239b05d1efb32559b7a9"
+  },
+  "implementation_blobs": {
+    "src/fa3_buzz_gate.py": "42c27494db9e188c05abc7adbd6c682161a1d337",
+    "tests/test_buzz_gate.py": "021ba7f5a79ef7e83bd5187c30146cd8b94c19b3",
+    "canonical/enforcement-policy.json": "ecc269492b5f5612084a552b6b75ad6199b665a9",
+    "canonical/buzz-enforcement.json": "b12d9e5ef8a645df4e6a2c8a36221fb2f62ace9a",
+    "src/fa3_enforce.py": "b60f665b1ca68379d7e51b3f7b094eb9dec200e2",
+    ".github/workflows/fa3-permanent-enforcement.yml": "0fa092a1925f4af72deff423078eefee7b45ec99"
+  },
+  "results": {
+    "repository_unit_tests": {
+      "status": "PASS",
+      "passed": 93,
+      "total": 93
+    },
+    "buzz_authority_regression_gate": {
+      "status": "PASS",
+      "passed": 10,
+      "total": 10,
+      "scanned_canonical_json_files": 51,
+      "blocking_findings": 0,
+      "report_sha256": "0bf98aa32368cd9894792200871c1785c50ba07a93ab0b9e437d0ba2dc48331a"
+    },
+    "authority_escalation_denials": {
+      "identity": "PASS",
+      "authorization": "PASS",
+      "mcp": "PASS",
+      "workflow": "PASS",
+      "evidence": "PASS",
+      "secrets": "PASS",
+      "host_resource": "PASS",
+      "developer_execution": "PASS"
+    },
+    "canonical_root_promotion_denial": "PASS",
+    "capability_authority_count_drift_denial": "PASS",
+    "global_static_gate": {
+      "status": "PASS",
+      "blocking_findings": 0,
+      "capability_count": 143,
+      "buzz_gate_status": "PASS",
+      "report_sha256": "ced034ec7af0efce456f22108211c217e7d1793147ee0ad5caf4a386cd948129"
+    },
+    "promotion_safety": {
+      "status": "PASS"
+    }
+  },
+  "runtime_provider_required": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "conclusion": "CURRENT_CANONICAL_CI_PASS"
+}
