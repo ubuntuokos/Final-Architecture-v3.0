@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.xcmd-enforcement.v1",
+  "gate_id": "FA3-XCMD-GATESET-001",
+  "provider_id": "FA3-PROVIDER-XCMD-001",
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "floating_x_allowed_as_promotion_evidence": false,
+  "mandatory_rule_count": 12,
+  "p0_invariants": [
+    "XCMD_REMOTE_NETWORK_TO_SHELL_DIRECT_EXECUTION_FORBIDDEN",
+    "XCMD_IMMUTABLE_REFERENCE_IDENTITY_REQUIRED",
+    "XCMD_CURATED_PACKAGE_NOT_TRANSITIVE_TRUST",
+    "XCMD_AGENT_SHELL_CAPABILITY_MEDIATED",
+    "XCMD_PROJECT_AGENT_INSTRUCTIONS_UNTRUSTED_SCOPED_CONTEXT",
+    "XCMD_SELF_UPDATE_NOT_PRODUCTION_AUTHORITY",
+    "XCMD_GLOBAL_HOST_MUTATION_REQUIRES_EXTERNAL_AUTHORIZATION",
+    "XCMD_MODEL_SECRET_EGRESS_MCP_BOUNDARIES_PRESERVED",
+    "XCMD_ON_DEMAND_MATERIALIZATION_NOT_BACKGROUND_AUTHORITY",
+    "XCMD_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+    "XCMD_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+    "XCMD_EXECUTION_EVIDENCE_ATTRIBUTABLE"
+],
+  "rules": [
+    {"id":"FA3-XCMD-P0-001","name":"remote network-to-shell separation","requirement":"Network-retrieved content MUST be materialized and pass immutable identity, integrity, provenance and policy admission before shell execution; direct curl/wget-to-eval/sh transitions are forbidden on the canonical production path."},
+    {"id":"FA3-XCMD-P0-002","name":"immutable executable identity","requirement":"Floating branch names, including X, MUST NOT constitute production executable identity or promotion evidence; a full immutable commit/artifact identity is required."},
+    {"id":"FA3-XCMD-P0-003","name":"no transitive trust from curation","requirement":"X-CMD package curation MUST NOT be interpreted as FA3 artifact trust; each executable package requires independent integrity, provenance, licence and admission evidence."},
+    {"id":"FA3-XCMD-P0-004","name":"capability-mediated agent shell","requirement":"Agent access to x-cmd or any shell/tool surface MUST carry caller identity, workspace scope, explicit capability scope and authoritative policy/tool-mediation approval."},
+    {"id":"FA3-XCMD-P0-005","name":"project instructions are scoped context","requirement":"Agent instruction files, injected prompts and skill metadata are untrusted scoped context and MUST NOT grant policy, identity, secret, network, host-resource or execution authority."},
+    {"id":"FA3-XCMD-P0-006","name":"self-update is not production authority","requirement":"Provider self-update or floating upgrade commands MUST NOT mutate a production runtime without explicit external change authorization, immutable target identity and post-change evidence."},
+    {"id":"FA3-XCMD-P0-007","name":"global host mutation externally authorized","requirement":"Any host-global package, PATH, shell-startup or filesystem mutation requires explicit external authorization and auditable change evidence; provider convenience commands do not constitute that authority."},
+    {"id":"FA3-XCMD-P0-008","name":"cross-cutting authority boundaries preserved","requirement":"X-CMD modules for AI, network, packages or agents MUST NOT bypass FA3 MCP/tool mediation, model routing, secrets, egress, host-resource, artifact-trust, workflow or evidence authorities."},
+    {"id":"FA3-XCMD-P0-009","name":"on-demand does not imply hidden background authority","requirement":"Lazy tool materialization may occur only after an admitted invocation; undeclared background fetch, polling or prefetch is forbidden for an inactive optional provider."},
+    {"id":"FA3-XCMD-P0-010","name":"disabled provider near-zero runtime cost","requirement":"When disabled/reference-only, X-CMD MUST require no resident provider process, background worker, network session, accelerator reservation or active polling."},
+    {"id":"FA3-XCMD-P0-011","name":"provider non-authority invariant","requirement":"FA3-PROVIDER-XCMD-001 remains optional, non-root, non-authoritative, adds no capability and preserves the canonical capability count of 143."},
+    {"id":"FA3-XCMD-P0-012","name":"attributable execution evidence","requirement":"Every material x-cmd/tool execution used by FA3 automation MUST be attributable to caller, request, workspace, capability/policy decision, executable artifact identity and result evidence."}
+  ],
+  "executable_gate": "./bin/fa3-enforce xcmd",
+  "report_path": "reports/xcmd-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 12
+}

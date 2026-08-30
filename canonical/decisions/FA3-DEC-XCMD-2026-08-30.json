@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-XCMD-2026-08-30",
+  "date": "2026-08-30",
+  "status": "CANONICAL_CLOSED",
+  "subject": "x-cmd/x-cmd",
+  "decision": "ACCEPT",
+  "provider_id": "FA3-PROVIDER-XCMD-001",
+  "gate_id": "FA3-XCMD-GATESET-001",
+  "canonical_classification": "OPTIONAL terminal toolchain / agent-shell integration / on-demand CLI provisioning reference provider + architectural pattern source.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "mandatory_constraint": "X-CMD SHALL NOT become an FA3 identity, authorization, MCP, model-routing, secrets, network-egress, host-resource, artifact-trust, workflow, evidence, developer-execution or host-package-mutation authority.",
+  "canonical_rules_absorbed": [
+    "REMOTE_NETWORK_TO_SHELL_DIRECT_EXECUTION_FORBIDDEN",
+    "IMMUTABLE_REFERENCE_IDENTITY_REQUIRED",
+    "CURATED_PACKAGE_NOT_TRANSITIVE_TRUST",
+    "AGENT_SHELL_CAPABILITY_MEDIATED",
+    "PROJECT_AGENT_INSTRUCTIONS_UNTRUSTED_SCOPED_CONTEXT",
+    "SELF_UPDATE_NOT_PRODUCTION_AUTHORITY",
+    "GLOBAL_HOST_MUTATION_REQUIRES_EXTERNAL_AUTHORIZATION",
+    "MODEL_SECRET_EGRESS_MCP_BOUNDARIES_PRESERVED",
+    "ON_DEMAND_MATERIALIZATION_NOT_BACKGROUND_AUTHORITY",
+    "DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+    "PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+    "EXECUTION_EVIDENCE_ATTRIBUTABLE"
+  ]
+}

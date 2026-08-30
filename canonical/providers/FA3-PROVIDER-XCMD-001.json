@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-XCMD-001",
+  "name": "x-cmd/x-cmd",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "PORTABLE_TERMINAL_TOOLCHAIN_AGENT_SHELL_INTEGRATION_AND_ON_DEMAND_CLI_PROVISIONING_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "TERMINAL_TOOLCHAIN_PROVIDER",
+    "AGENT_SHELL_INTEGRATION_PROVIDER",
+    "ON_DEMAND_CLI_PROVISIONING_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "upstream_reference": "FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30",
+  "integration_patterns": [
+    "minimal_posix_shell_execution_substrate",
+    "on_demand_tool_materialization",
+    "user_space_non_root_tool_provisioning",
+    "temporary_session_scoped_tool_activation",
+    "agent_facing_cli_capability_catalog",
+    "portable_shell_and_awk_composition"
+  ],
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "developer_execution": "EXISTING_FA3_DEVELOPER_EXECUTION_AUTHORITY_ONLY",
+    "host_package_mutation": "EXISTING_FA3_HOST_PACKAGE_MUTATION_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_NETWORK_EGRESS_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_ARTIFACT_TRUST_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_DEVELOPER_EXECUTION_AUTHORITY",
+    "FA3_HOST_PACKAGE_MUTATION_AUTHORITY"
+  ],
+  "normative_constraint": "X-CMD SHALL NOT become an FA3 identity, authorization, MCP, model-routing, secrets, network-egress, host-resource, artifact-trust, workflow, evidence, developer-execution or host-package-mutation authority."
+}

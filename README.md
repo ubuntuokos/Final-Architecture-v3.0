@@ -437,3 +437,21 @@ The permanent fail-closed gate is executable with:
 `FA3-BUZZ-GATESET-001` performs canonical record integrity checks, recursively scans canonical JSON for prohibited Buzz authority assignments, and executes 10 regression cases: eight authority-escalation denials plus canonical-root and capability/authority-count drift denials. The gate is also invoked by the global `static` enforcement path and GitHub CI.
 
 The generated report is `reports/buzz-gate-report.json`. Buzz remains optional at runtime; the authority-separation rule is mandatory regardless of provider deployment.
+
+
+## X-CMD optional terminal toolchain provider
+
+`FA3-PROVIDER-XCMD-001` registers `x-cmd/x-cmd` as an **OPTIONAL terminal toolchain / agent-shell integration / on-demand CLI provisioning reference provider + architectural pattern source**. It adds no new capability and no new architectural authority; the canonical capability count remains **143**.
+
+The upstream default branch is a rolling `X` branch. The 2026-08-30 reference observation is pinned to `X@390fa27a231579f1ee493bcd7961bcba4cb85034`; the immutable release reference is `v0.10.1@1594d06582bf024d0a71ee108afe06a98629ec9a`. Neither a floating `X` branch nor provider self-upgrade is production promotion evidence.
+
+The executable `FA3-XCMD-GATESET-001` enforces 12 P0 rules: remote network content cannot transition directly into shell execution; executable identity must be immutable; package curation is not transitive trust; agent shell use requires caller/workspace/capability mediation; project agent instructions remain untrusted scoped context; self-update and host-global mutation require external authorization; model/secrets/egress/MCP/HRB/artifact/evidence boundaries remain external; lazy materialization cannot become hidden background activity; disabled/reference-only cost is near-zero; X-CMD remains non-authoritative; and every material execution is attributable.
+
+Run:
+
+```bash
+./bin/fa3-enforce xcmd
+PYTHONPATH=src python -m unittest tests.test_xcmd_gate -v
+```
+
+Canonical production provisioning explicitly rejects direct `curl/wget -> eval/sh` execution even though upstream documents such bootstrap convenience. Network-retrieved executable content must first be materialized, pinned, integrity/provenance checked, policy-admitted and then executed through the FA3-controlled tool path.

@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30",
+  "provider_id": "FA3-PROVIDER-XCMD-001",
+  "repository": "x-cmd/x-cmd",
+  "observed_at": "2026-08-30",
+  "default_branch": "X",
+  "observed_default_branch_head": "390fa27a231579f1ee493bcd7961bcba4cb85034",
+  "observed_head_committed_at": "2026-08-29T04:08:20Z",
+  "observed_head_signature_verified": false,
+  "immutable_reference_release": "v0.10.1",
+  "immutable_reference_commit": "1594d06582bf024d0a71ee108afe06a98629ec9a",
+  "immutable_reference_release_kind": "PRE_RELEASE",
+  "security_policy": {
+    "supported_line": "LATEST_X_ONLY",
+    "older_commits_supported": false,
+    "pin_commit_or_release_for_scripting": true,
+    "review_package_install_scripts_for_production": true,
+    "arbitrary_shell_execution_protection_provided": false
+  },
+  "observed_upstream_patterns": {
+    "posix_shell_and_awk_modules": "300_PLUS",
+    "curated_cli_packages": "600_PLUS",
+    "on_demand_download_and_execution": true,
+    "root_required_for_default_user_space_operation": false,
+    "system_pollution_avoidance_claimed": true,
+    "agent_facing_cli_usage_documented": true,
+    "direct_remote_eval_installation_documented": true,
+    "self_upgrade_command_documented": true
+  },
+  "fa3_disposition": {
+    "floating_x_allowed_as_promotion_evidence": false,
+    "curation_implies_transitive_trust": false,
+    "direct_remote_eval_allowed_in_canonical_provisioning": false,
+    "upstream_self_upgrade_allowed_as_production_authority": false,
+    "reference_record_is_current_host_runtime_evidence": false
+  }
+}
