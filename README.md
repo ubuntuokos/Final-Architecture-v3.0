@@ -570,3 +570,25 @@ Production validation:
 ```
 
 Only a real host run can create `CURRENT_HOST_PRODUCTION_E2E_PASS`. GitHub-hosted CI cannot claim it. `.github/workflows/fa3-modular-current-host.yml` is restricted to a self-hosted Linux/x64 runner carrying the `fa3-current-host` label. See `docs/modular-current-host.md`.
+
+## AutoGPT optional agentic workflow/workbench provider
+
+`FA3-PROVIDER-AUTOGPT-001` registers `Significant-Gravitas/AutoGPT` as an **OPTIONAL agentic workflow/workbench execution reference provider + STRONG architectural pattern source**. It creates no new capability and no new architectural authority; the canonical capability count remains **143**.
+
+FA3 absorbs 17 mandatory P0 invariants covering typed node contracts, delegated execution context, non-transitive graph authorization, delegated capability narrowing, monotonic credential-scope narrowing, validate-before-persist/activate, trigger/schedule non-authority, model-catalog and secrets boundaries, executor/resource boundaries, marketplace/library non-admission, attributable node evidence, MCP/egress/integration boundaries, immutable runtime identity, component-license admission, disabled-provider near-zero cost, and provider non-authority.
+
+The mandatory authority boundary is:
+
+> **AutoGPT SHALL NOT become an FA3 identity, authentication, authorization, secrets, MCP/capability-gateway, model-routing, durable-workflow, evidence/provenance, network-egress, host-resource, developer-execution, artifact-trust or canonical-registry authority.**
+
+The upstream reference is pinned to observed `master@32a43d005c0c42079ceba68d9a49c28e0eeaa6c7` and latest release `autogpt-platform-beta-v0.7.3@f49bcca95ed327396d8ebdd0bdf7810de482ac1a`. Floating `master`, a release tag without immutable commit binding, marketplace adoption, or provider-local authorization are not production promotion evidence.
+
+Run the permanent gate with:
+
+```bash
+./bin/fa3-enforce autogpt
+PYTHONPATH=src python -m unittest tests.test_autogpt_gate -v
+```
+
+AutoGPT runtime activation remains **NOT_PROMOTED_REFERENCE_ONLY** and is not required for global FA3 promotion while disabled. `autogpt_platform/` is PolyForm Shield 1.0.0 while Classic and repository content outside `autogpt_platform/` are MIT; production runtime/code use therefore requires explicit component-license admission plus separate current-host conformance. Architectural pattern absorption does not copy AutoGPT Platform source code into the FA3 canonical core.
+

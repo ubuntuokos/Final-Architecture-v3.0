@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.optional-provider-runtime-admission.v1",
+  "id": "FA3-AUTOGPT-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+  "status": "NOT_ADMITTED",
+  "fail_closed": true,
+  "current_host_evidence_required": true,
+  "license_admission_required": true,
+  "runtime_required_for_global_promotion_when_disabled": false,
+  "production_activation_requires": [
+    "explicit_component_license_admission",
+    "immutable_commit_or_artifact_identity",
+    "supply_chain_and_dependency_integrity_evidence",
+    "loopback_or_network_surface_authentication_conformance",
+    "delegated_execution_context_conformance",
+    "per_node_capability_authorization_conformance",
+    "credential_scope_narrowing_conformance",
+    "FA3_MCP_CAPABILITY_GATEWAY_MEDIATION",
+    "FA3_NETWORK_EGRESS_ADMISSION",
+    "FA3_MODEL_ROUTER_PROJECTION",
+    "FA3_SECRETS_BOUNDARY_CONFORMANCE",
+    "FA3_HOST_RESOURCE_BROKER_ADMISSION_WHEN_HOST_RESOURCES_ARE_RESERVED",
+    "node_execution_evidence_projection",
+    "cancellation_and_cleanup_evidence",
+    "disabled_state_zero_near_zero_cost_evidence"
+  ],
+  "forbidden_shortcuts": [
+    "floating_master_runtime",
+    "release_tag_without_commit_binding",
+    "provider_local_auth_as_FA3_authorization_authority",
+    "provider_model_catalog_as_FA3_model_router",
+    "provider_credential_store_as_FA3_secrets_authority",
+    "provider_scheduler_as_FA3_durable_workflow_authority",
+    "provider_container_executor_as_FA3_host_resource_or_developer_execution_authority",
+    "marketplace_adoption_as_artifact_trust_or_production_admission"
+  ],
+  "promotion_effect": "NONE_UNTIL_SEPARATE_CURRENT_HOST_RUNTIME_ADMISSION_PASS"
+}

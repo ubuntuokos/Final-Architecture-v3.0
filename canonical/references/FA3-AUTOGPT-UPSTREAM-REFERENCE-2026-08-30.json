@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30",
+  "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+  "repository": "Significant-Gravitas/AutoGPT",
+  "observed_at": "2026-08-30",
+  "default_branch": "master",
+  "observed_default_branch_head": "32a43d005c0c42079ceba68d9a49c28e0eeaa6c7",
+  "observed_head_committed_at": "2026-08-29T01:16:11Z",
+  "observed_head_signature_verified": true,
+  "latest_release": "autogpt-platform-beta-v0.7.3",
+  "latest_release_published_at": "2026-08-28T06:48:00Z",
+  "latest_release_commit": "f49bcca95ed327396d8ebdd0bdf7810de482ac1a",
+  "latest_release_commit_signature_verified": false,
+  "github_release_immutable": false,
+  "license_boundary": {
+    "autogpt_platform": "PolyForm Shield License 1.0.0",
+    "classic_and_everything_outside_autogpt_platform": "MIT",
+    "fa3_pattern_absorption": "REFERENCE_ONLY",
+    "fa3_platform_runtime_activation_requires_explicit_license_admission": true
+  },
+  "observed_upstream_patterns": {
+    "graph_block_input_output_schema": true,
+    "direct_block_execution_context_carries_caller_identity": true,
+    "execute_block_permission_separate": true,
+    "execute_graph_permission_separate": true,
+    "graph_validate_before_persist": true,
+    "credential_lifecycle_hook_before_activate": true,
+    "node_execution_result_contains_node_input_output": true,
+    "separate_executor_service": true,
+    "rabbitmq_async_processing": true,
+    "on_demand_schedule_trigger_execution": true,
+    "marketplace_and_library": true,
+    "single_source_llm_model_catalog_release_history": "autogpt-platform-beta-v0.7.0"
+  },
+  "promotion_evidence": false,
+  "floating_master_allowed_as_promotion_evidence": false,
+  "release_tag_alone_allowed_as_runtime_identity": false,
+  "reference_use": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_PROVIDER_REFERENCE_ONLY",
+  "runtime_activation_requires_separate_current_host_conformance": true
+}

@@ -1,0 +1,143 @@
+{
+  "schema": "fa3.autogpt-enforcement.v1",
+  "gate_id": "FA3-AUTOGPT-GATESET-001",
+  "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+  "classification": [
+    "OPTIONAL_AGENTIC_WORKFLOW_PROVIDER",
+    "GRAPH_BLOCK_WORKBENCH_REFERENCE_PROVIDER",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "floating_master_allowed_as_promotion_evidence": false,
+  "mandatory_rule_count": 17,
+  "p0_invariants": [
+    "AUTOGPT_TYPED_NODE_CONTRACT_REQUIRED",
+    "AUTOGPT_EXPLICIT_DELEGATED_EXECUTION_CONTEXT_REQUIRED",
+    "AUTOGPT_GRAPH_AUTH_NOT_TRANSITIVE_NODE_AUTH",
+    "AUTOGPT_DELEGATED_CAPABILITY_NARROWING_REQUIRED",
+    "AUTOGPT_CREDENTIAL_SCOPE_MONOTONIC_NARROWING",
+    "AUTOGPT_VALIDATE_BEFORE_PERSIST_ACTIVATE",
+    "AUTOGPT_TRIGGER_SCHEDULE_NOT_AUTHORITY",
+    "AUTOGPT_MODEL_CATALOG_NOT_ROUTER_AUTHORITY",
+    "AUTOGPT_CREDENTIAL_STORE_NOT_SECRETS_AUTHORITY",
+    "AUTOGPT_EXECUTOR_NOT_HOST_OR_DEVELOPER_AUTHORITY",
+    "AUTOGPT_MARKETPLACE_LIBRARY_NOT_PRODUCTION_ADMISSION",
+    "AUTOGPT_EXECUTION_EVIDENCE_ATTRIBUTABLE",
+    "AUTOGPT_INTEGRATION_BOUNDARIES_PRESERVED",
+    "AUTOGPT_IMMUTABLE_RUNTIME_REFERENCE_REQUIRED",
+    "AUTOGPT_LICENSE_BOUNDARY_ADMISSION_REQUIRED",
+    "AUTOGPT_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+    "AUTOGPT_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "mandatory_constraint": "AutoGPT SHALL NOT become an FA3 identity, authentication, authorization, secrets, MCP/capability-gateway, model-routing, durable-workflow, evidence/provenance, network-egress, host-resource, developer-execution, artifact-trust or canonical-registry authority.",
+  "rules": [
+    {
+      "id": "FA3-AUTOGPT-P0-001",
+      "name": "AUTOGPT_TYPED_NODE_CONTRACT_REQUIRED",
+      "requirement": "Executable workflow nodes MUST declare typed input and output schemas independent of UI or provider syntax.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-002",
+      "name": "AUTOGPT_EXPLICIT_DELEGATED_EXECUTION_CONTEXT_REQUIRED",
+      "requirement": "Every material node execution MUST carry explicit caller identity, delegation identity, workflow-run identity, node identity, capability scope and policy decision context.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-003",
+      "name": "AUTOGPT_GRAPH_AUTH_NOT_TRANSITIVE_NODE_AUTH",
+      "requirement": "Authorization to possess or execute a graph MUST NOT transitively authorize every node or capability referenced by that graph.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-004",
+      "name": "AUTOGPT_DELEGATED_CAPABILITY_NARROWING_REQUIRED",
+      "requirement": "Delegated child-agent or expert capability scope MUST be a subset of the delegating principal's effective scope.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-005",
+      "name": "AUTOGPT_CREDENTIAL_SCOPE_MONOTONIC_NARROWING",
+      "requirement": "Credential visibility MUST narrow monotonically from workflow to node to capability to provider.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-006",
+      "name": "AUTOGPT_VALIDATE_BEFORE_PERSIST_ACTIVATE",
+      "requirement": "Graph schema, credential/lifecycle and policy validation MUST complete before persistence or activation; failure is fail-closed.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-007",
+      "name": "AUTOGPT_TRIGGER_SCHEDULE_NOT_AUTHORITY",
+      "requirement": "A webhook, schedule or trigger only requests execution and MUST NOT constitute authorization or capability admission.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-008",
+      "name": "AUTOGPT_MODEL_CATALOG_NOT_ROUTER_AUTHORITY",
+      "requirement": "AutoGPT's model catalog is a provider projection only; FA3 model/provider selection remains FA3-AUTH-MODEL-ROUTER-001 authority.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-009",
+      "name": "AUTOGPT_CREDENTIAL_STORE_NOT_SECRETS_AUTHORITY",
+      "requirement": "AutoGPT credential storage MUST NOT become the FA3 secrets authority; provider credentials are externally admitted and scoped.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-010",
+      "name": "AUTOGPT_EXECUTOR_NOT_HOST_OR_DEVELOPER_AUTHORITY",
+      "requirement": "AutoGPT executors and containers are execution mechanisms only and MUST NOT replace Host Resource Broker or developer-execution authority.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-011",
+      "name": "AUTOGPT_MARKETPLACE_LIBRARY_NOT_PRODUCTION_ADMISSION",
+      "requirement": "Marketplace or library adoption, popularity or import MUST NOT constitute artifact trust, capability admission or production promotion.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-012",
+      "name": "AUTOGPT_EXECUTION_EVIDENCE_ATTRIBUTABLE",
+      "requirement": "Every material node execution MUST emit attributable evidence binding caller, delegation, workflow, graph version, node, capability, provider, policy decision, input/output digests and result.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-013",
+      "name": "AUTOGPT_INTEGRATION_BOUNDARIES_PRESERVED",
+      "requirement": "AutoGPT integrations MUST remain behind FA3 MCP/tool mediation, network-egress and secrets boundaries.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-014",
+      "name": "AUTOGPT_IMMUTABLE_RUNTIME_REFERENCE_REQUIRED",
+      "requirement": "Production runtime identity MUST be an immutable full commit or artifact; floating master/dev/latest and release tags without commit binding are not promotion evidence.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-015",
+      "name": "AUTOGPT_LICENSE_BOUNDARY_ADMISSION_REQUIRED",
+      "requirement": "Runtime/code use MUST respect the component license boundary: autogpt_platform requires explicit PolyForm Shield admission; MIT status of Classic does not erase that boundary.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-016",
+      "name": "AUTOGPT_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+      "requirement": "When disabled/reference-only, AutoGPT MUST have no resident provider process, active poller, network session or host-resource lease.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AUTOGPT-P0-017",
+      "name": "AUTOGPT_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+      "requirement": "FA3-PROVIDER-AUTOGPT-001 remains optional, non-root, non-authoritative, adds no capability and preserves the canonical capability count of 143.",
+      "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
+    }
+  ],
+  "executable_gate": "./bin/fa3-enforce autogpt",
+  "report_path": "reports/autogpt-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 17
+}
