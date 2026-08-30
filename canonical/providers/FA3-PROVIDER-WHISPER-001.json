@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-WHISPER-001",
+  "name": "openai/whisper",
+  "status": "EXECUTABLE_PROVIDER_IMPLEMENTED",
+  "provider_role": "LOCAL_LONG_FORM_MEDIA_SPEECH_RECOGNITION",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "PRIMARY_LOCAL_PRODUCTION_CANDIDATE",
+    "OFFLINE_CAPABLE",
+    "WORD_TIMESTAMP_CAPABLE",
+    "BLACKHOLE_STT_ADAPTER"
+  ],
+  "profiles": [
+    "FA3-STT-001",
+    "FA3-STT-MEDIA-001"
+  ],
+  "capability_projection": [
+    "CAP-017",
+    "CAP-121"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_PROVIDER_ROUTED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "model_allowlist": "FA3-WHISPER-MODEL-ALLOWLIST-001",
+  "implementation": {
+    "adapter": "src/fa3_whisper_stt_provider.py",
+    "gate": "src/fa3_whisper_stt_gate.py",
+    "cli": "bin/fa3-whisper-stt",
+    "bootstrap": "bin/fa3-whisper-bootstrap.sh",
+    "current_host_collector": "evidence/collect-whisper-stt-current-host.py",
+    "blackhole_e2e": "bin/fa3-blackhole-whisper-e2e.sh"
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "promotion_status": "CURRENT_HOST_PRODUCTION_E2E_PENDING"
+}
