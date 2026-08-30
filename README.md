@@ -405,3 +405,22 @@ EXECUTABLE_PROVIDER_CONFORMANCE = PASS
 CANONICAL_WHISPER_STT_GATE       = PASS
 CURRENT_HOST_WHISPER_STT_E2E     = required for production promotion
 ```
+
+
+## Buzz optional collaborative-workspace reference provider
+
+`FA3-PROVIDER-BUZZ-001` registers `block/buzz` as an **OPTIONAL human–agent collaborative workspace / evented development-forge reference provider + STRONG architectural pattern source for delegated agent identity, signed event provenance, provider boundaries, remote-agent lifecycle, workflow traceability and release integrity**.
+
+Buzz creates **no new capability** and **no new architectural authority**; the canonical capability count remains **143**. Its patterns may be absorbed only through existing FA3 authority boundaries.
+
+The mandatory P0 authority-separation constraint is:
+
+> **Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, secrets, host-resource or developer-execution authority.**
+
+Canonical records:
+
+- `canonical/providers/FA3-PROVIDER-BUZZ-001.json`
+- `canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json`
+- `canonical/buzz-enforcement.json` (`FA3-BUZZ-GATESET-001`, fail-closed policy record)
+
+Any future registry, profile, contract, runtime or promotion projection that assigns Buzz one of those prohibited authority roles must be rejected rather than promoted.
