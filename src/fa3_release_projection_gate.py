@@ -51,6 +51,20 @@ AUTOGPT_GATE_PATH = "src/fa3_autogpt_gate.py"
 AUTOGPT_TEST_PATH = "tests/test_autogpt_gate.py"
 AUTOGPT_CAPABILITY_ID = "CAP-028"
 AUTOGPT_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED"
+DAC_PROFILE_ID = "FA3-AGENT-EXEC-001"
+DAC_CONTRACT_ID = "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
+DAC_RUNTIME_ID = "FA3-DEVELOPER-AGENT-COORDINATION-REF-RUNTIME-001"
+DAC_GATE_ID = "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001"
+DAC_CONTRACT_PATH = "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json"
+DAC_CONFORMANCE_PATH = "canonical/FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001.json"
+DAC_DECISION_PATH = "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json"
+DAC_ENFORCEMENT_PATH = "canonical/developer-agent-coordination-enforcement.json"
+DAC_RUNTIME_PATH = "src/fa3_developer_agent_coordination.py"
+DAC_GATE_PATH = "src/fa3_developer_agent_coordination_gate.py"
+DAC_TEST_PATH = "tests/test_developer_agent_coordination.py"
+DAC_COLLECTOR_PATH = "evidence/collect-developer-agent-coordination-e2e.py"
+DAC_EXAMPLE_PATH = "examples/developer-agent-coordination-request.json"
+DAC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_REQUIRED"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -477,6 +491,71 @@ def gate(root: Path):
             )
         )
 
+    dac = projection.get("developer_agent_coordination_reconciliation", {})
+    required_dac_manifest_paths = {
+        DAC_CONTRACT_PATH,
+        DAC_CONFORMANCE_PATH,
+        DAC_DECISION_PATH,
+        DAC_ENFORCEMENT_PATH,
+        DAC_RUNTIME_PATH,
+        DAC_GATE_PATH,
+        DAC_TEST_PATH,
+        DAC_COLLECTOR_PATH,
+        DAC_EXAMPLE_PATH,
+        "canonical/profiles/FA3-AGENT-EXEC-001.json",
+    }
+    missing_dac_overlay_members = []
+    for key, required in {
+        "contract_records": DAC_CONTRACT_PATH,
+        "decision_records": DAC_DECISION_PATH,
+        "profile_records": "canonical/profiles/FA3-AGENT-EXEC-001.json",
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_dac_overlay_members.append({"inventory": key, "path": required})
+    dac_manifest_missing = sorted(required_dac_manifest_paths - manifest_paths)
+    dac_contract = loadj(root / DAC_CONTRACT_PATH) if (root / DAC_CONTRACT_PATH).is_file() else {}
+    dac_conformance = loadj(root / DAC_CONFORMANCE_PATH) if (root / DAC_CONFORMANCE_PATH).is_file() else {}
+    dac_decision = loadj(root / DAC_DECISION_PATH) if (root / DAC_DECISION_PATH).is_file() else {}
+    if (
+        dac.get("profile_id") != DAC_PROFILE_ID
+        or dac.get("contract_id") != DAC_CONTRACT_ID
+        or dac.get("runtime_id") != DAC_RUNTIME_ID
+        or dac.get("gate_id") != DAC_GATE_ID
+        or dac.get("reconciliation_status") != DAC_RECONCILIATION_STATUS
+        or dac.get("reference_e2e_status") != "CI_REFERENCE_RUNTIME_E2E_REQUIRED"
+        or dac.get("current_host_production_claim") is not False
+        or dac.get("new_capabilities") != 0
+        or dac.get("new_architectural_authorities") != 0
+        or dac.get("capability_count_after") != CAPABILITY_COUNT
+        or DAC_GATE_ID not in projection_gates
+        or DAC_GATE_ID not in policy_gates
+        or missing_dac_overlay_members
+        or dac_manifest_missing
+        or dac_contract.get("id") != DAC_CONTRACT_ID
+        or dac_contract.get("parent_profile") != DAC_PROFILE_ID
+        or dac_contract.get("provider_neutral") is not True
+        or dac_contract.get("new_capability") is not False
+        or dac_contract.get("new_architectural_authority") is not False
+        or dac_contract.get("capability_count") != CAPABILITY_COUNT
+        or dac_conformance.get("id") != "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001"
+        or dac_conformance.get("runtime_id") != DAC_RUNTIME_ID
+        or dac_conformance.get("runtime_version") != "0.1.0"
+        or dac_conformance.get("status") != "REFERENCE_RUNTIME"
+        or dac_conformance.get("executable_e2e", {}).get("current_host_production_claim") is not False
+        or dac_decision.get("status") != "CANONICAL_CLOSED"
+        or dac_decision.get("new_capabilities") != 0
+        or dac_decision.get("new_architectural_authorities") != 0
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-024",
+                "Developer-agent coordination global projection/runtime-E2E reconciliation invariant mismatch",
+                reconciliation_status=dac.get("reconciliation_status"),
+                missing_overlay_members=missing_dac_overlay_members,
+                missing_manifest_paths=dac_manifest_missing,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -687,6 +766,7 @@ def gate(root: Path):
             "presenton_current_host_production_e2e": presenton.get("current_host_production_e2e"),
             "autogpt_reconciliation": autogpt.get("reconciliation_status"),
             "autogpt_runtime_activation_status": autogpt.get("runtime_activation_status"),
+            "developer_agent_coordination_reconciliation": dac.get("reconciliation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
