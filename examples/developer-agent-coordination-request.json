@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.developer-agent-coordination-example.v1",
+  "task_id": "FA3-EXAMPLE-DAC-001",
+  "objective": "Produce three isolated, non-overlapping developer-agent changes and integrate them through one committer.",
+  "max_message_hops": 4,
+  "integration_actor": "FA3_INTEGRATION",
+  "workers": [
+    {
+      "agent_id": "architecture-agent",
+      "provider_id": "provider-adapter",
+      "relative_path": "work/architecture.txt",
+      "content": "architecture-result\n"
+    },
+    {
+      "agent_id": "test-agent",
+      "provider_id": "provider-adapter",
+      "relative_path": "work/tests.txt",
+      "content": "test-result\n"
+    },
+    {
+      "agent_id": "security-agent",
+      "provider_id": "provider-adapter",
+      "relative_path": "work/security.txt",
+      "content": "security-result\n"
+    }
+  ]
+}
