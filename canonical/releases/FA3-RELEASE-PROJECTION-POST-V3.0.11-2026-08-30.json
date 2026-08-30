@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8ca9c5df6c07c9df35fcd9404fb6f512ae33cc14",
-    "pre_projection_root_tree_sha": "f56231ff318213e16efa123eb4854bfa91397958",
-    "pre_projection_canonical_tree_sha": "4435a968727800b1ccc321186df30edf954502c0",
-    "commits_ahead_of_v3_0_11_conformance_commit": 68,
-    "total_post_baseline_commits": 68,
+    "pre_projection_head_sha": "1f48670cfa99db0104cf41c8388c5a230ce10140",
+    "pre_projection_root_tree_sha": "d2995a4c1ab70cf16f9411fb64738a9b2b852948",
+    "pre_projection_canonical_tree_sha": "ee11acddb4f5b64cf3f1b41429259bb6a265a36e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 70,
+    "total_post_baseline_commits": 70,
     "delta_file_count": 243,
     "delta_added_files": 240,
     "delta_modified_files": 3,
@@ -217,7 +217,14 @@
     "canonical_capability_count": 143,
     "record_count": 143,
     "current_registry_status_at_source_snapshot": "PENDING_CURRENT_HOST",
-    "projection_claim": "NO_GLOBAL_RUNTIME_PROMOTION_CLAIM"
+    "projection_claim": "NO_GLOBAL_RUNTIME_PROMOTION_CLAIM",
+    "autogpt_capability_binding": {
+      "subject_id": "CAP-028",
+      "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+      "decision_id": "FA3-DEC-AUTOGPT-2026-08-30",
+      "reference_evidence": "evidence/reference/autogpt-ci-2026-08-30.json",
+      "runtime_status": "PENDING_CURRENT_HOST"
+    }
   },
   "promotion": {
     "fail_closed": true,
@@ -248,11 +255,6 @@
       "path": ".gitignore",
       "git_blob_sha": "c6122e24d587e76230c7ddbcc029d425313a952d",
       "baseline_delta_status": "modified"
-    },
-    {
-      "path": "README.md",
-      "git_blob_sha": "7ad6fc89de51bd0d77b84cbbedc31d01af596091",
-      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-blackhole-kdenlive",
@@ -317,46 +319,6 @@
     {
       "path": "bin/fa3-whisper-stt",
       "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "e44b8d3d3ca8936dd59331cc994d1cebea1b95c0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "0f4ef99eded354332013e2809106bce842bd223c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-MENTOR-CONFORMANCE-MATRIX-001.json",
-      "git_blob_sha": "78a28927d7a273a8be5ad703952bf89c0df61420",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-MODULAR-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "f2c8992ebbf0a153281a46d3ff48396caff3533a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-WHISPER-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "9833388f885111c5561285a2006de27498fbb1b8",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/FA3-WHISPER-STT-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2",
       "baseline_delta_status": "added"
     },
     {
@@ -672,6 +634,46 @@
     {
       "path": "canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json",
       "git_blob_sha": "6b7d2b6163e0f4d88d26317573d5e51138f6f28a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
+      "git_blob_sha": "e44b8d3d3ca8936dd59331cc994d1cebea1b95c0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "0f4ef99eded354332013e2809106bce842bd223c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MENTOR-CONFORMANCE-MATRIX-001.json",
+      "git_blob_sha": "78a28927d7a273a8be5ad703952bf89c0df61420",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MODULAR-MODEL-ALLOWLIST-001.json",
+      "git_blob_sha": "f2c8992ebbf0a153281a46d3ff48396caff3533a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-WHISPER-MODEL-ALLOWLIST-001.json",
+      "git_blob_sha": "9833388f885111c5561285a2006de27498fbb1b8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-WHISPER-STT-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2",
       "baseline_delta_status": "added"
     },
     {
@@ -1055,11 +1057,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/presenton/README.md",
-      "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "deployment/presenton/ai-creative.target",
       "git_blob_sha": "72542a52ec5da82039be42f2eff6ed3bb9368667",
       "baseline_delta_status": "added"
@@ -1077,6 +1074,11 @@
     {
       "path": "deployment/presenton/presenton.container",
       "git_blob_sha": "3d650f58e6ab92ff1ccd193f9bf628af90f52362",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/presenton/README.md",
+      "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892",
       "baseline_delta_status": "added"
     },
     {
@@ -1121,7 +1123,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "3de2f8692b997012904046c7819e01f5aa10346d",
+      "git_blob_sha": "f56b101417ce189c614b1b9e0ed22cd53bac19b5",
       "baseline_delta_status": "added"
     },
     {
@@ -1220,6 +1222,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "README.md",
+      "git_blob_sha": "7ad6fc89de51bd0d77b84cbbedc31d01af596091",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "de59eaff6f7fc951e9f0f9c32f458d58ef2802b7",
       "baseline_delta_status": "added"
@@ -1235,13 +1242,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_blackhole_kdenlive.py",
-      "git_blob_sha": "c06151c2b905661d6cb64648dd6367be8b92ed94",
+      "path": "src/fa3_blackhole_kdenlive_gate.py",
+      "git_blob_sha": "00ecf4720f41c1a66553a21c1b20356304be5b0f",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_blackhole_kdenlive_gate.py",
-      "git_blob_sha": "00ecf4720f41c1a66553a21c1b20356304be5b0f",
+      "path": "src/fa3_blackhole_kdenlive.py",
+      "git_blob_sha": "c06151c2b905661d6cb64648dd6367be8b92ed94",
       "baseline_delta_status": "added"
     },
     {
@@ -1321,8 +1328,8 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "c840a0595a451401386bb443a6a0a40616c671fd",
-      "baseline_delta_status": "presenton_release_inventory_reconciliation_update"
+      "git_blob_sha": "bed79f3b66dcdf982796d27dad1dc09732617940",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_terax_gate.py",
@@ -1431,8 +1438,8 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "a999195810e28c412c25bbad225fe04749611b89",
-      "baseline_delta_status": "presenton_release_inventory_reconciliation_update"
+      "git_blob_sha": "62b1a0c39a3d497e82c33837aa0545d16f297f08",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_terax_gate.py",
@@ -1469,16 +1476,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "mutable_runtime_exclusions": [
-      ".git/**",
-      "reports/**",
-      "acceptance/**",
-      "promotion/**",
-      "**/__pycache__/**",
-      ".pytest_cache/**",
-      ".mypy_cache/**",
-      "evidence/receipts/* except evidence/receipts/.gitkeep"
-    ]
+    "source_snapshot_anchor": "1f48670cfa99db0104cf41c8388c5a230ce10140",
+    "regenerated_from_branch_head": "4bc117b25dc7f4dfd4109b0f3a8655270775f54d"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -1495,7 +1494,8 @@
     "FA3-EXTERNAL-API-DISCOVERY-001 added as a fail-closed multi-source API/service/MCP discovery projection; external discovery does not authorize registration or execution, capability count remains 143, and no architectural authority is added.",
     "Release projection metadata coherence is anchored to the pre-maintenance canonical main snapshot and fail-closed against Git lineage, tree identity, delta counts, overlay counts and exact inventory record sets.",
     "FA3-PROVIDER-KANBOARD-001 globally reconciled into the unified release projection: provider/decision/upstream-reference/PASS-evidence records, mandatory reference gate and complete manifest coverage are fail-closed while capability count remains 143 and architectural-authority delta remains 0.",
-    "FA3-PROVIDER-PRESENTON-001 materialized and globally reconciled as an optional rootless presentation worker with immutable v0.9.8-beta OCI pin, typed REST/MCP boundary, PostgreSQL, LiteLLM/ComfyUI mediation, executable regressions and CAP-033 Evidence Registry linkage; real current-host PPTX/PDF production E2E remains fail-closed pending."
+    "FA3-PROVIDER-PRESENTON-001 materialized and globally reconciled as an optional rootless presentation worker with immutable v0.9.8-beta OCI pin, typed REST/MCP boundary, PostgreSQL, LiteLLM/ComfyUI mediation, executable regressions and CAP-033 Evidence Registry linkage; real current-host PPTX/PDF production E2E remains fail-closed pending.",
+    "FA3-PROVIDER-AUTOGPT-001 globally reconciled across release inventory, CAP-028 Evidence Registry binding, mandatory gate inventory and complete release-surface manifest; runtime remains NOT_ADMITTED/NOT_PROMOTED_REFERENCE_ONLY and adds no capability or authority."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -1536,6 +1536,29 @@
     "release_projection_inclusion": "PROVIDER_DECISION_CONTRACT_REFERENCE_EVIDENCE_GATE_DEPLOYMENT_CURRENT_HOST_COLLECTOR_MANIFEST_AND_OVERLAY_INVENTORY",
     "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING",
     "current_host_production_e2e": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "autogpt_reconciliation": {
+    "provider_id": "FA3-PROVIDER-AUTOGPT-001",
+    "gate_id": "FA3-AUTOGPT-GATESET-001",
+    "capability_id": "CAP-028",
+    "classification": "OPTIONAL_AGENTIC_WORKFLOW_REFERENCE_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_RUNTIME_NOT_ADMITTED",
+    "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "provider_record": "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json",
+    "decision_record": "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
+    "upstream_reference": "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
+    "reference_evidence": "evidence/reference/autogpt-ci-2026-08-30.json",
+    "runtime_admission": "canonical/autogpt-runtime-admission.json",
+    "enforcement": "canonical/autogpt-enforcement.json",
+    "executable_gate": "src/fa3_autogpt_gate.py",
+    "regression_tests": "tests/test_autogpt_gate.py",
+    "global_evidence_registry": "evidence/evidence-registry.json",
+    "evidence_registry_binding": "CAP-028 -> FA3-DEC-AUTOGPT-2026-08-30 + autogpt-ci-2026-08-30.json",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
