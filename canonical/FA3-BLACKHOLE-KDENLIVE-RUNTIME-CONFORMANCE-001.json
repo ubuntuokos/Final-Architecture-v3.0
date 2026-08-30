@@ -2,11 +2,13 @@
   "schema": "fa3.blackhole-kdenlive-runtime-conformance.v1",
   "id": "FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001",
   "profile_id": "FA3-BLACKHOLE-KDENLIVE-001",
-  "integration_version": "1.0.0",
+  "integration_version": "1.1.0",
   "capability_projection": [
     "CAP-017",
     "CAP-121"
   ],
+  "kdenlive_editorial_profile": "FA3-KDENLIVE-EDITORIAL-001",
+  "canonical_timeline_ir": "OpenTimelineIO",
   "implementation": {
     "adapter": "src/fa3_blackhole_kdenlive.py",
     "gate": "src/fa3_blackhole_kdenlive_gate.py",
@@ -24,7 +26,12 @@
     "optional FA3 Demucs vocals preprocessing",
     "FFmpeg 16kHz mono PCM16 STT normalization",
     "provider-neutral STT request/result artifact exchange",
-    "subtitle time validation and timeline-offset projection",
+    "optional diarization",
+    "word/segment timing validation",
+    "forced alignment when timing quality requires it",
+    "optional translation with lineage",
+    "subtitle segmentation and caption QC evidence",
+    "OTIO-aware timeline offset projection",
     "SRT/VTT/JSON sidecar artifacts",
     "Kdenlive subtitle import descriptor"
   ],
@@ -37,7 +44,8 @@
     "silent_demucs_fallback": false,
     "demucs_required_for_stt": false,
     "conda_miniforge": false,
-    "separate_blackhole_gui": false
+    "separate_blackhole_gui": false,
+    "gui_automation_primary": false
   },
   "global_promotion_dependency": false
 }
