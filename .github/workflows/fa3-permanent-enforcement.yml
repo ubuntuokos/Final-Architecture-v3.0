@@ -68,6 +68,8 @@ jobs:
         run: ./bin/fa3-enforce whisper-stt
       - name: Whisper STT executable provider conformance
         run: ./bin/fa3-enforce whisper-stt-provider
+      - name: FA3 Mentor mandatory canonical/regression gate
+        run: ./bin/fa3-enforce mentor
       - name: Canonical static enforcement
         run: ./bin/fa3-enforce static
       - name: Upload static report
@@ -96,6 +98,7 @@ jobs:
             reports/blackhole-kdenlive-conformance-report.json
             reports/whisper-stt-gate-report.json
             reports/whisper-stt-conformance-report.json
+            reports/mentor-gate-report.json
 
   promotion-safety:
     name: promotion-safety / fail-closed
