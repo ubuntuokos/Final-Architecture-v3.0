@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-STT-MEDIA-001",
   "name": "Long-Form Media Transcription, Alignment & Caption Projection Profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-LONGFORM-MEDIA-STT-USED",
@@ -26,7 +26,7 @@
   "optional_preprocessors": [
     "FA3-AUDIO-SEPARATION-001"
   ],
-  "implementation_status": "CANONICAL_EXECUTION_DOMAIN",
+  "implementation_status": "EXECUTABLE_LONGFORM_STT_WITH_WHISPER_PROVIDER",
   "required_stages": [
     "media/range acquisition",
     "audio extraction and normalization",
@@ -49,5 +49,8 @@
     "Forced alignment is a distinct typed artifact and cannot silently overwrite provider-native timing.",
     "Translation is optional and must preserve source text, source language, target language, provider identity and lineage.",
     "Caption QC evidence is required before production subtitle/timeline projection is promoted."
+  ],
+  "production_providers": [
+    "FA3-PROVIDER-WHISPER-001"
   ]
 }
