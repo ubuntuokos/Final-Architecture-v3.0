@@ -29,7 +29,7 @@ jobs:
       - name: Prepare gate
         run: chmod +x bin/fa3-enforce
       - name: Syntax check
-        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_demucs_gate.py src/fa3_acestep_gate.py evidence/collect-terax-current-host.py
+        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py evidence/collect-terax-current-host.py evidence/collect-demucs-current-host.py
       - name: Executable invariant tests
         run: PYTHONPATH=src python -m unittest discover -s tests -v
       - name: Terax immutable reference gate
@@ -38,6 +38,8 @@ jobs:
         run: ./bin/fa3-enforce kaneo
       - name: Demucs mandatory canonical invariant gate
         run: ./bin/fa3-enforce demucs
+      - name: Demucs executable provider conformance
+        run: ./bin/fa3-enforce demucs-provider
       - name: ACE-Step mandatory provider invariant gate
         run: ./bin/fa3-enforce acestep
       - name: Canonical static enforcement
@@ -52,6 +54,7 @@ jobs:
             reports/terax-gate-report.json
             reports/kaneo-gate-report.json
             reports/demucs-gate-report.json
+            reports/demucs-provider-conformance-report.json
             reports/ace-step-gate-report.json
 
   promotion-safety:

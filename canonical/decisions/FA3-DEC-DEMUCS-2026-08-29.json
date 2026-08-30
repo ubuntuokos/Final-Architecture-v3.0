@@ -60,5 +60,13 @@
     "DEMUCS_AS_MODEL_ROUTING_AUTHORITY",
     "UNTRUSTED_LEGACY_CHECKPOINT_EXECUTION",
     "EXTERNAL_METADATA_ARBITRARY_CLASS_IMPORT"
-  ]
+  ],
+  "implementation_projection": {
+    "status": "IMPLEMENTED_CURRENT_HOST_EVIDENCE_REQUIRED",
+    "provider_adapter": "src/fa3_demucs_provider.py",
+    "model_allowlist": "FA3-DEMUCS-MODEL-ALLOWLIST-001",
+    "executable_conformance": "MANDATORY_CI",
+    "current_host_production_e2e": "MUST_BE_PRODUCED_ON_ACTUAL_WORKSTATION",
+    "synthetic_or_ci_execution_may_not_claim_current_host_production_pass": true
+  }
 }

@@ -136,3 +136,50 @@ PYTHONPATH=src python -m unittest tests.test_acestep_gate -v
 
 Runtime promotion remains separately fail-closed on `evidence/receipts/ace-step-current-host.json`. Required current-host evidence includes model-identity matching, HRB admission, authenticated REST conformance, Turbo/XL-Turbo audio-quality E2E, text2music state-hygiene regression, KV-cache re-init invariance, LM clean-teardown or process-recycle behavior, lossless WAV/FLAC master provenance, and additional DCW-off positive/negative quality evidence before any SFT/XL-SFT promotion.
 
+
+
+## Demucs executable provider and current-host evidence
+
+The canonical Demucs provider now has a real FA3 adapter at `src/fa3_demucs_provider.py`. The adapter is fail-closed around model trust and host placement: only `FA3-DEMUCS-MODEL-ALLOWLIST-001` models are accepted, safetensors model classes are resolved through a fixed local class allowlist, legacy pickle checkpoints are denied on this production path, and CUDA execution requires a typed lease from `FA3-AUTH-HOST-RESOURCE-BROKER-001` plus an external HRB verifier response.
+
+CI-safe executable conformance:
+
+```bash
+./bin/fa3-enforce demucs-provider
+```
+
+This produces `reports/demucs-provider-conformance-report.json` and exercises 13 positive/negative provider invariants without downloading Demucs models.
+
+For the actual workstation, use an isolated per-provider venv (no conda/mamba):
+
+```bash
+bash bin/fa3-demucs-bootstrap.sh
+```
+
+Then collect production E2E evidence with a **real** audio file through the existing Host Resource Broker v1.0.0 interface. The harness asks the broker to choose the accelerator, issues an `AcceleratorExecutionLease@1`, resolves the leased GPU UUID back to the current CUDA ordinal, applies the lease-derived PyTorch allocator guard, runs Demucs, validates evidence, and revokes the lease on exit:
+
+```bash
+bash bin/fa3-demucs-hrb-production-e2e.sh /path/to/real-audio.wav
+```
+
+The default broker path is `/usr/local/bin/fa3-host-resource-broker`; override it with `FA3_HRB_BIN` only when the canonical HRB is installed elsewhere. The default lease asks for 6 GiB VRAM for one hour and can be changed with `FA3_DEMUCS_HRB_MEMORY_BYTES` and `FA3_DEMUCS_HRB_TTL_SECONDS`. CUDA has **no implicit CPU fallback** and bare `cuda` is rejected: execution must resolve to explicit `cuda:N` from the broker-issued GPU UUID.
+
+For an already-issued canonical lease, the lower-level collector is also available:
+
+```bash
+bash bin/fa3-demucs-current-host.sh \
+  --input /path/to/real-audio.wav \
+  --model htdemucs \
+  --device auto \
+  --hrb-lease /path/to/accelerator-execution-lease.json
+```
+
+By default model resolution is offline/cache-only. Add `--allow-network-model-fetch` only when the trusted model is not cached and the applicable FA3 egress policy permits the fetch.
+
+The collector writes `evidence/receipts/demucs-current-host.json` plus runtime execution/stem evidence. The production gate:
+
+```bash
+./bin/fa3-enforce demucs-current-host
+```
+
+accepts only `CURRENT_HOST_PRODUCTION_E2E_PASS`, rejects synthetic input, verifies the execution-evidence digest, requires safetensors + class-allowlist proof, and for CUDA requires the canonical HRB lease schema/issuer, broker `VALID` result, GPU UUID revalidation, and lease-derived allocator guard. A synthetic collector run may be useful as a smoke test but cannot claim production current-host PASS.

@@ -45,5 +45,11 @@
     "model-loading trust admission",
     "stem-level provenance and quality evidence"
   ],
-  "implementation_status": "CANONICAL_PROVIDER_OPTIONAL"
+  "implementation_status": "PROVIDER_IMPLEMENTED_CURRENT_HOST_EVIDENCE_REQUIRED",
+  "implementation": {
+    "provider_adapter": "src/fa3_demucs_provider.py",
+    "executable_conformance": "demucs-provider",
+    "current_host_collector": "evidence/collect-demucs-current-host.py",
+    "production_e2e_gate": "demucs-current-host"
+  }
 }
