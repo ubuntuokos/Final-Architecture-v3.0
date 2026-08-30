@@ -14,6 +14,7 @@ RUNTIME_ID = "FA3-MODULAR-RUNTIME-CONFORMANCE-001"
 HRB_PROFILE_ID = "FA3-HOST-RESOURCE-BROKER-001"
 HRB_LEASE_SCHEMA = "AcceleratorExecutionLease@1"
 DEFAULT_MODEL = "LiquidAI/LFM2.5-350M"
+DEFAULT_MODEL_REVISION = "9e6c6ccf47cd318696e137d381a7ded8fe4df09f"
 MODEL_ALLOWLIST_ID = "FA3-MODULAR-MODEL-ALLOWLIST-001"
 DEFAULT_HRB_VERIFY_COMMAND = ("/usr/local/bin/fa3-host-resource-broker", "validate-lease", "{lease}")
 
@@ -51,7 +52,7 @@ def validate_request(req: MaxServeRequest, allowlist: dict[str, Any]) -> None:
         raise PolicyDenied("allowlisted model must require immutable revision")
     if model.get("trust_remote_code") is not False:
         raise PolicyDenied("production allowlist cannot require remote code")
-    if not req.model_revision or not re.fullmatch(r"[0-9a-f]{7,64}", req.model_revision):
+    if not req.model_revision or not re.fullmatch(r"[0-9a-f]{40}", req.model_revision):
         raise PolicyDenied("production MAX execution requires an immutable Hugging Face revision pin")
     if req.evidence_channel not in {"stable", "nightly"}:
         raise PolicyDenied("evidence_channel must be stable or nightly")
@@ -135,7 +136,7 @@ def evidence_complete(e: dict[str, Any]) -> bool:
 
 def run_executable_conformance(root: Path) -> dict[str, Any]:
     allow = load_allowlist(root)
-    rev = "9e6c6cc"
+    rev = DEFAULT_MODEL_REVISION
     good = MaxServeRequest(model_revision=rev, devices="cpu")
     cases: list[dict[str, Any]] = []
 
