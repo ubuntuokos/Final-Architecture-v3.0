@@ -8,14 +8,18 @@
   "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
   "decision_id": "FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30",
   "source_snapshot": {
-    "pre_projection_head_sha": "d45e0deddd86178eabf938c4f0ccc6e24dfefded",
-    "pre_projection_root_tree_sha": "a83406e264ae6341b9431d48026a4c85f165cae9",
-    "pre_projection_canonical_tree_sha": "2ec19e20f41687f4fed34bab9ffd470e86cf3cdd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 60,
-    "total_post_baseline_commits": 60,
-    "delta_file_count": 153,
-    "delta_added_files": 150,
-    "delta_modified_files": 3
+    "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
+    "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
+    "pre_projection_head_sha": "d7da217aed8bc44f37bf7b785051379958048bf4",
+    "pre_projection_root_tree_sha": "d7da217aed8bc44f37bf7b785051379958048bf4",
+    "pre_projection_canonical_tree_sha": "4b1220a445ba709cdd003b1d43d684706135e250",
+    "commits_ahead_of_v3_0_11_conformance_commit": 65,
+    "total_post_baseline_commits": 65,
+    "delta_file_count": 227,
+    "delta_added_files": 224,
+    "delta_modified_files": 3,
+    "delta_removed_files": 0,
+    "delta_other_files": 0
   },
   "baseline_source_graph": {
     "release": "2026-08-23/v3.0.11",
@@ -41,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 132,
-    "evidence_files_in_post_baseline_delta": 21,
-    "source_files_in_post_baseline_delta": 22,
-    "test_files_in_post_baseline_delta": 20,
+    "canonical_files_in_post_baseline_delta": 140,
+    "evidence_files_in_post_baseline_delta": 22,
+    "source_files_in_post_baseline_delta": 24,
+    "test_files_in_post_baseline_delta": 22,
     "workflow_files_in_post_baseline_delta": 2,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -59,6 +63,7 @@
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
       "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
+      "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-META-LLAMA-001.json",
       "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
       "canonical/providers/FA3-PROVIDER-MOJO-001.json",
@@ -81,12 +86,14 @@
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
+      "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
       "canonical/profiles/FA3-IMGGEN-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
+      "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
@@ -95,28 +102,28 @@
       "canonical/profiles/FA3-STT-001.json",
       "canonical/profiles/FA3-STT-MEDIA-001.json",
       "canonical/profiles/FA3-VIDEO-001.json",
-      "canonical/profiles/FA3-WEB-AI-001.json",
-      "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json"
+      "canonical/profiles/FA3-WEB-AI-001.json"
     ],
     "contract_records": [
       "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
       "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
-      "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
-      "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json"
+      "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json"
     ],
     "decision_records": [
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
@@ -130,10 +137,12 @@
       "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
+      "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
@@ -146,21 +155,20 @@
       "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
-      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
-      "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json"
+      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json"
     ],
     "upstream_reference_records": [
       "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json",
-      "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
-      "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
-      "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
-      "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json"
+      "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json"
     ],
     "reference_evidence_records": [
       "evidence/reference/ace-step-2026-08-30.json",
@@ -169,6 +177,7 @@
       "evidence/reference/conversation-reconciliation-2026-08-30.json",
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "evidence/reference/demucs-v4.1.0.json",
+      "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
@@ -221,8 +230,8 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "d94ab951364cf27e34a346e639472788dd5682b4",
-      "baseline_delta_status": "external_api_discovery_integration_update"
+      "git_blob_sha": "db3ef281df157f261a61a54488b2637d9cedaf3a",
+      "baseline_delta_status": "projection_metadata_coherence_update"
     },
     {
       "path": ".gitignore",
@@ -1231,8 +1240,8 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "d9c6fe9024dc48b3400a561eff1e3785be070adc",
-      "baseline_delta_status": "projection_control_update"
+      "git_blob_sha": "db22416b5738e3fe50238f4f9cd906c2bfb74172",
+      "baseline_delta_status": "projection_metadata_coherence_update"
     },
     {
       "path": "src/fa3_terax_gate.py",
@@ -1336,8 +1345,8 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "7565b9a91b5aae92dda8de507e92b7ccbe1652f6",
-      "baseline_delta_status": "projection_control_update"
+      "git_blob_sha": "2f0c962b44792c615c0f7588b30a773b2a30f81a",
+      "baseline_delta_status": "projection_metadata_coherence_update"
     },
     {
       "path": "tests/test_terax_gate.py",
@@ -1397,7 +1406,8 @@
   },
   "projection_notes": [
     "FA3-MENTOR-001 P0/MUST profile and FA3 Mentor v0.2 reference implementation projection added without capability-count or architectural-authority change.",
-    "FA3-EXTERNAL-API-DISCOVERY-001 added as a fail-closed multi-source API/service/MCP discovery projection; external discovery does not authorize registration or execution, capability count remains 143, and no architectural authority is added."
+    "FA3-EXTERNAL-API-DISCOVERY-001 added as a fail-closed multi-source API/service/MCP discovery projection; external discovery does not authorize registration or execution, capability count remains 143, and no architectural authority is added.",
+    "Release projection metadata coherence is anchored to the pre-maintenance canonical main snapshot and fail-closed against Git lineage, tree identity, delta counts, overlay counts and exact inventory record sets."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
