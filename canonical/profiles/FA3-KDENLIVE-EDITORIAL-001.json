@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-KDENLIVE-EDITORIAL-001",
+  "name": "Kdenlive Human Editorial, OTIO Interchange & Controlled Automation Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-CANONICAL-PROJECTION-RUNTIME-CONDITIONAL",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "profile_type": "EDITORIAL_INTEGRATION_PROJECTION",
+  "capabilities": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "contracts": [
+    "FA3-KDENLIVE-EDITORIAL-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-MEDIA-001",
+    "FA3-MEDIA-FINISH-001",
+    "FA3-TEMPORAL-001"
+  ],
+  "provider": "FA3-PROVIDER-KDENLIVE-001",
+  "kdenlive_role": "PRIMARY_LINUX_KUBUNTU_HUMAN_NLE_AND_FINAL_ASSEMBLY_FRONTEND",
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "hard_backend_dependency": false,
+  "automation_policy": {
+    "mode": "API_FIRST",
+    "preferred_surfaces": [
+      "native OpenTimelineIO import/export",
+      "typed/versioned Kdenlive or MLT automation surface when capability-discovered",
+      "typed/versioned D-Bus surface when capability-discovered"
+    ],
+    "gui_automation": "FALLBACK_ONLY",
+    "gui_fallback_requirements": [
+      "explicit capability-unavailable evidence",
+      "auditable action trace",
+      "reproducible target/action specification",
+      "pre/post project identity evidence",
+      "HITL approval for critical mutations"
+    ]
+  },
+  "project_mutation_policy": "NO_EXTERNAL_DIRECT_KDENLIVE_XML_MUTATION",
+  "media_core": {
+    "probe": "ffprobe",
+    "transform": "ffmpeg",
+    "requirement": "DETERMINISTIC_EXPLICIT_COMMANDS_AND_ARTIFACT_LINEAGE"
+  },
+  "platform_projection": [
+    "Linux",
+    "Kubuntu",
+    "KDE Plasma",
+    "Wayland"
+  ],
+  "implementation_status": "CANONICAL_PROVIDER_PROJECTION"
+}
