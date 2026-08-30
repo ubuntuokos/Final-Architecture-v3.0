@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.buzz-enforcement.v1",
+  "gate_id": "FA3-BUZZ-GATESET-001",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "classification": [
+    "OPTIONAL_HUMAN_AGENT_COLLABORATIVE_WORKSPACE_PROVIDER",
+    "EVENTED_DEVELOPMENT_FORGE_REFERENCE_PROVIDER",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "mandatory_rule_count": 1,
+  "p0_invariants": [
+    "BUZZ_AUTHORITY_SEPARATION_FAIL_CLOSED"
+  ],
+  "rules": [
+    {
+      "id": "FA3-BUZZ-P0-001",
+      "name": "Buzz authority separation",
+      "requirement": "Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, secrets, host-resource or developer-execution authority.",
+      "enforcement": "Any registry, profile, contract, provider, runtime or promotion record assigning Buzz any prohibited FA3 authority role MUST fail closed."
+    }
+  ],
+  "pattern_source_scope": [
+    "delegated agent identity",
+    "signed event provenance",
+    "provider boundaries",
+    "remote-agent lifecycle",
+    "workflow traceability",
+    "release integrity"
+  ]
+}
