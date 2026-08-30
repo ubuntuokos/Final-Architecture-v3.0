@@ -3,16 +3,19 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 PROJECTION_ID = "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30"
 PROJECTION_PATH = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 DECISION_PATH = "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json"
 BASE_RELEASE = "2026-08-23/v3.0.11"
+BASE_COMMIT = "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60"
 CAPABILITY_COUNT = 143
 EXPECTED_SOURCE_GRAPH_SHA256 = "0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d738c6b8fc553c4f16"
 EXPECTED_SOURCE_GRAPH_NODES = 1615
 EXPECTED_SOURCE_GRAPH_EDGES = 6144
+SNAPSHOT_SEMANTICS = "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -50,6 +53,103 @@ def is_mutable_runtime_path(rel: str) -> bool:
     return False
 
 
+def _git(root: Path, *args: str) -> str:
+    proc = subprocess.run(
+        ["git", "-C", str(root), *args],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(
+            f"git {' '.join(args)} failed with rc={proc.returncode}: {proc.stderr.strip()}"
+        )
+    return proc.stdout.strip()
+
+
+def _git_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
+    proc = subprocess.run(
+        ["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode == 0:
+        return True
+    if proc.returncode == 1:
+        return False
+    raise RuntimeError(
+        f"git merge-base --is-ancestor failed with rc={proc.returncode}: {proc.stderr.strip()}"
+    )
+
+
+def _diff_rows(root: Path, snapshot_head: str):
+    raw = _git(root, "diff", "--name-status", "--find-renames", BASE_COMMIT, snapshot_head)
+    rows = []
+    for line in raw.splitlines():
+        if not line:
+            continue
+        parts = line.split("\t")
+        status = parts[0]
+        if status.startswith(("R", "C")):
+            if len(parts) < 3:
+                raise RuntimeError(f"unparseable rename/copy row: {line}")
+            path = parts[-1]
+        else:
+            if len(parts) < 2:
+                raise RuntimeError(f"unparseable name-status row: {line}")
+            path = parts[1]
+        rows.append((status, path))
+    return rows
+
+
+def collect_git_snapshot_facts(root: Path, snapshot_head: str):
+    root = Path(root).resolve()
+    if not snapshot_head:
+        raise RuntimeError("source_snapshot.pre_projection_head_sha is empty")
+
+    rows = _diff_rows(root, snapshot_head)
+    paths = [path for _, path in rows]
+
+    def prefixed(prefix: str):
+        return sorted(path for path in paths if path.startswith(prefix))
+
+    added = sum(status.startswith("A") for status, _ in rows)
+    modified = sum(status.startswith("M") for status, _ in rows)
+    removed = sum(status.startswith("D") for status, _ in rows)
+    other = len(rows) - added - modified - removed
+
+    return {
+        "snapshot_head_sha": _git(root, "rev-parse", snapshot_head),
+        "current_head_sha": _git(root, "rev-parse", "HEAD"),
+        "root_tree_sha": _git(root, "rev-parse", f"{snapshot_head}^{{tree}}"),
+        "canonical_tree_sha": _git(root, "rev-parse", f"{snapshot_head}:canonical"),
+        "baseline_is_ancestor": _git_is_ancestor(root, BASE_COMMIT, snapshot_head),
+        "snapshot_is_ancestor_of_current_head": _git_is_ancestor(root, snapshot_head, "HEAD"),
+        "commit_count": int(_git(root, "rev-list", "--count", f"{BASE_COMMIT}..{snapshot_head}")),
+        "delta_file_count": len(rows),
+        "delta_added_files": added,
+        "delta_modified_files": modified,
+        "delta_removed_files": removed,
+        "delta_other_files": other,
+        "area_counts": {
+            "canonical_files_in_post_baseline_delta": len(prefixed("canonical/")),
+            "evidence_files_in_post_baseline_delta": len(prefixed("evidence/")),
+            "source_files_in_post_baseline_delta": len(prefixed("src/")),
+            "test_files_in_post_baseline_delta": len(prefixed("tests/")),
+            "workflow_files_in_post_baseline_delta": len(prefixed(".github/workflows/")),
+        },
+        "record_lists": {
+            "provider_records": prefixed("canonical/providers/"),
+            "profile_records": prefixed("canonical/profiles/"),
+            "contract_records": prefixed("canonical/contracts/"),
+            "decision_records": prefixed("canonical/decisions/"),
+            "upstream_reference_records": prefixed("canonical/references/"),
+            "reference_evidence_records": prefixed("evidence/reference/"),
+        },
+    }
+
+
 def gate(root: Path):
     root = Path(root).resolve()
     findings = []
@@ -69,9 +169,10 @@ def gate(root: Path):
 
     if (
         projection.get("base_release") != BASE_RELEASE
+        or projection.get("base_release_commit") != BASE_COMMIT
         or projection.get("projection_semantics") != "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
     ):
-        findings.append(finding("FA3-RELEASE-PROJECTION-002", "Baseline release or projection semantics changed"))
+        findings.append(finding("FA3-RELEASE-PROJECTION-002", "Baseline release/commit or projection semantics changed"))
 
     invariants = projection.get("invariants", {})
     if (
@@ -197,6 +298,118 @@ def gate(root: Path):
     ):
         findings.append(finding("FA3-RELEASE-PROJECTION-015", "Manifest scope contract mismatch"))
 
+    snapshot = projection.get("source_snapshot", {})
+    snapshot_head = snapshot.get("pre_projection_head_sha")
+    facts = None
+    if (
+        snapshot.get("snapshot_semantics") != SNAPSHOT_SEMANTICS
+        or snapshot.get("baseline_commit_sha") != BASE_COMMIT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-016",
+                "Source snapshot semantics or baseline anchor mismatch",
+            )
+        )
+
+    try:
+        facts = collect_git_snapshot_facts(root, snapshot_head)
+    except Exception as exc:
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-016",
+                "Source snapshot Git facts unavailable",
+                error=str(exc),
+            )
+        )
+
+    if facts is not None:
+        if (
+            facts.get("snapshot_head_sha") != snapshot_head
+            or facts.get("baseline_is_ancestor") is not True
+            or facts.get("snapshot_is_ancestor_of_current_head") is not True
+        ):
+            findings.append(
+                finding(
+                    "FA3-RELEASE-PROJECTION-016",
+                    "Source snapshot lineage mismatch",
+                    snapshot_head=snapshot_head,
+                    current_head=facts.get("current_head_sha"),
+                )
+            )
+
+        if (
+            snapshot.get("pre_projection_root_tree_sha") != facts.get("root_tree_sha")
+            or snapshot.get("pre_projection_canonical_tree_sha") != facts.get("canonical_tree_sha")
+        ):
+            findings.append(
+                finding(
+                    "FA3-RELEASE-PROJECTION-017",
+                    "Source snapshot tree identity drift",
+                    expected_root_tree=facts.get("root_tree_sha"),
+                    declared_root_tree=snapshot.get("pre_projection_root_tree_sha"),
+                    expected_canonical_tree=facts.get("canonical_tree_sha"),
+                    declared_canonical_tree=snapshot.get("pre_projection_canonical_tree_sha"),
+                )
+            )
+
+        expected_delta = {
+            "commits_ahead_of_v3_0_11_conformance_commit": facts.get("commit_count"),
+            "total_post_baseline_commits": facts.get("commit_count"),
+            "delta_file_count": facts.get("delta_file_count"),
+            "delta_added_files": facts.get("delta_added_files"),
+            "delta_modified_files": facts.get("delta_modified_files"),
+            "delta_removed_files": facts.get("delta_removed_files"),
+            "delta_other_files": facts.get("delta_other_files"),
+        }
+        delta_mismatches = {
+            key: {"expected": expected, "declared": snapshot.get(key)}
+            for key, expected in expected_delta.items()
+            if snapshot.get(key) != expected
+        }
+        if delta_mismatches:
+            findings.append(
+                finding(
+                    "FA3-RELEASE-PROJECTION-018",
+                    "Source snapshot Git-delta metadata drift",
+                    mismatches=delta_mismatches,
+                )
+            )
+
+        inventory = projection.get("overlay_inventory", {})
+        count_mismatches = {
+            key: {"expected": expected, "declared": inventory.get(key)}
+            for key, expected in facts.get("area_counts", {}).items()
+            if inventory.get(key) != expected
+        }
+        if count_mismatches:
+            findings.append(
+                finding(
+                    "FA3-RELEASE-PROJECTION-019",
+                    "Overlay inventory count drift",
+                    mismatches=count_mismatches,
+                )
+            )
+
+        record_mismatches = {}
+        for key, expected in facts.get("record_lists", {}).items():
+            declared = sorted(inventory.get(key, []))
+            if declared != expected:
+                record_mismatches[key] = {
+                    "expected_count": len(expected),
+                    "declared_count": len(declared),
+                    "missing": sorted(set(expected) - set(declared))[:20],
+                    "extra": sorted(set(declared) - set(expected))[:20],
+                }
+        if record_mismatches:
+            findings.append(
+                finding(
+                    "FA3-RELEASE-PROJECTION-020",
+                    "Overlay inventory record set is incomplete or stale",
+                    mismatches=record_mismatches,
+                )
+            )
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -212,6 +425,9 @@ def gate(root: Path):
             "mandatory_reference_gates": len(projection_gates),
             "source_graph_sha256": EXPECTED_SOURCE_GRAPH_SHA256,
             "projection_semantics": projection.get("projection_semantics"),
+            "snapshot_anchor": snapshot_head,
+            "snapshot_commit_count": facts.get("commit_count") if facts else None,
+            "snapshot_delta_files": facts.get("delta_file_count") if facts else None,
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
