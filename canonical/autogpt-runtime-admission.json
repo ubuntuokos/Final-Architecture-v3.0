@@ -2,7 +2,7 @@
   "schema": "fa3.optional-provider-runtime-admission.v1",
   "id": "FA3-AUTOGPT-RUNTIME-ADMISSION-001",
   "provider_id": "FA3-PROVIDER-AUTOGPT-001",
-  "status": "NOT_ADMITTED",
+  "status": "CURRENT_HOST_CANDIDATE_ADMITTED",
   "fail_closed": true,
   "current_host_evidence_required": true,
   "license_admission_required": true,
@@ -34,5 +34,50 @@
     "provider_container_executor_as_FA3_host_resource_or_developer_execution_authority",
     "marketplace_adoption_as_artifact_trust_or_production_admission"
   ],
-  "promotion_effect": "NONE_UNTIL_SEPARATE_CURRENT_HOST_RUNTIME_ADMISSION_PASS"
+  "promotion_effect": "NONE_UNTIL_REAL_CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "contract_id": "FA3-AUTOGPT-CONTRACTS-001",
+  "runtime_conformance_id": "FA3-AUTOGPT-RUNTIME-CONFORMANCE-001",
+  "runtime_profile": "FA3_AUTOGPT_CONSTRAINED_BLOCK_RUNTIME_V1",
+  "technical_license_boundary_admission": {
+    "status": "ADMITTED_FOR_REQUESTED_SELF_HOSTED_TECHNICAL_RUNTIME",
+    "component": "autogpt_platform",
+    "upstream_license": "PolyForm Shield License 1.0.0",
+    "request_basis": "EXPLICIT_USER_REQUEST_TO_MATERIALIZE_CURRENT_HOST_RUNTIME",
+    "scope": "SELF_HOSTED_FA3_PROVIDER_RUNTIME_ONLY",
+    "canonical_core_source_copying": false,
+    "legal_conclusion": "NOT_ASSERTED",
+    "operator_compliance_required": true
+  },
+  "allowed_runtime_surface": {
+    "source_commit": "f49bcca95ed327396d8ebdd0bdf7810de482ac1a",
+    "direct_external_api_block_execution": true,
+    "allowed_block_ids": [
+      "1ff065e9-88e8-4358-9d82-8dc91f622ba9"
+    ],
+    "frontend": false,
+    "scheduler": false,
+    "executor_service": false,
+    "copilot_executor": false,
+    "marketplace_execution": false,
+    "external_model_calls": false,
+    "external_network_egress": false,
+    "accelerator_access": false
+  },
+  "current_host_state_transition": {
+    "current": "CURRENT_HOST_ADMISSION_PENDING",
+    "pass_requires": [
+      "real_self_hosted_fa3_runner",
+      "exact_source_commit",
+      "immutable_dependency_repo_digests",
+      "rootless_internal_network_runtime",
+      "least_privilege_api_key",
+      "unauthenticated_denial",
+      "EXECUTE_GRAPH_scope_denial",
+      "real_StoreValueBlock_execution",
+      "attributable_input_output_digests",
+      "cleanup_zero_resident_runtime"
+    ],
+    "pass_state": "ADMITTED_CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "document_or_github_hosted_ci_cannot_set_pass": true
+  }
 }
