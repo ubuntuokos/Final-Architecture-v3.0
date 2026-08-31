@@ -10,6 +10,7 @@ from fa3_xcmd_gate import gate as xcmd_gate
 from fa3_ai_engineering_gate import gate as ai_engineering_gate
 from fa3_external_api_discovery_gate import gate as external_api_discovery_gate
 from fa3_autogpt_gate import gate as autogpt_gate
+from fa3_ai_infra_guard_gate import gate as ai_infra_guard_gate
 from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
@@ -137,6 +138,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-040","FA3 Mentor mandatory gate is not bound into global enforcement policy"))
     if "FA3-PRESENTON-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-044","Presenton mandatory provider boundary gate is not bound into global enforcement policy"))
+    if "FA3-AI-INFRA-GUARD-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-048","AI-Infra-Guard security-validation gate is not bound into global enforcement policy"))
 
     if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
@@ -231,10 +234,13 @@ def static_check(root:Path):
     presenton_ref=presenton_gate(root)
     if presenton_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-045","Presenton mandatory provider/deployment gate failed",presenton_gate=presenton_ref))
+    ai_infra_guard_ref=ai_infra_guard_gate(root)
+    if ai_infra_guard_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-049","AI-Infra-Guard mandatory security-validation gate failed",ai_infra_guard_gate=ai_infra_guard_ref))
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -324,7 +330,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -350,6 +356,8 @@ def main():
             x=external_api_discovery_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="autogpt":
             x=autogpt_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="ai-infra-guard":
+            x=ai_infra_guard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="munder-difflin":
             x=munder_difflin_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="developer-agent-coordination":

@@ -3,8 +3,20 @@
   "id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
   "name": "Tencent/AI-Infra-Guard",
   "status": "ACCEPTED_REFERENCE",
-  "parent_profile": "FA3-SCS-001",
-  "provider_role": "OPTIONAL_AI_INFRA_SECURITY_SCANNER_REDTEAM_REFERENCE_PROVIDER_AND_PATTERN_SOURCE",
+  "parent_profile": "FA3-AI-SEC-VALIDATION-001",
+  "provider_role": "OPTIONAL_AI_SECURITY_VALIDATION_REDTEAM_REFERENCE_PROVIDER_AND_STRONG_PATTERN_SOURCE",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "OPTIONAL_SECURITY_VALIDATION_PROVIDER",
+    "AI_RED_TEAM_PROVIDER",
+    "MCP_SECURITY_SCANNER",
+    "AGENT_SECURITY_SCANNER",
+    "SKILL_SECURITY_SCANNER",
+    "AI_INFRA_VULNERABILITY_SCANNER",
+    "PROMPT_SECURITY_EVALUATOR",
+    "PROVIDER_API_INTEGRITY_SCANNER",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -12,20 +24,37 @@
   "capability_count": 143,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
-  "invariants": [
-    "SCANNER_FINDING_IS_NOT_SECURITY_AUTHORIZATION",
-    "SCAN_OUTPUT_IS_NOT_PROMOTION_EVIDENCE_WITHOUT_CANONICAL_ATTESTATION",
-    "SCANNER_TOOL_EXECUTION_REQUIRES_SCOPED_AUTHORIZATION",
-    "REDTEAM_MUTATIONS_REQUIRE_ISOLATION_AND_APPROVAL",
-    "EGRESS_AND_SHELL_CAPABILITIES_MEDIATED",
-    "FINDINGS_MUST_BE_ATTRIBUTABLE_TO_PINNED_SCANNER_IDENTITY"
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "contracts": [
+    "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001"
   ],
-  "prohibited_authorities": [
-    "security_policy",
-    "authorization",
-    "MCP",
-    "host_resource",
-    "evidence",
-    "secrets"
-  ]
+  "upstream_reference": "FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31",
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry": "FA3-REGISTRY-001",
+    "promotion": "EXISTING_FA3_PROMOTION_AUTHORITY_ONLY"
+  },
+  "prohibited_authority_roles": [
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_NETWORK_EGRESS_AUTHORITY",
+    "FA3_ARTIFACT_TRUST_AUTHORITY",
+    "FA3_PROMOTION_AUTHORITY",
+    "FA3_CANONICAL_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "AI-Infra-Guard SHALL NOT become an FA3 identity, authorization, MCP/capability-gateway, model-routing, host-resource, evidence/provenance, secrets, network-egress, artifact-trust, promotion or canonical-registry authority."
 }
