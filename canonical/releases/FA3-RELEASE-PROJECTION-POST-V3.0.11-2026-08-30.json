@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b69ffde9425619b3145728f953d2c2584e72f03c",
-    "pre_projection_root_tree_sha": "0f0263e610baa6e026e6426c34634f0b14776dd7",
-    "pre_projection_canonical_tree_sha": "69eeee356c694c10e06dad2aa3568376a77281c3",
-    "commits_ahead_of_v3_0_11_conformance_commit": 94,
-    "total_post_baseline_commits": 94,
-    "delta_file_count": 306,
-    "delta_added_files": 303,
+    "pre_projection_head_sha": "d9a101732198648e753374e6c6b482f1c228168b",
+    "pre_projection_root_tree_sha": "a85c5b9419fa348e434042addd0ecd2f5585addb",
+    "pre_projection_canonical_tree_sha": "9f878f8aab149b7cf48633be05192befea1b1126",
+    "commits_ahead_of_v3_0_11_conformance_commit": 89,
+    "total_post_baseline_commits": 89,
+    "delta_file_count": 300,
+    "delta_added_files": 297,
     "delta_modified_files": 3,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 177,
+    "canonical_files_in_post_baseline_delta": 178,
     "evidence_files_in_post_baseline_delta": 32,
-    "source_files_in_post_baseline_delta": 33,
-    "test_files_in_post_baseline_delta": 28,
+    "source_files_in_post_baseline_delta": 34,
+    "test_files_in_post_baseline_delta": 20,
     "workflow_files_in_post_baseline_delta": 5,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -287,7 +287,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 309,
+  "manifest_entry_count": 312,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -306,7 +306,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "c99df516b0b1f6af464ee2fe9da54277d43c91cb",
+      "git_blob_sha": "22b2346666d3071a65b9f41ac796a6f5bfa3c05b",
       "baseline_delta_status": "added"
     },
     {
@@ -716,7 +716,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
-      "git_blob_sha": "f791c9699a7178d7f19ad3f688043929574e8c39",
+      "git_blob_sha": "94db56ed72c9a9e738caf3627fd5fede9890d5c3",
       "baseline_delta_status": "added"
     },
     {
@@ -786,7 +786,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "caef36334d4530abaaa4a1dac19e284be9e6503c",
+      "git_blob_sha": "a3ce8130f162ed87186c3fe0b7476d28a08fe1dd",
       "baseline_delta_status": "modified"
     },
     {
@@ -817,6 +817,11 @@
     {
       "path": "canonical/FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9401d95c07e7eef0358258fa77da93384f7a7b62",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-MUNDER-DIFFLIN-001.json",
+      "git_blob_sha": "b350023c386e574415ec761006e35e00c86caab3",
       "baseline_delta_status": "added"
     },
     {
@@ -886,7 +891,7 @@
     },
     {
       "path": "canonical/munder-difflin-enforcement.json",
-      "git_blob_sha": "16c855c6d44c0da22f5a058df36a5efe9a5e1cac",
+      "git_blob_sha": "007607d426ec7e13ee76160b88184656f6c77241",
       "baseline_delta_status": "added"
     },
     {
@@ -1606,7 +1611,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "cbd17000186d9a8e8d19bcbebe5b3c893201d46f",
+      "git_blob_sha": "a88a40af603c852a595648fc8c88dfef2bbb0188",
       "baseline_delta_status": "modified"
     },
     {
@@ -1660,8 +1665,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_munder_difflin_executable_gate.py",
+      "git_blob_sha": "8ab5d6db597c4e024a23a556a95ad5ba82212b71",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_munder_difflin_gate.py",
-      "git_blob_sha": "3da7383ba4a80dd008df7bbc2b4d5f78c3f0ed1c",
+      "git_blob_sha": "07e896eba567f5882361102558a4f688f1700175",
       "baseline_delta_status": "added"
     },
     {
@@ -1795,44 +1805,49 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_munder_difflin_executable_gate.py",
+      "git_blob_sha": "2f12bbee5eba752f6b9985bccb5d32e702ab6eb9",
+      "baseline_delta_status": "unchanged"
+    },
+    {
       "path": "tests/test_munder_difflin_gate.py",
       "git_blob_sha": "fb1de8df606b2a1653cfc86f0e3f6282582a2279",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_presenton_gate.py",
       "git_blob_sha": "636dc3ca5b1e24c78d4507f60686291d5c1b583e",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_release_projection.py",
       "git_blob_sha": "962dedc179d1abe26ab69d24bde12f7c6a2b8a18",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_terax_gate.py",
       "git_blob_sha": "816c27f4ecf8d9f192165095e2a95e1eb2ce9b40",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_video_registry.py",
       "git_blob_sha": "eeae4a5c57e724b1e354e30be922cf4ebdf5e8f2",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_whisper_stt_provider.py",
       "git_blob_sha": "8136b20ef0ae08ff659d0523f0c45683f9edd702",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "tests/test_xcmd_gate.py",
       "git_blob_sha": "92e90d366468152c748e2a38bcbbf760070be6f7",
-      "baseline_delta_status": "added"
+      "baseline_delta_status": "unchanged"
     }
   ],
   "self_hash_policy": {
@@ -1843,15 +1858,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "mutable_runtime_paths_excluded": [
-      "reports",
-      "acceptance",
-      "promotion",
-      ".pytest_cache",
-      ".mypy_cache",
-      "__pycache__",
-      "evidence/receipts/* except .gitkeep"
-    ]
+    "source_snapshot_anchor": "d9a101732198648e753374e6c6b482f1c228168b",
+    "regenerated_from_branch_head": "d9a101732198648e753374e6c6b482f1c228168b"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -1872,7 +1880,8 @@
     "FA3-PROVIDER-AUTOGPT-001 globally reconciled across release inventory, CAP-028 Evidence Registry binding, mandatory gate inventory and complete release-surface manifest; runtime remains NOT_ADMITTED/NOT_PROMOTED_REFERENCE_ONLY and adds no capability or authority.",
     "MiniMax H3 provider projection expanded to SGLang, vLLM, Diffusers and ComfyUI integration targets with immutable runtime pinning, non-authoritative h3-prompt-writing knowledge projection, and fail-closed ComfyUI compatibility/audio regression requirements; runtime remains NOT_YET_CURRENT_HOST_PROMOTED.",
     "FA3-native developer-agent coordination v0.1 materialized under FA3-AGENT-EXEC-001 with typed contracts, isolated Git-worktree/subprocess reference runtime, executable positive/negative E2E evidence, single-integration-committer semantics and no new capability or architectural authority.",
-    "FA3-PROVIDER-CODEX-001 added as an optional external developer-agent production candidate behind FA3-AGENT-EXEC-001 and the developer-agent coordination contract, with immutable Codex CLI 0.151.0 pin, fail-closed adapter, CI regressions and a separate real current-host admission path; current-host production evidence remains pending."
+    "FA3-PROVIDER-CODEX-001 added as an optional external developer-agent production candidate behind FA3-AGENT-EXEC-001 and the developer-agent coordination contract, with immutable Codex CLI 0.151.0 pin, fail-closed adapter, CI regressions and a separate real current-host admission path; current-host production evidence remains pending.",
+    "FA3-GATE-MUNDER-DIFFLIN-001 materialized as the 20-case executable regression layer under FA3-MUNDER-DIFFLIN-GATESET-001; no current-host provider runtime PASS is claimed and capability count remains 143."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -2069,6 +2078,39 @@
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
     "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "munder_difflin_executable_gate_reconciliation": {
+    "executable_gate_id": "FA3-GATE-MUNDER-DIFFLIN-001",
+    "gateset_id": "FA3-MUNDER-DIFFLIN-GATESET-001",
+    "provider_id": "FA3-PROVIDER-MUNDER-DIFFLIN-001",
+    "regression_case_count": 20,
+    "case_ids": [
+      "MD-001",
+      "MD-002",
+      "MD-003",
+      "MD-004",
+      "MD-005",
+      "MD-006",
+      "MD-007",
+      "MD-008",
+      "MD-009",
+      "MD-010",
+      "MD-011",
+      "MD-012",
+      "MD-013",
+      "MD-014",
+      "MD-015",
+      "MD-016",
+      "MD-017",
+      "MD-018",
+      "MD-019",
+      "MD-020"
+    ],
+    "status": "GLOBAL_PROJECTION_RECONCILED_EXECUTABLE_GATE",
+    "current_host_provider_runtime_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
