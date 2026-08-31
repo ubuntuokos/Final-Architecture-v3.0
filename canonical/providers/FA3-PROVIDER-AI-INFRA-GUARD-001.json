@@ -25,7 +25,7 @@
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "runtime_activation_requires_current_host_conformance": true,
-  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
   "contracts": [
     "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001"
   ],
@@ -56,5 +56,18 @@
     "FA3_PROMOTION_AUTHORITY",
     "FA3_CANONICAL_REGISTRY_AUTHORITY"
   ],
-  "normative_constraint": "AI-Infra-Guard SHALL NOT become an FA3 identity, authorization, MCP/capability-gateway, model-routing, host-resource, evidence/provenance, secrets, network-egress, artifact-trust, promotion or canonical-registry authority."
+  "normative_constraint": "AI-Infra-Guard SHALL NOT become an FA3 identity, authorization, MCP/capability-gateway, model-routing, host-resource, evidence/provenance, secrets, network-egress, artifact-trust, promotion or canonical-registry authority.",
+  "runtime_admission": "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001",
+  "adapter_id": "FA3-AI-INFRA-GUARD-ADAPTER-001",
+  "runtime_surface": "NATIVE_AI_INFRA_SCAN_CLI_ONLY",
+  "runtime_security_boundary": {
+    "full_web_agent_compose": "FORBIDDEN_FOR_FA3_PRODUCTION_ADMISSION",
+    "sys_admin_capability": "FORBIDDEN",
+    "seccomp_unconfined": "FORBIDDEN",
+    "scan_target": "LOOPBACK_ONLY_VIA_FIXED_UPSTREAM_GUARD_PROXY",
+    "secret_environment_passthrough": false,
+    "proxy_environment_passthrough": false,
+    "current_host_target": "REAL_OLLAMA_SERVICE",
+    "current_host_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  }
 }
