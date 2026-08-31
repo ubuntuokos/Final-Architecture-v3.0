@@ -1,0 +1,135 @@
+{
+  "schema": "fa3.ai-security-validation-enforcement.v1",
+  "gate_id": "FA3-AI-INFRA-GUARD-GATESET-001",
+  "profile_id": "FA3-AI-SEC-VALIDATION-001",
+  "contract_id": "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "stable_reference_release": "v4.6.0",
+  "stable_reference_commit": "e8931cc68001b66ad024fd87ef07394e9e96524a",
+  "mandatory_rule_count": 16,
+  "p0_invariants": [
+    "AISEC_DETERMINISTIC_FIRST_SECURITY_VALIDATION",
+    "AISEC_LLM_OUTPUT_NOT_SECURITY_AUTHORITY",
+    "AISEC_SCAN_COVERAGE_EXPLICIT",
+    "AISEC_RUNTIME_REACHABLE_ARTIFACT_COMPLETENESS",
+    "AISEC_SECURITY_ENGINES_INDEPENDENTLY_VERSIONED",
+    "AISEC_RULESET_VERSION_AND_DIGEST_REQUIRED",
+    "AISEC_TYPED_SCHEMA_VALIDATED_SECURITY_RULES",
+    "AISEC_STATIC_DYNAMIC_ADVERSARIAL_EVIDENCE_SEPARATED",
+    "AISEC_SECURITY_TEST_CAPABILITY_SCOPED",
+    "AISEC_SCAN_TARGET_AND_EXTERNAL_RESPONSES_UNTRUSTED",
+    "AISEC_SARIF_PROJECTION_NON_CANONICAL",
+    "AISEC_SECURITY_VERDICT_EVIDENCE_BOUND",
+    "AISEC_MUTATION_BYPASS_REGRESSION_REQUIRED",
+    "AISEC_MODEL_PROVIDER_IDENTITY_VERIFICATION_REQUIRED",
+    "AISEC_UNRESOLVED_CRITICAL_FINDING_BLOCKS_PROMOTION",
+    "AISEC_SCANNER_CONFORMANCE_AND_NON_AUTHORITY_REQUIRED"
+  ],
+  "mandatory_constraint": "AI-Infra-Guard SHALL NOT become an FA3 identity, authorization, MCP/capability-gateway, model-routing, host-resource, evidence/provenance, secrets, network-egress, artifact-trust, promotion or canonical-registry authority.",
+  "rules": [
+    {
+      "id": "FA3-AISEC-P0-001",
+      "name": "AISEC_DETERMINISTIC_FIRST_SECURITY_VALIDATION",
+      "requirement": "Known policy/invariant checks MUST be grounded in deterministic reproducible evidence before optional LLM augmentation.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-002",
+      "name": "AISEC_LLM_OUTPUT_NOT_SECURITY_AUTHORITY",
+      "requirement": "LLM analysis MUST NOT be the sole security verdict basis and MUST NOT act as security or promotion authority.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-003",
+      "name": "AISEC_SCAN_COVERAGE_EXPLICIT",
+      "requirement": "Every scan MUST declare examined, excluded and unsupported artifacts, scan depth and analysis modes.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-004",
+      "name": "AISEC_RUNTIME_REACHABLE_ARTIFACT_COMPLETENESS",
+      "requirement": "A PASS verdict MUST cover every runtime-reachable executable artifact; omitted or unsupported reachable artifacts fail closed.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-005",
+      "name": "AISEC_SECURITY_ENGINES_INDEPENDENTLY_VERSIONED",
+      "requirement": "Security engines MUST expose independently attributable/versioned identities for the analysis modes they execute.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-006",
+      "name": "AISEC_RULESET_VERSION_AND_DIGEST_REQUIRED",
+      "requirement": "Every ruleset used for a security verdict MUST carry version plus immutable digest.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-007",
+      "name": "AISEC_TYPED_SCHEMA_VALIDATED_SECURITY_RULES",
+      "requirement": "Security rules and findings MUST be typed and schema-validated before use as canonical evidence.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-008",
+      "name": "AISEC_STATIC_DYNAMIC_ADVERSARIAL_EVIDENCE_SEPARATED",
+      "requirement": "Static, dynamic and adversarial evidence MUST remain distinguishable and attributable.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-009",
+      "name": "AISEC_SECURITY_TEST_CAPABILITY_SCOPED",
+      "requirement": "Red-team/scanner tool execution MUST be capability-scoped and separately authorized; arbitrary shell/network authority is forbidden.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-010",
+      "name": "AISEC_SCAN_TARGET_AND_EXTERNAL_RESPONSES_UNTRUSTED",
+      "requirement": "Scan targets, remote responses and LLM outputs MUST be treated as untrusted input.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-011",
+      "name": "AISEC_SARIF_PROJECTION_NON_CANONICAL",
+      "requirement": "SARIF MAY be emitted as an external projection, but MUST NOT replace the provider-neutral FA3 SecurityEvidence schema.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-012",
+      "name": "AISEC_SECURITY_VERDICT_EVIDENCE_BOUND",
+      "requirement": "Security PASS MUST bind scanner identity, ruleset identity, target digest, coverage, evidence IDs and verdict.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-013",
+      "name": "AISEC_MUTATION_BYPASS_REGRESSION_REQUIRED",
+      "requirement": "Scanners MUST maintain replayable positive/negative bypass and mutation regression cases.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-014",
+      "name": "AISEC_MODEL_PROVIDER_IDENTITY_VERIFICATION_REQUIRED",
+      "requirement": "Requested model/provider identity MUST be checked against observed/attested identity when API/model integrity is in scope.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-015",
+      "name": "AISEC_UNRESOLVED_CRITICAL_FINDING_BLOCKS_PROMOTION",
+      "requirement": "Any unresolved critical finding MUST block affected-scope promotion; scanner UI state cannot override this.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    },
+    {
+      "id": "FA3-AISEC-P0-016",
+      "name": "AISEC_SCANNER_CONFORMANCE_AND_NON_AUTHORITY_REQUIRED",
+      "requirement": "The scanner itself MUST pass conformance/bypass regression and remain non-root/non-authoritative with capability count 143.",
+      "enforcement": "Executable positive/negative regression plus canonical reference checks MUST fail closed on violation."
+    }
+  ],
+  "executable_gate": "./bin/fa3-enforce ai-infra-guard",
+  "report_path": "reports/ai-infra-guard-gate-report.json",
+  "global_static_integration": true,
+  "regression_case_count": 16
+}
