@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.model-allowlist.v1",
+  "id": "FA3-COSYVOICE-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-COSYVOICE-001",
+  "policy": "ALLOWLIST_ONLY_FAIL_CLOSED",
+  "arbitrary_local_checkpoint_paths_allowed": false,
+  "network_fetch_default": false,
+  "models": {
+    "FunAudioLLM/Fun-CosyVoice3-0.5B-2512": {
+      "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+      "license": "apache-2.0",
+      "production_role": "PRIMARY_LOCAL_COSYVOICE3",
+      "sample_rate_hz": 24000,
+      "official_languages": ["zh", "en", "fr", "es", "ja", "ko", "it", "ru", "de"],
+      "experimental_languages": ["hu"],
+      "critical_artifacts": {
+        "speech_tokenizer_v3.onnx": "23236a74175dbdda47afc66dbadd5bcb41303c467a57c261cb8539ad9db9208d",
+        "speech_tokenizer_v3.batch.onnx": "b156b8a7bbff436585e153f4637b9a368009005ac66efa108a6c8bfb34e5ee43",
+        "CosyVoice-BlankEN/model.safetensors": "130282af0dfa9fe5840737cc49a0d339d06075f83c5a315c3372c9a0740d0b96"
+      }
+    }
+  }
+}
