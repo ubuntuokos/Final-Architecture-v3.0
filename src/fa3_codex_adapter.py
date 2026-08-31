@@ -315,6 +315,7 @@ def codex_worker_main(request_path: Path, result_path: Path) -> int:
         raise CodexAdapterDenied("Codex production adapter v0.1 only mutates pre-existing files")
     binary = Path(request["codex_binary"]).resolve()
     expected_head = _git(workspace, "rev-parse", "HEAD")
+    result_path.parent.mkdir(parents=True, exist_ok=True)
     last_message = result_path.with_suffix(".last-message.txt")
     command = build_codex_exec_command(binary, workspace, last_message)
     prompt = build_prompt(
