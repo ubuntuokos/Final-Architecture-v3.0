@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.caveman-enforcement.v1",
+  "id": "FA3-CAVEMAN-ENFORCEMENT-001",
+  "provider_id": "FA3-PROVIDER-CAVEMAN-001",
+  "contract_id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
+  "gate_id": "FA3-CAVEMAN-GATESET-001",
+  "fail_closed": true,
+  "mandatory_rule_count": 15,
+  "p0_invariants": [
+    "CAVEMAN_RECOVERY_BEFORE_LOSSY_TRANSFORM",
+    "CAVEMAN_CANONICAL_ORIGINAL_IMMUTABLE",
+    "CAVEMAN_FAILURE_UNSUPPORTED_EXACT_PASS_THROUGH",
+    "CAVEMAN_MEASURABLE_BENEFIT_GATE_REQUIRED",
+    "CAVEMAN_SEMANTIC_FIDELITY_AND_TASK_SUCCESS_GATE_REQUIRED",
+    "CAVEMAN_MEASUREMENT_PROVENANCE_CLASS_REQUIRED",
+    "CAVEMAN_RECORD_BASELINE_BEFORE_OPTIMIZE",
+    "CAVEMAN_UNKNOWN_UNSUPPORTED_NO_TRANSFORM",
+    "CAVEMAN_SOURCE_HASH_RECOVERY_LINEAGE_REQUIRED",
+    "CAVEMAN_RECOVERY_STORE_SENSITIVE_AND_HARDENED",
+    "CAVEMAN_BOUNDED_INPUT_RECOVERY_AND_RETENTION",
+    "CAVEMAN_CACHE_STABILITY_VOLATILITY_EXPLICIT",
+    "CAVEMAN_SEMANTIC_DEGRADATION_ROLLBACK_REQUIRED",
+    "CAVEMAN_TELEMETRY_OFF_UNLESS_EXPLICITLY_AUTHORIZED",
+    "CAVEMAN_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY"
+  ],
+  "runtime_provider_required": false,
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "current_host_runtime_claim": false,
+  "failure_actions": {
+    "lossy_without_recovery": "DENY_TRANSFORM",
+    "unknown_or_unsupported": "NO_TRANSFORM_EXACT_PASS_THROUGH",
+    "transform_error": "EXACT_PASS_THROUGH",
+    "no_measurable_benefit": "NO_TRANSFORM_EXACT_PASS_THROUGH",
+    "semantic_fidelity_failure": "ROLLBACK_TO_ORIGINAL",
+    "measurement_provenance_escalation": "DENY_EVIDENCE_PROMOTION",
+    "authority_drift": "FAIL_P0",
+    "unauthorized_telemetry": "DISABLE_AND_FAIL_P0"
+  }
+}
