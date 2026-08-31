@@ -47,7 +47,7 @@ jobs:
 
   current-host:
     name: current-host / real-execution
-    if: \${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
     needs: projection-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 45
