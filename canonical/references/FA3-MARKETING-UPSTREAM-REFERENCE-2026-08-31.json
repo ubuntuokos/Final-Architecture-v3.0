@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.upstream-reference-set.v1",
+  "id": "FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31",
+  "date": "2026-08-31",
+  "status": "PINNED_OBSERVATION_FOR_ARCHITECTURAL_EVALUATION",
+  "profile_id": "FA3-MARKETING-001",
+  "sources": [
+    {
+      "name": "Mautic",
+      "repository": "mautic/mautic",
+      "ref": "7.x",
+      "commit": "aad4da585518f0543a84a5d0f71d83e8ab62f569",
+      "role": "marketing_automation"
+    },
+    {
+      "name": "Mautic Hungarian language pack",
+      "repository": "mautic/language-packs",
+      "ref": "master",
+      "commit": "eda963635a1552f848e01cd05c1cde944b3c8f5e",
+      "evidence_path": "hu.json",
+      "evidence_value": {
+        "name": "Hungarian",
+        "locale": "hu"
+      },
+      "role": "hu_localization_evidence"
+    },
+    {
+      "name": "Twenty",
+      "repository": "twentyhq/twenty",
+      "ref": "main",
+      "commit": "1eb9a0bf485dd02fae8024b4b8909c6d8282248c",
+      "evidence_path": "packages/twenty-front/src/localization/hooks/useLocaleOptions.ts",
+      "evidence_contains": "Hungarian / hu-HU",
+      "role": "crm_workspace"
+    },
+    {
+      "name": "listmonk",
+      "repository": "knadh/listmonk",
+      "ref": "master",
+      "commit": "670c01717d48647093335cc23a6be6f4b79c3b6b",
+      "evidence_path": "i18n/hu.json",
+      "evidence_blob": "a9ce4f57a066eb60e7d5324042aec60ddabe05c8",
+      "role": "email_newsletter"
+    },
+    {
+      "name": "Dittofeed",
+      "repository": "dittofeed/dittofeed",
+      "ref": "main",
+      "commit": "52b2bee909744d07dd5d409fd3974d4b95c66766",
+      "role": "optional_journey_backend",
+      "hu_operator_ui": "NOT_VERIFIED"
+    },
+    {
+      "name": "PostHog",
+      "repository": "PostHog/posthog",
+      "ref": "master",
+      "commit": "2e7c2fa0f9863316de1e9c2dddd90ce0f59abde2",
+      "role": "optional_analytics_backend",
+      "hu_operator_ui": "NOT_VERIFIED"
+    },
+    {
+      "name": "Marketing Skills",
+      "repository": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "commit": "e55de886fe7580ec75cdb7ded5092b33f7d4ed58",
+      "role": "UNTRUSTED_SCOPED_MARKETING_KNOWLEDGE_AND_PATTERN_SOURCE_NOT_EXECUTION_AUTHORITY"
+    }
+  ],
+  "note": "Observed commits are architectural-evaluation anchors, not runtime admission pins. Runtime admission requires separate immutable release/license/security/current-host evidence."
+}
