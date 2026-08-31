@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31",
+  "provider_id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
+  "repository": "Tencent/AI-Infra-Guard",
+  "observed_at": "2026-08-31",
+  "observed_main": {
+    "commit_sha": "bb15526b5b725c2dd8aefc68b4d4651c6bb1cc38",
+    "signature_verified": true
+  },
+  "stable_reference": {
+    "release": "v4.6.0",
+    "commit_sha": "e8931cc68001b66ad024fd87ef07394e9e96524a",
+    "published_at": "2026-08-26T11:15:00Z",
+    "tar_gz_sha256": "1523b3e9f54c520b9a602e332a05f846c4e72c02e65a50feadd96533856c0ed4",
+    "zip_sha256": "6010199491c374f5d78b6906256780e80bd040a434439ab466e613d12fb259a8"
+  },
+  "observed_security_surfaces": [
+    "AI_INFRA_SCAN",
+    "MCP_SCAN",
+    "SKILL_SCAN",
+    "AGENT_SCAN",
+    "PROMPT_SECURITY",
+    "API_CHECKER",
+    "LLM_API_POISONING_DETECTION"
+  ],
+  "fa3_disposition": {
+    "classification": "OPTIONAL_SECURITY_VALIDATION_PROVIDER_AND_PATTERN_SOURCE",
+    "floating_main_allowed_as_promotion_evidence": false,
+    "scanner_finding_is_authorization": false,
+    "scanner_output_is_canonical_evidence_without_attestation": false,
+    "llm_only_security_pass_allowed": false,
+    "unauthenticated_public_webui_allowed": false,
+    "runtime_provider_required_for_global_promotion_when_disabled": false,
+    "current_host_runtime_promotion_claim": false
+  }
+}
