@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31",
+  "captured_at": "2026-08-31",
+  "provider_id": "FA3-PROVIDER-COSYVOICE-001",
+  "repository": "https://github.com/QwenAudio/CosyVoice",
+  "repository_commit": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+  "floating_main_allowed": false,
+  "model": {
+    "id": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+    "revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+    "license": "apache-2.0",
+    "sample_rate_hz": 24000,
+    "official_languages": ["zh", "en", "fr", "es", "ja", "ko", "it", "ru", "de"]
+  },
+  "runtime_facts": {
+    "python": "3.10",
+    "requirements_pins": {
+      "torch": "2.3.1",
+      "torchaudio": "2.3.1",
+      "numpy": "1.26.4",
+      "onnxruntime-gpu": "1.18.0",
+      "transformers": "4.51.3",
+      "tensorrt-cu12": "10.13.3.9"
+    },
+    "upstream_api_surfaces": [
+      "inference_zero_shot",
+      "inference_cross_lingual",
+      "inference_instruct2",
+      "streaming execution"
+    ],
+    "ubuntu_compatibility_dependency": ["sox", "libsox-dev"]
+  },
+  "promotion_note": "Upstream/reference facts are not current-host execution evidence."
+}
