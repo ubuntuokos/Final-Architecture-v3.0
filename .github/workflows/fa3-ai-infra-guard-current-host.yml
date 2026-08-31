@@ -1,0 +1,71 @@
+name: FA3 AI-Infra-Guard Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fa3/ai-infra-guard-current-host
+    paths:
+      - .github/workflows/fa3-ai-infra-guard-current-host.yml
+      - canonical/ai-infra-guard-runtime-admission.json
+      - src/fa3_ai_infra_guard_adapter.py
+      - src/fa3_ai_infra_guard_gate.py
+      - evidence/collect-ai-infra-guard-current-host.py
+      - bin/fa3-ai-infra-guard-bootstrap.sh
+      - bin/fa3-ai-infra-guard-current-host.sh
+
+permissions:
+  contents: read
+
+jobs:
+  ai-infra-guard-current-host:
+    name: ai-infra-guard-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Verify non-privileged current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v curl
+          command -v sha256sum
+          command -v go
+          if ! command -v ollama >/dev/null 2>&1; then
+            curl --fail --silent --show-error --max-time 3               http://127.0.0.1:11434/api/version >/dev/null
+          fi
+
+      - name: Isolated adapter regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 src/fa3_ai_infra_guard_adapter.py
+
+      - name: Materialize pinned v4.6.0 native scanner
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash bin/fa3-ai-infra-guard-bootstrap.sh
+
+      - name: Run real current-host Ollama security scan and gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash bin/fa3-ai-infra-guard-current-host.sh
+
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-ai-infra-guard-current-host-evidence
+          path: |
+            evidence/receipts/ai-infra-guard-current-host.json
+            evidence/runtime/ai-infra-guard-current-host/
+            reports/ai-infra-guard-gate-report.json
+            reports/ai-infra-guard-current-host-gate-report.json
