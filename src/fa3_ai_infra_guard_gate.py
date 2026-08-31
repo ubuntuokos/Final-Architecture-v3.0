@@ -12,6 +12,10 @@ PROVIDER_ID = "FA3-PROVIDER-AI-INFRA-GUARD-001"
 DECISION_ID = "FA3-DEC-AI-INFRA-GUARD-2026-08-30"
 REFERENCE_ID = "FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31"
 GATE_ID = "FA3-AI-INFRA-GUARD-GATESET-001"
+ADAPTER_ID = "FA3-AI-INFRA-GUARD-ADAPTER-001"
+ADMISSION_ID = "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001"
+ADMISSION_PATH = "canonical/ai-infra-guard-runtime-admission.json"
+CURRENT_HOST_RECEIPT_PATH = "evidence/receipts/ai-infra-guard-current-host.json"
 CAPABILITY_COUNT = 143
 REFERENCE_RELEASE = "v4.6.0"
 REFERENCE_COMMIT = "e8931cc68001b66ad024fd87ef07394e9e96524a"
@@ -174,6 +178,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         "reference": root / "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
         "enforcement": root / "canonical/ai-infra-guard-enforcement.json",
         "policy": root / "canonical/enforcement-policy.json",
+        "admission": root / ADMISSION_PATH,
     }
     for name, path in paths.items():
         if not path.exists():
@@ -189,6 +194,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     reference = _load(paths["reference"])
     enforcement = _load(paths["enforcement"])
     policy = _load(paths["policy"])
+    admission = _load(paths["admission"])
 
     if not provider_shape_valid(provider):
         findings.append(_finding("AISEC-REF-002", "AI-Infra-Guard provider boundary/classification drift"))
@@ -255,6 +261,26 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("AISEC-REF-010", "Global AI-Infra-Guard provider identity drift"))
     if policy.get("ai_security_validation_mandatory_p0_rules") != P0_INVARIANTS:
         findings.append(_finding("AISEC-REF-011", "Global AI security P0 invariant drift"))
+    if not (
+        admission.get("id") == ADMISSION_ID
+        and admission.get("provider_id") == PROVIDER_ID
+        and admission.get("profile_id") == PROFILE_ID
+        and admission.get("adapter_id") == ADAPTER_ID
+        and admission.get("status") in {"NOT_ADMITTED", "ADMITTED"}
+        and admission.get("fail_closed") is True
+        and admission.get("current_host_evidence_required") is True
+        and admission.get("runtime_surface") == "NATIVE_AI_INFRA_SCAN_CLI_ONLY"
+        and admission.get("immutable_runtime_pin", {}).get("release") == REFERENCE_RELEASE
+        and admission.get("immutable_runtime_pin", {}).get("release_commit") == REFERENCE_COMMIT
+        and admission.get("immutable_runtime_pin", {}).get("source_archive_sha256")
+            == "1523b3e9f54c520b9a602e332a05f846c4e72c02e65a50feadd96533856c0ed4"
+        and "SYS_ADMIN_CAPABILITY_FORBIDDEN" in admission.get("activation_requires", [])
+        and "SECCOMP_UNCONFINED_FORBIDDEN" in admission.get("activation_requires", [])
+        and "FULL_WEB_AGENT_COMPOSE_NOT_USED" in admission.get("activation_requires", [])
+        and "docker_compose_agent_with_SYS_ADMIN" in admission.get("forbidden_shortcuts", [])
+        and admission.get("target_policy", {}).get("guarded_proxy_required") is True
+    ):
+        findings.append(_finding("AISEC-REF-012", "AI-Infra-Guard runtime admission boundary drift"))
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
 def scan_canonical_authority_assignments(root: Path) -> dict[str, Any]:
@@ -394,11 +420,114 @@ def gate(root: Path) -> dict[str, Any]:
     _write(root / "reports/ai-infra-guard-gate-report.json", report)
     return report
 
+def validate_current_host_receipt(root: Path) -> dict[str, Any]:
+    path = root / CURRENT_HOST_RECEIPT_PATH
+    findings: list[dict[str, Any]] = []
+    if not path.is_file():
+        return {"result": "FAIL", "findings": [_finding("AISEC-HOST-001", "AI-Infra-Guard current-host receipt missing")]}
+    receipt = _load(path)
+    upstream = receipt.get("upstream", {})
+    build = receipt.get("build", {})
+    target = receipt.get("target", {})
+    service = target.get("service", {})
+    proxy = target.get("guard_proxy", {})
+    e2e = receipt.get("production_e2e", {})
+    isolation = e2e.get("isolation", {})
+    scan_result = e2e.get("scan_result", {})
+    authority = receipt.get("authority", {})
+    if not (
+        receipt.get("schema") == "fa3.ai-infra-guard-current-host-receipt.v1"
+        and receipt.get("provider_id") == PROVIDER_ID
+        and receipt.get("adapter_id") == ADAPTER_ID
+        and receipt.get("admission_id") == ADMISSION_ID
+        and receipt.get("status") == "PASS"
+        and receipt.get("evidence_level") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and receipt.get("collector_mode") == "REAL_AI_INFRA_GUARD_NATIVE_SCAN_REAL_CURRENT_HOST_OLLAMA"
+        and receipt.get("synthetic_scanner") is False
+        and receipt.get("synthetic_target") is False
+        and receipt.get("runtime_admission_eligible") is True
+    ):
+        findings.append(_finding("AISEC-HOST-002", "current-host receipt identity/evidence level mismatch"))
+    if not (
+        upstream.get("release") == REFERENCE_RELEASE
+        and upstream.get("release_commit") == REFERENCE_COMMIT
+        and upstream.get("source_archive_sha256") == "1523b3e9f54c520b9a602e332a05f846c4e72c02e65a50feadd96533856c0ed4"
+        and build.get("release") == REFERENCE_RELEASE
+        and build.get("release_commit") == REFERENCE_COMMIT
+        and build.get("source_archive_sha256") == upstream.get("source_archive_sha256")
+        and build.get("non_root_build") is True
+    ):
+        findings.append(_finding("AISEC-HOST-003", "current-host supply-chain identity mismatch"))
+    if not (
+        target.get("type") == "REAL_CURRENT_HOST_OLLAMA_SERVICE"
+        and isinstance(service.get("api_version"), str)
+        and service.get("api_version")
+        and service.get("root_identity") == "Ollama is running"
+        and str(service.get("base_url", "")).startswith("http://127.0.0.1:")
+        and str(proxy.get("bind", "")).startswith("http://127.0.0.1:")
+        and str(proxy.get("fixed_upstream", "")).startswith("http://127.0.0.1:")
+        and proxy.get("external_redirect_forwarding") is False
+        and proxy.get("request_count", 0) > 0
+        and "/" in proxy.get("paths", [])
+        and "/api/version" in proxy.get("paths", [])
+    ):
+        findings.append(_finding("AISEC-HOST-004", "guarded real Ollama target evidence mismatch"))
+    if not (
+        e2e.get("provider_id") == PROVIDER_ID
+        and e2e.get("adapter_id") == ADAPTER_ID
+        and e2e.get("command_surface") == "ai-infra-guard scan"
+        and e2e.get("returncode") == 0
+        and scan_result.get("ollama_fingerprint_observed") is True
+        and isolation.get("non_root_required") is True
+        and isolation.get("no_new_privs") is True
+        and isolation.get("secret_env_passthrough") is False
+        and isolation.get("proxy_env_passthrough") is False
+        and isolation.get("target_scope") == "LOOPBACK_GUARD_PROXY_ONLY"
+        and isolation.get("arbitrary_headers") is False
+        and e2e.get("output_sha256")
+        and e2e.get("stdout_sha256")
+    ):
+        findings.append(_finding("AISEC-HOST-005", "isolated real scanner execution evidence mismatch"))
+    if not (
+        receipt.get("adapter_regression", {}).get("result") == "PASS"
+        and receipt.get("isolation_verdict") == "PASS"
+        and authority.get("scanner_is_security_authority") is False
+        and authority.get("scanner_is_promotion_authority") is False
+        and authority.get("scanner_output_requires_fa3_attestation") is True
+        and receipt.get("new_capabilities") == 0
+        and receipt.get("new_architectural_authorities") == 0
+        and receipt.get("capability_count_after") == CAPABILITY_COUNT
+    ):
+        findings.append(_finding("AISEC-HOST-006", "current-host non-authority/admission invariant mismatch"))
+    return {"result": "PASS" if not findings else "FAIL", "findings": findings, "receipt": receipt}
+
+
+def current_host_gate(root: Path) -> dict[str, Any]:
+    root = Path(root).resolve()
+    static = gate(root)
+    host = validate_current_host_receipt(root)
+    ok = static["result"] == "PASS" and host["result"] == "PASS"
+    report = {
+        "schema": "fa3.ai-infra-guard-current-host-gate-report.v1",
+        "provider_id": PROVIDER_ID,
+        "adapter_id": ADAPTER_ID,
+        "admission_id": ADMISSION_ID,
+        "result": "PASS" if ok else "FAIL",
+        "evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS" if ok else "PENDING_OR_FAIL",
+        "static_gate": static["result"],
+        "current_host_receipt": host["result"],
+        "runtime_admission_eligible": bool(ok),
+        "findings": host.get("findings", []),
+    }
+    _write(root / "reports/ai-infra-guard-current-host-gate-report.json", report)
+    return report
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
+    ap.add_argument("--current-host", action="store_true")
     args = ap.parse_args()
-    report = gate(Path(args.root))
+    report = current_host_gate(Path(args.root)) if args.current_host else gate(Path(args.root))
     print(json.dumps(report, indent=2))
     return 0 if report["result"] == "PASS" else 2
 

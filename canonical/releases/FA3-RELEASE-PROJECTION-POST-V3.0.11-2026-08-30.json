@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b3c423d3d93de42d6af36679faa05fb205539c04",
-    "pre_projection_root_tree_sha": "397f9365124473e3db7605aabdbf7d641af2d345",
-    "pre_projection_canonical_tree_sha": "66665118e675339c7e444e4c762f36ff3e46df4f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 91,
-    "total_post_baseline_commits": 91,
-    "delta_file_count": 300,
-    "delta_added_files": 297,
+    "pre_projection_head_sha": "b69ffde9425619b3145728f953d2c2584e72f03c",
+    "pre_projection_root_tree_sha": "0f0263e610baa6e026e6426c34634f0b14776dd7",
+    "pre_projection_canonical_tree_sha": "69eeee356c694c10e06dad2aa3568376a77281c3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 94,
+    "total_post_baseline_commits": 94,
+    "delta_file_count": 306,
+    "delta_added_files": 303,
     "delta_modified_files": 3,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 176,
-    "evidence_files_in_post_baseline_delta": 31,
-    "source_files_in_post_baseline_delta": 32,
+    "canonical_files_in_post_baseline_delta": 177,
+    "evidence_files_in_post_baseline_delta": 32,
+    "source_files_in_post_baseline_delta": 33,
     "test_files_in_post_baseline_delta": 28,
-    "workflow_files_in_post_baseline_delta": 4,
+    "workflow_files_in_post_baseline_delta": 5,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
@@ -287,8 +287,13 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 303,
+  "manifest_entry_count": 309,
   "manifest": [
+    {
+      "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
+      "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163",
+      "baseline_delta_status": "added"
+    },
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
       "git_blob_sha": "265f379de1c0328d17f3ab148584140a53f6ed2f",
@@ -301,7 +306,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "f509d6f50709e79fa28ffcae96040a8f21526b6c",
+      "git_blob_sha": "c99df516b0b1f6af464ee2fe9da54277d43c91cb",
       "baseline_delta_status": "added"
     },
     {
@@ -313,6 +318,16 @@
       "path": ".gitignore",
       "git_blob_sha": "c6122e24d587e76230c7ddbcc029d425313a952d",
       "baseline_delta_status": "modified"
+    },
+    {
+      "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
+      "git_blob_sha": "0efe23d85b6303d052b218ee1b71592cc61d2c63",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-ai-infra-guard-current-host.sh",
+      "git_blob_sha": "cf291b0dfcaf34fee1adc0ea3446752c4ad87a71",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-blackhole-kdenlive",
@@ -406,7 +421,12 @@
     },
     {
       "path": "canonical/ai-infra-guard-enforcement.json",
-      "git_blob_sha": "0d9c10dc418ad187633b714db00bf6dcc59178a6",
+      "git_blob_sha": "4e3bd976c90e42e157f3dd0bcc431b3f2ba4b603",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/ai-infra-guard-runtime-admission.json",
+      "git_blob_sha": "10b88023129e3db503eeae83feee04cb1bc912ae",
       "baseline_delta_status": "added"
     },
     {
@@ -1011,7 +1031,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
-      "git_blob_sha": "1ef759759eeb2d60cf650d610a5be4e0bb76d002",
+      "git_blob_sha": "3091a705e817638256fa0492a682c08079303d61",
       "baseline_delta_status": "added"
     },
     {
@@ -1320,6 +1340,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-ai-infra-guard-current-host.py",
+      "git_blob_sha": "a6fec4b79499f7937dc30d34f5de4bc5ff30fec5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-blackhole-kdenlive-current-host.py",
       "git_blob_sha": "461b234cf558a0568f9fdc04cc5547f836dab6a0",
       "baseline_delta_status": "added"
@@ -1515,8 +1540,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_ai_infra_guard_adapter.py",
+      "git_blob_sha": "93029bd4e0f7cfcbd577b89cfab697170f89f953",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_ai_infra_guard_gate.py",
-      "git_blob_sha": "a4609f4a3e6061f209cbd64c03f44907b703a736",
+      "git_blob_sha": "dd0d14bae3a1d8c641347bb552b2ea048658e041",
       "baseline_delta_status": "added"
     },
     {
@@ -1576,7 +1606,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "2268ec0d15cebb4e51dd38385ff58cf8caf0b153",
+      "git_blob_sha": "cbd17000186d9a8e8d19bcbebe5b3c893201d46f",
       "baseline_delta_status": "modified"
     },
     {
@@ -1641,7 +1671,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "dee095a184e192be9a032aa447b8e20cf90016f8",
+      "git_blob_sha": "7ee475514d067b1a2ef5aa356fd58c24d08ac200",
       "baseline_delta_status": "added"
     },
     {
@@ -1676,7 +1706,7 @@
     },
     {
       "path": "tests/test_ai_infra_guard_gate.py",
-      "git_blob_sha": "4a28b4431c5427a064bba4835af133a4296441ec",
+      "git_blob_sha": "3ad838b55a47a918887f2bb6544c3b1876426035",
       "baseline_delta_status": "added"
     },
     {
@@ -1776,7 +1806,7 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "d69fa23593cce83f77c7c52ce5f7b13fa8b65725",
+      "git_blob_sha": "962dedc179d1abe26ab69d24bde12f7c6a2b8a18",
       "baseline_delta_status": "added"
     },
     {
@@ -1969,8 +1999,10 @@
     "contract_id": "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
     "provider_id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
     "gate_id": "FA3-AI-INFRA-GUARD-GATESET-001",
+    "admission_id": "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001",
+    "adapter_id": "FA3-AI-INFRA-GUARD-ADAPTER-001",
     "classification": "OPTIONAL_REFERENCE_SECURITY_VALIDATION_PROVIDER",
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_RUNTIME_NOT_ADMITTED",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_PENDING",
     "reference_evidence_status": "CI_CANONICAL_REGRESSION_PASS",
     "reference_evidence": "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
     "evidence_registry_capability_bindings": [
@@ -1979,7 +2011,10 @@
       "CAP-007",
       "CAP-011"
     ],
-    "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+    "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_workflow": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
+    "runtime_surface": "NATIVE_AI_INFRA_SCAN_CLI_ONLY",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,

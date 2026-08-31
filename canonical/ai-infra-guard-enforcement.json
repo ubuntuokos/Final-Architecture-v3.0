@@ -131,5 +131,20 @@
   "executable_gate": "./bin/fa3-enforce ai-infra-guard",
   "report_path": "reports/ai-infra-guard-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 16
+  "regression_case_count": 16,
+  "runtime_admission_id": "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001",
+  "adapter_id": "FA3-AI-INFRA-GUARD-ADAPTER-001",
+  "current_host_gate": "./bin/fa3-enforce ai-infra-guard-current-host",
+  "current_host_receipt": "evidence/receipts/ai-infra-guard-current-host.json",
+  "runtime_isolation": {
+    "admitted_surface": "NATIVE_SCAN_CLI_ONLY",
+    "full_compose_agent": "FORBIDDEN",
+    "sys_admin": "FORBIDDEN",
+    "seccomp_unconfined": "FORBIDDEN",
+    "network": "LOOPBACK_GUARD_PROXY_ONLY",
+    "secrets": "ZERO_PASSTHROUGH",
+    "proxy_env": "ZERO_PASSTHROUGH",
+    "no_new_privs": true,
+    "resource_limits": true
+  }
 }
