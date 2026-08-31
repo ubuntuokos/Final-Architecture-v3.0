@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "18bba7bbe8f45d1cfa87a4299943d6901580b9d9",
-    "pre_projection_root_tree_sha": "bfbd0dca1d2cad915e57ec4fc0fcb989a8b3a4f4",
-    "pre_projection_canonical_tree_sha": "c4c6dafa5a34ceae4b2f5245d28029f419d023bd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 91,
-    "total_post_baseline_commits": 91,
-    "delta_file_count": 279,
-    "delta_added_files": 276,
+    "pre_projection_head_sha": "8aa2021734ea8bcb7d950c5f1e977eea6cd38b88",
+    "pre_projection_root_tree_sha": "0f70defdad48b39692eb5f3aa8d3bd17b22fd38d",
+    "pre_projection_canonical_tree_sha": "fdb9b763f2c9a6bcf6a9d8c02da5fdc64b334883",
+    "commits_ahead_of_v3_0_11_conformance_commit": 88,
+    "total_post_baseline_commits": 88,
+    "delta_file_count": 286,
+    "delta_added_files": 283,
     "delta_modified_files": 3,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 161,
-    "evidence_files_in_post_baseline_delta": 29,
-    "source_files_in_post_baseline_delta": 30,
-    "test_files_in_post_baseline_delta": 26,
+    "canonical_files_in_post_baseline_delta": 164,
+    "evidence_files_in_post_baseline_delta": 31,
+    "source_files_in_post_baseline_delta": 31,
+    "test_files_in_post_baseline_delta": 27,
     "workflow_files_in_post_baseline_delta": 4,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -114,6 +114,7 @@
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
@@ -173,6 +174,7 @@
       "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -191,6 +193,8 @@
       "evidence/reference/autogpt-ci-2026-08-30.json",
       "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
       "evidence/reference/buzz-ci-2026-08-30.json",
+      "evidence/reference/caveman-ci-2026-08-31.json",
+      "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json",
       "evidence/reference/codex-adapter-ci-2026-08-31.json",
       "evidence/reference/conversation-reconciliation-2026-08-30.json",
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
@@ -226,7 +230,8 @@
     "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
-    "FA3-CODEX-GATESET-001"
+    "FA3-CODEX-GATESET-001",
+    "FA3-CAVEMAN-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -241,6 +246,17 @@
       "decision_id": "FA3-DEC-AUTOGPT-2026-08-30",
       "reference_evidence": "evidence/reference/autogpt-ci-2026-08-30.json",
       "runtime_status": "PENDING_CURRENT_HOST"
+    },
+    "caveman_capability_binding": {
+      "subject_id": "CAP-010",
+      "provider_id": "FA3-PROVIDER-CAVEMAN-001",
+      "decision_id": "FA3-DEC-CAVEMAN-2026-08-30",
+      "reference_evidence": [
+        "evidence/reference/caveman-ci-2026-08-31.json",
+        "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json"
+      ],
+      "runtime_status": "PENDING_CURRENT_HOST",
+      "provider_runtime_status": "NOT_PROMOTED_REFERENCE_ONLY"
     }
   },
   "promotion": {
@@ -251,7 +267,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 282,
+  "manifest_entry_count": 289,
   "manifest": [
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
@@ -394,6 +410,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/caveman-enforcement.json",
+      "git_blob_sha": "4912893e8000c53aed8aace0d490091d820a04d8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/codex-enforcement.json",
       "git_blob_sha": "3b3bf1fca43b06581c349353c98deb7c76260259",
       "baseline_delta_status": "added"
@@ -436,6 +457,11 @@
     {
       "path": "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
+      "git_blob_sha": "2db1737ee5fecd2a741245950558148b43e8317f",
       "baseline_delta_status": "added"
     },
     {
@@ -560,7 +586,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
-      "git_blob_sha": "14aa518355972e7bc7f2ec1977d6b6ab85b96b03",
+      "git_blob_sha": "6f521d55c73c93c543087327d37c5c8b0629ec0e",
       "baseline_delta_status": "added"
     },
     {
@@ -710,7 +736,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "cb82b4ba66b6bfa53e1e17d939f0a0ee9416df83",
+      "git_blob_sha": "e5ec5b3169e593b5b8dc35a8fbbb2d38566cb61b",
       "baseline_delta_status": "modified"
     },
     {
@@ -950,7 +976,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json",
-      "git_blob_sha": "3d1d3a698bf1c4f734d1169e9c35f98447a99024",
+      "git_blob_sha": "06e5935b74f0d7e6b608e0df16d07b03eef3a5f2",
       "baseline_delta_status": "added"
     },
     {
@@ -1091,6 +1117,11 @@
     {
       "path": "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "203db018b0d6b7bd0faf60953060c0e271e22f8d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json",
+      "git_blob_sha": "193790f705dac08d5329f0680f30a90b76caced5",
       "baseline_delta_status": "added"
     },
     {
@@ -1255,7 +1286,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "97a0ed1f0759e3d83c0aacb740ca87454f15a0fb",
+      "git_blob_sha": "96fc9e13565165fefa5a487c00b2fd164f85c1b5",
       "baseline_delta_status": "added"
     },
     {
@@ -1286,6 +1317,16 @@
     {
       "path": "evidence/reference/buzz-ci-2026-08-30.json",
       "git_blob_sha": "19d5798c4077350723fd42909d0e9f0e876fef51",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/caveman-ci-2026-08-31.json",
+      "git_blob_sha": "294075144680333eb670f26d3c05d4d598b15346",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json",
+      "git_blob_sha": "3257a5fa25459452504b69b7925e7aba120188d7",
       "baseline_delta_status": "added"
     },
     {
@@ -1419,6 +1460,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_caveman_gate.py",
+      "git_blob_sha": "01d5da2b6b452786857d46e731b407bd28c402fc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_codex_adapter.py",
       "git_blob_sha": "61916636e350bcd66c641c9fb62825b3fa70d159",
       "baseline_delta_status": "added"
@@ -1455,7 +1501,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "64938bbe3534593d46da5c8bf739b271dfb2a33d",
+      "git_blob_sha": "8a6ea5f6c3d503aee37de232b65846442c521563",
       "baseline_delta_status": "modified"
     },
     {
@@ -1561,6 +1607,11 @@
     {
       "path": "tests/test_buzz_gate.py",
       "git_blob_sha": "021ba7f5a79ef7e83bd5187c30146cd8b94c19b3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_caveman_gate.py",
+      "git_blob_sha": "91022548da0fda3e493536161bb5c1cd5adc1f17",
       "baseline_delta_status": "added"
     },
     {
@@ -1673,8 +1724,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "a629ea835de4ac7b90cf7e50ed812dbb62c4a593",
-    "regenerated_from_branch_head": "a629ea835de4ac7b90cf7e50ed812dbb62c4a593"
+    "source_snapshot_anchor": "8aa2021734ea8bcb7d950c5f1e977eea6cd38b88",
+    "regenerated_from_branch_head": "8aa2021734ea8bcb7d950c5f1e977eea6cd38b88"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -1695,7 +1746,8 @@
     "FA3-PROVIDER-AUTOGPT-001 globally reconciled across release inventory, CAP-028 Evidence Registry binding, mandatory gate inventory and complete release-surface manifest; runtime remains NOT_ADMITTED/NOT_PROMOTED_REFERENCE_ONLY and adds no capability or authority.",
     "MiniMax H3 provider projection expanded to SGLang, vLLM, Diffusers and ComfyUI integration targets with immutable runtime pinning, non-authoritative h3-prompt-writing knowledge projection, and fail-closed ComfyUI compatibility/audio regression requirements; runtime remains NOT_YET_CURRENT_HOST_PROMOTED.",
     "FA3-native developer-agent coordination v0.1 materialized under FA3-AGENT-EXEC-001 with typed contracts, isolated Git-worktree/subprocess reference runtime, executable positive/negative E2E evidence, single-integration-committer semantics and no new capability or architectural authority.",
-    "FA3-PROVIDER-CODEX-001 added as an optional external developer-agent production candidate behind FA3-AGENT-EXEC-001 and the developer-agent coordination contract, with immutable Codex CLI 0.151.0 pin, fail-closed adapter, CI regressions and a separate real current-host admission path; current-host production evidence remains pending."
+    "FA3-PROVIDER-CODEX-001 added as an optional external developer-agent production candidate behind FA3-AGENT-EXEC-001 and the developer-agent coordination contract, with immutable Codex CLI 0.151.0 pin, fail-closed adapter, CI regressions and a separate real current-host admission path; current-host production evidence remains pending.",
+    "FA3-PROVIDER-CAVEMAN-001 materialized under FA3-KNOWLEDGE-001 with a provider-neutral recoverable context-transformation contract, 15-rule executable fail-closed regression gate, PASS reference evidence and CAP-010/global inventory reconciliation; capability count remains 143 and Caveman receives no architectural authority or runtime promotion."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -1835,6 +1887,23 @@
     "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "caveman_reconciliation": {
+    "provider_id": "FA3-PROVIDER-CAVEMAN-001",
+    "contract_id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
+    "gate_id": "FA3-CAVEMAN-GATESET-001",
+    "capability_id": "CAP-010",
+    "classification": "OPTIONAL_CONTEXT_TRANSFORMATION_REFERENCE_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_RUNTIME_NOT_PROMOTED",
+    "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "upstream_release": "v2.4.0",
+    "upstream_commit": "df2ccd85c94ec3c8289cb62ac020d241ccfb0c60",
+    "reference_gate_status": "PASS",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
