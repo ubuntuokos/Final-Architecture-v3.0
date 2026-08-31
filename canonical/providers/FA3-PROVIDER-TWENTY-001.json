@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-TWENTY-001",
+  "name": "Twenty",
+  "status": "ACCEPTED_REFERENCE",
+  "profile": "FA3-MARKETING-001",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_PROVIDER",
+    "PRIMARY_HU_READY_CRM_WORKSPACE_PROVIDER"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "role": "PRIMARY_HU_READY_CRM_WORKSPACE_PROVIDER",
+  "upstream": {
+    "repository": "twentyhq/twenty",
+    "observed_commit": "1eb9a0bf485dd02fae8024b4b8909c6d8282248c",
+    "observed_at": "2026-08-31",
+    "runtime_release_pin_required_before_admission": true
+  },
+  "localization": {
+    "status": "VERIFIED_HU_HU_LOCALE_OPTION",
+    "operator_surface_policy": "PRIMARY_OPERATOR_BACKEND_ALLOWED_WITH_I18N_CONFORMANCE",
+    "canonical_primary_locale": "hu-HU",
+    "fallback_locale": "en"
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "secrets": false,
+    "durable_workflow": false,
+    "canonical_customer_data": false,
+    "canonical_campaign_state": false,
+    "evidence": false,
+    "analytics_truth": false,
+    "host_resource": false,
+    "mcp_gateway": false
+  },
+  "forbidden_roles": [
+    "IDENTITY_AUTHORITY",
+    "AUTHORIZATION_AUTHORITY",
+    "SECRETS_AUTHORITY",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "CANONICAL_CUSTOMER_DATA_AUTHORITY",
+    "CANONICAL_CAMPAIGN_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "MCP_GATEWAY_AUTHORITY"
+  ],
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "current_host_runtime_evidence": {
+    "status": "PENDING_CURRENT_HOST",
+    "production_e2e": false
+  },
+  "license_and_terms_admission_required": true
+}
