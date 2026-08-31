@@ -385,6 +385,36 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_ai_infra_guard_admission_cannot_be_admitted_without_current_host_evidence(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "canonical/ai-infra-guard-runtime-admission.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["status"] = "ADMITTED"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-026" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_ai_infra_guard_current_host_tooling_must_be_manifested(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["manifest"] = [
+                x for x in obj["manifest"]
+                if x["path"] != "src/fa3_ai_infra_guard_adapter.py"
+            ]
+            obj["manifest_entry_count"] = len(obj["manifest"])
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-026" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
 
 if __name__ == "__main__":
     unittest.main()
