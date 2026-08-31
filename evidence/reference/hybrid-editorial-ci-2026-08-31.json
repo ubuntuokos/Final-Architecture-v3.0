@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-HYBRID-EDITORIAL-CI-2026-08-31",
+  "date": "2026-08-31",
+  "profile_id": "FA3-HYBRID-EDITORIAL-001",
+  "contract_id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-KRITA-001",
+    "FA3-PROVIDER-KDENLIVE-001"
+  ],
+  "decision_id": "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
+  "gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
+  "gateset_id": "FA3-HYBRID-EDITORIAL-GATESET-001",
+  "status": "PASS",
+  "evidence_level": "CI_CANONICAL_EXECUTABLE_REFERENCE_E2E_PASS",
+  "executable_gate": "./bin/fa3-enforce hybrid-editorial",
+  "reference_e2e_collector": "PYTHONPATH=src python evidence/collect-hybrid-editorial-reference-e2e.py --root .",
+  "regression_cases": 18,
+  "reference_e2e_required_result": "PASS",
+  "current_host_krita_runtime_evidence": "NOT_CLAIMED",
+  "current_host_kdenlive_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HYBRID-EDITORIAL-001",
+  "name": "Hybrid Animation, Generated Media & Live-Action Editorial Integration Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "profile_type": "CROSS_CUTTING_EDITORIAL_INTEGRATION_PROFILE",
+  "capabilities": [
+    "CAP-016",
+    "CAP-017",
+    "CAP-121",
+    "CAP-126"
+  ],
+  "contracts": [
+    "FA3-HYBRID-EDITORIAL-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-VIDEO-001",
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-STT-MEDIA-001",
+    "FA3-AUDIO-SEPARATION-001",
+    "FA3-DCC-RT3D-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-MEDIA-FINISH-001",
+    "FA3-TEMPORAL-001"
+  ],
+  "providers": {
+    "authoring": [
+      "FA3-PROVIDER-KRITA-001"
+    ],
+    "human_finishing": [
+      "FA3-PROVIDER-KDENLIVE-001"
+    ]
+  },
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "authority": {
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "scene_spatial_camera_geometry": "FA3-DCC-RT3D-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "human_editorial_state": "KDENLIVE_PROVIDER_LOCAL_HUMAN_STATE_WITH_FA3_HITL_EVIDENCE"
+  },
+  "mandatory_flow": [
+    "authoring_or_live_action_source",
+    "versioned_media_artifact_projection",
+    "optional_ai_media_analysis_or_derivation",
+    "qc_and_artifact_lineage",
+    "OpenTimelineIO_editorial_interchange",
+    "Kdenlive_human_finishing",
+    "picture_lock_approval",
+    "FinalMaster_with_evidence"
+  ],
+  "mandatory_rules": [
+    "HYBRID_EDITORIAL_IS_CROSS_CUTTING_PROFILE_NOT_NEW_CAPABILITY",
+    "KRITA_OPTIONAL_AUTHORING_PROVIDER_NOT_AUTHORITY",
+    "KDENLIVE_HUMAN_FINISHING_NLE_NOT_ARCHITECTURAL_AUTHORITY",
+    "OTIO_CANONICAL_EDITORIAL_INTERCHANGE",
+    "PROVIDER_LOCAL_PROJECT_FORMATS_NOT_CANONICAL_ROOTS",
+    "AI_MEDIA_OPERATIONS_ROUTE_THROUGH_CENTRAL_MCP",
+    "STT_DELEGATES_TO_FA3_STT_MEDIA_001",
+    "AUDIO_SEPARATION_DELEGATES_TO_FA3_AUDIO_SEPARATION_001",
+    "LOCAL_ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE",
+    "AI_MEDIA_JOBS_ASYNC_NONBLOCKING_CANCELLABLE",
+    "DESTRUCTIVE_EDITORIAL_MUTATION_REQUIRES_HITL",
+    "DIRECT_KDENLIVE_PROJECT_XML_MUTATION_FORBIDDEN",
+    "PROXY_ANALYSIS_ASSET_CANNOT_BE_FINAL_MASTER_SOURCE",
+    "MEDIA_TIMEBASE_COLOR_ALPHA_AUDIO_METADATA_REQUIRED",
+    "IMAGE_SEQUENCE_NUMBERING_HOLD_MISSING_FRAME_POLICY_REQUIRED",
+    "ROUNDTRIP_ASSET_VERSION_RELINK_AND_LINEAGE_REQUIRED",
+    "DCC_SCENE_CAMERA_GEOMETRY_AUTHORITY_REMAINS_FA3_DCC_RT3D_001",
+    "FINAL_MASTER_REQUIRES_PROVENANCE_QC_PICTURE_LOCK"
+  ],
+  "implementation_status": "CANONICAL_REFERENCE_E2E_MATERIALIZED_CURRENT_HOST_RUNTIME_NOT_CLAIMED",
+  "capability_count": 143
+}

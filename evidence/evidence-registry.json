@@ -673,11 +673,13 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31"
+        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
+        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/model-manager-ci-2026-08-31.json"
+        "evidence/reference/model-manager-ci-2026-08-31.json",
+        "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -690,6 +692,19 @@
         "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+      },
+      "hybrid_editorial_projection_status": {
+        "profile_id": "FA3-HYBRID-EDITORIAL-001",
+        "contract_id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-KRITA-001",
+          "FA3-PROVIDER-KDENLIVE-001"
+        ],
+        "gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
+        "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -728,12 +743,28 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "NP-03"
+        "NP-03",
+        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "hybrid_editorial_projection_status": {
+        "profile_id": "FA3-HYBRID-EDITORIAL-001",
+        "contract_id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-KRITA-001",
+          "FA3-PROVIDER-KDENLIVE-001"
+        ],
+        "gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
+        "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      }
     },
     {
       "evidence_id": "EVID-CAP-018-CURRENT-HOST",
@@ -4704,12 +4735,28 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-MOZ-AAF-001"
+        "FA3-MOZ-AAF-001",
+        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "hybrid_editorial_projection_status": {
+        "profile_id": "FA3-HYBRID-EDITORIAL-001",
+        "contract_id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-KRITA-001",
+          "FA3-PROVIDER-KDENLIVE-001"
+        ],
+        "gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
+        "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      }
     },
     {
       "evidence_id": "EVID-CAP-122-CURRENT-HOST",
@@ -4893,12 +4940,28 @@
         "GC-09",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "hybrid_editorial_projection_status": {
+        "profile_id": "FA3-HYBRID-EDITORIAL-001",
+        "contract_id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-KRITA-001",
+          "FA3-PROVIDER-KDENLIVE-001"
+        ],
+        "gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
+        "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      }
     },
     {
       "evidence_id": "EVID-CAP-127-CURRENT-HOST",

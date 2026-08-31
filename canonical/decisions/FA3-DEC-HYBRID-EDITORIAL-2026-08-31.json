@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
+  "date": "2026-08-31",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Krita-Kdenlive hybrid animation/live-action editorial integration",
+  "decision": "IMPLEMENT",
+  "profile_id": "FA3-HYBRID-EDITORIAL-001",
+  "contract_id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-KRITA-001",
+    "FA3-PROVIDER-KDENLIVE-001"
+  ],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-017",
+    "CAP-121",
+    "CAP-126"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "mandatory_rules": [
+    "HYBRID_EDITORIAL_IS_CROSS_CUTTING_PROFILE_NOT_NEW_CAPABILITY",
+    "KRITA_OPTIONAL_AUTHORING_PROVIDER_NOT_AUTHORITY",
+    "KDENLIVE_HUMAN_FINISHING_NLE_NOT_ARCHITECTURAL_AUTHORITY",
+    "OTIO_CANONICAL_EDITORIAL_INTERCHANGE",
+    "PROVIDER_LOCAL_PROJECT_FORMATS_NOT_CANONICAL_ROOTS",
+    "AI_MEDIA_OPERATIONS_ROUTE_THROUGH_CENTRAL_MCP",
+    "STT_DELEGATES_TO_FA3_STT_MEDIA_001",
+    "AUDIO_SEPARATION_DELEGATES_TO_FA3_AUDIO_SEPARATION_001",
+    "LOCAL_ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE",
+    "AI_MEDIA_JOBS_ASYNC_NONBLOCKING_CANCELLABLE",
+    "DESTRUCTIVE_EDITORIAL_MUTATION_REQUIRES_HITL",
+    "DIRECT_KDENLIVE_PROJECT_XML_MUTATION_FORBIDDEN",
+    "PROXY_ANALYSIS_ASSET_CANNOT_BE_FINAL_MASTER_SOURCE",
+    "MEDIA_TIMEBASE_COLOR_ALPHA_AUDIO_METADATA_REQUIRED",
+    "IMAGE_SEQUENCE_NUMBERING_HOLD_MISSING_FRAME_POLICY_REQUIRED",
+    "ROUNDTRIP_ASSET_VERSION_RELINK_AND_LINEAGE_REQUIRED",
+    "DCC_SCENE_CAMERA_GEOMETRY_AUTHORITY_REMAINS_FA3_DCC_RT3D_001",
+    "FINAL_MASTER_REQUIRES_PROVENANCE_QC_PICTURE_LOCK"
+  ],
+  "reference_e2e": "src/fa3_hybrid_editorial_reference.py",
+  "executable_gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
+  "gateset_id": "FA3-HYBRID-EDITORIAL-GATESET-001",
+  "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+  "current_host_runtime_claim": false,
+  "notes": [
+    "Krita is optional authoring provider, not authority.",
+    "Kdenlive remains human-finishing NLE provider without architectural authority.",
+    "OTIO is canonical editorial interchange; provider project formats remain local.",
+    "Reference E2E PASS does not claim current-host Krita/Kdenlive production PASS."
+  ]
+}

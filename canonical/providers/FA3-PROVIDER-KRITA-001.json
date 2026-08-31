@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-KRITA-001",
+  "name": "Krita",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_LINUX_2D_RASTER_AND_FRAME_ANIMATION_AUTHORING_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_AUTHORING_PROVIDER",
+    "LOCAL_DESKTOP_PROVIDER",
+    "2D_RASTER_FRAME_ANIMATION_AUTHORING"
+  ],
+  "profile": "FA3-HYBRID-EDITORIAL-001",
+  "capability_projection": [
+    "CAP-016"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_WHEN_2D_RASTER_OR_FRAME_ANIMATION_AUTHORING_USED",
+  "provider_local_state": [
+    ".kra",
+    "brush_state",
+    "layer_state",
+    "animation_workspace_state"
+  ],
+  "canonical_projection_formats": [
+    "PNG_SEQUENCE",
+    "EXR_SEQUENCE",
+    "RENDERED_CLIP",
+    "ASSET_MANIFEST"
+  ],
+  "authority_boundaries": {
+    "editorial_timeline": "FA3-KDENLIVE-EDITORIAL-001/OpenTimelineIO",
+    "scene_spatial_camera_geometry": "FA3-DCC-RT3D-001",
+    "orchestration": "EXISTING_FA3_DURABLE_ORCHESTRATION",
+    "ai_capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "forbidden_roles": [
+    "EDITORIAL_TIMELINE_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "MODEL_ROUTER_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "SCENE_GEOMETRY_CAMERA_AUTHORITY"
+  ],
+  "current_host_runtime_evidence": "NOT_CLAIMED"
+}
