@@ -1,0 +1,121 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-MUNDER-DIFFLIN-001",
+  "gateset_id": "FA3-MUNDER-DIFFLIN-GATESET-001",
+  "provider_id": "FA3-PROVIDER-MUNDER-DIFFLIN-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "regression_case_count": 20,
+  "case_ids": [
+    "MD-001",
+    "MD-002",
+    "MD-003",
+    "MD-004",
+    "MD-005",
+    "MD-006",
+    "MD-007",
+    "MD-008",
+    "MD-009",
+    "MD-010",
+    "MD-011",
+    "MD-012",
+    "MD-013",
+    "MD-014",
+    "MD-015",
+    "MD-016",
+    "MD-017",
+    "MD-018",
+    "MD-019",
+    "MD-020"
+  ],
+  "executable": "PYTHONPATH=src python src/fa3_munder_difflin_executable_gate.py --root .",
+  "global_command": "./bin/fa3-enforce munder-difflin-executable",
+  "report_path": "reports/munder-difflin-executable-gate-report.json",
+  "runtime_scope": "PROVIDER_NEUTRAL_COORDINATION_AND_SECURITY_INVARIANTS",
+  "current_host_provider_runtime_evidence": false,
+  "cases": [
+    {
+      "id": "MD-001",
+      "name": "provider-cannot-be-authority"
+    },
+    {
+      "id": "MD-002",
+      "name": "agent-cannot-directly-commit-shared-state"
+    },
+    {
+      "id": "MD-003",
+      "name": "cross-agent-message-atomicity"
+    },
+    {
+      "id": "MD-004",
+      "name": "duplicate-message-idempotency"
+    },
+    {
+      "id": "MD-005",
+      "name": "consumer-cursor-isolation"
+    },
+    {
+      "id": "MD-006",
+      "name": "workspace-root-escape-denied"
+    },
+    {
+      "id": "MD-007",
+      "name": "symlink-path-revalidation"
+    },
+    {
+      "id": "MD-008",
+      "name": "renderer-direct-host-access-denied"
+    },
+    {
+      "id": "MD-009",
+      "name": "destructive-operation-human-gate"
+    },
+    {
+      "id": "MD-010",
+      "name": "budget-overrun-circuit-breaker"
+    },
+    {
+      "id": "MD-011",
+      "name": "deterministic-agent-stop"
+    },
+    {
+      "id": "MD-012",
+      "name": "untrusted-memory-cannot-grant-capabilities"
+    },
+    {
+      "id": "MD-013",
+      "name": "secret-material-not-exported-to-telemetry"
+    },
+    {
+      "id": "MD-014",
+      "name": "telemetry-unknown-field-rejected"
+    },
+    {
+      "id": "MD-015",
+      "name": "concurrent-agent-workspace-collision-test"
+    },
+    {
+      "id": "MD-016",
+      "name": "provider-failure-does-not-collapse-orchestrator"
+    },
+    {
+      "id": "MD-017",
+      "name": "ephemeral-worker-cleanup"
+    },
+    {
+      "id": "MD-018",
+      "name": "planned-capability-cannot-pass-as-implemented"
+    },
+    {
+      "id": "MD-019",
+      "name": "update-transition-evidence-required"
+    },
+    {
+      "id": "MD-020",
+      "name": "critical-error-path-fault-injection"
+    }
+  ]
+}
