@@ -786,11 +786,14 @@ def gate(root: Path):
         or aisec.get("contract_id") != AISEC_CONTRACT_ID
         or aisec.get("provider_id") != AISEC_PROVIDER_ID
         or aisec.get("gate_id") != AISEC_GATE_ID
+        or aisec.get("admission_id") != "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001"
+        or aisec.get("adapter_id") != "FA3-AI-INFRA-GUARD-ADAPTER-001"
         or aisec.get("classification") != "OPTIONAL_REFERENCE_SECURITY_VALIDATION_PROVIDER"
         or aisec.get("reconciliation_status") != AISEC_RECONCILIATION_STATUS
         or aisec.get("reference_evidence_status") != "CI_CANONICAL_REGRESSION_PASS"
         or aisec.get("reference_evidence") != AISEC_EVIDENCE_PATH
         or aisec.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_CURRENT_HOST"
+        or aisec.get("runtime_surface") != "NATIVE_AI_INFRA_SCAN_CLI_ONLY"
         or aisec.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
         or aisec.get("current_host_runtime_promotion_claim") is not False
         or aisec.get("new_capabilities") != 0
