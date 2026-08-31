@@ -741,3 +741,14 @@ CI/reference PASS is **not current-host runtime promotion evidence**. Every conc
 - Model routing remains with `FA3-AUTH-MODEL-ROUTER-001`; host admission/placement with `FA3-AUTH-HOST-RESOURCE-BROKER-001`; security, secrets, evidence and promotion remain with their existing authorities.
 - Capability count remains **143**; new capabilities **0**; new architectural authorities **0**.
 - StabilityMatrix current-host usage is user-confirmed, while executable current-host production evidence remains pending and is not promoted by document or CI reference evidence alone.
+
+
+## FA3 Marketing Studio — Hungarian-first marketing & growth
+
+`FA3-MARKETING-001` is the provider-neutral, cross-cutting marketing/growth profile. It adds no capability and no architectural authority; the canonical capability count remains **143**.
+
+Primary operator locale is **hu-HU** with explicit English fallback. Native Hungarian AI copy generation is required; a translation-only English→Hungarian pipeline is not conformant.
+
+Provider disposition: Mautic = primary marketing automation reference/provider candidate; Twenty = primary CRM/workspace candidate; listmonk = primary email/newsletter candidate; Dittofeed = optional journey backend and PostHog = optional analytics backend until Hungarian operator UI is verified. `coreyhaines31/marketingskills` is an untrusted scoped knowledge/pattern source, never an execution authority.
+
+Public launch/send requires canonical consent/suppression checks, policy mediation and human approval. Social publishing, workflow automation, web research and prose QA delegate to existing FA3 capabilities; providers cannot become identity, secrets, workflow, canonical customer/campaign, MCP or evidence authorities.

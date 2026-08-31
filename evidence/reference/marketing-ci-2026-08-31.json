@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-MARKETING-CI-2026-08-31",
+  "date": "2026-08-31",
+  "profile_id": "FA3-MARKETING-001",
+  "contract_id": "FA3-MARKETING-CONTRACTS-001",
+  "localization_policy_id": "FA3-MARKETING-I18N-001",
+  "provider_ids": [
+    "FA3-PROVIDER-MAUTIC-001",
+    "FA3-PROVIDER-TWENTY-001",
+    "FA3-PROVIDER-LISTMONK-001",
+    "FA3-PROVIDER-DITTOFEED-001",
+    "FA3-PROVIDER-POSTHOG-001"
+  ],
+  "gate_id": "FA3-GATE-MARKETING-001",
+  "gateset_id": "FA3-MARKETING-GATESET-001",
+  "status": "PASS",
+  "evidence_class": "CI_CANONICAL_EXECUTABLE_REFERENCE_E2E",
+  "regression_cases": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0
+  },
+  "reference_e2e": "PASS",
+  "validated": [
+    "hu-HU primary localization policy",
+    "native Hungarian generation semantics",
+    "consent/suppression fail-closed",
+    "HITL public launch",
+    "provider authority separation",
+    "provider-neutral campaign/contact/attribution contracts",
+    "existing CAP-040/CAP-049/CAP-103/CAP-125 delegation",
+    "Marketing Skills non-authority boundary"
+  ],
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

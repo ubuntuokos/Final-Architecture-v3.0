@@ -138,6 +138,36 @@ HYBRID_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_PASS_CURRENT_HOST_PENDING"
 )
 
+MARKETING_PROFILE_ID = "FA3-MARKETING-001"
+MARKETING_CONTRACT_ID = "FA3-MARKETING-CONTRACTS-001"
+MARKETING_I18N_ID = "FA3-MARKETING-I18N-001"
+MARKETING_GATE_ID = "FA3-GATE-MARKETING-001"
+MARKETING_GATESET_ID = "FA3-MARKETING-GATESET-001"
+MARKETING_DECISION_ID = "FA3-DEC-MARKETING-2026-08-31"
+MARKETING_PROFILE_PATH = "canonical/profiles/FA3-MARKETING-001.json"
+MARKETING_CONTRACT_PATH = "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json"
+MARKETING_I18N_PATH = "canonical/FA3-MARKETING-I18N-001.json"
+MARKETING_DECISION_PATH = "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json"
+MARKETING_GATE_RECORD_PATH = "canonical/FA3-GATE-MARKETING-001.json"
+MARKETING_ENFORCEMENT_PATH = "canonical/marketing-enforcement.json"
+MARKETING_REFERENCE_PATH = "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json"
+MARKETING_EVIDENCE_PATH = "evidence/reference/marketing-ci-2026-08-31.json"
+MARKETING_REFERENCE_RUNTIME_PATH = "src/fa3_marketing_reference.py"
+MARKETING_GATE_PATH = "src/fa3_marketing_gate.py"
+MARKETING_TEST_PATH = "tests/test_marketing_gate.py"
+MARKETING_COLLECTOR_PATH = "evidence/collect-marketing-reference-e2e.py"
+MARKETING_EXAMPLE_PATH = "examples/marketing-reference-request.json"
+MARKETING_WORKFLOW_PATH = ".github/workflows/fa3-permanent-enforcement.yml"
+MARKETING_PROVIDER_IDS = ["FA3-PROVIDER-MAUTIC-001", "FA3-PROVIDER-TWENTY-001", "FA3-PROVIDER-LISTMONK-001", "FA3-PROVIDER-DITTOFEED-001", "FA3-PROVIDER-POSTHOG-001"]
+MARKETING_PROVIDER_PATHS = tuple(
+    f"canonical/providers/{provider_id}.json"
+    for provider_id in MARKETING_PROVIDER_IDS
+)
+MARKETING_CAPABILITY_IDS = ["CAP-003", "CAP-004", "CAP-010", "CAP-011", "CAP-018", "CAP-019", "CAP-040", "CAP-049", "CAP-103", "CAP-112", "CAP-125"]
+MARKETING_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_PASS_CURRENT_HOST_PENDING"
+)
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1051,6 +1081,220 @@ def gate(root: Path):
             )
         )
 
+
+    marketing = projection.get("marketing_reconciliation", {})
+    required_marketing_manifest_paths = {
+        MARKETING_PROFILE_PATH,
+        MARKETING_CONTRACT_PATH,
+        MARKETING_I18N_PATH,
+        MARKETING_DECISION_PATH,
+        MARKETING_GATE_RECORD_PATH,
+        MARKETING_ENFORCEMENT_PATH,
+        MARKETING_REFERENCE_PATH,
+        MARKETING_EVIDENCE_PATH,
+        MARKETING_REFERENCE_RUNTIME_PATH,
+        MARKETING_GATE_PATH,
+        MARKETING_TEST_PATH,
+        MARKETING_COLLECTOR_PATH,
+        MARKETING_EXAMPLE_PATH,
+        MARKETING_WORKFLOW_PATH,
+        "src/fa3_enforce.py",
+        "evidence/evidence-registry.json",
+        *MARKETING_PROVIDER_PATHS,
+    }
+    marketing_overlay_requirements = {
+        "profile_records": [MARKETING_PROFILE_PATH],
+        "contract_records": [MARKETING_CONTRACT_PATH],
+        "provider_records": list(MARKETING_PROVIDER_PATHS),
+        "decision_records": [MARKETING_DECISION_PATH],
+        "upstream_reference_records": [MARKETING_REFERENCE_PATH],
+        "reference_evidence_records": [MARKETING_EVIDENCE_PATH],
+    }
+    missing_marketing_overlay_members = []
+    for key, required_paths in marketing_overlay_requirements.items():
+        for required in required_paths:
+            if required not in inventory.get(key, []):
+                missing_marketing_overlay_members.append(
+                    {"inventory": key, "path": required}
+                )
+    marketing_manifest_missing = sorted(
+        required_marketing_manifest_paths - manifest_paths
+    )
+    marketing_profile = (
+        loadj(root / MARKETING_PROFILE_PATH)
+        if (root / MARKETING_PROFILE_PATH).is_file()
+        else {}
+    )
+    marketing_contract = (
+        loadj(root / MARKETING_CONTRACT_PATH)
+        if (root / MARKETING_CONTRACT_PATH).is_file()
+        else {}
+    )
+    marketing_i18n = (
+        loadj(root / MARKETING_I18N_PATH)
+        if (root / MARKETING_I18N_PATH).is_file()
+        else {}
+    )
+    marketing_reference = (
+        loadj(root / MARKETING_REFERENCE_PATH)
+        if (root / MARKETING_REFERENCE_PATH).is_file()
+        else {}
+    )
+    marketing_evidence = (
+        loadj(root / MARKETING_EVIDENCE_PATH)
+        if (root / MARKETING_EVIDENCE_PATH).is_file()
+        else {}
+    )
+    marketing_providers = {
+        provider_id: loadj(
+            root / f"canonical/providers/{provider_id}.json"
+        )
+        for provider_id in MARKETING_PROVIDER_IDS
+        if (
+            root / f"canonical/providers/{provider_id}.json"
+        ).is_file()
+    }
+    marketing_provider_invalid = [
+        provider_id
+        for provider_id in MARKETING_PROVIDER_IDS
+        if (
+            provider_id not in marketing_providers
+            or marketing_providers[provider_id].get("canonical_root")
+            is not False
+            or marketing_providers[provider_id].get(
+                "architectural_authority"
+            )
+            is not False
+            or marketing_providers[provider_id].get("new_capability")
+            is not False
+            or marketing_providers[provider_id].get(
+                "new_architectural_authority"
+            )
+            is not False
+            or marketing_providers[provider_id].get("capability_count")
+            != CAPABILITY_COUNT
+            or marketing_providers[provider_id].get(
+                "runtime_activation_status"
+            )
+            != "NOT_ADMITTED_PENDING_CURRENT_HOST"
+        )
+    ]
+    marketing_binding_invalid = []
+    for cap_id in MARKETING_CAPABILITY_IDS:
+        rec = next(
+            (
+                item
+                for item in records
+                if item.get("subject_id") == cap_id
+            ),
+            {},
+        )
+        status = rec.get("marketing_projection_status", {})
+        if (
+            MARKETING_DECISION_ID not in rec.get(
+                "source_decision_ids", []
+            )
+            or MARKETING_EVIDENCE_PATH
+            not in rec.get("evidence_artifacts", [])
+            or rec.get("status") != "PENDING_CURRENT_HOST"
+            or rec.get("promotion_state")
+            != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+            or status.get("profile_id") != MARKETING_PROFILE_ID
+            or status.get("gate_id") != MARKETING_GATE_ID
+            or status.get("runtime_status") != "PENDING_CURRENT_HOST"
+            or status.get(
+                "ci_reference_pass_does_not_promote_runtime"
+            )
+            is not True
+        ):
+            marketing_binding_invalid.append(cap_id)
+
+    marketing_sources = {
+        item.get("repository"): item
+        for item in marketing_reference.get("sources", [])
+    }
+    if (
+        marketing.get("profile_id") != MARKETING_PROFILE_ID
+        or marketing.get("contract_id") != MARKETING_CONTRACT_ID
+        or marketing.get("i18n_policy_id") != MARKETING_I18N_ID
+        or sorted(marketing.get("provider_ids", []))
+        != sorted(MARKETING_PROVIDER_IDS)
+        or marketing.get("gate_id") != MARKETING_GATE_ID
+        or marketing.get("gateset_id") != MARKETING_GATESET_ID
+        or marketing.get("decision_id") != MARKETING_DECISION_ID
+        or marketing.get("reconciliation_status")
+        != MARKETING_RECONCILIATION_STATUS
+        or marketing.get("reference_evidence")
+        != MARKETING_EVIDENCE_PATH
+        or marketing.get("reference_evidence_status")
+        != "CI_CANONICAL_EXECUTABLE_REFERENCE_E2E_PASS"
+        or marketing.get("current_host_runtime_evidence")
+        != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or marketing.get("current_host_runtime_promotion_claim")
+        is not False
+        or marketing.get("primary_locale") != "hu-HU"
+        or marketing.get("fallback_locale") != "en"
+        or marketing.get("new_capabilities") != 0
+        or marketing.get("new_architectural_authorities") != 0
+        or marketing.get("capability_count_after") != CAPABILITY_COUNT
+        or sorted(
+            marketing.get(
+                "evidence_registry_capability_bindings", []
+            )
+        )
+        != sorted(MARKETING_CAPABILITY_IDS)
+        or MARKETING_GATESET_ID not in projection_gates
+        or MARKETING_GATESET_ID not in policy_gates
+        or missing_marketing_overlay_members
+        or marketing_manifest_missing
+        or marketing_profile.get("id") != MARKETING_PROFILE_ID
+        or marketing_profile.get("new_capability") is not False
+        or marketing_profile.get("new_architectural_authority")
+        is not False
+        or marketing_contract.get("id") != MARKETING_CONTRACT_ID
+        or marketing_contract.get("provider_neutral") is not True
+        or marketing_i18n.get("id") != MARKETING_I18N_ID
+        or marketing_i18n.get("primary_locale") != "hu-HU"
+        or marketing_i18n.get(
+            "native_hungarian_ai_generation_required"
+        )
+        is not True
+        or marketing_i18n.get(
+            "translation_only_hungarian_pipeline_forbidden"
+        )
+        is not True
+        or marketing_evidence.get("status") != "PASS"
+        or marketing_evidence.get(
+            "current_host_runtime_promotion_claim"
+        )
+        is not False
+        or marketing_sources.get(
+            "coreyhaines31/marketingskills", {}
+        ).get("role")
+        != (
+            "UNTRUSTED_SCOPED_MARKETING_KNOWLEDGE_AND_PATTERN_SOURCE_"
+            "NOT_EXECUTION_AUTHORITY"
+        )
+        or marketing_provider_invalid
+        or marketing_binding_invalid
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-028",
+                (
+                    "Marketing global release/inventory/evidence "
+                    "reconciliation invariant mismatch"
+                ),
+                reconciliation_status=marketing.get(
+                    "reconciliation_status"
+                ),
+                missing_overlay_members=missing_marketing_overlay_members,
+                missing_manifest_paths=marketing_manifest_missing,
+                invalid_providers=marketing_provider_invalid,
+                invalid_capability_bindings=marketing_binding_invalid,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1280,6 +1524,7 @@ def gate(root: Path):
             "ai_infra_guard_reference_evidence_status": aisec.get("reference_evidence_status"),
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
+            "marketing_reconciliation": marketing.get("reconciliation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)

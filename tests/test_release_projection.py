@@ -416,5 +416,79 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             td.cleanup()
 
 
+    def test_marketing_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["marketing_reconciliation"]["primary_locale"] = "en"
+            path.write_text(
+                json.dumps(obj, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-028"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_marketing_current_host_pass_cannot_be_claimed_by_ci_reference(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["marketing_reconciliation"][
+                "current_host_runtime_promotion_claim"
+            ] = True
+            path.write_text(
+                json.dumps(obj, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-028"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_marketing_evidence_registry_binding_is_required(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "evidence/evidence-registry.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            record = next(
+                item
+                for item in obj["records"]
+                if item["subject_id"] == "CAP-040"
+            )
+            record["evidence_artifacts"].remove(
+                "evidence/reference/marketing-ci-2026-08-31.json"
+            )
+            path.write_text(
+                json.dumps(obj, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-028"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+
+
 if __name__ == "__main__":
     unittest.main()

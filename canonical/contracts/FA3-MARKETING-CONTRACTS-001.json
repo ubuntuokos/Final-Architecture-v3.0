@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MARKETING-CONTRACTS-001",
+  "profile": "FA3-MARKETING-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "MarketingContact",
+    "MarketingAccount",
+    "Lead",
+    "Segment",
+    "ConsentRecord",
+    "SuppressionRecord",
+    "Campaign",
+    "CampaignVersion",
+    "AudienceSnapshot",
+    "ContentBrief",
+    "ContentArtifactRef",
+    "ChannelPlan",
+    "DeliveryIntent",
+    "DeliveryReceipt",
+    "TouchpointEvent",
+    "ConversionEvent",
+    "AttributionRecord",
+    "Experiment",
+    "MetricDefinition",
+    "MarketingEvidence",
+    "LocalizationProfile"
+  ],
+  "canonical_state": {
+    "campaign_states": [
+      "DRAFT",
+      "READY_FOR_APPROVAL",
+      "APPROVED",
+      "SCHEDULED",
+      "EXECUTING",
+      "PAUSED",
+      "COMPLETED",
+      "CANCELLED"
+    ],
+    "provider_state_is_projection_only": true,
+    "provider_failure_cannot_replace_canonical_state": true
+  },
+  "consent_and_delivery": {
+    "explicit_recipient_resolution_required": true,
+    "channel_consent_required": true,
+    "purpose_binding_required": true,
+    "suppression_and_unsubscribe_fail_closed": true,
+    "direct_provider_send_without_canonical_authorization_forbidden": true
+  },
+  "localization": {
+    "primary_locale": "hu-HU",
+    "fallback_locale": "en",
+    "native_hungarian_generation_required": true,
+    "translation_only_pipeline_forbidden": true
+  },
+  "delegation": {
+    "central_mcp_required": true,
+    "social_publish_capability": "CAP-040",
+    "workflow_automation_capability": "CAP-049",
+    "web_research_capability": "CAP-103",
+    "public_prose_quality_capability": "CAP-125",
+    "provider_may_become_workflow_authority": false,
+    "provider_may_become_identity_authority": false,
+    "provider_may_become_evidence_authority": false
+  },
+  "publication": {
+    "human_approval_required_for_public_campaign_launch": true,
+    "ai_may_draft_and_propose": true,
+    "ai_may_launch_without_approval": false
+  },
+  "analytics": {
+    "provider_neutral_events": true,
+    "source_lineage_required": true,
+    "attribution_is_evidence_backed_projection": true,
+    "experiment_requires_hypothesis_metric_guardrail": true
+  },
+  "privacy": {
+    "pii_minimization": true,
+    "purpose_limitation": true,
+    "secret_values_forbidden_in_marketing_artifacts": true
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MARKETING-001",
+  "name": "AI-Assisted Marketing, Growth & Customer Engagement Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_IF_MARKETING_USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "profile_type": "CROSS_CUTTING_MARKETING_GROWTH_PROFILE",
+  "capabilities": [
+    "CAP-003",
+    "CAP-004",
+    "CAP-010",
+    "CAP-011",
+    "CAP-018",
+    "CAP-019",
+    "CAP-040",
+    "CAP-049",
+    "CAP-103",
+    "CAP-112",
+    "CAP-125"
+  ],
+  "contracts": [
+    "FA3-MARKETING-CONTRACTS-001"
+  ],
+  "localization_policy": "FA3-MARKETING-I18N-001",
+  "providers": {
+    "marketing_automation": [
+      "FA3-PROVIDER-MAUTIC-001"
+    ],
+    "crm_workspace": [
+      "FA3-PROVIDER-TWENTY-001"
+    ],
+    "email_newsletter": [
+      "FA3-PROVIDER-LISTMONK-001"
+    ],
+    "optional_journey": [
+      "FA3-PROVIDER-DITTOFEED-001"
+    ],
+    "analytics_experimentation": [
+      "FA3-PROVIDER-POSTHOG-001"
+    ]
+  },
+  "knowledge_pattern_sources": [
+    "coreyhaines31/marketingskills"
+  ],
+  "authority": {
+    "identity_policy_secrets": "EXISTING_FA3_IDENTITY_POLICY_SECRETS_AUTHORITIES",
+    "durable_workflow": "EXISTING_FA3_DURABLE_ORCHESTRATION_AUTHORITY",
+    "data_event_contract": "EXISTING_FA3_DATA_EVENT_CONTRACT_AUTHORITIES",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "social_distribution": "CAP-040_SOCIAL_GATEWAY",
+    "workflow_automation": "CAP-049_WORKFLOW_AUTOMATION",
+    "web_intelligence": "CAP-103_WEB_INTELLIGENCE",
+    "prose_quality": "CAP-125_PROSE_QUALITY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "human_publication_approval": "AUTH-HUMAN"
+  },
+  "mandatory_flow": [
+    "research_with_evidence",
+    "strategy_and_audience",
+    "native_hungarian_content_brief",
+    "provider_neutral_campaign_draft",
+    "quality_and_policy_validation",
+    "human_approval",
+    "delegated_channel_execution",
+    "delivery_and_conversion_receipts",
+    "attribution_and_experiment_evidence",
+    "learning_projection"
+  ],
+  "mandatory_rules": [
+    "MARKETING_IS_CROSS_CUTTING_PROFILE_NOT_NEW_CAPABILITY",
+    "HU_HU_PRIMARY_OPERATOR_LOCALE",
+    "EN_FALLBACK_ONLY_WHEN_HU_HU_UNAVAILABLE",
+    "NATIVE_HUNGARIAN_AI_GENERATION_REQUIRED",
+    "TRANSLATION_ONLY_HUNGARIAN_PIPELINE_FORBIDDEN",
+    "PROVIDERS_NOT_IDENTITY_POLICY_SECRETS_AUTHORITIES",
+    "PROVIDERS_NOT_WORKFLOW_ORCHESTRATION_AUTHORITIES",
+    "PROVIDERS_NOT_CANONICAL_CUSTOMER_OR_CAMPAIGN_AUTHORITIES",
+    "MARKETING_ACTIONS_ROUTE_THROUGH_CENTRAL_MCP",
+    "OUTBOUND_REQUIRES_EXPLICIT_RECIPIENT_CHANNEL_CONSENT_POLICY",
+    "UNSUBSCRIBE_SUPPRESSION_FAIL_CLOSED",
+    "PUBLICATION_OR_LAUNCH_REQUIRES_HITL",
+    "SOCIAL_PUBLISH_DELEGATES_TO_CAP_040_SOCIAL_GATEWAY",
+    "WORKFLOW_EXECUTION_DELEGATES_TO_CAP_049",
+    "WEB_RESEARCH_DELEGATES_TO_CAP_103_WITH_EVIDENCE",
+    "PUBLIC_PROSE_REQUIRES_CAP_125_QUALITY_GATE",
+    "CREATIVE_ASSETS_USE_EXISTING_MEDIA_CAPABILITIES_NOT_MARKETING_AUTHORITY",
+    "MAUTIC_PRIMARY_HU_READY_AUTOMATION_PROVIDER_NON_AUTHORITY",
+    "TWENTY_PRIMARY_HU_READY_CRM_WORKSPACE_PROVIDER_NON_AUTHORITY",
+    "LISTMONK_PRIMARY_HU_READY_EMAIL_PROVIDER_NON_AUTHORITY",
+    "DITTOFEED_OPTIONAL_JOURNEY_BACKEND_NOT_PRIMARY_HU_UI",
+    "POSTHOG_ANALYTICS_PROVIDER_NOT_EVIDENCE_AUTHORITY",
+    "MARKETINGSKILLS_UNTRUSTED_KNOWLEDGE_PATTERN_SOURCE_NOT_EXECUTION_AUTHORITY",
+    "ATTRIBUTION_EXPERIMENT_LINEAGE_AND_EVIDENCE_REQUIRED",
+    "PII_MINIMIZATION_AND_PURPOSE_LIMITATION_REQUIRED",
+    "PROVIDER_FAILURE_MUST_NOT_REPLACE_CANONICAL_STATE"
+  ],
+  "capability_count": 143,
+  "implementation_status": {
+    "canonical_materialization": "COMPLETE",
+    "reference_e2e": "PASS",
+    "provider_current_host_runtime": "PENDING_CURRENT_HOST",
+    "runtime_promotion_claim": false
+  }
+}
