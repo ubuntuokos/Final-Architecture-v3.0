@@ -729,3 +729,15 @@ PYTHONPATH=src python -m unittest tests.test_inference_portability_gate -v
 ```
 
 CI/reference PASS is **not current-host runtime promotion evidence**. Every concrete OpenVINO/ORT/TensorRT/TensorRT-RTX activation still requires immutable runtime pins, Host Resource Broker admission where an accelerator is used, and real current-host compatibility/E2E evidence.
+
+
+## FA3 Model Manager + StabilityMatrix canonical projection (2026-08-31)
+
+- `FA3-MODEL-MANAGER-001` is the mandatory provider-neutral logical model inventory, lifecycle, artifact-identity, lineage and compatibility projection.
+- `FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001` is the preferred current-host physical model-store, discovery, acquisition and shared-package projection provider for model classes StabilityMatrix natively supports.
+- StabilityMatrix is **not replaced or duplicated** by FA3. Shared checkpoint/model management, model browsing/import and package model-folder projection remain provider responsibilities.
+- Logical model identity is independent of filesystem path. Provider metadata is attributed until validated; converted, quantized and optimized outputs are distinct lineage-bearing artifacts.
+- Physical deduplication is never automatic: integrity, format, immutability, runtime compatibility, projection mechanism, rollback and explicit authorization are required.
+- Model routing remains with `FA3-AUTH-MODEL-ROUTER-001`; host admission/placement with `FA3-AUTH-HOST-RESOURCE-BROKER-001`; security, secrets, evidence and promotion remain with their existing authorities.
+- Capability count remains **143**; new capabilities **0**; new architectural authorities **0**.
+- StabilityMatrix current-host usage is user-confirmed, while executable current-host production evidence remains pending and is not promoted by document or CI reference evidence alone.
