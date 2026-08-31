@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31",
+  "date": "2026-08-31",
+  "upstream": "openai/codex",
+  "license": "Apache-2.0",
+  "release": {
+    "version": "0.151.0",
+    "tag": "rust-v0.151.0",
+    "published_at": "2026-08-29T09:55:39Z",
+    "annotated_tag_object": "d8673cb68e349c208659b986697773d3145dbb14",
+    "commit": "78c290807ce710180111df227df3b7a4fe845452"
+  },
+  "linux_x86_64_pin": {
+    "artifact": "codex-x86_64-unknown-linux-musl.tar.gz",
+    "sha256": "605b4b183f22c645f5def63a5b7191767407fb66a6feaec4eaf10b5b7e0058f6",
+    "sigstore_bundle": "codex-x86_64-unknown-linux-musl.sigstore",
+    "sigstore_bundle_sha256": "b7c563e8d528439b533e4688b8458acb214917ca6c3f1d868fdb8d5d42500c47"
+  },
+  "verified_upstream_contracts": {
+    "exec_jsonl": true,
+    "exec_output_last_message": true,
+    "exec_ephemeral": true,
+    "exec_ignore_user_config": true,
+    "exec_ignore_rules": true,
+    "exec_strict_config": true,
+    "exec_workspace_write_sandbox": true,
+    "headless_exec_default_approval_policy": "NEVER",
+    "login_status_command": true,
+    "web_search_disable_config": "web_search=\"disabled\"",
+    "multi_agent_disable_feature": "features.multi_agent=false"
+  },
+  "current_risk_disposition": [
+    {
+      "risk": "AUTO_REVIEW_SANDBOX_ESCALATION",
+      "disposition": "AUTO_REVIEW_FORBIDDEN_IN_FA3_CODEX_V0_1",
+      "rationale": "Recent upstream issue reports auto-review can override an explicitly requested restrictive sandbox in non-interactive exec."
+    },
+    {
+      "risk": "HEADLESS_MCP_TOOL_SURFACE_DRIFT",
+      "disposition": "MCP_DISABLED_IN_FA3_CODEX_V0_1",
+      "rationale": "Recent upstream issue reports headless exec MCP tool injection inconsistency; FA3 v0.1 does not depend on MCP."
+    }
+  ],
+  "reference_only": true,
+  "production_admission_requires": "FA3-CODEX-CURRENT-HOST-PASS"
+}
