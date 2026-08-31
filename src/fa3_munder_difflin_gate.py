@@ -5,6 +5,7 @@ import argparse
 import json
 from pathlib import Path
 from typing import Any
+from fa3_munder_difflin_executable_gate import gate as executable_gate
 
 PROVIDER_ID = "FA3-PROVIDER-MUNDER-DIFFLIN-001"
 DECISION_ID = "FA3-DEC-MUNDER-DIFFLIN-2026-08-30"
@@ -321,7 +322,8 @@ def gate(root: Path) -> dict[str, Any]:
     reference = reference_check(root)
     authority_scan = scan_canonical_authority_assignments(root)
     regressions = run_regressions()
-    ok = reference["result"] == authority_scan["result"] == regressions["result"] == "PASS"
+    executable = executable_gate(root)
+    ok = reference["result"] == authority_scan["result"] == regressions["result"] == executable["result"] == "PASS"
     report = {
         "schema":"fa3.munder-difflin-gate-report.v1",
         "gate_id":GATE_ID,
@@ -331,6 +333,7 @@ def gate(root: Path) -> dict[str, Any]:
         "reference":reference,
         "authority_scan":authority_scan,
         "regressions":regressions,
+        "executable_gate":executable,
         "runtime_provider_required":False,
         "runtime_activation_status":"NOT_PROMOTED_REFERENCE_ONLY",
         "promotion_effect":"MANDATORY_COORDINATION_INVARIANTS_PROVIDER_RUNTIME_OPTIONAL",
