@@ -88,6 +88,21 @@ CODEX_RUNBOOK_PATH = "docs/codex-current-host.md"
 CODEX_EXAMPLE_PATH = "examples/codex-delegated-agent-request.json"
 CODEX_CAPABILITY_ID = "CAP-028"
 CODEX_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING"
+AISEC_PROFILE_ID = "FA3-AI-SEC-VALIDATION-001"
+AISEC_CONTRACT_ID = "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001"
+AISEC_PROVIDER_ID = "FA3-PROVIDER-AI-INFRA-GUARD-001"
+AISEC_GATE_ID = "FA3-AI-INFRA-GUARD-GATESET-001"
+AISEC_PROFILE_PATH = "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json"
+AISEC_CONTRACT_PATH = "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json"
+AISEC_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json"
+AISEC_DECISION_PATH = "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json"
+AISEC_REFERENCE_PATH = "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json"
+AISEC_EVIDENCE_PATH = "evidence/reference/ai-infra-guard-ci-2026-08-31.json"
+AISEC_ENFORCEMENT_PATH = "canonical/ai-infra-guard-enforcement.json"
+AISEC_GATE_PATH = "src/fa3_ai_infra_guard_gate.py"
+AISEC_TEST_PATH = "tests/test_ai_infra_guard_gate.py"
+AISEC_CAPABILITY_IDS = ("CAP-003", "CAP-005", "CAP-007", "CAP-011")
+AISEC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_RUNTIME_NOT_ADMITTED"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -710,6 +725,106 @@ def gate(root: Path):
             )
         )
 
+    aisec = projection.get("ai_infra_guard_reconciliation", {})
+    required_aisec_manifest_paths = {
+        AISEC_PROFILE_PATH,
+        AISEC_CONTRACT_PATH,
+        AISEC_PROVIDER_PATH,
+        AISEC_DECISION_PATH,
+        AISEC_REFERENCE_PATH,
+        AISEC_EVIDENCE_PATH,
+        AISEC_ENFORCEMENT_PATH,
+        AISEC_GATE_PATH,
+        AISEC_TEST_PATH,
+        "evidence/evidence-registry.json",
+    }
+    missing_aisec_overlay_members = []
+    for key, required in {
+        "profile_records": AISEC_PROFILE_PATH,
+        "contract_records": AISEC_CONTRACT_PATH,
+        "provider_records": AISEC_PROVIDER_PATH,
+        "decision_records": AISEC_DECISION_PATH,
+        "upstream_reference_records": AISEC_REFERENCE_PATH,
+        "reference_evidence_records": AISEC_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_aisec_overlay_members.append({"inventory": key, "path": required})
+    aisec_manifest_missing = sorted(required_aisec_manifest_paths - manifest_paths)
+    aisec_profile = loadj(root / AISEC_PROFILE_PATH) if (root / AISEC_PROFILE_PATH).is_file() else {}
+    aisec_contract = loadj(root / AISEC_CONTRACT_PATH) if (root / AISEC_CONTRACT_PATH).is_file() else {}
+    aisec_provider = loadj(root / AISEC_PROVIDER_PATH) if (root / AISEC_PROVIDER_PATH).is_file() else {}
+    aisec_evidence = loadj(root / AISEC_EVIDENCE_PATH) if (root / AISEC_EVIDENCE_PATH).is_file() else {}
+    aisec_bindings = {
+        cap_id: next((item for item in records if item.get("subject_id") == cap_id), {})
+        for cap_id in AISEC_CAPABILITY_IDS
+    }
+    aisec_binding_invalid = []
+    for cap_id, rec in aisec_bindings.items():
+        if (
+            "FA3-DEC-AI-INFRA-GUARD-2026-08-30" not in rec.get("source_decision_ids", [])
+            or AISEC_EVIDENCE_PATH not in rec.get("evidence_artifacts", [])
+            or rec.get("runtime_conformance") != "EVIDENCE-PENDING"
+            or rec.get("status") != "PENDING_CURRENT_HOST"
+            or rec.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+        ):
+            aisec_binding_invalid.append(cap_id)
+    if (
+        aisec.get("profile_id") != AISEC_PROFILE_ID
+        or aisec.get("contract_id") != AISEC_CONTRACT_ID
+        or aisec.get("provider_id") != AISEC_PROVIDER_ID
+        or aisec.get("gate_id") != AISEC_GATE_ID
+        or aisec.get("classification") != "OPTIONAL_REFERENCE_SECURITY_VALIDATION_PROVIDER"
+        or aisec.get("reconciliation_status") != AISEC_RECONCILIATION_STATUS
+        or aisec.get("reference_evidence_status") != "CI_CANONICAL_REGRESSION_PASS"
+        or aisec.get("reference_evidence") != AISEC_EVIDENCE_PATH
+        or aisec.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or aisec.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or aisec.get("current_host_runtime_promotion_claim") is not False
+        or aisec.get("new_capabilities") != 0
+        or aisec.get("new_architectural_authorities") != 0
+        or aisec.get("capability_count_after") != CAPABILITY_COUNT
+        or sorted(aisec.get("evidence_registry_capability_bindings", [])) != sorted(AISEC_CAPABILITY_IDS)
+        or AISEC_GATE_ID not in projection_gates
+        or AISEC_GATE_ID not in policy_gates
+        or missing_aisec_overlay_members
+        or aisec_manifest_missing
+        or aisec_profile.get("id") != AISEC_PROFILE_ID
+        or aisec_profile.get("new_capability") is not False
+        or aisec_profile.get("new_architectural_authority") is not False
+        or aisec_profile.get("capability_count") != CAPABILITY_COUNT
+        or aisec_contract.get("id") != AISEC_CONTRACT_ID
+        or aisec_contract.get("provider_neutral") is not True
+        or aisec_provider.get("id") != AISEC_PROVIDER_ID
+        or aisec_provider.get("canonical_root") is not False
+        or aisec_provider.get("architectural_authority") is not False
+        or aisec_provider.get("new_capability") is not False
+        or aisec_provider.get("new_architectural_authority") is not False
+        or aisec_provider.get("capability_count") != CAPABILITY_COUNT
+        or aisec_provider.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or aisec_evidence.get("profile_id") != AISEC_PROFILE_ID
+        or aisec_evidence.get("contract_id") != AISEC_CONTRACT_ID
+        or aisec_evidence.get("provider_id") != AISEC_PROVIDER_ID
+        or aisec_evidence.get("gate_id") != AISEC_GATE_ID
+        or aisec_evidence.get("status") != "PASS"
+        or aisec_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or aisec_evidence.get("current_host_runtime_promotion_claim") is not False
+        or aisec_evidence.get("new_capabilities") != 0
+        or aisec_evidence.get("new_architectural_authorities") != 0
+        or aisec_evidence.get("capability_count_after") != CAPABILITY_COUNT
+        or aisec_binding_invalid
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-026",
+                "AI-Infra-Guard global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=aisec.get("reconciliation_status"),
+                reference_evidence_status=aisec.get("reference_evidence_status"),
+                missing_overlay_members=missing_aisec_overlay_members,
+                missing_manifest_paths=aisec_manifest_missing,
+                invalid_capability_bindings=aisec_binding_invalid,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -935,6 +1050,8 @@ def gate(root: Path):
             "developer_agent_coordination_reconciliation": dac.get("reconciliation_status"),
             "codex_reconciliation": codex.get("reconciliation_status"),
             "codex_current_host_production_e2e": codex.get("current_host_production_e2e"),
+            "ai_infra_guard_reconciliation": aisec.get("reconciliation_status"),
+            "ai_infra_guard_reference_evidence_status": aisec.get("reference_evidence_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
