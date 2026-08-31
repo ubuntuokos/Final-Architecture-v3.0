@@ -1074,12 +1074,14 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-AUTOGPT-2026-08-30"
+        "FA3-DEC-AUTOGPT-2026-08-30",
+        "FA3-DEC-CODEX-ADAPTER-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/autogpt-ci-2026-08-30.json",
-        "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
+        "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
+        "evidence/reference/codex-adapter-ci-2026-08-31.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -1091,6 +1093,16 @@
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "global_runtime_promotion_effect": "NONE_WHILE_DISABLED",
         "reconciliation_evidence": "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json"
+      },
+      "codex_provider_projection_status": {
+        "provider_id": "FA3-PROVIDER-CODEX-001",
+        "classification": "OPTIONAL_PRODUCTION_CANDIDATE_PROVIDER",
+        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED_CURRENT_HOST_PENDING",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "global_runtime_promotion_effect": "NONE_WHILE_DISABLED_OR_CURRENT_HOST_PENDING",
+        "reference_evidence": "evidence/reference/codex-adapter-ci-2026-08-31.json",
+        "current_host_receipt": "evidence/receipts/codex-current-host.json"
       }
     },
     {
