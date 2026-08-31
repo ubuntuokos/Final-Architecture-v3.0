@@ -67,7 +67,7 @@ EOF
 
 echo "FA3 Codex $VERSION installed at $BIN/codex"
 echo "Pinned archive retained at $ARCHIVE_PATH"
-if "$BIN/codex" login status --ignore-user-config >/dev/null 2>&1; then
+if "$BIN/codex" login status >/dev/null 2>&1; then
   echo "Codex login status: available."
 else
   echo "Codex is installed but not yet admitted: authenticate with ChatGPT using:"
