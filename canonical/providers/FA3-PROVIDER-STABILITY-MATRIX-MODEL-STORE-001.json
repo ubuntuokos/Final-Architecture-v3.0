@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+  "name": "StabilityMatrix Model Store",
+  "status": "ACCEPTED_CURRENT_HOST_PREFERRED_PROVIDER",
+  "provider_role": "PREFERRED_CURRENT_HOST_PHYSICAL_MODEL_STORE_DISCOVERY_ACQUISITION_AND_SHARED_PACKAGE_PROJECTION_PROVIDER",
+  "classification": [
+    "PREFERRED_CURRENT_HOST_PROVIDER",
+    "MODEL_STORE_PROVIDER",
+    "MODEL_DISCOVERY_ACQUISITION_PROVIDER",
+    "SHARED_PACKAGE_MODEL_PROJECTION_PROVIDER",
+    "MEDIA_MODEL_ASSET_PROVIDER"
+  ],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "upstream_repository": "LykosAI/StabilityMatrix",
+  "upstream_release": "v2.16.3",
+  "upstream_release_commit": "1efe7951d6f7dfdcd65bf3e36bd705227742402d",
+  "observed_main_snapshot_commit": "a764734fbdeb2e2e1ef643d54438d1a9ebd53d92",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120"
+  ],
+  "requirement": "PREFERRED-IF-PRESENT",
+  "activation_mode": "CURRENT_HOST_ENABLED_USER_CONFIRMED",
+  "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+  "current_host_usage_basis": "USER_CONFIRMED_IN_USE_2026-08-31",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "observed_capabilities": [
+    "shared checkpoint/model directory projection across supported package installs",
+    "local model import",
+    "CivitAI metadata and preview lookup",
+    "CivitAI model browsing/import",
+    "Hugging Face model browsing/import",
+    "model-type-associated import destination",
+    "download hash verification"
+  ],
+  "fa3_usage_policy": {
+    "native_supported_media_models": "PREFER_STABILITY_MATRIX_PHYSICAL_STORE",
+    "unsupported_or_runtime_native_models": "KEEP_PROVIDER_NATIVE_STORE_UNLESS_VERIFIED_SHARED_PROJECTION_EXISTS",
+    "provider_metadata": "ATTRIBUTED_NON_CANONICAL_UNTIL_VALIDATED",
+    "path_identity": "FORBIDDEN",
+    "automatic_physical_dedup": "FORBIDDEN"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  }
+}
