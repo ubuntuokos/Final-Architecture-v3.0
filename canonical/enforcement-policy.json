@@ -452,5 +452,18 @@
     "MUTATING_MOVE_DELETE_RELINK_REQUIRES_EXPLICIT_AUTHORIZATION",
     "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
     "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
-  ]
+  ],
+  "current_host_evidence_closure": {
+    "id": "FA3-CURRENT-HOST-EVIDENCE-CLOSURE-001",
+    "policy_path": "canonical/current-host-evidence-closure.json",
+    "audit_implementation": "src/fa3_current_host_evidence_audit.py",
+    "audit_reference": "evidence/reference/current-host-143-audit-2026-08-31.json",
+    "decision_id": "FA3-DEC-GLOBAL-CURRENT-HOST-EVIDENCE-CLOSURE-2026-08-31",
+    "required_capability_pass_count": 143,
+    "required_acceptance_criteria": 19,
+    "fail_closed": true,
+    "ci_reference_pass_is_runtime_pass": false,
+    "synthetic_production_promotion_forbidden": true,
+    "artifact_file_digest_verification_required": true
+  }
 }

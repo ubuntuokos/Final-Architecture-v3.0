@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.current-host-evidence-closure.v1",
+  "id": "FA3-CURRENT-HOST-EVIDENCE-CLOSURE-001",
+  "date": "2026-08-31",
+  "status": "CANONICAL_ACTIVE_FAIL_CLOSED",
+  "architecture_release": "2026-08-23/v3.0.11",
+  "canonical_capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "purpose": "Require reproducible current-host executable evidence for every canonical capability before global runtime promotion.",
+  "registry": {
+    "path": "evidence/evidence-registry.json",
+    "required_record_set": "CAP-001..CAP-143",
+    "pass_requires_qualified_receipt": true,
+    "document_only_promotion_forbidden": true,
+    "ci_reference_pass_is_runtime_pass": false,
+    "component_scope_pass_is_global_pass": false
+  },
+  "qualified_capability_receipt": {
+    "schema": "fa3.capability-current-host-evidence.v1",
+    "path_pattern": "evidence/receipts/capabilities/CAP-NNN.json",
+    "required_execution_scope": "CURRENT_HOST",
+    "required_current_host": true,
+    "synthetic_must_be": false,
+    "ci_reference_only_must_be": false,
+    "required_tests": [
+      "required_positive_test",
+      "required_negative_test",
+      "rollback_requirement"
+    ],
+    "each_test_requires": [
+      "matching canonical test id",
+      "status=PASS",
+      "artifact_sha256"
+    ],
+    "host_fingerprint_sha256_required": true,
+    "evidence_artifact_hashes_required": true,
+    "expiry_required": true,
+    "forbidden_promotion_sources": [
+      "CI_ONLY_REFERENCE_PASS",
+      "SYNTHETIC_AS_PRODUCTION_PASS",
+      "DOCUMENT_ONLY_PASS",
+      "UNHASHED_EXECUTION_ASSERTION",
+      "EXPIRED_RECEIPT",
+      "MISMATCHED_TEST_ID"
+    ],
+    "host_fingerprint_path_required": true,
+    "artifact_file_existence_and_digest_match_required": true,
+    "test_artifact_hash_must_reference_verified_artifact": true
+  },
+  "reconciliation": {
+    "implementation": "src/fa3_current_host_evidence_audit.py",
+    "report": "reports/current-host-evidence-audit.json",
+    "automatic_registry_mutation": "ONLY_QUALIFIED_RECEIPTS",
+    "invalid_existing_pass_claim": "FAIL_CLOSED",
+    "missing_receipt": "PENDING_CURRENT_HOST"
+  },
+  "acceptance": {
+    "criteria_required": 19,
+    "runtime_capability_pass_required": 143,
+    "mandatory_terax_current_host_gate": true,
+    "independent_review_required": true,
+    "human_promotion_receipt_required": true
+  },
+  "component_scope_reference_evidence": [
+    {
+      "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
+      "interpretation": "VALID_COMPONENT_SCOPE_EVIDENCE_NOT_GLOBAL_143_CAPABILITY_PROMOTION"
+    }
+  ],
+  "global_current_host_workflow": ".github/workflows/fa3-global-current-host-closure.yml"
+}
