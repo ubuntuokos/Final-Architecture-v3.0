@@ -1,0 +1,96 @@
+{
+  "schema": "fa3.current-host-projection.v1",
+  "id": "FA3-CURRENT-HOST-PROJECTION-001",
+  "status": "IMPLEMENTATION_PROJECTION",
+  "architecture_release": "2026-08-23/v3.0.11",
+  "canonical_release_projection": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
+  "canonical_registry_authority": "FA3-REGISTRY-001",
+  "role": "CURRENT_HOST_RUNTIME_AND_EVIDENCE_PROJECTION",
+  "architectural_authority": false,
+  "authority": "NONE",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "fail_closed": true,
+  "document_only_promotion_forbidden": true,
+  "automatic_promotion": false,
+  "state_root": ".fa3-current-host",
+  "secret_collection": "PROHIBITED",
+  "linux_recovery_rebuild_projection": "OUT_OF_SCOPE",
+  "global_commands": {
+    "verify": "bin/fa3-current-host verify",
+    "collect": "bin/fa3-current-host collect",
+    "gate": "bin/fa3-current-host gate",
+    "status": "bin/fa3-current-host status",
+    "promote": "bin/fa3-current-host promote"
+  },
+  "required_repository_paths": [
+    "bin/fa3-current-host",
+    "src/fa3_current_host.py",
+    "tests/test_current_host_projection.py",
+    "evidence/collect-current-host.sh",
+    "evidence/evidence-registry.json",
+    "canonical/enforcement-policy.json",
+    "canonical/conformance-matrix.csv",
+    "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+    ".github/workflows/fa3-current-host.yml",
+    "fa3-current-host/README.md",
+    "fa3-current-host/manifest.json"
+  ],
+  "registered_current_host_surfaces": [
+    {
+      "name": "generic-host-fingerprint",
+      "collector": "evidence/collect-current-host.sh",
+      "gate": null,
+      "activation": "ALWAYS_SAFE_READ_ONLY",
+      "collection_status": "COLLECTED_UNVALIDATED"
+    },
+    {
+      "name": "terax",
+      "collector": "evidence/collect-terax-current-host.py",
+      "gate": "terax",
+      "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "codex",
+      "collector": "evidence/collect-codex-current-host.py",
+      "gate": "codex-current-host",
+      "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "modular-max-mojo",
+      "collector": "evidence/collect-modular-current-host.py",
+      "gate": "modular-current-host",
+      "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "demucs",
+      "collector": "evidence/collect-demucs-current-host.py",
+      "gate": "demucs-current-host",
+      "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "presenton",
+      "collector": "evidence/collect-presenton-current-host.py",
+      "gate": "presenton-current-host",
+      "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "ai-infra-guard",
+      "collector": "evidence/collect-ai-infra-guard-current-host.py",
+      "gate": "ai-infra-guard-current-host",
+      "activation": "CONDITIONAL_PROVIDER"
+    }
+  ],
+  "global_gate_sequence": [
+    "static",
+    "runtime",
+    "acceptance"
+  ],
+  "promotion": {
+    "explicit_only": true,
+    "command": "bin/fa3-current-host promote",
+    "required_acceptance_criteria": 19,
+    "global_promotion_claim_from_collection": false
+  }
+}
