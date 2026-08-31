@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+  "date": "2026-08-31",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize provider-neutral inference portability and OpenVINO/ONNX Runtime/TensorRT provider projections",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "upstream_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31",
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "canonical_root_created": false,
+  "mandatory_rule_ids": [
+    "INFERENCE_PORTABILITY_NOT_ARCHITECTURAL_AUTHORITY",
+    "ONNX_PRIMARY_OPEN_INTERCHANGE_WHEN_SUPPORTED",
+    "SOURCE_FRAMEWORK_TO_ONNX_DIRECT_EXPORT_PREFERRED",
+    "OPENVINO_IR_TO_ONNX_GENERAL_REVERSE_CONVERSION_FORBIDDEN",
+    "OPENVINO_OFFICIAL_GPU_SCOPE_INTEL_ONLY",
+    "OPENVINO_NVIDIA_CONTRIB_EXPERIMENTAL_NOT_DEFAULT",
+    "NVIDIA_BACKEND_SELECTION_CAPABILITY_AND_BENCHMARK_DRIVEN",
+    "EXECUTION_PROVIDER_PLUGIN_ABI_FIRST",
+    "NO_SILENT_CPU_FALLBACK",
+    "RUNTIME_DRIVER_CUDA_PROVIDER_SUPPORT_MATRIX_ADMISSION_REQUIRED",
+    "DRIVER_CHANNEL_CLASSIFICATION_SEPARATE_FROM_CUDA_COMPATIBILITY",
+    "PRECISION_CHANGE_REQUIRES_CAPABILITY_AND_QUALITY_EVIDENCE",
+    "OPERATOR_OPSET_DYNAMIC_SHAPE_ADMISSION_REQUIRED",
+    "GPU_RESIDENT_IO_AND_COPY_MINIMIZATION_PREFERRED_WHEN_SUPPORTED",
+    "ENGINE_AND_TIMING_CACHE_DERIVED_DISPOSABLE",
+    "ENGINE_CACHE_FINGERPRINT_AND_INVALIDATION_REQUIRED",
+    "ENGINE_BUILD_CORRECTNESS_BENCHMARK_PROMOTION_REQUIRED",
+    "ENGINE_PORTABILITY_MODE_EXPLICIT_AND_EVIDENCED",
+    "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
+    "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
+  ],
+  "runtime_promotion": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "decisions": [
+    "OpenVINO is an optional Intel inference provider; its official GPU device scope is Intel GPU.",
+    "OpenVINO contrib NVIDIA support remains experimental and separately admitted, not the production default.",
+    "ONNX is the primary open interchange when supported; direct export from the original model source is preferred.",
+    "ONNX Runtime is the provider-neutral execution-provider host; plugin ABI integration is preferred when available.",
+    "TensorRT is an optional primary optimized NVIDIA inference backend; TensorRT-RTX is a conditional RTX-specific candidate.",
+    "Engine/timing caches are derived disposable artifacts and are invalidated on compatibility fingerprint drift.",
+    "All provider versions and driver/CUDA/backend combinations require immutable pins, support-matrix admission and current-host evidence."
+  ]
+}

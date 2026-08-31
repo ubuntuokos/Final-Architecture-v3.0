@@ -706,3 +706,26 @@ PYTHONPATH=src python -m unittest tests.test_developer_agent_coordination -v
 ```
 
 The provider adapter boundary exposes spawn/assign/observe/interrupt/constrain/terminate/collect-result semantics so future Codex, Claude Code, Gemini CLI, OpenCode, AutoGPT or Munder Difflin adapters can be attached without giving those providers FA3 authorization, tool-mediation, host-resource, evidence or repository-integration authority.
+
+
+## FA3 inference portability canonical baseline
+
+`FA3-INFERENCE-PORTABILITY-001` is the P0/MUST provider-neutral model-interchange, backend-compilation and execution-provider portability overlay under `FA3-HW-001`. It creates **no new capability** and **no new architectural authority**; the canonical capability count remains **143**.
+
+The materialized provider projections are:
+
+- `FA3-PROVIDER-OPENVINO-001`: optional Intel CPU/GPU/NPU inference provider. OpenVINO `GPU` means Intel GPU; contrib NVIDIA support is experimental/separately admitted and is not the default NVIDIA path.
+- `FA3-PROVIDER-ONNXRUNTIME-001`: optional ONNX execution runtime with replaceable Execution Provider boundary; CUDA/TensorRT paths are provider projections, not routing authority.
+- `FA3-PROVIDER-TENSORRT-001`: optional primary optimized NVIDIA inference backend candidate.
+- `FA3-PROVIDER-TENSORRT-RTX-001`: conditional RTX-specific provider; standalone TensorRT-RTX EP ABI is the canonical integration direction.
+
+Mandatory invariants include direct source-framework→ONNX export when ONNX is selected, no general OpenVINO-IR→ONNX reverse-conversion assumption, no silent CPU fallback, support-matrix admission, precision/shape/operator quality gates, HRB-compatible backend receipts, derived/disposable engine caches with complete fingerprints, and build→correctness→benchmark→promotion evidence.
+
+Run the permanent executable gate with:
+
+```bash
+./bin/fa3-enforce inference-portability
+PYTHONPATH=src python -m unittest tests.test_inference_portability_gate -v
+```
+
+CI/reference PASS is **not current-host runtime promotion evidence**. Every concrete OpenVINO/ORT/TensorRT/TensorRT-RTX activation still requires immutable runtime pins, Host Resource Broker admission where an accelerator is used, and real current-host compatibility/E2E evidence.

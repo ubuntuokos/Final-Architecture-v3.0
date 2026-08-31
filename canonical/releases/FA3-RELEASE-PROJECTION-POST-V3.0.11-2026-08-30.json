@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "18bba7bbe8f45d1cfa87a4299943d6901580b9d9",
-    "pre_projection_root_tree_sha": "bfbd0dca1d2cad915e57ec4fc0fcb989a8b3a4f4",
-    "pre_projection_canonical_tree_sha": "c4c6dafa5a34ceae4b2f5245d28029f419d023bd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 91,
-    "total_post_baseline_commits": 91,
-    "delta_file_count": 279,
-    "delta_added_files": 276,
+    "pre_projection_head_sha": "04a5b27941d4b3f7a0967246045a25122f1e5792",
+    "pre_projection_root_tree_sha": "71479d9569d0967c97ffc6c5606108f34009e03d",
+    "pre_projection_canonical_tree_sha": "c7e6f8cb4df6eec35494b06e55d9c40baa502efa",
+    "commits_ahead_of_v3_0_11_conformance_commit": 79,
+    "total_post_baseline_commits": 79,
+    "delta_file_count": 291,
+    "delta_added_files": 288,
     "delta_modified_files": 3,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 161,
-    "evidence_files_in_post_baseline_delta": 29,
-    "source_files_in_post_baseline_delta": 30,
-    "test_files_in_post_baseline_delta": 26,
+    "canonical_files_in_post_baseline_delta": 170,
+    "evidence_files_in_post_baseline_delta": 30,
+    "source_files_in_post_baseline_delta": 31,
+    "test_files_in_post_baseline_delta": 27,
     "workflow_files_in_post_baseline_delta": 4,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -73,9 +73,13 @@
       "canonical/providers/FA3-PROVIDER-MYNA-001.json",
       "canonical/providers/FA3-PROVIDER-NATRON-001.json",
       "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
+      "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
       "canonical/providers/FA3-PROVIDER-RAGFLOW-001.json",
       "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
+      "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
+      "canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json",
       "canonical/providers/FA3-PROVIDER-TERAX-001.json",
       "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
       "canonical/providers/FA3-PROVIDER-WHISPER-001.json",
@@ -94,6 +98,7 @@
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
       "canonical/profiles/FA3-IMGGEN-001.json",
+      "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
@@ -120,6 +125,7 @@
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
       "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
+      "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
@@ -148,6 +154,7 @@
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
+      "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
@@ -174,6 +181,7 @@
       "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
+      "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -197,6 +205,7 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
+      "evidence/reference/inference-portability-ci-2026-08-31.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
@@ -226,7 +235,8 @@
     "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
-    "FA3-CODEX-GATESET-001"
+    "FA3-CODEX-GATESET-001",
+    "FA3-INFERENCE-PORTABILITY-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -241,6 +251,25 @@
       "decision_id": "FA3-DEC-AUTOGPT-2026-08-30",
       "reference_evidence": "evidence/reference/autogpt-ci-2026-08-30.json",
       "runtime_status": "PENDING_CURRENT_HOST"
+    },
+    "inference_portability_bindings": {
+      "subject_ids": [
+        "CAP-005",
+        "CAP-006",
+        "CAP-137",
+        "CAP-143"
+      ],
+      "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+      "provider_ids": [
+        "FA3-PROVIDER-OPENVINO-001",
+        "FA3-PROVIDER-ONNXRUNTIME-001",
+        "FA3-PROVIDER-TENSORRT-001",
+        "FA3-PROVIDER-TENSORRT-RTX-001"
+      ],
+      "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+      "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
+      "runtime_status": "PENDING_CURRENT_HOST",
+      "ci_reference_pass_does_not_promote_runtime": true
     }
   },
   "promotion": {
@@ -251,7 +280,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 282,
+  "manifest_entry_count": 294,
   "manifest": [
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
@@ -265,7 +294,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "9681843b70249dd2bcae2fcb8ad41c4e3eeb9984",
+      "git_blob_sha": "710f879299b5c560d9fe07605a2b001147909fdb",
       "baseline_delta_status": "added"
     },
     {
@@ -469,6 +498,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
+      "git_blob_sha": "7e51717385e10f43fbcdf986500652391e1f6743",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "git_blob_sha": "9009afeb2fd0d923f1fd375a5152b74be1c44a5b",
       "baseline_delta_status": "added"
@@ -604,6 +638,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
+      "git_blob_sha": "7f03a1f335c8a5fe08afafc7eea26ef2947c3ef4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "git_blob_sha": "2518731105772ffeab8930a025dd9ffe2b74ded0",
       "baseline_delta_status": "added"
@@ -710,7 +749,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "cb82b4ba66b6bfa53e1e17d939f0a0ee9416df83",
+      "git_blob_sha": "02e6b309937b947b2d46da114d7d9a4376e675b8",
       "baseline_delta_status": "modified"
     },
     {
@@ -772,6 +811,11 @@
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
       "baseline_delta_status": "unchanged"
+    },
+    {
+      "path": "canonical/inference-portability-enforcement.json",
+      "git_blob_sha": "31d49ad0eb9805f31921a84edcd1386a551042dd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/kanboard-enforcement.json",
@@ -866,6 +910,11 @@
     {
       "path": "canonical/profiles/FA3-IMGGEN-001.json",
       "git_blob_sha": "d7fde19c3c21e997a453c9bd73efe68b95c41596",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
+      "git_blob_sha": "09922437d36b16f24c4314e9552fb0e2fe9ea04a",
       "baseline_delta_status": "added"
     },
     {
@@ -1039,6 +1088,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
+      "git_blob_sha": "42bd1bea30b3ffe792ee6a53bc531be4c62861ba",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
+      "git_blob_sha": "650bf8c0a248bad26e7b59a00b00aac447cc8aef",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
       "git_blob_sha": "df93d2dad0ef72af72c0a4248ce9c5b5aee7f005",
       "baseline_delta_status": "added"
@@ -1051,6 +1110,16 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
       "git_blob_sha": "7ce65ac256461eb3d241bd0fd698894bb76890f1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
+      "git_blob_sha": "4bcccd36dec0b04d7139ab70875122d3f6a6acc5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json",
+      "git_blob_sha": "f7c1242314797906464284b92b7942458b506325",
       "baseline_delta_status": "added"
     },
     {
@@ -1096,6 +1165,11 @@
     {
       "path": "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "1a0b2b897a5f3147531d669510d276b4d1b4d6ae",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
+      "git_blob_sha": "30af2b1577eb3f94478928fdcf920f1398f87aef",
       "baseline_delta_status": "added"
     },
     {
@@ -1255,7 +1329,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "97a0ed1f0759e3d83c0aacb740ca87454f15a0fb",
+      "git_blob_sha": "65894337560f73c1e332bea7f1904b638350233d",
       "baseline_delta_status": "added"
     },
     {
@@ -1316,6 +1390,11 @@
     {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "git_blob_sha": "ab2e038d9b0a28cc987132eed31b75f2f40c461d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/inference-portability-ci-2026-08-31.json",
+      "git_blob_sha": "5f07389017d71a11ce3a1376c8d2d16594389446",
       "baseline_delta_status": "added"
     },
     {
@@ -1380,7 +1459,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "d27e1e564eed37ac089e12a67f55704b59d466c4",
+      "git_blob_sha": "779edb58bf88765ab077021f2d03b863ec677ad2",
       "baseline_delta_status": "added"
     },
     {
@@ -1455,12 +1534,17 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "64938bbe3534593d46da5c8bf739b271dfb2a33d",
+      "git_blob_sha": "27dfd0e863cf29c588d4796f48d7d67aa4c54ce1",
       "baseline_delta_status": "modified"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
       "git_blob_sha": "bf65258ba9d8fed9e63d41f524ce80f75845a52c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_inference_portability_gate.py",
+      "git_blob_sha": "22dd008678a2519cf53d4ce16c92e305a9b9497b",
       "baseline_delta_status": "added"
     },
     {
@@ -1594,6 +1678,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_inference_portability_gate.py",
+      "git_blob_sha": "7e1ea79214b09b69f3189dfb3115aa76cc2e1e99",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_kanboard_gate.py",
       "git_blob_sha": "ece5cb4f947d9cc8022e0d18089935217f0fbe0e",
       "baseline_delta_status": "added"
@@ -1666,15 +1755,21 @@
   ],
   "self_hash_policy": {
     "excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
-    "reason": "SELF_REFERENTIAL_HASH_EXCLUSION",
-    "protection": "Projection content is validated by the executable release-projection gate and branch CI; all other committed repository release-surface files are Git-blob pinned."
+    "reason": "SELF_REFERENTIAL_HASH_EXCLUSION"
   },
   "manifest_scope": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "a629ea835de4ac7b90cf7e50ed812dbb62c4a593",
-    "regenerated_from_branch_head": "a629ea835de4ac7b90cf7e50ed812dbb62c4a593"
+    "mutable_runtime_paths_excluded": [
+      "reports",
+      "acceptance",
+      "promotion",
+      ".pytest_cache",
+      ".mypy_cache",
+      "__pycache__",
+      "evidence/receipts/* except .gitkeep"
+    ]
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -1835,6 +1930,35 @@
     "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "last_reconciled_at": "2026-08-31",
+  "inference_portability_reconciliation": {
+    "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+    "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+    "provider_ids": [
+      "FA3-PROVIDER-OPENVINO-001",
+      "FA3-PROVIDER-ONNXRUNTIME-001",
+      "FA3-PROVIDER-TENSORRT-001",
+      "FA3-PROVIDER-TENSORRT-RTX-001"
+    ],
+    "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+    "classification": "PROVIDER_NEUTRAL_INFERENCE_PORTABILITY_OVERLAY_WITH_OPTIONAL_PROVIDERS",
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-006",
+      "CAP-137",
+      "CAP-143"
+    ],
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_PENDING",
+    "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
+    "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
+    "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_runtime_promotion_claim": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

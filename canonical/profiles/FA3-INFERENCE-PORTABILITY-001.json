@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-INFERENCE-PORTABILITY-001",
+  "name": "Provider-Neutral Model Interchange, Backend Compilation & Execution Provider Portability",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-HW-001"
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "contracts": [
+    "FA3-INFERENCE-PORTABILITY-CONTRACTS-001"
+  ],
+  "authority": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "providers": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "scope": [
+    "source model and framework discovery",
+    "open interchange export/admission",
+    "operator/opset/dynamic-shape compatibility",
+    "backend and execution-provider capability discovery",
+    "precision and quantization policy",
+    "backend compilation and engine build",
+    "derived engine/cache fingerprinting and invalidation",
+    "correctness/performance promotion evidence",
+    "device-resident I/O projection",
+    "fallback and portability policy"
+  ],
+  "invariants": [
+    "INFERENCE_PORTABILITY_NOT_ARCHITECTURAL_AUTHORITY",
+    "ONNX_PRIMARY_OPEN_INTERCHANGE_WHEN_SUPPORTED",
+    "SOURCE_FRAMEWORK_TO_ONNX_DIRECT_EXPORT_PREFERRED",
+    "OPENVINO_IR_TO_ONNX_GENERAL_REVERSE_CONVERSION_FORBIDDEN",
+    "OPENVINO_OFFICIAL_GPU_SCOPE_INTEL_ONLY",
+    "OPENVINO_NVIDIA_CONTRIB_EXPERIMENTAL_NOT_DEFAULT",
+    "NVIDIA_BACKEND_SELECTION_CAPABILITY_AND_BENCHMARK_DRIVEN",
+    "EXECUTION_PROVIDER_PLUGIN_ABI_FIRST",
+    "NO_SILENT_CPU_FALLBACK",
+    "RUNTIME_DRIVER_CUDA_PROVIDER_SUPPORT_MATRIX_ADMISSION_REQUIRED",
+    "DRIVER_CHANNEL_CLASSIFICATION_SEPARATE_FROM_CUDA_COMPATIBILITY",
+    "PRECISION_CHANGE_REQUIRES_CAPABILITY_AND_QUALITY_EVIDENCE",
+    "OPERATOR_OPSET_DYNAMIC_SHAPE_ADMISSION_REQUIRED",
+    "GPU_RESIDENT_IO_AND_COPY_MINIMIZATION_PREFERRED_WHEN_SUPPORTED",
+    "ENGINE_AND_TIMING_CACHE_DERIVED_DISPOSABLE",
+    "ENGINE_CACHE_FINGERPRINT_AND_INVALIDATION_REQUIRED",
+    "ENGINE_BUILD_CORRECTNESS_BENCHMARK_PROMOTION_REQUIRED",
+    "ENGINE_PORTABILITY_MODE_EXPLICIT_AND_EVIDENCED",
+    "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
+    "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
+  ],
+  "implementation_status": "CANONICAL_MATERIALIZED_CI_REFERENCE_GATE_CURRENT_HOST_NOT_ADMITTED"
+}

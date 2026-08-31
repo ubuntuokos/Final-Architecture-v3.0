@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-INFERENCE-PORTABILITY-CI-2026-08-31",
+  "date": "2026-08-31",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+  "upstream_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31",
+  "status": "PASS",
+  "evidence_level": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
+  "executable_gate": "./bin/fa3-enforce inference-portability",
+  "regression_cases": 20,
+  "required_result": "PASS",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "note": "Committed PASS evidence is reference/CI evidence only. Permanent CI must re-execute the gate; this record cannot promote any runtime or provider."
+}

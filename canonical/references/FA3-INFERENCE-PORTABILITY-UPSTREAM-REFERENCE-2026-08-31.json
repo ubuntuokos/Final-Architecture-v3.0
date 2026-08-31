@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31",
+  "date": "2026-08-31",
+  "status": "PINNED_REFERENCE_SNAPSHOT",
+  "purpose": "Inference portability provider and execution-boundary reference evidence",
+  "snapshots": [
+    {
+      "provider_id": "FA3-PROVIDER-OPENVINO-001",
+      "repository": "openvinotoolkit/openvino",
+      "head_commit": "71a64cffaf01cdd66610b1ffc7fe817dd4aa6924",
+      "latest_observed_release": "2026.3.1"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-ONNXRUNTIME-001",
+      "repository": "microsoft/onnxruntime",
+      "head_commit": "540a28af7fc8bf24b7de54ce76c6ddd2f4588bca",
+      "latest_observed_release": "v1.29.0"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-TENSORRT-001",
+      "repository": "NVIDIA/TensorRT",
+      "head_commit": "c93b7d4893184af4882f9f1862e13a5c64b8677d",
+      "latest_observed_release": "v11.2",
+      "documented_runtime_release": "11.2.1"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+      "repository": "NVIDIA/TensorRT-RTX",
+      "head_commit": "058c78afdd026df518529e859605501e2a72a5ac",
+      "latest_observed_release": "v1.6.1.120"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+      "repository": "NVIDIA/TensorRT-RTX-EP-ABI",
+      "head_commit": "7bc9addc928590802c4d95589ac3caa07a9cf517",
+      "latest_observed_release": "v0.4.0",
+      "role": "STANDALONE_EP_ABI_REFERENCE"
+    }
+  ],
+  "floating_main_allowed_as_promotion_evidence": false,
+  "latest_release_allowed_as_automatic_production_upgrade": false,
+  "promotion_semantics": "REFERENCE_ONLY_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
+  "support_matrix_must_be_revalidated_at_admission": true
+}

@@ -1,0 +1,166 @@
+{
+  "schema": "fa3.inference-portability-enforcement.v1",
+  "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion_when_disabled": false,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rule_count": 20,
+  "p0_invariants": [
+    "INFERENCE_PORTABILITY_NOT_ARCHITECTURAL_AUTHORITY",
+    "ONNX_PRIMARY_OPEN_INTERCHANGE_WHEN_SUPPORTED",
+    "SOURCE_FRAMEWORK_TO_ONNX_DIRECT_EXPORT_PREFERRED",
+    "OPENVINO_IR_TO_ONNX_GENERAL_REVERSE_CONVERSION_FORBIDDEN",
+    "OPENVINO_OFFICIAL_GPU_SCOPE_INTEL_ONLY",
+    "OPENVINO_NVIDIA_CONTRIB_EXPERIMENTAL_NOT_DEFAULT",
+    "NVIDIA_BACKEND_SELECTION_CAPABILITY_AND_BENCHMARK_DRIVEN",
+    "EXECUTION_PROVIDER_PLUGIN_ABI_FIRST",
+    "NO_SILENT_CPU_FALLBACK",
+    "RUNTIME_DRIVER_CUDA_PROVIDER_SUPPORT_MATRIX_ADMISSION_REQUIRED",
+    "DRIVER_CHANNEL_CLASSIFICATION_SEPARATE_FROM_CUDA_COMPATIBILITY",
+    "PRECISION_CHANGE_REQUIRES_CAPABILITY_AND_QUALITY_EVIDENCE",
+    "OPERATOR_OPSET_DYNAMIC_SHAPE_ADMISSION_REQUIRED",
+    "GPU_RESIDENT_IO_AND_COPY_MINIMIZATION_PREFERRED_WHEN_SUPPORTED",
+    "ENGINE_AND_TIMING_CACHE_DERIVED_DISPOSABLE",
+    "ENGINE_CACHE_FINGERPRINT_AND_INVALIDATION_REQUIRED",
+    "ENGINE_BUILD_CORRECTNESS_BENCHMARK_PROMOTION_REQUIRED",
+    "ENGINE_PORTABILITY_MODE_EXPLICIT_AND_EVIDENCED",
+    "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
+    "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
+  ],
+  "rules": [
+    {
+      "invariant": "INFERENCE_PORTABILITY_NOT_ARCHITECTURAL_AUTHORITY",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Portability/provider layer cannot own routing, host-resource, policy, registry or evidence authority."
+    },
+    {
+      "invariant": "ONNX_PRIMARY_OPEN_INTERCHANGE_WHEN_SUPPORTED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "ONNX is the primary open interchange format when model/backend support is adequate, not a universal runtime mandate."
+    },
+    {
+      "invariant": "SOURCE_FRAMEWORK_TO_ONNX_DIRECT_EXPORT_PREFERRED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Export from the original source framework directly to ONNX when using ONNX interchange."
+    },
+    {
+      "invariant": "OPENVINO_IR_TO_ONNX_GENERAL_REVERSE_CONVERSION_FORBIDDEN",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "OpenVINO IR is not treated as a general canonical reverse-export source for ONNX."
+    },
+    {
+      "invariant": "OPENVINO_OFFICIAL_GPU_SCOPE_INTEL_ONLY",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "OpenVINO generic GPU device semantics must not be interpreted as NVIDIA support."
+    },
+    {
+      "invariant": "OPENVINO_NVIDIA_CONTRIB_EXPERIMENTAL_NOT_DEFAULT",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "The contrib NVIDIA plugin remains separately admitted experimental compatibility, never the default NVIDIA path."
+    },
+    {
+      "invariant": "NVIDIA_BACKEND_SELECTION_CAPABILITY_AND_BENCHMARK_DRIVEN",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "TensorRT, TensorRT-RTX and ORT CUDA/TensorRT candidates are selected by capability and evidence rather than brand hard-coding."
+    },
+    {
+      "invariant": "EXECUTION_PROVIDER_PLUGIN_ABI_FIRST",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Execution providers use a replaceable plugin ABI/adapter boundary when available."
+    },
+    {
+      "invariant": "NO_SILENT_CPU_FALLBACK",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "CPU fallback must be explicit, policy-visible and telemetry-visible."
+    },
+    {
+      "invariant": "RUNTIME_DRIVER_CUDA_PROVIDER_SUPPORT_MATRIX_ADMISSION_REQUIRED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Runtime, driver, CUDA and backend compatibility must PASS before activation."
+    },
+    {
+      "invariant": "DRIVER_CHANNEL_CLASSIFICATION_SEPARATE_FROM_CUDA_COMPATIBILITY",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Driver release-channel classification is distinct from CUDA minimum/minor-compatibility eligibility."
+    },
+    {
+      "invariant": "PRECISION_CHANGE_REQUIRES_CAPABILITY_AND_QUALITY_EVIDENCE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "FP16/BF16/INT8/lower precision requires hardware/backend capability plus quality evidence."
+    },
+    {
+      "invariant": "OPERATOR_OPSET_DYNAMIC_SHAPE_ADMISSION_REQUIRED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Operator coverage, opset, plugins and dynamic shape profiles are validated before engine build."
+    },
+    {
+      "invariant": "GPU_RESIDENT_IO_AND_COPY_MINIMIZATION_PREFERRED_WHEN_SUPPORTED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "I/O binding/device-resident tensor paths are preferred when supported and benchmarked."
+    },
+    {
+      "invariant": "ENGINE_AND_TIMING_CACHE_DERIVED_DISPOSABLE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Compiled engines, profiles and timing caches are derived disposable artifacts, not canonical model identity."
+    },
+    {
+      "invariant": "ENGINE_CACHE_FINGERPRINT_AND_INVALIDATION_REQUIRED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Engine/cache reuse requires a complete compatibility fingerprint and invalidation on relevant drift."
+    },
+    {
+      "invariant": "ENGINE_BUILD_CORRECTNESS_BENCHMARK_PROMOTION_REQUIRED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Engine promotion requires build, warmup, correctness comparison, benchmark and stability evidence."
+    },
+    {
+      "invariant": "ENGINE_PORTABILITY_MODE_EXPLICIT_AND_EVIDENCED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Version/hardware compatibility modes are explicit opt-ins with evidence; target-native build remains preferred."
+    },
+    {
+      "invariant": "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Accelerator execution requires a typed backend compatibility receipt in addition to HRB lease/admission."
+    },
+    {
+      "invariant": "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Production provider/runtime versions are immutable and reproducible; latest/nightly/auto-upgrade is not admission."
+    }
+  ]
+}

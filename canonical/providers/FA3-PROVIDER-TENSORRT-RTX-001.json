@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-TENSORRT-RTX-001",
+  "name": "NVIDIA TensorRT-RTX",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "CONDITIONAL_RTX_INFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "CONDITIONAL_RTX_PROVIDER",
+    "RTX_DESKTOP_WORKSTATION_INFERENCE",
+    "EXECUTION_PROVIDER_PLUGIN_TARGET"
+  ],
+  "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
+  "upstream_repository": "NVIDIA/TensorRT-RTX",
+  "upstream_snapshot_commit": "058c78afdd026df518529e859605501e2a72a5ac",
+  "observed_release": "1.6.1.120",
+  "ep_abi": {
+    "repository": "NVIDIA/TensorRT-RTX-EP-ABI",
+    "snapshot_commit": "7bc9addc928590802c4d95589ac3caa07a9cf517",
+    "observed_release": "0.4.0",
+    "canonical_integration": "STANDALONE_EP_ABI_PLUGIN"
+  },
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "CONDITIONAL_RTX_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "built_in_ort_ep_status": "MIGRATION_SOURCE_NOT_CANONICAL_TARGET",
+  "cuda_support_matrix_gate_required": true,
+  "cuda_13_4_support_does_not_imply_production_upgrade": true,
+  "engine_artifact_class": "DERIVED_DISPOSABLE_TARGET_SPECIALIZED_ARTIFACT",
+  "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_AND_EP_ABI_REQUIRED_AT_ADMISSION",
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
