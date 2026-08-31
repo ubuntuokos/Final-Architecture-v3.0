@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.localization-policy.v1",
+  "id": "FA3-MARKETING-I18N-001",
+  "profile_id": "FA3-MARKETING-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "primary_locale": "hu-HU",
+  "fallback_locale": "en",
+  "primary_operator_surface_must_support_hu_hu": true,
+  "native_hungarian_ai_generation_required": true,
+  "translation_only_hungarian_pipeline_forbidden": true,
+  "quality_requirements": [
+    "HUNGARIAN_DIACRITICS_PRESERVED",
+    "TEGEZODES_MAGAZODAS_PROFILE_EXPLICIT",
+    "HUNGARIAN_INFLECTION_AND_WORD_ORDER_NATIVE",
+    "HUNGARIAN_SEO_TERMS_RESEARCHED_NATIVELY",
+    "HU_HU_DATE_NUMBER_CURRENCY_FORMATTING",
+    "EN_FALLBACK_VISIBLE_AND_AUDITABLE"
+  ],
+  "provider_policy": {
+    "primary_hu_ready": [
+      "FA3-PROVIDER-MAUTIC-001",
+      "FA3-PROVIDER-TWENTY-001",
+      "FA3-PROVIDER-LISTMONK-001"
+    ],
+    "non_primary_ui_until_hu_verified": [
+      "FA3-PROVIDER-DITTOFEED-001",
+      "FA3-PROVIDER-POSTHOG-001"
+    ]
+  },
+  "admission": "PRIMARY_MARKETING_OPERATOR_UI_MUST_PASS_HU_HU_I18N_REGRESSION_BEFORE_CURRENT_HOST_PROMOTION"
+}
