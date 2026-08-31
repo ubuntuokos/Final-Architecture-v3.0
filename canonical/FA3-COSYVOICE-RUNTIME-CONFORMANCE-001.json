@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-COSYVOICE-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-COSYVOICE-001",
+  "profile_id": "FA3-VOICE-001",
+  "gate_id": "FA3-COSYVOICE-GATESET-001",
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "production_promotion_claim": false,
+  "required_cases": [
+    "COSY-001-provider-neutral-request-result",
+    "COSY-002-provider-not-authority",
+    "COSY-003-capability-count-143",
+    "COSY-004-upstream-commit-pin",
+    "COSY-005-model-revision-pin",
+    "COSY-006-allowlist-only-model",
+    "COSY-007-no-silent-network-fetch",
+    "COSY-008-python310-provider-venv",
+    "COSY-009-no-conda-runtime-requirement",
+    "COSY-010-sox-current-host-admission",
+    "COSY-011-explicit-language-policy",
+    "COSY-012-hungarian-experimental-fail-closed",
+    "COSY-013-cloning-consent-required",
+    "COSY-014-reference-audio-hash-binding",
+    "COSY-015-bounded-prompt-instruction",
+    "COSY-016-cuda-hrb-lease-required",
+    "COSY-017-explicit-device-binding",
+    "COSY-018-24khz-mono-result-contract",
+    "COSY-019-streaming-non-authoritative",
+    "COSY-020-execution-lineage-evidence",
+    "COSY-021-disabled-provider-not-global-blocker"
+  ],
+  "current_host_requirements": [
+    "pinned CosyVoice checkout",
+    "dedicated Python 3.10 venv",
+    "SoX",
+    "pinned model revision metadata",
+    "authorized reference voice and consent proof",
+    "real WAV synthesis",
+    "HRB lease when CUDA is used"
+  ]
+}
