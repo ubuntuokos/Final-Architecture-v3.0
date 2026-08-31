@@ -110,7 +110,18 @@ def _backend_receipt_valid(obj: dict[str, Any]) -> bool:
         "driver_compatibility","hardware_profile_id","operator_coverage",
         "shape_profile","precision_policy","result",
     }
-    return required.issubset(obj) and obj.get("provider_id") in PROVIDER_IDS and obj.get("result") == "PASS"
+    required_values = (
+        "model_artifact_id","provider_version","runtime_abi",
+        "hardware_profile_id","shape_profile","precision_policy",
+    )
+    return bool(
+        required.issubset(obj)
+        and obj.get("provider_id") in PROVIDER_IDS
+        and obj.get("result") == "PASS"
+        and obj.get("driver_compatibility") == "PASS"
+        and obj.get("operator_coverage") == "PASS"
+        and all(obj.get(key) for key in required_values)
+    )
 
 def _engine_fingerprint_valid(obj: dict[str, Any]) -> bool:
     required = {
