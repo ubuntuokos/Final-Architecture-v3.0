@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b69ffde9425619b3145728f953d2c2584e72f03c",
-    "pre_projection_root_tree_sha": "0f0263e610baa6e026e6426c34634f0b14776dd7",
-    "pre_projection_canonical_tree_sha": "69eeee356c694c10e06dad2aa3568376a77281c3",
-    "commits_ahead_of_v3_0_11_conformance_commit": 94,
-    "total_post_baseline_commits": 94,
+    "pre_projection_head_sha": "e1183ca1b22d3239dd3c1ae5ffd7cd38ba6587f4",
+    "pre_projection_root_tree_sha": "7019a0cb35ee758c96abece473e0b8fe1caa82b0",
+    "pre_projection_canonical_tree_sha": "bd27d3511f5c3512470ca549d52d0677bba0a9c4",
+    "commits_ahead_of_v3_0_11_conformance_commit": 79,
+    "total_post_baseline_commits": 79,
     "delta_file_count": 306,
     "delta_added_files": 303,
     "delta_modified_files": 3,
@@ -287,7 +287,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 309,
+  "manifest_entry_count": 315,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -297,6 +297,11 @@
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
       "git_blob_sha": "265f379de1c0328d17f3ab148584140a53f6ed2f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-current-host.yml",
+      "git_blob_sha": "1f784f32d411d3ba55a467c988da4339680665b1",
       "baseline_delta_status": "added"
     },
     {
@@ -316,7 +321,7 @@
     },
     {
       "path": ".gitignore",
-      "git_blob_sha": "c6122e24d587e76230c7ddbcc029d425313a952d",
+      "git_blob_sha": "cca995defc4593107aa116e1999d8a0ee1fcb2cc",
       "baseline_delta_status": "modified"
     },
     {
@@ -352,6 +357,11 @@
     {
       "path": "bin/fa3-codex-current-host.sh",
       "git_blob_sha": "a98c913e73ad0efc0458b48a71e34d9ca22abd1d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-current-host",
+      "git_blob_sha": "785369bb09b5dd298f34c53b5f7e9e9656423333",
       "baseline_delta_status": "added"
     },
     {
@@ -1525,6 +1535,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "fa3-current-host/manifest.json",
+      "git_blob_sha": "9f0e92fcc8df7ca3b1dda488e79e5592e01b4fdc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "fa3-current-host/README.md",
+      "git_blob_sha": "d347f63904321c44f8721808341482c09a737e12",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "README.md",
       "git_blob_sha": "280e7c4d0348c2cc6464d33735615ffa6582dc2f",
       "baseline_delta_status": "added"
@@ -1577,6 +1597,11 @@
     {
       "path": "src/fa3_codex_gate.py",
       "git_blob_sha": "cbec111ea1f001bb25c488bf3246781954b832a0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_current_host.py",
+      "git_blob_sha": "fbc1ab0244daec56935a36d0937cf12a0428cc51",
       "baseline_delta_status": "added"
     },
     {
@@ -1671,8 +1696,8 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "7ee475514d067b1a2ef5aa356fd58c24d08ac200",
-      "baseline_delta_status": "added"
+      "git_blob_sha": "d502573e07dfabaa0e79f4e863f8879ff5b4a11c",
+      "baseline_delta_status": "modified"
     },
     {
       "path": "src/fa3_terax_gate.py",
@@ -1732,6 +1757,11 @@
     {
       "path": "tests/test_conversation_reconciliation.py",
       "git_blob_sha": "25601d920524aed5fd1a44a06f0f5fb12ec8ab5d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_current_host_projection.py",
+      "git_blob_sha": "ef555b219249e4caed0e1d13f8da5164f942a532",
       "baseline_delta_status": "added"
     },
     {
@@ -1850,7 +1880,8 @@
       ".pytest_cache",
       ".mypy_cache",
       "__pycache__",
-      "evidence/receipts/* except .gitkeep"
+      "evidence/receipts/* except .gitkeep",
+      ".fa3-current-host"
     ]
   },
   "conversation_reconciliation": {

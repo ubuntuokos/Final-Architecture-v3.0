@@ -1,0 +1,73 @@
+name: FA3 Unified Current Host Projection
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'fa3-current-host/**'
+      - 'src/fa3_current_host.py'
+      - 'bin/fa3-current-host'
+      - 'tests/test_current_host_projection.py'
+      - '.github/workflows/fa3-current-host.yml'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+      - 'src/fa3_release_projection_gate.py'
+      - '.gitignore'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Run real current-host collection and fail-closed gates on the labeled self-hosted runner'
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  projection-regression:
+    name: current-host-projection / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify unified current-host projection
+        run: |
+          chmod +x bin/fa3-current-host bin/fa3-enforce
+          ./bin/fa3-current-host verify
+      - name: Executable regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection -v
+      - name: Unified release projection must remain coherent
+        run: ./bin/fa3-enforce release-projection
+
+  current-host:
+    name: current-host / real-execution
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: projection-regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Execute current-host collection and global fail-closed gates
+        run: |
+          chmod +x bin/fa3-current-host bin/fa3-enforce evidence/collect-current-host.sh
+          ./bin/fa3-current-host all
+      - name: Upload current-host execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-current-host-execution
+          if-no-files-found: warn
+          path: |
+            .fa3-current-host/**
+            reports/**
+            acceptance/**
+            promotion/**

@@ -110,7 +110,7 @@ AISEC_BOOTSTRAP_PATH = "bin/fa3-ai-infra-guard-bootstrap.sh"
 AISEC_RUNNER_PATH = "bin/fa3-ai-infra-guard-current-host.sh"
 AISEC_WORKFLOW_PATH = ".github/workflows/fa3-ai-infra-guard-current-host.yml"
 
-_MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
+_MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
 
