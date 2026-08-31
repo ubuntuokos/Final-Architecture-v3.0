@@ -323,10 +323,12 @@ def acceptance_check(root:Path):
                     ok=False
                     reasons.append(f"{fn}: {why}")
         results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons})
-    all_ok=(all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"\n            and e["audit_integrity"]=="PASS" and e["runtime_closure"]=="PASS")
+    all_ok=(all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"
+            and e["audit_integrity"]=="PASS" and e["runtime_closure"]=="PASS")
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
-         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],\n         "current_host_evidence_audit":e["audit_integrity"],"current_host_runtime_closure":e["runtime_closure"],
+         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
+         "current_host_evidence_audit":e["audit_integrity"],"current_host_runtime_closure":e["runtime_closure"],
          "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
@@ -412,7 +414,9 @@ def main():
             x=presenton_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="presenton-current-host":
             x=presenton_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
-        if a.command=="current-host-audit":\n            x=current_host_evidence_audit(root); print(json.dumps(x,indent=2)); return OK if x["audit_integrity"]=="PASS" else BLOCKED\n        if a.command=="acceptance":
+        if a.command=="current-host-audit":
+            x=current_host_evidence_audit(root); print(json.dumps(x,indent=2)); return OK if x["audit_integrity"]=="PASS" else BLOCKED
+        if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
             x,rc=promote(root); print(json.dumps(x,indent=2)); return rc
