@@ -66,6 +66,28 @@ DAC_COLLECTOR_PATH = "evidence/collect-developer-agent-coordination-e2e.py"
 DAC_EXAMPLE_PATH = "examples/developer-agent-coordination-request.json"
 DAC_RUNNER_PATH = "bin/fa3-developer-agent-coordination-e2e"
 DAC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_REQUIRED"
+CODEX_PROVIDER_ID = "FA3-PROVIDER-CODEX-001"
+CODEX_GATE_ID = "FA3-CODEX-GATESET-001"
+CODEX_CONTRACT_ID = "FA3-CODEX-ADAPTER-CONTRACTS-001"
+CODEX_ADMISSION_ID = "FA3-CODEX-RUNTIME-ADMISSION-001"
+CODEX_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-CODEX-001.json"
+CODEX_REFERENCE_PATH = "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json"
+CODEX_CONTRACT_PATH = "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json"
+CODEX_ADMISSION_PATH = "canonical/codex-runtime-admission.json"
+CODEX_ENFORCEMENT_PATH = "canonical/codex-enforcement.json"
+CODEX_DECISION_PATH = "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json"
+CODEX_EVIDENCE_PATH = "evidence/reference/codex-adapter-ci-2026-08-31.json"
+CODEX_ADAPTER_PATH = "src/fa3_codex_adapter.py"
+CODEX_GATE_PATH = "src/fa3_codex_gate.py"
+CODEX_TEST_PATH = "tests/test_codex_adapter.py"
+CODEX_COLLECTOR_PATH = "evidence/collect-codex-current-host.py"
+CODEX_BOOTSTRAP_PATH = "bin/fa3-codex-bootstrap.sh"
+CODEX_RUNNER_PATH = "bin/fa3-codex-current-host.sh"
+CODEX_WORKFLOW_PATH = ".github/workflows/fa3-codex-current-host.yml"
+CODEX_RUNBOOK_PATH = "docs/codex-current-host.md"
+CODEX_EXAMPLE_PATH = "examples/codex-delegated-agent-request.json"
+CODEX_CAPABILITY_ID = "CAP-028"
+CODEX_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_PENDING"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -590,6 +612,104 @@ def gate(root: Path):
             )
         )
 
+    codex = projection.get("codex_reconciliation", {})
+    required_codex_manifest_paths = {
+        CODEX_PROVIDER_PATH,
+        CODEX_REFERENCE_PATH,
+        CODEX_CONTRACT_PATH,
+        CODEX_ADMISSION_PATH,
+        CODEX_ENFORCEMENT_PATH,
+        CODEX_DECISION_PATH,
+        CODEX_EVIDENCE_PATH,
+        CODEX_ADAPTER_PATH,
+        CODEX_GATE_PATH,
+        CODEX_TEST_PATH,
+        CODEX_COLLECTOR_PATH,
+        CODEX_BOOTSTRAP_PATH,
+        CODEX_RUNNER_PATH,
+        CODEX_WORKFLOW_PATH,
+        CODEX_RUNBOOK_PATH,
+        CODEX_EXAMPLE_PATH,
+        "evidence/evidence-registry.json",
+    }
+    missing_codex_overlay_members = []
+    for key, required in {
+        "provider_records": CODEX_PROVIDER_PATH,
+        "decision_records": CODEX_DECISION_PATH,
+        "upstream_reference_records": CODEX_REFERENCE_PATH,
+        "reference_evidence_records": CODEX_EVIDENCE_PATH,
+        "contract_records": CODEX_CONTRACT_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_codex_overlay_members.append({"inventory": key, "path": required})
+    codex_manifest_missing = sorted(required_codex_manifest_paths - manifest_paths)
+    codex_provider = loadj(root / CODEX_PROVIDER_PATH) if (root / CODEX_PROVIDER_PATH).is_file() else {}
+    codex_reference = loadj(root / CODEX_REFERENCE_PATH) if (root / CODEX_REFERENCE_PATH).is_file() else {}
+    codex_contract = loadj(root / CODEX_CONTRACT_PATH) if (root / CODEX_CONTRACT_PATH).is_file() else {}
+    codex_admission = loadj(root / CODEX_ADMISSION_PATH) if (root / CODEX_ADMISSION_PATH).is_file() else {}
+    codex_evidence = loadj(root / CODEX_EVIDENCE_PATH) if (root / CODEX_EVIDENCE_PATH).is_file() else {}
+    cap028_codex = next((item for item in records if item.get("subject_id") == CODEX_CAPABILITY_ID), {})
+    codex_projection_status = cap028_codex.get("codex_provider_projection_status", {})
+    if (
+        codex.get("provider_id") != CODEX_PROVIDER_ID
+        or codex.get("contract_id") != CODEX_CONTRACT_ID
+        or codex.get("admission_id") != CODEX_ADMISSION_ID
+        or codex.get("gate_id") != CODEX_GATE_ID
+        or codex.get("capability_id") != CODEX_CAPABILITY_ID
+        or codex.get("classification") != "OPTIONAL_EXTERNAL_DEVELOPER_AGENT_PRODUCTION_CANDIDATE"
+        or codex.get("reconciliation_status") != CODEX_RECONCILIATION_STATUS
+        or codex.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_CURRENT_HOST"
+        or codex.get("current_host_production_e2e") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or codex.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or codex.get("new_capabilities") != 0
+        or codex.get("new_architectural_authorities") != 0
+        or codex.get("capability_count_after") != CAPABILITY_COUNT
+        or CODEX_GATE_ID not in projection_gates
+        or CODEX_GATE_ID not in policy_gates
+        or missing_codex_overlay_members
+        or codex_manifest_missing
+        or codex_provider.get("id") != CODEX_PROVIDER_ID
+        or codex_provider.get("canonical_root") is not False
+        or codex_provider.get("architectural_authority") is not False
+        or codex_provider.get("new_capability") is not False
+        or codex_provider.get("capability_count") != CAPABILITY_COUNT
+        or codex_provider.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_CURRENT_HOST"
+        or codex_provider.get("immutable_runtime_pin", {}).get("version") != "0.151.0"
+        or codex_provider.get("immutable_runtime_pin", {}).get("release_commit") != "78c290807ce710180111df227df3b7a4fe845452"
+        or codex_reference.get("id") != "FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31"
+        or codex_reference.get("release", {}).get("version") != "0.151.0"
+        or codex_contract.get("id") != CODEX_CONTRACT_ID
+        or codex_contract.get("parent_profile") != "FA3-AGENT-EXEC-001"
+        or codex_admission.get("id") != CODEX_ADMISSION_ID
+        or codex_admission.get("status") != "NOT_ADMITTED"
+        or codex_admission.get("fail_closed") is not True
+        or codex_admission.get("current_host_evidence_required") is not True
+        or codex_evidence.get("provider_id") != CODEX_PROVIDER_ID
+        or codex_evidence.get("gate_id") != CODEX_GATE_ID
+        or codex_evidence.get("status") != "PASS"
+        or codex_evidence.get("current_host_production_evidence") is not False
+        or "FA3-DEC-CODEX-ADAPTER-2026-08-31" not in cap028_codex.get("source_decision_ids", [])
+        or CODEX_EVIDENCE_PATH not in cap028_codex.get("evidence_artifacts", [])
+        or cap028_codex.get("runtime_conformance") != "EVIDENCE-PENDING"
+        or cap028_codex.get("status") != "PENDING_CURRENT_HOST"
+        or cap028_codex.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+        or codex_projection_status.get("provider_id") != CODEX_PROVIDER_ID
+        or codex_projection_status.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_CURRENT_HOST"
+        or codex_projection_status.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-025",
+                "Codex adapter global projection/current-host admission reconciliation invariant mismatch",
+                reconciliation_status=codex.get("reconciliation_status"),
+                runtime_activation_status=codex.get("runtime_activation_status"),
+                current_host_production_e2e=codex.get("current_host_production_e2e"),
+                missing_overlay_members=missing_codex_overlay_members,
+                missing_manifest_paths=codex_manifest_missing,
+                cap028_codex_projection_status=codex_projection_status,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -813,6 +933,8 @@ def gate(root: Path):
             "autogpt_reconciliation": autogpt.get("reconciliation_status"),
             "autogpt_runtime_activation_status": autogpt.get("runtime_activation_status"),
             "developer_agent_coordination_reconciliation": dac.get("reconciliation_status"),
+            "codex_reconciliation": codex.get("reconciliation_status"),
+            "codex_current_host_production_e2e": codex.get("current_host_production_e2e"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)

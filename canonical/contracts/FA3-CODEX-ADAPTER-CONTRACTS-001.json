@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-CODEX-ADAPTER-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "parent_coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-CODEX-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "CodexAdapterDescriptor",
+    "CodexRuntimePin",
+    "CodexExecutionRequest",
+    "CodexExecutionEventSummary",
+    "CodexAuthPreflight",
+    "CodexSupplyChainReceipt",
+    "CodexCurrentHostEvidence"
+  ],
+  "request_contract": {
+    "workspace": "EXISTING_ISOLATED_AGENT_WORKTREE",
+    "task": "TYPED_AGENT_TASK",
+    "mutation_scope": "EXPLICIT_RELATIVE_PATH_ALLOWLIST",
+    "direct_commit": false,
+    "prompt_delivery": "STDIN_NOT_PROCESS_ARG",
+    "timeout_seconds": "BOUNDED"
+  },
+  "execution_contract": {
+    "command": "codex exec",
+    "sandbox": "workspace-write",
+    "approval": "NEVER",
+    "config": "STRICT_PLUS_IGNORED_USER_CONFIG_AND_RULES",
+    "web_search": false,
+    "mcp": false,
+    "nested_multi_agent": false,
+    "plugins": false,
+    "login_shell": false,
+    "ephemeral": true,
+    "jsonl_events": true
+  },
+  "event_contract": {
+    "required_types": [
+      "thread.started",
+      "turn.completed"
+    ],
+    "forbidden_item_types": [
+      "mcp_tool_call",
+      "collab_tool_call",
+      "web_search"
+    ],
+    "fatal_types": [
+      "turn.failed",
+      "error"
+    ],
+    "retained": "HASHES_COUNTS_THREAD_ID_USAGE_ONLY",
+    "raw_reasoning_retained": false
+  },
+  "result_contract": {
+    "worker_commit": "FORBIDDEN",
+    "changed_paths": "SUBSET_OF_TASK_ALLOWLIST",
+    "expected_content": "EXACT_FOR_PRODUCTION_PROBE",
+    "integration": "FA3_INTEGRATION_ONLY",
+    "evidence": "ATTRIBUTABLE_PROVIDER_VERSION_BINARY_AND_EVENT_HASH"
+  }
+}

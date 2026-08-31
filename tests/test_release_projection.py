@@ -302,5 +302,47 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             td.cleanup()
 
 
+    def test_codex_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["codex_reconciliation"]["provider_id"] = "INVALID"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-025" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_codex_current_host_pass_cannot_be_claimed_by_static_projection(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["codex_reconciliation"]["current_host_production_e2e"] = "CURRENT_HOST_PRODUCTION_E2E_PASS"
+            obj["codex_reconciliation"]["runtime_activation_status"] = "ADMITTED"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-025" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_codex_cap028_binding_is_required(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "evidence/evidence-registry.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            cap028 = next(x for x in obj["records"] if x["subject_id"] == "CAP-028")
+            cap028["source_decision_ids"].remove("FA3-DEC-CODEX-ADAPTER-2026-08-31")
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(x["code"] == "FA3-RELEASE-PROJECTION-025" for x in report["findings"]))
+        finally:
+            td.cleanup()
+
+
 if __name__ == "__main__":
     unittest.main()

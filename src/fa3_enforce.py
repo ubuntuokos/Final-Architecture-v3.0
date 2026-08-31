@@ -12,6 +12,7 @@ from fa3_external_api_discovery_gate import gate as external_api_discovery_gate
 from fa3_autogpt_gate import gate as autogpt_gate
 from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
+from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
 from fa3_modular_runtime import run_executable_conformance as modular_provider_conformance
 from fa3_modular_current_host_gate import gate as modular_current_host_gate
@@ -116,6 +117,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-034","Munder Difflin multi-agent coordination gate is not bound into global enforcement policy"))
     if "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-046","Developer-agent coordination gate is not bound into global enforcement policy"))
+    if "FA3-CODEX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-048","Codex adapter gate is not bound into global enforcement policy"))
     if "FA3-AUTOGPT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-037","AutoGPT agentic-workflow boundary gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -204,6 +207,9 @@ def static_check(root:Path):
     dac_ref=developer_agent_coordination_gate(root)
     if dac_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-047","Developer-agent coordination contract/runtime E2E gate failed",developer_agent_coordination_gate=dac_ref))
+    codex_ref=codex_gate(root)
+    if codex_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-049","Codex adapter/admission regression gate failed",codex_gate=codex_ref))
     demucs_ref=demucs_gate(root)
     if demucs_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-019","Demucs mandatory canonical invariant gate failed",demucs_gate=demucs_ref))
@@ -228,7 +234,7 @@ def static_check(root:Path):
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -318,7 +324,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","munder-difflin","developer-agent-coordination","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -348,6 +354,10 @@ def main():
             x=munder_difflin_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="developer-agent-coordination":
             x=developer_agent_coordination_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="codex":
+            x=codex_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="codex-current-host":
+            x=codex_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular":
             x=modular_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular-provider":

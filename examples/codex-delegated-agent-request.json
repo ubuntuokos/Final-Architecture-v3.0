@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.codex-delegated-agent-request.v1",
+  "provider_id": "FA3-PROVIDER-CODEX-001",
+  "adapter_id": "FA3-CODEX-ADAPTER-001",
+  "task": {
+    "task_id": "CODEX-EXAMPLE-001",
+    "agent_id": "codex-worker-1",
+    "relative_path": "work/example.txt",
+    "exact_utf8_content": "FA3 Codex delegated worker example\n",
+    "risk_class": "LOW",
+    "max_message_hops": 4
+  },
+  "execution": {
+    "isolated_worktree_required": true,
+    "worker_commit_allowed": false,
+    "integration_actor": "FA3_INTEGRATION",
+    "current_host_production_evidence_required_for_provider_admission": true
+  }
+}
