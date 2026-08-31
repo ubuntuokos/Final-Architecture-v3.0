@@ -287,11 +287,16 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 303,
+  "manifest_entry_count": 309,
   "manifest": [
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
       "git_blob_sha": "265f379de1c0328d17f3ab148584140a53f6ed2f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-global-current-host-closure.yml",
+      "git_blob_sha": "e9363f989bc26216a109035d8d489bfa1bdec59f",
       "baseline_delta_status": "added"
     },
     {
@@ -301,7 +306,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "f509d6f50709e79fa28ffcae96040a8f21526b6c",
+      "git_blob_sha": "5cad89ad04218ee2aeece7d78ae46fbae771ce9c",
       "baseline_delta_status": "added"
     },
     {
@@ -575,6 +580,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-evidence-closure.json",
+      "git_blob_sha": "1404d72713f1ee5341a8c14e5456a0dc021bd4ef",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2",
       "baseline_delta_status": "added"
@@ -647,6 +657,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GLOBAL-CURRENT-HOST-EVIDENCE-CLOSURE-2026-08-31.json",
+      "git_blob_sha": "74ecf1b5546f5e04d0959af148eef7f65c7d025f",
       "baseline_delta_status": "added"
     },
     {
@@ -766,7 +781,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "caef36334d4530abaaa4a1dac19e284be9e6503c",
+      "git_blob_sha": "da93b7b7fee1c45fa0365cfbfddfbf8ddd8ee9ea",
       "baseline_delta_status": "modified"
     },
     {
@@ -1410,6 +1425,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/current-host-143-audit-2026-08-31.json",
+      "git_blob_sha": "5f1b98f74fea2c26737819e97c067abc759423bd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "git_blob_sha": "ed674dec795b7fbbce780e5388ba1b57d87572f1",
       "baseline_delta_status": "added"
@@ -1550,6 +1570,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_current_host_evidence_audit.py",
+      "git_blob_sha": "cee4ecb8179413e18d06d5f6e8e99a3084376abb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_demucs_current_host_gate.py",
       "git_blob_sha": "d0e133118e6a663c0440a1103643be8eb1c4bcf1",
       "baseline_delta_status": "added"
@@ -1576,7 +1601,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "2268ec0d15cebb4e51dd38385ff58cf8caf0b153",
+      "git_blob_sha": "46a9e6e7b2e7faf35666e76831a49c4103e5746a",
       "baseline_delta_status": "modified"
     },
     {
@@ -1702,6 +1727,11 @@
     {
       "path": "tests/test_conversation_reconciliation.py",
       "git_blob_sha": "25601d920524aed5fd1a44a06f0f5fb12ec8ab5d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_current_host_evidence_audit.py",
+      "git_blob_sha": "c0fbfce813f558588047d67686f847154ecf469a",
       "baseline_delta_status": "added"
     },
     {
@@ -1842,7 +1872,8 @@
     "FA3-PROVIDER-AUTOGPT-001 globally reconciled across release inventory, CAP-028 Evidence Registry binding, mandatory gate inventory and complete release-surface manifest; runtime remains NOT_ADMITTED/NOT_PROMOTED_REFERENCE_ONLY and adds no capability or authority.",
     "MiniMax H3 provider projection expanded to SGLang, vLLM, Diffusers and ComfyUI integration targets with immutable runtime pinning, non-authoritative h3-prompt-writing knowledge projection, and fail-closed ComfyUI compatibility/audio regression requirements; runtime remains NOT_YET_CURRENT_HOST_PROMOTED.",
     "FA3-native developer-agent coordination v0.1 materialized under FA3-AGENT-EXEC-001 with typed contracts, isolated Git-worktree/subprocess reference runtime, executable positive/negative E2E evidence, single-integration-committer semantics and no new capability or architectural authority.",
-    "FA3-PROVIDER-CODEX-001 added as an optional external developer-agent production candidate behind FA3-AGENT-EXEC-001 and the developer-agent coordination contract, with immutable Codex CLI 0.151.0 pin, fail-closed adapter, CI regressions and a separate real current-host admission path; current-host production evidence remains pending."
+    "FA3-PROVIDER-CODEX-001 added as an optional external developer-agent production candidate behind FA3-AGENT-EXEC-001 and the developer-agent coordination contract, with immutable Codex CLI 0.151.0 pin, fail-closed adapter, CI regressions and a separate real current-host admission path; current-host production evidence remains pending.",
+    "143-capability current-host Evidence Registry closure hardened: every PASS requires a real current-host receipt whose referenced evidence files exist and match SHA-256, and whose canonical positive/negative/rollback tests bind to those verified artifacts. Runtime remains 0/143 PASS and Acceptance 3/19, therefore global promotion remains fail-closed."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -2034,6 +2065,27 @@
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
     "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "current_host_evidence_closure": {
+    "closure_id": "FA3-CURRENT-HOST-EVIDENCE-CLOSURE-001",
+    "decision_id": "FA3-DEC-GLOBAL-CURRENT-HOST-EVIDENCE-CLOSURE-2026-08-31",
+    "audit_reference": "evidence/reference/current-host-143-audit-2026-08-31.json",
+    "audit_implementation": "src/fa3_current_host_evidence_audit.py",
+    "global_workflow": ".github/workflows/fa3-global-current-host-closure.yml",
+    "reconciliation_status": "AUDIT_COMPLETE_RUNTIME_CLOSURE_BLOCKED",
+    "source_main_commit": "a7027914d4821b0152679344ca7b7aca699c0424",
+    "source_permanent_workflow_run": 33423695584,
+    "audit_integrity": "PASS",
+    "runtime_capability_pass_count": 0,
+    "runtime_capability_pending_count": 143,
+    "acceptance_criteria_passed": 3,
+    "acceptance_criteria_total": 19,
+    "promotion_state": "PROMOTION_BLOCKED",
+    "fail_closed": true,
+    "artifact_file_digest_verification_required": true,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

@@ -28,6 +28,7 @@ from fa3_kdenlive_editorial_gate import gate as kdenlive_editorial_gate
 from fa3_whisper_stt_gate import gate as whisper_stt_gate
 from fa3_whisper_stt_provider import run_executable_conformance as whisper_stt_provider_conformance
 from fa3_release_projection_gate import gate as release_projection_gate
+from fa3_current_host_evidence_audit import audit as current_host_evidence_audit
 from fa3_mentor_gate import gate as mentor_gate
 from fa3_presenton_gate import gate as presenton_gate, current_host_gate as presenton_current_host_gate
 
@@ -301,6 +302,7 @@ def acceptance_check(root:Path):
     s=static_check(root)
     r=runtime_check(root)
     t=terax_gate(root,require_current_host=True)
+    e=current_host_evidence_audit(root)
     results=[]
     for i in range(1,20):
         reasons=[]
@@ -321,7 +323,7 @@ def acceptance_check(root:Path):
                     ok=False
                     reasons.append(f"{fn}: {why}")
         results.append({"id":i,"name":NAMES[i],"status":"PASS" if ok else "PENDING_OR_FAIL","reasons":reasons})
-    all_ok=all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"
+    all_ok=(all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"\n            and e["audit_integrity"]=="PASS" and e["runtime_closure"]=="PASS")
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
          "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
@@ -342,7 +344,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","current-host-audit","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -410,7 +412,7 @@ def main():
             x=presenton_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="presenton-current-host":
             x=presenton_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
-        if a.command=="acceptance":
+        if a.command=="current-host-audit":\n            x=current_host_evidence_audit(root); print(json.dumps(x,indent=2)); return OK if x["audit_integrity"]=="PASS" else BLOCKED\n        if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):
             x,rc=promote(root); print(json.dumps(x,indent=2)); return rc

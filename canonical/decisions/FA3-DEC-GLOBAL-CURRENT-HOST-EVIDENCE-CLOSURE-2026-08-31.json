@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GLOBAL-CURRENT-HOST-EVIDENCE-CLOSURE-2026-08-31",
+  "date": "2026-08-31",
+  "status": "CANONICAL_ACTIVE_FAIL_CLOSED",
+  "title": "Harden and execute the 143-capability current-host Evidence Registry closure and global promotion reconciliation",
+  "change_type": "EVIDENCE_AND_PROMOTION_ENFORCEMENT_HARDENING_NO_CAPABILITY_OR_AUTHORITY_CHANGE",
+  "closure_id": "FA3-CURRENT-HOST-EVIDENCE-CLOSURE-001",
+  "audit_evidence": "evidence/reference/current-host-143-audit-2026-08-31.json",
+  "audit_implementation": "src/fa3_current_host_evidence_audit.py",
+  "global_workflow": ".github/workflows/fa3-global-current-host-closure.yml",
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_observed_state": {
+    "capability_runtime_pass": 0,
+    "capability_pending_current_host": 143,
+    "acceptance_pass": 3,
+    "acceptance_total": 19,
+    "promotion_state": "PROMOTION_BLOCKED"
+  },
+  "decisions": [
+    "A capability PASS requires a cryptographically attributable current-host receipt bound to its canonical positive, negative and rollback test identifiers.",
+    "CI/reference PASS cannot be used as current-host runtime PASS.",
+    "Synthetic evidence cannot be promoted as production current-host evidence.",
+    "Component-scope PASS, including HRB-CUDA, remains valid but cannot substitute for the 143 capability closure.",
+    "Evidence Registry reconciliation may promote only records whose receipts satisfy the hardened validator.",
+    "Global PROMOTED remains fail-closed until 143/143 runtime evidence, 19/19 Acceptance Gate, mandatory Terax current-host gate, independent review and human promotion receipt are all PASS."
+  ],
+  "promotion_effect": "NO_PROMOTION_CURRENT_STATE_REMAINS_BLOCKED"
+}
