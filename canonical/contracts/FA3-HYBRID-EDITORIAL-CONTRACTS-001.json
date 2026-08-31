@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-HYBRID-EDITORIAL-CONTRACTS-001",
+  "profile": "FA3-HYBRID-EDITORIAL-001",
+  "provider_neutral": true,
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "contracts": [
+    "MediaAsset",
+    "AnimationAsset",
+    "ImageSequence",
+    "Scene",
+    "Shot",
+    "FrameRange",
+    "AudioAsset",
+    "SubtitleTrack",
+    "EditorialTimeline",
+    "Track",
+    "Clip",
+    "Transition",
+    "Marker",
+    "AIMediaJob",
+    "DerivedAsset",
+    "ReviewDecision",
+    "PictureLock",
+    "FinalMaster",
+    "HybridEditorialRoundTripReceipt",
+    "HybridEditorialProvenance"
+  ],
+  "provider_local_formats": {
+    "krita": [
+      ".kra"
+    ],
+    "kdenlive": [
+      ".kdenlive",
+      "MLT XML"
+    ],
+    "blender": [
+      ".blend"
+    ],
+    "canonical_roots": false
+  },
+  "interchange": {
+    "editorial": "OpenTimelineIO",
+    "animation_sequence": [
+      "PNG",
+      "EXR"
+    ],
+    "subtitle_sidecars": [
+      "SRT",
+      "VTT"
+    ],
+    "direct_kdenlive_project_xml_mutation": false
+  },
+  "ai_capability_intents": [
+    "media.scene.detect",
+    "speech.transcribe",
+    "subtitle.generate",
+    "media.object.segment",
+    "video.interpolate",
+    "video.upscale",
+    "audio.cleanup",
+    "media.auto_edit.propose"
+  ],
+  "ai_delegation": {
+    "central_mcp_required": true,
+    "provider_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "stt_profile": "FA3-STT-MEDIA-001",
+    "audio_separation_profile": "FA3-AUDIO-SEPARATION-001",
+    "local_accelerator_requires_hrb_lease": true,
+    "synchronous_gui_blocking_forbidden": true
+  },
+  "media_invariants": [
+    "frame_rate",
+    "timebase",
+    "duration",
+    "resolution",
+    "pixel_aspect",
+    "color_primaries",
+    "transfer_characteristic",
+    "matrix_or_colorspace",
+    "hdr_sdr_intent",
+    "alpha_mode",
+    "audio_sample_rate",
+    "audio_channel_layout"
+  ],
+  "image_sequence_invariants": [
+    "frame_numbering",
+    "sequence_start",
+    "sequence_end",
+    "frame_duration_or_hold_semantics",
+    "missing_frame_policy"
+  ],
+  "approval_policy": {
+    "destructive_editorial_mutation_requires_hitl": true,
+    "final_picture_lock_requires_human_approval": true
+  },
+  "proxy_policy": {
+    "proxy_allowed_for_analysis_and_editing": true,
+    "proxy_forbidden_as_final_master_source": true,
+    "final_master_requires_approved_original_or_high_quality_source": true
+  },
+  "roundtrip_policy": {
+    "asset_version_increment_required": true,
+    "relink_identity_required": true,
+    "source_and_derivative_hash_lineage_required": true
+  }
+}

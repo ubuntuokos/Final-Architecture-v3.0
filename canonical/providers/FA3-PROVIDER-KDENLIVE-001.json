@@ -27,5 +27,29 @@
   "human_editorial_surface": true,
   "native_interchange": "OpenTimelineIO",
   "platform_priority": "LINUX_KUBUNTU_KDE_WAYLAND_FIRST_CLASS",
-  "activation_mode": "PRIMARY_WHEN_EDITORIAL_FRONTEND_USED"
+  "activation_mode": "PRIMARY_WHEN_EDITORIAL_FRONTEND_USED",
+  "human_finishing_boundary": {
+    "mode": "HUMAN_FINISHING_NLE",
+    "interaction_state_scope": [
+      "human_edit_decisions",
+      "final_assembly_review",
+      "picture_lock_approval"
+    ],
+    "picture_lock_requires_human_approval": true,
+    "destructive_mutation_requires_hitl": true,
+    "direct_project_xml_mutation_forbidden": true
+  },
+  "ai_tools_policy": "CLIENT_PROJECTION_ONLY_DELEGATE_THROUGH_EXISTING_FA3_CAPABILITIES",
+  "forbidden_authorities": [
+    "AI_MODEL_AUTHORITY",
+    "PROVIDER_ROUTING_AUTHORITY",
+    "STT_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "ARTIFACT_REGISTRY_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "SCENE_CAMERA_GEOMETRY_AUTHORITY",
+    "MCP_GATEWAY_AUTHORITY"
+  ],
+  "hybrid_editorial_profile": "FA3-HYBRID-EDITORIAL-001"
 }
