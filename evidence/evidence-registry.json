@@ -398,12 +398,24 @@
         "GC-02",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-CAVEMAN-2026-08-30"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/caveman-ci-2026-08-31.json",
+        "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "caveman_provider_projection_status": {
+        "provider_id": "FA3-PROVIDER-CAVEMAN-001",
+        "contract_id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
+        "reference_gate_status": "PASS",
+        "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "provider_runtime_required_for_global_promotion_when_disabled": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-011-CURRENT-HOST",
