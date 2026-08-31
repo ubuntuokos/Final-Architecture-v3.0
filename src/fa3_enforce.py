@@ -326,7 +326,7 @@ def acceptance_check(root:Path):
     all_ok=(all(x["status"]=="PASS" for x in results) and r["result"]=="PASS" and t["result"]=="PASS"\n            and e["audit_integrity"]=="PASS" and e["runtime_closure"]=="PASS")
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
-         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
+         "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],\n         "current_host_evidence_audit":e["audit_integrity"],"current_host_runtime_closure":e["runtime_closure"],
          "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
