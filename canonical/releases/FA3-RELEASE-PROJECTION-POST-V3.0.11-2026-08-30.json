@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c34919ae7da1a63e7ed1eaebe4fdd524e5be8ec1",
-    "pre_projection_root_tree_sha": "f6075599799f6b4a5ec41ce4a89b5a3790d7a786",
-    "pre_projection_canonical_tree_sha": "650714dbf235c720eed0510314b65e09ecbd0962",
-    "commits_ahead_of_v3_0_11_conformance_commit": 86,
-    "total_post_baseline_commits": 86,
-    "delta_file_count": 278,
-    "delta_added_files": 275,
+    "pre_projection_head_sha": "18bba7bbe8f45d1cfa87a4299943d6901580b9d9",
+    "pre_projection_root_tree_sha": "bfbd0dca1d2cad915e57ec4fc0fcb989a8b3a4f4",
+    "pre_projection_canonical_tree_sha": "c4c6dafa5a34ceae4b2f5245d28029f419d023bd",
+    "commits_ahead_of_v3_0_11_conformance_commit": 91,
+    "total_post_baseline_commits": 91,
+    "delta_file_count": 279,
+    "delta_added_files": 276,
     "delta_modified_files": 3,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 161,
-    "evidence_files_in_post_baseline_delta": 28,
+    "evidence_files_in_post_baseline_delta": 29,
     "source_files_in_post_baseline_delta": 30,
     "test_files_in_post_baseline_delta": 26,
     "workflow_files_in_post_baseline_delta": 4,
@@ -187,6 +187,7 @@
     ],
     "reference_evidence_records": [
       "evidence/reference/ace-step-2026-08-30.json",
+      "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
       "evidence/reference/autogpt-ci-2026-08-30.json",
       "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
       "evidence/reference/buzz-ci-2026-08-30.json",
@@ -250,7 +251,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 281,
+  "manifest_entry_count": 282,
   "manifest": [
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
@@ -1254,7 +1255,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "6f79bf9b9448dd65544ec0434677832411e8794e",
+      "git_blob_sha": "97a0ed1f0759e3d83c0aacb740ca87454f15a0fb",
       "baseline_delta_status": "added"
     },
     {
@@ -1265,6 +1266,11 @@
     {
       "path": "evidence/reference/ace-step-2026-08-30.json",
       "git_blob_sha": "dac63cb9341a086f438297f2f14a6ce663d1d2b4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
+      "git_blob_sha": "4c9b9dc7038e8453b3621221a6086019cf8cc7b0",
       "baseline_delta_status": "added"
     },
     {
@@ -1504,7 +1510,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "2d32f1b6d3251955f6b7ebc455f15fdc33435678",
+      "git_blob_sha": "dee095a184e192be9a032aa447b8e20cf90016f8",
       "baseline_delta_status": "added"
     },
     {
@@ -1629,7 +1635,7 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "cd27c0b1afecbf699e24fce3c780e78e6f23dee2",
+      "git_blob_sha": "d69fa23593cce83f77c7c52ce5f7b13fa8b65725",
       "baseline_delta_status": "added"
     },
     {
@@ -1817,8 +1823,16 @@
     "provider_id": "FA3-PROVIDER-AI-INFRA-GUARD-001",
     "gate_id": "FA3-AI-INFRA-GUARD-GATESET-001",
     "classification": "OPTIONAL_REFERENCE_SECURITY_VALIDATION_PROVIDER",
-    "reconciliation_status": "CANONICAL_MATERIALIZED_CI_EVIDENCE_PENDING",
-    "reference_evidence_status": "PENDING_CI",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_RUNTIME_NOT_ADMITTED",
+    "reference_evidence_status": "CI_CANONICAL_REGRESSION_PASS",
+    "reference_evidence": "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
+    "evidence_registry_capability_bindings": [
+      "CAP-003",
+      "CAP-005",
+      "CAP-007",
+      "CAP-011"
+    ],
+    "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,
