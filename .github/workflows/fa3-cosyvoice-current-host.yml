@@ -1,0 +1,70 @@
+name: FA3 CosyVoice Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      request_path:
+        description: "Absolute authorized fa3.voice-synthesis-request.v1 JSON path on the runner"
+        required: true
+        type: string
+      cosyvoice_repo:
+        description: "Absolute pinned CosyVoice source checkout"
+        required: true
+        type: string
+      model_dir:
+        description: "Absolute canonical Fun-CosyVoice3 model directory"
+        required: true
+        type: string
+      device:
+        description: "cpu or cuda:N"
+        required: true
+        default: "cpu"
+        type: string
+      hrb_lease:
+        description: "Absolute HRB lease JSON path; required for CUDA"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  cosyvoice-current-host:
+    name: cosyvoice-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify provider runtime
+        shell: bash
+        run: |
+          command -v sox
+          test -x .venv-cosyvoice/bin/python || test -n "${FA3_COSYVOICE_PYTHON:-}"
+      - name: Run real CosyVoice E2E
+        shell: bash
+        env:
+          FA3_CURRENT_HOST_RUNNER: "1"
+        run: |
+          PY="${FA3_COSYVOICE_PYTHON:-$PWD/.venv-cosyvoice/bin/python}"
+          ARGS=(
+            --request "${{ inputs.request_path }}"
+            --cosyvoice-repo "${{ inputs.cosyvoice_repo }}"
+            --model-dir "${{ inputs.model_dir }}"
+            --device "${{ inputs.device }}"
+          )
+          if [[ -n "${{ inputs.hrb_lease }}" ]]; then
+            ARGS+=(--hrb-lease "${{ inputs.hrb_lease }}")
+          fi
+          "$PY" evidence/collect-cosyvoice-current-host.py "${ARGS[@]}"
+          PYTHONPATH=src "$PY" src/fa3_cosyvoice_gate.py --root "$PWD" --current-host
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-cosyvoice-current-host-evidence
+          path: |
+            evidence/receipts/cosyvoice-current-host.json
+            evidence/runtime/cosyvoice-current-host/
+            reports/cosyvoice-current-host-gate-report.json
