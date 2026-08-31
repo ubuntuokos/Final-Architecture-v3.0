@@ -33,13 +33,24 @@
   "current_risk_disposition": [
     {
       "risk": "AUTO_REVIEW_SANDBOX_ESCALATION",
+      "upstream_issue": "openai/codex#36570",
+      "opened": "2026-08-02",
       "disposition": "AUTO_REVIEW_FORBIDDEN_IN_FA3_CODEX_V0_1",
-      "rationale": "Recent upstream issue reports auto-review can override an explicitly requested restrictive sandbox in non-interactive exec."
+      "rationale": "A reported codex exec configuration can allow auto-review to defeat an explicitly selected restrictive sandbox. FA3 v0.1 therefore never enables auto-review."
     },
     {
       "risk": "HEADLESS_MCP_TOOL_SURFACE_DRIFT",
+      "upstream_issue": "openai/codex#38689",
+      "opened": "2026-08-15",
       "disposition": "MCP_DISABLED_IN_FA3_CODEX_V0_1",
-      "rationale": "Recent upstream issue reports headless exec MCP tool injection inconsistency; FA3 v0.1 does not depend on MCP."
+      "rationale": "A reported headless codex exec MCP tool-injection inconsistency makes MCP unsuitable as an FA3 v0.1 admission dependency."
+    },
+    {
+      "risk": "RECENT_TOOL_SURFACE_REGRESSION",
+      "upstream_issue": "openai/codex#41099",
+      "opened": "2026-08-27",
+      "disposition": "CURRENT_HOST_EXACT_MUTATION_PROBE_AND_JSONL_SURFACE_CHECK_REQUIRED",
+      "rationale": "A reported 0.150.1 regression changed the tool surface. FA3 therefore treats version identity alone as insufficient and requires a real exact-mutation current-host probe."
     }
   ],
   "reference_only": true,
