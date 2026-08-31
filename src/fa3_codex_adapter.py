@@ -268,7 +268,7 @@ def codex_preflight(codex_binary: Path, *, env: dict[str, str] | None = None) ->
     if version.returncode != 0 or CODEX_VERSION_OUTPUT not in version_text:
         raise CodexAdapterDenied(f"Codex version mismatch: {version_text!r}")
     login = _run_capture(
-        [str(binary), "login", "status", "--ignore-user-config"],
+        [str(binary), "login", "status"],
         env=safe_env,
         timeout=30,
     )
