@@ -1,0 +1,58 @@
+name: FA3 Codex Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      codex_binary:
+        description: "Absolute pinned Codex 0.151.0 binary path; leave empty for FA3 default"
+        required: false
+        default: ""
+        type: string
+      archive:
+        description: "Absolute pinned Codex 0.151.0 archive path; leave empty for FA3 default"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  codex-current-host:
+    name: codex-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify host prerequisites
+        shell: bash
+        run: |
+          command -v git
+          command -v tar
+          test "$(id -u)" -ne 0
+      - name: Run real Codex production E2E and evidence gate
+        shell: bash
+        env:
+          CODEX_BINARY_INPUT: ${{ inputs.codex_binary }}
+          CODEX_ARCHIVE_INPUT: ${{ inputs.archive }}
+        run: |
+          args=()
+          if [ -n "$CODEX_BINARY_INPUT" ]; then args+=(--codex-binary "$CODEX_BINARY_INPUT"); fi
+          if [ -n "$CODEX_ARCHIVE_INPUT" ]; then args+=(--archive "$CODEX_ARCHIVE_INPUT"); fi
+          bash bin/fa3-codex-current-host.sh "${args[@]}"
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-codex-current-host-evidence
+          path: |
+            evidence/receipts/codex-current-host.json
+            evidence/runtime/codex-current-host/
+            reports/codex-current-host-gate-report.json
+            reports/codex-gate-report.json
