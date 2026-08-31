@@ -110,6 +110,34 @@ AISEC_BOOTSTRAP_PATH = "bin/fa3-ai-infra-guard-bootstrap.sh"
 AISEC_RUNNER_PATH = "bin/fa3-ai-infra-guard-current-host.sh"
 AISEC_WORKFLOW_PATH = ".github/workflows/fa3-ai-infra-guard-current-host.yml"
 
+HYBRID_PROFILE_ID = "FA3-HYBRID-EDITORIAL-001"
+HYBRID_CONTRACT_ID = "FA3-HYBRID-EDITORIAL-CONTRACTS-001"
+HYBRID_KRITA_PROVIDER_ID = "FA3-PROVIDER-KRITA-001"
+HYBRID_KDENLIVE_PROVIDER_ID = "FA3-PROVIDER-KDENLIVE-001"
+HYBRID_GATE_ID = "FA3-GATE-HYBRID-EDITORIAL-001"
+HYBRID_GATESET_ID = "FA3-HYBRID-EDITORIAL-GATESET-001"
+HYBRID_DECISION_ID = "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
+HYBRID_PROFILE_PATH = "canonical/profiles/FA3-HYBRID-EDITORIAL-001.json"
+HYBRID_CONTRACT_PATH = "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json"
+HYBRID_KRITA_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-KRITA-001.json"
+HYBRID_KDENLIVE_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json"
+HYBRID_DECISION_PATH = "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json"
+HYBRID_GATE_RECORD_PATH = "canonical/FA3-GATE-HYBRID-EDITORIAL-001.json"
+HYBRID_ENFORCEMENT_PATH = "canonical/hybrid-editorial-enforcement.json"
+HYBRID_EVIDENCE_PATH = "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
+HYBRID_REFERENCE_RUNTIME_PATH = "src/fa3_hybrid_editorial_reference.py"
+HYBRID_GATE_PATH = "src/fa3_hybrid_editorial_gate.py"
+HYBRID_KDENLIVE_GATE_PATH = "src/fa3_kdenlive_editorial_gate.py"
+HYBRID_GLOBAL_ENFORCE_PATH = "src/fa3_enforce.py"
+HYBRID_TEST_PATH = "tests/test_hybrid_editorial_gate.py"
+HYBRID_COLLECTOR_PATH = "evidence/collect-hybrid-editorial-reference-e2e.py"
+HYBRID_EXAMPLE_PATH = "examples/hybrid-editorial-reference-request.json"
+HYBRID_WORKFLOW_PATH = ".github/workflows/fa3-permanent-enforcement.yml"
+HYBRID_CAPABILITY_IDS = ("CAP-016", "CAP-017", "CAP-121", "CAP-126")
+HYBRID_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_PASS_CURRENT_HOST_PENDING"
+)
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -855,6 +883,174 @@ def gate(root: Path):
             )
         )
 
+    hybrid = projection.get("hybrid_editorial_reconciliation", {})
+    required_hybrid_manifest_paths = {
+        HYBRID_PROFILE_PATH,
+        HYBRID_CONTRACT_PATH,
+        HYBRID_KRITA_PROVIDER_PATH,
+        HYBRID_KDENLIVE_PROVIDER_PATH,
+        HYBRID_DECISION_PATH,
+        HYBRID_GATE_RECORD_PATH,
+        HYBRID_ENFORCEMENT_PATH,
+        HYBRID_EVIDENCE_PATH,
+        HYBRID_REFERENCE_RUNTIME_PATH,
+        HYBRID_GATE_PATH,
+        HYBRID_KDENLIVE_GATE_PATH,
+        HYBRID_GLOBAL_ENFORCE_PATH,
+        HYBRID_TEST_PATH,
+        HYBRID_COLLECTOR_PATH,
+        HYBRID_EXAMPLE_PATH,
+        HYBRID_WORKFLOW_PATH,
+        "evidence/evidence-registry.json",
+    }
+    missing_hybrid_overlay_members = []
+    for key, required in {
+        "profile_records": HYBRID_PROFILE_PATH,
+        "contract_records": HYBRID_CONTRACT_PATH,
+        "provider_records": HYBRID_KRITA_PROVIDER_PATH,
+        "decision_records": HYBRID_DECISION_PATH,
+        "reference_evidence_records": HYBRID_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_hybrid_overlay_members.append(
+                {"inventory": key, "path": required}
+            )
+
+    hybrid_manifest_missing = sorted(
+        required_hybrid_manifest_paths - manifest_paths
+    )
+    hybrid_profile = (
+        loadj(root / HYBRID_PROFILE_PATH)
+        if (root / HYBRID_PROFILE_PATH).is_file()
+        else {}
+    )
+    hybrid_contract = (
+        loadj(root / HYBRID_CONTRACT_PATH)
+        if (root / HYBRID_CONTRACT_PATH).is_file()
+        else {}
+    )
+    hybrid_krita = (
+        loadj(root / HYBRID_KRITA_PROVIDER_PATH)
+        if (root / HYBRID_KRITA_PROVIDER_PATH).is_file()
+        else {}
+    )
+    hybrid_kdenlive = (
+        loadj(root / HYBRID_KDENLIVE_PROVIDER_PATH)
+        if (root / HYBRID_KDENLIVE_PROVIDER_PATH).is_file()
+        else {}
+    )
+    hybrid_evidence = (
+        loadj(root / HYBRID_EVIDENCE_PATH)
+        if (root / HYBRID_EVIDENCE_PATH).is_file()
+        else {}
+    )
+    hybrid_bindings = {
+        cap_id: next(
+            (
+                item
+                for item in records
+                if item.get("subject_id") == cap_id
+            ),
+            {},
+        )
+        for cap_id in HYBRID_CAPABILITY_IDS
+    }
+    hybrid_binding_invalid = []
+    for cap_id, record in hybrid_bindings.items():
+        status = record.get("hybrid_editorial_projection_status", {})
+        if (
+            HYBRID_DECISION_ID not in record.get("source_decision_ids", [])
+            or HYBRID_EVIDENCE_PATH
+            not in record.get("evidence_artifacts", [])
+            or record.get("runtime_conformance") != "EVIDENCE-PENDING"
+            or record.get("status") != "PENDING_CURRENT_HOST"
+            or record.get("promotion_state")
+            != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+            or status.get("profile_id") != HYBRID_PROFILE_ID
+            or status.get("contract_id") != HYBRID_CONTRACT_ID
+            or status.get("gate_id") != HYBRID_GATE_ID
+            or status.get("runtime_status") != "PENDING_CURRENT_HOST"
+            or status.get("ci_reference_pass_does_not_promote_runtime")
+            is not True
+        ):
+            hybrid_binding_invalid.append(cap_id)
+
+    if (
+        hybrid.get("profile_id") != HYBRID_PROFILE_ID
+        or hybrid.get("contract_id") != HYBRID_CONTRACT_ID
+        or sorted(hybrid.get("provider_ids", []))
+        != sorted([
+            HYBRID_KRITA_PROVIDER_ID,
+            HYBRID_KDENLIVE_PROVIDER_ID,
+        ])
+        or hybrid.get("gate_id") != HYBRID_GATE_ID
+        or hybrid.get("gateset_id") != HYBRID_GATESET_ID
+        or hybrid.get("decision_id") != HYBRID_DECISION_ID
+        or hybrid.get("reconciliation_status")
+        != HYBRID_RECONCILIATION_STATUS
+        or hybrid.get("reference_evidence")
+        != HYBRID_EVIDENCE_PATH
+        or hybrid.get("reference_evidence_status")
+        != "CI_CANONICAL_EXECUTABLE_REFERENCE_E2E_PASS"
+        or hybrid.get("current_host_runtime_evidence")
+        != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or hybrid.get("current_host_runtime_promotion_claim") is not False
+        or hybrid.get("new_capabilities") != 0
+        or hybrid.get("new_architectural_authorities") != 0
+        or hybrid.get("capability_count_after") != CAPABILITY_COUNT
+        or sorted(
+            hybrid.get("evidence_registry_capability_bindings", [])
+        )
+        != sorted(HYBRID_CAPABILITY_IDS)
+        or HYBRID_GATESET_ID not in projection_gates
+        or HYBRID_GATESET_ID not in policy_gates
+        or missing_hybrid_overlay_members
+        or hybrid_manifest_missing
+        or hybrid_profile.get("id") != HYBRID_PROFILE_ID
+        or hybrid_profile.get("status") != "CANONICAL"
+        or hybrid_profile.get("new_capability") is not False
+        or hybrid_profile.get("new_architectural_authority") is not False
+        or hybrid_profile.get("capability_count") != CAPABILITY_COUNT
+        or hybrid_contract.get("id") != HYBRID_CONTRACT_ID
+        or hybrid_contract.get("provider_neutral") is not True
+        or hybrid_contract.get("canonical_timeline_ir")
+        != "OpenTimelineIO"
+        or hybrid_krita.get("id") != HYBRID_KRITA_PROVIDER_ID
+        or hybrid_krita.get("canonical_root") is not False
+        or hybrid_krita.get("architectural_authority") is not False
+        or hybrid_krita.get("new_capability") is not False
+        or hybrid_krita.get("new_architectural_authority") is not False
+        or hybrid_krita.get("capability_count") != CAPABILITY_COUNT
+        or hybrid_kdenlive.get("id") != HYBRID_KDENLIVE_PROVIDER_ID
+        or hybrid_kdenlive.get("architectural_authority") is not False
+        or hybrid_kdenlive.get(
+            "human_finishing_boundary", {}
+        ).get("mode") != "HUMAN_FINISHING_NLE"
+        or hybrid_kdenlive.get("ai_tools_policy")
+        != "CLIENT_PROJECTION_ONLY_DELEGATE_THROUGH_EXISTING_FA3_CAPABILITIES"
+        or hybrid_evidence.get("status") != "PASS"
+        or hybrid_evidence.get("gate_id") != HYBRID_GATE_ID
+        or hybrid_evidence.get("current_host_runtime_promotion_claim")
+        is not False
+        or hybrid_binding_invalid
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-027",
+                (
+                    "Hybrid editorial global release/inventory/evidence "
+                    "reconciliation invariant mismatch"
+                ),
+                reconciliation_status=hybrid.get("reconciliation_status"),
+                reference_evidence_status=hybrid.get(
+                    "reference_evidence_status"
+                ),
+                missing_overlay_members=missing_hybrid_overlay_members,
+                missing_manifest_paths=hybrid_manifest_missing,
+                invalid_capability_bindings=hybrid_binding_invalid,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1083,6 +1279,7 @@ def gate(root: Path):
             "ai_infra_guard_reconciliation": aisec.get("reconciliation_status"),
             "ai_infra_guard_reference_evidence_status": aisec.get("reference_evidence_status"),
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
+            "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
