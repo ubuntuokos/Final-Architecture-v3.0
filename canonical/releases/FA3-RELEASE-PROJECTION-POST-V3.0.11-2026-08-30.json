@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "04a5b27941d4b3f7a0967246045a25122f1e5792",
-    "pre_projection_root_tree_sha": "71479d9569d0967c97ffc6c5606108f34009e03d",
-    "pre_projection_canonical_tree_sha": "c7e6f8cb4df6eec35494b06e55d9c40baa502efa",
-    "commits_ahead_of_v3_0_11_conformance_commit": 79,
-    "total_post_baseline_commits": 79,
-    "delta_file_count": 291,
-    "delta_added_files": 288,
+    "pre_projection_head_sha": "b3c423d3d93de42d6af36679faa05fb205539c04",
+    "pre_projection_root_tree_sha": "397f9365124473e3db7605aabdbf7d641af2d345",
+    "pre_projection_canonical_tree_sha": "66665118e675339c7e444e4c762f36ff3e46df4f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 91,
+    "total_post_baseline_commits": 91,
+    "delta_file_count": 300,
+    "delta_added_files": 297,
     "delta_modified_files": 3,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 170,
-    "evidence_files_in_post_baseline_delta": 30,
-    "source_files_in_post_baseline_delta": 31,
-    "test_files_in_post_baseline_delta": 27,
+    "canonical_files_in_post_baseline_delta": 176,
+    "evidence_files_in_post_baseline_delta": 31,
+    "source_files_in_post_baseline_delta": 32,
+    "test_files_in_post_baseline_delta": 28,
     "workflow_files_in_post_baseline_delta": 4,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -78,6 +78,7 @@
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
       "canonical/providers/FA3-PROVIDER-RAGFLOW-001.json",
       "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
+      "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
       "canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json",
       "canonical/providers/FA3-PROVIDER-TERAX-001.json",
@@ -103,6 +104,7 @@
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
+      "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-SCS-001.json",
@@ -129,6 +131,7 @@
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
@@ -161,6 +164,7 @@
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MUSE-IMAGE-2026-08-30.json",
@@ -191,6 +195,7 @@
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json"
     ],
     "reference_evidence_records": [
@@ -208,6 +213,7 @@
       "evidence/reference/inference-portability-ci-2026-08-31.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
+      "evidence/reference/model-manager-ci-2026-08-31.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/terax-v0.8.6.json",
@@ -236,7 +242,8 @@
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
     "FA3-CODEX-GATESET-001",
-    "FA3-INFERENCE-PORTABILITY-GATESET-001"
+    "FA3-INFERENCE-PORTABILITY-GATESET-001",
+    "FA3-MODEL-MANAGER-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -280,7 +287,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 294,
+  "manifest_entry_count": 303,
   "manifest": [
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
@@ -294,7 +301,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "710f879299b5c560d9fe07605a2b001147909fdb",
+      "git_blob_sha": "f509d6f50709e79fa28ffcae96040a8f21526b6c",
       "baseline_delta_status": "added"
     },
     {
@@ -518,6 +525,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
+      "git_blob_sha": "5d9f6639cc7ea448b46e558c34c44ef02f4cec0b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "git_blob_sha": "4ef7455f7c342e9aa2f42103e9604f951d424db9",
       "baseline_delta_status": "added"
@@ -673,6 +685,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
+      "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
       "git_blob_sha": "2a12815133fa388068f2bae239f4b511661d8455",
       "baseline_delta_status": "added"
@@ -749,7 +766,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "02e6b309937b947b2d46da114d7d9a4376e675b8",
+      "git_blob_sha": "caef36334d4530abaaa4a1dac19e284be9e6503c",
       "baseline_delta_status": "modified"
     },
     {
@@ -835,6 +852,11 @@
     {
       "path": "canonical/mentor-enforcement.json",
       "git_blob_sha": "9cc5df062983caff69a073ead54fce9b06acbf71",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/model-manager-enforcement.json",
+      "git_blob_sha": "895f794074a5e546a24960e1ce5f8473ead92f9c",
       "baseline_delta_status": "added"
     },
     {
@@ -935,6 +957,11 @@
     {
       "path": "canonical/profiles/FA3-MESH-GEN-001.json",
       "git_blob_sha": "a43b095878f212c77ef4c6c0b338ffcaa632e97d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
+      "git_blob_sha": "927173a9cbc45bdaa32e84d792dbf295869e1a6c",
       "baseline_delta_status": "added"
     },
     {
@@ -1113,6 +1140,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json",
+      "git_blob_sha": "3d7d939a1c4bbb3779372d1b635c0086899f6e22",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
       "git_blob_sha": "4bcccd36dec0b04d7139ab70875122d3f6a6acc5",
       "baseline_delta_status": "added"
@@ -1215,6 +1247,11 @@
     {
       "path": "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "bf647a09dbd26420bc0cff540594612353d6f59a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
+      "git_blob_sha": "4f4af53851a67f5b687380553acf2bed2083fbf7",
       "baseline_delta_status": "added"
     },
     {
@@ -1329,7 +1366,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "65894337560f73c1e332bea7f1904b638350233d",
+      "git_blob_sha": "c97367f8dbf6724b99acf53de86d7c449b1877ea",
       "baseline_delta_status": "added"
     },
     {
@@ -1408,6 +1445,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/model-manager-ci-2026-08-31.json",
+      "git_blob_sha": "40c1a4396ae643ad57703a5121fc1197a7c99aa7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/modular-provider-ci-2026-08-30.json",
       "git_blob_sha": "257e0d20736ca0dac44a5870380db67efbe43201",
       "baseline_delta_status": "added"
@@ -1459,7 +1501,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "779edb58bf88765ab077021f2d03b863ec677ad2",
+      "git_blob_sha": "280e7c4d0348c2cc6464d33735615ffa6582dc2f",
       "baseline_delta_status": "added"
     },
     {
@@ -1534,7 +1576,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "27dfd0e863cf29c588d4796f48d7d67aa4c54ce1",
+      "git_blob_sha": "2268ec0d15cebb4e51dd38385ff58cf8caf0b153",
       "baseline_delta_status": "modified"
     },
     {
@@ -1565,6 +1607,11 @@
     {
       "path": "src/fa3_mentor_gate.py",
       "git_blob_sha": "979052f5791f429f5cc22c5697ec04feacf82362",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_manager_gate.py",
+      "git_blob_sha": "c719a63e3226fd4015611f60e4c498a7f3ce0e08",
       "baseline_delta_status": "added"
     },
     {
@@ -1700,6 +1747,11 @@
     {
       "path": "tests/test_mentor_gate.py",
       "git_blob_sha": "25127303b7e544c13a534c11e4833be52a0a6dd9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_manager_gate.py",
+      "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821",
       "baseline_delta_status": "added"
     },
     {
@@ -1956,6 +2008,29 @@
     "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
     "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
     "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_runtime_promotion_claim": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "model_manager_reconciliation": {
+    "profile_id": "FA3-MODEL-MANAGER-001",
+    "contract_id": "FA3-MODEL-MANAGER-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
+    "classification": "PROVIDER_NEUTRAL_MODEL_INVENTORY_LIFECYCLE_OVERLAY_WITH_STABILITY_MATRIX_PREFERRED_STORE_PROVIDER",
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-016",
+      "CAP-120"
+    ],
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_USAGE_CONFIRMED_EXECUTABLE_EVIDENCE_PENDING",
+    "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
+    "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
+    "provider_usage_state": "USER_CONFIRMED_IN_USE",
+    "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
     "provider_runtime_required_for_global_promotion_when_disabled": false,

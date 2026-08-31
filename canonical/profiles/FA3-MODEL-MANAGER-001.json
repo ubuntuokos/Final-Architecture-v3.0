@@ -1,0 +1,82 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MODEL-MANAGER-001",
+  "name": "Unified Model Inventory, Lifecycle & Artifact Projection Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "CROSS-CUTTING-OVERLAY",
+    "parent": "FA3-REGISTRY-001"
+  },
+  "dependencies": [
+    "FA3-REGISTRY-001",
+    "FA3-INFERENCE-PORTABILITY-001",
+    "FA3-HOST-RESOURCE-BROKER-001"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120"
+  ],
+  "contracts": [
+    "FA3-MODEL-MANAGER-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001"
+  ],
+  "authority": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "scope": [
+    "provider-neutral logical model inventory",
+    "model family/variant/revision metadata projection",
+    "physical store projection without path-as-identity",
+    "model artifact content identity and integrity",
+    "acquisition/import provenance",
+    "derived/quantized/optimized artifact lineage",
+    "runtime compatibility evidence projection",
+    "provider availability state",
+    "inventory dedup candidate detection",
+    "policy-bound physical dedup authorization",
+    "policy-bound move/delete/relink mutation requests"
+  ],
+  "physical_store_policy": {
+    "stability_matrix": "PREFERRED_CURRENT_HOST_PHYSICAL_STORE_FOR_NATIVELY_SUPPORTED_MEDIA_MODEL_CLASSES",
+    "runtime_native_stores": "MAY_REMAIN_NATIVE_WHERE_PROVIDER_SPECIFIC_OR_VERIFIED_SHARED_PROJECTION_IS_ABSENT",
+    "forced_single_store": "FORBIDDEN",
+    "canonical_identity_from_absolute_path": "FORBIDDEN"
+  },
+  "stability_matrix_relationship": "PREFERRED_PROVIDER_NOT_REPLACED_BY_FA3_MODEL_MANAGER",
+  "invariants": [
+    "MODEL_MANAGER_NOT_ARCHITECTURAL_AUTHORITY",
+    "STABILITY_MATRIX_REMAINS_PREFERRED_PHYSICAL_STORE_FOR_NATIVE_MEDIA_MODEL_CLASSES",
+    "MODEL_MANAGER_DOES_NOT_REPLACE_STABILITY_MATRIX_MODEL_MANAGEMENT",
+    "LOGICAL_MODEL_IDENTITY_SEPARATE_FROM_PHYSICAL_STORAGE_PATH",
+    "PROVIDER_METADATA_ATTRIBUTED_NOT_CANONICAL_WITHOUT_VALIDATION",
+    "ARTIFACT_CONTENT_IDENTITY_HASH_REQUIRED",
+    "DERIVED_QUANTIZED_OPTIMIZED_ARTIFACT_HAS_DISTINCT_IDENTITY_AND_LINEAGE",
+    "NATIVE_STORE_PREFERRED_UNLESS_VERIFIED_SHARED_STORE_PROJECTION",
+    "INVENTORY_DEDUP_SEPARATE_FROM_PHYSICAL_DEDUP",
+    "PHYSICAL_DEDUP_REQUIRES_HASH_FORMAT_IMMUTABILITY_COMPATIBILITY_ROLLBACK_EVIDENCE",
+    "MODEL_MANAGER_NOT_MODEL_ROUTER",
+    "MODEL_MANAGER_NOT_HOST_RESOURCE_BROKER",
+    "MODEL_MANAGER_NOT_SECRETS_POLICY_PROMOTION_AUTHORITY",
+    "PROVIDER_OUTAGE_PRESERVES_READABLE_CANONICAL_INVENTORY_PROJECTION",
+    "MUTATING_MOVE_DELETE_RELINK_REQUIRES_EXPLICIT_AUTHORIZATION",
+    "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
+    "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
+  ],
+  "implementation_status": "CANONICAL_MATERIALIZED_CI_REFERENCE_GATE_CURRENT_HOST_USAGE_USER_CONFIRMED_EXECUTABLE_EVIDENCE_PENDING"
+}

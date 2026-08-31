@@ -198,12 +198,14 @@
         "FA3-MOZ-001",
         "FA3-MOZ-PROV-001",
         "FA3-DEC-AI-INFRA-GUARD-2026-08-30",
-        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
-        "evidence/reference/inference-portability-ci-2026-08-31.json"
+        "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "evidence/reference/model-manager-ci-2026-08-31.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -220,6 +222,16 @@
         "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      },
+      "model_manager_projection_status": {
+        "profile_id": "FA3-MODEL-MANAGER-001",
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+        "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
+        "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
+        "provider_usage_state": "USER_CONFIRMED_IN_USE",
+        "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
       }
     },
     {
@@ -660,12 +672,25 @@
         "FA3-MEDIA-002",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/model-manager-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "model_manager_projection_status": {
+        "profile_id": "FA3-MODEL-MANAGER-001",
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+        "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
+        "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
+        "provider_usage_state": "USER_CONFIRMED_IN_USE",
+        "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+      }
     },
     {
       "evidence_id": "EVID-CAP-017-CURRENT-HOST",
@@ -4628,12 +4653,25 @@
         "FA3-CORE-008",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/model-manager-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "model_manager_projection_status": {
+        "profile_id": "FA3-MODEL-MANAGER-001",
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+        "gate_id": "FA3-MODEL-MANAGER-GATESET-001",
+        "reference_evidence": "evidence/reference/model-manager-ci-2026-08-31.json",
+        "provider_usage_state": "USER_CONFIRMED_IN_USE",
+        "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+      }
     },
     {
       "evidence_id": "EVID-CAP-121-CURRENT-HOST",

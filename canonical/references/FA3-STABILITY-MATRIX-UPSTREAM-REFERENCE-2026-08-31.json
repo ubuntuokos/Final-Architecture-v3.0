@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31",
+  "date": "2026-08-31",
+  "status": "PINNED_REFERENCE_SNAPSHOT",
+  "purpose": "StabilityMatrix model-store/discovery/acquisition/shared-package projection provider evidence",
+  "repository": "LykosAI/StabilityMatrix",
+  "release": {
+    "version": "v2.16.3",
+    "commit": "1efe7951d6f7dfdcd65bf3e36bd705227742402d",
+    "published_at": "2026-08-29T03:46:46Z"
+  },
+  "observed_main_snapshot": {
+    "commit": "a764734fbdeb2e2e1ef643d54438d1a9ebd53d92",
+    "observed_at": "2026-08-31"
+  },
+  "observed_capabilities": [
+    "Checkpoint Manager configured to be shared by all package installs",
+    "Model Browser imports from CivitAI and Hugging Face",
+    "Local drag-and-drop model import",
+    "CivitAI metadata and preview lookup for local/existing models",
+    "Associated model-folder import based on model type",
+    "Exact-file download pinning/hash verification improvements in v2.16.3"
+  ],
+  "floating_main_allowed_as_promotion_evidence": false,
+  "latest_release_allowed_as_automatic_production_upgrade": false,
+  "current_host_usage_basis": "USER_CONFIRMED_IN_USE_NOT_EXECUTABLE_RUNTIME_EVIDENCE",
+  "promotion_semantics": "REFERENCE_AND_USER_USAGE_ASSERTION_ONLY_NOT_CURRENT_HOST_PRODUCTION_PASS"
+}
