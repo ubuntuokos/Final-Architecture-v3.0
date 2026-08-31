@@ -107,6 +107,40 @@ def gate(root: Path) -> dict[str, Any]:
     if any(provider.get(k) is not False for k in ("automation_authority", "timeline_semantic_authority", "orchestration_authority", "host_resource_authority")):
         findings.append(finding("KDENLIVE-REF-033", "Kdenlive provider crossed an authority boundary"))
 
+    human_boundary = provider.get("human_finishing_boundary", {})
+    if not (
+        human_boundary.get("mode") == "HUMAN_FINISHING_NLE"
+        and human_boundary.get("picture_lock_requires_human_approval") is True
+        and human_boundary.get("destructive_mutation_requires_hitl") is True
+        and human_boundary.get("direct_project_xml_mutation_forbidden") is True
+    ):
+        findings.append(finding(
+            "KDENLIVE-REF-045",
+            "Kdenlive explicit human-finishing boundary drift",
+        ))
+    required_forbidden = {
+        "AI_MODEL_AUTHORITY",
+        "PROVIDER_ROUTING_AUTHORITY",
+        "STT_AUTHORITY",
+        "WORKFLOW_AUTHORITY",
+        "ARTIFACT_REGISTRY_AUTHORITY",
+        "EVIDENCE_AUTHORITY",
+        "HOST_RESOURCE_AUTHORITY",
+        "SCENE_CAMERA_GEOMETRY_AUTHORITY",
+        "MCP_GATEWAY_AUTHORITY",
+    }
+    if (
+        provider.get("ai_tools_policy")
+        != "CLIENT_PROJECTION_ONLY_DELEGATE_THROUGH_EXISTING_FA3_CAPABILITIES"
+        or not required_forbidden.issubset(
+            set(provider.get("forbidden_authorities", []))
+        )
+    ):
+        findings.append(finding(
+            "KDENLIVE-REF-046",
+            "Kdenlive AI-tools/forbidden-authority boundary drift",
+        ))
+
     if contracts.get("id") != CONTRACT_ID or contracts.get("profile") != PROFILE_ID or contracts.get("provider_neutral") is not True:
         findings.append(finding("KDENLIVE-REF-034", "Kdenlive contract identity/provider-neutrality drift"))
     timeline = contracts.get("timeline_semantics", {})
