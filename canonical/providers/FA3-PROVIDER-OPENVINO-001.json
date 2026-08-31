@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENVINO-001",
+  "name": "OpenVINO",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_INTEL_INFERENCE_EXECUTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "INTEL_CPU_GPU_NPU_INFERENCE_PROVIDER",
+    "MODEL_GRAPH_EXECUTION_PROVIDER"
+  ],
+  "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
+  "upstream_repository": "openvinotoolkit/openvino",
+  "upstream_snapshot_commit": "71a64cffaf01cdd66610b1ffc7fe817dd4aa6924",
+  "observed_release": "2026.3.1",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "official_primary_targets": [
+    "INTEL_CPU",
+    "INTEL_GPU",
+    "INTEL_NPU"
+  ],
+  "official_gpu_device_scope": "INTEL_GPU_ONLY",
+  "nvidia_contrib_plugin": {
+    "status": "OPTIONAL_EXPERIMENTAL_NOT_DEFAULT",
+    "distribution": "NOT_INCLUDED_IN_OFFICIAL_OPENVINO_BINARY_DISTRIBUTION",
+    "build": "SOURCE_BUILD_AND_SEPARATE_ADMISSION_REQUIRED",
+    "production_default_for_nvidia": false
+  },
+  "interchange_policy": {
+    "onnx": "SUPPORTED_INTERCHANGE_WHEN_MODEL_SUPPORTED",
+    "openvino_ir": "PROVIDER_NATIVE_DERIVED_ARTIFACT",
+    "openvino_ir_to_onnx_general_reverse_conversion": "FORBIDDEN"
+  },
+  "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_REQUIRED_AT_ADMISSION",
+  "current_host_production_evidence": "NOT_CLAIMED"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-TENSORRT-001",
+  "name": "NVIDIA TensorRT",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_PRIMARY_NVIDIA_OPTIMIZED_INFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "NVIDIA_GPU_INFERENCE_PROVIDER",
+    "ONNX_BACKEND_COMPILER",
+    "ENGINE_RUNTIME"
+  ],
+  "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
+  "upstream_repository": "NVIDIA/TensorRT",
+  "upstream_snapshot_commit": "c93b7d4893184af4882f9f1862e13a5c64b8677d",
+  "observed_release_tag": "v11.2",
+  "documented_runtime_release": "11.2.1",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "engine_artifact_class": "DERIVED_DISPOSABLE_TARGET_SPECIALIZED_ARTIFACT",
+  "version_hardware_portability": "EXPLICIT_OPT_IN_WITH_PERFORMANCE_AND_CORRECTNESS_EVIDENCE",
+  "support_matrix_admission_required": true,
+  "production_build": "REPRODUCIBLE_API_CONFIG_REQUIRED_TRTEXEC_DIAGNOSTIC_ALLOWED",
+  "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_REQUIRED_AT_ADMISSION",
+  "current_host_production_evidence": "NOT_CLAIMED"
+}

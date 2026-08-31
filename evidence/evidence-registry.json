@@ -197,14 +197,30 @@
         "FA3-REG-003",
         "FA3-MOZ-001",
         "FA3-MOZ-PROV-001",
-        "FA3-DEC-AI-INFRA-GUARD-2026-08-30"
+        "FA3-DEC-AI-INFRA-GUARD-2026-08-30",
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/ai-infra-guard-ci-2026-08-31.json"
+        "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
+        "evidence/reference/inference-portability-ci-2026-08-31.json"
       ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "inference_portability_projection_status": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPENVINO-001",
+          "FA3-PROVIDER-ONNXRUNTIME-001",
+          "FA3-PROVIDER-TENSORRT-001",
+          "FA3-PROVIDER-TENSORRT-RTX-001"
+        ],
+        "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+        "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      }
     },
     {
       "evidence_id": "EVID-CAP-006-CURRENT-HOST",
@@ -242,12 +258,29 @@
         "FA3-DATA-002",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/inference-portability-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "inference_portability_projection_status": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPENVINO-001",
+          "FA3-PROVIDER-ONNXRUNTIME-001",
+          "FA3-PROVIDER-TENSORRT-001",
+          "FA3-PROVIDER-TENSORRT-RTX-001"
+        ],
+        "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+        "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      }
     },
     {
       "evidence_id": "EVID-CAP-007-CURRENT-HOST",
@@ -5257,12 +5290,29 @@
         "GC-09",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/inference-portability-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "inference_portability_projection_status": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPENVINO-001",
+          "FA3-PROVIDER-ONNXRUNTIME-001",
+          "FA3-PROVIDER-TENSORRT-001",
+          "FA3-PROVIDER-TENSORRT-RTX-001"
+        ],
+        "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+        "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      }
     },
     {
       "evidence_id": "EVID-CAP-138-CURRENT-HOST",
@@ -5513,12 +5563,29 @@
         "GC-12",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/inference-portability-ci-2026-08-31.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "inference_portability_projection_status": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPENVINO-001",
+          "FA3-PROVIDER-ONNXRUNTIME-001",
+          "FA3-PROVIDER-TENSORRT-001",
+          "FA3-PROVIDER-TENSORRT-RTX-001"
+        ],
+        "gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+        "reference_evidence": "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      }
     }
   ]
 }

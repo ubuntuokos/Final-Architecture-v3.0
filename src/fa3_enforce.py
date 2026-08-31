@@ -15,6 +15,7 @@ from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
+from fa3_inference_portability_gate import gate as inference_portability_gate
 from fa3_modular_runtime import run_executable_conformance as modular_provider_conformance
 from fa3_modular_current_host_gate import gate as modular_current_host_gate
 from fa3_demucs_gate import gate as demucs_gate
@@ -114,6 +115,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-030","X-CMD security/boundary gate is not bound into global enforcement policy"))
     if "FA3-MODULAR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-032","Modular MAX/Mojo boundary/lineage/cache gate is not bound into global enforcement policy"))
+    if "FA3-INFERENCE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-050","Inference portability compatibility/provider gate is not bound into global enforcement policy"))
     if "FA3-MUNDER-DIFFLIN-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-034","Munder Difflin multi-agent coordination gate is not bound into global enforcement policy"))
     if "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -204,6 +207,9 @@ def static_check(root:Path):
     modular_ref=modular_gate(root)
     if modular_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-033","Modular MAX/Mojo mandatory boundary/lineage/cache regression gate failed",modular_gate=modular_ref))
+    inference_portability_ref=inference_portability_gate(root)
+    if inference_portability_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-051","Inference portability compatibility/provider regression gate failed",inference_portability_gate=inference_portability_ref))
     munder_ref=munder_difflin_gate(root)
     if munder_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-035","Munder Difflin mandatory multi-agent coordination regression gate failed",munder_difflin_gate=munder_ref))
@@ -240,7 +246,7 @@ def static_check(root:Path):
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"inference_portability_gate_status":inference_portability_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -330,7 +336,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","munder-difflin","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","blackhole-kdenlive","whisper-stt","whisper-stt-provider","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -368,6 +374,8 @@ def main():
             x=codex_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular":
             x=modular_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="inference-portability":
+            x=inference_portability_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular-provider":
             x=modular_provider_conformance(root); writej(root/"reports/modular-runtime-conformance-report.json",x); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular-current-host":
