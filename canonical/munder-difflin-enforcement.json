@@ -129,8 +129,32 @@
       "enforcement": "Executable regression and canonical reference checks MUST fail closed on violation."
     }
   ],
-  "executable_gate": "./bin/fa3-enforce munder-difflin",
+  "executable_gate": "./bin/fa3-enforce munder-difflin-executable",
   "report_path": "reports/munder-difflin-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 16
+  "regression_case_count": 20,
+  "executable_gate_id": "FA3-GATE-MUNDER-DIFFLIN-001",
+  "executable_report_path": "reports/munder-difflin-executable-gate-report.json",
+  "executable_case_ids": [
+    "MD-001",
+    "MD-002",
+    "MD-003",
+    "MD-004",
+    "MD-005",
+    "MD-006",
+    "MD-007",
+    "MD-008",
+    "MD-009",
+    "MD-010",
+    "MD-011",
+    "MD-012",
+    "MD-013",
+    "MD-014",
+    "MD-015",
+    "MD-016",
+    "MD-017",
+    "MD-018",
+    "MD-019",
+    "MD-020"
+  ]
 }
