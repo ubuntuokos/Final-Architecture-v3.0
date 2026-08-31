@@ -102,7 +102,13 @@ AISEC_ENFORCEMENT_PATH = "canonical/ai-infra-guard-enforcement.json"
 AISEC_GATE_PATH = "src/fa3_ai_infra_guard_gate.py"
 AISEC_TEST_PATH = "tests/test_ai_infra_guard_gate.py"
 AISEC_CAPABILITY_IDS = ("CAP-003", "CAP-005", "CAP-007", "CAP-011")
-AISEC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_RUNTIME_NOT_ADMITTED"
+AISEC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_PENDING"
+AISEC_ADMISSION_PATH = "canonical/ai-infra-guard-runtime-admission.json"
+AISEC_ADAPTER_PATH = "src/fa3_ai_infra_guard_adapter.py"
+AISEC_COLLECTOR_PATH = "evidence/collect-ai-infra-guard-current-host.py"
+AISEC_BOOTSTRAP_PATH = "bin/fa3-ai-infra-guard-bootstrap.sh"
+AISEC_RUNNER_PATH = "bin/fa3-ai-infra-guard-current-host.sh"
+AISEC_WORKFLOW_PATH = ".github/workflows/fa3-ai-infra-guard-current-host.yml"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -736,6 +742,12 @@ def gate(root: Path):
         AISEC_ENFORCEMENT_PATH,
         AISEC_GATE_PATH,
         AISEC_TEST_PATH,
+        AISEC_ADMISSION_PATH,
+        AISEC_ADAPTER_PATH,
+        AISEC_COLLECTOR_PATH,
+        AISEC_BOOTSTRAP_PATH,
+        AISEC_RUNNER_PATH,
+        AISEC_WORKFLOW_PATH,
         "evidence/evidence-registry.json",
     }
     missing_aisec_overlay_members = []
@@ -754,6 +766,7 @@ def gate(root: Path):
     aisec_contract = loadj(root / AISEC_CONTRACT_PATH) if (root / AISEC_CONTRACT_PATH).is_file() else {}
     aisec_provider = loadj(root / AISEC_PROVIDER_PATH) if (root / AISEC_PROVIDER_PATH).is_file() else {}
     aisec_evidence = loadj(root / AISEC_EVIDENCE_PATH) if (root / AISEC_EVIDENCE_PATH).is_file() else {}
+    aisec_admission = loadj(root / AISEC_ADMISSION_PATH) if (root / AISEC_ADMISSION_PATH).is_file() else {}
     aisec_bindings = {
         cap_id: next((item for item in records if item.get("subject_id") == cap_id), {})
         for cap_id in AISEC_CAPABILITY_IDS
@@ -777,7 +790,7 @@ def gate(root: Path):
         or aisec.get("reconciliation_status") != AISEC_RECONCILIATION_STATUS
         or aisec.get("reference_evidence_status") != "CI_CANONICAL_REGRESSION_PASS"
         or aisec.get("reference_evidence") != AISEC_EVIDENCE_PATH
-        or aisec.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or aisec.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_CURRENT_HOST"
         or aisec.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
         or aisec.get("current_host_runtime_promotion_claim") is not False
         or aisec.get("new_capabilities") != 0
@@ -800,7 +813,21 @@ def gate(root: Path):
         or aisec_provider.get("new_capability") is not False
         or aisec_provider.get("new_architectural_authority") is not False
         or aisec_provider.get("capability_count") != CAPABILITY_COUNT
-        or aisec_provider.get("runtime_activation_status") != "NOT_PROMOTED_REFERENCE_ONLY"
+        or aisec_provider.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_CURRENT_HOST"
+        or aisec_provider.get("runtime_admission") != "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001"
+        or aisec_provider.get("adapter_id") != "FA3-AI-INFRA-GUARD-ADAPTER-001"
+        or aisec_provider.get("runtime_surface") != "NATIVE_AI_INFRA_SCAN_CLI_ONLY"
+        or aisec_admission.get("id") != "FA3-AI-INFRA-GUARD-RUNTIME-ADMISSION-001"
+        or aisec_admission.get("provider_id") != AISEC_PROVIDER_ID
+        or aisec_admission.get("adapter_id") != "FA3-AI-INFRA-GUARD-ADAPTER-001"
+        or aisec_admission.get("status") != "NOT_ADMITTED"
+        or aisec_admission.get("fail_closed") is not True
+        or aisec_admission.get("current_host_evidence_required") is not True
+        or aisec_admission.get("runtime_surface") != "NATIVE_AI_INFRA_SCAN_CLI_ONLY"
+        or aisec_admission.get("immutable_runtime_pin", {}).get("release") != "v4.6.0"
+        or aisec_admission.get("immutable_runtime_pin", {}).get("release_commit") != "e8931cc68001b66ad024fd87ef07394e9e96524a"
+        or aisec.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or aisec.get("current_host_workflow") != AISEC_WORKFLOW_PATH
         or aisec_evidence.get("profile_id") != AISEC_PROFILE_ID
         or aisec_evidence.get("contract_id") != AISEC_CONTRACT_ID
         or aisec_evidence.get("provider_id") != AISEC_PROVIDER_ID
@@ -1052,6 +1079,7 @@ def gate(root: Path):
             "codex_current_host_production_e2e": codex.get("current_host_production_e2e"),
             "ai_infra_guard_reconciliation": aisec.get("reconciliation_status"),
             "ai_infra_guard_reference_evidence_status": aisec.get("reference_evidence_status"),
+            "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
