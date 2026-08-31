@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+  "date": "2026-08-31",
+  "status": "CANONICAL_CLOSED",
+  "subject": "First real external provider adapter for FA3 multi-agent developer coordination",
+  "decision": "MATERIALIZE_CODEX_ADAPTER_V0_1_AND_CURRENT_HOST_ADMISSION_PATH",
+  "provider_id": "FA3-PROVIDER-CODEX-001",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "parent_coordination_contract": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+  "adapter_contract": "FA3-CODEX-ADAPTER-CONTRACTS-001",
+  "runtime_admission": "FA3-CODEX-RUNTIME-ADMISSION-001",
+  "gate_id": "FA3-CODEX-GATESET-001",
+  "upstream_pin": "rust-v0.151.0@78c290807ce710180111df227df3b7a4fe845452",
+  "production_state_after_materialization": "CURRENT_HOST_EVIDENCE_PENDING_UNTIL_REAL_CODEX_RUN",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_dependency_created": false,
+  "global_runtime_promotion_effect": "NONE_WHILE_PROVIDER_DISABLED_OR_CURRENT_HOST_PENDING"
+}
