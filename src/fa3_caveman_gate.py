@@ -109,6 +109,52 @@ def reference_check(root:Path):
     cap=next((x for x in registry.get("records",[]) if x.get("subject_id")==CAPABILITY_ID),{})
     req={"evidence/reference/caveman-ci-2026-08-31.json","evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json"}; cps=cap.get("caveman_provider_projection_status",{})
     if not (DECISION_ID in cap.get("source_decision_ids",[]) and req<=set(cap.get("evidence_artifacts",[])) and cap.get("runtime_conformance")=="EVIDENCE-PENDING" and cap.get("status")=="PENDING_CURRENT_HOST" and cap.get("promotion_state")=="NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE" and cps.get("provider_id")==PROVIDER_ID and cps.get("reference_gate_status")=="PASS" and cps.get("runtime_activation_status")=="NOT_PROMOTED_REFERENCE_ONLY" and cps.get("current_host_runtime_evidence")=="NOT_CLAIMED"): f.append(_f("CAVEMAN-REF-011","CAP-010 Caveman evidence reconciliation drift"))
+    projection_path=root/"canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+    if not projection_path.exists():
+        f.append(_f("CAVEMAN-REF-012","Unified release projection missing"))
+    else:
+        projection=_load(projection_path)
+        cv=projection.get("caveman_reconciliation",{})
+        inventory=projection.get("overlay_inventory",{})
+        manifest_paths={x.get("path") for x in projection.get("manifest",[])}
+        required_paths={
+            "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json",
+            "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
+            "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
+            "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json",
+            "canonical/caveman-enforcement.json",
+            "src/fa3_caveman_gate.py",
+            "tests/test_caveman_gate.py",
+            "evidence/reference/caveman-ci-2026-08-31.json",
+            "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json",
+            "evidence/evidence-registry.json",
+        }
+        inventory_ok=(
+            "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json" in inventory.get("provider_records",[])
+            and "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json" in inventory.get("contract_records",[])
+            and "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json" in inventory.get("decision_records",[])
+            and "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json" in inventory.get("upstream_reference_records",[])
+            and "evidence/reference/caveman-ci-2026-08-31.json" in inventory.get("reference_evidence_records",[])
+            and "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json" in inventory.get("reference_evidence_records",[])
+        )
+        if not (
+            cv.get("provider_id")==PROVIDER_ID
+            and cv.get("contract_id")==CONTRACT_ID
+            and cv.get("gate_id")==GATE_ID
+            and cv.get("capability_id")==CAPABILITY_ID
+            and cv.get("classification")=="OPTIONAL_CONTEXT_TRANSFORMATION_REFERENCE_PROVIDER"
+            and cv.get("reconciliation_status")=="GLOBAL_PROJECTION_RECONCILED_REFERENCE_RUNTIME_NOT_PROMOTED"
+            and cv.get("runtime_activation_status")=="NOT_PROMOTED_REFERENCE_ONLY"
+            and cv.get("current_host_runtime_evidence")=="NOT_CLAIMED"
+            and cv.get("provider_runtime_required_for_global_promotion_when_disabled") is False
+            and cv.get("new_capabilities")==0
+            and cv.get("new_architectural_authorities")==0
+            and cv.get("capability_count_after")==CAPABILITY_COUNT
+            and GATE_ID in projection.get("mandatory_reference_gates",[])
+            and inventory_ok
+            and required_paths<=manifest_paths
+        ):
+            f.append(_f("CAVEMAN-REF-013","Caveman unified release/inventory reconciliation drift"))
     return {"result":"PASS" if not f else "FAIL","findings":f}
 
 def _case(i,name,pos,neg): return {"rule_id":f"FA3-CAVEMAN-P0-{i:03d}","name":name,"status":"PASS" if pos and neg else "FAIL","positive_case":bool(pos),"negative_case":bool(neg)}
