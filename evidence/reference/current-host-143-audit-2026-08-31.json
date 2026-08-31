@@ -2,10 +2,10 @@
   "schema": "fa3.current-host-143-audit-reference.v1",
   "id": "FA3-EVID-CURRENT-HOST-143-AUDIT-2026-08-31",
   "date": "2026-08-31",
-  "source_main_commit": "a7027914d4821b0152679344ca7b7aca699c0424",
+  "source_main_commit": "e1183ca1b22d3239dd3c1ae5ffd7cd38ba6587f4",
   "source_permanent_workflow": {
-    "run_id": 33423695584,
-    "run_number": 139,
+    "run_id": 33425403045,
+    "run_number": 146,
     "conclusion": "success",
     "semantics": "PERMANENT_CI_SUCCESS_PROVES_FAIL_CLOSED_ENFORCEMENT_NOT_RUNTIME_PROMOTION"
   },
@@ -2105,5 +2105,11 @@
       "audit_disposition": "PENDING_EXECUTABLE_CURRENT_HOST_EVIDENCE"
     }
   ],
-  "conclusion": "AUDIT_COMPLETE_RUNTIME_CLOSURE_NOT_PROVEN_FAIL_CLOSED_PROMOTION_REQUIRED"
+  "conclusion": "AUDIT_COMPLETE_RUNTIME_CLOSURE_NOT_PROVEN_FAIL_CLOSED_PROMOTION_REQUIRED",
+  "ai_infra_guard_current_host": {
+    "runtime_admission": "NOT_ADMITTED",
+    "current_host_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "evidence_registry_effect": "NONE",
+    "source_commit": "e1183ca1b22d3239dd3c1ae5ffd7cd38ba6587f4"
+  }
 }
