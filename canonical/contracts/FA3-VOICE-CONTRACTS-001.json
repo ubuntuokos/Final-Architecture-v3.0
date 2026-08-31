@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-VOICE-CONTRACTS-001",
+  "profile_id": "FA3-VOICE-001",
+  "status": "CANONICAL",
+  "contracts": {
+    "request": {
+      "schema": "fa3.voice-synthesis-request.v1",
+      "required": ["request_id", "text", "language", "mode", "model_id", "voice_identity_ref"],
+      "mode_enum": ["zero_shot", "cross_lingual", "instruct2"],
+      "fields": {
+        "request_id": "non-empty stable request identifier",
+        "text": "UTF-8 text; provider execution input only",
+        "language": "BCP-47/lowercase language projection",
+        "mode": "provider-neutral synthesis mode",
+        "model_id": "registry allowlisted model identity",
+        "voice_identity_ref": "canonical voice identity reference",
+        "consent_proof": "VoiceConsentProof when a human voice reference is used",
+        "reference_audio_path": "local authorized reference audio path",
+        "reference_audio_sha256": "sha256 binding of reference audio",
+        "prompt_text": "reference transcript for zero-shot mode",
+        "instruct_text": "bounded style/instruction text for instruct2 mode",
+        "streaming": "boolean execution preference",
+        "experimental_language_ack": "explicit acknowledgement for non-production-eligible language"
+      }
+    },
+    "consent": {
+      "schema": "fa3.voice-consent-proof.v1",
+      "required": ["status", "scope", "subject_authorized", "provenance_ref"],
+      "rules": [
+        "status MUST equal GRANTED",
+        "scope MUST include VOICE_SYNTHESIS",
+        "subject_authorized MUST be true",
+        "provenance_ref MUST be non-empty",
+        "provider MUST NOT mint or infer consent"
+      ]
+    },
+    "reference": {
+      "schema": "fa3.voice-reference-artifact.v1",
+      "required": ["voice_identity_ref", "audio_sha256", "consent_proof_ref", "provenance_ref"],
+      "rules": [
+        "audio_sha256 MUST match bytes consumed by provider",
+        "voice identity MUST remain stable across request/result/evidence"
+      ]
+    },
+    "result": {
+      "schema": "fa3.voice-synthesis-result.v1",
+      "required": ["request_id", "provider_id", "model_id", "model_revision", "audio_path", "audio_sha256", "sample_rate_hz", "channels", "voice_identity_ref", "execution_evidence"],
+      "audio_contract": {
+        "preferred_container": "WAV",
+        "sample_rate_hz": 24000,
+        "channels": 1
+      },
+      "rules": [
+        "result MUST bind provider/runtime/model/reference/device lineage",
+        "result MUST carry language promotion eligibility",
+        "result MUST NOT promote provider-specific session semantics into canonical authority"
+      ]
+    }
+  },
+  "security": {
+    "voice_cloning_requires_explicit_consent": true,
+    "silent_network_model_fetch_forbidden": true,
+    "arbitrary_checkpoint_paths_forbidden": true,
+    "cuda_requires_hrb_lease": true
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143
+}

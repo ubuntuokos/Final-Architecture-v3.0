@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-COSYVOICE-CI-EVIDENCE-2026-08-31",
+  "date": "2026-08-31",
+  "provider_id": "FA3-PROVIDER-COSYVOICE-001",
+  "profile_id": "FA3-VOICE-001",
+  "gate_id": "FA3-COSYVOICE-GATESET-001",
+  "result": "PASS",
+  "evidence_class": "CI_CANONICAL_EXECUTABLE_REGRESSION",
+  "executable_case_count": 21,
+  "passed": 21,
+  "failed": 0,
+  "assertions": [
+    "provider-neutral contract binding",
+    "zero new capability/authority invariant",
+    "immutable upstream/model pins",
+    "fail-closed model trust",
+    "explicit consent and reference-audio hash binding",
+    "HRB requirement for CUDA",
+    "Python 3.10 venv/SoX current-host admission policy",
+    "Hungarian experimental-language boundary",
+    "24 kHz mono result contract",
+    "optional-provider global promotion independence"
+  ],
+  "current_host_production_claim": false,
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "hungarian_production_claim": false,
+  "note": "This PASS proves canonical/executable policy regressions only. It is not evidence that CosyVoice is installed or synthesizing audio on the current host."
+}

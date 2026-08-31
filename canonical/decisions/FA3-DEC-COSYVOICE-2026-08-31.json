@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-COSYVOICE-2026-08-31",
+  "date": "2026-08-31",
+  "status": "CANONICAL_CLOSED",
+  "subject": "CosyVoice local TTS provider materialization under the provider-neutral FA3 Voice Fabric",
+  "decision": "IMPLEMENT_OPTIONAL_PROVIDER",
+  "profile_id": "FA3-VOICE-001",
+  "contract_id": "FA3-VOICE-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-COSYVOICE-001",
+  "gate_id": "FA3-COSYVOICE-GATESET-001",
+  "upstream_reference_id": "FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31",
+  "default_model": "FunAudioLLM/Fun-CosyVoice3-0.5B-2512",
+  "upstream_repository_commit": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+  "model_revision": "29e01c4e8d000f4bcd70751be16fa94bf3d85a18",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "capability_bindings": ["CAP-115", "CAP-116", "CAP-117"],
+  "mandatory_policy": [
+    "CosyVoice SHALL remain a replaceable execution provider, never an FA3 authority.",
+    "Voice cloning SHALL require explicit typed consent and reference-audio hash binding.",
+    "CUDA execution SHALL require Host Resource Broker admission/lease.",
+    "Runtime/model provenance SHALL be immutable and evidence-backed.",
+    "Silent runtime model download SHALL be forbidden; bootstrap download is explicit.",
+    "Provider runtime SHALL use a dedicated Python 3.10 venv and SHALL NOT require Conda.",
+    "Current-host admission SHALL require SoX availability.",
+    "Hungarian SHALL remain experimental until dedicated hu-HU voice quality evidence passes."
+  ],
+  "production_promotion_requirement": "CURRENT_HOST_REAL_AUDIO_E2E_PASS_PLUS_LANGUAGE_QUALITY_EVIDENCE",
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "prohibited": [
+    "COSYVOICE_AS_VOICE_IDENTITY_OR_CONSENT_AUTHORITY",
+    "COSYVOICE_AS_MODEL_ROUTING_AUTHORITY",
+    "IMPLICIT_UNLEASED_CUDA",
+    "ARBITRARY_MODEL_CHECKPOINT_PATH",
+    "SILENT_NETWORK_MODEL_FETCH",
+    "DOCUMENT_ONLY_RUNTIME_PROMOTION",
+    "CLAIMING_OFFICIAL_HUNGARIAN_SUPPORT_WITHOUT_UPSTREAM_OR_DEDICATED_EVIDENCE"
+  ]
+}
