@@ -35,7 +35,12 @@
     "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     ".github/workflows/fa3-current-host.yml",
     "fa3-current-host/README.md",
-    "fa3-current-host/manifest.json"
+    "fa3-current-host/manifest.json",
+    "src/fa3_cosyvoice_provider.py",
+    "src/fa3_cosyvoice_gate.py",
+    "tests/test_cosyvoice_gate.py",
+    "evidence/collect-cosyvoice-current-host.py",
+    ".github/workflows/fa3-cosyvoice-current-host.yml"
   ],
   "registered_current_host_surfaces": [
     {
@@ -79,6 +84,12 @@
       "name": "ai-infra-guard",
       "collector": "evidence/collect-ai-infra-guard-current-host.py",
       "gate": "ai-infra-guard-current-host",
+      "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "cosyvoice",
+      "collector": "evidence/collect-cosyvoice-current-host.py",
+      "gate": "cosyvoice-current-host",
       "activation": "CONDITIONAL_PROVIDER"
     }
   ],
