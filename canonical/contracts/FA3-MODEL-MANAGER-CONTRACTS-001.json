@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-MODEL-MANAGER-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "LogicalModelRecord",
+    "ModelArtifactDescriptor",
+    "PhysicalStoreProjection",
+    "ProviderMetadataClaim",
+    "ModelAcquisitionReceipt",
+    "ArtifactLineageEdge",
+    "RuntimeCompatibilityReceipt",
+    "DedupCandidateReceipt",
+    "PhysicalDedupAuthorization",
+    "StorageMutationRequest",
+    "ProviderAvailabilityState"
+  ],
+  "required_semantics": {
+    "model_identity": "STABLE_LOGICAL_IDENTITY_INDEPENDENT_OF_ABSOLUTE_PATH",
+    "artifact_identity": "CONTENT_HASH_REQUIRED",
+    "provider_metadata": "ATTRIBUTED_CLAIM_REQUIRES_VALIDATION_BEFORE_CANONICAL_ADOPTION",
+    "derived_artifact": "DISTINCT_ARTIFACT_ID_AND_LINEAGE_REQUIRED",
+    "native_store": "PREFERRED_UNLESS_VERIFIED_SHARED_STORE_PROJECTION_EXISTS",
+    "inventory_dedup": "DETECTION_ONLY_NO_MUTATION",
+    "physical_dedup": "EXPLICIT_AUTHORIZATION_AND_ROLLBACK_REQUIRED",
+    "routing": "FA3-AUTH-MODEL-ROUTER-001_ONLY",
+    "placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "promotion": "EXISTING_FA3_EVIDENCE_AND_PROMOTION_GATE_ONLY"
+  },
+  "artifact_descriptor_required_fields": [
+    "artifact_id",
+    "model_id",
+    "format",
+    "sha256",
+    "size_bytes",
+    "source_or_parent"
+  ],
+  "lineage_required_fields": [
+    "source_artifact_id",
+    "derived_artifact_id",
+    "transformation",
+    "recipe_or_tool_identity"
+  ],
+  "runtime_compatibility_states": [
+    "UNKNOWN",
+    "VERIFIED",
+    "REJECTED",
+    "STALE_EVIDENCE"
+  ],
+  "physical_dedup_required_evidence": [
+    "content_hash_match",
+    "format_match",
+    "immutable_artifact",
+    "runtime_compatibility_verified",
+    "projection_mechanism_verified",
+    "rollback_plan",
+    "explicit_authorization"
+  ],
+  "invariants": [
+    "MODEL_MANAGER_NOT_ARCHITECTURAL_AUTHORITY",
+    "STABILITY_MATRIX_REMAINS_PREFERRED_PHYSICAL_STORE_FOR_NATIVE_MEDIA_MODEL_CLASSES",
+    "MODEL_MANAGER_DOES_NOT_REPLACE_STABILITY_MATRIX_MODEL_MANAGEMENT",
+    "LOGICAL_MODEL_IDENTITY_SEPARATE_FROM_PHYSICAL_STORAGE_PATH",
+    "PROVIDER_METADATA_ATTRIBUTED_NOT_CANONICAL_WITHOUT_VALIDATION",
+    "ARTIFACT_CONTENT_IDENTITY_HASH_REQUIRED",
+    "DERIVED_QUANTIZED_OPTIMIZED_ARTIFACT_HAS_DISTINCT_IDENTITY_AND_LINEAGE",
+    "NATIVE_STORE_PREFERRED_UNLESS_VERIFIED_SHARED_STORE_PROJECTION",
+    "INVENTORY_DEDUP_SEPARATE_FROM_PHYSICAL_DEDUP",
+    "PHYSICAL_DEDUP_REQUIRES_HASH_FORMAT_IMMUTABILITY_COMPATIBILITY_ROLLBACK_EVIDENCE",
+    "MODEL_MANAGER_NOT_MODEL_ROUTER",
+    "MODEL_MANAGER_NOT_HOST_RESOURCE_BROKER",
+    "MODEL_MANAGER_NOT_SECRETS_POLICY_PROMOTION_AUTHORITY",
+    "PROVIDER_OUTAGE_PRESERVES_READABLE_CANONICAL_INVENTORY_PROJECTION",
+    "MUTATING_MOVE_DELETE_RELINK_REQUIRES_EXPLICIT_AUTHORIZATION",
+    "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
+    "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
+  ]
+}
