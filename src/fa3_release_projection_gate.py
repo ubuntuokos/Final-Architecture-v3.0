@@ -206,6 +206,26 @@ OPENCUT_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_ADMITTED"
 )
 
+OPENHANDS_PROVIDER_ID = "FA3-PROVIDER-OPENHANDS-001"
+OPENHANDS_CONTRACT_ID = "FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001"
+OPENHANDS_DECISION_ID = "FA3-DEC-OPENHANDS-2026-09-01"
+OPENHANDS_GATE_ID = "FA3-OPENHANDS-GATESET-001"
+OPENHANDS_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json"
+OPENHANDS_CONTRACT_PATH = "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json"
+OPENHANDS_DECISION_PATH = "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json"
+OPENHANDS_REFERENCE_PATH = "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json"
+OPENHANDS_GATE_RECORD_PATH = "canonical/FA3-GATE-OPENHANDS-001.json"
+OPENHANDS_ENFORCEMENT_PATH = "canonical/openhands-enforcement.json"
+OPENHANDS_ADMISSION_PATH = "canonical/openhands-runtime-admission.json"
+OPENHANDS_EVIDENCE_PATH = "evidence/reference/openhands-ci-2026-09-01.json"
+OPENHANDS_GATE_PATH = "src/fa3_openhands_gate.py"
+OPENHANDS_TEST_PATH = "tests/test_openhands_gate.py"
+OPENHANDS_CAPABILITY_ID = "CAP-028"
+OPENHANDS_RUNTIME_STATUS = "NOT_PROMOTED_REFERENCE_ONLY"
+OPENHANDS_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
+)
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1498,6 +1518,111 @@ def gate(root: Path):
             )
         )
 
+    openhands = projection.get("openhands_reconciliation", {})
+    required_openhands_manifest_paths = {
+        OPENHANDS_PROVIDER_PATH,
+        OPENHANDS_CONTRACT_PATH,
+        OPENHANDS_DECISION_PATH,
+        OPENHANDS_REFERENCE_PATH,
+        OPENHANDS_GATE_RECORD_PATH,
+        OPENHANDS_ENFORCEMENT_PATH,
+        OPENHANDS_ADMISSION_PATH,
+        OPENHANDS_EVIDENCE_PATH,
+        OPENHANDS_GATE_PATH,
+        OPENHANDS_TEST_PATH,
+        "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json",
+        "src/fa3_enforce.py",
+        "src/fa3_release_projection_gate.py",
+    }
+    missing_openhands_overlay_members = []
+    for key, required in {
+        "provider_records": OPENHANDS_PROVIDER_PATH,
+        "contract_records": OPENHANDS_CONTRACT_PATH,
+        "decision_records": OPENHANDS_DECISION_PATH,
+        "upstream_reference_records": OPENHANDS_REFERENCE_PATH,
+        "reference_evidence_records": OPENHANDS_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_openhands_overlay_members.append({"inventory": key, "path": required})
+    openhands_manifest_missing = sorted(required_openhands_manifest_paths - manifest_paths)
+    openhands_provider = (
+        loadj(root / OPENHANDS_PROVIDER_PATH)
+        if (root / OPENHANDS_PROVIDER_PATH).is_file()
+        else {}
+    )
+    openhands_evidence = (
+        loadj(root / OPENHANDS_EVIDENCE_PATH)
+        if (root / OPENHANDS_EVIDENCE_PATH).is_file()
+        else {}
+    )
+    openhands_admission = (
+        loadj(root / OPENHANDS_ADMISSION_PATH)
+        if (root / OPENHANDS_ADMISSION_PATH).is_file()
+        else {}
+    )
+    openhands_record = next(
+        (item for item in records if item.get("subject_id") == OPENHANDS_CAPABILITY_ID),
+        {},
+    )
+    openhands_projection_status = openhands_record.get(
+        "openhands_provider_projection_status", {}
+    )
+    openhands_binding_invalid = not (
+        OPENHANDS_DECISION_ID in openhands_record.get("source_decision_ids", [])
+        and OPENHANDS_EVIDENCE_PATH in openhands_record.get("evidence_artifacts", [])
+        and openhands_record.get("status") == "PENDING_CURRENT_HOST"
+        and openhands_projection_status.get("provider_id") == OPENHANDS_PROVIDER_ID
+        and openhands_projection_status.get("runtime_activation_status")
+        == OPENHANDS_RUNTIME_STATUS
+        and openhands_projection_status.get("current_host_runtime_evidence")
+        == "NOT_CLAIMED"
+    )
+    if (
+        openhands.get("provider_id") != OPENHANDS_PROVIDER_ID
+        or openhands.get("contract_id") != OPENHANDS_CONTRACT_ID
+        or openhands.get("decision_id") != OPENHANDS_DECISION_ID
+        or openhands.get("gate_id") != OPENHANDS_GATE_ID
+        or openhands.get("capability_id") != OPENHANDS_CAPABILITY_ID
+        or openhands.get("reconciliation_status") != OPENHANDS_RECONCILIATION_STATUS
+        or openhands.get("runtime_activation_status") != OPENHANDS_RUNTIME_STATUS
+        or openhands.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or openhands.get("provider_runtime_required_for_global_promotion_when_disabled")
+        is not False
+        or openhands.get("new_capabilities") != 0
+        or openhands.get("new_architectural_authorities") != 0
+        or openhands.get("capability_count_after") != CAPABILITY_COUNT
+        or OPENHANDS_GATE_ID not in projection_gates
+        or OPENHANDS_GATE_ID not in policy_gates
+        or missing_openhands_overlay_members
+        or openhands_manifest_missing
+        or openhands_binding_invalid
+        or openhands_provider.get("id") != OPENHANDS_PROVIDER_ID
+        or openhands_provider.get("architectural_authority") is not False
+        or openhands_provider.get("canonical_root") is not False
+        or openhands_provider.get("new_capability") is not False
+        or openhands_provider.get("new_architectural_authority") is not False
+        or openhands_provider.get("runtime_activation_status") != OPENHANDS_RUNTIME_STATUS
+        or openhands_admission.get("status") != OPENHANDS_RUNTIME_STATUS
+        or openhands_admission.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or openhands_admission.get("production_provider_admission") is not False
+        or openhands_evidence.get("status") != "PASS"
+        or openhands_evidence.get("current_host_provider_runtime_evidence") is not False
+        or openhands_evidence.get("current_host_runtime_promotion_claim") is not False
+        or openhands_evidence.get("capability_count_after") != CAPABILITY_COUNT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-032",
+                "OpenHands global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=openhands.get("reconciliation_status"),
+                runtime_activation_status=openhands.get("runtime_activation_status"),
+                missing_overlay_members=missing_openhands_overlay_members,
+                missing_manifest_paths=openhands_manifest_missing,
+                invalid_capability_binding=openhands_binding_invalid,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1731,6 +1856,8 @@ def gate(root: Path):
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),
+            "openhands_reconciliation": openhands.get("reconciliation_status"),
+            "openhands_runtime_activation_status": openhands.get("runtime_activation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
