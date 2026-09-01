@@ -1,0 +1,116 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "provider_adapter_contract": true,
+  "source_pattern_provider": "FA3-PROVIDER-OPENHANDS-001",
+  "related_contracts": [
+    "FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001",
+    "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "OpenHandsProviderDescriptor",
+    "OpenHandsComponentVersionTuple",
+    "OpenHandsAgentConfigProjection",
+    "DelegatedAgentExecutionRequest",
+    "WorkspaceExecutionProjection",
+    "CanonicalToolMediationRequest",
+    "CanonicalToolMediationReceipt",
+    "OpenHandsConversationStateProjection",
+    "OpenHandsPersistenceProjection",
+    "OpenHandsRiskSignal",
+    "OpenHandsConfirmationSignal",
+    "OpenHandsMcpProjection",
+    "OpenHandsExecutionEvidenceExport"
+  ],
+  "layer_separation": {
+    "agent_core": "DECLARATIVE_AGENT_BEHAVIOR_ONLY",
+    "application": "UI_SERVICE_INTEGRATION_LAYER_SEPARATE",
+    "tools": "EXECUTION_CAPABILITIES_MEDIATED_EXTERNALLY",
+    "workspace": "EXECUTION_ENVIRONMENT_PROJECTION_NOT_AUTHORITY",
+    "agent_server": "TRANSPORT_RUNTIME_PROJECTION_NOT_AUTHORITY"
+  },
+  "agent_config": {
+    "typed": true,
+    "serializable": true,
+    "versioned": true,
+    "capabilities_explicit": true,
+    "authority_not_inferred": true
+  },
+  "execution_state": {
+    "single_provider_state_projection": true,
+    "canonical_authority_external": true,
+    "events_append_only": true,
+    "action_observation_attribution": true,
+    "crash_resume_from_committed_state": true
+  },
+  "replay": {
+    "state_reconstruction_allowed": true,
+    "external_side_effect_reexecution_default": "FORBIDDEN",
+    "side_effect_replay": "SKIP_VERIFY_OR_EXPLICIT_IDEMPOTENT_ONLY"
+  },
+  "tool_mediation": {
+    "canonical_gateway_required": true,
+    "direct_provider_bypass_forbidden": true,
+    "execute_tool_bypass_forbidden": true,
+    "tool_discovery_is_not_authorization": true
+  },
+  "mcp": {
+    "provider_discovery_allowed_as_untrusted_projection": true,
+    "canonical_gateway_required_for_execution": true,
+    "provider_mcp_not_global_authority": true
+  },
+  "security": {
+    "provider_analyzer_role": "NON_AUTHORITATIVE_RISK_SIGNAL",
+    "provider_confirmation_role": "NON_AUTHORITATIVE_LOCAL_SIGNAL",
+    "fa3_policy_may_only_be_equALLY_OR_MORE_RESTRICTIVE": true,
+    "provider_policy_cannot_grant_missing_fa3_authorization": true
+  },
+  "workspace": {
+    "placement_authority": false,
+    "isolation_authority": false,
+    "local_unisolated_default_forbidden": true,
+    "explicit_external_admission_required": true,
+    "host_resource_admission_required_when_applicable": true
+  },
+  "secrets": {
+    "raw_secret_values_in_provider_persistence": "FORBIDDEN",
+    "secret_reference_handles_allowed": true,
+    "redaction_before_event_or_state_persistence": true
+  },
+  "versioning": {
+    "immutable_repository_commit_required": true,
+    "component_version_tuple_required": true,
+    "floating_main_latest_for_promotion": "FORBIDDEN"
+  },
+  "subagents": {
+    "capability_monotonic_narrowing": true,
+    "authority_expansion": false
+  },
+  "evidence": {
+    "provider_log_non_authoritative": true,
+    "canonical_export_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "current_host_promotion_requires_real_e2e": true
+  },
+  "forbidden_semantics": [
+    "PROVIDER_IMPLIES_ARCHITECTURAL_AUTHORITY",
+    "DIRECT_EXECUTE_TOOL_BYPASSES_CANONICAL_MEDIATION",
+    "PROVIDER_NATIVE_MCP_AUTO_AUTHORIZES_TOOL",
+    "SECURITY_ANALYZER_GRANTS_FA3_AUTHORIZATION",
+    "CONFIRMATION_POLICY_WEAKENS_FA3_POLICY",
+    "LOCAL_WORKSPACE_DEFAULTS_TO_UNISOLATED_HOST_EXECUTION",
+    "WORKSPACE_SELECTS_PLACEMENT_OR_ISOLATION",
+    "RAW_SECRET_VALUES_PERSISTED_BY_PROVIDER",
+    "FLOATING_COMPONENT_TUPLE_USED_FOR_PROMOTION",
+    "REPLAY_REEXECUTES_EXTERNAL_SIDE_EFFECTS_BY_DEFAULT",
+    "SUBAGENT_CAPABILITY_ESCALATION",
+    "PROVIDER_LOG_BECOMES_CANONICAL_EVIDENCE",
+    "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
+  ]
+}
