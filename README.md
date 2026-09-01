@@ -503,6 +503,25 @@ PYTHONPATH=src python -m unittest tests.test_munder_difflin_gate -v
 
 `FA3-MUNDER-DIFFLIN-GATESET-001` executes 16 positive/negative regressions and recursively rejects canonical records that promote Munder Difflin into an FA3 authority. The gate is bound into the global static enforcement and permanent GitHub CI.
 
+## Muse Code optional durable/replayable developer provider
+
+`FA3-PROVIDER-MUSE-CODE-001` registers Meta Muse Code as an **OPTIONAL terminal-first agentic software-development provider + STRONG durable/replayable multi-agent execution pattern source**. It adds **no new capability**, **no new architectural authority**, and no required runtime dependency; the canonical capability count remains **143**.
+
+The provider-neutral `FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001` absorbs the officially described Muse Code runtime properties: session-persistent background subagents, an append-only local execution event log covering model calls/tool runs/approvals/edits, restart-safe crash recovery, replay-exact state reconstruction, approval-gated planning, plan critique, and long-horizon goal execution. FA3 tightens these patterns with fail-closed replay side-effect suppression/idempotency, checkpoint-to-event-range binding, provenance preservation through context compaction, capability narrowing for persistent subagents, pinned replay identities, secret redaction, and explicit scope/budget bounds.
+
+> **Muse Code SHALL remain an optional provider/pattern source and SHALL NOT become an FA3 identity, authorization, MCP/tool-mediation, model-routing, secrets, network-egress, host-resource, workflow/orchestration, evidence, developer-execution, git/release or registry authority.**
+
+The official Meta announcement is recorded in `canonical/references/FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01.json`. Because the beta installer/service state is not an immutable upstream source pin, it is **reference material only** and cannot serve as current-host or production promotion evidence.
+
+Run the executable gate with:
+
+```bash
+./bin/fa3-enforce muse-code
+PYTHONPATH=src python -m unittest tests.test_muse_code_gate -v
+```
+
+`FA3-MUSE-CODE-GATESET-001` executes **20 positive/negative fail-closed regressions**. The committed `evidence/reference/muse-code-ci-2026-09-01.json` is CI/reference evidence only; actual Muse Code runtime admission remains `NOT_PROMOTED_REFERENCE_ONLY` until separate current-host conformance exists.
+
 
 ## AI Engineering from Scratch cross-cutting reference
 
