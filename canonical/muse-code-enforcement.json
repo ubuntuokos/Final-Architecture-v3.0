@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.muse-code-enforcement.v1",
+  "gate_id": "FA3-MUSE-CODE-GATESET-001",
+  "executable_gate_id": "FA3-GATE-MUSE-CODE-001",
+  "provider_id": "FA3-PROVIDER-MUSE-CODE-001",
+  "contract_id": "FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001",
+  "classification": [
+    "OPTIONAL_AGENTIC_DEVELOPER_PROVIDER",
+    "DURABLE_REPLAYABLE_EXECUTION_PATTERN_SOURCE",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "mandatory_rule_count": 20,
+  "p0_invariants": [
+    "MUSE_CODE_PROVIDER_NOT_AUTHORITY",
+    "MUSE_CODE_DURABLE_SESSION_EVENT_SOURCE_REQUIRED",
+    "MUSE_CODE_APPEND_ONLY_MONOTONIC_EVENT_SEQUENCE",
+    "MUSE_CODE_MODEL_TOOL_APPROVAL_EDIT_ATTRIBUTION",
+    "MUSE_CODE_APPROVAL_PRECEDES_GATED_MUTATION",
+    "MUSE_CODE_CRASH_RESUME_FROM_COMMITTED_CURSOR",
+    "MUSE_CODE_REPLAY_RECONSTRUCTS_WITHOUT_SIDE_EFFECT_REEXECUTION",
+    "MUSE_CODE_REPLAY_EXTERNAL_SIDE_EFFECT_IDEMPOTENCY",
+    "MUSE_CODE_CHECKPOINT_BOUND_TO_EVENT_RANGE_AND_STATE_DIGEST",
+    "MUSE_CODE_PROVENANCE_SURVIVES_CONTEXT_COMPACTION",
+    "MUSE_CODE_PERSISTENT_SUBAGENT_CAPABILITY_NARROWING",
+    "MUSE_CODE_BOUNDED_PARALLEL_SUBAGENT_EXECUTION",
+    "MUSE_CODE_CANCEL_TERMINATE_RELEASES_SUBAGENT_RESOURCES",
+    "MUSE_CODE_PENDING_APPROVAL_NOT_AUTO_GRANTED_ON_RESUME",
+    "MUSE_CODE_RUNTIME_MODEL_TOOL_IDENTITY_PINNED_FOR_REPLAY",
+    "MUSE_CODE_LOCAL_EVENT_LOG_NOT_CANONICAL_EVIDENCE_AUTHORITY",
+    "MUSE_CODE_EVENT_LOG_SECRET_REDACTION_REQUIRED",
+    "MUSE_CODE_PLAN_CRITIQUE_GOAL_PRIMITIVES_NOT_AUTHORIZATION",
+    "MUSE_CODE_LONG_HORIZON_GOAL_SCOPE_BUDGET_BOUNDED",
+    "MUSE_CODE_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
+  ],
+  "mandatory_constraint": "Muse Code SHALL remain an optional provider/pattern source and SHALL NOT become an FA3 identity, authorization, MCP/tool-mediation, model-routing, secrets, network-egress, host-resource, workflow/orchestration, evidence, developer-execution, git/release or registry authority.",
+  "executable_gate": "./bin/fa3-enforce muse-code",
+  "report_path": "reports/muse-code-gate-report.json",
+  "regression_case_count": 20,
+  "global_static_integration": true
+}
