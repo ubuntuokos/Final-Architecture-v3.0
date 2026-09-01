@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01",
+  "provider_id": "FA3-PROVIDER-MUSE-CODE-001",
+  "upstream_name": "Meta Muse Code",
+  "observed_at": "2026-09-01",
+  "official_announcement": "https://research.meta.ai/blog/introducing-muse-code-and-muse-spark-1-2",
+  "announced_at": "2026-08-05",
+  "upstream_status": "BETA",
+  "supported_platforms": [
+    "macOS",
+    "Linux"
+  ],
+  "powered_by": "Muse Spark 1.2",
+  "immutable_upstream_source_available": false,
+  "promotion_evidence": false,
+  "floating_service_or_installer_state_allowed_as_promotion_evidence": false,
+  "reference_use": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_PROVIDER_REFERENCE_ONLY",
+  "runtime_activation_requires_separate_current_host_conformance": true,
+  "confirmed_patterns": [
+    "async background agents persistent for the session",
+    "local append-only event log",
+    "event coverage includes model calls, tool runs, approvals and edits",
+    "runtime described as replay-exact",
+    "runtime described as restart-safe after crash",
+    "approval-gated plan skill",
+    "plan stress-test skill",
+    "long-horizon goal skill"
+  ],
+  "source_confidence": "OFFICIAL_META_AI_RESEARCH_ANNOUNCEMENT"
+}
