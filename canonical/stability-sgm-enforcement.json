@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.stability-sgm-enforcement.v1",
+  "gate_id": "FA3-STABILITY-SGM-GATESET-001",
+  "executable_gate_id": "FA3-GATE-STABILITY-SGM-001",
+  "provider_id": "FA3-PROVIDER-STABILITY-SGM-001",
+  "contract_id": "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+  "fail_closed": true,
+  "runtime_provider_required_for_global_promotion": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "mandatory_rule_count": 16,
+  "p0_invariants": [
+    "GEN_PIPELINE_COMPONENT_ADDRESSABILITY_REQUIRED",
+    "GEN_CONDITIONING_TYPED_SEMANTICS_REQUIRED",
+    "GEN_SAMPLER_NOT_MODEL_OR_ROUTING_AUTHORITY",
+    "GEN_GUIDANCE_SEPARABLE_FROM_SAMPLING",
+    "GEN_TRAINING_AND_INFERENCE_DENOISING_SEMANTICS_EXPLICIT",
+    "GEN_EXECUTION_RECIPE_IDENTITY_REPRODUCIBLE",
+    "GEN_CONTAINER_AND_TENSOR_INTEGRITY_INDEPENDENT",
+    "GEN_CODE_LICENSE_NOT_WEIGHT_OR_OUTPUT_LICENSE",
+    "GEN_CAMERA_VIEW_CONDITIONING_EXPLICIT",
+    "GEN_TEMPORAL_AND_MULTIVIEW_QUALITY_SEPARATE",
+    "GEN_AUTOREGRESSIVE_EXTENSION_ANCESTRY_REQUIRED",
+    "GEN_LOW_VRAM_POLICY_NOT_MODEL_SEMANTIC_MUTATION",
+    "GEN_SV3D_SV4D_OUTPUT_NOT_CANONICAL_GEOMETRY",
+    "GEN_PROVIDER_ISOLATED_RUNTIME_REQUIRED",
+    "GEN_HRB_ONLY_ACCELERATOR_PLACEMENT",
+    "GEN_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
+  ],
+  "mandatory_constraint": "Stability SGM SHALL remain an optional non-authoritative provider; SV3D/SV4D outputs SHALL remain generated visual observations until FA3-3D-GEOM-001 validates and materializes canonical geometry.",
+  "executable_gate": "./bin/fa3-enforce stability-sgm",
+  "report_path": "reports/stability-sgm-gate-report.json",
+  "global_static_integration": true
+}

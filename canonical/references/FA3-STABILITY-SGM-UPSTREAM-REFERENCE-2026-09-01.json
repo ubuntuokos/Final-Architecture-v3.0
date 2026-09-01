@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01",
+  "provider_id": "FA3-PROVIDER-STABILITY-SGM-001",
+  "repository": "Stability-AI/generative-models",
+  "repository_url": "https://github.com/Stability-AI/generative-models",
+  "reference_branch": "main",
+  "resolved_commit": "e8cd657656fa5d61688191730d0e03242bf4ed44",
+  "commit_date": "2025-12-16T08:36:15Z",
+  "commit_signature_verified_by_github": true,
+  "observed_at": "2026-09-01",
+  "floating_reference_forbidden_for_promotion": true,
+  "source_code_license": "MIT",
+  "model_weight_license_policy": "MODEL_SPECIFIC_SEPARATE_ADMISSION_REQUIRED",
+  "model_families_observed": ["SDXL", "SDXL_TURBO", "SVD", "SVD_XT", "SV3D", "SV4D", "SV4D_2_0"],
+  "pattern_claims": [
+    "CONFIG_DRIVEN_COMPONENT_COMPOSITION",
+    "CONDITIONER_GUIDER_SAMPLER_DENOISER_SEPARATION",
+    "IMAGE_TO_VIDEO_GENERATION",
+    "CAMERA_CONDITIONED_MULTIVIEW_SYNTHESIS",
+    "TEMPORAL_MULTIVIEW_AUTOREGRESSIVE_EXTENSION",
+    "CONTAINER_AND_TENSOR_HASH_PUBLICATION_PATTERN"
+  ],
+  "reference_only_caveats": [
+    "UPSTREAM_INSTALL_RECIPES_ARE_NOT_FA3_HOST_RUNTIME_REQUIREMENTS",
+    "FORMAL_RELEASE_CADENCE_DOES_NOT_TRACK_ALL_REPOSITORY_MODEL_ADDITIONS",
+    "MODEL_ACCESS_AND_LICENSE_TERMS_MUST_BE_REVALIDATED_PER_ARTIFACT_AT_ADMISSION_TIME"
+  ]
+}

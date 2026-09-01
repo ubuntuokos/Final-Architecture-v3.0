@@ -168,6 +168,22 @@ MARKETING_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_PASS_CURRENT_HOST_PENDING"
 )
 
+STABILITY_SGM_PROVIDER_ID = "FA3-PROVIDER-STABILITY-SGM-001"
+STABILITY_SGM_CONTRACT_ID = "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001"
+STABILITY_SGM_GATE_ID = "FA3-STABILITY-SGM-GATESET-001"
+STABILITY_SGM_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-STABILITY-SGM-001.json"
+STABILITY_SGM_CONTRACT_PATH = "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json"
+STABILITY_SGM_DECISION_PATH = "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json"
+STABILITY_SGM_REFERENCE_PATH = "canonical/references/FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01.json"
+STABILITY_SGM_GATE_RECORD_PATH = "canonical/FA3-GATE-STABILITY-SGM-001.json"
+STABILITY_SGM_ENFORCEMENT_PATH = "canonical/stability-sgm-enforcement.json"
+STABILITY_SGM_EVIDENCE_PATH = "evidence/reference/stability-sgm-ci-2026-09-01.json"
+STABILITY_SGM_GATE_PATH = "src/fa3_stability_sgm_gate.py"
+STABILITY_SGM_TEST_PATH = "tests/test_stability_sgm_gate.py"
+STABILITY_SGM_RECONCILIATION_STATUS = (
+    "CANONICAL_MATERIALIZED_EXECUTABLE_REFERENCE_PASS_CURRENT_HOST_PENDING"
+)
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1295,6 +1311,70 @@ def gate(root: Path):
             )
         )
 
+    stability_sgm = projection.get("stability_sgm_reconciliation", {})
+    required_stability_sgm_manifest_paths = {
+        STABILITY_SGM_PROVIDER_PATH,
+        STABILITY_SGM_CONTRACT_PATH,
+        STABILITY_SGM_DECISION_PATH,
+        STABILITY_SGM_REFERENCE_PATH,
+        STABILITY_SGM_GATE_RECORD_PATH,
+        STABILITY_SGM_ENFORCEMENT_PATH,
+        STABILITY_SGM_EVIDENCE_PATH,
+        STABILITY_SGM_GATE_PATH,
+        STABILITY_SGM_TEST_PATH,
+    }
+    missing_stability_sgm_overlay_members = []
+    for key, required in {
+        "provider_records": STABILITY_SGM_PROVIDER_PATH,
+        "contract_records": STABILITY_SGM_CONTRACT_PATH,
+        "decision_records": STABILITY_SGM_DECISION_PATH,
+        "upstream_reference_records": STABILITY_SGM_REFERENCE_PATH,
+        "reference_evidence_records": STABILITY_SGM_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_stability_sgm_overlay_members.append({"inventory": key, "path": required})
+    stability_sgm_manifest_missing = sorted(required_stability_sgm_manifest_paths - manifest_paths)
+    stability_sgm_provider = (
+        loadj(root / STABILITY_SGM_PROVIDER_PATH)
+        if (root / STABILITY_SGM_PROVIDER_PATH).is_file()
+        else {}
+    )
+    stability_sgm_evidence = (
+        loadj(root / STABILITY_SGM_EVIDENCE_PATH)
+        if (root / STABILITY_SGM_EVIDENCE_PATH).is_file()
+        else {}
+    )
+    if (
+        stability_sgm.get("provider_id") != STABILITY_SGM_PROVIDER_ID
+        or stability_sgm.get("contract_id") != STABILITY_SGM_CONTRACT_ID
+        or stability_sgm.get("gate_id") != STABILITY_SGM_GATE_ID
+        or stability_sgm.get("reconciliation_status") != STABILITY_SGM_RECONCILIATION_STATUS
+        or stability_sgm.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or stability_sgm.get("current_host_provider_runtime_evidence") is not False
+        or stability_sgm.get("new_capabilities") != 0
+        or stability_sgm.get("new_architectural_authorities") != 0
+        or stability_sgm.get("capability_count_after") != CAPABILITY_COUNT
+        or STABILITY_SGM_GATE_ID not in projection_gates
+        or STABILITY_SGM_GATE_ID not in policy_gates
+        or missing_stability_sgm_overlay_members
+        or stability_sgm_manifest_missing
+        or stability_sgm_provider.get("id") != STABILITY_SGM_PROVIDER_ID
+        or stability_sgm_provider.get("architectural_authority") is not False
+        or stability_sgm_provider.get("output_semantics", {}).get("canonical_geometry") is not False
+        or stability_sgm_evidence.get("status") != "PASS"
+        or stability_sgm_evidence.get("current_host_runtime_evidence") is not False
+        or stability_sgm_evidence.get("capability_count_after") != CAPABILITY_COUNT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-030",
+                "Stability SGM global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=stability_sgm.get("reconciliation_status"),
+                missing_overlay_members=missing_stability_sgm_overlay_members,
+                missing_manifest_paths=stability_sgm_manifest_missing,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1525,6 +1605,7 @@ def gate(root: Path):
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
+            "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
