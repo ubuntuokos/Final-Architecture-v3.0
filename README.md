@@ -230,6 +230,24 @@ Canonical gate:
 
 The upstream reference record is `canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json`; it records Kdenlive 26.04 native OTIO import/export and supported subtitle import as reference evidence only, never as current-host promotion evidence.
 
+## OpenCut programmable video editing and timeline automation
+
+`FA3-PROGRAMMABLE-VIDEO-EDITING-001` materializes the existing `CAP-121`/`CAP-126` programmable-editorial baseline as a provider-neutral **Programmable Video Editing, Timeline Automation & Agentic Editor Fabric**. It creates no capability and no architectural authority; the canonical capability count remains **143**.
+
+`FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001` defines the common `VideoTimelineProvider` boundary for OpenCut, OpenShot/libopenshot and future editor adapters. It includes typed project/media/timeline/track/effect/audio/caption/preview/render/validate/export operations, OpenTimelineIO as canonical timeline IR, versioned plugin capability descriptors, cancellable headless rendering, deterministic job identity, FFmpeg/codec metadata, GPU capability receipts, isolation, SHA-256 artifact identity and render provenance.
+
+`FA3-PROVIDER-OPENCUT-001` is classified as **`REQ-ADAPTER + REF`**: a required-supported modern programmable/local-first editor reference and replaceable adapter, but neither an exclusive NLE nor a hard dependency. Kdenlive remains the primary Linux/Kubuntu human finishing NLE; OpenMontage remains the higher-level agentic video-production/planning provider; Temporal, NATS JetStream and Valkey retain durable-workflow, event-fabric and runtime-state/cache authority. Any OpenCut MCP surface must remain behind the central FA3 MCP/Capability Gateway.
+
+The upstream rewrite is pinned for reference to `OpenCut-app/OpenCut@400f097becba5db0fbc305d5a65348cb81c20356`. Its README declares Editor API, plugin-first architecture, a cross-client Rust core, MCP, headless automation/batch rendering and editor scripting as the target direction, but the observed tree does not yet expose stable versions of those interfaces. Runtime activation therefore remains `NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE`; future admission requires immutable source/dependency pins, a capability compatibility matrix, adapter conformance and real current-host E2E evidence.
+
+Agent editing must use structured, schema-validated operations rather than primary mouse/keyboard UI automation. Destructive mutations require dry-run, diff, provenance, audit and policy-evaluated human approval. Run the 15-rule positive/negative fail-closed gate with:
+
+```bash
+./bin/fa3-enforce opencut
+PYTHONPATH=src python -m unittest tests.test_opencut_gate -v
+```
+
+The committed `evidence/reference/opencut-ci-2026-09-01.json` is canonical/reference PASS evidence only and does not promote an OpenCut runtime or satisfy the current-host evidence still required for `CAP-121`/`CAP-126`.
 
 ## Blackhole / Kdenlive long-form transcription integration
 

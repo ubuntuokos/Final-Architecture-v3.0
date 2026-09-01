@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-OPENCUT-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-OPENCUT-001",
+  "status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "blocking_conditions": [
+    "stable versioned Editor API not observed",
+    "stable versioned MCP server surface not observed",
+    "stable versioned headless editing/rendering surface not observed",
+    "stable versioned plugin SDK/capability descriptors not observed",
+    "FA3 OpenCut adapter implementation and conformance evidence absent",
+    "current-host production E2E evidence absent"
+  ],
+  "future_admission_requirements": [
+    "immutable upstream commit/version pin",
+    "dependency lock identity",
+    "capability compatibility matrix",
+    "typed authenticated loopback adapter behind Central MCP Gateway",
+    "structured timeline operation and destructive-mutation refusal evidence",
+    "headless preview/render/cancel E2E evidence",
+    "FFmpeg codec and GPU capability receipts",
+    "render isolation, artifact SHA-256 and provenance evidence",
+    "current-host rollback evidence"
+  ],
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

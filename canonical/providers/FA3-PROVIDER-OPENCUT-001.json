@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENCUT-001",
+  "name": "OpenCut",
+  "status": "REQUIRED_SUPPORTED_REFERENCE_ADAPTER_RUNTIME_NOT_ADMITTED",
+  "classification": [
+    "REQ_ADAPTER_PLUS_REFERENCE",
+    "PROGRAMMABLE_LOCAL_FIRST_EDITOR_REFERENCE",
+    "HUMAN_FACING_BROWSER_DESKTOP_EDITOR_PROVIDER",
+    "FUTURE_AGENT_NATIVE_EDITOR_BACKEND_CANDIDATE",
+    "REPLACEABLE_PROVIDER"
+  ],
+  "profile": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+  "contract": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "hard_dependency": false,
+  "exclusive_nle": false,
+  "upstream": {
+    "repository": "OpenCut-app/OpenCut",
+    "branch": "main",
+    "observed_commit": "400f097becba5db0fbc305d5a65348cb81c20356",
+    "license": "MIT",
+    "rewrite_status": "GROUND_UP_REWRITE_ARCHITECTURE_IN_DESIGN",
+    "production_today_recommendation": "UPSTREAM_POINTS_TO_OPENCUT_CLASSIC",
+    "floating_main_allowed_for_promotion_evidence": false
+  },
+  "declared_upstream_direction": {
+    "editor_api": "PLANNED_NOT_STABLE",
+    "plugin_first_architecture": "PLANNED_NOT_STABLE",
+    "rust_core_shared_across_clients": "PLANNED_PARTIAL_FOUNDATIONS_PRESENT",
+    "mcp_server": "PLANNED_NOT_STABLE",
+    "headless_mode": "PLANNED_NOT_STABLE",
+    "editor_scripting_tab": "PLANNED_NOT_STABLE"
+  },
+  "runtime_activation": {
+    "status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
+    "requires_immutable_repo_commit": true,
+    "requires_dependency_lock": true,
+    "requires_capability_compatibility_matrix": true,
+    "requires_adapter_conformance": true,
+    "requires_current_host_e2e": true,
+    "provider_runtime_required_for_global_promotion_when_disabled": false
+  },
+  "authority_boundaries": {
+    "human_finishing_authority": "KDENLIVE_REMAINS_PRIMARY_HUMAN_FINISHING_NLE",
+    "agentic_pipeline_role": "OPENMONTAGE_REMAINS_HIGHER_LEVEL_PRODUCTION_PLANNING_PROVIDER",
+    "durable_orchestration": "TEMPORAL_REMAINS_AUTHORITY",
+    "event_fabric": "NATS_JETSTREAM_REMAINS_AUTHORITY",
+    "runtime_state_cache": "VALKEY_REMAINS_AUTHORITY",
+    "mcp_gateway": "FA3_CENTRAL_MCP_GATEWAY_REMAINS_AUTHORITY",
+    "host_resources": "FA3_HOST_RESOURCE_BROKER_REMAINS_AUTHORITY",
+    "timeline_interchange": "OPENTIMELINEIO_REMAINS_CANONICAL_IR"
+  },
+  "forbidden_authorities": [
+    "IDENTITY_AUTHORITY",
+    "AUTHORIZATION_AUTHORITY",
+    "GLOBAL_MCP_AUTHORITY",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "EVENT_FABRIC_AUTHORITY",
+    "RUNTIME_STATE_CACHE_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_PROVENANCE_AUTHORITY",
+    "ARTIFACT_REGISTRY_AUTHORITY",
+    "FINAL_HUMAN_EDITORIAL_AUTHORITY"
+  ],
+  "normative_constraint": "OpenCut SHALL remain a replaceable provider adapter behind FA3 contracts and SHALL NOT become an identity, authorization, global MCP, workflow, event, cache, host-resource, evidence, artifact-registry or final-human-editorial authority."
+}

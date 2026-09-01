@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01",
+  "observed_at": "2026-09-01T19:00:00Z",
+  "repository": "OpenCut-app/OpenCut",
+  "repository_url": "https://github.com/OpenCut-app/OpenCut",
+  "branch": "main",
+  "commit": "400f097becba5db0fbc305d5a65348cb81c20356",
+  "commit_url": "https://github.com/OpenCut-app/OpenCut/commit/400f097becba5db0fbc305d5a65348cb81c20356",
+  "license": "MIT",
+  "upstream_status": "GROUND_UP_REWRITE",
+  "readme_claims": [
+    "Editor API planned",
+    "plugin-first architecture and first-class third-party plugins planned",
+    "desktop/mobile/browser from a Rust core planned",
+    "MCP server for AI agents planned",
+    "headless automation and batch rendering planned",
+    "editor scripting tab planned"
+  ],
+  "observed_tree": {
+    "file_count": 151,
+    "rust_workspace_manifest_present": true,
+    "rust_desktop_foundations_present": true,
+    "stable_editor_api_surface_observed": false,
+    "stable_mcp_server_surface_observed": false,
+    "stable_headless_surface_observed": false,
+    "stable_plugin_sdk_surface_observed": false
+  },
+  "assessment": "STRATEGIC_FIT_HIGH_PRODUCTION_READINESS_INSUFFICIENT",
+  "promotion_use": "REFERENCE_AND_CONTRACT_DESIGN_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "floating_branch_forbidden_as_promotion_evidence": true
+}
