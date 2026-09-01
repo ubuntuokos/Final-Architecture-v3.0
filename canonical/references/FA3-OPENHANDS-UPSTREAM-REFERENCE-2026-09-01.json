@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01",
+  "provider_id": "FA3-PROVIDER-OPENHANDS-001",
+  "upstream_name": "OpenHands Software Agent SDK",
+  "repository": "OpenHands/software-agent-sdk",
+  "observed_at": "2026-09-01",
+  "branch": "main",
+  "immutable_observed_commit": "a9e0a8a1aab2164b46bae00a18157a343aaa94c9",
+  "immutable_upstream_source_available": true,
+  "component_versions": {
+    "openhands-sdk": "1.44.1",
+    "openhands-agent-server": "1.44.1",
+    "openhands-tools": "1.44.1",
+    "openhands-workspace": "1.44.1"
+  },
+  "python_requirement": ">=3.12",
+  "component_layout": [
+    "openhands-sdk",
+    "openhands-tools",
+    "openhands-workspace",
+    "openhands-agent-server"
+  ],
+  "confirmed_patterns": [
+    "SDK_TOOLS_WORKSPACE_AGENT_SERVER_SEPARATION",
+    "PYTHON_TYPESCRIPT_REST_CLIENT_SURFACES",
+    "LOCAL_OR_EPHEMERAL_WORKSPACE_PROJECTIONS",
+    "DECLARATIVE_TYPED_COMPONENT_MODEL",
+    "CONVERSATION_PERSISTENCE_AND_RECOVERY",
+    "MCP_TOOL_DISCOVERY_AND_EXECUTION_BRIDGE",
+    "SECURITY_ANALYZER_AND_CONFIRMATION_POLICIES"
+  ],
+  "observed_risk_boundaries": [
+    "V1_ISOLATION_OPTIONAL_AND_LOCAL_SAME_PROCESS_EXECUTION_POSSIBLE",
+    "DIRECT_CONVERSATION_EXECUTE_TOOL_BYPASSES_SECURITY_ANALYZER_AND_CONFIRMATION_POLICY",
+    "PERSISTED_CONVERSATION_STATE_MAY_INCLUDE_SECRETS"
+  ],
+  "recent_security_relevant_commits": [
+    "c98ab175f4e9eb8b0777707c5739348109c6244c",
+    "987b58a898016f423f2a20163add61e57ae40cbf"
+  ],
+  "source_confidence": "OFFICIAL_GITHUB_REPOSITORY_AND_OFFICIAL_DOCUMENTATION",
+  "reference_use": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_PROVIDER_REFERENCE_ONLY",
+  "promotion_evidence": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "runtime_activation_requires_separate_current_host_conformance": true
+}

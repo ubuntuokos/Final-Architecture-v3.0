@@ -542,6 +542,46 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             td.cleanup()
 
 
+    def test_openhands_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["openhands_reconciliation"]["provider_id"] = "INVALID"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-032"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_openhands_reference_cannot_claim_current_host_runtime(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["openhands_reconciliation"]["current_host_runtime_evidence"] = (
+                "CURRENT_HOST_PRODUCTION_E2E_PASS"
+            )
+            obj["openhands_reconciliation"]["runtime_activation_status"] = "ADMITTED"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-032"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+
 
 if __name__ == "__main__":
     unittest.main()

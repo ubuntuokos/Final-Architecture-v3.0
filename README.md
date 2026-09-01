@@ -818,3 +818,25 @@ Public launch/send requires canonical consent/suppression checks, policy mediati
 - GPU evidence is separate and requires Host Resource Broker admission/lease evidence.
 
 Run `bash bin/fa3-model-manager-current-host.sh` and validate with `./bin/fa3-enforce model-manager-current-host`. GitHub-hosted CI cannot fabricate `CURRENT_HOST_MODEL_PROVIDER_E2E_PASS`; the dedicated workflow runs only on the self-hosted `fa3-current-host` runner.
+
+
+## OpenHands optional developer-agent execution provider
+
+`FA3-PROVIDER-OPENHANDS-001` registers `OpenHands/software-agent-sdk` as an **OPTIONAL developer-agent execution provider + Software Agent SDK / Agent Server / workspace reference provider + STRONG architectural pattern source** under the existing `FA3-AGENT-EXEC-001` / `CAP-028` surface. It adds no capability and no architectural authority; the canonical capability count remains **143**.
+
+The reference tuple is pinned to `OpenHands/software-agent-sdk@a9e0a8a1aab2164b46bae00a18157a343aaa94c9`, with `openhands-sdk`, `openhands-agent-server`, `openhands-tools` and `openhands-workspace` all observed at **1.44.1**. Floating `main` / `latest` is not promotion evidence.
+
+FA3 absorbs the useful typed/declarative agent, application/tool/workspace separation, durable conversation state, append-only action/observation trajectory, crash-safe resume, MCP bridge and security-risk-signal patterns, but deliberately tightens three upstream boundaries: provider-local `conversation.execute_tool()` may not bypass canonical tool authorization; raw secret values may not be stored in provider persistence; and local/unisolated execution is forbidden unless the existing FA3 Agent Execution / Host Resource / Security authorities explicitly admit the placement and isolation scope.
+
+The mandatory authority boundary is:
+
+> **OpenHands SHALL NOT become an FA3 identity, authentication, authorization, MCP/capability-gateway, model-routing, secrets, network-egress, host-resource, placement/isolation, durable-workflow/orchestration, evidence/provenance, developer-execution, git/release or canonical-registry authority.**
+
+The permanent fail-closed gate executes 20 positive/negative P0 regressions:
+
+```bash
+./bin/fa3-enforce openhands
+PYTHONPATH=src python -m unittest tests.test_openhands_gate -v
+```
+
+The committed `evidence/reference/openhands-ci-2026-09-01.json` is reference/CI PASS evidence only. OpenHands runtime activation remains `NOT_PROMOTED_REFERENCE_ONLY` until a separate real current-host adapter, isolation/placement, secret-externalization, crash/resume, tool/MCP mediation and production E2E evidence package passes.
