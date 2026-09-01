@@ -1534,6 +1534,8 @@ def gate(root: Path):
         "evidence/evidence-registry.json",
         "src/fa3_enforce.py",
         "src/fa3_release_projection_gate.py",
+        "tests/test_release_projection.py",
+        ".github/workflows/fa3-permanent-enforcement.yml",
     }
     missing_openhands_overlay_members = []
     for key, required in {
