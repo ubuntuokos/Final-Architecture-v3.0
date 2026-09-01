@@ -18,6 +18,7 @@ from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_curren
 from fa3_modular_gate import gate as modular_gate
 from fa3_inference_portability_gate import gate as inference_portability_gate
 from fa3_model_manager_gate import gate as model_manager_gate
+from fa3_model_manager_current_host_gate import gate as model_manager_current_host_gate
 from fa3_modular_runtime import run_executable_conformance as modular_provider_conformance
 from fa3_modular_current_host_gate import gate as modular_current_host_gate
 from fa3_demucs_gate import gate as demucs_gate
@@ -359,7 +360,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -405,6 +406,8 @@ def main():
             x=inference_portability_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="model-manager":
             x=model_manager_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="model-manager-current-host":
+            x=model_manager_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular-provider":
             x=modular_provider_conformance(root); writej(root/"reports/modular-runtime-conformance-report.json",x); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="modular-current-host":

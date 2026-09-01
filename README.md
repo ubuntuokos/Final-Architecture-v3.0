@@ -752,3 +752,15 @@ Primary operator locale is **hu-HU** with explicit English fallback. Native Hung
 Provider disposition: Mautic = primary marketing automation reference/provider candidate; Twenty = primary CRM/workspace candidate; listmonk = primary email/newsletter candidate; Dittofeed = optional journey backend and PostHog = optional analytics backend until Hungarian operator UI is verified. `coreyhaines31/marketingskills` is an untrusted scoped knowledge/pattern source, never an execution authority.
 
 Public launch/send requires canonical consent/suppression checks, policy mediation and human approval. Social publishing, workflow automation, web research and prose QA delegate to existing FA3 capabilities; providers cannot become identity, secrets, workflow, canonical customer/campaign, MCP or evidence authorities.
+
+
+## FA3 Model Manager current-host provider E2E
+
+`FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001` materializes the real workstation evidence path for the Hugging Face cache/source projection, LM Studio and Ollama. The default smoke is **local-only and CPU-first**: it performs no model download or pull and claims no accelerator execution.
+
+- Hugging Face: immutable cached revision + real cached-file SHA-256.
+- LM Studio: local model discovery → explicit `--gpu off` load → one-shot inference → unload.
+- Ollama: isolated `127.0.0.1` server with accelerators hidden → local digest-addressed model generation → `size_vram == 0` → unload.
+- GPU evidence is separate and requires Host Resource Broker admission/lease evidence.
+
+Run `bash bin/fa3-model-manager-current-host.sh` and validate with `./bin/fa3-enforce model-manager-current-host`. GitHub-hosted CI cannot fabricate `CURRENT_HOST_MODEL_PROVIDER_E2E_PASS`; the dedicated workflow runs only on the self-hosted `fa3-current-host` runner.

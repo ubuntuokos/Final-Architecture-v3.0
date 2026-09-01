@@ -141,6 +141,14 @@ def reference_check(root: Path) -> dict[str, Any]:
       "reference":root/"canonical/references/FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01.json",
       "enforcement":root/"canonical/model-manager-v2-enforcement.json",
       "evidence":root/EVIDENCE_PATH,
+      "current_host_conformance":root/"canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json",
+      "current_host_enforcement":root/"canonical/model-manager-current-host-enforcement.json",
+      "current_host_decision":root/"canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
+      "current_host_adapter":root/"src/fa3_model_manager_provider_adapter.py",
+      "current_host_gate":root/"src/fa3_model_manager_current_host_gate.py",
+      "current_host_collector":root/"evidence/collect-model-manager-current-host.py",
+      "current_host_runner":root/"bin/fa3-model-manager-current-host.sh",
+      "current_host_workflow":root/".github/workflows/fa3-model-manager-current-host.yml",
     }
     for key,path in paths.items():
         if not path.is_file():
@@ -150,6 +158,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     p=_load(paths["profile"]); c=_load(paths["contract"]); reg=_load(paths["registry"])
     hf=_load(paths["hf"]); lm=_load(paths["lm"]); oll=_load(paths["ollama"])
     d=_load(paths["decision"]); ref=_load(paths["reference"]); enf=_load(paths["enforcement"]); evid=_load(paths["evidence"])
+    host_conf=_load(paths["current_host_conformance"]); host_enf=_load(paths["current_host_enforcement"]); host_dec=_load(paths["current_host_decision"])
     if not (p.get("id")==PROFILE_ID and p.get("version")=="2.0.0" and p.get("model_registry")==REGISTRY_ID and all(x in p.get("providers",[]) for x in PROVIDER_IDS)):
         findings.append(_finding("MODEL-MGR-V2-REF-010","Profile v2 registry/provider binding drift"))
     if not (c.get("id")==CONTRACT_ID and c.get("provider_neutral") is True and c.get("model_record_required_sections")==reg.get("required_sections")):
@@ -170,6 +179,21 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("MODEL-MGR-V2-REF-018","V2 enforcement drift"))
     if not (evid.get("gate_id")==GATE_ID and evid.get("status") in {"PENDING_CI","PASS"} and evid.get("extended_regression_cases")==len(RULES) and evid.get("current_host_runtime_promotion_claim") is False and evid.get("capability_count_after")==CAPABILITY_COUNT):
         findings.append(_finding("MODEL-MGR-V2-REF-019","V2 reference evidence contract drift"))
+    if not (
+        host_conf.get("id")=="FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001"
+        and host_conf.get("status") in {"MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION","CURRENT_HOST_PRODUCTION_E2E_PASS"}
+        and host_conf.get("current_host_production_e2e",{}).get("network_fetch_default")=="FORBIDDEN_LOCAL_ARTIFACTS_ONLY"
+        and host_conf.get("current_host_production_e2e",{}).get("accelerator_promotion")=="REQUIRES_SEPARATE_HRB_ADMISSION_OR_LEASE_AND_EVIDENCE"
+        and host_conf.get("new_capability") is False
+        and host_conf.get("new_architectural_authority") is False
+        and host_conf.get("capability_count")==CAPABILITY_COUNT
+        and host_enf.get("gate_id")=="FA3-GATE-MODEL-MANAGER-CURRENT-HOST-001"
+        and host_enf.get("fail_closed") is True
+        and host_dec.get("id")=="FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01"
+        and host_dec.get("current_host_pass_may_be_claimed_by_github_hosted_ci") is False
+        and host_dec.get("accelerator_execution_requires_hrb") is True
+    ):
+        findings.append(_finding("MODEL-MGR-V2-REF-020","Current-host provider admission/evidence boundary drift"))
     return {"result":"PASS" if not findings else "FAIL","findings":findings}
 
 def gate(root: Path) -> dict[str, Any]:
