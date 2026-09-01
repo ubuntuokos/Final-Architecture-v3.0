@@ -5,6 +5,7 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+from fa3_model_manager_v2_gate import gate as model_manager_v2_gate
 
 PROFILE_ID="FA3-MODEL-MANAGER-001"
 CONTRACT_ID="FA3-MODEL-MANAGER-CONTRACTS-001"
@@ -165,9 +166,9 @@ def reference_check(root: Path) -> dict[str, Any]:
     return {"result":"PASS" if not findings else "FAIL","findings":findings}
 
 def gate(root: Path) -> dict[str, Any]:
-    ref=reference_check(root); auth=scan_canonical_authority_assignments(root); regressions=run_regressions()
-    ok=ref["result"]==auth["result"]==regressions["result"]=="PASS"
-    report={"schema":"fa3.model-manager-gate-report.v1","gate_id":GATE_ID,"profile_id":PROFILE_ID,"provider_id":PROVIDER_ID,"capability_bindings":CAPABILITY_IDS,"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":regressions,"current_host_usage_state":"USER_CONFIRMED_IN_USE","current_host_runtime_promotion_claim":False,"promotion_effect":"CANONICAL_REFERENCE_PASS_DOES_NOT_CLAIM_CURRENT_HOST_PRODUCTION_PASS"}
+    ref=reference_check(root); auth=scan_canonical_authority_assignments(root); regressions=run_regressions(); v2=model_manager_v2_gate(root)
+    ok=ref["result"]==auth["result"]==regressions["result"]==v2["result"]=="PASS"
+    report={"schema":"fa3.model-manager-gate-report.v2","gate_id":GATE_ID,"profile_id":PROFILE_ID,"provider_id":PROVIDER_ID,"capability_bindings":CAPABILITY_IDS,"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":ref,"authority_scan":auth,"regressions":regressions,"v2":v2,"current_host_usage_state":"USER_CONFIRMED_IN_USE","current_host_runtime_promotion_claim":False,"promotion_effect":"CANONICAL_REFERENCE_AND_V2_PASS_DO_NOT_CLAIM_CURRENT_HOST_PRODUCTION_PASS"}
     _write(root/"reports/model-manager-gate-report.json",report)
     return report
 

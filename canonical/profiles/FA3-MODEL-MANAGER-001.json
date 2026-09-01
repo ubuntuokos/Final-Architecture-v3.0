@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-MODEL-MANAGER-001",
   "name": "Unified Model Inventory, Lifecycle & Artifact Projection Profile",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -28,7 +28,10 @@
     "FA3-MODEL-MANAGER-CONTRACTS-001"
   ],
   "providers": [
-    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001"
+    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
   ],
   "authority": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -78,5 +81,37 @@
     "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
     "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
   ],
-  "implementation_status": "CANONICAL_MATERIALIZED_CI_REFERENCE_GATE_CURRENT_HOST_USAGE_USER_CONFIRMED_EXECUTABLE_EVIDENCE_PENDING"
+  "implementation_status": "CANONICAL_V2_MATERIALIZED_EXECUTABLE_CI_GATE_CURRENT_HOST_PROVIDER_EVIDENCE_SEPARATE",
+  "model_registry": "FA3-MODEL-REGISTRY-001",
+  "storage_planes": {
+    "source_cache": "UPSTREAM_CONTENT_ADDRESSED_SOURCE_CACHE",
+    "canonical_model_store": "FA3_POLICY_BOUND_CANONICAL_ARTIFACT_STORE",
+    "runtime_projection_store": "PROVIDER_NATIVE_OR_VERIFIED_SHARED_RUNTIME_PROJECTION",
+    "separation_required": true
+  },
+  "model_identity_chain": [
+    "MODEL_FAMILY",
+    "IMMUTABLE_REVISION",
+    "VARIANT",
+    "ARTIFACT",
+    "RUNTIME_PROJECTION",
+    "LOADED_INSTANCE"
+  ],
+  "provider_roles": {
+    "stability_matrix": "PRIMARY_CURRENT_HOST_MEDIA_MODEL_STORE_AND_PACKAGE_PROJECTION_PROVIDER",
+    "hugging_face": "PRIMARY_UPSTREAM_SOURCE_AND_CONTENT_ADDRESSED_CACHE_PROVIDER",
+    "lm_studio": "STRONG_OPTIONAL_INTERACTIVE_LLM_DESKTOP_MODEL_LIBRARY_AND_RUNTIME_PROVIDER",
+    "ollama": "STRONG_OPTIONAL_LLM_PACKAGING_SERVING_AND_RUNTIME_PROVIDER"
+  },
+  "v2_extension": {
+    "decision_id": "FA3-DEC-MODEL-MANAGER-V2-2026-09-01",
+    "executable_gate_id": "FA3-GATE-MODEL-MANAGER-002",
+    "provider_reference_id": "FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01",
+    "canonical_model_record_required": true,
+    "immutable_revision_required": true,
+    "license_and_trust_admission_required": true,
+    "runtime_materialization_evidence_required_for_production_promotion": true,
+    "accelerator_placement_delegated_to": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "floating_latest_production_admission_forbidden": true
+  }
 }

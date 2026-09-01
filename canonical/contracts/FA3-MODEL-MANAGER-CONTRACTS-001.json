@@ -18,7 +18,16 @@
     "DedupCandidateReceipt",
     "PhysicalDedupAuthorization",
     "StorageMutationRequest",
-    "ProviderAvailabilityState"
+    "ProviderAvailabilityState",
+    "CanonicalModelRecord",
+    "ModelRevisionDescriptor",
+    "ModelVariantDescriptor",
+    "RuntimeProjectionDescriptor",
+    "LoadedModelInstanceReceipt",
+    "LicenseTrustAdmission",
+    "RuntimeResourceRequirement",
+    "HRBPlacementAdmission",
+    "ProviderOperationRequest"
   ],
   "required_semantics": {
     "model_identity": "STABLE_LOGICAL_IDENTITY_INDEPENDENT_OF_ABSOLUTE_PATH",
@@ -80,5 +89,39 @@
     "MUTATING_MOVE_DELETE_RELINK_REQUIRES_EXPLICIT_AUTHORIZATION",
     "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
     "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
-  ]
+  ],
+  "model_record_required_sections": [
+    "identity",
+    "origin",
+    "artifact",
+    "variant",
+    "derivation",
+    "compatibility",
+    "resources",
+    "security",
+    "licensing",
+    "storage",
+    "lifecycle",
+    "evidence"
+  ],
+  "identity_chain_semantics": {
+    "model_family": "STABLE_LOGICAL_FAMILY_ID",
+    "revision": "IMMUTABLE_UPSTREAM_REVISION",
+    "variant": "PRECISION_QUANTIZATION_OR_MODEL_CONFIGURATION_VARIANT",
+    "artifact": "CONTENT_HASHED_PHYSICAL_ARTIFACT",
+    "runtime_projection": "PROVIDER_SPECIFIC_MATERIALIZATION_NON_AUTHORITY",
+    "loaded_instance": "EPHEMERAL_RUNTIME_INSTANCE_BOUND_TO_EXECUTION_EVIDENCE"
+  },
+  "additional_required_semantics": {
+    "immutable_source_revision": "REQUIRED_BEFORE_PROMOTION",
+    "license_trust": "UNKNOWN_BLOCKS_PROMOTION",
+    "dangerous_serialization": "EXPLICIT_POLICY_AND_SCAN_REQUIRED",
+    "remote_code": "DENY_BY_DEFAULT_EXPLICIT_ADMISSION_REQUIRED",
+    "storage_planes": "SOURCE_CACHE_CANONICAL_STORE_RUNTIME_PROJECTION_SEPARATE",
+    "dedup_preference": "CONTENT_ADDRESSED_THEN_HARDLINK_THEN_SYMLINK_THEN_PROVIDER_REFERENCE_THEN_COPY",
+    "link_projection": "AUTHORIZATION_CANONICAL_PATH_REVALIDATION_COMPATIBILITY_AND_ROLLBACK_REQUIRED",
+    "accelerator_placement": "HOST_RESOURCE_BROKER_ONLY",
+    "runtime_materialization": "EXECUTABLE_EVIDENCE_REQUIRED_FOR_PRODUCTION_PROMOTION",
+    "floating_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION"
+  }
 }
