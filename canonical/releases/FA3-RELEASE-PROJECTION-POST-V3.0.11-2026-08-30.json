@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8fabd2b0e41c2b45c41ecf4c307252c81a99ee4a",
-    "pre_projection_root_tree_sha": "9d117677f0c78f40e3ae757e278d4c5508950276",
-    "pre_projection_canonical_tree_sha": "ebedf8064b3f05989d86146b8f190d8b30c63fd8",
-    "commits_ahead_of_v3_0_11_conformance_commit": 86,
-    "total_post_baseline_commits": 86,
+    "pre_projection_head_sha": "3eab6ec28d78458816db0a08924fd55b41286179",
+    "pre_projection_root_tree_sha": "d2502691d510a17e6bc7b708cd0c67f518d9a2c5",
+    "pre_projection_canonical_tree_sha": "bb0b1324ceccab6a9ac5f366a93e04fe991c69ce",
+    "commits_ahead_of_v3_0_11_conformance_commit": 88,
+    "total_post_baseline_commits": 88,
     "delta_file_count": 372,
     "delta_added_files": 368,
     "delta_modified_files": 4,
@@ -1466,7 +1466,7 @@
     },
     {
       "path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
-      "git_blob_sha": "3302fdb7b4bb8040eb5c648079a8d87b2678232b"
+      "git_blob_sha": "1a32e54fa3295065160060ca35f32a825c938b4a"
     },
     {
       "path": "evidence/reference/modular-provider-ci-2026-08-30.json",
@@ -1841,8 +1841,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "8fabd2b0e41c2b45c41ecf4c307252c81a99ee4a",
-    "regenerated_from_branch_head": "8fabd2b0e41c2b45c41ecf4c307252c81a99ee4a"
+    "source_snapshot_anchor": "3eab6ec28d78458816db0a08924fd55b41286179",
+    "regenerated_from_branch_head": "3eab6ec28d78458816db0a08924fd55b41286179"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -2205,11 +2205,14 @@
       "FA3-PROVIDER-LM-STUDIO-MODEL-001",
       "FA3-PROVIDER-OLLAMA-MODEL-001"
     ],
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_PENDING_CURRENT_HOST_RUNTIME_SEPARATE",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_PASS_CURRENT_HOST_RUNTIME_SEPARATE",
     "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 143
+    "capability_count_after": 143,
+    "reference_evidence_status": "PASS",
+    "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
+    "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
   "last_regenerated_at": "2026-09-01"
 }
