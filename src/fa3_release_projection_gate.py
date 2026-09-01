@@ -184,6 +184,28 @@ STABILITY_SGM_RECONCILIATION_STATUS = (
     "CANONICAL_MATERIALIZED_EXECUTABLE_REFERENCE_PASS_CURRENT_HOST_PENDING"
 )
 
+OPENCUT_PROFILE_ID = "FA3-PROGRAMMABLE-VIDEO-EDITING-001"
+OPENCUT_CONTRACT_ID = "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001"
+OPENCUT_PROVIDER_ID = "FA3-PROVIDER-OPENCUT-001"
+OPENCUT_DECISION_ID = "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01"
+OPENCUT_GATE_ID = "FA3-OPENCUT-GATESET-001"
+OPENCUT_PROFILE_PATH = "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json"
+OPENCUT_CONTRACT_PATH = "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json"
+OPENCUT_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-OPENCUT-001.json"
+OPENCUT_DECISION_PATH = "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json"
+OPENCUT_REFERENCE_PATH = "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json"
+OPENCUT_GATE_RECORD_PATH = "canonical/FA3-GATE-OPENCUT-001.json"
+OPENCUT_ENFORCEMENT_PATH = "canonical/opencut-enforcement.json"
+OPENCUT_ADMISSION_PATH = "canonical/opencut-runtime-admission.json"
+OPENCUT_EVIDENCE_PATH = "evidence/reference/opencut-ci-2026-09-01.json"
+OPENCUT_GATE_PATH = "src/fa3_opencut_gate.py"
+OPENCUT_TEST_PATH = "tests/test_opencut_gate.py"
+OPENCUT_CAPABILITY_IDS = ("CAP-121", "CAP-126")
+OPENCUT_RUNTIME_STATUS = "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE"
+OPENCUT_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_ADMITTED"
+)
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1375,6 +1397,107 @@ def gate(root: Path):
             )
         )
 
+    opencut = projection.get("opencut_reconciliation", {})
+    required_opencut_manifest_paths = {
+        OPENCUT_PROFILE_PATH,
+        OPENCUT_CONTRACT_PATH,
+        OPENCUT_PROVIDER_PATH,
+        OPENCUT_DECISION_PATH,
+        OPENCUT_REFERENCE_PATH,
+        OPENCUT_GATE_RECORD_PATH,
+        OPENCUT_ENFORCEMENT_PATH,
+        OPENCUT_ADMISSION_PATH,
+        OPENCUT_EVIDENCE_PATH,
+        OPENCUT_GATE_PATH,
+        OPENCUT_TEST_PATH,
+        "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json",
+        "src/fa3_enforce.py",
+    }
+    missing_opencut_overlay_members = []
+    for key, required in {
+        "profile_records": OPENCUT_PROFILE_PATH,
+        "contract_records": OPENCUT_CONTRACT_PATH,
+        "provider_records": OPENCUT_PROVIDER_PATH,
+        "decision_records": OPENCUT_DECISION_PATH,
+        "upstream_reference_records": OPENCUT_REFERENCE_PATH,
+        "reference_evidence_records": OPENCUT_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_opencut_overlay_members.append({"inventory": key, "path": required})
+    opencut_manifest_missing = sorted(required_opencut_manifest_paths - manifest_paths)
+    opencut_provider = (
+        loadj(root / OPENCUT_PROVIDER_PATH)
+        if (root / OPENCUT_PROVIDER_PATH).is_file()
+        else {}
+    )
+    opencut_evidence = (
+        loadj(root / OPENCUT_EVIDENCE_PATH)
+        if (root / OPENCUT_EVIDENCE_PATH).is_file()
+        else {}
+    )
+    opencut_admission = (
+        loadj(root / OPENCUT_ADMISSION_PATH)
+        if (root / OPENCUT_ADMISSION_PATH).is_file()
+        else {}
+    )
+    opencut_binding_invalid = []
+    for capability_id in OPENCUT_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        if (
+            OPENCUT_DECISION_ID not in record.get("source_decision_ids", [])
+            or OPENCUT_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+            or record.get("opencut_programmable_editor_projection_status", {}).get("runtime_status")
+            != OPENCUT_RUNTIME_STATUS
+            or record.get("opencut_programmable_editor_projection_status", {}).get("current_host_runtime_evidence")
+            != "NOT_CLAIMED"
+        ):
+            opencut_binding_invalid.append(capability_id)
+    if (
+        opencut.get("profile_id") != OPENCUT_PROFILE_ID
+        or opencut.get("contract_id") != OPENCUT_CONTRACT_ID
+        or opencut.get("provider_id") != OPENCUT_PROVIDER_ID
+        or opencut.get("decision_id") != OPENCUT_DECISION_ID
+        or opencut.get("gate_id") != OPENCUT_GATE_ID
+        or opencut.get("capability_ids") != list(OPENCUT_CAPABILITY_IDS)
+        or opencut.get("reconciliation_status") != OPENCUT_RECONCILIATION_STATUS
+        or opencut.get("runtime_activation_status") != OPENCUT_RUNTIME_STATUS
+        or opencut.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or opencut.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or opencut.get("new_capabilities") != 0
+        or opencut.get("new_architectural_authorities") != 0
+        or opencut.get("capability_count_after") != CAPABILITY_COUNT
+        or OPENCUT_GATE_ID not in projection_gates
+        or OPENCUT_GATE_ID not in policy_gates
+        or missing_opencut_overlay_members
+        or opencut_manifest_missing
+        or opencut_binding_invalid
+        or opencut_provider.get("id") != OPENCUT_PROVIDER_ID
+        or opencut_provider.get("architectural_authority") is not False
+        or opencut_provider.get("canonical_root") is not False
+        or opencut_provider.get("new_capability") is not False
+        or opencut_provider.get("hard_dependency") is not False
+        or opencut_provider.get("exclusive_nle") is not False
+        or opencut_provider.get("runtime_activation", {}).get("status") != OPENCUT_RUNTIME_STATUS
+        or opencut_admission.get("status") != OPENCUT_RUNTIME_STATUS
+        or opencut_admission.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or opencut_evidence.get("status") != "PASS"
+        or opencut_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or opencut_evidence.get("capability_count_after") != CAPABILITY_COUNT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-031",
+                "OpenCut global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=opencut.get("reconciliation_status"),
+                runtime_activation_status=opencut.get("runtime_activation_status"),
+                missing_overlay_members=missing_opencut_overlay_members,
+                missing_manifest_paths=opencut_manifest_missing,
+                invalid_capability_bindings=opencut_binding_invalid,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1606,6 +1729,8 @@ def gate(root: Path):
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
+            "opencut_reconciliation": opencut.get("reconciliation_status"),
+            "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)

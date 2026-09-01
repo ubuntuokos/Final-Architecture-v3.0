@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "21fc57616503995dfe52f6cc4b8163312b1056fb",
-    "pre_projection_root_tree_sha": "782134097f46be87ec5171b7b65f5a959b6cbe61",
-    "pre_projection_canonical_tree_sha": "af4dbe711f9ea82b3ab0a2e11883741c3ae2b26a",
+    "pre_projection_head_sha": "650eb9c71d4f6e9e99fa5f70032195e1f7ec2826",
+    "pre_projection_root_tree_sha": "51c196c64ad7c2343ca34f51ea39273669eaa092",
+    "pre_projection_canonical_tree_sha": "b707615ffec56a4538c3a525dfb3a3acc3926b9e",
     "commits_ahead_of_v3_0_11_conformance_commit": 90,
     "total_post_baseline_commits": 90,
-    "delta_file_count": 400,
-    "delta_added_files": 396,
+    "delta_file_count": 412,
+    "delta_added_files": 408,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 227,
-    "evidence_files_in_post_baseline_delta": 42,
-    "source_files_in_post_baseline_delta": 46,
-    "test_files_in_post_baseline_delta": 37,
+    "canonical_files_in_post_baseline_delta": 235,
+    "evidence_files_in_post_baseline_delta": 43,
+    "source_files_in_post_baseline_delta": 48,
+    "test_files_in_post_baseline_delta": 38,
     "workflow_files_in_post_baseline_delta": 8,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -83,6 +83,7 @@
       "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
       "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
@@ -120,6 +121,7 @@
       "canonical/profiles/FA3-MESH-GEN-001.json",
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
+      "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-STORAGE-FUSE-001.json",
@@ -158,6 +160,7 @@
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
+      "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
       "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
       "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json"
     ],
@@ -197,6 +200,7 @@
       "canonical/decisions/FA3-DEC-MYNA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-NATRON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
+      "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
@@ -223,6 +227,7 @@
       "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -252,6 +257,7 @@
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
       "evidence/reference/muse-code-ci-2026-09-01.json",
+      "evidence/reference/opencut-ci-2026-09-01.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
       "evidence/reference/terax-v0.8.6.json",
@@ -265,6 +271,7 @@
     "FA3-DEMUCS-GATESET-001",
     "FA3-ACE-STEP-GATESET-001",
     "FA3-KDENLIVE-EDITORIAL-GATESET-001",
+    "FA3-OPENCUT-GATESET-001",
     "FA3-BLACKHOLE-KDENLIVE-GATESET-001",
     "FA3-WHISPER-STT-GATESET-001",
     "FA3-BUZZ-GATESET-001",
@@ -347,7 +354,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 402,
+  "manifest_entry_count": 414,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -387,7 +394,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "31cbf24e90419b6c6544e104f64814b31a5bb454"
+      "git_blob_sha": "25c1aff490c1634d7d213d497e72cf2bf87c61ef"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -516,6 +523,10 @@
     {
       "path": "canonical/FA3-GATE-MUSE-CODE-001.json",
       "git_blob_sha": "eb65b9bf131c914bb58ab5debe7fdab14ebdf217"
+    },
+    {
+      "path": "canonical/FA3-GATE-OPENCUT-001.json",
+      "git_blob_sha": "455fa743ee3388354455269ca580ec980d4e846d"
     },
     {
       "path": "canonical/FA3-GATE-STABILITY-SGM-001.json",
@@ -706,6 +717,10 @@
       "git_blob_sha": "bf9cba8a16d7827f6cbc044637b8d2d4b2b9f290"
     },
     {
+      "path": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
+      "git_blob_sha": "666fb5aee13246b04ce5e3183fb280cbf6e2a07c"
+    },
+    {
       "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
       "git_blob_sha": "11d69361b0a907a236a74e588c95aec6cd1b9903"
     },
@@ -862,6 +877,10 @@
       "git_blob_sha": "af6823754fa31d909f97c8fdb0babd81af0b0017"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
+      "git_blob_sha": "efd8bfffcaa97d393fe799ceb116be8b02bfd305"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b"
     },
@@ -903,7 +922,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "8e61386c68d90abe8fb1864e5c995c447f786091"
+      "git_blob_sha": "59bd5bb044987bd0b4b50e52a4e724efbd067c8f"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -968,6 +987,14 @@
     {
       "path": "canonical/muse-code-enforcement.json",
       "git_blob_sha": "7b12339c9b60df73e49404a96e45186407fe4ecd"
+    },
+    {
+      "path": "canonical/opencut-enforcement.json",
+      "git_blob_sha": "346edb3da05f8c0ba838277c7240eb5929ffe287"
+    },
+    {
+      "path": "canonical/opencut-runtime-admission.json",
+      "git_blob_sha": "b1d38591eae8da888907b065cbe24afb0d5e78c9"
     },
     {
       "path": "canonical/presenton-enforcement.json",
@@ -1056,6 +1083,10 @@
     {
       "path": "canonical/profiles/FA3-MUSIC-001.json",
       "git_blob_sha": "90cbaca44a2abcfe29ff15d81706d3eb908e1231"
+    },
+    {
+      "path": "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
+      "git_blob_sha": "ac50b80c700c2489f8632f09edfbc697bb17d106"
     },
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
@@ -1218,6 +1249,10 @@
       "git_blob_sha": "42bd1bea30b3ffe792ee6a53bc531be4c62861ba"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
+      "git_blob_sha": "463584f890e6025bd1e1d8f2ea78caeb8d1e9fad"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "git_blob_sha": "650bf8c0a248bad26e7b59a00b00aac447cc8aef"
     },
@@ -1336,6 +1371,10 @@
     {
       "path": "canonical/references/FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "446c4407b86ac8fc8881c24686e03fb8a96a8160"
+    },
+    {
+      "path": "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
+      "git_blob_sha": "da36e3529290852ed2768a2d463877e4686226ab"
     },
     {
       "path": "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -1479,7 +1518,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "29edcd2d8fea3519554c7fb201b8f50d5e30f350"
+      "git_blob_sha": "5498e74415041693cf7705b29b87bc9a4b5af4da"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -1568,6 +1607,10 @@
     {
       "path": "evidence/reference/muse-code-ci-2026-09-01.json",
       "git_blob_sha": "bbb6a13ff60cb3213d0dc96575eafe35af056d84"
+    },
+    {
+      "path": "evidence/reference/opencut-ci-2026-09-01.json",
+      "git_blob_sha": "dc5e528ef4c98eccadc6aed72b88c53733c8b32e"
     },
     {
       "path": "evidence/reference/presenton-provider-ci-2026-08-30.json",
@@ -1699,7 +1742,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "0af3893a19ff31d557992ad57a7f1c0bf2c934d8"
+      "git_blob_sha": "90bf1ad66a9e113fdc05e1683b4366ecb44225b6"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -1782,12 +1825,20 @@
       "git_blob_sha": "8bcdcf4f74fb7096a7e7f83bed2e63e167935f2e"
     },
     {
+      "path": "src/fa3_opencut_gate.py",
+      "git_blob_sha": "a01e906e826ab94982d80b67c08318dc2ad9e147"
+    },
+    {
       "path": "src/fa3_presenton_gate.py",
       "git_blob_sha": "74f3126fc1e448ce91eb1276b9f90358f8d520db"
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "93a50f473f2d43babb3dfa51909b2dfe4e9d4087"
+      "git_blob_sha": "4a2ed133cf11769eeeeeed76a928c1c93060757e"
+    },
+    {
+      "path": "src/fa3_release_projection_regenerate.py",
+      "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1"
     },
     {
       "path": "src/fa3_stability_sgm_gate.py",
@@ -1926,12 +1977,16 @@
       "git_blob_sha": "b5919398696d411278baa8511c03dd0417af3d4a"
     },
     {
+      "path": "tests/test_opencut_gate.py",
+      "git_blob_sha": "d60475c05e46792970cd428c713ef826aea95577"
+    },
+    {
       "path": "tests/test_presenton_gate.py",
       "git_blob_sha": "636dc3ca5b1e24c78d4507f60686291d5c1b583e"
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "d3c42fcb9f730f0652fe9f26d532159721beb888"
+      "git_blob_sha": "c53bf0aba84e1e4059596e215a78be42f3cec8f6"
     },
     {
       "path": "tests/test_stability_sgm_gate.py",
@@ -2386,6 +2441,26 @@
     "upstream_commit": "e8cd657656fa5d61688191730d0e03242bf4ed44",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_provider_runtime_evidence": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "opencut_reconciliation": {
+    "profile_id": "FA3-PROGRAMMABLE-VIDEO-EDITING-001",
+    "contract_id": "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-OPENCUT-001",
+    "decision_id": "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
+    "gate_id": "FA3-OPENCUT-GATESET-001",
+    "capability_ids": [
+      "CAP-121",
+      "CAP-126"
+    ],
+    "classification": "REQ_ADAPTER_PLUS_REFERENCE_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_ADMITTED",
+    "reference_evidence": "evidence/reference/opencut-ci-2026-09-01.json",
+    "runtime_activation_status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
