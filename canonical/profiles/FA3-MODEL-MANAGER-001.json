@@ -81,7 +81,7 @@
     "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
     "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
   ],
-  "implementation_status": "CANONICAL_V2_MATERIALIZED_EXECUTABLE_CI_GATE_CURRENT_HOST_PROVIDER_EVIDENCE_SEPARATE",
+  "implementation_status": "CANONICAL_V2_CURRENT_HOST_ADMISSION_MATERIALIZED_REAL_PROVIDER_E2E_PENDING",
   "model_registry": "FA3-MODEL-REGISTRY-001",
   "storage_planes": {
     "source_cache": "UPSTREAM_CONTENT_ADDRESSED_SOURCE_CACHE",
@@ -112,6 +112,10 @@
     "license_and_trust_admission_required": true,
     "runtime_materialization_evidence_required_for_production_promotion": true,
     "accelerator_placement_delegated_to": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "floating_latest_production_admission_forbidden": true
+    "floating_latest_production_admission_forbidden": true,
+    "current_host_conformance_id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
+    "current_host_gate_id": "FA3-GATE-MODEL-MANAGER-CURRENT-HOST-001",
+    "current_host_provider_smoke_mode": "LOCAL_ONLY_CPU_FIRST_FAIL_CLOSED",
+    "accelerator_current_host_evidence": "SEPARATE_HRB_LEASE_BOUND_EVIDENCE_REQUIRED"
   }
 }

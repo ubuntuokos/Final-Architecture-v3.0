@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.model-manager-current-host-enforcement.v1",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-CURRENT-HOST-001",
+  "conformance_id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "fail_closed": true,
+  "evidence_level": "CURRENT_HOST_MODEL_PROVIDER_E2E_PASS",
+  "provider_requirements": {
+    "FA3-PROVIDER-HF-MODEL-STORE-001": [
+      "REAL_LOCAL_CACHE_ROOT",
+      "IMMUTABLE_COMMIT_SNAPSHOT",
+      "HASHED_REAL_CACHED_FILE",
+      "NO_NETWORK_FETCH"
+    ],
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001": [
+      "REAL_LMS_BINARY_HASH",
+      "LOCAL_LLM_CATALOG",
+      "CPU_ONLY_EXPLICIT_GPU_OFF",
+      "REAL_MODEL_LOAD",
+      "NONEMPTY_ONE_SHOT_INFERENCE",
+      "MODEL_UNLOAD"
+    ],
+    "FA3-PROVIDER-OLLAMA-MODEL-001": [
+      "REAL_OLLAMA_BINARY_HASH",
+      "EPHEMERAL_LOOPBACK_SERVER",
+      "LOCAL_MODEL_DIGEST",
+      "REAL_GENERATE",
+      "SIZE_VRAM_ZERO",
+      "MODEL_UNLOAD"
+    ]
+  },
+  "forbidden": [
+    "SYNTHETIC_PROVIDER",
+    "NETWORK_MODEL_DOWNLOAD_OR_PULL",
+    "FLOATING_REMOTE_MODEL_ADMISSION",
+    "GPU_EXECUTION_WITHOUT_HRB",
+    "CURRENT_HOST_PASS_FROM_CI_ONLY",
+    "PROVIDER_AUTHORITY_ESCALATION"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

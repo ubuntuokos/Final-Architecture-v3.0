@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3eab6ec28d78458816db0a08924fd55b41286179",
-    "pre_projection_root_tree_sha": "d2502691d510a17e6bc7b708cd0c67f518d9a2c5",
-    "pre_projection_canonical_tree_sha": "bb0b1324ceccab6a9ac5f366a93e04fe991c69ce",
-    "commits_ahead_of_v3_0_11_conformance_commit": 88,
-    "total_post_baseline_commits": 88,
-    "delta_file_count": 372,
-    "delta_added_files": 368,
+    "pre_projection_head_sha": "c95639a552ea973c2c41375f27acd8b510810e58",
+    "pre_projection_root_tree_sha": "221ad76b1a3a5cdf153be56e43072ba0d0ecb2d0",
+    "pre_projection_canonical_tree_sha": "a764f44f20329a352acc97b7b6cf4df601987b89",
+    "commits_ahead_of_v3_0_11_conformance_commit": 94,
+    "total_post_baseline_commits": 94,
+    "delta_file_count": 382,
+    "delta_added_files": 378,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 212,
-    "evidence_files_in_post_baseline_delta": 39,
-    "source_files_in_post_baseline_delta": 42,
-    "test_files_in_post_baseline_delta": 34,
-    "workflow_files_in_post_baseline_delta": 7,
+    "canonical_files_in_post_baseline_delta": 215,
+    "evidence_files_in_post_baseline_delta": 40,
+    "source_files_in_post_baseline_delta": 44,
+    "test_files_in_post_baseline_delta": 35,
+    "workflow_files_in_post_baseline_delta": 8,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
@@ -183,6 +183,7 @@
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
@@ -334,7 +335,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 374,
+  "manifest_entry_count": 384,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -351,6 +352,10 @@
     {
       "path": ".github/workflows/fa3-current-host.yml",
       "git_blob_sha": "1f784f32d411d3ba55a467c988da4339680665b1"
+    },
+    {
+      "path": ".github/workflows/fa3-model-manager-current-host.yml",
+      "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645"
     },
     {
       "path": ".github/workflows/fa3-modular-current-host.yml",
@@ -427,6 +432,10 @@
     {
       "path": "bin/fa3-enforce",
       "git_blob_sha": "78efaead3832a083e72d7863c845b4376bded4d5"
+    },
+    {
+      "path": "bin/fa3-model-manager-current-host.sh",
+      "git_blob_sha": "bacd3a7f7b552f69c88fa59fe2c83ce7bed948c2"
     },
     {
       "path": "bin/fa3-modular-bootstrap.sh",
@@ -717,6 +726,10 @@
       "git_blob_sha": "f58a6514a664603bfb3548c46d742d3f3cbfeb7e"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
+      "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48"
     },
@@ -841,6 +854,10 @@
       "git_blob_sha": "78a28927d7a273a8be5ad703952bf89c0df61420"
     },
     {
+      "path": "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "ca932e0437d49c2c6b8f4b60b327db15b4606ecd"
+    },
+    {
       "path": "canonical/FA3-MODULAR-MODEL-ALLOWLIST-001.json",
       "git_blob_sha": "f2c8992ebbf0a153281a46d3ff48396caff3533a"
     },
@@ -887,6 +904,10 @@
     {
       "path": "canonical/mentor-enforcement.json",
       "git_blob_sha": "9cc5df062983caff69a073ead54fce9b06acbf71"
+    },
+    {
+      "path": "canonical/model-manager-current-host-enforcement.json",
+      "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf"
     },
     {
       "path": "canonical/model-manager-enforcement.json",
@@ -986,7 +1007,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
-      "git_blob_sha": "59e6ca32b7dc8bf5d4548c8c179087397c132462"
+      "git_blob_sha": "862a6f9f6b5387931a0f3a4e26dad7980041d341"
     },
     {
       "path": "canonical/profiles/FA3-MUSIC-001.json",
@@ -1329,6 +1350,10 @@
       "git_blob_sha": "da2a399b9153dbe6716e93c1bb3f2de1059d1e0e"
     },
     {
+      "path": "docs/model-manager-current-host.md",
+      "git_blob_sha": "3d10e043b2d618acf3bb4ff591a7565a0faeeed5"
+    },
+    {
       "path": "docs/modular-current-host.md",
       "git_blob_sha": "e0a6f5c1de84b0833de74274fc1747e0a17458ba"
     },
@@ -1367,6 +1392,10 @@
     {
       "path": "evidence/collect-marketing-reference-e2e.py",
       "git_blob_sha": "9e6dc530ec5e5e0a7c3e5096c4e3ee05573f0b9a"
+    },
+    {
+      "path": "evidence/collect-model-manager-current-host.py",
+      "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012"
     },
     {
       "path": "evidence/collect-modular-current-host.py",
@@ -1526,7 +1555,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "5f72886be8c66c67a87538f47c8da441755cada7"
+      "git_blob_sha": "f7b7cf08a3cfe236342827b7ef6509ca44c5d9ec"
     },
     {
       "path": "src/fa3_acestep_gate.py",
@@ -1602,7 +1631,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "2a967364d81ff6d1ff5428374a293280d756154f"
+      "git_blob_sha": "9e5a724fbcba1ab07f01743190bc4e0e23a082bb"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -1645,12 +1674,20 @@
       "git_blob_sha": "979052f5791f429f5cc22c5697ec04feacf82362"
     },
     {
+      "path": "src/fa3_model_manager_current_host_gate.py",
+      "git_blob_sha": "ad9429deaaccdea50d764998ff323605595d29b3"
+    },
+    {
       "path": "src/fa3_model_manager_gate.py",
       "git_blob_sha": "8b7b835bf2e9753c34baff39990b1a1a4f8cffad"
     },
     {
+      "path": "src/fa3_model_manager_provider_adapter.py",
+      "git_blob_sha": "5ed8751f257b0327a812378b5ef02caa016a6c07"
+    },
+    {
       "path": "src/fa3_model_manager_v2_gate.py",
-      "git_blob_sha": "2c347115f37535e955841cc3c3ce270aabb47866"
+      "git_blob_sha": "1bb5bbe90d081f8aeace5a72b590ceb9d34fc15b"
     },
     {
       "path": "src/fa3_modular_current_host_gate.py",
@@ -1785,8 +1822,12 @@
       "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821"
     },
     {
+      "path": "tests/test_model_manager_provider_adapter.py",
+      "git_blob_sha": "d914bdaa8533f718333e6638a651cbd3cddf05ed"
+    },
+    {
       "path": "tests/test_model_manager_v2_gate.py",
-      "git_blob_sha": "12d53804e07845eff959670665d987fdde3cbc37"
+      "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c"
     },
     {
       "path": "tests/test_modular_gate.py",
@@ -1841,8 +1882,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "3eab6ec28d78458816db0a08924fd55b41286179",
-    "regenerated_from_branch_head": "3eab6ec28d78458816db0a08924fd55b41286179"
+    "source_snapshot_anchor": "c95639a552ea973c2c41375f27acd8b510810e58",
+    "regenerated_from_branch_head": "c95639a552ea973c2c41375f27acd8b510810e58"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -2214,5 +2255,26 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-09-01"
+  "last_regenerated_at": "2026-09-01",
+  "model_manager_current_host_reconciliation": {
+    "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
+    "profile_id": "FA3-MODEL-MANAGER-001",
+    "conformance_id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
+    "gate_id": "FA3-GATE-MODEL-MANAGER-CURRENT-HOST-001",
+    "provider_ids": [
+      "FA3-PROVIDER-HF-MODEL-STORE-001",
+      "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+      "FA3-PROVIDER-OLLAMA-MODEL-001"
+    ],
+    "classification": "REAL_LOCAL_PROVIDER_E2E_CPU_FIRST_CURRENT_HOST_ADMISSION",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_E2E_PENDING",
+    "current_host_receipt": "evidence/receipts/model-manager-current-host.json",
+    "current_host_workflow": ".github/workflows/fa3-model-manager-current-host.yml",
+    "network_model_fetch_for_smoke": false,
+    "accelerator_evidence": "SEPARATE_HRB_BOUND_REQUIRED",
+    "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  }
 }

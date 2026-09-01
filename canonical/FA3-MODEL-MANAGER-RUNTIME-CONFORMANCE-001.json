@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.model-manager-runtime-conformance.v1",
+  "id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "model_registry_id": "FA3-MODEL-REGISTRY-001",
+  "provider_ids": [
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "date": "2026-09-01",
+  "status": "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "implementation": {
+    "adapter": "src/fa3_model_manager_provider_adapter.py",
+    "current_host_collector": "evidence/collect-model-manager-current-host.py",
+    "current_host_gate": "src/fa3_model_manager_current_host_gate.py",
+    "runner": "bin/fa3-model-manager-current-host.sh",
+    "workflow": ".github/workflows/fa3-model-manager-current-host.yml"
+  },
+  "current_host_production_e2e": {
+    "receipt": "evidence/receipts/model-manager-current-host.json",
+    "required_level": "CURRENT_HOST_MODEL_PROVIDER_E2E_PASS",
+    "network_fetch_default": "FORBIDDEN_LOCAL_ARTIFACTS_ONLY",
+    "hf_requirement": "IMMUTABLE_LOCAL_HUB_SNAPSHOT_AND_CONTENT_SHA256",
+    "lm_studio_requirement": "LOCAL_MODEL_DISCOVERY_CPU_ONLY_LOAD_ONE_SHOT_INFERENCE_UNLOAD",
+    "ollama_requirement": "EPHEMERAL_LOOPBACK_CPU_ONLY_SERVER_LOCAL_MODEL_GENERATE_SIZE_VRAM_ZERO_UNLOAD",
+    "downloads_or_pulls": "FORBIDDEN",
+    "remote_models": "FORBIDDEN",
+    "accelerator_smoke": "NOT_CLAIMED",
+    "accelerator_promotion": "REQUIRES_SEPARATE_HRB_ADMISSION_OR_LEASE_AND_EVIDENCE",
+    "global_promotion_dependency_when_provider_disabled": false
+  },
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION"
+}

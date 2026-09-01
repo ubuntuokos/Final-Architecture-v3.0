@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
+  "date": "2026-09-01",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize real current-host provider admission and executable evidence path for Hugging Face cache, LM Studio and Ollama",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "conformance_id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-CURRENT-HOST-001",
+  "provider_ids": [
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120"
+  ],
+  "smoke_execution_mode": "LOCAL_ONLY_CPU_FIRST",
+  "current_host_evidence_required": true,
+  "current_host_pass_may_be_claimed_by_github_hosted_ci": false,
+  "accelerator_execution_requires_hrb": true,
+  "network_model_fetch_for_smoke": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false,
+  "decisions": [
+    "The first provider production smoke uses only artifacts already present on the workstation.",
+    "Hugging Face evidence proves a real immutable cached snapshot and content hash without network access.",
+    "LM Studio evidence must discover a local LLM, explicitly load it with GPU offload disabled, execute a real one-shot inference and unload the test instance.",
+    "Ollama evidence must use an isolated loopback server with accelerators hidden, execute a real local model generation and prove size_vram equals zero.",
+    "No model download, pull or floating remote admission is allowed in the smoke workflow.",
+    "GPU provider evidence remains a separate follow-up and requires Host Resource Broker admission or lease evidence."
+  ]
+}

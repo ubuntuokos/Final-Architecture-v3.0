@@ -19,6 +19,17 @@ class ModelManagerV2GateTests(unittest.TestCase):
         root=Path(td.name)
         for name in ("canonical","evidence"):
             shutil.copytree(ROOT/name,root/name)
+        for rel in (
+            "src/fa3_model_manager_provider_adapter.py",
+            "src/fa3_model_manager_current_host_gate.py",
+            "evidence/collect-model-manager-current-host.py",
+            "bin/fa3-model-manager-current-host.sh",
+            ".github/workflows/fa3-model-manager-current-host.yml",
+        ):
+            src=ROOT/rel
+            dst=root/rel
+            dst.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copy2(src,dst)
         return td,root
 
     def _write(self,path,obj):
