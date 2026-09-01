@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e6cd0549f78c072c5d89065b9ba2379b3e509f1f",
-    "pre_projection_root_tree_sha": "610be74f5da4bacda7bcd0244486fa9aa8b8a59d",
-    "pre_projection_canonical_tree_sha": "7451035e6e4a381c9347e1137bf586d2aa465af1",
-    "commits_ahead_of_v3_0_11_conformance_commit": 84,
-    "total_post_baseline_commits": 84,
-    "delta_file_count": 362,
-    "delta_added_files": 358,
+    "pre_projection_head_sha": "8fabd2b0e41c2b45c41ecf4c307252c81a99ee4a",
+    "pre_projection_root_tree_sha": "9d117677f0c78f40e3ae757e278d4c5508950276",
+    "pre_projection_canonical_tree_sha": "ebedf8064b3f05989d86146b8f190d8b30c63fd8",
+    "commits_ahead_of_v3_0_11_conformance_commit": 86,
+    "total_post_baseline_commits": 86,
+    "delta_file_count": 372,
+    "delta_added_files": 368,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 205,
-    "evidence_files_in_post_baseline_delta": 38,
-    "source_files_in_post_baseline_delta": 41,
-    "test_files_in_post_baseline_delta": 33,
+    "canonical_files_in_post_baseline_delta": 212,
+    "evidence_files_in_post_baseline_delta": 39,
+    "source_files_in_post_baseline_delta": 42,
+    "test_files_in_post_baseline_delta": 34,
     "workflow_files_in_post_baseline_delta": 7,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -61,12 +61,14 @@
       "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
+      "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
       "canonical/providers/FA3-PROVIDER-KANEO-001.json",
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
       "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-001.json",
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
+      "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
       "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
@@ -78,6 +80,7 @@
       "canonical/providers/FA3-PROVIDER-MYNA-001.json",
       "canonical/providers/FA3-PROVIDER-NATRON-001.json",
       "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
+      "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
@@ -181,6 +184,7 @@
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MUSE-IMAGE-2026-08-30.json",
@@ -208,6 +212,7 @@
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -235,6 +240,7 @@
       "evidence/reference/kaneo-v2.22.0.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
+      "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/terax-v0.8.6.json",
@@ -328,7 +334,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 364,
+  "manifest_entry_count": 374,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -564,7 +570,7 @@
     },
     {
       "path": "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
-      "git_blob_sha": "5d9f6639cc7ea448b46e558c34c44ef02f4cec0b"
+      "git_blob_sha": "8534fa2f12c54a1bcf899c271158ac1665d77c0e"
     },
     {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
@@ -713,6 +719,10 @@
     {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
+      "git_blob_sha": "f5c100b96dfd50d411b3dae6f472c33d2fa18575"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
@@ -883,6 +893,10 @@
       "git_blob_sha": "895f794074a5e546a24960e1ce5f8473ead92f9c"
     },
     {
+      "path": "canonical/model-manager-v2-enforcement.json",
+      "git_blob_sha": "ff382f22bd3d082af807477ce987d619c85312b2"
+    },
+    {
       "path": "canonical/modular-enforcement.json",
       "git_blob_sha": "3e52e879ac92543141bcd7bd6c10a2f3dc7af7b0"
     },
@@ -972,7 +986,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
-      "git_blob_sha": "927173a9cbc45bdaa32e84d792dbf295869e1a6c"
+      "git_blob_sha": "59e6ca32b7dc8bf5d4548c8c179087397c132462"
     },
     {
       "path": "canonical/profiles/FA3-MUSIC-001.json",
@@ -1051,6 +1065,10 @@
       "git_blob_sha": "2942e638c5cd47480a77bdca49953c2ebde81088"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
+      "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
       "git_blob_sha": "f41fd16983cf31a4366cf379c1a8495b30da1978"
     },
@@ -1073,6 +1091,10 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "git_blob_sha": "8d1a1716b4f0ca289214f2a4e54f3662ed1e9469"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
+      "git_blob_sha": "73e51eb25e08b2c6c1cc830d3693ce40269c5295"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
@@ -1117,6 +1139,10 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
       "git_blob_sha": "07a086710c62d6c44325295477a2c65647d25668"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
+      "git_blob_sha": "b9f1c330ceaed903de345296f6326f4be989e838"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
@@ -1223,6 +1249,10 @@
       "git_blob_sha": "16fa69496cede027d6b9ae2b760306bcf1710db5"
     },
     {
+      "path": "canonical/references/FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01.json",
+      "git_blob_sha": "953255670ff7fc2ecfc4fecbec709e5143b97a72"
+    },
+    {
       "path": "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "872a1306e04fea7205eaec4035e1684234443d48"
     },
@@ -1249,6 +1279,10 @@
     {
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1"
+    },
+    {
+      "path": "canonical/registries/FA3-MODEL-REGISTRY-001.json",
+      "git_blob_sha": "61a947340d49fc36f272bae7910908faa8c325e8"
     },
     {
       "path": "canonical/source-graph-attestation.json",
@@ -1431,6 +1465,10 @@
       "git_blob_sha": "40c1a4396ae643ad57703a5121fc1197a7c99aa7"
     },
     {
+      "path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
+      "git_blob_sha": "3302fdb7b4bb8040eb5c648079a8d87b2678232b"
+    },
+    {
       "path": "evidence/reference/modular-provider-ci-2026-08-30.json",
       "git_blob_sha": "257e0d20736ca0dac44a5870380db67efbe43201"
     },
@@ -1608,7 +1646,11 @@
     },
     {
       "path": "src/fa3_model_manager_gate.py",
-      "git_blob_sha": "c719a63e3226fd4015611f60e4c498a7f3ce0e08"
+      "git_blob_sha": "8b7b835bf2e9753c34baff39990b1a1a4f8cffad"
+    },
+    {
+      "path": "src/fa3_model_manager_v2_gate.py",
+      "git_blob_sha": "2c347115f37535e955841cc3c3ce270aabb47866"
     },
     {
       "path": "src/fa3_modular_current_host_gate.py",
@@ -1743,6 +1785,10 @@
       "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821"
     },
     {
+      "path": "tests/test_model_manager_v2_gate.py",
+      "git_blob_sha": "12d53804e07845eff959670665d987fdde3cbc37"
+    },
+    {
       "path": "tests/test_modular_gate.py",
       "git_blob_sha": "bcbc1a5300ed991fe34740ae27194705a5777287"
     },
@@ -1795,8 +1841,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "e6cd0549f78c072c5d89065b9ba2379b3e509f1f",
-    "regenerated_from_branch_head": "e6cd0549f78c072c5d89065b9ba2379b3e509f1f"
+    "source_snapshot_anchor": "8fabd2b0e41c2b45c41ecf4c307252c81a99ee4a",
+    "regenerated_from_branch_head": "8fabd2b0e41c2b45c41ecf4c307252c81a99ee4a"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -2146,5 +2192,24 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
-  }
+  },
+  "model_manager_v2_reconciliation": {
+    "decision_id": "FA3-DEC-MODEL-MANAGER-V2-2026-09-01",
+    "profile_id": "FA3-MODEL-MANAGER-001",
+    "contract_id": "FA3-MODEL-MANAGER-CONTRACTS-001",
+    "model_registry_id": "FA3-MODEL-REGISTRY-001",
+    "executable_gate_id": "FA3-GATE-MODEL-MANAGER-002",
+    "provider_ids": [
+      "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+      "FA3-PROVIDER-HF-MODEL-STORE-001",
+      "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+      "FA3-PROVIDER-OLLAMA-MODEL-001"
+    ],
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_PENDING_CURRENT_HOST_RUNTIME_SEPARATE",
+    "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "last_regenerated_at": "2026-09-01"
 }
