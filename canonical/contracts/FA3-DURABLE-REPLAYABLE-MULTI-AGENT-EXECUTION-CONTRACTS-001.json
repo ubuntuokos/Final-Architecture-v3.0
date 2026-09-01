@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "source_pattern_provider": "FA3-PROVIDER-MUSE-CODE-001",
+  "related_contracts": [
+    "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "DurableExecutionSession",
+    "ExecutionEvent",
+    "ModelInvocationEvent",
+    "ToolInvocationEvent",
+    "ApprovalEvent",
+    "MutationEvent",
+    "SubagentSession",
+    "ReplayCursor",
+    "ResumeCursor",
+    "ExecutionCheckpoint",
+    "StateDigest",
+    "ReplayIntent",
+    "ReplayResult",
+    "GoalBudget",
+    "ExecutionEvidenceExport"
+  ],
+  "event_log_semantics": {
+    "publication": "APPEND_ONLY",
+    "ordering": "STRICT_MONOTONIC_SEQUENCE_PER_SESSION",
+    "identity": "UNIQUE_EVENT_ID_AND_SESSION_ID",
+    "integrity": "TAMPER_EVIDENT_HASH_CHAIN_OR_EQUIVALENT",
+    "required_event_classes": [
+      "MODEL_CALL",
+      "TOOL_RUN",
+      "APPROVAL",
+      "EDIT_OR_MUTATION"
+    ],
+    "mutation_rule": "NO_IN_PLACE_REWRITE_OF_COMMITTED_EVENTS"
+  },
+  "durability_semantics": {
+    "crash_recovery": "RESUME_FROM_LAST_COMMITTED_EVENT_CURSOR",
+    "pending_approval": "MUST_REMAIN_PENDING_AFTER_RESTART",
+    "checkpoint": "BOUND_TO_EXPLICIT_EVENT_RANGE_AND_STATE_DIGEST",
+    "context_compaction": "MAY_COMPACT_WORKING_CONTEXT_BUT_MUST_NOT_DELETE_PROVENANCE"
+  },
+  "replay_semantics": {
+    "reconstruction": "STATE_RECONSTRUCTION_FROM_COMMITTED_EVENT_LINEAGE",
+    "external_side_effects": "SKIP_VERIFY_OR_IDEMPOTENT_ONLY",
+    "side_effect_reexecution_default": "FORBIDDEN",
+    "runtime_identity": "MODEL_TOOL_RUNTIME_PROVIDER_IDENTITIES_PINNED_OR_EXPLICITLY_DECLARED",
+    "nondeterminism": "EXPLICIT_INPUT_OR_ARTIFACT_BINDING_REQUIRED"
+  },
+  "subagent_semantics": {
+    "lifetime": "SESSION_SCOPED_PERSISTENCE_ALLOWED",
+    "capabilities": "MONOTONIC_NARROWING_FROM_DELEGATING_CONTEXT",
+    "parallelism": "EXPLICIT_BOUNDED_CONCURRENCY",
+    "cancellation": "DETERMINISTIC_CANCEL_TERMINATE_AND_RESOURCE_RELEASE"
+  },
+  "evidence_semantics": {
+    "local_event_log": "NON_AUTHORITATIVE_EXECUTION_RECORD",
+    "canonical_evidence_projection": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "REDACT_OR_OMIT_BEFORE_PERSISTENCE",
+    "replay_claim": "REQUIRES_EXECUTABLE_POSITIVE_AND_NEGATIVE_EVIDENCE"
+  },
+  "provider_primitive_semantics": {
+    "plan": "PLAN_IS_NOT_AUTHORIZATION",
+    "critique": "CRITIQUE_IS_NOT_POLICY_AUTHORITY",
+    "goal": "GOAL_IS_BOUNDED_BY_EXPLICIT_SCOPE_BUDGET_AND_EXTERNAL_POLICY"
+  },
+  "forbidden_semantics": [
+    "PROVIDER_IMPLIES_AUTHORITY",
+    "EVENT_LOG_REWRITE",
+    "REPLAY_REEXECUTES_EXTERNAL_SIDE_EFFECTS_BY_DEFAULT",
+    "RESUME_AUTO_APPROVES_PENDING_ACTION",
+    "SUBAGENT_CAPABILITY_ESCALATION",
+    "UNBOUNDED_PARALLEL_SUBAGENTS",
+    "CONTEXT_COMPACTION_ERASES_PROVENANCE",
+    "LOCAL_EVENT_LOG_BECOMES_CANONICAL_EVIDENCE_AUTHORITY",
+    "SECRET_BEARING_EVENT_PERSISTENCE",
+    "GOAL_PERSISTENCE_BYPASSES_SCOPE_OR_BUDGET"
+  ]
+}
