@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-MODEL-MANAGER-V2-CI-2026-09-01",
+  "date": "2026-09-01",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "contract_id": "FA3-MODEL-MANAGER-CONTRACTS-001",
+  "model_registry_id": "FA3-MODEL-REGISTRY-001",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-002",
+  "extends_gate_id": "FA3-MODEL-MANAGER-GATESET-001",
+  "decision_id": "FA3-DEC-MODEL-MANAGER-V2-2026-09-01",
+  "upstream_reference_id": "FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01",
+  "status": "PENDING_CI",
+  "evidence_level": "EXECUTABLE_CANONICAL_REGRESSION_AWAITING_PR_CI",
+  "executable_gate": "./bin/fa3-enforce model-manager",
+  "extended_regression_cases": 15,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "note": "This record is promoted to PASS only after the branch commit is observed passing repository CI. It never constitutes current-host provider runtime evidence."
+}

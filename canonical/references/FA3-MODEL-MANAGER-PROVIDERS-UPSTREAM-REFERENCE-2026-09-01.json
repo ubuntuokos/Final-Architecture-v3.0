@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01",
+  "date": "2026-09-01",
+  "status": "PINNED_REFERENCE_SNAPSHOT",
+  "purpose": "Pin public upstream/reference identities for FA3 Model Manager v2 provider projections",
+  "sources": [
+    {
+      "provider_id": "FA3-PROVIDER-HF-MODEL-STORE-001",
+      "repository": "huggingface/huggingface_hub",
+      "release": "v1.29.0",
+      "commit": "4237d95c603db491cb1070898c74c97e4d7c2582",
+      "tag_object": "760bd9dc2357e7e7a2b11f65177fcaeb692f0bf8",
+      "release_published_at": "2026-08-27T12:13:14Z",
+      "tag_signature_verified": false
+    },
+    {
+      "provider_id": "FA3-PROVIDER-OLLAMA-MODEL-001",
+      "repository": "ollama/ollama",
+      "release": "v0.33.2",
+      "commit": "f96e7aa0513b9973a0ccc71be414c2ecb9d65b1a",
+      "release_published_at": "2026-08-27T20:31:47Z"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+      "repository": "lmstudio-ai/lmstudio-bug-tracker",
+      "reference_commit": "820196ba16c66ff38ce5749bb20ba955b0c0873e",
+      "note": "Public issue/reference repository is not an immutable LM Studio runtime release source; production admission requires local installed version and package digest."
+    }
+  ],
+  "floating_latest_allowed_as_production_evidence": false,
+  "runtime_promotion_requires_separate_current_host_evidence": true
+}

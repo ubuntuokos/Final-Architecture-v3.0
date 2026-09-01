@@ -1,0 +1,71 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODEL-MANAGER-V2-2026-09-01",
+  "date": "2026-09-01",
+  "status": "CANONICAL_CLOSED",
+  "title": "Extend FA3 Model Manager with canonical model record, multi-provider projections, storage-plane separation, HRB admission and fail-closed promotion",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "contract_id": "FA3-MODEL-MANAGER-CONTRACTS-001",
+  "model_registry_id": "FA3-MODEL-REGISTRY-001",
+  "extends_gate_id": "FA3-MODEL-MANAGER-GATESET-001",
+  "executable_gate_id": "FA3-GATE-MODEL-MANAGER-002",
+  "provider_ids": [
+    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "architectural_authority_model_changed": false,
+  "storage_planes": [
+    "SOURCE_CACHE",
+    "CANONICAL_MODEL_STORE",
+    "RUNTIME_PROJECTION_STORE"
+  ],
+  "dedup_preference": [
+    "CONTENT_ADDRESSED_BLOB",
+    "HARDLINK",
+    "SYMLINK",
+    "PROVIDER_REFERENCE",
+    "COPY"
+  ],
+  "mandatory_rule_ids": [
+    "MODEL_RECORD_IMMUTABLE_SOURCE_REVISION_REQUIRED",
+    "MODEL_FAMILY_REVISION_VARIANT_ARTIFACT_RUNTIME_INSTANCE_IDENTITY_SEPARATION",
+    "LICENSE_AND_REDISTRIBUTION_METADATA_REQUIRED_BEFORE_PROMOTION",
+    "DANGEROUS_SERIALIZATION_AND_REMOTE_CODE_POLICY_REQUIRED",
+    "SOURCE_CACHE_CANONICAL_STORE_RUNTIME_PROJECTION_SEPARATION",
+    "CONTENT_ADDRESSED_DEDUP_PREFERRED_COPY_LAST",
+    "LINK_PROJECTION_REQUIRES_CANONICAL_PATH_REVALIDATION_AUTHORIZATION_AND_ROLLBACK",
+    "RUNTIME_PROVIDER_NATIVE_STORE_IS_NON_AUTHORITY",
+    "MODEL_REQUIREMENTS_DECLARED_PLACEMENT_DELEGATED_TO_HRB",
+    "ACCELERATOR_RUNTIME_REQUIRES_HRB_ADMISSION_OR_LEASE",
+    "PROVIDER_MODEL_OPERATIONS_TYPED_AND_BOUNDED",
+    "PROVIDER_OUTAGE_PRESERVES_CANONICAL_MODEL_RECORD",
+    "UNKNOWN_LICENSE_TRUST_LINEAGE_OR_COMPATIBILITY_BLOCKS_PROMOTION",
+    "RUNTIME_MATERIALIZATION_EVIDENCE_REQUIRED_FOR_PRODUCTION_PROMOTION",
+    "UPSTREAM_FLOATING_LATEST_NOT_PRODUCTION_ADMISSION"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "decisions": [
+    "FA3 Model Manager remains a provider-neutral cross-cutting projection and is not a new architectural authority.",
+    "FA3-MODEL-REGISTRY-001 defines the canonical provider-neutral model record; registry authority remains FA3-REGISTRY-001.",
+    "StabilityMatrix remains the primary current-host media model-store/provider projection for natively supported model classes.",
+    "Hugging Face is admitted as the primary upstream source/revision/content-addressed cache projection when used.",
+    "LM Studio is a strong optional interactive LLM desktop/model-library/runtime projection provider; production promotion requires a local immutable runtime/package pin and E2E evidence.",
+    "Ollama is a strong optional LLM packaging/native-store/serving provider; its native store is not canonical model identity authority.",
+    "Model family, immutable revision, variant, artifact, runtime projection and loaded instance are distinct identities.",
+    "Source cache, canonical artifact store and runtime projection stores are distinct storage planes.",
+    "Model Manager declares resource requirements; Host Resource Broker alone authorizes accelerator admission/placement/lease.",
+    "Unknown license, trust, lineage or runtime compatibility blocks promotion.",
+    "Floating latest/main cannot constitute production admission evidence."
+  ]
+}

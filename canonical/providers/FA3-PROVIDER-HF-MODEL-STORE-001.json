@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-HF-MODEL-STORE-001",
+  "name": "Hugging Face Hub Source and Cache Projection",
+  "status": "ACCEPTED_PRIMARY_UPSTREAM_SOURCE_PROVIDER",
+  "provider_role": "PRIMARY_UPSTREAM_MODEL_SOURCE_REVISION_AND_CONTENT_ADDRESSED_CACHE_PROVIDER",
+  "classification": [
+    "PRIMARY_SOURCE_PROVIDER",
+    "MODEL_SOURCE_PROVIDER",
+    "CONTENT_ADDRESSED_CACHE_PROVIDER"
+  ],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "upstream_repository": "huggingface/huggingface_hub",
+  "upstream_release": "v1.29.0",
+  "upstream_release_commit": "4237d95c603db491cb1070898c74c97e4d7c2582",
+  "upstream_tag_object": "760bd9dc2357e7e7a2b11f65177fcaeb692f0bf8",
+  "upstream_tag_verified": false,
+  "observed_at": "2026-09-01",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-HF-USED",
+  "runtime_activation_status": "REFERENCE_AND_SOURCE_PROVIDER_ADMITTED_CURRENT_HOST_EXECUTABLE_EVIDENCE_NOT_CLAIMED",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "fa3_usage_policy": {
+    "immutable_revision": "REQUIRED",
+    "content_hash": "REQUIRED",
+    "cache_role": "SOURCE_CACHE_NOT_CANONICAL_IDENTITY_AUTHORITY",
+    "floating_main_or_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION",
+    "remote_code": "DENY_BY_DEFAULT_EXPLICIT_POLICY_ADMISSION_REQUIRED",
+    "dangerous_serialization": "SCAN_AND_POLICY_ADMISSION_REQUIRED"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  }
+}

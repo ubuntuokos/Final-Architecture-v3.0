@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OLLAMA-MODEL-001",
+  "name": "Ollama LLM Packaging, Blob Store and Serving Projection",
+  "status": "ACCEPTED_STRONG_OPTIONAL_PROVIDER",
+  "provider_role": "LLM_PACKAGING_NATIVE_BLOB_STORE_MODEL_DERIVATION_AND_SERVING_RUNTIME_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "STRONG_REFERENCE_PROVIDER",
+    "LLM_SERVING_PROVIDER",
+    "RUNTIME_NATIVE_STORE_PROVIDER"
+  ],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "upstream_repository": "ollama/ollama",
+  "upstream_release": "v0.33.2",
+  "upstream_release_commit": "f96e7aa0513b9973a0ccc71be414c2ecb9d65b1a",
+  "observed_at": "2026-09-01",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "OPTIONAL",
+  "runtime_activation_status": "REFERENCE_PROVIDER_ADMITTED_CURRENT_HOST_EXECUTABLE_EVIDENCE_NOT_CLAIMED",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "fa3_usage_policy": {
+    "native_blob_store": "MAY_REMAIN_NATIVE_NON_AUTHORITY",
+    "derived_model_or_quantization": "DISTINCT_ARTIFACT_IDENTITY_AND_LINEAGE_REQUIRED",
+    "digest": "PROJECT_INTO_CANONICAL_ARTIFACT_INTEGRITY_RECORD",
+    "model_routing": "DELEGATE_TO_EXISTING_FA3_MODEL_ROUTER",
+    "accelerator_placement": "DELEGATE_TO_HOST_RESOURCE_BROKER",
+    "floating_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  }
+}

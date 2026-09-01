@@ -1,0 +1,140 @@
+{
+  "schema": "fa3.model-registry-record.v1",
+  "id": "FA3-MODEL-REGISTRY-001",
+  "name": "Provider-neutral Canonical Model Record and Artifact Lineage Schema",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "registry_authority": "FA3-REGISTRY-001",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "required_sections": [
+    "identity",
+    "origin",
+    "artifact",
+    "variant",
+    "derivation",
+    "compatibility",
+    "resources",
+    "security",
+    "licensing",
+    "storage",
+    "lifecycle",
+    "evidence"
+  ],
+  "required_fields": {
+    "identity": [
+      "canonical_model_id",
+      "family",
+      "modality"
+    ],
+    "origin": [
+      "provider",
+      "repository",
+      "immutable_revision"
+    ],
+    "artifact": [
+      "artifact_id",
+      "sha256",
+      "format",
+      "size_bytes"
+    ],
+    "variant": [
+      "variant_id",
+      "precision",
+      "quantization"
+    ],
+    "derivation": [
+      "base_artifact_id",
+      "transformation",
+      "recipe_or_tool_identity"
+    ],
+    "compatibility": [
+      "runtime_states"
+    ],
+    "resources": [
+      "minimum_ram_bytes",
+      "recommended_ram_bytes",
+      "minimum_vram_bytes",
+      "recommended_vram_bytes"
+    ],
+    "security": [
+      "remote_code",
+      "dangerous_serialization",
+      "trust_level"
+    ],
+    "licensing": [
+      "license_id",
+      "commercial_use",
+      "redistribution",
+      "acceptance_required"
+    ],
+    "storage": [
+      "canonical_location",
+      "projections"
+    ],
+    "lifecycle": [
+      "state"
+    ],
+    "evidence": [
+      "integrity_evidence",
+      "compatibility_evidence",
+      "runtime_evidence",
+      "evaluation_evidence"
+    ]
+  },
+  "identity_chain": [
+    "MODEL_FAMILY",
+    "IMMUTABLE_REVISION",
+    "VARIANT",
+    "ARTIFACT",
+    "RUNTIME_PROJECTION",
+    "LOADED_INSTANCE"
+  ],
+  "lifecycle_states": [
+    "DISCOVERED",
+    "ADMISSION_PENDING",
+    "ADMITTED",
+    "VALIDATED",
+    "PROMOTABLE",
+    "PROMOTED",
+    "QUARANTINED",
+    "DEPRECATED",
+    "RETIRED"
+  ],
+  "compatibility_states": [
+    "UNKNOWN",
+    "VERIFIED",
+    "REJECTED",
+    "STALE_EVIDENCE"
+  ],
+  "trust_levels": [
+    "UNKNOWN",
+    "UNTRUSTED",
+    "POLICY_ADMITTED",
+    "VERIFIED"
+  ],
+  "promotion_fail_closed_on": [
+    "MISSING_IMMUTABLE_REVISION",
+    "MISSING_SHA256",
+    "UNKNOWN_LICENSE",
+    "UNRESOLVED_TRUST",
+    "UNAPPROVED_REMOTE_CODE",
+    "DANGEROUS_SERIALIZATION_UNRESOLVED",
+    "INVALID_OR_MISSING_LINEAGE",
+    "UNKNOWN_RUNTIME_COMPATIBILITY",
+    "MISSING_RESOURCE_DECLARATION",
+    "MISSING_RUNTIME_MATERIALIZATION_EVIDENCE"
+  ],
+  "invariants": [
+    "PATH_IS_NOT_MODEL_IDENTITY",
+    "MODEL_FAMILY_IS_NOT_ARTIFACT_IDENTITY",
+    "DERIVED_ARTIFACT_REQUIRES_DISTINCT_IDENTITY_AND_LINEAGE",
+    "RUNTIME_PROJECTION_IS_NOT_CANONICAL_AUTHORITY",
+    "LOADED_INSTANCE_IS_EPHEMERAL_AND_EVIDENCE_BOUND",
+    "UNKNOWN_IS_NOT_EQUIVALENT_TO_SUPPORTED_OR_PROMOTABLE"
+  ]
+}
