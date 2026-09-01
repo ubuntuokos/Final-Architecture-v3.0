@@ -9,8 +9,8 @@
   "extends_gate_id": "FA3-MODEL-MANAGER-GATESET-001",
   "decision_id": "FA3-DEC-MODEL-MANAGER-V2-2026-09-01",
   "upstream_reference_id": "FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01",
-  "status": "PENDING_CI",
-  "evidence_level": "EXECUTABLE_CANONICAL_REGRESSION_AWAITING_PR_CI",
+  "status": "PASS",
+  "evidence_level": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
   "executable_gate": "./bin/fa3-enforce model-manager",
   "extended_regression_cases": 15,
   "current_host_runtime_evidence": "NOT_CLAIMED",
@@ -18,5 +18,23 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
-  "note": "This record is promoted to PASS only after the branch commit is observed passing repository CI. It never constitutes current-host provider runtime evidence."
+  "note": "CI proved the canonical/reference Model Manager v2 gate and fail-closed promotion safety on source_commit. This PASS does not constitute current-host production runtime evidence for Hugging Face, LM Studio or Ollama.",
+  "source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39",
+  "ci": {
+    "permanent_canonical_promotion_gate": {
+      "workflow_run_id": 33468726303,
+      "conclusion": "success",
+      "canonical_regression_job_id": 99733895264,
+      "canonical_regression_conclusion": "success",
+      "promotion_safety_job_id": 99733973995,
+      "promotion_safety_conclusion": "success"
+    },
+    "unified_current_host_projection": {
+      "workflow_run_id": 33468726281,
+      "conclusion": "success",
+      "regression_job_id": 99733894772,
+      "regression_conclusion": "success",
+      "real_execution": "skipped_by_design_not_a_current_host_runtime_promotion"
+    }
+  }
 }
