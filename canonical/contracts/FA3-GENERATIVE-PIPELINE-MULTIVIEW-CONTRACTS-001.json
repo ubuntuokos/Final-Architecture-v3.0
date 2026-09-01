@@ -1,0 +1,114 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "derived_from": "FA3-PROVIDER-STABILITY-SGM-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "GenerativePipelineRecipe",
+    "TypedConditioningBundle",
+    "DiffusionComponentDescriptor",
+    "ModelArtifactIntegrityDescriptor",
+    "ModelLicenseAdmission",
+    "CameraViewConditioning",
+    "TemporalMultiViewLineage",
+    "GenerativeObservationSet",
+    "TemporalMultiViewQualityEvidence",
+    "LowMemoryExecutionPolicy"
+  ],
+  "component_roles": [
+    "model",
+    "conditioner",
+    "guider",
+    "sampler",
+    "scheduler",
+    "denoiser",
+    "decoder"
+  ],
+  "conditioning_types": [
+    "TEXT",
+    "IMAGE",
+    "VECTOR",
+    "SEQUENCE",
+    "SPATIAL",
+    "CAMERA",
+    "TEMPORAL"
+  ],
+  "recipe_identity_required_fields": [
+    "model_artifact_id",
+    "model_revision",
+    "config_digest",
+    "component_identities",
+    "sampler",
+    "scheduler",
+    "precision",
+    "conditioning_digest",
+    "runtime_revision"
+  ],
+  "artifact_integrity": {
+    "container_sha256": "REQUIRED",
+    "tensor_payload_sha256": "REQUIRED_WHEN_FORMAT_PERMITS",
+    "container_and_tensor_identity_independent": true,
+    "cryptographic_identity_required_for_promotion": true
+  },
+  "license_admission_required_fields": [
+    "source_code_license",
+    "weight_license",
+    "model_version",
+    "artifact_hash",
+    "access_constraints",
+    "commercial_use_constraints",
+    "acceptable_use_policy",
+    "derivative_model_constraints",
+    "output_constraints",
+    "license_evidence_timestamp"
+  ],
+  "multi_view_lineage_required_fields": [
+    "source_artifact_id",
+    "source_frame_ids",
+    "camera_ids",
+    "view_parameters",
+    "temporal_indices",
+    "conditioning_ancestry",
+    "recipe_identity",
+    "output_artifact_ids"
+  ],
+  "quality_dimensions": [
+    "TEMPORAL_CONSISTENCY",
+    "MULTI_VIEW_CONSISTENCY",
+    "CAMERA_TRAJECTORY_CONFORMANCE",
+    "SOURCE_IDENTITY_PRESERVATION"
+  ],
+  "geometry_boundary": {
+    "sv3d_sv4d_output_type": "GENERATED_VISUAL_OBSERVATION_SET",
+    "canonical_geometry": false,
+    "canonical_geometry_requires": "FA3-3D-GEOM-001_VALIDATION_AND_MATERIALIZATION"
+  },
+  "runtime_boundary": {
+    "provider_environment": "ISOLATED_VERSION_PINNED_ENVIRONMENT",
+    "host_cuda_driver_python_selection": "FORBIDDEN",
+    "accelerator_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY",
+    "low_memory_adaptation": "EXECUTION_POLICY_ONLY_NO_MODEL_SEMANTIC_MUTATION"
+  },
+  "invariants": [
+    "GEN_PIPELINE_COMPONENT_ADDRESSABILITY_REQUIRED",
+    "GEN_CONDITIONING_TYPED_SEMANTICS_REQUIRED",
+    "GEN_SAMPLER_NOT_MODEL_OR_ROUTING_AUTHORITY",
+    "GEN_GUIDANCE_SEPARABLE_FROM_SAMPLING",
+    "GEN_TRAINING_AND_INFERENCE_DENOISING_SEMANTICS_EXPLICIT",
+    "GEN_EXECUTION_RECIPE_IDENTITY_REPRODUCIBLE",
+    "GEN_CONTAINER_AND_TENSOR_INTEGRITY_INDEPENDENT",
+    "GEN_CODE_LICENSE_NOT_WEIGHT_OR_OUTPUT_LICENSE",
+    "GEN_CAMERA_VIEW_CONDITIONING_EXPLICIT",
+    "GEN_TEMPORAL_AND_MULTIVIEW_QUALITY_SEPARATE",
+    "GEN_AUTOREGRESSIVE_EXTENSION_ANCESTRY_REQUIRED",
+    "GEN_LOW_VRAM_POLICY_NOT_MODEL_SEMANTIC_MUTATION",
+    "GEN_SV3D_SV4D_OUTPUT_NOT_CANONICAL_GEOMETRY",
+    "GEN_PROVIDER_ISOLATED_RUNTIME_REQUIRED",
+    "GEN_HRB_ONLY_ACCELERATOR_PLACEMENT",
+    "GEN_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
+  ]
+}

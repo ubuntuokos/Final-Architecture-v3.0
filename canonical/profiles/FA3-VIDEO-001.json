@@ -10,7 +10,10 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capabilities": ["CAP-016", "CAP-123", "CAP-126"],
-  "contracts": ["FA3-VIDEO-CONTRACTS-001"],
+  "contracts": [
+    "FA3-VIDEO-CONTRACTS-001",
+    "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001"
+  ],
   "dependencies": [
     "FA3-CONTRACT-001",
     "FA3-SCS-001",
@@ -23,7 +26,8 @@
   "providers": [
     "FA3-PROVIDER-KLING-001",
     "FA3-PROVIDER-SEEDANCE-001",
-    "FA3-PROVIDER-MINIMAX-H3-001"
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-STABILITY-SGM-001"
   ],
   "authority": {
     "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",

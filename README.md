@@ -26,6 +26,23 @@ Read-only host evidence collection:
 
 The removed **Linux Recovery/Rebuild Projection** remains explicitly `OUT-OF-SCOPE`.
 
+## Stability SGM optional generative-media reference provider
+
+`FA3-PROVIDER-STABILITY-SGM-001` admits `Stability-AI/generative-models` as an optional local generative-media reference provider and strong architectural pattern source. It adds no capability or authority; the canonical count remains **143**. The immutable upstream reference is `e8cd657656fa5d61688191730d0e03242bf4ed44`.
+
+`FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001` makes pipeline components, typed conditioning, recipe identity, container/tensor integrity, license admission, camera metadata, temporal/multi-view lineage and quality evidence explicit. Code-license admission never implies weight- or output-license admission.
+
+SVD/SV3D/SV4D outputs are generated visual observations or reconstruction inputs. They are not mesh, point cloud, scene graph or canonical geometry unless `FA3-3D-GEOM-001` separately validates and materializes them. SGM cannot select host CUDA, driver, Python, model storage, routing or GPU placement; local acceleration requires a verified Host Resource Broker lease.
+
+Run the fail-closed 16-rule gate with:
+
+```bash
+./bin/fa3-enforce stability-sgm
+PYTHONPATH=src python -m unittest tests.test_stability_sgm_gate -v
+```
+
+The provider remains disabled/reference-only and has no current-host runtime promotion evidence. A future SGM/SV4D runtime admission is a separate explicit task.
+
 
 ## Terax reference-provider enforcement
 

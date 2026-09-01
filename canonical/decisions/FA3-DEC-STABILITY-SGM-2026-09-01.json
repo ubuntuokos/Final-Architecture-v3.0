@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STABILITY-SGM-2026-09-01",
+  "date": "2026-09-01",
+  "status": "ACCEPTED_CANONICAL_MATERIALIZED",
+  "subject": "Stability-AI/generative-models FA3 admission",
+  "decision": "ACCEPT_AS_OPTIONAL_LOCAL_GENERATIVE_MEDIA_REFERENCE_PROVIDER_AND_STRONG_ARCHITECTURAL_PATTERN_SOURCE",
+  "provider_id": "FA3-PROVIDER-STABILITY-SGM-001",
+  "contract_id": "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+  "gate_id": "FA3-STABILITY-SGM-GATESET-001",
+  "rationale": [
+    "SGM provides strong config-driven diffusion component separation patterns.",
+    "SVD, SV3D and SV4D provide valuable image-to-video, camera-conditioned and multi-view lineage patterns.",
+    "Generated multi-view observations are useful reconstruction inputs but are not canonical geometry.",
+    "Source-code and model-weight licenses differ and require independent admission.",
+    "Upstream runtime recipes cannot select FA3 host CUDA, driver, Python, placement or model-store policy."
+  ],
+  "authority_decision": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_count_after": 143,
+    "geometry_root_unchanged": "FA3-3D-GEOM-001",
+    "video_profile_unchanged": "FA3-VIDEO-001",
+    "model_manager_unchanged": "FA3-MODEL-MANAGER-001",
+    "host_resource_authority_unchanged": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "runtime_decision": {
+    "activation": "OPTIONAL_DISABLED_BY_DEFAULT",
+    "current_host_status": "NOT_PROMOTED_REFERENCE_ONLY",
+    "current_host_runtime_evidence": false,
+    "runtime_required_for_global_promotion_when_disabled": false,
+    "future_runtime_admission": "SEPARATE_EXPLICIT_CURRENT_HOST_TASK"
+  },
+  "mandatory_boundaries": [
+    "CODE_LICENSE_ADMISSION_DOES_NOT_IMPLY_WEIGHT_OR_OUTPUT_LICENSE_ADMISSION",
+    "SV3D_SV4D_OUTPUT_IS_NOT_CANONICAL_GEOMETRY",
+    "PROVIDER_CANNOT_SELECT_HOST_CUDA_DRIVER_PYTHON_MODEL_STORE_OR_GPU_PLACEMENT",
+    "ACCELERATOR_EXECUTION_REQUIRES_HRB_ADMISSION",
+    "FLOATING_UPSTREAM_MAIN_IS_NOT_PROMOTION_EVIDENCE"
+  ]
+}

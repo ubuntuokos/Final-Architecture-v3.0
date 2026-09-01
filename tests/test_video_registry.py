@@ -31,12 +31,24 @@ class VideoRegistryTests(unittest.TestCase):
             "canonical/providers/FA3-PROVIDER-KLING-001.json",
             "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
             "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
+            "canonical/providers/FA3-PROVIDER-STABILITY-SGM-001.json",
         ]:
             provider = load(path)
             self.assertFalse(provider["canonical_root"])
             self.assertFalse(provider["architectural_authority"])
             self.assertFalse(provider["new_capability"])
             self.assertEqual(provider["capability_count"], 143)
+
+    def test_stability_sgm_is_specialized_multiview_reference_not_geometry(self):
+        profile = load("canonical/profiles/FA3-VIDEO-001.json")
+        provider = load("canonical/providers/FA3-PROVIDER-STABILITY-SGM-001.json")
+        self.assertIn("FA3-PROVIDER-STABILITY-SGM-001", profile["providers"])
+        self.assertIn("FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001", profile["contracts"])
+        self.assertFalse(provider["output_semantics"]["canonical_geometry"])
+        self.assertEqual(
+            provider["output_semantics"]["geometry_admission"],
+            "FA3-3D-GEOM-001_VALIDATION_AND_MATERIALIZATION_REQUIRED",
+        )
 
     def test_kling_mcp_cannot_bypass_central_gateway(self):
         kling = load("canonical/providers/FA3-PROVIDER-KLING-001.json")

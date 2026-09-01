@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABILITY-SGM-001",
+  "name": "Stability AI Generative Models / SGM",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_LOCAL_GENERATIVE_MEDIA_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "DIFFUSION_PIPELINE_PATTERN_SOURCE",
+    "IMAGE_TO_VIDEO_REFERENCE_PROVIDER",
+    "MULTI_VIEW_SYNTHESIS_REFERENCE_PROVIDER",
+    "GENERATIVE_3D_PRECONDITIONING_PATTERN_SOURCE",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "profiles": ["FA3-VIDEO-001", "FA3-3D-GEOM-001"],
+  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "current_host_runtime_evidence": false,
+  "contract": "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+  "upstream_reference": "FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01",
+  "model_families": ["SDXL", "SDXL_TURBO", "SVD", "SVD_XT", "SV3D", "SV4D", "SV4D_2_0"],
+  "domains": [
+    "IMAGE_GENERATION",
+    "IMAGE_TO_VIDEO",
+    "MULTI_VIEW_SYNTHESIS",
+    "VIDEO_TO_MULTIVIEW_TEMPORAL_PROJECTION",
+    "GENERATIVE_3D_PRECONDITIONING"
+  ],
+  "output_semantics": {
+    "sv3d_sv4d": "GENERATED_VISUAL_OBSERVATIONS_OR_RECONSTRUCTION_INPUTS",
+    "canonical_geometry": false,
+    "geometry_admission": "FA3-3D-GEOM-001_VALIDATION_AND_MATERIALIZATION_REQUIRED"
+  },
+  "authority_boundaries": {
+    "model_management": "FA3-MODEL-MANAGER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_and_gpu_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_and_license_admission": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_and_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "video_semantics": "FA3-VIDEO-001",
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "MODEL_MANAGEMENT_AUTHORITY",
+    "MODEL_ROUTING_AUTHORITY",
+    "INFERENCE_PLACEMENT_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "CUDA_OR_DRIVER_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "VIDEO_SEMANTIC_AUTHORITY",
+    "GEOMETRY_SEMANTIC_AUTHORITY",
+    "REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "Stability SGM SHALL remain an optional reference provider/pattern source and SHALL NOT become an FA3 model-management, model-routing, inference-placement, host-resource, CUDA/driver, workflow, evidence, video-semantic, geometry-semantic or registry authority."
+}

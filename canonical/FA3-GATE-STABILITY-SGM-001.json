@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-STABILITY-SGM-001",
+  "gateset_id": "FA3-STABILITY-SGM-GATESET-001",
+  "provider_id": "FA3-PROVIDER-STABILITY-SGM-001",
+  "contract_id": "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+  "status": "ACTIVE_FAIL_CLOSED",
+  "priority": "P0",
+  "mandatory": true,
+  "rule_count": 16,
+  "executable": "./bin/fa3-enforce stability-sgm",
+  "report_path": "reports/stability-sgm-gate-report.json",
+  "reference_evidence": "evidence/reference/stability-sgm-ci-2026-09-01.json",
+  "runtime_provider_required_for_global_promotion_when_disabled": false,
+  "current_host_runtime_evidence_required_for_activation": true,
+  "fail_closed": true
+}
