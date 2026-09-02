@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-AGENT-EXEC-001",
   "provider_neutral": true,
@@ -27,7 +27,12 @@
     "OpenHandsRiskSignal",
     "OpenHandsConfirmationSignal",
     "OpenHandsMcpProjection",
-    "OpenHandsExecutionEvidenceExport"
+    "OpenHandsExecutionEvidenceExport",
+    "OpenHandsCurrentHostRuntimeDescriptor",
+    "OpenHandsIsolationReceipt",
+    "ExternalCanonicalToolAuthorizationReceipt",
+    "CentralModelRouterBridgeReceipt",
+    "OpenHandsCurrentHostEvidenceReceipt"
   ],
   "layer_separation": {
     "agent_core": "DECLARATIVE_AGENT_BEHAVIOR_ONLY",
@@ -112,5 +117,20 @@
     "SUBAGENT_CAPABILITY_ESCALATION",
     "PROVIDER_LOG_BECOMES_CANONICAL_EVIDENCE",
     "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
-  ]
+  ],
+  "current_host_runtime": {
+    "isolation": "BUBBLEWRAP_UNSHARE_ALL_READ_ONLY_HOST_EXCEPT_DELEGATED_WORKSPACE",
+    "general_network_egress": "DENIED",
+    "production_model_route": "UNIX_DOMAIN_SOCKET_TO_HOST_LOOPBACK_CENTRAL_LITELLM",
+    "model_alias": "developer-agent-primary",
+    "production_tool_authorization": "EXTERNAL_FA3_AUTH_MCP_GATEWAY_SINGLE_USE_EXACT_WRITE",
+    "provider_native_execute_tool": "FORBIDDEN_AS_CANONICAL_EXECUTION_PATH",
+    "provider_native_mcp": "DISABLED_IN_V0_1_CURRENT_HOST_PRODUCTION_ADAPTER",
+    "secret_material": "EPHEMERAL_READ_ONLY_KEY_FILE_NOT_SERIALIZED",
+    "evidence_levels": [
+      "CURRENT_HOST_OPENHANDS_ISOLATED_RUNTIME_PASS",
+      "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS"
+    ],
+    "fixture_evidence_can_promote_production": false
+  }
 }
