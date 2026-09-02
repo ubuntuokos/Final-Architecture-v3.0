@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABILITY-MODELSPEC-001",
+  "name": "Stability AI ModelSpec compatibility bridge",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "REQUIRED_METADATA_COMPATIBILITY_REFERENCE",
+  "upstream_repo": "Stability-AI/ModelSpec",
+  "immutable_reference": "fe8dc608e557eff842eae7f78b8c90f38687d418",
+  "profiles": [
+    "FA3-MODEL-MANAGER-001"
+  ],
+  "capability_projection": [
+    "CAP-005"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "SCHEMA_COMPATIBILITY_ONLY",
+  "runtime_activation_requires_current_host_conformance": false,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "canonical_schema_authority": false
+}
