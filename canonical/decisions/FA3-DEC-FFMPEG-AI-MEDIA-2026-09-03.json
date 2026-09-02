@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
+  "date": "2026-09-03",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FFmpeg neural media execution, hardware transcode, external neural filter interoperability and quality governance",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_NEURAL_MEDIA_PROFILE_WITH_REQUIRED_FFMPEG_PRIMARY_EXECUTOR_AND_REQUIRED_SUPPORTED_VS_MLRT_ADAPTER",
+  "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-FFMPEG-001",
+    "FA3-PROVIDER-VS-MLRT-001"
+  ],
+  "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-016",
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "hardware_reference": "2x Intel Xeon E5-2696 v4 / 44C-88T / expected 2 NUMA / RTX 3080 12GB-class compute evidence context; all live topology and accelerator identity rediscovered",
+  "runtime_activation_status": "PENDING_REAL_CURRENT_HOST_E2E",
+  "mandatory_rules": [
+    "NEURAL_MEDIA_PROFILE_MANDATORY_NO_NEW_CAPABILITY_AUTHORITY",
+    "FFMPEG_REQUIRED_PRIMARY_LOW_LEVEL_MEDIA_EXECUTOR_NOT_ORCHESTRATOR",
+    "FFMPEG_STABLE_SIGNED_IMMUTABLE_RELEASE_REQUIRED_NO_FLOATING_MASTER_NIGHTLY",
+    "FFMPEG_DNN_PROCESSING_REQUIRED_SUPPORTED_WITH_ONNX_OPENVINO",
+    "LIBTORCH_CONDITIONAL_TENSORFLOW_COMPATIBILITY_ONLY",
+    "ONNX_DNN_MODEL_ADMISSION_4D_NCHW_FP32_SINGLE_INPUT",
+    "INCOMPATIBLE_DNN_MODELS_ROUTE_TO_INFERENCE_PORTABILITY",
+    "REQUESTED_ACCELERATOR_PROVIDER_MUST_MATCH_OBSERVED_NO_SILENT_CPU_FALLBACK",
+    "HRB_LEASE_AND_UUID_BDF_REQUIRED_FOR_ACCELERATOR_EXECUTION",
+    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_REFERENCE_E5_2696_V4_NOT_PORTABLE_CONSTANT",
+    "NVIDIA_CODEC_FILTER_CAPABILITIES_RUNTIME_DISCOVERED_NO_AV1_ENCODE_ASSUMPTION",
+    "GPU_RESIDENT_PIPELINE_AND_COPY_MINIMIZATION_REQUIRED_WHEN_SUPPORTED",
+    "ZERO_COPY_CLAIM_REQUIRES_STABLE_RELEASE_CAPABILITY_AND_COPY_EVIDENCE",
+    "FFMPEG_9_0_1_DNN_CUDA_HWFRAME_ZERO_COPY_NOT_BASELINE",
+    "VMAF_SSIM_PSNR_AND_AV_SYNC_COLOR_HDR_VALIDATION_REQUIRED",
+    "LIBVMAF_CPU_REQUIRED_LIBVMAF_CUDA_CONDITIONAL_NONFREE_BUILD_POLICY",
+    "VAPOURSYNTH_VS_MLRT_REQUIRED_SUPPORTED_EXTERNAL_NEURAL_ADAPTER",
+    "VS_MLRT_BACKEND_ROUTING_DELEGATES_TO_INFERENCE_PORTABILITY_AND_HRB",
+    "REALESRGAN_RIFE_MODEL_FAMILIES_OPTIONAL_ADMITTED_NOT_CANONICAL_REQUIRED_MODELS",
+    "NON_UPSTREAM_REAL_ESRGAN_AND_PYTHON_SCRIPT_FFMPEG_FILTER_CLAIMS_FORBIDDEN",
+    "OUT_OF_TREE_CUSTOM_FFMPEG_FILTERS_REQUIRE_SEPARATE_PIN_PATCH_SECURITY_E2E_ADMISSION",
+    "TEMPORAL_KDENLIVE_OTIO_OPENCUT_AND_EXISTING_AUTHORITIES_UNCHANGED",
+    "MODEL_REGISTRY_LICENSE_PROVENANCE_AND_ARTIFACT_AUTHORITIES_UNCHANGED",
+    "CURRENT_HOST_PROMOTION_REQUIRES_REAL_MEDIA_E2E_QA_ROLLBACK_AND_NO_CONDA_BASELINE"
+  ],
+  "rationale": [
+    "CAP-121 and CAP-126 already require deterministic FFmpeg/ffprobe media execution and post-production quality control, so this materializes an existing execution surface rather than adding a capability.",
+    "FFmpeg 9.0.1 provides ONNX Runtime and OpenVINO DNN backends, but its ONNX CUDA path can fall back to CPU; FA3 therefore adds a fail-closed observed-provider check instead of inheriting silent fallback.",
+    "Stable 9.0.1 dnn_processing does not accept CUDA hardware frames, while development trunk has CUDA-frame work; zero-copy DNN therefore remains capability-evidence gated rather than a stable baseline claim.",
+    "Modern super-resolution, restoration and frame interpolation are better isolated behind a frame-server adapter such as VapourSynth/vs-mlrt and the existing inference-portability authority."
+  ]
+}
