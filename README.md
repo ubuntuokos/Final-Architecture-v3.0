@@ -898,3 +898,25 @@ python evidence/collect-cpu-numa-threading-current-host.py \
 ```
 
 The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 19 acceptance criteria.
+
+
+## FA3 Stability AI mandatory support portfolio
+
+`FA3-STABILITY-PORTFOLIO-001` is the P0/MUST provider-support and admission profile for Stability AI. It is not a monolithic dependency, adds no capability or authority, and keeps the canonical count at **143**.
+
+Required-supported projections: SAI ModelSpec compatibility; SD3.5; Stable Audio 3; SPAR3D; SF3D fallback; Arbor; ReLi3D; Stable Virtual Camera behind licence/output-rights admission; Stable Layers as remote/distributed-first; SGM SV3D/SV4D as research/licence-gated multi-view providers; and NVIDIA NIM as an SD3.5 enterprise deployment projection.
+
+ModelSpec metadata is imported into the canonical FA3 Model Registry but ModelSpec is not the canonical schema authority. Code licence, model/weight licence, output rights, commercial threshold, attribution, AUP/use restriction and redistribution are separate versioned policy dimensions. The Stability AUP effective 2026-09-30 is treated as a versioned admission snapshot.
+
+Hardware policy uses the corrected T7910 reference: **2× E5-2696 v4 / 44C-88T / expected two NUMA domains**, with live topology/GPU discovery and HRB admission. The RTX 3080 12GB-class compute route makes Stable Audio 3 Medium, SF3D and SPAR3D low-VRAM plausible local candidates only after real E2E. Arbor/ReLi3D/SD3.5 local variants remain validation-gated. Stable Layers and SD3.5 NVIDIA NIM are remote/distributed-first on this host; NVIDIA's official NIM target does not make RTX 3080 a supported local-default route.
+
+The provider-neutral DAW integration profile is mandatory; Stability's launch DAW plugin remains optional/incubation on Linux until a native supported format exists. Runtimes use isolated pip venvs or containers; conda/mamba is not an FA3 baseline.
+
+Run:
+
+```bash
+./bin/fa3-enforce stability-portfolio
+PYTHONPATH=src python -m unittest tests.test_stability_portfolio_gate -v
+```
+
+Committed CI/reference PASS evidence does not promote provider runtime activation; immutable pins, licence/policy, HRB/resource, compatibility, quality and real E2E evidence remain required.
