@@ -2,27 +2,53 @@
   "schema": "fa3.runtime-admission.v1",
   "id": "FA3-OPENHANDS-RUNTIME-ADMISSION-001",
   "provider_id": "FA3-PROVIDER-OPENHANDS-001",
-  "status": "NOT_PROMOTED_REFERENCE_ONLY",
-  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "status": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
   "production_provider_admission": false,
   "blocking_conditions": [
-    "FA3 OpenHands provider adapter/current-host conformance not yet materialized",
-    "provider-native direct execute_tool bypass is not admitted as an FA3 execution path",
-    "raw secret-value provider persistence is not admitted",
-    "local/unisolated workspace execution has no current-host FA3 placement/isolation evidence"
+    "real isolated current-host runtime evidence pending",
+    "production external canonical tool-authorization receipt not yet evidenced",
+    "production central LiteLLM/model-router route not yet evidenced",
+    "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS receipt absent"
   ],
   "future_admission_requirements": [
-    "immutable OpenHands SDK/Agent Server/tools/workspace component tuple pin",
-    "typed FA3 provider adapter conformance",
-    "all tool and MCP execution mediated by Central MCP/Capability Gateway",
-    "workspace placement/isolation admitted by existing Agent Execution and Host Resource authorities",
-    "raw secret values externalized and redacted before provider persistence",
-    "real current-host positive E2E plus negative bypass/isolation/secret refusal evidence",
-    "crash-resume and side-effect-safe replay evidence",
-    "rollback and cleanup evidence"
+    "isolated real-runtime current-host PASS",
+    "externally issued FA3-AUTH-MCP-GATEWAY-001 single-use exact-write authorization receipt",
+    "central model-router developer-agent-primary route through Unix socket bridge",
+    "raw secret non-persistence proof",
+    "real production current-host exact-mutation E2E",
+    "crash/resume event-lineage evidence",
+    "negative scope/authorization evidence",
+    "complete cleanup evidence"
   ],
   "provider_runtime_required_for_global_promotion_when_disabled": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "materialization_status": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "runtime_conformance_id": "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001",
+  "current_host_gate_id": "FA3-OPENHANDS-CURRENT-HOST-GATESET-001",
+  "current_host_decision_id": "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03",
+  "isolated_evidence": {
+    "receipt": "evidence/receipts/openhands-current-host-isolated.json",
+    "evidence_level": "CURRENT_HOST_OPENHANDS_ISOLATED_RUNTIME_PASS",
+    "production_admission": false,
+    "status": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  },
+  "production_evidence": {
+    "receipt": "evidence/receipts/openhands-current-host.json",
+    "evidence_level": "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS",
+    "production_admission": true,
+    "status": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  },
+  "materialized_surfaces": [
+    "src/fa3_openhands_adapter.py",
+    "src/fa3_openhands_router_bridge.py",
+    "src/fa3_openhands_current_host_worker.py",
+    "src/fa3_openhands_current_host_gate.py",
+    "evidence/collect-openhands-current-host.py",
+    "bin/fa3-openhands-bootstrap.sh",
+    "bin/fa3-openhands-current-host.sh",
+    ".github/workflows/fa3-openhands-current-host.yml"
+  ]
 }
