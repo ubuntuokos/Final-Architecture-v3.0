@@ -220,10 +220,24 @@ OPENHANDS_ADMISSION_PATH = "canonical/openhands-runtime-admission.json"
 OPENHANDS_EVIDENCE_PATH = "evidence/reference/openhands-ci-2026-09-01.json"
 OPENHANDS_GATE_PATH = "src/fa3_openhands_gate.py"
 OPENHANDS_TEST_PATH = "tests/test_openhands_gate.py"
+OPENHANDS_RUNTIME_CONFORMANCE_PATH = "canonical/FA3-OPENHANDS-RUNTIME-CONFORMANCE-001.json"
+OPENHANDS_CURRENT_HOST_ENFORCEMENT_PATH = "canonical/openhands-current-host-enforcement.json"
+OPENHANDS_CURRENT_HOST_DECISION_ID = "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03"
+OPENHANDS_CURRENT_HOST_DECISION_PATH = "canonical/decisions/FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03.json"
+OPENHANDS_ADAPTER_PATH = "src/fa3_openhands_adapter.py"
+OPENHANDS_ROUTER_BRIDGE_PATH = "src/fa3_openhands_router_bridge.py"
+OPENHANDS_WORKER_PATH = "src/fa3_openhands_current_host_worker.py"
+OPENHANDS_CURRENT_HOST_GATE_PATH = "src/fa3_openhands_current_host_gate.py"
+OPENHANDS_COLLECTOR_PATH = "evidence/collect-openhands-current-host.py"
+OPENHANDS_BOOTSTRAP_PATH = "bin/fa3-openhands-bootstrap.sh"
+OPENHANDS_RUNNER_PATH = "bin/fa3-openhands-current-host.sh"
+OPENHANDS_WORKFLOW_PATH = ".github/workflows/fa3-openhands-current-host.yml"
+OPENHANDS_CURRENT_HOST_TEST_PATH = "tests/test_openhands_current_host.py"
+OPENHANDS_RUNBOOK_PATH = "docs/openhands-current-host.md"
 OPENHANDS_CAPABILITY_ID = "CAP-028"
-OPENHANDS_RUNTIME_STATUS = "NOT_PROMOTED_REFERENCE_ONLY"
+OPENHANDS_RUNTIME_STATUS = "MATERIALIZED_CURRENT_HOST_E2E_PENDING"
 OPENHANDS_RECONCILIATION_STATUS = (
-    "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
+    "GLOBAL_PROJECTION_RECONCILED_RUNTIME_MATERIALIZED_CURRENT_HOST_PENDING"
 )
 
 VOICE_PROFILE_ID = "FA3-VOICE-001"
@@ -1555,6 +1569,19 @@ def gate(root: Path):
         OPENHANDS_EVIDENCE_PATH,
         OPENHANDS_GATE_PATH,
         OPENHANDS_TEST_PATH,
+        OPENHANDS_RUNTIME_CONFORMANCE_PATH,
+        OPENHANDS_CURRENT_HOST_ENFORCEMENT_PATH,
+        OPENHANDS_CURRENT_HOST_DECISION_PATH,
+        OPENHANDS_ADAPTER_PATH,
+        OPENHANDS_ROUTER_BRIDGE_PATH,
+        OPENHANDS_WORKER_PATH,
+        OPENHANDS_CURRENT_HOST_GATE_PATH,
+        OPENHANDS_COLLECTOR_PATH,
+        OPENHANDS_BOOTSTRAP_PATH,
+        OPENHANDS_RUNNER_PATH,
+        OPENHANDS_WORKFLOW_PATH,
+        OPENHANDS_CURRENT_HOST_TEST_PATH,
+        OPENHANDS_RUNBOOK_PATH,
         "canonical/enforcement-policy.json",
         "evidence/evidence-registry.json",
         "src/fa3_enforce.py",
@@ -1572,6 +1599,10 @@ def gate(root: Path):
     }.items():
         if required not in inventory.get(key, []):
             missing_openhands_overlay_members.append({"inventory": key, "path": required})
+    missing_openhands_current_host_decision_inventory = (
+        OPENHANDS_CURRENT_HOST_DECISION_PATH
+        not in inventory.get("decision_records", [])
+    )
     openhands_manifest_missing = sorted(required_openhands_manifest_paths - manifest_paths)
     openhands_provider = (
         loadj(root / OPENHANDS_PROVIDER_PATH)
@@ -1597,23 +1628,30 @@ def gate(root: Path):
     )
     openhands_binding_invalid = not (
         OPENHANDS_DECISION_ID in openhands_record.get("source_decision_ids", [])
+        and OPENHANDS_CURRENT_HOST_DECISION_ID in openhands_record.get("source_decision_ids", [])
         and OPENHANDS_EVIDENCE_PATH in openhands_record.get("evidence_artifacts", [])
         and openhands_record.get("status") == "PENDING_CURRENT_HOST"
         and openhands_projection_status.get("provider_id") == OPENHANDS_PROVIDER_ID
         and openhands_projection_status.get("runtime_activation_status")
         == OPENHANDS_RUNTIME_STATUS
         and openhands_projection_status.get("current_host_runtime_evidence")
-        == "NOT_CLAIMED"
+        == "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        and openhands_projection_status.get("current_host_decision")
+        == OPENHANDS_CURRENT_HOST_DECISION_ID
     )
     if (
         openhands.get("provider_id") != OPENHANDS_PROVIDER_ID
         or openhands.get("contract_id") != OPENHANDS_CONTRACT_ID
         or openhands.get("decision_id") != OPENHANDS_DECISION_ID
+        or openhands.get("current_host_decision_id") != OPENHANDS_CURRENT_HOST_DECISION_ID
         or openhands.get("gate_id") != OPENHANDS_GATE_ID
+        or openhands.get("current_host_gate_id") != "FA3-OPENHANDS-CURRENT-HOST-GATESET-001"
+        or openhands.get("runtime_conformance_id") != "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001"
         or openhands.get("capability_id") != OPENHANDS_CAPABILITY_ID
         or openhands.get("reconciliation_status") != OPENHANDS_RECONCILIATION_STATUS
         or openhands.get("runtime_activation_status") != OPENHANDS_RUNTIME_STATUS
-        or openhands.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or openhands.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or openhands.get("production_provider_admission") is not False
         or openhands.get("provider_runtime_required_for_global_promotion_when_disabled")
         is not False
         or openhands.get("new_capabilities") != 0
@@ -1622,6 +1660,7 @@ def gate(root: Path):
         or OPENHANDS_GATE_ID not in projection_gates
         or OPENHANDS_GATE_ID not in policy_gates
         or missing_openhands_overlay_members
+        or missing_openhands_current_host_decision_inventory
         or openhands_manifest_missing
         or openhands_binding_invalid
         or openhands_provider.get("id") != OPENHANDS_PROVIDER_ID
@@ -1631,7 +1670,8 @@ def gate(root: Path):
         or openhands_provider.get("new_architectural_authority") is not False
         or openhands_provider.get("runtime_activation_status") != OPENHANDS_RUNTIME_STATUS
         or openhands_admission.get("status") != OPENHANDS_RUNTIME_STATUS
-        or openhands_admission.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or openhands_admission.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or openhands_admission.get("materialization_status") != OPENHANDS_RUNTIME_STATUS
         or openhands_admission.get("production_provider_admission") is not False
         or openhands_evidence.get("status") != "PASS"
         or openhands_evidence.get("current_host_provider_runtime_evidence") is not False
@@ -1647,6 +1687,7 @@ def gate(root: Path):
                 missing_overlay_members=missing_openhands_overlay_members,
                 missing_manifest_paths=openhands_manifest_missing,
                 invalid_capability_binding=openhands_binding_invalid,
+                missing_current_host_decision_inventory=missing_openhands_current_host_decision_inventory,
             )
         )
 
