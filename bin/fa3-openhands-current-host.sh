@@ -18,6 +18,9 @@ if [[ -n "${FA3_OPENHANDS_HOME:-}" ]]; then
   ARGS+=(--source "$FA3_OPENHANDS_HOME/source-a9e0a8a1aab2164b46bae00a18157a343aaa94c9")
   ARGS+=(--venv "$FA3_OPENHANDS_HOME/venv-1.44.1")
 fi
+if [[ -n "${FA3_OPENHANDS_TASK_ID:-}" ]]; then
+  ARGS+=(--task-id "$FA3_OPENHANDS_TASK_ID")
+fi
 if [[ "$MODE" == "production" ]]; then
   : "${FA3_OPENHANDS_TOOL_AUTH_RECEIPT:?external canonical tool authorization receipt path required}"
   : "${FA3_OPENHANDS_LITELLM_KEY_FILE:?external LiteLLM key file path required}"
