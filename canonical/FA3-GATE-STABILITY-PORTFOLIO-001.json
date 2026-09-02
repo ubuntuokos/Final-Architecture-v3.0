@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-STABILITY-PORTFOLIO-001",
+  "gateset": "FA3-STABILITY-PORTFOLIO-GATESET-001",
+  "status": "CANONICAL",
+  "fail_closed": true,
+  "command": "./bin/fa3-enforce stability-portfolio",
+  "tests": "PYTHONPATH=src python -m unittest tests.test_stability_portfolio_gate -v",
+  "reference_evidence": "evidence/reference/stability-portfolio-ci-2026-09-02.json",
+  "current_host_runtime_promotion": false
+}
