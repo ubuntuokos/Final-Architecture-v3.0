@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "627da99dd0b0e0d22c840343d70b1102e46baecf",
-    "pre_projection_root_tree_sha": "523cc2dc58065cc69b381b41a8fb030c545d7344",
-    "pre_projection_canonical_tree_sha": "e2157a4a4fe733a4126507de8564a47a9ffec127",
-    "commits_ahead_of_v3_0_11_conformance_commit": 104,
-    "total_post_baseline_commits": 104,
-    "delta_file_count": 431,
-    "delta_added_files": 427,
+    "pre_projection_head_sha": "29c08832f48a968043d788097b9e91bd1638bd4c",
+    "pre_projection_root_tree_sha": "70cb5dbc7949863a82896334071c8f83a038c6b4",
+    "pre_projection_canonical_tree_sha": "12c7f5612f6fce4fad11342996bf565954b56d2a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 110,
+    "total_post_baseline_commits": 110,
+    "delta_file_count": 432,
+    "delta_added_files": 428,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 249,
-    "evidence_files_in_post_baseline_delta": 44,
+    "evidence_files_in_post_baseline_delta": 45,
     "source_files_in_post_baseline_delta": 50,
     "test_files_in_post_baseline_delta": 40,
     "workflow_files_in_post_baseline_delta": 8,
@@ -257,6 +257,7 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
+      "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
       "evidence/reference/inference-portability-ci-2026-08-31.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
@@ -304,7 +305,8 @@
     "FA3-MODEL-MANAGER-GATESET-001",
     "FA3-HYBRID-EDITORIAL-GATESET-001",
     "FA3-MARKETING-GATESET-001",
-    "FA3-COSYVOICE-GATESET-001"
+    "FA3-COSYVOICE-GATESET-001",
+    "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -365,7 +367,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 433,
+  "manifest_entry_count": 434,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -957,7 +959,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "ba32bdc681cb148d081bbc6803ef8c08e62983bb"
+      "git_blob_sha": "a643dff2c46ebc72f5ddff8691405063256ae780"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1585,7 +1587,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "57d5b18cefa353fd741b912a41a2fab0e5ebe3aa"
+      "git_blob_sha": "c28e4926a121b576502d56f083e26e70d47b2ef3"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -1638,6 +1640,10 @@
     {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "git_blob_sha": "ab2e038d9b0a28cc987132eed31b75f2f40c461d"
+    },
+    {
+      "path": "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
+      "git_blob_sha": "81da6eafbeee00d630162f3affdca35460673ec8"
     },
     {
       "path": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
