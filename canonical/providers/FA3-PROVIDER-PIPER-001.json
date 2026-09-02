@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PIPER-001",
+  "name": "OHF-Voice/piper1-gpl + Hungarian Piper voices",
+  "status": "CANONICAL_PROVIDER_PROJECTION_CURRENT_HOST_PENDING",
+  "provider_role": "LIGHTWEIGHT_HUNGARIAN_CPU_TTS_FALLBACK_CANDIDATE",
+  "classification": ["OPTIONAL_PROVIDER", "LOCAL_PRODUCTION_CANDIDATE", "CPU_FIRST", "HUNGARIAN_OFFICIALLY_AVAILABLE", "NO_VOICE_CLONING"],
+  "profiles": ["FA3-VOICE-001"],
+  "capability_projection": ["CAP-115", "CAP-117"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_PROVIDER_ROUTED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime": {"repository": "https://github.com/OHF-Voice/piper1-gpl", "commit": "850c45a3d70b5981de4d908ba98caf39796e7201", "license": "GPL-3.0-or-later", "isolated_environment_required": true},
+  "voice_repository": {"repository": "https://huggingface.co/rhasspy/piper-voices", "revision": "39ab474be869e9181350af6a65e4953eef67aaa0", "voice_license_must_be_checked_per_model_card": true},
+  "hungarian_voices": {
+    "hu_HU-anna-medium": {"sample_rate_hz": 22050, "dataset_license": "CC0", "onnx_lfs_sha256": "968c0c3a66cb667811242cc88653bff9247395fc7a0517fbeef7d8c08cdae62a"},
+    "hu_HU-berta-medium": {"sample_rate_hz": 22050, "dataset_license": "CC0", "onnx_lfs_sha256": "4eed05f767573b77fd2c07e6bccaa9b3c77089a55b9239c3099ecd3d17a59be3"},
+    "hu_HU-imre-medium": {"sample_rate_hz": 22050, "dataset_license": "CC0", "onnx_lfs_sha256": "af7d98e2031b4f00cf3693cafc47b0b5347f23c28cd6a5957a693f76d7202c2d"}
+  },
+  "routing_policy": {"hu_plain_tts": "ELIGIBLE_AFTER_CURRENT_HOST_AND_HU_QUALITY_PASS", "hu_voice_cloning": "UNSUPPORTED_FAIL_CLOSED"},
+  "promotion_status": "CURRENT_HOST_PRODUCTION_E2E_AND_HU_QUALITY_PENDING"
+}

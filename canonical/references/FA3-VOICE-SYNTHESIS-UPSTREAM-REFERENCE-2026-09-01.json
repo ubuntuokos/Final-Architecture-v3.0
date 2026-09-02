@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01",
+  "date": "2026-09-01",
+  "immutable_snapshots": {
+    "voxcpm_runtime": {"repository": "https://github.com/OpenBMB/VoxCPM", "commit": "f5a1c6a6b901bc732e20f0d59a369f6829ad717a", "license": "Apache-2.0"},
+    "voxcpm2_model": {"repository": "https://huggingface.co/openbmb/VoxCPM2", "revision": "32279effe8c19989596f05d353d1447f51d9e915", "license": "Apache-2.0", "official_languages": 30, "hungarian": false, "sample_rate_hz": 48000},
+    "coqui_runtime": {"repository": "https://github.com/idiap/coqui-ai-TTS", "commit": "ca2cf5155bca892ea820ad384400efbfac41b178", "license": "MPL-2.0"},
+    "xtts_v2_model": {"repository": "https://huggingface.co/coqui/XTTS-v2", "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77", "license": "Coqui Public Model License", "official_languages": 17, "hungarian": true, "sample_rate_hz": 24000},
+    "piper_runtime": {"repository": "https://github.com/OHF-Voice/piper1-gpl", "commit": "850c45a3d70b5981de4d908ba98caf39796e7201", "license": "GPL-3.0-or-later"},
+    "piper_voices": {"repository": "https://huggingface.co/rhasspy/piper-voices", "revision": "39ab474be869e9181350af6a65e4953eef67aaa0", "hungarian_voices": ["hu_HU-anna-medium", "hu_HU-berta-medium", "hu_HU-imre-medium"], "dataset_license_at_snapshot": "CC0", "model_card_license_check_required": true},
+    "qwen3_tts": {"repository": "https://github.com/QwenLM/Qwen3-TTS", "commit": "022e286b98fbec7e1e916cb940cdf532cd9f488e", "reference_model_revision": "fd4b254389122332181a7c3db7f27e918eec64e3", "license": "Apache-2.0", "official_languages": 10, "hungarian": false},
+    "mms_tts_hun": {"repository": "https://huggingface.co/facebook/mms-tts-hun", "revision": "0c676d482c719cd1675203a9b5bb3a8bf89d8e11", "license": "CC-BY-NC-4.0", "production_eligible": false}
+  },
+  "source_precedence": "Official upstream repository and model-card snapshots only",
+  "floating_main_allowed_for_promotion_evidence": false,
+  "current_host_runtime_evidence": false
+}

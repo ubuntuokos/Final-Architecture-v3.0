@@ -1,7 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VOICE-001",
-  "name": "Provider-Neutral Voice Synthesis, Identity, Consent & Conversational Audio Profile",
+  "version": "2.0.0",
+  "name": "Provider-Neutral Local Speech Synthesis, Voice Cloning, Identity, Consent & Voice Asset Governance Fabric",
   "status": "CANONICAL_MATERIALIZED",
   "obligation": "P0/MUST-IF-VOICE-SYNTHESIS-USED",
   "capability_projection": ["CAP-115", "CAP-116", "CAP-117"],
@@ -10,7 +11,7 @@
   "architectural_authority": false,
   "new_capability": false,
   "capability_count": 143,
-  "purpose": "Provider-independent voice synthesis and conversational voice execution boundary. Providers are replaceable adapters and never own voice identity, consent, routing, host-resource, registry or evidence authority.",
+  "purpose": "Provider-independent voice synthesis, voice cloning, Hungarian-first routing, media projection and voice-asset governance boundary. Providers are replaceable adapters and never own voice identity, consent, routing, host-resource, registry, policy or evidence authority.",
   "canonical_objects": [
     "VoiceIdentityRef",
     "VoiceConsentProof",
@@ -18,29 +19,57 @@
     "VoiceSynthesisRequest",
     "VoiceSynthesisResult",
     "VoiceStyleIntent",
+    "VoiceLanguageCapabilityDescriptor",
+    "VoiceLicenseAndRightsDescriptor",
+    "VoiceProviderDecisionReceipt",
+    "VoiceMediaProjection",
+    "VoiceQualityReport",
     "VoiceExecutionEvidence"
   ],
   "contracts": "FA3-VOICE-CONTRACTS-001",
+  "provider_admission": "FA3-VOICE-PROVIDER-ADMISSION-001",
   "authority_boundaries": {
     "voice_identity_and_consent": "FA3 canonical identity/security/governance authorities",
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "model_and_artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "model_and_artifact_identity": "FA3-MODEL-REGISTRY-001 and FA3 canonical artifact registry",
+    "workflow_and_session_lifecycle": "existing FA3 durable workflow/session authorities",
     "observability_and_evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
   "provider_requirements": [
-    "typed provider-neutral request/result artifacts",
-    "explicit voice identity and consent binding",
-    "reference-audio hash binding before cloning",
-    "model/runtime immutable provenance",
-    "explicit host resource admission",
-    "fail-closed unsupported-language and policy handling",
-    "provider execution evidence without authority takeover"
+    "typed provider-neutral request, decision, result and evidence artifacts",
+    "explicit voice identity, consent scope, purpose, expiry and revocation binding",
+    "reference-audio and reference-transcript hash binding before cloning",
+    "separate code, runtime, model, voice/dataset and output-rights admission",
+    "immutable model/runtime provenance and explicit bootstrap-only acquisition",
+    "explicit Host Resource Broker admission for accelerator execution",
+    "fail-closed unsupported or unverified language, route, license and policy handling",
+    "Hungarian text normalization and dedicated hu-HU quality evidence",
+    "native-rate master plus explicit 48 kHz PCM media-mezzanine projection lineage",
+    "synthetic-audio disclosure and misuse-policy metadata",
+    "isolated provider runtime outside application and ComfyUI environments",
+    "disabled optional provider has zero or near-zero runtime cost"
   ],
-  "providers": ["FA3-PROVIDER-COSYVOICE-001"],
+  "hungarian_baseline": {
+    "locale": "hu-HU",
+    "voice_cloning_primary_candidate": "FA3-PROVIDER-XTTS-001",
+    "lightweight_cpu_fallback_candidate": "FA3-PROVIDER-PIPER-001",
+    "minimum_conformant_capability": "At least one production-admitted hu-HU route; voice cloning requests require a cloning-capable admitted provider.",
+    "silent_cross_language_fallback": false
+  },
+  "providers": [
+    "FA3-PROVIDER-COSYVOICE-001",
+    "FA3-PROVIDER-VOXCPM-001",
+    "FA3-PROVIDER-XTTS-001",
+    "FA3-PROVIDER-PIPER-001",
+    "FA3-PROVIDER-QWEN3-TTS-001",
+    "FA3-PROVIDER-MMS-TTS-HUN-001"
+  ],
   "promotion": {
     "document_only_runtime_promotion_forbidden": true,
-    "current_host_real_audio_e2e_required": true,
-    "language_quality_evidence_required": true
+    "current_host_real_audio_e2e_required_per_enabled_provider": true,
+    "language_quality_evidence_required": true,
+    "hungarian_golden_corpus_required": true,
+    "provider_runtime_required_for_global_promotion_when_disabled": false
   }
 }

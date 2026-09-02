@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MMS-TTS-HUN-001",
+  "name": "facebook/mms-tts-hun",
+  "status": "RESEARCH_BENCHMARK_ONLY_PRODUCTION_DENIED",
+  "provider_role": "HUNGARIAN_TTS_RESEARCH_BENCHMARK",
+  "classification": ["RESEARCH_ONLY", "HUNGARIAN_CHECKPOINT", "NON_COMMERCIAL_LICENSE", "PRODUCTION_ROUTING_FORBIDDEN"],
+  "profiles": ["FA3-VOICE-001"],
+  "capability_projection": ["CAP-117"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "model": {"id": "facebook/mms-tts-hun", "revision": "0c676d482c719cd1675203a9b5bb3a8bf89d8e11", "license": "CC-BY-NC-4.0", "language": "hun"},
+  "routing_policy": {"production": "DENY", "commercial": "DENY", "research_benchmark": "ALLOW_IF_POLICY_AUTHORIZED_AND_ATTRIBUTION_SATISFIED"},
+  "production_admission": "FORBIDDEN_UNDER_CURRENT_LICENSE_POLICY"
+}

@@ -1,68 +1,105 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-VOICE-CONTRACTS-001",
+  "version": "2.0.0",
   "profile_id": "FA3-VOICE-001",
   "status": "CANONICAL",
+  "provider_neutral": true,
   "contracts": {
     "request": {
-      "schema": "fa3.voice-synthesis-request.v1",
-      "required": ["request_id", "text", "language", "mode", "model_id", "voice_identity_ref"],
-      "mode_enum": ["zero_shot", "cross_lingual", "instruct2"],
+      "schema": "fa3.voice-synthesis-request.v2",
+      "required": ["request_id", "text", "language", "mode", "voice_identity_ref", "execution_mode", "output_intent"],
+      "mode_enum": ["plain", "preset_voice", "zero_shot", "cross_lingual", "voice_clone", "voice_design", "controllable_clone", "ultimate_clone", "instruct2"],
       "fields": {
         "request_id": "non-empty stable request identifier",
-        "text": "UTF-8 text; provider execution input only",
-        "language": "BCP-47/lowercase language projection",
-        "mode": "provider-neutral synthesis mode",
-        "model_id": "registry allowlisted model identity",
+        "text": "UTF-8 provider input after canonical normalization",
+        "language": "explicit BCP-47 locale or language code",
+        "mode": "provider-neutral synthesis intent",
         "voice_identity_ref": "canonical voice identity reference",
-        "consent_proof": "VoiceConsentProof when a human voice reference is used",
-        "reference_audio_path": "local authorized reference audio path",
-        "reference_audio_sha256": "sha256 binding of reference audio",
-        "prompt_text": "reference transcript for zero-shot mode",
-        "instruct_text": "bounded style/instruction text for instruct2 mode",
+        "model_constraints": "registry identity, revision, license and capability constraints; never an arbitrary path",
+        "provider_constraints": "optional allow/deny and local-only constraints",
+        "execution_mode": "OFFLINE_LOCAL or ONLINE_ALLOWED",
+        "output_intent": "INTERACTIVE, MEDIA_MEZZANINE or ARCHIVAL_MASTER",
+        "consent_proof": "VoiceConsentProof when a human voice reference or identity is used",
+        "reference_audio": "authorized VoiceReferenceArtifact",
+        "reference_transcript": "text plus digest for transcript-dependent cloning",
+        "style_intent": "bounded provider-neutral style description",
         "streaming": "boolean execution preference",
-        "experimental_language_ack": "explicit acknowledgement for non-production-eligible language"
+        "experimental_language_ack": "explicit acknowledgement; never creates production eligibility"
       }
     },
     "consent": {
-      "schema": "fa3.voice-consent-proof.v1",
-      "required": ["status", "scope", "subject_authorized", "provenance_ref"],
+      "schema": "fa3.voice-consent-proof.v2",
+      "required": ["status", "scope", "subject_authorized", "purpose", "provenance_ref", "issued_at", "expires_at", "revocation_ref"],
       "rules": [
-        "status MUST equal GRANTED",
-        "scope MUST include VOICE_SYNTHESIS",
+        "status MUST equal GRANTED at admission and execution time",
+        "scope MUST include VOICE_SYNTHESIS and VOICE_CLONING when applicable",
+        "purpose MUST cover the requested output use",
         "subject_authorized MUST be true",
-        "provenance_ref MUST be non-empty",
-        "provider MUST NOT mint or infer consent"
+        "provenance_ref and revocation_ref MUST be non-empty",
+        "expired or revoked consent MUST fail closed",
+        "provider MUST NOT mint, infer, extend or persist consent"
       ]
     },
     "reference": {
-      "schema": "fa3.voice-reference-artifact.v1",
-      "required": ["voice_identity_ref", "audio_sha256", "consent_proof_ref", "provenance_ref"],
+      "schema": "fa3.voice-reference-artifact.v2",
+      "required": ["voice_identity_ref", "audio_sha256", "consent_proof_ref", "provenance_ref", "retention_policy_ref"],
       "rules": [
         "audio_sha256 MUST match bytes consumed by provider",
-        "voice identity MUST remain stable across request/result/evidence"
+        "transcript digest MUST match bytes/text consumed when a transcript is used",
+        "voice identity MUST remain stable across request, decision, result and evidence",
+        "reference retention and deletion MUST follow the authorized policy"
+      ]
+    },
+    "provider_decision": {
+      "schema": "fa3.voice-provider-decision-receipt.v1",
+      "required": ["request_id", "selected_provider_id", "selected_model_id", "language_status", "license_status", "resource_admission_ref", "fallback_chain", "decision_reason"],
+      "rules": [
+        "no silent provider, model, device, cloud or language fallback",
+        "hu-HU cloning MUST select an admitted Hungarian cloning provider",
+        "unsupported or unverified language routes MUST fail closed",
+        "research-only or non-commercial providers MUST NOT serve production requests"
+      ]
+    },
+    "license_and_rights": {
+      "schema": "fa3.voice-license-and-rights.v1",
+      "required": ["code_license", "runtime_license", "model_license", "voice_or_dataset_license", "output_usage_rights", "commercial_use_status", "attribution_obligations", "evidence_ref"],
+      "rules": [
+        "open-source code classification MUST NOT be inherited by model or voice artifacts",
+        "unknown, incompatible or purpose-restricted rights MUST fail closed",
+        "license acceptance MUST be explicit and auditable when required"
       ]
     },
     "result": {
-      "schema": "fa3.voice-synthesis-result.v1",
-      "required": ["request_id", "provider_id", "model_id", "model_revision", "audio_path", "audio_sha256", "sample_rate_hz", "channels", "voice_identity_ref", "execution_evidence"],
+      "schema": "fa3.voice-synthesis-result.v2",
+      "required": ["request_id", "provider_id", "model_id", "model_revision", "audio_path", "audio_sha256", "sample_rate_hz", "channels", "voice_identity_ref", "language", "synthetic_disclosure", "license_and_rights_ref", "execution_evidence"],
       "audio_contract": {
         "preferred_container": "WAV",
-        "sample_rate_hz": 24000,
-        "channels": 1
+        "allowed_native_sample_rates_hz": [22050, 24000, 48000],
+        "media_mezzanine": {"sample_rate_hz": 48000, "sample_format": "PCM", "channels": "explicit"},
+        "resample_requires_derived_artifact_lineage": true
       },
       "rules": [
-        "result MUST bind provider/runtime/model/reference/device lineage",
-        "result MUST carry language promotion eligibility",
+        "result MUST bind request, provider, runtime, model, reference, decision, device and output lineage",
+        "native-rate master MUST be preserved when media projection resamples",
+        "result MUST carry language promotion eligibility and synthetic-audio disclosure",
         "result MUST NOT promote provider-specific session semantics into canonical authority"
       ]
+    },
+    "quality": {
+      "schema": "fa3.voice-quality-report.v1",
+      "required": ["locale", "provider_id", "model_revision", "test_corpus_digest", "intelligibility", "pronunciation", "prosody", "speaker_similarity_if_cloned", "human_review", "status"],
+      "hungarian_minimum": ["numbers", "dates", "abbreviations", "currency", "names", "long-form chunk boundaries", "diacritics", "mixed-language denial or explicit routing"]
     }
   },
   "security": {
     "voice_cloning_requires_explicit_consent": true,
+    "voice_design_requires_synthetic_disclosure": true,
+    "impersonation_fraud_and_disinformation_use_forbidden": true,
     "silent_network_model_fetch_forbidden": true,
     "arbitrary_checkpoint_paths_forbidden": true,
-    "cuda_requires_hrb_lease": true
+    "cuda_requires_hrb_lease": true,
+    "provider_direct_application_venv_install_forbidden": true
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,

@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.voice-provider-admission.v1",
+  "id": "FA3-VOICE-PROVIDER-ADMISSION-001",
+  "profile_id": "FA3-VOICE-001",
+  "policy": "ALLOWLIST_AND_CAPABILITY_EVIDENCE_ONLY_FAIL_CLOSED",
+  "arbitrary_local_checkpoint_paths_allowed": false,
+  "runtime_network_fetch_allowed": false,
+  "bootstrap_download_requires_explicit_authorization": true,
+  "direct_application_or_comfyui_venv_install_allowed": false,
+  "providers": {
+    "FA3-PROVIDER-XTTS-001": {"hu_plain_tts": "CANDIDATE", "hu_voice_cloning": "PRIMARY_CANDIDATE", "native_sample_rate_hz": 24000, "production_status": "PENDING_CURRENT_HOST_AND_HU_QUALITY_EVIDENCE"},
+    "FA3-PROVIDER-PIPER-001": {"hu_plain_tts": "LIGHTWEIGHT_CPU_FALLBACK_CANDIDATE", "hu_voice_cloning": "UNSUPPORTED", "native_sample_rate_hz": 22050, "production_status": "PENDING_CURRENT_HOST_AND_HU_QUALITY_EVIDENCE"},
+    "FA3-PROVIDER-VOXCPM-001": {"hu_plain_tts": "UNSUPPORTED", "hu_voice_cloning": "UNSUPPORTED", "advanced_supported_language_tts": "CANDIDATE", "native_sample_rate_hz": 48000, "production_status": "PENDING_CURRENT_HOST_EVIDENCE"},
+    "FA3-PROVIDER-QWEN3-TTS-001": {"hu_plain_tts": "UNSUPPORTED", "hu_voice_cloning": "UNSUPPORTED", "production_status": "REFERENCE_ONLY_NOT_RUNTIME_ADMITTED"},
+    "FA3-PROVIDER-MMS-TTS-HUN-001": {"hu_plain_tts": "RESEARCH_BENCHMARK_ONLY", "hu_voice_cloning": "UNSUPPORTED", "production_status": "DENIED_NON_COMMERCIAL_LICENSE"},
+    "FA3-PROVIDER-COSYVOICE-001": {"hu_plain_tts": "EXPERIMENTAL", "hu_voice_cloning": "EXPERIMENTAL", "production_status": "HU_NOT_PROMOTABLE_WITHOUT_DEDICATED_EVIDENCE"}
+  },
+  "routing": {
+    "hu-HU": {
+      "voice_clone": ["FA3-PROVIDER-XTTS-001"],
+      "plain_or_preset_tts": ["FA3-PROVIDER-XTTS-001", "FA3-PROVIDER-PIPER-001"],
+      "forbidden_silent_fallbacks": ["FA3-PROVIDER-VOXCPM-001", "FA3-PROVIDER-QWEN3-TTS-001", "FA3-PROVIDER-MMS-TTS-HUN-001", "FA3-PROVIDER-COSYVOICE-001"]
+    }
+  },
+  "license_dimensions": ["code_license", "runtime_license", "model_license", "voice_or_dataset_license", "output_usage_rights", "commercial_use_status", "attribution_obligations", "evidence_ref"],
+  "production_admission_requirements": ["immutable runtime and model identity", "license and output-rights PASS", "consent/provenance PASS when human voice is referenced", "provider capability and language match", "Host Resource Broker admission when accelerator is used", "real current-host audio E2E", "locale-specific quality PASS", "rollback and unload proof"],
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01",
+  "date": "2026-09-01",
+  "status": "CANONICAL_CLOSED",
+  "subject": "VoxCPM2, XTTS-v2, Piper hu-HU, Qwen3-TTS and MMS Hungarian disposition under the provider-neutral FA3 Voice Fabric",
+  "decision": "MATERIALIZE_PROVIDER_PORTFOLIO_AND_HUNGARIAN_FIRST_FAIL_CLOSED_ROUTING",
+  "profile_id": "FA3-VOICE-001",
+  "contract_id": "FA3-VOICE-CONTRACTS-001",
+  "admission_id": "FA3-VOICE-PROVIDER-ADMISSION-001",
+  "provider_ids": ["FA3-PROVIDER-VOXCPM-001", "FA3-PROVIDER-XTTS-001", "FA3-PROVIDER-PIPER-001", "FA3-PROVIDER-QWEN3-TTS-001", "FA3-PROVIDER-MMS-TTS-HUN-001"],
+  "existing_provider_preserved": "FA3-PROVIDER-COSYVOICE-001",
+  "gate_id": "FA3-VOICE-SYNTHESIS-GATESET-001",
+  "upstream_reference_id": "FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "capability_bindings": ["CAP-115", "CAP-116", "CAP-117"],
+  "provider_disposition": {
+    "VoxCPM2": "OPTIONAL_ADVANCED_SUPPORTED-LANGUAGE_PROVIDER; HU_UNSUPPORTED",
+    "XTTS-v2": "PRIMARY_HU_VOICE_CLONING_CANDIDATE; CURRENT_HOST_AND_HU_QUALITY_PENDING",
+    "Piper_hu_HU": "LIGHTWEIGHT_CPU_HU_TTS_FALLBACK_CANDIDATE; NO_CLONING",
+    "Qwen3-TTS": "OPTIONAL_REFERENCE_PROVIDER; HU_UNSUPPORTED",
+    "MMS-TTS-HUN": "RESEARCH_BENCHMARK_ONLY; PRODUCTION_DENIED_CC-BY-NC-4.0",
+    "CosyVoice": "EXISTING_OPTIONAL_PROVIDER; HU_EXPERIMENTAL"
+  },
+  "mandatory_policy": [
+    "FA3-VOICE-001 remains provider-neutral and all existing authority boundaries remain unchanged.",
+    "A hu-HU request must never be silently routed to a provider without admitted Hungarian support.",
+    "XTTS-v2 is the primary Hungarian cloning candidate but is not mandatory to install and cannot be promoted without current-host plus hu-HU quality evidence.",
+    "Piper provides the lightweight Hungarian CPU fallback capability; it cannot satisfy cloning requests.",
+    "VoxCPM2 is an advanced provider candidate for its officially supported languages, Voice Design, cloning, streaming and native 48 kHz output; Hungarian routing is denied.",
+    "Code, runtime, model, voice/dataset and output rights are independently admitted.",
+    "Human voice use requires explicit purpose-scoped, non-expired and non-revoked consent plus reference hash lineage.",
+    "Provider runtimes remain isolated from ComfyUI and other application environments.",
+    "Provider-native masters are preserved; 48 kHz PCM media outputs are derived artifacts with resampling lineage.",
+    "Current-host provider PASS and Hungarian quality PASS cannot be fabricated by canonical documents or CI reference tests."
+  ],
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "global_promotion_effect": "REFERENCE_GATE_MANDATORY; DISABLED_OPTIONAL_PROVIDER_RUNTIME_NOT_GLOBAL_BLOCKER",
+  "prohibited": ["NEW_PARALLEL_VOICE_OR_ROUTING_AUTHORITY", "SILENT_LANGUAGE_OR_PROVIDER_FALLBACK", "PROVIDER_DIRECT_COMFYUI_VENV_INSTALL", "RUNTIME_NETWORK_MODEL_FETCH", "ARBITRARY_CHECKPOINT_PATH", "UNLEASED_CUDA", "CONSENT_INFERENCE_BY_PROVIDER", "RESEARCH_OR_NONCOMMERCIAL_MODEL_IN_PRODUCTION", "DOCUMENT_ONLY_RUNTIME_OR_LANGUAGE_QUALITY_PROMOTION"]
+}

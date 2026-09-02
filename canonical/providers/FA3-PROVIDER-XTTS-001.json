@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-XTTS-001",
+  "name": "idiap/coqui-ai-TTS + coqui/XTTS-v2",
+  "status": "CANONICAL_PROVIDER_PROJECTION_CURRENT_HOST_PENDING",
+  "provider_role": "PRIMARY_HUNGARIAN_VOICE_CLONING_CANDIDATE",
+  "classification": ["OPTIONAL_PROVIDER", "LOCAL_PRODUCTION_CANDIDATE", "HUNGARIAN_OFFICIALLY_SUPPORTED", "VOICE_CLONING_CAPABLE", "STREAMING_CAPABLE"],
+  "profiles": ["FA3-VOICE-001"],
+  "capability_projection": ["CAP-115", "CAP-116", "CAP-117"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_PROVIDER_ROUTED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime": {"repository": "https://github.com/idiap/coqui-ai-TTS", "commit": "ca2cf5155bca892ea820ad384400efbfac41b178", "license": "MPL-2.0", "python": ">=3.10,<=3.14", "torch_minimum": "2.2", "isolated_environment_required": true, "comfyui_venv_install_forbidden": true},
+  "model": {"id": "coqui/XTTS-v2", "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77", "license": "Coqui Public Model License", "license_acceptance_required": true, "native_sample_rate_hz": 24000, "official_languages": ["en", "es", "fr", "de", "it", "pt", "pl", "tr", "ru", "nl", "cs", "ar", "zh-cn", "ja", "hu", "ko", "hi"], "critical_lfs_sha256": {"dvae.pth": "b29bc227d410d4991e0a8c09b858f77415013eeb9fba9650258e96095557d97a", "mel_stats.pth": "1f69422a8a8f344c4fca2f0c6b8d41d2151d6615b7321e48e6bb15ae949b119c", "model.pth": "c7ea20001c6a0a841c77e252d8409f6a74fb423e79b3206a0771ba5989776187", "speakers_xtts.pth": "f0f6137c19a4eab0cbbe4c99b5babacf68b1746e50da90807708c10e645b943b"}},
+  "hungarian_policy": {"locale": "hu-HU", "language_code": "hu", "official_upstream_support": true, "production_promotion_requires_dedicated_hu_quality_evidence": true},
+  "authority_boundaries": {"provider_routing": "FA3-AUTH-MODEL-ROUTER-001", "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "voice_identity_and_consent": "FA3 canonical identity/security/governance authorities", "model_identity": "FA3-MODEL-REGISTRY-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "promotion_status": "CURRENT_HOST_PRODUCTION_E2E_AND_HU_QUALITY_PENDING"
+}

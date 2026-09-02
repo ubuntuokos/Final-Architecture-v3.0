@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-QWEN3-TTS-001",
+  "name": "QwenLM/Qwen3-TTS",
+  "status": "OPTIONAL_REFERENCE_PROVIDER_NOT_RUNTIME_ADMITTED",
+  "provider_role": "ADVANCED_STREAMING_VOICE_DESIGN_REFERENCE",
+  "classification": ["OPTIONAL_REFERENCE_PROVIDER", "VOICE_DESIGN_CAPABLE", "VOICE_CLONING_CAPABLE", "STREAMING_CAPABLE", "HUNGARIAN_UNSUPPORTED"],
+  "profiles": ["FA3-VOICE-001"],
+  "capability_projection": ["CAP-116", "CAP-117"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "runtime": {"repository": "https://github.com/QwenLM/Qwen3-TTS", "commit": "022e286b98fbec7e1e916cb940cdf532cd9f488e", "license": "Apache-2.0"},
+  "reference_model": {"id": "Qwen/Qwen3-TTS-12Hz-1.7B-Base", "revision": "fd4b254389122332181a7c3db7f27e918eec64e3", "license": "Apache-2.0"},
+  "language_policy": {"official_language_count": 10, "hu": "UNSUPPORTED_FAIL_CLOSED"},
+  "production_admission": "SEPARATE_RUNTIME_MODEL_SECURITY_LICENSE_HRB_AND_CURRENT_HOST_EVIDENCE_REQUIRED"
+}

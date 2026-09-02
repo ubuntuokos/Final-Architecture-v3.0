@@ -2466,6 +2466,32 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
+  "voice_synthesis_reconciliation": {
+    "profile_id": "FA3-VOICE-001",
+    "contract_id": "FA3-VOICE-CONTRACTS-001",
+    "admission_id": "FA3-VOICE-PROVIDER-ADMISSION-001",
+    "decision_id": "FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01",
+    "gate_id": "FA3-VOICE-SYNTHESIS-GATESET-001",
+    "provider_ids": [
+      "FA3-PROVIDER-VOXCPM-001",
+      "FA3-PROVIDER-XTTS-001",
+      "FA3-PROVIDER-PIPER-001",
+      "FA3-PROVIDER-QWEN3-TTS-001",
+      "FA3-PROVIDER-MMS-TTS-HUN-001"
+    ],
+    "capability_bindings": ["CAP-115", "CAP-116", "CAP-117"],
+    "classification": "PROVIDER_NEUTRAL_HUNGARIAN_FIRST_VOICE_SYNTHESIS_PORTFOLIO",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_AND_HU_QUALITY_PENDING",
+    "reference_evidence": "evidence/reference/voice-synthesis-ci-2026-09-01.json",
+    "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "hungarian_quality_evidence": "PENDING_DEDICATED_HU_HU_GOLDEN_CORPUS",
+    "current_host_runtime_promotion_claim": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
   "model_manager_v2_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-V2-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",

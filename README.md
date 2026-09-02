@@ -819,7 +819,6 @@ Public launch/send requires canonical consent/suppression checks, policy mediati
 
 Run `bash bin/fa3-model-manager-current-host.sh` and validate with `./bin/fa3-enforce model-manager-current-host`. GitHub-hosted CI cannot fabricate `CURRENT_HOST_MODEL_PROVIDER_E2E_PASS`; the dedicated workflow runs only on the self-hosted `fa3-current-host` runner.
 
-
 ## OpenHands optional developer-agent execution provider
 
 `FA3-PROVIDER-OPENHANDS-001` registers `OpenHands/software-agent-sdk` as an **OPTIONAL developer-agent execution provider + Software Agent SDK / Agent Server / workspace reference provider + STRONG architectural pattern source** under the existing `FA3-AGENT-EXEC-001` / `CAP-028` surface. It adds no capability and no architectural authority; the canonical capability count remains **143**.
@@ -840,3 +839,27 @@ PYTHONPATH=src python -m unittest tests.test_openhands_gate -v
 ```
 
 The committed `evidence/reference/openhands-ci-2026-09-01.json` is reference/CI PASS evidence only. OpenHands runtime activation remains `NOT_PROMOTED_REFERENCE_ONLY` until a separate real current-host adapter, isolation/placement, secret-externalization, crash/resume, tool/MCP mediation and production E2E evidence package passes.
+
+## FA3 Voice Synthesis v2 — Hungarian-first provider portfolio
+
+`FA3-VOICE-001 v2.0.0` is the mandatory provider-neutral Local Speech Synthesis, Voice Cloning & Voice Asset Governance Fabric over existing CAP-115, CAP-116 and CAP-117. It adds no capability and no architectural authority; the canonical count remains **143**. Voice identity/consent, provider routing, Host Resource Broker admission, model/artifact identity, durable workflow/session lifecycle and evidence remain with their existing FA3 authorities.
+
+Provider disposition:
+
+- **XTTS-v2** (`idiap/coqui-ai-TTS` runtime) is the primary Hungarian voice-cloning candidate because `hu` is an official model language. Its CPML model license is admitted separately from the MPL-2.0 runtime code.
+- **Piper `hu_HU`** is the lightweight CPU TTS fallback candidate. The pinned voice snapshot contains Anna, Berta and Imre medium voices; Piper cannot satisfy cloning requests and each voice model card remains a separate license gate.
+- **VoxCPM2** is an optional advanced provider candidate for its 30 officially supported languages, Voice Design, cloning, streaming and native 48 kHz output. Hungarian is absent from the official list, therefore `hu` routing is denied fail-closed.
+- **Qwen3-TTS** remains an optional advanced reference; Hungarian is not one of its ten official languages.
+- **MMS-TTS-HUN** is research/benchmark only and production/commercial routing is denied under CC-BY-NC-4.0.
+- **CosyVoice** remains the already materialized optional provider; Hungarian remains experimental pending dedicated evidence.
+
+All providers run in isolated environments outside ComfyUI/application venvs and are accessed through the Central MCP/Capability Gateway and provider router. Runtime model fetch, arbitrary checkpoint paths, silent provider/model/device/language/cloud fallback and unleased accelerator execution are forbidden. Human-voice cloning requires explicit, purpose-scoped, non-expired and non-revoked consent plus reference audio/transcript hash lineage and retention/deletion policy. Native-rate WAV masters are preserved; 48 kHz PCM media mezzanines are explicit derived artifacts with resampling provenance.
+
+Run the canonical/executable gate with:
+
+```bash
+./bin/fa3-enforce voice-synthesis
+PYTHONPATH=src python -m unittest tests.test_voice_synthesis_gate -v
+```
+
+The 32-rule CI PASS is not an installed-provider or language-quality claim. Every enabled production provider still requires real current-host audio E2E; Hungarian promotion additionally requires a dedicated hu-HU golden corpus covering normalization, pronunciation, intelligibility, prosody, human review and speaker similarity for cloning.
