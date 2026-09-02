@@ -12,10 +12,12 @@
   "launcher": "bin/fa3-cpu-thread-budget",
   "test": "tests/test_cpu_numa_threading_gate.py",
   "reference_evidence": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
+  "current_host_gate": "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001",
+  "current_host_enforcement": "canonical/cpu-numa-threading-current-host-enforcement.json",
   "fail_closed": true,
   "mandatory_checks": 24,
   "runtime_scenarios": 11,
   "current_host_runtime_promotion_claim": false,
   "capability_count": 143,
-  "promotion_semantics": "Reference topology and executable policy PASS do not replace current-host topology, placement, performance, rollback and oversubscription evidence."
+  "promotion_semantics": "Reference topology and executable policy PASS do not replace current-host topology, placement, performance, rollback and oversubscription evidence; the separate current-host gate validates those receipts fail-closed."
 }

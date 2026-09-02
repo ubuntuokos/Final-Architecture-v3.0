@@ -40,7 +40,12 @@
     "src/fa3_cosyvoice_gate.py",
     "tests/test_cosyvoice_gate.py",
     "evidence/collect-cosyvoice-current-host.py",
-    ".github/workflows/fa3-cosyvoice-current-host.yml"
+    ".github/workflows/fa3-cosyvoice-current-host.yml",
+    "canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json",
+    "canonical/cpu-numa-threading-current-host-enforcement.json",
+    "src/fa3_cpu_numa_threading_current_host_gate.py",
+    "tests/test_cpu_numa_threading_current_host_gate.py",
+    "evidence/collect-cpu-numa-threading-current-host.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -91,6 +96,12 @@
       "collector": "evidence/collect-cosyvoice-current-host.py",
       "gate": "cosyvoice-current-host",
       "activation": "CONDITIONAL_PROVIDER"
+    },
+    {
+      "name": "cpu-numa-threading",
+      "collector": "evidence/collect-cpu-numa-threading-current-host.py",
+      "gate": "cpu-numa-threading-current-host",
+      "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
     }
   ],
   "global_gate_sequence": [

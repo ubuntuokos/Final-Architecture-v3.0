@@ -11,6 +11,11 @@ on:
       - '.github/workflows/fa3-current-host.yml'
       - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
       - 'src/fa3_release_projection_gate.py'
+      - 'src/fa3_cpu_numa_threading_current_host_gate.py'
+      - 'tests/test_cpu_numa_threading_current_host_gate.py'
+      - 'evidence/collect-cpu-numa-threading-current-host.py'
+      - 'canonical/cpu-numa-threading-current-host-enforcement.json'
+      - 'canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json'
       - '.gitignore'
   workflow_dispatch:
     inputs:
@@ -19,6 +24,16 @@ on:
         required: true
         default: false
         type: boolean
+      cpu_numa_performance_evidence:
+        description: 'Path on the self-hosted runner to workload-specific CPU/NUMA benchmark evidence JSON'
+        required: false
+        default: '.fa3-current-host/input/cpu-numa-performance.json'
+        type: string
+      cpu_numa_rollback_evidence:
+        description: 'Path on the self-hosted runner to CPU/NUMA rollback and failure-injection evidence JSON'
+        required: false
+        default: '.fa3-current-host/input/cpu-numa-rollback.json'
+        type: string
 
 permissions:
   contents: read
@@ -41,7 +56,9 @@ jobs:
           chmod +x bin/fa3-current-host bin/fa3-enforce
           ./bin/fa3-current-host verify
       - name: Executable regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection -v
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate -v
+      - name: Current-host collector syntax check
+        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py
       - name: Unified release projection must remain coherent
         run: ./bin/fa3-enforce release-projection
 
@@ -58,7 +75,11 @@ jobs:
           fetch-depth: 0
       - name: Execute current-host collection and global fail-closed gates
         run: |
-          chmod +x bin/fa3-current-host bin/fa3-enforce evidence/collect-current-host.sh
+          chmod +x bin/fa3-current-host bin/fa3-enforce evidence/collect-current-host.sh evidence/collect-cpu-numa-threading-current-host.py
+          python evidence/collect-cpu-numa-threading-current-host.py \
+            --performance-evidence "${{ inputs.cpu_numa_performance_evidence }}" \
+            --rollback-evidence "${{ inputs.cpu_numa_rollback_evidence }}"
+          ./bin/fa3-enforce cpu-numa-threading-current-host
           ./bin/fa3-current-host all
       - name: Upload current-host execution evidence
         if: always()

@@ -41,6 +41,7 @@ from fa3_release_projection_gate import gate as release_projection_gate
 from fa3_mentor_gate import gate as mentor_gate
 from fa3_presenton_gate import gate as presenton_gate, current_host_gate as presenton_current_host_gate
 from fa3_cpu_numa_threading_gate import gate as cpu_numa_threading_gate
+from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_current_host_gate
 
 OK=0
 BLOCKED=2
@@ -396,7 +397,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","stability-sgm","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","cpu-numa-threading","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","stability-sgm","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -484,6 +485,8 @@ def main():
             x=voice_synthesis_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="cpu-numa-threading":
             x=cpu_numa_threading_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="cpu-numa-threading-current-host":
+            x=cpu_numa_threading_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="mentor":
             x=mentor_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="presenton":

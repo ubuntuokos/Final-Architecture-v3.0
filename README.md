@@ -881,3 +881,20 @@ bin/fa3-cpu-thread-budget --request request.json
 ```
 
 The committed reference evidence proves canonical policy and positive/negative runtime behavior only. Real T7910 promotion still requires current-host topology, cgroup/systemd receipt matching, oversubscription negatives, NUMA locality/performance telemetry and rollback evidence.
+
+### T7910 CPU/NUMA current-host closure
+
+`FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001` now materializes the missing real-host validation surface. It reads CPU package/core/SMT/NUMA facts from live sysfs/procfs, compares the process affinity with the effective unified-cgroup-v2 cpuset and memory nodes, derives the math-runtime plan through the HRB receipt, discovers accelerator locality from live PCI sysfs, and executes fail-closed oversubscription/policy negatives. The current T7910 reference admission is exactly **2× E5-2696 v4 / 44 physical cores / 88 logical CPUs / two NUMA domains**; E5-2697 v4 or 36C/72T cannot satisfy this host-specific gate.
+
+Those numbers remain a reference-host assertion, not portable FA3 hardware defaults and not global thread counts. A real PASS additionally requires workload-specific benchmark evidence with at least three iterations plus rollback/failure-injection evidence bound to the same live hardware fingerprint. CI fixtures validate the contract but cannot claim current-host PASS.
+
+Run the collector and component gate on the T7910 with:
+
+```bash
+python evidence/collect-cpu-numa-threading-current-host.py \
+  --performance-evidence /path/to/cpu-numa-performance.json \
+  --rollback-evidence /path/to/cpu-numa-rollback.json
+./bin/fa3-enforce cpu-numa-threading-current-host
+```
+
+The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 19 acceptance criteria.

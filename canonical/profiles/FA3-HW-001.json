@@ -19,6 +19,9 @@
   "reference_deployment_records": [
     "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02"
   ],
+  "current_host_validation_surfaces": [
+    "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001"
+  ],
   "authority": {
     "admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "security": "FA3-AUTH-SECURITY-GOV-001",
@@ -32,5 +35,5 @@
     "NO_SILENT_FALLBACK",
     "CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_CANONICAL_SEMANTICS"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_AND_T7910_CURRENT_HOST_VALIDATION_TOOLING_MATERIALIZED_REAL_EXECUTION_PENDING"
 }
