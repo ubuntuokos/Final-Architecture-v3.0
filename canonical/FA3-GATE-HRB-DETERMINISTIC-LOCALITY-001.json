@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+  "decision_id": "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02",
+  "enforcement_id": "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001",
+  "entrypoint": "src/fa3_hrb_deterministic_locality_gate.py",
+  "test": "tests/test_hrb_deterministic_locality_gate.py",
+  "reference_evidence": "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
+  "fail_closed": true,
+  "mandatory_checks": 22,
+  "current_host_runtime_promotion_claim": false,
+  "capability_count": 143,
+  "promotion_semantics": "Reference conformance PASS validates canonical policy structure only; current-host placement/locality promotion requires separately collected executable runtime evidence."
+}
