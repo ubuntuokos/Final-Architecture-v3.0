@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001",
+  "name": "Stable Virtual Camera",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "REQUIRED_SUPPORTED_LICENSE_GATED_NOVEL_VIEW_PROVIDER",
+  "upstream_repo": "Stability-AI/stable-virtual-camera",
+  "immutable_reference": "fe19948e9b7bea261ab2db780a59656131404a83",
+  "profiles": [
+    "FA3-VIDEO-001",
+    "FA3-3D-GEOM-001"
+  ],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "license_gate": "MANDATORY_BEFORE_EACH_ACTIVATION_PROFILE",
+  "commercial_default": "DENY_UNLESS_CURRENT_LICENSE_EVIDENCE_EXPLICITLY_ALLOWS",
+  "camera_tracking_authority": false
+}
