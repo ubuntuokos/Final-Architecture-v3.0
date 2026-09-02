@@ -230,6 +230,37 @@ Canonical gate:
 
 The upstream reference record is `canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json`; it records Kdenlive 26.04 native OTIO import/export and supported subtitle import as reference evidence only, never as current-host promotion evidence.
 
+## Linux AI animation production baseline
+
+`FA3-ANIMATION-PRODUCTION-001` materializes the complete animation workflow as a mandatory cross-cutting profile over the existing `CAP-014`, `CAP-015`, `CAP-016`, `CAP-017`, `CAP-041`, `CAP-071`, `CAP-114`, `CAP-121` and `CAP-126` capabilities. It adds no capability and no architectural authority; the canonical count remains **143**.
+
+The required production chain is:
+
+```text
+screenplay → scene/beat/shot breakdown → storyboard/animatic → FilmShotGraph
+→ versioned 2D/3D/generative assets → review → render/composite
+→ dialogue/TTS/dubbing/lip-sync → music/SFX/Ardour finishing
+→ OpenTimelineIO → Kdenlive final assembly → picture/audio lock
+→ color/caption/A-V QC → master/proxy/archive with provenance
+```
+
+The provider disposition is intentionally consistent with the current FA3 registry: **Bforartists is the primary human DCC frontend**, while Blender is a validated compatibility/headless-render/Grease Pencil fallback and cannot be selected silently. **OpenToonz v1.8.0** is the primary traditional 2D/Xsheet/cel reference provider; its core is BSD-3-Clause, while third-party code and MyPaint brush assets remain separate license-admission surfaces. Krita remains optional raster/frame authoring. **MuseTalk 1.5** is the primary local audio-driven lip-sync reference behind a typed Central Gateway adapter and a dedicated pip/uv venv or container; sharing the ComfyUI environment or making a third-party ComfyUI node the canonical deployment is forbidden.
+
+Existing FA3 fabrics are consumed, not duplicated: `FA3-VOICE-001` owns TTS/voice/consent, `FA3-STT-MEDIA-001` transcription/alignment, `FA3-MUSIC-001` plus ACE-Step generative music, Ardour human audio finishing, `FA3-DCC-RT3D-001` scene/camera/geometry semantics, and Kdenlive human editorial/picture lock. The interchange boundaries are **OpenTimelineIO** for editorial timeline IR, **OpenColorIO** for color management and **OpenEXR** for HDR scene-linear intermediate frames. Provider-local `.blend`, `.tnz`, `.kra` and `.kdenlive` files are not canonical roots.
+
+The T7910 reference is hardware-aware but not hard-coded as portable architecture: **2× Xeon E5-2696 v4, 44 physical cores / 88 logical CPUs**, **RTX 3090 24 GiB primary AI/render compute**, and **RTX A1000 8 GiB display/UI/media-I/O**. Every admission still rediscovers CPU/SMT/NUMA and accelerator topology. GPU placement uses UUID plus PCI BDF, never `GPU0/GPU1`; the A1000 is not an automatic heavy-AI fallback. HRB enforces workload-specific VRAM headroom, bounded heavy-job concurrency and explicit fail/queue/retry/degrade behavior. CPU workers consume physical-core-first per-workload budgets from `FA3-CPU-NUMA-THREADING-001`; global 44/88-thread defaults and static CPU/NUMA IDs are forbidden. The obsolete RTX 3080/Quadro RTX 4000 and E5-2697 v4 assumptions are explicitly rejected by the gate.
+
+License admission is multidimensional and fail-closed: code, dependencies, model weights, datasets, input/likeness rights and output rights must independently pass. Consequently Wav2Lip cannot satisfy the production baseline while its upstream noncommercial restriction remains; released AudioCraft/MusicGen and F5-TTS pretrained weights cannot satisfy commercial production while CC-BY-NC applies. Kokoro remains only an optional non-Hungarian reference and does not replace the closed Hungarian-first Voice portfolio. ACE-Step DAW is not a second baseline DAW; Ardour remains the human DAW and the existing ACE-Step typed adapter remains the generative-music boundary.
+
+Run the 26-case executable gate with:
+
+```bash
+./bin/fa3-enforce animation-production
+PYTHONPATH=src python -m unittest tests.test_animation_production_gate -v
+```
+
+The committed `evidence/reference/animation-production-ci-2026-09-02.json` is **CI/reference conformance PASS only**. It does not claim that Bforartists, OpenToonz or MuseTalk is installed and does not promote a real T7910 end-to-end animation runtime.
+
 ## OpenCut programmable video editing and timeline automation
 
 `FA3-PROGRAMMABLE-VIDEO-EDITING-001` materializes the existing `CAP-121`/`CAP-126` programmable-editorial baseline as a provider-neutral **Programmable Video Editing, Timeline Automation & Agentic Editor Fabric**. It creates no capability and no architectural authority; the canonical capability count remains **143**.

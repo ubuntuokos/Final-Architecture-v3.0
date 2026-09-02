@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-ANIMATION-PRODUCTION-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "priority": "P0",
+  "profile_id": "FA3-ANIMATION-PRODUCTION-001",
+  "contract_id": "FA3-ANIMATION-PRODUCTION-CONTRACTS-001",
+  "decision_id": "FA3-DEC-ANIMATION-PRODUCTION-2026-09-02",
+  "enforcement_id": "FA3-ANIMATION-PRODUCTION-GATESET-001",
+  "entrypoint": "src/fa3_animation_production_gate.py",
+  "test": "tests/test_animation_production_gate.py",
+  "reference_evidence": "evidence/reference/animation-production-ci-2026-09-02.json",
+  "report_path": "reports/animation-production-gate-report.json",
+  "fail_closed": true,
+  "mandatory_checks": 26,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "current_host_runtime_promotion_claim": false,
+  "promotion_semantics": "Reference conformance PASS validates contracts, provider roles, license disposition and hardware-policy invariants only; current-host animation promotion requires separately collected real production E2E evidence."
+}

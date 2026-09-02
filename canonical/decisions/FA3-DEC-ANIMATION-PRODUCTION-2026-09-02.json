@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ANIMATION-PRODUCTION-2026-09-02",
+  "date": "2026-09-02",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "Linux AI animation production profile and T7910 hardware-aware execution defaults",
+  "decision": "MATERIALIZE_CROSS_CUTTING_ANIMATION_PROFILE_WITHOUT_NEW_CAPABILITY_OR_AUTHORITY",
+  "profile_id": "FA3-ANIMATION-PRODUCTION-001",
+  "contract_id": "FA3-ANIMATION-PRODUCTION-CONTRACTS-001",
+  "gate_id": "FA3-ANIMATION-PRODUCTION-GATESET-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": [
+    "end-to-end screenplay through archive animation production chain",
+    "Bforartists primary human DCC frontend with Blender validated compatibility fallback",
+    "OpenToonz primary traditional 2D reference provider and Krita optional raster/frame authoring provider",
+    "MuseTalk 1.5 family primary local audio-driven lip-sync reference behind isolated typed adapter",
+    "FA3 Voice, STT Media, Music, Audio Separation, Video, DCC, Editorial, Model Manager and HRB delegation instead of duplicate fabrics",
+    "OpenTimelineIO canonical editorial timeline IR",
+    "OpenColorIO canonical color-management boundary",
+    "OpenEXR canonical HDR intermediate frame format",
+    "ACE-Step existing required generative-music reference with Ardour existing human audio finishing role",
+    "Kdenlive existing primary Linux human final assembly and picture-lock frontend",
+    "code runtime dependency model dataset input likeness and output rights separate fail-closed admission",
+    "voice face and performance consent plus synthetic-media disclosure and hash lineage",
+    "current T7910 reference defaults of RTX 3090 24 GiB compute and RTX A1000 8 GiB display with stable UUID plus PCI BDF identity",
+    "2 x E5-2696 v4 44C/88T reference with live topology discovery and physical-core-first per-workload thread budgets",
+    "VRAM headroom bounded heavy-job concurrency explicit OOM behavior and no implicit display-GPU fallback"
+  ],
+  "superseded_hardware_assumptions": [
+    "RTX 3080 as primary animation compute",
+    "Quadro RTX 4000 as display or helper default",
+    "GPU0 GPU1 runtime index as device identity",
+    "2 x E5-2697 v4 36C/72T reference",
+    "static CPU or NUMA IDs"
+  ],
+  "not_materialized_as_new_baseline": {
+    "Wav2Lip": "noncommercial restriction",
+    "AudioCraft_MusicGen_released_weights": "CC-BY-NC weights",
+    "F5_TTS_pretrained_models": "CC-BY-NC weights",
+    "Kokoro_82M": "no Hungarian-baseline role and no need to duplicate the closed FA3 Voice portfolio",
+    "ACE_STEP_DAW": "Ardour remains human DAW and ACE-Step already has a canonical typed provider boundary",
+    "ComfyUI_custom_node_lipsync": "animation and MuseTalk deployment must not depend on the ComfyUI environment",
+    "DaVinci_Resolve": "not required for the Linux Kdenlive-first canonical workflow"
+  },
+  "current_host_claim": "REFERENCE_CONFORMANCE_ONLY_UNTIL_REAL_T7910_ANIMATION_PRODUCTION_E2E_PASSES"
+}

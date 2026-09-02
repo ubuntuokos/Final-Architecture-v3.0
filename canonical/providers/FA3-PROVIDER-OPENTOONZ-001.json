@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENTOONZ-001",
+  "name": "OpenToonz",
+  "status": "ACCEPTED_REQUIRED_PRIMARY_REFERENCE",
+  "provider_role": "TRADITIONAL_2D_FRAME_XSHEET_CEL_ANIMATION_AUTHORING",
+  "classification": ["PRIMARY_TRADITIONAL_2D_REFERENCE", "LOCAL_DESKTOP_PROVIDER", "HUMAN_AUTHORING_PROVIDER", "CURRENT_HOST_EVIDENCE_GATED"],
+  "profiles": ["FA3-ANIMATION-PRODUCTION-001"],
+  "capability_projection": ["CAP-015", "CAP-041", "CAP-114", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "REQUIRED_SUPPORTED_PROVIDER_WHEN_TRADITIONAL_2D_PIPELINE_USED",
+  "stable_reference": {"tag": "v1.8.0", "commit": "065cc1404ba43019b22a2577d529134c3e01931b"},
+  "license": {"core": "BSD-3-Clause", "third_party_and_mypaint_assets": "SEPARATE_AUDIT_REQUIRED"},
+  "provider_local_state": [".tnz", ".tlv", ".pli", "Xsheet", "palette_and_level_state"],
+  "canonical_projection_formats": ["OpenEXR_SEQUENCE", "PNG_SEQUENCE", "RENDERED_CLIP", "ASSET_MANIFEST"],
+  "current_host_known_risk": "HISTORICAL_SEGFAULT_REQUIRES_CURRENT_HOST_STABILITY_EVIDENCE",
+  "current_host_runtime_evidence": "PENDING_REAL_ANIMATION_E2E"
+}

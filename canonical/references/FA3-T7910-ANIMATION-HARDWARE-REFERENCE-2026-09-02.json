@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.reference-deployment-record.v1",
+  "id": "FA3-T7910-ANIMATION-HARDWARE-REFERENCE-2026-09-02",
+  "date": "2026-09-02",
+  "status": "REFERENCE_DEPLOYMENT",
+  "profile_id": "FA3-ANIMATION-PRODUCTION-001",
+  "machine": "Dell Precision Tower 7910",
+  "cpu_reference": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
+  "declared_accelerator_roles": {
+    "primary_ai_render_compute": {"model": "NVIDIA GeForce RTX 3090", "vram_gib": 24, "display_role": false},
+    "display_ui_media_io": {"model": "NVIDIA RTX A1000", "vram_gib": 8, "display_role": true, "implicit_heavy_ai_fallback": false}
+  },
+  "admission_sequence": [
+    "discover_live_cpu_socket_core_smt_numa_topology_with_lscpu_and_sysfs",
+    "discover_live_accelerators_uuid_pci_bdf_vram_health_display_and_numa_locality",
+    "match_explicitly_accepted_current_host_manifest",
+    "issue_hrb_execution_policy_and_lease",
+    "revalidate_uuid_bdf_and_capacity_at_execution",
+    "emit_placement_and_execution_evidence"
+  ],
+  "animation_workload_defaults": {
+    "heavy_generative_video_dcc_render_music_and_lipsync_target": "PRIMARY_AI_RENDER_COMPUTE",
+    "display_gpu_heavy_compute": "DENY_UNLESS_EXPLICIT_SEPARATE_POLICY_AND_EVIDENCE",
+    "gpu_identity": ["device_uuid", "pci_bdf"],
+    "runtime_gpu_index_is_identity": false,
+    "vram_headroom": "CAPACITY_AWARE_WORKLOAD_SPECIFIC",
+    "concurrent_heavy_gpu_jobs": "BOUNDED_BY_HRB",
+    "oom_behavior": "FAIL_CLOSED_OR_EXPLICIT_RETRY_DEGRADE_QUEUE; NO_SILENT_DEVICE_PROVIDER_OR_CLOUD_FALLBACK",
+    "cpu_threading": "FA3-CPU-NUMA-THREADING-001_PHYSICAL_CORE_FIRST_PER_WORKLOAD"
+  },
+  "prohibited_interpretation": [
+    "GPU0 or GPU1 is a stable device identity",
+    "RTX A1000 is an automatic AI fallback",
+    "RTX 3080 or Quadro RTX 4000 is the current FA3 animation default",
+    "static CPU or NUMA IDs are portable",
+    "44 cores or 88 threads is a global application thread default",
+    "this declaration constitutes current-host runtime PASS evidence"
+  ]
+}

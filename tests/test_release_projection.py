@@ -608,6 +608,42 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_animation_production_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["animation_production_reconciliation"]["provider_ids"] = []
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-034"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_animation_reference_cannot_claim_current_host_runtime(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "evidence/reference/animation-production-ci-2026-09-02.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["current_host_runtime_promotion_claim"] = True
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-034"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
 
 
 if __name__ == "__main__":
