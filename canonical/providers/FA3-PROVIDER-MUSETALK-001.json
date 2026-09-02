@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MUSETALK-001",
+  "name": "TMElyralab/MuseTalk",
+  "status": "ACCEPTED_REQUIRED_PRIMARY_REFERENCE",
+  "provider_role": "LOCAL_AUDIO_DRIVEN_LIPSYNC_AND_VIDEO_DUBBING",
+  "classification": ["PRIMARY_LIPSYNC_REFERENCE", "LOCAL_ACCELERATOR_PROVIDER", "DEDICATED_ISOLATED_RUNTIME", "CURRENT_HOST_EVIDENCE_GATED"],
+  "profiles": ["FA3-ANIMATION-PRODUCTION-001"],
+  "capability_projection": ["CAP-017", "CAP-071", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "REQUIRED_SUPPORTED_PROVIDER_WHEN_LOCAL_AUDIO_DRIVEN_LIPSYNC_USED",
+  "upstream_reference": {"version_family": "1.5", "commit": "0a89dec45a0192b824e3cf4daf96c239440c5ed8", "formal_git_tag": null},
+  "license": {
+    "code": "MIT",
+    "upstream_trained_model_claim": "COMMERCIAL_USE_ALLOWED_BY_UPSTREAM",
+    "third_party_models": "SEPARATE_LICENSE_ADMISSION_REQUIRED",
+    "upstream_test_data": "NONCOMMERCIAL_RESEARCH_ONLY"
+  },
+  "runtime_isolation": {
+    "required": true,
+    "environment": "DEDICATED_PYTHON_VENV_UV_ENV_OR_CONTAINER",
+    "conda_or_miniforge_required": false,
+    "shared_comfyui_environment_forbidden": true,
+    "third_party_comfyui_node_is_canonical_deployment": false
+  },
+  "execution_policy": {
+    "typed_adapter_via_central_gateway": true,
+    "hrb_lease_required_for_cuda": true,
+    "requested_device_uuid_and_pci_bdf_revalidated": true,
+    "provider_self_placement_forbidden": true,
+    "silent_cpu_display_gpu_or_other_provider_fallback": false,
+    "immutable_runtime_and_model_pins_required": true,
+    "runtime_model_download_forbidden": true
+  },
+  "rights_and_safety": {
+    "voice_face_and_performance_consent_required": true,
+    "reference_asset_hash_lineage_required": true,
+    "synthetic_media_disclosure_required": true,
+    "impersonation_fraud_and_deceptive_use_forbidden": true
+  },
+  "current_host_runtime_evidence": "PENDING_REAL_VIDEO_AUDIO_QC_AND_HRB_E2E"
+}

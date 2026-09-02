@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-BLENDER-001",
+  "name": "Blender",
+  "status": "REQUIRED_VALIDATED_COMPATIBILITY_FALLBACK",
+  "provider_role": "DCC_COMPATIBILITY_HEADLESS_RENDER_AND_GREASE_PENCIL_FALLBACK",
+  "classification": ["VALIDATED_COMPATIBILITY_FALLBACK", "HEADLESS_RENDER_PROVIDER", "GREASE_PENCIL_BRIDGE", "REPLACEABLE_PROVIDER"],
+  "profiles": ["FA3-ANIMATION-PRODUCTION-001", "FA3-DCC-RT3D-001"],
+  "capability_projection": ["CAP-015", "CAP-016", "CAP-114", "CAP-118", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "FALLBACK_ONLY_AFTER_EXPLICIT_COMPATIBILITY_AND_POLICY_DECISION",
+  "silent_fallback": false,
+  "provider_local_state": [".blend", "workspace_layout", "addons", "render_settings"],
+  "mandatory_compatibility_evidence": ["scene_open_and_save_roundtrip", "asset_and_material_integrity", "animation_and_rig_integrity", "render_equivalence_with_tolerance", "addon_compatibility", "rollback"],
+  "current_host_runtime_evidence": "PENDING_REAL_ANIMATION_E2E"
+}

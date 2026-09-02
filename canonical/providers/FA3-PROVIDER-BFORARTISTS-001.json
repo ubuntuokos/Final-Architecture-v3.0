@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-BFORARTISTS-001",
+  "name": "Bforartists",
+  "status": "CANONICAL_PRIMARY_DCC_FRONTEND_PROVIDER",
+  "provider_role": "PRIMARY_HUMAN_3D_ANIMATION_DCC_FRONTEND",
+  "classification": ["PRIMARY_LINUX_DCC_FRONTEND", "BLENDER_FORK", "HUMAN_AUTHORING_PROVIDER", "REPLACEABLE_PROVIDER"],
+  "profiles": ["FA3-ANIMATION-PRODUCTION-001", "FA3-DCC-RT3D-001"],
+  "capability_projection": ["CAP-015", "CAP-016", "CAP-071", "CAP-118", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "PRIMARY_WHEN_HUMAN_DCC_FRONTEND_USED",
+  "license": "GPL-3.0",
+  "stable_reference": {"tag": "v5.2.0", "commit": "0a1ca45552dba1006ae0fb5c4dd36657622a4e66"},
+  "provider_local_state": [".blend", "workspace_layout", "addons", "render_settings"],
+  "authority_boundaries": {
+    "scene_spatial_camera_geometry": "FA3-DCC-RT3D-001",
+    "timeline_interchange": "OpenTimelineIO",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "current_host_runtime_evidence": "PENDING_REAL_ANIMATION_E2E"
+}

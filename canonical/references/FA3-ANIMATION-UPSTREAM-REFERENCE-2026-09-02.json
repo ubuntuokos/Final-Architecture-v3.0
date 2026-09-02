@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.upstream-reference-set.v1",
+  "id": "FA3-ANIMATION-UPSTREAM-REFERENCE-2026-09-02",
+  "observed_at": "2026-09-02",
+  "status": "REFERENCE_ONLY_NOT_CURRENT_HOST_EVIDENCE",
+  "references": {
+    "bforartists": {"repository": "Bforartists/Bforartists", "stable_tag": "v5.2.0", "tag_commit": "0a1ca45552dba1006ae0fb5c4dd36657622a4e66", "observed_main_commit": "5cfb221b5933f500ac226410dd487aab23a748e6", "license": "GPL-3.0", "disposition": "FA3_PRIMARY_HUMAN_DCC_FRONTEND"},
+    "opentoonz": {"repository": "opentoonz/opentoonz", "stable_tag": "v1.8.0", "tag_commit": "065cc1404ba43019b22a2577d529134c3e01931b", "observed_main_commit": "9c0fcd1cf52616241b8c278d88057c0fb4330984", "core_license": "BSD-3-Clause", "component_license_note": "thirdparty and MyPaint brush assets require separate audit", "disposition": "FA3_PRIMARY_TRADITIONAL_2D_REFERENCE"},
+    "musetalk": {"repository": "TMElyralab/MuseTalk", "version_family": "1.5", "observed_main_commit": "0a89dec45a0192b824e3cf4daf96c239440c5ed8", "formal_git_tag": null, "code_license": "MIT", "trained_model_upstream_claim": "commercial use allowed", "test_data": "noncommercial research only", "third_party_models": "separate license admission required", "disposition": "FA3_PRIMARY_LIPSYNC_REFERENCE"},
+    "opentimelineio": {"repository": "AcademySoftwareFoundation/OpenTimelineIO", "stable_tag": "v0.18.1", "tag_commit": "44236713c1db295a6ffc66189ae98dbdfd0cb9c4", "observed_main_commit": "bc5fe2d78dc3f8b2a8feb7e04483d85a12e80072", "license": "Apache-2.0", "disposition": "CANONICAL_EDITORIAL_TIMELINE_IR"},
+    "opencolorio": {"repository": "AcademySoftwareFoundation/OpenColorIO", "stable_tag": "v2.5.2", "tag_commit": "c52966a6677723d5bd2dbef0ccec3fed9cbc3790", "observed_main_commit": "5a808fb57a94c7229640a97835c420c9a1fbd1fe", "license": "BSD-3-Clause", "disposition": "CANONICAL_COLOR_MANAGEMENT_BOUNDARY"},
+    "openexr": {"repository": "AcademySoftwareFoundation/openexr", "stable_tag": "v3.4.15", "tag_object": "4423edbe101a78da06c32ada013cc13ce27954c9", "tag_commit": "e71cdd5d30a146dcb56c5e4c576d9e9d3c45f4fb", "observed_main_commit": "c28aa0717a8762705983c045ebc0fec74c485961", "license": "BSD-3-Clause", "disposition": "CANONICAL_HDR_INTERMEDIATE_FRAME_FORMAT"}
+  },
+  "negative_or_conditional_dispositions": {
+    "Wav2Lip": "PRODUCTION_BASELINE_DENIED_UPSTREAM_NONCOMMERCIAL_RESEARCH_PERSONAL_RESTRICTION",
+    "AudioCraft_MusicGen_released_weights": "PRODUCTION_BASELINE_DENIED_CC_BY_NC_MODEL_WEIGHTS; CODE_PATTERN_REFERENCE_ONLY",
+    "F5_TTS_pretrained_models": "PRODUCTION_BASELINE_DENIED_CC_BY_NC_MODEL_WEIGHTS; CODE_PATTERN_REFERENCE_ONLY",
+    "Kokoro_82M": "OPTIONAL_NON_HUNGARIAN_REFERENCE_ONLY; DOES_NOT_REPLACE_FA3_VOICE_PORTFOLIO",
+    "ACE_STEP_DAW": "NOT_BASELINE; ARDOUR_REMAINS_HUMAN_DAW_AND_ACE_STEP_USES_EXISTING_TYPED_ADAPTER",
+    "ComfyUI": "EXISTING_OPTIONAL_WORKSTATION_PROVIDER; ANIMATION_PROFILE_MUST_NOT_DEPEND_ON_ITS_VENV_OR_CUSTOM_NODES",
+    "Audacity_OpenVINO_plugins": "OPTIONAL_HUMAN_AUDIO_TOOLING; NOT_ANIMATION_AI_BACKEND_OR_AUTHORITY"
+  },
+  "negative_upstream_snapshots": {
+    "Wav2Lip": {"repository": "Rudrabha/Wav2Lip", "observed_main_commit": "bac9a81e63ecc153202353372e5724b83d9e6322", "upstream_statement": "open-source repository is personal, research and noncommercial only"},
+    "AudioCraft_MusicGen": {"repository": "facebookresearch/audiocraft", "observed_main_commit": "896ec7c47f5e5d1e5aa1e4b260c4405328bf009d", "code_license": "MIT", "released_model_weight_license": "CC-BY-NC-4.0"},
+    "F5_TTS": {"repository": "SWivid/F5-TTS", "observed_main_commit": "9c614e9657089213efc6a7421b30630be138a3f5", "code_license": "MIT", "pretrained_model_license": "CC-BY-NC"}
+  },
+  "promotion_note": "Version and license observations are upstream reference facts only. Runtime activation requires immutable component pins, full dependency/model/license admission and real current-host E2E evidence."
+}

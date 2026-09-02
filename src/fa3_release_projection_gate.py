@@ -251,6 +251,45 @@ VOICE_PROVIDER_PATHS = tuple(f"canonical/providers/{provider_id}.json" for provi
 VOICE_CAPABILITY_IDS = ("CAP-115", "CAP-116", "CAP-117")
 VOICE_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_AND_HU_QUALITY_PENDING"
 
+ANIMATION_PROFILE_ID = "FA3-ANIMATION-PRODUCTION-001"
+ANIMATION_CONTRACT_ID = "FA3-ANIMATION-PRODUCTION-CONTRACTS-001"
+ANIMATION_DECISION_ID = "FA3-DEC-ANIMATION-PRODUCTION-2026-09-02"
+ANIMATION_GATE_ID = "FA3-ANIMATION-PRODUCTION-GATESET-001"
+ANIMATION_EXECUTABLE_GATE_ID = "FA3-GATE-ANIMATION-PRODUCTION-001"
+ANIMATION_PROVIDER_IDS = (
+    "FA3-PROVIDER-BFORARTISTS-001",
+    "FA3-PROVIDER-BLENDER-001",
+    "FA3-PROVIDER-OPENTOONZ-001",
+    "FA3-PROVIDER-MUSETALK-001",
+)
+ANIMATION_CAPABILITY_IDS = (
+    "CAP-014",
+    "CAP-015",
+    "CAP-016",
+    "CAP-017",
+    "CAP-041",
+    "CAP-071",
+    "CAP-114",
+    "CAP-121",
+    "CAP-126",
+)
+ANIMATION_PROFILE_PATH = "canonical/profiles/FA3-ANIMATION-PRODUCTION-001.json"
+ANIMATION_CONTRACT_PATH = "canonical/contracts/FA3-ANIMATION-PRODUCTION-CONTRACTS-001.json"
+ANIMATION_DECISION_PATH = "canonical/decisions/FA3-DEC-ANIMATION-PRODUCTION-2026-09-02.json"
+ANIMATION_GATE_RECORD_PATH = "canonical/FA3-GATE-ANIMATION-PRODUCTION-001.json"
+ANIMATION_ENFORCEMENT_PATH = "canonical/animation-production-enforcement.json"
+ANIMATION_HARDWARE_PATH = "canonical/references/FA3-T7910-ANIMATION-HARDWARE-REFERENCE-2026-09-02.json"
+ANIMATION_UPSTREAM_PATH = "canonical/references/FA3-ANIMATION-UPSTREAM-REFERENCE-2026-09-02.json"
+ANIMATION_EVIDENCE_PATH = "evidence/reference/animation-production-ci-2026-09-02.json"
+ANIMATION_GATE_PATH = "src/fa3_animation_production_gate.py"
+ANIMATION_TEST_PATH = "tests/test_animation_production_gate.py"
+ANIMATION_PROVIDER_PATHS = tuple(
+    f"canonical/providers/{provider_id}.json" for provider_id in ANIMATION_PROVIDER_IDS
+)
+ANIMATION_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_PENDING"
+)
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1727,6 +1766,129 @@ def gate(root: Path):
             )
         )
 
+    animation = projection.get("animation_production_reconciliation", {})
+    animation_required_paths = {
+        ANIMATION_PROFILE_PATH,
+        ANIMATION_CONTRACT_PATH,
+        ANIMATION_DECISION_PATH,
+        ANIMATION_GATE_RECORD_PATH,
+        ANIMATION_ENFORCEMENT_PATH,
+        ANIMATION_HARDWARE_PATH,
+        ANIMATION_UPSTREAM_PATH,
+        ANIMATION_EVIDENCE_PATH,
+        ANIMATION_GATE_PATH,
+        ANIMATION_TEST_PATH,
+        *ANIMATION_PROVIDER_PATHS,
+    }
+    animation_inventory_requirements = {
+        "profile_records": [ANIMATION_PROFILE_PATH],
+        "contract_records": [ANIMATION_CONTRACT_PATH],
+        "provider_records": list(ANIMATION_PROVIDER_PATHS),
+        "decision_records": [ANIMATION_DECISION_PATH],
+        "upstream_reference_records": [ANIMATION_HARDWARE_PATH, ANIMATION_UPSTREAM_PATH],
+        "reference_evidence_records": [ANIMATION_EVIDENCE_PATH],
+    }
+    missing_animation_inventory = [
+        {"inventory": key, "path": path}
+        for key, paths in animation_inventory_requirements.items()
+        for path in paths
+        if path not in inventory.get(key, [])
+    ]
+    missing_animation_manifest = sorted(animation_required_paths - manifest_paths)
+    animation_profile = loadj(root / ANIMATION_PROFILE_PATH) if (root / ANIMATION_PROFILE_PATH).is_file() else {}
+    animation_contract = loadj(root / ANIMATION_CONTRACT_PATH) if (root / ANIMATION_CONTRACT_PATH).is_file() else {}
+    animation_decision = loadj(root / ANIMATION_DECISION_PATH) if (root / ANIMATION_DECISION_PATH).is_file() else {}
+    animation_gate_record = loadj(root / ANIMATION_GATE_RECORD_PATH) if (root / ANIMATION_GATE_RECORD_PATH).is_file() else {}
+    animation_enforcement = loadj(root / ANIMATION_ENFORCEMENT_PATH) if (root / ANIMATION_ENFORCEMENT_PATH).is_file() else {}
+    animation_hardware = loadj(root / ANIMATION_HARDWARE_PATH) if (root / ANIMATION_HARDWARE_PATH).is_file() else {}
+    animation_evidence = loadj(root / ANIMATION_EVIDENCE_PATH) if (root / ANIMATION_EVIDENCE_PATH).is_file() else {}
+    animation_providers = [
+        loadj(root / path) if (root / path).is_file() else {}
+        for path in ANIMATION_PROVIDER_PATHS
+    ]
+    invalid_animation_bindings = []
+    for capability_id in ANIMATION_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        if (
+            ANIMATION_DECISION_ID not in record.get("source_decision_ids", [])
+            or ANIMATION_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+        ):
+            invalid_animation_bindings.append(capability_id)
+    accelerator_roles = animation_hardware.get("declared_accelerator_roles", {})
+    compute_gpu = accelerator_roles.get("primary_ai_render_compute", {})
+    display_gpu = accelerator_roles.get("display_ui_media_io", {})
+    workload_defaults = animation_hardware.get("animation_workload_defaults", {})
+    if (
+        animation.get("profile_id") != ANIMATION_PROFILE_ID
+        or animation.get("contract_id") != ANIMATION_CONTRACT_ID
+        or animation.get("decision_id") != ANIMATION_DECISION_ID
+        or animation.get("gate_id") != ANIMATION_GATE_ID
+        or animation.get("executable_gate_id") != ANIMATION_EXECUTABLE_GATE_ID
+        or animation.get("provider_ids") != list(ANIMATION_PROVIDER_IDS)
+        or animation.get("capability_bindings") != list(ANIMATION_CAPABILITY_IDS)
+        or animation.get("reconciliation_status") != ANIMATION_RECONCILIATION_STATUS
+        or animation.get("reference_evidence") != ANIMATION_EVIDENCE_PATH
+        or animation.get("reference_evidence_status") != "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS"
+        or animation.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_ANIMATION_E2E"
+        or animation.get("current_host_runtime_promotion_claim") is not False
+        or animation.get("new_capabilities") != 0
+        or animation.get("new_architectural_authorities") != 0
+        or animation.get("capability_count_after") != CAPABILITY_COUNT
+        or ANIMATION_GATE_ID not in projection_gates
+        or ANIMATION_GATE_ID not in policy_gates
+        or missing_animation_inventory
+        or missing_animation_manifest
+        or invalid_animation_bindings
+        or animation_profile.get("id") != ANIMATION_PROFILE_ID
+        or animation_profile.get("capabilities") != list(ANIMATION_CAPABILITY_IDS)
+        or animation_profile.get("new_capability") is not False
+        or animation_profile.get("new_architectural_authority") is not False
+        or animation_contract.get("id") != ANIMATION_CONTRACT_ID
+        or animation_decision.get("id") != ANIMATION_DECISION_ID
+        or animation_decision.get("current_host_claim")
+        != "REFERENCE_CONFORMANCE_ONLY_UNTIL_REAL_T7910_ANIMATION_PRODUCTION_E2E_PASSES"
+        or animation_gate_record.get("id") != ANIMATION_EXECUTABLE_GATE_ID
+        or animation_gate_record.get("current_host_runtime_promotion_claim") is not False
+        or animation_enforcement.get("gate_id") != ANIMATION_GATE_ID
+        or len(animation_enforcement.get("rules", [])) != 26
+        or animation_evidence.get("result") != "PASS"
+        or animation_evidence.get("regression_case_count") != 26
+        or animation_evidence.get("regression_pass_count") != 26
+        or animation_evidence.get("current_host_runtime_promotion_claim") is not False
+        or any(
+            provider.get("id") != provider_id
+            for provider, provider_id in zip(animation_providers, ANIMATION_PROVIDER_IDS)
+        )
+        or any(
+            provider.get("canonical_root") is not False
+            or provider.get("architectural_authority") is not False
+            or provider.get("new_capability") is not False
+            for provider in animation_providers
+        )
+        or compute_gpu.get("model") != "NVIDIA GeForce RTX 3090"
+        or compute_gpu.get("vram_gib") != 24
+        or compute_gpu.get("display_role") is not False
+        or display_gpu.get("model") != "NVIDIA RTX A1000"
+        or display_gpu.get("vram_gib") != 8
+        or display_gpu.get("display_role") is not True
+        or display_gpu.get("implicit_heavy_ai_fallback") is not False
+        or workload_defaults.get("gpu_identity") != ["device_uuid", "pci_bdf"]
+        or workload_defaults.get("runtime_gpu_index_is_identity") is not False
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-034",
+                "Animation production global release/inventory/evidence/hardware reconciliation invariant mismatch",
+                reconciliation_status=animation.get("reconciliation_status"),
+                missing_inventory=missing_animation_inventory,
+                missing_manifest_paths=missing_animation_manifest,
+                invalid_capability_bindings=invalid_animation_bindings,
+                compute_gpu=compute_gpu,
+                display_gpu=display_gpu,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1965,6 +2127,8 @@ def gate(root: Path):
             "voice_synthesis_reconciliation": voice.get("reconciliation_status"),
             "voice_synthesis_current_host_runtime_evidence": voice.get("current_host_runtime_evidence"),
             "voice_synthesis_hungarian_quality_evidence": voice.get("hungarian_quality_evidence"),
+            "animation_production_reconciliation": animation.get("reconciliation_status"),
+            "animation_production_current_host_runtime_evidence": animation.get("current_host_runtime_evidence"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
