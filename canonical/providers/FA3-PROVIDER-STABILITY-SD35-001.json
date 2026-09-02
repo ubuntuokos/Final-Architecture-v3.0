@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABILITY-SD35-001",
+  "name": "Stable Diffusion 3.5 reference provider",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "REQUIRED_SUPPORTED_IMAGE_REFERENCE_PROVIDER",
+  "upstream_repo": "Stability-AI/sd3.5",
+  "immutable_reference": "8565799a3b41eb0c7ba976d18375f0f753f56402",
+  "profiles": [
+    "FA3-STABILITY-PORTFOLIO-001",
+    "FA3-INFERENCE-PORTABILITY-001"
+  ],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-137"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "model_families": [
+    "SD3.5 Large",
+    "SD3.5 Large Turbo",
+    "SD3.5 Medium"
+  ],
+  "controls": [
+    "Blur ControlNet",
+    "Canny ControlNet",
+    "Depth ControlNet"
+  ],
+  "production_runtime_note": "Reference implementation only; ComfyUI or another admitted runtime may execute production workloads."
+}
