@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-STABILITY-PORTFOLIO-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "model_metadata_bridge": {
+    "source_profile": "Stability-AI/ModelSpec@fe8dc608e557eff842eae7f78b8c90f38687d418",
+    "required_import_fields": [
+      "sai_model_spec",
+      "architecture",
+      "implementation",
+      "implementation_version",
+      "title",
+      "resolution",
+      "hash_sha256",
+      "license",
+      "usage_hint",
+      "prediction_type",
+      "data_format",
+      "unet_dtype",
+      "vae_dtype",
+      "preprocessor"
+    ],
+    "canonical_target": "FA3-MODEL-REGISTRY-001 / canonical ModelDescriptor",
+    "source_is_authority": false,
+    "canonical_extensions": [
+      "artifact_provenance",
+      "source_repo_or_model_id",
+      "immutable_revision",
+      "code_license",
+      "model_license",
+      "output_usage_rights",
+      "hardware_vram_profile",
+      "quantization",
+      "runtime_backend",
+      "security_supply_chain"
+    ]
+  },
+  "license_admission": {
+    "dimensions": [
+      "CodeLicense",
+      "ModelLicense",
+      "OutputUsageRights",
+      "CommercialThreshold",
+      "AttributionRequirement",
+      "AUPUseRestriction",
+      "RedistributionPolicy"
+    ],
+    "code_license_implies_model_license": false,
+    "code_license_implies_output_rights": false,
+    "commercial_threshold_is_versioned_policy_not_static_architecture_constant": true,
+    "aup_reference": {
+      "effective": "2026-09-30",
+      "source": "https://stability.ai/use-policy",
+      "snapshot_required_before_execution": true
+    }
+  },
+  "hardware_reference": {
+    "workstation": "Dell Precision T7910 reference host",
+    "cpu": "2x Intel Xeon E5-2696 v4 @ 2.20GHz",
+    "physical_cores": 44,
+    "logical_cpus": 88,
+    "expected_numa_domains": 2,
+    "static_cpu_or_numa_numbering_forbidden": true,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "compute_gpu_reference": "NVIDIA RTX 3080 12GB class unless live discovery differs",
+    "gpu_identity_requires_live_uuid_pci_vram_discovery": true,
+    "local_candidate_classes": {
+      "stable_audio_3_medium": "CANDIDATE_FITS_12GB_CLASS_SUBJECT_TO_REAL_E2E",
+      "sf3d": "CANDIDATE_APPROX_6GB_UPSTREAM_REFERENCE_SUBJECT_TO_REAL_E2E",
+      "spar3d_low_vram": "CANDIDATE_APPROX_7GB_UPSTREAM_REFERENCE_SUBJECT_TO_REAL_E2E"
+    },
+    "validation_required": [
+      "SD3.5 local variants",
+      "Arbor",
+      "ReLi3D"
+    ],
+    "remote_distributed_first": [
+      "Stable Layers",
+      "SD3.5 NVIDIA NIM"
+    ],
+    "nvidia_nim_note": "Official 2026-08-12 SD3.5 NIM targets enterprise/data-center Ada and Blackwell; current RTX 3080 class host is not a local-default route.",
+    "tensorrt_note": "Official 2026-06-12 SD3.5 TensorRT announcement targets RTX 40/50 plus Ada/Blackwell RTX PRO; do not infer RTX 3080 current-host support."
+  },
+  "runtime_policy": {
+    "environment": "ISOLATED_PIP_VENV_OR_CONTAINER",
+    "conda_mamba_baseline": false,
+    "accelerator_placement": "HRB_LEASE_ONLY",
+    "silent_fallback": false,
+    "floating_main_latest_forbidden": true,
+    "current_host_promotion": "REAL_E2E_REQUIRED"
+  },
+  "mandatory_p0_rules": [
+    "STABILITY_PORTFOLIO_IS_MANDATORY_SUPPORT_PROFILE_NOT_NEW_CAPABILITY",
+    "STABILITY_PROVIDERS_NOT_ARCHITECTURAL_AUTHORITIES",
+    "STABILITY_CAPABILITY_COUNT_REMAINS_143",
+    "STABILITY_MODELSPEC_COMPATIBILITY_BRIDGE_REQUIRED",
+    "STABILITY_MODELSPEC_NOT_CANONICAL_MODEL_SCHEMA_AUTHORITY",
+    "STABILITY_CODE_MODEL_OUTPUT_LICENSE_DIMENSIONS_SEPARATE",
+    "STABILITY_AUP_AND_LICENSE_SNAPSHOT_VERSIONED_AND_PROVENANCED",
+    "STABILITY_CODE_LICENSE_NEVER_IMPLIES_WEIGHT_OR_OUTPUT_ADMISSION",
+    "STABILITY_IMMUTABLE_REPO_MODEL_RUNTIME_PINS_REQUIRED",
+    "STABILITY_HRB_REQUIRED_FOR_ACCELERATOR_PLACEMENT",
+    "STABILITY_LIVE_TOPOLOGY_DISCOVERY_OVERRIDES_STATIC_CPU_GPU_NUMBERING",
+    "STABILITY_T7910_REFERENCE_CPU_IS_E5_2696_V4_NOT_E5_2697_V4",
+    "STABILITY_NO_SILENT_DEVICE_PROVIDER_OR_CLOUD_FALLBACK",
+    "STABILITY_CURRENT_HOST_12GB_GPU_ROUTE_MUST_BE_EXPLICITLY_ADMITTED",
+    "STABLE_AUDIO_3_REQUIRED_SUPPORTED_AUDIO_PROVIDER",
+    "STABLE_AUDIO_DAW_INTEGRATION_PROFILE_REQUIRED_PROVIDER_PLUGIN_OPTIONAL",
+    "SD35_REQUIRED_SUPPORTED_IMAGE_PROVIDER",
+    "SD35_NVIDIA_NIM_IS_DEPLOYMENT_PROVIDER_NOT_ROUTING_AUTHORITY",
+    "SD35_NIM_NOT_CURRENT_HOST_LOCAL_DEFAULT_ON_RTX3080_CLASS_HARDWARE",
+    "SPAR3D_PRIMARY_STABILITY_SINGLE_IMAGE_3D_RECONSTRUCTION_PROVIDER",
+    "SF3D_REQUIRED_LOWER_VRAM_FALLBACK_PROVIDER",
+    "ARBOR_REQUIRED_CONSTRAINED_TEXT_TO_3D_PROVIDER",
+    "RELI3D_REQUIRED_MULTIVIEW_RELIGHTABLE_RECONSTRUCTION_PROVIDER",
+    "STABLE_VIRTUAL_CAMERA_REQUIRED_SUPPORTED_LICENSE_GATED_NVS_PROVIDER",
+    "SGM_SV3D_SV4D_REQUIRED_SUPPORTED_RESEARCH_LICENSE_GATED_MULTIVIEW_PROVIDER",
+    "STABLE_LAYERS_REQUIRED_SUPPORTED_REMOTE_DISTRIBUTED_FIRST_DECOMPOSITION_PROVIDER",
+    "STABILITY_PROVIDER_RUNTIME_ISOLATED_PIP_VENV_OR_CONTAINER_NO_CONDA_BASELINE",
+    "STABILITY_CURRENT_HOST_PROMOTION_REQUIRES_REAL_E2E_EVIDENCE"
+  ]
+}

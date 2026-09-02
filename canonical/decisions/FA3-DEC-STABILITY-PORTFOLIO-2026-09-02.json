@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STABILITY-PORTFOLIO-2026-09-02",
+  "status": "ACCEPTED",
+  "date": "2026-09-02",
+  "decision": "Materialize a mandatory provider-neutral Stability AI support/admission portfolio without making Stability AI a monolithic dependency or architectural authority.",
+  "authority_decision": {
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  },
+  "required_supported": [
+    "ModelSpec compatibility bridge",
+    "SD3.5",
+    "Stable Audio 3",
+    "SPAR3D",
+    "SF3D fallback",
+    "Arbor",
+    "ReLi3D",
+    "Stable Virtual Camera license-gated",
+    "Stable Layers remote/distributed-first",
+    "SGM SV3D/SV4D research/license-gated",
+    "SD3.5 NVIDIA NIM deployment projection"
+  ],
+  "incubation": [
+    "Stable Audio vendor DAW plugin on Linux until native format exists",
+    "MARBLE",
+    "Splat the Net"
+  ],
+  "upstream_first": [
+    "diffusers",
+    "flash-attention",
+    "DeepSpeed",
+    "FastChat",
+    "LLaMA-Factory",
+    "Real-ESRGAN",
+    "GFPGAN",
+    "rembg",
+    "k-diffusion",
+    "torchsde",
+    "open_clip"
+  ],
+  "hardware_baseline": "2x Xeon E5-2696 v4 reference / 44C-88T / live topology validation; current 12GB-class NVIDIA compute route is HRB-admitted, never inferred from static ordinals."
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SD35-NVIDIA-NIM-001",
+  "name": "NVIDIA NIM for Stable Diffusion 3.5",
+  "status": "REQUIRED_SUPPORTED_DEPLOYMENT_PROJECTION",
+  "provider_role": "ENTERPRISE_CONTAINERIZED_SD35_DEPLOYMENT_PROVIDER",
+  "upstream_reference": {
+    "source": "Stability AI official announcement",
+    "date": "2026-08-12",
+    "model": "SD3.5 Large",
+    "controls": [
+      "Depth",
+      "Canny"
+    ],
+    "runtime": "NVIDIA NIM/TensorRT",
+    "immutable_container_digest_required_before_activation": true
+  },
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "REMOTE_OR_COMPATIBLE_HARDWARE_ONLY",
+  "current_host_runtime_evidence": false,
+  "current_host_local_default": false,
+  "hardware_scope": "Official announcement targets enterprise/data-center Ada and Blackwell; RTX 3080 class current host is not admitted by this reference.",
+  "routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "license_gate": "FA3-AUTH-SECURITY-GOV-001"
+}

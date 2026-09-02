@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SPAR3D-001",
+  "name": "SPAR3D",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "PRIMARY_STABILITY_SINGLE_IMAGE_3D_RECONSTRUCTION_REFERENCE",
+  "upstream_repo": "Stability-AI/stable-point-aware-3d",
+  "immutable_reference": "fdc311b16809e6a8adc2f5a3407ebb3db1a95bd1",
+  "profiles": [
+    "FA3-3D-GEOM-001"
+  ],
+  "capability_projection": [
+    "CAP-123"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "features": [
+    "single-image mesh reconstruction",
+    "point-cloud conditioning/editing",
+    "UV/texturing/material prediction",
+    "low-VRAM route"
+  ],
+  "current_host_route": "LOCAL_CANDIDATE_LOW_VRAM_APPROX_7GB_REFERENCE_REQUIRES_E2E"
+}

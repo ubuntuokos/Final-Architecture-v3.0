@@ -16,6 +16,7 @@ from fa3_munder_difflin_executable_gate import gate as munder_difflin_executable
 from fa3_muse_code_gate import gate as muse_code_gate
 from fa3_openhands_gate import gate as openhands_gate
 from fa3_stability_sgm_gate import gate as stability_sgm_gate
+from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
@@ -140,6 +141,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-066","OpenHands developer-agent execution gate is not bound into global enforcement policy"))
     if "FA3-STABILITY-SGM-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-062","Stability SGM generative-pipeline/multi-view gate is not bound into global enforcement policy"))
+    if "FA3-STABILITY-PORTFOLIO-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-070","Stability provider portfolio gate is not bound into global enforcement policy"))
     if "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-046","Developer-agent coordination gate is not bound into global enforcement policy"))
     if "FA3-CODEX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -256,6 +259,9 @@ def static_check(root:Path):
     stability_sgm_ref=stability_sgm_gate(root)
     if stability_sgm_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-063","Stability SGM generative-pipeline/multi-view regression gate failed",stability_sgm_gate=stability_sgm_ref))
+    stability_portfolio_ref=stability_portfolio_gate(root)
+    if stability_portfolio_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-071","Stability provider portfolio canonical/admission gate failed",stability_portfolio_gate=stability_portfolio_ref))
     dac_ref=developer_agent_coordination_gate(root)
     if dac_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-047","Developer-agent coordination contract/runtime E2E gate failed",developer_agent_coordination_gate=dac_ref))
@@ -397,7 +403,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","stability-sgm","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -437,6 +443,8 @@ def main():
             x=openhands_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="stability-sgm":
             x=stability_sgm_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="stability-portfolio":
+            x=stability_portfolio_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="developer-agent-coordination":
             x=developer_agent_coordination_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="codex":
