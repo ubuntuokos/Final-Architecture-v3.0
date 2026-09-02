@@ -227,6 +227,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         "bin/fa3-openhands-current-host.sh",
         "tests/test_openhands_current_host.py",
         ".github/workflows/fa3-openhands-current-host.yml",
+        ".github/workflows/fa3-openhands-production-current-host.yml",
     ]
     missing_materialized_surfaces = [
         rel for rel in required_materialized_surfaces if not (root / rel).is_file()
