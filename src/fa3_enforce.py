@@ -15,6 +15,7 @@ from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_munder_difflin_executable_gate import gate as munder_difflin_executable_gate
 from fa3_muse_code_gate import gate as muse_code_gate
 from fa3_openhands_gate import gate as openhands_gate
+from fa3_openhands_current_host_gate import gate as openhands_current_host_gate
 from fa3_stability_sgm_gate import gate as stability_sgm_gate
 from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
@@ -403,7 +404,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","openhands-current-host-isolated","openhands-current-host","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -441,6 +442,10 @@ def main():
             x=muse_code_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="openhands":
             x=openhands_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="openhands-current-host-isolated":
+            x=openhands_current_host_gate(root,require_production=False); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="openhands-current-host":
+            x=openhands_current_host_gate(root,require_production=True); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="stability-sgm":
             x=stability_sgm_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="stability-portfolio":
