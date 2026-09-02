@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-CPU-NUMA-THREADING-001",
+  "parent_gate_id": "FA3-GATE-CPU-NUMA-THREADING-001",
+  "enforcement_id": "FA3-CPU-NUMA-THREADING-CURRENT-HOST-GATESET-001",
+  "entrypoint": "src/fa3_cpu_numa_threading_current_host_gate.py",
+  "collector": "evidence/collect-cpu-numa-threading-current-host.py",
+  "test": "tests/test_cpu_numa_threading_current_host_gate.py",
+  "receipt": "evidence/receipts/cpu-numa-threading-current-host.json",
+  "fail_closed": true,
+  "evidence_level": "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_effect": "NONE_UNTIL_EVIDENCE_REGISTRY_AND_19_POINT_ACCEPTANCE_PASS",
+  "capability_count": 143
+}

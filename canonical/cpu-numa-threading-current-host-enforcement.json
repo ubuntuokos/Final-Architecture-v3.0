@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.cpu-numa-threading-current-host-enforcement.v1",
+  "gate_id": "FA3-CPU-NUMA-THREADING-CURRENT-HOST-GATESET-001",
+  "executable_gate_id": "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001",
+  "parent_gate_id": "FA3-GATE-CPU-NUMA-THREADING-001",
+  "profile_id": "FA3-CPU-NUMA-THREADING-001",
+  "reference_deployment_id": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
+  "status": "MATERIALIZED_REAL_EXECUTION_PENDING",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "reference_host_admission": {
+    "machine": "Dell Precision Tower 7910",
+    "cpu_model_contains": "E5-2696 v4",
+    "packages": 2,
+    "physical_cores": 44,
+    "logical_cpus": 88,
+    "numa_domains": 2,
+    "interpretation": "CURRENT_HOST_ASSERTION_FOR_THIS_REFERENCE_DEPLOYMENT_NOT_PORTABLE_THREAD_DEFAULT"
+  },
+  "required_current_host_evidence": [
+    "LIVE_SYSFS_CPU_PACKAGE_CORE_SMT_NUMA_TOPOLOGY",
+    "LIVE_PROCESS_AFFINITY_AND_EFFECTIVE_CPUSET",
+    "UNIFIED_CGROUP_V2_CPUSET_AND_MEMORY_NODE_RECEIPT",
+    "HRB_DERIVED_PHYSICAL_CORE_FIRST_THREAD_PLAN",
+    "NUMA_LOCAL_PLAN_FOR_EACH_VISIBLE_DOMAIN",
+    "LIVE_ACCELERATOR_NUMA_LOCALITY_WHEN_ACCELERATORS_EXIST",
+    "OVERSUBSCRIPTION_AND_POLICY_NEGATIVE_TESTS",
+    "WORKLOAD_SPECIFIC_PERFORMANCE_EVIDENCE",
+    "ROLLBACK_AND_FAILURE_INJECTION_EVIDENCE"
+  ],
+  "forbidden": [
+    "CI_HOST_PRESENTED_AS_T7910_CURRENT_HOST",
+    "REFERENCE_FIXTURE_PRESENTED_AS_LIVE_EVIDENCE",
+    "E5_2697_OR_36C_72T_ACCEPTED_FOR_THIS_REFERENCE_DEPLOYMENT",
+    "DECLARED_44C_88T_USED_WITHOUT_LIVE_DISCOVERY",
+    "STATIC_CPU_NUMA_OR_GPU_LOCALITY_IDS",
+    "GLOBAL_NPROC_THREAD_FANOUT",
+    "PASS_WITHOUT_PERFORMANCE_OR_ROLLBACK_EVIDENCE"
+  ],
+  "promotion_semantics": "A PASS is component-scoped current-host evidence only; it cannot promote the global FA3 release by itself."
+}
