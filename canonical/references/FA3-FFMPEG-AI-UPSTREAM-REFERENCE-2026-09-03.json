@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03",
+  "date": "2026-09-03",
+  "status": "REFERENCE_VERIFIED",
+  "ffmpeg": {
+    "stable_release": "9.0.1",
+    "release_date": "2026-08-12",
+    "release_tag": "n9.0.1",
+    "release_source": "https://ffmpeg.org/download.html",
+    "verified_tag_files": {
+      "libavfilter/dnn/dnn_backend_onnx.c": "6c75d6eb244447f5f6fca8eee75f628c1d71d8d9",
+      "libavfilter/vf_dnn_processing.c": "7ffa700cc5babad893756caaf6f1780d24968e60",
+      "configure": "374bd5c1512943439480825f32e448e7871eb61c"
+    },
+    "observations": [
+      "dnn_processing includes ONNX Runtime and OpenVINO build backends",
+      "ONNX backend accepts 4-D NCHW FLOAT models and single input",
+      "ONNX backend runs synchronously and a single inference request is effective",
+      "device=cuda selects ONNX Runtime CUDA EP but failure warns and falls back to CPU upstream",
+      "stable n9.0.1 dnn_processing pixel formats do not include AV_PIX_FMT_CUDA",
+      "development trunk contains AV_PIX_FMT_CUDA support guarded by CUDA and zero-copy capability checks",
+      "libvmaf and libvmaf_cuda exist; CUDA variant only accepts CUDA frames",
+      "CUDA/NVENC/NVDEC support is hardware dependent and must use a capability matrix"
+    ]
+  },
+  "vs_mlrt": {
+    "repository": "AmusementClub/vs-mlrt",
+    "observed_commit": "8cd6cf266a430fdb9f6d797a4e33ab2952d52ce2",
+    "observations": [
+      "ONNX Runtime CPU/CUDA, OpenVINO, TensorRT/TensorRT-RTX, NCNN Vulkan and MIGraphX runtime families are exposed",
+      "built-in model wrappers include RealESRGAN and RIFE families among others",
+      "backend choice is implementation capability, not an FA3 routing authority"
+    ]
+  },
+  "current_host_runtime_evidence": "NOT_CLAIMED"
+}
