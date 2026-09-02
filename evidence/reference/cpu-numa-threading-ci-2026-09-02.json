@@ -1,0 +1,134 @@
+{
+  "schema": "fa3.cpu-numa-threading-evidence.v1",
+  "gate_id": "FA3-GATE-CPU-NUMA-THREADING-001",
+  "status": "PASS",
+  "scope": "CANONICAL_REFERENCE_RUNTIME_CONFORMANCE",
+  "current_host_runtime_promotion_claim": false,
+  "runtime_scenarios": 11,
+  "checks": [
+    {
+      "name": "capability-count-stable",
+      "status": "PASS",
+      "detail": "capability count remains 143"
+    },
+    {
+      "name": "no-new-authority",
+      "status": "PASS",
+      "detail": "no parallel resource authority introduced"
+    },
+    {
+      "name": "mandatory-subprofile",
+      "status": "PASS",
+      "detail": "PROFILE-CPU-NUMA is an HRB subprofile"
+    },
+    {
+      "name": "contract-and-provider-linked",
+      "status": "PASS",
+      "detail": "HRB contracts and systemd projection are linked"
+    },
+    {
+      "name": "reference-host-corrected",
+      "status": "PASS",
+      "detail": "T7910 reference is 2x E5-2696 v4 / 44C / 88T"
+    },
+    {
+      "name": "obsolete-host-reference-superseded",
+      "status": "PASS",
+      "detail": "obsolete 36C/72T reference is explicitly superseded without becoming hardware identity"
+    },
+    {
+      "name": "reference-topology-fixture",
+      "status": "PASS",
+      "detail": "reference topology exposes 44 physical and 88 logical CPUs"
+    },
+    {
+      "name": "hrb-authority-required",
+      "status": "PASS",
+      "detail": "missing HRB placement receipt is denied"
+    },
+    {
+      "name": "live-discovery-contract",
+      "status": "PASS",
+      "detail": "boot/admission topology validation is mandatory"
+    },
+    {
+      "name": "global-nproc-fanout-forbidden",
+      "status": "PASS",
+      "detail": "global nproc and fixed thread fan-out are forbidden"
+    },
+    {
+      "name": "physical-core-first-hostwide",
+      "status": "PASS",
+      "detail": "host-wide default stops at physical cores"
+    },
+    {
+      "name": "cpuset-numa-aware",
+      "status": "PASS",
+      "detail": "NUMA-local admitted cpuset yields 22 physical-core threads"
+    },
+    {
+      "name": "dual-instance-reference",
+      "status": "PASS",
+      "detail": "2x22 is a reference multi-instance pattern, not a portable constant"
+    },
+    {
+      "name": "smt-denied-without-evidence",
+      "status": "PASS",
+      "detail": "88-thread SMT request fails closed without evidence"
+    },
+    {
+      "name": "smt-admitted-with-evidence",
+      "status": "PASS",
+      "detail": "SMT can be admitted only with benchmark and explicit admission"
+    },
+    {
+      "name": "interleave-all-benchmark-gated",
+      "status": "PASS",
+      "detail": "interleave-all is not the default and is benchmark gated"
+    },
+    {
+      "name": "openmp-spread-benchmark-gated",
+      "status": "PASS",
+      "detail": "OpenMP spread is benchmark gated"
+    },
+    {
+      "name": "math-pools-bounded",
+      "status": "PASS",
+      "detail": "OpenMP MKL OpenBLAS and NumExpr remain inside budget"
+    },
+    {
+      "name": "portable-openmp-baseline",
+      "status": "PASS",
+      "detail": "portable OpenMP core placement and non-nested defaults are applied"
+    },
+    {
+      "name": "numexpr-conservative-default",
+      "status": "PASS",
+      "detail": "NumExpr defaults to min(8,budget) and cannot exceed budget"
+    },
+    {
+      "name": "pytorch-intra-inter-separated",
+      "status": "PASS",
+      "detail": "PyTorch intra-op and inter-op budgets are separate"
+    },
+    {
+      "name": "intel-kmp-provider-scoped",
+      "status": "PASS",
+      "detail": "KMP is Intel-provider scoped and oneDNN verbosity is logging only"
+    },
+    {
+      "name": "enforcement-complete",
+      "status": "PASS",
+      "detail": "all 24 contract invariants are enforced fail-closed"
+    },
+    {
+      "name": "current-host-claim-honest",
+      "status": "PASS",
+      "detail": "reference PASS does not claim current-host runtime promotion"
+    }
+  ],
+  "summary": {
+    "passed": 24,
+    "total": 24
+  }
+}

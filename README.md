@@ -863,3 +863,21 @@ PYTHONPATH=src python -m unittest tests.test_voice_synthesis_gate -v
 ```
 
 The 32-rule CI PASS is not an installed-provider or language-quality claim. Every enabled production provider still requires real current-host audio E2E; Hungarian promotion additionally requires a dedicated hu-HU golden corpus covering normalization, pronunciation, intelligibility, prosody, human review and speaker similarity for cloning.
+
+## FA3 CPU/NUMA thread-pool governance
+
+`FA3-CPU-NUMA-THREADING-001` materializes the existing `FA3-HOST-001` / `PROFILE-CPU-NUMA` decision as a mandatory subprofile of `FA3-HOST-RESOURCE-BROKER-001`. It adds no capability and no authority; the canonical count remains **143**. HRB owns admission, placement and the `ThreadPoolBudget`, while systemd plus unified cgroup v2 is the Linux enforcement projection. OpenMP, MKL, OpenBLAS, NumExpr, PyTorch and Intel libiomp consume the admitted plan and cannot enlarge it.
+
+The portable baseline is physical-core-first and derived from the live process affinity/admitted cpuset. Global `nproc` fan-out, fixed CPU/NUMA IDs, `OMP_NUM_THREADS=88`, `NUMEXPR_NUM_THREADS=44`, mirrored full-size PyTorch inter-op pools and default `numactl --interleave=all` are fail-closed. `OMP_PLACES=cores`, NUMA-local `OMP_PROC_BIND=close`, disabled nested parallelism, bounded BLAS pools, `min(8,budget)` NumExpr and separate PyTorch intra/inter-op planning are mandatory. SMT, OpenMP spread and NUMA interleave require benchmark evidence plus explicit admission. KMP affinity/blocktime remains Intel-provider-scoped; `DNNL_VERBOSE` is logging only.
+
+The corrected T7910 reference deployment is **2× Intel Xeon E5-2696 v4 @ 2.20 GHz = 44 physical cores / 88 logical CPUs / expected two NUMA domains**. This supersedes the obsolete E5-2697 v4 36C/72T reference claim, but does not turn the workstation model or the counts into canonical constants. OS-visible topology and accelerator locality must be rediscovered at boot/admission. The reference throughput pattern is two NUMA-local 22-core workers; host-wide 44-core and SMT 88-thread modes remain measurement/admission gated.
+
+Run the executable gate and reference launcher with:
+
+```bash
+./bin/fa3-enforce cpu-numa-threading
+PYTHONPATH=src python -m unittest tests.test_cpu_numa_threading_gate -v
+bin/fa3-cpu-thread-budget --request request.json
+```
+
+The committed reference evidence proves canonical policy and positive/negative runtime behavior only. Real T7910 promotion still requires current-host topology, cgroup/systemd receipt matching, oversubscription negatives, NUMA locality/performance telemetry and rollback evidence.

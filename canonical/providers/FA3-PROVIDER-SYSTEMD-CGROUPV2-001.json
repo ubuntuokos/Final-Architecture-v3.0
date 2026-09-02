@@ -16,11 +16,13 @@
     "CPU and IO weight projection",
     "memory and swap budget projection",
     "task-limit projection",
+    "per-service admitted math-runtime environment projection",
     "runtime-changeable Linux resource isolation"
   ],
   "canonical_mapping": {
     "ComputeCPUSet": ["CPUAffinity", "AllowedCPUs"],
     "MemoryPlacementPolicy": ["NUMAPolicy", "NUMAMask", "AllowedMemoryNodes"],
+    "ThreadPoolBudget": ["AllowedCPUs", "AllowedMemoryNodes", "per-service Environment"],
     "cpu_weight": "CPUWeight",
     "io_weight": "IOWeight",
     "memory_soft_pressure": "MemoryHigh",
@@ -32,6 +34,7 @@
     "CGROUP_CPUSET_PRIMARY_GENERAL_LINUX_RUNTIME_ISOLATION_REFERENCE",
     "GLOBAL_MANAGER_AFFINITY_MUST_NOT_SILENTLY_TRUNCATE_HRB_CPU_DOMAIN",
     "PROJECTION_MUST_MATCH_HRB_PLACEMENT_RECEIPT",
+    "THREAD_POOL_ENVIRONMENT_MUST_NOT_EXCEED_HRB_ADMITTED_CPUSET_BUDGET",
     "RESOURCE_LIMIT_CHANGE_REQUIRES_AUDIT_AND_ROLLBACK"
   ]
 }

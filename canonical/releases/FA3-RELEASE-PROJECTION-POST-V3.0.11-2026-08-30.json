@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9ced26703613eb46d16c46fa3d1e3f553aefec87",
-    "pre_projection_root_tree_sha": "0278efce4e790bb50fb16776fa391386727f74bd",
-    "pre_projection_canonical_tree_sha": "50beec9477b9adc7e84280aa8e64753873215dae",
-    "commits_ahead_of_v3_0_11_conformance_commit": 93,
-    "total_post_baseline_commits": 93,
-    "delta_file_count": 444,
-    "delta_added_files": 440,
+    "pre_projection_head_sha": "eb4488ee1bae2c5c07896b55dcf27d4fb743e347",
+    "pre_projection_root_tree_sha": "20f6cf7901ca13194c53fb184a334ca07d03082f",
+    "pre_projection_canonical_tree_sha": "8063595e4cae3cfae479405527e0a313dcde7438",
+    "commits_ahead_of_v3_0_11_conformance_commit": 94,
+    "total_post_baseline_commits": 94,
+    "delta_file_count": 455,
+    "delta_added_files": 451,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 258,
-    "evidence_files_in_post_baseline_delta": 46,
-    "source_files_in_post_baseline_delta": 51,
-    "test_files_in_post_baseline_delta": 41,
+    "canonical_files_in_post_baseline_delta": 264,
+    "evidence_files_in_post_baseline_delta": 47,
+    "source_files_in_post_baseline_delta": 53,
+    "test_files_in_post_baseline_delta": 42,
     "workflow_files_in_post_baseline_delta": 8,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -115,6 +115,7 @@
       "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
+      "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
@@ -147,6 +148,7 @@
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
@@ -188,6 +190,7 @@
       "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
@@ -248,6 +251,7 @@
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02.json",
       "canonical/references/FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json"
     ],
@@ -260,6 +264,7 @@
       "evidence/reference/codex-adapter-ci-2026-08-31.json",
       "evidence/reference/conversation-reconciliation-2026-08-30.json",
       "evidence/reference/cosyvoice-ci-2026-08-31.json",
+      "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
@@ -315,6 +320,7 @@
     "FA3-MARKETING-GATESET-001",
     "FA3-COSYVOICE-GATESET-001",
     "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001",
+    "FA3-CPU-NUMA-THREADING-GATESET-001",
     "FA3-VOICE-SYNTHESIS-GATESET-001"
   ],
   "evidence_registry": {
@@ -376,7 +382,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 446,
+  "manifest_entry_count": 457,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -404,7 +410,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "2b7a66106ccaf6c38150144380a5f56fa1bed7f7"
+      "git_blob_sha": "4598a5218a5bf418587fb3737bea7b51b6e9dfd5"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -416,7 +422,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "b94c2d9d05a01266be5286bbed3e87f08fe924ce"
+      "git_blob_sha": "36207d3c768b3fedb6230f2c42ab40054dc4f582"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -453,6 +459,10 @@
     {
       "path": "bin/fa3-cosyvoice-bootstrap.sh",
       "git_blob_sha": "eac73232cc0ea6ad450fe11623abb0603ffff2ce"
+    },
+    {
+      "path": "bin/fa3-cpu-thread-budget",
+      "git_blob_sha": "b2a57b1b75ecae411cbad8eee7e4b9f9d6e6c76c"
     },
     {
       "path": "bin/fa3-current-host",
@@ -529,6 +539,10 @@
     {
       "path": "canonical/FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9401d95c07e7eef0358258fa77da93384f7a7b62"
+    },
+    {
+      "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
+      "git_blob_sha": "c6ff86cc152c8667db26054b018000d154ae3c25"
     },
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
@@ -663,6 +677,10 @@
       "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46"
     },
     {
+      "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
+      "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4"
+    },
+    {
       "path": "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "git_blob_sha": "b61c9f6b381f902c3e07f88b68019284759ba4bf"
     },
@@ -779,6 +797,10 @@
       "git_blob_sha": "591bc1e852d7f530afcf88645c2cf4c5861dd173"
     },
     {
+      "path": "canonical/cpu-numa-threading-enforcement.json",
+      "git_blob_sha": "c2aca5e2338e9965e568109795865651b28eadf4"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2"
     },
@@ -825,6 +847,10 @@
     {
       "path": "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
       "git_blob_sha": "c54d9c13355d647d54ddd3eae12be849767d3de6"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
+      "git_blob_sha": "1edfa63cb5ca09515b087b37a6a0743763fa513a"
     },
     {
       "path": "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
@@ -976,7 +1002,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "6b8d620d92d09e9539277df196ab25b54e33b85d"
+      "git_blob_sha": "6ae7f36793616dcf1ccf0569be31d1eb41f53c92"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1091,6 +1117,10 @@
       "git_blob_sha": "a677b2e7b3afcb878b7904dd431a3cd0a21cac39"
     },
     {
+      "path": "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
+      "git_blob_sha": "3278619014223734aded474a656c69722e612c3d"
+    },
+    {
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
       "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5"
     },
@@ -1100,11 +1130,11 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "24cdbfe7bfe6f2b99f55c3e1221bad220dccec4f"
+      "git_blob_sha": "4b4ebf2dab6d4e181ae2c8afd20b46ac2ec4919d"
     },
     {
       "path": "canonical/profiles/FA3-HW-001.json",
-      "git_blob_sha": "247b12159c1a9efe4d77c12fba548278a0b48078"
+      "git_blob_sha": "8b0c5c4b58ce459caecca8d1a58b408cf960ce11"
     },
     {
       "path": "canonical/profiles/FA3-HW-MGPU-001.json",
@@ -1368,7 +1398,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
-      "git_blob_sha": "a8de4aac00fe8fd40ef0c76a256e1ca146c985e9"
+      "git_blob_sha": "ff25dd16dc3b686a1d78a2da789d8a07c9fd684b"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
@@ -1503,6 +1533,10 @@
       "git_blob_sha": "c65a18c5f30388ff625f8f86c407d037712ee127"
     },
     {
+      "path": "canonical/references/FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02.json",
+      "git_blob_sha": "21ca04417d8007bda842a490455df6d4e4eb8e87"
+    },
+    {
       "path": "canonical/references/FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "a2218624cb5407f2f02fbb480e95f5e1aa79c653"
     },
@@ -1632,7 +1666,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "9ccbd260d8dac39a51685ec8f444be046beec9ce"
+      "git_blob_sha": "ca3fd21f7edb1c937c62b8036a3961950404a763"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -1669,6 +1703,10 @@
     {
       "path": "evidence/reference/cosyvoice-ci-2026-08-31.json",
       "git_blob_sha": "ea1b89f3af2c76b18aa45c9b7d03eced08170310"
+    },
+    {
+      "path": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
+      "git_blob_sha": "49bf336b2349094f9092c848fba435130f3804be"
     },
     {
       "path": "evidence/reference/demucs-provider-ci-2026-08-30.json",
@@ -1843,6 +1881,14 @@
       "git_blob_sha": "b6657d0b6d313c4a976639d7083ea690f9924369"
     },
     {
+      "path": "src/fa3_cpu_numa_threading_gate.py",
+      "git_blob_sha": "c95895683d20dbade226d434f42418caed875f2a"
+    },
+    {
+      "path": "src/fa3_cpu_thread_budget.py",
+      "git_blob_sha": "702ac6d8f0d48dd51c987ac1c4dc651aa7382a6a"
+    },
+    {
       "path": "src/fa3_current_host.py",
       "git_blob_sha": "fbc1ab0244daec56935a36d0937cf12a0428cc51"
     },
@@ -1868,7 +1914,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "672dcf9cdb00ac71e945c2aa5eed5cbe62ead067"
+      "git_blob_sha": "32db86d1297f23753be924eace3c15f3d3557b3e"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2033,6 +2079,10 @@
     {
       "path": "tests/test_cosyvoice_gate.py",
       "git_blob_sha": "48ef9c236cacbd6d00cb72e20ba7e726a0cbe795"
+    },
+    {
+      "path": "tests/test_cpu_numa_threading_gate.py",
+      "git_blob_sha": "fd8d484e7d4729262b2baa7c2c1ed2f5b203ba67"
     },
     {
       "path": "tests/test_current_host_projection.py",
@@ -2346,7 +2396,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-01",
+  "last_reconciled_at": "2026-09-02",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
@@ -2574,7 +2624,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-09-01",
+  "last_regenerated_at": "2026-09-02",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",

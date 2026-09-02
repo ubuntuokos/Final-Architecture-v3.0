@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+  "date": "2026-09-02",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "Physical-core-first NUMA-aware math-runtime thread governance",
+  "decision": "MATERIALIZE_PROFILE_CPU_NUMA_AS_MANDATORY_HRB_SUBPROFILE",
+  "profile_id": "FA3-CPU-NUMA-THREADING-001",
+  "contract_id": "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+  "parent_profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "source_decision_id": "FA3-HOST-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": [
+    "live and cpuset-aware physical-core topology discovery",
+    "physical-core-first per-workload thread budgets",
+    "HRB admission and placement ownership with systemd unified cgroup v2 enforcement projection",
+    "NUMA and accelerator locality derived from live topology",
+    "portable OpenMP cores and close defaults with benchmark-gated spread",
+    "bounded MKL OpenBLAS and NumExpr pools",
+    "separate PyTorch intra-op and inter-op planning before parallel execution",
+    "Intel KMP settings only in the Intel OpenMP provider projection",
+    "benchmark-gated SMT and NUMA interleave",
+    "dual NUMA-local CPU workers as the T7910 throughput reference pattern",
+    "reference-runtime positive and negative executable evidence"
+  ],
+  "rejected_as_global_baseline": [
+    "nproc exported to OMP MKL OpenBLAS NumExpr and framework pools",
+    "numactl --interleave=all",
+    "OMP_NUM_THREADS=88",
+    "NUMEXPR_NUM_THREADS=44",
+    "torch intra-op and inter-op both set to 44",
+    "static CPU and NUMA identifiers",
+    "global KMP affinity blocktime or DNNL verbosity as architecture authority"
+  ],
+  "reference_host_reconciliation": "The T7910 reference is corrected from 2 x E5-2697 v4 36C/72T to the user-confirmed 2 x E5-2696 v4 44C/88T while remaining non-canonical deployment evidence.",
+  "current_host_claim": "REFERENCE_CONFORMANCE_PASS_ONLY_CURRENT_T7910_HOST_TOPOLOGY_THREADING_E2E_PENDING"
+}
