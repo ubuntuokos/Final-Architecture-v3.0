@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "derived_pattern_sources": ["OpenBMB/ForgeTrain", "OpenBMB/ForgeStencil"],
+  "parent_profiles": ["FA3-AGENT-EXEC-001", "FA3-INFERENCE-PORTABILITY-001", "FA3-HOST-RESOURCE-BROKER-001"],
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": ["AutonomousDevelopmentIntent", "BaselineArtifactDescriptor", "CorrectnessOracle", "BuildReceipt", "IterationTrace", "BenchmarkProtocol", "PatchArtifact", "ApplicationIntegrationReceipt", "AcceptanceEvidence", "RollbackReceipt"],
+  "acceptance_evidence_required_fields": ["intent_id", "source_commit", "patch_hash", "build_recipe_hash", "test_oracle_id", "correctness_status", "baseline_artifact_hash", "candidate_artifact_hash", "hardware_fingerprint", "runtime_abi", "measurement_protocol", "benchmark_samples", "regression_status", "license_provenance_status", "rollback_receipt_id", "evidence_authority_receipt_id"],
+  "invariants": ["GENERATED_CODE_IS_NOT_COMPLETION", "EXECUTABLE_CORRECTNESS_GATE_REQUIRED", "CORRECTNESS_PRECEDES_PERFORMANCE", "PRODUCTION_APPLICATION_BASELINE_PREFERRED", "INTERLEAVED_MEASUREMENT_AND_WARM_STATE_DECLARED", "HARDWARE_RUNTIME_AND_TOPOLOGY_FINGERPRINT_BOUND", "OPTIMIZATION_SCOPE_AND_SEMANTIC_EQUIVALENCE_EXPLICIT", "FAILURE_REPAIR_ITERATIONS_APPEND_ONLY", "PATCH_SOURCE_AND_LICENSE_PROVENANCE_REQUIRED", "SELF_REPORTED_PROVIDER_METRIC_NOT_CANONICAL_EVIDENCE", "REAL_APPLICATION_INTEGRATION_REQUIRED_FOR_E2E_CLAIM", "ROLLBACK_REQUIRED_BEFORE_PROMOTION", "COMMIT_AND_RELEASE_REMAIN_CANONICAL_FA3_AUTHORITIES", "FORGETRAIN_HARNESS_COMING_SOON_CLAIM_NOT_IMPLEMENTATION_EVIDENCE", "FORGESTENCIL_DATACENTER_GPU_RESULTS_NOT_T7910_EVIDENCE"]
+}

@@ -899,7 +899,6 @@ python evidence/collect-cpu-numa-threading-current-host.py \
 
 The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 19 acceptance criteria.
 
-
 ## FA3 Stability AI mandatory support portfolio
 
 `FA3-STABILITY-PORTFOLIO-001` is the P0/MUST provider-support and admission profile for Stability AI. It is not a monolithic dependency, adds no capability or authority, and keeps the canonical count at **143**.
@@ -920,3 +919,29 @@ PYTHONPATH=src python -m unittest tests.test_stability_portfolio_gate -v
 ```
 
 Committed CI/reference PASS evidence does not promote provider runtime activation; immutable pins, licence/policy, HRB/resource, compatibility, quality and real E2E evidence remain required.
+
+## OpenBMB provider family and derived contracts
+
+`FA3-PROVIDER-FAMILY-OPENBMB-001` materializes OpenBMB as a provider family, not as a monolithic runtime. The accepted optional members are MiniCPM-V 4.6, MiniCPM-o 4.5, AgentCPM, UltraRAG 3.0, CPM.cu and the already canonical VoxCPM2 record. All remain replaceable and disabled by default; capability count stays **143**, new capabilities stay **0**, and new architectural authorities stay **0**.
+
+The family contributes two provider-neutral contracts. `FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001` requires explicit per-workspace isolation of files, memory, skills, credential references, provenance and resource budgets, plus auditable memory lineage and rollback. `FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001` defines generated-code completion as executable correctness, reproducible production-baseline measurement, hardware/runtime fingerprinting, license provenance, application integration and rollback evidence—not code generation alone.
+
+Provider disposition and boundaries:
+
+- **MiniCPM-V 4.6** is an optional 1.3B local image/video understanding provider candidate. Exact model revision, hashes, licenses, backend compatibility, VRAM and quality evidence are still required.
+- **MiniCPM-o 4.5** is an optional 9B full-duplex omnimodal provider candidate. It is not admitted by default on the T7910 until live VRAM/QoS/latency, continuous-capture consent/privacy and quality evidence pass.
+- **AgentCPM** is an optional long-horizon/deep-research provider and evaluation pattern source. Its loops must be bounded, cancellable, checkpointed and budgeted; AgentDock tools remain behind canonical MCP and sandbox admission.
+- **UltraRAG 3.0** is an optional transparent-RAG provider/pattern source. Its MCP servers are projections behind the Central MCP Gateway, and its YAML conditions/loops do not become workflow authority.
+- **CPM.cu** is an optional CUDA inference backend only. Its upstream CUDA 12.6/12.8 images do not prove compatibility with the current FA3 CUDA 13.2 + RTX 3080/sm86 reference path.
+- **EdgeClaw, PilotDeck, StaffDeck, ForgeTrain, ForgeStencil and AgentCPM-GUI** are immutable pattern sources only. PilotDeck/StaffDeck AGPL code is not vendored. ForgeTrain's matching harness is upstream-described as coming soon, and ForgeTrain/ForgeStencil datacenter-GPU results are not T7910 evidence.
+
+The T7910 reference remains **2× E5-2696 v4 / 44 physical cores / 88 logical CPUs / two NUMA domains**, but those numbers and the expected RTX 3080 compute role are evidence assertions rather than portable defaults. Every activation must rediscover live sysfs/procfs/cgroup/PCI/NVML topology and obtain an HRB placement/lease receipt. CPM.cu additionally requires a target-native CUDA ABI and SM build, correctness/quality gates, benchmark samples and rollback evidence. No upstream Docker image, `CUDA_VISIBLE_DEVICES`, `nvidia-smi` visibility or reference CI PASS can substitute for admission.
+
+Run the 31-rule fail-closed gate with:
+
+```bash
+./bin/fa3-enforce openbmb
+PYTHONPATH=src python -m unittest tests.test_openbmb_gate -v
+```
+
+The committed `evidence/reference/openbmb-ci-2026-09-02.json` proves canonical/reference regressions only. It does not claim installed OpenBMB runtimes, production provider admission or current-host performance.
