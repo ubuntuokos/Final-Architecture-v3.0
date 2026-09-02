@@ -1,0 +1,91 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-FFMPEG-001",
+  "name": "FFmpeg",
+  "status": "REQUIRED_PRIMARY_REFERENCE_PROVIDER_RUNTIME_NOT_PROMOTED",
+  "classification": [
+    "REQUIRED_PRIMARY_LOW_LEVEL_MEDIA_EXECUTION_PROVIDER",
+    "DETERMINISTIC_TRANSCODE_FILTERGRAPH_REFERENCE",
+    "HARDWARE_ACCELERATED_VIDEO_EXECUTION_REFERENCE",
+    "REPLACEABLE_SUPPLEMENTABLE_NOT_ORCHESTRATION_AUTHORITY"
+  ],
+  "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "contract": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-016",
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "hard_dependency_for_profile": true,
+  "exclusive_media_engine": false,
+  "upstream": {
+    "project": "FFmpeg",
+    "stable_release": "9.0.1",
+    "release_name": "Lei",
+    "release_date": "2026-08-12",
+    "release_tag": "n9.0.1",
+    "release_branch": "9.0",
+    "stable_reference_is_floor_not_permanent_patch_pin": true,
+    "signed_release_required": true,
+    "floating_master_or_snapshot_allowed_for_production": false,
+    "observed_tag_blobs": {
+      "dnn_backend_onnx_c": "6c75d6eb244447f5f6fca8eee75f628c1d71d8d9",
+      "vf_dnn_processing_c": "7ffa700cc5babad893756caaf6f1780d24968e60",
+      "configure": "374bd5c1512943439480825f32e448e7871eb61c"
+    }
+  },
+  "required_supported_build_capabilities": {
+    "dnn_processing": true,
+    "libonnxruntime": true,
+    "libopenvino": true,
+    "ffnvcodec_nvdec_nvenc": true,
+    "cuda_video_filters": true,
+    "libvmaf_cpu": true
+  },
+  "conditional_build_capabilities": {
+    "libtorch": "OPTIONAL_COMPATIBILITY",
+    "tensorflow": "LEGACY_COMPATIBILITY_ONLY",
+    "libvmaf_cuda": "CONDITIONAL_NONFREE_BUILD_AND_REDISTRIBUTION_POLICY"
+  },
+  "stable_9_0_1_dnn_semantics": {
+    "onnx_input": "4D_NCHW_FLOAT32_SINGLE_INPUT",
+    "onnx_execution": "SYNCHRONOUS_SINGLE_REQUEST",
+    "onnx_cuda_execution_provider_supported": true,
+    "onnx_cuda_failure_behavior_upstream": "WARNS_AND_FALLS_BACK_TO_CPU",
+    "fa3_policy": "REQUESTED_PROVIDER_MUST_MATCH_OBSERVED_PROVIDER_OR_FAIL_CLOSED",
+    "dnn_processing_cuda_hwframe_input": false,
+    "end_to_end_dnn_cuda_zero_copy_baseline": false
+  },
+  "gpu_pipeline_policy": {
+    "prefer": "NVDEC_OR_HW_DECODE -> CUDA_FILTERS_WHEN_SUPPORTED -> NVENC_OR_ADMITTED_ENCODER",
+    "runtime_codec_support_matrix_required": true,
+    "av1_encode_must_not_be_assumed": true,
+    "copy_minimization_required": true
+  },
+  "forbidden_authorities": [
+    "DURABLE_ORCHESTRATION_AUTHORITY",
+    "FINAL_HUMAN_EDITORIAL_AUTHORITY",
+    "MODEL_REGISTRY_AUTHORITY",
+    "MODEL_ROUTING_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "POLICY_AUTHORITY",
+    "EVIDENCE_AUTHORITY"
+  ],
+  "runtime_activation": {
+    "status": "PENDING_CURRENT_HOST_PRODUCTION_E2E",
+    "immutable_release_pin_required": true,
+    "build_manifest_and_sbom_required": true,
+    "hrb_receipt_required_for_accelerator": true,
+    "real_media_e2e_required": true,
+    "quality_receipt_required": true,
+    "rollback_evidence_required": true,
+    "current_host_runtime_promotion_claimed": false
+  }
+}
