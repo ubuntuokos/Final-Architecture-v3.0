@@ -28,7 +28,7 @@ jobs:
     timeout-minutes: 60
     env:
       FA3_CURRENT_HOST: "1"
-      FA3_OPENHANDS_HOME: ${{ runner.temp }}/fa3-openhands
+      FA3_OPENHANDS_HOME: /tmp/fa3-openhands-${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
         with:
