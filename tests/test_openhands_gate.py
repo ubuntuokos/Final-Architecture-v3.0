@@ -26,7 +26,10 @@ class OpenHandsGateTests(unittest.TestCase):
         self.assertEqual("PASS",report["result"],report)
         self.assertEqual((20,20),(report["regressions"]["passed"],report["regressions"]["total"]))
         self.assertEqual("PASS",report["authority_scan"]["result"])
-        self.assertFalse(report["current_host_provider_runtime_evidence"])
+        self.assertEqual(
+            "PENDING_REAL_CURRENT_HOST_EXECUTION",
+            report["current_host_provider_runtime_evidence"],
+        )
 
     def test_all_20_positive_negative_regressions_pass(self):
         report=o.run_regressions()
