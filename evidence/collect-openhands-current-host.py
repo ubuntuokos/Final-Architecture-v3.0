@@ -361,7 +361,7 @@ def collect(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
     relative_path = "work/openhands.txt"
     expected_content = "FA3_OPENHANDS_CURRENT_HOST_E2E_PASS\n"
     expected_sha = sha256_bytes(expected_content.encode("utf-8"))
-    task_id = "fa3-openhands-current-host-" + stamp.lower()
+    task_id = args.task_id or ("fa3-openhands-current-host-" + stamp.lower())
 
     bridge: subprocess.Popen[str] | None = None
     bridge_socket = temp_parent / "model-router.sock"
@@ -389,7 +389,7 @@ def collect(args: argparse.Namespace) -> tuple[dict[str, Any], Path]:
             "dirty": False,
         },
         "runtime": {
-            "python_major_minor": ".".join(platform.python_version().split(".")[:2]),
+            "python_major_minor": run([str(py), "-c", "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"], timeout=30).stdout.strip(),
             "packaging": "pip-venv",
             "conda_or_mamba_active": False,
             "component_versions": versions,
@@ -564,6 +564,7 @@ def main() -> int:
     ap.add_argument("--router-port", type=int, default=4000)
     ap.add_argument("--model-alias", default=DEFAULT_MODEL_ALIAS)
     ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--task-id")
     args = ap.parse_args()
     try:
         receipt, _ = collect(args)
