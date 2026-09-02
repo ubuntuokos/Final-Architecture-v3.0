@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STABILITY-PORTFOLIO-001",
+  "name": "Stability AI Provider Portfolio, Metadata, Media & Deployment Integration",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "relationship": {
+    "type": "CROSS_CUTTING_PROVIDER_SUPPORT_PROFILE",
+    "parents": [
+      "FA3-MODEL-MANAGER-001",
+      "FA3-MUSIC-001",
+      "FA3-VIDEO-001",
+      "FA3-3D-GEOM-001",
+      "FA3-HYBRID-EDITORIAL-001",
+      "FA3-INFERENCE-PORTABILITY-001",
+      "FA3-HOST-RESOURCE-BROKER-001"
+    ]
+  },
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-017",
+    "CAP-066",
+    "CAP-121",
+    "CAP-123",
+    "CAP-126",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "contracts": [
+    "FA3-STABILITY-PORTFOLIO-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-STABILITY-MODELSPEC-001",
+    "FA3-PROVIDER-STABILITY-SD35-001",
+    "FA3-PROVIDER-STABLE-AUDIO-3-001",
+    "FA3-PROVIDER-SPAR3D-001",
+    "FA3-PROVIDER-SF3D-001",
+    "FA3-PROVIDER-ARBOR-001",
+    "FA3-PROVIDER-RELI3D-001",
+    "FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001",
+    "FA3-PROVIDER-STABLE-LAYERS-001",
+    "FA3-PROVIDER-SD35-NVIDIA-NIM-001",
+    "FA3-PROVIDER-STABILITY-SGM-001"
+  ],
+  "mandatory_semantics": "Provider support/admission contract is mandatory; concrete provider runtimes remain replaceable and evidence-gated.",
+  "implementation_status": "CANONICAL_MATERIALIZED_REFERENCE_CI_EVIDENCE_CURRENT_HOST_PROVIDER_E2E_PENDING"
+}
