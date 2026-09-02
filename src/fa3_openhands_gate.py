@@ -343,6 +343,14 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("OPENHANDS-REF-013", "global OpenHands contract identity drift"))
     if policy.get("openhands_mandatory_p0_rules") != P0_RULES:
         findings.append(_finding("OPENHANDS-REF-014", "global OpenHands P0 rule set drift"))
+    if (
+        policy.get("openhands_runtime_conformance_id") != "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001"
+        or policy.get("openhands_current_host_gate_id") != "FA3-OPENHANDS-CURRENT-HOST-GATESET-001"
+        or policy.get("openhands_current_host_decision_id") != "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03"
+        or policy.get("openhands_current_host_production_evidence_level")
+        != "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS"
+    ):
+        findings.append(_finding("OPENHANDS-REF-019", "global OpenHands current-host policy binding drift"))
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
 def run_regressions() -> dict[str, Any]:
