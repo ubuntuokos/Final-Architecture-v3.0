@@ -290,11 +290,13 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+        "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/inference-portability-ci-2026-08-31.json"
+        "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -311,6 +313,15 @@
         "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      },
+      "hrb_deterministic_locality_projection_status": {
+        "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+        "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "gate_id": "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001",
+        "reference_evidence": "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
+        "runtime_activation_status": "CANONICAL_REFERENCE_PASS_CURRENT_HOST_LOCALITY_E2E_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
       }
     },
     {
