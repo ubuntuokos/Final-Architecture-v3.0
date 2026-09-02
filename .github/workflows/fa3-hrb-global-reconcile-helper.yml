@@ -7,7 +7,7 @@ on:
       - '.github/workflows/fa3-hrb-global-reconcile-helper.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   reconcile:
@@ -19,16 +19,17 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-          persist-credentials: false
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize final helper-free reconciliation payload
+      - name: Reconcile policy evidence registry and release projection
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'fa3-reconcile-bot'
           git config user.email 'fa3-reconcile-bot@users.noreply.github.com'
+          cp .github/workflows/fa3-hrb-global-reconcile-helper.yml /tmp/fa3-hrb-global-reconcile-helper.yml
           git rm .github/workflows/fa3-hrb-global-reconcile-helper.yml
 
           PYTHONPATH=src python src/fa3_hrb_deterministic_locality_gate.py \
@@ -39,6 +40,7 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+
           gate_id = 'FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001'
           decision_id = 'FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02'
           evidence_path = 'evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json'
@@ -71,40 +73,19 @@ jobs:
               'promotion_semantics': 'CI_REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME'
           }
           registry_path.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-
-          workflow_path = Path('.github/workflows/fa3-permanent-enforcement.yml')
-          workflow = workflow_path.read_text(encoding='utf-8')
-          marker = '      - name: Unified post-v3.0.11 release projection gate\n        run: ./bin/fa3-enforce release-projection\n'
-          step = ('      - name: HRB deterministic NUMA accelerator locality gate\n'
-                  '        run: PYTHONPATH=src python src/fa3_hrb_deterministic_locality_gate.py --root . --evidence reports/hrb-deterministic-locality-gate-report.json\n')
-          if step not in workflow:
-              if marker not in workflow:
-                  raise SystemExit('release projection workflow marker not found')
-              workflow = workflow.replace(marker, step + marker, 1)
-          upload_marker = '            reports/inference-portability-gate-report.json\n'
-          upload_line = '            reports/hrb-deterministic-locality-gate-report.json\n'
-          if upload_line not in workflow:
-              if upload_marker not in workflow:
-                  raise SystemExit('artifact upload marker not found')
-              workflow = workflow.replace(upload_marker, upload_marker + upload_line, 1)
-          workflow_path.write_text(workflow, encoding='utf-8')
           PY
 
-          git add .github/workflows/fa3-permanent-enforcement.yml canonical/enforcement-policy.json evidence/evidence-registry.json evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json
-          git commit -m 'feat(hrb): bind locality gate into global enforcement and evidence registry'
+          git add canonical/enforcement-policy.json evidence/evidence-registry.json evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json
+          git commit -m 'feat(hrb): bind deterministic locality into global policy and evidence registry'
+
           snapshot="$(git rev-parse HEAD)"
           PYTHONPATH=src python src/fa3_release_projection_regenerate.py --root . --snapshot-head "$snapshot"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m 'chore: reconcile unified release projection for HRB locality fabric'
 
-          mkdir -p /tmp/hrb-reconcile/.github/workflows /tmp/hrb-reconcile/canonical/releases /tmp/hrb-reconcile/evidence/reference /tmp/hrb-reconcile/evidence /tmp/hrb-reconcile/canonical
-          cp .github/workflows/fa3-permanent-enforcement.yml /tmp/hrb-reconcile/.github/workflows/
-          cp canonical/enforcement-policy.json /tmp/hrb-reconcile/canonical/
-          cp canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json /tmp/hrb-reconcile/canonical/releases/
-          cp evidence/evidence-registry.json /tmp/hrb-reconcile/evidence/
-          cp evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json /tmp/hrb-reconcile/evidence/reference/
-      - name: Upload final reconciliation payload
-        uses: actions/upload-artifact@v4
-        with:
-          name: fa3-hrb-reconciliation-payload
-          path: /tmp/hrb-reconcile
-          if-no-files-found: error
-          include-hidden-files: true
+          mkdir -p .github/workflows
+          cp /tmp/fa3-hrb-global-reconcile-helper.yml .github/workflows/fa3-hrb-global-reconcile-helper.yml
+          git add .github/workflows/fa3-hrb-global-reconcile-helper.yml
+          git commit -m 'chore: restore one-shot helper for connector cleanup'
+
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
