@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-VOICE-SYNTHESIS-CI-EVIDENCE-2026-09-01",
+  "date": "2026-09-01",
+  "profile_id": "FA3-VOICE-001",
+  "decision_id": "FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01",
+  "gate_id": "FA3-VOICE-SYNTHESIS-GATESET-001",
+  "provider_ids": ["FA3-PROVIDER-VOXCPM-001", "FA3-PROVIDER-XTTS-001", "FA3-PROVIDER-PIPER-001", "FA3-PROVIDER-QWEN3-TTS-001", "FA3-PROVIDER-MMS-TTS-HUN-001"],
+  "result": "PASS",
+  "evidence_class": "CI_CANONICAL_EXECUTABLE_REGRESSION",
+  "executable_case_count": 32,
+  "passed": 32,
+  "failed": 0,
+  "assertions": ["provider-neutral authority boundaries", "immutable upstream/model snapshots", "Hungarian-first fail-closed routing", "XTTS cloning and Piper CPU fallback separation", "VoxCPM2 and Qwen3-TTS Hungarian denial", "MMS non-commercial production denial", "separate license dimensions", "consent/reference/retention governance", "native master plus 48 kHz mezzanine lineage", "current-host and hu-HU quality non-claim", "global release/inventory/evidence bindings"],
+  "current_host_production_claim": false,
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "hungarian_quality_claim": false,
+  "note": "PASS proves canonical and executable policy regressions only; no provider installation, real synthesis, Hungarian quality or production promotion is claimed."
+}

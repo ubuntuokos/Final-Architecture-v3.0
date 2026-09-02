@@ -541,6 +541,33 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_voice_synthesis_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["voice_synthesis_reconciliation"]["provider_ids"] = []
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(item["code"] == "FA3-RELEASE-PROJECTION-033" for item in report["findings"]))
+        finally:
+            td.cleanup()
+
+    def test_voice_synthesis_ci_cannot_claim_current_host_or_hu_quality(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "evidence/reference/voice-synthesis-ci-2026-09-01.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["current_host_production_claim"] = True
+            obj["hungarian_quality_claim"] = True
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(any(item["code"] == "FA3-RELEASE-PROJECTION-033" for item in report["findings"]))
+        finally:
+            td.cleanup()
+
 
     def test_openhands_projection_reconciliation_fails_closed(self):
         td, dst, facts = self._copy_repo()

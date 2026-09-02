@@ -226,6 +226,31 @@ OPENHANDS_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
 )
 
+VOICE_PROFILE_ID = "FA3-VOICE-001"
+VOICE_CONTRACT_ID = "FA3-VOICE-CONTRACTS-001"
+VOICE_ADMISSION_ID = "FA3-VOICE-PROVIDER-ADMISSION-001"
+VOICE_DECISION_ID = "FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01"
+VOICE_GATE_ID = "FA3-VOICE-SYNTHESIS-GATESET-001"
+VOICE_PROVIDER_IDS = (
+    "FA3-PROVIDER-VOXCPM-001",
+    "FA3-PROVIDER-XTTS-001",
+    "FA3-PROVIDER-PIPER-001",
+    "FA3-PROVIDER-QWEN3-TTS-001",
+    "FA3-PROVIDER-MMS-TTS-HUN-001",
+)
+VOICE_PROFILE_PATH = "canonical/profiles/FA3-VOICE-001.json"
+VOICE_CONTRACT_PATH = "canonical/contracts/FA3-VOICE-CONTRACTS-001.json"
+VOICE_ADMISSION_PATH = "canonical/FA3-VOICE-PROVIDER-ADMISSION-001.json"
+VOICE_DECISION_PATH = "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json"
+VOICE_REFERENCE_PATH = "canonical/references/FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01.json"
+VOICE_ENFORCEMENT_PATH = "canonical/voice-synthesis-enforcement.json"
+VOICE_EVIDENCE_PATH = "evidence/reference/voice-synthesis-ci-2026-09-01.json"
+VOICE_GATE_PATH = "src/fa3_voice_synthesis_gate.py"
+VOICE_TEST_PATH = "tests/test_voice_synthesis_gate.py"
+VOICE_PROVIDER_PATHS = tuple(f"canonical/providers/{provider_id}.json" for provider_id in VOICE_PROVIDER_IDS)
+VOICE_CAPABILITY_IDS = ("CAP-115", "CAP-116", "CAP-117")
+VOICE_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CURRENT_HOST_AND_HU_QUALITY_PENDING"
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1625,6 +1650,83 @@ def gate(root: Path):
             )
         )
 
+    voice = projection.get("voice_synthesis_reconciliation", {})
+    voice_required_paths = {
+        VOICE_PROFILE_PATH,
+        VOICE_CONTRACT_PATH,
+        VOICE_ADMISSION_PATH,
+        VOICE_DECISION_PATH,
+        VOICE_REFERENCE_PATH,
+        VOICE_ENFORCEMENT_PATH,
+        VOICE_EVIDENCE_PATH,
+        VOICE_GATE_PATH,
+        VOICE_TEST_PATH,
+        *VOICE_PROVIDER_PATHS,
+    }
+    voice_inventory_requirements = {
+        "profile_records": [VOICE_PROFILE_PATH],
+        "contract_records": [VOICE_CONTRACT_PATH],
+        "provider_records": list(VOICE_PROVIDER_PATHS),
+        "decision_records": [VOICE_DECISION_PATH],
+        "upstream_reference_records": [VOICE_REFERENCE_PATH],
+        "reference_evidence_records": [VOICE_EVIDENCE_PATH],
+    }
+    missing_voice_inventory = [
+        {"inventory": key, "path": path}
+        for key, paths in voice_inventory_requirements.items()
+        for path in paths
+        if path not in inventory.get(key, [])
+    ]
+    missing_voice_manifest = sorted(voice_required_paths - manifest_paths)
+    voice_providers = [loadj(root / path) if (root / path).is_file() else {} for path in VOICE_PROVIDER_PATHS]
+    voice_evidence = loadj(root / VOICE_EVIDENCE_PATH) if (root / VOICE_EVIDENCE_PATH).is_file() else {}
+    invalid_voice_bindings = []
+    for capability_id in VOICE_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        if (
+            VOICE_DECISION_ID not in record.get("source_decision_ids", [])
+            or VOICE_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+        ):
+            invalid_voice_bindings.append(capability_id)
+    if (
+        voice.get("profile_id") != VOICE_PROFILE_ID
+        or voice.get("contract_id") != VOICE_CONTRACT_ID
+        or voice.get("admission_id") != VOICE_ADMISSION_ID
+        or voice.get("decision_id") != VOICE_DECISION_ID
+        or voice.get("gate_id") != VOICE_GATE_ID
+        or voice.get("provider_ids") != list(VOICE_PROVIDER_IDS)
+        or voice.get("capability_bindings") != list(VOICE_CAPABILITY_IDS)
+        or voice.get("reconciliation_status") != VOICE_RECONCILIATION_STATUS
+        or voice.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or voice.get("hungarian_quality_evidence") != "PENDING_DEDICATED_HU_HU_GOLDEN_CORPUS"
+        or voice.get("current_host_runtime_promotion_claim") is not False
+        or voice.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or voice.get("new_capabilities") != 0
+        or voice.get("new_architectural_authorities") != 0
+        or voice.get("capability_count_after") != CAPABILITY_COUNT
+        or VOICE_GATE_ID not in projection_gates
+        or VOICE_GATE_ID not in policy_gates
+        or missing_voice_inventory
+        or missing_voice_manifest
+        or invalid_voice_bindings
+        or any(provider.get("id") != provider_id for provider, provider_id in zip(voice_providers, VOICE_PROVIDER_IDS))
+        or any(provider.get("canonical_root") is not False or provider.get("architectural_authority") is not False or provider.get("new_capability") is not False for provider in voice_providers)
+        or voice_evidence.get("result") != "PASS"
+        or voice_evidence.get("current_host_production_claim") is not False
+        or voice_evidence.get("hungarian_quality_claim") is not False
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-033",
+                "Voice synthesis portfolio global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=voice.get("reconciliation_status"),
+                missing_inventory=missing_voice_inventory,
+                missing_manifest_paths=missing_voice_manifest,
+                invalid_capability_bindings=invalid_voice_bindings,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -1860,6 +1962,9 @@ def gate(root: Path):
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),
             "openhands_reconciliation": openhands.get("reconciliation_status"),
             "openhands_runtime_activation_status": openhands.get("runtime_activation_status"),
+            "voice_synthesis_reconciliation": voice.get("reconciliation_status"),
+            "voice_synthesis_current_host_runtime_evidence": voice.get("current_host_runtime_evidence"),
+            "voice_synthesis_hungarian_quality_evidence": voice.get("hungarian_quality_evidence"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
