@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABLE-AUDIO-3-001",
+  "name": "Stable Audio 3",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "REQUIRED_SUPPORTED_GENERATIVE_AUDIO_PROVIDER",
+  "upstream_repo": "Stability-AI/stable-audio-3",
+  "immutable_reference": "779434a908193105335fd8d833418603625b2859",
+  "profiles": [
+    "FA3-MUSIC-001"
+  ],
+  "capability_projection": [
+    "CAP-017",
+    "CAP-066",
+    "CAP-131"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "capabilities": [
+    "text-to-audio",
+    "audio-to-audio",
+    "inpainting",
+    "continuation",
+    "variable-length-generation",
+    "LoRA",
+    "SAME encode/decode"
+  ],
+  "routes": {
+    "small_music": "CPU_LOCAL_CANDIDATE",
+    "small_sfx": "CPU_LOCAL_CANDIDATE",
+    "medium": "CUDA_LOCAL_CANDIDATE_SUBJECT_TO_HRB_E2E",
+    "large": "REMOTE_API_OR_ENTERPRISE_SELF_HOST"
+  },
+  "daw_integration": {
+    "profile_required": true,
+    "provider_plugin_status": "OPTIONAL_INCUBATION",
+    "current_linux_host": "NO_NATIVE_LAUNCH_FORMAT_CONFIRMED",
+    "launch_formats": [
+      "macOS VST",
+      "macOS AU"
+    ]
+  }
+}
