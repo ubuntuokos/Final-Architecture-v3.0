@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABLE-LAYERS-001",
+  "name": "Stable Layers",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "REQUIRED_SUPPORTED_IMAGE_LAYER_DECOMPOSITION_PROVIDER",
+  "upstream_repo": "Stability-AI/Stable-Layers",
+  "immutable_reference": "b826314b34b12d7c7cce9f0de7f49a330bd8e011",
+  "profiles": [
+    "FA3-HYBRID-EDITORIAL-001"
+  ],
+  "capability_projection": [
+    "CAP-016",
+    "CAP-121"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "operation": "RGB_TO_BACK_TO_FRONT_EDITABLE_RGBA_LAYER_STACK",
+  "deterministic_seed_and_provenance_required": true,
+  "current_host_route": "REMOTE_DISTRIBUTED_FIRST",
+  "reason": "Upstream reference base model is ~40GB bf16 and recommends 80GB-class GPU; current 12GB-class compute GPU is not local default."
+}
