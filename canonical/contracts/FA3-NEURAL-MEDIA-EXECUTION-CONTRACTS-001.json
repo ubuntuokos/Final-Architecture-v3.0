@@ -1,0 +1,85 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+  "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "provider_neutral": true,
+  "version": "1.0.0",
+  "contracts": [
+    "MediaExecutionProviderDescriptor",
+    "MediaProbeReceipt",
+    "MediaStreamContract",
+    "HardwarePlacementReceipt",
+    "FilterGraphPlan",
+    "NeuralModelAdmissionReceipt",
+    "NeuralExecutionReceipt",
+    "FrameServerInteropReceipt",
+    "EncodeMuxReceipt",
+    "MediaQualityReceipt",
+    "MediaExecutionEvidence"
+  ],
+  "operations": [
+    "media.probe",
+    "media.admit",
+    "decode.execute",
+    "filtergraph.compile",
+    "filtergraph.execute",
+    "neural.process",
+    "frameserver.process",
+    "encode.execute",
+    "mux.execute",
+    "quality.measure",
+    "media.validate",
+    "artifact.finalize"
+  ],
+  "model_admission": {
+    "ffmpeg_onnx_accepted_input_rank": 4,
+    "ffmpeg_onnx_layout": "NCHW",
+    "ffmpeg_onnx_dtype": "FLOAT32",
+    "ffmpeg_onnx_single_input_required": true,
+    "unsupported_models_route_to": "FA3-INFERENCE-PORTABILITY-001",
+    "model_registry_identity_required": true,
+    "license_and_output_rights_gate_required": true
+  },
+  "accelerator_execution": {
+    "hrb_lease_required": true,
+    "canonical_gpu_identity": [
+      "GPU_UUID",
+      "PCI_BDF"
+    ],
+    "requested_provider_must_equal_observed_provider": true,
+    "implicit_cpu_fallback_forbidden": true,
+    "static_cuda_index_without_uuid_bdf_resolution_forbidden": true,
+    "live_topology_receipt_required": true
+  },
+  "frame_memory_policy": {
+    "gpu_resident_pipeline_preferred_when_capability_supported": true,
+    "hwupload_hwdownload_minimization_required": true,
+    "zero_copy_claim_requires_measured_copy_evidence": true,
+    "zero_copy_claim_requires_stable_release_capability": true
+  },
+  "quality_requirements": {
+    "vmaf": true,
+    "ssim": true,
+    "psnr": true,
+    "container_codec_validation": true,
+    "timestamp_validation": true,
+    "av_sync_validation": true,
+    "color_metadata_validation": true,
+    "hdr_metadata_validation": true,
+    "artifact_sha256": true,
+    "provenance": true
+  },
+  "external_neural_adapter": {
+    "frameserver_boundary_required_for_non_ffmpeg_native_models": true,
+    "reference_adapter": "FA3-PROVIDER-VS-MLRT-001",
+    "provider_local_backend_routing_authority": false,
+    "backend_selection_authority": "FA3-INFERENCE-PORTABILITY-001"
+  },
+  "runtime_isolation": {
+    "isolated_environment_required": true,
+    "conda_mamba_baseline_forbidden": true,
+    "system_ffmpeg_or_versioned_native_build_allowed": true,
+    "vapoursynth_runtime_must_be_provider_scoped": true
+  },
+  "capability_count": 143
+}
