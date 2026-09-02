@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ARBOR-001",
+  "name": "Arbor constrained text-to-3D",
+  "status": "REQUIRED_SUPPORTED_REFERENCE",
+  "provider_role": "REQUIRED_SUPPORTED_CONSTRAINED_TEXT_TO_3D_PROVIDER",
+  "upstream_repo": "Stability-AI/arbor",
+  "immutable_reference": "b02a3bc9464aa028f81051f23389d1a27408d52d",
+  "profiles": [
+    "FA3-3D-GEOM-001"
+  ],
+  "capability_projection": [
+    "CAP-123"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "constraint_types": [
+    "hull",
+    "avoidance",
+    "touch"
+  ],
+  "blender_bridge": "DCC_ADAPTER_ONLY_NOT_GLOBAL_TOOL_BUS",
+  "current_host_route": "PENDING_VERSION_PINNED_ISOLATED_RUNTIME_AND_REAL_E2E",
+  "upstream_conda_recipe_not_fa3_baseline": true
+}
