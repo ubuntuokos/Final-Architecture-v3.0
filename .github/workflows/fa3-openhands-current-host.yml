@@ -1,0 +1,63 @@
+name: FA3 OpenHands Current-Host Isolated Runtime
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fa3/openhands-current-host-v2-2026-09-03
+    paths:
+      - .github/workflows/fa3-openhands-current-host.yml
+      - canonical/FA3-OPENHANDS-RUNTIME-CONFORMANCE-001.json
+      - canonical/openhands-current-host-enforcement.json
+      - canonical/openhands-runtime-admission.json
+      - src/fa3_openhands_adapter.py
+      - src/fa3_openhands_current_host_worker.py
+      - src/fa3_openhands_current_host_gate.py
+      - evidence/collect-openhands-current-host.py
+      - bin/fa3-openhands-bootstrap.sh
+      - bin/fa3-openhands-current-host.sh
+      - tests/test_openhands_current_host.py
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    name: openhands-current-host / isolated-real-runtime
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    env:
+      FA3_CURRENT_HOST: "1"
+      FA3_OPENHANDS_HOME: /tmp/fa3-openhands-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v git
+          command -v python3
+          command -v python3.12
+          command -v bwrap
+      - name: Adapter regressions
+        shell: bash
+        run: PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_openhands_current_host -v
+      - name: Materialize pinned OpenHands runtime
+        shell: bash
+        run: bash bin/fa3-openhands-bootstrap.sh --allow-network-bootstrap --base "$FA3_OPENHANDS_HOME"
+      - name: Run isolated real-runtime E2E
+        shell: bash
+        run: bash bin/fa3-openhands-current-host.sh isolated
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-openhands-current-host-isolated
+          path: |
+            evidence/receipts/openhands-current-host-isolated.json
+            evidence/runtime/openhands-current-host/
+            reports/openhands-current-host-gate-report.json
