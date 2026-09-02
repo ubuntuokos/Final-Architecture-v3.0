@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "0efdfeb52cacc597b15034337426c70260027125",
-    "pre_projection_root_tree_sha": "f66c12187218d502e6743d1f2aa581189a255c8d",
-    "pre_projection_canonical_tree_sha": "6a1f34ad54fe68725a451386e7764b5c332b1109",
-    "commits_ahead_of_v3_0_11_conformance_commit": 125,
-    "total_post_baseline_commits": 125,
-    "delta_file_count": 491,
-    "delta_added_files": 487,
+    "pre_projection_head_sha": "86bcbb077c18acd4beea8e9e1159f388fa0cece4",
+    "pre_projection_root_tree_sha": "fc095efb1e306ffa26ee0885badaf5110c2ffef8",
+    "pre_projection_canonical_tree_sha": "0ac3864c15c26392f681a7496326b2eb3871aba3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 134,
+    "total_post_baseline_commits": 134,
+    "delta_file_count": 492,
+    "delta_added_files": 488,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "evidence_files_in_post_baseline_delta": 50,
     "source_files_in_post_baseline_delta": 59,
     "test_files_in_post_baseline_delta": 45,
-    "workflow_files_in_post_baseline_delta": 9,
+    "workflow_files_in_post_baseline_delta": 10,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
@@ -398,7 +398,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 493,
+  "manifest_entry_count": 494,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -426,7 +426,11 @@
     },
     {
       "path": ".github/workflows/fa3-openhands-current-host.yml",
-      "git_blob_sha": "845b49d4d6e91ebf803afd5154c0e4135d56b63b"
+      "git_blob_sha": "81b241b5b44ebf7acffb0e9705cd00a50e1fa96c"
+    },
+    {
+      "path": ".github/workflows/fa3-openhands-production-current-host.yml",
+      "git_blob_sha": "7c8291dcc373c3c34de3e725476c43098fa03570"
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
@@ -1142,7 +1146,7 @@
     },
     {
       "path": "canonical/openhands-runtime-admission.json",
-      "git_blob_sha": "226f03cc027685a0836da0db246f50e65544dbe4"
+      "git_blob_sha": "d0bcaff343e43687f9796a045239c461a50b1207"
     },
     {
       "path": "canonical/presenton-enforcement.json",
@@ -1714,7 +1718,7 @@
     },
     {
       "path": "docs/openhands-current-host.md",
-      "git_blob_sha": "d445dd779acfd492b2b5f2dc6e3ff2363687ef96"
+      "git_blob_sha": "c7b8ace60a574afd7df0e8a942cee385d1113b03"
     },
     {
       "path": "evidence/collect-ai-infra-guard-current-host.py",
@@ -2146,7 +2150,7 @@
     },
     {
       "path": "src/fa3_openhands_gate.py",
-      "git_blob_sha": "e13f7d6e6d1a34f64416b35ed9f7b042e448b2b6"
+      "git_blob_sha": "124f6415804b20fb9d170befd64d1504503fe23b"
     },
     {
       "path": "src/fa3_openhands_router_bridge.py",
@@ -2158,7 +2162,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "1270303ac6f25ea4ee106977311aee20ffb446ef"
+      "git_blob_sha": "1e712ca963113585de73d541ad91cb4090bfc8ff"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
