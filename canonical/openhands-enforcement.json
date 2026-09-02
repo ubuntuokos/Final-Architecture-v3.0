@@ -8,7 +8,7 @@
   "fail_closed": true,
   "runtime_provider_required_for_global_promotion": false,
   "runtime_activation_requires_current_host_conformance": true,
-  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "runtime_activation_status": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
   "mandatory_rule_count": 20,
   "p0_invariants": [
     "OPENHANDS_PROVIDER_NOT_AUTHORITY",
@@ -36,5 +36,13 @@
   "executable_gate": "./bin/fa3-enforce openhands",
   "report_path": "reports/openhands-gate-report.json",
   "regression_case_count": 20,
-  "global_static_integration": true
+  "global_static_integration": true,
+  "current_host_enforcement": {
+    "gate_set_id": "FA3-OPENHANDS-CURRENT-HOST-GATESET-001",
+    "executable_gate_id": "FA3-GATE-OPENHANDS-CURRENT-HOST-001",
+    "runtime_conformance_id": "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001",
+    "isolated_command": "./bin/fa3-enforce openhands-current-host-isolated",
+    "production_command": "./bin/fa3-enforce openhands-current-host",
+    "production_receipt_required": true
+  }
 }
