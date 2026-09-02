@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -13,18 +13,63 @@
   "capability_count": 143,
   "contracts": [
     "FA3-HW-CONTRACTS-001",
-    "FA3-HW-MGPU-CONTRACTS-001"
+    "FA3-HW-MGPU-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
   ],
   "authority_scope": [
     "admission",
     "placement",
     "reservation",
-    "lease"
+    "lease",
+    "typed CPU memory accelerator locality placement",
+    "runtime resource-domain projection"
+  ],
+  "deterministic_execution_fabric": {
+    "topology_discovery": [
+      "CPU socket core SMT and NUMA topology",
+      "PCIe topology and PCI BDF",
+      "accelerator UUID role health and NUMA locality",
+      "storage and NIC NUMA locality when discoverable",
+      "IRQ topology when discoverable"
+    ],
+    "placement": [
+      "canonical AcceleratorAssignment",
+      "ComputeCPUSet and HousekeepingCPUSet",
+      "MemoryPlacementPolicy",
+      "IRQPlacementPolicy",
+      "LATENCY BALANCED and BATCH AIExecutionProfile",
+      "bounded admission queue concurrency and backpressure",
+      "explicit model residency eviction and fallback"
+    ],
+    "verification": [
+      "PlacementReceipt",
+      "PlacementEvidence",
+      "AIExecutionTelemetry",
+      "rollback profile"
+    ]
+  },
+  "provider_projection_policy": {
+    "linux_runtime_resource_control_primary_reference": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+    "linux_low_latency_kernel_reference": "FA3-PROVIDER-XANMOD-001",
+    "scheduler_extension_experimental_reference": "FA3-PROVIDER-SCHED-EXT-001",
+    "provider_hard_dependency": false
+  },
+  "deployment_policy_not_canonical_constants": [
+    "specific CPU IDs or 18C/36T allocations",
+    "specific accelerator model or CUDA runtime index",
+    "32 GiB ZRAM or any fixed ZRAM size",
+    "fixed swappiness dirty-ratio watermark or TCP magic numbers",
+    "global THP=madvise or HugeTLB reservation",
+    "fixed MemoryMax or MemorySwapMax",
+    "ComfyUI cache reserve-vram or preview flags",
+    "PDS BMQ MuQSS or PREEMPT_RT production requirement"
   ],
   "non_authority_scope": [
     "provider execution semantics",
     "model routing",
-    "security policy"
+    "security policy",
+    "evidence authority",
+    "scheduler implementation ownership"
   ],
-  "implementation_status": "CURRENT_HOST_PRODUCTION_E2E_PASS_COMPONENT_SCOPE"
+  "implementation_status": "CANONICAL_DETERMINISTIC_LOCALITY_FABRIC_MATERIALIZED_REFERENCE_GATE_PENDING_CURRENT_HOST_LOCALITY_E2E"
 }
