@@ -1260,7 +1260,8 @@
         "FA3-REG-003",
         "FA3-DEC-AUTOGPT-2026-08-30",
         "FA3-DEC-CODEX-ADAPTER-2026-08-31",
-        "FA3-DEC-OPENHANDS-2026-09-01"
+        "FA3-DEC-OPENHANDS-2026-09-01",
+        "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -1292,12 +1293,17 @@
       },
       "openhands_provider_projection_status": {
         "provider_id": "FA3-PROVIDER-OPENHANDS-001",
-        "classification": "OPTIONAL_DEVELOPER_AGENT_EXECUTION_REFERENCE_PROVIDER",
-        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING",
-        "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
-        "current_host_runtime_evidence": "NOT_CLAIMED",
-        "global_runtime_promotion_effect": "NONE_WHILE_DISABLED",
-        "reference_evidence": "evidence/reference/openhands-ci-2026-09-01.json"
+        "classification": "OPTIONAL_DEVELOPER_AGENT_EXECUTION_REFERENCE_PROVIDER_RUNTIME_MATERIALIZED",
+        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED_RUNTIME_MATERIALIZED_CURRENT_HOST_PENDING",
+        "runtime_activation_status": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "isolated_receipt": "evidence/receipts/openhands-current-host-isolated.json",
+        "production_receipt": "evidence/receipts/openhands-current-host.json",
+        "production_evidence_level": "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS",
+        "fixture_evidence_can_promote_production": false,
+        "global_runtime_promotion_effect": "NONE_UNTIL_EXISTING_GLOBAL_ACCEPTANCE_REQUIREMENTS_PASS",
+        "reference_evidence": "evidence/reference/openhands-ci-2026-09-01.json",
+        "current_host_decision": "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03"
       }
     },
     {
