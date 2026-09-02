@@ -1,0 +1,107 @@
+name: FA3 One-Shot HRB Global Reconcile Helper
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/fa3-hrb-global-reconcile-helper.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize global policy evidence CI binding and projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'fa3-reconcile-bot'
+          git config user.email 'fa3-reconcile-bot@users.noreply.github.com'
+          git rm .github/workflows/fa3-hrb-global-reconcile-helper.yml
+
+          PYTHONPATH=src python src/fa3_hrb_deterministic_locality_gate.py \
+            --root . \
+            --evidence evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json \
+            >/tmp/hrb-locality-gate.json
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          gate_id = 'FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001'
+          decision_id = 'FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02'
+          evidence_path = 'evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json'
+
+          policy_path = Path('canonical/enforcement-policy.json')
+          policy = json.loads(policy_path.read_text(encoding='utf-8'))
+          gates = policy.setdefault('mandatory_reference_gates', [])
+          if gate_id not in gates:
+              gates.append(gate_id)
+          enforcement = json.loads(Path('canonical/hrb-deterministic-locality-enforcement.json').read_text(encoding='utf-8'))
+          policy['hrb_deterministic_locality_profile_id'] = 'FA3-HOST-RESOURCE-BROKER-001'
+          policy['hrb_deterministic_locality_contract_id'] = 'FA3-HOST-RESOURCE-BROKER-CONTRACTS-001'
+          policy['hrb_deterministic_locality_mandatory_p0_rules'] = enforcement['p0_invariants']
+          policy_path.write_text(json.dumps(policy, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          registry_path = Path('evidence/evidence-registry.json')
+          registry = json.loads(registry_path.read_text(encoding='utf-8'))
+          cap6 = next(r for r in registry['records'] if r.get('subject_id') == 'CAP-006')
+          if decision_id not in cap6['source_decision_ids']:
+              cap6['source_decision_ids'].append(decision_id)
+          if evidence_path not in cap6['evidence_artifacts']:
+              cap6['evidence_artifacts'].append(evidence_path)
+          cap6['hrb_deterministic_locality_projection_status'] = {
+              'profile_id': 'FA3-HOST-RESOURCE-BROKER-001',
+              'contract_id': 'FA3-HOST-RESOURCE-BROKER-CONTRACTS-001',
+              'gate_id': gate_id,
+              'reference_evidence': evidence_path,
+              'runtime_activation_status': 'CANONICAL_REFERENCE_PASS_CURRENT_HOST_LOCALITY_E2E_PENDING',
+              'current_host_runtime_evidence': 'PENDING_REAL_CURRENT_HOST_EXECUTION',
+              'promotion_semantics': 'CI_REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME'
+          }
+          registry_path.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          workflow_path = Path('.github/workflows/fa3-permanent-enforcement.yml')
+          workflow = workflow_path.read_text(encoding='utf-8')
+          marker = '      - name: Unified post-v3.0.11 release projection gate\n        run: ./bin/fa3-enforce release-projection\n'
+          step = (
+              '      - name: HRB deterministic NUMA accelerator locality gate\n'
+              '        run: PYTHONPATH=src python src/fa3_hrb_deterministic_locality_gate.py --root . --evidence reports/hrb-deterministic-locality-gate-report.json\n'
+          )
+          if step not in workflow:
+              if marker not in workflow:
+                  raise SystemExit('release projection workflow marker not found')
+              workflow = workflow.replace(marker, step + marker, 1)
+          upload_marker = '            reports/inference-portability-gate-report.json\n'
+          upload_line = '            reports/hrb-deterministic-locality-gate-report.json\n'
+          if upload_line not in workflow:
+              if upload_marker not in workflow:
+                  raise SystemExit('artifact upload marker not found')
+              workflow = workflow.replace(upload_marker, upload_marker + upload_line, 1)
+          workflow_path.write_text(workflow, encoding='utf-8')
+          PY
+
+          git add \
+            .github/workflows/fa3-permanent-enforcement.yml \
+            canonical/enforcement-policy.json \
+            evidence/evidence-registry.json \
+            evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json
+          git commit -m 'feat(hrb): bind locality gate into global enforcement and evidence registry'
+
+          snapshot="$(git rev-parse HEAD)"
+          PYTHONPATH=src python src/fa3_release_projection_regenerate.py --root . --snapshot-head "$snapshot"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m 'chore: reconcile release projection after HRB global binding'
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
