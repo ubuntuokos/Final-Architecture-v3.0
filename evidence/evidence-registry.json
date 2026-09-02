@@ -221,13 +221,15 @@
         "FA3-MOZ-PROV-001",
         "FA3-DEC-AI-INFRA-GUARD-2026-08-30",
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
-        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31"
+        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
+        "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
         "evidence/reference/inference-portability-ci-2026-08-31.json",
-        "evidence/reference/model-manager-ci-2026-08-31.json"
+        "evidence/reference/model-manager-ci-2026-08-31.json",
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -254,6 +256,19 @@
         "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_EXECUTABLE_EVIDENCE_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_AND_USER_USAGE_ASSERTION_DO_NOT_EQUAL_CURRENT_HOST_PRODUCTION_PASS"
+      },
+      "ffmpeg_ai_projection_status": {
+        "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-FFMPEG-001",
+          "FA3-PROVIDER-VS-MLRT-001"
+        ],
+        "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+        "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -295,13 +310,15 @@
         "FA3-REG-003",
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
         "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02",
-        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02"
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+        "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -336,6 +353,19 @@
         "runtime_activation_status": "CANONICAL_REFERENCE_PASS_CURRENT_HOST_THREADING_E2E_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_T7910_EXECUTION",
         "promotion_semantics": "REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
+      },
+      "ffmpeg_ai_projection_status": {
+        "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-FFMPEG-001",
+          "FA3-PROVIDER-VS-MLRT-001"
+        ],
+        "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+        "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -737,12 +767,14 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
-        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
+        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
+        "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/model-manager-ci-2026-08-31.json",
-        "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
+        "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -766,6 +798,19 @@
         "gate_id": "FA3-GATE-HYBRID-EDITORIAL-001",
         "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "runtime_status": "PENDING_CURRENT_HOST",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "ffmpeg_ai_projection_status": {
+        "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-FFMPEG-001",
+          "FA3-PROVIDER-VS-MLRT-001"
+        ],
+        "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+        "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "ci_reference_pass_does_not_promote_runtime": true
       }
@@ -4898,12 +4943,14 @@
         "FA3-REG-003",
         "FA3-MOZ-AAF-001",
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
-        "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01"
+        "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
+        "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
-        "evidence/reference/opencut-ci-2026-09-01.json"
+        "evidence/reference/opencut-ci-2026-09-01.json",
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -4928,6 +4975,19 @@
         "reference_evidence": "evidence/reference/opencut-ci-2026-09-01.json",
         "runtime_status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
         "current_host_runtime_evidence": "NOT_CLAIMED",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "ffmpeg_ai_projection_status": {
+        "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-FFMPEG-001",
+          "FA3-PROVIDER-VS-MLRT-001"
+        ],
+        "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+        "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
@@ -5125,12 +5185,14 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
-        "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01"
+        "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
+        "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
-        "evidence/reference/opencut-ci-2026-09-01.json"
+        "evidence/reference/opencut-ci-2026-09-01.json",
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5155,6 +5217,19 @@
         "reference_evidence": "evidence/reference/opencut-ci-2026-09-01.json",
         "runtime_status": "NOT_ADMITTED_UPSTREAM_INTERFACES_UNSTABLE",
         "current_host_runtime_evidence": "NOT_CLAIMED",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "ffmpeg_ai_projection_status": {
+        "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-FFMPEG-001",
+          "FA3-PROVIDER-VS-MLRT-001"
+        ],
+        "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+        "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
@@ -5591,12 +5666,14 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+        "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5613,6 +5690,19 @@
         "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      },
+      "ffmpeg_ai_projection_status": {
+        "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "contract_id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-FFMPEG-001",
+          "FA3-PROVIDER-VS-MLRT-001"
+        ],
+        "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+        "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -5897,7 +5987,24 @@
     "decision_id": "FA3-DEC-OPENBMB-2026-09-02",
     "gate_id": "FA3-OPENBMB-GATESET-001",
     "reference_evidence": "evidence/reference/openbmb-ci-2026-09-02.json",
-    "capability_bindings": ["CAP-005", "CAP-007", "CAP-010", "CAP-021", "CAP-028", "CAP-050", "CAP-056", "CAP-060", "CAP-069", "CAP-078", "CAP-079", "CAP-086", "CAP-087", "CAP-103", "CAP-115", "CAP-116"],
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-007",
+      "CAP-010",
+      "CAP-021",
+      "CAP-028",
+      "CAP-050",
+      "CAP-056",
+      "CAP-060",
+      "CAP-069",
+      "CAP-078",
+      "CAP-079",
+      "CAP-086",
+      "CAP-087",
+      "CAP-103",
+      "CAP-115",
+      "CAP-116"
+    ],
     "reference_evidence_status": "PASS",
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "current_host_runtime_promotion_claim": false,
@@ -5905,5 +6012,23 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
+  },
+  "ffmpeg_ai_reconciliation": {
+    "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "provider_ids": [
+      "FA3-PROVIDER-FFMPEG-001",
+      "FA3-PROVIDER-VS-MLRT-001"
+    ],
+    "gate_id": "FA3-FFMPEG-AI-GATESET-001",
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-006",
+      "CAP-016",
+      "CAP-121",
+      "CAP-126",
+      "CAP-137"
+    ],
+    "status": "CI_REFERENCE_PASS_CURRENT_HOST_E2E_PENDING",
+    "current_host_runtime_promotion_claim": false
   }
 }
