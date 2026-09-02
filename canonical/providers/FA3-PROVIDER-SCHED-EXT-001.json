@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SCHED-EXT-001",
+  "name": "Linux sched_ext Scheduler Extension Projection",
+  "status": "EXPERIMENTAL_REFERENCE_PROVIDER",
+  "priority": "P2",
+  "requirement": "MAY",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "role": "replaceable experimental scheduler implementation projection",
+  "authority_boundary": "MUST_NOT_OWN_HRB_ADMISSION_PLACEMENT_RESERVATION_OR_LEASE",
+  "admission_requirements": [
+    "explicit experimental profile",
+    "baseline benchmark",
+    "tail-latency and throughput evidence",
+    "failure fallback to admitted kernel scheduler",
+    "rollback path"
+  ],
+  "excluded_from_required_baseline": ["PDS", "BMQ", "MuQSS"],
+  "invariants": [
+    "SCHED_EXT_OPTIONAL_EXPERIMENTAL",
+    "SCHED_EXT_MUST_NOT_BYPASS_CGROUP_OR_HRB_RESOURCE_BOUNDARIES",
+    "SCHEDULER_PROMOTION_REQUIRES_EVIDENCE",
+    "SCHEDULER_FAILURE_REQUIRES_SAFE_ROLLBACK"
+  ]
+}

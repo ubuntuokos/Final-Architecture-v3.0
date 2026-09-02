@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+  "name": "systemd + cgroup v2 Host Execution Projection",
+  "status": "REFERENCE_PROVIDER",
+  "priority": "P0",
+  "requirement": "MUST_IF_SELECTED",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "delegates_authority_to": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "provides": [
+    "CPU affinity and cpuset projection",
+    "memory-node cpuset projection",
+    "NUMA memory-policy projection",
+    "CPU and IO weight projection",
+    "memory and swap budget projection",
+    "task-limit projection",
+    "runtime-changeable Linux resource isolation"
+  ],
+  "canonical_mapping": {
+    "ComputeCPUSet": ["CPUAffinity", "AllowedCPUs"],
+    "MemoryPlacementPolicy": ["NUMAPolicy", "NUMAMask", "AllowedMemoryNodes"],
+    "cpu_weight": "CPUWeight",
+    "io_weight": "IOWeight",
+    "memory_soft_pressure": "MemoryHigh",
+    "memory_hard_limit": "MemoryMax",
+    "swap_budget": "MemorySwapMax"
+  },
+  "invariants": [
+    "SYSTEMD_CGROUPV2_NOT_RESOURCE_AUTHORITY",
+    "CGROUP_CPUSET_PRIMARY_GENERAL_LINUX_RUNTIME_ISOLATION_REFERENCE",
+    "GLOBAL_MANAGER_AFFINITY_MUST_NOT_SILENTLY_TRUNCATE_HRB_CPU_DOMAIN",
+    "PROJECTION_MUST_MATCH_HRB_PLACEMENT_RECEIPT",
+    "RESOURCE_LIMIT_CHANGE_REQUIRES_AUDIT_AND_ROLLBACK"
+  ]
+}

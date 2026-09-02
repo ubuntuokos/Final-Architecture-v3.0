@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-XANMOD-001",
+  "name": "XanMod Linux Workstation and Low-Latency Kernel Reference",
+  "status": "OPTIONAL_REFERENCE_PROVIDER",
+  "priority": "P1",
+  "requirement": "MAY",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "delegates_authority_to": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "role": "kernel capability and low-latency workstation reference only",
+  "selection_basis": [
+    "required kernel capabilities",
+    "driver and DKMS compatibility",
+    "measured latency and throughput",
+    "rollback readiness"
+  ],
+  "explicit_non_requirements": [
+    "PDS",
+    "BMQ",
+    "MuQSS",
+    "PREEMPT_RT",
+    "fixed scheduler-internal nanosecond tuning"
+  ],
+  "invariants": [
+    "XANMOD_NOT_GLOBAL_HARD_DEPENDENCY",
+    "KERNEL_SELECTION_CAPABILITY_AND_EVIDENCE_DRIVEN",
+    "SCHEDULER_CHOICE_MUST_NOT_BYPASS_HRB_PLACEMENT",
+    "KERNEL_CHANGE_REQUIRES_DRIVER_COMPATIBILITY_VALIDATION_AND_ROLLBACK"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "schema": "fa3.hrb-deterministic-locality-evidence.v1",
+  "gate_id": "FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001",
+  "status": "PASS",
+  "scope": "CANONICAL_REFERENCE_CONFORMANCE",
+  "current_host_runtime_promotion_claim": false,
+  "checks": [
+    {
+      "name": "capability-count-stable",
+      "status": "PASS",
+      "detail": "capability count remains 143"
+    },
+    {
+      "name": "no-new-authority",
+      "status": "PASS",
+      "detail": "no parallel authority introduced"
+    },
+    {
+      "name": "hrb-authority-preserved",
+      "status": "PASS",
+      "detail": "HRB remains placement authority"
+    },
+    {
+      "name": "contract-linked",
+      "status": "PASS",
+      "detail": "profile links deterministic locality contracts"
+    },
+    {
+      "name": "stable-accelerator-identity",
+      "status": "PASS",
+      "detail": "UUID/BDF identity is canonical; runtime index is not"
+    },
+    {
+      "name": "fail-closed-routing",
+      "status": "PASS",
+      "detail": "implicit accelerator fallback denied"
+    },
+    {
+      "name": "typed-locality-policy",
+      "status": "PASS",
+      "detail": "CPU memory accelerator IRQ locality are typed"
+    },
+    {
+      "name": "numa-policy-coherent",
+      "status": "PASS",
+      "detail": "explicit NUMA placement cannot compete with automatic migration"
+    },
+    {
+      "name": "bounded-admission",
+      "status": "PASS",
+      "detail": "bounded queue/backpressure required"
+    },
+    {
+      "name": "model-residency-explicit",
+      "status": "PASS",
+      "detail": "model residency/eviction explicit"
+    },
+    {
+      "name": "cache-taxonomy",
+      "status": "PASS",
+      "detail": "cache classes are separated"
+    },
+    {
+      "name": "zram-not-memory-tier",
+      "status": "PASS",
+      "detail": "compressed swap is pressure safety only"
+    },
+    {
+      "name": "no-global-magic-constants",
+      "status": "PASS",
+      "detail": "host/workload numeric tuning remains deployment policy"
+    },
+    {
+      "name": "execution-profiles",
+      "status": "PASS",
+      "detail": "three canonical execution profile classes"
+    },
+    {
+      "name": "telemetry-evidence",
+      "status": "PASS",
+      "detail": "placement and tail latency evidence required"
+    },
+    {
+      "name": "rollback",
+      "status": "PASS",
+      "detail": "tuning changes require rollback"
+    },
+    {
+      "name": "systemd-reference-only",
+      "status": "PASS",
+      "detail": "systemd/cgroup v2 is projection, not authority"
+    },
+    {
+      "name": "xanmod-optional",
+      "status": "PASS",
+      "detail": "XanMod is optional reference"
+    },
+    {
+      "name": "sched-ext-experimental",
+      "status": "PASS",
+      "detail": "sched_ext remains experimental"
+    },
+    {
+      "name": "legacy-schedulers-not-baseline",
+      "status": "PASS",
+      "detail": "legacy/RT schedulers are not required baseline"
+    },
+    {
+      "name": "enforcement-complete",
+      "status": "PASS",
+      "detail": "all contract invariants enforced fail-closed"
+    },
+    {
+      "name": "current-host-claim-honest",
+      "status": "PASS",
+      "detail": "no uncollected current-host locality PASS is claimed"
+    }
+  ],
+  "summary": {
+    "passed": 22,
+    "total": 22
+  }
+}
