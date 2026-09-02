@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -14,7 +14,8 @@
   "contracts": [
     "FA3-HW-CONTRACTS-001",
     "FA3-HW-MGPU-CONTRACTS-001",
-    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-CPU-NUMA-THREADING-CONTRACTS-001"
   ],
   "authority_scope": [
     "admission",
@@ -54,6 +55,13 @@
     "scheduler_extension_experimental_reference": "FA3-PROVIDER-SCHED-EXT-001",
     "provider_hard_dependency": false
   },
+  "mandatory_cpu_threading_subprofile": {
+    "profile_id": "FA3-CPU-NUMA-THREADING-001",
+    "profile_alias": "PROFILE-CPU-NUMA",
+    "policy": "physical-core-first cpuset-aware per-workload thread budgeting",
+    "oversubscription": "fail closed",
+    "smt_and_interleave": "benchmark and explicit admission gated"
+  },
   "deployment_policy_not_canonical_constants": [
     "specific CPU IDs or 18C/36T allocations",
     "specific accelerator model or CUDA runtime index",
@@ -71,5 +79,5 @@
     "evidence authority",
     "scheduler implementation ownership"
   ],
-  "implementation_status": "CANONICAL_DETERMINISTIC_LOCALITY_FABRIC_MATERIALIZED_REFERENCE_GATE_PENDING_CURRENT_HOST_LOCALITY_E2E"
+  "implementation_status": "CANONICAL_DETERMINISTIC_LOCALITY_AND_CPU_THREAD_GOVERNANCE_MATERIALIZED_REFERENCE_GATES_PASS_CURRENT_HOST_LOCALITY_THREADING_E2E_PENDING"
 }

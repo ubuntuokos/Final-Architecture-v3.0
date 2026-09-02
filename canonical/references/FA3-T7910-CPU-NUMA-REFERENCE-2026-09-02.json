@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.reference-deployment-record.v1",
+  "id": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
+  "date": "2026-09-02",
+  "status": "REFERENCE_DEPLOYMENT",
+  "profile_id": "FA3-CPU-NUMA-THREADING-001",
+  "machine": "Dell Precision Tower 7910",
+  "declared_cpu_configuration": {
+    "packages": 2,
+    "model": "Intel Xeon E5-2696 v4",
+    "base_frequency_ghz": 2.2,
+    "physical_cores_per_package": 22,
+    "logical_cpus_per_package": 44,
+    "physical_cores_total": 44,
+    "logical_cpus_total": 88,
+    "numa_domains_expected": 2
+  },
+  "correction": {
+    "supersedes_reference_claim": "2 x Intel Xeon E5-2697 v4 / 36C / 72T",
+    "correct_reference_claim": "2 x Intel Xeon E5-2696 v4 / 44C / 88T",
+    "scope": "REFERENCE_DEPLOYMENT_FACT_ONLY"
+  },
+  "admission_requirement": "The OS-visible package core SMT NUMA cpuset and accelerator-locality topology SHALL be rediscovered and validated; declared reference counts SHALL NOT replace runtime evidence.",
+  "reference_thread_profiles_not_canonical_constants": [
+    {"workload": "GPU_HEAVY_INTERACTIVE", "physical_core_threads": 8},
+    {"workload": "GPU_WITH_CPU_PREPROCESSING", "physical_core_threads": "8-16"},
+    {"workload": "CPU_HEAVY_ONE_NUMA_DOMAIN", "physical_core_threads": 22},
+    {"workload": "CPU_HEAVY_TWO_NUMA_LOCAL_INSTANCES", "physical_core_threads": "22+22"},
+    {"workload": "CPU_HEAVY_HOST_WIDE_SINGLE_INSTANCE", "physical_core_threads": 44, "admission": "BENCHMARK_REQUIRED"},
+    {"workload": "SMT_HOST_MAXIMUM", "logical_threads": 88, "admission": "EXPLICIT_BENCHMARK_GATED_NOT_BASELINE"}
+  ],
+  "prohibited_interpretation": [
+    "static CPU IDs are portable",
+    "NUMA node 0 or 1 is permanently assigned to a particular accelerator",
+    "44 or 88 is a global thread default",
+    "reference declaration constitutes current-host PASS evidence"
+  ]
+}

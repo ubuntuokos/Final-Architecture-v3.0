@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-CPU-NUMA-THREADING-001",
+  "name": "NUMA-Aware CPU Threading, Affinity & Math Runtime Governance",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_alias": "PROFILE-CPU-NUMA",
+  "parent_profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "source_decision_id": "FA3-HOST-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
+  ],
+  "authority": {
+    "admission_placement_budget": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "linux_enforcement_projection": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+    "application_math_runtimes": "CONSUMERS_NOT_AUTHORITIES",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "canonical_chain": [
+    "live topology discovery",
+    "HostTopologySnapshot",
+    "HRB placement and ThreadPoolBudget admission",
+    "systemd plus unified cgroup v2 cpuset and memory-node enforcement",
+    "per-service math-runtime projection",
+    "runtime verification and evidence"
+  ],
+  "mandatory_policy": {
+    "budget_basis": "PHYSICAL_CORES_VISIBLE_INSIDE_ADMITTED_CPUSET_FIRST",
+    "configuration_scope": "PER_WORKLOAD_OR_SERVICE",
+    "default_numa_policy": "PLACEMENT_LOCAL_OR_BIND_AS_SELECTED_BY_HRB",
+    "default_openmp_places": "cores",
+    "default_openmp_binding": "close",
+    "default_nested_parallelism": false,
+    "default_numexpr_threads": "min(8, admitted physical-core budget)",
+    "default_pytorch_interop_threads": "min(2, admitted physical-core budget)",
+    "smt_policy": "DENY_ABOVE_PHYSICAL_CORE_BUDGET_UNLESS_BENCHMARK_AND_ADMISSION_EVIDENCE_EXIST",
+    "interleave_policy": "NOT_DEFAULT_BENCHMARK_GATED",
+    "oversubscription_policy": "FAIL_CLOSED"
+  },
+  "provider_specific_policy": {
+    "intel_libiomp": [
+      "KMP_AFFINITY=granularity=fine,compact,1,0 is an admitted provider projection, not a global invariant",
+      "KMP_BLOCKTIME is workload/provider policy and requires evidence"
+    ],
+    "onednn": "DNNL_VERBOSE is logging policy only and has no placement semantics",
+    "pytorch": "intra-op and inter-op budgets are separate and must be applied before parallel work begins"
+  },
+  "explicitly_forbidden_as_global_baseline": [
+    "CORES=$(nproc) exported to every OpenMP BLAS and framework pool",
+    "OMP_NUM_THREADS=88",
+    "NUMEXPR_NUM_THREADS=44",
+    "torch.set_num_interop_threads(44)",
+    "numactl --interleave=all",
+    "static CPU ID lists",
+    "static NUMA node IDs",
+    "global KMP_AFFINITY or KMP_BLOCKTIME",
+    "environment variables acting as resource authority"
+  ],
+  "reference_deployment": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
+  "implementation_status": "CANONICAL_REFERENCE_RUNTIME_AND_FAIL_CLOSED_GATE_PASS_CURRENT_HOST_E2E_PENDING"
+}

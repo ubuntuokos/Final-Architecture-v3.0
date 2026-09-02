@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-CPU-NUMA-THREADING-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-CPU-NUMA-THREADING-001",
+  "contract_id": "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+  "decision_id": "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+  "enforcement_id": "FA3-CPU-NUMA-THREADING-GATESET-001",
+  "entrypoint": "src/fa3_cpu_numa_threading_gate.py",
+  "reference_runtime": "src/fa3_cpu_thread_budget.py",
+  "launcher": "bin/fa3-cpu-thread-budget",
+  "test": "tests/test_cpu_numa_threading_gate.py",
+  "reference_evidence": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
+  "fail_closed": true,
+  "mandatory_checks": 24,
+  "runtime_scenarios": 11,
+  "current_host_runtime_promotion_claim": false,
+  "capability_count": 143,
+  "promotion_semantics": "Reference topology and executable policy PASS do not replace current-host topology, placement, performance, rollback and oversubscription evidence."
+}

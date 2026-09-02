@@ -35,6 +35,7 @@
         "FA3-CORE-007",
         "FA3-CORE-008",
         "FA3-HOST-001",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-HOST-002",
         "FA3-HOST-003",
         "FA3-HOST-004",
@@ -43,7 +44,9 @@
         "FA3-REG-003"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+      ],
       "expires_at": null,
       "blocking": true
     },
@@ -291,12 +294,14 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
-        "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02"
+        "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
-        "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json"
+        "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -322,6 +327,15 @@
         "runtime_activation_status": "CANONICAL_REFERENCE_PASS_CURRENT_HOST_LOCALITY_E2E_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
+      },
+      "cpu_numa_threading_projection_status": {
+        "profile_id": "FA3-CPU-NUMA-THREADING-001",
+        "contract_id": "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+        "gate_id": "FA3-CPU-NUMA-THREADING-GATESET-001",
+        "reference_evidence": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
+        "runtime_activation_status": "CANONICAL_REFERENCE_PASS_CURRENT_HOST_THREADING_E2E_PENDING",
+        "current_host_runtime_evidence": "PENDING_REAL_T7910_EXECUTION",
+        "promotion_semantics": "REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
       }
     },
     {
@@ -2581,6 +2595,7 @@
       ],
       "source_decision_ids": [
         "DEC-CAP-062",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-CORE-001",
         "FA3-CORE-002",
         "FA3-CORE-003",
@@ -2599,7 +2614,9 @@
         "FA3-REG-003"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+      ],
       "expires_at": null,
       "blocking": true
     },
@@ -2622,6 +2639,7 @@
       ],
       "source_decision_ids": [
         "DEC-CAP-063",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-CORE-001",
         "FA3-CORE-002",
         "FA3-CORE-003",
@@ -2639,7 +2657,9 @@
         "FA3-REG-003"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+      ],
       "expires_at": null,
       "blocking": true
     },
@@ -2701,6 +2721,7 @@
       ],
       "source_decision_ids": [
         "DEC-CAP-065",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-CORE-001",
         "FA3-CORE-002",
         "FA3-CORE-003",
@@ -2718,7 +2739,9 @@
         "FA3-REG-003"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+      ],
       "expires_at": null,
       "blocking": true
     },
@@ -5276,6 +5299,7 @@
       ],
       "source_decision_ids": [
         "DEC-CAP-130",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-CORE-001",
         "FA3-CORE-002",
         "FA3-CORE-003",
@@ -5292,7 +5316,9 @@
         "FA3-REG-003"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+      ],
       "expires_at": null,
       "blocking": true
     },
@@ -5551,6 +5577,7 @@
       ],
       "source_decision_ids": [
         "DEC-CAP-137",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-CORE-001",
         "FA3-CORE-002",
         "FA3-CORE-003",
@@ -5568,7 +5595,8 @@
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/inference-portability-ci-2026-08-31.json"
+        "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5780,6 +5808,7 @@
       ],
       "source_decision_ids": [
         "DEC-CAP-142",
+        "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-CORE-001",
         "FA3-CORE-002",
         "FA3-CORE-003",
@@ -5796,7 +5825,9 @@
         "FA3-REG-003"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json"
+      ],
       "expires_at": null,
       "blocking": true
     },
