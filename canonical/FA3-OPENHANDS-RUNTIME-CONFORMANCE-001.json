@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.openhands-runtime-conformance.v1",
+  "id": "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-OPENHANDS-001",
+  "contract_id": "FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001",
+  "status": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "capability_count": 143,
+  "current_host": {
+    "platform": "Linux x86_64",
+    "python": "3.12",
+    "packaging": "pip venv only; conda/mamba forbidden",
+    "source_commit": "a9e0a8a1aab2164b46bae00a18157a343aaa94c9",
+    "source_tree": "342a369f498b826cf51d1644bcbef8d503af7628",
+    "component_version": "1.44.1",
+    "isolation": "bubblewrap user namespace; filesystem read-only except delegated workspace/tmp; network namespace unshared",
+    "model_route": "Unix-domain bridge to host loopback LiteLLM only; no sandbox general network egress",
+    "model_alias": "developer-agent-primary",
+    "accelerator_claim": false
+  },
+  "evidence_levels": {
+    "isolated_runtime_smoke": {
+      "status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+      "evidence_level": "CURRENT_HOST_OPENHANDS_ISOLATED_RUNTIME_PASS",
+      "model": "deterministic loopback OpenAI-compatible fixture inside network-isolated sandbox",
+      "production_admission": false
+    },
+    "production_e2e": {
+      "status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+      "evidence_level": "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS",
+      "requires_external_tool_authorization_receipt": true,
+      "requires_central_model_router": true,
+      "requires_ephemeral_or_secret_reference_credential": true,
+      "production_admission": true
+    }
+  },
+  "required_controls": [
+    "PINNED_OPENHANDS_SOURCE_COMMIT_AND_TREE",
+    "EXACT_1_44_1_COMPONENT_TUPLE",
+    "PYTHON_3_12_PIP_VENV_NO_CONDA",
+    "BUBBLEWRAP_USER_NAMESPACE_ISOLATION",
+    "READ_ONLY_HOST_FILESYSTEM",
+    "SINGLE_DELEGATED_RW_WORKSPACE",
+    "NO_GENERAL_NETWORK_EGRESS",
+    "CENTRAL_MODEL_ROUTER_UNIX_BRIDGE_ONLY_FOR_PRODUCTION",
+    "RAW_SECRET_VALUES_NOT_PERSISTED",
+    "EXTERNAL_CANONICAL_TOOL_AUTHORIZATION_RECEIPT_FOR_PRODUCTION",
+    "PROVIDER_NATIVE_EXECUTE_TOOL_BYPASS_NOT_USED",
+    "PROVIDER_NATIVE_MCP_DISABLED",
+    "NO_WORKER_GIT_COMMIT",
+    "EXACT_MUTATION_SCOPE",
+    "APPEND_ONLY_EVENT_EVIDENCE",
+    "CRASH_RESUME_PROBE",
+    "NEGATIVE_SCOPE_AND_AUTHORIZATION_PROBES",
+    "COMPLETE_PROCESS_NAMESPACE_AND_WORKSPACE_CLEANUP",
+    "CURRENT_HOST_RECEIPT_VALIDATED_BY_FAIL_CLOSED_GATE"
+  ],
+  "receipts": {
+    "isolated": "evidence/receipts/openhands-current-host-isolated.json",
+    "production": "evidence/receipts/openhands-current-host.json"
+  },
+  "global_promotion_effect": "PROVIDER_SPECIFIC_ONLY; GLOBAL FA3 PROMOTION REMAINS GOVERNED BY EXISTING 143-CAPABILITY EVIDENCE AND 19-POINT ACCEPTANCE"
+}
