@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "derived_pattern_sources": ["OpenBMB/PilotDeck", "OpenBMB/EdgeClaw", "OpenBMB/StaffDeck"],
+  "parent_profiles": ["FA3-AGENT-EXEC-001", "FA3-KNOWLEDGE-001"],
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": ["WorkspaceIsolationDescriptor", "WorkspaceContextProjection", "MemoryEntryProvenance", "MemoryMutationRequest", "MemoryRollbackReceipt", "SkillProjection", "CredentialReferenceProjection", "ResourceBudgetProjection", "CrossWorkspaceAccessReceipt"],
+  "required_scope_dimensions": ["files", "memory", "skills", "credentials", "network_egress", "provenance", "resource_budget"],
+  "memory_entry_provenance_required_fields": ["workspace_id", "memory_id", "source_artifact_ids", "source_event_ids", "created_at", "producer", "transformation", "content_hash", "policy_receipt_id", "retention_class", "supersedes", "status"],
+  "invariants": ["WORKSPACE_SCOPE_EXPLICIT_AND_FAIL_CLOSED", "CROSS_WORKSPACE_ACCESS_REQUIRES_EXPLICIT_AUTHORIZATION", "RAW_CREDENTIAL_VALUES_NEVER_PROJECTED", "MEMORY_PROVIDER_NOT_MEMORY_AUTHORITY", "MEMORY_GENERATION_EXTRACTION_STORAGE_RETRIEVAL_LINEAGE_VISIBLE", "MEMORY_MUTATION_AUDITED_AND_ROLLBACKABLE", "SKILL_PROJECTION_CAPABILITY_NARROWING", "FILES_MEMORY_SKILLS_CREDENTIALS_PROVENANCE_AND_BUDGETS_ISOLATED", "ALWAYS_ON_EXECUTION_REQUIRES_TEMPORAL_SCHEDULE_ADMISSION_AND_CANCELLATION", "PROVIDER_ROUTING_HINT_NOT_MODEL_ROUTING_AUTHORITY"]
+}

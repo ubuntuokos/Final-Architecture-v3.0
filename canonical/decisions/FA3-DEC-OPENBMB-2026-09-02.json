@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENBMB-2026-09-02",
+  "date": "2026-09-02",
+  "status": "CANONICAL_CLOSED",
+  "subject": "OpenBMB provider-family, selected provider projections and provider-neutral pattern contracts",
+  "decision": "ACCEPT_SELECTED_OPTIONAL_PROVIDERS_AND_DERIVED_CONTRACTS_WITHOUT_NEW_CAPABILITY_OR_AUTHORITY",
+  "family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
+  "accepted_provider_ids": ["FA3-PROVIDER-MINICPM-V-001", "FA3-PROVIDER-MINICPM-O-001", "FA3-PROVIDER-AGENTCPM-001", "FA3-PROVIDER-ULTRARAG-001", "FA3-PROVIDER-CPMCU-001", "FA3-PROVIDER-VOXCPM-001"],
+  "accepted_contract_ids": ["FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001", "FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001"],
+  "pattern_source_only": ["OpenBMB/EdgeClaw", "OpenBMB/PilotDeck", "OpenBMB/StaffDeck", "OpenBMB/ForgeTrain", "OpenBMB/ForgeStencil", "OpenBMB/AgentCPM-GUI"],
+  "rejected_roles": ["OPENBMB_MONOLITHIC_RUNTIME", "SECOND_AGENT_RUNTIME_AUTHORITY", "SECOND_MEMORY_OR_KNOWLEDGE_AUTHORITY", "SECOND_MODEL_REGISTRY_OR_ROUTER", "SECOND_MCP_OR_TOOL_AUTHORITY", "SECOND_WORKFLOW_ORCHESTRATOR", "SECOND_HOST_RESOURCE_OR_GPU_PLACEMENT_AUTHORITY", "SECOND_SECURITY_OR_EVIDENCE_AUTHORITY"],
+  "hardware_decision": {
+    "portable_default": "LIVE_CAPABILITY_DISCOVERY_AND_HRB_ADMISSION",
+    "reference_host": "Dell Precision Tower 7910 with 2x E5-2696 v4, 44 physical cores, 88 logical CPUs and two NUMA domains is evidence, not a portable default",
+    "reference_accelerator_expectation": "RTX 3080 12GB compute role and current NVIDIA/CUDA stack must be rediscovered, never assumed",
+    "cpmcu": "BLOCKED until target-native current-host CUDA ABI and SM build, correctness, quality, benchmark and rollback evidence pass",
+    "minicpm_o": "No default full-duplex activation until VRAM/QoS/privacy/quality evidence passes",
+    "forgetrain_forgestencil": "Datacenter-GPU upstream results are pattern evidence only and cannot promote the T7910"
+  },
+  "license_decision": "Code, model-weight, dataset and output-use rights remain separate gates; PilotDeck and StaffDeck AGPL sources are pattern-only and shall not be vendored by this materialization.",
+  "model_artifact_decision": "Provider records do not admit model weights. Exact model revision, hashes, license acceptance and runtime compatibility are required through the canonical Model Manager before activation.",
+  "mandatory_p0_rules": [
+    "OPENBMB_FAMILY_NOT_AUTHORITY", "OPENBMB_PROVIDERS_NOT_AUTHORITY", "OPENBMB_CAPABILITY_AND_AUTHORITY_COUNT_INVARIANT", "OPENBMB_IMMUTABLE_UPSTREAM_SNAPSHOTS", "OPENBMB_MODEL_ARTIFACT_ADMISSION_SEPARATE", "OPENBMB_NO_SILENT_MODEL_BACKEND_DEVICE_OR_CLOUD_FALLBACK", "MINICPM_MODALITY_DESCRIPTOR_REQUIRED", "MINICPM_O_CONTINUOUS_CAPTURE_CONSENT_AND_PRIVACY_GATE", "MINICPM_PROVIDER_NOT_MODEL_REGISTRY_OR_ROUTER", "AGENTCPM_LONG_HORIZON_EXECUTION_BOUNDED", "AGENTCPM_TOOL_AND_SANDBOX_CANONICALLY_MEDIATED", "ULTRARAG_MCP_BEHIND_CENTRAL_GATEWAY", "ULTRARAG_PIPELINE_NOT_WORKFLOW_AUTHORITY", "RAG_STEP_PROVENANCE_REQUIRED", "WORKSPACE_SCOPE_ISOLATION_REQUIRED", "WHITE_BOX_MEMORY_LINEAGE_AND_ROLLBACK_REQUIRED", "MEMORY_PROVIDER_NOT_MEMORY_AUTHORITY", "ALWAYS_ON_EXECUTION_REQUIRES_TEMPORAL_ADMISSION", "HARNESS_GENERATED_CODE_NOT_COMPLETION", "HARNESS_CORRECTNESS_PRECEDES_PERFORMANCE", "HARNESS_REPRODUCIBLE_HARDWARE_BOUND_BENCHMARK", "HARNESS_LICENSE_PROVENANCE_AND_ROLLBACK", "FORGETRAIN_COMING_SOON_HARNESS_NOT_IMPLEMENTATION_EVIDENCE", "FORGESTENCIL_DATACENTER_RESULTS_NOT_CURRENT_HOST_EVIDENCE", "CPMCU_EXECUTION_BACKEND_ONLY", "CPMCU_HRB_LEASE_REQUIRED", "CPMCU_TARGET_NATIVE_ABI_AND_SM_ADMISSION", "REFERENCE_HOST_FACTS_NOT_PORTABLE_DEFAULTS", "AGPL_PATTERN_SOURCE_PROCESS_ISOLATION", "OPENBMB_REFERENCE_CI_NOT_CURRENT_HOST_PROMOTION", "OPENBMB_DISABLED_PROVIDERS_ZERO_NEAR_ZERO_RUNTIME_COST"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

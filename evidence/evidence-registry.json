@@ -5891,5 +5891,19 @@
         "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
       }
     }
-  ]
+  ],
+  "openbmb_reconciliation": {
+    "family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
+    "decision_id": "FA3-DEC-OPENBMB-2026-09-02",
+    "gate_id": "FA3-OPENBMB-GATESET-001",
+    "reference_evidence": "evidence/reference/openbmb-ci-2026-09-02.json",
+    "capability_bindings": ["CAP-005", "CAP-007", "CAP-010", "CAP-021", "CAP-028", "CAP-050", "CAP-056", "CAP-060", "CAP-069", "CAP-078", "CAP-079", "CAP-086", "CAP-087", "CAP-103", "CAP-115", "CAP-116"],
+    "reference_evidence_status": "PASS",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "current_host_runtime_promotion_claim": false,
+    "production_provider_admission": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  }
 }

@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02",
+  "observed_at": "2026-09-02",
+  "organization": "OpenBMB",
+  "organization_url": "https://github.com/OpenBMB",
+  "immutable_snapshots": {
+    "MiniCPM-V": {"repository": "https://github.com/OpenBMB/MiniCPM-V", "commit": "f0866559fae0305bc7cacfb6a950640a927f6984", "license": "Apache-2.0", "observed_facts": ["MiniCPM-V 4.6 1.3B image/video understanding", "MiniCPM-o 4.5 9B full-duplex audio/video/text/speech", "multiple backend and quantization paths declared"]},
+    "AgentCPM": {"repository": "https://github.com/OpenBMB/AgentCPM", "commit": "4a43561e790c154292798b3edd50171f71241cec", "license": "Apache-2.0", "observed_facts": ["AgentCPM-Explore declares 4B and 100+ turn exploration", "AgentDock sandbox and AgentToLeaP evaluation are bundled patterns", "AgentCPM-Report deep research branch"]},
+    "UltraRAG": {"repository": "https://github.com/OpenBMB/UltraRAG", "commit": "37e0cce42e2156d710467cde77a2c0fd0114a2c4", "license": "Apache-2.0", "observed_facts": ["UltraRAG 3.0 transparent RAG pipeline", "retriever and generation represented as MCP servers", "YAML conditions and loops", "GPU dependencies observed locked to CUDA 12.9"]},
+    "CPM.cu": {"repository": "https://github.com/OpenBMB/CPM.cu", "commit": "23aa7b7fefc537113166691cec63d5baa5209ebe", "license": "Apache-2.0", "observed_facts": ["speculative sampling and tree verification", "GPTQ Marlin quantization", "static memory reuse, chunked prefill and CUDA Graph", "upstream images declare CUDA 12.6 release and CUDA 12.8 development"]},
+    "EdgeClaw": {"repository": "https://github.com/OpenBMB/EdgeClaw", "commit": "5e461861b370f5677d2eb6b35499764632989279", "license": "MIT", "disposition": "PATTERN_SOURCE_ONLY"},
+    "PilotDeck": {"repository": "https://github.com/OpenBMB/PilotDeck", "commit": "bcff0a4972c71fc5e08ab46443a2e03a6cd1cec1", "license": "AGPL-3.0", "disposition": "PATTERN_SOURCE_ONLY_PROCESS_ISOLATION_NO_CODE_VENDORED"},
+    "StaffDeck": {"repository": "https://github.com/OpenBMB/StaffDeck", "commit": "da371b716d94aada693bdfc99c569fa02784886e", "license": "AGPL-3.0", "disposition": "PATTERN_SOURCE_ONLY_PROCESS_ISOLATION_NO_CODE_VENDORED"},
+    "ForgeTrain": {"repository": "https://github.com/OpenBMB/ForgeTrain", "commit": "3242a5cd74851a14a7e0c1ebbfb19decdafd2cde", "license": "Apache-2.0", "disposition": "PATTERN_SOURCE_ONLY", "material_caveat": "README states matching harness is coming soon; claim is not reusable harness evidence", "validated_hardware_claim_scope": "H100_SM90_CUDA12_X_ONLY_NOT_T7910"},
+    "ForgeStencil": {"repository": "https://github.com/OpenBMB/ForgeStencil", "commit": "1c8311c8a79abaedd40fc6609d888a4f88dea3a2", "license": "Apache-2.0", "disposition": "PATTERN_SOURCE_ONLY", "validated_hardware_claim_scope": "A100_SM80_PRIMARY_WITH_H100_B200_STUDY_NOT_T7910"},
+    "AgentCPM-GUI": {"repository": "https://github.com/OpenBMB/AgentCPM-GUI", "commit": "2168ae21b1bed1cdb88736d422934825795a9fd7", "license": "Apache-2.0", "disposition": "GUI_GROUNDING_PATTERN_SOURCE_ONLY_ANDROID_SCOPE"}
+  },
+  "existing_family_member": {"provider_id": "FA3-PROVIDER-VOXCPM-001", "deduplication": "LINK_EXISTING_RECORD_DO_NOT_DUPLICATE"},
+  "floating_main_allowed_as_promotion_evidence": false,
+  "reference_observation_is_current_host_evidence": false,
+  "upstream_performance_claims_are_fa3_evidence": false
+}

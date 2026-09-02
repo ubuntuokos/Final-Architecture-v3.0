@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.provider-family-record.v1",
+  "id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
+  "name": "OpenBMB provider and architectural pattern family",
+  "status": "CANONICAL_ACCEPTED_OPTIONAL_FAMILY",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "MEMBERS_OPTIONAL_DISABLED_BY_DEFAULT",
+  "provider_members": [
+    "FA3-PROVIDER-MINICPM-V-001",
+    "FA3-PROVIDER-MINICPM-O-001",
+    "FA3-PROVIDER-AGENTCPM-001",
+    "FA3-PROVIDER-ULTRARAG-001",
+    "FA3-PROVIDER-CPMCU-001",
+    "FA3-PROVIDER-VOXCPM-001"
+  ],
+  "pattern_sources": [
+    "OpenBMB/EdgeClaw",
+    "OpenBMB/PilotDeck",
+    "OpenBMB/StaffDeck",
+    "OpenBMB/ForgeTrain",
+    "OpenBMB/ForgeStencil",
+    "OpenBMB/AgentCPM-GUI"
+  ],
+  "contracts": [
+    "FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001",
+    "FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001"
+  ],
+  "authority_boundaries": {
+    "identity_and_authentication": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_and_security": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "memory_and_knowledge": "EXISTING_FA3_MEMORY_AND_KNOWLEDGE_AUTHORITIES_ONLY",
+    "model_registry": "FA3-MODEL-REGISTRY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp_and_tools": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow_orchestration": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "host_resource_and_gpu_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence_and_provenance": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_registry": "FA3-REGISTRY-001"
+  },
+  "normative_constraint": "No OpenBMB component SHALL become an FA3 identity, authentication, authorization, secrets, memory, knowledge, model-registry, model-routing, MCP, tool-execution, workflow/orchestration, evidence/provenance, GPU-placement, host-resource, security or canonical-registry authority."
+}

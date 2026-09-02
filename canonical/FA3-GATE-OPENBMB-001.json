@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-OPENBMB-001",
+  "gate_set_id": "FA3-OPENBMB-GATESET-001",
+  "status": "ENFORCED",
+  "priority": "P0",
+  "fail_closed": true,
+  "command": "./bin/fa3-enforce openbmb",
+  "implementation": "src/fa3_openbmb_gate.py",
+  "tests": "tests/test_openbmb_gate.py",
+  "reference_evidence": "evidence/reference/openbmb-ci-2026-09-02.json",
+  "checks": ["canonical_record_closure", "provider_family_membership", "authority_collision_scan", "hardware_admission_semantics", "workspace_memory_contract", "harness_development_contract", "positive_negative_regressions", "global_policy_release_inventory_and_evidence_bindings"]
+}
