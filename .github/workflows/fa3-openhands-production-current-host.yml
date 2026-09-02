@@ -1,0 +1,81 @@
+name: FA3 OpenHands Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: "Pre-authorized production task identity"
+        required: true
+        default: "fa3-openhands-production-v1"
+        type: string
+      tool_auth_receipt:
+        description: "Absolute runner path to external canonical tool authorization receipt"
+        required: true
+        default: "/run/user/1000/fa3-openhands/tool-auth.json"
+        type: string
+      litellm_key_file:
+        description: "Absolute runner path to external LiteLLM key file"
+        required: true
+        default: "/run/user/1000/fa3-openhands/litellm-key"
+        type: string
+      litellm_port:
+        description: "Host loopback LiteLLM port"
+        required: true
+        default: "4000"
+        type: string
+      model_alias:
+        description: "Canonical model-router alias"
+        required: true
+        default: "developer-agent-primary"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  production:
+    name: openhands-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    env:
+      FA3_CURRENT_HOST: "1"
+      FA3_OPENHANDS_HOME: ${{ runner.temp }}/fa3-openhands
+      FA3_OPENHANDS_TASK_ID: ${{ inputs.task_id }}
+      FA3_OPENHANDS_TOOL_AUTH_RECEIPT: ${{ inputs.tool_auth_receipt }}
+      FA3_OPENHANDS_LITELLM_KEY_FILE: ${{ inputs.litellm_key_file }}
+      FA3_OPENHANDS_LITELLM_PORT: ${{ inputs.litellm_port }}
+      FA3_OPENHANDS_MODEL_ALIAS: ${{ inputs.model_alias }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify production prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v git
+          command -v python3
+          command -v python3.12
+          command -v bwrap
+          test -f "$FA3_OPENHANDS_TOOL_AUTH_RECEIPT"
+          test -f "$FA3_OPENHANDS_LITELLM_KEY_FILE"
+      - name: Adapter regressions
+        shell: bash
+        run: PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_openhands_current_host -v
+      - name: Materialize pinned OpenHands runtime
+        shell: bash
+        run: bash bin/fa3-openhands-bootstrap.sh --allow-network-bootstrap --base "$FA3_OPENHANDS_HOME"
+      - name: Run production E2E
+        shell: bash
+        run: bash bin/fa3-openhands-current-host.sh production
+      - name: Upload production evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-openhands-current-host-production
+          path: |
+            evidence/receipts/openhands-current-host.json
+            evidence/runtime/openhands-current-host/
+            reports/openhands-current-host-gate-report.json
