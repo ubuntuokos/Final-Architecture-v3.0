@@ -232,6 +232,7 @@ OPENHANDS_COLLECTOR_PATH = "evidence/collect-openhands-current-host.py"
 OPENHANDS_BOOTSTRAP_PATH = "bin/fa3-openhands-bootstrap.sh"
 OPENHANDS_RUNNER_PATH = "bin/fa3-openhands-current-host.sh"
 OPENHANDS_WORKFLOW_PATH = ".github/workflows/fa3-openhands-current-host.yml"
+OPENHANDS_PRODUCTION_WORKFLOW_PATH = ".github/workflows/fa3-openhands-production-current-host.yml"
 OPENHANDS_CURRENT_HOST_TEST_PATH = "tests/test_openhands_current_host.py"
 OPENHANDS_RUNBOOK_PATH = "docs/openhands-current-host.md"
 OPENHANDS_CAPABILITY_ID = "CAP-028"
@@ -1580,6 +1581,7 @@ def gate(root: Path):
         OPENHANDS_BOOTSTRAP_PATH,
         OPENHANDS_RUNNER_PATH,
         OPENHANDS_WORKFLOW_PATH,
+        OPENHANDS_PRODUCTION_WORKFLOW_PATH,
         OPENHANDS_CURRENT_HOST_TEST_PATH,
         OPENHANDS_RUNBOOK_PATH,
         "canonical/enforcement-policy.json",
