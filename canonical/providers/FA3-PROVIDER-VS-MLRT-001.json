@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-VS-MLRT-001",
+  "name": "VapourSynth + vs-mlrt",
+  "status": "REQUIRED_SUPPORTED_REFERENCE_ADAPTER_RUNTIME_CONDITIONAL",
+  "classification": [
+    "REQUIRED_SUPPORTED_EXTERNAL_NEURAL_FILTER_ADAPTER",
+    "FRAME_SERVER_INTEROP_REFERENCE",
+    "REPLACEABLE_PROVIDER",
+    "NOT_ROUTING_AUTHORITY"
+  ],
+  "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "contract": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "hard_dependency_for_all_media_jobs": false,
+  "upstream": {
+    "repository": "AmusementClub/vs-mlrt",
+    "default_branch": "master",
+    "observed_commit": "8cd6cf266a430fdb9f6d797a4e33ab2952d52ce2",
+    "license": "GPL-3.0",
+    "floating_master_allowed_for_promotion_evidence": false
+  },
+  "runtime_families": {
+    "onnxruntime": [
+      "vsort-cpu",
+      "vsort-cuda"
+    ],
+    "openvino": [
+      "vsov-cpu",
+      "vsov-gpu"
+    ],
+    "tensorrt": [
+      "vstrt",
+      "vstrt_rtx"
+    ],
+    "ncnn": [
+      "vsncnn-vk"
+    ],
+    "migraphx": [
+      "vsmigx"
+    ]
+  },
+  "current_host_candidate_order": [
+    "vstrt/vstrt_rtx after TensorRT compatibility admission",
+    "vsort-cuda after ONNX Runtime CUDA admission",
+    "vsncnn-vk as Vulkan fallback",
+    "vsov-cpu as CPU fallback"
+  ],
+  "model_families_are_optional_examples": [
+    "RealESRGANv2/v3",
+    "RIFE",
+    "DPIR",
+    "SCUNet",
+    "waifu2x",
+    "Real-CUGAN",
+    "ArtCNN"
+  ],
+  "boundary": {
+    "separate_process_or_frameserver_boundary": true,
+    "backend_selection_authority": "FA3-INFERENCE-PORTABILITY-001",
+    "gpu_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_identity_authority": "FA3-MODEL-REGISTRY-001",
+    "direct_ffmpeg_static_plugin_baseline": false
+  },
+  "runtime_activation": {
+    "status": "CONDITIONAL_NOT_CURRENT_HOST_PROMOTED",
+    "immutable_commit_or_release_pin_required": true,
+    "license_admission_required": true,
+    "backend_compatibility_required": true,
+    "hrb_receipt_required_for_accelerator": true,
+    "real_media_quality_e2e_required": true,
+    "current_host_runtime_promotion_claimed": false
+  }
+}
