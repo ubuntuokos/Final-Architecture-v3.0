@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03",
+  "date": "2026-09-03",
+  "status": "CANONICAL_CLOSED",
+  "subject": "OpenHands current-host runtime materialization",
+  "decision": "MATERIALIZE_FAIL_CLOSED_ISOLATED_CURRENT_HOST_RUNTIME_AND_SEPARATE_PRODUCTION_E2E_ADMISSION",
+  "provider_id": "FA3-PROVIDER-OPENHANDS-001",
+  "runtime_conformance_id": "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001",
+  "current_host_gate_id": "FA3-OPENHANDS-CURRENT-HOST-GATESET-001",
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "architecture": {
+    "source": "OpenHands/software-agent-sdk@a9e0a8a1aab2164b46bae00a18157a343aaa94c9",
+    "source_tree": "342a369f498b826cf51d1644bcbef8d503af7628",
+    "python": "3.12 pip venv",
+    "isolation": "bubblewrap",
+    "production_model_route": "central LiteLLM via host loopback Unix-socket bridge",
+    "network_policy": "sandbox network namespace unshared; no direct external egress",
+    "tool_policy": "production requires externally issued canonical tool-authorization receipt",
+    "secret_policy": "ephemeral process memory only; never serialized into OpenHands persistence/evidence"
+  },
+  "admission_state": "MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "production_promotion_requires": "CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS",
+  "fixture_evidence_not_sufficient_for_production": true
+}
