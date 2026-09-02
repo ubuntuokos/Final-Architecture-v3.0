@@ -135,6 +135,6 @@ The production gate rejects fixture evidence, GitHub-hosted runner evidence, mis
 
 `[self-hosted, linux, x64, fa3-current-host]`
 
-Branch pushes run only the isolated real-runtime path. Production is explicit `workflow_dispatch` and requires the externally provisioned receipt/key files to already exist on the current-host runner.
+Branch pushes run only the isolated real-runtime path. Production uses the separate `.github/workflows/fa3-openhands-production-current-host.yml` workflow and is explicit `workflow_dispatch`; it requires the externally provisioned receipt/key files to already exist on the current-host runner.
 
 Neither evidence class changes the canonical capability count (143) or creates an authority. OpenHands provider admission is component-scoped; global FA3 promotion remains governed by the existing Evidence Registry and 19-point Acceptance Gate.
