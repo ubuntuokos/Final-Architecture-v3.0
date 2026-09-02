@@ -16,7 +16,7 @@ EVIDENCE_ID = "FA3-EVIDENCE-OPENHANDS-CI-2026-09-01"
 CAPABILITY_COUNT = 143
 PINNED_COMMIT = "a9e0a8a1aab2164b46bae00a18157a343aaa94c9"
 PINNED_COMPONENT_VERSION = "1.44.1"
-RUNTIME_STATUS = "NOT_PROMOTED_REFERENCE_ONLY"
+RUNTIME_STATUS = "MATERIALIZED_CURRENT_HOST_E2E_PENDING"
 
 P0_RULES = [
     "OPENHANDS_PROVIDER_NOT_AUTHORITY",
@@ -51,6 +51,9 @@ PATHS = {
     "admission": "canonical/openhands-runtime-admission.json",
     "evidence": "evidence/reference/openhands-ci-2026-09-01.json",
     "policy": "canonical/enforcement-policy.json",
+    "runtime_conformance": "canonical/FA3-OPENHANDS-RUNTIME-CONFORMANCE-001.json",
+    "current_host_enforcement": "canonical/openhands-current-host-enforcement.json",
+    "current_host_decision": "canonical/decisions/FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03.json",
 }
 
 def _load(path: Path) -> dict[str, Any]:
@@ -154,7 +157,9 @@ def provider_shape_valid(provider: dict[str, Any]) -> bool:
         and provider.get("global_runtime_promotion_required_when_disabled") is False
         and provider.get("runtime_activation_requires_current_host_conformance") is True
         and provider.get("runtime_activation_status") == RUNTIME_STATUS
-        and provider.get("current_host_runtime_evidence") is False
+        and provider.get("current_host_runtime_evidence") == "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        and provider.get("runtime_conformance") == "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001"
+        and provider.get("current_host_gate") == "FA3-OPENHANDS-CURRENT-HOST-GATESET-001"
         and provider.get("contract") == CONTRACT_ID
         and component_tuple_valid(tuple_)
     )
@@ -209,10 +214,63 @@ def reference_check(root: Path) -> dict[str, Any]:
     reference, enforcement, admission = loaded["reference"], loaded["enforcement"], loaded["admission"]
     evidence, policy, gate_record = loaded["evidence"], loaded["policy"], loaded["gate_record"]
 
+    runtime_conformance = loaded["runtime_conformance"]
+    current_host_enforcement = loaded["current_host_enforcement"]
+    current_host_decision = loaded["current_host_decision"]
+    required_materialized_surfaces = [
+        "src/fa3_openhands_adapter.py",
+        "src/fa3_openhands_router_bridge.py",
+        "src/fa3_openhands_current_host_worker.py",
+        "src/fa3_openhands_current_host_gate.py",
+        "evidence/collect-openhands-current-host.py",
+        "bin/fa3-openhands-bootstrap.sh",
+        "bin/fa3-openhands-current-host.sh",
+        "tests/test_openhands_current_host.py",
+        ".github/workflows/fa3-openhands-current-host.yml",
+    ]
+    missing_materialized_surfaces = [
+        rel for rel in required_materialized_surfaces if not (root / rel).is_file()
+    ]
+    if missing_materialized_surfaces:
+        findings.append(
+            _finding(
+                "OPENHANDS-REF-015",
+                "OpenHands current-host materialization surface incomplete",
+                missing=missing_materialized_surfaces,
+            )
+        )
+    if not (
+        runtime_conformance.get("id") == "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001"
+        and runtime_conformance.get("provider_id") == PROVIDER_ID
+        and runtime_conformance.get("status") == RUNTIME_STATUS
+        and runtime_conformance.get("capability_count") == CAPABILITY_COUNT
+        and runtime_conformance.get("evidence_levels", {}).get("production_e2e", {}).get("status")
+        == "PENDING_REAL_CURRENT_HOST_EXECUTION"
+    ):
+        findings.append(_finding("OPENHANDS-REF-016", "OpenHands runtime conformance materialization drift"))
+    if not (
+        current_host_enforcement.get("id") == "FA3-OPENHANDS-CURRENT-HOST-GATESET-001"
+        and current_host_enforcement.get("gate_id") == "FA3-GATE-OPENHANDS-CURRENT-HOST-001"
+        and current_host_enforcement.get("provider_id") == PROVIDER_ID
+        and current_host_enforcement.get("fail_closed") is True
+        and current_host_enforcement.get("production_pass_requires_real_model_route") is True
+        and current_host_enforcement.get("fixture_runtime_smoke_cannot_promote_production") is True
+    ):
+        findings.append(_finding("OPENHANDS-REF-017", "OpenHands current-host enforcement drift"))
+    if not (
+        current_host_decision.get("id") == "FA3-DEC-OPENHANDS-CURRENT-HOST-2026-09-03"
+        and current_host_decision.get("status") == "CANONICAL_CLOSED"
+        and current_host_decision.get("provider_id") == PROVIDER_ID
+        and current_host_decision.get("admission_state") == RUNTIME_STATUS
+        and current_host_decision.get("capability_count_after") == CAPABILITY_COUNT
+    ):
+        findings.append(_finding("OPENHANDS-REF-018", "OpenHands current-host decision drift"))
+
     if not provider_shape_valid(provider):
         findings.append(_finding("OPENHANDS-REF-003", "provider shape/component tuple drift"))
     if not (
         contract.get("id") == CONTRACT_ID
+        and contract.get("version") == "1.1.0"
         and contract.get("status") == "CANONICAL"
         and contract.get("provider_neutral") is True
         and contract.get("new_capability") is False
@@ -257,8 +315,11 @@ def reference_check(root: Path) -> dict[str, Any]:
     if not (
         admission.get("provider_id") == PROVIDER_ID
         and admission.get("status") == RUNTIME_STATUS
-        and admission.get("current_host_runtime_evidence") == "NOT_CLAIMED"
+        and admission.get("materialization_status") == RUNTIME_STATUS
+        and admission.get("current_host_runtime_evidence") == "PENDING_REAL_CURRENT_HOST_EXECUTION"
         and admission.get("production_provider_admission") is False
+        and admission.get("runtime_conformance_id") == "FA3-OPENHANDS-RUNTIME-CONFORMANCE-001"
+        and admission.get("current_host_gate_id") == "FA3-OPENHANDS-CURRENT-HOST-GATESET-001"
     ):
         findings.append(_finding("OPENHANDS-REF-009", "runtime admission incorrectly promoted"))
     if not (
@@ -355,7 +416,7 @@ def gate(root: Path) -> dict[str, Any]:
     authority=scan_canonical_authority_assignments(root)
     regressions=run_regressions()
     ok=reference["result"]==authority["result"]==regressions["result"]=="PASS"
-    report={"schema":"fa3.openhands-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"provider_id":PROVIDER_ID,"contract_id":CONTRACT_ID,"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":reference,"authority_scan":authority,"regressions":regressions,"runtime_provider_required":False,"current_host_provider_runtime_evidence":False,"runtime_activation_status":RUNTIME_STATUS,"promotion_effect":"MANDATORY_OPENHANDS_BOUNDARY_INVARIANTS_PROVIDER_RUNTIME_OPTIONAL"}
+    report={"schema":"fa3.openhands-gate-report.v1","gate_id":GATE_ID,"executable_gate_id":EXECUTABLE_GATE_ID,"provider_id":PROVIDER_ID,"contract_id":CONTRACT_ID,"capability_count":CAPABILITY_COUNT,"result":"PASS" if ok else "FAIL","reference":reference,"authority_scan":authority,"regressions":regressions,"runtime_provider_required":False,"current_host_provider_runtime_evidence":"PENDING_REAL_CURRENT_HOST_EXECUTION","runtime_activation_status":RUNTIME_STATUS,"promotion_effect":"MANDATORY_OPENHANDS_BOUNDARY_INVARIANTS_PROVIDER_RUNTIME_OPTIONAL"}
     _write(root/"reports/openhands-gate-report.json",report)
     return report
 
