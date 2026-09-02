@@ -840,6 +840,24 @@ PYTHONPATH=src python -m unittest tests.test_openhands_gate -v
 
 The committed `evidence/reference/openhands-ci-2026-09-01.json` is reference/CI PASS evidence only. OpenHands runtime activation remains `NOT_PROMOTED_REFERENCE_ONLY` until a separate real current-host adapter, isolation/placement, secret-externalization, crash/resume, tool/MCP mediation and production E2E evidence package passes.
 
+
+### OpenHands current-host runtime materialization
+
+The current-host execution surface is materialized as `FA3-OPENHANDS-RUNTIME-CONFORMANCE-001` with a Bubblewrap-isolated Python 3.12 pip-venv runtime pinned to the immutable OpenHands 1.44.1 component tuple. The sandbox has no general network namespace access, mounts the FA3 repository and runtime read-only, and exposes only one bounded read/write workspace.
+
+Two evidence levels are deliberately separate. `CURRENT_HOST_OPENHANDS_ISOLATED_RUNTIME_PASS` runs the real OpenHands Agent/Conversation/persistence/tool stack with the upstream deterministic `TestLLM` fixture and cannot promote production. `CURRENT_HOST_OPENHANDS_PRODUCTION_E2E_PASS` additionally requires an externally issued `FA3-AUTH-MCP-GATEWAY-001` single-use exact-write authorization receipt and the central LiteLLM/model-router route through a Unix-domain bridge; raw router secrets are never serialized into OpenHands persistence.
+
+Materialize and validate with:
+
+```bash
+bash bin/fa3-openhands-bootstrap.sh --allow-network-bootstrap
+FA3_CURRENT_HOST=1 bash bin/fa3-openhands-current-host.sh isolated
+# production only after external FA3 authorization + model-router key files exist
+FA3_CURRENT_HOST=1 bash bin/fa3-openhands-current-host.sh production
+```
+
+See `docs/openhands-current-host.md`. Runtime status remains `MATERIALIZED_CURRENT_HOST_E2E_PENDING` until real current-host evidence exists; capability count remains 143 and no architectural authority is added.
+
 ## FA3 Voice Synthesis v2 — Hungarian-first provider portfolio
 
 `FA3-VOICE-001 v2.0.0` is the mandatory provider-neutral Local Speech Synthesis, Voice Cloning & Voice Asset Governance Fabric over existing CAP-115, CAP-116 and CAP-117. It adds no capability and no architectural authority; the canonical count remains **143**. Voice identity/consent, provider routing, Host Resource Broker admission, model/artifact identity, durable workflow/session lifecycle and evidence remain with their existing FA3 authorities.
