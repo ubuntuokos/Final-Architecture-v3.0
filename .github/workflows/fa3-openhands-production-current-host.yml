@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 60
     env:
       FA3_CURRENT_HOST: "1"
-      FA3_OPENHANDS_HOME: ${{ runner.temp }}/fa3-openhands
+      FA3_OPENHANDS_HOME: /tmp/fa3-openhands-${{ github.run_id }}
       FA3_OPENHANDS_TASK_ID: ${{ inputs.task_id }}
       FA3_OPENHANDS_TOOL_AUTH_RECEIPT: ${{ inputs.tool_auth_receipt }}
       FA3_OPENHANDS_LITELLM_KEY_FILE: ${{ inputs.litellm_key_file }}
