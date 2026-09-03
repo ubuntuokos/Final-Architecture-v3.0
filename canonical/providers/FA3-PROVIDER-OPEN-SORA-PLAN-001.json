@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+  "name": "PKU-YuanGroup Open-Sora-Plan",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_RESEARCH_REFERENCE_VIDEO_GENERATION_PROVIDER_AND_ARCHITECTURAL_PATTERN_SOURCE",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "LIFECYCLE_PREDECESSOR_PROVIDER",
+    "LOCAL_ACCELERATOR_CONDITIONAL",
+    "LICENSE_METADATA_DRIFT_GATED"
+  ],
+  "profile": "FA3-VIDEO-001",
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY_PENDING_LICENSE_BACKEND_CURRENT_HOST",
+  "upstream": {
+    "repository": "PKU-YuanGroup/Open-Sora-Plan",
+    "immutable_commit": "f7fa604f4e3a523d6b973e4c89a5620ed1aff65a",
+    "observed_release": "v1.5.0",
+    "observed_date": "2026-09-03"
+  },
+  "lifecycle": {
+    "provider_generation": "PREDECESSOR",
+    "successor_provider_id": "FA3-PROVIDER-HELIOS-001",
+    "automatic_migration": false,
+    "automatic_promotion": false
+  },
+  "architectural_patterns": [
+    "WFVAE_8x8x8_LATENT_COMPRESSION",
+    "SUV_SPARSE_3D_DIT",
+    "FEATURE_AND_LATENT_CACHING",
+    "IMAGE_TO_VIDEO_STAGED_TRAINING",
+    "MULTI_RESOLUTION_BUCKET_TRAINING",
+    "PROMPT_REFINER",
+    "T2V_I2V_TRANSITION_CONDITIONING"
+  ],
+  "backend_observations": {
+    "v1_5_0": {
+      "training_backend": "ASCEND_910_SERIES",
+      "inference_backend": "ASCEND_910_SERIES",
+      "framework": "MindSpeed-MM",
+      "gpu_support_at_pin": "UPSTREAM_README_SAYS_COMING_SOON"
+    },
+    "v1_3_reference": {
+      "gpu_memory_reference": "93x480p within 24GB VRAM upstream claim",
+      "current_host_promotion_evidence": false
+    }
+  },
+  "license_admission": {
+    "mode": "FAIL_CLOSED_METADATA_DRIFT",
+    "root_license": "MIT",
+    "conflicting_metadata": [
+      "README_BADGE_APACHE",
+      "PYPROJECT_CLASSIFIER_APACHE_SOFTWARE_LICENSE"
+    ],
+    "production_use_requires": [
+      "written_license_reconciliation",
+      "code_license_snapshot",
+      "model_weight_license_snapshot",
+      "output_rights_evaluation"
+    ]
+  },
+  "cache_policy": {
+    "derived_only": true,
+    "canonical_state": false,
+    "requires_versioned_lineage": true,
+    "stale_reuse_forbidden": true
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "canonical_video_ir": "FA3-VIDEO-CONTRACTS-001"
+  }
+}
