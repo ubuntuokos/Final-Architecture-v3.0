@@ -17,17 +17,46 @@
     "memory and swap budget projection",
     "task-limit projection",
     "per-service admitted math-runtime environment projection",
-    "runtime-changeable Linux resource isolation"
+    "runtime-changeable Linux resource isolation",
+    "per-service file-descriptor and locked-memory budget projection",
+    "per-service OOM restart timeout and task-budget projection",
+    "manager-global resource-default neutrality verification"
   ],
   "canonical_mapping": {
-    "ComputeCPUSet": ["CPUAffinity", "AllowedCPUs"],
-    "MemoryPlacementPolicy": ["NUMAPolicy", "NUMAMask", "AllowedMemoryNodes"],
-    "ThreadPoolBudget": ["AllowedCPUs", "AllowedMemoryNodes", "per-service Environment"],
+    "ComputeCPUSet": [
+      "CPUAffinity",
+      "AllowedCPUs"
+    ],
+    "MemoryPlacementPolicy": [
+      "NUMAPolicy",
+      "NUMAMask",
+      "AllowedMemoryNodes"
+    ],
+    "ThreadPoolBudget": [
+      "AllowedCPUs",
+      "AllowedMemoryNodes",
+      "per-service Environment"
+    ],
     "cpu_weight": "CPUWeight",
     "io_weight": "IOWeight",
     "memory_soft_pressure": "MemoryHigh",
     "memory_hard_limit": "MemoryMax",
-    "swap_budget": "MemorySwapMax"
+    "swap_budget": "MemorySwapMax",
+    "file_descriptor_budget": "LimitNOFILE",
+    "locked_memory_budget": "LimitMEMLOCK",
+    "task_budget": "TasksMax",
+    "oom_policy": "OOMPolicy",
+    "restart_policy": [
+      "Restart",
+      "RestartSec",
+      "StartLimitIntervalSec",
+      "StartLimitBurst"
+    ],
+    "timeout_policy": [
+      "TimeoutStartSec",
+      "TimeoutStopSec",
+      "TimeoutAbortSec"
+    ]
   },
   "invariants": [
     "SYSTEMD_CGROUPV2_NOT_RESOURCE_AUTHORITY",
@@ -35,6 +64,28 @@
     "GLOBAL_MANAGER_AFFINITY_MUST_NOT_SILENTLY_TRUNCATE_HRB_CPU_DOMAIN",
     "PROJECTION_MUST_MATCH_HRB_PLACEMENT_RECEIPT",
     "THREAD_POOL_ENVIRONMENT_MUST_NOT_EXCEED_HRB_ADMITTED_CPUSET_BUDGET",
-    "RESOURCE_LIMIT_CHANGE_REQUIRES_AUDIT_AND_ROLLBACK"
-  ]
+    "RESOURCE_LIMIT_CHANGE_REQUIRES_AUDIT_AND_ROLLBACK",
+    "SYSTEMD_MANAGER_GLOBAL_RESOURCE_DEFAULTS_NEUTRAL_FOR_AI_HPC",
+    "GLOBAL_MANAGER_NUMA_OR_CPU_AFFINITY_MUST_NOT_OVERRIDE_HRB_PLACEMENT",
+    "UNBOUNDED_MANAGER_TASK_NPROC_MEMLOCK_DEFAULTS_FORBIDDEN_FOR_AI_HPC",
+    "PER_SERVICE_RESOURCE_AND_LIFECYCLE_PROJECTION_REQUIRES_HRB_RECEIPT_AND_ROLLBACK"
+  ],
+  "manager_global_defaults_policy": {
+    "default": "DO_NOT_USE_SYSTEM_MANAGER_GLOBAL_DEFAULTS_FOR_AI_HPC_WORKLOAD_PLACEMENT_OR_BUDGETING",
+    "forbidden_without_explicit_host_survival_policy": [
+      "CPUAffinity",
+      "NUMAPolicy",
+      "NUMAMask"
+    ],
+    "forbidden_ai_hpc_global_values": [
+      "DefaultTasksMax=infinity",
+      "DefaultLimitMEMLOCK=infinity",
+      "DefaultLimitNPROC=infinity",
+      "DefaultOOMPolicy=continue",
+      "DefaultMemoryPressureWatch=no",
+      "DefaultTimerAccuracySec=1ms"
+    ],
+    "lifecycle_tuning_scope": "PER_SERVICE_UNLESS_EXPLICIT_HOST_SURVIVAL_POLICY",
+    "resource_tuning_scope": "PER_SERVICE_SLICE_OR_SCOPE_FROM_HRB_RECEIPT"
+  }
 }
