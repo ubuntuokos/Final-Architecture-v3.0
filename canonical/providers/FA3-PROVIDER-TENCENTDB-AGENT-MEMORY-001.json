@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+  "name": "TencentCloud/TencentDB-Agent-Memory",
+  "status": "ACCEPTED_REFERENCE_SECURITY_LICENSE_BLOCKED",
+  "provider_role": "OPTIONAL_AGENT_MEMORY_PROVIDER_REFERENCE_AND_STRONG_ARCHITECTURAL_PATTERN_SOURCE",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "AGENT_MEMORY_PROVIDER_REFERENCE",
+    "MEMORY_ASSET_GOVERNANCE_PATTERN_SOURCE",
+    "LAYERED_MEMORY_LINEAGE_PATTERN_SOURCE",
+    "MULTI_AGENT_MEMORY_BINDING_PATTERN_SOURCE",
+    "KNOWLEDGE_AND_SKILL_ASSET_PATTERN_SOURCE",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+  "current_host_runtime_evidence": false,
+  "capability_projection": [
+    "CAP-010",
+    "CAP-021",
+    "CAP-023",
+    "CAP-094",
+    "CAP-102",
+    "CAP-110",
+    "CAP-139"
+  ],
+  "parent_profiles": [
+    "FA3-KNOWLEDGE-001",
+    "FA3-AGENT-EXEC-001"
+  ],
+  "contract": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+  "related_contracts": [
+    "FA3-KNOWLEDGE-CONTRACTS-001",
+    "FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001"
+  ],
+  "upstream_reference": "FA3-TENCENTDB-AGENT-MEMORY-UPSTREAM-REFERENCE-2026-09-03",
+  "immutable_component_tuple": {
+    "repository": "TencentCloud/TencentDB-Agent-Memory",
+    "commit": "3efcd317b84146d6a08518ac0f7ee7c8a8d200ec",
+    "default_branch_observed": "feat/server_team",
+    "MemoryCore": "2.0.0-beta.1",
+    "node": ">=22.16.0"
+  },
+  "asset_projection": {
+    "chat_memory": "GOVERNED_EPISODIC_DURABLE_MEMORY_ASSET",
+    "skill": "VERSIONED_REVIEWED_SKILL_ASSET",
+    "wiki": "KNOWLEDGE_ASSET_PROJECTION",
+    "codegraph": "CODE_KNOWLEDGE_GRAPH_PROJECTION"
+  },
+  "canonical_projection": {
+    "layered_memory_lineage": [
+      "L0_CONVERSATION",
+      "L1_ATOM",
+      "L2_SCENARIO",
+      "L3_CORE_PERSONA"
+    ],
+    "source_and_derived_memory_separate": true,
+    "explicit_per_consumer_cross_agent_binding": true,
+    "permission_before_relevance": true,
+    "provenance_on_fanout": true,
+    "bounded_retrieval": true,
+    "typed_authorized_memory_mutation": true,
+    "replay_safe_consolidation": true,
+    "revocation_tombstone_propagation": true,
+    "whole_corpus_auto_injection": false,
+    "framework_portable_asset_identity": true,
+    "upstream_proxy_role": "OPTIONAL_COMPATIBILITY_ADAPTER_NOT_AUTHORITY"
+  },
+  "authority_boundaries": {
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_and_capability_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "durable_orchestration": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "hardware_policy": {
+    "portable_defaults": "LIVE_DISCOVERY_ONLY_NO_STATIC_CPU_NUMA_GPU_ORDINALS",
+    "current_host_reference": "Dell Precision T7910; 2x Intel Xeon E5-2696 v4; 44 physical cores / 88 logical CPUs; expected two NUMA domains",
+    "current_host_reference_is_portable_constant": false,
+    "cpu_numa_admission": "HRB_PHYSICAL_CORE_FIRST_CGROUP_V2_LIVE_TOPOLOGY",
+    "accelerator_admission": "MODEL_ROUTER_PLUS_HRB_LEASE_WITH_LIVE_GPU_UUID_AND_PCI_BDF",
+    "static_cuda_ordinal_as_identity": false,
+    "provider_direct_device_selection": false,
+    "background_work": "BOUNDED_BACKPRESSURED_HRB_ADMITTED"
+  },
+  "prohibited_authority_roles": [
+    "FA3_MEMORY_AUTHORITY",
+    "FA3_KNOWLEDGE_AUTHORITY",
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_DURABLE_ORCHESTRATION_AUTHORITY",
+    "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_CANONICAL_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "TencentDB Agent Memory SHALL remain an optional replaceable memory provider/reference and pattern source. It SHALL NOT become an FA3 memory, knowledge, identity, authorization, MCP/capability-gateway, model-routing, host-resource, durable-orchestration, evidence/provenance, secrets or registry authority."
+}

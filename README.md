@@ -995,3 +995,25 @@ PYTHONPATH=src python -m unittest tests.test_hrb_deterministic_locality_gate -v
 
 This policy adds no capability and no architectural authority; the canonical capability count remains **143**.
 
+
+
+## TencentDB Agent Memory optional governed-memory provider
+
+`FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001` registers `TencentCloud/TencentDB-Agent-Memory` as an **optional, disabled-by-default agent-memory reference provider and strong architectural pattern source** under the existing Knowledge/Memory/Agent surfaces. It adds **no capability** and **no architectural authority**; the canonical capability count remains **143**. The immutable upstream reference is `3efcd317b84146d6a08518ac0f7ee7c8a8d200ec`.
+
+`FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001` absorbs L0 Conversation → L1 Atom → L2 Scenario → L3 Core/Persona lineage, governed Chat Memory/Skill/Wiki/CodeGraph assets, explicit per-consumer cross-agent binding, source-agent provenance on fan-out, permission-before-relevance retrieval, bounded context budgets, typed consent/authorization-gated writes, replay-safe consolidation, version/supersedes lineage, tombstone/revocation propagation and framework-portable asset identity. Missing task/scope does **not** silently broaden canonical recall.
+
+TencentDB Agent Memory, MemoryCore, MemoryProxy and provider ACLs are projections only. They do not become FA3 Memory, Knowledge, Identity, Authorization, Central MCP/Capability Gateway, Model Router, Host Resource Broker, durable orchestration, Evidence, Secrets or Registry authorities. Provider proxy injection may not bypass canonical policy/memory mediation.
+
+Runtime activation is **blocked** as `NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST`. At the pinned source, upstream issue #672 remains open and static source inspection still shows unauthenticated rate-limit admin handlers, fail-open empty admin API-key behavior and incomplete/disableable Git-source SSRF protection. Issue #1073 also remains open because the root MIT declaration conflicts with a proprietary declaration in `README.docker.md`. Issue #890 is closed and is treated as a clarified design pattern: Chat Memory sharing uses explicit Fixed Binding + search fan-out with source-agent provenance.
+
+Hardware policy follows the corrected T7910 reference: **2× Intel Xeon E5-2696 v4 / 44 physical cores / 88 logical CPUs / expected two NUMA domains**, but these are current-host evidence assertions, never portable constants. Every deployment must rediscover live CPU/NUMA/cgroup/PCI/GPU topology and obtain Host Resource Broker admission. Background extraction/consolidation is bounded and backpressured; model/embedding/reranking device selection stays with the existing Model Router + HRB. Accelerator identity uses live GPU UUID + PCI BDF, never static `cuda:0`.
+
+Run the 30-rule fail-closed gate with:
+
+```bash
+./bin/fa3-enforce tencentdb-agent-memory
+PYTHONPATH=src python -m unittest tests.test_tencentdb_agent_memory_gate -v
+```
+
+The committed reference PASS proves canonical governance regressions only; it does **not** claim provider installation, production security/license admission, current-host execution or global runtime promotion.

@@ -226,6 +226,24 @@ OPENHANDS_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
 )
 
+TDAI_PROVIDER_ID = "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001"
+TDAI_CONTRACT_ID = "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001"
+TDAI_DECISION_ID = "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
+TDAI_GATE_ID = "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001"
+TDAI_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json"
+TDAI_CONTRACT_PATH = "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json"
+TDAI_DECISION_PATH = "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json"
+TDAI_REFERENCE_PATH = "canonical/references/FA3-TENCENTDB-AGENT-MEMORY-UPSTREAM-REFERENCE-2026-09-03.json"
+TDAI_GATE_RECORD_PATH = "canonical/FA3-GATE-TENCENTDB-AGENT-MEMORY-001.json"
+TDAI_ENFORCEMENT_PATH = "canonical/tencentdb-agent-memory-enforcement.json"
+TDAI_ADMISSION_PATH = "canonical/tencentdb-agent-memory-runtime-admission.json"
+TDAI_EVIDENCE_PATH = "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+TDAI_GATE_PATH = "src/fa3_tencentdb_agent_memory_gate.py"
+TDAI_TEST_PATH = "tests/test_tencentdb_agent_memory_gate.py"
+TDAI_CAPABILITY_IDS = ("CAP-010", "CAP-021", "CAP-023", "CAP-094", "CAP-102", "CAP-110", "CAP-139",)
+TDAI_RUNTIME_STATUS = "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST"
+TDAI_RECONCILIATION_STATUS = "CANONICAL_MATERIALIZED_REFERENCE_PASS_SECURITY_LICENSE_CURRENT_HOST_BLOCKED"
+
 VOICE_PROFILE_ID = "FA3-VOICE-001"
 VOICE_CONTRACT_ID = "FA3-VOICE-CONTRACTS-001"
 VOICE_ADMISSION_ID = "FA3-VOICE-PROVIDER-ADMISSION-001"
@@ -1650,6 +1668,23 @@ def gate(root: Path):
             )
         )
 
+
+    tdai = projection.get("tencentdb_agent_memory_reconciliation", {})
+    tdai_required_paths = {TDAI_PROVIDER_PATH,TDAI_CONTRACT_PATH,TDAI_DECISION_PATH,TDAI_REFERENCE_PATH,TDAI_GATE_RECORD_PATH,TDAI_ENFORCEMENT_PATH,TDAI_ADMISSION_PATH,TDAI_EVIDENCE_PATH,TDAI_GATE_PATH,TDAI_TEST_PATH,"canonical/enforcement-policy.json","canonical/profiles/FA3-KNOWLEDGE-001.json","evidence/evidence-registry.json","src/fa3_enforce.py","src/fa3_release_projection_gate.py","tests/test_release_projection.py",".github/workflows/fa3-permanent-enforcement.yml"}
+    tdai_inventory_requirements={"provider_records":[TDAI_PROVIDER_PATH],"contract_records":[TDAI_CONTRACT_PATH],"decision_records":[TDAI_DECISION_PATH],"upstream_reference_records":[TDAI_REFERENCE_PATH],"reference_evidence_records":[TDAI_EVIDENCE_PATH]}
+    missing_tdai_inventory=[{"inventory":key,"path":path} for key,paths in tdai_inventory_requirements.items() for path in paths if path not in inventory.get(key,[])]
+    missing_tdai_manifest=sorted(tdai_required_paths-manifest_paths)
+    tdai_provider=loadj(root/TDAI_PROVIDER_PATH) if (root/TDAI_PROVIDER_PATH).is_file() else {}
+    tdai_admission=loadj(root/TDAI_ADMISSION_PATH) if (root/TDAI_ADMISSION_PATH).is_file() else {}
+    tdai_evidence=loadj(root/TDAI_EVIDENCE_PATH) if (root/TDAI_EVIDENCE_PATH).is_file() else {}
+    invalid_tdai_bindings=[]
+    for capability_id in TDAI_CAPABILITY_IDS:
+        record=next((item for item in records if item.get("subject_id")==capability_id),{})
+        ps=record.get("tencentdb_agent_memory_projection_status",{})
+        if (TDAI_DECISION_ID not in record.get("source_decision_ids",[]) or TDAI_EVIDENCE_PATH not in record.get("evidence_artifacts",[]) or record.get("status")!="PENDING_CURRENT_HOST" or ps.get("provider_id")!=TDAI_PROVIDER_ID or ps.get("runtime_activation_status")!=TDAI_RUNTIME_STATUS or ps.get("current_host_runtime_evidence")!="NOT_CLAIMED" or ps.get("production_provider_admission") is not False): invalid_tdai_bindings.append(capability_id)
+    if (tdai.get("provider_id")!=TDAI_PROVIDER_ID or tdai.get("contract_id")!=TDAI_CONTRACT_ID or tdai.get("decision_id")!=TDAI_DECISION_ID or tdai.get("gate_id")!=TDAI_GATE_ID or tdai.get("capability_bindings")!=list(TDAI_CAPABILITY_IDS) or tdai.get("reconciliation_status")!=TDAI_RECONCILIATION_STATUS or tdai.get("runtime_activation_status")!=TDAI_RUNTIME_STATUS or tdai.get("current_host_runtime_evidence")!="NOT_CLAIMED" or tdai.get("current_host_runtime_promotion_claim") is not False or tdai.get("production_provider_admission") is not False or tdai.get("provider_runtime_required_for_global_promotion_when_disabled") is not False or tdai.get("new_capabilities")!=0 or tdai.get("new_architectural_authorities")!=0 or tdai.get("capability_count_after")!=CAPABILITY_COUNT or TDAI_GATE_ID not in projection_gates or TDAI_GATE_ID not in policy_gates or missing_tdai_inventory or missing_tdai_manifest or invalid_tdai_bindings or tdai_provider.get("id")!=TDAI_PROVIDER_ID or tdai_provider.get("canonical_root") is not False or tdai_provider.get("architectural_authority") is not False or tdai_provider.get("new_capability") is not False or tdai_provider.get("new_architectural_authority") is not False or tdai_provider.get("runtime_activation_status")!=TDAI_RUNTIME_STATUS or tdai_admission.get("status")!=TDAI_RUNTIME_STATUS or tdai_admission.get("current_host_runtime_evidence")!="NOT_CLAIMED" or tdai_admission.get("production_provider_admission") is not False or tdai_evidence.get("status")!="PASS" or tdai_evidence.get("security_runtime_admission_pass") is not False or tdai_evidence.get("license_runtime_admission_pass") is not False or tdai_evidence.get("current_host_provider_runtime_evidence") is not False or tdai_evidence.get("production_provider_admission_claim") is not False):
+        findings.append(finding("FA3-RELEASE-PROJECTION-034","TencentDB Agent Memory global release/inventory/evidence reconciliation invariant mismatch",reconciliation_status=tdai.get("reconciliation_status"),runtime_activation_status=tdai.get("runtime_activation_status"),missing_inventory=missing_tdai_inventory,missing_manifest_paths=missing_tdai_manifest,invalid_capability_bindings=invalid_tdai_bindings))
+
     voice = projection.get("voice_synthesis_reconciliation", {})
     voice_required_paths = {
         VOICE_PROFILE_PATH,
@@ -1962,6 +1997,8 @@ def gate(root: Path):
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),
             "openhands_reconciliation": openhands.get("reconciliation_status"),
             "openhands_runtime_activation_status": openhands.get("runtime_activation_status"),
+            "tencentdb_agent_memory_reconciliation": tdai.get("reconciliation_status"),
+            "tencentdb_agent_memory_runtime_activation_status": tdai.get("runtime_activation_status"),
             "voice_synthesis_reconciliation": voice.get("reconciliation_status"),
             "voice_synthesis_current_host_runtime_evidence": voice.get("current_host_runtime_evidence"),
             "voice_synthesis_hungarian_quality_evidence": voice.get("hungarian_quality_evidence"),
