@@ -823,13 +823,15 @@
         "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/model-manager-ci-2026-08-31.json",
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -878,6 +880,21 @@
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
         "global_promotion_claim": false
+      },
+      "pku_yuan_video_provider_lifecycle_projection_status": {
+        "profile_id": "FA3-VIDEO-001",
+        "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+          "FA3-PROVIDER-HELIOS-001"
+        ],
+        "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
+        "open_sora_plan_runtime_status": "REFERENCE_ONLY_NOT_PROMOTED",
+        "helios_runtime_status": "EXECUTION_CANDIDATE_NOT_PROMOTED",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -5249,12 +5266,30 @@
         "GC-03",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "pku_yuan_video_provider_lifecycle_projection_status": {
+        "profile_id": "FA3-VIDEO-001",
+        "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+          "FA3-PROVIDER-HELIOS-001"
+        ],
+        "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
+        "open_sora_plan_runtime_status": "REFERENCE_ONLY_NOT_PROMOTED",
+        "helios_runtime_status": "EXECUTION_CANDIDATE_NOT_PROMOTED",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ci_reference_pass_does_not_promote_runtime": true
+      }
     },
     {
       "evidence_id": "EVID-CAP-124-CURRENT-HOST",
@@ -5378,13 +5413,15 @@
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/opencut-ci-2026-09-01.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5433,6 +5470,21 @@
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
         "global_promotion_claim": false
+      },
+      "pku_yuan_video_provider_lifecycle_projection_status": {
+        "profile_id": "FA3-VIDEO-001",
+        "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+          "FA3-PROVIDER-HELIOS-001"
+        ],
+        "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
+        "open_sora_plan_runtime_status": "REFERENCE_ONLY_NOT_PROMOTED",
+        "helios_runtime_status": "EXECUTION_CANDIDATE_NOT_PROMOTED",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {

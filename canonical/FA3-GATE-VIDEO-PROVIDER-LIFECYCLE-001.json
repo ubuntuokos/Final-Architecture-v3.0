@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001",
+  "gateset_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "FA3-PROVIDER-HELIOS-001"
+  ],
+  "executable": "src/fa3_video_provider_lifecycle_gate.py",
+  "command": "./bin/fa3-enforce video-provider-lifecycle",
+  "test_command": "PYTHONPATH=src python -m unittest tests.test_video_provider_lifecycle_gate -v",
+  "fail_closed": true,
+  "mandatory_rule_count": 30,
+  "current_host_runtime_promotion_claim": false
+}

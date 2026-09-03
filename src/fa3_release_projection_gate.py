@@ -296,6 +296,32 @@ GPUK_CAPABILITY_IDS = ("CAP-005","CAP-006","CAP-056","CAP-060","CAP-069","CAP-07
 GPUK_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_SM86_E2E_PENDING_DEEPGEMM_INELIGIBLE"
 GPUK_DEEPGEMM_PIN = "31f4f7276de598d2b59942f6613aa534055b4ab5"
 
+
+VPLC_PROFILE_ID = "FA3-VIDEO-001"
+VPLC_CONTRACT_ID = "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
+VPLC_OPEN_SORA_PROVIDER_ID = "FA3-PROVIDER-OPEN-SORA-PLAN-001"
+VPLC_HELIOS_PROVIDER_ID = "FA3-PROVIDER-HELIOS-001"
+VPLC_PROVIDER_IDS = (VPLC_OPEN_SORA_PROVIDER_ID, VPLC_HELIOS_PROVIDER_ID)
+VPLC_DECISION_ID = "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
+VPLC_GATE_ID = "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001"
+VPLC_EXECUTABLE_GATE_ID = "FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001"
+VPLC_PROFILE_PATH = "canonical/profiles/FA3-VIDEO-001.json"
+VPLC_CONTRACT_PATH = "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json"
+VPLC_OPEN_SORA_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json"
+VPLC_HELIOS_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-HELIOS-001.json"
+VPLC_DECISION_PATH = "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json"
+VPLC_REFERENCE_PATH = "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json"
+VPLC_GATE_RECORD_PATH = "canonical/FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001.json"
+VPLC_ENFORCEMENT_PATH = "canonical/video-provider-lifecycle-enforcement.json"
+VPLC_ADMISSION_PATH = "canonical/video-provider-lifecycle-runtime-admission.json"
+VPLC_EVIDENCE_PATH = "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json"
+VPLC_GATE_PATH = "src/fa3_video_provider_lifecycle_gate.py"
+VPLC_TEST_PATH = "tests/test_video_provider_lifecycle_gate.py"
+VPLC_CAPABILITY_IDS = ("CAP-016", "CAP-123", "CAP-126")
+VPLC_OPEN_SORA_PIN = "f7fa604f4e3a523d6b973e4c89a5620ed1aff65a"
+VPLC_HELIOS_PIN = "babed9811266e4b5b111c9c1e0977a07899066ab"
+VPLC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_PROMOTED"
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -1886,6 +1912,108 @@ def gate(root: Path):
             )
         )
 
+
+    vplc = projection.get("video_provider_lifecycle_reconciliation", {})
+    vplc_required_paths = {
+        VPLC_PROFILE_PATH, VPLC_CONTRACT_PATH, VPLC_OPEN_SORA_PROVIDER_PATH,
+        VPLC_HELIOS_PROVIDER_PATH, VPLC_DECISION_PATH, VPLC_REFERENCE_PATH,
+        VPLC_GATE_RECORD_PATH, VPLC_ENFORCEMENT_PATH, VPLC_ADMISSION_PATH,
+        VPLC_EVIDENCE_PATH, VPLC_GATE_PATH, VPLC_TEST_PATH,
+        "canonical/video-enforcement.json", "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json", "src/fa3_enforce.py",
+        "src/fa3_release_projection_gate.py", "README.md",
+        ".github/workflows/fa3-permanent-enforcement.yml",
+    }
+    missing_vplc_manifest = sorted(vplc_required_paths - manifest_paths)
+    vplc_profile = loadj(root / VPLC_PROFILE_PATH) if (root / VPLC_PROFILE_PATH).is_file() else {}
+    vplc_contract = loadj(root / VPLC_CONTRACT_PATH) if (root / VPLC_CONTRACT_PATH).is_file() else {}
+    vplc_open_sora = loadj(root / VPLC_OPEN_SORA_PROVIDER_PATH) if (root / VPLC_OPEN_SORA_PROVIDER_PATH).is_file() else {}
+    vplc_helios = loadj(root / VPLC_HELIOS_PROVIDER_PATH) if (root / VPLC_HELIOS_PROVIDER_PATH).is_file() else {}
+    vplc_reference = loadj(root / VPLC_REFERENCE_PATH) if (root / VPLC_REFERENCE_PATH).is_file() else {}
+    vplc_evidence = loadj(root / VPLC_EVIDENCE_PATH) if (root / VPLC_EVIDENCE_PATH).is_file() else {}
+    vplc_admission = loadj(root / VPLC_ADMISSION_PATH) if (root / VPLC_ADMISSION_PATH).is_file() else {}
+    video_enforcement = loadj(root / "canonical/video-enforcement.json") if (root / "canonical/video-enforcement.json").is_file() else {}
+    invalid_vplc_bindings = []
+    for capability_id in VPLC_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        ps = record.get("pku_yuan_video_provider_lifecycle_projection_status", {})
+        if (
+            VPLC_DECISION_ID not in record.get("source_decision_ids", [])
+            or VPLC_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+            or record.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+            or ps.get("profile_id") != VPLC_PROFILE_ID
+            or ps.get("contract_id") != VPLC_CONTRACT_ID
+            or ps.get("provider_ids") != list(VPLC_PROVIDER_IDS)
+            or ps.get("gate_id") != VPLC_GATE_ID
+            or ps.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+            or ps.get("production_provider_admission") is not False
+            or ps.get("ci_reference_pass_does_not_promote_runtime") is not True
+        ):
+            invalid_vplc_bindings.append(capability_id)
+    if (
+        vplc.get("profile_id") != VPLC_PROFILE_ID
+        or vplc.get("contract_id") != VPLC_CONTRACT_ID
+        or vplc.get("provider_ids") != list(VPLC_PROVIDER_IDS)
+        or vplc.get("decision_id") != VPLC_DECISION_ID
+        or vplc.get("gate_id") != VPLC_GATE_ID
+        or vplc.get("executable_gate_id") != VPLC_EXECUTABLE_GATE_ID
+        or vplc.get("capability_bindings") != list(VPLC_CAPABILITY_IDS)
+        or vplc.get("reconciliation_status") != VPLC_RECONCILIATION_STATUS
+        or vplc.get("reference_evidence") != VPLC_EVIDENCE_PATH
+        or vplc.get("reference_evidence_status") != "CI_REFERENCE_EXECUTABLE_REGRESSION_PASS"
+        or vplc.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or vplc.get("production_provider_admission") is not False
+        or vplc.get("current_host_runtime_promotion_claim") is not False
+        or vplc.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or vplc.get("new_capabilities") != 0
+        or vplc.get("new_architectural_authorities") != 0
+        or vplc.get("capability_count_after") != CAPABILITY_COUNT
+        or VPLC_GATE_ID not in projection_gates
+        or VPLC_GATE_ID not in policy_gates
+        or missing_vplc_manifest
+        or invalid_vplc_bindings
+        or vplc_contract.get("id") != VPLC_CONTRACT_ID
+        or vplc_contract.get("provider_neutral") is not True
+        or vplc_open_sora.get("id") != VPLC_OPEN_SORA_PROVIDER_ID
+        or vplc_open_sora.get("canonical_root") is not False
+        or vplc_open_sora.get("architectural_authority") is not False
+        or vplc_open_sora.get("upstream", {}).get("immutable_commit") != VPLC_OPEN_SORA_PIN
+        or vplc_open_sora.get("runtime_activation_status") != "NOT_ADMITTED_REFERENCE_ONLY_PENDING_LICENSE_BACKEND_CURRENT_HOST"
+        or vplc_open_sora.get("license_admission", {}).get("mode") != "FAIL_CLOSED_METADATA_DRIFT"
+        or vplc_helios.get("id") != VPLC_HELIOS_PROVIDER_ID
+        or vplc_helios.get("canonical_root") is not False
+        or vplc_helios.get("architectural_authority") is not False
+        or vplc_helios.get("upstream", {}).get("immutable_commit") != VPLC_HELIOS_PIN
+        or vplc_helios.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_MODEL_LICENSE_RESOURCE_CURRENT_HOST_E2E"
+        or vplc_helios.get("resource_policy", {}).get("host_ram_and_cgroup_preflight_required") is not True
+        or vplc_reference.get("open_sora_plan", {}).get("immutable_observed_commit") != VPLC_OPEN_SORA_PIN
+        or vplc_reference.get("helios", {}).get("immutable_observed_commit") != VPLC_HELIOS_PIN
+        or vplc_reference.get("promotion_evidence") is not False
+        or vplc_evidence.get("status") != "PASS"
+        or vplc_evidence.get("regression_cases_total") != 30
+        or vplc_evidence.get("regression_cases_passed") != 30
+        or vplc_evidence.get("current_host_provider_runtime_evidence") is not False
+        or vplc_evidence.get("production_provider_admission_claim") is not False
+        or vplc_admission.get("production_provider_admission") is not False
+        or vplc_admission.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or vplc_admission.get("global_promotion_claim") is not False
+        or VPLC_CONTRACT_ID not in vplc_profile.get("contracts", [])
+        or not all(provider_id in vplc_profile.get("providers", []) for provider_id in VPLC_PROVIDER_IDS)
+        or video_enforcement.get("provider_lifecycle_gate") != VPLC_GATE_ID
+        or video_enforcement.get("provider_lifecycle_contract") != VPLC_CONTRACT_ID
+        or not all(provider_id in video_enforcement.get("provider_ids", []) for provider_id in VPLC_PROVIDER_IDS)
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-036",
+                "PKU-Yuan video provider lifecycle/backend/cache global reconciliation invariant mismatch",
+                reconciliation_status=vplc.get("reconciliation_status"),
+                missing_manifest_paths=missing_vplc_manifest,
+                invalid_capability_bindings=invalid_vplc_bindings,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -2126,6 +2254,8 @@ def gate(root: Path):
             "voice_synthesis_reconciliation": voice.get("reconciliation_status"),
             "voice_synthesis_current_host_runtime_evidence": voice.get("current_host_runtime_evidence"),
             "voice_synthesis_hungarian_quality_evidence": voice.get("hungarian_quality_evidence"),
+            "video_provider_lifecycle_reconciliation": vplc.get("reconciliation_status"),
+            "video_provider_lifecycle_current_host_runtime_evidence": vplc.get("current_host_runtime_evidence"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
