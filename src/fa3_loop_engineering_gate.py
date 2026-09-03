@@ -55,7 +55,7 @@ P0_RULES = [
     "LOOP_ENGINEERING_CLI_AND_MARKDOWN_FORMATS_NOT_HARD_DEPENDENCIES",
     "HRB_LIVE_CPU_NUMA_GPU_ADMISSION_NO_STATIC_REFERENCE_PLACEMENT",
     "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE_UUID_BDF",
-    "CORRECTED_T7910_REFERENCE_E52696V4_44C88T_SM86_A1000_AUX_CONDITIONAL",
+    "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
     "REFERENCE_CI_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
     "DISABLED_REFERENCE_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
 ]
@@ -215,9 +215,10 @@ def run_regressions() -> dict[str, Any]:
     add(P0_RULES[32], "accelerator execution requires HRB lease UUID+BDF",
         refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=True, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid="GPU-u", pci_bdf="0000:05:00.0", ordinal_only=False),
         not refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=False, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid=None, pci_bdf=None, ordinal_only=True))
-    add(P0_RULES[33], "corrected T7910 reference hardware",
-        refimpl.reference_hardware_valid(cpu="2x Intel Xeon E5-2696 v4 @ 2.20 GHz", physical_cores=44, logical_cpus=88, expected_numa_domains=2, compute_gpu="NVIDIA GeForce RTX 3080 12GB", compute_sm="SM86", aux_gpu_conditional=True),
-        not refimpl.reference_hardware_valid(cpu="2x Intel Xeon E5-2697 v4 @ 2.30 GHz", physical_cores=36, logical_cpus=72, expected_numa_domains=2, compute_gpu="NVIDIA GeForce RTX 3080 12GB", compute_sm="SM86", aux_gpu_conditional=True))
+    add(P0_RULES[33], "portable FA3 minimum hardware floor without model pins",
+        refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_rtx_equivalent_series=30, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True)
+        and refimpl.portable_hardware_floor_valid(cpu_packages=2, physical_cores_per_package=32, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=2, gpu_rtx_equivalent_series=50, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True),
+        not refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=6, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_rtx_equivalent_series=20, gpu_specific_sku_pinned=True, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True))
     add(P0_RULES[34], "reference CI cannot claim current-host promotion",
         reference_ci_valid(reference_pass=True, current_host_claim=False, production_admission=False),
         not reference_ci_valid(reference_pass=True, current_host_claim=True, production_admission=True))
@@ -310,6 +311,24 @@ def reference_check(root: Path) -> dict[str, Any]:
             == "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY"
     ):
         findings.append(_finding("LOOP-REF-003", "closed-loop profile drift"))
+
+    hw = profile.get("portable_hardware_minimum", {})
+    hw_cpu = hw.get("cpu", {})
+    hw_gpu = hw.get("gpu", {})
+    if not (
+        hw.get("semantics") == "FA3_GLOBAL_PORTABLE_MINIMUM_NOT_CURRENT_HOST_MODEL_PIN"
+        and hw_cpu.get("package_count_min") == 1
+        and hw_cpu.get("physical_cores_per_package_min") == 8
+        and hw_cpu.get("vendor_pinned") is False
+        and hw_cpu.get("model_pinned") is False
+        and hw_gpu.get("device_count_min") == 1
+        and hw_gpu.get("normalized_equivalent_series_floor") == 30
+        and hw_gpu.get("newer_rtx_generations_allowed") is True
+        and hw_gpu.get("specific_sku_pinned") is False
+        and hw_gpu.get("specific_vram_pinned") is False
+        and hw_gpu.get("specific_sm_pinned") is False
+    ):
+        findings.append(_finding("LOOP-REF-003A", "portable FA3 hardware floor drift"))
 
     if not (
         contract.get("id") == CONTRACT_ID
@@ -414,6 +433,11 @@ def reference_check(root: Path) -> dict[str, Any]:
         and policy.get("loop_engineering_runtime_status") == RUNTIME_STATUS
         and policy.get("loop_engineering_upstream_pin") == PINNED_COMMIT
         and policy.get("loop_engineering_mandatory_p0_rules") == P0_RULES
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("cpu", {}).get("package_count_min") == 1
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("cpu", {}).get("physical_cores_per_package_min") == 8
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("normalized_equivalent_series_floor") == 30
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("newer_rtx_generations_allowed") is True
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("specific_sku_restriction") == "NONE"
     ):
         findings.append(_finding("LOOP-REF-012", "global policy binding drift"))
 
