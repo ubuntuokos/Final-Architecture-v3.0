@@ -78,7 +78,7 @@
     "EVENT_FIRST_TRIGGERS",
     "TYPED_PATTERN_REGISTRY"
   ],
-  "hardware_decision": "FA3 portable hardware admission is model-agnostic: at least 1 CPU package with at least 8 physical cores per admitted CPU, plus at least 1 NVIDIA RTX accelerator at RTX 30-series/Ampere-equivalent generation or newer. Newer RTX generations are explicitly allowed. No CPU vendor/model, GPU SKU, VRAM amount, SM, socket count above the minimum, or fixed topology is canonical. Exact current-host hardware belongs to evidence only; live discovery and Host Resource Broker admission/leases remain authoritative.",
+  "hardware_decision": "FA3 portable hardware admission is model-agnostic: at least 1 CPU package with at least 8 physical cores per admitted CPU, plus at least 1 NVIDIA RTX accelerator at RTX 30-series generation or newer. Newer RTX generations are explicitly allowed. No CPU vendor/model, GPU SKU, VRAM amount, SM, socket count above the minimum, or fixed topology is canonical. Exact current-host hardware belongs to evidence only; live discovery and Host Resource Broker admission/leases remain authoritative.",
   "mandatory_constraint": "No Loop Engineering component may become the FA3 durable orchestration, tool mediation, security policy, host resource, model routing, evidence or release authority.",
   "executable_regression_case_count": 36,
   "executable_gate_status": "MATERIALIZED"
