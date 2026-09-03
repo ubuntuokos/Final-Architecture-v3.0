@@ -294,12 +294,15 @@ VOICE_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_PASS_CU
 
 GPUK_PROFILE_ID = "FA3-GPU-KERNEL-RUNTIME-001"
 GPUK_CONTRACT_ID = "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001"
+GPUK_FRAMEWORK_PROVIDER_ID = "FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001"
 GPUK_AMPERE_PROVIDER_ID = "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001"
 GPUK_DEEPGEMM_PROVIDER_ID = "FA3-PROVIDER-DEEPGEMM-001"
+GPUK_PROVIDER_IDS = (GPUK_FRAMEWORK_PROVIDER_ID, GPUK_AMPERE_PROVIDER_ID, GPUK_DEEPGEMM_PROVIDER_ID)
 GPUK_DECISION_ID = "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
 GPUK_GATE_ID = "FA3-GPU-KERNEL-RUNTIME-GATESET-001"
 GPUK_PROFILE_PATH = "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json"
 GPUK_CONTRACT_PATH = "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json"
+GPUK_FRAMEWORK_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json"
 GPUK_AMPERE_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json"
 GPUK_DEEPGEMM_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json"
 GPUK_DECISION_PATH = "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json"
@@ -315,7 +318,7 @@ GPUK_TEST_PATH = "tests/test_gpu_kernel_runtime_gate.py"
 GPUK_COLLECTOR_PATH = "evidence/collect-gpu-kernel-runtime-current-host.py"
 GPUK_BENCH_PATH = "bin/fa3-gpu-kernel-benchmark"
 GPUK_CAPABILITY_IDS = ("CAP-005","CAP-006","CAP-056","CAP-060","CAP-069","CAP-078","CAP-087","CAP-137","CAP-143")
-GPUK_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_SM86_E2E_PENDING_DEEPGEMM_INELIGIBLE"
+GPUK_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_HARDWARE_PORTABLE_BASELINE_PROVIDER_CURRENT_HOST_E2E_PENDING"
 GPUK_DEEPGEMM_PIN = "31f4f7276de598d2b59942f6613aa534055b4ab5"
 
 
@@ -1959,17 +1962,19 @@ def gate(root: Path):
 
     gpuk = projection.get("gpu_kernel_runtime_reconciliation", {})
     gpuk_required_paths = {
-        GPUK_PROFILE_PATH, GPUK_CONTRACT_PATH, GPUK_AMPERE_PROVIDER_PATH,
-        GPUK_DEEPGEMM_PROVIDER_PATH, GPUK_DECISION_PATH, GPUK_REFERENCE_PATH,
-        GPUK_EVIDENCE_PATH, GPUK_ENFORCEMENT_PATH, GPUK_ADMISSION_PATH,
-        GPUK_GATE_RECORD_PATH, GPUK_CURRENT_HOST_GATE_RECORD_PATH, GPUK_GATE_PATH,
-        GPUK_DISPATCH_PATH, GPUK_TEST_PATH, GPUK_COLLECTOR_PATH, GPUK_BENCH_PATH,
-        "canonical/enforcement-policy.json", "evidence/evidence-registry.json",
-        "src/fa3_enforce.py", "src/fa3_release_projection_gate.py",
+        GPUK_PROFILE_PATH, GPUK_CONTRACT_PATH, GPUK_FRAMEWORK_PROVIDER_PATH,
+        GPUK_AMPERE_PROVIDER_PATH, GPUK_DEEPGEMM_PROVIDER_PATH, GPUK_DECISION_PATH,
+        GPUK_REFERENCE_PATH, GPUK_EVIDENCE_PATH, GPUK_ENFORCEMENT_PATH,
+        GPUK_ADMISSION_PATH, GPUK_GATE_RECORD_PATH, GPUK_CURRENT_HOST_GATE_RECORD_PATH,
+        GPUK_GATE_PATH, GPUK_DISPATCH_PATH, GPUK_TEST_PATH, GPUK_COLLECTOR_PATH,
+        GPUK_BENCH_PATH, "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json", "src/fa3_enforce.py",
+        "src/fa3_release_projection_gate.py",
     }
     missing_gpuk_manifest = sorted(gpuk_required_paths - manifest_paths)
     gpuk_profile = loadj(root / GPUK_PROFILE_PATH) if (root / GPUK_PROFILE_PATH).is_file() else {}
     gpuk_contract = loadj(root / GPUK_CONTRACT_PATH) if (root / GPUK_CONTRACT_PATH).is_file() else {}
+    gpuk_framework = loadj(root / GPUK_FRAMEWORK_PROVIDER_PATH) if (root / GPUK_FRAMEWORK_PROVIDER_PATH).is_file() else {}
     gpuk_ampere = loadj(root / GPUK_AMPERE_PROVIDER_PATH) if (root / GPUK_AMPERE_PROVIDER_PATH).is_file() else {}
     gpuk_deepgemm = loadj(root / GPUK_DEEPGEMM_PROVIDER_PATH) if (root / GPUK_DEEPGEMM_PROVIDER_PATH).is_file() else {}
     gpuk_reference = loadj(root / GPUK_REFERENCE_PATH) if (root / GPUK_REFERENCE_PATH).is_file() else {}
@@ -1987,22 +1992,28 @@ def gate(root: Path):
             or ps.get("gate_id") != GPUK_GATE_ID
             or ps.get("current_host_runtime_evidence") != "NOT_CLAIMED"
             or ps.get("production_provider_admission") is not False
-            or ps.get("ampere_sm86_status") != "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E"
-            or ps.get("deepgemm_status") != "INELIGIBLE_CURRENT_SM86"
+            or ps.get("baseline_provider_id") != GPUK_FRAMEWORK_PROVIDER_ID
+            or ps.get("baseline_provider_status") != "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_COMPATIBILITY_E2E"
+            or ps.get("ampere_status") != "OPTIONAL_CONDITIONAL_SM86"
+            or ps.get("deepgemm_status") != "OPTIONAL_CONDITIONAL_PINNED_CAPABILITY_DESCRIPTOR"
+            or ps.get("exact_current_host_hardware") != "EVIDENCE_ONLY_NON_NORMATIVE"
             or ps.get("global_runtime_promotion_claim") is not False
         ):
             invalid_gpuk_bindings.append(capability_id)
-    reference_host = gpuk_admission.get("reference_host", {})
+
     if (
         gpuk.get("profile_id") != GPUK_PROFILE_ID
         or gpuk.get("contract_id") != GPUK_CONTRACT_ID
         or gpuk.get("decision_id") != GPUK_DECISION_ID
         or gpuk.get("gate_id") != GPUK_GATE_ID
-        or gpuk.get("provider_ids") != [GPUK_AMPERE_PROVIDER_ID, GPUK_DEEPGEMM_PROVIDER_ID]
+        or gpuk.get("provider_ids") != list(GPUK_PROVIDER_IDS)
         or gpuk.get("capability_bindings") != list(GPUK_CAPABILITY_IDS)
         or gpuk.get("evidence_registry_capability_bindings") != list(GPUK_CAPABILITY_IDS)
         or gpuk.get("reconciliation_status") != GPUK_RECONCILIATION_STATUS
-        or gpuk.get("runtime_activation_status") != "SM86_PROVIDER_NOT_ADMITTED_DEEPGEMM_INELIGIBLE"
+        or gpuk.get("runtime_activation_status") != "PORTABLE_BASELINE_AND_OPTIMIZATION_PROVIDERS_NOT_ADMITTED_PENDING_REAL_CURRENT_HOST_E2E"
+        or gpuk.get("hardware_portability_profile_id") != "FA3-HARDWARE-BASELINE-001"
+        or gpuk.get("hardware_discovery_contract_id") != "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
+        or gpuk.get("exact_current_host_hardware") != "EVIDENCE_ONLY_NON_NORMATIVE"
         or gpuk.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
         or gpuk.get("current_host_runtime_promotion_claim") is not False
         or gpuk.get("new_capabilities") != 0
@@ -2018,34 +2029,42 @@ def gate(root: Path):
         or gpuk_profile.get("new_capability") is not False
         or gpuk_profile.get("new_architectural_authority") is not False
         or gpuk_profile.get("capability_count") != CAPABILITY_COUNT
+        or gpuk_profile.get("providers") != list(GPUK_PROVIDER_IDS)
+        or gpuk_profile.get("hardware_portability", {}).get("profile_id") != "FA3-HARDWARE-BASELINE-001"
         or gpuk_contract.get("id") != GPUK_CONTRACT_ID
         or gpuk_contract.get("provider_neutral") is not True
+        or gpuk_contract.get("hardware_portability_profile") != "FA3-HARDWARE-BASELINE-001"
+        or gpuk_framework.get("id") != GPUK_FRAMEWORK_PROVIDER_ID
+        or gpuk_framework.get("architectural_authority") is not False
+        or gpuk_framework.get("status") != "REQUIRED_SUPPORTED_BASELINE"
+        or gpuk_framework.get("architecture_support", {}).get("fixed_architecture_allowlist") is not False
         or gpuk_ampere.get("id") != GPUK_AMPERE_PROVIDER_ID
         or gpuk_ampere.get("architectural_authority") is not False
+        or gpuk_ampere.get("status") != "ACCEPTED_CONDITIONAL_REFERENCE"
         or gpuk_ampere.get("target_architectures") != ["SM86"]
-        or gpuk_ampere.get("runtime_activation_status") != "BLOCKED_PENDING_REAL_T7910_SM86_CORRECTNESS_BENCHMARK_ROLLBACK_EVIDENCE"
+        or gpuk_ampere.get("runtime_activation_status") != "NOT_ADMITTED_PENDING_LIVE_SM86_COMPATIBILITY_CORRECTNESS_BENCHMARK_ROLLBACK_EVIDENCE"
         or gpuk_deepgemm.get("id") != GPUK_DEEPGEMM_PROVIDER_ID
         or gpuk_deepgemm.get("architectural_authority") is not False
         or set(gpuk_deepgemm.get("observed_architecture_support", [])) != {"SM90", "SM100"}
-        or gpuk_deepgemm.get("runtime_activation_status") != "DENIED_ON_CURRENT_HOST_UNSUPPORTED_SM86"
+        or gpuk_deepgemm.get("architecture_support_semantics") != "PINNED_UPSTREAM_SNAPSHOT_CAPABILITY_NOT_GLOBAL_FA3_ALLOWLIST"
+        or gpuk_deepgemm.get("runtime_activation_status") != "NOT_ADMITTED_CONDITIONAL_ON_LIVE_DECLARED_ARCH_RUNTIME_AND_EVIDENCE"
         or gpuk_deepgemm.get("immutable_upstream", {}).get("commit") != GPUK_DEEPGEMM_PIN
         or gpuk_reference.get("primary_snapshot", {}).get("commit") != GPUK_DEEPGEMM_PIN
         or gpuk_reference.get("floating_main_allowed_as_promotion_evidence") is not False
         or gpuk_evidence.get("status") != "PASS"
+        or gpuk_evidence.get("baseline_provider_id") != GPUK_FRAMEWORK_PROVIDER_ID
         or gpuk_evidence.get("current_host_provider_runtime_evidence") is not False
         or gpuk_evidence.get("current_host_runtime_promotion_claim") is not False
-        or gpuk_admission.get("hardware_semantics") != "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT"
-        or reference_host.get("cpu") != "2x Intel Xeon E5-2696 v4 @ 2.20 GHz"
-        or reference_host.get("physical_cores") != 44
-        or reference_host.get("logical_cpus") != 88
-        or reference_host.get("expected_numa_domains") != 2
-        or "RTX 3080" not in reference_host.get("compute_gpu", "")
-        or gpuk_admission.get("current_host_provider_disposition", {}).get(GPUK_DEEPGEMM_PROVIDER_ID) != "DENIED_UNSUPPORTED_SM86"
+        or gpuk_admission.get("hardware_semantics") != "FA3_HARDWARE_BASELINE_DYNAMIC_DISCOVERY_HRB_AUTHORITY"
+        or gpuk_admission.get("hardware_profile_id") != "FA3-HARDWARE-BASELINE-001"
+        or gpuk_admission.get("hardware_discovery_contract_id") != "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
+        or "reference_host" in gpuk_admission
+        or gpuk_admission.get("current_host_provider_disposition") != "DYNAMIC_NOT_CANONICALLY_PRECOMPUTED"
     ):
         findings.append(
             finding(
                 "FA3-RELEASE-PROJECTION-035",
-                "GPU kernel runtime/DeepGEMM global release, hardware, inventory and evidence reconciliation invariant mismatch",
+                "GPU kernel runtime global release, portable-hardware, provider and evidence reconciliation invariant mismatch",
                 reconciliation_status=gpuk.get("reconciliation_status"),
                 runtime_activation_status=gpuk.get("runtime_activation_status"),
                 missing_manifest_paths=missing_gpuk_manifest,
