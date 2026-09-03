@@ -47,6 +47,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Prepare gate
+        run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh
       - name: Syntax check
         run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py
       - name: Fail-closed current-host contract tests
