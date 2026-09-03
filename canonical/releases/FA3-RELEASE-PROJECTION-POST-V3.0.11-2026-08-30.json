@@ -54,6 +54,7 @@
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
+      "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
       "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
       "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json",
       "canonical/providers/FA3-PROVIDER-BUZZ-001.json",
@@ -62,6 +63,7 @@
       "canonical/providers/FA3-PROVIDER-CODEX-001.json",
       "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
       "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
+      "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
@@ -136,6 +138,7 @@
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
+      "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
@@ -175,6 +178,7 @@
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
@@ -221,6 +225,7 @@
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
+      "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
@@ -263,6 +268,7 @@
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
+      "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -301,6 +307,7 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+      "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
@@ -361,7 +368,8 @@
     "FA3-STABILITY-PORTFOLIO-GATESET-001",
     "FA3-OPENBMB-GATESET-001",
     "FA3-FFMPEG-AI-GATESET-001",
-    "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001"
+    "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+    "FA3-GPU-KERNEL-RUNTIME-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -3132,7 +3140,6 @@
       "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001",
       "FA3-PROVIDER-DEEPGEMM-001"
     ],
-    "reference_evidence": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
     "capability_bindings": [
       "CAP-005",
       "CAP-006",
@@ -3144,10 +3151,25 @@
       "CAP-137",
       "CAP-143"
     ],
+    "evidence_registry_capability_bindings": [
+      "CAP-005",
+      "CAP-006",
+      "CAP-056",
+      "CAP-060",
+      "CAP-069",
+      "CAP-078",
+      "CAP-087",
+      "CAP-137",
+      "CAP-143"
+    ],
+    "reference_evidence": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+    "reference_evidence_status": "CI_REFERENCE_EXECUTABLE_REGRESSION_PASS",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_SM86_E2E_PENDING_DEEPGEMM_INELIGIBLE",
+    "runtime_activation_status": "SM86_PROVIDER_NOT_ADMITTED_DEEPGEMM_INELIGIBLE",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
     "capability_count_after": 143,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "current_host_runtime_promotion_claim": false,
-    "current_host_status": "SM86_REAL_T7910_E2E_PENDING_DEEPGEMM_INELIGIBLE"
+    "current_host_runtime_promotion_claim": false
   }
 }
