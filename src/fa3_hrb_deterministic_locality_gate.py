@@ -73,7 +73,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("xanmod-optional", "FA3-PROVIDER-XANMOD-001" in provider_ids and providers[1].get("status") == "OPTIONAL_REFERENCE_PROVIDER", "XanMod is optional reference"),
         check("sched-ext-experimental", "FA3-PROVIDER-SCHED-EXT-001" in provider_ids and providers[2].get("status") == "EXPERIMENTAL_REFERENCE_PROVIDER", "sched_ext remains experimental"),
         check("legacy-schedulers-not-baseline", all(x in decision.get("explicitly_not_baseline", []) for x in ["PDS", "BMQ", "MuQSS", "PREEMPT_RT"]), "legacy/RT schedulers are not required baseline"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 30 and len(enforcement.get("rules", [])) == 30 and invariants == enforced, "all 30 contract invariants enforced fail-closed"),
+        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 34 and len(enforcement.get("rules", [])) == 34 and invariants == enforced, "all 30 contract invariants enforced fail-closed"),
         check("current-host-claim-honest", enforcement.get("current_host_runtime_promotion_claim") is False and "REFERENCE_CONFORMANCE_ONLY" in decision.get("current_host_claim", ""), "no uncollected current-host locality PASS is claimed"),
     ]
     passed = all(c["status"] == "PASS" for c in checks)
