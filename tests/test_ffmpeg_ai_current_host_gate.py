@@ -4,7 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 from fa3_ffmpeg_ai_current_host import (
     build_identity_onnx,hrb_receipt_valid,make_reference_receipt,observed_onnx_provider,
-    quality_valid,resolve_index,validate_current_host_receipt
+    quality_valid,resolved_runtime_index,validate_current_host_receipt
 )
 from fa3_ffmpeg_ai_current_host_gate import gate
 
@@ -28,7 +28,7 @@ class FFmpegAICurrentHostTests(unittest.TestCase):
 
     def test_hrb_uuid_bdf_and_expiry_are_required(self):
         r=make_reference_receipt();hrb=r["hrb_placement"];g=r["live_gpus"]
-        self.assertTrue(hrb_receipt_valid(hrb,g));self.assertEqual(1,resolve_index(hrb,g))
+        self.assertTrue(hrb_receipt_valid(hrb,g));self.assertEqual(1,resolved_runtime_index(hrb,g))
         bad=deepcopy(hrb);bad["device_uuid"]="GPU-other"
         self.assertFalse(hrb_receipt_valid(bad,g))
         bad=deepcopy(hrb);bad["static_runtime_ordinal_as_identity"]=True
