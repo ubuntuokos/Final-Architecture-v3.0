@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-FFMPEG-AI-RUNTIME-ADMISSION-001",
+  "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "provider_ids": [
+    "FA3-PROVIDER-FFMPEG-001",
+    "FA3-PROVIDER-VS-MLRT-001"
+  ],
+  "status": "PENDING_REAL_CURRENT_HOST_E2E",
+  "provider_runtime_required_for_global_promotion_when_profile_active": true,
+  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "blocking_conditions": [
+    "NO_CURRENT_HOST_FFMPEG_BUILD_MANIFEST_AND_FEATURE_RECEIPT",
+    "NO_CURRENT_HOST_HRB_BOUND_GPU_TRANSCODE_E2E_RECEIPT",
+    "NO_CURRENT_HOST_REQUESTED_VS_OBSERVED_ONNX_EXECUTION_PROVIDER_RECEIPT",
+    "NO_CURRENT_HOST_NEURAL_MEDIA_GOLDEN_CLIP_QUALITY_RECEIPT",
+    "NO_CURRENT_HOST_COLOR_HDR_TIMESTAMP_AV_SYNC_VALIDATION_RECEIPT",
+    "NO_CURRENT_HOST_ROLLBACK_AND_CPU_GPU_COPY_TELEMETRY_RECEIPT"
+  ],
+  "future_admission_requirements": [
+    "immutable stable FFmpeg release/tag and signature verification",
+    "ffmpeg -buildconf and ffmpeg -filters/-encoders/-decoders capability manifest",
+    "live lscpu/sysfs/NVML/PCI topology fingerprint",
+    "HRB lease bound to GPU UUID + PCI BDF when accelerator is requested",
+    "requested execution provider equals observed execution provider",
+    "real media decode/filter/neural/encode/mux E2E",
+    "VMAF + SSIM + PSNR quality evidence where a reference is applicable",
+    "A/V sync, timestamp, codec/container and color/HDR metadata validation",
+    "measured CPU-GPU copy telemetry for any zero-copy claim",
+    "vs-mlrt immutable pin/license/backend evidence when selected",
+    "failure injection and rollback evidence"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claimed": false
+}

@@ -945,3 +945,35 @@ PYTHONPATH=src python -m unittest tests.test_openbmb_gate -v
 ```
 
 The committed `evidence/reference/openbmb-ci-2026-09-02.json` proves canonical/reference regressions only. It does not claim installed OpenBMB runtimes, production provider admission or current-host performance.
+
+
+## FA3 FFmpeg neural-media execution baseline
+
+`FA3-NEURAL-MEDIA-EXECUTION-001` is the P0/MUST provider-neutral **Neural Media Filtering, Hardware-Accelerated Transcode, Frame-Server Interop & Quality-Governed Video Execution Profile** over existing `CAP-005`, `CAP-006`, `CAP-016`, `CAP-121`, `CAP-126` and `CAP-137`. It adds **no capability** and **no architectural authority**; the canonical capability count remains **143**.
+
+`FA3-PROVIDER-FFMPEG-001` is the required primary low-level deterministic media execution/reference provider. FFmpeg is not the durable orchestrator, final human NLE, model registry/router, Host Resource Broker, policy authority or evidence authority. Temporal, Kdenlive, OpenTimelineIO, OpenCut, the Inference Portability profile, Model Registry/Manager, Central MCP Gateway and Host Resource Broker retain their existing roles.
+
+The current stable compatibility reference is **FFmpeg 9.0.1 / tag `n9.0.1` (2026-08-12)**. It is a verified reference floor, not an eternal patch pin: production requires an immutable signed stable release/tag, build manifest, SBOM/provenance and admission evidence; floating `master`, snapshots and nightlies are not production evidence.
+
+Required-supported FFmpeg AI/media capabilities are `dnn_processing`, ONNX Runtime (`--enable-libonnxruntime`), OpenVINO (`--enable-libopenvino`), ffnvcodec/NVDEC/NVENC where the live GPU supports them, relevant CUDA video filters, and CPU `libvmaf`. Libtorch is conditional compatibility; TensorFlow is legacy compatibility only; `libvmaf_cuda` is conditional on build/licence/redistribution admission.
+
+The stable 9.0.1 ONNX backend is admitted only for compatible 4-D NCHW FLOAT32 single-input models and executes synchronously. Incompatible models route to `FA3-INFERENCE-PORTABILITY-001`. Upstream 9.0.1 may warn and fall back to CPU when the requested CUDA Execution Provider cannot be enabled; **FA3 forbids that implicit downgrade**. A requested accelerator provider must equal the observed execution provider or the job fails closed.
+
+Stable FFmpeg 9.0.1 `dnn_processing` does not accept CUDA hardware frames, so an end-to-end CUDA DNN zero-copy claim is not part of the production baseline. Development-trunk CUDA-frame work is a future candidate only. Any future zero-copy promotion requires a stable-release capability plus measured CPU↔GPU copy telemetry proving the claimed path.
+
+The preferred hardware path is GPU-resident decode/filter/encode when supported by the actual device, with unnecessary `hwdownload`/`hwupload` minimized. Codec/filter support is always runtime-discovered; AV1 encode or any other feature is never inferred from “NVIDIA GPU” alone. Accelerator jobs require a Host Resource Broker lease and canonical GPU UUID + PCI BDF identity; static `cuda:0`/ordinal values are never canonical placement identity.
+
+The corrected Dell Precision T7910 reference remains **2× Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected two NUMA domains**. These values and the RTX 3080 12GB-class compute role are host evidence context, not portable defaults. CPU/NUMA topology, cgroup cpusets, PCI locality and GPU capabilities are rediscovered at boot/admission.
+
+`FA3-PROVIDER-VS-MLRT-001` registers **VapourSynth + vs-mlrt** as the required-supported external neural-filter/frame-server reference adapter for jobs that do not fit upstream FFmpeg DNN efficiently, including super-resolution, restoration/denoise and frame interpolation. Backend selection remains with Inference Portability and placement remains with HRB. Real-ESRGAN- and RIFE-family models are optional admitted model families, not permanent mandatory canonical models.
+
+Claims that `real_esrgan=...` or `python_script=...` are standard upstream FFmpeg filters are explicitly forbidden. Out-of-tree FFmpeg AI filters require their own immutable source/patch pin, security review, maintenance responsibility and real E2E admission.
+
+Production media QA requires codec/container/timestamp validation, A/V sync, color/HDR metadata checks and VMAF + SSIM + PSNR where reference comparison is applicable, with artifact SHA-256 and provenance. The committed reference PASS does **not** claim current-host runtime promotion; real T7910 execution still requires build/feature receipts, HRB-bound accelerator evidence, real-media E2E, quality metrics, copy telemetry and rollback/failure-injection evidence.
+
+Run the permanent executable gate with:
+
+```bash
+./bin/fa3-enforce ffmpeg-ai
+PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_gate -v
+```
