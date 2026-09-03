@@ -36,7 +36,11 @@
     "AIExecutionTelemetry and PlacementEvidence including tail latency and NUMA locality evidence",
     "change control and rollback for scheduler NUMA IRQ HugePages ZRAM kernel and sysctl changes",
     "XanMod as optional Linux low-latency reference kernel provider",
-    "sched_ext as optional experimental rollbackable scheduler extension provider"
+    "sched_ext as optional experimental rollbackable scheduler extension provider",
+    "systemd manager-global CPUAffinity NUMAPolicy and NUMAMask remain neutral and cannot replace HRB placement",
+    "AI/HPC task file-descriptor memlock OOM restart timeout and timer tuning is per-service slice or scope policy after HRB admission",
+    "memory-pressure observability remains enabled unless an explicit host-survival policy says otherwise",
+    "privileged or host-global resource-policy changes require semantic diff explicit approval bounded apply acceptance evidence rollback and expiry"
   ],
   "explicitly_not_baseline": [
     "PDS",
@@ -48,8 +52,19 @@
     "18C/36T globally",
     "specific accelerator or CPU IDs",
     "fixed swappiness dirty-ratio watermark overcommit TCP or scheduler magic numbers",
-    "fixed ComfyUI reserve-vram cache or preview flags"
+    "fixed ComfyUI reserve-vram cache or preview flags",
+    "global systemd Manager CPUAffinity for AI workload placement",
+    "global systemd Manager NUMAPolicy or NUMAMask for AI workload placement",
+    "DefaultTasksMax=infinity globally",
+    "DefaultLimitMEMLOCK=infinity or DefaultLimitNPROC=infinity globally",
+    "DefaultOOMPolicy=continue globally",
+    "DefaultMemoryPressureWatch=no globally",
+    "DefaultTimerAccuracySec=1ms globally",
+    "aggressively reduced global restart and start stop timeout defaults",
+    "global high DefaultLimitNOFILE used as an AI workload substitute for admission"
   ],
   "consumer_policy": "ComfyUI Ollama llama.cpp PyTorch STT video and other local accelerator consumers SHALL consume HRB placement and SHALL NOT create parallel resource authority.",
-  "current_host_claim": "REFERENCE_CONFORMANCE_ONLY_UNTIL_CURRENT_HOST_TOPOLOGY_LOCALITY_E2E_IS_COLLECTED"
+  "current_host_claim": "REFERENCE_CONFORMANCE_ONLY_UNTIL_CURRENT_HOST_TOPOLOGY_LOCALITY_E2E_IS_COLLECTED",
+  "last_amended_at": "2026-09-03",
+  "amendment": "GLOBAL_SYSTEMD_MANAGER_AI_HPC_TUNING_SUPERSEDED_BY_HRB_ADMITTED_PER_WORKLOAD_PROJECTION"
 }
