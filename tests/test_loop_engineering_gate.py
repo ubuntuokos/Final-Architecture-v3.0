@@ -68,7 +68,7 @@ class LoopEngineeringGateTests(unittest.TestCase):
             required_provenance_ids={"a", "b"}, retained_provenance_ids={"a"},
         ))
 
-    def test_hardware_reference_is_not_placement_authority(self):
+    def test_portable_hardware_floor_is_not_model_pinned(self):
         self.assertFalse(refimpl.hardware_admission_valid(
             live_discovery=False, hrb_lease=False, static_cpu_ids=True,
             reference_as_portable_default=True, accelerator_required=False,
@@ -79,11 +79,26 @@ class LoopEngineeringGateTests(unittest.TestCase):
             reference_as_portable_default=False, accelerator_required=True,
             gpu_uuid=None, pci_bdf=None, ordinal_only=True,
         ))
-        self.assertTrue(refimpl.reference_hardware_valid(
-            cpu="2x Intel Xeon E5-2696 v4 @ 2.20 GHz", physical_cores=44,
-            logical_cpus=88, expected_numa_domains=2,
-            compute_gpu="NVIDIA GeForce RTX 3080 12GB", compute_sm="SM86",
-            aux_gpu_conditional=True,
+        self.assertTrue(refimpl.portable_hardware_floor_valid(
+            cpu_packages=1, physical_cores_per_package=8,
+            cpu_vendor_pinned=False, cpu_model_pinned=False,
+            gpu_count=1, gpu_rtx_equivalent_series=30,
+            gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False,
+            gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
+        ))
+        self.assertTrue(refimpl.portable_hardware_floor_valid(
+            cpu_packages=2, physical_cores_per_package=24,
+            cpu_vendor_pinned=False, cpu_model_pinned=False,
+            gpu_count=1, gpu_rtx_equivalent_series=50,
+            gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False,
+            gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
+        ))
+        self.assertFalse(refimpl.portable_hardware_floor_valid(
+            cpu_packages=1, physical_cores_per_package=7,
+            cpu_vendor_pinned=False, cpu_model_pinned=False,
+            gpu_count=1, gpu_rtx_equivalent_series=20,
+            gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False,
+            gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
         ))
 
     def test_provider_authority_drift_fails(self):
