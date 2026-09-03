@@ -41,7 +41,7 @@ def timed(fn,warmup=5,iters=20):
     return (time.perf_counter()-t)*1000/iters
 
 def main():
-    ap=argparse.ArgumentParser(description="FA3 lease-bound SM86 kernel benchmark evidence")
+    ap=argparse.ArgumentParser(description="FA3 lease-bound GPU kernel benchmark evidence")
     ap.add_argument("--hrb-lease",required=True)
     ap.add_argument("--output",default="evidence/receipts/gpu-kernel-benchmark-current-host.json")
     a=ap.parse_args()
@@ -50,15 +50,18 @@ def main():
     rows=gpu_rows(); matches=[r for r in rows if r["uuid"]==uid]
     if len(matches)!=1: raise SystemExit("HRB lease GPU UUID does not resolve uniquely on live host")
     gpu=matches[0]
-    if gpu["compute_cap"]!="8.6" or "RTX 3080" not in gpu["name"]:
-        raise SystemExit("This current-host SM86 benchmark projection requires the live leased RTX 3080")
+    # This executable consumes the HRB lease and does not impose a concrete GPU SKU.
+    # Hardware-generation admission belongs to FA3-HARDWARE-BASELINE-001 + HRB.
     torch.cuda.set_device(gpu["index"])
     results=[]; all_correct=True
     custom_available=False
     try:
         from ampere_runtime import Runtime
-        custom_available=True
-        rt=Runtime(device=f"cuda:{gpu['index']}",profile="custom")
+        if gpu["compute_cap"] == "8.6":
+            custom_available=True
+            rt=Runtime(device=f"cuda:{gpu['index']}",profile="custom")
+        else:
+            rt=None
     except Exception:
         rt=None
     for m,k,n in SHAPES:
@@ -87,7 +90,7 @@ def main():
             results.append(row)
     out={
       "schema":"fa3.gpu-kernel-benchmark-current-host.v1","status":"PASS","synthetic":False,
-      "gpu_uuid":gpu["uuid"],"gpu_name":gpu["name"],"gpu_pci_bdf":gpu["pci_bdf"],"gpu_arch":"sm86",
+      "gpu_uuid":gpu["uuid"],"gpu_name":gpu["name"],"gpu_pci_bdf":gpu["pci_bdf"],"gpu_arch":f"sm{gpu['compute_cap'].replace('.', '')}",
       "torch_version":torch.__version__,"torch_cuda":torch.version.cuda,
       "hrb_lease_sha256":sha256_file(lease_path),"shapes":results,
       "shape_count":len(results),"custom_runtime_available":custom_available,
