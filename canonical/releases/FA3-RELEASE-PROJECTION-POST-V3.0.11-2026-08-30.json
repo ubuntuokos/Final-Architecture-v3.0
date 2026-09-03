@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e6f555ece7a0abdeba84d4328046228d6e690503",
-    "pre_projection_root_tree_sha": "9acb77910ae2c3a152dc3173caadab382ec23999",
-    "pre_projection_canonical_tree_sha": "3fdd680d0d73f58d789c5979fd16c9f6f57fc1bd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 165,
-    "total_post_baseline_commits": 165,
-    "delta_file_count": 565,
-    "delta_added_files": 561,
+    "pre_projection_head_sha": "8609f6b9d7479187c092837b4963e6a358b05ce7",
+    "pre_projection_root_tree_sha": "1fc09a37adbd982059f05e15f9fdc5581be20b53",
+    "pre_projection_canonical_tree_sha": "089b4ae020cd351d1356bf1b58d6db85f4b277cf",
+    "commits_ahead_of_v3_0_11_conformance_commit": 130,
+    "total_post_baseline_commits": 130,
+    "delta_file_count": 574,
+    "delta_added_files": 570,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 340,
-    "evidence_files_in_post_baseline_delta": 57,
-    "source_files_in_post_baseline_delta": 65,
-    "test_files_in_post_baseline_delta": 51,
+    "canonical_files_in_post_baseline_delta": 345,
+    "evidence_files_in_post_baseline_delta": 59,
+    "source_files_in_post_baseline_delta": 66,
+    "test_files_in_post_baseline_delta": 52,
     "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -143,6 +143,7 @@
       "canonical/profiles/FA3-CUDA-PY-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
+      "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
@@ -184,6 +185,7 @@
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
+      "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
@@ -233,6 +235,7 @@
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
@@ -319,6 +322,8 @@
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+      "evidence/reference/hardware-portability-ci-2026-09-03.json",
+      "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
@@ -384,7 +389,8 @@
     "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
     "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
     "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
-    "FA3-LOOP-ENGINEERING-GATESET-001"
+    "FA3-LOOP-ENGINEERING-GATESET-001",
+    "FA3-HARDWARE-PORTABILITY-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -445,7 +451,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 567,
+  "manifest_entry_count": 576,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -477,7 +483,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "e05c40cd9cb6a67e907a0635f4d0df76ce5091a9"
+      "git_blob_sha": "6daae021908a85354398c70dd0549d708aa09ad8"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -692,20 +698,24 @@
       "git_blob_sha": "bb439055c20a5e7281c2941599b5941c5a64d0af"
     },
     {
+      "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
+      "git_blob_sha": "223c1d4bcfa1b4d9905158e9859f388c937067e7"
+    },
+    {
       "path": "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
       "git_blob_sha": "be606038da2b37200691537551d21bdc6d8a51bd"
     },
     {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "810ceb1205db79701ca9d3d3cb642cee8943f35c"
+      "git_blob_sha": "1d2f52ad93147986a019e30e5a3c0d58cd5162f8"
     },
     {
       "path": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
-      "git_blob_sha": "4f1e635b491e74a48852e0773593d9ddd1c94340"
+      "git_blob_sha": "96bb4feb551d919e93ff727e7533b88c54b65e7a"
     },
     {
       "path": "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
-      "git_blob_sha": "3e95a4cf848fa79b6971a37b74661f7e8b30ccb8"
+      "git_blob_sha": "6388b18df1991cb64ad71c2f8012839cb77f183a"
     },
     {
       "path": "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
@@ -865,7 +875,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
-      "git_blob_sha": "1edfa63cb5ca09515b087b37a6a0743763fa513a"
+      "git_blob_sha": "86b530d667cea9be71ca409d1d4631ed478637d8"
     },
     {
       "path": "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
@@ -894,6 +904,10 @@
     {
       "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "git_blob_sha": "7fa83c0f31c24569c4b8b866ae65e8c7d0a7c166"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
+      "git_blob_sha": "e3d41279c80ac67389df6e57a4073d9513e31ddc"
     },
     {
       "path": "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
@@ -1049,7 +1063,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "2c2de0d277c766ff2e313994fd02af20b14f6584"
+      "git_blob_sha": "4745e952dd3d40dd57cf91915a59975b6269c80c"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1110,6 +1124,10 @@
     {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-CURRENT-HOST-001.json",
       "git_blob_sha": "7260ba12a40208772d4ef45e07ceb7ed8c84624f"
+    },
+    {
+      "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
+      "git_blob_sha": "8e53472e4b356b5b7732873e74d65a2f9d06c866"
     },
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
@@ -1218,6 +1236,10 @@
     {
       "path": "canonical/gpu-kernel-runtime-enforcement.json",
       "git_blob_sha": "78cc74fa6bfe38feeca0c340e3a1b2595fa357be"
+    },
+    {
+      "path": "canonical/hardware-portability-enforcement.json",
+      "git_blob_sha": "0050ed84af157b24dee2d8e8350b92a613c470f9"
     },
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
@@ -1356,16 +1378,20 @@
       "git_blob_sha": "806eff5e86ef83356385439fb4ccae7e174d7685"
     },
     {
+      "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
+      "git_blob_sha": "a81dc49d7129cee18eb990ad294bacf3054ff9fc"
+    },
+    {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "f66338ccb74d39a479500fe8d6a31c4310ece0d8"
+      "git_blob_sha": "1b191585a62f0624a6c9b796a3347fc056c83238"
     },
     {
       "path": "canonical/profiles/FA3-HW-001.json",
-      "git_blob_sha": "d57cbf5b0c52fe137cd35500abd42f35e302aa4d"
+      "git_blob_sha": "ac30d93d678eccbc7c3bd0c96d41f3b945fb7367"
     },
     {
       "path": "canonical/profiles/FA3-HW-MGPU-001.json",
-      "git_blob_sha": "a927c5543a6ec27cd69827ae5f1ca89cb4ede3e2"
+      "git_blob_sha": "0b9bcf4d1a986916b4ed6a2653bf9a0f53f266e5"
     },
     {
       "path": "canonical/profiles/FA3-HYBRID-EDITORIAL-001.json",
@@ -2053,7 +2079,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "c4ad5f19dfd2f0fda18a71f14ff91d35bcfcef07"
+      "git_blob_sha": "9def3112bc790a97d716d5f2b09b8db194b04548"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2114,6 +2140,14 @@
     {
       "path": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "git_blob_sha": "c7384c36f366d9c4cc242eda41608ae400c04488"
+    },
+    {
+      "path": "evidence/reference/hardware-portability-ci-2026-09-03.json",
+      "git_blob_sha": "b9723676af35fb9e4d1df6de0c80347656ad4f11"
+    },
+    {
+      "path": "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
+      "git_blob_sha": "0fe16255bf9dc3a7e4c8db770cd5815f02ee2a02"
     },
     {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
@@ -2249,7 +2283,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "6897b85fb9af595ef59d160475c1257affd52514"
+      "git_blob_sha": "478a68401204ec94c6909a5a50f876294b00ab64"
     },
     {
       "path": "src/fa3_acestep_gate.py",
@@ -2341,7 +2375,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "bd74c1e0011ef65aaab8860f1818067bc12a3450"
+      "git_blob_sha": "5033a0220889a74bc9cfcfadccc4b56c6e0c555d"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2366,6 +2400,10 @@
     {
       "path": "src/fa3_gpu_kernel_runtime_gate.py",
       "git_blob_sha": "0b06215aea5749f6540e5cec6bf4c37a3256b0f4"
+    },
+    {
+      "path": "src/fa3_hardware_portability_gate.py",
+      "git_blob_sha": "f8e4f50dcd53d52c60f30470e559755f614beafd"
     },
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
@@ -2469,7 +2507,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "aea1820c7c0497ae07314eae2aed55dd9814cd40"
+      "git_blob_sha": "eba0be84a44c6e93fe8d35c726dac3c5a4efe0b4"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2588,6 +2626,10 @@
       "git_blob_sha": "3693f6bcd74c967cb01949902952f10dfb33d29d"
     },
     {
+      "path": "tests/test_hardware_portability_gate.py",
+      "git_blob_sha": "a112bf27037dbfb52cc1d8dcefcdc9f973d21ff0"
+    },
+    {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "3d3e282cfd1125ed913ece46c6a0d25f7bce4c89"
     },
@@ -2673,7 +2715,7 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "832e9fffb2919d122b75d1766c062504f6fbf276"
+      "git_blob_sha": "5e7aca13001aaaf3b6dd9b4a54287d4469648dec"
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
@@ -3452,5 +3494,37 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
+  },
+  "hardware_portability_reconciliation": {
+    "profile_id": "FA3-HARDWARE-BASELINE-001",
+    "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "decision_id": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+    "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+    "executable_gate_id": "FA3-GATE-HARDWARE-PORTABILITY-001",
+    "capability_bindings": [
+      "CAP-001",
+      "CAP-006",
+      "CAP-062",
+      "CAP-063",
+      "CAP-065",
+      "CAP-130",
+      "CAP-137",
+      "CAP-142",
+      "CAP-143"
+    ],
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
+    "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
+    "repository_audit": "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
+    "reference_evidence_status": "PASS",
+    "repository_audit_status": "PASS",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_runtime_promotion_claim": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "portable_cpu": "1_TO_N_PACKAGES_MIN_8_PHYSICAL_CORES_PER_QUALIFYING_CPU",
+    "portable_gpu": "1_TO_N_NVIDIA_RTX_30_SERIES_OR_NEWER",
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
   }
 }
