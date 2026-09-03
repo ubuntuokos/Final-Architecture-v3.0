@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -23,7 +23,8 @@
     "reservation",
     "lease",
     "typed CPU memory accelerator locality placement",
-    "runtime resource-domain projection"
+    "runtime resource-domain projection",
+    "typed systemd manager-default neutrality and per-workload systemd/cgroup projection"
   ],
   "deterministic_execution_fabric": {
     "topology_discovery": [
@@ -70,7 +71,15 @@
     "global THP=madvise or HugeTLB reservation",
     "fixed MemoryMax or MemorySwapMax",
     "ComfyUI cache reserve-vram or preview flags",
-    "PDS BMQ MuQSS or PREEMPT_RT production requirement"
+    "PDS BMQ MuQSS or PREEMPT_RT production requirement",
+    "global systemd Manager CPUAffinity NUMAPolicy or NUMAMask used as AI placement",
+    "global DefaultTasksMax=infinity",
+    "global DefaultLimitMEMLOCK=infinity or DefaultLimitNPROC=infinity",
+    "global DefaultOOMPolicy=continue",
+    "global DefaultMemoryPressureWatch=no",
+    "global DefaultTimerAccuracySec=1ms",
+    "global aggressive restart or start stop timeout tuning",
+    "global high DefaultLimitNOFILE used instead of per-workload admission"
   ],
   "non_authority_scope": [
     "provider execution semantics",
@@ -79,5 +88,33 @@
     "evidence authority",
     "scheduler implementation ownership"
   ],
-  "implementation_status": "CANONICAL_DETERMINISTIC_LOCALITY_AND_CPU_THREAD_GOVERNANCE_MATERIALIZED_REFERENCE_GATES_PASS_CURRENT_HOST_LOCALITY_THREADING_E2E_PENDING"
+  "implementation_status": "CANONICAL_DETERMINISTIC_LOCALITY_CPU_THREAD_AND_SYSTEMD_MANAGER_NEUTRALITY_GOVERNANCE_MATERIALIZED_REFERENCE_GATES_PASS_CURRENT_HOST_LOCALITY_THREADING_E2E_PENDING",
+  "systemd_manager_defaults_policy": {
+    "status": "MANDATORY_NEUTRAL_BASELINE",
+    "global_manager_resource_defaults": "VENDOR_OR_HOST_SURVIVAL_BASELINE_ONLY",
+    "ai_hpc_workload_tuning_scope": "PER_SERVICE_SLICE_OR_SCOPE_AFTER_HRB_ADMISSION",
+    "forbidden_global_ai_hpc_overrides": [
+      "CPUAffinity",
+      "NUMAPolicy",
+      "NUMAMask",
+      "DefaultTasksMax=infinity",
+      "DefaultLimitMEMLOCK=infinity",
+      "DefaultLimitNPROC=infinity",
+      "DefaultOOMPolicy=continue",
+      "DefaultMemoryPressureWatch=no",
+      "DefaultTimerAccuracySec=1ms",
+      "aggressively reduced DefaultTimeoutStartSec or DefaultTimeoutStopSec",
+      "aggressively reduced DefaultRestartSec",
+      "unbounded or host-wide DefaultLimitNOFILE used as AI workload tuning"
+    ],
+    "required_projection_chain": [
+      "live topology and current-state discovery",
+      "HRB ResourceEnvelope and PlacementDecision",
+      "semantic diff",
+      "explicit approval when privileged or host-global",
+      "bounded systemd plus unified cgroup v2 projection",
+      "runtime acceptance evidence",
+      "rollback and evidence expiry"
+    ]
+  }
 }
