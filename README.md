@@ -1073,3 +1073,23 @@ python3 evidence/collect-gpu-kernel-runtime-current-host.py \
 ```
 
 A component PASS still does not promote the complete 143-capability runtime; the global Evidence Registry and all 19 Acceptance Gate criteria remain separate.
+
+
+## FA3 closed-loop agent operations / Loop Engineering baseline
+
+`FA3-CLOSED-LOOP-AGENT-OPERATIONS-001` is a **P0/MUST**, provider-neutral non-root subprofile of `FA3-AGENT-EXEC-001`. It materializes durable external loop state, L2/L3 maker-checker separation, progressive L0→L3 autonomy with automatic demotion, deterministic circuit breakers, multi-dimensional budgets, isolated leased workspaces, mechanical policy gates, least-privilege connectors, drift detection, provenance-preserving context compaction, append-only observability, pause/kill/retire semantics and event-first triggering. It adds **no capability** and **no architectural authority**; the canonical count remains **143**, projected over existing `CAP-028`.
+
+`FA3-PROVIDER-LOOP-ENGINEERING-001` registers `cobusgreyling/loop-engineering` as an optional pattern/tooling reference provider pinned to commit `714f1fdf6ea111f27207de6908547c2a155b270c`. Its Node/NPM CLI tools and `STATE.md` / `LOOP.md` / `gate.yaml` formats are not FA3 hard dependencies. The absorbed closed-loop semantics are enforced through `FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001`.
+
+Authority boundaries do not move: **Temporal remains the Global Durable Orchestration authority**; Central MCP/Capability Gateway remains tool mediation; Security Governance remains policy authority; Host Resource Broker remains CPU/NUMA/GPU admission, placement and lease authority; Model Router, Evidence/Observability and release-integrity authorities remain unchanged.
+
+The corrected T7910 reference is **2× Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected 2 NUMA domains**, with **RTX 3080 12GB / SM86** as the expected compute route and **RTX A1000** as display/auxiliary when present. These values are reference assertions only: every execution rediscovers live CPU/NUMA/cgroup/PCI/GPU UUID/BDF/VRAM/SM/driver/CUDA topology, and accelerator work requires an HRB lease. Static CPU IDs, CUDA ordinal identity and reference-hardware-derived placement are forbidden.
+
+Run the 36-rule positive/negative gate with:
+
+```bash
+./bin/fa3-enforce loop-engineering
+PYTHONPATH=src python -m unittest tests.test_loop_engineering_gate -v
+```
+
+The committed reference PASS is not current-host runtime evidence and cannot promote `CAP-028` or the global 143-capability runtime by documentation alone.
