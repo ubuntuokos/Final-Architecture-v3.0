@@ -1,0 +1,71 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HARDWARE-BASELINE-001",
+  "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-HW-001"},
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-HW-CONTRACTS-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
+  ],
+  "authority": {
+    "discovery": "NON_AUTHORITY_CAPABILITY",
+    "admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "portable_minimum": {
+    "cpu": {
+      "package_count_min": 1,
+      "package_count_max": "UNBOUNDED_BY_FA3",
+      "physical_cores_per_qualifying_cpu_min": 8,
+      "vendor_pin": "FORBIDDEN",
+      "model_pin": "FORBIDDEN",
+      "fixed_socket_count": "FORBIDDEN"
+    },
+    "gpu": {
+      "qualifying_device_count_min": 1,
+      "qualifying_device_count_max": "UNBOUNDED_BY_FA3",
+      "vendor_family": "NVIDIA_RTX",
+      "rtx_series_floor": 30,
+      "accepted_series": "RTX_30_SERIES_OR_NEWER",
+      "newer_generations": "MUST_ACCEPT_WHEN_RUNTIME_CAPABILITIES_SATISFY_WORKLOAD",
+      "exact_sku_pin": "FORBIDDEN",
+      "vram_size_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "sm_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "fixed_device_count": "FORBIDDEN"
+    }
+  },
+  "runtime_discovery": {
+    "when": ["BOOT", "SERVICE_ADMISSION", "WORKLOAD_ADMISSION", "TOPOLOGY_CHANGE_OR_REVALIDATION"],
+    "cpu": ["PACKAGE", "PHYSICAL_CORE", "SMT", "CPUSET", "NUMA", "MEMORY_LOCALITY"],
+    "gpu": ["UUID", "PCI_BDF", "RTX_SERIES", "VRAM", "DRIVER", "RUNTIME_CAPABILITY", "HEALTH", "NUMA_LOCALITY"],
+    "pcie": ["TOPOLOGY", "BDF", "LOCALITY"],
+    "cardinality": "ENUMERATE_1_TO_N_NO_STATIC_INDEX_ASSUMPTION"
+  },
+  "invariants": [
+    "CPU_CARDINALITY_DYNAMIC_1_TO_N",
+    "CPU_MINIMUM_ONE_PACKAGE_AND_EIGHT_PHYSICAL_CORES_PER_QUALIFYING_CPU",
+    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
+    "GPU_MINIMUM_NVIDIA_RTX_30_SERIES_OR_NEWER",
+    "NEWER_RTX_GENERATIONS_MUST_NOT_BE_REJECTED_BY_MODEL_PIN",
+    "NO_CONCRETE_CPU_VENDOR_MODEL_SOCKET_COUNT_AS_CANONICAL_REQUIREMENT",
+    "NO_CONCRETE_GPU_SKU_VRAM_SM_DEVICE_COUNT_AS_CANONICAL_REQUIREMENT",
+    "NO_STATIC_CPU_ID_NUMA_NODE_PCI_BDF_OR_CUDA_ORDINAL_AS_PORTABLE_PLACEMENT",
+    "LIVE_DISCOVERY_AND_REVALIDATION_REQUIRED",
+    "CURRENT_HOST_FACTS_ARE_EVIDENCE_ONLY",
+    "HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY",
+    "APPLICATIONS_AND_SERVICES_CONSUME_DISCOVERED_CAPABILITIES_NOT_MACHINE_IDENTITY"
+  ],
+  "current_host_semantics": "EXACT_HOST_TUPLES_ALLOWED_AS_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS",
+  "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND"
+}
