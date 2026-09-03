@@ -33,6 +33,7 @@ class KernelCandidate:
     workspace_bytes: int = 0
     available_vram_bytes: int | None = None
     compatibility_pass: bool = True
+    compatibility_pass: bool = True
 
 def _norm_arch(value: str) -> str:
     return str(value or "").strip().lower()
