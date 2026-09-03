@@ -151,7 +151,7 @@ def scan_authority(root:Path):
             if isinstance(v,dict):
                 for k,x in v.items():
                     kp=f"{path}.{k}"
-                    if "authority" in k.lower().replace("-","_") and x in provider_ids:
+                    if "authority" in k.lower().replace("-","_") and isinstance(x, str) and x in provider_ids:
                         fs.append(_f("VPLC-AUTH-001","provider assigned to authority field",file=str(p.relative_to(root)),path=kp,provider=x))
                     walk(x,kp)
             elif isinstance(v,list):
