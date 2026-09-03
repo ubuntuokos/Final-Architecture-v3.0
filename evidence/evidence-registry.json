@@ -1457,7 +1457,14 @@
         "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "global_runtime_promotion_effect": "NONE_WHILE_DISABLED_REFERENCE_ONLY",
-        "reference_evidence": "evidence/reference/loop-engineering-ci-2026-09-03.json"
+        "reference_evidence": "evidence/reference/loop-engineering-ci-2026-09-03.json",
+        "portable_hardware_floor": {
+          "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
+          "gpu": "MIN_NVIDIA_RTX_30_SERIES_AMPERE_EQUIVALENT_OR_NEWER",
+          "newer_rtx_generations_allowed": true,
+          "concrete_cpu_or_gpu_model_pin": false,
+          "current_host_exact_hardware": "EVIDENCE_ONLY"
+        }
       }
     },
     {
