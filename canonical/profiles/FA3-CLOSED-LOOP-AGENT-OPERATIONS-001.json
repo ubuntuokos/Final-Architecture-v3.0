@@ -21,7 +21,8 @@
   "related_contracts": [
     "FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
-    "FA3-AGENT-EXEC-CONTRACTS-001"
+    "FA3-AGENT-EXEC-CONTRACTS-001",
+    "FA3-HW-CONTRACTS-001"
   ],
   "authority_boundaries": {
     "durable_orchestration": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
@@ -90,6 +91,8 @@
       "specific_vram_pinned": false,
       "specific_sm_pinned": false
     },
-    "admission": "LIVE_DISCOVERY_AND_HRB_ADMISSION; ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE"
-  }
+    "admission": "LIVE_DISCOVERY_AND_HRB_ADMISSION; ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE",
+    "inherited_from": "FA3-HW-001/FA3-HW-CONTRACTS-001"
+  },
+  "hardware_baseline_profile": "FA3-HW-001"
 }
