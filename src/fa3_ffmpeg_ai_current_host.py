@@ -124,10 +124,11 @@ def build_identity_onnx(width: int = 64, height: int = 64) -> bytes:
 
 def normalize_bdf(value: str) -> str:
     value = str(value or "").strip().lower()
+    if re.fullmatch(r"[0-9a-f]{8}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-7]", value):
+        value = value[-12:]
     if re.fullmatch(r"[0-9a-f]{2}:[0-9a-f]{2}\.[0-7]", value):
         value = "0000:" + value
     return value
-
 
 def valid_bdf(value: str) -> bool:
     return re.fullmatch(r"[0-9a-f]{4}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-7]", normalize_bdf(value)) is not None
