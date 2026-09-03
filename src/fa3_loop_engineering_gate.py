@@ -71,6 +71,8 @@ PATHS = {
     "admission": "canonical/loop-engineering-runtime-admission.json",
     "evidence": "evidence/reference/loop-engineering-ci-2026-09-03.json",
     "policy": "canonical/enforcement-policy.json",
+    "hardware_profile": "canonical/profiles/FA3-HW-001.json",
+    "hardware_contract": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
 }
 
 def _load(path: Path) -> dict[str, Any]:
@@ -293,6 +295,8 @@ def reference_check(root: Path) -> dict[str, Any]:
     admission = docs["admission"]
     evidence = docs["evidence"]
     policy = docs["policy"]
+    hardware_profile = docs["hardware_profile"]
+    hardware_contract = docs["hardware_contract"]
 
     if not (
         profile.get("id") == PROFILE_ID
@@ -329,6 +333,32 @@ def reference_check(root: Path) -> dict[str, Any]:
         and hw_gpu.get("specific_sm_pinned") is False
     ):
         findings.append(_finding("LOOP-REF-003A", "portable FA3 hardware floor drift"))
+
+    hw_global = hardware_profile.get("minimum_portable_hardware_envelope", {})
+    hw_global_cpu = hw_global.get("cpu", {})
+    hw_global_gpu = hw_global.get("gpu", {})
+    hw_contract_floor = hardware_contract.get("portable_minimum_envelope", {})
+    if not (
+        hardware_profile.get("id") == "FA3-HW-001"
+        and hardware_profile.get("canonical_root") is True
+        and hw_global_cpu.get("minimum_package_count") == 1
+        and hw_global_cpu.get("minimum_physical_cores_per_qualifying_cpu") == 8
+        and hw_global_cpu.get("vendor_pin") == "FORBIDDEN"
+        and hw_global_cpu.get("model_pin") == "FORBIDDEN"
+        and hw_global_gpu.get("minimum_qualifying_device_count") == 1
+        and hw_global_gpu.get("minimum_product_series") == "NVIDIA_RTX_30_SERIES"
+        and hw_global_gpu.get("accepted_product_series") == "NVIDIA_RTX_30_SERIES_OR_NEWER"
+        and hw_global_gpu.get("newer_rtx_series") == "ALLOWED"
+        and hw_global_gpu.get("exact_sku_pin") == "FORBIDDEN"
+        and hw_global_gpu.get("architecture_equivalence_without_rtx30_or_newer_series_identity") == "DOES_NOT_SATISFY_MINIMUM"
+        and hardware_contract.get("id") == "FA3-HW-CONTRACTS-001"
+        and hw_contract_floor.get("cpu", {}).get("package_count_min") == 1
+        and hw_contract_floor.get("cpu", {}).get("physical_cores_per_qualifying_cpu_min") == 8
+        and hw_contract_floor.get("gpu", {}).get("rtx_series_floor") == 30
+        and hw_contract_floor.get("gpu", {}).get("newer_rtx_series_allowed") is True
+        and hw_contract_floor.get("gpu", {}).get("architecture_equivalence_alone_insufficient") is True
+    ):
+        findings.append(_finding("LOOP-REF-003B", "global FA3 portable hardware baseline drift"))
 
     if not (
         contract.get("id") == CONTRACT_ID
