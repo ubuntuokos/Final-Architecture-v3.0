@@ -1,11 +1,11 @@
 {
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001",
-  "name": "FA3 Ampere SM86 Kernel Runtime Reference Provider",
-  "status": "REQUIRED_SUPPORTED_REFERENCE",
-  "provider_role": "CURRENT_HOST_SM86_KERNEL_EXECUTION_REFERENCE_PROVIDER",
+  "name": "FA3 Ampere SM86 Kernel Optimization Reference Provider",
+  "status": "ACCEPTED_CONDITIONAL_REFERENCE",
+  "provider_role": "OPTIONAL_SM86_KERNEL_OPTIMIZATION_REFERENCE_PROVIDER",
   "classification": [
-    "REQUIRED_SUPPORTED_PROVIDER",
+    "OPTIONAL_PROVIDER",
     "CUDA_KERNEL_EXECUTION_BACKEND",
     "SM86_REFERENCE",
     "AUTOTUNE_PATTERN_SOURCE"
@@ -32,8 +32,8 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "activation_mode": "REQUIRED_SUPPORTED_DISABLED_UNTIL_CURRENT_HOST_ADMISSION",
-  "runtime_activation_status": "BLOCKED_PENDING_REAL_T7910_SM86_CORRECTNESS_BENCHMARK_ROLLBACK_EVIDENCE",
+  "activation_mode": "CONDITIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_LIVE_SM86_COMPATIBILITY_CORRECTNESS_BENCHMARK_ROLLBACK_EVIDENCE",
   "current_host_runtime_evidence": false,
   "target_architectures": [
     "SM86"
@@ -55,16 +55,10 @@
     "CUSTOM_SM86_CUDA_IF_EVIDENCE_PROMOTED"
   ],
   "selection_policy": "BENCHMARK_AND_CORRECTNESS_GOVERNED_NO_CUSTOM_DEFAULT",
-  "current_host_compatibility": {
-    "cpu_reference": "2x_E5-2696_v4_44C_88T_EXPECTED_TWO_NUMA_REFERENCE_ONLY",
-    "compute_gpu_reference": "RTX_3080_12GB_SM86_REFERENCE_ONLY",
-    "auxiliary_gpu_reference": "RTX_A1000_DISPLAY_AUXILIARY_REFERENCE_ONLY",
-    "driver_cuda_reference": "CURRENT_FA3_NVIDIA_CUDA_STACK_MUST_BE_LIVE_DISCOVERED",
-    "placement": "AUTHORIZED_HRB_LEASE_DEVICE_UUID_AND_PCI_BDF_REQUIRED"
-  },
   "required_admission": [
-    "LIVE_TOPOLOGY_AND_GPU_ARCH_DISCOVERY",
+    "LIVE_HARDWARE_DISCOVERY_AND_REVALIDATION",
     "AUTHORIZED_HRB_LEASE",
+    "LIVE_GPU_ARCH_EQUALS_SM86",
     "TARGET_NATIVE_SM86_BUILD_OR_RUNTIME",
     "CORRECTNESS_ORACLE_PASS",
     "MULTI_SHAPE_BENCHMARK_PASS",
@@ -73,5 +67,12 @@
     "KERNEL_TELEMETRY_AND_SELECTION_RECEIPT"
   ],
   "implementation_source_policy": "FA3_LOCAL_REFERENCE_IMPLEMENTATION_MAY_BE_USED_ONLY_BY_IMMUTABLE_ARTIFACT_DIGEST_AND_REAL_HOST_ADMISSION",
-  "normative_constraint": "This provider executes kernels only; it cannot select the accelerator, enlarge an HRB resource envelope, silently change precision/backend/device, or become a global scheduler."
+  "normative_constraint": "Optional SM86 optimization provider only. It cannot define the host baseline, select the accelerator, enlarge an HRB resource envelope, silently change precision/backend/device, or become a scheduler.",
+  "version": "1.1.0",
+  "hardware_portability": {
+    "hardware_profile_id": "FA3-HARDWARE-BASELINE-001",
+    "eligibility": "LIVE_GPU_ARCH_MUST_EQUAL_SM86_AND_RUNTIME_SUPPORT_MATRIX_MUST_PASS",
+    "exact_gpu_model": "NOT_REQUIRED",
+    "exact_host_tuple": "NOT_CANONICAL"
+  }
 }

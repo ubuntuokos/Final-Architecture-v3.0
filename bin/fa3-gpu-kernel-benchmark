@@ -4,6 +4,9 @@ import argparse, hashlib, json, subprocess, time
 from pathlib import Path
 import torch
 
+FRAMEWORK_PROVIDER="FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001"
+AMPERE_PROVIDER="FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001"
+DEEPGEMM_PROVIDER="FA3-PROVIDER-DEEPGEMM-001"
 SHAPES=[(64,4096,4096),(512,4096,4096),(1024,4096,4096)]
 
 def sha256_file(p:Path)->str:
@@ -40,8 +43,11 @@ def timed(fn,warmup=5,iters=20):
     torch.cuda.synchronize()
     return (time.perf_counter()-t)*1000/iters
 
+def estimate_bytes(m:int,k:int,n:int,element_size:int)->int:
+    return (m*k+n*k+n+m*n)*element_size
+
 def main():
-    ap=argparse.ArgumentParser(description="FA3 lease-bound GPU kernel benchmark evidence")
+    ap=argparse.ArgumentParser(description="FA3 lease-bound portable GPU kernel benchmark evidence")
     ap.add_argument("--hrb-lease",required=True)
     ap.add_argument("--output",default="evidence/receipts/gpu-kernel-benchmark-current-host.json")
     a=ap.parse_args()
@@ -50,55 +56,90 @@ def main():
     rows=gpu_rows(); matches=[r for r in rows if r["uuid"]==uid]
     if len(matches)!=1: raise SystemExit("HRB lease GPU UUID does not resolve uniquely on live host")
     gpu=matches[0]
-    # This executable consumes the HRB lease and does not impose a concrete GPU SKU.
-    # Hardware-generation admission belongs to FA3-HARDWARE-BASELINE-001 + HRB.
     torch.cuda.set_device(gpu["index"])
-    results=[]; all_correct=True
+    arch=f"sm{gpu['compute_cap'].replace('.', '')}"
+    framework_ok=torch.cuda.is_available()
+    free_start,total_vram=torch.cuda.mem_get_info()
+    results=[]; all_correct=True; all_preflight=True
     custom_available=False
     try:
         from ampere_runtime import Runtime
-        if gpu["compute_cap"] == "8.6":
+        if arch=="sm86":
             custom_available=True
             rt=Runtime(device=f"cuda:{gpu['index']}",profile="custom")
         else:
             rt=None
     except Exception:
         rt=None
+    try:
+        import deep_gemm  # noqa: F401
+        deepgemm_runtime_available=True
+    except Exception:
+        deepgemm_runtime_available=False
+
     for m,k,n in SHAPES:
         for dtype_name,dtype in (("BF16",torch.bfloat16),("FP16",torch.float16)):
+            element_size=torch.tensor([],dtype=dtype).element_size()
+            need=estimate_bytes(m,k,n,element_size)
+            free_now,_=torch.cuda.mem_get_info()
+            preflight=need < int(free_now*0.90)
+            all_preflight=all_preflight and preflight
+            row={"operation":"linear_silu","m":m,"n":n,"k":k,"batch":1,"dtype":dtype_name,"layout":"NT",
+                 "estimated_tensor_bytes":need,"free_vram_before_bytes":free_now,"vram_preflight":preflight}
+            if not preflight:
+                row.update({"status":"PRECHECK_FAIL","selected_provider_id":None})
+                results.append(row)
+                all_correct=False
+                continue
             x=torch.randn(m,k,device="cuda",dtype=dtype)
             w=torch.randn(n,k,device="cuda",dtype=dtype)
             b=torch.randn(n,device="cuda",dtype=dtype)
             ref=lambda: torch.nn.functional.silu(torch.nn.functional.linear(x,w,b))
             ref_ms=timed(ref)
-            row={"operation":"linear_silu","m":m,"n":n,"k":k,"batch":1,"dtype":dtype_name,"layout":"NT","pytorch_cuda_ms":ref_ms}
+            row.update({"pytorch_cuda_ms":ref_ms,"framework_native_correct":True,"selected_provider_id":FRAMEWORK_PROVIDER})
             if rt is not None and dtype==torch.bfloat16:
                 try:
                     y_ref=ref(); y_c=rt.linear(x,w,bias=b,activation="silu")
                     torch.cuda.synchronize()
                     max_abs=float((y_ref-y_c).abs().max().item())
-                    atol=0.12
-                    correct=max_abs<=atol
+                    atol=0.12; correct=max_abs<=atol
                     c_ms=timed(lambda:rt.linear(x,w,bias=b,activation="silu"))
-                    row.update({"custom_sm86_ms":c_ms,"custom_correct":correct,"max_abs_error":max_abs,
-                                "winner":"custom" if correct and c_ms<ref_ms else "pytorch"})
+                    row.update({"custom_sm86_ms":c_ms,"custom_correct":correct,"max_abs_error":max_abs})
+                    if correct and c_ms<ref_ms:
+                        row["selected_provider_id"]=AMPERE_PROVIDER
                     all_correct=all_correct and correct
                 except Exception as e:
-                    row.update({"custom_error":type(e).__name__,"winner":"pytorch"})
-            else:
-                row["winner"]="pytorch"
+                    row.update({"custom_error":type(e).__name__})
+            row["status"]="PASS"
             results.append(row)
+
+    selected=sorted({r.get("selected_provider_id") for r in results if r.get("selected_provider_id")})
+    provider_compatibility=(
+        framework_ok
+        and all(r.get("selected_provider_id") in {FRAMEWORK_PROVIDER,AMPERE_PROVIDER} for r in results if r.get("status")=="PASS")
+        and all((r.get("selected_provider_id")!=AMPERE_PROVIDER or arch=="sm86") for r in results)
+    )
     out={
-      "schema":"fa3.gpu-kernel-benchmark-current-host.v1","status":"PASS","synthetic":False,
-      "gpu_uuid":gpu["uuid"],"gpu_name":gpu["name"],"gpu_pci_bdf":gpu["pci_bdf"],"gpu_arch":f"sm{gpu['compute_cap'].replace('.', '')}",
+      "schema":"fa3.gpu-kernel-benchmark-current-host.v2","status":"PASS" if all_preflight and all_correct and len(results)>=6 else "FAIL","synthetic":False,
+      "gpu_uuid":gpu["uuid"],"gpu_name":gpu["name"],"gpu_pci_bdf":gpu["pci_bdf"],"gpu_arch":arch,
       "torch_version":torch.__version__,"torch_cuda":torch.version.cuda,
-      "hrb_lease_sha256":sha256_file(lease_path),"shapes":results,
-      "shape_count":len(results),"custom_runtime_available":custom_available,
-      "correctness_pass":all_correct if custom_available else True,
-      "benchmark_pass":len(results)>=6,"vram_workspace_preflight":True,
-      "selection_policy":"CUSTOM_ONLY_IF_CORRECT_AND_FASTER_OTHERWISE_PYTORCH_CUDA",
+      "hrb_lease_sha256":sha256_file(lease_path),"shapes":results,"shape_count":len(results),
+      "selected_provider_ids":selected,
+      "framework_native_compatibility_pass":framework_ok,
+      "custom_ampere_runtime_available":custom_available,
+      "deepgemm_snapshot_arch_eligible":arch in {"sm90","sm100"},
+      "deepgemm_runtime_available":deepgemm_runtime_available,
+      "deepgemm_runtime_admitted":False,
+      "hardware_discovery_revalidated":True,
+      "provider_compatibility_pass":provider_compatibility,
+      "correctness_pass":all_correct,
+      "benchmark_pass":len(results)>=6 and all(r.get("status")=="PASS" for r in results),
+      "vram_workspace_preflight":all_preflight,
+      "vram_total_bytes":total_vram,"vram_free_start_bytes":free_start,
+      "selection_policy":"BASELINE_FRAMEWORK_NATIVE_PLUS_ELIGIBLE_OPTIMIZERS_CUSTOM_ONLY_IF_CORRECT_AND_FASTER",
       "no_silent_fallback":True
     }
     p=Path(a.output); p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(out,indent=2)+"\n")
     print(json.dumps(out,indent=2))
+    raise SystemExit(0 if out["status"]=="PASS" else 2)
 if __name__=="__main__": main()
