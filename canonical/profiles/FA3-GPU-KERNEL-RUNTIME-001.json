@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-GPU-KERNEL-RUNTIME-001",
+  "name": "Provider-Neutral GPU Kernel Optimization, Autotuning & Architecture-Aware Dispatch",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-INFERENCE-PORTABILITY-001"
+  },
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "dependencies": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001",
+    "FA3-INFERENCE-PORTABILITY-001"
+  ],
+  "contracts": [
+    "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001"
+  ],
+  "authority": {
+    "admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "kernel_providers": "EXECUTION_PROVIDERS_NOT_AUTHORITIES"
+  },
+  "scope": [
+    "live GPU architecture and runtime capability discovery",
+    "shape dtype layout workload aware kernel candidate selection",
+    "benchmark and correctness governed autotuning",
+    "JIT and compiled-kernel cache identity/invalidation",
+    "fused operation admission",
+    "precision policy projection",
+    "VRAM/workspace preflight",
+    "kernel execution telemetry and rollback"
+  ],
+  "providers": [
+    "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001",
+    "FA3-PROVIDER-DEEPGEMM-001"
+  ],
+  "current_host_projection": {
+    "reference_host": "Dell Precision Tower 7910",
+    "cpu_reference": "2x Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected two NUMA domains",
+    "compute_gpu_reference": "RTX 3080 12GB / SM86 expected compute role",
+    "auxiliary_gpu_reference": "RTX A1000 expected display/auxiliary role when present",
+    "semantics": "REFERENCE_ASSERTIONS_ONLY_LIVE_DISCOVERY_AND_HRB_ADMISSION_REQUIRED"
+  },
+  "invariants": [
+    "GPU_KERNEL_PROFILE_NOT_AUTHORITY",
+    "KERNEL_PROVIDER_NEUTRAL_CONTRACT_REQUIRED",
+    "HRB_LEASE_REQUIRED_BEFORE_ACCELERATOR_KERNEL_EXECUTION",
+    "ACCELERATOR_UUID_AND_PCI_BDF_CANONICAL_IDENTITY",
+    "CUDA_RUNTIME_ORDINAL_NOT_CANONICAL_IDENTITY",
+    "LIVE_GPU_SM_DRIVER_CUDA_TOPOLOGY_DISCOVERY_REQUIRED",
+    "REFERENCE_T7910_HARDWARE_NOT_PORTABLE_DEFAULT",
+    "CURRENT_HOST_SM86_PROJECTION_REQUIRED_SUPPORTED",
+    "DEEPGEMM_PROVIDER_SM90_SM100_ONLY",
+    "DEEPGEMM_DENIED_ON_CURRENT_SM86_HOST",
+    "NO_SILENT_BACKEND_DEVICE_OR_PRECISION_FALLBACK",
+    "BENCHMARK_FIRST_BACKEND_SELECTION",
+    "CORRECTNESS_PRECEDES_PERFORMANCE",
+    "SHAPE_DTYPE_LAYOUT_VERSION_BOUND_AUTOTUNE_PROFILE",
+    "JIT_CACHE_FINGERPRINT_AND_INVALIDATION_REQUIRED",
+    "CUSTOM_KERNEL_NOT_DEFAULT_WITHOUT_EVIDENCE",
+    "FUSED_OPERATION_REQUIRES_CORRECTNESS_PERFORMANCE_STABILITY",
+    "PRECISION_POLICY_EXPLICIT_AND_WORKLOAD_BOUND",
+    "FP8_FP4_REQUIRES_NATIVE_SUPPORTED_PROVIDER_PATH",
+    "NUMA_CPU_LOCALITY_CONSUMES_HRB_PLACEMENT",
+    "GPU_ROLE_AND_DISPLAY_AUXILIARY_RESERVATION_HONORED",
+    "VRAM_WORKSPACE_PREFLIGHT_REQUIRED",
+    "ROLLBACK_PROVIDER_AND_PROFILE_REQUIRED",
+    "KERNEL_LEVEL_OBSERVABILITY_AND_SELECTION_RECEIPT_REQUIRED",
+    "WORKLOAD_SPECIFIC_OPTIMIZATION_PROFILE_REQUIRED",
+    "CURRENT_HOST_PASS_NOT_DERIVED_FROM_REFERENCE_CI",
+    "DEEPGEMM_IMMUTABLE_FORK_PIN_REQUIRED",
+    "DISABLED_OR_INELIGIBLE_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
+  ],
+  "implementation_status": "CANONICAL_REFERENCE_GATE_MATERIALIZED_CURRENT_HOST_SM86_PRODUCTION_E2E_PENDING"
+}

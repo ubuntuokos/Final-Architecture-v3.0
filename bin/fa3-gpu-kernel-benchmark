@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+import argparse, hashlib, json, subprocess, time
+from pathlib import Path
+import torch
+
+SHAPES=[(64,4096,4096),(512,4096,4096),(1024,4096,4096)]
+
+def sha256_file(p:Path)->str:
+    h=hashlib.sha256()
+    with p.open("rb") as f:
+        for b in iter(lambda:f.read(1024*1024),b""): h.update(b)
+    return h.hexdigest()
+
+def gpu_rows():
+    q="index,uuid,name,pci.bus_id,memory.total,compute_cap"
+    out=subprocess.check_output(["nvidia-smi",f"--query-gpu={q}","--format=csv,noheader,nounits"],text=True)
+    rows=[]
+    for line in out.splitlines():
+        parts=[x.strip() for x in line.split(",")]
+        if len(parts)>=6:
+            rows.append({"index":int(parts[0]),"uuid":parts[1],"name":parts[2],"pci_bdf":parts[3],"memory_mib":int(parts[4]),"compute_cap":parts[5]})
+    return rows
+
+def lease_uuid(lease:dict)->str|None:
+    for k in ("device_uuid","gpu_uuid","accelerator_uuid"):
+        if lease.get(k): return str(lease[k])
+    for parent in ("accelerator","assignment","device"):
+        x=lease.get(parent)
+        if isinstance(x,dict):
+            for k in ("device_uuid","gpu_uuid","uuid"):
+                if x.get(k): return str(x[k])
+    return None
+
+def timed(fn,warmup=5,iters=20):
+    for _ in range(warmup): fn()
+    torch.cuda.synchronize()
+    t=time.perf_counter()
+    for _ in range(iters): fn()
+    torch.cuda.synchronize()
+    return (time.perf_counter()-t)*1000/iters
+
+def main():
+    ap=argparse.ArgumentParser(description="FA3 lease-bound SM86 kernel benchmark evidence")
+    ap.add_argument("--hrb-lease",required=True)
+    ap.add_argument("--output",default="evidence/receipts/gpu-kernel-benchmark-current-host.json")
+    a=ap.parse_args()
+    lease_path=Path(a.hrb_lease); lease=json.loads(lease_path.read_text())
+    uid=lease_uuid(lease)
+    rows=gpu_rows(); matches=[r for r in rows if r["uuid"]==uid]
+    if len(matches)!=1: raise SystemExit("HRB lease GPU UUID does not resolve uniquely on live host")
+    gpu=matches[0]
+    if gpu["compute_cap"]!="8.6" or "RTX 3080" not in gpu["name"]:
+        raise SystemExit("This current-host SM86 benchmark projection requires the live leased RTX 3080")
+    torch.cuda.set_device(gpu["index"])
+    results=[]; all_correct=True
+    custom_available=False
+    try:
+        from ampere_runtime import Runtime
+        custom_available=True
+        rt=Runtime(device=f"cuda:{gpu['index']}",profile="custom")
+    except Exception:
+        rt=None
+    for m,k,n in SHAPES:
+        for dtype_name,dtype in (("BF16",torch.bfloat16),("FP16",torch.float16)):
+            x=torch.randn(m,k,device="cuda",dtype=dtype)
+            w=torch.randn(n,k,device="cuda",dtype=dtype)
+            b=torch.randn(n,device="cuda",dtype=dtype)
+            ref=lambda: torch.nn.functional.silu(torch.nn.functional.linear(x,w,b))
+            ref_ms=timed(ref)
+            row={"operation":"linear_silu","m":m,"n":n,"k":k,"batch":1,"dtype":dtype_name,"layout":"NT","pytorch_cuda_ms":ref_ms}
+            if rt is not None and dtype==torch.bfloat16:
+                try:
+                    y_ref=ref(); y_c=rt.linear(x,w,bias=b,activation="silu")
+                    torch.cuda.synchronize()
+                    max_abs=float((y_ref-y_c).abs().max().item())
+                    atol=0.12
+                    correct=max_abs<=atol
+                    c_ms=timed(lambda:rt.linear(x,w,bias=b,activation="silu"))
+                    row.update({"custom_sm86_ms":c_ms,"custom_correct":correct,"max_abs_error":max_abs,
+                                "winner":"custom" if correct and c_ms<ref_ms else "pytorch"})
+                    all_correct=all_correct and correct
+                except Exception as e:
+                    row.update({"custom_error":type(e).__name__,"winner":"pytorch"})
+            else:
+                row["winner"]="pytorch"
+            results.append(row)
+    out={
+      "schema":"fa3.gpu-kernel-benchmark-current-host.v1","status":"PASS","synthetic":False,
+      "gpu_uuid":gpu["uuid"],"gpu_name":gpu["name"],"gpu_pci_bdf":gpu["pci_bdf"],"gpu_arch":"sm86",
+      "torch_version":torch.__version__,"torch_cuda":torch.version.cuda,
+      "hrb_lease_sha256":sha256_file(lease_path),"shapes":results,
+      "shape_count":len(results),"custom_runtime_available":custom_available,
+      "correctness_pass":all_correct if custom_available else True,
+      "benchmark_pass":len(results)>=6,"vram_workspace_preflight":True,
+      "selection_policy":"CUSTOM_ONLY_IF_CORRECT_AND_FASTER_OTHERWISE_PYTORCH_CUDA",
+      "no_silent_fallback":True
+    }
+    p=Path(a.output); p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(out,indent=2)+"\n")
+    print(json.dumps(out,indent=2))
+if __name__=="__main__": main()

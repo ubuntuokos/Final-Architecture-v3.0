@@ -223,14 +223,16 @@
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
         "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/model-manager-ci-2026-08-31.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -280,6 +282,15 @@
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
         "global_promotion_claim": false
+      },
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
       }
     },
     {
@@ -323,14 +334,16 @@
         "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02",
         "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
         "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -388,6 +401,15 @@
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
         "global_promotion_claim": false
+      },
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
       }
     },
     {
@@ -2478,12 +2500,24 @@
         "GC-12",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-057-CURRENT-HOST",
@@ -2637,12 +2671,24 @@
         "GC-12",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-061-CURRENT-HOST",
@@ -3006,12 +3052,24 @@
         "GC-12",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-070-CURRENT-HOST",
@@ -3344,12 +3402,24 @@
         "GC-12",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-079-CURRENT-HOST",
@@ -3680,12 +3750,24 @@
         "GC-12",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-088-CURRENT-HOST",
@@ -5788,13 +5870,15 @@
         "FA3-REG-003",
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5834,6 +5918,15 @@
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
         "global_promotion_claim": false
+      },
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
       }
     },
     {
@@ -6100,11 +6193,13 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31"
+        "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/inference-portability-ci-2026-08-31.json"
+        "evidence/reference/inference-portability-ci-2026-08-31.json",
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -6121,6 +6216,15 @@
         "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "CI_REFERENCE_PASS_DOES_NOT_PROMOTE_RUNTIME"
+      },
+      "gpu_kernel_runtime_projection_status": {
+        "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+        "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false,
+        "ampere_sm86_status": "REQUIRED_SUPPORTED_PENDING_REAL_CURRENT_HOST_E2E",
+        "deepgemm_status": "INELIGIBLE_CURRENT_SM86",
+        "global_runtime_promotion_claim": false
       }
     }
   ],
@@ -6226,5 +6330,32 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
+  },
+  "gpu_kernel_runtime_reconciliation": {
+    "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+    "contract_id": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+    "decision_id": "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
+    "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+    "provider_ids": [
+      "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001",
+      "FA3-PROVIDER-DEEPGEMM-001"
+    ],
+    "reference_evidence": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-006",
+      "CAP-056",
+      "CAP-060",
+      "CAP-069",
+      "CAP-078",
+      "CAP-087",
+      "CAP-137",
+      "CAP-143"
+    ],
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "current_host_runtime_promotion_claim": false,
+    "current_host_status": "SM86_REAL_T7910_E2E_PENDING_DEEPGEMM_INELIGIBLE"
   }
 }

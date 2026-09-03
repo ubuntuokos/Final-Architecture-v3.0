@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.reference-ci-evidence.v1",
+  "id": "FA3-EVIDENCE-GPU-KERNEL-RUNTIME-CI-2026-09-03",
+  "date": "2026-09-03",
+  "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+  "decision_id": "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
+  "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+  "executable_gate_id": "FA3-GATE-GPU-KERNEL-RUNTIME-001",
+  "status": "PASS",
+  "evidence_class": "CI_REFERENCE_EXECUTABLE_REGRESSION",
+  "regression_cases_total": 28,
+  "regression_cases_passed": 28,
+  "fail_closed_negative_cases_required": true,
+  "upstream_snapshot_id": "FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03",
+  "current_host_provider_runtime_evidence": false,
+  "current_host_runtime_promotion_claim": false,
+  "production_provider_admission_claim": false,
+  "hardware_claim": "REFERENCE_HOST_SEMANTICS_AND_PROVIDER_ELIGIBILITY_REGRESSION_ONLY",
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "conclusion": "GPU_KERNEL_RUNTIME_CANONICAL_REFERENCE_BOUNDARY_AND_ADMISSION_REGRESSION_PASS_REAL_T7910_SM86_E2E_PENDING"
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03",
+  "date": "2026-09-03",
+  "status": "PINNED_REFERENCE",
+  "primary_snapshot": {
+    "repository": "fw-ai/DeepGEMM",
+    "commit": "31f4f7276de598d2b59942f6613aa534055b4ab5",
+    "commit_date": "2026-08-22",
+    "license": "MIT"
+  },
+  "upstream_lineage_reference": {
+    "repository": "deepseek-ai/DeepGEMM",
+    "commit": "559d79fb6994a58b8a15b4b93bf13ccc16edf247",
+    "commit_date": "2026-07-15",
+    "note": "Independent upstream public-release reference; not asserted here as the exact fork base."
+  },
+  "observed_requirements": {
+    "gpu_architectures": [
+      "SM90",
+      "SM100"
+    ],
+    "python": ">=3.8",
+    "cpp": "C++20",
+    "pytorch": ">=2.1",
+    "cutlass": ">=4.0",
+    "cuda_sm90": ">=12.3 (12.9+ recommended)",
+    "cuda_sm100": ">=12.9"
+  },
+  "observed_primary_features": [
+    "runtime JIT CPP module",
+    "FP8/FP4/BF16 GEMM families",
+    "grouped GEMM",
+    "Mega MoE communication/computation fusion",
+    "MQA scoring",
+    "training backward/weight-gradient paths"
+  ],
+  "fork_specific_observations": [
+    "2026-08-22 commit adds guarded strided PSUM scale packing support",
+    "2026-07-29 fork commit adds native MXFP4 training backward and related Mega MoE work"
+  ],
+  "promotion_semantics": "REFERENCE_ONLY_NOT_CURRENT_HOST_EVIDENCE",
+  "floating_main_allowed_as_promotion_evidence": false
+}
