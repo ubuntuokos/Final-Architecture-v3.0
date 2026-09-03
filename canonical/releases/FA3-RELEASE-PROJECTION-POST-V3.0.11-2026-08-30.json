@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b0e90e87db09efbc2b7b41bc6b89d50131d5de5f",
-    "pre_projection_root_tree_sha": "f2a1163b7bca49230fdaf89d6591f24035e6d120",
-    "pre_projection_canonical_tree_sha": "06246ed316129019d28410691c1d00c1b442615a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 128,
-    "total_post_baseline_commits": 128,
-    "delta_file_count": 575,
-    "delta_added_files": 571,
+    "pre_projection_head_sha": "882a3513e65e49706c3835dae24db5972f4221b3",
+    "pre_projection_root_tree_sha": "28b4005bfb774882cc3099ac29ac30d352de4014",
+    "pre_projection_canonical_tree_sha": "a90b2f64c4a7f4f3b743e32154f6ef8412337a78",
+    "commits_ahead_of_v3_0_11_conformance_commit": 121,
+    "total_post_baseline_commits": 121,
+    "delta_file_count": 583,
+    "delta_added_files": 579,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 346,
-    "evidence_files_in_post_baseline_delta": 59,
-    "source_files_in_post_baseline_delta": 66,
-    "test_files_in_post_baseline_delta": 52,
+    "canonical_files_in_post_baseline_delta": 351,
+    "evidence_files_in_post_baseline_delta": 60,
+    "source_files_in_post_baseline_delta": 67,
+    "test_files_in_post_baseline_delta": 53,
     "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -67,7 +67,6 @@
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
-      "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
@@ -78,6 +77,7 @@
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
+      "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
       "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
       "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
@@ -204,6 +204,7 @@
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
@@ -245,6 +246,7 @@
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
@@ -288,6 +290,7 @@
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
+      "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01.json",
@@ -333,6 +336,7 @@
       "evidence/reference/kaneo-v2.22.0.json",
       "evidence/reference/loop-engineering-ci-2026-09-03.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
+      "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
@@ -391,7 +395,8 @@
     "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
     "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
     "FA3-LOOP-ENGINEERING-GATESET-001",
-    "FA3-HARDWARE-PORTABILITY-GATESET-001"
+    "FA3-HARDWARE-PORTABILITY-GATESET-001",
+    "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -452,7 +457,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 577,
+  "manifest_entry_count": 585,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -484,7 +489,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "6daae021908a85354398c70dd0549d708aa09ad8"
+      "git_blob_sha": "a354eb66eb6c727d2c7d6247cbc4a0f06fd1197d"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -564,7 +569,7 @@
     },
     {
       "path": "bin/fa3-gpu-kernel-benchmark",
-      "git_blob_sha": "656c6dcb904f056e26c9039540dd9f3492f2cf4c"
+      "git_blob_sha": "86845392fe84419b58c02e12c3ce02ce21072be6"
     },
     {
       "path": "bin/fa3-model-manager-current-host.sh",
@@ -696,7 +701,7 @@
     },
     {
       "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
-      "git_blob_sha": "6a294bfeec1e82f89fd167d2df8821011765bbfb"
+      "git_blob_sha": "bb439055c20a5e7281c2941599b5941c5a64d0af"
     },
     {
       "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
@@ -740,7 +745,7 @@
     },
     {
       "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
-      "git_blob_sha": "f9f8fa4edd80219c599a7093b878aff7e7ddc824"
+      "git_blob_sha": "699ddb90aa89760d4ed81e7a2f319df46eb46050"
     },
     {
       "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
@@ -769,6 +774,10 @@
     {
       "path": "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "git_blob_sha": "b09d9c7d54c658c3e9a8f8fb546701b03eb1ed9c"
+    },
+    {
+      "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
+      "git_blob_sha": "9255f6909d07bbffca22ee65b4fdaedb92c36ebb"
     },
     {
       "path": "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
@@ -904,7 +913,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
-      "git_blob_sha": "bd5ec5d2c91995d725c83f5d1cb74fccd71e344e"
+      "git_blob_sha": "7fa83c0f31c24569c4b8b866ae65e8c7d0a7c166"
     },
     {
       "path": "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
@@ -941,6 +950,10 @@
     {
       "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
+      "git_blob_sha": "18f964fb351350ef435f0c65b82ba5e857d151f6"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
@@ -1064,7 +1077,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "abf22818077a35c949e91858003f449c302bc710"
+      "git_blob_sha": "883916f780380f432f1d1af9ee5d3c08caec3d7f"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1124,7 +1137,7 @@
     },
     {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-CURRENT-HOST-001.json",
-      "git_blob_sha": "da92bf03bd612327050ef1d4ec059f39b6d8db40"
+      "git_blob_sha": "7260ba12a40208772d4ef45e07ceb7ed8c84624f"
     },
     {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
@@ -1145,6 +1158,10 @@
     {
       "path": "canonical/FA3-GATE-MARKETING-001.json",
       "git_blob_sha": "6f34f17b0cc281b97237a048be7b57fe732bd2c0"
+    },
+    {
+      "path": "canonical/FA3-GATE-MARKETINGSKILLS-SKILL-ADMISSION-001.json",
+      "git_blob_sha": "8d15f0ae0da84a67873dae7624673f769f99a2d4"
     },
     {
       "path": "canonical/FA3-GATE-MUNDER-DIFFLIN-001.json",
@@ -1232,11 +1249,11 @@
     },
     {
       "path": "canonical/gpu-kernel-runtime-admission.json",
-      "git_blob_sha": "553f9783cd89fe5d288137286745a319a920c754"
+      "git_blob_sha": "2f7fc1af11800d09128e2637b4cc87aec336c59e"
     },
     {
       "path": "canonical/gpu-kernel-runtime-enforcement.json",
-      "git_blob_sha": "d7ab76884945dfef702a804ac6a1ad9047e40c3a"
+      "git_blob_sha": "78cc74fa6bfe38feeca0c340e3a1b2595fa357be"
     },
     {
       "path": "canonical/hardware-portability-enforcement.json",
@@ -1277,6 +1294,10 @@
     {
       "path": "canonical/marketing-enforcement.json",
       "git_blob_sha": "7433e68e99f3eae49490054f029212de8816098c"
+    },
+    {
+      "path": "canonical/marketingskills-skill-admission-enforcement.json",
+      "git_blob_sha": "9778f4b6f491eb0c9e3df478c2c682b706c8e604"
     },
     {
       "path": "canonical/mentor-enforcement.json",
@@ -1376,7 +1397,7 @@
     },
     {
       "path": "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "f0796c5960a0c0db27ac8e905b0e11894fc527e9"
+      "git_blob_sha": "806eff5e86ef83356385439fb4ccae7e174d7685"
     },
     {
       "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
@@ -1416,7 +1437,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
-      "git_blob_sha": "c860d9a074ea49b45b1890509c9020bf02ce0179"
+      "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809"
     },
     {
       "path": "canonical/profiles/FA3-MENTOR-001.json",
@@ -1492,7 +1513,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "08303acfa7505abdcad3aaa65b4271bf935aeec7"
+      "git_blob_sha": "f9efac615825fab1aefe7ccbc3554b753daaf1e3"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
@@ -1528,7 +1549,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
-      "git_blob_sha": "d693cb9c3a22d5994b92aa63045e9724b5bc4b0d"
+      "git_blob_sha": "de43ff02d7a4b267ef8139deb840f8eedca789af"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
@@ -1541,10 +1562,6 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
       "git_blob_sha": "122ce62e8b13df154d8963bd74ca6d6f075e1c4d"
-    },
-    {
-      "path": "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
-      "git_blob_sha": "bcbca8c572aea08e5eff36c1525f41d14a1b1074"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
@@ -1585,6 +1602,10 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
       "git_blob_sha": "ef5ab4b53ec1234e0b1f46ed1d6efb1f7986732d"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
+      "git_blob_sha": "31255eea4f8881b8e327ba3a0f2bae8c49e3ad32"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
@@ -1824,7 +1845,7 @@
     },
     {
       "path": "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "b6c1727c3a82964e0ac94f7cc246b90424c924a6"
+      "git_blob_sha": "f2cd0b5ba4822e5ade0b5332c6d77cfd7048c99e"
     },
     {
       "path": "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
@@ -1849,6 +1870,10 @@
     {
       "path": "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f"
+    },
+    {
+      "path": "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
+      "git_blob_sha": "8d3274ea98eb573b20bcef2e77a1c86cda9c4919"
     },
     {
       "path": "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -2052,7 +2077,7 @@
     },
     {
       "path": "evidence/collect-gpu-kernel-runtime-current-host.py",
-      "git_blob_sha": "b78d2fb8faa7a0d3bc8ab87ce38eae157c78d2f4"
+      "git_blob_sha": "678400bb041b97519ae803fab4af7f35c4f9e445"
     },
     {
       "path": "evidence/collect-hybrid-editorial-reference-e2e.py",
@@ -2084,7 +2109,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "756fb9b78c49999abada7f49cee44eb6033b96d0"
+      "git_blob_sha": "9def3112bc790a97d716d5f2b09b8db194b04548"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2144,7 +2169,7 @@
     },
     {
       "path": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-      "git_blob_sha": "28024e3c1b8dd5dd341b502a7500072d70cfa6b0"
+      "git_blob_sha": "c7384c36f366d9c4cc242eda41608ae400c04488"
     },
     {
       "path": "evidence/reference/hardware-portability-ci-2026-09-03.json",
@@ -2185,6 +2210,10 @@
     {
       "path": "evidence/reference/marketing-ci-2026-08-31.json",
       "git_blob_sha": "da66e2ae408207ca7b11393c27ebac163e5eb567"
+    },
+    {
+      "path": "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
+      "git_blob_sha": "ff8e66e40b6605592a69292e435e938022084324"
     },
     {
       "path": "evidence/reference/model-manager-ci-2026-08-31.json",
@@ -2380,7 +2409,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "5033a0220889a74bc9cfcfadccc4b56c6e0c555d"
+      "git_blob_sha": "b59290a7147d303658b34276045a1a7b1532d6a5"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2400,11 +2429,11 @@
     },
     {
       "path": "src/fa3_gpu_kernel_dispatch_reference.py",
-      "git_blob_sha": "ef1d21d6509f320c91505131f063956922abebc9"
+      "git_blob_sha": "d196c52f6f51d8bd9e23c27554ba4c1789e1cb2a"
     },
     {
       "path": "src/fa3_gpu_kernel_runtime_gate.py",
-      "git_blob_sha": "bcf416bf2331b172d8fa7333ba99d8f42dd96b9f"
+      "git_blob_sha": "0b06215aea5749f6540e5cec6bf4c37a3256b0f4"
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
@@ -2449,6 +2478,10 @@
     {
       "path": "src/fa3_marketing_reference.py",
       "git_blob_sha": "81aee24a05ee314e3c3651bfa17a627f07627aa0"
+    },
+    {
+      "path": "src/fa3_marketingskills_gate.py",
+      "git_blob_sha": "1b68d150849eaeb46c6e2291e319c79069ec2e1e"
     },
     {
       "path": "src/fa3_mentor_gate.py",
@@ -2512,7 +2545,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "fc31f053879bd0714c08cf6ef620b96bf2b404b7"
+      "git_blob_sha": "eba0be84a44c6e93fe8d35c726dac3c5a4efe0b4"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2628,7 +2661,7 @@
     },
     {
       "path": "tests/test_gpu_kernel_runtime_gate.py",
-      "git_blob_sha": "c1ba6b864f0b5adc5bfbbb69a0fa674dcb215130"
+      "git_blob_sha": "3693f6bcd74c967cb01949902952f10dfb33d29d"
     },
     {
       "path": "tests/test_hardware_portability_gate.py",
@@ -2665,6 +2698,10 @@
     {
       "path": "tests/test_marketing_gate.py",
       "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670"
+    },
+    {
+      "path": "tests/test_marketingskills_gate.py",
+      "git_blob_sha": "de697fa063bd09a17598bcdba0e9efc0a737fea2"
     },
     {
       "path": "tests/test_mentor_gate.py",
@@ -3401,7 +3438,6 @@
     "decision_id": "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
     "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
     "provider_ids": [
-      "FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001",
       "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001",
       "FA3-PROVIDER-DEEPGEMM-001"
     ],
@@ -3429,16 +3465,13 @@
     ],
     "reference_evidence": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
     "reference_evidence_status": "CI_REFERENCE_EXECUTABLE_REGRESSION_PASS",
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_HARDWARE_PORTABLE_BASELINE_PROVIDER_CURRENT_HOST_E2E_PENDING",
-    "runtime_activation_status": "PORTABLE_BASELINE_AND_OPTIMIZATION_PROVIDERS_NOT_ADMITTED_PENDING_REAL_CURRENT_HOST_E2E",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CURRENT_HOST_SM86_E2E_PENDING_DEEPGEMM_INELIGIBLE",
+    "runtime_activation_status": "SM86_PROVIDER_NOT_ADMITTED_DEEPGEMM_INELIGIBLE",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "capability_count_after": 143,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "current_host_runtime_promotion_claim": false,
-    "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
-    "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
+    "current_host_runtime_promotion_claim": false
   },
   "video_provider_lifecycle_reconciliation": {
     "profile_id": "FA3-VIDEO-001",
@@ -3535,5 +3568,19 @@
     "portable_cpu": "1_TO_N_PACKAGES_MIN_8_PHYSICAL_CORES_PER_QUALIFYING_CPU",
     "portable_gpu": "1_TO_N_NVIDIA_RTX_30_SERIES_OR_NEWER",
     "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
+  },
+  "marketingskills_skill_admission_reconciliation": {
+    "provider_id": "FA3-PROVIDER-MARKETINGSKILLS-001",
+    "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "decision_id": "FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03",
+    "gate_id": "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001",
+    "upstream_pin": "5cd4a7eae3a9a7b5d2aceb0613f7d1f7c4b65968",
+    "classification": "OPTIONAL_REFERENCE_SKILL_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_ADMISSION_GATE_PASS_RUNTIME_NOT_DEPENDENCY",
+    "full_upstream_repo_implicitly_admitted": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
   }
 }

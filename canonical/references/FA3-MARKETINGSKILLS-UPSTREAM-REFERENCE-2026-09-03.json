@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03",
+  "date": "2026-09-03",
+  "status": "PINNED_OBSERVATION_FOR_SKILL_PACKAGE_GOVERNANCE",
+  "provider_id": "FA3-PROVIDER-MARKETINGSKILLS-001",
+  "repository": "coreyhaines31/marketingskills",
+  "ref_observed": "main",
+  "immutable_commit": "5cd4a7eae3a9a7b5d2aceb0613f7d1f7c4b65968",
+  "observed_at_commit": {
+    "total_tree_entries": 624,
+    "skill_md_count": 50,
+    "eval_file_count": 50,
+    "cli_js_count": 64,
+    "symlinks": [
+      "CLAUDE.md"
+    ],
+    "license": {
+      "name": "MIT",
+      "blob_sha": "7c48dd638a9ebed49a8ef0c0c4eea90105381cdf"
+    },
+    "agents_md_blob_sha": "71f13c16c20c6f8c856f113bb46b2e7154437ead",
+    "documented_patterns": [
+      "Agent Skills content packages under skills/*/SKILL.md",
+      "per-skill metadata versioning and repository versioning",
+      "per-skill eval directories",
+      "tool registry and integration guidance",
+      "shell interpolation example using !`cat ...`",
+      "executable Node CLI tool surface"
+    ]
+  },
+  "security_interpretation": {
+    "upstream_snapshot_trust": "UNTRUSTED",
+    "symlink_following_during_admission": "FORBIDDEN",
+    "executable_directives": "INERT_DATA_ONLY",
+    "cli_or_script_execution": "REQUIRES_SEPARATE_EXISTING_FA3_AUTHORIZATION_AND_SANDBOX",
+    "full_repo_skill_package_admission_performed": false
+  },
+  "note": "This immutable observation is a governance/reference anchor. It is not a blanket runtime or execution admission of the upstream repository or of any individual skill."
+}
