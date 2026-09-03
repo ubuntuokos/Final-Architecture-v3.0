@@ -235,7 +235,8 @@
         "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
-        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -280,17 +281,19 @@
         ],
         "gate_id": "FA3-FFMPEG-AI-GATESET-001",
         "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "ci_reference_pass_does_not_promote_runtime": true
       },
       "ffmpeg_ai_current_host_projection_status": {
         "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
         "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-        "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+        "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+        "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+        "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+        "execution_conformance_can_promote_runtime": false,
+        "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "component_pass_claim": false,
         "global_promotion_claim": false
       },
@@ -350,7 +353,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -404,17 +408,19 @@
         ],
         "gate_id": "FA3-FFMPEG-AI-GATESET-001",
         "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "ci_reference_pass_does_not_promote_runtime": true
       },
       "ffmpeg_ai_current_host_projection_status": {
         "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
         "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-        "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+        "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+        "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+        "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+        "execution_conformance_can_promote_runtime": false,
+        "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "component_pass_claim": false,
         "global_promotion_claim": false
       },
@@ -852,7 +858,8 @@
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
-        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
+        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -895,17 +902,19 @@
         ],
         "gate_id": "FA3-FFMPEG-AI-GATESET-001",
         "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "ci_reference_pass_does_not_promote_runtime": true
       },
       "ffmpeg_ai_current_host_projection_status": {
         "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
         "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-        "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+        "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+        "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+        "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+        "execution_conformance_can_promote_runtime": false,
+        "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "component_pass_claim": false,
         "global_promotion_claim": false
       },
@@ -5236,7 +5245,8 @@
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -5278,17 +5288,19 @@
         ],
         "gate_id": "FA3-FFMPEG-AI-GATESET-001",
         "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "ci_reference_pass_does_not_promote_runtime": true
       },
       "ffmpeg_ai_current_host_projection_status": {
         "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
         "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-        "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+        "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+        "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+        "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+        "execution_conformance_can_promote_runtime": false,
+        "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "component_pass_claim": false,
         "global_promotion_claim": false
       }
@@ -5508,7 +5520,8 @@
         "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
-        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
+        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -5551,17 +5564,19 @@
         ],
         "gate_id": "FA3-FFMPEG-AI-GATESET-001",
         "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "ci_reference_pass_does_not_promote_runtime": true
       },
       "ffmpeg_ai_current_host_projection_status": {
         "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
         "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-        "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+        "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+        "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+        "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+        "execution_conformance_can_promote_runtime": false,
+        "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "component_pass_claim": false,
         "global_promotion_claim": false
       },
@@ -6029,7 +6044,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -6064,17 +6080,19 @@
         ],
         "gate_id": "FA3-FFMPEG-AI-GATESET-001",
         "reference_evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "runtime_status": "PENDING_REAL_CURRENT_HOST_E2E",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "ci_reference_pass_does_not_promote_runtime": true
       },
       "ffmpeg_ai_current_host_projection_status": {
         "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
         "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-        "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+        "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+        "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+        "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+        "execution_conformance_can_promote_runtime": false,
+        "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
         "component_pass_claim": false,
         "global_promotion_claim": false
       },
@@ -6510,11 +6528,14 @@
     "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
     "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
     "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-    "state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-    "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+    "state": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+    "execution_conformance_evidence_level_required": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+    "production_evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+    "execution_conformance_can_promote_runtime": false,
+    "production_e2e_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
     "component_pass_claim": false,
     "global_promotion_claim": false,
+    "audit_decision_id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03",
     "capability_bindings": [
       "CAP-005",
       "CAP-006",
