@@ -16,6 +16,13 @@ on:
       - 'evidence/collect-cpu-numa-threading-current-host.py'
       - 'canonical/cpu-numa-threading-current-host-enforcement.json'
       - 'canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json'
+      - 'canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json'
+      - 'canonical/ffmpeg-ai-current-host-enforcement.json'
+      - 'src/fa3_ffmpeg_ai_current_host.py'
+      - 'src/fa3_ffmpeg_ai_current_host_gate.py'
+      - 'tests/test_ffmpeg_ai_current_host_gate.py'
+      - 'evidence/collect-ffmpeg-ai-current-host.py'
       - '.gitignore'
   workflow_dispatch:
     inputs:
@@ -56,9 +63,9 @@ jobs:
           chmod +x bin/fa3-current-host bin/fa3-enforce
           ./bin/fa3-current-host verify
       - name: Executable regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_ffmpeg_ai_current_host_gate -v
       - name: Current-host collector syntax check
-        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py
+        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py
       - name: Unified release projection must remain coherent
         run: ./bin/fa3-enforce release-projection
 
