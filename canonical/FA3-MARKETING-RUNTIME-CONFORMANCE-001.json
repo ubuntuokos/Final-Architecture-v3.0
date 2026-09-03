@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-MARKETING-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-MARKETING-001",
+  "status": "PENDING_CURRENT_HOST",
+  "execution_requirement": "CURRENT_HOST_REAL_EXECUTION",
+  "provider_ids": [
+    "FA3-PROVIDER-MAUTIC-001",
+    "FA3-PROVIDER-TWENTY-001",
+    "FA3-PROVIDER-LISTMONK-001"
+  ],
+  "enforcement": "canonical/marketing-current-host-enforcement.json",
+  "collector": "evidence/collect-marketing-current-host.py",
+  "gate": "src/fa3_marketing_current_host_gate.py",
+  "bootstrap": "bin/fa3-marketing-bootstrap.sh",
+  "receipt": "evidence/receipts/marketing-current-host.json",
+  "promotion_claim": false,
+  "capability_count": 143,
+  "new_architectural_authorities": 0
+}
