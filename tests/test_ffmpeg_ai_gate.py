@@ -16,13 +16,13 @@ from fa3_ffmpeg_ai_gate import (
 
 ROOT = Path(__file__).resolve().parents[1]
 
-
 class FFmpegAIGateTests(unittest.TestCase):
     def test_canonical_gate_passes(self):
         report = gate(ROOT)
         self.assertEqual("PASS", report["result"], report)
         self.assertEqual(24, report["regression_count"])
         self.assertEqual("NOT_CLAIMED", report["current_host_runtime_evidence"])
+        self.assertEqual("PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E", report["runtime_admission_status"])
 
     def test_all_positive_negative_regressions_pass(self):
         cases = regression_cases()
@@ -38,26 +38,14 @@ class FFmpegAIGateTests(unittest.TestCase):
         self.assertFalse(model_admission_allowed({**good, "single_input": False}))
 
     def test_requested_cuda_cannot_silently_become_cpu(self):
-        good = {
-            "requested_provider": "cuda",
-            "observed_provider": "cuda",
-            "hrb_lease_valid": True,
-            "gpu_uuid": "GPU-uuid",
-            "pci_bdf": "0000:05:00.0",
-            "ordinal_resolved_from_uuid_bdf": True,
-        }
+        good = {"requested_provider": "cuda", "observed_provider": "cuda", "hrb_lease_valid": True, "gpu_uuid": "GPU-uuid", "pci_bdf": "0000:05:00.0", "ordinal_resolved_from_uuid_bdf": True}
         self.assertTrue(accelerator_execution_allowed(good))
         self.assertFalse(accelerator_execution_allowed({**good, "observed_provider": "cpu"}))
         self.assertFalse(accelerator_execution_allowed({**good, "hrb_lease_valid": False}))
         self.assertFalse(accelerator_execution_allowed({**good, "gpu_uuid": ""}))
 
     def test_zero_copy_claim_requires_real_copy_evidence(self):
-        good = {
-            "stable_release_capability": True,
-            "cuda_hwframe_dnn_supported": True,
-            "observed_host_device_copies": 0,
-            "copy_telemetry_present": True,
-        }
+        good = {"stable_release_capability": True, "cuda_hwframe_dnn_supported": True, "observed_host_device_copies": 0, "copy_telemetry_present": True}
         self.assertTrue(zero_copy_claim_allowed(good))
         self.assertFalse(zero_copy_claim_allowed({**good, "observed_host_device_copies": 1}))
         self.assertFalse(zero_copy_claim_allowed({**good, "cuda_hwframe_dnn_supported": False}))
@@ -67,10 +55,9 @@ class FFmpegAIGateTests(unittest.TestCase):
         self.assertFalse(standard_filter_claim_allowed("real_esrgan"))
         self.assertFalse(standard_filter_claim_allowed("python_script"))
 
-    def test_reference_pass_does_not_claim_current_host(self):
+    def test_reference_pass_does_not_claim_current_host_production_e2e(self):
         self.assertEqual(143, CAPABILITY_COUNT)
-        self.assertEqual("PENDING_REAL_CURRENT_HOST_E2E", RUNTIME_STATUS)
-
+        self.assertEqual("PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E", RUNTIME_STATUS)
 
 if __name__ == "__main__":
     unittest.main()
