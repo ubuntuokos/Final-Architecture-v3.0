@@ -1017,3 +1017,36 @@ PYTHONPATH=src python -m unittest tests.test_tencentdb_agent_memory_gate -v
 ```
 
 The committed reference PASS proves canonical governance regressions only; it does **not** claim provider installation, production security/license admission, current-host execution or global runtime promotion.
+
+
+## FA3 GPU kernel optimization, autotuning & DeepGEMM baseline
+
+`FA3-GPU-KERNEL-RUNTIME-001` is the P0/MUST provider-neutral **GPU Kernel Optimization, Autotuning & Architecture-Aware Dispatch** subprofile under the existing inference-portability/hardware execution baseline. It adds **no capability** and **no architectural authority**; the canonical count remains **143**. The Host Resource Broker remains the exclusive host admission, placement, reservation and lease authority, and `FA3-CUDA-PY-001` remains an NVIDIA accelerator execution provider rather than an authority.
+
+The corrected T7910 reference remains **2× Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected two NUMA domains**. The expected compute route is the **RTX 3080 12GB / SM86** and the RTX A1000 is an expected display/auxiliary projection when present. These are current-host reference assertions only: CPU/NUMA/cgroup/PCI/GPU UUID/BDF/VRAM/SM/driver/CUDA topology is rediscovered live and accelerator execution requires an HRB lease.
+
+`FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001` is the required-supported SM86 reference provider, but custom kernels are never preferred merely because they are custom. Selection is correctness-first and benchmark-driven across the eligible PyTorch/cuBLAS(Lt), Triton and admitted custom SM86 paths. Autotune keys bind operation/shape/batch/dtype/layout/device UUID/architecture and runtime/provider/kernel versions; JIT or compiled caches are derived artifacts with fingerprinted invalidation.
+
+`FA3-PROVIDER-DEEPGEMM-001` registers `fw-ai/DeepGEMM` as a conditional, replaceable SM90/SM100 provider and pattern source, pinned to commit `31f4f7276de598d2b59942f6613aa534055b4ab5` (MIT). Its current upstream requirements are SM90 or SM100, therefore **DeepGEMM is explicitly denied on the current RTX 3080/SM86 host**. No source-port, FP8/FP4 emulation or unsupported-architecture claim is allowed. A future Hopper/Blackwell activation requires live compatible hardware, HRB admission, immutable build/dependency identity, correctness/quality, shape-bound benchmarks, cache invalidation and rollback evidence.
+
+Mandatory invariants include no silent backend/device/precision fallback, UUID+BDF canonical accelerator identity, benchmark-first selection, correctness before performance, VRAM/workspace preflight, HRB-derived NUMA locality, display/auxiliary GPU role protection, workload-specific optimization profiles, fused-operation evidence, kernel-level selection/execution receipts and rollback.
+
+Run the canonical/reference gate with:
+
+```bash
+./bin/fa3-enforce gpu-kernel-runtime
+PYTHONPATH=src python -m unittest tests.test_gpu_kernel_runtime_gate -v
+```
+
+The committed reference PASS is **not** current-host evidence. On the actual T7910, first create lease-bound benchmark and rollback evidence, then collect the component receipt and run:
+
+```bash
+bin/fa3-gpu-kernel-benchmark --hrb-lease /path/to/lease.json
+python3 evidence/collect-gpu-kernel-runtime-current-host.py \
+  --hrb-lease /path/to/lease.json \
+  --benchmark-evidence evidence/receipts/gpu-kernel-benchmark-current-host.json \
+  --rollback-evidence /path/to/gpu-kernel-rollback.json
+./bin/fa3-enforce gpu-kernel-runtime-current-host
+```
+
+A component PASS still does not promote the complete 143-capability runtime; the global Evidence Registry and all 19 Acceptance Gate criteria remain separate.
