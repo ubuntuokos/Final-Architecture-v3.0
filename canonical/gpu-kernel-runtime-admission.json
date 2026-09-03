@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.gpu-kernel-runtime-admission.v1",
+  "id": "FA3-GPU-KERNEL-RUNTIME-ADMISSION-001",
+  "status": "REFERENCE_MATERIALIZED_CURRENT_HOST_PRODUCTION_E2E_PENDING",
+  "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "production_provider_admission": false,
+  "hardware_semantics": "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT",
+  "reference_host": {
+    "chassis": "Dell Precision Tower 7910",
+    "cpu": "2x Intel Xeon E5-2696 v4 @ 2.20 GHz",
+    "physical_cores": 44,
+    "logical_cpus": 88,
+    "expected_numa_domains": 2,
+    "compute_gpu": "RTX 3080 12GB / SM86 expected",
+    "auxiliary_gpu": "RTX A1000 expected display/auxiliary when present"
+  },
+  "live_discovery_required": [
+    "CPU_PACKAGE_CORE_SMT_NUMA",
+    "PROCESS_CGROUP_CPUSET",
+    "GPU_UUID",
+    "GPU_PCI_BDF",
+    "GPU_NAME",
+    "COMPUTE_CAPABILITY",
+    "VRAM",
+    "GPU_NUMA_LOCALITY",
+    "NVIDIA_DRIVER",
+    "CUDA_RUNTIME",
+    "PYTORCH_RUNTIME"
+  ],
+  "current_host_provider_disposition": {
+    "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001": "REQUIRED_SUPPORTED_BLOCKED_PENDING_REAL_HOST_E2E",
+    "FA3-PROVIDER-DEEPGEMM-001": "DENIED_UNSUPPORTED_SM86"
+  },
+  "forbidden_shortcuts": [
+    "STATIC_CUDA_ORDINAL_IDENTITY",
+    "STATIC_CPU_OR_NUMA_IDS",
+    "UNLEASED_ACCELERATOR_EXECUTION",
+    "REFERENCE_BENCHMARK_AS_CURRENT_HOST_EVIDENCE",
+    "SILENT_CPU_OR_SECOND_GPU_FALLBACK",
+    "SILENT_PRECISION_DOWNGRADE",
+    "PROMOTE_CUSTOM_KERNEL_WITHOUT_CORRECTNESS_AND_BENCHMARK",
+    "ASSUME_FP8_FP4_NATIVE_SUPPORT_ON_SM86"
+  ],
+  "current_host_receipt": "evidence/receipts/gpu-kernel-runtime-current-host.json",
+  "required_current_host_evidence": [
+    "LIVE_HARDWARE_FINGERPRINT",
+    "HRB_LEASE_VALIDATION",
+    "SM86_TARGET_NATIVE_EXECUTION",
+    "CORRECTNESS_ORACLE",
+    "MULTI_SHAPE_MULTI_DTYPE_BENCHMARK",
+    "VRAM_WORKSPACE_TELEMETRY",
+    "NUMA_LOCALITY_RECEIPT",
+    "ROLLBACK_FAILURE_INJECTION",
+    "KERNEL_SELECTION_AND_EXECUTION_RECEIPTS"
+  ]
+}
