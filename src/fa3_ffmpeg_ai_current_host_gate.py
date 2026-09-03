@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse,json
 from pathlib import Path
 from typing import Any
-from fa3_ffmpeg_ai_current_host import CAPABILITY_COUNT,CURRENT_HOST_CURRENT_HOST_CONFORMANCE_ID,CURRENT_HOST_EXECUTABLE_CURRENT_HOST_EXECUTABLE_GATE_ID,EVIDENCE_LEVEL,validate_current_host_receipt
+from fa3_ffmpeg_ai_current_host import CAPABILITY_COUNT,CURRENT_HOST_CONFORMANCE_ID,CURRENT_HOST_EXECUTABLE_GATE_ID,EVIDENCE_LEVEL,validate_current_host_receipt
 
 RECEIPT="evidence/receipts/ffmpeg-ai-current-host.json"
 
