@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.reference-ci-evidence.v1",
+  "id": "FA3-EVIDENCE-PKU-YUAN-VIDEO-LIFECYCLE-CI-2026-09-03",
+  "date": "2026-09-03",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "FA3-PROVIDER-HELIOS-001"
+  ],
+  "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+  "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+  "executable_gate_id": "FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001",
+  "upstream_commits": {
+    "open_sora_plan": "f7fa604f4e3a523d6b973e4c89a5620ed1aff65a",
+    "helios": "babed9811266e4b5b111c9c1e0977a07899066ab"
+  },
+  "status": "PASS",
+  "evidence_class": "CI_REFERENCE_EXECUTABLE_REGRESSION",
+  "regression_cases_total": 30,
+  "regression_cases_passed": 30,
+  "fail_closed_negative_cases_required": true,
+  "license_runtime_admission_pass": false,
+  "resource_runtime_admission_pass": false,
+  "current_host_provider_runtime_evidence": false,
+  "current_host_runtime_promotion_claim": false,
+  "production_provider_admission_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "conclusion": "PKU_YUAN_VIDEO_PROVIDER_LIFECYCLE_CANONICAL_REFERENCE_CONFORMANCE_PASS_RUNTIME_NOT_PROMOTED"
+}\n
