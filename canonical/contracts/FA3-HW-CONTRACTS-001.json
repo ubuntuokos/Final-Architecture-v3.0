@@ -14,7 +14,10 @@
     "RuntimeOperatorCompatibilityDescriptor",
     "PartitionEvidence",
     "HardwareAdmissionReceipt",
-    "PortableHardwareMinimumEnvelope"
+    "PortableHardwareMinimumEnvelope",
+    "HardwareDiscoveryReceipt",
+    "HardwareRevalidationReceipt",
+    "TopologyChangeEvent"
   ],
   "invariants": [
     "PROVIDER_NEUTRAL",
@@ -23,22 +26,31 @@
     "HARDWARE_DISCOVERY_NOT_PLACEMENT_AUTHORITY",
     "CPU_MINIMUM_1_PACKAGE_8_PHYSICAL_CORES",
     "GPU_MINIMUM_RTX_30_SERIES_OR_NEWER",
-    "NEWER_HARDWARE_MUST_NOT_BE_REJECTED_BY_MODEL_PIN"
+    "NEWER_HARDWARE_MUST_NOT_BE_REJECTED_BY_MODEL_PIN",
+    "CPU_CARDINALITY_DYNAMIC_1_TO_N",
+    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
+    "NO_FIXED_CPU_GPU_COUNT_OR_TOPOLOGY_IDENTITY",
+    "LIVE_DISCOVERY_AND_REVALIDATION_REQUIRED"
   ],
-  "version": "1.0.1",
+  "version": "1.1.0",
   "portable_minimum_envelope": {
     "cpu": {
       "package_count_min": 1,
       "physical_cores_per_qualifying_cpu_min": 8,
-      "vendor_model_agnostic": true
+      "vendor_model_agnostic": true,
+      "package_count_max": null
     },
     "gpu": {
       "qualifying_device_count_min": 1,
       "rtx_series_floor": 30,
       "newer_rtx_series_allowed": true,
       "exact_sku_vram_sm_agnostic": true,
-      "architecture_equivalence_alone_insufficient": true
+      "architecture_equivalence_alone_insufficient": true,
+      "qualifying_device_count_max": null
     },
     "current_host_exact_tuple": "EVIDENCE_ONLY"
-  }
+  },
+  "contract_family_bindings": [
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
+  ]
 }

@@ -1112,3 +1112,22 @@ PYTHONPATH=src python -m unittest tests.test_loop_engineering_gate -v
 ```
 
 The committed reference PASS is not current-host runtime evidence and cannot promote `CAP-028` or the global 143-capability runtime by documentation alone.
+
+
+## FA3 portable hardware baseline
+
+`FA3-HARDWARE-BASELINE-001` is the mandatory P0 portability subprofile of `FA3-HW-001`. It defines only a minimum hardware envelope, never a workstation identity:
+
+- CPU: **1..N packages**, each qualifying CPU has at least **8 physical cores**. CPU vendor/model, fixed socket count, static CPU lists and static NUMA IDs are not canonical requirements.
+- GPU: **1..N NVIDIA RTX GPUs**, with a minimum generation of **RTX 30-series**. RTX 40/50 and later generations are explicitly admissible when the selected workload/runtime supports them. Exact GPU SKU, fixed GPU count, VRAM size, SM value, PCI BDF and CUDA ordinal are not global FA3 requirements.
+- Hardware is rediscovered at boot/admission and revalidated after topology change. `FA3-HARDWARE-DISCOVERY-CONTRACTS-001` supplies the provider-neutral discovery descriptors; the existing Host Resource Broker remains the exclusive admission/placement/reservation/lease authority.
+- Exact T7910, Xeon, RTX, PCIe, NUMA or current-host observations may exist in reference/current-host evidence, but they are **non-normative** and cannot become portable defaults.
+
+The fail-closed repository audit and regression gate is:
+
+```bash
+./bin/fa3-enforce hardware-portability
+PYTHONPATH=src python -m unittest tests.test_hardware_portability_gate -v
+```
+
+Any newly introduced fixed production runtime GPU list/count, CPU affinity/NUMA mask, CUDA ordinal or unclassified concrete reference-host assumption blocks the canonical static gate. Capability count remains **143** and new architectural authorities remain **0**.

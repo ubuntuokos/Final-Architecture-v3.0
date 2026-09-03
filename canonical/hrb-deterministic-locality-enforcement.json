@@ -13,7 +13,7 @@
   "capability_count": 143,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
-  "mandatory_rule_count": 30,
+  "mandatory_rule_count": 34,
   "p0_invariants": [
     "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
     "TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY",
@@ -44,7 +44,11 @@
     "OOM_POLICY_MUST_BE_WORKLOAD_SCOPED_AND_MUST_NOT_USE_GLOBAL_CONTINUE_AS_AI_BASELINE",
     "RESTART_AND_TIMEOUT_POLICY_MUST_BE_BOUNDED_PER_SERVICE_AND_MUST_NOT_CREATE_RESTART_STORMS",
     "GLOBAL_LOW_LATENCY_TIMER_ACCURACY_MUST_NOT_BE_USED_AS_AI_PERFORMANCE_BASELINE",
-    "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE"
+    "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE",
+    "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED",
+    "FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT",
+    "HARDWARE_TOPOLOGY_MUST_BE_REVALIDATED_AT_ADMISSION",
+    "NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN"
   ],
   "rules": [
     {
@@ -226,6 +230,32 @@
       "invariant": "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE",
       "priority": "P0",
       "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-031",
+      "invariant": "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-032",
+      "invariant": "FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-033",
+      "invariant": "HARDWARE_TOPOLOGY_MUST_BE_REVALIDATED_AT_ADMISSION",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-LOC-034",
+      "invariant": "NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN",
+      "priority": "P0",
+      "mandatory": true
     }
-  ]
+  ],
+  "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
 }

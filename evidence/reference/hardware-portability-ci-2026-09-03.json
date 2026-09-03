@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.hardware-portability-reference-evidence.v1",
+  "id": "FA3-HARDWARE-PORTABILITY-REFERENCE-EVIDENCE-2026-09-03",
+  "date": "2026-09-03",
+  "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+  "executable_gate_id": "FA3-GATE-HARDWARE-PORTABILITY-001",
+  "profile_id": "FA3-HARDWARE-BASELINE-001",
+  "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "decision_id": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+  "status": "PASS",
+  "scope": "CANONICAL_REFERENCE_AND_REPOSITORY_STATIC_AUDIT",
+  "positive_cases": ["1_CPU_8_CORES_1_RTX30", "MULTI_CPU_MULTI_GPU_NEWER_RTX"],
+  "negative_cases": ["CPU_UNDER_8_CORES", "NO_GPU", "RTX_PRE_30", "FIXED_RUNTIME_DEVICE_LIST"],
+  "repository_audit": "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
+  "current_host_runtime_evidence": false,
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "parent_profile": "FA3-HARDWARE-BASELINE-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "HostHardwareDiscoveryRequest",
+    "HardwareInventorySnapshot",
+    "CpuPackageDescriptor",
+    "CpuCoreTopologyDescriptor",
+    "CpuSetVisibilityDescriptor",
+    "NumaTopologyDescriptor",
+    "MemoryLocalityDescriptor",
+    "GpuDeviceDescriptor",
+    "GpuRuntimeCapabilityDescriptor",
+    "PcieTopologyDescriptor",
+    "DriverRuntimeDescriptor",
+    "AcceleratorCapabilitySet",
+    "HardwareAdmissionInput",
+    "HardwareDiscoveryReceipt",
+    "HardwareRevalidationReceipt",
+    "TopologyChangeEvent"
+  ],
+  "discovery_semantics": {
+    "enumeration": "DYNAMIC_1_TO_N",
+    "startup_discovery": true,
+    "admission_revalidation": true,
+    "topology_change_revalidation": true,
+    "ephemeral_runtime_indices_are_identity": false,
+    "stable_accelerator_identity_when_available": [
+      "DEVICE_UUID",
+      "PCI_BDF"
+    ],
+    "missing_optional_locality_metadata": "EXPLICIT_UNKNOWN_NOT_INVENTED"
+  },
+  "portable_minimum_envelope": {
+    "cpu_packages_min": 1,
+    "physical_cores_per_qualifying_cpu_min": 8,
+    "gpu_devices_min": 1,
+    "gpu_family": "NVIDIA_RTX",
+    "gpu_series_floor": 30,
+    "newer_rtx_series_allowed": true,
+    "upper_cpu_package_limit": null,
+    "upper_gpu_device_limit": null
+  },
+  "invariants": [
+    "DISCOVERY_IS_PROVIDER_NEUTRAL_AND_NOT_PLACEMENT_AUTHORITY",
+    "DISCOVERY_ENUMERATES_ALL_VISIBLE_CPU_PACKAGES_AND_QUALIFYING_GPUS",
+    "CPU_AND_GPU_COUNTS_HAVE_NO_FA3_FIXED_UPPER_BOUND",
+    "CPU_MODEL_VENDOR_AND_SOCKET_COUNT_ARE_NOT_ADMISSION_IDENTITY",
+    "GPU_SKU_VRAM_SM_AND_ORDINAL_ARE_NOT_GLOBAL_BASELINE_IDENTITY",
+    "GPU_SERIES_30_OR_NEWER_SATISFIES_GENERATION_FLOOR",
+    "NEWER_RTX_SERIES_MUST_REMAIN_ADMISSIBLE_SUBJECT_TO_WORKLOAD_RUNTIME_COMPATIBILITY",
+    "CPU_NUMA_GPU_PCIE_TOPOLOGY_MUST_BE_REDISCOVERED_OR_REVALIDATED",
+    "STATIC_CPU_ID_NUMA_NODE_PCI_BDF_AND_CUDA_ORDINAL_PLACEMENT_IS_FORBIDDEN",
+    "CURRENT_HOST_DISCOVERY_OUTPUT_IS_EVIDENCE_NOT_CANONICAL_REQUIREMENT",
+    "HRB_CONSUMES_DISCOVERY_RECEIPTS_FOR_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE",
+    "NO_SILENT_DEVICE_OR_TOPOLOGY_FALLBACK"
+  ]
+}

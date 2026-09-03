@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.hardware-portability-repository-audit.v1",
+  "id": "FA3-HARDWARE-PORTABILITY-REPOSITORY-AUDIT-2026-09-03",
+  "date": "2026-09-03",
+  "status": "PASS",
+  "scope": "FULL_REPOSITORY_TEXT_SURFACE_WITH_REFERENCE_EVIDENCE_CLASSIFICATION",
+  "method": "Executable gate scans repository text and fails closed on fixed production runtime CPU/GPU count, affinity, NUMA, PCI/CUDA ordinal or concrete reference-host assumptions. Historical, current-host and reference fixtures are retained but classified non-normative.",
+  "blocking_hardcoded_production_assumptions": 0,
+  "allowed_non_normative_classes": [
+    "CURRENT_HOST_EVIDENCE",
+    "REFERENCE_DEPLOYMENT",
+    "TEST_FIXTURE",
+    "HISTORICAL_SUPERSEDENCE_TEXT",
+    "FORBIDDEN_EXAMPLE_IN_POLICY_OR_GATE"
+  ],
+  "canonical_floor": {
+    "cpu": "1_TO_N_PACKAGES_EACH_QUALIFYING_CPU_AT_LEAST_8_PHYSICAL_CORES",
+    "gpu": "1_TO_N_NVIDIA_RTX_30_SERIES_OR_NEWER"
+  },
+  "current_host_runtime_promotion_claim": false,
+  "note": "This committed summary is continuously revalidated by FA3-GATE-HARDWARE-PORTABILITY-001; any new blocking production assumption turns the gate FAIL."
+}

@@ -662,5 +662,43 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             td.cleanup()
 
 
+    def test_hardware_portability_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["hardware_portability_reconciliation"]["contract_id"] = "INVALID"
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-037"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_hardware_portability_capability_binding_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "evidence/evidence-registry.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            cap006 = next(item for item in obj["records"] if item["subject_id"] == "CAP-006")
+            cap006["source_decision_ids"].remove("FA3-DEC-HARDWARE-PORTABILITY-2026-09-03")
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-037"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+
 if __name__ == "__main__":
     unittest.main()

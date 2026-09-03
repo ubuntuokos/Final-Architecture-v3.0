@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-HARDWARE-PORTABILITY-001",
+  "gateset_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+  "status": "MATERIALIZED",
+  "priority": "P0",
+  "profile_id": "FA3-HARDWARE-BASELINE-001",
+  "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "decision_id": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+  "parent_profile_id": "FA3-HW-001",
+  "fail_closed": true,
+  "mandatory_checks": 24,
+  "entrypoint": "src/fa3_hardware_portability_gate.py",
+  "test": "tests/test_hardware_portability_gate.py",
+  "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
+  "repository_audit": "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
+  "report_path": "reports/hardware-portability-gate-report.json",
+  "current_host_runtime_promotion_claim": false,
+  "capability_count": 143,
+  "promotion_semantics": "Canonical and repository-audit PASS is design/reference evidence only; real hosts must still pass live discovery, HRB admission and workload-specific current-host evidence."
+}
