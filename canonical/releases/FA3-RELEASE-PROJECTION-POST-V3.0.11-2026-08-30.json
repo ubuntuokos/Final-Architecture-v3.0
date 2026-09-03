@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "efad1b272cc03642da2ba5cfd2b90f406d40394f",
-    "pre_projection_root_tree_sha": "e1fe891a251a2f1e1c4c346c6fb1cb963c5363fb",
-    "pre_projection_canonical_tree_sha": "60058927bec1c10f71528532303fadaebdf6848a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 111,
-    "total_post_baseline_commits": 111,
-    "delta_file_count": 506,
-    "delta_added_files": 502,
+    "pre_projection_head_sha": "c1a8723a6c98c69580005d901b7eea1c8cf11755",
+    "pre_projection_root_tree_sha": "1f19850ebc7db688c037673870f84b1a6aef53e6",
+    "pre_projection_canonical_tree_sha": "5a81b60a33857f65ae8b7951d3b584959b552c8c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 119,
+    "total_post_baseline_commits": 119,
+    "delta_file_count": 516,
+    "delta_added_files": 512,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 303,
-    "evidence_files_in_post_baseline_delta": 51,
-    "source_files_in_post_baseline_delta": 57,
-    "test_files_in_post_baseline_delta": 46,
-    "workflow_files_in_post_baseline_delta": 8,
+    "canonical_files_in_post_baseline_delta": 307,
+    "evidence_files_in_post_baseline_delta": 52,
+    "source_files_in_post_baseline_delta": 59,
+    "test_files_in_post_baseline_delta": 47,
+    "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -217,6 +217,7 @@
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
@@ -416,7 +417,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 508,
+  "manifest_entry_count": 518,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -432,7 +433,11 @@
     },
     {
       "path": ".github/workflows/fa3-current-host.yml",
-      "git_blob_sha": "b6742d98326872f9fbb76714c2c1be6e11202421"
+      "git_blob_sha": "b3ef7bd7c2e29e88af9d2007e0f61f3281ebdf49"
+    },
+    {
+      "path": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
+      "git_blob_sha": "529ab379d236673e38a8c1ed51d26cc93bddc418"
     },
     {
       "path": ".github/workflows/fa3-model-manager-current-host.yml",
@@ -517,6 +522,10 @@
     {
       "path": "bin/fa3-enforce",
       "git_blob_sha": "78efaead3832a083e72d7863c845b4376bded4d5"
+    },
+    {
+      "path": "bin/fa3-ffmpeg-ai-current-host.sh",
+      "git_blob_sha": "02f2b32541f0d32b5ee001281961055eb51c2822"
     },
     {
       "path": "bin/fa3-model-manager-current-host.sh",
@@ -823,6 +832,10 @@
       "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+      "git_blob_sha": "7e9a2caac55dbf193226ef54d7ce04112fb999ca"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "git_blob_sha": "1d4b040845cda71dece33d2c6cd25be5b47016d4"
     },
@@ -972,7 +985,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "31376a3d3defb873bad57747367e927a5555d946"
+      "git_blob_sha": "d6719092d0c36a279f3bc317a0e162c070713ce1"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1007,6 +1020,10 @@
       "git_blob_sha": "9401d95c07e7eef0358258fa77da93384f7a7b62"
     },
     {
+      "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "531dbc73d6dc3f66f94410b803714e91d6145f1b"
+    },
+    {
       "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
       "git_blob_sha": "5b8cbbaf79c4ed7e9b59edf670850d01b48d5052"
     },
@@ -1017,6 +1034,10 @@
     {
       "path": "canonical/FA3-GATE-FFMPEG-AI-001.json",
       "git_blob_sha": "6bd6c029df4a795da3ed47e5b8ba9d9fadd41b7e"
+    },
+    {
+      "path": "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
+      "git_blob_sha": "c7c6d4d699f592e60533bcebfc54aaca0593061a"
     },
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
@@ -1091,12 +1112,16 @@
       "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2"
     },
     {
+      "path": "canonical/ffmpeg-ai-current-host-enforcement.json",
+      "git_blob_sha": "852559c88315e9906757d6daba93e43cdbd2dbfb"
+    },
+    {
       "path": "canonical/ffmpeg-ai-enforcement.json",
       "git_blob_sha": "ee4ac42a0c149fec035ed07a6d9c7655ae8be268"
     },
     {
       "path": "canonical/ffmpeg-ai-runtime-admission.json",
-      "git_blob_sha": "87e70d2fcc5cc2fa61b4b8379d434db41b4fb0b3"
+      "git_blob_sha": "3f2111f04ff0c703e8b46398a53e6dc1de26939d"
     },
     {
       "path": "canonical/geometry-closure.json",
@@ -1827,6 +1852,10 @@
       "git_blob_sha": "1ae9a743f84ab89aa634c8d2d5f7217f820b338a"
     },
     {
+      "path": "evidence/collect-ffmpeg-ai-current-host.py",
+      "git_blob_sha": "c92aba7ec29a28d95d2ca615d5878cec6f5ded7c"
+    },
+    {
       "path": "evidence/collect-hybrid-editorial-reference-e2e.py",
       "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65"
     },
@@ -1856,7 +1885,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "2ef00b76e4d6fed496c51da0013fe60801b4103d"
+      "git_blob_sha": "f3f268d6be7a72fe32369fc41de101851e9bb9ad"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2028,7 +2057,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "78b1182f63f063e56e94b0323d08367ad3549890"
+      "git_blob_sha": "10baf52feba399c99668a40101ed7352838e7b3c"
     },
     {
       "path": "fa3-current-host/README.md",
@@ -2124,15 +2153,23 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "66dc60dd19cefeb41bec783be9e05f4f2eb0b24c"
+      "git_blob_sha": "574259553611a7bad9e3fb113ad80498b95281a1"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
       "git_blob_sha": "bf65258ba9d8fed9e63d41f524ce80f75845a52c"
     },
     {
+      "path": "src/fa3_ffmpeg_ai_current_host_gate.py",
+      "git_blob_sha": "45911ca6b2f9cab4bcb53f386bd1fc276c1b840f"
+    },
+    {
+      "path": "src/fa3_ffmpeg_ai_current_host.py",
+      "git_blob_sha": "fa0865729bfeac8b345601baef490e6d4dab2dd3"
+    },
+    {
       "path": "src/fa3_ffmpeg_ai_gate.py",
-      "git_blob_sha": "2e2b5b757038325f648dc37213eb3578d6bb0195"
+      "git_blob_sha": "b1210d229d682ad061c3fb95c20ec955cfb337b5"
     },
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
@@ -2329,6 +2366,10 @@
     {
       "path": "tests/test_external_api_discovery_gate.py",
       "git_blob_sha": "e569c674f7b696e00e3d0a6e17e0901b0e97dcda"
+    },
+    {
+      "path": "tests/test_ffmpeg_ai_current_host_gate.py",
+      "git_blob_sha": "47851881a95a2fa6d8419479d4ec52e9ad6237c6"
     },
     {
       "path": "tests/test_ffmpeg_ai_gate.py",
@@ -3046,6 +3087,12 @@
     "provider_runtime_required_for_global_promotion_when_profile_active": true,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 143
+    "capability_count_after": 143,
+    "current_host_conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+    "current_host_executable_gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
+    "current_host_decision_id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+    "current_host_workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
+    "current_host_closure_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
+    "current_host_required_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS"
   }
 }
