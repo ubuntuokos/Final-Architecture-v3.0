@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-MARKETING-001",
   "name": "AI-Assisted Marketing, Growth & Customer Engagement Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST_IF_MARKETING_USED",
@@ -24,7 +24,8 @@
     "CAP-125"
   ],
   "contracts": [
-    "FA3-MARKETING-CONTRACTS-001"
+    "FA3-MARKETING-CONTRACTS-001",
+    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001"
   ],
   "localization_policy": "FA3-MARKETING-I18N-001",
   "providers": {
@@ -42,6 +43,9 @@
     ],
     "analytics_experimentation": [
       "FA3-PROVIDER-POSTHOG-001"
+    ],
+    "skill_package_knowledge": [
+      "FA3-PROVIDER-MARKETINGSKILLS-001"
     ]
   },
   "knowledge_pattern_sources": [
@@ -105,5 +109,13 @@
     "reference_e2e": "PASS",
     "provider_current_host_runtime": "PENDING_CURRENT_HOST",
     "runtime_promotion_claim": false
+  },
+  "skill_package_governance": {
+    "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-MARKETINGSKILLS-001",
+    "trust_default": "UNTRUSTED",
+    "load_policy": "ON_DEMAND_SCOPED_ONLY",
+    "direct_execution": false,
+    "central_mcp_for_tool_intents": true
   }
 }
