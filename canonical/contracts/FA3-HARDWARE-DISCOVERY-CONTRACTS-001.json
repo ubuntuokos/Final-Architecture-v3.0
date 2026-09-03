@@ -34,7 +34,10 @@
     "admission_revalidation": true,
     "topology_change_revalidation": true,
     "ephemeral_runtime_indices_are_identity": false,
-    "stable_accelerator_identity_when_available": ["DEVICE_UUID", "PCI_BDF"],
+    "stable_accelerator_identity_when_available": [
+      "DEVICE_UUID",
+      "PCI_BDF"
+    ],
     "missing_optional_locality_metadata": "EXPLICIT_UNKNOWN_NOT_INVENTED"
   },
   "portable_minimum_envelope": {
@@ -57,7 +60,7 @@
     "NEWER_RTX_SERIES_MUST_REMAIN_ADMISSIBLE_SUBJECT_TO_WORKLOAD_RUNTIME_COMPATIBILITY",
     "CPU_NUMA_GPU_PCIE_TOPOLOGY_MUST_BE_REDISCOVERED_OR_REVALIDATED",
     "STATIC_CPU_ID_NUMA_NODE_PCI_BDF_AND_CUDA_ORDINAL_PLACEMENT_IS_FORBIDDEN",
-    "CURRENT_HOST_DISCOVERY_OUTPUT_IS EVIDENCE_NOT_CANONICAL_REQUIREMENT",
+    "CURRENT_HOST_DISCOVERY_OUTPUT_IS_EVIDENCE_NOT_CANONICAL_REQUIREMENT",
     "HRB_CONSUMES_DISCOVERY_RECEIPTS_FOR_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE",
     "NO_SILENT_DEVICE_OR_TOPOLOGY_FALLBACK"
   ]
