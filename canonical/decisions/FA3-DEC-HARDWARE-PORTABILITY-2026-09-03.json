@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+  "date": "2026-09-03",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "FA3 model-agnostic 1..N CPU/GPU hardware portability baseline",
+  "decision": "CANONICALIZE_DYNAMIC_HARDWARE_FLOOR_AND_SUPERSEDE_FIXED_HOST_INTERPRETATIONS",
+  "profile_id": "FA3-HARDWARE-BASELINE-001",
+  "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "parent_profile_id": "FA3-HW-001",
+  "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": [
+    "minimum one CPU package and at least eight physical cores per qualifying CPU",
+    "one or more CPU packages discovered dynamically",
+    "minimum one NVIDIA RTX 30-series GPU or newer",
+    "one or more qualifying GPUs discovered dynamically",
+    "all newer RTX generations remain admissible when workload runtime capabilities are satisfied",
+    "live CPU core SMT cpuset NUMA memory PCIe GPU driver and runtime capability discovery",
+    "admission and placement through the existing Host Resource Broker",
+    "exact current-host topology retained only as evidence or reference deployment data"
+  ],
+  "rejected_as_canonical_hardware_requirements": [
+    "concrete CPU vendor or model",
+    "fixed CPU package or socket count above the minimum",
+    "static CPU ID lists or NUMA node IDs",
+    "concrete GPU SKU",
+    "fixed GPU count above the minimum",
+    "fixed VRAM size or SM value as the platform baseline",
+    "fixed PCI BDF",
+    "fixed CUDA ordinal or CUDA_VISIBLE_DEVICES list",
+    "specific workstation or server model"
+  ],
+  "supersedence": {
+    "scope": "CANONICAL_INTERPRETATION_ONLY",
+    "rule": "Any earlier FA3 text or configuration that treats an exact CPU model, socket count, CPU list, NUMA node, GPU SKU, GPU count, PCI address or CUDA ordinal as a portable canonical requirement is superseded by this decision.",
+    "historical_and_current_host_evidence": "PRESERVED_AS_EVIDENCE_NOT_PORTABLE_DEFAULT",
+    "reference_deployments": "PRESERVED_AS_NON_NORMATIVE_FIXTURES"
+  },
+  "authority_impact": "NONE_HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
+  "promotion_semantics": "REFERENCE_AND_REPOSITORY_AUDIT_PASS_DO_NOT_REPLACE_CURRENT_HOST_DISCOVERY_AND_ADMISSION_EVIDENCE"
+}
