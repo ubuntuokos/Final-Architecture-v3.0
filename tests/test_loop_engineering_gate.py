@@ -101,6 +101,17 @@ class LoopEngineeringGateTests(unittest.TestCase):
             gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True,
         ))
 
+    def test_global_hardware_floor_drift_fails(self):
+        td, root = self._copy()
+        try:
+            path = root / loopgate.PATHS["hardware_profile"]
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["minimum_portable_hardware_envelope"]["cpu"]["minimum_physical_cores_per_qualifying_cpu"] = 7
+            path.write_text(json.dumps(obj) + "\n", encoding="utf-8")
+            self.assertEqual("FAIL", loopgate.gate(root)["result"])
+        finally:
+            td.cleanup()
+
     def test_provider_authority_drift_fails(self):
         td, root = self._copy()
         try:
