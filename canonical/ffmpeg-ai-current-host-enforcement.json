@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.ffmpeg-ai-current-host-enforcement.v1",
+  "gate_id": "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001",
+  "executable_gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
+  "parent_gate_id": "FA3-GATE-FFMPEG-AI-001",
+  "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "status": "MATERIALIZED_REAL_EXECUTION_PENDING",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "required_current_host_evidence": [
+    "LIVE_T7910_CPU_NUMA_FINGERPRINT",
+    "LIVE_NVIDIA_GPU_UUID_PCI_BDF_INVENTORY",
+    "UNEXPIRED_HRB_NEURAL_MEDIA_LEASE",
+    "IMMUTABLE_SIGNED_FFMPEG_BUILD_TRUST",
+    "FFMPEG_BUILD_FILTER_ENCODER_HWACCEL_MANIFEST",
+    "CUDA_ONNX_OBSERVED_PROVIDER_NO_CPU_FALLBACK",
+    "GPU_DECODE_SCALE_CUDA_NVENC_MUX_E2E",
+    "VMAF_SSIM_PSNR",
+    "AV_SYNC_MONOTONIC_TIMESTAMPS_BT709_HDR_EXPECTATION",
+    "COPY_BOUNDARY_NO_ZERO_COPY_CLAIM",
+    "NEGATIVE_TESTS",
+    "ROLLBACK_CLEANUP"
+  ],
+  "forbidden": [
+    "CI_FIXTURE_AS_CURRENT_HOST_EVIDENCE",
+    "STATIC_CUDA_ORDINAL_AS_DEVICE_IDENTITY",
+    "EXPIRED_OR_MISMATCHED_HRB_LEASE",
+    "CUDA_REQUEST_WITH_CPU_FALLBACK",
+    "ZERO_COPY_CLAIM_ON_STABLE_9_0_1_DNN_PATH",
+    "NETWORK_MODEL_FETCH",
+    "CONDA_OR_MAMBA_BASELINE",
+    "PASS_WITHOUT_BUILD_TRUST_OR_QUALITY_EVIDENCE"
+  ],
+  "promotion_semantics": "Component current-host PASS does not equal global FA3 promotion."
+}

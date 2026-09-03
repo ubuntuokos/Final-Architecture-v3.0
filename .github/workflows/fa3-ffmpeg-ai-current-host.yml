@@ -1,0 +1,99 @@
+name: FA3 FFmpeg Neural Media Current-Host E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_ffmpeg_ai_current_host.py'
+      - 'src/fa3_ffmpeg_ai_current_host_gate.py'
+      - 'evidence/collect-ffmpeg-ai-current-host.py'
+      - 'tests/test_ffmpeg_ai_current_host_gate.py'
+      - 'canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json'
+      - 'canonical/ffmpeg-ai-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json'
+      - '.github/workflows/fa3-ffmpeg-ai-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute the real T7910 FFmpeg neural-media E2E'
+        required: true
+        default: false
+        type: boolean
+      hrb_receipt:
+        description: 'Path on self-hosted runner to active HRB neural-media placement receipt'
+        required: false
+        default: '.fa3-current-host/input/ffmpeg-ai-hrb-placement.json'
+        type: string
+      ffmpeg_build_trust:
+        description: 'Path on self-hosted runner to immutable signed FFmpeg build trust receipt'
+        required: false
+        default: '.fa3-current-host/input/ffmpeg-ai-build-trust.json'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: ffmpeg-ai-current-host / contract-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare gate
+        run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh
+      - name: Syntax check
+        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py
+      - name: Fail-closed current-host contract tests
+        run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_current_host_gate -v
+      - name: Parent FFmpeg canonical gate
+        run: ./bin/fa3-enforce ffmpeg-ai
+      - name: Unified release projection coherence
+        run: ./bin/fa3-enforce release-projection
+
+  current-host:
+    name: ffmpeg-ai-current-host / real-t7910-e2e
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify non-root local prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v ffmpeg
+          command -v ffprobe
+          command -v nvidia-smi
+          test -f "${{ inputs.hrb_receipt }}"
+          test -f "${{ inputs.ffmpeg_build_trust }}"
+      - name: Run HRB-bound real-media E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-ffmpeg-ai-current-host.sh bin/fa3-enforce
+          bin/fa3-ffmpeg-ai-current-host.sh "${{ inputs.hrb_receipt }}" "${{ inputs.ffmpeg_build_trust }}"
+          ./bin/fa3-enforce ffmpeg-ai-current-host
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-ffmpeg-ai-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/ffmpeg-ai-current-host.json
+            evidence/runtime/ffmpeg-ai-current-host/**
+            reports/ffmpeg-ai-current-host-gate-report.json

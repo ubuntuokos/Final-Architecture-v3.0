@@ -1019,6 +1019,29 @@ PYTHONPATH=src python -m unittest tests.test_tencentdb_agent_memory_gate -v
 The committed reference PASS proves canonical governance regressions only; it does **not** claim provider installation, production security/license admission, current-host execution or global runtime promotion.
 
 
+## FFmpeg neural-media current-host closure
+
+The executable closure for `FA3-NEURAL-MEDIA-EXECUTION-001` is `FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001`. It is deliberately fail-closed and does not derive a PASS from CI, documentation, a static GPU ordinal, or the earlier HRB/CUDA component evidence alone.
+
+A real run requires two attributed local inputs:
+
+- an unexpired `fa3.hrb-placement-receipt.v1` from `FA3-AUTH-HOST-RESOURCE-BROKER-001`, workload `NEURAL_MEDIA`, bound to live GPU UUID + PCI BDF;
+- a `fa3.ffmpeg-build-trust-receipt.v1` proving an immutable signed upstream release or signed distribution package and matching the installed FFmpeg binary SHA-256.
+
+The collector performs no network model fetch. It generates a tiny deterministic ONNX Identity model and a synthetic BT.709 A/V golden clip locally, proves ONNX Runtime CUDA execution without CPU fallback, executes hardware decode → `scale_cuda` → NVENC → mux, then measures VMAF/SSIM/PSNR plus A/V duration, timestamp monotonicity and color/HDR expectations. Stable FFmpeg 9.0.1 DNN zero-copy is explicitly **not** claimed.
+
+Run on the T7910:
+
+```bash
+bin/fa3-ffmpeg-ai-current-host.sh \
+  .fa3-current-host/input/ffmpeg-ai-hrb-placement.json \
+  .fa3-current-host/input/ffmpeg-ai-build-trust.json
+
+./bin/fa3-enforce ffmpeg-ai-current-host
+```
+
+Or dispatch `FA3 FFmpeg Neural Media Current-Host E2E` with `execute_current_host=true`. A component PASS remains separate from the 143-capability Evidence Registry closure and the 19-point global promotion gate.
+
 ## FA3 GPU kernel optimization, autotuning & DeepGEMM baseline
 
 `FA3-GPU-KERNEL-RUNTIME-001` is the P0/MUST provider-neutral **GPU Kernel Optimization, Autotuning & Architecture-Aware Dispatch** subprofile under the existing inference-portability/hardware execution baseline. It adds **no capability** and **no architectural authority**; the canonical count remains **143**. The Host Resource Broker remains the exclusive host admission, placement, reservation and lease authority, and `FA3-CUDA-PY-001` remains an NVIDIA accelerator execution provider rather than an authority.
