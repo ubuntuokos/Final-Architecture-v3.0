@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse,json
 from pathlib import Path
 from typing import Any
-from fa3_ffmpeg_ai_current_host import CAPABILITY_COUNT,CONFORMANCE_ID,GATE_ID,EVIDENCE_LEVEL,validate_current_host_receipt
+from fa3_ffmpeg_ai_current_host import CAPABILITY_COUNT,CURRENT_HOST_CURRENT_HOST_CONFORMANCE_ID,CURRENT_HOST_EXECUTABLE_CURRENT_HOST_EXECUTABLE_GATE_ID,EVIDENCE_LEVEL,validate_current_host_receipt
 
 RECEIPT="evidence/receipts/ffmpeg-ai-current-host.json"
 
@@ -19,7 +19,7 @@ def gate(root:Path,receipt_path:Path|None=None)->dict[str,Any]:
     except Exception as exc:
         receipt={}
         findings=[{"code":"FFMPEG-AI-HOST-000","severity":"P0","message":"current-host receipt missing/unreadable","error":repr(exc)}]
-    report={"schema":"fa3.ffmpeg-ai-current-host-gate-report.v1","gate_id":GATE_ID,"conformance_id":CONFORMANCE_ID,
+    report={"schema":"fa3.ffmpeg-ai-current-host-gate-report.v1","gate_id":CURRENT_HOST_EXECUTABLE_GATE_ID,"conformance_id":CURRENT_HOST_CONFORMANCE_ID,
       "result":"PASS" if not findings else "FAIL","evidence_level":receipt.get("evidence_level"),
       "capability_count":CAPABILITY_COUNT,"findings":findings,
       "promotion_effect":"COMPONENT_CURRENT_HOST_FFMPEG_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED"}
