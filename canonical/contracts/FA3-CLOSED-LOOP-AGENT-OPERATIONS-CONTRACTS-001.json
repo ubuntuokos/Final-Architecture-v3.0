@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "status": "CANONICAL",
   "parent_profile": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
   "provider_neutral": true,
@@ -238,7 +238,17 @@
     "human_gate_metadata": true
   },
   "hardware_semantics": {
-    "reference_host_not_portable_default": true,
+    "portable_fa3_minimum": {
+      "cpu_package_count_min": 1,
+      "physical_cores_per_package_min": 8,
+      "cpu_vendor_or_model_pin_forbidden": true,
+      "gpu_device_count_min": 1,
+      "gpu_minimum_generation": "NVIDIA_RTX_30_SERIES_AMPERE_EQUIVALENT_OR_NEWER",
+      "gpu_normalized_equivalent_series_floor": 30,
+      "newer_rtx_generations_allowed": true,
+      "specific_gpu_sku_vram_sm_pin_forbidden": true
+    },
+    "current_host_exact_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_DEFAULT",
     "live_cpu_numa_gpu_discovery": true,
     "accelerator_requires_hrb_lease": true,
     "canonical_accelerator_identity": [
@@ -260,7 +270,9 @@
     "AUTO_MERGE_BY_DEFAULT",
     "STALE_POLICY_UNATTENDED_EXECUTION",
     "CONTEXT_COMPACTION_ERASES_PROVENANCE",
-    "STATIC_T7910_CPU_OR_GPU_PLACEMENT_AS_PORTABLE_DEFAULT",
-    "REFERENCE_CI_AS_CURRENT_HOST_PROMOTION"
+    "REFERENCE_CI_AS_CURRENT_HOST_PROMOTION",
+    "CONCRETE_CPU_VENDOR_OR_MODEL_AS_CANONICAL_HARDWARE_DEFAULT",
+    "CONCRETE_GPU_SKU_VRAM_OR_SM_AS_CANONICAL_HARDWARE_DEFAULT",
+    "RTX_PRE_30_SERIES_AS_FA3_BASELINE_ACCELERATOR"
   ]
 }
