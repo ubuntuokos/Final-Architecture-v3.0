@@ -4,7 +4,7 @@ from copy import deepcopy
 from pathlib import Path
 from fa3_ffmpeg_ai_current_host import (
     build_identity_onnx,hrb_receipt_valid,make_reference_receipt,observed_onnx_provider,
-    quality_valid,resolved_runtime_index,validate_current_host_receipt
+    normalize_bdf,quality_valid,resolved_runtime_index,validate_current_host_receipt
 )
 from fa3_ffmpeg_ai_current_host_gate import gate
 
@@ -33,6 +33,10 @@ class FFmpegAICurrentHostTests(unittest.TestCase):
         self.assertFalse(hrb_receipt_valid(bad,g))
         bad=deepcopy(hrb);bad["static_runtime_ordinal_as_identity"]=True
         self.assertFalse(hrb_receipt_valid(bad,g))
+
+    def test_extended_nvidia_pci_domain_normalizes_to_canonical_bdf(self):
+        self.assertEqual("0000:05:00.0",normalize_bdf("00000000:05:00.0"))
+        self.assertEqual("0000:a5:00.0",normalize_bdf("A5:00.0"))
 
     def test_quality_gate_is_fail_closed(self):
         r=make_reference_receipt()
