@@ -1,0 +1,138 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "source_pattern_provider": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+  "parent_profiles": [
+    "FA3-KNOWLEDGE-001",
+    "FA3-AGENT-EXEC-001"
+  ],
+  "related_contracts": [
+    "FA3-KNOWLEDGE-CONTRACTS-001",
+    "FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "LayeredMemorySource",
+    "DerivedMemoryArtifact",
+    "MemoryAssetDescriptor",
+    "MemoryAssetOwnershipPolicy",
+    "MemoryVisibilityPolicy",
+    "AgentMemoryBinding",
+    "MemoryRetrievalRequest",
+    "MemoryRetrievalResult",
+    "MemoryConsolidationRequest",
+    "MemoryConsolidationReceipt",
+    "MemoryMutationRequest",
+    "MemoryMutationReceipt",
+    "MemoryDeletionTombstone",
+    "SkillAssetVersion",
+    "KnowledgeAssetProjection",
+    "MemoryEvidenceExport"
+  ],
+  "layered_memory": {
+    "levels": {
+      "L0": "RAW_SOURCE_CONVERSATION",
+      "L1": "ATOMIC_FACT_EVENT_CONSTRAINT",
+      "L2": "SCENARIO_PROJECT_CONTEXT",
+      "L3": "CORE_PERSONA_LONG_LIVED_DERIVATION"
+    },
+    "every_derived_artifact_requires_source_lineage": true,
+    "raw_source_preserved": true,
+    "source_and_derived_typed_separately": true,
+    "derivation_versioned": true,
+    "supersedes_chain_required": true
+  },
+  "asset_governance": {
+    "required_fields": [
+      "canonical_asset_id",
+      "asset_type",
+      "owner_id",
+      "version",
+      "status",
+      "visibility_policy",
+      "source_lineage",
+      "content_hash",
+      "created_at",
+      "retention_class"
+    ],
+    "supported_projection_types": [
+      "CHAT_MEMORY",
+      "SKILL",
+      "WIKI",
+      "CODEGRAPH"
+    ],
+    "private_by_default": true,
+    "cross_agent_share_requires_explicit_binding": true,
+    "binding_is_per_consumer": true,
+    "binding_revocable": true,
+    "fanout_source_provenance_required": true
+  },
+  "retrieval": {
+    "permission_filter_before_similarity_or_keyword_retrieval": true,
+    "permission_recheck_after_fanout_merge": true,
+    "missing_scope_default": "FAIL_CLOSED_NO_IMPLICIT_BROADENING",
+    "explicit_broad_scope_requires_policy_receipt": true,
+    "required_budgets": [
+      "max_items",
+      "max_context_chars_or_tokens",
+      "timeout_ms"
+    ],
+    "silent_budget_overrun": false,
+    "whole_corpus_automatic_prompt_injection": false
+  },
+  "mutation": {
+    "typed_request_required": true,
+    "existing_fa3_authorization_required": true,
+    "explicit_consent_required_when_policy_requires": true,
+    "provider_self_authorization": false,
+    "idempotency_key_required": true,
+    "audit_receipt_required": true
+  },
+  "consolidation": {
+    "idempotent": true,
+    "replay_safe": true,
+    "source_set_hashed": true,
+    "derived_version_identity_required": true,
+    "external_side_effect_reexecution_default": "FORBIDDEN"
+  },
+  "deletion_and_revocation": {
+    "tombstone_required": true,
+    "revoke_blocks_future_recall": true,
+    "derived_indexes_invalidated_or_rebuilt": true,
+    "active_bindings_revoked": true,
+    "propagation_receipt_required": true
+  },
+  "skills": {
+    "versioned": true,
+    "review_state_required": true,
+    "capability_expansion_forbidden": true,
+    "verified_skill_supply_chain_authority_external": true
+  },
+  "portability": {
+    "provider_local_identity_not_canonical": true,
+    "canonical_asset_identity_preserved_across_frameworks": true,
+    "provenance_preserved": true
+  },
+  "evidence": {
+    "provider_logs_non_authoritative": true,
+    "mutation_retrieval_consolidation_events_exported": true,
+    "canonical_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "forbidden_semantics": [
+    "GLOBAL_UNSCOPED_MEMORY_PROMPT",
+    "IMPLICIT_CROSS_AGENT_MEMORY_SHARING",
+    "PROVIDER_ACL_GRANTS_CANONICAL_AUTHORIZATION",
+    "MISSING_TASK_OR_SCOPE_IMPLICITLY_BROADENS_RECALL",
+    "DERIVED_MEMORY_WITHOUT_SOURCE_LINEAGE",
+    "NON_IDEMPOTENT_CONSOLIDATION",
+    "REVOKED_MEMORY_RECALLABLE",
+    "SKILL_ASSET_GRANTS_NEW_CAPABILITY",
+    "PROXY_BYPASSES_CANONICAL_POLICY_OR_MEMORY_GATEWAY",
+    "PROVIDER_SELECTS_MODEL_OR_ACCELERATOR_DIRECTLY"
+  ]
+}

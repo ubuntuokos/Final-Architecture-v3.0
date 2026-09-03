@@ -518,11 +518,13 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-MARKETING-2026-08-31"
+        "FA3-DEC-MARKETING-2026-08-31",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/marketing-ci-2026-08-31.json"
+        "evidence/reference/marketing-ci-2026-08-31.json",
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -532,6 +534,14 @@
         "gate_id": "FA3-GATE-MARKETING-001",
         "runtime_status": "PENDING_CURRENT_HOST",
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
       }
     },
     {
@@ -1042,12 +1052,23 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-MOZ-001",
-        "FA3-MOZ-PROV-001"
+        "FA3-MOZ-PROV-001",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-022-CURRENT-HOST",
@@ -1119,12 +1140,23 @@
         "GC-01",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-024-CURRENT-HOST",
@@ -3877,12 +3909,23 @@
         "GC-05",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-095-CURRENT-HOST",
@@ -4188,12 +4231,23 @@
         "GC-11",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-103-CURRENT-HOST",
@@ -4494,12 +4548,23 @@
         "GC-02",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-111-CURRENT-HOST",
@@ -5780,12 +5845,23 @@
         "GC-01",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "tencentdb_agent_memory_projection_status": {
+        "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+        "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+        "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+        "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "production_provider_admission": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-140-CURRENT-HOST",
@@ -6030,5 +6106,38 @@
     ],
     "status": "CI_REFERENCE_PASS_CURRENT_HOST_E2E_PENDING",
     "current_host_runtime_promotion_claim": false
+  },
+  "tencentdb_agent_memory_reconciliation": {
+    "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+    "contract_id": "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+    "decision_id": "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03",
+    "gate_id": "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
+    "executable_gate_id": "FA3-GATE-TENCENTDB-AGENT-MEMORY-001",
+    "capability_bindings": [
+      "CAP-010",
+      "CAP-021",
+      "CAP-023",
+      "CAP-094",
+      "CAP-102",
+      "CAP-110",
+      "CAP-139"
+    ],
+    "classification": "OPTIONAL_AGENT_MEMORY_REFERENCE_PROVIDER_AND_STRONG_PATTERN_SOURCE",
+    "reconciliation_status": "CANONICAL_MATERIALIZED_REFERENCE_PASS_SECURITY_LICENSE_CURRENT_HOST_BLOCKED",
+    "reference_evidence": "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
+    "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
+    "immutable_upstream_commit": "3efcd317b84146d6a08518ac0f7ee7c8a8d200ec",
+    "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+    "security_issue_672": "OPEN_CONFIRMED_AT_PIN",
+    "acl_issue_890": "CLOSED_EXPLICIT_BINDING_PATTERN_ACCEPTED",
+    "license_issue_1073": "OPEN_BLOCKING_COMPONENT_LICENSE_CLARITY",
+    "hardware_reference": "Dell T7910 / 2x E5-2696 v4 / 44C-88T / expected 2 NUMA; live discovery + HRB admission; no static GPU ordinal",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "current_host_runtime_promotion_claim": false,
+    "production_provider_admission": false,
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
   }
 }

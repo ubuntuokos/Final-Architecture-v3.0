@@ -610,5 +610,18 @@ class ReleaseProjectionGateTests(unittest.TestCase):
 
 
 
+
+    def test_tencentdb_agent_memory_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path=dst/PROJECTION_PATH;obj=json.loads(path.read_text(encoding="utf-8"));obj["tencentdb_agent_memory_reconciliation"]["provider_id"]="INVALID";path.write_text(json.dumps(obj,indent=2)+"\n",encoding="utf-8");report=self._gate_copy(dst,facts);self.assertEqual("FAIL",report["result"]);self.assertTrue(any(x["code"]=="FA3-RELEASE-PROJECTION-034" for x in report["findings"]))
+        finally: td.cleanup()
+
+    def test_tencentdb_agent_memory_reference_cannot_claim_runtime(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path=dst/PROJECTION_PATH;obj=json.loads(path.read_text(encoding="utf-8"));obj["tencentdb_agent_memory_reconciliation"]["current_host_runtime_evidence"]="CURRENT_HOST_PRODUCTION_E2E_PASS";obj["tencentdb_agent_memory_reconciliation"]["production_provider_admission"]=True;path.write_text(json.dumps(obj,indent=2)+"\n",encoding="utf-8");report=self._gate_copy(dst,facts);self.assertEqual("FAIL",report["result"]);self.assertTrue(any(x["code"]=="FA3-RELEASE-PROJECTION-034" for x in report["findings"]))
+        finally: td.cleanup()
+
 if __name__ == "__main__":
     unittest.main()
