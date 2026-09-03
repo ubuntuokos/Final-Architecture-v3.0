@@ -5,7 +5,9 @@
   "provider_ids": [
     "FA3-PROVIDER-KLING-001",
     "FA3-PROVIDER-SEEDANCE-001",
-    "FA3-PROVIDER-MINIMAX-H3-001"
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "FA3-PROVIDER-HELIOS-001"
   ],
   "fail_closed": true,
   "runtime_provider_required_for_global_promotion_when_disabled": false,
@@ -57,5 +59,9 @@
       "Comfy-Org/ComfyUI#15960",
       "Comfy-Org/ComfyUI#15970"
     ]
-  }
+  },
+  "provider_lifecycle_gate": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+  "provider_lifecycle_contract": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+  "provider_lifecycle_semantics": "OPEN_SORA_PLAN_PREDECESSOR_REFERENCE_TO_HELIOS_SUCCESSOR_LINEAGE_WITHOUT_AUTO_PROMOTION",
+  "derived_cache_policy": "DERIVED_ONLY_VERSIONED_SCOPED_PROVENANCED_FAIL_CLOSED_INVALIDATION"
 }

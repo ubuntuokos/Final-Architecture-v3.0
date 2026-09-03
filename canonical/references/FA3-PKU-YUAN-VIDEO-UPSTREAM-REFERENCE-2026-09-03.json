@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03",
+  "observed_at": "2026-09-03",
+  "promotion_evidence": false,
+  "open_sora_plan": {
+    "repository": "PKU-YuanGroup/Open-Sora-Plan",
+    "immutable_observed_commit": "f7fa604f4e3a523d6b973e4c89a5620ed1aff65a",
+    "commit_message": "Introducing Helios",
+    "v1_5_0_backend_observation": "README says fully trained and inferred on Ascend 910-series; GPU coming soon",
+    "patterns": [
+      "WFVAE_8x8x8",
+      "SUV_sparse_DiT",
+      "latent_feature_cache",
+      "prompt_refiner",
+      "bucket_training",
+      "T2V_I2V_transition"
+    ],
+    "license_observation": {
+      "root_license_file": "LICENSE",
+      "root_license": "MIT",
+      "pyproject_classifier": "Apache Software License",
+      "readme_badge": "Apache",
+      "metadata_drift": true,
+      "production_blocker_until_reconciled": true
+    }
+  },
+  "helios": {
+    "repository": "PKU-YuanGroup/Helios",
+    "immutable_observed_commit": "babed9811266e4b5b111c9c1e0977a07899066ab",
+    "commit_message": "Update stable diffusers versions in requirements.txt",
+    "code_license_file": "LICENSE.txt",
+    "code_license": "Apache-2.0",
+    "requirements_observation": {
+      "torch": "2.10.0",
+      "triton": "3.6.0",
+      "diffusers": "0.38.0",
+      "transformers": "5.3.0"
+    },
+    "execution_observations": {
+      "upstream_performance_claim": "19.5 FPS on a single H100; about 10 FPS on a single Ascend NPU",
+      "low_vram_claim": "~6GB VRAM with low_vram_mode/group offloading",
+      "context_parallelism": [
+        "Ulysses",
+        "Ring",
+        "Unified",
+        "Ulysses Anything"
+      ],
+      "distilled_example": {
+        "frames": 240,
+        "fps": 24,
+        "modes": [
+          "T2V",
+          "I2V",
+          "V2V"
+        ]
+      }
+    },
+    "known_risk_observations": {
+      "issue_141": {
+        "opened": "2026-07-20",
+        "status_at_observation": "OPEN",
+        "observation": "reports ~80-85GB peak host RAM in low-VRAM group-offload mode",
+        "admission_effect": "HOST_RAM_AND_CGROUP_PREFLIGHT_REQUIRED"
+      }
+    },
+    "model_license_separate_from_code": true
+  }
+}

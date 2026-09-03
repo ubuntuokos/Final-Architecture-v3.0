@@ -1,0 +1,119 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-HELIOS-001",
+  "name": "PKU-YuanGroup Helios",
+  "status": "ACCEPTED_EXECUTION_CANDIDATE_REFERENCE",
+  "provider_role": "OPTIONAL_LONG_VIDEO_EXECUTION_PROVIDER_CANDIDATE_AND_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "EXECUTION_PROVIDER_CANDIDATE",
+    "LONG_VIDEO_REFERENCE_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "LOCAL_OR_DISTRIBUTED_ACCELERATOR_PROVIDER",
+    "RESOURCE_PREFLIGHT_GATED"
+  ],
+  "profile": "FA3-VIDEO-001",
+  "capability_projection": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_MODEL_LICENSE_RESOURCE_CURRENT_HOST_E2E",
+  "upstream": {
+    "repository": "PKU-YuanGroup/Helios",
+    "immutable_commit": "babed9811266e4b5b111c9c1e0977a07899066ab",
+    "observed_date": "2026-09-03"
+  },
+  "lifecycle": {
+    "provider_generation": "SUCCESSOR_LINEAGE",
+    "predecessor_provider_id": "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "separate_provider_identity": true,
+    "automatic_replacement": false,
+    "automatic_promotion": false
+  },
+  "architectural_patterns": [
+    "MINUTE_SCALE_AUTOREGRESSIVE_LONG_VIDEO",
+    "UNIFIED_HISTORY_INJECTION",
+    "EASY_ANTI_DRIFTING",
+    "MULTI_TERM_MEMORY_PATCHIFICATION",
+    "PYRAMID_UNIFIED_PREDICTOR_CORRECTOR",
+    "ADVERSARIAL_HIERARCHICAL_DISTILLATION",
+    "GROUP_OFFLOADING",
+    "CONTEXT_PARALLELISM",
+    "MULTI_GPU_LONG_VIDEO_EXECUTION"
+  ],
+  "execution_modes": [
+    "T2V",
+    "I2V",
+    "V2V"
+  ],
+  "model_variants": [
+    "HELIOS_BASE",
+    "HELIOS_MID",
+    "HELIOS_DISTILLED"
+  ],
+  "backend_support": {
+    "nvidia_cuda": {
+      "status": "UPSTREAM_SUPPORTED",
+      "attention_backend_runtime_discovered": true
+    },
+    "ascend_npu": {
+      "status": "UPSTREAM_SUPPORTED",
+      "requirements_file": "requirements_npu.txt"
+    },
+    "context_parallelism": [
+      "ULYSSES",
+      "RING",
+      "UNIFIED",
+      "ULYSSES_ANYTHING"
+    ]
+  },
+  "integration_targets": {
+    "diffusers": {
+      "status": "REFERENCE_EXECUTION_ADAPTER",
+      "observed_requirement": "0.38.0",
+      "routing_authority": false
+    },
+    "vllm_omni": {
+      "status": "REFERENCE_EXECUTION_ADAPTER",
+      "routing_authority": false
+    },
+    "sglang_diffusion": {
+      "status": "REFERENCE_EXECUTION_ADAPTER",
+      "routing_authority": false
+    }
+  },
+  "resource_policy": {
+    "low_vram_upstream_claim": "~6GB VRAM",
+    "known_host_ram_risk": "issue_141_reports_approximately_80_to_85GB_peak_host_RAM_with_low_vram_group_offload",
+    "vram_claim_is_not_admission": true,
+    "host_ram_and_cgroup_preflight_required": true,
+    "hrb_lease_required": true,
+    "uuid_bdf_identity_required": true
+  },
+  "license_admission": {
+    "code_license": "Apache-2.0",
+    "source_file": "LICENSE.txt",
+    "model_weight_license_is_separate": true,
+    "output_rights_evaluation_required": true,
+    "production_use_requires": [
+      "code_license_snapshot",
+      "model_weight_license_snapshot",
+      "model_artifact_digest",
+      "output_rights_evaluation"
+    ]
+  },
+  "authority_boundaries": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "canonical_video_ir": "FA3-VIDEO-CONTRACTS-001"
+  }
+}

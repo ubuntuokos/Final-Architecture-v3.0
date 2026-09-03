@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+  "name": "Provider-Neutral Video Provider Lifecycle, Backend Compatibility & Derived Cache Contracts",
+  "status": "CANONICAL",
+  "profile": "FA3-VIDEO-001",
+  "provider_neutral": true,
+  "contracts": [
+    "VideoProviderLifecycleDescriptor",
+    "VideoProviderMigrationDescriptor",
+    "VideoBackendCompatibilityDescriptor",
+    "VideoExecutionBackendReceipt",
+    "VideoRuntimeResourcePreflight",
+    "VideoDerivedCacheDescriptor",
+    "VideoCacheLineageReceipt",
+    "VideoModelComponentCompatibilityDescriptor"
+  ],
+  "lifecycle_required_fields": [
+    "provider_id",
+    "source_repository",
+    "immutable_source_commit",
+    "lifecycle_state",
+    "predecessor_provider_id_or_null",
+    "successor_provider_id_or_null",
+    "automatic_promotion",
+    "migration_evidence"
+  ],
+  "backend_required_fields": [
+    "requested_backend",
+    "observed_backend",
+    "runtime_version_tuple",
+    "model_identity",
+    "model_component_tuple",
+    "accelerator_identity",
+    "hrb_lease_id",
+    "fallback_policy",
+    "compatibility_evidence"
+  ],
+  "cache_required_fields": [
+    "cache_type",
+    "derived_only",
+    "source_artifact_ids",
+    "source_hashes",
+    "model_identity",
+    "vae_identity",
+    "text_encoder_identity",
+    "runtime_version_tuple",
+    "semantic_input_fingerprint",
+    "scope",
+    "invalidated_by",
+    "provenance_receipt"
+  ],
+  "resource_preflight_fields": [
+    "host_ram_required_or_estimated",
+    "vram_required_or_estimated",
+    "cgroup_memory_limit",
+    "workspace_requirement",
+    "accelerator_uuid",
+    "pci_bdf",
+    "numa_locality",
+    "hrb_lease_id"
+  ],
+  "rules": {
+    "provider_lifecycle_is_not_runtime_promotion": true,
+    "predecessor_successor_identity_must_remain_distinct": true,
+    "canonical_video_ir_remains_provider_neutral": true,
+    "requested_backend_must_equal_observed_backend": true,
+    "silent_backend_or_device_fallback_forbidden": true,
+    "accelerator_execution_requires_hrb": true,
+    "runtime_and_model_component_versions_must_be_pinned": true,
+    "cache_is_derived_not_canonical": true,
+    "cache_key_binds_model_vae_text_encoder_runtime_and_semantics": true,
+    "cache_scope_must_be_explicit": true,
+    "cache_stale_or_incompatible_reuse_forbidden": true,
+    "code_model_output_license_dimensions_separate": true,
+    "current_host_promotion_requires_real_e2e": true
+  }
+}

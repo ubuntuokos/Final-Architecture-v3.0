@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ab638da61f1e5b56f221459736edb35fc1635e40",
-    "pre_projection_root_tree_sha": "ae2c4d632150dfafe1c657eef2c169a0a3893573",
-    "pre_projection_canonical_tree_sha": "ae050a8aca19f9aa44c6864b2ae098bc5338a321",
-    "commits_ahead_of_v3_0_11_conformance_commit": 123,
-    "total_post_baseline_commits": 123,
-    "delta_file_count": 554,
-    "delta_added_files": 550,
+    "pre_projection_head_sha": "b4c7665d69a25220bcc1b41a2ddd402576838c01",
+    "pre_projection_root_tree_sha": "1af12cd5b371f91b91cf22c576855c8e659ae5e0",
+    "pre_projection_canonical_tree_sha": "ae5860448a8bb3d99b20bff5e0031d61c263f4d3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 102,
+    "total_post_baseline_commits": 102,
+    "delta_file_count": 526,
+    "delta_added_files": 522,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,16 +45,15 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 332,
-    "evidence_files_in_post_baseline_delta": 56,
-    "source_files_in_post_baseline_delta": 64,
-    "test_files_in_post_baseline_delta": 50,
+    "canonical_files_in_post_baseline_delta": 314,
+    "evidence_files_in_post_baseline_delta": 53,
+    "source_files_in_post_baseline_delta": 60,
+    "test_files_in_post_baseline_delta": 48,
     "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
-      "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
       "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
       "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json",
       "canonical/providers/FA3-PROVIDER-BUZZ-001.json",
@@ -63,7 +62,6 @@
       "canonical/providers/FA3-PROVIDER-CODEX-001.json",
       "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
       "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
-      "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
@@ -75,7 +73,6 @@
       "canonical/providers/FA3-PROVIDER-KRITA-001.json",
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
-      "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
       "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
       "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
@@ -135,12 +132,10 @@
       "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
       "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
-      "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
-      "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
@@ -172,7 +167,6 @@
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
-      "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
@@ -181,7 +175,6 @@
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
-      "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
@@ -229,14 +222,12 @@
       "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
-      "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
-      "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
@@ -273,12 +264,10 @@
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
-      "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
-      "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -313,14 +302,12 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-      "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
       "evidence/reference/inference-portability-ci-2026-08-31.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
-      "evidence/reference/loop-engineering-ci-2026-09-03.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
@@ -377,7 +364,7 @@
     "FA3-FFMPEG-AI-GATESET-001",
     "FA3-TENCENTDB-AGENT-MEMORY-GATESET-001",
     "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
-    "FA3-LOOP-ENGINEERING-GATESET-001"
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -438,7 +425,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 556,
+  "manifest_entry_count": 555,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -470,7 +457,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "c86fc9e498c7cfb0d2d392d1556ce886ca36a3fd"
+      "git_blob_sha": "d4eb58cc9c682f003953dbdd274a626487b01b5d"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -645,10 +632,6 @@
       "git_blob_sha": "059746681913822173109262ea19762f86b013f0"
     },
     {
-      "path": "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
-      "git_blob_sha": "d400573076675bf939ea1a1ff4f933cc874b4bfb"
-    },
-    {
       "path": "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "git_blob_sha": "4bb27142d2a85509395ed154e71ee3101e142bd4"
     },
@@ -771,6 +754,10 @@
     {
       "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
       "git_blob_sha": "bf9cba8a16d7827f6cbc044637b8d2d4b2b9f290"
+    },
+    {
+      "path": "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
+      "git_blob_sha": "30cae0edaf816e2000e29bf76903ced3b9f7564a"
     },
     {
       "path": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
@@ -909,10 +896,6 @@
       "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211"
     },
     {
-      "path": "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
-      "git_blob_sha": "ad81d31381dde84e25bf58056d0c8cb12ea8199a"
-    },
-    {
       "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a"
     },
@@ -981,6 +964,10 @@
       "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
+      "git_blob_sha": "1c427c0ca9d11d059858a50cf95d51a0730d0d7a"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b"
     },
@@ -1034,7 +1021,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "c0055f1b33e1bed702a409ee07329f9b44ab324e"
+      "git_blob_sha": "5222368c681ced82e4494fb12cff4b86364b646b"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1105,10 +1092,6 @@
       "git_blob_sha": "b19be06f712e94705d3f8247d64cf8617eec2055"
     },
     {
-      "path": "canonical/FA3-GATE-LOOP-ENGINEERING-001.json",
-      "git_blob_sha": "f1a0704f1853b4a6330d681b4088229f71ec2894"
-    },
-    {
       "path": "canonical/FA3-GATE-MARKETING-001.json",
       "git_blob_sha": "6f34f17b0cc281b97237a048be7b57fe732bd2c0"
     },
@@ -1143,6 +1126,10 @@
     {
       "path": "canonical/FA3-GATE-TENCENTDB-AGENT-MEMORY-001.json",
       "git_blob_sha": "3ae5663edf1feff38c867759bb5c63613702a839"
+    },
+    {
+      "path": "canonical/FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001.json",
+      "git_blob_sha": "a518e0c8e9dbd9aa510f2edde782f34e86283111"
     },
     {
       "path": "canonical/FA3-MARKETING-I18N-001.json",
@@ -1225,14 +1212,6 @@
       "git_blob_sha": "015e67cf7df2e30b632d803d7f2cf5b227ef768b"
     },
     {
-      "path": "canonical/loop-engineering-enforcement.json",
-      "git_blob_sha": "a3ed76532b4a9fa1f3610e5067bdf8172bbf7949"
-    },
-    {
-      "path": "canonical/loop-engineering-runtime-admission.json",
-      "git_blob_sha": "d6f5ad2ae2ad0391f5223a518afa1a2e70582dc8"
-    },
-    {
       "path": "canonical/marketing-enforcement.json",
       "git_blob_sha": "7433e68e99f3eae49490054f029212de8816098c"
     },
@@ -1311,10 +1290,6 @@
     {
       "path": "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
       "git_blob_sha": "6ed663468ddc2320ceb15f56b37c7aadf5f58d7c"
-    },
-    {
-      "path": "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
-      "git_blob_sha": "94a98eac70c351526446103f3c7161d133e55596"
     },
     {
       "path": "canonical/profiles/FA3-COMPOSITING-001.json",
@@ -1422,7 +1397,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VIDEO-001.json",
-      "git_blob_sha": "b127cdc76b463bbefb8e0457f8489e6c4db70a79"
+      "git_blob_sha": "e27cbcb5a4516fb63118f82737c224b7016550a0"
     },
     {
       "path": "canonical/profiles/FA3-VOICE-001.json",
@@ -1497,6 +1472,10 @@
       "git_blob_sha": "122ce62e8b13df154d8963bd74ca6d6f075e1c4d"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
+      "git_blob_sha": "9d8f1af74fff63521a514983c37dfb5a33206186"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457"
     },
@@ -1527,10 +1506,6 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "git_blob_sha": "73e51eb25e08b2c6c1cc830d3693ce40269c5295"
-    },
-    {
-      "path": "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
-      "git_blob_sha": "267d587f72de80e6e571dfe77654f5cd029d0e4a"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
@@ -1599,6 +1574,10 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
       "git_blob_sha": "42bd1bea30b3ffe792ee6a53bc531be4c62861ba"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
+      "git_blob_sha": "2b5c0fca2d6c3361966d6967637945e1dec933ce"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
@@ -1785,10 +1764,6 @@
       "git_blob_sha": "c03f0a125ae22ff71724f2c051423ae326da3426"
     },
     {
-      "path": "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "d7ce53aab83c2179bafc7fbbac9af1d67e99665a"
-    },
-    {
       "path": "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f"
     },
@@ -1827,6 +1802,10 @@
     {
       "path": "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "ee7ddd35af2088240a31cbfff232a959dc526e4c"
+    },
+    {
+      "path": "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
+      "git_blob_sha": "59f20129035ba78ea4c659bf216c37bf63879cd4"
     },
     {
       "path": "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -1898,7 +1877,15 @@
     },
     {
       "path": "canonical/video-enforcement.json",
-      "git_blob_sha": "84753e24143214ebcd77c8922f3f9859ed014ae8"
+      "git_blob_sha": "27e2780e65deb112b6b10ca0d84b58bb2647f592"
+    },
+    {
+      "path": "canonical/video-provider-lifecycle-enforcement.json",
+      "git_blob_sha": "08145b001a86af899161c7709f2736ca376e511a"
+    },
+    {
+      "path": "canonical/video-provider-lifecycle-runtime-admission.json",
+      "git_blob_sha": "9501c8aa888f30969ab89870be229b2f79cb6ffa"
     },
     {
       "path": "canonical/voice-synthesis-enforcement.json",
@@ -2014,7 +2001,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "f2aa40f46c4f8a92fe945e84eecdf983e943d476"
+      "git_blob_sha": "c174dc425f6acee105df98cd2b0d6067ed90d4c7"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2101,10 +2088,6 @@
       "git_blob_sha": "8e005b5d26153e6109307c9afe1fe5ca93d029fe"
     },
     {
-      "path": "evidence/reference/loop-engineering-ci-2026-09-03.json",
-      "git_blob_sha": "684e1fb1cce3642a89a68fb1eacad37cf4ce980a"
-    },
-    {
       "path": "evidence/reference/marketing-ci-2026-08-31.json",
       "git_blob_sha": "da66e2ae408207ca7b11393c27ebac163e5eb567"
     },
@@ -2135,6 +2118,10 @@
     {
       "path": "evidence/reference/openhands-ci-2026-09-01.json",
       "git_blob_sha": "855409a9c5262c1dc57ed6376202d1ec8ccfbc80"
+    },
+    {
+      "path": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
+      "git_blob_sha": "30bea2433234ee7b52424db6f7b5ddbf6077dd68"
     },
     {
       "path": "evidence/reference/presenton-provider-ci-2026-08-30.json",
@@ -2206,7 +2193,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "961179ecdf9b5ef741a2c0b4412f1579c9efae0c"
+      "git_blob_sha": "247ef9c56509b5b7efd6cd1e40202c48332fc7fa"
     },
     {
       "path": "src/fa3_acestep_gate.py",
@@ -2239,10 +2226,6 @@
     {
       "path": "src/fa3_buzz_gate.py",
       "git_blob_sha": "42c27494db9e188c05abc7adbd6c682161a1d337"
-    },
-    {
-      "path": "src/fa3_closed_loop_agent_ops_reference.py",
-      "git_blob_sha": "40de225ef216c03a7977c3322a4398f4c1843be9"
     },
     {
       "path": "src/fa3_codex_adapter.py",
@@ -2298,7 +2281,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "5a89d2189247ab4c351968a6d9f7ad865b2383f5"
+      "git_blob_sha": "8fcd138de2e7f8a626c23d7c07e81af8c127b015"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2351,10 +2334,6 @@
     {
       "path": "src/fa3_kdenlive_editorial_gate.py",
       "git_blob_sha": "e68265eac453057fbf32b63bc4e8512f75c90a58"
-    },
-    {
-      "path": "src/fa3_loop_engineering_gate.py",
-      "git_blob_sha": "e496eb2bda2eee1ded3eff4854f9f1931ba86435"
     },
     {
       "path": "src/fa3_marketing_gate.py",
@@ -2426,7 +2405,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "1801b1a793c0bc7fe49fbbcdb48dba7c0a6a598c"
+      "git_blob_sha": "f405ab1b511bacddf454456d0a8babfba5599822"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2447,6 +2426,10 @@
     {
       "path": "src/fa3_terax_gate.py",
       "git_blob_sha": "4d2561b7d20f09253ac8f7d6ab6e692746532906"
+    },
+    {
+      "path": "src/fa3_video_provider_lifecycle_gate.py",
+      "git_blob_sha": "aced64697f0a343758694e1568a5c959a86ab34f"
     },
     {
       "path": "src/fa3_voice_synthesis_gate.py",
@@ -2565,10 +2548,6 @@
       "git_blob_sha": "a805ea489ad6281fbf55e9ba53779d494f7fb086"
     },
     {
-      "path": "tests/test_loop_engineering_gate.py",
-      "git_blob_sha": "e31f237cc6fe1046d24a70a96de09e33b2795953"
-    },
-    {
       "path": "tests/test_marketing_gate.py",
       "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670"
     },
@@ -2626,7 +2605,7 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "832e9fffb2919d122b75d1766c062504f6fbf276"
+      "git_blob_sha": "810358672d58b612e002b5d5f2183251671b1218"
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
@@ -2647,6 +2626,10 @@
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde"
+    },
+    {
+      "path": "tests/test_video_provider_lifecycle_gate.py",
+      "git_blob_sha": "d37954ffe9990213dac6a3d2744dd03bcec95ecb"
     },
     {
       "path": "tests/test_video_registry.py",
@@ -2673,8 +2656,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "ab638da61f1e5b56f221459736edb35fc1635e40",
-    "regenerated_from_branch_head": "ab638da61f1e5b56f221459736edb35fc1635e40"
+    "source_snapshot_anchor": "c95639a552ea973c2c41375f27acd8b510810e58",
+    "regenerated_from_branch_head": "c95639a552ea973c2c41375f27acd8b510810e58"
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
@@ -3338,21 +3321,39 @@
     "new_architectural_authorities": 0,
     "current_host_runtime_promotion_claim": false
   },
-  "loop_engineering_reconciliation": {
-    "profile_id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
-    "contract_id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
-    "provider_id": "FA3-PROVIDER-LOOP-ENGINEERING-001",
-    "decision_id": "FA3-DEC-LOOP-ENGINEERING-2026-09-03",
-    "gate_id": "FA3-LOOP-ENGINEERING-GATESET-001",
-    "capability_id": "CAP-028",
-    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_REQUIRED",
-    "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "video_provider_lifecycle_reconciliation": {
+    "profile_id": "FA3-VIDEO-001",
+    "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+    "provider_ids": [
+      "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+      "FA3-PROVIDER-HELIOS-001"
+    ],
+    "decision_id": "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
+    "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+    "executable_gate_id": "FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001",
+    "capability_bindings": [
+      "CAP-016",
+      "CAP-123",
+      "CAP-126"
+    ],
+    "classification": "OPEN_SORA_PLAN_REFERENCE_PREDECESSOR_PLUS_HELIOS_EXECUTION_CANDIDATE_SUCCESSOR_LINEAGE",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_PROMOTED",
+    "reference_evidence": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
+    "reference_evidence_status": "CI_REFERENCE_EXECUTABLE_REGRESSION_PASS",
+    "immutable_upstream_commits": {
+      "open_sora_plan": "f7fa604f4e3a523d6b973e4c89a5620ed1aff65a",
+      "helios": "babed9811266e4b5b111c9c1e0977a07899066ab"
+    },
+    "open_sora_plan_runtime_status": "REFERENCE_ONLY_NOT_PROMOTED_LICENSE_METADATA_DRIFT_GATED",
+    "helios_runtime_status": "EXECUTION_CANDIDATE_NOT_PROMOTED_MODEL_LICENSE_RESOURCE_E2E_GATED",
     "current_host_runtime_evidence": "NOT_CLAIMED",
+    "production_provider_admission": false,
+    "current_host_runtime_promotion_claim": false,
     "provider_runtime_required_for_global_promotion_when_disabled": false,
-    "reference_evidence_status": "PASS",
-    "upstream_reference_commit": "714f1fdf6ea111f27207de6908547c2a155b270c",
+    "derived_cache_semantics": "DERIVED_ONLY_VERSIONED_SCOPED_PROVENANCED_FAIL_CLOSED_INVALIDATION",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 143
+    "capability_count_after": 143,
+    "workflow": ".github/workflows/fa3-permanent-enforcement.yml"
   }
 }
