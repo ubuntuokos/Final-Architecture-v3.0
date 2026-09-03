@@ -55,6 +55,10 @@ PATHS = {
     "enforcement": "canonical/ffmpeg-ai-enforcement.json",
     "gate": "canonical/FA3-GATE-FFMPEG-AI-001.json",
     "evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+    "host_conformance": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
+    "host_gate_record": "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
+    "host_enforcement": "canonical/ffmpeg-ai-current-host-enforcement.json",
+    "host_decision": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
     "policy": "canonical/enforcement-policy.json",
     "registry": "evidence/evidence-registry.json",
     "release": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
@@ -178,6 +182,7 @@ def gate(root: Path):
     d, ref, adm = data["decision"], data["reference"], data["admission"]
     enf, gr, ev = data["enforcement"], data["gate"], data["evidence"]
     policy, registry, release = data["policy"], data["registry"], data["release"]
+    host_conf, host_gate, host_enf, host_dec = data["host_conformance"], data["host_gate_record"], data["host_enforcement"], data["host_decision"]
 
     if not (
         p.get("id") == PROFILE_ID
@@ -265,6 +270,26 @@ def gate(root: Path):
         and len(adm.get("future_admission_requirements", [])) >= 10
     ):
         findings.append(finding("FFMPEG-AI-009", "Runtime admission invariant drift"))
+
+    if not (
+        host_conf.get("id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
+        and host_conf.get("evidence_level") == "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS"
+        and host_conf.get("receipt") == "evidence/receipts/ffmpeg-ai-current-host.json"
+        and host_conf.get("global_promotion_claim") is False
+        and host_conf.get("new_capabilities") == 0
+        and host_conf.get("new_architectural_authorities") == 0
+        and host_conf.get("capability_count_after") == CAPABILITY_COUNT
+        and host_gate.get("id") == "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
+        and host_gate.get("parent_gate_id") == "FA3-GATE-FFMPEG-AI-001"
+        and host_gate.get("fail_closed") is True
+        and host_gate.get("current_host_runtime_promotion_claim") is False
+        and host_enf.get("gate_id") == "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001"
+        and host_enf.get("status") == "MATERIALIZED_REAL_EXECUTION_PENDING"
+        and host_dec.get("id") == "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        and host_dec.get("current_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+        and host_dec.get("current_host_runtime_promotion_claim") is False
+    ):
+        findings.append(finding("FFMPEG-AI-015", "FFmpeg current-host closure materialization invariant drift"))
 
     if not (
         enf.get("gate_id") == GATE_ID
