@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-MGPU-001",
   "name": "Heterogeneous Multi-GPU Placement & Accelerator Binding Profile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -31,7 +31,16 @@
     "LEASE_TO_RUNTIME_BINDING_EVIDENCED",
     "PLACEMENT_PROVIDER_CANNOT_REPLACE_HRB_AUTHORITY",
     "FALLBACK_AND_PREEMPTION_EXPLICIT",
-    "NUMA_TOPOLOGY_MUST_BE_CONSIDERED_WHEN_RELEVANT"
+    "NUMA_TOPOLOGY_MUST_BE_CONSIDERED_WHEN_RELEVANT",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
+    "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN",
+    "NEWER_RTX_GENERATIONS_REMAIN_ELIGIBLE_SUBJECT_TO_RUNTIME_CAPABILITY"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
+  "cardinality_policy": {
+    "minimum_qualifying_gpu_count": 1,
+    "maximum_qualifying_gpu_count": "UNBOUNDED_BY_FA3",
+    "enumeration": "LIVE_DISCOVERY",
+    "fixed_runtime_index_identity": false
+  }
 }
