@@ -344,6 +344,23 @@ VPLC_OPEN_SORA_PIN = "f7fa604f4e3a523d6b973e4c89a5620ed1aff65a"
 VPLC_HELIOS_PIN = "babed9811266e4b5b111c9c1e0977a07899066ab"
 VPLC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_PROMOTED"
 
+HWPORT_PROFILE_ID = "FA3-HARDWARE-BASELINE-001"
+HWPORT_CONTRACT_ID = "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
+HWPORT_DECISION_ID = "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+HWPORT_GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
+HWPORT_EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
+HWPORT_PROFILE_PATH = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
+HWPORT_CONTRACT_PATH = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
+HWPORT_DECISION_PATH = "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json"
+HWPORT_GATE_RECORD_PATH = "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json"
+HWPORT_ENFORCEMENT_PATH = "canonical/hardware-portability-enforcement.json"
+HWPORT_EVIDENCE_PATH = "evidence/reference/hardware-portability-ci-2026-09-03.json"
+HWPORT_AUDIT_PATH = "evidence/reference/hardware-portability-repository-audit-2026-09-03.json"
+HWPORT_GATE_PATH = "src/fa3_hardware_portability_gate.py"
+HWPORT_TEST_PATH = "tests/test_hardware_portability_gate.py"
+HWPORT_CAPABILITY_IDS = ("CAP-001", "CAP-006", "CAP-062", "CAP-063", "CAP-065", "CAP-130", "CAP-137", "CAP-142", "CAP-143")
+HWPORT_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING"
+
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
 
@@ -2138,6 +2155,116 @@ def gate(root: Path):
             )
         )
 
+
+    hardware_portability = projection.get("hardware_portability_reconciliation", {})
+    required_hwport_manifest_paths = {
+        HWPORT_PROFILE_PATH,
+        HWPORT_CONTRACT_PATH,
+        HWPORT_DECISION_PATH,
+        HWPORT_GATE_RECORD_PATH,
+        HWPORT_ENFORCEMENT_PATH,
+        HWPORT_EVIDENCE_PATH,
+        HWPORT_AUDIT_PATH,
+        HWPORT_GATE_PATH,
+        HWPORT_TEST_PATH,
+        "canonical/profiles/FA3-HW-001.json",
+        "canonical/contracts/FA3-HW-CONTRACTS-001.json",
+        "canonical/profiles/FA3-HW-MGPU-001.json",
+        "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
+        "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
+        "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
+        "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json",
+        "src/fa3_enforce.py",
+        "src/fa3_release_projection_gate.py",
+        "tests/test_release_projection.py",
+        ".github/workflows/fa3-permanent-enforcement.yml",
+    }
+    hwport_inventory_requirements = {
+        "profile_records": [HWPORT_PROFILE_PATH],
+        "contract_records": [HWPORT_CONTRACT_PATH],
+        "decision_records": [HWPORT_DECISION_PATH],
+        "reference_evidence_records": [HWPORT_EVIDENCE_PATH, HWPORT_AUDIT_PATH],
+    }
+    missing_hwport_inventory = [
+        {"inventory": key, "path": required}
+        for key, required_paths in hwport_inventory_requirements.items()
+        for required in required_paths
+        if required not in inventory.get(key, [])
+    ]
+    missing_hwport_manifest = sorted(required_hwport_manifest_paths - manifest_paths)
+    hwport_profile = loadj(root / HWPORT_PROFILE_PATH) if (root / HWPORT_PROFILE_PATH).is_file() else {}
+    hwport_contract = loadj(root / HWPORT_CONTRACT_PATH) if (root / HWPORT_CONTRACT_PATH).is_file() else {}
+    hwport_decision = loadj(root / HWPORT_DECISION_PATH) if (root / HWPORT_DECISION_PATH).is_file() else {}
+    hwport_gate_record = loadj(root / HWPORT_GATE_RECORD_PATH) if (root / HWPORT_GATE_RECORD_PATH).is_file() else {}
+    hwport_evidence = loadj(root / HWPORT_EVIDENCE_PATH) if (root / HWPORT_EVIDENCE_PATH).is_file() else {}
+    hwport_audit = loadj(root / HWPORT_AUDIT_PATH) if (root / HWPORT_AUDIT_PATH).is_file() else {}
+    invalid_hwport_bindings = []
+    for capability_id in HWPORT_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        status = record.get("hardware_portability_projection_status", {})
+        if (
+            HWPORT_DECISION_ID not in record.get("source_decision_ids", [])
+            or HWPORT_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+            or record.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
+            or status.get("profile_id") != HWPORT_PROFILE_ID
+            or status.get("contract_id") != HWPORT_CONTRACT_ID
+            or status.get("gate_id") != HWPORT_GATE_ID
+            or status.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+            or status.get("ci_reference_pass_does_not_promote_runtime") is not True
+        ):
+            invalid_hwport_bindings.append(capability_id)
+
+    if (
+        hardware_portability.get("profile_id") != HWPORT_PROFILE_ID
+        or hardware_portability.get("contract_id") != HWPORT_CONTRACT_ID
+        or hardware_portability.get("decision_id") != HWPORT_DECISION_ID
+        or hardware_portability.get("gate_id") != HWPORT_GATE_ID
+        or hardware_portability.get("executable_gate_id") != HWPORT_EXECUTABLE_GATE_ID
+        or hardware_portability.get("capability_bindings") != list(HWPORT_CAPABILITY_IDS)
+        or hardware_portability.get("reconciliation_status") != HWPORT_RECONCILIATION_STATUS
+        or hardware_portability.get("reference_evidence") != HWPORT_EVIDENCE_PATH
+        or hardware_portability.get("repository_audit") != HWPORT_AUDIT_PATH
+        or hardware_portability.get("reference_evidence_status") != "PASS"
+        or hardware_portability.get("repository_audit_status") != "PASS"
+        or hardware_portability.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or hardware_portability.get("current_host_runtime_promotion_claim") is not False
+        or hardware_portability.get("new_capabilities") != 0
+        or hardware_portability.get("new_architectural_authorities") != 0
+        or hardware_portability.get("capability_count_after") != CAPABILITY_COUNT
+        or HWPORT_GATE_ID not in projection_gates
+        or HWPORT_GATE_ID not in policy_gates
+        or missing_hwport_inventory
+        or missing_hwport_manifest
+        or invalid_hwport_bindings
+        or hwport_profile.get("id") != HWPORT_PROFILE_ID
+        or hwport_profile.get("relationship", {}).get("parent") != "FA3-HW-001"
+        or hwport_profile.get("new_capability") is not False
+        or hwport_profile.get("new_architectural_authority") is not False
+        or hwport_contract.get("id") != HWPORT_CONTRACT_ID
+        or hwport_contract.get("provider_neutral") is not True
+        or hwport_decision.get("id") != HWPORT_DECISION_ID
+        or hwport_decision.get("status") != "ACCEPTED_MATERIALIZED"
+        or hwport_gate_record.get("id") != HWPORT_EXECUTABLE_GATE_ID
+        or hwport_gate_record.get("fail_closed") is not True
+        or hwport_evidence.get("status") != "PASS"
+        or hwport_evidence.get("current_host_runtime_promotion_claim") is not False
+        or hwport_audit.get("status") != "PASS"
+        or hwport_audit.get("blocking_hardcoded_production_assumptions") != 0
+        or hwport_audit.get("current_host_runtime_promotion_claim") is not False
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-037",
+                "Hardware portability baseline/discovery/repository-audit global reconciliation invariant mismatch",
+                reconciliation_status=hardware_portability.get("reconciliation_status"),
+                missing_inventory_members=missing_hwport_inventory,
+                missing_manifest_paths=missing_hwport_manifest,
+                invalid_capability_bindings=invalid_hwport_bindings,
+            )
+        )
+
     missing = []
     drift = []
     for entry in manifest:
@@ -2382,6 +2509,8 @@ def gate(root: Path):
             "voice_synthesis_hungarian_quality_evidence": voice.get("hungarian_quality_evidence"),
             "video_provider_lifecycle_reconciliation": vplc.get("reconciliation_status"),
             "video_provider_lifecycle_current_host_runtime_evidence": vplc.get("current_host_runtime_evidence"),
+            "hardware_portability_reconciliation": hardware_portability.get("reconciliation_status"),
+            "hardware_portability_current_host_runtime_evidence": hardware_portability.get("current_host_runtime_evidence"),
         },
     }
     writej(root / "reports/release-projection-gate-report.json", report)
