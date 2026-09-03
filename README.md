@@ -945,3 +945,21 @@ PYTHONPATH=src python -m unittest tests.test_openbmb_gate -v
 ```
 
 The committed `evidence/reference/openbmb-ci-2026-09-02.json` proves canonical/reference regressions only. It does not claim installed OpenBMB runtimes, production provider admission or current-host performance.
+
+## HRB systemd manager-neutrality policy
+
+FA3 does **not** use host-global systemd Manager defaults as an AI/HPC workload scheduler. The Host Resource Broker remains the single host admission, placement, reservation and lease authority; `systemd + unified cgroup v2` is an enforcement projection only.
+
+The following are rejected as global AI/HPC baselines: Manager-level `CPUAffinity`, `NUMAPolicy` or `NUMAMask`; global unlimited task/memlock/nproc defaults; `DefaultOOMPolicy=continue`; disabling memory-pressure watching; global 1 ms timer accuracy; aggressive global restart/start/stop timeouts; and host-wide file-descriptor limits used instead of workload admission.
+
+Resource and lifecycle tuning is projected per service/slice/scope from an HRB receipt and requires semantic diff, bounded apply, rollback and evidence. The vendor/default `system.conf` remains the neutral host baseline unless an explicit host-survival policy requires a reviewed exception.
+
+Run the fail-closed canonical gate with:
+
+```bash
+./bin/fa3-enforce hrb-deterministic-locality
+PYTHONPATH=src python -m unittest tests.test_hrb_deterministic_locality_gate -v
+```
+
+This policy adds no capability and no architectural authority; the canonical capability count remains **143**.
+
