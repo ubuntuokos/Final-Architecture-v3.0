@@ -1098,8 +1098,28 @@
     "LOOP_ENGINEERING_CLI_AND_MARKDOWN_FORMATS_NOT_HARD_DEPENDENCIES",
     "HRB_LIVE_CPU_NUMA_GPU_ADMISSION_NO_STATIC_REFERENCE_PLACEMENT",
     "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE_UUID_BDF",
-    "CORRECTED_T7910_REFERENCE_E52696V4_44C88T_SM86_A1000_AUX_CONDITIONAL",
+    "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
     "REFERENCE_CI_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
     "DISABLED_REFERENCE_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
-  ]
+  ],
+  "fa3_portable_minimum_hardware_envelope": {
+    "scope": "GLOBAL_CANONICAL_ADMISSION_FLOOR",
+    "cpu": {
+      "package_count_min": 1,
+      "physical_cores_per_package_min": 8,
+      "vendor_restriction": "NONE",
+      "model_restriction": "NONE"
+    },
+    "gpu": {
+      "device_count_min": 1,
+      "minimum_generation": "NVIDIA_RTX_30_SERIES_AMPERE_EQUIVALENT_OR_NEWER",
+      "normalized_equivalent_series_floor": 30,
+      "newer_rtx_generations_allowed": true,
+      "specific_sku_restriction": "NONE",
+      "specific_vram_restriction": "NONE",
+      "specific_sm_restriction": "NONE"
+    },
+    "exact_current_host_hardware": "EVIDENCE_ONLY",
+    "discovery_and_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  }
 }
