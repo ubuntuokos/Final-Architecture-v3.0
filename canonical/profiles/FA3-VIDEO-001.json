@@ -9,10 +9,15 @@
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capabilities": ["CAP-016", "CAP-123", "CAP-126"],
+  "capabilities": [
+    "CAP-016",
+    "CAP-123",
+    "CAP-126"
+  ],
   "contracts": [
     "FA3-VIDEO-CONTRACTS-001",
-    "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001"
+    "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
   ],
   "dependencies": [
     "FA3-CONTRACT-001",
@@ -22,12 +27,16 @@
     "FA3-DCC-RT3D-001",
     "FA3-HOST-RESOURCE-BROKER-001"
   ],
-  "overlays": ["FA3-MEDIA-FINISH-001"],
+  "overlays": [
+    "FA3-MEDIA-FINISH-001"
+  ],
   "providers": [
     "FA3-PROVIDER-KLING-001",
     "FA3-PROVIDER-SEEDANCE-001",
     "FA3-PROVIDER-MINIMAX-H3-001",
-    "FA3-PROVIDER-STABILITY-SGM-001"
+    "FA3-PROVIDER-STABILITY-SGM-001",
+    "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "FA3-PROVIDER-HELIOS-001"
   ],
   "authority": {
     "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
@@ -74,5 +83,14 @@
     "production_outputs_require_qc_and_provenance"
   ],
   "implementation_status": "CANONICAL_BASELINE_CLOSED_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
-  "capability_count": 143
+  "capability_count": 143,
+  "provider_lifecycle_governance": {
+    "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+    "gate_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
+    "predecessor_provider_id": "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "successor_lineage_provider_id": "FA3-PROVIDER-HELIOS-001",
+    "automatic_provider_promotion": false,
+    "derived_cache_is_canonical_state": false,
+    "runtime_promotion_requires_real_current_host_e2e": true
+  }
 }
