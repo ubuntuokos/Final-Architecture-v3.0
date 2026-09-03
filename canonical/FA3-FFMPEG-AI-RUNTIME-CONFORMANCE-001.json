@@ -1,0 +1,100 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "parent_admission_id": "FA3-FFMPEG-AI-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-FFMPEG-001",
+  "conditional_provider_id": "FA3-PROVIDER-VS-MLRT-001",
+  "evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+  "receipt": "evidence/receipts/ffmpeg-ai-current-host.json",
+  "collector": "evidence/collect-ffmpeg-ai-current-host.py",
+  "gate": "src/fa3_ffmpeg_ai_current_host_gate.py",
+  "reference_host": {
+    "machine": "Dell Precision Tower 7910",
+    "cpu_model_contains": "E5-2696 v4",
+    "packages": 2,
+    "physical_cores": 44,
+    "logical_cpus": 88,
+    "numa_domains": 2,
+    "semantics": "REFERENCE_ASSERTION_NOT_PORTABLE_DEFAULT"
+  },
+  "required_external_inputs": [
+    {
+      "type": "HRB_PLACEMENT_RECEIPT",
+      "schema": "fa3.hrb-placement-receipt.v1",
+      "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+      "requirements": [
+        "ACTIVE_OR_ADMITTED",
+        "NEURAL_MEDIA_WORKLOAD",
+        "UNEXPIRED_LEASE",
+        "LIVE_TOPOLOGY",
+        "GPU_UUID_AND_PCI_BDF",
+        "NO_STATIC_ORDINAL_IDENTITY"
+      ]
+    },
+    {
+      "type": "FFMPEG_BUILD_TRUST_RECEIPT",
+      "schema": "fa3.ffmpeg-build-trust-receipt.v1",
+      "requirements": [
+        "UPSTREAM_SIGNED_RELEASE_OR_DISTRIBUTION_SIGNED_PACKAGE",
+        "SIGNATURE_VERIFIED",
+        "SOURCE_OR_PACKAGE_SHA256",
+        "INSTALLED_BINARY_SHA256_MATCH",
+        "IMMUTABLE_VERSION_IDENTITY",
+        "NO_FLOATING_MASTER_OR_NIGHTLY"
+      ]
+    }
+  ],
+  "executable_flow": [
+    "live_host_and_gpu_discovery",
+    "ffmpeg_binary_and_build_feature_fingerprint",
+    "hrb_uuid_bdf_to_ephemeral_cuda_index_resolution",
+    "dependency_free_identity_onnx_generation",
+    "cpu_onnx_identity_reference",
+    "cuda_onnx_identity_execution",
+    "requested_vs_observed_provider_verification",
+    "synthetic_bt709_av_golden_clip",
+    "cuda_hardware_decode",
+    "scale_cuda",
+    "h264_nvenc",
+    "mux",
+    "vmaf_ssim_psnr",
+    "av_sync_and_timestamp_validation",
+    "color_hdr_validation",
+    "negative_tests",
+    "rollback_cleanup_receipt"
+  ],
+  "required_ffmpeg_capabilities": {
+    "build_flags": [
+      "--enable-libonnxruntime",
+      "--enable-libopenvino",
+      "--enable-libvmaf"
+    ],
+    "filters": [
+      "dnn_processing",
+      "libvmaf",
+      "ssim",
+      "psnr",
+      "scale_cuda"
+    ],
+    "encoders": [
+      "h264_nvenc"
+    ],
+    "hwaccels": [
+      "cuda"
+    ]
+  },
+  "zero_copy_semantics": {
+    "claimed": false,
+    "stable_ffmpeg_9_0_1_dnn_cuda_hwframe_baseline": false,
+    "dnn_cpu_gpu_transfer_expected": true,
+    "gpu_media_hwdownload_hwupload_forbidden_in_test_graph": true
+  },
+  "vs_mlrt_current_host_scope": "DISABLED_CONDITIONAL_PROVIDER_NOT_REQUIRED_FOR_THIS_FFMPEG_PRIMARY_E2E",
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
