@@ -313,6 +313,10 @@ def gate(root: Path):
         and policy.get("ffmpeg_ai_provider_ids") == [FFMPEG_PROVIDER_ID, VSMLRT_PROVIDER_ID]
         and policy.get("ffmpeg_ai_capability_bindings") == CAPABILITIES
         and policy.get("ffmpeg_ai_mandatory_p0_rules") == RULES
+        and policy.get("ffmpeg_ai_current_host_conformance_id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
+        and policy.get("ffmpeg_ai_current_host_executable_gate_id") == "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
+        and policy.get("ffmpeg_ai_current_host_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+        and policy.get("ffmpeg_ai_current_host_global_promotion_claim") is False
     ):
         findings.append(finding("FFMPEG-AI-011", "Global enforcement-policy integration missing or drifted"))
 
@@ -327,6 +331,9 @@ def gate(root: Path):
             and proj.get("gate_id") == GATE_ID
             and proj.get("current_host_runtime_evidence") == "PENDING_REAL_CURRENT_HOST_EXECUTION"
             and proj.get("ci_reference_pass_does_not_promote_runtime") is True
+            and rec.get("ffmpeg_ai_current_host_projection_status", {}).get("conformance_id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
+            and rec.get("ffmpeg_ai_current_host_projection_status", {}).get("state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+            and rec.get("ffmpeg_ai_current_host_projection_status", {}).get("component_pass_claim") is False
         ):
             findings.append(finding("FFMPEG-AI-012", "Evidence Registry projection missing", capability=cap))
 
@@ -339,6 +346,9 @@ def gate(root: Path):
         and rr.get("capability_bindings") == CAPABILITIES
         and rr.get("reference_evidence_status") == "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS"
         and rr.get("current_host_runtime_promotion_claim") is False
+        and rr.get("current_host_conformance_id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
+        and rr.get("current_host_executable_gate_id") == "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
+        and rr.get("current_host_closure_status") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
         and rr.get("new_capabilities") == 0
         and rr.get("new_architectural_authorities") == 0
         and rr.get("capability_count_after") == CAPABILITY_COUNT
