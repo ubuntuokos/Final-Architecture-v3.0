@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-DEEPGEMM-001",
+  "name": "Fireworks AI DeepGEMM",
+  "status": "ACCEPTED_CONDITIONAL_REFERENCE",
+  "provider_role": "OPTIONAL_SM90_SM100_HIGH_PERFORMANCE_KERNEL_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "CUDA_KERNEL_EXECUTION_BACKEND",
+    "SM90_SM100_ONLY",
+    "FP8_FP4_BF16_GEMM",
+    "MOE_KERNEL_REFERENCE"
+  ],
+  "profiles": [
+    "FA3-GPU-KERNEL-RUNTIME-001",
+    "FA3-INFERENCE-PORTABILITY-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001"
+  ],
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "CONDITIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "DENIED_ON_CURRENT_HOST_UNSUPPORTED_SM86",
+  "current_host_runtime_evidence": false,
+  "immutable_upstream": {
+    "repository": "fw-ai/DeepGEMM",
+    "commit": "31f4f7276de598d2b59942f6613aa534055b4ab5",
+    "license": "MIT"
+  },
+  "observed_architecture_support": [
+    "SM90",
+    "SM100"
+  ],
+  "observed_cuda_floor": {
+    "SM90": "CUDA >= 12.3; upstream recommends 12.9+",
+    "SM100": "CUDA >= 12.9"
+  },
+  "observed_capabilities": [
+    "FP8_GEMM",
+    "FP8_FP4_GEMM",
+    "BF16_GEMM",
+    "GROUPED_MOE_GEMM",
+    "MEGA_MOE",
+    "MQA_SCORING",
+    "JIT_CPP_RUNTIME_COMPILATION",
+    "WEIGHT_GRADIENT_AND_TRAINING_BACKWARD_PATHS"
+  ],
+  "current_host_compatibility": {
+    "reference_compute_gpu": "RTX_3080_12GB_SM86",
+    "decision": "FAIL_CLOSED_UNSUPPORTED_ARCHITECTURE",
+    "no_emulation_claim": true,
+    "no_source_port_assumption": true
+  },
+  "future_admission": [
+    "LIVE_SM90_OR_SM100_DISCOVERY",
+    "AUTHORIZED_HRB_LEASE",
+    "IMMUTABLE_SOURCE_DEPENDENCY_BUILD_IDENTITY",
+    "TARGET_NATIVE_CUDA_TOOLCHAIN",
+    "CORRECTNESS_AND_NUMERICAL_QUALITY_PASS",
+    "SHAPE_BOUND_BENCHMARK_PASS",
+    "CACHE_FINGERPRINT_AND_INVALIDATION",
+    "ROLLBACK_EVIDENCE"
+  ],
+  "authority_boundaries": {
+    "placement_and_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "normative_constraint": "DeepGEMM is a replaceable execution provider. Its SM90/SM100 requirements are a hard capability gate; it is not an SM86 backend and is not required for current-host promotion."
+}
