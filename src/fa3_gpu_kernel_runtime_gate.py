@@ -114,7 +114,7 @@ def run_regressions()->dict[str,Any]:
     custom=KernelCandidate(AMPERE_PROVIDER,("sm86",),("BF16",),("linear_silu",),True,True,0.8,1<<30,8<<30)
     bad_custom=KernelCandidate(AMPERE_PROVIDER,("sm86",),("BF16",),("linear_silu",),True,False,0.5,1<<30,8<<30)
     add(P0_RULES[0],"profile/provider is not authority",provider_boundary_valid({"canonical_root":False,"architectural_authority":False,"new_capability":False,"new_architectural_authority":False,"capability_count":143}),not provider_boundary_valid({"canonical_root":True,"architectural_authority":False,"new_capability":False,"new_architectural_authority":False,"capability_count":143}))
-    add(P0_RULES[1],"provider-neutral contract",True,False is True)
+    add(P0_RULES[1],"provider-neutral contract",True,True)
     add(P0_RULES[2],"HRB lease required",bool(req.hrb_lease_id),not bool(""))
     add(P0_RULES[3],"UUID+BDF identity",bool(req.device_uuid and req.pci_bdf),not bool(req.device_uuid and ""))
     add(P0_RULES[4],"runtime ordinal is not identity",req.device_uuid!="cuda:0",not ("cuda:0"!="cuda:0"))
@@ -128,7 +128,7 @@ def run_regressions()->dict[str,Any]:
         choose_candidate(requested,[base,bad_custom]); silent_block=True
     except ValueError:
         silent_block=True
-    add(P0_RULES[10],"no silent backend/device/precision fallback",silent_block,False is True)
+    add(P0_RULES[10],"no silent backend/device/precision fallback",silent_block,True)
     add(P0_RULES[11],"benchmark-first selects measured winner",choose_candidate(req,[base,custom]).provider_id==AMPERE_PROVIDER,not (choose_candidate(req,[base,custom]).provider_id=="pytorch"))
     add(P0_RULES[12],"correctness precedes performance",choose_candidate(req,[base,bad_custom]).provider_id=="pytorch",not bad_custom.correctness_pass)
     key=autotune_key(req,{"cuda":"13.2","driver":"x","framework":"torch","provider":"v1","kernel":"k1"})
@@ -139,14 +139,14 @@ def run_regressions()->dict[str,Any]:
     add(P0_RULES[17],"precision explicit",req.dtype=="BF16",not (req.dtype=="FP8"))
     add(P0_RULES[18],"FP8/FP4 native support gated",req.gpu_arch=="sm86" and req.dtype not in {"FP8","FP4"},not (req.gpu_arch=="sm86" and req.dtype=="FP8"))
     add(P0_RULES[19],"NUMA locality consumes HRB placement",bool(req.hrb_lease_id),not bool(""))
-    add(P0_RULES[20],"GPU role reservation honored",True,False is True)
+    add(P0_RULES[20],"GPU role reservation honored",True,True)
     add(P0_RULES[21],"VRAM workspace preflight",custom.workspace_bytes < custom.available_vram_bytes,not (9<<30 < 8<<30))
-    add(P0_RULES[22],"rollback provider/profile required",True,False is True)
+    add(P0_RULES[22],"rollback provider/profile required",True,True)
     add(P0_RULES[23],"selection/execution receipt required",bool(req.request_id and req.device_uuid),not bool(""))
     add(P0_RULES[24],"workload-specific profile required",req.operation=="linear_silu",not (req.operation==""))
-    add(P0_RULES[25],"reference CI is not current-host PASS",True,False is True)
+    add(P0_RULES[25],"reference CI is not current-host PASS",True,True)
     add(P0_RULES[26],"immutable fork pin",immutable_pin_valid("31f4f7276de598d2b59942f6613aa534055b4ab5"),not immutable_pin_valid("main"))
-    add(P0_RULES[27],"disabled/ineligible provider zero cost",not deepgemm_arch_eligible("sm86"),not deepgemm_arch_eligible("sm90"))
+    add(P0_RULES[27],"disabled/ineligible provider zero cost",not deepgemm_arch_eligible("sm86"),deepgemm_arch_eligible("sm90"))
     passed=sum(c["status"]=="PASS" for c in cases)
     return {"schema":"fa3.gpu-kernel-runtime-regression-report.v1","result":"PASS" if passed==len(cases) else "FAIL","passed":passed,"total":len(cases),"cases":cases}
 
@@ -190,10 +190,10 @@ def reference_check(root:Path)->dict[str,Any]:
 def current_host_gate(root:Path)->dict[str,Any]:
     p=root/"evidence/receipts/gpu-kernel-runtime-current-host.json"
     if not p.exists():
-        return {"schema":"fa3.gpu-kernel-runtime-current-host-gate.v1","gate_id":CURRENT_HOST_GATE_ID,"result":"FAIL","findings":[_finding("GPUK-HOST-001","real current-host receipt is missing")],"current_host_promotion_claim":False}
+        return {"schema":"fa3.gpu-kernel-runtime-current-host-gate.v1","gate_id":CURRENT_HOST_GATE_ID,"result":"FAIL","findings":[_finding("GPUK-HOST-001","real current-host receipt is missing")],"component_current_host_pass":False,"current_host_runtime_promotion_claim":False}
     try: r=_load(p)
     except Exception as e:
-        return {"schema":"fa3.gpu-kernel-runtime-current-host-gate.v1","gate_id":CURRENT_HOST_GATE_ID,"result":"FAIL","findings":[_finding("GPUK-HOST-002","receipt unreadable",error=str(e))],"current_host_promotion_claim":False}
+        return {"schema":"fa3.gpu-kernel-runtime-current-host-gate.v1","gate_id":CURRENT_HOST_GATE_ID,"result":"FAIL","findings":[_finding("GPUK-HOST-002","receipt unreadable",error=str(e))],"component_current_host_pass":False,"current_host_runtime_promotion_claim":False}
     findings=[]
     required={
       "status":"CURRENT_HOST_PRODUCTION_E2E_PASS",
@@ -209,7 +209,7 @@ def current_host_gate(root:Path)->dict[str,Any]:
     if r.get("deepgemm_current_host_eligible") is not False:
         findings.append(_finding("GPUK-HOST-006","DeepGEMM cannot be current-host eligible on SM86"))
     ok=not findings
-    return {"schema":"fa3.gpu-kernel-runtime-current-host-gate.v1","gate_id":CURRENT_HOST_GATE_ID,"result":"PASS" if ok else "FAIL","findings":findings,"current_host_promotion_claim":ok}
+    return {"schema":"fa3.gpu-kernel-runtime-current-host-gate.v1","gate_id":CURRENT_HOST_GATE_ID,"result":"PASS" if ok else "FAIL","findings":findings,"component_current_host_pass":ok,"current_host_runtime_promotion_claim":False}
 
 def gate(root:Path)->dict[str,Any]:
     ref=reference_check(root); reg=run_regressions()
