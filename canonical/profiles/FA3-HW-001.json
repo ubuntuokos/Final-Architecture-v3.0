@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-001",
   "name": "Provider-Neutral Hardware Capability & Heterogeneous Accelerator Baseline",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -11,7 +11,8 @@
   "new_architectural_authority": false,
   "capability_count": 143,
   "contracts": [
-    "FA3-HW-CONTRACTS-001"
+    "FA3-HW-CONTRACTS-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
   ],
   "reference_hosts": [
     "Dell Precision Tower 7910 is reference-only, never canonical hardware identity"
@@ -37,16 +38,21 @@
     "PORTABLE_CPU_FLOOR_MIN_1_PACKAGE_MIN_8_PHYSICAL_CORES",
     "PORTABLE_GPU_FLOOR_MIN_1_NVIDIA_RTX_30_SERIES_OR_NEWER",
     "NEWER_RTX_SERIES_EXPLICITLY_ALLOWED",
-    "NO_CANONICAL_CPU_VENDOR_MODEL_OR_GPU_SKU_VRAM_SM_PIN"
+    "NO_CANONICAL_CPU_VENDOR_MODEL_OR_GPU_SKU_VRAM_SM_PIN",
+    "CPU_CARDINALITY_DYNAMIC_1_TO_N",
+    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
+    "NO_FIXED_CPU_SOCKET_GPU_COUNT_PCI_BDF_OR_CUDA_ORDINAL_PORTABLE_DEFAULT",
+    "LIVE_HARDWARE_DISCOVERY_AND_ADMISSION_REVALIDATION_REQUIRED"
   ],
-  "implementation_status": "CANONICAL_BASELINE_AND_T7910_CURRENT_HOST_VALIDATION_TOOLING_MATERIALIZED_REAL_EXECUTION_PENDING",
+  "implementation_status": "CANONICAL_PORTABLE_BASELINE_DYNAMIC_1_TO_N_DISCOVERY_AND_REVALIDATION_MATERIALIZED",
   "minimum_portable_hardware_envelope": {
     "cpu": {
       "minimum_package_count": 1,
       "minimum_physical_cores_per_qualifying_cpu": 8,
       "vendor_pin": "FORBIDDEN",
       "model_pin": "FORBIDDEN",
-      "packages_above_minimum": "ALLOWED"
+      "packages_above_minimum": "ALLOWED",
+      "package_count_max": "UNBOUNDED_BY_FA3"
     },
     "gpu": {
       "minimum_qualifying_device_count": 1,
@@ -56,9 +62,15 @@
       "exact_sku_pin": "FORBIDDEN",
       "vram_pin": "FORBIDDEN",
       "sm_pin": "FORBIDDEN",
-      "architecture_equivalence_without_rtx30_or_newer_series_identity": "DOES_NOT_SATISFY_MINIMUM"
+      "architecture_equivalence_without_rtx30_or_newer_series_identity": "DOES_NOT_SATISFY_MINIMUM",
+      "qualifying_device_count_max": "UNBOUNDED_BY_FA3"
     },
     "exact_current_host_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
     "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
-  }
+  },
+  "mandatory_subprofiles": [
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
 }
