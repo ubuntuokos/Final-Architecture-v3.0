@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-FFMPEG-BUILD-TRUST-CONTRACTS-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "provider_id": "FA3-PROVIDER-FFMPEG-001",
+  "provider_neutral_security_authorities_preserved": true,
+  "receipt_schema": "fa3.ffmpeg-build-trust-receipt.v2",
+  "required_fields": [
+    "status",
+    "trust_mode",
+    "release_channel",
+    "signature_verified",
+    "floating_master_or_nightly",
+    "observed_ffmpeg_version",
+    "immutable_version_identity",
+    "installed_ffmpeg_binary_sha256",
+    "source_or_package_sha256",
+    "sbom_sha256",
+    "provenance_attestation_sha256",
+    "verifier",
+    "signing_identity",
+    "generated_at"
+  ],
+  "verifier_requirements": [
+    "explicit verification tool and version",
+    "explicit verification method",
+    "verification transcript digest",
+    "offline admitted keyring for detached-signature reference path",
+    "signing key identity extracted from verifier output",
+    "installed FFmpeg version observed locally and matched by the current-host gate"
+  ],
+  "reference_collector": "evidence/collect-ffmpeg-build-trust.py",
+  "reference_verification_path": "OFFLINE_GPGV_DETACHED_SIGNATURE",
+  "production_policy": {
+    "stable_release_only": true,
+    "master_snapshot_nightly_forbidden": true,
+    "build_trust_receipt_is_not_runtime_promotion": true,
+    "signature_verification_does_not_replace_license_policy_sbom_or_provenance_admission": true,
+    "no_network_required_at_execution_time": true
+  },
+  "authority_boundaries": {
+    "ffmpeg_provider_is_not_security_authority": true,
+    "ffmpeg_provider_is_not_provenance_authority": true,
+    "existing_security_policy_and_evidence_authorities_remain_canonical": true
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143
+}

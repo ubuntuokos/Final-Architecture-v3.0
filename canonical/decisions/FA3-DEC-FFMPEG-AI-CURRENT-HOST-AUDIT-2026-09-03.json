@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03",
+  "date": "2026-09-03",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Re-audit and correction of FFmpeg neural-media current-host evidence semantics",
+  "supersedes_in_part": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+  "decision": "HARDEN_EXISTING_CURRENT_HOST_CLOSURE_NO_NEW_AUTHORITY",
+  "findings_corrected": [
+    "reference T7910 CPU/machine tuple was incorrectly enforced by production runtime instead of being non-normative evidence",
+    "custom fa3.hrb-placement-receipt.v1 was weaker than the canonical AcceleratorExecutionLease@1 plus broker validation already used by FA3",
+    "GPU media fields proved command intent for decoder/filter/encoder rather than observed runtime execution",
+    "synthetic Identity ONNX plus synthetic A/V smoke was labelled too broadly as neural-media E2E PASS",
+    "FFmpeg build-trust v1 allowed self-asserted signature_verified without verifier identity, SBOM and provenance attestation linkage",
+    "codec/container/stream validation and execution evidence provenance chain were incomplete",
+    "CPU discovery used online CPUs without making effective process/cgroup affinity a first-class input"
+  ],
+  "mandatory_corrections": [
+    "FA3-HARDWARE-BASELINE-001 and FA3-HARDWARE-DISCOVERY-CONTRACTS-001 govern portable hardware admission",
+    "no concrete CPU/GPU/machine model is a production admission constant",
+    "current-host machine identity is evidence-only and non-normative",
+    "canonical HRB AcceleratorExecutionLease@1 plus broker VALID proof is required",
+    "GPU UUID plus PCI BDF remains canonical accelerator identity and CUDA ordinal is ephemeral",
+    "FFmpeg execution-conformance smoke requires requested-versus-observed CUDA ONNX provider and observed decoder/filter/NVENC log evidence",
+    "build trust v2 requires stable identity, observed version match, signature verifier identity, SBOM and provenance hashes",
+    "synthetic Identity ONNX and synthetic A/V can only prove execution conformance, never production neural-media E2E",
+    "production runtime promotion separately requires real or curated media plus admitted neural model identity/hash/license/provenance and task-specific QA",
+    "stable FFmpeg 9.0.1 DNN zero-copy remains unclaimed",
+    "component conformance PASS cannot promote profile runtime or global FA3"
+  ],
+  "authority_invariants": {
+    "temporal_remains_global_durable_orchestration_authority": true,
+    "hrb_remains_exclusive_host_resource_admission_and_placement_authority": true,
+    "model_registry_authority_unchanged": true,
+    "security_provenance_evidence_authorities_unchanged": true,
+    "ffmpeg_is_execution_provider_not_authority": true
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_production_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

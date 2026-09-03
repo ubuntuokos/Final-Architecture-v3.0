@@ -1,5 +1,5 @@
 {
-  "schema": "fa3.executable-gate-record.v1",
+  "schema": "fa3.executable-gate-record.v2",
   "id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
   "status": "CANONICAL",
   "priority": "P0",
@@ -7,13 +7,17 @@
   "parent_gate_id": "FA3-GATE-FFMPEG-AI-001",
   "enforcement_id": "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001",
   "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+  "audit_decision_id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03",
   "entrypoint": "src/fa3_ffmpeg_ai_current_host_gate.py",
   "collector": "evidence/collect-ffmpeg-ai-current-host.py",
   "test": "tests/test_ffmpeg_ai_current_host_gate.py",
   "receipt": "evidence/receipts/ffmpeg-ai-current-host.json",
   "fail_closed": true,
-  "evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+  "evidence_class": "EXECUTION_CONFORMANCE_SMOKE_NOT_PRODUCTION_E2E",
+  "evidence_level": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+  "production_e2e_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+  "production_e2e_satisfied_by_this_gate": false,
   "current_host_runtime_promotion_claim": false,
-  "global_promotion_effect": "NONE_UNTIL_EVIDENCE_REGISTRY_AND_19_POINT_ACCEPTANCE_PASS",
+  "global_promotion_effect": "NONE_EXECUTION_CONFORMANCE_IS_PREREQUISITE_ONLY",
   "capability_count": 143
 }

@@ -1,4 +1,4 @@
-name: FA3 FFmpeg Neural Media Current-Host E2E
+name: FA3 FFmpeg Current-Host Execution Conformance
 
 on:
   pull_request:
@@ -7,28 +7,32 @@ on:
       - 'src/fa3_ffmpeg_ai_current_host.py'
       - 'src/fa3_ffmpeg_ai_current_host_gate.py'
       - 'evidence/collect-ffmpeg-ai-current-host.py'
+      - 'evidence/collect-ffmpeg-build-trust.py'
       - 'tests/test_ffmpeg_ai_current_host_gate.py'
+      - 'tests/test_ffmpeg_ai_gate.py'
+      - 'canonical/contracts/FA3-FFMPEG-BUILD-TRUST-CONTRACTS-001.json'
       - 'canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json'
       - 'canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json'
       - 'canonical/ffmpeg-ai-current-host-enforcement.json'
-      - 'canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json'
+      - 'canonical/ffmpeg-ai-runtime-admission.json'
+      - 'canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03.json'
       - '.github/workflows/fa3-ffmpeg-ai-current-host.yml'
   workflow_dispatch:
     inputs:
       execute_current_host:
-        description: 'Execute the real T7910 FFmpeg neural-media E2E'
+        description: 'Execute portable FFmpeg execution-conformance smoke on the admitted FA3 current host'
         required: true
         default: false
         type: boolean
-      hrb_receipt:
-        description: 'Path on self-hosted runner to active HRB neural-media placement receipt'
+      hrb_lease:
+        description: 'Path to active canonical AcceleratorExecutionLease@1 issued for FA3 FFmpeg'
         required: false
-        default: '.fa3-current-host/input/ffmpeg-ai-hrb-placement.json'
+        default: '.fa3-current-host/input/ffmpeg-ai-accelerator-lease.json'
         type: string
       ffmpeg_build_trust:
-        description: 'Path on self-hosted runner to immutable signed FFmpeg build trust receipt'
+        description: 'Path to verified fa3.ffmpeg-build-trust-receipt.v2'
         required: false
-        default: '.fa3-current-host/input/ffmpeg-ai-build-trust.json'
+        default: '.fa3-current-host/input/ffmpeg-ai-build-trust-v2.json'
         type: string
 
 permissions:
@@ -50,16 +54,18 @@ jobs:
       - name: Prepare gate
         run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh
       - name: Syntax check
-        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py
-      - name: Fail-closed current-host contract tests
-        run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_current_host_gate -v
+        run: python -m py_compile src/fa3_ffmpeg_ai_gate.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py evidence/collect-ffmpeg-build-trust.py
+      - name: Fail-closed FFmpeg canonical and current-host contract tests
+        run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_gate tests.test_ffmpeg_ai_current_host_gate -v
       - name: Parent FFmpeg canonical gate
         run: ./bin/fa3-enforce ffmpeg-ai
+      - name: Hardware portability gate
+        run: ./bin/fa3-enforce hardware-portability
       - name: Unified release projection coherence
         run: ./bin/fa3-enforce release-projection
 
   current-host:
-    name: ffmpeg-ai-current-host / real-t7910-e2e
+    name: ffmpeg-ai-current-host / execution-conformance
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
     needs: regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
@@ -78,20 +84,21 @@ jobs:
           command -v ffmpeg
           command -v ffprobe
           command -v nvidia-smi
-          test -f "${{ inputs.hrb_receipt }}"
+          test -x "${FA3_HRB_BIN:-/usr/local/bin/fa3-host-resource-broker}"
+          test -f "${{ inputs.hrb_lease }}"
           test -f "${{ inputs.ffmpeg_build_trust }}"
-      - name: Run HRB-bound real-media E2E
+      - name: Run HRB-bound execution conformance smoke
         shell: bash
         run: |
           set -euo pipefail
           chmod +x bin/fa3-ffmpeg-ai-current-host.sh bin/fa3-enforce
-          bin/fa3-ffmpeg-ai-current-host.sh "${{ inputs.hrb_receipt }}" "${{ inputs.ffmpeg_build_trust }}"
+          bin/fa3-ffmpeg-ai-current-host.sh "${{ inputs.hrb_lease }}" "${{ inputs.ffmpeg_build_trust }}"
           ./bin/fa3-enforce ffmpeg-ai-current-host
-      - name: Upload current-host evidence
+      - name: Upload execution-conformance evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: fa3-ffmpeg-ai-current-host-evidence
+          name: fa3-ffmpeg-ai-current-host-conformance
           if-no-files-found: warn
           path: |
             evidence/receipts/ffmpeg-ai-current-host.json

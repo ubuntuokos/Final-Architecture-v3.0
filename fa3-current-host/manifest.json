@@ -49,83 +49,39 @@
     "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
     "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
     "canonical/ffmpeg-ai-current-host-enforcement.json",
+    "canonical/ffmpeg-ai-runtime-admission.json",
+    "canonical/contracts/FA3-FFMPEG-BUILD-TRUST-CONTRACTS-001.json",
     "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+    "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03.json",
     "src/fa3_ffmpeg_ai_current_host.py",
     "src/fa3_ffmpeg_ai_current_host_gate.py",
     "tests/test_ffmpeg_ai_current_host_gate.py",
     "evidence/collect-ffmpeg-ai-current-host.py",
+    "evidence/collect-ffmpeg-build-trust.py",
     "bin/fa3-ffmpeg-ai-current-host.sh",
     ".github/workflows/fa3-ffmpeg-ai-current-host.yml"
   ],
   "registered_current_host_surfaces": [
-    {
-      "name": "generic-host-fingerprint",
-      "collector": "evidence/collect-current-host.sh",
-      "gate": null,
-      "activation": "ALWAYS_SAFE_READ_ONLY",
-      "collection_status": "COLLECTED_UNVALIDATED"
-    },
-    {
-      "name": "terax",
-      "collector": "evidence/collect-terax-current-host.py",
-      "gate": "terax",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "codex",
-      "collector": "evidence/collect-codex-current-host.py",
-      "gate": "codex-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "modular-max-mojo",
-      "collector": "evidence/collect-modular-current-host.py",
-      "gate": "modular-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "demucs",
-      "collector": "evidence/collect-demucs-current-host.py",
-      "gate": "demucs-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "presenton",
-      "collector": "evidence/collect-presenton-current-host.py",
-      "gate": "presenton-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "ai-infra-guard",
-      "collector": "evidence/collect-ai-infra-guard-current-host.py",
-      "gate": "ai-infra-guard-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "cosyvoice",
-      "collector": "evidence/collect-cosyvoice-current-host.py",
-      "gate": "cosyvoice-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "cpu-numa-threading",
-      "collector": "evidence/collect-cpu-numa-threading-current-host.py",
-      "gate": "cpu-numa-threading-current-host",
-      "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
-    },
+    {"name": "generic-host-fingerprint", "collector": "evidence/collect-current-host.sh", "gate": null, "activation": "ALWAYS_SAFE_READ_ONLY", "collection_status": "COLLECTED_UNVALIDATED"},
+    {"name": "terax", "collector": "evidence/collect-terax-current-host.py", "gate": "terax", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "codex", "collector": "evidence/collect-codex-current-host.py", "gate": "codex-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "modular-max-mojo", "collector": "evidence/collect-modular-current-host.py", "gate": "modular-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "demucs", "collector": "evidence/collect-demucs-current-host.py", "gate": "demucs-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "presenton", "collector": "evidence/collect-presenton-current-host.py", "gate": "presenton-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "ai-infra-guard", "collector": "evidence/collect-ai-infra-guard-current-host.py", "gate": "ai-infra-guard-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "cosyvoice", "collector": "evidence/collect-cosyvoice-current-host.py", "gate": "cosyvoice-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "cpu-numa-threading", "collector": "evidence/collect-cpu-numa-threading-current-host.py", "gate": "cpu-numa-threading-current-host", "activation": "REFERENCE_DEPLOYMENT_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"},
     {
       "name": "ffmpeg-neural-media",
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
       "gate": "ffmpeg-ai-current-host",
-      "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
-      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+      "activation": "PORTABLE_HARDWARE_DISCOVERY_CANONICAL_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_V2_REQUIRED",
+      "collection_status": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+      "build_trust_collector": "evidence/collect-ffmpeg-build-trust.py",
+      "production_e2e_satisfied_by_surface": false
     }
   ],
-  "global_gate_sequence": [
-    "static",
-    "runtime",
-    "acceptance"
-  ],
+  "global_gate_sequence": ["static", "runtime", "acceptance"],
   "promotion": {
     "explicit_only": true,
     "command": "bin/fa3-current-host promote",

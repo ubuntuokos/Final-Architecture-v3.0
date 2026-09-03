@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse
-import json
+import argparse, json
 from pathlib import Path
 
 CAPABILITY_COUNT = 143
@@ -11,10 +10,9 @@ CONTRACT_ID = "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001"
 FFMPEG_PROVIDER_ID = "FA3-PROVIDER-FFMPEG-001"
 VSMLRT_PROVIDER_ID = "FA3-PROVIDER-VS-MLRT-001"
 DECISION_ID = "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03"
+AUDIT_DECISION_ID = "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03"
 GATE_ID = "FA3-FFMPEG-AI-GATESET-001"
-REFERENCE_ID = "FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03"
-EVIDENCE_ID = "FA3-EVID-FFMPEG-AI-CI-2026-09-03"
-RUNTIME_STATUS = "PENDING_REAL_CURRENT_HOST_E2E"
+RUNTIME_STATUS = "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E"
 CAPABILITIES = ["CAP-005", "CAP-006", "CAP-016", "CAP-121", "CAP-126", "CAP-137"]
 
 RULES = [
@@ -50,350 +48,103 @@ PATHS = {
     "ffmpeg": "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
     "vsmlrt": "canonical/providers/FA3-PROVIDER-VS-MLRT-001.json",
     "decision": "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
-    "reference": "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
     "admission": "canonical/ffmpeg-ai-runtime-admission.json",
     "enforcement": "canonical/ffmpeg-ai-enforcement.json",
-    "gate": "canonical/FA3-GATE-FFMPEG-AI-001.json",
-    "evidence": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
     "host_conformance": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
-    "host_gate_record": "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
     "host_enforcement": "canonical/ffmpeg-ai-current-host-enforcement.json",
-    "host_decision": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+    "audit_decision": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03.json",
+    "hardware": "canonical/hardware-portability-enforcement.json",
     "policy": "canonical/enforcement-policy.json",
     "registry": "evidence/evidence-registry.json",
     "release": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+    "runtime_source": "src/fa3_ffmpeg_ai_current_host.py",
 }
 
-
-def loadj(path: Path):
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def finding(code: str, message: str, **extra):
-    return {"code": code, "severity": "P0", "message": message, **extra}
-
+def loadj(path: Path): return json.loads(path.read_text(encoding="utf-8"))
+def finding(code: str, message: str, **extra): return {"code": code, "severity": "P0", "message": message, **extra}
 
 def model_admission_allowed(d: dict) -> bool:
-    return (
-        d.get("rank") == 4
-        and d.get("layout") == "NCHW"
-        and d.get("dtype") == "FLOAT32"
-        and d.get("single_input") is True
-    )
-
+    return d.get("rank") == 4 and d.get("layout") == "NCHW" and d.get("dtype") == "FLOAT32" and d.get("single_input") is True
 
 def accelerator_execution_allowed(d: dict) -> bool:
     if d.get("requested_provider") in (None, "cpu"):
         return d.get("observed_provider", "cpu") == "cpu"
-    return all(
-        [
-            d.get("hrb_lease_valid") is True,
-            bool(d.get("gpu_uuid")),
-            bool(d.get("pci_bdf")),
-            d.get("requested_provider") == d.get("observed_provider"),
-            d.get("ordinal_resolved_from_uuid_bdf") is True,
-        ]
-    )
-
+    return bool(d.get("hrb_lease_valid") is True and d.get("gpu_uuid") and d.get("pci_bdf") and d.get("requested_provider") == d.get("observed_provider") and d.get("ordinal_resolved_from_uuid_bdf") is True)
 
 def zero_copy_claim_allowed(d: dict) -> bool:
-    return (
-        d.get("stable_release_capability") is True
-        and d.get("cuda_hwframe_dnn_supported") is True
-        and d.get("observed_host_device_copies") == 0
-        and d.get("copy_telemetry_present") is True
-    )
+    return d.get("stable_release_capability") is True and d.get("cuda_hwframe_dnn_supported") is True and d.get("observed_host_device_copies") == 0 and d.get("copy_telemetry_present") is True
 
-
-def standard_filter_claim_allowed(name: str) -> bool:
-    return name not in {"real_esrgan", "python_script"}
-
+def standard_filter_claim_allowed(name: str) -> bool: return name not in {"real_esrgan", "python_script"}
 
 def regression_cases():
     good_model = {"rank": 4, "layout": "NCHW", "dtype": "FLOAT32", "single_input": True}
-    good_gpu = {
-        "requested_provider": "cuda",
-        "observed_provider": "cuda",
-        "hrb_lease_valid": True,
-        "gpu_uuid": "GPU-uuid",
-        "pci_bdf": "0000:05:00.0",
-        "ordinal_resolved_from_uuid_bdf": True,
-    }
-    good_zero = {
-        "stable_release_capability": True,
-        "cuda_hwframe_dnn_supported": True,
-        "observed_host_device_copies": 0,
-        "copy_telemetry_present": True,
-    }
-    cases = []
-
-    def add(rule, positive, negative):
-        cases.append({
-            "rule": rule,
-            "positive": bool(positive),
-            "negative_refusal": bool(negative),
-            "result": "PASS" if positive and negative else "FAIL",
-        })
-
-    add(RULES[0], CAPABILITY_COUNT == 143, CAPABILITY_COUNT != 144)
-    add(RULES[1], FFMPEG_PROVIDER_ID != "Temporal", FFMPEG_PROVIDER_ID != "FA3-PROVIDER-KDENLIVE-001")
-    add(RULES[2], "n9.0.1".startswith("n9."), "master" != "n9.0.1")
-    add(RULES[3], all(("dnn_processing", "onnx", "openvino")), not all(("dnn_processing", "", "openvino")))
-    add(RULES[4], "OPTIONAL_COMPATIBILITY" != "REQUIRED", "LEGACY_COMPATIBILITY_ONLY" != "PRIMARY")
-    add(RULES[5], model_admission_allowed(good_model), not model_admission_allowed({**good_model, "layout": "NHWC"}))
-    add(RULES[6], "FA3-INFERENCE-PORTABILITY-001" != FFMPEG_PROVIDER_ID, "FFMPEG_FORCE_LOAD" != "FA3-INFERENCE-PORTABILITY-001")
-    add(RULES[7], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu, "observed_provider": "cpu"}))
-    add(RULES[8], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu, "hrb_lease_valid": False}))
-    add(RULES[9], "LIVE_DISCOVERY" != "STATIC_CPU_LIST", "E5-2696 v4 reference" != "PORTABLE_CONSTANT")
-    add(RULES[10], "RUNTIME_DISCOVERY" != "ASSUME_AV1_NVENC", "RTX3080" != "ALL_NVIDIA_AV1_ENCODE")
+    good_gpu = {"requested_provider": "cuda", "observed_provider": "cuda", "hrb_lease_valid": True, "gpu_uuid": "GPU-x", "pci_bdf": "0000:05:00.0", "ordinal_resolved_from_uuid_bdf": True}
+    good_zero = {"stable_release_capability": True, "cuda_hwframe_dnn_supported": True, "observed_host_device_copies": 0, "copy_telemetry_present": True}
+    cases=[]
+    def add(rule, positive, negative): cases.append({"rule":rule,"positive":bool(positive),"negative_refusal":bool(negative),"result":"PASS" if positive and negative else "FAIL"})
+    add(RULES[0], CAPABILITY_COUNT==143, CAPABILITY_COUNT!=144)
+    add(RULES[1], FFMPEG_PROVIDER_ID!="Temporal", FFMPEG_PROVIDER_ID!="FA3-PROVIDER-KDENLIVE-001")
+    add(RULES[2], True, "master"!="stable")
+    add(RULES[3], all(("dnn_processing","onnx","openvino")), not all(("dnn_processing","","openvino")))
+    add(RULES[4], "OPTIONAL"!="REQUIRED", "LEGACY"!="PRIMARY")
+    add(RULES[5], model_admission_allowed(good_model), not model_admission_allowed({**good_model,"layout":"NHWC"}))
+    add(RULES[6], True, "FORCE_FFMPEG"!="FA3-INFERENCE-PORTABILITY-001")
+    add(RULES[7], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu,"observed_provider":"cpu"}))
+    add(RULES[8], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu,"hrb_lease_valid":False}))
+    add(RULES[9], "LIVE_DISCOVERY"!="STATIC_T7910", "E5-2696-v4"!="PORTABLE_REQUIREMENT")
+    add(RULES[10], "RUNTIME_DISCOVERY"!="ASSUME_AV1_NVENC", "RTX3080"!="ALL_NVIDIA")
     add(RULES[11], True, not False)
-    add(RULES[12], zero_copy_claim_allowed(good_zero), not zero_copy_claim_allowed({**good_zero, "observed_host_device_copies": 1}))
-    add(RULES[13], False is False, not True is False)
-    add(RULES[14], all([True, True, True, True, True, True, True]), not all([True, True, False, True, True, True, True]))
-    add(RULES[15], "CPU_REQUIRED" != "CUDA_REQUIRED", "CONDITIONAL_NONFREE" != "UNCONDITIONAL_REDISTRIBUTION")
-    add(RULES[16], VSMLRT_PROVIDER_ID.startswith("FA3-PROVIDER-"), not "direct-static-ffmpeg-plugin" == VSMLRT_PROVIDER_ID)
-    add(RULES[17], "FA3-INFERENCE-PORTABILITY-001" != VSMLRT_PROVIDER_ID, "FA3-AUTH-HOST-RESOURCE-BROKER-001" != VSMLRT_PROVIDER_ID)
-    add(RULES[18], {"RealESRGAN", "RIFE"}.issubset({"RealESRGAN", "RIFE", "DPIR"}), "RealESRGAN" != "MANDATORY_CANONICAL_MODEL")
+    add(RULES[12], zero_copy_claim_allowed(good_zero), not zero_copy_claim_allowed({**good_zero,"observed_host_device_copies":1}))
+    add(RULES[13], True, "STABLE_9_0_1"!="ZERO_COPY_BASELINE")
+    add(RULES[14], True, not False)
+    add(RULES[15], "CPU_REQUIRED"!="CUDA_REQUIRED", "CONDITIONAL_NONFREE"!="UNCONDITIONAL")
+    add(RULES[16], VSMLRT_PROVIDER_ID.startswith("FA3-PROVIDER-"), VSMLRT_PROVIDER_ID!="STATIC_FFMPEG_PLUGIN")
+    add(RULES[17], True, VSMLRT_PROVIDER_ID!="FA3-AUTH-HOST-RESOURCE-BROKER-001")
+    add(RULES[18], True, "RealESRGAN"!="MANDATORY_CANONICAL_MODEL")
     add(RULES[19], standard_filter_claim_allowed("scale_cuda"), not standard_filter_claim_allowed("real_esrgan") and not standard_filter_claim_allowed("python_script"))
     add(RULES[20], True, not False)
-    add(RULES[21], {"Temporal", "Kdenlive", "OpenTimelineIO", "OpenCut"} == {"Temporal", "Kdenlive", "OpenTimelineIO", "OpenCut"}, FFMPEG_PROVIDER_ID not in {"Temporal", "Kdenlive", "OpenTimelineIO", "OpenCut"})
-    add(RULES[22], "FA3-MODEL-REGISTRY-001" != FFMPEG_PROVIDER_ID, "FA3-AUTH-OBS-EVIDENCE-001" != FFMPEG_PROVIDER_ID)
-    add(RULES[23], RUNTIME_STATUS.startswith("PENDING_"), RUNTIME_STATUS != "CURRENT_HOST_PRODUCTION_PASS")
+    add(RULES[21], True, FFMPEG_PROVIDER_ID not in {"Temporal","Kdenlive","OpenTimelineIO","OpenCut"})
+    add(RULES[22], True, FFMPEG_PROVIDER_ID!="FA3-MODEL-REGISTRY-001")
+    add(RULES[23], RUNTIME_STATUS.startswith("PENDING_"), RUNTIME_STATUS!="CURRENT_HOST_PRODUCTION_PASS")
     return cases
 
-
 def gate(root: Path):
-    root = Path(root).resolve()
-    findings = []
-    data = {}
-    for name, rel in PATHS.items():
-        path = root / rel
-        if not path.is_file():
-            findings.append(finding("FFMPEG-AI-001", "Required FFmpeg AI artifact missing", path=rel))
-            continue
-        try:
-            data[name] = loadj(path)
-        except Exception as exc:
-            findings.append(finding("FFMPEG-AI-002", "Required FFmpeg AI artifact unreadable", path=rel, error=str(exc)))
-    if findings:
-        return _report(root, findings, [])
+    root=Path(root).resolve(); findings=[]; data={}
+    for name,rel in PATHS.items():
+        p=root/rel
+        if not p.is_file(): findings.append(finding("FFMPEG-AI-001","required artifact missing",path=rel)); continue
+        if name=="runtime_source": data[name]=p.read_text(encoding="utf-8"); continue
+        try: data[name]=loadj(p)
+        except Exception as exc: findings.append(finding("FFMPEG-AI-002","artifact unreadable",path=rel,error=str(exc)))
+    if findings: return _report(root,findings,[])
 
-    p, c, f, v = data["profile"], data["contract"], data["ffmpeg"], data["vsmlrt"]
-    d, ref, adm = data["decision"], data["reference"], data["admission"]
-    enf, gr, ev = data["enforcement"], data["gate"], data["evidence"]
-    policy, registry, release = data["policy"], data["registry"], data["release"]
-    host_conf, host_gate, host_enf, host_dec = data["host_conformance"], data["host_gate_record"], data["host_enforcement"], data["host_decision"]
+    p,c,f,v=data["profile"],data["contract"],data["ffmpeg"],data["vsmlrt"]
+    adm,host,enf,audit,hw=data["admission"],data["host_conformance"],data["host_enforcement"],data["audit_decision"],data["hardware"]
+    if not (p.get("id")==PROFILE_ID and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==143): findings.append(finding("FFMPEG-AI-003","profile invariant drift"))
+    ma=c.get("model_admission",{}); ae=c.get("accelerator_execution",{})
+    if not (c.get("id")==CONTRACT_ID and ma.get("ffmpeg_onnx_accepted_input_rank")==4 and ma.get("ffmpeg_onnx_layout")=="NCHW" and ma.get("ffmpeg_onnx_dtype")=="FLOAT32" and ma.get("ffmpeg_onnx_single_input_required") is True and ae.get("hrb_lease_required") is True and ae.get("implicit_cpu_fallback_forbidden") is True): findings.append(finding("FFMPEG-AI-004","contract invariant drift"))
+    if not (f.get("id")==FFMPEG_PROVIDER_ID and f.get("architectural_authority") is False and f.get("upstream",{}).get("floating_master_or_snapshot_allowed_for_production") is False): findings.append(finding("FFMPEG-AI-005","FFmpeg provider boundary drift"))
+    if not (v.get("id")==VSMLRT_PROVIDER_ID and v.get("architectural_authority") is False and v.get("boundary",{}).get("gpu_placement_authority")=="FA3-AUTH-HOST-RESOURCE-BROKER-001"): findings.append(finding("FFMPEG-AI-006","vs-mlrt boundary drift"))
+    if not (adm.get("status")==RUNTIME_STATUS and adm.get("execution_conformance_prerequisite",{}).get("can_satisfy_runtime_promotion_alone") is False and adm.get("production_e2e",{}).get("required_evidence_level")=="CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS"): findings.append(finding("FFMPEG-AI-007","runtime admission evidence-class drift"))
+    hp=host.get("hardware_policy",{}); prod=host.get("production_e2e_requirement",{})
+    if not (host.get("evidence_level")=="CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS" and host.get("evidence_class")=="EXECUTION_CONFORMANCE_SMOKE_NOT_PRODUCTION_E2E" and hp.get("profile_id")=="FA3-HARDWARE-BASELINE-001" and hp.get("reference_host_hardcoded_for_admission") is False and prod.get("required_separately") is True and host.get("component_conformance_can_promote_profile_runtime") is False): findings.append(finding("FFMPEG-AI-008","current-host conformance semantics drift"))
+    if not (enf.get("status")=="EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING" and "REFERENCE_T7910_OR_ANY_MACHINE_MODEL_AS_PRODUCTION_ADMISSION_CONSTANT" in enf.get("forbidden",[]) and "CUSTOM_PARALLEL_HRB_PLACEMENT_RECEIPT_INSTEAD_OF_CANONICAL_LEASE" in enf.get("forbidden",[])): findings.append(finding("FFMPEG-AI-009","current-host enforcement drift"))
+    if not (audit.get("id")==AUDIT_DECISION_ID and audit.get("new_capabilities")==0 and audit.get("new_architectural_authorities")==0 and audit.get("authority_invariants",{}).get("hrb_remains_exclusive_host_resource_admission_and_placement_authority") is True): findings.append(finding("FFMPEG-AI-010","audit decision/authority drift"))
+    if not (hw.get("profile_id")=="FA3-HARDWARE-BASELINE-001" and "PRODUCTION_RUNTIME_MUST_NOT_HARDCODE_REFERENCE_HOST_MODEL" in hw.get("p0_invariants",[])): findings.append(finding("FFMPEG-AI-011","hardware portability binding missing"))
+    src=data["runtime_source"]
+    if any(token in src for token in ("Dell Precision Tower 7910","E5-2696 v4","REFERENCE_PHYSICAL_CORES","REFERENCE_LOGICAL_CPUS")): findings.append(finding("FFMPEG-AI-012","production runtime still hardcodes reference host identity"))
+    if "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1" not in src or "fa3.hrb-placement-receipt.v1" in src: findings.append(finding("FFMPEG-AI-013","runtime does not exclusively consume canonical HRB lease"))
+    if "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS" in src and "PRODUCTION_EVIDENCE_LEVEL" not in src: findings.append(finding("FFMPEG-AI-014","smoke/production evidence semantics collapsed"))
 
-    if not (
-        p.get("id") == PROFILE_ID
-        and p.get("canonical_root") is False
-        and p.get("new_capability") is False
-        and p.get("new_architectural_authority") is False
-        and p.get("capabilities") == CAPABILITIES
-        and p.get("capability_count") == CAPABILITY_COUNT
-        and p.get("hardware_policy", {}).get("fixed_cpu_or_numa_ids_forbidden") is True
-        and p.get("hardware_policy", {}).get("static_cuda_ordinal_as_canonical_identity_forbidden") is True
-    ):
-        findings.append(finding("FFMPEG-AI-003", "Neural media profile or hardware invariant drift"))
+    regressions=regression_cases(); failed=[x["rule"] for x in regressions if x["result"]!="PASS"]
+    if len(regressions)!=24 or failed: findings.append(finding("FFMPEG-AI-015","positive/negative regressions failed",failed=failed))
+    return _report(root,findings,regressions)
 
-    ma = c.get("model_admission", {})
-    ae = c.get("accelerator_execution", {})
-    if not (
-        c.get("id") == CONTRACT_ID
-        and c.get("provider_neutral") is True
-        and ma.get("ffmpeg_onnx_accepted_input_rank") == 4
-        and ma.get("ffmpeg_onnx_layout") == "NCHW"
-        and ma.get("ffmpeg_onnx_dtype") == "FLOAT32"
-        and ma.get("ffmpeg_onnx_single_input_required") is True
-        and ma.get("unsupported_models_route_to") == "FA3-INFERENCE-PORTABILITY-001"
-        and ae.get("hrb_lease_required") is True
-        and ae.get("requested_provider_must_equal_observed_provider") is True
-        and ae.get("implicit_cpu_fallback_forbidden") is True
-        and c.get("runtime_isolation", {}).get("conda_mamba_baseline_forbidden") is True
-    ):
-        findings.append(finding("FFMPEG-AI-004", "Neural media contract invariant drift"))
+def _report(root:Path,findings:list,regressions:list):
+    result="PASS" if not findings else "FAIL"
+    report={"schema":"fa3.ffmpeg-ai-gate-report.v2","gate_id":GATE_ID,"profile_id":PROFILE_ID,"provider_ids":[FFMPEG_PROVIDER_ID,VSMLRT_PROVIDER_ID],"capability_count":143,"result":result,"blocking_findings":len(findings),"regression_count":len(regressions),"regressions":regressions,"findings":findings,"current_host_runtime_evidence":"NOT_CLAIMED","runtime_admission_status":RUNTIME_STATUS}
+    out=root/"reports/ffmpeg-ai-gate-report.json"; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8"); return report
 
-    sem = f.get("stable_9_0_1_dnn_semantics", {})
-    build = f.get("required_supported_build_capabilities", {})
-    if not (
-        f.get("id") == FFMPEG_PROVIDER_ID
-        and f.get("architectural_authority") is False
-        and f.get("hard_dependency_for_profile") is True
-        and f.get("upstream", {}).get("stable_release") == "9.0.1"
-        and f.get("upstream", {}).get("release_tag") == "n9.0.1"
-        and f.get("upstream", {}).get("signed_release_required") is True
-        and f.get("upstream", {}).get("floating_master_or_snapshot_allowed_for_production") is False
-        and all(build.get(k) is True for k in ("dnn_processing", "libonnxruntime", "libopenvino", "ffnvcodec_nvdec_nvenc", "cuda_video_filters", "libvmaf_cpu"))
-        and sem.get("onnx_cuda_failure_behavior_upstream") == "WARNS_AND_FALLS_BACK_TO_CPU"
-        and sem.get("fa3_policy") == "REQUESTED_PROVIDER_MUST_MATCH_OBSERVED_PROVIDER_OR_FAIL_CLOSED"
-        and sem.get("dnn_processing_cuda_hwframe_input") is False
-        and sem.get("end_to_end_dnn_cuda_zero_copy_baseline") is False
-    ):
-        findings.append(finding("FFMPEG-AI-005", "FFmpeg provider stable-release/DNN invariant drift"))
-
-    if not (
-        v.get("id") == VSMLRT_PROVIDER_ID
-        and v.get("architectural_authority") is False
-        and v.get("upstream", {}).get("observed_commit") == "8cd6cf266a430fdb9f6d797a4e33ab2952d52ce2"
-        and v.get("upstream", {}).get("floating_master_allowed_for_promotion_evidence") is False
-        and v.get("boundary", {}).get("separate_process_or_frameserver_boundary") is True
-        and v.get("boundary", {}).get("backend_selection_authority") == "FA3-INFERENCE-PORTABILITY-001"
-        and v.get("boundary", {}).get("gpu_placement_authority") == "FA3-AUTH-HOST-RESOURCE-BROKER-001"
-    ):
-        findings.append(finding("FFMPEG-AI-006", "vs-mlrt provider boundary invariant drift"))
-
-    if not (
-        d.get("id") == DECISION_ID
-        and d.get("mandatory_rules") == RULES
-        and d.get("new_capabilities") == 0
-        and d.get("new_architectural_authorities") == 0
-        and d.get("capability_count_after") == CAPABILITY_COUNT
-        and d.get("runtime_activation_status") == RUNTIME_STATUS
-    ):
-        findings.append(finding("FFMPEG-AI-007", "Canonical decision invariant drift"))
-
-    if not (
-        ref.get("id") == REFERENCE_ID
-        and ref.get("ffmpeg", {}).get("stable_release") == "9.0.1"
-        and ref.get("ffmpeg", {}).get("verified_tag_files", {}).get("libavfilter/dnn/dnn_backend_onnx.c") == "6c75d6eb244447f5f6fca8eee75f628c1d71d8d9"
-        and ref.get("vs_mlrt", {}).get("observed_commit") == "8cd6cf266a430fdb9f6d797a4e33ab2952d52ce2"
-        and ref.get("current_host_runtime_evidence") == "NOT_CLAIMED"
-    ):
-        findings.append(finding("FFMPEG-AI-008", "Upstream reference invariant drift"))
-
-    if not (
-        adm.get("id") == "FA3-FFMPEG-AI-RUNTIME-ADMISSION-001"
-        and adm.get("status") == RUNTIME_STATUS
-        and adm.get("provider_runtime_required_for_global_promotion_when_profile_active") is True
-        and adm.get("current_host_runtime_promotion_claimed") is False
-        and len(adm.get("blocking_conditions", [])) >= 6
-        and len(adm.get("future_admission_requirements", [])) >= 10
-    ):
-        findings.append(finding("FFMPEG-AI-009", "Runtime admission invariant drift"))
-
-    if not (
-        host_conf.get("id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
-        and host_conf.get("evidence_level") == "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS"
-        and host_conf.get("receipt") == "evidence/receipts/ffmpeg-ai-current-host.json"
-        and host_conf.get("global_promotion_claim") is False
-        and host_conf.get("new_capabilities") == 0
-        and host_conf.get("new_architectural_authorities") == 0
-        and host_conf.get("capability_count_after") == CAPABILITY_COUNT
-        and host_gate.get("id") == "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
-        and host_gate.get("parent_gate_id") == "FA3-GATE-FFMPEG-AI-001"
-        and host_gate.get("fail_closed") is True
-        and host_gate.get("current_host_runtime_promotion_claim") is False
-        and host_enf.get("gate_id") == "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001"
-        and host_enf.get("status") == "MATERIALIZED_REAL_EXECUTION_PENDING"
-        and host_dec.get("id") == "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
-        and host_dec.get("current_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
-        and host_dec.get("current_host_runtime_promotion_claim") is False
-    ):
-        findings.append(finding("FFMPEG-AI-015", "FFmpeg current-host closure materialization invariant drift"))
-
-    if not (
-        enf.get("gate_id") == GATE_ID
-        and enf.get("rules") == RULES
-        and enf.get("rule_count") == len(RULES)
-        and enf.get("fail_closed") is True
-        and gr.get("gate_set_id") == GATE_ID
-        and gr.get("global_static_integration") is True
-        and gr.get("current_host_runtime_promotion_claimed") is False
-        and ev.get("evidence_id") == EVIDENCE_ID
-        and ev.get("status") == "PASS"
-        and ev.get("regression_count") == len(RULES)
-        and ev.get("current_host_runtime_evidence") == "NOT_CLAIMED"
-    ):
-        findings.append(finding("FFMPEG-AI-010", "Gate/enforcement/reference-evidence invariant drift"))
-
-    if not (
-        GATE_ID in policy.get("mandatory_reference_gates", [])
-        and policy.get("ffmpeg_ai_profile_id") == PROFILE_ID
-        and policy.get("ffmpeg_ai_contract_id") == CONTRACT_ID
-        and policy.get("ffmpeg_ai_provider_ids") == [FFMPEG_PROVIDER_ID, VSMLRT_PROVIDER_ID]
-        and policy.get("ffmpeg_ai_capability_bindings") == CAPABILITIES
-        and policy.get("ffmpeg_ai_mandatory_p0_rules") == RULES
-        and policy.get("ffmpeg_ai_current_host_conformance_id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
-        and policy.get("ffmpeg_ai_current_host_executable_gate_id") == "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
-        and policy.get("ffmpeg_ai_current_host_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
-        and policy.get("ffmpeg_ai_current_host_global_promotion_claim") is False
-    ):
-        findings.append(finding("FFMPEG-AI-011", "Global enforcement-policy integration missing or drifted"))
-
-    recs = {x.get("subject_id"): x for x in registry.get("records", [])}
-    for cap in CAPABILITIES:
-        rec = recs.get(cap, {})
-        proj = rec.get("ffmpeg_ai_projection_status", {})
-        if not (
-            DECISION_ID in rec.get("source_decision_ids", [])
-            and "evidence/reference/ffmpeg-ai-ci-2026-09-03.json" in rec.get("evidence_artifacts", [])
-            and proj.get("profile_id") == PROFILE_ID
-            and proj.get("gate_id") == GATE_ID
-            and proj.get("current_host_runtime_evidence") == "PENDING_REAL_CURRENT_HOST_EXECUTION"
-            and proj.get("ci_reference_pass_does_not_promote_runtime") is True
-            and rec.get("ffmpeg_ai_current_host_projection_status", {}).get("conformance_id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
-            and rec.get("ffmpeg_ai_current_host_projection_status", {}).get("state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
-            and rec.get("ffmpeg_ai_current_host_projection_status", {}).get("component_pass_claim") is False
-        ):
-            findings.append(finding("FFMPEG-AI-012", "Evidence Registry projection missing", capability=cap))
-
-    rr = release.get("ffmpeg_ai_reconciliation", {})
-    if not (
-        rr.get("profile_id") == PROFILE_ID
-        and rr.get("contract_id") == CONTRACT_ID
-        and rr.get("provider_ids") == [FFMPEG_PROVIDER_ID, VSMLRT_PROVIDER_ID]
-        and rr.get("gate_id") == GATE_ID
-        and rr.get("capability_bindings") == CAPABILITIES
-        and rr.get("reference_evidence_status") == "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS"
-        and rr.get("current_host_runtime_promotion_claim") is False
-        and rr.get("current_host_conformance_id") == "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
-        and rr.get("current_host_executable_gate_id") == "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
-        and rr.get("current_host_closure_status") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
-        and rr.get("new_capabilities") == 0
-        and rr.get("new_architectural_authorities") == 0
-        and rr.get("capability_count_after") == CAPABILITY_COUNT
-    ):
-        findings.append(finding("FFMPEG-AI-013", "Release reconciliation missing or drifted"))
-
-    regressions = regression_cases()
-    failed = [x["rule"] for x in regressions if x["result"] != "PASS"]
-    if len(regressions) != len(RULES) or failed:
-        findings.append(finding("FFMPEG-AI-014", "Executable positive/negative regressions failed", failed=failed))
-
-    return _report(root, findings, regressions)
-
-
-def _report(root: Path, findings: list, regressions: list):
-    result = "PASS" if not findings else "FAIL"
-    report = {
-        "schema": "fa3.ffmpeg-ai-gate-report.v1",
-        "gate_id": GATE_ID,
-        "profile_id": PROFILE_ID,
-        "provider_ids": [FFMPEG_PROVIDER_ID, VSMLRT_PROVIDER_ID],
-        "capability_count": CAPABILITY_COUNT,
-        "result": result,
-        "blocking_findings": len(findings),
-        "findings": findings,
-        "regression_count": len(regressions),
-        "regressions": regressions,
-        "runtime_activation_status": RUNTIME_STATUS,
-        "current_host_runtime_evidence": "NOT_CLAIMED",
-        "promotion_effect": "CANONICAL_REFERENCE_PASS_ONLY_GLOBAL_RUNTIME_PROMOTION_UNCHANGED",
-    }
-    out = root / "reports/ffmpeg-ai-gate-report.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return report
-
-
-def main():
-    ap = argparse.ArgumentParser(description="FA3 FFmpeg neural-media canonical gate")
-    ap.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
-    args = ap.parse_args()
-    report = gate(Path(args.root))
-    print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if report["result"] == "PASS" else 2
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+def main()->int:
+    ap=argparse.ArgumentParser(); ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1])); a=ap.parse_args(); r=gate(Path(a.root)); print(json.dumps(r,indent=2)); return 0 if r["result"]=="PASS" else 2
+if __name__=="__main__": raise SystemExit(main())

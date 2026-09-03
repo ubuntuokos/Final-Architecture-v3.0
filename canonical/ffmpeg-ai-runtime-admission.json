@@ -1,53 +1,63 @@
 {
-  "schema": "fa3.runtime-admission.v1",
+  "schema": "fa3.runtime-admission.v2",
   "id": "FA3-FFMPEG-AI-RUNTIME-ADMISSION-001",
   "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
-  "provider_ids": [
-    "FA3-PROVIDER-FFMPEG-001",
-    "FA3-PROVIDER-VS-MLRT-001"
-  ],
-  "status": "PENDING_REAL_CURRENT_HOST_E2E",
+  "provider_ids": ["FA3-PROVIDER-FFMPEG-001", "FA3-PROVIDER-VS-MLRT-001"],
+  "status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
   "provider_runtime_required_for_global_promotion_when_profile_active": true,
-  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_E2E",
   "blocking_conditions": [
-    "NO_CURRENT_HOST_FFMPEG_BUILD_MANIFEST_AND_FEATURE_RECEIPT",
-    "NO_CURRENT_HOST_HRB_BOUND_GPU_TRANSCODE_E2E_RECEIPT",
-    "NO_CURRENT_HOST_REQUESTED_VS_OBSERVED_ONNX_EXECUTION_PROVIDER_RECEIPT",
-    "NO_CURRENT_HOST_NEURAL_MEDIA_GOLDEN_CLIP_QUALITY_RECEIPT",
-    "NO_CURRENT_HOST_COLOR_HDR_TIMESTAMP_AV_SYNC_VALIDATION_RECEIPT",
-    "NO_CURRENT_HOST_ROLLBACK_AND_CPU_GPU_COPY_TELEMETRY_RECEIPT"
+    "NO_CURRENT_HOST_PRODUCTION_NEURAL_MODEL_REGISTRY_LICENSE_PROVENANCE_RECEIPT",
+    "NO_CURRENT_HOST_REAL_OR_CURATED_MEDIA_NEURAL_TRANSFORM_E2E_RECEIPT",
+    "NO_CURRENT_HOST_PRODUCTION_TASK_SPECIFIC_QUALITY_POLICY_RECEIPT",
+    "NO_CURRENT_HOST_PRODUCTION_ARTIFACT_PROVENANCE_AND_ROLLBACK_RECEIPT"
   ],
-  "future_admission_requirements": [
-    "immutable stable FFmpeg release/tag and signature verification",
-    "ffmpeg -buildconf and ffmpeg -filters/-encoders/-decoders capability manifest",
-    "live lscpu/sysfs/NVML/PCI topology fingerprint",
-    "HRB lease bound to GPU UUID + PCI BDF when accelerator is requested",
-    "requested execution provider equals observed execution provider",
-    "real media decode/filter/neural/encode/mux E2E",
-    "VMAF + SSIM + PSNR quality evidence where a reference is applicable",
-    "A/V sync, timestamp, codec/container and color/HDR metadata validation",
-    "measured CPU-GPU copy telemetry for any zero-copy claim",
-    "vs-mlrt immutable pin/license/backend evidence when selected",
-    "failure injection and rollback evidence"
-  ],
-  "new_capabilities": 0,
-  "new_architectural_authorities": 0,
-  "capability_count_after": 143,
-  "current_host_runtime_promotion_claimed": false,
+  "execution_conformance_prerequisite": {
+    "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+    "evidence_level": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+    "receipt": "evidence/receipts/ffmpeg-ai-current-host.json",
+    "semantics": "SMOKE_EXECUTION_CONFORMANCE_ONLY_NOT_PRODUCTION_E2E",
+    "can_satisfy_runtime_promotion_alone": false
+  },
+  "production_e2e": {
+    "required_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+    "receipt_path": "evidence/receipts/ffmpeg-ai-production-current-host.json",
+    "receipt_may_be_absent_while_pending": true,
+    "requirements": [
+      "portable live hardware discovery under FA3-HARDWARE-BASELINE-001",
+      "canonical HRB AcceleratorExecutionLease@1 plus broker validation",
+      "immutable stable FFmpeg build trust with signature verifier SBOM and provenance attestation",
+      "ffmpeg live build filters encoders decoders hwaccel capability manifest",
+      "real or curated admitted media input",
+      "admitted neural model from FA3-MODEL-REGISTRY-001 with hash license and provenance",
+      "requested execution provider equals observed provider with no silent fallback",
+      "observed hardware decode neural transform encode mux execution",
+      "task-specific quality policy plus VMAF SSIM PSNR where applicable",
+      "A/V sync timestamp codec container and color HDR metadata validation",
+      "measured CPU-GPU copy telemetry only for any future zero-copy claim",
+      "artifact provenance rollback and failure injection evidence"
+    ]
+  },
   "current_host_closure": {
     "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
     "executable_gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
     "gateset_id": "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001",
     "decision_id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+    "audit_decision_id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-AUDIT-2026-09-03",
     "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-    "materialization_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
-    "required_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
-    "receipt": "evidence/receipts/ffmpeg-ai-current-host.json",
-    "network_model_fetch": false,
-    "generated_test_model": "DEPENDENCY_FREE_ONNX_IDENTITY_LOCAL_ONLY",
-    "generated_golden_media": "SYNTHETIC_BT709_AV_LOCAL_ONLY",
-    "vs_mlrt_runtime": "CONDITIONAL_NOT_REQUIRED_FOR_FFMPEG_PRIMARY_E2E",
+    "materialization_status": "EXECUTION_CONFORMANCE_HARDENED_PRODUCTION_E2E_PENDING",
+    "required_conformance_evidence_level": "CURRENT_HOST_FFMPEG_EXECUTION_CONFORMANCE_PASS",
+    "required_production_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
+    "network_model_fetch_for_smoke": false,
+    "generated_test_model": "DEPENDENCY_FREE_ONNX_IDENTITY_LOCAL_ONLY_NOT_PRODUCTION_MODEL",
+    "generated_golden_media": "SYNTHETIC_BT709_AV_LOCAL_ONLY_NOT_PRODUCTION_MEDIA",
+    "vs_mlrt_runtime": "CONDITIONAL_SEPARATE_ADMISSION",
     "current_host_component_pass_claim": false,
+    "current_host_production_pass_claim": false,
     "global_promotion_claim": false
-  }
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claimed": false
 }
