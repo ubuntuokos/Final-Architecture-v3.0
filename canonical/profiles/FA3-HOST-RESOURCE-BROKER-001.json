@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -15,7 +15,8 @@
     "FA3-HW-CONTRACTS-001",
     "FA3-HW-MGPU-CONTRACTS-001",
     "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
-    "FA3-CPU-NUMA-THREADING-CONTRACTS-001"
+    "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
   ],
   "authority_scope": [
     "admission",
@@ -32,7 +33,10 @@
       "PCIe topology and PCI BDF",
       "accelerator UUID role health and NUMA locality",
       "storage and NIC NUMA locality when discoverable",
-      "IRQ topology when discoverable"
+      "IRQ topology when discoverable",
+      "dynamic 1..N CPU package enumeration without fixed socket assumptions",
+      "dynamic 1..N qualifying GPU enumeration without fixed device-count assumptions",
+      "topology and capability revalidation at workload admission and after detected topology change"
     ],
     "placement": [
       "canonical AcceleratorAssignment",
@@ -79,7 +83,11 @@
     "global DefaultMemoryPressureWatch=no",
     "global DefaultTimerAccuracySec=1ms",
     "global aggressive restart or start stop timeout tuning",
-    "global high DefaultLimitNOFILE used instead of per-workload admission"
+    "global high DefaultLimitNOFILE used instead of per-workload admission",
+    "fixed CPU socket count or static CPU ID list as portable baseline",
+    "fixed GPU device count above the one-device minimum",
+    "fixed PCI BDF or CUDA_VISIBLE_DEVICES ordinal list as portable placement identity",
+    "concrete RTX SKU VRAM or SM as FA3 global baseline"
   ],
   "non_authority_scope": [
     "provider execution semantics",
@@ -116,5 +124,7 @@
       "runtime acceptance evidence",
       "rollback and evidence expiry"
     ]
-  }
+  },
+  "hardware_portability_baseline_profile": "FA3-HARDWARE-BASELINE-001",
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
 }
