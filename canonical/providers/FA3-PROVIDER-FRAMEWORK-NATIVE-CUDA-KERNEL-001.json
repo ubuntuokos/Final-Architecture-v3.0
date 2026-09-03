@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001",
+  "name": "Framework-Native NVIDIA CUDA Kernel Baseline Provider",
+  "version": "1.0.0",
+  "status": "REQUIRED_SUPPORTED_BASELINE",
+  "provider_role": "PORTABLE_NVIDIA_CUDA_KERNEL_BASELINE_EXECUTION_PROVIDER",
+  "classification": [
+    "REQUIRED_SUPPORTED_PROVIDER",
+    "CUDA_KERNEL_EXECUTION_BACKEND",
+    "FRAMEWORK_NATIVE_BASELINE",
+    "PORTABLE_BASELINE_CANDIDATE"
+  ],
+  "profiles": [
+    "FA3-GPU-KERNEL-RUNTIME-001",
+    "FA3-INFERENCE-PORTABILITY-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-056",
+    "CAP-060",
+    "CAP-069",
+    "CAP-078",
+    "CAP-087",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "REQUIRED_SUPPORTED_CONDITIONAL_ON_LIVE_RUNTIME_COMPATIBILITY",
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_REAL_CURRENT_HOST_COMPATIBILITY_AND_E2E",
+  "current_host_runtime_evidence": false,
+  "architecture_support": {
+    "mode": "LIVE_DISCOVERED_RUNTIME_SUPPORT_MATRIX",
+    "fixed_architecture_allowlist": false,
+    "exact_gpu_sku_required": false
+  },
+  "backend_candidates": [
+    "PYTORCH_ATEN_CUDA",
+    "CUBLAS_CUBLASLT_VIA_FRAMEWORK",
+    "FRAMEWORK_NATIVE_FUSED_KERNELS_WHEN_EVIDENCED"
+  ],
+  "precision_support": "DISCOVERED_FROM_LIVE_FRAMEWORK_DRIVER_CUDA_AND_GPU_CAPABILITY",
+  "required_admission": [
+    "LIVE_HARDWARE_DISCOVERY_AND_REVALIDATION",
+    "AUTHORIZED_HRB_LEASE",
+    "FRAMEWORK_DRIVER_CUDA_GPU_SUPPORT_MATRIX_PASS",
+    "OPERATION_DTYPE_LAYOUT_CAPABILITY_PASS",
+    "CORRECTNESS_ORACLE_PASS",
+    "BENCHMARK_PROFILE_WHEN_OPTIMIZED_SELECTION_IS_CLAIMED",
+    "VRAM_WORKSPACE_PREFLIGHT",
+    "KERNEL_SELECTION_AND_EXECUTION_RECEIPT"
+  ],
+  "fallback_semantics": "BASELINE_PROVIDER_MAY_BE_SELECTED_BY_POLICY_BUT_MUST_NOT_BE_USED_AS_SILENT_SUBSTITUTE_FOR_AN_EXPLICITLY_REQUESTED_INELIGIBLE_PROVIDER",
+  "authority_boundaries": {
+    "placement_and_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "normative_constraint": "Provides the portable correctness-first CUDA kernel baseline for FA3-admissible NVIDIA hardware when the live framework/runtime support matrix passes. It is an execution provider, not a hardware baseline or placement authority."
+}
