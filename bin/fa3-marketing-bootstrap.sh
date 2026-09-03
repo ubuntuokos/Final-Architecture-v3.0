@@ -14,6 +14,8 @@ if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
 fi
 command -v podman >/dev/null || { echo "FAIL: podman missing" >&2; exit 21; }
 command -v openssl >/dev/null || { echo "FAIL: openssl missing" >&2; exit 22; }
+command -v python3 >/dev/null || { echo "FAIL: python3 missing" >&2; exit 26; }
+command -v curl >/dev/null || { echo "FAIL: curl missing" >&2; exit 27; }
 
 secret() {
   local name="$1" bytes="${2:-24}" f="$CONF/$name"
@@ -109,7 +111,7 @@ wait_cmd fa3-mkt-mautic-db mysqladmin ping -h 127.0.0.1 -uroot "-p$MAUTIC_DB_ROO
 rmc fa3-mkt-mautic-web
 podman run -d --name fa3-mkt-mautic-web --replace --network "$NET" --network-alias mautic-web   -p 127.0.0.1:8180:80   -e MAUTIC_DB_HOST=mautic-db -e MAUTIC_DB_PORT=3306 -e MAUTIC_DB_DATABASE=mautic   -e MAUTIC_DB_USER=mautic -e MAUTIC_DB_PASSWORD="$MAUTIC_DB_PASSWORD"   -e MAUTIC_MESSENGER_DSN_EMAIL=doctrine://default -e MAUTIC_MESSENGER_DSN_HIT=doctrine://default   -v fa3-mkt-mautic-config:/var/www/html/config   -v fa3-mkt-mautic-logs:/var/www/html/var/logs   -v fa3-mkt-mautic-media-files:/var/www/html/docroot/media/files   -v fa3-mkt-mautic-media-images:/var/www/html/docroot/media/images   -v "$ROOT/runtime/marketing/fa3_mautic_config.php:/opt/fa3-mautic-config.php:ro"   "${IDS[mautic]}" >/dev/null
 sleep 8
-if ! podman exec fa3-mkt-mautic-web test -f /var/www/html/config/local.php; then
+if ! podman exec fa3-mkt-mautic-db mysql -uroot "-p$MAUTIC_DB_ROOT_PASSWORD" -D mautic -Nse "SHOW TABLES LIKE 'users'" | grep -qx users; then
   podman exec --user www-data --workdir /var/www/html fa3-mkt-mautic-web     php ./bin/console mautic:install --force     --admin_email="fa3-marketing@localhost.invalid"     --admin_password="$MAUTIC_ADMIN_PASSWORD"     http://127.0.0.1:8180
 fi
 podman exec -e FA3_MAUTIC_SITE_URL=http://127.0.0.1:8180   -e FA3_MAUTIC_MAILER_DSN=smtp://smtp-sink:1025   --user www-data fa3-mkt-mautic-web php /opt/fa3-mautic-config.php
