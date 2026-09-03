@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03",
+  "date": "2026-09-03",
+  "repository": "cobusgreyling/loop-engineering",
+  "immutable_observed_commit": "714f1fdf6ea111f27207de6908547c2a155b270c",
+  "observed_branch": "main",
+  "latest_observed_github_release": {
+    "tag": "v1.6.0",
+    "published_at": "2026-07-20T18:42:38Z",
+    "name": "v1.6.0 — Foundry funnel + loop-gate"
+  },
+  "license": {
+    "spdx": "MIT",
+    "production_admission": "REFERENCE_CODE_LICENSE_ONLY_NO_RUNTIME_DEPENDENCY"
+  },
+  "observed_head_note": "Observed main head is an automated daily-triage state/run-log update; the commit is used only as an immutable repository snapshot reference.",
+  "confirmed_patterns": [
+    "DISCOVER_HANDOFF_VERIFY_PERSIST_STATE",
+    "WEEK_ONE_REPORT_ONLY",
+    "L1_TO_L2_TO_L3_PROGRESSIVE_AUTONOMY",
+    "INDEPENDENT_VERIFIER",
+    "DURABLE_STATE",
+    "MECHANICAL_LOOP_GATE",
+    "AUTO_MERGE_DEFAULT_OFF",
+    "TOKEN_COST_BUDGET",
+    "STAGNATION_CIRCUIT_BREAKER",
+    "WORKTREE_QUEUE_AND_LOCKING",
+    "STATE_LOOP_DRIFT_SYNC",
+    "MCP_LEAST_PRIVILEGE",
+    "HUMAN_GATES",
+    "APPEND_ONLY_RUN_LOG",
+    "EARLY_EXIT_FOR_COSTLY_OR_HIGH_FREQUENCY_PATTERNS"
+  ],
+  "observed_pattern_registry": [
+    "pr-babysitter",
+    "daily-triage",
+    "ci-sweeper",
+    "post-merge-cleanup",
+    "dependency-sweeper",
+    "changelog-drafter",
+    "issue-triage",
+    "thin-loop"
+  ],
+  "current_readme_cli": "npx @cobusgreyling/loop",
+  "formal_release_tooling_note": "v1.6.0 documents loop-gate, loop-context, loop-worktree, loop-mcp-server, loop-cost and loop-sync; current main may contain later package-level changes.",
+  "architectural_interpretation": "Patterns are absorbed into provider-neutral FA3 contracts; concrete CLI packages and Markdown files remain optional reference tooling.",
+  "promotion_evidence": false,
+  "current_host_runtime_evidence": false,
+  "floating_main_for_promotion_forbidden": true
+}
