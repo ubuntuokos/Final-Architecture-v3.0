@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03",
+  "title": "Canonicalize MarketingSkills as an optional untrusted skill-package provider with fail-closed admission",
+  "date": "2026-09-03",
+  "status": "CANONICAL_CLOSED",
+  "decision": "ACCEPT_AS_OPTIONAL_REFERENCE_SKILL_PROVIDER_WITH_PROVIDER_NEUTRAL_ADMISSION_CONTRACT",
+  "profile_id": "FA3-MARKETING-001",
+  "provider_id": "FA3-PROVIDER-MARKETINGSKILLS-001",
+  "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+  "gate_id": "FA3-GATE-MARKETINGSKILLS-SKILL-ADMISSION-001",
+  "gateset_id": "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001",
+  "upstream_pin": "5cd4a7eae3a9a7b5d2aceb0613f7d1f7c4b65968",
+  "rationale": [
+    "The upstream project is a useful versioned marketing Agent Skills and evaluation pattern source.",
+    "The upstream repository also contains executable CLI/script surfaces, a symlink, and documented shell interpolation, so repository presence cannot imply execution trust.",
+    "FA3 therefore admits only immutable, digest-bound selected skill packages and keeps all execution, credentials, authorization, workflow, evidence, customer-state and provider-ranking authority outside the skill package.",
+    "Commercial affiliation is provenance metadata only and cannot alter ranking, authorization or policy."
+  ],
+  "authority_preservation": {
+    "central_mcp_gateway": "UNCHANGED",
+    "durable_orchestration": "UNCHANGED",
+    "identity_policy_secrets": "UNCHANGED",
+    "evidence_authority": "UNCHANGED",
+    "marketing_customer_campaign_state": "UNCHANGED",
+    "human_publication_approval": "UNCHANGED"
+  },
+  "upstream_repository_admission": "NOT_IMPLICIT",
+  "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "current_host_runtime_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143
+}
