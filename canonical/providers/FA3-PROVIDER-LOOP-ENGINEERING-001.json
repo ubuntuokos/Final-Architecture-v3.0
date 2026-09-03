@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-LOOP-ENGINEERING-001",
+  "name": "cobusgreyling/loop-engineering",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_CLOSED_LOOP_AGENT_OPERATIONS_PATTERN_AND_TOOLING_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_REFERENCE_PROVIDER",
+    "LOOP_PATTERN_LIBRARY",
+    "READINESS_AUDIT_PATTERN_SOURCE",
+    "BUDGET_CIRCUIT_BREAKER_PATTERN_SOURCE",
+    "WORKTREE_ISOLATION_PATTERN_SOURCE",
+    "MECHANICAL_POLICY_GATE_PATTERN_SOURCE",
+    "MCP_LOOP_TOOLING_REFERENCE",
+    "STRONG_ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": false,
+  "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "current_host_runtime_evidence": false,
+  "parent_profile": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+  "contract": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
+  "related_contracts": [
+    "FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001",
+    "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
+  ],
+  "upstream_reference": "FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03",
+  "immutable_upstream_tuple": {
+    "repository": "cobusgreyling/loop-engineering",
+    "commit": "714f1fdf6ea111f27207de6908547c2a155b270c",
+    "latest_observed_github_release": "v1.6.0",
+    "license": "MIT"
+  },
+  "reference_tooling": [
+    "@cobusgreyling/loop",
+    "loop-init",
+    "loop-audit",
+    "loop-cost",
+    "loop-sync",
+    "loop-context",
+    "loop-worktree",
+    "loop-gate",
+    "loop-sandbox",
+    "loop-mcp-server",
+    "loop-action"
+  ],
+  "non_canonical_formats": [
+    "STATE.md",
+    "LOOP.md",
+    "gate.yaml",
+    "loop-budget.md",
+    "loop-run-log.md"
+  ],
+  "hard_dependencies_forbidden": [
+    "NODE_JS_RUNTIME",
+    "NPM_OR_NPX",
+    "MARKDOWN_STATE_BACKEND",
+    "SPECIFIC_AGENT_VENDOR",
+    "SPECIFIC_SCHEDULER"
+  ],
+  "authority_boundaries": {
+    "durable_orchestration": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "git_release": "EXISTING_FA3_RELEASE_INTEGRITY_AUTHORITY_ONLY"
+  },
+  "hardware_projection": {
+    "provider_itself_requires_accelerator": false,
+    "local_agent_workloads_must_request_hrb_resources": true,
+    "static_cpu_or_gpu_placement": false,
+    "inherited_fa3_portable_floor": {
+      "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
+      "gpu": "MIN_NVIDIA_RTX_30_SERIES_OR_NEWER",
+      "newer_rtx_generations_allowed": true,
+      "concrete_cpu_or_gpu_model_pin": false
+    },
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NOT_PROVIDER_REQUIREMENT"
+  },
+  "normative_constraint": "Loop Engineering SHALL remain an optional pattern/tooling reference provider. Its closed-loop governance patterns are mandatory through provider-neutral FA3 contracts, while Temporal, Central MCP/Capability Gateway, Security Governance, Host Resource Broker, Model Router, evidence and release authorities remain unchanged."
+}

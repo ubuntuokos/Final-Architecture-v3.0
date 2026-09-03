@@ -1092,3 +1092,23 @@ PYTHONPATH=src python -m unittest tests.test_video_provider_lifecycle_gate -v
 ```
 
 The gate contains 30 fail-closed P0 regressions. Reference CI PASS does not assert current-host provider execution or production admission. Capability count remains 143 and new architectural authorities remain 0.
+
+
+## FA3 closed-loop agent operations / Loop Engineering baseline
+
+`FA3-CLOSED-LOOP-AGENT-OPERATIONS-001` is a **P0/MUST**, provider-neutral non-root subprofile of `FA3-AGENT-EXEC-001`. It materializes durable external loop state, L2/L3 maker-checker separation, progressive L0→L3 autonomy with automatic demotion, deterministic circuit breakers, multi-dimensional budgets, isolated leased workspaces, mechanical policy gates, least-privilege connectors, drift detection, provenance-preserving context compaction, append-only observability, pause/kill/retire semantics and event-first triggering. It adds **no capability** and **no architectural authority**; the canonical count remains **143**, projected over existing `CAP-028`.
+
+`FA3-PROVIDER-LOOP-ENGINEERING-001` registers `cobusgreyling/loop-engineering` as an optional pattern/tooling reference provider pinned to commit `714f1fdf6ea111f27207de6908547c2a155b270c`. Its Node/NPM CLI tools and `STATE.md` / `LOOP.md` / `gate.yaml` formats are not FA3 hard dependencies. The absorbed closed-loop semantics are enforced through `FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001`.
+
+Authority boundaries do not move: **Temporal remains the Global Durable Orchestration authority**; Central MCP/Capability Gateway remains tool mediation; Security Governance remains policy authority; Host Resource Broker remains CPU/NUMA/GPU admission, placement and lease authority; Model Router, Evidence/Observability and release-integrity authorities remain unchanged.
+
+The canonical FA3 hardware floor for this profile is deliberately **model-agnostic**: at least **1 CPU package with at least 8 physical cores per admitted CPU**, plus at least **1 NVIDIA RTX accelerator at RTX 30-series or newer**. Newer RTX generations are explicitly accepted. FA3 does **not** pin a CPU vendor/model, GPU SKU, VRAM size, SM value, socket topology above the minimum, or a particular workstation. Exact T7910/E5/RTX observations elsewhere in the repository are current-host evidence only and must not be interpreted as portable FA3 admission defaults. Every execution rediscovers live CPU/NUMA/cgroup/PCI/GPU capabilities, and accelerator work requires an HRB lease; static CPU IDs and CUDA ordinal identity remain forbidden.
+
+Run the 36-rule positive/negative gate with:
+
+```bash
+./bin/fa3-enforce loop-engineering
+PYTHONPATH=src python -m unittest tests.test_loop_engineering_gate -v
+```
+
+The committed reference PASS is not current-host runtime evidence and cannot promote `CAP-028` or the global 143-capability runtime by documentation alone.

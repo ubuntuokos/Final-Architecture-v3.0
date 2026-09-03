@@ -1,0 +1,280 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
+  "version": "1.0.1",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+  "provider_neutral": true,
+  "source_pattern_provider": "FA3-PROVIDER-LOOP-ENGINEERING-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "LoopDefinition",
+    "LoopTrigger",
+    "LoopRun",
+    "LoopState",
+    "LoopStateBackendDescriptor",
+    "WorkItem",
+    "WorkItemClaim",
+    "WorkspaceLease",
+    "WorktreeLease",
+    "AttemptRecord",
+    "VerificationRequest",
+    "VerificationResult",
+    "LoopBudget",
+    "BudgetUsage",
+    "LoopPolicy",
+    "PolicyDecision",
+    "ConnectorGrant",
+    "HumanGate",
+    "HumanDecision",
+    "CircuitBreakerState",
+    "ContextCompactionReceipt",
+    "LoopRunLog",
+    "LoopMetric",
+    "LoopReadiness",
+    "AutonomyState",
+    "Escalation",
+    "LoopPatternDescriptor",
+    "LoopLifecycleTransition",
+    "LoopRetirementRecord"
+  ],
+  "canonical_lifecycle": [
+    "TRIGGER_OR_EVENT",
+    "LOAD_DEFINITION_POLICY_STATE",
+    "CAPABILITY_PERMISSION_BUDGET_PREFLIGHT",
+    "CONTRACT_STATE_POLICY_DRIFT_CHECK",
+    "DISCOVER_TRIAGE",
+    "CLAIM_WORK_ITEM_AND_LEASE",
+    "ISOLATED_WORKSPACE",
+    "MAKER_EXECUTION",
+    "INDEPENDENT_VERIFICATION",
+    "POLICY_AND_HUMAN_GATE",
+    "APPLY_PR_OR_ESCALATE",
+    "DURABLE_STATE_AND_APPEND_ONLY_RUN_LOG",
+    "CONTINUE_PAUSE_RETIRE"
+  ],
+  "state_semantics": {
+    "external_to_chat": true,
+    "durable": true,
+    "versioned": true,
+    "provider_neutral_backend": true,
+    "multi_loop_partitioning": "REQUIRED",
+    "retention_and_pruning": "EXPLICIT_POLICY_REQUIRED",
+    "markdown_state_files": "REFERENCE_PROVIDER_ONLY_NOT_CANONICAL_FORMAT",
+    "context_compaction": "MAY_DROP_WORKING_DETAIL_BUT_MUST_PRESERVE_PROVENANCE_AND_ATTEMPT_LEDGER"
+  },
+  "maker_checker_semantics": {
+    "required_for": [
+      "L2_ASSISTED",
+      "L3_UNATTENDED"
+    ],
+    "session_separation": "REQUIRED",
+    "verifier_default_access": "READ_ONLY_OR_RESTRICTED",
+    "verifier_result": [
+      "PASS",
+      "FAIL",
+      "ESCALATE"
+    ],
+    "verifier_self_repair": "FORBIDDEN"
+  },
+  "autonomy_semantics": {
+    "levels": [
+      "L0_DRAFT",
+      "L1_REPORT_ONLY",
+      "L2_ASSISTED",
+      "L3_UNATTENDED"
+    ],
+    "l3_requires": [
+      "RECENT_SUCCESSFUL_RUNS",
+      "VERIFIER_RELIABILITY_EVIDENCE",
+      "EXPLICIT_BUDGETS",
+      "MECHANICAL_POLICY_GATES",
+      "OBSERVABILITY",
+      "DENYLIST_ALLOWLIST",
+      "HUMAN_ESCALATION",
+      "KILL_SWITCH"
+    ],
+    "automatic_demotion_on": [
+      "INCIDENT",
+      "POLICY_VIOLATION",
+      "COST_SPIKE",
+      "FAILURE_RATE",
+      "STATE_OR_CONTRACT_DRIFT"
+    ]
+  },
+  "circuit_breaker_semantics": {
+    "required_limits": [
+      "MAX_ITERATIONS",
+      "MAX_ATTEMPTS",
+      "MAX_CONSECUTIVE_FAILURES",
+      "SAME_ERROR_REPEAT_LIMIT",
+      "NO_PROGRESS_LIMIT",
+      "TIMEOUT",
+      "TOKEN_LIMIT",
+      "COST_LIMIT",
+      "TOOL_CALL_LIMIT",
+      "SUBAGENT_LIMIT"
+    ],
+    "repeated_same_error_forever": "FORBIDDEN",
+    "stop_result": [
+      "STOP",
+      "ESCALATE",
+      "PAUSE"
+    ]
+  },
+  "budget_semantics": {
+    "dimensions": [
+      "TOKEN",
+      "COST",
+      "WALL_CLOCK",
+      "TOOL_CALL",
+      "SUBAGENT",
+      "CPU",
+      "RAM",
+      "GPU_VRAM",
+      "EXTERNAL_API"
+    ],
+    "aggregate_window_budget": "REQUIRED_FOR_MULTI_LOOP",
+    "self_raise_cap": "FORBIDDEN",
+    "extension": "HUMAN_OR_EXTERNAL_POLICY_APPROVAL_ONLY",
+    "early_exit_noop": "PREFERRED_AND_REQUIRED_FOR_HIGH_FREQUENCY_OR_HIGH_COST_LOOPS"
+  },
+  "workspace_semantics": {
+    "mutating_l2_plus": "ISOLATED_WORKTREE_OR_EQUIVALENT_REQUIRED",
+    "concurrency": "LEASE_OR_LOCK_REQUIRED",
+    "same_target_parallel_write": "SERIALIZED_SINGLE_WRITER_SCOPE"
+  },
+  "policy_semantics": {
+    "enforcement": "DETERMINISTIC_MECHANICAL_GATE_NOT_PROMPT_ONLY",
+    "decisions": [
+      "ALLOW",
+      "DENY",
+      "REQUIRE_HUMAN",
+      "REQUIRE_STRONGER_VERIFICATION"
+    ],
+    "auto_merge_default": "DISABLED",
+    "high_risk_human_gate": [
+      "SECURITY",
+      "AUTH",
+      "PAYMENTS",
+      "PII",
+      "PROD_INFRA",
+      "DEPENDENCY_UPGRADE",
+      "CRITICAL_MIGRATION"
+    ],
+    "connector_least_privilege": true,
+    "l1_connector_default": "READ_ONLY"
+  },
+  "drift_semantics": {
+    "preflight_required_for": [
+      "L2_ASSISTED",
+      "L3_UNATTENDED"
+    ],
+    "compared_surfaces": [
+      "LOOP_DEFINITION",
+      "STATE",
+      "POLICY",
+      "SKILLS",
+      "ACCEPTANCE_CRITERIA",
+      "TOOL_CAPABILITIES",
+      "CONNECTOR_GRANTS"
+    ],
+    "stale_unattended_start": "BLOCKED"
+  },
+  "observability_semantics": {
+    "append_only_run_ledger": true,
+    "otel_compatible": true,
+    "required_fields": [
+      "RUN_ID",
+      "LOOP_PATTERN_VERSION",
+      "TRIGGER",
+      "TIMESTAMPS",
+      "STATE_HASH",
+      "MODEL_PROVIDER_VERSION",
+      "WORK_ITEM",
+      "ATTEMPTS",
+      "VERIFIER_RESULT",
+      "POLICY_DECISIONS",
+      "HUMAN_GATES",
+      "CHANGED_ARTIFACTS",
+      "TOKEN_COST_TOOL_USAGE",
+      "ESCALATIONS",
+      "OUTCOME",
+      "FAILURE_MODE"
+    ]
+  },
+  "lifecycle_control": {
+    "states": [
+      "ACTIVE",
+      "PAUSED",
+      "DEGRADED",
+      "REPORT_ONLY",
+      "BLOCKED",
+      "KILLED",
+      "RETIRED"
+    ],
+    "incident_default": "REPORT_ONLY_OR_PAUSED",
+    "kill_switch": "REQUIRED"
+  },
+  "trigger_semantics": {
+    "preference": [
+      "EVENT_DRIVEN",
+      "CHANGE_WATCH",
+      "ADAPTIVE_POLLING",
+      "FIXED_POLLING"
+    ],
+    "polling_requires": [
+      "EARLY_EXIT",
+      "BUDGET_GATE",
+      "NOOP_PATH"
+    ]
+  },
+  "pattern_registry": {
+    "typed": true,
+    "versioned": true,
+    "risk_and_cost_metadata": true,
+    "human_gate_metadata": true
+  },
+  "hardware_semantics": {
+    "portable_fa3_minimum": {
+      "cpu_package_count_min": 1,
+      "physical_cores_per_package_min": 8,
+      "cpu_vendor_or_model_pin_forbidden": true,
+      "gpu_device_count_min": 1,
+      "gpu_minimum_generation": "NVIDIA_RTX_30_SERIES_OR_NEWER",
+      "gpu_rtx_series_floor": 30,
+      "newer_rtx_generations_allowed": true,
+      "specific_gpu_sku_vram_sm_pin_forbidden": true
+    },
+    "current_host_exact_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_DEFAULT",
+    "live_cpu_numa_gpu_discovery": true,
+    "accelerator_requires_hrb_lease": true,
+    "canonical_accelerator_identity": [
+      "GPU_UUID",
+      "PCI_BDF"
+    ],
+    "cuda_ordinal_not_canonical_identity": true,
+    "static_cpu_id_placement_forbidden": true,
+    "display_aux_role_protection": true,
+    "inherited_from_profile": "FA3-HW-001",
+    "inherited_from_contract": "FA3-HW-CONTRACTS-001"
+  },
+  "forbidden_semantics": [
+    "LOOP_PROVIDER_AS_DURABLE_ORCHESTRATION_AUTHORITY",
+    "CHAT_HISTORY_AS_ONLY_DURABLE_STATE",
+    "L2_L3_SELF_VERIFICATION_ONLY",
+    "UNBOUNDED_RETRY",
+    "AGENT_SELF_RAISED_BUDGET",
+    "SHARED_MUTATING_WORKSPACE_WITHOUT_LEASE",
+    "PROMPT_ONLY_SECURITY_GATE",
+    "AUTO_MERGE_BY_DEFAULT",
+    "STALE_POLICY_UNATTENDED_EXECUTION",
+    "CONTEXT_COMPACTION_ERASES_PROVENANCE",
+    "REFERENCE_CI_AS_CURRENT_HOST_PROMOTION",
+    "CONCRETE_CPU_VENDOR_OR_MODEL_AS_CANONICAL_HARDWARE_DEFAULT",
+    "CONCRETE_GPU_SKU_VRAM_OR_SM_AS_CANONICAL_HARDWARE_DEFAULT",
+    "RTX_PRE_30_SERIES_AS_FA3_BASELINE_ACCELERATOR"
+  ]
+}

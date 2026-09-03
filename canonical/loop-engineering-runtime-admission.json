@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.reference-provider-admission.v1",
+  "id": "FA3-LOOP-ENGINEERING-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-LOOP-ENGINEERING-001",
+  "status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "production_provider_admission": false,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "global_runtime_promotion_required_when_disabled": false,
+  "node_npm_required": false,
+  "markdown_state_backend_required": false,
+  "note": "FA3 consumes the patterns through canonical provider-neutral contracts; enabling upstream CLI tooling is optional and separately governed.",
+  "inherited_fa3_hardware_floor": {
+    "cpu_package_count_min": 1,
+    "physical_cores_per_package_min": 8,
+    "gpu_minimum_generation": "NVIDIA_RTX_30_SERIES_OR_NEWER",
+    "newer_rtx_generations_allowed": true,
+    "concrete_model_pin": false,
+    "note": "Exact host hardware is evidence, not provider admission policy."
+  }
+}

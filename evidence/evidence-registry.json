@@ -1409,14 +1409,16 @@
         "FA3-REG-003",
         "FA3-DEC-AUTOGPT-2026-08-30",
         "FA3-DEC-CODEX-ADAPTER-2026-08-31",
-        "FA3-DEC-OPENHANDS-2026-09-01"
+        "FA3-DEC-OPENHANDS-2026-09-01",
+        "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/autogpt-ci-2026-08-30.json",
         "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
         "evidence/reference/codex-adapter-ci-2026-08-31.json",
-        "evidence/reference/openhands-ci-2026-09-01.json"
+        "evidence/reference/openhands-ci-2026-09-01.json",
+        "evidence/reference/loop-engineering-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -1447,6 +1449,22 @@
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "global_runtime_promotion_effect": "NONE_WHILE_DISABLED",
         "reference_evidence": "evidence/reference/openhands-ci-2026-09-01.json"
+      },
+      "loop_engineering_provider_projection_status": {
+        "provider_id": "FA3-PROVIDER-LOOP-ENGINEERING-001",
+        "classification": "OPTIONAL_CLOSED_LOOP_PATTERN_AND_TOOLING_REFERENCE_PROVIDER",
+        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED_CANONICAL_REFERENCE_PASS_RUNTIME_NOT_REQUIRED",
+        "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "global_runtime_promotion_effect": "NONE_WHILE_DISABLED_REFERENCE_ONLY",
+        "reference_evidence": "evidence/reference/loop-engineering-ci-2026-09-03.json",
+        "portable_hardware_floor": {
+          "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
+          "gpu": "MIN_NVIDIA_RTX_30_SERIES_OR_NEWER",
+          "newer_rtx_generations_allowed": true,
+          "concrete_cpu_or_gpu_model_pin": false,
+          "current_host_exact_hardware": "EVIDENCE_ONLY"
+        }
       }
     },
     {
