@@ -91,6 +91,46 @@
       "detail": "systemd/cgroup v2 is projection, not authority"
     },
     {
+      "name": "manager-defaults-neutral",
+      "status": "PASS",
+      "detail": "AI/HPC tuning cannot become global systemd Manager resource defaults"
+    },
+    {
+      "name": "manager-affinity-numa-not-placement",
+      "status": "PASS",
+      "detail": "global Manager CPU/NUMA affinity cannot replace HRB placement"
+    },
+    {
+      "name": "global-unbounded-limits-forbidden",
+      "status": "PASS",
+      "detail": "unbounded task nproc and memlock are per-workload policy, not global defaults"
+    },
+    {
+      "name": "memory-pressure-observability",
+      "status": "PASS",
+      "detail": "memory-pressure observability cannot be disabled to mask exhaustion"
+    },
+    {
+      "name": "oom-workload-scoped",
+      "status": "PASS",
+      "detail": "OOM policy is workload-scoped and global continue is rejected"
+    },
+    {
+      "name": "restart-timeout-bounded-per-service",
+      "status": "PASS",
+      "detail": "restart and timeout tuning is per-service and bounded"
+    },
+    {
+      "name": "global-timer-baseline-forbidden",
+      "status": "PASS",
+      "detail": "global 1ms timer accuracy is not an AI performance baseline"
+    },
+    {
+      "name": "per-workload-projection-change-control",
+      "status": "PASS",
+      "detail": "per-workload projection requires HRB receipt, semantic diff, rollback and evidence"
+    },
+    {
       "name": "xanmod-optional",
       "status": "PASS",
       "detail": "XanMod is optional reference"
@@ -117,7 +157,7 @@
     }
   ],
   "summary": {
-    "passed": 22,
-    "total": 22
+    "passed": 30,
+    "total": 30
   }
 }
