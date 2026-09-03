@@ -150,7 +150,7 @@ def portable_hardware_floor_valid(*, cpu_packages: int,
                                   cpu_vendor_pinned: bool,
                                   cpu_model_pinned: bool,
                                   gpu_count: int,
-                                  gpu_rtx_equivalent_series: int,
+                                  gpu_rtx_series: int,
                                   gpu_specific_sku_pinned: bool,
                                   gpu_specific_vram_pinned: bool,
                                   gpu_specific_sm_pinned: bool,
@@ -161,7 +161,7 @@ def portable_hardware_floor_valid(*, cpu_packages: int,
         and not cpu_vendor_pinned
         and not cpu_model_pinned
         and gpu_count >= 1
-        and gpu_rtx_equivalent_series >= 30
+        and gpu_rtx_series >= 30
         and not gpu_specific_sku_pinned
         and not gpu_specific_vram_pinned
         and not gpu_specific_sm_pinned
