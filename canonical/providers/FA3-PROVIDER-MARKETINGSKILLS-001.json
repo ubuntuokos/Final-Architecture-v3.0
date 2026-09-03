@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MARKETINGSKILLS-001",
+  "name": "MarketingSkills Agent Skill Library Provider",
+  "version": "1.0.0",
+  "status": "CANONICAL_REFERENCE_PROVIDER",
+  "priority": "OPTIONAL",
+  "requirement": "MAY",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "profile_id": "FA3-MARKETING-001",
+  "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_PROVIDER",
+    "AGENT_SKILL_LIBRARY",
+    "MARKETING_DOMAIN_KNOWLEDGE_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "NON_AUTHORITY"
+  ],
+  "capabilities": [
+    "CAP-003",
+    "CAP-004",
+    "CAP-010",
+    "CAP-011",
+    "CAP-018",
+    "CAP-019",
+    "CAP-040",
+    "CAP-049",
+    "CAP-103",
+    "CAP-112",
+    "CAP-125"
+  ],
+  "upstream": {
+    "repository": "coreyhaines31/marketingskills",
+    "immutable_commit": "5cd4a7eae3a9a7b5d2aceb0613f7d1f7c4b65968",
+    "ref_observed": "main",
+    "reference_record": "FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03",
+    "license": {
+      "name": "MIT",
+      "license_blob_sha": "7c48dd638a9ebed49a8ef0c0c4eea90105381cdf"
+    },
+    "observed_structure": {
+      "total_tree_entries": 624,
+      "skill_md_count": 50,
+      "eval_file_count": 50,
+      "cli_js_count": 64,
+      "observed_symlinks": [
+        "CLAUDE.md"
+      ],
+      "agents_md_blob_sha": "71f13c16c20c6f8c856f113bb46b2e7154437ead",
+      "documented_shell_interpolation": true
+    }
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "secrets": false,
+    "durable_workflow": false,
+    "canonical_customer_data": false,
+    "canonical_campaign_state": false,
+    "evidence": false,
+    "mcp_gateway": false,
+    "tool_execution": false,
+    "provider_ranking": false,
+    "recommendation_authority": false
+  },
+  "allowed_roles": [
+    "SCOPED_MARKETING_KNOWLEDGE",
+    "DECLARATIVE_TASK_WORKFLOW",
+    "TEMPLATE_AND_REFERENCE_SOURCE",
+    "TOOL_INTENT_PROPOSAL",
+    "SKILL_COMPOSITION_PATTERN",
+    "BEHAVIORAL_EVAL_PATTERN_SOURCE"
+  ],
+  "package_admission": {
+    "trust_default": "UNTRUSTED",
+    "selected_skill_requires_separate_admission_receipt": true,
+    "entire_upstream_repo_is_not_implicitly_admitted": true,
+    "immutable_commit_required": true,
+    "content_and_manifest_digest_required": true,
+    "license_snapshot_required": true,
+    "explicit_dependency_graph_required": true,
+    "behavioral_and_negative_evals_required": true,
+    "executable_directives_policy": "INERT_DATA_ONLY",
+    "script_assets_auto_execute": false,
+    "remote_fetch_during_admission": false,
+    "symlink_policy": "REJECT_OR_MATERIALIZE_WITHIN_SNAPSHOT_NO_FOLLOW_ESCAPE",
+    "auto_update": false,
+    "new_commit_requires_readmission": true
+  },
+  "tool_boundary": {
+    "discovery_is_authorization": false,
+    "direct_credentials_from_skill": false,
+    "direct_external_mutation_from_skill": false,
+    "central_mcp_required_for_tool_intents": true,
+    "explicit_authorization_receipt_required_for_mutation": true,
+    "applicable_human_gate_preserved": true
+  },
+  "commercial_independence": {
+    "sponsorship_is_provenance_metadata_only": true,
+    "sponsorship_may_change_ranking": false,
+    "sponsorship_may_change_authorization": false,
+    "sponsorship_may_bypass_policy": false
+  },
+  "scope_and_loading": {
+    "on_demand_scoped_context": true,
+    "global_auto_injection": false,
+    "use_receipt_binds_skill_version_digest_and_dependencies": true
+  },
+  "hardware": {
+    "inert_content_package_has_no_special_hardware_dependency": true,
+    "exact_host_model_requirement": false,
+    "static_cpu_gpu_sku_assumptions_forbidden": true,
+    "executable_helpers_delegate_to_existing_sandbox_policy_and_resource_governance": true
+  },
+  "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "current_host_runtime_evidence": {
+    "production_e2e": false,
+    "runtime_promotion_claim": false,
+    "note": "Reference/static skill-package admission governance does not install or execute the upstream repository."
+  }
+}
