@@ -6139,5 +6139,32 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
+  },
+  "gpu_kernel_runtime_reconciliation": {
+    "profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+    "contract_id": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+    "decision_id": "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
+    "gate_id": "FA3-GPU-KERNEL-RUNTIME-GATESET-001",
+    "provider_ids": [
+      "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001",
+      "FA3-PROVIDER-DEEPGEMM-001"
+    ],
+    "reference_evidence": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-006",
+      "CAP-056",
+      "CAP-060",
+      "CAP-069",
+      "CAP-078",
+      "CAP-087",
+      "CAP-137",
+      "CAP-143"
+    ],
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "current_host_runtime_promotion_claim": false,
+    "current_host_status": "SM86_REAL_T7910_E2E_PENDING_DEEPGEMM_INELIGIBLE"
   }
 }
