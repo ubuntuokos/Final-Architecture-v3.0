@@ -145,17 +145,27 @@ def hardware_admission_valid(*, live_discovery: bool, hrb_lease: bool,
         return hrb_lease and bool(gpu_uuid) and bool(pci_bdf)
     return True
 
-def reference_hardware_valid(*, cpu: str, physical_cores: int, logical_cpus: int,
-                             expected_numa_domains: int, compute_gpu: str,
-                             compute_sm: str, aux_gpu_conditional: bool) -> bool:
+def portable_hardware_floor_valid(*, cpu_packages: int,
+                                  physical_cores_per_package: int,
+                                  cpu_vendor_pinned: bool,
+                                  cpu_model_pinned: bool,
+                                  gpu_count: int,
+                                  gpu_rtx_equivalent_series: int,
+                                  gpu_specific_sku_pinned: bool,
+                                  gpu_specific_vram_pinned: bool,
+                                  gpu_specific_sm_pinned: bool,
+                                  newer_rtx_generations_allowed: bool) -> bool:
     return (
-        cpu == "2x Intel Xeon E5-2696 v4 @ 2.20 GHz"
-        and physical_cores == 44
-        and logical_cpus == 88
-        and expected_numa_domains == 2
-        and compute_gpu == "NVIDIA GeForce RTX 3080 12GB"
-        and compute_sm == "SM86"
-        and aux_gpu_conditional
+        cpu_packages >= 1
+        and physical_cores_per_package >= 8
+        and not cpu_vendor_pinned
+        and not cpu_model_pinned
+        and gpu_count >= 1
+        and gpu_rtx_equivalent_series >= 30
+        and not gpu_specific_sku_pinned
+        and not gpu_specific_vram_pinned
+        and not gpu_specific_sm_pinned
+        and newer_rtx_generations_allowed
     )
 
 def disabled_provider_valid(*, enabled: bool, resident_processes: int,
