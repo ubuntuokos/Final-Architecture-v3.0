@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 310,
-    "evidence_files_in_post_baseline_delta": 52,
-    "source_files_in_post_baseline_delta": 58,
-    "test_files_in_post_baseline_delta": 47,
+    "canonical_files_in_post_baseline_delta": 321,
+    "evidence_files_in_post_baseline_delta": 54,
+    "source_files_in_post_baseline_delta": 60,
+    "test_files_in_post_baseline_delta": 48,
     "workflow_files_in_post_baseline_delta": 8,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -430,7 +430,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 518,
+  "manifest_entry_count": 534,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -531,6 +531,10 @@
     {
       "path": "bin/fa3-enforce",
       "git_blob_sha": "78efaead3832a083e72d7863c845b4376bded4d5"
+    },
+    {
+      "path": "bin/fa3-gpu-kernel-benchmark",
+      "git_blob_sha": "3de5a1c285b2199eb926d1352cdba42981ca67af"
     },
     {
       "path": "bin/fa3-model-manager-current-host.sh",
@@ -655,6 +659,10 @@
     {
       "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1"
+    },
+    {
+      "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
+      "git_blob_sha": "bb439055c20a5e7281c2941599b5941c5a64d0af"
     },
     {
       "path": "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
@@ -849,6 +857,10 @@
       "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
+      "git_blob_sha": "7fa83c0f31c24569c4b8b866ae65e8c7d0a7c166"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "git_blob_sha": "fb0314fd17466813532812ece47e6c7a26a809b3"
     },
@@ -994,7 +1006,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "52d1d6872490c0610897ce8d36ce3150b4bb1445"
+      "git_blob_sha": "86446dff68b7df7664c59126314f9a317004607b"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1039,6 +1051,14 @@
     {
       "path": "canonical/FA3-GATE-FFMPEG-AI-001.json",
       "git_blob_sha": "6bd6c029df4a795da3ed47e5b8ba9d9fadd41b7e"
+    },
+    {
+      "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-001.json",
+      "git_blob_sha": "7c1c68bc665963570e30e911f7b5a7dcb2ebb476"
+    },
+    {
+      "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-CURRENT-HOST-001.json",
+      "git_blob_sha": "7260ba12a40208772d4ef45e07ceb7ed8c84624f"
     },
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
@@ -1127,6 +1147,14 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0"
+    },
+    {
+      "path": "canonical/gpu-kernel-runtime-admission.json",
+      "git_blob_sha": "2f7fc1af11800d09128e2637b4cc87aec336c59e"
+    },
+    {
+      "path": "canonical/gpu-kernel-runtime-enforcement.json",
+      "git_blob_sha": "78cc74fa6bfe38feeca0c340e3a1b2595fa357be"
     },
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
@@ -1249,6 +1277,10 @@
       "git_blob_sha": "52efeb7ec1d632beb1a726fef4c67a4d380ac5af"
     },
     {
+      "path": "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
+      "git_blob_sha": "806eff5e86ef83356385439fb4ccae7e174d7685"
+    },
+    {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "git_blob_sha": "f66338ccb74d39a479500fe8d6a31c4310ece0d8"
     },
@@ -1357,6 +1389,10 @@
       "git_blob_sha": "3091a705e817638256fa0492a682c08079303d61"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
+      "git_blob_sha": "f9efac615825fab1aefe7ccbc3554b753daaf1e3"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
       "git_blob_sha": "3737b210733ba70250e3580a0ced7019151831fc"
     },
@@ -1387,6 +1423,10 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
       "git_blob_sha": "8eed901a56cc8127456d88823b5c7f9eea71eb37"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
+      "git_blob_sha": "de43ff02d7a4b267ef8139deb840f8eedca789af"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
@@ -1665,6 +1705,10 @@
       "git_blob_sha": "3ccbfab73da5f6a441326de7b89579ecdbdb5b49"
     },
     {
+      "path": "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
+      "git_blob_sha": "f2cd0b5ba4822e5ade0b5332c6d77cfd7048c99e"
+    },
+    {
       "path": "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
       "git_blob_sha": "c94c1fe9556696b51683627b517e9395007b2703"
     },
@@ -1869,6 +1913,10 @@
       "git_blob_sha": "1ae9a743f84ab89aa634c8d2d5f7217f820b338a"
     },
     {
+      "path": "evidence/collect-gpu-kernel-runtime-current-host.py",
+      "git_blob_sha": "678400bb041b97519ae803fab4af7f35c4f9e445"
+    },
+    {
       "path": "evidence/collect-hybrid-editorial-reference-e2e.py",
       "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65"
     },
@@ -1898,7 +1946,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "39d18acc1dd1f14842c7f0624f015f40362c8432"
+      "git_blob_sha": "3bb63baf56b4ed53f65ac6fb744baeaf1411000c"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -1955,6 +2003,10 @@
     {
       "path": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "git_blob_sha": "02135adc819382ba6ee90c425be1f5e61520d24f"
+    },
+    {
+      "path": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+      "git_blob_sha": "c7384c36f366d9c4cc242eda41608ae400c04488"
     },
     {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
@@ -2082,7 +2134,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "97381dabe65a9c9537b25f9986487afa264694c2"
+      "git_blob_sha": "81500eba4201636025dac382395c058753cb71a1"
     },
     {
       "path": "src/fa3_acestep_gate.py",
@@ -2170,7 +2222,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "f5e69f019e238057e10f97785ae50bb1d474f8ea"
+      "git_blob_sha": "366477e24642a7bb90a083dabd460d533d2e5c0f"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2179,6 +2231,14 @@
     {
       "path": "src/fa3_ffmpeg_ai_gate.py",
       "git_blob_sha": "2e2b5b757038325f648dc37213eb3578d6bb0195"
+    },
+    {
+      "path": "src/fa3_gpu_kernel_dispatch_reference.py",
+      "git_blob_sha": "d196c52f6f51d8bd9e23c27554ba4c1789e1cb2a"
+    },
+    {
+      "path": "src/fa3_gpu_kernel_runtime_gate.py",
+      "git_blob_sha": "0b06215aea5749f6540e5cec6bf4c37a3256b0f4"
     },
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
@@ -2278,7 +2338,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "1d79e826bf385b63a8a299d80e47203f40b158d5"
+      "git_blob_sha": "36f8fe35e9a8d9f83105a5cb02c9f4c08e7a2d30"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2383,6 +2443,10 @@
     {
       "path": "tests/test_ffmpeg_ai_gate.py",
       "git_blob_sha": "7f04e31b68431ce3412a72c7db97e5c06c9a41d3"
+    },
+    {
+      "path": "tests/test_gpu_kernel_runtime_gate.py",
+      "git_blob_sha": "3693f6bcd74c967cb01949902952f10dfb33d29d"
     },
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
