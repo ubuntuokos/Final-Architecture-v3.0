@@ -7,7 +7,10 @@ on:
       - 'src/fa3_ffmpeg_ai_current_host.py'
       - 'src/fa3_ffmpeg_ai_current_host_gate.py'
       - 'evidence/collect-ffmpeg-ai-current-host.py'
+      - 'evidence/collect-ffmpeg-build-trust.py'
       - 'tests/test_ffmpeg_ai_current_host_gate.py'
+      - 'tests/test_ffmpeg_ai_gate.py'
+      - 'canonical/contracts/FA3-FFMPEG-BUILD-TRUST-CONTRACTS-001.json'
       - 'canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json'
       - 'canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json'
       - 'canonical/ffmpeg-ai-current-host-enforcement.json'
@@ -51,9 +54,9 @@ jobs:
       - name: Prepare gate
         run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh
       - name: Syntax check
-        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py
-      - name: Fail-closed portable current-host contract tests
-        run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_current_host_gate -v
+        run: python -m py_compile src/fa3_ffmpeg_ai_gate.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py evidence/collect-ffmpeg-build-trust.py
+      - name: Fail-closed FFmpeg canonical and current-host contract tests
+        run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_gate tests.test_ffmpeg_ai_current_host_gate -v
       - name: Parent FFmpeg canonical gate
         run: ./bin/fa3-enforce ffmpeg-ai
       - name: Hardware portability gate
