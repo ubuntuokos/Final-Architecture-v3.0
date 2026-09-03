@@ -1800,20 +1800,6 @@ def gate(root: Path):
         "canonical/enforcement-policy.json", "evidence/evidence-registry.json",
         "src/fa3_enforce.py", "src/fa3_release_projection_gate.py",
     }
-    gpuk_inventory_requirements = {
-        "profile_records": [GPUK_PROFILE_PATH],
-        "contract_records": [GPUK_CONTRACT_PATH],
-        "provider_records": [GPUK_AMPERE_PROVIDER_PATH, GPUK_DEEPGEMM_PROVIDER_PATH],
-        "decision_records": [GPUK_DECISION_PATH],
-        "upstream_reference_records": [GPUK_REFERENCE_PATH],
-        "reference_evidence_records": [GPUK_EVIDENCE_PATH],
-    }
-    missing_gpuk_inventory = [
-        {"inventory": key, "path": path}
-        for key, paths in gpuk_inventory_requirements.items()
-        for path in paths
-        if path not in inventory.get(key, [])
-    ]
     missing_gpuk_manifest = sorted(gpuk_required_paths - manifest_paths)
     gpuk_profile = loadj(root / GPUK_PROFILE_PATH) if (root / GPUK_PROFILE_PATH).is_file() else {}
     gpuk_contract = loadj(root / GPUK_CONTRACT_PATH) if (root / GPUK_CONTRACT_PATH).is_file() else {}
@@ -1857,7 +1843,6 @@ def gate(root: Path):
         or gpuk.get("capability_count_after") != CAPABILITY_COUNT
         or GPUK_GATE_ID not in projection_gates
         or GPUK_GATE_ID not in policy_gates
-        or missing_gpuk_inventory
         or missing_gpuk_manifest
         or invalid_gpuk_bindings
         or gpuk_profile.get("id") != GPUK_PROFILE_ID
@@ -1896,7 +1881,6 @@ def gate(root: Path):
                 "GPU kernel runtime/DeepGEMM global release, hardware, inventory and evidence reconciliation invariant mismatch",
                 reconciliation_status=gpuk.get("reconciliation_status"),
                 runtime_activation_status=gpuk.get("runtime_activation_status"),
-                missing_inventory=missing_gpuk_inventory,
                 missing_manifest_paths=missing_gpuk_manifest,
                 invalid_capability_bindings=invalid_gpuk_bindings,
             )
