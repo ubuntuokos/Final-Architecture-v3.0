@@ -25,7 +25,8 @@
     "pytorch": ">=2.1",
     "cutlass": ">=4.0",
     "cuda_sm90": ">=12.3 (12.9+ recommended)",
-    "cuda_sm100": ">=12.9"
+    "cuda_sm100": ">=12.9",
+    "support_semantics": "IMMUTABLE_SNAPSHOT_CAPABILITY_FACT_NOT_GLOBAL_FA3_HARDWARE_ALLOWLIST"
   },
   "observed_primary_features": [
     "runtime JIT CPP module",
@@ -40,5 +41,7 @@
     "2026-07-29 fork commit adds native MXFP4 training backward and related Mega MoE work"
   ],
   "promotion_semantics": "REFERENCE_ONLY_NOT_CURRENT_HOST_EVIDENCE",
-  "floating_main_allowed_as_promotion_evidence": false
+  "floating_main_allowed_as_promotion_evidence": false,
+  "version": "1.1.0",
+  "hardware_portability_reconciliation": "FA3 admission consumes this snapshot capability metadata only after live hardware discovery; newer/other FA3-admissible GPUs are not rejected merely because this optional provider is ineligible."
 }
