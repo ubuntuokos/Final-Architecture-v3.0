@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, hashlib, json, subprocess
+import argparse, hashlib, json, subprocess, time
 from pathlib import Path
 
 def run(args):
@@ -41,15 +41,34 @@ def main():
     ap.add_argument("--benchmark-evidence",required=True)
     ap.add_argument("--rollback-evidence",required=True)
     ap.add_argument("--output",default="evidence/receipts/gpu-kernel-runtime-current-host.json")
+    ap.add_argument("--hrb-verify-bin",default="/usr/local/bin/fa3-host-resource-broker")
     a=ap.parse_args()
     lp,bp,rp=map(Path,(a.hrb_lease,a.benchmark_evidence,a.rollback_evidence))
     lease=json.loads(lp.read_text()); bench=json.loads(bp.read_text()); rb=json.loads(rp.read_text())
+    required_lease_fields={"schema","lease_id","issuer","accelerator_uuid","memory_max_bytes","expires_epoch","issued_epoch","purpose","host","status","nonce","placement","enforcement","signature"}
+    lease_doc_ok=(
+        required_lease_fields.issubset(lease)
+        and lease.get("schema")=="FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
+        and lease.get("issuer")=="FA3-HOST-RESOURCE-BROKER-001"
+        and lease.get("status")=="ACTIVE"
+        and int(lease.get("expires_epoch",0))>int(time.time())
+        and str(lease.get("accelerator_uuid","")).startswith("GPU-")
+        and int(lease.get("memory_max_bytes",0))>0
+    )
+    verifier_ok=False
+    verifier_result={}
+    try:
+        raw=run([a.hrb_verify_bin,"validate-lease",str(lp)])
+        verifier_result=json.loads(raw)
+        verifier_ok=(verifier_result.get("status")=="VALID" or verifier_result.get("result")=="VALID")
+    except Exception as e:
+        verifier_result={"error":type(e).__name__}
     cpu=lscpu_map(); gpus=gpu_rows(); uid=lease_uuid(lease); matches=[g for g in gpus if g["uuid"]==uid]
     gpu=matches[0] if len(matches)==1 else {}
     cpu_model=cpu.get("Model name","")
     cpu_ok=("E5-2696 v4" in cpu_model and int(cpu.get("Socket(s)","0"))==2 and int(cpu.get("Core(s) per socket","0"))==22 and int(cpu.get("CPU(s)","0"))==88 and int(cpu.get("NUMA node(s)","0"))==2)
     gpu_ok=("RTX 3080" in gpu.get("name","") and gpu.get("compute_cap")=="8.6")
-    lease_ok=bool(uid and gpu and (lease.get("status") in ("VALID","PASS","ACTIVE",None)))
+    lease_ok=bool(uid and gpu and lease_doc_ok and verifier_ok and uid==lease.get("accelerator_uuid"))
     bench_ok=(bench.get("status")=="PASS" and bench.get("synthetic") is False and bench.get("gpu_uuid")==uid and bench.get("gpu_arch")=="sm86" and bench.get("correctness_pass") is True and bench.get("benchmark_pass") is True and bench.get("vram_workspace_preflight") is True and bench.get("no_silent_fallback") is True)
     rollback_ok=(rb.get("status")=="PASS" and rb.get("rollback_tested") is True and rb.get("baseline_backend_restored") is True and rb.get("failure_injection") is True)
     ok=cpu_ok and gpu_ok and lease_ok and bench_ok and rollback_ok
@@ -58,7 +77,7 @@ def main():
       "status":"CURRENT_HOST_PRODUCTION_E2E_PASS" if ok else "CURRENT_HOST_E2E_FAIL",
       "synthetic":False,"cpu_model":cpu_model,"physical_cores":44 if cpu_ok else None,"logical_cpus":int(cpu.get("CPU(s)","0") or 0),
       "numa_domains":int(cpu.get("NUMA node(s)","0") or 0),"hrb_lease_valid":lease_ok,
-      "hrb_lease_sha256":sha(lp),"benchmark_evidence_sha256":sha(bp),"rollback_evidence_sha256":sha(rp),
+      "hrb_lease_sha256":sha(lp),"hrb_verifier_result":verifier_result,"benchmark_evidence_sha256":sha(bp),"rollback_evidence_sha256":sha(rp),
       "compute_gpu_uuid":gpu.get("uuid"),"compute_gpu_name":gpu.get("name"),"compute_gpu_pci_bdf":gpu.get("pci_bdf"),
       "compute_gpu_arch":"sm86" if gpu_ok else None,"correctness_pass":bench_ok,"benchmark_pass":bench_ok,"rollback_pass":rollback_ok,
       "deepgemm_current_host_eligible":False,
