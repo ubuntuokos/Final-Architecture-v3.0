@@ -80,7 +80,13 @@
     "provider_itself_requires_accelerator": false,
     "local_agent_workloads_must_request_hrb_resources": true,
     "static_cpu_or_gpu_placement": false,
-    "t7910_reference_only": "2x E5-2696 v4 / 44C / 88T / expected 2 NUMA; RTX 3080 12GB SM86 compute; RTX A1000 display/aux when present"
+    "inherited_fa3_portable_floor": {
+      "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
+      "gpu": "MIN_NVIDIA_RTX_30_SERIES_AMPERE_EQUIVALENT_OR_NEWER",
+      "newer_rtx_generations_allowed": true,
+      "concrete_cpu_or_gpu_model_pin": false
+    },
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NOT_PROVIDER_REQUIREMENT"
   },
   "normative_constraint": "Loop Engineering SHALL remain an optional pattern/tooling reference provider. Its closed-loop governance patterns are mandatory through provider-neutral FA3 contracts, while Temporal, Central MCP/Capability Gateway, Security Governance, Host Resource Broker, Model Router, evidence and release authorities remain unchanged."
 }
