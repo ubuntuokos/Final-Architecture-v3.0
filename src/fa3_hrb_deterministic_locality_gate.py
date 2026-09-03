@@ -39,6 +39,10 @@ def evaluate(root: Path) -> dict[str, Any]:
     provider_ids = {p.get("id") for p in providers}
     contracts = set(contract.get("contracts", []))
     forbidden_constants = " ".join(profile.get("deployment_policy_not_canonical_constants", [])).lower()
+    systemd_provider = providers[0]
+    manager_policy = systemd_provider.get("manager_global_defaults_policy", {})
+    profile_manager_policy = profile.get("systemd_manager_defaults_policy", {})
+    explicitly_not_baseline = " ".join(decision.get("explicitly_not_baseline", [])).lower()
 
     checks = [
         check("capability-count-stable", profile.get("capability_count") == CAPABILITY_COUNT == contract.get("capability_count") == decision.get("capability_count_after"), "capability count remains 143"),
@@ -58,10 +62,18 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("telemetry-evidence", {"PlacementEvidence", "AIExecutionTelemetry"}.issubset(contracts) and "P50_P95_P99_AND_TAIL_LATENCY_TELEMETRY_REQUIRED_FOR_LATENCY_PROFILE" in invariants, "placement and tail latency evidence required"),
         check("rollback", "ExecutionRollbackProfile" in contracts and "KERNEL_SCHEDULER_NUMA_IRQ_HUGEPAGE_ZRAM_SYSCTL_CHANGES_REQUIRE_ROLLBACK_PATH" in invariants, "tuning changes require rollback"),
         check("systemd-reference-only", "FA3-PROVIDER-SYSTEMD-CGROUPV2-001" in provider_ids and providers[0].get("new_architectural_authority") is False, "systemd/cgroup v2 is projection, not authority"),
+        check("manager-defaults-neutral", profile_manager_policy.get("status") == "MANDATORY_NEUTRAL_BASELINE" and manager_policy.get("default") == "DO_NOT_USE_SYSTEM_MANAGER_GLOBAL_DEFAULTS_FOR_AI_HPC_WORKLOAD_PLACEMENT_OR_BUDGETING" and "SYSTEMD_MANAGER_GLOBAL_RESOURCE_DEFAULTS_MUST_REMAIN_NEUTRAL_UNLESS_EXPLICIT_HOST_SURVIVAL_POLICY_REQUIRES_CHANGE" in invariants, "AI/HPC tuning cannot become global systemd Manager resource defaults"),
+        check("manager-affinity-numa-not-placement", set(manager_policy.get("forbidden_without_explicit_host_survival_policy", [])) == {"CPUAffinity", "NUMAPolicy", "NUMAMask"} and "GLOBAL_SYSTEMD_MANAGER_CPUAFFINITY_AND_NUMA_POLICY_MUST_NOT_REPLACE_HRB_PLACEMENT" in invariants, "global Manager CPU/NUMA affinity cannot replace HRB placement"),
+        check("global-unbounded-limits-forbidden", all(token in explicitly_not_baseline for token in ["defaulttasksmax=infinity", "defaultlimitmemlock=infinity", "defaultlimitnproc=infinity"]) and "UNBOUNDED_TASK_NPROC_MEMLOCK_LIMITS_FOR_AI_WORKLOADS_ARE_FORBIDDEN_AS_GLOBAL_MANAGER_DEFAULTS" in invariants, "unbounded task nproc and memlock are per-workload policy, not global defaults"),
+        check("memory-pressure-observability", "defaultmemorypressurewatch=no globally" in explicitly_not_baseline and "MEMORY_PRESSURE_OBSERVABILITY_MUST_NOT_BE_DISABLED_TO_HIDE_RESOURCE_EXHAUSTION" in invariants, "memory-pressure observability cannot be disabled to mask exhaustion"),
+        check("oom-workload-scoped", "defaultoompolicy=continue globally" in explicitly_not_baseline and "OOM_POLICY_MUST_BE_WORKLOAD_SCOPED_AND_MUST_NOT_USE_GLOBAL_CONTINUE_AS_AI_BASELINE" in invariants, "OOM policy is workload-scoped and global continue is rejected"),
+        check("restart-timeout-bounded-per-service", manager_policy.get("lifecycle_tuning_scope") == "PER_SERVICE_UNLESS_EXPLICIT_HOST_SURVIVAL_POLICY" and "RESTART_AND_TIMEOUT_POLICY_MUST_BE_BOUNDED_PER_SERVICE_AND_MUST_NOT_CREATE_RESTART_STORMS" in invariants, "restart and timeout tuning is per-service and bounded"),
+        check("global-timer-baseline-forbidden", "defaulttimeraccuracysec=1ms globally" in explicitly_not_baseline and "GLOBAL_LOW_LATENCY_TIMER_ACCURACY_MUST_NOT_BE_USED_AS_AI_PERFORMANCE_BASELINE" in invariants, "global 1ms timer accuracy is not an AI performance baseline"),
+        check("per-workload-projection-change-control", manager_policy.get("resource_tuning_scope") == "PER_SERVICE_SLICE_OR_SCOPE_FROM_HRB_RECEIPT" and "ResourcePolicyChangeSet" in contracts and "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE" in invariants, "per-workload projection requires HRB receipt, semantic diff, rollback and evidence"),
         check("xanmod-optional", "FA3-PROVIDER-XANMOD-001" in provider_ids and providers[1].get("status") == "OPTIONAL_REFERENCE_PROVIDER", "XanMod is optional reference"),
         check("sched-ext-experimental", "FA3-PROVIDER-SCHED-EXT-001" in provider_ids and providers[2].get("status") == "EXPERIMENTAL_REFERENCE_PROVIDER", "sched_ext remains experimental"),
         check("legacy-schedulers-not-baseline", all(x in decision.get("explicitly_not_baseline", []) for x in ["PDS", "BMQ", "MuQSS", "PREEMPT_RT"]), "legacy/RT schedulers are not required baseline"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 22 and invariants == enforced, "all contract invariants enforced fail-closed"),
+        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 30 and len(enforcement.get("rules", [])) == 30 and invariants == enforced, "all 30 contract invariants enforced fail-closed"),
         check("current-host-claim-honest", enforcement.get("current_host_runtime_promotion_claim") is False and "REFERENCE_CONFORMANCE_ONLY" in decision.get("current_host_claim", ""), "no uncollected current-host locality PASS is claimed"),
     ]
     passed = all(c["status"] == "PASS" for c in checks)
@@ -74,6 +86,14 @@ def evaluate(root: Path) -> dict[str, Any]:
         "checks": checks,
         "summary": {"passed": sum(c["status"] == "PASS" for c in checks), "total": len(checks)},
     }
+
+
+def gate(root: Path) -> dict[str, Any]:
+    result = evaluate(root)
+    report = root / "reports/hrb-deterministic-locality-gate-report.json"
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    return {"result": result["status"], **result}
 
 
 def main() -> int:
