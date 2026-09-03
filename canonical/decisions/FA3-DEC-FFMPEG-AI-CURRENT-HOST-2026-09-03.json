@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+  "date": "2026-09-03",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Current-host FFmpeg neural-media production E2E closure",
+  "decision": "MATERIALIZE_REAL_T7910_FAIL_CLOSED_CURRENT_HOST_EVIDENCE_PATH",
+  "profile_id": "FA3-NEURAL-MEDIA-EXECUTION-001",
+  "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+  "parent_gate_id": "FA3-GATE-FFMPEG-AI-001",
+  "gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
+  "hardware_reference": "2x Xeon E5-2696 v4 / 44C-88T / 2 NUMA; accelerator UUID+BDF live-resolved under HRB",
+  "current_state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
+  "mandatory_rules": [
+    "NO_DOCUMENT_OR_FIXTURE_CURRENT_HOST_PASS",
+    "HRB_LEASE_REQUIRED",
+    "IMMUTABLE_FFMPEG_BUILD_TRUST_REQUIRED",
+    "CUDA_PROVIDER_OBSERVED_NOT_INFERRED",
+    "NO_SILENT_CPU_FALLBACK",
+    "NO_STATIC_GPU_ORDINAL_IDENTITY",
+    "REAL_GPU_MEDIA_E2E_REQUIRED",
+    "OBJECTIVE_QUALITY_AND_AV_COLOR_VALIDATION_REQUIRED",
+    "NO_STABLE_DNN_ZERO_COPY_CLAIM",
+    "NEGATIVE_AND_ROLLBACK_EVIDENCE_REQUIRED",
+    "VS_MLRT_REMAINS_CONDITIONAL_SEPARATE_RUNTIME_ADMISSION"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}

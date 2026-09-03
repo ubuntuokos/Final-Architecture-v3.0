@@ -45,7 +45,17 @@
     "canonical/cpu-numa-threading-current-host-enforcement.json",
     "src/fa3_cpu_numa_threading_current_host_gate.py",
     "tests/test_cpu_numa_threading_current_host_gate.py",
-    "evidence/collect-cpu-numa-threading-current-host.py"
+    "evidence/collect-cpu-numa-threading-current-host.py",
+    "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
+    "canonical/ffmpeg-ai-current-host-enforcement.json",
+    "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+    "src/fa3_ffmpeg_ai_current_host.py",
+    "src/fa3_ffmpeg_ai_current_host_gate.py",
+    "tests/test_ffmpeg_ai_current_host_gate.py",
+    "evidence/collect-ffmpeg-ai-current-host.py",
+    "bin/fa3-ffmpeg-ai-current-host.sh",
+    ".github/workflows/fa3-ffmpeg-ai-current-host.yml"
   ],
   "registered_current_host_surfaces": [
     {
@@ -102,6 +112,13 @@
       "collector": "evidence/collect-cpu-numa-threading-current-host.py",
       "gate": "cpu-numa-threading-current-host",
       "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
+    },
+    {
+      "name": "ffmpeg-neural-media",
+      "collector": "evidence/collect-ffmpeg-ai-current-host.py",
+      "gate": "ffmpeg-ai-current-host",
+      "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     }
   ],
   "global_gate_sequence": [

@@ -33,5 +33,21 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
-  "current_host_runtime_promotion_claimed": false
+  "current_host_runtime_promotion_claimed": false,
+  "current_host_closure": {
+    "conformance_id": "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001",
+    "executable_gate_id": "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001",
+    "gateset_id": "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001",
+    "decision_id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+    "workflow": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
+    "materialization_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
+    "required_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
+    "receipt": "evidence/receipts/ffmpeg-ai-current-host.json",
+    "network_model_fetch": false,
+    "generated_test_model": "DEPENDENCY_FREE_ONNX_IDENTITY_LOCAL_ONLY",
+    "generated_golden_media": "SYNTHETIC_BT709_AV_LOCAL_ONLY",
+    "vs_mlrt_runtime": "CONDITIONAL_NOT_REQUIRED_FOR_FFMPEG_PRIMARY_E2E",
+    "current_host_component_pass_claim": false,
+    "global_promotion_claim": false
+  }
 }
