@@ -32,6 +32,10 @@ class KernelCandidate:
     benchmark_ms: float | None
     workspace_bytes: int = 0
     available_vram_bytes: int | None = None
+    compatibility_pass: bool = True
+
+def _norm_arch(value: str) -> str:
+    return str(value or "").strip().lower()
 
 def request_valid(req: KernelRequest) -> bool:
     return bool(
@@ -40,10 +44,16 @@ def request_valid(req: KernelRequest) -> bool:
         and req.m > 0 and req.n > 0 and req.k > 0 and req.batch > 0
     )
 
+def provider_arch_eligible(gpu_arch: str, supported_arches: Iterable[str]) -> bool:
+    arch=_norm_arch(gpu_arch)
+    return bool(arch) and arch in {_norm_arch(x) for x in supported_arches}
+
 def candidate_eligible(req: KernelRequest, c: KernelCandidate) -> bool:
-    if not request_valid(req):
+    if not request_valid(req) or not c.compatibility_pass:
         return False
-    if req.gpu_arch not in c.supported_arches or req.dtype not in c.supported_dtypes or req.operation not in c.supported_ops:
+    if not provider_arch_eligible(req.gpu_arch, c.supported_arches):
+        return False
+    if req.dtype not in c.supported_dtypes or req.operation not in c.supported_ops:
         return False
     if not c.correctness_pass or c.benchmark_ms is None or c.benchmark_ms <= 0:
         return False
@@ -72,5 +82,8 @@ def autotune_key(req: KernelRequest, versions: dict[str, str]) -> dict:
 def cache_fingerprint(key: dict) -> str:
     return sha256(json.dumps(key, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
-def deepgemm_arch_eligible(gpu_arch: str) -> bool:
-    return gpu_arch.lower() in {"sm90", "sm100"}
+def deepgemm_arch_eligible(gpu_arch: str, supported_arches: Iterable[str] = ("sm90", "sm100")) -> bool:
+    # Default values mirror the immutable fw-ai/DeepGEMM snapshot pinned by FA3.
+    # Callers admitting a different immutable provider revision must pass that
+    # revision's declared architecture set instead of treating these as a global rule.
+    return provider_arch_eligible(gpu_arch, supported_arches)
