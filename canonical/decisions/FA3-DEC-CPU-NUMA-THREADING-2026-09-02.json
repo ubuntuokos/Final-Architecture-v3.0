@@ -36,5 +36,8 @@
     "global KMP affinity blocktime or DNNL verbosity as architecture authority"
   ],
   "reference_host_reconciliation": "The T7910 reference is corrected from 2 x E5-2697 v4 36C/72T to the user-confirmed 2 x E5-2696 v4 44C/88T while remaining non-canonical deployment evidence.",
-  "current_host_claim": "REFERENCE_CONFORMANCE_PASS_ONLY_CURRENT_T7910_HOST_TOPOLOGY_THREADING_E2E_PENDING"
+  "current_host_claim": "REFERENCE_CONFORMANCE_PASS_ONLY_CURRENT_T7910_HOST_TOPOLOGY_THREADING_E2E_PENDING",
+  "superseded_canonical_hardware_interpretation_by": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+  "reference_host_semantics": "EVIDENCE_ONLY_NON_NORMATIVE_FIXTURE",
+  "portability_reconciliation": "All exact T7910 CPU/socket/core/thread values remain reference evidence only; runtime admission must rediscover 1..N CPU packages and current topology."
 }
