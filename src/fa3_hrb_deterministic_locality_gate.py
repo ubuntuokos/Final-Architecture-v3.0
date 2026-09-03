@@ -88,6 +88,14 @@ def evaluate(root: Path) -> dict[str, Any]:
     }
 
 
+def gate(root: Path) -> dict[str, Any]:
+    result = evaluate(root)
+    report = root / "reports/hrb-deterministic-locality-gate-report.json"
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    return {"result": result["status"], **result}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".")
