@@ -1073,3 +1073,22 @@ python3 evidence/collect-gpu-kernel-runtime-current-host.py \
 ```
 
 A component PASS still does not promote the complete 143-capability runtime; the global Evidence Registry and all 19 Acceptance Gate criteria remain separate.
+
+
+## PKU-Yuan video provider lifecycle closure
+
+The `FA3-VIDEO-001` provider portfolio includes two separately governed PKU-Yuan provider records without adding a capability or architectural authority:
+
+- `FA3-PROVIDER-OPEN-SORA-PLAN-001` — optional research/reference provider and architectural pattern source. The immutable reference is `f7fa604f4e3a523d6b973e4c89a5620ed1aff65a`. Open-Sora-Plan v1.5.0 is treated as Ascend/MindSpeed-MM reference-only at this pin; its root MIT license conflicts with Apache package/README metadata, so production admission is fail-closed.
+- `FA3-PROVIDER-HELIOS-001` — optional long-video execution-provider candidate and reference provider. The immutable reference is `babed9811266e4b5b111c9c1e0977a07899066ab`. CUDA/Ascend execution, context parallelism and low-VRAM/offload modes remain subordinate to Model Router and Host Resource Broker admission; code, model-weight and output-rights licensing are separate gates.
+
+`FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001` governs predecessor/successor identity, explicit backend compatibility, HRB-bound accelerator execution, model/VAE/text-encoder compatibility, and derived cache lineage/invalidation. Open-Sora-Plan → Helios is a provider lifecycle relationship, not automatic migration or runtime promotion.
+
+Executable reference gate:
+
+```bash
+./bin/fa3-enforce video-provider-lifecycle
+PYTHONPATH=src python -m unittest tests.test_video_provider_lifecycle_gate -v
+```
+
+The gate contains 30 fail-closed P0 regressions. Reference CI PASS does not assert current-host provider execution or production admission. Capability count remains 143 and new architectural authorities remain 0.
