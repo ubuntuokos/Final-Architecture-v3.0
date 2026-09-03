@@ -1041,7 +1041,7 @@ PYTHONPATH=src python -m unittest tests.test_gpu_kernel_runtime_gate -v
 The committed reference PASS is **not** current-host evidence. On the actual T7910, first create lease-bound benchmark and rollback evidence, then collect the component receipt and run:
 
 ```bash
-bin/fa3-gpu-kernel-benchmark --hrb-lease /path/to/lease.json
+python3 bin/fa3-gpu-kernel-benchmark --hrb-lease /path/to/lease.json
 python3 evidence/collect-gpu-kernel-runtime-current-host.py \
   --hrb-lease /path/to/lease.json \
   --benchmark-evidence evidence/receipts/gpu-kernel-benchmark-current-host.json \
