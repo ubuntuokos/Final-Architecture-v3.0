@@ -14,5 +14,11 @@
   "executable": "./bin/fa3-enforce loop-engineering",
   "report_path": "reports/loop-engineering-gate-report.json",
   "current_host_runtime_required": false,
-  "capability_count": 143
+  "capability_count": 143,
+  "hardware_policy": {
+    "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
+    "gpu": "MIN_NVIDIA_RTX_30_SERIES_AMPERE_EQUIVALENT_OR_NEWER",
+    "newer_rtx_generations_allowed": true,
+    "concrete_model_pins_forbidden": true
+  }
 }
