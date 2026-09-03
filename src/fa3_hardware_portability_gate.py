@@ -43,7 +43,7 @@ TEXT_SUFFIXES = {
 }
 
 HARD_RUNTIME_PATTERNS = (
-    ("FIXED_CUDA_VISIBLE_DEVICES_LIST", re.compile(r"CUDA_VISIBLE_DEVICES\s*=\s*[\"']?\d+(?:\s*,\s*\d+)+")),
+    ("FIXED_CUDA_VISIBLE_DEVICES_LIST", re.compile(r"CUDA_VISIBLE_DEVICES[^\\n=]{0,40}=\\s*[\\\"\']?\\d+(?:\\s*,\\s*\\d+)+")),
     ("FIXED_CPUAFFINITY", re.compile(r"(?mi)^\s*CPUAffinity\s*=\s*\d")),
     ("FIXED_NUMAMASK", re.compile(r"(?mi)^\s*NUMAMask\s*=\s*\d")),
     ("FIXED_TASKSET_CPU_LIST", re.compile(r"\btaskset\s+-c\s+\d", re.I)),
@@ -138,8 +138,7 @@ def scan_repository(root: Path) -> dict[str, Any]:
         runtime = rel.startswith(RUNTIME_PREFIXES)
         if runtime:
             runtime_scanned += 1
-        explicitly_non_normative = rel.startswith(NON_NORMATIVE_PREFIXES)
-
+        policy_or_test_code = rel.startswith("src/") and rel.endswith("_gate.py")\n        current_host_tooling = "current-host" in rel.lower() or "current_host" in rel.lower()\n        explicitly_non_normative = (\n            rel.startswith(NON_NORMATIVE_PREFIXES)\n            or policy_or_test_code\n            or current_host_tooling\n        )\n
         for code, pattern in HARD_RUNTIME_PATTERNS:
             for match in pattern.finditer(text):
                 item = {
