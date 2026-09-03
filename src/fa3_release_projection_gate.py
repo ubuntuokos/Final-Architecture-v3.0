@@ -1922,6 +1922,7 @@ def gate(root: Path):
         "canonical/video-enforcement.json", "canonical/enforcement-policy.json",
         "evidence/evidence-registry.json", "src/fa3_enforce.py",
         "src/fa3_release_projection_gate.py", "README.md",
+        ".github/workflows/fa3-permanent-enforcement.yml",
     }
     missing_vplc_manifest = sorted(vplc_required_paths - manifest_paths)
     vplc_profile = loadj(root / VPLC_PROFILE_PATH) if (root / VPLC_PROFILE_PATH).is_file() else {}
