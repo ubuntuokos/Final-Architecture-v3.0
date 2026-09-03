@@ -181,7 +181,7 @@ if [[ -z "$(podman exec fa3-mkt-listmonk-db psql -U listmonk -d listmonk -Atc "s
   INSTALL_OUT="$(podman run --rm "${LM_COMMON[@]}"     -e LISTMONK_ADMIN_USER=fa3admin -e LISTMONK_ADMIN_PASSWORD="$LISTMONK_ADMIN_PASSWORD"     -e LISTMONK_ADMIN_API_USER=fa3api "${IDS[listmonk]}"     ./listmonk --install --yes --config '' 2>&1)"
   rc=$?
   set -e
-  echo "$INSTALL_OUT"
+  printf '%s\n' "$INSTALL_OUT" | sed -E 's/(LISTMONK_ADMIN_API_TOKEN=)"[^"]*"/\\1"[REDACTED]"/g'
   [[ $rc -eq 0 ]] || exit $rc
   token="$(printf '%s\n' "$INSTALL_OUT" | sed -n 's/^export LISTMONK_ADMIN_API_TOKEN="\([^"]*\)".*/\1/p' | tail -n1)"
   [[ -n "$token" ]] || { echo "FAIL: listmonk installer did not emit API token" >&2; exit 24; }
