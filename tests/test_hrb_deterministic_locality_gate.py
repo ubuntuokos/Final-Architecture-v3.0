@@ -14,7 +14,7 @@ class HrbDeterministicLocalityGateTests(unittest.TestCase):
     def test_reference_gate_passes(self):
         result = evaluate(ROOT)
         self.assertEqual(result["status"], "PASS")
-        self.assertEqual(result["summary"], {"passed": 22, "total": 22})
+        self.assertEqual(result["summary"], {"passed": 30, "total": 30})
         self.assertFalse(result["current_host_runtime_promotion_claim"])
 
     def test_authority_and_capability_count_are_preserved(self):
@@ -28,6 +28,21 @@ class HrbDeterministicLocalityGateTests(unittest.TestCase):
         result = evaluate(ROOT)
         by_name = {item["name"]: item for item in result["checks"]}
         self.assertEqual(by_name["current-host-claim-honest"]["status"], "PASS")
+
+    def test_systemd_manager_ai_tuning_is_not_global(self):
+        result = evaluate(ROOT)
+        by_name = {item["name"]: item for item in result["checks"]}
+        for name in (
+            "manager-defaults-neutral",
+            "manager-affinity-numa-not-placement",
+            "global-unbounded-limits-forbidden",
+            "memory-pressure-observability",
+            "oom-workload-scoped",
+            "restart-timeout-bounded-per-service",
+            "global-timer-baseline-forbidden",
+            "per-workload-projection-change-control",
+        ):
+            self.assertEqual(by_name[name]["status"], "PASS")
 
 
 if __name__ == "__main__":
