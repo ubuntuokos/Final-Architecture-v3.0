@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-TENCENTDB-AGENT-MEMORY-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+  "status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "production_provider_admission": false,
+  "blocking_conditions": [
+    "Pinned upstream still exposes unauthenticated rate-limit administration handlers",
+    "Pinned upstream admin authentication fails open when admin.apiKey is empty",
+    "Pinned upstream Knowledge Git SSRF protection does not resolve DNS and can be disabled",
+    "Upstream component/image licensing remains ambiguous: root MIT vs README.docker proprietary declaration",
+    "No real T7910 current-host provider E2E, resource/NUMA, security-negative, rollback or cleanup evidence exists"
+  ],
+  "future_admission_requirements": [
+    "immutable upstream/component/image pin and per-component license resolution",
+    "all administrative surfaces authenticated fail closed including missing-key configuration",
+    "canonical network-egress mediated source fetch with DNS resolution, private/link-local/loopback denial, redirect/rebinding revalidation and no production bypass switch",
+    "argument-safe Git/source fetching",
+    "typed FA3 memory adapter behind canonical Memory/Knowledge and Central MCP/policy boundaries",
+    "explicit binding and permission-before-relevance cross-agent recall E2E",
+    "consent/authorization-gated write, consolidation idempotency, revocation/tombstone propagation E2E",
+    "live T7910 topology discovery and HRB CPU/NUMA placement receipt; any accelerator work uses Model Router + HRB UUID/BDF lease",
+    "bounded background extraction/consolidation queues with backpressure, latency/memory benchmark and failure injection",
+    "rollback, cleanup and disabled-provider zero-residency evidence"
+  ],
+  "hardware_reference": {
+    "host": "Dell Precision T7910",
+    "cpu": "2x Intel Xeon E5-2696 v4",
+    "reference_topology": "44C/88T; expected 2 NUMA",
+    "portable_default": false,
+    "live_discovery_required": true,
+    "hrb_receipt_required": true
+  },
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

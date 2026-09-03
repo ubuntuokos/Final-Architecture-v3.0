@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-TENCENTDB-AGENT-MEMORY-UPSTREAM-REFERENCE-2026-09-03",
+  "provider_id": "FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001",
+  "upstream_name": "TencentDB Agent Memory",
+  "repository": "TencentCloud/TencentDB-Agent-Memory",
+  "observed_at": "2026-09-03",
+  "default_branch": "feat/server_team",
+  "immutable_observed_commit": "3efcd317b84146d6a08518ac0f7ee7c8a8d200ec",
+  "immutable_upstream_source_available": true,
+  "component_versions": {
+    "MemoryCore": "2.0.0-beta.1",
+    "MemoryProxy": "0.1.0"
+  },
+  "node_requirement": ">=22.16.0",
+  "confirmed_patterns": [
+    "L0_L1_L2_L3_LAYERED_MEMORY",
+    "CHAT_MEMORY_SKILL_WIKI_CODEGRAPH_ASSETS",
+    "FIXED_BINDING_PLUS_ACL_AGENT_LOADOUT",
+    "PERMISSION_SCOPE_BEFORE_RETRIEVAL",
+    "BM25_VECTOR_RRF_LAYERED_RECALL",
+    "ITEM_CHARACTER_TIMEOUT_CONTEXT_BUDGET",
+    "CROSS_AGENT_CHAT_MEMORY_FANOUT_WITH_SOURCE_AGENT_PROVENANCE",
+    "MEMORY_DOES_NOT_RUN_AGENT_LOOP"
+  ],
+  "security_observations": {
+    "issue_672": {
+      "state": "OPEN",
+      "confirmed_at_pin": true
+    },
+    "rate_limits_route_blob_sha": "4471013f4d93e46e832fc765ca1b1468d93bb0a2",
+    "admin_auth_blob_sha": "fd3c15257bf614098f5f911587da7a7ab8127bf3",
+    "git_fetcher_blob_sha": "d6bd51eff3f487062437ef047d2a48f6ae025eeb",
+    "observations": [
+      "RATE_LIMIT_ADMIN_HANDLERS_LACK_ADMIN_AUTH_CHECK",
+      "EMPTY_ADMIN_API_KEY_RETURNS_OK",
+      "GIT_FETCH_SSRF_FILTER_HOSTNAME_REGEX_ONLY_NO_DNS_RESOLUTION",
+      "KNOWLEDGE_SSRF_CHECK_CAN_BE_DISABLED"
+    ]
+  },
+  "acl_issue_890": {
+    "state": "CLOSED_COMPLETED",
+    "blocker": false,
+    "canonical_pattern": "EXPLICIT_FIXED_BINDING_PLUS_SEARCH_FANOUT_WITH_SOURCE_AGENT_PROVENANCE"
+  },
+  "license_observations": {
+    "issue_1073": {
+      "state": "OPEN",
+      "blocker": true
+    },
+    "root_license_blob_sha": "86fd8a122221fc402da9fd64724172d08c6bbbd3",
+    "root_license_declared": "MIT",
+    "readme_docker_blob_sha": "f87d15b11617d85b4cd4709ac2ac9bf00923b529",
+    "readme_docker_declared": "Proprietary — Tencent Cloud",
+    "production_component_license_clarity_required": true
+  },
+  "source_confidence": "OFFICIAL_GITHUB_REPOSITORY_AND_ISSUES_PLUS_PINNED_SOURCE_INSPECTION",
+  "reference_use": "ARCHITECTURAL_PATTERN_SOURCE_AND_OPTIONAL_PROVIDER_REFERENCE_ONLY",
+  "promotion_evidence": false,
+  "floating_branch_allowed_as_promotion_evidence": false,
+  "runtime_activation_requires_separate_current_host_conformance": true
+}

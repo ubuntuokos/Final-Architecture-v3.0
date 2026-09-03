@@ -16,6 +16,7 @@ from fa3_munder_difflin_executable_gate import gate as munder_difflin_executable
 from fa3_muse_code_gate import gate as muse_code_gate
 from fa3_openhands_gate import gate as openhands_gate
 from fa3_openbmb_gate import gate as openbmb_gate
+from fa3_tencentdb_agent_memory_gate import gate as tencentdb_agent_memory_gate
 from fa3_stability_sgm_gate import gate as stability_sgm_gate
 from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
@@ -265,6 +266,9 @@ def static_check(root:Path):
     openbmb_ref=openbmb_gate(root)
     if openbmb_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-072","OpenBMB provider-family boundary/hardware regression gate failed",openbmb_gate=openbmb_ref))
+    tdai_ref=tencentdb_agent_memory_gate(root)
+    if tdai_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-075","TencentDB Agent Memory governance/security boundary regression gate failed",tencentdb_agent_memory_gate=tdai_ref))
     stability_sgm_ref=stability_sgm_gate(root)
     if stability_sgm_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-063","Stability SGM generative-pipeline/multi-view regression gate failed",stability_sgm_gate=stability_sgm_ref))
@@ -418,7 +422,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","openbmb","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","openhands","openbmb","tencentdb-agent-memory","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -458,6 +462,8 @@ def main():
             x=openhands_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="openbmb":
             x=openbmb_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="tencentdb-agent-memory":
+            x=tencentdb_agent_memory_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="stability-sgm":
             x=stability_sgm_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="stability-portfolio":
