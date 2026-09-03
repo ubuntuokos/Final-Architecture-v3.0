@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-LOOP-ENGINEERING-001",
+  "gateset_id": "FA3-LOOP-ENGINEERING-GATESET-001",
+  "status": "MATERIALIZED",
+  "priority": "P0",
+  "profile_id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+  "contract_id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-LOOP-ENGINEERING-001",
+  "decision_id": "FA3-DEC-LOOP-ENGINEERING-2026-09-03",
+  "fail_closed": true,
+  "regression_case_count": 36,
+  "positive_and_negative_cases": true,
+  "executable": "./bin/fa3-enforce loop-engineering",
+  "report_path": "reports/loop-engineering-gate-report.json",
+  "current_host_runtime_required": false,
+  "capability_count": 143
+}
