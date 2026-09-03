@@ -38,7 +38,7 @@ class GPUKernelRuntimeTests(unittest.TestCase):
             (root/"evidence/receipts").mkdir(parents=True)
             r=g.current_host_gate(root)
             self.assertEqual("FAIL",r["result"])
-            self.assertFalse(r["current_host_promotion_claim"])
+            self.assertFalse(r["current_host_runtime_promotion_claim"])
         finally: td.cleanup()
     def test_provider_authority_escalation_rejected(self):
         p={"canonical_root":False,"architectural_authority":True,"new_capability":False,"new_architectural_authority":False,"capability_count":143}
