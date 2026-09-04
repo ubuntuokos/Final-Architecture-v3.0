@@ -1,8 +1,6 @@
 name: FA3 OpenHero one-shot reconciliation
 
 on:
-  push:
-    branches: [fa3/openhero-web-creative-asset]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +9,6 @@ permissions:
 jobs:
   reconcile:
     runs-on: ubuntu-latest
-    if: github.actor != 'github-actions[bot]'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,5 +17,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply canonical OpenHero non-workflow reconciliation
-        run: python tools/apply_openhero_nonworkflow.py
+      - name: Bootstrap paused
+        run: echo "OpenHero bootstrap paused before final projection"
