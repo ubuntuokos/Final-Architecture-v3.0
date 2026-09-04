@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENHERO-UPSTREAM-REFERENCE-2026-09-04",
+  "date": "2026-09-04",
+  "status": "PINNED_OBSERVATION_FOR_WEB_CREATIVE_ASSET_GOVERNANCE",
+  "provider_id": "FA3-PROVIDER-OPENHERO-001",
+  "repository": "CristianOlivera1/openhero",
+  "ref_observed": "main",
+  "immutable_commit": "d599548dd09fce4aff66e076c4ab87d73e1e8a3d",
+  "observed": {
+    "commit_date": "2026-08-03T03:17:50Z",
+    "license": "MIT",
+    "license_blob_sha": "4c21d0dd764e28a73658b736fd6abebd86bffe68",
+    "readme_blob_sha": "95d1547d330f0448686cd4d373daf7a6923d5f9c",
+    "registry_blob_sha": "ab0f1ca73778d94fa669f40e0adcd94650c98493",
+    "registry_version": "1",
+    "stack": [
+      "Next.js 16",
+      "React 19",
+      "Supabase",
+      "JSZip",
+      "Cloudflare R2 delivery pattern"
+    ],
+    "documented_features": [
+      "60+ cinematic video hero sections",
+      "full-screen preview",
+      "HTML/Next.js code",
+      "ZIP download",
+      "272 background images",
+      "community ZIP submission"
+    ],
+    "security_relevant_patterns": [
+      "preview route category/slug values participate in filesystem path construction",
+      "download route category/slug values participate in filesystem path construction",
+      "submission HTML external script admission uses a broad domain list with substring matching",
+      "preview iframe enables scripts",
+      "submitted HTML/MP4 archives are stored pending review"
+    ]
+  },
+  "license_interpretation": {
+    "repository_code_license": "MIT",
+    "asset_rights": "PER_ASSET_SEPARATE_DECLARATION_REQUIRED",
+    "repository_license_does_not_grant_blanket_media_rights": true
+  },
+  "security_interpretation": {
+    "upstream_snapshot_trust": "UNTRUSTED_REFERENCE",
+    "direct_runtime_deployment": "NOT_ADMITTED",
+    "registry_only_resolution_required_by_fa3": true,
+    "active_html_requires_isolated_origin_and_csp": true,
+    "production_runtime_admission_performed": false
+  },
+  "note": "Immutable upstream observation for canonical governance. It does not install OpenHero or grant blanket media-asset rights."
+}
