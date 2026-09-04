@@ -16,6 +16,7 @@ on:
       - 'canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-PORTABILITY-2026-09-04.json'
       - 'src/fa3_hardware_portability_gate.py'
       - 'tests/test_hardware_portability_gate.py'
+      - 'tools/fa3-regenerate-release-projection.py'
       - '.github/workflows/fa3-ffmpeg-ai-current-host.yml'
   workflow_dispatch:
     inputs:
@@ -62,9 +63,20 @@ jobs:
         with:
           python-version: '3.12'
       - name: Prepare gates
-        run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh
+        run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh tools/fa3-regenerate-release-projection.py
       - name: Syntax check
-        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_hardware_portability_gate.py
+        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_hardware_portability_gate.py tools/fa3-regenerate-release-projection.py
+      - name: Regenerate branch-head release projection deterministically
+        env:
+          SNAPSHOT_REF: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: python tools/fa3-regenerate-release-projection.py --snapshot-ref "$SNAPSHOT_REF"
+      - name: Upload exact generated release projection
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-ffmpeg-portability-generated-release-projection
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if-no-files-found: error
+          compression-level: 0
       - name: FFmpeg current-host fail-closed contract tests
         run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_current_host_gate -v
       - name: Hardware portability regression
