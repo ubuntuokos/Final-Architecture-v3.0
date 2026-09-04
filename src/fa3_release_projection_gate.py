@@ -2284,6 +2284,18 @@ def gate(root: Path):
             )
         )
 
+    openhero = projection.get("openhero_web_creative_asset_reconciliation", {})
+    openhero_required = {"canonical/providers/FA3-PROVIDER-OPENHERO-001.json","canonical/contracts/FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001.json","canonical/decisions/FA3-DEC-OPENHERO-WEB-CREATIVE-ASSET-2026-09-04.json","canonical/references/FA3-OPENHERO-UPSTREAM-REFERENCE-2026-09-04.json","canonical/FA3-GATE-WEB-CREATIVE-ASSET-001.json","canonical/openhero-web-creative-asset-enforcement.json","evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json","src/fa3_openhero_gate.py","tests/test_openhero_gate.py","src/fa3_enforce.py","src/fa3_release_projection_gate.py","evidence/evidence-registry.json"}
+    openhero_provider = loadj(root / "canonical/providers/FA3-PROVIDER-OPENHERO-001.json") if (root / "canonical/providers/FA3-PROVIDER-OPENHERO-001.json").is_file() else {}
+    openhero_contract = loadj(root / "canonical/contracts/FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001.json") if (root / "canonical/contracts/FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001.json").is_file() else {}
+    openhero_evidence = loadj(root / "evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json") if (root / "evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json").is_file() else {}
+    openhero_bad_bindings=[]
+    for cid in ("CAP-003","CAP-004","CAP-011","CAP-016","CAP-019","CAP-038","CAP-047","CAP-049","CAP-103","CAP-125"):
+        rr=next((x for x in records if x.get("subject_id")==cid),{}); ss=rr.get("openhero_web_creative_asset_projection_status",{})
+        if not ("FA3-DEC-OPENHERO-WEB-CREATIVE-ASSET-2026-09-04" in rr.get("source_decision_ids",[]) and "evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json" in rr.get("evidence_artifacts",[]) and ss.get("provider_id")=="FA3-PROVIDER-OPENHERO-001" and ss.get("gate_id")=="FA3-GATE-WEB-CREATIVE-ASSET-001" and ss.get("runtime_status")=="REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY"): openhero_bad_bindings.append(cid)
+    if not (openhero.get("provider_id")=="FA3-PROVIDER-OPENHERO-001" and openhero.get("contract_id")=="FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001" and openhero.get("gate_id")=="FA3-WEB-CREATIVE-ASSET-GATESET-001" and openhero.get("upstream_pin")=="d599548dd09fce4aff66e076c4ab87d73e1e8a3d" and openhero.get("capability_count_after")==CAPABILITY_COUNT and openhero.get("new_capabilities")==0 and openhero.get("new_architectural_authorities")==0 and openhero.get("runtime_activation_status")=="REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY" and openhero.get("current_host_runtime_evidence")=="NOT_CLAIMED" and openhero.get("provider_runtime_required_for_global_promotion_when_disabled") is False and "FA3-WEB-CREATIVE-ASSET-GATESET-001" in projection_gates and "FA3-WEB-CREATIVE-ASSET-GATESET-001" in policy_gates and not(openhero_required-manifest_paths) and not openhero_bad_bindings and openhero_provider.get("architectural_authority") is False and openhero_contract.get("provider_neutral") is True and openhero_evidence.get("status")=="PASS"):
+        findings.append(finding("FA3-RELEASE-PROJECTION-038","OpenHero web creative asset release/inventory/evidence reconciliation invariant mismatch",invalid_capability_bindings=openhero_bad_bindings,missing_manifest_paths=sorted(openhero_required-manifest_paths)))
+
     missing = []
     drift = []
     for entry in manifest:
@@ -2514,6 +2526,7 @@ def gate(root: Path):
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
+            "openhero_web_creative_asset_reconciliation": openhero.get("reconciliation_status"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),

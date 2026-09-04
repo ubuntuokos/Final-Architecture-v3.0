@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-MARKETING-001",
   "name": "AI-Assisted Marketing, Growth & Customer Engagement Profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST_IF_MARKETING_USED",
@@ -25,7 +25,8 @@
   ],
   "contracts": [
     "FA3-MARKETING-CONTRACTS-001",
-    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001"
+    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001"
   ],
   "localization_policy": "FA3-MARKETING-I18N-001",
   "providers": {
@@ -46,10 +47,14 @@
     ],
     "skill_package_knowledge": [
       "FA3-PROVIDER-MARKETINGSKILLS-001"
+    ],
+    "web_creative_asset_library": [
+      "FA3-PROVIDER-OPENHERO-001"
     ]
   },
   "knowledge_pattern_sources": [
-    "coreyhaines31/marketingskills"
+    "coreyhaines31/marketingskills",
+    "CristianOlivera1/openhero"
   ],
   "authority": {
     "identity_policy_secrets": "EXISTING_FA3_IDENTITY_POLICY_SECRETS_AUTHORITIES",
@@ -101,7 +106,8 @@
     "MARKETINGSKILLS_UNTRUSTED_KNOWLEDGE_PATTERN_SOURCE_NOT_EXECUTION_AUTHORITY",
     "ATTRIBUTION_EXPERIMENT_LINEAGE_AND_EVIDENCE_REQUIRED",
     "PII_MINIMIZATION_AND_PURPOSE_LIMITATION_REQUIRED",
-    "PROVIDER_FAILURE_MUST_NOT_REPLACE_CANONICAL_STATE"
+    "PROVIDER_FAILURE_MUST_NOT_REPLACE_CANONICAL_STATE",
+    "OPENHERO_OPTIONAL_WEB_CREATIVE_ASSET_PROVIDER_NON_AUTHORITY"
   ],
   "capability_count": 143,
   "implementation_status": {
@@ -117,5 +123,14 @@
     "load_policy": "ON_DEMAND_SCOPED_ONLY",
     "direct_execution": false,
     "central_mcp_for_tool_intents": true
+  },
+  "web_creative_asset_governance": {
+    "contract_id": "FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-OPENHERO-001",
+    "trust_default": "UNTRUSTED_ACTIVE_CONTENT",
+    "code_license_is_not_media_rights": true,
+    "registry_only_resolution": true,
+    "isolated_preview_origin_required": true,
+    "publication_requires_human_review_and_evidence": true
   }
 }
