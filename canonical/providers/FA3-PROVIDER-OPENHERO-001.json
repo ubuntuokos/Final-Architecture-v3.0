@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENHERO-001",
+  "name": "OpenHero Cinematic Web Hero Asset Library Provider",
+  "version": "1.0.0",
+  "status": "CANONICAL_REFERENCE_PROVIDER",
+  "priority": "OPTIONAL",
+  "requirement": "MAY",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "profile_id": "FA3-MARKETING-001",
+  "contract_id": "FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_PROVIDER",
+    "WEB_CREATIVE_ASSET_LIBRARY",
+    "CINEMATIC_HERO_PATTERN_SOURCE",
+    "MARKETING_CREATIVE_PRESENTATION_PROVIDER",
+    "NON_AUTHORITY"
+  ],
+  "capabilities": [
+    "CAP-003",
+    "CAP-004",
+    "CAP-011",
+    "CAP-016",
+    "CAP-019",
+    "CAP-038",
+    "CAP-047",
+    "CAP-049",
+    "CAP-103",
+    "CAP-125"
+  ],
+  "upstream": {
+    "repository": "CristianOlivera1/openhero",
+    "immutable_commit": "d599548dd09fce4aff66e076c4ab87d73e1e8a3d",
+    "ref_observed": "main",
+    "reference_record": "FA3-OPENHERO-UPSTREAM-REFERENCE-2026-09-04",
+    "license": {
+      "code_license": "MIT",
+      "license_blob_sha": "4c21d0dd764e28a73658b736fd6abebd86bffe68",
+      "asset_rights_separate": true
+    },
+    "observed_assets": {
+      "registry_blob_sha": "ab0f1ca73778d94fa669f40e0adcd94650c98493",
+      "readme_blob_sha": "95d1547d330f0448686cd4d373daf7a6923d5f9c",
+      "registry_version": "1",
+      "delivery_storage": "Cloudflare R2 pattern",
+      "application_stack": "Next.js 16 + React 19 + Supabase + JSZip"
+    }
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "secrets": false,
+    "durable_workflow": false,
+    "canonical_asset_registry": false,
+    "canonical_campaign_state": false,
+    "evidence": false,
+    "mcp_gateway": false,
+    "deployment_control_plane": false,
+    "rights_authority": false
+  },
+  "allowed_roles": [
+    "CINEMATIC_HERO_ASSET_REFERENCE",
+    "HTML_REACT_NEXTJS_PROJECTION_PATTERN",
+    "WEB_CREATIVE_ASSET_DISCOVERY",
+    "PREVIEW_AND_DOWNLOAD_PATTERN_SOURCE",
+    "LANDING_PAGE_CREATIVE_SUPPLY"
+  ],
+  "admission": {
+    "trust_default": "UNTRUSTED",
+    "registry_only_resolution": true,
+    "direct_user_path_to_filesystem": false,
+    "path_traversal_forbidden": true,
+    "archive_bomb_limits_required": true,
+    "mime_and_magic_verification_required": true,
+    "active_content_requires_security_admission": true,
+    "external_origin_exact_match_required": true,
+    "substring_domain_allowlist_forbidden": true,
+    "preview_origin_isolation_required": true,
+    "csp_required": true,
+    "outbound_network_default_deny": true,
+    "sbom_and_supply_chain_scan_required": true,
+    "dependency_integrity_pins_required": true
+  },
+  "rights": {
+    "repository_code_license_cannot_imply_media_asset_rights": true,
+    "per_asset_rights_declaration_required": true,
+    "source_provenance_required": true,
+    "redistribution_constraints_must_be_preserved": true
+  },
+  "quality": {
+    "accessibility_gate_required": true,
+    "responsive_gate_required": true,
+    "visual_regression_gate_required": true,
+    "human_publication_approval_required": true
+  },
+  "publication": {
+    "content_addressed_immutable_artifact_required": true,
+    "rollback_target_required": true,
+    "evidence_linkage_required": true,
+    "delegates_to_existing_delivery_control_plane": true
+  },
+  "hardware": {
+    "portable": true,
+    "static_cpu_gpu_sku_assumptions_forbidden": true,
+    "special_gpu_required": false
+  },
+  "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "current_host_runtime_evidence": {
+    "production_e2e": false,
+    "runtime_promotion_claim": false,
+    "note": "Reference/static admission governance only; upstream OpenHero is not installed or promoted as a current-host production runtime by this materialization."
+  }
+}

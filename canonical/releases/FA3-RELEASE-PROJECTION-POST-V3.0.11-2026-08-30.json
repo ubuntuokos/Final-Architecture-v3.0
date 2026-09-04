@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "89d38a87523d576ed75f2b18e7f2205c59611449",
-    "pre_projection_root_tree_sha": "687f2d65c7341599eaba6bfd5d9ac5c6bf089abf",
-    "pre_projection_canonical_tree_sha": "26c871d8b2b158b6b6427e90ee142666871cad74",
-    "commits_ahead_of_v3_0_11_conformance_commit": 113,
-    "total_post_baseline_commits": 113,
-    "delta_file_count": 596,
-    "delta_added_files": 592,
+    "pre_projection_head_sha": "aa4c1229a48f63d6d37092648a3945fb6370802a",
+    "pre_projection_root_tree_sha": "b01a9b44102aa652c894cf69b79839851a5c59f9",
+    "pre_projection_canonical_tree_sha": "96404068b81c87176c04433c4dab3d474ade17a4",
+    "commits_ahead_of_v3_0_11_conformance_commit": 139,
+    "total_post_baseline_commits": 139,
+    "delta_file_count": 605,
+    "delta_added_files": 601,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 360,
-    "evidence_files_in_post_baseline_delta": 62,
-    "source_files_in_post_baseline_delta": 68,
-    "test_files_in_post_baseline_delta": 54,
+    "canonical_files_in_post_baseline_delta": 366,
+    "evidence_files_in_post_baseline_delta": 63,
+    "source_files_in_post_baseline_delta": 69,
+    "test_files_in_post_baseline_delta": 55,
     "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -99,6 +99,7 @@
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENHERO-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
@@ -217,6 +218,7 @@
       "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
       "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
       "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
+      "canonical/contracts/FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json"
     ],
     "decision_records": [
@@ -266,6 +268,7 @@
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-OPENHERO-WEB-CREATIVE-ASSET-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
@@ -304,6 +307,7 @@
       "canonical/references/FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02.json",
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENHERO-UPSTREAM-REFERENCE-2026-09-04.json",
       "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
       "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -349,6 +353,7 @@
       "evidence/reference/openbmb-ci-2026-09-02.json",
       "evidence/reference/opencut-ci-2026-09-01.json",
       "evidence/reference/openhands-ci-2026-09-01.json",
+      "evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json",
       "evidence/reference/openvid-ci-2026-09-04.json",
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
@@ -402,7 +407,8 @@
     "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
     "FA3-LOOP-ENGINEERING-GATESET-001",
     "FA3-HARDWARE-PORTABILITY-GATESET-001",
-    "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001"
+    "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001",
+    "FA3-WEB-CREATIVE-ASSET-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -463,7 +469,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 598,
+  "manifest_entry_count": 607,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -495,7 +501,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "a354eb66eb6c727d2c7d6247cbc4a0f06fd1197d"
+      "git_blob_sha": "1e066a8bd51e9a19355274de4505f9fed8fff496"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -726,6 +732,10 @@
       "git_blob_sha": "a518e0c8e9dbd9aa510f2edde782f34e86283111"
     },
     {
+      "path": "canonical/FA3-GATE-WEB-CREATIVE-ASSET-001.json",
+      "git_blob_sha": "3ed1970023d12ad09eb34f151b392b9c7032e182"
+    },
+    {
       "path": "canonical/FA3-MARKETING-I18N-001.json",
       "git_blob_sha": "7d61f70eca863e66d3fd28a51730bb98f9afd180"
     },
@@ -907,7 +917,7 @@
     },
     {
       "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
-      "git_blob_sha": "699ddb90aa89760d4ed81e7a2f319df46eb46050"
+      "git_blob_sha": "f61f3800fa8754b606464f8b5d40c07a8c4f7100"
     },
     {
       "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
@@ -976,6 +986,10 @@
     {
       "path": "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
       "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe"
+    },
+    {
+      "path": "canonical/contracts/FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001.json",
+      "git_blob_sha": "52d8e035d4b7f6a3182d642c277e4cad3dd871ef"
     },
     {
       "path": "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json",
@@ -1182,6 +1196,10 @@
       "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENHERO-WEB-CREATIVE-ASSET-2026-09-04.json",
+      "git_blob_sha": "228da8d030fe4fba8f59ebbe229514e53ba6ff1b"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b"
     },
@@ -1243,7 +1261,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "20f9cc6b02373ea9ab72c018c02c3a40f89d465e"
+      "git_blob_sha": "387d0a2d8278595837322f78ae56b3d28bce6674"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1374,6 +1392,10 @@
       "git_blob_sha": "5532d6a34bca85e316a57ecfa6845c11aeb930ef"
     },
     {
+      "path": "canonical/openhero-web-creative-asset-enforcement.json",
+      "git_blob_sha": "6a7ea66bba87dfe0ea45e4812bf0b61f1ca5a9ba"
+    },
+    {
       "path": "canonical/openvid-enforcement.json",
       "git_blob_sha": "5d8c2a436ad322562f4fba3fab96b4468498907e"
     },
@@ -1467,7 +1489,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
-      "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809"
+      "git_blob_sha": "22d55ddce75f359574d0c5e7f32b969c15c8fbe8"
     },
     {
       "path": "canonical/profiles/FA3-MENTOR-001.json",
@@ -1722,6 +1744,10 @@
       "git_blob_sha": "3b9d9c084df251f7e5862cb1c4ab097d17cf2f00"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-OPENHERO-001.json",
+      "git_blob_sha": "d34e9a3f23ff919c5effe19db06d21a57e6aac7e"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
       "git_blob_sha": "ff7fe58d01824465e8d3ad9cd3744ce0da88021a"
     },
@@ -1950,6 +1976,10 @@
       "git_blob_sha": "ee7ddd35af2088240a31cbfff232a959dc526e4c"
     },
     {
+      "path": "canonical/references/FA3-OPENHERO-UPSTREAM-REFERENCE-2026-09-04.json",
+      "git_blob_sha": "22821db3e98b5f95db5ca71fc36f6ab75baa6a58"
+    },
+    {
       "path": "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
       "git_blob_sha": "3daaa79cf5116549ecfa158fb76d1152e1436127"
     },
@@ -2159,7 +2189,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "756fb9b78c49999abada7f49cee44eb6033b96d0"
+      "git_blob_sha": "6c20322ed7310d596e25d809e05cf6967ccf0ce5"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2292,6 +2322,10 @@
     {
       "path": "evidence/reference/openhands-ci-2026-09-01.json",
       "git_blob_sha": "855409a9c5262c1dc57ed6376202d1ec8ccfbc80"
+    },
+    {
+      "path": "evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json",
+      "git_blob_sha": "e320bcb5d60996da7ca147e7ef4e59100465dc57"
     },
     {
       "path": "evidence/reference/openvid-ci-2026-09-04.json",
@@ -2459,7 +2493,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "b59290a7147d303658b34276045a1a7b1532d6a5"
+      "git_blob_sha": "449adeeac65c8d39faf1a9ef51e81f2e24f460f5"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2590,6 +2624,10 @@
       "git_blob_sha": "9b95c9096e04a50aa57c799facb061b5b280d602"
     },
     {
+      "path": "src/fa3_openhero_gate.py",
+      "git_blob_sha": "fd3febcb8b2a07ca6d1b8b6a56b63ead0ca375b1"
+    },
+    {
       "path": "src/fa3_openvid_gate.py",
       "git_blob_sha": "7664869c636071194dbf82f9a33a0b6f7639e87e"
     },
@@ -2599,7 +2637,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "fc31f053879bd0714c08cf6ef620b96bf2b404b7"
+      "git_blob_sha": "8032871eb2a94618ed660efa7b3f95f4594975a6"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2804,6 +2842,10 @@
     {
       "path": "tests/test_openhands_gate.py",
       "git_blob_sha": "a631929acb1561d817f7f9f534bbf41554ed533c"
+    },
+    {
+      "path": "tests/test_openhero_gate.py",
+      "git_blob_sha": "e228b21ce0f5117fb1fa6607e6268f425f0077ae"
     },
     {
       "path": "tests/test_openvid_gate.py",
@@ -3641,6 +3683,36 @@
     "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_ADMISSION_GATE_PASS_RUNTIME_NOT_DEPENDENCY",
     "full_upstream_repo_implicitly_admitted": false,
     "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "openhero_web_creative_asset_reconciliation": {
+    "provider_id": "FA3-PROVIDER-OPENHERO-001",
+    "contract_id": "FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001",
+    "decision_id": "FA3-DEC-OPENHERO-WEB-CREATIVE-ASSET-2026-09-04",
+    "gate_id": "FA3-WEB-CREATIVE-ASSET-GATESET-001",
+    "upstream_pin": "d599548dd09fce4aff66e076c4ab87d73e1e8a3d",
+    "capability_ids": [
+      "CAP-003",
+      "CAP-004",
+      "CAP-011",
+      "CAP-016",
+      "CAP-019",
+      "CAP-038",
+      "CAP-047",
+      "CAP-049",
+      "CAP-103",
+      "CAP-125"
+    ],
+    "classification": "OPTIONAL_REFERENCE_WEB_CREATIVE_ASSET_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_ADMISSION_GATE_PASS_RUNTIME_NOT_DEPENDENCY",
+    "runtime_activation_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "reference_evidence": "evidence/reference/openhero-web-creative-asset-ci-2026-09-04.json",
+    "reference_evidence_status": "PASS",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "code_license_media_rights_separate": true,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

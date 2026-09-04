@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENHERO-WEB-CREATIVE-ASSET-2026-09-04",
+  "title": "Canonicalize OpenHero as an optional web creative asset reference provider behind provider-neutral admission",
+  "date": "2026-09-04",
+  "status": "CANONICAL_CLOSED",
+  "decision": "ACCEPT_AS_OPTIONAL_REFERENCE_WEB_CREATIVE_ASSET_PROVIDER_WITH_FAIL_CLOSED_ADMISSION",
+  "profile_id": "FA3-MARKETING-001",
+  "provider_id": "FA3-PROVIDER-OPENHERO-001",
+  "contract_id": "FA3-WEB-CREATIVE-ASSET-PACKAGING-DELIVERY-CONTRACTS-001",
+  "gate_id": "FA3-GATE-WEB-CREATIVE-ASSET-001",
+  "gateset_id": "FA3-WEB-CREATIVE-ASSET-GATESET-001",
+  "upstream_pin": "d599548dd09fce4aff66e076c4ab87d73e1e8a3d",
+  "rationale": [
+    "OpenHero provides a useful cinematic hero asset registry, preview, HTML/Next.js packaging and CDN delivery pattern for FA3 marketing/web publishing.",
+    "OpenHero is not an AI runtime, workflow authority, rights authority, asset registry authority or deployment control plane.",
+    "The upstream preview/download routes derive filesystem paths from request category/slug values and the submission admission uses broad substring-based external-script allowlisting, so upstream runtime code is not directly production-admitted.",
+    "FA3 separates repository MIT code licensing from per-asset media rights and requires isolated active-content preview plus immutable publication evidence."
+  ],
+  "authority_preservation": {
+    "identity_policy_secrets": "UNCHANGED",
+    "durable_orchestration": "UNCHANGED",
+    "canonical_asset_registry": "UNCHANGED",
+    "deployment_delivery_control_plane": "UNCHANGED",
+    "evidence_authority": "UNCHANGED",
+    "human_publication_approval": "UNCHANGED",
+    "media_rights_authority": "UNCHANGED"
+  },
+  "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
+  "current_host_runtime_claim": false,
+  "production_runtime_admission": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143
+}
