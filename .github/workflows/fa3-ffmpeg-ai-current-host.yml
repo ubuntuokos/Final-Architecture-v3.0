@@ -11,22 +11,36 @@ on:
       - 'canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json'
       - 'canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json'
       - 'canonical/ffmpeg-ai-current-host-enforcement.json'
+      - 'canonical/ffmpeg-ai-runtime-admission.json'
       - 'canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json'
+      - 'canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-PORTABILITY-2026-09-04.json'
+      - 'src/fa3_hardware_portability_gate.py'
+      - 'tests/test_hardware_portability_gate.py'
       - '.github/workflows/fa3-ffmpeg-ai-current-host.yml'
   workflow_dispatch:
     inputs:
       execute_current_host:
-        description: 'Execute the real T7910 FFmpeg neural-media E2E'
+        description: 'Execute real portable-host FFmpeg neural-media production E2E'
         required: true
         default: false
         type: boolean
-      hrb_receipt:
-        description: 'Path on self-hosted runner to active HRB neural-media placement receipt'
+      input_media:
+        description: 'Path on self-hosted runner to non-synthetic H.264/A-V SDR BT.709 real golden media'
         required: false
-        default: '.fa3-current-host/input/ffmpeg-ai-hrb-placement.json'
+        default: '.fa3-current-host/input/ffmpeg-ai-real-golden.mp4'
+        type: string
+      input_provenance:
+        description: 'Path to fa3.real-media-input-provenance.v1 receipt matching the golden media SHA-256'
+        required: false
+        default: '.fa3-current-host/input/ffmpeg-ai-real-golden-provenance.json'
+        type: string
+      hrb_lease:
+        description: 'Path to canonical FA3 Host Resource Broker AcceleratorExecutionLease@1'
+        required: false
+        default: '.fa3-current-host/input/ffmpeg-ai-accelerator-lease.json'
         type: string
       ffmpeg_build_trust:
-        description: 'Path on self-hosted runner to immutable signed FFmpeg build trust receipt'
+        description: 'Path to v2 immutable signed FFmpeg+ffprobe build-trust receipt'
         required: false
         default: '.fa3-current-host/input/ffmpeg-ai-build-trust.json'
         type: string
@@ -47,19 +61,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Prepare gate
+      - name: Prepare gates
         run: chmod +x bin/fa3-enforce bin/fa3-ffmpeg-ai-current-host.sh
       - name: Syntax check
-        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py
-      - name: Fail-closed current-host contract tests
+        run: python -m py_compile src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_hardware_portability_gate.py
+      - name: FFmpeg current-host fail-closed contract tests
         run: PYTHONPATH=src python -m unittest tests.test_ffmpeg_ai_current_host_gate -v
+      - name: Hardware portability regression
+        run: PYTHONPATH=src python -m unittest tests.test_hardware_portability_gate -v
       - name: Parent FFmpeg canonical gate
         run: ./bin/fa3-enforce ffmpeg-ai
+      - name: Hardware portability canonical gate
+        run: ./bin/fa3-enforce hardware-portability
       - name: Unified release projection coherence
         run: ./bin/fa3-enforce release-projection
 
   current-host:
-    name: ffmpeg-ai-current-host / real-t7910-e2e
+    name: ffmpeg-ai-current-host / real-production-e2e
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
     needs: regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
@@ -69,7 +87,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Verify non-root local prerequisites
+      - name: Verify non-root local prerequisites and authority inputs
         shell: bash
         run: |
           set -euo pipefail
@@ -78,14 +96,21 @@ jobs:
           command -v ffmpeg
           command -v ffprobe
           command -v nvidia-smi
-          test -f "${{ inputs.hrb_receipt }}"
+          test -x "${FA3_HRB_BIN:-/usr/local/bin/fa3-host-resource-broker}"
+          test -f "${{ inputs.input_media }}"
+          test -f "${{ inputs.input_provenance }}"
+          test -f "${{ inputs.hrb_lease }}"
           test -f "${{ inputs.ffmpeg_build_trust }}"
-      - name: Run HRB-bound real-media E2E
+      - name: Run HRB-bound real-media production E2E
         shell: bash
         run: |
           set -euo pipefail
           chmod +x bin/fa3-ffmpeg-ai-current-host.sh bin/fa3-enforce
-          bin/fa3-ffmpeg-ai-current-host.sh "${{ inputs.hrb_receipt }}" "${{ inputs.ffmpeg_build_trust }}"
+          bin/fa3-ffmpeg-ai-current-host.sh \
+            "${{ inputs.input_media }}" \
+            "${{ inputs.input_provenance }}" \
+            "${{ inputs.hrb_lease }}" \
+            "${{ inputs.ffmpeg_build_trust }}"
           ./bin/fa3-enforce ffmpeg-ai-current-host
       - name: Upload current-host evidence
         if: always()
