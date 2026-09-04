@@ -50,6 +50,7 @@
     "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
     "canonical/ffmpeg-ai-current-host-enforcement.json",
     "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+    "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-PORTABILITY-2026-09-04.json",
     "src/fa3_ffmpeg_ai_current_host.py",
     "src/fa3_ffmpeg_ai_current_host_gate.py",
     "tests/test_ffmpeg_ai_current_host_gate.py",
@@ -117,7 +118,10 @@
       "name": "ffmpeg-neural-media",
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
       "gate": "ffmpeg-ai-current-host",
-      "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
+      "activation": "PORTABLE_LINUX_NVIDIA_HOST_LIVE_DISCOVERY_CANONICAL_HRB_ACCELERATOR_LEASE_FFMPEG_FFPROBE_BUILD_TRUST_AND_REAL_MEDIA_PROVENANCE_REQUIRED",
+      "hardware_reference_match_required": false,
+      "current_host_facts_are_evidence_only": true,
+      "required_evidence_level": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_PRODUCTION_E2E_PASS",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     }
   ],
