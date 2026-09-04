@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-XYOPS-UPSTREAM-REFERENCE-2026-09-04",
+  "date": "2026-09-04",
+  "status": "IMMUTABLE_REFERENCE",
+  "promotion_evidence": false,
+  "floating_main_allowed_as_promotion_evidence": false,
+  "components": {
+    "xyops": {"repository": "pixlcore/xyops", "immutable_observed_commit": "6c42aaf022f8f59458915af95fb9ca21dd8f96f5", "version": "1.0.95", "license": "BSD-3-Clause"},
+    "xysat": {"repository": "pixlcore/xysat", "immutable_observed_commit": "c4d29cd16e880da648010c06ae021479a2c0aebd", "version": "1.0.44", "license": "BSD-3-Clause"}
+  },
+  "observed_capabilities": {"xyops": ["JOB_SCHEDULING", "VISUAL_WORKFLOWS", "DISTRIBUTED_EXECUTION", "SERVER_MONITORING", "ALERTING", "SNAPSHOTS", "INCIDENT_TICKETS", "RESOURCE_LIMITS", "SHARED_CAPACITY_POOLS", "REST_API", "PLUGIN_EXECUTION"], "xysat": ["REMOTE_JOB_EXECUTION", "HOST_METRICS", "OUTBOUND_CONDUCTOR_CONNECTION", "CONDUCTOR_FAILOVER"]},
+  "fa3_use": "REFERENCE_PATTERN_AND_OPTIONAL_PROVIDER_PIN_ONLY",
+  "current_host_runtime_evidence": false
+}

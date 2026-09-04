@@ -28,9 +28,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Prepare gate
-        run: chmod +x bin/fa3-enforce
+        run: chmod +x bin/fa3-enforce bin/fa3-xyops-gate
       - name: Syntax check
-        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py
+        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py src/fa3_xyops_gate.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py
       - name: Executable invariant tests
         run: PYTHONPATH=src python -m unittest discover -s tests -v
       - name: Unified post-v3.0.11 release projection gate
@@ -119,6 +119,8 @@ jobs:
         run: ./bin/fa3-enforce cpu-numa-threading
       - name: Hardware portability and repository hardcoded-assumption gate
         run: ./bin/fa3-enforce hardware-portability
+      - name: xyOps operational automation / xySat authority-boundary gate
+        run: ./bin/fa3-xyops-gate
       - name: Presenton provider/deployment/artifact regression gate
         run: ./bin/fa3-enforce presenton
       - name: Canonical static enforcement
@@ -176,7 +178,61 @@ jobs:
             reports/hrb-deterministic-locality-gate-report.json
             reports/cpu-numa-threading-gate-report.json
             reports/hardware-portability-gate-report.json
+            reports/xyops-gate-report.json
             reports/presenton-gate-report.json
+
+  release-projection-reconcile:
+    name: release-projection / reconcile
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: true
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check unified release projection
+        id: projection_gate
+        shell: bash
+        run: |
+          chmod +x bin/fa3-enforce
+          set +e
+          ./bin/fa3-enforce release-projection
+          rc=$?
+          set -e
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+            exit "$rc"
+          fi
+      - name: Regenerate unified release projection
+        if: steps.projection_gate.outputs.rc == '2'
+        run: PYTHONPATH=src python src/fa3_release_projection_regenerate.py --root . --snapshot-head "${{ github.event.pull_request.head.sha }}"
+      - name: Commit reconciled projection
+        if: steps.projection_gate.outputs.rc == '2'
+        shell: bash
+        run: |
+          projection="canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+          if git diff --quiet -- "$projection"; then
+            echo "Projection already matches the release surface."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$projection"
+          git commit -m "FA3: reconcile release projection for xyOps canonical package"
+          git push origin "HEAD:${{ github.head_ref }}"
+      - name: Upload reconciled candidate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-release-projection-reconcile
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
 
   promotion-safety:
     name: promotion-safety / fail-closed
