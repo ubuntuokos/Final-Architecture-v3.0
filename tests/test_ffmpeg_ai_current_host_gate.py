@@ -61,6 +61,18 @@ class FFmpegAICurrentHostTests(unittest.TestCase):
         bad["reference_host_match_required"] = True
         self.assertFalse(live_hardware_snapshot_valid(bad))
 
+    def test_runtime_sources_do_not_hardcode_reference_workstation_identity(self):
+        root = Path(__file__).resolve().parents[1]
+        runtime_text = "\n".join([
+            (root / "src/fa3_ffmpeg_ai_current_host.py").read_text(encoding="utf-8"),
+            (root / "evidence/collect-ffmpeg-ai-current-host.py").read_text(encoding="utf-8"),
+            (root / "bin/fa3-ffmpeg-ai-current-host.sh").read_text(encoding="utf-8"),
+        ])
+        for forbidden in ("EXPECTED_MACHINE", "EXPECTED_CPU_TOKEN", "Dell Precision Tower 7910", "E5-2696 v4"):
+            self.assertNotIn(forbidden, runtime_text)
+        self.assertNotIn('packages"] == 2', runtime_text)
+        self.assertNotIn('logical_cpus"] == 88', runtime_text)
+
     def test_canonical_hrb_accelerator_lease_uuid_bdf_and_expiry_are_required(self):
         receipt = make_reference_receipt()
         lease = receipt["hrb_lease"]
