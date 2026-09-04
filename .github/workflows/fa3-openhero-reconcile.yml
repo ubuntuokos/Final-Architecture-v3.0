@@ -1,0 +1,24 @@
+name: FA3 OpenHero one-shot reconciliation
+
+on:
+  push:
+    branches: [fa3/openhero-web-creative-asset]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reconcile canonical OpenHero projection and self-remove bootstrap
+        run: python tools/reconcile_openhero_materialization.py
