@@ -20,5 +20,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Reconcile canonical OpenHero projection and self-remove bootstrap
-        run: python tools/reconcile_openhero_materialization.py
+      - name: Apply canonical OpenHero non-workflow reconciliation
+        run: python tools/apply_openhero_nonworkflow.py
