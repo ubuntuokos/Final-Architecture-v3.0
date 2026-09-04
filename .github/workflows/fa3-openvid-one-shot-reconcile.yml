@@ -1,0 +1,40 @@
+name: FA3 OpenVid One-Shot Release Reconciliation
+
+on:
+  push:
+    branches:
+      - fa3/openvid-browser-local-compositing-2026-09-04
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Remove one-shot workflow from final release surface
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/fa3-openvid-one-shot-reconcile.yml
+          git commit -m "FA3: remove one-shot OpenVid release reconciler"
+      - name: Regenerate unified release projection from clean final surface
+        shell: bash
+        run: |
+          snapshot="$(git rev-parse HEAD)"
+          PYTHONPATH=src python src/fa3_release_projection_regenerate.py --root . --snapshot-head "$snapshot"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3: reconcile unified release projection for OpenVid"
+      - name: Validate release projection before push
+        run: PYTHONPATH=src python -m unittest tests.test_release_projection.ReleaseProjectionGateTests.test_current_projection_passes tests.test_release_projection.ReleaseProjectionGateTests.test_squash_lineage_accepts_content_equivalent_snapshot -v
+      - name: Push reconciled branch
+        run: git push origin HEAD:fa3/openvid-browser-local-compositing-2026-09-04
