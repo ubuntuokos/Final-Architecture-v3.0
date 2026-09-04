@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
+python3 - "$ROOT" <<'PY'
+from pathlib import Path
+import json
+import sys
+from fa3_xyops_gate import gate
+root = Path(sys.argv[1]).resolve()
+report = gate(root)
+print(json.dumps(report, ensure_ascii=False, indent=2))
+raise SystemExit(0 if report.get("result") == "PASS" else 2)
+PY
