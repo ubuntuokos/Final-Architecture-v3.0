@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.provider-runtime-admission.v1",
+  "id": "FA3-XYOPS-RUNTIME-ADMISSION-2026-09-04",
+  "profile_id": "FA3-OPS-AUTO-001",
+  "providers": {
+    "FA3-PROVIDER-XYOPS-001": {"status": "NOT_PROMOTED_REFERENCE_ONLY", "current_host_runtime_evidence": "NOT_CLAIMED", "activation": "DISABLED_BY_DEFAULT"},
+    "FA3-PROVIDER-XYSAT-001": {"status": "NOT_PROMOTED_REFERENCE_ONLY", "current_host_runtime_evidence": "NOT_CLAIMED", "activation": "DISABLED_BY_DEFAULT"}
+  },
+  "activation_requires": ["CURRENT_HOST_CONFORMANCE", "SECURITY_ADMISSION", "HRB_INTEGRATION_E2E", "OBSERVABILITY_EVIDENCE_EXPORT_E2E", "ROLLBACK_EVIDENCE"],
+  "document_only_promotion_forbidden": true
+}
