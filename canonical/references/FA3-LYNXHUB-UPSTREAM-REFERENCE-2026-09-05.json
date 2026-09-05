@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05",
+  "observed_at": "2026-09-05T03:00:00Z",
+  "repository": "TheLynxHub/LynxHub",
+  "repository_url": "https://github.com/TheLynxHub/LynxHub",
+  "default_branch": "master",
+  "release": "V3.5.8",
+  "release_url": "https://github.com/TheLynxHub/LynxHub/releases/tag/V3.5.8",
+  "release_published_at": "2026-08-06T08:25:28Z",
+  "commit": "96129c218b8bd4337fd3e4cf220aa97a46c486a5",
+  "commit_url": "https://github.com/TheLynxHub/LynxHub/commit/96129c218b8bd4337fd3e4cf220aa97a46c486a5",
+  "license": "AGPL-3.0",
+  "linux_package": {
+    "filename": "LynxHub-V3.5.8-linux_amd64.deb",
+    "package": "lynxhub",
+    "version": "3.5.8",
+    "architecture": "amd64",
+    "size": 96300384,
+    "sha256": "b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435",
+    "installed_executable": "/opt/LynxHub/lynxhub",
+    "desktop_entry": "/usr/share/applications/ai.kindabrazy.lynxhub.desktop",
+    "desktop_exec_observed": "/opt/LynxHub/lynxhub --no-sandbox %U"
+  },
+  "custom_actions": {
+    "repository": "TheLynxHub/Custom-Actions",
+    "release": "v0.4.4",
+    "release_published_at": "2026-08-30T07:02:07Z",
+    "commit": "418be2f8d2488f67f8c6f7728729161577f4c90e",
+    "artifact": "0.4.4.7z",
+    "size": 197623,
+    "sha256": "125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83"
+  },
+  "observed_architecture": {
+    "desktop_shell": "Electron",
+    "terminal": "node-pty",
+    "embedded_browser": true,
+    "git_and_plugin_features": true,
+    "local_state": "lowdb application state",
+    "linux_wayland_limitation": "non-main windows disabled or replaced with native windows for Ubuntu 26 Wayland compatibility",
+    "automatic_updater_metadata": "/opt/LynxHub/resources/app-update.yml"
+  },
+  "assessment": "ARCHITECTURAL_FIT_AS_OPTIONAL_NON_AUTHORITY_DASHBOARD_WITH_HARDENED_ADAPTER",
+  "promotion_use": "REFERENCE_AND_STATIC_CONFORMANCE_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "floating_branch_forbidden_as_promotion_evidence": true
+}

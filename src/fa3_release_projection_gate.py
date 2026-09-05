@@ -250,6 +250,31 @@ OPENYAK_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
 )
 
+LYNXHUB_PROFILE_ID = "FA3-CREATIVE-OPERATIONS-DASHBOARD-001"
+LYNXHUB_PROVIDER_ID = "FA3-PROVIDER-LYNXHUB-001"
+LYNXHUB_CONTRACT_ID = "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001"
+LYNXHUB_DECISION_ID = "FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05"
+LYNXHUB_GATE_ID = "FA3-LYNXHUB-GATESET-001"
+LYNXHUB_PROFILE_PATH = "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json"
+LYNXHUB_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json"
+LYNXHUB_CONTRACT_PATH = "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json"
+LYNXHUB_DECISION_PATH = "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json"
+LYNXHUB_REFERENCE_PATH = "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json"
+LYNXHUB_GATE_RECORD_PATH = "canonical/FA3-GATE-LYNXHUB-001.json"
+LYNXHUB_ENFORCEMENT_PATH = "canonical/lynxhub-enforcement.json"
+LYNXHUB_ADMISSION_PATH = "canonical/lynxhub-runtime-admission.json"
+LYNXHUB_RELEASE_PATH = "canonical/releases/FA3-RELEASE-PROJECTION-LYNXHUB-2026-09-05.json"
+LYNXHUB_EVIDENCE_PATH = "evidence/reference/lynxhub-ci-2026-09-05.json"
+LYNXHUB_GATE_PATH = "src/fa3_lynxhub_gate.py"
+LYNXHUB_TEST_PATH = "tests/test_lynxhub_gate.py"
+LYNXHUB_COLLECTOR_PATH = "evidence/collect-lynxhub-current-host.py"
+LYNXHUB_INSTALLER_PATH = "bin/fa3-lynxhub-install-user-integration.sh"
+LYNXHUB_CAPABILITY_IDS = ("CAP-057",)
+LYNXHUB_RUNTIME_STATUS = "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING"
+LYNXHUB_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
+)
+
 LOOP_PROFILE_ID = "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001"
 LOOP_CONTRACT_ID = "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001"
 LOOP_PROVIDER_ID = "FA3-PROVIDER-LOOP-ENGINEERING-001"
@@ -1890,6 +1915,118 @@ def gate(root: Path):
         )
 
 
+    lynxhub = projection.get("lynxhub_reconciliation", {})
+    required_lynxhub_manifest_paths = {
+        LYNXHUB_PROFILE_PATH,
+        LYNXHUB_PROVIDER_PATH,
+        LYNXHUB_CONTRACT_PATH,
+        LYNXHUB_DECISION_PATH,
+        LYNXHUB_REFERENCE_PATH,
+        LYNXHUB_GATE_RECORD_PATH,
+        LYNXHUB_ENFORCEMENT_PATH,
+        LYNXHUB_ADMISSION_PATH,
+        LYNXHUB_RELEASE_PATH,
+        LYNXHUB_EVIDENCE_PATH,
+        LYNXHUB_GATE_PATH,
+        LYNXHUB_TEST_PATH,
+        LYNXHUB_COLLECTOR_PATH,
+        LYNXHUB_INSTALLER_PATH,
+        "deployment/lynxhub/systemd/user/ai-creative-ops.target",
+        "deployment/lynxhub/systemd/user/lynxhub.service",
+        "deployment/lynxhub/bin/lynxhub-launch",
+        "deployment/lynxhub/bin/lynxhub-start",
+        "deployment/lynxhub/bin/lynxhub-action",
+        "deployment/lynxhub/applications/ai.kindabrazy.lynxhub.desktop.in",
+        "deployment/lynxhub/lynxhub-actions.env.example",
+        "deployment/lynxhub/README.md",
+        "docs/lynxhub-integration.md",
+        "README.md",
+        "canonical/conformance-matrix.csv",
+        "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json",
+        "src/fa3_enforce.py",
+        "src/fa3_release_projection_gate.py",
+        "tests/test_release_projection.py",
+        ".github/workflows/fa3-permanent-enforcement.yml",
+    }
+    missing_lynxhub_overlay_members = []
+    for key, required in {
+        "profile_records": LYNXHUB_PROFILE_PATH,
+        "provider_records": LYNXHUB_PROVIDER_PATH,
+        "contract_records": LYNXHUB_CONTRACT_PATH,
+        "decision_records": LYNXHUB_DECISION_PATH,
+        "upstream_reference_records": LYNXHUB_REFERENCE_PATH,
+        "reference_evidence_records": LYNXHUB_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_lynxhub_overlay_members.append({"inventory": key, "path": required})
+    lynxhub_manifest_missing = sorted(required_lynxhub_manifest_paths - manifest_paths)
+    lynxhub_profile = loadj(root / LYNXHUB_PROFILE_PATH) if (root / LYNXHUB_PROFILE_PATH).is_file() else {}
+    lynxhub_provider = loadj(root / LYNXHUB_PROVIDER_PATH) if (root / LYNXHUB_PROVIDER_PATH).is_file() else {}
+    lynxhub_admission = loadj(root / LYNXHUB_ADMISSION_PATH) if (root / LYNXHUB_ADMISSION_PATH).is_file() else {}
+    lynxhub_evidence = loadj(root / LYNXHUB_EVIDENCE_PATH) if (root / LYNXHUB_EVIDENCE_PATH).is_file() else {}
+    lynxhub_release = loadj(root / LYNXHUB_RELEASE_PATH) if (root / LYNXHUB_RELEASE_PATH).is_file() else {}
+    lynxhub_binding_invalid = []
+    for capability_id in LYNXHUB_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        provider_status = record.get("lynxhub_creative_operations_dashboard_projection_status", {})
+        if (
+            LYNXHUB_DECISION_ID not in record.get("source_decision_ids", [])
+            or LYNXHUB_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+            or provider_status.get("provider_id") != LYNXHUB_PROVIDER_ID
+            or provider_status.get("runtime_activation_status") != LYNXHUB_RUNTIME_STATUS
+            or provider_status.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        ):
+            lynxhub_binding_invalid.append(capability_id)
+    if (
+        lynxhub.get("profile_id") != LYNXHUB_PROFILE_ID
+        or lynxhub.get("provider_id") != LYNXHUB_PROVIDER_ID
+        or lynxhub.get("contract_id") != LYNXHUB_CONTRACT_ID
+        or lynxhub.get("decision_id") != LYNXHUB_DECISION_ID
+        or lynxhub.get("gate_id") != LYNXHUB_GATE_ID
+        or lynxhub.get("capability_ids") != list(LYNXHUB_CAPABILITY_IDS)
+        or lynxhub.get("reconciliation_status") != LYNXHUB_RECONCILIATION_STATUS
+        or lynxhub.get("runtime_activation_status") != LYNXHUB_RUNTIME_STATUS
+        or lynxhub.get("current_host_installation") != "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED"
+        or lynxhub.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or lynxhub.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or lynxhub.get("new_capabilities") != 0
+        or lynxhub.get("new_architectural_authorities") != 0
+        or lynxhub.get("capability_count_after") != CAPABILITY_COUNT
+        or LYNXHUB_GATE_ID not in projection_gates
+        or LYNXHUB_GATE_ID not in policy_gates
+        or missing_lynxhub_overlay_members
+        or lynxhub_manifest_missing
+        or lynxhub_binding_invalid
+        or lynxhub_profile.get("id") != LYNXHUB_PROFILE_ID
+        or lynxhub_profile.get("capability_projection") != list(LYNXHUB_CAPABILITY_IDS)
+        or lynxhub_provider.get("id") != LYNXHUB_PROVIDER_ID
+        or lynxhub_provider.get("canonical_root") is not False
+        or lynxhub_provider.get("architectural_authority") is not False
+        or lynxhub_provider.get("hard_dependency") is not False
+        or lynxhub_provider.get("runtime_activation_status") != LYNXHUB_RUNTIME_STATUS
+        or lynxhub_admission.get("status") != LYNXHUB_RUNTIME_STATUS
+        or lynxhub_admission.get("production_provider_admission") is not False
+        or lynxhub_evidence.get("status") != "PASS"
+        or lynxhub_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or lynxhub_evidence.get("current_host_runtime_promotion_claimed") is not False
+        or lynxhub_release.get("runtime_promotion") is not False
+        or lynxhub_release.get("capability_count_after") != CAPABILITY_COUNT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-043",
+                "LynxHub global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=lynxhub.get("reconciliation_status"),
+                runtime_activation_status=lynxhub.get("runtime_activation_status"),
+                missing_overlay_members=missing_lynxhub_overlay_members,
+                missing_manifest_paths=lynxhub_manifest_missing,
+                invalid_capability_bindings=lynxhub_binding_invalid,
+            )
+        )
+
+
     loop_engineering = projection.get("loop_engineering_reconciliation", {})
     required_loop_manifest_paths = {
         LOOP_PROFILE_PATH,
@@ -2647,6 +2784,8 @@ def gate(root: Path):
             "openhands_runtime_activation_status": openhands.get("runtime_activation_status"),
             "openyak_reconciliation": openyak.get("reconciliation_status"),
             "openyak_runtime_activation_status": openyak.get("runtime_activation_status"),
+            "lynxhub_reconciliation": lynxhub.get("reconciliation_status"),
+            "lynxhub_runtime_activation_status": lynxhub.get("runtime_activation_status"),
             "loop_engineering_reconciliation": loop_engineering.get("reconciliation_status"),
             "loop_engineering_runtime_activation_status": loop_engineering.get("runtime_activation_status"),
             "tencentdb_agent_memory_reconciliation": tdai.get("reconciliation_status"),

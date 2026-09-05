@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "71ce9bba4f180c8501200d006cd9b7c92474501c",
-    "pre_projection_root_tree_sha": "174b25e78a1887d0a7368c50d4a188f501394153",
-    "pre_projection_canonical_tree_sha": "3e3202f446b29758a407ba716af10e0eddef1247",
-    "commits_ahead_of_v3_0_11_conformance_commit": 111,
-    "total_post_baseline_commits": 111,
-    "delta_file_count": 609,
-    "delta_added_files": 605,
+    "pre_projection_head_sha": "9bc5835d3d81563d09aa52f525dc5520d01f2d4b",
+    "pre_projection_root_tree_sha": "72915b71664d931f6e460661ab16e8be7e0de13f",
+    "pre_projection_canonical_tree_sha": "08f0d186b85c54dc4b662257ead4aa36761e21f8",
+    "commits_ahead_of_v3_0_11_conformance_commit": 112,
+    "total_post_baseline_commits": 112,
+    "delta_file_count": 632,
+    "delta_added_files": 628,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 369,
-    "evidence_files_in_post_baseline_delta": 63,
-    "source_files_in_post_baseline_delta": 69,
-    "test_files_in_post_baseline_delta": 55,
+    "canonical_files_in_post_baseline_delta": 378,
+    "evidence_files_in_post_baseline_delta": 65,
+    "source_files_in_post_baseline_delta": 70,
+    "test_files_in_post_baseline_delta": 56,
     "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -78,6 +78,7 @@
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
+      "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
       "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
       "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
@@ -144,6 +145,7 @@
       "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
+      "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
       "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
@@ -185,6 +187,7 @@
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
@@ -251,6 +254,7 @@
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
@@ -297,6 +301,7 @@
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
+      "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -345,6 +350,7 @@
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
       "evidence/reference/loop-engineering-ci-2026-09-03.json",
+      "evidence/reference/lynxhub-ci-2026-09-05.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
@@ -383,6 +389,7 @@
     "FA3-MUSE-CODE-GATESET-001",
     "FA3-OPENHANDS-GATESET-001",
     "FA3-OPENYAK-GATESET-001",
+    "FA3-LYNXHUB-GATESET-001",
     "FA3-STABILITY-SGM-GATESET-001",
     "FA3-KANBOARD-GATESET-001",
     "FA3-AIENG-GATESET-001",
@@ -470,7 +477,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 611,
+  "manifest_entry_count": 634,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -502,7 +509,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "f3bd941fadc4a1d19251a81e5e809212313000e0"
+      "git_blob_sha": "9189f1db172a530860000fb1d436c604547bda33"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -514,7 +521,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "a4508ac2d2f2f3bbb15c86d7ce48f0f2aab16161"
+      "git_blob_sha": "1651f9a8ee1b7b6f9c888e5862d6a377ec6d94a8"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -587,6 +594,10 @@
     {
       "path": "bin/fa3-gpu-kernel-benchmark",
       "git_blob_sha": "656c6dcb904f056e26c9039540dd9f3492f2cf4c"
+    },
+    {
+      "path": "bin/fa3-lynxhub-install-user-integration.sh",
+      "git_blob_sha": "7ed333995512a6c4236ec5cda9a7d39a8d97f799"
     },
     {
       "path": "bin/fa3-model-manager-current-host.sh",
@@ -683,6 +694,10 @@
     {
       "path": "canonical/FA3-GATE-LOOP-ENGINEERING-001.json",
       "git_blob_sha": "450727f7a1d869d3bbe03e2b6b90fcb10b3195c5"
+    },
+    {
+      "path": "canonical/FA3-GATE-LYNXHUB-001.json",
+      "git_blob_sha": "922623f70dbbeb7682996e8585975210a97413fa"
     },
     {
       "path": "canonical/FA3-GATE-MARKETING-001.json",
@@ -810,7 +825,7 @@
     },
     {
       "path": "canonical/conformance-matrix.csv",
-      "git_blob_sha": "e7dbb82cf09b9a17a59d2e12d60655f9bf811144"
+      "git_blob_sha": "493a0a41e47e89ef657e8d0b6ea0640353549950"
     },
     {
       "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
@@ -851,6 +866,10 @@
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4"
+    },
+    {
+      "path": "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
+      "git_blob_sha": "a7dcf9663c1381c4805ada32a8ba243d2a9ecf29"
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
@@ -1125,6 +1144,10 @@
       "git_blob_sha": "43f28c1e12c6346d2142f0fbdb767cff68806e3c"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
+      "git_blob_sha": "a70054b668a53a3ec99183c40fbe7f18822058e3"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a"
     },
@@ -1262,7 +1285,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "4bad732c9fff2e180dd61159a40111a15fa56fb6"
+      "git_blob_sha": "1ce630664c04aecb8ba9a1c2978c3a2c057c2575"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1331,6 +1354,14 @@
     {
       "path": "canonical/loop-engineering-runtime-admission.json",
       "git_blob_sha": "499c5d37a417e2c6fc132111bf7548359a7521c0"
+    },
+    {
+      "path": "canonical/lynxhub-enforcement.json",
+      "git_blob_sha": "d390af7e5c50524e77ebde4052cd7727baffadfb"
+    },
+    {
+      "path": "canonical/lynxhub-runtime-admission.json",
+      "git_blob_sha": "f666a85b59d9584a5720b918b5e7cc5ea176c263"
     },
     {
       "path": "canonical/marketing-enforcement.json",
@@ -1443,6 +1474,10 @@
     {
       "path": "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "git_blob_sha": "d9d7d485ec58d753b46a12f3958daad4f75cc767"
+    },
+    {
+      "path": "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
+      "git_blob_sha": "af171986ae43198b6ab1d290ca5b171c2aa12966"
     },
     {
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
@@ -1667,6 +1702,10 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
       "git_blob_sha": "ef5ab4b53ec1234e0b1f46ed1d6efb1f7986732d"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
+      "git_blob_sha": "0102837e9633e5e478cf45cf626bc99bf122dace"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
@@ -1941,6 +1980,10 @@
       "git_blob_sha": "d7ce53aab83c2179bafc7fbbac9af1d67e99665a"
     },
     {
+      "path": "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
+      "git_blob_sha": "acc85e0db5d91955ba8a94dd8e999ff573e00f85"
+    },
+    {
       "path": "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f"
     },
@@ -2041,6 +2084,10 @@
       "git_blob_sha": "845b1b70f3e615762bc4dd2619f2ba7526d71da5"
     },
     {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-LYNXHUB-2026-09-05.json",
+      "git_blob_sha": "bbfcdaa40d72a0847ba7eda144fe56f2f90de451"
+    },
+    {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
       "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a"
     },
@@ -2097,6 +2144,38 @@
       "git_blob_sha": "4bd915b1340b9f4c7139de902741f6a4e2d9e98f"
     },
     {
+      "path": "deployment/lynxhub/README.md",
+      "git_blob_sha": "fc84a7806674babba8a6a49ed195d3a8c3fd327f"
+    },
+    {
+      "path": "deployment/lynxhub/applications/ai.kindabrazy.lynxhub.desktop.in",
+      "git_blob_sha": "deaba29c5c51849c4f8f90076024efae0266a37b"
+    },
+    {
+      "path": "deployment/lynxhub/bin/lynxhub-action",
+      "git_blob_sha": "369a7e96e54a25e13df414f0f069743e70a1c5d1"
+    },
+    {
+      "path": "deployment/lynxhub/bin/lynxhub-launch",
+      "git_blob_sha": "59ed686b40a36384feab8d30e7c6ee3d80013098"
+    },
+    {
+      "path": "deployment/lynxhub/bin/lynxhub-start",
+      "git_blob_sha": "7b33be4cdbdefe3b8d074a0c2dd53f371be654c8"
+    },
+    {
+      "path": "deployment/lynxhub/lynxhub-actions.env.example",
+      "git_blob_sha": "5903fafc8a809cc3d2153f9e24a27c6e2ef203b9"
+    },
+    {
+      "path": "deployment/lynxhub/systemd/user/ai-creative-ops.target",
+      "git_blob_sha": "c787cd86d5749188eda0c28eeb9eb9200ddf85cf"
+    },
+    {
+      "path": "deployment/lynxhub/systemd/user/lynxhub.service",
+      "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe"
+    },
+    {
       "path": "deployment/presenton/README.md",
       "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892"
     },
@@ -2119,6 +2198,10 @@
     {
       "path": "docs/codex-current-host.md",
       "git_blob_sha": "da2a399b9153dbe6716e93c1bb3f2de1059d1e0e"
+    },
+    {
+      "path": "docs/lynxhub-integration.md",
+      "git_blob_sha": "2795162d58c3699250b540be23cbcfcd7b96c82b"
     },
     {
       "path": "docs/model-manager-current-host.md",
@@ -2177,6 +2260,10 @@
       "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65"
     },
     {
+      "path": "evidence/collect-lynxhub-current-host.py",
+      "git_blob_sha": "3baf39317a626b85b0e9c3e6e9adbf2ede7524d1"
+    },
+    {
       "path": "evidence/collect-marketing-reference-e2e.py",
       "git_blob_sha": "9e6dc530ec5e5e0a7c3e5096c4e3ee05573f0b9a"
     },
@@ -2206,7 +2293,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "8734ae52998fcd13e41076dd488d904496426ab4"
+      "git_blob_sha": "fd17326f04394b3fe0a3f1b284b38129d7a8df94"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2303,6 +2390,10 @@
     {
       "path": "evidence/reference/loop-engineering-ci-2026-09-03.json",
       "git_blob_sha": "2ee91d9cf63fc467758508352402d7ebbdd29929"
+    },
+    {
+      "path": "evidence/reference/lynxhub-ci-2026-09-05.json",
+      "git_blob_sha": "0b8d98c1955e5ed8eb8317a3ce065a1e0ace0a3a"
     },
     {
       "path": "evidence/reference/marketing-ci-2026-08-31.json",
@@ -2510,7 +2601,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "c7472726717e9625fbfcb1e6ef3d3ef41748b669"
+      "git_blob_sha": "da5b6332334816fc92a2b3f2033a2d9e12e9d027"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2571,6 +2662,10 @@
     {
       "path": "src/fa3_loop_engineering_gate.py",
       "git_blob_sha": "9b8f3d2ec8b26c1cc514757234bc09444c5cd75d"
+    },
+    {
+      "path": "src/fa3_lynxhub_gate.py",
+      "git_blob_sha": "7a3dd9c598e3ecaa1a26314a8775e65193f0c4b2"
     },
     {
       "path": "src/fa3_marketing_gate.py",
@@ -2654,7 +2749,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "64f3fcdd8eb2b2497d33bf43e89caef8f2d2ed47"
+      "git_blob_sha": "578058db31ccbaa0eef8e337e5ec826ac485da49"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2805,6 +2900,10 @@
       "git_blob_sha": "ff62d27f160023ed1c2ae995bb8881f875afa962"
     },
     {
+      "path": "tests/test_lynxhub_gate.py",
+      "git_blob_sha": "21a20586d4122cad01f510f2020f3b8a24e62f76"
+    },
+    {
       "path": "tests/test_marketing_gate.py",
       "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670"
     },
@@ -2874,7 +2973,7 @@
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "fd96a9c39ff94a738ab2784d1d5416b3aa0e1b0f"
+      "git_blob_sha": "c127bb6819c0a974d00ec382ff7dc257c22a2c60"
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
@@ -3437,6 +3536,32 @@
     "reference_evidence": "evidence/reference/openyak-ci-2026-09-05.json",
     "immutable_upstream_commit": "73240597e17d31749f2dbc6c52e8820a6074acad",
     "native_deb_sha256": "dfa0358736312c8cdf8b88192cea9c5554efdc5a22643faee6e3e46a5157f531",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "lynxhub_reconciliation": {
+    "profile_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+    "provider_id": "FA3-PROVIDER-LYNXHUB-001",
+    "contract_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+    "decision_id": "FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05",
+    "gate_id": "FA3-LYNXHUB-GATESET-001",
+    "executable_gate_id": "FA3-GATE-LYNXHUB-001",
+    "capability_ids": [
+      "CAP-057"
+    ],
+    "classification": "OPTIONAL_CREATIVE_OPERATIONS_DASHBOARD_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING",
+    "runtime_activation_status": "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING",
+    "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
+    "reference_evidence": "evidence/reference/lynxhub-ci-2026-09-05.json",
+    "immutable_upstream_commit": "96129c218b8bd4337fd3e4cf220aa97a46c486a5",
+    "native_deb_sha256": "b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435",
+    "custom_actions_commit": "418be2f8d2488f67f8c6f7728729161577f4c90e",
+    "custom_actions_artifact_sha256": "125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "current_host_runtime_promotion_claim": false,

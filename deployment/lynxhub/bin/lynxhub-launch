@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly lynxhub_binary=/opt/LynxHub/lynxhub
+
+if [[ ! -x "$lynxhub_binary" ]]; then
+  printf 'FA3 LynxHub: executable not found: %s\n' "$lynxhub_binary" >&2
+  exit 66
+fi
+
+session_type=${XDG_SESSION_TYPE:-}
+if [[ "$session_type" != "wayland" && "${FA3_LYNXHUB_ALLOW_XWAYLAND:-0}" != "1" ]]; then
+  printf 'FA3 LynxHub: Wayland is required; XWayland needs an explicit admitted exception.\n' >&2
+  exit 77
+fi
+
+# The vendor desktop file disables Chromium sandboxing. The FA3 launcher
+# deliberately omits that switch and relies on the package/user-namespace path.
+exec "$lynxhub_binary" \
+  --ozone-platform-hint=auto \
+  --enable-features=WaylandWindowDecorations

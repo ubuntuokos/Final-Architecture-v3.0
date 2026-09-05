@@ -1134,6 +1134,33 @@ PYTHONPATH=src python -m unittest tests.test_openyak_gate -v
 See `docs/openyak-integration.md` for the exact activation boundary and pending current-host evidence.
 
 
+## LynxHub optional Creative Operations Dashboard
+
+`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in the KDE/Wayland user session.
+
+The immutable application baseline is LynxHub `V3.5.8` / source commit `96129c218b8bd4337fd3e4cf220aa97a46c486a5`; the native `LynxHub-V3.5.8-linux_amd64.deb` digest is `b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435`. When action cards are used, Custom Actions is pinned to `v0.4.4` / commit `418be2f8d2488f67f8c6f7728729161577f4c90e` / artifact digest `125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83`. Floating updates and automatic plugin updates are forbidden.
+
+The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, requires Wayland unless an exception is admitted, and deliberately omits `--no-sandbox`.
+
+LynxHub owns only dashboard presentation and approved launch requests. systemd keeps service lifecycle; Stability Matrix keeps ComfyUI/InvokeAI/Forge/Wan2GP package lifecycle; Open WebUI and Goose remain operator clients; the Orchestrator and Temporal keep workflow execution/durability; the Central MCP/Capability Gateway keeps tool policy. Direct MCP/Ollama agent routes, secrets/database access, free-form shell actions, `sudo`/root administration and duplicate desktop autostart are denied.
+
+Install/reconcile and check the user-scoped adapter without enabling or starting LynxHub:
+
+```bash
+./bin/fa3-lynxhub-install-user-integration.sh --install
+./bin/fa3-lynxhub-install-user-integration.sh --check
+```
+
+Run the 28-rule positive/negative canonical gate with:
+
+```bash
+./bin/fa3-enforce lynxhub
+PYTHONPATH=src python -m unittest tests.test_lynxhub_gate -v
+```
+
+The current-host collector is read-only and remains fail-closed until the real installed package, Wayland/sandbox launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
+
+
 ## FA3 portable hardware baseline
 
 `FA3-HARDWARE-BASELINE-001` is the mandatory P0 portability subprofile of `FA3-HW-001`. It defines only a minimum hardware envelope, never a workstation identity:

@@ -1,0 +1,119 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "provider_adapter_contract": true,
+  "profile": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "source_pattern_provider": "FA3-PROVIDER-LYNXHUB-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-057"
+  ],
+  "contracts": [
+    "CreativeDashboardProviderDescriptor",
+    "VerifiedDebPackageDescriptor",
+    "DesktopSessionLaunchPlan",
+    "ApprovedActionDescriptor",
+    "ApprovedLocalUrlDescriptor",
+    "UserServiceLaunchReceipt",
+    "DesktopApplicationLaunchReceipt",
+    "DashboardRuntimeEvidenceExport",
+    "DashboardRollbackReceipt"
+  ],
+  "lifecycle": [
+    "package.verify",
+    "desktop.session.admit",
+    "policy.load",
+    "single.instance.check",
+    "dashboard.launch",
+    "action.resolve",
+    "action.authorize",
+    "versioned.wrapper.execute",
+    "audit.append",
+    "dashboard.stop"
+  ],
+  "deployment": {
+    "native_deb_package": true,
+    "package_digest_required": true,
+    "floating_latest_for_activation": "FORBIDDEN",
+    "self_update_without_admission": "FORBIDDEN",
+    "user_session_scope": true,
+    "single_named_user_service": "lynxhub.service",
+    "session_target": "ai-creative-ops.target",
+    "activation": "ON_DEMAND",
+    "duplicate_desktop_autostart": "FORBIDDEN",
+    "vendor_transient_app_unit_as_parallel_lifecycle": "FORBIDDEN",
+    "own_platform_port_or_daemon": "FORBIDDEN"
+  },
+  "desktop": {
+    "wayland_is_canonical_display_protocol": true,
+    "xwayland_fallback_requires_explicit_exception": true,
+    "electron_no_sandbox_flag": "FORBIDDEN",
+    "root_or_setuid_helper_owned_by_adapter": "FORBIDDEN",
+    "gpu_use": "DISPLAY_COMPOSITING_ONLY",
+    "gpu_model_or_count_assumption": "FORBIDDEN"
+  },
+  "actions": {
+    "versioned_wrapper_required": true,
+    "fixed_action_id_allowlist_required": true,
+    "embedded_free_form_shell": "FORBIDDEN",
+    "eval_or_shell_interpolation": "FORBIDDEN",
+    "sudo_su_pkexec": "DENY",
+    "root_systemctl_apt_dpkg_nft": "DENY",
+    "approved_systemctl_user_start": "ALLOW_ENUMERATED_UNITS_ONLY",
+    "browser_open": "ALLOW_APPROVED_LOOPBACK_URLS_ONLY",
+    "read_only_status": "ALLOW",
+    "direct_mcp_tool_execution": "DENY",
+    "direct_ollama_agent_route": "DENY",
+    "direct_secret_or_database_access": "DENY"
+  },
+  "ownership": {
+    "systemd": "PLATFORM_SERVICE_LIFECYCLE",
+    "stability_matrix": "GENERATIVE_MEDIA_PACKAGE_LIFECYCLE",
+    "open_webui_and_goose": "USER_AND_AGENT_OPERATOR_CLIENTS",
+    "orchestrator_and_temporal": "WORKFLOW_EXECUTION_AND_DURABILITY",
+    "central_mcp_gateway": "CAPABILITY_AND_TOOL_POLICY",
+    "lynxhub": "DASHBOARD_PRESENTATION_AND_APPROVED_LAUNCH_ONLY"
+  },
+  "state_and_security": {
+    "provider_lowdb": "APPLICATION_STATE_ONLY",
+    "provider_state_as_canonical_shared_memory": false,
+    "api_keys_in_provider": "FORBIDDEN",
+    "network_egress": "DEFAULT_DENY_WITH_EXPLICIT_TEMPORARY_UPDATE_EXCEPTION",
+    "provider_failure_may_stop_platform": false,
+    "disabled_zero_resident_processes": true
+  },
+  "plugins": {
+    "custom_actions": "PINNED_REQUIRED_WHEN_ACTION_CARDS_ARE_USED",
+    "hardware_monitor": "OPTIONAL_PRESENTATION_ONLY",
+    "python_toolkit": "DISABLED_BY_DEFAULT",
+    "local_ai_collection": "DISABLED",
+    "skills_manager": "SEPARATELY_ADMITTED_PILOT_ONLY",
+    "automatic_plugin_updates": "DISABLED"
+  },
+  "evidence": {
+    "installed_package_identity": true,
+    "downloaded_deb_digest": true,
+    "effective_desktop_entry_uses_hardened_wrapper": true,
+    "single_user_service_and_no_duplicate_autostart": true,
+    "wayland_and_sandboxed_process": true,
+    "positive_and_negative_action_cases": true,
+    "egress_and_bypass_denial": true,
+    "clean_stop_and_rollback": true,
+    "reference_pass_is_current_host_runtime": false
+  },
+  "forbidden_semantics": [
+    "LYNXHUB_AS_ORCHESTRATOR_OR_MCP_GATEWAY",
+    "LYNXHUB_AS_SYSTEMD_STABILITY_MATRIX_OR_MODEL_AUTHORITY",
+    "LYNXHUB_DIRECT_MCP_OR_OLLAMA_AGENT_ROUTE",
+    "LYNXHUB_FREE_FORM_PRIVILEGED_CUSTOM_ACTION",
+    "LYNXHUB_SECRET_DATABASE_OR_MODEL_STORE_ACCESS",
+    "LYNXHUB_PARALLEL_AUTOSTART_OR_TRANSIENT_UNIT",
+    "LYNXHUB_EFFECTIVE_NO_SANDBOX_LAUNCH",
+    "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
+  ]
+}

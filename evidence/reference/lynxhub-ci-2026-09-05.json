@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "evidence_id": "FA3-EVID-LYNXHUB-CI-2026-09-05",
+  "subject_id": "FA3-PROVIDER-LYNXHUB-001",
+  "gate_id": "FA3-LYNXHUB-GATESET-001",
+  "status": "PASS",
+  "evidence_class": "STATIC_CANONICAL_AND_EXECUTABLE_REGRESSION",
+  "observed_at": "2026-09-05T03:00:00Z",
+  "regression_count": 28,
+  "regressions_passed": 28,
+  "fail_closed": true,
+  "capability_count_after": 143,
+  "new_architectural_authorities": 0,
+  "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claimed": false,
+  "production_provider_admission_claimed": false,
+  "verified_facts": [
+    "The public V3.5.8 amd64 Debian release digest is pinned.",
+    "The Debian package metadata and payload locations were independently inspected.",
+    "The vendor desktop entry includes --no-sandbox and is therefore not accepted as the effective FA3 launcher.",
+    "The FA3 integration defines an on-demand single user service, fixed-ID action wrappers and explicit authority boundaries.",
+    "All 28 positive/negative static regression cases pass."
+  ],
+  "limitations": [
+    "The user's installed package and desktop session were not accessible from CI.",
+    "No Wayland launch, OpenSnitch rule, Custom Actions UI or rollback runtime claim is made.",
+    "The collector must run on the actual workstation before CAP-057 provider runtime promotion."
+  ]
+}
