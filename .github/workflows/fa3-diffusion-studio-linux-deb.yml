@@ -33,7 +33,7 @@ jobs:
       - name: Packaging prerequisites
         run: sudo apt-get update && sudo apt-get install -y fakeroot dpkg-dev
       - name: Build pinned upstream and FA3 deb
-        run: ./packaging/diffusion-studio/build-fa3-deb.sh
+        run: bash packaging/diffusion-studio/build-fa3-deb.sh
       - name: Inspect package
         run: |
           dpkg-deb --info dist/*.deb
