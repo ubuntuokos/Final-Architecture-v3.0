@@ -1114,6 +1114,26 @@ PYTHONPATH=src python -m unittest tests.test_loop_engineering_gate -v
 The committed reference PASS is not current-host runtime evidence and cannot promote `CAP-028` or the global 143-capability runtime by documentation alone.
 
 
+## OpenYak optional desktop-agent workbench
+
+`FA3-PROVIDER-OPENYAK-001` registers `openyak/openyak` as an **optional local desktop-agent workbench** under the provider-neutral `FA3-DESKTOP-AGENT-WORKBENCH-001` profile. It projects to existing `CAP-008` and `CAP-096`, remains explicitly outside the `CAP-107` developer-environment role, adds no capability or architectural authority, and is disabled by default. Open WebUI, Goose, the FA3 FastAPI orchestration surface, Temporal, the Central MCP/Capability Gateway and the canonical Memory Service keep their existing roles.
+
+The immutable baseline is OpenYak `v1.4.0` / commit `73240597e17d31749f2dbc6c52e8820a6074acad`; the native `OpenYak_1.4.0_amd64.deb` digest is `dfa0358736312c8cdf8b88192cea9c5554efdc5a22643faee6e3e46a5157f531`. Floating `latest` and unadmitted self-update are forbidden.
+
+Runtime boundaries are fail-closed: models route only through the FA3 LiteLLM OpenAI-compatible endpoint; MCP tools execute only through the central gateway; managed/direct Ollama, direct cloud BYOK, remote access, provider-native messaging channels, privileged connectors, system-path mutation, credential/model-store access and direct PostgreSQL/Valkey/NATS access are denied. OpenYak SQLite is application state only; shared memory uses canonical `memory.*` tools and durable work escalates to Temporal. Workspace read may be allowed inside an admitted bounded project root, while write/delete and shell remain human-gated.
+
+The packaged v1.4.0 Tauri shell uses a dynamically selected loopback port, so the previously observed `127.0.0.1:20882` is evidence, not a portable constant. Because upstream defaults `GDK_BACKEND=x11` when unset, FA3 current-host promotion requires an explicit Wayland launch and WebKitGTK/KDE smoke evidence. No current-host runtime promotion is claimed by the static package.
+
+Run the 24-rule positive/negative gate with:
+
+```bash
+./bin/fa3-enforce openyak
+PYTHONPATH=src python -m unittest tests.test_openyak_gate -v
+```
+
+See `docs/openyak-integration.md` for the exact activation boundary and pending current-host evidence.
+
+
 ## FA3 portable hardware baseline
 
 `FA3-HARDWARE-BASELINE-001` is the mandatory P0 portability subprofile of `FA3-HW-001`. It defines only a minimum hardware envelope, never a workstation identity:

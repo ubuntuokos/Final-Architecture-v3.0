@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "evidence_id": "FA3-EVID-OPENYAK-CI-2026-09-05",
+  "subject_id": "FA3-PROVIDER-OPENYAK-001",
+  "profile_id": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+  "contract_id": "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+  "gate_id": "FA3-OPENYAK-GATESET-001",
+  "status": "PASS",
+  "executed_at": "2026-09-05T00:00:00Z",
+  "execution_scope": "CANONICAL_STATIC_AND_EXECUTABLE_REGRESSION",
+  "regression_count": 24,
+  "regressions_passed": 24,
+  "positive_negative_regressions": true,
+  "finding_count": 0,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_CONFORMANCE",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claimed": false,
+  "production_provider_admission_claimed": false,
+  "notes": [
+    "PASS proves canonical/static regression closure only.",
+    "No installed OpenYak package, Wayland desktop runtime or current-host E2E claim is made.",
+    "The previously observed port 20882 is not promoted to a canonical fixed-port invariant."
+  ]
+}

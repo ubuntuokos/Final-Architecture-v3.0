@@ -1,0 +1,146 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "provider_adapter_contract": true,
+  "profile": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+  "source_pattern_provider": "FA3-PROVIDER-OPENYAK-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-008",
+    "CAP-096"
+  ],
+  "contracts": [
+    "DesktopWorkbenchProviderDescriptor",
+    "VerifiedNativePackageDescriptor",
+    "DesktopSessionLaunchPlan",
+    "LoopbackBackendReceipt",
+    "ModelGatewayProjection",
+    "McpGatewayProjection",
+    "WorkspaceScope",
+    "HumanApprovalDecision",
+    "LocalApplicationStateDescriptor",
+    "DurableWorkflowEscalationRequest",
+    "DesktopArtifactReceipt",
+    "DesktopRuntimeEvidenceExport"
+  ],
+  "lifecycle": [
+    "package.verify",
+    "desktop.session.admit",
+    "workspace.scope.admit",
+    "loopback.backend.spawn",
+    "session.token.establish",
+    "model.gateway.resolve",
+    "mcp.gateway.connect",
+    "interactive.work.execute",
+    "mutation.human_gate",
+    "artifact.write",
+    "audit.append",
+    "desktop.session.stop"
+  ],
+  "deployment": {
+    "native_package_required": true,
+    "package_digest_required": true,
+    "floating_latest_for_activation": "FORBIDDEN",
+    "self_update_without_admission": "FORBIDDEN",
+    "user_session_scope": true,
+    "desktop_process_owns_backend_child_lifecycle": true,
+    "separate_long_lived_backend_service_default": "FORBIDDEN",
+    "loopback_only": true,
+    "fixed_backend_port_required": false,
+    "observed_port_may_not_be_assumed": true,
+    "local_session_auth_required": true
+  },
+  "desktop": {
+    "wayland_is_canonical_display_protocol": true,
+    "forced_x11_without_explicit_exception": "FORBIDDEN",
+    "wayland_webkitgtk_smoke_required_for_current_host_promotion": true,
+    "gpu_model_or_count_assumption": "FORBIDDEN"
+  },
+  "model_access": {
+    "canonical_route": "FA3-AUTH-MODEL-ROUTER-001_VIA_LITELLM_OPENAI_COMPATIBLE_ENDPOINT",
+    "provider_managed_ollama_auto_start": "DISABLED",
+    "direct_ollama_11434": "DENY",
+    "direct_cloud_byok": "DENY_UNLESS_SEPARATELY_ADMITTED",
+    "silent_provider_fallback": "FORBIDDEN"
+  },
+  "mcp_access": {
+    "canonical_gateway_required": true,
+    "allowed_transports": [
+      "HTTP",
+      "SSE"
+    ],
+    "direct_stdio_server_spawn": "DENY_BY_DEFAULT",
+    "direct_filesystem_shell_browser_database_connectors": "FORBIDDEN",
+    "tool_discovery_is_authorization": false,
+    "provider_permission_is_maximum_not_grant": true
+  },
+  "permission_ceiling": {
+    "bounded_workspace_read": "ALLOW",
+    "bounded_workspace_write_edit_delete": "ASK",
+    "shell_and_code_execute": "ASK",
+    "sudo_su_pkexec": "DENY",
+    "systemctl_nft_apt_dpkg": "DENY",
+    "system_paths_modify": "DENY",
+    "credential_and_browser_profile_access": "DENY",
+    "model_store_and_cache_modify": "DENY",
+    "direct_postgresql_valkey_nats": "DENY"
+  },
+  "workspace": {
+    "explicit_bounded_root_required": true,
+    "filesystem_root_as_workspace": "FORBIDDEN",
+    "whole_home_as_workspace": "FORBIDDEN",
+    "model_store_as_workspace": "FORBIDDEN",
+    "host_specific_home_path_as_canonical_constant": "FORBIDDEN",
+    "mutations_require_human_gate": true
+  },
+  "state_and_memory": {
+    "local_sqlite": "APPLICATION_STATE_ONLY",
+    "local_sqlite_canonical_shared_memory": false,
+    "provider_long_term_memory": "DISABLED_OR_LOCAL_SESSION_ONLY",
+    "shared_memory_route": "CANONICAL_MEMORY_SERVICE_VIA_MCP",
+    "raw_secret_persistence": "FORBIDDEN"
+  },
+  "workflow": {
+    "interactive_short_task_execution": true,
+    "platform_scheduler_authority": false,
+    "durable_or_long_running_workflow_authority": "TEMPORAL",
+    "provider_scheduler_scope": "LOCAL_EXPLICIT_NON_PLATFORM_TASKS_ONLY"
+  },
+  "runtime": {
+    "remote_access": "DISABLED",
+    "provider_native_channels": "DISABLED",
+    "direct_accelerator_allocation": "FORBIDDEN",
+    "disabled_zero_resident_processes": true,
+    "current_host_promotion_requires_real_e2e": true
+  },
+  "evidence": {
+    "package_identity_and_digest": true,
+    "loopback_and_session_auth": true,
+    "model_gateway_route": true,
+    "mcp_gateway_route_and_bypass_denial": true,
+    "permission_positive_negative_cases": true,
+    "workspace_escape_denial": true,
+    "wayland_smoke": true,
+    "rollback": true,
+    "provider_log_is_canonical_evidence": false,
+    "canonical_export_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "forbidden_semantics": [
+    "OPENYAK_AS_GLOBAL_ORCHESTRATOR",
+    "OPENYAK_AS_MODEL_OR_MCP_AUTHORITY",
+    "OPENYAK_LOCAL_SQLITE_AS_SHARED_MEMORY",
+    "OPENYAK_SCHEDULER_AS_PLATFORM_AUTOMATION_AUTHORITY",
+    "DIRECT_PRIVILEGED_OR_SYSTEM_PATH_MUTATION",
+    "UNBOUNDED_HOME_OR_FILESYSTEM_WORKSPACE",
+    "DIRECT_OLLAMA_OR_PROVIDER_MANAGED_MODEL_RUNTIME",
+    "REMOTE_TUNNEL_OR_UNADMITTED_MESSAGING_CHANNEL",
+    "FIXED_PORT_ASSUMED_FROM_ONE_HOST_OBSERVATION",
+    "FORCED_X11_WITHOUT_EXPLICIT_EXCEPTION",
+    "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
+  ]
+}

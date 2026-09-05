@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "89d38a87523d576ed75f2b18e7f2205c59611449",
-    "pre_projection_root_tree_sha": "687f2d65c7341599eaba6bfd5d9ac5c6bf089abf",
-    "pre_projection_canonical_tree_sha": "26c871d8b2b158b6b6427e90ee142666871cad74",
-    "commits_ahead_of_v3_0_11_conformance_commit": 113,
-    "total_post_baseline_commits": 113,
-    "delta_file_count": 596,
-    "delta_added_files": 592,
+    "pre_projection_head_sha": "7e324ff3b9c861f22b629fbad25298da491fcc4f",
+    "pre_projection_root_tree_sha": "7544df5896d045281f760ad937ba749ae6e52534",
+    "pre_projection_canonical_tree_sha": "4c4af9a4926f7ef52c680aaf3cef460228699821",
+    "commits_ahead_of_v3_0_11_conformance_commit": 111,
+    "total_post_baseline_commits": 111,
+    "delta_file_count": 609,
+    "delta_added_files": 605,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 360,
-    "evidence_files_in_post_baseline_delta": 62,
-    "source_files_in_post_baseline_delta": 68,
-    "test_files_in_post_baseline_delta": 54,
+    "canonical_files_in_post_baseline_delta": 369,
+    "evidence_files_in_post_baseline_delta": 63,
+    "source_files_in_post_baseline_delta": 69,
+    "test_files_in_post_baseline_delta": 55,
     "workflow_files_in_post_baseline_delta": 9,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -101,6 +101,7 @@
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
@@ -144,6 +145,7 @@
       "canonical/profiles/FA3-COMPOSITING-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
+      "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
@@ -183,6 +185,7 @@
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
@@ -267,6 +270,7 @@
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
+      "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
@@ -305,6 +309,7 @@
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
+      "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
       "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -350,6 +355,7 @@
       "evidence/reference/opencut-ci-2026-09-01.json",
       "evidence/reference/openhands-ci-2026-09-01.json",
       "evidence/reference/openvid-ci-2026-09-04.json",
+      "evidence/reference/openyak-ci-2026-09-05.json",
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
@@ -376,6 +382,7 @@
     "FA3-MUNDER-DIFFLIN-GATESET-001",
     "FA3-MUSE-CODE-GATESET-001",
     "FA3-OPENHANDS-GATESET-001",
+    "FA3-OPENYAK-GATESET-001",
     "FA3-STABILITY-SGM-GATESET-001",
     "FA3-KANBOARD-GATESET-001",
     "FA3-AIENG-GATESET-001",
@@ -463,7 +470,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 598,
+  "manifest_entry_count": 611,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -495,7 +502,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "a354eb66eb6c727d2c7d6247cbc4a0f06fd1197d"
+      "git_blob_sha": "f3bd941fadc4a1d19251a81e5e809212313000e0"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -507,7 +514,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "478a68401204ec94c6909a5a50f876294b00ab64"
+      "git_blob_sha": "a4508ac2d2f2f3bbb15c86d7ce48f0f2aab16161"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -710,6 +717,10 @@
       "git_blob_sha": "e3f427ea94763091de06e2f5d25cc14d1bd70db3"
     },
     {
+      "path": "canonical/FA3-GATE-OPENYAK-001.json",
+      "git_blob_sha": "ada4c8c745217f22218b2bf323bc245f29c8617b"
+    },
+    {
       "path": "canonical/FA3-GATE-STABILITY-PORTFOLIO-001.json",
       "git_blob_sha": "4fd8067e1e5565a257e2aa5a646d691e64094a3b"
     },
@@ -799,7 +810,7 @@
     },
     {
       "path": "canonical/conformance-matrix.csv",
-      "git_blob_sha": "d129440369972e28466e0c2206b6593bbed4b34c"
+      "git_blob_sha": "e7dbb82cf09b9a17a59d2e12d60655f9bf811144"
     },
     {
       "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
@@ -840,6 +851,10 @@
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4"
+    },
+    {
+      "path": "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
+      "git_blob_sha": "82d4dd6b58492f21346e6991074fdc47b8129cf6"
     },
     {
       "path": "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
@@ -1186,6 +1201,10 @@
       "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
+      "git_blob_sha": "dc5e5657e1a2853bd17bef7e19fba62ca85cadfa"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "git_blob_sha": "1c427c0ca9d11d059858a50cf95d51a0730d0d7a"
     },
@@ -1243,7 +1262,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "20f9cc6b02373ea9ab72c018c02c3a40f89d465e"
+      "git_blob_sha": "4bad732c9fff2e180dd61159a40111a15fa56fb6"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -1382,6 +1401,14 @@
       "git_blob_sha": "005a7f91beb9cd90471a97f63e133ffaec7e9beb"
     },
     {
+      "path": "canonical/openyak-enforcement.json",
+      "git_blob_sha": "3ada73c67e08e2ec2ec64f746a519c10b3a9b2d4"
+    },
+    {
+      "path": "canonical/openyak-runtime-admission.json",
+      "git_blob_sha": "48e3b100979073edd3710b4fc6b1127f982a1d1d"
+    },
+    {
       "path": "canonical/presenton-enforcement.json",
       "git_blob_sha": "26b26f23bdb015306ecd4a509d6bce170d14e4f0"
     },
@@ -1420,6 +1447,10 @@
     {
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
       "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5"
+    },
+    {
+      "path": "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
+      "git_blob_sha": "63cf2b41e9fa808c28cb7614f9744671fa5c3832"
     },
     {
       "path": "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
@@ -1730,6 +1761,10 @@
       "git_blob_sha": "650bf8c0a248bad26e7b59a00b00aac447cc8aef"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
+      "git_blob_sha": "1857bb81f8a9073b96db4387e828adc9ff4b7f43"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-PIPER-001.json",
       "git_blob_sha": "6188f2c0cff2412664f88d2fe0a3c23e9e5ad65a"
     },
@@ -1954,6 +1989,10 @@
       "git_blob_sha": "3daaa79cf5116549ecfa158fb76d1152e1436127"
     },
     {
+      "path": "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
+      "git_blob_sha": "0d7c1e0468818f1cb311644a17739767b119b570"
+    },
+    {
       "path": "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
       "git_blob_sha": "59f20129035ba78ea4c659bf216c37bf63879cd4"
     },
@@ -2004,6 +2043,10 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
       "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENYAK-2026-09-05.json",
+      "git_blob_sha": "88ba5783e6929948ceb9907ca70f7750186aa811"
     },
     {
       "path": "canonical/source-graph-attestation.json",
@@ -2086,6 +2129,10 @@
       "git_blob_sha": "e0a6f5c1de84b0833de74274fc1747e0a17458ba"
     },
     {
+      "path": "docs/openyak-integration.md",
+      "git_blob_sha": "300f6978cc8639efba4976406c752df61db06afa"
+    },
+    {
       "path": "evidence/collect-ai-infra-guard-current-host.py",
       "git_blob_sha": "a6fec4b79499f7937dc30d34f5de4bc5ff30fec5"
     },
@@ -2159,7 +2206,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "756fb9b78c49999abada7f49cee44eb6033b96d0"
+      "git_blob_sha": "8734ae52998fcd13e41076dd488d904496426ab4"
     },
     {
       "path": "evidence/receipts/.gitkeep",
@@ -2296,6 +2343,10 @@
     {
       "path": "evidence/reference/openvid-ci-2026-09-04.json",
       "git_blob_sha": "703c452843d572b8e08b044d3260ae35c1065108"
+    },
+    {
+      "path": "evidence/reference/openyak-ci-2026-09-05.json",
+      "git_blob_sha": "57f6e9a18326d41868a5c16423c2974b7d3438a1"
     },
     {
       "path": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
@@ -2459,7 +2510,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "b59290a7147d303658b34276045a1a7b1532d6a5"
+      "git_blob_sha": "c7472726717e9625fbfcb1e6ef3d3ef41748b669"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -2594,12 +2645,16 @@
       "git_blob_sha": "7664869c636071194dbf82f9a33a0b6f7639e87e"
     },
     {
+      "path": "src/fa3_openyak_gate.py",
+      "git_blob_sha": "8b23d3a2df5a2599c0c0821c23fcddaef83c6dda"
+    },
+    {
       "path": "src/fa3_presenton_gate.py",
       "git_blob_sha": "74f3126fc1e448ce91eb1276b9f90358f8d520db"
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "fc31f053879bd0714c08cf6ef620b96bf2b404b7"
+      "git_blob_sha": "64f3fcdd8eb2b2497d33bf43e89caef8f2d2ed47"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -2810,12 +2865,16 @@
       "git_blob_sha": "140d2b47ae6b53c5defaf537d006230985e72e88"
     },
     {
+      "path": "tests/test_openyak_gate.py",
+      "git_blob_sha": "37bdd97b84aad21e0c46f4172b9f1ac1e1754c18"
+    },
+    {
       "path": "tests/test_presenton_gate.py",
       "git_blob_sha": "636dc3ca5b1e24c78d4507f60686291d5c1b583e"
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "5e7aca13001aaaf3b6dd9b4a54287d4469648dec"
+      "git_blob_sha": "fd96a9c39ff94a738ab2784d1d5416b3aa0e1b0f"
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
@@ -3041,7 +3100,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-04",
+  "last_reconciled_at": "2026-09-05",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
@@ -3269,7 +3328,7 @@
     "reference_evidence_path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
     "reference_evidence_source_commit": "7c7a0b9ac9168efee2dd4b52485a5fb647be4c39"
   },
-  "last_regenerated_at": "2026-09-04",
+  "last_regenerated_at": "2026-09-05",
   "model_manager_current_host_reconciliation": {
     "decision_id": "FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01",
     "profile_id": "FA3-MODEL-MANAGER-001",
@@ -3353,6 +3412,31 @@
     "reference_evidence": "evidence/reference/openhands-ci-2026-09-01.json",
     "immutable_upstream_commit": "a9e0a8a1aab2164b46bae00a18157a343aaa94c9",
     "component_version_tuple": "openhands-sdk/agent-server/tools/workspace=1.44.1",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "openyak_reconciliation": {
+    "profile_id": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+    "provider_id": "FA3-PROVIDER-OPENYAK-001",
+    "contract_id": "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+    "decision_id": "FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05",
+    "gate_id": "FA3-OPENYAK-GATESET-001",
+    "executable_gate_id": "FA3-GATE-OPENYAK-001",
+    "capability_ids": [
+      "CAP-008",
+      "CAP-096"
+    ],
+    "explicit_non_binding": "CAP-107",
+    "classification": "OPTIONAL_LOCAL_DESKTOP_AGENT_WORKBENCH_PROVIDER",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING",
+    "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_CONFORMANCE",
+    "reference_evidence": "evidence/reference/openyak-ci-2026-09-05.json",
+    "immutable_upstream_commit": "73240597e17d31749f2dbc6c52e8820a6074acad",
+    "native_deb_sha256": "dfa0358736312c8cdf8b88192cea9c5554efdc5a22643faee6e3e46a5157f531",
     "provider_runtime_required_for_global_promotion_when_disabled": false,
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "current_host_runtime_promotion_claim": false,

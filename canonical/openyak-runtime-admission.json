@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-OPENYAK-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-OPENYAK-001",
+  "status": "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_CONFORMANCE",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "production_provider_admission": false,
+  "admission": {
+    "canonical_reference_design": true,
+    "optional_provider_registration": true,
+    "current_host_runtime": false,
+    "global_baseline_dependency": false
+  },
+  "current_host_target": {
+    "os_family": "Ubuntu/Kubuntu 26.04",
+    "desktop_protocol": "Wayland",
+    "package_format": "deb",
+    "package_version": "1.4.0",
+    "backend_binding": "127.0.0.1:DYNAMIC_OR_POLICY_ADMITTED_PORT",
+    "previously_observed_port": 20882,
+    "previously_observed_port_is_contract": false,
+    "data_directory": "XDG_DATA_HOME/openyak-desktop",
+    "configuration_directory": "XDG_CONFIG_HOME/openyak-desktop",
+    "lifecycle": "USER_DESKTOP_SESSION_TAURI_PROCESS_OWNS_BACKEND_CHILD"
+  },
+  "required_configuration": {
+    "OPENYAK_OLLAMA_AUTO_START": false,
+    "OPENYAK_OLLAMA_BASE_URL": "",
+    "OPENYAK_LOCAL_BASE_URL": "FA3_LITELLM_LOOPBACK_OPENAI_COMPATIBLE_ENDPOINT",
+    "OPENYAK_REMOTE_ACCESS_ENABLED": false,
+    "OPENYAK_CHANNELS_ENABLED": false,
+    "OPENYAK_DEBUG": false,
+    "GDK_BACKEND": "wayland"
+  },
+  "blocking_conditions": [
+    "native package is not yet verified on the current host against the pinned digest",
+    "Wayland/WebKitGTK desktop smoke evidence is not recorded",
+    "LiteLLM-only route and direct Ollama denial are not proven on the current host",
+    "central MCP gateway route and direct connector bypass denial are not proven",
+    "bounded workspace and permission-ceiling positive/negative tests are not recorded",
+    "remote/channel disablement and loopback/session-token behavior are not proven",
+    "rollback/uninstall evidence is not recorded"
+  ],
+  "future_admission_requirements": [
+    "package version and SHA-256 match",
+    "dependency/SBOM and license admission pass",
+    "Wayland launch, tray, dialog, document and artifact smoke pass",
+    "loopback backend and rotated local session token pass",
+    "LiteLLM model routing positive and direct Ollama/cloud bypass negative pass",
+    "central MCP gateway positive and direct stdio/filesystem/shell/browser/database MCP negative pass",
+    "bounded workspace positive and escape/system-path/credential/model-store negative pass",
+    "human approval on write/delete/shell pass",
+    "remote access and native channels disabled pass",
+    "clean stop, disabled zero-cost and rollback pass"
+  ],
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
