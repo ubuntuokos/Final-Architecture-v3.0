@@ -16,10 +16,17 @@ on:
       - evidence/collect-model-inventory-current-host.py
       - bin/fa3-model-inventory-current-host.sh
       - tests/test_model_inventory_current_host_adapter.py
+
+concurrency:
+  group: fa3-model-inventory-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
+
 jobs:
   projection-candidate:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/fa3/model-manager-stabilitymatrix-current-host-2026-09-05'
     name: model-inventory / release-projection-candidate
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -145,6 +152,7 @@ jobs:
           fi
 
   current-host:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     name: model-inventory-current-host / read-only-real-store-e2e
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 45
