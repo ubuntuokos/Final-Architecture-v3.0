@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9bc5835d3d81563d09aa52f525dc5520d01f2d4b",
-    "pre_projection_root_tree_sha": "72915b71664d931f6e460661ab16e8be7e0de13f",
-    "pre_projection_canonical_tree_sha": "08f0d186b85c54dc4b662257ead4aa36761e21f8",
-    "commits_ahead_of_v3_0_11_conformance_commit": 112,
-    "total_post_baseline_commits": 112,
-    "delta_file_count": 632,
-    "delta_added_files": 628,
+    "pre_projection_head_sha": "d63441bb506c9165d4f23e21691a857a7ebe51c1",
+    "pre_projection_root_tree_sha": "2a969c97e0527722d14a6a11586069f35a0a86c0",
+    "pre_projection_canonical_tree_sha": "f084d419b9a41454a8301fcfca9875cfd510d2a5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 127,
+    "total_post_baseline_commits": 127,
+    "delta_file_count": 641,
+    "delta_added_files": 637,
     "delta_modified_files": 4,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 378,
-    "evidence_files_in_post_baseline_delta": 65,
-    "source_files_in_post_baseline_delta": 70,
-    "test_files_in_post_baseline_delta": 56,
-    "workflow_files_in_post_baseline_delta": 9,
+    "canonical_files_in_post_baseline_delta": 381,
+    "evidence_files_in_post_baseline_delta": 66,
+    "source_files_in_post_baseline_delta": 72,
+    "test_files_in_post_baseline_delta": 57,
+    "workflow_files_in_post_baseline_delta": 10,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -261,6 +261,7 @@
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
@@ -477,2543 +478,3222 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 634,
+  "manifest_entry_count": 643,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
-      "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163"
+      "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-codex-current-host.yml",
-      "git_blob_sha": "265f379de1c0328d17f3ab148584140a53f6ed2f"
+      "git_blob_sha": "265f379de1c0328d17f3ab148584140a53f6ed2f",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-cosyvoice-current-host.yml",
-      "git_blob_sha": "2969619c95a10f766505dfef1db72e0571ac2956"
+      "git_blob_sha": "2969619c95a10f766505dfef1db72e0571ac2956",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-current-host.yml",
-      "git_blob_sha": "b3ef7bd7c2e29e88af9d2007e0f61f3281ebdf49"
+      "git_blob_sha": "b3ef7bd7c2e29e88af9d2007e0f61f3281ebdf49",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
-      "git_blob_sha": "92fa38e8aa12bd393254898f0097f1cc42a99446"
+      "git_blob_sha": "92fa38e8aa12bd393254898f0097f1cc42a99446",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-inventory-current-host.yml",
+      "git_blob_sha": "0d843102a815fcb737e0948eb574fcaa36af56ec",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-model-manager-current-host.yml",
-      "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645"
+      "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-modular-current-host.yml",
-      "git_blob_sha": "17b4132d337110161e2ff286a366d7f1ebf276d8"
+      "git_blob_sha": "17b4132d337110161e2ff286a366d7f1ebf276d8",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "9189f1db172a530860000fb1d436c604547bda33"
+      "git_blob_sha": "9189f1db172a530860000fb1d436c604547bda33",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
-      "git_blob_sha": "c2360b6e763dcb6a1cdccd96f469272bde330aeb"
+      "git_blob_sha": "c2360b6e763dcb6a1cdccd96f469272bde330aeb",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".gitignore",
-      "git_blob_sha": "cca995defc4593107aa116e1999d8a0ee1fcb2cc"
+      "git_blob_sha": "cca995defc4593107aa116e1999d8a0ee1fcb2cc",
+      "baseline_delta_status": "modified"
     },
     {
       "path": "README.md",
-      "git_blob_sha": "1651f9a8ee1b7b6f9c888e5862d6a377ec6d94a8"
+      "git_blob_sha": "1651f9a8ee1b7b6f9c888e5862d6a377ec6d94a8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
-      "git_blob_sha": "0efe23d85b6303d052b218ee1b71592cc61d2c63"
+      "git_blob_sha": "0efe23d85b6303d052b218ee1b71592cc61d2c63",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-ai-infra-guard-current-host.sh",
-      "git_blob_sha": "cf291b0dfcaf34fee1adc0ea3446752c4ad87a71"
+      "git_blob_sha": "cf291b0dfcaf34fee1adc0ea3446752c4ad87a71",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-blackhole-kdenlive",
-      "git_blob_sha": "62bf494ddf82f811845935a76c9aa441d5e006c8"
+      "git_blob_sha": "62bf494ddf82f811845935a76c9aa441d5e006c8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-blackhole-kdenlive-hrb-e2e.sh",
-      "git_blob_sha": "db3fa6ea4da5b2c492f6ef6d7cfe1644598e8a79"
+      "git_blob_sha": "db3fa6ea4da5b2c492f6ef6d7cfe1644598e8a79",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-blackhole-whisper-e2e.sh",
-      "git_blob_sha": "5cb52dccb47031ff59c5d6f17bbb1369861040da"
+      "git_blob_sha": "5cb52dccb47031ff59c5d6f17bbb1369861040da",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-codex-bootstrap.sh",
-      "git_blob_sha": "7cc64ee56521d4673200579ba98592690ebc83f3"
+      "git_blob_sha": "7cc64ee56521d4673200579ba98592690ebc83f3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-codex-current-host.sh",
-      "git_blob_sha": "a98c913e73ad0efc0458b48a71e34d9ca22abd1d"
+      "git_blob_sha": "a98c913e73ad0efc0458b48a71e34d9ca22abd1d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-cosyvoice",
-      "git_blob_sha": "6ebb64169bec8d9eeb33e712f4629989a681803f"
+      "git_blob_sha": "6ebb64169bec8d9eeb33e712f4629989a681803f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-cosyvoice-bootstrap.sh",
-      "git_blob_sha": "eac73232cc0ea6ad450fe11623abb0603ffff2ce"
+      "git_blob_sha": "eac73232cc0ea6ad450fe11623abb0603ffff2ce",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-cpu-thread-budget",
-      "git_blob_sha": "b2a57b1b75ecae411cbad8eee7e4b9f9d6e6c76c"
+      "git_blob_sha": "b2a57b1b75ecae411cbad8eee7e4b9f9d6e6c76c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-current-host",
-      "git_blob_sha": "785369bb09b5dd298f34c53b5f7e9e9656423333"
+      "git_blob_sha": "785369bb09b5dd298f34c53b5f7e9e9656423333",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-demucs-bootstrap.sh",
-      "git_blob_sha": "8c7ef8e2fb36ff16929b3c8a881e49ad85f0ac3b"
+      "git_blob_sha": "8c7ef8e2fb36ff16929b3c8a881e49ad85f0ac3b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-demucs-current-host.sh",
-      "git_blob_sha": "a5e7ea1090de2276f4e322f5a607664d2db06f43"
+      "git_blob_sha": "a5e7ea1090de2276f4e322f5a607664d2db06f43",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-demucs-hrb-production-e2e.sh",
-      "git_blob_sha": "22afacd773b6c0063b92edbb1e996716e6061914"
+      "git_blob_sha": "22afacd773b6c0063b92edbb1e996716e6061914",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-developer-agent-coordination-e2e",
-      "git_blob_sha": "d27be98102ddd8b57cf5332d2e24bf676ff09d8c"
+      "git_blob_sha": "d27be98102ddd8b57cf5332d2e24bf676ff09d8c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "78efaead3832a083e72d7863c845b4376bded4d5"
+      "git_blob_sha": "78efaead3832a083e72d7863c845b4376bded4d5",
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "bin/fa3-ffmpeg-ai-current-host.sh",
-      "git_blob_sha": "02f2b32541f0d32b5ee001281961055eb51c2822"
+      "git_blob_sha": "02f2b32541f0d32b5ee001281961055eb51c2822",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-gpu-kernel-benchmark",
-      "git_blob_sha": "656c6dcb904f056e26c9039540dd9f3492f2cf4c"
+      "git_blob_sha": "656c6dcb904f056e26c9039540dd9f3492f2cf4c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-lynxhub-install-user-integration.sh",
-      "git_blob_sha": "7ed333995512a6c4236ec5cda9a7d39a8d97f799"
+      "git_blob_sha": "7ed333995512a6c4236ec5cda9a7d39a8d97f799",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-inventory-current-host.sh",
+      "git_blob_sha": "95fc90587a923a0f23af02872cc93f5919b32b33",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-model-manager-current-host.sh",
-      "git_blob_sha": "bacd3a7f7b552f69c88fa59fe2c83ce7bed948c2"
+      "git_blob_sha": "bacd3a7f7b552f69c88fa59fe2c83ce7bed948c2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-modular-bootstrap.sh",
-      "git_blob_sha": "d06aa0882447d5849af2a88ade988a4ccb6b4fe5"
+      "git_blob_sha": "d06aa0882447d5849af2a88ade988a4ccb6b4fe5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-modular-current-host.sh",
-      "git_blob_sha": "52b52d079fce4612ef5619a86a26159a829a694a"
+      "git_blob_sha": "52b52d079fce4612ef5619a86a26159a829a694a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-presenton-current-host.sh",
-      "git_blob_sha": "9990b0befc123438a00ba2432d04569532a277b4"
+      "git_blob_sha": "9990b0befc123438a00ba2432d04569532a277b4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-whisper-bootstrap.sh",
-      "git_blob_sha": "eccc2be16974243f41b31d17cfb7d5c6c744c0c5"
+      "git_blob_sha": "eccc2be16974243f41b31d17cfb7d5c6c744c0c5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-whisper-hrb-production-e2e.sh",
-      "git_blob_sha": "2e54d811be58003a98ac545cdcdab863bbcd9814"
+      "git_blob_sha": "2e54d811be58003a98ac545cdcdab863bbcd9814",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-whisper-stt",
-      "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223"
+      "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b"
+      "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-COSYVOICE-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "f595d0db2b478e58db914795b4fc48ade376d528"
+      "git_blob_sha": "f595d0db2b478e58db914795b4fc48ade376d528",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-COSYVOICE-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "395970d95b67b3b99c5c793abc74c21841f8556e"
+      "git_blob_sha": "395970d95b67b3b99c5c793abc74c21841f8556e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-DEMUCS-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "e44b8d3d3ca8936dd59331cc994d1cebea1b95c0"
+      "git_blob_sha": "e44b8d3d3ca8936dd59331cc994d1cebea1b95c0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "0f4ef99eded354332013e2809106bce842bd223c"
+      "git_blob_sha": "0f4ef99eded354332013e2809106bce842bd223c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "9401d95c07e7eef0358258fa77da93384f7a7b62"
+      "git_blob_sha": "9401d95c07e7eef0358258fa77da93384f7a7b62",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "531dbc73d6dc3f66f94410b803714e91d6145f1b"
+      "git_blob_sha": "531dbc73d6dc3f66f94410b803714e91d6145f1b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-001.json",
-      "git_blob_sha": "5b8cbbaf79c4ed7e9b59edf670850d01b48d5052"
+      "git_blob_sha": "5b8cbbaf79c4ed7e9b59edf670850d01b48d5052",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json",
-      "git_blob_sha": "269b9d15649dc246c34134886fd3cd4b65e1eba0"
+      "git_blob_sha": "269b9d15649dc246c34134886fd3cd4b65e1eba0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-FFMPEG-AI-001.json",
-      "git_blob_sha": "6bd6c029df4a795da3ed47e5b8ba9d9fadd41b7e"
+      "git_blob_sha": "6bd6c029df4a795da3ed47e5b8ba9d9fadd41b7e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
-      "git_blob_sha": "c7c6d4d699f592e60533bcebfc54aaca0593061a"
+      "git_blob_sha": "c7c6d4d699f592e60533bcebfc54aaca0593061a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "7c1c68bc665963570e30e911f7b5a7dcb2ebb476"
+      "git_blob_sha": "7c1c68bc665963570e30e911f7b5a7dcb2ebb476",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-CURRENT-HOST-001.json",
-      "git_blob_sha": "da92bf03bd612327050ef1d4ec059f39b6d8db40"
+      "git_blob_sha": "da92bf03bd612327050ef1d4ec059f39b6d8db40",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
-      "git_blob_sha": "8e53472e4b356b5b7732873e74d65a2f9d06c866"
+      "git_blob_sha": "8e53472e4b356b5b7732873e74d65a2f9d06c866",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
-      "git_blob_sha": "305931e1158c46167f403b588c37ae3e7690bf21"
+      "git_blob_sha": "305931e1158c46167f403b588c37ae3e7690bf21",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-HYBRID-EDITORIAL-001.json",
-      "git_blob_sha": "b19be06f712e94705d3f8247d64cf8617eec2055"
+      "git_blob_sha": "b19be06f712e94705d3f8247d64cf8617eec2055",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-LOOP-ENGINEERING-001.json",
-      "git_blob_sha": "450727f7a1d869d3bbe03e2b6b90fcb10b3195c5"
+      "git_blob_sha": "450727f7a1d869d3bbe03e2b6b90fcb10b3195c5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-LYNXHUB-001.json",
-      "git_blob_sha": "922623f70dbbeb7682996e8585975210a97413fa"
+      "git_blob_sha": "922623f70dbbeb7682996e8585975210a97413fa",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-MARKETING-001.json",
-      "git_blob_sha": "6f34f17b0cc281b97237a048be7b57fe732bd2c0"
+      "git_blob_sha": "6f34f17b0cc281b97237a048be7b57fe732bd2c0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-MARKETINGSKILLS-SKILL-ADMISSION-001.json",
-      "git_blob_sha": "8d15f0ae0da84a67873dae7624673f769f99a2d4"
+      "git_blob_sha": "8d15f0ae0da84a67873dae7624673f769f99a2d4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-MUNDER-DIFFLIN-001.json",
-      "git_blob_sha": "b350023c386e574415ec761006e35e00c86caab3"
+      "git_blob_sha": "b350023c386e574415ec761006e35e00c86caab3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-MUSE-CODE-001.json",
-      "git_blob_sha": "eb65b9bf131c914bb58ab5debe7fdab14ebdf217"
+      "git_blob_sha": "eb65b9bf131c914bb58ab5debe7fdab14ebdf217",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-OPENBMB-001.json",
-      "git_blob_sha": "c951e1b06499cf463572de0a71396a5acf3bd493"
+      "git_blob_sha": "c951e1b06499cf463572de0a71396a5acf3bd493",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-OPENCUT-001.json",
-      "git_blob_sha": "455fa743ee3388354455269ca580ec980d4e846d"
+      "git_blob_sha": "455fa743ee3388354455269ca580ec980d4e846d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-OPENHANDS-001.json",
-      "git_blob_sha": "3dfd653b329b0ce700f3059210f4e25ff44b7bde"
+      "git_blob_sha": "3dfd653b329b0ce700f3059210f4e25ff44b7bde",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-OPENVID-001.json",
-      "git_blob_sha": "e3f427ea94763091de06e2f5d25cc14d1bd70db3"
+      "git_blob_sha": "e3f427ea94763091de06e2f5d25cc14d1bd70db3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-OPENYAK-001.json",
-      "git_blob_sha": "ada4c8c745217f22218b2bf323bc245f29c8617b"
+      "git_blob_sha": "ada4c8c745217f22218b2bf323bc245f29c8617b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-STABILITY-PORTFOLIO-001.json",
-      "git_blob_sha": "4fd8067e1e5565a257e2aa5a646d691e64094a3b"
+      "git_blob_sha": "4fd8067e1e5565a257e2aa5a646d691e64094a3b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-STABILITY-SGM-001.json",
-      "git_blob_sha": "ff218a2f14a1e83d3792c4a6cb205bba80a3ec19"
+      "git_blob_sha": "ff218a2f14a1e83d3792c4a6cb205bba80a3ec19",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-TENCENTDB-AGENT-MEMORY-001.json",
-      "git_blob_sha": "3ae5663edf1feff38c867759bb5c63613702a839"
+      "git_blob_sha": "3ae5663edf1feff38c867759bb5c63613702a839",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001.json",
-      "git_blob_sha": "a518e0c8e9dbd9aa510f2edde782f34e86283111"
+      "git_blob_sha": "a518e0c8e9dbd9aa510f2edde782f34e86283111",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-MARKETING-I18N-001.json",
-      "git_blob_sha": "7d61f70eca863e66d3fd28a51730bb98f9afd180"
+      "git_blob_sha": "7d61f70eca863e66d3fd28a51730bb98f9afd180",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-MENTOR-CONFORMANCE-MATRIX-001.json",
-      "git_blob_sha": "78a28927d7a273a8be5ad703952bf89c0df61420"
+      "git_blob_sha": "78a28927d7a273a8be5ad703952bf89c0df61420",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001.json",
+      "git_blob_sha": "9307fc0c14a354304cccb826419d29bbebbe28d9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "ca932e0437d49c2c6b8f4b60b327db15b4606ecd"
+      "git_blob_sha": "ca932e0437d49c2c6b8f4b60b327db15b4606ecd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-MODULAR-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "f2c8992ebbf0a153281a46d3ff48396caff3533a"
+      "git_blob_sha": "f2c8992ebbf0a153281a46d3ff48396caff3533a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c"
+      "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-VOICE-PROVIDER-ADMISSION-001.json",
-      "git_blob_sha": "c1a9070aa211cf5050ca4ac238081a22d59cdbfd"
+      "git_blob_sha": "c1a9070aa211cf5050ca4ac238081a22d59cdbfd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-WHISPER-MODEL-ALLOWLIST-001.json",
-      "git_blob_sha": "9833388f885111c5561285a2006de27498fbb1b8"
+      "git_blob_sha": "9833388f885111c5561285a2006de27498fbb1b8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-WHISPER-STT-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2"
+      "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ace-step-enforcement.json",
-      "git_blob_sha": "3ccebb10ac3475a5fbe536b6c7b3456e620d2e3e"
+      "git_blob_sha": "3ccebb10ac3475a5fbe536b6c7b3456e620d2e3e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ai-engineering-from-scratch-enforcement.json",
-      "git_blob_sha": "d8dbe6cb2591397e22bc709dc3c89f562a176d51"
+      "git_blob_sha": "d8dbe6cb2591397e22bc709dc3c89f562a176d51",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ai-infra-guard-enforcement.json",
-      "git_blob_sha": "4e3bd976c90e42e157f3dd0bcc431b3f2ba4b603"
+      "git_blob_sha": "4e3bd976c90e42e157f3dd0bcc431b3f2ba4b603",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ai-infra-guard-runtime-admission.json",
-      "git_blob_sha": "10b88023129e3db503eeae83feee04cb1bc912ae"
+      "git_blob_sha": "10b88023129e3db503eeae83feee04cb1bc912ae",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/autogpt-enforcement.json",
-      "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756"
+      "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/autogpt-runtime-admission.json",
-      "git_blob_sha": "8e89f4307d0546728b7221cf08feba19118bbc31"
+      "git_blob_sha": "8e89f4307d0546728b7221cf08feba19118bbc31",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/blackhole-kdenlive-enforcement.json",
-      "git_blob_sha": "e3105b8c08fdefea1b4ab5d2d326c12c16c17e30"
+      "git_blob_sha": "e3105b8c08fdefea1b4ab5d2d326c12c16c17e30",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/buzz-enforcement.json",
-      "git_blob_sha": "b12d9e5ef8a645df4e6a2c8a36221fb2f62ace9a"
+      "git_blob_sha": "b12d9e5ef8a645df4e6a2c8a36221fb2f62ace9a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/codex-enforcement.json",
-      "git_blob_sha": "3b3bf1fca43b06581c349353c98deb7c76260259"
+      "git_blob_sha": "3b3bf1fca43b06581c349353c98deb7c76260259",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/codex-runtime-admission.json",
-      "git_blob_sha": "53642081846c37762027f3fd843cee4102e40a6a"
+      "git_blob_sha": "53642081846c37762027f3fd843cee4102e40a6a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/conformance-matrix.csv",
-      "git_blob_sha": "493a0a41e47e89ef657e8d0b6ea0640353549950"
+      "git_blob_sha": "493a0a41e47e89ef657e8d0b6ea0640353549950",
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
-      "git_blob_sha": "8af93429cf03e9a81766eb4f636f602237673de2"
+      "git_blob_sha": "8af93429cf03e9a81766eb4f636f602237673de2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
-      "git_blob_sha": "005081e1a7bd0220c8afdb4f9ee0e05c6329cd09"
+      "git_blob_sha": "005081e1a7bd0220c8afdb4f9ee0e05c6329cd09",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
-      "git_blob_sha": "ebc4fd5aa831ebe913e593bcf1d21aa0cc7a607c"
+      "git_blob_sha": "ebc4fd5aa831ebe913e593bcf1d21aa0cc7a607c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
-      "git_blob_sha": "1466d12666b5f961a5a413203cd1d0f8fa202f72"
+      "git_blob_sha": "1466d12666b5f961a5a413203cd1d0f8fa202f72",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
-      "git_blob_sha": "059746681913822173109262ea19762f86b013f0"
+      "git_blob_sha": "059746681913822173109262ea19762f86b013f0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
-      "git_blob_sha": "8447cc860b72b9904ff003334af57cd230bb6c68"
+      "git_blob_sha": "8447cc860b72b9904ff003334af57cd230bb6c68",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
-      "git_blob_sha": "48a4efdc9661c8e7bd3522ef8e5df9d06ce7f637"
+      "git_blob_sha": "48a4efdc9661c8e7bd3522ef8e5df9d06ce7f637",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
-      "git_blob_sha": "4bb27142d2a85509395ed154e71ee3101e142bd4"
+      "git_blob_sha": "4bb27142d2a85509395ed154e71ee3101e142bd4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
-      "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46"
+      "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
-      "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4"
+      "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
-      "git_blob_sha": "a7dcf9663c1381c4805ada32a8ba243d2a9ecf29"
+      "git_blob_sha": "a7dcf9663c1381c4805ada32a8ba243d2a9ecf29",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
-      "git_blob_sha": "82d4dd6b58492f21346e6991074fdc47b8129cf6"
+      "git_blob_sha": "82d4dd6b58492f21346e6991074fdc47b8129cf6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
-      "git_blob_sha": "b61c9f6b381f902c3e07f88b68019284759ba4bf"
+      "git_blob_sha": "b61c9f6b381f902c3e07f88b68019284759ba4bf",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "e8fc452d32379e99e59c1d5d4f39815a1416c1db"
+      "git_blob_sha": "e8fc452d32379e99e59c1d5d4f39815a1416c1db",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "110adf6335693c741b33c5db5c77870f988c1961"
+      "git_blob_sha": "110adf6335693c741b33c5db5c77870f988c1961",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
-      "git_blob_sha": "abdc230dfa8a3ef7d26f446151d96af2c377e3ed"
+      "git_blob_sha": "abdc230dfa8a3ef7d26f446151d96af2c377e3ed",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
-      "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1"
+      "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
-      "git_blob_sha": "6a294bfeec1e82f89fd167d2df8821011765bbfb"
+      "git_blob_sha": "6a294bfeec1e82f89fd167d2df8821011765bbfb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "223c1d4bcfa1b4d9905158e9859f388c937067e7"
+      "git_blob_sha": "223c1d4bcfa1b4d9905158e9859f388c937067e7",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
-      "git_blob_sha": "be606038da2b37200691537551d21bdc6d8a51bd"
+      "git_blob_sha": "be606038da2b37200691537551d21bdc6d8a51bd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "1d2f52ad93147986a019e30e5a3c0d58cd5162f8"
+      "git_blob_sha": "1d2f52ad93147986a019e30e5a3c0d58cd5162f8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
-      "git_blob_sha": "96bb4feb551d919e93ff727e7533b88c54b65e7a"
+      "git_blob_sha": "96bb4feb551d919e93ff727e7533b88c54b65e7a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
-      "git_blob_sha": "6388b18df1991cb64ad71c2f8012839cb77f183a"
+      "git_blob_sha": "6388b18df1991cb64ad71c2f8012839cb77f183a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
-      "git_blob_sha": "d17168ac4af0d934c1d88796149356e3df5f8971"
+      "git_blob_sha": "d17168ac4af0d934c1d88796149356e3df5f8971",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
-      "git_blob_sha": "942eba735023c9e9393e4439a8c42520d9c5eb61"
+      "git_blob_sha": "942eba735023c9e9393e4439a8c42520d9c5eb61",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
-      "git_blob_sha": "7e51717385e10f43fbcdf986500652391e1f6743"
+      "git_blob_sha": "7e51717385e10f43fbcdf986500652391e1f6743",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
-      "git_blob_sha": "9009afeb2fd0d923f1fd375a5152b74be1c44a5b"
+      "git_blob_sha": "9009afeb2fd0d923f1fd375a5152b74be1c44a5b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
-      "git_blob_sha": "4962ddfc8040b67285db408d63e1f9930965129a"
+      "git_blob_sha": "4962ddfc8040b67285db408d63e1f9930965129a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
-      "git_blob_sha": "699ddb90aa89760d4ed81e7a2f319df46eb46050"
+      "git_blob_sha": "699ddb90aa89760d4ed81e7a2f319df46eb46050",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
-      "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0"
+      "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
-      "git_blob_sha": "8534fa2f12c54a1bcf899c271158ac1665d77c0e"
+      "git_blob_sha": "05f3baf64aeca83d8ddeb1454c291d42bf3864b4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
-      "git_blob_sha": "4ef7455f7c342e9aa2f42103e9604f951d424db9"
+      "git_blob_sha": "4ef7455f7c342e9aa2f42103e9604f951d424db9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "1173883623b5b73bb3f48a6dd4b0c0377142923a"
+      "git_blob_sha": "1173883623b5b73bb3f48a6dd4b0c0377142923a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "3963bda8bcd0ac45e5674f95a296c0c986129a85"
+      "git_blob_sha": "3963bda8bcd0ac45e5674f95a296c0c986129a85",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
-      "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38"
+      "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
-      "git_blob_sha": "b09d9c7d54c658c3e9a8f8fb546701b03eb1ed9c"
+      "git_blob_sha": "b09d9c7d54c658c3e9a8f8fb546701b03eb1ed9c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
-      "git_blob_sha": "9255f6909d07bbffca22ee65b4fdaedb92c36ebb"
+      "git_blob_sha": "9255f6909d07bbffca22ee65b4fdaedb92c36ebb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
-      "git_blob_sha": "9786873dba8b1243750d15926ce145cc1e8945a9"
+      "git_blob_sha": "9786873dba8b1243750d15926ce145cc1e8945a9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
-      "git_blob_sha": "06102cafa3cbbf47d6d05bc54a5bfe3f0a0035ea"
+      "git_blob_sha": "06102cafa3cbbf47d6d05bc54a5bfe3f0a0035ea",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-STT-CONTRACTS-001.json",
-      "git_blob_sha": "2df98b48e175ab6109a02bd392fb1ce3ba76e904"
+      "git_blob_sha": "2df98b48e175ab6109a02bd392fb1ce3ba76e904",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
-      "git_blob_sha": "3c709dde055ea3add0cdd601fc4e7560d8d1e0a3"
+      "git_blob_sha": "3c709dde055ea3add0cdd601fc4e7560d8d1e0a3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
-      "git_blob_sha": "bf9cba8a16d7827f6cbc044637b8d2d4b2b9f290"
+      "git_blob_sha": "bf9cba8a16d7827f6cbc044637b8d2d4b2b9f290",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
-      "git_blob_sha": "30cae0edaf816e2000e29bf76903ced3b9f7564a"
+      "git_blob_sha": "30cae0edaf816e2000e29bf76903ced3b9f7564a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
-      "git_blob_sha": "666fb5aee13246b04ce5e3183fb280cbf6e2a07c"
+      "git_blob_sha": "666fb5aee13246b04ce5e3183fb280cbf6e2a07c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
-      "git_blob_sha": "2ad0e572d2fb60a02a5bb5eb61bb5a29b4fdafec"
+      "git_blob_sha": "2ad0e572d2fb60a02a5bb5eb61bb5a29b4fdafec",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
-      "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe"
+      "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json",
-      "git_blob_sha": "bc93cdb3529005bcee12388f9530b057b0cc338e"
+      "git_blob_sha": "bc93cdb3529005bcee12388f9530b057b0cc338e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/conversation-reconciliation-enforcement.json",
-      "git_blob_sha": "2d2daf0c9b868f5fd2fb4484c6872413082eb753"
+      "git_blob_sha": "2d2daf0c9b868f5fd2fb4484c6872413082eb753",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/cosyvoice-enforcement.json",
-      "git_blob_sha": "591bc1e852d7f530afcf88645c2cf4c5861dd173"
+      "git_blob_sha": "591bc1e852d7f530afcf88645c2cf4c5861dd173",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/cpu-numa-threading-current-host-enforcement.json",
-      "git_blob_sha": "e60c5107f8a1ec7c518c16a86c776ae96187eef8"
+      "git_blob_sha": "e60c5107f8a1ec7c518c16a86c776ae96187eef8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/cpu-numa-threading-enforcement.json",
-      "git_blob_sha": "10a97261aa2d20bbcc6c008e53fb9ddbf4c69601"
+      "git_blob_sha": "10a97261aa2d20bbcc6c008e53fb9ddbf4c69601",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
-      "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2"
+      "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
-      "git_blob_sha": "8f4d4db0266a79ce03644d7b6cdbfc28a01d306a"
+      "git_blob_sha": "8f4d4db0266a79ce03644d7b6cdbfc28a01d306a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
-      "git_blob_sha": "f077db9216a7a68d75b242d7f7d1b836fe3ff464"
+      "git_blob_sha": "f077db9216a7a68d75b242d7f7d1b836fe3ff464",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
-      "git_blob_sha": "51026b2102376f15d02d8502d2363fceeffcb054"
+      "git_blob_sha": "51026b2102376f15d02d8502d2363fceeffcb054",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
-      "git_blob_sha": "10577c781d955c84fb4ce3eda73b08779a3a7db3"
+      "git_blob_sha": "10577c781d955c84fb4ce3eda73b08779a3a7db3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
-      "git_blob_sha": "79377d831e000f9444b3c297acdf268f59eb4e03"
+      "git_blob_sha": "79377d831e000f9444b3c297acdf268f59eb4e03",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
-      "git_blob_sha": "14aa518355972e7bc7f2ec1977d6b6ab85b96b03"
+      "git_blob_sha": "14aa518355972e7bc7f2ec1977d6b6ab85b96b03",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
-      "git_blob_sha": "027f08a82917729ed557f55750870e7fa8c342a0"
+      "git_blob_sha": "027f08a82917729ed557f55750870e7fa8c342a0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
-      "git_blob_sha": "fa93edeb77ef5f46806c7e447abfed58115163d6"
+      "git_blob_sha": "fa93edeb77ef5f46806c7e447abfed58115163d6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
-      "git_blob_sha": "a62273f04b63ab7867d5e3fb0622b99555957b36"
+      "git_blob_sha": "a62273f04b63ab7867d5e3fb0622b99555957b36",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
-      "git_blob_sha": "31f1871e70c8d1bd459a2a43e600928544806050"
+      "git_blob_sha": "31f1871e70c8d1bd459a2a43e600928544806050",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
-      "git_blob_sha": "c54d9c13355d647d54ddd3eae12be849767d3de6"
+      "git_blob_sha": "c54d9c13355d647d54ddd3eae12be849767d3de6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
-      "git_blob_sha": "86b530d667cea9be71ca409d1d4631ed478637d8"
+      "git_blob_sha": "86b530d667cea9be71ca409d1d4631ed478637d8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
-      "git_blob_sha": "1de93ac36349a16c32d452f8429ece7ee241f3c8"
+      "git_blob_sha": "1de93ac36349a16c32d452f8429ece7ee241f3c8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
-      "git_blob_sha": "f91a5253c9325776c16000d08adb8f7d2ac06667"
+      "git_blob_sha": "f91a5253c9325776c16000d08adb8f7d2ac06667",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
-      "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac"
+      "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
-      "git_blob_sha": "7e9a2caac55dbf193226ef54d7ce04112fb999ca"
+      "git_blob_sha": "7e9a2caac55dbf193226ef54d7ce04112fb999ca",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
-      "git_blob_sha": "1d4b040845cda71dece33d2c6cd25be5b47016d4"
+      "git_blob_sha": "1d4b040845cda71dece33d2c6cd25be5b47016d4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
-      "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0"
+      "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
-      "git_blob_sha": "bd5ec5d2c91995d725c83f5d1cb74fccd71e344e"
+      "git_blob_sha": "bd5ec5d2c91995d725c83f5d1cb74fccd71e344e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
-      "git_blob_sha": "e3d41279c80ac67389df6e57a4073d9513e31ddc"
+      "git_blob_sha": "e3d41279c80ac67389df6e57a4073d9513e31ddc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
-      "git_blob_sha": "fb0314fd17466813532812ece47e6c7a26a809b3"
+      "git_blob_sha": "fb0314fd17466813532812ece47e6c7a26a809b3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
-      "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8"
+      "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
-      "git_blob_sha": "7f03a1f335c8a5fe08afafc7eea26ef2947c3ef4"
+      "git_blob_sha": "7f03a1f335c8a5fe08afafc7eea26ef2947c3ef4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
-      "git_blob_sha": "2518731105772ffeab8930a025dd9ffe2b74ded0"
+      "git_blob_sha": "2518731105772ffeab8930a025dd9ffe2b74ded0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
-      "git_blob_sha": "28c32e95bf84d87611971b94ac0cb3eb15357395"
+      "git_blob_sha": "28c32e95bf84d87611971b94ac0cb3eb15357395",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
-      "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211"
+      "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
-      "git_blob_sha": "43f28c1e12c6346d2142f0fbdb767cff68806e3c"
+      "git_blob_sha": "43f28c1e12c6346d2142f0fbdb767cff68806e3c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
-      "git_blob_sha": "a70054b668a53a3ec99183c40fbe7f18822058e3"
+      "git_blob_sha": "a70054b668a53a3ec99183c40fbe7f18822058e3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
-      "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a"
+      "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
-      "git_blob_sha": "18f964fb351350ef435f0c65b82ba5e857d151f6"
+      "git_blob_sha": "18f964fb351350ef435f0c65b82ba5e857d151f6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
-      "git_blob_sha": "b3b0535d3cb70b8100e8a7b759108a95dc4e32df"
+      "git_blob_sha": "b3b0535d3cb70b8100e8a7b759108a95dc4e32df",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
-      "git_blob_sha": "a930c955adcc26daefaff33ea66768e1d50bd90a"
+      "git_blob_sha": "a930c955adcc26daefaff33ea66768e1d50bd90a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
-      "git_blob_sha": "f58a6514a664603bfb3548c46d742d3f3cbfeb7e"
+      "git_blob_sha": "f58a6514a664603bfb3548c46d742d3f3cbfeb7e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
-      "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea"
+      "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
+      "git_blob_sha": "4a5d2244060d3cd9559b5519136a27dd6b89af54",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
-      "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48"
+      "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
-      "git_blob_sha": "f5c100b96dfd50d411b3dae6f472c33d2fa18575"
+      "git_blob_sha": "f5c100b96dfd50d411b3dae6f472c33d2fa18575",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
-      "git_blob_sha": "2a12815133fa388068f2bae239f4b511661d8455"
+      "git_blob_sha": "2a12815133fa388068f2bae239f4b511661d8455",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
-      "git_blob_sha": "94db56ed72c9a9e738caf3627fd5fede9890d5c3"
+      "git_blob_sha": "94db56ed72c9a9e738caf3627fd5fede9890d5c3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MUSE-CODE-2026-09-01.json",
-      "git_blob_sha": "09ca8dd10b9f07d30256c00db34cb70befae4baa"
+      "git_blob_sha": "09ca8dd10b9f07d30256c00db34cb70befae4baa",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MUSE-IMAGE-2026-08-30.json",
-      "git_blob_sha": "bc3110e791915e23f424dd933fcaf50d84b670af"
+      "git_blob_sha": "bc3110e791915e23f424dd933fcaf50d84b670af",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-MYNA-2026-08-30.json",
-      "git_blob_sha": "b6ab4b834f00f41b40fad39171d7955319b7c038"
+      "git_blob_sha": "b6ab4b834f00f41b40fad39171d7955319b7c038",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-NATRON-2026-08-30.json",
-      "git_blob_sha": "4afe220e63f369a980382fe5c99807cc92e5093a"
+      "git_blob_sha": "4afe220e63f369a980382fe5c99807cc92e5093a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
-      "git_blob_sha": "af6823754fa31d909f97c8fdb0babd81af0b0017"
+      "git_blob_sha": "af6823754fa31d909f97c8fdb0babd81af0b0017",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
-      "git_blob_sha": "c6a1a5011fc24f687da3df68c05bf892c2eb91cc"
+      "git_blob_sha": "c6a1a5011fc24f687da3df68c05bf892c2eb91cc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
-      "git_blob_sha": "efd8bfffcaa97d393fe799ceb116be8b02bfd305"
+      "git_blob_sha": "efd8bfffcaa97d393fe799ceb116be8b02bfd305",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
-      "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d"
+      "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
-      "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b"
+      "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
-      "git_blob_sha": "dc5e5657e1a2853bd17bef7e19fba62ca85cadfa"
+      "git_blob_sha": "dc5e5657e1a2853bd17bef7e19fba62ca85cadfa",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
-      "git_blob_sha": "1c427c0ca9d11d059858a50cf95d51a0730d0d7a"
+      "git_blob_sha": "1c427c0ca9d11d059858a50cf95d51a0730d0d7a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
-      "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b"
+      "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
-      "git_blob_sha": "1db2a2f58c476bd1e53e31fc4caba9ef35911498"
+      "git_blob_sha": "1db2a2f58c476bd1e53e31fc4caba9ef35911498",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
-      "git_blob_sha": "67182827a3fb155ad61088d3c7059e2c4b4ba3ed"
+      "git_blob_sha": "67182827a3fb155ad61088d3c7059e2c4b4ba3ed",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
-      "git_blob_sha": "30914ec1a33af0002c1a54d193640c6916db720d"
+      "git_blob_sha": "30914ec1a33af0002c1a54d193640c6916db720d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
-      "git_blob_sha": "cb453c8c062c2653fe70d788767d3b2685202a0c"
+      "git_blob_sha": "cb453c8c062c2653fe70d788767d3b2685202a0c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
-      "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86"
+      "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
-      "git_blob_sha": "185d00dc1ad0f3f5db23a1531091de44458fb9f1"
+      "git_blob_sha": "185d00dc1ad0f3f5db23a1531091de44458fb9f1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
-      "git_blob_sha": "8bf10431218e60a257eedd6c16bc88a2e9d440b5"
+      "git_blob_sha": "8bf10431218e60a257eedd6c16bc88a2e9d440b5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
-      "git_blob_sha": "d3862ed33df419e5eb60632c8aa4101c09b41f89"
+      "git_blob_sha": "d3862ed33df419e5eb60632c8aa4101c09b41f89",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
-      "git_blob_sha": "b070452e56599b71a8d762b883ae914b5834b32a"
+      "git_blob_sha": "b070452e56599b71a8d762b883ae914b5834b32a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
-      "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403"
+      "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/demucs-enforcement.json",
-      "git_blob_sha": "15141596a26529193198f52297b50fd4674068c3"
+      "git_blob_sha": "15141596a26529193198f52297b50fd4674068c3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/developer-agent-coordination-enforcement.json",
-      "git_blob_sha": "b7d5348851f178c4d60f10d56b6764878068f96d"
+      "git_blob_sha": "b7d5348851f178c4d60f10d56b6764878068f96d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "1ce630664c04aecb8ba9a1c2978c3a2c057c2575"
+      "git_blob_sha": "1ce630664c04aecb8ba9a1c2978c3a2c057c2575",
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
-      "git_blob_sha": "6886a361f89b5568e52cdc81fe598e2dbfe0ee19"
+      "git_blob_sha": "6886a361f89b5568e52cdc81fe598e2dbfe0ee19",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json",
-      "git_blob_sha": "6b7d2b6163e0f4d88d26317573d5e51138f6f28a"
+      "git_blob_sha": "6b7d2b6163e0f4d88d26317573d5e51138f6f28a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ffmpeg-ai-current-host-enforcement.json",
-      "git_blob_sha": "852559c88315e9906757d6daba93e43cdbd2dbfb"
+      "git_blob_sha": "852559c88315e9906757d6daba93e43cdbd2dbfb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ffmpeg-ai-enforcement.json",
-      "git_blob_sha": "ee4ac42a0c149fec035ed07a6d9c7655ae8be268"
+      "git_blob_sha": "ee4ac42a0c149fec035ed07a6d9c7655ae8be268",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/ffmpeg-ai-runtime-admission.json",
-      "git_blob_sha": "3f2111f04ff0c703e8b46398a53e6dc1de26939d"
+      "git_blob_sha": "3f2111f04ff0c703e8b46398a53e6dc1de26939d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/geometry-closure.json",
-      "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0"
+      "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gpu-kernel-runtime-admission.json",
-      "git_blob_sha": "553f9783cd89fe5d288137286745a319a920c754"
+      "git_blob_sha": "553f9783cd89fe5d288137286745a319a920c754",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/gpu-kernel-runtime-enforcement.json",
-      "git_blob_sha": "d7ab76884945dfef702a804ac6a1ad9047e40c3a"
+      "git_blob_sha": "d7ab76884945dfef702a804ac6a1ad9047e40c3a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/hardware-portability-enforcement.json",
-      "git_blob_sha": "0050ed84af157b24dee2d8e8350b92a613c470f9"
+      "git_blob_sha": "0050ed84af157b24dee2d8e8350b92a613c470f9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
-      "git_blob_sha": "24f51add045dfc5e8d740d4e6141ed198c66f004"
+      "git_blob_sha": "24f51add045dfc5e8d740d4e6141ed198c66f004",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/hybrid-editorial-enforcement.json",
-      "git_blob_sha": "7a392a1a6bab060a39eb6f26474db5befc0eb510"
+      "git_blob_sha": "7a392a1a6bab060a39eb6f26474db5befc0eb510",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/inference-portability-enforcement.json",
-      "git_blob_sha": "31d49ad0eb9805f31921a84edcd1386a551042dd"
+      "git_blob_sha": "31d49ad0eb9805f31921a84edcd1386a551042dd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/kanboard-enforcement.json",
-      "git_blob_sha": "b4166760088f38e121311a4c14a1bdc707c994d5"
+      "git_blob_sha": "b4166760088f38e121311a4c14a1bdc707c994d5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/kaneo-enforcement.json",
-      "git_blob_sha": "81ff2ef690768970b80c1d2aa8fb69cc0d263572"
+      "git_blob_sha": "81ff2ef690768970b80c1d2aa8fb69cc0d263572",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/kdenlive-editorial-enforcement.json",
-      "git_blob_sha": "015e67cf7df2e30b632d803d7f2cf5b227ef768b"
+      "git_blob_sha": "015e67cf7df2e30b632d803d7f2cf5b227ef768b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/loop-engineering-enforcement.json",
-      "git_blob_sha": "aaa05b28c24f1693b44f0807193043cf378d41f0"
+      "git_blob_sha": "aaa05b28c24f1693b44f0807193043cf378d41f0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/loop-engineering-runtime-admission.json",
-      "git_blob_sha": "499c5d37a417e2c6fc132111bf7548359a7521c0"
+      "git_blob_sha": "499c5d37a417e2c6fc132111bf7548359a7521c0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/lynxhub-enforcement.json",
-      "git_blob_sha": "d390af7e5c50524e77ebde4052cd7727baffadfb"
+      "git_blob_sha": "d390af7e5c50524e77ebde4052cd7727baffadfb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/lynxhub-runtime-admission.json",
-      "git_blob_sha": "f666a85b59d9584a5720b918b5e7cc5ea176c263"
+      "git_blob_sha": "f666a85b59d9584a5720b918b5e7cc5ea176c263",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/marketing-enforcement.json",
-      "git_blob_sha": "7433e68e99f3eae49490054f029212de8816098c"
+      "git_blob_sha": "7433e68e99f3eae49490054f029212de8816098c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/marketingskills-skill-admission-enforcement.json",
-      "git_blob_sha": "9778f4b6f491eb0c9e3df478c2c682b706c8e604"
+      "git_blob_sha": "9778f4b6f491eb0c9e3df478c2c682b706c8e604",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/mentor-enforcement.json",
-      "git_blob_sha": "9cc5df062983caff69a073ead54fce9b06acbf71"
+      "git_blob_sha": "9cc5df062983caff69a073ead54fce9b06acbf71",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/model-manager-current-host-enforcement.json",
-      "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf"
+      "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/model-manager-enforcement.json",
-      "git_blob_sha": "895f794074a5e546a24960e1ce5f8473ead92f9c"
+      "git_blob_sha": "895f794074a5e546a24960e1ce5f8473ead92f9c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/model-manager-inventory-current-host-enforcement.json",
+      "git_blob_sha": "9b7cb4e23814e70b8654b29f717c340644e62c00",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/model-manager-v2-enforcement.json",
-      "git_blob_sha": "ff382f22bd3d082af807477ce987d619c85312b2"
+      "git_blob_sha": "ff382f22bd3d082af807477ce987d619c85312b2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/modular-enforcement.json",
-      "git_blob_sha": "3e52e879ac92543141bcd7bd6c10a2f3dc7af7b0"
+      "git_blob_sha": "3e52e879ac92543141bcd7bd6c10a2f3dc7af7b0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/munder-difflin-enforcement.json",
-      "git_blob_sha": "007607d426ec7e13ee76160b88184656f6c77241"
+      "git_blob_sha": "007607d426ec7e13ee76160b88184656f6c77241",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/muse-code-enforcement.json",
-      "git_blob_sha": "7b12339c9b60df73e49404a96e45186407fe4ecd"
+      "git_blob_sha": "7b12339c9b60df73e49404a96e45186407fe4ecd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openbmb-enforcement.json",
-      "git_blob_sha": "73b7c41ebd116ca7e90dea7763e937b880311a2f"
+      "git_blob_sha": "73b7c41ebd116ca7e90dea7763e937b880311a2f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openbmb-runtime-admission.json",
-      "git_blob_sha": "2bb87071c56c3721f02a47f3ecb4be75af18e5cb"
+      "git_blob_sha": "2bb87071c56c3721f02a47f3ecb4be75af18e5cb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/opencut-enforcement.json",
-      "git_blob_sha": "346edb3da05f8c0ba838277c7240eb5929ffe287"
+      "git_blob_sha": "346edb3da05f8c0ba838277c7240eb5929ffe287",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/opencut-runtime-admission.json",
-      "git_blob_sha": "b1d38591eae8da888907b065cbe24afb0d5e78c9"
+      "git_blob_sha": "b1d38591eae8da888907b065cbe24afb0d5e78c9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openhands-enforcement.json",
-      "git_blob_sha": "3a8591234573fe1977eafd1279eedf4d5d47abba"
+      "git_blob_sha": "3a8591234573fe1977eafd1279eedf4d5d47abba",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openhands-runtime-admission.json",
-      "git_blob_sha": "5532d6a34bca85e316a57ecfa6845c11aeb930ef"
+      "git_blob_sha": "5532d6a34bca85e316a57ecfa6845c11aeb930ef",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openvid-enforcement.json",
-      "git_blob_sha": "5d8c2a436ad322562f4fba3fab96b4468498907e"
+      "git_blob_sha": "5d8c2a436ad322562f4fba3fab96b4468498907e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openvid-runtime-admission.json",
-      "git_blob_sha": "005a7f91beb9cd90471a97f63e133ffaec7e9beb"
+      "git_blob_sha": "005a7f91beb9cd90471a97f63e133ffaec7e9beb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openyak-enforcement.json",
-      "git_blob_sha": "3ada73c67e08e2ec2ec64f746a519c10b3a9b2d4"
+      "git_blob_sha": "3ada73c67e08e2ec2ec64f746a519c10b3a9b2d4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/openyak-runtime-admission.json",
-      "git_blob_sha": "48e3b100979073edd3710b4fc6b1127f982a1d1d"
+      "git_blob_sha": "48e3b100979073edd3710b4fc6b1127f982a1d1d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/presenton-enforcement.json",
-      "git_blob_sha": "26b26f23bdb015306ecd4a509d6bce170d14e4f0"
+      "git_blob_sha": "26b26f23bdb015306ecd4a509d6bce170d14e4f0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-3D-GEOM-001.json",
-      "git_blob_sha": "a13182cfd059e0a8cab9d03151940cd088160757"
+      "git_blob_sha": "a13182cfd059e0a8cab9d03151940cd088160757",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-AGENT-EXEC-001.json",
-      "git_blob_sha": "55aa8cd6ac8dedcbdc11307fc56def5a8929ca20"
+      "git_blob_sha": "55aa8cd6ac8dedcbdc11307fc56def5a8929ca20",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
-      "git_blob_sha": "59a6c03240e1df0fe3aef25dc6aaf9825bd53425"
+      "git_blob_sha": "59a6c03240e1df0fe3aef25dc6aaf9825bd53425",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
-      "git_blob_sha": "72ca3e9dbdd7a90c8a37cd5d8f421b496557942e"
+      "git_blob_sha": "72ca3e9dbdd7a90c8a37cd5d8f421b496557942e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
-      "git_blob_sha": "6ed663468ddc2320ceb15f56b37c7aadf5f58d7c"
+      "git_blob_sha": "6ed663468ddc2320ceb15f56b37c7aadf5f58d7c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
-      "git_blob_sha": "605c453fd56410513c0480ce4154b8e05b4158bb"
+      "git_blob_sha": "605c453fd56410513c0480ce4154b8e05b4158bb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-COMPOSITING-001.json",
-      "git_blob_sha": "a677b2e7b3afcb878b7904dd431a3cd0a21cac39"
+      "git_blob_sha": "a677b2e7b3afcb878b7904dd431a3cd0a21cac39",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
-      "git_blob_sha": "d9d7d485ec58d753b46a12f3958daad4f75cc767"
+      "git_blob_sha": "d9d7d485ec58d753b46a12f3958daad4f75cc767",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
-      "git_blob_sha": "af171986ae43198b6ab1d290ca5b171c2aa12966"
+      "git_blob_sha": "af171986ae43198b6ab1d290ca5b171c2aa12966",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
-      "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5"
+      "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
-      "git_blob_sha": "63cf2b41e9fa808c28cb7614f9744671fa5c3832"
+      "git_blob_sha": "63cf2b41e9fa808c28cb7614f9744671fa5c3832",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
-      "git_blob_sha": "52efeb7ec1d632beb1a726fef4c67a4d380ac5af"
+      "git_blob_sha": "52efeb7ec1d632beb1a726fef4c67a4d380ac5af",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "f0796c5960a0c0db27ac8e905b0e11894fc527e9"
+      "git_blob_sha": "f0796c5960a0c0db27ac8e905b0e11894fc527e9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
-      "git_blob_sha": "a81dc49d7129cee18eb990ad294bacf3054ff9fc"
+      "git_blob_sha": "a81dc49d7129cee18eb990ad294bacf3054ff9fc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "1b191585a62f0624a6c9b796a3347fc056c83238"
+      "git_blob_sha": "1b191585a62f0624a6c9b796a3347fc056c83238",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HW-001.json",
-      "git_blob_sha": "ac30d93d678eccbc7c3bd0c96d41f3b945fb7367"
+      "git_blob_sha": "ac30d93d678eccbc7c3bd0c96d41f3b945fb7367",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HW-MGPU-001.json",
-      "git_blob_sha": "0b9bcf4d1a986916b4ed6a2653bf9a0f53f266e5"
+      "git_blob_sha": "0b9bcf4d1a986916b4ed6a2653bf9a0f53f266e5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HYBRID-EDITORIAL-001.json",
-      "git_blob_sha": "7b1b6717987515757ea3c0bae9f4b134c09b4387"
+      "git_blob_sha": "7b1b6717987515757ea3c0bae9f4b134c09b4387",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-IMGGEN-001.json",
-      "git_blob_sha": "d7fde19c3c21e997a453c9bd73efe68b95c41596"
+      "git_blob_sha": "d7fde19c3c21e997a453c9bd73efe68b95c41596",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
-      "git_blob_sha": "09922437d36b16f24c4314e9552fb0e2fe9ea04a"
+      "git_blob_sha": "09922437d36b16f24c4314e9552fb0e2fe9ea04a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
-      "git_blob_sha": "7abae913ab53d0c29bffc3a8ecaabaa36d458c46"
+      "git_blob_sha": "7abae913ab53d0c29bffc3a8ecaabaa36d458c46",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
-      "git_blob_sha": "e04710f48a9b4758c6b3b4dbf69e980bbfde8604"
+      "git_blob_sha": "e04710f48a9b4758c6b3b4dbf69e980bbfde8604",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
-      "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809"
+      "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-MENTOR-001.json",
-      "git_blob_sha": "b6a4831869636a4dccedbd6dd077d4c766d60d99"
+      "git_blob_sha": "b6a4831869636a4dccedbd6dd077d4c766d60d99",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-MESH-GEN-001.json",
-      "git_blob_sha": "a43b095878f212c77ef4c6c0b338ffcaa632e97d"
+      "git_blob_sha": "a43b095878f212c77ef4c6c0b338ffcaa632e97d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
-      "git_blob_sha": "862a6f9f6b5387931a0f3a4e26dad7980041d341"
+      "git_blob_sha": "862a6f9f6b5387931a0f3a4e26dad7980041d341",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-MUSIC-001.json",
-      "git_blob_sha": "90cbaca44a2abcfe29ff15d81706d3eb908e1231"
+      "git_blob_sha": "90cbaca44a2abcfe29ff15d81706d3eb908e1231",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
-      "git_blob_sha": "e40d8519e5b56fab7a77ec7bcd77f4bcb1a201bc"
+      "git_blob_sha": "e40d8519e5b56fab7a77ec7bcd77f4bcb1a201bc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
-      "git_blob_sha": "ac50b80c700c2489f8632f09edfbc697bb17d106"
+      "git_blob_sha": "ac50b80c700c2489f8632f09edfbc697bb17d106",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
-      "git_blob_sha": "e9ac3ac0cd898cb1724f153ece5b53efbda17d20"
+      "git_blob_sha": "e9ac3ac0cd898cb1724f153ece5b53efbda17d20",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-SCS-001.json",
-      "git_blob_sha": "ae89a880159dff9344ced367d04dfe86d1bf2e44"
+      "git_blob_sha": "ae89a880159dff9344ced367d04dfe86d1bf2e44",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-STABILITY-PORTFOLIO-001.json",
-      "git_blob_sha": "807bc30534e0fa08c4ea83cb0fa2cd17f81c1ce3"
+      "git_blob_sha": "807bc30534e0fa08c4ea83cb0fa2cd17f81c1ce3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-STORAGE-FUSE-001.json",
-      "git_blob_sha": "e484a870421e94cba627adf47ae0e4dd2c16bb53"
+      "git_blob_sha": "e484a870421e94cba627adf47ae0e4dd2c16bb53",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-STT-001.json",
-      "git_blob_sha": "8c2cb3d6f0f3e7fc0d345292e1dfdfa8309d9442"
+      "git_blob_sha": "8c2cb3d6f0f3e7fc0d345292e1dfdfa8309d9442",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-STT-MEDIA-001.json",
-      "git_blob_sha": "e606b448afdda1b90aa35f06a646a5be14511b2c"
+      "git_blob_sha": "e606b448afdda1b90aa35f06a646a5be14511b2c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-VIDEO-001.json",
-      "git_blob_sha": "e27cbcb5a4516fb63118f82737c224b7016550a0"
+      "git_blob_sha": "e27cbcb5a4516fb63118f82737c224b7016550a0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-VOICE-001.json",
-      "git_blob_sha": "03805efaddd20afbb3aa3c666f7260f7f604d91a"
+      "git_blob_sha": "03805efaddd20afbb3aa3c666f7260f7f604d91a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-WEB-AI-001.json",
-      "git_blob_sha": "10545927bd79ff388cbece004a51f1ede6ba15b4"
+      "git_blob_sha": "10545927bd79ff388cbece004a51f1ede6ba15b4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
-      "git_blob_sha": "474a2504323ba8054aa3970d9bd6ec514fc1300a"
+      "git_blob_sha": "474a2504323ba8054aa3970d9bd6ec514fc1300a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
-      "git_blob_sha": "2ab08cf7bb0033436831bbef92b1d1648f3c2ee8"
+      "git_blob_sha": "2ab08cf7bb0033436831bbef92b1d1648f3c2ee8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
-      "git_blob_sha": "3091a705e817638256fa0492a682c08079303d61"
+      "git_blob_sha": "3091a705e817638256fa0492a682c08079303d61",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "08303acfa7505abdcad3aaa65b4271bf935aeec7"
+      "git_blob_sha": "08303acfa7505abdcad3aaa65b4271bf935aeec7",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
-      "git_blob_sha": "3737b210733ba70250e3580a0ced7019151831fc"
+      "git_blob_sha": "3737b210733ba70250e3580a0ced7019151831fc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-AUTOGPT-001.json",
-      "git_blob_sha": "a7bfca4623da0d68e33687bff3aca78d6418d500"
+      "git_blob_sha": "a7bfca4623da0d68e33687bff3aca78d6418d500",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-BUZZ-001.json",
-      "git_blob_sha": "2617fe252cd28c5be47e7b4f1d509ef521ef0cb1"
+      "git_blob_sha": "2617fe252cd28c5be47e7b4f1d509ef521ef0cb1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-CAVEMAN-001.json",
-      "git_blob_sha": "3d1d3a698bf1c4f734d1169e9c35f98447a99024"
+      "git_blob_sha": "3d1d3a698bf1c4f734d1169e9c35f98447a99024",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-CODEGRAFF-001.json",
-      "git_blob_sha": "7180460e0d47268a7b60e67383b88d5bdc792665"
+      "git_blob_sha": "7180460e0d47268a7b60e67383b88d5bdc792665",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-CODEX-001.json",
-      "git_blob_sha": "2dc22002d5825b62d6074f2d80667295266a8b87"
+      "git_blob_sha": "2dc22002d5825b62d6074f2d80667295266a8b87",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
-      "git_blob_sha": "ac4bf1bcb8c6127f3b8be56deffa61db7e2ed70e"
+      "git_blob_sha": "ac4bf1bcb8c6127f3b8be56deffa61db7e2ed70e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
-      "git_blob_sha": "8eed901a56cc8127456d88823b5c7f9eea71eb37"
+      "git_blob_sha": "8eed901a56cc8127456d88823b5c7f9eea71eb37",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
-      "git_blob_sha": "d693cb9c3a22d5994b92aa63045e9724b5bc4b0d"
+      "git_blob_sha": "d693cb9c3a22d5994b92aa63045e9724b5bc4b0d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
-      "git_blob_sha": "eda43471a06e11dcd453884a82c92a7502c51437"
+      "git_blob_sha": "eda43471a06e11dcd453884a82c92a7502c51437",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
-      "git_blob_sha": "2942e638c5cd47480a77bdca49953c2ebde81088"
+      "git_blob_sha": "2942e638c5cd47480a77bdca49953c2ebde81088",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
-      "git_blob_sha": "122ce62e8b13df154d8963bd74ca6d6f075e1c4d"
+      "git_blob_sha": "122ce62e8b13df154d8963bd74ca6d6f075e1c4d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
-      "git_blob_sha": "bcbca8c572aea08e5eff36c1525f41d14a1b1074"
+      "git_blob_sha": "bcbca8c572aea08e5eff36c1525f41d14a1b1074",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
-      "git_blob_sha": "9d8f1af74fff63521a514983c37dfb5a33206186"
+      "git_blob_sha": "9d8f1af74fff63521a514983c37dfb5a33206186",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
-      "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457"
+      "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
-      "git_blob_sha": "f41fd16983cf31a4366cf379c1a8495b30da1978"
+      "git_blob_sha": "f41fd16983cf31a4366cf379c1a8495b30da1978",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KANEO-001.json",
-      "git_blob_sha": "92a735464225e562620c5332e64acf3c78f0449c"
+      "git_blob_sha": "92a735464225e562620c5332e64acf3c78f0449c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
-      "git_blob_sha": "3813c624a4fe23cdfe90c36a5ec9cd205b70a576"
+      "git_blob_sha": "3813c624a4fe23cdfe90c36a5ec9cd205b70a576",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KLING-001.json",
-      "git_blob_sha": "b547046da9c97c3689ad376ad34a407590e5b96f"
+      "git_blob_sha": "b547046da9c97c3689ad376ad34a407590e5b96f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KRITA-001.json",
-      "git_blob_sha": "7ebedd5912fe9b99e3ca9b4eac9ee051d1212ae6"
+      "git_blob_sha": "7ebedd5912fe9b99e3ca9b4eac9ee051d1212ae6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
-      "git_blob_sha": "8d1a1716b4f0ca289214f2a4e54f3662ed1e9469"
+      "git_blob_sha": "8d1a1716b4f0ca289214f2a4e54f3662ed1e9469",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
-      "git_blob_sha": "73e51eb25e08b2c6c1cc830d3693ce40269c5295"
+      "git_blob_sha": "73e51eb25e08b2c6c1cc830d3693ce40269c5295",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
-      "git_blob_sha": "ef5ab4b53ec1234e0b1f46ed1d6efb1f7986732d"
+      "git_blob_sha": "ef5ab4b53ec1234e0b1f46ed1d6efb1f7986732d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
-      "git_blob_sha": "0102837e9633e5e478cf45cf626bc99bf122dace"
+      "git_blob_sha": "0102837e9633e5e478cf45cf626bc99bf122dace",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
-      "git_blob_sha": "31255eea4f8881b8e327ba3a0f2bae8c49e3ad32"
+      "git_blob_sha": "31255eea4f8881b8e327ba3a0f2bae8c49e3ad32",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
-      "git_blob_sha": "e765672419e1f9b24763ac20cb45af1a9c86acd2"
+      "git_blob_sha": "e765672419e1f9b24763ac20cb45af1a9c86acd2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MAX-001.json",
-      "git_blob_sha": "689e9f5808bd434b48da567fcb4a83e52cce2e17"
+      "git_blob_sha": "689e9f5808bd434b48da567fcb4a83e52cce2e17",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
-      "git_blob_sha": "8b1630e37fb0d1e8eba9e7b93ed67f83e851bb87"
+      "git_blob_sha": "8b1630e37fb0d1e8eba9e7b93ed67f83e851bb87",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-META-LLAMA-001.json",
-      "git_blob_sha": "6d4fe3575bf089233f5bf30a19e9166f11656ee4"
+      "git_blob_sha": "6d4fe3575bf089233f5bf30a19e9166f11656ee4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINICPM-O-001.json",
-      "git_blob_sha": "87353495fd92f0ccb3f0ed562f113fea79cb1af9"
+      "git_blob_sha": "87353495fd92f0ccb3f0ed562f113fea79cb1af9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINICPM-V-001.json",
-      "git_blob_sha": "b76dcdfad6078f4715b2a8ebe4414c6a6f4ac1e4"
+      "git_blob_sha": "b76dcdfad6078f4715b2a8ebe4414c6a6f4ac1e4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
-      "git_blob_sha": "2679ca77137c9f960ee62e1a1d1ff9a26e148ec2"
+      "git_blob_sha": "2679ca77137c9f960ee62e1a1d1ff9a26e148ec2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MMS-TTS-HUN-001.json",
-      "git_blob_sha": "8e9b0217ab6d35baa8557099b4465169ae5ef980"
+      "git_blob_sha": "8e9b0217ab6d35baa8557099b4465169ae5ef980",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MOJO-001.json",
-      "git_blob_sha": "f0c642b243db725d7d36fe604c34f6b93633ef14"
+      "git_blob_sha": "f0c642b243db725d7d36fe604c34f6b93633ef14",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MUNDER-DIFFLIN-001.json",
-      "git_blob_sha": "b7b90b38bd6f0968287558fb1590874d4b87c946"
+      "git_blob_sha": "b7b90b38bd6f0968287558fb1590874d4b87c946",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MUSE-CODE-001.json",
-      "git_blob_sha": "b82db061ee21d868ec3312e25e7e323e88ac5beb"
+      "git_blob_sha": "b82db061ee21d868ec3312e25e7e323e88ac5beb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MUSE-IMAGE-001.json",
-      "git_blob_sha": "c099e3bc479d987183ae98fa6fb83243a275a200"
+      "git_blob_sha": "c099e3bc479d987183ae98fa6fb83243a275a200",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MYNA-001.json",
-      "git_blob_sha": "ecfc929c09b89d47cf2ee23c8b47022eaa1cb012"
+      "git_blob_sha": "ecfc929c09b89d47cf2ee23c8b47022eaa1cb012",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-NATRON-001.json",
-      "git_blob_sha": "e39d453b0ce38efaa631a4dc25c07e95e4d1d7e5"
+      "git_blob_sha": "e39d453b0ce38efaa631a4dc25c07e95e4d1d7e5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
-      "git_blob_sha": "07a086710c62d6c44325295477a2c65647d25668"
+      "git_blob_sha": "07a086710c62d6c44325295477a2c65647d25668",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
-      "git_blob_sha": "b9f1c330ceaed903de345296f6326f4be989e838"
+      "git_blob_sha": "b9f1c330ceaed903de345296f6326f4be989e838",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
-      "git_blob_sha": "42bd1bea30b3ffe792ee6a53bc531be4c62861ba"
+      "git_blob_sha": "42bd1bea30b3ffe792ee6a53bc531be4c62861ba",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
-      "git_blob_sha": "2b5c0fca2d6c3361966d6967637945e1dec933ce"
+      "git_blob_sha": "2b5c0fca2d6c3361966d6967637945e1dec933ce",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
-      "git_blob_sha": "463584f890e6025bd1e1d8f2ea78caeb8d1e9fad"
+      "git_blob_sha": "463584f890e6025bd1e1d8f2ea78caeb8d1e9fad",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
-      "git_blob_sha": "3b9d9c084df251f7e5862cb1c4ab097d17cf2f00"
+      "git_blob_sha": "3b9d9c084df251f7e5862cb1c4ab097d17cf2f00",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
-      "git_blob_sha": "ff7fe58d01824465e8d3ad9cd3744ce0da88021a"
+      "git_blob_sha": "ff7fe58d01824465e8d3ad9cd3744ce0da88021a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
-      "git_blob_sha": "650bf8c0a248bad26e7b59a00b00aac447cc8aef"
+      "git_blob_sha": "650bf8c0a248bad26e7b59a00b00aac447cc8aef",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
-      "git_blob_sha": "1857bb81f8a9073b96db4387e828adc9ff4b7f43"
+      "git_blob_sha": "1857bb81f8a9073b96db4387e828adc9ff4b7f43",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-PIPER-001.json",
-      "git_blob_sha": "6188f2c0cff2412664f88d2fe0a3c23e9e5ad65a"
+      "git_blob_sha": "6188f2c0cff2412664f88d2fe0a3c23e9e5ad65a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
-      "git_blob_sha": "2c22d5cd4daf072c2fe3aa6aab17ce2d71ba3e0c"
+      "git_blob_sha": "2c22d5cd4daf072c2fe3aa6aab17ce2d71ba3e0c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
-      "git_blob_sha": "df93d2dad0ef72af72c0a4248ce9c5b5aee7f005"
+      "git_blob_sha": "df93d2dad0ef72af72c0a4248ce9c5b5aee7f005",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-QWEN3-TTS-001.json",
-      "git_blob_sha": "9016acddf56371a2f943c9c4845ad72b6acc6b0e"
+      "git_blob_sha": "9016acddf56371a2f943c9c4845ad72b6acc6b0e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-RAGFLOW-001.json",
-      "git_blob_sha": "bbd3fc551b35a5a0f0c4d28e4ff5b56d4a481216"
+      "git_blob_sha": "bbd3fc551b35a5a0f0c4d28e4ff5b56d4a481216",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-RELI3D-001.json",
-      "git_blob_sha": "c77fe408a9a496875e82aff4272c8b40c4ecbf39"
+      "git_blob_sha": "c77fe408a9a496875e82aff4272c8b40c4ecbf39",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SCHED-EXT-001.json",
-      "git_blob_sha": "587eb7c6b5c83992b76076d82a23772d903b1c57"
+      "git_blob_sha": "587eb7c6b5c83992b76076d82a23772d903b1c57",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SD35-NVIDIA-NIM-001.json",
-      "git_blob_sha": "d8ddcf2183f0c338152270287a764e1062c1c7b4"
+      "git_blob_sha": "d8ddcf2183f0c338152270287a764e1062c1c7b4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
-      "git_blob_sha": "7ce65ac256461eb3d241bd0fd698894bb76890f1"
+      "git_blob_sha": "7ce65ac256461eb3d241bd0fd698894bb76890f1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SF3D-001.json",
-      "git_blob_sha": "de9e6facc2df8a41c5c5969312f1f30ffaf9bdef"
+      "git_blob_sha": "de9e6facc2df8a41c5c5969312f1f30ffaf9bdef",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SPAR3D-001.json",
-      "git_blob_sha": "f04e1b1128710b378e7676e6d627bde1f4328d86"
+      "git_blob_sha": "f04e1b1128710b378e7676e6d627bde1f4328d86",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json",
-      "git_blob_sha": "3d7d939a1c4bbb3779372d1b635c0086899f6e22"
+      "git_blob_sha": "3d7d939a1c4bbb3779372d1b635c0086899f6e22",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABILITY-MODELSPEC-001.json",
-      "git_blob_sha": "02cea434c122390c4d74148edb1162cd42b44c7e"
+      "git_blob_sha": "02cea434c122390c4d74148edb1162cd42b44c7e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABILITY-SD35-001.json",
-      "git_blob_sha": "9d2dca6e41a164da58bfa1d86b578bb9d309c72b"
+      "git_blob_sha": "9d2dca6e41a164da58bfa1d86b578bb9d309c72b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABILITY-SGM-001.json",
-      "git_blob_sha": "20ff65d0ef964f10e663c1ed0d15511f0a233566"
+      "git_blob_sha": "20ff65d0ef964f10e663c1ed0d15511f0a233566",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json",
-      "git_blob_sha": "e0e7e8388c24e56cf6ec31fd38ae06bca929b7e1"
+      "git_blob_sha": "e0e7e8388c24e56cf6ec31fd38ae06bca929b7e1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABLE-LAYERS-001.json",
-      "git_blob_sha": "b8d4c15a3c9c0e26fa1a5a50c7ae0c5ada8ce435"
+      "git_blob_sha": "b8d4c15a3c9c0e26fa1a5a50c7ae0c5ada8ce435",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001.json",
-      "git_blob_sha": "e54c3d312d28fcae77eb0146f5a9d4412825da91"
+      "git_blob_sha": "e54c3d312d28fcae77eb0146f5a9d4412825da91",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
-      "git_blob_sha": "0a1be7f7b911a54a05c53d5c1b9c9d1405ac6891"
+      "git_blob_sha": "0a1be7f7b911a54a05c53d5c1b9c9d1405ac6891",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TENCENTDB-AGENT-MEMORY-001.json",
-      "git_blob_sha": "333b5687f410def06070551f427b98bbd1d1f7ae"
+      "git_blob_sha": "333b5687f410def06070551f427b98bbd1d1f7ae",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
-      "git_blob_sha": "4bcccd36dec0b04d7139ab70875122d3f6a6acc5"
+      "git_blob_sha": "4bcccd36dec0b04d7139ab70875122d3f6a6acc5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json",
-      "git_blob_sha": "f7c1242314797906464284b92b7942458b506325"
+      "git_blob_sha": "f7c1242314797906464284b92b7942458b506325",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TERAX-001.json",
-      "git_blob_sha": "df391bad60cb103f8bf7a21e7e9ce0adfc5ec65b"
+      "git_blob_sha": "df391bad60cb103f8bf7a21e7e9ce0adfc5ec65b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TWENTY-001.json",
-      "git_blob_sha": "f12dc2bfa98fcc4d7ba1778a34139c1243268664"
+      "git_blob_sha": "f12dc2bfa98fcc4d7ba1778a34139c1243268664",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ULTRARAG-001.json",
-      "git_blob_sha": "51e6f2941108fb61a02e67ec5e26913591834210"
+      "git_blob_sha": "51e6f2941108fb61a02e67ec5e26913591834210",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
-      "git_blob_sha": "88c265d12de42d70dc63505db2f70075f847ea3c"
+      "git_blob_sha": "88c265d12de42d70dc63505db2f70075f847ea3c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-VOXCPM-001.json",
-      "git_blob_sha": "6b4780bca33a7405bfb99eefac8186b36f6e4421"
+      "git_blob_sha": "6b4780bca33a7405bfb99eefac8186b36f6e4421",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-VS-MLRT-001.json",
-      "git_blob_sha": "068c287adf18be81ed7dab8b2c14f230def9d796"
+      "git_blob_sha": "068c287adf18be81ed7dab8b2c14f230def9d796",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-WHISPER-001.json",
-      "git_blob_sha": "097cd0f1bf8c84fe2143f50aae418f8c7eb715ab"
+      "git_blob_sha": "097cd0f1bf8c84fe2143f50aae418f8c7eb715ab",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-XANMOD-001.json",
-      "git_blob_sha": "27e98b6cb4536c679ab0dfd226203c0cff200a1c"
+      "git_blob_sha": "27e98b6cb4536c679ab0dfd226203c0cff200a1c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-XCMD-001.json",
-      "git_blob_sha": "8f7b7552837c72d27838903f80be28a4637d553d"
+      "git_blob_sha": "8f7b7552837c72d27838903f80be28a4637d553d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-XTTS-001.json",
-      "git_blob_sha": "54728969b877d374b490bc8317963f1d512744af"
+      "git_blob_sha": "54728969b877d374b490bc8317963f1d512744af",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "e6155e40ceb72cab4e58767426f172c5378984ea"
+      "git_blob_sha": "e6155e40ceb72cab4e58767426f172c5378984ea",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
-      "git_blob_sha": "761f16f7b270fcf4a80514e2b46f35344f24e8c1"
+      "git_blob_sha": "761f16f7b270fcf4a80514e2b46f35344f24e8c1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "23c1dab9ecee3fb3581246d32082a02e2157042e"
+      "git_blob_sha": "23c1dab9ecee3fb3581246d32082a02e2157042e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "203db018b0d6b7bd0faf60953060c0e271e22f8d"
+      "git_blob_sha": "203db018b0d6b7bd0faf60953060c0e271e22f8d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
-      "git_blob_sha": "1a0b2b897a5f3147531d669510d276b4d1b4d6ae"
+      "git_blob_sha": "1a0b2b897a5f3147531d669510d276b4d1b4d6ae",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
-      "git_blob_sha": "3ccbfab73da5f6a441326de7b89579ecdbdb5b49"
+      "git_blob_sha": "3ccbfab73da5f6a441326de7b89579ecdbdb5b49",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "b6c1727c3a82964e0ac94f7cc246b90424c924a6"
+      "git_blob_sha": "b6c1727c3a82964e0ac94f7cc246b90424c924a6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "c94c1fe9556696b51683627b517e9395007b2703"
+      "git_blob_sha": "c94c1fe9556696b51683627b517e9395007b2703",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
-      "git_blob_sha": "30af2b1577eb3f94478928fdcf920f1398f87aef"
+      "git_blob_sha": "30af2b1577eb3f94478928fdcf920f1398f87aef",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "3d1338eb77402df7e315529884bb79f568324b24"
+      "git_blob_sha": "3d1338eb77402df7e315529884bb79f568324b24",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "c03f0a125ae22ff71724f2c051423ae326da3426"
+      "git_blob_sha": "c03f0a125ae22ff71724f2c051423ae326da3426",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "d7ce53aab83c2179bafc7fbbac9af1d67e99665a"
+      "git_blob_sha": "d7ce53aab83c2179bafc7fbbac9af1d67e99665a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
-      "git_blob_sha": "acc85e0db5d91955ba8a94dd8e999ff573e00f85"
+      "git_blob_sha": "acc85e0db5d91955ba8a94dd8e999ff573e00f85",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
-      "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f"
+      "git_blob_sha": "707c0b66e9e79cf0365a494cbe599cbd10613e8f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "8d3274ea98eb573b20bcef2e77a1c86cda9c4919"
+      "git_blob_sha": "8d3274ea98eb573b20bcef2e77a1c86cda9c4919",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "d68eba09d84f462d421b9a04dae055362992251b"
+      "git_blob_sha": "d68eba09d84f462d421b9a04dae055362992251b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "16fa69496cede027d6b9ae2b760306bcf1710db5"
+      "git_blob_sha": "16fa69496cede027d6b9ae2b760306bcf1710db5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01.json",
-      "git_blob_sha": "953255670ff7fc2ecfc4fecbec709e5143b97a72"
+      "git_blob_sha": "953255670ff7fc2ecfc4fecbec709e5143b97a72",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "872a1306e04fea7205eaec4035e1684234443d48"
+      "git_blob_sha": "872a1306e04fea7205eaec4035e1684234443d48",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "cb70cc4a81cddec3f1099894d305f04f0431d477"
+      "git_blob_sha": "cb70cc4a81cddec3f1099894d305f04f0431d477",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-MUSE-CODE-UPSTREAM-REFERENCE-2026-09-01.json",
-      "git_blob_sha": "446c4407b86ac8fc8881c24686e03fb8a96a8160"
+      "git_blob_sha": "446c4407b86ac8fc8881c24686e03fb8a96a8160",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02.json",
-      "git_blob_sha": "76562d842d6b9caea7fe05d490be526c67aadb94"
+      "git_blob_sha": "76562d842d6b9caea7fe05d490be526c67aadb94",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
-      "git_blob_sha": "da36e3529290852ed2768a2d463877e4686226ab"
+      "git_blob_sha": "da36e3529290852ed2768a2d463877e4686226ab",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
-      "git_blob_sha": "ee7ddd35af2088240a31cbfff232a959dc526e4c"
+      "git_blob_sha": "ee7ddd35af2088240a31cbfff232a959dc526e4c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
-      "git_blob_sha": "3daaa79cf5116549ecfa158fb76d1152e1436127"
+      "git_blob_sha": "3daaa79cf5116549ecfa158fb76d1152e1436127",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
-      "git_blob_sha": "0d7c1e0468818f1cb311644a17739767b119b570"
+      "git_blob_sha": "0d7c1e0468818f1cb311644a17739767b119b570",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "59f20129035ba78ea4c659bf216c37bf63879cd4"
+      "git_blob_sha": "59f20129035ba78ea4c659bf216c37bf63879cd4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "3623db3f6062e2bca7cc40e8e8402a5f73560edc"
+      "git_blob_sha": "3623db3f6062e2bca7cc40e8e8402a5f73560edc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "9ff75ab39affa897f820ad4a249590eb8425f103"
+      "git_blob_sha": "9ff75ab39affa897f820ad4a249590eb8425f103",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "bf647a09dbd26420bc0cff540594612353d6f59a"
+      "git_blob_sha": "bf647a09dbd26420bc0cff540594612353d6f59a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
-      "git_blob_sha": "4f4af53851a67f5b687380553acf2bed2083fbf7"
+      "git_blob_sha": "4f4af53851a67f5b687380553acf2bed2083fbf7",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01.json",
-      "git_blob_sha": "c65a18c5f30388ff625f8f86c407d037712ee127"
+      "git_blob_sha": "c65a18c5f30388ff625f8f86c407d037712ee127",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02.json",
-      "git_blob_sha": "21ca04417d8007bda842a490455df6d4e4eb8e87"
+      "git_blob_sha": "21ca04417d8007bda842a490455df6d4e4eb8e87",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-TENCENTDB-AGENT-MEMORY-UPSTREAM-REFERENCE-2026-09-03.json",
-      "git_blob_sha": "ec000f7525aa8134c21d8c96e09c59dfa1f1f3b2"
+      "git_blob_sha": "ec000f7525aa8134c21d8c96e09c59dfa1f1f3b2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01.json",
-      "git_blob_sha": "a2218624cb5407f2f02fbb480e95f5e1aa79c653"
+      "git_blob_sha": "a2218624cb5407f2f02fbb480e95f5e1aa79c653",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
-      "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1"
+      "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/registries/FA3-MODEL-REGISTRY-001.json",
-      "git_blob_sha": "61a947340d49fc36f272bae7910908faa8c325e8"
+      "git_blob_sha": "61a947340d49fc36f272bae7910908faa8c325e8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/registries/FA3-PROVIDER-FAMILY-OPENBMB-001.json",
-      "git_blob_sha": "845b1b70f3e615762bc4dd2619f2ba7526d71da5"
+      "git_blob_sha": "845b1b70f3e615762bc4dd2619f2ba7526d71da5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-LYNXHUB-2026-09-05.json",
-      "git_blob_sha": "bbfcdaa40d72a0847ba7eda144fe56f2f90de451"
+      "git_blob_sha": "bbfcdaa40d72a0847ba7eda144fe56f2f90de451",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
-      "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a"
+      "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENYAK-2026-09-05.json",
-      "git_blob_sha": "88ba5783e6929948ceb9907ca70f7750186aa811"
+      "git_blob_sha": "88ba5783e6929948ceb9907ca70f7750186aa811",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/source-graph-attestation.json",
-      "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e"
+      "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-portfolio-enforcement.json",
-      "git_blob_sha": "12d006927c18c6abef59549223e5d166ac8ff4d3"
+      "git_blob_sha": "12d006927c18c6abef59549223e5d166ac8ff4d3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/stability-sgm-enforcement.json",
-      "git_blob_sha": "fde7c644def2ba88362aa273c474938e133f49f0"
+      "git_blob_sha": "fde7c644def2ba88362aa273c474938e133f49f0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/tencentdb-agent-memory-enforcement.json",
-      "git_blob_sha": "451edafb513ceee53738930db77ce637ea57c405"
+      "git_blob_sha": "451edafb513ceee53738930db77ce637ea57c405",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/tencentdb-agent-memory-runtime-admission.json",
-      "git_blob_sha": "37192c3d66d04689e8b6f394759013a04e463a26"
+      "git_blob_sha": "37192c3d66d04689e8b6f394759013a04e463a26",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/terax-enforcement.json",
-      "git_blob_sha": "52a8dcfd009b31bd9640bffa77b4b7956cac98b6"
+      "git_blob_sha": "52a8dcfd009b31bd9640bffa77b4b7956cac98b6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/video-enforcement.json",
-      "git_blob_sha": "27e2780e65deb112b6b10ca0d84b58bb2647f592"
+      "git_blob_sha": "27e2780e65deb112b6b10ca0d84b58bb2647f592",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/video-provider-lifecycle-enforcement.json",
-      "git_blob_sha": "08145b001a86af899161c7709f2736ca376e511a"
+      "git_blob_sha": "08145b001a86af899161c7709f2736ca376e511a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/video-provider-lifecycle-runtime-admission.json",
-      "git_blob_sha": "9501c8aa888f30969ab89870be229b2f79cb6ffa"
+      "git_blob_sha": "9501c8aa888f30969ab89870be229b2f79cb6ffa",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/voice-synthesis-enforcement.json",
-      "git_blob_sha": "ed42a10c414ad03ad68687825d3ea63316575d6c"
+      "git_blob_sha": "ed42a10c414ad03ad68687825d3ea63316575d6c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/whisper-stt-enforcement.json",
-      "git_blob_sha": "dc5a70dfd2c87ead6765767203b6f11e5661af03"
+      "git_blob_sha": "dc5a70dfd2c87ead6765767203b6f11e5661af03",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/xcmd-enforcement.json",
-      "git_blob_sha": "4bd915b1340b9f4c7139de902741f6a4e2d9e98f"
+      "git_blob_sha": "4bd915b1340b9f4c7139de902741f6a4e2d9e98f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/README.md",
-      "git_blob_sha": "fc84a7806674babba8a6a49ed195d3a8c3fd327f"
+      "git_blob_sha": "fc84a7806674babba8a6a49ed195d3a8c3fd327f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/applications/ai.kindabrazy.lynxhub.desktop.in",
-      "git_blob_sha": "deaba29c5c51849c4f8f90076024efae0266a37b"
+      "git_blob_sha": "deaba29c5c51849c4f8f90076024efae0266a37b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/bin/lynxhub-action",
-      "git_blob_sha": "369a7e96e54a25e13df414f0f069743e70a1c5d1"
+      "git_blob_sha": "369a7e96e54a25e13df414f0f069743e70a1c5d1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/bin/lynxhub-launch",
-      "git_blob_sha": "59ed686b40a36384feab8d30e7c6ee3d80013098"
+      "git_blob_sha": "59ed686b40a36384feab8d30e7c6ee3d80013098",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/bin/lynxhub-start",
-      "git_blob_sha": "7b33be4cdbdefe3b8d074a0c2dd53f371be654c8"
+      "git_blob_sha": "7b33be4cdbdefe3b8d074a0c2dd53f371be654c8",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/lynxhub-actions.env.example",
-      "git_blob_sha": "5903fafc8a809cc3d2153f9e24a27c6e2ef203b9"
+      "git_blob_sha": "5903fafc8a809cc3d2153f9e24a27c6e2ef203b9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/systemd/user/ai-creative-ops.target",
-      "git_blob_sha": "c787cd86d5749188eda0c28eeb9eb9200ddf85cf"
+      "git_blob_sha": "c787cd86d5749188eda0c28eeb9eb9200ddf85cf",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/lynxhub/systemd/user/lynxhub.service",
-      "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe"
+      "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/presenton/README.md",
-      "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892"
+      "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/presenton/ai-creative.target",
-      "git_blob_sha": "72542a52ec5da82039be42f2eff6ed3bb9368667"
+      "git_blob_sha": "72542a52ec5da82039be42f2eff6ed3bb9368667",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/presenton/postgresql-bootstrap.sql",
-      "git_blob_sha": "3995a179867cd9da22a0a27d018406702fa06dea"
+      "git_blob_sha": "3995a179867cd9da22a0a27d018406702fa06dea",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/presenton/presenton.caddy",
-      "git_blob_sha": "6815cfc3e49677c845187d3dcde7aee5ddf19d7d"
+      "git_blob_sha": "6815cfc3e49677c845187d3dcde7aee5ddf19d7d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "deployment/presenton/presenton.container",
-      "git_blob_sha": "3d650f58e6ab92ff1ccd193f9bf628af90f52362"
+      "git_blob_sha": "3d650f58e6ab92ff1ccd193f9bf628af90f52362",
+      "baseline_delta_status": "added"
     },
     {
       "path": "docs/codex-current-host.md",
-      "git_blob_sha": "da2a399b9153dbe6716e93c1bb3f2de1059d1e0e"
+      "git_blob_sha": "da2a399b9153dbe6716e93c1bb3f2de1059d1e0e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "docs/lynxhub-integration.md",
-      "git_blob_sha": "2795162d58c3699250b540be23cbcfcd7b96c82b"
+      "git_blob_sha": "2795162d58c3699250b540be23cbcfcd7b96c82b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "docs/model-manager-current-host.md",
-      "git_blob_sha": "3d10e043b2d618acf3bb4ff591a7565a0faeeed5"
+      "git_blob_sha": "3d10e043b2d618acf3bb4ff591a7565a0faeeed5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "docs/modular-current-host.md",
-      "git_blob_sha": "e0a6f5c1de84b0833de74274fc1747e0a17458ba"
+      "git_blob_sha": "e0a6f5c1de84b0833de74274fc1747e0a17458ba",
+      "baseline_delta_status": "added"
     },
     {
       "path": "docs/openyak-integration.md",
-      "git_blob_sha": "300f6978cc8639efba4976406c752df61db06afa"
+      "git_blob_sha": "300f6978cc8639efba4976406c752df61db06afa",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-ai-infra-guard-current-host.py",
-      "git_blob_sha": "a6fec4b79499f7937dc30d34f5de4bc5ff30fec5"
+      "git_blob_sha": "a6fec4b79499f7937dc30d34f5de4bc5ff30fec5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-blackhole-kdenlive-current-host.py",
-      "git_blob_sha": "461b234cf558a0568f9fdc04cc5547f836dab6a0"
+      "git_blob_sha": "461b234cf558a0568f9fdc04cc5547f836dab6a0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-codex-current-host.py",
-      "git_blob_sha": "1b16f9552dab0fc33d553a3aa844dfb3e9003077"
+      "git_blob_sha": "1b16f9552dab0fc33d553a3aa844dfb3e9003077",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-cosyvoice-current-host.py",
-      "git_blob_sha": "b1b6daca53c0cfb0b1d7da79f39b3844664c579b"
+      "git_blob_sha": "b1b6daca53c0cfb0b1d7da79f39b3844664c579b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-cpu-numa-threading-current-host.py",
-      "git_blob_sha": "1877043bacf10a9f7f699eed112d2ad909afaded"
+      "git_blob_sha": "1877043bacf10a9f7f699eed112d2ad909afaded",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-current-host.sh",
-      "git_blob_sha": "bb47224e58595c5d703a47ee72fc509b257d3d6c"
+      "git_blob_sha": "bb47224e58595c5d703a47ee72fc509b257d3d6c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-demucs-current-host.py",
-      "git_blob_sha": "47852117fc42f055e64481167ade19baa0422b7b"
+      "git_blob_sha": "47852117fc42f055e64481167ade19baa0422b7b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-developer-agent-coordination-e2e.py",
-      "git_blob_sha": "1ae9a743f84ab89aa634c8d2d5f7217f820b338a"
+      "git_blob_sha": "1ae9a743f84ab89aa634c8d2d5f7217f820b338a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-ffmpeg-ai-current-host.py",
-      "git_blob_sha": "c92aba7ec29a28d95d2ca615d5878cec6f5ded7c"
+      "git_blob_sha": "c92aba7ec29a28d95d2ca615d5878cec6f5ded7c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-gpu-kernel-runtime-current-host.py",
-      "git_blob_sha": "b78d2fb8faa7a0d3bc8ab87ce38eae157c78d2f4"
+      "git_blob_sha": "b78d2fb8faa7a0d3bc8ab87ce38eae157c78d2f4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-hybrid-editorial-reference-e2e.py",
-      "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65"
+      "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-lynxhub-current-host.py",
-      "git_blob_sha": "3baf39317a626b85b0e9c3e6e9adbf2ede7524d1"
+      "git_blob_sha": "3baf39317a626b85b0e9c3e6e9adbf2ede7524d1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-marketing-reference-e2e.py",
-      "git_blob_sha": "9e6dc530ec5e5e0a7c3e5096c4e3ee05573f0b9a"
+      "git_blob_sha": "9e6dc530ec5e5e0a7c3e5096c4e3ee05573f0b9a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-model-inventory-current-host.py",
+      "git_blob_sha": "11ca6ae0ea497269ed6696c51d6f74f23f4d70ab",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-model-manager-current-host.py",
-      "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012"
+      "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-modular-current-host.py",
-      "git_blob_sha": "da832d92a995fe58a46bb2cbf25b0b450a82185d"
+      "git_blob_sha": "da832d92a995fe58a46bb2cbf25b0b450a82185d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-openvid-reference-e2e.py",
-      "git_blob_sha": "9f67b0269d785fdd03a34555ca8416941be39af4"
+      "git_blob_sha": "9f67b0269d785fdd03a34555ca8416941be39af4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-presenton-current-host.py",
-      "git_blob_sha": "af720bea7bfb7e0c7c2f0a0899817d1a895ebf77"
+      "git_blob_sha": "af720bea7bfb7e0c7c2f0a0899817d1a895ebf77",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-terax-current-host.py",
-      "git_blob_sha": "d98ee85082047e114c731f24926d12f8ea56ee24"
+      "git_blob_sha": "d98ee85082047e114c731f24926d12f8ea56ee24",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-whisper-stt-current-host.py",
-      "git_blob_sha": "647e171c725ad56610177b6d0d7d985511325e57"
+      "git_blob_sha": "647e171c725ad56610177b6d0d7d985511325e57",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "fd17326f04394b3fe0a3f1b284b38129d7a8df94"
+      "git_blob_sha": "fd17326f04394b3fe0a3f1b284b38129d7a8df94",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/receipts/.gitkeep",
-      "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/ace-step-2026-08-30.json",
-      "git_blob_sha": "dac63cb9341a086f438297f2f14a6ce663d1d2b4"
+      "git_blob_sha": "dac63cb9341a086f438297f2f14a6ce663d1d2b4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
-      "git_blob_sha": "4c9b9dc7038e8453b3621221a6086019cf8cc7b0"
+      "git_blob_sha": "4c9b9dc7038e8453b3621221a6086019cf8cc7b0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/autogpt-ci-2026-08-30.json",
-      "git_blob_sha": "9c094f6d550312986590b40d02813595ddfafc1e"
+      "git_blob_sha": "9c094f6d550312986590b40d02813595ddfafc1e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
-      "git_blob_sha": "c56bdc94bb73a9e575de215045018feb43aaf77d"
+      "git_blob_sha": "c56bdc94bb73a9e575de215045018feb43aaf77d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/buzz-ci-2026-08-30.json",
-      "git_blob_sha": "19d5798c4077350723fd42909d0e9f0e876fef51"
+      "git_blob_sha": "19d5798c4077350723fd42909d0e9f0e876fef51",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/codex-adapter-ci-2026-08-31.json",
-      "git_blob_sha": "7c5900c82f4f833a0778fed8cce20e868fcf1235"
+      "git_blob_sha": "7c5900c82f4f833a0778fed8cce20e868fcf1235",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/conversation-reconciliation-2026-08-30.json",
-      "git_blob_sha": "83aae7ee4bfe7d602da74b1e874455fac6ef2f6d"
+      "git_blob_sha": "83aae7ee4bfe7d602da74b1e874455fac6ef2f6d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/cosyvoice-ci-2026-08-31.json",
-      "git_blob_sha": "ea1b89f3af2c76b18aa45c9b7d03eced08170310"
+      "git_blob_sha": "ea1b89f3af2c76b18aa45c9b7d03eced08170310",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-      "git_blob_sha": "49bf336b2349094f9092c848fba435130f3804be"
+      "git_blob_sha": "49bf336b2349094f9092c848fba435130f3804be",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/demucs-provider-ci-2026-08-30.json",
-      "git_blob_sha": "ed674dec795b7fbbce780e5388ba1b57d87572f1"
+      "git_blob_sha": "ed674dec795b7fbbce780e5388ba1b57d87572f1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/demucs-v4.1.0.json",
-      "git_blob_sha": "8f6d8cafede63c5eac2cd982271c2e6c10570976"
+      "git_blob_sha": "8f6d8cafede63c5eac2cd982271c2e6c10570976",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/fa3-mentor-v0.2.0.json",
-      "git_blob_sha": "f08d8a5c59f94db5bca400085505c902272ae429"
+      "git_blob_sha": "f08d8a5c59f94db5bca400085505c902272ae429",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-      "git_blob_sha": "02135adc819382ba6ee90c425be1f5e61520d24f"
+      "git_blob_sha": "02135adc819382ba6ee90c425be1f5e61520d24f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-      "git_blob_sha": "28024e3c1b8dd5dd341b502a7500072d70cfa6b0"
+      "git_blob_sha": "28024e3c1b8dd5dd341b502a7500072d70cfa6b0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-      "git_blob_sha": "b9723676af35fb9e4d1df6de0c80347656ad4f11"
+      "git_blob_sha": "b9723676af35fb9e4d1df6de0c80347656ad4f11",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
-      "git_blob_sha": "0fe16255bf9dc3a7e4c8db770cd5815f02ee2a02"
+      "git_blob_sha": "0fe16255bf9dc3a7e4c8db770cd5815f02ee2a02",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
-      "git_blob_sha": "ab2e038d9b0a28cc987132eed31b75f2f40c461d"
+      "git_blob_sha": "ab2e038d9b0a28cc987132eed31b75f2f40c461d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
-      "git_blob_sha": "99ac7fd84a53e123d0d941aededcb41f0b65958a"
+      "git_blob_sha": "99ac7fd84a53e123d0d941aededcb41f0b65958a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
-      "git_blob_sha": "5b6a2302d77ba8efa60fb5649016e9c6ac7751e4"
+      "git_blob_sha": "5b6a2302d77ba8efa60fb5649016e9c6ac7751e4",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/inference-portability-ci-2026-08-31.json",
-      "git_blob_sha": "5f07389017d71a11ce3a1376c8d2d16594389446"
+      "git_blob_sha": "5f07389017d71a11ce3a1376c8d2d16594389446",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/kanboard-ci-2026-08-30.json",
-      "git_blob_sha": "bc2c53a94d11ac9909b48474febbdc507fa8fb25"
+      "git_blob_sha": "bc2c53a94d11ac9909b48474febbdc507fa8fb25",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/kaneo-v2.22.0.json",
-      "git_blob_sha": "8e005b5d26153e6109307c9afe1fe5ca93d029fe"
+      "git_blob_sha": "8e005b5d26153e6109307c9afe1fe5ca93d029fe",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/loop-engineering-ci-2026-09-03.json",
-      "git_blob_sha": "2ee91d9cf63fc467758508352402d7ebbdd29929"
+      "git_blob_sha": "2ee91d9cf63fc467758508352402d7ebbdd29929",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/lynxhub-ci-2026-09-05.json",
-      "git_blob_sha": "0b8d98c1955e5ed8eb8317a3ce065a1e0ace0a3a"
+      "git_blob_sha": "0b8d98c1955e5ed8eb8317a3ce065a1e0ace0a3a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/marketing-ci-2026-08-31.json",
-      "git_blob_sha": "da66e2ae408207ca7b11393c27ebac163e5eb567"
+      "git_blob_sha": "da66e2ae408207ca7b11393c27ebac163e5eb567",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
-      "git_blob_sha": "ff8e66e40b6605592a69292e435e938022084324"
+      "git_blob_sha": "ff8e66e40b6605592a69292e435e938022084324",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/model-manager-ci-2026-08-31.json",
-      "git_blob_sha": "40c1a4396ae643ad57703a5121fc1197a7c99aa7"
+      "git_blob_sha": "40c1a4396ae643ad57703a5121fc1197a7c99aa7",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/model-manager-v2-ci-2026-09-01.json",
-      "git_blob_sha": "1a32e54fa3295065160060ca35f32a825c938b4a"
+      "git_blob_sha": "1a32e54fa3295065160060ca35f32a825c938b4a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/modular-provider-ci-2026-08-30.json",
-      "git_blob_sha": "257e0d20736ca0dac44a5870380db67efbe43201"
+      "git_blob_sha": "257e0d20736ca0dac44a5870380db67efbe43201",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/muse-code-ci-2026-09-01.json",
-      "git_blob_sha": "bbb6a13ff60cb3213d0dc96575eafe35af056d84"
+      "git_blob_sha": "bbb6a13ff60cb3213d0dc96575eafe35af056d84",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/openbmb-ci-2026-09-02.json",
-      "git_blob_sha": "6f69436b2f05f893491cc8dc8a326da87c72f1e6"
+      "git_blob_sha": "6f69436b2f05f893491cc8dc8a326da87c72f1e6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/opencut-ci-2026-09-01.json",
-      "git_blob_sha": "dc5e528ef4c98eccadc6aed72b88c53733c8b32e"
+      "git_blob_sha": "dc5e528ef4c98eccadc6aed72b88c53733c8b32e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/openhands-ci-2026-09-01.json",
-      "git_blob_sha": "855409a9c5262c1dc57ed6376202d1ec8ccfbc80"
+      "git_blob_sha": "855409a9c5262c1dc57ed6376202d1ec8ccfbc80",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/openvid-ci-2026-09-04.json",
-      "git_blob_sha": "703c452843d572b8e08b044d3260ae35c1065108"
+      "git_blob_sha": "703c452843d572b8e08b044d3260ae35c1065108",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/openyak-ci-2026-09-05.json",
-      "git_blob_sha": "57f6e9a18326d41868a5c16423c2974b7d3438a1"
+      "git_blob_sha": "57f6e9a18326d41868a5c16423c2974b7d3438a1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
-      "git_blob_sha": "30bea2433234ee7b52424db6f7b5ddbf6077dd68"
+      "git_blob_sha": "30bea2433234ee7b52424db6f7b5ddbf6077dd68",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/presenton-provider-ci-2026-08-30.json",
-      "git_blob_sha": "6fd3761f950e209a5f4ddd655ff2ecd5775ca129"
+      "git_blob_sha": "6fd3761f950e209a5f4ddd655ff2ecd5775ca129",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/stability-portfolio-ci-2026-09-02.json",
-      "git_blob_sha": "01bc2ef54a6d3b423bb211280279f191847b9c1e"
+      "git_blob_sha": "01bc2ef54a6d3b423bb211280279f191847b9c1e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/stability-sgm-ci-2026-09-01.json",
-      "git_blob_sha": "eb655d30c7ed4f4a3634bd8501415e0abbf1aea2"
+      "git_blob_sha": "eb655d30c7ed4f4a3634bd8501415e0abbf1aea2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
-      "git_blob_sha": "2181afc48b1d59f4ea438819e8d7116f31d4c54e"
+      "git_blob_sha": "2181afc48b1d59f4ea438819e8d7116f31d4c54e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/terax-v0.8.6.json",
-      "git_blob_sha": "49b20d973d746a0d6bf911de89a0736ee77e55dd"
+      "git_blob_sha": "49b20d973d746a0d6bf911de89a0736ee77e55dd",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/voice-synthesis-ci-2026-09-01.json",
-      "git_blob_sha": "d959c20769042324e192d1ae9cb1abe1976e1a8f"
+      "git_blob_sha": "d959c20769042324e192d1ae9cb1abe1976e1a8f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/whisper-v20250625.json",
-      "git_blob_sha": "4ae1f35ca8e7d77fa8ab774e50402264762603d1"
+      "git_blob_sha": "4ae1f35ca8e7d77fa8ab774e50402264762603d1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/xcmd-ci-2026-08-30.json",
-      "git_blob_sha": "4cd5ada41cf7010d9720894bc33ee3f49867193d"
+      "git_blob_sha": "4cd5ada41cf7010d9720894bc33ee3f49867193d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/blackhole-kdenlive-request.json",
-      "git_blob_sha": "4b28feb5992f421375b3a668e50801f550e4ea27"
+      "git_blob_sha": "4b28feb5992f421375b3a668e50801f550e4ea27",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/blackhole-kdenlive-whisper-request.json",
-      "git_blob_sha": "d90fa6113c25c474aa733a5ca80fa10bae5be12f"
+      "git_blob_sha": "d90fa6113c25c474aa733a5ca80fa10bae5be12f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/blackhole-stt-result.json",
-      "git_blob_sha": "a74aa323a499c0aa3d8dc41271cb7345c358f7ba"
+      "git_blob_sha": "a74aa323a499c0aa3d8dc41271cb7345c358f7ba",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/codex-delegated-agent-request.json",
-      "git_blob_sha": "de4fcf7db7edc7d3bf5f0dbb0b69a5fd8ebb7164"
+      "git_blob_sha": "de4fcf7db7edc7d3bf5f0dbb0b69a5fd8ebb7164",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/developer-agent-coordination-request.json",
-      "git_blob_sha": "ab958273a43a78138804840a8bafaa63a40721b7"
+      "git_blob_sha": "ab958273a43a78138804840a8bafaa63a40721b7",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/hybrid-editorial-reference-request.json",
-      "git_blob_sha": "229de404f7c85c82c9bcc5641048ee9b219b4ca2"
+      "git_blob_sha": "229de404f7c85c82c9bcc5641048ee9b219b4ca2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "examples/marketing-reference-request.json",
-      "git_blob_sha": "98b8bd5c567787bbb6944fe39122dc08359ed003"
+      "git_blob_sha": "98b8bd5c567787bbb6944fe39122dc08359ed003",
+      "baseline_delta_status": "added"
     },
     {
       "path": "fa3-current-host/README.md",
-      "git_blob_sha": "58ef8f48de4903332ae478975683e4faafd23076"
+      "git_blob_sha": "58ef8f48de4903332ae478975683e4faafd23076",
+      "baseline_delta_status": "added"
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "10baf52feba399c99668a40101ed7352838e7b3c"
+      "git_blob_sha": "10baf52feba399c99668a40101ed7352838e7b3c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_acestep_gate.py",
-      "git_blob_sha": "de59eaff6f7fc951e9f0f9c32f458d58ef2802b7"
+      "git_blob_sha": "de59eaff6f7fc951e9f0f9c32f458d58ef2802b7",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ai_engineering_gate.py",
-      "git_blob_sha": "0469f5420726470dfd893e8d3fc635be61d66465"
+      "git_blob_sha": "0469f5420726470dfd893e8d3fc635be61d66465",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ai_infra_guard_adapter.py",
-      "git_blob_sha": "93029bd4e0f7cfcbd577b89cfab697170f89f953"
+      "git_blob_sha": "93029bd4e0f7cfcbd577b89cfab697170f89f953",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ai_infra_guard_gate.py",
-      "git_blob_sha": "dd0d14bae3a1d8c641347bb552b2ea048658e041"
+      "git_blob_sha": "dd0d14bae3a1d8c641347bb552b2ea048658e041",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_autogpt_gate.py",
-      "git_blob_sha": "372041a127d371d1097954345746b3b18967a84e"
+      "git_blob_sha": "372041a127d371d1097954345746b3b18967a84e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_blackhole_kdenlive.py",
-      "git_blob_sha": "c06151c2b905661d6cb64648dd6367be8b92ed94"
+      "git_blob_sha": "c06151c2b905661d6cb64648dd6367be8b92ed94",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_blackhole_kdenlive_gate.py",
-      "git_blob_sha": "00ecf4720f41c1a66553a21c1b20356304be5b0f"
+      "git_blob_sha": "00ecf4720f41c1a66553a21c1b20356304be5b0f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_buzz_gate.py",
-      "git_blob_sha": "42c27494db9e188c05abc7adbd6c682161a1d337"
+      "git_blob_sha": "42c27494db9e188c05abc7adbd6c682161a1d337",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_closed_loop_agent_ops_reference.py",
-      "git_blob_sha": "287897f639e179e6ff7319bacb129ba8f433573f"
+      "git_blob_sha": "287897f639e179e6ff7319bacb129ba8f433573f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_codex_adapter.py",
-      "git_blob_sha": "61916636e350bcd66c641c9fb62825b3fa70d159"
+      "git_blob_sha": "61916636e350bcd66c641c9fb62825b3fa70d159",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_codex_gate.py",
-      "git_blob_sha": "cbec111ea1f001bb25c488bf3246781954b832a0"
+      "git_blob_sha": "cbec111ea1f001bb25c488bf3246781954b832a0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_cosyvoice_gate.py",
-      "git_blob_sha": "ee6f7ff73d9c650f040d3d0c7061fabafc261f1e"
+      "git_blob_sha": "ee6f7ff73d9c650f040d3d0c7061fabafc261f1e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_cosyvoice_provider.py",
-      "git_blob_sha": "b6657d0b6d313c4a976639d7083ea690f9924369"
+      "git_blob_sha": "b6657d0b6d313c4a976639d7083ea690f9924369",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_cpu_numa_threading_current_host_gate.py",
-      "git_blob_sha": "96b9b4c8ccdb5d5bf8a5116f8958b27c22d896cf"
+      "git_blob_sha": "96b9b4c8ccdb5d5bf8a5116f8958b27c22d896cf",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_cpu_numa_threading_gate.py",
-      "git_blob_sha": "c95895683d20dbade226d434f42418caed875f2a"
+      "git_blob_sha": "c95895683d20dbade226d434f42418caed875f2a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_cpu_thread_budget.py",
-      "git_blob_sha": "702ac6d8f0d48dd51c987ac1c4dc651aa7382a6a"
+      "git_blob_sha": "702ac6d8f0d48dd51c987ac1c4dc651aa7382a6a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_current_host.py",
-      "git_blob_sha": "fbc1ab0244daec56935a36d0937cf12a0428cc51"
+      "git_blob_sha": "fbc1ab0244daec56935a36d0937cf12a0428cc51",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_demucs_current_host_gate.py",
-      "git_blob_sha": "d0e133118e6a663c0440a1103643be8eb1c4bcf1"
+      "git_blob_sha": "d0e133118e6a663c0440a1103643be8eb1c4bcf1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_demucs_gate.py",
-      "git_blob_sha": "7209048a53853ce9af1e108c8694a47904588d0e"
+      "git_blob_sha": "7209048a53853ce9af1e108c8694a47904588d0e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_demucs_provider.py",
-      "git_blob_sha": "ea1538a8e77582801db447876228ff06e211b9b0"
+      "git_blob_sha": "ea1538a8e77582801db447876228ff06e211b9b0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_developer_agent_coordination.py",
-      "git_blob_sha": "56c0d33be581822285f8b40109a5e1b4281360a3"
+      "git_blob_sha": "56c0d33be581822285f8b40109a5e1b4281360a3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_developer_agent_coordination_gate.py",
-      "git_blob_sha": "26667813213f169d8614c1d37edb6517741123cc"
+      "git_blob_sha": "26667813213f169d8614c1d37edb6517741123cc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "da5b6332334816fc92a2b3f2033a2d9e12e9d027"
+      "git_blob_sha": "da5b6332334816fc92a2b3f2033a2d9e12e9d027",
+      "baseline_delta_status": "modified"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
-      "git_blob_sha": "bf65258ba9d8fed9e63d41f524ce80f75845a52c"
+      "git_blob_sha": "bf65258ba9d8fed9e63d41f524ce80f75845a52c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ffmpeg_ai_current_host.py",
-      "git_blob_sha": "5c274e6dc989d00a6e72cf984c03fd75519edf67"
+      "git_blob_sha": "5c274e6dc989d00a6e72cf984c03fd75519edf67",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ffmpeg_ai_current_host_gate.py",
-      "git_blob_sha": "45911ca6b2f9cab4bcb53f386bd1fc276c1b840f"
+      "git_blob_sha": "45911ca6b2f9cab4bcb53f386bd1fc276c1b840f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ffmpeg_ai_gate.py",
-      "git_blob_sha": "7a6feb2bd6d92ea135cbfd32e0ca0c1c9619672b"
+      "git_blob_sha": "7a6feb2bd6d92ea135cbfd32e0ca0c1c9619672b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_gpu_kernel_dispatch_reference.py",
-      "git_blob_sha": "ef1d21d6509f320c91505131f063956922abebc9"
+      "git_blob_sha": "ef1d21d6509f320c91505131f063956922abebc9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_gpu_kernel_runtime_gate.py",
-      "git_blob_sha": "bcf416bf2331b172d8fa7333ba99d8f42dd96b9f"
+      "git_blob_sha": "bcf416bf2331b172d8fa7333ba99d8f42dd96b9f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
-      "git_blob_sha": "e4bd272c3730d58b2a59c9e334b0cf7e53c70e7d"
+      "git_blob_sha": "e4bd272c3730d58b2a59c9e334b0cf7e53c70e7d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
-      "git_blob_sha": "7da2b956962db144606c42bc54f6d22f0a5d47f5"
+      "git_blob_sha": "7da2b956962db144606c42bc54f6d22f0a5d47f5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_hybrid_editorial_gate.py",
-      "git_blob_sha": "fd16d50b2c8456eb05bf48ace1a2aa0abc76d3f6"
+      "git_blob_sha": "fd16d50b2c8456eb05bf48ace1a2aa0abc76d3f6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_hybrid_editorial_reference.py",
-      "git_blob_sha": "30e49498d4eda4c1ce67d079f595fee6efe8a1f3"
+      "git_blob_sha": "30e49498d4eda4c1ce67d079f595fee6efe8a1f3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_inference_portability_gate.py",
-      "git_blob_sha": "22dd008678a2519cf53d4ce16c92e305a9b9497b"
+      "git_blob_sha": "22dd008678a2519cf53d4ce16c92e305a9b9497b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_kanboard_gate.py",
-      "git_blob_sha": "77d6d5497c345cb8df611a90f173e3952cfbe80e"
+      "git_blob_sha": "77d6d5497c345cb8df611a90f173e3952cfbe80e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_kaneo_gate.py",
-      "git_blob_sha": "5e7873a70b2efbce4ba30854de183a7e31f0615b"
+      "git_blob_sha": "5e7873a70b2efbce4ba30854de183a7e31f0615b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_kdenlive_editorial_gate.py",
-      "git_blob_sha": "e68265eac453057fbf32b63bc4e8512f75c90a58"
+      "git_blob_sha": "e68265eac453057fbf32b63bc4e8512f75c90a58",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_loop_engineering_gate.py",
-      "git_blob_sha": "9b8f3d2ec8b26c1cc514757234bc09444c5cd75d"
+      "git_blob_sha": "9b8f3d2ec8b26c1cc514757234bc09444c5cd75d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_lynxhub_gate.py",
-      "git_blob_sha": "7a3dd9c598e3ecaa1a26314a8775e65193f0c4b2"
+      "git_blob_sha": "7a3dd9c598e3ecaa1a26314a8775e65193f0c4b2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_marketing_gate.py",
-      "git_blob_sha": "794def2577c01ce97017ffc32f0f6bf66169fd79"
+      "git_blob_sha": "794def2577c01ce97017ffc32f0f6bf66169fd79",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_marketing_reference.py",
-      "git_blob_sha": "81aee24a05ee314e3c3651bfa17a627f07627aa0"
+      "git_blob_sha": "81aee24a05ee314e3c3651bfa17a627f07627aa0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_marketingskills_gate.py",
-      "git_blob_sha": "1b68d150849eaeb46c6e2291e319c79069ec2e1e"
+      "git_blob_sha": "1b68d150849eaeb46c6e2291e319c79069ec2e1e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_mentor_gate.py",
-      "git_blob_sha": "979052f5791f429f5cc22c5697ec04feacf82362"
+      "git_blob_sha": "979052f5791f429f5cc22c5697ec04feacf82362",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_inventory_current_host_adapter.py",
+      "git_blob_sha": "f52fb8e8947cd324fc74d934c7f9a3420afbede9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_inventory_current_host_gate.py",
+      "git_blob_sha": "a772a521add67e5e7316a7036398cf44f59cfc2f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_model_manager_current_host_gate.py",
-      "git_blob_sha": "ad9429deaaccdea50d764998ff323605595d29b3"
+      "git_blob_sha": "ad9429deaaccdea50d764998ff323605595d29b3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_model_manager_gate.py",
-      "git_blob_sha": "8b7b835bf2e9753c34baff39990b1a1a4f8cffad"
+      "git_blob_sha": "8b7b835bf2e9753c34baff39990b1a1a4f8cffad",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_model_manager_provider_adapter.py",
-      "git_blob_sha": "5ed8751f257b0327a812378b5ef02caa016a6c07"
+      "git_blob_sha": "5ed8751f257b0327a812378b5ef02caa016a6c07",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_model_manager_v2_gate.py",
-      "git_blob_sha": "1bb5bbe90d081f8aeace5a72b590ceb9d34fc15b"
+      "git_blob_sha": "1bb5bbe90d081f8aeace5a72b590ceb9d34fc15b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_modular_current_host_gate.py",
-      "git_blob_sha": "dd3f12ee9c2614e0cc7f5ce8a9512fa49d44b361"
+      "git_blob_sha": "dd3f12ee9c2614e0cc7f5ce8a9512fa49d44b361",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_modular_gate.py",
-      "git_blob_sha": "5d89a1a12b2d38ea3bc9473e275faa172eb60775"
+      "git_blob_sha": "5d89a1a12b2d38ea3bc9473e275faa172eb60775",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_modular_runtime.py",
-      "git_blob_sha": "cd2d2c5925bf5975b1d9b9b81aead0a7d4437b30"
+      "git_blob_sha": "cd2d2c5925bf5975b1d9b9b81aead0a7d4437b30",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_munder_difflin_executable_gate.py",
-      "git_blob_sha": "8ab5d6db597c4e024a23a556a95ad5ba82212b71"
+      "git_blob_sha": "8ab5d6db597c4e024a23a556a95ad5ba82212b71",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_munder_difflin_gate.py",
-      "git_blob_sha": "07e896eba567f5882361102558a4f688f1700175"
+      "git_blob_sha": "07e896eba567f5882361102558a4f688f1700175",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_muse_code_gate.py",
-      "git_blob_sha": "8bcdcf4f74fb7096a7e7f83bed2e63e167935f2e"
+      "git_blob_sha": "8bcdcf4f74fb7096a7e7f83bed2e63e167935f2e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_openbmb_gate.py",
-      "git_blob_sha": "a504c7fc24ff42ca9f2981529aebfed861498179"
+      "git_blob_sha": "a504c7fc24ff42ca9f2981529aebfed861498179",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_opencut_gate.py",
-      "git_blob_sha": "a01e906e826ab94982d80b67c08318dc2ad9e147"
+      "git_blob_sha": "a01e906e826ab94982d80b67c08318dc2ad9e147",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_openhands_gate.py",
-      "git_blob_sha": "9b95c9096e04a50aa57c799facb061b5b280d602"
+      "git_blob_sha": "9b95c9096e04a50aa57c799facb061b5b280d602",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_openvid_gate.py",
-      "git_blob_sha": "7664869c636071194dbf82f9a33a0b6f7639e87e"
+      "git_blob_sha": "7664869c636071194dbf82f9a33a0b6f7639e87e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_openyak_gate.py",
-      "git_blob_sha": "8b23d3a2df5a2599c0c0821c23fcddaef83c6dda"
+      "git_blob_sha": "8b23d3a2df5a2599c0c0821c23fcddaef83c6dda",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_presenton_gate.py",
-      "git_blob_sha": "74f3126fc1e448ce91eb1276b9f90358f8d520db"
+      "git_blob_sha": "74f3126fc1e448ce91eb1276b9f90358f8d520db",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "578058db31ccbaa0eef8e337e5ec826ac485da49"
+      "git_blob_sha": "578058db31ccbaa0eef8e337e5ec826ac485da49",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
-      "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1"
+      "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_stability_portfolio_gate.py",
-      "git_blob_sha": "3f32aeb74183117dc7b03e611ac3a42fc0fc8bd5"
+      "git_blob_sha": "3f32aeb74183117dc7b03e611ac3a42fc0fc8bd5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_stability_sgm_gate.py",
-      "git_blob_sha": "dd2fdfae1725d23e37ab1e0932d9308416b240dc"
+      "git_blob_sha": "dd2fdfae1725d23e37ab1e0932d9308416b240dc",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_tencentdb_agent_memory_gate.py",
-      "git_blob_sha": "11fbc6512cd135acfacd095a6f70afd11e85377a"
+      "git_blob_sha": "11fbc6512cd135acfacd095a6f70afd11e85377a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_terax_gate.py",
-      "git_blob_sha": "4d2561b7d20f09253ac8f7d6ab6e692746532906"
+      "git_blob_sha": "4d2561b7d20f09253ac8f7d6ab6e692746532906",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_video_provider_lifecycle_gate.py",
-      "git_blob_sha": "aced64697f0a343758694e1568a5c959a86ab34f"
+      "git_blob_sha": "aced64697f0a343758694e1568a5c959a86ab34f",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_voice_synthesis_gate.py",
-      "git_blob_sha": "584bb582fc4ea9833ee493b5dcd3d20a801f582e"
+      "git_blob_sha": "584bb582fc4ea9833ee493b5dcd3d20a801f582e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_whisper_stt_gate.py",
-      "git_blob_sha": "550b1289c7cf2bef782dbe0390c27806a6e13c23"
+      "git_blob_sha": "550b1289c7cf2bef782dbe0390c27806a6e13c23",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_whisper_stt_provider.py",
-      "git_blob_sha": "56efe5f7778d5509e508ed545901763536b3fb96"
+      "git_blob_sha": "56efe5f7778d5509e508ed545901763536b3fb96",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_xcmd_gate.py",
-      "git_blob_sha": "f75f1b27ab58b4bfef410f963ad4a9b43cbea3a6"
+      "git_blob_sha": "f75f1b27ab58b4bfef410f963ad4a9b43cbea3a6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_acestep_gate.py",
-      "git_blob_sha": "3d22c93cc9fe24376c0fa11ac35816e2aee08dba"
+      "git_blob_sha": "3d22c93cc9fe24376c0fa11ac35816e2aee08dba",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_ai_engineering_gate.py",
-      "git_blob_sha": "494dbdd5886d1cd92127942926dbcb9200d25d5a"
+      "git_blob_sha": "494dbdd5886d1cd92127942926dbcb9200d25d5a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_ai_infra_guard_gate.py",
-      "git_blob_sha": "3ad838b55a47a918887f2bb6544c3b1876426035"
+      "git_blob_sha": "3ad838b55a47a918887f2bb6544c3b1876426035",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_autogpt_gate.py",
-      "git_blob_sha": "0bd2a76d476d80194db6a26652880026f5492e81"
+      "git_blob_sha": "0bd2a76d476d80194db6a26652880026f5492e81",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_blackhole_kdenlive.py",
-      "git_blob_sha": "8b655375b164b038b82ad6488a42be8f58389fbe"
+      "git_blob_sha": "8b655375b164b038b82ad6488a42be8f58389fbe",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_buzz_gate.py",
-      "git_blob_sha": "021ba7f5a79ef7e83bd5187c30146cd8b94c19b3"
+      "git_blob_sha": "021ba7f5a79ef7e83bd5187c30146cd8b94c19b3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_codex_adapter.py",
-      "git_blob_sha": "bed4f1029ae929f97481c221b9a1ed43fc77e486"
+      "git_blob_sha": "bed4f1029ae929f97481c221b9a1ed43fc77e486",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_conversation_reconciliation.py",
-      "git_blob_sha": "25601d920524aed5fd1a44a06f0f5fb12ec8ab5d"
+      "git_blob_sha": "25601d920524aed5fd1a44a06f0f5fb12ec8ab5d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_cosyvoice_gate.py",
-      "git_blob_sha": "48ef9c236cacbd6d00cb72e20ba7e726a0cbe795"
+      "git_blob_sha": "48ef9c236cacbd6d00cb72e20ba7e726a0cbe795",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_cpu_numa_threading_current_host_gate.py",
-      "git_blob_sha": "7f63c45083b945d7be0251673f0fc0408fa6e180"
+      "git_blob_sha": "7f63c45083b945d7be0251673f0fc0408fa6e180",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_cpu_numa_threading_gate.py",
-      "git_blob_sha": "fd8d484e7d4729262b2baa7c2c1ed2f5b203ba67"
+      "git_blob_sha": "fd8d484e7d4729262b2baa7c2c1ed2f5b203ba67",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_current_host_projection.py",
-      "git_blob_sha": "ef555b219249e4caed0e1d13f8da5164f942a532"
+      "git_blob_sha": "ef555b219249e4caed0e1d13f8da5164f942a532",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_demucs_gate.py",
-      "git_blob_sha": "0748187c412f45b6336d6f89f9e0312acf15dcb1"
+      "git_blob_sha": "0748187c412f45b6336d6f89f9e0312acf15dcb1",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_demucs_provider_runtime.py",
-      "git_blob_sha": "8756cc192f3bca8277fcad58d9137895becda1a3"
+      "git_blob_sha": "8756cc192f3bca8277fcad58d9137895becda1a3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_developer_agent_coordination.py",
-      "git_blob_sha": "938a34ca24475605038bb7ec4f7118e01dd6927b"
+      "git_blob_sha": "938a34ca24475605038bb7ec4f7118e01dd6927b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_external_api_discovery_gate.py",
-      "git_blob_sha": "e569c674f7b696e00e3d0a6e17e0901b0e97dcda"
+      "git_blob_sha": "e569c674f7b696e00e3d0a6e17e0901b0e97dcda",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_ffmpeg_ai_current_host_gate.py",
-      "git_blob_sha": "a2dc89fb0f3bef258a2473558eab5f92b7207187"
+      "git_blob_sha": "a2dc89fb0f3bef258a2473558eab5f92b7207187",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_ffmpeg_ai_gate.py",
-      "git_blob_sha": "7f04e31b68431ce3412a72c7db97e5c06c9a41d3"
+      "git_blob_sha": "7f04e31b68431ce3412a72c7db97e5c06c9a41d3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_gpu_kernel_runtime_gate.py",
-      "git_blob_sha": "c1ba6b864f0b5adc5bfbbb69a0fa674dcb215130"
+      "git_blob_sha": "c1ba6b864f0b5adc5bfbbb69a0fa674dcb215130",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_hardware_portability_gate.py",
-      "git_blob_sha": "a112bf27037dbfb52cc1d8dcefcdc9f973d21ff0"
+      "git_blob_sha": "a112bf27037dbfb52cc1d8dcefcdc9f973d21ff0",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
-      "git_blob_sha": "3d3e282cfd1125ed913ece46c6a0d25f7bce4c89"
+      "git_blob_sha": "3d3e282cfd1125ed913ece46c6a0d25f7bce4c89",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_hybrid_editorial_gate.py",
-      "git_blob_sha": "288ddd1832aea77c18316d6d3feb9b1cc0f787d2"
+      "git_blob_sha": "288ddd1832aea77c18316d6d3feb9b1cc0f787d2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_inference_portability_gate.py",
-      "git_blob_sha": "7e1ea79214b09b69f3189dfb3115aa76cc2e1e99"
+      "git_blob_sha": "7e1ea79214b09b69f3189dfb3115aa76cc2e1e99",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_kanboard_gate.py",
-      "git_blob_sha": "ece5cb4f947d9cc8022e0d18089935217f0fbe0e"
+      "git_blob_sha": "ece5cb4f947d9cc8022e0d18089935217f0fbe0e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_kaneo_gate.py",
-      "git_blob_sha": "7c3f48d96cdbda6413a93be22d384e952905059d"
+      "git_blob_sha": "7c3f48d96cdbda6413a93be22d384e952905059d",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_kdenlive_editorial.py",
-      "git_blob_sha": "a805ea489ad6281fbf55e9ba53779d494f7fb086"
+      "git_blob_sha": "a805ea489ad6281fbf55e9ba53779d494f7fb086",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_loop_engineering_gate.py",
-      "git_blob_sha": "ff62d27f160023ed1c2ae995bb8881f875afa962"
+      "git_blob_sha": "ff62d27f160023ed1c2ae995bb8881f875afa962",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_lynxhub_gate.py",
-      "git_blob_sha": "21a20586d4122cad01f510f2020f3b8a24e62f76"
+      "git_blob_sha": "21a20586d4122cad01f510f2020f3b8a24e62f76",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_marketing_gate.py",
-      "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670"
+      "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_marketingskills_gate.py",
-      "git_blob_sha": "de697fa063bd09a17598bcdba0e9efc0a737fea2"
+      "git_blob_sha": "de697fa063bd09a17598bcdba0e9efc0a737fea2",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_mentor_gate.py",
-      "git_blob_sha": "25127303b7e544c13a534c11e4833be52a0a6dd9"
+      "git_blob_sha": "25127303b7e544c13a534c11e4833be52a0a6dd9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_inventory_current_host_adapter.py",
+      "git_blob_sha": "7fb31600d12a757f10d13d4296bf3ee0e24ac24e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_model_manager_gate.py",
-      "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821"
+      "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_model_manager_provider_adapter.py",
-      "git_blob_sha": "d914bdaa8533f718333e6638a651cbd3cddf05ed"
+      "git_blob_sha": "d914bdaa8533f718333e6638a651cbd3cddf05ed",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_model_manager_v2_gate.py",
-      "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c"
+      "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_modular_gate.py",
-      "git_blob_sha": "bcbc1a5300ed991fe34740ae27194705a5777287"
+      "git_blob_sha": "bcbc1a5300ed991fe34740ae27194705a5777287",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_modular_runtime.py",
-      "git_blob_sha": "07b85ae3201ad892fd7a5dbc1a60875f135ea9b9"
+      "git_blob_sha": "07b85ae3201ad892fd7a5dbc1a60875f135ea9b9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_munder_difflin_executable_gate.py",
-      "git_blob_sha": "2f12bbee5eba752f6b9985bccb5d32e702ab6eb9"
+      "git_blob_sha": "2f12bbee5eba752f6b9985bccb5d32e702ab6eb9",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_munder_difflin_gate.py",
-      "git_blob_sha": "fb1de8df606b2a1653cfc86f0e3f6282582a2279"
+      "git_blob_sha": "fb1de8df606b2a1653cfc86f0e3f6282582a2279",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_muse_code_gate.py",
-      "git_blob_sha": "b5919398696d411278baa8511c03dd0417af3d4a"
+      "git_blob_sha": "b5919398696d411278baa8511c03dd0417af3d4a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_openbmb_gate.py",
-      "git_blob_sha": "66fcee9cbe629ae1a263d46e86239d5484c115c6"
+      "git_blob_sha": "66fcee9cbe629ae1a263d46e86239d5484c115c6",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_opencut_gate.py",
-      "git_blob_sha": "d60475c05e46792970cd428c713ef826aea95577"
+      "git_blob_sha": "d60475c05e46792970cd428c713ef826aea95577",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_openhands_gate.py",
-      "git_blob_sha": "a631929acb1561d817f7f9f534bbf41554ed533c"
+      "git_blob_sha": "a631929acb1561d817f7f9f534bbf41554ed533c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_openvid_gate.py",
-      "git_blob_sha": "140d2b47ae6b53c5defaf537d006230985e72e88"
+      "git_blob_sha": "140d2b47ae6b53c5defaf537d006230985e72e88",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_openyak_gate.py",
-      "git_blob_sha": "37bdd97b84aad21e0c46f4172b9f1ac1e1754c18"
+      "git_blob_sha": "37bdd97b84aad21e0c46f4172b9f1ac1e1754c18",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_presenton_gate.py",
-      "git_blob_sha": "636dc3ca5b1e24c78d4507f60686291d5c1b583e"
+      "git_blob_sha": "636dc3ca5b1e24c78d4507f60686291d5c1b583e",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_release_projection.py",
-      "git_blob_sha": "c127bb6819c0a974d00ec382ff7dc257c22a2c60"
+      "git_blob_sha": "c127bb6819c0a974d00ec382ff7dc257c22a2c60",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
-      "git_blob_sha": "efe4181c2eb69a6e81960aafa9f40f729bb57cec"
+      "git_blob_sha": "efe4181c2eb69a6e81960aafa9f40f729bb57cec",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_stability_sgm_gate.py",
-      "git_blob_sha": "0bab1a69a097a5a05a348638a2f722cfbfcbcd7a"
+      "git_blob_sha": "0bab1a69a097a5a05a348638a2f722cfbfcbcd7a",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_tencentdb_agent_memory_gate.py",
-      "git_blob_sha": "97406909f81b7aba3924025d99878cf1ba3fa438"
+      "git_blob_sha": "97406909f81b7aba3924025d99878cf1ba3fa438",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_terax_gate.py",
-      "git_blob_sha": "816c27f4ecf8d9f192165095e2a95e1eb2ce9b40"
+      "git_blob_sha": "816c27f4ecf8d9f192165095e2a95e1eb2ce9b40",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_terax_integration.py",
-      "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde"
+      "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_video_provider_lifecycle_gate.py",
-      "git_blob_sha": "d37954ffe9990213dac6a3d2744dd03bcec95ecb"
+      "git_blob_sha": "d37954ffe9990213dac6a3d2744dd03bcec95ecb",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_video_registry.py",
-      "git_blob_sha": "a88033817deb291f663c8d8155cff3f629ac4a40"
+      "git_blob_sha": "a88033817deb291f663c8d8155cff3f629ac4a40",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_voice_synthesis_gate.py",
-      "git_blob_sha": "692fa2edc15fd78870cbc3f24fe97879a93af322"
+      "git_blob_sha": "692fa2edc15fd78870cbc3f24fe97879a93af322",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_whisper_stt_provider.py",
-      "git_blob_sha": "8136b20ef0ae08ff659d0523f0c45683f9edd702"
+      "git_blob_sha": "8136b20ef0ae08ff659d0523f0c45683f9edd702",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_xcmd_gate.py",
-      "git_blob_sha": "92e90d366468152c748e2a38bcbbf760070be6f7"
+      "git_blob_sha": "92e90d366468152c748e2a38bcbbf760070be6f7",
+      "baseline_delta_status": "added"
     }
   ],
   "self_hash_policy": {
@@ -3850,6 +4530,32 @@
     "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_ADMISSION_GATE_PASS_RUNTIME_NOT_DEPENDENCY",
     "full_upstream_repo_implicitly_admitted": false,
     "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "model_inventory_current_host_reconciliation": {
+    "profile_id": "FA3-MODEL-MANAGER-001",
+    "conformance_id": "FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-GATE-MODEL-INVENTORY-CURRENT-HOST-001",
+    "provider_ids": [
+      "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+      "FA3-PROVIDER-HF-MODEL-STORE-001",
+      "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+      "FA3-PROVIDER-OLLAMA-MODEL-001"
+    ],
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-016",
+      "CAP-120"
+    ],
+    "classification": "READ_ONLY_CURRENT_HOST_CROSS_PROVIDER_MODEL_INVENTORY_EVIDENCE_EXTENSION",
+    "reconciliation_status": "CANONICAL_MATERIALIZED_CURRENT_HOST_EXECUTION_PENDING",
+    "required_evidence_level": "CURRENT_HOST_READ_ONLY_CROSS_PROVIDER_MODEL_INVENTORY_PASS",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_runtime_promotion_claim": false,
+    "self_hosted_runner_required": true,
+    "github_hosted_ci_cannot_claim_current_host_pass": true,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

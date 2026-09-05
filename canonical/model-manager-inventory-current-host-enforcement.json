@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.model-manager-inventory-current-host-enforcement.v1",
+  "gate_id": "FA3-GATE-MODEL-INVENTORY-CURRENT-HOST-001",
+  "conformance_id": "FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "provider_ids": [
+    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "fail_closed": true,
+  "read_only_required": true,
+  "network_access_forbidden": true,
+  "model_store_mutation_forbidden": true,
+  "absolute_path_disclosure_forbidden": true,
+  "minimum_available_nonempty_providers": 2,
+  "stability_matrix_nonempty_required": true,
+  "stability_matrix_representative_full_sha256_required": true,
+  "stability_matrix_before_after_manifest_equality_required": true,
+  "cross_provider_inventory_artifact_hash_required": true,
+  "forbidden": [
+    "NETWORK_MODEL_DOWNLOAD_OR_PULL",
+    "MODEL_STORE_WRITE",
+    "MODEL_MOVE_DELETE_RELINK",
+    "PHYSICAL_DEDUP_MUTATION",
+    "CANONICAL_MODEL_ADMISSION_FROM_DISCOVERY_ONLY",
+    "MODEL_ROUTING",
+    "HOST_RESOURCE_PLACEMENT",
+    "ABSOLUTE_MODEL_STORE_PATH_DISCLOSURE",
+    "CURRENT_HOST_PASS_FROM_GITHUB_HOSTED_CI"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05",
+  "date": "2026-09-05",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize StabilityMatrix current-host adapter, real model inventory scan and read-only cross-provider discovery evidence",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "conformance_id": "FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001",
+  "gate_id": "FA3-GATE-MODEL-INVENTORY-CURRENT-HOST-001",
+  "provider_ids": [
+    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120"
+  ],
+  "current_host_evidence_required": true,
+  "current_host_pass_may_be_claimed_by_github_hosted_ci": false,
+  "read_only": true,
+  "network_model_fetch": false,
+  "model_store_mutation": false,
+  "canonical_model_admission": false,
+  "physical_dedup": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false,
+  "decisions": [
+    "The existing Model Manager authority boundaries remain unchanged; this materialization is an implementation/evidence extension only.",
+    "StabilityMatrix is scanned through its real current-host library and Models directory without replacing its own model management.",
+    "The StabilityMatrix scan enumerates recognized model artifacts, emits only relative paths, fingerprints the store root, and hashes a real representative artifact with full SHA-256.",
+    "The collector proves no structural StabilityMatrix model-store mutation by requiring identical before/after inventory manifests.",
+    "Cross-provider discovery reads StabilityMatrix, local Hugging Face immutable snapshots, the LM Studio local catalog, and Ollama native manifests without downloads or network access.",
+    "Discovery PASS does not canonically admit every observed model, infer compatibility, perform physical deduplication, choose model routing, or place workloads.",
+    "Executable current-host PASS may only be produced by the self-hosted fa3-current-host runner and is distinct from GitHub-hosted canonical regression PASS."
+  ]
+}

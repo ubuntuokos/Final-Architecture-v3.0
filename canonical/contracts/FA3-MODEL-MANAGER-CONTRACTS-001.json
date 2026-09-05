@@ -27,7 +27,10 @@
     "LicenseTrustAdmission",
     "RuntimeResourceRequirement",
     "HRBPlacementAdmission",
-    "ProviderOperationRequest"
+    "ProviderOperationRequest",
+    "ReadOnlyProviderInventoryScan",
+    "CrossProviderInventorySnapshot",
+    "CurrentHostInventoryEvidenceReceipt"
   ],
   "required_semantics": {
     "model_identity": "STABLE_LOGICAL_IDENTITY_INDEPENDENT_OF_ABSOLUTE_PATH",
@@ -122,6 +125,20 @@
     "link_projection": "AUTHORIZATION_CANONICAL_PATH_REVALIDATION_COMPATIBILITY_AND_ROLLBACK_REQUIRED",
     "accelerator_placement": "HOST_RESOURCE_BROKER_ONLY",
     "runtime_materialization": "EXECUTABLE_EVIDENCE_REQUIRED_FOR_PRODUCTION_PROMOTION",
-    "floating_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION"
+    "floating_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION",
+    "read_only_cross_provider_inventory": "DISCOVERY_ONLY_NO_MUTATION_NO_ROUTING_NO_ADMISSION",
+    "inventory_path_disclosure": "ABSOLUTE_PROVIDER_STORE_PATHS_FORBIDDEN_IN_EVIDENCE",
+    "inventory_discovery_pass": "DOES_NOT_IMPLY_CANONICAL_MODEL_ADMISSION_OR_RUNTIME_COMPATIBILITY"
+  },
+  "current_host_inventory_contract": {
+    "stability_matrix": "REAL_LIBRARY_MODELS_TREE_ENUMERATION_PLUS_REPRESENTATIVE_FULL_SHA256",
+    "hugging_face": "LOCAL_IMMUTABLE_SNAPSHOT_DISCOVERY",
+    "lm_studio": "READ_ONLY_LOCAL_CATALOG_DISCOVERY",
+    "ollama": "READ_ONLY_NATIVE_MANIFEST_DISCOVERY",
+    "minimum_available_nonempty_providers": 2,
+    "network_access": "FORBIDDEN",
+    "model_store_mutation": "FORBIDDEN",
+    "physical_dedup": "FORBIDDEN",
+    "canonical_admission": "FORBIDDEN"
   }
 }

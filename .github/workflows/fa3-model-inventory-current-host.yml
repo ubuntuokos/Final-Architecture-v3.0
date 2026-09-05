@@ -1,0 +1,198 @@
+name: FA3 Model Inventory Current-Host Read-Only E2E
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fa3/model-manager-stabilitymatrix-current-host-2026-09-05
+    paths:
+      - .github/workflows/fa3-model-inventory-current-host.yml
+      - canonical/FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001.json
+      - canonical/model-manager-inventory-current-host-enforcement.json
+      - canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json
+      - canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json
+      - canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json
+      - src/fa3_model_inventory_current_host_adapter.py
+      - src/fa3_model_inventory_current_host_gate.py
+      - evidence/collect-model-inventory-current-host.py
+      - bin/fa3-model-inventory-current-host.sh
+      - tests/test_model_inventory_current_host_adapter.py
+
+concurrency:
+  group: fa3-model-inventory-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  projection-candidate:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/fa3/model-manager-stabilitymatrix-current-host-2026-09-05'
+    name: model-inventory / release-projection-candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Generate unified release projection candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          PROJ = Path('canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
+          MUTABLE_TOP = {'.git','reports','acceptance','promotion','.pytest_cache','.mypy_cache'}
+
+          def git(*args):
+              p = subprocess.run(['git', *args], text=True, capture_output=True, check=True)
+              return p.stdout.strip()
+
+          def mutable(rel):
+              parts = Path(rel).parts
+              if not parts or parts[0] in MUTABLE_TOP or '__pycache__' in parts:
+                  return True
+              if rel.startswith('evidence/receipts/') and rel != 'evidence/receipts/.gitkeep':
+                  return True
+              if rel.startswith('evidence/runtime/'):
+                  return True
+              return False
+
+          obj = json.loads(PROJ.read_text(encoding='utf-8'))
+          base = obj['base_release_commit']
+          snap = git('rev-parse','HEAD')
+          root_tree = git('rev-parse','HEAD^{tree}')
+          canonical_tree = git('rev-parse','HEAD:canonical')
+          raw = git('diff','--name-status','--find-renames',base,snap)
+          rows=[]
+          for line in raw.splitlines():
+              if not line: continue
+              parts=line.split('\t'); status=parts[0]; path=parts[-1]
+              rows.append((status,path))
+          paths=[p for _,p in rows]
+          added=sum(s.startswith('A') for s,_ in rows)
+          modified=sum(s.startswith('M') for s,_ in rows)
+          removed=sum(s.startswith('D') for s,_ in rows)
+          other=len(rows)-added-modified-removed
+          count=int(git('rev-list','--count',f'{base}..{snap}'))
+          obj['source_snapshot']={
+              'snapshot_semantics':'PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR',
+              'baseline_commit_sha':base,
+              'pre_projection_head_sha':snap,
+              'pre_projection_root_tree_sha':root_tree,
+              'pre_projection_canonical_tree_sha':canonical_tree,
+              'commits_ahead_of_v3_0_11_conformance_commit':count,
+              'total_post_baseline_commits':count,
+              'delta_file_count':len(rows),
+              'delta_added_files':added,
+              'delta_modified_files':modified,
+              'delta_removed_files':removed,
+              'delta_other_files':other,
+          }
+          def pref(prefix): return sorted(p for p in paths if p.startswith(prefix))
+          obj['overlay_inventory']={
+              'canonical_files_in_post_baseline_delta':len(pref('canonical/')),
+              'evidence_files_in_post_baseline_delta':len(pref('evidence/')),
+              'source_files_in_post_baseline_delta':len(pref('src/')),
+              'test_files_in_post_baseline_delta':len(pref('tests/')),
+              'workflow_files_in_post_baseline_delta':len(pref('.github/workflows/')),
+              'provider_records':pref('canonical/providers/'),
+              'profile_records':pref('canonical/profiles/'),
+              'contract_records':pref('canonical/contracts/'),
+              'decision_records':pref('canonical/decisions/'),
+              'upstream_reference_records':pref('canonical/references/'),
+              'reference_evidence_records':pref('evidence/reference/'),
+          }
+          status_map={p:('added' if s.startswith('A') else 'modified' if s.startswith('M') else 'changed') for s,p in rows}
+          tracked=git('ls-files').splitlines()
+          manifest=[]
+          for rel in sorted(tracked):
+              if rel == PROJ.as_posix() or mutable(rel): continue
+              sha=git('rev-parse',f'HEAD:{rel}')
+              manifest.append({'path':rel,'git_blob_sha':sha,'baseline_delta_status':status_map.get(rel,'unchanged')})
+          obj['manifest_entry_count']=len(manifest)
+          obj['manifest']=manifest
+          obj['model_inventory_current_host_reconciliation']={
+              'profile_id':'FA3-MODEL-MANAGER-001',
+              'conformance_id':'FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001',
+              'gate_id':'FA3-GATE-MODEL-INVENTORY-CURRENT-HOST-001',
+              'provider_ids':['FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001','FA3-PROVIDER-HF-MODEL-STORE-001','FA3-PROVIDER-LM-STUDIO-MODEL-001','FA3-PROVIDER-OLLAMA-MODEL-001'],
+              'capability_bindings':['CAP-005','CAP-016','CAP-120'],
+              'classification':'READ_ONLY_CURRENT_HOST_CROSS_PROVIDER_MODEL_INVENTORY_EVIDENCE_EXTENSION',
+              'reconciliation_status':'CANONICAL_MATERIALIZED_CURRENT_HOST_EXECUTION_PENDING',
+              'required_evidence_level':'CURRENT_HOST_READ_ONLY_CROSS_PROVIDER_MODEL_INVENTORY_PASS',
+              'current_host_runtime_evidence':'PENDING_REAL_CURRENT_HOST_EXECUTION',
+              'current_host_runtime_promotion_claim':False,
+              'self_hosted_runner_required':True,
+              'github_hosted_ci_cannot_claim_current_host_pass':True,
+              'new_capabilities':0,
+              'new_architectural_authorities':0,
+              'capability_count_after':143,
+          }
+          obj['last_reconciled_at']='2026-09-05'
+          PROJ.write_text(json.dumps(obj,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          print(json.dumps({'snapshot':snap,'commits':count,'delta_files':len(rows),'manifest':len(manifest)},indent=2))
+          PY
+      - name: Commit projection-only reconciliation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if git diff --cached --quiet; then
+            echo "Projection already current"
+          else
+            git commit -m "FA3: reconcile model inventory into unified release projection"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+  current-host:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    name: model-inventory-current-host / read-only-real-store-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify safe current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          test -d /AI-modells/StabilityMatrix || test -d /AI-models/StabilityMatrix || test -n "${STABILITY_MATRIX_LIBRARY_DIR:-}"
+      - name: Read-only adapter regressions
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_inventory_current_host_adapter -v
+      - name: Run real read-only cross-provider inventory
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: |
+          set -euo pipefail
+          bash bin/fa3-model-inventory-current-host.sh
+      - name: Upload sanitized current-host inventory evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-model-inventory-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/model-inventory-current-host.json
+            evidence/runtime/model-inventory-current-host/*/summary.json
+            reports/model-inventory-current-host-gate-report.json
