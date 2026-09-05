@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "name": "Creative Operations Dashboard & Approved Local Launcher Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MAY",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-DESKTOP-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-057"
+  ],
+  "contract": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-LYNXHUB-001"
+  ],
+  "scope": [
+    "LOCAL_CREATIVE_OPERATIONS_DASHBOARD",
+    "APPROVED_APPLICATION_AND_USER_SERVICE_LAUNCH",
+    "APPROVED_LOOPBACK_WEB_UI_OPEN",
+    "READ_ONLY_PLATFORM_STATUS_PRESENTATION"
+  ],
+  "excluded_scope": [
+    "GLOBAL_ORCHESTRATION",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "MCP_GATEWAY_OR_TOOL_AUTHORITY",
+    "MODEL_RUNTIME_OR_PACKAGE_LIFECYCLE_AUTHORITY",
+    "SECRETS_OR_DATABASE_AUTHORITY",
+    "PRIVILEGED_HOST_ADMINISTRATION"
+  ],
+  "authority": {
+    "human_approval": "AUTH-HUMAN",
+    "authorization_policy": "AUTH-POLICY",
+    "host_lifecycle": "EXISTING_SYSTEMD_AUTHORITY_ONLY",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "durable_workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "generative_media_packages": "EXISTING_STABILITY_MATRIX_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "runtime_requirement": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_requires_current_host_conformance": true
+}

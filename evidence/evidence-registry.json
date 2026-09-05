@@ -2624,10 +2624,23 @@
         "GC-10",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/lynxhub-ci-2026-09-05.json"
+      ],
+      "lynxhub_creative_operations_dashboard_projection_status": {
+        "provider_id": "FA3-PROVIDER-LYNXHUB-001",
+        "profile_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+        "contract_id": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+        "runtime_activation_status": "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING",
+        "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "current_host_runtime_promotion_claim": false,
+        "provider_runtime_required_for_global_promotion_when_disabled": false
+      },
       "expires_at": null,
       "blocking": true
     },

@@ -1,0 +1,8 @@
+[Unit]
+Description=FA3 optional creative operations desktop session
+Documentation=https://github.com/ubuntuokos/Final-Architecture-v3.0/blob/main/docs/lynxhub-integration.md
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Install]
+WantedBy=graphical-session.target

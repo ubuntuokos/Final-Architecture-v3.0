@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-LYNXHUB-001",
+  "name": "TheLynxHub/LynxHub",
+  "status": "ACCEPTED_OPTIONAL_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_CREATIVE_OPERATIONS_DASHBOARD_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "LOCAL_ELECTRON_DESKTOP_DASHBOARD",
+    "APPROVED_APP_AND_USER_SERVICE_LAUNCHER",
+    "READ_ONLY_STATUS_PRESENTATION",
+    "REPLACEABLE_PROVIDER",
+    "NON_AUTHORITY"
+  ],
+  "profile": "FA3-CREATIVE-OPERATIONS-DASHBOARD-001",
+  "contract": "FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-057"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "hard_dependency": false,
+  "activation_mode": "OPTIONAL_ON_DEMAND_USER_SESSION",
+  "runtime_activation_status": "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING",
+  "runtime_activation_requires_current_host_conformance": true,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "immutable_component_tuple": {
+    "repository": "TheLynxHub/LynxHub",
+    "release": "V3.5.8",
+    "commit": "96129c218b8bd4337fd3e4cf220aa97a46c486a5",
+    "license": "AGPL-3.0",
+    "debian_package": "LynxHub-V3.5.8-linux_amd64.deb",
+    "debian_package_sha256": "b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435",
+    "debian_package_name": "lynxhub",
+    "debian_package_version": "3.5.8",
+    "installed_executable": "/opt/LynxHub/lynxhub"
+  },
+  "custom_actions_tuple": {
+    "repository": "TheLynxHub/Custom-Actions",
+    "release": "v0.4.4",
+    "commit": "418be2f8d2488f67f8c6f7728729161577f4c90e",
+    "artifact": "0.4.4.7z",
+    "artifact_sha256": "125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83",
+    "automatic_update": false
+  },
+  "canonical_projection": {
+    "desktop_packaging": "NATIVE_DEB_ALREADY_INSTALLED_ON_REPORTED_HOST",
+    "desktop_shell": "ELECTRON",
+    "lifecycle": "SINGLE_ON_DEMAND_SYSTEMD_USER_SERVICE",
+    "session_target": "ai-creative-ops.target",
+    "effective_launcher": "VERSION_CONTROLLED_FA3_WRAPPER",
+    "vendor_no_sandbox_desktop_entry_allowed_as_effective_launcher": false,
+    "own_port_or_platform_daemon": false,
+    "action_execution": "FIXED_ID_VERSIONED_WRAPPER_ONLY",
+    "direct_mcp_access": false,
+    "direct_ollama_agent_route": false,
+    "local_database_role": "APPLICATION_STATE_ONLY",
+    "gpu_role": "DISPLAY_COMPOSITING_ONLY"
+  },
+  "authority_boundaries": {
+    "human_approval": "AUTH-HUMAN",
+    "authorization_policy": "AUTH-POLICY",
+    "host_lifecycle": "EXISTING_SYSTEMD_AUTHORITY_ONLY",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing_and_runtime": "EXISTING_FA3_MODEL_AUTHORITIES_ONLY",
+    "durable_workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "generative_media_packages": "EXISTING_STABILITY_MATRIX_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "GLOBAL_ORCHESTRATOR",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "MODEL_OR_PACKAGE_LIFECYCLE_AUTHORITY",
+    "SERVICE_LIFECYCLE_AUTHORITY",
+    "IDENTITY_SECRETS_OR_DATABASE_AUTHORITY",
+    "EVIDENCE_OR_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "LynxHub SHALL remain an optional, replaceable Creative Operations Dashboard for presentation and explicitly approved launch actions. It SHALL NOT replace systemd, Stability Matrix, Open WebUI, Goose, the Orchestrator, Temporal, the Central MCP/Capability Gateway, model routing, secrets, databases, observability or evidence authorities."
+}
