@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.model-inventory-current-host-conformance.v1",
+  "id": "FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "model_registry_id": "FA3-MODEL-REGISTRY-001",
+  "provider_ids": [
+    "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+    "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "date": "2026-09-05",
+  "status": "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "required_evidence_level": "CURRENT_HOST_READ_ONLY_CROSS_PROVIDER_MODEL_INVENTORY_PASS",
+  "implementation": {
+    "adapter": "src/fa3_model_inventory_current_host_adapter.py",
+    "collector": "evidence/collect-model-inventory-current-host.py",
+    "current_host_gate": "src/fa3_model_inventory_current_host_gate.py",
+    "runner": "bin/fa3-model-inventory-current-host.sh",
+    "workflow": ".github/workflows/fa3-model-inventory-current-host.yml",
+    "tests": "tests/test_model_inventory_current_host_adapter.py"
+  },
+  "stability_matrix_requirement": {
+    "library_detection": "SETTINGS_OVERRIDE_OR_APPROVED_CURRENT_HOST_LIBRARY_CANDIDATE",
+    "models_directory": "REAL_EXISTING_MODELS_DIRECTORY_REQUIRED",
+    "scan": "FULL_RECOGNIZED_MODEL_FILE_TREE_ENUMERATION_READ_ONLY",
+    "nonempty": true,
+    "representative_content_hash": "FULL_SHA256_REQUIRED",
+    "absolute_path_disclosure": "FORBIDDEN_IN_EVIDENCE",
+    "before_after_structural_manifest_equality": "REQUIRED"
+  },
+  "cross_provider_requirement": {
+    "providers": "STABILITY_MATRIX_PLUS_HF_CACHE_PLUS_LM_STUDIO_PLUS_OLLAMA_DISCOVERY",
+    "minimum_available_nonempty_providers": 2,
+    "stability_matrix_must_be_available_nonempty": true,
+    "network_access": "FORBIDDEN",
+    "download_or_pull": "FORBIDDEN",
+    "model_store_mutation": "FORBIDDEN",
+    "physical_dedup": "FORBIDDEN",
+    "canonical_admission": "FORBIDDEN",
+    "routing_or_placement": "FORBIDDEN"
+  },
+  "inventory_identity_semantics": {
+    "stability_matrix": "RELATIVE_PATH_SIZE_TYPE_MANIFEST_PLUS_REPRESENTATIVE_FULL_CONTENT_SHA256",
+    "hugging_face": "IMMUTABLE_LOCAL_SNAPSHOT_DISCOVERY",
+    "lm_studio": "READ_ONLY_LOCAL_CATALOG_DISCOVERY",
+    "ollama": "READ_ONLY_NATIVE_MANIFEST_AND_CONTENT_DIGEST_DISCOVERY",
+    "inventory_snapshot": "DETERMINISTIC_PROVIDER_SUMMARY_SHA256",
+    "canonical_model_admission": "SEPARATE_FOLLOW_UP_NOT_IMPLIED_BY_DISCOVERY_PASS"
+  },
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "current_host_runtime_promotion_claim": false
+}
