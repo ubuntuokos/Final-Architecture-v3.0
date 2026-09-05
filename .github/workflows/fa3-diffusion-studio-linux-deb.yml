@@ -1,0 +1,50 @@
+name: FA3 Diffusion Studio Linux DEB
+on:
+  pull_request:
+    paths:
+      - 'canonical/**diffusion-studio**'
+      - 'canonical/providers/FA3-PROVIDER-DIFFUSION-STUDIO-001.json'
+      - 'canonical/references/FA3-DIFFUSION-STUDIO-UPSTREAM-REFERENCE-2026-09-05.json'
+      - 'canonical/decisions/FA3-DEC-DIFFUSION-STUDIO-LINUX-DESKTOP-2026-09-05.json'
+      - 'src/fa3_diffusion_studio_*'
+      - 'tests/test_diffusion_studio_gate.py'
+      - 'packaging/diffusion-studio/**'
+      - '.github/workflows/fa3-diffusion-studio-linux-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-and-adapter:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: PYTHONPATH=. python -m unittest tests.test_diffusion_studio_gate -v
+      - run: python src/fa3_diffusion_studio_gate.py .
+  build-deb:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Packaging prerequisites
+        run: sudo apt-get update && sudo apt-get install -y fakeroot dpkg-dev
+      - name: Build pinned upstream and FA3 deb
+        run: ./packaging/diffusion-studio/build-fa3-deb.sh
+      - name: Inspect package
+        run: |
+          dpkg-deb --info dist/*.deb
+          dpkg-deb --contents dist/*.deb | tee dist/deb-contents.txt
+          test -s dist/*sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diffusion-studio-fa3-amd64-deb
+          path: |
+            dist/*.deb
+            dist/*.sha256
+            dist/*evidence.json
+            dist/deb-contents.txt
+          if-no-files-found: error
