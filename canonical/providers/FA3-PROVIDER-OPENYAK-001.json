@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENYAK-001",
+  "name": "openyak/openyak",
+  "status": "ACCEPTED_OPTIONAL_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_LOCAL_DESKTOP_AGENT_WORKBENCH_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "LOCAL_DESKTOP_AGENT_WORKBENCH",
+    "DOCUMENT_AND_PROJECT_ARTIFACT_WORKBENCH",
+    "HUMAN_GATED_INTERACTIVE_EXECUTION_PROVIDER",
+    "CENTRAL_MCP_CLIENT_PROJECTION",
+    "REPLACEABLE_PROVIDER",
+    "NON_AUTHORITY"
+  ],
+  "profile": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+  "contract": "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-008",
+    "CAP-096"
+  ],
+  "explicitly_not_projected_to": [
+    "CAP-107"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "hard_dependency": false,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_CONFORMANCE",
+  "runtime_activation_requires_current_host_conformance": true,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "immutable_component_tuple": {
+    "repository": "openyak/openyak",
+    "release": "v1.4.0",
+    "commit": "73240597e17d31749f2dbc6c52e8820a6074acad",
+    "license": "Apache-2.0",
+    "linux_package": "OpenYak_1.4.0_amd64.deb",
+    "linux_package_sha256": "dfa0358736312c8cdf8b88192cea9c5554efdc5a22643faee6e3e46a5157f531"
+  },
+  "canonical_projection": {
+    "desktop_packaging": "NATIVE_DEB",
+    "desktop_shell": "TAURI_WEBKITGTK",
+    "backend_lifecycle_owner": "OPENYAK_TAURI_DESKTOP_PROCESS",
+    "backend_binding": "LOOPBACK_ONLY_DYNAMIC_OR_POLICY_ADMITTED_PORT",
+    "observed_current_host_port": 20882,
+    "observed_port_is_canonical_constant": false,
+    "model_access": "FA3_LITELLM_OPENAI_COMPATIBLE_ENDPOINT_ONLY",
+    "managed_ollama_auto_start": false,
+    "direct_ollama_access": false,
+    "mcp_access": "FA3_CENTRAL_MCP_CAPABILITY_GATEWAY_ONLY",
+    "provider_native_remote_access": false,
+    "provider_native_messaging_channels": false,
+    "local_database_role": "APPLICATION_STATE_ONLY",
+    "shared_memory_access": "CANONICAL_MEMORY_MCP_TOOLS_ONLY",
+    "durable_workflow_escalation": "TEMPORAL_ONLY",
+    "direct_gpu_allocation": false
+  },
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "human_approval": "AUTH-HUMAN",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "model_runtime": "EXISTING_FA3_MODEL_RUNTIME_AUTHORITIES_ONLY",
+    "shared_memory": "EXISTING_FA3_MEMORY_SERVICE_AUTHORITY_ONLY",
+    "durable_workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "GLOBAL_ORCHESTRATOR",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "MODEL_ROUTING_OR_RUNTIME_AUTHORITY",
+    "SHARED_MEMORY_AUTHORITY",
+    "IDENTITY_OR_SECRETS_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_OR_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "OpenYak SHALL remain an optional, replaceable local desktop-agent workbench behind the existing FA3 model, MCP, policy, memory, workflow, resource and evidence authorities. It SHALL NOT replace Open WebUI, Goose, the FastAPI orchestration surface, Temporal, the central memory service or the canonical desktop/agent authorities."
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05",
+  "observed_at": "2026-09-05T00:00:00Z",
+  "repository": "openyak/openyak",
+  "repository_url": "https://github.com/openyak/openyak",
+  "release": "v1.4.0",
+  "release_url": "https://github.com/openyak/openyak/releases/tag/v1.4.0",
+  "release_date": "2026-07-24",
+  "commit": "73240597e17d31749f2dbc6c52e8820a6074acad",
+  "commit_url": "https://github.com/openyak/openyak/commit/73240597e17d31749f2dbc6c52e8820a6074acad",
+  "license": "Apache-2.0",
+  "linux_package": {
+    "filename": "OpenYak_1.4.0_amd64.deb",
+    "sha256": "dfa0358736312c8cdf8b88192cea9c5554efdc5a22643faee6e3e46a5157f531",
+    "source": "GitHub release asset digest and release checksum table"
+  },
+  "observed_architecture": {
+    "desktop_shell": "Tauri + WebKitGTK",
+    "backend": "bundled Python FastAPI sidecar",
+    "backend_production_binding": "127.0.0.1 on a dynamically selected unused port",
+    "local_session_auth": "rotated bearer token persisted mode 0600",
+    "database_default": "SQLite via SQLAlchemy/aiosqlite",
+    "mcp_transports": [
+      "stdio",
+      "SSE",
+      "HTTP"
+    ],
+    "permission_layers": [
+      "global",
+      "agent",
+      "user",
+      "session"
+    ],
+    "permission_actions": [
+      "allow",
+      "ask",
+      "deny"
+    ],
+    "custom_openai_compatible_endpoint": true,
+    "managed_ollama_auto_start_default": true,
+    "remote_access_default": false,
+    "messaging_channels_default": true,
+    "linux_default_gdk_backend_when_unset": "x11",
+    "kde_tray_documented": true
+  },
+  "assessment": "ARCHITECTURAL_AND_OPTIONAL_RUNTIME_FIT_WITH_STRICT_FA3_BOUNDARIES",
+  "promotion_use": "REFERENCE_AND_STATIC_CONFORMANCE_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "floating_branch_forbidden_as_promotion_evidence": true
+}

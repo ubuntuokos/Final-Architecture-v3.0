@@ -226,6 +226,30 @@ OPENHANDS_RECONCILIATION_STATUS = (
     "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
 )
 
+OPENYAK_PROFILE_ID = "FA3-DESKTOP-AGENT-WORKBENCH-001"
+OPENYAK_PROVIDER_ID = "FA3-PROVIDER-OPENYAK-001"
+OPENYAK_CONTRACT_ID = "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001"
+OPENYAK_DECISION_ID = "FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05"
+OPENYAK_GATE_ID = "FA3-OPENYAK-GATESET-001"
+OPENYAK_PROFILE_PATH = "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json"
+OPENYAK_PROVIDER_PATH = "canonical/providers/FA3-PROVIDER-OPENYAK-001.json"
+OPENYAK_CONTRACT_PATH = "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json"
+OPENYAK_DECISION_PATH = "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json"
+OPENYAK_REFERENCE_PATH = "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json"
+OPENYAK_GATE_RECORD_PATH = "canonical/FA3-GATE-OPENYAK-001.json"
+OPENYAK_ENFORCEMENT_PATH = "canonical/openyak-enforcement.json"
+OPENYAK_ADMISSION_PATH = "canonical/openyak-runtime-admission.json"
+OPENYAK_RELEASE_PATH = "canonical/releases/FA3-RELEASE-PROJECTION-OPENYAK-2026-09-05.json"
+OPENYAK_EVIDENCE_PATH = "evidence/reference/openyak-ci-2026-09-05.json"
+OPENYAK_GATE_PATH = "src/fa3_openyak_gate.py"
+OPENYAK_TEST_PATH = "tests/test_openyak_gate.py"
+OPENYAK_CAPABILITY_IDS = ("CAP-008", "CAP-096")
+OPENYAK_EXCLUDED_CAPABILITY_ID = "CAP-107"
+OPENYAK_RUNTIME_STATUS = "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_CONFORMANCE"
+OPENYAK_RECONCILIATION_STATUS = (
+    "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_PASS_CURRENT_HOST_PENDING"
+)
+
 LOOP_PROFILE_ID = "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001"
 LOOP_CONTRACT_ID = "FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001"
 LOOP_PROVIDER_ID = "FA3-PROVIDER-LOOP-ENGINEERING-001"
@@ -1764,6 +1788,108 @@ def gate(root: Path):
         )
 
 
+    openyak = projection.get("openyak_reconciliation", {})
+    required_openyak_manifest_paths = {
+        OPENYAK_PROFILE_PATH,
+        OPENYAK_PROVIDER_PATH,
+        OPENYAK_CONTRACT_PATH,
+        OPENYAK_DECISION_PATH,
+        OPENYAK_REFERENCE_PATH,
+        OPENYAK_GATE_RECORD_PATH,
+        OPENYAK_ENFORCEMENT_PATH,
+        OPENYAK_ADMISSION_PATH,
+        OPENYAK_RELEASE_PATH,
+        OPENYAK_EVIDENCE_PATH,
+        OPENYAK_GATE_PATH,
+        OPENYAK_TEST_PATH,
+        "docs/openyak-integration.md",
+        "README.md",
+        "canonical/conformance-matrix.csv",
+        "canonical/enforcement-policy.json",
+        "evidence/evidence-registry.json",
+        "src/fa3_enforce.py",
+        "src/fa3_release_projection_gate.py",
+        "tests/test_release_projection.py",
+        ".github/workflows/fa3-permanent-enforcement.yml",
+    }
+    missing_openyak_overlay_members = []
+    for key, required in {
+        "profile_records": OPENYAK_PROFILE_PATH,
+        "provider_records": OPENYAK_PROVIDER_PATH,
+        "contract_records": OPENYAK_CONTRACT_PATH,
+        "decision_records": OPENYAK_DECISION_PATH,
+        "upstream_reference_records": OPENYAK_REFERENCE_PATH,
+        "reference_evidence_records": OPENYAK_EVIDENCE_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_openyak_overlay_members.append({"inventory": key, "path": required})
+    openyak_manifest_missing = sorted(required_openyak_manifest_paths - manifest_paths)
+    openyak_profile = loadj(root / OPENYAK_PROFILE_PATH) if (root / OPENYAK_PROFILE_PATH).is_file() else {}
+    openyak_provider = loadj(root / OPENYAK_PROVIDER_PATH) if (root / OPENYAK_PROVIDER_PATH).is_file() else {}
+    openyak_admission = loadj(root / OPENYAK_ADMISSION_PATH) if (root / OPENYAK_ADMISSION_PATH).is_file() else {}
+    openyak_evidence = loadj(root / OPENYAK_EVIDENCE_PATH) if (root / OPENYAK_EVIDENCE_PATH).is_file() else {}
+    openyak_release = loadj(root / OPENYAK_RELEASE_PATH) if (root / OPENYAK_RELEASE_PATH).is_file() else {}
+    openyak_binding_invalid = []
+    for capability_id in OPENYAK_CAPABILITY_IDS:
+        record = next((item for item in records if item.get("subject_id") == capability_id), {})
+        provider_status = record.get("openyak_desktop_workbench_projection_status", {})
+        if (
+            OPENYAK_DECISION_ID not in record.get("source_decision_ids", [])
+            or OPENYAK_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
+            or record.get("status") != "PENDING_CURRENT_HOST"
+            or provider_status.get("provider_id") != OPENYAK_PROVIDER_ID
+            or provider_status.get("runtime_activation_status") != OPENYAK_RUNTIME_STATUS
+            or provider_status.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        ):
+            openyak_binding_invalid.append(capability_id)
+    if (
+        openyak.get("profile_id") != OPENYAK_PROFILE_ID
+        or openyak.get("provider_id") != OPENYAK_PROVIDER_ID
+        or openyak.get("contract_id") != OPENYAK_CONTRACT_ID
+        or openyak.get("decision_id") != OPENYAK_DECISION_ID
+        or openyak.get("gate_id") != OPENYAK_GATE_ID
+        or openyak.get("capability_ids") != list(OPENYAK_CAPABILITY_IDS)
+        or openyak.get("explicit_non_binding") != OPENYAK_EXCLUDED_CAPABILITY_ID
+        or openyak.get("reconciliation_status") != OPENYAK_RECONCILIATION_STATUS
+        or openyak.get("runtime_activation_status") != OPENYAK_RUNTIME_STATUS
+        or openyak.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or openyak.get("provider_runtime_required_for_global_promotion_when_disabled") is not False
+        or openyak.get("new_capabilities") != 0
+        or openyak.get("new_architectural_authorities") != 0
+        or openyak.get("capability_count_after") != CAPABILITY_COUNT
+        or OPENYAK_GATE_ID not in projection_gates
+        or OPENYAK_GATE_ID not in policy_gates
+        or missing_openyak_overlay_members
+        or openyak_manifest_missing
+        or openyak_binding_invalid
+        or openyak_profile.get("id") != OPENYAK_PROFILE_ID
+        or openyak_profile.get("capability_projection") != list(OPENYAK_CAPABILITY_IDS)
+        or openyak_provider.get("id") != OPENYAK_PROVIDER_ID
+        or openyak_provider.get("canonical_root") is not False
+        or openyak_provider.get("architectural_authority") is not False
+        or openyak_provider.get("hard_dependency") is not False
+        or openyak_provider.get("runtime_activation_status") != OPENYAK_RUNTIME_STATUS
+        or openyak_admission.get("status") != OPENYAK_RUNTIME_STATUS
+        or openyak_admission.get("production_provider_admission") is not False
+        or openyak_evidence.get("status") != "PASS"
+        or openyak_evidence.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+        or openyak_evidence.get("current_host_runtime_promotion_claimed") is not False
+        or openyak_release.get("runtime_promotion") is not False
+        or openyak_release.get("capability_count_after") != CAPABILITY_COUNT
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-042",
+                "OpenYak global release/inventory/evidence reconciliation invariant mismatch",
+                reconciliation_status=openyak.get("reconciliation_status"),
+                runtime_activation_status=openyak.get("runtime_activation_status"),
+                missing_overlay_members=missing_openyak_overlay_members,
+                missing_manifest_paths=openyak_manifest_missing,
+                invalid_capability_bindings=openyak_binding_invalid,
+            )
+        )
+
+
     loop_engineering = projection.get("loop_engineering_reconciliation", {})
     required_loop_manifest_paths = {
         LOOP_PROFILE_PATH,
@@ -2519,6 +2645,8 @@ def gate(root: Path):
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),
             "openhands_reconciliation": openhands.get("reconciliation_status"),
             "openhands_runtime_activation_status": openhands.get("runtime_activation_status"),
+            "openyak_reconciliation": openyak.get("reconciliation_status"),
+            "openyak_runtime_activation_status": openyak.get("runtime_activation_status"),
             "loop_engineering_reconciliation": loop_engineering.get("reconciliation_status"),
             "loop_engineering_runtime_activation_status": loop_engineering.get("runtime_activation_status"),
             "tencentdb_agent_memory_reconciliation": tdai.get("reconciliation_status"),

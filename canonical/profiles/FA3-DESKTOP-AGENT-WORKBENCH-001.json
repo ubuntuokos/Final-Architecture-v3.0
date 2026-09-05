@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+  "name": "Desktop Agent Workbench & Human-Gated Local Artifact Operations Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MAY",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-DESKTOP-001",
+  "related_profile": "FA3-AGENT-EXEC-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-008",
+    "CAP-096"
+  ],
+  "contract": "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENYAK-001"
+  ],
+  "scope": [
+    "LOCAL_INTERACTIVE_DOCUMENT_AND_PROJECT_WORK",
+    "BOUNDED_WORKSPACE_ARTIFACT_CREATION",
+    "HUMAN_GATED_FILE_AND_COMMAND_MUTATION",
+    "CENTRALLY_MEDIATED_MODEL_AND_MCP_ACCESS"
+  ],
+  "excluded_scope": [
+    "CAP-107_AGENT_DEVELOPMENT_ENVIRONMENT",
+    "GLOBAL_ORCHESTRATION",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "CANONICAL_MEMORY_AUTHORITY",
+    "MODEL_RUNTIME_OR_LIFECYCLE_AUTHORITY",
+    "DIRECT_PRIVILEGED_HOST_OPERATIONS"
+  ],
+  "authority": {
+    "human_approval": "AUTH-HUMAN",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "durable_workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "shared_memory": "EXISTING_FA3_MEMORY_SERVICE_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "runtime_requirement": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_requires_current_host_conformance": true
+}

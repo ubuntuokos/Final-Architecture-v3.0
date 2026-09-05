@@ -1,0 +1,71 @@
+{
+  "schema": "fa3.architecture-decision.v1",
+  "id": "FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05",
+  "date": "2026-09-05",
+  "status": "CANONICAL_CLOSED",
+  "title": "OpenYak as an optional local desktop-agent workbench behind existing FA3 authorities",
+  "decision": "ACCEPT_OPTIONAL_OPENYAK_DESKTOP_WORKBENCH_PROVIDER",
+  "profile_id": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+  "provider_id": "FA3-PROVIDER-OPENYAK-001",
+  "contract_id": "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+  "gate_id": "FA3-OPENYAK-GATESET-001",
+  "capability_projection": [
+    "CAP-008",
+    "CAP-096"
+  ],
+  "explicit_non_projection": [
+    "CAP-107"
+  ],
+  "canonical_classification": "OPTIONAL local desktop-agent workbench provider; replaceable and disabled by default; non-authoritative",
+  "replaces": [],
+  "does_not_replace": [
+    "OPEN_WEBUI",
+    "GOOSE",
+    "FA3_FASTAPI_ORCHESTRATION_SURFACE",
+    "TEMPORAL",
+    "CENTRAL_MCP_CAPABILITY_GATEWAY",
+    "CANONICAL_MEMORY_SERVICE"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "runtime_dependency_added": false,
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_CONFORMANCE",
+  "current_host_runtime_promotion_claimed": false,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "mandatory_rules": [
+    "OPENYAK_OPTIONAL_NON_AUTHORITY_PROVIDER",
+    "OPENYAK_PROJECTS_ONLY_TO_CAP_008_AND_CAP_096",
+    "OPENYAK_NOT_CAP_107_DEVELOPER_ENVIRONMENT",
+    "OPENYAK_NO_NEW_CAPABILITY_OR_AUTHORITY_COUNT_143",
+    "OPENYAK_IMMUTABLE_RELEASE_COMMIT_AND_DEB_DIGEST",
+    "OPENYAK_FLOATING_LATEST_AND_UNADMITTED_SELF_UPDATE_FORBIDDEN",
+    "OPENYAK_BACKEND_LOOPBACK_AND_SESSION_AUTH_REQUIRED",
+    "OPENYAK_OBSERVED_PORT_NOT_CANONICAL_CONSTANT",
+    "OPENYAK_LITELLM_MODEL_ROUTE_ONLY",
+    "OPENYAK_MANAGED_OLLAMA_AND_DIRECT_11434_FORBIDDEN",
+    "OPENYAK_CENTRAL_MCP_GATEWAY_ONLY",
+    "OPENYAK_DIRECT_PRIVILEGED_CONNECTOR_BYPASS_FORBIDDEN",
+    "OPENYAK_BOUNDED_WORKSPACE_REQUIRED",
+    "OPENYAK_MUTATIONS_AND_SHELL_REQUIRE_HUMAN_GATE",
+    "OPENYAK_PRIVILEGED_COMMANDS_AND_SYSTEM_PATHS_DENIED",
+    "OPENYAK_CREDENTIAL_MODEL_STORE_AND_DATA_PLANE_ACCESS_DENIED",
+    "OPENYAK_LOCAL_SQLITE_APPLICATION_STATE_ONLY",
+    "OPENYAK_SHARED_MEMORY_VIA_CANONICAL_MEMORY_TOOLS_ONLY",
+    "OPENYAK_DURABLE_WORKFLOW_ESCALATES_TO_TEMPORAL",
+    "OPENYAK_PROVIDER_SCHEDULER_NOT_PLATFORM_AUTHORITY",
+    "OPENYAK_REMOTE_ACCESS_AND_NATIVE_CHANNELS_DISABLED",
+    "OPENYAK_DIRECT_GPU_ALLOCATION_FORBIDDEN",
+    "OPENYAK_WAYLAND_CURRENT_HOST_SMOKE_REQUIRED",
+    "OPENYAK_CURRENT_HOST_PROMOTION_REQUIRES_REAL_E2E"
+  ],
+  "upstream_corrections": [
+    "The packaged v1.4.0 Tauri shell selects an unused loopback port; 127.0.0.1:20882 is an observed current-host value, not an upstream stable contract.",
+    "The v1.4.0 Linux launcher defaults GDK_BACKEND to x11 when unset; FA3 Wayland activation therefore requires an explicit Wayland launch and smoke evidence.",
+    "OPENYAK_OPENCLAW_ENABLED is not a v1.4.0 Settings field; FA3 disables provider-native messaging with OPENYAK_CHANNELS_ENABLED=false and policy denial."
+  ],
+  "executable_gate_id": "FA3-GATE-OPENYAK-001",
+  "executable_regression_case_count": 24,
+  "executable_gate_status": "MATERIALIZED"
+}
