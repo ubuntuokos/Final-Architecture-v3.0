@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-UPSTREAM_REPO=${UPSTREAM_REPO:-https://github.com/diffusionstudio/editor.git};UPSTREAM_COMMIT=${UPSTREAM_COMMIT:-c64067bd45768b45287cb4ca53f76c9fb5a037e1};PKG_VERSION=${PKG_VERSION:-0.204.1+fa3.1};ARCH=${ARCH:-amd64}
+UPSTREAM_REPO=${UPSTREAM_REPO:-https://github.com/diffusionstudio/editor.git};UPSTREAM_COMMIT=${UPSTREAM_COMMIT:-c64067bd45768b45287cb4ca53f76c9fb5a037e1};PKG_VERSION=${PKG_VERSION:-0.204.1+fa3.2};ARCH=${ARCH:-amd64}
 ROOT=$(cd "$(dirname "$0")/../.." && pwd);WORK=${WORK:-$ROOT/.build/diffusion-studio};OUT=${OUT:-$ROOT/dist};rm -rf "$WORK";mkdir -p "$WORK" "$OUT"
 git clone --filter=blob:none --no-checkout "$UPSTREAM_REPO" "$WORK/upstream";git -C "$WORK/upstream" checkout --detach "$UPSTREAM_COMMIT";test "$(git -C "$WORK/upstream" rev-parse HEAD)" = "$UPSTREAM_COMMIT";cd "$WORK/upstream"
 npm ci;cp apps/web/.env.example apps/web/.env
@@ -9,6 +9,14 @@ p='apps/desktop/scripts/stage-cli.mjs';s=open(p).read();needle='const wrapper = 
 PY
 npm run package --workspace=@diffusionstudio/desktop
 APP=$(find apps/desktop/out -maxdepth 1 -type d -name 'Diffusion Studio-linux-x64' -print -quit);test -n "$APP";STAGE="$WORK/deb";mkdir -p "$STAGE/DEBIAN" "$STAGE/usr/lib/diffusion-studio" "$STAGE/usr/bin" "$STAGE/usr/share/applications" "$STAGE/usr/share/metainfo" "$STAGE/usr/share/icons/hicolor/512x512/apps" "$STAGE/usr/share/fa3/providers/diffusion-studio" "$STAGE/usr/lib/fa3/diffusion-studio";cp -a "$APP"/. "$STAGE/usr/lib/diffusion-studio/"
+# cp -a copies the source application's top-level directory metadata onto the
+# existing destination. Electron Forge currently stages that directory as 0700,
+# which makes the installed application unreachable by non-root users. Normalize
+# the package traversal/execution modes explicitly after the copy.
+chmod 0755 "$STAGE/usr/lib/diffusion-studio"
+chmod 0755 "$STAGE/usr/lib/diffusion-studio/Diffusion Studio"
+test "$(stat -c '%a' "$STAGE/usr/lib/diffusion-studio")" = 755
+test -x "$STAGE/usr/lib/diffusion-studio/Diffusion Studio"
 cat > "$STAGE/DEBIAN/control" <<EOF
 Package: diffusion-studio-fa3
 Version: $PKG_VERSION
@@ -42,7 +50,7 @@ MimeType=x-scheme-handler/diffusion;
 EOF
 if [ -f apps/desktop/assets/icon.png ];then install -m 0644 apps/desktop/assets/icon.png "$STAGE/usr/share/icons/hicolor/512x512/apps/diffusion-studio.png";fi
 if [ -f "$STAGE/usr/lib/diffusion-studio/chrome-sandbox" ];then chmod 4755 "$STAGE/usr/lib/diffusion-studio/chrome-sandbox";fi
-DEB="$OUT/diffusion-studio-fa3_${PKG_VERSION}_${ARCH}.deb";dpkg-deb --build --root-owner-group "$STAGE" "$DEB";dpkg-deb --info "$DEB";dpkg-deb --contents "$DEB" | grep -E 'usr/bin/(diffusion-studio|dapi|fa3-diffusion-studio)|provider.json' >/dev/null;sha256sum "$DEB" | tee "$DEB.sha256"
+DEB="$OUT/diffusion-studio-fa3_${PKG_VERSION}_${ARCH}.deb";dpkg-deb --build --root-owner-group "$STAGE" "$DEB";dpkg-deb --info "$DEB";dpkg-deb --contents "$DEB" | grep -E 'usr/bin/(diffusion-studio|dapi|fa3-diffusion-studio)|provider.json' >/dev/null;dpkg-deb --contents "$DEB" | grep -E '^drwxr-xr-x root/root +[0-9]+ .*\./usr/lib/diffusion-studio/$' >/dev/null;sha256sum "$DEB" | tee "$DEB.sha256"
 python3 - <<PY > "$OUT/diffusion-studio-fa3-build-evidence.json"
 import hashlib,json,os
 p='$DEB';b=open(p,'rb').read();print(json.dumps({'schema':'fa3.build-evidence.v1','provider_id':'FA3-PROVIDER-DIFFUSION-STUDIO-001','upstream_commit':'$UPSTREAM_COMMIT','package':os.path.basename(p),'sha256':hashlib.sha256(b).hexdigest(),'architecture':'$ARCH','result':'PASS'},indent=2))
