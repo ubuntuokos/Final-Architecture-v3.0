@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-LYNXHUB-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-LYNXHUB-001",
+  "status": "NOT_PROMOTED_USER_REPORTED_DEB_INSTALLED_CURRENT_HOST_EVIDENCE_PENDING",
+  "current_host_installation": "USER_REPORTED_DEB_INSTALLED_NOT_INDEPENDENTLY_VERIFIED",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "production_provider_admission": false,
+  "admission": {
+    "canonical_reference_design": true,
+    "optional_provider_registration": true,
+    "user_reported_native_deb_installation": true,
+    "current_host_runtime": false,
+    "global_baseline_dependency": false
+  },
+  "current_host_target": {
+    "os_family": "Ubuntu/Kubuntu 26.04",
+    "desktop_protocol": "Wayland",
+    "package_format": "deb",
+    "package_name": "lynxhub",
+    "package_version": "3.5.8",
+    "installed_executable": "/opt/LynxHub/lynxhub",
+    "lifecycle": "SINGLE_ON_DEMAND_SYSTEMD_USER_SERVICE",
+    "user_service": "lynxhub.service",
+    "session_target": "ai-creative-ops.target",
+    "own_listener": false,
+    "gpu_role": "DISPLAY_COMPOSITING_ONLY"
+  },
+  "required_configuration": {
+    "effective_desktop_entry": "XDG_DATA_HOME/applications/ai.kindabrazy.lynxhub.desktop",
+    "effective_exec": "%h/.local/libexec/fa3/lynxhub-start",
+    "vendor_no_sandbox_flag_effective": false,
+    "duplicate_desktop_autostart": false,
+    "parallel_app_lynxhub_transient_unit": false,
+    "custom_actions_release": "v0.4.4",
+    "custom_actions_automatic_update": false,
+    "python_toolkit_enabled": false,
+    "local_ai_collection_enabled": false,
+    "api_keys_stored_in_lynxhub": false,
+    "egress_policy": "DEFAULT_DENY_EXPLICIT_TEMPORARY_UPDATE_EXCEPTION"
+  },
+  "blocking_conditions": [
+    "installed package identity is user-reported but not independently captured",
+    "the original downloaded Debian artifact digest has not been captured on the current host",
+    "the hardened per-user desktop entry and single systemd user-service topology are not proven",
+    "Wayland launch without effective --no-sandbox is not proven",
+    "Custom Actions fixed-ID wrapper positive and bypass-negative cases are not recorded",
+    "direct MCP, Ollama, secret, database and Stability Matrix ownership bypass denial is not proven",
+    "egress policy and plugin-update denial are not proven",
+    "clean stop, duplicate-unit absence and rollback evidence are not recorded"
+  ],
+  "future_admission_requirements": [
+    "dpkg package name/version and executable path pass",
+    "downloaded Debian package SHA-256 matches the immutable reference",
+    "effective desktop entry resolves to the FA3 hardened wrapper",
+    "exactly one on-demand lynxhub.service is associated with ai-creative-ops.target",
+    "no duplicate desktop autostart or active app-lynxhub transient unit exists",
+    "Wayland process launch succeeds without --no-sandbox",
+    "all approved action IDs pass and arbitrary action/shell/admin attempts fail closed",
+    "direct MCP/Ollama/secrets/database/package-manager bypass attempts fail",
+    "OpenSnitch/default-deny egress policy evidence passes",
+    "stop, disabled zero-cost and rollback drill pass"
+  ],
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

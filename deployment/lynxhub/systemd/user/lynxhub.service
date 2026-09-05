@@ -1,0 +1,28 @@
+[Unit]
+Description=FA3 LynxHub Creative Operations Dashboard
+Documentation=https://github.com/ubuntuokos/Final-Architecture-v3.0/blob/main/docs/lynxhub-integration.md
+After=graphical-session.target ai-creative-ops.target
+PartOf=graphical-session.target ai-creative-ops.target
+
+[Service]
+Type=exec
+ExecStart=%h/.local/libexec/fa3/lynxhub-launch
+Environment=ELECTRON_OZONE_PLATFORM_HINT=auto
+EnvironmentFile=-%h/.config/fa3/lynxhub-actions.env
+PassEnvironment=DISPLAY WAYLAND_DISPLAY XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+Restart=no
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectKernelLogs=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+UMask=0077
+
+# Intentionally no enablement section: this provider is started on demand and
+# must not be enabled as a second desktop autostart path.

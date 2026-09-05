@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (( $# != 0 )); then
+  printf 'FA3 LynxHub: URL/file arguments are not accepted by the dashboard launcher.\n' >&2
+  exit 64
+fi
+
+exec systemctl --user start lynxhub.service

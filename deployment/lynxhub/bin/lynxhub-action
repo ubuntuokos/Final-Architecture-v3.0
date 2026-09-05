@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly action=${1:-}
+if (( $# != 1 )); then
+  printf 'usage: lynxhub-action ACTION_ID\n' >&2
+  exit 64
+fi
+
+open_loopback_url() {
+  local url=${1:-}
+  if [[ ! "$url" =~ ^https?://(127\.0\.0\.1|localhost|\[::1\])([:/].*)?$ ]]; then
+    printf 'FA3 LynxHub: denied non-loopback or missing approved URL.\n' >&2
+    exit 77
+  fi
+  exec xdg-open "$url"
+}
+
+case "$action" in
+  open-webui)
+    open_loopback_url "${FA3_OPEN_WEBUI_URL:-}"
+    ;;
+  open-comfyui)
+    open_loopback_url "${FA3_COMFYUI_URL:-}"
+    ;;
+  open-invokeai)
+    open_loopback_url "${FA3_INVOKEAI_URL:-}"
+    ;;
+  open-omnivoice)
+    open_loopback_url "${FA3_OMNIVOICE_URL:-}"
+    ;;
+  start-goose)
+    exec systemctl --user start goose.service
+    ;;
+  start-creative-stack)
+    exec systemctl --user start ai-creative-session.target
+    ;;
+  platform-status)
+    exec systemctl --user --no-pager --plain status \
+      ai-creative-ops.target lynxhub.service goose.service ai-creative-session.target
+    ;;
+  *)
+    printf 'FA3 LynxHub: denied unknown action id: %s\n' "$action" >&2
+    exit 77
+    ;;
+esac
