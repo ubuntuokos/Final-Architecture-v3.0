@@ -23,10 +23,12 @@ jobs:
     name: model-inventory / release-projection-candidate
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
           fetch-depth: 0
       - name: Generate unified release projection candidate
         shell: bash
@@ -36,7 +38,6 @@ jobs:
           import json, subprocess
           from pathlib import Path
 
-          ROOT = Path('.').resolve()
           PROJ = Path('canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
           MUTABLE_TOP = {'.git','reports','acceptance','promotion','.pytest_cache','.mypy_cache'}
 
@@ -126,20 +127,29 @@ jobs:
               'capability_count_after':143,
           }
           obj['last_reconciled_at']='2026-09-05'
-          out=Path('projection-candidate.json')
-          out.write_text(json.dumps(obj,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          PROJ.write_text(json.dumps(obj,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
           print(json.dumps({'snapshot':snap,'commits':count,'delta_files':len(rows),'manifest':len(manifest)},indent=2))
           PY
-      - name: Upload projection candidate
-        uses: actions/upload-artifact@v4
-        with:
-          name: fa3-model-inventory-release-projection-candidate
-          path: projection-candidate.json
+      - name: Commit projection-only reconciliation
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if git diff --cached --quiet; then
+            echo "Projection already current"
+          else
+            git commit -m "FA3: reconcile model inventory into unified release projection"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
 
   current-host:
     name: model-inventory-current-host / read-only-real-store-e2e
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 45
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
