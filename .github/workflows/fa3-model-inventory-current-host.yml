@@ -1,0 +1,62 @@
+name: FA3 Model Inventory Current-Host Read-Only E2E
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fa3/model-manager-stabilitymatrix-current-host-2026-09-05
+    paths:
+      - .github/workflows/fa3-model-inventory-current-host.yml
+      - canonical/FA3-MODEL-INVENTORY-CURRENT-HOST-CONFORMANCE-001.json
+      - canonical/model-manager-inventory-current-host-enforcement.json
+      - canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json
+      - canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json
+      - canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json
+      - src/fa3_model_inventory_current_host_adapter.py
+      - src/fa3_model_inventory_current_host_gate.py
+      - evidence/collect-model-inventory-current-host.py
+      - bin/fa3-model-inventory-current-host.sh
+      - tests/test_model_inventory_current_host_adapter.py
+permissions:
+  contents: read
+jobs:
+  current-host:
+    name: model-inventory-current-host / read-only-real-store-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify safe current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          test -d /AI-modells/StabilityMatrix || test -d /AI-models/StabilityMatrix || test -n "${STABILITY_MATRIX_LIBRARY_DIR:-}"
+      - name: Read-only adapter regressions
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_inventory_current_host_adapter -v
+      - name: Run real read-only cross-provider inventory
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"
+        run: |
+          set -euo pipefail
+          bash bin/fa3-model-inventory-current-host.sh
+      - name: Upload current-host inventory evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-model-inventory-current-host-evidence
+          path: |
+            evidence/receipts/model-inventory-current-host.json
+            evidence/runtime/model-inventory-current-host/
+            reports/model-inventory-current-host-gate-report.json
