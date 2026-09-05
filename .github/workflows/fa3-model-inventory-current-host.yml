@@ -51,12 +51,13 @@ jobs:
         run: |
           set -euo pipefail
           bash bin/fa3-model-inventory-current-host.sh
-      - name: Upload current-host inventory evidence
+      - name: Upload sanitized current-host inventory evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fa3-model-inventory-current-host-evidence
+          if-no-files-found: warn
           path: |
             evidence/receipts/model-inventory-current-host.json
-            evidence/runtime/model-inventory-current-host/
+            evidence/runtime/model-inventory-current-host/*/summary.json
             reports/model-inventory-current-host-gate-report.json
