@@ -1,0 +1,50 @@
+name: FA3 Buzz Global Reconciliation Materializer
+
+on:
+  push:
+    branches: [buzz-global-reconciliation-2026-09-06]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-buzz-global-reconcile-once
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate unified Buzz reconciliation projection
+        run: |
+          python tools/fa3_buzz_global_reconcile.py
+          first=$(sha256sum canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json | awk '{print $1}')
+          python tools/fa3_buzz_global_reconcile.py
+          second=$(sha256sum canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json | awk '{print $1}')
+          test "$first" = "$second"
+          echo "Deterministic regeneration SHA256: $second"
+      - name: Buzz reconciliation syntax and regression tests
+        run: |
+          python -m py_compile src/fa3_buzz_gate.py src/fa3_buzz_global_reconciliation.py tools/fa3_buzz_global_reconcile.py tests/test_buzz_global_reconciliation.py
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_buzz*.py' -v
+          PYTHONPATH=src python src/fa3_buzz_gate.py --root .
+      - name: Commit generated projection and remove one-shot workflow
+        shell: bash
+        run: |
+          git rm .github/workflows/fa3-buzz-reconcile-once.yml
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json evidence/evidence-registry.json evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json src/fa3_buzz_gate.py src/fa3_buzz_global_reconciliation.py tests/test_buzz_global_reconciliation.py tools/fa3_buzz_global_reconcile.py
+          if git diff --cached --quiet; then
+            echo "No reconciliation changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "buzz: regenerate global release inventory evidence projection"
+          git push origin HEAD:buzz-global-reconciliation-2026-09-06
