@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "99528ea2fdafe806891515d39d903d011a18519b",
-    "pre_projection_root_tree_sha": "86a9ecd66fc207954f561b468da98d6b4934408c",
-    "pre_projection_canonical_tree_sha": "d137e4b8ff6c7fc60b32914edbc73ed5945f4a13",
-    "commits_ahead_of_v3_0_11_conformance_commit": 119,
-    "total_post_baseline_commits": 119,
-    "delta_file_count": 651,
-    "delta_added_files": 646,
+    "pre_projection_head_sha": "42c52caf0fe43a22c5d404adad24ad8385b9c848",
+    "pre_projection_root_tree_sha": "aa7d63c623b0010636b92b404ad6d5ad1242cace",
+    "pre_projection_canonical_tree_sha": "33f91ebba278fec5e50c77c18ecb86b022edba26",
+    "commits_ahead_of_v3_0_11_conformance_commit": 123,
+    "total_post_baseline_commits": 123,
+    "delta_file_count": 654,
+    "delta_added_files": 649,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 385,
-    "evidence_files_in_post_baseline_delta": 68,
+    "canonical_files_in_post_baseline_delta": 384,
+    "evidence_files_in_post_baseline_delta": 69,
     "source_files_in_post_baseline_delta": 74,
     "test_files_in_post_baseline_delta": 59,
-    "workflow_files_in_post_baseline_delta": 10,
+    "workflow_files_in_post_baseline_delta": 11,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -508,7 +508,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 653,
+  "manifest_entry_count": 654,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2826,6 +2826,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/receipts/.gitkeep",
+      "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/ace-step-2026-08-30.json",
       "git_blob_sha": "dac63cb9341a086f438297f2f14a6ce663d1d2b4",
       "baseline_delta_status": "added"
@@ -2852,7 +2857,7 @@
     },
     {
       "path": "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json",
-      "git_blob_sha": "542787098e6f462561eabcdcc97a951fcdb35c32",
+      "git_blob_sha": "8c00288ea15b6acbe9f36910d26f83bfdba2814f",
       "baseline_delta_status": "added"
     },
     {
@@ -3772,7 +3777,7 @@
     },
     {
       "path": "tools/fa3_buzz_global_reconcile.py",
-      "git_blob_sha": "80e8e6bbd96e3137c8ddaa74ed60b9e37f8c10cf",
+      "git_blob_sha": "6c95cce2893205966c2a1b3c31de71247091dc88",
       "baseline_delta_status": "added"
     }
   ],
@@ -4684,8 +4689,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "99528ea2fdafe806891515d39d903d011a18519b",
-    "regenerated_from_branch_head": "99528ea2fdafe806891515d39d903d011a18519b",
+    "source_snapshot_anchor": "42c52caf0fe43a22c5d404adad24ad8385b9c848",
+    "regenerated_from_branch_head": "42c52caf0fe43a22c5d404adad24ad8385b9c848",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true
   }
