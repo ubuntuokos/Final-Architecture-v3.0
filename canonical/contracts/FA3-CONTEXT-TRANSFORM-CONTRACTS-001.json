@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.context-transform-contracts.v1",
+  "id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "canonical_original_mutation_forbidden": true,
+  "projection_semantics": "DERIVED_NON_AUTHORITATIVE_RECOVERABLE_PROJECTION",
+  "contracts": {
+    "ContextTransformRequest": {
+      "required": ["request_id","source_artifact_id","source_sha256","content_type","transform_kind","lossy","policy_decision_id","baseline_measurement_id"],
+      "constraints": ["source_sha256 MUST identify the exact canonical/original input","unknown or unsupported transform_kind MUST resolve to NO_TRANSFORM","lossy=true requires recovery persistence before replacement/projection delivery"]
+    },
+    "RecoveryArtifactDescriptor": {
+      "required": ["recovery_artifact_id","recovery_handle","source_sha256","classification","retention_policy_id","canonical_path_validated","symlink_rejected"],
+      "classification": "SENSITIVE",
+      "constraints": ["recovery bytes MUST restore the exact original","canonical path validation and symlink escape rejection are mandatory","retention MUST be bounded","secret-bearing content remains governed as sensitive data","filesystem mode MUST grant no group/other access when filesystem-backed"]
+    },
+    "MeasurementEvidence": {
+      "evidence_classes": ["INFERRED","BENCHMARK_COUNTERFACTUAL","VERIFIED"],
+      "required": ["measurement_id","evidence_class","metric","value","unit","method","source"],
+      "constraints": ["INFERRED MUST NOT be promoted to VERIFIED","BENCHMARK_COUNTERFACTUAL MUST NOT be represented as provider billing evidence","VERIFIED requires an attributable provider/runtime receipt or direct verified measurement"]
+    },
+    "ContextTransformResult": {
+      "required": ["request_id","source_artifact_id","source_sha256","status","projection_kind","provider_id","transform_id","transform_version","output_sha256","token_before","token_after","measurement_evidence_class","semantic_fidelity_pass","task_success_pass"],
+      "status_values": ["TRANSFORMED","EXACT_PASS_THROUGH","NO_TRANSFORM","ROLLED_BACK"],
+      "lossy_requires": ["recovery_artifact_id","recovery_handle"],
+      "constraints": ["projection MUST NOT replace or become the canonical original","ERROR, UNSUPPORTED, POLICY_DENIED, NO_BENEFIT or FIDELITY_FAIL paths MUST return exact input bytes or NO_TRANSFORM","promotion of a lossy transform requires semantic_fidelity_pass=true and task_success_pass=true","semantic degradation requires rollback to the original","token reduction alone is insufficient promotion evidence"]
+    },
+    "CacheSegmentClassification": {
+      "values": ["STABLE","VOLATILE"],
+      "constraints": ["classification MUST be explicit before cache reuse","cache planning is advisory and MUST NOT become cache-policy authority"]
+    }
+  },
+  "deployment_defaults": {
+    "telemetry": "OFF_UNLESS_EXPLICITLY_AUTHORIZED",
+    "unsupported_transform": "NO_TRANSFORM_EXACT_PASS_THROUGH",
+    "transformation_failure": "EXACT_PASS_THROUGH",
+    "semantic_fidelity_failure": "ROLLBACK_TO_ORIGINAL",
+    "recovery_store": "SENSITIVE_BOUNDED",
+    "record_before_optimize": true
+  }
+}

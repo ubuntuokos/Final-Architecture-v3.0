@@ -1,19 +1,12 @@
 {
-  "schema": "fa3.decision-record.v1",
-  "id": "FA3-DEC-CAVEMAN-2026-08-30",
-  "date": "2026-08-30",
-  "status": "CANONICAL_CLOSED",
-  "subject": "JuliusBrussee/caveman",
-  "decision": "ACCEPT_OPTIONAL_REFERENCE_PROVIDER_AND_CONTEXT_OPTIMIZATION_PATTERN_SOURCE",
+  "schema": "fa3.caveman-enforcement.v1",
+  "id": "FA3-CAVEMAN-ENFORCEMENT-001",
   "provider_id": "FA3-PROVIDER-CAVEMAN-001",
-  "parent_profile": "FA3-KNOWLEDGE-001",
   "contract_id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
   "gate_id": "FA3-CAVEMAN-GATESET-001",
-  "upstream_reference_id": "FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31",
-  "materialization_status": "CANONICAL_CONTRACT_GATE_AND_PASS_EVIDENCE_MATERIALIZED",
-  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
-  "current_host_runtime_evidence": "NOT_CLAIMED",
-  "mandatory_p0_rules": [
+  "fail_closed": true,
+  "mandatory_rule_count": 15,
+  "p0_invariants": [
     "CAVEMAN_RECOVERY_BEFORE_LOSSY_TRANSFORM",
     "CAVEMAN_CANONICAL_ORIGINAL_IMMUTABLE",
     "CAVEMAN_FAILURE_UNSUPPORTED_EXACT_PASS_THROUGH",
@@ -30,11 +23,17 @@
     "CAVEMAN_TELEMETRY_OFF_UNLESS_EXPLICITLY_AUTHORIZED",
     "CAVEMAN_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY"
   ],
-  "evidence": [
-    "evidence/reference/caveman-ci-2026-08-31.json",
-    "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json"
-  ],
-  "new_capabilities": 0,
-  "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "runtime_provider_required": false,
+  "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+  "current_host_runtime_claim": false,
+  "failure_actions": {
+    "lossy_without_recovery": "DENY_TRANSFORM",
+    "unknown_or_unsupported": "NO_TRANSFORM_EXACT_PASS_THROUGH",
+    "transform_error": "EXACT_PASS_THROUGH",
+    "no_measurable_benefit": "NO_TRANSFORM_EXACT_PASS_THROUGH",
+    "semantic_fidelity_failure": "ROLLBACK_TO_ORIGINAL",
+    "measurement_provenance_escalation": "DENY_EVIDENCE_PROMOTION",
+    "authority_drift": "FAIL_P0",
+    "unauthorized_telemetry": "DISABLE_AND_FAIL_P0"
+  }
 }
