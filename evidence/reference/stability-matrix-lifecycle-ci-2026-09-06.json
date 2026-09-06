@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-STABILITY-MATRIX-LIFECYCLE-CI-2026-09-06",
+  "date": "2026-09-06",
+  "status": "PASS",
+  "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+  "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+  "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+  "mode": "EXECUTABLE_REFERENCE_REGRESSION",
+  "regression_cases": {"passed": 23, "total": 23},
+  "verified_boundaries": [
+    "interactive provider versus control-plane authority",
+    "GUI versus native production worker separation",
+    "immutable package admission and rollback",
+    "hardware-portable fail-closed GPU and NUMA routing",
+    "loopback network exposure",
+    "storage, cache and canonical-state separation",
+    "existing workflow, resource, security and evidence authorities"
+  ],
+  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
+  "current_host_production_claim": false,
+  "global_runtime_promotion_claim": false,
+  "conclusion": "REFERENCE_REGRESSION_PASS_RUNTIME_PROMOTION_NOT_CLAIMED"
+}

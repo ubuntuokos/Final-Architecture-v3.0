@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06",
+  "date": "2026-09-06",
+  "status": "CANONICAL_CLOSED",
+  "title": "Canonicalize Stability Matrix interactive lifecycle and native-worker promotion boundaries",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+  "related_provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+  "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+  "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
+  "current_host_runtime_promotion_claim": false,
+  "decisions": [
+    "Stability Matrix is REQ-ADAPTER plus PRIMARY-REF for interactive local generative-media lifecycle, not an FA3 control plane or hard runtime dependency.",
+    "The graphical application runs as a systemd user service; maintenance trials and production native workers are separate execution modes.",
+    "Production packages run as isolated native ai-media worker units controlled by existing Temporal, NATS, HRB, security and evidence authorities.",
+    "GPU and NUMA placement is discovered dynamically and bound by PCI identity plus GPU UUID through a fail-closed compute-role lease; GPU model and count are never canonical constants.",
+    "Package-owned isolated environments, immutable revisions, hashes, manifests, maintenance lock, drain, checkpoint, smoke, memory-envelope, output and rollback evidence are mandatory.",
+    "Provider SQLite or JSON state remains operator-local and non-canonical; PostgreSQL and the existing artifact/model registry remain canonical authorities.",
+    "Provider failure cannot stop already promoted native workers; damaged environments are isolated and clean uninstall plus orphan scan is required.",
+    "Reference regression PASS does not claim current-host production worker E2E or global runtime promotion."
+  ]
+}
