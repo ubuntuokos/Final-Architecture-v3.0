@@ -600,12 +600,15 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "FA3-DEC-MARKETING-2026-08-31",
-        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03"
+        "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03",
+        "FA3-DEC-CAVEMAN-2026-08-30"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/marketing-ci-2026-08-31.json",
-        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json"
+        "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
+        "evidence/reference/caveman-ci-2026-08-31.json",
+        "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -623,6 +626,14 @@
         "runtime_activation_status": "NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST",
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "production_provider_admission": false
+      },
+      "caveman_provider_projection_status": {
+        "provider_id": "FA3-PROVIDER-CAVEMAN-001",
+        "contract_id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
+        "reference_gate_status": "PASS",
+        "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "provider_runtime_required_for_global_promotion_when_disabled": false
       }
     },
     {
