@@ -43,7 +43,7 @@ jobs:
       - name: Commit corrected generated projection
         shell: bash
         run: |
-          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json evidence/evidence-registry.json evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json src/fa3_buzz_gate.py src/fa3_buzz_global_reconciliation.py tests/test_buzz_global_reconciliation.py tools/fa3_buzz_global_reconcile.py .github/workflows/fa3-buzz-reconcile-fix-once.yml
+          git add -A
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "fix: regenerate Buzz projection with canonical snapshot semantics"
