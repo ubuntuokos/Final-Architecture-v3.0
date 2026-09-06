@@ -19,8 +19,20 @@ REFERENCE_EVIDENCE = "evidence/reference/buzz-ci-2026-08-30.json"
 GLOBAL_EVIDENCE = "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json"
 REGISTRY = "evidence/evidence-registry.json"
 RELEASE = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
-TEMP_WORKFLOW = ".github/workflows/fa3-buzz-reconcile-once.yml"
-EXCLUDED_PREFIXES = ("evidence/receipts/",)
+TEMP_WORKFLOWS = {
+    ".github/workflows/fa3-buzz-reconcile-once.yml",
+    ".github/workflows/fa3-buzz-reconcile-fix-once.yml",
+}
+MUTABLE_TOP_LEVEL = {
+    ".git",
+    "reports",
+    "acceptance",
+    "promotion",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".fa3-current-host",
+}
+MUTABLE_DIR_NAMES = {"__pycache__"}
 
 
 def load(rel: str) -> dict[str, Any]:
@@ -34,43 +46,106 @@ def write(rel: str, obj: dict[str, Any]) -> None:
 
 
 def git(*args: str, check: bool = True) -> str:
-    proc = subprocess.run(["git", *args], cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
     if check and proc.returncode:
         raise RuntimeError(f"git {' '.join(args)} failed: {proc.stderr.strip()}")
     return proc.stdout.strip()
 
 
-def excluded(path: str) -> bool:
-    return path == RELEASE or path == TEMP_WORKFLOW or any(path.startswith(prefix) for prefix in EXCLUDED_PREFIXES)
+def mutable_runtime_path(path: str) -> bool:
+    parts = Path(path).parts
+    if not parts:
+        return True
+    if parts[0] in MUTABLE_TOP_LEVEL:
+        return True
+    if any(part in MUTABLE_DIR_NAMES for part in parts):
+        return True
+    if path.startswith("evidence/receipts/") and path != "evidence/receipts/.gitkeep":
+        return True
+    return False
+
+
+def manifest_excluded(path: str) -> bool:
+    return path == RELEASE or path in TEMP_WORKFLOWS or mutable_runtime_path(path)
 
 
 def baseline_has(path: str) -> bool:
-    return subprocess.run(["git", "cat-file", "-e", f"{BASELINE}:{path}"], cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0
+    return subprocess.run(
+        ["git", "cat-file", "-e", f"{BASELINE}:{path}"],
+        cwd=ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    ).returncode == 0
 
 
 def blob_sha(path: str) -> str:
     return git("hash-object", path)
 
 
-def delta_paths() -> tuple[list[tuple[str, str]], dict[str, int]]:
-    states: dict[str, str] = {}
-    raw = git("diff", "--name-status", BASELINE, "--")
+def snapshot_rows(head: str) -> list[tuple[str, str]]:
+    raw = git("diff", "--name-status", "--find-renames", BASELINE, head)
+    rows: list[tuple[str, str]] = []
     for line in raw.splitlines():
-        if not line.strip():
+        if not line:
             continue
         parts = line.split("\t")
         status = parts[0]
-        path = parts[-1]
-        if excluded(path):
-            continue
-        states[path] = status[0]
-    for path in git("ls-files", "--others", "--exclude-standard").splitlines():
-        if path and not excluded(path):
-            states[path] = "A"
-    counts = {"A": 0, "M": 0, "D": 0, "O": 0}
-    for status in states.values():
-        counts[status if status in counts else "O"] += 1
-    return sorted(states.items()), counts
+        path = parts[-1] if status.startswith(("R", "C")) else parts[1]
+        rows.append((status, path))
+    return rows
+
+
+def snapshot_facts(head: str) -> dict[str, Any]:
+    rows = snapshot_rows(head)
+    paths = [path for _, path in rows]
+
+    def prefixed(prefix: str) -> list[str]:
+        return sorted(path for path in paths if path.startswith(prefix))
+
+    added = sum(status.startswith("A") for status, _ in rows)
+    modified = sum(status.startswith("M") for status, _ in rows)
+    removed = sum(status.startswith("D") for status, _ in rows)
+    other = len(rows) - added - modified - removed
+    return {
+        "rows": rows,
+        "commit_count": int(git("rev-list", "--count", f"{BASELINE}..{head}")),
+        "delta_file_count": len(rows),
+        "delta_added_files": added,
+        "delta_modified_files": modified,
+        "delta_removed_files": removed,
+        "delta_other_files": other,
+        "area_counts": {
+            "canonical_files_in_post_baseline_delta": len(prefixed("canonical/")),
+            "evidence_files_in_post_baseline_delta": len(prefixed("evidence/")),
+            "source_files_in_post_baseline_delta": len(prefixed("src/")),
+            "test_files_in_post_baseline_delta": len(prefixed("tests/")),
+            "workflow_files_in_post_baseline_delta": len(prefixed(".github/workflows/")),
+        },
+        "record_lists": {
+            "provider_records": prefixed("canonical/providers/"),
+            "profile_records": prefixed("canonical/profiles/"),
+            "contract_records": prefixed("canonical/contracts/"),
+            "decision_records": prefixed("canonical/decisions/"),
+            "upstream_reference_records": prefixed("canonical/references/"),
+            "reference_evidence_records": prefixed("evidence/reference/"),
+        },
+    }
+
+
+def release_surface_paths() -> list[str]:
+    paths = set(git("ls-files").splitlines())
+    paths.update(git("ls-files", "--others", "--exclude-standard").splitlines())
+    return sorted(
+        path
+        for path in paths
+        if path and (ROOT / path).is_file() and not manifest_excluded(path)
+    )
 
 
 def patch_gate() -> None:
@@ -100,9 +175,15 @@ def patch_gate() -> None:
 
 def patch_registry() -> None:
     registry = load(REGISTRY)
-    if registry.get("canonical_capability_count") != CAPABILITY_COUNT or registry.get("record_count") != CAPABILITY_COUNT:
+    if (
+        registry.get("canonical_capability_count") != CAPABILITY_COUNT
+        or registry.get("record_count") != CAPABILITY_COUNT
+    ):
         raise RuntimeError("Evidence Registry capability count is not exactly 143")
-    cap = next((item for item in registry.get("records", []) if item.get("subject_id") == CAPABILITY_ID), None)
+    cap = next(
+        (item for item in registry.get("records", []) if item.get("subject_id") == CAPABILITY_ID),
+        None,
+    )
     if cap is None:
         raise RuntimeError("CAP-008 Agent Workspace missing")
     if DECISION_ID not in cap.setdefault("source_decision_ids", []):
@@ -137,12 +218,6 @@ def regenerate_release(head: str) -> None:
     release = load(RELEASE)
     inventory = release.setdefault("overlay_inventory", {})
 
-    evidence_records = inventory.setdefault("reference_evidence_records", [])
-    for evidence in (REFERENCE_EVIDENCE, GLOBAL_EVIDENCE):
-        if evidence not in evidence_records:
-            evidence_records.append(evidence)
-    evidence_records.sort()
-
     release.setdefault("evidence_registry", {})["buzz_capability_binding"] = {
         "subject_id": CAPABILITY_ID,
         "provider_id": PROVIDER_ID,
@@ -173,52 +248,47 @@ def regenerate_release(head: str) -> None:
         "capability_count_after": CAPABILITY_COUNT,
     }
 
-    note = "FA3-PROVIDER-BUZZ-001 globally reconciled to CAP-008 / FA3-DESKTOP-AGENT-WORKBENCH-001 with deterministic release/inventory/evidence projection regeneration and executable drift enforcement; Buzz remains optional, disabled by default, non-authoritative and not current-host runtime promoted."
+    note = (
+        "FA3-PROVIDER-BUZZ-001 globally reconciled to CAP-008 / "
+        "FA3-DESKTOP-AGENT-WORKBENCH-001 with deterministic release/inventory/evidence "
+        "projection regeneration and executable drift enforcement; Buzz remains optional, "
+        "disabled by default, non-authoritative and not current-host runtime promoted."
+    )
     notes = release.setdefault("review_notes", [])
     if note not in notes:
         notes.append(note)
 
-    delta, counts = delta_paths()
-    existing_manifest = {item.get("path"): item for item in release.get("manifest", []) if item.get("path")}
-    final_paths = {path for path, status in delta if status != "D" and (ROOT / path).is_file()}
-    final_paths.update(path for path in existing_manifest if (ROOT / path).is_file() and not excluded(path))
-    manifest = []
-    for path in sorted(final_paths):
-        manifest.append({
+    final_paths = release_surface_paths()
+    release["manifest"] = [
+        {
             "path": path,
             "git_blob_sha": blob_sha(path),
             "baseline_delta_status": "modified" if baseline_has(path) else "added",
-        })
-    release["manifest"] = manifest
-    release["manifest_entry_count"] = len(manifest)
+        }
+        for path in final_paths
+    ]
+    release["manifest_entry_count"] = len(final_paths)
 
-    inventory["provider_records"] = sorted(path for path in final_paths if path.startswith("canonical/providers/FA3-PROVIDER-") and path.endswith(".json"))
-    inventory["profile_records"] = sorted(path for path in final_paths if path.startswith("canonical/profiles/") and path.endswith(".json"))
-    inventory["contract_records"] = sorted(path for path in final_paths if path.startswith("canonical/contracts/") and path.endswith(".json"))
-    inventory["decision_records"] = sorted(path for path in final_paths if path.startswith("canonical/decisions/") and path.endswith(".json"))
-    inventory["upstream_reference_records"] = sorted(path for path in final_paths if path.startswith("canonical/references/") and path.endswith(".json"))
-    inventory["reference_evidence_records"] = sorted(path for path in final_paths if path.startswith("evidence/reference/") and path.endswith(".json"))
-    inventory["canonical_files_in_post_baseline_delta"] = sum(path.startswith("canonical/") for path in final_paths)
-    inventory["evidence_files_in_post_baseline_delta"] = sum(path.startswith("evidence/") for path in final_paths)
-    inventory["source_files_in_post_baseline_delta"] = sum(path.startswith("src/") for path in final_paths)
-    inventory["test_files_in_post_baseline_delta"] = sum(path.startswith("tests/") for path in final_paths)
-    inventory["workflow_files_in_post_baseline_delta"] = sum(path.startswith(".github/workflows/") for path in final_paths)
+    facts = snapshot_facts(head)
+    for key, value in facts["record_lists"].items():
+        inventory[key] = value
+    for key, value in facts["area_counts"].items():
+        inventory[key] = value
 
     snapshot = release.setdefault("source_snapshot", {})
     snapshot["baseline_commit_sha"] = BASELINE
     snapshot["pre_projection_head_sha"] = head
-    snapshot["pre_projection_root_tree_sha"] = git("rev-parse", "HEAD^{tree}")
-    canonical_tree = git("rev-parse", "HEAD:canonical", check=False)
+    snapshot["pre_projection_root_tree_sha"] = git("rev-parse", f"{head}^{{tree}}")
+    canonical_tree = git("rev-parse", f"{head}:canonical", check=False)
     if canonical_tree:
         snapshot["pre_projection_canonical_tree_sha"] = canonical_tree
-    commits = int(git("rev-list", "--count", f"{BASELINE}..HEAD"))
-    snapshot["commits_ahead_of_v3_0_11_conformance_commit"] = commits
-    snapshot["total_post_baseline_commits"] = commits
-    snapshot["delta_file_count"] = sum(counts.values())
-    snapshot["delta_added_files"] = counts["A"]
-    snapshot["delta_modified_files"] = counts["M"]
-    snapshot["delta_removed_files"] = counts["D"]
-    snapshot["delta_other_files"] = counts["O"]
+    snapshot["commits_ahead_of_v3_0_11_conformance_commit"] = facts["commit_count"]
+    snapshot["total_post_baseline_commits"] = facts["commit_count"]
+    snapshot["delta_file_count"] = facts["delta_file_count"]
+    snapshot["delta_added_files"] = facts["delta_added_files"]
+    snapshot["delta_modified_files"] = facts["delta_modified_files"]
+    snapshot["delta_removed_files"] = facts["delta_removed_files"]
+    snapshot["delta_other_files"] = facts["delta_other_files"]
 
     verification = release.setdefault("manifest_verification", {})
     verification["repository_release_surface_complete"] = True
@@ -239,14 +309,19 @@ def main() -> int:
     patch_global_evidence(head)
     regenerate_release(head)
     digest = hashlib.sha256((ROOT / RELEASE).read_bytes()).hexdigest()
-    print(json.dumps({
-        "result": "PASS",
-        "provider_id": PROVIDER_ID,
-        "capability_id": CAPABILITY_ID,
-        "profile_id": PROFILE_ID,
-        "pre_projection_head": head,
-        "release_projection_sha256": digest,
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "result": "PASS",
+                "provider_id": PROVIDER_ID,
+                "capability_id": CAPABILITY_ID,
+                "profile_id": PROFILE_ID,
+                "pre_projection_head": head,
+                "release_projection_sha256": digest,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
