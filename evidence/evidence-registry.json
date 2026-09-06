@@ -235,7 +235,8 @@
         "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
-        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"
+        "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
+        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -243,10 +244,20 @@
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/model-manager-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
       ],
       "expires_at": null,
       "blocking": true,
+      "stability_matrix_lifecycle_projection_status": {
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
+        "current_host_production_claim": false
+      },
       "inference_portability_projection_status": {
         "profile_id": "FA3-INFERENCE-PORTABILITY-001",
         "provider_ids": [
@@ -872,17 +883,28 @@
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
-        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03"
+        "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
+        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/model-manager-ci-2026-08-31.json",
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json"
+        "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
       ],
       "expires_at": null,
       "blocking": true,
+      "stability_matrix_lifecycle_projection_status": {
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
+        "current_host_production_claim": false
+      },
       "model_manager_projection_status": {
         "profile_id": "FA3-MODEL-MANAGER-001",
         "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
@@ -5224,14 +5246,25 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31"
+        "FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31",
+        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/model-manager-ci-2026-08-31.json"
+        "evidence/reference/model-manager-ci-2026-08-31.json",
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
       ],
       "expires_at": null,
       "blocking": true,
+      "stability_matrix_lifecycle_projection_status": {
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
+        "current_host_production_claim": false
+      },
       "model_manager_projection_status": {
         "profile_id": "FA3-MODEL-MANAGER-001",
         "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
@@ -5985,12 +6018,24 @@
         "FA3-AI-004",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [],
+      "evidence_artifacts": [
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+      ],
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "stability_matrix_lifecycle_projection_status": {
+        "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+        "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+        "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+        "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_REAL_CURRENT_HOST_PRODUCTION_WORKER_E2E",
+        "current_host_production_claim": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-136-CURRENT-HOST",

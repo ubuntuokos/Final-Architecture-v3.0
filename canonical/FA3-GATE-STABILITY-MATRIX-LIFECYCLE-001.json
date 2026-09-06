@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-STABILITY-MATRIX-LIFECYCLE-001",
+  "gateset_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+  "provider_id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+  "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+  "status": "ACTIVE_FAIL_CLOSED",
+  "priority": "P0",
+  "mandatory": true,
+  "rule_count": 23,
+  "executable": "./bin/fa3-enforce stability-matrix-lifecycle",
+  "report_path": "reports/stability-matrix-lifecycle-gate-report.json",
+  "reference_evidence": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+  "current_host_runtime_evidence_required_for_production_promotion": true,
+  "fail_closed": true
+}
