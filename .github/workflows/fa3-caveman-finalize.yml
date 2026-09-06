@@ -26,4 +26,6 @@ jobs:
         with:
           python-version: '3.12'
       - name: Finalize Caveman global reconciliation
-        run: python tools/fa3_caveman_finalize.py
+        run: |
+          chmod +x bin/fa3-enforce
+          python tools/fa3_caveman_finalize.py
