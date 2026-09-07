@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OBSIDIAN-001",
+  "name": "Obsidian Desktop",
+  "status": "ACCEPTED_OPTIONAL_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_HUMAN_FACING_LOCAL_MARKDOWN_KNOWLEDGE_WORKSPACE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "HUMAN_KNOWLEDGE_WORKSPACE_UI",
+    "LOCAL_MARKDOWN_VAULT_PROVIDER",
+    "DOCUMENT_AND_KNOWLEDGE_AUTHORING_PROVIDER",
+    "REPLACEABLE_PROVIDER",
+    "NON_AUTHORITY"
+  ],
+  "profile": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
+  "contract": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-010",
+    "CAP-018"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "hard_dependency": false,
+  "activation_mode": "OPTIONAL_MANUAL_USER_SESSION",
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
+  "runtime_activation_requires_current_host_conformance": true,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "immutable_component_tuple": {
+    "distribution_repository": "obsidianmd/obsidian-releases",
+    "release": "v1.13.7",
+    "release_channel": "STABLE_DESKTOP",
+    "license_class": "PROPRIETARY_FREE_USE_SUBJECT_TO_OBSIDIAN_TERMS",
+    "linux_package": "obsidian_1.13.7_amd64.deb",
+    "linux_package_sha256": "17dc33b49cb3e785ecc27edd2ea0c79e40207798b554fd2886e36ebee7af9ae0"
+  },
+  "canonical_projection": {
+    "storage": "LOCAL_MARKDOWN_FILES_AND_ADMITTED_ATTACHMENTS",
+    "properties": "TYPED_YAML_FRONTMATTER",
+    "bases": "VIEW_ONLY_NOT_DATABASE_AUTHORITY",
+    "canvas": "VISUAL_VIEW_ONLY_NOT_WORKFLOW_AUTHORITY",
+    "metadata_cache": "REBUILDABLE_PROVIDER_CACHE",
+    "desktop_lifecycle": "INTERACTIVE_NON_ROOT_USER_SESSION",
+    "desktop_autostart": false,
+    "agent_access": "CANONICAL_KNOWLEDGE_TOOLS_ONLY",
+    "agent_direct_vault_access": false,
+    "agent_canonical_mutation": false,
+    "agent_proposal_staging": "_agent-inbox/<proposal_id>/",
+    "human_promotion_required": true,
+    "cli_access": "OPERATOR_ONLY_DEFAULT_AGENT_DENY",
+    "headless": "OPTIONAL_OPEN_BETA_NOT_CORE",
+    "sync_and_publish": "OPTIONAL_EGRESS_GATED"
+  },
+  "authority_boundaries": {
+    "human_promotion": "AUTH-HUMAN",
+    "knowledge_and_memory": "EXISTING_FA3_UNIFIED_MEMORY_GATEWAY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "events": "EXISTING_FA3_NATS_EVENT_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "AGENT_MEMORY_OR_KNOWLEDGE_GATEWAY_AUTHORITY",
+    "DATABASE_OR_VECTOR_INDEX_AUTHORITY",
+    "MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "IDENTITY_POLICY_OR_SECRETS_AUTHORITY",
+    "DURABLE_WORKFLOW_OR_EVENT_BUS_AUTHORITY",
+    "EVIDENCE_PROVENANCE_OR_REGISTRY_AUTHORITY",
+    "GENERAL_AGENT_FILESYSTEM_AUTHORITY"
+  ],
+  "normative_constraint": "Obsidian SHALL remain an optional human-facing local Markdown knowledge workspace provider. It SHALL NOT become the FA3 agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority."
+}

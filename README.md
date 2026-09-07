@@ -1186,3 +1186,16 @@ PYTHONPATH=src python -m unittest tests.test_hardware_portability_gate -v
 ```
 
 Any newly introduced fixed production runtime GPU list/count, CPU affinity/NUMA mask, CUDA ordinal or unclassified concrete reference-host assumption blocks the canonical static gate. Capability count remains **143** and new architectural authorities remain **0**.
+## Obsidian human knowledge workspace finalization (2026-09-07)
+
+`FA3-HUMAN-KNOWLEDGE-WORKSPACE-001` finalizes Obsidian as an **optional human-facing local Markdown knowledge workspace provider** projected only to existing `CAP-010` and `CAP-018`. The capability count remains **143** and no architectural authority is added. Obsidian is not the agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority.
+
+`FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001` requires stable note IDs and typed properties; approved/indexable content only; Git provenance; watcher plus full reconciliation; rebuildable derived indexes; policy filtering before indexing/retrieval; and agent changes through `_agent-inbox/<proposal_id>/` followed by human review, atomic base-hash promotion and rollback. Direct agent vault filesystem access and direct Obsidian MCP access are forbidden.
+
+The desktop reference is pinned to stable Linux Obsidian `1.13.7` (`obsidian_1.13.7_amd64.deb`, SHA-256 `17dc33b49cb3e785ecc27edd2ea0c79e40207798b554fd2886e36ebee7af9ae0`). `FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001` separately pins the optional Local REST API/MCP adapter to `5.1.0` / `2e255200a4d8f68e49a4f7f8fd46b4abf736c4eb`; it is **disabled by default** pending separate plugin security and current-host admission. The 32-rule fail-closed gate is:
+
+```bash
+./bin/fa3-enforce obsidian-knowledge-workspace
+```
+
+Reference PASS is not current-host runtime promotion. Full design and operator boundaries: [`docs/obsidian-integration.md`](docs/obsidian-integration.md).

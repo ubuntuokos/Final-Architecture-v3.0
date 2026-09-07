@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
+  "name": "Human Knowledge Workspace, Local Markdown & Governed Agent Projection Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MAY",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "related_profiles": [
+    "FA3-KNOWLEDGE-001"
+  ],
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-010",
+    "CAP-018"
+  ],
+  "contract": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OBSIDIAN-001",
+    "FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001"
+  ],
+  "scope": [
+    "HUMAN_AUTHORED_LOCAL_MARKDOWN_KNOWLEDGE",
+    "STABLE_NOTE_IDENTITY_AND_TYPED_PROPERTIES",
+    "GIT_PROVENANCE_AND_REVIEWABLE_CHANGE_HISTORY",
+    "REBUILDABLE_POLICY_FILTERED_KNOWLEDGE_INDEX",
+    "STAGED_AGENT_PROPOSALS_WITH_HUMAN_PROMOTION"
+  ],
+  "excluded_scope": [
+    "CANONICAL_AGENT_MEMORY_AUTHORITY",
+    "VECTOR_DATABASE_OR_POSTGRESQL_REPLACEMENT",
+    "MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "IDENTITY_POLICY_SECRETS_OR_EVIDENCE_AUTHORITY",
+    "DURABLE_WORKFLOW_OR_EVENT_BUS_AUTHORITY",
+    "GENERAL_AGENT_FILESYSTEM",
+    "LARGE_BINARY_OR_MODEL_ARTIFACT_STORE"
+  ],
+  "authority": {
+    "human_curation_and_promotion": "AUTH-HUMAN",
+    "knowledge_and_memory_access": "EXISTING_FA3_UNIFIED_MEMORY_GATEWAY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "durable_workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "events": "EXISTING_FA3_NATS_EVENT_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "runtime_requirement": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_requires_current_host_conformance": true,
+  "provider_runtime_required_for_global_promotion_when_disabled": false
+}
