@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07",
+  "date": "2026-09-07",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize FA3-safe Buzz runtime admission wrapper without promoting raw buzz-dev-mcp",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_RUNTIME_ADMISSION_BOUNDARY",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "contract_id": "FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001",
+  "admission_id": "FA3-BUZZ-RUNTIME-ADMISSION-001",
+  "gate_id": "FA3-BUZZ-WRAPPER-GATESET-001",
+  "upstream_reference": "FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07",
+  "extends_decision": "FA3-DEC-BUZZ-2026-08-30",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "decisions": [
+    "Buzz remains optional, disabled by default, non-authoritative and non-blocking for global promotion while disabled.",
+    "Raw buzz-dev-mcp is NON_CONFORMING_DIRECT_HOST_TOOL_PROVIDER and MUST be denied as a direct FA3 tool provider.",
+    "A Buzz runtime may be admitted only behind the existing Central MCP/Capability Gateway with explicit workspace containment and capability narrowing.",
+    "Provider discovery MUST NOT execute candidates; path, staged identity and digest MUST be revalidated before any use.",
+    "Protocol/version negotiation MUST complete before any secret handle or delegated capability crosses the provider boundary.",
+    "Raw Buzz private-key/nsec transfer is forbidden by default; use leased scoped secret handles under the existing FA3 secrets boundary.",
+    "Owner attestation is provenance/delegation evidence only and cannot substitute for an FA3 authorization lease.",
+    "Mutation order is read current state, proposed diff, authorization/human gate, apply, post-state verification.",
+    "Host-resolved paths MUST NOT cross remote substrate boundaries; target paths are re-derived in the target scope.",
+    "Current-host runtime promotion requires a real E2E receipt and cannot be fabricated by CI reference fixtures."
+  ],
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "authority_boundaries_unchanged": true
+}
