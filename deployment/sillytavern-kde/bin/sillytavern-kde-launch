@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly expected_commit="51ad27fb86d39a3daca3adaa970375c9670c12df"
+readonly expected_entry_blob="6126ef45ca881e30e7fceb134270dfb52d883b4b"
+readonly expected_lock_blob="de71cacfc097733f36d79f103bfd9fb2686778a6"
+readonly config_file="${FA3_SILLYTAVERN_KDE_CONFIG:-${HOME}/.config/fa3/sillytavern-kde.env}"
+
+if [[ ! -r "$config_file" ]]; then
+  printf 'FA3 SillyTavern KDE: missing config %s\n' "$config_file" >&2
+  exit 64
+fi
+# shellcheck disable=SC1090
+source "$config_file"
+: "${SILLYTAVERN_ROOT:?Set SILLYTAVERN_ROOT in the FA3 config file}"
+
+root=$(readlink -f -- "$SILLYTAVERN_ROOT")
+[[ -d "$root/.git" ]] || { printf 'FA3 SillyTavern KDE: root is not a git checkout: %s\n' "$root" >&2; exit 65; }
+
+actual_commit=$(git -C "$root" rev-parse HEAD)
+[[ "$actual_commit" == "$expected_commit" ]] || {
+  printf 'FA3 SillyTavern KDE: source pin mismatch; expected %s, got %s\n' "$expected_commit" "$actual_commit" >&2
+  exit 65
+}
+
+entry_blob=$(git -C "$root" hash-object "$root/src/electron/index.js")
+lock_blob=$(git -C "$root" hash-object "$root/src/electron/package-lock.json")
+[[ "$entry_blob" == "$expected_entry_blob" && "$lock_blob" == "$expected_lock_blob" ]] || {
+  printf 'FA3 SillyTavern KDE: Electron entrypoint or lockfile drift detected.\n' >&2
+  exit 65
+}
+
+electron="$root/src/electron/node_modules/.bin/electron"
+[[ -x "$electron" ]] || {
+  printf 'FA3 SillyTavern KDE: admitted Electron dependencies are absent. Run the installer with --prepare-deps explicitly.\n' >&2
+  exit 69
+}
+
+if [[ "${XDG_SESSION_TYPE:-}" != "wayland" && "${FA3_SILLYTAVERN_ALLOW_XWAYLAND:-0}" != "1" ]]; then
+  printf 'FA3 SillyTavern KDE: Wayland session required; set an explicit FA3_SILLYTAVERN_ALLOW_XWAYLAND=1 exception only when admitted.\n' >&2
+  exit 69
+fi
+
+width="${FA3_SILLYTAVERN_WIDTH:-1440}"
+height="${FA3_SILLYTAVERN_HEIGHT:-900}"
+[[ "$width" =~ ^[0-9]+$ && "$height" =~ ^[0-9]+$ ]] || { printf 'FA3 SillyTavern KDE: invalid width/height.\n' >&2; exit 64; }
+
+unset ELECTRON_RUN_AS_NODE
+cd "$root/src/electron"
+exec "$electron" . \
+  --ozone-platform=wayland \
+  --width "$width" \
+  --height "$height"
