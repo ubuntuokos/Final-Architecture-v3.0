@@ -22,7 +22,12 @@
     "H3_SGLANG_VLLM_DIFFUSERS_COMFYUI_ARE_INTEGRATION_TARGETS_NOT_PROMOTED_RUNTIME",
     "H3_PROMPT_SKILL_IS_REFERENCE_KNOWLEDGE_NOT_AUTHORITY",
     "H3_SELECTED_RUNTIME_REQUIRES_IMMUTABLE_VERSION_PIN",
-    "H3_COMFYUI_COMPATIBILITY_AND_AUDIO_REGRESSION_FAIL_CLOSED"
+    "H3_COMFYUI_COMPATIBILITY_AND_AUDIO_REGRESSION_FAIL_CLOSED",
+    "H3_LOCAL_AND_HOSTED_ADMISSION_DOMAINS_SEPARATE",
+    "H3_PAYG_AND_SUBSCRIPTION_KEYS_NOT_INTERCHANGEABLE",
+    "H3_COMMERCIAL_ENTITLEMENTS_DISCOVERED_NOT_ASSUMED",
+    "H3_BILLING_CREDENTIAL_FALLBACK_REQUIRES_EXPLICIT_POLICY",
+    "H3_OPEN_WEIGHT_LICENSE_AND_HOSTED_SERVICE_TERMS_SEPARATE"
   ],
   "h3_promotion_requirements": [
     "license_admission_pass",
@@ -59,6 +64,22 @@
       "Comfy-Org/ComfyUI#15960",
       "Comfy-Org/ComfyUI#15970"
     ]
+  },
+  "h3_service_access_policy": {
+    "decision_id": "FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07",
+    "reference_id": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
+    "evidence_path": "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
+    "fail_closed": true,
+    "local_open_weight_and_hosted_service_separate": true,
+    "payg_api_key_and_subscription_key_interchangeable": false,
+    "commercial_plan_availability_discovered_at_admission": true,
+    "team_plan_hard_dependency_forbidden": true,
+    "historical_notice_is_not_current_entitlement_evidence": true,
+    "automatic_billing_mode_switch_forbidden": true,
+    "automatic_credential_class_switch_forbidden": true,
+    "hosted_service_terms_evaluated_separately_from_open_weight_license": true,
+    "hosted_pricing_is_noncanonical_dynamic_metadata": true,
+    "current_host_runtime_promotion_claim": false
   },
   "provider_lifecycle_gate": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
   "provider_lifecycle_contract": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
