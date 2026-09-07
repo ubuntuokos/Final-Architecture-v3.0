@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AI-SEC-VALIDATION-001",
   "name": "AI Security Validation, Red-Team & Adversarial Assurance Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-AI-EXECUTION-OR-EXTERNAL-AI-INTEGRATION-USED",
@@ -29,14 +29,17 @@
     "CAP-011"
   ],
   "contracts": [
-    "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001"
+    "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
+    "FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001"
   ],
   "dependencies": [
     "FA3-SCS-001",
-    "FA3-REGISTRY-001"
+    "FA3-REGISTRY-001",
+    "FA3-HOST-RESOURCE-BROKER-001"
   ],
   "providers": [
-    "FA3-PROVIDER-AI-INFRA-GUARD-001"
+    "FA3-PROVIDER-AI-INFRA-GUARD-001",
+    "FA3-PROVIDER-ANY-GUARDRAIL-001"
   ],
   "invariants": [
     "AISEC_DETERMINISTIC_FIRST_SECURITY_VALIDATION",
@@ -56,6 +59,15 @@
     "AISEC_UNRESOLVED_CRITICAL_FINDING_BLOCKS_PROMOTION",
     "AISEC_SCANNER_CONFORMANCE_AND_NON_AUTHORITY_REQUIRED"
   ],
+  "request_time_guardrail_overlay": {
+    "contract_id": "FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-ANY-GUARDRAIL-001",
+    "gate_id": "FA3-AI-GUARDRAIL-RUNTIME-GATESET-001",
+    "security_policy_authority_unchanged": true,
+    "tool_authorization_authority_unchanged": true,
+    "orchestration_authority_unchanged": true,
+    "host_resource_authority_unchanged": true
+  },
   "evidence_requirements": [
     "PINNED_SCANNER_AND_RULESET_IDENTITY",
     "EXPLICIT_SCAN_COVERAGE_MANIFEST",
@@ -63,7 +75,10 @@
     "POSITIVE_NEGATIVE_BYPASS_REGRESSION",
     "MODEL_PROVIDER_IDENTITY_EVIDENCE_WHEN_APPLICABLE",
     "ATTRIBUTABLE_SECURITY_FINDINGS",
-    "CANONICAL_ATTESTATION_BEFORE_PROMOTION_USE"
+    "CANONICAL_ATTESTATION_BEFORE_PROMOTION_USE",
+    "GUARDRAIL_CAPABILITY_SPECIFIC_BENCHMARK_AND_CALIBRATION",
+    "GUARDRAIL_RUNTIME_READINESS_AND_FAIL_MODE_EVIDENCE",
+    "GUARDRAIL_WORKER_MEMORY_PRESSURE_AND_SHUTDOWN_EVIDENCE"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_PLUS_REQUEST_TIME_GUARDRAIL_RUNTIME_MATERIALIZED"
 }
