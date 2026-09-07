@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-SILLYTAVERN-KDE-CI-2026-09-07",
+  "subject_id": "FA3-PROVIDER-SILLYTAVERN-KDE-001",
+  "status": "PASS",
+  "gate_id": "FA3-GATE-SILLYTAVERN-KDE-001",
+  "gate_set_id": "FA3-SILLYTAVERN-KDE-GATESET-001",
+  "profile_id": "FA3-SILLYTAVERN-KDE-DESKTOP-001",
+  "contract_id": "FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001",
+  "decision_id": "FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07",
+  "upstream_reference_id": "FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07",
+  "evidence_class": "REFERENCE_STATIC_EXECUTABLE_REGRESSION",
+  "regressions": {
+    "passed": 24,
+    "total": 24
+  },
+  "deployment_static_check": "PASS",
+  "assertions": [
+    "NO_NEW_CAPABILITY",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "CAPABILITY_COUNT_143",
+    "CAP_008_ONLY",
+    "UPSTREAM_ELECTRON_LIFECYCLE",
+    "RUNTIME_DEPENDENCY_MUTATION_FORBIDDEN",
+    "KDE6_WAYLAND_FIRST_CLASS",
+    "MODEL_MCP_MEMORY_VOICE_HRB_AUTHORITIES_PRESERVED",
+    "ARBITRARY_SHELL_AND_FAKE_SANDBOX_FORBIDDEN",
+    "THIRD_PARTY_EXTENSIONS_SEPARATELY_ADMITTED"
+  ],
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claimed": false,
+  "production_provider_admission_claimed": false,
+  "current_host_required_next": true,
+  "notes": "This record is the repository reference/static regression evidence. It is not a KDE/Wayland production-runtime receipt and cannot promote the provider on the current host."
+}
