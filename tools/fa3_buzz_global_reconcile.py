@@ -341,7 +341,6 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    head = args.snapshot_head or git("rev-parse", "HEAD")
 
     if args.prepare_only:
         if args.snapshot_head is not None:
@@ -362,10 +361,12 @@ def main() -> int:
         )
         return 0
 
-    if git("rev-parse", "--verify", f"{head}^{{commit}}") == "":
-        raise RuntimeError(f"snapshot head is not a valid commit: {head}")
+    head_ref = args.snapshot_head or "HEAD"
+    head = git("rev-parse", "--verify", f"{head_ref}^{{commit}}")
+    if not head:
+        raise RuntimeError(f"snapshot head is not a valid commit: {head_ref}")
     current_head = git("rev-parse", "HEAD")
-    if git("rev-parse", head) != current_head:
+    if head != current_head:
         raise RuntimeError(
             "projection-only snapshot must equal the checked-out HEAD so the projection cannot attest a different tree"
         )
