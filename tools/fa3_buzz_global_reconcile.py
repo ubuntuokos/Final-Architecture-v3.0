@@ -304,17 +304,16 @@ def regenerate_release(head: str) -> None:
 
 
 def dirty_release_surface_paths() -> list[str]:
-    raw = git("status", "--porcelain=v1", "--untracked-files=all")
-    paths: list[str] = []
-    for line in raw.splitlines():
-        if not line:
-            continue
-        path = line[3:]
-        if " -> " in path:
-            path = path.split(" -> ", 1)[1]
-        if not mutable_runtime_path(path):
-            paths.append(path)
-    return sorted(set(paths))
+    paths: set[str] = set()
+    for args in (
+        ("diff", "--name-only"),
+        ("diff", "--cached", "--name-only"),
+        ("ls-files", "--others", "--exclude-standard"),
+    ):
+        for path in git(*args).splitlines():
+            if path and not mutable_runtime_path(path):
+                paths.add(path)
+    return sorted(paths)
 
 
 def parse_args() -> argparse.Namespace:
