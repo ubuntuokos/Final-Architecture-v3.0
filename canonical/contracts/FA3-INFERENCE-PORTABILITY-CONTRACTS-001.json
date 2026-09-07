@@ -23,7 +23,9 @@
     "FallbackPolicy",
     "DeviceIOBindingDescriptor",
     "EnginePortabilityPolicy",
-    "ProviderRuntimePin"
+    "ProviderRuntimePin",
+    "TensorRTRTXRuntimeCacheDescriptor",
+    "RuntimeCacheUseReceipt"
   ],
   "required_semantics": {
     "interchange": "ONNX_PRIMARY_WHEN_SUPPORTED_NOT_UNIVERSAL_RUNTIME",
@@ -34,7 +36,10 @@
     "cpu_fallback": "EXPLICIT_POLICY_ONLY",
     "execution_provider_boundary": "PLUGIN_ABI_FIRST_WHEN_AVAILABLE",
     "engine_cache": "DERIVED_DISPOSABLE_NOT_CANONICAL_MODEL",
-    "production_versions": "PINNED_SUPPORT_MATRIX_VALIDATED_NO_LATEST_AUTO_UPGRADE"
+    "production_versions": "PINNED_SUPPORT_MATRIX_VALIDATED_NO_LATEST_AUTO_UPGRADE",
+    "tensorrt_rtx_runtime_cache": "STRICT_ENVIRONMENT_COMPATIBILITY_OR_TRANSPARENT_JIT_REBUILD_MUST_BE_OBSERVED",
+    "runtime_cache_observability": "CACHE_HIT_MISS_AND_JIT_REBUILD_MUST_BE_EVIDENCE_VISIBLE",
+    "tensorrt_rtx_timing_cache": "DEPRECATED_API_NOT_CANONICAL_RUNTIME_CACHE_AND_NOT_FOR_NEW_INTEGRATIONS"
   },
   "engine_cache_fingerprint_required_fields": [
     "source_model_hash",
@@ -52,6 +57,34 @@
     "plugins",
     "builder_flags"
   ],
+  "tensorrt_rtx_runtime_cache_fingerprint_required_fields": [
+    "gpu_sku",
+    "tensorrt_rtx_version",
+    "cuda_context_cig_state",
+    "cache_origin_driver_version"
+  ],
+  "runtime_cache_use_receipt_required_fields": [
+    "provider_id",
+    "cache_artifact_hash",
+    "cache_compatibility_result",
+    "cache_used",
+    "jit_rebuild_detected",
+    "observability_source",
+    "runtime_driver_version",
+    "cache_origin_driver_version",
+    "gpu_sku",
+    "tensorrt_rtx_version",
+    "cuda_context_cig_state",
+    "first_inference_latency_ms"
+  ],
+  "tensorrt_rtx_runtime_cache_compatibility": {
+    "gpu_hardware": "RUNTIME_GPU_SKU_MUST_BE_EQUIVALENT_TO_CACHE_OR_CACHE_IGNORED",
+    "provider_version": "TENSORRT_RTX_VERSION_MUST_EQUAL_CACHE_VERSION_OR_CACHE_IGNORED",
+    "driver": "RUNTIME_DRIVER_VERSION_MUST_BE_GREATER_THAN_OR_EQUAL_TO_CACHE_ORIGIN_DRIVER_VERSION_OR_CACHE_IGNORED",
+    "cig_state": "CUDA_CONTEXT_CIG_STATE_MUST_EQUAL_CACHE_STATE_OR_CACHE_IGNORED",
+    "failure_behavior": "CACHE_IGNORED_AND_KERNELS_JIT_RECOMPILED_WITHOUT_RUNTIME_ERROR",
+    "production_evidence": "TRANSPARENT_JIT_REBUILD_MUST_BE_DETECTED_AND_RECORDED; STEADY_STATE_BENCHMARK_CANNOT CLAIM_CACHE_HIT_WHEN_REBUILD_OCCURRED"
+  },
   "backend_compatibility_receipt_required_fields": [
     "model_artifact_id",
     "provider_id",
@@ -64,6 +97,14 @@
     "precision_policy",
     "result"
   ],
+  "cache_hardening": {
+    "decision_id": "FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07",
+    "reference_id": "FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07",
+    "subgate_id": "FA3-INFERENCE-PORTABILITY-CACHE-HARDENING-001",
+    "evidence_path": "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
+    "new_capability": false,
+    "new_architectural_authority": false
+  },
   "invariants": [
     "INFERENCE_PORTABILITY_NOT_ARCHITECTURAL_AUTHORITY",
     "ONNX_PRIMARY_OPEN_INTERCHANGE_WHEN_SUPPORTED",
