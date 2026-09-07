@@ -35,6 +35,8 @@ jobs:
         run: |
           set -euo pipefail
           cp canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json /tmp/projection-first.json
+          git checkout -- canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          test -z "$(git status --porcelain)"
           python tools/fa3_buzz_global_reconcile.py --projection-only --snapshot-head HEAD
           cmp /tmp/projection-first.json canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
 
