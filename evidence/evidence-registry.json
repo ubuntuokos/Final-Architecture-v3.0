@@ -515,11 +515,14 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05"
+        "FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05",
+        "FA3-DEC-BUZZ-2026-08-30"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/openyak-ci-2026-09-05.json"
+        "evidence/reference/openyak-ci-2026-09-05.json",
+        "evidence/reference/buzz-ci-2026-08-30.json",
+        "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json"
       ],
       "openyak_desktop_workbench_projection_status": {
         "provider_id": "FA3-PROVIDER-OPENYAK-001",
@@ -528,7 +531,17 @@
         "current_host_runtime_evidence": "NOT_CLAIMED"
       },
       "expires_at": null,
-      "blocking": true
+      "blocking": true,
+      "buzz_provider_projection_status": {
+        "provider_id": "FA3-PROVIDER-BUZZ-001",
+        "profile_id": "FA3-DESKTOP-AGENT-WORKBENCH-001",
+        "gate_id": "FA3-BUZZ-GATESET-001",
+        "reference_gate_status": "PASS",
+        "runtime_activation_status": "OPTIONAL_DISABLED_BY_DEFAULT_REFERENCE_ONLY",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "provider_runtime_required_for_global_promotion_when_disabled": false,
+        "global_reconciliation_evidence_id": "FA3-EVID-BUZZ-GLOBAL-RECONCILIATION-CI-2026-09-06"
+      }
     },
     {
       "evidence_id": "EVID-CAP-009-CURRENT-HOST",
