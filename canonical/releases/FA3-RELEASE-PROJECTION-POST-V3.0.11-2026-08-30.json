@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "775be1f6cc06baa1b3038c0a9a88d35529dd5fd8",
-    "pre_projection_root_tree_sha": "d1f5ec4353efe646a9aca1b611cf59053743c233",
-    "pre_projection_canonical_tree_sha": "c004de344342865788dc6a53687fe71798d9bbc0",
-    "commits_ahead_of_v3_0_11_conformance_commit": 149,
-    "total_post_baseline_commits": 149,
-    "delta_file_count": 711,
-    "delta_added_files": 706,
+    "pre_projection_head_sha": "4433df0cd50dd7d79c3fb925bb15a52ad61fcf00",
+    "pre_projection_root_tree_sha": "5cae38f87db04c482dd2fe332ba774028cfba56b",
+    "pre_projection_canonical_tree_sha": "0149d0f2ec4cb340d88ec54dfdc6106899c6c57d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 151,
+    "total_post_baseline_commits": 151,
+    "delta_file_count": 712,
+    "delta_added_files": 707,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 411,
     "evidence_files_in_post_baseline_delta": 74,
     "source_files_in_post_baseline_delta": 81,
-    "test_files_in_post_baseline_delta": 64,
+    "test_files_in_post_baseline_delta": 65,
     "workflow_files_in_post_baseline_delta": 13,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -530,7 +530,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 712,
+  "manifest_entry_count": 713,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -4030,6 +4030,11 @@
     {
       "path": "tests/test_release_projection.py",
       "git_blob_sha": "c127bb6819c0a974d00ec382ff7dc257c22a2c60",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_sillytavern_kde_gate.py",
+      "git_blob_sha": "ba9da85ebfe26487da457195a72668b9f4c4d4bf",
       "baseline_delta_status": "added"
     },
     {
