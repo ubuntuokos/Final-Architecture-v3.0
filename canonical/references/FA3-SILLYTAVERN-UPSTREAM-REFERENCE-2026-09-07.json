@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07",
+  "observed_at": "2026-09-07T20:35:00Z",
+  "repository": "SillyTavern/SillyTavern",
+  "repository_url": "https://github.com/SillyTavern/SillyTavern",
+  "release": "1.18.0",
+  "release_url": "https://github.com/SillyTavern/SillyTavern/releases/tag/1.18.0",
+  "release_published_at": "2026-05-03T15:55:24Z",
+  "commit": "51ad27fb86d39a3daca3adaa970375c9670c12df",
+  "commit_url": "https://github.com/SillyTavern/SillyTavern/commit/51ad27fb86d39a3daca3adaa970375c9670c12df",
+  "license": "AGPL-3.0",
+  "desktop_wrapper": {
+    "type": "Electron",
+    "entrypoint": "src/electron/index.js",
+    "entrypoint_blob_sha": "6126ef45ca881e30e7fceb134270dfb52d883b4b",
+    "package_manifest": "src/electron/package.json",
+    "package_manifest_blob_sha": "7d7eb93664f58dc55db80889e85a350ab1344295",
+    "lockfile": "src/electron/package-lock.json",
+    "lockfile_blob_sha": "de71cacfc097733f36d79f103bfd9fb2686778a6",
+    "start_script": "src/electron/start.sh",
+    "start_script_blob_sha": "00fbbb9366c6c2cdc0d5b1f9094e0a9c4d1d8566",
+    "electron_dependency_constraint": "^41.1.1",
+    "observed_lifecycle": "Electron app waits for SillyTavern SERVER_STARTED event, receives the actual server URL and loads it into BrowserWindow; window close quits the desktop process on non-macOS."
+  },
+  "runtime_install_observation": "The upstream src/electron/start.sh performs npm install before normal launch. FA3 does not adopt that runtime mutation semantics; dependency preparation is a separate explicit admission step and ordinary desktop launch is dependency-install-free.",
+  "security_observation": "The 1.18.0 release notes explicitly reference a security incident involving the third-party Bot Browser extension and advise users to review the maintainers statement. FA3 treats third-party extensions as separately admitted supply-chain/runtime components.",
+  "assessment": "ARCHITECTURAL_FIT_AS_OPTIONAL_NON_AUTHORITY_KDE_WAYLAND_DESKTOP_CLIENT_WITH_HARDENED_ADAPTER",
+  "promotion_use": "REFERENCE_AND_STATIC_CONFORMANCE_ONLY",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "floating_branch_forbidden_as_promotion_evidence": true
+}
