@@ -22,7 +22,7 @@ jobs:
       - name: Verify exact non-projection anchor
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "e74829e69668f27a020c11eb7c3e9e7c42d186c6"
+          test "$(git rev-parse HEAD)" = "50921cc0dd3be8ecf8fb550fe8f0e77b2a81284d"
           test -z "$(git status --porcelain)"
 
       - name: Regenerate projection only
