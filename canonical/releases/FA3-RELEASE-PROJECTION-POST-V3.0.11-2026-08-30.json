@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3ed11cecdaabad1d45a52bc66698d8779d5f5f62",
-    "pre_projection_root_tree_sha": "f65a5d69f63cc29724a79c2cef599574a9bb3b01",
-    "pre_projection_canonical_tree_sha": "070a1563c2ae17bbb6a00acfd657e9b83765220d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 143,
-    "total_post_baseline_commits": 143,
-    "delta_file_count": 709,
-    "delta_added_files": 704,
+    "pre_projection_head_sha": "9ecdc8f84b0ef27d650a7834d4c32eee394eb974",
+    "pre_projection_root_tree_sha": "f742afab1035a7f7f36c2e1c623a2fe3b1eff691",
+    "pre_projection_canonical_tree_sha": "39159e0179d7e3225d43c9b55410430bd9fe86a7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 145,
+    "total_post_baseline_commits": 145,
+    "delta_file_count": 710,
+    "delta_added_files": 705,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -530,7 +530,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 710,
+  "manifest_entry_count": 711,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -735,6 +735,11 @@
     {
       "path": "bin/fa3-presenton-current-host.sh",
       "git_blob_sha": "9990b0befc123438a00ba2432d04569532a277b4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-sillytavern-kde-install-user-integration.sh",
+      "git_blob_sha": "5606dae254b2b67f1aa71329d7e9976b3c6a2159",
       "baseline_delta_status": "added"
     },
     {
