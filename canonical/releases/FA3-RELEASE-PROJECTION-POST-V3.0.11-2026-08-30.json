@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4433df0cd50dd7d79c3fb925bb15a52ad61fcf00",
-    "pre_projection_root_tree_sha": "5cae38f87db04c482dd2fe332ba774028cfba56b",
-    "pre_projection_canonical_tree_sha": "0149d0f2ec4cb340d88ec54dfdc6106899c6c57d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 151,
-    "total_post_baseline_commits": 151,
-    "delta_file_count": 712,
-    "delta_added_files": 707,
+    "pre_projection_head_sha": "7de4c5c252cefae4abfe2863ff58f49dadfccd5f",
+    "pre_projection_root_tree_sha": "386429557fb4ea1fefba9ffcdeaafaf842b1c3fa",
+    "pre_projection_canonical_tree_sha": "d1169da38b1dabc2a593c4d1ecfe2ac6285d501f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 153,
+    "total_post_baseline_commits": 153,
+    "delta_file_count": 713,
+    "delta_added_files": 708,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 411,
-    "evidence_files_in_post_baseline_delta": 74,
+    "evidence_files_in_post_baseline_delta": 75,
     "source_files_in_post_baseline_delta": 81,
     "test_files_in_post_baseline_delta": 65,
     "workflow_files_in_post_baseline_delta": 13,
@@ -390,6 +390,7 @@
       "evidence/reference/openyak-ci-2026-09-05.json",
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
+      "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
@@ -530,7 +531,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 713,
+  "manifest_entry_count": 714,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -3270,6 +3271,11 @@
     {
       "path": "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "git_blob_sha": "6fd3761f950e209a5f4ddd655ff2ecd5775ca129",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
+      "git_blob_sha": "f212258efff1ad57d9f59cb4c1fbcaa19ed76990",
       "baseline_delta_status": "added"
     },
     {
