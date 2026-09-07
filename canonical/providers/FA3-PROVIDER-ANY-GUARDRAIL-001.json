@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ANY-GUARDRAIL-001",
+  "name": "Mozilla AI any-guardrail",
+  "status": "ACCEPTED_REFERENCE",
+  "parent_profile": "FA3-AI-SEC-VALIDATION-001",
+  "provider_role": "OPTIONAL_REQUEST_TIME_GUARDRAIL_RUNTIME_AND_MULTI_GUARDRAIL_REFERENCE_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "OPTIONAL_AI_GUARDRAIL_RUNTIME_PROVIDER",
+    "MULTI_GUARDRAIL_COMMON_INTERFACE",
+    "SECURITY_VALIDATION_REFERENCE_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "contracts": [
+    "FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001"
+  ],
+  "upstream": {
+    "repository": "mozilla-ai/any-guardrail",
+    "reference_release": "0.7.7",
+    "reference_commit": "8cb63bd664a0b7f44deb81a14b575611277fafe8",
+    "floating_main_allowed_as_promotion_evidence": false
+  },
+  "authority_boundaries": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry": "FA3-REGISTRY-001",
+    "promotion": "EXISTING_FA3_PROMOTION_AUTHORITY_ONLY"
+  },
+  "normative_constraint": "Mozilla AI any-guardrail SHALL NOT become an FA3 security-policy, authorization, MCP/capability-gateway, model-routing, host-resource, evidence/provenance, secrets, network-egress, artifact-trust, promotion, orchestration or canonical-registry authority.",
+  "capability_policy": {
+    "backend_capability_mapping_required": true,
+    "backend_may_be_used_only_for_validated_tasks": true,
+    "out_of_distribution_use_requires_explicit_risk_state": true,
+    "deepset_reference_classification": "PROMPT_INJECTION_DETECTION_NOT_GENERIC_HARM_MODERATION",
+    "capability_specific_positive_negative_smoke_tests_required": true
+  },
+  "runtime_preflight": {
+    "optional_dependency_extras_verified": true,
+    "provider_model_artifact_identity_verified": true,
+    "credential_mapping_verified_when_required": true,
+    "interactive_shell_or_bashrc_dependency_forbidden": true,
+    "plaintext_secret_in_unit_or_repository_forbidden": true,
+    "central_cache_policy_required": true,
+    "runtime_download_policy_explicit": true,
+    "health_and_readiness_separate": true
+  },
+  "concurrency_policy": {
+    "static_high_worker_count_for_model_backed_runtime_forbidden": true,
+    "safe_default_when_model_sharing_unproven": "SINGLE_WORKER",
+    "multi_worker_requires": [
+      "MODEL_MEMORY_BUDGET_EVIDENCE",
+      "PROCESS_MODEL_COMPATIBILITY",
+      "CACHE_AND_STARTUP_CONCURRENCY_EVIDENCE",
+      "BENCHMARK_PASS"
+    ]
+  },
+  "fail_mode_policy": {
+    "must_be_explicit_per_endpoint_and_risk_tier": true,
+    "privileged_or_destructive_tool_execution": "FAIL_CLOSED_OR_HUMAN_APPROVAL",
+    "secondary_provider_degradation_must_be_declared": true
+  },
+  "placement_policy": {
+    "fixed_cpu_ids_forbidden": true,
+    "fixed_numa_node_forbidden": true,
+    "fixed_cuda_ordinal_as_canonical_identity_forbidden": true,
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  }
+}
