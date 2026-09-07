@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-BUZZ-RUNTIME-ADMISSION-001",
+  "gateset_id": "FA3-BUZZ-WRAPPER-GATESET-001",
+  "parent_gate_id": "FA3-BUZZ-GATESET-001",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "contract_id": "FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001",
+  "admission_id": "FA3-BUZZ-RUNTIME-ADMISSION-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "priority": "P0",
+  "fail_closed": true,
+  "command": "./bin/fa3-buzz-runtime-admission-gate",
+  "report": "reports/buzz-runtime-admission-gate-report.json",
+  "ci_workflow": ".github/workflows/fa3-buzz-runtime-admission.yml",
+  "current_host_production_claim": false,
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

@@ -1,0 +1,142 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_id": "FA3-PROVIDER-BUZZ-001",
+  "provider_neutral_semantics": true,
+  "parent_profiles": [
+    "FA3-DESKTOP-AGENT-WORKBENCH-001",
+    "FA3-AGENT-EXEC-001"
+  ],
+  "parent_contracts": [
+    "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+    "FA3-AGENT-EXEC-CONTRACTS-001"
+  ],
+  "capability_projection": [
+    "CAP-008"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "BuzzRuntimeCandidateDescriptor",
+    "BuzzStagedProviderIdentity",
+    "BuzzProtocolNegotiationReceipt",
+    "BuzzDelegatedCallerAdmission",
+    "BuzzWorkspaceBoundary",
+    "BuzzScopedSecretHandle",
+    "BuzzExecutionBudget",
+    "BuzzMutationProposal",
+    "BuzzMutationAuthorization",
+    "BuzzMutationReceipt",
+    "BuzzRemoteLifecycleIntent",
+    "BuzzRuntimeAdmissionReceipt"
+  ],
+  "canonical_lifecycle": [
+    "DISCOVER_PROVIDER_WITHOUT_EXECUTION",
+    "SELECT_AND_STAGE_EXACT_CANDIDATE",
+    "REVALIDATE_CANONICAL_PATH_AND_DIGEST",
+    "NEGOTIATE_PROTOCOL_AND_VERSION",
+    "ADMIT_DELEGATED_CALLER_CONTEXT",
+    "NARROW_CAPABILITY_SCOPE",
+    "ADMIT_CANONICAL_WORKSPACE_BOUNDARY",
+    "ISSUE_LEASED_SCOPED_SECRET_HANDLE_IF_REQUIRED",
+    "EXECUTE_WITH_BOUNDED_BUDGET",
+    "TREAT_PROVIDER_OUTPUT_AS_HOSTILE_INPUT",
+    "READ_CURRENT_STATE",
+    "PRODUCE_PROPOSED_DIFF",
+    "AUTHORIZE_OR_REQUIRE_HUMAN",
+    "REVALIDATE_PATH_AND_BASE_STATE",
+    "APPLY_ATOMIC_MUTATION",
+    "VERIFY_POST_STATE",
+    "APPEND_EVIDENCE",
+    "TERMINATE_OR_ESCALATE"
+  ],
+  "provider_discovery": {
+    "discovery_must_not_execute_provider": true,
+    "candidate_path_must_be_absolute": true,
+    "candidate_digest_sha256_required": true,
+    "path_and_digest_revalidation_before_use": true,
+    "provider_shadowing_or_duplicate_candidates": "FAIL_CLOSED_DIAGNOSABLE",
+    "floating_path_or_unpinned_main_as_runtime_identity": "FORBIDDEN"
+  },
+  "mcp_and_tool_boundary": {
+    "canonical_authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "raw_buzz_dev_mcp_direct_host_tool_provider": "DENY",
+    "fa3_wrapper_required": true,
+    "tool_discovery_is_authorization": false,
+    "provider_permission_is_maximum_not_grant": true,
+    "capability_narrowing_required": true,
+    "generic_unbounded_host_shell": "FORBIDDEN"
+  },
+  "identity_and_authorization": {
+    "actor_identity_distinct_from_delegated_authority": true,
+    "delegated_caller_context_required": true,
+    "capability_grant_required": true,
+    "authorization_lease_issuer": "FA3-AUTH-SECURITY-GOV-001",
+    "owner_attestation_role": "PROVENANCE_AND_DELEGATION_EVIDENCE_ONLY",
+    "owner_attestation_as_authorization_lease": "FORBIDDEN",
+    "provider_local_membership_or_acl_as_FA3_authorization": "FORBIDDEN"
+  },
+  "secret_boundary": {
+    "authority": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "protocol_negotiation_before_secret_transfer": true,
+    "raw_private_key_or_nsec_transfer": "FORBIDDEN",
+    "leased_scoped_secret_handle_preferred_and_required_by_default": true,
+    "secret_scope_must_be_subset_of_capability_grant": true,
+    "provider_stdout_stderr_result_redaction_required": true
+  },
+  "workspace_boundary": {
+    "explicit_bounded_root_required": true,
+    "whole_home_or_filesystem_root": "FORBIDDEN",
+    "canonical_path_revalidation_before_each_mutation": true,
+    "symlink_escape": "DENY",
+    "symlink_or_path_race": "FAIL_CLOSED",
+    "host_resolved_paths_crossing_remote_substrate_boundary": "FORBIDDEN",
+    "remote_target_path_rederivation_required": true
+  },
+  "mutation_semantics": {
+    "sequence": "READ_CURRENT_STATE -> PROPOSED_DIFF -> AUTHORIZATION_OR_HUMAN_GATE -> APPLY -> VERIFY",
+    "exact_state_precondition_required": true,
+    "ambiguous_match": "DENY",
+    "stale_base_hash": "DENY",
+    "diff_before_apply": true,
+    "atomic_write_required": true,
+    "post_state_hash_verification_required": true
+  },
+  "execution_boundary": {
+    "shell_false_or_typed_provider_binary_required": true,
+    "timeout_bounded": true,
+    "command_size_bounded": true,
+    "stdout_stderr_bounded": true,
+    "process_tree_cancellation_required": true,
+    "provider_output_trusted": false,
+    "provider_output_schema_and_size_validation_required": true
+  },
+  "tenant_and_lifecycle": {
+    "tenant_context_source": "SERVER_OWNED_DERIVED_BEFORE_AUTH_AND_HANDLING",
+    "client_tenant_override": "FORBIDDEN",
+    "intentional_stop_final": true,
+    "abnormal_exit_restart": "POLICY_GATED",
+    "presence_or_provider_status_not_FA3_authorization": true
+  },
+  "evidence": {
+    "required_chain": [
+      "provider_path",
+      "provider_digest",
+      "protocol_version",
+      "delegated_caller_context_hash",
+      "capability_grant_hash",
+      "workspace_root_hash",
+      "authorization_decision",
+      "proposed_diff_hash",
+      "post_state_hash",
+      "execution_budget",
+      "termination_intent"
+    ],
+    "provider_log_is_canonical_evidence": false,
+    "ci_synthetic_fixture_can_claim_current_host_production": false,
+    "current_host_activation_requires_real_e2e": true
+  }
+}

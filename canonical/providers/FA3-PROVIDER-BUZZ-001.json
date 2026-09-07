@@ -43,5 +43,18 @@
     "FA3_HOST_RESOURCE_AUTHORITY",
     "FA3_DEVELOPER_EXECUTION_AUTHORITY"
   ],
+  "runtime_admission": {
+    "contract_id": "FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001",
+    "admission_id": "FA3-BUZZ-RUNTIME-ADMISSION-001",
+    "wrapper_gate_id": "FA3-BUZZ-WRAPPER-GATESET-001",
+    "status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+    "direct_buzz_dev_mcp_host_tool_provider": "DENY",
+    "required_route": "FA3_AUTH_MCP_GATEWAY_WRAPPED",
+    "upstream_reference": "FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07",
+    "reference_version": "desktop-v0.5.23",
+    "reference_commit": "b9392d9d78744df365f9276e1ffe8c1baa5ea903",
+    "current_host_production_evidence": "NOT_CLAIMED",
+    "runtime_required_for_global_promotion_when_disabled": false
+  },
   "normative_constraint": "Buzz SHALL NOT become an FA3 identity, authorization, MCP, workflow, evidence, secrets, host-resource or developer-execution authority."
 }
