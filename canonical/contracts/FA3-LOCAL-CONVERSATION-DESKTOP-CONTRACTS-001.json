@@ -1,0 +1,138 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "provider_adapter_contract": true,
+  "profile": "FA3-SILLYTAVERN-KDE-DESKTOP-001",
+  "source_pattern_provider": "FA3-PROVIDER-SILLYTAVERN-KDE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-008"
+  ],
+  "contracts": [
+    "ConversationDesktopProviderDescriptor",
+    "ImmutableDesktopRuntimeDescriptor",
+    "DesktopSessionLaunchPlan",
+    "LoopbackServerReceipt",
+    "ModelGatewayProjection",
+    "McpGatewayProjection",
+    "VoiceClientProjection",
+    "ReadOnlyResourceTelemetryProjection",
+    "HumanApprovalDecision",
+    "LocalApplicationStateDescriptor",
+    "DesktopRuntimeEvidenceExport",
+    "DesktopRollbackReceipt"
+  ],
+  "lifecycle": [
+    "source.pin.verify",
+    "desktop.dependencies.admit",
+    "desktop.session.admit",
+    "wayland.preflight",
+    "single.instance.check",
+    "desktop.process.launch",
+    "loopback.server.resolve",
+    "model.gateway.resolve",
+    "optional.voice.gateway.resolve",
+    "interactive.conversation.execute",
+    "side_effect.human_gate",
+    "audit.append",
+    "desktop.session.stop"
+  ],
+  "deployment": {
+    "upstream_desktop_shell_preferred_over_second_wrapper": true,
+    "runtime_dependency_install_or_update": "FORBIDDEN",
+    "dependency_prepare_step": "EXPLICIT_ADMISSION_ONLY",
+    "floating_latest_for_activation": "FORBIDDEN",
+    "self_update_without_admission": "FORBIDDEN",
+    "user_session_scope": true,
+    "desktop_process_owns_backend_child_lifecycle": true,
+    "separate_long_lived_backend_service_default": "FORBIDDEN",
+    "loopback_only": true,
+    "fixed_backend_port_required": false,
+    "event_derived_server_url_required": true,
+    "duplicate_desktop_autostart": "FORBIDDEN"
+  },
+  "desktop": {
+    "kde6_supported": true,
+    "wayland_is_canonical_display_protocol": true,
+    "forced_x11_or_xwayland_without_explicit_exception": "FORBIDDEN",
+    "electron_sandbox_disable_flag": "FORBIDDEN",
+    "second_pyside_qwebengine_wrapper": "FORBIDDEN_BY_DEFAULT",
+    "global_shortcut": "OPTIONAL_USER_POLICY_NOT_CANONICAL_FIXED_BINDING",
+    "tray": "OPTIONAL_PRESENTATION_ONLY",
+    "gpu_model_or_count_assumption": "FORBIDDEN"
+  },
+  "model_access": {
+    "canonical_route": "FA3-AUTH-MODEL-ROUTER-001",
+    "direct_provider_route": "DENY_UNLESS_SEPARATELY_ADMITTED",
+    "provider_managed_model_runtime": "FORBIDDEN",
+    "prompt_keyword_backend_routing": "FORBIDDEN",
+    "ram_or_vram_percentage_as_routing_authority": "FORBIDDEN",
+    "silent_provider_model_or_cloud_fallback": "FORBIDDEN"
+  },
+  "mcp_and_tools": {
+    "canonical_gateway_required": true,
+    "tool_discovery_is_authorization": false,
+    "direct_stdio_server_spawn": "DENY_BY_DEFAULT",
+    "arbitrary_shell_exec": "FORBIDDEN",
+    "tempfile_subprocess_claimed_as_sandbox": "FORBIDDEN",
+    "sudo_su_pkexec": "DENY",
+    "systemctl_root_apt_dpkg_nft": "DENY",
+    "side_effectful_agent_actions_require_human_gate": true
+  },
+  "state_and_memory": {
+    "provider_chat_and_ui_state": "APPLICATION_STATE_ONLY",
+    "provider_vector_store_as_canonical_shared_memory": false,
+    "provider_memory_explorer": "VIEW_OR_ADAPTER_ONLY",
+    "shared_memory_route": "EXISTING_FA3_MEMORY_SERVICE_AUTHORITY_ONLY",
+    "raw_secret_persistence_in_desktop_adapter": "FORBIDDEN"
+  },
+  "voice": {
+    "push_to_talk": "OPTIONAL_CLIENT_PROJECTION",
+    "stt_authority": "EXISTING_FA3_STT_AUTHORITY_ONLY",
+    "tts_authority": "EXISTING_FA3_VOICE_AUTHORITY_ONLY",
+    "desktop_adapter_may_create_parallel_voice_authority": false
+  },
+  "resource_and_observability": {
+    "gpu_cpu_ram_panel": "READ_ONLY_PRESENTATION_ONLY",
+    "nvidia_smi_or_vendor_telemetry": "OPTIONAL_TELEMETRY_ADAPTER_ONLY",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "desktop_adapter_may_schedule_or_place_models": false,
+    "fixed_gpu_identity_or_count": "FORBIDDEN"
+  },
+  "extensions": {
+    "third_party_extension_auto_install": "FORBIDDEN",
+    "third_party_extension_auto_update": "FORBIDDEN",
+    "extension_enablement": "SEPARATE_ADMISSION_REQUIRED",
+    "extension_security_incident_requires_invalidation_review": true
+  },
+  "workflow": {
+    "interactive_short_task_execution": true,
+    "platform_scheduler_authority": false,
+    "durable_or_long_running_workflow_authority": "TEMPORAL",
+    "self_improving_unbounded_loop": "FORBIDDEN",
+    "unbounded_swarm_authority": "FORBIDDEN"
+  },
+  "runtime": {
+    "remote_access": "DISABLED_BY_DEFAULT",
+    "direct_accelerator_allocation": "FORBIDDEN",
+    "disabled_zero_resident_processes": true,
+    "current_host_promotion_requires_real_e2e": true,
+    "reference_ci_pass_may_not_claim_current_host_runtime": true
+  },
+  "forbidden_semantics": [
+    "SILLYTAVERN_KDE_AS_AI_OS_OR_KERNEL",
+    "SILLYTAVERN_KDE_AS_GLOBAL_ORCHESTRATOR",
+    "SILLYTAVERN_KDE_AS_MODEL_ROUTER_RUNTIME_OR_HRB_AUTHORITY",
+    "SILLYTAVERN_KDE_AS_MEMORY_MCP_SECRETS_OR_EVIDENCE_AUTHORITY",
+    "PYTHON_TEMPFILE_SUBPROCESS_AS_SECURITY_SANDBOX",
+    "PROMPT_KEYWORD_OR_PERCENTAGE_BASED_CANONICAL_ROUTING",
+    "RUNTIME_NPM_INSTALL_OR_FLOATING_UPDATE",
+    "DIRECT_PRIVILEGED_OR_FREE_FORM_SHELL_EXECUTION",
+    "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
+  ]
+}

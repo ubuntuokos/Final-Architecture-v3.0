@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if systemctl --user is-active --quiet sillytavern-kde.service; then
+  exit 0
+fi
+
+exec systemctl --user start sillytavern-kde.service
