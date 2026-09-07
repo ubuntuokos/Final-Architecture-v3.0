@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import subprocess
@@ -302,22 +303,102 @@ def regenerate_release(head: str) -> None:
     write(RELEASE, release)
 
 
+def dirty_release_surface_paths() -> list[str]:
+    raw = git("status", "--porcelain=v1", "--untracked-files=all")
+    paths: list[str] = []
+    for line in raw.splitlines():
+        if not line:
+            continue
+        path = line[3:]
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if not mutable_runtime_path(path):
+            paths.append(path)
+    return sorted(set(paths))
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Materialize Buzz global reconciliation in squash-lineage-safe phases."
+    )
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument(
+        "--prepare-only",
+        action="store_true",
+        help="Apply non-projection Buzz reconciliation changes only; commit them before projection regeneration.",
+    )
+    mode.add_argument(
+        "--projection-only",
+        action="store_true",
+        help="Regenerate only the unified release projection from an already committed clean snapshot.",
+    )
+    parser.add_argument(
+        "--snapshot-head",
+        default=None,
+        help="Committed snapshot SHA/ref used by projection-only mode; defaults to HEAD.",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
-    head = git("rev-parse", "HEAD")
-    patch_gate()
-    patch_registry()
-    patch_global_evidence(head)
+    args = parse_args()
+    head = args.snapshot_head or git("rev-parse", "HEAD")
+
+    if args.prepare_only:
+        if args.snapshot_head is not None:
+            raise RuntimeError("--snapshot-head is valid only with --projection-only")
+        patch_gate()
+        patch_registry()
+        patch_global_evidence(git("rev-parse", "HEAD"))
+        print(
+            json.dumps(
+                {
+                    "result": "PASS",
+                    "mode": "PREPARE_ONLY",
+                    "provider_id": PROVIDER_ID,
+                    "instruction": "Commit all non-projection changes, then run --projection-only from that committed snapshot.",
+                },
+                indent=2,
+            )
+        )
+        return 0
+
+    if git("rev-parse", "--verify", f"{head}^{{commit}}") == "":
+        raise RuntimeError(f"snapshot head is not a valid commit: {head}")
+    current_head = git("rev-parse", "HEAD")
+    if git("rev-parse", head) != current_head:
+        raise RuntimeError(
+            "projection-only snapshot must equal the checked-out HEAD so the projection cannot attest a different tree"
+        )
+
+    dirty_before = dirty_release_surface_paths()
+    if dirty_before:
+        raise RuntimeError(
+            "projection-only mode requires a clean committed release surface; dirty paths: "
+            + ", ".join(dirty_before)
+        )
+
     regenerate_release(head)
+
+    dirty_after = dirty_release_surface_paths()
+    if dirty_after != [RELEASE]:
+        raise RuntimeError(
+            "projection-only mode may modify exactly the release projection; observed: "
+            + ", ".join(dirty_after)
+        )
+
     digest = hashlib.sha256((ROOT / RELEASE).read_bytes()).hexdigest()
     print(
         json.dumps(
             {
                 "result": "PASS",
+                "mode": "PROJECTION_ONLY",
                 "provider_id": PROVIDER_ID,
                 "capability_id": CAPABILITY_ID,
                 "profile_id": PROFILE_ID,
                 "pre_projection_head": head,
                 "release_projection_sha256": digest,
+                "modified_release_surface_paths": dirty_after,
             },
             indent=2,
         )
