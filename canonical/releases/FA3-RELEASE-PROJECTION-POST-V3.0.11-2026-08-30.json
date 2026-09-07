@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "32f0e1d8b6b9663d9ed6a834075eb1b3153fe438",
-    "pre_projection_root_tree_sha": "df68880aaef19b9279041ca32e746b3dafdc8a5f",
-    "pre_projection_canonical_tree_sha": "ba690c3987fbcf97aeb9a95054de8527ddea8dd2",
-    "commits_ahead_of_v3_0_11_conformance_commit": 125,
-    "total_post_baseline_commits": 125,
-    "delta_file_count": 672,
-    "delta_added_files": 667,
+    "pre_projection_head_sha": "33410472b8cb36d20cadb2b0fafdbd129fe96e61",
+    "pre_projection_root_tree_sha": "d0ce0177612c4dd032fc9cd7c280dc0d137a661b",
+    "pre_projection_canonical_tree_sha": "f802383aabd295cb0c7212170dd5bb001fbfd350",
+    "commits_ahead_of_v3_0_11_conformance_commit": 121,
+    "total_post_baseline_commits": 121,
+    "delta_file_count": 685,
+    "delta_added_files": 680,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 394,
-    "evidence_files_in_post_baseline_delta": 72,
-    "source_files_in_post_baseline_delta": 76,
-    "test_files_in_post_baseline_delta": 61,
-    "workflow_files_in_post_baseline_delta": 11,
+    "canonical_files_in_post_baseline_delta": 400,
+    "evidence_files_in_post_baseline_delta": 73,
+    "source_files_in_post_baseline_delta": 78,
+    "test_files_in_post_baseline_delta": 62,
+    "workflow_files_in_post_baseline_delta": 12,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -184,6 +184,7 @@
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
@@ -235,6 +236,7 @@
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
@@ -300,6 +302,7 @@
       "canonical/references/FA3-AI-INFRA-GUARD-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-API-MEGA-LIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
@@ -343,6 +346,7 @@
       "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
       "evidence/reference/buzz-ci-2026-08-30.json",
       "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json",
+      "evidence/reference/buzz-runtime-admission-ci-2026-09-07.json",
       "evidence/reference/caveman-ci-2026-08-31.json",
       "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json",
       "evidence/reference/codex-adapter-ci-2026-08-31.json",
@@ -519,11 +523,16 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 673,
+  "manifest_entry_count": 686,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
       "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-buzz-runtime-admission.yml",
+      "git_blob_sha": "f7ec07189b81822d6b9cc64d378f991e878aad2a",
       "baseline_delta_status": "added"
     },
     {
@@ -609,6 +618,11 @@
     {
       "path": "bin/fa3-blackhole-whisper-e2e.sh",
       "git_blob_sha": "5cb52dccb47031ff59c5d6f17bbb1369861040da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-buzz-runtime-admission-gate",
+      "git_blob_sha": "4b6231a3d20d380dd46a964bd1f5e263763cc548",
       "baseline_delta_status": "added"
     },
     {
@@ -754,6 +768,11 @@
     {
       "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "531dbc73d6dc3f66f94410b803714e91d6145f1b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-BUZZ-RUNTIME-ADMISSION-001.json",
+      "git_blob_sha": "dee812e9fc151f0f347527e2c27e3d98c89722fc",
       "baseline_delta_status": "added"
     },
     {
@@ -963,7 +982,17 @@
     },
     {
       "path": "canonical/buzz-enforcement.json",
-      "git_blob_sha": "b12d9e5ef8a645df4e6a2c8a36221fb2f62ace9a",
+      "git_blob_sha": "51b86183e62f89eea2f45fbcd8583a83b5620a9e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/buzz-runtime-admission-enforcement.json",
+      "git_blob_sha": "e889f7d61916c07906a4862895881f11ae3687e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/buzz-runtime-admission.json",
+      "git_blob_sha": "bb72304264d17cd197ab47e75cebed025eed4081",
       "baseline_delta_status": "added"
     },
     {
@@ -1014,6 +1043,11 @@
     {
       "path": "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
       "git_blob_sha": "8447cc860b72b9904ff003334af57cd230bb6c68",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
+      "git_blob_sha": "4fd60d797233ba59263be8733f5d593e48434301",
       "baseline_delta_status": "added"
     },
     {
@@ -1279,6 +1313,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
       "git_blob_sha": "79377d831e000f9444b3c297acdf268f59eb4e03",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
+      "git_blob_sha": "17d3a1aa93d8f6df228b4a1e8adb020202989e40",
       "baseline_delta_status": "added"
     },
     {
@@ -2018,7 +2057,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-BUZZ-001.json",
-      "git_blob_sha": "2617fe252cd28c5be47e7b4f1d509ef521ef0cb1",
+      "git_blob_sha": "759b824ff54dccb03f1f7861a18a1eeb50714500",
       "baseline_delta_status": "added"
     },
     {
@@ -2432,6 +2471,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07.json",
+      "git_blob_sha": "95f8991e9edf7bd4998fe859901e7a1524d0d4a5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "193790f705dac08d5329f0680f30a90b76caced5",
       "baseline_delta_status": "added"
@@ -2762,6 +2806,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/buzz-runtime-admission.md",
+      "git_blob_sha": "a0eb90943c122658b2febc095e19aa91d41bfa07",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/codex-current-host.md",
       "git_blob_sha": "da2a399b9153dbe6716e93c1bb3f2de1059d1e0e",
       "baseline_delta_status": "added"
@@ -2924,6 +2973,11 @@
     {
       "path": "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json",
       "git_blob_sha": "8c00288ea15b6acbe9f36910d26f83bfdba2814f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/buzz-runtime-admission-ci-2026-09-07.json",
+      "git_blob_sha": "fa9d26a74c28dedd4b3aa16addf478d4ca2f0578",
       "baseline_delta_status": "added"
     },
     {
@@ -3239,6 +3293,16 @@
     {
       "path": "src/fa3_buzz_global_reconciliation.py",
       "git_blob_sha": "1eb25a7977aa1ffeabac73b58386c4c42425d55e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_buzz_runtime_admission.py",
+      "git_blob_sha": "3e3e1996ac993239e49cec23373785ee447f9c74",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_buzz_runtime_admission_gate.py",
+      "git_blob_sha": "0c3bdc8fff930f74f9424706aad2fe74ab4089ba",
       "baseline_delta_status": "added"
     },
     {
@@ -3609,6 +3673,11 @@
     {
       "path": "tests/test_buzz_global_reconciliation.py",
       "git_blob_sha": "117dbbbbc29c5138341ad64b56d46d067d288b07",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_buzz_runtime_admission_gate.py",
+      "git_blob_sha": "9cbd8a41ab44385e63ae42274286b6234c242a09",
       "baseline_delta_status": "added"
     },
     {
