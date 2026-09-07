@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07",
+  "date": "2026-09-07",
+  "status": "CANONICAL_CLOSED",
+  "title": "Harden TensorRT-RTX runtime-cache compatibility, observability and benchmark semantics",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_PROVIDER_CONTRACT_HARDENING",
+  "parent_profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "parent_contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+  "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "subgate_id": "FA3-INFERENCE-PORTABILITY-CACHE-HARDENING-001",
+  "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+  "reference_id": "FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07",
+  "evidence_path": "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "rules": [
+    "TENSORRT_RTX_RUNTIME_CACHE_IDENTITY_REQUIRED",
+    "TENSORRT_RTX_RUNTIME_CACHE_DRIVER_MONOTONIC_COMPATIBILITY",
+    "TENSORRT_RTX_RUNTIME_CACHE_MISS_JIT_REBUILD_OBSERVABLE",
+    "TENSORRT_RTX_STEADY_STATE_BENCHMARK_SEPARATES_JIT_WARMUP",
+    "TENSORRT_RTX_TIMING_CACHE_DEPRECATED_NOT_CANONICAL_RUNTIME_CACHE"
+  ],
+  "decisions": [
+    "TensorRT-RTX runtime-cache reuse requires an explicit cache identity containing GPU SKU, TensorRT-RTX version, CUDA-context Compute-in-Graphics state and cache-origin NVIDIA driver version.",
+    "A runtime cache is compatible only when GPU SKU is equivalent, TensorRT-RTX version matches exactly, CiG state matches exactly and the runtime driver is greater than or equal to the cache-origin driver.",
+    "An incompatible TensorRT-RTX runtime cache may be ignored by upstream and trigger transparent JIT kernel recompilation without an application error; FA3 therefore requires cache-hit/cache-miss/JIT-rebuild observability evidence.",
+    "First-inference JIT compilation cost must be separated from steady-state cached inference benchmarks and cannot be silently reported as a cache-hit result.",
+    "TensorRT-RTX timing-cache APIs are deprecated upstream and have no effect on the built TensorRT-RTX engine; they are not the FA3 canonical runtime-cache path for new integrations.",
+    "Runtime caches remain derived, disposable and noncanonical artifacts; cache incompatibility invalidates reuse, not source-model identity."
+  ],
+  "runtime_promotion": "UNCHANGED_PENDING_REAL_CURRENT_HOST_EXECUTION"
+}
