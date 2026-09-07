@@ -27,7 +27,12 @@
     "H3_PAYG_AND_SUBSCRIPTION_KEYS_NOT_INTERCHANGEABLE",
     "H3_COMMERCIAL_ENTITLEMENTS_DISCOVERED_NOT_ASSUMED",
     "H3_BILLING_CREDENTIAL_FALLBACK_REQUIRES_EXPLICIT_POLICY",
-    "H3_OPEN_WEIGHT_LICENSE_AND_HOSTED_SERVICE_TERMS_SEPARATE"
+    "H3_OPEN_WEIGHT_LICENSE_AND_HOSTED_SERVICE_TERMS_SEPARATE",
+    "H3_VIDEO_IR_PROJECTED_NOT_REPLACED",
+    "H3_SECRET_NEVER_PERSISTED_OR_LOGGED",
+    "H3_REAL_PROVIDER_TASK_REQUIRED_FOR_REMOTE_E2E_PROMOTION",
+    "H3_REAL_OUTPUT_AV_QC_AND_PROVENANCE_REQUIRED",
+    "H3_BILLABLE_E2E_MANUAL_ACK_REQUIRED"
   ],
   "h3_promotion_requirements": [
     "license_admission_pass",
@@ -79,6 +84,31 @@
     "automatic_credential_class_switch_forbidden": true,
     "hosted_service_terms_evaluated_separately_from_open_weight_license": true,
     "hosted_pricing_is_noncanonical_dynamic_metadata": true,
+    "current_host_runtime_promotion_claim": false
+  },
+  "h3_runtime_admission": {
+    "runtime_admission_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+    "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+    "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
+    "decision_id": "FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07",
+    "fail_closed": true,
+    "hosted_remote_promotion_formula": [
+      "SERVICE_TERMS_PASS",
+      "CREDENTIAL_CLASS_PASS",
+      "ENTITLEMENT_DISCOVERY_PASS",
+      "PROVIDER_ADAPTER_CONFORMANCE_PASS",
+      "REAL_VIDEO_E2E_PASS",
+      "QC_PASS",
+      "PROVENANCE_PASS"
+    ],
+    "non_pass_states": [
+      "PENDING_EXTERNAL_ADMISSION",
+      "PENDING_CURRENT_HOST",
+      "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE"
+    ],
+    "billable_execution_manual_only": true,
+    "secret_persistence_forbidden": true,
+    "local_execution_without_license_evidence": "DENY",
     "current_host_runtime_promotion_claim": false
   },
   "provider_lifecycle_gate": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",

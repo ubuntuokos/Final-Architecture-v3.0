@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "status": "CANONICAL",
+  "provider_neutral_upstream": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "MiniMaxH3ProviderRequestProjection",
+    "MiniMaxH3CredentialAdmission",
+    "MiniMaxH3ServiceTermsAdmission",
+    "MiniMaxH3EntitlementDiscoveryReceipt",
+    "MiniMaxH3TaskReceipt",
+    "MiniMaxH3NormalizedVideoResult",
+    "MiniMaxH3ExecutionProvenance",
+    "MiniMaxH3CurrentHostReceipt"
+  ],
+  "projection_input": "FA3-VIDEO-CONTRACTS-001/VideoGenerationIR",
+  "projection_output": "FA3-VIDEO-CONTRACTS-001/VideoExecutionResult",
+  "credential_classes": [
+    "PAYG_API_KEY",
+    "TOKEN_PLAN_SUBSCRIPTION_KEY"
+  ],
+  "credential_rules": {
+    "credential_class_must_be_explicit": true,
+    "infer_class_from_secret_value_forbidden": true,
+    "cross_class_substitution_forbidden": true,
+    "secret_persistence_in_receipt_forbidden": true,
+    "secret_logging_forbidden": true
+  },
+  "hosted_api_projection": {
+    "global_base": "https://api.minimax.io",
+    "allowed_bases": [
+      "https://api.minimax.io",
+      "https://api.minimaxi.com"
+    ],
+    "create_video": "POST /v2/video_generation",
+    "context_ir": "POST /v2/h3_context_ir",
+    "regenerate_video": "POST /v2/video_regeneration",
+    "query_task": "GET /v2/query/video_generation/{task_id}",
+    "provider_endpoint_strings_are_projection_not_canonical_ir": true
+  },
+  "runtime_admission": {
+    "hosted_requires": [
+      "service_terms_admission_pass",
+      "credential_class_admission_pass",
+      "current_entitlement_discovery_pass",
+      "billing_policy_admission_pass",
+      "adapter_conformance_pass"
+    ],
+    "local_requires": [
+      "H3_community_license_metadata",
+      "territory_evaluation",
+      "explicit_deployment_authorization_evidence",
+      "artifact_trust_pass",
+      "host_resource_broker_admission_pass"
+    ],
+    "local_without_license_evidence": "DENY"
+  },
+  "result_requirements": {
+    "provider_task_id_required": true,
+    "terminal_provider_status_required": true,
+    "output_artifact_sha256_required": true,
+    "av_qc_required": true,
+    "request_latency_required": true,
+    "end_to_end_latency_required": true,
+    "billing_mode_required": true,
+    "static_price_calculation_forbidden": true,
+    "provenance_required": true
+  },
+  "authority_boundaries": {
+    "provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "policy_and_service_admission": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY",
+    "local_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  }
+}

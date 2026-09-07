@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.minimax-h3-runtime-admission-enforcement.v1",
+  "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+  "runtime_admission_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+  "fail_closed": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "mandatory_rule_count": 12,
+  "p0_invariants": [
+    "H3_VIDEO_IR_PROJECTED_NOT_REPLACED",
+    "H3_CREDENTIAL_CLASS_EXPLICIT",
+    "H3_CREDENTIAL_CLASSES_NOT_INTERCHANGEABLE",
+    "H3_SECRET_NEVER_PERSISTED_OR_LOGGED",
+    "H3_SERVICE_TERMS_ADMISSION_REQUIRED",
+    "H3_ENTITLEMENT_DISCOVERY_REQUIRED_FOR_REQUESTED_OPERATION",
+    "H3_NO_AUTOMATIC_BILLING_MODE_SWITCH",
+    "H3_PROVIDER_TASK_MUST_REACH_SUCCESS_TERMINAL_STATE",
+    "H3_REAL_OUTPUT_ARTIFACT_HASH_REQUIRED",
+    "H3_AV_QC_AND_PROVENANCE_REQUIRED",
+    "H3_LOCAL_EXECUTION_DENIED_WITHOUT_LICENSE_EVIDENCE",
+    "H3_CURRENT_HOST_PROMOTION_REQUIRES_REAL_PROVIDER_E2E"
+  ],
+  "current_host_required_passes": [
+    "SERVICE_TERMS_PASS",
+    "CREDENTIAL_CLASS_PASS",
+    "ENTITLEMENT_DISCOVERY_PASS",
+    "PROVIDER_ADAPTER_CONFORMANCE_PASS",
+    "REAL_VIDEO_E2E_PASS",
+    "QC_PASS",
+    "PROVENANCE_PASS"
+  ],
+  "pending_states_are_not_pass": [
+    "PENDING_EXTERNAL_ADMISSION",
+    "PENDING_CURRENT_HOST",
+    "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE"
+  ],
+  "current_host_runner": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "canonical_runner_for_promotion_validation": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-canonical"
+  ],
+  "billable_execution_requires_explicit_acknowledgement": true,
+  "runtime_promotion_claim": false
+}

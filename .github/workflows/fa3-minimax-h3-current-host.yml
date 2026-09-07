@@ -1,0 +1,87 @@
+name: FA3 MiniMax H3 Current-Host Hosted E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type EXACT: RUN MINIMAX H3 BILLABLE E2E'
+        required: true
+        type: string
+      credential_class:
+        description: 'Credential class stored in MINIMAX_H3_API_KEY'
+        required: true
+        default: PAYG_API_KEY
+        type: choice
+        options:
+          - PAYG_API_KEY
+          - TOKEN_PLAN_SUBSCRIPTION_KEY
+      service_terms_admitted:
+        description: 'Current MiniMax hosted service terms admitted by operator/policy?'
+        required: true
+        default: 'NO'
+        type: choice
+        options: ['NO', 'YES']
+      allow_token_plan_production:
+        description: 'Explicitly allow Token Plan for this production-conformance run?'
+        required: true
+        default: 'NO'
+        type: choice
+        options: ['NO', 'YES']
+      billable_ack:
+        description: 'Type EXACT: I_ACKNOWLEDGE_BILLABLE_MINIMAX_H3_E2E'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  current-host-e2e:
+    name: minimax-h3-current-host / real-hosted-provider-e2e
+    if: github.event.inputs.confirm == 'RUN MINIMAX H3 BILLABLE E2E' && github.event.inputs.billable_ack == 'I_ACKNOWLEDGE_BILLABLE_MINIMAX_H3_E2E'
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    env:
+      MINIMAX_H3_API_KEY: ${{ secrets.MINIMAX_H3_API_KEY }}
+      MINIMAX_H3_API_BASE: https://api.minimax.io
+      FA3_MINIMAX_H3_CREDENTIAL_CLASS: ${{ inputs.credential_class }}
+      FA3_MINIMAX_H3_SERVICE_TERMS_ADMITTED: ${{ inputs.service_terms_admitted == 'YES' && '1' || '0' }}
+      FA3_ALLOW_TOKEN_PLAN_PRODUCTION: ${{ inputs.allow_token_plan_production == 'YES' && '1' || '0' }}
+      FA3_MINIMAX_H3_BILLABLE_E2E_ACK: ${{ inputs.billable_ack }}
+      FA3_MINIMAX_H3_E2E_DURATION: '4'
+      FA3_MINIMAX_H3_E2E_RESOLUTION: 768P
+      FA3_MINIMAX_H3_E2E_RATIO: '16:9'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify runner and non-secret prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v ffprobe
+          test -n "${RUNNER_NAME:-}"
+      - name: Static adapter and admission regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PYTHONPATH="$GITHUB_WORKSPACE/src"
+          python3 -m unittest tests.test_minimax_h3_runtime_admission -v
+          python3 src/fa3_minimax_h3_runtime_admission_gate.py --root "$GITHUB_WORKSPACE"
+      - name: Run billable real MiniMax H3 provider E2E
+        shell: bash
+        run: bash bin/fa3-minimax-h3-current-host.sh
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-minimax-h3-current-host-evidence-${{ github.run_id }}
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/minimax-h3-current-host.json
+            evidence/runtime/minimax-h3-current-host/
+            reports/minimax-h3-runtime-admission-gate-report.json
+            reports/minimax-h3-current-host-gate-report.json
