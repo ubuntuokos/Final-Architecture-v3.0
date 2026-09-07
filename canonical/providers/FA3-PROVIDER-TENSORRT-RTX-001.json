@@ -41,6 +41,35 @@
   "cuda_support_matrix_gate_required": true,
   "cuda_13_4_support_does_not_imply_production_upgrade": true,
   "engine_artifact_class": "DERIVED_DISPOSABLE_TARGET_SPECIALIZED_ARTIFACT",
+  "runtime_cache_compatibility": {
+    "upstream_semantics_version": "TENSORRT_RTX_1.6",
+    "required_cache_identity": [
+      "gpu_sku",
+      "tensorrt_rtx_version",
+      "cuda_context_cig_state",
+      "cache_origin_driver_version"
+    ],
+    "gpu_hardware_rule": "RUNTIME_GPU_SKU_MUST_BE_EQUIVALENT_TO_CACHED_GPU_SKU",
+    "provider_version_rule": "RUNTIME_TENSORRT_RTX_VERSION_MUST_EQUAL_CACHED_VERSION",
+    "driver_rule": "RUNTIME_DRIVER_VERSION_MUST_BE_GREATER_THAN_OR_EQUAL_TO_CACHE_ORIGIN_DRIVER_VERSION",
+    "cig_rule": "RUNTIME_CUDA_CONTEXT_CIG_STATE_MUST_EQUAL_CACHED_STATE",
+    "incompatibility_behavior": "CACHE_IGNORED_AND_KERNELS_TRANSPARENTLY_JIT_RECOMPILED_WITHOUT_ERROR",
+    "observability_requirement": "CACHE_HIT_OR_MISS_AND_JIT_REBUILD_MUST_BE_EVIDENCE_VISIBLE_VIA_LOGS_OR_PROFILING",
+    "benchmark_requirement": "FIRST_INFERENCE_JIT_COST_MUST_NOT_BE_MISREPORTED_AS_STEADY_STATE_CACHE_HIT_LATENCY",
+    "cache_artifact_class": "DERIVED_DISPOSABLE_NONCANONICAL"
+  },
+  "timing_cache_api": {
+    "status": "DEPRECATED_UPSTREAM",
+    "effect_on_built_engine": "NONE_FOR_TENSORRT_RTX",
+    "new_integration_policy": "FORBIDDEN_AS_CANONICAL_RUNTIME_CACHE_PATH",
+    "migration_target": "TENSORRT_RTX_RUNTIME_CACHE"
+  },
+  "cache_hardening": {
+    "decision_id": "FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07",
+    "reference_id": "FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07",
+    "subgate_id": "FA3-INFERENCE-PORTABILITY-CACHE-HARDENING-001",
+    "evidence_path": "evidence/reference/inference-cache-hardening-ci-2026-09-07.json"
+  },
   "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_AND_EP_ABI_REQUIRED_AT_ADMISSION",
   "current_host_production_evidence": "NOT_CLAIMED"
 }
