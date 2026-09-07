@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e4ba8f2ea95e65f7f5274f7fb9fbe58f71d66788",
-    "pre_projection_root_tree_sha": "a6452111b839903f0d0a62b0ed1fc9272cb55d5f",
-    "pre_projection_canonical_tree_sha": "ac042db8625ae6ff4b98a7ebf8f4a209858bcb25",
-    "commits_ahead_of_v3_0_11_conformance_commit": 123,
-    "total_post_baseline_commits": 123,
-    "delta_file_count": 697,
-    "delta_added_files": 692,
+    "pre_projection_head_sha": "e91795bad2d2ad001139632006150dd9847c1900",
+    "pre_projection_root_tree_sha": "7ced92c955c6f7ae5ca6243bcae4bcc4c915a320",
+    "pre_projection_canonical_tree_sha": "4521964122fc1e25ae957f47b64a233448258d4e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 125,
+    "total_post_baseline_commits": 125,
+    "delta_file_count": 698,
+    "delta_added_files": 693,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 405,
+    "canonical_files_in_post_baseline_delta": 406,
     "evidence_files_in_post_baseline_delta": 74,
     "source_files_in_post_baseline_delta": 80,
     "test_files_in_post_baseline_delta": 64,
@@ -209,6 +209,7 @@
       "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
@@ -526,7 +527,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 698,
+  "manifest_entry_count": 699,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1181,6 +1182,11 @@
     {
       "path": "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "git_blob_sha": "4962ddfc8040b67285db408d63e1f9930965129a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
+      "git_blob_sha": "44486f0119a02d655f29f6315d7f2617935b9753",
       "baseline_delta_status": "added"
     },
     {
