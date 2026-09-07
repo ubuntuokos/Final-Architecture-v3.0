@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "0a12bc294efa1dbcce5ca8c2cd7b77c41470c274",
-    "pre_projection_root_tree_sha": "49258c43c78b0d63dc148f2f78fe9f6663b44988",
-    "pre_projection_canonical_tree_sha": "74103b8c57dd0aada4e13f539a2559e6b3796f2e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 157,
-    "total_post_baseline_commits": 157,
-    "delta_file_count": 715,
-    "delta_added_files": 710,
+    "pre_projection_head_sha": "eff1f1c5eae01e232ccdd679f649b175eb0adec6",
+    "pre_projection_root_tree_sha": "6ba06706887c83d4e3da66dd8c0fc7c1e4326ee5",
+    "pre_projection_canonical_tree_sha": "331664d56417316ed2f64fe84ee786ce79866b49",
+    "commits_ahead_of_v3_0_11_conformance_commit": 132,
+    "total_post_baseline_commits": 132,
+    "delta_file_count": 724,
+    "delta_added_files": 719,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 411,
-    "evidence_files_in_post_baseline_delta": 75,
-    "source_files_in_post_baseline_delta": 81,
-    "test_files_in_post_baseline_delta": 65,
-    "workflow_files_in_post_baseline_delta": 14,
+    "canonical_files_in_post_baseline_delta": 416,
+    "evidence_files_in_post_baseline_delta": 76,
+    "source_files_in_post_baseline_delta": 82,
+    "test_files_in_post_baseline_delta": 66,
+    "workflow_files_in_post_baseline_delta": 15,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -88,6 +88,7 @@
       "canonical/providers/FA3-PROVIDER-MINICPM-V-001.json",
       "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
       "canonical/providers/FA3-PROVIDER-MMS-TTS-HUN-001.json",
+      "canonical/providers/FA3-PROVIDER-MODEL-ARTIFACT-SECURITY-STACK-001.json",
       "canonical/providers/FA3-PROVIDER-MOJO-001.json",
       "canonical/providers/FA3-PROVIDER-MUNDER-DIFFLIN-001.json",
       "canonical/providers/FA3-PROVIDER-MUSE-CODE-001.json",
@@ -164,6 +165,7 @@
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
+      "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json",
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
@@ -215,6 +217,7 @@
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
@@ -272,6 +275,7 @@
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
@@ -379,6 +383,7 @@
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
+      "evidence/reference/model-artifact-security-ci-2026-09-07.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
@@ -531,7 +536,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 716,
+  "manifest_entry_count": 725,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -566,6 +571,11 @@
     {
       "path": ".github/workflows/fa3-minimax-h3-current-host.yml",
       "git_blob_sha": "08d54993d83289d4493247da464eb624fd0e5822",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-artifact-security.yml",
+      "git_blob_sha": "a4f86320d14ddf314c2dc10b849a4851c8c17fef",
       "baseline_delta_status": "added"
     },
     {
@@ -1229,6 +1239,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
+      "git_blob_sha": "b1792a889135a7698f1306eb7f9a902d91e8fcfc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
       "git_blob_sha": "05f3baf64aeca83d8ddeb1454c291d42bf3864b4",
       "baseline_delta_status": "added"
@@ -1524,6 +1539,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
+      "git_blob_sha": "c32a5714525769fa67959612b8260efa887a55ee",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
       "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea",
       "baseline_delta_status": "added"
@@ -1809,6 +1829,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/model-artifact-security-enforcement.json",
+      "git_blob_sha": "11d31289462a0a6e924a6c1e2f601bf85e754868",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/model-manager-current-host-enforcement.json",
       "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf",
       "baseline_delta_status": "added"
@@ -2024,8 +2049,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json",
+      "git_blob_sha": "551378727b805843693f5b75133f788e8c19bc5d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
-      "git_blob_sha": "862a6f9f6b5387931a0f3a4e26dad7980041d341",
+      "git_blob_sha": "0bffbaf6e44d96312a5a7686de22d8b99ee3493b",
       "baseline_delta_status": "added"
     },
     {
@@ -2276,6 +2306,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-MMS-TTS-HUN-001.json",
       "git_blob_sha": "8e9b0217ab6d35baa8557099b4465169ae5ef980",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-MODEL-ARTIFACT-SECURITY-STACK-001.json",
+      "git_blob_sha": "267002e14d6c9cc47d1e8303760a7bcbd325fe6e",
       "baseline_delta_status": "added"
     },
     {
@@ -3229,6 +3264,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/model-artifact-security-ci-2026-09-07.json",
+      "git_blob_sha": "6ceff715675458c31bc2e967db7f7e1e0e52c65a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/model-manager-ci-2026-08-31.json",
       "git_blob_sha": "40c1a4396ae643ad57703a5121fc1197a7c99aa7",
       "baseline_delta_status": "added"
@@ -3629,6 +3669,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_model_artifact_security_gate.py",
+      "git_blob_sha": "9058219652cf49132a8e654167ab0a0abd93ef07",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_model_inventory_current_host_adapter.py",
       "git_blob_sha": "f52fb8e8947cd324fc74d934c7f9a3420afbede9",
       "baseline_delta_status": "added"
@@ -3966,6 +4011,11 @@
     {
       "path": "tests/test_minimax_h3_runtime_gate.py",
       "git_blob_sha": "48439451a35caa72a28c0a00f553807b91837f8d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_artifact_security_gate.py",
+      "git_blob_sha": "5f1e679304f8185640e13b2241fc281df343b719",
       "baseline_delta_status": "added"
     },
     {
