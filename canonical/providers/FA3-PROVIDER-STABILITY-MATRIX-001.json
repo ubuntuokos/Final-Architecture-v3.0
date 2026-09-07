@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STABILITY-MATRIX-001",
+  "name": "LykosAI/StabilityMatrix interactive lifecycle provider",
+  "status": "ACCEPTED_CURRENT_HOST_INTERACTIVE_PROVIDER",
+  "classification": [
+    "REQ_ADAPTER",
+    "PRIMARY_REFERENCE_PROVIDER",
+    "INTERACTIVE_LIFECYCLE_PROVIDER",
+    "DIAGNOSTIC_LAUNCHER",
+    "PACKAGE_ENVIRONMENT_MODEL_MANAGER"
+  ],
+  "parent_profile": "CAP-135",
+  "provider_role": "INTERACTIVE_LOCAL_GENERATIVE_MEDIA_PACKAGE_ENVIRONMENT_MODEL_AND_DIAGNOSTIC_LIFECYCLE_PROVIDER",
+  "contract_id": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+  "related_model_store_provider_id": "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
+  "gate_id": "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
+  "upstream_reference_id": "FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "activation_mode": "CURRENT_HOST_INTERACTIVE_USER_SESSION",
+  "runtime_activation_status": "CURRENT_HOST_USER_CONFIRMED_IN_USE_PRODUCTION_WORKER_E2E_PENDING",
+  "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "global_runtime_promotion_required_when_disabled": false,
+  "execution_modes": {
+    "interactive_ui": "SYSTEMD_USER_SERVICE_IN_GRAPHICAL_SESSION",
+    "maintenance_trial": "ADMISSION_CONTROLLED_MANUAL_PACKAGE_TEST_WITH_EXPLICIT_COMPUTE_ROLE_LEASE",
+    "production": "SEPARATE_NATIVE_AI_MEDIA_WORKERS_UNDER_AI_MEDIA_TARGET"
+  },
+  "hardware_policy": {
+    "device_identity": "DISCOVERED_PCI_SLOT_PLUS_GPU_UUID",
+    "routing": "FAIL_CLOSED_COMPUTE_ROLE_LEASE_FROM_HOST_RESOURCE_BROKER",
+    "display_only_accelerator_fallback": "FORBIDDEN",
+    "hardcoded_gpu_model_or_count": "FORBIDDEN",
+    "numa": "DISCOVERED_AND_BOUND_PER_WORKER",
+    "projection": "GENERATED_VALIDATED_PER_UNIT_DROP_IN",
+    "global_90_gpu_conf": "FORBIDDEN"
+  },
+  "storage_policy": {
+    "package_tree": "/AI-modells/StabilityMatrix",
+    "model_plane": "STORAGE_MANIFEST_SELECTED_MODEL_TIER",
+    "cache_plane": "STORAGE_MANIFEST_SELECTED_NVME_CACHE_TIER",
+    "render_plane": "STORAGE_MANIFEST_SELECTED_RENDER_TIER",
+    "provider_local_state": "OPERATOR_STATE_NON_CANONICAL",
+    "canonical_metadata": "POSTGRESQL_CANONICAL_RECORDS",
+    "absolute_paths_in_portable_policy": "FORBIDDEN_EXCEPT_CURRENT_HOST_RESOLVED_PLAN_OR_EVIDENCE"
+  },
+  "authority_boundaries": {
+    "workflow_orchestration": "TEMPORAL_AND_EXISTING_FA3_ORCHESTRATION_AUTHORITY_ONLY",
+    "event_transport": "NATS_EXISTING_EVENT_AUTHORITY_ONLY",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_identity_registry": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "service_lifecycle": "SYSTEMD_NATIVE_WORKER_PROJECTION"
+  },
+  "normative_constraint": "Stability Matrix SHALL remain a replaceable interactive lifecycle adapter, package/environment/model manager and diagnostic launcher. It SHALL NOT become an FA3 control plane, production orchestrator, durable worker, workflow, model-registry, artifact, secrets, policy, evidence, host-resource or canonical-state authority."
+}

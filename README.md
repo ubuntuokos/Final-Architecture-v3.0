@@ -2,6 +2,14 @@
 
 Canonical governance and runtime-promotion enforcement for **FINAL ARCHITECTURE v3.0**.
 
+## Stability Matrix interactive lifecycle boundary
+
+`FA3-PROVIDER-STABILITY-MATRIX-001` records Stability Matrix as the current-host interactive local generative-media package, environment and model lifecycle adapter (`REQ-ADAPTER + PRIMARY-REF`). It is not a control plane or production worker. The GUI is a systemd user service; admission-controlled maintenance trials are separate; promoted production packages run as native `ai-media.target` workers under the existing Temporal, NATS, Host Resource Broker, security and evidence authorities.
+
+The provider-neutral `FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001` requires immutable revisions and hashes, package-owned isolated environments, maintenance lock, worker drain, checkpoint, smoke/memory/output validation, signed promotion, rollback, clean uninstall and orphan scanning. GPU/NUMA placement is discovered dynamically and bound fail-closed by PCI identity plus GPU UUID; no concrete GPU model, count or CUDA ordinal is a canonical default. Direct web endpoints remain loopback-only unless routed through approved Caddy policy/authentication. Provider-local SQLite/JSON state is non-canonical, and already promoted native workers must survive Stability Matrix failure.
+
+Run `./bin/fa3-enforce stability-matrix-lifecycle` for the 23-case executable reference regression gate. A PASS proves the canonical lifecycle and authority boundaries only; real current-host production-worker E2E remains pending.
+
 ## Permanent gates
 
 - `canonical-regression / P0` validates the exact 143-capability catalog, v3.0.11 source-graph attestation, 36/36 reconciliation, geometry closure, and scope invariants.
