@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.minimax-h3-runtime-admission.v1",
+  "id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+  "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
+  "status": "CANONICAL_ADMISSION_MATERIALIZED_RUNTIME_PENDING",
+  "priority": "P0",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "implementation": {
+    "adapter": "src/fa3_minimax_h3_provider_adapter.py",
+    "admission_gate": "src/fa3_minimax_h3_runtime_admission_gate.py",
+    "current_host_collector": "evidence/collect-minimax-h3-current-host.py",
+    "current_host_harness": "bin/fa3-minimax-h3-current-host.sh",
+    "current_host_workflow": ".github/workflows/fa3-minimax-h3-current-host.yml"
+  },
+  "supported_runtime_paths": {
+    "HOSTED_REMOTE": {
+      "status": "MATERIALIZED_PENDING_REAL_E2E",
+      "local_accelerator_required": false,
+      "required_credential": "PAYG_API_KEY_OR_EXPLICITLY_ADMITTED_SUBSCRIPTION_KEY",
+      "production_preference": "PAYG_API_KEY"
+    },
+    "HYBRID_LOCAL_BASE_REMOTE_CONTEXT_REGEN": {
+      "status": "MATERIALIZED_POLICY_ONLY_LOCAL_EXECUTION_DENIED_WITHOUT_LICENSE_EVIDENCE",
+      "local_accelerator_required": true,
+      "requires_hrb": true,
+      "requires_local_h3_license_evidence": true
+    }
+  },
+  "promotion_formula": [
+    "SERVICE_TERMS_PASS",
+    "CREDENTIAL_CLASS_PASS",
+    "ENTITLEMENT_DISCOVERY_PASS",
+    "PROVIDER_ADAPTER_CONFORMANCE_PASS",
+    "REAL_VIDEO_E2E_PASS",
+    "QC_PASS",
+    "PROVENANCE_PASS"
+  ],
+  "promotion_result_when_all_pass": "CURRENT_HOST_REMOTE_E2E_PASS",
+  "hybrid_promotion_additional_requirements": [
+    "LOCAL_H3_LICENSE_ADMISSION_PASS",
+    "ARTIFACT_TRUST_PASS",
+    "HOST_RESOURCE_BROKER_ADMISSION_PASS",
+    "LOCAL_H3_BASE_E2E_PASS"
+  ],
+  "current_host_receipt": "evidence/receipts/minimax-h3-current-host.json",
+  "current_host_gate_report": "reports/minimax-h3-current-host-gate-report.json",
+  "missing_secret_or_entitlement_state": "PENDING_EXTERNAL_ADMISSION",
+  "missing_local_license_state": "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE",
+  "runtime_promotion_claim": false,
+  "fail_closed": true
+}

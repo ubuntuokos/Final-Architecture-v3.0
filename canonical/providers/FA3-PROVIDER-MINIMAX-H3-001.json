@@ -140,6 +140,17 @@
       "provider_unavailability_fallback_remains_FA3_ROUTER_POLICY": true
     }
   },
+  "runtime_admission": {
+    "id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-001",
+    "adapter_contract": "FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001",
+    "gate_id": "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001",
+    "hosted_remote_status": "MATERIALIZED_PENDING_REAL_CURRENT_HOST_E2E",
+    "hybrid_local_base_status": "DENIED_UNTIL_LOCAL_LICENSE_AND_HRB_EVIDENCE",
+    "current_host_workflow": ".github/workflows/fa3-minimax-h3-current-host.yml",
+    "current_host_receipt": "evidence/receipts/minimax-h3-current-host.json",
+    "billable_execution_manual_only": true,
+    "current_host_runtime_promotion_claim": false
+  },
   "license_admission": {
     "mode": "FAIL_CLOSED",
     "local_deployment": "CONDITIONAL",
@@ -166,7 +177,7 @@
     "secrets": "EXISTING_FA3_SECRETS_AUTHORITY",
     "billing_entitlement": "PROVIDER_DISCOVERY_INPUT_NOT_ARCHITECTURAL_AUTHORITY"
   },
-  "implementation_status": "SGLANG_VLLM_DIFFUSERS_COMFYUI_PROJECTION_TARGETS_REGISTERED_PROMPT_SKILL_REFERENCE_REGISTERED_SERVICE_ACCESS_POLICY_HARDENED_NOT_YET_CURRENT_HOST_PROMOTED",
+  "implementation_status": "SGLANG_VLLM_DIFFUSERS_COMFYUI_PROJECTION_TARGETS_REGISTERED_PROMPT_SKILL_REFERENCE_REGISTERED_SERVICE_ACCESS_POLICY_HARDENED_RUNTIME_ADMISSION_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
   "upstream_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
   "service_reference": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
   "prompt_knowledge_adapter": {
