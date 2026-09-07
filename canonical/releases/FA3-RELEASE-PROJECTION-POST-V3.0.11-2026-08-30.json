@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f7f684c98f9720eb49fb6e19ae8120791899dd6e",
-    "pre_projection_root_tree_sha": "e163ba96d2a81d360973d76766bcae7152c9f14c",
-    "pre_projection_canonical_tree_sha": "b56f6a233346da2c73b8e4002ce78c1e09194c05",
-    "commits_ahead_of_v3_0_11_conformance_commit": 129,
-    "total_post_baseline_commits": 129,
-    "delta_file_count": 700,
-    "delta_added_files": 695,
+    "pre_projection_head_sha": "d91254e51cf15f89b07519a1edd557cdd64cc5a8",
+    "pre_projection_root_tree_sha": "6add7cc3e22f2fd91a3a2cfcee15b6c476f59e25",
+    "pre_projection_canonical_tree_sha": "1dacd5b1a67491a4820e94a362f28ce25e703d0f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 131,
+    "total_post_baseline_commits": 131,
+    "delta_file_count": 701,
+    "delta_added_files": 696,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 408,
+    "canonical_files_in_post_baseline_delta": 409,
     "evidence_files_in_post_baseline_delta": 74,
     "source_files_in_post_baseline_delta": 80,
     "test_files_in_post_baseline_delta": 64,
@@ -337,6 +337,7 @@
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02.json",
@@ -529,7 +530,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 701,
+  "manifest_entry_count": 702,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2669,6 +2670,11 @@
     {
       "path": "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "bf647a09dbd26420bc0cff540594612353d6f59a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
+      "git_blob_sha": "446702b77e9b1efd1d08d1fd2547bee93023bbdf",
       "baseline_delta_status": "added"
     },
     {
