@@ -1,0 +1,107 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-REQUEST-TIME-AI-GUARDRAIL-USED",
+  "profile_id": "FA3-AI-SEC-VALIDATION-001",
+  "parent_profile": "FA3-AI-SEC-VALIDATION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "GuardrailRequest",
+    "GuardrailDecision",
+    "GuardrailFinding",
+    "GuardrailCapability",
+    "GuardrailPolicy",
+    "GuardrailEvaluation",
+    "GuardrailReadiness",
+    "GuardrailFailMode",
+    "GuardrailBenchmarkEvidence",
+    "GuardrailRuntimeReceipt"
+  ],
+  "guardrail_request_required_fields": [
+    "request_id",
+    "phase",
+    "input_or_output_digest",
+    "capability",
+    "task",
+    "risk_tier",
+    "policy_version"
+  ],
+  "guardrail_decision_required_fields": [
+    "provider_id",
+    "model_id",
+    "model_version_or_revision",
+    "capability",
+    "task",
+    "verdict",
+    "score_or_null",
+    "threshold_or_null",
+    "categories",
+    "reasons",
+    "latency_ms",
+    "policy_version",
+    "evidence_ids",
+    "fallback_status"
+  ],
+  "phases": [
+    "INPUT",
+    "OUTPUT",
+    "TOOL_BOUNDARY"
+  ],
+  "verdicts": [
+    "ALLOW",
+    "BLOCK",
+    "REVIEW",
+    "INCONCLUSIVE",
+    "ERROR"
+  ],
+  "fail_modes": [
+    "FAIL_OPEN",
+    "FAIL_CLOSED",
+    "DEGRADE_TO_SECONDARY_PROVIDER",
+    "HUMAN_APPROVAL"
+  ],
+  "mandatory_semantics": {
+    "capability_task_match_required": true,
+    "out_of_scope_guardrail_must_not_issue_canonical_pass": true,
+    "tool_boundary_guardrail_is_authorization_authority": false,
+    "tool_execution_requires_existing_deterministic_schema_permission_policy_or_approval_authority": true,
+    "privileged_or_destructive_tool_execution_default": "FAIL_CLOSED_OR_HUMAN_APPROVAL",
+    "health_is_readiness": false,
+    "readiness_requires": [
+      "DEPENDENCY_PREFLIGHT",
+      "MODEL_OR_RULESET_IDENTITY",
+      "AUTHENTICATION_WHEN_REQUIRED",
+      "CACHE_OR_ARTIFACT_ACCESS",
+      "CAPABILITY_SPECIFIC_SMOKE_TEST"
+    ],
+    "promotion_requires_benchmark_calibration": true,
+    "benchmark_dimensions": [
+      "precision",
+      "recall",
+      "f1",
+      "false_positive_rate",
+      "false_negative_rate",
+      "latency",
+      "memory",
+      "domain_performance",
+      "multilingual_performance_when_claimed"
+    ]
+  },
+  "runtime_invariants": [
+    "GUARDRAIL_PROVIDER_NOT_SECURITY_AUTHORITY",
+    "GUARDRAIL_CAPABILITY_TASK_MAPPING_REQUIRED",
+    "GUARDRAIL_INPUT_OUTPUT_TOOL_PHASES_DISTINCT",
+    "GUARDRAIL_TOOL_VERDICT_NOT_TOOL_AUTHORIZATION",
+    "GUARDRAIL_FAIL_MODE_EXPLICIT_AND_RISK_TIERED",
+    "GUARDRAIL_HEALTH_READINESS_DISTINCT",
+    "GUARDRAIL_READINESS_DEPENDENCY_MODEL_AUTH_CACHE_SMOKE_REQUIRED",
+    "GUARDRAIL_BENCHMARK_CALIBRATION_REQUIRED_BEFORE_PROMOTION",
+    "GUARDRAIL_MODEL_PROVIDER_VERSION_PROVENANCE_REQUIRED",
+    "GUARDRAIL_ERROR_FALLBACK_AND_AUDIT_METADATA_REQUIRED"
+  ]
+}
