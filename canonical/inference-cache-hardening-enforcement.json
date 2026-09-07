@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.inference-cache-hardening-enforcement.v1",
+  "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "subgate_id": "FA3-INFERENCE-PORTABILITY-CACHE-HARDENING-001",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+  "decision_id": "FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07",
+  "reference_id": "FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07",
+  "evidence_path": "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "fail_closed": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rule_count": 5,
+  "p0_invariants": [
+    "TENSORRT_RTX_RUNTIME_CACHE_IDENTITY_REQUIRED",
+    "TENSORRT_RTX_RUNTIME_CACHE_DRIVER_MONOTONIC_COMPATIBILITY",
+    "TENSORRT_RTX_RUNTIME_CACHE_MISS_JIT_REBUILD_OBSERVABLE",
+    "TENSORRT_RTX_STEADY_STATE_BENCHMARK_SEPARATES_JIT_WARMUP",
+    "TENSORRT_RTX_TIMING_CACHE_DEPRECATED_NOT_CANONICAL_RUNTIME_CACHE"
+  ],
+  "rules": [
+    {
+      "invariant": "TENSORRT_RTX_RUNTIME_CACHE_IDENTITY_REQUIRED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "TensorRT-RTX runtime-cache identity must include GPU SKU, TensorRT-RTX version, CUDA-context CiG state and cache-origin NVIDIA driver version."
+    },
+    {
+      "invariant": "TENSORRT_RTX_RUNTIME_CACHE_DRIVER_MONOTONIC_COMPATIBILITY",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Runtime driver must be greater than or equal to the cache-origin driver; GPU SKU, TensorRT-RTX version and CiG state must satisfy upstream cache compatibility before reuse is claimed."
+    },
+    {
+      "invariant": "TENSORRT_RTX_RUNTIME_CACHE_MISS_JIT_REBUILD_OBSERVABLE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Transparent cache rejection and JIT recompilation must be observable through logs or profiling and recorded in a runtime-cache use receipt."
+    },
+    {
+      "invariant": "TENSORRT_RTX_STEADY_STATE_BENCHMARK_SEPARATES_JIT_WARMUP",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "First-inference JIT compilation latency must be separated from steady-state cache-hit benchmarking and promotion evidence."
+    },
+    {
+      "invariant": "TENSORRT_RTX_TIMING_CACHE_DEPRECATED_NOT_CANONICAL_RUNTIME_CACHE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "Deprecated TensorRT-RTX timing-cache APIs are not the canonical runtime-cache mechanism for new FA3 integrations."
+    }
+  ]
+}
