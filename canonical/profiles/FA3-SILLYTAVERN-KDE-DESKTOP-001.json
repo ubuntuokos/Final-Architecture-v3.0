@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-SILLYTAVERN-KDE-DESKTOP-001",
+  "name": "SillyTavern KDE/Wayland Desktop Conversation Client Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MAY",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-DESKTOP-001",
+  "related_profiles": [
+    "FA3-DESKTOP-AGENT-WORKBENCH-001",
+    "FA3-STT-001",
+    "FA3-VOICE-001"
+  ],
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-008"
+  ],
+  "contract": "FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-SILLYTAVERN-KDE-001"
+  ],
+  "scope": [
+    "LOCAL_INTERACTIVE_AI_CONVERSATION_WORKSPACE",
+    "KDE6_WAYLAND_DESKTOP_LAUNCH_AND_SINGLE_INSTANCE_LIFECYCLE",
+    "UPSTREAM_ELECTRON_DESKTOP_PRESENTATION",
+    "OPTIONAL_EXISTING_FA3_VOICE_CLIENT_PROJECTION",
+    "READ_ONLY_RESOURCE_AND_RUNTIME_STATUS_PRESENTATION"
+  ],
+  "excluded_scope": [
+    "GLOBAL_ORCHESTRATION",
+    "DURABLE_WORKFLOW_AUTHORITY",
+    "CANONICAL_MEMORY_AUTHORITY",
+    "MODEL_ROUTING_OR_RUNTIME_AUTHORITY",
+    "HOST_RESOURCE_SCHEDULING_AUTHORITY",
+    "MCP_OR_TOOL_AUTHORITY",
+    "PRIVILEGED_HOST_ADMINISTRATION",
+    "PARALLEL_AI_OS_OR_KERNEL_AUTHORITY"
+  ],
+  "authority": {
+    "human_approval": "AUTH-HUMAN",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "shared_memory": "EXISTING_FA3_MEMORY_SERVICE_AUTHORITY_ONLY",
+    "durable_workflow": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "voice": "EXISTING_FA3_STT_TTS_AUTHORITIES_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "runtime_requirement": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_requires_current_host_conformance": true
+}
