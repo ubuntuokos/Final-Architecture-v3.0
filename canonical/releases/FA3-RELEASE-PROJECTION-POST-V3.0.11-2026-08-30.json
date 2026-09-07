@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d91254e51cf15f89b07519a1edd557cdd64cc5a8",
-    "pre_projection_root_tree_sha": "6add7cc3e22f2fd91a3a2cfcee15b6c476f59e25",
-    "pre_projection_canonical_tree_sha": "1dacd5b1a67491a4820e94a362f28ce25e703d0f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 131,
-    "total_post_baseline_commits": 131,
-    "delta_file_count": 701,
-    "delta_added_files": 696,
+    "pre_projection_head_sha": "228883538bb1157dfa50fcb8be09bcda1bad7103",
+    "pre_projection_root_tree_sha": "bc3eccd5c5b25394fc36ec559b789fe0cb6a3312",
+    "pre_projection_canonical_tree_sha": "e41860fc65d858feb036e9e19d6f39be10553bfa",
+    "commits_ahead_of_v3_0_11_conformance_commit": 133,
+    "total_post_baseline_commits": 133,
+    "delta_file_count": 702,
+    "delta_added_files": 697,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 409,
+    "canonical_files_in_post_baseline_delta": 410,
     "evidence_files_in_post_baseline_delta": 74,
     "source_files_in_post_baseline_delta": 80,
     "test_files_in_post_baseline_delta": 64,
@@ -530,7 +530,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 702,
+  "manifest_entry_count": 703,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -890,6 +890,11 @@
     {
       "path": "canonical/FA3-GATE-OPENYAK-001.json",
       "git_blob_sha": "ada4c8c745217f22218b2bf323bc245f29c8617b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json",
+      "git_blob_sha": "30a14b1eb8a43fbba4d5454a674b76d058caff48",
       "baseline_delta_status": "added"
     },
     {
