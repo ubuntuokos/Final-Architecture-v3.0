@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "957e1f42ec62d12ec1019b2672da00a6737b2c33",
-    "pre_projection_root_tree_sha": "615c8b484b20408ecebbca47bf5606405d7e39fc",
-    "pre_projection_canonical_tree_sha": "105a78d7cc24d54a61dd30d52f5d0b1a3f5b4f5c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 127,
-    "total_post_baseline_commits": 127,
-    "delta_file_count": 669,
-    "delta_added_files": 664,
+    "pre_projection_head_sha": "32f0e1d8b6b9663d9ed6a834075eb1b3153fe438",
+    "pre_projection_root_tree_sha": "df68880aaef19b9279041ca32e746b3dafdc8a5f",
+    "pre_projection_canonical_tree_sha": "ba690c3987fbcf97aeb9a95054de8527ddea8dd2",
+    "commits_ahead_of_v3_0_11_conformance_commit": 125,
+    "total_post_baseline_commits": 125,
+    "delta_file_count": 672,
+    "delta_added_files": 667,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 392,
-    "evidence_files_in_post_baseline_delta": 71,
+    "canonical_files_in_post_baseline_delta": 394,
+    "evidence_files_in_post_baseline_delta": 72,
     "source_files_in_post_baseline_delta": 76,
     "test_files_in_post_baseline_delta": 61,
     "workflow_files_in_post_baseline_delta": 11,
@@ -264,6 +264,7 @@
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
@@ -312,6 +313,7 @@
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-MODULAR-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -365,6 +367,7 @@
       "evidence/reference/lynxhub-ci-2026-09-05.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
+      "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
@@ -516,7 +519,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 670,
+  "manifest_entry_count": 673,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -570,7 +573,7 @@
     },
     {
       "path": ".github/workflows/fa3-release-projection-reconcile.yml",
-      "git_blob_sha": "7f20fa30732584af57c9a068df6814800c9d00e3",
+      "git_blob_sha": "09441a1235cd864170249c9122cd5025069587b0",
       "baseline_delta_status": "added"
     },
     {
@@ -1424,6 +1427,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
+      "git_blob_sha": "162622a1e55cea2efe05bb3a8253862f25d00993",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
       "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea",
       "baseline_delta_status": "added"
@@ -2155,7 +2163,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
-      "git_blob_sha": "2679ca77137c9f960ee62e1a1d1ff9a26e148ec2",
+      "git_blob_sha": "b7da6841c793d5a753d196a27477caf00b004d11",
       "baseline_delta_status": "added"
     },
     {
@@ -2489,6 +2497,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07.json",
+      "git_blob_sha": "0a25b2fe93701c8fa61d4822a64de7a4652aed52",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "16fa69496cede027d6b9ae2b760306bcf1710db5",
       "baseline_delta_status": "added"
@@ -2655,7 +2668,7 @@
     },
     {
       "path": "canonical/video-enforcement.json",
-      "git_blob_sha": "27e2780e65deb112b6b10ca0d84b58bb2647f592",
+      "git_blob_sha": "87813c1955b21d8e5033dba9dc87c6d2c4c3511d",
       "baseline_delta_status": "added"
     },
     {
@@ -3031,6 +3044,11 @@
     {
       "path": "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "git_blob_sha": "ff8e66e40b6605592a69292e435e938022084324",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
+      "git_blob_sha": "0b11e39f44d06743133ccec436a494af0dab1cb4",
       "baseline_delta_status": "added"
     },
     {
@@ -3845,7 +3863,7 @@
     },
     {
       "path": "tests/test_video_registry.py",
-      "git_blob_sha": "a88033817deb291f663c8d8155cff3f629ac4a40",
+      "git_blob_sha": "ca77dc8ab2442a682925a84d417e2d17a4fd67ef",
       "baseline_delta_status": "added"
     },
     {
