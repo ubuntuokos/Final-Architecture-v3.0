@@ -34,6 +34,11 @@
     "ResourcePolicyChangeSet",
     "MemoryPressurePolicy",
     "RestartTimeoutPolicy",
+    "ModelBackedWorkerConcurrencyPolicy",
+    "ServiceReadinessResourcePolicy",
+    "SystemdUnitValidationPolicy",
+    "GracefulTerminationPolicy",
+    "PressureTelemetryPolicy",
     "HardwareInventorySnapshot",
     "HardwareDiscoveryReceipt",
     "HardwareRevalidationReceipt",
@@ -60,6 +65,16 @@
     "KV_CACHE",
     "MEDIA_WORKFLOW_CACHE"
   ],
+  "model_backed_service_qos_extension": {
+    "worker_count_is_host_or_model_constant": false,
+    "worker_count_requires_admission_evidence": true,
+    "single_worker_safe_baseline_when_model_sharing_unproven": true,
+    "memory_pressure_before_oom_required_when_supported": true,
+    "health_and_readiness_resource_states_distinct": true,
+    "graceful_child_process_cleanup_required": true,
+    "unit_directive_section_and_version_validation_required": true,
+    "fixed_cpu_numa_gpu_values_forbidden": true
+  },
   "invariants": [
     "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
     "TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY",
@@ -96,7 +111,7 @@
     "HARDWARE_TOPOLOGY_MUST_BE_REVALIDATED_AT_ADMISSION",
     "NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN"
   ],
-  "version": "1.1.0",
+  "version": "1.2.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001"
 }
