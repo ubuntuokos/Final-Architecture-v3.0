@@ -25,6 +25,7 @@ from fa3_tencentdb_agent_memory_gate import gate as tencentdb_agent_memory_gate
 from fa3_video_provider_lifecycle_gate import gate as video_provider_lifecycle_gate
 from fa3_stability_sgm_gate import gate as stability_sgm_gate
 from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
+from fa3_stability_matrix_lifecycle_gate import gate as stability_matrix_lifecycle_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
@@ -176,6 +177,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-037","AutoGPT agentic-workflow boundary gate is not bound into global enforcement policy"))
     if "FA3-CAVEMAN-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-091","Caveman recoverable context-transformation gate is not bound into global enforcement policy"))
+    if "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-093","Stability Matrix interactive lifecycle gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -269,6 +272,9 @@ def static_check(root:Path):
     caveman_ref=caveman_gate(root)
     if caveman_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-092","Caveman recoverable context-transformation regression gate failed",caveman_gate=caveman_ref))
+    stability_matrix_lifecycle_ref=stability_matrix_lifecycle_gate(root)
+    if stability_matrix_lifecycle_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-094","Stability Matrix interactive lifecycle/native-worker promotion regression gate failed",stability_matrix_lifecycle_gate=stability_matrix_lifecycle_ref))
     external_discovery_ref=external_api_discovery_gate(root)
     if external_discovery_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-043","External API/MCP discovery mandatory admission-boundary gate failed",external_api_discovery_gate=external_discovery_ref))
@@ -470,7 +476,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -498,6 +504,8 @@ def main():
             x=autogpt_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="caveman":
             x=caveman_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="stability-matrix-lifecycle":
+            x=stability_matrix_lifecycle_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="ai-infra-guard":
             x=ai_infra_guard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="ai-infra-guard-current-host":
