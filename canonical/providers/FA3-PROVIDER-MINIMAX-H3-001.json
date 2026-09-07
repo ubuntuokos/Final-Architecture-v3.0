@@ -83,6 +83,63 @@
       "current_host_e2e_required": true
     }
   },
+  "service_access_policy": {
+    "local_open_weight": {
+      "deployment_class": "LOCAL_H3_BASE",
+      "typical_output_tier": "768P_BASE",
+      "hosted_platform_credential_required": false,
+      "license_authority": "MINIMAX_H3_COMMUNITY_LICENSE",
+      "artifact_trust_and_hrb_admission_required": true
+    },
+    "hosted_open_platform": {
+      "deployment_class": "REMOTE_OR_HYBRID_MINIMAX_OPEN_PLATFORM",
+      "service_terms_authority": "MINIMAX_OPEN_PLATFORM_PAID_SERVICES_AGREEMENT",
+      "hosted_components": [
+        "H3_2K_CREATE",
+        "H3_CONTEXT_IR",
+        "H3_REGENERATE_2K"
+      ],
+      "credential_modes": {
+        "payg_api_key": {
+          "credential_class": "PAYG_API_KEY",
+          "interchangeable_with_subscription_key": false,
+          "production_preference": "UPSTREAM_RECOMMENDED_FOR_PRODUCTION_WHEN_APPLICABLE"
+        },
+        "token_plan_subscription_key": {
+          "credential_class": "TOKEN_PLAN_SUBSCRIPTION_KEY",
+          "interchangeable_with_payg_api_key": false,
+          "entitlements_discovered_at_admission": true
+        }
+      },
+      "team_subscription": {
+        "availability": "DISCOVER_AT_ADMISSION",
+        "hard_dependency_forbidden": true,
+        "availability_must_not_be_inferred_from_historical_notice": true
+      }
+    },
+    "entitlement_discovery": {
+      "required": true,
+      "discover": [
+        "credential_class",
+        "credential_validity",
+        "eligible_models",
+        "quota_or_balance",
+        "concurrency_limits",
+        "rate_limits",
+        "billing_mode",
+        "region_endpoint_eligibility"
+      ],
+      "pricing_is_runtime_reference_not_canonical_contract": true,
+      "commercial_plan_availability_is_dynamic": true
+    },
+    "fallback_policy": {
+      "credential_class_auto_substitution_forbidden": true,
+      "billing_mode_auto_switch_forbidden": true,
+      "subscription_to_payg_requires_explicit_policy_and_admitted_secret": true,
+      "payg_to_subscription_requires_explicit_policy_and_admitted_secret": true,
+      "provider_unavailability_fallback_remains_FA3_ROUTER_POLICY": true
+    }
+  },
   "license_admission": {
     "mode": "FAIL_CLOSED",
     "local_deployment": "CONDITIONAL",
@@ -92,17 +149,26 @@
       "intended_use_evaluation",
       "deployment_authorization_evidence"
     ],
-    "hosted_service_terms_evaluated_separately": true
+    "hosted_service_terms_evaluated_separately": true,
+    "hosted_deployment_requires": [
+      "service_terms_admission",
+      "credential_class_admission",
+      "current_entitlement_discovery",
+      "billing_policy_admission"
+    ]
   },
   "authority_boundaries": {
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY",
+    "billing_entitlement": "PROVIDER_DISCOVERY_INPUT_NOT_ARCHITECTURAL_AUTHORITY"
   },
-  "implementation_status": "SGLANG_VLLM_DIFFUSERS_COMFYUI_PROJECTION_TARGETS_REGISTERED_PROMPT_SKILL_REFERENCE_REGISTERED_NOT_YET_CURRENT_HOST_PROMOTED",
+  "implementation_status": "SGLANG_VLLM_DIFFUSERS_COMFYUI_PROJECTION_TARGETS_REGISTERED_PROMPT_SKILL_REFERENCE_REGISTERED_SERVICE_ACCESS_POLICY_HARDENED_NOT_YET_CURRENT_HOST_PROMOTED",
   "upstream_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+  "service_reference": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
   "prompt_knowledge_adapter": {
     "id": "FA3-H3-PROMPT-KNOWLEDGE-001",
     "status": "REFERENCE_KNOWLEDGE_ADAPTER",

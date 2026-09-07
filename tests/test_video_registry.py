@@ -87,7 +87,6 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertIn("video_execution_e2e_pass", gate["h3_promotion_requirements"])
         self.assertIn("qc_and_provenance_evidence_pass", gate["h3_promotion_requirements"])
 
-
     def test_h3_all_official_execution_frameworks_are_targets_not_promoted(self):
         h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
         for name in ("sglang", "vllm", "diffusers", "comfyui"):
@@ -153,6 +152,81 @@ class VideoRegistryTests(unittest.TestCase):
             "3d01859464bc9438585c8fdbf7fcd4b4c54404fadd3f1a64ab7970ae8877d086",
         )
 
+    def test_h3_local_and_hosted_service_admission_are_separate(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        service = h3["service_access_policy"]
+        self.assertEqual(service["local_open_weight"]["deployment_class"], "LOCAL_H3_BASE")
+        self.assertFalse(service["local_open_weight"]["hosted_platform_credential_required"])
+        self.assertEqual(
+            service["hosted_open_platform"]["deployment_class"],
+            "REMOTE_OR_HYBRID_MINIMAX_OPEN_PLATFORM",
+        )
+        self.assertTrue(h3["license_admission"]["hosted_service_terms_evaluated_separately"])
+
+    def test_h3_payg_and_subscription_credentials_are_not_interchangeable(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        creds = h3["service_access_policy"]["hosted_open_platform"]["credential_modes"]
+        self.assertFalse(creds["payg_api_key"]["interchangeable_with_subscription_key"])
+        self.assertFalse(creds["token_plan_subscription_key"]["interchangeable_with_payg_api_key"])
+        self.assertNotEqual(
+            creds["payg_api_key"]["credential_class"],
+            creds["token_plan_subscription_key"]["credential_class"],
+        )
+
+    def test_h3_commercial_plan_state_is_discovered_not_hardcoded(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        service = h3["service_access_policy"]
+        self.assertTrue(service["entitlement_discovery"]["required"])
+        self.assertTrue(service["entitlement_discovery"]["commercial_plan_availability_is_dynamic"])
+        self.assertEqual(
+            service["hosted_open_platform"]["team_subscription"]["availability"],
+            "DISCOVER_AT_ADMISSION",
+        )
+        self.assertTrue(
+            service["hosted_open_platform"]["team_subscription"]["hard_dependency_forbidden"]
+        )
+
+    def test_h3_billing_fallback_requires_explicit_policy(self):
+        h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        fallback = h3["service_access_policy"]["fallback_policy"]
+        self.assertTrue(fallback["credential_class_auto_substitution_forbidden"])
+        self.assertTrue(fallback["billing_mode_auto_switch_forbidden"])
+        self.assertTrue(fallback["subscription_to_payg_requires_explicit_policy_and_admitted_secret"])
+        self.assertTrue(fallback["payg_to_subscription_requires_explicit_policy_and_admitted_secret"])
+
+    def test_h3_service_access_reference_rejects_stale_plan_assumptions(self):
+        ref = load(
+            "canonical/references/FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07.json"
+        )
+        self.assertIn(
+            "DO_NOT_CANONICALIZE_COMMERCIAL_PLAN_AVAILABILITY",
+            ref["canonicalization_rules"],
+        )
+        self.assertIn(
+            "TEAM_PLAN_AVAILABILITY_MUST_NOT_BE_INFERRED_FROM_UNVERIFIED_OR_HISTORICAL_NOTICE",
+            ref["canonicalization_rules"],
+        )
+        self.assertFalse(ref["current_host_runtime_promotion_claim"])
+
+    def test_h3_service_access_decision_preserves_baseline(self):
+        decision = load(
+            "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json"
+        )
+        self.assertFalse(decision["canonical_semantics_changed"])
+        self.assertEqual(decision["new_capabilities"], 0)
+        self.assertEqual(decision["new_architectural_authorities"], 0)
+        self.assertEqual(decision["capability_count_after"], 143)
+        self.assertEqual(
+            decision["promotion_state"],
+            "PROVIDER_POLICY_CANONICAL_RUNTIME_NOT_PROMOTED",
+        )
+
+    def test_h3_service_access_reference_evidence_is_policy_only_pass(self):
+        evidence = load("evidence/reference/minimax-h3-service-access-ci-2026-09-07.json")
+        self.assertEqual(evidence["status"], "PASS")
+        self.assertEqual(evidence["passed"], evidence["total"])
+        self.assertFalse(evidence["current_host_runtime_promotion_claim"])
+        self.assertFalse(evidence["provider_runtime_execution_claim"])
 
 
 if __name__ == "__main__":

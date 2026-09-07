@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
+  "date": "2026-09-07",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "evidence_role": "HOSTED_SERVICE_ACCESS_BILLING_AND_DEPLOYMENT_REFERENCE_NOT_RUNTIME_PROMOTION",
+  "official_sources": [
+    {
+      "name": "MiniMax Open Platform Paid Services Agreement",
+      "url": "https://platform.minimax.io/protocol/paid-agreement",
+      "observed_facts": [
+        "Token Plan Subscription Key and standard pay-as-you-go API Key are separate and non-interchangeable.",
+        "Token Plan model eligibility, quota, concurrency and other entitlements may vary by plan."
+      ]
+    },
+    {
+      "name": "MiniMax Token Plan",
+      "url": "https://platform.minimax.io/subscribe/token-plan",
+      "observed_facts": [
+        "Official page exposes Token Plan and Team Subscription options at observation time.",
+        "Official FAQ recommends pay-as-you-go for production use.",
+        "Plan quotas and rate limits are service entitlements rather than canonical model capabilities."
+      ]
+    },
+    {
+      "name": "MiniMax H3 Open Source",
+      "url": "https://www.minimax.io/news/minimax-h3-open-source",
+      "observed_facts": [
+        "H3 system separates H3-Context-IR, H3-Base and H3-Regenerate-2K.",
+        "Full 2K workflow may combine locally deployed H3-Base with hosted H3-Context-IR and H3-Regenerate-2K APIs.",
+        "H3 open weights use the MiniMax H3 Community License Agreement."
+      ]
+    },
+    {
+      "name": "MiniMax H3 API pricing",
+      "url": "https://platform.minimax.io/subscribe/token-plan?tab=api-enterprise",
+      "observed_facts": [
+        "H3 hosted video generation is billed as a service offering.",
+        "Current prices are volatile commercial metadata and are not canonical FA3 contract values."
+      ]
+    }
+  ],
+  "upstream_model_reference": {
+    "repository": "MiniMax-AI/MiniMax-H3",
+    "observed_commit": "d21241f0a4b3acbb34c97dae47fa417b7065e438",
+    "newer_commit_observed_on_2026_09_07": false
+  },
+  "canonicalization_rules": [
+    "DO_NOT_CANONICALIZE_COMMERCIAL_PLAN_AVAILABILITY",
+    "DISCOVER_CURRENT_ENTITLEMENTS_AT_ADMISSION",
+    "PAYG_API_KEY_AND_TOKEN_PLAN_SUBSCRIPTION_KEY_ARE_DISTINCT_CREDENTIAL_CLASSES",
+    "DO_NOT_AUTO_SWITCH_BILLING_OR_CREDENTIAL_CLASS",
+    "LOCAL_OPEN_WEIGHT_LICENSE_AND_HOSTED_SERVICE_TERMS_ARE_SEPARATE_ADMISSION_DOMAINS",
+    "HOSTED_PRICE_POINTS_ARE_REFERENCE_METADATA_NOT_CANONICAL_CONTRACT_VALUES",
+    "TEAM_PLAN_AVAILABILITY_MUST_NOT_BE_INFERRED_FROM_UNVERIFIED_OR_HISTORICAL_NOTICE"
+  ],
+  "current_host_runtime_promotion_claim": false
+}
