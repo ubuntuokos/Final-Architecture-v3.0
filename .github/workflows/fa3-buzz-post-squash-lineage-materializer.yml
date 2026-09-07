@@ -1,0 +1,60 @@
+name: FA3 Buzz Post-Squash Lineage Materializer
+
+on:
+  push:
+    branches:
+      - tmp/buzz-post-squash-lineage-materializer-2026-09-07
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target reconciliation branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/buzz-post-squash-lineage-2026-09-07
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Verify exact non-projection anchor
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "e74829e69668f27a020c11eb7c3e9e7c42d186c6"
+          test -z "$(git status --porcelain)"
+
+      - name: Regenerate projection only
+        run: |
+          set -euo pipefail
+          python tools/fa3_buzz_global_reconcile.py --projection-only --snapshot-head HEAD
+          test "$(git diff --name-only)" = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+
+      - name: Verify deterministic regeneration
+        run: |
+          set -euo pipefail
+          cp canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json /tmp/projection-first.json
+          python tools/fa3_buzz_global_reconcile.py --projection-only --snapshot-head HEAD
+          cmp /tmp/projection-first.json canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+
+      - name: Run complete executable invariant suite
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python -m unittest discover -s tests -v
+
+      - name: Run explicit release and Buzz gates
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python src/fa3_release_projection_gate.py --root .
+          ./bin/fa3-enforce buzz
+
+      - name: Commit projection-only result
+        run: |
+          set -euo pipefail
+          test "$(git diff --name-only)" = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+          git config user.name "FA3 Release Projection Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "fix: reconcile Buzz post-squash projection lineage"
+          git push origin HEAD:refs/heads/fix/buzz-post-squash-lineage-2026-09-07
