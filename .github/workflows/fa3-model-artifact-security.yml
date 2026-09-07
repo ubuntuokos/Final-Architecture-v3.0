@@ -1,0 +1,32 @@
+name: FA3 Model Artifact Security
+
+on:
+  pull_request:
+    paths:
+      - "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json"
+      - "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json"
+      - "canonical/providers/FA3-PROVIDER-MODEL-ARTIFACT-SECURITY-STACK-001.json"
+      - "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json"
+      - "canonical/model-artifact-security-enforcement.json"
+      - "canonical/profiles/FA3-MODEL-MANAGER-001.json"
+      - "src/fa3_model_artifact_security_gate.py"
+      - "tests/test_model_artifact_security_gate.py"
+      - "evidence/reference/model-artifact-security-ci-2026-09-07.json"
+      - ".github/workflows/fa3-model-artifact-security.yml"
+  push:
+    branches: [main]
+    paths:
+      - "canonical/**"
+      - "src/fa3_model_artifact_security_gate.py"
+      - "tests/test_model_artifact_security_gate.py"
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-model-security-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run executable model artifact security gate
+        run: python3 -m unittest tests.test_model_artifact_security_gate
