@@ -7,7 +7,7 @@ class StabilityPortfolioGateTests(unittest.TestCase):
     def _copy(self):
         td=tempfile.TemporaryDirectory(); root=Path(td.name); shutil.copytree(ROOT/"canonical",root/"canonical"); shutil.copytree(ROOT/"evidence",root/"evidence"); return td,root
     def test_baseline_passes(self):
-        r=s.gate(ROOT); self.assertEqual("PASS",r["result"],r); self.assertEqual(143,r["capability_count"]); self.assertFalse(r["current_host_provider_e2e"])
+        r=s.gate(ROOT); self.assertEqual("PASS",r["result"],r); self.assertEqual(143,r["capability_count"]); self.assertFalse(r["current_host_provider_e2e"]); self.assertEqual("PASS",r["stable_audio_3_child_gate_result"])
     def test_old_cpu_baseline_fails(self):
         td,root=self._copy()
         try:
@@ -27,5 +27,10 @@ class StabilityPortfolioGateTests(unittest.TestCase):
         td,root=self._copy()
         try:
             p=root/"canonical/providers/FA3-PROVIDER-SPAR3D-001.json"; d=json.loads(p.read_text()); d["architectural_authority"]=True; p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
+        finally: td.cleanup()
+    def test_stable_audio_child_gate_is_fail_closed(self):
+        td,root=self._copy()
+        try:
+            p=root/"canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json"; d=json.loads(p.read_text()); d["precision_policy"]["allowed_medium"].append("bf16"); p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
         finally: td.cleanup()
 if __name__=="__main__": unittest.main()

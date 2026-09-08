@@ -2,6 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-STABLE-AUDIO-3-001",
   "name": "Stable Audio 3",
+  "version": "1.1.0",
   "status": "REQUIRED_SUPPORTED_REFERENCE",
   "provider_role": "REQUIRED_SUPPORTED_GENERATIVE_AUDIO_PROVIDER",
   "upstream_repo": "Stability-AI/stable-audio-3",
@@ -22,13 +23,24 @@
   "activation_mode": "DISABLED_UNTIL_EXPLICIT_ADMISSION",
   "runtime_activation_requires_current_host_conformance": true,
   "current_host_runtime_evidence": false,
+  "current_host_status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
   "authority_boundaries": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "security_policy": "FA3-AUTH-SECURITY-GOV-001",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry_governance": "FA3-REGISTRY-001"
   },
+  "forbidden_authorities": [
+    "model-routing",
+    "orchestration",
+    "host-resource-placement",
+    "security-policy",
+    "registry",
+    "provenance",
+    "DAW-authority"
+  ],
   "capabilities": [
     "text-to-audio",
     "audio-to-audio",
@@ -44,6 +56,108 @@
     "medium": "CUDA_LOCAL_CANDIDATE_SUBJECT_TO_HRB_E2E",
     "large": "REMOTE_API_OR_ENTERPRISE_SELF_HOST"
   },
+  "model_family": {
+    "small_music": {
+      "parameters": "433M",
+      "max_duration_seconds": 120,
+      "local_route": "CPU"
+    },
+    "small_sfx": {
+      "parameters": "433M",
+      "max_duration_seconds": 120,
+      "local_route": "CPU"
+    },
+    "medium": {
+      "parameters": "1.4B",
+      "max_duration_seconds": 380,
+      "local_route": "CUDA_OR_TENSORRT",
+      "flash_attention_2_required_for_pytorch_route": true
+    },
+    "large": {
+      "parameters": "2.7B",
+      "repo_runtime_support": false,
+      "route": "API_ONLY_IN_UPSTREAM_REPOSITORY"
+    }
+  },
+  "runtime_identity": {
+    "contract": "FA3-MUSIC-GENERATION-CONTRACTS-001",
+    "required_fields": [
+      "backend",
+      "model_revision",
+      "model_variant",
+      "decoder_variant",
+      "precision",
+      "engine_compute_capability",
+      "chunking_mode",
+      "limiter_identity",
+      "codec_revision",
+      "seed",
+      "runtime_revision",
+      "quantization",
+      "pcm_conversion_semantics"
+    ],
+    "immutable_for_production_receipt": true,
+    "silent_mutation_forbidden": true
+  },
+  "precision_policy": {
+    "medium_default": "fp16",
+    "allowed_medium": [
+      "fp16",
+      "fp8",
+      "fp32"
+    ],
+    "retired_medium": [
+      "bf16"
+    ],
+    "retirement_reason": "UPSTREAM_LONG_SEQUENCE_ROPE_DRIFT",
+    "legacy_alias_normalization_requires_provenance": true,
+    "silent_precision_fallback": false
+  },
+  "tensorrt_policy": {
+    "engine_compute_capability_binding_required": true,
+    "live_gpu_compute_capability_discovery_required": true,
+    "non_matching_engine_download_for_production_forbidden": true,
+    "self_built_engine_requires_onnx_and_build_provenance": true,
+    "chunking_mode_must_be_recorded": true
+  },
+  "audio_output_semantics": {
+    "canonical_sample_rate_hz": 44100,
+    "canonical_channels": 2,
+    "canonical_master": "lossless",
+    "limiter": {
+      "identity": "SA3-SAME-OUTPUT-LIMITER-0.977-2026-08-20",
+      "sample_peak_ceiling": 0.977,
+      "ceiling_dbfs": -0.2021,
+      "window_half_ms": 5.8,
+      "provenance_required": true
+    },
+    "pcm_int16_conversion": "ROUND_TO_NEAREST",
+    "pre_limiter_and_post_limiter_renders_not_assumed_reproduction_equivalent": true
+  },
+  "supply_chain": {
+    "code_license": "MIT",
+    "code_license_does_not_admit_weights_or_outputs": true,
+    "model_license_and_output_rights_require_separate_admission": true,
+    "flash_attention": {
+      "floating_community_wheel_url_for_production_forbidden": true,
+      "immutable_version_sha256_and_provenance_required": true,
+      "source_build_with_immutable_inputs_allowed": true
+    },
+    "weight_loading": {
+      "safetensors_preferred_when_upstream_available": true,
+      "unsafe_pickle_is_not_default_admission_route": true
+    },
+    "production_runtime_network_model_fetch": false
+  },
+  "promotion_sequence": [
+    "SMALL_SFX_CPU_SMOKE_E2E",
+    "SMALL_MUSIC_CPU_E2E",
+    "MEDIUM_PYTORCH_CUDA_HRB_E2E",
+    "MEDIUM_TENSORRT_LIVE_COMPUTE_CAPABILITY_PINNED_ENGINE_E2E",
+    "TEXT_AUDIO_AUDIO_EDIT_INPAINT_CONTINUATION_E2E",
+    "WAV_44K1_STEREO_LIMITER_AND_METADATA_VALIDATION",
+    "CURRENT_HOST_PRODUCTION_E2E_PASS"
+  ],
   "daw_integration": {
     "profile_required": true,
     "provider_plugin_status": "OPTIONAL_INCUBATION",

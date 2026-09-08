@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e20f38675b36f9cc07f0f9c62a87ee16ac26fd64",
-    "pre_projection_root_tree_sha": "1286d0062c5e8e856687fe7c69bccc863d643a3c",
-    "pre_projection_canonical_tree_sha": "8eddfdd2c2044a6b7d4f096425080c858b5cc9f1",
-    "commits_ahead_of_v3_0_11_conformance_commit": 126,
-    "total_post_baseline_commits": 126,
-    "delta_file_count": 741,
-    "delta_added_files": 736,
+    "pre_projection_head_sha": "7b255502e3fef5275c4f6f365671e22553ee3975",
+    "pre_projection_root_tree_sha": "4f0a9ff4605c8a9d943c0bfccfbcecc7c60fa28c",
+    "pre_projection_canonical_tree_sha": "b960a9996743419dd1b6e007b5779b7cbc7fee07",
+    "commits_ahead_of_v3_0_11_conformance_commit": 149,
+    "total_post_baseline_commits": 149,
+    "delta_file_count": 751,
+    "delta_added_files": 746,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 421,
-    "evidence_files_in_post_baseline_delta": 78,
-    "source_files_in_post_baseline_delta": 85,
-    "test_files_in_post_baseline_delta": 67,
-    "workflow_files_in_post_baseline_delta": 16,
+    "canonical_files_in_post_baseline_delta": 425,
+    "evidence_files_in_post_baseline_delta": 81,
+    "source_files_in_post_baseline_delta": 86,
+    "test_files_in_post_baseline_delta": 68,
+    "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -300,6 +300,7 @@
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
@@ -401,6 +402,8 @@
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
+      "evidence/reference/stable-audio-3-ci-2026-09-08.json",
+      "evidence/reference/stable-audio-3-reconciliation-2026-09-08.json",
       "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
       "evidence/reference/terax-v0.8.6.json",
       "evidence/reference/voice-synthesis-ci-2026-09-01.json",
@@ -538,7 +541,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 742,
+  "manifest_entry_count": 752,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -618,6 +621,11 @@
     {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
       "git_blob_sha": "a65622d631d9e2111ee7c83a9da635094f54b4e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-stable-audio-3-current-host.yml",
+      "git_blob_sha": "bc65f0467f5b15d3c36a77ba3423e3e75d3cccab",
       "baseline_delta_status": "added"
     },
     {
@@ -956,6 +964,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-STABLE-AUDIO-3-001.json",
+      "git_blob_sha": "94bd8a59228be406d45f49584793cd74e8c716c6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-TENCENTDB-AGENT-MEMORY-001.json",
       "git_blob_sha": "3ae5663edf1feff38c867759bb5c63613702a839",
       "baseline_delta_status": "added"
@@ -1003,6 +1016,11 @@
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "25d89f5e1aae21567962a28db0ace3174729734d",
       "baseline_delta_status": "added"
     },
     {
@@ -1277,7 +1295,7 @@
     },
     {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
-      "git_blob_sha": "4ef7455f7c342e9aa2f42103e9604f951d424db9",
+      "git_blob_sha": "971ad49d71ed9195a90939b5715906783d27f25e",
       "baseline_delta_status": "added"
     },
     {
@@ -1688,6 +1706,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
       "git_blob_sha": "30914ec1a33af0002c1a54d193640c6916db720d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
+      "git_blob_sha": "c84046b39362984b04076ce1030b7cee3ac0c790",
       "baseline_delta_status": "added"
     },
     {
@@ -2107,7 +2130,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MUSIC-001.json",
-      "git_blob_sha": "90cbaca44a2abcfe29ff15d81706d3eb908e1231",
+      "git_blob_sha": "eec781ed18b4ab6fc8aeb879e0a17c4dcabd6e68",
       "baseline_delta_status": "added"
     },
     {
@@ -2522,7 +2545,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json",
-      "git_blob_sha": "e0e7e8388c24e56cf6ec31fd38ae06bca929b7e1",
+      "git_blob_sha": "132d3e2ff9a4f8a89f3f7a25f4c740c291cd7db8",
       "baseline_delta_status": "added"
     },
     {
@@ -2852,12 +2875,17 @@
     },
     {
       "path": "canonical/stability-portfolio-enforcement.json",
-      "git_blob_sha": "12d006927c18c6abef59549223e5d166ac8ff4d3",
+      "git_blob_sha": "64cf5b86d9c81049f9172b65367a2b10af3a2876",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/stability-sgm-enforcement.json",
       "git_blob_sha": "fde7c644def2ba88362aa273c474938e133f49f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/stable-audio-3-enforcement.json",
+      "git_blob_sha": "40d9b24e274bf9c3694b6cb8281ff3d6e227b835",
       "baseline_delta_status": "added"
     },
     {
@@ -3146,6 +3174,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-stable-audio-3-current-host.py",
+      "git_blob_sha": "0fdf4ad553583a18d5c35c12d36a4ae71e2d175b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-terax-current-host.py",
       "git_blob_sha": "d98ee85082047e114c731f24926d12f8ea56ee24",
       "baseline_delta_status": "added"
@@ -3411,6 +3444,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/stable-audio-3-ci-2026-09-08.json",
+      "git_blob_sha": "77c6d271f4293f24f679b08e59e76b7cf47d15d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/stable-audio-3-reconciliation-2026-09-08.json",
+      "git_blob_sha": "cd35104dabed0ddcc922a31cf0b6f2aacf2820d3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
       "git_blob_sha": "2181afc48b1d59f4ea438819e8d7116f31d4c54e",
       "baseline_delta_status": "added"
@@ -3477,7 +3520,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "10baf52feba399c99668a40101ed7352838e7b3c",
+      "git_blob_sha": "0660634872c679df9ef2d0477adab11e2dba9f9f",
       "baseline_delta_status": "added"
     },
     {
@@ -3867,12 +3910,17 @@
     },
     {
       "path": "src/fa3_stability_portfolio_gate.py",
-      "git_blob_sha": "3f32aeb74183117dc7b03e611ac3a42fc0fc8bd5",
+      "git_blob_sha": "30a6ba61813bdce64486d1f9d701001849681cbe",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_stability_sgm_gate.py",
       "git_blob_sha": "dd2fdfae1725d23e37ab1e0932d9308416b240dc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_stable_audio_3_gate.py",
+      "git_blob_sha": "eba1c057d736dbec4fdf5a5a37f839d7586be4cf",
       "baseline_delta_status": "added"
     },
     {
@@ -4197,12 +4245,17 @@
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
-      "git_blob_sha": "efe4181c2eb69a6e81960aafa9f40f729bb57cec",
+      "git_blob_sha": "e83634f66fa7c65494b218e934dc7a47115ccdc5",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_stability_sgm_gate.py",
       "git_blob_sha": "0bab1a69a097a5a05a348638a2f722cfbfcbcd7a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_stable_audio_3_gate.py",
+      "git_blob_sha": "a0a8961cf23299c7a66c504dabbad0a96f8f176a",
       "baseline_delta_status": "added"
     },
     {
