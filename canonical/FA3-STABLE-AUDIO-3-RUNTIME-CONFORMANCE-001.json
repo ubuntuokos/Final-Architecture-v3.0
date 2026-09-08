@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-STABLE-AUDIO-3-001",
+  "profile_id": "FA3-MUSIC-001",
+  "gate_id": "FA3-STABLE-AUDIO-3-GATESET-001",
+  "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+  "production_promotion_claim": false,
+  "required_cases": [
+    "SA3-CH-001-small-sfx-cpu-text-to-audio",
+    "SA3-CH-002-small-music-cpu-text-to-audio",
+    "SA3-CH-003-medium-pytorch-cuda-hrb",
+    "SA3-CH-004-medium-tensorrt-live-sm-pinned-engine",
+    "SA3-CH-005-audio-to-audio",
+    "SA3-CH-006-inpainting-and-continuation",
+    "SA3-CH-007-wav-44k1-stereo-limiter-metadata"
+  ],
+  "promotion_sequence": [
+    "SMALL_SFX_CPU_SMOKE_E2E",
+    "SMALL_MUSIC_CPU_E2E",
+    "MEDIUM_PYTORCH_CUDA_HRB_E2E",
+    "MEDIUM_TENSORRT_LIVE_COMPUTE_CAPABILITY_PINNED_ENGINE_E2E",
+    "TEXT_AUDIO_AUDIO_EDIT_INPAINT_CONTINUATION_E2E",
+    "WAV_44K1_STEREO_LIMITER_AND_METADATA_VALIDATION",
+    "CURRENT_HOST_PRODUCTION_E2E_PASS"
+  ],
+  "current_host_requirements": [
+    "pinned Stability-AI/stable-audio-3 checkout at 779434a908193105335fd8d833418603625b2859",
+    "pre-admitted local model artifacts; production runtime network model fetch disabled",
+    "immutable runtime identity for every case",
+    "HRB lease for CUDA/TensorRT cases",
+    "live GPU compute-capability discovery for TensorRT engine admission",
+    "immutable TensorRT engine or reproducible ONNX build provenance",
+    "immutable hashed Flash Attention artifact for Medium PyTorch route",
+    "lossless 44.1 kHz stereo WAV outputs",
+    "limiter and PCM conversion semantics verified",
+    "all required modes completed before promotion"
+  ],
+  "ci_reference_pass_is_not_runtime_promotion": true
+}
