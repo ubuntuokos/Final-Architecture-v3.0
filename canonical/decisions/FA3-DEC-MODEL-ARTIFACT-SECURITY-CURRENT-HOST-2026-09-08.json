@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08",
+  "date": "2026-09-08",
+  "status": "ACCEPTED_MATERIALIZED_CURRENT_HOST_EXECUTION_PENDING",
+  "title": "Materialize the mandatory FA3 current-host model artifact security runtime",
+  "decision": "Materialize the P0 Model Artifact Security profile as a local-first, fail-closed current-host runtime bound to the Model Manager. Use a Python 3.10-3.12 sidecar venv rather than Ubuntu system Python 3.14 where upstream scanners do not support it. Separate bootstrap/update network activity from scan execution; every scan runs in a bubblewrap network namespace with HOME and /run masked, telemetry disabled, and the quarantined model read-only. Production evidence requires a real existing local safetensors or GGUF artifact. Synthetic fixtures are permitted only for negative regression and can never promote runtime status.",
+  "runtime_id": "FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-CONFORMANCE-001",
+  "gate_id": "FA3-GATE-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-001",
+  "model_manager_hook": "FA3-MODEL-MANAGER-SECURITY-HOOK-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "promotion_semantics": "PENDING_REAL_CURRENT_HOST_EXECUTION_UNTIL_RECEIPT_PASS"
+}
