@@ -55,7 +55,14 @@
     "tests/test_ffmpeg_ai_current_host_gate.py",
     "evidence/collect-ffmpeg-ai-current-host.py",
     "bin/fa3-ffmpeg-ai-current-host.sh",
-    ".github/workflows/fa3-ffmpeg-ai-current-host.yml"
+    ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
+    "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-STABLE-AUDIO-3-001.json",
+    "canonical/stable-audio-3-enforcement.json",
+    "src/fa3_stable_audio_3_gate.py",
+    "tests/test_stable_audio_3_gate.py",
+    "evidence/collect-stable-audio-3-current-host.py",
+    ".github/workflows/fa3-stable-audio-3-current-host.yml"
   ],
   "registered_current_host_surfaces": [
     {
@@ -118,6 +125,13 @@
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
       "gate": "ffmpeg-ai-current-host",
       "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+    },
+    {
+      "name": "stable-audio-3",
+      "collector": "evidence/collect-stable-audio-3-current-host.py",
+      "gate": "stable-audio-3-current-host",
+      "activation": "CONDITIONAL_PROVIDER_REAL_E2E_AND_HRB_REQUIRED_FOR_ACCELERATED_ROUTES",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     }
   ],
