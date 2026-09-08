@@ -19,7 +19,7 @@
     "XCMD_DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
     "XCMD_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
     "XCMD_EXECUTION_EVIDENCE_ATTRIBUTABLE"
-],
+  ],
   "rules": [
     {"id":"FA3-XCMD-P0-001","name":"remote network-to-shell separation","requirement":"Network-retrieved content MUST be materialized and pass immutable identity, integrity, provenance and policy admission before shell execution; direct curl/wget-to-eval/sh transitions are forbidden on the canonical production path."},
     {"id":"FA3-XCMD-P0-002","name":"immutable executable identity","requirement":"Floating branch names, including X, MUST NOT constitute production executable identity or promotion evidence; a full immutable commit/artifact identity is required."},
@@ -37,5 +37,9 @@
   "executable_gate": "./bin/fa3-enforce xcmd",
   "report_path": "reports/xcmd-gate-report.json",
   "global_static_integration": true,
-  "regression_case_count": 12
+  "regression_case_count": 12,
+  "child_gates": ["FA3-GATE-XCMD-CURRENT-HOST-001"],
+  "runtime_admission_contract_id": "FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001",
+  "current_host_conformance_id": "FA3-XCMD-RUNTIME-CONFORMANCE-001",
+  "current_host_enforcement": "canonical/xcmd-current-host-enforcement.json"
 }

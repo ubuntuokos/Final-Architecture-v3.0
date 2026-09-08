@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-XCMD-CURRENT-HOST-2026-09-08",
+  "date": "2026-09-08",
+  "status": "CANONICAL_PENDING_CURRENT_HOST",
+  "subject": "FA3-PROVIDER-XCMD-001 current-host runtime admission",
+  "decision": "MATERIALIZE_FAIL_CLOSED_RUNTIME_PATH",
+  "provider_id": "FA3-PROVIDER-XCMD-001",
+  "contract_id": "FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001",
+  "conformance_id": "FA3-XCMD-RUNTIME-CONFORMANCE-001",
+  "gate_id": "FA3-GATE-XCMD-CURRENT-HOST-001",
+  "runtime_candidate": "v0.10.0@bf3f49aa388f7a1a7bcdcb9e7fd326e0f996b694",
+  "rationale": ["use latest stable observed release instead of rolling X or pre-release for current-host candidate", "materialize source by exact commit without remote eval", "execute only inside isolated user-space HOME/workspace", "require real self-hosted current-host receipt before any runtime promotion"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_production_claim": false
+}

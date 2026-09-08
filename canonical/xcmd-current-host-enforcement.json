@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.xcmd-current-host-enforcement.v1",
+  "gate_id": "FA3-GATE-XCMD-CURRENT-HOST-001",
+  "parent_gate_id": "FA3-XCMD-GATESET-001",
+  "provider_id": "FA3-PROVIDER-XCMD-001",
+  "contract_id": "FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001",
+  "conformance_id": "FA3-XCMD-RUNTIME-CONFORMANCE-001",
+  "decision_id": "FA3-DEC-XCMD-CURRENT-HOST-2026-09-08",
+  "fail_closed": true,
+  "mandatory_rule_count": 16,
+  "p0_invariants": ["XCMD_CH_ROOT_EXECUTION_DENIED", "XCMD_CH_EXACT_COMMIT_REQUIRED", "XCMD_CH_EXACT_TREE_REQUIRED", "XCMD_CH_FLOATING_REF_DENIED", "XCMD_CH_REMOTE_EVAL_DENIED", "XCMD_CH_USER_SPACE_STATE_ONLY", "XCMD_CH_HOST_SHELL_STARTUP_IMMUTABLE", "XCMD_CH_CALLER_IDENTITY_REQUIRED", "XCMD_CH_WORKSPACE_ID_REQUIRED", "XCMD_CH_CAPABILITY_SCOPE_CAP008_REQUIRED", "XCMD_CH_MCP_AND_POLICY_AUTHORITIES_EXTERNAL", "XCMD_CH_SELF_UPDATE_DENIED", "XCMD_CH_PROBE_MUST_BE_NON_NETWORK", "XCMD_CH_NO_RESIDENT_PROVIDER_PROCESS", "XCMD_CH_ATTRIBUTABLE_RECEIPT_REQUIRED", "XCMD_CH_CI_FIXTURE_CANNOT_CLAIM_PASS"],
+  "executable": "./bin/fa3-xcmd-current-host",
+  "receipt": "evidence/receipts/xcmd-current-host.json",
+  "current_host_status": "PENDING_REAL_CURRENT_HOST_E2E",
+  "required_runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
