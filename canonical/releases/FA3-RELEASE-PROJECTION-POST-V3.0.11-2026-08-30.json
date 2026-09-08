@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "7fddb794e3fb15834501940f1237904550dc42a9",
-    "pre_projection_root_tree_sha": "92dbe06280ad1e9779323f61bc994f0ab662d117",
-    "pre_projection_canonical_tree_sha": "82c683f3d78246baf07abeee265f2e596f125484",
-    "commits_ahead_of_v3_0_11_conformance_commit": 147,
-    "total_post_baseline_commits": 147,
-    "delta_file_count": 750,
-    "delta_added_files": 745,
+    "pre_projection_head_sha": "7b255502e3fef5275c4f6f365671e22553ee3975",
+    "pre_projection_root_tree_sha": "4f0a9ff4605c8a9d943c0bfccfbcecc7c60fa28c",
+    "pre_projection_canonical_tree_sha": "b960a9996743419dd1b6e007b5779b7cbc7fee07",
+    "commits_ahead_of_v3_0_11_conformance_commit": 149,
+    "total_post_baseline_commits": 149,
+    "delta_file_count": 751,
+    "delta_added_files": 746,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 425,
-    "evidence_files_in_post_baseline_delta": 80,
+    "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 68,
     "workflow_files_in_post_baseline_delta": 17,
@@ -403,6 +403,7 @@
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
       "evidence/reference/stable-audio-3-ci-2026-09-08.json",
+      "evidence/reference/stable-audio-3-reconciliation-2026-09-08.json",
       "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
       "evidence/reference/terax-v0.8.6.json",
       "evidence/reference/voice-synthesis-ci-2026-09-01.json",
@@ -540,7 +541,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 751,
+  "manifest_entry_count": 752,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -3445,6 +3446,11 @@
     {
       "path": "evidence/reference/stable-audio-3-ci-2026-09-08.json",
       "git_blob_sha": "77c6d271f4293f24f679b08e59e76b7cf47d15d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/stable-audio-3-reconciliation-2026-09-08.json",
+      "git_blob_sha": "cd35104dabed0ddcc922a31cf0b6f2aacf2820d3",
       "baseline_delta_status": "added"
     },
     {
