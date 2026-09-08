@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PYTHONPATH="${ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
+case "${1:-}" in
+  static) exec python3 "${ROOT}/src/fa3_xcmd_current_host.py" static --root "${ROOT}" ;;
+  collect) exec python3 "${ROOT}/evidence/collect-xcmd-current-host.py" ;;
+  verify) exec python3 "${ROOT}/src/fa3_xcmd_current_host.py" verify --root "${ROOT}" ;;
+  *) echo "usage: $0 {static|collect|verify}" >&2; exit 64 ;;
+esac

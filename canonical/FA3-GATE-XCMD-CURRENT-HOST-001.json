@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-XCMD-CURRENT-HOST-001",
+  "parent_gate_id": "FA3-XCMD-GATESET-001",
+  "provider_id": "FA3-PROVIDER-XCMD-001",
+  "contract_id": "FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001",
+  "conformance_id": "FA3-XCMD-RUNTIME-CONFORMANCE-001",
+  "status": "CANONICAL_EXECUTABLE_PENDING_CURRENT_HOST",
+  "priority": "P0",
+  "fail_closed": true,
+  "command": "./bin/fa3-xcmd-current-host static && ./bin/fa3-xcmd-current-host verify",
+  "report": "evidence/receipts/xcmd-current-host.json",
+  "ci_workflow": ".github/workflows/fa3-xcmd-current-host.yml",
+  "current_host_production_claim": false,
+  "runtime_activation_status": "PENDING_REAL_CURRENT_HOST_E2E",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

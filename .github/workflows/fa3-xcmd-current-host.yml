@@ -1,0 +1,83 @@
+name: FA3 X-CMD Current Host
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-XCMD-001.json'
+      - 'canonical/xcmd-enforcement.json'
+      - 'canonical/xcmd-current-host-enforcement.json'
+      - 'canonical/FA3-XCMD-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-XCMD-CURRENT-HOST-001.json'
+      - 'canonical/contracts/FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001.json'
+      - 'canonical/references/FA3-XCMD-RUNTIME-UPSTREAM-REFERENCE-2026-09-08.json'
+      - 'canonical/decisions/FA3-DEC-XCMD-CURRENT-HOST-2026-09-08.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-XCMD-CURRENT-HOST-2026-09-08.json'
+      - 'src/fa3_xcmd_current_host.py'
+      - 'evidence/collect-xcmd-current-host.py'
+      - 'tests/test_xcmd_current_host_gate.py'
+      - 'bin/fa3-xcmd-current-host'
+      - '.github/workflows/fa3-xcmd-current-host.yml'
+  push:
+    branches:
+      - 'fa3/xcmd-current-host-2026-09-08'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-xcmd-current-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  static-admission:
+    name: xcmd-current-host / static-admission
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_xcmd_current_host.py evidence/collect-xcmd-current-host.py tests/test_xcmd_current_host_gate.py
+      - name: Static canonical admission
+        run: |
+          chmod +x bin/fa3-xcmd-current-host
+          ./bin/fa3-xcmd-current-host static
+      - name: Regression suite
+        run: PYTHONPATH=src python3 -m unittest tests.test_xcmd_current_host_gate -v
+      - name: Parent X-CMD gate
+        run: ./bin/fa3-enforce xcmd
+
+  current-host-production-e2e:
+    name: xcmd-current-host / production-e2e
+    needs: static-admission
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Collect real current-host X-CMD receipt
+        env:
+          FA3_CALLER_IDENTITY: github:${{ github.actor }}
+          FA3_REQUEST_ID: github-run:${{ github.run_id }}:${{ github.run_attempt }}
+          FA3_WORKSPACE_ID: github-workspace:${{ github.workspace }}
+          FA3_RUNNER_LABELS: self-hosted,linux,x64,fa3-current-host
+          FA3_CI_FIXTURE: 'false'
+        run: |
+          chmod +x bin/fa3-xcmd-current-host
+          ./bin/fa3-xcmd-current-host collect
+          ./bin/fa3-xcmd-current-host verify
+      - name: Upload current-host receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-xcmd-current-host-evidence
+          path: evidence/receipts/xcmd-current-host.json
+          if-no-files-found: warn
+          retention-days: 30
