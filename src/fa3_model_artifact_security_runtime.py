@@ -133,7 +133,7 @@ def run_isolated(home: Path, argv: list[str], timeout: int = 300) -> dict[str, A
 
 def _scanner_command(scanner_id: str, home: Path, target: Path, source_root: Path | None = None, requirements: Path | None = None) -> list[str]:
     tool = _tool_path(home, scanner_id)
-    if scanner_id == "modelaudit": return [str(tool), str(target), "--format", "json"]
+    if scanner_id == "modelaudit": return [str(tool), str(target), "--format", "json", "--no-cache"]
     if scanner_id == "clamav":
         db = home / "cache" / "clamav"
         if not any(db.glob("*.c?d")):
