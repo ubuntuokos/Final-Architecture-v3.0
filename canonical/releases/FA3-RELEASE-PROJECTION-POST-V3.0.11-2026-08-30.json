@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "33c9f8d28920fa18eed088ea32bb114974b3bf46",
-    "pre_projection_root_tree_sha": "42530d344343f6104777b317dabdfe52136790b1",
-    "pre_projection_canonical_tree_sha": "e0d0ff225205fab2aebeb18c0efff5670b57c7d7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 123,
-    "total_post_baseline_commits": 123,
-    "delta_file_count": 724,
-    "delta_added_files": 719,
+    "pre_projection_head_sha": "32e0509a5088a0f39d16df48020e3663ed34b08b",
+    "pre_projection_root_tree_sha": "3dd6a4f9114e76d1df7d7407b0618f9b7518aa02",
+    "pre_projection_canonical_tree_sha": "c2e1af3a3ff3a9f0964249d9bd679ee55ffecb34",
+    "commits_ahead_of_v3_0_11_conformance_commit": 125,
+    "total_post_baseline_commits": 125,
+    "delta_file_count": 736,
+    "delta_added_files": 731,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 416,
-    "evidence_files_in_post_baseline_delta": 76,
-    "source_files_in_post_baseline_delta": 82,
-    "test_files_in_post_baseline_delta": 66,
-    "workflow_files_in_post_baseline_delta": 15,
+    "canonical_files_in_post_baseline_delta": 423,
+    "evidence_files_in_post_baseline_delta": 77,
+    "source_files_in_post_baseline_delta": 83,
+    "test_files_in_post_baseline_delta": 67,
+    "workflow_files_in_post_baseline_delta": 16,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -234,7 +234,8 @@
       "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
       "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
       "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
-      "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json"
+      "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json",
+      "canonical/contracts/FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001.json"
     ],
     "decision_records": [
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
@@ -305,7 +306,8 @@
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
-      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json"
+      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-XCMD-CURRENT-HOST-2026-09-08.json"
     ],
     "upstream_reference_records": [
       "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -348,6 +350,7 @@
       "canonical/references/FA3-TENCENTDB-AGENT-MEMORY-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-VOICE-SYNTHESIS-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-XCMD-RUNTIME-UPSTREAM-REFERENCE-2026-09-08.json",
       "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json"
     ],
     "reference_evidence_records": [
@@ -536,7 +539,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 725,
+  "manifest_entry_count": 737,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -611,6 +614,11 @@
     {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
       "git_blob_sha": "a65622d631d9e2111ee7c83a9da635094f54b4e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-xcmd-current-host.yml",
+      "git_blob_sha": "e384a56fead2ba8143f1ef6b1c12fa1bd5a7a2e1",
       "baseline_delta_status": "added"
     },
     {
@@ -771,6 +779,11 @@
     {
       "path": "bin/fa3-whisper-stt",
       "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-xcmd-current-host",
+      "git_blob_sha": "ce10bc258d3f4faae9499644b4fa714a67874646",
       "baseline_delta_status": "added"
     },
     {
@@ -944,6 +957,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-XCMD-CURRENT-HOST-001.json",
+      "git_blob_sha": "b2a15027b76aaf7cc8c56f943189f8f7720517f2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-MARKETING-I18N-001.json",
       "git_blob_sha": "7d61f70eca863e66d3fd28a51730bb98f9afd180",
       "baseline_delta_status": "added"
@@ -991,6 +1009,11 @@
     {
       "path": "canonical/FA3-WHISPER-STT-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "3f5936b67f2abd1c0afe37f8d1311ba025fa12f2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-XCMD-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "8e974f060545d4a304f385beedfc0a1afc40ff3c",
       "baseline_delta_status": "added"
     },
     {
@@ -1326,6 +1349,11 @@
     {
       "path": "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json",
       "git_blob_sha": "bc93cdb3529005bcee12388f9530b057b0cc338e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-XCMD-RUNTIME-ADMISSION-CONTRACTS-001.json",
+      "git_blob_sha": "2de6a098131568ade0e124a29c70cff0b16a6084",
       "baseline_delta_status": "added"
     },
     {
@@ -1691,6 +1719,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
       "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-XCMD-CURRENT-HOST-2026-09-08.json",
+      "git_blob_sha": "4145dd8083b8a8c3a7cb00f0f3cabf4121c33a5b",
       "baseline_delta_status": "added"
     },
     {
@@ -2550,7 +2583,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-XCMD-001.json",
-      "git_blob_sha": "8f7b7552837c72d27838903f80be28a4637d553d",
+      "git_blob_sha": "1236c1b84a8c8eb3b656820f7b75e143853843bf",
       "baseline_delta_status": "added"
     },
     {
@@ -2759,6 +2792,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-XCMD-RUNTIME-UPSTREAM-REFERENCE-2026-09-08.json",
+      "git_blob_sha": "8a7d94d4a46971bc544d3596568e8695150e3928",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1",
       "baseline_delta_status": "added"
@@ -2786,6 +2824,11 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENYAK-2026-09-05.json",
       "git_blob_sha": "88ba5783e6929948ceb9907ca70f7750186aa811",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-XCMD-CURRENT-HOST-2026-09-08.json",
+      "git_blob_sha": "006e1a745c7f659629df46ed0abb51860227d1f0",
       "baseline_delta_status": "added"
     },
     {
@@ -2854,8 +2897,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/xcmd-current-host-enforcement.json",
+      "git_blob_sha": "16cf2d86e47874fd175cdac761f8adf97fa1bd0d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/xcmd-enforcement.json",
-      "git_blob_sha": "4bd915b1340b9f4c7139de902741f6a4e2d9e98f",
+      "git_blob_sha": "315ff5f7c7b7af0b38f946f6ba8461e64961b9fe",
       "baseline_delta_status": "added"
     },
     {
@@ -3091,6 +3139,11 @@
     {
       "path": "evidence/collect-whisper-stt-current-host.py",
       "git_blob_sha": "647e171c725ad56610177b6d0d7d985511325e57",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-xcmd-current-host.py",
+      "git_blob_sha": "c0f9a32ffcfd1494cdf7dfbaeba123b26a708823",
       "baseline_delta_status": "added"
     },
     {
@@ -3824,6 +3877,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_xcmd_current_host.py",
+      "git_blob_sha": "aed8eedf3293463c7302df5f94a6903759e50ab3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_xcmd_gate.py",
       "git_blob_sha": "f75f1b27ab58b4bfef410f963ad4a9b43cbea3a6",
       "baseline_delta_status": "added"
@@ -4151,6 +4209,11 @@
     {
       "path": "tests/test_whisper_stt_provider.py",
       "git_blob_sha": "8136b20ef0ae08ff659d0523f0c45683f9edd702",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_xcmd_current_host_gate.py",
+      "git_blob_sha": "05f71bea556c662b8254ce05b28d557d357bb09f",
       "baseline_delta_status": "added"
     },
     {
