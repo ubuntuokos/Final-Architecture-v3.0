@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-MODEL-ARTIFACT-SECURITY-001",
+  "parent_profile": "FA3-MODEL-ARTIFACT-SECURITY-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["ModelArtifactSecurityIntent","ModelQuarantineReceipt","ModelSourceIdentityReceipt","ModelArtifactIntegrityReceipt","ModelArtifactFormatClassification","ModelSecurityScannerDescriptor","ModelSecurityScannerExecutionReceipt","ModelSecurityScanCoverageManifest","DangerousSerializationAssessment","RepositorySecurityAssessment","RemoteCodeAdmission","SignatureAttestationVerificationReceipt","IsolatedFirstLoadReceipt","ModelBehaviorSecurityReceipt","ModelArtifactSecurityAttestation","ModelPromotionSecurityAdmission"],
+  "required_semantics": {
+    "quarantine": "ALL_NEW_OR_CHANGED_MODEL_ARTIFACTS_ENTER_UNTRUSTED_QUARANTINE_BEFORE_RUNTIME_STORE",
+    "source_identity": "IMMUTABLE_REVISION_REQUIRED",
+    "integrity": "SHA256_REQUIRED",
+    "format": "MAGIC_AND_STRUCTURE_CLASSIFICATION_NOT_EXTENSION_ONLY",
+    "safe_format": "LOWER_RCE_RISK_DOES_NOT_CONFER_MODEL_TRUST",
+    "remote_code": "DENY_BY_DEFAULT_POLICY_EXCEPTION_ONLY",
+    "scanner_verdict": "EVIDENCE_ONLY_NOT_PROMOTION_AUTHORITY",
+    "scanner_failure": "FAIL_CLOSED",
+    "scanner_not_applicable": "EXPLICIT_TYPED_POLICY_REASON",
+    "scanner_identity": "VERSION_AND_DIGEST_REQUIRED",
+    "scan_network": "FORBIDDEN",
+    "telemetry": "FORBIDDEN",
+    "isolated_first_load": "REQUIRED_BEFORE_PRODUCTION_PROMOTION",
+    "behavior_security": "REQUIRED_WHEN_APPLICABLE_TO_SUPPORTED_GENERATIVE_MODEL_CLASS",
+    "promotion": "FA3_SECURITY_POLICY_AND_EVIDENCE_AUTHORITIES_ONLY"
+  },
+  "receipt_required_fields": {
+    "scanner": ["scanner_id","version","binary_or_package_digest","ruleset_id","ruleset_digest","applicability","status","target_sha256","network_egress"],
+    "quarantine": ["artifact_id","source_id","immutable_revision","target_sha256","quarantine_state"],
+    "first_load": ["artifact_id","status","unprivileged","network_egress","secret_access","host_socket_access","read_only_model_input"],
+    "promotion": ["artifact_id","security_attestation_id","security_state","policy_decision_id","evidence_ids"]
+  },
+  "fail_closed_states": ["ERROR","INCOMPLETE","UNSUPPORTED_WHEN_APPLICABLE","SKIPPED_WHEN_APPLICABLE","HASH_MISMATCH","UNPINNED_REMOTE_CODE","UNKNOWN_EXECUTABLE_CONTENT","MISSING_APPLICABLE_SCANNER"],
+  "invariants": ["MODEL_SECURITY_ADMISSION_REQUIRED_FOR_ALL_ACQUISITION_IMPORT_PROMOTION","MODEL_DOWNLOAD_LANDS_IN_QUARANTINE","IMMUTABLE_SOURCE_REVISION_AND_SHA256_REQUIRED","SAFE_FORMAT_PREFERENCE_DOES_NOT_CONFER_TRUST","REMOTE_CODE_DENY_BY_DEFAULT_EXPLICIT_EXCEPTION_ONLY","MODELAUDIT_PRIMARY_STATIC_SCAN_REQUIRED","CLAMAV_AND_YARA_BASELINE_SCAN_REQUIRED","REPOSITORY_SURFACE_TRIVY_REQUIRED_WHEN_PRESENT","PYTHON_CODE_BANDIT_REQUIRED_WHEN_PRESENT","PYTHON_DEPENDENCY_PIP_AUDIT_REQUIRED_WHEN_PRESENT","DANGEROUS_SERIALIZATION_REQUIRES_MODELSCAN_PICKLESCAN_FICKLING","SCANNER_ERROR_INCOMPLETE_UNSUPPORTED_SKIPPED_FAILS_CLOSED","APPLICABLE_SCANNER_MISSING_FAILS_CLOSED","NOT_APPLICABLE_REQUIRES_TYPED_POLICY_REASON","SCANNER_PASS_IS_EVIDENCE_NOT_PROMOTION_AUTHORITY","SCANNER_AND_RULESET_IDENTITY_VERSION_DIGEST_REQUIRED","SECURITY_SCAN_NETWORK_EGRESS_DENIED","MODELAUDIT_TELEMETRY_DISABLED","ISOLATED_FIRST_LOAD_REQUIRED","ISOLATED_FIRST_LOAD_NO_SECRETS_NO_NETWORK_UNPRIVILEGED","GARAK_REQUIRED_FOR_SUPPORTED_GENERATIVE_LLM_BEHAVIOR_GATE","BEHAVIOR_NOT_APPLICABLE_REQUIRES_TYPED_REASON","COSIGN_SIGNATURE_VERIFICATION_REQUIRED_WHEN_ATTESTATION_PRESENT","UNRESOLVED_CRITICAL_SECURITY_FINDING_BLOCKS_PROMOTION","SECURITY_EVIDENCE_ATTESTATION_REQUIRED_BEFORE_MODEL_MANAGER_PROMOTION","SCANNER_STACK_NOT_SECURITY_OR_PROMOTION_AUTHORITY","NO_NEW_CAPABILITY_OR_ARCHITECTURAL_AUTHORITY","CURRENT_HOST_TOOLCHAIN_PASS_NOT_DOCUMENT_DERIVED","RUNTIME_PROVIDER_DOWNLOAD_BYPASS_FORBIDDEN"]
+}
