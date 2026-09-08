@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3ca80c60f036cd93006d0834982aea2196ec5bd9",
-    "pre_projection_root_tree_sha": "d8b11b842bab965061063d298d9509ba856f5342",
-    "pre_projection_canonical_tree_sha": "e5151e2e0bbe4f93fa32a0b3fc30616223b8623a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 130,
-    "total_post_baseline_commits": 130,
-    "delta_file_count": 742,
-    "delta_added_files": 737,
+    "pre_projection_head_sha": "8dd7974fe787e3c5ce856c070bacdab2885d20b6",
+    "pre_projection_root_tree_sha": "b30667ab7ff2ca57e9f46b6878c8d0aa2c42af97",
+    "pre_projection_canonical_tree_sha": "301b10b930ad212fde60ad597c460249b5f8398c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 135,
+    "total_post_baseline_commits": 135,
+    "delta_file_count": 746,
+    "delta_added_files": 741,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 422,
-    "evidence_files_in_post_baseline_delta": 78,
+    "canonical_files_in_post_baseline_delta": 425,
+    "evidence_files_in_post_baseline_delta": 79,
     "source_files_in_post_baseline_delta": 85,
     "test_files_in_post_baseline_delta": 67,
     "workflow_files_in_post_baseline_delta": 16,
@@ -402,6 +402,7 @@
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
+      "evidence/reference/stable-audio-3-ci-2026-09-08.json",
       "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
       "evidence/reference/terax-v0.8.6.json",
       "evidence/reference/voice-synthesis-ci-2026-09-01.json",
@@ -539,7 +540,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 743,
+  "manifest_entry_count": 747,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -957,6 +958,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-STABLE-AUDIO-3-001.json",
+      "git_blob_sha": "94bd8a59228be406d45f49584793cd74e8c716c6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-TENCENTDB-AGENT-MEMORY-001.json",
       "git_blob_sha": "3ae5663edf1feff38c867759bb5c63613702a839",
       "baseline_delta_status": "added"
@@ -1004,6 +1010,11 @@
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "25d89f5e1aae21567962a28db0ace3174729734d",
       "baseline_delta_status": "added"
     },
     {
@@ -2867,6 +2878,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/stable-audio-3-enforcement.json",
+      "git_blob_sha": "40d9b24e274bf9c3694b6cb8281ff3d6e227b835",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/tencentdb-agent-memory-enforcement.json",
       "git_blob_sha": "451edafb513ceee53738930db77ce637ea57c405",
       "baseline_delta_status": "added"
@@ -3414,6 +3430,11 @@
     {
       "path": "evidence/reference/stability-sgm-ci-2026-09-01.json",
       "git_blob_sha": "eb655d30c7ed4f4a3634bd8501415e0abbf1aea2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/stable-audio-3-ci-2026-09-08.json",
+      "git_blob_sha": "77c6d271f4293f24f679b08e59e76b7cf47d15d8",
       "baseline_delta_status": "added"
     },
     {
