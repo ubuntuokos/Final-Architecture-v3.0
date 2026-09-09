@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MMG-CONTEXT-IR-2026-09-08",
+  "date": "2026-09-08",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Provider-neutral Multimodal Generation Context IR derived from the MiniMax H3 Context-IR architectural pattern",
+  "decision": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_CANONICAL_CONTRACT_HARDENING",
+  "profile_id": "FA3-VIDEO-001",
+  "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+  "canonical_ir_id": "FA3-MMG-CONTEXT-IR-001",
+  "pattern_source_provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "materialized_baseline": true,
+  "changes": [
+    "define MultimodalGenerationContextIR as a typed provider-neutral child of VideoGenerationIR",
+    "separate ReferenceArtifact, SemanticEntity and ReferenceBinding semantics",
+    "materialize provenance-aware semantic, reference-binding, temporal and audiovisual context graphs",
+    "require explicit DECLARED/AUTHORITY_DERIVED/ARTIFACT_DERIVED/INFERRED/DEFAULTED origin typing",
+    "make embedded reference content non-instructional by default",
+    "require explicit ContextConflictRecord and ContextAmbiguityRecord instead of silent hard-conflict resolution",
+    "require ProviderProjectionLossReport for downstream provider projection",
+    "fail closed on hard dropped constraints and mark hard unsupported constraints provider-ineligible",
+    "generalize context-aware regeneration with parent lineage plus frozen/mutable constraints",
+    "retain H3 Context-IR and H3 prompt syntax as downstream reference/provider projection only"
+  ],
+  "rejected_alternatives": [
+    "make H3 Context-IR a canonical FA3 dependency",
+    "create a provider-specific parallel canonical video IR",
+    "allow provider-native prompt syntax upstream of provider projection",
+    "allow compiler inference to silently override authority-derived or hard constraints",
+    "allow provider capability loss without an explicit projection loss report"
+  ],
+  "canonical_semantics_changed": false,
+  "canonical_semantics_hardened": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "authority_boundaries_unchanged": true,
+  "hosted_h3_context_ir_required": false,
+  "provider_specific_ir_canonical": false,
+  "promotion_state": {
+    "FA3-MMG-CONTEXT-IR-001": "CANONICAL_CONTRACT_MATERIALIZED",
+    "FA3-PROVIDER-MINIMAX-H3-001": "REFERENCE_PATTERN_ONLY_FOR_CONTEXT_IR"
+  }
+}
