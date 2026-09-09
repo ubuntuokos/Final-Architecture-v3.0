@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.provider-registry.v1",
+  "id": "FA3-VAD-PROVIDER-REGISTRY-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-VOICE-ACTIVITY-DETECTION-001",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "providers": [
+    {
+      "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+      "classification": "OPTIONAL_STRONG_REFERENCE_PROVIDER",
+      "runtime_status": "NOT_PROMOTED",
+      "portable_cpu_path": true,
+      "accelerator_optional": true,
+      "accelerator_requires_hrb_receipt": true
+    }
+  ],
+  "authority": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  }
+}
