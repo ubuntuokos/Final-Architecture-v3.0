@@ -1,0 +1,114 @@
+name: FA3 Stable Audio 3 Current-Host Preflight
+
+on:
+  push:
+    branches:
+      - "fa3/stable-audio-3-current-host-preflight-*"
+
+permissions:
+  contents: read
+
+jobs:
+  stable-audio-3-preflight:
+    name: stable-audio-3-current-host / preflight
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Collect Stable Audio 3 current-host readiness
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$PWD/evidence/receipts/stable-audio-3-current-host-preflight.json"
+          mkdir -p "$(dirname "$OUT")"
+          python3 - <<'PY'
+          import json, os, platform, shutil, socket, subprocess
+          from pathlib import Path
+
+          pin = "779434a908193105335fd8d833418603625b2859"
+          roots = [Path("/AI-modells"), Path("/ai-cache"), Path.home(), Path("/opt"), Path("/srv")]
+
+          def run(cmd):
+              p = subprocess.run(cmd, text=True, capture_output=True, check=False)
+              return {"returncode": p.returncode, "stdout": p.stdout[-8000:], "stderr": p.stderr[-4000:]}
+
+          source_candidates = []
+          model_candidates = []
+          hrb_candidates = []
+          for root in roots:
+              if not root.exists():
+                  continue
+              try:
+                  for p in root.glob("**/stable-audio-3"):
+                      if p.is_dir() and len(p.parts) <= len(root.parts) + 5:
+                          source_candidates.append(str(p))
+                  for pat in ("**/*stable*audio*3*", "**/*small-music*", "**/*small-sfx*", "**/*stable-audio*medium*"):
+                      for p in root.glob(pat):
+                          if len(p.parts) <= len(root.parts) + 6:
+                              model_candidates.append(str(p))
+                  for pat in ("**/*hrb*lease*.json", "**/*lease*.json"):
+                      for p in root.glob(pat):
+                          if len(p.parts) <= len(root.parts) + 6:
+                              hrb_candidates.append(str(p))
+              except Exception:
+                  pass
+
+          source_details = []
+          for s in sorted(set(source_candidates))[:20]:
+              p = Path(s)
+              head = None
+              if (p/".git").exists():
+                  r = run(["git", "-C", s, "rev-parse", "HEAD"])
+                  if r["returncode"] == 0:
+                      head = r["stdout"].strip()
+              source_details.append({"path": s, "git_head": head, "pin_match": head == pin})
+
+          nvidia = run(["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,compute_cap", "--format=csv,noheader"]) if shutil.which("nvidia-smi") else {"returncode":127,"stdout":"","stderr":"nvidia-smi missing"}
+          trt = run(["trtexec", "--version"]) if shutil.which("trtexec") else {"returncode":127,"stdout":"","stderr":"trtexec missing"}
+
+          report = {
+              "schema": "fa3.stable-audio-3-current-host-preflight.v1",
+              "status": "COLLECTED_UNVALIDATED",
+              "pass_claim": False,
+              "production_promotion_claim": False,
+              "upstream_pin": pin,
+              "host": {"hostname": socket.gethostname(), "platform": platform.platform(), "python": platform.python_version()},
+              "runner": {
+                  "name": os.environ.get("RUNNER_NAME"),
+                  "os": os.environ.get("RUNNER_OS"),
+                  "arch": os.environ.get("RUNNER_ARCH"),
+                  "workspace": os.environ.get("GITHUB_WORKSPACE"),
+              },
+              "tools": {
+                  "git": shutil.which("git"),
+                  "python3": shutil.which("python3"),
+                  "nvidia_smi": shutil.which("nvidia-smi"),
+                  "trtexec": shutil.which("trtexec"),
+                  "uv": shutil.which("uv"),
+                  "docker": shutil.which("docker"),
+                  "podman": shutil.which("podman"),
+              },
+              "nvidia": nvidia,
+              "tensorrt": trt,
+              "source_candidates": source_details,
+              "model_candidates": sorted(set(model_candidates))[:80],
+              "hrb_lease_candidates": sorted(set(hrb_candidates))[:80],
+              "required_next": {
+                  "pinned_source_checkout": any(x.get("pin_match") for x in source_details),
+                  "model_artifacts_discovered": bool(model_candidates),
+                  "hrb_receipt_discovered": bool(hrb_candidates),
+                  "nvidia_runtime_present": nvidia.get("returncode") == 0,
+                  "tensorrt_runtime_present": trt.get("returncode") == 0,
+              }
+          }
+          Path("evidence/receipts/stable-audio-3-current-host-preflight.json").write_text(json.dumps(report, indent=2)+"\n", encoding="utf-8")
+          print(json.dumps(report, indent=2))
+          PY
+      - name: Upload preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-stable-audio-3-current-host-preflight
+          path: evidence/receipts/stable-audio-3-current-host-preflight.json
