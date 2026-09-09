@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001"
+  ],
+  "decision_id": "FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09",
+  "evidence_level": "SCOPED_CURRENT_HOST_HRB_V1_0_AUTHENTICATED_CUDA_V1_2_PRODUCTION_E2E_PASS",
+  "digest_attestation": "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
+  "receipt": "evidence/receipts/hrb-cuda-current-host.json",
+  "collector": "evidence/collect-hrb-cuda-current-host.py",
+  "gate": "src/fa3_hrb_cuda_current_host_gate.py",
+  "reference_host": {
+    "hostname": "horvath-precisiontower7910",
+    "accelerator_uuid": "GPU-f17bc7a0-573c-48d2-5463-6d9474db2333",
+    "accelerator_name": "NVIDIA RTX A1000",
+    "pci_bus_id": "00000000:A1:00.0",
+    "numa_node": 1,
+    "semantics": "REFERENCE_CURRENT_HOST_ASSERTION_NOT_PORTABLE_DEFAULT"
+  },
+  "validated_scope": {
+    "hrb_implementation_version": "1.0.0",
+    "cuda_python_version": "1.2.0",
+    "canonical_hrb_profile_version_at_reconciliation": "1.4.0",
+    "hrb_lease_auth_execution_integration": "PASS",
+    "cuda_security_regression": "PASS",
+    "cuda_direct_authenticated_execution": "PASS",
+    "external_evidence_registry_integration": "PASS",
+    "hrb_v1_4_full_locality_threading_systemd_projection": "NOT_CLAIMED_PENDING_SEPARATE_CURRENT_HOST_E2E"
+  },
+  "required_external_evidence": [
+    "HRB-CONFORMANCE",
+    "CUDA-BROKER-REGRESSION",
+    "CUDA-AUTH-E2E",
+    "HRB-CUDA-EVIDENCE-INTEGRATION-GATE"
+  ],
+  "authority_invariants": [
+    "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+    "CUDA_PYTHON_REMAINS_EXECUTION_PROVIDER_NOT_AUTHORITY",
+    "DISCOVERY_TELEMETRY_DO_NOT_BECOME_PLACEMENT_OR_POLICY_AUTHORITY",
+    "GLOBAL_PROMOTION_IS_NOT_GRANTED_BY_COMPONENT_EVIDENCE"
+  ],
+  "raw_external_evidence_committed": false,
+  "independent_byte_reverification": "AVAILABLE_ON_FA3_CURRENT_HOST_VIA_COLLECTOR",
+  "component_current_host_claim": true,
+  "canonical_hrb_v1_4_full_runtime_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
