@@ -1,10 +1,11 @@
 {
   "schema": "fa3.mentor-current-host-config.v1",
-  "mentor_health_url": "http://127.0.0.1:8787/health",
-  "mcp_dispatch_url": "http://127.0.0.1:8766/v1/mcp/dispatch",
-  "knowledge_query_url": "http://127.0.0.1:8767/v1/knowledge/query",
-  "memory_read_url": "http://127.0.0.1:8768/v1/memory/read",
-  "evidence_append_url": "http://127.0.0.1:8769/v1/evidence/append",
+  "_instructions": "Replace every <...> placeholder with the endpoint actually owned by the corresponding FA3 authority on this host. This file contains no runtime defaults or secrets.",
+  "mentor_health_url": "http://127.0.0.1:<MENTOR_PORT>/<MENTOR_HEALTH_PATH>",
+  "mcp_dispatch_url": "http://127.0.0.1:<CENTRAL_MCP_PORT>/<MCP_TYPED_DISPATCH_PATH>",
+  "knowledge_query_url": "http://127.0.0.1:<KNOWLEDGE_PORT>/<KNOWLEDGE_QUERY_PATH>",
+  "memory_read_url": "http://127.0.0.1:<MEMORY_PORT>/<MEMORY_READ_PATH>",
+  "evidence_append_url": "http://127.0.0.1:<EVIDENCE_PORT>/<EVIDENCE_APPEND_PATH>",
   "auth_token_file": "$HOME/.config/fa3/secrets/mentor-current-host.token",
   "allow_non_loopback": false
 }
