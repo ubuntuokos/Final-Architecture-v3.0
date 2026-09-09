@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "611a0b13ed8e19e8e81a5c0fc65dd0e9074583d2",
-    "pre_projection_root_tree_sha": "af75193709b5e813d8377780cfcd6ee8d065e353",
-    "pre_projection_canonical_tree_sha": "7a1b43db6a4e4d706f63090d80763feb640a0f34",
-    "commits_ahead_of_v3_0_11_conformance_commit": 126,
-    "total_post_baseline_commits": 126,
-    "delta_file_count": 756,
-    "delta_added_files": 751,
+    "pre_projection_head_sha": "821468e1d6d01657fcc426934fbd24e2b1935960",
+    "pre_projection_root_tree_sha": "7d0d080d410183bed0fc40bd0bc3a7bcabb73803",
+    "pre_projection_canonical_tree_sha": "17e5f95650b9f801f3e88cc581129783e4009c96",
+    "commits_ahead_of_v3_0_11_conformance_commit": 128,
+    "total_post_baseline_commits": 128,
+    "delta_file_count": 757,
+    "delta_added_files": 752,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 429,
+    "canonical_files_in_post_baseline_delta": 430,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 69,
@@ -194,6 +194,7 @@
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
@@ -543,7 +544,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 757,
+  "manifest_entry_count": 758,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1168,6 +1169,11 @@
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
+      "git_blob_sha": "7912b9ec13708a36fe7dad7672c556871c865f45",
       "baseline_delta_status": "added"
     },
     {
