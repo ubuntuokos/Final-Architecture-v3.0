@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.external-current-host-digest-attestation.v1",
+  "id": "FA3-HRB-CUDA-CURRENT-HOST-DIGEST-ATTESTATION-2026-09-09",
+  "status": "PASS",
+  "materialized_at": "2026-09-09",
+  "host": "horvath-precisiontower7910",
+  "evidence_origin": "EXTERNAL_CURRENT_HOST_IMMUTABLE_ARTIFACTS",
+  "raw_artifacts_committed": false,
+  "scope": "HRB_V1_0_LEASE_AUTH_AND_CUDA_V1_2_EXECUTION_ONLY",
+  "artifacts": [
+    {
+      "id": "HRB-CONFORMANCE",
+      "path": "/var/lib/fa3/evidence/host-resource-broker/conformance-20260827T233036Z.json",
+      "sha256": "4249bde6a6312f5264d308ec222c72e9847fdf90dcf04be5392ab555d6ddf3f4",
+      "status": "PASS",
+      "profile": "FA3-HOST-RESOURCE-BROKER-001",
+      "version": "1.0.0"
+    },
+    {
+      "id": "CUDA-BROKER-REGRESSION",
+      "path": "/var/lib/fa3/evidence/cuda-python/broker-regression-20260827T233617Z.json",
+      "sha256": "b94a1c083f8bd0f25fae358a8be84515a6c04e1f8a6f03152af4bef399ad4f5b",
+      "status": "PASS",
+      "profile": "FA3-CUDA-PY-001",
+      "version": "1.2.0"
+    },
+    {
+      "id": "CUDA-AUTH-E2E",
+      "path": "/var/lib/fa3/evidence/cuda-python/e2e-20260827T233721Z.json",
+      "sha256": "c98a44673507f52d1c92dfff91e673fc84bb8963fef87c34c5cdc9105688f57c",
+      "status": "PASS",
+      "profile": "FA3-CUDA-PY-001",
+      "version": "1.2.0"
+    },
+    {
+      "id": "HRB-CUDA-EVIDENCE-INTEGRATION-GATE",
+      "path": "/var/lib/fa3/evidence/integration/hrb-cuda/gate-20260827T234213Z.json",
+      "sha256": "5d42396b229cea0a371289a09f7a856955c961894666fadcb5aeb9457325cfee",
+      "status": "PASS"
+    }
+  ],
+  "external_registry_records": [
+    {
+      "id": "HRB-CONFORMANCE",
+      "profile": "FA3-HOST-RESOURCE-BROKER-001",
+      "version": "1.0.0",
+      "status": "PASS"
+    },
+    {
+      "id": "CUDA-BROKER-REGRESSION",
+      "profile": "FA3-CUDA-PY-001",
+      "version": "1.2.0",
+      "status": "PASS"
+    },
+    {
+      "id": "CUDA-AUTH-E2E",
+      "profile": "FA3-CUDA-PY-001",
+      "version": "1.2.0",
+      "status": "PASS"
+    }
+  ],
+  "canonical_reconciliation": {
+    "hrb_profile_current_version": "1.4.0",
+    "hrb_v1_4_full_runtime_promoted": false,
+    "cuda_profile_current_version": "1.2.0",
+    "cuda_scoped_component_promotion_eligible": true,
+    "capability_count": 143,
+    "global_promotion_claim": false
+  }
+}
