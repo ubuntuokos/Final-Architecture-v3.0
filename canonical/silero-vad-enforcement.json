@@ -32,6 +32,12 @@
     {"id": "SILERO-023", "severity": "P0", "assert": "16k real-audio E2E required"},
     {"id": "SILERO-024", "severity": "P0", "assert": "quality regression required"},
     {"id": "SILERO-025", "severity": "P0", "assert": "concurrent stream and long-run soak required before promotion"},
-    {"id": "SILERO-026", "severity": "P0", "assert": "current-host facts remain evidence only, never canonical hardware requirements"}
+    {"id": "SILERO-026", "severity": "P0", "assert": "current-host facts remain evidence only, never canonical hardware requirements"},
+    {"id": "SILERO-027", "severity": "P0", "assert": "CUDAExecutionProvider device_id is derived only from an unexpired AcceleratorExecutionLease@1"},
+    {"id": "SILERO-028", "severity": "P0", "assert": "accelerator session disables implicit CPU execution-provider fallback"},
+    {"id": "SILERO-029", "severity": "P0", "assert": "current-host GitHub evidence executes only on [self-hosted, linux, x64, fa3-current-host] with explicit runner guard"},
+    {"id": "SILERO-030", "severity": "P0", "assert": "quality thresholds and annotations are explicit manifest/policy inputs and are not invented by the provider"},
+    {"id": "SILERO-031", "severity": "P0", "assert": "current-host collector may establish an evidence-bundle PASS but may not self-promote production"},
+    {"id": "SILERO-032", "severity": "P0", "assert": "bootstrap-only network acquisition is separated from production runtime and produces immutable model identity evidence"}
   ]
 }
