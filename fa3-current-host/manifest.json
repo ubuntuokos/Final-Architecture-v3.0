@@ -62,7 +62,18 @@
     "src/fa3_stable_audio_3_gate.py",
     "tests/test_stable_audio_3_gate.py",
     "evidence/collect-stable-audio-3-current-host.py",
-    ".github/workflows/fa3-stable-audio-3-current-host.yml"
+    ".github/workflows/fa3-stable-audio-3-current-host.yml",
+    "canonical/FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-HRB-CUDA-CURRENT-HOST-001.json",
+    "canonical/hrb-cuda-current-host-enforcement.json",
+    "canonical/decisions/FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09.json",
+    "canonical/releases/FA3-RELEASE-PROJECTION-HRB-CUDA-CURRENT-HOST-2026-09-09.json",
+    "src/fa3_hrb_cuda_current_host_gate.py",
+    "tests/test_hrb_cuda_current_host_gate.py",
+    "evidence/collect-hrb-cuda-current-host.py",
+    "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
+    "bin/fa3-hrb-cuda-current-host",
+    ".github/workflows/fa3-hrb-cuda-current-host.yml"
   ],
   "registered_current_host_surfaces": [
     {
@@ -133,6 +144,15 @@
       "gate": "stable-audio-3-current-host",
       "activation": "CONDITIONAL_PROVIDER_REAL_E2E_AND_HRB_REQUIRED_FOR_ACCELERATED_ROUTES",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+    },
+    {
+      "name": "hrb-cuda-scoped",
+      "collector": "evidence/collect-hrb-cuda-current-host.py",
+      "gate": "bin/fa3-hrb-cuda-current-host",
+      "activation": "T7910_REFERENCE_HOST_IMMUTABLE_HISTORICAL_EVIDENCE_REHYDRATION",
+      "collection_status": "HISTORICAL_CURRENT_HOST_PASS_DIGEST_ATTESTED_REHYDRATION_AVAILABLE_CURRENT_HRB_V1_4_FULL_SCOPE_PENDING",
+      "component_scope": "HRB_V1_0_LEASE_AUTH_AND_CUDA_V1_2_EXECUTION_ONLY",
+      "global_promotion_claim": false
     }
   ],
   "global_gate_sequence": [
