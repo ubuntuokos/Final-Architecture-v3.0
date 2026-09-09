@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ebb7da255f34ed28562821c25bbc393126d4b9a0",
-    "pre_projection_root_tree_sha": "f54564b357beeca6d79a4765570400f1a009ac7d",
-    "pre_projection_canonical_tree_sha": "1ce88586d18ed8c50d67f5f4dcb942738c831dab",
-    "commits_ahead_of_v3_0_11_conformance_commit": 130,
-    "total_post_baseline_commits": 130,
-    "delta_file_count": 758,
-    "delta_added_files": 753,
+    "pre_projection_head_sha": "fe529dec1837a3fff80aef0ad56ad2e9f32dfe39",
+    "pre_projection_root_tree_sha": "507fc5ddbf0a366af4db3e43994b6de3533be5de",
+    "pre_projection_canonical_tree_sha": "327fe37a8e26c4564780240086d0a0b6fa023b85",
+    "commits_ahead_of_v3_0_11_conformance_commit": 132,
+    "total_post_baseline_commits": 132,
+    "delta_file_count": 759,
+    "delta_added_files": 754,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 429,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 88,
-    "test_files_in_post_baseline_delta": 69,
+    "test_files_in_post_baseline_delta": 70,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -543,7 +543,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 759,
+  "manifest_entry_count": 760,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -4178,6 +4178,11 @@
     {
       "path": "tests/test_mmg_context_ir.py",
       "git_blob_sha": "db3ba97981d4c602003998bcf862611b5feff3aa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_mmg_context_ir_reference.py",
+      "git_blob_sha": "49f21b45b838669ca8d41d3cca848b25c3386e29",
       "baseline_delta_status": "added"
     },
     {
