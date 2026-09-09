@@ -625,16 +625,16 @@
         "FA3-REG-003",
         "FA3-DEC-MARKETING-2026-08-31",
         "FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03",
-    "FA3-DEC-CAVEMAN-2026-08-30",
-    "FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07"
+        "FA3-DEC-CAVEMAN-2026-08-30",
+        "FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/marketing-ci-2026-08-31.json",
         "evidence/reference/tencentdb-agent-memory-ci-2026-09-03.json",
         "evidence/reference/caveman-ci-2026-08-31.json",
-    "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json",
-    "evidence/reference/obsidian-knowledge-workspace-ci-2026-09-07.json"
+        "evidence/reference/caveman-global-reconciliation-ci-2026-08-31.json",
+        "evidence/reference/obsidian-knowledge-workspace-ci-2026-09-07.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -653,27 +653,27 @@
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "production_provider_admission": false
       },
-  "caveman_provider_projection_status": {
+      "caveman_provider_projection_status": {
         "provider_id": "FA3-PROVIDER-CAVEMAN-001",
         "contract_id": "FA3-CONTEXT-TRANSFORM-CONTRACTS-001",
         "reference_gate_status": "PASS",
         "runtime_activation_status": "NOT_PROMOTED_REFERENCE_ONLY",
         "current_host_runtime_evidence": "NOT_CLAIMED",
-    "provider_runtime_required_for_global_promotion_when_disabled": false
-  },
-  "obsidian_knowledge_workspace_projection_status": {
-    "profile_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
-    "provider_ids": [
-      "FA3-PROVIDER-OBSIDIAN-001",
-      "FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001"
-    ],
-    "contract_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
-    "gate_id": "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
-    "reference_gate_status": "PASS",
-    "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
-    "current_host_runtime_evidence": "NOT_CLAIMED",
-    "local_rest_mcp_adapter_admitted": false
-  }
+        "provider_runtime_required_for_global_promotion_when_disabled": false
+      },
+      "obsidian_knowledge_workspace_projection_status": {
+        "profile_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
+        "provider_ids": [
+          "FA3-PROVIDER-OBSIDIAN-001",
+          "FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001"
+        ],
+        "contract_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+        "gate_id": "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
+        "reference_gate_status": "PASS",
+        "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "local_rest_mcp_adapter_admitted": false
+      }
     },
     {
       "evidence_id": "EVID-CAP-011-CURRENT-HOST",
@@ -1032,11 +1032,13 @@
         "FA3-REG-002",
         "FA3-REG-003",
         "NP-03",
-        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
+        "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
+        "FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
+        "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
+        "evidence/reference/gtcrn-reference-pass.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -1051,6 +1053,19 @@
         "reference_evidence": "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "runtime_status": "PENDING_CURRENT_HOST",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "gtcrn_speech_enhancement_projection_status": {
+        "provider_id": "FA3-PROVIDER-GTCRN-001",
+        "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+        "contract_id": "FA3-SPEECH-ENHANCEMENT-CONTRACTS-001",
+        "gate_id": "FA3-GTCRN-GATESET-001",
+        "reference_evidence": "evidence/reference/gtcrn-reference-pass.json",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "production_admitted": false,
+        "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_AND_ROLLBACK",
+        "pipewire_ladspa_status": "OPTIONAL_EXPERIMENTAL_NOT_REQUIRED_WHEN_DISABLED",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
