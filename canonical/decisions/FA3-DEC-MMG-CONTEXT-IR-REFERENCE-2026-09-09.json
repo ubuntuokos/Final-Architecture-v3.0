@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+  "date": "2026-09-09",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Executable provider-neutral reference implementation for FA3 Multimodal Generation Context IR",
+  "decision": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-VIDEO-001",
+  "context_ir_id": "FA3-MMG-CONTEXT-IR-001",
+  "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+  "reference_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+  "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+  "changes": [
+    "materialize deterministic stdlib-only canonical compiler/validator/projection reference",
+    "materialize executable hard projection-loss fail-closed semantics",
+    "materialize reference-content injection isolation, provenance and inference validation",
+    "materialize rational temporal and regeneration-lineage validation",
+    "materialize stable canonical round-trip/replay digest proof",
+    "materialize 18-case executable positive/negative conformance matrix",
+    "bind dedicated CLI gate through ./bin/fa3-enforce mmg-context-ir",
+    "materialize reference PASS evidence and global reconciliation evidence"
+  ],
+  "authority_boundaries_unchanged": true,
+  "canonical_semantics_changed": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_promotion_claim": false
+}
