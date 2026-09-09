@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.gimp-comfyui-interop-enforcement.v1",
+  "gate_id": "FA3-GIMP-COMFYUI-INTEROP-GATESET-001",
+  "contract_id": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001",
+  "decision_id": "FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09",
+  "fail_closed": true,
+  "p0_invariants": [
+    "EXISTING_MMG_CONTEXT_IR_REUSED_NOT_DUPLICATED",
+    "EDITOR_LAYER_SELECTION_MASK_ALPHA_SEMANTICS_PRESERVED",
+    "PROVIDER_NATIVE_WORKFLOW_SYNTAX_DOWNSTREAM_ONLY",
+    "PROVIDER_PROJECTION_LOSS_REPORT_REQUIRED",
+    "HARD_CONSTRAINT_LOSS_FAILS_CLOSED",
+    "NO_HARDCODED_GPU_MODEL_COUNT_OR_DEVICE",
+    "NO_HARDCODED_COMFYUI_ENDPOINT_AS_CANONICAL_REQUIREMENT",
+    "CUSTOM_NODE_AND_WORKFLOW_DEPENDENCIES_ADMISSION_GATED",
+    "MODEL_ARTIFACT_SECURITY_GATE_REQUIRED",
+    "NONDESTRUCTIVE_RESULT_PLACEMENT_DEFAULT",
+    "PROVIDER_FAILURE_MUST_NOT_CORRUPT_SOURCE_DOCUMENT",
+    "LIVE_TRANSPORT_OPTIONAL_AND_NON_AUTHORITY",
+    "LOCAL_FIRST_NO_CLOUD_DEPENDENCY",
+    "GPL_REFERENCE_CODE_NOT_COPIED_INTO_PERMISSIVE_FA3_COMPONENTS_WITHOUT_POLICY_CHANGE",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY"
+  ],
+  "required_existing_contracts": [
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+    "FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
+  ],
+  "provider_admission": {
+    "immutable_revision_required": true,
+    "license_inventory_required": true,
+    "dependency_inventory_required": true,
+    "workflow_inventory_and_hash_required": true,
+    "custom_node_inventory_and_hash_required_when_used": true,
+    "automatic_custom_node_install_or_update": false,
+    "runtime_endpoint_must_be_discovered_or_operator_configured": true,
+    "fixed_gpu_identity_forbidden": true
+  },
+  "document_safety": {
+    "validated_result_before_mutation": true,
+    "default_result_placement": "NEW_LAYER_OR_NEW_DOCUMENT",
+    "source_document_unchanged_on_provider_failure": true,
+    "partial_result_mutation": "FORBIDDEN"
+  },
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  }
+}
