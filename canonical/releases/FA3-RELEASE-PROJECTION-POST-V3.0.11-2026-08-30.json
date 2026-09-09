@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "821468e1d6d01657fcc426934fbd24e2b1935960",
-    "pre_projection_root_tree_sha": "7d0d080d410183bed0fc40bd0bc3a7bcabb73803",
-    "pre_projection_canonical_tree_sha": "17e5f95650b9f801f3e88cc581129783e4009c96",
-    "commits_ahead_of_v3_0_11_conformance_commit": 128,
-    "total_post_baseline_commits": 128,
-    "delta_file_count": 757,
-    "delta_added_files": 752,
+    "pre_projection_head_sha": "720da0b7f9d48ecb01b1ebac9d9ac24f96e0a951",
+    "pre_projection_root_tree_sha": "7ed03d7ca97b009bb3d70ab82b887e2665987522",
+    "pre_projection_canonical_tree_sha": "c435b42f2a7ecfd19bde2ee55e20c986bb74c019",
+    "commits_ahead_of_v3_0_11_conformance_commit": 130,
+    "total_post_baseline_commits": 130,
+    "delta_file_count": 758,
+    "delta_added_files": 753,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 430,
+    "canonical_files_in_post_baseline_delta": 431,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 69,
@@ -68,6 +68,7 @@
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
       "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
+      "canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
@@ -544,7 +545,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 758,
+  "manifest_entry_count": 759,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2299,6 +2300,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
       "git_blob_sha": "bcbca8c572aea08e5eff36c1525f41d14a1b1074",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
+      "git_blob_sha": "61e15a9803e650019b712420b905f644cd16b82e",
       "baseline_delta_status": "added"
     },
     {
