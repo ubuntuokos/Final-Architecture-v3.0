@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09",
+  "captured_on": "2026-09-09",
+  "status": "CANONICAL_REFERENCE_SNAPSHOT",
+  "source_set": [
+    {
+      "repository": "nchenevey1/gimp-comfy-tools",
+      "revision": "d61a1a2e4b42e6073aeff0bb59e3b7fa7c6a1497",
+      "observed_date": "2026-01-13",
+      "license": {"spdx": "GPL-3.0", "file": "LICENSE"},
+      "fa3_role": "REFERENCE_PATTERN_ONLY_UNDER_PERMISSIVE_CODE_ADMISSION",
+      "accepted_patterns": [
+        "GIMP_3_TEXT_TO_IMAGE_AND_IMAGE_TO_IMAGE",
+        "SELECTION_TO_INPAINT_MASK",
+        "COMFYUI_API_FORMAT_WORKFLOW_PROJECTION",
+        "RESULT_TO_NEW_LAYER",
+        "GENERATION_METADATA_ON_LAYER"
+      ]
+    },
+    {
+      "repository": "ProgrammerDruid/gimp-comfy-ai",
+      "revision": "fa6b5d30e49c0515d64c97c35c77cdd606eb1a3c",
+      "observed_date": "2025-12-16",
+      "license": {"spdx": "MIT", "file": "LICENSE"},
+      "fa3_role": "OPTIONAL_REFERENCE_IMPLEMENTATION_CANDIDATE",
+      "maintenance_caveat": "SINGLE_OBSERVED_COMMIT_AT_EVALUATION_TIME",
+      "accepted_patterns": [
+        "INPAINT",
+        "FULL_IMAGE_EDIT",
+        "NEW_LAYER_GENERATION",
+        "LAYER_COMPOSITE",
+        "OUTPAINT",
+        "REALESRGAN_UPSCALE",
+        "FILESYSTEM_INPUT_OUTPUT_TRANSPORT"
+      ]
+    },
+    {
+      "repository": "Charlweed/gimp_comfyui",
+      "revision": "afa1cabaca9109c9be53fa8e573bfb6f9431e069",
+      "observed_date": "2025-01-08",
+      "license": {"spdx": "MIT", "file": "LICENSE"},
+      "fa3_role": "OPTIONAL_ALPHA_WORKFLOW_AND_LIVE_INTEROP_REFERENCE",
+      "accepted_patterns": [
+        "GIMP_3_WORKFLOW_COUPLING",
+        "COMFYUI_WEB_API",
+        "OPTIONAL_LIVE_LAYER_PUBLISH"
+      ]
+    },
+    {
+      "repository": "Charlweed/image_transceiver",
+      "revision": "77cee9b67a5dc0d81595feee09537b05a78916c2",
+      "observed_date": "2026-05-23",
+      "license": {"spdx": "MIT", "file": "LICENSE"},
+      "fa3_role": "OPTIONAL_LIVE_IMAGE_TRANSPORT_REFERENCE",
+      "accepted_patterns": [
+        "NEAR_REALTIME_EDITOR_TO_COMFYUI_IMAGE_TRANSPORT",
+        "CUSTOM_NODE_TRANSPORT"
+      ]
+    }
+  ],
+  "fa3_mapping": {
+    "status": "OPTIONAL_REFERENCE_PROVIDER_PORTFOLIO",
+    "mapped_capabilities": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+    "canonical_root": false,
+    "architectural_authority": false,
+    "required_runtime_dependency": false,
+    "contract_id": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001",
+    "accepted_patterns": [
+      "GIMP_LAYER_SELECTION_MASK_ALPHA_INTEROP",
+      "PROVIDER_API_FORMAT_WORKFLOW_PROJECTION",
+      "NONDESTRUCTIVE_RESULT_TO_NEW_LAYER_OR_DOCUMENT",
+      "GENERATION_METADATA_AND_PROVENANCE",
+      "OPTIONAL_LIVE_IMAGE_TRANSPORT",
+      "OPTIONAL_FILESYSTEM_TRANSPORT",
+      "OUTPAINT_UPSCALE_AND_LAYER_COMPOSITE"
+    ],
+    "rejected_patterns": [
+      "PROVIDER_NATIVE_WORKFLOW_AS_CANONICAL_INTENT",
+      "AUTOMATIC_CUSTOM_NODE_INSTALL_OR_UPDATE",
+      "HARDCODED_COMFYUI_HOST_PORT_OR_GPU_AS_CANONICAL_REQUIREMENT",
+      "GPL_REFERENCE_CODE_COPY_INTO_PERMISSIVE_FA3_COMPONENTS_WITHOUT_EXPLICIT_POLICY_CHANGE",
+      "DESTRUCTIVE_SOURCE_DOCUMENT_MUTATION_BY_DEFAULT",
+      "PLUGIN_AS_ORCHESTRATION_WORKFLOW_MODEL_ROUTER_RESOURCE_SECURITY_OR_EVIDENCE_AUTHORITY"
+    ]
+  },
+  "verification": {
+    "method": "CONNECTED_GITHUB_UPSTREAM_REVIEW",
+    "verified_on": "2026-09-09",
+    "immutable_revisions_pinned": true,
+    "license_inventory_recorded": true,
+    "runtime_execution_verified": false,
+    "current_host_runtime_evidence": "NOT_CLAIMED",
+    "production_readiness_claim": false
+  }
+}
