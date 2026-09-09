@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "7b255502e3fef5275c4f6f365671e22553ee3975",
-    "pre_projection_root_tree_sha": "4f0a9ff4605c8a9d943c0bfccfbcecc7c60fa28c",
-    "pre_projection_canonical_tree_sha": "b960a9996743419dd1b6e007b5779b7cbc7fee07",
-    "commits_ahead_of_v3_0_11_conformance_commit": 149,
-    "total_post_baseline_commits": 149,
-    "delta_file_count": 751,
-    "delta_added_files": 746,
+    "pre_projection_head_sha": "5a91fc8fe027b4ed086e54cfe0ae0cd71e97ef54",
+    "pre_projection_root_tree_sha": "52cc91eca51b1915cf093c33700481bd4d59d5fa",
+    "pre_projection_canonical_tree_sha": "1a44a2d76f3bd51d159c6c637c5d9ec700f2e992",
+    "commits_ahead_of_v3_0_11_conformance_commit": 142,
+    "total_post_baseline_commits": 142,
+    "delta_file_count": 756,
+    "delta_added_files": 751,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 425,
+    "canonical_files_in_post_baseline_delta": 429,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
-    "test_files_in_post_baseline_delta": 68,
+    "test_files_in_post_baseline_delta": 69,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -217,6 +217,7 @@
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
@@ -275,6 +276,7 @@
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
@@ -541,7 +543,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 752,
+  "manifest_entry_count": 757,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1284,6 +1286,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
+      "git_blob_sha": "417986fca3c9e46f8fffac6d1eae5eccc2c192ea",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
       "git_blob_sha": "b1792a889135a7698f1306eb7f9a902d91e8fcfc",
       "baseline_delta_status": "added"
@@ -1345,7 +1352,7 @@
     },
     {
       "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
-      "git_blob_sha": "bf9cba8a16d7827f6cbc044637b8d2d4b2b9f290",
+      "git_blob_sha": "257cbaed10d878f14a9bec3f8d445f81641486dd",
       "baseline_delta_status": "added"
     },
     {
@@ -1581,6 +1588,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
       "git_blob_sha": "162622a1e55cea2efe05bb3a8253862f25d00993",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
+      "git_blob_sha": "ef6253c9633d5ba986d9f28abf620fab8959b337",
       "baseline_delta_status": "added"
     },
     {
@@ -1884,6 +1896,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/mmg-context-ir-enforcement.json",
+      "git_blob_sha": "e9b9753161cf1a0d464dabcd4caf4bf6e68197a9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/model-artifact-security-current-host-enforcement.json",
       "git_blob_sha": "d19d18988765aa0d740b50ca8f3da96204442fbf",
       "baseline_delta_status": "added"
@@ -2180,7 +2197,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VIDEO-001.json",
-      "git_blob_sha": "e27cbcb5a4516fb63118f82737c224b7016550a0",
+      "git_blob_sha": "3335796170661db1bd838e7bb191bed6d80fb8f4",
       "baseline_delta_status": "added"
     },
     {
@@ -2370,7 +2387,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
-      "git_blob_sha": "d7cb8a43905fca1f7e824622006e778959ce5e9f",
+      "git_blob_sha": "37568d549f0327b7455b34ec127709b843496f3d",
       "baseline_delta_status": "added"
     },
     {
@@ -2849,6 +2866,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-MMG-CONTEXT-IR-2026-09-09.json",
+      "git_blob_sha": "25a38b3a6270ddd7a73719ea5165ff78cb960772",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
       "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a",
       "baseline_delta_status": "added"
@@ -2905,7 +2927,7 @@
     },
     {
       "path": "canonical/video-enforcement.json",
-      "git_blob_sha": "84d59ec958743c7d327d3fb6eef11566d2325e4a",
+      "git_blob_sha": "e4a15cff239a4d576ab3377cbc8d57964e0d77bf",
       "baseline_delta_status": "added"
     },
     {
@@ -4141,6 +4163,11 @@
     {
       "path": "tests/test_minimax_h3_runtime_gate.py",
       "git_blob_sha": "48439451a35caa72a28c0a00f553807b91837f8d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_mmg_context_ir.py",
+      "git_blob_sha": "db3ba97981d4c602003998bcf862611b5feff3aa",
       "baseline_delta_status": "added"
     },
     {

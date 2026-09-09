@@ -1,0 +1,245 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+  "name": "Provider-Neutral Multimodal Generation Context Intermediate Representation Contracts",
+  "profile": "FA3-VIDEO-001",
+  "parent_contract": "FA3-VIDEO-CONTRACTS-001/VideoGenerationIR",
+  "canonical_id": "FA3-MMG-CONTEXT-IR-001",
+  "canonical_type": "MultimodalGenerationContextIR",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "MultimodalGenerationContextIR",
+    "SemanticContextGraph",
+    "SemanticEntity",
+    "SemanticRelation",
+    "ReferenceFidelityPolicy",
+    "TemporalContextGraph",
+    "ContextConstraint",
+    "ContextInferenceRecord",
+    "ContextAmbiguityRecord",
+    "ContextConflictRecord",
+    "ContextCompilerReceipt",
+    "ProviderProjectionLossReport",
+    "ContextRevisionPatch",
+    "ContextAwareRegenerationContext"
+  ],
+  "graph_layers": {
+    "source_and_provenance": [
+      "ContextSource",
+      "ReferenceArtifact",
+      "AuthorityArtifactReference",
+      "SourceProvenance",
+      "RightsEvidenceReference",
+      "TrustClassification"
+    ],
+    "semantic_context": [
+      "SemanticEntity",
+      "CharacterEntity",
+      "ObjectEntity",
+      "EnvironmentEntity",
+      "StyleDescriptor",
+      "PerformanceDescriptor",
+      "VoiceBindingReference",
+      "CameraStateReference",
+      "TextContentEntity"
+    ],
+    "reference_binding": [
+      "ReferenceBinding",
+      "ReferenceFidelityPolicy",
+      "ContextConstraint"
+    ],
+    "temporal_and_av": [
+      "TemporalContextGraph",
+      "ShotPlan",
+      "FrameAnchor",
+      "CameraEvent",
+      "PerformanceEvent",
+      "DialogueEvent",
+      "SoundEvent",
+      "StateTransition",
+      "AVSyncConstraint"
+    ]
+  },
+  "reference_model": {
+    "separation_rule": "ReferenceArtifact != SemanticEntity != ReferenceBinding",
+    "artifact_role": "PROVENANCED_SOURCE_OBJECT",
+    "semantic_entity_role": "PROVIDER_NEUTRAL_MEANING_OBJECT",
+    "reference_binding_role": "EXPLICIT_SOURCE_TO_TARGET_USAGE_RELATION",
+    "one_artifact_may_define_multiple_entities": true,
+    "one_entity_may_use_multiple_artifacts": true,
+    "one_artifact_may_have_multiple_binding_roles": true,
+    "reference_embedded_text_instruction_eligible_by_default": false
+  },
+  "semantic_relation_types": [
+    "IDENTITY_OF",
+    "APPEARANCE_FROM",
+    "COSTUME_FROM",
+    "POSE_FROM",
+    "MOTION_FROM",
+    "VOICE_FROM",
+    "STYLE_FROM",
+    "ENVIRONMENT_FROM",
+    "CAMERA_FROM",
+    "COMPOSITION_FROM",
+    "TEMPORAL_STRUCTURE_FROM",
+    "AUDIO_FROM",
+    "CONTINUES_FROM",
+    "EDIT_SOURCE",
+    "CONFLICTS_WITH"
+  ],
+  "fidelity_classes": [
+    "EXACT",
+    "STRONG",
+    "PARTIAL",
+    "ATTRIBUTE_TRANSFER",
+    "STRUCTURAL_REFERENCE",
+    "WEAK"
+  ],
+  "audio_reference_classes": [
+    "SIGNAL_COPY_EXACT",
+    "SIGNAL_COPY_PARTIAL",
+    "VOICE_REFERENCE",
+    "TIMBRE_REFERENCE",
+    "RHYTHM_REFERENCE",
+    "MUSIC_REFERENCE",
+    "SFX_REFERENCE"
+  ],
+  "inference_origins": [
+    "DECLARED",
+    "AUTHORITY_DERIVED",
+    "ARTIFACT_DERIVED",
+    "INFERRED",
+    "DEFAULTED"
+  ],
+  "inference_rules": {
+    "origin_required": true,
+    "source_refs_required_when_applicable": true,
+    "confidence_required_for_inferred_or_defaulted": true,
+    "hard_constraint_override_forbidden": true,
+    "silent_identity_inference_forbidden": true,
+    "silent_dialogue_rewrite_forbidden": true,
+    "silent_visible_text_rewrite_forbidden": true,
+    "silent_voice_identity_rewrite_forbidden": true,
+    "rights_or_license_inference_forbidden": true,
+    "security_or_policy_decision_inference_forbidden": true,
+    "hard_frame_anchor_inference_override_forbidden": true
+  },
+  "temporal_model": {
+    "time_type": "RationalTime",
+    "duration_type": "RationalDuration",
+    "floating_point_time_as_canonical_semantics": false,
+    "frame_anchor_types": [
+      "FIRST_FRAME",
+      "LAST_FRAME",
+      "KEYFRAME",
+      "COMPOSITION_ANCHOR",
+      "INTERMEDIATE_STATE"
+    ],
+    "frame_anchor_required_fields": [
+      "time",
+      "artifact_ref",
+      "target_state",
+      "tolerance",
+      "hardness"
+    ]
+  },
+  "audio_visual_semantics": {
+    "audio_scene_layers": [
+      "DialogueEvent",
+      "VoicePerformanceBinding",
+      "DiegeticSoundEvent",
+      "AmbientSoundLayer",
+      "DiegeticMusicLayer",
+      "NonDiegeticScoreLayer"
+    ],
+    "speaker_id_scope": "IR_LOCAL_ALIAS_ONLY",
+    "voice_identity_authority": "FA3-VOICE-001",
+    "distinctions": [
+      "audio_signal_copy != audio_reference",
+      "voice_identity != voice_performance",
+      "dialogue_content != voice_timbre",
+      "music_style != audio_signal"
+    ]
+  },
+  "conflict_model": {
+    "compiler_may_silently_resolve_hard_authority_conflict": false,
+    "record_type": "ContextConflictRecord",
+    "hard_conflict_state": "REQUIRED_BEFORE_EXECUTION",
+    "ambiguity_record_type": "ContextAmbiguityRecord"
+  },
+  "projection_loss_states": [
+    "PRESERVED",
+    "APPROXIMATED",
+    "DROPPED",
+    "UNSUPPORTED"
+  ],
+  "projection_rules": {
+    "loss_report_required": true,
+    "hard_dropped": "FAIL",
+    "hard_unsupported": "PROVIDER_INELIGIBLE",
+    "soft_approximated": "ALLOW_WITH_EVIDENCE",
+    "soft_dropped": "POLICY_DEPENDENT",
+    "provider_specific_prompt_syntax_downstream_only": true,
+    "provider_specific_limits_downstream_only": true
+  },
+  "regeneration_context": {
+    "type": "ContextAwareRegenerationContext",
+    "required_fields": [
+      "base_generation_ir_ref",
+      "previous_result_ref",
+      "parent_provenance_ref",
+      "regeneration_goal",
+      "frozen_constraints",
+      "mutable_constraints",
+      "allowed_delta",
+      "iteration_index"
+    ],
+    "parent_lineage_required": true,
+    "frozen_and_mutable_constraints_required": true,
+    "allowed_delta_required": true
+  },
+  "authority_boundaries": {
+    "story": "FA3-STORY-001",
+    "voice_identity": "FA3-VOICE-001",
+    "scene_spatial_camera": "FA3-DCC-RT3D-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_license_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "editorial": "OTIO_KDENLIVE",
+    "context_compiler": "NON_AUTHORITY_TRANSFORMATION"
+  },
+  "forbidden_canonical_content": [
+    "provider_native_prompt_syntax",
+    "provider_specific_reference_count_limits",
+    "provider_specific_resolution_or_duration_limits",
+    "provider_specific_context_ir_as_canonical_authority",
+    "hosted_H3_Context_IR_as_dependency",
+    "provider_selection_decisions",
+    "security_or_license_decisions_created_by_compiler"
+  ],
+  "production_requirements": [
+    "reference_rights_traceability",
+    "source_provenance",
+    "compiler_receipt",
+    "projection_loss_report",
+    "policy_and_license_admission",
+    "qc_evidence",
+    "generation_provenance"
+  ],
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_before": 143,
+    "capability_count_after": 143
+  }
+}

@@ -24,6 +24,10 @@
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "architectural_patterns": [
     "context_compilation_before_generation",
+    "reference_artifact_semantic_entity_separation",
+    "cross_modal_reference_binding",
+    "temporal_context_graph",
+    "explicit_reference_fidelity_semantics",
     "base_generation_vs_context_aware_regeneration",
     "boundary_frame_conditioning",
     "local_remote_hybrid_execution"
@@ -31,7 +35,12 @@
   "context_ir_policy": {
     "provider_context_ir": "REFERENCE_PATTERN_ONLY",
     "hosted_context_ir_required_for_fa3": false,
-    "canonical_replacement": "FA3_VIDEO_CONTEXT_COMPILER_PLUS_VideoGenerationIR"
+    "canonical_replacement": "FA3-MMG-CONTEXT-IR-001_WITHIN_VideoGenerationIR",
+    "canonical_contract": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "canonical_type": "MultimodalGenerationContextIR",
+    "provider_native_context_ir_downstream_projection_only": true,
+    "provider_native_prompt_syntax_downstream_projection_only": true,
+    "provider_limits_are_capability_metadata_not_canonical_ir": true
   },
   "execution_topologies": [
     "LOCAL",
