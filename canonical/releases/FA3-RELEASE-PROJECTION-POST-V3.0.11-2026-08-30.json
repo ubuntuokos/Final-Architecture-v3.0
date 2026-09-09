@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6a826683e9f232ca5e28212b3f0f32734ebb35ec",
-    "pre_projection_root_tree_sha": "ec58a2c7187301e46b3e82fdae82805112f740ef",
-    "pre_projection_canonical_tree_sha": "c124718db6c95f82e6053e2a469cc32ce4ae2bf3",
-    "commits_ahead_of_v3_0_11_conformance_commit": 137,
-    "total_post_baseline_commits": 137,
-    "delta_file_count": 815,
-    "delta_added_files": 810,
+    "pre_projection_head_sha": "ed01b22ff1a5050d465f49dcd8bd03761684653b",
+    "pre_projection_root_tree_sha": "299909df56013806ea9d75db1a58758fb51fa8fe",
+    "pre_projection_canonical_tree_sha": "17f76111fc29e0784f3dedd895136b6d9e985052",
+    "commits_ahead_of_v3_0_11_conformance_commit": 157,
+    "total_post_baseline_commits": 157,
+    "delta_file_count": 836,
+    "delta_added_files": 831,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 461,
-    "evidence_files_in_post_baseline_delta": 88,
-    "source_files_in_post_baseline_delta": 92,
-    "test_files_in_post_baseline_delta": 76,
-    "workflow_files_in_post_baseline_delta": 19,
+    "canonical_files_in_post_baseline_delta": 470,
+    "evidence_files_in_post_baseline_delta": 90,
+    "source_files_in_post_baseline_delta": 94,
+    "test_files_in_post_baseline_delta": 78,
+    "workflow_files_in_post_baseline_delta": 21,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -77,6 +77,7 @@
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
       "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-001.json",
+      "canonical/providers/FA3-PROVIDER-LAVASR-001.json",
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
@@ -191,6 +192,7 @@
       "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
@@ -279,6 +281,7 @@
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
@@ -341,6 +344,7 @@
       "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09.json",
       "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
@@ -402,6 +406,7 @@
       "evidence/reference/inference-portability-ci-2026-08-31.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
+      "evidence/reference/lavasr-reference-pass.json",
       "evidence/reference/loop-engineering-ci-2026-09-03.json",
       "evidence/reference/lynxhub-ci-2026-09-05.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
@@ -567,6 +572,16 @@
       "reference_evidence": "evidence/reference/gtcrn-reference-pass.json",
       "runtime_status": "PENDING_CURRENT_HOST",
       "production_admitted": false
+    },
+    "lavasr_capability_binding": {
+      "subject_id": "CAP-017",
+      "provider_id": "FA3-PROVIDER-LAVASR-001",
+      "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+      "contract_id": "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001",
+      "decision_id": "FA3-DEC-LAVASR-2026-09-09",
+      "reference_evidence": "evidence/reference/lavasr-reference-pass.json",
+      "runtime_status": "PENDING_CURRENT_HOST",
+      "production_admitted": false
     }
   },
   "promotion": {
@@ -577,7 +592,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 815,
+  "manifest_entry_count": 835,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -672,6 +687,11 @@
     {
       "path": ".github/workflows/gtcrn-reference-gate.yml",
       "git_blob_sha": "b42e43d8ecb4115d27a33072ce51fed78f57b19f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/lavasr-reference-gate.yml",
+      "git_blob_sha": "b0e7ff5ca4885f6d43c56a44d61f3d4d2a71769d",
       "baseline_delta_status": "added"
     },
     {
@@ -782,6 +802,16 @@
     {
       "path": "bin/fa3-gtcrn-enforce",
       "git_blob_sha": "30c65bea1e5af19ca46e5dfbb272d1d1b9757032",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-lavasr-bootstrap.sh",
+      "git_blob_sha": "11f4db3c6a07847fca461a526eb9b7d599828033",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-lavasr-enforce",
+      "git_blob_sha": "44f1e29b1ca9d42cecd7cccaac0cd2ec6714259c",
       "baseline_delta_status": "added"
     },
     {
@@ -955,6 +985,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-LAVASR-001.json",
+      "git_blob_sha": "cec8bddd16780fa5e134c47ff0fcad16b8c53ac4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-LOOP-ENGINEERING-001.json",
       "git_blob_sha": "450727f7a1d869d3bbe03e2b6b90fcb10b3195c5",
       "baseline_delta_status": "added"
@@ -1057,6 +1092,16 @@
     {
       "path": "canonical/FA3-GTCRN-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "a29f7b39c7946a88f4ed9d03adf0811ab845173d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-LAVASR-MODEL-ALLOWLIST-001.json",
+      "git_blob_sha": "4c12909b6af879f2c03fc587363e9dcb23502974",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-LAVASR-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "f9523a154d0e2d4961bed0ff0ee13235ff6ca261",
       "baseline_delta_status": "added"
     },
     {
@@ -1202,6 +1247,11 @@
     {
       "path": "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
       "git_blob_sha": "ebc4fd5aa831ebe913e593bcf1d21aa0cc7a607c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
+      "git_blob_sha": "637cc2897b3cda28a5e7223cda15e90bfb2880cf",
       "baseline_delta_status": "added"
     },
     {
@@ -1655,6 +1705,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
+      "git_blob_sha": "df0f5193dec308a875c0320b86926e8df64b9310",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "git_blob_sha": "43f28c1e12c6346d2142f0fbdb767cff68806e3c",
       "baseline_delta_status": "added"
@@ -1922,7 +1977,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -1987,6 +2042,11 @@
     {
       "path": "canonical/kdenlive-editorial-enforcement.json",
       "git_blob_sha": "015e67cf7df2e30b632d803d7f2cf5b227ef768b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/lavasr-enforcement.json",
+      "git_blob_sha": "61872ce0a1e4887c2ac1357161083056aa964bb2",
       "baseline_delta_status": "added"
     },
     {
@@ -2326,7 +2386,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
-      "git_blob_sha": "770217dad127f7d09911be13de194ad9694cc686",
+      "git_blob_sha": "b568c23129eac26971f9836f168092b403436923",
       "baseline_delta_status": "added"
     },
     {
@@ -2492,6 +2552,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-KRITA-001.json",
       "git_blob_sha": "7ebedd5912fe9b99e3ca9b4eac9ee051d1212ae6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-LAVASR-001.json",
+      "git_blob_sha": "945d6681ea161998c2772e7d3c48a3de6c431872",
       "baseline_delta_status": "added"
     },
     {
@@ -2895,6 +2960,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09.json",
+      "git_blob_sha": "7c16ef2abb11f140382ec59171e3953c32a4fa89",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
       "git_blob_sha": "d7ce53aab83c2179bafc7fbbac9af1d67e99665a",
       "baseline_delta_status": "added"
@@ -3060,6 +3130,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-LAVASR-2026-09-09.json",
+      "git_blob_sha": "2e97bdd1aa680258c6ef6b2d771606f8cebf53a5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-LYNXHUB-2026-09-05.json",
       "git_blob_sha": "bbfcdaa40d72a0847ba7eda144fe56f2f90de451",
       "baseline_delta_status": "added"
@@ -3097,7 +3172,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -3280,6 +3355,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/lavasr-integration.md",
+      "git_blob_sha": "f55bdd2474edc3913c1335d096076372b26f6a61",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/lynxhub-integration.md",
       "git_blob_sha": "2795162d58c3699250b540be23cbcfcd7b96c82b",
       "baseline_delta_status": "added"
@@ -3380,6 +3460,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-lavasr-current-host.py",
+      "git_blob_sha": "3c29b6448adaf5e99a530428d24d49be6d20496d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-lynxhub-current-host.py",
       "git_blob_sha": "3baf39317a626b85b0e9c3e6e9adbf2ede7524d1",
       "baseline_delta_status": "added"
@@ -3441,7 +3526,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "b7347523344b1daf8e63b8e2c37000f68cbcc77f",
+      "git_blob_sha": "dbb674d96d82210edbe769b2fd7194c175efec5f",
       "baseline_delta_status": "added"
     },
     {
@@ -3592,6 +3677,11 @@
     {
       "path": "evidence/reference/kaneo-v2.22.0.json",
       "git_blob_sha": "8e005b5d26153e6109307c9afe1fe5ca93d029fe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/lavasr-reference-pass.json",
+      "git_blob_sha": "de37f8f8130857ea2a970574ffad1c647440cfe1",
       "baseline_delta_status": "added"
     },
     {
@@ -4030,6 +4120,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_lavasr_gate.py",
+      "git_blob_sha": "5f56dfb1637abfffa42a5775d01668495c912851",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_lavasr_provider.py",
+      "git_blob_sha": "4f78ca4392d9ad33f70842a415a5cbe434dc42a7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_loop_engineering_gate.py",
       "git_blob_sha": "9b8f3d2ec8b26c1cc514757234bc09444c5cd75d",
       "baseline_delta_status": "added"
@@ -4435,6 +4535,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_lavasr_gate.py",
+      "git_blob_sha": "28e3165ed52ed7a4e5b797e90525363ec02465e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_lavasr_provider_runtime.py",
+      "git_blob_sha": "d7915e72ce3ed72cc1ccb3d8313f39f909889017",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_loop_engineering_gate.py",
       "git_blob_sha": "ff62d27f160023ed1c2ae995bb8881f875afa962",
       "baseline_delta_status": "added"
@@ -4652,6 +4762,11 @@
     {
       "path": "tools/fa3_gtcrn_global_reconcile.py",
       "git_blob_sha": "79af292f0f3633321da348f58449b4cb264e62c7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_lavasr_global_reconcile.py",
+      "git_blob_sha": "760bdc87480132d7aeef35f0769b8d9a38cce11d",
       "baseline_delta_status": "added"
     }
   ],
@@ -5615,19 +5730,23 @@
   },
   "review_notes": [
     "FA3-PROVIDER-BUZZ-001 globally reconciled to CAP-008 / FA3-DESKTOP-AGENT-WORKBENCH-001 with deterministic release/inventory/evidence projection regeneration and executable drift enforcement; Buzz remains optional, disabled by default, non-authoritative and not current-host runtime promoted.",
-    "FA3-PROVIDER-GTCRN-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional CPU-first ONNX real-time speech enhancement provider. Reference gate PASS does not promote current-host runtime; quarantine SHA-256, real ONNX audio E2E quality, RTF and rollback evidence remain required."
+    "FA3-PROVIDER-GTCRN-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional CPU-first ONNX real-time speech enhancement provider. Reference gate PASS does not promote current-host runtime; quarantine SHA-256, real ONNX audio E2E quality, RTF and rollback evidence remain required.",
+    "FA3-PROVIDER-LAVASR-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional ONNX-first speech restoration and bandwidth-extension provider. Reference PASS does not promote current-host runtime; pinned ONNX asset SHA-256, real audio E2E quality, duration/padding integrity, RTF and rollback evidence remain required."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8",
-    "regenerated_from_branch_head": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8",
+    "source_snapshot_anchor": "ed01b22ff1a5050d465f49dcd8bd03761684653b",
+    "regenerated_from_branch_head": "ed01b22ff1a5050d465f49dcd8bd03761684653b",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
     "gtcrn_deterministic_regeneration_pass": true,
-    "gtcrn_snapshot_head": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8"
+    "gtcrn_snapshot_head": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8",
+    "lavasr_reconciliation_generator": "tools/fa3_lavasr_global_reconcile.py",
+    "lavasr_deterministic_regeneration_pass": true,
+    "lavasr_snapshot_head": "ed01b22ff1a5050d465f49dcd8bd03761684653b"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -5667,6 +5786,27 @@
     "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_AND_ROLLBACK",
     "reference_gate_status": "PASS",
     "pipewire_ladspa_status": "OPTIONAL_EXPERIMENTAL_NOT_REQUIRED_WHEN_DISABLED",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "lavasr_reconciliation": {
+    "provider_id": "FA3-PROVIDER-LAVASR-001",
+    "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+    "contract_id": "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001",
+    "decision_id": "FA3-DEC-LAVASR-2026-09-09",
+    "gate_id": "FA3-LAVASR-GATESET-001",
+    "capability_id": "CAP-017",
+    "classification": "OPTIONAL_LOCAL_ONNX_FIRST_SPEECH_RESTORATION_BWE_REFERENCE_PROVIDER",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PENDING",
+    "provider_inventory_reconciled": true,
+    "evidence_registry_reconciled": true,
+    "unified_projection_regenerated": true,
+    "deterministic_regeneration_pass": true,
+    "runtime_activation_status": "NOT_PRODUCTION_PROMOTED",
+    "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_DURATION_PADDING_AND_ROLLBACK",
+    "reference_gate_status": "PASS",
+    "denoise_policy": "OPTIONAL_EXPLICIT_NO_IMPLICIT_DOUBLE_DENOISE",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
