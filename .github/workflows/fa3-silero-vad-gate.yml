@@ -10,8 +10,12 @@ on:
       - 'canonical/FA3-GATE-SILERO-VAD-001.json'
       - 'canonical/silero-vad-enforcement.json'
       - 'src/fa3_silero_vad_gate.py'
+      - 'src/fa3_silero_vad_provider.py'
       - 'tests/test_silero_vad_registry.py'
+      - 'evidence/collect-silero-vad-current-host.py'
+      - 'evidence/collect-silero-vad-promotion-current-host.py'
       - '.github/workflows/fa3-silero-vad-gate.yml'
+      - '.github/workflows/fa3-silero-vad-current-host.yml'
   push:
     branches: [ main ]
     paths:
@@ -22,8 +26,12 @@ on:
       - 'canonical/FA3-GATE-SILERO-VAD-001.json'
       - 'canonical/silero-vad-enforcement.json'
       - 'src/fa3_silero_vad_gate.py'
+      - 'src/fa3_silero_vad_provider.py'
       - 'tests/test_silero_vad_registry.py'
+      - 'evidence/collect-silero-vad-current-host.py'
+      - 'evidence/collect-silero-vad-promotion-current-host.py'
       - '.github/workflows/fa3-silero-vad-gate.yml'
+      - '.github/workflows/fa3-silero-vad-current-host.yml'
 
 permissions:
   contents: read
@@ -33,12 +41,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Syntax check executable VAD surfaces
+        run: |
+          python -m py_compile \
+            src/fa3_silero_vad_gate.py \
+            src/fa3_silero_vad_provider.py \
+            evidence/collect-silero-vad-current-host.py \
+            evidence/collect-silero-vad-promotion-current-host.py
+      - name: Bootstrap immutable upstream model identity receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fa3-silero-vad" evidence/reference/runtime
+          base='https://raw.githubusercontent.com/snakers4/silero-vad/v6.2.1/src/silero_vad/data'
+          for name in silero_vad.onnx silero_vad_16k_op15.onnx silero_vad_half.onnx; do
+            curl --fail --location --silent --show-error "$base/$name" -o "$RUNNER_TEMP/fa3-silero-vad/$name"
+          done
+          sha256sum \
+            "$RUNNER_TEMP/fa3-silero-vad/silero_vad.onnx" \
+            "$RUNNER_TEMP/fa3-silero-vad/silero_vad_16k_op15.onnx" \
+            "$RUNNER_TEMP/fa3-silero-vad/silero_vad_half.onnx" \
+            | tee evidence/reference/runtime/silero-vad-model-sha256.txt
+          stat --printf='%n %s\n' "$RUNNER_TEMP/fa3-silero-vad/"*.onnx \
+            | tee evidence/reference/runtime/silero-vad-model-size.txt
       - name: Run executable FA3 gate
         run: PYTHONPATH=src python src/fa3_silero_vad_gate.py
       - name: Run regression tests
         run: |
           python -m pip install --disable-pip-version-check pytest
           pytest -q tests/test_silero_vad_registry.py
+      - name: Upload immutable model identity receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-silero-vad-model-identity
+          path: evidence/reference/runtime/
