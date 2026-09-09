@@ -1,0 +1,90 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09",
+  "date": "2026-09-09",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "Scoped Host Resource Broker v1.0.0 and CUDA Python v1.2.0 current-host production evidence reconciliation",
+  "decision": "PRESERVE_PROVEN_CURRENT_HOST_HRB_V1_0_LEASE_AUTH_CUDA_V1_2_EXECUTION_EVIDENCE_WITHOUT_PROMOTING_CURRENT_HRB_V1_4_FULL_RUNTIME_SCOPE",
+  "profile_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001"
+  ],
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority_preserved": {
+    "host_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "cuda_execution": "FA3-CUDA-PY-001_PROVIDER_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_registry": "FA3-REGISTRY-001"
+  },
+  "proven_component_scope": {
+    "hrb_implementation_version": "1.0.0",
+    "cuda_python_version": "1.2.0",
+    "status": "CURRENT_HOST_PRODUCTION_E2E_PASS_SECURITY_REGRESSION_PASS_EVIDENCE_REGISTRY_PASS_PROMOTION_ELIGIBLE_COMPONENT_SCOPE",
+    "scope": [
+      "HRB discovery/key/state/fail-closed/zero-idle-cost conformance",
+      "authenticated state-backed accelerator lease issuance and validation",
+      "CUDA broker-auth negative security regression",
+      "direct authenticated HRB lease to CUDA execution",
+      "JIT authorization and kernel execution lineage",
+      "deterministic cleanup",
+      "external current-host evidence-registry integration"
+    ]
+  },
+  "canonical_hrb_reconciliation": {
+    "canonical_profile_version_at_reconciliation": "1.4.0",
+    "full_profile_current_host_claim": false,
+    "reason": "HRB v1.4.0 added deterministic locality, CPU/threading and systemd-manager-neutrality requirements after the proven v1.0.0 execution evidence was collected.",
+    "still_pending": "CURRENT_HOST_TOPOLOGY_LOCALITY_THREADING_AND_EFFECTIVE_SYSTEMD_CGROUP_PROJECTION_E2E"
+  },
+  "evidence": [
+    {
+      "id": "HRB-CONFORMANCE",
+      "path": "/var/lib/fa3/evidence/host-resource-broker/conformance-20260827T233036Z.json",
+      "sha256": "4249bde6a6312f5264d308ec222c72e9847fdf90dcf04be5392ab555d6ddf3f4",
+      "profile": "FA3-HOST-RESOURCE-BROKER-001",
+      "implementation_version": "1.0.0",
+      "status": "PASS"
+    },
+    {
+      "id": "CUDA-BROKER-REGRESSION",
+      "path": "/var/lib/fa3/evidence/cuda-python/broker-regression-20260827T233617Z.json",
+      "sha256": "b94a1c083f8bd0f25fae358a8be84515a6c04e1f8a6f03152af4bef399ad4f5b",
+      "profile": "FA3-CUDA-PY-001",
+      "version": "1.2.0",
+      "status": "PASS"
+    },
+    {
+      "id": "CUDA-AUTH-E2E",
+      "path": "/var/lib/fa3/evidence/cuda-python/e2e-20260827T233721Z.json",
+      "sha256": "c98a44673507f52d1c92dfff91e673fc84bb8963fef87c34c5cdc9105688f57c",
+      "profile": "FA3-CUDA-PY-001",
+      "version": "1.2.0",
+      "status": "PASS"
+    },
+    {
+      "id": "HRB-CUDA-EVIDENCE-INTEGRATION-GATE",
+      "path": "/var/lib/fa3/evidence/integration/hrb-cuda/gate-20260827T234213Z.json",
+      "sha256": "5d42396b229cea0a371289a09f7a856955c961894666fadcb5aeb9457325cfee",
+      "status": "PASS"
+    }
+  ],
+  "external_current_host_evidence_registry_records": [
+    "HRB-CONFORMANCE",
+    "CUDA-BROKER-REGRESSION",
+    "CUDA-AUTH-E2E"
+  ],
+  "repository_projection_policy": {
+    "raw_external_evidence_bytes_committed": false,
+    "digest_attestation_materialized": true,
+    "rehydration_collector_required_for_independent_byte_reverification": true,
+    "global_capability_runtime_status_change": false,
+    "conformance_matrix_change_required": false,
+    "global_evidence_registry_status_change_required": false
+  },
+  "global_promotion_claim": false,
+  "global_promotion_semantics": "COMPONENT_SCOPE_PROMOTION_ELIGIBLE_ONLY; FULL_FA3_PROMOTION_REMAINS_SUBJECT_TO_THE_19_POINT_ACCEPTANCE_GATE"
+}
