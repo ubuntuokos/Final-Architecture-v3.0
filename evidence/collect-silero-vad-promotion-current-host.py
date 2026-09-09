@@ -111,6 +111,7 @@ def main() -> int:
         "id": "FA3-SILERO-VAD-PROMOTION-EVIDENCE-001",
         "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
         "status": "FAIL",
+        "current_host_evidence_bundle_pass": False,
         "production_promotion_eligible": False,
         "document_derived": False,
         "collected_at": now(),
@@ -150,7 +151,6 @@ def main() -> int:
             minimums = case.get("minimum_metrics", manifest.get("minimum_metrics", {}))
             check_minimums(metrics, minimums, case_id)
 
-            # Re-run after explicit reset through process_audio and verify reset correctness.
             probabilities_after_reset = provider.process_audio(audio, rate)
             import numpy as np
             reset_max_abs_diff = float(np.max(np.abs(np.asarray(probabilities) - np.asarray(probabilities_after_reset))))
@@ -176,7 +176,6 @@ def main() -> int:
         if sample_rates_seen != {8000, 16000}:
             raise RuntimeError("promotion corpus must exercise both 8 kHz and 16 kHz")
 
-        # Concurrency: separate provider/session/state per worker; no shared stream state.
         concurrency_case, concurrency_rate, concurrency_audio = loaded[0]
         def run_worker(worker_id: int) -> dict[str, Any]:
             p = SileroVadProvider(args.model, args.expected_sha256, args.provider, args.hrb_lease)
@@ -194,7 +193,6 @@ def main() -> int:
             "result": "PASS",
         }
 
-        # Soak: repeatedly execute the corpus while explicitly resetting state at each file.
         soak_started = time.perf_counter()
         total_frames = 0
         for _ in range(args.soak_iterations):
@@ -209,7 +207,11 @@ def main() -> int:
         }
 
         receipt["status"] = "PASS"
-        receipt["production_promotion_eligible"] = True
+        receipt["current_host_evidence_bundle_pass"] = True
+        receipt["promotion_note"] = (
+            "Current-host VAD evidence bundle passed. Final production promotion remains owned by canonical FA3 "
+            "artifact/model admission, policy reconciliation and evidence authorities; this collector never self-promotes."
+        )
     except Exception as exc:
         receipt["errors"].append(str(exc))
 
