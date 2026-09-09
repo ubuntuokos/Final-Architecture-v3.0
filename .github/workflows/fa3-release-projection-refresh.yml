@@ -1,0 +1,42 @@
+name: FA3 Release Projection Refresh
+
+on:
+  push:
+    branches:
+      - fa3-mentor-current-host-001
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-release-projection-refresh-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[projection]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate unified release projection with canonical reconciler
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Commit reconciled projection when changed
+        shell: bash
+        run: |
+          if git diff --quiet -- canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json; then
+            echo "Release projection already reconciled."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3: reconcile Mentor current-host projection [projection]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

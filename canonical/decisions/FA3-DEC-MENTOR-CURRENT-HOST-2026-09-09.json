@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MENTOR-CURRENT-HOST-2026-09-09",
+  "date": "2026-09-09",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3 Mentor current-host production E2E materialization",
+  "decision": "ACCEPT_IMPLEMENTATION_PROJECTION_AND_REQUIRE_REAL_E2E",
+  "profile_id": "FA3-MENTOR-CURRENT-HOST-001",
+  "parent_profile_id": "FA3-MENTOR-001",
+  "gate_id": "FA3-GATE-MENTOR-CURRENT-HOST-001",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "required_real_e2e": [
+    "Central MCP typed dispatch",
+    "Knowledge/RAG provenance-bearing query",
+    "Memory read plus explicit-consent write/read via Central MCP",
+    "canonical Evidence append receipt",
+    "evidence-bound BKT/FSRS mastery update",
+    "Bubblewrap positive and negative sandbox tests"
+  ],
+  "synthetic_or_mock_evidence": "FORBIDDEN_FOR_CURRENT_HOST_PASS",
+  "global_promotion_claim": false
+}

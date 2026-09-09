@@ -62,84 +62,32 @@
     "src/fa3_stable_audio_3_gate.py",
     "tests/test_stable_audio_3_gate.py",
     "evidence/collect-stable-audio-3-current-host.py",
-    ".github/workflows/fa3-stable-audio-3-current-host.yml"
+    ".github/workflows/fa3-stable-audio-3-current-host.yml",
+    "canonical/profiles/FA3-MENTOR-CURRENT-HOST-001.json",
+    "canonical/FA3-GATE-MENTOR-CURRENT-HOST-001.json",
+    "canonical/mentor-current-host-enforcement.json",
+    "canonical/decisions/FA3-DEC-MENTOR-CURRENT-HOST-2026-09-09.json",
+    "src/fa3_mentor_current_host.py",
+    "src/fa3_mentor_current_host_gate.py",
+    "tests/test_mentor_current_host_gate.py",
+    "evidence/collect-mentor-current-host.py",
+    ".github/workflows/fa3-mentor-current-host.yml"
   ],
   "registered_current_host_surfaces": [
-    {
-      "name": "generic-host-fingerprint",
-      "collector": "evidence/collect-current-host.sh",
-      "gate": null,
-      "activation": "ALWAYS_SAFE_READ_ONLY",
-      "collection_status": "COLLECTED_UNVALIDATED"
-    },
-    {
-      "name": "terax",
-      "collector": "evidence/collect-terax-current-host.py",
-      "gate": "terax",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "codex",
-      "collector": "evidence/collect-codex-current-host.py",
-      "gate": "codex-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "modular-max-mojo",
-      "collector": "evidence/collect-modular-current-host.py",
-      "gate": "modular-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "demucs",
-      "collector": "evidence/collect-demucs-current-host.py",
-      "gate": "demucs-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "presenton",
-      "collector": "evidence/collect-presenton-current-host.py",
-      "gate": "presenton-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "ai-infra-guard",
-      "collector": "evidence/collect-ai-infra-guard-current-host.py",
-      "gate": "ai-infra-guard-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "cosyvoice",
-      "collector": "evidence/collect-cosyvoice-current-host.py",
-      "gate": "cosyvoice-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "cpu-numa-threading",
-      "collector": "evidence/collect-cpu-numa-threading-current-host.py",
-      "gate": "cpu-numa-threading-current-host",
-      "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
-    },
-    {
-      "name": "ffmpeg-neural-media",
-      "collector": "evidence/collect-ffmpeg-ai-current-host.py",
-      "gate": "ffmpeg-ai-current-host",
-      "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
-      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
-    },
-    {
-      "name": "stable-audio-3",
-      "collector": "evidence/collect-stable-audio-3-current-host.py",
-      "gate": "stable-audio-3-current-host",
-      "activation": "CONDITIONAL_PROVIDER_REAL_E2E_AND_HRB_REQUIRED_FOR_ACCELERATED_ROUTES",
-      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
-    }
+    {"name":"generic-host-fingerprint","collector":"evidence/collect-current-host.sh","gate":null,"activation":"ALWAYS_SAFE_READ_ONLY","collection_status":"COLLECTED_UNVALIDATED"},
+    {"name":"terax","collector":"evidence/collect-terax-current-host.py","gate":"terax","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"codex","collector":"evidence/collect-codex-current-host.py","gate":"codex-current-host","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"modular-max-mojo","collector":"evidence/collect-modular-current-host.py","gate":"modular-current-host","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"demucs","collector":"evidence/collect-demucs-current-host.py","gate":"demucs-current-host","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"presenton","collector":"evidence/collect-presenton-current-host.py","gate":"presenton-current-host","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"ai-infra-guard","collector":"evidence/collect-ai-infra-guard-current-host.py","gate":"ai-infra-guard-current-host","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"cosyvoice","collector":"evidence/collect-cosyvoice-current-host.py","gate":"cosyvoice-current-host","activation":"CONDITIONAL_PROVIDER"},
+    {"name":"cpu-numa-threading","collector":"evidence/collect-cpu-numa-threading-current-host.py","gate":"cpu-numa-threading-current-host","activation":"T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"},
+    {"name":"ffmpeg-neural-media","collector":"evidence/collect-ffmpeg-ai-current-host.py","gate":"ffmpeg-ai-current-host","activation":"T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED","collection_status":"EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"},
+    {"name":"stable-audio-3","collector":"evidence/collect-stable-audio-3-current-host.py","gate":"stable-audio-3-current-host","activation":"CONDITIONAL_PROVIDER_REAL_E2E_AND_HRB_REQUIRED_FOR_ACCELERATED_ROUTES","collection_status":"EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"},
+    {"name":"fa3-mentor","collector":"evidence/collect-mentor-current-host.py","gate":"mentor-current-host","activation":"MANDATORY_PROFILE_REAL_E2E_LOCAL_AUTHORITIES_AND_BUBBLEWRAP_REQUIRED","collection_status":"EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"}
   ],
-  "global_gate_sequence": [
-    "static",
-    "runtime",
-    "acceptance"
-  ],
+  "global_gate_sequence": ["static", "runtime", "acceptance"],
   "promotion": {
     "explicit_only": true,
     "command": "bin/fa3-current-host promote",

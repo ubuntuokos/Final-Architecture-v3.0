@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-MENTOR-CURRENT-HOST-001",
+  "profile_id": "FA3-MENTOR-CURRENT-HOST-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "receipt": "evidence/receipts/mentor-current-host.json",
+  "gate_module": "src/fa3_mentor_current_host_gate.py",
+  "collector": "evidence/collect-mentor-current-host.py",
+  "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E",
+  "mandatory_checks": [
+    "REAL_CURRENT_HOST_NOT_FIXTURE",
+    "MENTOR_RUNTIME_HEALTH",
+    "CENTRAL_MCP_TYPED_DISPATCH",
+    "KNOWLEDGE_RAG_PROVENANCE",
+    "MEMORY_READ_WRITE_READ_WITH_EXPLICIT_CONSENT",
+    "CANONICAL_EVIDENCE_RECEIPT",
+    "EVIDENCE_BOUND_BKT_FSRS_MASTERY_UPDATE",
+    "BUBBLEWRAP_POSITIVE_LAB",
+    "BUBBLEWRAP_NETWORK_DENY",
+    "BUBBLEWRAP_HOST_WRITE_DENY",
+    "BUBBLEWRAP_TIMEOUT_CANCELLATION",
+    "MENTOR_AUTHORITY_SEPARATION"
+  ],
+  "global_promotion_effect": "COMPONENT_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED"
+}
