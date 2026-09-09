@@ -1,47 +1,47 @@
-name: FA3 LavaSR reconcile candidate
+name: FA3 LavaSR one-shot reconcile
 
 on:
-  pull_request:
-    branches: [main]
   push:
     branches: [feat/lavasr-audio-restoration]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  reconcile-candidate:
+  reconcile:
+    if: github.repository == 'ubuntuokos/Final-Architecture-v3.0' && github.ref == 'refs/heads/feat/lavasr-audio-restoration'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: feat/lavasr-audio-restoration
           fetch-depth: 0
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Prepare CAP-017 evidence registry projection
-        run: python tools/fa3_lavasr_global_reconcile.py --prepare-only
-      - name: Detect registry commit requirement
-        id: registry
-        shell: bash
+      - name: Configure reconciliation commit identity
         run: |
-          if git diff --quiet -- evidence/evidence-registry.json; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+          git config user.name 'fa3-reconciliation-bot'
+          git config user.email 'fa3-reconciliation-bot@users.noreply.github.com'
+      - name: Patch and commit CAP-017 Evidence Registry
+        run: |
+          python tools/fa3_lavasr_global_reconcile.py --prepare-only
+          if ! git diff --quiet -- evidence/evidence-registry.json; then
+            git add evidence/evidence-registry.json
+            git commit -m 'FA3: reconcile LavaSR CAP-017 evidence registry'
           fi
-      - name: Upload prepared Evidence Registry candidate
-        if: steps.registry.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: lavasr-evidence-registry-candidate
-          path: evidence/evidence-registry.json
-      - name: Generate unified projection candidate from committed clean snapshot
-        if: steps.registry.outputs.changed == 'false'
-        run: python tools/fa3_lavasr_global_reconcile.py --projection-only --snapshot-head "$(git rev-parse HEAD)"
-      - name: Upload unified projection candidate
-        if: steps.registry.outputs.changed == 'false'
-        uses: actions/upload-artifact@v4
-        with:
-          name: lavasr-unified-projection-candidate
-          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+      - name: Regenerate and commit unified post-v3.0.11 projection
+        run: |
+          snapshot="$(git rev-parse HEAD)"
+          python tools/fa3_lavasr_global_reconcile.py --projection-only --snapshot-head "$snapshot"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'FA3: regenerate unified projection for LavaSR'
+          fi
+      - name: Remove one-shot workflow from canonical branch
+        run: |
+          git rm .github/workflows/fa3-lavasr-reconcile-once.yml
+          git commit -m 'FA3: remove one-shot LavaSR reconciliation workflow'
+      - name: Push reconciled feature branch
+        run: git push origin HEAD:feat/lavasr-audio-restoration
