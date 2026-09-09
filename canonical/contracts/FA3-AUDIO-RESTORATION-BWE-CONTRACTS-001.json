@@ -1,0 +1,119 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "parent_profile": "FA3-SPEECH-ENHANCEMENT-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "AudioRestorationRequest",
+    "AudioRestorationTransformDescriptor",
+    "BandwidthExtensionPolicy",
+    "DenoisePolicy",
+    "ResampleProjectionDescriptor",
+    "AudioRestorationResult",
+    "AudioRestorationQualityReport",
+    "AudioRestorationExecutionReceipt"
+  ],
+  "request": {
+    "required": [
+      "request_id",
+      "input_artifact_ref",
+      "input_sample_rate_hz",
+      "channels",
+      "execution_intent",
+      "provider_policy",
+      "bandwidth_extension_policy",
+      "denoise_policy"
+    ],
+    "supported_execution_intents": [
+      "OFFLINE_SPEECH_RESTORATION",
+      "TTS_POSTPROCESSING",
+      "DATASET_RESTORATION",
+      "OFFLINE_PRE_ASR",
+      "MEDIA_POSTPRODUCTION",
+      "REALTIME_OR_NEAR_REALTIME_CONDITIONING"
+    ],
+    "admitted_external_sample_rate_range_hz": [8000, 48000],
+    "sample_rate_mismatch": "FAIL_CLOSED_OR_EXPLICIT_ADMITTED_RESAMPLE_PROJECTION",
+    "channel_layout_mismatch": "FAIL_CLOSED_OR_EXPLICIT_ADMITTED_CHANNEL_PROJECTION"
+  },
+  "bandwidth_extension": {
+    "target_sample_rate_must_be_explicit": true,
+    "default_media_mezzanine_target_hz": 48000,
+    "provider_native_input_rate_may_be_narrower_than_contract": true,
+    "provider_native_rate_conversion_must_be_recorded": true,
+    "spectral_reconstruction_is_transform_not_measurement": true,
+    "source_frequencies_must_not_be_claimed_as_recovered_ground_truth": true
+  },
+  "denoise": {
+    "default": "DISABLED_UNLESS_EXPLICITLY_REQUESTED",
+    "denoise_provider_selection_separate_from_bwe_provider_selection": true,
+    "implicit_double_denoise": "FORBIDDEN",
+    "cascaded_denoise_requires_explicit_policy_and_quality_evidence": true,
+    "already_denoised_input_must_be_declared": true
+  },
+  "execution_provider": {
+    "selection_authority": "FA3-AUTH-MODEL-ROUTER-001_PLUS_FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "cpu_baseline_allowed": true,
+    "accelerator_optional": true,
+    "accelerator_requires_hrb_admission": true,
+    "silent_cpu_fallback": false,
+    "silent_gpu_fallback": false,
+    "provider_runtime_network_fetch": false
+  },
+  "model_admission": {
+    "overlay": "FA3-MODEL-ARTIFACT-SECURITY-001",
+    "immutable_source_revision_required": true,
+    "runtime_source_revision_required": true,
+    "sha256_required_before_direct_runtime": true,
+    "onnx_preferred_when_supported": true,
+    "dangerous_serialization_direct_runtime_load": "FORBIDDEN",
+    "conversion_from_dangerous_serialization": "ISOLATED_QUARANTINE_ONLY_WITH_SECURITY_RECEIPT",
+    "release_asset_hash_verification_required": true
+  },
+  "audio_integrity": {
+    "finite_samples_required": true,
+    "duration_and_timebase_preserved_unless_explicit_transform": true,
+    "batch_padding_must_not_leak_to_output": true,
+    "clipping_policy_explicit": true,
+    "peak_and_clipped_sample_metrics_required": true,
+    "dc_offset_and_gain_change_measured": true,
+    "input_output_hashes_required": true,
+    "clean_speech_regression_required": true,
+    "degraded_speech_quality_regression_required": true,
+    "bwe_spectral_quality_evidence_required_for_promotion": true
+  },
+  "result": {
+    "required": [
+      "request_id",
+      "provider_id",
+      "model_artifact_set_id",
+      "execution_provider",
+      "input_sha256",
+      "output_sha256",
+      "input_sample_rate_hz",
+      "provider_native_sample_rate_hz",
+      "output_sample_rate_hz",
+      "channels",
+      "denoise_applied",
+      "rtf",
+      "quality_report_ref",
+      "evidence_ref"
+    ]
+  },
+  "adapter_boundaries": {
+    "asr_preprocessor": "ALLOWED_PROJECTION_WITH_MEASURED_WER_OR_CER_REGRESSION_WHEN_PROMOTED_FOR_ASR",
+    "tts_postprocessor": "ALLOWED_PROJECTION_WITH_QUALITY_EVIDENCE",
+    "dataset_restoration": "ALLOWED_PROJECTION_WITH_DERIVED_ARTIFACT_LINEAGE",
+    "daw_nle_postproduction": "ALLOWED_PROJECTION",
+    "comfyui_node": "OPTIONAL_NON_AUTHORITATIVE",
+    "audio_device_routing_authority": false,
+    "workflow_authority": false,
+    "inference_authority": false,
+    "model_registry_authority": false
+  }
+}
