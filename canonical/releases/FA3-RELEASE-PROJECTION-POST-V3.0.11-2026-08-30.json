@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "720da0b7f9d48ecb01b1ebac9d9ac24f96e0a951",
-    "pre_projection_root_tree_sha": "7ed03d7ca97b009bb3d70ab82b887e2665987522",
-    "pre_projection_canonical_tree_sha": "c435b42f2a7ecfd19bde2ee55e20c986bb74c019",
-    "commits_ahead_of_v3_0_11_conformance_commit": 130,
-    "total_post_baseline_commits": 130,
-    "delta_file_count": 758,
-    "delta_added_files": 753,
+    "pre_projection_head_sha": "5a089ae348f7920598125ad867932418ea8a4176",
+    "pre_projection_root_tree_sha": "17cc2888000f57cd7ea620a8e95682fde22de5a1",
+    "pre_projection_canonical_tree_sha": "af5637518998e74c1d31655528cfeaef34be1510",
+    "commits_ahead_of_v3_0_11_conformance_commit": 132,
+    "total_post_baseline_commits": 132,
+    "delta_file_count": 759,
+    "delta_added_files": 754,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 431,
+    "canonical_files_in_post_baseline_delta": 432,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 69,
@@ -260,6 +260,7 @@
       "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
+      "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
@@ -545,7 +546,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 759,
+  "manifest_entry_count": 760,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1505,6 +1506,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
+      "git_blob_sha": "aa55f4250e6256d34640f3c611d0c93a0de5d24d",
       "baseline_delta_status": "added"
     },
     {
