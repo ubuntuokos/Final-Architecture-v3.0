@@ -1,0 +1,26 @@
+{
+  "id": "FA3-DEC-GIMP-LOCAL-AI-2026-09-08",
+  "kind": "architectural_decision",
+  "date": "2026-09-08",
+  "status": "ACCEPTED",
+  "decision": "Materialize local AI-assisted raster editing as a specialized projection of FA3-IMGGEN-001, not as a new capability or authority.",
+  "profile": "FA3-AI-IMAGE-EDITING-001",
+  "rationale": [
+    "GIMP 3.x is the primary raster authoring frontend, not a model or orchestration authority.",
+    "ComfyUI is the primary local generative workflow backend while Forge and stable-diffusion.cpp remain replaceable alternatives.",
+    "Standalone local operation and FA3-governed operation are both required.",
+    "Hardware binding must be discovered dynamically so accelerator replacement does not require GIMP-side reconfiguration."
+  ],
+  "invariants": {
+    "capability_count": 143,
+    "new_architectural_authorities": 0,
+    "concrete_gpu_sku_dependency": false,
+    "frontend_provider_lock_in": false
+  },
+  "supersedes": [],
+  "related": [
+    "FA3-IMGGEN-001",
+    "FA3-IMGGEN-CONTRACTS-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ]
+}

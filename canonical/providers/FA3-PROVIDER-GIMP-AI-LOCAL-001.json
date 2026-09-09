@@ -1,0 +1,59 @@
+{
+  "id": "FA3-PROVIDER-GIMP-AI-LOCAL-001",
+  "kind": "provider_bundle",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile": "FA3-AI-IMAGE-EDITING-001",
+  "providers": [
+    {
+      "id": "GIMP-3X",
+      "role": "PRIMARY_RASTER_FRONTEND",
+      "classification": "PRIMARY",
+      "authority": false
+    },
+    {
+      "id": "COMFYUI",
+      "role": "LOCAL_GENERATIVE_WORKFLOW_BACKEND",
+      "classification": "PRIMARY",
+      "replaceable": true
+    },
+    {
+      "id": "PROGRAMMERDRUID-GIMP-COMFY-AI",
+      "upstream": "https://github.com/ProgrammerDruid/gimp-comfy-ai",
+      "role": "GIMP_COMFYUI_BRIDGE_REFERENCE",
+      "classification": "STRONG_REFERENCE_PROVIDER"
+    },
+    {
+      "id": "STABLE-GIMPFUSION-3",
+      "upstream": "https://github.com/shsmad/stable-gimpfusion3",
+      "role": "GIMP_FORGE_BRIDGE",
+      "classification": "OPTIONAL_PROVIDER"
+    },
+    {
+      "id": "THEMANYONE-GIMP-PLUGINS",
+      "upstream": "https://github.com/themanyone/gimp-plugins",
+      "role": "STABLE_DIFFUSION_CPP_GGUF_AND_AI_PLUGIN_PATTERN_SOURCE",
+      "classification": "EXPERIMENTAL_STRONG_PATTERN_SOURCE"
+    },
+    {
+      "id": "GIMP-AI-INPAINTING",
+      "upstream": "https://github.com/KedarPanchal/GIMP-AI-Inpainting",
+      "role": "LOCAL_INPAINTING_REFERENCE",
+      "classification": "OPTIONAL_REFERENCE_PROVIDER"
+    },
+    {
+      "id": "SHOTSAN-GIMP-MCP",
+      "upstream": "https://github.com/shotsan/gimp-mcp",
+      "role": "AGENT_CONTROL_REFERENCE",
+      "classification": "EXPERIMENTAL_STRONG_REFERENCE",
+      "mcp_authority": false
+    }
+  ],
+  "backend_interchange": ["COMFYUI", "FORGE", "STABLE_DIFFUSION_CPP"],
+  "constraints": {
+    "all_backends_replaceable": true,
+    "gimp_is_frontend_not_authority": true,
+    "mcp_provider_must_use_existing_fa3_mcp_authority_in_fa3_governed_mode": true,
+    "standalone_mode_must_not_require_fa3": true
+  }
+}
