@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "416656cab1724c8deba0263750889619803f1033",
-    "pre_projection_root_tree_sha": "b056f62b8c0bb787fe60015ac7d86b683fe53fec",
-    "pre_projection_canonical_tree_sha": "225add566a44e28e3d73b8df69487e8368413679",
-    "commits_ahead_of_v3_0_11_conformance_commit": 129,
-    "total_post_baseline_commits": 129,
-    "delta_file_count": 786,
-    "delta_added_files": 781,
+    "pre_projection_head_sha": "42fb2a25deeb66518efc747d9c9bae870dd8e932",
+    "pre_projection_root_tree_sha": "d919252236fb9812fe80e3fbdf483bf35f6cc904",
+    "pre_projection_canonical_tree_sha": "369c53eb029b950ab7cee9fd8b91b42873ffbac2",
+    "commits_ahead_of_v3_0_11_conformance_commit": 131,
+    "total_post_baseline_commits": 131,
+    "delta_file_count": 787,
+    "delta_added_files": 782,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,7 +47,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 448,
     "evidence_files_in_post_baseline_delta": 84,
-    "source_files_in_post_baseline_delta": 89,
+    "source_files_in_post_baseline_delta": 90,
     "test_files_in_post_baseline_delta": 73,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
@@ -559,7 +559,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 787,
+  "manifest_entry_count": 788,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -3854,6 +3854,11 @@
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "7da2b956962db144606c42bc54f6d22f0a5d47f5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hrb_systemd_manager_current_host_gate.py",
+      "git_blob_sha": "99b033fe6c0cb5dc60082a8158b325982b533b46",
       "baseline_delta_status": "added"
     },
     {
