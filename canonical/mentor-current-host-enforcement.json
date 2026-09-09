@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.mentor-current-host-enforcement.v1",
+  "profile_id": "FA3-MENTOR-CURRENT-HOST-001",
+  "gate_id": "FA3-GATE-MENTOR-CURRENT-HOST-001",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "fail_closed": true,
+  "config_discovery": {
+    "environment": "FA3_MENTOR_CURRENT_HOST_CONFIG",
+    "default": "$HOME/.config/fa3/mentor-current-host.json",
+    "secrets_in_repository_forbidden": true,
+    "token_value_persistence_forbidden": true
+  },
+  "network_policy": {
+    "authority_endpoints_loopback_by_default": true,
+    "explicit_non_loopback_override_required": true,
+    "practice_lab_network": "DENY"
+  },
+  "sandbox_policy": {
+    "required_backend": "bubblewrap",
+    "host_root_read_only": true,
+    "writable_host_paths": [],
+    "tmpfs_only_writable_workspace": true,
+    "bounded_wall_time": true,
+    "timeout_must_terminate": true
+  },
+  "memory_e2e_policy": {
+    "unique_ephemeral_namespace_required": true,
+    "explicit_user_consent": true,
+    "ttl_seconds_max": 600,
+    "write_must_route_via_central_mcp": true,
+    "cleanup_or_ttl_required": true
+  },
+  "evidence_policy": {
+    "canonical_evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+    "mastery_update_requires_evidence_ref": true,
+    "raw_auth_tokens_in_receipt_forbidden": true,
+    "synthetic_receipt_forbidden_for_promotion": true
+  }
+}
