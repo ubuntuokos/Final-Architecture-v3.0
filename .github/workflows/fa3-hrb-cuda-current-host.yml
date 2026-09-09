@@ -1,0 +1,89 @@
+name: FA3 HRB CUDA Scoped Current-Host Evidence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-HRB-CUDA-CURRENT-HOST-001.json'
+      - 'canonical/hrb-cuda-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-HRB-CUDA-CURRENT-HOST-2026-09-09.json'
+      - 'canonical/profiles/FA3-CUDA-PY-001.json'
+      - 'canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json'
+      - 'src/fa3_hrb_cuda_current_host_gate.py'
+      - 'evidence/collect-hrb-cuda-current-host.py'
+      - 'evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json'
+      - 'tests/test_hrb_cuda_current_host_gate.py'
+      - 'bin/fa3-hrb-cuda-current-host'
+      - 'fa3-current-host/manifest.json'
+      - '.github/workflows/fa3-hrb-cuda-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Rehydrate and byte-verify the immutable HRB/CUDA evidence on fa3-current-host'
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: hrb-cuda-current-host / static-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_hrb_cuda_current_host_gate.py evidence/collect-hrb-cuda-current-host.py
+      - name: Fail-closed contract regression
+        run: PYTHONPATH=src python -m unittest tests.test_hrb_cuda_current_host_gate -v
+      - name: Validate immutable digest attestation
+        run: python src/fa3_hrb_cuda_current_host_gate.py --root . --reference-only
+
+  current-host:
+    name: hrb-cuda-current-host / byte-rehydration
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(hostname)" = 'horvath-precisiontower7910'
+          command -v python3
+          sudo -n true
+          test -f /var/lib/fa3/evidence/host-resource-broker/conformance-20260827T233036Z.json
+          test -f /var/lib/fa3/evidence/cuda-python/broker-regression-20260827T233617Z.json
+          test -f /var/lib/fa3/evidence/cuda-python/e2e-20260827T233721Z.json
+          test -f /var/lib/fa3/evidence/integration/hrb-cuda/gate-20260827T234213Z.json
+      - name: Rehydrate immutable evidence and registry records
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo -n python3 evidence/collect-hrb-cuda-current-host.py --root "$GITHUB_WORKSPACE" --source-root /
+          sudo -n python3 src/fa3_hrb_cuda_current_host_gate.py --root "$GITHUB_WORKSPACE"
+          sudo -n chown "$(id -u):$(id -g)" evidence/receipts/hrb-cuda-current-host.json reports/hrb-cuda-current-host-gate-report.json
+      - name: Upload rehydrated current-host receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-hrb-cuda-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/hrb-cuda-current-host.json
+            reports/hrb-cuda-current-host-gate-report.json
