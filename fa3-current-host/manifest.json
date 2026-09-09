@@ -62,7 +62,13 @@
     "src/fa3_stable_audio_3_gate.py",
     "tests/test_stable_audio_3_gate.py",
     "evidence/collect-stable-audio-3-current-host.py",
-    ".github/workflows/fa3-stable-audio-3-current-host.yml"
+    ".github/workflows/fa3-stable-audio-3-current-host.yml",
+    "canonical/FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001.json",
+    "canonical/hrb-systemd-manager-current-host-enforcement.json",
+    "src/fa3_hrb_systemd_manager_current_host_gate.py",
+    "tests/test_hrb_systemd_manager_current_host_gate.py",
+    "evidence/collect-hrb-systemd-manager-current-host.py",
+    ".github/workflows/fa3-hrb-systemd-manager-current-host.yml"
   ],
   "registered_current_host_surfaces": [
     {
@@ -71,6 +77,15 @@
       "gate": null,
       "activation": "ALWAYS_SAFE_READ_ONLY",
       "collection_status": "COLLECTED_UNVALIDATED"
+    },
+    {
+      "name": "hrb-systemd-manager-neutrality",
+      "collector": "evidence/collect-hrb-systemd-manager-current-host.py",
+      "gate": "src/fa3_hrb_systemd_manager_current_host_gate.py",
+      "activation": "ANY_HOST_MEETING_FA3_HARDWARE_BASELINE_DYNAMIC_DISCOVERY",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "machine_model_pin": "FORBIDDEN",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     },
     {
       "name": "terax",

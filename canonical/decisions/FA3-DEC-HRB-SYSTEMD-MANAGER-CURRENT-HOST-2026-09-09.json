@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09",
+  "date": "2026-09-09",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "Hardware-portable current-host HRB/systemd Manager neutrality validation",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_CURRENT_HOST_RESOURCE_PROJECTION_VALIDATION_WITHOUT_MACHINE_IDENTITY",
+  "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "hardware_profile_id": "FA3-HARDWARE-BASELINE-001",
+  "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "gate_id": "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": [
+    "live dynamic 1..N CPU package discovery with portable minimum validation",
+    "live dynamic 1..N NVIDIA RTX discovery with RTX 30-series-or-newer portable floor",
+    "exact GPU UUID PCI BDF name VRAM and driver values as current-host evidence only",
+    "merged systemd Manager configuration inspection through systemd-analyze cat-config",
+    "operator global CPUAffinity NUMAPolicy NUMAMask and unsafe unbounded defaults fail closed",
+    "host-global lifecycle or file-descriptor overrides require an approved expiring HostSurvivalPolicyReceipt",
+    "unified cgroup v2 effective cpuset and memory-node substrate evidence",
+    "negative tests for forbidden manager-global AI/HPC tuning",
+    "current-host PASS remains component-scoped and cannot promote global FA3 runtime"
+  ],
+  "explicitly_rejected": [
+    "Dell T7910 or any other machine model as admission identity",
+    "CPU vendor model or fixed socket count as current-host admission identity",
+    "fixed GPU SKU VRAM SM device count PCI BDF or CUDA ordinal as portable requirement",
+    "reuse of a machine-specific reference collector as the general FA3 hardware admission gate",
+    "document-only or hosted-CI evidence presented as real current-host PASS"
+  ],
+  "reference_host_policy": "EXISTING_MACHINE_SPECIFIC_REFERENCE_EVIDENCE_MAY_REMAIN_NON_NORMATIVE_BUT_CANNOT_DEFINE_PORTABLE_ADMISSION",
+  "current_host_claim": "REAL_EXECUTION_PENDING_ANY_HOST_MEETING_FA3_HARDWARE_BASELINE"
+}
