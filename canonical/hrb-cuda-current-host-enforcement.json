@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.hrb-cuda-current-host-enforcement.v1",
+  "gate_id": "FA3-HRB-CUDA-CURRENT-HOST-GATESET-001",
+  "executable_gate_id": "FA3-GATE-HRB-CUDA-CURRENT-HOST-001",
+  "runtime_conformance_id": "FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001",
+  "decision_id": "FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09",
+  "profile_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001"
+  ],
+  "capability_count": 143,
+  "fail_closed": true,
+  "component_scope_only": true,
+  "canonical_hrb_v1_4_full_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "mandatory_rule_count": 10,
+  "rules": [
+    {
+      "id": "HRB-CUDA-HOST-001",
+      "invariant": "EXACT_EXTERNAL_EVIDENCE_DIGESTS_REQUIRED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-002",
+      "invariant": "EXTERNAL_EVIDENCE_REGISTRY_RECORDS_MUST_BE_PASS_AND_MATCH_SOURCE_DIGESTS",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-003",
+      "invariant": "HRB_IMPLEMENTATION_EVIDENCE_IS_SCOPED_TO_VERSION_1_0_0",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-004",
+      "invariant": "CUDA_PYTHON_VERSION_1_2_0_BROKER_AUTH_SECURITY_REGRESSION_REQUIRED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-005",
+      "invariant": "DIRECT_AUTHENTICATED_HRB_LEASE_TO_CUDA_EXECUTION_E2E_REQUIRED",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-006",
+      "invariant": "HRB_REMAINS_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-007",
+      "invariant": "CUDA_PYTHON_REMAINS_EXECUTION_PROVIDER_NOT_AUTHORITY",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-008",
+      "invariant": "CURRENT_CANONICAL_HRB_V1_4_FULL_LOCALITY_THREADING_RUNTIME_PASS_MUST_NOT_BE_INFERRED_FROM_V1_0_EVIDENCE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-009",
+      "invariant": "CAPABILITY_COUNT_REMAINS_143_WITH_ZERO_NEW_AUTHORITIES",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HRB-CUDA-HOST-010",
+      "invariant": "COMPONENT_PROMOTION_ELIGIBILITY_MUST_NOT_SET_GLOBAL_FA3_PROMOTION",
+      "priority": "P0",
+      "mandatory": true
+    }
+  ]
+}
