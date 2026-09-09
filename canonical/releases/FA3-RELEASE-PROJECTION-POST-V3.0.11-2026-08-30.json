@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2ccbc54e7fae23b2099ebfd36c2a04b03b403c23",
-    "pre_projection_root_tree_sha": "8e2a4a3c52aea0c1f6943f47cc8c02c3e8b2ce57",
-    "pre_projection_canonical_tree_sha": "f231c59851c7e1bfa39caed07436aa15d1cba5fb",
-    "commits_ahead_of_v3_0_11_conformance_commit": 139,
-    "total_post_baseline_commits": 139,
-    "delta_file_count": 763,
-    "delta_added_files": 758,
+    "pre_projection_head_sha": "4d31d97122c6571896c880f72a3ff1c7e2258f0a",
+    "pre_projection_root_tree_sha": "c6e3a6ff3f0128ee510f686c287261cfedc0582a",
+    "pre_projection_canonical_tree_sha": "86273430642307b6499060f210376bceb57d2472",
+    "commits_ahead_of_v3_0_11_conformance_commit": 142,
+    "total_post_baseline_commits": 142,
+    "delta_file_count": 765,
+    "delta_added_files": 760,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 433,
     "evidence_files_in_post_baseline_delta": 83,
     "source_files_in_post_baseline_delta": 87,
-    "test_files_in_post_baseline_delta": 69,
+    "test_files_in_post_baseline_delta": 70,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -545,7 +545,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 764,
+  "manifest_entry_count": 766,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -735,6 +735,11 @@
     {
       "path": "bin/fa3-gpu-kernel-benchmark",
       "git_blob_sha": "656c6dcb904f056e26c9039540dd9f3492f2cf4c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-hrb-cuda-current-host",
+      "git_blob_sha": "8faec90d9519df2361ce2860c77f4ad8f03f2c76",
       "baseline_delta_status": "added"
     },
     {
@@ -4130,6 +4135,11 @@
     {
       "path": "tests/test_hardware_portability_gate.py",
       "git_blob_sha": "a112bf27037dbfb52cc1d8dcefcdc9f973d21ff0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_cuda_current_host_gate.py",
+      "git_blob_sha": "76ea7cc5c734027ac1c81947eb0e5834381078e5",
       "baseline_delta_status": "added"
     },
     {
