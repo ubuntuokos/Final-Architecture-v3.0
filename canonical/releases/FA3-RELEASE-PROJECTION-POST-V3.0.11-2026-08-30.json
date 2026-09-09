@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "5a91fc8fe027b4ed086e54cfe0ae0cd71e97ef54",
-    "pre_projection_root_tree_sha": "52cc91eca51b1915cf093c33700481bd4d59d5fa",
-    "pre_projection_canonical_tree_sha": "1a44a2d76f3bd51d159c6c637c5d9ec700f2e992",
-    "commits_ahead_of_v3_0_11_conformance_commit": 142,
-    "total_post_baseline_commits": 142,
-    "delta_file_count": 756,
-    "delta_added_files": 751,
+    "pre_projection_head_sha": "a77e60d2451eb71541988476fab4790b7feec73f",
+    "pre_projection_root_tree_sha": "19f2c1087ffab4c6e05471fbbfbb62f28e786945",
+    "pre_projection_canonical_tree_sha": "af5a631005e0eaf6a30a9f5bc7459f94e692de3e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 132,
+    "total_post_baseline_commits": 132,
+    "delta_file_count": 768,
+    "delta_added_files": 763,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 429,
-    "evidence_files_in_post_baseline_delta": 81,
-    "source_files_in_post_baseline_delta": 86,
-    "test_files_in_post_baseline_delta": 69,
-    "workflow_files_in_post_baseline_delta": 17,
+    "canonical_files_in_post_baseline_delta": 433,
+    "evidence_files_in_post_baseline_delta": 83,
+    "source_files_in_post_baseline_delta": 88,
+    "test_files_in_post_baseline_delta": 70,
+    "workflow_files_in_post_baseline_delta": 19,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -164,6 +164,7 @@
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
+      "canonical/profiles/FA3-MENTOR-CURRENT-HOST-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
       "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json",
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
@@ -272,6 +273,7 @@
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-MENTOR-CURRENT-HOST-2026-09-09.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
@@ -578,7 +580,7 @@
     {
       "path": ".github/workflows/fa3-mentor-current-host.yml",
       "git_blob_sha": "df3ded87c243624714b21fd70cac78dee0165be8",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-minimax-h3-current-host.yml",
@@ -627,8 +629,8 @@
     },
     {
       "path": ".github/workflows/fa3-release-projection-refresh.yml",
-      "git_blob_sha": "6f05da05da443e79956e255afb479bd40bd24c6d",
-      "baseline_delta_status": "mentor_current_host_update"
+      "git_blob_sha": "5c5c5bf5e817671171092e7c61bbeb74b5256ec7",
+      "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
@@ -923,7 +925,7 @@
     {
       "path": "canonical/FA3-GATE-MENTOR-CURRENT-HOST-001.json",
       "git_blob_sha": "007fc8e3fe1ed9a5aafe1159b36725ae6b4b3c81",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-MUNDER-DIFFLIN-001.json",
@@ -1588,7 +1590,7 @@
     {
       "path": "canonical/decisions/FA3-DEC-MENTOR-CURRENT-HOST-2026-09-09.json",
       "git_blob_sha": "b2b3360c440eca6452609e6d902aacd337eca08a",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
@@ -1908,7 +1910,7 @@
     {
       "path": "canonical/mentor-current-host-enforcement.json",
       "git_blob_sha": "a66018d04b2ebb966794115c2d0ab49cb5852cf1",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/mentor-enforcement.json",
@@ -2158,7 +2160,7 @@
     {
       "path": "canonical/profiles/FA3-MENTOR-CURRENT-HOST-001.json",
       "git_blob_sha": "43868fd9f63ea08dc2bb2dfc8a3af566a2c1e879",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-MESH-GEN-001.json",
@@ -3193,7 +3195,7 @@
     {
       "path": "evidence/collect-mentor-current-host.py",
       "git_blob_sha": "011e00a3ef8ad5791bbd046fe4888d1936f83eb1",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/collect-minimax-h3-current-host.py",
@@ -3583,7 +3585,7 @@
     {
       "path": "fa3-current-host/mentor-current-host.example.json",
       "git_blob_sha": "d7b6aebc6f726a3f385f6345bf162725ae7d194f",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
@@ -3828,12 +3830,12 @@
     {
       "path": "src/fa3_mentor_current_host.py",
       "git_blob_sha": "51853daffac13b19aae35a1f372b793de231b4f2",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_mentor_current_host_gate.py",
       "git_blob_sha": "bd19be6c9052543266a89c375cf68a559d7a12ca",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_mentor_gate.py",
@@ -4203,7 +4205,7 @@
     {
       "path": "tests/test_mentor_current_host_gate.py",
       "git_blob_sha": "36fa71f4b16b333321bc75df73ab5ad36b49e332",
-      "baseline_delta_status": "mentor_current_host_update"
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_mentor_gate.py",
