@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-HRB-CUDA-CURRENT-HOST-2026-09-09",
+  "date": "2026-09-09",
+  "status": "MATERIALIZATION_PROJECTION",
+  "source_decision_id": "FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09",
+  "profile_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001"
+  ],
+  "runtime_conformance_id": "FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001",
+  "gate_id": "FA3-HRB-CUDA-CURRENT-HOST-GATESET-001",
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_SCOPED_CURRENT_HOST_EVIDENCE_RECONCILIATION",
+  "canonical_source_changes": [
+    "canonical/decisions/FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09.json",
+    "canonical/FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-HRB-CUDA-CURRENT-HOST-001.json",
+    "canonical/hrb-cuda-current-host-enforcement.json",
+    "canonical/profiles/FA3-CUDA-PY-001.json",
+    "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
+    "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
+    "evidence/collect-hrb-cuda-current-host.py",
+    "src/fa3_hrb_cuda_current_host_gate.py",
+    "tests/test_hrb_cuda_current_host_gate.py",
+    "bin/fa3-hrb-cuda-current-host",
+    ".github/workflows/fa3-hrb-cuda-current-host.yml",
+    "fa3-current-host/manifest.json"
+  ],
+  "scope_reconciliation": {
+    "proven_hrb_implementation_version": "1.0.0",
+    "current_canonical_hrb_profile_version": "1.4.0",
+    "cuda_python_version": "1.2.0",
+    "component_status": "CURRENT_HOST_PRODUCTION_E2E_PASS_SECURITY_REGRESSION_PASS_EVIDENCE_REGISTRY_PASS_PROMOTION_ELIGIBLE",
+    "hrb_v1_4_full_runtime_status": "PENDING_CURRENT_HOST_TOPOLOGY_LOCALITY_THREADING_AND_EFFECTIVE_SYSTEMD_CGROUP_PROJECTION_E2E",
+    "forbid_version_scope_overclaim": true
+  },
+  "evidence_projection": {
+    "raw_current_host_artifacts_committed": false,
+    "immutable_digest_attestation": "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
+    "independent_byte_rehydration_collector": "evidence/collect-hrb-cuda-current-host.py",
+    "current_host_workflow": ".github/workflows/fa3-hrb-cuda-current-host.yml",
+    "global_evidence_registry_status_change_required": false,
+    "conformance_matrix_runtime_status_change_required": false,
+    "reason": "The evidence closes only the historical HRB v1.0 lease/auth plus CUDA v1.2 execution component scope; it does not satisfy the expanded HRB v1.4 runtime obligations."
+  },
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "component_promotion_eligible": true,
+  "runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "regression_gate": "tests/test_hrb_cuda_current_host_gate.py"
+}
