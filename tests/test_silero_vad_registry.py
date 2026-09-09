@@ -64,15 +64,24 @@ def test_no_remembered_current_host_identity_is_portable_requirement():
         assert remembered_identity not in serialized
 
 
-def test_model_admission_is_onnx_first_and_runtime_download_is_forbidden():
+def test_model_admission_is_onnx_first_runtime_download_forbidden_and_sha256_bound():
     provider = load("canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json")
     allowlist = load("canonical/FA3-SILERO-VAD-MODEL-ALLOWLIST-001.json")
+    bootstrap = load("evidence/reference/FA3-SILERO-VAD-MODEL-BOOTSTRAP-IDENTITY-001.json")
     assert provider["model_policy"]["preferred_format"] == "ONNX"
     assert provider["model_policy"]["runtime_torch_hub_loading"] is False
     assert provider["model_policy"]["runtime_auto_download"] is False
     assert provider["model_policy"]["runtime_network_acquisition"] is False
     assert allowlist["production_sha256_required"] is True
-    assert all(a["production_admitted"] is False for a in allowlist["artifacts"])
+    assert allowlist["bootstrap_identity_receipt"] == bootstrap["id"]
+    evidence = {item["name"]: item for item in bootstrap["artifacts"]}
+    for artifact in allowlist["artifacts"]:
+        assert len(artifact["sha256"]) == 64
+        int(artifact["sha256"], 16)
+        assert artifact["identity_admitted"] is True
+        assert artifact["production_admitted"] is False
+        assert evidence[artifact["name"]]["sha256"] == artifact["sha256"]
+        assert evidence[artifact["name"]]["size_bytes"] == artifact["size_bytes"]
 
 
 def test_hrb_lease_is_required_for_accelerator_and_not_for_cpu(tmp_path):
@@ -94,11 +103,13 @@ def test_hrb_lease_is_required_for_accelerator_and_not_for_cpu(tmp_path):
     assert loaded["gpu_uuid"] == "GPU-TEST"
 
 
-def test_accelerator_adapter_disables_silent_cpu_ep_fallback():
+def test_accelerator_adapter_disables_silent_cpu_ep_fallback_and_enforces_allowlist():
     source = (ROOT / "src/fa3_silero_vad_provider.py").read_text(encoding="utf-8")
     assert "session.disable_cpu_ep_fallback" in source
     assert "device_ordinal" in source
     assert "CUDAExecutionProvider" in source
+    assert "ALLOWLIST_PATH" in source
+    assert "validate_model_identity" in source
 
 
 def test_current_host_workflow_is_manual_and_uses_designated_runner():
@@ -107,6 +118,14 @@ def test_current_host_workflow_is_manual_and_uses_designated_runner():
     assert "runs-on: [self-hosted, linux, x64, fa3-current-host]" in workflow
     assert "FA3_CURRENT_HOST_RUNNER" in workflow
     assert "collect-silero-vad-promotion-current-host.py" in workflow
+
+
+def test_current_host_collector_cannot_self_promote_production():
+    source = (ROOT / "evidence/collect-silero-vad-promotion-current-host.py").read_text(encoding="utf-8")
+    assert '"production_promotion_eligible": False' in source
+    assert '"current_host_evidence_bundle_pass": False' in source
+    assert 'receipt["current_host_evidence_bundle_pass"] = True' in source
+    assert 'receipt["production_promotion_eligible"] = True' not in source
 
 
 def test_runtime_promotion_remains_pending_without_real_audio_receipt():
