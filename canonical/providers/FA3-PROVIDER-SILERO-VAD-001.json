@@ -40,10 +40,14 @@
   },
   "runtime": {
     "portable_cpu_execution_required": true,
+    "baseline_execution_provider": "CPUExecutionProvider",
+    "admitted_execution_providers": ["CPUExecutionProvider", "CUDAExecutionProvider"],
     "gpu_required": false,
     "accelerator_optional_with_hrb_receipt": true,
+    "accelerator_device_binding_source": "HRB_ACCELERATOR_EXECUTION_LEASE_ONLY",
     "execution_provider_explicit": true,
     "silent_execution_provider_fallback": false,
+    "accelerator_cpu_ep_fallback_disabled": true,
     "sample_rates_hz": [8000, 16000],
     "channels": [1],
     "streaming_state": "EXPLICIT_RESETTABLE",
@@ -76,8 +80,16 @@
     "host_resource": false,
     "evidence": false
   },
+  "implementation": {
+    "provider_adapter": "src/fa3_silero_vad_provider.py",
+    "gate": "src/fa3_silero_vad_gate.py",
+    "reference_workflow": ".github/workflows/fa3-silero-vad-gate.yml",
+    "single_audio_current_host_collector": "evidence/collect-silero-vad-current-host.py",
+    "promotion_current_host_collector": "evidence/collect-silero-vad-promotion-current-host.py",
+    "current_host_workflow": ".github/workflows/fa3-silero-vad-current-host.yml"
+  },
   "promotion": {
-    "reference_gate": "PASS_REQUIRED",
+    "reference_gate": "PASS",
     "current_host_real_onnx_e2e": "REQUIRED",
     "sample_rate_8k_e2e": "REQUIRED",
     "sample_rate_16k_e2e": "REQUIRED",
