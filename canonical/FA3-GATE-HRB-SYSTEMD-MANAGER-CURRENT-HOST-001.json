@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "hardware_profile_id": "FA3-HARDWARE-BASELINE-001",
+  "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
+  "enforcement_id": "FA3-HRB-SYSTEMD-MANAGER-CURRENT-HOST-GATESET-001",
+  "entrypoint": "src/fa3_hrb_systemd_manager_current_host_gate.py",
+  "collector": "evidence/collect-hrb-systemd-manager-current-host.py",
+  "test": "tests/test_hrb_systemd_manager_current_host_gate.py",
+  "workflow": ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
+  "receipt": "evidence/receipts/hrb-systemd-manager-current-host.json",
+  "fail_closed": true,
+  "hardware_admission_semantics": "CAPABILITY_BASED_DYNAMIC_1_TO_N_NO_MACHINE_MODEL_PIN",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_effect": "NONE_UNTIL_EVIDENCE_REGISTRY_AND_19_POINT_ACCEPTANCE_PASS",
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
