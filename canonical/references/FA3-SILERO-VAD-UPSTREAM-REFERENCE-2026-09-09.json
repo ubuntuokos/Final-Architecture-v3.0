@@ -7,14 +7,31 @@
   "release": "v6.2.1",
   "revision": "7e30209a3e901f9842f81b225f3e93d8199902b1",
   "license": "MIT",
+  "bootstrap_identity_evidence": "FA3-SILERO-VAD-MODEL-BOOTSTRAP-IDENTITY-001",
   "observed_model_artifacts": [
-    {"name": "silero_vad.onnx", "git_blob_sha": "80c5592ef1f4c9ede3e357bbd02eb863358a6a9d", "size_bytes": 2327524},
-    {"name": "silero_vad_16k_op15.onnx", "git_blob_sha": "625ad8909b1abdba2292f3a9a10db6864fd5d561", "size_bytes": 1289603},
-    {"name": "silero_vad_half.onnx", "git_blob_sha": "97e39fb3543dfb78814af3943f059c6bbc969bd0", "size_bytes": 1280395}
+    {
+      "name": "silero_vad.onnx",
+      "git_blob_sha": "80c5592ef1f4c9ede3e357bbd02eb863358a6a9d",
+      "sha256": "1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3",
+      "size_bytes": 2327524
+    },
+    {
+      "name": "silero_vad_16k_op15.onnx",
+      "git_blob_sha": "625ad8909b1abdba2292f3a9a10db6864fd5d561",
+      "sha256": "7ed98ddbad84ccac4cd0aeb3099049280713df825c610a8ed34543318f1b2c49",
+      "size_bytes": 1289603
+    },
+    {
+      "name": "silero_vad_half.onnx",
+      "git_blob_sha": "97e39fb3543dfb78814af3943f059c6bbc969bd0",
+      "sha256": "1e0b195ad4806595ef4466f419d16fca7e4afcfc6669b8c0b5f76ea87547c769",
+      "size_bytes": 1280395
+    }
   ],
   "reference_semantics": [
     "UPSTREAM_REFERENCE_DOES_NOT_CLAIM_CURRENT_HOST_RUNTIME_PASS",
     "UPSTREAM_BENCHMARKS_DO_NOT_SUBSTITUTE_FOR_FA3_EVIDENCE",
-    "MODEL_SHA256_MUST_BE_CAPTURED_BY_FA3_BOOTSTRAP_OR_CURRENT_HOST_RECEIPT_BEFORE_PROMOTION"
+    "BOOTSTRAP_SHA256_IDENTITY_IS_REQUIRED_AND_NOW_MATERIALIZED",
+    "IDENTITY_ADMISSION_DOES_NOT_EQUAL_PRODUCTION_PROMOTION"
   ]
 }
