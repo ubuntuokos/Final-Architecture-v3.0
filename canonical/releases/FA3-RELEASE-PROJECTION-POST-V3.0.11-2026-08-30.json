@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "bb4b681f7012108364b8048af1f5ab73b22224c5",
-    "pre_projection_root_tree_sha": "b6ede02da6d96710fee7767d43fe0b5c7e320396",
-    "pre_projection_canonical_tree_sha": "15dd286a3af20f0bacf19e81bde064d2f6b40da7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 138,
-    "total_post_baseline_commits": 138,
-    "delta_file_count": 762,
-    "delta_added_files": 757,
+    "pre_projection_head_sha": "11dbcff81063ab1f4cec329100510d4c70742d68",
+    "pre_projection_root_tree_sha": "822af157cf8485d5d94256381d3a8968e2c02a13",
+    "pre_projection_canonical_tree_sha": "1ccfa412eaf60f7d48fdd8d6f4019b31dbd0cf8d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 140,
+    "total_post_baseline_commits": 140,
+    "delta_file_count": 763,
+    "delta_added_files": 758,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 434,
+    "canonical_files_in_post_baseline_delta": 435,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 70,
@@ -547,7 +547,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 763,
+  "manifest_entry_count": 764,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -867,6 +867,11 @@
     {
       "path": "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
       "git_blob_sha": "c7c6d4d699f592e60533bcebfc54aaca0593061a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-GIMP-COMFYUI-INTEROP-001.json",
+      "git_blob_sha": "440356af38a0a5481d2f403ff24f5360a4fe3d36",
       "baseline_delta_status": "added"
     },
     {
