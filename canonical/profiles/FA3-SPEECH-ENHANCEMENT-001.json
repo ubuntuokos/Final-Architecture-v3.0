@@ -1,21 +1,42 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-SPEECH-ENHANCEMENT-001",
-  "name": "Provider-Neutral Real-Time Speech Enhancement & Noise Suppression Profile",
-  "version": "1.0.0",
+  "name": "Provider-Neutral Speech Enhancement, Noise Suppression, Restoration & Bandwidth Extension Profile",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
-  "requirement": "MUST-IF-SPEECH-ENHANCEMENT-USED",
+  "requirement": "MUST-IF-SPEECH-ENHANCEMENT-OR-RESTORATION-USED",
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
   "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-AUDIO-001"},
   "capability_bindings": ["CAP-017"],
-  "contracts": ["FA3-SPEECH-ENHANCEMENT-CONTRACTS-001"],
-  "dependencies": ["FA3-STT-001", "FA3-INFERENCE-PORTABILITY-001", "FA3-MODEL-ARTIFACT-SECURITY-001", "FA3-HW-001"],
-  "providers": ["FA3-PROVIDER-GTCRN-001"],
-  "scope": ["real-time microphone speech enhancement", "offline speech cleanup before ASR", "streaming noise suppression", "provider-neutral frame/state lifecycle", "quality-preserving bypass and failover"],
+  "contracts": [
+    "FA3-SPEECH-ENHANCEMENT-CONTRACTS-001",
+    "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-STT-001",
+    "FA3-INFERENCE-PORTABILITY-001",
+    "FA3-MODEL-ARTIFACT-SECURITY-001",
+    "FA3-HW-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-GTCRN-001",
+    "FA3-PROVIDER-LAVASR-001"
+  ],
+  "scope": [
+    "real-time microphone speech enhancement",
+    "offline speech cleanup before ASR",
+    "streaming noise suppression",
+    "provider-neutral frame/state lifecycle",
+    "quality-preserving bypass and failover",
+    "speech bandwidth extension and restoration",
+    "TTS postprocessing",
+    "dataset restoration",
+    "media postproduction audio conditioning"
+  ],
   "authority": {
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
@@ -24,6 +45,23 @@
     "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
     "audio_device_routing": "EXISTING_FA3_AUDIO_PIPEWIRE_AUTHORITY_ONLY"
   },
-  "invariants": ["SPEECH_ENHANCEMENT_PROVIDER_NOT_AUTHORITY", "CAPABILITY_COUNT_REMAINS_143", "PROVIDER_NEUTRAL_REQUEST_RESULT_STATE_CONTRACT", "MODEL_ARTIFACT_SECURITY_ADMISSION_REQUIRED", "ONNX_FIRST_WHEN_SUPPORTED", "NO_SILENT_EXECUTION_PROVIDER_FALLBACK", "CPU_BASELINE_MUST_NOT_REQUIRE_GPU", "REALTIME_STATE_LIFECYCLE_EXPLICIT", "INPUT_OUTPUT_AUDIO_PROVENANCE_REQUIRED", "BYPASS_FAIL_CLOSED_AND_AUDITABLE", "PIPEWIRE_LADSPA_IS_OPTIONAL_ADAPTER_NOT_AUDIO_AUTHORITY", "CURRENT_HOST_RUNTIME_PASS_NOT_DOCUMENT_DERIVED"],
-  "implementation_status": "CANONICAL_PROVIDER_MATERIALIZED_REFERENCE_GATE_CURRENT_HOST_RUNTIME_PENDING"
+  "invariants": [
+    "SPEECH_ENHANCEMENT_PROVIDER_NOT_AUTHORITY",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "PROVIDER_NEUTRAL_REQUEST_RESULT_STATE_CONTRACT",
+    "MODEL_ARTIFACT_SECURITY_ADMISSION_REQUIRED",
+    "ONNX_FIRST_WHEN_SUPPORTED",
+    "NO_SILENT_EXECUTION_PROVIDER_FALLBACK",
+    "CPU_BASELINE_MUST_NOT_REQUIRE_GPU",
+    "REALTIME_STATE_LIFECYCLE_EXPLICIT",
+    "INPUT_OUTPUT_AUDIO_PROVENANCE_REQUIRED",
+    "BYPASS_FAIL_CLOSED_AND_AUDITABLE",
+    "PIPEWIRE_LADSPA_IS_OPTIONAL_ADAPTER_NOT_AUDIO_AUTHORITY",
+    "BANDWIDTH_EXTENSION_TRANSFORM_EXPLICIT",
+    "DENOISE_SELECTION_SEPARATE_FROM_BWE_PROVIDER_SELECTION",
+    "NO_IMPLICIT_DOUBLE_DENOISE",
+    "OUTPUT_RATE_DURATION_AND_PADDING_INTEGRITY_EXPLICIT",
+    "CURRENT_HOST_RUNTIME_PASS_NOT_DOCUMENT_DERIVED"
+  ],
+  "implementation_status": "CANONICAL_MULTI_PROVIDER_MATERIALIZED_REFERENCE_GATES_CURRENT_HOST_RUNTIME_PENDING"
 }
