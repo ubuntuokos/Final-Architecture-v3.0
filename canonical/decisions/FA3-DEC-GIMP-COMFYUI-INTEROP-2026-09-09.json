@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09",
+  "date": "2026-09-09",
+  "status": "CANONICAL_CLOSED",
+  "title": "Canonicalize provider-neutral GIMP generative interoperability without duplicating MMG or runtime authorities",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "contract_id": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001",
+  "gate_id": "FA3-GIMP-COMFYUI-INTEROP-GATESET-001",
+  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "decisions": [
+    "Reuse FA3-MMG-CONTEXT-IR-001 and FA3-MMG-CONTEXT-IR-CONTRACTS-001; do not create a second generation context IR.",
+    "Materialize a provider-neutral Creative Desktop to Generative Media interoperability contract for document, layer, selection, mask, alpha, color, generation-intent and result-placement semantics.",
+    "Treat GIMP to ComfyUI plugins as replaceable optional adapters and reference implementations, never as workflow, model-registry, resource, security, evidence or orchestration authorities.",
+    "Treat nchenevey1/gimp-comfy-tools as a strong functional pattern source but reference-only for code intake under the existing permissive-license admission direction because the repository is GPL-3.0.",
+    "Treat ProgrammerDruid/gimp-comfy-ai and Charlweed components as MIT reference candidates subject to security, revision, dependency and runtime admission; no runtime production claim is made.",
+    "Require workflow and custom-node revision/hash inventory, model artifact security admission and provider projection loss evidence.",
+    "Default result placement is nondestructive; provider or transport failure must not mutate or corrupt the source GIMP document.",
+    "Live editor transport is optional and non-authoritative; local operation is supported without a cloud dependency."
+  ]
+}
