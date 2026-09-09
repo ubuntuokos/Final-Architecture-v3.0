@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.model-allowlist.v1",
+  "id": "FA3-SILERO-VAD-MODEL-ALLOWLIST-001",
+  "status": "CANONICAL",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "upstream_release": "v6.2.1",
+  "upstream_revision": "7e30209a3e901f9842f81b225f3e93d8199902b1",
+  "default_model": "silero_vad.onnx",
+  "runtime_auto_download": false,
+  "runtime_network_acquisition": false,
+  "production_sha256_required": true,
+  "artifacts": [
+    {
+      "name": "silero_vad.onnx",
+      "path": "src/silero_vad/data/silero_vad.onnx",
+      "format": "ONNX",
+      "upstream_git_blob_sha": "80c5592ef1f4c9ede3e357bbd02eb863358a6a9d",
+      "size_bytes": 2327524,
+      "role": "PRIMARY_CANDIDATE",
+      "sha256": "PENDING_CURRENT_HOST_OR_BOOTSTRAP_ACQUISITION_RECEIPT",
+      "production_admitted": false
+    },
+    {
+      "name": "silero_vad_16k_op15.onnx",
+      "path": "src/silero_vad/data/silero_vad_16k_op15.onnx",
+      "format": "ONNX",
+      "upstream_git_blob_sha": "625ad8909b1abdba2292f3a9a10db6864fd5d561",
+      "size_bytes": 1289603,
+      "role": "COMPATIBILITY_CANDIDATE",
+      "sha256": "PENDING_CURRENT_HOST_OR_BOOTSTRAP_ACQUISITION_RECEIPT",
+      "production_admitted": false
+    },
+    {
+      "name": "silero_vad_half.onnx",
+      "path": "src/silero_vad/data/silero_vad_half.onnx",
+      "format": "ONNX_FP16",
+      "upstream_git_blob_sha": "97e39fb3543dfb78814af3943f059c6bbc969bd0",
+      "size_bytes": 1280395,
+      "role": "OPTIONAL_REDUCED_PRECISION_CANDIDATE",
+      "sha256": "PENDING_CURRENT_HOST_OR_BOOTSTRAP_ACQUISITION_RECEIPT",
+      "production_admitted": false,
+      "promotion_requires_quality_equivalence": true
+    }
+  ],
+  "invariants": [
+    "NO_MODEL_ARTIFACT_IS_PRODUCTION_ADMITTED_WITHOUT_SHA256",
+    "ONNX_PRIMARY_WHEN_SUPPORTED",
+    "REDUCED_PRECISION_REQUIRES_SEPARATE_QUALITY_EVIDENCE",
+    "RUNTIME_DOWNLOAD_FORBIDDEN",
+    "GIT_BLOB_SHA_IS_PROVENANCE_NOT_A_SUBSTITUTE_FOR_SHA256"
+  ]
+}
