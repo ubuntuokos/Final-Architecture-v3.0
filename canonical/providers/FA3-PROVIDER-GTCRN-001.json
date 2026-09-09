@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-GTCRN-001",
+  "name": "Xiaobin-Rong/GTCRN",
+  "status": "ACCEPTED_OPTIONAL_REFERENCE_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_ULTRALIGHT_REALTIME_SPEECH_ENHANCEMENT_AND_NOISE_SUPPRESSION_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "STRONG_REFERENCE_PROVIDER", "LOCAL_FIRST", "CPU_FIRST", "REALTIME_STREAMING", "ONNX_CAPABLE", "PERMISSIVE_LICENSE"],
+  "profile_ids": ["FA3-SPEECH-ENHANCEMENT-001"],
+  "capability_bindings": ["CAP-017"],
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "Xiaobin-Rong/gtcrn",
+    "revision": "502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73",
+    "revision_date": "2026-08-03",
+    "license": "MIT",
+    "reference_id": "FA3-GTCRN-UPSTREAM-REFERENCE-2026-09-09"
+  },
+  "model_policy": {
+    "allowlist_id": "FA3-GTCRN-MODEL-ALLOWLIST-001",
+    "preferred_format": "ONNX",
+    "default_model": "gtcrn_simple.onnx",
+    "runtime_torch_checkpoint_loading": false,
+    "runtime_auto_download": false,
+    "sha256_required_before_current_host_promotion": true
+  },
+  "runtime": {
+    "baseline_execution_provider": "CPUExecutionProvider",
+    "gpu_required": false,
+    "accelerator_optional_with_hrb_receipt": true,
+    "sample_rate_hz": 16000,
+    "channels": [1],
+    "n_fft": 512,
+    "hop_length": 256,
+    "stream_state_shapes": {
+      "conv_cache": [2, 1, 16, 16, 33],
+      "tra_cache": [2, 3, 1, 1, 16],
+      "inter_cache": [2, 1, 33, 16]
+    }
+  },
+  "optional_adapters": {
+    "pipewire_ladspa": {"status": "EXPERIMENTAL_UPSTREAM_REFERENCE", "authoritative": false, "default_enabled": false}
+  },
+  "authority_boundaries": {"audio": false, "voice": false, "inference": false, "model_registry": false, "provider_routing": false, "device_routing": false, "workflow": false, "security": false, "host_resource": false, "evidence": false},
+  "implementation": {
+    "provider_adapter": "src/fa3_gtcrn_provider.py",
+    "gate": "src/fa3_gtcrn_gate.py",
+    "current_host_collector": "evidence/collect-gtcrn-current-host.py",
+    "enforce_command": "PYTHONPATH=src python src/fa3_gtcrn_gate.py",
+    "current_host_command": "PYTHONPATH=src python evidence/collect-gtcrn-current-host.py --model <admitted.onnx> --input <16k-mono.wav> --output <enhanced.wav> --expected-sha256 <sha256>"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "current_host_real_onnx_e2e": "REQUIRED",
+    "current_host_pipewire_ladspa_e2e": "REQUIRED_ONLY_IF_ADAPTER_ENABLED",
+    "quality_regression": "REQUIRED",
+    "runtime_promotion_claimed": false
+  }
+}
