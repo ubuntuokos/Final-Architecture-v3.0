@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.reference-gate-evidence.v1",
+  "id": "FA3-SILERO-VAD-REFERENCE-GATE-PASS-001",
+  "gate_id": "FA3-GATE-SILERO-VAD-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "status": "PENDING_EXECUTION",
+  "runtime_promotion": false,
+  "document_derived_runtime_pass": false,
+  "expected_command": "PYTHONPATH=src python src/fa3_silero_vad_gate.py && pytest -q tests/test_silero_vad_registry.py",
+  "source_revision": "PENDING_FINAL_BRANCH_CI",
+  "ci_run": null,
+  "note": "This record is intentionally not a PASS until the executable gate and regression tests are observed succeeding on the branch."
+}
