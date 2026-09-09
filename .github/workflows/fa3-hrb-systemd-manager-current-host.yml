@@ -30,7 +30,7 @@ jobs:
       - name: Collect live portable hardware and systemd evidence
         run: PYTHONPATH=src python evidence/collect-hrb-systemd-manager-current-host.py --root .
       - name: Validate current-host evidence fail closed
-        run: ./bin/fa3-enforce hrb-systemd-manager-current-host
+        run: PYTHONPATH=src python src/fa3_hrb_systemd_manager_current_host_gate.py --root .
       - name: Upload evidence and report
         if: always()
         uses: actions/upload-artifact@v4
