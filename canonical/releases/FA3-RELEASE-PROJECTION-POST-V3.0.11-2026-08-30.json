@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ad71c47674fc2dd7310f232b8c178d6fd29520be",
-    "pre_projection_root_tree_sha": "a6f42aa671821eea4ab582607345049b0775fced",
-    "pre_projection_canonical_tree_sha": "de919377a80e51e6ebbe86ce1a6075ae296dab22",
-    "commits_ahead_of_v3_0_11_conformance_commit": 139,
-    "total_post_baseline_commits": 139,
-    "delta_file_count": 754,
-    "delta_added_files": 749,
+    "pre_projection_head_sha": "5a91fc8fe027b4ed086e54cfe0ae0cd71e97ef54",
+    "pre_projection_root_tree_sha": "52cc91eca51b1915cf093c33700481bd4d59d5fa",
+    "pre_projection_canonical_tree_sha": "1a44a2d76f3bd51d159c6c637c5d9ec700f2e992",
+    "commits_ahead_of_v3_0_11_conformance_commit": 142,
+    "total_post_baseline_commits": 142,
+    "delta_file_count": 756,
+    "delta_added_files": 751,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 428,
+    "canonical_files_in_post_baseline_delta": 429,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
-    "test_files_in_post_baseline_delta": 68,
+    "test_files_in_post_baseline_delta": 69,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -543,7 +543,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 755,
+  "manifest_entry_count": 757,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2866,6 +2866,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-MMG-CONTEXT-IR-2026-09-09.json",
+      "git_blob_sha": "25a38b3a6270ddd7a73719ea5165ff78cb960772",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
       "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a",
       "baseline_delta_status": "added"
@@ -4158,6 +4163,11 @@
     {
       "path": "tests/test_minimax_h3_runtime_gate.py",
       "git_blob_sha": "48439451a35caa72a28c0a00f553807b91837f8d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_mmg_context_ir.py",
+      "git_blob_sha": "db3ba97981d4c602003998bcf862611b5feff3aa",
       "baseline_delta_status": "added"
     },
     {
