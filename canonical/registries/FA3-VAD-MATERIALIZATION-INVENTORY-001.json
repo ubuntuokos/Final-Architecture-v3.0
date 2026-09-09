@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.materialization-inventory.v1",
+  "id": "FA3-VAD-MATERIALIZATION-INVENTORY-001",
+  "status": "CANONICAL",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "records": [
+    "canonical/profiles/FA3-VOICE-ACTIVITY-DETECTION-001.json",
+    "canonical/contracts/FA3-VAD-CONTRACTS-001.json",
+    "canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json",
+    "canonical/FA3-SILERO-VAD-MODEL-ALLOWLIST-001.json",
+    "canonical/references/FA3-SILERO-VAD-UPSTREAM-REFERENCE-2026-09-09.json",
+    "canonical/decisions/FA3-DEC-SILERO-VAD-2026-09-09.json",
+    "canonical/FA3-GATE-SILERO-VAD-001.json",
+    "canonical/silero-vad-enforcement.json",
+    "canonical/FA3-SILERO-VAD-RUNTIME-CONFORMANCE-001.json",
+    "canonical/registries/FA3-VAD-PROVIDER-REGISTRY-001.json",
+    "canonical/releases/FA3-SILERO-VAD-001.json",
+    "src/fa3_silero_vad_gate.py",
+    "tests/test_silero_vad_registry.py",
+    "evidence/collect-silero-vad-current-host.py",
+    "evidence/reference/FA3-SILERO-VAD-REFERENCE-GATE-PASS-001.json",
+    "docs/FA3-SILERO-VAD-001.md",
+    ".github/workflows/fa3-silero-vad-gate.yml"
+  ],
+  "runtime_state": "PENDING_CURRENT_HOST",
+  "reference_gate_state": "PENDING_EXECUTION"
+}
