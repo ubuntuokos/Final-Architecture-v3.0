@@ -1,0 +1,61 @@
+name: LavaSR reference gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: JSON parse
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = [
+            'canonical/FA3-GATE-LAVASR-001.json',
+            'canonical/FA3-LAVASR-MODEL-ALLOWLIST-001.json',
+            'canonical/FA3-LAVASR-RUNTIME-CONFORMANCE-001.json',
+            'canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json',
+            'canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json',
+            'canonical/lavasr-enforcement.json',
+            'canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json',
+            'canonical/providers/FA3-PROVIDER-LAVASR-001.json',
+            'canonical/references/FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09.json',
+            'canonical/releases/FA3-RELEASE-PROJECTION-LAVASR-2026-09-09.json',
+          ]
+          for path in paths:
+            json.loads(Path(path).read_text())
+          print(f'PASS: parsed {len(paths)} LavaSR canonical JSON records')
+          PY
+      - name: Python and shell syntax
+        run: |
+          python -m py_compile src/fa3_lavasr_provider.py src/fa3_lavasr_gate.py evidence/collect-lavasr-current-host.py
+          bash -n bin/fa3-lavasr-enforce bin/fa3-lavasr-bootstrap.sh
+      - name: LavaSR canonical and executable policy gate
+        run: bash bin/fa3-lavasr-enforce
+      - name: LavaSR positive and negative regressions
+        run: PYTHONPATH=src python -m unittest tests.test_lavasr_gate tests.test_lavasr_provider_runtime -v
+      - name: Assert no document-only runtime promotion
+        run: |
+          python - <<'PY'
+          import json
+          runtime = json.load(open('canonical/FA3-LAVASR-RUNTIME-CONFORMANCE-001.json'))
+          release = json.load(open('canonical/releases/FA3-RELEASE-PROJECTION-LAVASR-2026-09-09.json'))
+          provider = json.load(open('canonical/providers/FA3-PROVIDER-LAVASR-001.json'))
+          assert runtime['production_admitted'] is False
+          assert runtime['status'] == 'PENDING_CURRENT_HOST'
+          assert release['production_promotion_claimed'] is False
+          assert provider['promotion']['runtime_promotion_claimed'] is False
+          print('PASS: reference evidence cannot promote current-host production runtime')
+          PY
