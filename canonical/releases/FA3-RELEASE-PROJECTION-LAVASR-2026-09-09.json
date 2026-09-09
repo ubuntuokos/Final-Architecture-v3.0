@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.provider-release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-LAVASR-2026-09-09",
+  "date": "2026-09-09",
+  "status": "REFERENCE_MATERIALIZATION_PROJECTED",
+  "source_snapshot": {
+    "base_branch": "main",
+    "base_commit_sha": "f2fbcf247035b2b5b76c3360b2d163257f222afa"
+  },
+  "decision_id": "FA3-DEC-LAVASR-2026-09-09",
+  "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+  "provider_id": "FA3-PROVIDER-LAVASR-001",
+  "contract_id": "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001",
+  "gate_id": "FA3-GATE-LAVASR-001",
+  "gate_set_id": "FA3-LAVASR-GATESET-001",
+  "reference_id": "FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09",
+  "model_allowlist_id": "FA3-LAVASR-MODEL-ALLOWLIST-001",
+  "runtime_conformance_id": "FA3-LAVASR-RUNTIME-CONFORMANCE-001",
+  "reference_evidence": "evidence/reference/lavasr-reference-pass.json",
+  "capability_bindings": [
+    "CAP-017"
+  ],
+  "canonical_capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "reference_gate_status": "PASS",
+  "verified_reference_workflow_run_id": 34408410798,
+  "verified_reference_head_sha": "bc36ac01267105a2a4aefdf09fc6d6bf3a59cae7",
+  "current_host_runtime_status": "PENDING_CURRENT_HOST",
+  "production_promotion_claimed": false,
+  "post_merge_unified_projection_reconciliation_required": true
+}

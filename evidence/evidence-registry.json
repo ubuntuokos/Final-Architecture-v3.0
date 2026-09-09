@@ -1033,12 +1033,14 @@
         "FA3-REG-003",
         "NP-03",
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
-        "FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09"
+        "FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09",
+        "FA3-DEC-LAVASR-2026-09-09"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
-        "evidence/reference/gtcrn-reference-pass.json"
+        "evidence/reference/gtcrn-reference-pass.json",
+        "evidence/reference/lavasr-reference-pass.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -1066,6 +1068,19 @@
         "production_admitted": false,
         "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_AND_ROLLBACK",
         "pipewire_ladspa_status": "OPTIONAL_EXPERIMENTAL_NOT_REQUIRED_WHEN_DISABLED",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "lavasr_audio_restoration_projection_status": {
+        "provider_id": "FA3-PROVIDER-LAVASR-001",
+        "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+        "contract_id": "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001",
+        "gate_id": "FA3-LAVASR-GATESET-001",
+        "reference_evidence": "evidence/reference/lavasr-reference-pass.json",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "production_admitted": false,
+        "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_DURATION_PADDING_AND_ROLLBACK",
+        "denoise_policy": "OPTIONAL_EXPLICIT_NO_IMPLICIT_DOUBLE_DENOISE",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },

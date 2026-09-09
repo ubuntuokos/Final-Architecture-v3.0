@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09",
+  "status": "PINNED_REFERENCE",
+  "source": {
+    "repository": "https://github.com/ysharma3501/LavaSR",
+    "revision": "33ac040892519c1bb4aed7eb32e79af51cc29e2a",
+    "revision_date": "2026-06-05",
+    "license": {
+      "spdx": "Apache-2.0",
+      "file": "LICENSE",
+      "metadata_conflict": true,
+      "metadata_conflict_detail": "LICENSE and README declare Apache-2.0; pyproject.toml contains an MIT classifier. The LICENSE file is the effective source-license reference for FA3 admission."
+    },
+    "observed_characteristics": {
+      "primary_role": "speech restoration and bandwidth extension",
+      "output_sample_rate_hz": 48000,
+      "optional_denoiser": "UL-UNAS-derived",
+      "architecture_pattern": "Vocos-based bandwidth extension plus Linkwitz-Riley-inspired spectral merge",
+      "upstream_performance_claims_are_reference_only": true,
+      "python_wrapper_native_processing_rate_hz": 16000,
+      "python_wrapper_direct_torch_load_present": true,
+      "python_wrapper_runtime_model_download_present": true,
+      "batch_padding_tail_trim_not_evidenced_in_upstream_wrapper": true
+    }
+  },
+  "runtime_reference": {
+    "repository": "https://github.com/Topping1/LavaSR-ONNX",
+    "revision": "1a979b80d760f00d973b13d530fdd8da51be160b",
+    "revision_date": "2026-03-10",
+    "release": "Alpha-v0.1",
+    "release_immutable": false,
+    "license": {"spdx": "Apache-2.0", "file": "LICENSE"},
+    "role": "PYTORCH_FREE_ONNX_RUNTIME_REFERENCE_ONLY",
+    "runtime_flow": [
+      "admitted input projection to 16 kHz mono",
+      "optional ONNX denoiser",
+      "resample to 48 kHz",
+      "ONNX enhancer backbone and spectrogram head",
+      "waveform reconstruction and spectral merge"
+    ],
+    "security_note": "The release tag is mutable. FA3 admission binds every runtime model asset to its explicit SHA-256 digest and pins the runtime source commit."
+  },
+  "runtime_model_assets": [
+    {
+      "name": "denoiser_core_legacy_fixed63.onnx",
+      "size_bytes": 1815317,
+      "sha256": "8afa7f4db9f356f7bfb575bb207d8673a728a7baf6773e0b10226a5e15687f2a"
+    },
+    {
+      "name": "enhancer_backbone.onnx",
+      "size_bytes": 190195,
+      "sha256": "841e96d261dffdf1dc974f3d29e2cfcf1b16fd0b358749c1ace0bbfa1d4c8ddd"
+    },
+    {
+      "name": "enhancer_backbone.onnx.data",
+      "size_bytes": 51773440,
+      "sha256": "a125a4ede7cfdd1073d906a3cadf2171a30be6a40f296ad28772e0ba258de8c5"
+    },
+    {
+      "name": "enhancer_spec_head.onnx",
+      "size_bytes": 7484,
+      "sha256": "f66fd164c55fd1b07e5cea5e687c71522b192f452691128fd7ae4e6b26dbc683"
+    },
+    {
+      "name": "enhancer_spec_head.onnx.data",
+      "size_bytes": 4263936,
+      "sha256": "b855e309b027af9aa75285b97b345571b6bd695a30fde434d06c979d83885fd6"
+    }
+  ],
+  "reference_only": true,
+  "current_host_evidence": false
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-LAVASR-001",
+  "name": "ysharma3501/LavaSR",
+  "status": "ACCEPTED_OPTIONAL_REFERENCE_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_LOCAL_SPEECH_RESTORATION_BANDWIDTH_EXTENSION_AND_TTS_POSTPROCESSING_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "STRONGLY_RECOMMENDED_REFERENCE_PROVIDER",
+    "LOCAL_FIRST",
+    "CPU_BASELINE",
+    "ONNX_FIRST",
+    "SPEECH_RESTORATION",
+    "BANDWIDTH_EXTENSION",
+    "OPTIONAL_DENOISE",
+    "PERMISSIVE_LICENSE"
+  ],
+  "profile_ids": ["FA3-SPEECH-ENHANCEMENT-001"],
+  "contract_ids": ["FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001"],
+  "capability_bindings": ["CAP-017"],
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "ysharma3501/LavaSR",
+    "revision": "33ac040892519c1bb4aed7eb32e79af51cc29e2a",
+    "revision_date": "2026-06-05",
+    "effective_license": "Apache-2.0",
+    "license_metadata_conflict": true,
+    "license_metadata_conflict_detail": "Repository LICENSE and README declare Apache-2.0 while pyproject.toml contains an MIT classifier; FA3 uses the LICENSE file as the effective source-license reference.",
+    "reference_id": "FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09"
+  },
+  "runtime_reference": {
+    "repository": "Topping1/LavaSR-ONNX",
+    "revision": "1a979b80d760f00d973b13d530fdd8da51be160b",
+    "release": "Alpha-v0.1",
+    "license": "Apache-2.0",
+    "runtime_role": "PYTORCH_FREE_ONNX_RUNTIME_REFERENCE",
+    "authoritative": false
+  },
+  "model_policy": {
+    "allowlist_id": "FA3-LAVASR-MODEL-ALLOWLIST-001",
+    "preferred_format": "ONNX_BUNDLE",
+    "direct_runtime_pytorch_bin_loading": false,
+    "runtime_auto_download": false,
+    "operator_driven_quarantine_install_only": true,
+    "sha256_verification_required_before_runtime": true,
+    "dangerous_source_checkpoint_conversion": "ISOLATED_QUARANTINE_ONLY",
+    "source_pytorch_model_is_reference_or_conversion_source_only": true
+  },
+  "runtime": {
+    "baseline_execution_provider": "CPUExecutionProvider",
+    "gpu_required": false,
+    "accelerator_optional_with_hrb_receipt": true,
+    "accelerator_promotion_requires_no_silent_cpu_fallback_evidence": true,
+    "provider_native_input_sample_rate_hz": 16000,
+    "admitted_external_input_sample_rate_range_hz": [8000, 48000],
+    "external_non_native_rate_requires_explicit_resample_projection": true,
+    "channels": [1],
+    "output_sample_rate_hz": 48000,
+    "default_denoise": false,
+    "optional_denoiser": "ULUNAS_DERIVED_ONNX_CORE"
+  },
+  "processing_policy": {
+    "bandwidth_extension": "PRIMARY_ROLE",
+    "denoise": "OPTIONAL_EXPLICIT",
+    "implicit_double_denoise": false,
+    "cascaded_denoise_requires_explicit_policy": true,
+    "batch_tail_padding_must_be_removed": true,
+    "duration_preservation_required": true,
+    "finite_output_required": true,
+    "clipping_metric_required": true
+  },
+  "authority_boundaries": {
+    "audio": false,
+    "voice": false,
+    "inference": false,
+    "model_registry": false,
+    "provider_routing": false,
+    "device_routing": false,
+    "workflow": false,
+    "security": false,
+    "host_resource": false,
+    "evidence": false
+  },
+  "implementation": {
+    "provider_adapter": "src/fa3_lavasr_provider.py",
+    "gate": "src/fa3_lavasr_gate.py",
+    "bootstrap": "bin/fa3-lavasr-bootstrap.sh",
+    "current_host_collector": "evidence/collect-lavasr-current-host.py",
+    "enforce_command": "PYTHONPATH=src python src/fa3_lavasr_gate.py",
+    "current_host_command": "PYTHONPATH=src python evidence/collect-lavasr-current-host.py --runtime-dir <pinned-runtime-checkout> --model-dir <verified-onnx-bundle> --input <input.wav> --output <output.wav>"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "current_host_real_onnx_e2e": "REQUIRED",
+    "duration_and_padding_integrity": "REQUIRED",
+    "quality_regression": "REQUIRED",
+    "denoise_policy_regression": "REQUIRED",
+    "rollback_bypass": "REQUIRED",
+    "runtime_promotion_claimed": false
+  }
+}

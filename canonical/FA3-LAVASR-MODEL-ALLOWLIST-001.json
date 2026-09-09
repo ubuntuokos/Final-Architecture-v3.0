@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.model-allowlist.v1",
+  "id": "FA3-LAVASR-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-LAVASR-001",
+  "status": "REFERENCE_ALLOWLIST_SHA256_PINNED_RUNTIME_NOT_PROMOTED",
+  "format_policy": "ONNX_BUNDLE_ONLY_FOR_DIRECT_RUNTIME",
+  "bundle": {
+    "artifact_id": "LAVASR-ONNX-ALPHA-V0.1-001",
+    "runtime_repository": "Topping1/LavaSR-ONNX",
+    "runtime_revision": "1a979b80d760f00d973b13d530fdd8da51be160b",
+    "release": "Alpha-v0.1",
+    "config_source": "config.yaml@1a979b80d760f00d973b13d530fdd8da51be160b",
+    "assets": [
+      {"filename": "denoiser_core_legacy_fixed63.onnx", "size_bytes": 1815317, "sha256": "8afa7f4db9f356f7bfb575bb207d8673a728a7baf6773e0b10226a5e15687f2a", "required": true},
+      {"filename": "enhancer_backbone.onnx", "size_bytes": 190195, "sha256": "841e96d261dffdf1dc974f3d29e2cfcf1b16fd0b358749c1ace0bbfa1d4c8ddd", "required": true},
+      {"filename": "enhancer_backbone.onnx.data", "size_bytes": 51773440, "sha256": "a125a4ede7cfdd1073d906a3cadf2171a30be6a40f296ad28772e0ba258de8c5", "required": true},
+      {"filename": "enhancer_spec_head.onnx", "size_bytes": 7484, "sha256": "f66fd164c55fd1b07e5cea5e687c71522b192f452691128fd7ae4e6b26dbc683", "required": true},
+      {"filename": "enhancer_spec_head.onnx.data", "size_bytes": 4263936, "sha256": "b855e309b027af9aa75285b97b345571b6bd695a30fde434d06c979d83885fd6", "required": true}
+    ]
+  },
+  "denied_direct_runtime_extensions": [".bin", ".pt", ".pth", ".pkl", ".pickle", ".ckpt", ".tar"],
+  "upstream_pytorch_checkpoint_policy": "REFERENCE_OR_ISOLATED_QUARANTINE_CONVERSION_SOURCE_ONLY",
+  "dangerous_checkpoint_conversion": "QUARANTINE_ISOLATED_ONLY_WITH_SECURITY_RECEIPT",
+  "runtime_network_fetch": false,
+  "release_tag_is_sufficient_identity": false,
+  "sha256_manifest_is_required_identity": true,
+  "model_artifact_security_profile": "FA3-MODEL-ARTIFACT-SECURITY-001",
+  "production_promotion": false
+}
