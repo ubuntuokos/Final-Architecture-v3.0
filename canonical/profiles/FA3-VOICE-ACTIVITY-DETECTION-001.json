@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-VOICE-ACTIVITY-DETECTION-001",
+  "name": "Provider-Neutral Voice Activity Detection & Speech Segmentation Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-VAD-USED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-AUDIO-001"},
+  "capability_bindings": ["CAP-017", "CAP-115", "CAP-116"],
+  "contracts": ["FA3-VAD-CONTRACTS-001"],
+  "dependencies": ["FA3-STT-001", "FA3-INFERENCE-PORTABILITY-001", "FA3-MODEL-ARTIFACT-SECURITY-001", "FA3-HW-001"],
+  "providers": ["FA3-PROVIDER-SILERO-VAD-001"],
+  "scope": [
+    "real-time microphone voice activity detection",
+    "offline speech/non-speech segmentation before ASR",
+    "streaming speech probability and segment boundary detection",
+    "provider-neutral frame and runtime-state lifecycle",
+    "auditable segmentation and fail-closed unsupported-input handling"
+  ],
+  "authority": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "audio_device_routing": "EXISTING_FA3_AUDIO_PIPEWIRE_AUTHORITY_ONLY"
+  },
+  "invariants": [
+    "VAD_PROVIDER_NOT_AUTHORITY",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "PROVIDER_NEUTRAL_REQUEST_RESULT_STATE_CONTRACT",
+    "MODEL_ARTIFACT_SECURITY_ADMISSION_REQUIRED",
+    "ONNX_FIRST_WHEN_SUPPORTED",
+    "NO_SILENT_EXECUTION_PROVIDER_FALLBACK",
+    "PORTABLE_CPU_EXECUTION_PATH_REQUIRED",
+    "GPU_NOT_REQUIRED_FOR_PORTABLE_BASELINE",
+    "ACCELERATOR_EXECUTION_REQUIRES_HRB_RECEIPT",
+    "NO_CONCRETE_CPU_MODEL_GPU_SKU_VRAM_NUMA_BDF_OR_CUDA_ORDINAL_PORTABLE_REQUIREMENT",
+    "REALTIME_STATE_LIFECYCLE_EXPLICIT",
+    "INPUT_AUDIO_AND_RESAMPLING_PROVENANCE_REQUIRED",
+    "UNSUPPORTED_SAMPLE_RATE_FAILS_CLOSED",
+    "CURRENT_HOST_RUNTIME_PASS_NOT_DOCUMENT_DERIVED"
+  ],
+  "implementation_status": "CANONICAL_PROVIDER_MATERIALIZED_REFERENCE_GATE_CURRENT_HOST_RUNTIME_PENDING"
+}
