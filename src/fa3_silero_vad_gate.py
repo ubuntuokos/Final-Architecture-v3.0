@@ -15,8 +15,16 @@ DECISION = ROOT / "canonical/decisions/FA3-DEC-SILERO-VAD-2026-09-09.json"
 REFERENCE = ROOT / "canonical/references/FA3-SILERO-VAD-UPSTREAM-REFERENCE-2026-09-09.json"
 ENFORCEMENT = ROOT / "canonical/silero-vad-enforcement.json"
 GATE_RECORD = ROOT / "canonical/FA3-GATE-SILERO-VAD-001.json"
+PROVIDER_ADAPTER = ROOT / "src/fa3_silero_vad_provider.py"
+SINGLE_AUDIO_COLLECTOR = ROOT / "evidence/collect-silero-vad-current-host.py"
+PROMOTION_COLLECTOR = ROOT / "evidence/collect-silero-vad-promotion-current-host.py"
+CURRENT_HOST_WORKFLOW = ROOT / ".github/workflows/fa3-silero-vad-current-host.yml"
 
-REQUIRED_FILES = [PROFILE, CONTRACTS, PROVIDER, ALLOWLIST, DECISION, REFERENCE, ENFORCEMENT, GATE_RECORD]
+REQUIRED_FILES = [
+    PROFILE, CONTRACTS, PROVIDER, ALLOWLIST, DECISION, REFERENCE,
+    ENFORCEMENT, GATE_RECORD, PROVIDER_ADAPTER, SINGLE_AUDIO_COLLECTOR,
+    PROMOTION_COLLECTOR, CURRENT_HOST_WORKFLOW,
+]
 
 
 def load(path: Path) -> dict[str, Any]:
@@ -44,6 +52,10 @@ def run_gate() -> tuple[bool, list[str]]:
     reference = load(REFERENCE)
     enforcement = load(ENFORCEMENT)
     gate_record = load(GATE_RECORD)
+    adapter_text = PROVIDER_ADAPTER.read_text(encoding="utf-8")
+    collector_text = SINGLE_AUDIO_COLLECTOR.read_text(encoding="utf-8")
+    promotion_text = PROMOTION_COLLECTOR.read_text(encoding="utf-8")
+    workflow_text = CURRENT_HOST_WORKFLOW.read_text(encoding="utf-8")
 
     # Architecture invariants.
     require(profile.get("id") == "FA3-VOICE-ACTIVITY-DETECTION-001", "wrong VAD profile id", errors)
@@ -56,6 +68,7 @@ def run_gate() -> tuple[bool, list[str]]:
     require(provider.get("new_capability") is False, "provider must not add a capability", errors)
     require(provider.get("new_architectural_authority") is False, "provider must not add authority", errors)
     require(contracts.get("provider_neutral") is True, "VAD contracts must remain provider-neutral", errors)
+    require("VadQualityCorpusManifest" in contracts.get("contracts", []), "quality corpus contract missing", errors)
 
     # Authority boundaries.
     expected_authorities = {
@@ -73,9 +86,12 @@ def run_gate() -> tuple[bool, list[str]]:
     runtime = provider.get("runtime", {})
     hardware = provider.get("hardware_policy", {})
     require(runtime.get("portable_cpu_execution_required") is True, "portable CPU execution path is required", errors)
+    require(runtime.get("baseline_execution_provider") == "CPUExecutionProvider", "CPU baseline EP drift", errors)
     require(runtime.get("gpu_required") is False, "GPU must not be required for portable baseline", errors)
     require(runtime.get("accelerator_optional_with_hrb_receipt") is True, "accelerator route must require HRB receipt", errors)
+    require(runtime.get("accelerator_device_binding_source") == "HRB_ACCELERATOR_EXECUTION_LEASE_ONLY", "accelerator device must be HRB-bound", errors)
     require(runtime.get("silent_execution_provider_fallback") is False, "silent EP fallback must be disabled", errors)
+    require(runtime.get("accelerator_cpu_ep_fallback_disabled") is True, "accelerator CPU EP fallback must be disabled", errors)
     require(hardware.get("consume_dynamic_discovery") is True, "provider must consume dynamic hardware discovery", errors)
     require(hardware.get("host_resource_broker_authoritative") is True, "HRB must remain placement authority", errors)
     forbidden = set(hardware.get("forbidden_portable_pins", []))
@@ -97,6 +113,18 @@ def run_gate() -> tuple[bool, list[str]]:
     require(runtime.get("streaming_state") == "EXPLICIT_RESETTABLE", "streaming state must remain explicit/resettable", errors)
     require(runtime.get("resampling") == "EXTERNAL_OR_EXPLICIT_WITH_PROVENANCE", "implicit resampling must stay forbidden", errors)
 
+    # Executable adapter/harness invariants.
+    lower_adapter = adapter_text.lower()
+    for remembered_identity in ("xeon", "rtx 3090", "rtx a1000", "cuda:0", "numa node 0"):
+        require(remembered_identity not in lower_adapter, f"remembered host identity leaked into adapter: {remembered_identity}", errors)
+    require("AcceleratorExecutionLease@1" in adapter_text, "adapter does not validate HRB lease schema", errors)
+    require("session.disable_cpu_ep_fallback" in adapter_text, "adapter does not disable accelerator CPU EP fallback", errors)
+    require("device_id" in adapter_text and "device_ordinal" in adapter_text, "CUDA device not bound from HRB lease", errors)
+    require("FA3_CURRENT_HOST_RUNNER" in collector_text, "single-audio collector lacks current-host runner guard", errors)
+    require("FA3_CURRENT_HOST_RUNNER" in promotion_text, "promotion collector lacks current-host runner guard", errors)
+    require("runs-on: [self-hosted, linux, x64, fa3-current-host]" in workflow_text, "current-host workflow runner labels drift", errors)
+    require("workflow_dispatch:" in workflow_text, "current-host production workflow must remain explicit/manual", errors)
+
     # Immutable upstream and allowlist.
     upstream = provider.get("upstream", {})
     require(upstream.get("release") == "v6.2.1", "upstream release drift", errors)
@@ -114,8 +142,12 @@ def run_gate() -> tuple[bool, list[str]]:
     require(promotion.get("current_host_real_onnx_e2e") == "REQUIRED", "real ONNX E2E must be required", errors)
     require(promotion.get("sample_rate_8k_e2e") == "REQUIRED", "8 kHz E2E must be required", errors)
     require(promotion.get("sample_rate_16k_e2e") == "REQUIRED", "16 kHz E2E must be required", errors)
+    require(promotion.get("quality_regression") == "REQUIRED", "quality regression must be required", errors)
+    require(promotion.get("concurrent_stream_test") == "REQUIRED", "concurrency evidence must be required", errors)
+    require(promotion.get("long_run_soak") == "REQUIRED", "soak evidence must be required", errors)
     require(promotion.get("runtime_promotion_claimed") is False, "runtime promotion claimed without evidence", errors)
     require(gate_record.get("promotion", {}).get("document_derived_runtime_pass") is False, "document-derived runtime PASS forbidden", errors)
+    require(gate_record.get("promotion", {}).get("production_runtime_promoted") is False, "production runtime promoted without current-host receipt", errors)
     require(decision.get("capability_count_before") == 143 and decision.get("capability_count_after") == 143, "decision changes capability count", errors)
 
     # Enforcement must remain fail-closed and non-trivial.
