@@ -22,14 +22,16 @@
     "tests/test_silero_vad_registry.py",
     "evidence/collect-silero-vad-current-host.py",
     "evidence/collect-silero-vad-promotion-current-host.py",
+    "evidence/reference/FA3-SILERO-VAD-MODEL-BOOTSTRAP-IDENTITY-001.json",
     "evidence/reference/FA3-SILERO-VAD-REFERENCE-GATE-PASS-001.json",
     "evidence/reference/FA3-SILERO-VAD-STATIC-ADMISSION-001.json",
     "docs/FA3-SILERO-VAD-001.md",
     ".github/workflows/fa3-silero-vad-gate.yml",
     ".github/workflows/fa3-silero-vad-current-host.yml"
   ],
+  "model_identity_state": "BOOTSTRAP_SHA256_PASS",
   "runtime_state": "PENDING_CURRENT_HOST",
-  "reference_gate_state": "PENDING_REVALIDATION_AFTER_RUNTIME_HARNESS_MATERIALIZATION",
-  "previous_reference_gate_source_revision": "0351b63fe14d3c683d952b4e7e591ad1f8bdfd4d",
-  "previous_reference_gate_ci_run_id": 34408258401
+  "reference_gate_state": "PENDING_FINAL_REVALIDATION",
+  "previous_reference_gate_source_revision": "89fe994e7cd9560a50f01927a7990ef9517d5ecc",
+  "previous_reference_gate_ci_run_id": 34409259036
 }
