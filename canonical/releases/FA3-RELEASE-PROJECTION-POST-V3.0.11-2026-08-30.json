@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "611a0b13ed8e19e8e81a5c0fc65dd0e9074583d2",
-    "pre_projection_root_tree_sha": "af75193709b5e813d8377780cfcd6ee8d065e353",
-    "pre_projection_canonical_tree_sha": "7a1b43db6a4e4d706f63090d80763feb640a0f34",
-    "commits_ahead_of_v3_0_11_conformance_commit": 126,
-    "total_post_baseline_commits": 126,
-    "delta_file_count": 756,
-    "delta_added_files": 751,
+    "pre_projection_head_sha": "a39e8e0d9267612e50c44f92067b4402f2bbbf2e",
+    "pre_projection_root_tree_sha": "b498e9f994c3a01abe38f702bf8aed3484f27961",
+    "pre_projection_canonical_tree_sha": "dc83b626a1f939be0f6cfe196462b4a847f55aa7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 128,
+    "total_post_baseline_commits": 128,
+    "delta_file_count": 757,
+    "delta_added_files": 752,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 429,
+    "canonical_files_in_post_baseline_delta": 430,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 69,
@@ -260,6 +260,7 @@
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
@@ -543,7 +544,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 757,
+  "manifest_entry_count": 758,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1508,6 +1509,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "git_blob_sha": "e3d41279c80ac67389df6e57a4073d9513e31ddc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09.json",
+      "git_blob_sha": "a955e13adeff128fdec46e322ff10d76b818d687",
       "baseline_delta_status": "added"
     },
     {
