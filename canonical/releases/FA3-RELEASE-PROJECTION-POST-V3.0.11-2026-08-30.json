@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "06aad07d328ac7b8bed9528d74d4ccd85350f737",
-    "pre_projection_root_tree_sha": "86da4cd06516d8a960e5592d0f57585009780f3d",
-    "pre_projection_canonical_tree_sha": "b52169f954ef76c7c06490ea951ed8711816e8c7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 136,
-    "total_post_baseline_commits": 136,
-    "delta_file_count": 761,
-    "delta_added_files": 756,
+    "pre_projection_head_sha": "75c4f93c11c6f78658a360a4ca8b4544ad049051",
+    "pre_projection_root_tree_sha": "b1f7e730ea90164cbd163f47450aa5a5eb5c1a41",
+    "pre_projection_canonical_tree_sha": "b67ef672673bea4535dac9dfdad3bb9864541f6b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 141,
+    "total_post_baseline_commits": 141,
+    "delta_file_count": 765,
+    "delta_added_files": 760,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 430,
-    "evidence_files_in_post_baseline_delta": 81,
+    "canonical_files_in_post_baseline_delta": 432,
+    "evidence_files_in_post_baseline_delta": 83,
     "source_files_in_post_baseline_delta": 88,
     "test_files_in_post_baseline_delta": 71,
     "workflow_files_in_post_baseline_delta": 17,
@@ -277,6 +277,7 @@
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
+      "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
@@ -388,6 +389,8 @@
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
+      "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+      "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
       "evidence/reference/model-artifact-security-ci-2026-09-07.json",
       "evidence/reference/model-artifact-security-current-host-materialization-2026-09-08.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
@@ -544,7 +547,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 762,
+  "manifest_entry_count": 766,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1594,6 +1597,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
       "git_blob_sha": "ef6253c9633d5ba986d9f28abf620fab8959b337",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
+      "git_blob_sha": "b0d28828549cc56c8653096d3c45bc3db3c4e6dd",
       "baseline_delta_status": "added"
     },
     {
@@ -2877,6 +2885,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
+      "git_blob_sha": "3a26487c91308853f722a59cd007203b5cd7b2d4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENVID-2026-09-04.json",
       "git_blob_sha": "51c894a941e437713d6b3ae8bac1925a3b7c619a",
       "baseline_delta_status": "added"
@@ -3384,6 +3397,16 @@
     {
       "path": "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
       "git_blob_sha": "0b11e39f44d06743133ccec436a494af0dab1cb4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+      "git_blob_sha": "7662d85155195d09caa3d914a67d4f23d42513c9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
+      "git_blob_sha": "bbdb30e04719564ce452daf5b38cf18488aa1d92",
       "baseline_delta_status": "added"
     },
     {
