@@ -1,0 +1,81 @@
+name: FA3 Release Projection Refresh
+
+on:
+  push:
+    branches:
+      - fa3-mentor-current-host-001
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-release-projection-refresh-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Regenerate tracked release-surface manifest from Git blob identities
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          projection_path = Path('canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
+          projection = json.loads(projection_path.read_text(encoding='utf-8'))
+          old = {x.get('path'): x for x in projection.get('manifest', []) if x.get('path')}
+
+          mutable_top = {'.git','reports','acceptance','promotion','.pytest_cache','.mypy_cache'}
+          mutable_dir_names = {'__pycache__'}
+          def excluded(rel: str) -> bool:
+              parts = Path(rel).parts
+              if not parts:
+                  return True
+              if rel == projection_path.as_posix():
+                  return True
+              if parts[0] in mutable_top or any(p in mutable_dir_names for p in parts):
+                  return True
+              if rel.startswith('evidence/receipts/') and rel != 'evidence/receipts/.gitkeep':
+                  return True
+              return False
+
+          out = subprocess.check_output(['git','ls-files','-s'], text=True)
+          manifest = []
+          for line in out.splitlines():
+              meta, path = line.split('\t', 1)
+              _mode, sha, stage = meta.split()
+              if stage != '0' or excluded(path):
+                  continue
+              status = old.get(path, {}).get('baseline_delta_status', 'mentor_current_host_update')
+              manifest.append({'path': path, 'git_blob_sha': sha, 'baseline_delta_status': status})
+          manifest.sort(key=lambda x: x['path'])
+          projection['manifest'] = manifest
+          projection['manifest_entry_count'] = len(manifest)
+          notes = list(projection.get('projection_notes', []))
+          note = 'FA3-MENTOR-CURRENT-HOST-001 executable current-host E2E projection added; capability count 143 and architectural authority count unchanged.'
+          if note not in notes:
+              notes.append(note)
+          projection['projection_notes'] = notes
+          projection_path.write_text(json.dumps(projection, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+          print(f'regenerated manifest entries={len(manifest)}')
+          PY
+      - name: Commit refreshed projection when changed
+        shell: bash
+        run: |
+          if git diff --quiet -- canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json; then
+            echo 'Projection already coherent.'
+            exit 0
+          fi
+          git config user.name 'fa3-projection-bot'
+          git config user.email 'fa3-projection-bot@users.noreply.github.com'
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m 'chore(release): refresh projection for Mentor current-host'
+          git push

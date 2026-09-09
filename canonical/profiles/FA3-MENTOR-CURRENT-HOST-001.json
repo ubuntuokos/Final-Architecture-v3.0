@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MENTOR-CURRENT-HOST-001",
+  "name": "AI Mentor Current-Host Runtime, Integration & Production E2E Conformance",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": "IMPLEMENTATION-PROJECTION-OF",
+  "parent_profile": "FA3-MENTOR-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "current_host_only": true,
+  "required_surfaces": [
+    "FA3 Mentor runtime",
+    "Central MCP typed dispatch",
+    "Knowledge/RAG canonical projection",
+    "Memory read and explicit-consent write escalation",
+    "Unified Observability/Evidence sink",
+    "Evidence-backed BKT/FSRS mastery update",
+    "Bubblewrap practice-lab execution under delegated Agent Execution"
+  ],
+  "authority_boundaries": {
+    "mentor": "ADVISORY_ONLY",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "knowledge": "FA3-KNOWLEDGE-001",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "promotion": {
+    "component_pass_requires_real_current_host_receipt": true,
+    "synthetic_fixture_is_promotion_evidence": false,
+    "global_promotion_claim": false
+  },
+  "implementation_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_CURRENT_HOST_E2E_REQUIRED"
+}
