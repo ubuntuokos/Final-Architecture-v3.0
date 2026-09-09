@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9d34c69864f795ef1f3521b18193926c8e70d424",
-    "pre_projection_root_tree_sha": "fe169c769ef9d283fa227535d87dae8cae9efc43",
-    "pre_projection_canonical_tree_sha": "7f51d387b464db4ef72755394622be9d25e6b606",
-    "commits_ahead_of_v3_0_11_conformance_commit": 130,
-    "total_post_baseline_commits": 130,
-    "delta_file_count": 758,
-    "delta_added_files": 753,
+    "pre_projection_head_sha": "03899999c3fafcab4b2c44323d5e8a6394aec7dc",
+    "pre_projection_root_tree_sha": "d9eff9c6ee257741a02537b95dc046353007300a",
+    "pre_projection_canonical_tree_sha": "feb5368fa90f2b1f09f1f2822da4d4d67d452dc0",
+    "commits_ahead_of_v3_0_11_conformance_commit": 133,
+    "total_post_baseline_commits": 133,
+    "delta_file_count": 760,
+    "delta_added_files": 755,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 431,
-    "evidence_files_in_post_baseline_delta": 81,
+    "canonical_files_in_post_baseline_delta": 432,
+    "evidence_files_in_post_baseline_delta": 82,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 69,
     "workflow_files_in_post_baseline_delta": 17,
@@ -377,6 +377,7 @@
       "evidence/reference/hardware-portability-ci-2026-09-03.json",
       "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
+      "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
       "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
       "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
@@ -544,7 +545,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 759,
+  "manifest_entry_count": 761,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -879,6 +880,11 @@
     {
       "path": "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json",
       "git_blob_sha": "8e53472e4b356b5b7732873e74d65a2f9d06c866",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-HRB-CUDA-CURRENT-HOST-001.json",
+      "git_blob_sha": "a9a402e1bc422d1ead4781bde8378c0082cc50ab",
       "baseline_delta_status": "added"
     },
     {
@@ -3334,6 +3340,11 @@
     {
       "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "git_blob_sha": "ab2e038d9b0a28cc987132eed31b75f2f40c461d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
+      "git_blob_sha": "f6ea9c18e2aad1457518085983a59f75875bb96f",
       "baseline_delta_status": "added"
     },
     {
