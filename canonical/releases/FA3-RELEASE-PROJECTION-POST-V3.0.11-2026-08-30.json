@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8046b80ed47030e424b31570451b4cee95f36e4d",
-    "pre_projection_root_tree_sha": "c2fa98194b84432d5af8cb77da40ffc4832182bd",
-    "pre_projection_canonical_tree_sha": "9ba134fe4aa7296fee3a1717ce1e5a4b793b996a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 133,
-    "total_post_baseline_commits": 133,
-    "delta_file_count": 788,
-    "delta_added_files": 783,
+    "pre_projection_head_sha": "cea579ecc17cacaf366f983592c253f997fbde85",
+    "pre_projection_root_tree_sha": "2e22042581c92e73af8ddcd57067b5ca82110c57",
+    "pre_projection_canonical_tree_sha": "f4cb98fad09cc496ce06dc3353102c55d92212f1",
+    "commits_ahead_of_v3_0_11_conformance_commit": 136,
+    "total_post_baseline_commits": 136,
+    "delta_file_count": 790,
+    "delta_added_files": 785,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 448,
+    "canonical_files_in_post_baseline_delta": 449,
     "evidence_files_in_post_baseline_delta": 85,
     "source_files_in_post_baseline_delta": 90,
-    "test_files_in_post_baseline_delta": 73,
+    "test_files_in_post_baseline_delta": 74,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -559,7 +559,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 789,
+  "manifest_entry_count": 791,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -904,6 +904,11 @@
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
       "git_blob_sha": "305931e1158c46167f403b588c37ae3e7690bf21",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001.json",
+      "git_blob_sha": "6749d438c6c9470640387a23752698b7b7282643",
       "baseline_delta_status": "added"
     },
     {
@@ -4259,6 +4264,11 @@
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "3d3e282cfd1125ed913ece46c6a0d25f7bce4c89",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_systemd_manager_current_host_gate.py",
+      "git_blob_sha": "9cce6aa37cb6ef168e1d6e159e2f0bc1fb857fce",
       "baseline_delta_status": "added"
     },
     {
