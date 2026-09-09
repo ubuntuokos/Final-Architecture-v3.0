@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "17f1d259e6ee5df0ea082c88ea8e1026d0682282",
-    "pre_projection_root_tree_sha": "07f70d97a37b42ef00f59897a53b350319ff8bda",
-    "pre_projection_canonical_tree_sha": "f32aa07d4aff193d6329bc057388d0ed3c1ae940",
-    "commits_ahead_of_v3_0_11_conformance_commit": 137,
-    "total_post_baseline_commits": 137,
-    "delta_file_count": 762,
-    "delta_added_files": 757,
+    "pre_projection_head_sha": "2ccbc54e7fae23b2099ebfd36c2a04b03b403c23",
+    "pre_projection_root_tree_sha": "8e2a4a3c52aea0c1f6943f47cc8c02c3e8b2ce57",
+    "pre_projection_canonical_tree_sha": "f231c59851c7e1bfa39caed07436aa15d1cba5fb",
+    "commits_ahead_of_v3_0_11_conformance_commit": 139,
+    "total_post_baseline_commits": 139,
+    "delta_file_count": 763,
+    "delta_added_files": 758,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 433,
-    "evidence_files_in_post_baseline_delta": 82,
+    "evidence_files_in_post_baseline_delta": 83,
     "source_files_in_post_baseline_delta": 87,
     "test_files_in_post_baseline_delta": 69,
     "workflow_files_in_post_baseline_delta": 17,
@@ -545,7 +545,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 763,
+  "manifest_entry_count": 764,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -3165,6 +3165,11 @@
     {
       "path": "evidence/collect-gpu-kernel-runtime-current-host.py",
       "git_blob_sha": "b78d2fb8faa7a0d3bc8ab87ce38eae157c78d2f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-hrb-cuda-current-host.py",
+      "git_blob_sha": "9e32e90c982451db402dfaf3ec19ef9a5d8efbac",
       "baseline_delta_status": "added"
     },
     {
