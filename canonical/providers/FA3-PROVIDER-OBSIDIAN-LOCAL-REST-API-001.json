@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001",
+  "name": "coddingtonbear/obsidian-local-rest-api",
+  "status": "ACCEPTED_OPTIONAL_ADAPTER_DISABLED_BY_DEFAULT",
+  "provider_role": "OPTIONAL_OBSIDIAN_LOOPBACK_REST_AND_MCP_ADAPTER_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "COMMUNITY_PLUGIN",
+    "LOOPBACK_REST_ADAPTER",
+    "MCP_SERVER_PROJECTION",
+    "REPLACEABLE_ADAPTER",
+    "NON_AUTHORITY"
+  ],
+  "profile": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
+  "contract": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-010",
+    "CAP-018"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "hard_dependency": false,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT_SEPARATE_ACCEPTANCE_REQUIRED",
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_PLUGIN_SECURITY_AND_CURRENT_HOST_E2E",
+  "runtime_activation_requires_current_host_conformance": true,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "immutable_component_tuple": {
+    "repository": "coddingtonbear/obsidian-local-rest-api",
+    "release": "5.1.0",
+    "commit": "2e255200a4d8f68e49a4f7f8fd46b4abf736c4eb",
+    "license": "MIT",
+    "minimum_obsidian": "1.13.1",
+    "main_js_sha256": "c3bf3ef644c5ade946c4ab64821a5969a92124e00afb4dc9bac4034d482ce131",
+    "manifest_json_sha256": "6c0d8390e6aa3f3515c834e2b4174545cf0cd20c5dbb116216e5d36b72af8437",
+    "styles_css_sha256": "a8b5c52e4974bd356225a17d64e6ea25502206ad860641da260fdc14430426f8"
+  },
+  "canonical_projection": {
+    "default_enabled": false,
+    "binding": "HTTPS_LOOPBACK_ONLY",
+    "plaintext_http_enabled": false,
+    "tls_verification": "REQUIRED",
+    "bearer_secret_storage": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "agent_endpoint_disclosure": false,
+    "agent_route": "CENTRAL_MCP_CAPABILITY_GATEWAY_AND_POLICY_ADAPTER_ONLY",
+    "command_execute": false,
+    "eval": false,
+    "plugin_configuration": false,
+    "delete_move_rename": false,
+    "canonical_note_overwrite": false,
+    "private_vault_access": false
+  },
+  "community_plugin_risk": {
+    "inherits_obsidian_process_access": true,
+    "fine_grained_native_permission_isolation_available": false,
+    "independent_security_and_supply_chain_admission_required": true,
+    "dedicated_non_private_vault_required": true
+  },
+  "authority_boundaries": {
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "knowledge_and_memory": "EXISTING_FA3_UNIFIED_MEMORY_GATEWAY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "MCP_CAPABILITY_GATEWAY_AUTHORITY",
+    "AUTHORIZATION_POLICY_AUTHORITY",
+    "KNOWLEDGE_OR_MEMORY_AUTHORITY",
+    "IDENTITY_OR_SECRETS_AUTHORITY",
+    "EVIDENCE_OR_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "The Local REST API/MCP plugin SHALL remain disabled by default. If separately admitted, it SHALL be pinned, loopback-TLS-only, centrally mediated and operation-allowlisted; direct agent access, plaintext HTTP, insecure TLS, commands, plugin configuration, curated-note overwrite, delete, move, rename and private-vault access are forbidden."
+}

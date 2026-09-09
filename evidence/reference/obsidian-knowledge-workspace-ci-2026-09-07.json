@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "evidence_id": "FA3-EVID-OBSIDIAN-KNOWLEDGE-WORKSPACE-CI-2026-09-07",
+  "subject_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OBSIDIAN-001",
+    "FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001"
+  ],
+  "contract_id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+  "gate_id": "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
+  "status": "PASS",
+  "executed_at": "2026-09-07T00:00:00Z",
+  "execution_scope": "CANONICAL_STATIC_AND_EXECUTABLE_REGRESSION",
+  "regression_count": 32,
+  "regressions_passed": 32,
+  "positive_negative_regressions": true,
+  "finding_count": 0,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KNOWLEDGE_WORKSPACE_CONFORMANCE",
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claimed": false,
+  "production_provider_admission_claimed": false,
+  "local_rest_mcp_adapter_admitted": false,
+  "notes": [
+    "PASS proves canonical, authority-boundary and executable regression closure only.",
+    "No installed Obsidian desktop, vault, indexer, Local REST API plugin or current-host E2E claim is made.",
+    "The current-host preferred vault path remains a non-portable reference, not a global path constant.",
+    "The Local REST API/MCP adapter remains disabled pending separate security, supply-chain and current-host acceptance."
+  ]
+}
