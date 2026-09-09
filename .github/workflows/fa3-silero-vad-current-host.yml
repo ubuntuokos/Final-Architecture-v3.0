@@ -1,0 +1,86 @@
+name: FA3 Silero VAD Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      model_path:
+        description: "Absolute admitted silero_vad.onnx path on the runner"
+        required: true
+        type: string
+      model_sha256:
+        description: "Expected SHA-256 of the admitted ONNX model"
+        required: true
+        type: string
+      quality_manifest:
+        description: "Absolute fa3.silero-vad-quality-corpus.v1 manifest path on the runner"
+        required: true
+        type: string
+      execution_provider:
+        description: "CPUExecutionProvider or CUDAExecutionProvider"
+        required: true
+        default: "CPUExecutionProvider"
+        type: string
+      hrb_lease:
+        description: "Absolute AcceleratorExecutionLease@1 JSON path; required for CUDAExecutionProvider"
+        required: false
+        type: string
+      concurrency_workers:
+        description: "Independent concurrent provider sessions"
+        required: true
+        default: "4"
+        type: string
+      soak_iterations:
+        description: "Full-corpus soak iterations"
+        required: true
+        default: "100"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  silero-vad-current-host:
+    name: silero-vad-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify provider runtime
+        shell: bash
+        run: |
+          PY="${FA3_SILERO_VAD_PYTHON:-$PWD/.venv-silero-vad/bin/python}"
+          test -x "$PY"
+          "$PY" - <<'PY'
+          import numpy, onnxruntime
+          print("numpy", numpy.__version__)
+          print("onnxruntime", onnxruntime.__version__)
+          print("providers", onnxruntime.get_available_providers())
+          PY
+      - name: Run real Silero VAD promotion E2E
+        shell: bash
+        env:
+          FA3_CURRENT_HOST_RUNNER: "1"
+        run: |
+          PY="${FA3_SILERO_VAD_PYTHON:-$PWD/.venv-silero-vad/bin/python}"
+          ARGS=(
+            --model "${{ inputs.model_path }}"
+            --expected-sha256 "${{ inputs.model_sha256 }}"
+            --manifest "${{ inputs.quality_manifest }}"
+            --provider "${{ inputs.execution_provider }}"
+            --concurrency-workers "${{ inputs.concurrency_workers }}"
+            --soak-iterations "${{ inputs.soak_iterations }}"
+            --output "$PWD/evidence/current-host/FA3-SILERO-VAD-PROMOTION-EVIDENCE-001.json"
+          )
+          if [[ -n "${{ inputs.hrb_lease }}" ]]; then
+            ARGS+=(--hrb-lease "${{ inputs.hrb_lease }}")
+          fi
+          "$PY" evidence/collect-silero-vad-promotion-current-host.py "${ARGS[@]}"
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-silero-vad-current-host-evidence
+          path: |
+            evidence/current-host/FA3-SILERO-VAD-PROMOTION-EVIDENCE-001.json

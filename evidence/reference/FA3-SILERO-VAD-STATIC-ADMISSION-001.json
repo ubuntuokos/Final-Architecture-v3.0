@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.static-admission-evidence.v1",
+  "id": "FA3-SILERO-VAD-STATIC-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "status": "PASS",
+  "checks": [
+    "provider-neutral profile exists",
+    "authority boundaries preserved",
+    "capability count remains 143",
+    "ONNX-first model policy",
+    "runtime acquisition forbidden",
+    "hardware portability pins forbidden",
+    "HRB accelerator admission required",
+    "current-host runtime remains unpromoted"
+  ],
+  "evidence": {
+    "source_revision": "0351b63fe14d3c683d952b4e7e591ad1f8bdfd4d",
+    "ci_run_id": 34408258401,
+    "ci_conclusion": "success"
+  },
+  "runtime_promotion": false,
+  "current_host_runtime": "PENDING_CURRENT_HOST"
+}

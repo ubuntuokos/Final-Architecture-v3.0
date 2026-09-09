@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-SILERO-VAD-001",
+  "status": "ACTIVE",
+  "priority": "P0",
+  "profile_id": "FA3-VOICE-ACTIVITY-DETECTION-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "enforcement": "canonical/silero-vad-enforcement.json",
+  "executable": "src/fa3_silero_vad_gate.py",
+  "tests": "tests/test_silero_vad_registry.py",
+  "provider_adapter": "src/fa3_silero_vad_provider.py",
+  "single_audio_current_host_collector": "evidence/collect-silero-vad-current-host.py",
+  "promotion_current_host_collector": "evidence/collect-silero-vad-promotion-current-host.py",
+  "current_host_workflow": ".github/workflows/fa3-silero-vad-current-host.yml",
+  "reference_pass_evidence": "evidence/reference/FA3-SILERO-VAD-REFERENCE-GATE-PASS-001.json",
+  "reference_gate_state": "PENDING_REVALIDATION_AFTER_RUNTIME_HARNESS_MATERIALIZATION",
+  "fail_closed": true,
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "current_host_runtime": "PENDING_UNTIL_REAL_AUDIO_E2E_RECEIPT",
+    "document_derived_runtime_pass": false,
+    "production_runtime_promoted": false
+  }
+}

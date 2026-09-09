@@ -1,0 +1,103 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SILERO-VAD-001",
+  "name": "snakers4/silero-vad",
+  "status": "ACCEPTED_OPTIONAL_REFERENCE_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_LOCAL_REALTIME_AND_OFFLINE_VOICE_ACTIVITY_DETECTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "STRONG_REFERENCE_PROVIDER",
+    "LOCAL_FIRST",
+    "REALTIME_STREAMING",
+    "OFFLINE_SEGMENTATION",
+    "ONNX_CAPABLE",
+    "CPU_PORTABLE_BASELINE",
+    "ACCELERATOR_OPTIONAL",
+    "PERMISSIVE_LICENSE"
+  ],
+  "profile_ids": ["FA3-VOICE-ACTIVITY-DETECTION-001"],
+  "capability_bindings": ["CAP-017", "CAP-115", "CAP-116"],
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "snakers4/silero-vad",
+    "release": "v6.2.1",
+    "revision": "7e30209a3e901f9842f81b225f3e93d8199902b1",
+    "license": "MIT",
+    "reference_id": "FA3-SILERO-VAD-UPSTREAM-REFERENCE-2026-09-09"
+  },
+  "model_policy": {
+    "allowlist_id": "FA3-SILERO-VAD-MODEL-ALLOWLIST-001",
+    "preferred_format": "ONNX",
+    "default_model": "silero_vad.onnx",
+    "runtime_torch_hub_loading": false,
+    "runtime_auto_download": false,
+    "runtime_network_acquisition": false,
+    "sha256_required_before_current_host_promotion": true,
+    "half_precision_default": false
+  },
+  "runtime": {
+    "portable_cpu_execution_required": true,
+    "baseline_execution_provider": "CPUExecutionProvider",
+    "admitted_execution_providers": ["CPUExecutionProvider", "CUDAExecutionProvider"],
+    "gpu_required": false,
+    "accelerator_optional_with_hrb_receipt": true,
+    "accelerator_device_binding_source": "HRB_ACCELERATOR_EXECUTION_LEASE_ONLY",
+    "execution_provider_explicit": true,
+    "silent_execution_provider_fallback": false,
+    "accelerator_cpu_ep_fallback_disabled": true,
+    "sample_rates_hz": [8000, 16000],
+    "channels": [1],
+    "streaming_state": "EXPLICIT_RESETTABLE",
+    "resampling": "EXTERNAL_OR_EXPLICIT_WITH_PROVENANCE"
+  },
+  "hardware_policy": {
+    "consume_dynamic_discovery": true,
+    "host_resource_broker_authoritative": true,
+    "forbidden_portable_pins": [
+      "CPU_VENDOR",
+      "CPU_MODEL",
+      "CPU_ID",
+      "NUMA_NODE",
+      "GPU_SKU",
+      "VRAM_SIZE",
+      "PCI_BDF",
+      "CUDA_ORDINAL",
+      "FIXED_DEVICE_COUNT"
+    ]
+  },
+  "authority_boundaries": {
+    "audio": false,
+    "voice": false,
+    "inference": false,
+    "model_registry": false,
+    "provider_routing": false,
+    "device_routing": false,
+    "workflow": false,
+    "security": false,
+    "host_resource": false,
+    "evidence": false
+  },
+  "implementation": {
+    "provider_adapter": "src/fa3_silero_vad_provider.py",
+    "gate": "src/fa3_silero_vad_gate.py",
+    "reference_workflow": ".github/workflows/fa3-silero-vad-gate.yml",
+    "single_audio_current_host_collector": "evidence/collect-silero-vad-current-host.py",
+    "promotion_current_host_collector": "evidence/collect-silero-vad-promotion-current-host.py",
+    "current_host_workflow": ".github/workflows/fa3-silero-vad-current-host.yml"
+  },
+  "promotion": {
+    "reference_gate": "PASS",
+    "current_host_real_onnx_e2e": "REQUIRED",
+    "sample_rate_8k_e2e": "REQUIRED",
+    "sample_rate_16k_e2e": "REQUIRED",
+    "stream_state_continuity_and_reset": "REQUIRED",
+    "quality_regression": "REQUIRED",
+    "concurrent_stream_test": "REQUIRED",
+    "long_run_soak": "REQUIRED",
+    "accelerator_quality_equivalence": "REQUIRED_ONLY_IF_ACCELERATOR_ROUTE_ENABLED",
+    "runtime_promotion_claimed": false
+  }
+}

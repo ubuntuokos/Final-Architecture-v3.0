@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.reference-gate-evidence.v1",
+  "id": "FA3-SILERO-VAD-REFERENCE-GATE-PASS-001",
+  "gate_id": "FA3-GATE-SILERO-VAD-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "status": "PASS",
+  "runtime_promotion": false,
+  "document_derived_runtime_pass": false,
+  "executed_command": "PYTHONPATH=src python src/fa3_silero_vad_gate.py && pytest -q tests/test_silero_vad_registry.py",
+  "source_revision": "0351b63fe14d3c683d952b4e7e591ad1f8bdfd4d",
+  "ci_run": {
+    "id": 34408258401,
+    "name": "FA3 Silero VAD Gate",
+    "run_number": 55,
+    "conclusion": "success"
+  },
+  "evidence_scope": "REFERENCE_STATIC_AND_REGRESSION_GATE_ONLY",
+  "current_host_runtime_status": "PENDING_CURRENT_HOST",
+  "note": "Executable reference gate and regression tests passed. This does not promote the provider runtime; real current-host 8k/16k audio, model SHA-256, quality, concurrency and soak evidence remain required."
+}

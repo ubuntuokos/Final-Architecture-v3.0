@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.runtime-conformance-state.v1",
+  "id": "FA3-SILERO-VAD-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "status": "PENDING_CURRENT_HOST",
+  "runtime_promotion": false,
+  "document_derived": false,
+  "required_receipts": [
+    "REAL_ONNX_8KHZ_AUDIO_E2E",
+    "REAL_ONNX_16KHZ_AUDIO_E2E",
+    "STREAM_STATE_CONTINUITY_AND_RESET",
+    "SPEECH_SILENCE_NOISE_MUSIC_QUALITY_REGRESSION",
+    "CONCURRENT_STREAM_EXECUTION",
+    "LONG_RUN_SOAK",
+    "MODEL_SHA256_ADMISSION",
+    "EXECUTION_PROVIDER_IDENTITY",
+    "HRB_RECEIPT_IF_ACCELERATOR_USED",
+    "CPU_ACCELERATOR_QUALITY_EQUIVALENCE_IF_ACCELERATOR_USED"
+  ],
+  "collector": "evidence/collect-silero-vad-current-host.py",
+  "promotion_blocker": "NO_REAL_CURRENT_HOST_RECEIPT_BUNDLE_YET",
+  "invariant": "CURRENT_HOST_FACTS_ARE_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS"
+}

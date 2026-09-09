@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-SILERO-VAD-2026-09-09",
+  "date": "2026-09-09",
+  "status": "ACCEPTED",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_VAD_PROFILE_AND_OPTIONAL_SILERO_REFERENCE_PROVIDER_WITHOUT_NEW_CAPABILITY_OR_AUTHORITY",
+  "profile_id": "FA3-VOICE-ACTIVITY-DETECTION-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "rationale": [
+    "VAD is a reusable audio/STT preprocessing concern and must remain provider-neutral.",
+    "Silero VAD is a strong local reference provider with ONNX artifacts and a permissive MIT license.",
+    "FA3 hardware portability forbids binding the provider to remembered current-host CPU/GPU identities.",
+    "Portable CPU execution is required, accelerator execution is optional and only valid with Host Resource Broker and backend compatibility receipts.",
+    "ONNX is the primary interchange path when supported; PyTorch/JIT remains non-default compatibility/reference execution.",
+    "Runtime download and torch.hub acquisition are forbidden for production execution."
+  ],
+  "authority_preservation": {
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "audio_device_routing": "EXISTING_FA3_AUDIO_PIPEWIRE_AUTHORITY_ONLY"
+  },
+  "promotion_policy": "REFERENCE_GATE_PASS_REQUIRED; CURRENT_HOST_REAL_AUDIO_ONNX_E2E_AND_QUALITY_EVIDENCE_REQUIRED; NO_DOCUMENT_DERIVED_RUNTIME_PASS"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.model-bootstrap-identity-evidence.v1",
+  "id": "FA3-SILERO-VAD-MODEL-BOOTSTRAP-IDENTITY-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "status": "PASS",
+  "scope": "BOOTSTRAP_IDENTITY_ONLY_NOT_RUNTIME_OR_PRODUCTION_PROMOTION",
+  "upstream": {
+    "repository": "snakers4/silero-vad",
+    "release": "v6.2.1",
+    "revision": "7e30209a3e901f9842f81b225f3e93d8199902b1"
+  },
+  "ci_evidence": {
+    "workflow": "FA3 Silero VAD Gate",
+    "run_id": 34409259036,
+    "job_id": 102659580179,
+    "artifact_id": 10126566146,
+    "source_head_sha": "89fe994e7cd9560a50f01927a7990ef9517d5ecc"
+  },
+  "artifacts": [
+    {
+      "name": "silero_vad.onnx",
+      "size_bytes": 2327524,
+      "sha256": "1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3"
+    },
+    {
+      "name": "silero_vad_16k_op15.onnx",
+      "size_bytes": 1289603,
+      "sha256": "7ed98ddbad84ccac4cd0aeb3099049280713df825c610a8ed34543318f1b2c49"
+    },
+    {
+      "name": "silero_vad_half.onnx",
+      "size_bytes": 1280395,
+      "sha256": "1e0b195ad4806595ef4466f419d16fca7e4afcfc6669b8c0b5f76ea87547c769"
+    }
+  ],
+  "runtime_network_acquisition": false,
+  "production_admitted": false,
+  "production_promotion": false
+}
