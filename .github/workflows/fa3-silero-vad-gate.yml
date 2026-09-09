@@ -1,0 +1,44 @@
+name: FA3 Silero VAD Gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-VOICE-ACTIVITY-DETECTION-001.json'
+      - 'canonical/contracts/FA3-VAD-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json'
+      - 'canonical/FA3-SILERO-VAD-MODEL-ALLOWLIST-001.json'
+      - 'canonical/FA3-GATE-SILERO-VAD-001.json'
+      - 'canonical/silero-vad-enforcement.json'
+      - 'src/fa3_silero_vad_gate.py'
+      - 'tests/test_silero_vad_registry.py'
+      - '.github/workflows/fa3-silero-vad-gate.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'canonical/profiles/FA3-VOICE-ACTIVITY-DETECTION-001.json'
+      - 'canonical/contracts/FA3-VAD-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json'
+      - 'canonical/FA3-SILERO-VAD-MODEL-ALLOWLIST-001.json'
+      - 'canonical/FA3-GATE-SILERO-VAD-001.json'
+      - 'canonical/silero-vad-enforcement.json'
+      - 'src/fa3_silero_vad_gate.py'
+      - 'tests/test_silero_vad_registry.py'
+      - '.github/workflows/fa3-silero-vad-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  silero-vad-reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run executable FA3 gate
+        run: PYTHONPATH=src python src/fa3_silero_vad_gate.py
+      - name: Run regression tests
+        run: |
+          python -m pip install --disable-pip-version-check pytest
+          pytest -q tests/test_silero_vad_registry.py
