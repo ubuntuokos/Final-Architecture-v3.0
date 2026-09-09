@@ -1,0 +1,46 @@
+{
+  "id": "FA3-AI-IMAGE-EDITING-001",
+  "kind": "specialized_profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "title": "Local AI-Assisted Image Editing, Generative Fill & Graphic Authoring Profile",
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-IMGGEN-001"
+  },
+  "capability_accounting": {
+    "adds_capability": false,
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "adds_architectural_authority": false
+  },
+  "scope": {
+    "primary_raster_frontend": "GIMP 3.x",
+    "primary_local_workflow_backend": "ComfyUI",
+    "operation_modes": ["standalone", "fa3_governed"],
+    "intents": [
+      "generate", "image_edit", "inpaint", "outpaint", "generative_fill",
+      "background_remove", "upscale", "control_guidance", "reference_image",
+      "segmentation", "relight"
+    ]
+  },
+  "routing": {
+    "frontend_contract": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+    "hardware_admission": "FA3-AI-IMAGE-EDITING-HARDWARE-ADMISSION-001",
+    "providers_are_replaceable": true,
+    "provider_selection_is_opaque_to_frontend": true
+  },
+  "authority_constraints": {
+    "gimp_must_not_be_authority_for": [
+      "model_registry", "inference_runtime", "mcp_gateway", "hardware_resources",
+      "workflow_orchestration", "secrets", "policy", "provenance"
+    ],
+    "global_authorities_unchanged": true
+  },
+  "portability": {
+    "concrete_gpu_sku_dependency_forbidden": true,
+    "reference_accelerator_floor": "NVIDIA RTX 30xx/Ampere-or-newer when NVIDIA/CUDA path is selected",
+    "reference_floor_is_not_provider_pin": true,
+    "gpu_replacement_requires_manual_gimp_reconfiguration": false
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+  "kind": "contract_family",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_contract_family": "FA3-IMGGEN-CONTRACTS-001",
+  "request_contract": {
+    "required": ["intent", "output_target"],
+    "optional": [
+      "source_asset_ref", "document_ref", "layer_refs", "selection_ref", "mask_ref",
+      "prompt", "negative_prompt", "reference_asset_refs", "control_inputs",
+      "quality_target", "latency_class", "model_capability_constraints"
+    ],
+    "allowed_intents": [
+      "generate", "image_edit", "inpaint", "outpaint", "generative_fill",
+      "background_remove", "upscale", "control_guidance", "reference_image",
+      "segmentation", "relight"
+    ],
+    "output_targets": ["new_document", "new_layer", "replace_selection", "replace_layer", "asset"]
+  },
+  "execution_contract": {
+    "provider_independent": true,
+    "backend_identity_must_not_be_required_by_gimp": true,
+    "runtime_must_discover_hardware": true,
+    "model_admission_precedes_execution": true,
+    "resource_admission_precedes_execution": true,
+    "fa3_governed_mode_requires_gateway_and_provenance": true,
+    "standalone_mode_may_bind_localhost_backend": true,
+    "result_must_preserve_edit_context": ["document", "layer", "selection", "mask", "output_target"]
+  },
+  "result_contract": {
+    "required": ["status", "output_refs", "provider_execution_ref"],
+    "fa3_governed_additional": ["model_descriptor_ref", "hardware_admission_ref", "provenance_ref", "evidence_ref"]
+  }
+}

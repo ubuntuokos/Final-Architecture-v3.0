@@ -1,0 +1,26 @@
+{
+  "id": "FA3-AI-IMAGE-EDITING-HARDWARE-ADMISSION-001",
+  "kind": "hardware_admission_policy",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "inherits": ["FA3-HARDWARE-BASELINE-001"],
+  "principle": "capability-discovered, provider-independent, fail-closed admission",
+  "discovery_dimensions": [
+    "accelerator_count", "accelerator_architecture", "compute_capability",
+    "total_vram", "usable_vram", "free_vram", "runtime_backend_compatibility", "current_load"
+  ],
+  "routing_targets": ["eligible_accelerator", "cpu_offload_if_provider_supports", "reject_with_reason"],
+  "requirements": {
+    "concrete_gpu_sku_must_not_be_architectural_dependency": true,
+    "cuda_device_index_must_not_be_canonical_pin": true,
+    "fixed_vram_amount_must_not_be_global_profile_pin": true,
+    "model_specific_vram_requirements_are_runtime_admission_inputs": true,
+    "gpu_replacement_lifecycle": ["rediscover", "revalidate_runtime", "readmit_model", "reroute_workload"],
+    "gpu_replacement_must_not_require_gimp_reconfiguration": true
+  },
+  "reference_baseline": {
+    "nvidia_family": "RTX 30xx/Ampere-or-newer",
+    "binding": false,
+    "note": "Reference admission floor only; never a concrete SKU, count, device index or VRAM authority."
+  }
+}
