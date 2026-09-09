@@ -2,29 +2,9 @@ name: GTCRN reference gate
 
 on:
   pull_request:
-    paths:
-      - 'canonical/**GTCRN**'
-      - 'canonical/**gtcrn**'
-      - 'canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json'
-      - 'canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json'
-      - 'src/fa3_gtcrn_*.py'
-      - 'tests/test_gtcrn_*.py'
-      - 'evidence/collect-gtcrn-current-host.py'
-      - 'docs/gtcrn-integration.md'
-      - 'bin/fa3-gtcrn-enforce'
-      - '.github/workflows/gtcrn-reference-gate.yml'
+    branches: [main]
   push:
     branches: [main]
-    paths:
-      - 'canonical/**GTCRN**'
-      - 'canonical/**gtcrn**'
-      - 'canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json'
-      - 'canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json'
-      - 'src/fa3_gtcrn_*.py'
-      - 'tests/test_gtcrn_*.py'
-      - 'evidence/collect-gtcrn-current-host.py'
-      - 'docs/gtcrn-integration.md'
-      - 'bin/fa3-gtcrn-enforce'
 
 permissions:
   contents: read
@@ -44,11 +24,12 @@ jobs:
       - name: GTCRN positive and negative regressions
         run: PYTHONPATH=src python -m unittest tests.test_gtcrn_gate tests.test_gtcrn_provider_runtime -v
       - name: Assert no document-only runtime promotion
-        run: python - <<'PY'
+        run: |
+          python - <<'PY'
           import json
-          p=json.load(open('canonical/FA3-GTCRN-RUNTIME-CONFORMANCE-001.json'))
-          r=json.load(open('canonical/releases/FA3-RELEASE-PROJECTION-GTCRN-2026-09-09.json'))
+          p = json.load(open('canonical/FA3-GTCRN-RUNTIME-CONFORMANCE-001.json'))
+          r = json.load(open('canonical/releases/FA3-RELEASE-PROJECTION-GTCRN-2026-09-09.json'))
           assert p['production_admitted'] is False
-          assert p['status']=='PENDING_CURRENT_HOST'
+          assert p['status'] == 'PENDING_CURRENT_HOST'
           assert r['production_promotion_claimed'] is False
           PY
