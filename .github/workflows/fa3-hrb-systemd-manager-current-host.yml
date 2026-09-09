@@ -1,0 +1,55 @@
+name: FA3 HRB Systemd Manager Current Host
+
+on:
+  workflow_dispatch:
+    inputs:
+      host_survival_policy_path:
+        description: "Optional absolute path to an approved, expiring fa3.host-survival-policy-receipt.v1 on the runner"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-hrb-systemd-manager-current-host
+  cancel-in-progress: false
+
+jobs:
+  current-host:
+    name: portable-current-host / hrb-systemd-manager
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_hrb_systemd_manager_current_host_gate.py evidence/collect-hrb-systemd-manager-current-host.py
+      - name: Portable gate regressions
+        run: PYTHONPATH=src python -m unittest tests.test_hrb_systemd_manager_current_host_gate -v
+      - name: Collect live portable hardware and systemd evidence
+        shell: bash
+        env:
+          SURVIVAL_POLICY: ${{ inputs.host_survival_policy_path }}
+        run: |
+          args=(--root .)
+          if [ -n "${SURVIVAL_POLICY:-}" ]; then
+            test -f "$SURVIVAL_POLICY"
+            args+=(--host-survival-policy "$SURVIVAL_POLICY")
+          fi
+          PYTHONPATH=src python evidence/collect-hrb-systemd-manager-current-host.py "${args[@]}"
+      - name: Validate current-host evidence fail closed
+        run: PYTHONPATH=src python src/fa3_hrb_systemd_manager_current_host_gate.py --root .
+      - name: Upload evidence and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-hrb-systemd-manager-current-host
+          path: |
+            evidence/receipts/hrb-systemd-manager-current-host.json
+            reports/hrb-systemd-manager-current-host-gate-report.json

@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-001",
   "name": "Provider-Neutral Hardware Capability & Heterogeneous Accelerator Baseline",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -21,6 +21,7 @@
     "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02"
   ],
   "current_host_validation_surfaces": [
+    "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001",
     "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001"
   ],
   "authority": {
@@ -44,7 +45,7 @@
     "NO_FIXED_CPU_SOCKET_GPU_COUNT_PCI_BDF_OR_CUDA_ORDINAL_PORTABLE_DEFAULT",
     "LIVE_HARDWARE_DISCOVERY_AND_ADMISSION_REVALIDATION_REQUIRED"
   ],
-  "implementation_status": "CANONICAL_PORTABLE_BASELINE_DYNAMIC_1_TO_N_DISCOVERY_AND_REVALIDATION_MATERIALIZED",
+  "implementation_status": "CANONICAL_PORTABLE_BASELINE_DYNAMIC_1_TO_N_DISCOVERY_REVALIDATION_AND_GENERIC_CURRENT_HOST_RESOURCE_PROJECTION_VALIDATION_MATERIALIZED",
   "minimum_portable_hardware_envelope": {
     "cpu": {
       "minimum_package_count": 1,

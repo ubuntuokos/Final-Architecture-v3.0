@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8",
-    "pre_projection_root_tree_sha": "764d9b7d963957162ef8a90b40751e7bed87b315",
-    "pre_projection_canonical_tree_sha": "3e4b2d0572d824348eff33401904abc7d56cab4c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 130,
-    "total_post_baseline_commits": 130,
-    "delta_file_count": 807,
-    "delta_added_files": 802,
+    "pre_projection_head_sha": "6a826683e9f232ca5e28212b3f0f32734ebb35ec",
+    "pre_projection_root_tree_sha": "ec58a2c7187301e46b3e82fdae82805112f740ef",
+    "pre_projection_canonical_tree_sha": "c124718db6c95f82e6053e2a469cc32ce4ae2bf3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 137,
+    "total_post_baseline_commits": 137,
+    "delta_file_count": 815,
+    "delta_added_files": 810,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 458,
-    "evidence_files_in_post_baseline_delta": 86,
-    "source_files_in_post_baseline_delta": 91,
-    "test_files_in_post_baseline_delta": 75,
-    "workflow_files_in_post_baseline_delta": 18,
+    "canonical_files_in_post_baseline_delta": 461,
+    "evidence_files_in_post_baseline_delta": 88,
+    "source_files_in_post_baseline_delta": 92,
+    "test_files_in_post_baseline_delta": 76,
+    "workflow_files_in_post_baseline_delta": 19,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -272,6 +272,7 @@
       "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
+      "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
@@ -395,6 +396,7 @@
       "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
       "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
+      "evidence/reference/hrb-systemd-manager-portable-ci-2026-09-09.json",
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
       "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
       "evidence/reference/inference-portability-ci-2026-08-31.json",
@@ -575,7 +577,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 807,
+  "manifest_entry_count": 815,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -605,6 +607,11 @@
     {
       "path": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
       "git_blob_sha": "92fa38e8aa12bd393254898f0097f1cc42a99446",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
+      "git_blob_sha": "f2b9e375b444a31f7cf9067b881101e3ace4579a",
       "baseline_delta_status": "added"
     },
     {
@@ -935,6 +942,11 @@
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
       "git_blob_sha": "305931e1158c46167f403b588c37ae3e7690bf21",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001.json",
+      "git_blob_sha": "002b3b1b9105176d65fe2dc5bec96f755a34e4a4",
       "baseline_delta_status": "added"
     },
     {
@@ -1608,6 +1620,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
+      "git_blob_sha": "488b950aaaca80653dd3baef37f8279fa3eb7da3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8",
       "baseline_delta_status": "added"
@@ -1905,7 +1922,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -1935,6 +1952,11 @@
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
       "git_blob_sha": "24f51add045dfc5e8d740d4e6141ed198c66f004",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/hrb-systemd-manager-current-host-enforcement.json",
+      "git_blob_sha": "98bd4ed1b26d71f1e4363324dd7cb8293a8c6cbc",
       "baseline_delta_status": "added"
     },
     {
@@ -2204,7 +2226,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "1b191585a62f0624a6c9b796a3347fc056c83238",
+      "git_blob_sha": "dfc080320c3457a9dc1d69390b6e38aafa155e8f",
       "baseline_delta_status": "added"
     },
     {
@@ -2214,7 +2236,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HW-001.json",
-      "git_blob_sha": "ac30d93d678eccbc7c3bd0c96d41f3b945fb7367",
+      "git_blob_sha": "cd56aa31757403355d7f2306710b53cc27378f7d",
       "baseline_delta_status": "added"
     },
     {
@@ -3075,7 +3097,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -3348,6 +3370,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-hrb-systemd-manager-current-host.py",
+      "git_blob_sha": "4387ed94924395326f98a4ade3ad8565633795fb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-hybrid-editorial-reference-e2e.py",
       "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65",
       "baseline_delta_status": "added"
@@ -3535,6 +3562,11 @@
     {
       "path": "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
       "git_blob_sha": "99ac7fd84a53e123d0d941aededcb41f0b65958a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/hrb-systemd-manager-portable-ci-2026-09-09.json",
+      "git_blob_sha": "e7fb0cc8bd815ad8dc7b2f57e57ccf5f8a9d227c",
       "baseline_delta_status": "added"
     },
     {
@@ -3764,7 +3796,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "0660634872c679df9ef2d0477adab11e2dba9f9f",
+      "git_blob_sha": "bf0718290f9259ff0f2afbbb0990dec59b266ffc",
       "baseline_delta_status": "added"
     },
     {
@@ -3955,6 +3987,11 @@
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "7da2b956962db144606c42bc54f6d22f0a5d47f5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hrb_systemd_manager_current_host_gate.py",
+      "git_blob_sha": "99b033fe6c0cb5dc60082a8158b325982b533b46",
       "baseline_delta_status": "added"
     },
     {
@@ -4360,6 +4397,11 @@
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "3d3e282cfd1125ed913ece46c6a0d25f7bce4c89",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_systemd_manager_current_host_gate.py",
+      "git_blob_sha": "9cce6aa37cb6ef168e1d6e159e2f0bc1fb857fce",
       "baseline_delta_status": "added"
     },
     {
@@ -4804,7 +4846,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-09",
+  "last_reconciled_at": "2026-09-07",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",

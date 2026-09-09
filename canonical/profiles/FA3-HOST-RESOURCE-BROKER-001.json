@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -51,7 +51,8 @@
       "PlacementReceipt",
       "PlacementEvidence",
       "AIExecutionTelemetry",
-      "rollback profile"
+      "rollback profile",
+      "portable current-host systemd Manager neutrality receipt"
     ]
   },
   "provider_projection_policy": {
@@ -96,7 +97,7 @@
     "evidence authority",
     "scheduler implementation ownership"
   ],
-  "implementation_status": "CANONICAL_DETERMINISTIC_LOCALITY_CPU_THREAD_AND_SYSTEMD_MANAGER_NEUTRALITY_GOVERNANCE_MATERIALIZED_REFERENCE_GATES_PASS_CURRENT_HOST_LOCALITY_THREADING_E2E_PENDING",
+  "implementation_status": "CANONICAL_PORTABLE_HRB_SYSTEMD_MANAGER_NEUTRALITY_CURRENT_HOST_GATE_MATERIALIZED_REAL_EXECUTION_PENDING",
   "systemd_manager_defaults_policy": {
     "status": "MANDATORY_NEUTRAL_BASELINE",
     "global_manager_resource_defaults": "VENDOR_OR_HOST_SURVIVAL_BASELINE_ONLY",
@@ -126,5 +127,8 @@
     ]
   },
   "hardware_portability_baseline_profile": "FA3-HARDWARE-BASELINE-001",
-  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "current_host_validation_surfaces": [
+    "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001"
+  ]
 }
