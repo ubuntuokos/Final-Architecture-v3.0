@@ -13,8 +13,8 @@ on:
       - 'evidence/collect-mentor-current-host.py'
       - 'tests/test_mentor_current_host_gate.py'
       - 'fa3-current-host/manifest.json'
-      - 'src/fa3_enforce.py'
       - '.github/workflows/fa3-mentor-current-host.yml'
+      - '.github/workflows/fa3-release-projection-refresh.yml'
       - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
   workflow_dispatch:
 
@@ -52,7 +52,7 @@ jobs:
   production-e2e:
     name: mentor-current-host / real-production-e2e
     needs: regression
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    if: ${{ always() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)) }}
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 20
     steps:
