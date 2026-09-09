@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "fa3/**"
+      - "feature/**"
   workflow_dispatch:
 
 permissions:
@@ -28,6 +29,11 @@ jobs:
           python-version: '3.12'
       - name: Regenerate unified release projection
         run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Validate reconciled canonical projection
+        run: |
+          chmod +x bin/fa3-enforce
+          PYTHONPATH=src python -m unittest discover -s tests -v
+          ./bin/fa3-enforce release-projection
       - name: Commit reconciled projection when changed
         shell: bash
         run: |
