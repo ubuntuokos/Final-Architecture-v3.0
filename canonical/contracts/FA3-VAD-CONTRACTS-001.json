@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-VAD-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-VAD-USED",
+  "parent_profile": "FA3-VOICE-ACTIVITY-DETECTION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "VadRequest",
+    "VadStreamDescriptor",
+    "VadFrame",
+    "VadProviderCapabilityDescriptor",
+    "VadRuntimeState",
+    "SpeechActivityDecision",
+    "SpeechSegment",
+    "VadResult",
+    "VadQualityReport",
+    "VadExecutionEvidence"
+  ],
+  "semantics": {
+    "streaming_state": "EXPLICIT_AND_RESETTABLE",
+    "sample_rate": "EXPLICIT_8K_OR_16K_FOR_SILERO_PROVIDER_NO_IMPLICIT_RESAMPLE",
+    "channels": "EXPLICIT_MONO_FOR_SILERO_PROVIDER_OR_PREPROCESS_WITH_PROVENANCE",
+    "thresholds": "REQUEST_OR_POLICY_BOUND_AND_EVIDENCED",
+    "segment_boundaries": "TIMESTAMPED_AND_INPUT_LINEAGE_BOUND",
+    "execution_provider": "EXPLICIT_NO_SILENT_FALLBACK"
+  },
+  "invariants": [
+    "PROVIDER_IMPLEMENTATION_MUST_NOT_OWN_AUDIO_DEVICE_ROUTING",
+    "PROVIDER_IMPLEMENTATION_MUST_NOT_OWN_HOST_PLACEMENT",
+    "PROVIDER_IMPLEMENTATION_MUST_NOT_OWN_MODEL_ROUTING_OR_REGISTRY",
+    "MODEL_IDENTITY_AND_HASH_MUST_BE_ADMITTED_BEFORE_RUNTIME",
+    "INPUT_AUDIO_FORMAT_AND_ANY_RESAMPLING_MUST_BE EVIDENCED",
+    "STREAM_STATE_RESET_BOUNDARIES_MUST_BE EXPLICIT",
+    "UNSUPPORTED_INPUT_MUST_FAIL_CLOSED",
+    "RUNTIME_NETWORK_MODEL_ACQUISITION_FORBIDDEN",
+    "ACCELERATOR_ROUTE_REQUIRES_HRB_AND_BACKEND_COMPATIBILITY_RECEIPTS"
+  ]
+}
