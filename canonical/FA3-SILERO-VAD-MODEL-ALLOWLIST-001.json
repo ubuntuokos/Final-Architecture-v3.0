@@ -9,6 +9,7 @@
   "runtime_auto_download": false,
   "runtime_network_acquisition": false,
   "production_sha256_required": true,
+  "bootstrap_identity_receipt": "FA3-SILERO-VAD-MODEL-BOOTSTRAP-IDENTITY-001",
   "artifacts": [
     {
       "name": "silero_vad.onnx",
@@ -17,7 +18,8 @@
       "upstream_git_blob_sha": "80c5592ef1f4c9ede3e357bbd02eb863358a6a9d",
       "size_bytes": 2327524,
       "role": "PRIMARY_CANDIDATE",
-      "sha256": "PENDING_CURRENT_HOST_OR_BOOTSTRAP_ACQUISITION_RECEIPT",
+      "sha256": "1a153a22f4509e292a94e67d6f9b85e8deb25b4988682b7e174c65279d8788e3",
+      "identity_admitted": true,
       "production_admitted": false
     },
     {
@@ -27,7 +29,8 @@
       "upstream_git_blob_sha": "625ad8909b1abdba2292f3a9a10db6864fd5d561",
       "size_bytes": 1289603,
       "role": "COMPATIBILITY_CANDIDATE",
-      "sha256": "PENDING_CURRENT_HOST_OR_BOOTSTRAP_ACQUISITION_RECEIPT",
+      "sha256": "7ed98ddbad84ccac4cd0aeb3099049280713df825c610a8ed34543318f1b2c49",
+      "identity_admitted": true,
       "production_admitted": false
     },
     {
@@ -37,7 +40,8 @@
       "upstream_git_blob_sha": "97e39fb3543dfb78814af3943f059c6bbc969bd0",
       "size_bytes": 1280395,
       "role": "OPTIONAL_REDUCED_PRECISION_CANDIDATE",
-      "sha256": "PENDING_CURRENT_HOST_OR_BOOTSTRAP_ACQUISITION_RECEIPT",
+      "sha256": "1e0b195ad4806595ef4466f419d16fca7e4afcfc6669b8c0b5f76ea87547c769",
+      "identity_admitted": true,
       "production_admitted": false,
       "promotion_requires_quality_equivalence": true
     }
@@ -47,6 +51,7 @@
     "ONNX_PRIMARY_WHEN_SUPPORTED",
     "REDUCED_PRECISION_REQUIRES_SEPARATE_QUALITY_EVIDENCE",
     "RUNTIME_DOWNLOAD_FORBIDDEN",
-    "GIT_BLOB_SHA_IS_PROVENANCE_NOT_A_SUBSTITUTE_FOR_SHA256"
+    "GIT_BLOB_SHA_IS_PROVENANCE_NOT_A_SUBSTITUTE_FOR_SHA256",
+    "IDENTITY_ADMISSION_DOES_NOT_EQUAL_RUNTIME_OR_PRODUCTION_PROMOTION"
   ]
 }
