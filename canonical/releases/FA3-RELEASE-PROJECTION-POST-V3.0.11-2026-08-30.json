@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "27fd8487b971e269d29b6658dad3f5b153e943bc",
-    "pre_projection_root_tree_sha": "3f4ab26be5d6dd46937fd084a20444b1fdd1d85b",
-    "pre_projection_canonical_tree_sha": "3efee0cfbefd251e0c385d66b56a091f13c09202",
-    "commits_ahead_of_v3_0_11_conformance_commit": 148,
-    "total_post_baseline_commits": 148,
-    "delta_file_count": 765,
-    "delta_added_files": 760,
+    "pre_projection_head_sha": "4d60d5c47f3a3622094d06112d84da0e9c7b529e",
+    "pre_projection_root_tree_sha": "07d61d83bd6b74a03ab33b61b34216d8ac4c0012",
+    "pre_projection_canonical_tree_sha": "dc190c842263b6bcfbbc62e65cbdf56ef60fac9d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 149,
+    "total_post_baseline_commits": 149,
+    "delta_file_count": 772,
+    "delta_added_files": 767,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 432,
+    "canonical_files_in_post_baseline_delta": 438,
     "evidence_files_in_post_baseline_delta": 83,
     "source_files_in_post_baseline_delta": 88,
-    "test_files_in_post_baseline_delta": 71,
+    "test_files_in_post_baseline_delta": 72,
     "workflow_files_in_post_baseline_delta": 17,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -68,6 +68,7 @@
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
       "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
+      "canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
@@ -194,6 +195,7 @@
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
@@ -258,6 +260,7 @@
       "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
+      "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
@@ -323,6 +326,7 @@
       "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
+      "canonical/references/FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09.json",
       "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -547,7 +551,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 766,
+  "manifest_entry_count": 773,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -870,6 +874,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-GIMP-COMFYUI-INTEROP-001.json",
+      "git_blob_sha": "440356af38a0a5481d2f403ff24f5360a4fe3d36",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-001.json",
       "git_blob_sha": "7c1c68bc665963570e30e911f7b5a7dcb2ebb476",
       "baseline_delta_status": "added"
@@ -1172,6 +1181,11 @@
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "git_blob_sha": "d20b36abd4becff0bc17b1d41e249e7e6f87e7f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
+      "git_blob_sha": "7912b9ec13708a36fe7dad7672c556871c865f45",
       "baseline_delta_status": "added"
     },
     {
@@ -1505,6 +1519,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
+      "git_blob_sha": "b931091ad4a77980be0e885843b528b2c9e0a08b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "git_blob_sha": "bd5ec5d2c91995d725c83f5d1cb74fccd71e344e",
       "baseline_delta_status": "added"
@@ -1813,6 +1832,11 @@
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
       "baseline_delta_status": "unchanged"
+    },
+    {
+      "path": "canonical/gimp-comfyui-interop-enforcement.json",
+      "git_blob_sha": "2f6e3372f061f4b2219abf044a35591f212302b5",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/gpu-kernel-runtime-admission.json",
@@ -2305,6 +2329,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
+      "git_blob_sha": "36228cc781ade2b689512c7a646fcd1632d25d41",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "git_blob_sha": "9d8f1af74fff63521a514983c37dfb5a33206186",
       "baseline_delta_status": "added"
@@ -2702,6 +2731,11 @@
     {
       "path": "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
       "git_blob_sha": "c94c1fe9556696b51683627b517e9395007b2703",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09.json",
+      "git_blob_sha": "091c068c03c8eb422f6d985afae6848fcd6b6768",
       "baseline_delta_status": "added"
     },
     {
@@ -4122,6 +4156,11 @@
     {
       "path": "tests/test_ffmpeg_ai_gate.py",
       "git_blob_sha": "7f04e31b68431ce3412a72c7db97e5c06c9a41d3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_gimp_comfyui_interop_gate.py",
+      "git_blob_sha": "d06c6bfa247294828ebda84d0b327885576cdff6",
       "baseline_delta_status": "added"
     },
     {
