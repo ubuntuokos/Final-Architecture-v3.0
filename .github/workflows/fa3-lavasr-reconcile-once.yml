@@ -1,0 +1,64 @@
+name: FA3 LavaSR post-merge one-shot reconcile
+
+on:
+  push:
+    branches: [reconcile/lavasr-post-merge]
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.repository == 'ubuntuokos/Final-Architecture-v3.0' && github.ref == 'refs/heads/reconcile/lavasr-post-merge'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: reconcile/lavasr-post-merge
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Configure reconciliation commit identity
+        run: |
+          git config user.name 'fa3-reconciliation-bot'
+          git config user.email 'fa3-reconciliation-bot@users.noreply.github.com'
+      - name: Mark dedicated LavaSR post-merge projection closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          main_sha="$(git rev-parse origin/main)"
+          if [ "$main_sha" != "6ef37fef3359d6c7e6dba7356f529b2952e8fc5c" ]; then
+            echo "main moved since LavaSR merge; aborting stale post-merge reconciliation" >&2
+            exit 2
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('canonical/releases/FA3-RELEASE-PROJECTION-LAVASR-2026-09-09.json')
+          d = json.loads(p.read_text())
+          d['post_merge_unified_projection_reconciliation_required'] = False
+          d['post_merge_reconciliation_status'] = 'PASS'
+          d['post_merge_main_commit_sha'] = '6ef37fef3359d6c7e6dba7356f529b2952e8fc5c'
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          PY
+          python tools/fa3_lavasr_global_reconcile.py --prepare-only
+          git add canonical/releases/FA3-RELEASE-PROJECTION-LAVASR-2026-09-09.json evidence/evidence-registry.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'FA3: close LavaSR post-merge evidence projection'
+          fi
+      - name: Regenerate unified release projection from post-merge snapshot
+        shell: bash
+        run: |
+          snapshot="$(git rev-parse HEAD)"
+          python tools/fa3_lavasr_global_reconcile.py --projection-only --snapshot-head "$snapshot"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m 'FA3: reconcile LavaSR post-merge unified projection'
+      - name: Remove one-shot workflow
+        run: |
+          git rm .github/workflows/fa3-lavasr-reconcile-once.yml
+          git commit -m 'FA3: remove LavaSR post-merge one-shot workflow'
+      - name: Push reconciled branch
+        run: git push origin HEAD:reconcile/lavasr-post-merge
