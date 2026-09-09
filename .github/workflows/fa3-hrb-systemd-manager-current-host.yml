@@ -2,6 +2,11 @@ name: FA3 HRB Systemd Manager Current Host
 
 on:
   workflow_dispatch:
+    inputs:
+      host_survival_policy_path:
+        description: "Optional absolute path to an approved, expiring fa3.host-survival-policy-receipt.v1 on the runner"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -28,7 +33,16 @@ jobs:
       - name: Portable gate regressions
         run: PYTHONPATH=src python -m unittest tests.test_hrb_systemd_manager_current_host_gate -v
       - name: Collect live portable hardware and systemd evidence
-        run: PYTHONPATH=src python evidence/collect-hrb-systemd-manager-current-host.py --root .
+        shell: bash
+        env:
+          SURVIVAL_POLICY: ${{ inputs.host_survival_policy_path }}
+        run: |
+          args=(--root .)
+          if [ -n "${SURVIVAL_POLICY:-}" ]; then
+            test -f "$SURVIVAL_POLICY"
+            args+=(--host-survival-policy "$SURVIVAL_POLICY")
+          fi
+          PYTHONPATH=src python evidence/collect-hrb-systemd-manager-current-host.py "${args[@]}"
       - name: Validate current-host evidence fail closed
         run: PYTHONPATH=src python src/fa3_hrb_systemd_manager_current_host_gate.py --root .
       - name: Upload evidence and report
