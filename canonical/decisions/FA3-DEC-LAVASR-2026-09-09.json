@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-LAVASR-2026-09-09",
+  "date": "2026-09-09",
+  "status": "CANONICAL_CLOSED",
+  "subject": "LavaSR local speech restoration and bandwidth-extension integration",
+  "decision": "ACCEPT_OPTIONAL_STRONGLY_RECOMMENDED_REFERENCE_PROVIDER_BEHIND_PROVIDER_NEUTRAL_AUDIO_RESTORATION_AND_EXISTING_INFERENCE_SECURITY_RESOURCE_EVIDENCE_AUTHORITIES",
+  "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+  "provider_id": "FA3-PROVIDER-LAVASR-001",
+  "contract_id": "FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001",
+  "gate_set_id": "FA3-LAVASR-GATESET-001",
+  "upstream_reference_id": "FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09",
+  "rationale": [
+    "lightweight bandwidth extension and restoration complements noise-suppression providers such as GTCRN rather than replacing them",
+    "TTS postprocessing, dataset restoration and media cleanup are useful projections of existing CAP-017",
+    "a PyTorch-free ONNX reference runtime exists and can be pinned independently from the model-method reference source",
+    "existing inference portability, model artifact security, Host Resource Broker and evidence authorities already own execution admission",
+    "denoising must remain a separate policy choice so GTCRN and LavaSR denoisers cannot silently stack"
+  ],
+  "accepted_constraints": [
+    "ONNX_FIRST_DIRECT_RUNTIME",
+    "CPU_BASELINE",
+    "ACCELERATOR_OPTIONAL_WITH_HRB",
+    "NO_SILENT_EXECUTION_PROVIDER_FALLBACK",
+    "RUNTIME_NETWORK_FETCH_FORBIDDEN",
+    "SOURCE_AND_RUNTIME_COMMITS_IMMUTABLY_PINNED",
+    "MODEL_ASSETS_SHA256_PINNED",
+    "DANGEROUS_SERIALIZATION_DIRECT_RUNTIME_FORBIDDEN",
+    "EXPLICIT_SAMPLE_RATE_AND_CHANNEL_PROJECTION",
+    "EXPLICIT_DENOISE_POLICY",
+    "NO_IMPLICIT_DOUBLE_DENOISE",
+    "DURATION_PADDING_CLIPPING_AND_FINITE_OUTPUT_EVIDENCE",
+    "CURRENT_HOST_REAL_E2E_REQUIRED_FOR_PRODUCTION_PROMOTION"
+  ],
+  "rejected": [
+    "NEW_AUDIO_AUTHORITY",
+    "NEW_INFERENCE_AUTHORITY",
+    "NEW_MODEL_REGISTRY_AUTHORITY",
+    "NEW_WORKFLOW_AUTHORITY",
+    "NEW_RESOURCE_AUTHORITY",
+    "NEW_SECURITY_OR_PROVENANCE_AUTHORITY",
+    "DIRECT_UNTRUSTED_PYTORCH_BIN_LOAD_IN_PRODUCTION",
+    "FLOATING_GIT_DEPENDENCY_AS_PRODUCTION_IDENTITY",
+    "RUNTIME_AUTO_DOWNLOAD",
+    "MANDATORY_GPU_EXECUTION",
+    "SILENT_CPU_FALLBACK_FROM_ACCELERATOR_REQUEST",
+    "IMPLICIT_GTCRN_PLUS_LAVASR_DOUBLE_DENOISE",
+    "DOCUMENT_ONLY_RUNTIME_PROMOTION"
+  ],
+  "baseline_effect": {
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_architectural_authority": 0,
+    "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+  }
+}
