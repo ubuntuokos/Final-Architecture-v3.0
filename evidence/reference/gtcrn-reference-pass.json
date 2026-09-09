@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-GTCRN-REFERENCE-PASS-2026-09-09",
+  "date": "2026-09-09",
+  "gate_set_id": "FA3-GTCRN-GATESET-001",
+  "provider_id": "FA3-PROVIDER-GTCRN-001",
+  "status": "PASS",
+  "evidence_scope": "CANONICAL_STATIC_AND_EXECUTABLE_POLICY_REFERENCE_ONLY",
+  "rules_checked": 32,
+  "positive_regressions": ["canonical cross-record closure", "CPU explicit provider selection", "16k mono contract"],
+  "negative_regressions": ["authority claim rejected", "runtime promotion claim rejected", "silent provider fallback rejected", "accelerator without HRB rejected", "wrong sample rate rejected", "dangerous checkpoint direct runtime rejected"],
+  "current_host_runtime_evidence": false,
+  "production_promotion": false
+}

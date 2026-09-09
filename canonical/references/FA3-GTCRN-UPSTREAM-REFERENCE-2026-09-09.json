@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-GTCRN-UPSTREAM-REFERENCE-2026-09-09",
+  "status": "PINNED_REFERENCE",
+  "repository": "https://github.com/Xiaobin-Rong/gtcrn",
+  "revision": "502ebfab64da7c4a9af78dcb9c6ceef1ebb01c73",
+  "revision_date": "2026-08-03",
+  "license": {"spdx": "MIT", "file": "LICENSE"},
+  "observed_claims": {"parameters": "48.2K including ERB unlearnable parameters", "compute": "33.0 MMAC/s", "streaming_reference_rtf": 0.07, "streaming_reference_cpu": "Intel Core i5-12400", "sample_rate_hz": 16000, "onnx_supported": true, "sherpa_onnx_supported": true, "linux_ladspa_pipewire_adapter": "EXPERIMENTAL"},
+  "onnx_artifacts": [
+    {"path": "stream/onnx_models/gtcrn.onnx", "git_blob_sha1": "613bd97557556a296f578af0a0993da191bbf8d4", "size_bytes": 352084},
+    {"path": "stream/onnx_models/gtcrn_simple.onnx", "git_blob_sha1": "015454eef64bd4328e6ff4946c231d4a4a632e93", "size_bytes": 535190}
+  ],
+  "security_note": "Git blob SHA-1 and immutable source revision identify upstream content but do not replace FA3-required SHA-256 computed in quarantine before runtime promotion.",
+  "reference_only": true,
+  "current_host_evidence": false
+}

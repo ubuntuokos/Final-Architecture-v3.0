@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-GTCRN-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-GTCRN-001",
+  "profile_id": "FA3-SPEECH-ENHANCEMENT-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "required_receipt": "evidence/receipts/gtcrn-current-host.json",
+  "requirements": ["admitted ONNX artifact with SHA-256", "CPUExecutionProvider baseline execution", "16 kHz mono real WAV positive test", "negative wrong-sample-rate test", "negative tampered-model-hash test", "finite output and explicit clipping metric", "input/output hashes", "measured RTF", "clean-speech preservation regression", "noisy-speech enhancement quality regression", "rollback/bypass verification", "PipeWire/LADSPA E2E only when adapter enabled"],
+  "reference_pass_is_production_promotion": false
+}

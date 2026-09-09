@@ -1,0 +1,35 @@
+name: GTCRN reference gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python syntax
+        run: python -m py_compile src/fa3_gtcrn_provider.py src/fa3_gtcrn_gate.py evidence/collect-gtcrn-current-host.py
+      - name: GTCRN canonical and executable policy gate
+        run: ./bin/fa3-gtcrn-enforce
+      - name: GTCRN positive and negative regressions
+        run: PYTHONPATH=src python -m unittest tests.test_gtcrn_gate tests.test_gtcrn_provider_runtime -v
+      - name: Assert no document-only runtime promotion
+        run: |
+          python - <<'PY'
+          import json
+          p = json.load(open('canonical/FA3-GTCRN-RUNTIME-CONFORMANCE-001.json'))
+          r = json.load(open('canonical/releases/FA3-RELEASE-PROJECTION-GTCRN-2026-09-09.json'))
+          assert p['production_admitted'] is False
+          assert p['status'] == 'PENDING_CURRENT_HOST'
+          assert r['production_promotion_claimed'] is False
+          PY
