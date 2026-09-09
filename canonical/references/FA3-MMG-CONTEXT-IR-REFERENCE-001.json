@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.reference-implementation.v1",
+  "id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+  "name": "Provider-Neutral Multimodal Generation Context IR Executable Reference Implementation",
+  "date": "2026-09-09",
+  "status": "CANONICAL_EXECUTABLE_REFERENCE",
+  "profile_id": "FA3-VIDEO-001",
+  "context_ir_id": "FA3-MMG-CONTEXT-IR-001",
+  "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+  "gate_set_id": "FA3-MMG-CONTEXT-IR-GATESET-001",
+  "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+  "provider_neutral": true,
+  "canonical_root": false,
+  "architectural_authority": false,
+  "provider_selection_authority": false,
+  "execution_authority": false,
+  "evidence_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-016", "CAP-123", "CAP-126"],
+  "source": {
+    "implementation_path": "src/fa3_mmg_context_ir.py",
+    "implementation_sha256": "bad03495bd66541b1eaecb908f5f340df1dd76b72d9c4994922c49d797cdc3cd",
+    "test_path": "tests/test_mmg_context_ir_reference.py",
+    "test_sha256": "5547d30bcbd33f16468bff991f8f16e723a1b7fde9b28d4787c615734543f307",
+    "stdlib_only": true
+  },
+  "entrypoints": {
+    "compiler": "fa3_mmg_context_ir.compile_context",
+    "validator": "fa3_mmg_context_ir.validate_context_ir",
+    "projection_adapter": "fa3_mmg_context_ir.project_context",
+    "round_trip_replay": "fa3_mmg_context_ir.replay_round_trip",
+    "reference_conformance": "fa3_mmg_context_ir.run_reference_conformance"
+  },
+  "executable_semantics": [
+    "ReferenceArtifact != SemanticEntity != ReferenceBinding",
+    "reference embedded content is non-instructional by default",
+    "inference requires typed origin, provenance and confidence where applicable",
+    "hard constraints cannot be silently overridden",
+    "dialogue and visible text cannot be silently rewritten by inference/defaulting",
+    "temporal semantics use rational time",
+    "provider-native syntax and limits are rejected from canonical IR",
+    "provider projection always emits ProviderProjectionLossReport semantics",
+    "hard unsupported bindings make a projection target ineligible",
+    "hard dropped constraints fail closed",
+    "regeneration preserves parent lineage and explicit frozen/mutable delta",
+    "canonical round-trip replay is digest stable"
+  ],
+  "test_matrix": {
+    "positive_cases": 9,
+    "negative_cases": 9,
+    "total_cases": 18,
+    "expected_pass": 18,
+    "case_id_prefix": "MMG-REF-"
+  },
+  "security_boundaries": {
+    "reference_instruction_injection_default": "DATA_ONLY_NON_INSTRUCTIONAL",
+    "rights_traceability_required": true,
+    "policy_license_security_inference_forbidden": true,
+    "provider_native_canonical_leakage": "FAIL_CLOSED",
+    "provider_selection": "FA3-AUTH-MODEL-ROUTER-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "evidence": {
+    "reference_pass": "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+    "global_reconciliation": "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json"
+  },
+  "ci_binding": {
+    "workflow": ".github/workflows/fa3-permanent-enforcement.yml",
+    "mechanism": "python -m unittest discover -s tests -v",
+    "cli": "./bin/fa3-enforce mmg-context-ir"
+  },
+  "current_host_runtime_claim": false,
+  "provider_runtime_execution_claim": false
+}
