@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4d31d97122c6571896c880f72a3ff1c7e2258f0a",
-    "pre_projection_root_tree_sha": "c6e3a6ff3f0128ee510f686c287261cfedc0582a",
-    "pre_projection_canonical_tree_sha": "86273430642307b6499060f210376bceb57d2472",
-    "commits_ahead_of_v3_0_11_conformance_commit": 142,
-    "total_post_baseline_commits": 142,
-    "delta_file_count": 765,
-    "delta_added_files": 760,
+    "pre_projection_head_sha": "f82d1331c044d0668d2e4cb0152e1fac78d5c639",
+    "pre_projection_root_tree_sha": "efc03eb16d952361230ba543d2ca561a5b8229d9",
+    "pre_projection_canonical_tree_sha": "f4b60cf8d9fba837ace09bcf70f561689434f84b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 144,
+    "total_post_baseline_commits": 144,
+    "delta_file_count": 766,
+    "delta_added_files": 761,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "evidence_files_in_post_baseline_delta": 83,
     "source_files_in_post_baseline_delta": 87,
     "test_files_in_post_baseline_delta": 70,
-    "workflow_files_in_post_baseline_delta": 17,
+    "workflow_files_in_post_baseline_delta": 18,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -545,7 +545,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 766,
+  "manifest_entry_count": 767,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -575,6 +575,11 @@
     {
       "path": ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
       "git_blob_sha": "92fa38e8aa12bd393254898f0097f1cc42a99446",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hrb-cuda-current-host.yml",
+      "git_blob_sha": "682e96297b87f52cf9cfbcc221fae5d02d3490b4",
       "baseline_delta_status": "added"
     },
     {
