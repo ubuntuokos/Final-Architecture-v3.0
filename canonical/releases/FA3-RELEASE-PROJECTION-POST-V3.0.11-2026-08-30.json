@@ -543,7 +543,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 767,
+  "manifest_entry_count": 768,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -3579,6 +3579,11 @@
       "path": "fa3-current-host/manifest.json",
       "git_blob_sha": "5a74ecbc2607b3709a9b7eb946bc5a83e230ace0",
       "baseline_delta_status": "added"
+    },
+    {
+      "path": "fa3-current-host/mentor-current-host.example.json",
+      "git_blob_sha": "d7b6aebc6f726a3f385f6345bf162725ae7d194f",
+      "baseline_delta_status": "mentor_current_host_update"
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
