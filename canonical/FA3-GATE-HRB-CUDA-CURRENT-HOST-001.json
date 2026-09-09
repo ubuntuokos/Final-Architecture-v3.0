@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-HRB-CUDA-CURRENT-HOST-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "profile_ids": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-CUDA-PY-001"
+  ],
+  "runtime_conformance_id": "FA3-HRB-CUDA-RUNTIME-CONFORMANCE-001",
+  "decision_id": "FA3-DEC-HRB-CUDA-SCOPED-CURRENT-HOST-2026-09-09",
+  "enforcement_id": "FA3-HRB-CUDA-CURRENT-HOST-GATESET-001",
+  "entrypoint": "src/fa3_hrb_cuda_current_host_gate.py",
+  "collector": "evidence/collect-hrb-cuda-current-host.py",
+  "test": "tests/test_hrb_cuda_current_host_gate.py",
+  "digest_attestation": "evidence/reference/hrb-cuda-current-host-digest-attestation-2026-09-09.json",
+  "receipt": "evidence/receipts/hrb-cuda-current-host.json",
+  "fail_closed": true,
+  "evidence_level": "SCOPED_CURRENT_HOST_HRB_V1_0_AUTHENTICATED_CUDA_V1_2_PRODUCTION_E2E_PASS",
+  "mandatory_checks": 10,
+  "current_host_component_promotion_claim": true,
+  "current_canonical_hrb_v1_4_full_runtime_promotion_claim": false,
+  "global_promotion_effect": "NONE_UNTIL_EVIDENCE_REGISTRY_AND_19_POINT_ACCEPTANCE_PASS",
+  "capability_count": 143
+}
