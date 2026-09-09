@@ -1,5 +1,4 @@
 import json
-import re
 import unittest
 from pathlib import Path
 
@@ -17,6 +16,8 @@ class TestGimpComfyUIInteropGate(unittest.TestCase):
         cls.provider = load("canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json")
         cls.decision = load("canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json")
         cls.enforcement = load("canonical/gimp-comfyui-interop-enforcement.json")
+        cls.gate = load("canonical/FA3-GATE-GIMP-COMFYUI-INTEROP-001.json")
+        cls.reference = load("canonical/references/FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09.json")
         cls.mmg = load("canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json")
         cls.imggen = load("canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json")
         cls.lifecycle = load("canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json")
@@ -145,6 +146,35 @@ class TestGimpComfyUIInteropGate(unittest.TestCase):
         self.assertFalse(self.provider["current_host_production_claim"])
         self.assertEqual(self.decision["current_host_runtime_evidence"], "NOT_CLAIMED")
         self.assertFalse(self.decision["current_host_runtime_promotion_claim"])
+
+    def test_explicit_gate_record_is_closed_blocking_and_fully_linked(self):
+        self.assertEqual(self.gate["status"], "CANONICAL_CLOSED")
+        self.assertEqual(self.gate["priority"], "P0")
+        self.assertTrue(self.gate["blocking"])
+        self.assertEqual(self.gate["decision_id"], self.decision["id"])
+        self.assertEqual(self.decision["gate_record_id"], self.gate["id"])
+        self.assertEqual(self.enforcement["gate_record_id"], self.gate["id"])
+        self.assertEqual(self.gate["enforcement_id"], self.enforcement["gate_id"])
+        self.assertEqual(len(self.gate["checks"]), 15)
+        self.assertEqual({c["id"] for c in self.gate["checks"]}, {f"GDG-{i:02d}" for i in range(1, 16)})
+        self.assertTrue(all(c["failure"] == "BLOCK_PROMOTION" for c in self.gate["checks"]))
+
+    def test_upstream_reference_snapshot_is_non_authoritative_pinned_and_linked(self):
+        mapping = self.reference["fa3_mapping"]
+        self.assertFalse(mapping["canonical_root"])
+        self.assertFalse(mapping["architectural_authority"])
+        self.assertFalse(mapping["required_runtime_dependency"])
+        self.assertEqual(self.provider["upstream_reference_id"], self.reference["id"])
+        self.assertEqual(self.decision["upstream_reference_id"], self.reference["id"])
+        self.assertEqual(self.enforcement["upstream_reference_id"], self.reference["id"])
+        self.assertEqual(self.gate["upstream_reference_id"], self.reference["id"])
+        self.assertFalse(self.reference["verification"]["runtime_execution_verified"])
+        self.assertFalse(self.reference["verification"]["production_readiness_claim"])
+        for source in self.reference["source_set"]:
+            self.assertRegex(source["revision"], r"^[0-9a-f]{40}$")
+            self.assertRegex(source["observed_date"], r"^20\d{2}-\d{2}-\d{2}$")
+            self.assertTrue(source["repository"])
+            self.assertTrue(source["license"]["spdx"])
 
 
 if __name__ == "__main__":
