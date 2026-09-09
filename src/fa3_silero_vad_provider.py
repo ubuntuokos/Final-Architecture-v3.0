@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+ROOT = Path(__file__).resolve().parents[1]
+ALLOWLIST_PATH = ROOT / "canonical/FA3-SILERO-VAD-MODEL-ALLOWLIST-001.json"
 PROVIDER_ID = "FA3-PROVIDER-SILERO-VAD-001"
 PROFILE_ID = "FA3-VOICE-ACTIVITY-DETECTION-001"
 CONTRACT_ID = "FA3-VAD-CONTRACTS-001"
@@ -34,6 +36,26 @@ def sha256_file(path: Path) -> str:
 
 def _load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_model_identity(model_path: Path, actual_sha256: str) -> dict[str, Any]:
+    allowlist = _load_json(ALLOWLIST_PATH)
+    if allowlist.get("provider_id") != PROVIDER_ID:
+        raise VadAdmissionDenied("canonical Silero allowlist/provider binding mismatch")
+    if allowlist.get("upstream_release") != UPSTREAM_RELEASE or allowlist.get("upstream_revision") != UPSTREAM_REVISION:
+        raise VadAdmissionDenied("canonical Silero upstream identity drift")
+    matches = [
+        artifact for artifact in allowlist.get("artifacts", [])
+        if artifact.get("name") == model_path.name and artifact.get("sha256") == actual_sha256
+    ]
+    if len(matches) != 1:
+        raise VadAdmissionDenied("model filename/SHA-256 pair is not uniquely admitted by canonical allowlist")
+    artifact = matches[0]
+    if artifact.get("identity_admitted") is not True:
+        raise VadAdmissionDenied("model identity is not admitted")
+    if artifact.get("format") not in {"ONNX", "ONNX_FP16"}:
+        raise VadAdmissionDenied("model format is not admitted for Silero VAD")
+    return artifact
 
 
 def validate_hrb_lease(execution_provider: str, lease_path: str | None) -> dict[str, Any] | None:
@@ -80,6 +102,7 @@ class SileroVadProvider:
         actual = sha256_file(self.model_path)
         if actual != expected:
             raise VadAdmissionDenied("Silero model SHA-256 mismatch")
+        self.model_artifact = validate_model_identity(self.model_path, actual)
         if execution_provider not in SUPPORTED_EXECUTION_PROVIDERS:
             raise VadAdmissionDenied(f"execution provider not admitted by this adapter: {execution_provider}")
 
@@ -104,9 +127,6 @@ class SileroVadProvider:
         if execution_provider == "CPUExecutionProvider":
             provider_spec = ["CPUExecutionProvider"]
         else:
-            # ORT normally permits implicit CPU fallback. FA3 forbids that for an
-            # explicitly requested accelerator route, so disable it and bind the
-            # CUDA device ordinal exclusively from the HRB lease.
             session_options.add_session_config_entry("session.disable_cpu_ep_fallback", "1")
             ordinal = int(self.hrb_lease["device_ordinal"])
             provider_spec = [("CUDAExecutionProvider", {"device_id": ordinal})]
@@ -179,8 +199,11 @@ class SileroVadProvider:
             "contract_id": CONTRACT_ID,
             "upstream_release": UPSTREAM_RELEASE,
             "upstream_revision": UPSTREAM_REVISION,
+            "model_name": self.model_artifact["name"],
+            "model_format": self.model_artifact["format"],
             "model_path": str(self.model_path),
             "model_sha256": self.model_sha256,
+            "model_identity_admitted": True,
             "execution_provider": self.execution_provider,
             "session_execution_providers": self.session.get_providers(),
             "hrb_lease_id": None if self.hrb_lease is None else self.hrb_lease.get("lease_id"),
