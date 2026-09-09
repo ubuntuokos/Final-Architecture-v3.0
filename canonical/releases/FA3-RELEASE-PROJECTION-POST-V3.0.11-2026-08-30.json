@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f1675a8df9cbdb98cc36fbfe5cc739cc1f0aceca",
-    "pre_projection_root_tree_sha": "6d2ef5c07efbec866763b5ec9b9160177ad0294c",
-    "pre_projection_canonical_tree_sha": "2457e43707a288c9f293e5d182f7a0b8ee5ad7f4",
-    "commits_ahead_of_v3_0_11_conformance_commit": 150,
-    "total_post_baseline_commits": 150,
-    "delta_file_count": 766,
-    "delta_added_files": 761,
+    "pre_projection_head_sha": "ac7ed7ff82725ef8002851789ff88f9928822a38",
+    "pre_projection_root_tree_sha": "4626b943067cfe283ae2127c2130f435d63fe934",
+    "pre_projection_canonical_tree_sha": "cfeebdab93f103ba3d9ae3566037b0b285abed78",
+    "commits_ahead_of_v3_0_11_conformance_commit": 152,
+    "total_post_baseline_commits": 152,
+    "delta_file_count": 767,
+    "delta_added_files": 762,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 433,
+    "canonical_files_in_post_baseline_delta": 434,
     "evidence_files_in_post_baseline_delta": 83,
     "source_files_in_post_baseline_delta": 87,
     "test_files_in_post_baseline_delta": 70,
@@ -545,7 +545,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 767,
+  "manifest_entry_count": 768,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2890,6 +2890,11 @@
     {
       "path": "canonical/registries/FA3-PROVIDER-FAMILY-OPENBMB-001.json",
       "git_blob_sha": "845b1b70f3e615762bc4dd2619f2ba7526d71da5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-HRB-CUDA-CURRENT-HOST-2026-09-09.json",
+      "git_blob_sha": "c432cd86f6e9eea4571897f8586250a31eddfb92",
       "baseline_delta_status": "added"
     },
     {
