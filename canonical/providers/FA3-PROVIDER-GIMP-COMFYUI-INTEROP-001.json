@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001",
+  "name": "GIMP 3 to ComfyUI Generative Interoperability Adapter Portfolio",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_REPLACEABLE_GIMP_DESKTOP_GENERATIVE_INTEROP_ADAPTER_PORTFOLIO",
+  "classification": [
+    "OPTIONAL_PROVIDER_PORTFOLIO",
+    "REFERENCE_INTEROPERABILITY_PROVIDER",
+    "LOCAL_DESKTOP_PROVIDER",
+    "GIMP_3_COMFYUI_ADAPTERS"
+  ],
+  "contract_id": "FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001",
+  "upstream_reference_id": "FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09",
+  "capability_projection": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_WHEN_GIMP_GENERATIVE_INTEROP_IS_USED",
+  "upstream_references": [
+    {
+      "repository": "nchenevey1/gimp-comfy-tools",
+      "observed_revision": "d61a1a2e4b42e6073aeff0bb59e3b7fa7c6a1497",
+      "observed_date": "2026-01-13",
+      "license": "GPL-3.0",
+      "role": "REFERENCE_PATTERN_ONLY_UNDER_PERMISSIVE_CODE_ADMISSION",
+      "notable_patterns": [
+        "GIMP_3_TEXT_TO_IMAGE_AND_IMAGE_TO_IMAGE",
+        "SELECTION_TO_INPAINT_MASK",
+        "WORKFLOW_MANAGER_API_FORMAT",
+        "RESULT_TO_NEW_LAYER",
+        "GENERATION_METADATA_ON_LAYER"
+      ]
+    },
+    {
+      "repository": "ProgrammerDruid/gimp-comfy-ai",
+      "observed_revision": "fa6b5d30e49c0515d64c97c35c77cdd606eb1a3c",
+      "observed_date": "2025-12-16",
+      "license": "MIT",
+      "role": "OPTIONAL_REFERENCE_IMPLEMENTATION_CANDIDATE",
+      "maintenance_caveat": "SINGLE_OBSERVED_COMMIT_AT_EVALUATION_TIME",
+      "notable_patterns": [
+        "INPAINT",
+        "FULL_IMAGE_EDIT",
+        "NEW_LAYER_GENERATION",
+        "LAYER_COMPOSITE",
+        "OUTPAINT",
+        "REALESRGAN_UPSCALE",
+        "FILESYSTEM_INPUT_OUTPUT_TRANSPORT"
+      ]
+    },
+    {
+      "repository": "Charlweed/gimp_comfyui",
+      "observed_revision": "afa1cabaca9109c9be53fa8e573bfb6f9431e069",
+      "observed_date": "2025-01-08",
+      "license": "MIT",
+      "role": "OPTIONAL_ALPHA_WORKFLOW_AND_LIVE_INTEROP_REFERENCE",
+      "notable_patterns": [
+        "GIMP_3_WORKFLOW_COUPLING",
+        "COMFYUI_WEB_API",
+        "OPTIONAL_LIVE_LAYER_PUBLISH"
+      ]
+    },
+    {
+      "repository": "Charlweed/image_transceiver",
+      "observed_revision": "77cee9b67a5dc0d81595feee09537b05a78916c2",
+      "observed_date": "2026-05-23",
+      "license": "MIT",
+      "role": "OPTIONAL_LIVE_IMAGE_TRANSPORT_REFERENCE",
+      "notable_patterns": [
+        "NEAR_REALTIME_EDITOR_TO_COMFYUI_IMAGE_TRANSPORT",
+        "CUSTOM_NODE_TRANSPORT"
+      ]
+    }
+  ],
+  "selection_policy": {
+    "no_single_upstream_is_required": true,
+    "implementation_must_pass_license_security_dependency_admission": true,
+    "gpl_reference_code_copy_into_permissive_fa3_components": "FORBIDDEN_WITHOUT_EXPLICIT_LICENSE_POLICY_CHANGE",
+    "live_transceiver_required": false,
+    "provider_replacement_must_not_change_canonical_intent": true
+  },
+  "authority_boundaries": {
+    "generation_context": "FA3-MMG-CONTEXT-IR-001",
+    "generation_semantics": "FA3-IMGGEN-CONTRACTS-001",
+    "runtime_lifecycle": "FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001",
+    "orchestration": "EXISTING_FA3_DURABLE_ORCHESTRATION",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_license_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "forbidden_roles": [
+    "GLOBAL_ORCHESTRATION_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "MODEL_REGISTRY_AUTHORITY",
+    "MODEL_ROUTER_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "GENERATION_CONTEXT_IR_AUTHORITY"
+  ],
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_production_claim": false
+}

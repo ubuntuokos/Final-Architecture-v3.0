@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.global-reconciliation-evidence.v1",
+  "id": "FA3-EVIDENCE-MMG-CONTEXT-IR-GLOBAL-RECONCILIATION-2026-09-09",
+  "date": "2026-09-09",
+  "status": "PASS",
+  "reference_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+  "decision_id": "FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+  "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+  "gate_set_id": "FA3-MMG-CONTEXT-IR-GATESET-001",
+  "capability_bindings": ["CAP-016", "CAP-123", "CAP-126"],
+  "canonical_surfaces": [
+    "canonical/profiles/FA3-VIDEO-001.json",
+    "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
+    "canonical/mmg-context-ir-enforcement.json",
+    "canonical/references/FA3-MMG-CONTEXT-IR-REFERENCE-001.json",
+    "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json"
+  ],
+  "executable_surfaces": [
+    "src/fa3_mmg_context_ir.py",
+    "src/fa3_mmg_context_ir_gate.py",
+    "tests/test_mmg_context_ir_reference.py",
+    "bin/fa3-enforce"
+  ],
+  "evidence_surfaces": [
+    "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+    "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json"
+  ],
+  "release_projection": "canonical/releases/FA3-RELEASE-PROJECTION-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
+  "unified_release_projection_reconciliation_required": true,
+  "conclusion": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILIATION_PASS",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_claim": false
+}

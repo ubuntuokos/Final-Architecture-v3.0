@@ -36,6 +36,13 @@
     "STABILITY_PROVIDER_RUNTIME_ISOLATED_PIP_VENV_OR_CONTAINER_NO_CONDA_BASELINE",
     "STABILITY_CURRENT_HOST_PROMOTION_REQUIRES_REAL_E2E_EVIDENCE"
   ],
+  "child_gates": [
+    "FA3-STABLE-AUDIO-3-GATESET-001"
+  ],
+  "child_gate_records": [
+    "canonical/FA3-GATE-STABLE-AUDIO-3-001.json"
+  ],
+  "child_gate_fail_closed": true,
   "global_static_integration": true,
   "runtime_provider_required_for_global_promotion": false,
   "current_host_provider_e2e_required_for_activation": true,

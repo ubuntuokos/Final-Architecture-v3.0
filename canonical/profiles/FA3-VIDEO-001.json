@@ -9,35 +9,11 @@
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "capabilities": [
-    "CAP-016",
-    "CAP-123",
-    "CAP-126"
-  ],
-  "contracts": [
-    "FA3-VIDEO-CONTRACTS-001",
-    "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
-    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"
-  ],
-  "dependencies": [
-    "FA3-CONTRACT-001",
-    "FA3-SCS-001",
-    "FA3-STORY-001",
-    "FA3-VOICE-001",
-    "FA3-DCC-RT3D-001",
-    "FA3-HOST-RESOURCE-BROKER-001"
-  ],
-  "overlays": [
-    "FA3-MEDIA-FINISH-001"
-  ],
-  "providers": [
-    "FA3-PROVIDER-KLING-001",
-    "FA3-PROVIDER-SEEDANCE-001",
-    "FA3-PROVIDER-MINIMAX-H3-001",
-    "FA3-PROVIDER-STABILITY-SGM-001",
-    "FA3-PROVIDER-OPEN-SORA-PLAN-001",
-    "FA3-PROVIDER-HELIOS-001"
-  ],
+  "capabilities": ["CAP-016", "CAP-123", "CAP-126"],
+  "contracts": ["FA3-VIDEO-CONTRACTS-001", "FA3-MMG-CONTEXT-IR-CONTRACTS-001", "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001", "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"],
+  "dependencies": ["FA3-CONTRACT-001", "FA3-SCS-001", "FA3-STORY-001", "FA3-VOICE-001", "FA3-DCC-RT3D-001", "FA3-HOST-RESOURCE-BROKER-001"],
+  "overlays": ["FA3-MEDIA-FINISH-001"],
+  "providers": ["FA3-PROVIDER-KLING-001", "FA3-PROVIDER-SEEDANCE-001", "FA3-PROVIDER-MINIMAX-H3-001", "FA3-PROVIDER-STABILITY-SGM-001", "FA3-PROVIDER-OPEN-SORA-PLAN-001", "FA3-PROVIDER-HELIOS-001"],
   "authority": {
     "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -51,28 +27,43 @@
     "scene_spatial_camera_authority": "FA3-DCC-RT3D-001",
     "editorial_handoff": "OTIO_KDENLIVE"
   },
-  "mandatory_execution_chain": [
-    "creative_intent",
-    "story_shot_voice_dcc_constraints",
-    "video_context_compiler",
-    "VideoGenerationIR",
-    "security_license_gate",
-    "provider_capability_matching",
-    "provider_routing",
-    "local_hrb_or_remote_admission",
-    "provider_projection",
-    "generate_edit_extend_regenerate",
-    "av_continuity_identity_prompt_qc",
-    "provenance_evidence",
-    "vfx_dcc",
-    "otio",
-    "kdenlive_human_finishing",
-    "final_master"
-  ],
+  "multimodal_generation_context_ir": {
+    "id": "FA3-MMG-CONTEXT-IR-001",
+    "contract_id": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "canonical_type": "MultimodalGenerationContextIR",
+    "embedding": "TYPED_CHILD_OF_VideoGenerationIR",
+    "compiler": "video_context_compiler",
+    "provider_neutral": true,
+    "canonical_root": false,
+    "architectural_authority": false,
+    "provider_selection_authority": false,
+    "hosted_provider_context_ir_dependency": false,
+    "gate_id": "FA3-MMG-CONTEXT-IR-GATESET-001",
+    "reference_implementation": {
+      "id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+      "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+      "source_path": "src/fa3_mmg_context_ir.py",
+      "status": "EXECUTABLE_REFERENCE_PASS",
+      "provider_neutral": true,
+      "architectural_authority": false,
+      "provider_runtime_promotion_claim": false
+    }
+  },
+  "mandatory_execution_chain": ["creative_intent", "story_shot_voice_dcc_constraints", "video_context_compiler", "MultimodalGenerationContextIR", "VideoGenerationIR", "security_license_gate", "provider_capability_matching", "provider_routing", "local_hrb_or_remote_admission", "provider_projection", "ProviderProjectionLossReport", "generate_edit_extend_regenerate", "av_continuity_identity_prompt_qc", "provenance_evidence", "vfx_dcc", "otio", "kdenlive_human_finishing", "final_master"],
   "invariants": [
     "provider_syntax_must_not_be_canonical",
     "provider_specific_ir_must_not_be_canonical",
     "video_context_compiler_is_not_an_authority",
+    "mmg_context_ir_is_typed_child_of_VideoGenerationIR",
+    "mmg_context_ir_must_be_provider_neutral",
+    "reference_artifact_semantic_entity_and_reference_binding_are_distinct",
+    "reference_content_is_non_instructional_by_default",
+    "compiler_added_semantics_must_declare_origin_and_provenance",
+    "inference_must_not_override_hard_constraints",
+    "provider_projection_must_emit_loss_report",
+    "hard_projection_loss_fails_closed",
+    "mmg_reference_implementation_is_non_authoritative",
+    "mmg_reference_gate_is_executable_and_fail_closed",
     "provider_adapter_must_not_bypass_central_mcp_gateway",
     "provider_selection_remains_model_router_authority",
     "local_accelerator_execution_requires_host_resource_broker_admission",
@@ -82,7 +73,7 @@
     "license_and_policy_admission_fail_closed",
     "production_outputs_require_qc_and_provenance"
   ],
-  "implementation_status": "CANONICAL_BASELINE_CLOSED_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
+  "implementation_status": "CANONICAL_BASELINE_CLOSED_MMG_EXECUTABLE_REFERENCE_PASS_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
   "capability_count": 143,
   "provider_lifecycle_governance": {
     "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",

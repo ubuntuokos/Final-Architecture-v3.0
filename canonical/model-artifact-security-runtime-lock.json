@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.model-artifact-security-runtime-lock.v1",
+  "id": "FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-LOCK-001",
+  "date": "2026-09-08",
+  "runtime_python": {
+    "allowed": ["3.10", "3.11", "3.12"],
+    "preferred_current_host": "3.12",
+    "system_python_3_14": "FORBIDDEN_FOR_THIS_SCANNER_VENV_DUE_UPSTREAM_COMPATIBILITY"
+  },
+  "python_components": {
+    "modelaudit": {"version": "0.2.52", "install": "modelaudit[all-ci]==0.2.52", "source": "https://pypi.org/project/modelaudit/"},
+    "modelscan": {"version": "0.8.8", "install": "modelscan==0.8.8", "source": "https://pypi.org/project/modelscan/"},
+    "picklescan": {"version": "1.0.5", "install": "picklescan==1.0.5", "source": "https://pypi.org/project/picklescan/"},
+    "fickling": {"version": "0.1.12", "install": "fickling==0.1.12", "source": "https://pypi.org/project/fickling/"},
+    "bandit": {"version": "1.9.4", "install": "bandit==1.9.4", "source": "https://pypi.org/project/bandit/"},
+    "pip-audit": {"version": "2.10.1", "install": "pip-audit==2.10.1", "source": "https://pypi.org/project/pip-audit/"},
+    "garak": {"version": "0.16.0", "install": "garak==0.16.0", "source": "https://pypi.org/project/garak/", "venv": "SEPARATE"}
+  },
+  "binary_components": {
+    "trivy": {"version": "0.74.0", "asset": "trivy_0.74.0_Linux-64bit.tar.gz", "checksum_manifest": "trivy_0.74.0_checksums.txt", "source": "https://github.com/aquasecurity/trivy/releases/tag/v0.74.0"},
+    "cosign": {"version": "3.1.2", "asset": "cosign-linux-amd64", "checksum_manifest": "cosign_checksums.txt", "source": "https://github.com/sigstore/cosign/releases/tag/v3.1.2"}
+  },
+  "distribution_components": {
+    "clamav": {"binary": "clamscan", "version_policy": "CURRENT_HOST_DISTRIBUTION_VERSION_RECORDED_AND_DIGESTED_PER_RECEIPT"},
+    "yara": {"binary": "yara", "version_policy": "CURRENT_HOST_DISTRIBUTION_VERSION_RECORDED_AND_DIGESTED_PER_RECEIPT"},
+    "bubblewrap": {"binary": "bwrap", "version_policy": "CURRENT_HOST_DISTRIBUTION_VERSION_REQUIRED_FOR_SANDBOX"}
+  },
+  "scan_time_network_egress": false,
+  "bootstrap_network_phase_separate": true,
+  "telemetry": false,
+  "top_level_pins_are_immutable": true,
+  "installed_binary_and_package_digests_required_in_receipt": true
+}

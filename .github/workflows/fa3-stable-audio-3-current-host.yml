@@ -1,0 +1,44 @@
+name: FA3 Stable Audio 3 Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan_path:
+        description: "Absolute fa3.stable-audio-3-current-host-plan.v1 JSON path on the runner"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  stable-audio-3-current-host:
+    name: stable-audio-3-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify current-host plan exists
+        shell: bash
+        run: |
+          test -f "${{ inputs.plan_path }}"
+          python3 -m json.tool "${{ inputs.plan_path }}" >/dev/null
+      - name: Run real Stable Audio 3 E2E suite
+        shell: bash
+        env:
+          FA3_CURRENT_HOST_RUNNER: "1"
+        run: |
+          python3 evidence/collect-stable-audio-3-current-host.py \
+            --plan "${{ inputs.plan_path }}" \
+            --output "$PWD/evidence/receipts/stable-audio-3-current-host.json"
+          PYTHONPATH=src python3 src/fa3_stable_audio_3_gate.py --root "$PWD" --current-host
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-stable-audio-3-current-host-evidence
+          path: |
+            evidence/receipts/stable-audio-3-current-host.json
+            reports/stable-audio-3-current-host-gate-report.json

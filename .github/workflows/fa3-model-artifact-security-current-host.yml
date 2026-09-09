@@ -1,0 +1,69 @@
+name: FA3 Model Artifact Security Current-Host Runtime
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/model-security-current-host-runtime-2026-09-08
+    paths:
+      - .github/workflows/fa3-model-artifact-security-current-host.yml
+      - canonical/FA3-MODEL-ARTIFACT-SECURITY-RUNTIME-CONFORMANCE-001.json
+      - canonical/model-artifact-security-current-host-enforcement.json
+      - canonical/model-artifact-security-runtime-lock.json
+      - canonical/model-manager-model-security-binding.json
+      - canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json
+      - deployment/model-security/yara/fa3-model-security.yar
+      - src/fa3_model_artifact_security_runtime.py
+      - src/fa3_model_artifact_security_current_host_gate.py
+      - src/fa3_model_manager_security_hook.py
+      - evidence/collect-model-artifact-security-current-host.py
+      - bin/fa3-model-artifact-security-bootstrap.sh
+      - bin/fa3-model-artifact-security-current-host.sh
+      - tests/test_model_artifact_security_current_host.py
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    name: model-artifact-security-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 90
+    env:
+      FA3_MODEL_SECURITY_HOME: /ai-cache/fa3/model-security
+      FA3_MODEL_SECURITY_ALLOW_NETWORK_BOOTSTRAP: "1"
+      FA3_MODEL_SECURITY_ALLOW_SUDO: "0"
+      PROMPTFOO_DISABLE_TELEMETRY: "1"
+      NO_ANALYTICS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host safety prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          test -d /ai-cache
+          test -w /ai-cache
+          command -v python3
+      - name: Static runtime regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_artifact_security_current_host -v
+      - name: Bootstrap pinned scanner runtime
+        shell: bash
+        run: bash bin/fa3-model-artifact-security-bootstrap.sh
+      - name: Execute real local-model production E2E and negative pickle regression
+        shell: bash
+        run: bash bin/fa3-model-artifact-security-current-host.sh
+      - name: Upload current-host security evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-model-artifact-security-current-host-evidence
+          path: |
+            evidence/receipts/model-artifact-security-current-host.json
+            reports/model-artifact-security-current-host-gate-report.json
