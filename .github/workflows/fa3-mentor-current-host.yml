@@ -1,0 +1,88 @@
+name: FA3 Mentor Current Host Production E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-MENTOR-CURRENT-HOST-001.json'
+      - 'canonical/FA3-GATE-MENTOR-CURRENT-HOST-001.json'
+      - 'canonical/mentor-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-MENTOR-CURRENT-HOST-2026-09-09.json'
+      - 'src/fa3_mentor_current_host.py'
+      - 'src/fa3_mentor_current_host_gate.py'
+      - 'evidence/collect-mentor-current-host.py'
+      - 'tests/test_mentor_current_host_gate.py'
+      - 'fa3-current-host/manifest.json'
+      - 'src/fa3_enforce.py'
+      - '.github/workflows/fa3-mentor-current-host.yml'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-mentor-current-host-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    name: mentor-current-host / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_mentor_current_host.py src/fa3_mentor_current_host_gate.py evidence/collect-mentor-current-host.py
+      - name: Executable current-host regressions
+        run: PYTHONPATH=src python -m unittest tests.test_mentor_current_host_gate -v
+      - name: Existing Mentor canonical gate
+        run: ./bin/fa3-enforce mentor
+      - name: Unified current-host projection
+        run: ./bin/fa3-current-host verify
+      - name: Unified release projection
+        run: ./bin/fa3-enforce release-projection
+
+  production-e2e:
+    name: mentor-current-host / real-production-e2e
+    needs: regression
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Collect real Mentor production E2E receipt
+        shell: bash
+        run: |
+          CONFIG="${FA3_MENTOR_CURRENT_HOST_CONFIG:-$HOME/.config/fa3/mentor-current-host.json}"
+          python evidence/collect-mentor-current-host.py --config "$CONFIG" --receipt evidence/receipts/mentor-current-host.json
+      - name: Fail-closed Mentor current-host gate
+        if: always()
+        run: PYTHONPATH=src python src/fa3_mentor_current_host_gate.py --receipt evidence/receipts/mentor-current-host.json
+      - name: Print sanitized receipt for audit
+        if: always()
+        shell: bash
+        run: |
+          if test -f evidence/receipts/mentor-current-host.json; then
+            cat evidence/receipts/mentor-current-host.json
+          else
+            echo '{"status":"NO_RECEIPT"}'
+          fi
+      - name: Upload Mentor current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-mentor-current-host-e2e
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/mentor-current-host.json
+            reports/mentor-current-host-gate-report.json
