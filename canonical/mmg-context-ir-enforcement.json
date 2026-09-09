@@ -37,31 +37,32 @@
     "NO_NEW_ARCHITECTURAL_AUTHORITY"
   ],
   "inference_policy": {
-    "allowed_origins": [
-      "DECLARED",
-      "AUTHORITY_DERIVED",
-      "ARTIFACT_DERIVED",
-      "INFERRED",
-      "DEFAULTED"
-    ],
-    "confidence_required_for": [
-      "INFERRED",
-      "DEFAULTED"
-    ],
+    "allowed_origins": ["DECLARED", "AUTHORITY_DERIVED", "ARTIFACT_DERIVED", "INFERRED", "DEFAULTED"],
+    "confidence_required_for": ["INFERRED", "DEFAULTED"],
     "hard_constraint_override_forbidden": true,
     "rights_license_security_policy_inference_forbidden": true
   },
   "projection_loss_policy": {
-    "states": [
-      "PRESERVED",
-      "APPROXIMATED",
-      "DROPPED",
-      "UNSUPPORTED"
-    ],
+    "states": ["PRESERVED", "APPROXIMATED", "DROPPED", "UNSUPPORTED"],
     "HARD_DROPPED": "FAIL",
     "HARD_UNSUPPORTED": "PROVIDER_INELIGIBLE",
     "SOFT_APPROXIMATED": "ALLOW_WITH_EVIDENCE",
     "SOFT_DROPPED": "POLICY_DEPENDENT"
+  },
+  "executable_reference": {
+    "reference_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+    "decision_id": "FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+    "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+    "source_path": "src/fa3_mmg_context_ir.py",
+    "gate_path": "src/fa3_mmg_context_ir_gate.py",
+    "test_path": "tests/test_mmg_context_ir_reference.py",
+    "reference_evidence": "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+    "global_reconciliation_evidence": "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
+    "cli": "./bin/fa3-enforce mmg-context-ir",
+    "mandatory_case_count": 18,
+    "fail_closed": true,
+    "provider_runtime_claim": false,
+    "current_host_runtime_claim": false
   },
   "authority_boundaries": {
     "story": "FA3-STORY-001",

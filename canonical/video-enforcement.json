@@ -20,6 +20,8 @@
     "CONTEXT_COMPILER_INFERENCE_IS_PROVENANCE_TYPED",
     "PROVIDER_PROJECTION_LOSS_REPORT_REQUIRED",
     "HARD_CONTEXT_PROJECTION_LOSS_FAILS_CLOSED",
+    "MMG_EXECUTABLE_REFERENCE_GATE_REQUIRED",
+    "MMG_EXECUTABLE_REFERENCE_MUST_NOT_CLAIM_PROVIDER_RUNTIME",
     "PROVIDER_MCP_MUST_NOT_BYPASS_CENTRAL_GATEWAY",
     "LOCAL_ACCELERATOR_EXECUTION_REQUIRES_HRB_ADMISSION",
     "LICENSE_POLICY_ADMISSION_FAILS_CLOSED",
@@ -48,7 +50,15 @@
     "enforcement_path": "canonical/mmg-context-ir-enforcement.json",
     "typed_child_of": "VideoGenerationIR",
     "provider_neutral": true,
-    "hosted_h3_context_ir_required": false
+    "hosted_h3_context_ir_required": false,
+    "reference_implementation_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+    "reference_decision_id": "FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+    "executable_gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+    "reference_evidence": "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+    "global_reconciliation_evidence": "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
+    "cli": "./bin/fa3-enforce mmg-context-ir",
+    "current_host_runtime_claim": false,
+    "provider_runtime_execution_claim": false
   },
   "h3_promotion_requirements": [
     "license_admission_pass",

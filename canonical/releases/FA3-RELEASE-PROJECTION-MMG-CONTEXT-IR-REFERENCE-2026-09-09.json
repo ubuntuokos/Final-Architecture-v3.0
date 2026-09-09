@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+  "date": "2026-09-09",
+  "status": "CANONICAL_RECONCILED",
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-VIDEO-001",
+  "context_ir_id": "FA3-MMG-CONTEXT-IR-001",
+  "reference_id": "FA3-MMG-CONTEXT-IR-REFERENCE-001",
+  "decision_id": "FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09",
+  "gate_id": "FA3-GATE-MMG-CONTEXT-IR-001",
+  "reference_evidence": "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
+  "global_reconciliation_evidence": "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
+  "capability_bindings": ["CAP-016", "CAP-123", "CAP-126"],
+  "implementation": {
+    "compiler_validator_projection": "src/fa3_mmg_context_ir.py",
+    "gate": "src/fa3_mmg_context_ir_gate.py",
+    "tests": "tests/test_mmg_context_ir_reference.py",
+    "cli": "./bin/fa3-enforce mmg-context-ir",
+    "executable_reference_status": "PASS"
+  },
+  "baseline": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "provider_runtime_promotion_claim": false,
+    "current_host_runtime_promotion_claim": false
+  }
+}

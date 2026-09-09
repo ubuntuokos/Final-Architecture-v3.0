@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ "${1:-}" == "mmg-context-ir" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_mmg_context_ir_gate.py" --root "$ROOT" "$@"
+fi
 exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" "$@"
