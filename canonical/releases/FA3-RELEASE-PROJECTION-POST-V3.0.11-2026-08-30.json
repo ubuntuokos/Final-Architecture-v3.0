@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "46df7f10aeb92d2c98b0a5572b6629d9cecc9396",
-    "pre_projection_root_tree_sha": "355b07f68668fbbe371a1b4c2482a76dea6aea4e",
-    "pre_projection_canonical_tree_sha": "6aa1485aa6d1b74c7a9ba55170e5c75ec5c7b0ed",
-    "commits_ahead_of_v3_0_11_conformance_commit": 127,
-    "total_post_baseline_commits": 127,
-    "delta_file_count": 752,
-    "delta_added_files": 747,
+    "pre_projection_head_sha": "b16aea9b94db110bfe51ff619322d9b6556b544c",
+    "pre_projection_root_tree_sha": "28b733e568d9f677a4f4b03e281905accbea5e5d",
+    "pre_projection_canonical_tree_sha": "ed70a9d8a1f68be2d9bee7c7a1984206d84ebc8f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 129,
+    "total_post_baseline_commits": 129,
+    "delta_file_count": 753,
+    "delta_added_files": 748,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 426,
+    "canonical_files_in_post_baseline_delta": 427,
     "evidence_files_in_post_baseline_delta": 81,
     "source_files_in_post_baseline_delta": 86,
     "test_files_in_post_baseline_delta": 68,
@@ -276,6 +276,7 @@
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
@@ -542,7 +543,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 753,
+  "manifest_entry_count": 754,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1587,6 +1588,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
       "git_blob_sha": "162622a1e55cea2efe05bb3a8253862f25d00993",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
+      "git_blob_sha": "ef6253c9633d5ba986d9f28abf620fab8959b337",
       "baseline_delta_status": "added"
     },
     {
