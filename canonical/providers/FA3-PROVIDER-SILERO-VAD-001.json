@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SILERO-VAD-001",
+  "name": "snakers4/silero-vad",
+  "status": "ACCEPTED_OPTIONAL_REFERENCE_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_STRONG_REFERENCE_SPEECH_ACTIVITY_DETECTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "STRONG_REFERENCE_PROVIDER",
+    "LOCAL_FIRST",
+    "CPU_BASELINE",
+    "ONNX_PREFERRED",
+    "METADATA_ONLY_VAD",
+    "PERMISSIVE_LICENSE"
+  ],
+  "profile_ids": [
+    "FA3-SPEECH-ENHANCEMENT-001",
+    "FA3-STT-MEDIA-001"
+  ],
+  "contract_ids": [
+    "FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-017"
+  ],
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "snakers4/silero-vad",
+    "revision": "867c2aa692646a1f1de3e94a15c9dd9f614c0acb",
+    "revision_date": "2026-08-24",
+    "license": "MIT",
+    "reference_id": "FA3-SILERO-VAD-UPSTREAM-REFERENCE-2026-09-10"
+  },
+  "model_policy": {
+    "allowlist_id": "FA3-SILERO-VAD-MODEL-ALLOWLIST-001",
+    "preferred_format": "ONNX",
+    "runtime_auto_download": false,
+    "direct_runtime_unsafe_serialization": false,
+    "sha256_required_before_current_host_promotion": true,
+    "model_revision_must_be_immutable": true
+  },
+  "runtime": {
+    "baseline_execution_provider": "CPUExecutionProvider",
+    "gpu_required": false,
+    "accelerator_optional_with_hrb_receipt": true,
+    "supported_sample_rates_hz": [
+      8000,
+      16000
+    ],
+    "kdenlive_default_analysis_sample_rate_hz": 16000,
+    "channels": [
+      1
+    ],
+    "state_reset_on_discontinuity": true,
+    "silent_execution_provider_fallback": false
+  },
+  "output_policy": {
+    "artifact_type": "SpeechActivityMap",
+    "metadata_only": true,
+    "master_audio_mutation": false,
+    "source_timebase_mapping_required": true
+  },
+  "authority_boundaries": {
+    "audio": false,
+    "voice": false,
+    "stt": false,
+    "inference": false,
+    "model_registry": false,
+    "provider_routing": false,
+    "device_routing": false,
+    "workflow": false,
+    "security": false,
+    "host_resource": false,
+    "evidence": false,
+    "editorial": false
+  },
+  "implementation": {
+    "provider_adapter": "src/fa3_silero_vad_provider.py",
+    "composite_gate": "src/fa3_kdenlive_audio_conditioning_gate.py",
+    "current_host_collector": "evidence/collect-kdenlive-audio-conditioning-current-host.py",
+    "reference_enforce_command": "PYTHONPATH=src python src/fa3_kdenlive_audio_conditioning_gate.py"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "current_host_real_vad_e2e": "REQUIRED",
+    "composite_kdenlive_audio_e2e": "REQUIRED",
+    "runtime_promotion_claimed": false
+  }
+}

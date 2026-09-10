@@ -1,0 +1,163 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "projection_type": "KDENLIVE_EDITORIAL_AUDIO_CONDITIONING_PROJECTION",
+  "parent_profiles": [
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-SPEECH-ENHANCEMENT-001",
+    "FA3-AUDIO-SEPARATION-001"
+  ],
+  "delegates_transcription_to": "FA3-STT-MEDIA-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "AudioConditioningRequest",
+    "SpeechActivityMap",
+    "AudioConditioningExecutionPlan",
+    "AudioConditioningResult",
+    "AudioConditioningQualityReport",
+    "AudioConditioningExecutionReceipt"
+  ],
+  "request": {
+    "required": [
+      "request_id",
+      "source_artifact_ref",
+      "source_sha256",
+      "timeline_range",
+      "source_timebase",
+      "preset",
+      "output_artifact_ref",
+      "provider_policy"
+    ],
+    "presets": [
+      "CLEAN_DIALOGUE",
+      "RESTORE_DIALOGUE_IN_MIXED_AUDIO",
+      "NOISE_REDUCTION",
+      "RESTORE_SPEECH_BANDWIDTH",
+      "SEPARATE_VOCALS_MUSIC",
+      "PREPARE_CLEAN_AUDIO_FOR_TRANSCRIPTION"
+    ],
+    "provider_names_in_editorial_preset_surface": false,
+    "source_mutation": "FORBIDDEN",
+    "direct_kdenlive_project_xml_mutation": "FORBIDDEN"
+  },
+  "media_preparation": {
+    "deterministic_media_core": [
+      "ffprobe",
+      "ffmpeg"
+    ],
+    "native_master_immutable": true,
+    "analysis_projection": {
+      "sample_rate_hz": 16000,
+      "channels": 1,
+      "explicit": true,
+      "master_replacement": false
+    },
+    "final_editorial_mezzanine": {
+      "sample_rate_hz": 48000,
+      "container": "WAV",
+      "codec_policy": "LOSSLESS_PCM24_OR_EXPLICITLY_ADMITTED_LOSSLESS_EQUIVALENT",
+      "derived_artifact_only": true
+    }
+  },
+  "speech_activity": {
+    "artifact": "SpeechActivityMap",
+    "metadata_only": true,
+    "master_audio_mutation": false,
+    "source_timebase_mapping_required": true,
+    "segment_fields": [
+      "start_sample",
+      "end_sample",
+      "start_seconds",
+      "end_seconds",
+      "confidence"
+    ],
+    "context_padding_explicit": true,
+    "rejoin_crossfade_explicit": true,
+    "state_reset_on_discontinuity": true
+  },
+  "routing": {
+    "clean_dialogue": [
+      "speech_activity_detection",
+      "speech_enhancement",
+      "speech_restoration_bwe"
+    ],
+    "mixed_dialogue": [
+      "optional_source_separation",
+      "speech_activity_detection",
+      "speech_enhancement",
+      "speech_restoration_bwe",
+      "deterministic_remix"
+    ],
+    "noise_reduction": [
+      "speech_activity_detection",
+      "speech_enhancement"
+    ],
+    "restore_speech_bandwidth": [
+      "speech_restoration_bwe"
+    ],
+    "separate_vocals_music": [
+      "audio_source_separation"
+    ],
+    "prepare_clean_audio_for_transcription": [
+      "speech_activity_detection",
+      "speech_enhancement",
+      "delegate_to_FA3-STT-MEDIA-001"
+    ],
+    "source_separation_conditional_only": true,
+    "pipeline_must_work_without_source_separation": true
+  },
+  "denoise_policy": {
+    "implicit_double_denoise": false,
+    "when_upstream_speech_enhancement_active": {
+      "downstream_restoration_denoise_default": false,
+      "alternate_cascade_requires_explicit_policy_and_quality_evidence": true
+    }
+  },
+  "execution": {
+    "capability_mediation_authority": "CENTRAL_MCP_EXISTING_AUTHORITY",
+    "provider_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "accelerator_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_requires_hrb_receipt": true,
+    "silent_provider_model_device_or_cloud_fallback": false,
+    "subprocess_policy": "ARGV_SHELL_FALSE_ONLY",
+    "runtime_network_fetch": false,
+    "jobs_async_nonblocking_cancellable": true
+  },
+  "integrity": {
+    "intermediate_artifact_sha256_lineage_required": true,
+    "finite_samples_required": true,
+    "nan_inf_forbidden": true,
+    "clipping_measured": true,
+    "gain_and_dc_offset_measured": true,
+    "duration_and_timebase_preserved_unless_explicit_transform": true,
+    "duration_drift_must_be_within_declared_tolerance": true,
+    "derived_media_versioned": true
+  },
+  "kdenlive_projection": {
+    "entry_surface": "NATIVE_MEDIA_JOB_OR_TYPED_MCP_ADAPTER",
+    "command_template": [
+      "/usr/bin/python3",
+      "/opt/fa3/audio/fa3_kdenlive_audio_conditioning.py",
+      "--source",
+      "{source}",
+      "--preset",
+      "{param1}",
+      "--output",
+      "{output}"
+    ],
+    "command_template_shell": false,
+    "result": "VERSIONED_DERIVED_MEDIA_RETURNED_TO_PROJECT_BIN",
+    "human_editorial_state_remains_kdenlive_owned": true,
+    "otio_timeline_ir_preserved": true
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "real_current_host_composite_e2e": "REQUIRED_BEFORE_PRODUCTION_PROMOTION",
+    "reference_or_document_only_evidence_is_production_evidence": false
+  }
+}

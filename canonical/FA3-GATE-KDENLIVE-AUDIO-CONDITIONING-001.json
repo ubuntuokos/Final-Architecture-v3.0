@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001",
+  "gate_set_id": "FA3-KDENLIVE-AUDIO-CONDITIONING-GATESET-001",
+  "status": "MANDATORY_REFERENCE_GATE",
+  "fail_closed": true,
+  "rule_count": 32,
+  "enforcement": "canonical/kdenlive-audio-conditioning-enforcement.json",
+  "executable": "src/fa3_kdenlive_audio_conditioning_gate.py",
+  "test": "tests/test_kdenlive_audio_conditioning.py",
+  "current_host_collector": "evidence/collect-kdenlive-audio-conditioning-current-host.py",
+  "reference_gate_can_establish_production_runtime": false
+}
