@@ -59,8 +59,7 @@ class StableAudio3GateTests(unittest.TestCase):
     def test_retired_medium_bf16_cannot_be_reenabled(self):
         td, root = self._copy()
         try:
-            def mutate(d):
-                d["precision_policy"]["allowed_medium"].append("bf16")
+            def mutate(d): d["precision_policy"]["allowed_medium"].append("bf16")
             self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
             self.assertEqual("FAIL", s.gate(root)["result"])
         finally:
@@ -69,8 +68,7 @@ class StableAudio3GateTests(unittest.TestCase):
     def test_floating_flash_attention_artifact_policy_fails(self):
         td, root = self._copy()
         try:
-            def mutate(d):
-                d["supply_chain"]["flash_attention"]["floating_community_wheel_url_for_production_forbidden"] = False
+            def mutate(d): d["supply_chain"]["flash_attention"]["floating_community_wheel_url_for_production_forbidden"] = False
             self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
             self.assertEqual("FAIL", s.gate(root)["result"])
         finally:
@@ -79,8 +77,45 @@ class StableAudio3GateTests(unittest.TestCase):
     def test_missing_runtime_identity_field_fails(self):
         td, root = self._copy()
         try:
+            def mutate(d): d["runtime_identity"]["required_fields"].remove("pcm_conversion_semantics")
+            self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
+            self.assertEqual("FAIL", s.gate(root)["result"])
+        finally:
+            td.cleanup()
+
+    def test_medium_vram_cannot_become_global_hardware_baseline(self):
+        td, root = self._copy()
+        try:
+            def mutate(d): d["hardware_admission"]["medium_vram_value_is_workload_envelope_not_global_baseline"] = False
+            self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
+            self.assertEqual("FAIL", s.gate(root)["result"])
+        finally:
+            td.cleanup()
+
+    def test_large_cannot_be_reclassified_open_weight(self):
+        td, root = self._copy()
+        try:
             def mutate(d):
-                d["runtime_identity"]["required_fields"].remove("pcm_conversion_semantics")
+                d["model_family"]["large"]["weight_availability"] = "OPEN_WEIGHT_DOWNLOADABLE"
+                d["deployment_policy"]["modes"]["open_weight_self_host"]["models"].append("large")
+            self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
+            self.assertEqual("FAIL", s.gate(root)["result"])
+        finally:
+            td.cleanup()
+
+    def test_community_threshold_cannot_become_architecture_constant(self):
+        td, root = self._copy()
+        try:
+            def mutate(d): d["deployment_policy"]["community_commercial_threshold"]["semantics"] = "ARCHITECTURE_CONSTANT"
+            self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
+            self.assertEqual("FAIL", s.gate(root)["result"])
+        finally:
+            td.cleanup()
+
+    def test_cpu_route_does_not_relax_fa3_hardware_baseline(self):
+        td, root = self._copy()
+        try:
+            def mutate(d): d["hardware_admission"]["cpu_routes_do_not_relax_global_hardware_baseline"] = False
             self._mutate(root, "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json", mutate)
             self.assertEqual("FAIL", s.gate(root)["result"])
         finally:

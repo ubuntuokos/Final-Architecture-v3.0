@@ -2,16 +2,13 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-SF3D-001",
   "name": "Stable Fast 3D",
+  "version": "1.1.0",
   "status": "REQUIRED_SUPPORTED_REFERENCE",
   "provider_role": "REQUIRED_LOWER_VRAM_3D_RECONSTRUCTION_FALLBACK",
   "upstream_repo": "Stability-AI/stable-fast-3d",
   "immutable_reference": "ff21fc491b4dc5314bf6734c7c0dabd86b5f5bb2",
-  "profiles": [
-    "FA3-3D-GEOM-001"
-  ],
-  "capability_projection": [
-    "CAP-123"
-  ],
+  "profiles": ["FA3-3D-GEOM-001"],
+  "capability_projection": ["CAP-123"],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -27,10 +24,16 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
   },
-  "features": [
-    "single-image mesh reconstruction",
-    "UV unwrap",
-    "texture/material prediction"
-  ],
-  "current_host_route": "LOCAL_CANDIDATE_APPROX_6GB_REFERENCE_REQUIRES_E2E"
+  "features": ["single-image mesh reconstruction", "UV unwrap", "texture/material prediction"],
+  "resource_envelope": {
+    "approximate_upstream_vram_gb": 6.0,
+    "semantics": "UPSTREAM_WORKLOAD_HINT_NOT_FA3_HARDWARE_BASELINE"
+  },
+  "local_admission": {
+    "hardware_snapshot_required": true,
+    "hrb_lease_required": true,
+    "resource_envelope_must_fit_discovered_device": true,
+    "fixed_gpu_sku_or_device_index": false,
+    "real_e2e_required_for_promotion": true
+  }
 }

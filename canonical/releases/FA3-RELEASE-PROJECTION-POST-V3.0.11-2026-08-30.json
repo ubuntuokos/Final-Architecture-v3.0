@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
-    "pre_projection_root_tree_sha": "da0e2b8d6dc75683d5581cae8abd89595692a478",
-    "pre_projection_canonical_tree_sha": "5f0f9d842ae739f14e4de936b046c8fae50e68f6",
-    "commits_ahead_of_v3_0_11_conformance_commit": 163,
-    "total_post_baseline_commits": 163,
-    "delta_file_count": 844,
-    "delta_added_files": 839,
+    "pre_projection_head_sha": "b086ee3d9edff24c0343a1618e725c0d1e423718",
+    "pre_projection_root_tree_sha": "6acb7cbeea10c82c52ead96690dc24b5d7580dc5",
+    "pre_projection_canonical_tree_sha": "d29f15eaabf763636da383b364e9a20ad029154b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 139,
+    "total_post_baseline_commits": 139,
+    "delta_file_count": 845,
+    "delta_added_files": 840,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 476,
-    "evidence_files_in_post_baseline_delta": 91,
+    "canonical_files_in_post_baseline_delta": 477,
+    "evidence_files_in_post_baseline_delta": 92,
     "source_files_in_post_baseline_delta": 94,
     "test_files_in_post_baseline_delta": 79,
-    "workflow_files_in_post_baseline_delta": 21,
+    "workflow_files_in_post_baseline_delta": 20,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -320,6 +320,7 @@
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-STABILITY-AUDIO-DEPLOYMENT-HARDWARE-PORTABILITY-2026-09-10.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
@@ -434,6 +435,7 @@
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
+      "evidence/reference/stability-audio-deployment-hardware-portability-2026-09-10.json",
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
@@ -597,7 +599,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 843,
+  "manifest_entry_count": 845,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1491,7 +1493,7 @@
     },
     {
       "path": "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
-      "git_blob_sha": "9786873dba8b1243750d15926ce145cc1e8945a9",
+      "git_blob_sha": "6a30e29b330d8f8cbd4cd765e2872bc858c91985",
       "baseline_delta_status": "added"
     },
     {
@@ -1900,6 +1902,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-STABILITY-AUDIO-DEPLOYMENT-HARDWARE-PORTABILITY-2026-09-10.json",
+      "git_blob_sha": "ba4f36b86a523c1281b7fc861340c6362174bfd3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "git_blob_sha": "90833460362f8e17af8e74dc46e63b98535b41e1",
       "baseline_delta_status": "added"
@@ -1997,7 +2004,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -2786,7 +2793,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SD35-NVIDIA-NIM-001.json",
-      "git_blob_sha": "d8ddcf2183f0c338152270287a764e1062c1c7b4",
+      "git_blob_sha": "a25e73757f6fa4ab7ea1981416adae891e0ebf48",
       "baseline_delta_status": "added"
     },
     {
@@ -2796,7 +2803,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SF3D-001.json",
-      "git_blob_sha": "de9e6facc2df8a41c5c5969312f1f30ffaf9bdef",
+      "git_blob_sha": "7a22da59bea261814ad71cdb0709fea44fdee621",
       "baseline_delta_status": "added"
     },
     {
@@ -2806,7 +2813,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SPAR3D-001.json",
-      "git_blob_sha": "f04e1b1128710b378e7676e6d627bde1f4328d86",
+      "git_blob_sha": "d16d7066f27a689afe6e21529532d5e4aae52929",
       "baseline_delta_status": "added"
     },
     {
@@ -2836,12 +2843,12 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABLE-AUDIO-3-001.json",
-      "git_blob_sha": "132d3e2ff9a4f8a89f3f7a25f4c740c291cd7db8",
+      "git_blob_sha": "dbdbb0cb8370e0508f6c4ed11251a073ff657763",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-STABLE-LAYERS-001.json",
-      "git_blob_sha": "b8d4c15a3c9c0e26fa1a5a50c7ae0c5ada8ce435",
+      "git_blob_sha": "6567afbcc66299ca63105e492b2a71903c7e7daf",
       "baseline_delta_status": "added"
     },
     {
@@ -3207,7 +3214,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -3835,6 +3842,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/stability-audio-deployment-hardware-portability-2026-09-10.json",
+      "git_blob_sha": "f9523247f4aa7d998eace7172fcbf1faa79e0436",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "git_blob_sha": "ec779cf490b059b66d3c2b43513527651f11b1e3",
       "baseline_delta_status": "added"
@@ -4356,7 +4368,7 @@
     },
     {
       "path": "src/fa3_stability_portfolio_gate.py",
-      "git_blob_sha": "30a6ba61813bdce64486d1f9d701001849681cbe",
+      "git_blob_sha": "cd019972ce7f3a6188c9d64653e0a7b244bbbbd5",
       "baseline_delta_status": "added"
     },
     {
@@ -4366,7 +4378,7 @@
     },
     {
       "path": "src/fa3_stable_audio_3_gate.py",
-      "git_blob_sha": "eba1c057d736dbec4fdf5a5a37f839d7586be4cf",
+      "git_blob_sha": "e7d4a2c11c17755528e6ac5945532a45b8241b23",
       "baseline_delta_status": "added"
     },
     {
@@ -4746,7 +4758,7 @@
     },
     {
       "path": "tests/test_stability_portfolio_gate.py",
-      "git_blob_sha": "e83634f66fa7c65494b218e934dc7a47115ccdc5",
+      "git_blob_sha": "3027bda58123ceb6e65e5cc3bd2a43247ba0ba14",
       "baseline_delta_status": "added"
     },
     {
@@ -4756,7 +4768,7 @@
     },
     {
       "path": "tests/test_stable_audio_3_gate.py",
-      "git_blob_sha": "a0a8961cf23299c7a66c504dabbad0a96f8f176a",
+      "git_blob_sha": "ad9c33a77aa4ef90ec21191f51f403d7fb75e4de",
       "baseline_delta_status": "added"
     },
     {
