@@ -1,6 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-STABILITY-PORTFOLIO-CONTRACTS-001",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "new_capability": false,
@@ -33,7 +34,7 @@
       "code_license",
       "model_license",
       "output_usage_rights",
-      "hardware_vram_profile",
+      "hardware_resource_envelope",
       "quantization",
       "runtime_backend",
       "security_supply_chain"
@@ -44,46 +45,48 @@
       "CodeLicense",
       "ModelLicense",
       "OutputUsageRights",
+      "DeploymentEntitlement",
       "CommercialThreshold",
+      "IndemnificationTerms",
       "AttributionRequirement",
       "AUPUseRestriction",
       "RedistributionPolicy"
     ],
     "code_license_implies_model_license": false,
     "code_license_implies_output_rights": false,
+    "weight_availability_implies_deployment_entitlement": false,
     "commercial_threshold_is_versioned_policy_not_static_architecture_constant": true,
+    "indemnification_is_metadata_not_execution_authority": true,
     "aup_reference": {
       "effective": "2026-09-30",
       "source": "https://stability.ai/use-policy",
-      "snapshot_required_before_execution": true
+      "snapshot_required_before_execution": true,
+      "refresh_on_policy_version_change": true
     }
   },
-  "hardware_reference": {
-    "workstation": "Dell Precision T7910 reference host",
-    "cpu": "2x Intel Xeon E5-2696 v4 @ 2.20GHz",
-    "physical_cores": 44,
-    "logical_cpus": 88,
-    "expected_numa_domains": 2,
-    "static_cpu_or_numa_numbering_forbidden": true,
-    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "compute_gpu_reference": "NVIDIA RTX 3080 12GB class unless live discovery differs",
-    "gpu_identity_requires_live_uuid_pci_vram_discovery": true,
-    "local_candidate_classes": {
-      "stable_audio_3_medium": "CANDIDATE_FITS_12GB_CLASS_SUBJECT_TO_REAL_E2E",
-      "sf3d": "CANDIDATE_APPROX_6GB_UPSTREAM_REFERENCE_SUBJECT_TO_REAL_E2E",
-      "spar3d_low_vram": "CANDIDATE_APPROX_7GB_UPSTREAM_REFERENCE_SUBJECT_TO_REAL_E2E"
-    },
-    "validation_required": [
-      "SD3.5 local variants",
-      "Arbor",
-      "ReLi3D"
-    ],
-    "remote_distributed_first": [
-      "Stable Layers",
-      "SD3.5 NVIDIA NIM"
-    ],
-    "nvidia_nim_note": "Official 2026-08-12 SD3.5 NIM targets enterprise/data-center Ada and Blackwell; current RTX 3080 class host is not a local-default route.",
-    "tensorrt_note": "Official 2026-06-12 SD3.5 TensorRT announcement targets RTX 40/50 plus Ada/Blackwell RTX PRO; do not infer RTX 3080 current-host support."
+  "hardware_admission": {
+    "canonical_profile": "FA3-HARDWARE-BASELINE-001",
+    "discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_snapshot_required_before_local_admission": true,
+    "minimum_host_qualification_delegated_to_hardware_baseline": true,
+    "current_host_tuple_is_evidence_only": true,
+    "concrete_cpu_vendor_model_socket_count_as_stability_requirement": false,
+    "concrete_gpu_sku_vram_sm_device_count_as_stability_requirement": false,
+    "static_cpu_id_numa_node_pci_bdf_cuda_ordinal_as_portable_placement": false,
+    "numa_is_optional_discovered_topology": true,
+    "incomplete_or_stale_discovery_fails_closed": true,
+    "provider_resource_envelope_is_workload_metadata_not_hardware_identity": true,
+    "provider_resource_envelope_compared_against_live_snapshot": true,
+    "local_accelerator_execution_requires_hrb_lease": true,
+    "no_silent_device_provider_or_cloud_fallback": true,
+    "cpu_only_provider_route_does_not_relax_global_hardware_baseline": true,
+    "newer_supported_hardware_must_not_be_rejected_by_legacy_model_or_sku_pin": true,
+    "legacy_rule_identifier_semantics": {
+      "STABILITY_T7910_REFERENCE_CPU_IS_E5_2696_V4_NOT_E5_2697_V4": "DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_REQUIREMENTS",
+      "STABILITY_CURRENT_HOST_12GB_GPU_ROUTE_MUST_BE_EXPLICITLY_ADMITTED": "DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_LOCAL_ROUTE_USES_LIVE_RESOURCE_ENVELOPE_AND_HRB_ADMISSION",
+      "SD35_NIM_NOT_CURRENT_HOST_LOCAL_DEFAULT_ON_RTX3080_CLASS_HARDWARE": "DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_NIM_LOCALITY_IS_CAPABILITY_AND_VENDOR_SUPPORT_DRIVEN"
+    }
   },
   "runtime_policy": {
     "environment": "ISOLATED_PIP_VENV_OR_CONTAINER",
@@ -114,7 +117,7 @@
     "SD35_NVIDIA_NIM_IS_DEPLOYMENT_PROVIDER_NOT_ROUTING_AUTHORITY",
     "SD35_NIM_NOT_CURRENT_HOST_LOCAL_DEFAULT_ON_RTX3080_CLASS_HARDWARE",
     "SPAR3D_PRIMARY_STABILITY_SINGLE_IMAGE_3D_RECONSTRUCTION_PROVIDER",
-    "SF3D_REQUIRED_LOWER_VRAM_FALLBACK_PROVIDER",
+    "SF3D_REQUIRED_LOWER_VRAM_3D_RECONSTRUCTION_FALLBACK_PROVIDER",
     "ARBOR_REQUIRED_CONSTRAINED_TEXT_TO_3D_PROVIDER",
     "RELI3D_REQUIRED_MULTIVIEW_RELIGHTABLE_RECONSTRUCTION_PROVIDER",
     "STABLE_VIRTUAL_CAMERA_REQUIRED_SUPPORTED_LICENSE_GATED_NVS_PROVIDER",
