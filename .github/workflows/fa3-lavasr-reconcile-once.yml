@@ -41,13 +41,13 @@ jobs:
           python tools/fa3_lavasr_global_reconcile.py --projection-only --snapshot-head "$snapshot"
           git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
           git commit -m 'FA3: repair LavaSR release projection after final sync'
-      - name: Verify release and LavaSR gates
-        run: |
-          ./bin/fa3-enforce release-projection
-          bash bin/fa3-lavasr-enforce
-      - name: Remove one-shot workflow
+      - name: Remove one-shot workflow before final verification
         run: |
           git rm .github/workflows/fa3-lavasr-reconcile-once.yml
           git commit -m 'FA3: remove LavaSR projection-repair one-shot workflow'
+      - name: Verify final release and LavaSR gates
+        run: |
+          ./bin/fa3-enforce release-projection
+          bash bin/fa3-lavasr-enforce
       - name: Push repaired reconciliation branch
         run: git push origin HEAD:reconcile/lavasr-post-merge
