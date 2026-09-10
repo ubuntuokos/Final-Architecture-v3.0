@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STABILITY-AUDIO-DEPLOYMENT-HARDWARE-PORTABILITY-2026-09-10",
+  "date": "2026-09-10",
+  "status": "CANONICAL_CLOSED",
+  "decision": "Reconcile the Stability AI portfolio and Stable Audio 3 deployment guidance with the provider-neutral FA3 hardware portability baseline.",
+  "disposition": "NO_NEW_CAPABILITY_PROVIDER_AND_ADMISSION_HARDENING",
+  "supersedes_normative_hardware_semantics_from": "FA3-DEC-STABILITY-PORTFOLIO-2026-09-02",
+  "does_not_erase_historical_reference_evidence": true,
+  "hardware_decision": {
+    "canonical_profile": "FA3-HARDWARE-BASELINE-001",
+    "discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "current_host_facts_are_evidence_only": true,
+    "concrete_cpu_model_socket_count_gpu_sku_vram_sm_device_index_as_stability_baseline": "FORBIDDEN",
+    "provider_resource_envelopes": "ALLOWED_AS_VERSIONED_WORKLOAD_METADATA",
+    "local_admission": "LIVE_HARDWARE_SNAPSHOT_PLUS_HRB_LEASE_PLUS_PROVIDER_COMPATIBILITY_PLUS_E2E",
+    "cpu_only_stable_audio_routes_relax_global_hardware_baseline": false,
+    "newer_compatible_hardware_requires_manual_stability_reconfiguration": false
+  },
+  "stable_audio_3_deployment_decision": {
+    "open_weight_self_host": ["Small-Music", "Small-SFX", "Medium"],
+    "large": "STABILITY_API_OR_ENTERPRISE_SELF_HOST",
+    "medium_peak_vram_gb": 6.52,
+    "medium_peak_vram_semantics": "UPSTREAM_WORKLOAD_ENVELOPE_NOT_FA3_GLOBAL_MINIMUM",
+    "community_revenue_threshold_semantics": "VERSIONED_POLICY_SNAPSHOT_NOT_ARCHITECTURE_CONSTANT",
+    "enterprise_indemnification_semantics": "LEGAL_METADATA_NOT_EXECUTION_AUTHORITY",
+    "weight_availability_implies_deployment_entitlement": false
+  },
+  "vendor_daw_plugin": "OPTIONAL_INCUBATION_ON_LINUX_UNTIL_NATIVE_SUPPORTED_FORMAT_AND_E2E",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "current_host_runtime_promotion_claim": false
+}
