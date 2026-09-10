@@ -33,11 +33,13 @@ jobs:
 
       - name: Verify current-host Demucs and HRB runtime
         shell: bash
+        env:
+          INPUT_PATH: "${{ inputs.input_path }}"
         run: |
           set -euo pipefail
           test -x .venv-demucs/bin/python || test -n "${FA3_DEMUCS_PYTHON:-}"
           test -x "${FA3_HRB_BIN:-/usr/local/bin/fa3-host-resource-broker}"
-          test -f "${{ inputs.input_path }}"
+          test -f "$INPUT_PATH"
           command -v nvidia-smi
           nvidia-smi --query-gpu=index,name,uuid,driver_version,memory.total --format=csv,noheader
 
@@ -46,13 +48,15 @@ jobs:
         env:
           FA3_CURRENT_HOST_RUNNER: "1"
           FA3_DEMUCS_MODEL: "${{ inputs.model }}"
+          INPUT_PATH: "${{ inputs.input_path }}"
+          ALLOW_NETWORK_MODEL_FETCH: "${{ inputs.allow_network_model_fetch }}"
         run: |
           set -euo pipefail
           ARGS=()
-          if [[ "${{ inputs.allow_network_model_fetch }}" == "true" ]]; then
+          if [[ "$ALLOW_NETWORK_MODEL_FETCH" == "true" ]]; then
             ARGS+=(--allow-network-model-fetch)
           fi
-          bash bin/fa3-demucs-hrb-production-e2e.sh "${{ inputs.input_path }}" "${ARGS[@]}"
+          bash bin/fa3-demucs-hrb-production-e2e.sh "$INPUT_PATH" "${ARGS[@]}"
 
       - name: Revalidate production receipt fail-closed
         shell: bash
