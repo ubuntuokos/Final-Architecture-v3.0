@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-STABILITY-AUDIO-DEPLOYMENT-HW-PORTABILITY-2026-09-10",
+  "date": "2026-09-10",
+  "status": "PASS",
+  "evidence_class": "OFFICIAL_SOURCE_ARCHITECTURE_REASSESSMENT",
+  "subjects": [
+    "FA3-STABILITY-PORTFOLIO-001",
+    "FA3-PROVIDER-STABLE-AUDIO-3-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "official_sources": [
+    {
+      "url": "https://stability.ai/explainers/self-hosted-vs-api-generative-audio-choosing-a-deployment-model",
+      "published": "2026-09-09",
+      "facts_used": [
+        "Small-Music and Small-SFX CPU-capable",
+        "Medium peak VRAM 6.52 GB",
+        "Small/Small-SFX/Medium open-weight self-hosting",
+        "Large API or Enterprise self-hosted",
+        "Enterprise indemnification available; Community self-host has no indemnification"
+      ]
+    },
+    {
+      "url": "https://stability.ai/license",
+      "retrieved": "2026-09-10",
+      "facts_used": ["Community and Enterprise licensing remain separate", "commercial threshold is current policy metadata"]
+    },
+    {
+      "url": "https://stability.ai/use-policy",
+      "retrieved": "2026-09-10",
+      "effective": "2026-09-30",
+      "facts_used": ["AUP applies to self-hosted code/weights and hosted Stability Technology"]
+    }
+  ],
+  "architecture_findings": {
+    "new_capability_required": false,
+    "new_architectural_authority_required": false,
+    "stable_audio_provider_already_materialized": true,
+    "portfolio_hardware_semantics_required_correction": true,
+    "provider_resource_envelope_must_not_be_global_hardware_baseline": true,
+    "cpu_only_route_does_not_relax_fa3_portable_minimum": true,
+    "current_host_tuple_may_be_used_as_evidence_only": true
+  },
+  "capability_count": 143,
+  "current_host_runtime_evidence": false,
+  "production_promotion_claim": false
+}
