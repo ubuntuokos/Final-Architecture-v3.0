@@ -20,6 +20,7 @@ def hardware_policy_valid(c:dict[str,Any])->bool:
       "STABILITY_T7910_REFERENCE_CPU_IS_E5_2696_V4_NOT_E5_2697_V4":"DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_REQUIREMENTS",
       "STABILITY_CURRENT_HOST_12GB_GPU_ROUTE_MUST_BE_EXPLICITLY_ADMITTED":"DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_LOCAL_ROUTE_USES_LIVE_RESOURCE_ENVELOPE_AND_HRB_ADMISSION",
       "SD35_NIM_NOT_CURRENT_HOST_LOCAL_DEFAULT_ON_RTX3080_CLASS_HARDWARE":"DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_NIM_LOCALITY_IS_CAPABILITY_AND_VENDOR_SUPPORT_DRIVEN",
+      "STABLE_LAYERS_REQUIRED_SUPPORTED_REMOTE_DISTRIBUTED_FIRST_DECOMPOSITION_PROVIDER":"DEPRECATED_IDENTIFIER_COMPATIBILITY_ONLY_ROUTE_IS_CAPABILITY_DRIVEN_LOCAL_OR_REMOTE_WITHOUT_SILENT_FALLBACK",
     }
     return (
       "hardware_reference" not in c
@@ -44,27 +45,12 @@ def hardware_policy_valid(c:dict[str,Any])->bool:
     )
 
 def license_policy_valid(c:dict[str,Any])->bool:
-    l=c.get("license_admission",{}); req={"CodeLicense","ModelLicense","OutputUsageRights","DeploymentEntitlement","CommercialThreshold","IndemnificationTerms","AttributionRequirement","AUPUseRestriction","RedistributionPolicy"}
-    aup=l.get("aup_reference",{})
+    l=c.get("license_admission",{}); req={"CodeLicense","ModelLicense","OutputUsageRights","DeploymentEntitlement","CommercialThreshold","IndemnificationTerms","AttributionRequirement","AUPUseRestriction","RedistributionPolicy"}; aup=l.get("aup_reference",{})
     return req<=set(l.get("dimensions",[])) and l.get("code_license_implies_model_license") is False and l.get("code_license_implies_output_rights") is False and l.get("weight_availability_implies_deployment_entitlement") is False and l.get("commercial_threshold_is_versioned_policy_not_static_architecture_constant") is True and l.get("indemnification_is_metadata_not_execution_authority") is True and aup.get("effective")=="2026-09-30" and aup.get("snapshot_required_before_execution") is True
 
 def portable_provider_routes_valid(providers:list[dict[str,Any]])->bool:
-    byid={x.get("id"):x for x in providers}
-    nim=byid.get("FA3-PROVIDER-SD35-NVIDIA-NIM-001",{})
-    layers=byid.get("FA3-PROVIDER-STABLE-LAYERS-001",{})
-    spar=byid.get("FA3-PROVIDER-SPAR3D-001",{})
-    sf=byid.get("FA3-PROVIDER-SF3D-001",{})
-    return (
-      nim.get("local_default_without_discovery") is False
-      and nim.get("hardware_admission",{}).get("canonical_profile")=="FA3-HARDWARE-BASELINE-001"
-      and nim.get("hardware_admission",{}).get("concrete_gpu_sku_or_vram_as_fa3_baseline") is False
-      and layers.get("routing_policy",{}).get("concrete_current_host_gpu_assumption") is False
-      and layers.get("routing_policy",{}).get("silent_local_to_remote_fallback") is False
-      and spar.get("local_admission",{}).get("fixed_gpu_sku_or_device_index") is False
-      and sf.get("local_admission",{}).get("fixed_gpu_sku_or_device_index") is False
-      and spar.get("local_admission",{}).get("hardware_snapshot_required") is True
-      and sf.get("local_admission",{}).get("hardware_snapshot_required") is True
-    )
+    byid={x.get("id"):x for x in providers}; nim=byid.get("FA3-PROVIDER-SD35-NVIDIA-NIM-001",{}); layers=byid.get("FA3-PROVIDER-STABLE-LAYERS-001",{}); spar=byid.get("FA3-PROVIDER-SPAR3D-001",{}); sf=byid.get("FA3-PROVIDER-SF3D-001",{})
+    return (nim.get("local_default_without_discovery") is False and nim.get("hardware_admission",{}).get("canonical_profile")=="FA3-HARDWARE-BASELINE-001" and nim.get("hardware_admission",{}).get("concrete_gpu_sku_or_vram_as_fa3_baseline") is False and layers.get("routing_policy",{}).get("concrete_current_host_gpu_assumption") is False and layers.get("routing_policy",{}).get("silent_local_to_remote_fallback") is False and spar.get("local_admission",{}).get("fixed_gpu_sku_or_device_index") is False and sf.get("local_admission",{}).get("fixed_gpu_sku_or_device_index") is False and spar.get("local_admission",{}).get("hardware_snapshot_required") is True and sf.get("local_admission",{}).get("hardware_snapshot_required") is True)
 
 def gate(root:Path)->dict[str,Any]:
     root=Path(root).resolve(); f=[]
