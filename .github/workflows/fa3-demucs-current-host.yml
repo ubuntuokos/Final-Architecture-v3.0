@@ -1,0 +1,77 @@
+name: FA3 Demucs Current-Host Production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      input_path:
+        description: "Absolute path to a real authorized audio file on the current-host runner"
+        required: true
+        type: string
+      model:
+        description: "Allowlisted Demucs model"
+        required: true
+        default: "htdemucs"
+        type: string
+      allow_network_model_fetch:
+        description: "Permit trusted model fetch when absent from local cache and FA3 egress policy allows it"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  demucs-current-host:
+    name: demucs-current-host / production-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Verify current-host Demucs and HRB runtime
+        shell: bash
+        env:
+          INPUT_PATH: "${{ inputs.input_path }}"
+        run: |
+          set -euo pipefail
+          test -x .venv-demucs/bin/python || test -n "${FA3_DEMUCS_PYTHON:-}"
+          test -x "${FA3_HRB_BIN:-/usr/local/bin/fa3-host-resource-broker}"
+          test -f "$INPUT_PATH"
+          command -v nvidia-smi
+          nvidia-smi --query-gpu=index,name,uuid,driver_version,memory.total --format=csv,noheader
+
+      - name: Run broker-issued real Demucs production E2E
+        shell: bash
+        env:
+          FA3_CURRENT_HOST_RUNNER: "1"
+          FA3_DEMUCS_MODEL: "${{ inputs.model }}"
+          INPUT_PATH: "${{ inputs.input_path }}"
+          ALLOW_NETWORK_MODEL_FETCH: "${{ inputs.allow_network_model_fetch }}"
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [[ "$ALLOW_NETWORK_MODEL_FETCH" == "true" ]]; then
+            ARGS+=(--allow-network-model-fetch)
+          fi
+          bash bin/fa3-demucs-hrb-production-e2e.sh "$INPUT_PATH" "${ARGS[@]}"
+
+      - name: Revalidate production receipt fail-closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          PY="${FA3_DEMUCS_PYTHON:-$PWD/.venv-demucs/bin/python}"
+          PYTHONPATH=src "$PY" src/fa3_demucs_current_host_gate.py --root "$PWD"
+
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-demucs-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/demucs-current-host.json
+            evidence/runtime/demucs-current-host/
+            reports/demucs-current-host-gate-report.json
