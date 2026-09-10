@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.model-allowlist.v1",
+  "id": "FA3-SILERO-VAD-MODEL-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-SILERO-VAD-001",
+  "format_policy": "ONNX_PREFERRED_DIRECT_RUNTIME_ONLY_AFTER_HASH_ADMISSION",
+  "runtime_auto_download": false,
+  "sha256_required": true,
+  "immutable_model_identity_required": true,
+  "admitted_models": [],
+  "admission_state": "NO_CURRENT_HOST_MODEL_HASH_ADMITTED_YET",
+  "direct_runtime_denied_extensions": [
+    ".pkl",
+    ".pickle",
+    ".pt",
+    ".pth",
+    ".ckpt",
+    ".bin",
+    ".tar"
+  ],
+  "current_host_promotion": "PENDING"
+}
