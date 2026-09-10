@@ -45,13 +45,20 @@
   "upstream_fix_state": {
     "latest_formal_release": "v0.1.8",
     "formal_release_contains_august_fix_set": false,
+    "observed_main_commit": "ca1e85fe9430179831e6bc6be790c332190a3866",
     "merged_fix_commits": {
       "non_turbo_dcw_api_cli": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b",
       "text2music_cover_state_hygiene": "c86889f488b657c176d1ca857df3450ad1c495d2",
       "reinit_kv_cache_invariance": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
     },
     "pending_fix_prs": {
-      "lm_engine_reinit_teardown": "#1311"
+      "flow_edit_cpu_offload_device_coherence": "#1309",
+      "lm_engine_reinit_teardown": "#1311",
+      "cuda_dtype_override_nan_mitigation": "#1312",
+      "cuda_capability_probe_logger_failure": "#1321"
+    },
+    "unresolved_risk_prs": {
+      "lora_cpu_offload_decoder_validation_skip": "#1319"
     }
   },
   "production_policy": {
@@ -64,7 +71,19 @@
       "flac"
     ],
     "silent_model_fallback_forbidden": true,
-    "in_process_lm_reinit_requires_clean_teardown_evidence_or_process_recycle": true
+    "in_process_lm_reinit_requires_clean_teardown_evidence_or_process_recycle": true,
+    "cuda_capability_probe_failure_must_be_observable_and_control_flow_safe": true,
+    "precision_override_allowlist": [
+      "float32",
+      "float16",
+      "bfloat16"
+    ],
+    "unsupported_precision_override_fail_closed": true,
+    "precision_is_provenance_bearing": true,
+    "non_finite_latent_or_audio_fail_closed": true,
+    "cpu_offload_device_dtype_coherence_required": true,
+    "lora_cpu_offload_validation_skip_forbidden_without_equivalent_guard": true,
+    "open_upstream_pr_not_promotion_evidence": true
   },
   "authority_boundaries": {
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -74,5 +93,6 @@
     "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
     "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY"
   },
-  "implementation_status": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED"
+  "implementation_status": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED",
+  "last_upstream_reconciled_at": "2026-09-10"
 }
