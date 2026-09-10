@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "7ec78e49df8143028ec07adef27278933411a33e",
-    "pre_projection_root_tree_sha": "7657cd3acfd317019305eda15c589f4a90762a64",
-    "pre_projection_canonical_tree_sha": "40de68a0df749d6132ab78584ee92c99d7646e26",
-    "commits_ahead_of_v3_0_11_conformance_commit": 141,
-    "total_post_baseline_commits": 141,
+    "pre_projection_head_sha": "f77124a8b9f60412567351f346d0c67f2880b5ab",
+    "pre_projection_root_tree_sha": "f156c88af0e3659e1650f0dee244484bf620d164",
+    "pre_projection_canonical_tree_sha": "afeae93db2447a7213620b609f51e92eec0357a9",
+    "commits_ahead_of_v3_0_11_conformance_commit": 144,
+    "total_post_baseline_commits": 144,
     "delta_file_count": 845,
     "delta_added_files": 840,
     "delta_modified_files": 5,
@@ -2004,7 +2004,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -3214,7 +3214,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -5794,8 +5794,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
-    "regenerated_from_branch_head": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
+    "source_snapshot_anchor": "f77124a8b9f60412567351f346d0c67f2880b5ab",
+    "regenerated_from_branch_head": "f77124a8b9f60412567351f346d0c67f2880b5ab",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -5803,7 +5803,10 @@
     "gtcrn_snapshot_head": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8",
     "lavasr_reconciliation_generator": "tools/fa3_lavasr_global_reconcile.py",
     "lavasr_deterministic_regeneration_pass": true,
-    "lavasr_snapshot_head": "8863bf501d21dfdc3d4db787c13059ca3a117e62"
+    "lavasr_snapshot_head": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
+    "ace_step_hardening_reconciliation_generator": "one-shot/common.regenerate_release",
+    "ace_step_hardening_deterministic_regeneration_pass": true,
+    "ace_step_hardening_snapshot_head": "f77124a8b9f60412567351f346d0c67f2880b5ab"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -5864,6 +5867,22 @@
     "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_DURATION_PADDING_AND_ROLLBACK",
     "reference_gate_status": "PASS",
     "denoise_policy": "OPTIONAL_EXPLICIT_NO_IMPLICIT_DOUBLE_DENOISE",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "ace_step_hardening_reconciliation": {
+    "decision_id": "FA3-DEC-ACE-STEP-HARDENING-2026-09-10",
+    "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+    "profile_id": "FA3-MUSIC-001",
+    "gate_id": "FA3-ACE-STEP-GATESET-001",
+    "reference_evidence": "evidence/reference/ace-step-upstream-2026-09-10.json",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_UPSTREAM_RISKS_TRACKED_CURRENT_HOST_PENDING",
+    "latest_formal_upstream_release": "v0.1.8",
+    "open_upstream_prs_are_promotion_evidence": false,
+    "numeric_integrity_fail_closed": true,
+    "cpu_offload_device_dtype_coherence_required": true,
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
