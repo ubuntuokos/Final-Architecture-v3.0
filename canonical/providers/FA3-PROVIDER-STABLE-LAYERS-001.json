@@ -2,17 +2,13 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-STABLE-LAYERS-001",
   "name": "Stable Layers",
+  "version": "1.1.0",
   "status": "REQUIRED_SUPPORTED_REFERENCE",
   "provider_role": "REQUIRED_SUPPORTED_IMAGE_LAYER_DECOMPOSITION_PROVIDER",
   "upstream_repo": "Stability-AI/Stable-Layers",
   "immutable_reference": "b826314b34b12d7c7cce9f0de7f49a330bd8e011",
-  "profiles": [
-    "FA3-HYBRID-EDITORIAL-001"
-  ],
-  "capability_projection": [
-    "CAP-016",
-    "CAP-121"
-  ],
+  "profiles": ["FA3-HYBRID-EDITORIAL-001"],
+  "capability_projection": ["CAP-016", "CAP-121"],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -30,6 +26,17 @@
   },
   "operation": "RGB_TO_BACK_TO_FRONT_EDITABLE_RGBA_LAYER_STACK",
   "deterministic_seed_and_provenance_required": true,
-  "current_host_route": "REMOTE_DISTRIBUTED_FIRST",
-  "reason": "Upstream reference base model is ~40GB bf16 and recommends 80GB-class GPU; current 12GB-class compute GPU is not local default."
+  "resource_envelope": {
+    "source": "UPSTREAM_REFERENCE_METADATA",
+    "base_model_precision": "bf16",
+    "approximate_model_memory_gb": 40,
+    "upstream_recommended_gpu_memory_class_gb": 80,
+    "semantics": "WORKLOAD_RESOURCE_HINT_NOT_FA3_HARDWARE_BASELINE"
+  },
+  "routing_policy": {
+    "local": "ALLOW_ONLY_IF_LIVE_HARDWARE_SNAPSHOT_AND_HRB_ADMISSION_SATISFY_RESOURCE_ENVELOPE",
+    "remote_or_distributed": "ALLOWED_WHEN_POLICY_AND_PROVIDER_ADMISSION_SUCCEED",
+    "silent_local_to_remote_fallback": false,
+    "concrete_current_host_gpu_assumption": false
+  }
 }
