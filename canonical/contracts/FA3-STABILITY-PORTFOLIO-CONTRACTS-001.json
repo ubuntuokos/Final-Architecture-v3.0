@@ -9,60 +9,19 @@
   "capability_count": 143,
   "model_metadata_bridge": {
     "source_profile": "Stability-AI/ModelSpec@fe8dc608e557eff842eae7f78b8c90f38687d418",
-    "required_import_fields": [
-      "sai_model_spec",
-      "architecture",
-      "implementation",
-      "implementation_version",
-      "title",
-      "resolution",
-      "hash_sha256",
-      "license",
-      "usage_hint",
-      "prediction_type",
-      "data_format",
-      "unet_dtype",
-      "vae_dtype",
-      "preprocessor"
-    ],
+    "required_import_fields": ["sai_model_spec", "architecture", "implementation", "implementation_version", "title", "resolution", "hash_sha256", "license", "usage_hint", "prediction_type", "data_format", "unet_dtype", "vae_dtype", "preprocessor"],
     "canonical_target": "FA3-MODEL-REGISTRY-001 / canonical ModelDescriptor",
     "source_is_authority": false,
-    "canonical_extensions": [
-      "artifact_provenance",
-      "source_repo_or_model_id",
-      "immutable_revision",
-      "code_license",
-      "model_license",
-      "output_usage_rights",
-      "hardware_resource_envelope",
-      "quantization",
-      "runtime_backend",
-      "security_supply_chain"
-    ]
+    "canonical_extensions": ["artifact_provenance", "source_repo_or_model_id", "immutable_revision", "code_license", "model_license", "output_usage_rights", "hardware_resource_envelope", "quantization", "runtime_backend", "security_supply_chain"]
   },
   "license_admission": {
-    "dimensions": [
-      "CodeLicense",
-      "ModelLicense",
-      "OutputUsageRights",
-      "DeploymentEntitlement",
-      "CommercialThreshold",
-      "IndemnificationTerms",
-      "AttributionRequirement",
-      "AUPUseRestriction",
-      "RedistributionPolicy"
-    ],
+    "dimensions": ["CodeLicense", "ModelLicense", "OutputUsageRights", "DeploymentEntitlement", "CommercialThreshold", "IndemnificationTerms", "AttributionRequirement", "AUPUseRestriction", "RedistributionPolicy"],
     "code_license_implies_model_license": false,
     "code_license_implies_output_rights": false,
     "weight_availability_implies_deployment_entitlement": false,
     "commercial_threshold_is_versioned_policy_not_static_architecture_constant": true,
     "indemnification_is_metadata_not_execution_authority": true,
-    "aup_reference": {
-      "effective": "2026-09-30",
-      "source": "https://stability.ai/use-policy",
-      "snapshot_required_before_execution": true,
-      "refresh_on_policy_version_change": true
-    }
+    "aup_reference": {"effective": "2026-09-30", "source": "https://stability.ai/use-policy", "snapshot_required_before_execution": true, "refresh_on_policy_version_change": true}
   },
   "hardware_admission": {
     "canonical_profile": "FA3-HARDWARE-BASELINE-001",
@@ -117,7 +76,7 @@
     "SD35_NVIDIA_NIM_IS_DEPLOYMENT_PROVIDER_NOT_ROUTING_AUTHORITY",
     "SD35_NIM_NOT_CURRENT_HOST_LOCAL_DEFAULT_ON_RTX3080_CLASS_HARDWARE",
     "SPAR3D_PRIMARY_STABILITY_SINGLE_IMAGE_3D_RECONSTRUCTION_PROVIDER",
-    "SF3D_REQUIRED_LOWER_VRAM_3D_RECONSTRUCTION_FALLBACK_PROVIDER",
+    "SF3D_REQUIRED_LOWER_VRAM_FALLBACK_PROVIDER",
     "ARBOR_REQUIRED_CONSTRAINED_TEXT_TO_3D_PROVIDER",
     "RELI3D_REQUIRED_MULTIVIEW_RELIGHTABLE_RECONSTRUCTION_PROVIDER",
     "STABLE_VIRTUAL_CAMERA_REQUIRED_SUPPORTED_LICENSE_GATED_NVS_PROVIDER",
