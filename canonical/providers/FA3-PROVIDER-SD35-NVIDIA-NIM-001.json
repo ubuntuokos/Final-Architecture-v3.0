@@ -2,16 +2,14 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-SD35-NVIDIA-NIM-001",
   "name": "NVIDIA NIM for Stable Diffusion 3.5",
+  "version": "1.1.0",
   "status": "REQUIRED_SUPPORTED_DEPLOYMENT_PROJECTION",
   "provider_role": "ENTERPRISE_CONTAINERIZED_SD35_DEPLOYMENT_PROVIDER",
   "upstream_reference": {
     "source": "Stability AI official announcement",
     "date": "2026-08-12",
     "model": "SD3.5 Large",
-    "controls": [
-      "Depth",
-      "Canny"
-    ],
+    "controls": ["Depth", "Canny"],
     "runtime": "NVIDIA NIM/TensorRT",
     "immutable_container_digest_required_before_activation": true
   },
@@ -20,10 +18,18 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "activation_mode": "REMOTE_OR_COMPATIBLE_HARDWARE_ONLY",
+  "activation_mode": "COMPATIBLE_HARDWARE_OR_REMOTE_ONLY",
   "current_host_runtime_evidence": false,
-  "current_host_local_default": false,
-  "hardware_scope": "Official announcement targets enterprise/data-center Ada and Blackwell; RTX 3080 class current host is not admitted by this reference.",
+  "local_default_without_discovery": false,
+  "hardware_admission": {
+    "canonical_profile": "FA3-HARDWARE-BASELINE-001",
+    "hardware_snapshot_required": true,
+    "vendor_supported_hardware_capabilities_required": true,
+    "container_runtime_driver_backend_compatibility_required": true,
+    "concrete_gpu_sku_or_vram_as_fa3_baseline": false,
+    "hrb_lease_required_for_local_accelerator_execution": true,
+    "unsupported_or_unknown_local_hardware_fails_closed": true
+  },
   "routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
   "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
   "license_gate": "FA3-AUTH-SECURITY-GOV-001"
