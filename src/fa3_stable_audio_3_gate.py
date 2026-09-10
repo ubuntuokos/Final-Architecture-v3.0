@@ -101,12 +101,56 @@ def supply_chain_valid(provider: dict[str, Any]) -> bool:
         s.get("code_license") == "MIT"
         and s.get("code_license_does_not_admit_weights_or_outputs") is True
         and s.get("model_license_and_output_rights_require_separate_admission") is True
+        and s.get("deployment_entitlement_requires_separate_admission") is True
         and f.get("floating_community_wheel_url_for_production_forbidden") is True
         and f.get("immutable_version_sha256_and_provenance_required") is True
         and f.get("source_build_with_immutable_inputs_allowed") is True
         and w.get("safetensors_preferred_when_upstream_available") is True
         and w.get("unsafe_pickle_is_not_default_admission_route") is True
         and s.get("production_runtime_network_model_fetch") is False
+    )
+
+
+def deployment_policy_valid(provider: dict[str, Any]) -> bool:
+    d = provider.get("deployment_policy", {})
+    modes = d.get("modes", {})
+    open_models = set(modes.get("open_weight_self_host", {}).get("models", []))
+    enterprise_models = set(modes.get("enterprise_self_host", {}).get("models", []))
+    api_models = set(modes.get("managed_api", {}).get("models", []))
+    threshold = d.get("community_commercial_threshold", {})
+    indemn = d.get("indemnification", {})
+    family = provider.get("model_family", {})
+    medium_env = family.get("medium", {}).get("resource_envelope", {})
+    return (
+        d.get("official_snapshot_date") == "2026-09-09"
+        and open_models == {"small_music", "small_sfx", "medium"}
+        and "large" not in open_models
+        and {"small_music", "small_sfx", "medium", "large"} <= enterprise_models
+        and api_models == {"large"}
+        and family.get("large", {}).get("weight_availability") == "NOT_OPEN_WEIGHT"
+        and family.get("large", {}).get("route") == "STABILITY_API_OR_ENTERPRISE_SELF_HOST"
+        and medium_env.get("upstream_peak_vram_gb") == 6.52
+        and medium_env.get("semantics") == "PROVIDER_WORKLOAD_HINT_NOT_FA3_GLOBAL_HARDWARE_MINIMUM"
+        and threshold.get("current_documented_value_usd_annual_revenue") == 1000000
+        and threshold.get("semantics") == "VERSIONED_POLICY_SNAPSHOT_NOT_ARCHITECTURE_CONSTANT"
+        and indemn.get("community_self_host") is False
+        and indemn.get("enterprise_terms_available") is True
+        and indemn.get("semantics") == "LEGAL_METADATA_NOT_EXECUTION_OR_ROUTING_AUTHORITY"
+        and d.get("weight_availability_does_not_imply_deployment_entitlement") is True
+        and d.get("output_rights_require_current_license_snapshot") is True
+    )
+
+
+def hardware_admission_valid(provider: dict[str, Any]) -> bool:
+    h = provider.get("hardware_admission", {})
+    return (
+        h.get("canonical_profile") == "FA3-HARDWARE-BASELINE-001"
+        and h.get("hardware_snapshot_required") is True
+        and h.get("cpu_routes_do_not_relax_global_hardware_baseline") is True
+        and h.get("medium_vram_value_is_workload_envelope_not_global_baseline") is True
+        and h.get("fixed_gpu_sku_vram_or_cuda_ordinal_requirement") is False
+        and h.get("accelerator_route_requires_hrb_lease") is True
+        and h.get("incomplete_capability_discovery_fails_closed") is True
     )
 
 
@@ -165,10 +209,14 @@ def reference_check(root: Path) -> dict[str, Any]:
     routes = provider.get("routes", {})
     if routes.get("small_music") != "CPU_LOCAL_CANDIDATE" or routes.get("small_sfx") != "CPU_LOCAL_CANDIDATE":
         findings.append(finding("SA3-ROUTE-001", "Small CPU route drift"))
-    if routes.get("medium") != "CUDA_LOCAL_CANDIDATE_SUBJECT_TO_HRB_E2E":
-        findings.append(finding("SA3-ROUTE-002", "Medium local accelerated route lost E2E gate"))
-    if routes.get("large") != "REMOTE_API_OR_ENTERPRISE_SELF_HOST":
-        findings.append(finding("SA3-ROUTE-003", "Large remote/API route drift"))
+    if routes.get("medium") != "ACCELERATOR_LOCAL_CANDIDATE_SUBJECT_TO_DISCOVERY_HRB_E2E":
+        findings.append(finding("SA3-ROUTE-002", "Medium local accelerated route lost discovery/HRB/E2E gate"))
+    if routes.get("large") != "STABILITY_API_OR_ENTERPRISE_SELF_HOST":
+        findings.append(finding("SA3-ROUTE-003", "Large API/enterprise route drift"))
+    if not hardware_admission_valid(provider):
+        findings.append(finding("SA3-HW-001", "Stable Audio hardware admission drifted from FA3 portable baseline"))
+    if not deployment_policy_valid(provider):
+        findings.append(finding("SA3-DEPLOY-001", "Stable Audio deployment entitlement/licence metadata drift"))
     if not precision_policy_valid(provider):
         findings.append(finding("SA3-PREC-001", "Medium precision retirement/selection policy drift"))
 
