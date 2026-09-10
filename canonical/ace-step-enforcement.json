@@ -26,7 +26,13 @@
     "PROVIDER_VRAM_PREFLIGHT_CANNOT_REPLACE_HRB_ADMISSION",
     "LOSSLESS_MASTER_REQUIRED",
     "PRODUCTION_AUTO_UPDATE_AND_MODEL_AUTO_DOWNLOAD_FORBIDDEN",
-    "UPSTREAM_MERGE_IS_NOT_CURRENT_HOST_PROMOTION_EVIDENCE"
+    "UPSTREAM_MERGE_IS_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
+    "CUDA_CAPABILITY_PROBE_FAILURE_MUST_NOT_CORRUPT_FALLBACK_CONTROL_FLOW",
+    "EXPLICIT_CUDA_DTYPE_OVERRIDE_VALIDATED_AND_PROVENANCE_BEARING",
+    "NAN_INF_LATENTS_OR_AUDIO_FAIL_CLOSED",
+    "CPU_OFFLOAD_DEVICE_DTYPE_COHERENCE_REQUIRED",
+    "OFFLOAD_PLUS_LORA_VALIDATION_MUST_NOT_BE_SILENTLY_SKIPPED",
+    "OPEN_UPSTREAM_FIX_OR_RISK_PR_NOT_PROMOTION_EVIDENCE"
   ],
   "provider_promotion_requirements": [
     "immutable_runtime_and_model_pin_pass",
@@ -38,6 +44,11 @@
     "text2music_cover_state_hygiene_regression_pass",
     "reinit_kv_cache_invariance_pass",
     "lm_reinit_clean_teardown_or_process_recycle_pass",
+    "cuda_capability_probe_failure_path_pass",
+    "explicit_dtype_policy_validation_pass",
+    "finite_latent_and_audio_numeric_integrity_pass",
+    "cpu_offload_device_dtype_coherence_pass",
+    "offload_lora_validation_or_fail_closed_pass",
     "lossless_master_and_provenance_pass"
   ],
   "sft_family_additional_promotion_requirements": [
@@ -57,9 +68,27 @@
       "state": "MERGED_FIX_CANDIDATE",
       "merge_commit": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
     },
+    "PR-1309": {
+      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "head_commit": "86cf3a2be6dafd2b5bd2ece6471a9a227dc6d1d9"
+    },
     "PR-1311": {
-      "state": "OPEN_NOT_PROMOTION_EVIDENCE",
+      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
       "head_commit": "49354c10929b94f75e22268357ee96ada20932e2"
+    },
+    "PR-1312": {
+      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "head_commit": "f25fa4015b08840f01a8e9696828120f425b63ab"
+    },
+    "PR-1319": {
+      "state": "OPEN_UNRESOLVED_RISK_NOT_PROMOTION_EVIDENCE",
+      "head_commit": "ed6e6fdc02655ef62effc8ef154d2f1f7876217a"
+    },
+    "PR-1321": {
+      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+      "head_commit": "33e2d60145ad7ac6d1645a51fa833aeb8d037973"
     }
-  }
+  },
+  "upstream_reference_evidence": "evidence/reference/ace-step-upstream-2026-09-10.json",
+  "hardening_decision": "FA3-DEC-ACE-STEP-HARDENING-2026-09-10"
 }
