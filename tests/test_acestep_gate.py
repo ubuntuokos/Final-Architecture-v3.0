@@ -8,12 +8,18 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_acestep_gate import (
     api_boundary_valid,
+    cuda_probe_fallback_valid,
     gate,
     hrb_admission_valid,
     kv_cache_invariance_valid,
     lm_reinit_policy_valid,
+    lora_offload_validation_valid,
     lossless_master_valid,
     non_turbo_dcw_valid,
+    numeric_integrity_valid,
+    offload_device_dtype_coherence_valid,
+    open_pr_promotion_valid,
+    precision_override_valid,
     requested_model_identity_valid,
     run_regressions,
     sft_promotion_valid,
@@ -65,16 +71,52 @@ class AceStepGateTests(unittest.TestCase):
         self.assertTrue(lm_reinit_policy_valid(in_process_reinit=True, clean_teardown_pass=False, process_recycle=True))
         self.assertFalse(lm_reinit_policy_valid(in_process_reinit=True, clean_teardown_pass=False, process_recycle=False))
 
+    def test_cuda_probe_exception_path_cannot_mask_root_failure(self):
+        self.assertTrue(cuda_probe_fallback_valid(probe_failed=True, handler_completed=True, observable=True, deterministic_fallback=True))
+        self.assertFalse(cuda_probe_fallback_valid(probe_failed=True, handler_completed=False, observable=False, deterministic_fallback=False))
+
+    def test_dtype_override_is_allowlisted_supported_and_provenance_bearing(self):
+        self.assertTrue(precision_override_valid(requested="float32", hardware_supported=True, provenance_recorded=True))
+        self.assertFalse(precision_override_valid(requested="bfloat16", hardware_supported=False, provenance_recorded=True))
+        self.assertFalse(precision_override_valid(requested="int8", hardware_supported=True, provenance_recorded=True))
+        self.assertFalse(precision_override_valid(requested="float32", hardware_supported=True, provenance_recorded=False))
+
+    def test_nan_or_inf_blocks_artifact_promotion(self):
+        self.assertTrue(numeric_integrity_valid(latent_nan=0, latent_inf=0, audio_nan=0, audio_inf=0))
+        self.assertFalse(numeric_integrity_valid(latent_nan=1, latent_inf=0, audio_nan=0, audio_inf=0))
+        self.assertFalse(numeric_integrity_valid(latent_nan=0, latent_inf=0, audio_nan=0, audio_inf=1))
+
+    def test_cpu_offload_preserves_device_and_dtype_coherence(self):
+        self.assertTrue(offload_device_dtype_coherence_valid(cpu_offload=True, device_match=True, dtype_match=True))
+        self.assertFalse(offload_device_dtype_coherence_valid(cpu_offload=True, device_match=False, dtype_match=True))
+        self.assertFalse(offload_device_dtype_coherence_valid(cpu_offload=True, device_match=True, dtype_match=False))
+
+    def test_lora_offload_cannot_silently_skip_consistency_validation(self):
+        self.assertTrue(lora_offload_validation_valid(cpu_offload=True, lora_enabled=True, consistency_checked=True, equivalent_guard=False, mismatch_fail_closed=True))
+        self.assertTrue(lora_offload_validation_valid(cpu_offload=True, lora_enabled=True, consistency_checked=False, equivalent_guard=True, mismatch_fail_closed=True))
+        self.assertFalse(lora_offload_validation_valid(cpu_offload=True, lora_enabled=True, consistency_checked=False, equivalent_guard=False, mismatch_fail_closed=False))
+
+    def test_open_upstream_pr_cannot_be_promotion_evidence(self):
+        self.assertTrue(open_pr_promotion_valid(pr_open=True, used_as_promotion_evidence=False))
+        self.assertFalse(open_pr_promotion_valid(pr_open=True, used_as_promotion_evidence=True))
+
     def test_lossless_master_is_required(self):
         self.assertTrue(lossless_master_valid("wav"))
         self.assertTrue(lossless_master_valid("flac"))
         self.assertFalse(lossless_master_valid("mp3"))
 
+    def test_september_hardening_decision_preserves_architecture_counts(self):
+        decision = json.loads((ROOT / "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json").read_text())
+        self.assertEqual(decision["status"], "CANONICAL_CLOSED")
+        self.assertEqual(decision["new_capabilities"], 0)
+        self.assertEqual(decision["new_architectural_authorities"], 0)
+        self.assertEqual(decision["capability_count_after"], 143)
+
     def test_regression_suite_passes(self):
         report = run_regressions()
         self.assertEqual(report["result"], "PASS")
         self.assertEqual(report["passed"], report["total"])
-        self.assertGreaterEqual(report["total"], 10)
+        self.assertGreaterEqual(report["total"], 17)
 
 
 if __name__ == "__main__":
