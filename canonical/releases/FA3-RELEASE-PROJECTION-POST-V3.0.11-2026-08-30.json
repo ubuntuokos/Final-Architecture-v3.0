@@ -10,11 +10,11 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3ae00cc98db3b86d48a5725445953f1f16913c0b",
-    "pre_projection_root_tree_sha": "413294768673c8b5a01bf6ee9206d319d166a744",
-    "pre_projection_canonical_tree_sha": "970c2d039c9df0a039531391018ecfae3db68f67",
-    "commits_ahead_of_v3_0_11_conformance_commit": 151,
-    "total_post_baseline_commits": 151,
+    "pre_projection_head_sha": "08b8500111130fa0f55a00108a92fddc97873570",
+    "pre_projection_root_tree_sha": "a845a85bc64415ed2ae1f4d382afb58a99669188",
+    "pre_projection_canonical_tree_sha": "0259b536cb38850bfbdce5daaa6669ba46dcd570",
+    "commits_ahead_of_v3_0_11_conformance_commit": 138,
+    "total_post_baseline_commits": 138,
     "delta_file_count": 846,
     "delta_added_files": 841,
     "delta_modified_files": 5,
@@ -599,7 +599,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 845,
+  "manifest_entry_count": 846,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -624,6 +624,11 @@
     {
       "path": ".github/workflows/fa3-current-host.yml",
       "git_blob_sha": "b3ef7bd7c2e29e88af9d2007e0f61f3281ebdf49",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-demucs-current-host.yml",
+      "git_blob_sha": "404b032214c2b212301ff0bedea073ffd4d7639a",
       "baseline_delta_status": "added"
     },
     {
@@ -2004,7 +2009,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -3214,7 +3219,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
