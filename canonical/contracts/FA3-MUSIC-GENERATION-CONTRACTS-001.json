@@ -46,6 +46,23 @@
     "identity_change_requires_new_provenance": true,
     "silent_runtime_identity_mutation_forbidden": true
   },
+  "numeric_integrity_contract": {
+    "latent_nan_allowed": false,
+    "latent_inf_allowed": false,
+    "decoded_audio_nan_allowed": false,
+    "decoded_audio_inf_allowed": false,
+    "non_finite_detection_disposition": "FAIL_CLOSED_BEFORE_ARTIFACT_PROMOTION",
+    "precision_override_must_be_allowlisted": true,
+    "precision_override_must_match_hardware_capability": true,
+    "precision_must_be_provenance_bearing": true
+  },
+  "offload_coherence_contract": {
+    "model_context_device_coherence_required": true,
+    "model_context_dtype_coherence_required": true,
+    "lora_decoder_consistency_validation_required": true,
+    "validation_may_be_replaced_only_by_equivalent_repair_or_fail_closed_gate": true,
+    "silent_validation_skip_for_low_vram_optimization_forbidden": true
+  },
   "rules": {
     "provider_names_forbidden_in_contract_identity": true,
     "requested_model_must_equal_executed_model_or_fail_closed": true,
@@ -56,6 +73,11 @@
     "model_variant_and_runtime_identity_must_be_immutable": true,
     "audio_affecting_runtime_semantics_must_be_provenance_bearing": true,
     "silent_backend_device_precision_or_cloud_fallback_forbidden": true,
+    "cuda_capability_probe_failure_path_must_be_deterministic_and_observable": true,
+    "invalid_or_unsupported_precision_override_must_fail_closed": true,
+    "non_finite_latent_or_audio_must_fail_closed": true,
+    "cpu_offload_device_dtype_coherence_required": true,
+    "lora_cpu_offload_consistency_validation_cannot_be_silently_skipped": true,
     "production_auto_update_forbidden": true,
     "production_model_auto_download_forbidden": true,
     "lossless_master_required": true,

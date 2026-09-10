@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
-    "pre_projection_root_tree_sha": "da0e2b8d6dc75683d5581cae8abd89595692a478",
-    "pre_projection_canonical_tree_sha": "5f0f9d842ae739f14e4de936b046c8fae50e68f6",
-    "commits_ahead_of_v3_0_11_conformance_commit": 163,
-    "total_post_baseline_commits": 163,
-    "delta_file_count": 844,
-    "delta_added_files": 839,
+    "pre_projection_head_sha": "1e8e5d647c6fb32ff6a00f3084b69720b84672f8",
+    "pre_projection_root_tree_sha": "bbe9416245ed0e2cc002e1b6e3fb23303739237f",
+    "pre_projection_canonical_tree_sha": "ab623ac250c7607eeb2bcd567cd01718d160a752",
+    "commits_ahead_of_v3_0_11_conformance_commit": 146,
+    "total_post_baseline_commits": 146,
+    "delta_file_count": 845,
+    "delta_added_files": 840,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 476,
-    "evidence_files_in_post_baseline_delta": 91,
+    "canonical_files_in_post_baseline_delta": 477,
+    "evidence_files_in_post_baseline_delta": 92,
     "source_files_in_post_baseline_delta": 94,
     "test_files_in_post_baseline_delta": 79,
-    "workflow_files_in_post_baseline_delta": 21,
+    "workflow_files_in_post_baseline_delta": 20,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -253,6 +253,7 @@
     ],
     "decision_records": [
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
       "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
@@ -383,6 +384,7 @@
     "reference_evidence_records": [
       "evidence/reference/FA3-EVIDENCE-AI-IMAGE-EDITING-001.json",
       "evidence/reference/ace-step-2026-08-30.json",
+      "evidence/reference/ace-step-upstream-2026-09-10.json",
       "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
       "evidence/reference/autogpt-ci-2026-08-30.json",
       "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
@@ -597,7 +599,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 843,
+  "manifest_entry_count": 845,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1176,7 +1178,7 @@
     },
     {
       "path": "canonical/ace-step-enforcement.json",
-      "git_blob_sha": "3ccebb10ac3475a5fbe536b6c7b3456e620d2e3e",
+      "git_blob_sha": "eeeea47eca02cc97e1e997c772d3dbe2f3c1e0ad",
       "baseline_delta_status": "added"
     },
     {
@@ -1456,7 +1458,7 @@
     },
     {
       "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
-      "git_blob_sha": "971ad49d71ed9195a90939b5715906783d27f25e",
+      "git_blob_sha": "b53782ec660a96cc0bfbf5abae563d2ad9354dd0",
       "baseline_delta_status": "added"
     },
     {
@@ -1562,6 +1564,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
+      "git_blob_sha": "c33f176ea0b612884b4464777e44e30518a2d695",
       "baseline_delta_status": "added"
     },
     {
@@ -1997,7 +2004,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -2456,7 +2463,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
-      "git_blob_sha": "474a2504323ba8054aa3970d9bd6ec514fc1300a",
+      "git_blob_sha": "e1175a29a35147b219740689a8ecdcf131557303",
       "baseline_delta_status": "added"
     },
     {
@@ -3207,7 +3214,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -3580,6 +3587,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/ace-step-upstream-2026-09-10.json",
+      "git_blob_sha": "d87a79a718b752ba8eb91e644e024a9e0833b680",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
       "git_blob_sha": "4c9b9dc7038e8453b3621221a6086019cf8cc7b0",
       "baseline_delta_status": "added"
@@ -3936,7 +3948,7 @@
     },
     {
       "path": "src/fa3_acestep_gate.py",
-      "git_blob_sha": "de59eaff6f7fc951e9f0f9c32f458d58ef2802b7",
+      "git_blob_sha": "e9b8afa85f5a2781eb6684ba32d1f30eb309791d",
       "baseline_delta_status": "added"
     },
     {
@@ -4406,7 +4418,7 @@
     },
     {
       "path": "tests/test_acestep_gate.py",
-      "git_blob_sha": "3d22c93cc9fe24376c0fa11ac35816e2aee08dba",
+      "git_blob_sha": "8704a54799ec8aa0c1493b8526152cc1261a2fde",
       "baseline_delta_status": "added"
     },
     {
@@ -5782,8 +5794,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
-    "regenerated_from_branch_head": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
+    "source_snapshot_anchor": "f77124a8b9f60412567351f346d0c67f2880b5ab",
+    "regenerated_from_branch_head": "f77124a8b9f60412567351f346d0c67f2880b5ab",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -5791,7 +5803,10 @@
     "gtcrn_snapshot_head": "2c5b5e9c29de7a8ebb609f043e07dd5cf1f903f8",
     "lavasr_reconciliation_generator": "tools/fa3_lavasr_global_reconcile.py",
     "lavasr_deterministic_regeneration_pass": true,
-    "lavasr_snapshot_head": "8863bf501d21dfdc3d4db787c13059ca3a117e62"
+    "lavasr_snapshot_head": "8863bf501d21dfdc3d4db787c13059ca3a117e62",
+    "ace_step_hardening_reconciliation_generator": "one-shot/common.regenerate_release",
+    "ace_step_hardening_deterministic_regeneration_pass": true,
+    "ace_step_hardening_snapshot_head": "f77124a8b9f60412567351f346d0c67f2880b5ab"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -5852,6 +5867,22 @@
     "current_host_runtime_evidence": "PENDING_REAL_ONNX_AUDIO_E2E_QUALITY_DURATION_PADDING_AND_ROLLBACK",
     "reference_gate_status": "PASS",
     "denoise_policy": "OPTIONAL_EXPLICIT_NO_IMPLICIT_DOUBLE_DENOISE",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "ace_step_hardening_reconciliation": {
+    "decision_id": "FA3-DEC-ACE-STEP-HARDENING-2026-09-10",
+    "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+    "profile_id": "FA3-MUSIC-001",
+    "gate_id": "FA3-ACE-STEP-GATESET-001",
+    "reference_evidence": "evidence/reference/ace-step-upstream-2026-09-10.json",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_UPSTREAM_RISKS_TRACKED_CURRENT_HOST_PENDING",
+    "latest_formal_upstream_release": "v0.1.8",
+    "open_upstream_prs_are_promotion_evidence": false,
+    "numeric_integrity_fail_closed": true,
+    "cpu_offload_device_dtype_coherence_required": true,
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

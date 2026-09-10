@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ACE-STEP-HARDENING-2026-09-10",
+  "date": "2026-09-10",
+  "status": "CANONICAL_CLOSED",
+  "subject": "ACE-Step 1.5 CUDA dtype, capability-probe, numeric-integrity and CPU-offload hardening",
+  "decision": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_HARDENING",
+  "profile_id": "FA3-MUSIC-001",
+  "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+  "gate_id": "FA3-ACE-STEP-GATESET-001",
+  "supersedes": null,
+  "extends_decision": "FA3-DEC-ACE-STEP-2026-08-30",
+  "capability_projection": ["CAP-017", "CAP-066", "CAP-131"],
+  "observed_upstream": {
+    "latest_formal_release": {
+      "tag": "v0.1.8",
+      "published_at": "2026-05-18T14:04:34Z"
+    },
+    "main_commit": "ca1e85fe9430179831e6bc6be790c332190a3866",
+    "open_prs": {
+      "1309": {
+        "head_sha": "86cf3a2be6dafd2b5bd2ece6471a9a227dc6d1d9",
+        "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+        "topic": "Flow-Edit morph device mismatch under DiT CPU offload"
+      },
+      "1311": {
+        "head_sha": "49354c10929b94f75e22268357ee96ada20932e2",
+        "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+        "topic": "vLLM LM engine full teardown on service reinit"
+      },
+      "1312": {
+        "head_sha": "f25fa4015b08840f01a8e9696828120f425b63ab",
+        "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+        "topic": "ACESTEP_DTYPE CUDA override and pre-Ampere NaN mitigation"
+      },
+      "1319": {
+        "head_sha": "ed6e6fdc02655ef62effc8ef154d2f1f7876217a",
+        "disposition": "OPEN_UNRESOLVED_RISK_NOT_PROMOTION_EVIDENCE",
+        "topic": "LoRA + DiT CPU-offload path skips decoder device/dtype verification"
+      },
+      "1321": {
+        "head_sha": "33e2d60145ad7ac6d1645a51fa833aeb8d037973",
+        "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
+        "topic": "CUDA capability-probe exception handler missing loguru logger import"
+      }
+    }
+  },
+  "mandatory_hardening": [
+    "CUDA capability-probe failure path must remain deterministic, observable and non-corrupting",
+    "explicit CUDA dtype overrides must be allowlisted, hardware-compatible and provenance-bearing",
+    "NaN/Inf latents or decoded audio must fail closed before artifact promotion",
+    "CPU-offload context transitions must preserve device/dtype coherence",
+    "LoRA plus CPU-offload must not silently bypass required decoder consistency validation",
+    "open upstream PRs are reference evidence only and cannot satisfy runtime promotion"
+  ],
+  "current_host_evidence_additions": [
+    "cuda_capability_probe_failure_path_pass",
+    "explicit_dtype_policy_validation_pass",
+    "finite_latent_and_audio_numeric_integrity_pass",
+    "cpu_offload_device_dtype_coherence_pass",
+    "offload_lora_validation_or_fail_closed_pass"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "authority_boundaries_unchanged": true,
+  "provider_status_unchanged": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED"
+}
