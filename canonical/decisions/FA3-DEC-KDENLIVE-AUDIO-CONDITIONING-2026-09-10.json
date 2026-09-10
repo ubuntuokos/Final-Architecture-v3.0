@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-10",
+  "date": "2026-09-10",
+  "status": "ACCEPTED_MATERIALIZED_REFERENCE_NOT_RUNTIME_PROMOTED",
+  "title": "Kdenlive provider-neutral local AI audio conditioning projection",
+  "decision": "MATERIALIZE_AS_CROSS_PROFILE_CONTRACT_AND_PROVIDER_PROJECTION_NOT_NEW_PROFILE",
+  "rationale": [
+    "Kdenlive editorial, speech enhancement, audio separation and media STT responsibilities already have canonical owners.",
+    "Creating a new Kdenlive audio profile would duplicate existing authority/profile semantics.",
+    "Silero VAD was the remaining provider materialization gap for speech-region metadata in this composition."
+  ],
+  "composition": {
+    "editorial": "FA3-KDENLIVE-EDITORIAL-001",
+    "speech_enhancement": "FA3-SPEECH-ENHANCEMENT-001",
+    "audio_separation": "FA3-AUDIO-SEPARATION-001",
+    "transcription_delegation": "FA3-STT-MEDIA-001",
+    "contract": "FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001",
+    "providers": [
+      "FA3-PROVIDER-SILERO-VAD-001",
+      "FA3-PROVIDER-GTCRN-001",
+      "FA3-PROVIDER-LAVASR-001",
+      "FA3-PROVIDER-DEMUCS-001"
+    ]
+  },
+  "baseline_effect": {
+    "new_profile": 0,
+    "new_capability": 0,
+    "new_architectural_authority": 0,
+    "capability_count_before": 143,
+    "capability_count_after": 143
+  },
+  "production": {
+    "reference_gate_may_pass": true,
+    "current_host_composite_e2e_required": true,
+    "production_promotion_claimed": false
+  }
+}
