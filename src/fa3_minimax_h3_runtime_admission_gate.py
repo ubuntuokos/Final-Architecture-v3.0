@@ -13,6 +13,9 @@ GATE_ID = "FA3-MINIMAX-H3-RUNTIME-ADMISSION-GATESET-001"
 RECEIPT = "evidence/receipts/minimax-h3-current-host.json"
 REPORT = "reports/minimax-h3-current-host-gate-report.json"
 PRODUCTION_LEVEL = "CURRENT_HOST_REMOTE_E2E_PASS"
+INTEGRATION_INDEX_REFERENCE = "FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12"
+INTEGRATION_INDEX_PATH = "canonical/references/FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12.json"
+INTEGRATION_INDEX_COMMIT = "41872e10b49d112c543775ef2341e2006644cb75"
 REQUIRED_PASS_KEYS = [
     "service_terms",
     "credential_class",
@@ -52,6 +55,7 @@ def static_gate(root: Path) -> dict[str, Any]:
         "canonical/FA3-MINIMAX-H3-RUNTIME-ADMISSION-001.json",
         "canonical/minimax-h3-runtime-admission-enforcement.json",
         "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
+        INTEGRATION_INDEX_PATH,
         "src/fa3_minimax_h3_provider_adapter.py",
         "evidence/collect-minimax-h3-current-host.py",
         "bin/fa3-minimax-h3-current-host.sh",
@@ -66,6 +70,7 @@ def static_gate(root: Path) -> dict[str, Any]:
         runtime = _load(root / "canonical/FA3-MINIMAX-H3-RUNTIME-ADMISSION-001.json")
         enforcement = _load(root / "canonical/minimax-h3-runtime-admission-enforcement.json")
         provider = _load(root / "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        integration_index = _load(root / INTEGRATION_INDEX_PATH)
         if contract.get("new_capability") is not False or contract.get("new_architectural_authority") is not False:
             fail("H3-ADM-002", "H3 adapter contract cannot create capability or authority")
         if runtime.get("capability_count") != 143 or enforcement.get("capability_count") != 143:
@@ -86,6 +91,39 @@ def static_gate(root: Path) -> dict[str, Any]:
         conf = adapter_conformance()
         if conf.get("result") != "PASS" or conf.get("passed") != conf.get("total"):
             fail("H3-ADM-009", "MiniMax H3 adapter executable conformance failed")
+
+        if provider.get("integration_index_reference") != INTEGRATION_INDEX_REFERENCE:
+            fail("H3-ADM-010", "Provider projection is not bound to the pinned H3 integration index reference")
+        upstream = integration_index.get("upstream", {})
+        if upstream.get("commit") != INTEGRATION_INDEX_COMMIT or integration_index.get("runtime_promotion_claim") is not False:
+            fail("H3-ADM-011", "H3 integration index must be immutable-pinned reference-only evidence")
+
+        targets = provider.get("integration_targets", {})
+        vllm = targets.get("vllm", {})
+        if vllm.get("status") != "RESTRICTED_NOT_END_TO_END_H3_TARGET" or vllm.get("end_to_end_h3_dit_serving") is not False or vllm.get("production_h3_target") is not False:
+            fail("H3-ADM-012", "Plain vLLM must not be projected as end-to-end MiniMax H3 DiT serving")
+        vllm_omni = targets.get("vllm_omni", {})
+        if vllm_omni.get("status") != "DISCOVERED_NOT_ADMITTED" or vllm_omni.get("automatic_promotion") is not False or vllm_omni.get("current_host_e2e_required") is not True:
+            fail("H3-ADM-013", "vLLM-Omni must remain discovered-not-admitted until real current-host admission")
+
+        candidates = provider.get("discovered_local_execution_candidates", {})
+        for name in ("diffsynth_studio", "lightx2v", "nvidia_sol_attn", "vdn_h3"):
+            candidate = candidates.get(name, {})
+            if candidate.get("status") != "DISCOVERED_NOT_ADMITTED" or candidate.get("automatic_promotion") is not False:
+                fail("H3-ADM-014", f"H3 integration candidate is not fail-closed: {name}")
+        if candidates.get("nvidia_sol_attn", {}).get("governing_contract") != "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001":
+            fail("H3-ADM-015", "Sol-Attn must remain governed by the canonical GPU kernel runtime contract")
+        if candidates.get("vdn_h3", {}).get("separate_model_artifact_admission_required") is not True:
+            fail("H3-ADM-016", "VDN-H3 must require separate model-variant artifact admission")
+
+        barrier = enforcement.get("integration_index_promotion_barrier", {})
+        invariant = "H3_INTEGRATION_INDEX_DISCOVERY_MUST_NOT_AUTO_PROMOTE_OR_SILENTLY_SUBSTITUTE_RUNTIME_KERNEL_QUANTIZATION_OR_MODEL_VARIANT"
+        if enforcement.get("mandatory_rule_count") != 13 or invariant not in enforcement.get("p0_invariants", []):
+            fail("H3-ADM-017", "H3 integration-index P0 promotion barrier is missing")
+        if barrier.get("reference_id") != INTEGRATION_INDEX_REFERENCE or barrier.get("discovered_candidate_automatic_promotion_forbidden") is not True or barrier.get("discovered_candidate_silent_substitution_forbidden") is not True:
+            fail("H3-ADM-018", "H3 integration-index promotion barrier is not fail-closed")
+        if "DISCOVERED_NOT_ADMITTED" not in enforcement.get("pending_states_are_not_pass", []):
+            fail("H3-ADM-019", "DISCOVERED_NOT_ADMITTED must be a non-pass runtime state")
 
     report = {
         "schema": "fa3.minimax-h3-runtime-admission-gate-report.v1",

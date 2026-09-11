@@ -87,13 +87,24 @@ class VideoRegistryTests(unittest.TestCase):
         self.assertIn("video_execution_e2e_pass", gate["h3_promotion_requirements"])
         self.assertIn("qc_and_provenance_evidence_pass", gate["h3_promotion_requirements"])
 
-    def test_h3_all_official_execution_frameworks_are_targets_not_promoted(self):
+    def test_h3_execution_framework_projection_distinguishes_full_dit_serving(self):
         h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
-        for name in ("sglang", "vllm", "diffusers", "comfyui"):
+        for name in ("sglang", "diffusers", "comfyui"):
             self.assertEqual(
                 h3["integration_targets"][name]["status"],
                 "PRODUCTION_INTEGRATION_TARGET",
             )
+        self.assertEqual(
+            h3["integration_targets"]["vllm"]["status"],
+            "RESTRICTED_NOT_END_TO_END_H3_TARGET",
+        )
+        self.assertFalse(h3["integration_targets"]["vllm"]["end_to_end_h3_dit_serving"])
+        self.assertFalse(h3["integration_targets"]["vllm"]["production_h3_target"])
+        self.assertEqual(
+            h3["integration_targets"]["vllm_omni"]["status"],
+            "DISCOVERED_NOT_ADMITTED",
+        )
+        self.assertFalse(h3["integration_targets"]["vllm_omni"]["automatic_promotion"])
         self.assertIn("NOT_YET_CURRENT_HOST_PROMOTED", h3["implementation_status"])
 
     def test_h3_prompt_skill_is_reference_knowledge_only(self):
@@ -111,7 +122,7 @@ class VideoRegistryTests(unittest.TestCase):
 
     def test_h3_runtime_targets_require_immutable_version_pin(self):
         h3 = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
-        for name in ("sglang", "vllm", "diffusers", "comfyui"):
+        for name in ("sglang", "diffusers", "comfyui", "vllm_omni"):
             self.assertTrue(
                 h3["integration_targets"][name]["immutable_runtime_version_pin_required"]
             )

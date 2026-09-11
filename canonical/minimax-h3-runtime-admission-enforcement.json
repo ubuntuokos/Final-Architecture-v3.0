@@ -9,7 +9,7 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count": 143,
-  "mandatory_rule_count": 12,
+  "mandatory_rule_count": 13,
   "p0_invariants": [
     "H3_VIDEO_IR_PROJECTED_NOT_REPLACED",
     "H3_CREDENTIAL_CLASS_EXPLICIT",
@@ -22,8 +22,27 @@
     "H3_REAL_OUTPUT_ARTIFACT_HASH_REQUIRED",
     "H3_AV_QC_AND_PROVENANCE_REQUIRED",
     "H3_LOCAL_EXECUTION_DENIED_WITHOUT_LICENSE_EVIDENCE",
-    "H3_CURRENT_HOST_PROMOTION_REQUIRES_REAL_PROVIDER_E2E"
+    "H3_CURRENT_HOST_PROMOTION_REQUIRES_REAL_PROVIDER_E2E",
+    "H3_INTEGRATION_INDEX_DISCOVERY_MUST_NOT_AUTO_PROMOTE_OR_SILENTLY_SUBSTITUTE_RUNTIME_KERNEL_QUANTIZATION_OR_MODEL_VARIANT"
   ],
+  "integration_index_promotion_barrier": {
+    "reference_id": "FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12",
+    "plain_vllm_end_to_end_h3_dit_serving_forbidden": true,
+    "vllm_omni_status_required": "DISCOVERED_NOT_ADMITTED",
+    "discovered_candidate_automatic_promotion_forbidden": true,
+    "discovered_candidate_silent_substitution_forbidden": true,
+    "required_before_candidate_promotion": [
+      "IMMUTABLE_RUNTIME_PIN_PASS",
+      "LICENSE_OR_TERMS_ADMISSION_PASS",
+      "ARTIFACT_TRUST_PASS",
+      "BACKEND_COMPATIBILITY_PASS",
+      "HOST_RESOURCE_BROKER_ADMISSION_PASS",
+      "REAL_CURRENT_HOST_E2E_PASS"
+    ],
+    "sol_attn_governing_contract": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+    "vdn_h3_requires_separate_model_variant_admission": true,
+    "upstream_performance_resource_quality_claims_are_reference_only": true
+  },
   "current_host_required_passes": [
     "SERVICE_TERMS_PASS",
     "CREDENTIAL_CLASS_PASS",
@@ -36,7 +55,8 @@
   "pending_states_are_not_pass": [
     "PENDING_EXTERNAL_ADMISSION",
     "PENDING_CURRENT_HOST",
-    "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE"
+    "LOCAL_DENIED_WITHOUT_LICENSE_EVIDENCE",
+    "DISCOVERED_NOT_ADMITTED"
   ],
   "current_host_runner": [
     "self-hosted",

@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12",
+  "provider_id": "FA3-PROVIDER-MINIMAX-H3-001",
+  "status": "REFERENCE_ONLY_DISCOVERY_SOURCE",
+  "upstream": {
+    "owner": "MiniMax-AI",
+    "repo": "awesome-minimax-h3-integration",
+    "branch": "main",
+    "commit": "41872e10b49d112c543775ef2341e2006644cb75",
+    "commit_date": "2026-09-11T04:07:48Z",
+    "source_class": "MINIMAX_ORG_HOSTED_COMMUNITY_MAINTAINED_INTEGRATION_INDEX"
+  },
+  "evidence_role": "REFERENCE_DISCOVERY_SOURCE_NOT_RUNTIME_PROMOTION_EVIDENCE",
+  "discovered_integrations": {
+    "sglang": {
+      "classification": "REAFFIRMED_LOCAL_SERVICE_PATH",
+      "promotion_effect": "NONE"
+    },
+    "vllm": {
+      "classification": "AUTOREGRESSIVE_TEXT_RUNTIME_NOT_NATIVE_END_TO_END_H3_DIT_SERVING",
+      "promotion_effect": "REMOVE_END_TO_END_H3_PROJECTION"
+    },
+    "vllm_omni": {
+      "classification": "END_TO_END_H3_SERVING_CANDIDATE",
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "upstream_24gb_reference_variant": "pruned_int8_convrot"
+    },
+    "comfyui_int8_mainline": {
+      "classification": "EXISTING_COMFYUI_TARGET_CAPABILITY_UPDATE",
+      "status": "DISCOVERED_REQUIRES_COMPATIBILITY_REGRESSION",
+      "legacy_i8fast_tensor_conversion_must_be_validated": true
+    },
+    "diffsynth_studio": {
+      "classification": "LOCAL_EXECUTION_CANDIDATE",
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "upstream_resource_claims_are_reference_only": true
+    },
+    "lightx2v": {
+      "classification": "LOCAL_ACCELERATION_CANDIDATE",
+      "status": "DISCOVERED_NOT_ADMITTED"
+    },
+    "nvidia_sol_attn": {
+      "classification": "GPU_KERNEL_ACCELERATION_CANDIDATE",
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "governing_contract": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001"
+    },
+    "vdn_h3": {
+      "classification": "SEPARATE_H3_DERIVED_MODEL_ARCHITECTURE_CANDIDATE",
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "source_repo": "OpenVDN/vdn-minimax-h3",
+      "code_license_reference": "Apache-2.0",
+      "weight_license_authority": "MINIMAX_H3_COMMUNITY_LICENSE",
+      "upstream_performance_claims_are_reference_only": true
+    }
+  },
+  "admission_policy": {
+    "integration_index_is_not_model_or_runtime_authority": true,
+    "discovery_is_not_production_admission": true,
+    "automatic_promotion_forbidden": true,
+    "silent_runtime_substitution_forbidden": true,
+    "immutable_runtime_pin_required": true,
+    "license_and_terms_admission_required": true,
+    "artifact_trust_required": true,
+    "backend_compatibility_evidence_required": true,
+    "host_resource_broker_admission_required_for_local_accelerator": true,
+    "real_current_host_e2e_required_before_production_promotion": true,
+    "plain_vllm_must_not_be_treated_as_end_to_end_h3_dit_serving_without_separate_admitted_evidence": true,
+    "sol_attn_must_remain_under_gpu_kernel_runtime_authority": true,
+    "vdn_h3_requires_separate_model_variant_artifact_license_quality_and_provenance_admission": true,
+    "upstream_vram_speed_and_quality_claims_are_noncanonical_reference_data": true
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "runtime_promotion_claim": false
+}

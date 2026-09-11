@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "78ed57c08ec1b7aa303f5914bbc438b6e45c9e48",
-    "pre_projection_root_tree_sha": "714df0bcf40361a1a8480e748b0c611701181758",
-    "pre_projection_canonical_tree_sha": "9c57d801395fbafc201d89e85eaf39e6174c9bee",
-    "commits_ahead_of_v3_0_11_conformance_commit": 161,
-    "total_post_baseline_commits": 161,
-    "delta_file_count": 918,
-    "delta_added_files": 913,
+    "pre_projection_head_sha": "c310c5201df93d78fa8f81c37550f6c3246ca03c",
+    "pre_projection_root_tree_sha": "b9d0f5b2594727043d43387b6863c9d3424f6ffd",
+    "pre_projection_canonical_tree_sha": "498807eac13f7158d0ad08cf58301228495eb774",
+    "commits_ahead_of_v3_0_11_conformance_commit": 171,
+    "total_post_baseline_commits": 171,
+    "delta_file_count": 919,
+    "delta_added_files": 914,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 514,
+    "canonical_files_in_post_baseline_delta": 515,
     "evidence_files_in_post_baseline_delta": 99,
     "source_files_in_post_baseline_delta": 105,
     "test_files_in_post_baseline_delta": 85,
@@ -373,6 +373,7 @@
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MMG-CONTEXT-IR-REFERENCE-001.json",
@@ -645,7 +646,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 918,
+  "manifest_entry_count": 919,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2299,7 +2300,7 @@
     },
     {
       "path": "canonical/minimax-h3-runtime-admission-enforcement.json",
-      "git_blob_sha": "182f992e956ebf258ca49aac09168f50772e0cc9",
+      "git_blob_sha": "f7ded8dff62afa7cd93dccf29f5d32aec956245b",
       "baseline_delta_status": "added"
     },
     {
@@ -2879,7 +2880,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json",
-      "git_blob_sha": "37568d549f0327b7455b34ec127709b843496f3d",
+      "git_blob_sha": "12ca5e83104c1c2049ba447b0a14e5a3c8f26584",
       "baseline_delta_status": "added"
     },
     {
@@ -3275,6 +3276,11 @@
     {
       "path": "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "d68eba09d84f462d421b9a04dae055362992251b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12.json",
+      "git_blob_sha": "a196b44c22399854e1d575211cc750ba9a5487c1",
       "baseline_delta_status": "added"
     },
     {
@@ -4554,7 +4560,7 @@
     },
     {
       "path": "src/fa3_minimax_h3_runtime_admission_gate.py",
-      "git_blob_sha": "d49eeaeb2fa7b26d3a5be79efa260e4251cdecca",
+      "git_blob_sha": "769be76ab54da113aa192775d70b1b1e4bad8f4c",
       "baseline_delta_status": "added"
     },
     {
@@ -5014,7 +5020,7 @@
     },
     {
       "path": "tests/test_minimax_h3_runtime_admission.py",
-      "git_blob_sha": "74ea48f40162c855a7ecb8218f197b4e1ec557fd",
+      "git_blob_sha": "b786a3b4951f5da30889a03dd446d17cd4c9136f",
       "baseline_delta_status": "added"
     },
     {
@@ -5194,7 +5200,7 @@
     },
     {
       "path": "tests/test_video_registry.py",
-      "git_blob_sha": "ca77dc8ab2442a682925a84d417e2d17a4fd67ef",
+      "git_blob_sha": "a72938459ccc21fb3a31c045bb9d4459ecd0808c",
       "baseline_delta_status": "added"
     },
     {

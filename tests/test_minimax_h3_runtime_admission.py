@@ -154,6 +154,36 @@ class MiniMaxH3RuntimeAdmissionTests(unittest.TestCase):
         self.assertFalse(gate["runtime_promotion_claim"])
         self.assertEqual(runtime["missing_secret_or_entitlement_state"], "PENDING_EXTERNAL_ADMISSION")
 
+    def test_integration_index_candidates_are_fail_closed(self):
+        provider = load("canonical/providers/FA3-PROVIDER-MINIMAX-H3-001.json")
+        gate = load("canonical/minimax-h3-runtime-admission-enforcement.json")
+        reference = load("canonical/references/FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12.json")
+        self.assertEqual(provider["integration_index_reference"], reference["id"])
+        self.assertEqual(reference["upstream"]["commit"], "41872e10b49d112c543775ef2341e2006644cb75")
+        self.assertFalse(reference["runtime_promotion_claim"])
+
+        vllm = provider["integration_targets"]["vllm"]
+        self.assertEqual(vllm["status"], "RESTRICTED_NOT_END_TO_END_H3_TARGET")
+        self.assertFalse(vllm["end_to_end_h3_dit_serving"])
+        self.assertFalse(vllm["production_h3_target"])
+
+        vllm_omni = provider["integration_targets"]["vllm_omni"]
+        self.assertEqual(vllm_omni["status"], "DISCOVERED_NOT_ADMITTED")
+        self.assertFalse(vllm_omni["automatic_promotion"])
+        self.assertTrue(vllm_omni["current_host_e2e_required"])
+
+        candidates = provider["discovered_local_execution_candidates"]
+        for name in ("diffsynth_studio", "lightx2v", "nvidia_sol_attn", "vdn_h3"):
+            self.assertEqual(candidates[name]["status"], "DISCOVERED_NOT_ADMITTED")
+            self.assertFalse(candidates[name]["automatic_promotion"])
+        self.assertEqual(candidates["nvidia_sol_attn"]["governing_contract"], "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001")
+        self.assertTrue(candidates["vdn_h3"]["separate_model_artifact_admission_required"])
+
+        self.assertEqual(gate["mandatory_rule_count"], 13)
+        self.assertIn("DISCOVERED_NOT_ADMITTED", gate["pending_states_are_not_pass"])
+        self.assertTrue(gate["integration_index_promotion_barrier"]["discovered_candidate_automatic_promotion_forbidden"])
+        self.assertTrue(gate["integration_index_promotion_barrier"]["discovered_candidate_silent_substitution_forbidden"])
+
     def test_video_enforcement_binds_runtime_admission_fail_closed(self):
         video = load("canonical/video-enforcement.json")
         policy = video["h3_runtime_admission"]
