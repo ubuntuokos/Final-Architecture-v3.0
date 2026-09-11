@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.current-host-runner-enforcement.v1",
+  "id": "FA3-CURRENT-HOST-RUNNER-GATESET-001",
+  "conformance_id": "FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "mandatory_rule_count": 14,
+  "p0_invariants": [
+    "RUNNER_REPOSITORY_BINDING_EXACT",
+    "RUNNER_REQUIRED_LABEL_SET_EXACT_OR_SUPERSET",
+    "RUNNER_IMMUTABLE_VERSION_AND_SHA256_PIN",
+    "RUNNER_NETWORK_TO_SHELL_BOOTSTRAP_FORBIDDEN",
+    "RUNNER_REGISTRATION_TOKEN_NOT_PERSISTED",
+    "RUNNER_NON_ROOT_EXECUTION_REQUIRED",
+    "RUNNER_SYSTEMD_USER_SERVICE_REQUIRED",
+    "RUNNER_SERVICE_ACTIVE_FOR_EVIDENCE",
+    "RUNNER_SERVER_SIDE_ONLINE_STATE_REQUIRED",
+    "RUNNER_WORKSPACE_USER_OWNED",
+    "RUNNER_GITHUB_HOSTED_SUBSTITUTION_FORBIDDEN",
+    "RUNNER_RECEIPT_SECRET_FREE",
+    "RUNNER_DOCTOR_PASS_NOT_GLOBAL_PROMOTION",
+    "RUNNER_PROVIDER_E2E_RECEIPT_REQUIRED_SEPARATELY"
+  ],
+  "static_gate": "python3 src/fa3_current_host_runner_gate.py --root .",
+  "bootstrap": "bin/fa3-current-host-runner-bootstrap.sh",
+  "doctor": "bin/fa3-current-host-runner-doctor",
+  "workflow": ".github/workflows/fa3-current-host-runner.yml",
+  "doctor_receipt": ".fa3-current-host/runner/doctor.json"
+}

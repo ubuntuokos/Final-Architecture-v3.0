@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-PAGE-CACHE-PREFETCH-001",
+  "gateset_id": "FA3-PAGE-CACHE-PREFETCH-GATESET-001",
+  "parent_gate_id": "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001",
+  "status": "MATERIALIZED",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+  "decision_id": "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11",
+  "provider_id": "FA3-PROVIDER-PRELOAD-001",
+  "entrypoint": "./bin/fa3-enforce page-cache-prefetch",
+  "implementation": "src/fa3_page_cache_prefetch_gate.py",
+  "test": "tests/test_page_cache_prefetch_gate.py",
+  "reference_evidence": "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "fail_closed": true,
+  "current_host_runtime_promotion_claim": false,
+  "global_binding": "TRANSITIVELY_MANDATORY_THROUGH_FA3_HRB_DETERMINISTIC_LOCALITY_GATESET_001"
+}

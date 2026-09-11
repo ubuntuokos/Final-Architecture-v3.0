@@ -42,12 +42,14 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+        "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
+        "evidence/reference/hardware-portability-ci-2026-09-03.json",
+        "evidence/reference/page-cache-prefetch-ci-2026-09-11.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -59,6 +61,19 @@
         "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "page_cache_prefetch_projection_status": {
+        "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+        "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "provider_id": "FA3-PROVIDER-PRELOAD-001",
+        "gate_id": "FA3-GATE-PAGE-CACHE-PREFETCH-001",
+        "gateset_id": "FA3-PAGE-CACHE-PREFETCH-GATESET-001",
+        "classification": "MANDATORY_PROVIDER_NEUTRAL_POLICY_OPTIONAL_REPLACEABLE_PROVIDER",
+        "reference_gate_status": "PASS",
+        "runtime_status": "PENDING_CURRENT_HOST",
+        "production_admitted": false,
+        "current_host_runtime_evidence": "PENDING_REAL_COLD_WARM_IO_MEMORY_PRESSURE_NON_REGRESSION_AND_ROLLBACK_EVIDENCE",
+        "reference_pass_does_not_promote_runtime": true
       }
     },
     {

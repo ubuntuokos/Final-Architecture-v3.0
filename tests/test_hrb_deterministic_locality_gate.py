@@ -14,7 +14,7 @@ class HrbDeterministicLocalityGateTests(unittest.TestCase):
     def test_reference_gate_passes(self):
         result = evaluate(ROOT)
         self.assertEqual(result["status"], "PASS")
-        self.assertEqual(result["summary"], {"passed": 30, "total": 30})
+        self.assertEqual(result["summary"], {"passed": 32, "total": 32})
         self.assertFalse(result["current_host_runtime_promotion_claim"])
 
     def test_authority_and_capability_count_are_preserved(self):
@@ -43,6 +43,13 @@ class HrbDeterministicLocalityGateTests(unittest.TestCase):
             "per-workload-projection-change-control",
         ):
             self.assertEqual(by_name[name]["status"], "PASS")
+
+    def test_page_cache_prefetch_is_transitively_enforced(self):
+        result = evaluate(ROOT)
+        by_name = {item["name"]: item for item in result["checks"]}
+        self.assertEqual(by_name["preload-optional"]["status"], "PASS")
+        self.assertEqual(by_name["page-cache-prefetch-subgate"]["status"], "PASS")
+        self.assertEqual(by_name["enforcement-complete"]["status"], "PASS")
 
 
 if __name__ == "__main__":
