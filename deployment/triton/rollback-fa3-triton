@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ ${EUID} -eq 0 ]] || { echo "Run as root" >&2; exit 2; }
+STATE_DIR=/var/lib/fa3/triton
+ENV_FILE=/etc/fa3/triton.env
+systemctl stop fa3-triton.service || true
+if [[ -f "$STATE_DIR/backups/last.env" ]]; then
+  install -m 0600 "$STATE_DIR/backups/last.env" "$ENV_FILE"
+  systemctl daemon-reload
+  systemctl start fa3-triton.service
+  echo "PASS: previous Triton environment restored"
+else
+  systemctl disable fa3-triton.service || true
+  rm -f "$ENV_FILE"
+  systemctl daemon-reload
+  echo "PASS: Triton disabled; no prior environment existed"
+fi
