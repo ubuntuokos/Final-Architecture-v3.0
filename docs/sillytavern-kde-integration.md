@@ -28,7 +28,7 @@ Rejected or reframed:
 - Fixed `/opt/SillyTavern`, `$HOME/AI`, fixed server port, GPU model or GPU-count assumptions.
 - Dependency installation during ordinary desktop launch.
 
-## Upstream pin
+## Upstream pin and dependency identity
 
 The admitted reference is:
 
@@ -36,41 +36,57 @@ The admitted reference is:
 - release: `1.18.0`
 - commit: `51ad27fb86d39a3daca3adaa970375c9670c12df`
 - license: `AGPL-3.0`
+- root `package-lock.json` blob: `95b4dbc33c62829e2aff383f286889ebdcc15ffd`
+- root `.npmrc` blob: `2143f3df2fc935fce293d1ee5b3c073fd187e135`
 - Electron entrypoint blob: `6126ef45ca881e30e7fceb134270dfb52d883b4b`
 - Electron lockfile blob: `de71cacfc097733f36d79f103bfd9fb2686778a6`
 
-The upstream `src/electron/start.sh` installs dependencies before launch. FA3 intentionally does not use that script as the normal runtime launcher. Dependency preparation is a separate, explicit admission action.
+The root `.npmrc` at the admitted commit sets `ignore-scripts=true` and `min-release-age=7`. The upstream `src/electron/start.sh` installs dependencies before launch; FA3 intentionally does not use that script as the normal runtime launcher.
+
+The explicit `--prepare-deps` admission now prepares **both** dependency surfaces: the root SillyTavern server runtime using the immutable root lockfile and the Electron wrapper using its own immutable lockfile. Normal launch performs no npm installation or update.
 
 ## Installation on a KDE6 host
 
 1. Prepare an exact checkout of SillyTavern at the admitted commit.
-2. Install only the FA3 user integration:
+2. Install the FA3 user integration:
 
    ```bash
    bin/fa3-sillytavern-kde-install-user-integration.sh --install
    ```
 
-3. Edit `~/.config/fa3/sillytavern-kde.env` and set `SILLYTAVERN_ROOT` to that checkout.
-4. Explicitly prepare the lockfile-resolved Electron dependencies:
+3. Set `SILLYTAVERN_ROOT` in `~/.config/fa3/sillytavern-kde.env`.
+4. Explicitly prepare the admitted server + Electron dependencies:
 
    ```bash
    bin/fa3-sillytavern-kde-install-user-integration.sh --prepare-deps
    ```
 
-5. Validate installed integration files:
+5. Validate the installed integration:
 
    ```bash
    bin/fa3-sillytavern-kde-install-user-integration.sh --check
    ```
 
-6. Start from the KDE application menu (`SillyTavern (FA3 KDE)`) or invoke:
+6. Start from the KDE application menu or invoke:
 
    ```bash
    systemctl --user start sillytavern-kde.service
    ```
 
-The unit has no `[Install]` section and is not enabled at login. A KDE global shortcut may be configured by the user to call `~/.local/libexec/fa3/sillytavern-kde-start`; no canonical fixed key binding is imposed.
+The unit has no `[Install]` section and is not enabled at login.
 
-## Current-host promotion
+## Current-host production admission
 
-Repository/reference conformance is not current-host production evidence. Promotion requires a real KDE6/Wayland E2E receipt proving the pinned source and dependencies, Electron launch, event-derived loopback URL, mutation-free normal start, authority-bypass negative cases, extension denial, optional voice/telemetry delegation where enabled, clean stop and rollback.
+The current-host gate is `FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001`, with conformance record `FA3-SILLYTAVERN-KDE-RUNTIME-CONFORMANCE-001`. It requires the real `[self-hosted, linux, x64, fa3-current-host]` runner and an active KDE6/Wayland user session.
+
+The executable path is:
+
+```bash
+bin/fa3-sillytavern-kde-current-host static
+bin/fa3-sillytavern-kde-current-host collect
+bin/fa3-sillytavern-kde-current-host verify
+```
+
+The collector validates the runner and non-root context, exact source/root-lock/npm-policy/Electron identities, Node.js >=20, explicit dependency preparation, Wayland session/socket, `graphical-session.target`, Electron launch without `--no-sandbox`, dynamic listener discovery without assuming a server port, loopback-only exposure, HTTP SillyTavern UI identity, invalid-source refusal, authority boundaries, clean stop, zero resident service processes, uninstall/reinstall rollback, and an inactive service after the rollback drill.
+
+A successful real run writes `evidence/receipts/sillytavern-kde-current-host.json` with status `CURRENT_HOST_PRODUCTION_E2E_PASS`. Reference CI, synthetic receipts, queued jobs, or a runner lacking any required label cannot promote the provider.

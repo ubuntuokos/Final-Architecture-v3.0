@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+case "${1:-}" in
+  static)
+    exec python3 "$ROOT/src/fa3_sillytavern_kde_current_host.py" static --root "$ROOT"
+    ;;
+  collect)
+    exec bash "$ROOT/evidence/collect-sillytavern-kde-current-host.sh"
+    ;;
+  verify)
+    exec python3 "$ROOT/src/fa3_sillytavern_kde_current_host.py" verify --root "$ROOT"
+    ;;
+  *)
+    printf 'usage: %s {static|collect|verify}\n' "$0" >&2
+    exit 64
+    ;;
+esac

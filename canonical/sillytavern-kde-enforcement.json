@@ -12,6 +12,9 @@
   "capability_projection": [
     "CAP-008"
   ],
+  "child_gates": [
+    "FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001"
+  ],
   "rules": [
     "SILLYTAVERN_KDE_OPTIONAL_NON_AUTHORITY_PROVIDER",
     "SILLYTAVERN_KDE_PROJECTS_ONLY_TO_CAP_008",
@@ -40,8 +43,10 @@
   ],
   "runtime_promotion": {
     "reference_ci_may_promote_current_host": false,
+    "current_host_gate": "FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001",
     "required_current_host_receipts": [
       "PINNED_SOURCE_IDENTITY_PASS",
+      "ROOT_RUNTIME_DEPENDENCY_IDENTITY_PASS",
       "ELECTRON_DEPENDENCY_IDENTITY_PASS",
       "KDE6_WAYLAND_DESKTOP_SMOKE_PASS",
       "LOOPBACK_EVENT_DERIVED_URL_PASS",

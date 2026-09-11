@@ -3,7 +3,9 @@ set -euo pipefail
 
 readonly expected_commit="51ad27fb86d39a3daca3adaa970375c9670c12df"
 readonly expected_entry_blob="6126ef45ca881e30e7fceb134270dfb52d883b4b"
-readonly expected_lock_blob="de71cacfc097733f36d79f103bfd9fb2686778a6"
+readonly expected_electron_lock_blob="de71cacfc097733f36d79f103bfd9fb2686778a6"
+readonly expected_root_lock_blob="95b4dbc33c62829e2aff383f286889ebdcc15ffd"
+readonly expected_root_npmrc_blob="2143f3df2fc935fce293d1ee5b3c073fd187e135"
 readonly config_file="${FA3_SILLYTAVERN_KDE_CONFIG:-${HOME}/.config/fa3/sillytavern-kde.env}"
 
 if [[ ! -r "$config_file" ]]; then
@@ -24,10 +26,20 @@ actual_commit=$(git -C "$root" rev-parse HEAD)
 }
 
 entry_blob=$(git -C "$root" hash-object "$root/src/electron/index.js")
-lock_blob=$(git -C "$root" hash-object "$root/src/electron/package-lock.json")
-[[ "$entry_blob" == "$expected_entry_blob" && "$lock_blob" == "$expected_lock_blob" ]] || {
-  printf 'FA3 SillyTavern KDE: Electron entrypoint or lockfile drift detected.\n' >&2
+electron_lock_blob=$(git -C "$root" hash-object "$root/src/electron/package-lock.json")
+root_lock_blob=$(git -C "$root" hash-object "$root/package-lock.json")
+root_npmrc_blob=$(git -C "$root" hash-object "$root/.npmrc")
+[[ "$entry_blob" == "$expected_entry_blob" \
+   && "$electron_lock_blob" == "$expected_electron_lock_blob" \
+   && "$root_lock_blob" == "$expected_root_lock_blob" \
+   && "$root_npmrc_blob" == "$expected_root_npmrc_blob" ]] || {
+  printf 'FA3 SillyTavern KDE: source or dependency policy drift detected.\n' >&2
   exit 65
+}
+
+[[ -r "$root/node_modules/express/package.json" ]] || {
+  printf 'FA3 SillyTavern KDE: admitted server runtime dependencies are absent. Run the installer with --prepare-deps explicitly.\n' >&2
+  exit 69
 }
 
 electron="$root/src/electron/node_modules/.bin/electron"

@@ -1,7 +1,7 @@
 {
   "schema": "fa3.upstream-reference.v1",
   "id": "FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07",
-  "observed_at": "2026-09-07T20:35:00Z",
+  "observed_at": "2026-09-12T00:00:00Z",
   "repository": "SillyTavern/SillyTavern",
   "repository_url": "https://github.com/SillyTavern/SillyTavern",
   "release": "1.18.0",
@@ -10,6 +10,18 @@
   "commit": "51ad27fb86d39a3daca3adaa970375c9670c12df",
   "commit_url": "https://github.com/SillyTavern/SillyTavern/commit/51ad27fb86d39a3daca3adaa970375c9670c12df",
   "license": "AGPL-3.0",
+  "server_runtime": {
+    "package_manifest": "package.json",
+    "package_manifest_version": "1.18.0",
+    "node_engine": ">=20",
+    "lockfile": "package-lock.json",
+    "lockfile_blob_sha": "95b4dbc33c62829e2aff383f286889ebdcc15ffd",
+    "npmrc": ".npmrc",
+    "npmrc_blob_sha": "2143f3df2fc935fce293d1ee5b3c073fd187e135",
+    "npmrc_ignore_scripts": true,
+    "npmrc_min_release_age_days": 7,
+    "fa3_dependency_preparation": "npm ci --omit=dev under the immutable root lock; normal launch performs no npm mutation"
+  },
   "desktop_wrapper": {
     "type": "Electron",
     "entrypoint": "src/electron/index.js",
@@ -23,8 +35,8 @@
     "electron_dependency_constraint": "^41.1.1",
     "observed_lifecycle": "Electron app waits for SillyTavern SERVER_STARTED event, receives the actual server URL and loads it into BrowserWindow; window close quits the desktop process on non-macOS."
   },
-  "runtime_install_observation": "The upstream src/electron/start.sh performs npm install before normal launch. FA3 does not adopt that runtime mutation semantics; dependency preparation is a separate explicit admission step and ordinary desktop launch is dependency-install-free.",
-  "security_observation": "The 1.18.0 release notes explicitly reference a security incident involving the third-party Bot Browser extension and advise users to review the maintainers statement. FA3 treats third-party extensions as separately admitted supply-chain/runtime components.",
+  "runtime_install_observation": "The upstream src/electron/start.sh performs npm install before normal launch. FA3 does not adopt that runtime mutation semantics. The root SillyTavern server dependency set and the Electron wrapper dependency set are prepared in a separate explicit admission step under their respective immutable lockfiles; ordinary desktop launch is dependency-install-free.",
+  "security_observation": "The root .npmrc at the admitted commit sets ignore-scripts=true and min-release-age=7. The 1.18.0 release notes also reference a security incident involving the third-party Bot Browser extension; FA3 treats third-party extensions as separately admitted supply-chain/runtime components.",
   "assessment": "ARCHITECTURAL_FIT_AS_OPTIONAL_NON_AUTHORITY_KDE_WAYLAND_DESKTOP_CLIENT_WITH_HARDENED_ADAPTER",
   "promotion_use": "REFERENCE_AND_STATIC_CONFORMANCE_ONLY",
   "current_host_runtime_evidence": "NOT_CLAIMED",

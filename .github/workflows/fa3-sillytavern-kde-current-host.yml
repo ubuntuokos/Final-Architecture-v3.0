@@ -1,0 +1,91 @@
+name: FA3 SillyTavern KDE Current Host
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json'
+      - 'canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json'
+      - 'canonical/sillytavern-kde-enforcement.json'
+      - 'canonical/sillytavern-kde-current-host-enforcement.json'
+      - 'canonical/FA3-SILLYTAVERN-KDE-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001.json'
+      - 'canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-CURRENT-HOST-2026-09-12.json'
+      - 'deployment/sillytavern-kde/**'
+      - 'bin/fa3-sillytavern-kde-install-user-integration.sh'
+      - 'bin/fa3-sillytavern-kde-current-host'
+      - 'src/fa3_sillytavern_kde_current_host.py'
+      - 'evidence/collect-sillytavern-kde-current-host.sh'
+      - 'tests/test_sillytavern_kde_current_host.py'
+      - '.github/workflows/fa3-sillytavern-kde-current-host.yml'
+  push:
+    branches:
+      - 'fa3/sillytavern-kde-current-host-2026-09-12'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-sillytavern-kde-current-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  static-admission:
+    name: sillytavern-kde-current-host / static-admission
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Syntax check
+        run: |
+          python3 -m py_compile src/fa3_sillytavern_kde_current_host.py tests/test_sillytavern_kde_current_host.py
+          bash -n bin/fa3-sillytavern-kde-current-host
+          bash -n evidence/collect-sillytavern-kde-current-host.sh
+          bash -n bin/fa3-sillytavern-kde-install-user-integration.sh
+          bash -n deployment/sillytavern-kde/bin/sillytavern-kde-launch
+      - name: Current-host static admission
+        run: |
+          chmod +x bin/fa3-sillytavern-kde-current-host
+          ./bin/fa3-sillytavern-kde-current-host static
+      - name: Current-host regression suite
+        run: PYTHONPATH=src python3 -m unittest tests.test_sillytavern_kde_current_host -v
+      - name: Parent SillyTavern KDE gate
+        run: PYTHONPATH=src python3 src/fa3_sillytavern_kde_gate.py --root .
+
+  current-host-production-e2e:
+    name: sillytavern-kde-current-host / production-e2e
+    needs: static-admission
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host runner control plane
+        run: |
+          chmod +x bin/fa3-current-host-runner-doctor
+          ./bin/fa3-current-host-runner-doctor
+      - name: Real KDE6 Wayland SillyTavern E2E and rollback
+        env:
+          FA3_RUNNER_LABELS: self-hosted,linux,x64,fa3-current-host
+          FA3_CI_FIXTURE: 'false'
+        run: |
+          chmod +x bin/fa3-sillytavern-kde-current-host evidence/collect-sillytavern-kde-current-host.sh
+          ./bin/fa3-sillytavern-kde-current-host collect
+          ./bin/fa3-sillytavern-kde-current-host verify
+      - name: Upload runner and provider receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-sillytavern-kde-current-host-evidence
+          path: |
+            .fa3-current-host/runner/doctor.json
+            evidence/receipts/sillytavern-kde-current-host.json
+          if-no-files-found: warn
+          retention-days: 30

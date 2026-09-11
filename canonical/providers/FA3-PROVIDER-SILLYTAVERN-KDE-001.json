@@ -29,11 +29,17 @@
   "runtime_activation_requires_current_host_conformance": true,
   "provider_runtime_required_for_global_promotion_when_disabled": false,
   "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_conformance": "FA3-SILLYTAVERN-KDE-RUNTIME-CONFORMANCE-001",
+  "current_host_gate": "FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001",
   "immutable_component_tuple": {
     "repository": "SillyTavern/SillyTavern",
     "release": "1.18.0",
     "commit": "51ad27fb86d39a3daca3adaa970375c9670c12df",
     "license": "AGPL-3.0",
+    "root_lockfile": "package-lock.json",
+    "root_lockfile_blob_sha": "95b4dbc33c62829e2aff383f286889ebdcc15ffd",
+    "root_npmrc": ".npmrc",
+    "root_npmrc_blob_sha": "2143f3df2fc935fce293d1ee5b3c073fd187e135",
     "electron_entrypoint": "src/electron/index.js",
     "electron_entrypoint_blob_sha": "6126ef45ca881e30e7fceb134270dfb52d883b4b",
     "electron_lockfile": "src/electron/package-lock.json",
@@ -48,6 +54,7 @@
     "fixed_server_port_is_canonical": false,
     "external_browser_required": false,
     "runtime_dependency_install": false,
+    "explicit_dependency_admission": "ROOT_RUNTIME_LOCK_PLUS_ELECTRON_LOCK",
     "model_access": "EXISTING_FA3_MODEL_ROUTING_AND_RUNTIME_AUTHORITIES_ONLY",
     "mcp_and_tool_access": "EXISTING_FA3_CENTRAL_MCP_CAPABILITY_GATEWAY_ONLY",
     "local_chat_state_role": "APPLICATION_STATE_ONLY",
@@ -83,5 +90,5 @@
     "EVIDENCE_OR_REGISTRY_AUTHORITY",
     "AI_OS_OR_KERNEL_AUTHORITY"
   ],
-  "normative_constraint": "SillyTavern KDE SHALL remain an optional, replaceable local conversation desktop client using the upstream Electron lifecycle and the existing FA3 model, MCP, policy, memory, workflow, resource, voice and evidence authorities. It SHALL NOT become an AI OS/kernel, global orchestrator, model router, memory authority, MCP gateway, resource scheduler, secrets store or evidence authority."
+  "normative_constraint": "SillyTavern KDE SHALL remain an optional, replaceable local conversation desktop client using the upstream Electron lifecycle and the existing FA3 model, MCP, policy, memory, workflow, resource, voice and evidence authorities. Both the root server runtime dependency lock and the Electron dependency lock SHALL be immutably admitted before execution. It SHALL NOT become an AI OS/kernel, global orchestrator, model router, memory authority, MCP gateway, resource scheduler, secrets store or evidence authority."
 }
