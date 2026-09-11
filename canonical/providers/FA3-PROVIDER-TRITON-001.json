@@ -9,7 +9,7 @@
     "INFERENCE_SERVING_RUNTIME",
     "MULTI_BACKEND_SERVING_PROVIDER",
     "HTTP_GRPC_LOCAL_SERVICE_PROJECTION",
-    "NVIDIA_GPU_AND_CPU_EXECUTION_HOST"
+    "NVIDIA_GPU_HRB_SCOPED_RUNTIME_PROJECTION"
   ],
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
   "parent_contract": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
@@ -27,6 +27,7 @@
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
   "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "runtime_projection_device_mode": "NVIDIA_GPU_HRB_SCOPED_V1",
   "authority_boundaries": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "model_registry_and_identity": "FA3-MODEL-REGISTRY-001",
@@ -36,10 +37,15 @@
     "observability_and_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "registry": "FA3-REGISTRY-001"
   },
-  "supported_backend_provider_projections": [
+  "admitted_backend_provider_projections_v1": [
     "FA3-PROVIDER-TENSORRT-001",
-    "FA3-PROVIDER-ONNXRUNTIME-001",
-    "FA3-PROVIDER-OPENVINO-001"
+    "FA3-PROVIDER-ONNXRUNTIME-001"
+  ],
+  "upstream_additional_backend_capabilities_not_automatically_admitted": [
+    "OpenVINO",
+    "PyTorch",
+    "Python",
+    "custom_backends"
   ],
   "model_repository_semantics": "NON_AUTHORITATIVE_IMMUTABLE_RUNTIME_PROJECTION",
   "model_control_policy": {
