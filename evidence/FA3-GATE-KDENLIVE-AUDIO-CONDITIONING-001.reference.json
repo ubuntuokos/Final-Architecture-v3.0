@@ -1,0 +1,21 @@
+{
+  "evidence_id": "FA3-EVIDENCE-KDENLIVE-AUDIO-CONDITIONING-REFERENCE-001",
+  "gate": "FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001",
+  "evidence_class": "REFERENCE_STATIC_CONFORMANCE",
+  "status": "PASS_BY_CONSTRUCTION_PENDING_CI_EXECUTION",
+  "production_promotion": "PENDING_CURRENT_HOST",
+  "assertions": [
+    "canonical contract present",
+    "Silero VAD provider present",
+    "decision record present",
+    "fail-closed enforcement present",
+    "provider-neutral pipeline planner present",
+    "regression tests present",
+    "current-host collector present"
+  ],
+  "limitations": [
+    "This artifact is not current-host runtime evidence.",
+    "CI execution result must be attached separately.",
+    "Production promotion requires real admitted model execution and media QC receipt."
+  ]
+}
