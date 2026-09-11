@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-LTX2-UPSTREAM-REFERENCE-2026-09-12",
+  "date": "2026-09-12",
+  "provider_id": "FA3-PROVIDER-LTX2-001",
+  "upstream_repository": "Lightricks/LTX-2",
+  "observed_commit": "a95ab856bf29407b6b066ede0abe1846050db56c",
+  "floating_main_for_promotion_evidence": false,
+  "observed_surfaces": [
+    "README.md",
+    "packages/ltx-pipelines/docs/installation.md",
+    "packages/ltx-pipelines/docs/multigpu/README.md",
+    "LICENSE",
+    "LICENSE-2",
+    "LICENSE-2_x"
+  ],
+  "observed_model_line": "LTX-2.3",
+  "upstream_primary_line": "LTX-2",
+  "legacy_predecessor": {
+    "repository": "Lightricks/LTX-Video",
+    "line": "0.9.8",
+    "fa3_treatment": "REFERENCE_OR_COMPATIBILITY_ONLY"
+  },
+  "admitted_upstream_claims": [
+    "LTX-2 is the primary upstream development home replacing legacy LTX-Video.",
+    "The observed pipeline surface includes text/image-to-video, distilled generation, IC-LoRA video-to-video, keyframe interpolation, audio-to-video, retake, HDR transformation and lip-dub pipelines.",
+    "The observed CLI surface supports CPU and disk offload plus FP8 quantization modes.",
+    "LTX-2 multi-GPU inference is single-machine and requires multiple CUDA GPUs with P2P access.",
+    "The upstream multi-GPU documentation states that multi-GPU is intended for latency reduction and does not allow a model that cannot fit on one GPU to fit by aggregating VRAM.",
+    "LTX-2.3 and earlier LTX-2 releases are subject to the January 5, 2026 LTX-2 Community License Agreement.",
+    "LTX-2.5 and future LTX-2.x releases under the newer license are subject to the August 11, 2026 LTX-2.x Community License Agreement."
+  ],
+  "fa3_interpretation": {
+    "provider_projection_only": true,
+    "new_video_authority": false,
+    "new_capability": false,
+    "current_host_runtime_promotion_claim": false,
+    "provider_native_pipeline_syntax_is_canonical": false,
+    "audio_only_t2a_is_video_capability": false,
+    "video_extension_current_ltx2_claim_verified": false,
+    "multi_gpu_vram_aggregation_allowed": false,
+    "fp8_universally_supported": false,
+    "license_admission_is_version_sensitive": true
+  },
+  "license_observations": {
+    "ltx_2_through_2_3": {
+      "document": "LICENSE-2",
+      "name": "LTX-2 Community License Agreement",
+      "license_date": "2026-01-05",
+      "commercial_entity_threshold_usd_annual_revenue": 10000000,
+      "at_or_above_threshold_requires_paid_commercial_use_license": true
+    },
+    "ltx_2_5_and_future_2_x": {
+      "document": "LICENSE-2_x",
+      "name": "LTX-2.x Community License Agreement",
+      "license_date": "2026-08-11",
+      "commercial_entity_threshold_usd_annual_revenue": 10000000,
+      "license_terms_differ_from_ltx_2_3": true,
+      "separate_admission_required": true
+    },
+    "third_party_spdx_components_may_exist": true,
+    "license_summary_is_not_legal_advice": true
+  },
+  "rejected_or_deferred_claims": [
+    "Do not represent RTX 3080 plus RTX A1000 VRAM as a combined model-fit pool.",
+    "Do not assume custom FP8 kernel support from legacy LTX-Video applies to Ampere or current LTX-2.",
+    "Do not place the audio-only t2a pipeline under FA3-VIDEO-001.",
+    "Do not claim current LTX-2 video extension support without an observed current pipeline surface.",
+    "Do not auto-admit LTX-2.5 or later based on LTX-2.3 license admission.",
+    "Do not promote runtime based only on upstream README, static tests, or model availability."
+  ],
+  "promotion_evidence_required": [
+    "exact_runtime_revision",
+    "exact_model_version_and_digest",
+    "exact_license_family_decision",
+    "host_resource_broker_admission",
+    "real_current_host_generation_receipt",
+    "qc_receipt",
+    "provenance_receipt"
+  ]
+}
