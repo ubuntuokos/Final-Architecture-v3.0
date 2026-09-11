@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ecc73af558f15d78ffad688bc389ac640a4951bc",
-    "pre_projection_root_tree_sha": "e80a3137a8cbd9dc415ea65fcef57cea0b309a5a",
-    "pre_projection_canonical_tree_sha": "d69e13e546e736bfc01e4eb6550cfe5a0f7147c5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 149,
-    "total_post_baseline_commits": 149,
-    "delta_file_count": 856,
-    "delta_added_files": 851,
+    "pre_projection_head_sha": "4f2c916c61c5a38edd24e47ab20f84405509dfb2",
+    "pre_projection_root_tree_sha": "600d42e2e62f693aa035a4c8211e815ee94e46cc",
+    "pre_projection_canonical_tree_sha": "89ef4f8e513eaaeed91ce73b1cf3d4f2fa3e27ed",
+    "commits_ahead_of_v3_0_11_conformance_commit": 159,
+    "total_post_baseline_commits": 159,
+    "delta_file_count": 859,
+    "delta_added_files": 854,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,9 +47,9 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 482,
     "evidence_files_in_post_baseline_delta": 94,
-    "source_files_in_post_baseline_delta": 97,
+    "source_files_in_post_baseline_delta": 98,
     "test_files_in_post_baseline_delta": 80,
-    "workflow_files_in_post_baseline_delta": 20,
+    "workflow_files_in_post_baseline_delta": 22,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -602,7 +602,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 856,
+  "manifest_entry_count": 859,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -637,6 +637,16 @@
     {
       "path": ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
       "git_blob_sha": "f2b9e375b444a31f7cf9067b881101e3ace4579a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-kdenlive-audio-conditioning-current-host.yml",
+      "git_blob_sha": "6c16f5d82a670122695ef627156f6ab7736e2f8a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-kdenlive-audio-conditioning.yml",
+      "git_blob_sha": "549d512c64a8eba314dfb0f436dfca226c973e24",
       "baseline_delta_status": "added"
     },
     {
@@ -1001,7 +1011,7 @@
     },
     {
       "path": "canonical/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.json",
-      "git_blob_sha": "52059a3804971ec81308cfd076df381c10701406",
+      "git_blob_sha": "6a07344b5fe5d8d487fb8fbd92488b8b3c16ce8b",
       "baseline_delta_status": "added"
     },
     {
@@ -4206,7 +4216,12 @@
     },
     {
       "path": "src/fa3_kdenlive_audio_gate.py",
-      "git_blob_sha": "9e2b49f88ec40792a2e50476ba28f35c3c8f846f",
+      "git_blob_sha": "394c6b8fc5504726f3facd220c9ac349e16e9ec4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_kdenlive_audio_job.py",
+      "git_blob_sha": "f71e831439c212e9af1b74030ac79b2f191ab458",
       "baseline_delta_status": "added"
     },
     {
@@ -4641,7 +4656,7 @@
     },
     {
       "path": "tests/test_kdenlive_audio_conditioning.py",
-      "git_blob_sha": "9f8b71e6cf112637c9024d454a0f4b63b1727abe",
+      "git_blob_sha": "c1182ec45f6693d7f0117c3bbc1262e0fa33e2e4",
       "baseline_delta_status": "added"
     },
     {
