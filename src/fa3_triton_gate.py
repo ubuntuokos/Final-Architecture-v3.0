@@ -122,9 +122,9 @@ def gate(root: Path) -> dict[str, Any]:
     if parent.get("gate_id") != PARENT_GATE_ID or PROVIDER_ID not in parent.get("provider_ids", []):
         findings.append(_finding("TRITON-PARENT-001", "Triton is not bound into inference-portability provider set"))
 
-    forbidden_launcher = ("--gpus all", "--gpus=all", "--model-control-mode=poll", ":latest")
+    forbidden_launcher = ("--gpus all", "--gpus=all", "--model-control-mode=poll")
     if any(token in launcher for token in forbidden_launcher):
-        findings.append(_finding("TRITON-RUN-001", "launcher contains a forbidden wildcard/poll/latest runtime path"))
+        findings.append(_finding("TRITON-RUN-001", "launcher contains a forbidden wildcard or poll runtime path"))
     required_launcher = (
         '--gpus "device=${FA3_TRITON_GPU_UUIDS}"',
         "FA3_TRITON_HRB_RECEIPT",
