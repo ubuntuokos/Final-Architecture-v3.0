@@ -1,17 +1,39 @@
 #!/usr/bin/env bash
 set -euo pipefail
 [[ ${EUID} -eq 0 ]] || { echo "Run as root" >&2; exit 2; }
+
 STATE_DIR=/var/lib/fa3/triton
 ENV_FILE=/etc/fa3/triton.env
+SERVICE_FILE=/etc/systemd/system/fa3-triton.service
+LAUNCHER=/usr/local/libexec/fa3-triton-start
+
 systemctl stop fa3-triton.service || true
+
+restored=0
 if [[ -f "$STATE_DIR/backups/last.env" ]]; then
   install -m 0600 "$STATE_DIR/backups/last.env" "$ENV_FILE"
-  systemctl daemon-reload
-  systemctl start fa3-triton.service
-  echo "PASS: previous Triton environment restored"
+  restored=1
 else
-  systemctl disable fa3-triton.service || true
   rm -f "$ENV_FILE"
-  systemctl daemon-reload
-  echo "PASS: Triton disabled; no prior environment existed"
+fi
+if [[ -f "$STATE_DIR/backups/last.service" ]]; then
+  install -m 0644 "$STATE_DIR/backups/last.service" "$SERVICE_FILE"
+  restored=1
+else
+  rm -f "$SERVICE_FILE"
+fi
+if [[ -f "$STATE_DIR/backups/last.launcher" ]]; then
+  install -m 0755 "$STATE_DIR/backups/last.launcher" "$LAUNCHER"
+  restored=1
+else
+  rm -f "$LAUNCHER"
+fi
+
+systemctl daemon-reload
+if [[ $restored -eq 1 && -f "$ENV_FILE" && -f "$SERVICE_FILE" && -x "$LAUNCHER" ]]; then
+  systemctl enable --now fa3-triton.service
+  echo "PASS: previous Triton runtime projection restored"
+else
+  systemctl disable fa3-triton.service 2>/dev/null || true
+  echo "PASS: Triton runtime projection removed; no complete previous deployment existed"
 fi
