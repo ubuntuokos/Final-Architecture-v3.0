@@ -62,9 +62,11 @@ def gate(root: Path) -> dict[str, Any]:
     launcher = paths["launcher"].read_text(encoding="utf-8")
     installer = paths["installer"].read_text(encoding="utf-8")
     service = paths["service"].read_text(encoding="utf-8")
+    rollback = paths["rollback"].read_text(encoding="utf-8")
 
     if not (
         provider.get("id") == PROVIDER_ID
+        and provider.get("provider_contract") == CONTRACT_ID
         and provider.get("parent_profile") == "FA3-INFERENCE-PORTABILITY-001"
         and provider.get("canonical_root") is False
         and provider.get("architectural_authority") is False
@@ -82,6 +84,24 @@ def gate(root: Path) -> dict[str, Any]:
     if provider.get("model_repository_semantics") != "NON_AUTHORITATIVE_IMMUTABLE_RUNTIME_PROJECTION":
         findings.append(_finding("TRITON-MODEL-001", "Triton repository is not constrained to a non-authoritative projection"))
 
+    if not (
+        contract.get("id") == CONTRACT_ID
+        and contract.get("provider_id") == PROVIDER_ID
+        and contract.get("new_capability") is False
+        and contract.get("new_architectural_authority") is False
+        and contract.get("capability_count") == CAPABILITY_COUNT
+    ):
+        findings.append(_finding("TRITON-CONTRACT-001", "provider contract identity/capability invariant drift"))
+
+    runtime_admission = contract.get("runtime_admission", {})
+    if not (
+        runtime_admission.get("immutable_container_digest_required") is True
+        and runtime_admission.get("floating_latest_forbidden") is True
+        and runtime_admission.get("image_admission_receipt_required") is True
+        and runtime_admission.get("backend_compatibility_receipt_required") is True
+    ):
+        findings.append(_finding("TRITON-ADMISSION-001", "digest/supply-chain/backend receipt admission is incomplete"))
+
     model_control = contract.get("model_control", {})
     if model_control.get("default_mode") != "none" or model_control.get("poll_mode") != "FORBIDDEN_PRODUCTION":
         findings.append(_finding("TRITON-CTRL-001", "model-control policy must default to none and forbid poll"))
@@ -91,8 +111,10 @@ def gate(root: Path) -> dict[str, Any]:
     placement = contract.get("device_placement", {})
     if placement.get("runtime_visibility") != "EXACT_HRB_GRANTED_SCOPE":
         findings.append(_finding("TRITON-HRB-001", "runtime visibility is not bound to exact HRB grant"))
-    if placement.get("all_devices_wildcard") != "FORBIDDEN":
-        findings.append(_finding("TRITON-HRB-002", "all-device wildcard is not forbidden"))
+    if placement.get("all_devices_wildcard") != "FORBIDDEN" or placement.get("runtime_gpu_index_is_canonical") is not False:
+        findings.append(_finding("TRITON-HRB-002", "wildcard/runtime-index placement boundary drift"))
+    if placement.get("runtime_ordinal_mapping_receipt_required") is not True:
+        findings.append(_finding("TRITON-HRB-003", "runtime ordinal mapping receipt is not required"))
 
     if not (
         decision.get("id") == DECISION_ID
@@ -127,8 +149,13 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(_finding("TRITON-RUN-001", "launcher contains a forbidden wildcard or poll runtime path"))
     required_launcher = (
         '--gpus "device=${FA3_TRITON_GPU_UUIDS}"',
+        "FA3_TRITON_IMAGE_ADMISSION_RECEIPT",
+        "FA3_TRITON_BACKEND_COMPAT_RECEIPT",
         "FA3_TRITON_HRB_RECEIPT",
         "FA3_TRITON_PLACEMENT_RECEIPT",
+        ".artifact_ref",
+        ".device_scope",
+        ".model_projection",
         ":/models:ro",
         "127.0.0.1:8000:8000",
         "127.0.0.1:8001:8001",
@@ -141,24 +168,39 @@ def gate(root: Path) -> dict[str, Any]:
         "no-new-privileges:true",
     )
     if any(token not in launcher for token in required_launcher):
-        findings.append(_finding("TRITON-RUN-002", "launcher is missing required HRB/read-only/loopback/hardening controls"))
+        findings.append(_finding("TRITON-RUN-002", "launcher is missing required admission/HRB/read-only/loopback controls"))
 
     forbidden_installer = ("apt-get ", "apt install", "nvidia-ctk runtime configure", "docker-ce")
     if any(token in installer for token in forbidden_installer):
         findings.append(_finding("TRITON-INSTALL-001", "provider materializer attempts to own host runtime installation"))
     required_installer = (
         "@sha256:[0-9a-f]{64}",
+        "FA3_TRITON_IMAGE_ADMISSION_RECEIPT",
+        "FA3_TRITON_BACKEND_COMPAT_RECEIPT",
         "FA3_TRITON_HRB_RECEIPT",
         "FA3_TRITON_PLACEMENT_RECEIPT",
         "/var/lib/fa3/evidence/outbox",
         "/v2/health/ready",
         "docker pull",
+        "last.service",
+        "last.launcher",
     )
     if any(token not in installer for token in required_installer):
-        findings.append(_finding("TRITON-INSTALL-002", "materializer is missing digest/receipt/readiness/evidence controls"))
+        findings.append(_finding("TRITON-INSTALL-002", "materializer is missing digest/receipt/readiness/evidence/rollback controls"))
 
-    if not all(token in service for token in ("Restart=on-failure", "StartLimitBurst=3", "NoNewPrivileges=yes", "ProtectSystem=strict")):
-        findings.append(_finding("TRITON-SYSTEMD-001", "systemd projection lacks bounded restart or hardening controls"))
+    if not all(token in service for token in (
+        "Restart=on-failure",
+        "StartLimitIntervalSec=300",
+        "StartLimitBurst=3",
+        "FA3_TRITON_IMAGE_ADMISSION_RECEIPT",
+        "FA3_TRITON_BACKEND_COMPAT_RECEIPT",
+        "NoNewPrivileges=yes",
+        "ProtectSystem=strict",
+    )):
+        findings.append(_finding("TRITON-SYSTEMD-001", "systemd projection lacks bounded restart/admission/hardening controls"))
+
+    if not all(token in rollback for token in ("last.env", "last.service", "last.launcher", "daemon-reload")):
+        findings.append(_finding("TRITON-ROLLBACK-001", "rollback does not restore/remove the complete runtime projection"))
 
     return _report(findings)
 
