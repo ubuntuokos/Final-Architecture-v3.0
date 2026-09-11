@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ab5e1eaf5cd5785238f4197e5e1a34df9621e059",
-    "pre_projection_root_tree_sha": "012b374b6945d1e3da6a8b39addad46ba24571db",
-    "pre_projection_canonical_tree_sha": "05a34afb91d46137432c4ebfad34c15b4847ed53",
-    "commits_ahead_of_v3_0_11_conformance_commit": 160,
-    "total_post_baseline_commits": 160,
-    "delta_file_count": 880,
-    "delta_added_files": 875,
+    "pre_projection_head_sha": "0a2962ed3cfad83efd9e145e52dcf93c6c0d3b52",
+    "pre_projection_root_tree_sha": "67f5ab6fde1dd145c5a1af84de29648efbc0dfcb",
+    "pre_projection_canonical_tree_sha": "af875029702e03f946958be3d3ac53a96cbe895f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 175,
+    "total_post_baseline_commits": 175,
+    "delta_file_count": 882,
+    "delta_added_files": 877,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "evidence_files_in_post_baseline_delta": 94,
     "source_files_in_post_baseline_delta": 98,
     "test_files_in_post_baseline_delta": 81,
-    "workflow_files_in_post_baseline_delta": 23,
+    "workflow_files_in_post_baseline_delta": 24,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -619,7 +619,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 880,
+  "manifest_entry_count": 882,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -718,7 +718,12 @@
     },
     {
       "path": ".github/workflows/fa3-triton-admission.yml",
-      "git_blob_sha": "aab1b73fecad09c04c2e5bea13e473ef6e0799fc",
+      "git_blob_sha": "dafb8afaf0c00965ac9d23cb2683107aff8209fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-triton-current-host.yml",
+      "git_blob_sha": "9cea5ec7d8236d6826c710fc7ece6fd54d08308a",
       "baseline_delta_status": "added"
     },
     {
@@ -1578,7 +1583,7 @@
     },
     {
       "path": "canonical/contracts/FA3-TRITON-INFERENCE-SERVER-CONTRACTS-001.json",
-      "git_blob_sha": "5f50ed2f5bd1c8f7923d8eeb0650ea62e9f14ce0",
+      "git_blob_sha": "8e7e8bb3713ab67861cfcb34f4bca423a5ac7d26",
       "baseline_delta_status": "added"
     },
     {
@@ -2973,7 +2978,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TRITON-001.json",
-      "git_blob_sha": "b79a0f63a4cde355012cdceb4ea8e423f763bbd5",
+      "git_blob_sha": "4249831ba302a5b8881388c0a768aacc93631c70",
       "baseline_delta_status": "added"
     },
     {
@@ -3502,28 +3507,33 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/triton/fa3-triton-current-host-e2e",
+      "git_blob_sha": "97f78417ee98e9a7f217349f376ad47ae74eb8b4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/triton/fa3-triton-start",
-      "git_blob_sha": "47561a7671124ac7367986bf02953fd6897454f1",
+      "git_blob_sha": "430eef47027a8f69c6f884d6cd9e33593ec728b1",
       "baseline_delta_status": "added"
     },
     {
       "path": "deployment/triton/fa3-triton.service",
-      "git_blob_sha": "968a1e9509ebe969e990248b1638cdd91bcaeca3",
+      "git_blob_sha": "7b1ffb026aafbb6512ba705d58c074017425ccf5",
       "baseline_delta_status": "added"
     },
     {
       "path": "deployment/triton/install-fa3-triton",
-      "git_blob_sha": "abe88b00df7c0b34abc64968dbad45225cb06889",
+      "git_blob_sha": "256e4c37b13fa15d73e5b64f55a1b6df5e88ea8a",
       "baseline_delta_status": "added"
     },
     {
       "path": "deployment/triton/rollback-fa3-triton",
-      "git_blob_sha": "c0c5d4c85132950228f1ea9a55bdf36e639446be",
+      "git_blob_sha": "320399a8dbb8d850e8045aa4de14ce78a9221a5d",
       "baseline_delta_status": "added"
     },
     {
       "path": "deployment/triton/triton.env.example",
-      "git_blob_sha": "84b9bc93b230fdea808c3d6044d9ce5cbd984fd2",
+      "git_blob_sha": "f39f5ba80430c7046b723b31ea6a280bdf620647",
       "baseline_delta_status": "added"
     },
     {
@@ -4568,7 +4578,7 @@
     },
     {
       "path": "src/fa3_triton_gate.py",
-      "git_blob_sha": "96aaddd015be3202b107be28bc6de945dd0d1573",
+      "git_blob_sha": "7841cdeaae1ecc1dbf45033134da75ad80e009fc",
       "baseline_delta_status": "added"
     },
     {
