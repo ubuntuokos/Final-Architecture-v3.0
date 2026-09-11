@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-TRITON-001",
+  "name": "NVIDIA Triton Inference Server",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_MULTI_BACKEND_INFERENCE_SERVING_RUNTIME_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "INFERENCE_SERVING_RUNTIME",
+    "MULTI_BACKEND_SERVING_PROVIDER",
+    "HTTP_GRPC_LOCAL_SERVICE_PROJECTION",
+    "NVIDIA_GPU_AND_CPU_EXECUTION_HOST"
+  ],
+  "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
+  "parent_contract": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+  "provider_contract": "FA3-TRITON-INFERENCE-SERVER-CONTRACTS-001",
+  "upstream_repository": "triton-inference-server/server",
+  "upstream_snapshot_commit": "4bfa70178f37730a81af5934bd84359e7fc08213",
+  "observed_release": "2.72.0",
+  "observed_ngc_release": "26.08-py3",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "model_registry_and_identity": "FA3-MODEL-REGISTRY-001",
+    "model_lifecycle": "FA3-MODEL-MANAGER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_and_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "supported_backend_provider_projections": [
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-OPENVINO-001"
+  ],
+  "model_repository_semantics": "NON_AUTHORITATIVE_IMMUTABLE_RUNTIME_PROJECTION",
+  "model_control_policy": {
+    "default": "NONE_STATIC_IMMUTABLE",
+    "dynamic": "EXPLICIT_ONLY_WHEN_MODEL_MANAGER_AUTHORIZED",
+    "poll": "FORBIDDEN_PRODUCTION"
+  },
+  "device_visibility": "HRB_GRANTED_ACCELERATOR_SCOPE_ONLY",
+  "network_boundary": "LOOPBACK_ONLY_BEHIND_CANONICAL_GATEWAY_BY_DEFAULT",
+  "runtime_image_policy": "DIGEST_PINNED_ADMITTED_IMAGE_REQUIRED",
+  "production_pin_policy": "IMMUTABLE_VALIDATED_RELEASE_AND_CONTAINER_DIGEST_REQUIRED_AT_ADMISSION",
+  "current_host_production_evidence": "PENDING_REAL_CURRENT_HOST_E2E"
+}
