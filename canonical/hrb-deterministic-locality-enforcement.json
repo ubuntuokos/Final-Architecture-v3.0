@@ -5,15 +5,22 @@
   "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
   "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
   "decision_id": "FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02",
+  "subdecision_ids": [
+    "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+  ],
+  "subgate_ids": [
+    "FA3-PAGE-CACHE-PREFETCH-GATESET-001"
+  ],
   "provider_ids": [
     "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
     "FA3-PROVIDER-XANMOD-001",
-    "FA3-PROVIDER-SCHED-EXT-001"
+    "FA3-PROVIDER-SCHED-EXT-001",
+    "FA3-PROVIDER-PRELOAD-001"
   ],
   "capability_count": 143,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
-  "mandatory_rule_count": 34,
+  "mandatory_rule_count": 46,
   "p0_invariants": [
     "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
     "TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY",
@@ -48,213 +55,67 @@
     "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED",
     "FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT",
     "HARDWARE_TOPOLOGY_MUST_BE_REVALIDATED_AT_ADMISSION",
-    "NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN"
+    "NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN",
+    "FILESYSTEM_PAGE_CACHE_REMAINS_PRIMARY",
+    "PREFETCH_PROVIDER_IS_NON_AUTHORITY",
+    "NO_GLOBAL_PREFETCH_MAGIC_CONSTANTS",
+    "VIRTUAL_DEVICE_FILESYSTEMS_MUST_NOT_BE_PREFETCHED",
+    "BROAD_HOME_TREE_PREFETCH_NOT_DEFAULT",
+    "LARGE_MODEL_BLIND_PREFETCH_FORBIDDEN",
+    "NO_PERIODIC_DROP_CACHES_OPTIMIZATION",
+    "PREFETCH_REQUIRES_COLD_WARM_BENCHMARK_SEPARATION",
+    "PREFETCH_REQUIRES_IO_AND_MEMORY_PRESSURE_EVIDENCE",
+    "PREFETCH_CONFIGURATION_MUST_BE_ROLLBACKABLE",
+    "PREFETCH_MUST_NOT_OVERRIDE_HRB_PLACEMENT",
+    "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST"
   ],
   "rules": [
-    {
-      "id": "HRB-LOC-001",
-      "invariant": "HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-002",
-      "invariant": "TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-003",
-      "invariant": "GPU_RUNTIME_INDEX_IS_NOT_CANONICAL_IDENTITY",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-004",
-      "invariant": "ACCELERATOR_UUID_AND_PCI_BDF_IDENTITY_REQUIRED_WHEN_AVAILABLE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-005",
-      "invariant": "PRODUCTION_ACCELERATOR_ROUTING_FAIL_CLOSED",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-006",
-      "invariant": "NO_IMPLICIT_DISPLAY_COMPUTE_OR_COMPUTE_ACCELERATOR_FALLBACK",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-007",
-      "invariant": "CPU_MEMORY_ACCELERATOR_PLACEMENT_IS_ONE_TYPED_POLICY",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-008",
-      "invariant": "EXPLICIT_NUMA_PINNING_DISALLOWS_COMPETING_AUTOMATIC_NUMA_MIGRATION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-009",
-      "invariant": "COMPUTE_AND_HOUSEKEEPING_DOMAINS_MUST_BE_DISTINGUISHABLE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-010",
-      "invariant": "IRQ_PLACEMENT_MUST_BE_LOCALITY_AWARE_WHEN_TOPOLOGY_SUPPORTS_IT",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-011",
-      "invariant": "CGROUP_CPUSET_IS_PRIMARY_GENERAL_LINUX_RUNTIME_ISOLATION_PROJECTION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-012",
-      "invariant": "BOOT_TIME_CPU_ISOLATION_IS_SPECIALIZED_NOT_GENERAL_BASELINE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-013",
-      "invariant": "APPLICATIONS_CONSUME_HRB_PLACEMENT_AND_MUST_NOT_CREATE_PARALLEL_RESOURCE_AUTHORITY",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-014",
-      "invariant": "ADMISSION_QUEUE_CONCURRENCY_MUST_BE_BOUNDED_AND_BACKPRESSURED",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-015",
-      "invariant": "MODEL_RESIDENCY_AND_EVICTION_POLICY_MUST_BE_EXPLICIT",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-016",
-      "invariant": "COMPRESSED_SWAP_IS_PRESSURE_SAFETY_NOT_NORMAL_ACCELERATOR_MEMORY_TIER",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-017",
-      "invariant": "THP_HUGETLB_ZRAM_SYSCTL_VALUES_ARE_WORKLOAD_AND_HOST_POLICY_NOT_GLOBAL_MAGIC_CONSTANTS",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-018",
-      "invariant": "PDS_BMQ_MUQSS_PREEMPT_RT_NOT_REQUIRED_PRODUCTION_BASELINE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-019",
-      "invariant": "SCHED_EXT_PROVIDER_IS_OPTIONAL_EXPERIMENTAL_AND_ROLLBACKABLE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-020",
-      "invariant": "PLACEMENT_REQUIRES_VERIFICATION_AND_EVIDENCE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-021",
-      "invariant": "P50_P95_P99_AND_TAIL_LATENCY_TELEMETRY_REQUIRED_FOR_LATENCY_PROFILE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-022",
-      "invariant": "KERNEL_SCHEDULER_NUMA_IRQ_HUGEPAGE_ZRAM_SYSCTL_CHANGES_REQUIRE_ROLLBACK_PATH",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-023",
-      "invariant": "SYSTEMD_MANAGER_GLOBAL_RESOURCE_DEFAULTS_MUST_REMAIN_NEUTRAL_UNLESS_EXPLICIT_HOST_SURVIVAL_POLICY_REQUIRES_CHANGE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-024",
-      "invariant": "GLOBAL_SYSTEMD_MANAGER_CPUAFFINITY_AND_NUMA_POLICY_MUST_NOT_REPLACE_HRB_PLACEMENT",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-025",
-      "invariant": "UNBOUNDED_TASK_NPROC_MEMLOCK_LIMITS_FOR_AI_WORKLOADS_ARE_FORBIDDEN_AS_GLOBAL_MANAGER_DEFAULTS",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-026",
-      "invariant": "MEMORY_PRESSURE_OBSERVABILITY_MUST_NOT_BE_DISABLED_TO_HIDE_RESOURCE_EXHAUSTION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-027",
-      "invariant": "OOM_POLICY_MUST_BE_WORKLOAD_SCOPED_AND_MUST_NOT_USE_GLOBAL_CONTINUE_AS_AI_BASELINE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-028",
-      "invariant": "RESTART_AND_TIMEOUT_POLICY_MUST_BE_BOUNDED_PER_SERVICE_AND_MUST_NOT_CREATE_RESTART_STORMS",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-029",
-      "invariant": "GLOBAL_LOW_LATENCY_TIMER_ACCURACY_MUST_NOT_BE_USED_AS_AI_PERFORMANCE_BASELINE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-030",
-      "invariant": "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-031",
-      "invariant": "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-032",
-      "invariant": "FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-033",
-      "invariant": "HARDWARE_TOPOLOGY_MUST_BE_REVALIDATED_AT_ADMISSION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "id": "HRB-LOC-034",
-      "invariant": "NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN",
-      "priority": "P0",
-      "mandatory": true
-    }
+    {"id":"HRB-LOC-001","invariant":"HRB_REMAINS_EXCLUSIVE_HOST_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-002","invariant":"TOPOLOGY_DISCOVERY_IS_NOT_PLACEMENT_AUTHORITY","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-003","invariant":"GPU_RUNTIME_INDEX_IS_NOT_CANONICAL_IDENTITY","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-004","invariant":"ACCELERATOR_UUID_AND_PCI_BDF_IDENTITY_REQUIRED_WHEN_AVAILABLE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-005","invariant":"PRODUCTION_ACCELERATOR_ROUTING_FAIL_CLOSED","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-006","invariant":"NO_IMPLICIT_DISPLAY_COMPUTE_OR_COMPUTE_ACCELERATOR_FALLBACK","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-007","invariant":"CPU_MEMORY_ACCELERATOR_PLACEMENT_IS_ONE_TYPED_POLICY","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-008","invariant":"EXPLICIT_NUMA_PINNING_DISALLOWS_COMPETING_AUTOMATIC_NUMA_MIGRATION","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-009","invariant":"COMPUTE_AND_HOUSEKEEPING_DOMAINS_MUST_BE_DISTINGUISHABLE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-010","invariant":"IRQ_PLACEMENT_MUST_BE_LOCALITY_AWARE_WHEN_TOPOLOGY_SUPPORTS_IT","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-011","invariant":"CGROUP_CPUSET_IS_PRIMARY_GENERAL_LINUX_RUNTIME_ISOLATION_PROJECTION","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-012","invariant":"BOOT_TIME_CPU_ISOLATION_IS_SPECIALIZED_NOT_GENERAL_BASELINE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-013","invariant":"APPLICATIONS_CONSUME_HRB_PLACEMENT_AND_MUST_NOT_CREATE_PARALLEL_RESOURCE_AUTHORITY","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-014","invariant":"ADMISSION_QUEUE_CONCURRENCY_MUST_BE_BOUNDED_AND_BACKPRESSURED","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-015","invariant":"MODEL_RESIDENCY_AND_EVICTION_POLICY_MUST_BE_EXPLICIT","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-016","invariant":"COMPRESSED_SWAP_IS_PRESSURE_SAFETY_NOT_NORMAL_ACCELERATOR_MEMORY_TIER","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-017","invariant":"THP_HUGETLB_ZRAM_SYSCTL_VALUES_ARE_WORKLOAD_AND_HOST_POLICY_NOT_GLOBAL_MAGIC_CONSTANTS","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-018","invariant":"PDS_BMQ_MUQSS_PREEMPT_RT_NOT_REQUIRED_PRODUCTION_BASELINE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-019","invariant":"SCHED_EXT_PROVIDER_IS_OPTIONAL_EXPERIMENTAL_AND_ROLLBACKABLE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-020","invariant":"PLACEMENT_REQUIRES_VERIFICATION_AND_EVIDENCE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-021","invariant":"P50_P95_P99_AND_TAIL_LATENCY_TELEMETRY_REQUIRED_FOR_LATENCY_PROFILE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-022","invariant":"KERNEL_SCHEDULER_NUMA_IRQ_HUGEPAGE_ZRAM_SYSCTL_CHANGES_REQUIRE_ROLLBACK_PATH","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-023","invariant":"SYSTEMD_MANAGER_GLOBAL_RESOURCE_DEFAULTS_MUST_REMAIN_NEUTRAL_UNLESS_EXPLICIT_HOST_SURVIVAL_POLICY_REQUIRES_CHANGE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-024","invariant":"GLOBAL_SYSTEMD_MANAGER_CPUAFFINITY_AND_NUMA_POLICY_MUST_NOT_REPLACE_HRB_PLACEMENT","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-025","invariant":"UNBOUNDED_TASK_NPROC_MEMLOCK_LIMITS_FOR_AI_WORKLOADS_ARE_FORBIDDEN_AS_GLOBAL_MANAGER_DEFAULTS","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-026","invariant":"MEMORY_PRESSURE_OBSERVABILITY_MUST_NOT_BE_DISABLED_TO_HIDE_RESOURCE_EXHAUSTION","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-027","invariant":"OOM_POLICY_MUST_BE_WORKLOAD_SCOPED_AND_MUST_NOT_USE_GLOBAL_CONTINUE_AS_AI_BASELINE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-028","invariant":"RESTART_AND_TIMEOUT_POLICY_MUST_BE_BOUNDED_PER_SERVICE_AND_MUST_NOT_CREATE_RESTART_STORMS","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-029","invariant":"GLOBAL_LOW_LATENCY_TIMER_ACCURACY_MUST_NOT_BE_USED_AS_AI_PERFORMANCE_BASELINE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-030","invariant":"PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-031","invariant":"DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-032","invariant":"FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-033","invariant":"HARDWARE_TOPOLOGY_MUST_BE_REVALIDATED_AT_ADMISSION","priority":"P0","mandatory":true},
+    {"id":"HRB-LOC-034","invariant":"NEWER_RTX_GENERATION_MUST_NOT_BE_REJECTED_BY_EXACT_MODEL_PIN","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-001","invariant":"FILESYSTEM_PAGE_CACHE_REMAINS_PRIMARY","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-002","invariant":"PREFETCH_PROVIDER_IS_NON_AUTHORITY","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-003","invariant":"NO_GLOBAL_PREFETCH_MAGIC_CONSTANTS","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-004","invariant":"VIRTUAL_DEVICE_FILESYSTEMS_MUST_NOT_BE_PREFETCHED","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-005","invariant":"BROAD_HOME_TREE_PREFETCH_NOT_DEFAULT","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-006","invariant":"LARGE_MODEL_BLIND_PREFETCH_FORBIDDEN","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-007","invariant":"NO_PERIODIC_DROP_CACHES_OPTIMIZATION","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-008","invariant":"PREFETCH_REQUIRES_COLD_WARM_BENCHMARK_SEPARATION","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-009","invariant":"PREFETCH_REQUIRES_IO_AND_MEMORY_PRESSURE_EVIDENCE","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-010","invariant":"PREFETCH_CONFIGURATION_MUST_BE_ROLLBACKABLE","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-011","invariant":"PREFETCH_MUST_NOT_OVERRIDE_HRB_PLACEMENT","priority":"P0","mandatory":true},
+    {"id":"HRB-PREFETCH-012","invariant":"DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST","priority":"P0","mandatory":true}
   ],
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
