@@ -27,8 +27,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Syntax check
+      - name: Python syntax check
         run: python -m py_compile src/fa3_triton_gate.py tests/test_triton_gate.py
+      - name: Shell syntax check
+        run: |
+          bash -n bin/fa3-triton-gate
+          bash -n deployment/triton/fa3-triton-start
+          bash -n deployment/triton/install-fa3-triton
+          bash -n deployment/triton/rollback-fa3-triton
       - name: Triton regression tests
         run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_triton_gate.py' -v
       - name: Triton executable gate
