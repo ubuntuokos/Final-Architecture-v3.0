@@ -64,6 +64,8 @@
       "adapter_compatibility_regression_required": true,
       "audio_path_regression_required": true,
       "current_host_e2e_required": true,
+      "mainline_int8_capability": "DISCOVERED_REQUIRES_COMPATIBILITY_REGRESSION",
+      "legacy_i8fast_tensor_conversion_validation_required": true,
       "known_open_compatibility_risks": [
         "Comfy-Org/ComfyUI#15960",
         "Comfy-Org/ComfyUI#15970"
@@ -81,15 +83,58 @@
       "current_host_e2e_required": true
     },
     "vllm": {
-      "status": "PRODUCTION_INTEGRATION_TARGET",
-      "projection": "LOCAL_SERVICE_EXECUTION_ADAPTER",
-      "model_variants": [
-        "FL2VA",
-        "Ref2VA"
-      ],
+      "status": "RESTRICTED_NOT_END_TO_END_H3_TARGET",
+      "projection": "AUTOREGRESSIVE_OR_TEXT_SIDE_ONLY_NOT_NATIVE_H3_DIT_SERVING",
+      "end_to_end_h3_dit_serving": false,
+      "silent_substitution_for_vllm_omni_forbidden": true,
+      "production_h3_target": false
+    },
+    "vllm_omni": {
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "projection": "END_TO_END_H3_LOCAL_SERVING_CANDIDATE",
+      "upstream_24gb_reference_variant": "pruned_int8_convrot",
       "requires_host_resource_broker_for_local_accelerator": true,
       "immutable_runtime_version_pin_required": true,
-      "current_host_e2e_required": true
+      "license_and_terms_admission_required": true,
+      "artifact_trust_required": true,
+      "backend_compatibility_evidence_required": true,
+      "current_host_e2e_required": true,
+      "automatic_promotion": false
+    }
+  },
+  "discovered_local_execution_candidates": {
+    "diffsynth_studio": {
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "projection": "H3_LOCAL_PIPELINE_CANDIDATE",
+      "upstream_resource_claims_are_reference_only": true,
+      "current_host_e2e_required": true,
+      "automatic_promotion": false
+    },
+    "lightx2v": {
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "projection": "H3_LOCAL_ACCELERATION_CANDIDATE",
+      "current_host_e2e_required": true,
+      "automatic_promotion": false
+    },
+    "nvidia_sol_attn": {
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "projection": "H3_GPU_KERNEL_ACCELERATION_CANDIDATE",
+      "governing_contract": "FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001",
+      "host_resource_broker_required": true,
+      "kernel_compatibility_and_correctness_evidence_required": true,
+      "automatic_promotion": false
+    },
+    "vdn_h3": {
+      "status": "DISCOVERED_NOT_ADMITTED",
+      "projection": "SEPARATE_H3_DERIVED_MODEL_ARCHITECTURE_CANDIDATE",
+      "source_repo": "OpenVDN/vdn-minimax-h3",
+      "code_license_reference": "Apache-2.0",
+      "weight_license_authority": "MINIMAX_H3_COMMUNITY_LICENSE",
+      "separate_model_artifact_admission_required": true,
+      "quality_and_provenance_regression_required": true,
+      "upstream_performance_claims_are_reference_only": true,
+      "current_host_e2e_required": true,
+      "automatic_promotion": false
     }
   },
   "service_access_policy": {
@@ -186,8 +231,9 @@
     "secrets": "EXISTING_FA3_SECRETS_AUTHORITY",
     "billing_entitlement": "PROVIDER_DISCOVERY_INPUT_NOT_ARCHITECTURAL_AUTHORITY"
   },
-  "implementation_status": "SGLANG_VLLM_DIFFUSERS_COMFYUI_PROJECTION_TARGETS_REGISTERED_PROMPT_SKILL_REFERENCE_REGISTERED_SERVICE_ACCESS_POLICY_HARDENED_RUNTIME_ADMISSION_MATERIALIZED_CURRENT_HOST_E2E_PENDING_NOT_YET_CURRENT_HOST_PROMOTED",
+  "implementation_status": "SGLANG_DIFFUSERS_COMFYUI_PRODUCTION_PROJECTIONS_RETAINED_VLLM_END_TO_END_H3_PROJECTION_CORRECTED_VLLM_OMNI_AND_INTEGRATION_INDEX_CANDIDATES_REGISTERED_FAIL_CLOSED_PROMPT_SKILL_REFERENCE_REGISTERED_SERVICE_ACCESS_POLICY_HARDENED_RUNTIME_ADMISSION_MATERIALIZED_CURRENT_HOST_E2E_PENDING_NOT_YET_CURRENT_HOST_PROMOTED",
   "upstream_reference": "FA3-MINIMAX-H3-UPSTREAM-REFERENCE-2026-08-30",
+  "integration_index_reference": "FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12",
   "service_reference": "FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07",
   "prompt_knowledge_adapter": {
     "id": "FA3-H3-PROMPT-KNOWLEDGE-001",
