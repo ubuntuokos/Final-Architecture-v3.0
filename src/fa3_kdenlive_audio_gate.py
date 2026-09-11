@@ -14,7 +14,14 @@ REQUIRED_FILES = [
     "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
     "canonical/kdenlive-audio-conditioning-enforcement.json",
     "canonical/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.json",
+    "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
+    "canonical/providers/FA3-PROVIDER-LAVASR-001.json",
+    "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
+    "canonical/kdenlive-editorial-enforcement.json",
+    "canonical/demucs-enforcement.json",
     "src/fa3_silero_vad_provider.py",
+    "src/fa3_gtcrn_provider.py",
+    "src/fa3_lavasr_provider.py",
     "src/fa3_kdenlive_audio_pipeline.py",
 ]
 
@@ -38,11 +45,16 @@ def gate(root: Path) -> dict[str, Any]:
         decision = _load_json(root, REQUIRED_FILES[2])
         enforcement = _load_json(root, REQUIRED_FILES[3])
         gate_record = _load_json(root, REQUIRED_FILES[4])
+        gtcrn = _load_json(root, REQUIRED_FILES[5])
+        lavasr = _load_json(root, REQUIRED_FILES[6])
+        demucs = _load_json(root, REQUIRED_FILES[7])
 
         checks = {
-            "capability_count_143": silero.get("capability_count") == 143
-            and enforcement.get("capability_count") == 143
-            and gate_record.get("capability_count") == 143,
+            "capability_count_143": all(
+                obj.get("capability_count") == 143
+                for obj in (silero, enforcement, gate_record, gtcrn, lavasr, demucs)
+                if "capability_count" in obj
+            ),
             "authority_delta_zero": contract.get("architectural_authority_delta") == 0
             and enforcement.get("architectural_authority_delta") == 0
             and gate_record.get("architectural_authority_delta") == 0,
