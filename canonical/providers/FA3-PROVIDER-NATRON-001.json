@@ -2,8 +2,12 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-NATRON-001",
   "name": "NatronGitHub/Natron",
+  "version": "1.1.0",
   "status": "ACCEPTED_REFERENCE",
   "parent_profile": "FA3-COMPOSITING-001",
+  "additional_profiles": [
+    "FA3-STANDARD-OPENFX-001"
+  ],
   "provider_role": "OPTIONAL_NODE_BASED_COMPOSITING_REFERENCE_PROVIDER_AND_PATTERN_SOURCE",
   "canonical_root": false,
   "architectural_authority": false,
@@ -12,11 +16,29 @@
   "capability_count": 143,
   "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
   "global_runtime_promotion_required_when_disabled": false,
+  "upstream": {
+    "repository": "https://github.com/NatronGitHub/Natron",
+    "branch": "RB-2.6",
+    "declared_version": "2.6.0",
+    "immutable_commit": "3763d805d7d277d10af10025ae41af677682b3e6",
+    "license": "GPL-2.0-or-later",
+    "license_file_sha256": "2a91027307410797b226e00b3bc4ca6160d8114898fb70ef779629c262591a88"
+  },
+  "openfx_host_capability": {
+    "documented_api_version": "1.4",
+    "openfx_1_5_specific_suites_attested": false,
+    "suite_discovery_required_per_job": true,
+    "headless_renderer": "NatronRenderer",
+    "color_management": "OpenColorIO"
+  },
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_OPENFX_HOST_PLUGIN_E2E",
   "invariants": [
     "OPENFX_PLUGIN_SURFACE_NOT_CANONICAL_AUTHORITY",
     "NATRON_PROJECT_FORMAT_IS_PROVIDER_PROJECTION",
     "RENDER_PROVENANCE_REQUIRED",
     "PLUGIN_ADMISSION_REQUIRES_SUPPLY_CHAIN_EVIDENCE"
+    ,"OPENFX_API_AND_SUITE_NEGOTIATION_REQUIRED"
+    ,"NATRON_DOES_NOT_ATTEST_OPENFX_1_5_ONLY_SUITES"
   ],
   "prohibited_authorities": [
     "editorial_timeline",

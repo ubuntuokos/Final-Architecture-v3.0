@@ -1,0 +1,79 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STANDARD-OPENFX-001",
+  "name": "OpenFX Provider-Neutral VFX Plug-in Interoperability Standard Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-CANONICAL-INTEROPERABILITY-PROFILE-WHEN-IMAGE-EFFECT-PLUGINS-ARE-USED",
+  "profile_type": "VFX_PLUGIN_INTEROPERABILITY_STANDARD_PROFILE",
+  "canonical_root": false,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-COMPOSITING-001"
+  },
+  "capability_bindings": [
+    "CAP-071",
+    "CAP-126"
+  ],
+  "contracts": [
+    "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001"
+  ],
+  "standard_identity": {
+    "name": "OpenFX Image Effect Plug-in API",
+    "current_reference_version": "1.5.1",
+    "release_tag": "OFX_Release_1.5.1",
+    "immutable_commit": "ab779510b2655b4d11a7e01e5c521f9aa8c88976",
+    "license": "BSD-3-Clause",
+    "standard_is_architectural_authority": false
+  },
+  "interoperability_policy": {
+    "canonical_effect_intent_provider_neutral": true,
+    "host_and_plugin_capability_negotiation_required": true,
+    "required_api_and_suites_declared_per_job": true,
+    "missing_required_suite_action": "FAIL_CLOSED",
+    "silent_version_or_suite_downgrade": false,
+    "host_project_format_is_canonical_ir": false,
+    "plugin_parameter_serialization_is_canonical_ir": false
+  },
+  "capability_classes": {
+    "baseline": [
+      "core",
+      "property",
+      "image_effect",
+      "parameter",
+      "memory",
+      "message",
+      "multithread"
+    ],
+    "discover_before_use": [
+      "colour_management",
+      "draw_suite",
+      "cpu_render_declaration",
+      "thumbnail_render",
+      "cuda_render",
+      "opencl_render",
+      "metal_render"
+    ]
+  },
+  "provider_model": {
+    "reference_host_provider": "FA3-PROVIDER-NATRON-001",
+    "reference_host_is_mandatory_runtime": false,
+    "host_and_plugin_packages_replaceable": true,
+    "disabled_provider_runtime_cost": "ZERO_OR_NEAR_ZERO"
+  },
+  "authority_bindings": {
+    "security_and_plugin_admission": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resource_admission_and_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "evidence_and_provenance": "FA3-AUTH-OBS-EVIDENCE-001",
+    "workflow_lifecycle": "FA3-TEMPORAL-001",
+    "human_editorial": "AUTH-HUMAN"
+  },
+  "baseline_effect": {
+    "new_capability": false,
+    "new_architectural_authority": false,
+    "capability_count_after": 143
+  },
+  "runtime_status": "CANONICAL_STANDARD_REFERENCE_PASS_CURRENT_HOST_OPENFX_E2E_PENDING"
+}
