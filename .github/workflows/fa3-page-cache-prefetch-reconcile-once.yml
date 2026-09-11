@@ -1,0 +1,39 @@
+name: FA3 Page Cache Prefetch Reconcile Once
+
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.event.pull_request.head.ref == 'fa3/page-cache-prefetch-closure-2026-09-11' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3/page-cache-prefetch-closure-2026-09-11
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare Evidence Registry and remove one-shot workflow
+        run: |
+          python tools/fa3_page_cache_prefetch_global_reconcile.py --prepare-only
+          rm .github/workflows/fa3-page-cache-prefetch-reconcile-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add evidence/evidence-registry.json .github/workflows/fa3-page-cache-prefetch-reconcile-once.yml
+          git commit -m 'FA3: reconcile page-cache evidence registry'
+          git push origin HEAD:fa3/page-cache-prefetch-closure-2026-09-11
+      - name: Regenerate unified release and inventory projection
+        run: |
+          SNAPSHOT="$(git rev-parse HEAD)"
+          python tools/fa3_page_cache_prefetch_global_reconcile.py --projection-only --snapshot-head "$SNAPSHOT"
+          python src/fa3_release_projection_gate.py --root .
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m 'FA3: reconcile page-cache global release projection'
+          git push origin HEAD:fa3/page-cache-prefetch-closure-2026-09-11
