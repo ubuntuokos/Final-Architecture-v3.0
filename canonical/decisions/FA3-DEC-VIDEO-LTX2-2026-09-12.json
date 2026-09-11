@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VIDEO-LTX2-2026-09-12",
+  "date": "2026-09-12",
+  "status": "ACCEPTED",
+  "scope": "FA3-VIDEO-001",
+  "subject": "Lightricks LTX-2 provider admission and LTX-Video legacy treatment",
+  "decision": "ADOPT_LTX2_AS_NON_AUTHORITATIVE_FAIL_CLOSED_VIDEO_PROVIDER_PROJECTION",
+  "canonical_semantics_changed": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "provider_id": "FA3-PROVIDER-LTX2-001",
+  "reference_id": "FA3-LTX2-UPSTREAM-REFERENCE-2026-09-12",
+  "promotion_state": "PROVIDER_POLICY_CANONICAL_RUNTIME_PENDING_CURRENT_HOST_E2E",
+  "rationale": [
+    "LTX-2 exposes useful text/image/video conditioning, synchronized audio-video, retake, keyframe interpolation, lip-dub, IC-LoRA and upscale pipelines that project into the existing provider-neutral FA3 video contracts.",
+    "The existing VideoGenerationIR, VideoRegenerationIntent, TemporalEditDescriptor, AudioDialoguePlan, AudioSceneDescriptor and AVSyncConstraint already cover the admitted semantics, so no new capability or authority is justified.",
+    "LTX multi-GPU inference is documented as a latency optimization rather than a memory aggregation mechanism, so FA3 must not model heterogeneous GPU VRAM as additive capacity.",
+    "LTX model and code use is governed by version-sensitive Lightricks community licenses; exact-version license admission must remain fail closed and separate from technical conformance.",
+    "Current-host production promotion requires real local E2E generation, QC and provenance evidence and cannot be inferred from upstream documentation or static conformance."
+  ],
+  "adopted": [
+    "LTX-2 provider projection under FA3-VIDEO-001",
+    "native ltx-pipelines as an integration target",
+    "ComfyUI integration through the existing FA3 ComfyUI boundary",
+    "text-to-video and image-to-video projection",
+    "video-to-video and IC-LoRA reference/control conditioning",
+    "keyframe interpolation",
+    "retake/context-aware regeneration projection",
+    "audio-to-video and synchronized audio-video projection",
+    "lip-dub/re-voicing projection without voice-identity authority",
+    "spatial and temporal upscale projection",
+    "CPU offload as preferred VRAM-constrained fallback and disk offload as secondary fallback",
+    "exact-version license and artifact admission before runtime activation"
+  ],
+  "not_adopted_as_canonical": [
+    "provider-native prompt or pipeline syntax",
+    "LTX as video semantic authority",
+    "LTX as workflow or model-routing authority",
+    "LTX multi-GPU as VRAM aggregation",
+    "audio-only t2a pipeline inside the video authority",
+    "unverified current-generation video extension capability",
+    "floating upstream main as runtime promotion evidence",
+    "automatic license inheritance from LTX-2.3 to LTX-2.5 or later",
+    "unconditional FP8 support on all NVIDIA GPUs"
+  ],
+  "legacy_policy": {
+    "LTX-Video_0_9_8": "REFERENCE_OR_COMPATIBILITY_ONLY",
+    "separate_canonical_provider_record": false,
+    "reason": "LTX-2 is the upstream primary development line and legacy LTX-Video capabilities must not create a parallel FA3 authority or duplicate provider semantics."
+  },
+  "runtime_promotion_requirements": [
+    "immutable_upstream_and_runtime_pin_pass",
+    "exact_model_artifact_identity_and_digest_pass",
+    "exact_version_license_admission_pass",
+    "artifact_trust_pass",
+    "host_resource_broker_admission_pass",
+    "adapter_conformance_pass",
+    "real_current_host_video_e2e_pass",
+    "audio_visual_qc_pass_when_audio_is_requested",
+    "provenance_evidence_pass"
+  ],
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_execution_claim": false,
+  "acceptance": {
+    "provider_registered": true,
+    "provider_non_authoritative": true,
+    "capability_count_unchanged": true,
+    "license_fail_closed": true,
+    "multi_gpu_memory_aggregation_forbidden": true,
+    "static_executable_regression_gate_required": true,
+    "policy_reference_evidence_required": true,
+    "real_current_host_e2e_still_required_for_runtime_promotion": true
+  }
+}
