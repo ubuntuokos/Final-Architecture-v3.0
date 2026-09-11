@@ -13,6 +13,11 @@ GATE_ID = "FA3-GATE-TRITON-001"
 PARENT_GATE_ID = "FA3-INFERENCE-PORTABILITY-GATESET-001"
 CAPABILITY_COUNT = 143
 EXPECTED_RULES = 17
+DEVICE_MODE = "NVIDIA_GPU_HRB_SCOPED_V1"
+ADMITTED_BACKENDS = {
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+}
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -47,6 +52,8 @@ def gate(root: Path) -> dict[str, Any]:
         "installer": root / "deployment/triton/install-fa3-triton",
         "service": root / "deployment/triton/fa3-triton.service",
         "rollback": root / "deployment/triton/rollback-fa3-triton",
+        "e2e": root / "deployment/triton/fa3-triton-current-host-e2e",
+        "current_host_workflow": root / ".github/workflows/fa3-triton-current-host.yml",
     }
     for name, path in paths.items():
         if not path.exists():
@@ -63,6 +70,8 @@ def gate(root: Path) -> dict[str, Any]:
     installer = paths["installer"].read_text(encoding="utf-8")
     service = paths["service"].read_text(encoding="utf-8")
     rollback = paths["rollback"].read_text(encoding="utf-8")
+    e2e = paths["e2e"].read_text(encoding="utf-8")
+    current_host_workflow = paths["current_host_workflow"].read_text(encoding="utf-8")
 
     if not (
         provider.get("id") == PROVIDER_ID
@@ -75,8 +84,11 @@ def gate(root: Path) -> dict[str, Any]:
         and provider.get("capability_count") == CAPABILITY_COUNT
         and provider.get("requirement") == "MUST-IF-SELECTED"
         and provider.get("activation_mode") == "OPTIONAL_DISABLED_BY_DEFAULT"
+        and provider.get("runtime_projection_device_mode") == DEVICE_MODE
+        and set(provider.get("admitted_backend_provider_projections_v1", [])) == ADMITTED_BACKENDS
+        and provider.get("current_host_production_evidence") == "PENDING_REAL_CURRENT_HOST_E2E"
     ):
-        findings.append(_finding("TRITON-REF-002", "provider authority/capability/classification invariant drift"))
+        findings.append(_finding("TRITON-REF-002", "provider authority/capability/GPU-v1 classification invariant drift"))
 
     boundaries = provider.get("authority_boundaries", {})
     if PROVIDER_ID in boundaries.values():
@@ -90,8 +102,10 @@ def gate(root: Path) -> dict[str, Any]:
         and contract.get("new_capability") is False
         and contract.get("new_architectural_authority") is False
         and contract.get("capability_count") == CAPABILITY_COUNT
+        and contract.get("runtime_projection_device_mode") == DEVICE_MODE
+        and set(contract.get("admitted_backend_provider_projections_v1", [])) == ADMITTED_BACKENDS
     ):
-        findings.append(_finding("TRITON-CONTRACT-001", "provider contract identity/capability invariant drift"))
+        findings.append(_finding("TRITON-CONTRACT-001", "provider contract identity/capability/GPU-v1 invariant drift"))
 
     runtime_admission = contract.get("runtime_admission", {})
     if not (
@@ -101,6 +115,10 @@ def gate(root: Path) -> dict[str, Any]:
         and runtime_admission.get("backend_compatibility_receipt_required") is True
     ):
         findings.append(_finding("TRITON-ADMISSION-001", "digest/supply-chain/backend receipt admission is incomplete"))
+
+    repository = contract.get("model_repository", {})
+    if repository.get("projection_digest_binding_required_before_start") is not True:
+        findings.append(_finding("TRITON-MODEL-002", "model projection digest is not required before start"))
 
     model_control = contract.get("model_control", {})
     if model_control.get("default_mode") != "none" or model_control.get("poll_mode") != "FORBIDDEN_PRODUCTION":
@@ -113,8 +131,21 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(_finding("TRITON-HRB-001", "runtime visibility is not bound to exact HRB grant"))
     if placement.get("all_devices_wildcard") != "FORBIDDEN" or placement.get("runtime_gpu_index_is_canonical") is not False:
         findings.append(_finding("TRITON-HRB-002", "wildcard/runtime-index placement boundary drift"))
-    if placement.get("runtime_ordinal_mapping_receipt_required") is not True:
-        findings.append(_finding("TRITON-HRB-003", "runtime ordinal mapping receipt is not required"))
+    if not (
+        placement.get("runtime_ordinal_mapping_receipt_required") is True
+        and placement.get("cpu_execution_in_v1_projection") == "FORBIDDEN"
+        and placement.get("future_cpu_projection") == "REQUIRES_SEPARATE_ADMISSION"
+    ):
+        findings.append(_finding("TRITON-HRB-003", "GPU-v1 ordinal/CPU separation policy drift"))
+
+    evidence = contract.get("evidence", {})
+    if not (
+        evidence.get("deployment_receipt_required") is True
+        and evidence.get("current_host_e2e_receipt_required_for_production_promotion") is True
+        and evidence.get("static_ci_can_claim_current_host_production") is False
+        and evidence.get("current_host_activation_requires_real_e2e") is True
+    ):
+        findings.append(_finding("TRITON-EVIDENCE-001", "real current-host promotion evidence policy drift"))
 
     if not (
         decision.get("id") == DECISION_ID
@@ -156,6 +187,10 @@ def gate(root: Path) -> dict[str, Any]:
         ".artifact_ref",
         ".device_scope",
         ".model_projection",
+        ".model_projection_digest",
+        ".runtime_ordinal_map",
+        "FA3-PROVIDER-TENSORRT-001",
+        "FA3-PROVIDER-ONNXRUNTIME-001",
         ":/models:ro",
         "127.0.0.1:8000:8000",
         "127.0.0.1:8001:8001",
@@ -168,7 +203,7 @@ def gate(root: Path) -> dict[str, Any]:
         "no-new-privileges:true",
     )
     if any(token not in launcher for token in required_launcher):
-        findings.append(_finding("TRITON-RUN-002", "launcher is missing required admission/HRB/read-only/loopback controls"))
+        findings.append(_finding("TRITON-RUN-002", "launcher is missing required admission/HRB/projection/backend/hardening controls"))
 
     forbidden_installer = ("apt-get ", "apt install", "nvidia-ctk runtime configure", "docker-ce")
     if any(token in installer for token in forbidden_installer):
@@ -179,6 +214,8 @@ def gate(root: Path) -> dict[str, Any]:
         "FA3_TRITON_BACKEND_COMPAT_RECEIPT",
         "FA3_TRITON_HRB_RECEIPT",
         "FA3_TRITON_PLACEMENT_RECEIPT",
+        ".model_projection_digest",
+        ".runtime_ordinal_map",
         "/var/lib/fa3/evidence/outbox",
         "/v2/health/ready",
         "docker pull",
@@ -186,7 +223,7 @@ def gate(root: Path) -> dict[str, Any]:
         "last.launcher",
     )
     if any(token not in installer for token in required_installer):
-        findings.append(_finding("TRITON-INSTALL-002", "materializer is missing digest/receipt/readiness/evidence/rollback controls"))
+        findings.append(_finding("TRITON-INSTALL-002", "materializer is missing digest/receipt/projection/readiness/evidence/rollback controls"))
 
     if not all(token in service for token in (
         "Restart=on-failure",
@@ -201,6 +238,31 @@ def gate(root: Path) -> dict[str, Any]:
 
     if not all(token in rollback for token in ("last.env", "last.service", "last.launcher", "daemon-reload")):
         findings.append(_finding("TRITON-ROLLBACK-001", "rollback does not restore/remove the complete runtime projection"))
+
+    required_e2e = (
+        "systemctl is-active --quiet fa3-triton.service",
+        "/v2/health/ready",
+        '/v2/models/${FA3_TRITON_E2E_MODEL}/ready',
+        '/v2/models/${FA3_TRITON_E2E_MODEL}/infer',
+        "current_host_execution:true",
+        "synthetic_fixture:false",
+        "production_promotion_claimed:false",
+        "deployment_receipt_digest",
+        "request_digest",
+        "response_digest",
+    )
+    if any(token not in e2e for token in required_e2e):
+        findings.append(_finding("TRITON-E2E-001", "current-host E2E collector cannot prove a real non-synthetic inference receipt"))
+
+    required_workflow = (
+        "workflow_dispatch:",
+        "RUN TRITON CURRENT HOST E2E",
+        "runs-on: [self-hosted, linux, x64, fa3-current-host]",
+        "fa3-triton-current-host-e2e",
+        "if-no-files-found: error",
+    )
+    if any(token not in current_host_workflow for token in required_workflow):
+        findings.append(_finding("TRITON-E2E-002", "current-host workflow is not explicit/manual/fail-closed on the FA3 runner"))
 
     return _report(findings)
 
