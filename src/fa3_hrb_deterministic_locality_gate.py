@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_page_cache_prefetch_gate import gate as page_cache_prefetch_gate
+
 PROFILE = "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json"
 CONTRACT = "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json"
 ENFORCEMENT = "canonical/hrb-deterministic-locality-enforcement.json"
@@ -14,6 +16,7 @@ PROVIDERS = [
     "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json",
     "canonical/providers/FA3-PROVIDER-XANMOD-001.json",
     "canonical/providers/FA3-PROVIDER-SCHED-EXT-001.json",
+    "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
 ]
 GATE_ID = "FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001"
 CAPABILITY_COUNT = 143
@@ -33,6 +36,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     enforcement = loadj(root, ENFORCEMENT)
     decision = loadj(root, DECISION)
     providers = [loadj(root, path) for path in PROVIDERS]
+    page_cache_ref = page_cache_prefetch_gate(root)
 
     invariants = set(contract.get("invariants", []))
     enforced = set(enforcement.get("p0_invariants", []))
@@ -72,8 +76,10 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("per-workload-projection-change-control", manager_policy.get("resource_tuning_scope") == "PER_SERVICE_SLICE_OR_SCOPE_FROM_HRB_RECEIPT" and "ResourcePolicyChangeSet" in contracts and "PER_WORKLOAD_SYSTEMD_CGROUP_PROJECTION_REQUIRES_HRB_RECEIPT_SEMANTIC_DIFF_ROLLBACK_AND_EVIDENCE" in invariants, "per-workload projection requires HRB receipt, semantic diff, rollback and evidence"),
         check("xanmod-optional", "FA3-PROVIDER-XANMOD-001" in provider_ids and providers[1].get("status") == "OPTIONAL_REFERENCE_PROVIDER", "XanMod is optional reference"),
         check("sched-ext-experimental", "FA3-PROVIDER-SCHED-EXT-001" in provider_ids and providers[2].get("status") == "EXPERIMENTAL_REFERENCE_PROVIDER", "sched_ext remains experimental"),
+        check("preload-optional", "FA3-PROVIDER-PRELOAD-001" in provider_ids and providers[3].get("status") == "OPTIONAL_REFERENCE_PROVIDER" and providers[3].get("new_architectural_authority") is False, "preload is optional non-authoritative page-cache projection"),
         check("legacy-schedulers-not-baseline", all(x in decision.get("explicitly_not_baseline", []) for x in ["PDS", "BMQ", "MuQSS", "PREEMPT_RT"]), "legacy/RT schedulers are not required baseline"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 34 and len(enforcement.get("rules", [])) == 34 and invariants == enforced, "all 30 contract invariants enforced fail-closed"),
+        check("page-cache-prefetch-subgate", page_cache_ref.get("result") == "PASS" and page_cache_ref.get("gateset_id") == "FA3-PAGE-CACHE-PREFETCH-GATESET-001", "provider-neutral page-cache/prefetch subgate passes and is bound below HRB"),
+        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 46 and len(enforcement.get("rules", [])) == 46 and invariants == enforced, "all 46 HRB contract invariants are enforced fail-closed"),
         check("current-host-claim-honest", enforcement.get("current_host_runtime_promotion_claim") is False and "REFERENCE_CONFORMANCE_ONLY" in decision.get("current_host_claim", ""), "no uncollected current-host locality PASS is claimed"),
     ]
     passed = all(c["status"] == "PASS" for c in checks)
