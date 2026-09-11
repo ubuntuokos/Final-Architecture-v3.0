@@ -10,7 +10,9 @@ readonly config_dir="${HOME}/.config/fa3"
 readonly config_file="$config_dir/sillytavern-kde.env"
 readonly expected_commit="51ad27fb86d39a3daca3adaa970375c9670c12df"
 readonly expected_entry_blob="6126ef45ca881e30e7fceb134270dfb52d883b4b"
-readonly expected_lock_blob="de71cacfc097733f36d79f103bfd9fb2686778a6"
+readonly expected_electron_lock_blob="de71cacfc097733f36d79f103bfd9fb2686778a6"
+readonly expected_root_lock_blob="95b4dbc33c62829e2aff383f286889ebdcc15ffd"
+readonly expected_root_npmrc_blob="2143f3df2fc935fce293d1ee5b3c073fd187e135"
 
 load_config() {
   [[ -r "$config_file" ]] || {
@@ -24,7 +26,7 @@ load_config() {
 
 verify_source() {
   load_config
-  local root actual_commit entry_blob lock_blob
+  local root actual_commit entry_blob electron_lock_blob root_lock_blob root_npmrc_blob
   root=$(readlink -f -- "$SILLYTAVERN_ROOT")
   [[ -d "$root/.git" ]] || { printf 'FA3 SillyTavern KDE: not a git checkout: %s\n' "$root" >&2; exit 65; }
   actual_commit=$(git -C "$root" rev-parse HEAD)
@@ -33,9 +35,18 @@ verify_source() {
     exit 65
   }
   entry_blob=$(git -C "$root" hash-object "$root/src/electron/index.js")
-  lock_blob=$(git -C "$root" hash-object "$root/src/electron/package-lock.json")
-  [[ "$entry_blob" == "$expected_entry_blob" && "$lock_blob" == "$expected_lock_blob" ]] || {
-    printf 'FA3 SillyTavern KDE: Electron entrypoint/lockfile pin mismatch.\n' >&2
+  electron_lock_blob=$(git -C "$root" hash-object "$root/src/electron/package-lock.json")
+  root_lock_blob=$(git -C "$root" hash-object "$root/package-lock.json")
+  root_npmrc_blob=$(git -C "$root" hash-object "$root/.npmrc")
+  [[ "$entry_blob" == "$expected_entry_blob" \
+     && "$electron_lock_blob" == "$expected_electron_lock_blob" \
+     && "$root_lock_blob" == "$expected_root_lock_blob" \
+     && "$root_npmrc_blob" == "$expected_root_npmrc_blob" ]] || {
+    printf 'FA3 SillyTavern KDE: source/dependency identity mismatch.\n' >&2
+    exit 65
+  }
+  grep -qx 'ignore-scripts=true' "$root/.npmrc" || {
+    printf 'FA3 SillyTavern KDE: root npm script-suppression policy missing.\n' >&2
     exit 65
   }
   printf '%s\n' "$root"
@@ -72,7 +83,16 @@ prepare_deps() {
   command -v npm >/dev/null 2>&1 || { printf 'FA3 SillyTavern KDE: npm is required for explicit dependency preparation.\n' >&2; exit 69; }
   local root
   root=$(verify_source)
-  printf 'FA3 SillyTavern KDE: preparing pinned Electron dependencies for %s\n' "$root"
+  printf 'FA3 SillyTavern KDE: preparing pinned server runtime dependencies for %s\n' "$root"
+  (
+    cd "$root"
+    npm ci --omit=dev --no-audit --no-fund --loglevel=error --no-progress
+  )
+  [[ -r "$root/node_modules/express/package.json" ]] || {
+    printf 'FA3 SillyTavern KDE: server runtime dependency set missing after preparation.\n' >&2
+    exit 70
+  }
+  printf 'FA3 SillyTavern KDE: preparing pinned Electron wrapper dependencies.\n'
   (
     cd "$root/src/electron"
     npm ci --no-audit --no-fund --loglevel=error --no-progress
