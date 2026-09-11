@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "89230af3a9e9607ef471b5709e62f51eea98e771",
-    "pre_projection_root_tree_sha": "73243aa4f7eec6d92554c5af58d18943952ef35b",
-    "pre_projection_canonical_tree_sha": "8e0435715f55fa69c4dcc220f471321e5232dda6",
-    "commits_ahead_of_v3_0_11_conformance_commit": 144,
-    "total_post_baseline_commits": 144,
-    "delta_file_count": 885,
-    "delta_added_files": 880,
+    "pre_projection_head_sha": "d9870716953c014da77f0bfe2c1f938e7633f341",
+    "pre_projection_root_tree_sha": "f79f048591c91eb739552c26fe13c0d9fd230f9e",
+    "pre_projection_canonical_tree_sha": "427da14e10631893dda0c7afe83ed7dc455df931",
+    "commits_ahead_of_v3_0_11_conformance_commit": 153,
+    "total_post_baseline_commits": 153,
+    "delta_file_count": 892,
+    "delta_added_files": 887,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 497,
-    "evidence_files_in_post_baseline_delta": 95,
-    "source_files_in_post_baseline_delta": 98,
-    "test_files_in_post_baseline_delta": 82,
+    "canonical_files_in_post_baseline_delta": 501,
+    "evidence_files_in_post_baseline_delta": 96,
+    "source_files_in_post_baseline_delta": 99,
+    "test_files_in_post_baseline_delta": 83,
     "workflow_files_in_post_baseline_delta": 23,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -115,6 +115,7 @@
       "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
+      "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
       "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
       "canonical/providers/FA3-PROVIDER-QWEN3-TTS-001.json",
@@ -325,6 +326,7 @@
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
+      "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
@@ -444,6 +446,7 @@
       "evidence/reference/openhands-ci-2026-09-01.json",
       "evidence/reference/openvid-ci-2026-09-04.json",
       "evidence/reference/openyak-ci-2026-09-05.json",
+      "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/pytorch3d-reference-pass.json",
@@ -622,7 +625,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 885,
+  "manifest_entry_count": 892,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -841,7 +844,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "1d068ffced2c31eb249f3635c35a8268e83489a0",
+      "git_blob_sha": "a8e3c99fef39447f106f843ed074050a2aae8884",
       "baseline_delta_status": "modified"
     },
     {
@@ -1127,6 +1130,11 @@
     {
       "path": "canonical/FA3-GATE-OPENYAK-001.json",
       "git_blob_sha": "ada4c8c745217f22218b2bf323bc245f29c8617b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-PAGE-CACHE-PREFETCH-001.json",
+      "git_blob_sha": "aa248b164e079727b1453744092d3ff69e191f5d",
       "baseline_delta_status": "added"
     },
     {
@@ -1456,7 +1464,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "1d2f52ad93147986a019e30e5a3c0d58cd5162f8",
+      "git_blob_sha": "928e09441dd3a15cf452d310fdc2ae2760e46df5",
       "baseline_delta_status": "added"
     },
     {
@@ -1985,6 +1993,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
+      "git_blob_sha": "d40df46553dda7564afad30ea23aa303844ebbf4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "git_blob_sha": "1c427c0ca9d11d059858a50cf95d51a0730d0d7a",
       "baseline_delta_status": "added"
@@ -2136,7 +2149,7 @@
     },
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
-      "git_blob_sha": "24f51add045dfc5e8d740d4e6141ed198c66f004",
+      "git_blob_sha": "526bfa1875cd8a9187247e2aa23396a8b654b4e7",
       "baseline_delta_status": "added"
     },
     {
@@ -2345,6 +2358,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/page-cache-prefetch-enforcement.json",
+      "git_blob_sha": "470d1efa60311feb67f23d026a59989c5dd00d09",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/policies/FA3-AI-IMAGE-EDITING-HARDWARE-ADMISSION-001.json",
       "git_blob_sha": "3b598a22ec26192912a3c41e633c79d256cd8ccb",
       "baseline_delta_status": "added"
@@ -2436,7 +2454,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "dfc080320c3457a9dc1d69390b6e38aafa155e8f",
+      "git_blob_sha": "0c7fc0ad192d55333afb005dcfb8da6526d0ab64",
       "baseline_delta_status": "added"
     },
     {
@@ -2892,6 +2910,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
       "git_blob_sha": "2c22d5cd4daf072c2fe3aa6aab17ce2d71ba3e0c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
+      "git_blob_sha": "9e918c80efc84810ce6c95c3412af1c56744b32f",
       "baseline_delta_status": "added"
     },
     {
@@ -4005,6 +4028,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
+      "git_blob_sha": "543996523721d4f904c5190cf82416a66d9a49d9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "git_blob_sha": "30bea2433234ee7b52424db6f7b5ddbf6077dd68",
       "baseline_delta_status": "added"
@@ -4316,7 +4344,7 @@
     },
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
-      "git_blob_sha": "7da2b956962db144606c42bc54f6d22f0a5d47f5",
+      "git_blob_sha": "3f58dcd7b61f53d63679536216fcc9e337fc7fbc",
       "baseline_delta_status": "added"
     },
     {
@@ -4527,6 +4555,11 @@
     {
       "path": "src/fa3_openyak_gate.py",
       "git_blob_sha": "8b23d3a2df5a2599c0c0821c23fcddaef83c6dda",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_page_cache_prefetch_gate.py",
+      "git_blob_sha": "6db3a8d8cd9a6fad14f32b594731ba0fc7657d8b",
       "baseline_delta_status": "added"
     },
     {
@@ -4761,7 +4794,7 @@
     },
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
-      "git_blob_sha": "3d3e282cfd1125ed913ece46c6a0d25f7bce4c89",
+      "git_blob_sha": "d6eba9a62ebedb58b23ede4d6316d42b37916e76",
       "baseline_delta_status": "added"
     },
     {
@@ -4947,6 +4980,11 @@
     {
       "path": "tests/test_openyak_gate.py",
       "git_blob_sha": "37bdd97b84aad21e0c46f4172b9f1ac1e1754c18",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_page_cache_prefetch_gate.py",
+      "git_blob_sha": "d82b48804badd8e8728d9997f29f2be8e5d8007c",
       "baseline_delta_status": "added"
     },
     {
