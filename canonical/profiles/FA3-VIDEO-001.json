@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VIDEO-001",
   "name": "Multimodal Generative Video, Reference Conditioning, Cinematic Control & Hybrid Execution Profile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -13,7 +13,7 @@
   "contracts": ["FA3-VIDEO-CONTRACTS-001", "FA3-MMG-CONTEXT-IR-CONTRACTS-001", "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001", "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"],
   "dependencies": ["FA3-CONTRACT-001", "FA3-SCS-001", "FA3-STORY-001", "FA3-VOICE-001", "FA3-DCC-RT3D-001", "FA3-HOST-RESOURCE-BROKER-001"],
   "overlays": ["FA3-MEDIA-FINISH-001"],
-  "providers": ["FA3-PROVIDER-KLING-001", "FA3-PROVIDER-SEEDANCE-001", "FA3-PROVIDER-MINIMAX-H3-001", "FA3-PROVIDER-STABILITY-SGM-001", "FA3-PROVIDER-OPEN-SORA-PLAN-001", "FA3-PROVIDER-HELIOS-001"],
+  "providers": ["FA3-PROVIDER-KLING-001", "FA3-PROVIDER-SEEDANCE-001", "FA3-PROVIDER-MINIMAX-H3-001", "FA3-PROVIDER-STABILITY-SGM-001", "FA3-PROVIDER-OPEN-SORA-PLAN-001", "FA3-PROVIDER-HELIOS-001", "FA3-PROVIDER-LTX2-001"],
   "authority": {
     "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
