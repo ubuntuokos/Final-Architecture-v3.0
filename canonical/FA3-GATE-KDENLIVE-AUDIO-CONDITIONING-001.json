@@ -1,0 +1,17 @@
+{
+  "id": "FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001",
+  "version": "1.0.0",
+  "status": "ACTIVE",
+  "gate_type": "EXECUTABLE_REGRESSION_GATE",
+  "entrypoint": "python3 src/fa3_kdenlive_audio_gate.py",
+  "tests": ["pytest -q tests/test_kdenlive_audio_conditioning.py"],
+  "fail_closed": true,
+  "capability_count": 143,
+  "architectural_authority_delta": 0,
+  "promotion_policy": {
+    "static_reference_gate_can_pass": true,
+    "static_reference_gate_does_not_imply_production_promotion": true,
+    "production_requires_current_host_e2e": true,
+    "production_state_until_real_receipt": "PENDING_CURRENT_HOST"
+  }
+}
