@@ -35,6 +35,7 @@ jobs:
           bash -n deployment/triton/fa3-triton-start
           bash -n deployment/triton/install-fa3-triton
           bash -n deployment/triton/rollback-fa3-triton
+          bash -n deployment/triton/fa3-triton-current-host-e2e
       - name: Triton regression tests
         run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_triton_gate.py' -v
       - name: Triton executable gate
