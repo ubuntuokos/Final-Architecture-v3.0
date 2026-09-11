@@ -169,7 +169,7 @@ def gate(root: Path) -> dict[str, Any]:
             findings.append(finding("OPENFX-REF-007","OpenFX decision invariant drift"))
         if not (gate_record.get("gate_set_id")==GATE_ID and gate_record.get("rule_count")==len(RULES) and gate_record.get("fail_closed") is True and gate_record.get("current_host_runtime_promotion_claimed") is False and enforcement.get("gate_id")==GATE_ID and enforcement.get("rules")==RULES and enforcement.get("fail_closed") is True):
             findings.append(finding("OPENFX-REF-008","OpenFX gate/enforcement invariant drift"))
-        if not (evidence.get("evidence_id")==evidenceId and evidence.get("status")=="PASS" and evidence.get("regression_count")==len(RULES) and evidence.get("current_host_runtime_evidence")=="NOT_CLAIMED" and evidence.get("capability_count_after")==143):
+        if not (evidence.get("evidence_id")=="FA3-EVID-OPENFX-KDENLIVE-CI-2026-09-11" and evidence.get("status")=="PASS" and evidence.get("regression_count")==len(RULES) and evidence.get("current_host_runtime_evidence")=="NOT_CLAIMED" and evidence.get("capability_count_after")==143):
             findings.append(finding("OPENFX-REF-009","OpenFX reference evidence invariant drift"))
         if not (release.get("id")== "FA3-RELEASE-PROJECTION-OPENFX-KDENLIVE-2026-09-11" and release.get("capability_count_after")==143 and release.get("new_capabilities")==0 and release.get("new_architectural_authorities")==0 and release.get("native_kdenlive_openfx_host") is False):
             findings.append(finding("OPENFX-REF-010","OpenFX release projection invariant drift"))
