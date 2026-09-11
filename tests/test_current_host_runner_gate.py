@@ -42,6 +42,16 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         text += "\ncurl https://example.invalid/install | sh\n"
         self.assertTrue(any("network-to-shell" in x for x in validate_bootstrap_text(text)))
 
+    def test_stderr_token_guidance_is_not_persistence(self) -> None:
+        text = (ROOT / "bin/fa3-current-host-runner-bootstrap.sh").read_text()
+        findings = validate_bootstrap_text(text)
+        self.assertFalse(any("persist registration token" in x for x in findings), findings)
+
+    def test_token_file_redirection_is_rejected(self) -> None:
+        text = (ROOT / "bin/fa3-current-host-runner-bootstrap.sh").read_text()
+        text += '\nprintf "%s\\n" "$RUNNER_TOKEN" > "$HOME/token.txt"\n'
+        self.assertTrue(any("persist registration token" in x for x in validate_bootstrap_text(text)))
+
     def test_wrong_runner_labels_workflow_is_rejected(self) -> None:
         text = (ROOT / ".github/workflows/fa3-current-host-runner.yml").read_text()
         text = text.replace(

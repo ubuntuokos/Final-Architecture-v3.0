@@ -103,7 +103,11 @@ def validate_bootstrap_text(text: str) -> list[str]:
             errors.append(f"bootstrap missing: {needle}")
     if re.search(r"curl[^\n|]*\|\s*(?:sh|bash)\b", text):
         errors.append("bootstrap contains network-to-shell pipeline")
-    if re.search(r"(?:echo|printf)[^\n]*(?:RUNNER_TOKEN|FA3_GITHUB_RUNNER_TOKEN)[^\n]*>", text):
+    token_write = re.compile(
+        r"(?:echo|printf)[^\n]*(?:RUNNER_TOKEN|FA3_GITHUB_RUNNER_TOKEN)[^\n]*"
+        r"(?:(?:>>?)(?!&)|\|\s*tee\b)"
+    )
+    if token_write.search(text):
         errors.append("bootstrap may persist registration token")
     return errors
 
