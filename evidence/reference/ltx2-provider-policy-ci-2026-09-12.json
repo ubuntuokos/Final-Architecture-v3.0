@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-LTX2-PROVIDER-POLICY-2026-09-12",
+  "date": "2026-09-12",
+  "status": "PASS",
+  "profile_id": "FA3-VIDEO-001",
+  "provider_id": "FA3-PROVIDER-LTX2-001",
+  "decision_id": "FA3-DEC-VIDEO-LTX2-2026-09-12",
+  "reference_id": "FA3-LTX2-UPSTREAM-REFERENCE-2026-09-12",
+  "gate_test": "tests/test_ltx2_provider.py",
+  "evidence_class": "CANONICAL_POLICY_STATIC_EXECUTABLE_CONFORMANCE_ONLY",
+  "assertions": [
+    {
+      "id": "LTX2-001",
+      "result": "PASS",
+      "assertion": "LTX-2 is registered as a non-authoritative provider projection under FA3-VIDEO-001 without new capabilities or architectural authorities."
+    },
+    {
+      "id": "LTX2-002",
+      "result": "PASS",
+      "assertion": "LTX-2 capabilities project into existing provider-neutral video, regeneration and audio-video contract types rather than introducing provider-native canonical IR."
+    },
+    {
+      "id": "LTX2-003",
+      "result": "PASS",
+      "assertion": "The audio-only t2a pipeline is explicitly excluded from FA3-VIDEO-001 provider claims."
+    },
+    {
+      "id": "LTX2-004",
+      "result": "PASS",
+      "assertion": "Legacy LTX-Video 0.9.8 is reference/compatibility-only and does not become a duplicate canonical provider."
+    },
+    {
+      "id": "LTX2-005",
+      "result": "PASS",
+      "assertion": "Multi-GPU execution is modeled as a latency optimization, never as additive VRAM or a model-fit mechanism."
+    },
+    {
+      "id": "LTX2-006",
+      "result": "PASS",
+      "assertion": "CPU offload, disk offload and FP8 behavior are runtime-admitted policies rather than unconditional hardware assumptions."
+    },
+    {
+      "id": "LTX2-007",
+      "result": "PASS",
+      "assertion": "LTX-2.3 and LTX-2.5+ license families are distinguished and exact-version license admission fails closed."
+    },
+    {
+      "id": "LTX2-008",
+      "result": "PASS",
+      "assertion": "The USD 10,000,000 annual-revenue commercial-entity threshold is represented as an admission condition rather than ignored or generalized as a permissive license."
+    },
+    {
+      "id": "LTX2-009",
+      "result": "PASS",
+      "assertion": "Native LTX pipelines and ComfyUI are integration targets and do not become parallel FA3 workflow, routing, host-resource or evidence authorities."
+    },
+    {
+      "id": "LTX2-010",
+      "result": "PASS",
+      "assertion": "Runtime promotion remains blocked until real current-host E2E generation, QC and provenance evidence pass."
+    }
+  ],
+  "passed": 10,
+  "total": 10,
+  "current_host_runtime_promotion_claim": false,
+  "provider_runtime_execution_claim": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "runtime_state": "PENDING_CURRENT_HOST"
+}
