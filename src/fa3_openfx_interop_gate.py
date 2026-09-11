@@ -113,7 +113,7 @@ def regression_cases() -> list[dict[str, Any]]:
     cases=[]
     def add(rule: str, positive: bool, negative: bool):
         cases.append({"rule":rule,"positive":bool(positive),"negative_refusal":bool(negative),"result":"PASS" if positive and negative else "FAIL"})
-    add(RULES[0], provider_id_is_not_native(), not provider_id_is_native())
+    add(RULES[0], not provider_id_is_native(), provider_id_is_native("IN_PROCESS_NATIVE"))
     add(RULES[1], True, True)
     add(RULES[2], CAPABILITY_COUNT==143, CAPABILITY_COUNT!=144)
     add(RULES[3], contract_timeline_is_otio(), not contract_timeline_is_otio("Kdenlive XML"))
@@ -140,9 +140,9 @@ def provider_id_is_native(value: str|None=None) -> bool:
 def contract_timeline_is_otio(value: str|None=None) -> bool:
     return value == "OpenTimelineIO" if value else True
 def provider_kdenlive_primary(value: str|None=None) -> bool:
-    return value != "OpenFX" if value else True
+    return value in (None, "KDENLIVE")
 def provider_mode_is_intermediate(value: str|None=None) -> bool:
-    return value != "IN_PROCESS_NATIVE" if value else True
+    return value in (None, "EXTERNAL_HOST_TO_HASHED_INTERMEDIATE")
 
 def gate(root: Path) -> dict[str, Any]:
     findings=[]
