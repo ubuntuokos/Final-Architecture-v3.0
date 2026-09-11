@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+: "${FA3_TRITON_E2E_MODEL:?set FA3_TRITON_E2E_MODEL}"
+: "${FA3_TRITON_E2E_REQUEST:?set FA3_TRITON_E2E_REQUEST to an inference JSON request}"
+
+DEPLOYMENT_RECEIPT="${FA3_TRITON_DEPLOYMENT_RECEIPT:-/var/lib/fa3/evidence/outbox/triton-deployment-receipt.json}"
+OUT="${FA3_TRITON_E2E_RECEIPT_OUT:-/var/lib/fa3/evidence/outbox/triton-current-host-e2e.json}"
+BASE="${FA3_TRITON_HTTP_BASE:-http://127.0.0.1:8000}"
+
+for cmd in curl jq sha256sum systemctl; do
+  command -v "$cmd" >/dev/null || { echo "DENY: prerequisite missing: $cmd" >&2; exit 10; }
+done
+[[ -r "$FA3_TRITON_E2E_REQUEST" ]] || { echo "DENY: inference request missing" >&2; exit 11; }
+[[ -r "$DEPLOYMENT_RECEIPT" ]] || { echo "DENY: deployment receipt missing" >&2; exit 12; }
+
+systemctl is-active --quiet fa3-triton.service || { echo "DENY: fa3-triton.service is not active" >&2; exit 13; }
+jq -e '.provider_id == "FA3-PROVIDER-TRITON-001" and .readiness_result == "PASS" and .current_host_execution == true' \
+  "$DEPLOYMENT_RECEIPT" >/dev/null || { echo "DENY: deployment receipt is not a real current-host PASS" >&2; exit 14; }
+
+curl -fsS "$BASE/v2/health/ready" >/dev/null || { echo "DENY: Triton server not ready" >&2; exit 15; }
+curl -fsS "$BASE/v2/models/${FA3_TRITON_E2E_MODEL}/ready" >/dev/null || { echo "DENY: requested model not ready" >&2; exit 16; }
+
+response="$(mktemp)"
+trap 'rm -f "$response"' EXIT
+curl -fsS \
+  -H 'Content-Type: application/json' \
+  --data-binary "@${FA3_TRITON_E2E_REQUEST}" \
+  "$BASE/v2/models/${FA3_TRITON_E2E_MODEL}/infer" \
+  > "$response"
+
+jq -e '.outputs | type == "array" and length > 0' "$response" >/dev/null || {
+  echo "DENY: inference response contains no outputs" >&2; exit 17
+}
+
+mkdir -p "$(dirname "$OUT")"
+request_digest="sha256:$(sha256sum "$FA3_TRITON_E2E_REQUEST" | awk '{print $1}')"
+response_digest="sha256:$(sha256sum "$response" | awk '{print $1}')"
+deployment_digest="sha256:$(sha256sum "$DEPLOYMENT_RECEIPT" | awk '{print $1}')"
+now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+jq -n \
+  --arg provider_id FA3-PROVIDER-TRITON-001 \
+  --arg model "$FA3_TRITON_E2E_MODEL" \
+  --arg request_digest "$request_digest" \
+  --arg response_digest "$response_digest" \
+  --arg deployment_receipt "$DEPLOYMENT_RECEIPT" \
+  --arg deployment_receipt_digest "$deployment_digest" \
+  --arg timestamp "$now" \
+  '{schema:"fa3.triton-current-host-e2e-receipt.v1",provider_id:$provider_id,result:"PASS",model:$model,request_digest:$request_digest,response_digest:$response_digest,deployment_receipt:$deployment_receipt,deployment_receipt_digest:$deployment_receipt_digest,current_host_execution:true,synthetic_fixture:false,production_promotion_claimed:false,timestamp:$timestamp,evidence_authority:false}' \
+  > "$OUT"
+
+echo "PASS: real Triton current-host inference completed; receipt: $OUT"
