@@ -30,6 +30,8 @@ for receipt in \
 done
 [[ -d "$FA3_TRITON_MODEL_REPOSITORY" ]] || { echo "DENY: model projection missing" >&2; exit 46; }
 
+projection_digest="sha256:$(find "$FA3_TRITON_MODEL_REPOSITORY" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')"
+
 jq -e --arg image "$FA3_TRITON_IMAGE" \
   '.result == "PASS" and ((.image // .artifact_ref // "") == $image)' \
   "$FA3_TRITON_IMAGE_ADMISSION_RECEIPT" >/dev/null || {
@@ -40,17 +42,28 @@ jq -e '.result == "PASS"' "$FA3_TRITON_HRB_RECEIPT" >/dev/null || {
   echo "DENY: HRB receipt is not PASS" >&2; exit 48
 }
 
-jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" \
-  '.result == "PASS" and ((.serving_provider_id // .provider_id // "") == "FA3-PROVIDER-TRITON-001") and ((.device_scope // "") == $scope)' \
-  "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" >/dev/null || {
-    echo "DENY: backend compatibility receipt does not bind Triton to the HRB device scope" >&2; exit 49
-  }
+jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" '
+  .result == "PASS"
+  and ((.serving_provider_id // .provider_id // "") == "FA3-PROVIDER-TRITON-001")
+  and ((.device_scope // "") == $scope)
+  and (.backend_provider_id as $b | ["FA3-PROVIDER-TENSORRT-001", "FA3-PROVIDER-ONNXRUNTIME-001"] | index($b) != null)
+' "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" >/dev/null || {
+  echo "DENY: backend compatibility receipt does not bind an admitted backend to the HRB device scope" >&2; exit 49
+}
 
-jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" --arg repo "$FA3_TRITON_MODEL_REPOSITORY" \
-  '.result == "PASS" and .provider_id == "FA3-PROVIDER-TRITON-001" and ((.device_scope // "") == $scope) and ((.model_projection // "") == $repo)' \
-  "$FA3_TRITON_PLACEMENT_RECEIPT" >/dev/null || {
-    echo "DENY: Triton placement receipt does not bind the admitted device scope/model projection" >&2; exit 50
-  }
+jq -e \
+  --arg scope "$FA3_TRITON_GPU_UUIDS" \
+  --arg repo "$FA3_TRITON_MODEL_REPOSITORY" \
+  --arg projection_digest "$projection_digest" '
+  .result == "PASS"
+  and .provider_id == "FA3-PROVIDER-TRITON-001"
+  and ((.device_scope // "") == $scope)
+  and ((.model_projection // "") == $repo)
+  and ((.model_projection_digest // "") == $projection_digest)
+  and ((.runtime_ordinal_map // null) | type == "object" and length > 0)
+' "$FA3_TRITON_PLACEMENT_RECEIPT" >/dev/null || {
+  echo "DENY: Triton placement receipt does not bind device scope, immutable model projection and runtime ordinal map" >&2; exit 50
+}
 
 IFS=',' read -r -a GPU_UUIDS <<< "$FA3_TRITON_GPU_UUIDS"
 AVAILABLE="$(nvidia-smi --query-gpu=uuid --format=csv,noheader)"
