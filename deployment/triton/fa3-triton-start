@@ -2,6 +2,8 @@
 set -euo pipefail
 
 : "${FA3_TRITON_IMAGE:?digest-pinned FA3_TRITON_IMAGE is required}"
+: "${FA3_TRITON_IMAGE_ADMISSION_RECEIPT:?supply-chain image admission receipt is required}"
+: "${FA3_TRITON_BACKEND_COMPAT_RECEIPT:?backend compatibility receipt is required}"
 : "${FA3_TRITON_GPU_UUIDS:?HRB-granted GPU UUID list is required}"
 : "${FA3_TRITON_MODEL_REPOSITORY:?admitted model projection is required}"
 : "${FA3_TRITON_HRB_RECEIPT:?HRB receipt path is required}"
@@ -18,20 +20,43 @@ SHM_SIZE="${FA3_TRITON_SHM_SIZE:-2g}"
 if [[ "$MODE" == "explicit" && "${FA3_TRITON_EXPLICIT_MODEL_CONTROL_AUTHORIZED:-0}" != "1" ]]; then
   echo "DENY: explicit model control requires Model Manager authorization" >&2; exit 44
 fi
-[[ -d "$FA3_TRITON_MODEL_REPOSITORY" ]] || { echo "DENY: model projection missing" >&2; exit 45; }
-[[ -r "$FA3_TRITON_HRB_RECEIPT" ]] || { echo "DENY: HRB receipt missing" >&2; exit 46; }
-[[ -r "$FA3_TRITON_PLACEMENT_RECEIPT" ]] || { echo "DENY: placement receipt missing" >&2; exit 47; }
 
-jq -e '.result == "PASS"' "$FA3_TRITON_HRB_RECEIPT" >/dev/null || { echo "DENY: HRB receipt is not PASS" >&2; exit 48; }
-jq -e '.result == "PASS" and .provider_id == "FA3-PROVIDER-TRITON-001"' "$FA3_TRITON_PLACEMENT_RECEIPT" >/dev/null || {
-  echo "DENY: Triton placement receipt is not PASS" >&2; exit 49
+for receipt in \
+  "$FA3_TRITON_IMAGE_ADMISSION_RECEIPT" \
+  "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" \
+  "$FA3_TRITON_HRB_RECEIPT" \
+  "$FA3_TRITON_PLACEMENT_RECEIPT"; do
+  [[ -r "$receipt" ]] || { echo "DENY: required receipt missing: $receipt" >&2; exit 45; }
+done
+[[ -d "$FA3_TRITON_MODEL_REPOSITORY" ]] || { echo "DENY: model projection missing" >&2; exit 46; }
+
+jq -e --arg image "$FA3_TRITON_IMAGE" \
+  '.result == "PASS" and ((.image // .artifact_ref // "") == $image)' \
+  "$FA3_TRITON_IMAGE_ADMISSION_RECEIPT" >/dev/null || {
+    echo "DENY: image admission receipt is not PASS or does not bind the exact image" >&2; exit 47
+  }
+
+jq -e '.result == "PASS"' "$FA3_TRITON_HRB_RECEIPT" >/dev/null || {
+  echo "DENY: HRB receipt is not PASS" >&2; exit 48
 }
+
+jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" \
+  '.result == "PASS" and ((.serving_provider_id // .provider_id // "") == "FA3-PROVIDER-TRITON-001") and ((.device_scope // "") == $scope)' \
+  "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" >/dev/null || {
+    echo "DENY: backend compatibility receipt does not bind Triton to the HRB device scope" >&2; exit 49
+  }
+
+jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" --arg repo "$FA3_TRITON_MODEL_REPOSITORY" \
+  '.result == "PASS" and .provider_id == "FA3-PROVIDER-TRITON-001" and ((.device_scope // "") == $scope) and ((.model_projection // "") == $repo)' \
+  "$FA3_TRITON_PLACEMENT_RECEIPT" >/dev/null || {
+    echo "DENY: Triton placement receipt does not bind the admitted device scope/model projection" >&2; exit 50
+  }
 
 IFS=',' read -r -a GPU_UUIDS <<< "$FA3_TRITON_GPU_UUIDS"
 AVAILABLE="$(nvidia-smi --query-gpu=uuid --format=csv,noheader)"
 for uuid in "${GPU_UUIDS[@]}"; do
-  [[ "$uuid" =~ ^GPU-[A-Za-z0-9-]+$ ]] || { echo "DENY: invalid GPU UUID: $uuid" >&2; exit 50; }
-  grep -Fxq "$uuid" <<< "$AVAILABLE" || { echo "DENY: HRB-granted GPU not present: $uuid" >&2; exit 51; }
+  [[ "$uuid" =~ ^GPU-[A-Za-z0-9-]+$ ]] || { echo "DENY: invalid GPU UUID: $uuid" >&2; exit 51; }
+  grep -Fxq "$uuid" <<< "$AVAILABLE" || { echo "DENY: HRB-granted GPU not present: $uuid" >&2; exit 52; }
 done
 
 exec /usr/bin/docker run --rm \
@@ -43,6 +68,7 @@ exec /usr/bin/docker run --rm \
   --pids-limit=1024 \
   --shm-size="$SHM_SIZE" \
   --tmpfs /tmp:rw,noexec,nosuid,nodev,size=1g \
+  -e CUDA_CACHE_PATH=/tmp/cuda-cache \
   -p 127.0.0.1:8000:8000 \
   -p 127.0.0.1:8001:8001 \
   -p 127.0.0.1:8002:8002 \
