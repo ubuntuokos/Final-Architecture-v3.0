@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001",
+  "gate_set_id": "FA3-SILLYTAVERN-KDE-CURRENT-HOST-GATESET-001",
+  "parent_gate_set_id": "FA3-SILLYTAVERN-KDE-GATESET-001",
+  "conformance_id": "FA3-SILLYTAVERN-KDE-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-SILLYTAVERN-KDE-DESKTOP-001",
+  "provider_id": "FA3-PROVIDER-SILLYTAVERN-KDE-001",
+  "contract_id": "FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001",
+  "decision_id": "FA3-DEC-SILLYTAVERN-KDE-CURRENT-HOST-2026-09-12",
+  "priority": "P0",
+  "status": "ACTIVE",
+  "fail_closed": true,
+  "current_host_runtime_required": true,
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "ci_fixture_can_claim_current_host_pass": false,
+  "queued_job_can_claim_current_host_pass": false,
+  "positive_negative_regressions_required": true,
+  "clean_stop_required": true,
+  "rollback_required": true,
+  "current_host_runtime_promotion_claimed": false,
+  "capability_count": 143
+}
