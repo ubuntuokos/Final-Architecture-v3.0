@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3ae00cc98db3b86d48a5725445953f1f16913c0b",
-    "pre_projection_root_tree_sha": "413294768673c8b5a01bf6ee9206d319d166a744",
-    "pre_projection_canonical_tree_sha": "970c2d039c9df0a039531391018ecfae3db68f67",
-    "commits_ahead_of_v3_0_11_conformance_commit": 151,
-    "total_post_baseline_commits": 151,
-    "delta_file_count": 846,
-    "delta_added_files": 841,
+    "pre_projection_head_sha": "ecc73af558f15d78ffad688bc389ac640a4951bc",
+    "pre_projection_root_tree_sha": "e80a3137a8cbd9dc415ea65fcef57cea0b309a5a",
+    "pre_projection_canonical_tree_sha": "d69e13e546e736bfc01e4eb6550cfe5a0f7147c5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 149,
+    "total_post_baseline_commits": 149,
+    "delta_file_count": 856,
+    "delta_added_files": 851,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 477,
-    "evidence_files_in_post_baseline_delta": 92,
-    "source_files_in_post_baseline_delta": 94,
-    "test_files_in_post_baseline_delta": 79,
-    "workflow_files_in_post_baseline_delta": 21,
+    "canonical_files_in_post_baseline_delta": 482,
+    "evidence_files_in_post_baseline_delta": 94,
+    "source_files_in_post_baseline_delta": 97,
+    "test_files_in_post_baseline_delta": 80,
+    "workflow_files_in_post_baseline_delta": 20,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -120,6 +120,7 @@
       "canonical/providers/FA3-PROVIDER-SD35-NVIDIA-NIM-001.json",
       "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
       "canonical/providers/FA3-PROVIDER-SF3D-001.json",
+      "canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json",
       "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
       "canonical/providers/FA3-PROVIDER-SPAR3D-001.json",
       "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-001.json",
@@ -223,6 +224,7 @@
       "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
       "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
@@ -285,6 +287,7 @@
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
+      "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
@@ -599,7 +602,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 845,
+  "manifest_entry_count": 856,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -994,6 +997,11 @@
     {
       "path": "canonical/FA3-GATE-HYBRID-EDITORIAL-001.json",
       "git_blob_sha": "b19be06f712e94705d3f8247d64cf8617eec2055",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.json",
+      "git_blob_sha": "52059a3804971ec81308cfd076df381c10701406",
       "baseline_delta_status": "added"
     },
     {
@@ -1407,6 +1415,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
+      "git_blob_sha": "5452b4b1fefd866ddbf051a35ed854ec2ade17f4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "git_blob_sha": "9009afeb2fd0d923f1fd375a5152b74be1c44a5b",
       "baseline_delta_status": "added"
@@ -1727,6 +1740,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
+      "git_blob_sha": "28ff7b1c1a9fb189b5f71d31b4a761957784ec2b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211",
       "baseline_delta_status": "added"
@@ -2004,7 +2022,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -2064,6 +2082,11 @@
     {
       "path": "canonical/kaneo-enforcement.json",
       "git_blob_sha": "81ff2ef690768970b80c1d2aa8fb69cc0d263572",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/kdenlive-audio-conditioning-enforcement.json",
+      "git_blob_sha": "85702703b930ca61702ffe2bc799132ce0cc6976",
       "baseline_delta_status": "added"
     },
     {
@@ -2807,6 +2830,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json",
+      "git_blob_sha": "9e926a680a6faf2669f1cb4f27dd1850a1dbe08e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
       "git_blob_sha": "dc58392c03b8ea8c561472449c91c1c3ca71f9c8",
       "baseline_delta_status": "added"
@@ -3214,7 +3242,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -3437,6 +3465,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
+      "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-ai-infra-guard-current-host.py",
       "git_blob_sha": "a6fec4b79499f7937dc30d34f5de4bc5ff30fec5",
       "baseline_delta_status": "added"
@@ -3499,6 +3532,11 @@
     {
       "path": "evidence/collect-hybrid-editorial-reference-e2e.py",
       "git_blob_sha": "b58fca0d9097f4ef075438e7890abec6a6774a65",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-kdenlive-audio-conditioning-current-host.py",
+      "git_blob_sha": "14a934c6d15623620882b058d28f121565abd29b",
       "baseline_delta_status": "added"
     },
     {
@@ -4167,6 +4205,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_kdenlive_audio_gate.py",
+      "git_blob_sha": "9e2b49f88ec40792a2e50476ba28f35c3c8f846f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_kdenlive_audio_pipeline.py",
+      "git_blob_sha": "a2079e6c1d3c35f0ed489832d4fdd324487d5710",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_kdenlive_editorial_gate.py",
       "git_blob_sha": "e68265eac453057fbf32b63bc4e8512f75c90a58",
       "baseline_delta_status": "added"
@@ -4354,6 +4402,11 @@
     {
       "path": "src/fa3_release_projection_regenerate.py",
       "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_silero_vad_provider.py",
+      "git_blob_sha": "b2aaf5b706547c2c4b0fed9f5dfa4058f8eab742",
       "baseline_delta_status": "added"
     },
     {
@@ -4584,6 +4637,11 @@
     {
       "path": "tests/test_kaneo_gate.py",
       "git_blob_sha": "7c3f48d96cdbda6413a93be22d384e952905059d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_kdenlive_audio_conditioning.py",
+      "git_blob_sha": "9f8b71e6cf112637c9024d454a0f4b63b1727abe",
       "baseline_delta_status": "added"
     },
     {
