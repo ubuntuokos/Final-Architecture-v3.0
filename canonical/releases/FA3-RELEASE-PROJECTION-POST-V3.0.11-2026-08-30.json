@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b6abce72c2dd66fd0d35eb0c29166ae00dd57473",
-    "pre_projection_root_tree_sha": "c17edb9321d24cd680160f0ed3ccfd60dd764c44",
-    "pre_projection_canonical_tree_sha": "a794036c9f09cee565f0a2ff9cd17213a13acb6b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 137,
-    "total_post_baseline_commits": 137,
-    "delta_file_count": 866,
-    "delta_added_files": 861,
+    "pre_projection_head_sha": "d222352c87c38a7daafaf52434561a7a30705305",
+    "pre_projection_root_tree_sha": "1c8a5b94ed46a9c91ba0e47f2f5e5f87e925712f",
+    "pre_projection_canonical_tree_sha": "0d8054064a9369ec2cc1ad1281292776bda6c203",
+    "commits_ahead_of_v3_0_11_conformance_commit": 155,
+    "total_post_baseline_commits": 155,
+    "delta_file_count": 880,
+    "delta_added_files": 875,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 486,
+    "canonical_files_in_post_baseline_delta": 490,
     "evidence_files_in_post_baseline_delta": 94,
-    "source_files_in_post_baseline_delta": 97,
-    "test_files_in_post_baseline_delta": 80,
-    "workflow_files_in_post_baseline_delta": 22,
+    "source_files_in_post_baseline_delta": 98,
+    "test_files_in_post_baseline_delta": 81,
+    "workflow_files_in_post_baseline_delta": 23,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -136,6 +136,7 @@
       "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
       "canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json",
       "canonical/providers/FA3-PROVIDER-TERAX-001.json",
+      "canonical/providers/FA3-PROVIDER-TRITON-001.json",
       "canonical/providers/FA3-PROVIDER-TWENTY-001.json",
       "canonical/providers/FA3-PROVIDER-ULTRARAG-001.json",
       "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
@@ -247,6 +248,7 @@
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
+      "canonical/contracts/FA3-TRITON-INFERENCE-SERVER-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
@@ -330,6 +332,7 @@
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
       "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-TRITON-2026-09-11.json",
       "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
@@ -616,7 +619,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 866,
+  "manifest_entry_count": 880,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -711,6 +714,11 @@
     {
       "path": ".github/workflows/fa3-stable-audio-3-current-host.yml",
       "git_blob_sha": "bc65f0467f5b15d3c36a77ba3423e3e75d3cccab",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-triton-admission.yml",
+      "git_blob_sha": "aab1b73fecad09c04c2e5bea13e473ef6e0799fc",
       "baseline_delta_status": "added"
     },
     {
@@ -911,6 +919,11 @@
     {
       "path": "bin/fa3-sillytavern-kde-install-user-integration.sh",
       "git_blob_sha": "5606dae254b2b67f1aa71329d7e9976b3c6a2159",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-triton-gate",
+      "git_blob_sha": "f56a9c2999e5221b2315c0e7af242807cea382df",
       "baseline_delta_status": "added"
     },
     {
@@ -1564,6 +1577,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-TRITON-INFERENCE-SERVER-CONTRACTS-001.json",
+      "git_blob_sha": "5f50ed2f5bd1c8f7923d8eeb0650ea62e9f14ce0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
       "git_blob_sha": "257cbaed10d878f14a9bec3f8d445f81641486dd",
       "baseline_delta_status": "added"
@@ -1989,6 +2007,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-TRITON-2026-09-11.json",
+      "git_blob_sha": "4b9364d53352de939f490ec5468950ec92d1c029",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
       "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86",
       "baseline_delta_status": "added"
@@ -2110,7 +2133,7 @@
     },
     {
       "path": "canonical/inference-portability-enforcement.json",
-      "git_blob_sha": "31d49ad0eb9805f31921a84edcd1386a551042dd",
+      "git_blob_sha": "152e0e9d05d6379f5476b3bdfa294e04fcd77fa0",
       "baseline_delta_status": "added"
     },
     {
@@ -2949,6 +2972,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-TRITON-001.json",
+      "git_blob_sha": "b79a0f63a4cde355012cdceb4ea8e423f763bbd5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-TWENTY-001.json",
       "git_blob_sha": "f12dc2bfa98fcc4d7ba1778a34139c1243268664",
       "baseline_delta_status": "added"
@@ -3334,6 +3362,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/triton-inference-server-enforcement.json",
+      "git_blob_sha": "4f03199f14a18992f788c3218d463087e63128b1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/video-enforcement.json",
       "git_blob_sha": "1890f167bbc369ec92071d95ef0ca341d538a038",
       "baseline_delta_status": "added"
@@ -3461,6 +3494,36 @@
     {
       "path": "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
       "git_blob_sha": "228976847af181366fb1349a30a3fb6abed82b0a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/triton/README.md",
+      "git_blob_sha": "1ab393aefbab5286399674cf6124192c06866de2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/triton/fa3-triton-start",
+      "git_blob_sha": "47561a7671124ac7367986bf02953fd6897454f1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/triton/fa3-triton.service",
+      "git_blob_sha": "968a1e9509ebe969e990248b1638cdd91bcaeca3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/triton/install-fa3-triton",
+      "git_blob_sha": "abe88b00df7c0b34abc64968dbad45225cb06889",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/triton/rollback-fa3-triton",
+      "git_blob_sha": "c0c5d4c85132950228f1ea9a55bdf36e639446be",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/triton/triton.env.example",
+      "git_blob_sha": "84b9bc93b230fdea808c3d6044d9ce5cbd984fd2",
       "baseline_delta_status": "added"
     },
     {
@@ -4504,6 +4567,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_triton_gate.py",
+      "git_blob_sha": "96aaddd015be3202b107be28bc6de945dd0d1573",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_video_provider_lifecycle_gate.py",
       "git_blob_sha": "aced64697f0a343758694e1568a5c959a86ab34f",
       "baseline_delta_status": "added"
@@ -4901,6 +4969,11 @@
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_triton_gate.py",
+      "git_blob_sha": "c52a1b9a91177f4dbd6b4774b030b4a86dc53830",
       "baseline_delta_status": "added"
     },
     {
