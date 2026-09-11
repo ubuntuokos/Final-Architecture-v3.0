@@ -1,7 +1,11 @@
 import unittest
+from pathlib import Path
 
+from src.fa3_kdenlive_audio_gate import gate as kdenlive_audio_gate
 from src.fa3_kdenlive_audio_pipeline import AudioConditioningRequest, plan_request
 from src.fa3_silero_vad_provider import build_speech_activity_map
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _hash(ch: str) -> str:
@@ -56,6 +60,13 @@ class KdenliveAudioConditioningTests(unittest.TestCase):
         self.assertTrue(sam["metadata_only"])
         self.assertEqual(sam["analysis_sample_rate_hz"], 16000)
         self.assertEqual(sam["channels"], 1)
+
+    def test_executable_canonical_gate_passes_under_permanent_ci(self):
+        report = kdenlive_audio_gate(ROOT)
+        self.assertEqual(report["result"], "PASS", report.get("findings"))
+        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["architectural_authority_delta"], 0)
+        self.assertEqual(report["production_promotion"], "PENDING_CURRENT_HOST")
 
 
 if __name__ == "__main__":
