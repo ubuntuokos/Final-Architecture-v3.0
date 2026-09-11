@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "690cdf8aa7df9727ba4d4cb60230428b457f0a00",
-    "pre_projection_root_tree_sha": "11a10c69faa8f205fe574b4cb5eaa05799d07939",
-    "pre_projection_canonical_tree_sha": "a8abf13090ae0230ba7edf3cfb96fc9d972b5e15",
-    "commits_ahead_of_v3_0_11_conformance_commit": 205,
-    "total_post_baseline_commits": 205,
-    "delta_file_count": 906,
-    "delta_added_files": 901,
+    "pre_projection_head_sha": "d115d5884205776eb683061761b4267395280aeb",
+    "pre_projection_root_tree_sha": "7fe596e794e51c279618368d99a0c67cf1af32e9",
+    "pre_projection_canonical_tree_sha": "15963d7a587ea7b06da2188a2f0bab6b9a2359ba",
+    "commits_ahead_of_v3_0_11_conformance_commit": 207,
+    "total_post_baseline_commits": 207,
+    "delta_file_count": 905,
+    "delta_added_files": 900,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "evidence_files_in_post_baseline_delta": 98,
     "source_files_in_post_baseline_delta": 103,
     "test_files_in_post_baseline_delta": 84,
-    "workflow_files_in_post_baseline_delta": 24,
+    "workflow_files_in_post_baseline_delta": 23,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -639,7 +639,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 906,
+  "manifest_entry_count": 905,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -679,11 +679,6 @@
     {
       "path": ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
       "git_blob_sha": "f2b9e375b444a31f7cf9067b881101e3ace4579a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": ".github/workflows/fa3-kdenlive-final-reconcile-once.yml",
-      "git_blob_sha": "f16b4073500f1ac39c365cc37ff3586192f2130f",
       "baseline_delta_status": "added"
     },
     {
