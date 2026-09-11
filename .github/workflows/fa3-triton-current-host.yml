@@ -1,0 +1,68 @@
+name: FA3 Triton Current-Host E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type EXACT: RUN TRITON CURRENT HOST E2E'
+        required: true
+        type: string
+      model_name:
+        description: 'Already-admitted Triton model name'
+        required: true
+        type: string
+      request_json_path:
+        description: 'Absolute current-host path to the model inference request JSON'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  current-host-e2e:
+    name: triton-current-host / real-inference-e2e
+    if: github.event.inputs.confirm == 'RUN TRITON CURRENT HOST E2E'
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    env:
+      FA3_TRITON_E2E_MODEL: ${{ inputs.model_name }}
+      FA3_TRITON_E2E_REQUEST: ${{ inputs.request_json_path }}
+      FA3_TRITON_E2E_RECEIPT_OUT: ${{ github.workspace }}/evidence/runtime/triton/triton-current-host-e2e.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${RUNNER_NAME:-}"
+          command -v docker
+          command -v nvidia-smi
+          command -v curl
+          command -v jq
+          systemctl is-active --quiet fa3-triton.service
+          test -r /var/lib/fa3/evidence/outbox/triton-deployment-receipt.json
+      - name: Re-run static Triton admission gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-triton-gate
+          ./bin/fa3-triton-gate
+      - name: Run real Triton model inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x deployment/triton/fa3-triton-current-host-e2e
+          deployment/triton/fa3-triton-current-host-e2e
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-triton-current-host-evidence-${{ github.run_id }}
+          if-no-files-found: error
+          path: |
+            evidence/runtime/triton/triton-current-host-e2e.json
+            reports/triton-gate-report.json
