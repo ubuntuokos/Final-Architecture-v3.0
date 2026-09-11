@@ -44,7 +44,7 @@ jobs:
       - name: Syntax check
         run: python -m py_compile src/fa3_silero_vad_provider.py src/fa3_kdenlive_audio_pipeline.py src/fa3_kdenlive_audio_job.py src/fa3_kdenlive_audio_gate.py evidence/collect-kdenlive-audio-conditioning-current-host.py
       - name: Unit regressions
-        run: python -m unittest tests.test_kdenlive_audio_conditioning -v
+        run: python -m unittest discover -s tests -p 'test_kdenlive_audio_conditioning.py' -v
       - name: Canonical executable gate
         run: python src/fa3_kdenlive_audio_gate.py
       - name: Upload gate report
