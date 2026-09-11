@@ -14,6 +14,8 @@ for cmd in docker jq curl nvidia-smi systemctl install sha256sum; do
 done
 
 : "${FA3_TRITON_IMAGE:?set digest-pinned FA3_TRITON_IMAGE}"
+: "${FA3_TRITON_IMAGE_ADMISSION_RECEIPT:?set FA3_TRITON_IMAGE_ADMISSION_RECEIPT}"
+: "${FA3_TRITON_BACKEND_COMPAT_RECEIPT:?set FA3_TRITON_BACKEND_COMPAT_RECEIPT}"
 : "${FA3_TRITON_GPU_UUIDS:?set HRB-granted FA3_TRITON_GPU_UUIDS}"
 : "${FA3_TRITON_HRB_RECEIPT:?set FA3_TRITON_HRB_RECEIPT}"
 : "${FA3_TRITON_PLACEMENT_RECEIPT:?set FA3_TRITON_PLACEMENT_RECEIPT}"
@@ -23,23 +25,43 @@ done
   echo "DENY: runtime image must be Triton 26.08-py3 pinned by sha256 digest" >&2; exit 11;
 }
 [[ -d "$FA3_TRITON_MODEL_REPOSITORY" ]] || { echo "DENY: admitted model projection missing" >&2; exit 12; }
-[[ -r "$FA3_TRITON_HRB_RECEIPT" ]] || { echo "DENY: HRB receipt missing" >&2; exit 13; }
-[[ -r "$FA3_TRITON_PLACEMENT_RECEIPT" ]] || { echo "DENY: placement receipt missing" >&2; exit 14; }
-jq -e '.result == "PASS"' "$FA3_TRITON_HRB_RECEIPT" >/dev/null || { echo "DENY: HRB receipt failed" >&2; exit 15; }
-jq -e '.result == "PASS" and .provider_id == "FA3-PROVIDER-TRITON-001"' "$FA3_TRITON_PLACEMENT_RECEIPT" >/dev/null || {
-  echo "DENY: placement receipt failed or wrong provider" >&2; exit 16;
+for receipt in \
+  "$FA3_TRITON_IMAGE_ADMISSION_RECEIPT" \
+  "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" \
+  "$FA3_TRITON_HRB_RECEIPT" \
+  "$FA3_TRITON_PLACEMENT_RECEIPT"; do
+  [[ -r "$receipt" ]] || { echo "DENY: required receipt missing: $receipt" >&2; exit 13; }
+done
+
+jq -e --arg image "$FA3_TRITON_IMAGE" \
+  '.result == "PASS" and ((.image // .artifact_ref // "") == $image)' \
+  "$FA3_TRITON_IMAGE_ADMISSION_RECEIPT" >/dev/null || {
+    echo "DENY: image admission receipt failed or does not bind exact image" >&2; exit 14
+  }
+jq -e '.result == "PASS"' "$FA3_TRITON_HRB_RECEIPT" >/dev/null || {
+  echo "DENY: HRB receipt failed" >&2; exit 15
 }
+jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" \
+  '.result == "PASS" and ((.serving_provider_id // .provider_id // "") == "FA3-PROVIDER-TRITON-001") and ((.device_scope // "") == $scope)' \
+  "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" >/dev/null || {
+    echo "DENY: backend compatibility receipt failed or scope mismatch" >&2; exit 16
+  }
+jq -e --arg scope "$FA3_TRITON_GPU_UUIDS" --arg repo "$FA3_TRITON_MODEL_REPOSITORY" \
+  '.result == "PASS" and .provider_id == "FA3-PROVIDER-TRITON-001" and ((.device_scope // "") == $scope) and ((.model_projection // "") == $repo)' \
+  "$FA3_TRITON_PLACEMENT_RECEIPT" >/dev/null || {
+    echo "DENY: placement receipt failed or binding mismatch" >&2; exit 17
+  }
 
 MODE="${FA3_TRITON_MODEL_CONTROL_MODE:-none}"
-[[ "$MODE" == none || "$MODE" == explicit ]] || { echo "DENY: poll/unknown model-control mode" >&2; exit 17; }
+[[ "$MODE" == none || "$MODE" == explicit ]] || { echo "DENY: poll/unknown model-control mode" >&2; exit 18; }
 if [[ "$MODE" == explicit && "${FA3_TRITON_EXPLICIT_MODEL_CONTROL_AUTHORIZED:-0}" != 1 ]]; then
-  echo "DENY: explicit mode lacks Model Manager authorization" >&2; exit 18
+  echo "DENY: explicit mode lacks Model Manager authorization" >&2; exit 19
 fi
 
 mkdir -p "$STATE_DIR/backups" "$EVIDENCE_OUTBOX" /etc/fa3 /usr/local/libexec
-if [[ -f "$ENV_FILE" ]]; then
-  cp -a "$ENV_FILE" "$STATE_DIR/backups/last.env"
-fi
+[[ -f "$ENV_FILE" ]] && cp -a "$ENV_FILE" "$STATE_DIR/backups/last.env"
+[[ -f "$SERVICE_FILE" ]] && cp -a "$SERVICE_FILE" "$STATE_DIR/backups/last.service"
+[[ -f "$LAUNCHER" ]] && cp -a "$LAUNCHER" "$STATE_DIR/backups/last.launcher"
 
 install -m 0755 "$ROOT/fa3-triton-start" "$LAUNCHER"
 install -m 0644 "$ROOT/fa3-triton.service" "$SERVICE_FILE"
@@ -48,6 +70,8 @@ tmp_env="$(mktemp)"
 trap 'rm -f "$tmp_env"' EXIT
 cat >"$tmp_env" <<EOF
 FA3_TRITON_IMAGE=$FA3_TRITON_IMAGE
+FA3_TRITON_IMAGE_ADMISSION_RECEIPT=$FA3_TRITON_IMAGE_ADMISSION_RECEIPT
+FA3_TRITON_BACKEND_COMPAT_RECEIPT=$FA3_TRITON_BACKEND_COMPAT_RECEIPT
 FA3_TRITON_GPU_UUIDS=$FA3_TRITON_GPU_UUIDS
 FA3_TRITON_HRB_RECEIPT=$FA3_TRITON_HRB_RECEIPT
 FA3_TRITON_PLACEMENT_RECEIPT=$FA3_TRITON_PLACEMENT_RECEIPT
@@ -70,7 +94,7 @@ done
 if [[ $ready -ne 1 ]]; then
   systemctl stop fa3-triton.service || true
   echo "DENY: Triton readiness failed; service stopped" >&2
-  exit 19
+  exit 20
 fi
 
 image_digest="${FA3_TRITON_IMAGE##*@}"
@@ -81,6 +105,8 @@ jq -n \
   --arg provider_id FA3-PROVIDER-TRITON-001 \
   --arg runtime_release 26.08-py3 \
   --arg container_digest "$image_digest" \
+  --arg image_admission_receipt "$FA3_TRITON_IMAGE_ADMISSION_RECEIPT" \
+  --arg backend_compatibility_receipt "$FA3_TRITON_BACKEND_COMPAT_RECEIPT" \
   --arg hrb_receipt "$FA3_TRITON_HRB_RECEIPT" \
   --arg placement_receipt "$FA3_TRITON_PLACEMENT_RECEIPT" \
   --arg device_scope "$FA3_TRITON_GPU_UUIDS" \
@@ -88,7 +114,7 @@ jq -n \
   --arg model_projection_digest "sha256:$projection_digest" \
   --arg model_control_mode "$MODE" \
   --arg timestamp "$now" \
-  '{schema:"fa3.triton-deployment-receipt.v1",provider_id:$provider_id,runtime_release:$runtime_release,container_digest:$container_digest,hrb_receipt:$hrb_receipt,placement_receipt:$placement_receipt,device_scope:$device_scope,model_projection:$model_projection,model_projection_digest:$model_projection_digest,model_control_mode:$model_control_mode,network_scope:"LOOPBACK_ONLY",readiness_result:"PASS",timestamp:$timestamp,evidence_authority:false,current_host_execution:true}' \
+  '{schema:"fa3.triton-deployment-receipt.v1",provider_id:$provider_id,runtime_release:$runtime_release,container_digest:$container_digest,image_admission_receipt:$image_admission_receipt,backend_compatibility_receipt:$backend_compatibility_receipt,hrb_receipt:$hrb_receipt,placement_receipt:$placement_receipt,device_scope:$device_scope,model_projection:$model_projection,model_projection_digest:$model_projection_digest,model_control_mode:$model_control_mode,network_scope:"LOOPBACK_ONLY",readiness_result:"PASS",timestamp:$timestamp,evidence_authority:false,current_host_execution:true}' \
   > "$EVIDENCE_OUTBOX/triton-deployment-receipt.json"
 
 echo "PASS: FA3 Triton materialized; receipt queued in evidence outbox"
