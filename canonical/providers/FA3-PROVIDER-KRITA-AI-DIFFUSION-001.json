@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-KRITA-AI-DIFFUSION-001",
+  "name": "Krita AI Diffusion",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_REPLACEABLE_KRITA_COMFYUI_GENERATIVE_INTEROP_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "STRONG_REFERENCE_PROVIDER", "LOCAL_DESKTOP_PROVIDER", "KRITA_PLUGIN", "COMFYUI_INTEROP", "GENERATIVE_IMAGE_EDITING"],
+  "profile": "FA3-AI-IMAGE-EDITING-001",
+  "capability_projection": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_WHEN_KRITA_GENERATIVE_AI_INTEROP_IS_USED",
+  "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
+  "upstream_references": [{"repository": "Acly/krita-ai-diffusion", "observed_revision": "dda58d1c63e361207ccec085efbc34dbd32f1654", "observed_date": "2026-09-11", "license": "GPL-3.0", "role": "STRONG_REFERENCE_PROVIDER_PATTERN_AND_OPTIONAL_RUNTIME"}],
+  "backend_policy": {
+    "preferred_fa3_mode": "EXTERNAL_FA3_GOVERNED_COMFYUI",
+    "plugin_managed_server_may_exist_but_is_not_architectural_authority": true,
+    "provider_replacement_must_not_change_canonical_intent": true,
+    "model_artifacts_require_canonical_admission": true,
+    "workflow_and_custom_node_inventory_required": true,
+    "automatic_custom_node_install_or_update": false
+  },
+  "authority_boundaries": {
+    "generation_semantics": "FA3-IMGGEN-CONTRACTS-001",
+    "image_editing_contracts": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+    "generation_context_ir": "FA3-MMG-CONTEXT-IR-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "orchestration": "EXISTING_FA3_DURABLE_ORCHESTRATION"
+  },
+  "forbidden_roles": ["GLOBAL_ORCHESTRATION_AUTHORITY", "WORKFLOW_AUTHORITY", "MODEL_REGISTRY_AUTHORITY", "MODEL_ROUTER_AUTHORITY", "MCP_GATEWAY_AUTHORITY", "HOST_RESOURCE_AUTHORITY", "EVIDENCE_AUTHORITY", "POLICY_AUTHORITY", "SECRETS_AUTHORITY", "PROVENANCE_AUTHORITY", "GENERATION_CONTEXT_IR_AUTHORITY"],
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_production_claim": false
+}
