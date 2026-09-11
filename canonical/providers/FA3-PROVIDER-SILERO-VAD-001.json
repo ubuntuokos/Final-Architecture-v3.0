@@ -1,0 +1,55 @@
+{
+  "id": "FA3-PROVIDER-SILERO-VAD-001",
+  "version": "1.0.0",
+  "status": "ACCEPTED_OPTIONAL_REFERENCE_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_LOCAL_SPEECH_ACTIVITY_SEGMENTATION_REFERENCE_PROVIDER",
+  "profile": "FA3-SPEECH-ENHANCEMENT-001",
+  "capability_binding": "CAP-017",
+  "capability_count": 143,
+  "architectural_authority_delta": 0,
+  "upstream": {
+    "repository": "snakers4/silero-vad",
+    "commit": "867c2aa692646a1f1de3e94a15c9dd9f614c0acb",
+    "commit_date": "2026-08-24T06:47:24Z",
+    "license": "MIT"
+  },
+  "runtime_policy": {
+    "baseline_execution_provider": "CPUExecutionProvider",
+    "onnx_preferred": true,
+    "torchscript_allowed_only_when_admitted": true,
+    "runtime_auto_download": false,
+    "model_sha256_required": true,
+    "silent_execution_provider_fallback": false,
+    "accelerator_requires_hrb_lease": true
+  },
+  "audio_contract": {
+    "preferred_sample_rate_hz": 16000,
+    "supported_sample_rates_hz": [8000, 16000],
+    "preferred_channels": 1,
+    "analysis_projection_only": true,
+    "master_audio_mutation_forbidden": true,
+    "state_reset_required_between_independent_streams": true
+  },
+  "output_contract": {
+    "artifact_type": "SpeechActivityMap",
+    "metadata_only": true,
+    "timestamps_must_map_to_source_timebase": true,
+    "confidence_required_when_runtime_exposes_it": true,
+    "source_hash_required": true,
+    "provider_revision_required": true,
+    "model_hash_required": true
+  },
+  "authority_constraints": [
+    "MUST_NOT_BECOME_STT_AUTHORITY",
+    "MUST_NOT_BECOME_EDITORIAL_AUTHORITY",
+    "MUST_NOT_BECOME_MODEL_ROUTING_AUTHORITY",
+    "MUST_NOT_BECOME_HOST_RESOURCE_AUTHORITY",
+    "MUST_NOT_BECOME_WORKFLOW_AUTHORITY",
+    "MUST_NOT_MUTATE_KDENLIVE_PROJECT_STATE"
+  ],
+  "promotion": {
+    "production_status": "PENDING_CURRENT_HOST",
+    "requires_real_current_host_e2e": true,
+    "document_or_mock_evidence_cannot_promote": true
+  }
+}

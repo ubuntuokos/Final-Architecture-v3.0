@@ -1,0 +1,43 @@
+{
+  "id": "FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11",
+  "date": "2026-09-11",
+  "status": "ACCEPTED",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_KDENLIVE_AUDIO_CONDITIONING_PROJECTION_WITHOUT_NEW_PROFILE_OR_AUTHORITY",
+  "rationale": [
+    "Kdenlive editorial, hybrid editorial, STT-media, speech-enhancement and audio-separation responsibilities already exist canonically.",
+    "A new Kdenlive audio profile would duplicate existing authority and capability boundaries.",
+    "The integration is therefore a contract/projection composition across existing profiles with zero capability and authority delta.",
+    "Silero VAD is materialized as an optional local reference provider producing metadata-only SpeechActivityMap artifacts.",
+    "GTCRN, LavaSR and Demucs remain existing providers and are composed without provider ownership by Kdenlive."
+  ],
+  "bindings": [
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-HYBRID-EDITORIAL-001",
+    "FA3-STT-MEDIA-001",
+    "FA3-SPEECH-ENHANCEMENT-001",
+    "FA3-AUDIO-SEPARATION-001",
+    "FA3-PROVIDER-SILERO-VAD-001",
+    "FA3-PROVIDER-GTCRN-001",
+    "FA3-PROVIDER-LAVASR-001",
+    "FA3-PROVIDER-DEMUCS-001",
+    "FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001"
+  ],
+  "canonical_invariants": [
+    "CAPABILITY_COUNT_REMAINS_143",
+    "NEW_ARCHITECTURAL_AUTHORITY_EQUALS_ZERO",
+    "KDENLIVE_REMAINS_HUMAN_EDITORIAL_AND_FINAL_ASSEMBLY_SURFACE",
+    "OTIO_REMAINS_CANONICAL_TIMELINE_IR",
+    "CENTRAL_MCP_REMAINS_AI_CAPABILITY_MEDIATION_AUTHORITY",
+    "HRB_REMAINS_ACCELERATOR_ADMISSION_AUTHORITY",
+    "DEMUCS_REMAINS_OPTIONAL",
+    "SILERO_VAD_OUTPUT_IS_METADATA_ONLY",
+    "GTCRN_TO_LAVASR_DEFAULT_FORBIDS_DOUBLE_DENOISE",
+    "NO_DIRECT_KDENLIVE_XML_MUTATION",
+    "NO_SOURCE_IN_PLACE_AUDIO_MUTATION"
+  ],
+  "production_promotion": {
+    "state": "PENDING_CURRENT_HOST",
+    "requires_real_runtime_evidence": ["Silero VAD", "GTCRN", "LavaSR", "composite Kdenlive audio-conditioning path"],
+    "static_gate_pass_is_not_production_evidence": true
+  }
+}
