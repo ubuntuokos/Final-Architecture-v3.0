@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -25,7 +25,8 @@
     "lease",
     "typed CPU memory accelerator locality placement",
     "runtime resource-domain projection",
-    "typed systemd manager-default neutrality and per-workload systemd/cgroup projection"
+    "typed systemd manager-default neutrality and per-workload systemd/cgroup projection",
+    "filesystem page-cache speculative prefetch admission and rollback policy"
   ],
   "deterministic_execution_fabric": {
     "topology_discovery": [
@@ -51,14 +52,39 @@
       "PlacementReceipt",
       "PlacementEvidence",
       "AIExecutionTelemetry",
+      "PrefetchBenchmarkReceipt",
+      "PrefetchRollbackReceipt",
       "rollback profile",
       "portable current-host systemd Manager neutrality receipt"
     ]
+  },
+  "page_cache_prefetch_governance": {
+    "status": "MANDATORY_PROVIDER_NEUTRAL_POLICY",
+    "kernel_page_cache": "PRIMARY",
+    "userspace_prefetch_provider": "OPTIONAL_REPLACEABLE",
+    "activation": "BENCHMARK_ADMITTED_AND_ROLLBACKABLE",
+    "benchmark_semantics": "COLD_START_AND_WARM_STEADY_STATE_SEPARATE",
+    "readahead_strategy": "TOPOLOGY_AND_WORKLOAD_BENCHMARK_DERIVED",
+    "path_selection": "EXPLICIT_ALLOWLIST_AND_VIRTUAL_FILESYSTEM_DENY",
+    "large_model_behavior": "NO_BLIND_WHOLE_MODEL_PREFETCH",
+    "required_evidence": [
+      "startup_latency",
+      "page_cache_behavior",
+      "major_faults",
+      "io_pressure",
+      "memory_pressure",
+      "host_survival"
+    ],
+    "rollback": "REQUIRED",
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY",
+    "disabled_provider_runtime_cost": "NEAR_ZERO",
+    "current_host_promotion": "PENDING_REAL_BENCHMARK_AND_NON_REGRESSION_EVIDENCE"
   },
   "provider_projection_policy": {
     "linux_runtime_resource_control_primary_reference": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
     "linux_low_latency_kernel_reference": "FA3-PROVIDER-XANMOD-001",
     "scheduler_extension_experimental_reference": "FA3-PROVIDER-SCHED-EXT-001",
+    "linux_speculative_prefetch_optional_reference": "FA3-PROVIDER-PRELOAD-001",
     "provider_hard_dependency": false
   },
   "mandatory_cpu_threading_subprofile": {
@@ -88,16 +114,21 @@
     "fixed CPU socket count or static CPU ID list as portable baseline",
     "fixed GPU device count above the one-device minimum",
     "fixed PCI BDF or CUDA_VISIBLE_DEVICES ordinal list as portable placement identity",
-    "concrete RTX SKU VRAM or SM as FA3 global baseline"
+    "concrete RTX SKU VRAM or SM as FA3 global baseline",
+    "fixed prefetch cycle interval as a portable baseline",
+    "fixed prefetch memory percentages as portable defaults",
+    "fixed prefetch process concurrency as a portable default",
+    "fixed prefetch sort strategy or device readahead value without workload benchmark"
   ],
   "non_authority_scope": [
     "provider execution semantics",
     "model routing",
     "security policy",
     "evidence authority",
-    "scheduler implementation ownership"
+    "scheduler implementation ownership",
+    "userspace prefetch implementation ownership"
   ],
-  "implementation_status": "CANONICAL_PORTABLE_HRB_SYSTEMD_MANAGER_NEUTRALITY_CURRENT_HOST_GATE_MATERIALIZED_REAL_EXECUTION_PENDING",
+  "implementation_status": "CANONICAL_PORTABLE_HRB_PAGE_CACHE_PREFETCH_AND_SYSTEMD_MANAGER_POLICY_MATERIALIZED_CURRENT_HOST_PERFORMANCE_EVIDENCE_PENDING",
   "systemd_manager_defaults_policy": {
     "status": "MANDATORY_NEUTRAL_BASELINE",
     "global_manager_resource_defaults": "VENDOR_OR_HOST_SURVIVAL_BASELINE_ONLY",
@@ -128,6 +159,9 @@
   },
   "hardware_portability_baseline_profile": "FA3-HARDWARE-BASELINE-001",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "canonical_validation_surfaces": [
+    "FA3-GATE-PAGE-CACHE-PREFETCH-001"
+  ],
   "current_host_validation_surfaces": [
     "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001"
   ]
