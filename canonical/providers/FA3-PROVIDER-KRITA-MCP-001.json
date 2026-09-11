@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-KRITA-MCP-001",
+  "name": "Krita MCP Adapter",
+  "status": "ACCEPTED_REFERENCE",
+  "provider_role": "OPTIONAL_REPLACEABLE_KRITA_DESKTOP_CONTROL_ADAPTER",
+  "classification": ["OPTIONAL_PROVIDER", "REFERENCE_ADAPTER", "LOCAL_DESKTOP_PROVIDER", "KRITA_PLUGIN", "MCP_DESKTOP_CONTROL"],
+  "profile": "FA3-AI-IMAGE-EDITING-001",
+  "capability_projection": ["CAP-016"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_WHEN_AGENT_ASSISTED_KRITA_CONTROL_IS_USED",
+  "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
+  "upstream_references": [
+    {"repository": "dcc-mcp/dcc-mcp-krita", "observed_revision": "5bd6fc6665e396f696ff6f2c6d3115b263762f67", "observed_date": "2026-09-11", "license": "MIT", "role": "PRIMARY_TYPED_ADAPTER_PATTERN_SOURCE"},
+    {"repository": "SanSaSane/krita-mcp", "observed_revision": "1f06e047bf9c9b458d79ece7ef66e678bb667cd3", "observed_date": "2026-09-11", "license": "CC0-1.0", "role": "SECURE_LOOPBACK_AND_GUI_THREAD_PATTERN_SOURCE"}
+  ],
+  "bridge_policy": {
+    "fa3_governed_mode_requires_central_mcp_gateway": true,
+    "direct_global_mcp_authority_forbidden": true,
+    "authenticated_loopback_only": true,
+    "typed_operation_catalog_required": true,
+    "gui_mutation_main_thread_dispatch_required": true,
+    "session_token_required": true
+  },
+  "authority_boundaries": {
+    "generation_semantics": "FA3-IMGGEN-CONTRACTS-001",
+    "image_editing_contracts": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+    "generation_context_ir": "FA3-MMG-CONTEXT-IR-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "mcp_gateway": "FA3-AUTH-MCP-GATEWAY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "orchestration": "EXISTING_FA3_DURABLE_ORCHESTRATION"
+  },
+  "forbidden_roles": ["GLOBAL_ORCHESTRATION_AUTHORITY", "WORKFLOW_AUTHORITY", "MODEL_REGISTRY_AUTHORITY", "MODEL_ROUTER_AUTHORITY", "MCP_GATEWAY_AUTHORITY", "HOST_RESOURCE_AUTHORITY", "EVIDENCE_AUTHORITY", "POLICY_AUTHORITY", "SECRETS_AUTHORITY", "PROVENANCE_AUTHORITY", "GENERATION_CONTEXT_IR_AUTHORITY"],
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_production_claim": false
+}

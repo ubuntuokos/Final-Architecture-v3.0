@@ -1,10 +1,10 @@
 {
   "id": "FA3-GATE-AI-IMAGE-EDITING-001",
   "kind": "executable_regression_gate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "profile": "FA3-AI-IMAGE-EDITING-001",
-  "entrypoint": "python3 -m unittest tests.test_ai_image_editing",
+  "entrypoint": "python3 -m unittest tests.test_ai_image_editing tests.test_krita_ai_image_editing_gate",
   "fail_closed": true,
   "assertions": [
     "subprofile_parent_is_FA3-IMGGEN-001",
@@ -13,8 +13,13 @@
     "standalone_and_fa3_governed_modes_present",
     "required_image_editing_intents_present",
     "gimp_authority_denials_present",
+    "krita_authority_denials_present",
+    "gimp_and_krita_peer_frontends_present",
     "hardware_admission_is_dynamic",
     "concrete_gpu_sku_is_not_canonical_dependency",
-    "backend_providers_are_replaceable"
+    "backend_providers_are_replaceable",
+    "krita_ai_diffusion_is_non_authoritative",
+    "krita_vision_models_require_admission",
+    "krita_mcp_requires_existing_gateway"
   ]
 }

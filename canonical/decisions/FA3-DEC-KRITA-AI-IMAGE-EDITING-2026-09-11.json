@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11",
+  "date": "2026-09-11",
+  "status": "CANONICAL_CLOSED",
+  "title": "Extend the existing FA3 AI image-editing projection to Krita without adding capability or authority",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "profile_id": "FA3-AI-IMAGE-EDITING-001",
+  "contract_id": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+  "provider_ids": ["FA3-PROVIDER-KRITA-001", "FA3-PROVIDER-KRITA-AI-DIFFUSION-001", "FA3-PROVIDER-KRITA-VISION-TOOLS-001", "FA3-PROVIDER-KRITA-MCP-001"],
+  "gate_id": "FA3-KRITA-AI-IMAGE-EDITING-GATESET-001",
+  "gate_record_id": "FA3-GATE-KRITA-AI-IMAGE-EDITING-001",
+  "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
+  "related_decisions": ["FA3-DEC-GIMP-LOCAL-AI-2026-09-08", "FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09"],
+  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120", "CAP-135"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false,
+  "decisions": [
+    "Reuse FA3-AI-IMAGE-EDITING-001 as the shared GIMP and Krita image-editing subprofile; do not create a second image-editing capability.",
+    "Treat GIMP and Krita as peer desktop frontends over replaceable governed AI backends.",
+    "Accept Acly/krita-ai-diffusion as a strong optional reference provider for Krita to ComfyUI generative interoperability; prefer an external FA3-governed ComfyUI runtime in governed mode.",
+    "Accept Acly/krita-vision-tools as an optional local vision-assist provider; all model assets remain subject to canonical model admission and security governance.",
+    "Accept Krita MCP adapters only beneath FA3-AUTH-MCP-GATEWAY-001 with authenticated loopback transport, typed operations and GUI-thread-safe mutation semantics.",
+    "No Krita plugin or adapter becomes workflow, model registry/router, MCP gateway, host resource, policy, secrets, provenance, evidence or generation-context authority.",
+    "GPU selection remains capability-discovered; replacement of the accelerator must not require Krita-specific canonical reconfiguration.",
+    "Reference/design PASS proves canonical conformance only; no current-host production runtime claim is made."
+  ]
+}
