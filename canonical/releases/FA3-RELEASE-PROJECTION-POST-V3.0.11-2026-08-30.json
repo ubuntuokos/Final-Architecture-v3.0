@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "32fc3c324bd51d9b099f74e4b799b4c97b774fa4",
-    "pre_projection_root_tree_sha": "3ffc92ec302fec98cf44944755416763faa86788",
-    "pre_projection_canonical_tree_sha": "cc6f4cec25d784f30422b71742987e60dce6717c",
+    "pre_projection_head_sha": "ba4c5585be8fd866c59056e7532a60dffc8478bc",
+    "pre_projection_root_tree_sha": "2b83111e21caa021bf5a65afa64ff1a220b58bcf",
+    "pre_projection_canonical_tree_sha": "b786d77aba2791708af61287e01fdd8f91695567",
     "commits_ahead_of_v3_0_11_conformance_commit": 139,
     "total_post_baseline_commits": 139,
-    "delta_file_count": 866,
-    "delta_added_files": 861,
+    "delta_file_count": 876,
+    "delta_added_files": 871,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 486,
-    "evidence_files_in_post_baseline_delta": 94,
+    "canonical_files_in_post_baseline_delta": 494,
+    "evidence_files_in_post_baseline_delta": 95,
     "source_files_in_post_baseline_delta": 97,
-    "test_files_in_post_baseline_delta": 80,
+    "test_files_in_post_baseline_delta": 81,
     "workflow_files_in_post_baseline_delta": 22,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -78,6 +78,9 @@
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
       "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-001.json",
+      "canonical/providers/FA3-PROVIDER-KRITA-AI-DIFFUSION-001.json",
+      "canonical/providers/FA3-PROVIDER-KRITA-MCP-001.json",
+      "canonical/providers/FA3-PROVIDER-KRITA-VISION-TOOLS-001.json",
       "canonical/providers/FA3-PROVIDER-LAVASR-001.json",
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
@@ -289,6 +292,7 @@
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
@@ -353,6 +357,7 @@
       "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-KANBOARD-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09.json",
       "canonical/references/FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
@@ -616,7 +621,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 866,
+  "manifest_entry_count": 876,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -965,7 +970,7 @@
     },
     {
       "path": "canonical/FA3-GATE-AI-IMAGE-EDITING-001.json",
-      "git_blob_sha": "7cd1442599b0b06bea02db6ab808469be79530f8",
+      "git_blob_sha": "c27f069d35aa030255e4adcd7ada7f61f95b515f",
       "baseline_delta_status": "added"
     },
     {
@@ -1031,6 +1036,11 @@
     {
       "path": "canonical/FA3-GATE-HYBRID-EDITORIAL-001.json",
       "git_blob_sha": "b19be06f712e94705d3f8247d64cf8617eec2055",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-KRITA-AI-IMAGE-EDITING-001.json",
+      "git_blob_sha": "b8f57e252cf8c61fb039b08665a4a1aa47493382",
       "baseline_delta_status": "added"
     },
     {
@@ -1305,7 +1315,7 @@
     },
     {
       "path": "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
-      "git_blob_sha": "975b3047ae043c9b75bf1f1e03881c5eb4979d45",
+      "git_blob_sha": "51f01b5bf41392d22e55ec25b4265eaa6088e5fd",
       "baseline_delta_status": "added"
     },
     {
@@ -1784,6 +1794,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
+      "git_blob_sha": "d5fa12afae024c6347063eadc0ae368156842769",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "git_blob_sha": "df0f5193dec308a875c0320b86926e8df64b9310",
       "baseline_delta_status": "added"
@@ -2129,6 +2144,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/krita-ai-image-editing-enforcement.json",
+      "git_blob_sha": "8ea099a6a34c8b420a735424c4a7b465d9996fa2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/lavasr-enforcement.json",
       "git_blob_sha": "61872ce0a1e4887c2ac1357161083056aa964bb2",
       "baseline_delta_status": "added"
@@ -2295,7 +2315,7 @@
     },
     {
       "path": "canonical/policies/FA3-AI-IMAGE-EDITING-HARDWARE-ADMISSION-001.json",
-      "git_blob_sha": "4099bedbed3e80431df5548fdfca5d38f8425622",
+      "git_blob_sha": "3b598a22ec26192912a3c41e633c79d256cd8ccb",
       "baseline_delta_status": "added"
     },
     {
@@ -2315,7 +2335,7 @@
     },
     {
       "path": "canonical/profiles/FA3-AI-IMAGE-EDITING-001.json",
-      "git_blob_sha": "2cb27f795cd110b68523ac29fee59021157247ac",
+      "git_blob_sha": "7a4b708d5e1b1444139b6d22b7528ea341b9c3d8",
       "baseline_delta_status": "added"
     },
     {
@@ -2655,7 +2675,22 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KRITA-001.json",
-      "git_blob_sha": "7ebedd5912fe9b99e3ca9b4eac9ee051d1212ae6",
+      "git_blob_sha": "d4f69a37fe462ec457dacc437b5a07615e742a1f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-KRITA-AI-DIFFUSION-001.json",
+      "git_blob_sha": "4132165c81154507df6729f6628382dd6a2959cc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-KRITA-MCP-001.json",
+      "git_blob_sha": "0729997f40254714c4a1961fdd026427fae90405",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-KRITA-VISION-TOOLS-001.json",
+      "git_blob_sha": "e4e30bbc2c6dc691cd6086a24705e6c154a99819",
       "baseline_delta_status": "added"
     },
     {
@@ -3074,6 +3109,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11.json",
+      "git_blob_sha": "d1647a25256211f2083ec207a81517bb95a03f57",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-LAVASR-UPSTREAM-REFERENCE-2026-09-09.json",
       "git_blob_sha": "7c16ef2abb11f140382ec59171e3953c32a4fa89",
       "baseline_delta_status": "added"
@@ -3246,6 +3286,11 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-GTCRN-2026-09-09.json",
       "git_blob_sha": "ff043b0da565a7d16fa2b51de16594544adaf6fb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
+      "git_blob_sha": "422c1452331752467a4c7880b65c95082269a424",
       "baseline_delta_status": "added"
     },
     {
@@ -3994,6 +4039,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/static/FA3-KRITA-AI-IMAGE-EDITING-STATIC-PASS-2026-09-11.json",
+      "git_blob_sha": "ea1c6d0b9b7dde544a6b29eeb11709cb2fbb2e22",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "examples/blackhole-kdenlive-request.json",
       "git_blob_sha": "4b28feb5992f421375b3a668e50801f550e4ea27",
       "baseline_delta_status": "added"
@@ -4701,6 +4751,11 @@
     {
       "path": "tests/test_kdenlive_editorial.py",
       "git_blob_sha": "a805ea489ad6281fbf55e9ba53779d494f7fb086",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_krita_ai_image_editing_gate.py",
+      "git_blob_sha": "bcd8b7ce61f1af8d4325519aa198e4022b4cfc5a",
       "baseline_delta_status": "added"
     },
     {
