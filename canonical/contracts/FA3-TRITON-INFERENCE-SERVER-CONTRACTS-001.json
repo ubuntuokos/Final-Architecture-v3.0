@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-TRITON-INFERENCE-SERVER-CONTRACTS-001",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "provider_id": "FA3-PROVIDER-TRITON-001",
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
@@ -10,6 +10,11 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
+  "runtime_projection_device_mode": "NVIDIA_GPU_HRB_SCOPED_V1",
+  "admitted_backend_provider_projections_v1": [
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001"
+  ],
   "contracts": [
     "TritonRuntimeCandidateDescriptor",
     "TritonContainerAdmissionReceipt",
@@ -49,7 +54,8 @@
     "mount": "READ_ONLY_BY_DEFAULT",
     "runtime_fetch": "FORBIDDEN_BY_DEFAULT",
     "native_repository_as_canonical_store": "FORBIDDEN",
-    "partial_poll_observation": "FORBIDDEN"
+    "partial_poll_observation": "FORBIDDEN",
+    "projection_digest_binding_required_before_start": true
   },
   "model_control": {
     "default_mode": "none",
@@ -67,7 +73,8 @@
     "runtime_ordinal_mapping_receipt_required": true,
     "model_instance_group_gpu_set": "MUST_BE_SUBSET_OF_HRB_GRANTED_SCOPE",
     "implicit_display_or_other_gpu_fallback": "FORBIDDEN",
-    "cpu_fallback": "EXPLICIT_POLICY_ONLY"
+    "cpu_execution_in_v1_projection": "FORBIDDEN",
+    "future_cpu_projection": "REQUIRES_SEPARATE_ADMISSION"
   },
   "network": {
     "http_default": "127.0.0.1:8000",
@@ -97,6 +104,7 @@
       "placement_receipt",
       "device_scope",
       "model_projection",
+      "model_projection_digest",
       "model_control_mode",
       "network_scope",
       "readiness_result",
