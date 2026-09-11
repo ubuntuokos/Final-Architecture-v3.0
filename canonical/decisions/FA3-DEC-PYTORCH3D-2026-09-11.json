@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-PYTORCH3D-2026-09-11",
+  "date": "2026-09-11",
+  "status": "CANONICAL_CLOSED",
+  "subject": "PyTorch3D differentiable 3D geometry and neural-rendering provider integration",
+  "decision": "ACCEPT_AS_REQUIRED_SUPPORTED_REFERENCE_AND_CONDITIONAL_SOURCE_BUILD_ONLY_EXECUTION_PROVIDER_BEHIND_EXISTING_GEOMETRY_DCC_WORKFLOW_RESOURCE_SECURITY_REGISTRY_AND_EVIDENCE_AUTHORITIES",
+  "profile_id": "FA3-DIFFERENTIABLE-3D-001",
+  "parent_profile_id": "FA3-3D-GEOM-001",
+  "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+  "contract_id": "FA3-DIFFERENTIABLE-3D-CONTRACTS-001",
+  "gate_set_id": "FA3-PYTORCH3D-GATESET-001",
+  "upstream_reference_id": "FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11",
+  "rationale": [
+    "PyTorch3D provides a high-value reusable execution surface for differentiable mesh and point rendering, camera optimization, geometry metrics and reconstruction workflows",
+    "CAP-032 already makes Metric 3D Reconstruction mandatory, so this is an implementation projection rather than a new capability",
+    "FA3-3D-GEOM-001 remains the sole canonical geometry semantic root and Bforartists/Blender-compatible DCC contracts retain scene and final-asset authority",
+    "upstream documents only older PyTorch compatibility and confirms that current official binaries are unavailable",
+    "an exact source build with a complete ABI tuple and real current-host GPU evidence is therefore mandatory before activation"
+  ],
+  "accepted_constraints": [
+    "NON_ROOT_SUBPROFILE_OF_FA3_3D_GEOM_001",
+    "CAP_032_ONLY_PROJECTION",
+    "EXACT_UPSTREAM_COMMIT_PIN",
+    "SOURCE_BUILD_ONLY_UNTIL_OFFICIAL_ACCEPTED_TUPLE_BINARY_EXISTS",
+    "ISOLATED_PIP_VENV_NO_CONDA_BASELINE",
+    "NO_SHARED_COMFYUI_OR_OTHER_TORCH_ENVIRONMENT",
+    "NO_PYTORCH3DUNIVERSE_OR_UNVERIFIED_COMMUNITY_WHEEL",
+    "FULL_PYTHON_TORCH_TORCHVISION_CUDA_COMPILER_CXX_ABI_WHEEL_IDENTITY",
+    "BUILD_TOOLKIT_MUST_MATCH_TORCH_COMPILED_CUDA_MAJOR_MINOR",
+    "HARDWARE_TARGETS_AND_BUILD_PARALLELISM_FROM_HRB",
+    "NO_STATIC_GPU_ORDINAL_AS_IDENTITY",
+    "SINGLE_VISIBLE_COMPUTE_ACCELERATOR_PER_WORKER",
+    "NO_SILENT_GPU_CPU_PROVIDER_OR_CLOUD_FALLBACK",
+    "PULSAR_INVALID_DEVICE_AND_DEVICE_RESTORATION_REGRESSION",
+    "CONTENT_ADDRESSED_GEOMETRY_INPUT_OUTPUT_AND_PROVENANCE",
+    "CURRENT_HOST_REAL_BUILD_KERNEL_RENDER_METRIC_LIFECYCLE_AND_ROLLBACK_EVIDENCE_REQUIRED"
+  ],
+  "rejected": [
+    "NEW_GEOMETRY_OR_DCC_AUTHORITY",
+    "NEW_MODEL_ROUTING_REGISTRY_OR_WORKFLOW_AUTHORITY",
+    "NEW_HOST_RESOURCE_DEVICE_ROUTING_SECURITY_OR_EVIDENCE_AUTHORITY",
+    "DOCUMENTED_CONDA_CHANNEL_AS_COMPATIBILITY_EVIDENCE",
+    "PYTORCH3D_NIGHTLY_OR_STABLE_TAG_AS_PRODUCTION_IDENTITY",
+    "FLOATING_GIT_INSTALL",
+    "UNVERIFIED_COMMUNITY_BINARY",
+    "SYSTEM_DEFAULT_CUDA_WITH_MISMATCHED_TORCH_CUDA_ABI",
+    "IMPLICIT_DISPLAY_GPU_SELECTION",
+    "AUTOMATIC_CPU_FALLBACK",
+    "DOCUMENT_ONLY_RUNTIME_PROMOTION"
+  ],
+  "baseline_effect": {
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
+  }
+}

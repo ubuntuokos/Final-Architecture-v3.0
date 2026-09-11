@@ -17,6 +17,14 @@ Run `./bin/fa3-enforce stability-matrix-lifecycle` for the 23-case executable re
 
 Runtime evidence starts at `PENDING_CURRENT_HOST`; documentation alone never promotes the runtime.
 
+## PyTorch3D differentiable 3D provider
+
+`FA3-PROVIDER-PYTORCH3D-001` registers `facebookresearch/pytorch3d` as the required supported reference and conditional local execution provider for differentiable geometry, neural rendering and reconstruction. It is projected only onto existing `CAP-032` through the non-root `FA3-DIFFERENTIABLE-3D-001` child of the sole `FA3-3D-GEOM-001` geometry authority. The canonical capability count remains **143** and no architectural authority is added.
+
+The accepted upstream snapshot is `0a7d4c1a171e8b768c63f15b17564f9ad495f49b`. Admission is currently **SOURCE-BUILD-ONLY** in an isolated pip venv: Conda/nightly, `stable`, floating `main`, `pytorch3duniverse`, unverified community wheels and shared application Torch environments are forbidden. Accelerator selection requires an HRB lease and stable UUID + PCI BDF identity; no display-GPU, CPU, provider or cloud fallback is allowed.
+
+Run `./bin/fa3-enforce pytorch3d` for the 32-rule fail-closed canonical and policy gate. A real source-build, CUDA kernels, mesh/pointcloud/camera/marching-cubes/OBJ/PLY/Pulsar E2E, invalid-device failure, device restoration, worker unload and rollback receipt are still required before current-host runtime promotion. See `docs/pytorch3d-integration.md`.
+
 ## Commands
 
 ```bash

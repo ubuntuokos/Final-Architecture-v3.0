@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PYTORCH3D-001",
+  "name": "facebookresearch/pytorch3d",
+  "status": "ACCEPTED_REQUIRED_SUPPORTED_REFERENCE_CONDITIONAL_RUNTIME_NOT_PROMOTED",
+  "provider_role": "PRIMARY_DIFFERENTIABLE_3D_GEOMETRY_NEURAL_RENDERING_AND_RECONSTRUCTION_EXECUTION_REFERENCE_PROVIDER",
+  "classification": [
+    "REQUIRED_SUPPORTED_REFERENCE",
+    "CONDITIONAL_EXECUTION_PROVIDER",
+    "LOCAL_FIRST",
+    "SOURCE_BUILD_ONLY",
+    "CUDA_EXTENSION",
+    "PERMISSIVE_LICENSE"
+  ],
+  "profile_ids": [
+    "FA3-DIFFERENTIABLE-3D-001"
+  ],
+  "contract_ids": [
+    "FA3-GEOMETRY-CONTRACTS-001",
+    "FA3-DIFFERENTIABLE-3D-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "facebookresearch/pytorch3d",
+    "revision": "0a7d4c1a171e8b768c63f15b17564f9ad495f49b",
+    "revision_date": "2026-09-03",
+    "release_reference": "v0.7.9",
+    "release_commit": "33824be3cbc87a7dd1db0f6a9a9de9ac81b2d0ba",
+    "license": "BSD-3-Clause",
+    "reference_id": "FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11"
+  },
+  "capability_surface": [
+    "mesh_and_pointcloud_data_structures",
+    "differentiable_mesh_rendering",
+    "differentiable_point_rendering",
+    "camera_and_pose_optimization",
+    "knn_ball_query_chamfer_and_hausdorff_metrics",
+    "marching_cubes_and_voxel_to_mesh",
+    "obj_ply_interchange",
+    "experimental_glb_projection"
+  ],
+  "binary_channel_policy": {
+    "current": "SOURCE_BUILD_ONLY",
+    "official_binary_for_accepted_tuple_available": false,
+    "conda_channel_admissible": false,
+    "pytorch3d_nightly_channel_admissible": false,
+    "community_wheel_admissible": false,
+    "pytorch3duniverse_admissible": false,
+    "floating_main_install_admissible": false,
+    "stable_tag_install_admissible": false,
+    "reason": "Upstream maintainer confirms official builds have not been produced for a long time and current binaries do not match modern dependencies. The stable tag resolves to an older release and is not an immutable accepted runtime identity."
+  },
+  "build_policy": {
+    "isolated_pip_venv": true,
+    "shared_comfyui_or_other_torch_environment": false,
+    "conda_or_mamba": false,
+    "source_revision_must_equal_upstream_revision": true,
+    "source_tree_digest_required": true,
+    "torch_torchvision_python_cuda_compiler_cxx_abi_tuple_required": true,
+    "torch_compiled_cuda_must_match_build_toolkit_major_minor": true,
+    "target_architectures_derived_from_admitted_hardware": true,
+    "build_parallelism_derived_from_hrb": true,
+    "reproducible_wheel_and_sha256_required": true,
+    "pep517_660_packaging_regression_gate_required": true,
+    "sbom_and_provenance_required_for_promotion": true
+  },
+  "current_host_candidate_reference": {
+    "classification": "NON_NORMATIVE_CURRENT_HOST_TARGET",
+    "platform": "Kubuntu 26.04 Linux",
+    "python": "3.14",
+    "torch": "2.9.1+cu128",
+    "build_toolkit": "CUDA 12.8 side-by-side",
+    "system_default_toolkit": "CUDA 13.2 not accepted as the build pair for a cu128 Torch runtime",
+    "accelerator": "RTX 3090 compute role",
+    "target_architecture": "sm_86",
+    "display_accelerator_hidden_from_worker": true,
+    "runtime_status": "UNVERIFIED_CANDIDATE_REQUIRES_REAL_BUILD_AND_GPU_E2E"
+  },
+  "activation": {
+    "mode": "DISABLED_UNTIL_EXPLICIT_SOURCE_BUILD_AND_CURRENT_HOST_ADMISSION",
+    "requires_profile_activation": "FA3-DIFFERENTIABLE-3D-001",
+    "requires_hrb_lease": true,
+    "requires_single_visible_compute_accelerator": true,
+    "automatic_gpu_or_cpu_fallback": false,
+    "long_lived_daemon_required": false,
+    "execution_model": "TRANSIENT_JOB_WORKER"
+  },
+  "authority_boundaries": {
+    "geometry_semantics": false,
+    "dcc_scene_and_final_asset": false,
+    "model_registry": false,
+    "model_routing": false,
+    "host_resource": false,
+    "device_routing": false,
+    "workflow": false,
+    "mcp_gateway": false,
+    "security": false,
+    "evidence": false
+  },
+  "implementation": {
+    "policy_adapter": "src/fa3_pytorch3d_provider.py",
+    "gate": "src/fa3_pytorch3d_gate.py",
+    "source_builder": "bin/fa3-pytorch3d-source-build.sh",
+    "current_host_collector": "evidence/collect-pytorch3d-current-host.py",
+    "enforce_command": "./bin/fa3-enforce pytorch3d",
+    "current_host_command": "PYTHONPATH=src python evidence/collect-pytorch3d-current-host.py --source-dir <pinned-source> --venv <isolated-venv> --wheel <verified-wheel>"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "source_build_receipt": "REQUIRED",
+    "cuda_extension_import_and_kernel_smoke": "REQUIRED",
+    "geometry_positive_and_negative_regressions": "REQUIRED",
+    "pulsar_device_failure_and_restore_regression": "REQUIRED",
+    "quality_determinism_resource_and_latency_evidence": "REQUIRED",
+    "worker_unload_vram_release_and_rollback": "REQUIRED",
+    "current_host_runtime_evidence": "PENDING",
+    "runtime_promotion_claimed": false
+  }
+}

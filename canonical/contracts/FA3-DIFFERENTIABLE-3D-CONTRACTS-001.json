@@ -1,0 +1,123 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DIFFERENTIABLE-3D-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-DIFFERENTIABLE-3D-001",
+  "parent_contract": "FA3-GEOMETRY-CONTRACTS-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "Differentiable3DJobManifest",
+    "Differentiable3DJobResult",
+    "GeometryComputeAssetDescriptor",
+    "GeometryComputeCompatibilityReceipt",
+    "GeometrySourceBuildReceipt",
+    "GeometryAcceleratorLeaseBinding",
+    "GeometryKernelCoverageReceipt",
+    "GeometryQualityAndDeterminismReceipt",
+    "GeometryInterchangeProjectionReceipt",
+    "GeometryWorkerLifecycleReceipt",
+    "PulsarDeviceSafetyReceipt"
+  ],
+  "job_manifest": {
+    "schema": "fa3.differentiable-3d-job.v1",
+    "required_fields": [
+      "job_id",
+      "operation",
+      "input_assets",
+      "output_contract",
+      "runtime_compatibility_receipt_id",
+      "execution_device",
+      "fallback_policy",
+      "evidence_sink"
+    ],
+    "allowed_operations": [
+      "3d.mesh.fit",
+      "3d.mesh.render",
+      "3d.pointcloud.render",
+      "3d.camera.optimize",
+      "3d.volume.marching-cubes",
+      "3d.geometry.convert"
+    ],
+    "input_assets_content_addressed": true,
+    "output_assets_content_addressed": true,
+    "runtime_network_fetch": false,
+    "arbitrary_python_payload": false
+  },
+  "runtime_compatibility_receipt_required_fields": [
+    "provider_id",
+    "source_revision",
+    "source_tree_or_file_digests",
+    "python_version_and_abi",
+    "torch_version",
+    "torchvision_version",
+    "torch_compiled_cuda_version",
+    "build_toolkit_version",
+    "compiler_id_and_version",
+    "cxx11_abi",
+    "target_accelerator_architectures",
+    "wheel_sha256",
+    "platform",
+    "result"
+  ],
+  "source_build_receipt": {
+    "isolated_pip_venv_required": true,
+    "conda_baseline_allowed": false,
+    "immutable_source_revision_required": true,
+    "source_tree_integrity_required": true,
+    "wheel_build_required": true,
+    "wheel_sha256_required": true,
+    "sbom_and_provenance_required_for_promotion": true,
+    "torch_cuda_and_build_toolkit_abi_must_match": true,
+    "build_parallelism_source": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "floating_git_install": false
+  },
+  "accelerator_execution": {
+    "hrb_lease_required": true,
+    "stable_accelerator_identity_required_when_available": [
+      "DEVICE_UUID",
+      "PCI_BDF"
+    ],
+    "runtime_ordinal_is_ephemeral_mapping_only": true,
+    "single_visible_compute_accelerator_per_worker": true,
+    "display_accelerator_implicit_selection": false,
+    "silent_accelerator_fallback": false,
+    "silent_cpu_fallback": false,
+    "requested_device_failure": "FAIL_CLOSED_WITH_DIAGNOSTIC"
+  },
+  "interchange": {
+    "canonical_geometry_semantics": "FA3-3D-GEOM-001",
+    "native_admitted_formats": [
+      "OBJ",
+      "PLY"
+    ],
+    "experimental_formats": [
+      "GLB"
+    ],
+    "experimental_format_requires_separate_roundtrip_evidence": true,
+    "generated_visual_observation_is_not_canonical_geometry": true,
+    "dcc_finalization_authority": "FA3-DCC-RT3D-001"
+  },
+  "quality_and_safety": {
+    "finite_output_required": true,
+    "non_empty_geometry_required": true,
+    "topology_validation_required": true,
+    "coordinate_system_and_units_explicit": true,
+    "gradient_finiteness_required_for_differentiable_operations": true,
+    "positive_and_negative_device_tests_required": true,
+    "pulsar_active_device_restoration_required": true,
+    "pulsar_invalid_device_must_raise": true,
+    "worker_unload_and_vram_release_evidence_required": true,
+    "rollback_required": true
+  },
+  "authority_constraints": [
+    "NO_PARALLEL_GEOMETRY_AUTHORITY",
+    "NO_DCC_AUTHORITY",
+    "NO_MODEL_REGISTRY_OR_ROUTING_AUTHORITY",
+    "NO_HOST_RESOURCE_OR_DEVICE_ROUTING_AUTHORITY",
+    "NO_WORKFLOW_OR_MCP_GATEWAY_AUTHORITY",
+    "NO_SECURITY_OR_EVIDENCE_AUTHORITY"
+  ]
+}

@@ -1,0 +1,67 @@
+name: PyTorch3D current-host production E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_dir:
+        description: Exact pinned PyTorch3D source checkout on the runner
+        required: true
+        type: string
+      venv_dir:
+        description: Isolated pip venv containing the built wheel and admitted Torch tuple
+        required: true
+        type: string
+      wheel:
+        description: Source-built PyTorch3D wheel
+        required: true
+        type: string
+      sbom:
+        description: SBOM produced for the wheel
+        required: true
+        type: string
+      provenance:
+        description: Build provenance attestation
+        required: true
+        type: string
+      build_receipt:
+        description: FA3 PyTorch3D source-build receipt
+        required: true
+        type: string
+      hrb_receipt:
+        description: Active Host Resource Broker compute lease receipt
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-pytorch3d-current-host
+  cancel-in-progress: false
+
+jobs:
+  current-host-production-e2e:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Canonical preflight
+        run: ./bin/fa3-enforce pytorch3d
+      - name: Real source-build CUDA and geometry E2E
+        run: |
+          ./bin/fa3-pytorch3d-current-host.sh \
+            --source-dir '${{ inputs.source_dir }}' \
+            --venv '${{ inputs.venv_dir }}' \
+            --wheel '${{ inputs.wheel }}' \
+            --sbom '${{ inputs.sbom }}' \
+            --provenance '${{ inputs.provenance }}' \
+            --build-receipt '${{ inputs.build_receipt }}' \
+            --hrb-receipt '${{ inputs.hrb_receipt }}'
+      - name: Upload current-host receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-pytorch3d-current-host-receipt
+          path: evidence/receipts/pytorch3d-current-host.json

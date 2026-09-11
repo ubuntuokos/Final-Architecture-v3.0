@@ -1,0 +1,75 @@
+name: PyTorch3D reference gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**PYTORCH3D**'
+      - 'canonical/**pytorch3d**'
+      - 'canonical/profiles/FA3-3D-GEOM-001.json'
+      - 'canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json'
+      - 'canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json'
+      - 'evidence/reference/pytorch3d-reference-pass.json'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_pytorch3d_*.py'
+      - 'tests/test_pytorch3d_gate.py'
+      - 'tools/fa3_pytorch3d_global_reconcile.py'
+      - 'bin/fa3-pytorch3d-*'
+      - '.github/workflows/pytorch3d-*.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-pytorch3d-reference-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and JSON validation
+        run: |
+          python -m py_compile src/fa3_pytorch3d_provider.py src/fa3_pytorch3d_gate.py src/fa3_pytorch3d_runtime_probe.py evidence/collect-pytorch3d-current-host.py tools/fa3_pytorch3d_global_reconcile.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('canonical').rglob('*.json'):
+              json.loads(path.read_text(encoding='utf-8'))
+          json.loads(Path('evidence/reference/pytorch3d-reference-pass.json').read_text(encoding='utf-8'))
+          PY
+          bash -n bin/fa3-pytorch3d-source-build.sh bin/fa3-pytorch3d-current-host.sh
+      - name: PyTorch3D canonical and negative regression gate
+        run: PYTHONPATH=src python -m unittest tests.test_pytorch3d_gate -v
+      - name: PyTorch3D executable gate
+        run: ./bin/fa3-enforce pytorch3d
+      - name: Hardware portability regression
+        run: ./bin/fa3-enforce hardware-portability
+      - name: Assert no document-only runtime promotion
+        run: |
+          python - <<'PY'
+          import json
+          runtime=json.load(open('canonical/FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001.json'))
+          evidence=json.load(open('evidence/reference/pytorch3d-reference-pass.json'))
+          assert runtime['status'] == 'PENDING_CURRENT_HOST'
+          assert runtime['production_admitted'] is False
+          assert evidence['current_host_runtime_evidence'] is False
+          assert evidence['production_promotion'] is False
+          PY
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-pytorch3d-reference-gate-report
+          path: reports/pytorch3d-gate-report.json
