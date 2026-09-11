@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.current-host-runner-conformance.v1",
+  "id": "FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001",
+  "status": "EXECUTABLE_CONTROL_PLANE_MATERIALIZED_HOST_REGISTRATION_REQUIRED",
+  "role": "CURRENT_HOST_GITHUB_ACTIONS_EXECUTION_SUBSTRATE",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "repository": "ubuntuokos/Final-Architecture-v3.0",
+  "required_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "runner": {
+    "upstream": "actions/runner",
+    "version": "2.337.0",
+    "asset": "actions-runner-linux-x64-2.337.0.tar.gz",
+    "sha256": "70920811a4f8ad4328818682bca5c6469c1c942fab52448868071d0063816613",
+    "release_published_at": "2026-08-26T14:33:29Z",
+    "auto_update": "DISABLED_IMMUTABLE_PIN",
+    "install_root": "$HOME/.local/share/fa3/actions-runner",
+    "work_root": "$HOME/.local/share/fa3/actions-runner/_work",
+    "run_as_root": "FORBIDDEN"
+  },
+  "registration": {
+    "token_class": "EPHEMERAL_GITHUB_RUNNER_REGISTRATION_SECRET",
+    "token_persistence": "FORBIDDEN",
+    "preferred_acquisition": "gh api --method POST repos/ubuntuokos/Final-Architecture-v3.0/actions/runners/registration-token",
+    "server_side_label_revalidation": "REQUIRED"
+  },
+  "service": {
+    "manager": "systemd --user",
+    "unit": "fa3-github-runner.service",
+    "linger_recommended": true,
+    "restart_policy": "on-failure"
+  },
+  "evidence": {
+    "doctor_receipt": ".fa3-current-host/runner/doctor.json",
+    "server_scheduling_receipt": "GITHUB_ACTIONS_JOB_ON_REQUIRED_LABEL_SET",
+    "github_hosted_substitution": "FORBIDDEN"
+  },
+  "promotion_semantics": {
+    "runner_doctor_pass_is_global_promotion": false,
+    "provider_e2e_must_run_separately": true
+  }
+}

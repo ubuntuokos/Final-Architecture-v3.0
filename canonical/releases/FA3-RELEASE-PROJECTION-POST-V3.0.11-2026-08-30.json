@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "76dd34a1838997daff85c045fe36148f7efb5fa6",
-    "pre_projection_root_tree_sha": "d950a13a39a029f792884fe2467b20536c116981",
-    "pre_projection_canonical_tree_sha": "0f0d20422fa83a9f5a4559dade9ccc2d60345ce4",
-    "commits_ahead_of_v3_0_11_conformance_commit": 141,
-    "total_post_baseline_commits": 141,
-    "delta_file_count": 876,
-    "delta_added_files": 871,
+    "pre_projection_head_sha": "89230af3a9e9607ef471b5709e62f51eea98e771",
+    "pre_projection_root_tree_sha": "73243aa4f7eec6d92554c5af58d18943952ef35b",
+    "pre_projection_canonical_tree_sha": "8e0435715f55fa69c4dcc220f471321e5232dda6",
+    "commits_ahead_of_v3_0_11_conformance_commit": 144,
+    "total_post_baseline_commits": 144,
+    "delta_file_count": 885,
+    "delta_added_files": 880,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 494,
+    "canonical_files_in_post_baseline_delta": 497,
     "evidence_files_in_post_baseline_delta": 95,
-    "source_files_in_post_baseline_delta": 97,
-    "test_files_in_post_baseline_delta": 81,
-    "workflow_files_in_post_baseline_delta": 22,
+    "source_files_in_post_baseline_delta": 98,
+    "test_files_in_post_baseline_delta": 82,
+    "workflow_files_in_post_baseline_delta": 23,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -273,6 +273,7 @@
       "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
       "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
+      "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
@@ -621,7 +622,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 876,
+  "manifest_entry_count": 885,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -641,6 +642,11 @@
     {
       "path": ".github/workflows/fa3-cosyvoice-current-host.yml",
       "git_blob_sha": "2969619c95a10f766505dfef1db72e0571ac2956",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-current-host-runner.yml",
+      "git_blob_sha": "e9b20e506af90fbb392b78d6cb2f633ba003a799",
       "baseline_delta_status": "added"
     },
     {
@@ -804,6 +810,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-current-host-runner-bootstrap.sh",
+      "git_blob_sha": "5f8c6e39a43d8201b10e005701a58e6b58d862c4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-current-host-runner-doctor",
+      "git_blob_sha": "a8717dbdef5b25725f92388f71f10032a1f7163d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-demucs-bootstrap.sh",
       "git_blob_sha": "8c7ef8e2fb36ff16929b3c8a881e49ad85f0ac3b",
       "baseline_delta_status": "added"
@@ -946,6 +962,11 @@
     {
       "path": "canonical/FA3-COSYVOICE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "395970d95b67b3b99c5c793abc74c21841f8556e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json",
+      "git_blob_sha": "cfeb055a9f486eaed7178ca226c072ee3874b552",
       "baseline_delta_status": "added"
     },
     {
@@ -1624,6 +1645,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/current-host-runner-enforcement.json",
+      "git_blob_sha": "f9d3a3a5b237153698d58bbf043c474ab30e5093",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2",
       "baseline_delta_status": "added"
@@ -1696,6 +1722,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
       "git_blob_sha": "86b530d667cea9be71ca409d1d4631ed478637d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
+      "git_blob_sha": "653ec04496425762247cade59532117467c122dd",
       "baseline_delta_status": "added"
     },
     {
@@ -3519,6 +3550,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/current-host-runner.md",
+      "git_blob_sha": "7d110f44bb63208f7c83aee5c352dfd026f649d5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/gtcrn-integration.md",
       "git_blob_sha": "6b72eea3bcb4a04d0b47e98610e7226332765662",
       "baseline_delta_status": "added"
@@ -4199,6 +4235,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_current_host_runner_gate.py",
+      "git_blob_sha": "e042e3fc64c4969e662afb369fad8591d7630b49",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_demucs_current_host_gate.py",
       "git_blob_sha": "d0e133118e6a663c0440a1103643be8eb1c4bcf1",
       "baseline_delta_status": "added"
@@ -4656,6 +4697,11 @@
     {
       "path": "tests/test_current_host_projection.py",
       "git_blob_sha": "ef555b219249e4caed0e1d13f8da5164f942a532",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_current_host_runner_gate.py",
+      "git_blob_sha": "58da2c09d1f6e81e5e4ccccdeb7fe676672df013",
       "baseline_delta_status": "added"
     },
     {

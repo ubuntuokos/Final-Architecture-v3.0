@@ -1,0 +1,76 @@
+name: FA3 Current Host Runner Control Plane
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json'
+      - 'canonical/current-host-runner-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json'
+      - 'bin/fa3-current-host-runner-bootstrap.sh'
+      - 'bin/fa3-current-host-runner-doctor'
+      - 'src/fa3_current_host_runner_gate.py'
+      - 'tests/test_current_host_runner_gate.py'
+      - 'docs/current-host-runner.md'
+      - '.github/workflows/fa3-current-host-runner.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Run the runner doctor on the real labeled self-hosted runner'
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  static-admission:
+    name: current-host-runner / static-admission
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax checks
+        run: |
+          python -m py_compile src/fa3_current_host_runner_gate.py tests/test_current_host_runner_gate.py
+          bash -n bin/fa3-current-host-runner-bootstrap.sh
+          bash -n bin/fa3-current-host-runner-doctor
+      - name: Runner control-plane regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_runner_gate -v
+      - name: Fail-closed canonical runner gate
+        run: python3 src/fa3_current_host_runner_gate.py --root .
+      - name: Upload runner gate report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-current-host-runner-gate-report
+          path: reports/current-host-runner-gate-report.json
+          if-no-files-found: error
+
+  current-host-smoke:
+    name: current-host-runner / real-smoke
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: static-admission
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Prove runner identity, labels and service health
+        run: |
+          chmod +x bin/fa3-current-host-runner-doctor
+          ./bin/fa3-current-host-runner-doctor
+      - name: Upload secret-free runner receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-current-host-runner-doctor
+          path: .fa3-current-host/runner/doctor.json
+          if-no-files-found: error
