@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-PORTABILITY-2026-09-04",
+  "date": "2026-09-04",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FFmpeg current-host closure portability and production-evidence correction",
+  "corrects": "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+  "reason": [
+    "The prior current-host validator used Dell T7910, Xeon E5-2696 v4 and exact 2-package/44-core/88-thread/2-NUMA facts as PASS conditions.",
+    "FA3-HARDWARE-BASELINE-001 and FA3-HARDWARE-DISCOVERY-CONTRACTS-001 require live discovery and explicitly forbid reference-host machine, CPU model and fixed topology tuples as portable production admission identity.",
+    "The prior FFmpeg closure also used a provider-local HRB receipt schema instead of the already materialized canonical AcceleratorExecutionLease@1 execution pattern.",
+    "The prior production closure could be satisfied with synthetic media, which was weaker than the canonical real-media E2E requirement."
+  ],
+  "corrections": [
+    "REFERENCE_HOST_FACTS_RETAINED_AS_NON_NORMATIVE_EVIDENCE_ONLY",
+    "REFERENCE_HOST_MATCH_REMOVED_FROM_PRODUCTION_PASS",
+    "LIVE_CPU_NUMA_GPU_DISCOVERY_REMAINS_REQUIRED",
+    "HRB_REMAINS_EXCLUSIVE_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY",
+    "FFMPEG_CONSUMES_FA3_HOST_RESOURCE_BROKER_ACCELERATOR_EXECUTION_LEASE_AT_1",
+    "BROKER_VALIDATE_LEASE_MUST_RETURN_VALID",
+    "CUDA_ORDINAL_IS_DERIVED_EPHEMERAL_PROJECTION_FROM_UUID_PLUS_PCI_BDF",
+    "FFMPEG_BUILD_TRUST_BINDS_BOTH_FFMPEG_AND_FFPROBE_BINARIES",
+    "PRODUCTION_PASS_REQUIRES_NON_SYNTHETIC_PROVENANCE_BOUND_REAL_MEDIA",
+    "REAL_MEDIA_DECODE_FILTER_NEURAL_ENCODE_MUX_E2E_REQUIRED",
+    "SEPARATE_GPU_RESIDENT_CUDA_HWFRAMES_SCALE_CUDA_NVENC_PATH_REQUIRED",
+    "STABLE_FFMPEG_DNN_ZERO_COPY_REMAINS_NOT_CLAIMED",
+    "BT709_SDR_GOLDEN_FIXTURE_PROFILE_IS_TEST_EVIDENCE_CONSTRAINT_NOT_PROVIDER_CAPABILITY_LIMIT",
+    "COMPONENT_PASS_REMAINS_SEPARATE_FROM_GLOBAL_143_CAPABILITY_PROMOTION"
+  ],
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "runtime_promotion_claim": false
+}
