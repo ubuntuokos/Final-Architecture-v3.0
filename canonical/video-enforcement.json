@@ -7,7 +7,8 @@
     "FA3-PROVIDER-SEEDANCE-001",
     "FA3-PROVIDER-MINIMAX-H3-001",
     "FA3-PROVIDER-OPEN-SORA-PLAN-001",
-    "FA3-PROVIDER-HELIOS-001"
+    "FA3-PROVIDER-HELIOS-001",
+    "FA3-PROVIDER-LTX2-001"
   ],
   "fail_closed": true,
   "runtime_provider_required_for_global_promotion_when_disabled": false,
@@ -40,7 +41,14 @@
     "H3_SECRET_NEVER_PERSISTED_OR_LOGGED",
     "H3_REAL_PROVIDER_TASK_REQUIRED_FOR_REMOTE_E2E_PROMOTION",
     "H3_REAL_OUTPUT_AV_QC_AND_PROVENANCE_REQUIRED",
-    "H3_BILLABLE_E2E_MANUAL_ACK_REQUIRED"
+    "H3_BILLABLE_E2E_MANUAL_ACK_REQUIRED",
+    "LTX2_PROVIDER_IS_PROJECTION_NOT_AUTHORITY",
+    "LTX2_RUNTIME_PROMOTION_REQUIRES_REAL_CURRENT_HOST_E2E",
+    "LTX2_EXACT_VERSION_LICENSE_ADMISSION_FAILS_CLOSED",
+    "LTX2_MULTI_GPU_IS_LATENCY_NOT_MEMORY_AGGREGATION",
+    "LTX2_AUDIO_ONLY_T2A_IS_NOT_VIDEO_AUTHORITY",
+    "LTX2_2_5_LICENSE_IS_NOT_INHERITED_FROM_2_3",
+    "LTX_VIDEO_0_9_8_IS_LEGACY_REFERENCE_ONLY"
   ],
   "mmg_context_ir": {
     "id": "FA3-MMG-CONTEXT-IR-001",
@@ -136,6 +144,23 @@
     "secret_persistence_forbidden": true,
     "local_execution_without_license_evidence": "DENY",
     "current_host_runtime_promotion_claim": false
+  },
+  "ltx2_provider_policy": {
+    "provider_id": "FA3-PROVIDER-LTX2-001",
+    "decision_id": "FA3-DEC-VIDEO-LTX2-2026-09-12",
+    "reference_id": "FA3-LTX2-UPSTREAM-REFERENCE-2026-09-12",
+    "evidence_path": "evidence/reference/ltx2-provider-policy-ci-2026-09-12.json",
+    "gate_test": "tests/test_ltx2_provider.py",
+    "fail_closed": true,
+    "provider_projection_only": true,
+    "legacy_ltx_video_0_9_8_separate_provider": false,
+    "audio_only_t2a_under_video_authority": false,
+    "multi_gpu_memory_aggregation_allowed": false,
+    "exact_version_license_resolution_required": true,
+    "ltx_2_5_license_auto_inherited_from_ltx_2_3": false,
+    "runtime_promotion_requires_real_current_host_e2e": true,
+    "current_host_runtime_promotion_claim": false,
+    "provider_runtime_execution_claim": false
   },
   "provider_lifecycle_gate": "FA3-VIDEO-PROVIDER-LIFECYCLE-GATESET-001",
   "provider_lifecycle_contract": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
