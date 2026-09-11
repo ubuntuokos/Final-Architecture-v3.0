@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.krita-ai-image-editing-enforcement.v1",
+  "gate_id": "FA3-KRITA-AI-IMAGE-EDITING-GATESET-001",
+  "gate_record_id": "FA3-GATE-KRITA-AI-IMAGE-EDITING-001",
+  "profile_id": "FA3-AI-IMAGE-EDITING-001",
+  "contract_id": "FA3-AI-IMAGE-EDITING-CONTRACTS-001",
+  "decision_id": "FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11",
+  "upstream_reference_id": "FA3-KRITA-AI-IMAGE-EDITING-UPSTREAM-REFERENCE-2026-09-11",
+  "provider_ids": ["FA3-PROVIDER-KRITA-001", "FA3-PROVIDER-KRITA-AI-DIFFUSION-001", "FA3-PROVIDER-KRITA-VISION-TOOLS-001", "FA3-PROVIDER-KRITA-MCP-001"],
+  "fail_closed": true,
+  "p0_invariants": [
+    "EXISTING_AI_IMAGE_EDITING_PROFILE_REUSED_NOT_DUPLICATED",
+    "GIMP_AND_KRITA_ARE_PEER_FRONTENDS",
+    "KRITA_AI_DIFFUSION_IS_REPLACEABLE_NON_AUTHORITY",
+    "KRITA_VISION_MODELS_REQUIRE_CANONICAL_ADMISSION",
+    "KRITA_MCP_REMAINS_UNDER_CENTRAL_MCP_GATEWAY",
+    "MCP_BRIDGE_AUTHENTICATED_LOOPBACK_ONLY",
+    "TYPED_OPERATION_CATALOG_REQUIRED",
+    "GUI_MUTATION_MAIN_THREAD_DISPATCH_REQUIRED",
+    "NO_HARDCODED_GPU_MODEL_COUNT_DEVICE_OR_VRAM",
+    "PROVIDER_NATIVE_WORKFLOW_SYNTAX_DOWNSTREAM_ONLY",
+    "MODEL_ARTIFACT_SECURITY_GATE_REQUIRED",
+    "NONDESTRUCTIVE_RESULT_PLACEMENT_DEFAULT",
+    "PROVIDER_FAILURE_MUST_NOT_CORRUPT_SOURCE_DOCUMENT",
+    "UPSTREAM_REFERENCES_REVISION_AND_LICENSE_PINNED",
+    "GPL_REFERENCE_CODE_COPY_REQUIRES_EXPLICIT_LICENSE_POLICY_CHANGE",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "CURRENT_HOST_RUNTIME_NOT_OVERCLAIMED"
+  ],
+  "required_existing_contracts": ["FA3-AI-IMAGE-EDITING-CONTRACTS-001", "FA3-IMGGEN-CONTRACTS-001", "FA3-MMG-CONTEXT-IR-CONTRACTS-001", "FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001", "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"],
+  "provider_admission": {
+    "immutable_revision_required": true,
+    "license_inventory_required": true,
+    "dependency_inventory_required": true,
+    "workflow_and_custom_node_inventory_required_when_used": true,
+    "automatic_custom_node_install_or_update": false,
+    "runtime_endpoint_must_be_discovered_or_operator_configured": true,
+    "fixed_gpu_identity_forbidden": true
+  },
+  "mcp_admission": {
+    "central_gateway_required_in_fa3_governed_mode": true,
+    "authenticated_loopback_only": true,
+    "typed_operation_catalog_required": true,
+    "gui_main_thread_dispatch_required": true
+  },
+  "document_safety": {
+    "validated_result_before_mutation": true,
+    "default_result_placement": "NEW_LAYER_OR_NEW_DOCUMENT",
+    "source_document_unchanged_on_provider_failure": true,
+    "partial_result_mutation": "FORBIDDEN"
+  },
+  "baseline": {"new_capabilities": 0, "new_architectural_authorities": 0, "capability_count_after": 143}
+}
