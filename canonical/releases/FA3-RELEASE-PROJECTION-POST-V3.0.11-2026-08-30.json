@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "86a34cc06daca2f70d14d6af60764fdfd8fd5c1b",
-    "pre_projection_root_tree_sha": "a76323f06d3bdcbefdf6c3a678e016bf2d03874f",
-    "pre_projection_canonical_tree_sha": "f1e5c7a8d499331093dbd546f2c9d6d93067a2b4",
-    "commits_ahead_of_v3_0_11_conformance_commit": 161,
-    "total_post_baseline_commits": 161,
-    "delta_file_count": 918,
-    "delta_added_files": 913,
+    "pre_projection_head_sha": "33cd425c24398d2a667987bf211ef02159b74dd5",
+    "pre_projection_root_tree_sha": "2e2f72753cceac84381d7fdb02257da51857d8dc",
+    "pre_projection_canonical_tree_sha": "7a5c7305698f5cbb68992ccb4be755eb4139bb32",
+    "commits_ahead_of_v3_0_11_conformance_commit": 172,
+    "total_post_baseline_commits": 172,
+    "delta_file_count": 923,
+    "delta_added_files": 918,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,9 +45,9 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 514,
+    "canonical_files_in_post_baseline_delta": 518,
     "evidence_files_in_post_baseline_delta": 99,
-    "source_files_in_post_baseline_delta": 105,
+    "source_files_in_post_baseline_delta": 106,
     "test_files_in_post_baseline_delta": 85,
     "workflow_files_in_post_baseline_delta": 24,
     "provider_records": [
@@ -337,6 +337,7 @@
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-CURRENT-HOST-2026-09-12.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
@@ -645,7 +646,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 918,
+  "manifest_entry_count": 923,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -959,7 +960,7 @@
     },
     {
       "path": "bin/fa3-sillytavern-kde-install-user-integration.sh",
-      "git_blob_sha": "5606dae254b2b67f1aa71329d7e9976b3c6a2159",
+      "git_blob_sha": "fa90d820f62de42b787a17429eb4dc6b7eb32e77",
       "baseline_delta_status": "added"
     },
     {
@@ -1183,6 +1184,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-SILLYTAVERN-KDE-CURRENT-HOST-001.json",
+      "git_blob_sha": "011e44b4c7ae29b6994d5234c193011de1e9168c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-STABILITY-MATRIX-LIFECYCLE-001.json",
       "git_blob_sha": "42f5fabef4fd4c6f692c937266b152e296f91354",
       "baseline_delta_status": "added"
@@ -1280,6 +1286,11 @@
     {
       "path": "canonical/FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "e4c4fde5f2060158ef5b3417ccd0985f1876d92e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SILLYTAVERN-KDE-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "9481d8bec1c27ab2d3c7347f6b3473bc7a0e0406",
       "baseline_delta_status": "added"
     },
     {
@@ -2075,6 +2086,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "git_blob_sha": "1db2a2f58c476bd1e53e31fc4caba9ef35911498",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-CURRENT-HOST-2026-09-12.json",
+      "git_blob_sha": "14ef2c4854f171b23addf88f11cf31de815b623f",
       "baseline_delta_status": "added"
     },
     {
@@ -3044,7 +3060,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
-      "git_blob_sha": "dc58392c03b8ea8c561472449c91c1c3ca71f9c8",
+      "git_blob_sha": "b95cf06dc2ba593ffd6643049f9cd13ff339f46e",
       "baseline_delta_status": "added"
     },
     {
@@ -3374,7 +3390,7 @@
     },
     {
       "path": "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
-      "git_blob_sha": "446702b77e9b1efd1d08d1fd2547bee93023bbdf",
+      "git_blob_sha": "7630fd30e1c4350d2e666432d000dd5fe8fe0c7f",
       "baseline_delta_status": "added"
     },
     {
@@ -3478,8 +3494,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/sillytavern-kde-current-host-enforcement.json",
+      "git_blob_sha": "a7369ee83d291ea275bc580a5350cda45f0e8ce0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/sillytavern-kde-enforcement.json",
-      "git_blob_sha": "63ebab99600c56e58b61a7ce4e556cde85aebc4a",
+      "git_blob_sha": "fd83e3781a10037d9928cd6ae91654e239cc0aa6",
       "baseline_delta_status": "added"
     },
     {
@@ -3634,7 +3655,7 @@
     },
     {
       "path": "deployment/sillytavern-kde/bin/sillytavern-kde-launch",
-      "git_blob_sha": "f536e141b7c4835c2512e30a0dbe708fa8349556",
+      "git_blob_sha": "93322fbf9c452558c832e9ae6ec363b34746650a",
       "baseline_delta_status": "added"
     },
     {
@@ -4725,6 +4746,11 @@
     {
       "path": "src/fa3_silero_vad_provider.py",
       "git_blob_sha": "b2aaf5b706547c2c4b0fed9f5dfa4058f8eab742",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_sillytavern_kde_current_host.py",
+      "git_blob_sha": "c9725ffd6cdc813e28d953d4f8a746f0247d50cd",
       "baseline_delta_status": "added"
     },
     {
