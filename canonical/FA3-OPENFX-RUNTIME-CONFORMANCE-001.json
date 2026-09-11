@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.openfx-runtime-conformance.v1",
+  "id": "FA3-OPENFX-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-STANDARD-OPENFX-001",
+  "contract_id": "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001",
+  "reference_provider_id": "FA3-PROVIDER-NATRON-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "current_host_receipt_present": false,
+  "current_host_runtime_evidence": "PENDING_REAL_OPENFX_HOST_PLUGIN_RENDER_EXECUTION",
+  "global_143_capability_promotion_claim": false,
+  "required_evidence_level": "CURRENT_HOST_OPENFX_HOST_PLUGIN_GPU_COLOR_PROVENANCE_ROLLBACK_E2E_PASS",
+  "required_observations": [
+    "host executable identity, version, package digest and dependency inventory",
+    "observed OpenFX API version and supported suite inventory",
+    "plugin binary immutable digest, allowlist decision, license, SBOM, signature or exception receipt and malware/behavior scan",
+    "content-addressed golden input, declared effect identifier, parameters, frame range and timebase",
+    "explicit input, working and output color spaces plus OCIO configuration digest",
+    "requested and observed CPU or accelerator backend identity",
+    "HRB lease with accelerator UUID and PCI BDF for accelerator execution",
+    "output artifact SHA-256, per-frame checksums and finite pixel/alpha QC",
+    "network-denied isolated worker lifecycle, crash containment and resource envelope",
+    "source project unchanged, staged-output promotion and rollback/unload receipt"
+  ],
+  "natron_reference_limit": {
+    "documented_openfx_api_version": "1.4",
+    "may_validate_declared_1_4_surface": true,
+    "may_claim_openfx_1_5_only_suites_without_measurement": false
+  },
+  "promotion_rule": "Reference CI and typed-receipt validation cannot promote current-host runtime. Production admission requires a fresh real render receipt satisfying every required observation."
+}

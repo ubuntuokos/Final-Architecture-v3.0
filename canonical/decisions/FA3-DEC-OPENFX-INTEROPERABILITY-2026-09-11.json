@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11",
+  "date": "2026-09-11",
+  "status": "CANONICAL_CLOSED",
+  "title": "Canonicalize OpenFX as the mandatory provider-neutral VFX plug-in interoperability standard profile",
+  "change_type": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "decision": "ACCEPT_MANDATORY_INTEROPERABILITY_PROFILE_OPTIONAL_REPLACEABLE_HOSTS_AND_PLUGINS",
+  "profile_id": "FA3-STANDARD-OPENFX-001",
+  "parent_profile_id": "FA3-COMPOSITING-001",
+  "contract_id": "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-NATRON-001",
+  "gate_id": "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
+  "gate_record_id": "FA3-GATE-OPENFX-INTEROPERABILITY-001",
+  "upstream_reference_id": "FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11",
+  "related_decisions": [
+    "FA3-DEC-NATRON-2026-08-30",
+    "FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30",
+    "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+  ],
+  "capability_bindings": [
+    "CAP-071",
+    "CAP-126"
+  ],
+  "baseline_effect": {
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "decisions": [
+    "OpenFX 1.5.1 is the pinned standards reference for image-effect plug-in interoperability; it is not an architectural authority or a mandatory runtime implementation.",
+    "Every OpenFX execution declares and negotiates the required API version and suites; missing capabilities fail closed without silent downgrade.",
+    "Natron remains the existing optional, replaceable, non-authoritative open-source reference host and is not duplicated.",
+    "Natron RB-2.6 documents OFX 1.4 host support, so it cannot attest OpenFX 1.5-only suites without separate executable evidence.",
+    "OpenFX plug-ins are native code and require allowlisted immutable digests, dependency and license inventory, SBOM, malware/behavioral scanning and signature or exception evidence before loading.",
+    "Governed rendering executes in a dedicated constrained worker with network deny by default, staged output, crash containment and no direct mutation of canonical editorial state.",
+    "Accelerator selection is capability-discovered through the existing Host Resource Broker; stable UUID and PCI BDF identify the lease, while runtime ordinals remain ephemeral.",
+    "Requested and observed execution backends must match; silent CPU, accelerator, display-GPU or cloud fallback is forbidden.",
+    "Input, working and output color spaces plus OCIO configuration identity are explicit and carried into render provenance.",
+    "Reference CI PASS proves contract and fail-closed policy behavior only; current-host production promotion requires a real admitted host/plugin render, QC, GPU/color/provenance and rollback evidence."
+  ],
+  "current_host_runtime_evidence": "NOT_CLAIMED",
+  "current_host_runtime_promotion_claim": false
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11",
+  "observed_date": "2026-09-11",
+  "status": "IMMUTABLE_REFERENCE_RECORDED",
+  "sources": [
+    {
+      "repository": "AcademySoftwareFoundation/openfx",
+      "url": "https://github.com/AcademySoftwareFoundation/openfx",
+      "release": "1.5.1",
+      "tag": "OFX_Release_1.5.1",
+      "immutable_commit": "ab779510b2655b4d11a7e01e5c521f9aa8c88976",
+      "commit_date": "2025-11-20T13:10:26-05:00",
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "file": "LICENSE.md",
+        "sha256": "63b0f0533a90223e7dbe5dd50b94821b069672f91797ac03dbbad496b4ca7d9b"
+      },
+      "evidence_paths": [
+        "release-notes.md",
+        "include/ofxColour.h",
+        "include/ofxDrawSuite.h",
+        "include/ofxImageEffect.h",
+        "README.md"
+      ]
+    },
+    {
+      "repository": "NatronGitHub/Natron",
+      "url": "https://github.com/NatronGitHub/Natron",
+      "branch": "RB-2.6",
+      "declared_version": "2.6.0",
+      "immutable_commit": "3763d805d7d277d10af10025ae41af677682b3e6",
+      "commit_date": "2026-07-24T11:48:49+02:00",
+      "license": {
+        "spdx": "GPL-2.0-or-later",
+        "file": "LICENSE_SHORT.txt",
+        "sha256": "2a91027307410797b226e00b3bc4ca6160d8114898fb70ef779629c262591a88"
+      },
+      "evidence_paths": [
+        "README.md",
+        "CMakeLists.txt",
+        "Documentation/source/maintainers/overview.rst"
+      ]
+    }
+  ],
+  "verified_facts": {
+    "openfx_1_5_1": [
+      "Current pinned release identifies itself as OpenFX 1.5.1.",
+      "OpenFX 1.5 introduced explicit CUDA, OpenCL and Metal direct-render support, DrawSuite and enhanced colour-management APIs.",
+      "OpenFX 1.5.1 added CPU-render support declaration, thumbnail rendering and spatial-awareness properties.",
+      "The official repository documents Sigstore bundles for release artifact verification."
+    ],
+    "natron_rb_2_6": [
+      "Natron is a free cross-platform node-based video compositor and OpenFX host.",
+      "The pinned branch declares Natron version 2.6.0 and documents OFX v1.4 host support.",
+      "Natron provides a headless NatronRenderer execution surface and OpenColorIO-managed processing.",
+      "Natron and bundled plug-in code remain separate license and supply-chain admission subjects."
+    ]
+  },
+  "compatibility_conclusion": {
+    "openfx_reference_version": "1.5.1",
+    "natron_documented_host_api_version": "1.4",
+    "natron_is_valid_reference_host_for_declared_supported_suites": true,
+    "natron_proves_openfx_1_5_specific_suites": false,
+    "required_action": "NEGOTIATE_API_AND_SUITES_PER_HOST_PLUGIN_JOB_AND_FAIL_CLOSED_ON_MISSING_REQUIREMENTS"
+  },
+  "verification": {
+    "source_and_license_identity_verified": true,
+    "reference_contract_behavior_verified": true,
+    "current_host_openfx_execution_verified": false,
+    "production_readiness_claim": false
+  }
+}

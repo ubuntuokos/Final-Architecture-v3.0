@@ -1,0 +1,96 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-STANDARD-OPENFX-001",
+  "parent_contract": "FA3-COMPOSITING-CONTRACTS-001",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "contracts": [
+    "OpenFXHostCapabilityDescriptor",
+    "OpenFXPluginAdmissionDescriptor",
+    "OpenFXEffectCapabilityDescriptor",
+    "OpenFXExecutionRequest",
+    "OpenFXSuiteNegotiationReceipt",
+    "OpenFXColorSpaceBinding",
+    "OpenFXAcceleratorLeaseBinding",
+    "OpenFXRenderResult",
+    "OpenFXRenderProvenanceReceipt",
+    "OpenFXRollbackReceipt"
+  ],
+  "native_code_admission": {
+    "plugin_is_native_code": true,
+    "untrusted_by_default": true,
+    "immutable_plugin_binary_sha256_required": true,
+    "allowlist_membership_required": true,
+    "source_and_release_identity_required": true,
+    "license_inventory_required": true,
+    "dependency_inventory_required": true,
+    "sbom_required": true,
+    "malware_and_behavioral_scan_required": true,
+    "signature_or_explicit_exception_receipt_required": true,
+    "automatic_plugin_install_or_update": false,
+    "plugin_search_paths": "ADMITTED_DIRECTORIES_ONLY"
+  },
+  "abi_and_suite_negotiation": {
+    "standard_reference_version": "1.5.1",
+    "host_supported_api_version_must_be_observed": true,
+    "plugin_required_api_version_must_be_declared": true,
+    "required_suites_must_be_subset_of_observed_host_suites": true,
+    "host_version_label_alone_is_sufficient": false,
+    "missing_required_api_or_suite_action": "FAIL_CLOSED",
+    "silent_downgrade": false
+  },
+  "execution_isolation": {
+    "dedicated_worker_process_required": true,
+    "network_default": "DENY",
+    "workspace_scope": "CONTENT_ADDRESSED_INPUT_READONLY_OUTPUT_STAGING_WRITEONLY",
+    "host_project_direct_mutation": false,
+    "cpu_memory_io_and_walltime_limits_required": true,
+    "crash_containment_and_worker_termination_required": true,
+    "partial_output_promotion": "FORBIDDEN"
+  },
+  "accelerator_execution": {
+    "hardware_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hrb_lease_required_for_accelerator_execution": true,
+    "stable_accelerator_identity": [
+      "device_uuid",
+      "pci_bdf"
+    ],
+    "runtime_ordinal_is_canonical_identity": false,
+    "concrete_gpu_sku_or_vram_is_canonical_requirement": false,
+    "requested_backend_must_equal_observed_backend": true,
+    "silent_cpu_accelerator_display_gpu_or_cloud_fallback": false,
+    "eligible_backends": [
+      "CPU",
+      "CUDA",
+      "OPENCL",
+      "METAL"
+    ]
+  },
+  "color_management": {
+    "input_working_and_output_color_spaces_required": true,
+    "ocio_config_identity_sha256_required_when_ocio_used": true,
+    "host_and_plugin_color_capabilities_observed": true,
+    "implicit_color_conversion": false,
+    "color_binding_in_render_receipt_required": true
+  },
+  "render_and_provenance": {
+    "content_addressed_inputs_required": true,
+    "effect_identifier_version_parameters_and_plugin_digest_required": true,
+    "frame_range_and_timebase_required": true,
+    "host_version_api_suites_and_backend_required": true,
+    "output_sha256_and_frame_checksums_required": true,
+    "finite_pixel_and_alpha_quality_checks_required": true,
+    "source_to_output_lineage_required": true,
+    "rollback_and_unload_receipt_required": true
+  },
+  "authority_denials": [
+    "OPENFX_HOST_NOT_WORKFLOW_AUTHORITY",
+    "OPENFX_HOST_NOT_EDITORIAL_TIMELINE_AUTHORITY",
+    "OPENFX_PLUGIN_NOT_SECURITY_OR_POLICY_AUTHORITY",
+    "OPENFX_PLUGIN_NOT_RESOURCE_PLACEMENT_AUTHORITY",
+    "OPENFX_PLUGIN_NOT_ARTIFACT_IDENTITY_OR_EVIDENCE_AUTHORITY",
+    "OPENFX_PROJECT_AND_PARAMETER_FORMATS_NOT_CANONICAL_IR"
+  ]
+}

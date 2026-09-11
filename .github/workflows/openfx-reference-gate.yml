@@ -1,0 +1,75 @@
+name: OpenFX interoperability reference gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**OPENFX**'
+      - 'canonical/**openfx**'
+      - 'canonical/providers/FA3-PROVIDER-NATRON-001.json'
+      - 'canonical/profiles/FA3-COMPOSITING-001.json'
+      - 'canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json'
+      - 'evidence/reference/openfx-interoperability-ci-2026-09-11.json'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_openfx_*.py'
+      - 'tests/test_openfx_interop_gate.py'
+      - '.github/workflows/openfx-reference-gate.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-openfx-reference-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax and JSON validation
+        run: |
+          python -m py_compile src/fa3_openfx_interop.py src/fa3_openfx_interop_gate.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in Path('canonical').rglob('*.json'):
+              json.loads(path.read_text(encoding='utf-8'))
+          json.loads(Path('evidence/reference/openfx-interoperability-ci-2026-09-11.json').read_text(encoding='utf-8'))
+          PY
+      - name: OpenFX positive and negative regression suite
+        run: PYTHONPATH=src python -m unittest tests.test_openfx_interop_gate -v
+      - name: OpenFX executable canonical gate
+        run: ./bin/fa3-enforce openfx-interoperability
+      - name: Adjacent hardware and editorial regressions
+        run: |
+          ./bin/fa3-enforce hardware-portability
+          ./bin/fa3-enforce kdenlive-editorial
+      - name: Assert no document-only runtime promotion
+        run: |
+          python - <<'PY'
+          import json
+          runtime=json.load(open('canonical/FA3-OPENFX-RUNTIME-CONFORMANCE-001.json'))
+          evidence=json.load(open('evidence/reference/openfx-interoperability-ci-2026-09-11.json'))
+          assert runtime['status'] == 'PENDING_CURRENT_HOST'
+          assert runtime['production_admitted'] is False
+          assert runtime['current_host_receipt_present'] is False
+          assert evidence['current_host_runtime_evidence'] is False
+          assert evidence['production_promotion'] is False
+          PY
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-openfx-interoperability-reference-report
+          path: reports/openfx-interoperability-gate-report.json

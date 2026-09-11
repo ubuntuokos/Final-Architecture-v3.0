@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d115d5884205776eb683061761b4267395280aeb",
-    "pre_projection_root_tree_sha": "7fe596e794e51c279618368d99a0c67cf1af32e9",
-    "pre_projection_canonical_tree_sha": "15963d7a587ea7b06da2188a2f0bab6b9a2359ba",
-    "commits_ahead_of_v3_0_11_conformance_commit": 207,
-    "total_post_baseline_commits": 207,
-    "delta_file_count": 905,
-    "delta_added_files": 900,
+    "pre_projection_head_sha": "78ed57c08ec1b7aa303f5914bbc438b6e45c9e48",
+    "pre_projection_root_tree_sha": "714df0bcf40361a1a8480e748b0c611701181758",
+    "pre_projection_canonical_tree_sha": "9c57d801395fbafc201d89e85eaf39e6174c9bee",
+    "commits_ahead_of_v3_0_11_conformance_commit": 161,
+    "total_post_baseline_commits": 161,
+    "delta_file_count": 918,
+    "delta_added_files": 913,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 506,
-    "evidence_files_in_post_baseline_delta": 98,
-    "source_files_in_post_baseline_delta": 103,
-    "test_files_in_post_baseline_delta": 84,
-    "workflow_files_in_post_baseline_delta": 23,
+    "canonical_files_in_post_baseline_delta": 514,
+    "evidence_files_in_post_baseline_delta": 99,
+    "source_files_in_post_baseline_delta": 105,
+    "test_files_in_post_baseline_delta": 85,
+    "workflow_files_in_post_baseline_delta": 24,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -190,6 +190,7 @@
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
       "canonical/profiles/FA3-STABILITY-PORTFOLIO-001.json",
+      "canonical/profiles/FA3-STANDARD-OPENFX-001.json",
       "canonical/profiles/FA3-STORAGE-FUSE-001.json",
       "canonical/profiles/FA3-STT-001.json",
       "canonical/profiles/FA3-STT-MEDIA-001.json",
@@ -244,6 +245,7 @@
       "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
@@ -326,6 +328,7 @@
       "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
@@ -380,6 +383,7 @@
       "canonical/references/FA3-OBSIDIAN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02.json",
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
       "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
@@ -446,6 +450,7 @@
       "evidence/reference/obsidian-knowledge-workspace-ci-2026-09-07.json",
       "evidence/reference/openbmb-ci-2026-09-02.json",
       "evidence/reference/opencut-ci-2026-09-01.json",
+      "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
       "evidence/reference/openhands-ci-2026-09-01.json",
       "evidence/reference/openvid-ci-2026-09-04.json",
       "evidence/reference/openyak-ci-2026-09-05.json",
@@ -513,7 +518,8 @@
     "FA3-CAVEMAN-GATESET-001",
     "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
     "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
-    "FA3-PYTORCH3D-GATESET-001"
+    "FA3-PYTORCH3D-GATESET-001",
+    "FA3-OPENFX-INTEROPERABILITY-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -639,7 +645,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 905,
+  "manifest_entry_count": 918,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -713,7 +719,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "9390e2acb927d8ce69205973e2dd90ff166abe4d",
+      "git_blob_sha": "299ecabb42836f81d2079cda847f10585e0b7912",
       "baseline_delta_status": "added"
     },
     {
@@ -752,6 +758,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/openfx-reference-gate.yml",
+      "git_blob_sha": "ec4f84fd98ed62edb06e5afcf82cec588662ca1f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/pytorch3d-reference-gate.yml",
       "git_blob_sha": "6a44b5d09864d7f7dc50ee23f134cd592e5b30c5",
       "baseline_delta_status": "added"
@@ -763,7 +774,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "95298feb7891397848d98cc9eab4d92489d0ef65",
+      "git_blob_sha": "1d79145dfc036e88a6474ef112f176a3fda7f6be",
       "baseline_delta_status": "added"
     },
     {
@@ -1137,6 +1148,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-OPENFX-INTEROPERABILITY-001.json",
+      "git_blob_sha": "61650c420a137c1bfe7084df14a7da44ffc6afb3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-OPENHANDS-001.json",
       "git_blob_sha": "3dfd653b329b0ce700f3059210f4e25ff44b7bde",
       "baseline_delta_status": "added"
@@ -1254,6 +1270,11 @@
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-OPENFX-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "6f5d2b82c7756cadc472e87e8e6f298844fd1f83",
       "baseline_delta_status": "added"
     },
     {
@@ -1579,6 +1600,11 @@
     {
       "path": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "git_blob_sha": "1173883623b5b73bb3f48a6dd4b0c0377142923a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
+      "git_blob_sha": "b59b58917732838ec6c2be46d6c07b23d78994fe",
       "baseline_delta_status": "added"
     },
     {
@@ -2007,6 +2033,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
+      "git_blob_sha": "f8e13b065489ed0b0a0ba9b1e2347cad5107286e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
       "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d",
       "baseline_delta_status": "added"
@@ -2118,7 +2149,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "10720e7c8802dcf9fdfb9acdbc40c1f34fc7dfd2",
+      "git_blob_sha": "64991abe15b1124605bf2cd43ae5143cdd49f131",
       "baseline_delta_status": "modified"
     },
     {
@@ -2362,6 +2393,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/openfx-interoperability-enforcement.json",
+      "git_blob_sha": "205dcd293df54627e2020b8b0c254ae6c27b918f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/openhands-enforcement.json",
       "git_blob_sha": "3a8591234573fe1977eafd1279eedf4d5d47abba",
       "baseline_delta_status": "added"
@@ -2594,6 +2630,11 @@
     {
       "path": "canonical/profiles/FA3-STABILITY-PORTFOLIO-001.json",
       "git_blob_sha": "807bc30534e0fa08c4ea83cb0fa2cd17f81c1ce3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-STANDARD-OPENFX-001.json",
+      "git_blob_sha": "de93f9c6230742415cc6b0bbdad9e0ab3f536776",
       "baseline_delta_status": "added"
     },
     {
@@ -2878,7 +2919,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-NATRON-001.json",
-      "git_blob_sha": "e39d453b0ce38efaa631a4dc25c07e95e4d1d7e5",
+      "git_blob_sha": "e0524645e260b3604a49fa8e061ee0aa8d3b880f",
       "baseline_delta_status": "added"
     },
     {
@@ -3287,6 +3328,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11.json",
+      "git_blob_sha": "a9e5dfdf96df9b2f917009ae40ab558fb025e0a5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "ee7ddd35af2088240a31cbfff232a959dc526e4c",
       "baseline_delta_status": "added"
@@ -3409,6 +3455,11 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OBSIDIAN-2026-09-07.json",
       "git_blob_sha": "23b0948bd08e0da74e234738b8bde8ed41fe6fd3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENFX-2026-09-11.json",
+      "git_blob_sha": "605fc35deadd132248833b9d7155551b1e09bad4",
       "baseline_delta_status": "added"
     },
     {
@@ -3813,7 +3864,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "ceb469a90961dc4af879cd838c8688f5196cd429",
+      "git_blob_sha": "081cf6d51dfc96bcc078af4a5e6d028137ee1646",
       "baseline_delta_status": "added"
     },
     {
@@ -4059,6 +4110,11 @@
     {
       "path": "evidence/reference/opencut-ci-2026-09-01.json",
       "git_blob_sha": "dc5e528ef4c98eccadc6aed72b88c53733c8b32e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
+      "git_blob_sha": "5d616093c83a9400370b35f7a224f3018400427b",
       "baseline_delta_status": "added"
     },
     {
@@ -4343,7 +4399,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "b3a472cc7c915ff7ae95a3385c3cbafa47964d79",
+      "git_blob_sha": "8cf05f75e4c17f9faba145198fa75b7706e38df8",
       "baseline_delta_status": "modified"
     },
     {
@@ -4604,6 +4660,16 @@
     {
       "path": "src/fa3_opencut_gate.py",
       "git_blob_sha": "a01e906e826ab94982d80b67c08318dc2ad9e147",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_openfx_interop.py",
+      "git_blob_sha": "a01e72c39d5deb913918cc3852859d1ff4e04898",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_openfx_interop_gate.py",
+      "git_blob_sha": "73731a913062715449a5ebb389751469f962c011",
       "baseline_delta_status": "added"
     },
     {
@@ -5039,6 +5105,11 @@
     {
       "path": "tests/test_opencut_gate.py",
       "git_blob_sha": "d60475c05e46792970cd428c713ef826aea95577",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_openfx_interop_gate.py",
+      "git_blob_sha": "182d40aafbe3a41c34ebbbb394db6d5b0e0f7eaf",
       "baseline_delta_status": "added"
     },
     {
@@ -6253,6 +6324,35 @@
     "current_host_runtime_evidence": "PENDING_REAL_SOURCE_BUILD_CUDA_KERNEL_RENDER_METRIC_LIFECYCLE_AND_ROLLBACK_E2E",
     "reference_gate_status": "PASS",
     "source_build_only": true,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "openfx_interoperability_reconciliation": {
+    "profile_id": "FA3-STANDARD-OPENFX-001",
+    "parent_profile_id": "FA3-COMPOSITING-001",
+    "contract_id": "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001",
+    "reference_provider_id": "FA3-PROVIDER-NATRON-001",
+    "decision_id": "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11",
+    "gate_id": "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
+    "executable_gate_id": "FA3-GATE-OPENFX-INTEROPERABILITY-001",
+    "capability_bindings": [
+      "CAP-071",
+      "CAP-126"
+    ],
+    "classification": "MANDATORY_PROVIDER_NEUTRAL_OPENFX_INTEROPERABILITY_PROFILE_OPTIONAL_REPLACEABLE_HOSTS_AND_PLUGINS",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PENDING",
+    "provider_inventory_reconciled": true,
+    "evidence_registry_reconciled": true,
+    "unified_projection_regenerated": true,
+    "deterministic_regeneration_pass": true,
+    "reference_evidence": "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
+    "reference_gate_status": "PASS",
+    "standard_reference_version": "1.5.1",
+    "natron_documented_openfx_api_version": "1.4",
+    "runtime_activation_status": "NOT_PRODUCTION_PROMOTED",
+    "current_host_runtime_evidence": "PENDING_REAL_OPENFX_HOST_PLUGIN_RENDER_EXECUTION",
+    "production_promotion_claimed": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

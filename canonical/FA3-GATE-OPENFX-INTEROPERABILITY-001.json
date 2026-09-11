@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.openfx-interoperability-gate.v1",
+  "id": "FA3-GATE-OPENFX-INTEROPERABILITY-001",
+  "gateset_id": "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
+  "status": "CANONICAL_CLOSED",
+  "priority": "P0",
+  "blocking": true,
+  "fail_closed": true,
+  "rule_count": 30,
+  "decision_id": "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11",
+  "profile_id": "FA3-STANDARD-OPENFX-001",
+  "contract_id": "FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001",
+  "reference_provider_id": "FA3-PROVIDER-NATRON-001",
+  "enforcement_id": "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
+  "upstream_reference_id": "FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11",
+  "runtime_conformance_id": "FA3-OPENFX-RUNTIME-CONFORMANCE-001",
+  "test_entrypoint": "PYTHONPATH=src python3 -m unittest tests.test_openfx_interop_gate -v",
+  "executable_entrypoint": "./bin/fa3-enforce openfx-interoperability",
+  "pass_condition": "All OFX-001 through OFX-030 invariants and every positive/negative typed execution case pass.",
+  "promotion_rule": "Static/reference PASS is not current-host runtime evidence; production promotion requires a fresh real OpenFX host/plugin render receipt."
+}

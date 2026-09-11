@@ -246,6 +246,23 @@ Canonical gate:
 
 The upstream reference record is `canonical/references/FA3-KDENLIVE-UPSTREAM-REFERENCE-2026-08-30.json`; it records Kdenlive 26.04 native OTIO import/export and supported subtitle import as reference evidence only, never as current-host promotion evidence.
 
+## OpenFX image-effect interoperability baseline
+
+`FA3-STANDARD-OPENFX-001` makes OpenFX the mandatory provider-neutral interoperability profile whenever FA3 executes image-effect plug-ins. It is a non-root projection over `FA3-COMPOSITING-001` and the existing `CAP-071` / `CAP-126`; it adds no capability or architectural authority, so the canonical capability count remains **143**. OpenFX defines the host/plug-in boundary, but neither the standard, a host nor a plug-in owns orchestration, policy, resources, evidence, timelines or canonical project state.
+
+The reference standard is pinned to OpenFX **1.5.1** at `ab779510b2655b4d11a7e01e5c521f9aa8c88976`. The existing Natron provider remains an optional replaceable FOSS reference host. Its pinned `RB-2.6` documentation attests OpenFX **1.4**, not the 1.5-only suites; therefore every job must negotiate the required API and suites and fail closed if the selected host or plug-in cannot supply them. Natron project files and plug-in parameter serialization are not canonical IR, and Kdenlive/OTIO editorial authority is unchanged.
+
+OpenFX plug-ins are admitted as native code: immutable binary hashes, allowlisting, licence and dependency inventory, SBOM, scanning, and signature or explicit exception evidence are required. Execution is isolated in a constrained network-denied worker with content-addressed read-only inputs and staged outputs. Accelerator work requires an HRB lease bound to stable GPU UUID/PCI identity; runtime ordinals, fixed GPU SKUs and silent CPU/display-GPU/cloud fallback are forbidden. Color spaces and the OCIO configuration digest must be explicit, and render outputs require checksums, quality checks, full effect/parameter/plugin lineage, crash containment and rollback receipts.
+
+The executable 30-rule reference gate is:
+
+```bash
+./bin/fa3-enforce openfx-interoperability
+PYTHONPATH=src python -m unittest tests.test_openfx_interop_gate -v
+```
+
+Committed CI evidence proves the typed reference contract only. Production promotion remains blocked until a real current-host OpenFX host/plug-in render produces the receipt set declared by `FA3-OPENFX-RUNTIME-CONFORMANCE-001`.
+
 ## OpenCut programmable video editing and timeline automation
 
 `FA3-PROGRAMMABLE-VIDEO-EDITING-001` materializes the existing `CAP-121`/`CAP-126` programmable-editorial baseline as a provider-neutral **Programmable Video Editing, Timeline Automation & Agentic Editor Fabric**. It creates no capability and no architectural authority; the canonical capability count remains **143**.
