@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.artifact-registry-projection.v1",
+  "id": "FA3-LUT-ARTIFACT-REGISTRY-001",
+  "name": "LUT and Color Configuration Artifact Registry Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-LUT-COLOR-001",
+  "registry_authority": "FA3-REGISTRY-001",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "entries": [],
+  "entry_identity": [
+    "artifact_id",
+    "sha256",
+    "immutable_revision"
+  ],
+  "required_fields": [
+    "artifact_id",
+    "artifact_kind",
+    "format",
+    "sha256",
+    "size_bytes",
+    "source_uri",
+    "immutable_revision",
+    "source_is_immutable",
+    "license_id",
+    "classification",
+    "input_color_space",
+    "output_color_space",
+    "interpolation",
+    "domain",
+    "parser_validation",
+    "nonfinite_value_scan",
+    "runtime_download",
+    "executable_payload"
+  ],
+  "lifecycle_states": [
+    "DISCOVERED",
+    "ADMISSION_PENDING",
+    "ADMITTED",
+    "VALIDATED",
+    "PROMOTABLE",
+    "PROMOTED",
+    "QUARANTINED",
+    "DEPRECATED",
+    "RETIRED"
+  ],
+  "invariants": [
+    "CONTENT_HASH_NOT_PATH_IS_ARTIFACT_IDENTITY",
+    "DERIVED_OR_BAKED_LUT_REQUIRES_DISTINCT_IDENTITY_AND_LINEAGE",
+    "PROVIDER_LOCAL_LUT_LIBRARY_IS_NON_AUTHORITATIVE_PROJECTION",
+    "UNKNOWN_INPUT_OR_OUTPUT_COLOR_SPACE_IS_NOT_ADMITTED",
+    "RUNTIME_DOWNLOAD_IS_FORBIDDEN",
+    "EXECUTABLE_PAYLOAD_IS_FORBIDDEN",
+    "LICENSE_AND_SOURCE_REVISION_ARE_REQUIRED",
+    "FORMAT_AND_ARTIFACT_KIND_MUST_MATCH",
+    "PARSER_AND_NONFINITE_VALUE_VALIDATION_REQUIRED",
+    "REGISTRATION_DOES_NOT_EQUAL_RUNTIME_PROMOTION"
+  ]
+}

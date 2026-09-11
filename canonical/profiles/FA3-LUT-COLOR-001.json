@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LUT-COLOR-001",
+  "name": "Provider-neutral LUT Registration, Color Transform and Finishing Governance",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-CANONICAL-PROJECTION-RUNTIME-EVIDENCE-GATED",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "profile_type": "COLOR_TRANSFORM_AND_LUT_GOVERNANCE_PROJECTION",
+  "capabilities": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "capability_count": 143,
+  "contracts": [
+    "FA3-LUT-COLOR-CONTRACTS-001"
+  ],
+  "registry_projection": "FA3-LUT-ARTIFACT-REGISTRY-001",
+  "dependencies": [
+    "FA3-REGISTRY-001",
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "FA3-OPENFX-INTEROP-001"
+  ],
+  "provider_projections": [
+    "FA3-PROVIDER-KDENLIVE-001",
+    "FA3-PROVIDER-FFMPEG-001",
+    "FA3-PROVIDER-OPENFX-001"
+  ],
+  "mandatory_order": [
+    "INPUT_DISCOVERY",
+    "TECHNICAL_INPUT_TRANSFORM",
+    "PRIMARY_CORRECTION",
+    "OPTIONAL_CREATIVE_LUT",
+    "OUTPUT_TRANSFORM",
+    "EXPORT_VALIDATION"
+  ],
+  "authority_boundaries": {
+    "registry": "FA3-REGISTRY-001",
+    "human_finishing": "FA3-PROVIDER-KDENLIVE-001",
+    "headless_media_execution": "FA3-PROVIDER-FFMPEG-001",
+    "external_vfx_interop": "FA3-PROVIDER-OPENFX-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "runtime_activation_status": "PENDING_CURRENT_HOST_COLOR_PIPELINE_E2E",
+  "current_host_runtime_promotion_claimed": false,
+  "implementation_status": "CANONICAL_CONTRACT_REGISTRY_GATE_REFERENCE_EVIDENCE_MATERIALIZED_CURRENT_HOST_E2E_PENDING"
+}

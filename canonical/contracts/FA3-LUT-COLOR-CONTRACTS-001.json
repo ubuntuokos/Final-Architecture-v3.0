@@ -1,0 +1,100 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-LUT-COLOR-CONTRACTS-001",
+  "profile": "FA3-LUT-COLOR-001",
+  "provider_neutral": true,
+  "version": "1.0.0",
+  "capability_count": 143,
+  "contracts": [
+    "LUTArtifactDescriptor",
+    "OCIOConfigurationDescriptor",
+    "ColorPipelinePlan",
+    "ColorTransformExecutionReceipt",
+    "KdenliveLUTProjection",
+    "FFmpegLUTProjection",
+    "OpenFXColorProjection",
+    "ColorQualityEvidence",
+    "ColorPipelineRollbackReceipt"
+  ],
+  "artifact_admission": {
+    "registry": "FA3-LUT-ARTIFACT-REGISTRY-001",
+    "lut_formats": [
+      "cube",
+      "3dl",
+      "dat",
+      "m3d"
+    ],
+    "color_config_formats": [
+      "ocio"
+    ],
+    "classifications": [
+      "TECHNICAL",
+      "CREATIVE",
+      "DISPLAY",
+      "COLOR_CONFIG"
+    ],
+    "required_fields": [
+      "artifact_id",
+      "artifact_kind",
+      "format",
+      "sha256",
+      "size_bytes",
+      "source_uri",
+      "immutable_revision",
+      "source_is_immutable",
+      "license_id",
+      "classification",
+      "input_color_space",
+      "output_color_space",
+      "interpolation",
+      "domain",
+      "parser_validation",
+      "nonfinite_value_scan",
+      "runtime_download",
+      "executable_payload"
+    ],
+    "content_hash_is_identity": true,
+    "filesystem_path_is_identity": false,
+    "runtime_download_forbidden": true,
+    "executable_payload_forbidden": true,
+    "unknown_color_space_forbidden": true
+  },
+  "pipeline_semantics": {
+    "required_order": [
+      "INPUT_DISCOVERY",
+      "TECHNICAL_INPUT_TRANSFORM",
+      "PRIMARY_CORRECTION",
+      "OPTIONAL_CREATIVE_LUT",
+      "OUTPUT_TRANSFORM",
+      "EXPORT_VALIDATION"
+    ],
+    "technical_transform_must_precede_creative": true,
+    "primary_correction_must_precede_creative": true,
+    "creative_lut_optional": true,
+    "maximum_active_creative_luts": 1,
+    "duplicate_artifact_hash_in_pipeline_forbidden": true,
+    "single_output_transform_required": true,
+    "identity_technical_transform_must_be_explicit_when_not_needed": true
+  },
+  "execution_surfaces": {
+    "KDENLIVE_NATIVE": "typed capability-discovered MLT/FFmpeg-avfilter LUT effect projection",
+    "FFMPEG_HEADLESS": "deterministic explicit filtergraph with pinned artifact path projection",
+    "OPENFX_EXTERNAL_HOST": "external host rendered hash-addressed intermediate; never native Kdenlive OFX loading"
+  },
+  "editorial_mutation": {
+    "preview_or_dry_run_required": true,
+    "direct_kdenlive_project_xml_mutation_forbidden": true,
+    "picture_lock_requires_human_approval": true,
+    "pre_and_post_effect_stack_digest_required": true
+  },
+  "quality_and_evidence": {
+    "input_output_color_metadata_required": true,
+    "pixel_format_and_range_required": true,
+    "hdr_metadata_required_when_present": true,
+    "gamut_and_clipping_check_required": true,
+    "representative_frame_comparison_required": true,
+    "artifact_sha256_and_pipeline_digest_required": true,
+    "host_provider_version_required": true,
+    "rollback_artifact_or_effect_stack_required": true
+  }
+}

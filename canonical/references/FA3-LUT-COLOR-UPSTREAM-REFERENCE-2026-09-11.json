@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-LUT-COLOR-UPSTREAM-REFERENCE-2026-09-11",
+  "observed_at": "2026-09-11",
+  "sources": [
+    {
+      "project": "Kdenlive",
+      "url": "https://docs.kdenlive.org/en/effects_and_filters/video_effects/color_image_correction/apply_lut.html",
+      "role": "human finishing and native LUT effect reference"
+    },
+    {
+      "project": "FFmpeg",
+      "url": "https://ffmpeg.org/ffmpeg-filters.html#lut3d",
+      "role": "deterministic headless LUT filtergraph reference"
+    },
+    {
+      "project": "OpenColorIO",
+      "url": "https://opencolorio.readthedocs.io/en/latest/",
+      "role": "provider-neutral color-space and LUT configuration reference"
+    },
+    {
+      "project": "OpenFX",
+      "url": "https://openfx.readthedocs.io/en/latest/",
+      "role": "external host/plugin interoperability reference"
+    }
+  ],
+  "floating_reference_for_runtime_promotion_forbidden": true,
+  "current_host_runtime_evidence": "NOT_CLAIMED"
+}
