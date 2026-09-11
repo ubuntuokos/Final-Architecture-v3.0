@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-TRITON-INFERENCE-SERVER-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_id": "FA3-PROVIDER-TRITON-001",
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
@@ -13,6 +13,7 @@
   "contracts": [
     "TritonRuntimeCandidateDescriptor",
     "TritonContainerAdmissionReceipt",
+    "TritonBackendCompatibilityReceipt",
     "TritonModelRepositoryProjectionDescriptor",
     "TritonModelControlPolicy",
     "TritonDeviceVisibilityGrant",
@@ -20,7 +21,8 @@
     "TritonBackendBindingDescriptor",
     "TritonNetworkBoundaryDescriptor",
     "TritonReadinessReceipt",
-    "TritonDeploymentReceipt"
+    "TritonDeploymentReceipt",
+    "TritonCurrentHostE2EReceipt"
   ],
   "authority_boundary": {
     "provider_is_architectural_authority": false,
@@ -36,7 +38,11 @@
     "immutable_container_digest_required": true,
     "floating_latest_forbidden": true,
     "supply_chain_admission_required": true,
-    "backend_support_matrix_admission_required": true
+    "image_admission_receipt_required": true,
+    "image_admission_receipt_binding": "MUST_MATCH_EXACT_DIGEST_PINNED_RUNTIME_IMAGE",
+    "backend_support_matrix_admission_required": true,
+    "backend_compatibility_receipt_required": true,
+    "backend_compatibility_receipt_binding": "MUST_BIND_TRITON_SERVING_PROVIDER_TO_SELECTED_BACKEND_AND_HRB_SCOPE"
   },
   "model_repository": {
     "source": "FA3_MODEL_MANAGER_ADMITTED_PROJECTION_ONLY",
@@ -57,6 +63,8 @@
     "canonical_identity": "GPU_UUID_AND_PCI_BDF_WHEN_AVAILABLE",
     "runtime_visibility": "EXACT_HRB_GRANTED_SCOPE",
     "all_devices_wildcard": "FORBIDDEN",
+    "runtime_gpu_index_is_canonical": false,
+    "runtime_ordinal_mapping_receipt_required": true,
     "model_instance_group_gpu_set": "MUST_BE_SUBSET_OF_HRB_GRANTED_SCOPE",
     "implicit_display_or_other_gpu_fallback": "FORBIDDEN",
     "cpu_fallback": "EXPLICIT_POLICY_ONLY"
@@ -78,11 +86,15 @@
   },
   "evidence": {
     "deployment_receipt_required": true,
+    "current_host_e2e_receipt_required_for_production_promotion": true,
     "receipt_fields": [
       "provider_id",
       "runtime_release",
       "container_digest",
+      "image_admission_receipt",
+      "backend_compatibility_receipt",
       "hrb_receipt",
+      "placement_receipt",
       "device_scope",
       "model_projection",
       "model_control_mode",
