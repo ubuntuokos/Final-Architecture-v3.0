@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENFX-001",
+  "name": "OpenFX Interoperability Standard",
+  "status": "OPTIONAL_INTEROP_REFERENCE_PROVIDER",
+  "provider_role": "EXTERNAL_VFX_PLUGIN_INTEROPERABILITY_STANDARD",
+  "classification": [
+    "OPTIONAL_REPLACEABLE_INTEROP_PROVIDER",
+    "REFERENCE_STANDARD",
+    "EXTERNAL_VFX_RENDER_PROJECTION"
+  ],
+  "profile": "FA3-OPENFX-INTEROP-001",
+  "capability_projection": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "hard_backend_dependency": false,
+  "native_kdenlive_host": false,
+  "kdenlive_integration_mode": "EXTERNAL_HOST_TO_HASHED_INTERMEDIATE",
+  "timeline_semantic_authority": false,
+  "workflow_authority": false,
+  "orchestration_authority": false,
+  "host_resource_authority": false,
+  "evidence_authority": false,
+  "upstream": {
+    "standard": "OpenFX",
+    "api_version": "1.5.1",
+    "reference_url": "https://openfx.readthedocs.io/en/latest/",
+    "observed_reference_date": "2026-09-11",
+    "floating_reference_for_promotion_forbidden": true
+  },
+  "runtime_activation": {
+    "status": "NOT_ADMITTED_HOST_AND_PLUGIN_E2E_PENDING",
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "current_host_runtime_evidence": "NOT_CLAIMED"
+  },
+  "forbidden_authorities": [
+    "KDENLIVE_EDITORIAL_AUTHORITY",
+    "TIMELINE_SEMANTIC_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "ORCHESTRATION_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "ARTIFACT_REGISTRY_AUTHORITY",
+    "MODEL_AUTHORITY",
+    "MCP_GATEWAY_AUTHORITY"
+  ],
+  "notes": [
+    "OpenFX is a host-plugin interoperability standard, not a Kdenlive native effect backend.",
+    "Kdenlive remains the human finishing and picture-lock surface.",
+    "No new capability or architectural authority is introduced."
+  ]
+}
