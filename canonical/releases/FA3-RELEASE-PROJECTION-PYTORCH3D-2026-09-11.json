@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.provider-release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-PYTORCH3D-2026-09-11",
+  "date": "2026-09-11",
+  "status": "REFERENCE_MATERIALIZATION_PROJECTED",
+  "source_snapshot": {
+    "base_branch": "main",
+    "base_commit_sha": "1ac1654ddf4bbd9372ad9ad6db4d2dc1211eb2ed"
+  },
+  "decision_id": "FA3-DEC-PYTORCH3D-2026-09-11",
+  "profile_id": "FA3-DIFFERENTIABLE-3D-001",
+  "parent_profile_id": "FA3-3D-GEOM-001",
+  "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+  "contract_id": "FA3-DIFFERENTIABLE-3D-CONTRACTS-001",
+  "gate_id": "FA3-GATE-PYTORCH3D-001",
+  "gate_set_id": "FA3-PYTORCH3D-GATESET-001",
+  "reference_id": "FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11",
+  "runtime_conformance_id": "FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001",
+  "reference_evidence": "evidence/reference/pytorch3d-reference-pass.json",
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "canonical_capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "reference_gate_status": "PASS",
+  "current_host_runtime_status": "PENDING_CURRENT_HOST",
+  "production_promotion_claimed": false,
+  "post_merge_unified_projection_reconciliation_required": true
+}
