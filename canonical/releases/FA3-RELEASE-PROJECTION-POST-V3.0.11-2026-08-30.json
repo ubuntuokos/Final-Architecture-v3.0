@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "cd08c4ada7aa5514458b3d60979c4e288939479c",
-    "pre_projection_root_tree_sha": "3dd65ec87d411d5df76eca0541a1d6c894426f12",
-    "pre_projection_canonical_tree_sha": "f2900421ae5650476c4ad5a710fa6ced7ff1772c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 166,
-    "total_post_baseline_commits": 166,
-    "delta_file_count": 857,
-    "delta_added_files": 852,
+    "pre_projection_head_sha": "ca29c2670de91b7856f26e1c4fe343982d12bec9",
+    "pre_projection_root_tree_sha": "43c56729f97c4dd3a411e99c35915d2f4fee92ed",
+    "pre_projection_canonical_tree_sha": "89b0693de626db3654a9e07d407093f550cb497b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 138,
+    "total_post_baseline_commits": 138,
+    "delta_file_count": 866,
+    "delta_added_files": 861,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 482,
+    "canonical_files_in_post_baseline_delta": 486,
     "evidence_files_in_post_baseline_delta": 94,
-    "source_files_in_post_baseline_delta": 98,
+    "source_files_in_post_baseline_delta": 97,
     "test_files_in_post_baseline_delta": 80,
-    "workflow_files_in_post_baseline_delta": 20,
+    "workflow_files_in_post_baseline_delta": 22,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -113,6 +113,7 @@
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
+      "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
       "canonical/providers/FA3-PROVIDER-QWEN3-TTS-001.json",
       "canonical/providers/FA3-PROVIDER-RAGFLOW-001.json",
       "canonical/providers/FA3-PROVIDER-RELI3D-001.json",
@@ -120,7 +121,6 @@
       "canonical/providers/FA3-PROVIDER-SD35-NVIDIA-NIM-001.json",
       "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
       "canonical/providers/FA3-PROVIDER-SF3D-001.json",
-      "canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json",
       "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
       "canonical/providers/FA3-PROVIDER-SPAR3D-001.json",
       "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-001.json",
@@ -159,6 +159,7 @@
       "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
       "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
+      "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
@@ -210,6 +211,7 @@
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
       "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
@@ -224,7 +226,6 @@
       "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
       "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
-      "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
@@ -287,7 +288,6 @@
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
-      "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
@@ -322,6 +322,7 @@
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
@@ -375,6 +376,7 @@
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01.json",
@@ -438,6 +440,7 @@
       "evidence/reference/openyak-ci-2026-09-05.json",
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
+      "evidence/reference/pytorch3d-reference-pass.json",
       "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
@@ -497,7 +500,8 @@
     "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001",
     "FA3-CAVEMAN-GATESET-001",
     "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
-    "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001"
+    "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
+    "FA3-PYTORCH3D-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -592,6 +596,16 @@
       "reference_evidence": "evidence/reference/lavasr-reference-pass.json",
       "runtime_status": "PENDING_CURRENT_HOST",
       "production_admitted": false
+    },
+    "pytorch3d_capability_binding": {
+      "subject_id": "CAP-032",
+      "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+      "profile_id": "FA3-DIFFERENTIABLE-3D-001",
+      "contract_id": "FA3-DIFFERENTIABLE-3D-CONTRACTS-001",
+      "decision_id": "FA3-DEC-PYTORCH3D-2026-09-11",
+      "reference_evidence": "evidence/reference/pytorch3d-reference-pass.json",
+      "runtime_status": "PENDING_CURRENT_HOST",
+      "production_admitted": false
     }
   },
   "promotion": {
@@ -602,7 +616,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 857,
+  "manifest_entry_count": 866,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -671,12 +685,17 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "5172ce4ec1047448ba4edc6299b07d8fe58d6608",
+      "git_blob_sha": "9390e2acb927d8ce69205973e2dd90ff166abe4d",
       "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
       "git_blob_sha": "c2360b6e763dcb6a1cdccd96f469272bde330aeb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-pytorch3d-current-host.yml",
+      "git_blob_sha": "554382e4bd474722746602ee62983d103e191e13",
       "baseline_delta_status": "added"
     },
     {
@@ -705,13 +724,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/pytorch3d-reference-gate.yml",
+      "git_blob_sha": "6a44b5d09864d7f7dc50ee23f134cd592e5b30c5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".gitignore",
       "git_blob_sha": "cca995defc4593107aa116e1999d8a0ee1fcb2cc",
       "baseline_delta_status": "modified"
     },
     {
       "path": "README.md",
-      "git_blob_sha": "241e0768912c4ae0bf321d4eb7b113b48905389c",
+      "git_blob_sha": "95298feb7891397848d98cc9eab4d92489d0ef65",
       "baseline_delta_status": "added"
     },
     {
@@ -875,6 +899,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-pytorch3d-current-host.sh",
+      "git_blob_sha": "b85464ebd6ff03dbcf296dca869b6dddd288d0d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-pytorch3d-source-build.sh",
+      "git_blob_sha": "e7cdd8fa17a0a952e6fc0a2a62e7e971023538ad",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-sillytavern-kde-install-user-integration.sh",
       "git_blob_sha": "5606dae254b2b67f1aa71329d7e9976b3c6a2159",
       "baseline_delta_status": "added"
@@ -1000,11 +1034,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "canonical/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.json",
-      "git_blob_sha": "6a07344b5fe5d8d487fb8fbd92488b8b3c16ce8b",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "canonical/FA3-GATE-LAVASR-001.json",
       "git_blob_sha": "cec8bddd16780fa5e134c47ff0fcad16b8c53ac4",
       "baseline_delta_status": "added"
@@ -1067,6 +1096,11 @@
     {
       "path": "canonical/FA3-GATE-OPENYAK-001.json",
       "git_blob_sha": "ada4c8c745217f22218b2bf323bc245f29c8617b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-PYTORCH3D-001.json",
+      "git_blob_sha": "373da080db752405633dadbfec0291b3cdd6560b",
       "baseline_delta_status": "added"
     },
     {
@@ -1162,6 +1196,11 @@
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "e4c4fde5f2060158ef5b3417ccd0985f1876d92e",
       "baseline_delta_status": "added"
     },
     {
@@ -1345,6 +1384,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
+      "git_blob_sha": "addaa9fa3171128d6f1b8d0ad238471dc5d6d8c5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
       "git_blob_sha": "e8fc452d32379e99e59c1d5d4f39815a1416c1db",
       "baseline_delta_status": "added"
@@ -1412,11 +1456,6 @@
     {
       "path": "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
       "git_blob_sha": "1baf182d76898a4d5ab7542f382d5955c1d7ecc6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
-      "git_blob_sha": "5452b4b1fefd866ddbf051a35ed854ec2ade17f4",
       "baseline_delta_status": "added"
     },
     {
@@ -1740,11 +1779,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
-      "git_blob_sha": "28ff7b1c1a9fb189b5f71d31b4a761957784ec2b",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211",
       "baseline_delta_status": "added"
@@ -1915,6 +1949,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
+      "git_blob_sha": "add5b74bb177ae0010f5281a799d9fe69d94dacb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "git_blob_sha": "1db2a2f58c476bd1e53e31fc4caba9ef35911498",
       "baseline_delta_status": "added"
@@ -1991,7 +2030,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "e6b3a42397950ad255bfe630fc803f502b273749",
+      "git_blob_sha": "10720e7c8802dcf9fdfb9acdbc40c1f34fc7dfd2",
       "baseline_delta_status": "modified"
     },
     {
@@ -2082,11 +2121,6 @@
     {
       "path": "canonical/kaneo-enforcement.json",
       "git_blob_sha": "81ff2ef690768970b80c1d2aa8fb69cc0d263572",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/kdenlive-audio-conditioning-enforcement.json",
-      "git_blob_sha": "85702703b930ca61702ffe2bc799132ce0cc6976",
       "baseline_delta_status": "added"
     },
     {
@@ -2271,7 +2305,7 @@
     },
     {
       "path": "canonical/profiles/FA3-3D-GEOM-001.json",
-      "git_blob_sha": "a13182cfd059e0a8cab9d03151940cd088160757",
+      "git_blob_sha": "496bd78a4b770186c0da97d9573840a1d160af73",
       "baseline_delta_status": "added"
     },
     {
@@ -2327,6 +2361,11 @@
     {
       "path": "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
       "git_blob_sha": "63cf2b41e9fa808c28cb7614f9744671fa5c3832",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
+      "git_blob_sha": "d77726152d97f4a991ab54fa0f83ace1a5945706",
       "baseline_delta_status": "added"
     },
     {
@@ -2795,6 +2834,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
+      "git_blob_sha": "bbb3246dce179b8ea40cb5dd64c17648bf735270",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-QWEN3-TTS-001.json",
       "git_blob_sha": "9016acddf56371a2f943c9c4845ad72b6acc6b0e",
       "baseline_delta_status": "added"
@@ -2827,11 +2871,6 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-SF3D-001.json",
       "git_blob_sha": "de9e6facc2df8a41c5c5969312f1f30ffaf9bdef",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json",
-      "git_blob_sha": "9e926a680a6faf2669f1cb4f27dd1850a1dbe08e",
       "baseline_delta_status": "added"
     },
     {
@@ -2952,6 +2991,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-XTTS-001.json",
       "git_blob_sha": "54728969b877d374b490bc8317963f1d512744af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/pytorch3d-enforcement.json",
+      "git_blob_sha": "8413aae10c2cf9457f2b92c16bfd997379f74e8d",
       "baseline_delta_status": "added"
     },
     {
@@ -3145,6 +3189,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11.json",
+      "git_blob_sha": "a9c9de9a4f00fe376ec84bceba674a63eb95aec7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
       "git_blob_sha": "446702b77e9b1efd1d08d1fd2547bee93023bbdf",
       "baseline_delta_status": "added"
@@ -3232,6 +3281,11 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-OPENYAK-2026-09-05.json",
       "git_blob_sha": "88ba5783e6929948ceb9907ca70f7750186aa811",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-PYTORCH3D-2026-09-11.json",
+      "git_blob_sha": "79573ce4f2954e6f05b6a2e258a7f552cd714ca0",
       "baseline_delta_status": "added"
     },
     {
@@ -3460,13 +3514,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "docs/sillytavern-kde-integration.md",
-      "git_blob_sha": "b63c034cc5f1a2225b39b91f46b98533a28d9ba1",
+      "path": "docs/pytorch3d-integration.md",
+      "git_blob_sha": "ddab0fb1d6d62f2361c83286af29d160f0889014",
       "baseline_delta_status": "added"
     },
     {
-      "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
-      "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
+      "path": "docs/sillytavern-kde-integration.md",
+      "git_blob_sha": "b63c034cc5f1a2225b39b91f46b98533a28d9ba1",
       "baseline_delta_status": "added"
     },
     {
@@ -3535,11 +3589,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "evidence/collect-kdenlive-audio-conditioning-current-host.py",
-      "git_blob_sha": "14a934c6d15623620882b058d28f121565abd29b",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "evidence/collect-lavasr-current-host.py",
       "git_blob_sha": "3c29b6448adaf5e99a530428d24d49be6d20496d",
       "baseline_delta_status": "added"
@@ -3590,6 +3639,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-pytorch3d-current-host.py",
+      "git_blob_sha": "18a3a191df77d1e3fb67ca5c4bc87d99aab3e0d8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-stable-audio-3-current-host.py",
       "git_blob_sha": "0fdf4ad553583a18d5c35c12d36a4ae71e2d175b",
       "baseline_delta_status": "added"
@@ -3606,7 +3660,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "dbb674d96d82210edbe769b2fd7194c175efec5f",
+      "git_blob_sha": "502f390e2b2c569beb803922d5b016287572c3ae",
       "baseline_delta_status": "added"
     },
     {
@@ -3880,6 +3934,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/pytorch3d-reference-pass.json",
+      "git_blob_sha": "323d9075e1f6187d8218d2928115c7308751c789",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "git_blob_sha": "f212258efff1ad57d9f59cb4c1fbcaa19ed76990",
       "baseline_delta_status": "added"
@@ -4116,7 +4175,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "2654147ec45056da201dc8e21508e6edb84cda67",
+      "git_blob_sha": "b3a472cc7c915ff7ae95a3385c3cbafa47964d79",
       "baseline_delta_status": "modified"
     },
     {
@@ -4202,21 +4261,6 @@
     {
       "path": "src/fa3_kaneo_gate.py",
       "git_blob_sha": "5e7873a70b2efbce4ba30854de183a7e31f0615b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_kdenlive_audio_gate.py",
-      "git_blob_sha": "394c6b8fc5504726f3facd220c9ac349e16e9ec4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_kdenlive_audio_job.py",
-      "git_blob_sha": "f71e831439c212e9af1b74030ac79b2f191ab458",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_kdenlive_audio_pipeline.py",
-      "git_blob_sha": "a2079e6c1d3c35f0ed489832d4fdd324487d5710",
       "baseline_delta_status": "added"
     },
     {
@@ -4400,6 +4444,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_pytorch3d_gate.py",
+      "git_blob_sha": "9545cd36f8f149739e5de2156ebaca0d0576a39a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pytorch3d_provider.py",
+      "git_blob_sha": "afb77c53703f41385f250d4f43db013945235229",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pytorch3d_runtime_probe.py",
+      "git_blob_sha": "aa24e7663e47d098a479aa6c2a7b1ffa7946932d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_release_projection_gate.py",
       "git_blob_sha": "578058db31ccbaa0eef8e337e5ec826ac485da49",
       "baseline_delta_status": "added"
@@ -4407,11 +4466,6 @@
     {
       "path": "src/fa3_release_projection_regenerate.py",
       "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_silero_vad_provider.py",
-      "git_blob_sha": "b2aaf5b706547c2c4b0fed9f5dfa4058f8eab742",
       "baseline_delta_status": "added"
     },
     {
@@ -4645,11 +4699,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "tests/test_kdenlive_audio_conditioning.py",
-      "git_blob_sha": "617fc52dce20196283b7aad40eeed8ceae08a232",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "tests/test_kdenlive_editorial.py",
       "git_blob_sha": "a805ea489ad6281fbf55e9ba53779d494f7fb086",
       "baseline_delta_status": "added"
@@ -4805,6 +4854,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_pytorch3d_gate.py",
+      "git_blob_sha": "ce198ae9bde7a19a08a67645cdcbfdad1d1b53ba",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_release_projection.py",
       "git_blob_sha": "c127bb6819c0a974d00ec382ff7dc257c22a2c60",
       "baseline_delta_status": "added"
@@ -4887,6 +4941,11 @@
     {
       "path": "tools/fa3_lavasr_global_reconcile.py",
       "git_blob_sha": "760bdc87480132d7aeef35f0769b8d9a38cce11d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_pytorch3d_global_reconcile.py",
+      "git_blob_sha": "22c6d03fdde7407105a4876f8eb00c3139b6e1b3",
       "baseline_delta_status": "added"
     }
   ],
@@ -5851,14 +5910,15 @@
   "review_notes": [
     "FA3-PROVIDER-BUZZ-001 globally reconciled to CAP-008 / FA3-DESKTOP-AGENT-WORKBENCH-001 with deterministic release/inventory/evidence projection regeneration and executable drift enforcement; Buzz remains optional, disabled by default, non-authoritative and not current-host runtime promoted.",
     "FA3-PROVIDER-GTCRN-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional CPU-first ONNX real-time speech enhancement provider. Reference gate PASS does not promote current-host runtime; quarantine SHA-256, real ONNX audio E2E quality, RTF and rollback evidence remain required.",
-    "FA3-PROVIDER-LAVASR-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional ONNX-first speech restoration and bandwidth-extension provider. Reference PASS does not promote current-host runtime; pinned ONNX asset SHA-256, real audio E2E quality, duration/padding integrity, RTF and rollback evidence remain required."
+    "FA3-PROVIDER-LAVASR-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional ONNX-first speech restoration and bandwidth-extension provider. Reference PASS does not promote current-host runtime; pinned ONNX asset SHA-256, real audio E2E quality, duration/padding integrity, RTF and rollback evidence remain required.",
+    "FA3-PROVIDER-PYTORCH3D-001 is globally reconciled to CAP-032 through the non-root FA3-DIFFERENTIABLE-3D-001 profile. The provider is source-build-only and remains current-host pending; reference PASS cannot promote runtime without a compatible ABI tuple, real CUDA/Pulsar and geometry E2E, lifecycle unload and rollback evidence."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "3ae00cc98db3b86d48a5725445953f1f16913c0b",
-    "regenerated_from_branch_head": "3ae00cc98db3b86d48a5725445953f1f16913c0b",
+    "source_snapshot_anchor": "fe3335e4a8eb76d484ca60c48054c6c2ab3ef62e",
+    "regenerated_from_branch_head": "fe3335e4a8eb76d484ca60c48054c6c2ab3ef62e",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -5869,7 +5929,10 @@
     "lavasr_snapshot_head": "3ae00cc98db3b86d48a5725445953f1f16913c0b",
     "ace_step_hardening_reconciliation_generator": "one-shot/common.regenerate_release",
     "ace_step_hardening_deterministic_regeneration_pass": true,
-    "ace_step_hardening_snapshot_head": "f77124a8b9f60412567351f346d0c67f2880b5ab"
+    "ace_step_hardening_snapshot_head": "f77124a8b9f60412567351f346d0c67f2880b5ab",
+    "pytorch3d_reconciliation_generator": "tools/fa3_pytorch3d_global_reconcile.py",
+    "pytorch3d_deterministic_regeneration_pass": true,
+    "pytorch3d_snapshot_head": "fe3335e4a8eb76d484ca60c48054c6c2ab3ef62e"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -5946,6 +6009,28 @@
     "numeric_integrity_fail_closed": true,
     "cpu_offload_device_dtype_coherence_required": true,
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "pytorch3d_reconciliation": {
+    "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+    "profile_id": "FA3-DIFFERENTIABLE-3D-001",
+    "parent_profile_id": "FA3-3D-GEOM-001",
+    "contract_id": "FA3-DIFFERENTIABLE-3D-CONTRACTS-001",
+    "decision_id": "FA3-DEC-PYTORCH3D-2026-09-11",
+    "gate_id": "FA3-PYTORCH3D-GATESET-001",
+    "capability_id": "CAP-032",
+    "classification": "REQUIRED_SUPPORTED_DIFFERENTIABLE_3D_REFERENCE_CONDITIONAL_SOURCE_BUILD_ONLY_RUNTIME",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PENDING",
+    "provider_inventory_reconciled": true,
+    "evidence_registry_reconciled": true,
+    "unified_projection_regenerated": true,
+    "deterministic_regeneration_pass": true,
+    "runtime_activation_status": "NOT_PRODUCTION_PROMOTED",
+    "current_host_runtime_evidence": "PENDING_REAL_SOURCE_BUILD_CUDA_KERNEL_RENDER_METRIC_LIFECYCLE_AND_ROLLBACK_E2E",
+    "reference_gate_status": "PASS",
+    "source_build_only": true,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

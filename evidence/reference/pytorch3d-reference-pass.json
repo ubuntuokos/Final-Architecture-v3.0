@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-PYTORCH3D-REFERENCE-PASS-2026-09-11",
+  "date": "2026-09-11",
+  "gate_set_id": "FA3-PYTORCH3D-GATESET-001",
+  "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+  "status": "PASS",
+  "evidence_scope": "CANONICAL_STATIC_EXECUTABLE_POLICY_AND_NEGATIVE_REGRESSION_REFERENCE_ONLY",
+  "upstream_revision": "0a7d4c1a171e8b768c63f15b17564f9ad495f49b",
+  "rules_checked": 32,
+  "verification": {
+    "command": "PYTHONPATH=src python -m unittest tests.test_pytorch3d_gate -v",
+    "environment": "LOCAL_REPOSITORY_REFERENCE_RUN",
+    "durable_ci_run": "PENDING_FIRST_BRANCH_WORKFLOW"
+  },
+  "positive_regressions": [
+    "canonical profile contract provider decision reference and release closure",
+    "exact immutable upstream pin and BSD-3-Clause source-license identity",
+    "source-build-only compatible tuple admission",
+    "typed six-operation job-manifest admission",
+    "stable accelerator identity plus HRB lease admission",
+    "explicit runtime ordinal mapping without ordinal identity",
+    "upstream Pulsar CUDA device check source fingerprint"
+  ],
+  "negative_regressions": [
+    "Conda or nightly binary route rejected",
+    "pytorch3duniverse and unverified community wheel rejected",
+    "floating main and stable alias rejected",
+    "shared Torch environment rejected",
+    "Torch CUDA and build toolkit ABI mismatch rejected",
+    "missing wheel SHA-256 rejected",
+    "missing HRB lease or stable accelerator identity rejected",
+    "display accelerator selection rejected",
+    "silent CPU or accelerator fallback rejected",
+    "runtime network fetch or arbitrary Python payload rejected",
+    "false current-host runtime promotion rejected"
+  ],
+  "current_host_runtime_evidence": false,
+  "production_promotion": false,
+  "global_143_capability_promotion": false
+}

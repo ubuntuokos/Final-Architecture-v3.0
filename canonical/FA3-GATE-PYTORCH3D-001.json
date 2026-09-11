@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-PYTORCH3D-001",
+  "gateset_id": "FA3-PYTORCH3D-GATESET-001",
+  "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+  "profile_id": "FA3-DIFFERENTIABLE-3D-001",
+  "contract_id": "FA3-DIFFERENTIABLE-3D-CONTRACTS-001",
+  "fail_closed": true,
+  "rule_count": 32,
+  "executable": "./bin/fa3-enforce pytorch3d",
+  "report": "reports/pytorch3d-gate-report.json",
+  "reference_evidence": "evidence/reference/pytorch3d-reference-pass.json",
+  "current_host_evidence_required_for_runtime_promotion": true
+}

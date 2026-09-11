@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-DIFFERENTIABLE-3D-001",
+  "name": "Differentiable 3D Geometry, Neural Rendering & Reconstruction Execution",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "CONDITIONAL_MUST",
+  "activation_condition": "WHEN_A_DIFFERENTIABLE_GEOMETRY_NEURAL_RENDERING_CAMERA_OPTIMIZATION_OR_LEARNING_BASED_3D_RECONSTRUCTION_JOB_IS_ADMITTED",
+  "canonical_root": false,
+  "relationship": {
+    "type": "SUBPROFILE-OF",
+    "parent": "FA3-3D-GEOM-001"
+  },
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "contracts": [
+    "FA3-GEOMETRY-CONTRACTS-001",
+    "FA3-DIFFERENTIABLE-3D-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-PYTORCH3D-001"
+  ],
+  "capability_surface": [
+    "3d.mesh.fit",
+    "3d.mesh.render",
+    "3d.pointcloud.render",
+    "3d.camera.optimize",
+    "3d.volume.marching-cubes",
+    "3d.geometry.convert"
+  ],
+  "authority_boundaries": {
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "dcc_scene_and_final_asset": "FA3-DCC-RT3D-001",
+    "workflow": "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+    "tool_exposure": "FA3-CENTRAL-MCP-CAPABILITY-GATEWAY-001",
+    "host_resource_and_accelerator_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_and_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "DIFFERENTIABLE_3D_IS_NON_ROOT_CHILD_OF_SOLE_GEOMETRY_AUTHORITY",
+    "CAP_032_PROJECTION_ONLY_NO_NEW_CAPABILITY",
+    "PROVIDER_IMPLEMENTATIONS_DO_NOT_OWN_GEOMETRY_SEMANTICS",
+    "DCC_SCENE_AND_FINAL_ASSET_AUTHORITY_REMAINS_EXTERNAL",
+    "TYPED_JOB_MANIFEST_AND_CONTENT_ADDRESSED_INPUT_OUTPUT_REQUIRED",
+    "EXPLICIT_EXECUTION_DEVICE_AND_NO_SILENT_FALLBACK",
+    "HRB_LEASE_REQUIRED_FOR_ACCELERATOR_EXECUTION",
+    "RUNTIME_COMPATIBILITY_AND_SOURCE_BUILD_RECEIPTS_REQUIRED",
+    "CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+  ],
+  "implementation_status": "CANONICAL_REFERENCE_GATE_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING"
+}
