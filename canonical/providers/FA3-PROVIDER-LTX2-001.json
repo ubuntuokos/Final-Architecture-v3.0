@@ -1,0 +1,166 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-LTX2-001",
+  "name": "Lightricks LTX-2",
+  "status": "ADOPTED_PROVIDER_POLICY_RUNTIME_NOT_PROMOTED",
+  "provider_role": "OPTIONAL_LOCAL_MULTIMODAL_VIDEO_GENERATION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "LOCAL_VIDEO_GENERATION_PROVIDER",
+    "SYNCHRONIZED_AUDIO_VIDEO_PROVIDER",
+    "VIDEO_REGENERATION_PROVIDER",
+    "REFERENCE_CONDITIONING_PROVIDER",
+    "LORA_CONDITIONING_PROVIDER",
+    "UPSCALE_PROVIDER"
+  ],
+  "profiles": ["FA3-VIDEO-001"],
+  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_FAIL_CLOSED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_CURRENT_HOST_PROMOTED",
+  "current_host_runtime_evidence": false,
+  "contract": "FA3-VIDEO-CONTRACTS-001",
+  "upstream_reference": "FA3-LTX2-UPSTREAM-REFERENCE-2026-09-12",
+  "decision": "FA3-DEC-VIDEO-LTX2-2026-09-12",
+  "observed_upstream": {
+    "repository": "Lightricks/LTX-2",
+    "commit": "a95ab856bf29407b6b066ede0abe1846050db56c",
+    "observed_model_line": "LTX-2.3",
+    "floating_main_for_runtime_promotion": false
+  },
+  "video_capabilities": [
+    "TEXT_TO_VIDEO",
+    "IMAGE_TO_VIDEO",
+    "TEXT_IMAGE_TO_VIDEO",
+    "VIDEO_TO_VIDEO_IC_LORA",
+    "REFERENCE_VIDEO_CONDITIONING",
+    "CONTROL_CONDITIONING_IC_LORA",
+    "KEYFRAME_INTERPOLATION",
+    "TEMPORAL_RETAKE_REGENERATION",
+    "AUDIO_TO_VIDEO",
+    "SYNCHRONIZED_AUDIO_VIDEO",
+    "LIP_DUB_REVOICING",
+    "HDR_VIDEO_TRANSFORMATION",
+    "LORA_CONDITIONING",
+    "SPATIAL_UPSCALE",
+    "TEMPORAL_UPSCALE"
+  ],
+  "excluded_from_video_provider_claims": {
+    "audio_only_t2a_one_stage": "DEFER_TO_AUDIO_DOMAIN_AUTHORITY",
+    "legacy_ltx_video_0_9_8": "REFERENCE_OR_COMPATIBILITY_ONLY_NOT_SEPARATE_CANONICAL_PROVIDER",
+    "video_extension": "NOT_VERIFIED_IN_CURRENT_LTX2_PIPELINE_SURFACE",
+    "ltx_2_5_and_future": "REQUIRES_SEPARATE_VERSION_AND_LICENSE_ADMISSION"
+  },
+  "canonical_ir_projection": {
+    "input": "VideoGenerationIR",
+    "output": "VideoExecutionResult",
+    "provider_native_fields_in_canonical_ir": false,
+    "projection_loss_report_required": true,
+    "hard_projection_loss_fail_closed": true,
+    "retake_maps_to": ["VideoRegenerationIntent", "TemporalEditDescriptor"],
+    "audio_video_maps_to": ["AudioDialoguePlan", "AudioSceneDescriptor", "AVSyncConstraint"],
+    "provenance": "VideoGenerationProvenance"
+  },
+  "integration_targets": {
+    "native_ltx_pipelines": {
+      "status": "PRODUCTION_INTEGRATION_TARGET",
+      "immutable_runtime_version_pin_required": true,
+      "current_host_e2e_required": true
+    },
+    "comfyui": {
+      "status": "PRODUCTION_INTEGRATION_TARGET",
+      "must_route_through_existing_fa3_comfyui_integration": true,
+      "parallel_workflow_authority_forbidden": true,
+      "immutable_runtime_version_pin_required": true,
+      "adapter_compatibility_regression_required": true,
+      "current_host_e2e_required": true
+    }
+  },
+  "runtime_admission": {
+    "mode": "FAIL_CLOSED",
+    "promotion_requires_real_current_host_e2e": true,
+    "required": [
+      "immutable_upstream_and_runtime_pin",
+      "exact_model_artifact_identity_and_digest",
+      "license_version_resolution",
+      "license_eligibility_decision",
+      "artifact_trust_pass",
+      "host_resource_broker_admission_pass",
+      "cuda_runtime_probe",
+      "checkpoint_load_probe",
+      "minimal_video_generation_e2e_pass",
+      "audio_visual_qc_when_audio_requested",
+      "provenance_evidence_pass"
+    ],
+    "non_pass_states": [
+      "PENDING_CURRENT_HOST",
+      "PENDING_LICENSE_ADMISSION",
+      "PENDING_ARTIFACT_TRUST",
+      "DENIED_BY_HOST_RESOURCE_BROKER"
+    ],
+    "current_host_runtime_promotion_claim": false
+  },
+  "memory_execution_policy": {
+    "vram_aggregation_across_gpus": false,
+    "cpu_offload": "PREFERRED_WHEN_VRAM_CONSTRAINED",
+    "disk_offload": "FALLBACK_ONLY",
+    "fp8": "CONDITIONAL_ON_EXACT_GPU_RUNTIME_MODEL_AND_KERNEL_CAPABILITY_PROBE",
+    "ampere_legacy_fp8_kernel_support_assumed": false,
+    "multi_gpu": {
+      "purpose": "LATENCY_REDUCTION_NOT_MODEL_FIT",
+      "single_machine_only": true,
+      "requires_two_or_more_cuda_gpus": true,
+      "requires_p2p_access": true,
+      "full_mutable_transformer_copy_per_gpu": true,
+      "memory_expansion_claim_forbidden": true
+    }
+  },
+  "license_admission": {
+    "mode": "FAIL_CLOSED",
+    "license_family_must_match_exact_model_version": true,
+    "ltx_2_through_2_3": {
+      "license": "LTX-2 Community License Agreement",
+      "license_date": "2026-01-05",
+      "commercial_entity_threshold_usd_annual_revenue": 10000000,
+      "at_or_above_threshold_requires_paid_commercial_use_license": true
+    },
+    "ltx_2_5_and_future_2_x": {
+      "license": "LTX-2.x Community License Agreement",
+      "license_date": "2026-08-11",
+      "automatic_inheritance_from_ltx_2_3_admission": false,
+      "commercial_entity_threshold_usd_annual_revenue": 10000000,
+      "paid_license_rules_must_be_evaluated_for_intended_use": true
+    },
+    "unknown_version_or_eligibility": "DENY_RUNTIME_PROMOTION",
+    "third_party_component_licenses_must_also_be_preserved": true
+  },
+  "authority_boundaries": {
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_and_gpu_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_and_license_admission": "FA3-AUTH-SECURITY-GOV-001",
+    "observability_and_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_and_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
+    "video_semantics": "FA3-VIDEO-001",
+    "voice_identity": "FA3-VOICE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "VIDEO_SEMANTIC_AUTHORITY",
+    "MODEL_ROUTING_AUTHORITY",
+    "HOST_RESOURCE_AUTHORITY",
+    "GPU_PLACEMENT_AUTHORITY",
+    "LICENSE_AUTHORITY",
+    "WORKFLOW_AUTHORITY",
+    "VOICE_IDENTITY_AUTHORITY",
+    "EVIDENCE_AUTHORITY",
+    "REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "LTX-2 SHALL remain a provider projection under FA3-VIDEO-001. It SHALL NOT become a parallel video, model-routing, host-resource, workflow, voice-identity, evidence, license or registry authority; runtime promotion SHALL fail closed until exact-version license admission and real current-host E2E evidence pass."
+}
