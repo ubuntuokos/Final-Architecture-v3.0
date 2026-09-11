@@ -23,6 +23,18 @@ def _finding(code: str, message: str) -> dict[str, str]:
     return {"code": code, "severity": "P0", "message": message}
 
 
+def _report(findings: list[dict[str, str]]) -> dict[str, Any]:
+    return {
+        "schema": "fa3.triton-gate-report.v1",
+        "gate_id": GATE_ID,
+        "provider_id": PROVIDER_ID,
+        "result": "PASS" if not findings else "FAIL",
+        "capability_count": CAPABILITY_COUNT,
+        "current_host_production_claim": False,
+        "findings": findings,
+    }
+
+
 def gate(root: Path) -> dict[str, Any]:
     findings: list[dict[str, str]] = []
     paths = {
@@ -138,9 +150,9 @@ def gate(root: Path) -> dict[str, Any]:
         "@sha256:[0-9a-f]{64}",
         "FA3_TRITON_HRB_RECEIPT",
         "FA3_TRITON_PLACEMENT_RECEIPT",
-        "PENDING",
         "/var/lib/fa3/evidence/outbox",
         "/v2/health/ready",
+        "docker pull",
     )
     if any(token not in installer for token in required_installer):
         findings.append(_finding("TRITON-INSTALL-002", "materializer is missing digest/receipt/readiness/evidence controls"))
@@ -149,18 +161,6 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(_finding("TRITON-SYSTEMD-001", "systemd projection lacks bounded restart or hardening controls"))
 
     return _report(findings)
-
-
-def _report(findings: list[dict[str, str]]) -> dict[str, Any]:
-    return {
-        "schema": "fa3.triton-gate-report.v1",
-        "gate_id": GATE_ID,
-        "provider_id": PROVIDER_ID,
-        "result": "PASS" if not findings else "FAIL",
-        "capability_count": CAPABILITY_COUNT,
-        "current_host_production_claim": False,
-        "findings": findings,
-    }
 
 
 def main() -> int:
