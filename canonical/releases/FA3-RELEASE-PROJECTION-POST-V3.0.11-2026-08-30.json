@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d9870716953c014da77f0bfe2c1f938e7633f341",
-    "pre_projection_root_tree_sha": "f79f048591c91eb739552c26fe13c0d9fd230f9e",
-    "pre_projection_canonical_tree_sha": "427da14e10631893dda0c7afe83ed7dc455df931",
-    "commits_ahead_of_v3_0_11_conformance_commit": 153,
-    "total_post_baseline_commits": 153,
-    "delta_file_count": 892,
-    "delta_added_files": 887,
+    "pre_projection_head_sha": "0b4d8e7b557fe58dbcfb47d2257c11e898c35500",
+    "pre_projection_root_tree_sha": "ff230e36372d2920c927c2a39619c8ba7d864987",
+    "pre_projection_canonical_tree_sha": "c893096c16032202520fd721769244d42c1ea668",
+    "commits_ahead_of_v3_0_11_conformance_commit": 157,
+    "total_post_baseline_commits": 157,
+    "delta_file_count": 893,
+    "delta_added_files": 888,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -615,6 +615,17 @@
       "reference_evidence": "evidence/reference/pytorch3d-reference-pass.json",
       "runtime_status": "PENDING_CURRENT_HOST",
       "production_admitted": false
+    },
+    "page_cache_prefetch_capability_binding": {
+      "subject_id": "CAP-001",
+      "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+      "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+      "provider_id": "FA3-PROVIDER-PRELOAD-001",
+      "decision_id": "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11",
+      "gate_id": "FA3-GATE-PAGE-CACHE-PREFETCH-001",
+      "reference_evidence": "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
+      "runtime_status": "PENDING_CURRENT_HOST",
+      "production_admitted": false
     }
   },
   "promotion": {
@@ -625,7 +636,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 892,
+  "manifest_entry_count": 893,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -2120,7 +2131,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -3395,7 +3406,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -3764,7 +3775,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "502f390e2b2c569beb803922d5b016287572c3ae",
+      "git_blob_sha": "ceb469a90961dc4af879cd838c8688f5196cd429",
       "baseline_delta_status": "added"
     },
     {
@@ -5083,6 +5094,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tools/fa3_page_cache_prefetch_global_reconcile.py",
+      "git_blob_sha": "8429356e9e9a4e733c4b90a02ce6e6cd19bdb964",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tools/fa3_pytorch3d_global_reconcile.py",
       "git_blob_sha": "22c6d03fdde7407105a4876f8eb00c3139b6e1b3",
       "baseline_delta_status": "added"
@@ -6050,14 +6066,15 @@
     "FA3-PROVIDER-BUZZ-001 globally reconciled to CAP-008 / FA3-DESKTOP-AGENT-WORKBENCH-001 with deterministic release/inventory/evidence projection regeneration and executable drift enforcement; Buzz remains optional, disabled by default, non-authoritative and not current-host runtime promoted.",
     "FA3-PROVIDER-GTCRN-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional CPU-first ONNX real-time speech enhancement provider. Reference gate PASS does not promote current-host runtime; quarantine SHA-256, real ONNX audio E2E quality, RTF and rollback evidence remain required.",
     "FA3-PROVIDER-LAVASR-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional ONNX-first speech restoration and bandwidth-extension provider. Reference PASS does not promote current-host runtime; pinned ONNX asset SHA-256, real audio E2E quality, duration/padding integrity, RTF and rollback evidence remain required.",
-    "FA3-PROVIDER-PYTORCH3D-001 is globally reconciled to CAP-032 through the non-root FA3-DIFFERENTIABLE-3D-001 profile. The provider is source-build-only and remains current-host pending; reference PASS cannot promote runtime without a compatible ABI tuple, real CUDA/Pulsar and geometry E2E, lifecycle unload and rollback evidence."
+    "FA3-PROVIDER-PYTORCH3D-001 is globally reconciled to CAP-032 through the non-root FA3-DIFFERENTIABLE-3D-001 profile. The provider is source-build-only and remains current-host pending; reference PASS cannot promote runtime without a compatible ABI tuple, real CUDA/Pulsar and geometry E2E, lifecycle unload and rollback evidence.",
+    "Filesystem page-cache speculative prefetch/adaptive readahead governance is reconciled under FA3-AUTH-HOST-RESOURCE-BROKER-001 through CAP-001. FA3-PROVIDER-PRELOAD-001 remains optional, replaceable and non-authoritative. Canonical reference PASS does not promote current-host runtime without real cold/warm latency, page-cache, major-fault, I/O-pressure, memory-pressure, host-survival and rollback evidence."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "e27aa3e92c430d7c6616307d121d48f3a293d0a5",
-    "regenerated_from_branch_head": "e27aa3e92c430d7c6616307d121d48f3a293d0a5",
+    "source_snapshot_anchor": "0b4d8e7b557fe58dbcfb47d2257c11e898c35500",
+    "regenerated_from_branch_head": "0b4d8e7b557fe58dbcfb47d2257c11e898c35500",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -6071,7 +6088,10 @@
     "ace_step_hardening_snapshot_head": "f77124a8b9f60412567351f346d0c67f2880b5ab",
     "pytorch3d_reconciliation_generator": "tools/fa3_pytorch3d_global_reconcile.py",
     "pytorch3d_deterministic_regeneration_pass": true,
-    "pytorch3d_snapshot_head": "e27aa3e92c430d7c6616307d121d48f3a293d0a5"
+    "pytorch3d_snapshot_head": "e27aa3e92c430d7c6616307d121d48f3a293d0a5",
+    "page_cache_prefetch_reconciliation_generator": "tools/fa3_page_cache_prefetch_global_reconcile.py",
+    "page_cache_prefetch_deterministic_regeneration_pass": true,
+    "page_cache_prefetch_snapshot_head": "0b4d8e7b557fe58dbcfb47d2257c11e898c35500"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -6170,6 +6190,28 @@
     "current_host_runtime_evidence": "PENDING_REAL_SOURCE_BUILD_CUDA_KERNEL_RENDER_METRIC_LIFECYCLE_AND_ROLLBACK_E2E",
     "reference_gate_status": "PASS",
     "source_build_only": true,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "page_cache_prefetch_reconciliation": {
+    "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+    "contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-PRELOAD-001",
+    "decision_id": "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11",
+    "gate_id": "FA3-GATE-PAGE-CACHE-PREFETCH-001",
+    "gateset_id": "FA3-PAGE-CACHE-PREFETCH-GATESET-001",
+    "capability_id": "CAP-001",
+    "classification": "MANDATORY_PROVIDER_NEUTRAL_PAGE_CACHE_PREFETCH_GOVERNANCE_OPTIONAL_PRELOAD_PROJECTION",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_EVIDENCE_RECONCILED_REFERENCE_PASS_CURRENT_HOST_PERFORMANCE_PENDING",
+    "provider_inventory_reconciled": true,
+    "evidence_registry_reconciled": true,
+    "unified_projection_regenerated": true,
+    "deterministic_regeneration_pass": true,
+    "reference_gate_status": "PASS",
+    "runtime_activation_status": "NOT_PRODUCTION_PROMOTED",
+    "current_host_runtime_evidence": "PENDING_REAL_COLD_WARM_IO_MEMORY_PRESSURE_NON_REGRESSION_AND_ROLLBACK_EVIDENCE",
+    "provider_hard_dependency": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
