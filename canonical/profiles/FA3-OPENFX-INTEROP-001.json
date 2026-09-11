@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OPENFX-INTEROP-001",
+  "name": "OpenFX External VFX Interoperability for Kdenlive",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "OPTIONAL_INTEROP_PROJECTION_RUNTIME_CONDITIONAL",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "profile_type": "MEDIA_EFFECT_INTEROPERABILITY_PROJECTION",
+  "capabilities": [
+    "CAP-121",
+    "CAP-126"
+  ],
+  "capability_count": 143,
+  "contracts": [
+    "FA3-OPENFX-INTEROP-CONTRACTS-001"
+  ],
+  "provider": "FA3-PROVIDER-OPENFX-001",
+  "dependencies": [
+    "FA3-KDENLIVE-EDITORIAL-001",
+    "FA3-MEDIA-001",
+    "FA3-TEMPORAL-001"
+  ],
+  "hard_backend_dependency": false,
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "kdenlive_role": "PRIMARY_LINUX_KUBUNTU_HUMAN_NLE_AND_FINAL_ASSEMBLY_FRONTEND",
+  "native_kdenlive_openfx_host": false,
+  "native_effect_surfaces": [
+    "MLT",
+    "Frei0r",
+    "FFmpeg/avfilter"
+  ],
+  "openfx_execution_mode": "EXTERNAL_HOST_TO_HASHED_RENDERED_INTERMEDIATE",
+  "activation_status": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_promotion_claim": false,
+  "implementation_status": "CANONICAL_PROVIDER_PROJECTION"
+}

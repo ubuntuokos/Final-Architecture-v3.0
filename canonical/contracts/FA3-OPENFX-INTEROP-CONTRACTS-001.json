@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-OPENFX-INTEROP-CONTRACTS-001",
+  "profile": "FA3-OPENFX-INTEROP-001",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "contracts": [
+    "OpenFXPluginAdmission",
+    "OpenFXRenderManifest",
+    "OpenFXIntermediateArtifact",
+    "OpenFXKdenliveRelinkHandoff",
+    "OpenFXFailureReceipt",
+    "OpenFXRollbackReceipt"
+  ],
+  "canonical_timeline_ir": "OpenTimelineIO",
+  "kdenlive_project_format_is_canonical_ir": false,
+  "native_kdenlive_openfx_host": false,
+  "native_kdenlive_effect_surfaces": [
+    "MLT",
+    "Frei0r",
+    "FFmpeg/avfilter"
+  ],
+  "adapter_boundary": {
+    "mode": "EXTERNAL_HOST_RENDERED_INTERMEDIATE",
+    "direct_kdenlive_ofx_loading": false,
+    "otio_remains_canonical": true,
+    "kdenlive_human_picture_lock_retained": true
+  },
+  "plugin_admission": {
+    "immutable_bundle_sha256_required": true,
+    "api_version_required": true,
+    "host_abi_compatibility_required": true,
+    "license_snapshot_required": true,
+    "allowlisted_plugin_path_required": true,
+    "network_fetch_during_render_forbidden": true,
+    "automatic_plugin_update_forbidden": true
+  },
+  "render_requirements": {
+    "frame_range_required": true,
+    "fps_timebase_required": true,
+    "alpha_mode_required": true,
+    "color_management_required": true,
+    "pixel_format_required": true,
+    "artifact_sha256_required": true,
+    "hrb_lease_required_for_accelerator": true
+  },
+  "handoff_requirements": {
+    "source_artifact_hash_required": true,
+    "derived_artifact_hash_required": true,
+    "plugin_parameter_digest_required": true,
+    "otio_clip_relink_required": true,
+    "ffprobe_validation_required": true,
+    "rollback_artifact_required": true
+  },
+  "mutation_policy": {
+    "direct_kdenlive_project_xml_mutation_forbidden": true,
+    "critical_editorial_mutation_requires_hitl": true,
+    "missing_host_or_plugin_fail_closed": true
+  }
+}

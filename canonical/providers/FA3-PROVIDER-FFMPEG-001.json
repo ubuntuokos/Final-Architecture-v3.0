@@ -69,6 +69,14 @@
     "av1_encode_must_not_be_assumed": true,
     "copy_minimization_required": true
   },
+  "color_transform_profile": "FA3-LUT-COLOR-001",
+  "lut_projection": {
+    "mode": "DETERMINISTIC_HEADLESS_FILTERGRAPH",
+    "artifact_registry": "FA3-LUT-ARTIFACT-REGISTRY-001",
+    "runtime_download_forbidden": true,
+    "explicit_input_output_color_metadata_required": true,
+    "semantic_comparison_to_human_preview_required": true
+  },
   "forbidden_authorities": [
     "DURABLE_ORCHESTRATION_AUTHORITY",
     "FINAL_HUMAN_EDITORIAL_AUTHORITY",
