@@ -1,0 +1,46 @@
+name: FA3 Kdenlive Audio Release Reconcile Once
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/fa3-kdenlive-audio-reconcile-once.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile-once:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Remove one-shot runner before snapshot
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/fa3-kdenlive-audio-reconcile-once.yml
+          git commit -m "FA3: remove one-shot Kdenlive audio reconciler [projection]"
+      - name: Regenerate unified release projection
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Validate reconciled projection and canonical tests
+        run: |
+          chmod +x bin/fa3-enforce
+          PYTHONPATH=src python -m unittest discover -s tests -v
+          ./bin/fa3-enforce release-projection
+      - name: Commit reconciled projection
+        shell: bash
+        run: |
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3: reconcile Kdenlive audio unified release projection [projection]"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref || github.ref_name }}"
