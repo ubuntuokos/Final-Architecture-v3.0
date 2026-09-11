@@ -54,9 +54,7 @@ jobs:
       - name: Current-host regression suite
         run: PYTHONPATH=src python3 -m unittest tests.test_sillytavern_kde_current_host -v
       - name: Parent SillyTavern KDE gate
-        run: |
-          chmod +x bin/fa3-sillytavern-kde-gate
-          ./bin/fa3-sillytavern-kde-gate
+        run: PYTHONPATH=src python3 src/fa3_sillytavern_kde_gate.py --root .
 
   current-host-production-e2e:
     name: sillytavern-kde-current-host / production-e2e
