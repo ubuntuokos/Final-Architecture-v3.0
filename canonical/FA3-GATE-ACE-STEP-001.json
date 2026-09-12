@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-ACE-STEP-001",
+  "gateset_id": "FA3-ACE-STEP-GATESET-001",
+  "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+  "profile_id": "FA3-MUSIC-001",
+  "contract_id": "FA3-MUSIC-GENERATION-CONTRACTS-001",
+  "fail_closed": true,
+  "rule_count": 29,
+  "executable": "./bin/fa3-enforce ace-step-baseline",
+  "report": "reports/ace-step-baseline-2026-09-12.json",
+  "reference_evidence": "evidence/reference/ace-step-upstream-2026-09-12.json",
+  "decision_id": "FA3-DEC-ACE-STEP-BASELINE-2026-09-12",
+  "current_host_evidence_required_for_runtime_promotion": true,
+  "current_host_receipt": "evidence/receipts/ace-step-current-host.json",
+  "production_promotion_claimed": false
+}
