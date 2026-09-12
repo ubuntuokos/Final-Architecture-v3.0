@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.scientific-research-workbench-contracts.v1",
+  "id": "FA3-SCIENTIFIC-RESEARCH-WORKBENCH-CONTRACTS-001",
+  "provider_neutral": true,
+  "status": "CANONICAL",
+  "purpose": "Bound local scientific workbench providers to existing FA3 desktop, knowledge, skill, security, evidence and hardware authorities without creating a parallel research authority.",
+  "authority": {
+    "independent_root_authority": false,
+    "included_as_separate_authority_in_count": false,
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_execution": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "evidence": "EXISTING_FA3_UNIFIED_OBSERVABILITY_EVIDENCE_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "developer_execution": "EXISTING_FA3_DEVELOPER_EXECUTION_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "delegated_contracts": [
+    "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+    "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001"
+  ],
+  "runtime_safety": {
+    "disabled_by_default": true,
+    "fail_closed_on_policy_error": true,
+    "production_full_approval_mode_allowed": false,
+    "unmediated_shell_execution_allowed": false,
+    "direct_docker_socket_allowed": false,
+    "raw_device_passthrough_allowed": false,
+    "provider_owned_gpu_selection_allowed": false,
+    "cross_accelerator_fallback_allowed": false,
+    "cpu_fallback_for_gpu_required_work_allowed": false
+  },
+  "research_artifacts": {
+    "notebooks_files_figures_reports_runs": "WORKSPACE_PROJECTIONS_NOT_AUTHORITIES",
+    "provider_run_history": "NON_AUTHORITATIVE_LOCAL_PROJECTION",
+    "canonical_evidence_ingest_requires_existing_fa3_evidence_path": true
+  },
+  "skills": {
+    "third_party_skill_inert_until_admitted": true,
+    "license_admission_required_per_skill": true,
+    "immutable_source_pin_required": true,
+    "checksum_or_equivalent_integrity_required": true,
+    "activation_disabled_by_default": true
+  },
+  "hardware": {
+    "portable_policy": true,
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "ui_display_role_required": true,
+    "compute_non_display_role_required_for_accelerated_research": true,
+    "ui_and_compute_accelerator_roles_must_be_distinct": true,
+    "ui_process_compute_gpu_default_claim_forbidden": true,
+    "compute_on_display_role_gpu_forbidden": true,
+    "live_uuid_pci_bdf_identity_required": true,
+    "numa_locality_evidence_required_for_accelerated_compute": true,
+    "no_cpu_or_cross_accelerator_fallback": true,
+    "exact_gpu_sku_pin_forbidden": true,
+    "runtime_gpu_ordinal_as_identity_forbidden": true
+  },
+  "baseline_effect": {
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  }
+}
