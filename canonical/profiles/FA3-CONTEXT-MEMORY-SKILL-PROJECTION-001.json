@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-CONTEXT-MEMORY-SKILL-PROJECTION-001",
+  "name": "Context, Memory & Skill Projection Interoperability Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-KNOWLEDGE-001"},
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-CONTEXT-MEMORY-SKILL-CONTRACTS-001"],
+  "providers": ["FA3-PROVIDER-OPENVIKING-001"],
+  "authority_boundaries": {"knowledge": "FA3-KNOWLEDGE-001", "memory": "EXISTING_FA3_MEMORY_AUTHORITY", "skills": "FA3-REGISTRY-001", "security": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "invariants": ["PROVIDER_CONTEXT_IS_PROJECTION_NOT_AUTHORITY", "MEMORY_WRITE_REQUIRES_CANONICAL_CONSENT_AND_POLICY", "SKILL_DISCOVERY_IS_NOT_AUTHORIZATION", "SOURCE_AND_DERIVATION_LINEAGE_REQUIRED", "REVOCATION_AND_TOMBSTONE_PROPAGATION_REQUIRED"]
+}
