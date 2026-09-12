@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "76d315f2612b6b188ab13688ad224cad6aeef08f",
-    "pre_projection_root_tree_sha": "565e9088be04b6c83c8cf5c3d6d419f657b3e799",
-    "pre_projection_canonical_tree_sha": "da5aea9e28befc2ce4c21e84fe9db45ff220eebb",
-    "commits_ahead_of_v3_0_11_conformance_commit": 188,
-    "total_post_baseline_commits": 188,
-    "delta_file_count": 1019,
-    "delta_added_files": 1014,
+    "pre_projection_head_sha": "57c83adadbb2fdf6f5144c30e797f26e2b3d6900",
+    "pre_projection_root_tree_sha": "5413455988ac7ec125885d346e61dd66453601f5",
+    "pre_projection_canonical_tree_sha": "6570d194ae1d63112f581577c810df5b59c7dc73",
+    "commits_ahead_of_v3_0_11_conformance_commit": 174,
+    "total_post_baseline_commits": 174,
+    "delta_file_count": 1037,
+    "delta_added_files": 1032,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 569,
-    "evidence_files_in_post_baseline_delta": 108,
-    "source_files_in_post_baseline_delta": 114,
-    "test_files_in_post_baseline_delta": 94,
-    "workflow_files_in_post_baseline_delta": 30,
+    "canonical_files_in_post_baseline_delta": 579,
+    "evidence_files_in_post_baseline_delta": 109,
+    "source_files_in_post_baseline_delta": 116,
+    "test_files_in_post_baseline_delta": 96,
+    "workflow_files_in_post_baseline_delta": 32,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -76,6 +76,7 @@
       "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
+      "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
       "canonical/providers/FA3-PROVIDER-KANEO-001.json",
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
@@ -183,6 +184,7 @@
       "canonical/profiles/FA3-HYBRID-EDITORIAL-001.json",
       "canonical/profiles/FA3-IMGGEN-001.json",
       "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
+      "canonical/profiles/FA3-INSPECTOR-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
@@ -245,6 +247,7 @@
       "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
       "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
@@ -313,6 +316,7 @@
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
       "canonical/decisions/FA3-DEC-KANEO-UPSTREAM-RECONCILIATION-2026-09-12.json",
@@ -450,6 +454,7 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-coach-reference-pending.json",
       "evidence/reference/fa3-gui-reference-pass.json",
+      "evidence/reference/fa3-inspector-reference-pending.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
@@ -532,6 +537,7 @@
     "FA3-AI-GUARDRAIL-RUNTIME-GATESET-001",
     "FA3-MENTOR-GATESET-001",
     "FA3-COACH-GATESET-001",
+    "FA3-INSPECTOR-GATESET-001",
     "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
@@ -683,7 +689,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1019,
+  "manifest_entry_count": 1037,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -743,6 +749,16 @@
     {
       "path": ".github/workflows/fa3-human-motion-current-host.yml",
       "git_blob_sha": "614ce45aed1f521fbef20ee4f07bef9ded8a0024",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-inspector-gate.yml",
+      "git_blob_sha": "3cb4f49ded3f0ae13e87628664e7199950e97dfe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-inspector-reconcile.yml",
+      "git_blob_sha": "e373e3f8cc92b7405def6ab0770e3d662e637d3e",
       "baseline_delta_status": "added"
     },
     {
@@ -1226,6 +1242,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-INDEPENDENT-VERIFICATION-001.json",
+      "git_blob_sha": "76f7290e9f3af8498065efab2e8b2825af1900a0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.json",
       "git_blob_sha": "6a07344b5fe5d8d487fb8fbd92488b8b3c16ce8b",
       "baseline_delta_status": "added"
@@ -1388,6 +1409,26 @@
     {
       "path": "canonical/FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001.json",
       "git_blob_sha": "d00821ef8f3c4b3df9bca0e11565d110096adddd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-INSPECTION-CONFORMANCE-MATRIX-001.json",
+      "git_blob_sha": "b41b8df6b198e42aa7f53384c0a76f33201061d3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-INSPECTION-EVIDENCE-001.json",
+      "git_blob_sha": "e1717528da7102a4ea4fb5f83525d4532234105b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-INSPECTION-POLICY-001.json",
+      "git_blob_sha": "e558215af00de29b14907e57514361e362b07448",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-INSPECTOR-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "30d0f65301123ff4937b3eb289812c021296ebf6",
       "baseline_delta_status": "added"
     },
     {
@@ -1756,6 +1797,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json",
+      "git_blob_sha": "a2a8b83e7595f512e7c05b5c4a6adb100fa5587a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
       "git_blob_sha": "5452b4b1fefd866ddbf051a35ed854ec2ade17f4",
       "baseline_delta_status": "added"
@@ -2111,6 +2157,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
+      "git_blob_sha": "153ce0eb83fd817d10739a3213df54eaf579f005",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "git_blob_sha": "2518731105772ffeab8930a025dd9ffe2b74ded0",
       "baseline_delta_status": "added"
@@ -2412,7 +2463,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "a0404181c588cbdf64635514baf17394829c263e",
+      "git_blob_sha": "edf3af52307682a439de646380c702d048450b60",
       "baseline_delta_status": "modified"
     },
     {
@@ -2503,6 +2554,11 @@
     {
       "path": "canonical/inference-portability-enforcement.json",
       "git_blob_sha": "31d49ad0eb9805f31921a84edcd1386a551042dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/inspector-enforcement.json",
+      "git_blob_sha": "6c2849c964f08e71f54c951ebedb6a666961e943",
       "baseline_delta_status": "added"
     },
     {
@@ -2846,6 +2902,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-INSPECTOR-001.json",
+      "git_blob_sha": "67639d46a8f07fdfb297de10055e363123ea0fd2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "git_blob_sha": "7abae913ab53d0c29bffc3a8ecaabaa36d458c46",
       "baseline_delta_status": "added"
@@ -3078,6 +3139,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
+      "git_blob_sha": "eaf7315885c3f82890639e46a9dfaa860214b5c5",
       "baseline_delta_status": "added"
     },
     {
@@ -4376,6 +4442,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-inspector-reference-pending.json",
+      "git_blob_sha": "69ef47fa9161573ed41c75077af3aed50efebe2d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/fa3-mentor-v0.2.0.json",
       "git_blob_sha": "f08d8a5c59f94db5bca400085505c902272ae429",
       "baseline_delta_status": "added"
@@ -4956,6 +5027,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_inspector.py",
+      "git_blob_sha": "b2e6abfc3bb2842dd0b35fcac99a19517dc3aec2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_inspector_gate.py",
+      "git_blob_sha": "618574029e45b20733a352a62f2c8c6188539234",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_kanboard_gate.py",
       "git_blob_sha": "77d6d5497c345cb8df611a90f173e3952cfbe80e",
       "baseline_delta_status": "added"
@@ -5476,6 +5557,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_inspector_gate.py",
+      "git_blob_sha": "55611f92868c7de3736dcfda769ed6bcfa22c739",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_inspector_global_reconciliation.py",
+      "git_blob_sha": "b8e86bd27e19e2b105024b46fd1c50fa7ae98ce4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_kanboard_gate.py",
       "git_blob_sha": "ece5cb4f947d9cc8022e0d18089935217f0fbe0e",
       "baseline_delta_status": "added"
@@ -5763,6 +5854,11 @@
     {
       "path": "tools/fa3_human_motion_extract.py",
       "git_blob_sha": "b976117ca647b5daf8d60b3658b8d71baa1e02d0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_inspector_global_reconcile.py",
+      "git_blob_sha": "03b100fbafa5b27e1218a1ad9c96f674ff04aa12",
       "baseline_delta_status": "added"
     },
     {
@@ -6745,14 +6841,15 @@
     "FA3-PROVIDER-LAVASR-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional ONNX-first speech restoration and bandwidth-extension provider. Reference PASS does not promote current-host runtime; pinned ONNX asset SHA-256, real audio E2E quality, duration/padding integrity, RTF and rollback evidence remain required.",
     "FA3-PROVIDER-PYTORCH3D-001 is globally reconciled to CAP-032 through the non-root FA3-DIFFERENTIABLE-3D-001 profile. The provider is source-build-only and remains current-host pending; reference PASS cannot promote runtime without a compatible ABI tuple, real CUDA/Pulsar and geometry E2E, lifecycle unload and rollback evidence.",
     "Filesystem page-cache speculative prefetch/adaptive readahead governance is reconciled under FA3-AUTH-HOST-RESOURCE-BROKER-001 through CAP-001. FA3-PROVIDER-PRELOAD-001 remains optional, replaceable and non-authoritative. Canonical reference PASS does not promote current-host runtime without real cold/warm latency, page-cache, major-fault, I/O-pressure, memory-pressure, host-survival and rollback evidence.",
-    "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added."
+    "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
+    "FA3-INSPECTOR-001 is globally reconciled as a P0/MUST provider-neutral independent verification and assurance overlay. Separation of duties, fresh/provenance-backed evidence, fail-closed non-PASS classifications, no silent repair during certification and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "76d315f2612b6b188ab13688ad224cad6aeef08f",
-    "regenerated_from_branch_head": "76d315f2612b6b188ab13688ad224cad6aeef08f",
+    "source_snapshot_anchor": "57c83adadbb2fdf6f5144c30e797f26e2b3d6900",
+    "regenerated_from_branch_head": "57c83adadbb2fdf6f5144c30e797f26e2b3d6900",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -6772,7 +6869,10 @@
     "page_cache_prefetch_snapshot_head": "0b4d8e7b557fe58dbcfb47d2257c11e898c35500",
     "coach_reconciliation_generator": "tools/fa3_coach_global_reconcile.py",
     "coach_deterministic_regeneration_pass": true,
-    "coach_snapshot_head": "76d315f2612b6b188ab13688ad224cad6aeef08f"
+    "coach_snapshot_head": "76d315f2612b6b188ab13688ad224cad6aeef08f",
+    "inspector_reconciliation_generator": "tools/fa3_inspector_global_reconcile.py",
+    "inspector_deterministic_regeneration_pass": true,
+    "inspector_snapshot_head": "57c83adadbb2fdf6f5144c30e797f26e2b3d6900"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -6942,6 +7042,39 @@
     "direct_execution": "FORBIDDEN",
     "typed_action_delegation": "REQUIRED",
     "reference_evidence": "evidence/reference/fa3-coach-reference-pending.json",
+    "reference_gate_status": "CI_ENFORCED",
+    "runtime_status": "PENDING_CURRENT_HOST",
+    "production_admitted": false,
+    "current_host_runtime_promotion_claimed": false,
+    "provider_is_architectural_authority": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "inspector_reconciliation": {
+    "profile_id": "FA3-INSPECTOR-001",
+    "contract_id": "FA3-INSPECTION-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-INSPECTOR-LOCAL-001",
+    "decision_id": "FA3-DEC-INSPECTOR-2026-09-12",
+    "policy_id": "FA3-INSPECTION-POLICY-001",
+    "evidence_contract_id": "FA3-INSPECTION-EVIDENCE-001",
+    "gate_id": "FA3-GATE-INDEPENDENT-VERIFICATION-001",
+    "gateset_id": "FA3-INSPECTOR-GATESET-001",
+    "conformance_matrix_id": "FA3-INSPECTION-CONFORMANCE-MATRIX-001",
+    "runtime_conformance_id": "FA3-INSPECTOR-RUNTIME-CONFORMANCE-001",
+    "canonical_invariant_id": "FA3-INVARIANT-INDEPENDENT-VERIFICATION-001",
+    "classification": "P0_MUST_PROVIDER_NEUTRAL_INDEPENDENT_VERIFICATION_ASSURANCE_OVERLAY",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_RECONCILED_INDEPENDENT_VERIFICATION_GATE_ENFORCED_CURRENT_HOST_PENDING",
+    "inspection_levels": [
+      "L1_STATIC",
+      "L2_RUNTIME",
+      "L3_PRODUCTION"
+    ],
+    "executor_may_be_sole_accepting_verifier": false,
+    "self_attestation_only_p0_must_production_pass": "BLOCKED",
+    "silent_repair_during_certification": "FORBIDDEN",
+    "remediation_requires_reinspection": true,
+    "reference_evidence": "evidence/reference/fa3-inspector-reference-pending.json",
     "reference_gate_status": "CI_ENFORCED",
     "runtime_status": "PENDING_CURRENT_HOST",
     "production_admitted": false,
