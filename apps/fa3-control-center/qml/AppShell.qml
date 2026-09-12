@@ -28,6 +28,7 @@ ApplicationWindow {
     property color textMuted: Qt.rgba(textPrimary.r, textPrimary.g, textPrimary.b, 0.62)
     property color accent: systemPalette.highlight
     property int selectedIndex: 0
+    property int shortcutRevision: 0
     property string draftResultText: ""
 
     color: surface0
@@ -47,6 +48,11 @@ ApplicationWindow {
 
     function px(value) {
         return Math.max(9, Math.round(value * fontScale))
+    }
+
+    function shortcut(key, fallback) {
+        const revision = window.shortcutRevision
+        return fa3Settings.value(key, fallback)
     }
 
     function navLabel(key) {
@@ -90,6 +96,74 @@ ApplicationWindow {
         { key: "settings", iconText: "☰" }
     ]
 
+    Connections {
+        target: fa3Settings
+
+        function onSettingChanged(key) {
+            if (key.indexOf("shortcuts/") === 0)
+                window.shortcutRevision += 1
+        }
+
+        function onSettingsReset() {
+            window.shortcutRevision += 1
+        }
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/commandCenter", "Ctrl+1")
+        onActivated: window.selectedIndex = 0
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/projects", "Ctrl+2")
+        onActivated: window.selectedIndex = 1
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/studio", "Ctrl+3")
+        onActivated: window.selectedIndex = 2
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/mentor", "Ctrl+4")
+        onActivated: window.selectedIndex = 3
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/coach", "Ctrl+5")
+        onActivated: window.selectedIndex = 4
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/manager", "Ctrl+6")
+        onActivated: window.selectedIndex = 5
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/modelManager", "Ctrl+7")
+        onActivated: window.selectedIndex = 7
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/system", "Ctrl+8")
+        onActivated: window.selectedIndex = 14
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/settings", "Ctrl+,")
+        onActivated: window.selectedIndex = 15
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/assistant", "Ctrl+Space")
+        onActivated: assistantDrawer.open()
+    }
+
+    Shortcut {
+        sequence: window.shortcut("shortcuts/refresh", "Ctrl+R")
+        onActivated: fa3Repository.refresh()
+    }
+
     component Panel: Rectangle {
         radius: Math.round(12 * window.uiScale)
         color: window.surface1
@@ -100,11 +174,13 @@ ApplicationWindow {
         property string title: ""
         property string subtitle: ""
         spacing: 4
+
         Label {
             text: parent.title
             font.pixelSize: window.px(24)
             font.bold: true
         }
+
         Label {
             width: parent.width
             text: parent.subtitle
@@ -115,29 +191,34 @@ ApplicationWindow {
     }
 
     component MetricCard: Panel {
+        id: metricCard
         property string label: ""
         property string value: ""
         property string note: ""
         implicitWidth: Math.round(195 * window.uiScale)
         implicitHeight: Math.round(112 * window.uiScale)
+
         Column {
             anchors.fill: parent
             anchors.margins: Math.round(16 * window.uiScale)
             spacing: 6
+
             Label {
-                text: parent.parent.label
+                text: metricCard.label
                 color: window.textMuted
                 font.pixelSize: window.px(12)
             }
+
             Label {
-                text: parent.parent.value
+                text: metricCard.value
                 font.pixelSize: window.px(27)
                 font.bold: true
                 width: parent.width
                 elide: Text.ElideRight
             }
+
             Label {
-                text: parent.parent.note
+                text: metricCard.note
                 color: window.textMuted
                 font.pixelSize: window.px(11)
                 width: parent.width
@@ -147,32 +228,38 @@ ApplicationWindow {
     }
 
     component ModuleCard: Panel {
+        id: moduleCard
         property string title: ""
         property string subtitle: ""
         property string badge: "READY"
         implicitWidth: Math.round(255 * window.uiScale)
         implicitHeight: Math.round(124 * window.uiScale)
+
         Column {
             anchors.fill: parent
             anchors.margins: Math.round(16 * window.uiScale)
             spacing: 8
+
             RowLayout {
                 width: parent.width
+
                 Label {
-                    text: parent.parent.parent.title
+                    text: moduleCard.title
                     font.pixelSize: window.px(16)
                     font.bold: true
                     Layout.fillWidth: true
                 }
+
                 Label {
-                    text: parent.parent.parent.badge
+                    text: moduleCard.badge
                     color: window.accent
                     font.pixelSize: window.px(10)
                     font.bold: true
                 }
             }
+
             Label {
-                text: parent.parent.subtitle
+                text: moduleCard.subtitle
                 color: window.textMuted
                 wrapMode: Text.WordWrap
                 width: parent.width
@@ -192,6 +279,7 @@ ApplicationWindow {
             width: basicPage.availableWidth
             spacing: 18
             Item { Layout.preferredHeight: 20 }
+
             SectionTitle {
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
@@ -199,13 +287,16 @@ ApplicationWindow {
                 title: basicPage.pageTitle
                 subtitle: basicPage.pageSubtitle
             }
+
             Flow {
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
                 Layout.rightMargin: 24
                 spacing: 12
+
                 Repeater {
                     model: basicPage.cards
+
                     delegate: ModuleCard {
                         required property var modelData
                         title: modelData.title
@@ -214,26 +305,63 @@ ApplicationWindow {
                     }
                 }
             }
+
             Item { Layout.preferredHeight: 24 }
         }
     }
 
     header: ToolBar {
         height: Math.round(64 * window.uiScale)
+
         RowLayout {
             anchors.fill: parent
             anchors.leftMargin: 18
             anchors.rightMargin: 18
             spacing: 12
 
-            Label { text: "FA3"; font.pixelSize: window.px(21); font.bold: true }
-            Rectangle { width: 1; height: 28; color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.16) }
-            Label { text: "Final Architecture 3.0"; font.pixelSize: window.px(15); font.bold: true }
+            Label {
+                text: "FA3"
+                font.pixelSize: window.px(21)
+                font.bold: true
+            }
+
+            Rectangle {
+                width: 1
+                height: 28
+                color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.16)
+            }
+
+            Label {
+                text: "Final Architecture 3.0"
+                font.pixelSize: window.px(15)
+                font.bold: true
+            }
+
             Item { Layout.fillWidth: true }
-            Button { text: window.t("Kérdezd a Mentort", "Ask Mentor"); enabled: fa3Settings.value("mentor/enabled", true); onClicked: window.selectedIndex = 3 }
-            Button { text: window.t("Kérdezd a Coachot", "Ask Coach"); enabled: fa3Settings.value("coach/enabled", true); onClicked: window.selectedIndex = 4 }
-            Button { text: window.t("Asszisztens", "Assistant"); onClicked: assistantDrawer.open() }
-            Label { text: "143 capabilities"; color: window.textMuted; font.pixelSize: window.px(11) }
+
+            Button {
+                text: window.t("Kérdezd a Mentort", "Ask Mentor")
+                enabled: fa3Settings.value("mentor/enabled", true)
+                onClicked: window.selectedIndex = 3
+            }
+
+            Button {
+                text: window.t("Kérdezd a Coachot", "Ask Coach")
+                enabled: fa3Settings.value("coach/enabled", true)
+                onClicked: window.selectedIndex = 4
+            }
+
+            Button {
+                text: window.t("Asszisztens", "Assistant")
+                onClicked: assistantDrawer.open()
+            }
+
+            Label {
+                text: "143 capabilities"
+                color: window.textMuted
+                font.pixelSize: window.px(11)
+            }
+
             ToolButton {
                 text: "↻"
                 ToolTip.visible: hovered
@@ -264,6 +392,7 @@ ApplicationWindow {
                     clip: true
                     model: window.navigationModel
                     currentIndex: window.selectedIndex
+
                     delegate: ItemDelegate {
                         required property int index
                         required property var modelData
@@ -271,10 +400,21 @@ ApplicationWindow {
                         height: Math.round(44 * window.uiScale)
                         highlighted: index === window.selectedIndex
                         onClicked: window.selectedIndex = index
+
                         contentItem: Row {
                             spacing: 12
-                            Label { text: modelData.iconText; width: 24; horizontalAlignment: Text.AlignHCenter; font.pixelSize: window.px(12) }
-                            Label { text: window.navLabel(modelData.key); font.pixelSize: window.px(12) }
+
+                            Label {
+                                text: modelData.iconText
+                                width: 24
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: window.px(12)
+                            }
+
+                            Label {
+                                text: window.navLabel(modelData.key)
+                                font.pixelSize: window.px(12)
+                            }
                         }
                     }
                 }
@@ -282,13 +422,31 @@ ApplicationWindow {
                 Panel {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Math.round(116 * window.uiScale)
+
                     Column {
                         anchors.fill: parent
                         anchors.margins: 12
                         spacing: 5
-                        Label { text: "Repository"; font.bold: true; font.pixelSize: window.px(11) }
-                        Label { width: parent.width; text: fa3Repository.repoRoot; color: window.textMuted; elide: Text.ElideMiddle; font.pixelSize: window.px(9) }
-                        Label { text: window.t("Frissítve: ", "Updated: ") + fa3Repository.lastRefresh; color: window.textMuted; font.pixelSize: window.px(9) }
+
+                        Label {
+                            text: "Repository"
+                            font.bold: true
+                            font.pixelSize: window.px(11)
+                        }
+
+                        Label {
+                            width: parent.width
+                            text: fa3Repository.repoRoot
+                            color: window.textMuted
+                            elide: Text.ElideMiddle
+                            font.pixelSize: window.px(9)
+                        }
+
+                        Label {
+                            text: window.t("Frissítve: ", "Updated: ") + fa3Repository.lastRefresh
+                            color: window.textMuted
+                            font.pixelSize: window.px(9)
+                        }
                     }
                 }
             }
@@ -302,10 +460,12 @@ ApplicationWindow {
             ScrollView {
                 id: commandPage
                 contentWidth: availableWidth
+
                 ColumnLayout {
                     width: commandPage.availableWidth
                     spacing: 18
                     Item { Layout.preferredHeight: 20 }
+
                     SectionTitle {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -313,26 +473,30 @@ ApplicationWindow {
                         title: "Command Center"
                         subtitle: window.t("FA3 rendszerállapot, canonical integritás és operátori fókusz", "FA3 state, canonical integrity and operator focus")
                     }
+
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
                         Layout.rightMargin: 24
                         spacing: 12
+
                         MetricCard { label: window.t("Canonical rekord", "Canonical records"); value: fa3Repository.canonicalRecordCount.toString(); note: "read-only projection" }
                         MetricCard { label: "Provider"; value: fa3Repository.providerCount.toString(); note: "registered providers" }
                         MetricCard { label: "Evidence"; value: fa3Repository.evidenceCount.toString(); note: "evidence records" }
                         MetricCard { label: "Pending"; value: fa3Repository.pendingCount.toString(); note: "requires attention" }
                         MetricCard { label: "GPU"; value: fa3Repository.gpuDevices.length.toString(); note: "host discovery" }
                     }
+
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
                         Layout.rightMargin: 24
                         spacing: 12
+
                         ModuleCard { title: "Manager"; subtitle: window.t("Munka, delegálás, blokkerek és evidence closure", "Work, delegation, blockers and evidence closure"); badge: "WORK" }
                         ModuleCard { title: "Model Manager"; subtitle: window.t("Inventory, runtime, storage, security és evidence", "Inventory, runtime, storage, security and evidence"); badge: "P0" }
-                        ModuleCard { title: window.t("Karbantartás", "Maintenance"); subtitle: window.t("Temp/cache/runtime cleanup proposal flow", "Temp/cache/runtime cleanup proposal flow"); badge: "GATED" }
-                        ModuleCard { title: window.t("Perifériák", "Peripherals"); subtitle: window.t("Input, MIDI, tablet, scanner, camera", "Input, MIDI, tablet, scanner, camera"); badge: fa3Repository.peripheralDevices.length.toString() }
+                        ModuleCard { title: window.t("Karbantartás", "Maintenance"); subtitle: "Temp/cache/runtime cleanup proposal flow"; badge: "GATED" }
+                        ModuleCard { title: window.t("Perifériák", "Peripherals"); subtitle: "Input, MIDI, tablet, scanner, camera"; badge: fa3Repository.peripheralDevices.length.toString() }
                     }
                 }
             }
@@ -351,11 +515,11 @@ ApplicationWindow {
                 pageTitle: "AI Studio"
                 pageSubtitle: window.t("A lokális kreatív pipeline egységes felülete", "Unified surface for the local creative pipeline")
                 cards: [
-                    { title: "Image", subtitle: "ComfyUI / InvokeAI / editor bridge" },
-                    { title: "Video", subtitle: "Generation, Kdenlive, editorial, compositing" },
+                    { title: "Image", subtitle: "ComfyUI / InvokeAI / GIMP / Krita" },
+                    { title: "Video", subtitle: "Generation / Kdenlive / OpenShot / editorial" },
                     { title: "Animation", subtitle: "Motion, character and timeline workflows" },
-                    { title: "3D / VFX", subtitle: "Geometry, Bforartists/Blender, Natron/Gaffer" },
-                    { title: "Audio", subtitle: "STT, TTS, restoration, separation, Voice Fabric" },
+                    { title: "3D / VFX", subtitle: "Geometry / Blender / Bforartist / Natron / Gaffer" },
+                    { title: "Audio", subtitle: "Ardour / Audacity / STT / TTS / restoration" },
                     { title: "Music", subtitle: "Generation, stems, DAW, mastering" },
                     { title: "Story / Screenplay", subtitle: "FA3 Story production context" }
                 ]
@@ -433,10 +597,12 @@ ApplicationWindow {
             ScrollView {
                 id: resourcesPage
                 contentWidth: availableWidth
+
                 ColumnLayout {
                     width: resourcesPage.availableWidth
                     spacing: 18
                     Item { Layout.preferredHeight: 20 }
+
                     SectionTitle {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -444,21 +610,25 @@ ApplicationWindow {
                         title: "Resources"
                         subtitle: window.t("FA3 workload utilization, placement és ChangeSet-alapú intent", "FA3 workload utilization, placement and ChangeSet-based intent")
                     }
+
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
                         Layout.rightMargin: 24
                         spacing: 12
+
                         MetricCard { label: "Host"; value: fa3Repository.hostName; note: "local host" }
                         MetricCard { label: "CPU threads"; value: fa3Repository.cpuThreads.toString(); note: "discovery" }
                         MetricCard { label: "Memory"; value: fa3Repository.memoryAvailableGiB.toFixed(1) + " GiB"; note: "available" }
                         MetricCard { label: "GPU"; value: fa3Repository.gpuDevices.length.toString(); note: "discovered" }
                     }
+
                     Button {
                         Layout.leftMargin: 24
                         text: window.t("Új typed ChangeSet draft", "New typed ChangeSet draft")
                         onClicked: changeSetDialog.open()
                     }
+
                     Label {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -502,12 +672,16 @@ ApplicationWindow {
 
             BasicPage {
                 pageTitle: "Integrations"
-                pageSubtitle: window.t("Desktop, DCC, editor, MCP és provider kapcsolatok", "Desktop, DCC, editor, MCP and provider connections")
+                pageSubtitle: window.t("Kreatív, irodai, knowledge és publikálási kapcsolatok", "Creative, office, knowledge and publishing connections")
                 cards: [
-                    { title: "Image", subtitle: fa3Settings.value("integrations/imageEditor", "Krita"), badge: "DEFAULT" },
-                    { title: "Video", subtitle: fa3Settings.value("integrations/videoEditor", "Kdenlive"), badge: "DEFAULT" },
-                    { title: "Audio", subtitle: fa3Settings.value("integrations/audioEditor", "Ardour"), badge: "DEFAULT" },
-                    { title: "3D", subtitle: fa3Settings.value("integrations/threeDEditor", "Bforartists"), badge: "DEFAULT" }
+                    { title: window.t("Grafika", "Graphics"), subtitle: "GIMP / Krita · default: " + fa3Settings.value("integrations/imageEditor", "Krita"), badge: "EDITORS" },
+                    { title: "Video", subtitle: "Kdenlive / OpenShot · default: " + fa3Settings.value("integrations/videoEditor", "Kdenlive"), badge: "EDITORS" },
+                    { title: "Audio", subtitle: "Ardour / Audacity · default: " + fa3Settings.value("integrations/audioEditor", "Ardour"), badge: "EDITORS" },
+                    { title: "3D", subtitle: "Blender / Bforartist · default: " + fa3Settings.value("integrations/threeDEditor", "Bforartist"), badge: "DCC" },
+                    { title: "LibreOffice", subtitle: window.t("Dokumentum / iroda", "Documents / office"), badge: fa3Settings.value("integrations/libreOfficeEnabled", true) ? "ON" : "OFF" },
+                    { title: "Obsidian", subtitle: window.t("Knowledge / jegyzet workspace", "Knowledge / notes workspace"), badge: fa3Settings.value("integrations/obsidianEnabled", true) ? "ON" : "OFF" },
+                    { title: window.t("Publikálás", "Publishing"), subtitle: "YouTube / Facebook / TikTok / Website", badge: "TARGETS" },
+                    { title: "HDR", subtitle: window.t("Fenntartott pont — specifikáció következik", "Reserved — specification pending"), badge: "RESERVED" }
                 ]
             }
 
@@ -526,6 +700,7 @@ ApplicationWindow {
 
             SettingsPage {
                 settings: fa3Settings
+                repository: fa3Repository
                 surface1: window.surface1
                 surface2: window.surface2
                 textPrimary: window.textPrimary
@@ -552,8 +727,18 @@ ApplicationWindow {
 
             RowLayout {
                 Layout.fillWidth: true
-                Label { text: "AI Assistant"; font.pixelSize: window.px(20); font.bold: true; Layout.fillWidth: true }
-                ToolButton { text: "×"; onClicked: assistantDrawer.close() }
+
+                Label {
+                    text: "AI Assistant"
+                    font.pixelSize: window.px(20)
+                    font.bold: true
+                    Layout.fillWidth: true
+                }
+
+                ToolButton {
+                    text: "×"
+                    onClicked: assistantDrawer.close()
+                }
             }
 
             Label {
@@ -586,6 +771,7 @@ ApplicationWindow {
 
             RowLayout {
                 Layout.fillWidth: true
+
                 Button {
                     text: window.t("Feladat-draft", "Task draft")
                     enabled: assistantPrompt.text.trim().length > 0
@@ -598,14 +784,20 @@ ApplicationWindow {
                         )
                     }
                 }
+
                 Button {
                     text: "MCP"
                     enabled: false
                     ToolTip.visible: hovered
                     ToolTip.text: window.t("Assistant MCP adapter még nincs runtime-promotálva", "Assistant MCP adapter is not runtime-promoted yet")
                 }
+
                 Item { Layout.fillWidth: true }
-                Button { text: window.t("Törlés", "Clear"); onClicked: assistantPrompt.clear() }
+
+                Button {
+                    text: window.t("Törlés", "Clear")
+                    onClicked: assistantPrompt.clear()
+                }
             }
         }
     }
@@ -621,10 +813,33 @@ ApplicationWindow {
         ColumnLayout {
             width: parent.width
             spacing: 10
-            TextField { id: csScope; Layout.fillWidth: true; placeholderText: "Scope" }
-            TextField { id: csAction; Layout.fillWidth: true; placeholderText: "Action" }
-            TextField { id: csTarget; Layout.fillWidth: true; placeholderText: "Target" }
-            TextArea { id: csRationale; Layout.fillWidth: true; Layout.preferredHeight: 120; placeholderText: window.t("Indoklás", "Rationale"); wrapMode: TextEdit.Wrap }
+
+            TextField {
+                id: csScope
+                Layout.fillWidth: true
+                placeholderText: "Scope"
+            }
+
+            TextField {
+                id: csAction
+                Layout.fillWidth: true
+                placeholderText: "Action"
+            }
+
+            TextField {
+                id: csTarget
+                Layout.fillWidth: true
+                placeholderText: "Target"
+            }
+
+            TextArea {
+                id: csRationale
+                Layout.fillWidth: true
+                Layout.preferredHeight: 120
+                placeholderText: window.t("Indoklás", "Rationale")
+                wrapMode: TextEdit.Wrap
+            }
+
             Label {
                 Layout.fillWidth: true
                 color: window.textMuted
