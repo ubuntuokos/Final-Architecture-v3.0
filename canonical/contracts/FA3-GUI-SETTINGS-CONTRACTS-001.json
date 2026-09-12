@@ -1,14 +1,76 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-GUI-SETTINGS-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-GUI-SETTINGS-001",
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "contracts": ["GuiPreference","AppearancePreference","LocalePreference","PathRolePreference","WorkspacePreference","DashboardPreference","NotificationPreference","DesktopIntegrationPreference","LocalSettingsResetIntent"],
-  "storage": {"authority":"LOCAL_USER_PREFERENCE_ONLY","backend":"QSettings/XDG","secret_values":"FORBIDDEN","canonical_state":"FORBIDDEN","evidence_state":"FORBIDDEN"},
-  "mutation_model": {"local_gui_preference":"ALLOW","directory_role_selection":"ALLOW","filesystem_mount_mutation":"FORBIDDEN","fstab_mutation":"FORBIDDEN","direct_canonical_write":"FORBIDDEN","direct_policy_mutation":"FORBIDDEN","direct_privileged_execution":"FORBIDDEN","system_or_architecture_change":"TYPED_CHANGESET_REQUIRED"}
+  "contracts": [
+    "GuiPreference",
+    "AppearancePreference",
+    "LocalePreference",
+    "PathRolePreference",
+    "WorkspacePreference",
+    "DashboardPreference",
+    "NotificationPreference",
+    "KeyboardShortcutPreference",
+    "CreativeDesktopIntegrationPreference",
+    "OfficeKnowledgeIntegrationPreference",
+    "PublishingTargetPreference",
+    "UpdatePreference",
+    "AboutDiagnosticsProjection",
+    "HdrReservedSurface",
+    "LocalSettingsResetIntent"
+  ],
+  "storage": {
+    "authority": "LOCAL_USER_PREFERENCE_ONLY",
+    "backend": "QSettings/XDG",
+    "secret_values": "FORBIDDEN",
+    "password_values": "FORBIDDEN",
+    "api_tokens": "FORBIDDEN",
+    "cookies": "FORBIDDEN",
+    "canonical_state": "FORBIDDEN",
+    "evidence_state": "FORBIDDEN"
+  },
+  "integration_roles": {
+    "graphics": ["GIMP", "Krita"],
+    "video": ["Kdenlive", "OpenShot"],
+    "audio": ["Ardour", "Audacity"],
+    "three_d": ["Blender", "Bforartist"],
+    "documents": ["LibreOffice"],
+    "knowledge_notes": ["Obsidian"]
+  },
+  "publishing": {
+    "targets": ["YouTube", "Facebook", "TikTok", "Website"],
+    "preference_storage": "ALLOW",
+    "credential_storage": "FORBIDDEN",
+    "direct_remote_publish": "FORBIDDEN_UNLESS_EXISTING_INTEGRATION_AUTHORITY_ADMITS"
+  },
+  "shortcuts": {
+    "local_preference": "ALLOW",
+    "invalid_sequence": "REJECT",
+    "conflict": "REJECT"
+  },
+  "updates": {
+    "channel_preference": "ALLOW",
+    "automatic_check_preference": "ALLOW",
+    "direct_privileged_install": "FORBIDDEN",
+    "root_escalation_from_gui": "FORBIDDEN"
+  },
+  "mutation_model": {
+    "local_gui_preference": "ALLOW",
+    "directory_role_selection": "ALLOW",
+    "desktop_integration_selection": "ALLOW",
+    "publishing_target_selection": "ALLOW",
+    "filesystem_mount_mutation": "FORBIDDEN",
+    "fstab_mutation": "FORBIDDEN",
+    "direct_canonical_write": "FORBIDDEN",
+    "direct_policy_mutation": "FORBIDDEN",
+    "direct_privileged_execution": "FORBIDDEN",
+    "direct_remote_publish": "FORBIDDEN",
+    "system_or_architecture_change": "TYPED_CHANGESET_REQUIRED"
+  }
 }
