@@ -3,10 +3,7 @@
   "gate_id": "FA3-ACE-STEP-GATESET-001",
   "profile_id": "FA3-MUSIC-001",
   "provider_id": "FA3-PROVIDER-ACE-STEP-001",
-  "classification": [
-    "REQUIRED_PRIMARY_REFERENCE_PROVIDER",
-    "CURRENT_HOST_PROMOTION_EVIDENCE_GATED"
-  ],
+  "classification": ["REQUIRED_PRIMARY_REFERENCE_PROVIDER", "CURRENT_HOST_PROMOTION_EVIDENCE_GATED"],
   "fail_closed": true,
   "floating_main_allowed_as_promotion_evidence": false,
   "runtime_provider_required_for_global_promotion": true,
@@ -34,6 +31,15 @@
     "OFFLOAD_PLUS_LORA_VALIDATION_MUST_NOT_BE_SILENTLY_SKIPPED",
     "OPEN_UPSTREAM_FIX_OR_RISK_PR_NOT_PROMOTION_EVIDENCE"
   ],
+  "baseline_2026_09_12_invariants": [
+    "REST_AUTOMATION_MUST_SET_INFERENCE_STEPS_EXPLICITLY",
+    "SFT_AND_XL_SFT_MUST_NOT_INHERIT_TURBO_STEP_DEFAULTS",
+    "LM_DIT_VRAM_RESERVE_MUST_BE_MODEL_DURATION_AND_BATCH_AWARE",
+    "KV_CACHE_FLOOR_VIOLATION_MUST_FAIL_CLOSED",
+    "CANONICAL_LOSSLESS_EXPORT_MUST_NOT_REQUIRE_UNGUARDED_TORCHCODEC",
+    "TORCHCODEC_ENABLEMENT_REQUIRES_TORCH_TORCHAUDIO_ABI_SMOKE",
+    "LINUX_AUDIO_EXPORT_DEPENDENCY_SMOKE_REQUIRED"
+  ],
   "provider_promotion_requirements": [
     "immutable_runtime_and_model_pin_pass",
     "artifact_and_model_hash_pass",
@@ -49,46 +55,33 @@
     "finite_latent_and_audio_numeric_integrity_pass",
     "cpu_offload_device_dtype_coherence_pass",
     "offload_lora_validation_or_fail_closed_pass",
+    "explicit_rest_inference_steps_pass",
+    "model_duration_batch_aware_vram_reserve_pass",
+    "kv_cache_floor_fail_closed_pass",
+    "lossless_export_without_unguarded_torchcodec_pass",
+    "torchcodec_abi_smoke_if_enabled_pass",
+    "linux_audio_export_dependency_smoke_pass",
     "lossless_master_and_provenance_pass"
   ],
   "sft_family_additional_promotion_requirements": [
     "non_turbo_dcw_explicitly_disabled_pass",
+    "sft_api_inference_steps_explicit_and_non_turbo_pass",
     "sft_audio_quality_positive_and_negative_regression_pass"
   ],
   "tracked_upstream_fixes": {
-    "PR-1282": {
-      "state": "MERGED_FIX_CANDIDATE",
-      "merge_commit": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b"
-    },
-    "PR-1305": {
-      "state": "MERGED_FIX_CANDIDATE",
-      "merge_commit": "c86889f488b657c176d1ca857df3450ad1c495d2"
-    },
-    "PR-1310": {
-      "state": "MERGED_FIX_CANDIDATE",
-      "merge_commit": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
-    },
-    "PR-1309": {
-      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
-      "head_commit": "86cf3a2be6dafd2b5bd2ece6471a9a227dc6d1d9"
-    },
-    "PR-1311": {
-      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
-      "head_commit": "49354c10929b94f75e22268357ee96ada20932e2"
-    },
-    "PR-1312": {
-      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
-      "head_commit": "f25fa4015b08840f01a8e9696828120f425b63ab"
-    },
-    "PR-1319": {
-      "state": "OPEN_UNRESOLVED_RISK_NOT_PROMOTION_EVIDENCE",
-      "head_commit": "ed6e6fdc02655ef62effc8ef154d2f1f7876217a"
-    },
-    "PR-1321": {
-      "state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE",
-      "head_commit": "33e2d60145ad7ac6d1645a51fa833aeb8d037973"
-    }
+    "PR-1223": {"state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "head_commit": "186323517954b887147a693686b74daf281d9e7e"},
+    "PR-1242": {"state": "OPEN_COMPATIBILITY_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "TorchAudio 2.9+ TorchCodec save fallback on unsupported/incompatible backends"},
+    "PR-1282": {"state": "MERGED_FIX_CANDIDATE", "merge_commit": "2c513f9e3ba8354eebe6d5698d41025acb43cd7b"},
+    "PR-1301": {"state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "head_commit": "9c2cc9da01e6001f8989e8dd9aeaec797f4f602f"},
+    "PR-1305": {"state": "MERGED_FIX_CANDIDATE", "merge_commit": "c86889f488b657c176d1ca857df3450ad1c495d2"},
+    "PR-1309": {"state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "head_commit": "86cf3a2be6dafd2b5bd2ece6471a9a227dc6d1d9"},
+    "PR-1310": {"state": "MERGED_FIX_CANDIDATE", "merge_commit": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"},
+    "PR-1311": {"state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "head_commit": "49354c10929b94f75e22268357ee96ada20932e2"},
+    "PR-1312": {"state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "head_commit": "f25fa4015b08840f01a8e9696828120f425b63ab"},
+    "PR-1319": {"state": "OPEN_UNRESOLVED_RISK_NOT_PROMOTION_EVIDENCE", "head_commit": "ed6e6fdc02655ef62effc8ef154d2f1f7876217a"},
+    "PR-1321": {"state": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "head_commit": "33e2d60145ad7ac6d1645a51fa833aeb8d037973"}
   },
-  "upstream_reference_evidence": "evidence/reference/ace-step-upstream-2026-09-10.json",
-  "hardening_decision": "FA3-DEC-ACE-STEP-HARDENING-2026-09-10"
+  "upstream_reference_evidence": "evidence/reference/ace-step-upstream-2026-09-12.json",
+  "hardening_decision": "FA3-DEC-ACE-STEP-BASELINE-2026-09-12",
+  "supplemental_executable_gate": "./bin/fa3-enforce ace-step-baseline"
 }
