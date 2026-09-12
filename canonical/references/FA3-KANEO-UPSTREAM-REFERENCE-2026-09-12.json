@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12",
+  "provider_id": "FA3-PROVIDER-KANEO-001",
+  "repository": "usekaneo/kaneo",
+  "observed_at": "2026-09-12",
+  "stable_reference": {
+    "release": "v2.24.0",
+    "commit_sha": "863b979e2af6d9b4d75064edc43a2c118d9af7ce",
+    "published_at": "2026-09-11T04:12:16Z",
+    "source_blobs": {
+      "AGENTS.md": "a0ccf325b7da268e0da6ebd463e1c707e65701d7",
+      "package.json": "8c656597786d54fa371a90f184e1a8988456f3b7",
+      "tests/api-integration/authorization-boundaries.test.ts": "1cc7da5b3c676a354c0587510842ddbe1cecef1a"
+    }
+  },
+  "compatibility_observations": [
+    "API remains the authentication and authorization authority",
+    "workspace-scoped operations retain the canonical @kaneo/permissions vocabulary and API middleware",
+    "change completion still requires deliberate API, authorization, client, realtime, MCP, persistence and deployment surface review",
+    "authorization-boundary integration tests are present at the pinned release",
+    "v2.24.0 includes an npm dependency fix for CVE-2026-75604"
+  ],
+  "fa3_disposition": {
+    "floating_main_allowed_as_promotion_evidence": false,
+    "provider_runtime_required_for_global_promotion": false,
+    "provider_may_become_canonical_root": false,
+    "provider_may_become_architectural_authority": false,
+    "capability_count": 143,
+    "mandatory_p0_rule_count": 4
+  }
+}
