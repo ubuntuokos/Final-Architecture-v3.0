@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.enforcement.v1",
+  "id": "FA3-OPEN-SCIENCE-DESKTOP-ENFORCEMENT-001",
+  "gate_id": "FA3-GATE-OPEN-SCIENCE-DESKTOP-001",
+  "mandatory_rule_count": 15,
+  "fail_closed": true,
+  "rules": [
+    "immutable_upstream_pin",
+    "optional_non_authoritative_provider",
+    "capability_and_authority_invariants",
+    "existing_authorities_only",
+    "production_full_approval_forbidden",
+    "destructive_install_network_operations_require_approval",
+    "third_party_skill_admission_required",
+    "third_party_skill_license_admission_required",
+    "provider_provenance_non_authoritative_projection",
+    "hrb_placement_authority_only",
+    "ui_display_role_binding",
+    "compute_non_display_role_admission",
+    "ui_compute_role_separation",
+    "live_identity_numa_cuda_evidence_required",
+    "no_cpu_or_cross_accelerator_fallback"
+  ],
+  "mandatory_hardware_conformance_chain": [
+    "HRB_UI_DISPLAY_ROLE_BINDING",
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "UI_AND_COMPUTE_ACCELERATORS_DISTINCT",
+    "COMPUTE_ACCELERATOR_NON_DISPLAY",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ]
+}
