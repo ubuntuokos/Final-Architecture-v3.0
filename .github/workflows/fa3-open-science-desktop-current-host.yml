@@ -1,0 +1,22 @@
+name: FA3 Open Science Desktop current-host admission
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  current-host-production-e2e:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    env:
+      HF_HUB_OFFLINE: '1'
+      TRANSFORMERS_OFFLINE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require real current-host receipt
+        run: test -s evidence/receipts/open-science-desktop-current-host.json
+      - name: Validate current-host hardware and policy receipt
+        run: >-
+          python3 src/fa3_open_science_desktop_gate.py --root .
+          --current-host-receipt evidence/receipts/open-science-desktop-current-host.json
