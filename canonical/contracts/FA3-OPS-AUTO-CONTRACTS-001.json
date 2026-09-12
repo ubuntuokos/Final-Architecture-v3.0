@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-OPS-AUTO-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-OPS-AUTO-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["OperationalWorkflowDescriptor", "OperationalTriggerDescriptor", "OperationalJobDescriptor", "OperationalJobExecutionRequest", "OperationalJobExecutionResult", "ExecutionTargetDescriptor", "ExecutionPlacementRequest", "ExecutionPlacementDecision", "OperationalResourceLimit", "QueueAdmissionPolicy", "RetryPolicy", "ResumePolicy", "MonitorObservation", "OperationalAlert", "OperationalSnapshot", "OperationalIncident", "RemediationRequest", "OperationalExecutorDescriptor", "ExecutionReceipt", "OperationalEvidenceRecord"],
+  "mandatory_semantics": ["TEMPORAL_DURABILITY_BOUNDARY", "HRB_PLACEMENT_AND_ADMISSION", "SYSTEMD_CGROUP_LOCAL_ENFORCEMENT", "SECRET_REFERENCE_ONLY", "POLICY_GATED_SHELL_AND_HTTP_EGRESS", "IDEMPOTENT_RETRY", "BOUNDED_RESUME_CANCEL_TIMEOUT", "ROLLBACK_FOR_MUTATING_PRODUCTION_ACTIONS", "CANONICAL_OBSERVABILITY_AND_EVIDENCE_EXPORT"]
+}

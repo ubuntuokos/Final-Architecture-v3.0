@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6f175ed20c4829d1f12fd21ae8a131b8a8eadd14",
-    "pre_projection_root_tree_sha": "026a9721fe3ad385e1156ce0e0dcf09c79570ba2",
-    "pre_projection_canonical_tree_sha": "ef1fcc7ffc378f4bc9f8e67e422a177c5ce274f5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 170,
-    "total_post_baseline_commits": 170,
-    "delta_file_count": 982,
-    "delta_added_files": 977,
+    "pre_projection_head_sha": "7898ba46dd4c9cb7754e49564009d0b3503c93a5",
+    "pre_projection_root_tree_sha": "4c5fc06e2668fd5a314a063226b33725d7bbc7f2",
+    "pre_projection_canonical_tree_sha": "a1665225fa148743fda58ec3c1d13ad5736aa5ff",
+    "commits_ahead_of_v3_0_11_conformance_commit": 200,
+    "total_post_baseline_commits": 200,
+    "delta_file_count": 1010,
+    "delta_added_files": 1005,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 546,
+    "canonical_files_in_post_baseline_delta": 573,
     "evidence_files_in_post_baseline_delta": 105,
     "source_files_in_post_baseline_delta": 110,
-    "test_files_in_post_baseline_delta": 90,
+    "test_files_in_post_baseline_delta": 91,
     "workflow_files_in_post_baseline_delta": 28,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -66,6 +66,7 @@
       "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
+      "canonical/providers/FA3-PROVIDER-DRUM-GPT-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
       "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
       "canonical/providers/FA3-PROVIDER-GEM-X-001.json",
@@ -112,6 +113,7 @@
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENVIKING-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
@@ -146,26 +148,32 @@
       "canonical/providers/FA3-PROVIDER-TERAX-001.json",
       "canonical/providers/FA3-PROVIDER-TWENTY-001.json",
       "canonical/providers/FA3-PROVIDER-ULTRARAG-001.json",
+      "canonical/providers/FA3-PROVIDER-UNREAL-ENGINE-001.json",
       "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
       "canonical/providers/FA3-PROVIDER-VOXCPM-001.json",
       "canonical/providers/FA3-PROVIDER-VS-MLRT-001.json",
       "canonical/providers/FA3-PROVIDER-WHISPER-001.json",
       "canonical/providers/FA3-PROVIDER-XANMOD-001.json",
       "canonical/providers/FA3-PROVIDER-XCMD-001.json",
-      "canonical/providers/FA3-PROVIDER-XTTS-001.json"
+      "canonical/providers/FA3-PROVIDER-XTTS-001.json",
+      "canonical/providers/FA3-PROVIDER-XYOPS-001.json",
+      "canonical/providers/FA3-PROVIDER-XYSAT-001.json"
     ],
     "profile_records": [
       "canonical/profiles/FA3-3D-GEOM-001.json",
       "canonical/profiles/FA3-AGENT-EXEC-001.json",
       "canonical/profiles/FA3-AI-IMAGE-EDITING-001.json",
       "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
+      "canonical/profiles/FA3-ANIMATION-PRODUCTION-001.json",
       "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
       "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
+      "canonical/profiles/FA3-CONTEXT-MEMORY-SKILL-PROJECTION-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
+      "canonical/profiles/FA3-DCC-RT3D-001.json",
       "canonical/profiles/FA3-DESKTOP-001.json",
       "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
       "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
@@ -182,6 +190,7 @@
       "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
+      "canonical/profiles/FA3-LUT-COLOR-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
@@ -189,14 +198,17 @@
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
+      "canonical/profiles/FA3-OPS-AUTO-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
+      "canonical/profiles/FA3-RHYTHM-GENERATION-001.json",
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
       "canonical/profiles/FA3-STABILITY-PORTFOLIO-001.json",
       "canonical/profiles/FA3-STANDARD-OPENFX-001.json",
       "canonical/profiles/FA3-STORAGE-FUSE-001.json",
+      "canonical/profiles/FA3-STORY-001.json",
       "canonical/profiles/FA3-STT-001.json",
       "canonical/profiles/FA3-STT-MEDIA-001.json",
       "canonical/profiles/FA3-VIDEO-001.json",
@@ -208,6 +220,7 @@
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-ANIMATION-PRODUCTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
@@ -216,10 +229,12 @@
       "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CONTEXT-MEMORY-SKILL-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DCC-RT3D-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
@@ -244,6 +259,7 @@
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-LUT-COLOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
@@ -254,12 +270,15 @@
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-OPS-AUTO-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
+      "canonical/contracts/FA3-RHYTHM-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-STORY-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
@@ -274,6 +293,7 @@
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
       "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-ANIMATION-PRODUCTION-2026-09-12.json",
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
@@ -288,6 +308,7 @@
       "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-DRUM-GPT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
@@ -312,6 +333,7 @@
       "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-LUT-COLOR-2026-09-12.json",
       "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
@@ -341,6 +363,7 @@
       "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
+      "canonical/decisions/FA3-DEC-OPENVIKING-2026-09-12.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
       "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
@@ -354,13 +377,16 @@
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
       "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
+      "canonical/decisions/FA3-DEC-STORY-SCREENPLAY-2026-09-12.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-UNREAL-VP-2026-09-12.json",
       "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
-      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json"
+      "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-XYOPS-2026-09-12.json"
     ],
     "upstream_reference_records": [
       "canonical/references/FA3-AI-ENGINEERING-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -665,7 +691,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 982,
+  "manifest_entry_count": 1010,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1523,6 +1549,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-ANIMATION-PRODUCTION-CONTRACTS-001.json",
+      "git_blob_sha": "a2c8469cbffc6b6741a28c5ff4b85506ca17c2a5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
       "git_blob_sha": "637cc2897b3cda28a5e7223cda15e90bfb2880cf",
       "baseline_delta_status": "added"
@@ -1563,6 +1594,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-CONTEXT-MEMORY-SKILL-CONTRACTS-001.json",
+      "git_blob_sha": "5b63ab787a76c6711a86fe4676bf4256ac2fae2d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "git_blob_sha": "00600d4dcc1719d44a486cac08e2118fef20506a",
       "baseline_delta_status": "added"
@@ -1580,6 +1616,11 @@
     {
       "path": "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
       "git_blob_sha": "a7dcf9663c1381c4805ada32a8ba243d2a9ecf29",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DCC-RT3D-CONTRACTS-001.json",
+      "git_blob_sha": "ce574b1dd2cd9ae9e54673332e004bbace7906e7",
       "baseline_delta_status": "added"
     },
     {
@@ -1703,6 +1744,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-LUT-COLOR-CONTRACTS-001.json",
+      "git_blob_sha": "597dd7e3be07cada84714be1cb4be085294841b7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "git_blob_sha": "699ddb90aa89760d4ed81e7a2f319df46eb46050",
       "baseline_delta_status": "added"
@@ -1753,8 +1799,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-OPS-AUTO-CONTRACTS-001.json",
+      "git_blob_sha": "0bab882d962f80d0b75a6d510b528fb3a6d695ff",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-RHYTHM-GENERATION-CONTRACTS-001.json",
+      "git_blob_sha": "0a3f38d8f29e68b85d7ca7c417288247529f1460",
       "baseline_delta_status": "added"
     },
     {
@@ -1780,6 +1836,11 @@
     {
       "path": "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
       "git_blob_sha": "06102cafa3cbbf47d6d05bc54a5bfe3f0a0035ea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-STORY-CONTRACTS-001.json",
+      "git_blob_sha": "5c7562fbafd4e90d713cd32d2a3dd2e23ae7b9cb",
       "baseline_delta_status": "added"
     },
     {
@@ -1824,7 +1885,7 @@
     },
     {
       "path": "canonical/conversation-reconciliation-enforcement.json",
-      "git_blob_sha": "2d2daf0c9b868f5fd2fb4484c6872413082eb753",
+      "git_blob_sha": "5319ff09664021781deb0404cccf6506191a0a34",
       "baseline_delta_status": "added"
     },
     {
@@ -1865,6 +1926,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
       "git_blob_sha": "f077db9216a7a68d75b242d7f7d1b836fe3ff464",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ANIMATION-PRODUCTION-2026-09-12.json",
+      "git_blob_sha": "3945bcf5aad0c54fae86f0ed37a50803f790c380",
       "baseline_delta_status": "added"
     },
     {
@@ -1935,6 +2001,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "git_blob_sha": "f91a5253c9325776c16000d08adb8f7d2ac06667",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-DRUM-GPT-2026-09-12.json",
+      "git_blob_sha": "ccb11e7f2a66ec72302ae35eaa4fa513ae3964a1",
       "baseline_delta_status": "added"
     },
     {
@@ -2055,6 +2126,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "git_blob_sha": "43f28c1e12c6346d2142f0fbdb767cff68806e3c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-LUT-COLOR-2026-09-12.json",
+      "git_blob_sha": "dd791919178c2ce4993be6d878b3fed7d7ec6d37",
       "baseline_delta_status": "added"
     },
     {
@@ -2203,6 +2279,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENVIKING-2026-09-12.json",
+      "git_blob_sha": "5d9a6ab021342eb5e38e8ae226331c414982bd87",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
       "git_blob_sha": "dc5e5657e1a2853bd17bef7e19fba62ca85cadfa",
       "baseline_delta_status": "added"
@@ -2268,6 +2349,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-STORY-SCREENPLAY-2026-09-12.json",
+      "git_blob_sha": "8b595455ed8d294c1f3da7a381d2471cbc818301",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "git_blob_sha": "cb453c8c062c2653fe70d788767d3b2685202a0c",
       "baseline_delta_status": "added"
@@ -2275,6 +2361,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
       "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-UNREAL-VP-2026-09-12.json",
+      "git_blob_sha": "0be28698f9053170f6f23755184936fc2f46adf2",
       "baseline_delta_status": "added"
     },
     {
@@ -2300,6 +2391,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
       "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-XYOPS-2026-09-12.json",
+      "git_blob_sha": "c6d466dd3656f425c6d5e1061d264e34da92a406",
       "baseline_delta_status": "added"
     },
     {
@@ -2638,6 +2734,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-ANIMATION-PRODUCTION-001.json",
+      "git_blob_sha": "ac5b01c140998b3ab9826eb6574e1743d7ae1768",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "git_blob_sha": "72ca3e9dbdd7a90c8a37cd5d8f421b496557942e",
       "baseline_delta_status": "added"
@@ -2658,6 +2759,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-CONTEXT-MEMORY-SKILL-PROJECTION-001.json",
+      "git_blob_sha": "3205dc47f3d4f2a9a0303dbd17a0c619510257a3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "git_blob_sha": "d9d7d485ec58d753b46a12f3958daad4f75cc767",
       "baseline_delta_status": "added"
@@ -2670,6 +2776,11 @@
     {
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
       "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-DCC-RT3D-001.json",
+      "git_blob_sha": "1d2c419313312d03126fefd15573491c0711271f",
       "baseline_delta_status": "added"
     },
     {
@@ -2749,7 +2860,12 @@
     },
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
-      "git_blob_sha": "5b66f41a552c9c207395e2a5c0026be5152c78d8",
+      "git_blob_sha": "1e79d270d0da44f2a441e86216a15813eb410a42",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-LUT-COLOR-001.json",
+      "git_blob_sha": "535e59599789b50e761dd0baad38ffce186fc64f",
       "baseline_delta_status": "added"
     },
     {
@@ -2779,12 +2895,17 @@
     },
     {
       "path": "canonical/profiles/FA3-MUSIC-001.json",
-      "git_blob_sha": "eec781ed18b4ab6fc8aeb879e0a17c4dcabd6e68",
+      "git_blob_sha": "5a60fe38dd04232bdc882398dee4361dd2e900f5",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
       "git_blob_sha": "e40d8519e5b56fab7a77ec7bcd77f4bcb1a201bc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-OPS-AUTO-001.json",
+      "git_blob_sha": "de95e2399e746375e599565465c5a7bbf301e5cf",
       "baseline_delta_status": "added"
     },
     {
@@ -2795,6 +2916,11 @@
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
       "git_blob_sha": "e9ac3ac0cd898cb1724f153ece5b53efbda17d20",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-RHYTHM-GENERATION-001.json",
+      "git_blob_sha": "e729d0caec8927b5e2b634171bb260df5ad327af",
       "baseline_delta_status": "added"
     },
     {
@@ -2825,6 +2951,11 @@
     {
       "path": "canonical/profiles/FA3-STORAGE-FUSE-001.json",
       "git_blob_sha": "e484a870421e94cba627adf47ae0e4dd2c16bb53",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-STORY-001.json",
+      "git_blob_sha": "ee6ec61e83e523f1d8d9e40461a3b45bb2ce2b1e",
       "baseline_delta_status": "added"
     },
     {
@@ -2925,6 +3056,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "git_blob_sha": "2942e638c5cd47480a77bdca49953c2ebde81088",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-DRUM-GPT-001.json",
+      "git_blob_sha": "2e76fc3d1e847146dbf9c53e8094cf72d0925cbe",
       "baseline_delta_status": "added"
     },
     {
@@ -3158,6 +3294,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-OPENVIKING-001.json",
+      "git_blob_sha": "048882942922176e7d37c007a75f5aeb6f6fc5af",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "git_blob_sha": "650bf8c0a248bad26e7b59a00b00aac447cc8aef",
       "baseline_delta_status": "added"
@@ -3328,6 +3469,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-UNREAL-ENGINE-001.json",
+      "git_blob_sha": "680da950be75fb1031cef1cbb796d854791aa5c7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
       "git_blob_sha": "88c265d12de42d70dc63505db2f70075f847ea3c",
       "baseline_delta_status": "added"
@@ -3360,6 +3506,16 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-XTTS-001.json",
       "git_blob_sha": "54728969b877d374b490bc8317963f1d512744af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-XYOPS-001.json",
+      "git_blob_sha": "b57e2eb99ecbf660dc3a0802d0a8d6ddc979cede",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-XYSAT-001.json",
+      "git_blob_sha": "9c3f9fc612aff00c784aeb46f2e81f6e5ba6f6fc",
       "baseline_delta_status": "added"
     },
     {
@@ -3640,6 +3796,11 @@
     {
       "path": "canonical/references/FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "210c86f3300760d8c00e9fdf643b63b73ef55be1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/registries/FA3-LUT-ARTIFACT-REGISTRY-001.json",
+      "git_blob_sha": "fda5323fcb9d65e74d430050f2e7c145a0437c7d",
       "baseline_delta_status": "added"
     },
     {
@@ -5325,6 +5486,11 @@
     {
       "path": "tests/test_lynxhub_gate.py",
       "git_blob_sha": "21a20586d4122cad01f510f2020f3b8a24e62f76",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_mandatory_conversation_reconciliation_20260912.py",
+      "git_blob_sha": "e20ad6c40769568312c0a34cff13edb7c33ed32a",
       "baseline_delta_status": "added"
     },
     {

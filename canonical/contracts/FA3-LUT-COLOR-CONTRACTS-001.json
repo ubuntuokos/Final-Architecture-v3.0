@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-LUT-COLOR-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-LUT-COLOR-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["LUTArtifactDescriptor", "ColorSpaceDescriptor", "ColorPipelineDescriptor", "ColorTransformStage", "EditorialColorRequest", "EditorialColorResult", "ColorQCReport", "ColorExecutionReceipt", "ColorRollbackReference"],
+  "mandatory_semantics": ["ARTIFACT_HASH_AND_PARSER_VALIDATION", "EXPLICIT_COLOR_SPACE", "ORDERED_TRANSFORM_STAGES", "REGISTERED_PROVIDER_SURFACE", "HUMAN_PICTURE_LOCK", "QC_AND_ROLLBACK_EVIDENCE"]
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-ANIMATION-PRODUCTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-ANIMATION-PRODUCTION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["AnimationProductionIntent", "CharacterAssetDescriptor", "EnvironmentAssetDescriptor", "AnimationShotDescriptor", "CharacterPerformanceDescriptor", "LipSyncRequest", "AnimationRenderRequest", "AnimationRenderResult", "EditorialHandoffDescriptor", "AnimationProductionReceipt", "AnimationProductionProvenance"],
+  "mandatory_semantics": ["STORY_TO_SHOT_LINEAGE", "HUMAN_PERFORMANCE_CONSENT", "PROVIDER_NEUTRAL_ASSET_LINEAGE", "OTIO_OCIO_OPENEXR_INTERCHANGE", "LIVE_HARDWARE_DISCOVERY", "HRB_ADMISSION", "HUMAN_FINAL_EDITORIAL_APPROVAL", "END_TO_END_EVIDENCE"]
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-XYOPS-001",
+  "name": "pixlcore/xyops",
+  "status": "ACCEPTED_REFERENCE",
+  "classification": ["OPTIONAL_PROVIDER", "OPERATIONAL_AUTOMATION_PROJECTION_PROVIDER", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "parent_profile": "FA3-OPS-AUTO-001",
+  "provider_role": "OPTIONAL_OPERATIONAL_AUTOMATION_WORKFLOW_UI_JOB_AND_INCIDENT_FEEDBACK_PROVIDER",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "PENDING_CURRENT_HOST",
+  "runtime_activation_requires_current_host_conformance": true,
+  "authority_boundaries": {"workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY", "security": "FA3-AUTH-SECURITY-GOV-001", "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001", "registry": "FA3-REGISTRY-001"},
+  "prohibited_authorities": ["workflow-orchestration", "host-resource", "secrets", "observability-evidence", "security", "registry"],
+  "normative_constraint": "xyOps SHALL remain an optional operational automation projection behind existing FA3 authorities."
+}

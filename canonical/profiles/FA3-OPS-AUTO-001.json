@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OPS-AUTO-001",
+  "name": "Operational Automation, Distributed Job Execution & Incident Feedback Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-OPS-AUTO-CONTRACTS-001"],
+  "provider_projections": ["FA3-PROVIDER-XYOPS-001", "FA3-PROVIDER-XYSAT-001"],
+  "related_profiles": ["FA3-HOST-RESOURCE-BROKER-001", "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001", "FA3-HW-001", "FA3-SCS-001"],
+  "authority_boundaries": {"durable_orchestration": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY", "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001", "security_policy": "FA3-AUTH-SECURITY-GOV-001", "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "host_lifecycle_enforcement": "SYSTEMD_CGROUP_V2", "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001", "registry": "FA3-REGISTRY-001"},
+  "invariants": ["PROVIDERS_NOT_AUTHORITIES", "TEMPORAL_REMAINS_DURABLE_ORCHESTRATION_AUTHORITY", "TYPED_OPERATIONAL_EXECUTION_REQUEST_REQUIRED", "POLICY_PREFLIGHT_REQUIRED", "HRB_ADMISSION_REQUIRED", "LIVE_HARDWARE_DISCOVERY_REQUIRED", "STATIC_GPU_ORDINAL_OR_SKU_PLACEMENT_FORBIDDEN", "SYSTEMD_CGROUP_ENFORCEMENT_REQUIRED", "SECRET_REFERENCE_REQUIRED", "ARBITRARY_SHELL_AND_EGRESS_POLICY_REQUIRED", "EXECUTION_RECEIPT_REQUIRED", "RETRY_RESUME_CANCEL_ROLLBACK_EVIDENCE_REQUIRED", "IMMUTABLE_PROVIDER_PIN_AND_SUPPLY_CHAIN_GATE_REQUIRED"],
+  "implementation_status": "CANONICAL_RECONCILED_RUNTIME_EVIDENCE_GATED"
+}

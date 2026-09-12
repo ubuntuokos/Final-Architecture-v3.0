@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-DCC-RT3D-001",
+  "name": "DCC, Real-Time 3D & Virtual Production Integration Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-DCC-RT3D-CONTRACTS-001"],
+  "providers": ["FA3-PROVIDER-UNREAL-ENGINE-001"],
+  "related_profiles": ["FA3-3D-GEOM-001", "FA3-HUMAN-MOTION-001", "FA3-HW-001", "FA3-HOST-RESOURCE-BROKER-001"],
+  "authority_boundaries": {"geometry": "FA3-3D-GEOM-001", "human_motion": "FA3-HUMAN-MOTION-001", "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "artifact_identity": "FA3-REG-ARTIFACT-MODEL-001", "security_rights": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "hardware_semantics": {"live_capability_discovery": true, "static_gpu_model_or_count_requirement": false, "accelerator_execution_requires_hrb_admission": true, "stable_accelerator_identity_required": true},
+  "invariants": ["USD_GLTF_OR_TYPED_INTERCHANGE_BOUNDARY", "PROVIDER_PROJECT_FORMAT_NOT_CANONICAL_ROOT", "LIVE_HARDWARE_DISCOVERY", "HRB_GPU_ADMISSION", "VULKAN_WAYLAND_XWAYLAND_COMPATIBILITY_EVIDENCE", "SHADER_COOK_AND_DDC_BOUNDED_RESOURCE_POLICY", "PLUGIN_SUPPLY_CHAIN_GATE", "VIRTUAL_PRODUCTION_IO_EXPLICITLY_ADMITTED"]
+}

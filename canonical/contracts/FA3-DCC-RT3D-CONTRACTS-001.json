@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DCC-RT3D-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-DCC-RT3D-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["SceneInterchangeDescriptor", "DCCAssetDescriptor", "RealtimeSceneRequest", "RealtimeSceneResult", "VirtualProductionSessionIntent", "RenderPipelineDescriptor", "ShaderCookRequest", "DerivedDataCachePolicy", "PluginAdmissionDescriptor", "Realtime3DExecutionReceipt", "Realtime3DProvenanceRecord"],
+  "mandatory_semantics": ["PROVIDER_NEUTRAL_ASSET_LINEAGE", "LIVE_HARDWARE_DISCOVERY", "HRB_RESOURCE_ADMISSION", "PLUGIN_TRUST_GATE", "BOUND_SHADER_COOK_AND_DDC", "WAYLAND_XWAYLAND_COMPATIBILITY_EVIDENCE", "NO_PROVIDER_AUTHORITY_ESCALATION"]
+}
