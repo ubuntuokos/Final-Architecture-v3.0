@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.materialization-report.v1",
+  "id": "FA3-OPEN-SCIENCE-DESKTOP-MATERIALIZATION-REPORT-2026-09-12",
+  "scope": "STATIC_MATERIALIZATION_ONLY",
+  "status": "PASS",
+  "provider_id": "FA3-PROVIDER-OPEN-SCIENCE-DESKTOP-001",
+  "contract_id": "FA3-SCIENTIFIC-RESEARCH-WORKBENCH-CONTRACTS-001",
+  "decision_id": "FA3-DEC-OPEN-SCIENCE-DESKTOP-2026-09-12",
+  "gate_id": "FA3-GATE-OPEN-SCIENCE-DESKTOP-001",
+  "static_evidence_id": "FA3-EVIDENCE-OPEN-SCIENCE-DESKTOP-STATIC-2026-09-12",
+  "release_projection_reconciled": true,
+  "release_surface_excluded": true,
+  "blocking_findings": 0,
+  "regression_tests": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "hardware_policy": {
+    "portable_canonical_role_based": true,
+    "current_host_binding": "RTX_3090_COMPUTE__RTX_A1000_UI",
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "role_swap_forbidden": true,
+    "automatic_fallback_forbidden": true
+  },
+  "runtime": {
+    "current_host_production_claim": false,
+    "status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+    "real_current_host_receipt_required": true
+  },
+  "note": "Mutable report surface only. This report does not promote runtime state and is intentionally excluded from the canonical release-surface manifest."
+}
