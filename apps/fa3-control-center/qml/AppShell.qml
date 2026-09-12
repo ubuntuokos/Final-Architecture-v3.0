@@ -82,6 +82,7 @@ ApplicationWindow {
             command: ["Command Center", "Command Center"],
             projects: ["Projektek", "Projects"],
             studio: ["AI Studio", "AI Studio"],
+            aiApps: ["AI alkalmazások", "AI Applications"],
             mentor: ["AI Mentor", "AI Mentor"],
             coach: ["AI Coach", "AI Coach"],
             manager: ["Manager", "Manager"],
@@ -103,6 +104,7 @@ ApplicationWindow {
         { key: "command", iconText: "⌂" },
         { key: "projects", iconText: "▣" },
         { key: "studio", iconText: "✦" },
+        { key: "aiApps", iconText: "◎" },
         { key: "mentor", iconText: "M" },
         { key: "coach", iconText: "C" },
         { key: "manager", iconText: "W" },
@@ -132,12 +134,12 @@ ApplicationWindow {
     Shortcut { sequence: window.shortcut("shortcuts/commandCenter", "Ctrl+1"); onActivated: window.navigateTo(0) }
     Shortcut { sequence: window.shortcut("shortcuts/projects", "Ctrl+2"); onActivated: window.navigateTo(1) }
     Shortcut { sequence: window.shortcut("shortcuts/studio", "Ctrl+3"); onActivated: window.navigateTo(2) }
-    Shortcut { sequence: window.shortcut("shortcuts/mentor", "Ctrl+4"); onActivated: window.navigateTo(3) }
-    Shortcut { sequence: window.shortcut("shortcuts/coach", "Ctrl+5"); onActivated: window.navigateTo(4) }
-    Shortcut { sequence: window.shortcut("shortcuts/manager", "Ctrl+6"); onActivated: window.navigateTo(5) }
-    Shortcut { sequence: window.shortcut("shortcuts/modelManager", "Ctrl+7"); onActivated: window.navigateTo(7) }
-    Shortcut { sequence: window.shortcut("shortcuts/system", "Ctrl+8"); onActivated: window.navigateTo(14) }
-    Shortcut { sequence: window.shortcut("shortcuts/settings", "Ctrl+,"); onActivated: window.navigateTo(15) }
+    Shortcut { sequence: window.shortcut("shortcuts/mentor", "Ctrl+4"); onActivated: window.navigateTo(4) }
+    Shortcut { sequence: window.shortcut("shortcuts/coach", "Ctrl+5"); onActivated: window.navigateTo(5) }
+    Shortcut { sequence: window.shortcut("shortcuts/manager", "Ctrl+6"); onActivated: window.navigateTo(6) }
+    Shortcut { sequence: window.shortcut("shortcuts/modelManager", "Ctrl+7"); onActivated: window.navigateTo(8) }
+    Shortcut { sequence: window.shortcut("shortcuts/system", "Ctrl+8"); onActivated: window.navigateTo(15) }
+    Shortcut { sequence: window.shortcut("shortcuts/settings", "Ctrl+,"); onActivated: window.navigateTo(16) }
     Shortcut { sequence: window.shortcut("shortcuts/assistant", "Ctrl+Space"); onActivated: assistantDrawer.open() }
     Shortcut { sequence: window.shortcut("shortcuts/refresh", "Ctrl+R"); onActivated: fa3Repository.refresh() }
 
@@ -252,12 +254,7 @@ ApplicationWindow {
 
         contentItem: ColumnLayout {
             spacing: 12
-            Label {
-                Layout.fillWidth: true
-                text: roleDialog.roleDescription
-                color: window.textMuted
-                wrapMode: Text.WordWrap
-            }
+            Label { Layout.fillWidth: true; text: roleDialog.roleDescription; color: window.textMuted; wrapMode: Text.WordWrap }
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -270,19 +267,14 @@ ApplicationWindow {
                     TextArea {
                         readOnly: true
                         wrapMode: TextEdit.Wrap
-                        text: roleDialog.transcript.length > 0
-                              ? roleDialog.transcript
-                              : window.t("Nincs még üzenet ebben a helyi párbeszédben.", "No messages in this local conversation yet.")
+                        text: roleDialog.transcript.length > 0 ? roleDialog.transcript : window.t("Nincs még üzenet ebben a helyi párbeszédben.", "No messages in this local conversation yet.")
                         color: window.textPrimary
                     }
                 }
             }
             Label {
                 Layout.fillWidth: true
-                text: window.t(
-                    "Ez a párbeszéd külön van a beállításoktól. A szerep runtime adaptere még nincs production-promotálva; ezért a GUI nem talál ki AI-választ és nem futtat közvetlen toolt.",
-                    "This conversation is separate from settings. The role runtime adapter is not production-promoted yet, so the GUI does not fabricate AI responses or execute tools directly."
-                )
+                text: window.t("Ez a párbeszéd külön van a beállításoktól. A runtime adapter még nincs production-promotálva, ezért a GUI nem talál ki AI-választ és nem futtat közvetlen toolt.", "This conversation is separate from settings. The runtime adapter is not production-promoted, so the GUI does not fabricate AI responses or execute tools directly.")
                 color: "#d99b32"
                 wrapMode: Text.WordWrap
                 font.pixelSize: window.px(11)
@@ -302,13 +294,7 @@ ApplicationWindow {
                     onClicked: {
                         const question = rolePrompt.text.trim()
                         const prefix = roleDialog.transcript.length > 0 ? "\n\n" : ""
-                        roleDialog.transcript += prefix
-                            + window.t("Te: ", "You: ") + question
-                            + "\n\n" + roleDialog.roleTitle + ": "
-                            + window.t(
-                                "A kérdés rögzítve a helyi párbeszédben. A runtime válaszadapter még PENDING, ezért válasz nem kerül kitalálásra.",
-                                "The question is recorded in the local conversation. The runtime response adapter is still PENDING, so no response is fabricated."
-                              )
+                        roleDialog.transcript += prefix + window.t("Te: ", "You: ") + question + "\n\n" + roleDialog.roleTitle + ": " + window.t("A kérdés rögzítve. A runtime válaszadapter még PENDING.", "Question recorded. The runtime response adapter is still PENDING.")
                         rolePrompt.clear()
                     }
                 }
@@ -317,24 +303,17 @@ ApplicationWindow {
                     visible: roleDialog.roleKey === "manager"
                     enabled: rolePrompt.text.trim().length > 0
                     onClicked: {
-                        window.draftResultText = fa3Repository.createDraftChangeSet(
-                            "manager",
-                            "MANAGER_CONVERSATION_TASK_PROPOSAL",
-                            "FA3-MANAGER-001",
-                            rolePrompt.text.trim()
-                        )
+                        window.draftResultText = fa3Repository.createDraftChangeSet("manager", "MANAGER_CONVERSATION_TASK_PROPOSAL", "FA3-MANAGER-001", rolePrompt.text.trim())
                         rolePrompt.clear()
                     }
                 }
                 Item { Layout.fillWidth: true }
                 Button {
-                    text: roleDialog.settingsSectionIndex >= 0
-                          ? window.t("Beállítások", "Settings")
-                          : window.t("Szerep oldala", "Role page")
+                    text: roleDialog.settingsSectionIndex >= 0 ? window.t("Beállítások", "Settings") : window.t("Szerep oldala", "Role page")
                     onClicked: {
                         roleDialog.close()
                         if (roleDialog.settingsSectionIndex >= 0) {
-                            window.navigateTo(15)
+                            window.navigateTo(16)
                             settingsPage.sectionIndex = roleDialog.settingsSectionIndex
                         } else if (roleDialog.rolePageIndex >= 0) {
                             window.navigateTo(roleDialog.rolePageIndex)
@@ -357,9 +336,7 @@ ApplicationWindow {
             ToolButton {
                 text: "☰"
                 ToolTip.visible: hovered
-                ToolTip.text: window.sidebarCollapsed
-                              ? window.t("Főmenü megjelenítése", "Show main menu")
-                              : window.t("Főmenü elrejtése", "Hide main menu")
+                ToolTip.text: window.sidebarCollapsed ? window.t("Főmenü megjelenítése", "Show main menu") : window.t("Főmenü elrejtése", "Hide main menu")
                 onClicked: window.toggleSidebar()
             }
             ToolButton {
@@ -374,28 +351,12 @@ ApplicationWindow {
             Label { text: "Final Architecture 3.0"; font.pixelSize: window.px(15); font.bold: true }
             Item { Layout.fillWidth: true }
 
-            Button {
-                text: window.t("Kérdezd a Mentort", "Ask Mentor")
-                enabled: fa3Settings.value("mentor/enabled", true)
-                onClicked: mentorDialog.open()
-            }
-            Button {
-                text: window.t("Kérdezd a Coachot", "Ask Coach")
-                enabled: fa3Settings.value("coach/enabled", true)
-                onClicked: coachDialog.open()
-            }
-            Button {
-                text: window.t("Kérdezd a Managert", "Ask Manager")
-                onClicked: managerDialog.open()
-            }
+            Button { text: window.t("Kérdezd a Mentort", "Ask Mentor"); enabled: fa3Settings.value("mentor/enabled", true); onClicked: mentorDialog.open() }
+            Button { text: window.t("Kérdezd a Coachot", "Ask Coach"); enabled: fa3Settings.value("coach/enabled", true); onClicked: coachDialog.open() }
+            Button { text: window.t("Kérdezd a Managert", "Ask Manager"); onClicked: managerDialog.open() }
             Button { text: window.t("Asszisztens", "Assistant"); onClicked: assistantDrawer.open() }
             Label { text: "143 capabilities"; color: window.textMuted; font.pixelSize: window.px(11) }
-            ToolButton {
-                text: "↻"
-                ToolTip.visible: hovered
-                ToolTip.text: window.t("Canonical és host állapot frissítése", "Refresh canonical and host state")
-                onClicked: fa3Repository.refresh()
-            }
+            ToolButton { text: "↻"; ToolTip.visible: hovered; ToolTip.text: window.t("Canonical és host állapot frissítése", "Refresh canonical and host state"); onClicked: fa3Repository.refresh() }
         }
     }
 
@@ -408,14 +369,12 @@ ApplicationWindow {
             Layout.fillHeight: true
             color: window.surface1
             border.color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.08)
-
             Behavior on Layout.preferredWidth { NumberAnimation { duration: 140 } }
 
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: window.sidebarCollapsed ? 6 : 10
                 spacing: 8
-
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -433,21 +392,11 @@ ApplicationWindow {
                         ToolTip.text: window.navLabel(modelData.key)
                         contentItem: Row {
                             spacing: 12
-                            Label {
-                                text: modelData.iconText
-                                width: window.sidebarCollapsed ? parent.width : 24
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: window.px(12)
-                            }
-                            Label {
-                                visible: !window.sidebarCollapsed
-                                text: window.navLabel(modelData.key)
-                                font.pixelSize: window.px(12)
-                            }
+                            Label { text: modelData.iconText; width: window.sidebarCollapsed ? parent.width : 24; horizontalAlignment: Text.AlignHCenter; font.pixelSize: window.px(12) }
+                            Label { visible: !window.sidebarCollapsed; text: window.navLabel(modelData.key); font.pixelSize: window.px(12) }
                         }
                     }
                 }
-
                 Panel {
                     visible: !window.sidebarCollapsed
                     Layout.fillWidth: true
@@ -476,13 +425,7 @@ ApplicationWindow {
                     width: commandPage.availableWidth
                     spacing: 18
                     Item { Layout.preferredHeight: 20 }
-                    SectionTitle {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "Command Center"
-                        subtitle: window.t("FA3 rendszerállapot, canonical integritás és operátori fókusz", "FA3 state, canonical integrity and operator focus")
-                    }
+                    SectionTitle { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Command Center"; subtitle: window.t("FA3 rendszerállapot, canonical integritás és operátori fókusz", "FA3 state, canonical integrity and operator focus") }
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -499,10 +442,10 @@ ApplicationWindow {
                         Layout.leftMargin: 24
                         Layout.rightMargin: 24
                         spacing: 12
+                        ModuleCard { title: "AI Applications"; subtitle: window.t("Open WebUI, ComfyUI, InvokeAI és más web UI-k közvetlenül az FA3-ban", "Open WebUI, ComfyUI, InvokeAI and other web UIs directly inside FA3"); badge: "EMBEDDED" }
                         ModuleCard { title: "Manager"; subtitle: window.t("Munka, delegálás, blokkerek és evidence closure", "Work, delegation, blockers and evidence closure"); badge: "WORK" }
                         ModuleCard { title: "Model Manager"; subtitle: window.t("Inventory, runtime, storage, security és evidence", "Inventory, runtime, storage, security and evidence"); badge: "P0" }
                         ModuleCard { title: window.t("Karbantartás", "Maintenance"); subtitle: "Temp/cache/runtime cleanup proposal flow"; badge: "GATED" }
-                        ModuleCard { title: window.t("Perifériák", "Peripherals"); subtitle: "Input, MIDI, tablet, scanner, camera"; badge: fa3Repository.peripheralDevices.length.toString() }
                     }
                 }
             }
@@ -529,6 +472,18 @@ ApplicationWindow {
                     { title: "Music", subtitle: "Generation, stems, DAW, mastering" },
                     { title: "Story / Screenplay", subtitle: "FA3 Story production context" }
                 ]
+            }
+
+            EmbeddedAppsPage {
+                settings: fa3Settings
+                surface1: window.surface1
+                surface2: window.surface2
+                textPrimary: window.textPrimary
+                textMuted: window.textMuted
+                accent: window.accent
+                uiScale: window.uiScale
+                fontScale: window.fontScale
+                language: fa3Settings.language
             }
 
             MentorPage {
@@ -607,13 +562,7 @@ ApplicationWindow {
                     width: resourcesPage.availableWidth
                     spacing: 18
                     Item { Layout.preferredHeight: 20 }
-                    SectionTitle {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "Resources"
-                        subtitle: window.t("FA3 workload utilization, placement és ChangeSet-alapú intent", "FA3 workload utilization, placement and ChangeSet-based intent")
-                    }
+                    SectionTitle { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Resources"; subtitle: window.t("FA3 workload utilization, placement és ChangeSet-alapú intent", "FA3 workload utilization, placement and ChangeSet-based intent") }
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -624,19 +573,8 @@ ApplicationWindow {
                         MetricCard { label: "Memory"; value: fa3Repository.memoryAvailableGiB.toFixed(1) + " GiB"; note: "available" }
                         MetricCard { label: "GPU"; value: fa3Repository.gpuDevices.length.toString(); note: "discovered" }
                     }
-                    Button {
-                        Layout.leftMargin: 24
-                        text: window.t("Új typed ChangeSet draft", "New typed ChangeSet draft")
-                        onClicked: changeSetDialog.open()
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        color: window.accent
-                        text: window.draftResultText
-                        elide: Text.ElideMiddle
-                    }
+                    Button { Layout.leftMargin: 24; text: window.t("Új typed ChangeSet draft", "New typed ChangeSet draft"); onClicked: changeSetDialog.open() }
+                    Label { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; color: window.accent; text: window.draftResultText; elide: Text.ElideMiddle }
                 }
             }
 
@@ -719,7 +657,7 @@ ApplicationWindow {
         roleKey: "mentor"
         roleTitle: "AI Mentor"
         roleDescription: window.t("Tanítás, magyarázat, Practice Lab és mastery fókusz.", "Teaching, explanation, Practice Lab and mastery focus.")
-        rolePageIndex: 3
+        rolePageIndex: 4
         settingsSectionIndex: 10
     }
 
@@ -728,7 +666,7 @@ ApplicationWindow {
         roleKey: "coach"
         roleTitle: "AI Coach"
         roleDescription: window.t("Célok, haladás, blockerek és következő lépések — a beállításoktól elkülönített párbeszéd.", "Goals, progress, blockers and next actions — conversation separated from settings.")
-        rolePageIndex: 4
+        rolePageIndex: 5
         settingsSectionIndex: 11
     }
 
@@ -737,7 +675,7 @@ ApplicationWindow {
         roleKey: "manager"
         roleTitle: "Manager"
         roleDescription: window.t("Munka, delegálás, függőségek és evidence closure — külön a Manager operációs nézettől.", "Work, delegation, dependencies and evidence closure — separate from the Manager operations view.")
-        rolePageIndex: 5
+        rolePageIndex: 6
         settingsSectionIndex: -1
     }
 
@@ -756,45 +694,18 @@ ApplicationWindow {
                 Label { text: "AI Assistant"; font.pixelSize: window.px(20); font.bold: true; Layout.fillWidth: true }
                 ToolButton { text: "×"; onClicked: assistantDrawer.close() }
             }
-            Label {
-                Layout.fillWidth: true
-                text: window.t("Aktuális nézet: ", "Current view: ") + window.navLabel(window.navigationModel[window.selectedIndex].key)
-                color: window.textMuted
-            }
-            Label {
-                Layout.fillWidth: true
-                text: window.t("Az Assistant operátori context projection. Közvetlen tool/system végrehajtás nincs bekötve.", "Assistant is an operator-context projection. Direct tool/system execution is not wired.")
-                wrapMode: Text.WordWrap
-                color: window.textMuted
-            }
-            TextArea {
-                id: assistantPrompt
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                placeholderText: window.t("Kérdezz a jelenlegi nézetről vagy készíts feladatjavaslatot…", "Ask about the current view or draft a task proposal…")
-                wrapMode: TextEdit.Wrap
-            }
+            Label { Layout.fillWidth: true; text: window.t("Aktuális nézet: ", "Current view: ") + window.navLabel(window.navigationModel[window.selectedIndex].key); color: window.textMuted }
+            Label { Layout.fillWidth: true; text: window.t("Az Assistant operátori context projection. Közvetlen tool/system végrehajtás nincs bekötve.", "Assistant is an operator-context projection. Direct tool/system execution is not wired."); wrapMode: Text.WordWrap; color: window.textMuted }
+            TextArea { id: assistantPrompt; Layout.fillWidth: true; Layout.fillHeight: true; placeholderText: window.t("Kérdezz a jelenlegi nézetről vagy készíts feladatjavaslatot…", "Ask about the current view or draft a task proposal…"); wrapMode: TextEdit.Wrap }
             Label { Layout.fillWidth: true; text: window.draftResultText; color: window.accent; elide: Text.ElideMiddle }
             RowLayout {
                 Layout.fillWidth: true
                 Button {
                     text: window.t("Feladat-draft", "Task draft")
                     enabled: assistantPrompt.text.trim().length > 0
-                    onClicked: {
-                        window.draftResultText = fa3Repository.createDraftChangeSet(
-                            "assistant",
-                            "ASSISTANT_TASK_PROPOSAL",
-                            window.navLabel(window.navigationModel[window.selectedIndex].key),
-                            assistantPrompt.text
-                        )
-                    }
+                    onClicked: window.draftResultText = fa3Repository.createDraftChangeSet("assistant", "ASSISTANT_TASK_PROPOSAL", window.navLabel(window.navigationModel[window.selectedIndex].key), assistantPrompt.text)
                 }
-                Button {
-                    text: "MCP"
-                    enabled: false
-                    ToolTip.visible: hovered
-                    ToolTip.text: window.t("Assistant MCP adapter még nincs runtime-promotálva", "Assistant MCP adapter is not runtime-promoted yet")
-                }
+                Button { text: "MCP"; enabled: false; ToolTip.visible: hovered; ToolTip.text: window.t("Assistant MCP adapter még nincs runtime-promotálva", "Assistant MCP adapter is not runtime-promoted yet") }
                 Item { Layout.fillWidth: true }
                 Button { text: window.t("Törlés", "Clear"); onClicked: assistantPrompt.clear() }
             }
@@ -815,12 +726,7 @@ ApplicationWindow {
             TextField { id: csAction; Layout.fillWidth: true; placeholderText: "Action" }
             TextField { id: csTarget; Layout.fillWidth: true; placeholderText: "Target" }
             TextArea { id: csRationale; Layout.fillWidth: true; Layout.preferredHeight: 120; placeholderText: window.t("Indoklás", "Rationale"); wrapMode: TextEdit.Wrap }
-            Label {
-                Layout.fillWidth: true
-                color: window.textMuted
-                wrapMode: Text.WordWrap
-                text: "Save → local DRAFT_NOT_SUBMITTED JSON only; no command execution or canonical mutation."
-            }
+            Label { Layout.fillWidth: true; color: window.textMuted; wrapMode: Text.WordWrap; text: "Save → local DRAFT_NOT_SUBMITTED JSON only; no command execution or canonical mutation." }
         }
         onAccepted: {
             window.draftResultText = fa3Repository.createDraftChangeSet(csScope.text, csAction.text, csTarget.text, csRationale.text)
