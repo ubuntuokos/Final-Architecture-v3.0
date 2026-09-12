@@ -23,6 +23,23 @@
     "context-aware regeneration semantics",
     "boundary-frame conditioning semantics"
   ],
+  "context_ir_policy": {
+    "provider_context_ir": "REFERENCE_PATTERN_ONLY",
+    "hosted_context_ir_required_for_fa3": false,
+    "canonical_replacement": "FA3-MMG-CONTEXT-IR-001_WITHIN_VideoGenerationIR",
+    "canonical_contract": "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "canonical_type": "MultimodalGenerationContextIR",
+    "provider_native_context_ir_downstream_projection_only": true,
+    "provider_native_prompt_syntax_downstream_projection_only": true,
+    "provider_limits_are_capability_metadata_not_canonical_ir": true
+  },
+  "prompt_knowledge_adapter": {
+    "status": "HISTORICAL_PATTERN_REFERENCE_ONLY",
+    "canonical_ir": false,
+    "architectural_authority": false,
+    "execution_authority": false,
+    "provider_runtime_required": false
+  },
   "provider_specific_runtime_and_service_artifacts": "REMOVED",
   "reactivation": "FORBIDDEN_UNLESS_EXPLICIT_FUTURE_POLICY_CHANGE_AND_FREE_ROUTE_REQUALIFICATION"
 }
