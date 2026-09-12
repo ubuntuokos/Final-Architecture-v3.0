@@ -87,6 +87,10 @@ QVariant SettingsStore::defaultForKey(const QString &key) const
     if (key == "integrations/threeDEditor") return QStringLiteral("Bforartist");
     if (key == "integrations/blenderEnabled") return true;
     if (key == "integrations/bforartistEnabled") return true;
+    if (key == "integrations/documentEditor") return QStringLiteral("LibreOffice");
+    if (key == "integrations/libreOfficeEnabled") return true;
+    if (key == "integrations/knowledgeApp") return QStringLiteral("Obsidian");
+    if (key == "integrations/obsidianEnabled") return true;
 
     if (key == "publishing/defaultTarget") return QStringLiteral("None");
     if (key == "publishing/youtubeEnabled") return false;
