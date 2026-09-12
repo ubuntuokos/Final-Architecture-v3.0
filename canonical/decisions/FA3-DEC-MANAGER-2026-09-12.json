@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MANAGER-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3 Manager mandatory operational work-management and evidence-closure overlay materialization",
+  "decision": "ACCEPT_AND_MANDATE",
+  "profile_id": "FA3-MANAGER-001",
+  "provider_id": "FA3-PROVIDER-MANAGER-LOCAL-001",
+  "contract_family_id": "FA3-MANAGER-CONTRACTS-001",
+  "gate_id": "FA3-GATE-MANAGER-001",
+  "gateset_id": "FA3-MANAGER-GATESET-001",
+  "conformance_matrix_id": "FA3-MANAGER-CONFORMANCE-MATRIX-001",
+  "canonical_classification": "P0/MUST provider-independent cross-cutting operational work management, delegation, dependency and evidence-closure overlay with a local FA3-native reference implementation.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "role_boundary": "Manager organizes and verifies work but owns no execution, orchestration, registry, security, memory, evidence, coaching or mentoring authority.",
+  "mandatory_integrations": [
+    "acyclic work/dependency graph and explicit state machine",
+    "Central MCP typed escalation for actionable tool requests",
+    "delegated Agent Execution for agent actions",
+    "FA3 Mentor delegation for knowledge and competency gaps",
+    "FA3 Coach delegation for goal/accountability coaching",
+    "human approval and security boundaries remain external and mandatory",
+    "Unified Observability/Evidence provenance for closure claims",
+    "Decision Registry to Conformance Matrix direct machine link"
+  ],
+  "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT",
+  "promotion_claimed": false
+}

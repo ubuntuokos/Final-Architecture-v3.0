@@ -1,0 +1,71 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MANAGER-001",
+  "name": "Operational Work Management, Delegation & Evidence Closure Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_OPERATIONAL_WORK_MANAGEMENT_CONTROL_PLANE_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-MANAGER-CONTRACTS-001"],
+  "providers": ["FA3-PROVIDER-MANAGER-LOCAL-001"],
+  "dependencies": ["FA3-MENTOR-001", "FA3-COACH-001", "FA3-AGENT-EXEC-001", "FA3-REGISTRY-001"],
+  "authority": {
+    "objective_ownership": "USER_OR_EXISTING_CANONICAL_SOURCE",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "knowledge_and_learning": "FA3-MENTOR-001",
+    "goal_coaching": "FA3-COACH-001",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001",
+    "decision_authority": "EXISTING_FA3_DECISION_REGISTRY_ONLY"
+  },
+  "mandatory_modes": ["PLAN", "PRIORITIZE", "DELEGATE", "STATUS", "BLOCKER_REVIEW", "REPLAN", "VERIFY_CLOSURE"],
+  "work_state_machine": {
+    "states": ["DRAFT", "READY", "DELEGATED", "RUNNING", "BLOCKED", "PAUSED", "EVIDENCE_PENDING", "VERIFIED", "CANCELLED"],
+    "terminal_states": ["VERIFIED", "CANCELLED"],
+    "verified_requires_acceptance_and_evidence": true,
+    "implicit_done_state_forbidden": true
+  },
+  "role_boundaries": {
+    "manager_role": "Decompose objectives into work, model dependencies, prioritize, propose capability/provider bindings, request typed delegation, track state, surface blockers and verify evidence-backed closure.",
+    "coach_role": "Goal selection, user commitment, behavioral feedback, accountability and outcome coaching.",
+    "mentor_role": "Knowledge transfer, explanation, teaching, competency development and learning assessment.",
+    "execution_role": "Central MCP and Agent Execution perform authorized actions; Manager never executes them directly.",
+    "knowledge_gap_delegation": "FA3-MENTOR-001",
+    "coaching_delegation": "FA3-COACH-001"
+  },
+  "invariants": [
+    "MANAGER_PROVIDER_NEUTRAL_MANAGEMENT_OVERLAY",
+    "MANAGER_NOT_ARCHITECTURAL_OR_EXECUTION_AUTHORITY",
+    "MANAGER_DIRECT_TOOL_AND_AGENT_EXECUTION_FORBIDDEN",
+    "MANAGER_TYPED_DELEGATION_REQUIRED_FOR_ACTIONABLE_WORK",
+    "MANAGER_WORK_STATE_MACHINE_REQUIRED",
+    "MANAGER_VERIFIED_REQUIRES_ACCEPTANCE_AND_EVIDENCE",
+    "MANAGER_DONE_WITHOUT_EVIDENCE_FORBIDDEN",
+    "MANAGER_DEPENDENCY_GRAPH_MUST_BE_ACYCLIC",
+    "MANAGER_BLOCKED_STATE_MUST_PRESERVE_BLOCKER_PROVENANCE",
+    "MANAGER_CAPABILITY_PROVIDER_RESOLUTION_IS_PROJECTION_ONLY",
+    "MANAGER_KNOWLEDGE_GAPS_DELEGATE_TO_MENTOR",
+    "MANAGER_COACHING_DELEGATES_TO_COACH",
+    "MANAGER_HUMAN_APPROVAL_BOUNDARIES_PRESERVED",
+    "MANAGER_CANONICAL_REGISTRY_AND_DECISION_AUTHORITY_UNCHANGED",
+    "MANAGER_CURRENT_HOST_PROMOTION_REQUIRES_FRESH_EVIDENCE"
+  ],
+  "implementation": {
+    "canonical_app": "FA3 Manager",
+    "minimum_version": "0.1.0",
+    "source_entrypoint": "src/fa3_manager.py",
+    "gate_entrypoint": "src/fa3_manager_gate.py",
+    "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT"
+  },
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_REFERENCE_APP_V0.1.0"
+}

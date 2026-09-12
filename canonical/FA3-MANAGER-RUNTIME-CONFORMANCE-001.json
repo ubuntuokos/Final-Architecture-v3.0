@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.runtime-conformance-record.v1",
+  "id": "FA3-MANAGER-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-MANAGER-001",
+  "provider_id": "FA3-PROVIDER-MANAGER-LOCAL-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "promotion_claimed": false,
+  "required_evidence": [
+    "fresh target-host deployment identity and version evidence",
+    "executable manager canonical gate PASS",
+    "typed delegation interaction for an actionable work item",
+    "acyclic dependency/state transition interaction",
+    "VERIFIED closure interaction backed by accepted evidence references",
+    "approval/security boundary evidence"
+  ],
+  "evidence_present": false,
+  "normative_constraint": "This record SHALL remain PENDING_CURRENT_HOST until fresh target-host evidence is captured and reconciled. Design/reference conformance does not imply production runtime admission."
+}

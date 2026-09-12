@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.profile-conformance-matrix.v1",
+  "id": "FA3-MANAGER-CONFORMANCE-MATRIX-001",
+  "profile_id": "FA3-MANAGER-001",
+  "decision_ref": "FA3-DEC-MANAGER-2026-09-12",
+  "implementation": "FA3 Manager 0.1.0",
+  "capability_count": 143,
+  "design_and_reference_checks": {
+    "profile_p0_must": "PASS",
+    "provider_independent_contracts": "PASS",
+    "no_new_capability": "PASS",
+    "no_new_architectural_authority": "PASS",
+    "direct_execution_forbidden": "PASS",
+    "typed_action_delegation": "PASS",
+    "explicit_work_state_machine": "PASS",
+    "verified_requires_acceptance_and_evidence": "PASS",
+    "dependency_cycle_fail_closed": "PASS",
+    "blocker_provenance_preserved": "PASS",
+    "capability_provider_resolution_projection_only": "PASS",
+    "mentor_delegation_boundary": "PASS",
+    "coach_delegation_boundary": "PASS",
+    "human_approval_boundary": "PASS",
+    "registry_decision_authority_unchanged": "PASS",
+    "decision_registry_direct_link": "PASS"
+  },
+  "runtime_current_host": {
+    "status": "PENDING_CURRENT_HOST_DEPLOYMENT",
+    "promotion_claimed": false,
+    "requirement": "Fresh current-host deployment, executable gate, delegation/state-transition and evidence-closure interaction evidence are required before runtime promotion."
+  }
+}

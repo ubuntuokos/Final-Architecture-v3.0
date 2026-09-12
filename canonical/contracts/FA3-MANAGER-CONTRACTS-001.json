@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-MANAGER-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "contracts": ["ManagerSessionContext", "ManagedObjective", "WorkPackage", "WorkItem", "WorkDependency", "PriorityRecord", "CapabilityBindingProposal", "ProviderBindingProposal", "AssignmentProposal", "ExecutionDelegationRequest", "DelegationReceiptReference", "WorkStateTransition", "BlockerRecord", "ApprovalRequirement", "AcceptanceCriterion", "EvidenceReference", "ClosureVerification", "ManagerEscalationRequest", "MentorDelegationRequest", "CoachDelegationRequest", "ProjectionProvenance"],
+  "execution_model": {
+    "direct_tool_execution": "FORBIDDEN",
+    "direct_agent_execution": "FORBIDDEN",
+    "management_projection": "ALLOWED",
+    "typed_mcp_escalation": "REQUIRED_FOR_TOOL_ACTION",
+    "agent_execution_delegation": "REQUIRED_FOR_AGENT_ACTION"
+  },
+  "state_model": {
+    "states": ["DRAFT", "READY", "DELEGATED", "RUNNING", "BLOCKED", "PAUSED", "EVIDENCE_PENDING", "VERIFIED", "CANCELLED"],
+    "verified_requires_acceptance_met": true,
+    "verified_requires_evidence_reference": true,
+    "implicit_done": "FORBIDDEN",
+    "dependency_cycles": "FORBIDDEN",
+    "canonical_memory_write": "EXISTING_MEMORY_AUTHORITY_ONLY",
+    "cross_workspace_persistence": "FORBIDDEN_BY_DEFAULT"
+  },
+  "authority_model": {
+    "capability_resolution": "PROPOSAL_ONLY",
+    "provider_resolution": "PROPOSAL_ONLY",
+    "canonical_registry_mutation": "FORBIDDEN",
+    "decision_authority": "FORBIDDEN",
+    "security_policy_override": "FORBIDDEN",
+    "human_approval_bypass": "FORBIDDEN"
+  },
+  "evidence_model": {
+    "observed_status_requires_provenance": true,
+    "inferences_must_be_labeled": true,
+    "verified_closure_requires_evidence_reference": true,
+    "evidence_authority_remains_external": true
+  }
+}

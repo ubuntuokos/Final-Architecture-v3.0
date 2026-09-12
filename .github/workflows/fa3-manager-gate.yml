@@ -1,0 +1,64 @@
+name: FA3 Manager Canonical Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-MANAGER-*.json'
+      - 'canonical/FA3-GATE-MANAGER-001.json'
+      - 'canonical/manager-enforcement.json'
+      - 'canonical/profiles/FA3-MANAGER-001.json'
+      - 'canonical/contracts/FA3-MANAGER-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-MANAGER-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-MANAGER-2026-09-12.json'
+      - 'src/fa3_manager.py'
+      - 'src/fa3_manager_gate.py'
+      - 'tests/test_manager_gate.py'
+      - '.github/workflows/fa3-manager-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-MANAGER-*.json'
+      - 'canonical/FA3-GATE-MANAGER-001.json'
+      - 'canonical/manager-enforcement.json'
+      - 'canonical/profiles/FA3-MANAGER-001.json'
+      - 'canonical/contracts/FA3-MANAGER-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-MANAGER-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-MANAGER-2026-09-12.json'
+      - 'src/fa3_manager.py'
+      - 'src/fa3_manager_gate.py'
+      - 'tests/test_manager_gate.py'
+      - '.github/workflows/fa3-manager-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  manager-canonical:
+    name: manager-canonical / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_manager.py src/fa3_manager_gate.py tests/test_manager_gate.py
+      - name: Manager self-check
+        run: PYTHONPATH=src python src/fa3_manager.py --self-check
+      - name: Manager fail-closed canonical gate
+        run: |
+          mkdir -p reports
+          PYTHONPATH=src python src/fa3_manager_gate.py | tee reports/manager-gate-output.txt
+      - name: Manager regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_manager_gate -v
+      - name: Upload Manager gate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-manager-gate-output
+          path: reports/manager-gate-output.txt

@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MANAGER-LOCAL-001",
+  "name": "FA3 Manager local reference implementation",
+  "status": "CANONICAL_REFERENCE_IMPLEMENTATION",
+  "provider_role": "LOCAL_OPERATIONAL_WORK_MANAGEMENT_DELEGATION_AND_EVIDENCE_CLOSURE_IMPLEMENTATION",
+  "classification": ["P0_PROFILE_REFERENCE_IMPLEMENTATION", "LOCAL_FIRST", "PROVIDER_NEUTRAL_PROJECTION_CLIENT"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "MANDATORY_PROFILE_COMPONENT",
+  "implementation_version": "0.1.0",
+  "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT",
+  "current_host_promotion_claimed": false,
+  "authority_boundaries": {
+    "objective_ownership": "USER_OR_EXISTING_CANONICAL_SOURCE",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "knowledge_and_learning": "FA3-MENTOR-001",
+    "goal_coaching": "FA3-COACH-001",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": ["FA3_TOOL_EXECUTION_AUTHORITY", "FA3_AGENT_ORCHESTRATION_AUTHORITY", "FA3_MODEL_ROUTING_AUTHORITY", "FA3_CANONICAL_MEMORY_AUTHORITY", "FA3_KNOWLEDGE_OR_MENTOR_AUTHORITY", "FA3_COACH_AUTHORITY", "FA3_HOST_RESOURCE_AUTHORITY", "FA3_SECURITY_POLICY_AUTHORITY", "FA3_EVIDENCE_AUTHORITY", "FA3_CANONICAL_REGISTRY_AUTHORITY", "FA3_DECISION_AUTHORITY"],
+  "normative_constraint": "FA3 Manager SHALL remain a provider-neutral management projection. It may decompose and prioritize work, model dependencies, propose capability/provider bindings, request typed delegated actions, track blocker/status metadata and verify evidence-backed closure, but SHALL NOT execute tools or agents directly, mutate canonical authority, bypass approval/security gates, or mark work VERIFIED without acceptance evidence."
+}
