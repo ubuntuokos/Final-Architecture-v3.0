@@ -2,6 +2,8 @@
   "schema": "fa3.kaneo-enforcement.v1",
   "gate_id": "FA3-KANEO-GATESET-001",
   "provider_id": "FA3-PROVIDER-KANEO-001",
+  "upstream_reference_id": "FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12",
+  "reference_evidence": "evidence/reference/kaneo-v2.24.0.json",
   "classification": [
     "OPTIONAL_WORK_MANAGEMENT_PROVIDER",
     "ARCHITECTURAL_PATTERN_SOURCE"
@@ -16,6 +18,10 @@
   "fail_closed": true,
   "floating_main_allowed_as_promotion_evidence": false,
   "runtime_provider_required_for_global_promotion": false,
+  "stable_reference": {
+    "release": "v2.24.0",
+    "commit_sha": "863b979e2af6d9b4d75064edc43a2c118d9af7ce"
+  },
   "rules": [
     {
       "id": "FA3-KANEO-P0-001",

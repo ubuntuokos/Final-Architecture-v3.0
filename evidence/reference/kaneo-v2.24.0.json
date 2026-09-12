@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.kaneo-reference-evidence.v1",
+  "provider_id": "FA3-PROVIDER-KANEO-001",
+  "repository": "usekaneo/kaneo",
+  "observed_at": "2026-09-12",
+  "floating_main_allowed": false,
+  "stable_reference": {
+    "release": "v2.24.0",
+    "release_date": "2026-09-11",
+    "published_at": "2026-09-11T04:12:16Z",
+    "commit_sha": "863b979e2af6d9b4d75064edc43a2c118d9af7ce",
+    "git_tag_type": "lightweight",
+    "source_blobs": {
+      "AGENTS.md": "a0ccf325b7da268e0da6ebd463e1c707e65701d7",
+      "package.json": "8c656597786d54fa371a90f184e1a8988456f3b7",
+      "tests/api-integration/authorization-boundaries.test.ts": "1cc7da5b3c676a354c0587510842ddbe1cecef1a"
+    }
+  },
+  "compatibility_evidence": {
+    "human_agent_common_authorization_boundary": "PASS",
+    "capability_surface_drift_fail_closed": "PASS",
+    "change_surface_closure_required": "PASS",
+    "distributed_security_state_shared": "PASS",
+    "authority_promotion": "NONE",
+    "new_capabilities": 0,
+    "capability_count_after": 143
+  },
+  "security_observation": "v2.24.0 release notes include an npm dependency fix for CVE-2026-75604",
+  "evidence_policy": {
+    "stable_features": "release tag + exact commit SHA + source blob SHA",
+    "floating_branch": "FORBIDDEN_FOR_PROMOTION",
+    "historical_v2_22_0_evidence_retained": true
+  }
+}
