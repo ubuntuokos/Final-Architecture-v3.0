@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-RHYTHM-GENERATION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-RHYTHM-GENERATION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["RhythmGenerationRequest", "RhythmPattern", "DrumKitDescriptor", "TempoMeterGrid", "RhythmArrangement", "EditableMidiProjection", "RenderedAudioPreview", "RhythmGenerationReceipt", "RhythmProvenanceRecord"],
+  "mandatory_semantics": ["TEMPO_AND_METER_EXPLICIT", "EDITABLE_OUTPUT_PREFERRED", "MIDI_OR_EQUIVALENT_STRUCTURED_PROJECTION", "MODEL_PROVIDER_LINEAGE", "RIGHTS_AND_LICENSE_GATE", "NO_PROVIDER_AUTHORITY_ESCALATION"]
+}
