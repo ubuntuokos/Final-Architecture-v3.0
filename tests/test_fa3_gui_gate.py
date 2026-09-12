@@ -15,6 +15,25 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertEqual("QSettings/XDG", contract["storage"]["backend"])
         self.assertEqual("FORBIDDEN", contract["mutation_model"]["fstab_mutation"])
 
+    def test_roles_are_configured_under_settings_not_primary_navigation(self):
+        desktop = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_profile"])
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
+        self.assertEqual("SETTINGS", desktop["role_navigation_policy"]["configuration_location"])
+        self.assertEqual("FORBIDDEN", fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["gui_settings_contract"])["role_ui"]["primary_navigation_role_pages"])
+        self.assertIn("ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION", contract["role_ui_invariants"])
+
+    def test_ask_role_button_visibility_is_ui_only(self):
+        profile = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["gui_settings_profile"])
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["gui_settings_contract"])
+        self.assertFalse(profile["role_settings"]["visibility_changes_canonical_role"])
+        self.assertEqual("UI_ONLY", contract["role_ui"]["ask_button_visibility_effect"])
+
+    def test_inspector_preferences_cannot_disable_independent_verification(self):
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["gui_settings_contract"])
+        desktop = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_profile"])
+        self.assertFalse(contract["role_ui"]["inspector_independence_can_be_disabled_by_preference"])
+        self.assertIn("FA3-INSPECTOR-001", desktop["role_navigation_policy"]["roles"])
+
     def test_operations_gui_never_directly_resets_gpu(self):
         contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
         self.assertEqual("FORBIDDEN", contract["mutation_model"]["direct_gpu_hard_reset"])
