@@ -1,0 +1,184 @@
+name: FA3 Human Motion Current-Host E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_human_motion_current_host.py'
+      - 'src/fa3_human_motion_current_host_gate.py'
+      - 'evidence/collect-human-motion-current-host.py'
+      - 'tools/fa3_human_motion_extract.py'
+      - 'tests/test_human_motion_current_host_gate.py'
+      - 'tests/test_human_motion_current_host_materialization.py'
+      - 'bin/fa3-human-motion-current-host.sh'
+      - 'bin/fa3-enforce'
+      - 'docs/human-motion-current-host.md'
+      - 'canonical/FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001.json'
+      - 'canonical/human-motion-current-host-enforcement.json'
+      - 'canonical/FA3-GEM-X-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/FA3-SOMA-X-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12.json'
+      - 'canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json'
+      - '.github/workflows/fa3-human-motion-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute real GEM-X -> SOMA-X -> SMPL-X/USD -> DCC current-host E2E'
+        required: true
+        default: false
+        type: boolean
+      gem_root:
+        description: 'Pre-provisioned exact GEM-X checkout on runner'
+        required: false
+        default: '.fa3-current-host/runtime/GEM-X'
+        type: string
+      soma_x_root:
+        description: 'Pre-provisioned exact SOMA-X checkout on runner'
+        required: false
+        default: '.fa3-current-host/runtime/SOMA-X'
+        type: string
+      checkpoint:
+        description: 'Pre-admitted gem_soma.ckpt path'
+        required: false
+        default: '.fa3-current-host/input/gem_soma.ckpt'
+        type: string
+      checkpoint_admission:
+        description: 'Checkpoint SHA256/security admission receipt'
+        required: false
+        default: '.fa3-current-host/input/gem-x-checkpoint-admission.json'
+        type: string
+      model_license:
+        description: 'NVIDIA Open Model License receipt bound to checkpoint SHA256'
+        required: false
+        default: '.fa3-current-host/input/gem-x-model-license.json'
+        type: string
+      soma_assets_admission:
+        description: 'GEM/SOMA-X/SAM3D immutable runtime asset admission receipt'
+        required: false
+        default: '.fa3-current-host/input/human-motion-runtime-assets-admission.json'
+        type: string
+      smplx_license:
+        description: 'SMPL-X license/model asset admission receipt'
+        required: false
+        default: '.fa3-current-host/input/smplx-license.json'
+        type: string
+      hrb_receipt:
+        description: 'Active Human Motion GPU HRB lease'
+        required: false
+        default: '.fa3-current-host/input/human-motion-hrb-placement.json'
+        type: string
+      video:
+        description: 'Real non-synthetic human-motion validation video'
+        required: false
+        default: '.fa3-current-host/input/human-motion-real-video.mp4'
+        type: string
+      video_admission:
+        description: 'Video rights/consent + SHA256 admission receipt'
+        required: false
+        default: '.fa3-current-host/input/human-motion-video-admission.json'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: human-motion-current-host / contract-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare gates
+        run: chmod +x bin/fa3-enforce bin/fa3-human-motion-current-host.sh
+      - name: Syntax checks
+        run: |
+          python -m py_compile \
+            src/fa3_human_motion_current_host.py \
+            src/fa3_human_motion_current_host_gate.py \
+            evidence/collect-human-motion-current-host.py \
+            tools/fa3_human_motion_extract.py \
+            tests/test_human_motion_current_host_gate.py \
+            tests/test_human_motion_current_host_materialization.py
+          bash -n bin/fa3-human-motion-current-host.sh
+      - name: Fail-closed current-host contract tests
+        run: |
+          PYTHONPATH=src python -m unittest \
+            tests.test_human_motion_current_host_gate \
+            tests.test_human_motion_current_host_materialization -v
+      - name: Parent Human Motion canonical gate
+        run: ./bin/fa3-enforce human-motion
+      - name: Missing real receipt must fail closed
+        shell: bash
+        run: |
+          set +e
+          ./bin/fa3-enforce human-motion-current-host
+          rc=$?
+          set -e
+          test "$rc" -ne 0
+      - name: Unified release projection coherence
+        run: ./bin/fa3-enforce release-projection
+
+  current-host:
+    name: human-motion-current-host / real-e2e
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify non-root immutable prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v git
+          command -v ffprobe
+          command -v nvidia-smi
+          command -v bwrap
+          (command -v bforartists || command -v bforartists-bin || command -v blender)
+          test -x "${{ inputs.gem_root }}/.venv/bin/python"
+          test -x "${{ inputs.soma_x_root }}/.venv/bin/python"
+          test -f "${{ inputs.checkpoint }}"
+          test -f "${{ inputs.checkpoint_admission }}"
+          test -f "${{ inputs.model_license }}"
+          test -f "${{ inputs.soma_assets_admission }}"
+          test -f "${{ inputs.smplx_license }}"
+          test -f "${{ inputs.hrb_receipt }}"
+          test -f "${{ inputs.video }}"
+          test -f "${{ inputs.video_admission }}"
+      - name: Run fail-closed real Human Motion E2E
+        shell: bash
+        env:
+          HF_HUB_OFFLINE: '1'
+          TRANSFORMERS_OFFLINE: '1'
+          PIP_NO_INDEX: '1'
+          WANDB_MODE: 'disabled'
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-human-motion-current-host.sh bin/fa3-enforce
+          bin/fa3-human-motion-current-host.sh \
+            "${{ inputs.gem_root }}" "${{ inputs.soma_x_root }}" "${{ inputs.checkpoint }}" \
+            "${{ inputs.checkpoint_admission }}" "${{ inputs.model_license }}" "${{ inputs.soma_assets_admission }}" \
+            "${{ inputs.smplx_license }}" "${{ inputs.hrb_receipt }}" "${{ inputs.video }}" "${{ inputs.video_admission }}"
+          ./bin/fa3-enforce human-motion-current-host
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-human-motion-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/human-motion-current-host.json
+            evidence/runtime/human-motion-current-host/**
+            reports/human-motion-current-host-gate-report.json
