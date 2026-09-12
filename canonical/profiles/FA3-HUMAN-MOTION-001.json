@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HUMAN-MOTION-001",
+  "name": "Human Motion, Parametric Body Interchange & Character Retargeting",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "CONDITIONAL_MUST",
+  "activation_condition": "WHEN_HUMAN_BODY_INTERCHANGE_MONOCULAR_3D_MOTION_ESTIMATION_OR_CHARACTER_RETARGETING_IS_ADMITTED",
+  "canonical_root": false,
+  "relationship": {"type": "SUBPROFILE-OF", "parent": "FA3-3D-GEOM-001"},
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-032"],
+  "contracts": ["FA3-GEOMETRY-CONTRACTS-001", "FA3-HUMAN-MOTION-CONTRACTS-001"],
+  "providers": ["FA3-PROVIDER-SOMA-X-001", "FA3-PROVIDER-GEM-X-001"],
+  "capability_surface": [
+    "human.body.interchange",
+    "human.pose.convert",
+    "human.motion.estimate",
+    "human.motion.retarget",
+    "human.motion.export"
+  ],
+  "authority_boundaries": {
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "dcc_scene_and_final_asset": "FA3-DCC-RT3D-001",
+    "workflow": "FA3-AUTH-DURABLE-ORCHESTRATION-001",
+    "tool_exposure": "FA3-CENTRAL-MCP-CAPABILITY-GATEWAY-001",
+    "host_resource_and_accelerator_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_and_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "HUMAN_MOTION_IS_NON_ROOT_CHILD_OF_SOLE_GEOMETRY_AUTHORITY",
+    "CAP_032_PROJECTION_ONLY_NO_NEW_CAPABILITY",
+    "FA3_HUMAN_MOTION_IR_IS_PROVIDER_NEUTRAL",
+    "SOMA_NATIVE_REPRESENTATION_IS_NOT_THE_CANONICAL_FA3_IR",
+    "PROVIDER_IMPLEMENTATIONS_DO_NOT_OWN_GEOMETRY_OR_DCC_SEMANTICS",
+    "CONTENT_ADDRESSED_INPUT_OUTPUT_AND_PROVENANCE_REQUIRED",
+    "EXPLICIT_LICENSE_ADMISSION_REQUIRED_FOR_CODE_MODELS_AND_OPTIONAL_IDENTITY_BACKENDS",
+    "NO_RUNTIME_AUTO_DOWNLOAD_IN_PRODUCTION",
+    "CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+  ],
+  "implementation_status": "CANONICAL_REFERENCE_GATES_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING"
+}

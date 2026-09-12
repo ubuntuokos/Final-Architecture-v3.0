@@ -1,0 +1,89 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-HUMAN-MOTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-HUMAN-MOTION-001",
+  "parent_contract": "FA3-GEOMETRY-CONTRACTS-001",
+  "provider_neutral": true,
+  "canonical_representation": "FA3_HUMAN_MOTION_IR",
+  "provider_native_representation_is_canonical": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "HumanMotionJobManifest",
+    "HumanBodyDescriptor",
+    "HumanMotionSequence",
+    "BodyModelProjectionReceipt",
+    "MotionEstimatorReceipt",
+    "RetargetingReceipt",
+    "MotionQualityReceipt",
+    "LicenseAdmissionReceipt",
+    "AcceleratorLeaseBinding",
+    "DCCInterchangeReceipt"
+  ],
+  "human_motion_ir": {
+    "schema": "fa3.human-motion-ir.v1",
+    "required_fields": ["sequence_id", "timebase", "timestamps", "coordinate_frame", "units", "skeleton_schema", "joint_rotations", "root_trajectory", "provenance"],
+    "optional_fields": ["joint_positions", "identity_shape_projection", "hand_articulation", "face_articulation", "camera_trajectory", "confidence"],
+    "coordinate_frame_must_be_explicit": true,
+    "units_must_be_explicit": true,
+    "timestamps_must_be_monotonic": true,
+    "finite_numeric_output_required": true,
+    "content_addressed": true
+  },
+  "job_manifest": {
+    "schema": "fa3.human-motion-job.v1",
+    "required_fields": ["job_id", "operation", "input_assets", "output_contract", "provider_id", "license_receipt_ids", "execution_device", "fallback_policy", "evidence_sink"],
+    "allowed_operations": ["human.body.interchange", "human.pose.convert", "human.motion.estimate", "human.motion.retarget", "human.motion.export"],
+    "input_assets_content_addressed": true,
+    "output_assets_content_addressed": true,
+    "runtime_network_fetch": false,
+    "arbitrary_python_payload": false
+  },
+  "interchange": {
+    "canonical_semantics_owner": "FA3-3D-GEOM-001",
+    "admitted_projection_formats": ["SOMA", "USD", "NPZ", "SMPL", "SMPL-H", "SMPL-X", "MANO"],
+    "provider_native_format_requires_projection_receipt": true,
+    "soma_is_interchange_projection_not_fa3_authority": true,
+    "dcc_finalization_authority": "FA3-DCC-RT3D-001"
+  },
+  "license_policy": {
+    "source_code_license_receipt_required": true,
+    "model_weight_license_receipt_required_when_weights_are_used": true,
+    "third_party_identity_backend_license_receipt_required": true,
+    "user_supplied_restricted_model_files_must_not_be_redistributed": true,
+    "runtime_license_bypass_forbidden": true
+  },
+  "accelerator_execution": {
+    "hrb_lease_required_when_gpu_is_used": true,
+    "stable_accelerator_identity_required_when_available": ["DEVICE_UUID", "PCI_BDF"],
+    "runtime_ordinal_is_ephemeral_mapping_only": true,
+    "display_accelerator_implicit_selection": false,
+    "silent_accelerator_fallback": false,
+    "silent_cpu_fallback": false,
+    "requested_device_failure": "FAIL_CLOSED_WITH_DIAGNOSTIC"
+  },
+  "quality_and_safety": {
+    "finite_output_required": true,
+    "nan_inf_forbidden": true,
+    "frame_count_and_timestamp_consistency_required": true,
+    "motion_continuity_receipt_required": true,
+    "foot_sliding_metric_required_for_locmotion": true,
+    "hand_jitter_metric_required_when_hands_claimed": true,
+    "dynamic_camera_trajectory_receipt_required_when_world_space_claimed": true,
+    "hands_and_face_claims_require_runtime_validation": true,
+    "soma_to_smplx_roundtrip_receipt_required_when_projected": true,
+    "usd_export_receipt_required_when_projected": true,
+    "bforartists_or_blender_import_smoke_required_for_dcc_promotion": true,
+    "rollback_required": true
+  },
+  "authority_constraints": [
+    "NO_PARALLEL_GEOMETRY_OR_HUMAN_IDENTITY_AUTHORITY",
+    "NO_DCC_AUTHORITY",
+    "NO_MODEL_REGISTRY_OR_ROUTING_AUTHORITY",
+    "NO_HOST_RESOURCE_OR_DEVICE_ROUTING_AUTHORITY",
+    "NO_WORKFLOW_OR_MCP_GATEWAY_AUTHORITY",
+    "NO_SECURITY_OR_EVIDENCE_AUTHORITY"
+  ]
+}
