@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "fe60445b028f65bcfbf5b8bf8d922cc26f87ac39",
-    "pre_projection_root_tree_sha": "2c437ec4a05ebda627806e669871a61f939c3ed4",
-    "pre_projection_canonical_tree_sha": "4f7326cba72186ca25f730345b286c8a18da5428",
-    "commits_ahead_of_v3_0_11_conformance_commit": 170,
-    "total_post_baseline_commits": 170,
-    "delta_file_count": 1003,
-    "delta_added_files": 998,
+    "pre_projection_head_sha": "83efdaee80a08a38c0bad848aa7fc4da36a6fae3",
+    "pre_projection_root_tree_sha": "aa4bba42524b3ad4c4f2210fc3d11bd265543494",
+    "pre_projection_canonical_tree_sha": "6d152fd06504e214d34695d7c21332ac764e12a5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 172,
+    "total_post_baseline_commits": 172,
+    "delta_file_count": 1020,
+    "delta_added_files": 1015,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 561,
-    "evidence_files_in_post_baseline_delta": 107,
+    "canonical_files_in_post_baseline_delta": 571,
+    "evidence_files_in_post_baseline_delta": 108,
     "source_files_in_post_baseline_delta": 112,
     "test_files_in_post_baseline_delta": 92,
     "workflow_files_in_post_baseline_delta": 28,
@@ -163,6 +163,8 @@
       "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
       "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
+      "canonical/profiles/FA3-COACH-001.json",
+      "canonical/profiles/FA3-COACH-SETTINGS-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
@@ -172,6 +174,7 @@
       "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
+      "canonical/profiles/FA3-GUI-SETTINGS-001.json",
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HUMAN-KNOWLEDGE-WORKSPACE-001.json",
@@ -185,6 +188,7 @@
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
+      "canonical/profiles/FA3-MENTOR-SETTINGS-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
       "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json",
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
@@ -216,6 +220,7 @@
       "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
+      "canonical/contracts/FA3-COACH-USER-PREFS-CONTRACT-001.json",
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
@@ -231,6 +236,7 @@
       "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
       "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
       "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
+      "canonical/contracts/FA3-GUI-SETTINGS-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
@@ -248,7 +254,9 @@
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MENTOR-COACH-INTERACTION-CONTRACT-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MENTOR-USER-PREFS-CONTRACT-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
@@ -301,6 +309,7 @@
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
+      "canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
@@ -445,6 +454,7 @@
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-gui-reference-pass.json",
+      "evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
@@ -677,7 +687,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1003,
+  "manifest_entry_count": 1020,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -716,7 +726,7 @@
     },
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
-      "git_blob_sha": "b05ac5582dc25afa8be882d13c6caa4842517759",
+      "git_blob_sha": "727f56f544163d69894f145355eb9cbe1eafc904",
       "baseline_delta_status": "added"
     },
     {
@@ -831,7 +841,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "227b4672e90361165832cd0e76ce9e4ae5bd7e2b",
+      "git_blob_sha": "e4e1cd2ad5616a2acb40c11acc20fb9b92183abb",
       "baseline_delta_status": "added"
     },
     {
@@ -845,8 +855,28 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/AppShell.qml",
+      "git_blob_sha": "49e017553e9515c8a240a858d3ecffd4ba5bfbd2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/CoachPage.qml",
+      "git_blob_sha": "3e77b644a84bdba13ca12cbcb3cdf26169c3ab75",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/qml/Main.qml",
       "git_blob_sha": "be4315b962843c5a9cbdcc76fe8f28924b8e3fe8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/MentorPage.qml",
+      "git_blob_sha": "3788145ca78c5bf6eac223fd0fb404791081aeee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/SettingsPage.qml",
+      "git_blob_sha": "6237af1d08f15160da37b10c591f3aa4333668ee",
       "baseline_delta_status": "added"
     },
     {
@@ -860,8 +890,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/SettingsStore.cpp",
+      "git_blob_sha": "45f14015eaef4cf2b1718f60240c3380d0516dbd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/SettingsStore.h",
+      "git_blob_sha": "0617eaf0c0e9ba086cc3b85e22cc222f183e60de",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "fe31d45931f6d3b42cb4580820dde7ecd51d195a",
+      "git_blob_sha": "e88a96839ac28b04c8f125af797bc71c232e5c6e",
       "baseline_delta_status": "added"
     },
     {
@@ -1167,6 +1207,11 @@
     {
       "path": "canonical/FA3-GATE-GUI-001.json",
       "git_blob_sha": "d12cd074fa39870f99995a57559e12f3d8dc38d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-GUI-SETTINGS-001.json",
+      "git_blob_sha": "ce2e9e0680c8c2855a5a6ac029b72ce09466ca0d",
       "baseline_delta_status": "added"
     },
     {
@@ -1585,6 +1630,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-COACH-USER-PREFS-CONTRACT-001.json",
+      "git_blob_sha": "19399482548ead967bcf5fb94da1f91ff541ebe8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "git_blob_sha": "4bb27142d2a85509395ed154e71ee3101e142bd4",
       "baseline_delta_status": "added"
@@ -1621,7 +1671,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
-      "git_blob_sha": "787b2e336a5ea442411672bf674b1131e6465691",
+      "git_blob_sha": "c10f26875299c812e1192c32f9f9999d6cd8e359",
       "baseline_delta_status": "added"
     },
     {
@@ -1657,6 +1707,11 @@
     {
       "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
       "git_blob_sha": "6a294bfeec1e82f89fd167d2df8821011765bbfb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GUI-SETTINGS-CONTRACTS-001.json",
+      "git_blob_sha": "b8d8e1971873f3279b9d13b44a60c848df5c3c8b",
       "baseline_delta_status": "added"
     },
     {
@@ -1745,8 +1800,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MENTOR-COACH-INTERACTION-CONTRACT-001.json",
+      "git_blob_sha": "73b306c46a709fc91a1b2becc326f37497f8baa7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MENTOR-USER-PREFS-CONTRACT-001.json",
+      "git_blob_sha": "fe72b756372af5b98a44db12f54616267f2aeaae",
       "baseline_delta_status": "added"
     },
     {
@@ -2022,6 +2087,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
       "git_blob_sha": "6c408d5909e38a450edf2312137fd7ab0f32c61a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json",
+      "git_blob_sha": "f0c995fa7a566c8f246b54afe504798b2023c40d",
       "baseline_delta_status": "added"
     },
     {
@@ -2705,6 +2775,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-COACH-001.json",
+      "git_blob_sha": "6d166980ddba5b037c052c73c10e6749ffa72b42",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-COACH-SETTINGS-001.json",
+      "git_blob_sha": "6b77fe3d7f883f0d1293cbd95743972ed4f41ef6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-COMPOSITING-001.json",
       "git_blob_sha": "a677b2e7b3afcb878b7904dd431a3cd0a21cac39",
       "baseline_delta_status": "added"
@@ -2726,7 +2806,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-001.json",
-      "git_blob_sha": "4c52c045d4e8168fa1974368bb1ab9cb44403ce9",
+      "git_blob_sha": "0d0fcdcfac35747d08c8ac86880948e891d464d9",
       "baseline_delta_status": "added"
     },
     {
@@ -2747,6 +2827,11 @@
     {
       "path": "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "git_blob_sha": "f0796c5960a0c0db27ac8e905b0e11894fc527e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-GUI-SETTINGS-001.json",
+      "git_blob_sha": "cf41d044efb3d9e960e94a373caeb24c86f24177",
       "baseline_delta_status": "added"
     },
     {
@@ -2812,6 +2897,11 @@
     {
       "path": "canonical/profiles/FA3-MENTOR-001.json",
       "git_blob_sha": "b6a4831869636a4dccedbd6dd077d4c766d60d99",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-MENTOR-SETTINGS-001.json",
+      "git_blob_sha": "3040b84da1d951b9e1e2e3ce25855f5acecd224f",
       "baseline_delta_status": "added"
     },
     {
@@ -4315,6 +4405,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json",
+      "git_blob_sha": "458e9f4ab7ac8d5acfab4ad63a30c042fbedb262",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/fa3-mentor-v0.2.0.json",
       "git_blob_sha": "f08d8a5c59f94db5bca400085505c902272ae429",
       "baseline_delta_status": "added"
@@ -4831,7 +4926,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "fd8fa06494711d6be6d565319d6a6700754fd6d3",
+      "git_blob_sha": "97bb8f2905b83036640103f798d5540c85b2e316",
       "baseline_delta_status": "added"
     },
     {
@@ -5316,7 +5411,7 @@
     },
     {
       "path": "tests/test_fa3_gui_gate.py",
-      "git_blob_sha": "437b48f166bcbd26f0b23bfe412e268edb61e64a",
+      "git_blob_sha": "0b47f51acf4a71d117172ccb8c57dfeace2fadb7",
       "baseline_delta_status": "added"
     },
     {
