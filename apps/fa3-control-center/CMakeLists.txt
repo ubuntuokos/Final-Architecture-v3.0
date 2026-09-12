@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.24)
-project(FA3ControlCenter VERSION 0.3.0 LANGUAGES CXX)
+project(FA3ControlCenter VERSION 0.4.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 Widgets)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 Widgets WebEngineQuick)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -25,6 +25,7 @@ set_source_files_properties(qml/CoachPage.qml PROPERTIES QT_RESOURCE_ALIAS Coach
 set_source_files_properties(qml/ManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ManagerPage.qml)
 set_source_files_properties(qml/ModelManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelManagerPage.qml)
 set_source_files_properties(qml/SystemPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemPage.qml)
+set_source_files_properties(qml/EmbeddedAppsPage.qml PROPERTIES QT_RESOURCE_ALIAS EmbeddedAppsPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -39,6 +40,7 @@ qt_add_qml_module(fa3-control-center
         qml/ManagerPage.qml
         qml/ModelManagerPage.qml
         qml/SystemPage.qml
+        qml/EmbeddedAppsPage.qml
 )
 
 target_link_libraries(fa3-control-center
@@ -46,6 +48,7 @@ target_link_libraries(fa3-control-center
         Qt6::Quick
         Qt6::QuickControls2
         Qt6::Widgets
+        Qt6::WebEngineQuick
 )
 
 install(TARGETS fa3-control-center
