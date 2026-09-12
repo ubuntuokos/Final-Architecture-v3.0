@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "76d315f2612b6b188ab13688ad224cad6aeef08f",
-    "pre_projection_root_tree_sha": "565e9088be04b6c83c8cf5c3d6d419f657b3e799",
-    "pre_projection_canonical_tree_sha": "da5aea9e28befc2ce4c21e84fe9db45ff220eebb",
-    "commits_ahead_of_v3_0_11_conformance_commit": 188,
-    "total_post_baseline_commits": 188,
-    "delta_file_count": 1019,
-    "delta_added_files": 1014,
+    "pre_projection_head_sha": "9b47c259744182fb04fdc514fcf70c4d4f5cd60e",
+    "pre_projection_root_tree_sha": "401f52f376d5195bcbc40b547c913a5182cd0ab5",
+    "pre_projection_canonical_tree_sha": "83c69843e6ae3a419cf31409caf9ebb129373960",
+    "commits_ahead_of_v3_0_11_conformance_commit": 173,
+    "total_post_baseline_commits": 173,
+    "delta_file_count": 1035,
+    "delta_added_files": 1030,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 569,
-    "evidence_files_in_post_baseline_delta": 108,
-    "source_files_in_post_baseline_delta": 114,
-    "test_files_in_post_baseline_delta": 94,
-    "workflow_files_in_post_baseline_delta": 30,
+    "canonical_files_in_post_baseline_delta": 577,
+    "evidence_files_in_post_baseline_delta": 109,
+    "source_files_in_post_baseline_delta": 116,
+    "test_files_in_post_baseline_delta": 96,
+    "workflow_files_in_post_baseline_delta": 32,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -89,6 +89,7 @@
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
       "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
+      "canonical/providers/FA3-PROVIDER-MANAGER-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
       "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
@@ -185,6 +186,7 @@
       "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
+      "canonical/profiles/FA3-MANAGER-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
@@ -250,6 +252,7 @@
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MANAGER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
@@ -322,6 +325,7 @@
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
+      "canonical/decisions/FA3-DEC-MANAGER-2026-09-12.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
@@ -450,6 +454,7 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-coach-reference-pending.json",
       "evidence/reference/fa3-gui-reference-pass.json",
+      "evidence/reference/fa3-manager-reference-pending.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
@@ -532,6 +537,7 @@
     "FA3-AI-GUARDRAIL-RUNTIME-GATESET-001",
     "FA3-MENTOR-GATESET-001",
     "FA3-COACH-GATESET-001",
+    "FA3-MANAGER-GATESET-001",
     "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
@@ -683,7 +689,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1019,
+  "manifest_entry_count": 1035,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -743,6 +749,16 @@
     {
       "path": ".github/workflows/fa3-human-motion-current-host.yml",
       "git_blob_sha": "614ce45aed1f521fbef20ee4f07bef9ded8a0024",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-manager-gate.yml",
+      "git_blob_sha": "4b6f162a1038d3f9c0c0ff731863bb28899571b0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-manager-reconcile.yml",
+      "git_blob_sha": "af6cbcd8b670cb85dbed9f3fd7b6e0ebffb36a93",
       "baseline_delta_status": "added"
     },
     {
@@ -1251,6 +1267,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-MANAGER-001.json",
+      "git_blob_sha": "34c2789859e2361af1152cd6444ba77600042905",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-MARKETING-001.json",
       "git_blob_sha": "6f34f17b0cc281b97237a048be7b57fe732bd2c0",
       "baseline_delta_status": "added"
@@ -1398,6 +1419,16 @@
     {
       "path": "canonical/FA3-LAVASR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "f9523a154d0e2d4961bed0ff0ee13235ff6ca261",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MANAGER-CONFORMANCE-MATRIX-001.json",
+      "git_blob_sha": "f21d5c006c534161e50d0a8b2376e222d8680af4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MANAGER-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "333b71973574ba6348e9f94b25d6c505cb6337d2",
       "baseline_delta_status": "added"
     },
     {
@@ -1781,6 +1812,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MANAGER-CONTRACTS-001.json",
+      "git_blob_sha": "a524e9e1d33d7042a9ff5895b9c31098f3871406",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
       "git_blob_sha": "699ddb90aa89760d4ed81e7a2f319df46eb46050",
       "baseline_delta_status": "added"
@@ -2156,6 +2192,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MANAGER-2026-09-12.json",
+      "git_blob_sha": "921593f33024ccdc165d9b0179240fdcfd27acbc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
       "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a",
       "baseline_delta_status": "added"
@@ -2412,7 +2453,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "a0404181c588cbdf64635514baf17394829c263e",
+      "git_blob_sha": "4863aff7dbd4a8599fc7d4f92965fcdb52548418",
       "baseline_delta_status": "modified"
     },
     {
@@ -2553,6 +2594,11 @@
     {
       "path": "canonical/lynxhub-runtime-admission.json",
       "git_blob_sha": "f666a85b59d9584a5720b918b5e7cc5ea176c263",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/manager-enforcement.json",
+      "git_blob_sha": "475264463dd709a5c90c334300b6f6227335acda",
       "baseline_delta_status": "added"
     },
     {
@@ -2856,6 +2902,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-MANAGER-001.json",
+      "git_blob_sha": "59ff616966c02e9d415aa214763bca8cf4f47700",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
       "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809",
       "baseline_delta_status": "added"
@@ -3143,6 +3194,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
       "git_blob_sha": "0102837e9633e5e478cf45cf626bc99bf122dace",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-MANAGER-LOCAL-001.json",
+      "git_blob_sha": "d676f2994ad60f01f24de803a0fb93a287690027",
       "baseline_delta_status": "added"
     },
     {
@@ -4376,6 +4432,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-manager-reference-pending.json",
+      "git_blob_sha": "ac0a55ab1ffccea2b5fc5fcdd7e6e6a1524e37fe",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/fa3-mentor-v0.2.0.json",
       "git_blob_sha": "f08d8a5c59f94db5bca400085505c902272ae429",
       "baseline_delta_status": "added"
@@ -5006,6 +5067,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_manager.py",
+      "git_blob_sha": "53df7571396180132f111b491510a119cd67ecbb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_manager_gate.py",
+      "git_blob_sha": "54939442d2db41d4505b138acf4edf01611321be",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_marketing_gate.py",
       "git_blob_sha": "794def2577c01ce97017ffc32f0f6bf66169fd79",
       "baseline_delta_status": "added"
@@ -5521,6 +5592,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_manager_gate.py",
+      "git_blob_sha": "74a3cea235fd036b7396af9aabd3a4646b2f4b89",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_manager_global_reconciliation.py",
+      "git_blob_sha": "40fdf7b5f793a887a80f5f84bf7cdec494556dcb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_marketing_gate.py",
       "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670",
       "baseline_delta_status": "added"
@@ -5768,6 +5849,11 @@
     {
       "path": "tools/fa3_lavasr_global_reconcile.py",
       "git_blob_sha": "760bdc87480132d7aeef35f0769b8d9a38cce11d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_manager_global_reconcile.py",
+      "git_blob_sha": "cb792d605cdb0e15387315c1341fcdc75b733fc4",
       "baseline_delta_status": "added"
     },
     {
@@ -6745,14 +6831,15 @@
     "FA3-PROVIDER-LAVASR-001 is globally reconciled to CAP-017 / FA3-SPEECH-ENHANCEMENT-001 as an optional ONNX-first speech restoration and bandwidth-extension provider. Reference PASS does not promote current-host runtime; pinned ONNX asset SHA-256, real audio E2E quality, duration/padding integrity, RTF and rollback evidence remain required.",
     "FA3-PROVIDER-PYTORCH3D-001 is globally reconciled to CAP-032 through the non-root FA3-DIFFERENTIABLE-3D-001 profile. The provider is source-build-only and remains current-host pending; reference PASS cannot promote runtime without a compatible ABI tuple, real CUDA/Pulsar and geometry E2E, lifecycle unload and rollback evidence.",
     "Filesystem page-cache speculative prefetch/adaptive readahead governance is reconciled under FA3-AUTH-HOST-RESOURCE-BROKER-001 through CAP-001. FA3-PROVIDER-PRELOAD-001 remains optional, replaceable and non-authoritative. Canonical reference PASS does not promote current-host runtime without real cold/warm latency, page-cache, major-fault, I/O-pressure, memory-pressure, host-survival and rollback evidence.",
-    "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added."
+    "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
+    "FA3-MANAGER-001 is globally reconciled as a P0/MUST provider-neutral operational management overlay. It owns no execution or architectural authority; typed delegation, acyclic dependencies, explicit work states and evidence-backed VERIFIED closure are mandatory. FA3-MENTOR-001 and FA3-COACH-001 retain their respective boundaries; capability count stays 143 and current-host promotion remains evidence-gated."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "76d315f2612b6b188ab13688ad224cad6aeef08f",
-    "regenerated_from_branch_head": "76d315f2612b6b188ab13688ad224cad6aeef08f",
+    "source_snapshot_anchor": "9b47c259744182fb04fdc514fcf70c4d4f5cd60e",
+    "regenerated_from_branch_head": "9b47c259744182fb04fdc514fcf70c4d4f5cd60e",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -6772,7 +6859,10 @@
     "page_cache_prefetch_snapshot_head": "0b4d8e7b557fe58dbcfb47d2257c11e898c35500",
     "coach_reconciliation_generator": "tools/fa3_coach_global_reconcile.py",
     "coach_deterministic_regeneration_pass": true,
-    "coach_snapshot_head": "76d315f2612b6b188ab13688ad224cad6aeef08f"
+    "coach_snapshot_head": "76d315f2612b6b188ab13688ad224cad6aeef08f",
+    "manager_reconciliation_generator": "tools/fa3_manager_global_reconcile.py",
+    "manager_deterministic_regeneration_pass": true,
+    "manager_snapshot_head": "9b47c259744182fb04fdc514fcf70c4d4f5cd60e"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -6942,6 +7032,35 @@
     "direct_execution": "FORBIDDEN",
     "typed_action_delegation": "REQUIRED",
     "reference_evidence": "evidence/reference/fa3-coach-reference-pending.json",
+    "reference_gate_status": "CI_ENFORCED",
+    "runtime_status": "PENDING_CURRENT_HOST",
+    "production_admitted": false,
+    "current_host_runtime_promotion_claimed": false,
+    "provider_is_architectural_authority": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "manager_reconciliation": {
+    "profile_id": "FA3-MANAGER-001",
+    "contract_id": "FA3-MANAGER-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-MANAGER-LOCAL-001",
+    "decision_id": "FA3-DEC-MANAGER-2026-09-12",
+    "gate_id": "FA3-GATE-MANAGER-001",
+    "gateset_id": "FA3-MANAGER-GATESET-001",
+    "conformance_matrix_id": "FA3-MANAGER-CONFORMANCE-MATRIX-001",
+    "runtime_conformance_id": "FA3-MANAGER-RUNTIME-CONFORMANCE-001",
+    "classification": "P0_MUST_PROVIDER_NEUTRAL_OPERATIONAL_WORK_MANAGEMENT_DELEGATION_EVIDENCE_CLOSURE_OVERLAY",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_RECONCILED_REFERENCE_GATE_ENFORCED_CURRENT_HOST_PENDING",
+    "direct_execution": "FORBIDDEN",
+    "typed_action_delegation": "REQUIRED",
+    "dependency_graph": "ACYCLIC_REQUIRED",
+    "implicit_done": "FORBIDDEN",
+    "verified_closure": "ACCEPTANCE_PLUS_EVIDENCE_REQUIRED",
+    "knowledge_gap_delegation": "FA3-MENTOR-001",
+    "coaching_delegation": "FA3-COACH-001",
+    "capability_provider_resolution": "PROPOSAL_ONLY",
+    "reference_evidence": "evidence/reference/fa3-manager-reference-pending.json",
     "reference_gate_status": "CI_ENFORCED",
     "runtime_status": "PENDING_CURRENT_HOST",
     "production_admitted": false,
