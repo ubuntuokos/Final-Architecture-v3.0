@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c310c5201df93d78fa8f81c37550f6c3246ca03c",
-    "pre_projection_root_tree_sha": "b9d0f5b2594727043d43387b6863c9d3424f6ffd",
-    "pre_projection_canonical_tree_sha": "498807eac13f7158d0ad08cf58301228495eb774",
-    "commits_ahead_of_v3_0_11_conformance_commit": 171,
-    "total_post_baseline_commits": 171,
-    "delta_file_count": 919,
-    "delta_added_files": 914,
+    "pre_projection_head_sha": "53d351b930ead3b8be5ee6660b1946bf5a1ef2d4",
+    "pre_projection_root_tree_sha": "b99481d0fc6dcd9d0cbb33b017fc48b8a2c992b7",
+    "pre_projection_canonical_tree_sha": "9d031fdf9e026af246dac1562d39aac2f24f3b5e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 164,
+    "total_post_baseline_commits": 164,
+    "delta_file_count": 937,
+    "delta_added_files": 932,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 515,
-    "evidence_files_in_post_baseline_delta": 99,
-    "source_files_in_post_baseline_delta": 105,
-    "test_files_in_post_baseline_delta": 85,
+    "canonical_files_in_post_baseline_delta": 529,
+    "evidence_files_in_post_baseline_delta": 101,
+    "source_files_in_post_baseline_delta": 106,
+    "test_files_in_post_baseline_delta": 86,
     "workflow_files_in_post_baseline_delta": 24,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -68,6 +68,7 @@
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
       "canonical/providers/FA3-PROVIDER-FFMPEG-001.json",
       "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
+      "canonical/providers/FA3-PROVIDER-GEM-X-001.json",
       "canonical/providers/FA3-PROVIDER-GIMP-AI-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
       "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
@@ -127,6 +128,7 @@
       "canonical/providers/FA3-PROVIDER-SF3D-001.json",
       "canonical/providers/FA3-PROVIDER-SILERO-VAD-001.json",
       "canonical/providers/FA3-PROVIDER-SILLYTAVERN-KDE-001.json",
+      "canonical/providers/FA3-PROVIDER-SOMA-X-001.json",
       "canonical/providers/FA3-PROVIDER-SPAR3D-001.json",
       "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-001.json",
       "canonical/providers/FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001.json",
@@ -170,6 +172,7 @@
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HUMAN-KNOWLEDGE-WORKSPACE-001.json",
+      "canonical/profiles/FA3-HUMAN-MOTION-001.json",
       "canonical/profiles/FA3-HW-001.json",
       "canonical/profiles/FA3-HW-MGPU-001.json",
       "canonical/profiles/FA3-HYBRID-EDITORIAL-001.json",
@@ -227,6 +230,7 @@
       "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-HUMAN-MOTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-CONTRACTS-001.json",
       "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
       "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
@@ -338,6 +342,7 @@
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
@@ -361,6 +366,7 @@
       "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
+      "canonical/references/FA3-GEM-X-UPSTREAM-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09.json",
       "canonical/references/FA3-GTCRN-UPSTREAM-REFERENCE-2026-09-09.json",
       "canonical/references/FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31.json",
@@ -394,6 +400,7 @@
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
+      "canonical/references/FA3-SOMA-X-UPSTREAM-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02.json",
@@ -422,6 +429,7 @@
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+      "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "evidence/reference/gtcrn-reference-pass.json",
       "evidence/reference/hardware-portability-ci-2026-09-03.json",
@@ -460,6 +468,7 @@
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/pytorch3d-reference-pass.json",
       "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
+      "evidence/reference/soma-x-reference-pass.json",
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
       "evidence/reference/stability-portfolio-ci-2026-09-02.json",
       "evidence/reference/stability-sgm-ci-2026-09-01.json",
@@ -646,7 +655,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 919,
+  "manifest_entry_count": 937,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -870,7 +879,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "a8e3c99fef39447f106f843ed074050a2aae8884",
+      "git_blob_sha": "908c1b704392fae9830065aca3d079cd48f22fd9",
       "baseline_delta_status": "modified"
     },
     {
@@ -1049,6 +1058,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-GEM-X-001.json",
+      "git_blob_sha": "9684f7e606be4c1d728f6e491b1ec20080b1ae9e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-GIMP-COMFYUI-INTEROP-001.json",
       "git_blob_sha": "440356af38a0a5481d2f403ff24f5360a4fe3d36",
       "baseline_delta_status": "added"
@@ -1184,6 +1198,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-SOMA-X-001.json",
+      "git_blob_sha": "2059d4fd95471f70e7d8b58fe3cbd55d7aa8c68f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-STABILITY-MATRIX-LIFECYCLE-001.json",
       "git_blob_sha": "42f5fabef4fd4c6f692c937266b152e296f91354",
       "baseline_delta_status": "added"
@@ -1211,6 +1230,11 @@
     {
       "path": "canonical/FA3-GATE-VIDEO-PROVIDER-LIFECYCLE-001.json",
       "git_blob_sha": "a518e0c8e9dbd9aa510f2edde782f34e86283111",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GEM-X-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "b8ecc864650f6cce80481b229a28bb592be7caed",
       "baseline_delta_status": "added"
     },
     {
@@ -1281,6 +1305,11 @@
     {
       "path": "canonical/FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "e4c4fde5f2060158ef5b3417ccd0985f1876d92e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-SOMA-X-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "6e8aa6349de450bafab0e15c540691a36e496cf7",
       "baseline_delta_status": "added"
     },
     {
@@ -1511,6 +1540,11 @@
     {
       "path": "canonical/contracts/FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001.json",
       "git_blob_sha": "1a0506fec443899534e1497206bbb45e530b4cfa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HUMAN-MOTION-CONTRACTS-001.json",
+      "git_blob_sha": "fdf3b5841d1a4a6a8da7ac43f1629999e2b310bf",
       "baseline_delta_status": "added"
     },
     {
@@ -2084,6 +2118,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
+      "git_blob_sha": "b52b71dd90b4bfa35bab43c3937133a6a05e6963",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "git_blob_sha": "90833460362f8e17af8e74dc46e63b98535b41e1",
       "baseline_delta_status": "added"
@@ -2176,6 +2215,11 @@
     {
       "path": "canonical/ffmpeg-ai-runtime-admission.json",
       "git_blob_sha": "3f2111f04ff0c703e8b46398a53e6dc1de26939d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/gem-x-enforcement.json",
+      "git_blob_sha": "f2a5944d5a6bb6b03e61d8db03c24abe13b60869",
       "baseline_delta_status": "added"
     },
     {
@@ -2445,7 +2489,7 @@
     },
     {
       "path": "canonical/profiles/FA3-3D-GEOM-001.json",
-      "git_blob_sha": "496bd78a4b770186c0da97d9573840a1d160af73",
+      "git_blob_sha": "0d04ff3e6858667682da985bec967d0c70735494",
       "baseline_delta_status": "added"
     },
     {
@@ -2531,6 +2575,11 @@
     {
       "path": "canonical/profiles/FA3-HUMAN-KNOWLEDGE-WORKSPACE-001.json",
       "git_blob_sha": "d1b3c6686b1bda3a113f4b792fcb7daf40081f9a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-HUMAN-MOTION-001.json",
+      "git_blob_sha": "361fb5904e210a0f5b6da2eb17162014fe196eea",
       "baseline_delta_status": "added"
     },
     {
@@ -2751,6 +2800,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001.json",
       "git_blob_sha": "bcbca8c572aea08e5eff36c1525f41d14a1b1074",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-GEM-X-001.json",
+      "git_blob_sha": "378d41e78aeaa66e1ca02f8a8748bdb79a9dcf83",
       "baseline_delta_status": "added"
     },
     {
@@ -3049,6 +3103,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-SOMA-X-001.json",
+      "git_blob_sha": "16a1bd95d32ee74e3a00d31228f13f71a866d365",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-SPAR3D-001.json",
       "git_blob_sha": "f04e1b1128710b378e7676e6d627bde1f4328d86",
       "baseline_delta_status": "added"
@@ -3219,6 +3278,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-GEM-X-UPSTREAM-REFERENCE-2026-09-12.json",
+      "git_blob_sha": "e5574ed26c05e40354ab3ebadf6f3e1af9dc68f8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-GIMP-COMFYUI-UPSTREAM-REFERENCE-2026-09-09.json",
       "git_blob_sha": "091c068c03c8eb422f6d985afae6848fcd6b6768",
       "baseline_delta_status": "added"
@@ -3384,6 +3448,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-SOMA-X-UPSTREAM-REFERENCE-2026-09-12.json",
+      "git_blob_sha": "4c70411b0758d1d6163a4f355be981da4686608f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "4f4af53851a67f5b687380553acf2bed2083fbf7",
       "baseline_delta_status": "added"
@@ -3431,6 +3500,11 @@
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-GTCRN-2026-09-09.json",
       "git_blob_sha": "ff043b0da565a7d16fa2b51de16594544adaf6fb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12.json",
+      "git_blob_sha": "b1e8e479abf4cde78b6b9393b025c169495e31a9",
       "baseline_delta_status": "added"
     },
     {
@@ -3486,6 +3560,11 @@
     {
       "path": "canonical/sillytavern-kde-enforcement.json",
       "git_blob_sha": "63ebab99600c56e58b61a7ce4e556cde85aebc4a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/soma-x-enforcement.json",
+      "git_blob_sha": "9d0eb38e7ba36fc529377807423749d803e3e9e3",
       "baseline_delta_status": "added"
     },
     {
@@ -3974,6 +4053,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/gem-x-reference-pass.json",
+      "git_blob_sha": "edbf5598f02a2bc9e76e394aa664f2864e8f9936",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "git_blob_sha": "28024e3c1b8dd5dd341b502a7500072d70cfa6b0",
       "baseline_delta_status": "added"
@@ -4161,6 +4245,11 @@
     {
       "path": "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "git_blob_sha": "f212258efff1ad57d9f59cb4c1fbcaa19ed76990",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/soma-x-reference-pass.json",
+      "git_blob_sha": "fc794e3b7aa128ac38fa0e51eccdf3d59e014370",
       "baseline_delta_status": "added"
     },
     {
@@ -4461,6 +4550,11 @@
     {
       "path": "src/fa3_hrb_systemd_manager_current_host_gate.py",
       "git_blob_sha": "99b033fe6c0cb5dc60082a8158b325982b533b46",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_human_motion_gate.py",
+      "git_blob_sha": "fd829df7711c990978ed406aa075e6b33e9ac894",
       "baseline_delta_status": "added"
     },
     {
@@ -4941,6 +5035,11 @@
     {
       "path": "tests/test_hrb_systemd_manager_current_host_gate.py",
       "git_blob_sha": "9cce6aa37cb6ef168e1d6e159e2f0bc1fb857fce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_human_motion_gate.py",
+      "git_blob_sha": "66c64493ee2b256a050b932878718dfc0df19756",
       "baseline_delta_status": "added"
     },
     {
