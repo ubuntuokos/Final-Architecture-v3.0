@@ -20,23 +20,15 @@
     "runtime-changeable Linux resource isolation",
     "per-service file-descriptor and locked-memory budget projection",
     "per-service OOM restart timeout and task-budget projection",
-    "manager-global resource-default neutrality verification"
+    "manager-global resource-default neutrality verification",
+    "memory pressure and PSI/systemd-oomd projection when host-supported",
+    "bounded graceful multiprocess termination projection",
+    "systemd unit directive section and version-capability validation"
   ],
   "canonical_mapping": {
-    "ComputeCPUSet": [
-      "CPUAffinity",
-      "AllowedCPUs"
-    ],
-    "MemoryPlacementPolicy": [
-      "NUMAPolicy",
-      "NUMAMask",
-      "AllowedMemoryNodes"
-    ],
-    "ThreadPoolBudget": [
-      "AllowedCPUs",
-      "AllowedMemoryNodes",
-      "per-service Environment"
-    ],
+    "ComputeCPUSet": ["CPUAffinity", "AllowedCPUs"],
+    "MemoryPlacementPolicy": ["NUMAPolicy", "NUMAMask", "AllowedMemoryNodes"],
+    "ThreadPoolBudget": ["AllowedCPUs", "AllowedMemoryNodes", "per-service Environment"],
     "cpu_weight": "CPUWeight",
     "io_weight": "IOWeight",
     "memory_soft_pressure": "MemoryHigh",
@@ -46,18 +38,43 @@
     "locked_memory_budget": "LimitMEMLOCK",
     "task_budget": "TasksMax",
     "oom_policy": "OOMPolicy",
-    "restart_policy": [
-      "Restart",
-      "RestartSec",
-      "StartLimitIntervalSec",
-      "StartLimitBurst"
-    ],
-    "timeout_policy": [
-      "TimeoutStartSec",
-      "TimeoutStopSec",
-      "TimeoutAbortSec"
+    "oom_preference": "OOMScoreAdjust",
+    "restart_policy": ["Restart", "RestartSec", "StartLimitIntervalSec", "StartLimitBurst"],
+    "timeout_policy": ["TimeoutStartSec", "TimeoutStopSec", "TimeoutAbortSec"],
+    "graceful_termination_policy": ["TimeoutStopSec", "KillMode", "SendSIGKILL"],
+    "pressure_policy_when_supported": [
+      "MemoryHigh",
+      "MemoryMax",
+      "MemorySwapMax",
+      "ManagedOOMMemoryPressure",
+      "ManagedOOMMemoryPressureLimit"
     ]
   },
+  "unit_validation_policy": {
+    "duplicate_or_conflicting_directives_forbidden": true,
+    "directive_section_validation_required": true,
+    "host_systemd_version_and_feature_detection_required": true,
+    "unknown_or_ignored_directive_blocks_promotion": true,
+    "daemon_reload_required_before_activation_of_changed_unit": true,
+    "generated_projection_requires_semantic_diff": true
+  },
+  "model_backed_runtime_policy": {
+    "worker_count_from_hrb_admission": true,
+    "multi_worker_model_duplication_risk_must_be_evidenced": true,
+    "single_worker_safe_baseline_when_sharing_unproven": true,
+    "worker_death_and_respawn_telemetry_required": true,
+    "stuck_deactivating_or_unbounded_stop_forbidden": true,
+    "fixed_host_resource_values_are_canonical": false
+  },
+  "pressure_telemetry": [
+    "memory.current",
+    "memory.high",
+    "memory.max",
+    "memory.events",
+    "memory.pressure_or_PSI_when_supported",
+    "oom_and_oom_kill_events",
+    "worker_restart_and_termination_events"
+  ],
   "invariants": [
     "SYSTEMD_CGROUPV2_NOT_RESOURCE_AUTHORITY",
     "CGROUP_CPUSET_PRIMARY_GENERAL_LINUX_RUNTIME_ISOLATION_REFERENCE",
@@ -72,11 +89,7 @@
   ],
   "manager_global_defaults_policy": {
     "default": "DO_NOT_USE_SYSTEM_MANAGER_GLOBAL_DEFAULTS_FOR_AI_HPC_WORKLOAD_PLACEMENT_OR_BUDGETING",
-    "forbidden_without_explicit_host_survival_policy": [
-      "CPUAffinity",
-      "NUMAPolicy",
-      "NUMAMask"
-    ],
+    "forbidden_without_explicit_host_survival_policy": ["CPUAffinity", "NUMAPolicy", "NUMAMask"],
     "forbidden_ai_hpc_global_values": [
       "DefaultTasksMax=infinity",
       "DefaultLimitMEMLOCK=infinity",
