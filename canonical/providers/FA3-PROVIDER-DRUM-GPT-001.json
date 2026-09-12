@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-DRUM-GPT-001",
+  "name": "DrumGPT",
+  "status": "ACCEPTED_REFERENCE",
+  "classification": ["OPTIONAL_PROVIDER", "LOCAL_RHYTHM_GENERATION_REFERENCE_PROVIDER"],
+  "parent_profile": "FA3-RHYTHM-GENERATION-001",
+  "provider_role": "OPTIONAL_DRUM_PATTERN_AND_RHYTHM_GENERATION_PROVIDER",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "PENDING_CURRENT_HOST",
+  "runtime_activation_requires_current_host_conformance": true,
+  "authority_boundaries": {"music": "FA3-MUSIC-001", "routing": "FA3-AUTH-MODEL-ROUTER-001", "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "security": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "prohibited_authorities": ["music", "routing", "resource", "security", "evidence"],
+  "normative_constraint": "DrumGPT SHALL remain a replaceable local rhythm-generation provider and SHALL NOT become the canonical music, model-routing, host-resource, security or evidence authority."
+}
