@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GUI-OPERATIONS-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "decision": "EXTEND_FA3_DESKTOP_PROJECTION",
+  "subject": "FA3 Control Center 0.3 operations, model management, system maintenance, peripherals and assistant projection",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "profile": "FA3-DESKTOP-001",
+  "contract": "FA3-DESKTOP-CONTRACTS-001",
+  "materialization": "apps/fa3-control-center",
+  "adds": [
+    "MANAGER_GUI_PROJECTION_WITHOUT_DUPLICATING_FA3_MANAGER_AUTHORITY",
+    "FIRST_CLASS_MODEL_MANAGER_GUI_OVER_EXISTING_FA3_MODEL_MANAGER_001",
+    "SYSTEM_HARDWARE_SOFTWARE_SERVICE_READ_ONLY_DISCOVERY",
+    "MAINTENANCE_ANALYSIS_AND_TYPED_CHANGESET_PROPOSALS",
+    "PERIPHERAL_DISCOVERY_AND_CONFIGURATION_PROPOSALS",
+    "GLOBAL_ASSISTANT_CONTEXT_AND_TASK_DRAFT_DRAWER"
+  ],
+  "maintenance_policy": {
+    "routine_gpu_memory_cleanup": "UNLOAD_MODEL_OR_WORKLOAD_AND_GRACEFUL_RUNTIME_RELEASE",
+    "gpu_hard_reset": "NOT_ROUTINE_MAINTENANCE",
+    "gpu_hard_reset_execution": "ROOT_ONLY_LAST_RESORT_BOUNDED_RECOVERY_OUTSIDE_DIRECT_GUI_EXECUTION",
+    "generic_cleanup_may_delete_evidence": false
+  },
+  "peripheral_policy": {
+    "keyboard_hotkeys": "GUI_PREFERENCE_OR_CHANGESET",
+    "midi": "DISCOVERY_AND_ROUTING_PROPOSAL",
+    "drawing_tablet": "DISCOVERY_AND_PROFILE_PROPOSAL",
+    "scanner": "USB_IMAGING_DISCOVERY_AND_PROVIDER_PROPOSAL",
+    "camera_webcam": "V4L2_DISCOVERY_AND_PROFILE_PROPOSAL"
+  },
+  "invariants": [
+    "GUI_REMAINS_NON_AUTHORITATIVE_PROJECTION",
+    "NO_QPROCESS_OR_FREE_FORM_SHELL",
+    "NO_DIRECT_ROOT_PROCESS",
+    "NO_DIRECT_GPU_HARD_RESET",
+    "NO_DIRECT_SYSTEMD_CGROUP_OR_DEVICE_MUTATION",
+    "MODEL_MANAGER_NOT_MANAGER",
+    "MENTOR_NOT_COACH_NOT_MANAGER_NOT_ASSISTANT",
+    "ALL_PRIVILEGED_OR_SYSTEM_MUTATIONS_USE_EXISTING_AUTHORITIES_AND_EVIDENCE"
+  ],
+  "runtime_promotion": "FRESH_CURRENT_HOST_EVIDENCE_REQUIRED"
+}
