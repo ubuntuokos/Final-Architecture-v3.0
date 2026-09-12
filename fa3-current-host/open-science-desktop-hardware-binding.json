@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.current-host-hardware-binding.v1",
+  "id": "FA3-OPEN-SCIENCE-DESKTOP-CURRENT-HOST-HARDWARE-BINDING-001",
+  "status": "OPERATOR_DECLARED_BASELINE_BINDING",
+  "architectural_authority": false,
+  "hardware_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "portable_canonical_source": "FA3-HARDWARE-BASELINE-001",
+  "roles": {
+    "display_ui": {
+      "role": "DISPLAY",
+      "model": "NVIDIA RTX A1000",
+      "runtime_identity": "DISCOVER_UUID_AND_PCI_BDF",
+      "display_active_required": true,
+      "compute_fallback_target": false
+    },
+    "compute_ai": {
+      "role": "COMPUTE",
+      "model": "NVIDIA GeForce RTX 3090",
+      "runtime_identity": "DISCOVER_UUID_AND_PCI_BDF",
+      "display_active_required": false,
+      "compute_eligible_required": true,
+      "ui_default_claim_forbidden": true
+    }
+  },
+  "role_swap_allowed": false,
+  "automatic_fallback_allowed": false,
+  "runtime_receipt_required": true,
+  "note": "Current-host implementation binding only. Portable canonical records remain role-based; UUID/BDF are discovered and proven at admission time."
+}
