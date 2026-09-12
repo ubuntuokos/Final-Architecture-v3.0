@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "030b45bba352a76ac5aea6660071f3af2029fd8d",
-    "pre_projection_root_tree_sha": "adbfd17183d79116ac5c63fa6c8898f0ebedad39",
-    "pre_projection_canonical_tree_sha": "6f54084e42d82e723d68a947d9a606cd88df2a65",
-    "commits_ahead_of_v3_0_11_conformance_commit": 166,
-    "total_post_baseline_commits": 166,
-    "delta_file_count": 937,
-    "delta_added_files": 932,
+    "pre_projection_head_sha": "f3a5eb5e7d02f940dfba6dd0727a89c69d37ed2b",
+    "pre_projection_root_tree_sha": "2667a5ec361a616e149dc1b765c949457ebf21f6",
+    "pre_projection_canonical_tree_sha": "c07f38fde9243d3b0375d66db05e75b943bea99b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 164,
+    "total_post_baseline_commits": 164,
+    "delta_file_count": 950,
+    "delta_added_files": 945,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 529,
-    "evidence_files_in_post_baseline_delta": 101,
-    "source_files_in_post_baseline_delta": 106,
-    "test_files_in_post_baseline_delta": 86,
-    "workflow_files_in_post_baseline_delta": 24,
+    "canonical_files_in_post_baseline_delta": 533,
+    "evidence_files_in_post_baseline_delta": 102,
+    "source_files_in_post_baseline_delta": 108,
+    "test_files_in_post_baseline_delta": 88,
+    "workflow_files_in_post_baseline_delta": 25,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -296,6 +296,7 @@
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
+      "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
@@ -655,7 +656,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 937,
+  "manifest_entry_count": 950,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -695,6 +696,11 @@
     {
       "path": ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
       "git_blob_sha": "f2b9e375b444a31f7cf9067b881101e3ace4579a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-human-motion-current-host.yml",
+      "git_blob_sha": "622e87feed936532fd102a5626c4a21b7c175d80",
       "baseline_delta_status": "added"
     },
     {
@@ -879,7 +885,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "908c1b704392fae9830065aca3d079cd48f22fd9",
+      "git_blob_sha": "9c5f6f57ce517f90031ac2179aef7edb32c01e5e",
       "baseline_delta_status": "modified"
     },
     {
@@ -895,6 +901,11 @@
     {
       "path": "bin/fa3-gtcrn-enforce",
       "git_blob_sha": "30c65bea1e5af19ca46e5dfbb272d1d1b9757032",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-human-motion-current-host.sh",
+      "git_blob_sha": "432ba5d4dd6f9213f1b7b4760698dd2e8b33818a",
       "baseline_delta_status": "added"
     },
     {
@@ -1098,6 +1109,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001.json",
+      "git_blob_sha": "4d40ad87907006108fae6fca0523dbbed5688bbb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-HYBRID-EDITORIAL-001.json",
       "git_blob_sha": "b19be06f712e94705d3f8247d64cf8617eec2055",
       "baseline_delta_status": "added"
@@ -1234,7 +1250,7 @@
     },
     {
       "path": "canonical/FA3-GEM-X-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "b8ecc864650f6cce80481b229a28bb592be7caed",
+      "git_blob_sha": "e7ef2792af1d353b5a8162d288158ac3a94477cb",
       "baseline_delta_status": "added"
     },
     {
@@ -1245,6 +1261,11 @@
     {
       "path": "canonical/FA3-GTCRN-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "a29f7b39c7946a88f4ed9d03adf0811ab845173d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001.json",
+      "git_blob_sha": "828e7fa46350c6a237fb912d2fd808a3aa122523",
       "baseline_delta_status": "added"
     },
     {
@@ -1309,7 +1330,7 @@
     },
     {
       "path": "canonical/FA3-SOMA-X-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "6e8aa6349de450bafab0e15c540691a36e496cf7",
+      "git_blob_sha": "31a6e6cdcbace20be8177e7bf18f1c42f8e6b8b0",
       "baseline_delta_status": "added"
     },
     {
@@ -1888,6 +1909,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
+      "git_blob_sha": "b508a6badf0c8b2396b09c9a577dc3935c3659bd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8",
       "baseline_delta_status": "added"
@@ -2260,6 +2286,11 @@
     {
       "path": "canonical/hrb-systemd-manager-current-host-enforcement.json",
       "git_blob_sha": "98bd4ed1b26d71f1e4363324dd7cb8293a8c6cbc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/human-motion-current-host-enforcement.json",
+      "git_blob_sha": "f0b9adb7bbab7126a12b80249a4fa0ad738f239b",
       "baseline_delta_status": "added"
     },
     {
@@ -3504,7 +3535,7 @@
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12.json",
-      "git_blob_sha": "b1e8e479abf4cde78b6b9393b025c169495e31a9",
+      "git_blob_sha": "14b512df95969ce1ee7030e2e25620171e25be17",
       "baseline_delta_status": "added"
     },
     {
@@ -3758,6 +3789,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/human-motion-current-host.md",
+      "git_blob_sha": "c175a811d450905147e7afa6c36c541bc2c42a46",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/lavasr-integration.md",
       "git_blob_sha": "f55bdd2474edc3913c1335d096076372b26f6a61",
       "baseline_delta_status": "added"
@@ -3865,6 +3901,11 @@
     {
       "path": "evidence/collect-hrb-systemd-manager-current-host.py",
       "git_blob_sha": "4387ed94924395326f98a4ade3ad8565633795fb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-human-motion-current-host.py",
+      "git_blob_sha": "8a93918737860efd6a628f1a75b7160cd43537fb",
       "baseline_delta_status": "added"
     },
     {
@@ -4553,6 +4594,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_human_motion_current_host.py",
+      "git_blob_sha": "131ce42a676880dc7ec489e295958d6dba20597d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_human_motion_current_host_gate.py",
+      "git_blob_sha": "8bbe29c34f781fc39d0ed8620b12f5c4291e1b46",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_human_motion_gate.py",
       "git_blob_sha": "fd829df7711c990978ed406aa075e6b33e9ac894",
       "baseline_delta_status": "added"
@@ -5038,6 +5089,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_human_motion_current_host_gate.py",
+      "git_blob_sha": "bf3df883d29fe88ae9f4af5639c83a27c3a4a786",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_human_motion_current_host_materialization.py",
+      "git_blob_sha": "a82c5d3a945a38572c009fd82034b17f0f4cb135",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_human_motion_gate.py",
       "git_blob_sha": "66c64493ee2b256a050b932878718dfc0df19756",
       "baseline_delta_status": "added"
@@ -5325,6 +5386,11 @@
     {
       "path": "tools/fa3_gtcrn_global_reconcile.py",
       "git_blob_sha": "79af292f0f3633321da348f58449b4cb264e62c7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_human_motion_extract.py",
+      "git_blob_sha": "b976117ca647b5daf8d60b3658b8d71baa1e02d0",
       "baseline_delta_status": "added"
     },
     {
