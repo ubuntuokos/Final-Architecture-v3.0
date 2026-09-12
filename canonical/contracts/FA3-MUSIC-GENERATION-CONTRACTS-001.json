@@ -4,43 +4,19 @@
   "profile_id": "FA3-MUSIC-001",
   "provider_neutral": true,
   "contracts": [
-    "MusicGenerationRequest",
-    "MusicEditRequest",
-    "MusicGenerationResult",
-    "MusicModelSelection",
-    "MusicRuntimePlan",
-    "AudioConditioningReference",
-    "AudioMasterArtifact",
-    "GenerationProvenance"
+    "MusicGenerationRequest", "MusicEditRequest", "MusicGenerationResult", "MusicModelSelection",
+    "MusicRuntimePlan", "AudioConditioningReference", "AudioMasterArtifact", "GenerationProvenance"
   ],
   "runtime_identity_contract": {
-    "applies_to": [
-      "MusicRuntimePlan",
-      "GenerationProvenance"
-    ],
+    "applies_to": ["MusicRuntimePlan", "GenerationProvenance"],
     "required_fields": [
-      "backend",
-      "model_revision",
-      "model_variant",
-      "decoder_variant",
-      "precision",
-      "engine_compute_capability",
-      "chunking_mode",
-      "limiter_identity",
-      "codec_revision",
-      "seed",
-      "runtime_revision",
-      "quantization",
-      "pcm_conversion_semantics"
+      "backend", "model_revision", "model_variant", "decoder_variant", "precision",
+      "engine_compute_capability", "chunking_mode", "limiter_identity", "codec_revision",
+      "seed", "runtime_revision", "quantization", "pcm_conversion_semantics", "inference_steps"
     ],
     "audio_affecting_identity_fields": [
-      "decoder_variant",
-      "precision",
-      "chunking_mode",
-      "limiter_identity",
-      "codec_revision",
-      "quantization",
-      "pcm_conversion_semantics"
+      "decoder_variant", "precision", "chunking_mode", "limiter_identity", "codec_revision",
+      "quantization", "pcm_conversion_semantics", "inference_steps"
     ],
     "unknown_or_implicit_runtime_identity": "FAIL_CLOSED",
     "identity_change_requires_new_provenance": true,
@@ -63,6 +39,25 @@
     "validation_may_be_replaced_only_by_equivalent_repair_or_fail_closed_gate": true,
     "silent_validation_skip_for_low_vram_optimization_forbidden": true
   },
+  "generation_quality_contract": {
+    "automation_inference_steps_must_be_explicit": true,
+    "sft_and_xl_sft_cannot_inherit_turbo_step_defaults": true,
+    "inference_steps_are_provenance_bearing": true,
+    "quality_promotion_requires_positive_and_negative_regression": true
+  },
+  "memory_admission_contract": {
+    "lm_dit_reserve_must_account_for_model_family_duration_and_batch": true,
+    "kv_cache_scheduler_floor_must_be_preserved": true,
+    "insufficient_safe_reserve_disposition": "FAIL_CLOSED_BEFORE_GENERATION",
+    "provider_preflight_cannot_replace_host_resource_broker": true
+  },
+  "audio_export_contract": {
+    "canonical_master_formats": ["wav", "flac"],
+    "canonical_master_must_survive_without_optional_torchcodec": true,
+    "torchcodec_if_enabled_requires_torch_torchaudio_abi_smoke": true,
+    "linux_export_requires_ffmpeg_shared_library_smoke_for_encoded_derivatives": true,
+    "encoded_derivatives_cannot_replace_lossless_master": true
+  },
   "rules": {
     "provider_names_forbidden_in_contract_identity": true,
     "requested_model_must_equal_executed_model_or_fail_closed": true,
@@ -78,6 +73,13 @@
     "non_finite_latent_or_audio_must_fail_closed": true,
     "cpu_offload_device_dtype_coherence_required": true,
     "lora_cpu_offload_consistency_validation_cannot_be_silently_skipped": true,
+    "rest_automation_inference_steps_must_be_explicit": true,
+    "sft_and_xl_sft_turbo_step_default_inheritance_forbidden": true,
+    "lm_dit_vram_reservation_must_be_model_duration_batch_aware": true,
+    "kv_cache_floor_violation_must_fail_closed": true,
+    "canonical_lossless_export_cannot_depend_on_unguarded_torchcodec": true,
+    "torchcodec_enablement_requires_abi_compatibility_smoke": true,
+    "linux_audio_export_dependency_smoke_required": true,
     "production_auto_update_forbidden": true,
     "production_model_auto_download_forbidden": true,
     "lossless_master_required": true,
