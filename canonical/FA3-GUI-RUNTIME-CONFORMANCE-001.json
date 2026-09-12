@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-DESKTOP-001",
+  "implementation": "apps/fa3-control-center",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "required_evidence_level": "CURRENT_HOST_KDE_WAYLAND_RUNTIME_PASS",
+  "reference_gate_status": "PASS",
+  "reference_build_status": "CI_REQUIRED",
+  "current_host_receipt": "evidence/receipts/fa3-gui-current-host.json",
+  "current_host_receipt_present": false,
+  "promotion_blockers": [
+    "CURRENT_HOST_QT6_BUILD_RECEIPT_MISSING",
+    "CURRENT_HOST_KDE_WAYLAND_INTERACTIVE_SMOKE_RECEIPT_MISSING"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

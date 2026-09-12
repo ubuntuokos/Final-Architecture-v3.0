@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-DESKTOP-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "profile": "FA3-DESKTOP-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": ["CAP-057"],
+  "contracts": [
+    "DesktopNavigationDescriptor",
+    "CanonicalReadProjection",
+    "HostTelemetryReadProjection",
+    "ProviderAndModelReadProjection",
+    "EvidenceReadProjection",
+    "ApprovalQueueReadProjection",
+    "TypedChangeSetDraft",
+    "ChangeSetSubmissionIntent",
+    "WorkspaceDescriptor",
+    "StudioModuleDescriptor",
+    "OperatorNotification"
+  ],
+  "read_model": {
+    "canonical_repository": "READ_ONLY",
+    "evidence_store": "READ_ONLY",
+    "host_telemetry": "READ_ONLY",
+    "provider_runtime_state": "READ_ONLY",
+    "policy_and_approval_state": "READ_ONLY"
+  },
+  "mutation_model": {
+    "local_draft_changeset": "ALLOW",
+    "submit_changeset_to_existing_authority": "ADAPTER_REQUIRED",
+    "direct_canonical_write": "FORBIDDEN",
+    "direct_systemd_or_cgroup_mutation": "FORBIDDEN",
+    "direct_gpu_cpu_numa_placement": "FORBIDDEN",
+    "direct_mcp_tool_execution": "FORBIDDEN",
+    "direct_model_runtime_control": "FORBIDDEN",
+    "direct_policy_or_secret_mutation": "FORBIDDEN",
+    "sudo_su_pkexec": "FORBIDDEN",
+    "free_form_shell": "FORBIDDEN"
+  },
+  "navigation_baseline": [
+    "Command Center",
+    "Projects",
+    "AI Studio",
+    "Agents & Workflows",
+    "Models & Providers",
+    "Architecture",
+    "Resources",
+    "Security & Approvals",
+    "Observability",
+    "Evidence",
+    "Integrations",
+    "System"
+  ],
+  "studio_modules": [
+    "Image",
+    "Video",
+    "Animation",
+    "3D / VFX",
+    "Audio",
+    "Music",
+    "Story / Screenplay"
+  ],
+  "desktop": {
+    "native_qt_qml": true,
+    "wayland_primary": true,
+    "kde_plasma_first_class": true,
+    "xwayland_is_not_required": true,
+    "browser_runtime_required": false,
+    "root_process": "FORBIDDEN"
+  },
+  "evidence": {
+    "static_contract_gate": true,
+    "qt_compile_gate": true,
+    "current_host_runtime_receipt_required_for_runtime_promotion": true,
+    "reference_compile_pass_claims_current_host_runtime": false
+  }
+}
