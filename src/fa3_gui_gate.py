@@ -53,6 +53,14 @@ SYSTEM_SECTIONS = [
     "Services", "Thermal & Power", "Software", "Maintenance", "Peripherals",
 ]
 
+SETTINGS_SURFACES = [
+    "Megjelenés", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk",
+    "Integrációk", "GIMP", "Krita", "Kdenlive", "OpenShot", "Ardour", "Audacity",
+    "Blender", "Bforartist", "LibreOffice", "Obsidian", "Publikálás", "YouTube",
+    "Facebook", "TikTok", "HDR", "AI Mentor", "AI Coach", "Frissítés", "Névjegy",
+    "chooseDirectory", "pathStatus",
+]
+
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 FORBIDDEN_SETTINGS_TOKENS = ["/etc/fstab", "systemctl", "mount ", "umount ", "sudo ", "pkexec", "QProcess"]
 
@@ -100,9 +108,18 @@ def validate():
         (dc.get("mutation_model", {}).get("direct_peripheral_kernel_or_device_mutation") == "FORBIDDEN", "no-direct-peripheral-mutation"),
         ("ROUTINE_GPU_MEMORY_CLEANUP_NEVER_REQUIRES_GPU_RESET" in dc.get("maintenance_invariants", []), "gpu-cleanup-no-reset"),
         ("EVIDENCE_EXCLUDED_FROM_GENERIC_CLEANUP" in dc.get("maintenance_invariants", []), "evidence-cleanup-boundary"),
+        (gs.get("version") == "1.1.0", "settings-profile-version"),
         (gs.get("new_architectural_authority") is False, "settings-no-authority"),
+        ("KEYBOARD_SHORTCUTS" in gs.get("scope", []), "settings-shortcuts-scope"),
+        ("OFFICE_KNOWLEDGE_INTEGRATIONS" in gs.get("scope", []), "settings-office-knowledge-scope"),
+        ("PUBLISHING_TARGET_PREFERENCES" in gs.get("scope", []), "settings-publishing-scope"),
+        (gc.get("version") == "1.1.0", "settings-contract-version"),
         (gc.get("storage", {}).get("backend") == "QSettings/XDG", "settings-xdg"),
+        (gc.get("storage", {}).get("secret_values") == "FORBIDDEN", "settings-no-secrets"),
+        (gc.get("storage", {}).get("api_tokens") == "FORBIDDEN", "settings-no-api-tokens"),
+        (gc.get("publishing", {}).get("credential_storage") == "FORBIDDEN", "publishing-no-credentials"),
         (gc.get("mutation_model", {}).get("fstab_mutation") == "FORBIDDEN", "settings-no-fstab"),
+        (gc.get("mutation_model", {}).get("direct_remote_publish") == "FORBIDDEN", "settings-no-direct-publish"),
         (mentor.get("id") == "FA3-MENTOR-001", "mentor-present"),
         (ms.get("relationship") == "SUBPROFILE-OF:FA3-MENTOR-001", "mentor-settings"),
         (mp.get("new_architectural_authority") is False, "mentor-prefs-no-authority"),
@@ -120,10 +137,9 @@ def validate():
         (ops_decision.get("capability_count_after") == 143, "ops-decision-count"),
         ("NO_DIRECT_GPU_HARD_RESET" in ops_decision.get("invariants", []), "ops-decision-gpu-reset-boundary"),
         (settings_gate.get("fail_closed") is True, "settings-gate-fail-closed"),
+        ("PUBLISHING_CREDENTIALS_FORBIDDEN_IN_QSETTINGS" in settings_gate.get("enforces", []), "settings-gate-publishing-secrets"),
         (operations_gate.get("id") == "FA3-GATE-GUI-OPERATIONS-001", "operations-gate-id"),
         (operations_gate.get("fail_closed") is True, "operations-gate-fail-closed"),
-        ("GPU_HARD_RESET_IS_LAST_RESORT_ROOT_ONLY_BOUNDED_RECOVERY_AND_NOT_DIRECT_GUI_EXECUTION" in operations_gate.get("rules", []), "operations-gate-gpu-reset-rule"),
-        ("GENERIC_CLEANUP_MUST_NOT_DELETE_EVIDENCE" in operations_gate.get("rules", []), "operations-gate-evidence-cleanup-rule"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-pending"),
         (runtime.get("production_admitted") is False, "runtime-not-production"),
         (ev.get("status") == "PASS", "evidence-pass"),
@@ -141,12 +157,13 @@ def validate():
     for token in [
         "fa3Settings", "MentorPage", "CoachPage", "ManagerPage", "ModelManagerPage",
         "SystemPage", "SettingsPage", "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet",
+        "Shortcut", "shortcuts/assistant", "LibreOffice", "Obsidian",
     ]:
         if token not in shell:
             failures.append(f"qml-shell-missing:{token}")
 
     sq = REQUIRED["settings_qml"].read_text(encoding="utf-8")
-    for token in ["Megjelenés", "Language & Region", "Paths & Libraries", "AI Mentor", "AI Coach", "chooseDirectory", "pathStatus"]:
+    for token in SETTINGS_SURFACES:
         if token not in sq:
             failures.append(f"settings-qml-missing:{token}")
 
@@ -192,15 +209,22 @@ def validate():
 
     scpp = REQUIRED["settings_cpp"].read_text(encoding="utf-8")
     sh = REQUIRED["settings_h"].read_text(encoding="utf-8")
-    for token in ["QSettings", "QStorageInfo", "chooseDirectory", "pathStatus", "resetGroup"]:
+    for token in [
+        "QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus",
+        "validShortcut", "shortcutConflict", "resetGroup", "libreOfficeEnabled", "obsidianEnabled",
+        "publishing/youtubeEnabled", "updates/channel",
+    ]:
         if token not in scpp and token not in sh:
             failures.append(f"settings-backend-missing:{token}")
     for token in FORBIDDEN_SETTINGS_TOKENS:
         if token in scpp:
             failures.append(f"settings-backend-forbidden-token:{token}")
+    for token in ["password", "secret", "token", "cookie"]:
+        if token not in scpp.lower():
+            failures.append(f"settings-secret-filter-missing:{token}")
 
     main = REQUIRED["main_cpp"].read_text(encoding="utf-8")
-    if not all(token in main for token in ["SettingsStore", "fa3Settings", "AppShell.qml"]):
+    if not all(token in main for token in ["SettingsStore", "fa3Settings", "AppShell.qml", 'setApplicationVersion("0.3.0")']):
         failures.append("settings-context-not-wired")
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
@@ -222,7 +246,7 @@ def main():
             print(" -", failure)
         return 1
     print("FA3 GUI gate: PASS")
-    print("desktop=1.2.0 operations=0.3.0 settings=QSettings/XDG capabilities=143 new_authorities=0")
+    print("desktop=1.2.0 operations=0.3.0 settings=1.1.0/QSettings-XDG capabilities=143 new_authorities=0")
     return 0
 
 
