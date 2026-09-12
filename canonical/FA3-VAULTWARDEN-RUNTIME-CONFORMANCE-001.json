@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-VAULTWARDEN-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-VAULTWARDEN-001",
+  "status": "NOT_EXECUTED",
+  "scope": "CURRENT_HOST_PRODUCTION_RUNTIME",
+  "synthetic_evidence_allowed_for_promotion": false,
+  "required_checks": [
+    "IMMUTABLE_IMAGE_DIGEST_VERIFIED",
+    "PROCESS_NON_ROOT_AND_CAPABILITIES_MINIMAL",
+    "MOUNT_SURFACE_MINIMAL_AND_READONLY_WHERE_POSSIBLE",
+    "TLS_SECURE_CONTEXT_PASS",
+    "HOSTNAME_EXPOSURE_POLICY_PASS",
+    "CLOSED_ENROLLMENT_PASS",
+    "ADMIN_BOUNDARY_PASS",
+    "EGRESS_ALLOWLIST_AND_SSRF_CONTROLS_PASS",
+    "TOKEN_AND_SECRET_LOG_REDACTION_PASS",
+    "SERVER_WEB_EXTENSION_DESKTOP_MOBILE_COMPATIBILITY_PASS",
+    "BACKUP_COMPONENT_INVENTORY_PASS",
+    "RESTORE_AND_APPLICATION_LOGIN_PASS"
+  ],
+  "current_host_receipt": null,
+  "production_runtime_promoted": false,
+  "note": "Reference materialization does not claim that Vaultwarden is installed or admitted on the current FA3 host."
+}
