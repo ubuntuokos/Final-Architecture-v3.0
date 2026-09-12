@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.runtime-conformance-record.v1",
+  "id": "FA3-IDEATION-ADVISORY-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-IDEATION-ADVISORY-001",
+  "provider_id": "FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001",
+  "gate_id": "FA3-GATE-IDEATION-ADVISORY-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "promotion_claimed": false,
+  "required_evidence": [
+    "fresh executable gate PASS on the target host",
+    "Ideator interaction showing IDEA/HYPOTHESIS labels and no fact promotion",
+    "Advisor interaction with evidence-grounded recommendation and explicit confidence/uncertainty",
+    "missing-evidence interaction yielding UNVERIFIED rather than verified recommendation",
+    "conflicting-evidence interaction preserving conflict",
+    "decision handoff showing no direct authorization or execution",
+    "high-impact verification handoff to FA3-INSPECTOR-001",
+    "workspace and persistence boundary evidence"
+  ],
+  "evidence_present": false,
+  "normative_constraint": "This record SHALL remain PENDING_CURRENT_HOST until fresh target-host evidence is captured and reconciled. Design/reference conformance does not imply production runtime admission."
+}
