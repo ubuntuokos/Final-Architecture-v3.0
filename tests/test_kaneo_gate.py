@@ -7,6 +7,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_kaneo_gate import (
+    REFERENCE_COMMIT,
+    REFERENCE_ID,
+    REFERENCE_RELEASE,
     capability_surface_parity_valid,
     change_surface_closed,
     common_authorization_boundary_valid,
@@ -61,12 +64,19 @@ class KaneoGateTests(unittest.TestCase):
             )
         )
 
-    def test_reference_gate_passes_with_canonical_artifacts(self):
+    def test_reference_gate_passes_with_v2_24_immutable_artifacts(self):
         report = gate(ROOT)
         self.assertEqual(report["result"], "PASS")
         self.assertEqual(report["reference"]["result"], "PASS")
         self.assertEqual(report["regressions"]["passed"], 4)
+        self.assertEqual(report["upstream_reference_id"], REFERENCE_ID)
+        self.assertEqual(report["reference_release"], REFERENCE_RELEASE)
+        self.assertEqual(report["reference_commit"], REFERENCE_COMMIT)
         self.assertFalse(report["runtime_provider_required"])
+
+    def test_historical_v2_22_evidence_is_retained(self):
+        self.assertTrue((ROOT / "evidence/reference/kaneo-v2.22.0.json").exists())
+        self.assertTrue((ROOT / "evidence/reference/kaneo-v2.24.0.json").exists())
 
     def test_optional_provider_cannot_be_promoted_to_authority(self):
         provider_path = ROOT / "canonical/providers/FA3-PROVIDER-KANEO-001.json"
@@ -77,7 +87,7 @@ class KaneoGateTests(unittest.TestCase):
             provider_path.write_text(json.dumps(provider))
             report = gate(ROOT)
             self.assertEqual(report["result"], "FAIL")
-            self.assertTrue(any(x["code"] == "KANEO-REF-010" for x in report["reference"]["findings"]))
+            self.assertTrue(any(x["code"] == "KANEO-REF-013" for x in report["reference"]["findings"]))
         finally:
             provider_path.write_text(original)
 
