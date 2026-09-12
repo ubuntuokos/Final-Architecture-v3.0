@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-INSPECTOR-001",
+  "name": "Independent Verification & Assurance Inspector Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_INDEPENDENT_VERIFICATION_ASSURANCE_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-INSPECTION-CONTRACTS-001"],
+  "providers": ["FA3-PROVIDER-INSPECTOR-LOCAL-001"],
+  "dependencies": ["FA3-REGISTRY-001", "FA3-AUTH-OBS-EVIDENCE-001"],
+  "authority": {
+    "architectural_authority": "NONE",
+    "execution_authority": "NONE_BY_DEFAULT",
+    "canonical_registry": "FA3-REGISTRY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "promotion_effect": "MAY_BLOCK_WITHIN_INSPECTION_SCOPE",
+    "repair_authority_during_certification": "FORBIDDEN"
+  },
+  "inspection_levels": ["L1_STATIC", "L2_RUNTIME", "L3_PRODUCTION"],
+  "classification_states": ["PASS", "FAIL", "BLOCKED", "INCONCLUSIVE", "EVIDENCE_MISSING", "EVIDENCE_STALE", "DRIFT_DETECTED"],
+  "invariants": [
+    "FA3-INVARIANT-INDEPENDENT-VERIFICATION-001",
+    "INSPECTOR_PROVIDER_INDEPENDENT",
+    "INSPECTOR_NOT_ARCHITECTURAL_AUTHORITY",
+    "INSPECTOR_NO_GENERAL_EXECUTION_AUTHORITY",
+    "EXECUTOR_CANNOT_BE_SOLE_ACCEPTING_VERIFIER",
+    "P0_MUST_PRODUCTION_PASS_FORBIDS_SELF_ATTESTATION_ONLY",
+    "INSTALLED_CONFIGURED_RUNNING_CONFORMANT_PRODUCTION_READY_ARE_DISTINCT",
+    "EVIDENCE_PROVENANCE_FRESHNESS_AND_REPRODUCIBILITY_REQUIRED",
+    "CERTIFICATION_RUN_CANNOT_SILENTLY_REPAIR_SUBJECT",
+    "REMEDIATION_REQUIRES_SEPARATE_TASK_AND_REINSPECTION",
+    "INCONCLUSIVE_NEVER_PROMOTES",
+    "DRIFT_DETECTED_NEVER_PROMOTES"
+  ],
+  "implementation": {
+    "canonical_app": "FA3 Inspector",
+    "minimum_version": "0.1.0",
+    "source_entrypoint": "src/fa3_inspector.py",
+    "gate_entrypoint": "src/fa3_inspector_gate.py",
+    "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT"
+  },
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_REFERENCE_APP_V0.1.0"
+}

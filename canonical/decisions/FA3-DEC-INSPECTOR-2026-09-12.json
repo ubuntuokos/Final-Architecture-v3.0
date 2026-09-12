@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-INSPECTOR-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3 Inspector independent verification and assurance role materialization",
+  "decision": "ACCEPT_AND_MANDATE",
+  "profile_id": "FA3-INSPECTOR-001",
+  "provider_id": "FA3-PROVIDER-INSPECTOR-LOCAL-001",
+  "contract_family_id": "FA3-INSPECTION-CONTRACTS-001",
+  "policy_id": "FA3-INSPECTION-POLICY-001",
+  "evidence_contract_id": "FA3-INSPECTION-EVIDENCE-001",
+  "gate_id": "FA3-GATE-INDEPENDENT-VERIFICATION-001",
+  "gateset_id": "FA3-INSPECTOR-GATESET-001",
+  "conformance_matrix_id": "FA3-INSPECTION-CONFORMANCE-MATRIX-001",
+  "canonical_classification": "P0/MUST provider-independent cross-cutting independent verification and assurance role with a local FA3-native reference implementation.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "canonical_invariant": {
+    "id": "FA3-INVARIANT-INDEPENDENT-VERIFICATION-001",
+    "rule": "A P0/MUST capability SHALL NOT receive production PASS based solely on self-attestation from the component or actor that produced the result."
+  },
+  "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT",
+  "promotion_claimed": false
+}

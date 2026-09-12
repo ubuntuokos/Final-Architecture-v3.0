@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-INSPECTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "contracts": [
+    "InspectionRequest", "InspectionSubject", "InspectionScope", "InspectionLevel",
+    "ExecutorIdentity", "InspectorIdentity", "EvidenceReference", "EvidenceProvenance",
+    "FreshnessAssertion", "ReproducibilityAssertion", "DriftAssertion",
+    "InspectionFinding", "InspectionClassification", "PromotionBlockSignal", "RemediationRequest"
+  ],
+  "classification_model": {
+    "allowed": ["PASS", "FAIL", "BLOCKED", "INCONCLUSIVE", "EVIDENCE_MISSING", "EVIDENCE_STALE", "DRIFT_DETECTED"],
+    "unknown_or_unprovable": "INCONCLUSIVE",
+    "self_attestation_only_p0_must_production": "BLOCKED",
+    "missing_evidence": "EVIDENCE_MISSING",
+    "stale_evidence": "EVIDENCE_STALE",
+    "drift": "DRIFT_DETECTED"
+  },
+  "separation_of_duties": {
+    "executor_may_supply_evidence": true,
+    "executor_may_be_sole_accepting_verifier": false,
+    "same_actor_executor_and_inspector_for_production_pass": false,
+    "independent_evidence_required_for_p0_must_production_pass": true
+  },
+  "mutation_model": {
+    "subject_mutation_during_certification": "FORBIDDEN",
+    "silent_repair_then_pass": "FORBIDDEN",
+    "remediation": "SEPARATE_TASK_THEN_REINSPECTION"
+  }
+}
