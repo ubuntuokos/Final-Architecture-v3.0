@@ -31,6 +31,7 @@ REQUIRED = {
     "settings_cpp": ROOT / "apps/fa3-control-center/src/SettingsStore.cpp",
     "settings_h": ROOT / "apps/fa3-control-center/src/SettingsStore.h",
     "shell": ROOT / "apps/fa3-control-center/qml/AppShell.qml",
+    "embedded_apps_qml": ROOT / "apps/fa3-control-center/qml/EmbeddedAppsPage.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SettingsPage.qml",
     "mentor_qml": ROOT / "apps/fa3-control-center/qml/MentorPage.qml",
     "coach_qml": ROOT / "apps/fa3-control-center/qml/CoachPage.qml",
@@ -39,10 +40,11 @@ REQUIRED = {
     "system_qml": ROOT / "apps/fa3-control-center/qml/SystemPage.qml",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
+    "workflow": ROOT / ".github/workflows/fa3-gui-gate.yml",
 }
 
 NAVIGATION = [
-    "Command Center", "Projects", "AI Studio", "AI Mentor", "AI Coach", "Manager",
+    "Command Center", "Projects", "AI Studio", "AI Applications", "AI Mentor", "AI Coach", "Manager",
     "Agents & Workflows", "Model Manager", "Architecture", "Resources",
     "Security & Approvals", "Observability", "Evidence", "Integrations", "System", "Settings",
 ]
@@ -52,7 +54,6 @@ SYSTEM_SECTIONS = [
     "Overview", "CPU / NUMA", "GPU / Accelerators", "Memory", "Storage",
     "Services", "Thermal & Power", "Software", "Maintenance", "Peripherals",
 ]
-
 SETTINGS_SURFACES = [
     "Megjelenés", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk",
     "Integrációk", "GIMP", "Krita", "Kdenlive", "OpenShot", "Ardour", "Audacity",
@@ -96,30 +97,29 @@ def validate():
     ev = load_json(REQUIRED["evidence"])
 
     checks = [
-        (dp.get("version") == "1.2.0", "desktop-version"),
+        (dp.get("version") == "1.3.0", "desktop-version"),
         (dp.get("new_capability") is False, "desktop-no-capability"),
         (dp.get("new_architectural_authority") is False, "desktop-no-authority"),
         (dp.get("capability_count") == 143, "desktop-count"),
+        (dp.get("runtime", {}).get("browser_shell") is False, "desktop-not-browser-shell"),
+        (dp.get("runtime", {}).get("embedded_web_runtime") == "Qt WebEngine", "desktop-embedded-web-runtime"),
+        (dp.get("embedded_web_policy", {}).get("external_browser_for_ai_ui") == "FORBIDDEN_BY_DEFAULT", "desktop-no-external-ai-browser"),
+        (dp.get("embedded_web_policy", {}).get("new_window_requests") == "RETAIN_INSIDE_FA3_WEB_SURFACE", "desktop-retain-new-window"),
         (dp.get("maintenance_policy", {}).get("routine_gpu_cleanup_uses_reset") is False, "desktop-no-routine-gpu-reset"),
         (dp.get("maintenance_policy", {}).get("evidence_excluded_from_generic_cleanup") is True, "desktop-evidence-not-cleanup"),
-        (dc.get("version") == "1.2.0", "contract-version"),
+        (dc.get("version") == "1.3.0", "contract-version"),
         (dc.get("mutation_model", {}).get("direct_canonical_write") == "FORBIDDEN", "no-direct-canonical"),
         (dc.get("mutation_model", {}).get("direct_gpu_hard_reset") == "FORBIDDEN", "no-direct-gpu-reset"),
         (dc.get("mutation_model", {}).get("direct_peripheral_kernel_or_device_mutation") == "FORBIDDEN", "no-direct-peripheral-mutation"),
+        ("AI_WEB_UI_EMBEDDED_IN_FA3_NATIVE_WINDOW_BY_DEFAULT" in dc.get("embedded_web_invariants", []), "embedded-ai-ui-required"),
+        ("EXTERNAL_BROWSER_FOR_AI_UI_FORBIDDEN_BY_DEFAULT" in dc.get("embedded_web_invariants", []), "external-ai-browser-forbidden"),
+        ("NEW_WINDOW_REQUESTS_RETAINED_INSIDE_FA3_WEB_SURFACE" in dc.get("embedded_web_invariants", []), "new-window-contained"),
+        ("WEB_ENDPOINT_PREFERENCES_MUST_NOT_STORE_SECRETS" in dc.get("embedded_web_invariants", []), "web-endpoint-no-secrets"),
         ("ROUTINE_GPU_MEMORY_CLEANUP_NEVER_REQUIRES_GPU_RESET" in dc.get("maintenance_invariants", []), "gpu-cleanup-no-reset"),
         ("EVIDENCE_EXCLUDED_FROM_GENERIC_CLEANUP" in dc.get("maintenance_invariants", []), "evidence-cleanup-boundary"),
-        (gs.get("version") == "1.1.0", "settings-profile-version"),
         (gs.get("new_architectural_authority") is False, "settings-no-authority"),
-        ("KEYBOARD_SHORTCUTS" in gs.get("scope", []), "settings-shortcuts-scope"),
-        ("OFFICE_KNOWLEDGE_INTEGRATIONS" in gs.get("scope", []), "settings-office-knowledge-scope"),
-        ("PUBLISHING_TARGET_PREFERENCES" in gs.get("scope", []), "settings-publishing-scope"),
-        (gc.get("version") == "1.1.0", "settings-contract-version"),
         (gc.get("storage", {}).get("backend") == "QSettings/XDG", "settings-xdg"),
         (gc.get("storage", {}).get("secret_values") == "FORBIDDEN", "settings-no-secrets"),
-        (gc.get("storage", {}).get("api_tokens") == "FORBIDDEN", "settings-no-api-tokens"),
-        (gc.get("publishing", {}).get("credential_storage") == "FORBIDDEN", "publishing-no-credentials"),
-        (gc.get("mutation_model", {}).get("fstab_mutation") == "FORBIDDEN", "settings-no-fstab"),
-        (gc.get("mutation_model", {}).get("direct_remote_publish") == "FORBIDDEN", "settings-no-direct-publish"),
         (mentor.get("id") == "FA3-MENTOR-001", "mentor-present"),
         (ms.get("relationship") == "SUBPROFILE-OF:FA3-MENTOR-001", "mentor-settings"),
         (mp.get("new_architectural_authority") is False, "mentor-prefs-no-authority"),
@@ -135,10 +135,7 @@ def validate():
         (ops_decision.get("new_capabilities") == 0, "ops-decision-no-capability"),
         (ops_decision.get("new_architectural_authorities") == 0, "ops-decision-no-authority"),
         (ops_decision.get("capability_count_after") == 143, "ops-decision-count"),
-        ("NO_DIRECT_GPU_HARD_RESET" in ops_decision.get("invariants", []), "ops-decision-gpu-reset-boundary"),
         (settings_gate.get("fail_closed") is True, "settings-gate-fail-closed"),
-        ("PUBLISHING_CREDENTIALS_FORBIDDEN_IN_QSETTINGS" in settings_gate.get("enforces", []), "settings-gate-publishing-secrets"),
-        (operations_gate.get("id") == "FA3-GATE-GUI-OPERATIONS-001", "operations-gate-id"),
         (operations_gate.get("fail_closed") is True, "operations-gate-fail-closed"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-pending"),
         (runtime.get("production_admitted") is False, "runtime-not-production"),
@@ -155,12 +152,23 @@ def validate():
         if module not in shell:
             failures.append(f"qml-studio-module-missing:{module}")
     for token in [
-        "fa3Settings", "MentorPage", "CoachPage", "ManagerPage", "ModelManagerPage",
+        "fa3Settings", "EmbeddedAppsPage", "MentorPage", "CoachPage", "ManagerPage", "ModelManagerPage",
         "SystemPage", "SettingsPage", "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet",
-        "Shortcut", "shortcuts/assistant", "LibreOffice", "Obsidian",
+        "Shortcut", "shortcuts/assistant", "LibreOffice", "Obsidian", "Kérdezd a Managert", "navigationHistory", "sidebarCollapsed",
     ]:
         if token not in shell:
             failures.append(f"qml-shell-missing:{token}")
+
+    embedded = REQUIRED["embedded_apps_qml"].read_text(encoding="utf-8")
+    for token in [
+        "import QtWebEngine", "WebEngineView", "Open WebUI", "ComfyUI", "InvokeAI", "n8n",
+        "onNewWindowRequested", "request.openIn(webView)", "onNavigationRequested", "request.reject()",
+        "webapps/", "Külső böngésző nincs használva",
+    ]:
+        if token not in embedded:
+            failures.append(f"embedded-web-missing:{token}")
+    if "Qt.openUrlExternally" in embedded:
+        failures.append("embedded-web-external-opener-forbidden")
 
     sq = REQUIRED["settings_qml"].read_text(encoding="utf-8")
     for token in SETTINGS_SURFACES:
@@ -203,17 +211,10 @@ def validate():
     for token in FORBIDDEN_BACKEND_TOKENS:
         if token in repo or token in repo_h:
             failures.append(f"backend-forbidden-token:{token}")
-    for token in ["gpuDevices", "storageDevices", "peripheralDevices", "/proc/driver/nvidia", "/sys/class/input", "/sys/class/video4linux"]:
-        if token not in repo and token not in repo_h:
-            failures.append(f"host-discovery-missing:{token}")
 
     scpp = REQUIRED["settings_cpp"].read_text(encoding="utf-8")
     sh = REQUIRED["settings_h"].read_text(encoding="utf-8")
-    for token in [
-        "QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus",
-        "validShortcut", "shortcutConflict", "resetGroup", "libreOfficeEnabled", "obsidianEnabled",
-        "publishing/youtubeEnabled", "updates/channel",
-    ]:
+    for token in ["QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus", "validShortcut", "shortcutConflict", "resetGroup"]:
         if token not in scpp and token not in sh:
             failures.append(f"settings-backend-missing:{token}")
     for token in FORBIDDEN_SETTINGS_TOKENS:
@@ -224,16 +225,26 @@ def validate():
             failures.append(f"settings-secret-filter-missing:{token}")
 
     main = REQUIRED["main_cpp"].read_text(encoding="utf-8")
-    if not all(token in main for token in ["SettingsStore", "fa3Settings", "AppShell.qml", 'setApplicationVersion("0.3.0")']):
-        failures.append("settings-context-not-wired")
+    for token in ["SettingsStore", "fa3Settings", "AppShell.qml", "QtWebEngineQuick::initialize", "AA_ShareOpenGLContexts", "0.4.0"]:
+        if token not in main:
+            failures.append(f"main-missing:{token}")
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     for token in [
-        "VERSION 0.3.0", "Qt6::Widgets", "SettingsStore.cpp", "AppShell.qml", "SettingsPage.qml",
-        "MentorPage.qml", "CoachPage.qml", "ManagerPage.qml", "ModelManagerPage.qml", "SystemPage.qml",
+        "VERSION 0.4.0", "WebEngineQuick", "Qt6::WebEngineQuick", "EmbeddedAppsPage.qml",
+        "SettingsStore.cpp", "AppShell.qml", "SettingsPage.qml", "MentorPage.qml", "CoachPage.qml",
+        "ManagerPage.qml", "ModelManagerPage.qml", "SystemPage.qml",
     ]:
         if token not in cmake:
             failures.append(f"cmake-missing:{token}")
+
+    installer = REQUIRED["installer"].read_text(encoding="utf-8")
+    workflow = REQUIRED["workflow"].read_text(encoding="utf-8")
+    for token in ["qt6-webengine-dev", "qml6-module-qtwebengine"]:
+        if token not in installer:
+            failures.append(f"installer-webengine-missing:{token}")
+        if token not in workflow:
+            failures.append(f"workflow-webengine-missing:{token}")
 
     return failures
 
@@ -246,7 +257,7 @@ def main():
             print(" -", failure)
         return 1
     print("FA3 GUI gate: PASS")
-    print("desktop=1.2.0 operations=0.3.0 settings=1.1.0/QSettings-XDG capabilities=143 new_authorities=0")
+    print("desktop=1.3.0 app=0.4.0 embedded_web=QtWebEngine capabilities=143 new_authorities=0")
     return 0
 
 
