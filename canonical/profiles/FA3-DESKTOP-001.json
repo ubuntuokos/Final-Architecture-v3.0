@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-DESKTOP-001",
   "name": "FA3 Desktop Studio, Control Center & Operations Projection",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -19,6 +19,7 @@
     "COMMAND_CENTER",
     "PROJECTS_WORKSPACES_ASSETS_KNOWLEDGE",
     "AI_STUDIO_IMAGE_VIDEO_ANIMATION_3D_VFX_AUDIO_MUSIC_STORY",
+    "AI_WEB_APPLICATIONS_EMBEDDED_IN_NATIVE_FA3_WINDOW",
     "AI_MENTOR_INTERACTION_AND_SETTINGS_PROJECTION",
     "AI_COACH_GOAL_EXECUTION_PROGRESS_AND_SETTINGS_PROJECTION",
     "AI_ASSISTANT_CONTEXT_AND_TASK_DRAFT_PROJECTION",
@@ -76,11 +77,20 @@
     "gui_preferences": "LOCAL_QSETTINGS_ALLOWED",
     "system_mapping_or_device_mutation": "CHANGESET_OR_AUTHORIZED_ADAPTER_REQUIRED"
   },
+  "embedded_web_policy": {
+    "ai_web_ui_location": "FA3_NATIVE_WINDOW_ONLY_BY_DEFAULT",
+    "external_browser_for_ai_ui": "FORBIDDEN_BY_DEFAULT",
+    "engine": "QT_WEBENGINE",
+    "new_window_requests": "RETAIN_INSIDE_FA3_WEB_SURFACE",
+    "external_protocol_launch": "BLOCKED_BY_DEFAULT",
+    "native_desktop_applications": "EXTERNAL_NATIVE_WINDOWS_ALLOWED"
+  },
   "runtime": {
     "native_desktop": true,
     "toolkit": "Qt 6 / QML",
     "display_protocol": "WAYLAND_PRIMARY",
     "browser_shell": false,
+    "embedded_web_runtime": "Qt WebEngine",
     "direct_privileged_executor": false,
     "draft_changeset_only": true,
     "local_settings_backend": "QSettings/XDG",
