@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-ACE-STEP-BASELINE-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "ACE-Step 1.5 XL/SFT REST quality, VRAM reservation, TorchCodec and Linux compatibility reconciliation",
+  "decision": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_HARDENING",
+  "profile_id": "FA3-MUSIC-001",
+  "provider_id": "FA3-PROVIDER-ACE-STEP-001",
+  "gate_id": "FA3-ACE-STEP-GATESET-001",
+  "extends_decision": "FA3-DEC-ACE-STEP-HARDENING-2026-09-10",
+  "latest_formal_release": "v0.1.8",
+  "observed_main_commit": "ca1e85fe9430179831e6bc6be790c332190a3866",
+  "baseline_runtime_pin_policy": "KEEP_IMMUTABLE_RELEASE_OR_COMMIT_PIN; DO_NOT_PROMOTE_OPEN_UPSTREAM_PR",
+  "material_changes": [
+    {"upstream": "PR-1223", "area": "REST_API_GENERATION_QUALITY_XL_SFT", "disposition": "REFERENCE_ONLY_OPEN_FIX_CANDIDATE", "fa3_action": "REST automation SHALL set inference_steps explicitly; SFT/XL-SFT SHALL NOT inherit turbo defaults; inference_steps become provenance-bearing."},
+    {"upstream": "PR-1301", "area": "VRAM_MEMORY_XL_LONG_GENERATION", "disposition": "REFERENCE_ONLY_OPEN_FIX_CANDIDATE", "fa3_action": "LM/DiT safe reservation SHALL account for model family, duration and batch while preserving the KV-cache scheduler floor; provider preflight cannot replace HRB admission."},
+    {"upstream": "PR-1242 and related TorchCodec fixes", "area": "PYTORCH_TORCHAUDIO_TORCHCODEC_LINUX_EXPORT", "disposition": "REFERENCE_ONLY_OPEN_COMPATIBILITY_FIX_CANDIDATE", "fa3_action": "Canonical WAV/FLAC master export SHALL remain operational without an unguarded TorchCodec dependency; TorchCodec, if enabled, requires ABI/dependency smoke evidence."},
+    {"upstream": "PR-1311 PR-1312 PR-1319 PR-1321", "area": "MEMORY_CUDA_NUMERIC_OFFLOAD_HARDENING", "disposition": "RETAIN_2026_09_10_FAIL_CLOSED_HARDENING", "fa3_action": "No relaxation of LM teardown, precision provenance, non-finite rejection, offload coherence or CUDA probe fallback policies."}
+  ],
+  "current_host_policy": {"runtime_promotion": "PENDING_CURRENT_HOST", "target_gpu_class": "NVIDIA_CUDA_24GB_PRIMARY_REFERENCE", "required_evidence": ["explicit_rest_inference_steps_pass", "sft_api_inference_steps_explicit_and_non_turbo_pass", "model_duration_batch_aware_vram_reserve_pass", "kv_cache_floor_fail_closed_pass", "lossless_export_without_unguarded_torchcodec_pass", "torchcodec_abi_smoke_if_enabled_pass", "linux_audio_export_dependency_smoke_pass"]},
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "authority_boundaries_unchanged": true,
+  "provider_status_after": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED"
+}
