@@ -7,27 +7,25 @@ Provider coupling: **none**
 
 ## Purpose
 
-`FA3-GUI-LANGUAGE-CONTROL-001` is the native FA3 Control Center projection for multilingual semantic interoperability. It exposes user intent, model language capability, mediation routing, data-policy outcome, validation state and evidence without becoming a translation, security, model-routing or promotion authority.
+`FA3-GUI-LANGUAGE-CONTROL-001` is the native FA3 Control Center projection for multilingual semantic interoperability. It exposes operator intent, model language capability, mediation routing, data-policy outcome, semantic validation and evidence without becoming a translation, security, model-routing, evidence or promotion authority.
 
-The GUI is a control/observability surface only. Effective decisions remain in the backend canonical authorities.
+The GUI is a control/observability surface only. Effective decisions remain in canonical backend authorities.
 
 ## Architectural boundary
 
-The control surface is designed to compose with:
+The surface composes with the following contracts/projections when materialized and bound:
 
-- `FA3-LANGUAGE-BRIDGE-001` — multilingual semantic mediation contract;
-- `FA3-MODEL-MANAGER-001` and the canonical Model Registry — model inventory and capability evidence;
-- `FA3-VOICE-001` / STT / TTS projections — speech mediation;
+- `FA3-LANGUAGE-BRIDGE-001` — multilingual semantic mediation;
+- `FA3-MODEL-MANAGER-001` and canonical Model Registry — model inventory and native capability evidence;
+- `FA3-VOICE-001` / STT / TTS — speech mediation;
 - canonical security/policy enforcement — external-provider allow/deny decisions;
 - Evidence Registry — provenance, validation and execution receipts.
 
-This profile MUST NOT create a parallel model registry, translation authority, policy engine or evidence authority.
+It MUST NOT create a parallel model registry, translation authority, policy engine or evidence authority.
 
 ## Native vs mediated capability
 
-The GUI MUST expose native and FA3-mediated language support as separate fields.
-
-Example:
+Native and FA3-mediated language support MUST remain separate:
 
 ```text
 Native:   EN
@@ -35,72 +33,54 @@ Mediated: HU, DE, FR
 Route:    HU -> EN -> MODEL -> EN -> HU
 ```
 
-A mediated language MUST NOT be represented as a model-native capability and MUST NOT mutate native capability evidence.
+Mediated support MUST NOT rewrite or inflate model-native capability evidence.
 
 ## User modes
 
-### User
+**User** exposes input/output language, prefer-native intent, allow-mediated intent and concise mediation state.
 
-Expose only the minimum interaction surface:
+**Expert** additionally exposes execution language, mediation route/provider, data classification, local-first/cloud intent, effective cloud-policy projection, semantic-validation status and confidence.
 
-- input language (`auto` allowed);
-- output language (`same-as-input` allowed);
-- prefer-native intent;
-- allow-mediated intent;
-- concise mediation state.
-
-### Expert
-
-Additionally expose:
-
-- execution language;
-- mediation path;
-- translator provider projection;
-- data classification;
-- local-first preference;
-- cloud-translation request intent;
-- effective cloud-policy result;
-- semantic validation mode/status;
-- confidence.
-
-### Admin / Architecture
-
-Additionally expose:
-
-- Evidence ID;
-- protected-token integrity status;
-- speech mediation route;
-- provenance / derived-projection status.
+**Admin / Architecture** additionally exposes Evidence ID, protected-token integrity and speech mediation route.
 
 ## Runtime projection contract
 
-The QML component exposes the following backend-bindable fields:
+Backend-bindable runtime values:
 
 ```text
-profileId              = FA3-GUI-LANGUAGE-CONTROL-001
-userLanguage           = auto
-outputLanguage         = same-as-input
 nativeLanguages        = []
 mediatedLanguages      = []
 executionLanguage      = UNKNOWN
-mediationRequired      = UNKNOWN until bound
+mediationStateKnown    = false
+mediationRequired      = false   # meaningful only when mediationStateKnown=true
 mediationPath          = PENDING_BACKEND
 translatorProvider     = PENDING_BACKEND
 dataClassification     = INTERNAL
-cloudRequested         = false
-cloudEffective         = false until policy result is bound
+cloudPolicyStatus      = PENDING_BACKEND
+cloudEffective         = false   # meaningful only after an effective policy result
 validationStatus       = PENDING_BACKEND
-confidence             = UNKNOWN until bound
-evidenceId             = PENDING_BACKEND
+confidence             = -1      # UNKNOWN
+ evidenceId            = PENDING_BACKEND
 protectedTokenStatus   = PENDING_BACKEND
 speechRoute            = PENDING_BACKEND
 ```
 
-`UNKNOWN` and `PENDING_BACKEND` are first-class states. The UI MUST NOT infer PASS from absent runtime evidence.
+Operator-preference values are persisted by the existing `SettingsStore`:
 
-## Data-classification policy projection
+```text
+userLanguage
+outputLanguage
+preferNative
+allowMediated
+localFirst
+cloudRequested
+validationMode
+viewMode
+```
 
-The GUI reflects, but does not enforce as authority, the Language Bridge contract:
+`UNKNOWN` and `PENDING_BACKEND` are first-class states. `mediationRequired=false` MUST NOT render as `NO` until `mediationStateKnown=true`. An absent backend result MUST NOT be inferred as PASS, ALLOWED or successful mediation.
+
+## Data-classification projection
 
 | Classification | External translation |
 |---|---|
@@ -109,54 +89,50 @@ The GUI reflects, but does not enforce as authority, the Language Bridge contrac
 | `CONFIDENTIAL` | local-first / restricted |
 | `SECRET` | forbidden |
 
-The GUI may collect `cloudRequested=true`, but `cloudEffective` MUST come from canonical policy enforcement. A SECRET classification MUST visibly indicate that external translation is denied and MUST NOT offer a bypass.
+`cloudRequested` is operator intent only. `cloudPolicyStatus` and `cloudEffective` come from backend policy enforcement. For `SECRET`, the GUI MUST visibly project external translation as denied and MUST NOT expose a bypass.
 
 ## Protected content
 
-The Language Bridge contract treats the following as protected/non-translatable unless an explicit typed rule permits otherwise:
+The Language Bridge contract preserves, unless an explicit typed rule says otherwise:
 
-- source code;
-- shell commands;
+- source code and shell commands;
 - paths;
-- API names;
+- API names and structured keys;
 - model identifiers;
 - hashes;
-- FA3 canonical IDs;
-- structured keys such as JSON/YAML keys by default.
+- FA3 canonical IDs.
 
-The GUI exposes `protectedTokenStatus`; it does not implement token-preservation logic itself.
+The GUI exposes `protectedTokenStatus`; it does not implement preservation logic itself.
 
-## Translation authority rule
+## Authority and provenance
 
-The original source remains authoritative. A translation is a derived projection with provenance. The GUI MUST never promote a translated value into canonical authority merely because it is displayed or accepted by a user.
+The original source remains authoritative. Translation is a derived projection with provenance. Displaying or accepting a translation in the GUI MUST NOT promote it into canonical authority.
 
-## Static i18n boundary
-
-Control Center UI localization and runtime semantic mediation are separate concerns:
+Static Control Center localization and runtime semantic mediation are separate:
 
 ```text
 GUI locale/i18n != FA3 Language Bridge runtime mediation
 ```
 
-Changing the GUI language MUST NOT silently change model routing, data classification or online-provider policy.
+Changing GUI locale MUST NOT silently change model routing, data classification or external-provider policy.
 
 ## Acceptance contract
 
 | ID | Requirement | Fail-closed expectation |
 |---|---|---|
-| `GLC-001` | Native and mediated languages are visibly distinct | no merged language list |
+| `GLC-001` | Native and mediated languages visibly distinct | no merged language list |
 | `GLC-002` | Effective routing/policy comes from backend authority | GUI cannot self-authorize |
-| `GLC-003` | `SECRET` external translation is denied | no bypass |
-| `GLC-004` | Mediation path and provider provenance are observable | unknown remains explicit |
-| `GLC-005` | Protected-token integrity is observable | absent evidence is not PASS |
-| `GLC-006` | Semantic-validation status is observable | absent evidence is not PASS |
-| `GLC-007` | Provider-neutral contract | no mandatory translator vendor |
-| `GLC-008` | Speech mediation route can be projected | no duplicate Voice authority |
-| `GLC-009` | `UNKNOWN` / `PENDING_BACKEND` is never rendered as PASS | fail closed |
+| `GLC-003` | `SECRET` external translation denied | no bypass |
+| `GLC-004` | Mediation route/provider provenance observable | unknown stays explicit |
+| `GLC-005` | Protected-token integrity observable | absent evidence is not PASS |
+| `GLC-006` | Semantic-validation status observable | absent evidence is not PASS |
+| `GLC-007` | Provider-neutral contract | no mandatory vendor |
+| `GLC-008` | Speech mediation route projectable | no duplicate Voice authority |
+| `GLC-009` | `UNKNOWN` / `PENDING_BACKEND` never rendered as PASS | fail closed |
 | `GLC-010` | Original source remains authoritative | translation stays derived |
 
 ## Current implementation boundary
 
-`qml/LanguageControlPage.qml` implements the native Qt/QML surface and preference capture. Backend Language Bridge bindings are intentionally not fabricated. Until they are wired, runtime-derived fields remain `UNKNOWN` or `PENDING_BACKEND`.
+`qml/LanguageControlPage.qml` implements the Qt/QML surface and preference capture. Backend Language Bridge results are intentionally not fabricated. Runtime-derived fields stay `UNKNOWN` or `PENDING_BACKEND` until actual adapters bind them.
 
-The profile therefore provides an executable GUI contract without claiming production Language Bridge runtime evidence that does not yet exist.
+This provides an executable GUI contract without claiming production Language Bridge runtime evidence that does not exist.
