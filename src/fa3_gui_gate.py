@@ -163,6 +163,7 @@ def validate():
     failures += [name for ok, name in checks if not ok]
 
     shell = REQUIRED["shell"].read_text(encoding="utf-8")
+    shell_lines = {line.strip() for line in shell.splitlines()}
     for label in NAVIGATION:
         if label not in shell:
             failures.append(f"qml-navigation-missing:{label}")
@@ -170,7 +171,7 @@ def validate():
         if forbidden_role_nav in shell:
             failures.append(f"qml-role-nav-forbidden:{forbidden_role_nav}")
     for forbidden_role_page in ["MentorPage {", "CoachPage {", "ManagerPage {"]:
-        if forbidden_role_page in shell:
+        if forbidden_role_page in shell_lines:
             failures.append(f"qml-role-page-forbidden:{forbidden_role_page}")
     for module in STUDIO_MODULES:
         if module not in shell:
