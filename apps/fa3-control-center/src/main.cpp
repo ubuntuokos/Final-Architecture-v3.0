@@ -6,12 +6,16 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QUrl>
+#include <QtWebEngineQuick/qtwebenginequickglobal.h>
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QtWebEngineQuick::initialize();
+
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("FA3ControlCenter");
-    QCoreApplication::setApplicationVersion("0.3.0");
+    QCoreApplication::setApplicationVersion("0.4.0");
     QCoreApplication::setOrganizationName("FinalArchitecture");
     QCoreApplication::setOrganizationDomain("fa3.local");
     QApplication::setApplicationDisplayName("FA3 Control Center");
