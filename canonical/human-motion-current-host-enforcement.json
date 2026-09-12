@@ -2,7 +2,7 @@
   "schema": "fa3.enforcement.v1",
   "id": "FA3-HUMAN-MOTION-CURRENT-HOST-ENFORCEMENT-001",
   "gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
-  "mandatory_rule_count": 24,
+  "mandatory_rule_count": 28,
   "fail_closed": true,
   "rules": [
     "receipt_schema_and_identity",
@@ -15,11 +15,15 @@
     "separate_model_license_admission",
     "soma_asset_admission",
     "smplx_license_and_asset_admission",
-    "hrb_uuid_bdf_binding",
-    "hrb_not_expired",
+    "hrb_compute_role_admission",
+    "selected_accelerator_non_display",
+    "hrb_live_uuid_bdf_identity",
+    "hrb_lease_not_expired",
+    "hrb_numa_locality_placement_evidence",
     "real_video_rights_and_non_synthetic_input",
     "runtime_network_fetch_disabled",
-    "gpu_execution_no_silent_fallback",
+    "hrb_scoped_cuda_execution",
+    "no_cpu_or_cross_accelerator_fallback",
     "77_joint_keypoint_shape",
     "finite_outputs_and_no_nan_inf",
     "frame_timestamp_consistency",
@@ -29,5 +33,13 @@
     "soma_npz_projection",
     "soma_to_smplx_and_usd_projection",
     "dcc_headless_import_smoke"
+  ],
+  "mandatory_hardware_conformance_chain": [
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "NON_DISPLAY_GPU",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_FALLBACK"
   ]
 }

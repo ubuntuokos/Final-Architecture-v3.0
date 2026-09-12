@@ -9,6 +9,21 @@
   "evidence_level_required": "CURRENT_HOST_REAL_VIDEO_GEM_X_SOMA_X_DCC_E2E",
   "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
   "receipt_path": "evidence/receipts/human-motion-current-host.json",
+  "hardware_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "hardware_contract_bindings": [
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001",
+    "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "mandatory_hardware_conformance_chain": [
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "NON_DISPLAY_GPU",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ],
   "requirements": [
     "exact_pinned_clean_gem_x_checkout",
     "exact_pinned_clean_soma_x_checkout",
@@ -16,9 +31,18 @@
     "separate_nvidia_model_license_receipt",
     "pre_admitted_soma_x_assets",
     "valid_smplx_license_and_model_assets",
-    "active_hrb_lease_bound_to_gpu_uuid_and_pci_bdf",
+    "active_hrb_compute_role_lease",
+    "hrb_selected_accelerator_must_be_non_display",
+    "live_gpu_uuid_and_pci_bdf_identity",
+    "runtime_gpu_ordinal_must_not_be_identity",
+    "topology_revalidated_at_admission",
+    "cpu_memory_accelerator_must_be_one_hrb_placement",
+    "compute_cpuset_must_be_local_to_accelerator_numa_node",
+    "memory_numa_node_must_be_local_to_accelerator",
     "real_non_synthetic_video_with_rights_or_consent_receipt",
     "runtime_network_fetch_disabled",
+    "single_visible_hrb_scoped_cuda_execution",
+    "no_cpu_or_cross_accelerator_fallback",
     "77_joint_keypoint_evidence",
     "finite_camera_and_world_space_motion",
     "monotonic_frame_timestamp_consistency",
@@ -31,6 +55,12 @@
     "usd_export",
     "bforartists_or_blender_headless_import_smoke"
   ],
+  "portable_hardware_policy": {
+    "exact_gpu_sku_pin": "FORBIDDEN",
+    "cuda_runtime_ordinal_as_identity": "FORBIDDEN",
+    "current_host_hardware_tuple": "EVIDENCE_ONLY",
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY"
+  },
   "promotion_scope": "COMPONENT_RUNTIME_ONLY_GLOBAL_CAPABILITY_COUNT_UNCHANGED",
   "capability_count_after": 143,
   "new_architectural_authorities": 0,
