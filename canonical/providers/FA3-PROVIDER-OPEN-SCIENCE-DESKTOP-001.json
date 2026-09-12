@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPEN-SCIENCE-DESKTOP-001",
+  "name": "ai4s-research/open-science",
+  "status": "ACCEPTED_REFERENCE",
+  "upstream": {
+    "project": "ai4s-research/open-science",
+    "repository": "https://github.com/ai4s-research/open-science",
+    "branch": "master",
+    "commit": "2f3d7e6ff75851e5f53ba0fb21adb3a1a1ad1375",
+    "license": "MIT"
+  },
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "LOCAL_FIRST_SCIENTIFIC_RESEARCH_WORKBENCH_REFERENCE",
+    "MODEL_AGNOSTIC_AGENT_WORKBENCH_REFERENCE",
+    "MCP_CLIENT_ORCHESTRATION_REFERENCE",
+    "REPRODUCIBILITY_PROVENANCE_PROJECTION_REFERENCE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "contract_id": "FA3-SCIENTIFIC-RESEARCH-WORKBENCH-CONTRACTS-001",
+  "gate_id": "FA3-GATE-OPEN-SCIENCE-DESKTOP-001",
+  "current_host_conformance_id": "FA3-OPEN-SCIENCE-DESKTOP-CURRENT-HOST-CONFORMANCE-001",
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "current_host_production_claim": false,
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "evidence": "EXISTING_FA3_UNIFIED_OBSERVABILITY_EVIDENCE_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "developer_execution": "EXISTING_FA3_DEVELOPER_EXECUTION_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "delegated_contracts": [
+    "FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001",
+    "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
+    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001"
+  ],
+  "provenance_policy": {
+    "upstream_local_run_log_role": "NON_AUTHORITATIVE_PROJECTION_ONLY",
+    "fa3_evidence_authority": "EXISTING_FA3_UNIFIED_OBSERVABILITY_EVIDENCE_AUTHORITY_ONLY"
+  },
+  "approval_policy": {
+    "production_full_approval_mode": "FORBIDDEN",
+    "destructive_install_network_operations": "EXPLICIT_APPROVAL_REQUIRED"
+  },
+  "skill_policy": {
+    "third_party_skill_activation_requires_fa3_admission": true,
+    "third_party_skill_license_must_be_independently_admitted": true,
+    "floating_or_unverified_skill_source_forbidden": true
+  },
+  "hardware_policy": {
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY",
+    "ui_role": "DISPLAY",
+    "compute_role": "COMPUTE_NON_DISPLAY",
+    "ui_may_claim_compute_accelerator_by_default": false,
+    "compute_may_execute_on_display_accelerator": false,
+    "cross_accelerator_fallback_allowed": false,
+    "cpu_fallback_for_gpu_required_work_allowed": false,
+    "exact_gpu_sku_pin": "FORBIDDEN_IN_PORTABLE_CANONICAL",
+    "runtime_gpu_ordinal_as_identity": "FORBIDDEN"
+  }
+}
