@@ -1,0 +1,63 @@
+name: FA3 Inspector Global Reconciliation
+
+on:
+  push:
+    branches:
+      - fa3-inspector-canonical-001
+    paths:
+      - 'tools/fa3_inspector_global_reconcile.py'
+      - 'tests/test_inspector_global_reconciliation.py'
+      - '.github/workflows/fa3-inspector-reconcile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-inspector-global-reconciliation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    name: inspector-global-reconciliation / P0
+    if: github.ref_name == 'fa3-inspector-canonical-001'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: fa3-inspector-canonical-001
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Prepare global enforcement reconciliation
+        run: python tools/fa3_inspector_global_reconcile.py --prepare-only
+
+      - name: Commit non-projection reconciliation
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/enforcement-policy.json
+          git diff --cached --quiet || git commit -m "FA3: reconcile Inspector global enforcement policy"
+
+      - name: Regenerate unified release projection from committed snapshot
+        run: python tools/fa3_inspector_global_reconcile.py --projection-only --snapshot-head HEAD
+
+      - name: Commit unified projection
+        run: |
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git diff --cached --quiet || git commit -m "FA3: reconcile Inspector unified release projection"
+
+      - name: Validate Inspector and global release gates
+        run: |
+          PYTHONPATH=src python src/fa3_inspector.py --self-check
+          PYTHONPATH=src python src/fa3_inspector_gate.py
+          PYTHONPATH=src python -m unittest tests.test_inspector_gate tests.test_inspector_global_reconciliation -v
+          PYTHONPATH=src python -m unittest tests.test_release_projection -v
+
+      - name: Push reconciled commits
+        run: git push origin HEAD:fa3-inspector-canonical-001
