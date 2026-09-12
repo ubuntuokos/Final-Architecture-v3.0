@@ -14,6 +14,7 @@
   "to_release": "v2.24.0",
   "to_commit_sha": "863b979e2af6d9b4d75064edc43a2c118d9af7ce",
   "compatibility_result": "PASS_NO_CANONICAL_SEMANTIC_CHANGE",
+  "global_projection_reconciliation": "REQUIRED_AND_EXECUTABLE",
   "mandatory_canonical_rules_unchanged": [
     "FA3-KANEO-P0-001",
     "FA3-KANEO-P0-002",
@@ -28,6 +29,7 @@
     "v2.24.0 preserves the upstream API-authoritative authorization and shared permission vocabulary patterns used by the FA3 canonical decision",
     "the pinned release contains explicit authorization-boundary integration coverage",
     "the pinned release includes a dependency fix for CVE-2026-75604",
-    "floating upstream main remains forbidden as promotion evidence"
+    "floating upstream main remains forbidden as promotion evidence",
+    "the unified release projection must be regenerated from the committed reconciliation snapshot before merge"
   ]
 }
