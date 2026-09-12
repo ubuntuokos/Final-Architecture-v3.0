@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-XYSAT-001",
+  "name": "xySat",
+  "status": "ACCEPTED_REFERENCE",
+  "classification": ["OPTIONAL_PROVIDER", "DISTRIBUTED_EXECUTION_ADAPTER", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "parent_profile": "FA3-OPS-AUTO-001",
+  "provider_role": "OPTIONAL_REMOTE_OR_DISTRIBUTED_OPERATIONAL_EXECUTION_PROVIDER",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "PENDING_CURRENT_HOST",
+  "runtime_activation_requires_current_host_conformance": true,
+  "prohibited_authorities": ["placement", "host-resource", "security", "secrets", "workflow-orchestration", "evidence"],
+  "normative_constraint": "xySat SHALL execute only typed, policy-admitted jobs with canonical HRB placement and evidence; it SHALL NOT become a resource or orchestration authority."
+}
