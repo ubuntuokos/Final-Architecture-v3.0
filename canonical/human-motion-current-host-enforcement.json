@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.enforcement.v1",
+  "id": "FA3-HUMAN-MOTION-CURRENT-HOST-ENFORCEMENT-001",
+  "gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
+  "mandatory_rule_count": 24,
+  "fail_closed": true,
+  "rules": [
+    "receipt_schema_and_identity",
+    "real_current_host_evidence_level",
+    "capability_and_authority_invariants",
+    "exact_gem_x_revision",
+    "exact_soma_x_revision",
+    "clean_source_checkouts",
+    "checkpoint_content_identity",
+    "separate_model_license_admission",
+    "soma_asset_admission",
+    "smplx_license_and_asset_admission",
+    "hrb_uuid_bdf_binding",
+    "hrb_not_expired",
+    "real_video_rights_and_non_synthetic_input",
+    "runtime_network_fetch_disabled",
+    "gpu_execution_no_silent_fallback",
+    "77_joint_keypoint_shape",
+    "finite_outputs_and_no_nan_inf",
+    "frame_timestamp_consistency",
+    "world_space_motion_and_dynamic_camera",
+    "motion_continuity_metric",
+    "foot_sliding_and_hand_jitter_metrics",
+    "soma_npz_projection",
+    "soma_to_smplx_and_usd_projection",
+    "dcc_headless_import_smoke"
+  ]
+}

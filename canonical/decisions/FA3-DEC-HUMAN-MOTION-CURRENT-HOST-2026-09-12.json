@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12",
+  "status": "CANONICAL_CLOSED_RUNTIME_PENDING",
+  "date": "2026-09-12",
+  "subject": "Human Motion current-host production admission",
+  "decision": "Materialize a manual-dispatch, fail-closed current-host E2E gate for GEM-X -> provider-neutral Human Motion IR/SOMA NPZ -> SOMA-X -> SMPL-X/USD -> Bforartists or Blender import. Hosted CI validates only contracts; it cannot claim runtime promotion.",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "provider_ids": ["FA3-PROVIDER-GEM-X-001", "FA3-PROVIDER-SOMA-X-001"],
+  "conformance_id": "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001",
+  "gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
+  "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "security": {
+    "runtime_network_fetch": false,
+    "automatic_model_download": false,
+    "source_checkout_must_be_exact_and_clean": true,
+    "checkpoint_and_assets_must_be_pre_admitted": true,
+    "separate_model_and_third_party_license_receipts": true,
+    "human_video_rights_or_consent_receipt_required": true,
+    "secrets_in_evidence_forbidden": true
+  },
+  "baseline_effect": {
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  }
+}

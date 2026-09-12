@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "conformance_id": "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001",
+  "gate_set_id": "FA3-HUMAN-MOTION-CURRENT-HOST-GATESET-001",
+  "entrypoint": "./bin/fa3-enforce human-motion-current-host",
+  "receipt": "evidence/receipts/human-motion-current-host.json",
+  "report": "reports/human-motion-current-host-gate-report.json",
+  "rule_count": 24,
+  "fail_closed": true,
+  "hosted_ci_may_promote_runtime": false,
+  "real_current_host_receipt_required": true
+}
