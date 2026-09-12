@@ -99,14 +99,15 @@ Item {
     }
 
     component RecordList: ScrollView {
+        id: recordList
         property var records: []
         property string emptyText: root.t("Nincs megjeleníthető rekord.", "No records to display.")
         contentWidth: availableWidth
         ColumnLayout {
-            width: parent.width
+            width: recordList.availableWidth
             spacing: 10
             Repeater {
-                model: parent.parent.records
+                model: recordList.records
                 delegate: Card {
                     required property var modelData
                     Layout.fillWidth: true
@@ -127,8 +128,8 @@ Item {
                 }
             }
             Label {
-                visible: parent.parent.records.length === 0
-                text: parent.parent.emptyText
+                visible: recordList.records.length === 0
+                text: recordList.emptyText
                 color: root.textMuted
             }
         }
