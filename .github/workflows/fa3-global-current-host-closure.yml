@@ -120,11 +120,11 @@ jobs:
           mkdir -p .fa3-current-host/global-closure
           bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
           set +e
-          python3 evidence/collect-terax-current-host.py --output .fa3-current-host/global-closure/terax-current-host.json
+          python3 evidence/collect-terax-current-host.py
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
-      - name: Reconcile only cryptographically qualified capability receipts
+      - name: Reconcile only qualified capability receipts
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_evidence_audit.py --root . --apply-reconciliation
@@ -175,6 +175,7 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            evidence/evidence-registry.json
             evidence/receipts/**
             reports/current-host-evidence-audit.json
             reports/runtime-gate-report.json
