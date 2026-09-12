@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "title": "Make HRB compute-role, non-display, live identity, NUMA locality, CUDA and no-fallback evidence mandatory for Human Motion current-host admission",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "conformance_id": "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001",
+  "gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
+  "placement_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "decision": "MANDATORY_FAIL_CLOSED_HARDWARE_CONFORMANCE_CHAIN",
+  "mandatory_chain": [
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "NON_DISPLAY_GPU",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ],
+  "canonical_bindings": [
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001",
+    "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "rationale": [
+    "Human Motion is a compute workload and SHALL consume an HRB compute-role placement instead of selecting an accelerator independently.",
+    "A display/UI accelerator SHALL NOT satisfy production Human Motion execution admission.",
+    "Accelerator identity SHALL be live UUID plus PCI BDF; runtime ordinal is ephemeral and non-authoritative.",
+    "CPU, memory and accelerator locality SHALL be proven as one HRB placement using live NUMA topology.",
+    "Production evidence SHALL prove CUDA execution on the HRB-selected accelerator and SHALL fail on CPU or cross-accelerator fallback.",
+    "Concrete accelerator SKU, VRAM, fixed PCI BDF, NUMA node and CUDA ordinal remain forbidden portable baseline constants."
+  ],
+  "baseline_effect": {
+    "capability_count_before": 143,
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "semantic_change": "NO_GLOBAL_BASELINE_SEMANTIC_CHANGE_STRICTER_COMPONENT_RUNTIME_ADMISSION"
+  },
+  "promotion_boundary": {
+    "hosted_ci_may_promote_runtime": false,
+    "real_current_host_receipt_required": true,
+    "current_runtime_status": "PENDING_CURRENT_HOST",
+    "promotion_requires_all_hardware_chain_elements": true
+  }
+}

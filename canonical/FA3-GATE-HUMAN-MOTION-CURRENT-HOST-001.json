@@ -7,8 +7,19 @@
   "entrypoint": "./bin/fa3-enforce human-motion-current-host",
   "receipt": "evidence/receipts/human-motion-current-host.json",
   "report": "reports/human-motion-current-host-gate-report.json",
-  "rule_count": 24,
+  "rule_count": 28,
   "fail_closed": true,
   "hosted_ci_may_promote_runtime": false,
-  "real_current_host_receipt_required": true
+  "real_current_host_receipt_required": true,
+  "hardware_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "mandatory_hardware_conformance_chain": [
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "NON_DISPLAY_GPU",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ],
+  "exact_accelerator_sku_pin_forbidden": true,
+  "runtime_gpu_ordinal_as_identity_forbidden": true
 }

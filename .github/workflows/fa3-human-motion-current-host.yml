@@ -20,6 +20,7 @@ on:
       - 'canonical/FA3-SOMA-X-RUNTIME-CONFORMANCE-001.json'
       - 'canonical/releases/FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12.json'
       - 'canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json'
+      - 'canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json'
       - '.github/workflows/fa3-human-motion-current-host.yml'
   workflow_dispatch:
     inputs:
@@ -64,7 +65,7 @@ on:
         default: '.fa3-current-host/input/smplx-license.json'
         type: string
       hrb_receipt:
-        description: 'Active Human Motion GPU HRB lease'
+        description: 'Active HRB lease with compute-role, non-display, UUID+BDF and NUMA-locality evidence'
         required: false
         default: '.fa3-current-host/input/human-motion-hrb-placement.json'
         type: string

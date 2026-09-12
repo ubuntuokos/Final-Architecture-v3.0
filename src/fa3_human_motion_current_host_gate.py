@@ -22,7 +22,7 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
         receipt = loadj(path)
         findings = validate_receipt(receipt)
         if receipt.get("fixture_semantics") == "SYNTHETIC_REFERENCE_FIXTURE_NOT_CURRENT_HOST":
-            findings.append({"code": "HM-HOST-025", "severity": "P0", "message": "synthetic fixture cannot satisfy current-host production admission"})
+            findings.append({"code": "HM-HOST-029", "severity": "P0", "message": "synthetic fixture cannot satisfy current-host production admission"})
     except Exception as exc:
         receipt = {}
         findings = [{"code": "HM-HOST-000", "severity": "P0", "message": "current-host receipt missing/unreadable", "error": repr(exc)}]
@@ -35,6 +35,14 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
         "evidence_level": receipt.get("evidence_level"),
         "blocking_findings": len(findings),
         "findings": findings,
+        "mandatory_hardware_conformance_chain": [
+            "HRB_COMPUTE_ROLE_ADMISSION",
+            "NON_DISPLAY_GPU",
+            "LIVE_UUID_PCI_BDF_IDENTITY",
+            "NUMA_LOCALITY_EVIDENCE",
+            "CUDA_EXECUTION",
+            "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK",
+        ],
         "promotion_effect": "HUMAN_MOTION_COMPONENT_RUNTIME_ONLY_GLOBAL_CAPABILITY_AND_AUTHORITY_COUNTS_UNCHANGED"
     }
     out = root / "reports/human-motion-current-host-gate-report.json"

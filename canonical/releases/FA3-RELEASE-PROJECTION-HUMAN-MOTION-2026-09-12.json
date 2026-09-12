@@ -14,6 +14,15 @@
   "current_host_gate_id": "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001",
   "current_host_receipt_path": "evidence/receipts/human-motion-current-host.json",
   "current_host_workflow": ".github/workflows/fa3-human-motion-current-host.yml",
+  "current_host_hardware_decision_id": "FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12",
+  "mandatory_hardware_conformance_chain": [
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "NON_DISPLAY_GPU",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ],
   "production_promotion_claimed": false,
   "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"
 }
