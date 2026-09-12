@@ -8,11 +8,14 @@ from typing import Any
 
 PROVIDER_ID = "FA3-PROVIDER-KANEO-001"
 GATE_ID = "FA3-KANEO-GATESET-001"
+REFERENCE_ID = "FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12"
 CAPABILITY_COUNT = 143
-REFERENCE_RELEASE = "v2.22.0"
-REFERENCE_COMMIT = "4faa14858913801cfc62991cb326f35fe5fcae00"
-AGENTS_BLOB = "98455101df0f398b200904e3f0ab3de537ca3122"
-PACKAGE_BLOB = "9b612efc615b690b320eb260d49492c0148345bc"
+REFERENCE_RELEASE = "v2.24.0"
+REFERENCE_COMMIT = "863b979e2af6d9b4d75064edc43a2c118d9af7ce"
+AGENTS_BLOB = "a0ccf325b7da268e0da6ebd463e1c707e65701d7"
+PACKAGE_BLOB = "8c656597786d54fa371a90f184e1a8988456f3b7"
+AUTH_BOUNDARY_TEST_BLOB = "1cc7da5b3c676a354c0587510842ddbe1cecef1a"
+REFERENCE_EVIDENCE = "evidence/reference/kaneo-v2.24.0.json"
 
 P0_INVARIANTS = [
     "HUMAN_AGENT_COMMON_AUTHORIZATION_BOUNDARY",
@@ -90,11 +93,13 @@ def reference_check(root: Path) -> dict[str, Any]:
     findings: list[dict[str, Any]] = []
     policy_path = root / "canonical/kaneo-enforcement.json"
     provider_path = root / "canonical/providers/FA3-PROVIDER-KANEO-001.json"
-    evidence_path = root / "evidence/reference/kaneo-v2.22.0.json"
+    reference_path = root / "canonical/references/FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12.json"
+    evidence_path = root / REFERENCE_EVIDENCE
     required = (
         (policy_path, "KANEO-REF-001"),
         (provider_path, "KANEO-REF-002"),
-        (evidence_path, "KANEO-REF-003"),
+        (reference_path, "KANEO-REF-003"),
+        (evidence_path, "KANEO-REF-004"),
     )
     for path, code in required:
         if not path.exists():
@@ -104,37 +109,80 @@ def reference_check(root: Path) -> dict[str, Any]:
 
     policy = _load(policy_path)
     provider = _load(provider_path)
+    reference = _load(reference_path)
     evidence = _load(evidence_path)
 
     if policy.get("gate_id") != GATE_ID or policy.get("provider_id") != PROVIDER_ID:
-        findings.append(_finding("KANEO-REF-004", "Kaneo gate/provider identity mismatch"))
+        findings.append(_finding("KANEO-REF-005", "Kaneo gate/provider identity mismatch"))
     if policy.get("mandatory_rule_count") != 4 or policy.get("p0_invariants") != P0_INVARIANTS:
-        findings.append(_finding("KANEO-REF-005", "Kaneo mandatory P0 invariant set drift"))
+        findings.append(_finding("KANEO-REF-006", "Kaneo mandatory P0 invariant set drift"))
     if policy.get("fail_closed") is not True:
-        findings.append(_finding("KANEO-REF-006", "Kaneo canonical invariant gate is not fail-closed"))
+        findings.append(_finding("KANEO-REF-007", "Kaneo canonical invariant gate is not fail-closed"))
     if policy.get("floating_main_allowed_as_promotion_evidence") is not False:
-        findings.append(_finding("KANEO-REF-007", "Floating Kaneo main was enabled as promotion evidence"))
+        findings.append(_finding("KANEO-REF-008", "Floating Kaneo main was enabled as promotion evidence"))
     if policy.get("runtime_provider_required_for_global_promotion") is not False:
-        findings.append(_finding("KANEO-REF-008", "Optional Kaneo provider was made a global runtime promotion dependency"))
+        findings.append(_finding("KANEO-REF-009", "Optional Kaneo provider was made a global runtime promotion dependency"))
+    if policy.get("upstream_reference_id") != REFERENCE_ID or policy.get("reference_evidence") != REFERENCE_EVIDENCE:
+        findings.append(_finding("KANEO-REF-010", "Kaneo enforcement upstream-reference binding drift"))
+    if policy.get("stable_reference") != {"release": REFERENCE_RELEASE, "commit_sha": REFERENCE_COMMIT}:
+        findings.append(_finding("KANEO-REF-011", "Kaneo enforcement stable reference drift"))
 
     if provider.get("id") != PROVIDER_ID or provider.get("capability_count") != CAPABILITY_COUNT:
-        findings.append(_finding("KANEO-REF-009", "Kaneo provider identity/capability-count invariant mismatch"))
+        findings.append(_finding("KANEO-REF-012", "Kaneo provider identity/capability-count invariant mismatch"))
     if any(provider.get(k) is not False for k in ("canonical_root", "architectural_authority", "new_capability")):
-        findings.append(_finding("KANEO-REF-010", "Kaneo was promoted to forbidden authority/root/new capability"))
+        findings.append(_finding("KANEO-REF-013", "Kaneo was promoted to forbidden authority/root/new capability"))
     classes = set(provider.get("classification", []))
     if not {"OPTIONAL_PROVIDER", "ARCHITECTURAL_PATTERN_SOURCE"}.issubset(classes):
-        findings.append(_finding("KANEO-REF-011", "Kaneo optional-provider/pattern-source classification drift"))
+        findings.append(_finding("KANEO-REF-014", "Kaneo optional-provider/pattern-source classification drift"))
     if provider.get("global_runtime_promotion_required_when_disabled") is not False:
-        findings.append(_finding("KANEO-REF-012", "Disabled optional Kaneo provider became mandatory for global promotion"))
+        findings.append(_finding("KANEO-REF-015", "Disabled optional Kaneo provider became mandatory for global promotion"))
+    admission = provider.get("runtime_admission", {})
+    if admission.get("upstream_reference_id") != REFERENCE_ID:
+        findings.append(_finding("KANEO-REF-016", "Kaneo provider admission reference drift"))
+    if admission.get("release") != REFERENCE_RELEASE or admission.get("commit_sha") != REFERENCE_COMMIT:
+        findings.append(_finding("KANEO-REF-017", "Kaneo provider admission release/commit drift"))
+    if admission.get("evidence") != REFERENCE_EVIDENCE or admission.get("floating_main_forbidden") is not True:
+        findings.append(_finding("KANEO-REF-018", "Kaneo provider admission evidence/floating-ref policy drift"))
+
+    if reference.get("id") != REFERENCE_ID or reference.get("provider_id") != PROVIDER_ID:
+        findings.append(_finding("KANEO-REF-019", "Kaneo canonical upstream-reference identity drift"))
+    ref_stable = reference.get("stable_reference", {})
+    if ref_stable.get("release") != REFERENCE_RELEASE or ref_stable.get("commit_sha") != REFERENCE_COMMIT:
+        findings.append(_finding("KANEO-REF-020", "Kaneo canonical upstream stable reference drift"))
+    ref_blobs = ref_stable.get("source_blobs", {})
+    expected_blobs = {
+        "AGENTS.md": AGENTS_BLOB,
+        "package.json": PACKAGE_BLOB,
+        "tests/api-integration/authorization-boundaries.test.ts": AUTH_BOUNDARY_TEST_BLOB,
+    }
+    if ref_blobs != expected_blobs:
+        findings.append(_finding("KANEO-REF-021", "Kaneo canonical upstream source-blob reference drift"))
+    disposition = reference.get("fa3_disposition", {})
+    if disposition.get("floating_main_allowed_as_promotion_evidence") is not False:
+        findings.append(_finding("KANEO-REF-022", "Kaneo canonical upstream reference permits floating main"))
+    if disposition.get("provider_runtime_required_for_global_promotion") is not False:
+        findings.append(_finding("KANEO-REF-023", "Kaneo canonical upstream reference made runtime globally mandatory"))
+    if disposition.get("capability_count") != CAPABILITY_COUNT or disposition.get("mandatory_p0_rule_count") != 4:
+        findings.append(_finding("KANEO-REF-024", "Kaneo canonical upstream disposition changed capability/P0 counts"))
 
     stable = evidence.get("stable_reference", {})
     if stable.get("release") != REFERENCE_RELEASE or stable.get("commit_sha") != REFERENCE_COMMIT:
-        findings.append(_finding("KANEO-REF-013", "Stable Kaneo immutable reference drift"))
+        findings.append(_finding("KANEO-REF-025", "Stable Kaneo immutable evidence reference drift"))
     blobs = stable.get("source_blobs", {})
-    if blobs.get("AGENTS.md") != AGENTS_BLOB or blobs.get("package.json") != PACKAGE_BLOB:
-        findings.append(_finding("KANEO-REF-014", "Kaneo source-blob reference drift"))
+    if blobs != expected_blobs:
+        findings.append(_finding("KANEO-REF-026", "Kaneo evidence source-blob reference drift"))
     if evidence.get("floating_main_allowed") is not False:
-        findings.append(_finding("KANEO-REF-015", "Kaneo evidence permits floating main"))
+        findings.append(_finding("KANEO-REF-027", "Kaneo evidence permits floating main"))
+    compatibility = evidence.get("compatibility_evidence", {})
+    if any(compatibility.get(name) != "PASS" for name in (
+        "human_agent_common_authorization_boundary",
+        "capability_surface_drift_fail_closed",
+        "change_surface_closure_required",
+        "distributed_security_state_shared",
+    )):
+        findings.append(_finding("KANEO-REF-028", "Kaneo v2.24.0 compatibility evidence does not PASS all four P0 invariants"))
+    if compatibility.get("new_capabilities") != 0 or compatibility.get("capability_count_after") != CAPABILITY_COUNT:
+        findings.append(_finding("KANEO-REF-029", "Kaneo compatibility evidence changed FA3 capability count"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
@@ -233,6 +281,9 @@ def gate(root: Path) -> dict[str, Any]:
         "schema": "fa3.kaneo-gate-report.v1",
         "gate_id": GATE_ID,
         "provider_id": PROVIDER_ID,
+        "upstream_reference_id": REFERENCE_ID,
+        "reference_release": REFERENCE_RELEASE,
+        "reference_commit": REFERENCE_COMMIT,
         "capability_count": CAPABILITY_COUNT,
         "result": "PASS" if ok else "FAIL",
         "mode": "CANONICAL_REFERENCE_AND_EXECUTABLE_INVARIANTS",
