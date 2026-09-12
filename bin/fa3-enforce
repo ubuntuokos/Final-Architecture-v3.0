@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Provider-specific supplemental baseline gate; canonical authority remains in the global FA3 enforcement chain.
 if [[ "${1:-}" == "ace-step-baseline" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_acestep_baseline_gate.py" --root "$ROOT" "$@"
