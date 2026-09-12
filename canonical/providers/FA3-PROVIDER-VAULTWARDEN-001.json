@@ -1,35 +1,129 @@
 {
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-VAULTWARDEN-001",
-  "name": "Vaultwarden",
-  "status": "ACCEPTED_WITH_CONSTRAINTS",
+  "name": "dani-garcia/vaultwarden",
+  "version": "2.0.0-fa3",
+  "status": "ACCEPTED_OPTIONAL_REFERENCE_RUNTIME_NOT_PROMOTED",
   "parent_profile": "FA3-SCS-001",
-  "provider_role": "CREDENTIAL_VAULT_AND_VAULT_BACKED_SECRET_RETRIEVAL_PROVIDER",
+  "provider_role": "OPTIONAL_HUMAN_CREDENTIAL_VAULT_PROVIDER_AND_SECURITY_HARDENING_PATTERN_SOURCE",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "HUMAN_CREDENTIAL_VAULT_PROVIDER",
+    "BITWARDEN_COMPATIBLE_SELF_HOSTED_PROVIDER",
+    "SECURITY_HARDENING_PATTERN_SOURCE",
+    "LOCAL_SELF_HOSTED_CAPABLE",
+    "AGPL_NETWORK_COPYLEFT"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "activation_mode": "SELECTED_SECRET_VAULT_PROJECTION_WHEN_ENABLED",
+  "activation_mode": "EXPLICIT_HUMAN_CREDENTIAL_VAULT_SELECTION_ONLY",
   "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "contracts": [
+    "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001"
+  ],
+  "decision": "FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12",
+  "upstream_reference": "FA3-VAULTWARDEN-UPSTREAM-REFERENCE-2026-09-12",
+  "upstream": {
+    "repository": "dani-garcia/vaultwarden",
+    "release": "1.37.2",
+    "tag_object_sha": "f92e640ef5d96c0ec69ced35e419fef3a4711a2f",
+    "release_commit": "46d71107f5094460dd5ecbe1dbac6e6c71e5189a",
+    "license": "AGPL-3.0-only",
+    "tag_signature_verified": true
+  },
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "machine_secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "runtime_secret_broker": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "recovery": "EXISTING_FA3_RECOVERY_AUTHORITY_ONLY",
+    "promotion": "EXISTING_FA3_PROMOTION_AUTHORITY_ONLY"
+  },
+  "prohibited_authority_roles": [
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_POLICY_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_CANONICAL_MEMORY_AUTHORITY",
+    "FA3_MACHINE_SECRET_AUTHORITY",
+    "FA3_SECRET_LEASE_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_NETWORK_EGRESS_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_ARTIFACT_TRUST_AUTHORITY",
+    "FA3_RECOVERY_AUTHORITY",
+    "FA3_PROMOTION_AUTHORITY"
+  ],
+  "normative_constraint": "Vaultwarden SHALL NOT become an FA3 identity, authorization, policy, MCP, workflow, canonical-memory, machine-secret minting/lease, host-resource, network-egress, evidence, artifact-trust, recovery or promotion authority; it is an optional human credential-vault provider and hardening pattern source behind existing FA3 authorities.",
+  "hardening_policy": {
+    "human_vault_runtime_secret_broker_separated": true,
+    "secret_ref_boundary_required": true,
+    "secret_values_as_general_configuration": false,
+    "admin_surface_enabled_by_default": false,
+    "closed_enrollment_by_default": true,
+    "secure_transport_required": true,
+    "tls_or_equivalent_secure_termination_boundary_required": true,
+    "strict_hostname_service_exposure_required": true,
+    "sensitive_telemetry_redaction_required": true,
+    "least_privilege_non_root_required": true,
+    "minimal_mount_surface_required": true,
+    "readonly_mount_where_possible": true,
+    "deny_by_default_network_egress": true,
+    "ssrf_resistant_outbound_validation_required": true,
+    "backup_component_inventory_required": true,
+    "restore_drill_evidence_required": true,
+    "client_compatibility_evidence_required": true,
+    "floating_container_tag_allowed_for_production": false,
+    "immutable_provider_version_required": true,
+    "image_digest_required_for_production": true,
+    "direct_unscoped_workload_vault_access": false,
+    "machine_secret_minting_or_lease_authority": false,
+    "current_host_e2e_required_for_runtime_promotion": true
+  },
+  "backup_state_components": [
+    "DATABASE",
+    "ATTACHMENTS",
+    "SENDS",
+    "CONFIGURATION",
+    "TOKEN_SIGNING_KEYS"
+  ],
+  "compatibility_dimensions": [
+    "SERVER",
+    "WEB_CLIENT",
+    "BROWSER_EXTENSION",
+    "DESKTOP_CLIENT",
+    "MOBILE_CLIENT"
+  ],
+  "implementation": {
+    "gate": "src/fa3_vaultwarden_gate.py",
+    "gate_record": "canonical/FA3-GATE-VAULTWARDEN-001.json",
+    "enforcement": "canonical/vaultwarden-enforcement.json",
+    "runtime_admission": "canonical/vaultwarden-runtime-admission.json",
+    "runtime_conformance": "canonical/FA3-VAULTWARDEN-RUNTIME-CONFORMANCE-001.json",
+    "reference_evidence": "evidence/reference/vaultwarden-reference-pass.json",
+    "gate_command": "PYTHONPATH=src python src/fa3_vaultwarden_gate.py"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "immutable_container_digest": "REQUIRED_FOR_PRODUCTION_RUNTIME",
+    "provider_client_compatibility_matrix": "REQUIRED_FOR_PRODUCTION_RUNTIME",
+    "restore_drill": "REQUIRED_FOR_PRODUCTION_RUNTIME",
+    "current_host_real_e2e": "REQUIRED_FOR_RUNTIME_PROMOTION",
+    "production_runtime_promoted": false
+  },
   "legacy_aliases": [
     "VALT-VAULTWARDEN",
     "FA3-SEC-IDENTITY-VAULTWARDEN"
-  ],
-  "invariants": [
-    "NO_DUAL_WRITE_OR_SHADOW_VAULT",
-    "NO_SILENT_PROVIDER_SUBSTITUTION",
-    "SECRET_VALUES_NEVER_ENTER_LOGS_TRACES_PROMPTS_EVIDENCE_OR_MODEL_CONTEXT",
-    "SECRET_REFERENCE_AND_SHORT_LIVED_RETRIEVAL_ONLY",
-    "EVERY_ACCESS_POLICY_GATED_AND_EVIDENCE_LINKED",
-    "NO_RUNTIME_SECRET_PERSISTENCE_BEYOND_LEASE_TTL"
-  ],
-  "prohibited_authorities": [
-    "identity_lifecycle",
-    "session_issuance",
-    "token_or_credential_minting",
-    "policy_decision",
-    "capability_grant",
-    "workflow_execution"
   ]
 }
