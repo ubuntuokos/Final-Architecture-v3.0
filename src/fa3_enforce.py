@@ -30,6 +30,7 @@ from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
 from fa3_stability_matrix_lifecycle_gate import gate as stability_matrix_lifecycle_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
+from fa3_free_only_gate import gate as free_only_gate
 from fa3_modular_gate import gate as modular_gate
 from fa3_inference_portability_gate import gate as inference_portability_gate
 from fa3_model_manager_gate import gate as model_manager_gate
@@ -130,6 +131,10 @@ def static_check(root:Path):
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-039","Unified post-v3.0.11 canonical release projection gate failed",release_projection_gate=projection_ref))
+
+    free_only_ref=free_only_gate(root)
+    if free_only_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-101","Free/self-hosted-only provider economics gate failed",free_only_gate=free_only_ref))
 
     if pol.get("architecture_release")!=RELEASE or pol.get("canonical_capability_count")!=CAPS:
         fs.append(finding("FA3-STATIC-001","Enforcement policy release/capability invariant mismatch"))
@@ -498,7 +503,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","free-only","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -506,6 +511,8 @@ def main():
             x=static_check(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="release-projection":
             x=release_projection_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="free-only":
+            x=free_only_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="runtime":
             x=runtime_check(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="terax":

@@ -54,6 +54,28 @@ def regenerate(root: Path, snapshot_head: str | None = None):
     inventory.update(facts["record_lists"])
     projection["mandatory_reference_gates"] = policy["mandatory_reference_gates"]
 
+    projection["codex_reconciliation"] = {
+        "provider_id": "FA3-PROVIDER-CODEX-001",
+        "gate_id": "FA3-CODEX-GATESET-001",
+        "capability_id": "CAP-028",
+        "classification": "REMOVED_PAID_PROVIDER_TOMBSTONE",
+        "reconciliation_status": "DECOMMISSIONED_FREE_ONLY_POLICY",
+        "runtime_activation_status": "REMOVED_NOT_ADMITTED",
+        "current_host_production_e2e": "NOT_APPLICABLE_REMOVED",
+        "provider_runtime_required_for_global_promotion_when_disabled": False,
+        "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": 143,
+    }
+    projection["free_only_reconciliation"] = {
+        "policy_id": "FA3-FREE-SELF-HOSTED-ONLY-001",
+        "gate_id": "FA3-FREE-ONLY-GATESET-001",
+        "status": "CANONICAL_FAIL_CLOSED",
+        "paid_provider_fallback": False,
+        "capability_count_after": 143,
+    }
+
     manifest = []
     for path in sorted(root.rglob("*")):
         if not path.is_file():
