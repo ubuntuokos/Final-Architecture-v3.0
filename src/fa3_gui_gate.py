@@ -21,6 +21,7 @@ REQUIRED = {
     "settings_decision": ROOT / "canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json",
     "operations_decision": ROOT / "canonical/decisions/FA3-DEC-GUI-OPERATIONS-2026-09-12.json",
     "settings_gate": ROOT / "canonical/FA3-GATE-GUI-SETTINGS-001.json",
+    "operations_gate": ROOT / "canonical/FA3-GATE-GUI-OPERATIONS-001.json",
     "runtime": ROOT / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
     "evidence": ROOT / "evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json",
     "cmake": ROOT / "apps/fa3-control-center/CMakeLists.txt",
@@ -41,36 +42,15 @@ REQUIRED = {
 }
 
 NAVIGATION = [
-    "Command Center",
-    "Projects",
-    "AI Studio",
-    "AI Mentor",
-    "AI Coach",
-    "Manager",
-    "Agents & Workflows",
-    "Model Manager",
-    "Architecture",
-    "Resources",
-    "Security & Approvals",
-    "Observability",
-    "Evidence",
-    "Integrations",
-    "System",
-    "Settings",
+    "Command Center", "Projects", "AI Studio", "AI Mentor", "AI Coach", "Manager",
+    "Agents & Workflows", "Model Manager", "Architecture", "Resources",
+    "Security & Approvals", "Observability", "Evidence", "Integrations", "System", "Settings",
 ]
 
 STUDIO_MODULES = ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]
 SYSTEM_SECTIONS = [
-    "Overview",
-    "CPU / NUMA",
-    "GPU / Accelerators",
-    "Memory",
-    "Storage",
-    "Services",
-    "Thermal & Power",
-    "Software",
-    "Maintenance",
-    "Peripherals",
+    "Overview", "CPU / NUMA", "GPU / Accelerators", "Memory", "Storage",
+    "Services", "Thermal & Power", "Software", "Maintenance", "Peripherals",
 ]
 
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
@@ -102,7 +82,8 @@ def validate():
     inter = load_json(REQUIRED["mentor_coach_contract"])
     settings_decision = load_json(REQUIRED["settings_decision"])
     ops_decision = load_json(REQUIRED["operations_decision"])
-    gate = load_json(REQUIRED["settings_gate"])
+    settings_gate = load_json(REQUIRED["settings_gate"])
+    operations_gate = load_json(REQUIRED["operations_gate"])
     runtime = load_json(REQUIRED["runtime"])
     ev = load_json(REQUIRED["evidence"])
 
@@ -138,7 +119,11 @@ def validate():
         (ops_decision.get("new_architectural_authorities") == 0, "ops-decision-no-authority"),
         (ops_decision.get("capability_count_after") == 143, "ops-decision-count"),
         ("NO_DIRECT_GPU_HARD_RESET" in ops_decision.get("invariants", []), "ops-decision-gpu-reset-boundary"),
-        (gate.get("fail_closed") is True, "gate-fail-closed"),
+        (settings_gate.get("fail_closed") is True, "settings-gate-fail-closed"),
+        (operations_gate.get("id") == "FA3-GATE-GUI-OPERATIONS-001", "operations-gate-id"),
+        (operations_gate.get("fail_closed") is True, "operations-gate-fail-closed"),
+        ("GPU_HARD_RESET_IS_LAST_RESORT_ROOT_ONLY_BOUNDED_RECOVERY_AND_NOT_DIRECT_GUI_EXECUTION" in operations_gate.get("rules", []), "operations-gate-gpu-reset-rule"),
+        ("GENERIC_CLEANUP_MUST_NOT_DELETE_EVIDENCE" in operations_gate.get("rules", []), "operations-gate-evidence-cleanup-rule"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-pending"),
         (runtime.get("production_admitted") is False, "runtime-not-production"),
         (ev.get("status") == "PASS", "evidence-pass"),
@@ -154,16 +139,8 @@ def validate():
         if module not in shell:
             failures.append(f"qml-studio-module-missing:{module}")
     for token in [
-        "fa3Settings",
-        "MentorPage",
-        "CoachPage",
-        "ManagerPage",
-        "ModelManagerPage",
-        "SystemPage",
-        "SettingsPage",
-        "assistantDrawer",
-        "ASSISTANT_TASK_PROPOSAL",
-        "createDraftChangeSet",
+        "fa3Settings", "MentorPage", "CoachPage", "ManagerPage", "ModelManagerPage",
+        "SystemPage", "SettingsPage", "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet",
     ]:
         if token not in shell:
             failures.append(f"qml-shell-missing:{token}")
@@ -198,17 +175,8 @@ def validate():
         if token not in system_qml:
             failures.append(f"system-qml-section-missing:{token}")
     for token in [
-        "Temporary files",
-        "Cache Manager",
-        "Model Runtime Cleanup",
-        "GPU hard reset",
-        "ROOT ONLY · LOCKED",
-        "Keyboard & Hotkeys",
-        "MIDI",
-        "Drawing Tablet",
-        "Scanner",
-        "Webcam / Camera",
-        "createDraftChangeSet",
+        "Temporary files", "Cache Manager", "Model Runtime Cleanup", "GPU hard reset", "ROOT ONLY · LOCKED",
+        "Keyboard & Hotkeys", "MIDI", "Drawing Tablet", "Scanner", "Webcam / Camera", "createDraftChangeSet",
     ]:
         if token not in system_qml:
             failures.append(f"system-qml-missing:{token}")
@@ -237,16 +205,8 @@ def validate():
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     for token in [
-        "VERSION 0.3.0",
-        "Qt6::Widgets",
-        "SettingsStore.cpp",
-        "AppShell.qml",
-        "SettingsPage.qml",
-        "MentorPage.qml",
-        "CoachPage.qml",
-        "ManagerPage.qml",
-        "ModelManagerPage.qml",
-        "SystemPage.qml",
+        "VERSION 0.3.0", "Qt6::Widgets", "SettingsStore.cpp", "AppShell.qml", "SettingsPage.qml",
+        "MentorPage.qml", "CoachPage.qml", "ManagerPage.qml", "ModelManagerPage.qml", "SystemPage.qml",
     ]:
         if token not in cmake:
             failures.append(f"cmake-missing:{token}")
