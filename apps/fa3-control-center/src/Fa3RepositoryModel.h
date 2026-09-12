@@ -15,9 +15,19 @@ class Fa3RepositoryModel final : public QObject
     Q_PROPERTY(int pendingCount READ pendingCount NOTIFY statisticsChanged)
     Q_PROPERTY(QString lastRefresh READ lastRefresh NOTIFY statisticsChanged)
     Q_PROPERTY(QString hostName READ hostName CONSTANT)
+    Q_PROPERTY(QString osName READ osName CONSTANT)
+    Q_PROPERTY(QString architecture READ architecture CONSTANT)
     Q_PROPERTY(QString kernelVersion READ kernelVersion CONSTANT)
+    Q_PROPERTY(QString uptime READ uptime CONSTANT)
+    Q_PROPERTY(QString cpuModel READ cpuModel CONSTANT)
+    Q_PROPERTY(int cpuSockets READ cpuSockets CONSTANT)
+    Q_PROPERTY(int cpuCores READ cpuCores CONSTANT)
     Q_PROPERTY(int cpuThreads READ cpuThreads CONSTANT)
     Q_PROPERTY(double memoryGiB READ memoryGiB CONSTANT)
+    Q_PROPERTY(double memoryAvailableGiB READ memoryAvailableGiB CONSTANT)
+    Q_PROPERTY(QVariantList gpuDevices READ gpuDevices NOTIFY hardwareChanged)
+    Q_PROPERTY(QVariantList storageDevices READ storageDevices NOTIFY hardwareChanged)
+    Q_PROPERTY(QVariantList peripheralDevices READ peripheralDevices NOTIFY hardwareChanged)
     Q_PROPERTY(QVariantList records READ records NOTIFY recordsChanged)
 
 public:
@@ -32,9 +42,19 @@ public:
     int pendingCount() const { return m_pendingCount; }
     QString lastRefresh() const { return m_lastRefresh; }
     QString hostName() const;
+    QString osName() const;
+    QString architecture() const;
     QString kernelVersion() const;
+    QString uptime() const;
+    QString cpuModel() const;
+    int cpuSockets() const;
+    int cpuCores() const;
     int cpuThreads() const;
     double memoryGiB() const;
+    double memoryAvailableGiB() const;
+    QVariantList gpuDevices() const;
+    QVariantList storageDevices() const;
+    QVariantList peripheralDevices() const;
     QVariantList records() const { return m_records; }
 
     Q_INVOKABLE void refresh();
@@ -47,6 +67,7 @@ signals:
     void repoRootChanged();
     void statisticsChanged();
     void recordsChanged();
+    void hardwareChanged();
 
 private:
     QString discoverRepositoryRoot() const;
