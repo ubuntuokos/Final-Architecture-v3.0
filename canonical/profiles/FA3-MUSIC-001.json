@@ -5,19 +5,18 @@
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
-  "scope": "Provider-independent editable-first generative music, songwriting, composition, sound-design, audio-conditioned editing and production projection.",
-  "capabilities": [
-    "CAP-017",
-    "CAP-066",
-    "CAP-131"
-  ],
+  "scope": "Provider-independent editable-first generative music, songwriting, composition, sound-design, audio-conditioned editing and production projection using only free/local/self-hosted admitted routes.",
+  "capabilities": ["CAP-017", "CAP-066", "CAP-131"],
   "contracts": [
-    "FA3-MUSIC-GENERATION-CONTRACTS-001"
+    "FA3-MUSIC-GENERATION-CONTRACTS-001",
+    "FA3-PROVIDER-ECONOMICS-CONTRACTS-001"
   ],
   "providers": [
     "FA3-PROVIDER-ACE-STEP-001",
     "FA3-PROVIDER-STABLE-AUDIO-3-001"
   ],
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "paid_provider_fallback": false,
   "canonical_root": false,
   "materializes_existing_catalog_profile": true,
   "new_capability": false,
@@ -31,5 +30,5 @@
     "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001",
     "registry_governance": "FA3-REGISTRY-001"
   },
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_MULTI_PROVIDER_PROMOTION_EVIDENCE_GATED"
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_FREE_ONLY_MULTI_PROVIDER_PROMOTION_EVIDENCE_GATED"
 }

@@ -1,0 +1,30 @@
+name: FA3 free-only provider enforcement
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'fa3/**']
+
+permissions:
+  contents: read
+
+jobs:
+  free-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Free-only canonical gate
+        env:
+          PYTHONPATH: src
+        run: python3 src/fa3_free_only_gate.py --root .
+      - name: Free-only regression tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python3 -m unittest tests.test_free_only_gate -v
+          python3 -m unittest tests.test_video_registry -v
+          python3 -m unittest tests.test_stability_portfolio_gate -v
+          python3 -m unittest tests.test_stable_audio_3_gate -v

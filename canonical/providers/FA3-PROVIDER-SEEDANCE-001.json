@@ -1,34 +1,26 @@
 {
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-SEEDANCE-001",
-  "name": "ByteDance Seedance",
-  "status": "ACCEPTED_PRIMARY_REFERENCE",
-  "provider_role": "CLOUD_LONGFORM_MULTIMODAL_REFERENCE_TEMPORAL_EDIT_VIDEO_PROVIDER",
-  "classification": [
-    "OPTIONAL_PROVIDER",
-    "PRIMARY_REFERENCE_IMPLEMENTATION",
-    "ARCHITECTURAL_PATTERN_SOURCE",
-    "REMOTE_CLOUD_PROVIDER"
-  ],
-  "profile": "FA3-VIDEO-001",
-  "capability_projection": ["CAP-016", "CAP-123", "CAP-126"],
+  "name": "ByteDance/BytePlus Seedance",
+  "status": "REMOVED_PAID_PROVIDER_TOMBSTONE",
+  "provider_role": "DECOMMISSIONED_PROVENANCE_AND_REGRESSION_TOMBSTONE_ONLY",
+  "active": false,
+  "routing_eligible": false,
+  "production_admission": "DENY",
+  "runtime_surface": "ABSENT",
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
+  "new_architectural_authority": false,
   "capability_count": 143,
-  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
-  "integration_patterns": [
-    "large_multimodal_reference_bundle",
-    "typed_temporal_editing",
-    "iterative_extend_edit_workflow",
-    "dcc_clay_proxy_reference_projection",
-    "longer_sequence_generation"
+  "removed_on": "2026-09-12",
+  "removal_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "reason": "Usage/token-priced hosted service; finite free quota is not a durable free production route.",
+  "retained_patterns": [
+    "large typed multimodal reference bundles",
+    "temporal edit descriptors",
+    "DCC/spatial reference projection",
+    "iterative extension semantics"
   ],
-  "authority_boundaries": {
-    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
-    "scene_spatial_camera": "FA3-DCC-RT3D-001",
-    "policy_trust": "FA3-AUTH-SECURITY-GOV-001",
-    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001"
-  }
+  "reactivation": "FORBIDDEN_UNLESS_EXPLICIT_FUTURE_POLICY_CHANGE"
 }

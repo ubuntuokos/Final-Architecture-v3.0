@@ -2,19 +2,13 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-STABLE-AUDIO-3-001",
   "name": "Stable Audio 3",
-  "version": "1.1.0",
-  "status": "REQUIRED_SUPPORTED_REFERENCE",
-  "provider_role": "REQUIRED_SUPPORTED_GENERATIVE_AUDIO_PROVIDER",
+  "version": "1.2.0",
+  "status": "REQUIRED_SUPPORTED_LOCAL_REFERENCE",
+  "provider_role": "REQUIRED_SUPPORTED_LOCAL_GENERATIVE_AUDIO_PROVIDER",
   "upstream_repo": "Stability-AI/stable-audio-3",
   "immutable_reference": "779434a908193105335fd8d833418603625b2859",
-  "profiles": [
-    "FA3-MUSIC-001"
-  ],
-  "capability_projection": [
-    "CAP-017",
-    "CAP-066",
-    "CAP-131"
-  ],
+  "profiles": ["FA3-MUSIC-001"],
+  "capability_projection": ["CAP-017", "CAP-066", "CAP-131"],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -24,6 +18,9 @@
   "runtime_activation_requires_current_host_conformance": true,
   "current_host_runtime_evidence": false,
   "current_host_status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "paid_routes_allowed": false,
+  "remote_paid_fallback": false,
   "authority_boundaries": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
@@ -54,19 +51,11 @@
     "small_music": "CPU_LOCAL_CANDIDATE",
     "small_sfx": "CPU_LOCAL_CANDIDATE",
     "medium": "CUDA_LOCAL_CANDIDATE_SUBJECT_TO_HRB_E2E",
-    "large": "REMOTE_API_OR_ENTERPRISE_SELF_HOST"
+    "large": "REMOVED_PAID_ROUTE"
   },
   "model_family": {
-    "small_music": {
-      "parameters": "433M",
-      "max_duration_seconds": 120,
-      "local_route": "CPU"
-    },
-    "small_sfx": {
-      "parameters": "433M",
-      "max_duration_seconds": 120,
-      "local_route": "CPU"
-    },
+    "small_music": {"parameters": "433M", "max_duration_seconds": 120, "local_route": "CPU"},
+    "small_sfx": {"parameters": "433M", "max_duration_seconds": 120, "local_route": "CPU"},
     "medium": {
       "parameters": "1.4B",
       "max_duration_seconds": 380,
@@ -75,40 +64,25 @@
     },
     "large": {
       "parameters": "2.7B",
+      "status": "REMOVED_FROM_FA3_PAID_ONLY",
       "repo_runtime_support": false,
-      "route": "API_ONLY_IN_UPSTREAM_REPOSITORY"
+      "route": "REMOVED_PAID_ROUTE"
     }
   },
   "runtime_identity": {
     "contract": "FA3-MUSIC-GENERATION-CONTRACTS-001",
     "required_fields": [
-      "backend",
-      "model_revision",
-      "model_variant",
-      "decoder_variant",
-      "precision",
-      "engine_compute_capability",
-      "chunking_mode",
-      "limiter_identity",
-      "codec_revision",
-      "seed",
-      "runtime_revision",
-      "quantization",
-      "pcm_conversion_semantics"
+      "backend", "model_revision", "model_variant", "decoder_variant", "precision",
+      "engine_compute_capability", "chunking_mode", "limiter_identity", "codec_revision",
+      "seed", "runtime_revision", "quantization", "pcm_conversion_semantics"
     ],
     "immutable_for_production_receipt": true,
     "silent_mutation_forbidden": true
   },
   "precision_policy": {
     "medium_default": "fp16",
-    "allowed_medium": [
-      "fp16",
-      "fp8",
-      "fp32"
-    ],
-    "retired_medium": [
-      "bf16"
-    ],
+    "allowed_medium": ["fp16", "fp8", "fp32"],
+    "retired_medium": ["bf16"],
     "retirement_reason": "UPSTREAM_LONG_SEQUENCE_ROPE_DRIFT",
     "legacy_alias_normalization_requires_provenance": true,
     "silent_precision_fallback": false
@@ -138,15 +112,6 @@
     "code_license": "MIT",
     "code_license_does_not_admit_weights_or_outputs": true,
     "model_license_and_output_rights_require_separate_admission": true,
-    "flash_attention": {
-      "floating_community_wheel_url_for_production_forbidden": true,
-      "immutable_version_sha256_and_provenance_required": true,
-      "source_build_with_immutable_inputs_allowed": true
-    },
-    "weight_loading": {
-      "safetensors_preferred_when_upstream_available": true,
-      "unsafe_pickle_is_not_default_admission_route": true
-    },
     "production_runtime_network_model_fetch": false
   },
   "promotion_sequence": [
@@ -158,13 +123,14 @@
     "WAV_44K1_STEREO_LIMITER_AND_METADATA_VALIDATION",
     "CURRENT_HOST_PRODUCTION_E2E_PASS"
   ],
+  "removed_paid_surfaces": [
+    "hosted Stable Audio API",
+    "Stable Audio 3 Large remote API route",
+    "enterprise-only Large deployment route"
+  ],
   "daw_integration": {
     "profile_required": true,
-    "provider_plugin_status": "OPTIONAL_INCUBATION",
-    "current_linux_host": "NO_NATIVE_LAUNCH_FORMAT_CONFIRMED",
-    "launch_formats": [
-      "macOS VST",
-      "macOS AU"
-    ]
+    "provider_plugin_status": "OPTIONAL_INCUBATION_LOCAL_ONLY",
+    "current_linux_host": "NO_NATIVE_LAUNCH_FORMAT_CONFIRMED"
   }
 }

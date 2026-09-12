@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-OBSIDIAN-001",
   "name": "Obsidian Desktop",
-  "status": "ACCEPTED_OPTIONAL_RUNTIME_NOT_PROMOTED",
+  "status": "ACCEPTED_OPTIONAL_FREE_CORE_RUNTIME_NOT_PROMOTED",
   "provider_role": "OPTIONAL_HUMAN_FACING_LOCAL_MARKDOWN_KNOWLEDGE_WORKSPACE_PROVIDER",
   "classification": [
     "OPTIONAL_PROVIDER",
@@ -14,10 +14,7 @@
   ],
   "profile": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
   "contract": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
-  "capability_projection": [
-    "CAP-010",
-    "CAP-018"
-  ],
+  "capability_projection": ["CAP-010", "CAP-018"],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -29,6 +26,10 @@
   "runtime_activation_requires_current_host_conformance": true,
   "provider_runtime_required_for_global_promotion_when_disabled": false,
   "current_host_runtime_evidence": "NOT_CLAIMED",
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "free_core_only": true,
+  "paid_addons_allowed": false,
+  "removed_paid_surfaces": ["Obsidian Sync", "Obsidian Publish"],
   "immutable_component_tuple": {
     "distribution_repository": "obsidianmd/obsidian-releases",
     "release": "v1.13.7",
@@ -52,7 +53,7 @@
     "human_promotion_required": true,
     "cli_access": "OPERATOR_ONLY_DEFAULT_AGENT_DENY",
     "headless": "OPTIONAL_OPEN_BETA_NOT_CORE",
-    "sync_and_publish": "OPTIONAL_EGRESS_GATED"
+    "sync_and_publish": "FORBIDDEN_PAID_ADDONS"
   },
   "authority_boundaries": {
     "human_promotion": "AUTH-HUMAN",
@@ -75,5 +76,5 @@
     "EVIDENCE_PROVENANCE_OR_REGISTRY_AUTHORITY",
     "GENERAL_AGENT_FILESYSTEM_AUTHORITY"
   ],
-  "normative_constraint": "Obsidian SHALL remain an optional human-facing local Markdown knowledge workspace provider. It SHALL NOT become the FA3 agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority."
+  "normative_constraint": "Obsidian SHALL remain an optional free-core human-facing local Markdown knowledge workspace provider. Obsidian Sync and Publish are forbidden paid add-ons under FA3-FREE-SELF-HOSTED-ONLY-001."
 }

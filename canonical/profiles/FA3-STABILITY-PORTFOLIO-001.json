@@ -1,8 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-STABILITY-PORTFOLIO-001",
-  "name": "Stability AI Provider Portfolio, Metadata, Media & Deployment Integration",
-  "version": "1.0.0",
+  "name": "Stability AI Free/Local Provider Portfolio, Metadata, Media & Deployment Integration",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -34,7 +34,8 @@
     "CAP-143"
   ],
   "contracts": [
-    "FA3-STABILITY-PORTFOLIO-CONTRACTS-001"
+    "FA3-STABILITY-PORTFOLIO-CONTRACTS-001",
+    "FA3-PROVIDER-ECONOMICS-CONTRACTS-001"
   ],
   "providers": [
     "FA3-PROVIDER-STABILITY-MODELSPEC-001",
@@ -46,9 +47,13 @@
     "FA3-PROVIDER-RELI3D-001",
     "FA3-PROVIDER-STABLE-VIRTUAL-CAMERA-001",
     "FA3-PROVIDER-STABLE-LAYERS-001",
-    "FA3-PROVIDER-SD35-NVIDIA-NIM-001",
     "FA3-PROVIDER-STABILITY-SGM-001"
   ],
-  "mandatory_semantics": "Provider support/admission contract is mandatory; concrete provider runtimes remain replaceable and evidence-gated.",
-  "implementation_status": "CANONICAL_MATERIALIZED_REFERENCE_CI_EVIDENCE_CURRENT_HOST_PROVIDER_E2E_PENDING"
+  "removed_paid_provider_tombstones": [
+    "FA3-PROVIDER-SD35-NVIDIA-NIM-001"
+  ],
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "paid_provider_fallback": false,
+  "mandatory_semantics": "Provider support/admission contract is mandatory; only explicitly free/local/self-hosted concrete runtime routes may be admitted. Payment-bearing cloud/API/enterprise routes are forbidden.",
+  "implementation_status": "CANONICAL_MATERIALIZED_FREE_ONLY_REFERENCE_CI_CURRENT_HOST_PROVIDER_E2E_PENDING"
 }

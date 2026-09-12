@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-FREE-ONLY-001",
+  "gate_set_id": "FA3-FREE-ONLY-GATESET-001",
+  "policy_id": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "contract_id": "FA3-PROVIDER-ECONOMICS-CONTRACTS-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "priority": "P0",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "checks": [
+    "blocked paid-only providers are absent from active profile provider lists",
+    "paid-only provider records are tombstones only",
+    "paid runtime/service/current-host surfaces are absent",
+    "Stable Audio 3 paid API/Large route is removed while local routes remain",
+    "Obsidian Sync/Publish paid add-ons are forbidden while local desktop remains",
+    "current-host projection has no Codex or MiniMax H3 runtime surface",
+    "video and Stability portfolios expose only free/self-hosted-admissible providers"
+  ],
+  "reference_command": "python3 src/fa3_free_only_gate.py --root .",
+  "current_host_runtime_promotion_claimed": false
+}

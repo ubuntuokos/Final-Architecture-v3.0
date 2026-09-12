@@ -17,6 +17,8 @@
   "state_root": ".fa3-current-host",
   "secret_collection": "PROHIBITED",
   "linux_recovery_rebuild_projection": "OUT_OF_SCOPE",
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "paid_provider_runtime_surfaces": "FORBIDDEN",
   "global_commands": {
     "verify": "bin/fa3-current-host verify",
     "collect": "bin/fa3-current-host collect",
@@ -68,7 +70,10 @@
     "src/fa3_hrb_systemd_manager_current_host_gate.py",
     "tests/test_hrb_systemd_manager_current_host_gate.py",
     "evidence/collect-hrb-systemd-manager-current-host.py",
-    ".github/workflows/fa3-hrb-systemd-manager-current-host.yml"
+    ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
+    "canonical/policies/FA3-FREE-SELF-HOSTED-ONLY-001.json",
+    "canonical/FA3-GATE-FREE-ONLY-001.json",
+    "src/fa3_free_only_gate.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -87,54 +92,13 @@
       "machine_model_pin": "FORBIDDEN",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     },
-    {
-      "name": "terax",
-      "collector": "evidence/collect-terax-current-host.py",
-      "gate": "terax",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "codex",
-      "collector": "evidence/collect-codex-current-host.py",
-      "gate": "codex-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "modular-max-mojo",
-      "collector": "evidence/collect-modular-current-host.py",
-      "gate": "modular-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "demucs",
-      "collector": "evidence/collect-demucs-current-host.py",
-      "gate": "demucs-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "presenton",
-      "collector": "evidence/collect-presenton-current-host.py",
-      "gate": "presenton-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "ai-infra-guard",
-      "collector": "evidence/collect-ai-infra-guard-current-host.py",
-      "gate": "ai-infra-guard-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "cosyvoice",
-      "collector": "evidence/collect-cosyvoice-current-host.py",
-      "gate": "cosyvoice-current-host",
-      "activation": "CONDITIONAL_PROVIDER"
-    },
-    {
-      "name": "cpu-numa-threading",
-      "collector": "evidence/collect-cpu-numa-threading-current-host.py",
-      "gate": "cpu-numa-threading-current-host",
-      "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
-    },
+    {"name": "terax", "collector": "evidence/collect-terax-current-host.py", "gate": "terax", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "modular-max-mojo", "collector": "evidence/collect-modular-current-host.py", "gate": "modular-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "demucs", "collector": "evidence/collect-demucs-current-host.py", "gate": "demucs-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "presenton", "collector": "evidence/collect-presenton-current-host.py", "gate": "presenton-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "ai-infra-guard", "collector": "evidence/collect-ai-infra-guard-current-host.py", "gate": "ai-infra-guard-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "cosyvoice", "collector": "evidence/collect-cosyvoice-current-host.py", "gate": "cosyvoice-current-host", "activation": "CONDITIONAL_PROVIDER"},
+    {"name": "cpu-numa-threading", "collector": "evidence/collect-cpu-numa-threading-current-host.py", "gate": "cpu-numa-threading-current-host", "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"},
     {
       "name": "ffmpeg-neural-media",
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
@@ -146,15 +110,11 @@
       "name": "stable-audio-3",
       "collector": "evidence/collect-stable-audio-3-current-host.py",
       "gate": "stable-audio-3-current-host",
-      "activation": "CONDITIONAL_PROVIDER_REAL_E2E_AND_HRB_REQUIRED_FOR_ACCELERATED_ROUTES",
+      "activation": "FREE_LOCAL_ONLY_CONDITIONAL_PROVIDER_REAL_E2E_AND_HRB_REQUIRED_FOR_ACCELERATED_ROUTES",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     }
   ],
-  "global_gate_sequence": [
-    "static",
-    "runtime",
-    "acceptance"
-  ],
+  "global_gate_sequence": ["static", "runtime", "acceptance"],
   "promotion": {
     "explicit_only": true,
     "command": "bin/fa3-current-host promote",

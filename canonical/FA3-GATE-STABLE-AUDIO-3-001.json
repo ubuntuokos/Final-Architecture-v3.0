@@ -1,14 +1,13 @@
 {
-  "schema": "fa3.gate-record.v1",
+  "schema": "fa3.executable-gate-record.v1",
   "id": "FA3-GATE-STABLE-AUDIO-3-001",
   "gateset": "FA3-STABLE-AUDIO-3-GATESET-001",
-  "status": "CANONICAL",
-  "fail_closed": true,
   "parent_gateset": "FA3-STABILITY-PORTFOLIO-GATESET-001",
-  "command": "PYTHONPATH=src python src/fa3_stable_audio_3_gate.py --root .",
-  "tests": "PYTHONPATH=src python -m unittest tests.test_stable_audio_3_gate -v",
-  "reference_evidence": "evidence/reference/stable-audio-3-ci-2026-09-08.json",
-  "runtime_conformance": "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
-  "current_host_workflow": ".github/workflows/fa3-stable-audio-3-current-host.yml",
-  "current_host_runtime_promotion": false
+  "provider_id": "FA3-PROVIDER-STABLE-AUDIO-3-001",
+  "status": "CANONICAL_EXECUTABLE_FREE_LOCAL_ONLY",
+  "fail_closed": true,
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "paid_routes_allowed": false,
+  "capability_count": 143,
+  "current_host_runtime_promotion_claimed": false
 }

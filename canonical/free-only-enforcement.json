@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.free-only-enforcement.v1",
+  "gate_id": "FA3-FREE-ONLY-GATESET-001",
+  "policy_id": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "contract_id": "FA3-PROVIDER-ECONOMICS-CONTRACTS-001",
+  "executable_gate_record": "FA3-GATE-FREE-ONLY-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "blocked_paid_provider_ids": [
+    "FA3-PROVIDER-CODEX-001",
+    "FA3-PROVIDER-KLING-001",
+    "FA3-PROVIDER-SEEDANCE-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-SD35-NVIDIA-NIM-001"
+  ],
+  "mixed_provider_paid_surfaces": [
+    "Stable Audio hosted API / Large route",
+    "Obsidian Sync",
+    "Obsidian Publish"
+  ],
+  "rules": [
+    "BLOCKED_PROVIDER_MUST_NOT_APPEAR_IN_ACTIVE_PROFILE",
+    "REMOVED_PROVIDER_MUST_REMAIN_NON_ROUTABLE_TOMBSTONE",
+    "REMOVED_RUNTIME_AND_SERVICE_SURFACES_MUST_BE_ABSENT",
+    "PAID_ROUTE_FALLBACK_FORBIDDEN",
+    "FREE_TRIAL_CREDIT_OR_QUOTA_NOT_DURABLE_FREE_ADMISSION",
+    "MIXED_PROVIDER_ONLY_EXPLICIT_FREE_ROUTE_MAY_REMAIN",
+    "CURRENT_HOST_PAID_PROVIDER_SURFACE_FORBIDDEN",
+    "ECONOMICS_OR_LICENSE_UNCERTAINTY_FAILS_CLOSED"
+  ]
+}

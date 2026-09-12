@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VIDEO-001",
   "name": "Multimodal Generative Video, Reference Conditioning, Cinematic Control & Hybrid Execution Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -10,10 +10,34 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capabilities": ["CAP-016", "CAP-123", "CAP-126"],
-  "contracts": ["FA3-VIDEO-CONTRACTS-001", "FA3-MMG-CONTEXT-IR-CONTRACTS-001", "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001", "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001"],
-  "dependencies": ["FA3-CONTRACT-001", "FA3-SCS-001", "FA3-STORY-001", "FA3-VOICE-001", "FA3-DCC-RT3D-001", "FA3-HOST-RESOURCE-BROKER-001"],
+  "contracts": [
+    "FA3-VIDEO-CONTRACTS-001",
+    "FA3-MMG-CONTEXT-IR-CONTRACTS-001",
+    "FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001",
+    "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",
+    "FA3-PROVIDER-ECONOMICS-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-CONTRACT-001",
+    "FA3-SCS-001",
+    "FA3-STORY-001",
+    "FA3-VOICE-001",
+    "FA3-DCC-RT3D-001",
+    "FA3-HOST-RESOURCE-BROKER-001"
+  ],
   "overlays": ["FA3-MEDIA-FINISH-001"],
-  "providers": ["FA3-PROVIDER-KLING-001", "FA3-PROVIDER-SEEDANCE-001", "FA3-PROVIDER-MINIMAX-H3-001", "FA3-PROVIDER-STABILITY-SGM-001", "FA3-PROVIDER-OPEN-SORA-PLAN-001", "FA3-PROVIDER-HELIOS-001"],
+  "providers": [
+    "FA3-PROVIDER-STABILITY-SGM-001",
+    "FA3-PROVIDER-OPEN-SORA-PLAN-001",
+    "FA3-PROVIDER-HELIOS-001"
+  ],
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "paid_provider_fallback": false,
+  "removed_paid_provider_tombstones": [
+    "FA3-PROVIDER-KLING-001",
+    "FA3-PROVIDER-SEEDANCE-001",
+    "FA3-PROVIDER-MINIMAX-H3-001"
+  ],
   "authority": {
     "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -49,7 +73,26 @@
       "provider_runtime_promotion_claim": false
     }
   },
-  "mandatory_execution_chain": ["creative_intent", "story_shot_voice_dcc_constraints", "video_context_compiler", "MultimodalGenerationContextIR", "VideoGenerationIR", "security_license_gate", "provider_capability_matching", "provider_routing", "local_hrb_or_remote_admission", "provider_projection", "ProviderProjectionLossReport", "generate_edit_extend_regenerate", "av_continuity_identity_prompt_qc", "provenance_evidence", "vfx_dcc", "otio", "kdenlive_human_finishing", "final_master"],
+  "mandatory_execution_chain": [
+    "creative_intent",
+    "story_shot_voice_dcc_constraints",
+    "video_context_compiler",
+    "MultimodalGenerationContextIR",
+    "VideoGenerationIR",
+    "security_license_economics_gate",
+    "provider_capability_matching",
+    "provider_routing",
+    "local_hrb_or_free_remote_admission",
+    "provider_projection",
+    "ProviderProjectionLossReport",
+    "generate_edit_extend_regenerate",
+    "av_continuity_identity_prompt_qc",
+    "provenance_evidence",
+    "vfx_dcc",
+    "otio",
+    "kdenlive_human_finishing",
+    "final_master"
+  ],
   "invariants": [
     "provider_syntax_must_not_be_canonical",
     "provider_specific_ir_must_not_be_canonical",
@@ -71,9 +114,11 @@
     "scene_spatial_camera_state_remains_FA3-DCC-RT3D-001_authority",
     "generative_asset_editing_is_not_editorial_timeline_authority",
     "license_and_policy_admission_fail_closed",
+    "provider_economics_admission_fails_closed",
+    "payment_bearing_provider_or_fallback_is_forbidden",
     "production_outputs_require_qc_and_provenance"
   ],
-  "implementation_status": "CANONICAL_BASELINE_CLOSED_MMG_EXECUTABLE_REFERENCE_PASS_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
+  "implementation_status": "CANONICAL_BASELINE_CLOSED_FREE_ONLY_PROVIDER_IMPLEMENTATIONS_OPTIONAL",
   "capability_count": 143,
   "provider_lifecycle_governance": {
     "contract_id": "FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001",

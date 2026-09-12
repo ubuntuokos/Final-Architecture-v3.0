@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-FREE-ONLY-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "title": "Remove all payment-bearing provider routes from active FA3",
+  "decision": "FA3 SHALL operate with free/local/self-hosted routes only. Subscription, PAYG, purchased-credit, paid-seat, paid hosted API and production enterprise-license routes are removed or denied.",
+  "policy_id": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "contract_id": "FA3-PROVIDER-ECONOMICS-CONTRACTS-001",
+  "gate_id": "FA3-FREE-ONLY-GATESET-001",
+  "removed_paid_only_providers": [
+    "FA3-PROVIDER-CODEX-001",
+    "FA3-PROVIDER-KLING-001",
+    "FA3-PROVIDER-SEEDANCE-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-SD35-NVIDIA-NIM-001"
+  ],
+  "removed_paid_surfaces_from_mixed_providers": [
+    "Stable Audio hosted API / Large remote API / enterprise-only route",
+    "Obsidian Sync",
+    "Obsidian Publish"
+  ],
+  "retained_provider_neutral_patterns": [
+    "FA3-MMG-CONTEXT-IR-001",
+    "VideoGenerationIR",
+    "provider capability discovery",
+    "provider projection loss reporting"
+  ],
+  "retained_free_surfaces": [
+    "Stable Audio 3 Small local",
+    "Stable Audio 3 Medium local subject to ordinary license/runtime admission",
+    "Obsidian local desktop and local Markdown vault",
+    "Open Sora Plan / Helios / Stability SGM video references subject to existing license gates"
+  ],
+  "supersedes": [
+    "all conflicting paid-route clauses in earlier provider, service-access, deployment and fallback records"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "closure": "CLOSED_FREE_ONLY_BASELINE"
+}

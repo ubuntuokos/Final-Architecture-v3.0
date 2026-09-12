@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.policy-record.v1",
+  "id": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "name": "Free and Self-Hosted Only Provider Economics Policy",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "effective_date": "2026-09-12",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "purpose": "Prevent any active FA3 route from requiring a subscription, paid seat, pay-as-you-go billing, purchased credits, mandatory commercial fee, or production enterprise license.",
+  "allowed_route_classes": [
+    "FREE_LOCAL",
+    "FREE_SELF_HOSTED",
+    "FREE_REMOTE_WITHOUT_PAYMENT_OR_BILLING_ACCOUNT"
+  ],
+  "forbidden_route_classes": [
+    "PAID_SUBSCRIPTION",
+    "PAY_AS_YOU_GO",
+    "PURCHASED_CREDITS",
+    "PAID_SEAT",
+    "PAID_HOSTED_API",
+    "MANDATORY_COMMERCIAL_LICENSE_FEE",
+    "PRODUCTION_ENTERPRISE_LICENSE_REQUIRED"
+  ],
+  "admission_rules": {
+    "free_trial_is_durable_free_route": false,
+    "free_quota_is_durable_free_route": false,
+    "promotional_credit_is_durable_free_route": false,
+    "payment_method_required_for_free_route": false,
+    "automatic_paid_fallback": false,
+    "automatic_billing_mode_switch": false,
+    "paid_provider_as_optional_fallback": false,
+    "mixed_provider_allowed_only_on_explicit_free_route": true,
+    "license_uncertainty": "DENY",
+    "economics_uncertainty": "DENY"
+  },
+  "blocked_provider_ids": [
+    "FA3-PROVIDER-CODEX-001",
+    "FA3-PROVIDER-KLING-001",
+    "FA3-PROVIDER-SEEDANCE-001",
+    "FA3-PROVIDER-MINIMAX-H3-001",
+    "FA3-PROVIDER-SD35-NVIDIA-NIM-001"
+  ],
+  "mixed_provider_paid_surfaces_removed": {
+    "FA3-PROVIDER-STABLE-AUDIO-3-001": [
+      "Stable Audio hosted API",
+      "Stable Audio 3 Large remote API route",
+      "enterprise-only large route"
+    ],
+    "FA3-PROVIDER-OBSIDIAN-001": [
+      "Obsidian Sync",
+      "Obsidian Publish",
+      "paid add-on fallback"
+    ]
+  },
+  "retained_free_surfaces": {
+    "FA3-PROVIDER-STABLE-AUDIO-3-001": [
+      "Small Music local",
+      "Small SFX local",
+      "Medium local subject to ordinary license and runtime admission"
+    ],
+    "FA3-PROVIDER-OBSIDIAN-001": [
+      "local desktop application",
+      "local Markdown vault workflow"
+    ]
+  },
+  "tombstone_semantics": {
+    "allowed": true,
+    "purpose": "provenance and regression prevention only",
+    "must_be_active": false,
+    "must_be_routing_eligible": false,
+    "production_admission": "DENY",
+    "runtime_surface": "ABSENT"
+  },
+  "authority": {
+    "policy": "FA3-AUTH-SECURITY-GOV-001",
+    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "supersedes_conflicting_paid_routes_in_prior_records": true
+}

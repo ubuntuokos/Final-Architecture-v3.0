@@ -1,17 +1,19 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "parent_profile": "FA3-HUMAN-KNOWLEDGE-WORKSPACE-001",
   "related_contracts": [
     "FA3-KNOWLEDGE-CONTRACTS-001",
-    "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001"
+    "FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001",
+    "FA3-PROVIDER-ECONOMICS-CONTRACTS-001"
   ],
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
   "contracts": [
     "HumanKnowledgeVaultDescriptor",
     "HumanKnowledgeNoteDescriptor",
@@ -35,33 +37,12 @@
     "provider_metadata_cache_authoritative": false
   },
   "vault_descriptor": {
-    "required": [
-      "vault_id",
-      "owner_id",
-      "approved_root",
-      "root_identity",
-      "policy_id",
-      "content_classification",
-      "git_repository_identity"
-    ],
     "approved_root_semantics": "USER_CONFIGURED_CANONICALIZED_PATH_NO_SYMLINK_ESCAPE",
     "nested_vaults": "FORBIDDEN",
     "private_vault_separation_required": true,
     "general_home_or_filesystem_root_scope": "FORBIDDEN"
   },
   "note_descriptor": {
-    "required_frontmatter": [
-      "id",
-      "type",
-      "status",
-      "owner",
-      "visibility",
-      "index",
-      "source",
-      "created",
-      "updated",
-      "tags"
-    ],
     "stable_id_unique_within_vault": true,
     "content_hash_required": true,
     "path_is_identity": false,
@@ -82,10 +63,7 @@
     "direct_pgvector_or_postgresql_access": false
   },
   "agent_read": {
-    "allowed_tools": [
-      "knowledge.search",
-      "knowledge.read"
-    ],
+    "allowed_tools": ["knowledge.search", "knowledge.read"],
     "route": "CENTRAL_MCP_CAPABILITY_GATEWAY_TO_UNIFIED_MEMORY_GATEWAY",
     "direct_vault_filesystem": false,
     "direct_obsidian_mcp": false,
@@ -96,16 +74,6 @@
   "agent_mutation": {
     "canonical_note_direct_write": false,
     "staging_root": "_agent-inbox/<proposal_id>/",
-    "proposal_required_fields": [
-      "proposal_id",
-      "actor_id",
-      "target_note_id",
-      "base_content_hash",
-      "patch",
-      "reason",
-      "policy_decision_id",
-      "created_at"
-    ],
     "human_review_required": true,
     "promotion_receipt_required": true,
     "atomic_compare_and_swap_on_base_hash": true,
@@ -118,8 +86,8 @@
     "bases": "DATABASE_LIKE_VIEW_NOT_DATABASE_AUTHORITY",
     "canvas": "VISUAL_KNOWLEDGE_VIEW_NOT_EXECUTABLE_WORKFLOW",
     "cli": "OPERATOR_ONLY_DEFAULT_AGENT_DENY",
-    "sync": "OPTIONAL_EGRESS_GATED_NOT_GIT_OR_BACKUP_AUTHORITY",
-    "publish": "OPTIONAL_EGRESS_GATED_NOT_CANONICAL_PUBLICATION_AUTHORITY",
+    "sync": "FORBIDDEN_PAID_ADDON",
+    "publish": "FORBIDDEN_PAID_ADDON",
     "headless": "EXPERIMENTAL_OPTIONAL_NOT_CORE_RUNTIME"
   },
   "local_rest_mcp_adapter": {
@@ -131,11 +99,7 @@
     "bearer_secret_source": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
     "agent_direct_endpoint_disclosure": false,
     "central_gateway_and_policy_adapter_required": true,
-    "allowed_operations": [
-      "SCOPED_SEARCH",
-      "SCOPED_READ",
-      "STAGED_PROPOSAL_CREATE"
-    ],
+    "allowed_operations": ["SCOPED_SEARCH", "SCOPED_READ", "STAGED_PROPOSAL_CREATE"],
     "denied_operations": [
       "COMMAND_EXECUTE",
       "EVAL",
@@ -156,6 +120,7 @@
     "disabled_provider_zero_near_zero_runtime_cost": true
   },
   "forbidden_semantics": [
+    "OBSIDIAN_SYNC_OR_PUBLISH_PAID_ADDON",
     "OBSIDIAN_AS_AGENT_MEMORY_AUTHORITY",
     "OBSIDIAN_AS_POSTGRESQL_OR_PGVECTOR_REPLACEMENT",
     "OBSIDIAN_OR_PLUGIN_AS_MCP_POLICY_IDENTITY_SECRETS_EVIDENCE_OR_WORKFLOW_AUTHORITY",
@@ -163,8 +128,6 @@
     "UNREVIEWED_AGENT_WRITE_TO_CURATED_NOTE",
     "OBSIDIAN_BASES_AS_CANONICAL_DATABASE",
     "OBSIDIAN_CANVAS_AS_EXECUTABLE_WORKFLOW",
-    "OBSIDIAN_SYNC_AS_GIT_OR_BACKUP_REPLACEMENT",
-    "COMMUNITY_PLUGIN_PERMISSION_BOUNDARY_ASSUMED",
     "AUTO_UPDATE_OR_FLOATING_PLUGIN_VERSION_IN_PRODUCTION"
   ]
 }

@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-PROVIDER-ECONOMICS-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "ProviderEconomicsDescriptor",
+    "ProviderEconomicsAdmissionDecision"
+  ],
+  "ProviderEconomicsDescriptor": {
+    "required_fields": [
+      "provider_id",
+      "selected_route",
+      "route_class",
+      "payment_required",
+      "subscription_required",
+      "payg_required",
+      "purchased_credits_required",
+      "paid_seat_required",
+      "production_enterprise_license_required",
+      "evidence_timestamp",
+      "evidence_sources"
+    ],
+    "route_class_enum": [
+      "FREE_LOCAL",
+      "FREE_SELF_HOSTED",
+      "FREE_REMOTE_WITHOUT_PAYMENT_OR_BILLING_ACCOUNT",
+      "PAID_SUBSCRIPTION",
+      "PAY_AS_YOU_GO",
+      "PURCHASED_CREDITS",
+      "PAID_SEAT",
+      "PAID_HOSTED_API",
+      "MANDATORY_COMMERCIAL_LICENSE_FEE",
+      "PRODUCTION_ENTERPRISE_LICENSE_REQUIRED",
+      "UNKNOWN"
+    ]
+  },
+  "ProviderEconomicsAdmissionDecision": {
+    "decision": ["ALLOW", "DENY"],
+    "allow_formula": "route_class in allowed free classes AND all payment-required flags are false AND evidence is current",
+    "free_trial": "DENY_AS_DURABLE_ROUTE",
+    "free_quota": "DENY_AS_DURABLE_ROUTE",
+    "promotional_credit": "DENY_AS_DURABLE_ROUTE",
+    "unknown": "DENY"
+  },
+  "invariants": [
+    "PROVIDER_ECONOMICS_IS_NOT_PROVIDER_AUTHORITY",
+    "PAID_FALLBACK_IS_FORBIDDEN",
+    "FREE_TRIAL_OR_QUOTA_IS_NOT_DURABLE_FREE_ADMISSION",
+    "MIXED_PROVIDER_MAY_EXPOSE_ONLY_EXPLICIT_FREE_ROUTE",
+    "ECONOMICS_EVIDENCE_MUST_BE_REVALIDATED_ON_PROVIDER_OR_TERMS_CHANGE",
+    "ECONOMICS_UNCERTAINTY_FAILS_CLOSED"
+  ],
+  "policy": "FA3-FREE-SELF-HOSTED-ONLY-001"
+}

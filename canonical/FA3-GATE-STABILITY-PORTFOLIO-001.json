@@ -1,11 +1,15 @@
 {
-  "schema": "fa3.gate-record.v1",
+  "schema": "fa3.executable-gate-record.v1",
   "id": "FA3-GATE-STABILITY-PORTFOLIO-001",
-  "gateset": "FA3-STABILITY-PORTFOLIO-GATESET-001",
-  "status": "CANONICAL",
+  "gate_set_id": "FA3-STABILITY-PORTFOLIO-GATESET-001",
+  "profile_id": "FA3-STABILITY-PORTFOLIO-001",
+  "contract_id": "FA3-STABILITY-PORTFOLIO-CONTRACTS-001",
+  "status": "CANONICAL_EXECUTABLE_FREE_ONLY",
   "fail_closed": true,
-  "command": "./bin/fa3-enforce stability-portfolio",
-  "tests": "PYTHONPATH=src python -m unittest tests.test_stability_portfolio_gate -v",
-  "reference_evidence": "evidence/reference/stability-portfolio-ci-2026-09-02.json",
-  "current_host_runtime_promotion": false
+  "economics_policy": "FA3-FREE-SELF-HOSTED-ONLY-001",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "blocked_paid_provider_ids": ["FA3-PROVIDER-SD35-NVIDIA-NIM-001"],
+  "child_gates": ["FA3-STABLE-AUDIO-3-GATESET-001"]
 }
