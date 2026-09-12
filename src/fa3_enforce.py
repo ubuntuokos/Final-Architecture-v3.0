@@ -12,6 +12,7 @@ from fa3_external_api_discovery_gate import gate as external_api_discovery_gate
 from fa3_autogpt_gate import gate as autogpt_gate
 from fa3_caveman_gate import gate as caveman_gate
 from fa3_ai_infra_guard_gate import gate as ai_infra_guard_gate, current_host_gate as ai_infra_guard_current_host_gate
+from fa3_ai_guardrail_runtime_gate import gate as ai_guardrail_runtime_gate
 from fa3_munder_difflin_gate import gate as munder_difflin_gate
 from fa3_munder_difflin_executable_gate import gate as munder_difflin_executable_gate
 from fa3_muse_code_gate import gate as muse_code_gate
@@ -401,6 +402,9 @@ def static_check(root:Path):
     ai_infra_guard_ref=ai_infra_guard_gate(root)
     if ai_infra_guard_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-049","AI-Infra-Guard mandatory security-validation gate failed",ai_infra_guard_gate=ai_infra_guard_ref))
+    ai_guardrail_runtime_ref=ai_guardrail_runtime_gate(root)
+    if ai_guardrail_runtime_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-102","Request-time AI guardrail runtime/QoS gate failed",ai_guardrail_runtime_gate=ai_guardrail_runtime_ref))
 
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
