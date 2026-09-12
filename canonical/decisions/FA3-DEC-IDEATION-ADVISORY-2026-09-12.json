@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-IDEATION-ADVISORY-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Unified FA3 Ideation-Advisory decision-support overlay materialization",
+  "decision": "ACCEPT_AND_MANDATE",
+  "profile_id": "FA3-IDEATION-ADVISORY-001",
+  "subprofile_ids": ["FA3-IDEATOR-001", "FA3-ADVISOR-001"],
+  "provider_id": "FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001",
+  "contract_family_id": "FA3-IDEATION-ADVISORY-CONTRACTS-001",
+  "gate_id": "FA3-GATE-IDEATION-ADVISORY-001",
+  "gateset_id": "FA3-IDEATION-ADVISORY-GATESET-001",
+  "conformance_matrix_id": "FA3-IDEATION-ADVISORY-CONFORMANCE-MATRIX-001",
+  "canonical_classification": "P0/MUST provider-independent cross-cutting ideation, evidence-grounded advisory and decision-support overlay; Ideator is a P1/SHOULD subprofile mode and Advisor is a P0/MUST subprofile mode.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "mandatory_integrations": [
+    "FA3 Knowledge read projection for evidence retrieval",
+    "Central MCP typed escalation for actionable tool requests",
+    "delegated Agent Execution for agent actions",
+    "canonical Memory authority only for persistent memory",
+    "Unified Observability/Evidence provenance",
+    "FA3 Inspector independent verification for high-impact or promotion claims",
+    "Decision Registry to Conformance Matrix direct machine link"
+  ],
+  "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT",
+  "promotion_claimed": false
+}
