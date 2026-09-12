@@ -3,6 +3,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QUrl>
 
 int main(int argc, char *argv[])
 {
@@ -12,9 +13,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("Final Architecture");
 
     Fa3RepositoryModel repository;
+
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
-    engine.loadFromModule("FA3.ControlCenter", "Main");
-    if (engine.rootObjects().isEmpty()) return 2;
+    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
+
+    if (engine.rootObjects().isEmpty()) {
+        return 2;
+    }
     return app.exec();
 }
