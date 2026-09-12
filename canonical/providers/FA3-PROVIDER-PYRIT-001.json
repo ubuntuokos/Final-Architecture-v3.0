@@ -1,0 +1,98 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PYRIT-001",
+  "name": "microsoft/PyRIT",
+  "status": "ACCEPTED_REQUIRED_REFERENCE_RUNTIME_NOT_PROMOTED",
+  "parent_profile": "FA3-AI-SEC-VALIDATION-001",
+  "provider_role": "REQUIRED_REFERENCE_ADVERSARIAL_AI_SECURITY_VALIDATION_REDTEAM_AND_BEHAVIORAL_RISK_EVALUATION_PROVIDER",
+  "classification": [
+    "REQUIRED_REFERENCE_PROVIDER",
+    "AI_SECURITY_VALIDATION_PROVIDER",
+    "AI_RED_TEAM_PROVIDER",
+    "ADVERSARIAL_EVALUATION_PROVIDER",
+    "BEHAVIORAL_RISK_EVALUATOR",
+    "PROMPT_SECURITY_EVALUATOR",
+    "LOCAL_FIRST_CAPABLE",
+    "OPENAI_COMPATIBLE_TARGET_CAPABLE",
+    "OLLAMA_CAPABLE",
+    "MULTIMODAL_SECURITY_TESTING_CAPABLE",
+    "PERMISSIVE_LICENSE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "EXPLICIT_SECURITY_TEST_JOB_ONLY",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "contracts": [
+    "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001"
+  ],
+  "upstream_reference": "FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12",
+  "upstream": {
+    "repository": "microsoft/PyRIT",
+    "release": "v1.1.0",
+    "release_commit": "d0524f0714840519b826eb770687ca1d4f46a761",
+    "license": "MIT"
+  },
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "registry": "FA3-REGISTRY-001",
+    "promotion": "EXISTING_FA3_PROMOTION_AUTHORITY_ONLY"
+  },
+  "prohibited_authority_roles": [
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_CANONICAL_MEMORY_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_NETWORK_EGRESS_AUTHORITY",
+    "FA3_ARTIFACT_TRUST_AUTHORITY",
+    "FA3_PROMOTION_AUTHORITY",
+    "FA3_CANONICAL_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "PyRIT SHALL NOT become an FA3 orchestration, policy, identity, authorization, MCP/capability-gateway, canonical-memory, model-registry, model-routing, host-resource/GPU-placement, evidence/provenance, secrets, network-egress, artifact-trust or promotion authority.",
+  "execution_policy": {
+    "explicit_target_allowlist_required": true,
+    "deny_by_default_network_egress": true,
+    "secret_environment_passthrough": false,
+    "arbitrary_host_shell": false,
+    "arbitrary_mcp_capability_access": false,
+    "canonical_memory_write": false,
+    "provider_local_operational_memory_only": true,
+    "test_data_separation_required": true,
+    "resource_limits_required": true,
+    "immutable_run_identity_required": true,
+    "evidence_projection_required": true,
+    "direct_gpu_or_device_placement": false,
+    "model_execution_via_existing_fa3_router": true,
+    "undetermined_score_is_security_pass": false
+  },
+  "runtime_admission": "FA3-PYRIT-RUNTIME-ADMISSION-001",
+  "implementation": {
+    "gate": "src/fa3_pyrit_gate.py",
+    "reference_evidence": "evidence/reference/pyrit-reference-pass.json",
+    "current_host_receipt": "evidence/receipts/pyrit-current-host.json",
+    "reference_gate_command": "PYTHONPATH=src python src/fa3_pyrit_gate.py",
+    "current_host_collector": "evidence/collect-pyrit-current-host.py"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "current_host_real_pyrit_e2e": "REQUIRED_FOR_RUNTIME_PROMOTION",
+    "production_runtime_promoted": false
+  }
+}
