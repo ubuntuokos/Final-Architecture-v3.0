@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GUI-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3 native desktop GUI",
+  "decision": "MATERIALIZE",
+  "profile_id": "FA3-DESKTOP-001",
+  "contract_id": "FA3-DESKTOP-CONTRACTS-001",
+  "gate_id": "FA3-GATE-GUI-001",
+  "reference_implementation": "apps/fa3-control-center",
+  "canonical_classification": "Native KDE/Qt/QML operator projection combining AI Studio, Architecture Control Center and Operations Console without creating a new FA3 authority.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "mandatory_constraint": "The FA3 GUI SHALL remain a projection and intent surface. It SHALL NOT become an identity, authorization, MCP/tool, workflow, model-routing, host-resource, systemd/cgroup, secrets, canonical-registry, evidence/provenance or promotion authority.",
+  "implementation_basis": [
+    "NATIVE_QT6_QML_DESKTOP",
+    "KDE_PLASMA_WAYLAND_FIRST_CLASS",
+    "CANONICAL_AND_EVIDENCE_READ_PROJECTION",
+    "HOST_TELEMETRY_READ_PROJECTION",
+    "TYPED_CHANGESET_DRAFT_ONLY_FOR_MUTATING_INTENT",
+    "NO_DIRECT_PRIVILEGED_HOST_ACTIONS",
+    "NO_DIRECT_CANONICAL_REPOSITORY_WRITES",
+    "EXECUTABLE_STATIC_GATE",
+    "QT_COMPILE_CI_GATE",
+    "CURRENT_HOST_RUNTIME_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+  ]
+}
