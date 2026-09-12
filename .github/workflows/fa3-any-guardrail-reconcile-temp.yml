@@ -1,0 +1,71 @@
+name: FA3 Any Guardrail One-Shot Reconcile
+
+on:
+  push:
+    branches:
+      - "fa3/any-guardrail-runtime-main-rebase-2026-09-12"
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: ${{ !contains(github.event.head_commit.message, '[any-guardrail-reconciled]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reconcile enforcement policy and global static gate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          gate_id = "FA3-AI-GUARDRAIL-RUNTIME-GATESET-001"
+          policy_path = Path("canonical/enforcement-policy.json")
+          policy = json.loads(policy_path.read_text(encoding="utf-8"))
+          gates = policy.setdefault("mandatory_reference_gates", [])
+          if gate_id not in gates:
+              try:
+                  idx = gates.index("FA3-AI-INFRA-GUARD-GATESET-001") + 1
+              except ValueError:
+                  idx = len(gates)
+              gates.insert(idx, gate_id)
+          policy_path.write_text(json.dumps(policy, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+          enforce_path = Path("src/fa3_enforce.py")
+          text = enforce_path.read_text(encoding="utf-8")
+          import_anchor = "from fa3_ai_infra_guard_gate import gate as ai_infra_guard_gate, current_host_gate as ai_infra_guard_current_host_gate\n"
+          import_line = "from fa3_ai_guardrail_runtime_gate import gate as ai_guardrail_runtime_gate\n"
+          if import_line not in text:
+              if import_anchor not in text:
+                  raise SystemExit("missing ai-infra import anchor")
+              text = text.replace(import_anchor, import_anchor + import_line, 1)
+
+          call_anchor = '''    ai_infra_guard_ref=ai_infra_guard_gate(root)\n    if ai_infra_guard_ref["result"]!="PASS":\n        fs.append(finding("FA3-STATIC-049","AI-Infra-Guard mandatory security-validation gate failed",ai_infra_guard_gate=ai_infra_guard_ref))\n'''
+          call_block = '''    ai_guardrail_runtime_ref=ai_guardrail_runtime_gate(root)\n    if ai_guardrail_runtime_ref["result"]!="PASS":\n        fs.append(finding("FA3-STATIC-102","Request-time AI guardrail runtime/QoS gate failed",ai_guardrail_runtime_gate=ai_guardrail_runtime_ref))\n'''
+          if call_block not in text:
+              if call_anchor not in text:
+                  raise SystemExit("missing ai-infra call anchor")
+              text = text.replace(call_anchor, call_anchor + call_block, 1)
+          enforce_path.write_text(text, encoding="utf-8")
+          PY
+      - name: Remove one-shot workflow and commit reconciliation
+        shell: bash
+        run: |
+          git rm .github/workflows/fa3-any-guardrail-reconcile-temp.yml
+          if git diff --quiet -- canonical/enforcement-policy.json src/fa3_enforce.py .github/workflows/fa3-any-guardrail-reconcile-temp.yml; then
+            echo "Already reconciled."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/enforcement-policy.json src/fa3_enforce.py
+          git commit -m "FA3: bind any-guardrail gate into global enforcement [any-guardrail-reconciled]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
