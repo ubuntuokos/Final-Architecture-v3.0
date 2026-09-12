@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.static-gate-evidence.v1",
+  "id": "FA3-EVIDENCE-OPEN-SCIENCE-DESKTOP-STATIC-2026-09-12",
+  "provider_id": "FA3-PROVIDER-OPEN-SCIENCE-DESKTOP-001",
+  "gate_id": "FA3-GATE-OPEN-SCIENCE-DESKTOP-001",
+  "status": "PASS",
+  "evidence_scope": "STATIC_MATERIALIZATION_AND_REGRESSION_ONLY",
+  "runtime_evidence": "NOT_CLAIMED",
+  "current_host_production_claim": false,
+  "current_host_runtime_status": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+  "validated_invariants": 15,
+  "capability_count_after": 143,
+  "new_architectural_authorities": 0,
+  "note": "This PASS attests only the committed static canonical/gate regression materialization. It is not a current-host runtime receipt.",
+  "execution": {
+    "gate_command": "python3 src/fa3_open_science_desktop_gate.py --root .",
+    "gate_result": "PASS",
+    "blocking_findings": 0,
+    "regression_command": "python3 -m unittest tests/test_open_science_desktop_gate.py",
+    "regression_cases": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0
+    }
+  },
+  "hardware_baseline_static_assertion": {
+    "portable_canonical_role_based": true,
+    "current_host_binding": "RTX_3090_COMPUTE__RTX_A1000_UI",
+    "role_swap_forbidden": true,
+    "automatic_fallback_forbidden": true
+  }
+}
