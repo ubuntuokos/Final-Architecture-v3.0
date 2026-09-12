@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-INSPECTOR-REFERENCE-001",
+  "profile_id": "FA3-INSPECTOR-001",
+  "gate_id": "FA3-GATE-INDEPENDENT-VERIFICATION-001",
+  "status": "PENDING_EXECUTION",
+  "pass_claimed": false,
+  "current_host": false,
+  "required_reference_cases": [
+    "L1 compliant static PASS",
+    "L3 compliant independent-evidence PASS",
+    "L3 self-attestation-only BLOCKED",
+    "missing evidence EVIDENCE_MISSING",
+    "stale evidence EVIDENCE_STALE",
+    "runtime drift DRIFT_DETECTED",
+    "unreproducible runtime INCONCLUSIVE"
+  ],
+  "note": "This placeholder intentionally records no executed PASS and prevents design materialization from being misrepresented as runtime evidence."
+}

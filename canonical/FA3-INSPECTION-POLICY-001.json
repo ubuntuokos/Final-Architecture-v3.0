@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.inspection-policy.v1",
+  "id": "FA3-INSPECTION-POLICY-001",
+  "profile_id": "FA3-INSPECTOR-001",
+  "priority": "P0",
+  "requirement": "MUST",
+  "fail_closed": true,
+  "levels": {
+    "L1_STATIC": ["canonical_structure", "schema", "manifest", "policy", "dependency"],
+    "L2_RUNTIME": ["service_or_provider_execution", "runtime_reproducibility", "permission_boundary", "expected_output"],
+    "L3_PRODUCTION": ["production_e2e", "security_failure_modes", "recovery_behavior", "fresh_target_host_evidence"]
+  },
+  "lifecycle_distinctions": ["INSTALLED", "CONFIGURED", "RUNNING", "CONFORMANT", "PRODUCTION_READY"],
+  "production_pass_requirements": [
+    "canonical_compliance", "implementation_verified", "runtime_verified", "fresh_evidence",
+    "evidence_provenance", "reproducible_result", "independent_verification", "no_drift"
+  ],
+  "forbidden": [
+    "self_attestation_only_p0_must_production_pass", "silent_repair_then_pass",
+    "fabricated_or_untraceable_evidence", "inconclusive_promotion", "stale_evidence_promotion", "drift_promotion"
+  ],
+  "remediation_loop": ["FAIL_OR_BLOCK", "MANAGER_OR_ORCHESTRATOR_REMEDIATION_TASK", "AGENT_OR_WORKER_REPAIR", "INSPECTOR_RETEST"]
+}

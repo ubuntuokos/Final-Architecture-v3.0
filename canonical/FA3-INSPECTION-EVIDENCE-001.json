@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.inspection-evidence-contract.v1",
+  "id": "FA3-INSPECTION-EVIDENCE-001",
+  "profile_id": "FA3-INSPECTOR-001",
+  "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+  "inspector_is_evidence_authority": false,
+  "required_fields": [
+    "subject_id", "inspection_level", "executor_identity", "inspector_identity", "source",
+    "observed_at", "provenance", "freshness", "reproducibility", "result", "classification"
+  ],
+  "freshness": {
+    "production_pass_requires_fresh_target_context": true,
+    "stale_evidence_classification": "EVIDENCE_STALE"
+  },
+  "provenance": {
+    "required": true,
+    "self_attestation_may_be_supporting_evidence": true,
+    "self_attestation_may_be_sole_p0_must_production_evidence": false
+  },
+  "negative_evidence": {
+    "missing": "EVIDENCE_MISSING",
+    "unreproducible_or_ambiguous": "INCONCLUSIVE",
+    "runtime_drift": "DRIFT_DETECTED"
+  }
+}
