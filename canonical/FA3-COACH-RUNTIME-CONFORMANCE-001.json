@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.runtime-conformance-record.v1",
+  "id": "FA3-COACH-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-COACH-001",
+  "provider_id": "FA3-PROVIDER-COACH-LOCAL-001",
+  "gate_id": "FA3-GATE-COACH-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "promotion_claimed": false,
+  "required_evidence": [
+    "fresh executable gate PASS on the target host",
+    "reference Coach proposal interaction showing direct_execution_allowed=false",
+    "Mentor delegation interaction for a knowledge-gap case",
+    "typed action escalation/delegation interaction for an actionable case",
+    "workspace and persistence boundary evidence"
+  ],
+  "evidence_present": false,
+  "normative_constraint": "This record SHALL remain PENDING_CURRENT_HOST until fresh target-host evidence is captured and reconciled. Design/reference conformance does not imply production runtime admission."
+}

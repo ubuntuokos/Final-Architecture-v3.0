@@ -1,0 +1,64 @@
+name: FA3 Coach Canonical Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-COACH-*.json'
+      - 'canonical/FA3-GATE-COACH-001.json'
+      - 'canonical/coach-enforcement.json'
+      - 'canonical/profiles/FA3-COACH-001.json'
+      - 'canonical/contracts/FA3-COACH-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-COACH-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-COACH-2026-09-12.json'
+      - 'src/fa3_coach.py'
+      - 'src/fa3_coach_gate.py'
+      - 'tests/test_coach_gate.py'
+      - '.github/workflows/fa3-coach-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-COACH-*.json'
+      - 'canonical/FA3-GATE-COACH-001.json'
+      - 'canonical/coach-enforcement.json'
+      - 'canonical/profiles/FA3-COACH-001.json'
+      - 'canonical/contracts/FA3-COACH-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-COACH-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-COACH-2026-09-12.json'
+      - 'src/fa3_coach.py'
+      - 'src/fa3_coach_gate.py'
+      - 'tests/test_coach_gate.py'
+      - '.github/workflows/fa3-coach-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coach-canonical:
+    name: coach-canonical / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_coach.py src/fa3_coach_gate.py tests/test_coach_gate.py
+      - name: Coach self-check
+        run: PYTHONPATH=src python src/fa3_coach.py --self-check
+      - name: Coach fail-closed canonical gate
+        run: |
+          mkdir -p reports
+          PYTHONPATH=src python src/fa3_coach_gate.py | tee reports/coach-gate-output.txt
+      - name: Coach regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_coach_gate -v
+      - name: Upload Coach gate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-coach-gate-output
+          path: reports/coach-gate-output.txt
