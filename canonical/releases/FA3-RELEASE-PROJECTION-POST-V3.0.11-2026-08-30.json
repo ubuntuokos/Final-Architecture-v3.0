@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4889a065740a0539a1691f47f6928b2444f5ea22",
-    "pre_projection_root_tree_sha": "82b27c67af5ebc71be2715007f33f21ffb08cd70",
-    "pre_projection_canonical_tree_sha": "6b29160d79b1d42e19ae0ba94799d0b7594b3f93",
-    "commits_ahead_of_v3_0_11_conformance_commit": 166,
-    "total_post_baseline_commits": 166,
-    "delta_file_count": 951,
-    "delta_added_files": 946,
+    "pre_projection_head_sha": "c6f8f66e8ddde23745587a4f93aef9c1f88afcd1",
+    "pre_projection_root_tree_sha": "5d92ae0cecc79fc13993bf140e0ef675f81ce705",
+    "pre_projection_canonical_tree_sha": "3976e134e8b2be2624e13bcab40c0f4b141b9358",
+    "commits_ahead_of_v3_0_11_conformance_commit": 180,
+    "total_post_baseline_commits": 180,
+    "delta_file_count": 964,
+    "delta_added_files": 959,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 534,
-    "evidence_files_in_post_baseline_delta": 102,
-    "source_files_in_post_baseline_delta": 108,
-    "test_files_in_post_baseline_delta": 88,
-    "workflow_files_in_post_baseline_delta": 25,
+    "canonical_files_in_post_baseline_delta": 541,
+    "evidence_files_in_post_baseline_delta": 104,
+    "source_files_in_post_baseline_delta": 109,
+    "test_files_in_post_baseline_delta": 89,
+    "workflow_files_in_post_baseline_delta": 27,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -118,6 +118,7 @@
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
       "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
       "canonical/providers/FA3-PROVIDER-PRESENTON-001.json",
+      "canonical/providers/FA3-PROVIDER-PYRIT-001.json",
       "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
       "canonical/providers/FA3-PROVIDER-QWEN3-TTS-001.json",
       "canonical/providers/FA3-PROVIDER-RAGFLOW-001.json",
@@ -341,6 +342,7 @@
       "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
@@ -400,6 +402,7 @@
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-API-LISTS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
+      "canonical/references/FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-SOMA-X-UPSTREAM-REFERENCE-2026-09-12.json",
@@ -468,6 +471,7 @@
       "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
       "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
+      "evidence/reference/pyrit-reference-pass.json",
       "evidence/reference/pytorch3d-reference-pass.json",
       "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "evidence/reference/soma-x-reference-pass.json",
@@ -657,7 +661,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 951,
+  "manifest_entry_count": 964,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -745,13 +749,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-pyrit-current-host.yml",
+      "git_blob_sha": "80487856bbeeaf008f4b0ed7c3d5cfacf9002ff2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-pytorch3d-current-host.yml",
       "git_blob_sha": "554382e4bd474722746602ee62983d103e191e13",
       "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-release-projection-reconcile.yml",
-      "git_blob_sha": "cc9078ae577b0abbfce914d1df0946f6521a1a6c",
+      "git_blob_sha": "c961c542f92715e3ee8e693e62de2ed90c5afa37",
       "baseline_delta_status": "added"
     },
     {
@@ -777,6 +786,11 @@
     {
       "path": ".github/workflows/openfx-reference-gate.yml",
       "git_blob_sha": "ec4f84fd98ed62edb06e5afcf82cec588662ca1f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/pyrit-reference-gate.yml",
+      "git_blob_sha": "2564b90b53560d4585237df7da49a101d87a1331",
       "baseline_delta_status": "added"
     },
     {
@@ -1205,6 +1219,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-PYRIT-001.json",
+      "git_blob_sha": "3677cd0c0f3df6faa89e11ade6a1c494d76e3e79",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-PYTORCH3D-001.json",
       "git_blob_sha": "373da080db752405633dadbfec0291b3cdd6560b",
       "baseline_delta_status": "added"
@@ -1322,6 +1341,11 @@
     {
       "path": "canonical/FA3-OPENFX-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "6f5d2b82c7756cadc472e87e8e6f298844fd1f83",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-PYRIT-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "be4dfb51d2bc65bc6ac8a5e2ede9220d08add6d9",
       "baseline_delta_status": "added"
     },
     {
@@ -2135,6 +2159,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
+      "git_blob_sha": "a738df84a7106a1407bdce9dc39e8c05e4f4dc3e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "git_blob_sha": "add5b74bb177ae0010f5281a799d9fe69d94dacb",
       "baseline_delta_status": "added"
@@ -2541,7 +2570,7 @@
     },
     {
       "path": "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
-      "git_blob_sha": "59a6c03240e1df0fe3aef25dc6aaf9825bd53425",
+      "git_blob_sha": "6ace7d135760479d340a78ba9936f755647e4158",
       "baseline_delta_status": "added"
     },
     {
@@ -3090,6 +3119,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-PYRIT-001.json",
+      "git_blob_sha": "05019ae6e2b824a1f8814aac5ced12f221d4d3bb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
       "git_blob_sha": "bbb3246dce179b8ea40cb5dd64c17648bf735270",
       "baseline_delta_status": "added"
@@ -3257,6 +3291,16 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-XTTS-001.json",
       "git_blob_sha": "54728969b877d374b490bc8317963f1d512744af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/pyrit-enforcement.json",
+      "git_blob_sha": "e315379cb4759ceeb150a3e6fd5de7f11c642c63",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/pyrit-runtime-admission.json",
+      "git_blob_sha": "ebe3889f7cc6f8f5a276e0328891b6e4822283ac",
       "baseline_delta_status": "added"
     },
     {
@@ -3472,6 +3516,11 @@
     {
       "path": "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "bf647a09dbd26420bc0cff540594612353d6f59a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12.json",
+      "git_blob_sha": "091c04271c89e783d4bb491b82ebfd40b6eaba31",
       "baseline_delta_status": "added"
     },
     {
@@ -3975,6 +4024,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-pyrit-current-host.py",
+      "git_blob_sha": "1e0c7859d958e177a6b9601626121b73a25107f2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-pytorch3d-current-host.py",
       "git_blob_sha": "18a3a191df77d1e3fb67ca5c4bc87d99aab3e0d8",
       "baseline_delta_status": "added"
@@ -4282,6 +4336,11 @@
     {
       "path": "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "git_blob_sha": "6fd3761f950e209a5f4ddd655ff2ecd5775ca129",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/pyrit-reference-pass.json",
+      "git_blob_sha": "9a1390d5741ac16384e9e76a48115280f15c795e",
       "baseline_delta_status": "added"
     },
     {
@@ -4855,6 +4914,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_pyrit_gate.py",
+      "git_blob_sha": "88e575324c7b2a6d06f291a9f3b9e5cf9e8af2ab",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_pytorch3d_gate.py",
       "git_blob_sha": "9545cd36f8f149739e5de2156ebaca0d0576a39a",
       "baseline_delta_status": "added"
@@ -5307,6 +5371,11 @@
     {
       "path": "tests/test_presenton_gate.py",
       "git_blob_sha": "636dc3ca5b1e24c78d4507f60686291d5c1b583e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_pyrit_gate.py",
+      "git_blob_sha": "62037a0db114dd65be349aac6629ea80d0f277f8",
       "baseline_delta_status": "added"
     },
     {

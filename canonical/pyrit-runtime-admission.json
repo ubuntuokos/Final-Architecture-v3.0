@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.optional-provider-runtime-admission.v1",
+  "id": "FA3-PYRIT-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-PYRIT-001",
+  "profile_id": "FA3-AI-SEC-VALIDATION-001",
+  "status": "NOT_ADMITTED",
+  "fail_closed": true,
+  "current_host_evidence_required": true,
+  "runtime_required_for_global_promotion_when_disabled": false,
+  "runtime_surface": "PYRIT_SCAN_CLI_OR_TYPED_LIBRARY_JOB_ONLY",
+  "immutable_runtime_pin": {
+    "release": "v1.1.0",
+    "release_commit": "d0524f0714840519b826eb770687ca1d4f46a761",
+    "python": ">=3.11,<3.15"
+  },
+  "activation_requires": [
+    "PINNED_PYRIT_V1_1_0_COMMIT",
+    "ISOLATED_PYTHON_VENV",
+    "EXPLICIT_TARGET_ALLOWLIST",
+    "DENY_BY_DEFAULT_NETWORK_EGRESS",
+    "UNSCOPED_SECRET_ENVIRONMENT_NOT_PASSED",
+    "ARBITRARY_MCP_CAPABILITY_ACCESS_FORBIDDEN",
+    "ARBITRARY_HOST_SHELL_FORBIDDEN",
+    "CANONICAL_MEMORY_WRITE_FORBIDDEN",
+    "PROVIDER_LOCAL_MEMORY_ISOLATED",
+    "MODEL_EXECUTION_VIA_EXISTING_FA3_MODEL_ROUTER",
+    "DIRECT_GPU_OR_DEVICE_PLACEMENT_FORBIDDEN",
+    "TEST_DATA_SEPARATION",
+    "RESOURCE_LIMITS",
+    "IMMUTABLE_RUN_IDENTITY_AND_PROVENANCE",
+    "CANONICAL_EVIDENCE_PROJECTION",
+    "UNDETERMINED_SCORE_FAIL_CLOSED",
+    "REAL_CURRENT_HOST_TARGET",
+    "REAL_PYRIT_EXECUTION",
+    "PROCESS_CLEANUP_PASS",
+    "CURRENT_HOST_PRODUCTION_E2E_RECEIPT_PASS"
+  ],
+  "forbidden_shortcuts": [
+    "floating_main_source",
+    "unverified_runtime_identity",
+    "unrestricted_internet_egress",
+    "arbitrary_host_shell",
+    "arbitrary_mcp_access",
+    "canonical_memory_write",
+    "direct_cuda_visible_devices_override_by_pyrit",
+    "provider_self_asserted_security_authority",
+    "undetermined_score_treated_as_pass",
+    "synthetic_pyrit_fixture_as_current_host_evidence",
+    "ci_host_receipt_as_current_host_evidence"
+  ],
+  "receipt": "evidence/receipts/pyrit-current-host.json",
+  "promotion_effect": "NONE_UNTIL_SEPARATE_CURRENT_HOST_RUNTIME_ADMISSION_PASS"
+}

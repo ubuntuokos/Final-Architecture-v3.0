@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-PYRIT-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "microsoft/PyRIT",
+  "decision": "ACCEPT",
+  "provider_id": "FA3-PROVIDER-PYRIT-001",
+  "profile_id": "FA3-AI-SEC-VALIDATION-001",
+  "contract_id": "FA3-AI-SECURITY-VALIDATION-CONTRACTS-001",
+  "gate_id": "FA3-PYRIT-GATESET-001",
+  "canonical_classification": "Required reference provider for adversarial GenAI security validation, red teaming and behavioral-risk evaluation under the existing provider-neutral P0 AI security assurance profile.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_constraint": "PyRIT SHALL NOT become an FA3 orchestration, policy, identity, authorization, MCP/capability-gateway, canonical-memory, model-registry, model-routing, host-resource/GPU-placement, evidence/provenance, secrets, network-egress, artifact-trust or promotion authority.",
+  "integration_basis": [
+    "REUSE_EXISTING_FA3_AI_SECURITY_VALIDATION_PROFILE",
+    "REUSE_EXISTING_PROVIDER_NEUTRAL_SECURITY_CONTRACT_FAMILY",
+    "PIN_STABLE_UPSTREAM_RELEASE_AND_COMMIT",
+    "PROJECT_PYRIT_RESULTS_INTO_CANONICAL_FA3_EVIDENCE",
+    "KEEP_PYRIT_MEMORY_PROVIDER_LOCAL",
+    "ROUTE_MODEL_EXECUTION_THROUGH_EXISTING_FA3_MODEL_ROUTER",
+    "REQUIRE_EXPLICIT_TARGET_ALLOWLIST_AND_DENY_DEFAULT_EGRESS",
+    "REQUIRE_CURRENT_HOST_E2E_BEFORE_RUNTIME_PROMOTION"
+  ]
+}

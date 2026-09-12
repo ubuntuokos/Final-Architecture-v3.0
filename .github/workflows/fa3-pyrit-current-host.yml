@@ -1,0 +1,52 @@
+name: FA3 PyRIT Current-Host Admission
+
+on:
+  workflow_dispatch:
+    inputs:
+      scan_evidence_path:
+        description: 'Path on the checked-out workspace to real PyRIT scan evidence JSON'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  pyrit-current-host:
+    name: pyrit-current-host / validate-real-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Verify non-privileged prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v pyrit_scan
+          python3 - <<'PY'
+          import importlib.metadata
+          version = importlib.metadata.version('pyrit')
+          if version != '1.1.0':
+              raise SystemExit(f'expected PyRIT 1.1.0, got {version}')
+          PY
+
+      - name: Validate real current-host PyRIT evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 evidence/collect-pyrit-current-host.py \
+            --scan-evidence "${{ inputs.scan_evidence_path }}" \
+            --out evidence/receipts/pyrit-current-host.json
+
+      - name: Upload current-host receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-pyrit-current-host-evidence
+          path: evidence/receipts/pyrit-current-host.json
