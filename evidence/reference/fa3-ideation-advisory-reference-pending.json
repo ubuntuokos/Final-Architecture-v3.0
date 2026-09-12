@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-IDEATION-ADVISORY-REFERENCE-001",
+  "profile_id": "FA3-IDEATION-ADVISORY-001",
+  "gate_id": "FA3-GATE-IDEATION-ADVISORY-001",
+  "status": "PENDING_EXECUTION",
+  "pass_claimed": false,
+  "runtime_promotion_claimed": false,
+  "current_host_evidence": false,
+  "expected_commands": [
+    "PYTHONPATH=src python src/fa3_ideation_advisory.py --self-check",
+    "PYTHONPATH=src python src/fa3_ideation_advisory_gate.py",
+    "PYTHONPATH=src python -m unittest tests.test_ideation_advisory_gate -v"
+  ],
+  "required_before_reference_pass": [
+    "successful Ideation-Advisory self-check",
+    "successful fail-closed Ideation-Advisory gate",
+    "successful Ideation-Advisory regression tests"
+  ],
+  "required_before_current_host_promotion": [
+    "fresh target-host deployment evidence",
+    "fresh target-host ideation and advisory interaction evidence",
+    "fresh target-host evidence/conflict/decision-handoff evidence",
+    "fresh target-host Inspector verification handoff evidence for a high-impact case"
+  ],
+  "note": "This placeholder intentionally records no PASS. It prevents design materialization from being misrepresented as executed evidence."
+}
