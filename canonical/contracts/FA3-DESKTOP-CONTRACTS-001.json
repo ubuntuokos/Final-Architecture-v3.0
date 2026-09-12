@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-DESKTOP-CONTRACTS-001",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-DESKTOP-001",
@@ -11,6 +11,8 @@
   "capability_projection": ["CAP-057"],
   "contracts": [
     "DesktopNavigationDescriptor",
+    "EmbeddedAiApplicationSurface",
+    "EmbeddedWebEndpointPreference",
     "CanonicalReadProjection",
     "HostTelemetryReadProjection",
     "HostHardwareDiscoveryProjection",
@@ -52,6 +54,7 @@
   },
   "mutation_model": {
     "local_gui_preference": "ALLOW",
+    "local_web_endpoint_preference": "ALLOW_NON_SECRET_ONLY",
     "local_draft_changeset": "ALLOW",
     "assistant_task_draft": "ALLOW_LOCAL_DRAFT_ONLY",
     "maintenance_changeset_draft": "ALLOW_LOCAL_DRAFT_ONLY",
@@ -72,6 +75,7 @@
     "Command Center",
     "Projects",
     "AI Studio",
+    "AI Applications",
     "AI Mentor",
     "AI Coach",
     "Manager",
@@ -106,6 +110,14 @@
     "GPU_HARD_RESET_LAST_RESORT_ROOT_ONLY_BOUNDED_RECOVERY",
     "GUI_PROCESS_NEVER_RUNS_AS_ROOT"
   ],
+  "embedded_web_invariants": [
+    "AI_WEB_UI_EMBEDDED_IN_FA3_NATIVE_WINDOW_BY_DEFAULT",
+    "EXTERNAL_BROWSER_FOR_AI_UI_FORBIDDEN_BY_DEFAULT",
+    "NEW_WINDOW_REQUESTS_RETAINED_INSIDE_FA3_WEB_SURFACE",
+    "EXTERNAL_PROTOCOL_LAUNCH_BLOCKED_BY_DEFAULT",
+    "NATIVE_DESKTOP_DCC_AND_OFFICE_APPLICATIONS_MAY_USE_EXTERNAL_NATIVE_WINDOWS",
+    "WEB_ENDPOINT_PREFERENCES_MUST_NOT_STORE_SECRETS"
+  ],
   "peripheral_classes": [
     "KEYBOARD_HID_HOTKEYS",
     "MIDI_AUDIO_CONTROLLERS",
@@ -119,7 +131,9 @@
     "wayland_primary": true,
     "kde_plasma_first_class": true,
     "xwayland_is_not_required": true,
-    "browser_runtime_required": false,
+    "browser_shell": false,
+    "external_browser_for_ai_ui": "FORBIDDEN_BY_DEFAULT",
+    "embedded_web_engine": "Qt WebEngine",
     "root_process": "FORBIDDEN",
     "local_preferences": "QSettings/XDG"
   },
