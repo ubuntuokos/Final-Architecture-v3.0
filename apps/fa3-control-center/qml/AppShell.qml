@@ -55,13 +55,25 @@ ApplicationWindow {
         return fa3Settings.value(key, fallback)
     }
 
+    function indexForKey(key) {
+        for (let i = 0; i < navigationModel.length; ++i) {
+            if (navigationModel[i].key === key)
+                return i
+        }
+        return -1
+    }
+
     function navigateTo(index, remember) {
         const keepHistory = remember === undefined ? true : remember
-        if (index === selectedIndex)
+        if (index < 0 || index >= navigationModel.length || index === selectedIndex)
             return
         if (keepHistory)
             navigationHistory = navigationHistory.concat([selectedIndex])
         selectedIndex = index
+    }
+
+    function navigateKey(key, remember) {
+        navigateTo(indexForKey(key), remember)
     }
 
     function goBack() {
@@ -83,9 +95,6 @@ ApplicationWindow {
             projects: ["Projektek", "Projects"],
             studio: ["AI Studio", "AI Studio"],
             aiApps: ["AI alkalmazások", "AI Applications"],
-            mentor: ["AI Mentor", "AI Mentor"],
-            coach: ["AI Coach", "AI Coach"],
-            manager: ["Manager", "Manager"],
             agents: ["Agentek & Workflow-k", "Agents & Workflows"],
             modelManager: ["Model Manager", "Model Manager"],
             architecture: ["Architektúra", "Architecture"],
@@ -105,9 +114,6 @@ ApplicationWindow {
         { key: "projects", iconText: "▣" },
         { key: "studio", iconText: "✦" },
         { key: "aiApps", iconText: "◎" },
-        { key: "mentor", iconText: "M" },
-        { key: "coach", iconText: "C" },
-        { key: "manager", iconText: "W" },
         { key: "agents", iconText: "⌘" },
         { key: "modelManager", iconText: "◫" },
         { key: "architecture", iconText: "◇" },
@@ -131,15 +137,32 @@ ApplicationWindow {
         }
     }
 
-    Shortcut { sequence: window.shortcut("shortcuts/commandCenter", "Ctrl+1"); onActivated: window.navigateTo(0) }
-    Shortcut { sequence: window.shortcut("shortcuts/projects", "Ctrl+2"); onActivated: window.navigateTo(1) }
-    Shortcut { sequence: window.shortcut("shortcuts/studio", "Ctrl+3"); onActivated: window.navigateTo(2) }
-    Shortcut { sequence: window.shortcut("shortcuts/mentor", "Ctrl+4"); onActivated: window.navigateTo(4) }
-    Shortcut { sequence: window.shortcut("shortcuts/coach", "Ctrl+5"); onActivated: window.navigateTo(5) }
-    Shortcut { sequence: window.shortcut("shortcuts/manager", "Ctrl+6"); onActivated: window.navigateTo(6) }
-    Shortcut { sequence: window.shortcut("shortcuts/modelManager", "Ctrl+7"); onActivated: window.navigateTo(8) }
-    Shortcut { sequence: window.shortcut("shortcuts/system", "Ctrl+8"); onActivated: window.navigateTo(15) }
-    Shortcut { sequence: window.shortcut("shortcuts/settings", "Ctrl+,"); onActivated: window.navigateTo(16) }
+    Shortcut { sequence: window.shortcut("shortcuts/commandCenter", "Ctrl+1"); onActivated: window.navigateKey("command") }
+    Shortcut { sequence: window.shortcut("shortcuts/projects", "Ctrl+2"); onActivated: window.navigateKey("projects") }
+    Shortcut { sequence: window.shortcut("shortcuts/studio", "Ctrl+3"); onActivated: window.navigateKey("studio") }
+    Shortcut {
+        sequence: window.shortcut("shortcuts/mentor", "Ctrl+4")
+        enabled: fa3Settings.value("roleButtons/mentorVisible", true) && fa3Settings.value("mentor/enabled", true)
+        onActivated: mentorDialog.open()
+    }
+    Shortcut {
+        sequence: window.shortcut("shortcuts/coach", "Ctrl+5")
+        enabled: fa3Settings.value("roleButtons/coachVisible", true) && fa3Settings.value("coach/enabled", true)
+        onActivated: coachDialog.open()
+    }
+    Shortcut {
+        sequence: window.shortcut("shortcuts/manager", "Ctrl+6")
+        enabled: fa3Settings.value("roleButtons/managerVisible", true)
+        onActivated: managerDialog.open()
+    }
+    Shortcut { sequence: window.shortcut("shortcuts/modelManager", "Ctrl+7"); onActivated: window.navigateKey("modelManager") }
+    Shortcut { sequence: window.shortcut("shortcuts/system", "Ctrl+8"); onActivated: window.navigateKey("system") }
+    Shortcut {
+        sequence: window.shortcut("shortcuts/inspector", "Ctrl+9")
+        enabled: fa3Settings.value("roleButtons/inspectorVisible", true)
+        onActivated: inspectorDialog.open()
+    }
+    Shortcut { sequence: window.shortcut("shortcuts/settings", "Ctrl+,"); onActivated: window.navigateKey("settings") }
     Shortcut { sequence: window.shortcut("shortcuts/assistant", "Ctrl+Space"); onActivated: assistantDrawer.open() }
     Shortcut { sequence: window.shortcut("shortcuts/refresh", "Ctrl+R"); onActivated: fa3Repository.refresh() }
 
@@ -241,8 +264,7 @@ ApplicationWindow {
         property string roleKey: ""
         property string roleTitle: ""
         property string roleDescription: ""
-        property int rolePageIndex: -1
-        property int settingsSectionIndex: -1
+        property string settingsSectionKey: ""
         property string transcript: ""
 
         title: window.t("Párbeszéd — ", "Conversation — ") + roleTitle
@@ -267,14 +289,19 @@ ApplicationWindow {
                     TextArea {
                         readOnly: true
                         wrapMode: TextEdit.Wrap
-                        text: roleDialog.transcript.length > 0 ? roleDialog.transcript : window.t("Nincs még üzenet ebben a helyi párbeszédben.", "No messages in this local conversation yet.")
+                        text: roleDialog.transcript.length > 0
+                              ? roleDialog.transcript
+                              : window.t("Nincs még üzenet ebben a helyi párbeszédben.", "No messages in this local conversation yet.")
                         color: window.textPrimary
                     }
                 }
             }
             Label {
                 Layout.fillWidth: true
-                text: window.t("Ez a párbeszéd külön van a beállításoktól. A runtime adapter még nincs production-promotálva, ezért a GUI nem talál ki AI-választ és nem futtat közvetlen toolt.", "This conversation is separate from settings. The runtime adapter is not production-promoted, so the GUI does not fabricate AI responses or execute tools directly.")
+                text: window.t(
+                    "Ez a párbeszéd külön van a beállításoktól. A runtime adapter csak meglévő FA3 authority-kon keresztül működhet; a GUI nem talál ki AI-választ és nem futtat közvetlen toolt.",
+                    "This conversation is separate from settings. The runtime adapter may operate only through existing FA3 authorities; the GUI does not fabricate AI responses or execute tools directly."
+                )
                 color: "#d99b32"
                 wrapMode: Text.WordWrap
                 font.pixelSize: window.px(11)
@@ -294,7 +321,10 @@ ApplicationWindow {
                     onClicked: {
                         const question = rolePrompt.text.trim()
                         const prefix = roleDialog.transcript.length > 0 ? "\n\n" : ""
-                        roleDialog.transcript += prefix + window.t("Te: ", "You: ") + question + "\n\n" + roleDialog.roleTitle + ": " + window.t("A kérdés rögzítve. A runtime válaszadapter még PENDING.", "Question recorded. The runtime response adapter is still PENDING.")
+                        roleDialog.transcript += prefix
+                            + window.t("Te: ", "You: ") + question
+                            + "\n\n" + roleDialog.roleTitle + ": "
+                            + window.t("A kérdés rögzítve. A production runtime válaszadapter státusza külön evidence-t igényel.", "Question recorded. Production runtime response adapter status requires separate evidence.")
                         rolePrompt.clear()
                     }
                 }
@@ -303,21 +333,22 @@ ApplicationWindow {
                     visible: roleDialog.roleKey === "manager"
                     enabled: rolePrompt.text.trim().length > 0
                     onClicked: {
-                        window.draftResultText = fa3Repository.createDraftChangeSet("manager", "MANAGER_CONVERSATION_TASK_PROPOSAL", "FA3-MANAGER-001", rolePrompt.text.trim())
+                        window.draftResultText = fa3Repository.createDraftChangeSet(
+                            "manager",
+                            "MANAGER_CONVERSATION_TASK_PROPOSAL",
+                            "FA3-MANAGER-001",
+                            rolePrompt.text.trim()
+                        )
                         rolePrompt.clear()
                     }
                 }
                 Item { Layout.fillWidth: true }
                 Button {
-                    text: roleDialog.settingsSectionIndex >= 0 ? window.t("Beállítások", "Settings") : window.t("Szerep oldala", "Role page")
+                    text: window.t("Beállítások", "Settings")
                     onClicked: {
                         roleDialog.close()
-                        if (roleDialog.settingsSectionIndex >= 0) {
-                            window.navigateTo(16)
-                            settingsPage.sectionIndex = roleDialog.settingsSectionIndex
-                        } else if (roleDialog.rolePageIndex >= 0) {
-                            window.navigateTo(roleDialog.rolePageIndex)
-                        }
+                        window.navigateKey("settings")
+                        settingsPage.openSection(roleDialog.settingsSectionKey)
                     }
                 }
                 Button { text: window.t("Bezárás", "Close"); onClicked: roleDialog.close() }
@@ -336,7 +367,9 @@ ApplicationWindow {
             ToolButton {
                 text: "☰"
                 ToolTip.visible: hovered
-                ToolTip.text: window.sidebarCollapsed ? window.t("Főmenü megjelenítése", "Show main menu") : window.t("Főmenü elrejtése", "Hide main menu")
+                ToolTip.text: window.sidebarCollapsed
+                              ? window.t("Főmenü megjelenítése", "Show main menu")
+                              : window.t("Főmenü elrejtése", "Hide main menu")
                 onClicked: window.toggleSidebar()
             }
             ToolButton {
@@ -351,12 +384,36 @@ ApplicationWindow {
             Label { text: "Final Architecture 3.0"; font.pixelSize: window.px(15); font.bold: true }
             Item { Layout.fillWidth: true }
 
-            Button { text: window.t("Kérdezd a Mentort", "Ask Mentor"); enabled: fa3Settings.value("mentor/enabled", true); onClicked: mentorDialog.open() }
-            Button { text: window.t("Kérdezd a Coachot", "Ask Coach"); enabled: fa3Settings.value("coach/enabled", true); onClicked: coachDialog.open() }
-            Button { text: window.t("Kérdezd a Managert", "Ask Manager"); onClicked: managerDialog.open() }
+            Button {
+                visible: fa3Settings.value("roleButtons/mentorVisible", true)
+                text: window.t("Kérdezd a Mentort", "Ask Mentor")
+                enabled: fa3Settings.value("mentor/enabled", true)
+                onClicked: mentorDialog.open()
+            }
+            Button {
+                visible: fa3Settings.value("roleButtons/coachVisible", true)
+                text: window.t("Kérdezd a Coachot", "Ask Coach")
+                enabled: fa3Settings.value("coach/enabled", true)
+                onClicked: coachDialog.open()
+            }
+            Button {
+                visible: fa3Settings.value("roleButtons/managerVisible", true)
+                text: window.t("Kérdezd a Managert", "Ask Manager")
+                onClicked: managerDialog.open()
+            }
+            Button {
+                visible: fa3Settings.value("roleButtons/inspectorVisible", true)
+                text: window.t("Kérdezd az Ellenőrt", "Ask Inspector")
+                onClicked: inspectorDialog.open()
+            }
             Button { text: window.t("Asszisztens", "Assistant"); onClicked: assistantDrawer.open() }
             Label { text: "143 capabilities"; color: window.textMuted; font.pixelSize: window.px(11) }
-            ToolButton { text: "↻"; ToolTip.visible: hovered; ToolTip.text: window.t("Canonical és host állapot frissítése", "Refresh canonical and host state"); onClicked: fa3Repository.refresh() }
+            ToolButton {
+                text: "↻"
+                ToolTip.visible: hovered
+                ToolTip.text: window.t("Canonical és host állapot frissítése", "Refresh canonical and host state")
+                onClicked: fa3Repository.refresh()
+            }
         }
     }
 
@@ -369,12 +426,14 @@ ApplicationWindow {
             Layout.fillHeight: true
             color: window.surface1
             border.color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.08)
+
             Behavior on Layout.preferredWidth { NumberAnimation { duration: 140 } }
 
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: window.sidebarCollapsed ? 6 : 10
                 spacing: 8
+
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -392,11 +451,21 @@ ApplicationWindow {
                         ToolTip.text: window.navLabel(modelData.key)
                         contentItem: Row {
                             spacing: 12
-                            Label { text: modelData.iconText; width: window.sidebarCollapsed ? parent.width : 24; horizontalAlignment: Text.AlignHCenter; font.pixelSize: window.px(12) }
-                            Label { visible: !window.sidebarCollapsed; text: window.navLabel(modelData.key); font.pixelSize: window.px(12) }
+                            Label {
+                                text: modelData.iconText
+                                width: window.sidebarCollapsed ? parent.width : 24
+                                horizontalAlignment: Text.AlignHCenter
+                                font.pixelSize: window.px(12)
+                            }
+                            Label {
+                                visible: !window.sidebarCollapsed
+                                text: window.navLabel(modelData.key)
+                                font.pixelSize: window.px(12)
+                            }
                         }
                     }
                 }
+
                 Panel {
                     visible: !window.sidebarCollapsed
                     Layout.fillWidth: true
@@ -425,7 +494,13 @@ ApplicationWindow {
                     width: commandPage.availableWidth
                     spacing: 18
                     Item { Layout.preferredHeight: 20 }
-                    SectionTitle { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Command Center"; subtitle: window.t("FA3 rendszerállapot, canonical integritás és operátori fókusz", "FA3 state, canonical integrity and operator focus") }
+                    SectionTitle {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 24
+                        Layout.rightMargin: 24
+                        title: "Command Center"
+                        subtitle: window.t("FA3 rendszerállapot, canonical integritás és operátori fókusz", "FA3 state, canonical integrity and operator focus")
+                    }
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -443,7 +518,7 @@ ApplicationWindow {
                         Layout.rightMargin: 24
                         spacing: 12
                         ModuleCard { title: "AI Applications"; subtitle: window.t("Open WebUI, ComfyUI, InvokeAI és más web UI-k közvetlenül az FA3-ban", "Open WebUI, ComfyUI, InvokeAI and other web UIs directly inside FA3"); badge: "EMBEDDED" }
-                        ModuleCard { title: "Manager"; subtitle: window.t("Munka, delegálás, blokkerek és evidence closure", "Work, delegation, blockers and evidence closure"); badge: "WORK" }
+                        ModuleCard { title: window.t("AI szerepek", "AI roles"); subtitle: "Mentor / Coach / Manager / Inspector · Settings"; badge: "SETTINGS" }
                         ModuleCard { title: "Model Manager"; subtitle: window.t("Inventory, runtime, storage, security és evidence", "Inventory, runtime, storage, security and evidence"); badge: "P0" }
                         ModuleCard { title: window.t("Karbantartás", "Maintenance"); subtitle: "Temp/cache/runtime cleanup proposal flow"; badge: "GATED" }
                     }
@@ -478,43 +553,6 @@ ApplicationWindow {
                 settings: fa3Settings
                 surface1: window.surface1
                 surface2: window.surface2
-                textPrimary: window.textPrimary
-                textMuted: window.textMuted
-                accent: window.accent
-                uiScale: window.uiScale
-                fontScale: window.fontScale
-                language: fa3Settings.language
-            }
-
-            MentorPage {
-                settings: fa3Settings
-                repository: fa3Repository
-                surface1: window.surface1
-                surface2: window.surface2
-                textPrimary: window.textPrimary
-                textMuted: window.textMuted
-                accent: window.accent
-                uiScale: window.uiScale
-                fontScale: window.fontScale
-                language: fa3Settings.language
-            }
-
-            CoachPage {
-                settings: fa3Settings
-                repository: fa3Repository
-                surface1: window.surface1
-                surface2: window.surface2
-                textPrimary: window.textPrimary
-                textMuted: window.textMuted
-                accent: window.accent
-                uiScale: window.uiScale
-                fontScale: window.fontScale
-                language: fa3Settings.language
-            }
-
-            ManagerPage {
-                repository: fa3Repository
-                surface1: window.surface1
                 textPrimary: window.textPrimary
                 textMuted: window.textMuted
                 accent: window.accent
@@ -562,7 +600,13 @@ ApplicationWindow {
                     width: resourcesPage.availableWidth
                     spacing: 18
                     Item { Layout.preferredHeight: 20 }
-                    SectionTitle { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Resources"; subtitle: window.t("FA3 workload utilization, placement és ChangeSet-alapú intent", "FA3 workload utilization, placement and ChangeSet-based intent") }
+                    SectionTitle {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 24
+                        Layout.rightMargin: 24
+                        title: "Resources"
+                        subtitle: window.t("FA3 workload utilization, placement és ChangeSet-alapú intent", "FA3 workload utilization, placement and ChangeSet-based intent")
+                    }
                     Flow {
                         Layout.fillWidth: true
                         Layout.leftMargin: 24
@@ -573,8 +617,19 @@ ApplicationWindow {
                         MetricCard { label: "Memory"; value: fa3Repository.memoryAvailableGiB.toFixed(1) + " GiB"; note: "available" }
                         MetricCard { label: "GPU"; value: fa3Repository.gpuDevices.length.toString(); note: "discovered" }
                     }
-                    Button { Layout.leftMargin: 24; text: window.t("Új typed ChangeSet draft", "New typed ChangeSet draft"); onClicked: changeSetDialog.open() }
-                    Label { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; color: window.accent; text: window.draftResultText; elide: Text.ElideMiddle }
+                    Button {
+                        Layout.leftMargin: 24
+                        text: window.t("Új typed ChangeSet draft", "New typed ChangeSet draft")
+                        onClicked: changeSetDialog.open()
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 24
+                        Layout.rightMargin: 24
+                        color: window.accent
+                        text: window.draftResultText
+                        elide: Text.ElideMiddle
+                    }
                 }
             }
 
@@ -604,6 +659,7 @@ ApplicationWindow {
                 cards: [
                     { title: "Evidence records", subtitle: fa3Repository.evidenceCount.toString(), badge: "READ" },
                     { title: "Pending", subtitle: fa3Repository.pendingCount.toString(), badge: "ATTENTION" },
+                    { title: "Inspector", subtitle: "FA3-INSPECTOR-001 · independent verification & assurance", badge: "P0" },
                     { title: "Promotion boundary", subtitle: "GUI cannot self-declare PASS or promote runtime", badge: "GATED" }
                 ]
             }
@@ -657,26 +713,34 @@ ApplicationWindow {
         roleKey: "mentor"
         roleTitle: "AI Mentor"
         roleDescription: window.t("Tanítás, magyarázat, Practice Lab és mastery fókusz.", "Teaching, explanation, Practice Lab and mastery focus.")
-        rolePageIndex: 4
-        settingsSectionIndex: 10
+        settingsSectionKey: "mentor"
     }
 
     RoleChatDialog {
         id: coachDialog
         roleKey: "coach"
         roleTitle: "AI Coach"
-        roleDescription: window.t("Célok, haladás, blockerek és következő lépések — a beállításoktól elkülönített párbeszéd.", "Goals, progress, blockers and next actions — conversation separated from settings.")
-        rolePageIndex: 5
-        settingsSectionIndex: 11
+        roleDescription: window.t("Célok, haladás, blockerek és következő lépések.", "Goals, progress, blockers and next actions.")
+        settingsSectionKey: "coach"
     }
 
     RoleChatDialog {
         id: managerDialog
         roleKey: "manager"
         roleTitle: "Manager"
-        roleDescription: window.t("Munka, delegálás, függőségek és evidence closure — külön a Manager operációs nézettől.", "Work, delegation, dependencies and evidence closure — separate from the Manager operations view.")
-        rolePageIndex: 6
-        settingsSectionIndex: -1
+        roleDescription: window.t("Munka, delegálás, függőségek és evidence closure.", "Work, delegation, dependencies and evidence closure.")
+        settingsSectionKey: "manager"
+    }
+
+    RoleChatDialog {
+        id: inspectorDialog
+        roleKey: "inspector"
+        roleTitle: window.t("Ellenőr", "Inspector")
+        roleDescription: window.t(
+            "Független verification & assurance: evidence, frissesség, reprodukálhatóság, drift és production PASS ellenőrzése.",
+            "Independent verification & assurance: evidence, freshness, reproducibility, drift and production PASS inspection."
+        )
+        settingsSectionKey: "inspector"
     }
 
     Drawer {
@@ -694,18 +758,43 @@ ApplicationWindow {
                 Label { text: "AI Assistant"; font.pixelSize: window.px(20); font.bold: true; Layout.fillWidth: true }
                 ToolButton { text: "×"; onClicked: assistantDrawer.close() }
             }
-            Label { Layout.fillWidth: true; text: window.t("Aktuális nézet: ", "Current view: ") + window.navLabel(window.navigationModel[window.selectedIndex].key); color: window.textMuted }
-            Label { Layout.fillWidth: true; text: window.t("Az Assistant operátori context projection. Közvetlen tool/system végrehajtás nincs bekötve.", "Assistant is an operator-context projection. Direct tool/system execution is not wired."); wrapMode: Text.WordWrap; color: window.textMuted }
-            TextArea { id: assistantPrompt; Layout.fillWidth: true; Layout.fillHeight: true; placeholderText: window.t("Kérdezz a jelenlegi nézetről vagy készíts feladatjavaslatot…", "Ask about the current view or draft a task proposal…"); wrapMode: TextEdit.Wrap }
+            Label {
+                Layout.fillWidth: true
+                text: window.t("Aktuális nézet: ", "Current view: ") + window.navLabel(window.navigationModel[window.selectedIndex].key)
+                color: window.textMuted
+            }
+            Label {
+                Layout.fillWidth: true
+                text: window.t("Az Assistant operátori context projection. Közvetlen tool/system végrehajtás nincs bekötve.", "Assistant is an operator-context projection. Direct tool/system execution is not wired.")
+                wrapMode: Text.WordWrap
+                color: window.textMuted
+            }
+            TextArea {
+                id: assistantPrompt
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                placeholderText: window.t("Kérdezz a jelenlegi nézetről vagy készíts feladatjavaslatot…", "Ask about the current view or draft a task proposal…")
+                wrapMode: TextEdit.Wrap
+            }
             Label { Layout.fillWidth: true; text: window.draftResultText; color: window.accent; elide: Text.ElideMiddle }
             RowLayout {
                 Layout.fillWidth: true
                 Button {
                     text: window.t("Feladat-draft", "Task draft")
                     enabled: assistantPrompt.text.trim().length > 0
-                    onClicked: window.draftResultText = fa3Repository.createDraftChangeSet("assistant", "ASSISTANT_TASK_PROPOSAL", window.navLabel(window.navigationModel[window.selectedIndex].key), assistantPrompt.text)
+                    onClicked: window.draftResultText = fa3Repository.createDraftChangeSet(
+                        "assistant",
+                        "ASSISTANT_TASK_PROPOSAL",
+                        window.navLabel(window.navigationModel[window.selectedIndex].key),
+                        assistantPrompt.text
+                    )
                 }
-                Button { text: "MCP"; enabled: false; ToolTip.visible: hovered; ToolTip.text: window.t("Assistant MCP adapter még nincs runtime-promotálva", "Assistant MCP adapter is not runtime-promoted yet") }
+                Button {
+                    text: "MCP"
+                    enabled: false
+                    ToolTip.visible: hovered
+                    ToolTip.text: window.t("Assistant MCP adapter még nincs runtime-promotálva", "Assistant MCP adapter is not runtime-promoted yet")
+                }
                 Item { Layout.fillWidth: true }
                 Button { text: window.t("Törlés", "Clear"); onClicked: assistantPrompt.clear() }
             }
@@ -726,7 +815,12 @@ ApplicationWindow {
             TextField { id: csAction; Layout.fillWidth: true; placeholderText: "Action" }
             TextField { id: csTarget; Layout.fillWidth: true; placeholderText: "Target" }
             TextArea { id: csRationale; Layout.fillWidth: true; Layout.preferredHeight: 120; placeholderText: window.t("Indoklás", "Rationale"); wrapMode: TextEdit.Wrap }
-            Label { Layout.fillWidth: true; color: window.textMuted; wrapMode: Text.WordWrap; text: "Save → local DRAFT_NOT_SUBMITTED JSON only; no command execution or canonical mutation." }
+            Label {
+                Layout.fillWidth: true
+                color: window.textMuted
+                wrapMode: Text.WordWrap
+                text: "Save → local DRAFT_NOT_SUBMITTED JSON only; no command execution or canonical mutation."
+            }
         }
         onAccepted: {
             window.draftResultText = fa3Repository.createDraftChangeSet(csScope.text, csAction.text, csTarget.text, csRationale.text)
