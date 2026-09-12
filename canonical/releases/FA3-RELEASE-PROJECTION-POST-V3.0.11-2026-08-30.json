@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b20c27f448bddbe5256d9095222375dc96df0ae5",
-    "pre_projection_root_tree_sha": "1d737e63567f30195107da65c5431901ac330ae6",
-    "pre_projection_canonical_tree_sha": "4953453ad41ce86f83fa8ed70c391d9c8b61bb24",
-    "commits_ahead_of_v3_0_11_conformance_commit": 164,
-    "total_post_baseline_commits": 164,
-    "delta_file_count": 950,
-    "delta_added_files": 945,
+    "pre_projection_head_sha": "4889a065740a0539a1691f47f6928b2444f5ea22",
+    "pre_projection_root_tree_sha": "82b27c67af5ebc71be2715007f33f21ffb08cd70",
+    "pre_projection_canonical_tree_sha": "6b29160d79b1d42e19ae0ba94799d0b7594b3f93",
+    "commits_ahead_of_v3_0_11_conformance_commit": 166,
+    "total_post_baseline_commits": 166,
+    "delta_file_count": 951,
+    "delta_added_files": 946,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 533,
+    "canonical_files_in_post_baseline_delta": 534,
     "evidence_files_in_post_baseline_delta": 102,
     "source_files_in_post_baseline_delta": 108,
     "test_files_in_post_baseline_delta": 88,
@@ -297,6 +297,7 @@
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
+      "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
@@ -656,7 +657,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 950,
+  "manifest_entry_count": 951,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -700,7 +701,7 @@
     },
     {
       "path": ".github/workflows/fa3-human-motion-current-host.yml",
-      "git_blob_sha": "622e87feed936532fd102a5626c4a21b7c175d80",
+      "git_blob_sha": "614ce45aed1f521fbef20ee4f07bef9ded8a0024",
       "baseline_delta_status": "added"
     },
     {
@@ -1110,7 +1111,7 @@
     },
     {
       "path": "canonical/FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001.json",
-      "git_blob_sha": "4d40ad87907006108fae6fca0523dbbed5688bbb",
+      "git_blob_sha": "99b63dc177da9edd8048f35f032f095e3eecb066",
       "baseline_delta_status": "added"
     },
     {
@@ -1265,7 +1266,7 @@
     },
     {
       "path": "canonical/FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001.json",
-      "git_blob_sha": "828e7fa46350c6a237fb912d2fd808a3aa122523",
+      "git_blob_sha": "d00821ef8f3c4b3df9bca0e11565d110096adddd",
       "baseline_delta_status": "added"
     },
     {
@@ -1914,6 +1915,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
+      "git_blob_sha": "165926022b0e846ac4273b1d677f5da2514c7789",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
       "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8",
       "baseline_delta_status": "added"
@@ -2290,7 +2296,7 @@
     },
     {
       "path": "canonical/human-motion-current-host-enforcement.json",
-      "git_blob_sha": "f0b9adb7bbab7126a12b80249a4fa0ad738f239b",
+      "git_blob_sha": "f4f07f8d424c20221661eb671bdc00e7ffe0b881",
       "baseline_delta_status": "added"
     },
     {
@@ -3535,7 +3541,7 @@
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-HUMAN-MOTION-2026-09-12.json",
-      "git_blob_sha": "14b512df95969ce1ee7030e2e25620171e25be17",
+      "git_blob_sha": "d8406d99a289399e8a817e2d0ff197425cbf2666",
       "baseline_delta_status": "added"
     },
     {
@@ -3790,7 +3796,7 @@
     },
     {
       "path": "docs/human-motion-current-host.md",
-      "git_blob_sha": "c175a811d450905147e7afa6c36c541bc2c42a46",
+      "git_blob_sha": "b52a7851d7be15971e686cefaff4da931a2f7a95",
       "baseline_delta_status": "added"
     },
     {
@@ -3905,7 +3911,7 @@
     },
     {
       "path": "evidence/collect-human-motion-current-host.py",
-      "git_blob_sha": "8a93918737860efd6a628f1a75b7160cd43537fb",
+      "git_blob_sha": "1e917c87d18ebdc58c19591c949f7239a7edaabc",
       "baseline_delta_status": "added"
     },
     {
@@ -4595,12 +4601,12 @@
     },
     {
       "path": "src/fa3_human_motion_current_host.py",
-      "git_blob_sha": "131ce42a676880dc7ec489e295958d6dba20597d",
+      "git_blob_sha": "0239c72496543bc746a85452f29d212199004fc9",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_human_motion_current_host_gate.py",
-      "git_blob_sha": "8bbe29c34f781fc39d0ed8620b12f5c4291e1b46",
+      "git_blob_sha": "d02a0b50d095c2579e11980f8eaa5a5d814e702d",
       "baseline_delta_status": "added"
     },
     {
@@ -5090,12 +5096,12 @@
     },
     {
       "path": "tests/test_human_motion_current_host_gate.py",
-      "git_blob_sha": "bf3df883d29fe88ae9f4af5639c83a27c3a4a786",
+      "git_blob_sha": "ef3506149ef87c00fe0bb2222fa8ed89e973516d",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_human_motion_current_host_materialization.py",
-      "git_blob_sha": "a82c5d3a945a38572c009fd82034b17f0f4cb135",
+      "git_blob_sha": "961e0e39abe7d187027f69d82b571658dc4291c4",
       "baseline_delta_status": "added"
     },
     {
