@@ -12,11 +12,7 @@
     "CURRENT_HOST_PROMOTION_EVIDENCE_GATED"
   ],
   "profile": "FA3-MUSIC-001",
-  "capability_projection": [
-    "CAP-017",
-    "CAP-066",
-    "CAP-131"
-  ],
+  "capability_projection": ["CAP-017", "CAP-066", "CAP-131"],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -52,6 +48,9 @@
       "reinit_kv_cache_invariance": "0b5ff8acc553fc037dc3f6db31631c1c30df3e99"
     },
     "pending_fix_prs": {
+      "api_model_aware_inference_steps_xl_sft_quality": "#1223",
+      "torchcodec_audio_export_fallback": "#1242",
+      "duration_batch_model_aware_lm_dit_vram_reserve": "#1301",
       "flow_edit_cpu_offload_device_coherence": "#1309",
       "lm_engine_reinit_teardown": "#1311",
       "cuda_dtype_override_nan_mitigation": "#1312",
@@ -66,23 +65,25 @@
     "immutable_commit_or_release_pin_required": true,
     "provider_auto_update_forbidden": true,
     "provider_model_auto_download_forbidden": true,
-    "lossless_master_formats": [
-      "wav",
-      "flac"
-    ],
+    "lossless_master_formats": ["wav", "flac"],
     "silent_model_fallback_forbidden": true,
+    "rest_automation_must_set_inference_steps_explicitly": true,
+    "sft_and_xl_sft_must_not_inherit_turbo_step_defaults": true,
+    "generation_step_policy_is_provenance_bearing": true,
+    "lm_dit_vram_reserve_must_be_model_duration_and_batch_aware": true,
+    "kv_cache_floor_must_not_be_silently_violated": true,
+    "provider_vram_preflight_does_not_replace_hrb_admission": true,
     "in_process_lm_reinit_requires_clean_teardown_evidence_or_process_recycle": true,
     "cuda_capability_probe_failure_must_be_observable_and_control_flow_safe": true,
-    "precision_override_allowlist": [
-      "float32",
-      "float16",
-      "bfloat16"
-    ],
+    "precision_override_allowlist": ["float32", "float16", "bfloat16"],
     "unsupported_precision_override_fail_closed": true,
     "precision_is_provenance_bearing": true,
     "non_finite_latent_or_audio_fail_closed": true,
     "cpu_offload_device_dtype_coherence_required": true,
     "lora_cpu_offload_validation_skip_forbidden_without_equivalent_guard": true,
+    "canonical_lossless_export_must_not_require_unguarded_torchcodec": true,
+    "torch_pytorch_torchaudio_torchcodec_compatibility_smoke_required_when_torchcodec_is_enabled": true,
+    "linux_ffmpeg_shared_library_and_audio_export_smoke_required": true,
     "open_upstream_pr_not_promotion_evidence": true
   },
   "authority_boundaries": {
@@ -94,5 +95,5 @@
     "durable_orchestration": "TEMPORAL_EXISTING_AUTHORITY"
   },
   "implementation_status": "CANONICAL_REQUIRED_PROVIDER_NOT_CURRENT_HOST_PROMOTED",
-  "last_upstream_reconciled_at": "2026-09-10"
+  "last_upstream_reconciled_at": "2026-09-12"
 }
