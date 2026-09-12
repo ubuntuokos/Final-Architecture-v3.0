@@ -1,0 +1,33 @@
+name: FA3 Open Science Desktop static gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-OPEN-SCIENCE-DESKTOP-001.json'
+      - 'canonical/contracts/FA3-SCIENTIFIC-RESEARCH-WORKBENCH-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-OPEN-SCIENCE-DESKTOP-2026-09-12.json'
+      - 'canonical/FA3-OPEN-SCIENCE-DESKTOP-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-OPEN-SCIENCE-DESKTOP-001.json'
+      - 'canonical/open-science-desktop-enforcement.json'
+      - 'canonical/evidence/FA3-EVIDENCE-OPEN-SCIENCE-DESKTOP-STATIC-2026-09-12.json'
+      - 'fa3-current-host/open-science-desktop-hardware-binding.json'
+      - 'src/fa3_open_science_desktop_gate.py'
+      - 'tests/test_open_science_desktop_gate.py'
+      - '.github/workflows/fa3-open-science-desktop-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-admission:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run executable fail-closed gate
+        run: python3 src/fa3_open_science_desktop_gate.py --root .
+      - name: Run regression tests
+        run: python3 -m unittest tests/test_open_science_desktop_gate.py
