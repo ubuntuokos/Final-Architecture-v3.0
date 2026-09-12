@@ -9,4 +9,9 @@ if [[ "${1:-}" == "page-cache-prefetch" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_page_cache_prefetch_gate.py" --root "$ROOT" "$@"
 fi
+if [[ "${1:-}" == "soma-x" || "${1:-}" == "gem-x" || "${1:-}" == "human-motion" ]]; then
+  command="$1"
+  shift
+  exec python3 "$ROOT/src/fa3_human_motion_gate.py" "$command" --root "$ROOT" "$@"
+fi
 exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" "$@"

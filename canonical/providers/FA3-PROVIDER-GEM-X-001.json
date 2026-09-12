@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-GEM-X-001",
+  "name": "NVlabs/GEM-X",
+  "status": "ACCEPTED_PREFERRED_REFERENCE_OPTIONAL_RUNTIME_NOT_PROMOTED",
+  "provider_role": "PREFERRED_MONOCULAR_VIDEO_TO_3D_HUMAN_MOTION_ESTIMATION_REFERENCE_PROVIDER",
+  "classification": ["PREFERRED_REFERENCE", "OPTIONAL_EXECUTION_PROVIDER", "LOCAL_FIRST", "PERMISSIVE_SOURCE_LICENSE", "SEPARATE_MODEL_LICENSE", "CUDA_ACCELERATED"],
+  "profile_ids": ["FA3-HUMAN-MOTION-001"],
+  "contract_ids": ["FA3-HUMAN-MOTION-CONTRACTS-001"],
+  "capability_bindings": ["CAP-032"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "NVlabs/GEM-X",
+    "revision": "32992550dba114c62243fb55e361311972dce8f9",
+    "revision_date": "2026-04-27",
+    "source_code_license": "Apache-2.0",
+    "license_blob_sha": "e048a61796b130714fac0dffe9a3c2a1faf9521d",
+    "model_license": "NVIDIA Open Model License Agreement",
+    "reference_id": "FA3-GEM-X-UPSTREAM-REFERENCE-2026-09-12"
+  },
+  "capability_surface": ["monocular_video_to_3d_human_motion", "camera_space_motion", "world_space_motion", "dynamic_camera_processing", "soma_77_joint_projection", "onnx_tensorrt_accelerated_reference_path", "humanoid_retargeting_projection"],
+  "model_policy": {
+    "checkpoint_identity_must_be_content_addressed": true,
+    "checkpoint_sha256_required": true,
+    "model_license_receipt_required": true,
+    "automatic_huggingface_download_in_production": false,
+    "weights_must_be_pre_admitted": true,
+    "source_code_license_does_not_substitute_for_model_license": true
+  },
+  "execution": {
+    "hrb_lease_required": true,
+    "stable_accelerator_identity_required": ["DEVICE_UUID", "PCI_BDF"],
+    "display_accelerator_implicit_selection": false,
+    "silent_gpu_fallback": false,
+    "silent_cpu_fallback": false,
+    "provider_fallback": false,
+    "runtime_network_fetch": false,
+    "provider_native_output_requires_fa3_ir_projection": true
+  },
+  "output_claims": {
+    "upstream_reported_joint_count": 77,
+    "upstream_reports_body_hands_face": true,
+    "hands_face_articulation_requires_current_host_validation": true,
+    "world_space_trajectory_requires_current_host_validation": true,
+    "dynamic_camera_support_requires_current_host_validation": true
+  },
+  "quality_gate": {
+    "finite_output_required": true,
+    "nan_inf_forbidden": true,
+    "frame_timestamp_consistency_required": true,
+    "motion_continuity_required": true,
+    "foot_sliding_metric_required": true,
+    "hand_jitter_metric_required": true,
+    "dynamic_camera_trajectory_required": true,
+    "soma_to_smplx_roundtrip_required": true,
+    "usd_export_required": true,
+    "bforartists_or_blender_import_smoke_required": true
+  },
+  "authority_boundaries": {"human_motion_semantics": false, "geometry_semantics": false, "human_identity": false, "dcc_scene_and_final_asset": false, "model_registry": false, "model_routing": false, "host_resource": false, "device_routing": false, "workflow": false, "mcp_gateway": false, "security": false, "evidence": false},
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "source_and_model_license_receipts": "REQUIRED",
+    "real_video_to_soma_inference": "REQUIRED",
+    "quality_metrics_and_dynamic_camera": "REQUIRED",
+    "interchange_and_dcc_smoke": "REQUIRED",
+    "current_host_runtime_evidence": "PENDING",
+    "runtime_promotion_claimed": false
+  }
+}

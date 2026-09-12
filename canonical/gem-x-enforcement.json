@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.gem-x-enforcement.v1",
+  "gate_id": "FA3-GEM-X-GATESET-001",
+  "executable_gate_id": "FA3-GATE-GEM-X-001",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "provider_id": "FA3-PROVIDER-GEM-X-001",
+  "decision_id": "FA3-DEC-SOMA-GEM-X-2026-09-12",
+  "capability_bindings": ["CAP-032"],
+  "capability_count": 143,
+  "fail_closed": true,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rule_count": 22,
+  "p0_invariants": ["GEMX_NON_ROOT_CAP032_PROJECTION", "GEMX_PROVIDER_NEUTRAL_IR", "GEMX_PREFERRED_OPTIONAL_PROVIDER", "GEMX_EXACT_UPSTREAM_PIN", "GEMX_APACHE_SOURCE_LICENSE", "GEMX_MODEL_LICENSE_SEPARATE", "GEMX_CHECKPOINT_SHA256_REQUIRED", "GEMX_NO_PRODUCTION_AUTO_DOWNLOAD", "GEMX_HRB_LEASE_AND_STABLE_DEVICE_IDENTITY", "GEMX_NO_SILENT_FALLBACK", "GEMX_REPORTED_77_JOINT_CLAIM_VALIDATION_GATED", "GEMX_WORLD_SPACE_TRAJECTORY_EVIDENCE", "GEMX_FINITE_OUTPUT_NAN_INF_GATE", "GEMX_FRAME_TIMESTAMP_CONSISTENCY", "GEMX_MOTION_CONTINUITY", "GEMX_FOOT_SLIDING_AND_HAND_JITTER_METRICS", "GEMX_DYNAMIC_CAMERA_TRAJECTORY_EVIDENCE", "GEMX_SOMA_SMPLX_USD_DCC_INTERCHANGE_EVIDENCE", "GEMX_NO_ARCHITECTURAL_AUTHORITY", "GEMX_RUNTIME_PENDING_WITHOUT_REAL_EVIDENCE", "GEMX_GATE_AND_ENFORCEMENT_INVENTORY_EXACT", "GEMX_REFERENCE_DECISION_RELEASE_SCOPE_NO_RUNTIME_PROMOTION"],
+  "rules": [
+    {"id":"GEMX-001","invariant":"GEMX_NON_ROOT_CAP032_PROJECTION","priority":"P0","mandatory":true},{"id":"GEMX-002","invariant":"GEMX_PROVIDER_NEUTRAL_IR","priority":"P0","mandatory":true},{"id":"GEMX-003","invariant":"GEMX_PREFERRED_OPTIONAL_PROVIDER","priority":"P0","mandatory":true},{"id":"GEMX-004","invariant":"GEMX_EXACT_UPSTREAM_PIN","priority":"P0","mandatory":true},{"id":"GEMX-005","invariant":"GEMX_APACHE_SOURCE_LICENSE","priority":"P0","mandatory":true},{"id":"GEMX-006","invariant":"GEMX_MODEL_LICENSE_SEPARATE","priority":"P0","mandatory":true},{"id":"GEMX-007","invariant":"GEMX_CHECKPOINT_SHA256_REQUIRED","priority":"P0","mandatory":true},{"id":"GEMX-008","invariant":"GEMX_NO_PRODUCTION_AUTO_DOWNLOAD","priority":"P0","mandatory":true},{"id":"GEMX-009","invariant":"GEMX_HRB_LEASE_AND_STABLE_DEVICE_IDENTITY","priority":"P0","mandatory":true},{"id":"GEMX-010","invariant":"GEMX_NO_SILENT_FALLBACK","priority":"P0","mandatory":true},{"id":"GEMX-011","invariant":"GEMX_REPORTED_77_JOINT_CLAIM_VALIDATION_GATED","priority":"P0","mandatory":true},{"id":"GEMX-012","invariant":"GEMX_WORLD_SPACE_TRAJECTORY_EVIDENCE","priority":"P0","mandatory":true},{"id":"GEMX-013","invariant":"GEMX_FINITE_OUTPUT_NAN_INF_GATE","priority":"P0","mandatory":true},{"id":"GEMX-014","invariant":"GEMX_FRAME_TIMESTAMP_CONSISTENCY","priority":"P0","mandatory":true},{"id":"GEMX-015","invariant":"GEMX_MOTION_CONTINUITY","priority":"P0","mandatory":true},{"id":"GEMX-016","invariant":"GEMX_FOOT_SLIDING_AND_HAND_JITTER_METRICS","priority":"P0","mandatory":true},{"id":"GEMX-017","invariant":"GEMX_DYNAMIC_CAMERA_TRAJECTORY_EVIDENCE","priority":"P0","mandatory":true},{"id":"GEMX-018","invariant":"GEMX_SOMA_SMPLX_USD_DCC_INTERCHANGE_EVIDENCE","priority":"P0","mandatory":true},{"id":"GEMX-019","invariant":"GEMX_NO_ARCHITECTURAL_AUTHORITY","priority":"P0","mandatory":true},{"id":"GEMX-020","invariant":"GEMX_RUNTIME_PENDING_WITHOUT_REAL_EVIDENCE","priority":"P0","mandatory":true},{"id":"GEMX-021","invariant":"GEMX_GATE_AND_ENFORCEMENT_INVENTORY_EXACT","priority":"P0","mandatory":true},{"id":"GEMX-022","invariant":"GEMX_REFERENCE_DECISION_RELEASE_SCOPE_NO_RUNTIME_PROMOTION","priority":"P0","mandatory":true}
+  ]
+}

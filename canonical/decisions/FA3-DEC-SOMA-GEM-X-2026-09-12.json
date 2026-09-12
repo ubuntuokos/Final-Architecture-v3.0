@@ -1,0 +1,48 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-SOMA-GEM-X-2026-09-12",
+  "date": "2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Provider-neutral human motion, parametric-body interchange and character-retargeting integration using SOMA-X and GEM-X",
+  "decision": "ACCEPT_SOMA_X_AS_REQUIRED_SUPPORTED_BODY_INTERCHANGE_REFERENCE_AND_GEM_X_AS_PREFERRED_OPTIONAL_MONOCULAR_MOTION_ESTIMATION_PROVIDER_BEHIND_PROVIDER_NEUTRAL_HUMAN_MOTION_CONTRACT_WITH_FAIL_CLOSED_LICENSE_QUALITY_RESOURCE_AND_RUNTIME_PROMOTION_GATES",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "parent_profile_id": "FA3-3D-GEOM-001",
+  "provider_ids": ["FA3-PROVIDER-SOMA-X-001", "FA3-PROVIDER-GEM-X-001"],
+  "contract_id": "FA3-HUMAN-MOTION-CONTRACTS-001",
+  "gate_ids": ["FA3-GATE-SOMA-X-001", "FA3-GATE-GEM-X-001"],
+  "rationale": [
+    "SOMA-X supplies a reusable shared topology and rig interoperability layer across multiple parametric human body and hand model families",
+    "GEM-X supplies replaceable monocular video to 3D human-motion estimation and explicitly targets SOMA projection, dynamic cameras and world-space trajectories",
+    "CAP-032 Metric 3D Reconstruction already covers the admitted 3D reconstruction projection, so no new capability is created",
+    "SOMA-X and GEM-X must not become geometry, DCC, model-registry, workflow, host-resource, security or evidence authorities",
+    "GEM-X source code and model weights have distinct governing license terms and must be admitted separately",
+    "upstream automatic asset/model downloads are incompatible with production provenance and are disabled by FA3 production policy"
+  ],
+  "accepted_constraints": [
+    "NON_ROOT_SUBPROFILE_OF_FA3_3D_GEOM_001",
+    "CAP_032_ONLY_PROJECTION",
+    "PROVIDER_NEUTRAL_FA3_HUMAN_MOTION_IR",
+    "SOMA_IS_INTERCHANGE_PROJECTION_NOT_CANONICAL_AUTHORITY",
+    "GEM_X_IS_REPLACEABLE_PROVIDER_NOT_CANONICAL_REPRESENTATION",
+    "EXACT_UPSTREAM_COMMIT_PINS",
+    "SOURCE_CODE_MODEL_WEIGHT_AND_THIRD_PARTY_IDENTITY_LICENSE_RECEIPTS_SEPARATED",
+    "NO_RUNTIME_AUTO_DOWNLOAD_IN_PRODUCTION",
+    "CONTENT_ADDRESSED_INPUT_OUTPUT_CHECKPOINTS_AND_ASSETS",
+    "HRB_MEDIATED_ACCELERATOR_EXECUTION_NO_SILENT_FALLBACK",
+    "FINITE_TIMESTAMP_CONTINUITY_FOOT_HAND_AND_DYNAMIC_CAMERA_QUALITY_EVIDENCE",
+    "SOMA_TO_SMPLX_USD_AND_DCC_INTERCHANGE_EVIDENCE",
+    "CURRENT_HOST_REAL_GPU_AND_DCC_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+  ],
+  "rejected": [
+    "NEW_HUMAN_IDENTITY_GEOMETRY_OR_DCC_AUTHORITY",
+    "SOMA_AS_GLOBAL_CANONICAL_FA3_MOTION_FORMAT",
+    "GEM_X_AS_EXCLUSIVE_MOCAP_ENGINE",
+    "APACHE_SOURCE_LICENSE_AS_SUBSTITUTE_FOR_GEM_X_MODEL_LICENSE",
+    "UNPINNED_HUGGINGFACE_MODEL_DOWNLOAD",
+    "RUNTIME_NETWORK_FETCH",
+    "IMPLICIT_DISPLAY_GPU_SELECTION",
+    "AUTOMATIC_CPU_GPU_PROVIDER_OR_CLOUD_FALLBACK",
+    "DOCUMENT_ONLY_RUNTIME_PROMOTION"
+  ],
+  "baseline_effect": {"capability_count_before": 143, "capability_count_after": 143, "new_capabilities": 0, "new_architectural_authorities": 0, "semantic_change": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE"}
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.soma-x-enforcement.v1",
+  "gate_id": "FA3-SOMA-X-GATESET-001",
+  "executable_gate_id": "FA3-GATE-SOMA-X-001",
+  "profile_id": "FA3-HUMAN-MOTION-001",
+  "provider_id": "FA3-PROVIDER-SOMA-X-001",
+  "decision_id": "FA3-DEC-SOMA-GEM-X-2026-09-12",
+  "capability_bindings": ["CAP-032"],
+  "capability_count": 143,
+  "fail_closed": true,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rule_count": 18,
+  "p0_invariants": ["SOMAX_NON_ROOT_CAP032_PROJECTION", "SOMAX_PROVIDER_NEUTRAL_IR", "SOMAX_REQUIRED_REFERENCE_CONDITIONAL_RUNTIME", "SOMAX_EXACT_UPSTREAM_PIN", "SOMAX_APACHE_SOURCE_LICENSE", "SOMAX_THIRD_PARTY_LICENSE_RECEIPTS", "SOMAX_NO_PRODUCTION_AUTO_DOWNLOAD", "SOMAX_CONTENT_ADDRESSED_ASSETS", "SOMAX_NATIVE_OUTPUT_NOT_CANONICAL_IR", "SOMAX_NO_ARCHITECTURAL_AUTHORITY", "SOMAX_INTERCHANGE_PROJECTION_RECEIPTS", "SOMAX_DCC_IMPORT_SMOKE_REQUIRED", "SOMAX_RUNTIME_PENDING_WITHOUT_REAL_EVIDENCE", "SOMAX_GATE_DESCRIPTOR_FAIL_CLOSED", "SOMAX_ENFORCEMENT_INVENTORY_EXACT", "SOMAX_REFERENCE_EVIDENCE_SCOPE_STATIC_ONLY", "SOMAX_DECISION_BASELINE_COUNT_143", "SOMAX_RELEASE_PROJECTION_NO_RUNTIME_PROMOTION"],
+  "rules": [
+    {"id":"SOMAX-001","invariant":"SOMAX_NON_ROOT_CAP032_PROJECTION","priority":"P0","mandatory":true},{"id":"SOMAX-002","invariant":"SOMAX_PROVIDER_NEUTRAL_IR","priority":"P0","mandatory":true},{"id":"SOMAX-003","invariant":"SOMAX_REQUIRED_REFERENCE_CONDITIONAL_RUNTIME","priority":"P0","mandatory":true},{"id":"SOMAX-004","invariant":"SOMAX_EXACT_UPSTREAM_PIN","priority":"P0","mandatory":true},{"id":"SOMAX-005","invariant":"SOMAX_APACHE_SOURCE_LICENSE","priority":"P0","mandatory":true},{"id":"SOMAX-006","invariant":"SOMAX_THIRD_PARTY_LICENSE_RECEIPTS","priority":"P0","mandatory":true},{"id":"SOMAX-007","invariant":"SOMAX_NO_PRODUCTION_AUTO_DOWNLOAD","priority":"P0","mandatory":true},{"id":"SOMAX-008","invariant":"SOMAX_CONTENT_ADDRESSED_ASSETS","priority":"P0","mandatory":true},{"id":"SOMAX-009","invariant":"SOMAX_NATIVE_OUTPUT_NOT_CANONICAL_IR","priority":"P0","mandatory":true},{"id":"SOMAX-010","invariant":"SOMAX_NO_ARCHITECTURAL_AUTHORITY","priority":"P0","mandatory":true},{"id":"SOMAX-011","invariant":"SOMAX_INTERCHANGE_PROJECTION_RECEIPTS","priority":"P0","mandatory":true},{"id":"SOMAX-012","invariant":"SOMAX_DCC_IMPORT_SMOKE_REQUIRED","priority":"P0","mandatory":true},{"id":"SOMAX-013","invariant":"SOMAX_RUNTIME_PENDING_WITHOUT_REAL_EVIDENCE","priority":"P0","mandatory":true},{"id":"SOMAX-014","invariant":"SOMAX_GATE_DESCRIPTOR_FAIL_CLOSED","priority":"P0","mandatory":true},{"id":"SOMAX-015","invariant":"SOMAX_ENFORCEMENT_INVENTORY_EXACT","priority":"P0","mandatory":true},{"id":"SOMAX-016","invariant":"SOMAX_REFERENCE_EVIDENCE_SCOPE_STATIC_ONLY","priority":"P0","mandatory":true},{"id":"SOMAX-017","invariant":"SOMAX_DECISION_BASELINE_COUNT_143","priority":"P0","mandatory":true},{"id":"SOMAX-018","invariant":"SOMAX_RELEASE_PROJECTION_NO_RUNTIME_PROMOTION","priority":"P0","mandatory":true}
+  ]
+}

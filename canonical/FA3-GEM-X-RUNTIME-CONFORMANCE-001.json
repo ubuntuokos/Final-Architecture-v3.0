@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-GEM-X-RUNTIME-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-GEM-X-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "current_host_receipt_present": false,
+  "required_evidence": [
+    "dependency_and_source_license_admission",
+    "gpu_cuda_capability_and_hrb_lease",
+    "checkpoint_sha256_and_model_license_provenance",
+    "real_video_to_soma_inference",
+    "world_space_trajectory",
+    "nan_inf_absence",
+    "skeleton_joint_schema",
+    "frame_count_timestamp_consistency",
+    "motion_continuity",
+    "foot_sliding_metric",
+    "hand_jitter_metric",
+    "dynamic_camera_trajectory",
+    "soma_to_smplx_roundtrip_when_licensed",
+    "usd_export",
+    "bforartists_or_blender_import_smoke"
+  ],
+  "hands_face_and_world_space_claims_require_runtime_validation": true,
+  "reference_gate_pass_does_not_promote_runtime": true,
+  "global_143_capability_promotion_claim": false
+}

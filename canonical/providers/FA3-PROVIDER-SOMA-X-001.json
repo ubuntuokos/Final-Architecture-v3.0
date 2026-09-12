@@ -1,0 +1,54 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-SOMA-X-001",
+  "name": "NVlabs/SOMA-X",
+  "status": "ACCEPTED_REQUIRED_SUPPORTED_REFERENCE_CONDITIONAL_RUNTIME_NOT_PROMOTED",
+  "provider_role": "PRIMARY_PARAMETRIC_HUMAN_BODY_INTERCHANGE_AND_RIG_REFERENCE_PROVIDER",
+  "classification": ["REQUIRED_SUPPORTED_REFERENCE", "CONDITIONAL_EXECUTION_PROVIDER", "LOCAL_FIRST", "PERMISSIVE_SOURCE_LICENSE", "THIRD_PARTY_MODEL_LICENSE_GATED"],
+  "profile_ids": ["FA3-HUMAN-MOTION-001"],
+  "contract_ids": ["FA3-GEOMETRY-CONTRACTS-001", "FA3-HUMAN-MOTION-CONTRACTS-001"],
+  "capability_bindings": ["CAP-032"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "NVlabs/SOMA-X",
+    "revision": "d29dbe5a3f5a0b2632ecac91e8d5125f243a7e36",
+    "revision_date": "2026-09-02",
+    "source_code_license": "Apache-2.0",
+    "license_blob_sha": "e048a61796b130714fac0dffe9a3c2a1faf9521d",
+    "reference_id": "FA3-SOMA-X-UPSTREAM-REFERENCE-2026-09-12"
+  },
+  "capability_surface": ["canonical_soma_topology_and_rig_projection", "parametric_body_and_hand_interchange", "pose_conversion_and_inversion", "procedural_rig_controls", "usd_npz_io", "lod_body_and_hand_projection"],
+  "licensing": {
+    "source_code": "APACHE_2_0_ADMITTED",
+    "native_soma_assets": "UPSTREAM_TERMS_MUST_BE_PINNED_IN_ARTIFACT_RECEIPT",
+    "optional_identity_backends": ["MHR", "Anny", "SMPL", "SMPL-H", "SMPL-X", "GarmentMeasurements", "MANO"],
+    "separate_license_receipt_required": true,
+    "user_supplied_restricted_files_must_not_be_redistributed": true
+  },
+  "runtime_policy": {
+    "production_auto_download": false,
+    "all_assets_pre_admitted_and_content_addressed": true,
+    "isolated_python_environment": true,
+    "requires_hrb_lease_when_gpu_is_used": true,
+    "automatic_gpu_cpu_fallback": false,
+    "provider_native_output_requires_fa3_ir_projection": true
+  },
+  "interchange": {
+    "native_output_is_canonical_fa3_ir": false,
+    "supported_projection_formats": ["SOMA", "USD", "NPZ", "SMPL", "SMPL-H", "SMPL-X", "MANO"],
+    "dcc_import_requires_receipt": true
+  },
+  "authority_boundaries": {"geometry_semantics": false, "human_identity": false, "dcc_scene_and_final_asset": false, "model_registry": false, "model_routing": false, "host_resource": false, "device_routing": false, "workflow": false, "mcp_gateway": false, "security": false, "evidence": false},
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "license_receipts": "REQUIRED",
+    "roundtrip_projection_evidence": "REQUIRED",
+    "usd_export_and_dcc_import_smoke": "REQUIRED",
+    "current_host_runtime_evidence": "PENDING",
+    "runtime_promotion_claimed": false
+  }
+}
