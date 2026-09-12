@@ -30,6 +30,15 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("WEBCAM_CAMERA_V4L2", contract["peripheral_classes"])
         self.assertIn("MIDI_AUDIO_CONTROLLERS", contract["peripheral_classes"])
 
+    def test_ai_web_ui_is_contained_inside_native_fa3_window(self):
+        profile = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_profile"])
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
+        self.assertFalse(profile["runtime"]["browser_shell"])
+        self.assertEqual("Qt WebEngine", profile["runtime"]["embedded_web_runtime"])
+        self.assertEqual("FORBIDDEN_BY_DEFAULT", profile["embedded_web_policy"]["external_browser_for_ai_ui"])
+        self.assertIn("AI_WEB_UI_EMBEDDED_IN_FA3_NATIVE_WINDOW_BY_DEFAULT", contract["embedded_web_invariants"])
+        self.assertIn("NEW_WINDOW_REQUESTS_RETAINED_INSIDE_FA3_WEB_SURFACE", contract["embedded_web_invariants"])
+
 
 if __name__ == "__main__":
     unittest.main()
