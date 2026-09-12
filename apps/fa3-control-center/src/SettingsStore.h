@@ -31,6 +31,8 @@ public:
     Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
     Q_INVOKABLE QString chooseDirectory(const QString &title, const QString &initialPath = QString()) const;
     Q_INVOKABLE QVariantMap pathStatus(const QString &path) const;
+    Q_INVOKABLE bool validShortcut(const QString &sequence) const;
+    Q_INVOKABLE QString shortcutConflict(const QString &settingKey, const QString &sequence) const;
     Q_INVOKABLE void resetGroup(const QString &group);
     Q_INVOKABLE void resetAll();
 
