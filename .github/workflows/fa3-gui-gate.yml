@@ -1,6 +1,29 @@
 name: FA3 GUI Gate
 
 on:
+  push:
+    paths:
+      - 'canonical/profiles/FA3-DESKTOP-001.json'
+      - 'canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-GUI-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-GUI-SETTINGS-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MENTOR-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-MENTOR-USER-PREFS-CONTRACT-001.json'
+      - 'canonical/profiles/FA3-COACH-001.json'
+      - 'canonical/profiles/FA3-COACH-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-COACH-USER-PREFS-CONTRACT-001.json'
+      - 'canonical/contracts/FA3-MENTOR-COACH-INTERACTION-CONTRACT-001.json'
+      - 'canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json'
+      - 'canonical/decisions/FA3-DEC-GUI-OPERATIONS-2026-09-12.json'
+      - 'canonical/FA3-GATE-GUI-SETTINGS-001.json'
+      - 'canonical/FA3-GATE-GUI-OPERATIONS-001.json'
+      - 'canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json'
+      - 'apps/fa3-control-center/**'
+      - 'deployment/fa3-gui/**'
+      - 'evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json'
+      - 'src/fa3_gui_gate.py'
+      - 'tests/test_fa3_gui_gate.py'
+      - '.github/workflows/fa3-gui-gate.yml'
   pull_request:
     paths:
       - 'canonical/profiles/FA3-DESKTOP-001.json'
@@ -14,7 +37,9 @@ on:
       - 'canonical/contracts/FA3-COACH-USER-PREFS-CONTRACT-001.json'
       - 'canonical/contracts/FA3-MENTOR-COACH-INTERACTION-CONTRACT-001.json'
       - 'canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json'
+      - 'canonical/decisions/FA3-DEC-GUI-OPERATIONS-2026-09-12.json'
       - 'canonical/FA3-GATE-GUI-SETTINGS-001.json'
+      - 'canonical/FA3-GATE-GUI-OPERATIONS-001.json'
       - 'canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json'
       - 'apps/fa3-control-center/**'
       - 'deployment/fa3-gui/**'
@@ -23,8 +48,10 @@ on:
       - 'tests/test_fa3_gui_gate.py'
       - '.github/workflows/fa3-gui-gate.yml'
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   static-contract:
     runs-on: ubuntu-latest
@@ -38,6 +65,7 @@ jobs:
         run: PYTHONPATH=. python src/fa3_gui_gate.py
       - name: Run GUI unit regression
         run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v
+
   qt-reference-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
