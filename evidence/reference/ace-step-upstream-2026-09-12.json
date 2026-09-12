@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.ace-step-upstream-reference.v1",
+  "observed_at": "2026-09-12",
+  "repository": "ace-step/ACE-Step-1.5",
+  "latest_formal_release": {
+    "tag": "v0.1.8",
+    "published_at": "2026-05-18T14:04:34Z"
+  },
+  "observed_main_commit": {
+    "sha": "ca1e85fe9430179831e6bc6be790c332190a3866",
+    "observed_only": true,
+    "promotable_as_floating_main": false
+  },
+  "focus_areas": ["XL_SFT", "REST_API", "CUDA_PYTORCH_TORCHCODEC", "VRAM_MEMORY", "GENERATION_QUALITY", "LINUX_COMPATIBILITY"],
+  "open_upstream": [
+    {"pr": 1223, "state": "OPEN", "head_commit": "186323517954b887147a693686b74daf281d9e7e", "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "REST API model-aware inference_steps defaults to prevent noisy XL-SFT output"},
+    {"pr": 1242, "state": "OPEN", "disposition": "OPEN_COMPATIBILITY_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "TorchAudio/TorchCodec save compatibility and fallback behavior"},
+    {"pr": 1301, "state": "OPEN", "head_commit": "9c2cc9da01e6001f8989e8dd9aeaec797f4f602f", "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "duration/batch/model-aware LM reserve for DiT VRAM demand; measured on RTX 3090 XL-Turbo"},
+    {"pr": 1309, "state": "OPEN", "head_commit": "86cf3a2be6dafd2b5bd2ece6471a9a227dc6d1d9", "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "Flow-Edit morph device mismatch under DiT CPU offload"},
+    {"pr": 1311, "state": "OPEN", "head_commit": "49354c10929b94f75e22268357ee96ada20932e2", "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "vLLM LM engine full teardown on service reinit"},
+    {"pr": 1312, "state": "OPEN", "head_commit": "f25fa4015b08840f01a8e9696828120f425b63ab", "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "CUDA dtype override and pre-Ampere NaN mitigation"},
+    {"pr": 1319, "state": "OPEN", "head_commit": "ed6e6fdc02655ef62effc8ef154d2f1f7876217a", "disposition": "OPEN_UNRESOLVED_RISK_NOT_PROMOTION_EVIDENCE", "topic": "LoRA plus DiT CPU offload skips decoder device/dtype verification"},
+    {"pr": 1321, "state": "OPEN", "head_commit": "33e2d60145ad7ac6d1645a51fa833aeb8d037973", "disposition": "OPEN_FIX_CANDIDATE_NOT_PROMOTION_EVIDENCE", "topic": "CUDA capability-probe exception handler missing logger import"}
+  ],
+  "fa3_risk_observations": [
+    "REST API defaults are not trusted for SFT/XL-SFT quality; automation must send explicit inference_steps.",
+    "Long XL generations require model/duration/batch-aware VRAM planning plus an independent HRB lease.",
+    "KV-cache scheduler floors cannot be traded away silently to create DiT headroom.",
+    "Canonical lossless masters must not depend on an unguarded TorchCodec binary compatibility path.",
+    "TorchCodec enablement requires matching Torch/TorchAudio/TorchCodec and Linux multimedia dependency smoke evidence.",
+    "Open upstream fixes remain reference evidence only."
+  ],
+  "floating_main_allowed": false,
+  "open_pr_as_promotion_evidence_allowed": false,
+  "current_host_evidence_claimed": false
+}
