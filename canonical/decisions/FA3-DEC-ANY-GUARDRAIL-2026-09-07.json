@@ -15,6 +15,7 @@
   "capability_count_after": 143,
   "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
   "projection_reconciliation_required": true,
+  "reconciled_against_main_date": "2026-09-12",
   "provider_runtime_required_for_global_promotion_when_disabled": false,
   "current_host_runtime_promotion_claim": false,
   "mandatory_constraint": "any-guardrail SHALL NOT become a security-policy, authorization, MCP/tool, model-routing, host-resource, evidence, secrets, network-egress, artifact-trust, promotion, orchestration or registry authority.",
@@ -37,5 +38,5 @@
     "GUARDRAIL_GRACEFUL_MULTIPROCESS_TERMINATION_REQUIRED",
     "GUARDRAIL_HOST_PLACEMENT_REMAINS_HRB_OWNED"
   ],
-  "reconciliation_basis": "The existing AI security profile already owns security assurance and the Host Resource Broker already owns resource/QoS placement. This decision adds only request-time guardrail contracts, a bounded optional provider, and missing runtime/QoS regression semantics."
+  "reconciliation_basis": "The existing AI security profile already owns security assurance and the Host Resource Broker already owns resource/QoS placement. This decision adds only request-time guardrail contracts, a bounded optional provider, and missing runtime/QoS regression semantics while preserving later main-branch PyRIT and page-cache/prefetch materializations."
 }
