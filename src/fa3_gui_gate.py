@@ -44,9 +44,9 @@ REQUIRED = {
 }
 
 NAVIGATION = [
-    "Command Center", "Projects", "AI Studio", "AI Applications", "AI Mentor", "AI Coach", "Manager",
-    "Agents & Workflows", "Model Manager", "Architecture", "Resources",
-    "Security & Approvals", "Observability", "Evidence", "Integrations", "System", "Settings",
+    "Command Center", "Projects", "AI Studio", "AI Applications", "Agents & Workflows",
+    "Model Manager", "Architecture", "Resources", "Security & Approvals", "Observability",
+    "Evidence", "Integrations", "System", "Settings",
 ]
 
 STUDIO_MODULES = ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]
@@ -58,7 +58,9 @@ SETTINGS_SURFACES = [
     "Megjelenés", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk",
     "Integrációk", "GIMP", "Krita", "Kdenlive", "OpenShot", "Ardour", "Audacity",
     "Blender", "Bforartist", "LibreOffice", "Obsidian", "Publikálás", "YouTube",
-    "Facebook", "TikTok", "HDR", "AI Mentor", "AI Coach", "Frissítés", "Névjegy",
+    "Facebook", "TikTok", "HDR", "AI Mentor", "AI Coach", "Manager", "Ellenőr",
+    "Kérdezd a Mentort gomb", "Kérdezd a Coachot gomb", "Kérdezd a Managert gomb",
+    "Kérdezd az Ellenőrt gomb", "FA3-INSPECTOR-001", "Frissítés", "Névjegy",
     "chooseDirectory", "pathStatus",
 ]
 
@@ -97,7 +99,7 @@ def validate():
     ev = load_json(REQUIRED["evidence"])
 
     checks = [
-        (dp.get("version") == "1.3.0", "desktop-version"),
+        (dp.get("version") == "1.4.0", "desktop-version"),
         (dp.get("new_capability") is False, "desktop-no-capability"),
         (dp.get("new_architectural_authority") is False, "desktop-no-authority"),
         (dp.get("capability_count") == 143, "desktop-count"),
@@ -107,19 +109,33 @@ def validate():
         (dp.get("embedded_web_policy", {}).get("new_window_requests") == "RETAIN_INSIDE_FA3_WEB_SURFACE", "desktop-retain-new-window"),
         (dp.get("maintenance_policy", {}).get("routine_gpu_cleanup_uses_reset") is False, "desktop-no-routine-gpu-reset"),
         (dp.get("maintenance_policy", {}).get("evidence_excluded_from_generic_cleanup") is True, "desktop-evidence-not-cleanup"),
-        (dc.get("version") == "1.3.0", "contract-version"),
+        (dp.get("role_navigation_policy", {}).get("configuration_location") == "SETTINGS", "role-config-settings-only"),
+        (dp.get("role_navigation_policy", {}).get("ask_button_visibility") == "LOCAL_QSETTINGS_PREFERENCE", "role-button-qsettings"),
+        (dp.get("role_navigation_policy", {}).get("ask_button_visibility_changes_role_authority") is False, "role-button-not-authority"),
+        ("FA3-INSPECTOR-001" in dp.get("role_navigation_policy", {}).get("roles", []), "inspector-role-projected"),
+        (dc.get("version") == "1.4.0", "contract-version"),
         (dc.get("mutation_model", {}).get("direct_canonical_write") == "FORBIDDEN", "no-direct-canonical"),
         (dc.get("mutation_model", {}).get("direct_gpu_hard_reset") == "FORBIDDEN", "no-direct-gpu-reset"),
         (dc.get("mutation_model", {}).get("direct_peripheral_kernel_or_device_mutation") == "FORBIDDEN", "no-direct-peripheral-mutation"),
+        ("ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION" in dc.get("role_ui_invariants", []), "role-settings-invariant"),
+        ("ASK_ROLE_ACTIONS_OPEN_CONVERSATION_SURFACES_NOT_CONFIGURATION_PAGES" in dc.get("role_ui_invariants", []), "role-chat-not-config"),
+        ("INSPECTOR_PREFERENCES_MUST_NOT_WEAKEN_INDEPENDENT_VERIFICATION" in dc.get("role_ui_invariants", []), "inspector-independence"),
         ("AI_WEB_UI_EMBEDDED_IN_FA3_NATIVE_WINDOW_BY_DEFAULT" in dc.get("embedded_web_invariants", []), "embedded-ai-ui-required"),
         ("EXTERNAL_BROWSER_FOR_AI_UI_FORBIDDEN_BY_DEFAULT" in dc.get("embedded_web_invariants", []), "external-ai-browser-forbidden"),
         ("NEW_WINDOW_REQUESTS_RETAINED_INSIDE_FA3_WEB_SURFACE" in dc.get("embedded_web_invariants", []), "new-window-contained"),
         ("WEB_ENDPOINT_PREFERENCES_MUST_NOT_STORE_SECRETS" in dc.get("embedded_web_invariants", []), "web-endpoint-no-secrets"),
         ("ROUTINE_GPU_MEMORY_CLEANUP_NEVER_REQUIRES_GPU_RESET" in dc.get("maintenance_invariants", []), "gpu-cleanup-no-reset"),
         ("EVIDENCE_EXCLUDED_FROM_GENERIC_CLEANUP" in dc.get("maintenance_invariants", []), "evidence-cleanup-boundary"),
+        (gs.get("version") == "1.2.0", "settings-profile-version"),
         (gs.get("new_architectural_authority") is False, "settings-no-authority"),
+        (gs.get("role_settings", {}).get("location") == "SETTINGS_ONLY", "settings-role-location"),
+        (gs.get("role_settings", {}).get("visibility_changes_canonical_role") is False, "settings-role-visibility-not-authority"),
+        (gc.get("version") == "1.2.0", "settings-contract-version"),
         (gc.get("storage", {}).get("backend") == "QSettings/XDG", "settings-xdg"),
         (gc.get("storage", {}).get("secret_values") == "FORBIDDEN", "settings-no-secrets"),
+        (gc.get("role_ui", {}).get("configuration_location") == "SETTINGS", "settings-contract-role-location"),
+        (gc.get("role_ui", {}).get("primary_navigation_role_pages") == "FORBIDDEN", "settings-contract-no-role-nav"),
+        (gc.get("role_ui", {}).get("inspector_independence_can_be_disabled_by_preference") is False, "settings-inspector-independent"),
         (mentor.get("id") == "FA3-MENTOR-001", "mentor-present"),
         (ms.get("relationship") == "SUBPROFILE-OF:FA3-MENTOR-001", "mentor-settings"),
         (mp.get("new_architectural_authority") is False, "mentor-prefs-no-authority"),
@@ -136,6 +152,8 @@ def validate():
         (ops_decision.get("new_architectural_authorities") == 0, "ops-decision-no-authority"),
         (ops_decision.get("capability_count_after") == 143, "ops-decision-count"),
         (settings_gate.get("fail_closed") is True, "settings-gate-fail-closed"),
+        ("ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION" in settings_gate.get("enforces", []), "settings-gate-role-location"),
+        ("INSPECTOR_SETTINGS_CANNOT_WEAKEN_INDEPENDENT_VERIFICATION" in settings_gate.get("enforces", []), "settings-gate-inspector-boundary"),
         (operations_gate.get("fail_closed") is True, "operations-gate-fail-closed"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-pending"),
         (runtime.get("production_admitted") is False, "runtime-not-production"),
@@ -148,13 +166,21 @@ def validate():
     for label in NAVIGATION:
         if label not in shell:
             failures.append(f"qml-navigation-missing:{label}")
+    for forbidden_role_nav in ['{ key: "mentor"', '{ key: "coach"', '{ key: "manager"', '{ key: "inspector"']:
+        if forbidden_role_nav in shell:
+            failures.append(f"qml-role-nav-forbidden:{forbidden_role_nav}")
+    for forbidden_role_page in ["MentorPage {", "CoachPage {", "ManagerPage {"]:
+        if forbidden_role_page in shell:
+            failures.append(f"qml-role-page-forbidden:{forbidden_role_page}")
     for module in STUDIO_MODULES:
         if module not in shell:
             failures.append(f"qml-studio-module-missing:{module}")
     for token in [
-        "fa3Settings", "EmbeddedAppsPage", "MentorPage", "CoachPage", "ManagerPage", "ModelManagerPage",
-        "SystemPage", "SettingsPage", "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet",
-        "Shortcut", "shortcuts/assistant", "LibreOffice", "Obsidian", "Kérdezd a Managert", "navigationHistory", "sidebarCollapsed",
+        "fa3Settings", "EmbeddedAppsPage", "ModelManagerPage", "SystemPage", "SettingsPage",
+        "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet", "Shortcut", "shortcuts/assistant",
+        "LibreOffice", "Obsidian", "Kérdezd a Mentort", "Kérdezd a Coachot", "Kérdezd a Managert",
+        "Kérdezd az Ellenőrt", "roleButtons/mentorVisible", "roleButtons/coachVisible",
+        "roleButtons/managerVisible", "roleButtons/inspectorVisible", "settingsSectionKey", "navigationHistory", "sidebarCollapsed",
     ]:
         if token not in shell:
             failures.append(f"qml-shell-missing:{token}")
@@ -174,6 +200,13 @@ def validate():
     for token in SETTINGS_SURFACES:
         if token not in sq:
             failures.append(f"settings-qml-missing:{token}")
+    for token in [
+        "roleButtons/mentorVisible", "roleButtons/coachVisible", "roleButtons/managerVisible",
+        "roleButtons/inspectorVisible", "manager/defaultView", "inspector/defaultLevel",
+        "inspector/evidenceFreshnessWarnings", "inspector/driftWarnings", "openSection",
+    ]:
+        if token not in sq:
+            failures.append(f"settings-role-qml-missing:{token}")
 
     mq = REQUIRED["mentor_qml"].read_text(encoding="utf-8")
     for token in ["Memory & Personalization", "Practice Lab", "mentor/memoryPolicy", "mentor/masteryTracking"]:
@@ -257,7 +290,7 @@ def main():
             print(" -", failure)
         return 1
     print("FA3 GUI gate: PASS")
-    print("desktop=1.3.0 app=0.4.0 embedded_web=QtWebEngine capabilities=143 new_authorities=0")
+    print("desktop=1.4.0 app=0.4.0 role_settings=Mentor/Coach/Manager/Inspector embedded_web=QtWebEngine capabilities=143 new_authorities=0")
     return 0
 
 
