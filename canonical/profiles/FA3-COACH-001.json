@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-COACH-001",
+  "name": "Goal Execution, Feedback, Accountability & Outcome Coaching Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_GOAL_EXECUTION_FEEDBACK_ACCOUNTABILITY_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-COACH-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-COACH-LOCAL-001"
+  ],
+  "dependencies": [
+    "FA3-MENTOR-001",
+    "FA3-AGENT-EXEC-001",
+    "FA3-REGISTRY-001"
+  ],
+  "authority": {
+    "goal_ownership": "USER",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "agent_execution": "FA3-AGENT-EXEC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "knowledge_and_learning": "FA3-MENTOR-001",
+    "memory": "EXISTING_FA3_MEMORY_AUTHORITY_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "mandatory_modes": [
+    "GOAL_CLARIFY",
+    "PLAN",
+    "COMMIT",
+    "CHECKPOINT",
+    "BLOCKER_REVIEW",
+    "FEEDBACK",
+    "ADAPT",
+    "OUTCOME_REVIEW",
+    "ACCOUNTABILITY"
+  ],
+  "mentor_boundary": {
+    "coach_role": "Goal selection, execution planning, checkpointing, feedback, blocker handling and outcome review.",
+    "mentor_role": "Knowledge transfer, explanation, teaching, competency development and learning assessment.",
+    "knowledge_gap_delegation": "FA3-MENTOR-001",
+    "mentor_authority_override_forbidden": true
+  },
+  "invariants": [
+    "COACH_ADVISORY_AND_PROPOSAL_ONLY",
+    "USER_OWNS_GOALS_COMMITMENTS_PAUSE_AND_STOP",
+    "EXPLICIT_USER_COMMITMENT_REQUIRED_BEFORE_ACCOUNTABILITY_TRACKING",
+    "COACH_DIRECT_TOOL_EXECUTION_FORBIDDEN",
+    "ACTIONABLE_REQUESTS_REQUIRE_TYPED_CENTRAL_MCP_OR_AGENT_EXECUTION_DELEGATION",
+    "KNOWLEDGE_OR_SKILL_GAPS_DELEGATE_TO_FA3_MENTOR",
+    "FACT_EVIDENCE_AND_INFERENCE_MUST_REMAIN_DISTINGUISHABLE",
+    "NO_COERCION_SHAMING_MANIPULATION_OR_HIDDEN_PERSUASION",
+    "NO_IDENTITY_SCORING_OR_SENSITIVE_TRAIT_INFERENCE",
+    "NO_MEDICAL_THERAPY_DIAGNOSIS_OR_CLINICAL_AUTHORITY",
+    "NO_SILENT_CANONICAL_MEMORY_OR_CROSS_WORKSPACE_PERSISTENCE",
+    "COACH_PROVIDER_CANNOT_CREATE_ARCHITECTURAL_AUTHORITY"
+  ],
+  "implementation": {
+    "canonical_app": "FA3 Coach",
+    "minimum_version": "0.1.0",
+    "source_entrypoint": "src/fa3_coach.py",
+    "gate_entrypoint": "src/fa3_coach_gate.py",
+    "current_host_status": "PENDING_CURRENT_HOST_DEPLOYMENT"
+  },
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_REFERENCE_APP_V0.1.0"
+}
