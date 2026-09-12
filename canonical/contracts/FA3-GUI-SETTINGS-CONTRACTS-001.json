@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-GUI-SETTINGS-CONTRACTS-001",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-GUI-SETTINGS-001",
@@ -20,6 +20,11 @@
     "CreativeDesktopIntegrationPreference",
     "OfficeKnowledgeIntegrationPreference",
     "PublishingTargetPreference",
+    "RoleActionVisibilityPreference",
+    "MentorViewPreference",
+    "CoachViewPreference",
+    "ManagerViewPreference",
+    "InspectorViewPreference",
     "UpdatePreference",
     "AboutDiagnosticsProjection",
     "HdrReservedSurface",
@@ -34,6 +39,15 @@
     "cookies": "FORBIDDEN",
     "canonical_state": "FORBIDDEN",
     "evidence_state": "FORBIDDEN"
+  },
+  "role_ui": {
+    "configuration_location": "SETTINGS",
+    "primary_navigation_role_pages": "FORBIDDEN",
+    "conversation_entry": "HEADER_ASK_ACTION",
+    "ask_button_visibility_storage": "QSettings/XDG",
+    "ask_button_visibility_effect": "UI_ONLY",
+    "roles": ["FA3-MENTOR-001", "FA3-COACH-001", "FA3-MANAGER-001", "FA3-INSPECTOR-001"],
+    "inspector_independence_can_be_disabled_by_preference": false
   },
   "integration_roles": {
     "graphics": ["GIMP", "Krita"],
@@ -51,6 +65,7 @@
   },
   "shortcuts": {
     "local_preference": "ALLOW",
+    "role_shortcuts_open": "ASK_CONVERSATION_SURFACE",
     "invalid_sequence": "REJECT",
     "conflict": "REJECT"
   },
@@ -62,6 +77,8 @@
   },
   "mutation_model": {
     "local_gui_preference": "ALLOW",
+    "role_action_visibility_preference": "ALLOW_UI_ONLY",
+    "role_view_preference": "ALLOW_UI_ONLY",
     "directory_role_selection": "ALLOW",
     "desktop_integration_selection": "ALLOW",
     "publishing_target_selection": "ALLOW",
