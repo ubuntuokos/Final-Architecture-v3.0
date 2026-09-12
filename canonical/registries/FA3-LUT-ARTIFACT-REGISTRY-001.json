@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.registry-projection.v1",
+  "id": "FA3-LUT-ARTIFACT-REGISTRY-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-LUT-COLOR-001",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "canonical_registry_authority": "FA3-REG-ARTIFACT-MODEL-001",
+  "required_fields": ["artifact_id", "sha256", "format", "input_color_space", "output_color_space", "source", "license", "provenance", "validation_status", "created_at"],
+  "forbidden": ["EXECUTABLE_PAYLOAD", "UNHASHED_RUNTIME_DOWNLOAD", "UNKNOWN_COLOR_SPACE", "UNKNOWN_PARSER_VALIDATION"]
+}

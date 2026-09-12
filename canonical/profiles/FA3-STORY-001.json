@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STORY-001",
+  "name": "Story Architecture, Screenplay IR & Story-to-Film Production Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-STORY-CONTRACTS-001"],
+  "canonical_interchange": {"story_screenplay_ir": "REQUIRED", "fountain": "REQUIRED_SCREENPLAY_INTERCHANGE_PROJECTION"},
+  "provider_policy": {"story_architect": "REQUIRED_LOGICAL_PROFILE", "dramatron": "OPTIONAL_REFERENCE", "storywriter": "OPTIONAL_REFERENCE"},
+  "authority_boundaries": {"artifact_identity": "FA3-REG-ARTIFACT-MODEL-001", "security_rights": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "invariants": ["CANONICAL_STORY_IR_REQUIRED", "FOUNTAIN_INTERCHANGE_REQUIRED", "PROVIDER_LOCAL_STORY_STATE_NOT_CANONICAL_AUTHORITY", "STORY_TO_SHOT_LINEAGE_REQUIRED", "HUMAN_APPROVAL_REQUIRED_FOR_FINAL_SCREENPLAY_STATE"],
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED_RUNTIME_EVIDENCE_GATED"
+}

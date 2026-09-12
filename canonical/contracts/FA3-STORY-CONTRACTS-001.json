@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-STORY-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-STORY-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["StoryIntent", "StoryWorldDescriptor", "CharacterDescriptor", "StoryBeat", "SceneDescriptor", "CanonicalStoryIR", "ScreenplayIR", "FountainProjection", "ShotPlanningRequest", "StoryToShotLineage", "StoryRevisionReceipt", "StoryEvidenceRecord"],
+  "mandatory_semantics": ["SOURCE_AND_REVISION_LINEAGE", "REVERSIBLE_PROVIDER_PROJECTION", "FOUNTAIN_ROUNDTRIP_VALIDATION", "HUMAN_FINAL_SCREENPLAY_APPROVAL", "NO_PROVIDER_AUTHORITY_ESCALATION"]
+}

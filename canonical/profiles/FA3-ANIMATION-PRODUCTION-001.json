@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-ANIMATION-PRODUCTION-001",
+  "name": "AI Animation, Character Performance, Dubbing, Music & Editorial Production",
+  "version": "1.1.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-ANIMATION-PRODUCTION-CONTRACTS-001"],
+  "dependencies": ["FA3-STORY-001", "FA3-VIDEO-001", "FA3-VOICE-001", "FA3-STT-MEDIA-001", "FA3-MUSIC-001", "FA3-DCC-RT3D-001", "FA3-HUMAN-MOTION-001", "FA3-HYBRID-EDITORIAL-001", "FA3-HOST-RESOURCE-BROKER-001", "FA3-HW-001"],
+  "provider_roles": {"dcc_primary_frontend": "BFORARTISTS_REFERENCE_PRIMARY", "dcc_compatibility_fallback": "BLENDER_REFERENCE_FALLBACK", "traditional_2d_reference": "OPENTOONZ_OPTIONAL_REFERENCE", "audio_driven_lipsync_reference": "MUSETALK_OPTIONAL_REFERENCE", "human_editorial_finishing": "FA3-PROVIDER-KDENLIVE-001"},
+  "canonical_interchange": {"timeline": "OpenTimelineIO", "color": "OpenColorIO", "hdr_frames": "OpenEXR", "provider_local_project_formats_are_canonical": false},
+  "hardware_semantics": {"inherited_from": "FA3-HW-001", "live_capability_discovery": true, "static_cpu_gpu_model_count_or_ordinal_pins_forbidden": true, "accelerator_execution_requires_hrb_admission": true},
+  "mandatory_flow": ["story_and_screenplay", "scene_shot_breakdown", "storyboard_animatic", "versioned_assets", "animation_and_character_performance", "review_approval", "render_composite", "dialogue_dubbing_lipsync", "music_sfx_audio_finishing", "otio_editorial_handoff", "kdenlive_human_final_assembly", "picture_audio_lock", "color_caption_avsync_delivery_qc", "archive_with_provenance"],
+  "invariants": ["NO_NEW_AUTHORITY", "OTIO_OCIO_OPENEXR_INTERCHANGE", "PROVIDER_LOCAL_PROJECT_FORMATS_NOT_CANONICAL_ROOTS", "RIGHTS_CONSENT_AND_PROVENANCE_REQUIRED", "LIVE_HARDWARE_DISCOVERY_AND_HRB_ADMISSION", "CURRENT_HOST_PASS_REQUIRES_REAL_END_TO_END_EVIDENCE"]
+}

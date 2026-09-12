@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENVIKING-001",
+  "name": "volcengine/OpenViking",
+  "status": "ACCEPTED_REFERENCE",
+  "classification": ["OPTIONAL_PROVIDER", "CONTEXT_MEMORY_SKILL_PROJECTION_PROVIDER", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "parent_profile": "FA3-CONTEXT-MEMORY-SKILL-PROJECTION-001",
+  "provider_role": "OPTIONAL_LOCAL_CONTEXT_MEMORY_AND_SKILL_PROJECTION_PROVIDER",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "PENDING_CURRENT_HOST",
+  "runtime_activation_requires_current_host_conformance": true,
+  "authority_boundaries": {"knowledge": "FA3-KNOWLEDGE-001", "memory": "EXISTING_FA3_MEMORY_AUTHORITY", "skills": "FA3-REGISTRY-001", "security": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "prohibited_authorities": ["memory", "knowledge", "skills-authorization", "MCP", "security", "resource", "evidence"],
+  "normative_constraint": "OpenViking SHALL remain a replaceable projection provider. Its local context, memory and skill organization SHALL NOT become an FA3 memory, knowledge, authorization, MCP, host-resource or evidence authority."
+}
