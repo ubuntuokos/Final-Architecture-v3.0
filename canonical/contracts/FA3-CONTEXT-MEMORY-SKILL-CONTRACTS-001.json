@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-CONTEXT-MEMORY-SKILL-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-CONTEXT-MEMORY-SKILL-PROJECTION-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["ContextAssetDescriptor", "ContextProjectionRequest", "ContextProjectionResult", "MemoryReadProjection", "MemoryWriteEscalation", "SkillDescriptorProjection", "SkillInvocationIntent", "ContextLineageRecord", "ContextRevocationRecord", "ContextEvidenceReceipt"],
+  "mandatory_semantics": ["READ_PROJECTION_BY_DEFAULT", "MEMORY_WRITE_TYPED_ESCALATION", "SKILL_DISCOVERY_NOT_AUTHORIZATION", "CANONICAL_SOURCE_LINEAGE", "FAIL_CLOSED_ON_UNKNOWN_AUTHORITY"]
+}
