@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPEN-SCIENCE-DESKTOP-2026-09-12",
+  "status": "CANONICAL_CLOSED",
+  "decision": "ACCEPT_AS_OPTIONAL_NON_AUTHORITATIVE_REFERENCE_PROVIDER",
+  "provider_id": "FA3-PROVIDER-OPEN-SCIENCE-DESKTOP-001",
+  "contract_id": "FA3-SCIENTIFIC-RESEARCH-WORKBENCH-CONTRACTS-001",
+  "gate_id": "FA3-GATE-OPEN-SCIENCE-DESKTOP-001",
+  "rationale": [
+    "Local-first, model-agnostic scientific workbench behavior is useful as an FA3 scientific interaction projection.",
+    "Existing FA3 desktop, knowledge, MCP, workflow, evidence, security and HRB authorities already own the required control planes.",
+    "Open Science Desktop provenance and run logs therefore remain projections and cannot become canonical evidence authority.",
+    "Production full-approval mode is incompatible with FA3 fail-closed policy.",
+    "Third-party scientific skills require independent FA3 source, integrity and license admission."
+  ],
+  "production_constraints": {
+    "optional_disabled_by_default": true,
+    "full_approval_mode_forbidden": true,
+    "current_host_receipt_required": true,
+    "current_host_status_until_receipt": "NOT_ADMITTED_PENDING_CURRENT_HOST",
+    "document_only_promotion_forbidden": true
+  },
+  "hardware_decision": {
+    "portable_canonical_is_role_based": true,
+    "concrete_current_host_gpu_tuple_is_evidence_only": true,
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "ui_role": "DISPLAY",
+    "compute_role": "COMPUTE_NON_DISPLAY",
+    "role_swap_forbidden": true,
+    "automatic_fallback_forbidden": true,
+    "ui_default_claim_on_compute_gpu_forbidden": true,
+    "compute_execution_on_display_gpu_forbidden": true
+  },
+  "baseline_effect": {
+    "capability_count_after": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  }
+}
