@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-VAULTWARDEN-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-VAULTWARDEN-001",
+  "status": "NOT_ADMITTED",
+  "fail_closed": true,
+  "optional_provider": true,
+  "disabled_state_global_blocker": false,
+  "current_host_evidence_required": true,
+  "immutable_runtime_pin": {
+    "release": "1.37.2",
+    "release_commit": "46d71107f5094460dd5ecbe1dbac6e6c71e5189a",
+    "container_digest": null,
+    "container_digest_status": "UNRESOLVED_BLOCKS_PRODUCTION_PROMOTION"
+  },
+  "activation_requires": [
+    "IMMUTABLE_CONTAINER_DIGEST",
+    "SECURE_TRANSPORT_AND_APPROVED_HOSTNAME",
+    "CLOSED_ENROLLMENT_DEFAULT",
+    "ADMIN_SURFACE_EXPLICITLY_AUTHORIZED",
+    "NON_ROOT_LEAST_PRIVILEGE_RUNTIME",
+    "MINIMAL_READONLY_MOUNTS",
+    "DENY_BY_DEFAULT_EGRESS_WITH_SSRF_CONTROLS",
+    "SENSITIVE_TELEMETRY_REDACTION",
+    "PROVIDER_CLIENT_COMPATIBILITY_MATRIX_PASS",
+    "COMPLETE_STATE_BACKUP_PASS",
+    "RESTORE_DRILL_AND_LOGIN_PASS",
+    "CURRENT_HOST_PRODUCTION_E2E_RECEIPT_PASS"
+  ],
+  "current_blockers": [
+    "NO_IMMUTABLE_CONTAINER_DIGEST_EVIDENCE",
+    "NO_CURRENT_HOST_RUNTIME_RECEIPT",
+    "NO_PROVIDER_CLIENT_COMPATIBILITY_MATRIX",
+    "NO_RESTORE_DRILL_EVIDENCE"
+  ],
+  "production_runtime_promoted": false
+}
