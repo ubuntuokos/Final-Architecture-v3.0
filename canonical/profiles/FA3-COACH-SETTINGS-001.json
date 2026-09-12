@@ -1,0 +1,18 @@
+{
+  "schema":"fa3.profile-record.v1",
+  "id":"FA3-COACH-SETTINGS-001",
+  "name":"FA3 Coach User Preference Projection",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "priority":"P0",
+  "requirement":"MUST",
+  "relationship":"SUBPROFILE-OF:FA3-COACH-001",
+  "canonical_root":false,
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":143,
+  "contract":"FA3-COACH-USER-PREFS-CONTRACT-001",
+  "reference_implementation":"apps/fa3-control-center/qml/CoachPage.qml",
+  "scope":["COACHING_STYLE","PROACTIVITY","CHECK_INS","PROJECT_AWARENESS","INTERVENTION_LEVEL","MENTOR_REFERRALS","WEEKLY_REVIEW","QUIET_HOURS"],
+  "invariants":["COACH_SETTINGS_ARE_PREFERENCES_NOT_AUTHORITY","STRICT_MODE_MUST_NOT_BYPASS_OPERATOR_APPROVAL","PROJECT_AWARENESS_IS_READ_PROJECTION_ONLY","COACH_MUTATION_REQUIRES_EXISTING_AUTHORITY"]
+}

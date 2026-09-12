@@ -1,0 +1,12 @@
+{
+  "schema":"fa3.gate-record.v1",
+  "id":"FA3-GATE-GUI-SETTINGS-001",
+  "status":"CANONICAL",
+  "priority":"P0",
+  "fail_closed":true,
+  "capability_count":143,
+  "new_architectural_authority":false,
+  "enforces":["GUI_SETTINGS_LOCAL_PREFERENCE_ONLY","NO_FSTAB_OR_MOUNT_POLICY_MUTATION","MENTOR_SETTINGS_NOT_AUTHORITY","COACH_SETTINGS_NOT_AUTHORITY","COACH_RUNTIME_NOT_FALSELY_PROMOTED","MENTOR_COACH_TYPED_REFERRAL_BOUNDARY","NO_DIRECT_TOOL_EXECUTION","NO_DIRECT_CANONICAL_WRITE","NO_DIRECT_POLICY_OR_HOST_RESOURCE_MUTATION","QT_REFERENCE_BUILD_REQUIRED"],
+  "implementation":"src/fa3_gui_gate.py",
+  "reference_evidence":"evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json"
+}

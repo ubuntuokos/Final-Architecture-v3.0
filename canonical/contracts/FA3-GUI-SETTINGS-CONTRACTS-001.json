@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-GUI-SETTINGS-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "profile": "FA3-GUI-SETTINGS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["GuiPreference","AppearancePreference","LocalePreference","PathRolePreference","WorkspacePreference","DashboardPreference","NotificationPreference","DesktopIntegrationPreference","LocalSettingsResetIntent"],
+  "storage": {"authority":"LOCAL_USER_PREFERENCE_ONLY","backend":"QSettings/XDG","secret_values":"FORBIDDEN","canonical_state":"FORBIDDEN","evidence_state":"FORBIDDEN"},
+  "mutation_model": {"local_gui_preference":"ALLOW","directory_role_selection":"ALLOW","filesystem_mount_mutation":"FORBIDDEN","fstab_mutation":"FORBIDDEN","direct_canonical_write":"FORBIDDEN","direct_policy_mutation":"FORBIDDEN","direct_privileged_execution":"FORBIDDEN","system_or_architecture_change":"TYPED_CHANGESET_REQUIRED"}
+}

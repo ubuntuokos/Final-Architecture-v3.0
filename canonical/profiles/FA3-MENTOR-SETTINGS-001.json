@@ -1,0 +1,18 @@
+{
+  "schema":"fa3.profile-record.v1",
+  "id":"FA3-MENTOR-SETTINGS-001",
+  "name":"FA3 Mentor User Preference Projection",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "priority":"P0",
+  "requirement":"MUST",
+  "relationship":"SUBPROFILE-OF:FA3-MENTOR-001",
+  "canonical_root":false,
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":143,
+  "contract":"FA3-MENTOR-USER-PREFS-CONTRACT-001",
+  "reference_implementation":"apps/fa3-control-center/qml/MentorPage.qml",
+  "scope":["TEACHING_STYLE","DETAIL_LEVEL","INITIATIVE","MEMORY_CONSENT_PREFERENCE","MASTERY_TRACKING_PREFERENCE","PRACTICE_LAB_PREFERENCE","VOICE_PREFERENCE","CITATION_PREFERENCE"],
+  "invariants":["MENTOR_SETTINGS_ARE_PREFERENCES_NOT_AUTHORITY","MEMORY_WRITE_REMAINS_EXPLICIT_CONSENT_AND_EXISTING_AUTHORITY_ESCALATION","PRACTICE_LAB_REMAINS_DELEGATED_AGENT_EXECUTION","MENTOR_DIRECT_TOOL_EXECUTION_FORBIDDEN"]
+}

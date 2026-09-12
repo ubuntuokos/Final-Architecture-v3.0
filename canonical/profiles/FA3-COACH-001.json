@@ -1,0 +1,21 @@
+{
+  "schema":"fa3.profile-record.v1",
+  "id":"FA3-COACH-001",
+  "name":"Adaptive AI Goal, Execution & Progress Coaching Overlay",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "priority":"P0",
+  "requirement":"MUST",
+  "canonical_root":false,
+  "profile_type":"CROSS_CUTTING_ADVISORY_EXECUTION_GUIDANCE_OVERLAY",
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":143,
+  "contracts":["FA3-COACH-USER-PREFS-CONTRACT-001","FA3-MENTOR-COACH-INTERACTION-CONTRACT-001"],
+  "dependencies":["FA3-MENTOR-001","FA3-AGENT-EXEC-001","FA3-KNOWLEDGE-001","FA3-REGISTRY-001"],
+  "authority":{"tool_mediation":"FA3-AUTH-MCP-GATEWAY-001","agent_execution":"FA3-AGENT-EXEC-001","knowledge":"FA3-KNOWLEDGE-001","memory":"EXISTING_FA3_MEMORY_AUTHORITY_ONLY","security_policy":"FA3-AUTH-SECURITY-GOV-001","host_resources":"FA3-AUTH-HOST-RESOURCE-BROKER-001","evidence":"FA3-AUTH-OBS-EVIDENCE-001","registry":"FA3-REGISTRY-001"},
+  "mandatory_modes":["GOAL_REVIEW","PLANNING","PROGRESS_REVIEW","BLOCKER_DETECTION","NEXT_BEST_ACTION","CRITICAL_REVIEW","MENTOR_REFERRAL"],
+  "invariants":["COACH_ADVISORY_ONLY","COACH_DIRECT_TOOL_EXECUTION_FORBIDDEN","COACH_CANNOT_DIRECTLY_MUTATE_CANONICAL_ROADMAP_TASK_OR_PROJECT_STATE","GOALS_AND_PROGRESS_ARE_PROJECTIONS_UNLESS_ACCEPTED_BY_EXISTING_AUTHORITY","COACH_RECOMMENDATIONS_REQUIRE_OPERATOR_ACCEPTANCE_OR_TYPED_PROPOSAL_CHANGESET","MENTOR_REFERRAL_MUST_BE_TYPED_AND_AUDITABLE","COACH_CANNOT_CREATE_ARCHITECTURAL_AUTHORITY"],
+  "implementation":{"gui_projection":"apps/fa3-control-center/qml/CoachPage.qml","runtime_provider_status":"PENDING_PROVIDER_MATERIALIZATION","current_host_status":"PENDING_CURRENT_HOST_DEPLOYMENT"},
+  "implementation_status":"CANONICAL_BASELINE_GUI_PROJECTION_ONLY"
+}

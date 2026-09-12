@@ -5,50 +5,49 @@ on:
     paths:
       - 'canonical/profiles/FA3-DESKTOP-001.json'
       - 'canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json'
-      - 'canonical/decisions/FA3-DEC-GUI-2026-09-12.json'
-      - 'canonical/FA3-GATE-GUI-001.json'
+      - 'canonical/profiles/FA3-GUI-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-GUI-SETTINGS-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MENTOR-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-MENTOR-USER-PREFS-CONTRACT-001.json'
+      - 'canonical/profiles/FA3-COACH-001.json'
+      - 'canonical/profiles/FA3-COACH-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-COACH-USER-PREFS-CONTRACT-001.json'
+      - 'canonical/contracts/FA3-MENTOR-COACH-INTERACTION-CONTRACT-001.json'
+      - 'canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json'
+      - 'canonical/FA3-GATE-GUI-SETTINGS-001.json'
       - 'canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json'
       - 'apps/fa3-control-center/**'
       - 'deployment/fa3-gui/**'
+      - 'evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json'
       - 'src/fa3_gui_gate.py'
       - 'tests/test_fa3_gui_gate.py'
       - '.github/workflows/fa3-gui-gate.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   static-contract:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+        with: {persist-credentials: false}
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+        with: {python-version: '3.12'}
       - name: Run GUI canonical regression gate
         run: PYTHONPATH=. python src/fa3_gui_gate.py
       - name: Run GUI unit regression
         run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v
-
   qt-reference-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+        with: {persist-credentials: false}
       - name: Install Qt 6 build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            build-essential cmake ninja-build \
-            qt6-base-dev qt6-declarative-dev \
-            qml6-module-qtquick qml6-module-qtquick-controls \
-            qml6-module-qtquick-layouts qml6-module-qtqml-workerscript
+          sudo apt-get install -y build-essential cmake ninja-build qt6-base-dev qt6-declarative-dev qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtqml-workerscript
       - name: Configure
         run: cmake -S apps/fa3-control-center -B build/fa3-control-center -GNinja -DCMAKE_BUILD_TYPE=Release
       - name: Build

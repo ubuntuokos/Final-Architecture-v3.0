@@ -1,0 +1,13 @@
+{
+  "schema":"fa3.contract-family.v1",
+  "id":"FA3-COACH-USER-PREFS-CONTRACT-001",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "provider_neutral":true,
+  "profile":"FA3-COACH-SETTINGS-001",
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":143,
+  "contracts":["CoachStylePreference","CoachProactivityPreference","CoachCheckInPreference","CoachProjectAwarenessPreference","CoachInterventionPreference","CoachMentorReferralPreference","CoachReviewCadencePreference","CoachQuietHoursPreference"],
+  "mutation_model":{"local_coach_preference":"ALLOW","goal_or_task_mutation":"PROPOSAL_OR_CHANGESET_ONLY","direct_canonical_write":"FORBIDDEN","direct_tool_execution":"FORBIDDEN","direct_policy_mutation":"FORBIDDEN"}
+}

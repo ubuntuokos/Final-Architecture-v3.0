@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.24)
-project(FA3ControlCenter VERSION 0.1.0 LANGUAGES CXX)
+project(FA3ControlCenter VERSION 0.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 Widgets)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -13,22 +13,33 @@ qt_add_executable(fa3-control-center
     src/main.cpp
     src/Fa3RepositoryModel.cpp
     src/Fa3RepositoryModel.h
+    src/SettingsStore.cpp
+    src/SettingsStore.h
 )
 
+set_source_files_properties(qml/AppShell.qml PROPERTIES QT_RESOURCE_ALIAS AppShell.qml)
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(qml/SettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SettingsPage.qml)
+set_source_files_properties(qml/MentorPage.qml PROPERTIES QT_RESOURCE_ALIAS MentorPage.qml)
+set_source_files_properties(qml/CoachPage.qml PROPERTIES QT_RESOURCE_ALIAS CoachPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES
+        qml/AppShell.qml
         qml/Main.qml
+        qml/SettingsPage.qml
+        qml/MentorPage.qml
+        qml/CoachPage.qml
 )
 
 target_link_libraries(fa3-control-center
     PRIVATE
         Qt6::Quick
         Qt6::QuickControls2
+        Qt6::Widgets
 )
 
 install(TARGETS fa3-control-center

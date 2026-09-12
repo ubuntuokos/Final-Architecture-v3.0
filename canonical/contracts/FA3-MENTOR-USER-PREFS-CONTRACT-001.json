@@ -1,0 +1,13 @@
+{
+  "schema":"fa3.contract-family.v1",
+  "id":"FA3-MENTOR-USER-PREFS-CONTRACT-001",
+  "version":"1.0.0",
+  "status":"CANONICAL",
+  "provider_neutral":true,
+  "profile":"FA3-MENTOR-SETTINGS-001",
+  "new_capability":false,
+  "new_architectural_authority":false,
+  "capability_count":143,
+  "contracts":["MentorTeachingStylePreference","MentorInitiativePreference","MentorDetailPreference","MentorMemoryConsentPreference","MentorMasteryPreference","MentorPracticeLabPreference","MentorVoicePreference","MentorCitationPreference"],
+  "boundary":{"knowledge":"FA3-KNOWLEDGE-001_READ_ONLY","memory":"EXISTING_FA3_MEMORY_AUTHORITY_ONLY","agent_execution":"FA3-AGENT-EXEC-001","tool_mediation":"FA3-AUTH-MCP-GATEWAY-001","evidence":"FA3-AUTH-OBS-EVIDENCE-001"}
+}
