@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-UNREAL-ENGINE-001",
+  "name": "Unreal Engine",
+  "status": "ACCEPTED_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "REALTIME_3D_PROVIDER", "VIRTUAL_PRODUCTION_PROVIDER"],
+  "parent_profile": "FA3-DCC-RT3D-001",
+  "provider_role": "OPTIONAL_REALTIME_RENDERING_VIRTUAL_PRODUCTION_AND_INTERACTIVE_3D_PROVIDER",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "runtime_activation_status": "PENDING_CURRENT_HOST",
+  "runtime_activation_requires_current_host_conformance": true,
+  "authority_boundaries": {"geometry": "FA3-3D-GEOM-001", "motion": "FA3-HUMAN-MOTION-001", "resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "security": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
+  "prohibited_authorities": ["geometry", "human-motion", "host-resource", "security", "evidence", "registry"],
+  "normative_constraint": "Unreal Engine SHALL remain a replaceable realtime-3D/virtual-production provider behind provider-neutral FA3 contracts and SHALL NOT become the canonical geometry, motion, resource, security or evidence authority."
+}
