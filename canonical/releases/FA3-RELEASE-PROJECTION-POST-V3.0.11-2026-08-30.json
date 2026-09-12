@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "fbff159b3e52f619775faf7d35597a6748b16512",
-    "pre_projection_root_tree_sha": "80a6699072add4880fcb5c030b42bb48cc7cc16b",
-    "pre_projection_canonical_tree_sha": "cfefe0c2014aa8009d015784c50ec795f30d1488",
-    "commits_ahead_of_v3_0_11_conformance_commit": 234,
-    "total_post_baseline_commits": 234,
-    "delta_file_count": 1026,
-    "delta_added_files": 1021,
+    "pre_projection_head_sha": "cde79a5f05637428038d32855a370b4f231dbd7a",
+    "pre_projection_root_tree_sha": "6e0fa2e5a1be55516613d6ec7dca19a80007a239",
+    "pre_projection_canonical_tree_sha": "5af1002789cc19ac9c9f0473545b3094a4d83008",
+    "commits_ahead_of_v3_0_11_conformance_commit": 239,
+    "total_post_baseline_commits": 239,
+    "delta_file_count": 1029,
+    "delta_added_files": 1024,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -688,7 +688,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1026,
+  "manifest_entry_count": 1029,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -842,12 +842,22 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "e086a768b10493f098a3301a3ec8580dcae8f3c6",
+      "git_blob_sha": "57e5a65e94ca0d93382d7cc7c2374d7a2837269e",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/README.md",
       "git_blob_sha": "0b5ee1bde385316df1c34fb9cde60ab8e99f7a84",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/docs/FA3-GUI-LANGUAGE-CONTROL-001.md",
+      "git_blob_sha": "ef6f693218e3912a269a77d3daaae4b6d4f7ec84",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/docs/HANDOFF-FA3-GUI-LANGUAGE-CONTROL.md",
+      "git_blob_sha": "527f32b4b9b13c28e6db84c7053350f4e893d03f",
       "baseline_delta_status": "added"
     },
     {
@@ -868,6 +878,11 @@
     {
       "path": "apps/fa3-control-center/qml/EmbeddedAppsPage.qml",
       "git_blob_sha": "b65fd3db37378fabbce1ffd8b6e9357eb3696bd6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/LanguageControlPage.qml",
+      "git_blob_sha": "6e88f56b3874d558b24137aab9ecef201c5c3d5c",
       "baseline_delta_status": "added"
     },
     {
