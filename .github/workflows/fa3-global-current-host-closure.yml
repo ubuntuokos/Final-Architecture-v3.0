@@ -1,0 +1,184 @@
+name: FA3 Global Current-Host Evidence Closure
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_current_host_evidence_audit.py'
+      - 'tests/test_current_host_evidence_audit.py'
+      - 'evidence/reference/current-host-143-audit-*.json'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute the fail-closed 143-capability closure on the real FA3 current-host runner'
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-global-current-host-closure-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  closure-regression:
+    name: current-host-closure / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify projection and auditor syntax
+        run: |
+          chmod +x bin/fa3-current-host bin/fa3-enforce
+          python -m py_compile src/fa3_current_host_evidence_audit.py tests/test_current_host_evidence_audit.py
+          ./bin/fa3-current-host verify
+      - name: Auditor regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_evidence_audit -v
+      - name: Audit exact 143-capability registry
+        run: PYTHONPATH=src python src/fa3_current_host_evidence_audit.py --root .
+      - name: Reconcile 19-point acceptance without weakening fail-closed semantics
+        shell: bash
+        run: |
+          set +e
+          ./bin/fa3-enforce acceptance
+          acceptance_rc=$?
+          ./bin/fa3-enforce promote
+          promotion_rc=$?
+          set -e
+          if [ "$acceptance_rc" -ne 0 ] && [ "$acceptance_rc" -ne 2 ]; then exit "$acceptance_rc"; fi
+          if [ "$promotion_rc" -ne 0 ] && [ "$promotion_rc" -ne 2 ]; then exit "$promotion_rc"; fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
+          acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
+          promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert audit['audit_integrity'] == 'PASS', audit
+          assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
+          if audit['runtime_closure'] == 'PASS':
+              assert acceptance['status'] == 'PASS', acceptance
+              assert promotion['actual_state'] == 'PROMOTED', promotion
+          else:
+              assert acceptance['status'] == 'DENIED', acceptance
+              assert promotion['actual_state'] == 'PROMOTION_BLOCKED', promotion
+          print(json.dumps({
+              'repository_head': audit.get('repository_head'),
+              'registry_pass_count': audit['registry_pass_count'],
+              'registry_pending_count': audit['registry_pending_count'],
+              'qualified_current_host_receipt_count': audit['qualified_current_host_receipt_count'],
+              'acceptance': acceptance['status'],
+              'criteria_passed': acceptance['criteria_passed'],
+              'criteria_total': acceptance['criteria_total'],
+              'promotion': promotion['actual_state'],
+          }, indent=2))
+          PY
+      - name: Upload regression reconciliation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-global-current-host-closure-regression
+          if-no-files-found: error
+          path: |
+            reports/current-host-evidence-audit.json
+            reports/runtime-gate-report.json
+            reports/terax-gate-report.json
+            acceptance/acceptance-report.json
+            promotion/runtime-status.json
+
+  current-host-closure:
+    name: current-host-closure / real-execution
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: closure-regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prove runner control-plane identity
+        shell: bash
+        run: |
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v git
+          chmod +x bin/fa3-current-host-runner-doctor bin/fa3-current-host bin/fa3-enforce evidence/collect-current-host.sh
+          ./bin/fa3-current-host-runner-doctor
+      - name: Collect read-only host evidence
+        shell: bash
+        run: |
+          rm -rf .fa3-current-host/global-closure
+          mkdir -p .fa3-current-host/global-closure
+          bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
+          set +e
+          python3 evidence/collect-terax-current-host.py
+          terax_collect_rc=$?
+          set -e
+          echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Reconcile only qualified capability receipts
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_evidence_audit.py --root . --apply-reconciliation
+      - name: Run 19-point Acceptance Gate and promotion reconciliation
+        shell: bash
+        run: |
+          set +e
+          ./bin/fa3-enforce acceptance
+          acceptance_rc=$?
+          ./bin/fa3-enforce promote
+          promotion_rc=$?
+          set -e
+          if [ "$acceptance_rc" -ne 0 ] && [ "$acceptance_rc" -ne 2 ]; then exit "$acceptance_rc"; fi
+          if [ "$promotion_rc" -ne 0 ] && [ "$promotion_rc" -ne 2 ]; then exit "$promotion_rc"; fi
+      - name: Assert fail-closed closure semantics
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
+          acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
+          promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert audit['audit_integrity'] == 'PASS', audit
+          assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
+          if audit['runtime_closure'] == 'PASS':
+              assert acceptance['status'] == 'PASS' and acceptance['criteria_passed'] == 19, acceptance
+              assert promotion['actual_state'] == 'PROMOTED' and promotion['promotion_allowed'] is True, promotion
+          else:
+              assert acceptance['status'] == 'DENIED', acceptance
+              assert promotion['actual_state'] == 'PROMOTION_BLOCKED' and promotion['promotion_allowed'] is False, promotion
+          print(json.dumps({
+              'runtime_closure': audit['runtime_closure'],
+              'registry_pass_count': audit['registry_pass_count'],
+              'registry_pending_count': audit['registry_pending_count'],
+              'qualified_current_host_receipt_count': audit['qualified_current_host_receipt_count'],
+              'acceptance': acceptance['status'],
+              'criteria_passed': acceptance['criteria_passed'],
+              'criteria_total': acceptance['criteria_total'],
+              'promotion': promotion['actual_state'],
+          }, indent=2))
+          PY
+      - name: Upload real current-host closure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-global-current-host-closure
+          if-no-files-found: error
+          path: |
+            .fa3-current-host/global-closure/**
+            evidence/evidence-registry.json
+            evidence/receipts/**
+            reports/current-host-evidence-audit.json
+            reports/runtime-gate-report.json
+            reports/terax-gate-report.json
+            acceptance/acceptance-report.json
+            promotion/runtime-status.json
