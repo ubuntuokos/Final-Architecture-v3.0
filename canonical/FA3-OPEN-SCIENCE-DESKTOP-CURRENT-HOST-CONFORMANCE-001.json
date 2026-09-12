@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-OPEN-SCIENCE-DESKTOP-CURRENT-HOST-CONFORMANCE-001",
+  "provider_id": "FA3-PROVIDER-OPEN-SCIENCE-DESKTOP-001",
+  "status": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "production_admitted": false,
+  "current_host_receipt_present": false,
+  "evidence_level_required": "CURRENT_HOST_OPEN_SCIENCE_DESKTOP_UI_COMPUTE_ROLE_E2E",
+  "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "receipt_path": "evidence/receipts/open-science-desktop-current-host.json",
+  "hardware_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "hardware_contract_bindings": [
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "FA3-HW-MGPU-CONTRACTS-001",
+    "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
+    "FA3-HARDWARE-BASELINE-001"
+  ],
+  "mandatory_hardware_conformance_chain": [
+    "HRB_UI_DISPLAY_ROLE_BINDING",
+    "HRB_COMPUTE_ROLE_ADMISSION",
+    "UI_AND_COMPUTE_ACCELERATORS_DISTINCT",
+    "COMPUTE_ACCELERATOR_NON_DISPLAY",
+    "LIVE_UUID_PCI_BDF_IDENTITY",
+    "NUMA_LOCALITY_EVIDENCE",
+    "CUDA_EXECUTION",
+    "NO_CPU_OR_CROSS_ACCELERATOR_FALLBACK"
+  ],
+  "requirements": [
+    "exact_pinned_clean_open_science_desktop_checkout",
+    "production_full_approval_mode_disabled",
+    "third_party_skills_independently_admitted",
+    "provider_provenance_remains_non_authoritative_projection",
+    "active_hrb_display_role_binding",
+    "active_hrb_compute_role_lease_for_accelerated_research",
+    "ui_and_compute_accelerator_uuid_must_differ",
+    "compute_accelerator_must_be_non_display",
+    "live_gpu_uuid_and_pci_bdf_identity",
+    "runtime_gpu_ordinal_must_not_be_identity",
+    "topology_revalidated_at_admission",
+    "compute_cpuset_and_memory_must_be_local_to_compute_accelerator",
+    "ui_process_must_not_claim_compute_accelerator_by_default",
+    "compute_execution_must_not_use_display_role_accelerator",
+    "single_visible_hrb_scoped_cuda_execution_for_gpu_required_work",
+    "no_cpu_or_cross_accelerator_fallback"
+  ],
+  "portable_hardware_policy": {
+    "exact_gpu_sku_pin": "FORBIDDEN",
+    "cuda_runtime_ordinal_as_identity": "FORBIDDEN",
+    "current_host_hardware_tuple": "EVIDENCE_ONLY",
+    "placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY"
+  },
+  "promotion_scope": "PROVIDER_RUNTIME_ONLY_GLOBAL_CAPABILITY_COUNT_UNCHANGED",
+  "capability_count_after": 143,
+  "new_architectural_authorities": 0,
+  "fail_closed": true
+}
