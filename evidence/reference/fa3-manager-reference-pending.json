@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-MANAGER-REFERENCE-001",
+  "profile_id": "FA3-MANAGER-001",
+  "gate_id": "FA3-GATE-MANAGER-001",
+  "evidence_scope": "REFERENCE_DESIGN_AND_CI_ONLY",
+  "status": "PENDING_CURRENT_HOST",
+  "reference_checks": [
+    "provider-neutral contracts materialized",
+    "fail-closed canonical gate materialized",
+    "local reference manager materialized",
+    "dependency/state/evidence-closure regression tests materialized"
+  ],
+  "runtime_claimed": false,
+  "production_admitted": false,
+  "missing_runtime_evidence": [
+    "fresh target-host deployment evidence",
+    "fresh target-host delegation/state transition evidence",
+    "fresh target-host VERIFIED closure evidence",
+    "fresh target-host policy/approval-boundary evidence"
+  ],
+  "note": "This placeholder intentionally records no PASS. It prevents design materialization from being misrepresented as executed current-host evidence."
+}
