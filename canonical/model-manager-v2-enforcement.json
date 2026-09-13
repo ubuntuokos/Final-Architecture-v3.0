@@ -30,83 +30,30 @@
     "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
     "FA3-PROVIDER-HF-MODEL-STORE-001",
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
-    "FA3-PROVIDER-OLLAMA-MODEL-001"
+    "FA3-PROVIDER-OLLAMA-MODEL-001",
+    "FA3-PROVIDER-OPENMODELDB-001",
+    "FA3-PROVIDER-CIVITAI-001"
   ],
+  "provider_extension_rules": {
+    "FA3-PROVIDER-OPENMODELDB-001": ["FA3-GATE-OPENMODELDB-PROVIDER-001", "FA3-GATE-MODEL-ARTIFACT-SECURITY-001"],
+    "FA3-PROVIDER-CIVITAI-001": ["FA3-GATE-CIVITAI-PROVIDER-001", "FA3-GATE-TOKEN-GOVERNANCE-001", "FA3-GATE-MODEL-ARTIFACT-SECURITY-001"]
+  },
+  "starter_profile_id": "FA3-STARTER-MODELS-001",
   "rules": [
-    {
-      "invariant": "MODEL_RECORD_IMMUTABLE_SOURCE_REVISION_REQUIRED",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "MODEL_FAMILY_REVISION_VARIANT_ARTIFACT_RUNTIME_INSTANCE_IDENTITY_SEPARATION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "LICENSE_AND_REDISTRIBUTION_METADATA_REQUIRED_BEFORE_PROMOTION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "DANGEROUS_SERIALIZATION_AND_REMOTE_CODE_POLICY_REQUIRED",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "SOURCE_CACHE_CANONICAL_STORE_RUNTIME_PROJECTION_SEPARATION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "CONTENT_ADDRESSED_DEDUP_PREFERRED_COPY_LAST",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "LINK_PROJECTION_REQUIRES_CANONICAL_PATH_REVALIDATION_AUTHORIZATION_AND_ROLLBACK",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "RUNTIME_PROVIDER_NATIVE_STORE_IS_NON_AUTHORITY",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "MODEL_REQUIREMENTS_DECLARED_PLACEMENT_DELEGATED_TO_HRB",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "ACCELERATOR_RUNTIME_REQUIRES_HRB_ADMISSION_OR_LEASE",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "PROVIDER_MODEL_OPERATIONS_TYPED_AND_BOUNDED",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "PROVIDER_OUTAGE_PRESERVES_CANONICAL_MODEL_RECORD",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "UNKNOWN_LICENSE_TRUST_LINEAGE_OR_COMPATIBILITY_BLOCKS_PROMOTION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "RUNTIME_MATERIALIZATION_EVIDENCE_REQUIRED_FOR_PRODUCTION_PROMOTION",
-      "priority": "P0",
-      "mandatory": true
-    },
-    {
-      "invariant": "UPSTREAM_FLOATING_LATEST_NOT_PRODUCTION_ADMISSION",
-      "priority": "P0",
-      "mandatory": true
-    }
+    {"invariant":"MODEL_RECORD_IMMUTABLE_SOURCE_REVISION_REQUIRED","priority":"P0","mandatory":true},
+    {"invariant":"MODEL_FAMILY_REVISION_VARIANT_ARTIFACT_RUNTIME_INSTANCE_IDENTITY_SEPARATION","priority":"P0","mandatory":true},
+    {"invariant":"LICENSE_AND_REDISTRIBUTION_METADATA_REQUIRED_BEFORE_PROMOTION","priority":"P0","mandatory":true},
+    {"invariant":"DANGEROUS_SERIALIZATION_AND_REMOTE_CODE_POLICY_REQUIRED","priority":"P0","mandatory":true},
+    {"invariant":"SOURCE_CACHE_CANONICAL_STORE_RUNTIME_PROJECTION_SEPARATION","priority":"P0","mandatory":true},
+    {"invariant":"CONTENT_ADDRESSED_DEDUP_PREFERRED_COPY_LAST","priority":"P0","mandatory":true},
+    {"invariant":"LINK_PROJECTION_REQUIRES_CANONICAL_PATH_REVALIDATION_AUTHORIZATION_AND_ROLLBACK","priority":"P0","mandatory":true},
+    {"invariant":"RUNTIME_PROVIDER_NATIVE_STORE_IS_NON_AUTHORITY","priority":"P0","mandatory":true},
+    {"invariant":"MODEL_REQUIREMENTS_DECLARED_PLACEMENT_DELEGATED_TO_HRB","priority":"P0","mandatory":true},
+    {"invariant":"ACCELERATOR_RUNTIME_REQUIRES_HRB_ADMISSION_OR_LEASE","priority":"P0","mandatory":true},
+    {"invariant":"PROVIDER_MODEL_OPERATIONS_TYPED_AND_BOUNDED","priority":"P0","mandatory":true},
+    {"invariant":"PROVIDER_OUTAGE_PRESERVES_CANONICAL_MODEL_RECORD","priority":"P0","mandatory":true},
+    {"invariant":"UNKNOWN_LICENSE_TRUST_LINEAGE_OR_COMPATIBILITY_BLOCKS_PROMOTION","priority":"P0","mandatory":true},
+    {"invariant":"RUNTIME_MATERIALIZATION_EVIDENCE_REQUIRED_FOR_PRODUCTION_PROMOTION","priority":"P0","mandatory":true},
+    {"invariant":"UPSTREAM_FLOATING_LATEST_NOT_PRODUCTION_ADMISSION","priority":"P0","mandatory":true}
   ]
 }
