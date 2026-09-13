@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENMODELDB-BROWSER-DOWNLOAD-2026-09-13",
+  "title": "OpenModelDB tagged model browser and Stability Matrix style staged download manager",
+  "status": "CANONICAL_CLOSED",
+  "date": "2026-09-13",
+  "provider_id": "FA3-PROVIDER-OPENMODELDB-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "decision": "ADD_NATIVE_OPENMODELDB_BROWSER_WITH_UPSTREAM_TAGS_RESOURCE_FILTERS_HIGHLIGHTED_SOURCE_BUTTON_AND_MEDIATED_STAGING_DOWNLOAD_QUEUE",
+  "rationale": [
+    "OpenModelDB tags and resource metadata materially improve model selection by exposing intended use, platform, architecture, format and scale.",
+    "The Stability Matrix interaction pattern is appropriate for catalog browsing, resource selection and visible download progress without importing its authority model.",
+    "FA3 must preserve its existing Model Registry and Model Artifact Security authorities, therefore downloads terminate in verified staging rather than runtime model directories.",
+    "OpenModelDB receives a highlighted source button adjacent to Hugging Face on the Models & Providers surface."
+  ],
+  "implementation_id": "FA3-OPENMODELDB-BROWSER-DOWNLOAD-001",
+  "source_pattern_reference": "LykosAI/StabilityMatrix OpenModelDB browser and progress-manager interaction pattern",
+  "runtime_promotion_claim": false,
+  "model_artifact_security_bypass": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

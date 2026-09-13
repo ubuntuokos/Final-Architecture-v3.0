@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "title": "Admit OpenModelDB as an optional specialized upscaling and restoration discovery provider under FA3 Model Manager",
+  "change_type": "PROVIDER_PROJECTION_EXTENSION_NO_BASELINE_SEMANTIC_CHANGE",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "model_registry_id": "FA3-MODEL-REGISTRY-001",
+  "provider_id": "FA3-PROVIDER-OPENMODELDB-001",
+  "gate_id": "FA3-GATE-OPENMODELDB-PROVIDER-001",
+  "security_profile_id": "FA3-MODEL-ARTIFACT-SECURITY-001",
+  "security_gate_id": "FA3-GATE-MODEL-ARTIFACT-SECURITY-001",
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-016",
+    "CAP-120"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "architectural_authority_model_changed": false,
+  "priority": "P1",
+  "requirement": "RECOMMENDED_OPTIONAL_PROVIDER",
+  "upstream_pin": {
+    "repository": "OpenModelDB/open-model-database",
+    "branch": "main",
+    "commit": "782aac088bd83dd3fc438a42eb0c3868dc559110",
+    "observed_at": "2026-09-13"
+  },
+  "decisions": [
+    "OpenModelDB is admitted as a specialized discovery, metadata and acquisition-source projection for upscaling and restoration models.",
+    "OpenModelDB does not become an architectural authority, canonical artifact identity authority, model router, runtime placement authority or artifact trust authority.",
+    "OpenModelDB catalog metadata is attributed source metadata and requires FA3 validation before canonicalization.",
+    "Provider-declared SHA-256 must match downloaded bytes; mismatch quarantines the artifact and blocks import.",
+    "A model license must be known before production promotion even where the upstream model license field is optional.",
+    "The GPL-3.0 license of the OpenModelDB catalog implementation is not inherited automatically by individual model artifacts.",
+    "PTH/PT and other dangerous serialization formats require Model Artifact Security scanning and explicit policy admission.",
+    "All OpenModelDB acquisition and import paths are mediated by FA3-MODEL-ARTIFACT-SECURITY-001; direct runtime-provider download bypass is forbidden.",
+    "Runtime compatibility remains UNKNOWN until executable evidence exists; catalog presence, checksum validity or metadata completeness is not runtime admission.",
+    "The existing FA3 Control Center Models & Providers view is the GUI projection; no parallel GUI authority or model manager is introduced."
+  ],
+  "promotion_blockers": [
+    "UNKNOWN_LICENSE",
+    "CHECKSUM_MISMATCH",
+    "UNMEDIATED_ACQUISITION_PATH",
+    "UNADMITTED_DANGEROUS_SERIALIZATION",
+    "UNKNOWN_LINEAGE",
+    "UNKNOWN_RUNTIME_COMPATIBILITY",
+    "MISSING_RUNTIME_MATERIALIZATION_EVIDENCE"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

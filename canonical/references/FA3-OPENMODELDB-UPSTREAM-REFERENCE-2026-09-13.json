@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13",
+  "provider_id": "FA3-PROVIDER-OPENMODELDB-001",
+  "observed_at": "2026-09-13",
+  "repository": "OpenModelDB/open-model-database",
+  "branch": "main",
+  "commit": "782aac088bd83dd3fc438a42eb0c3868dc559110",
+  "catalog_repository_license": "GPL-3.0",
+  "verified_upstream_facts": {
+    "resource_schema_contains_sha256": true,
+    "resource_schema_contains_size": true,
+    "resource_schema_contains_urls": true,
+    "resource_schema_contains_platform": true,
+    "model_license_field_can_be_optional": true,
+    "catalog_and_model_artifact_licenses_are_distinct": true
+  },
+  "fa3_interpretation": {
+    "catalog_commit_is_discovery_snapshot_pin": true,
+    "catalog_commit_is_model_artifact_hash": false,
+    "provider_resource_sha256_must_be_verified_after_download": true,
+    "unknown_model_license_blocks_promotion": true,
+    "external_urls_are_transport_locators_only": true,
+    "runtime_compatibility_requires_separate_executable_evidence": true
+  },
+  "source_paths": [
+    "src/lib/schema.ts",
+    "src/lib/model-props.ts",
+    "docs/contributing/models.md",
+    "LICENSE"
+  ],
+  "floating_latest_allowed_as_production_evidence": false,
+  "current_host_runtime_promotion_claim": false
+}
