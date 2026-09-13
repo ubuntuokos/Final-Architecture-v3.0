@@ -8,9 +8,11 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 #include <QUrl>
+#include <QtWebEngineQuick/qtwebenginequickglobal.h>
 
 int main(int argc, char *argv[])
 {
+    QtWebEngineQuick::initialize();
     QGuiApplication app(argc, argv);
     QCoreApplication::setApplicationName("FA3 Control Center");
     QCoreApplication::setApplicationVersion("0.3.0");
