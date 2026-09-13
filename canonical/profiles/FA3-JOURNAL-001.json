@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-JOURNAL-001",
+  "name": "Unified Journal, Activity Ledger & Work History Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_JOURNAL_AUDIT_AND_WORK_HISTORY_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-JOURNAL-CONTRACTS-001"],
+  "providers": ["FA3-PROVIDER-JOURNAL-LOCAL-001"],
+  "subprofiles": ["FA3-JOURNAL-ARCHIVE-001"],
+  "domains": [
+    "SYSTEM",
+    "CONVERSATION",
+    "PROJECT",
+    "EVIDENCE",
+    "SECURITY",
+    "AUDIT"
+  ],
+  "project_lifecycle": [
+    "PROPOSED",
+    "EVALUATING",
+    "APPROVED",
+    "PLANNED",
+    "IMPLEMENTING",
+    "VALIDATING",
+    "ACTIVE",
+    "COMPLETED",
+    "ARCHIVED"
+  ],
+  "side_states": ["BLOCKED", "REJECTED", "DEPRECATED", "SUPERSEDED", "FAILED"],
+  "authority": {
+    "canonical_registry": "FA3-REGISTRY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "tool_execution": "FA3-AUTH-MCP-GATEWAY-001",
+    "journal_provider": "PROJECTION_AND_LOCAL_LEDGER_ONLY"
+  },
+  "mandatory_surfaces": [
+    "OVERVIEW",
+    "SYSTEM_JOURNAL",
+    "CONVERSATION_JOURNAL",
+    "ACTIVE_PROJECTS",
+    "CLOSED_PROJECTS",
+    "PLANNED_PROJECTS",
+    "EVENTS",
+    "ARCHIVE",
+    "EXPORT",
+    "PRINT",
+    "EMAIL_SHARE",
+    "CHAT_SHARE_ADAPTER"
+  ],
+  "invariants": [
+    "JOURNAL_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+    "EVENT_STORAGE_APPEND_ONLY_BY_DEFAULT",
+    "SOFT_DELETE_USES_TOMBSTONE",
+    "CANONICAL_AND_EVIDENCE_AUTHORITIES_UNCHANGED",
+    "FACT_EVIDENCE_INFERENCE_AND_USER_NOTES_REMAIN_DISTINGUISHABLE",
+    "PROJECT_LIFECYCLE_TRANSITIONS_REMAIN_AUDITABLE",
+    "SHARING_REQUIRES_EXPORT_OR_TYPED_COMMUNICATION_ADAPTER",
+    "SECRET_VALUES_MUST_NOT_BE_AUTOMATICALLY_EMITTED",
+    "ARCHIVE_RESTORE_MUST_BE_AUDITED",
+    "ARCHIVE_INTEGRITY_PASS_IS_NOT_RUNTIME_PROMOTION",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ],
+  "implementation": {
+    "canonical_app": "FA3 Control Center",
+    "minimum_version": "0.2.0",
+    "journal_service": "apps/fa3-control-center/src/JournalService.cpp",
+    "gui_surface": "apps/fa3-control-center/qml/JournalPage.qml",
+    "current_host_status": "PENDING_CURRENT_HOST_BUILD_AND_RUNTIME_EVIDENCE"
+  },
+  "implementation_status": "CANONICAL_BASELINE_AND_REFERENCE_GUI_MATERIALIZED"
+}
