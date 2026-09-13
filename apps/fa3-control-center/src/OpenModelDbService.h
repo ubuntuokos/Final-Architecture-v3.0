@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QSet>
 #include <QStringList>
 #include <QVariantList>
 #include <QVariantMap>
@@ -29,7 +30,15 @@ public:
     ~OpenModelDbService() override;
 
     QVariantList models() const { return m_models; }
-    QVariantList tags() const { return m_tags; }
+    QVariantList tags() const
+    {
+        QVariantList out;
+        out.reserve(m_tags.size());
+        for (const QVariantMap &tag : m_tags) {
+            out.push_back(tag);
+        }
+        return out;
+    }
     QStringList scales() const { return m_scales; }
     QStringList architectures() const { return m_architectures; }
     QStringList platforms() const { return m_platforms; }
@@ -86,7 +95,7 @@ private:
 
     QNetworkAccessManager *m_network = nullptr;
     QVariantList m_models;
-    QVariantList m_tags;
+    QList<QVariantMap> m_tags;
     QStringList m_scales;
     QStringList m_architectures;
     QStringList m_platforms;
