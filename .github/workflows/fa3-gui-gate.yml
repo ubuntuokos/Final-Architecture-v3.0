@@ -16,9 +16,11 @@ on:
       - 'canonical/decisions/FA3-DEC-GUI-SETTINGS-MENTOR-COACH-2026-09-12.json'
       - 'canonical/decisions/FA3-DEC-GUI-OPERATIONS-2026-09-12.json'
       - 'canonical/decisions/FA3-DEC-GUI-USABILITY-2026-09-13.json'
+      - 'canonical/decisions/FA3-DEC-GUI-MODEL-HUBS-STUDIOS-2026-09-13.json'
       - 'canonical/FA3-GATE-GUI-SETTINGS-001.json'
       - 'canonical/FA3-GATE-GUI-OPERATIONS-001.json'
       - 'canonical/FA3-GATE-GUI-USABILITY-001.json'
+      - 'canonical/FA3-GATE-GUI-MODEL-HUBS-STUDIOS-001.json'
       - 'canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json'
       - 'apps/fa3-control-center/**'
       - 'deployment/fa3-gui/**'
@@ -26,8 +28,10 @@ on:
       - 'src/fa3_gui_gate.py'
       - 'src/fa3_gui_usability_gate.py'
       - 'src/fa3_gui_catalog_search_starter_gate.py'
+      - 'src/fa3_gui_model_hubs_studios_gate.py'
       - 'tests/test_fa3_gui_gate.py'
       - 'tests/test_fa3_gui_catalog_search_starter_gate.py'
+      - 'tests/test_fa3_gui_model_hubs_studios_gate.py'
       - '.github/workflows/fa3-gui-gate.yml'
   pull_request:
     paths:
@@ -37,8 +41,10 @@ on:
       - 'src/fa3_gui_gate.py'
       - 'src/fa3_gui_usability_gate.py'
       - 'src/fa3_gui_catalog_search_starter_gate.py'
+      - 'src/fa3_gui_model_hubs_studios_gate.py'
       - 'tests/test_fa3_gui_gate.py'
       - 'tests/test_fa3_gui_catalog_search_starter_gate.py'
+      - 'tests/test_fa3_gui_model_hubs_studios_gate.py'
       - '.github/workflows/fa3-gui-gate.yml'
   workflow_dispatch:
 
@@ -60,8 +66,10 @@ jobs:
         run: PYTHONPATH=. python src/fa3_gui_usability_gate.py
       - name: Run catalog/search/starter regression gate
         run: PYTHONPATH=. python src/fa3_gui_catalog_search_starter_gate.py
+      - name: Run model hub/studio regression gate
+        run: PYTHONPATH=. python src/fa3_gui_model_hubs_studios_gate.py
       - name: Run GUI unit regression
-        run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate tests.test_fa3_gui_catalog_search_starter_gate -v
+        run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate tests.test_fa3_gui_catalog_search_starter_gate tests.test_fa3_gui_model_hubs_studios_gate -v
 
   qt-reference-build:
     runs-on: ubuntu-latest
