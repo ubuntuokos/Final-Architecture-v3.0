@@ -5,22 +5,26 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-GENERATED_QML = [
+REQUIRED_GENERATED_QML = [
     ROOT / "apps/fa3-control-center/qml/MissionControlAppShell.qml",
     ROOT / "apps/fa3-control-center/qml/ModelManagerHubPage.qml",
-    ROOT / "apps/fa3-control-center/qml/ModelManagerHuggingFacePage.qml",
-    ROOT / "apps/fa3-control-center/qml/EmbeddedPortalPanel.qml",
     ROOT / "apps/fa3-control-center/qml/CivitaiPanel.qml",
     ROOT / "apps/fa3-control-center/qml/OpenModelDbPanel.qml",
+]
+
+OPTIONAL_GENERATED_QML = [
+    ROOT / "apps/fa3-control-center/qml/ModelManagerHuggingFacePage.qml",
+    ROOT / "apps/fa3-control-center/qml/EmbeddedPortalPanel.qml",
 ]
 
 
 def normalize_qml(text: str) -> str:
     """Expand compact generated QML into Qt 6.4-safe declarative syntax.
 
-    Semicolons inside parentheses are preserved (for JS for-loops and calls).
-    Braces and top-level semicolons outside strings are expanded to line breaks.
-    The transformation is intentionally limited to generated mission-control QML.
+    The mission-control materializer intentionally emits compact QML. Qt 6.4's
+    qmlcachegen is stricter about semicolon-separated child-object bodies than
+    newer Qt versions. This formatter expands braces and top-level semicolons,
+    while preserving semicolons inside parentheses (notably JS for-loops).
     """
     out: list[str] = []
     indent = 0
@@ -28,7 +32,6 @@ def normalize_qml(text: str) -> str:
     quote: str | None = None
     escape = False
     paren_depth = 0
-    bracket_depth = 0
 
     def emit_indent() -> None:
         nonlocal line_start
@@ -67,7 +70,6 @@ def normalize_qml(text: str) -> str:
             i += 1
             continue
 
-        # Keep // comments intact until newline.
         if ch == "/" and i + 1 < len(text) and text[i + 1] == "/":
             emit_indent()
             j = text.find("\n", i)
@@ -91,18 +93,6 @@ def normalize_qml(text: str) -> str:
             out.append(ch)
             i += 1
             continue
-        if ch == "[":
-            emit_indent()
-            bracket_depth += 1
-            out.append(ch)
-            i += 1
-            continue
-        if ch == "]":
-            emit_indent()
-            bracket_depth = max(0, bracket_depth - 1)
-            out.append(ch)
-            i += 1
-            continue
 
         if ch == "{":
             emit_indent()
@@ -118,13 +108,10 @@ def normalize_qml(text: str) -> str:
             indent = max(0, indent - 1)
             emit_indent()
             out.append("}")
-            # Do not force newline here: bindings such as `} else {` remain valid.
             i += 1
             continue
 
         if ch == ";" and paren_depth == 0:
-            # Declarative QML property separators and JS statement terminators can
-            # safely become line breaks; for-loop semicolons are preserved above.
             newline()
             i += 1
             continue
@@ -143,26 +130,51 @@ def normalize_qml(text: str) -> str:
         i += 1
 
     result = "".join(out)
-    # Collapse excessive blank lines introduced by compact-source expansion.
     while "\n\n\n" in result:
         result = result.replace("\n\n\n", "\n\n")
     return result.rstrip() + "\n"
 
 
+def replace_one_of(text: str, candidates: list[str], replacement: str, label: str) -> str:
+    if replacement in text:
+        return text
+    for old in candidates:
+        if old in text:
+            return text.replace(old, replacement, 1)
+    raise SystemExit(f"AI Studio canonical binding marker missing: {label}")
+
+
 def patch_ai_studio_bindings() -> None:
     path = ROOT / "apps/fa3-control-center/qml/AppShell.qml"
     text = path.read_text(encoding="utf-8")
-    replacements = {
-        'subtitle: "Campaigns · copy · channel outputs"': 'subtitle: "FA3-MARKETING-001 · Campaigns · copy · channel outputs"',
-        'subtitle: "Web creative · landing page · asset flow"': 'subtitle: "FA3-PROVIDER-OPENHERO-001 · Web creative · landing page · asset flow"',
-        'subtitle: "Deck narrative · slide generation"': 'subtitle: "FA3-PROVIDER-PRESENTON-001 · Deck narrative · slide generation"',
-    }
-    for old, new in replacements.items():
-        if new in text:
-            continue
-        if old not in text:
-            raise SystemExit(f"AI Studio canonical binding marker missing: {old}")
-        text = text.replace(old, new, 1)
+
+    text = replace_one_of(
+        text,
+        [
+            'subtitle: "Campaigns · copy · channel outputs"',
+            'subtitle: "Mautic / Twenty / listmonk / campaign & CRM workflows"',
+        ],
+        'subtitle: "FA3-MARKETING-001 · Mautic / Twenty / listmonk · campaign & CRM workflows"',
+        "Marketing",
+    )
+    text = replace_one_of(
+        text,
+        [
+            'subtitle: "Web creative · landing page · asset flow"',
+            'subtitle: "AI-assisted website design / build / preview / publish workflows"',
+        ],
+        'subtitle: "FA3-PROVIDER-OPENHERO-001 · Web creative · website design / build / preview / publish"',
+        "Website",
+    )
+    text = replace_one_of(
+        text,
+        [
+            'subtitle: "Deck narrative · slide generation"',
+            'subtitle: "Presenton / slide generation / deck production / export"',
+        ],
+        'subtitle: "FA3-PROVIDER-PRESENTON-001 · Presenton · slide generation / deck production / export"',
+        "Presentation",
+    )
     path.write_text(text, encoding="utf-8")
 
 
@@ -179,12 +191,13 @@ def patch_gate_bindings() -> None:
 
 
 def main() -> None:
-    missing = [str(p) for p in GENERATED_QML if not p.exists()]
+    missing = [str(p) for p in REQUIRED_GENERATED_QML if not p.exists()]
     if missing:
-        raise SystemExit("generated QML missing before finalizer: " + ", ".join(missing))
+        raise SystemExit("required generated QML missing before finalizer: " + ", ".join(missing))
 
-    for path in GENERATED_QML:
-        path.write_text(normalize_qml(path.read_text(encoding="utf-8")), encoding="utf-8")
+    for path in REQUIRED_GENERATED_QML + OPTIONAL_GENERATED_QML:
+        if path.exists():
+            path.write_text(normalize_qml(path.read_text(encoding="utf-8")), encoding="utf-8")
 
     patch_ai_studio_bindings()
     patch_gate_bindings()
