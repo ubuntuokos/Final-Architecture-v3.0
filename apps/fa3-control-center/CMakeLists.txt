@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 Network)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -15,9 +15,13 @@ qt_add_executable(fa3-control-center
     src/Fa3RepositoryModel.h
     src/JournalService.cpp
     src/JournalService.h
+    src/OpenModelDbService.cpp
+    src/OpenModelDbService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(qml/LegacyMain.qml PROPERTIES QT_RESOURCE_ALIAS LegacyMain.qml)
+set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelsProvidersPage.qml)
 set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)
 
 qt_add_qml_module(fa3-control-center
@@ -26,6 +30,8 @@ qt_add_qml_module(fa3-control-center
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES
         qml/Main.qml
+        qml/LegacyMain.qml
+        qml/ModelsProvidersPage.qml
         qml/JournalPage.qml
 )
 
@@ -33,6 +39,7 @@ target_link_libraries(fa3-control-center
     PRIVATE
         Qt6::Quick
         Qt6::QuickControls2
+        Qt6::Network
 )
 
 install(TARGETS fa3-control-center
