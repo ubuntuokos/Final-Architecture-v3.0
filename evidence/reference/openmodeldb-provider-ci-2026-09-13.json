@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-OPENMODELDB-PROVIDER-2026-09-13",
+  "gate_id": "FA3-GATE-OPENMODELDB-PROVIDER-001",
+  "provider_id": "FA3-PROVIDER-OPENMODELDB-001",
+  "status": "PENDING_CI",
+  "evidence_class": "REFERENCE_STATIC_CONFORMANCE",
+  "observed_at": "2026-09-13",
+  "upstream_repository": "OpenModelDB/open-model-database",
+  "upstream_commit": "782aac088bd83dd3fc438a42eb0c3868dc559110",
+  "validated_claims": [
+    "catalog is discovery/metadata source, not artifact trust authority",
+    "resource SHA-256 is required and must be verified",
+    "unknown model license blocks FA3 promotion",
+    "dangerous serialization requires artifact-security admission",
+    "all acquisition/import paths are mediated",
+    "catalog/checksum validity does not imply runtime compatibility",
+    "provider does not introduce architectural authority"
+  ],
+  "regression_case_count": 8,
+  "current_host_runtime_promotion_claim": false,
+  "model_artifact_production_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "promotion_effect": "REFERENCE_STATIC_GATE_ONLY_NO_CURRENT_HOST_OR_MODEL_ARTIFACT_RUNTIME_PASS"
+}
