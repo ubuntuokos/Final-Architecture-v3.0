@@ -1,0 +1,61 @@
+name: FA3 temporary LLM Fit Model Manager fix
+
+on:
+  push:
+    branches:
+      - fa3-gui-ask-menu-anchor-fix
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-ask-menu-anchor-fix
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Restore LLM Fit as an in-app Model Manager surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          main = Path('apps/fa3-control-center/qml/Main.qml')
+          text = main.read_text(encoding='utf-8')
+
+          prop_needle = '    property string webWorkspaceTitle: "Web Workspace"\n'
+          prop_add = prop_needle + '    property bool llmFitExpanded: false\n'
+          if prop_needle not in text:
+              raise SystemExit('LLM Fit property insertion point not found')
+          text = text.replace(prop_needle, prop_add, 1)
+
+          row_old = '''                        RowLayout {\n                            spacing: 8\n                            QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }\n                            QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }\n                            QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }\n                            Item { Layout.fillWidth: true }\n                        }\n                        Panel {\n'''
+          row_new = '''                        RowLayout {\n                            spacing: 8\n                            QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }\n                            QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }\n                            QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }\n                            ToolButton {\n                                id: llmFitButton\n                                text: "LLM Fit"\n                                checkable: true\n                                checked: window.llmFitExpanded\n                                onClicked: window.llmFitExpanded = !window.llmFitExpanded\n                                contentItem: Label {\n                                    text: parent.text\n                                    color: window.llmFitExpanded ? window.cyan : window.textPrimary\n                                    font.pixelSize: 9\n                                    font.bold: true\n                                    horizontalAlignment: Text.AlignHCenter\n                                    verticalAlignment: Text.AlignVCenter\n                                }\n                                background: Rectangle {\n                                    radius: 6\n                                    color: window.llmFitExpanded ? "#12324a" : (parent.hovered ? "#132a42" : "#0d1c2f")\n                                    border.color: window.llmFitExpanded ? window.cyan : window.border\n                                }\n                            }\n                            Item { Layout.fillWidth: true }\n                        }\n                        Panel {\n                            visible: window.llmFitExpanded\n                            Layout.fillWidth: true\n                            Layout.preferredHeight: visible ? 215 : 0\n                            ColumnLayout {\n                                anchors.fill: parent\n                                anchors.margins: 15\n                                spacing: 10\n                                RowLayout {\n                                    Layout.fillWidth: true\n                                    Label { text: "LLM Fit"; color: window.textPrimary; font.pixelSize: 15; font.bold: true }\n                                    StatusChip { chipText: "IN-APP"; tone: window.cyan }\n                                    Item { Layout.fillWidth: true }\n                                    Label { text: "nincs terminálindítás"; color: window.textMuted; font.pixelSize: 9 }\n                                }\n                                GridLayout {\n                                    Layout.fillWidth: true\n                                    columns: 4\n                                    columnSpacing: 18\n                                    rowSpacing: 8\n                                    Label { text: "CPU"; color: window.textMuted; font.pixelSize: 9 }\n                                    Label { text: fa3Repository.cpuThreads + " szál"; color: window.textPrimary; font.pixelSize: 11; font.bold: true }\n                                    Label { text: "RAM"; color: window.textMuted; font.pixelSize: 9 }\n                                    Label { text: fa3Repository.memoryGiB.toFixed(1) + " GiB"; color: window.textPrimary; font.pixelSize: 11; font.bold: true }\n                                    Label { text: "GPU / NPU"; color: window.textMuted; font.pixelSize: 9 }\n                                    Label { text: "adapter-gated"; color: window.orange; font.pixelSize: 10; font.bold: true }\n                                    Label { text: "Model-fit"; color: window.textMuted; font.pixelSize: 9 }\n                                    Label { text: "modell + runtime adapter szükséges"; color: window.orange; font.pixelSize: 10; font.bold: true }\n                                }\n                                Label {\n                                    Layout.fillWidth: true\n                                    wrapMode: Text.WordWrap\n                                    text: "Az LLM Fit az FA3 GUI részeként jelenik meg. A hostból közvetlenül ismert értékeket mutatja; kompatibilitási vagy kapacitás-ajánlást csak tényleges adapter-evidence alapján jelenít meg, szintetikus eredmény nélkül."\n                                    color: window.textMuted\n                                    font.pixelSize: 10\n                                }\n                            }\n                        }\n                        Panel {\n'''
+          if row_old not in text:
+              raise SystemExit('Model Manager quick-link row not found')
+          text = text.replace(row_old, row_new, 1)
+          main.write_text(text, encoding='utf-8')
+
+          gate = Path('src/fa3_gui_gate.py')
+          g = gate.read_text(encoding='utf-8')
+          needle = '    if "id: modelRegistryList" not in qml or "modelManagerView.availableHeight - 250" not in qml or "ScrollBar.AlwaysOn" not in qml: failures.append("qml-model-registry-responsive-scrollbar-missing")\n'
+          addition = needle + '    if "id: llmFitButton" not in qml or "property bool llmFitExpanded" not in qml or "nincs terminálindítás" not in qml: failures.append("qml-model-manager-llmfit-surface-missing")\n'
+          if needle not in g:
+              raise SystemExit('GUI gate insertion point not found')
+          gate.write_text(g.replace(needle, addition, 1), encoding='utf-8')
+          PY
+
+          rm -f .github/workflows/fa3-llmfit-model-manager-fix-temp.yml
+          git config user.name "fa3-gui-fix"
+          git config user.email "fa3-gui-fix@users.noreply.github.com"
+          git add apps/fa3-control-center/qml/Main.qml src/fa3_gui_gate.py .github/workflows/fa3-llmfit-model-manager-fix-temp.yml
+          git commit -m "FA3 GUI: restore LLM Fit in Model Manager"
+          FIX_HEAD="$(git rev-parse HEAD)"
+          PYTHONPATH=src python src/fa3_release_projection_regenerate.py --snapshot-head "$FIX_HEAD"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3 release projection: reconcile Model Manager LLM Fit surface"
+          git push origin HEAD:fa3-gui-ask-menu-anchor-fix
