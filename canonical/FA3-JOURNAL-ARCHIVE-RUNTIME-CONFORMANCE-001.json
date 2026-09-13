@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-JOURNAL-ARCHIVE-RUNTIME-CONFORMANCE-001",
+  "profile_ids": ["FA3-JOURNAL-001", "FA3-JOURNAL-ARCHIVE-001"],
+  "provider_id": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+  "status": "PENDING_CURRENT_HOST",
+  "reference_implementation": "MATERIALIZED",
+  "reference_static_conformance": "PENDING_CI",
+  "current_host_build": "PENDING_CURRENT_HOST",
+  "current_host_gui_launch": "PENDING_CURRENT_HOST",
+  "current_host_archive_e2e": "PENDING_CURRENT_HOST",
+  "current_host_restore_e2e": "PENDING_CURRENT_HOST",
+  "current_host_print_share_e2e": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "current_host_runtime_promotion_claimed": false,
+  "required_fresh_evidence": [
+    "Qt6 Control Center build PASS on current host",
+    "GUI Journal page launch PASS",
+    "append event -> archive -> SHA-256 verify -> restore E2E PASS",
+    "soft delete tombstone PASS",
+    "archive retirement to retention trash PASS",
+    "print/export/email/chat adapter behavior evidence"
+  ],
+  "note": "Repository materialization and hosted CI must not be represented as current-host production evidence."
+}

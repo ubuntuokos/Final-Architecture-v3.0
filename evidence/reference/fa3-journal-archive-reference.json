@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-JOURNAL-ARCHIVE-REFERENCE-001",
+  "subject": "FA3 Unified Journal and Archive reference materialization",
+  "date": "2026-09-13",
+  "status": "REFERENCE_MATERIALIZED_CI_PENDING",
+  "scope": "REPOSITORY_REFERENCE_ONLY",
+  "claims": {
+    "canonical_profile_materialized": true,
+    "archive_subprofile_materialized": true,
+    "contracts_materialized": true,
+    "provider_materialized": true,
+    "gui_surface_materialized": true,
+    "archive_engine_materialized": true,
+    "static_gate_materialized": true,
+    "hosted_ci_pass": false,
+    "current_host_runtime_pass": false,
+    "production_admitted": false
+  },
+  "implementation_paths": [
+    "apps/fa3-control-center/src/JournalService.h",
+    "apps/fa3-control-center/src/JournalService.cpp",
+    "apps/fa3-control-center/qml/JournalPage.qml",
+    "apps/fa3-control-center/qml/Main.qml"
+  ],
+  "required_followup_evidence": [
+    "hosted CI static gate and Qt build",
+    "current-host Control Center build",
+    "current-host Journal GUI launch",
+    "current-host event/archive/verify/restore E2E",
+    "current-host export/print/share adapter checks"
+  ],
+  "anti_claim": "This reference evidence is not current-host production admission evidence."
+}

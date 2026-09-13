@@ -1,0 +1,36 @@
+name: FA3 Journal Archive Gate
+
+on:
+  pull_request:
+    paths:
+      - 'apps/fa3-control-center/**'
+      - 'canonical/**JOURNAL**'
+      - 'canonical/journal-enforcement.json'
+      - 'evidence/reference/fa3-journal-archive-reference.json'
+      - 'tests/test_journal_archive_gate.py'
+      - '.github/workflows/fa3-journal-archive-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Journal/archive canonical gate
+        run: python -m unittest tests.test_journal_archive_gate
+
+  qt-reference-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Qt 6 reference build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build qt6-base-dev qt6-declarative-dev qml6-module-qtquick-controls qml6-module-qtquick-layouts
+      - name: Configure Control Center
+        run: cmake -S apps/fa3-control-center -B build/fa3-control-center -GNinja -DCMAKE_BUILD_TYPE=Release
+      - name: Build Control Center
+        run: cmake --build build/fa3-control-center --parallel 2
