@@ -1,0 +1,26 @@
+schema: fa3.application-fabric/v1
+id: FA3-APPLICATION-FABRIC-001
+meta_launchers:
+  canonical_policy: prohibited
+  removed_from_default_scope:
+    - LynxHub
+    - Stability Matrix
+    - Pinokio
+native_capabilities:
+  - application_catalog
+  - provider_manifest
+  - install
+  - dependency_bootstrap
+  - update_policy
+  - start_stop_lifecycle
+  - runtime_isolation
+  - resource_lease_integration
+  - status_health
+  - uninstall_cleanup
+  - control_center_projection
+content_provider_boundary:
+  examples_allowed:
+    - Hugging Face
+    - CivitAI
+    - OpenModelDB
+  note: Content/model/asset providers are not meta-launchers.
