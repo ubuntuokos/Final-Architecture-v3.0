@@ -525,16 +525,22 @@ ApplicationWindow {
                         }
                         Panel {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 350
+                            Layout.preferredHeight: Math.max(350, modelManagerView.availableHeight - 250)
                             ColumnLayout {
                                 anchors.fill: parent
                                 anchors.margins: 15
                                 spacing: 10
                                 Label { text: "Model registry projection"; color: window.textPrimary; font.pixelSize: 14; font.bold: true }
                                 ListView {
+                                    id: modelRegistryList
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
                                     clip: true
+                                    boundsBehavior: Flickable.StopAtBounds
+                                    ScrollBar.vertical: ScrollBar {
+                                        policy: ScrollBar.AlwaysOn
+                                        active: true
+                                    }
                                     model: fa3Repository.recordsByCategory("provider")
                                     delegate: ItemDelegate {
                                         width: ListView.view.width
