@@ -43,24 +43,12 @@ Item {
         color: dotColor
     }
 
-    component ProgressMeter: Item {
-        id: meter
-        property real value: 0.0
-        property color meterColor: root.accent
-        implicitHeight: 6
+    component StatusRail: Rectangle {
+        property color railColor: root.accent
+        implicitHeight: 5
         implicitWidth: 160
-
-        Rectangle {
-            anchors.fill: parent
-            radius: height / 2
-            color: "#16263a"
-        }
-        Rectangle {
-            width: Math.max(0, Math.min(meter.width, meter.width * meter.value))
-            height: meter.height
-            radius: height / 2
-            color: meter.meterColor
-        }
+        radius: height / 2
+        color: Qt.rgba(railColor.r, railColor.g, railColor.b, 0.34)
     }
 
     component StatCard: Panel {
@@ -116,10 +104,7 @@ Item {
         }
     }
 
-    component MiniLineChart: Canvas {
-        property color lineColor: root.cyan
-        property var samples: [0.22, 0.30, 0.25, 0.38, 0.32, 0.48, 0.40, 0.51, 0.44, 0.62, 0.49, 0.67, 0.58, 0.73, 0.63, 0.70]
-
+    component TelemetryGrid: Canvas {
         onPaint: {
             var ctx = getContext("2d")
             ctx.clearRect(0, 0, width, height)
@@ -132,19 +117,13 @@ Item {
                 ctx.lineTo(width, y)
                 ctx.stroke()
             }
-            ctx.strokeStyle = lineColor
-            ctx.lineWidth = 2
-            ctx.beginPath()
-            for (var i = 0; i < samples.length; ++i) {
-                var x = samples.length > 1 ? i * width / (samples.length - 1) : 0
-                var py = height - samples[i] * height
-                if (i === 0) {
-                    ctx.moveTo(x, py)
-                } else {
-                    ctx.lineTo(x, py)
-                }
+            for (var gx = 1; gx < 8; ++gx) {
+                var x = width * gx / 8
+                ctx.beginPath()
+                ctx.moveTo(x, 0)
+                ctx.lineTo(x, height)
+                ctx.stroke()
             }
-            ctx.stroke()
         }
     }
 
@@ -353,7 +332,7 @@ Item {
 
                             RowLayout {
                                 SectionLabel {
-                                    text: "Active Models"
+                                    text: "Model & Provider Surfaces"
                                 }
                                 Item {
                                     Layout.fillWidth: true
@@ -368,9 +347,9 @@ Item {
 
                             Repeater {
                                 model: [
-                                    {name: "Ollama Runtime", role: "LOCAL INFERENCE", color: root.accent, v: 0.72},
-                                    {name: "Model Registry", role: "CANONICAL", color: root.green, v: 0.86},
-                                    {name: "Provider Fabric", role: "ROUTED", color: root.magenta, v: 0.64}
+                                    {name: "Ollama Runtime", role: "LOCAL INFERENCE", color: root.accent},
+                                    {name: "Model Registry", role: "CANONICAL", color: root.green},
+                                    {name: "Provider Fabric", role: "ROUTED", color: root.magenta}
                                 ]
 
                                 delegate: ColumnLayout {
@@ -403,10 +382,9 @@ Item {
                                         }
                                     }
 
-                                    ProgressMeter {
+                                    StatusRail {
                                         Layout.fillWidth: true
-                                        value: modelData.v
-                                        meterColor: modelData.color
+                                        railColor: modelData.color
                                     }
                                 }
                             }
@@ -549,7 +527,7 @@ Item {
 
                             RowLayout {
                                 SectionLabel {
-                                    text: "System Resources"
+                                    text: "Live Telemetry"
                                 }
                                 Item {
                                     Layout.fillWidth: true
@@ -561,7 +539,7 @@ Item {
                                     color: root.cyan
                                 }
                                 MutedLabel {
-                                    text: "CPU context"
+                                    text: "CPU adapter"
                                 }
                                 Rectangle {
                                     width: 7
@@ -570,14 +548,19 @@ Item {
                                     color: root.magenta
                                 }
                                 MutedLabel {
-                                    text: "accelerator lane"
+                                    text: "accelerator adapter"
                                 }
                             }
 
-                            MiniLineChart {
+                            Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
-                                lineColor: root.cyan
+                                TelemetryGrid { anchors.fill: parent }
+                                MutedLabel {
+                                    anchors.centerIn: parent
+                                    text: "Awaiting live telemetry adapter"
+                                    font.pixelSize: 10
+                                }
                             }
 
                             RowLayout {
@@ -697,10 +680,10 @@ Item {
                         }
                         RowLayout {
                             spacing: 5
-                            StatusDot {}
+                            StatusDot { dotColor: root.orange }
                             MutedLabel {
-                                text: "Online"
-                                color: root.green
+                                text: "UI ready · execution gated"
+                                color: root.orange
                                 font.pixelSize: 9
                             }
                         }
