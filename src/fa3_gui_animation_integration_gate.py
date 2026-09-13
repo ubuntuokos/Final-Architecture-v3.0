@@ -18,10 +18,11 @@ def validate() -> list[str]:
     panel_path = ROOT / "apps/fa3-control-center/qml/AnimationIntegrationPanel.qml"
     shell_path = ROOT / "apps/fa3-control-center/qml/AnimationAwareAppShell.qml"
     operations_shell_path = ROOT / "apps/fa3-control-center/qml/OperationsAwareAppShell.qml"
+    studio_shell_path = ROOT / "apps/fa3-control-center/qml/StudioAwareOperationsShell.qml"
     cmake_path = ROOT / "apps/fa3-control-center/CMakeLists.txt"
     main_path = ROOT / "apps/fa3-control-center/src/main.cpp"
 
-    for path in [profile_path, contract_path, panel_path, shell_path, cmake_path, main_path]:
+    for path in [profile_path, contract_path, panel_path, shell_path, operations_shell_path, studio_shell_path, cmake_path, main_path]:
         if not path.exists():
             failures.append(f"missing:{path.relative_to(ROOT)}")
     if failures:
@@ -65,17 +66,21 @@ def validate() -> list[str]:
             failures.append(f"shell-missing:{token}")
 
     cmake = cmake_path.read_text(encoding="utf-8")
-    for token in ["AnimationAwareAppShell.qml", "AnimationIntegrationPanel.qml"]:
+    for token in ["AnimationAwareAppShell.qml", "AnimationIntegrationPanel.qml", "StudioAwareOperationsShell.qml"]:
         if token not in cmake:
             failures.append(f"cmake-missing:{token}")
 
     main = main_path.read_text(encoding="utf-8")
+    operations_shell = operations_shell_path.read_text(encoding="utf-8")
+    studio_shell = studio_shell_path.read_text(encoding="utf-8")
     direct_animation = "AnimationAwareAppShell.qml" in main
-    transitive_animation = False
-    if "OperationsAwareAppShell.qml" in main and operations_shell_path.exists():
-        operations_shell = operations_shell_path.read_text(encoding="utf-8")
-        transitive_animation = "AnimationAwareAppShell" in operations_shell
-    if not direct_animation and not transitive_animation:
+    operations_animation = "OperationsAwareAppShell.qml" in main and "AnimationAwareAppShell" in operations_shell
+    studio_transitive_animation = (
+        "StudioAwareOperationsShell.qml" in main
+        and "OperationsAwareAppShell" in studio_shell
+        and "AnimationAwareAppShell" in operations_shell
+    )
+    if not direct_animation and not operations_animation and not studio_transitive_animation:
         failures.append("main-animation-shell-not-loaded")
 
     return failures
