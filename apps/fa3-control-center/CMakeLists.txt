@@ -37,6 +37,7 @@ set_source_files_properties(qml/AppShell.qml PROPERTIES QT_RESOURCE_ALIAS AppShe
 set_source_files_properties(qml/LanguageAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS LanguageAwareAppShell.qml)
 set_source_files_properties(qml/AnimationAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS AnimationAwareAppShell.qml)
 set_source_files_properties(qml/OperationsAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS OperationsAwareAppShell.qml)
+set_source_files_properties(qml/StudioAwareOperationsShell.qml PROPERTIES QT_RESOURCE_ALIAS StudioAwareOperationsShell.qml)
 set_source_files_properties(qml/AIStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AIStudioPage.qml)
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(qml/SettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SettingsPage.qml)
@@ -67,6 +68,7 @@ qt_add_qml_module(fa3-control-center
         qml/LanguageAwareAppShell.qml
         qml/AnimationAwareAppShell.qml
         qml/OperationsAwareAppShell.qml
+        qml/StudioAwareOperationsShell.qml
         qml/AIStudioPage.qml
         qml/Main.qml
         qml/SettingsPage.qml
