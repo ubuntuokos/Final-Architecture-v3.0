@@ -1,0 +1,120 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENMODELDB-001",
+  "name": "OpenModelDB Upscaling and Restoration Model Catalog Projection",
+  "status": "ACCEPTED_SPECIALIZED_DISCOVERY_PROVIDER",
+  "provider_role": "SPECIALIZED_UPSCALING_RESTORATION_MODEL_DISCOVERY_METADATA_AND_ACQUISITION_SOURCE_PROVIDER",
+  "classification": [
+    "MODEL_SOURCE_PROVIDER",
+    "SPECIALIZED_MEDIA_MODEL_CATALOG_PROVIDER",
+    "UPSCALING_RESTORATION_DISCOVERY_PROVIDER"
+  ],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "upstream_repository": "OpenModelDB/open-model-database",
+  "upstream_branch": "main",
+  "upstream_commit": "782aac088bd83dd3fc438a42eb0c3868dc559110",
+  "upstream_observed_at": "2026-09-13",
+  "catalog_code_license": "GPL-3.0",
+  "catalog_code_license_inherited_by_model_artifacts": false,
+  "canonical_root": false,
+  "architectural_authority": false,
+  "artifact_trust_authority": false,
+  "metadata_authority": "DISCOVERY_ONLY_REQUIRES_FA3_VALIDATION_BEFORE_CANONICALIZATION",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "P1_RECOMMENDED_OPTIONAL_PROVIDER",
+  "runtime_activation_status": "CANONICAL_PROVIDER_PROJECTION_MATERIALIZED_RUNTIME_FETCH_AND_EXECUTION_EVIDENCE_NOT_CLAIMED",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "catalog_scope": [
+    "UPSCALING",
+    "RESTORATION",
+    "DENOISE",
+    "DEBLUR",
+    "DEHALO",
+    "DEBANDING",
+    "COMPRESSION_ARTIFACT_REMOVAL",
+    "COLORIZATION",
+    "INPAINTING",
+    "ANIME_MANGA",
+    "PHOTOGRAPHY",
+    "VIDEO_FRAMES",
+    "GAME_TEXTURES"
+  ],
+  "resource_metadata_contract": {
+    "provider_resource_fields": [
+      "platform",
+      "type",
+      "size",
+      "sha256",
+      "urls"
+    ],
+    "provider_declared_sha256": "REQUIRED_AND_MUST_MATCH_DOWNLOADED_BYTES",
+    "model_license": "MUST_BE_KNOWN_BEFORE_FA3_PROMOTION_EVEN_IF_UPSTREAM_FIELD_IS_OPTIONAL",
+    "external_download_urls": "UNTRUSTED_TRANSPORT_LOCATORS_NOT_ARTIFACT_IDENTITY"
+  },
+  "fa3_usage_policy": {
+    "catalog_commit_pin": "REQUIRED_FOR_EVIDENCED_DISCOVERY_SNAPSHOT",
+    "artifact_sha256": "REQUIRED_AND_VERIFIED_BEFORE_IMPORT",
+    "license_and_redistribution_metadata": "REQUIRED_BEFORE_PROMOTION",
+    "unknown_license": "BLOCK_PROMOTION",
+    "checksum_mismatch": "QUARANTINE_AND_BLOCK_IMPORT",
+    "catalog_metadata": "ATTRIBUTED_SOURCE_NOT_CANONICAL_WITHOUT_VALIDATION",
+    "remote_code": "DENY_BY_DEFAULT_EXPLICIT_POLICY_ADMISSION_REQUIRED",
+    "dangerous_serialization": "SCAN_AND_POLICY_ADMISSION_REQUIRED",
+    "runtime_compatibility": "UNKNOWN_UNTIL_EXECUTABLE_EVIDENCE",
+    "direct_runtime_provider_download_bypass": "FORBIDDEN",
+    "production_promotion": "REQUIRES_FA3_MODEL_ARTIFACT_SECURITY_ADMISSION_AND_RUNTIME_EVIDENCE"
+  },
+  "format_policy": {
+    "pth": "DANGEROUS_SERIALIZATION_SCAN_AND_POLICY_ADMISSION_REQUIRED",
+    "pt": "DANGEROUS_SERIALIZATION_SCAN_AND_POLICY_ADMISSION_REQUIRED",
+    "safetensors": "HASH_LICENSE_LINEAGE_AND_RUNTIME_COMPATIBILITY_VALIDATION_REQUIRED",
+    "onnx": "HASH_LICENSE_LINEAGE_FORMAT_AND_RUNTIME_COMPATIBILITY_VALIDATION_REQUIRED",
+    "other": "FAIL_CLOSED_UNTIL_FORMAT_POLICY_EXISTS"
+  },
+  "security_binding": {
+    "profile_id": "FA3-MODEL-ARTIFACT-SECURITY-001",
+    "required_gate_id": "FA3-GATE-MODEL-ARTIFACT-SECURITY-001",
+    "all_acquisition_import_paths_mediated": true,
+    "catalog_pass_is_artifact_security_pass": false,
+    "checksum_pass_is_license_pass": false,
+    "checksum_pass_is_runtime_compatibility_pass": false
+  },
+  "typed_operations": [
+    "discover",
+    "list",
+    "inspect",
+    "import"
+  ],
+  "gui_projection": {
+    "control_center_view": "Models & Providers",
+    "group": "Upscaling / Restoration",
+    "provider_label": "OpenModelDB",
+    "filters": [
+      "task",
+      "architecture",
+      "scale",
+      "platform",
+      "format",
+      "license"
+    ],
+    "actions": [
+      "inspect_metadata",
+      "verify_checksum",
+      "review_license",
+      "request_import"
+    ],
+    "privileged_direct_install": false
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_identity": "FA3-MODEL-REGISTRY-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  }
+}

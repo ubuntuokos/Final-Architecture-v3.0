@@ -1,0 +1,32 @@
+name: FA3 OpenModelDB Provider Gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-OPENMODELDB-001.json'
+      - 'canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json'
+      - 'canonical/references/FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13.json'
+      - 'canonical/openmodeldb-provider-enforcement.json'
+      - 'canonical/profiles/FA3-MODEL-MANAGER-001.json'
+      - 'canonical/model-manager-v2-enforcement.json'
+      - 'src/fa3_openmodeldb_provider_gate.py'
+      - 'tests/test_openmodeldb_provider_gate.py'
+      - 'evidence/reference/openmodeldb-provider-ci-2026-09-13.json'
+      - '.github/workflows/fa3-openmodeldb-provider-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: OpenModelDB provider fail-closed gate
+        run: python -m unittest tests.test_openmodeldb_provider_gate -v
+      - name: Existing Model Manager v2 regression gate
+        run: python -m unittest tests.test_model_manager_v2_gate -v
