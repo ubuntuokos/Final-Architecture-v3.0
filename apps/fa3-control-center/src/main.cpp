@@ -1,5 +1,6 @@
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
+#include "OpenModelDbService.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -15,10 +16,12 @@ int main(int argc, char *argv[])
 
     Fa3RepositoryModel repository;
     JournalService journal;
+    OpenModelDbService openModelDb;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
     engine.rootContext()->setContextProperty("fa3Journal", &journal);
+    engine.rootContext()->setContextProperty("fa3OpenModelDb", &openModelDb);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
