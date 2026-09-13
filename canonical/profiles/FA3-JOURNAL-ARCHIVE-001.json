@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-JOURNAL-ARCHIVE-001",
+  "name": "Journal Archive, Retention, Integrity & Restore Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "SUBPROFILE_JOURNAL_ARCHIVE_RETENTION",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-JOURNAL-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-JOURNAL-CONTRACTS-001"],
+  "provider": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+  "archive_states": [
+    "ACTIVE",
+    "SEALED",
+    "ARCHIVED",
+    "VERIFYING",
+    "RESTORING",
+    "RETENTION_HOLD",
+    "EXPIRED",
+    "RETIRED",
+    "PURGED"
+  ],
+  "reference_policy": {
+    "max_active_events": 5000,
+    "max_active_age_days": 30,
+    "digest": "SHA-256",
+    "gui_physical_purge_allowed": false,
+    "restore_requires_integrity_pass": true,
+    "restore_requires_audit_event": true
+  },
+  "invariants": [
+    "ARCHIVE_MANIFEST_REQUIRED",
+    "ARCHIVE_EVENT_COUNT_REQUIRED",
+    "ARCHIVE_PAYLOAD_DIGEST_REQUIRED",
+    "SEALED_ARCHIVE_MUTATION_MUST_BE_DETECTABLE",
+    "RESTORE_REQUIRES_DIGEST_VERIFICATION",
+    "RESTORED_EVENT_GETS_NEW_ID_AND_PRESERVES_ORIGINAL_ID",
+    "GUI_DELETE_MOVES_ARCHIVE_TO_RETENTION_TRASH",
+    "PURGE_IS_SEPARATE_FROM_RETIRE",
+    "EVIDENCE_RETENTION_MAY_OVERRIDE_USER_DELETE",
+    "ARCHIVE_PROVIDER_NOT_EVIDENCE_AUTHORITY",
+    "ARCHIVE_INTEGRITY_PASS_NOT_PRODUCTION_PROMOTION"
+  ],
+  "implementation": {
+    "archive_engine": "apps/fa3-control-center/src/JournalService.cpp",
+    "archive_gui": "apps/fa3-control-center/qml/JournalPage.qml",
+    "archive_format": "fa3.journal-archive.v1",
+    "current_host_status": "PENDING_CURRENT_HOST_BUILD_AND_RUNTIME_EVIDENCE"
+  },
+  "implementation_status": "REFERENCE_IMPLEMENTATION_MATERIALIZED"
+}
