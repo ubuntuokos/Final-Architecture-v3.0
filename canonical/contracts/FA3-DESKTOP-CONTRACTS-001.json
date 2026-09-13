@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-DESKTOP-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-DESKTOP-001",
@@ -13,6 +13,8 @@
     "DesktopNavigationDescriptor",
     "CanonicalReadProjection",
     "HostTelemetryReadProjection",
+    "HostResourceStatusStripReadProjection",
+    "ResourcePressureReadProjection",
     "ProviderAndModelReadProjection",
     "EvidenceReadProjection",
     "ApprovalQueueReadProjection",
@@ -28,6 +30,19 @@
     "host_telemetry": "READ_ONLY",
     "provider_runtime_state": "READ_ONLY",
     "policy_and_approval_state": "READ_ONLY"
+  },
+  "resource_status_contract": {
+    "visibility": "PERSISTENT",
+    "placement": "BOTTOM",
+    "resources": ["CPU", "GPU", "NPU", "RAM"],
+    "cpu": ["UTILIZATION"],
+    "ram": ["UTILIZATION", "USED_GIB", "TOTAL_GIB"],
+    "gpu": ["UTILIZATION_WHEN_MEASURABLE", "VRAM_WHEN_MEASURABLE", "TEMPERATURE_WHEN_MEASURABLE"],
+    "npu": ["DETECTION", "UTILIZATION_WHEN_MEASURABLE"],
+    "unknown_metric_semantics": "N_A_OR_DASH_NEVER_ZERO",
+    "pressure_projection": "ADVISORY_READ_ONLY",
+    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "enforcement_authority": "SYSTEMD_UNIFIED_CGROUP_V2_ONLY"
   },
   "mutation_model": {
     "local_draft_changeset": "ALLOW",
@@ -76,6 +91,10 @@
     "static_contract_gate": true,
     "qt_compile_gate": true,
     "current_host_runtime_receipt_required_for_runtime_promotion": true,
-    "reference_compile_pass_claims_current_host_runtime": false
+    "reference_compile_pass_claims_current_host_runtime": false,
+    "resource_strip_visual_receipt_required": true,
+    "cpu_ram_runtime_receipt_required": true,
+    "gpu_runtime_receipt_required_when_gpu_present": true,
+    "npu_detection_or_absence_receipt_required": true
   }
 }
