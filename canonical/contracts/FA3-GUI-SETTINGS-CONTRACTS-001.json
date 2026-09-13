@@ -18,6 +18,7 @@
     "NotificationPreference",
     "KeyboardShortcutPreference",
     "CreativeDesktopIntegrationPreference",
+    "AnimationDesktopIntegrationPreference",
     "OfficeKnowledgeIntegrationPreference",
     "PublishingTargetPreference",
     "RoleActionVisibilityPreference",
@@ -63,11 +64,19 @@
   },
   "integration_roles": {
     "graphics": ["GIMP", "Krita"],
+    "animation": ["OpenToonz", "Krita", "Synfig Studio"],
     "video": ["Kdenlive", "OpenShot"],
     "audio": ["Ardour", "Audacity"],
     "three_d": ["Blender", "Bforartist"],
     "documents": ["LibreOffice"],
     "knowledge_notes": ["Obsidian"]
+  },
+  "animation_integration": {
+    "canonical_profile_reference": "FA3-ANIMATION-PRODUCTION-001",
+    "default_application": "OpenToonz",
+    "preference_only": true,
+    "provider_admission_implied": false,
+    "krita_graphics_and_animation_roles_may_coexist": true
   },
   "publishing": {
     "targets": ["YouTube", "Facebook", "TikTok", "Website"],
