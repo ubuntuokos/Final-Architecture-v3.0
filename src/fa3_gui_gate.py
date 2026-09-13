@@ -15,7 +15,10 @@ REQUIRED = {
     "cmake": ROOT / "apps/fa3-control-center/CMakeLists.txt",
     "main_cpp": ROOT / "apps/fa3-control-center/src/main.cpp",
     "model_cpp": ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
+    "openmodeldb_cpp": ROOT / "apps/fa3-control-center/src/OpenModelDbService.cpp",
     "qml": ROOT / "apps/fa3-control-center/qml/Main.qml",
+    "legacy_qml": ROOT / "apps/fa3-control-center/qml/LegacyMain.qml",
+    "models_qml": ROOT / "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
@@ -31,8 +34,10 @@ def load_json(path: Path) -> dict:
 def validate() -> list[str]:
     failures: list[str] = []
     for name, path in REQUIRED.items():
-        if not path.exists(): failures.append(f"missing:{name}:{path.relative_to(ROOT)}")
-    if failures: return failures
+        if not path.exists():
+            failures.append(f"missing:{name}:{path.relative_to(ROOT)}")
+    if failures:
+        return failures
 
     profile = load_json(REQUIRED["profile"])
     contract = load_json(REQUIRED["contract"])
@@ -58,24 +63,42 @@ def validate() -> list[str]:
     ]
     failures.extend(name for ok, name in checks if not ok)
 
-    qml = REQUIRED["qml"].read_text(encoding="utf-8")
+    qml = "\n".join(
+        REQUIRED[name].read_text(encoding="utf-8")
+        for name in ("qml", "legacy_qml", "models_qml")
+    )
     for label in NAVIGATION:
-        if label not in qml: failures.append(f"qml-navigation-missing:{label}")
+        if label not in qml:
+            failures.append(f"qml-navigation-missing:{label}")
     for module in ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]:
-        if module not in qml: failures.append(f"qml-studio-module-missing:{module}")
-    if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
+        if module not in qml:
+            failures.append(f"qml-studio-module-missing:{module}")
+    if "createDraftChangeSet" not in qml:
+        failures.append("qml-changeset-intent-missing")
+    if "ModelsProvidersPage" not in REQUIRED["qml"].read_text(encoding="utf-8"):
+        failures.append("qml-model-browser-overlay-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
-    if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
-    if '"direct_execution_allowed", false' not in model_cpp: failures.append("backend-direct-execution-denial-missing")
-    if '"canonical_write_allowed", false' not in model_cpp: failures.append("backend-canonical-write-denial-missing")
+    if "DRAFT_NOT_SUBMITTED" not in model_cpp:
+        failures.append("backend-draft-status-missing")
+    if '"direct_execution_allowed", false' not in model_cpp:
+        failures.append("backend-direct-execution-denial-missing")
+    if '"canonical_write_allowed", false' not in model_cpp:
+        failures.append("backend-canonical-write-denial-missing")
+
+    backend_text = model_cpp + "\n" + REQUIRED["openmodeldb_cpp"].read_text(encoding="utf-8")
     for token in FORBIDDEN_BACKEND_TOKENS:
-        if token in model_cpp: failures.append(f"backend-forbidden-token:{token}")
+        if token in backend_text:
+            failures.append(f"backend-forbidden-token:{token}")
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
-    if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
+    if "Qt6" not in cmake or "qt_add_qml_module" not in cmake:
+        failures.append("qt6-qml-build-contract-missing")
+    if "Qt6::Network" not in cmake:
+        failures.append("qt6-network-model-catalog-missing")
     desktop = REQUIRED["desktop"].read_text(encoding="utf-8")
-    if "Exec=fa3-control-center" not in desktop: failures.append("desktop-entry-exec-missing")
+    if "Exec=fa3-control-center" not in desktop:
+        failures.append("desktop-entry-exec-missing")
     return failures
 
 
@@ -83,7 +106,8 @@ def main() -> int:
     failures = validate()
     if failures:
         print("FA3 GUI gate: FAIL")
-        for failure in failures: print(f" - {failure}")
+        for failure in failures:
+            print(f" - {failure}")
         return 1
     print("FA3 GUI gate: PASS")
     print("profile=FA3-DESKTOP-001 capabilities=143 new_authorities=0 runtime=PENDING_CURRENT_HOST")
