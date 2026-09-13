@@ -18,6 +18,7 @@ EVIDENCE = ROOT / "evidence/reference/fa3-journal-archive-reference.json"
 CPP = ROOT / "apps/fa3-control-center/src/JournalService.cpp"
 HEADER = ROOT / "apps/fa3-control-center/src/JournalService.h"
 MAIN_QML = ROOT / "apps/fa3-control-center/qml/Main.qml"
+LEGACY_MAIN_QML = ROOT / "apps/fa3-control-center/qml/LegacyMain.qml"
 JOURNAL_QML = ROOT / "apps/fa3-control-center/qml/JournalPage.qml"
 CMAKE = ROOT / "apps/fa3-control-center/CMakeLists.txt"
 
@@ -95,10 +96,13 @@ class JournalArchiveGateTests(unittest.TestCase):
 
     def test_control_center_exposes_journal_archive_gui(self) -> None:
         main = MAIN_QML.read_text(encoding="utf-8")
+        legacy_main = LEGACY_MAIN_QML.read_text(encoding="utf-8")
+        shell = main + "\n" + legacy_main
         journal = JOURNAL_QML.read_text(encoding="utf-8")
         cmake = CMAKE.read_text(encoding="utf-8")
-        self.assertIn('label: "Napló / Journal"', main)
-        self.assertIn("JournalPage", main)
+        self.assertIn('label: "Napló / Journal"', shell)
+        self.assertIn("JournalPage", shell)
+        self.assertIn("LegacyMain", main)
         self.assertIn("JournalService.cpp", cmake)
         self.assertIn("JournalPage.qml", cmake)
         for label in ["Áttekintés", "Rendszer", "Beszélgetések", "Projektek", "Események", "Archívum"]:
