@@ -66,6 +66,26 @@ def load_active_release_baseline(root: Path) -> ActiveReleaseBaseline:
     return ActiveReleaseBaseline(release=release, capability_count=count, record=record, document=data)
 
 
+def repository_root_from_module(module_file: str | Path) -> Path:
+    module_path = Path(module_file).resolve()
+    for parent in module_path.parents:
+        if (parent / BASELINE_PATH).is_file():
+            return parent
+    raise BaselineError(f"cannot locate FA3 repository root from module path: {module_path}")
+
+
+def module_active_release_baseline(module_file: str | Path) -> ActiveReleaseBaseline:
+    return load_active_release_baseline(repository_root_from_module(module_file))
+
+
+def module_active_capability_count(module_file: str | Path) -> int:
+    return module_active_release_baseline(module_file).capability_count
+
+
+def module_active_release(module_file: str | Path) -> str:
+    return module_active_release_baseline(module_file).release
+
+
 def active_release(root: Path) -> str:
     return load_active_release_baseline(root).release
 

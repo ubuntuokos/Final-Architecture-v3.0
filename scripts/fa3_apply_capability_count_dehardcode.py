@@ -2,7 +2,18 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
+
+COUNT_ASSIGNMENT = re.compile(
+    r"^(?P<indent>[ \t]*)(?P<name>CAPS|CAPABILITY_COUNT|EXPECTED_CAPABILITY_COUNT|CURRENT_RELEASE_COUNT)\s*=\s*143(?P<suffix>[ \t]*(?:#.*)?)$",
+    re.MULTILINE,
+)
+LITERAL_RANGE = re.compile(r"range\(\s*1\s*,\s*144\s*\)")
+GENERIC_EXCLUDES = {
+    "src/fa3_release_baseline.py",
+    "scripts/fa3_apply_capability_count_dehardcode.py",
+}
 
 
 def replace(text: str, old: str, new: str, label: str) -> str:
@@ -20,6 +31,64 @@ def patch(path: Path, transform) -> None:
         path.write_text(after, encoding="utf-8")
 
 
+def ensure_module_count_import(text: str) -> str:
+    if "module_active_capability_count" in text and "from fa3_release_baseline import" in text:
+        return text
+    import_line = "from fa3_release_baseline import module_active_capability_count\n"
+    future = "from __future__ import annotations\n"
+    if future in text:
+        return text.replace(future, future + import_line, 1)
+    if text.startswith("#!"):
+        nl = text.find("\n")
+        if nl >= 0:
+            return text[: nl + 1] + import_line + text[nl + 1 :]
+    return import_line + text
+
+
+def patch_all_active_count_assignments(root: Path) -> None:
+    for rel_root in ("src", "scripts"):
+        base = root / rel_root
+        if not base.is_dir():
+            continue
+        for path in sorted(base.rglob("*.py")):
+            rel = path.relative_to(root).as_posix()
+            if rel in GENERIC_EXCLUDES:
+                continue
+            text = path.read_text(encoding="utf-8")
+            matches = list(COUNT_ASSIGNMENT.finditer(text))
+            range_hit = LITERAL_RANGE.search(text)
+            if not matches and not range_hit:
+                continue
+
+            if matches or range_hit:
+                text = ensure_module_count_import(text)
+
+            variable_names = [m.group("name") for m in matches]
+
+            def assignment_repl(match: re.Match[str]) -> str:
+                return (
+                    f'{match.group("indent")}{match.group("name")} = '
+                    f'module_active_capability_count(__file__){match.group("suffix")}'
+                )
+
+            text = COUNT_ASSIGNMENT.sub(assignment_repl, text)
+
+            if range_hit:
+                if "CAPABILITY_COUNT" in variable_names or "CAPABILITY_COUNT = module_active_capability_count(__file__)" in text:
+                    boundary = "CAPABILITY_COUNT + 1"
+                elif "CAPS" in variable_names or "CAPS = module_active_capability_count(__file__)" in text:
+                    boundary = "CAPS + 1"
+                elif "EXPECTED_CAPABILITY_COUNT" in variable_names or "EXPECTED_CAPABILITY_COUNT = module_active_capability_count(__file__)" in text:
+                    boundary = "EXPECTED_CAPABILITY_COUNT + 1"
+                elif "CURRENT_RELEASE_COUNT" in variable_names or "CURRENT_RELEASE_COUNT = module_active_capability_count(__file__)" in text:
+                    boundary = "CURRENT_RELEASE_COUNT + 1"
+                else:
+                    boundary = "module_active_capability_count(__file__) + 1"
+                text = LITERAL_RANGE.sub(f"range(1, {boundary})", text)
+
+            path.write_text(text, encoding="utf-8")
+
+
 def patch_enforce(text: str) -> str:
     text = replace(text, "from pathlib import Path\n", "from pathlib import Path\nfrom fa3_release_baseline import load_active_release_baseline\n", "enforce baseline import")
     text = text.replace('RELEASE="2026-08-23/v3.0.11"\nCAPS=143\n', "")
@@ -33,7 +102,6 @@ def patch_enforce(text: str) -> str:
     text = replace(text, 'def runtime_check(root:Path):\n    fs=[]', 'def runtime_check(root:Path):\n    RELEASE,CAPS=active_release_values(root)\n    fs=[]', "enforce runtime baseline")
     text = replace(text, 'def acceptance_check(root:Path):\n    s=static_check(root)', 'def acceptance_check(root:Path):\n    RELEASE,CAPS=active_release_values(root)\n    s=static_check(root)', "enforce acceptance baseline")
     text = replace(text, 'def promote(root:Path):\n    a=acceptance_check(root)', 'def promote(root:Path):\n    RELEASE,_=active_release_values(root)\n    a=acceptance_check(root)', "enforce promotion baseline")
-    text = text.replace('range(1,144)', 'range(1,CAPS+1)')
     text = text.replace('"Capability catalog is not exact CAP-001..CAP-143"', 'f"Capability catalog is not exact CAP-001..CAP-{CAPS:03d}"')
     text = text.replace('"Evidence Registry is not exact 143 capability set"', 'f"Evidence Registry is not exact {CAPS} capability set"')
     text = text.replace('["143 capability validation not PASS"]', '[f"{CAPS} capability validation not PASS"]')
@@ -111,6 +179,7 @@ def apply(root: Path) -> None:
     }
     for rel, transform in patches.items():
         patch(root / rel, transform)
+    patch_all_active_count_assignments(root)
 
 
 if __name__ == "__main__":
