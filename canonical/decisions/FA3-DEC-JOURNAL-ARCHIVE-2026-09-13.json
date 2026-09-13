@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-JOURNAL-ARCHIVE-2026-09-13",
+  "subject": "Admit Unified Journal and Journal Archive as mandatory FA3 GUI infrastructure",
+  "date": "2026-09-13",
+  "status": "ACCEPTED_CANONICAL",
+  "decision": "ADMIT_P0_MUST",
+  "profile_ids": ["FA3-JOURNAL-001", "FA3-JOURNAL-ARCHIVE-001"],
+  "provider_id": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+  "rationale": [
+    "FA3 needs a single operational history for system events, conversations, project lifecycle, evidence and audit context.",
+    "Closed and aged journal data requires deterministic retention, integrity verification and restorable archives rather than unstructured log deletion.",
+    "The FA3 Control Center is the correct native GUI projection surface and must not create a new canonical, evidence, resource or execution authority."
+  ],
+  "required_gui_changes": [
+    "ADD_JOURNAL_NAVIGATION",
+    "ADD_OVERVIEW_SYSTEM_CONVERSATION_PROJECT_EVENT_ARCHIVE_VIEWS",
+    "ADD_SAVE_EXPORT_PRINT_EMAIL_CHAT_ACTIONS",
+    "ADD_SOFT_DELETE_EVENT",
+    "ADD_MANUAL_AND_POLICY_ARCHIVE",
+    "ADD_VERIFY_RESTORE_RETIRE_ARCHIVE",
+    "SURFACE_JOURNAL_COUNTS_IN_COMMAND_CENTER_AND_SYSTEM"
+  ],
+  "required_archive_rules": [
+    "APPEND_ONLY_ACTIVE_LOG",
+    "SEALED_ARCHIVE_MANIFEST",
+    "SHA256_PAYLOAD_INTEGRITY",
+    "RESTORE_ONLY_AFTER_VERIFY_PASS",
+    "RESTORE_PROVENANCE_PRESERVED",
+    "GUI_ARCHIVE_DELETE_IS_RETIRE_NOT_PURGE",
+    "EVIDENCE_RETENTION_CAN_OVERRIDE_DELETE"
+  ],
+  "capability_change": 0,
+  "architectural_authority_change": 0,
+  "capability_count_after": 143,
+  "production_runtime_promotion": "NOT_CLAIMED_PENDING_CURRENT_HOST_BUILD_AND_RUNTIME_EVIDENCE"
+}
