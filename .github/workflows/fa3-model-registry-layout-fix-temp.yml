@@ -1,0 +1,54 @@
+name: FA3 temporary Model Registry layout fix
+
+on:
+  push:
+    branches:
+      - fa3-gui-ask-menu-anchor-fix
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-ask-menu-anchor-fix
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Make Model Registry projection responsive and scroll-visible
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          main = Path('apps/fa3-control-center/qml/Main.qml')
+          text = main.read_text(encoding='utf-8')
+
+          old = '''                        Panel {\n                            Layout.fillWidth: true\n                            Layout.preferredHeight: 350\n                            ColumnLayout {\n                                anchors.fill: parent\n                                anchors.margins: 15\n                                spacing: 10\n                                Label { text: "Model registry projection"; color: window.textPrimary; font.pixelSize: 14; font.bold: true }\n                                ListView {\n                                    Layout.fillWidth: true\n                                    Layout.fillHeight: true\n                                    clip: true\n                                    model: fa3Repository.recordsByCategory("provider")\n                                    delegate: ItemDelegate {\n'''
+          new = '''                        Panel {\n                            Layout.fillWidth: true\n                            Layout.preferredHeight: Math.max(350, modelManagerView.availableHeight - 250)\n                            ColumnLayout {\n                                anchors.fill: parent\n                                anchors.margins: 15\n                                spacing: 10\n                                Label { text: "Model registry projection"; color: window.textPrimary; font.pixelSize: 14; font.bold: true }\n                                ListView {\n                                    id: modelRegistryList\n                                    Layout.fillWidth: true\n                                    Layout.fillHeight: true\n                                    clip: true\n                                    boundsBehavior: Flickable.StopAtBounds\n                                    ScrollBar.vertical: ScrollBar {\n                                        policy: ScrollBar.AlwaysOn\n                                        active: true\n                                    }\n                                    model: fa3Repository.recordsByCategory("provider")\n                                    delegate: ItemDelegate {\n'''
+          if old not in text:
+              raise SystemExit('expected Model registry projection block not found')
+          main.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          gate = Path('src/fa3_gui_gate.py')
+          g = gate.read_text(encoding='utf-8')
+          needle = '    if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")\n'
+          addition = needle + '    if "id: modelRegistryList" not in qml or "modelManagerView.availableHeight - 250" not in qml or "ScrollBar.AlwaysOn" not in qml: failures.append("qml-model-registry-responsive-scrollbar-missing")\n'
+          if needle not in g:
+              raise SystemExit('expected GUI gate insertion point not found')
+          gate.write_text(g.replace(needle, addition, 1), encoding='utf-8')
+          PY
+
+          rm -f .github/workflows/fa3-model-registry-layout-fix-temp.yml
+          git config user.name "fa3-gui-fix"
+          git config user.email "fa3-gui-fix@users.noreply.github.com"
+          git add apps/fa3-control-center/qml/Main.qml src/fa3_gui_gate.py .github/workflows/fa3-model-registry-layout-fix-temp.yml
+          git commit -m "FA3 GUI: make Model Registry projection responsive"
+          FIX_HEAD="$(git rev-parse HEAD)"
+          PYTHONPATH=src python src/fa3_release_projection_regenerate.py --snapshot-head "$FIX_HEAD"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3 release projection: reconcile Model Registry layout fix"
+          git push origin HEAD:fa3-gui-ask-menu-anchor-fix
