@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+  "name": "FA3 Local Journal and Archive Provider",
+  "version": "1.0.0",
+  "status": "CANONICAL_REFERENCE",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_ids": ["FA3-JOURNAL-001", "FA3-JOURNAL-ARCHIVE-001"],
+  "provider_type": "LOCAL_QT_JOURNAL_LEDGER_AND_ARCHIVE",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "implementation": {
+    "service": "apps/fa3-control-center/src/JournalService.cpp",
+    "gui": "apps/fa3-control-center/qml/JournalPage.qml",
+    "application": "FA3 Control Center 0.2.0",
+    "storage": "QStandardPaths::AppLocalDataLocation/journal",
+    "network_required": false,
+    "cloud_required": false
+  },
+  "supported_operations": [
+    "APPEND_EVENT",
+    "FILTER",
+    "EXPORT_MARKDOWN",
+    "EXPORT_JSON",
+    "EXPORT_HTML",
+    "PRINT",
+    "EMAIL_SHARE",
+    "CHAT_ADAPTER_SHARE",
+    "SOFT_DELETE_EVENT",
+    "ARCHIVE_MANUAL",
+    "ARCHIVE_POLICY",
+    "VERIFY_ARCHIVE",
+    "RESTORE_ARCHIVE",
+    "RETIRE_ARCHIVE"
+  ],
+  "boundaries": {
+    "canonical_write_authority": false,
+    "evidence_promotion_authority": false,
+    "privileged_execution_authority": false,
+    "physical_purge_from_gui": false,
+    "email_adapter": "xdg-email when available",
+    "chat_adapter": "FA3_CHAT_SHARE_URL when configured; otherwise export-bundle fallback"
+  }
+}
