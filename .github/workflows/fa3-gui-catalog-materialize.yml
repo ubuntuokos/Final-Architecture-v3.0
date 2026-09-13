@@ -1,0 +1,64 @@
+name: FA3 GUI Catalog Search Starter Materialize
+
+on:
+  push:
+    branches:
+      - "fa3/gui-search-starter-token-civitai-openmodeldb-2026-09-13"
+    paths:
+      - 'tools/fa3_gui_catalog_materialize.py'
+      - '.github/workflows/fa3-gui-catalog-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-release-projection-reconcile-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  materialize-validate:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[gui-materialized]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize GUI catalog/search/starter integration
+        run: python tools/fa3_gui_catalog_materialize.py
+      - name: Run GUI static regression gates
+        run: |
+          PYTHONPATH=. python src/fa3_gui_gate.py
+          PYTHONPATH=. python src/fa3_gui_usability_gate.py
+          PYTHONPATH=. python src/fa3_gui_catalog_search_starter_gate.py
+          PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate tests.test_fa3_gui_catalog_search_starter_gate -v
+      - name: Install Qt 6 build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config libsystemd-dev qt6-base-dev qt6-declarative-dev qt6-webengine-dev qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtqml-workerscript qml6-module-qtwebengine
+      - name: Configure Qt reference build
+        run: cmake -S apps/fa3-control-center -B build/fa3-control-center -GNinja -DCMAKE_BUILD_TYPE=Release
+      - name: Build Qt reference application
+        run: cmake --build build/fa3-control-center --parallel
+      - name: Reconcile and validate unified release projection
+        run: |
+          python scripts/fa3_reconcile_release_projection.py --root .
+          chmod +x bin/fa3-enforce
+          ./bin/fa3-enforce release-projection
+      - name: Commit materialized integration
+        shell: bash
+        run: |
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "Already materialized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical apps src tests .github/workflows/fa3-gui-gate.yml
+          git commit -m "FA3 GUI: materialize search starter CivitAI OpenModelDB [gui-materialized]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
