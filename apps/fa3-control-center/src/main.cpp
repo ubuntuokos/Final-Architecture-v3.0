@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("openModelDbService", &openModelDb);
     engine.rootContext()->setContextProperty("civitaiClient", &civitai);
     engine.rootContext()->setContextProperty("fa3SearchIndex", &searchIndex);
-    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/OperationsAwareAppShell.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/StudioAwareOperationsShell.qml")));
 
     if (engine.rootObjects().isEmpty()) return 2;
     return app.exec();
