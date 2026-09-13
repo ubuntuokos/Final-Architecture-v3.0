@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CIVITAI-PROVIDER-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Admit CivitAI as an optional native Model Manager discovery and staged acquisition provider",
+  "decision": "ADMIT_OPTIONAL_PROVIDER_WITH_NATIVE_CATALOG_SECRET_BROKER_AUTH_AND_FAIL_CLOSED_STAGING",
+  "provider_id": "FA3-PROVIDER-CIVITAI-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "token_profile_id": "FA3-TOKEN-GOVERNANCE-001",
+  "security_profile_id": "FA3-MODEL-ARTIFACT-SECURITY-001",
+  "decisions": [
+    "CivitAI is discovery/metadata/acquisition source only and does not become artifact trust, Model Registry, secrets, routing or placement authority.",
+    "The FA3 GUI exposes a native CivitAI catalog and may also expose the website inside Qt WebEngine; external browser is not the default.",
+    "Public catalog browsing may operate anonymously when upstream allows it.",
+    "Authenticated operations obtain the credential through FA3-SECRET-BROKER-001 and use Authorization: Bearer; query-string tokens and DOM injection are forbidden.",
+    "Selected files require upstream SHA-256 before staged acquisition; mismatch blocks import.",
+    "CivitAI pickle/virus scan fields are attributed provider metadata and never substitute for FA3 Model Artifact Security admission.",
+    "License/usage terms, provenance, lineage and runtime compatibility must be resolved before production promotion."
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}
