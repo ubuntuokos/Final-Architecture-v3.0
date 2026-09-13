@@ -1,0 +1,57 @@
+name: FA3 Release Baseline + Evidence Scope
+
+on:
+  push:
+    paths:
+      - 'canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json'
+      - 'canonical/FA3-EVIDENCE-SCOPE-001.json'
+      - 'canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json'
+      - 'src/fa3_release_evidence_scope_gate.py'
+      - 'tests/test_release_evidence_scope_gate.py'
+      - 'docs/release-evidence-scope.md'
+      - 'canonical/enforcement-policy.json'
+      - 'evidence/evidence-registry.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+  pull_request:
+    paths:
+      - 'canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json'
+      - 'canonical/FA3-EVIDENCE-SCOPE-001.json'
+      - 'canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json'
+      - 'src/fa3_release_evidence_scope_gate.py'
+      - 'tests/test_release_evidence_scope_gate.py'
+      - 'docs/release-evidence-scope.md'
+      - 'canonical/enforcement-policy.json'
+      - 'evidence/evidence-registry.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-evidence-scope:
+    name: release-baseline-evidence-scope / fail-closed
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: |
+          python -m py_compile src/fa3_release_evidence_scope_gate.py tests/test_release_evidence_scope_gate.py
+      - name: Regression tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_release_evidence_scope_gate -v
+      - name: Validate release baseline and evidence scope
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_release_evidence_scope_gate.py --root . --report reports/release-evidence-scope-gate-report.json
+      - name: Upload gate report
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-release-evidence-scope-gate-report
+          path: reports/release-evidence-scope-gate-report.json
+          if-no-files-found: error
