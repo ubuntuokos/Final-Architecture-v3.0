@@ -19,6 +19,7 @@ qt_add_executable(fa3-control-center
 
 set_source_files_properties(qml/AppShell.qml PROPERTIES QT_RESOURCE_ALIAS AppShell.qml)
 set_source_files_properties(qml/LanguageAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS LanguageAwareAppShell.qml)
+set_source_files_properties(qml/AnimationAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS AnimationAwareAppShell.qml)
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(qml/SettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SettingsPage.qml)
 set_source_files_properties(qml/MentorPage.qml PROPERTIES QT_RESOURCE_ALIAS MentorPage.qml)
@@ -37,6 +38,7 @@ qt_add_qml_module(fa3-control-center
     QML_FILES
         qml/AppShell.qml
         qml/LanguageAwareAppShell.qml
+        qml/AnimationAwareAppShell.qml
         qml/Main.qml
         qml/SettingsPage.qml
         qml/MentorPage.qml
