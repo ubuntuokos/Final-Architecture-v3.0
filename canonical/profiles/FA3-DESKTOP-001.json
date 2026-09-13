@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-DESKTOP-001",
   "name": "FA3 Desktop Studio, Control Center & Operations Projection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -22,6 +22,8 @@
     "MODELS_PROVIDERS_INFERENCE_MODEL_REGISTRY_PROJECTION",
     "ARCHITECTURE_EXPLORER_CANONICAL_PROFILES_CONTRACTS_CAPABILITY_GRAPH_DECISION_REGISTRY_CONFORMANCE",
     "HOST_RESOURCE_TELEMETRY_AND_PLACEMENT_PROJECTION",
+    "PERSISTENT_CPU_GPU_NPU_RAM_STATUS_STRIP",
+    "RESOURCE_PRESSURE_READ_PROJECTION",
     "SECURITY_POLICY_APPROVAL_AND_SECRETS_METADATA_PROJECTION",
     "OBSERVABILITY_METRICS_TRACES_PROVENANCE_EVIDENCE",
     "INTEGRATIONS_AND_SYSTEM_STATUS",
@@ -57,6 +59,8 @@
     "display_protocol": "WAYLAND_PRIMARY",
     "browser_shell": false,
     "direct_privileged_executor": false,
-    "draft_changeset_only": true
+    "draft_changeset_only": true,
+    "persistent_resource_status_strip": true,
+    "resource_status_placement": "BOTTOM"
   }
 }

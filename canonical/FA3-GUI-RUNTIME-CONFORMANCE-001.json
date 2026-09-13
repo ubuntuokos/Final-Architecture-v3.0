@@ -10,9 +10,19 @@
   "reference_build_status": "CI_REQUIRED",
   "current_host_receipt": "evidence/receipts/fa3-gui-current-host.json",
   "current_host_receipt_present": false,
+  "resource_status_strip": {
+    "required": true,
+    "placement": "BOTTOM",
+    "resources": ["CPU", "GPU", "NPU", "RAM"],
+    "runtime_receipt_required": true
+  },
   "promotion_blockers": [
     "CURRENT_HOST_QT6_BUILD_RECEIPT_MISSING",
-    "CURRENT_HOST_KDE_WAYLAND_INTERACTIVE_SMOKE_RECEIPT_MISSING"
+    "CURRENT_HOST_KDE_WAYLAND_INTERACTIVE_SMOKE_RECEIPT_MISSING",
+    "CURRENT_HOST_RESOURCE_STATUS_STRIP_VISUAL_RECEIPT_MISSING",
+    "CURRENT_HOST_CPU_RAM_TELEMETRY_RECEIPT_MISSING",
+    "CURRENT_HOST_GPU_TELEMETRY_RECEIPT_MISSING",
+    "CURRENT_HOST_NPU_DETECTION_OR_EXPLICIT_NOT_PRESENT_RECEIPT_MISSING"
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,

@@ -1,7 +1,7 @@
 {
   "schema": "fa3.reference-evidence.v1",
-  "id": "FA3-GUI-REFERENCE-PASS-2026-09-12",
-  "date": "2026-09-12",
+  "id": "FA3-GUI-REFERENCE-PASS-2026-09-13",
+  "date": "2026-09-13",
   "gate_id": "FA3-GATE-GUI-001",
   "profile_id": "FA3-DESKTOP-001",
   "status": "PASS",
@@ -14,8 +14,13 @@
     "navigation baseline present",
     "AI Studio module baseline present",
     "draft ChangeSet path present",
-    "direct execution and canonical write denied",
-    "Qt6/QML build contract present"
+    "persistent CPU/GPU/NPU/RAM status strip source present",
+    "unknown accelerator metric semantics are N/A/dash rather than zero",
+    "resource pressure remains advisory read-only projection",
+    "Host Resource Broker remains admission authority",
+    "read-only NVIDIA telemetry uses fixed nvidia-smi query without a shell",
+    "direct privileged execution and canonical write denied",
+    "Qt6/QML build contract includes telemetry backend and status strip"
   ],
   "qt_reference_build": "CI_REQUIRED",
   "current_host_runtime_claim": false,
