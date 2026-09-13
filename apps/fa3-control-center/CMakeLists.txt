@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(FA3ControlCenter VERSION 0.2.0 LANGUAGES CXX)
+project(FA3ControlCenter VERSION 0.3.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,6 +18,7 @@ qt_add_executable(fa3-control-center
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(qml/DashboardPage.qml PROPERTIES QT_RESOURCE_ALIAS DashboardPage.qml)
 set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)
 
 qt_add_qml_module(fa3-control-center
@@ -26,6 +27,7 @@ qt_add_qml_module(fa3-control-center
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES
         qml/Main.qml
+        qml/DashboardPage.qml
         qml/JournalPage.qml
 )
 
