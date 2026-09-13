@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-TOKEN-GOVERNANCE-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Provider-neutral token and credential governance without mandatory KWallet dependency",
+  "decision": "ADMIT_FA3_TOKEN_GOVERNANCE_P0_MUST_WITH_PROVIDER_NEUTRAL_SECRET_BROKER_AND_SEPARATE_AI_TOKEN_BUDGET_OBSERVABILITY",
+  "profile_id": "FA3-TOKEN-GOVERNANCE-001",
+  "subprofiles": ["FA3-SECRET-BROKER-001", "FA3-AI-TOKEN-BUDGET-001", "FA3-TOKEN-OBSERVABILITY-001"],
+  "contract_id": "FA3-TOKEN-GOVERNANCE-CONTRACTS-001",
+  "gate_id": "FA3-GATE-TOKEN-GOVERNANCE-001",
+  "decisions": [
+    "Secret values are never stored in QSettings, repository configuration, logs, telemetry, Evidence or exports.",
+    "Only typed CredentialReference/SecretRef metadata may be persisted outside the credential backend.",
+    "KWallet is optional and replaceable; it is never a mandatory build, install or runtime dependency.",
+    "OS keychain/Secret Service, systemd credential references, environment references and external secret providers are supported backend patterns.",
+    "Provider tokens must use an Authorization header or credential channel when supported and must not be injected into embedded web DOM state.",
+    "AI input/output/context token budgets are governed separately from credential secrets.",
+    "Token usage observability is redacted and cannot contain bearer values."
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}
