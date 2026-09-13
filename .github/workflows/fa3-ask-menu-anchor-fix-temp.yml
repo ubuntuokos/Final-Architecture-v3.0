@@ -1,0 +1,60 @@
+name: FA3 temporary ask-menu anchor fix
+
+on:
+  push:
+    branches:
+      - fa3-gui-ask-menu-anchor-fix
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-ask-menu-anchor-fix
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Anchor Kerdezd menu to its ToolButton
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          main = Path('apps/fa3-control-center/qml/Main.qml')
+          text = main.read_text(encoding='utf-8')
+
+          global_menu = '''    Menu {\n        id: askMenu\n        MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }\n        MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }\n        MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }\n        MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }\n        MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }\n        MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }\n    }\n\n'''
+          if global_menu not in text:
+              raise SystemExit('expected top-level askMenu block not found')
+          text = text.replace(global_menu, '', 1)
+
+          old_button = '''                    ToolButton {\n                        text: "Kérdezd: " + window.askRole + " ▾"\n                        onClicked: askMenu.open()\n                        contentItem: Label {\n                            text: parent.text\n                            color: window.textPrimary\n                            font.pixelSize: 9\n                            font.bold: true\n                            horizontalAlignment: Text.AlignHCenter\n                            verticalAlignment: Text.AlignVCenter\n                        }\n                        background: Rectangle {\n                            radius: 6\n                            color: parent.hovered ? "#132a42" : "#0d1c2f"\n                            border.color: window.border\n                        }\n                    }\n'''
+          new_button = '''                    ToolButton {\n                        id: askButton\n                        text: "Kérdezd: " + window.askRole + " ▾"\n                        onClicked: askMenu.open()\n                        contentItem: Label {\n                            text: parent.text\n                            color: window.textPrimary\n                            font.pixelSize: 9\n                            font.bold: true\n                            horizontalAlignment: Text.AlignHCenter\n                            verticalAlignment: Text.AlignVCenter\n                        }\n                        background: Rectangle {\n                            radius: 6\n                            color: parent.hovered ? "#132a42" : "#0d1c2f"\n                            border.color: window.border\n                        }\n                        Menu {\n                            id: askMenu\n                            y: parent.height\n                            MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }\n                            MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }\n                            MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }\n                            MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }\n                            MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }\n                            MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }\n                        }\n                    }\n'''
+          if old_button not in text:
+              raise SystemExit('expected Kérdezd ToolButton block not found')
+          text = text.replace(old_button, new_button, 1)
+          main.write_text(text, encoding='utf-8')
+
+          gate = Path('src/fa3_gui_gate.py')
+          gate_text = gate.read_text(encoding='utf-8')
+          needle = '    if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")\n'
+          replacement = needle + '    if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")\n'
+          if needle not in gate_text:
+              raise SystemExit('GUI gate insertion point not found')
+          gate.write_text(gate_text.replace(needle, replacement, 1), encoding='utf-8')
+          PY
+
+          rm -f .github/workflows/fa3-ask-menu-anchor-fix-temp.yml
+          git config user.name "fa3-gui-fix"
+          git config user.email "fa3-gui-fix@users.noreply.github.com"
+          git add apps/fa3-control-center/qml/Main.qml src/fa3_gui_gate.py .github/workflows/fa3-ask-menu-anchor-fix-temp.yml
+          git commit -m "FA3 GUI: anchor Kerdezd menu below its button"
+          FIX_HEAD="$(git rev-parse HEAD)"
+          PYTHONPATH=src python src/fa3_release_projection_regenerate.py --snapshot-head "$FIX_HEAD"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3 release projection: reconcile ask-menu anchor fix"
+          git push origin HEAD:fa3-gui-ask-menu-anchor-fix
