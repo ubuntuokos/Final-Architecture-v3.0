@@ -1,0 +1,34 @@
+name: FA3 GUI Animation Integration Gate
+
+on:
+  pull_request:
+    paths:
+      - 'apps/fa3-control-center/**'
+      - 'canonical/profiles/FA3-GUI-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-GUI-SETTINGS-CONTRACTS-001.json'
+      - 'src/fa3_gui_animation_integration_gate.py'
+      - 'tests/test_fa3_gui_animation_integration_gate.py'
+      - '.github/workflows/fa3-gui-animation-integration-gate.yml'
+  push:
+    branches:
+      - 'feat/fa3-gui-settings-mentor-coach'
+    paths:
+      - 'apps/fa3-control-center/**'
+      - 'canonical/profiles/FA3-GUI-SETTINGS-001.json'
+      - 'canonical/contracts/FA3-GUI-SETTINGS-CONTRACTS-001.json'
+      - 'src/fa3_gui_animation_integration_gate.py'
+      - 'tests/test_fa3_gui_animation_integration_gate.py'
+      - '.github/workflows/fa3-gui-animation-integration-gate.yml'
+
+jobs:
+  animation-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run animation integration gate
+        run: PYTHONPATH=. python src/fa3_gui_animation_integration_gate.py
+      - name: Run animation integration regression
+        run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_animation_integration_gate -v
