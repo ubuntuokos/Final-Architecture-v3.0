@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.24)
-project(FA3ControlCenter VERSION 0.4.0 LANGUAGES CXX)
+project(FA3ControlCenter VERSION 0.5.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 Widgets WebEngineQuick)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 Widgets WebEngineQuick Network)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SYSTEMD REQUIRED IMPORTED_TARGET libsystemd)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -15,11 +17,18 @@ qt_add_executable(fa3-control-center
     src/Fa3RepositoryModel.h
     src/SettingsStore.cpp
     src/SettingsStore.h
+    src/ResourceTelemetry.cpp
+    src/ResourceTelemetry.h
+    src/LlmfitClient.cpp
+    src/LlmfitClient.h
+    src/JournalReader.cpp
+    src/JournalReader.h
 )
 
 set_source_files_properties(qml/AppShell.qml PROPERTIES QT_RESOURCE_ALIAS AppShell.qml)
 set_source_files_properties(qml/LanguageAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS LanguageAwareAppShell.qml)
 set_source_files_properties(qml/AnimationAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS AnimationAwareAppShell.qml)
+set_source_files_properties(qml/OperationsAwareAppShell.qml PROPERTIES QT_RESOURCE_ALIAS OperationsAwareAppShell.qml)
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(qml/SettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SettingsPage.qml)
 set_source_files_properties(qml/MentorPage.qml PROPERTIES QT_RESOURCE_ALIAS MentorPage.qml)
@@ -30,6 +39,10 @@ set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_A
 set_source_files_properties(qml/AnimationIntegrationPanel.qml PROPERTIES QT_RESOURCE_ALIAS AnimationIntegrationPanel.qml)
 set_source_files_properties(qml/SystemPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemPage.qml)
 set_source_files_properties(qml/EmbeddedAppsPage.qml PROPERTIES QT_RESOURCE_ALIAS EmbeddedAppsPage.qml)
+set_source_files_properties(qml/ResourceStatusStrip.qml PROPERTIES QT_RESOURCE_ALIAS ResourceStatusStrip.qml)
+set_source_files_properties(qml/LogsPanel.qml PROPERTIES QT_RESOURCE_ALIAS LogsPanel.qml)
+set_source_files_properties(qml/RemoteAiHubPanel.qml PROPERTIES QT_RESOURCE_ALIAS RemoteAiHubPanel.qml)
+set_source_files_properties(qml/LlmfitPanel.qml PROPERTIES QT_RESOURCE_ALIAS LlmfitPanel.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -39,6 +52,7 @@ qt_add_qml_module(fa3-control-center
         qml/AppShell.qml
         qml/LanguageAwareAppShell.qml
         qml/AnimationAwareAppShell.qml
+        qml/OperationsAwareAppShell.qml
         qml/Main.qml
         qml/SettingsPage.qml
         qml/MentorPage.qml
@@ -49,6 +63,10 @@ qt_add_qml_module(fa3-control-center
         qml/AnimationIntegrationPanel.qml
         qml/SystemPage.qml
         qml/EmbeddedAppsPage.qml
+        qml/ResourceStatusStrip.qml
+        qml/LogsPanel.qml
+        qml/RemoteAiHubPanel.qml
+        qml/LlmfitPanel.qml
 )
 
 target_link_libraries(fa3-control-center
@@ -57,6 +75,8 @@ target_link_libraries(fa3-control-center
         Qt6::QuickControls2
         Qt6::Widgets
         Qt6::WebEngineQuick
+        Qt6::Network
+        PkgConfig::SYSTEMD
 )
 
 install(TARGETS fa3-control-center
