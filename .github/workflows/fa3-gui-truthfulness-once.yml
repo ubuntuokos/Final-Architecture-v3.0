@@ -1,0 +1,74 @@
+name: FA3 GUI Telemetry Truthfulness Reconciliation
+
+on:
+  push:
+    branches:
+      - fa3-gui-visual-truthfulness-fix
+    paths:
+      - '.github/workflows/fa3-gui-truthfulness-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove synthetic dashboard signals
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('apps/fa3-control-center/qml/DashboardPage.qml')
+          text = p.read_text(encoding='utf-8')
+
+          text = re.sub(
+              r'''    component ProgressMeter: Item \{.*?\n    \}\n\n    component StatCard:''',
+              '''    component StatusRail: Rectangle {\n        property color railColor: root.accent\n        implicitHeight: 5\n        implicitWidth: 160\n        radius: height / 2\n        color: Qt.rgba(railColor.r, railColor.g, railColor.b, 0.34)\n    }\n\n    component StatCard:''',
+              text,
+              count=1,
+              flags=re.S,
+          )
+
+          text = re.sub(
+              r'''    component MiniLineChart: Canvas \{.*?\n    \}\n\n    RowLayout \{''',
+              '''    component TelemetryGrid: Canvas {\n        onPaint: {\n            var ctx = getContext("2d")\n            ctx.clearRect(0, 0, width, height)\n            ctx.strokeStyle = "#17314d"\n            ctx.lineWidth = 1\n            for (var gy = 1; gy < 4; ++gy) {\n                var y = height * gy / 4\n                ctx.beginPath()\n                ctx.moveTo(0, y)\n                ctx.lineTo(width, y)\n                ctx.stroke()\n            }\n            for (var gx = 1; gx < 8; ++gx) {\n                var x = width * gx / 8\n                ctx.beginPath()\n                ctx.moveTo(x, 0)\n                ctx.lineTo(x, height)\n                ctx.stroke()\n            }\n        }\n    }\n\n    RowLayout {''',
+              text,
+              count=1,
+              flags=re.S,
+          )
+
+          text = text.replace('SectionLabel {\n                                    text: "Active Models"\n                                }', 'SectionLabel {\n                                    text: "Model & Provider Surfaces"\n                                }')
+          text = text.replace(', v: 0.72', '').replace(', v: 0.86', '').replace(', v: 0.64', '')
+          text = text.replace('ProgressMeter {\n                                        Layout.fillWidth: true\n                                        value: modelData.v\n                                        meterColor: modelData.color\n                                    }', 'StatusRail {\n                                        Layout.fillWidth: true\n                                        railColor: modelData.color\n                                    }')
+
+          text = text.replace('SectionLabel {\n                                    text: "System Resources"\n                                }', 'SectionLabel {\n                                    text: "Live Telemetry"\n                                }')
+          text = text.replace('text: "CPU context"', 'text: "CPU adapter"')
+          text = text.replace('text: "accelerator lane"', 'text: "accelerator adapter"')
+          text = text.replace('MiniLineChart {\n                                Layout.fillWidth: true\n                                Layout.fillHeight: true\n                                lineColor: root.cyan\n                            }', 'Item {\n                                Layout.fillWidth: true\n                                Layout.fillHeight: true\n                                TelemetryGrid { anchors.fill: parent }\n                                MutedLabel {\n                                    anchors.centerIn: parent\n                                    text: "Awaiting live telemetry adapter"\n                                    font.pixelSize: 10\n                                }\n                            }')
+
+          text = text.replace('text: "Online"\n                                color: root.green', 'text: "UI ready · execution gated"\n                                color: root.orange')
+          text = text.replace('RowLayout {\n                            spacing: 5\n                            StatusDot {}\n                            MutedLabel {\n                                text: "UI ready · execution gated"', 'RowLayout {\n                            spacing: 5\n                            StatusDot { dotColor: root.orange }\n                            MutedLabel {\n                                text: "UI ready · execution gated"')
+
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove one-shot workflow before projection regeneration
+        run: rm -f .github/workflows/fa3-gui-truthfulness-once.yml
+
+      - name: Regenerate unified release projection
+        run: PYTHONPATH=. python src/fa3_release_projection_regenerate.py
+
+      - name: Commit reconciled dashboard
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'FA3 GUI: remove synthetic telemetry implications'
+          git push origin HEAD:fa3-gui-visual-truthfulness-fix
