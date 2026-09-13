@@ -48,13 +48,15 @@ NAVIGATION = [
     "Model Manager", "Architecture", "Resources", "Security & Approvals", "Observability",
     "Evidence", "Integrations", "System", "Settings",
 ]
-
 STUDIO_MODULES = ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]
 SYSTEM_SECTIONS = [
     "Overview", "CPU / NUMA", "GPU / Accelerators", "Memory", "Storage",
     "Services", "Thermal & Power", "Software", "Maintenance", "Peripherals",
 ]
-
+ROLE_IDS = [
+    "FA3-MENTOR-001", "FA3-COACH-001", "FA3-MANAGER-001", "FA3-INSPECTOR-001",
+    "FA3-IDEATOR-001", "FA3-ADVISOR-001",
+]
 SETTINGS_SURFACES = [
     "Megjelenés", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk",
     "Integrációk", "GIMP", "Krita", "Kdenlive", "OpenShot", "Ardour", "Audacity",
@@ -66,7 +68,6 @@ SETTINGS_SURFACES = [
     "FA3-ADVISOR-001", "FA3-IDEATION-ADVISORY-001", "FA3-GUI-LANGUAGE-CONTROL-001",
     "Frissítés", "Névjegy", "chooseDirectory", "pathStatus",
 ]
-
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 FORBIDDEN_SETTINGS_TOKENS = ["/etc/fstab", "systemctl", "mount ", "umount ", "sudo ", "pkexec", "QProcess"]
 
@@ -75,7 +76,7 @@ def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _contains_all(text: str, tokens: list[str], prefix: str) -> list[str]:
+def missing_tokens(text: str, tokens: list[str], prefix: str) -> list[str]:
     return [f"{prefix}:{token}" for token in tokens if token not in text]
 
 
@@ -103,10 +104,13 @@ def validate():
     settings_gate = load_json(REQUIRED["settings_gate"])
     operations_gate = load_json(REQUIRED["operations_gate"])
     runtime = load_json(REQUIRED["runtime"])
-    ev = load_json(REQUIRED["evidence"])
+    evidence = load_json(REQUIRED["evidence"])
 
-    role_list = dp.get("role_navigation_policy", {}).get("roles", [])
+    desktop_roles = dp.get("role_navigation_policy", {}).get("roles", [])
+    settings_roles = gs.get("role_settings", {}).get("roles", [])
+    contract_roles = gc.get("role_ui", {}).get("roles", [])
     role_invariants = dc.get("role_ui_invariants", [])
+
     checks = [
         (dp.get("version") == "1.5.0", "desktop-version"),
         (dp.get("new_capability") is False, "desktop-no-capability"),
@@ -121,10 +125,8 @@ def validate():
         (dp.get("role_navigation_policy", {}).get("configuration_location") == "SETTINGS", "role-config-settings-only"),
         (dp.get("role_navigation_policy", {}).get("ask_button_visibility") == "LOCAL_QSETTINGS_PREFERENCE", "role-button-qsettings"),
         (dp.get("role_navigation_policy", {}).get("ask_button_visibility_changes_role_authority") is False, "role-button-not-authority"),
-        ("FA3-INSPECTOR-001" in role_list, "inspector-role-projected"),
-        ("FA3-IDEATOR-001" in role_list, "ideator-role-projected"),
-        ("FA3-ADVISOR-001" in role_list, "advisor-role-projected"),
-        (dc.get("version") == "1.5.0", "contract-version"),
+        (all(role in desktop_roles for role in ROLE_IDS), "desktop-role-set"),
+        (dc.get("version") == "1.5.0", "desktop-contract-version"),
         (dc.get("mutation_model", {}).get("direct_canonical_write") == "FORBIDDEN", "no-direct-canonical"),
         (dc.get("mutation_model", {}).get("direct_gpu_hard_reset") == "FORBIDDEN", "no-direct-gpu-reset"),
         (dc.get("mutation_model", {}).get("direct_peripheral_kernel_or_device_mutation") == "FORBIDDEN", "no-direct-peripheral-mutation"),
@@ -144,16 +146,22 @@ def validate():
         ("NEW_WINDOW_REQUESTS_RETAINED_INSIDE_FA3_WEB_SURFACE" in dc.get("embedded_web_invariants", []), "new-window-contained"),
         ("ROUTINE_GPU_MEMORY_CLEANUP_NEVER_REQUIRES_GPU_RESET" in dc.get("maintenance_invariants", []), "gpu-cleanup-no-reset"),
         ("EVIDENCE_EXCLUDED_FROM_GENERIC_CLEANUP" in dc.get("maintenance_invariants", []), "evidence-cleanup-boundary"),
-        (gs.get("version") == "1.2.0", "settings-profile-version"),
+        (gs.get("version") == "1.3.0", "settings-profile-version"),
         (gs.get("new_architectural_authority") is False, "settings-no-authority"),
         (gs.get("role_settings", {}).get("location") == "SETTINGS_ONLY", "settings-role-location"),
         (gs.get("role_settings", {}).get("visibility_changes_canonical_role") is False, "settings-role-visibility-not-authority"),
-        (gc.get("version") == "1.2.0", "settings-contract-version"),
+        (all(role in settings_roles for role in ROLE_IDS), "settings-profile-role-set"),
+        ("MULTILINGUAL_SEMANTIC_INTEROPERABILITY_IS_NOT_AN_AI_ROLE" in gs.get("invariants", []), "semantic-interoperability-not-role"),
+        (gc.get("version") == "1.3.0", "settings-contract-version"),
         (gc.get("storage", {}).get("backend") == "QSettings/XDG", "settings-xdg"),
         (gc.get("storage", {}).get("secret_values") == "FORBIDDEN", "settings-no-secrets"),
         (gc.get("role_ui", {}).get("configuration_location") == "SETTINGS", "settings-contract-role-location"),
         (gc.get("role_ui", {}).get("primary_navigation_role_pages") == "FORBIDDEN", "settings-contract-no-role-nav"),
         (gc.get("role_ui", {}).get("inspector_independence_can_be_disabled_by_preference") is False, "settings-inspector-independent"),
+        (gc.get("role_ui", {}).get("ideator_semantic_boundaries_can_be_disabled_by_preference") is False, "settings-ideator-boundaries-fixed"),
+        (gc.get("role_ui", {}).get("advisor_semantic_boundaries_can_be_disabled_by_preference") is False, "settings-advisor-boundaries-fixed"),
+        (gc.get("role_ui", {}).get("advisor_inspector_handoff_can_be_disabled_by_preference") is False, "settings-advisor-handoff-fixed"),
+        (all(role in contract_roles for role in ROLE_IDS), "settings-contract-role-set"),
         (mentor.get("id") == "FA3-MENTOR-001", "mentor-present"),
         (ms.get("relationship") == "SUBPROFILE-OF:FA3-MENTOR-001", "mentor-settings"),
         (mp.get("new_architectural_authority") is False, "mentor-prefs-no-authority"),
@@ -173,14 +181,14 @@ def validate():
         (operations_gate.get("fail_closed") is True, "operations-gate-fail-closed"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-pending"),
         (runtime.get("production_admitted") is False, "runtime-not-production"),
-        (ev.get("status") == "PASS", "evidence-pass"),
-        (ev.get("production_admitted") is False, "evidence-not-production"),
+        (evidence.get("status") == "PASS", "evidence-pass"),
+        (evidence.get("production_admitted") is False, "evidence-not-production"),
     ]
     failures.extend(name for ok, name in checks if not ok)
 
     shell = REQUIRED["shell"].read_text(encoding="utf-8")
     shell_lines = {line.strip() for line in shell.splitlines()}
-    failures += _contains_all(shell, NAVIGATION + STUDIO_MODULES, "qml-missing")
+    failures += missing_tokens(shell, NAVIGATION + STUDIO_MODULES, "qml-missing")
     for forbidden_role_nav in [
         '{ key: "mentor"', '{ key: "coach"', '{ key: "manager"', '{ key: "inspector"',
         '{ key: "ideator"', '{ key: "advisor"',
@@ -190,7 +198,7 @@ def validate():
     for forbidden_role_page in ["MentorPage {", "CoachPage {", "ManagerPage {"]:
         if forbidden_role_page in shell_lines:
             failures.append(f"qml-role-page-forbidden:{forbidden_role_page}")
-    failures += _contains_all(shell, [
+    failures += missing_tokens(shell, [
         "fa3Settings", "EmbeddedAppsPage", "ModelManagerPage", "SystemPage", "SettingsPage",
         "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet", "Shortcut", "shortcuts/assistant",
         "LibreOffice", "Obsidian", "Kérdezd a Mentort", "Kérdezd a Coachot", "Kérdezd a Managert",
@@ -201,7 +209,7 @@ def validate():
     ], "qml-shell-missing")
 
     embedded = REQUIRED["embedded_apps_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(embedded, [
+    failures += missing_tokens(embedded, [
         "import QtWebEngine", "WebEngineView", "Open WebUI", "ComfyUI", "InvokeAI", "n8n",
         "onNewWindowRequested", "request.openIn(webView)", "onNavigationRequested", "request.reject()",
         "webapps/", "Külső böngésző nincs használva",
@@ -210,8 +218,8 @@ def validate():
         failures.append("embedded-web-external-opener-forbidden")
 
     sq = REQUIRED["settings_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(sq, SETTINGS_SURFACES, "settings-qml-missing")
-    failures += _contains_all(sq, [
+    failures += missing_tokens(sq, SETTINGS_SURFACES, "settings-qml-missing")
+    failures += missing_tokens(sq, [
         "roleButtons/mentorVisible", "roleButtons/coachVisible", "roleButtons/managerVisible",
         "roleButtons/inspectorVisible", "roleButtons/ideatorVisible", "roleButtons/advisorVisible",
         "manager/defaultView", "inspector/defaultLevel", "ideator/defaultMode", "advisor/defaultMode",
@@ -219,15 +227,15 @@ def validate():
     ], "settings-role-qml-missing")
 
     mq = REQUIRED["mentor_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(mq, ["Memory & Personalization", "Practice Lab", "mentor/memoryPolicy", "mentor/masteryTracking"], "mentor-qml-missing")
+    failures += missing_tokens(mq, ["Memory & Personalization", "Practice Lab", "mentor/memoryPolicy", "mentor/masteryTracking"], "mentor-qml-missing")
     cq = REQUIRED["coach_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(cq, ["AI Coach", "Mentor ↔ Coach", "coach/projectAwareness", "coach/mentorReferrals"], "coach-qml-missing")
+    failures += missing_tokens(cq, ["AI Coach", "Mentor ↔ Coach", "coach/projectAwareness", "coach/mentorReferrals"], "coach-qml-missing")
     manager_qml = REQUIRED["manager_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(manager_qml, ["EVIDENCE_PENDING", "VERIFIED", "Agent Execution / MCP", "FA3-MANAGER-001"], "manager-qml-missing")
+    failures += missing_tokens(manager_qml, ["EVIDENCE_PENDING", "VERIFIED", "Agent Execution / MCP", "FA3-MANAGER-001"], "manager-qml-missing")
     model_qml = REQUIRED["model_manager_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(model_qml, ["Model Inventory", "Installed Models", "Compatibility", "Duplicates", "FA3-MODEL-MANAGER", "SECURITY ADMITTED"], "model-manager-qml-missing")
+    failures += missing_tokens(model_qml, ["Model Inventory", "Installed Models", "Compatibility", "Duplicates", "FA3-MODEL-MANAGER", "SECURITY ADMITTED"], "model-manager-qml-missing")
     system_qml = REQUIRED["system_qml"].read_text(encoding="utf-8")
-    failures += _contains_all(system_qml, SYSTEM_SECTIONS + [
+    failures += missing_tokens(system_qml, SYSTEM_SECTIONS + [
         "Temporary files", "Cache Manager", "Model Runtime Cleanup", "GPU hard reset", "ROOT ONLY · LOCKED",
         "Keyboard & Hotkeys", "MIDI", "Drawing Tablet", "Scanner", "Webcam / Camera", "createDraftChangeSet",
     ], "system-qml-missing")
@@ -240,7 +248,7 @@ def validate():
 
     scpp = REQUIRED["settings_cpp"].read_text(encoding="utf-8")
     sh = REQUIRED["settings_h"].read_text(encoding="utf-8")
-    failures += _contains_all(scpp + sh, ["QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus", "validShortcut", "shortcutConflict", "resetGroup"], "settings-backend-missing")
+    failures += missing_tokens(scpp + sh, ["QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus", "validShortcut", "shortcutConflict", "resetGroup"], "settings-backend-missing")
     for token in FORBIDDEN_SETTINGS_TOKENS:
         if token in scpp:
             failures.append(f"settings-backend-forbidden-token:{token}")
@@ -249,9 +257,9 @@ def validate():
             failures.append(f"settings-secret-filter-missing:{token}")
 
     main = REQUIRED["main_cpp"].read_text(encoding="utf-8")
-    failures += _contains_all(main, ["SettingsStore", "fa3Settings", "AppShell.qml", "QtWebEngineQuick::initialize", "AA_ShareOpenGLContexts", "0.4.0"], "main-missing")
+    failures += missing_tokens(main, ["SettingsStore", "fa3Settings", "AppShell.qml", "QtWebEngineQuick::initialize", "AA_ShareOpenGLContexts", "0.4.0"], "main-missing")
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
-    failures += _contains_all(cmake, [
+    failures += missing_tokens(cmake, [
         "VERSION 0.4.0", "WebEngineQuick", "Qt6::WebEngineQuick", "EmbeddedAppsPage.qml",
         "SettingsStore.cpp", "AppShell.qml", "SettingsPage.qml", "MentorPage.qml", "CoachPage.qml",
         "ManagerPage.qml", "ModelManagerPage.qml", "SystemPage.qml",
@@ -276,7 +284,7 @@ def main():
             print(" -", failure)
         return 1
     print("FA3 GUI gate: PASS")
-    print("desktop=1.5.0 app=0.4.0 role_settings=Mentor/Coach/Manager/Inspector/Ideator/Advisor semantic_interop=LanguageControl embedded_web=QtWebEngine capabilities=143 new_authorities=0")
+    print("desktop=1.5.0 settings=1.3.0 app=0.4.0 roles=Mentor/Coach/Manager/Inspector/Ideator/Advisor semantic_interop=LanguageControl embedded_web=QtWebEngine capabilities=143 new_authorities=0")
     return 0
 
 
