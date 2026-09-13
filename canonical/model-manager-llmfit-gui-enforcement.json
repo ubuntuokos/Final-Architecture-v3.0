@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.model-manager-llmfit-gui-enforcement.v1",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-LLMFIT-GUI-001",
+  "extends_gate_id": "FA3-GATE-MODEL-MANAGER-002",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "provider_id": "FA3-PROVIDER-LLMFIT-001",
+  "decision_id": "FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13",
+  "fail_closed": true,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rule_count": 8,
+  "p0_invariants": [
+    "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+    "LLMFIT_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+    "LLMFIT_NOT_MODEL_ROUTER",
+    "LLMFIT_NOT_HOST_RESOURCE_BROKER",
+    "GUI_IS_READ_ONLY_PLUS_TYPED_DRAFT_INTENT",
+    "SAME_HOST_HEADLESS_PROVIDER_USES_UNIX_SOCKET_BY_DEFAULT",
+    "TCP_LISTENER_NOT_REQUIRED_FOR_GUI_INTEGRATION",
+    "RUNTIME_PROMOTION_REQUIRES_MEASURED_EVIDENCE"
+  ],
+  "required_materialization": [
+    "apps/fa3-control-center/src/LlmfitClient.h",
+    "apps/fa3-control-center/src/LlmfitClient.cpp",
+    "apps/fa3-control-center/qml/Main.qml",
+    "deployment/model-manager/llmfit/fa3-llmfit.service",
+    "deployment/model-manager/llmfit/install.sh"
+  ],
+  "transport_policy": {
+    "default": "UNIX_DOMAIN_SOCKET",
+    "default_socket": "%t/fa3/llmfit.sock",
+    "network_listener": "NOT_REQUIRED",
+    "terminal": "NOT_REQUIRED",
+    "embedded_upstream_web_ui": "NOT_USED_BY_DEFAULT"
+  },
+  "evidence_policy": {
+    "estimate_is_evidence": false,
+    "measured_runtime_required_for_production": true,
+    "gui_may_self_promote": false,
+    "provider_may_self_promote": false
+  }
+}
