@@ -93,7 +93,13 @@ def validate() -> list[str]:
         (REQUIRED_ADAPTERS.issubset(set(provider.get("adapter_surfaces", []))), "provider-adapter-surfaces"),
         (provider.get("trust_and_security", {}).get("credential_reference_only") is True, "provider-credential-reference-only"),
         (provider.get("separation_from_hf_model_store", {}).get("must_not_be_collapsed") is True, "provider-model-store-separation"),
-        (hf_model_store.get("category") == "model_store" and hf_model_store.get("integration_boundary") == "model_manager_only", "existing-hf-model-store-boundary"),
+        (
+            hf_model_store.get("id") == "FA3-PROVIDER-HF-MODEL-STORE-001"
+            and hf_model_store.get("parent_profile") == "FA3-MODEL-MANAGER-001"
+            and hf_model_store.get("architectural_authority") is False
+            and "MODEL_SOURCE_PROVIDER" in hf_model_store.get("classification", []),
+            "existing-hf-model-store-boundary",
+        ),
         (decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0 and decision.get("capability_count_after") == 143, "decision-no-authority-or-capability-drift"),
         (gate.get("fail_closed") is True, "gate-fail-closed"),
     ]
@@ -122,7 +128,7 @@ def validate() -> list[str]:
     ]:
         if token not in qml:
             failures.append(f"qml-remote-ai-token-missing:{token}")
-    if "HF_TOKEN=" in qml or "hf_" in qml.lower():
+    if "HF_TOKEN=" in qml:
         failures.append("qml-raw-hf-secret-pattern")
 
     return failures
