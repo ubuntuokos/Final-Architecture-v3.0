@@ -22,6 +22,13 @@ REQUIRED_INVARIANTS = [
     "RUNTIME_PROMOTION_REQUIRES_MEASURED_EVIDENCE",
 ]
 
+PROFILE_EXTENSION_INVARIANTS = [
+    "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+    "MODEL_FIT_PROVIDER_NOT_PLACEMENT_AUTHORITY",
+    "MODEL_FIT_GUI_IS_READ_ONLY_PLUS_TYPED_DRAFT_INTENT",
+    "MODEL_PLACEMENT_DERIVED_FROM_CURRENT_HOST_CAPABILITIES_NOT_FIXED_GPU_ASSUMPTIONS",
+]
+
 
 def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -68,13 +75,13 @@ def gate(root: Path) -> dict:
 
     if profile.get("version") != "2.0.0" or PROVIDER_ID not in profile.get("providers", []):
         findings.append({"code": "LLMFIT-GUI-010", "message": "Model Manager v2 profile does not materialize llmfit"})
-    for invariant in (
-        "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
-        "MODEL_FIT_PROVIDER_NOT_PLACEMENT_AUTHORITY",
-        "MODEL_FIT_GUI_IS_READ_ONLY_PLUS_TYPED_DRAFT_INTENT",
-    ):
-        if invariant not in profile.get("invariants", []):
-            findings.append({"code": "LLMFIT-GUI-011", "message": f"missing profile invariant: {invariant}"})
+    extension = profile.get("llmfit_gui_extension", {})
+    if extension.get("invariants") != PROFILE_EXTENSION_INVARIANTS:
+        findings.append({"code": "LLMFIT-GUI-011", "message": "llmfit profile extension invariant set drift"})
+    if extension.get("provider_id") != PROVIDER_ID or extension.get("gate_id") != GATE_ID:
+        findings.append({"code": "LLMFIT-GUI-024", "message": "llmfit profile extension binding drift"})
+    if extension.get("estimate_is_runtime_evidence") is not False:
+        findings.append({"code": "LLMFIT-GUI-025", "message": "profile extension permits estimate as runtime evidence"})
 
     if decision.get("id") != DECISION_ID or decision.get("status") != "CANONICAL_CLOSED":
         findings.append({"code": "LLMFIT-GUI-012", "message": "canonical decision is not closed"})
