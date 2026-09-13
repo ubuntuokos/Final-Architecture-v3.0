@@ -45,10 +45,10 @@ REQUIRED = {
 
 NAVIGATION = [
     "Command Center", "Projects", "AI Studio", "AI Applications", "Agents & Workflows",
-    "Model Manager", "Search", "Starter Models", "Architecture", "Resources", "Security & Approvals", "Observability",
+    "Model Manager", "Search", "Architecture", "Resources", "Security & Approvals", "Observability",
     "Evidence", "Integrations", "System", "Settings",
 ]
-STUDIO_MODULES = ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]
+STUDIO_MODULES = ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay", "Marketing", "Website", "Presentation"]
 SYSTEM_SECTIONS = [
     "Overview", "CPU / NUMA", "GPU / Accelerators", "Memory", "Storage",
     "Services", "Thermal & Power", "Software", "Maintenance", "Peripherals",
@@ -199,7 +199,7 @@ def validate():
         if forbidden_role_page in shell_lines:
             failures.append(f"qml-role-page-forbidden:{forbidden_role_page}")
     failures += missing_tokens(shell, [
-        "fa3Settings", "EmbeddedAppsPage", "ModelManagerPage", "SystemPage", "SettingsPage",
+        "fa3Settings", "EmbeddedAppsPage", "ModelManagerHubPage", "SystemPage", "SettingsPage",
         "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet", "Shortcut", "shortcuts/assistant",
         "LibreOffice", "Obsidian", "Kérdezd a Mentort", "Kérdezd a Coachot", "Kérdezd a Managert",
         "Kérdezd az Ellenőrt", "Kérdezd az Ötletelőt", "Kérdezd a Tanácsadót",

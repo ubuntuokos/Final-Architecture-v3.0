@@ -18,6 +18,7 @@ def validate() -> list[str]:
     panel_path = ROOT / "apps/fa3-control-center/qml/AnimationIntegrationPanel.qml"
     shell_path = ROOT / "apps/fa3-control-center/qml/AnimationAwareAppShell.qml"
     operations_shell_path = ROOT / "apps/fa3-control-center/qml/OperationsAwareAppShell.qml"
+    mission_shell_path = ROOT / "apps/fa3-control-center/qml/MissionControlAppShell.qml"
     cmake_path = ROOT / "apps/fa3-control-center/CMakeLists.txt"
     main_path = ROOT / "apps/fa3-control-center/src/main.cpp"
 
@@ -75,6 +76,13 @@ def validate() -> list[str]:
     if "OperationsAwareAppShell.qml" in main and operations_shell_path.exists():
         operations_shell = operations_shell_path.read_text(encoding="utf-8")
         transitive_animation = "AnimationAwareAppShell" in operations_shell
+    if "MissionControlAppShell.qml" in main and mission_shell_path.exists() and operations_shell_path.exists():
+        mission_shell = mission_shell_path.read_text(encoding="utf-8")
+        operations_shell = operations_shell_path.read_text(encoding="utf-8")
+        transitive_animation = (
+            "OperationsAwareAppShell" in mission_shell
+            and "AnimationAwareAppShell" in operations_shell
+        )
     if not direct_animation and not transitive_animation:
         failures.append("main-animation-shell-not-loaded")
 

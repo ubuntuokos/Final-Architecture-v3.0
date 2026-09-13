@@ -19,10 +19,10 @@ ApplicationWindow {
     property real fontScale: fa3Settings.baseFontSize / 13.0
     property bool forcedDark: fa3Settings.themeMode === "dark"
     property bool forcedLight: fa3Settings.themeMode === "light"
-    property color surface0: forcedDark ? "#17191d" : forcedLight ? "#f3f5f7" : systemPalette.window
-    property color surface1: forcedDark ? "#202329" : forcedLight ? "#ffffff" : systemPalette.base
-    property color surface2: forcedDark ? "#2a2e35" : forcedLight ? "#e9edf2" : systemPalette.alternateBase
-    property color textPrimary: forcedDark ? "#f2f4f7" : forcedLight ? "#1b1e23" : systemPalette.windowText
+    property color surface0: forcedDark ? "#0a0f15" : forcedLight ? "#f3f5f7" : systemPalette.window
+    property color surface1: forcedDark ? "#111923" : forcedLight ? "#ffffff" : systemPalette.base
+    property color surface2: forcedDark ? "#182430" : forcedLight ? "#e9edf2" : systemPalette.alternateBase
+    property color textPrimary: forcedDark ? "#e9f1f7" : forcedLight ? "#1b1e23" : systemPalette.windowText
     property color textMuted: Qt.rgba(textPrimary.r, textPrimary.g, textPrimary.b, 0.62)
     property color accent: systemPalette.highlight
     property int selectedIndex: 0
@@ -81,6 +81,8 @@ ApplicationWindow {
     }
 
     function areaVisible(key) {
+        if (key === "starterModels")
+            return false
         if (key === "command" || key === "settings")
             return true
         return fa3Settings.value("areas/" + key + "Visible", true)
@@ -483,7 +485,10 @@ ApplicationWindow {
                     { title: "3D / VFX", subtitle: "Geometry / Blender / Bforartist / Natron / Gaffer" },
                     { title: "Audio", subtitle: "Ardour / Audacity / STT / TTS / restoration" },
                     { title: "Music", subtitle: "Generation, stems, DAW, mastering" },
-                    { title: "Story / Screenplay", subtitle: "FA3 Story production context" }
+                    { title: "Story / Screenplay", subtitle: "FA3 Story production context", badge: "STUDIO" },
+                    { title: "Marketing", subtitle: "FA3-MARKETING-001 · Mautic / Twenty / listmonk · campaign & CRM workflows", badge: "STUDIO" },
+                    { title: "Website", subtitle: "FA3-PROVIDER-OPENHERO-001 · Web creative · website design / build / preview / publish", badge: "STUDIO" },
+                    { title: "Presentation", subtitle: "FA3-PROVIDER-PRESENTON-001 · Presenton · slide generation / deck production / export", badge: "STUDIO" }
                 ]
             }
 
@@ -509,7 +514,7 @@ ApplicationWindow {
                 ]
             }
 
-            ModelManagerPage {
+            ModelManagerHubPage {
                 repository: fa3Repository
                 surface1: window.surface1
                 surface2: window.surface2

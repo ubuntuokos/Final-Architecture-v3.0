@@ -264,7 +264,8 @@ Item {
                 ColumnLayout {
                     width: areasView.availableWidth; spacing: 12
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Területek", "Areas"); subtitle: root.t("A fő felületek láthatósága. Ez kizárólag helyi UI-preferencia: elrejtés nem tilt le canonical capability-t, providert vagy authority-t.", "Visibility of major surfaces. This is a local UI preference only: hiding a surface never disables a canonical capability, provider or authority.") }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Területek", "Areas"); subtitle: root.t("A fő felületek láthatósága. A Starter Models a Model Manager kötelező alfelülete, ezért itt nem kapcsolható külön. Ez kizárólag helyi UI-preferencia: elrejtés nem tilt le canonical capability-t, providert vagy authority-t.", "Visibility of major surfaces. Starter Models is a mandatory Model Manager sub-surface and is not separately toggleable here. Hiding a surface never disables a canonical capability, provider or authority.") }
+                    // Starter Models are managed under Model Manager
                     Card { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(570 * root.uiScale)
                         GridLayout { anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 8; columnSpacing: 24
                             Label { text: root.t("Mindig látható", "Always visible") }
@@ -281,8 +282,6 @@ Item {
                             Switch { checked: root.settings.value("areas/modelManagerVisible", true); onToggled: root.settings.setValue("areas/modelManagerVisible", checked) }
                             Label { text: root.t("Keresés", "Search") }
                             Switch { checked: root.settings.value("areas/searchVisible", true); onToggled: root.settings.setValue("areas/searchVisible", checked) }
-                            Label { text: root.t("Starter modellek", "Starter Models") }
-                            Switch { checked: root.settings.value("areas/starterModelsVisible", true); onToggled: root.settings.setValue("areas/starterModelsVisible", checked) }
                             Label { text: root.t("Architektúra", "Architecture") }
                             Switch { checked: root.settings.value("areas/architectureVisible", true); onToggled: root.settings.setValue("areas/architectureVisible", checked) }
                             Label { text: root.t("Erőforrások", "Resources") }

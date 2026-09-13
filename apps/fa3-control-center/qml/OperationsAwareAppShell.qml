@@ -173,7 +173,7 @@ AnimationAwareAppShell {
         anchors.topMargin: Math.round(10 * shell.uiScale)
         anchors.rightMargin: Math.round(16 * shell.uiScale)
         z: 1000
-        visible: shell.selectedIndex === shell.indexForKey("modelManager") || shell.selectedIndex === shell.indexForKey("settings")
+        visible: shell.selectedIndex === shell.indexForKey("settings")
         padding: Math.round(5 * shell.uiScale)
 
         RowLayout {
