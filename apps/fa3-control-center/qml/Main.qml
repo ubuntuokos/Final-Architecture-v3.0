@@ -5,67 +5,138 @@ import QtQuick.Window
 
 ApplicationWindow {
     id: window
-    width: 1540
-    height: 960
-    minimumWidth: 1180
-    minimumHeight: 720
+    width: 1600
+    height: 980
+    minimumWidth: 1280
+    minimumHeight: 760
     visible: true
+    color: canvas
     title: "Final Architecture 3.0 — Control Center"
 
-    property color surface0: palette.window
-    property color surface1: palette.base
-    property color surface2: palette.alternateBase
-    property color accent: palette.highlight
-    property color textPrimary: palette.windowText
-    property color textMuted: Qt.rgba(textPrimary.r, textPrimary.g, textPrimary.b, 0.62)
+    // Canonical navigation name retained for the GUI contract/gate.
+    property string dashboardCanonicalName: "Command Center"
     property int selectedIndex: 0
 
+    property color canvas: "#07111f"
+    property color sidebar: "#081421"
+    property color panel: "#0b1728"
+    property color panelRaised: "#0f2035"
+    property color border: "#1d3550"
+    property color borderSoft: "#14283e"
+    property color accent: "#25a7ff"
+    property color cyan: "#22d3ee"
+    property color green: "#35e0a1"
+    property color orange: "#f0b14a"
+    property color magenta: "#b778ff"
+    property color textPrimary: "#f5f8fc"
+    property color textMuted: "#8397ad"
+
     component Panel: Rectangle {
-        radius: 12
-        color: window.surface1
-        border.color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.10)
+        radius: 9
+        color: window.panel
+        border.color: window.border
+        border.width: 1
     }
 
-    component MetricCard: Panel {
-        property string label: ""
-        property string value: ""
-        property string note: ""
-        implicitWidth: 190
-        implicitHeight: 112
-        Column {
-            anchors.fill: parent
-            anchors.margins: 16
-            spacing: 6
-            Label { text: parent.parent.label; color: window.textMuted; font.pixelSize: 12 }
-            Label { text: parent.parent.value; font.pixelSize: 28; font.bold: true }
-            Label { text: parent.parent.note; color: window.textMuted; font.pixelSize: 11; elide: Text.ElideRight; width: parent.width }
+    component SectionTitle: ColumnLayout {
+        property string title: ""
+        property string subtitle: ""
+        spacing: 2
+        Label { text: parent.title; color: window.textPrimary; font.pixelSize: 22; font.bold: true }
+        Label { text: parent.subtitle; color: window.textMuted; font.pixelSize: 11 }
+    }
+
+    component StatusChip: Rectangle {
+        property string chipText: "READY"
+        property color tone: window.green
+        implicitWidth: chipLabel.implicitWidth + 16
+        implicitHeight: 22
+        radius: 5
+        color: Qt.rgba(tone.r, tone.g, tone.b, 0.10)
+        border.color: Qt.rgba(tone.r, tone.g, tone.b, 0.34)
+        Label {
+            id: chipLabel
+            anchors.centerIn: parent
+            text: parent.chipText
+            color: parent.tone
+            font.pixelSize: 8
+            font.bold: true
         }
     }
 
-    component SectionTitle: Column {
-        property string title: ""
-        property string subtitle: ""
-        spacing: 3
-        Label { text: parent.title; font.pixelSize: 24; font.bold: true }
-        Label { text: parent.subtitle; color: window.textMuted; font.pixelSize: 13 }
+    component NavButton: Rectangle {
+        property string iconText: "•"
+        property string labelText: ""
+        property int pageIndex: 0
+        property bool active: window.selectedIndex === pageIndex
+        Layout.fillWidth: true
+        implicitHeight: 36
+        radius: 6
+        color: active ? "#102a43" : navMouse.containsMouse ? "#0d1f31" : "transparent"
+        border.color: active ? "#1f4c70" : "transparent"
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: 11
+            anchors.rightMargin: 8
+            spacing: 10
+            Label {
+                text: parent.parent.iconText
+                color: parent.parent.active ? window.accent : window.textMuted
+                font.pixelSize: 13
+                Layout.preferredWidth: 18
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Label {
+                text: parent.parent.labelText
+                color: parent.parent.active ? window.textPrimary : window.textMuted
+                font.pixelSize: 10
+                font.bold: parent.parent.active
+                Layout.fillWidth: true
+            }
+        }
+        MouseArea {
+            id: navMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: window.selectedIndex = parent.pageIndex
+        }
     }
 
     component ModuleCard: Panel {
         property string title: ""
         property string subtitle: ""
         property string badge: "READY"
+        property color tone: window.accent
         implicitWidth: 250
-        implicitHeight: 120
-        Column {
+        implicitHeight: 126
+        ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 16
-            spacing: 7
+            anchors.margins: 15
+            spacing: 8
             RowLayout {
-                width: parent.width
-                Label { text: parent.parent.parent.title; font.pixelSize: 17; font.bold: true; Layout.fillWidth: true }
-                Label { text: parent.parent.parent.badge; color: window.accent; font.pixelSize: 10; font.bold: true }
+                Layout.fillWidth: true
+                Rectangle {
+                    width: 8; height: 8; radius: 4
+                    color: parent.parent.parent.tone
+                }
+                Label {
+                    text: parent.parent.parent.title
+                    color: window.textPrimary
+                    font.pixelSize: 14
+                    font.bold: true
+                    Layout.fillWidth: true
+                }
+                StatusChip { chipText: parent.parent.parent.badge; tone: parent.parent.parent.tone }
             }
-            Label { text: parent.parent.subtitle; color: window.textMuted; wrapMode: Text.WordWrap; width: parent.width }
+            Label {
+                text: parent.parent.subtitle
+                color: window.textMuted
+                font.pixelSize: 10
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
         }
     }
 
@@ -73,11 +144,13 @@ ApplicationWindow {
         property string pageTitle: ""
         property string pageSubtitle: ""
         property var cards: []
+        clip: true
         contentWidth: availableWidth
+        padding: 18
+
         ColumnLayout {
             width: parent.width
-            spacing: 18
-            anchors.margins: 24
+            spacing: 16
             SectionTitle { title: parent.parent.pageTitle; subtitle: parent.parent.pageSubtitle }
             Flow {
                 Layout.fillWidth: true
@@ -89,43 +162,10 @@ ApplicationWindow {
                         title: modelData.title || ""
                         subtitle: modelData.subtitle || ""
                         badge: modelData.badge || "READY"
+                        tone: modelData.tone || window.accent
                     }
                 }
             }
-        }
-    }
-
-    ListModel {
-        id: navigationModel
-        ListElement { label: "Command Center"; iconText: "⌂" }
-        ListElement { label: "Projects"; iconText: "▣" }
-        ListElement { label: "AI Studio"; iconText: "✦" }
-        ListElement { label: "Agents & Workflows"; iconText: "⌘" }
-        ListElement { label: "Models & Providers"; iconText: "◫" }
-        ListElement { label: "Architecture"; iconText: "◇" }
-        ListElement { label: "Resources"; iconText: "▤" }
-        ListElement { label: "Security & Approvals"; iconText: "◆" }
-        ListElement { label: "Observability"; iconText: "⌁" }
-        ListElement { label: "Napló / Journal"; iconText: "≡" }
-        ListElement { label: "Evidence"; iconText: "✓" }
-        ListElement { label: "Integrations"; iconText: "↔" }
-        ListElement { label: "System"; iconText: "⚙" }
-    }
-
-    header: ToolBar {
-        height: 62
-        RowLayout {
-            anchors.fill: parent
-            anchors.leftMargin: 18
-            anchors.rightMargin: 18
-            spacing: 14
-            Label { text: "FA3"; font.pixelSize: 21; font.bold: true }
-            Rectangle { width: 1; height: 28; color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.16) }
-            Label { text: "Final Architecture 3.0"; font.pixelSize: 15; font.bold: true }
-            Item { Layout.fillWidth: true }
-            Label { text: "CANONICAL"; color: window.accent; font.bold: true; font.pixelSize: 11 }
-            Label { text: "143 capabilities"; color: window.textMuted; font.pixelSize: 12 }
-            ToolButton { text: "↻"; ToolTip.visible: hovered; ToolTip.text: "Canonical és Journal állapot frissítése"; onClicked: { fa3Repository.refresh(); fa3Journal.refresh() } }
         }
     }
 
@@ -134,338 +174,427 @@ ApplicationWindow {
         spacing: 0
 
         Rectangle {
-            Layout.preferredWidth: 238
+            Layout.preferredWidth: 214
             Layout.fillHeight: true
-            color: window.surface1
-            border.color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.08)
+            color: window.sidebar
+            border.color: window.borderSoft
+
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 10
-                spacing: 8
-                ListView {
-                    id: nav
+                spacing: 0
+
+                Item {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 72
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 16
+                        anchors.rightMargin: 12
+                        spacing: 11
+                        Rectangle {
+                            width: 30; height: 30; radius: 7
+                            color: window.accent
+                            Label { anchors.centerIn: parent; text: "F"; color: "white"; font.pixelSize: 17; font.bold: true }
+                        }
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: -1
+                            Label { text: "FA3"; color: window.textPrimary; font.pixelSize: 15; font.bold: true }
+                            Label { text: "Final Architecture"; color: window.textMuted; font.pixelSize: 8 }
+                        }
+                        Rectangle { width: 7; height: 7; radius: 4; color: window.green }
+                    }
+                }
+
+                Rectangle { Layout.fillWidth: true; height: 1; color: window.borderSoft }
+
+                ScrollView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     clip: true
-                    model: navigationModel
-                    currentIndex: window.selectedIndex
-                    delegate: ItemDelegate {
-                        width: ListView.view.width
-                        height: 44
-                        highlighted: ListView.isCurrentItem
-                        onClicked: { nav.currentIndex = index; window.selectedIndex = index }
-                        contentItem: Row {
-                            spacing: 12
-                            Label { text: iconText; width: 22; horizontalAlignment: Text.AlignHCenter }
-                            Label { text: label; font.pixelSize: 13 }
-                        }
+                    contentWidth: availableWidth
+                    background: Item {}
+
+                    ColumnLayout {
+                        width: parent.width
+                        spacing: 3
+                        anchors.leftMargin: 9
+                        anchors.rightMargin: 9
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "⌂"; labelText: "Dashboard"; pageIndex: 0 }
+                        NavButton { iconText: "▣"; labelText: "Projects"; pageIndex: 1 }
+                        NavButton { iconText: "⌘"; labelText: "Agents & Workflows"; pageIndex: 3 }
+                        NavButton { iconText: "◫"; labelText: "Models & Providers"; pageIndex: 4 }
+                        NavButton { iconText: "◇"; labelText: "Architecture"; pageIndex: 5 }
+                        NavButton { iconText: "⚙"; labelText: "System"; pageIndex: 12 }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "✦"; labelText: "AI Studio"; pageIndex: 2 }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "▤"; labelText: "Resources"; pageIndex: 6 }
+                        NavButton { iconText: "◆"; labelText: "Security & Approvals"; pageIndex: 7 }
+                        NavButton { iconText: "⌁"; labelText: "Observability"; pageIndex: 8 }
+                        NavButton { iconText: "≡"; labelText: "Napló / Journal"; pageIndex: 9 }
+                        NavButton { iconText: "✓"; labelText: "Evidence"; pageIndex: 10 }
+                        NavButton { iconText: "↔"; labelText: "Integrations"; pageIndex: 11 }
                     }
                 }
+
                 Panel {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 132
-                    Column {
+                    Layout.leftMargin: 10
+                    Layout.rightMargin: 10
+                    Layout.bottomMargin: 10
+                    Layout.preferredHeight: 102
+                    color: "#0a1928"
+                    ColumnLayout {
                         anchors.fill: parent
-                        anchors.margins: 12
-                        spacing: 5
-                        Label { text: "Repository"; font.bold: true; font.pixelSize: 12 }
-                        Label { width: parent.width; text: fa3Repository.repoRoot; color: window.textMuted; elide: Text.ElideMiddle; font.pixelSize: 10 }
-                        Label { text: "Frissítve: " + fa3Repository.lastRefresh; color: window.textMuted; font.pixelSize: 10 }
-                        Label { text: "Journal: " + fa3Journal.eventCount + " aktív / " + fa3Journal.archiveCount + " archív"; color: window.textMuted; font.pixelSize: 10 }
+                        anchors.margins: 11
+                        spacing: 4
+                        RowLayout {
+                            Rectangle { width: 7; height: 7; radius: 4; color: window.green }
+                            Label { text: "SYSTEM ONLINE"; color: window.green; font.pixelSize: 8; font.bold: true }
+                        }
+                        Label { text: fa3Repository.hostName; color: window.textPrimary; font.pixelSize: 10; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
+                        Label { text: "Kernel " + fa3Repository.kernelVersion; color: window.textMuted; font.pixelSize: 8; Layout.fillWidth: true; elide: Text.ElideRight }
+                        Label { text: "Journal " + fa3Journal.eventCount + " / " + fa3Journal.archiveCount; color: window.textMuted; font.pixelSize: 8 }
                     }
                 }
             }
         }
 
-        StackLayout {
+        ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            currentIndex: window.selectedIndex
+            spacing: 0
 
-            ScrollView {
-                contentWidth: availableWidth
-                ColumnLayout {
-                    width: parent.width
-                    spacing: 18
-                    anchors.margins: 24
-                    SectionTitle { title: "Command Center"; subtitle: "FA3 rendszerállapot, canonical integritás és operátori fókusz" }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 12
-                        MetricCard { label: "Canonical rekord"; value: fa3Repository.canonicalRecordCount.toString(); note: "read-only projection" }
-                        MetricCard { label: "Profile"; value: fa3Repository.profileCount.toString(); note: "canonical profiles" }
-                        MetricCard { label: "Provider"; value: fa3Repository.providerCount.toString(); note: "registered providers" }
-                        MetricCard { label: "Decision"; value: fa3Repository.decisionCount.toString(); note: "Decision Registry" }
-                        MetricCard { label: "Evidence"; value: fa3Repository.evidenceCount.toString(); note: "JSON evidence records" }
-                        MetricCard { label: "Pending"; value: fa3Repository.pendingCount.toString(); note: "runtime/conformance attention" }
-                        MetricCard { label: "Journal"; value: fa3Journal.eventCount.toString(); note: fa3Journal.archiveCount + " sealed archive" }
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 62
+                color: "#081421"
+                border.color: window.borderSoft
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 16
+                    spacing: 10
+
+                    ColumnLayout {
+                        spacing: 0
+                        Label { text: "Current Environment"; color: window.textMuted; font.pixelSize: 8 }
+                        RowLayout {
+                            spacing: 7
+                            Rectangle { width: 7; height: 7; radius: 4; color: window.green }
+                            Label { text: "LOCAL / FA3"; color: window.textPrimary; font.pixelSize: 10; font.bold: true }
+                            Label { text: "⌄"; color: window.textMuted; font.pixelSize: 9 }
+                        }
                     }
-                    Panel {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 310
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 16
-                            Label { text: "Aktuális canonical rekordok"; font.pixelSize: 16; font.bold: true }
+
+                    Item { Layout.fillWidth: true }
+                    Label { text: "CANONICAL"; color: window.accent; font.pixelSize: 9; font.bold: true }
+                    Rectangle { width: 1; height: 25; color: window.border }
+                    Label { text: fa3Repository.canonicalRecordCount + " records"; color: window.textMuted; font.pixelSize: 9 }
+                    Rectangle {
+                        width: 30; height: 30; radius: 6; color: "#0d1c2f"; border.color: window.border
+                        Label { anchors.centerIn: parent; text: "↻"; color: window.textPrimary; font.pixelSize: 13 }
+                        MouseArea { anchors.fill: parent; onClicked: { fa3Repository.refresh(); fa3Journal.refresh() } }
+                    }
+                    Rectangle {
+                        width: 30; height: 30; radius: 6; color: "#0d1c2f"; border.color: window.border
+                        Label { anchors.centerIn: parent; text: "◌"; color: window.textPrimary; font.pixelSize: 12 }
+                    }
+                }
+            }
+
+            StackLayout {
+                id: pages
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                currentIndex: window.selectedIndex
+
+                Item {
+                    DashboardPage {
+                        anchors.fill: parent
+                        anchors.margins: 16
+                        canvas: window.canvas
+                        panel: window.panel
+                        panelRaised: window.panelRaised
+                        border: window.border
+                        textPrimary: window.textPrimary
+                        textMuted: window.textMuted
+                        accent: window.accent
+                        cyan: window.cyan
+                        green: window.green
+                        orange: window.orange
+                        magenta: window.magenta
+                    }
+                }
+
+                ModulePage {
+                    pageTitle: "Projects & Workspaces"
+                    pageSubtitle: "Projekt-, asset- és knowledge-contextus az operátori felületen"
+                    cards: [
+                        {title: "Active Workspace", subtitle: "FA3 repository és az aktuális canonical graph.", badge: "LOCAL", tone: window.cyan},
+                        {title: "Assets", subtitle: "Kép, videó, 3D, audio és dokumentum projekció.", badge: "INDEX", tone: window.accent},
+                        {title: "Knowledge", subtitle: "Canonical RAG/read projection párhuzamos authority nélkül.", badge: "READ", tone: window.green},
+                        {title: "Project Journal", subtitle: "Aktív, lezárt és tervezett projektek lifecycle-naplója.", badge: "JOURNAL", tone: window.magenta}
+                    ]
+                }
+
+                ModulePage {
+                    pageTitle: "AI Studio"
+                    pageSubtitle: "A teljes lokális kreatív pipeline egységes FA3-felülete"
+                    cards: [
+                        {title: "Image", subtitle: "ComfyUI / InvokeAI / editor bridge projection.", badge: "READY", tone: window.magenta},
+                        {title: "Video", subtitle: "Kdenlive, generation, compositing és editorial pipeline.", badge: "READY", tone: window.accent},
+                        {title: "Animation", subtitle: "Motion, character és timeline workflow-k.", badge: "READY", tone: window.cyan},
+                        {title: "3D / VFX", subtitle: "Geometry, Blender/Bforartist, Natron/Gaffer kapcsolatok.", badge: "READY", tone: window.orange},
+                        {title: "Audio", subtitle: "STT, TTS, restoration, separation és voice fabric.", badge: "READY", tone: window.green},
+                        {title: "Music", subtitle: "Music generation, stems, DAW és mastering workflow-k.", badge: "READY", tone: window.magenta},
+                        {title: "Story / Screenplay", subtitle: "FA3 Story profile és production context projection.", badge: "READY", tone: window.accent}
+                    ]
+                }
+
+                ModulePage {
+                    pageTitle: "Agents & Workflows"
+                    pageSubtitle: "Interaktív agentek, durable workflow-k és policy-gated execution"
+                    cards: [
+                        {title: "Interactive Agents", subtitle: "Goose és desktop agent projection.", badge: "ROUTED", tone: window.accent},
+                        {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások.", badge: "READ", tone: window.green},
+                        {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
+                        {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta}
+                    ]
+                }
+
+                ScrollView {
+                    id: providerView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: providerView.availableWidth
+                        spacing: 13
+                        SectionTitle { title: "Models & Providers"; subtitle: "Model Registry, provider projections and local inference surfaces" }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            ModuleCard { title: "Provider Registry"; subtitle: fa3Repository.providerCount + " canonical provider records"; badge: "CANONICAL"; tone: window.accent; Layout.fillWidth: true }
+                            ModuleCard { title: "Capability Baseline"; subtitle: "FA3 baseline remains authority-stable"; badge: "143"; tone: window.green; Layout.fillWidth: true }
+                            ModuleCard { title: "Pending"; subtitle: "Runtime/conformance attention"; badge: fa3Repository.pendingCount.toString(); tone: fa3Repository.pendingCount > 0 ? window.orange : window.green; Layout.fillWidth: true }
+                        }
+                        TextField { id: providerSearch; Layout.fillWidth: true; placeholderText: "Search provider registry…" }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 500
                             ListView {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
+                                anchors.fill: parent
+                                anchors.margins: 8
                                 clip: true
-                                model: fa3Repository.searchRecords("")
+                                model: fa3Repository.recordsByCategory("provider").filter(function(v) {
+                                    return providerSearch.text.length === 0 || v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 || v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
+                                })
                                 delegate: ItemDelegate {
                                     width: ListView.view.width
-                                    height: 46
+                                    height: 50
+                                    background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
+                                    contentItem: RowLayout {
+                                        Rectangle { width: 7; height: 7; radius: 4; color: window.green }
+                                        Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; Layout.preferredWidth: 310; elide: Text.ElideRight }
+                                        Label { text: modelData.title; color: window.textMuted; Layout.fillWidth: true; elide: Text.ElideRight }
+                                        StatusChip { chipText: modelData.status || "REGISTERED"; tone: modelData.status && modelData.status.indexOf("PENDING") >= 0 ? window.orange : window.green }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ScrollView {
+                    id: architectureView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: architectureView.availableWidth
+                        spacing: 13
+                        SectionTitle { title: "Architecture Explorer"; subtitle: "Profiles, contracts, providers, decisions, gates and conformance records" }
+                        TextField { id: architectureSearch; Layout.fillWidth: true; placeholderText: "Search canonical graph…" }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 620
+                            ListView {
+                                anchors.fill: parent
+                                anchors.margins: 8
+                                clip: true
+                                model: fa3Repository.searchRecords(architectureSearch.text)
+                                delegate: ItemDelegate {
+                                    width: ListView.view.width
+                                    height: 56
+                                    background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
                                     onDoubleClicked: fa3Repository.openLocalPath(modelData.path)
                                     contentItem: RowLayout {
-                                        spacing: 12
-                                        Label { text: modelData.id; font.family: "monospace"; Layout.preferredWidth: 330; elide: Text.ElideRight }
-                                        Label { text: modelData.title; Layout.fillWidth: true; elide: Text.ElideRight }
-                                        Label { text: modelData.status; color: modelData.status.indexOf("PENDING") >= 0 ? "#d99b32" : window.textMuted; Layout.preferredWidth: 160 }
+                                        StatusChip { chipText: modelData.category.toUpperCase(); tone: window.accent }
+                                        ColumnLayout {
+                                            Layout.fillWidth: true
+                                            spacing: 1
+                                            Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
+                                            Label { text: modelData.title; color: window.textMuted; font.pixelSize: 10; Layout.fillWidth: true; elide: Text.ElideRight }
+                                        }
+                                        Label { text: modelData.status; color: modelData.status.indexOf("PENDING") >= 0 ? window.orange : window.textMuted; font.pixelSize: 10; Layout.preferredWidth: 170 }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            ModulePage {
-                pageTitle: "Projects & Workspaces"
-                pageSubtitle: "Projektek, assetek és knowledge-contextus egy közös operátori nézetben"
-                cards: [
-                    {title: "Active Workspace", subtitle: "FA3 repository és aktuális canonical graph", badge: "LOCAL"},
-                    {title: "Assets", subtitle: "Kép, videó, 3D, audio és dokumentum projekció", badge: "INDEX"},
-                    {title: "Knowledge", subtitle: "Canonical RAG/read projection; nincs párhuzamos memória-authority", badge: "READ"},
-                    {title: "Project Journal", subtitle: "Aktív, lezárt és bevezetendő projektek lifecycle-naplója", badge: "JOURNAL"}
-                ]
-            }
-
-            ModulePage {
-                pageTitle: "AI Studio"
-                pageSubtitle: "A teljes lokális kreatív pipeline egységes felülete"
-                cards: [
-                    {title: "Image", subtitle: "ComfyUI / InvokeAI / editor bridge projekció"},
-                    {title: "Video", subtitle: "Kdenlive, generation, compositing és editorial pipeline"},
-                    {title: "Animation", subtitle: "Motion, character és timeline workflow-k"},
-                    {title: "3D / VFX", subtitle: "Geometry, Blender/Bforartist, Natron/Gaffer kapcsolatok"},
-                    {title: "Audio", subtitle: "STT, TTS, restoration, separation és voice fabric"},
-                    {title: "Music", subtitle: "Music generation, stems, DAW és mastering workflow-k"},
-                    {title: "Story / Screenplay", subtitle: "FA3 Story profile és production context projection"}
-                ]
-            }
-
-            ModulePage {
-                pageTitle: "Agents & Workflows"
-                pageSubtitle: "Interaktív agentek, durable workflow-k, taskok és execution projection"
-                cards: [
-                    {title: "Interactive Agents", subtitle: "Goose / desktop agent projection", badge: "ROUTED"},
-                    {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások", badge: "READ"},
-                    {title: "Tasks", subtitle: "Current tasks, approvals és blockers", badge: "QUEUE"},
-                    {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome", badge: "GATED"}
-                ]
-            }
-
-            ScrollView {
-                contentWidth: availableWidth
-                ColumnLayout {
-                    width: parent.width
-                    spacing: 16
-                    anchors.margins: 24
-                    SectionTitle { title: "Models & Providers"; subtitle: "Model registry, provider projection és inference állapot" }
-                    RowLayout {
-                        Layout.fillWidth: true
-                        MetricCard { label: "Provider rekord"; value: fa3Repository.providerCount.toString(); note: "canonical provider registry" }
-                        MetricCard { label: "Capability baseline"; value: "143"; note: "változatlan" }
-                    }
-                    TextField { id: providerSearch; Layout.fillWidth: true; placeholderText: "Provider keresése…" }
-                    Panel {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 520
-                        ListView {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            model: fa3Repository.recordsByCategory("provider").filter(function(v) {
-                                return providerSearch.text.length === 0 || v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 || v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
-                            })
-                            delegate: ItemDelegate {
-                                width: ListView.view.width
-                                height: 50
-                                contentItem: RowLayout {
-                                    Label { text: modelData.id; font.family: "monospace"; Layout.preferredWidth: 330; elide: Text.ElideRight }
-                                    Label { text: modelData.title; Layout.fillWidth: true; elide: Text.ElideRight }
-                                    Label { text: modelData.status; color: window.textMuted; Layout.preferredWidth: 180 }
+                ScrollView {
+                    id: resourcesView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: resourcesView.availableWidth
+                        spacing: 14
+                        SectionTitle { title: "Resources"; subtitle: "Host Resource Broker projection and ChangeSet-based operator intent" }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            ModuleCard { Layout.fillWidth: true; title: "Host"; subtitle: fa3Repository.hostName; badge: "LOCAL"; tone: window.green }
+                            ModuleCard { Layout.fillWidth: true; title: "CPU"; subtitle: fa3Repository.cpuThreads + " hardware threads"; badge: "DISCOVERED"; tone: window.cyan }
+                            ModuleCard { Layout.fillWidth: true; title: "Memory"; subtitle: fa3Repository.memoryGiB.toFixed(1) + " GiB physical memory"; badge: "DISCOVERED"; tone: window.accent }
+                            ModuleCard { Layout.fillWidth: true; title: "Accelerators"; subtitle: "GPU/NPU execution remains HRB-admitted"; badge: "GATED"; tone: window.magenta }
+                        }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 225
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 16
+                                spacing: 10
+                                Label { text: "Host Resource Governance"; color: window.textPrimary; font.pixelSize: 15; font.bold: true }
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.WordWrap
+                                    color: window.textMuted
+                                    font.pixelSize: 10
+                                    text: "CPU/GPU/NPU/NUMA/memory placement changes are not executed directly from this GUI. Operator intent becomes a typed ChangeSet and follows the existing broker and approval chain."
                                 }
+                                Button { text: "Create ChangeSet draft"; onClicked: changeSetDialog.open() }
+                                Label { id: draftResult; color: window.accent; Layout.fillWidth: true; elide: Text.ElideMiddle; font.pixelSize: 10 }
                             }
                         }
                     }
                 }
-            }
 
-            ScrollView {
-                contentWidth: availableWidth
-                ColumnLayout {
-                    width: parent.width
-                    spacing: 16
-                    anchors.margins: 24
-                    SectionTitle { title: "Architecture Explorer"; subtitle: "Profiles, contracts, providers, decisions, gates és conformance rekordok" }
-                    TextField { id: architectureSearch; Layout.fillWidth: true; placeholderText: "Keresés ID, név, státusz vagy path alapján…" }
-                    Panel {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 620
-                        ListView {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            clip: true
-                            model: fa3Repository.searchRecords(architectureSearch.text)
-                            delegate: ItemDelegate {
-                                width: ListView.view.width
-                                height: 58
-                                onDoubleClicked: fa3Repository.openLocalPath(modelData.path)
-                                contentItem: RowLayout {
-                                    spacing: 10
-                                    Label { text: modelData.category.toUpperCase(); color: window.accent; font.pixelSize: 10; Layout.preferredWidth: 80 }
-                                    ColumnLayout {
-                                        Layout.fillWidth: true
-                                        spacing: 1
-                                        Label { text: modelData.id; font.family: "monospace"; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
-                                        Label { text: modelData.title; color: window.textMuted; elide: Text.ElideRight; Layout.fillWidth: true }
-                                    }
-                                    Label { text: modelData.status; color: window.textMuted; Layout.preferredWidth: 180 }
-                                }
+                ModulePage {
+                    pageTitle: "Security & Approvals"
+                    pageSubtitle: "Policy state, approvals and security evidence projections"
+                    cards: [
+                        {title: "Policies", subtitle: "Effective policy state and decision outcomes.", badge: "READ", tone: window.green},
+                        {title: "Approvals", subtitle: "Pending ChangeSet and execution approvals.", badge: "GATED", tone: window.orange},
+                        {title: "Secrets", subtitle: "Metadata projection only; no secret values.", badge: "NO VALUES", tone: window.magenta},
+                        {title: "Journal Retention", subtitle: "Archive retirement and purge policy remain separated.", badge: "FAIL-CLOSED", tone: window.accent}
+                    ]
+                }
+
+                ModulePage {
+                    pageTitle: "Observability"
+                    pageSubtitle: "Metrics, traces, provenance and operating-state projections"
+                    cards: [
+                        {title: "Metrics", subtitle: "Resource and service telemetry projection.", badge: "READ", tone: window.cyan},
+                        {title: "Traces", subtitle: "Workflow/tool/model execution trace projection.", badge: "READ", tone: window.accent},
+                        {title: "Provenance", subtitle: "Artifact and execution provenance chain.", badge: "READ", tone: window.green},
+                        {title: "Journal ingestion", subtitle: "Runtime events projected into the unified journal.", badge: "APPEND", tone: window.magenta}
+                    ]
+                }
+
+                JournalPage {
+                    surface1: window.panel
+                    surface2: window.panelRaised
+                    accent: window.accent
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                }
+
+                ScrollView {
+                    id: evidenceView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: evidenceView.availableWidth
+                        spacing: 14
+                        SectionTitle { title: "Evidence"; subtitle: "Conformance, receipts and promotion evidence" }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            ModuleCard { Layout.fillWidth: true; title: "Evidence Records"; subtitle: fa3Repository.evidenceCount + " repository records"; badge: "INDEXED"; tone: window.green }
+                            ModuleCard { Layout.fillWidth: true; title: "Pending Canonical"; subtitle: "Items requiring fresh conformance evidence"; badge: fa3Repository.pendingCount.toString(); tone: fa3Repository.pendingCount > 0 ? window.orange : window.green }
+                        }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 190
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 16
+                                spacing: 8
+                                Label { text: "Evidence authority boundary"; color: window.textPrimary; font.pixelSize: 15; font.bold: true }
+                                Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: window.textMuted; font.pixelSize: 10; text: "The GUI can display evidence but cannot self-promote a runtime, fabricate PASS state or override the Unified Observability/Evidence authority." }
                             }
                         }
                     }
                 }
-            }
 
-            ScrollView {
-                contentWidth: availableWidth
-                ColumnLayout {
-                    width: parent.width
-                    spacing: 18
-                    anchors.margins: 24
-                    SectionTitle { title: "Resources"; subtitle: "Read-only host telemetry és ChangeSet-alapú intent" }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 12
-                        MetricCard { label: "Host"; value: fa3Repository.hostName; note: "local host" }
-                        MetricCard { label: "Kernel"; value: fa3Repository.kernelVersion; note: "running kernel" }
-                        MetricCard { label: "CPU threads"; value: fa3Repository.cpuThreads.toString(); note: "read-only discovery" }
-                        MetricCard { label: "Memory"; value: fa3Repository.memoryGiB.toFixed(1) + " GiB"; note: "physical memory" }
-                    }
-                    Panel {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 220
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 16
-                            Label { text: "Host Resource Governance"; font.pixelSize: 17; font.bold: true }
-                            Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: window.textMuted; text: "CPU/GPU/NPU/NUMA/memory/placement beavatkozást ez a GUI nem hajt végre. Az operátor typed ChangeSet draftot készít, amelyet a meglévő Host Resource Broker és approval chain kezel." }
-                            Button { text: "Új ChangeSet draft"; onClicked: changeSetDialog.open() }
-                            Label { id: draftResult; color: window.accent; Layout.fillWidth: true; elide: Text.ElideMiddle }
-                        }
-                    }
+                ModulePage {
+                    pageTitle: "Integrations"
+                    pageSubtitle: "Desktop, DCC, editor, MCP and provider connections"
+                    cards: [
+                        {title: "Creative Apps", subtitle: "Krita, GIMP, Kdenlive, Bforartist/Blender, Natron/Gaffer.", badge: "DESKTOP", tone: window.magenta},
+                        {title: "Agent Clients", subtitle: "Goose, Open WebUI, OpenYak and related projections.", badge: "ROUTED", tone: window.accent},
+                        {title: "MCP", subtitle: "Capabilities mediated through the central gateway.", badge: "GATED", tone: window.orange},
+                        {title: "Journal Share", subtitle: "E-mail adapter and chat/export bundle handoff.", badge: "ADAPTER", tone: window.green}
+                    ]
                 }
-            }
 
-            ModulePage {
-                pageTitle: "Security & Approvals"
-                pageSubtitle: "Policy, approval és security evidence read projection"
-                cards: [
-                    {title: "Policies", subtitle: "Effective policy állapot és decision outcome", badge: "READ"},
-                    {title: "Approvals", subtitle: "Függő ChangeSet és execution approval-k", badge: "GATED"},
-                    {title: "Secrets", subtitle: "Metadata/projection only; secret értékek nélkül", badge: "NO VALUES"},
-                    {title: "Journal Retention", subtitle: "Soft delete, archive retirement és purge policy szétválasztva", badge: "FAIL-CLOSED"}
-                ]
-            }
-
-            ModulePage {
-                pageTitle: "Observability"
-                pageSubtitle: "Metrics, traces, provenance és rendszerállapot"
-                cards: [
-                    {title: "Metrics", subtitle: "Resource és service telemetry projection", badge: "READ"},
-                    {title: "Traces", subtitle: "Workflow/tool/model execution trace projection", badge: "READ"},
-                    {title: "Provenance", subtitle: "Artifact és execution provenance chain", badge: "READ"},
-                    {title: "Journal ingestion", subtitle: "Rendszer- és runtime-események egységes journal projectionje", badge: "APPEND"}
-                ]
-            }
-
-            JournalPage {
-                surface1: window.surface1
-                surface2: window.surface2
-                accent: window.accent
-                textPrimary: window.textPrimary
-                textMuted: window.textMuted
-            }
-
-            ScrollView {
-                contentWidth: availableWidth
-                ColumnLayout {
-                    width: parent.width
-                    spacing: 18
-                    anchors.margins: 24
-                    SectionTitle { title: "Evidence"; subtitle: "Conformance, receipts és promotion bizonyítékok" }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 12
-                        MetricCard { label: "Evidence rekord"; value: fa3Repository.evidenceCount.toString(); note: "repository evidence" }
-                        MetricCard { label: "Pending canonical"; value: fa3Repository.pendingCount.toString(); note: "figyelmet igényel" }
-                    }
-                    Panel {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 250
-                        Column {
-                            anchors.fill: parent
-                            anchors.margins: 16
-                            spacing: 8
-                            Label { text: "Evidence authority boundary"; font.bold: true; font.pixelSize: 15 }
-                            Label { width: parent.width; wrapMode: Text.WordWrap; color: window.textMuted; text: "A GUI evidence rekordokat megjelenít, de nem minősíthet saját magától PASS-nak, nem promotálhat runtime-ot és nem írhatja felül a Unified Observability/Evidence authority döntését. A Journal archívum integritás-PASS nem azonos production runtime promotionnel." }
-                        }
-                    }
-                }
-            }
-
-            ModulePage {
-                pageTitle: "Integrations"
-                pageSubtitle: "Desktop, DCC, editor, MCP és provider kapcsolatok"
-                cards: [
-                    {title: "Creative Apps", subtitle: "Krita, GIMP, Kdenlive, Bforartist/Blender, Natron/Gaffer"},
-                    {title: "Agent Clients", subtitle: "Goose, Open WebUI, OpenYak és kapcsolódó projectionök"},
-                    {title: "MCP", subtitle: "Central gateway által mediált capability-k", badge: "GATED"},
-                    {title: "Journal Share", subtitle: "E-mail adapter; chat provider URL / export-bundle fallback", badge: "ADAPTER"}
-                ]
-            }
-
-            ScrollView {
-                contentWidth: availableWidth
-                ColumnLayout {
-                    width: parent.width
-                    spacing: 18
-                    anchors.margins: 24
-                    SectionTitle { title: "System"; subtitle: "GUI runtime, repository és platform információ" }
-                    Panel {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 320
-                        GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            columnSpacing: 22
-                            rowSpacing: 10
-                            Label { text: "Application"; color: window.textMuted }
-                            Label { text: "FA3 Control Center 0.2.0" }
-                            Label { text: "Toolkit"; color: window.textMuted }
-                            Label { text: "Qt 6 / QML" }
-                            Label { text: "Repository"; color: window.textMuted }
-                            Label { text: fa3Repository.repoRoot; elide: Text.ElideMiddle; Layout.fillWidth: true }
-                            Label { text: "Journal storage"; color: window.textMuted }
-                            Label { text: fa3Journal.storageRoot; elide: Text.ElideMiddle; Layout.fillWidth: true }
-                            Label { text: "Journal retention"; color: window.textMuted }
-                            Label { text: "Append-only → sealed archive → retention trash → policy purge" }
-                            Label { text: "Mutation policy"; color: window.textMuted }
-                            Label { text: "Privileged changes: Draft ChangeSet only" }
-                            Label { text: "Display target"; color: window.textMuted }
-                            Label { text: "KDE Plasma / Wayland" }
+                ScrollView {
+                    id: systemView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: systemView.availableWidth
+                        spacing: 14
+                        SectionTitle { title: "System"; subtitle: "GUI runtime, repository and platform information" }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 360
+                            GridLayout {
+                                anchors.fill: parent
+                                anchors.margins: 18
+                                columns: 2
+                                columnSpacing: 24
+                                rowSpacing: 13
+                                Label { text: "Application"; color: window.textMuted }
+                                Label { text: "FA3 Control Center 0.3.0"; color: window.textPrimary }
+                                Label { text: "Toolkit"; color: window.textMuted }
+                                Label { text: "Qt 6 / QML / Basic controls"; color: window.textPrimary }
+                                Label { text: "Repository"; color: window.textMuted }
+                                Label { text: fa3Repository.repoRoot; color: window.textPrimary; Layout.fillWidth: true; elide: Text.ElideMiddle }
+                                Label { text: "Journal storage"; color: window.textMuted }
+                                Label { text: fa3Journal.storageRoot; color: window.textPrimary; Layout.fillWidth: true; elide: Text.ElideMiddle }
+                                Label { text: "Host"; color: window.textMuted }
+                                Label { text: fa3Repository.hostName; color: window.textPrimary }
+                                Label { text: "Kernel"; color: window.textMuted }
+                                Label { text: fa3Repository.kernelVersion; color: window.textPrimary }
+                                Label { text: "Mutation policy"; color: window.textMuted }
+                                Label { text: "Privileged changes: Draft ChangeSet only"; color: window.textPrimary }
+                                Label { text: "Display target"; color: window.textMuted }
+                                Label { text: "KDE Plasma / Wayland"; color: window.textPrimary }
+                            }
                         }
                     }
                 }
@@ -483,11 +612,11 @@ ApplicationWindow {
         ColumnLayout {
             width: parent.width
             spacing: 10
-            TextField { id: csScope; Layout.fillWidth: true; placeholderText: "Scope (pl. HOST_RESOURCE_GOVERNANCE)" }
-            TextField { id: csAction; Layout.fillWidth: true; placeholderText: "Action (pl. propose.memory.hugepages)" }
-            TextField { id: csTarget; Layout.fillWidth: true; placeholderText: "Target (canonical ID vagy host resource)" }
-            TextArea { id: csRationale; Layout.fillWidth: true; Layout.preferredHeight: 120; placeholderText: "Indoklás"; wrapMode: TextEdit.Wrap }
-            Label { Layout.fillWidth: true; color: window.textMuted; wrapMode: Text.WordWrap; text: "A Save csak helyi DRAFT_NOT_SUBMITTED JSON-t készít. Nem futtat parancsot és nem módosít canonical állapotot." }
+            TextField { id: csScope; Layout.fillWidth: true; placeholderText: "Scope (e.g. HOST_RESOURCE_GOVERNANCE)" }
+            TextField { id: csAction; Layout.fillWidth: true; placeholderText: "Action (e.g. propose.memory.hugepages)" }
+            TextField { id: csTarget; Layout.fillWidth: true; placeholderText: "Target canonical ID or host resource" }
+            TextArea { id: csRationale; Layout.fillWidth: true; Layout.preferredHeight: 120; placeholderText: "Rationale"; wrapMode: TextEdit.Wrap }
+            Label { Layout.fillWidth: true; color: window.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 10; text: "Save creates a local DRAFT_NOT_SUBMITTED JSON only. It executes no command and performs no canonical write." }
         }
         onAccepted: {
             draftResult.text = fa3Repository.createDraftChangeSet(csScope.text, csAction.text, csTarget.text, csRationale.text)
