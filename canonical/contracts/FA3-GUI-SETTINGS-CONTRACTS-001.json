@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-GUI-SETTINGS-CONTRACTS-001",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-GUI-SETTINGS-001",
@@ -25,6 +25,8 @@
     "CoachViewPreference",
     "ManagerViewPreference",
     "InspectorViewPreference",
+    "IdeatorViewPreference",
+    "AdvisorViewPreference",
     "UpdatePreference",
     "AboutDiagnosticsProjection",
     "HdrReservedSurface",
@@ -46,8 +48,18 @@
     "conversation_entry": "HEADER_ASK_ACTION",
     "ask_button_visibility_storage": "QSettings/XDG",
     "ask_button_visibility_effect": "UI_ONLY",
-    "roles": ["FA3-MENTOR-001", "FA3-COACH-001", "FA3-MANAGER-001", "FA3-INSPECTOR-001"],
-    "inspector_independence_can_be_disabled_by_preference": false
+    "roles": [
+      "FA3-MENTOR-001",
+      "FA3-COACH-001",
+      "FA3-MANAGER-001",
+      "FA3-INSPECTOR-001",
+      "FA3-IDEATOR-001",
+      "FA3-ADVISOR-001"
+    ],
+    "inspector_independence_can_be_disabled_by_preference": false,
+    "ideator_semantic_boundaries_can_be_disabled_by_preference": false,
+    "advisor_semantic_boundaries_can_be_disabled_by_preference": false,
+    "advisor_inspector_handoff_can_be_disabled_by_preference": false
   },
   "integration_roles": {
     "graphics": ["GIMP", "Krita"],
