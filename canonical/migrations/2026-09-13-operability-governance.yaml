@@ -1,0 +1,39 @@
+schema: fa3.criteria-migration/v1
+id: FA3-OPERABILITY-GOVERNANCE-MIGRATION-2026-09-13
+criteria_revision: true
+status: IN_PROGRESS
+transition:
+  old_criteria_may_not_block_revision_only_because_they_are_changed: true
+  invariants_that_remain_mandatory:
+    - security_boundaries
+    - authority_boundaries
+    - production_fail_closed_behavior
+    - no_false_runtime_evidence
+changes:
+  assurance_model:
+    from: uniform_production_weight
+    to: progressive_assurance
+    stages: [LAB, CANDIDATE, STAGING, PRODUCTION, CANONICAL]
+  capability_baseline:
+    v3_0: 143
+    semantics: release_scoped
+  host_evidence:
+    semantics: required_enabled_or_active_scope
+  meta_launchers:
+    remove_from_canonical_default_scope:
+      - LynxHub
+      - Stability Matrix
+      - Pinokio
+    migrate_useful_patterns_to: FA3-APPLICATION-FABRIC-001
+  paid_providers:
+    permitted: true
+    default_enabled: false
+    policy: FA3-PAID-PROVIDER-POLICY-001
+  execution_fabric:
+    targets: [LOCAL, LAN, CLUSTER, CLOUD, HYBRID]
+  hitl:
+    semantics: risk_based
+retained_content_provider_examples:
+  - Hugging Face
+  - CivitAI
+  - OpenModelDB
