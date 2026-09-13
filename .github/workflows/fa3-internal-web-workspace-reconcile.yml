@@ -1,0 +1,287 @@
+name: FA3 internal web workspace reconcile
+
+on:
+  push:
+    branches:
+      - fa3-gui-deploy-verification-v1
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-deploy-verification-v1
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Materialize embedded Web Workspace
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path('.')
+          main = root / 'apps/fa3-control-center/qml/Main.qml'
+          cmake = root / 'apps/fa3-control-center/CMakeLists.txt'
+          cpp = root / 'apps/fa3-control-center/src/main.cpp'
+          installer = root / 'deployment/fa3-gui/install.sh'
+          gate = root / '.github/workflows/fa3-gui-gate.yml'
+          web = root / 'apps/fa3-control-center/qml/WebWorkspace.qml'
+
+          def replace_once(path: Path, old: str, new: str):
+              text = path.read_text()
+              if old not in text:
+                  raise SystemExit(f'expected marker not found in {path}: {old[:100]!r}')
+              path.write_text(text.replace(old, new, 1))
+
+          # Main QML: route QuickLink clicks into an internal Qt WebEngine surface.
+          replace_once(main, 'import QtQuick.Window\n', 'import QtQuick.Window\nimport QtWebEngine\n')
+          replace_once(
+              main,
+              '    property string askRole: "Mentor"\n',
+              '    property string askRole: "Mentor"\n'
+              '    property bool webWorkspaceOpen: false\n'
+              '    property url webWorkspaceUrl: "about:blank"\n'
+              '    property string webWorkspaceTitle: "Web Workspace"\n\n'
+              '    function openInternalWeb(targetUrl, titleText) {\n'
+              '        webWorkspaceUrl = targetUrl\n'
+              '        webWorkspaceTitle = titleText\n'
+              '        webWorkspaceOpen = true\n'
+              '    }\n'
+          )
+          replace_once(
+              main,
+              '            onClicked: Qt.openUrlExternally(quickLinkRoot.targetUrl)\n',
+              '            onClicked: window.openInternalWeb(quickLinkRoot.targetUrl, quickLinkRoot.linkText)\n'
+          )
+          replace_once(
+              main,
+              '                currentIndex: window.selectedIndex\n',
+              '                currentIndex: window.webWorkspaceOpen ? 17 : window.selectedIndex\n'
+          )
+          tail_old = '''                                Label { text: "Display target"; color: window.textMuted }\n                                Label { text: "KDE Plasma / Wayland"; color: window.textPrimary }\n                            }\n                        }\n                    }\n                }\n            }\n\n            Rectangle {'''
+          tail_new = '''                                Label { text: "Display target"; color: window.textMuted }\n                                Label { text: "KDE Plasma / Wayland"; color: window.textPrimary }\n                            }\n                        }\n                    }\n                }\n\n                WebWorkspace {\n                    webUrl: window.webWorkspaceUrl\n                    titleText: window.webWorkspaceTitle\n                    surface: window.panel\n                    surfaceRaised: window.panelRaised\n                    borderTone: window.border\n                    textPrimary: window.textPrimary\n                    textMuted: window.textMuted\n                    accent: window.accent\n                    onCloseRequested: window.webWorkspaceOpen = false\n                }\n            }\n\n            Rectangle {'''
+          replace_once(main, tail_old, tail_new)
+
+          web.write_text(r'''import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtWebEngine
+
+Item {
+    id: root
+
+    property url webUrl: "about:blank"
+    property string titleText: "Web Workspace"
+    property color surface: "#0b1728"
+    property color surfaceRaised: "#0f2035"
+    property color borderTone: "#1d3550"
+    property color textPrimary: "#f5f8fc"
+    property color textMuted: "#8397ad"
+    property color accent: "#25a7ff"
+    property string noticeText: "Isolated FA3 Web Workspace · browser extensions unavailable · popup windows stay inside this surface"
+
+    signal closeRequested()
+
+    WebEngineProfile {
+        id: isolatedProfile
+        offTheRecord: true
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: root.surface
+        border.color: root.borderTone
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 0
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 46
+                color: root.surfaceRaised
+                border.color: root.borderTone
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 10
+                    anchors.rightMargin: 10
+                    spacing: 6
+
+                    ToolButton {
+                        text: "←"
+                        enabled: webView.canGoBack
+                        onClicked: webView.goBack()
+                    }
+                    ToolButton {
+                        text: "→"
+                        enabled: webView.canGoForward
+                        onClicked: webView.goForward()
+                    }
+                    ToolButton {
+                        text: "↻"
+                        onClicked: webView.reload()
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 0
+                        Label {
+                            text: root.titleText
+                            color: root.textPrimary
+                            font.pixelSize: 11
+                            font.bold: true
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                        Label {
+                            text: webView.url.toString()
+                            color: root.textMuted
+                            font.pixelSize: 8
+                            Layout.fillWidth: true
+                            elide: Text.ElideMiddle
+                        }
+                    }
+
+                    Rectangle {
+                        radius: 5
+                        color: "#102a43"
+                        border.color: root.borderTone
+                        implicitWidth: 104
+                        implicitHeight: 26
+                        Label {
+                            anchors.centerIn: parent
+                            text: "ISOLATED WEB"
+                            color: root.accent
+                            font.pixelSize: 8
+                            font.bold: true
+                        }
+                    }
+
+                    ToolButton {
+                        text: "✕"
+                        onClicked: root.closeRequested()
+                    }
+                }
+            }
+
+            WebEngineView {
+                id: webView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                profile: isolatedProfile
+                url: root.webUrl
+
+                onNewWindowRequested: function(request) {
+                    // Never create an OS/browser popup. Target=_blank and popup
+                    // requests are folded back into this isolated FA3 surface.
+                    if (request.requestedUrl && request.requestedUrl.toString().length > 0) {
+                        webView.url = request.requestedUrl
+                    }
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 28
+                color: "#06101c"
+                border.color: root.borderTone
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 10
+                    anchors.rightMargin: 10
+                    spacing: 8
+                    Rectangle { width: 6; height: 6; radius: 3; color: root.accent }
+                    Label {
+                        text: root.noticeText
+                        color: root.textMuted
+                        font.pixelSize: 8
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                    }
+                }
+            }
+        }
+    }
+}
+''')
+
+          replace_once(
+              cmake,
+              'find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2)\n',
+              'find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 WebEngineQuick)\n'
+          )
+          replace_once(
+              cmake,
+              'set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)\n',
+              'set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)\n'
+              'set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS WebWorkspace.qml)\n'
+          )
+          replace_once(
+              cmake,
+              '        qml/JournalPage.qml\n',
+              '        qml/JournalPage.qml\n        qml/WebWorkspace.qml\n'
+          )
+          replace_once(
+              cmake,
+              '        Qt6::QuickControls2\n',
+              '        Qt6::QuickControls2\n        Qt6::WebEngineQuick\n'
+          )
+
+          replace_once(
+              cpp,
+              '#include <QtWebEngineQuick/qtwebenginequickglobal.h>\n' if '#include <QtWebEngineQuick/qtwebenginequickglobal.h>\n' in cpp.read_text() else '#include <QUrl>\n',
+              '#include <QUrl>\n#include <QtWebEngineQuick/qtwebenginequickglobal.h>\n'
+          )
+          replace_once(
+              cpp,
+              'int main(int argc, char *argv[])\n{\n    QGuiApplication app(argc, argv);\n',
+              'int main(int argc, char *argv[])\n{\n    QtWebEngineQuick::initialize();\n    QGuiApplication app(argc, argv);\n'
+          )
+
+          replace_once(
+              installer,
+              '    qt6-base-dev qt6-declarative-dev \\\n',
+              '    qt6-base-dev qt6-declarative-dev qt6-webengine-dev \\\n'
+          )
+          replace_once(
+              installer,
+              '    qml6-module-qtquick qml6-module-qtquick-controls \\\n',
+              '    qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtwebengine \\\n'
+          )
+          replace_once(
+              installer,
+              '  \'labelText: "NPU"\'\n)\n',
+              '  \'labelText: "NPU"\'\n  \'import QtWebEngine\'\n  \'openInternalWeb\'\n)\n'
+          )
+          installer_text = installer.read_text()
+          negative = '''\nif grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then\n  echo "FA3 GUI source-contract check FAILED: QuickLink still escapes to an external browser" >&2\n  exit 3\nfi\n'''
+          marker = 'done\n\nif command -v git'
+          if marker not in installer_text:
+              raise SystemExit('installer marker not found for external-browser negative gate')
+          installer.write_text(installer_text.replace(marker, 'done\n' + negative + '\nif command -v git', 1))
+
+          replace_once(
+              gate,
+              '            qt6-base-dev qt6-declarative-dev \\\n',
+              '            qt6-base-dev qt6-declarative-dev qt6-webengine-dev \\\n'
+          )
+          replace_once(
+              gate,
+              '            qml6-module-qtquick qml6-module-qtquick-controls \\\n',
+              '            qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtwebengine \\\n'
+          )
+          PY
+
+          rm -f .github/workflows/fa3-internal-web-workspace-reconcile.yml
+
+          git config user.name "fa3-gui-reconcile"
+          git config user.email "fa3-gui-reconcile@users.noreply.github.com"
+          git add -A
+          git commit -m "FA3 GUI: embed isolated Web Workspace and block external QuickLink browser launches"
+          git push origin HEAD:fa3-gui-deploy-verification-v1
