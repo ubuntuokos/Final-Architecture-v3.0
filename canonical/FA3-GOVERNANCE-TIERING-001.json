@@ -1,0 +1,169 @@
+{
+  "schema": "fa3.governance-tiering.projection.v1",
+  "id": "FA3-GOVERNANCE-TIERING-001",
+  "title": "Governance Tiering Derived Projection",
+  "architecture_release": "2026-08-23/v3.0.11",
+  "type": "DERIVED_GOVERNANCE_PROJECTION",
+  "status": "CANONICAL_PROJECTION",
+  "semantic_effect": "NO_BASELINE_SEMANTIC_CHANGE",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "canonical_capability_count_before": 143,
+  "canonical_capability_count_after": 143,
+  "purpose": "Expose a single read-only lifecycle view over existing FA3 canonical, evidence, acceptance and promotion authorities while formalizing only the non-authoritative assurance rings LAB, CANDIDATE and STAGING.",
+  "non_authority": {
+    "may_promote_runtime": false,
+    "may_canonicalize": false,
+    "may_mutate_evidence": false,
+    "may_enable_provider": false,
+    "may_grant_authority": false,
+    "may_override_acceptance": false,
+    "may_override_current_host_evidence": false,
+    "may_infer_pass_from_documentation": false
+  },
+  "authoritative_sources": {
+    "canonical": {
+      "mode": "READ_ONLY",
+      "path": "canonical/enforcement-policy.json",
+      "release_projection_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+      "projection_does_not_own_states": true
+    },
+    "evidence": {
+      "mode": "READ_ONLY",
+      "path": "evidence/evidence-registry.json",
+      "projection_does_not_own_states": true
+    },
+    "acceptance": {
+      "mode": "READ_ONLY_GENERATED_OUTPUT",
+      "path": "acceptance/acceptance-report.json",
+      "producer": "src/fa3_enforce.py::acceptance_check",
+      "projection_does_not_own_states": true
+    },
+    "promotion": {
+      "mode": "READ_ONLY_GENERATED_OUTPUT",
+      "path": "promotion/runtime-status.json",
+      "producer": "src/fa3_enforce.py::promote",
+      "projection_does_not_own_states": true
+    },
+    "current_host": {
+      "mode": "READ_ONLY",
+      "workflow": ".github/workflows/fa3-global-current-host-closure.yml",
+      "required_runner_labels": [
+        "self-hosted",
+        "linux",
+        "x64",
+        "fa3-current-host"
+      ],
+      "projection_does_not_create_receipts": true
+    }
+  },
+  "orthogonal_axes": {
+    "assurance": {
+      "owned_by_projection": true,
+      "authoritative_for_production": false,
+      "rings": [
+        {
+          "id": "LAB",
+          "ordinal": 10,
+          "meaning": "Experimental or exploratory implementation state. Mutable inputs may exist and conformance may be incomplete.",
+          "minimum_semantics": [
+            "NO_PRODUCTION_CLAIM",
+            "NO_CANONICAL_CLAIM_FROM_RING",
+            "NO_CURRENT_HOST_PASS_FROM_RING"
+          ]
+        },
+        {
+          "id": "CANDIDATE",
+          "ordinal": 20,
+          "meaning": "Candidate implementation with resolved identity/provenance suitable for controlled conformance work, but not production promotion.",
+          "minimum_semantics": [
+            "IMMUTABLE_IDENTITY_OR_EQUIVALENT_RESOLUTION_REQUIRED",
+            "PROVENANCE_OR_SOURCE_BINDING_REQUIRED",
+            "NO_PRODUCTION_CLAIM",
+            "NO_CANONICAL_CLAIM_FROM_RING"
+          ]
+        },
+        {
+          "id": "STAGING",
+          "ordinal": 30,
+          "meaning": "Implementation has passed its applicable static/reference/provider conformance prerequisites and is ready for authoritative runtime admission or promotion evaluation.",
+          "minimum_semantics": [
+            "APPLICABLE_STATIC_OR_REFERENCE_GATES_PASS",
+            "REFERENCE_OR_CI_EVIDENCE_MAY_NOT_SUBSTITUTE_CURRENT_HOST_EVIDENCE",
+            "PRODUCTION_REQUIRES_EXISTING_PROMOTION_AUTHORITY",
+            "NO_CANONICAL_CLAIM_FROM_RING"
+          ]
+        }
+      ],
+      "demotion_on_invalidation": true,
+      "unknown_when_derivation_inputs_are_insufficient": true
+    },
+    "canonical": {
+      "owned_by_projection": false,
+      "source": "authoritative_sources.canonical",
+      "state_model": "SOURCE_DEFINED_PASSTHROUGH",
+      "unknown_when_source_unavailable": true
+    },
+    "runtime": {
+      "owned_by_projection": false,
+      "sources": [
+        "authoritative_sources.evidence",
+        "authoritative_sources.acceptance",
+        "authoritative_sources.promotion",
+        "authoritative_sources.current_host"
+      ],
+      "state_model": "SOURCE_DEFINED_PASSTHROUGH",
+      "unknown_or_pending_when_source_unavailable": true
+    }
+  },
+  "derivation_rules": {
+    "assurance_ring_order": [
+      "LAB",
+      "CANDIDATE",
+      "STAGING"
+    ],
+    "ring_is_not_promotion_state": true,
+    "ring_is_not_canonical_state": true,
+    "canonical_and_runtime_are_independent": true,
+    "canonical_closed_with_pending_current_host_is_valid": true,
+    "staging_with_not_promoted_is_valid": true,
+    "promotion_must_be_read_from_existing_promotion_authority": true,
+    "missing_or_ambiguous_authoritative_state": "UNKNOWN_OR_PENDING",
+    "fail_closed": true
+  },
+  "forbidden_inferences": [
+    "LAB_IMPLIES_NOT_CANONICAL",
+    "CANDIDATE_IMPLIES_CANONICAL",
+    "STAGING_IMPLIES_PRODUCTION",
+    "CANONICAL_CLOSED_IMPLIES_PROMOTED",
+    "REFERENCE_CI_PASS_IMPLIES_CURRENT_HOST_PASS",
+    "DOCUMENTATION_IMPLIES_RUNTIME_PASS",
+    "ASSURANCE_RING_MAY_BYPASS_ACCEPTANCE",
+    "ASSURANCE_RING_MAY_BYPASS_PROMOTION_GUARD"
+  ],
+  "valid_composition_examples": [
+    {
+      "assurance": "STAGING",
+      "canonical": "CANONICAL_CLOSED",
+      "runtime": "PENDING_CURRENT_HOST",
+      "production": "NOT_PROMOTED"
+    },
+    {
+      "assurance": "STAGING",
+      "canonical": "CANONICAL_CLOSED",
+      "runtime": "CURRENT_HOST_PASS",
+      "production": "PROMOTED"
+    }
+  ],
+  "gui_projection": {
+    "read_only": true,
+    "recommended_fields": [
+      "Assurance",
+      "Canonical",
+      "Current Host",
+      "Production"
+    ],
+    "unknown_must_be_visible": true,
+    "never_render_unknown_as_pass": true
+  }
+}
