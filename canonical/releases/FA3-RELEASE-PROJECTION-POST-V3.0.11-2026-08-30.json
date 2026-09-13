@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d341ab7127dcd06e186c8c1ab438b6ec260ea157",
-    "pre_projection_root_tree_sha": "9e29c154642af09ab0021becb8f5bb1097978ae4",
-    "pre_projection_canonical_tree_sha": "4de6d2a10929444879193f51b60de0bfb42c8b1b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 216,
-    "total_post_baseline_commits": 216,
-    "delta_file_count": 1076,
-    "delta_added_files": 1071,
+    "pre_projection_head_sha": "d21059dd5d07487d083742e419ee1f0348e748d3",
+    "pre_projection_root_tree_sha": "01a15ae27ce8c41776b5473b25a5fb115d035252",
+    "pre_projection_canonical_tree_sha": "37f8a1abb4c3d9e72c89eac8ae18a50ad57aba62",
+    "commits_ahead_of_v3_0_11_conformance_commit": 199,
+    "total_post_baseline_commits": 199,
+    "delta_file_count": 1084,
+    "delta_added_files": 1079,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 596,
-    "evidence_files_in_post_baseline_delta": 112,
-    "source_files_in_post_baseline_delta": 119,
-    "test_files_in_post_baseline_delta": 101,
-    "workflow_files_in_post_baseline_delta": 37,
+    "canonical_files_in_post_baseline_delta": 600,
+    "evidence_files_in_post_baseline_delta": 113,
+    "source_files_in_post_baseline_delta": 120,
+    "test_files_in_post_baseline_delta": 102,
+    "workflow_files_in_post_baseline_delta": 38,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -116,6 +116,7 @@
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENMODELDB-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
@@ -362,6 +363,7 @@
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
       "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
@@ -424,6 +426,7 @@
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13.json",
       "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
       "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
       "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
@@ -502,6 +505,7 @@
       "evidence/reference/opencut-ci-2026-09-01.json",
       "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
       "evidence/reference/openhands-ci-2026-09-01.json",
+      "evidence/reference/openmodeldb-provider-ci-2026-09-13.json",
       "evidence/reference/openvid-ci-2026-09-04.json",
       "evidence/reference/openyak-ci-2026-09-05.json",
       "evidence/reference/page-cache-prefetch-ci-2026-09-11.json",
@@ -703,7 +707,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1076,
+  "manifest_entry_count": 1084,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -828,6 +832,11 @@
     {
       "path": ".github/workflows/fa3-modular-current-host.yml",
       "git_blob_sha": "17b4132d337110161e2ff286a366d7f1ebf276d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-openmodeldb-provider-gate.yml",
+      "git_blob_sha": "7bb5fff1361e3cde0fa9c097c7a4669098475c20",
       "baseline_delta_status": "added"
     },
     {
@@ -2446,6 +2455,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
+      "git_blob_sha": "14fa84e3eb852bf7535a3d6bf3ca6553b4ae8164",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b",
       "baseline_delta_status": "added"
@@ -2787,7 +2801,7 @@
     },
     {
       "path": "canonical/model-manager-v2-enforcement.json",
-      "git_blob_sha": "ff382f22bd3d082af807477ce987d619c85312b2",
+      "git_blob_sha": "319851a7a550bad71b19f522aa17590c6e5389e2",
       "baseline_delta_status": "added"
     },
     {
@@ -2848,6 +2862,11 @@
     {
       "path": "canonical/openhands-runtime-admission.json",
       "git_blob_sha": "5532d6a34bca85e316a57ecfa6845c11aeb930ef",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/openmodeldb-provider-enforcement.json",
+      "git_blob_sha": "853fc564201cddefd11c7b698bebd4a3750a91ab",
       "baseline_delta_status": "added"
     },
     {
@@ -3067,7 +3086,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
-      "git_blob_sha": "0bffbaf6e44d96312a5a7686de22d8b99ee3493b",
+      "git_blob_sha": "178a725cfb3e58cce6e9b4a42d0aeb8a0a4710f4",
       "baseline_delta_status": "added"
     },
     {
@@ -3468,6 +3487,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
       "git_blob_sha": "3b9d9c084df251f7e5862cb1c4ab097d17cf2f00",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPENMODELDB-001.json",
+      "git_blob_sha": "12d8cadddcbf344b77562c0cbdebe38ba56c9dfb",
       "baseline_delta_status": "added"
     },
     {
@@ -3883,6 +3907,11 @@
     {
       "path": "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "ee7ddd35af2088240a31cbfff232a959dc526e4c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13.json",
+      "git_blob_sha": "61911b24aa095dd2e08a86f9bf9ffa1f97e14ce7",
       "baseline_delta_status": "added"
     },
     {
@@ -4781,6 +4810,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/openmodeldb-provider-ci-2026-09-13.json",
+      "git_blob_sha": "0493f8acc0d8dfa457cd32bc36c546733700de3d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/openvid-ci-2026-09-04.json",
       "git_blob_sha": "703c452843d572b8e08b044d3260ae35c1065108",
       "baseline_delta_status": "added"
@@ -5411,6 +5445,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_openmodeldb_provider_gate.py",
+      "git_blob_sha": "f6623db3d6effd82bdef63f55b2d659a24b75b24",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_openvid_gate.py",
       "git_blob_sha": "7664869c636071194dbf82f9a33a0b6f7639e87e",
       "baseline_delta_status": "added"
@@ -5928,6 +5967,11 @@
     {
       "path": "tests/test_openhands_gate.py",
       "git_blob_sha": "a631929acb1561d817f7f9f534bbf41554ed533c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_openmodeldb_provider_gate.py",
+      "git_blob_sha": "b890c6905afae5078e5f5b6eb8b89226cddf0ed7",
       "baseline_delta_status": "added"
     },
     {
