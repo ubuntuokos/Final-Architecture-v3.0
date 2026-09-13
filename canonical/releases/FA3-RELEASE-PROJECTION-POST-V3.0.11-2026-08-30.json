@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1abf9669f71e050c6a8d2fde04f9d33f3ee96eed",
-    "pre_projection_root_tree_sha": "acdec9cac13d7fb17f012f0d75de147e95e379ef",
-    "pre_projection_canonical_tree_sha": "da23d6cdad7692317bb765e90dbe0c2b055e1f8f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 206,
-    "total_post_baseline_commits": 206,
-    "delta_file_count": 1084,
-    "delta_added_files": 1079,
+    "pre_projection_head_sha": "83ffa90eba7f79cdb976130bdea1a23ab027022d",
+    "pre_projection_root_tree_sha": "f4aa9c7d1dccec5ad71ef4111b207a624b8f12a5",
+    "pre_projection_canonical_tree_sha": "b8993b66f9864b6a5d00b3c43548983d1c54624a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 193,
+    "total_post_baseline_commits": 193,
+    "delta_file_count": 1087,
+    "delta_added_files": 1082,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -707,7 +707,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1084,
+  "manifest_entry_count": 1087,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -930,6 +930,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/LegacyMain.qml",
+      "git_blob_sha": "6bd33e4b7f1eaaac3aa9ee5fb8d67be7dff20a33",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/qml/Main.qml",
       "git_blob_sha": "6bd33e4b7f1eaaac3aa9ee5fb8d67be7dff20a33",
       "baseline_delta_status": "added"
@@ -952,6 +957,16 @@
     {
       "path": "apps/fa3-control-center/src/JournalService.h",
       "git_blob_sha": "aa345ac29958a34846e8ca159df21a2f8a2190a0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/OpenModelDbService.cpp",
+      "git_blob_sha": "3c2cd19c0e0539eb3dcac9084a5104371650ddfe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/OpenModelDbService.h",
+      "git_blob_sha": "489b5a0c1cb7176a2fb6c598b0de4af89a2a1f18",
       "baseline_delta_status": "added"
     },
     {
