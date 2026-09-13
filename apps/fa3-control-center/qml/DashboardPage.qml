@@ -175,6 +175,23 @@ Item {
                     }
                 }
 
+                Panel {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 66
+                    color: root.panelRaised
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: 14
+                        anchors.rightMargin: 14
+                        spacing: 10
+                        StatusDot { dotColor: root.orange }
+                        Label { text: "Real-Time Data"; color: root.textPrimary; font.pixelSize: 11; font.bold: true }
+                        Label { text: "ADAPTER-GATED"; color: root.orange; font.pixelSize: 9; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        MutedLabel { text: "Freshness, auth, policy és provenance csak konfigurált RTD adapter evidence alapján jelenik meg." }
+                    }
+                }
+
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 12
