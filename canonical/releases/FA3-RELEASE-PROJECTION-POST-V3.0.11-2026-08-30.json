@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "83ffa90eba7f79cdb976130bdea1a23ab027022d",
-    "pre_projection_root_tree_sha": "f4aa9c7d1dccec5ad71ef4111b207a624b8f12a5",
-    "pre_projection_canonical_tree_sha": "b8993b66f9864b6a5d00b3c43548983d1c54624a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 193,
-    "total_post_baseline_commits": 193,
-    "delta_file_count": 1087,
-    "delta_added_files": 1082,
+    "pre_projection_head_sha": "196fdc6976e558620684169fbc4a0c7b8c15a71f",
+    "pre_projection_root_tree_sha": "854c7c21c1382b0e36b091919c0bfe099e9061f8",
+    "pre_projection_canonical_tree_sha": "959197e92a8c4c562bb127e8c9710257f456fa1e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 206,
+    "total_post_baseline_commits": 206,
+    "delta_file_count": 1091,
+    "delta_added_files": 1086,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 600,
+    "canonical_files_in_post_baseline_delta": 602,
     "evidence_files_in_post_baseline_delta": 113,
     "source_files_in_post_baseline_delta": 120,
-    "test_files_in_post_baseline_delta": 102,
+    "test_files_in_post_baseline_delta": 103,
     "workflow_files_in_post_baseline_delta": 38,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -363,6 +363,7 @@
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
       "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
       "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
+      "canonical/decisions/FA3-DEC-OPENMODELDB-BROWSER-DOWNLOAD-2026-09-13.json",
       "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
@@ -707,7 +708,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1087,
+  "manifest_entry_count": 1091,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -836,7 +837,7 @@
     },
     {
       "path": ".github/workflows/fa3-openmodeldb-provider-gate.yml",
-      "git_blob_sha": "7bb5fff1361e3cde0fa9c097c7a4669098475c20",
+      "git_blob_sha": "9decb3c77fe2f7975b0535ea118c72d524197c04",
       "baseline_delta_status": "added"
     },
     {
@@ -911,7 +912,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "b9127ff3048375d40e75368dce8ed36cb442bdf0",
+      "git_blob_sha": "66840aa0454e76e1ed8f085ef6fce21e1f291d36",
       "baseline_delta_status": "added"
     },
     {
@@ -936,7 +937,12 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "6bd33e4b7f1eaaac3aa9ee5fb8d67be7dff20a33",
+      "git_blob_sha": "62cdeef4a4c87be60db240ac012501201557572e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+      "git_blob_sha": "f92424318ec1533970e30f825db58d8637c1ad1d",
       "baseline_delta_status": "added"
     },
     {
@@ -966,12 +972,12 @@
     },
     {
       "path": "apps/fa3-control-center/src/OpenModelDbService.h",
-      "git_blob_sha": "489b5a0c1cb7176a2fb6c598b0de4af89a2a1f18",
+      "git_blob_sha": "a698014ef8fdd17c2fd665298d6edda081946ce1",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "37c2e61061d8b3d723d8427a9d1b99ab98542c66",
+      "git_blob_sha": "dcc6a73796b3a8e20aed873edd741876b63abc8e",
       "baseline_delta_status": "added"
     },
     {
@@ -2470,6 +2476,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-OPENMODELDB-BROWSER-DOWNLOAD-2026-09-13.json",
+      "git_blob_sha": "1326ebb49a16bc6dfd4589a4e0879f98c228be8e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
       "git_blob_sha": "14fa84e3eb852bf7535a3d6bf3ca6553b4ae8164",
       "baseline_delta_status": "added"
@@ -2877,6 +2888,11 @@
     {
       "path": "canonical/openhands-runtime-admission.json",
       "git_blob_sha": "5532d6a34bca85e316a57ecfa6845c11aeb930ef",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/openmodeldb-browser-download-enforcement.json",
+      "git_blob_sha": "406e9f0899a35b40f7d010fd012d799d4d88aca7",
       "baseline_delta_status": "added"
     },
     {
@@ -5186,7 +5202,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "fd8fa06494711d6be6d565319d6a6700754fd6d3",
+      "git_blob_sha": "350f547f3838b69af4be50510b6f73cce86c41f5",
       "baseline_delta_status": "added"
     },
     {
@@ -5811,7 +5827,7 @@
     },
     {
       "path": "tests/test_journal_archive_gate.py",
-      "git_blob_sha": "3d4d5f018e98e1a74d4e3d78f056fc2b861b81ee",
+      "git_blob_sha": "b74c11c260aaf42d3152108a9d86b7c3d820b4cc",
       "baseline_delta_status": "added"
     },
     {
@@ -5982,6 +5998,11 @@
     {
       "path": "tests/test_openhands_gate.py",
       "git_blob_sha": "a631929acb1561d817f7f9f534bbf41554ed533c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_openmodeldb_browser_download_manager.py",
+      "git_blob_sha": "b672b9d3375e5ff205ff363e93777192d6d73d00",
       "baseline_delta_status": "added"
     },
     {
