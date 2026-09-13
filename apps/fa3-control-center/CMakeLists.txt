@@ -43,6 +43,7 @@ set_source_files_properties(qml/MentorPage.qml PROPERTIES QT_RESOURCE_ALIAS Ment
 set_source_files_properties(qml/CoachPage.qml PROPERTIES QT_RESOURCE_ALIAS CoachPage.qml)
 set_source_files_properties(qml/ManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ManagerPage.qml)
 set_source_files_properties(qml/ModelManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelManagerPage.qml)
+set_source_files_properties(qml/HuggingFaceModelPanel.qml PROPERTIES QT_RESOURCE_ALIAS HuggingFaceModelPanel.qml)
 set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_ALIAS LanguageControlPage.qml)
 set_source_files_properties(qml/AnimationIntegrationPanel.qml PROPERTIES QT_RESOURCE_ALIAS AnimationIntegrationPanel.qml)
 set_source_files_properties(qml/SystemPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemPage.qml)
@@ -71,6 +72,7 @@ qt_add_qml_module(fa3-control-center
         qml/CoachPage.qml
         qml/ManagerPage.qml
         qml/ModelManagerPage.qml
+        qml/HuggingFaceModelPanel.qml
         qml/LanguageControlPage.qml
         qml/AnimationIntegrationPanel.qml
         qml/SystemPage.qml
