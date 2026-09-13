@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "bce711ccd332f3b03419d4517d5649465e35f0d6",
-    "pre_projection_root_tree_sha": "8bbab5f916c8e6eb1dae84098699307894e00d12",
-    "pre_projection_canonical_tree_sha": "e1fe429b0afb31a46588f0a20deb11f68caa9407",
-    "commits_ahead_of_v3_0_11_conformance_commit": 209,
-    "total_post_baseline_commits": 209,
-    "delta_file_count": 1073,
-    "delta_added_files": 1068,
+    "pre_projection_head_sha": "10e4a348b89d9a81318f35dd16a09fe70380e1bf",
+    "pre_projection_root_tree_sha": "2c6d904e52e120e2681dd3e310e63df527d0af30",
+    "pre_projection_canonical_tree_sha": "8b165be0f8511cafd87dfcbef02410de9c2a9306",
+    "commits_ahead_of_v3_0_11_conformance_commit": 214,
+    "total_post_baseline_commits": 214,
+    "delta_file_count": 1076,
+    "delta_added_files": 1071,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,8 +48,8 @@
     "canonical_files_in_post_baseline_delta": 596,
     "evidence_files_in_post_baseline_delta": 112,
     "source_files_in_post_baseline_delta": 119,
-    "test_files_in_post_baseline_delta": 100,
-    "workflow_files_in_post_baseline_delta": 36,
+    "test_files_in_post_baseline_delta": 101,
+    "workflow_files_in_post_baseline_delta": 37,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -576,7 +576,8 @@
     "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001",
     "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
     "FA3-PYTORCH3D-GATESET-001",
-    "FA3-OPENFX-INTEROPERABILITY-GATESET-001"
+    "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
+    "FA3-JOURNAL-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -702,7 +703,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1073,
+  "manifest_entry_count": 1076,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -792,6 +793,11 @@
     {
       "path": ".github/workflows/fa3-journal-archive-gate.yml",
       "git_blob_sha": "5cb85cd72443c5957cb76df13e5c7aeb1d9eaeab",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-journal-reconcile.yml",
+      "git_blob_sha": "dd66bc9664a1c886879be5c938dfc26fbd6f0c5e",
       "baseline_delta_status": "added"
     },
     {
@@ -2561,7 +2567,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "aecb5e33f1e1fee5764db06e31a5df8c68bee3e4",
+      "git_blob_sha": "a73246adc29acb8de26a999729bcefebb8f9f5ef",
       "baseline_delta_status": "modified"
     },
     {
@@ -2597,7 +2603,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -4057,7 +4063,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -5755,6 +5761,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_journal_global_reconciliation.py",
+      "git_blob_sha": "1ae73463c5f91c8003e3db73d282a07bfed15f8c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_kanboard_gate.py",
       "git_blob_sha": "ece5cb4f947d9cc8022e0d18089935217f0fbe0e",
       "baseline_delta_status": "added"
@@ -6052,6 +6063,11 @@
     {
       "path": "tools/fa3_inspector_global_reconcile.py",
       "git_blob_sha": "03b100fbafa5b27e1218a1ad9c96f674ff04aa12",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_journal_global_reconcile.py",
+      "git_blob_sha": "25654ca69b97d0b843bc349b07c881f611a94f5d",
       "baseline_delta_status": "added"
     },
     {
@@ -7036,14 +7052,15 @@
     "Filesystem page-cache speculative prefetch/adaptive readahead governance is reconciled under FA3-AUTH-HOST-RESOURCE-BROKER-001 through CAP-001. FA3-PROVIDER-PRELOAD-001 remains optional, replaceable and non-authoritative. Canonical reference PASS does not promote current-host runtime without real cold/warm latency, page-cache, major-fault, I/O-pressure, memory-pressure, host-survival and rollback evidence.",
     "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
     "FA3-INSPECTOR-001 is globally reconciled as a P0/MUST provider-neutral independent verification and assurance overlay. Separation of duties, fresh/provenance-backed evidence, fail-closed non-PASS classifications, no silent repair during certification and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
-    "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory."
+    "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory.",
+    "FA3-JOURNAL-001 and FA3-JOURNAL-ARCHIVE-001 are globally reconciled as P0/MUST cross-cutting journal, work-history and retention projections. Append-only active logging, tombstone deletion, SEALED SHA-256 archives, verify-gated restore, retention-trash semantics and non-promotion authority boundaries are mandatory; capability count stays 143 and no architectural authority is added."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "878bed3e28595f70ba2761c55067c43de6b795dc",
-    "regenerated_from_branch_head": "878bed3e28595f70ba2761c55067c43de6b795dc",
+    "source_snapshot_anchor": "10e4a348b89d9a81318f35dd16a09fe70380e1bf",
+    "regenerated_from_branch_head": "10e4a348b89d9a81318f35dd16a09fe70380e1bf",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -7069,7 +7086,10 @@
     "inspector_snapshot_head": "57c83adadbb2fdf6f5144c30e797f26e2b3d6900",
     "ideation_advisory_reconciliation_generator": "tools/fa3_ideation_advisory_global_reconcile.py",
     "ideation_advisory_deterministic_regeneration_pass": true,
-    "ideation_advisory_snapshot_head": "878bed3e28595f70ba2761c55067c43de6b795dc"
+    "ideation_advisory_snapshot_head": "878bed3e28595f70ba2761c55067c43de6b795dc",
+    "journal_reconciliation_generator": "tools/fa3_journal_global_reconcile.py",
+    "journal_deterministic_regeneration_pass": true,
+    "journal_snapshot_head": "10e4a348b89d9a81318f35dd16a09fe70380e1bf"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -7314,6 +7334,33 @@
     "production_admitted": false,
     "current_host_runtime_promotion_claimed": false,
     "provider_is_architectural_authority": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "journal_reconciliation": {
+    "profile_id": "FA3-JOURNAL-001",
+    "archive_profile_id": "FA3-JOURNAL-ARCHIVE-001",
+    "contract_id": "FA3-JOURNAL-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-JOURNAL-LOCAL-001",
+    "decision_id": "FA3-DEC-JOURNAL-ARCHIVE-2026-09-13",
+    "gate_id": "FA3-GATE-JOURNAL-ARCHIVE-001",
+    "gateset_id": "FA3-JOURNAL-GATESET-001",
+    "conformance_matrix_id": "FA3-JOURNAL-ARCHIVE-CONFORMANCE-MATRIX-001",
+    "runtime_conformance_id": "FA3-JOURNAL-ARCHIVE-RUNTIME-CONFORMANCE-001",
+    "classification": "P0_MUST_UNIFIED_JOURNAL_ACTIVITY_LEDGER_AND_ARCHIVE_RETENTION_OVERLAY",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_RECONCILED_REFERENCE_GATE_ENFORCED_CURRENT_HOST_PENDING",
+    "reference_evidence": "evidence/reference/fa3-journal-archive-reference.json",
+    "reference_gate_status": "CI_ENFORCED",
+    "runtime_status": "PENDING_CURRENT_HOST",
+    "production_admitted": false,
+    "current_host_runtime_promotion_claimed": false,
+    "provider_is_architectural_authority": false,
+    "active_log_integrity": "APPEND_ONLY",
+    "archive_integrity": "SEALED_SHA256",
+    "event_delete_semantics": "TOMBSTONE",
+    "archive_delete_semantics": "RETENTION_TRASH",
+    "restore_requires_integrity_pass": true,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
