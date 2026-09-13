@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AI-TOKEN-BUDGET-001",
+  "name": "AI Request Token Budget and Limit Subprofile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "relationship": "SUBPROFILE-OF:FA3-TOKEN-GOVERNANCE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "budget_dimensions": ["input_tokens", "output_tokens", "context_window", "request_budget", "session_budget", "provider_quota_projection"],
+  "rules": [
+    "TOKEN_BUDGET_IS_NOT_A_CREDENTIAL_SECRET",
+    "MODEL_DECLARED_LIMITS_ARE_PROVIDER_METADATA_UNTIL_VALIDATED",
+    "BUDGET_OVERRIDE_CANNOT_BYPASS_MODEL_ROUTER_OR_HRB_ADMISSION",
+    "BUDGET_EXHAUSTION_MUST_BE_EXPLICIT_AND_AUDITABLE",
+    "GUI_PREFERENCE_MUST_NOT_CREATE_EXECUTION_AUTHORITY"
+  ]
+}
