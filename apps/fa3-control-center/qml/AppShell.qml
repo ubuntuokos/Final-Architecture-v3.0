@@ -58,6 +58,8 @@ ApplicationWindow {
         const keepHistory = remember === undefined ? true : remember
         if (index < 0 || index >= navigationModel.length || index === selectedIndex)
             return
+        if (!areaVisible(navigationModel[index].key))
+            return
         if (keepHistory)
             navigationHistory = navigationHistory.concat([selectedIndex])
         selectedIndex = index
@@ -78,6 +80,12 @@ ApplicationWindow {
         fa3Settings.setValue("appearance/sidebarCollapsed", sidebarCollapsed)
     }
 
+    function areaVisible(key) {
+        if (key === "command" || key === "settings")
+            return true
+        return fa3Settings.value("areas/" + key + "Visible", true)
+    }
+
     function navLabel(key) {
         const labels = {
             command: ["Command Center", "Command Center"],
@@ -86,6 +94,8 @@ ApplicationWindow {
             aiApps: ["AI alkalmazások", "AI Applications"],
             agents: ["Agentek & Workflow-k", "Agents & Workflows"],
             modelManager: ["Model Manager", "Model Manager"],
+            search: ["Keresés", "Search"],
+            starterModels: ["Starter modellek", "Starter Models"],
             architecture: ["Architektúra", "Architecture"],
             resources: ["Erőforrások", "Resources"],
             security: ["Biztonság & Jóváhagyás", "Security & Approvals"],
@@ -105,6 +115,8 @@ ApplicationWindow {
         { key: "aiApps", iconText: "◎" },
         { key: "agents", iconText: "⌘" },
         { key: "modelManager", iconText: "◫" },
+        { key: "search", iconText: "⌕" },
+        { key: "starterModels", iconText: "↓" },
         { key: "architecture", iconText: "◇" },
         { key: "resources", iconText: "▤" },
         { key: "security", iconText: "◆" },
@@ -120,6 +132,8 @@ ApplicationWindow {
         function onSettingChanged(key) {
             if (key.indexOf("shortcuts/") === 0)
                 window.shortcutRevision += 1
+            if (key.indexOf("areas/") === 0 && !window.areaVisible(window.navigationModel[window.selectedIndex].key))
+                window.selectedIndex = window.indexForKey("command")
         }
         function onSettingsReset() { window.shortcutRevision += 1 }
     }
@@ -383,7 +397,8 @@ ApplicationWindow {
                         required property int index
                         required property var modelData
                         width: ListView.view.width
-                        height: Math.round(44 * window.uiScale)
+                        visible: window.areaVisible(modelData.key)
+                        height: visible ? Math.round(44 * window.uiScale) : 0
                         highlighted: index === window.selectedIndex
                         onClicked: window.navigateTo(index)
                         ToolTip.visible: hovered && window.sidebarCollapsed
@@ -502,6 +517,25 @@ ApplicationWindow {
                 textMuted: window.textMuted
                 accent: window.accent
                 uiScale: window.uiScale
+                fontScale: window.fontScale
+                language: fa3Settings.language
+            }
+
+            SearchPage {
+                repository: fa3Repository
+                settings: fa3Settings
+                surface1: window.surface1
+                textMuted: window.textMuted
+                accent: window.accent
+                fontScale: window.fontScale
+                language: fa3Settings.language
+            }
+
+            StarterModelsPage {
+                repository: fa3Repository
+                surface1: window.surface1
+                textMuted: window.textMuted
+                accent: window.accent
                 fontScale: window.fontScale
                 language: fa3Settings.language
             }

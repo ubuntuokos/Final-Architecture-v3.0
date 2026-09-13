@@ -21,6 +21,8 @@ Item {
         ["inventory", "Inventory"],
         ["installed", t("Telepített", "Installed")],
         ["providers", "Providers"],
+        ["civitai", "CivitAI"],
+        ["openmodeldb", "OpenModelDB"],
         ["runtime", "Runtime"],
         ["compatibility", "Compatibility"],
         ["storage", "Storage"],
@@ -254,6 +256,23 @@ Item {
                     TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Providers"; subtitle: root.t("Canonical provider projection", "Canonical provider projection") }
                     RecordList { Layout.fillWidth: true; Layout.fillHeight: true; Layout.leftMargin: 24; Layout.rightMargin: 24; records: root.providerRecords() }
                 }
+            }
+
+            CivitaiPanel {
+                repository: root.repository
+                surface1: root.surface1
+                textMuted: root.textMuted
+                accent: root.accent
+                fontScale: root.fontScale
+                language: root.language
+            }
+
+            OpenModelDbPanel {
+                surface1: root.surface1
+                textMuted: root.textMuted
+                accent: root.accent
+                fontScale: root.fontScale
+                language: root.language
             }
 
             ScrollView {

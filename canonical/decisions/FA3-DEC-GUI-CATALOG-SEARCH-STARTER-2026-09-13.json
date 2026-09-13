@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GUI-CATALOG-SEARCH-STARTER-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Unified GUI search, starter-model bootstrap, catalog providers, credential projection and area visibility",
+  "decision": "MATERIALIZE",
+  "profile_id": "FA3-DESKTOP-001",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "bindings": {
+    "token_governance": "FA3-TOKEN-GOVERNANCE-001",
+    "secret_broker": "FA3-SECRET-BROKER-001",
+    "civitai": "FA3-PROVIDER-CIVITAI-001",
+    "openmodeldb": "FA3-PROVIDER-OPENMODELDB-001",
+    "model_manager": "FA3-MODEL-MANAGER-001"
+  },
+  "mandatory_constraints": [
+    "SEARCH_IS_PRIMARY_NAVIGATION",
+    "SEARCH_SCOPES_SERVICE_PROJECT_CONVERSATION",
+    "CONVERSATION_SEARCH_FAILS_CLOSED_WITHOUT_CANONICAL_INDEX_ADAPTER",
+    "STARTER_MODELS_IS_PRIMARY_NAVIGATION",
+    "STARTER_ACQUISITION_USES_MODEL_MANAGER_AND_MODEL_ARTIFACT_SECURITY",
+    "CIVITAI_AND_OPENMODELDB_LIVE_UNDER_MODEL_MANAGER",
+    "CIVITAI_UPSTREAM_SCAN_METADATA_IS_NOT_FA3_SECURITY_PASS",
+    "AREA_VISIBILITY_IS_QSETTINGS_UI_ONLY",
+    "HIDDEN_AREA_DOES_NOT_DISABLE_CANONICAL_CAPABILITY_OR_AUTHORITY",
+    "RAW_SECRET_VALUES_NEVER_PERSIST_IN_QSETTINGS_REPO_LOG_TELEMETRY_EVIDENCE_EXPORT_URL_OR_WEB_DOM",
+    "KWALLET_IS_OPTIONAL_AND_NEVER_REQUIRED"
+  ]
+}

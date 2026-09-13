@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-GUI-CATALOG-SEARCH-STARTER-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "decision": "FA3-DEC-GUI-CATALOG-SEARCH-STARTER-2026-09-13",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "checks": [
+    "SEARCH_PRIMARY_NAV_PRESENT",
+    "SEARCH_THREE_SCOPES_PRESENT",
+    "CONVERSATION_SEARCH_FAIL_CLOSED",
+    "STARTER_MODELS_PRIMARY_NAV_PRESENT",
+    "STARTER_DOWNLOAD_USES_TYPED_ACQUISITION_DRAFT",
+    "CIVITAI_MODEL_MANAGER_PANEL_PRESENT",
+    "OPENMODELDB_MODEL_MANAGER_PANEL_PRESENT",
+    "AREA_VISIBILITY_UI_ONLY_PRESENT",
+    "TOKEN_SECRETREF_BOUNDARY_PRESENT",
+    "KWALLET_NOT_REQUIRED",
+    "CIVITAI_BEARER_HEADER_NOT_QUERY_TOKEN",
+    "OPENMODELDB_SHA256_STAGING_PRESENT"
+  ]
+}

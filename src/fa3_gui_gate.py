@@ -45,7 +45,7 @@ REQUIRED = {
 
 NAVIGATION = [
     "Command Center", "Projects", "AI Studio", "AI Applications", "Agents & Workflows",
-    "Model Manager", "Architecture", "Resources", "Security & Approvals", "Observability",
+    "Model Manager", "Search", "Starter Models", "Architecture", "Resources", "Security & Approvals", "Observability",
     "Evidence", "Integrations", "System", "Settings",
 ]
 STUDIO_MODULES = ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]
@@ -58,7 +58,7 @@ ROLE_IDS = [
     "FA3-IDEATOR-001", "FA3-ADVISOR-001",
 ]
 SETTINGS_SURFACES = [
-    "Megjelenés", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk",
+    "Megjelenés", "Területek", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk", "Tokenek & hozzáférések",
     "Integrációk", "GIMP", "Krita", "Kdenlive", "OpenShot", "Ardour", "Audacity",
     "Blender", "Bforartist", "LibreOffice", "Obsidian", "Publikálás", "YouTube",
     "Facebook", "TikTok", "HDR", "AI Mentor", "AI Coach", "Manager", "Ellenőr",

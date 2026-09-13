@@ -23,6 +23,14 @@ qt_add_executable(fa3-control-center
     src/LlmfitClient.h
     src/JournalReader.cpp
     src/JournalReader.h
+    src/SecretBrokerService.cpp
+    src/SecretBrokerService.h
+    src/OpenModelDbService.cpp
+    src/OpenModelDbService.h
+    src/CivitaiClient.cpp
+    src/CivitaiClient.h
+    src/SearchIndexService.cpp
+    src/SearchIndexService.h
 )
 
 set_source_files_properties(qml/AppShell.qml PROPERTIES QT_RESOURCE_ALIAS AppShell.qml)
@@ -43,6 +51,10 @@ set_source_files_properties(qml/ResourceStatusStrip.qml PROPERTIES QT_RESOURCE_A
 set_source_files_properties(qml/LogsPanel.qml PROPERTIES QT_RESOURCE_ALIAS LogsPanel.qml)
 set_source_files_properties(qml/RemoteAiHubPanel.qml PROPERTIES QT_RESOURCE_ALIAS RemoteAiHubPanel.qml)
 set_source_files_properties(qml/LlmfitPanel.qml PROPERTIES QT_RESOURCE_ALIAS LlmfitPanel.qml)
+set_source_files_properties(qml/SearchPage.qml PROPERTIES QT_RESOURCE_ALIAS SearchPage.qml)
+set_source_files_properties(qml/StarterModelsPage.qml PROPERTIES QT_RESOURCE_ALIAS StarterModelsPage.qml)
+set_source_files_properties(qml/CivitaiPanel.qml PROPERTIES QT_RESOURCE_ALIAS CivitaiPanel.qml)
+set_source_files_properties(qml/OpenModelDbPanel.qml PROPERTIES QT_RESOURCE_ALIAS OpenModelDbPanel.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -67,6 +79,10 @@ qt_add_qml_module(fa3-control-center
         qml/LogsPanel.qml
         qml/RemoteAiHubPanel.qml
         qml/LlmfitPanel.qml
+        qml/SearchPage.qml
+        qml/StarterModelsPage.qml
+        qml/CivitaiPanel.qml
+        qml/OpenModelDbPanel.qml
 )
 
 target_link_libraries(fa3-control-center

@@ -20,12 +20,14 @@ Item {
     property string updateMessage: ""
     property var sections: [
         ["appearance", t("Megjelenés", "Appearance")],
+        ["areas", t("Területek", "Areas")],
         ["locale", t("Nyelv & régió", "Language & Region")],
         ["paths", t("Könyvtárak", "Paths & Libraries")],
         ["workspace", "Workspace"],
         ["dashboard", "Dashboard"],
         ["notifications", t("Értesítések", "Notifications")],
         ["shortcuts", t("Gyorsbillentyűk", "Shortcuts")],
+        ["credentials", t("Tokenek & hozzáférések", "Tokens & Credentials")],
         ["integrations", t("Integrációk", "Integrations")],
         ["publishing", t("Publikálás", "Publishing")],
         ["hdr", "HDR"],
@@ -257,6 +259,50 @@ Item {
             }
 
             ScrollView {
+                id: areasView
+                contentWidth: availableWidth
+                ColumnLayout {
+                    width: areasView.availableWidth; spacing: 12
+                    Item { Layout.preferredHeight: 20 }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Területek", "Areas"); subtitle: root.t("A fő felületek láthatósága. Ez kizárólag helyi UI-preferencia: elrejtés nem tilt le canonical capability-t, providert vagy authority-t.", "Visibility of major surfaces. This is a local UI preference only: hiding a surface never disables a canonical capability, provider or authority.") }
+                    Card { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(570 * root.uiScale)
+                        GridLayout { anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 8; columnSpacing: 24
+                            Label { text: root.t("Mindig látható", "Always visible") }
+                            Label { text: "Command Center · Settings"; color: root.accent }
+                            Label { text: root.t("Projektek", "Projects") }
+                            Switch { checked: root.settings.value("areas/projectsVisible", true); onToggled: root.settings.setValue("areas/projectsVisible", checked) }
+                            Label { text: "AI Studio" }
+                            Switch { checked: root.settings.value("areas/studioVisible", true); onToggled: root.settings.setValue("areas/studioVisible", checked) }
+                            Label { text: root.t("AI alkalmazások", "AI Applications") }
+                            Switch { checked: root.settings.value("areas/aiAppsVisible", true); onToggled: root.settings.setValue("areas/aiAppsVisible", checked) }
+                            Label { text: root.t("Agentek & Workflow-k", "Agents & Workflows") }
+                            Switch { checked: root.settings.value("areas/agentsVisible", true); onToggled: root.settings.setValue("areas/agentsVisible", checked) }
+                            Label { text: "Model Manager" }
+                            Switch { checked: root.settings.value("areas/modelManagerVisible", true); onToggled: root.settings.setValue("areas/modelManagerVisible", checked) }
+                            Label { text: root.t("Keresés", "Search") }
+                            Switch { checked: root.settings.value("areas/searchVisible", true); onToggled: root.settings.setValue("areas/searchVisible", checked) }
+                            Label { text: root.t("Starter modellek", "Starter Models") }
+                            Switch { checked: root.settings.value("areas/starterModelsVisible", true); onToggled: root.settings.setValue("areas/starterModelsVisible", checked) }
+                            Label { text: root.t("Architektúra", "Architecture") }
+                            Switch { checked: root.settings.value("areas/architectureVisible", true); onToggled: root.settings.setValue("areas/architectureVisible", checked) }
+                            Label { text: root.t("Erőforrások", "Resources") }
+                            Switch { checked: root.settings.value("areas/resourcesVisible", true); onToggled: root.settings.setValue("areas/resourcesVisible", checked) }
+                            Label { text: root.t("Biztonság", "Security") }
+                            Switch { checked: root.settings.value("areas/securityVisible", true); onToggled: root.settings.setValue("areas/securityVisible", checked) }
+                            Label { text: "Observability" }
+                            Switch { checked: root.settings.value("areas/observabilityVisible", true); onToggled: root.settings.setValue("areas/observabilityVisible", checked) }
+                            Label { text: "Evidence" }
+                            Switch { checked: root.settings.value("areas/evidenceVisible", true); onToggled: root.settings.setValue("areas/evidenceVisible", checked) }
+                            Label { text: root.t("Integrációk", "Integrations") }
+                            Switch { checked: root.settings.value("areas/integrationsVisible", true); onToggled: root.settings.setValue("areas/integrationsVisible", checked) }
+                            Label { text: root.t("Rendszer", "System") }
+                            Switch { checked: root.settings.value("areas/systemVisible", true); onToggled: root.settings.setValue("areas/systemVisible", checked) }
+                        }
+                    }
+                }
+            }
+
+            ScrollView {
                 id: localeView
                 contentWidth: availableWidth
                 ColumnLayout {
@@ -383,6 +429,34 @@ Item {
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Asszisztens", "Assistant"); settingKey: "shortcuts/assistant"; defaultSequence: "Ctrl+Space" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Frissítés / újraolvasás", "Refresh"); settingKey: "shortcuts/refresh"; defaultSequence: "Ctrl+R" }
                     Item { Layout.preferredHeight: 20 }
+                }
+            }
+
+            ScrollView {
+                id: credentialsView
+                contentWidth: availableWidth
+                ColumnLayout {
+                    width: credentialsView.availableWidth; spacing: 14
+                    Item { Layout.preferredHeight: 20 }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Tokenek & hozzáférések", "Tokens & Credentials"); subtitle: root.t("Credential SecretRef-kezelés. Nyers token nem kerül QSettings-be, repositoryba, logba, telemetrybe vagy Evidence-be. KWallet opcionális, soha nem kötelező.", "Credential SecretRef management. Raw tokens never persist in QSettings, repository, logs, telemetry or Evidence. KWallet is optional and never required.") }
+                    Card { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(370 * root.uiScale)
+                        ColumnLayout { anchors.fill: parent; anchors.margins: 18; spacing: 10
+                            Label { text: "CivitAI"; font.pixelSize: root.px(17); font.bold: true }
+                            Label { Layout.fillWidth: true; color: root.textMuted; wrapMode: Text.WordWrap; text: "Secret Broker: " + fa3SecretBroker.statusText + " · KWallet required=" + fa3SecretBroker.kwalletRequired }
+                            RowLayout { Layout.fillWidth: true
+                                TextField { id: civitaiToken; Layout.fillWidth: true; echoMode: TextInput.Password; placeholderText: root.t("Ideiglenes session token (nem mentjük)", "Temporary session token (not persisted)") }
+                                Button { text: root.t("Session token beállítása", "Set session token"); enabled: civitaiToken.text.length > 0; onClicked: { fa3SecretBroker.setSessionSecret("civitai", civitaiToken.text); civitaiToken.clear() } }
+                                Button { text: root.t("Törlés", "Clear"); onClicked: fa3SecretBroker.clearSessionSecret("civitai") }
+                            }
+                            Label { Layout.fillWidth: true; color: root.textMuted; text: root.t("Alternatíva: CIVITAI_API_TOKEN környezeti referencia vagy más SecretRef backend.", "Alternative: CIVITAI_API_TOKEN environment reference or another SecretRef backend.") }
+                            RowLayout { Layout.fillWidth: true
+                                ComboBox { id: backend; model: ["ENVIRONMENT_REFERENCE", "SYSTEMD_CREDENTIAL", "EXTERNAL_SECRETREF", "OPENBAO", "OS_KEYCHAIN", "KWALLET"] }
+                                TextField { id: referenceId; Layout.fillWidth: true; placeholderText: root.t("Referencia azonosító / env név / credential név", "Reference id / env name / credential name") }
+                                Button { text: root.t("Referencia mentése", "Save reference"); enabled: referenceId.text.trim().length > 0; onClicked: fa3SecretBroker.configureReference("civitai", backend.currentText, referenceId.text.trim(), "CivitAI") }
+                            }
+                            Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.accent; text: root.t("KWallet: opcionális adapter. Hiánya nem blokkolhat buildet, telepítést vagy runtime-ot.", "KWallet: optional adapter. Its absence must not block build, installation or runtime.") }
+                        }
+                    }
                 }
             }
 

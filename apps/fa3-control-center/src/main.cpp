@@ -3,6 +3,10 @@
 #include "ResourceTelemetry.h"
 #include "LlmfitClient.h"
 #include "JournalReader.h"
+#include "SecretBrokerService.h"
+#include "OpenModelDbService.h"
+#include "CivitaiClient.h"
+#include "SearchIndexService.h"
 
 #include <QApplication>
 #include <QCoreApplication>
@@ -28,6 +32,10 @@ int main(int argc, char *argv[])
     ResourceTelemetry telemetry;
     LlmfitClient llmfit;
     JournalReader journal;
+    SecretBrokerService secretBroker;
+    OpenModelDbService openModelDb;
+    CivitaiClient civitai(&secretBroker);
+    SearchIndexService searchIndex;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
@@ -35,6 +43,10 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3ResourceTelemetry", &telemetry);
     engine.rootContext()->setContextProperty("llmfitClient", &llmfit);
     engine.rootContext()->setContextProperty("fa3Journal", &journal);
+    engine.rootContext()->setContextProperty("fa3SecretBroker", &secretBroker);
+    engine.rootContext()->setContextProperty("openModelDbService", &openModelDb);
+    engine.rootContext()->setContextProperty("civitaiClient", &civitai);
+    engine.rootContext()->setContextProperty("fa3SearchIndex", &searchIndex);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/OperationsAwareAppShell.qml")));
 
     if (engine.rootObjects().isEmpty()) return 2;
