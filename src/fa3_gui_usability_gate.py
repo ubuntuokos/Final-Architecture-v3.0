@@ -31,6 +31,8 @@ def validate():
     journal=FILES["journal"].read_text()
     remote=FILES["remote"].read_text()
     llmfit=FILES["llmfit"].read_text()
+    constraints=decision.get("mandatory_constraints",[])
+    gate_checks=gate.get("checks",[])
     checks=[
         (decision.get("capability_count_after")==143,"capability-count"),
         (decision.get("new_architectural_authorities")==0,"no-new-authority"),
@@ -39,14 +41,26 @@ def validate():
         ("Screen.desktopAvailableWidth" in shell and "Screen.desktopAvailableHeight" in shell,"monitor-geometry-scale"),
         ("width: Math.round(1580 * fa3Settings.uiScale)" not in shell,"window-not-bound-manual-scale"),
         ("text: shell.t(\"Kérdezd\"" in shell and "Kérdezd a Mentort" not in shell,"single-ask-selector"),
-        ("Remote AI Hub · HF" in shell and "Hugging Face Spaces" in remote,"remote-hf-visible"),
-        ("text: \"llmfit\"" in shell and "FA3-PROVIDER-LLMFIT-001" in llmfit,"llmfit-visible"),
-        ("Naplók" in shell and "read-only journald" in logs.lower() and "sd_journal_open" in journal,"logs-visible-read-only"),
+        ("HUGGING_FACE_GLOBAL_ENTRY_SHALL_OPEN_HUGGING_FACE_INSIDE_FA3_EMBEDDED_WEB_RUNTIME" in constraints,"hf-embedded-canonical"),
+        ("import QtWebEngine" in shell and "WebEngineView" in shell and 'url: "https://huggingface.co/"' in shell,"hf-embedded-web"),
+        ("request.openIn(hfWebView)" in shell and "request.reject()" in shell,"hf-navigation-contained"),
+        ("Qt.openUrlExternally" not in shell,"hf-no-external-browser"),
+        ("Model Manager · Remote AI Hub" in shell and "Hugging Face Spaces" in remote,"remote-hub-under-model-manager"),
+        ("Model Manager · llmfit" in shell and "FA3-PROVIDER-LLMFIT-001" in llmfit,"llmfit-under-model-manager"),
+        ('shell.indexForKey("modelManager")' in shell and 'text: "llmfit"' in shell and 'text: "Remote AI Hub"' in shell,"model-manager-submenu"),
+        ("Beállítások · Naplók" in shell and 'shell.indexForKey("settings")' in shell,"logs-under-settings"),
+        ("read-only journald" in logs.lower() and "sd_journal_open" in journal,"logs-visible-read-only"),
         ("ResourceStatusStrip" in shell and "GPU" in strip and "NPU" in strip,"resource-strip"),
         ("? root.pct(root.telemetry.gpuPercent) : \"N/A\"" in strip,"gpu-unknown-not-zero"),
         ("--query-gpu=name,utilization.gpu,memory.used,memory.total,temperature.gpu" in telemetry,"fixed-gpu-probe"),
+        ("HUGGING_FACE_EMBEDDED_ENTRY_PRESENT" in gate_checks,"gate-hf-embedded"),
+        ("REMOTE_AI_HUB_SCOPED_UNDER_MODEL_MANAGER" in gate_checks,"gate-remote-scope"),
+        ("LLMFIT_SCOPED_UNDER_MODEL_MANAGER" in gate_checks,"gate-llmfit-scope"),
+        ("READ_ONLY_LOG_VIEW_SCOPED_UNDER_SETTINGS" in gate_checks,"gate-logs-scope"),
     ]
     failures.extend(name for ok,name in checks if not ok)
+    for forbidden in ["Remote AI Hub · HF", 'Button { text: shell.t("Naplók", "Logs"); onClicked: logsDrawer.open() }', 'Button { text: "llmfit"; onClicked: llmfitDrawer.open() }']:
+        if forbidden in shell: failures.append(f"forbidden-global-entry:{forbidden}")
     for token in ["--gpu-reset","--reset-gpu"," -pl "," -lgc ","pkexec","sudo ","/bin/sh","/bin/bash"]:
         if token in telemetry: failures.append(f"forbidden-gpu-token:{token}")
     for token in ["QProcess","system(","popen(","remove(","unlink("]:
