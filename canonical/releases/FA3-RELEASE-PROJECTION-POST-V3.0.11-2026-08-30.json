@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "5e081a4eff6b6bf7dba39b24a096b848e7ef4614",
-    "pre_projection_root_tree_sha": "17e00ecfc5df075d7aebd213387baffb8341ffd7",
-    "pre_projection_canonical_tree_sha": "654ff798221013ba8c732ac2e9aa83461a562d48",
-    "commits_ahead_of_v3_0_11_conformance_commit": 190,
-    "total_post_baseline_commits": 190,
-    "delta_file_count": 1058,
-    "delta_added_files": 1053,
+    "pre_projection_head_sha": "76544e17d94a01b54ac807f6bf9d0e4144f746e8",
+    "pre_projection_root_tree_sha": "fdc5a2911f0c85f4acd85f8e217ff9805f2868bd",
+    "pre_projection_canonical_tree_sha": "fac7f100c5aab181dad92298e31885dfffddf8b9",
+    "commits_ahead_of_v3_0_11_conformance_commit": 204,
+    "total_post_baseline_commits": 204,
+    "delta_file_count": 1061,
+    "delta_added_files": 1056,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 587,
+    "canonical_files_in_post_baseline_delta": 588,
     "evidence_files_in_post_baseline_delta": 111,
     "source_files_in_post_baseline_delta": 119,
     "test_files_in_post_baseline_delta": 99,
@@ -311,6 +311,7 @@
       "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
+      "canonical/decisions/FA3-DEC-GUI-RESOURCE-STATUS-2026-09-13.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
@@ -696,7 +697,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1058,
+  "manifest_entry_count": 1061,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -750,7 +751,7 @@
     },
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
-      "git_blob_sha": "b05ac5582dc25afa8be882d13c6caa4842517759",
+      "git_blob_sha": "6bc62048f52df02bd154a24d1573b314393de1ac",
       "baseline_delta_status": "added"
     },
     {
@@ -885,12 +886,12 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "227b4672e90361165832cd0e76ce9e4ae5bd7e2b",
+      "git_blob_sha": "07f00aa33f0ca0840f5c2b56f9da1dc55b739b6b",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/README.md",
-      "git_blob_sha": "0b5ee1bde385316df1c34fb9cde60ab8e99f7a84",
+      "git_blob_sha": "ad035a00f1cc8faeb76bda7f77c421c5b1954221",
       "baseline_delta_status": "added"
     },
     {
@@ -904,6 +905,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/ResourceStatusStrip.qml",
+      "git_blob_sha": "50ac3a7345fe0a56de2bb7e215165344fcb834be",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
       "git_blob_sha": "aee25a0bc032ded7377fe13f35349632b62591c1",
       "baseline_delta_status": "added"
@@ -914,13 +920,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/ResourceTelemetry.cpp",
+      "git_blob_sha": "0990e81cda69b182679a02410c7cccdf98991dae",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/ResourceTelemetry.h",
       "git_blob_sha": "d092ed2d3113d969ba97c2a8501859a7e2b47708",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "fe31d45931f6d3b42cb4580820dde7ecd51d195a",
+      "git_blob_sha": "bf08cf5b8cbed7acc15648e042e04611c9e70ec1",
       "baseline_delta_status": "added"
     },
     {
@@ -1240,7 +1251,7 @@
     },
     {
       "path": "canonical/FA3-GATE-GUI-001.json",
-      "git_blob_sha": "d12cd074fa39870f99995a57559e12f3d8dc38d8",
+      "git_blob_sha": "1566d77e04e9199f2772a521ad30e7f5a808f11b",
       "baseline_delta_status": "added"
     },
     {
@@ -1435,7 +1446,7 @@
     },
     {
       "path": "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "c4f39f6d91574987508a4f6fb2f52aafdb194136",
+      "git_blob_sha": "b6ad34e75411971a794be94b81379ba935f3f577",
       "baseline_delta_status": "added"
     },
     {
@@ -1745,7 +1756,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
-      "git_blob_sha": "787b2e336a5ea442411672bf674b1131e6465691",
+      "git_blob_sha": "415de8eeb6efc2f13e0c71f0ec4aadd5d693b98c",
       "baseline_delta_status": "added"
     },
     {
@@ -2161,6 +2172,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
       "git_blob_sha": "6c408d5909e38a450edf2312137fd7ab0f32c61a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GUI-RESOURCE-STATUS-2026-09-13.json",
+      "git_blob_sha": "197004f8d088d8fc9b34318420c7a3177d5394ef",
       "baseline_delta_status": "added"
     },
     {
@@ -2890,7 +2906,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-001.json",
-      "git_blob_sha": "4c52c045d4e8168fa1974368bb1ab9cb44403ce9",
+      "git_blob_sha": "0a8902d186d450b3683773c9834044a3d9a3e00e",
       "baseline_delta_status": "added"
     },
     {
@@ -4510,7 +4526,7 @@
     },
     {
       "path": "evidence/reference/fa3-gui-reference-pass.json",
-      "git_blob_sha": "addea128f1b3bd3cec9e00dd4078172f4176df90",
+      "git_blob_sha": "88a69d2cb16b0710017fd7b2b7df6558e938517a",
       "baseline_delta_status": "added"
     },
     {
@@ -5055,7 +5071,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "fd8fa06494711d6be6d565319d6a6700754fd6d3",
+      "git_blob_sha": "a7d6d7fb8d314646c53659ef95202665a1f0dcef",
       "baseline_delta_status": "added"
     },
     {
