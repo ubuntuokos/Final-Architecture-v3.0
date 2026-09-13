@@ -20,6 +20,7 @@ ApplicationWindow {
     property bool webWorkspaceOpen: false
     property url webWorkspaceUrl: "about:blank"
     property string webWorkspaceTitle: "Web Workspace"
+    property bool llmFitExpanded: false
 
     function openInternalWeb(targetUrl, titleText) {
         webWorkspaceUrl = targetUrl
@@ -521,7 +522,65 @@ ApplicationWindow {
                             QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }
                             QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }
                             QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
+                            ToolButton {
+                                id: llmFitButton
+                                text: "LLM Fit"
+                                checkable: true
+                                checked: window.llmFitExpanded
+                                onClicked: window.llmFitExpanded = !window.llmFitExpanded
+                                contentItem: Label {
+                                    text: parent.text
+                                    color: window.llmFitExpanded ? window.cyan : window.textPrimary
+                                    font.pixelSize: 9
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                background: Rectangle {
+                                    radius: 6
+                                    color: window.llmFitExpanded ? "#12324a" : (parent.hovered ? "#132a42" : "#0d1c2f")
+                                    border.color: window.llmFitExpanded ? window.cyan : window.border
+                                }
+                            }
                             Item { Layout.fillWidth: true }
+                        }
+                        Panel {
+                            visible: window.llmFitExpanded
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: visible ? 215 : 0
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 15
+                                spacing: 10
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    Label { text: "LLM Fit"; color: window.textPrimary; font.pixelSize: 15; font.bold: true }
+                                    StatusChip { chipText: "IN-APP"; tone: window.cyan }
+                                    Item { Layout.fillWidth: true }
+                                    Label { text: "nincs terminálindítás"; color: window.textMuted; font.pixelSize: 9 }
+                                }
+                                GridLayout {
+                                    Layout.fillWidth: true
+                                    columns: 4
+                                    columnSpacing: 18
+                                    rowSpacing: 8
+                                    Label { text: "CPU"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: fa3Repository.cpuThreads + " szál"; color: window.textPrimary; font.pixelSize: 11; font.bold: true }
+                                    Label { text: "RAM"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: fa3Repository.memoryGiB.toFixed(1) + " GiB"; color: window.textPrimary; font.pixelSize: 11; font.bold: true }
+                                    Label { text: "GPU / NPU"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: "adapter-gated"; color: window.orange; font.pixelSize: 10; font.bold: true }
+                                    Label { text: "Model-fit"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: "modell + runtime adapter szükséges"; color: window.orange; font.pixelSize: 10; font.bold: true }
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.WordWrap
+                                    text: "Az LLM Fit az FA3 GUI részeként jelenik meg. A hostból közvetlenül ismert értékeket mutatja; kompatibilitási vagy kapacitás-ajánlást csak tényleges adapter-evidence alapján jelenít meg, szintetikus eredmény nélkül."
+                                    color: window.textMuted
+                                    font.pixelSize: 10
+                                }
+                            }
                         }
                         Panel {
                             Layout.fillWidth: true
