@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-GUI-USABILITY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "decision": "FA3-DEC-GUI-USABILITY-2026-09-13",
+  "fail_closed": true,
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "checks": [
+    "RESPONSIVE_MONITOR_SCALE_PRESENT",
+    "WINDOW_GEOMETRY_DECOUPLED_FROM_MANUAL_SCALE",
+    "SINGLE_ASK_SELECTOR_PRESENT",
+    "VISIBLE_REMOTE_AI_HUB_HF_ENTRY_PRESENT",
+    "VISIBLE_LLMFIT_ENTRY_PRESENT",
+    "VISIBLE_READ_ONLY_LOG_VIEW_PRESENT",
+    "PERSISTENT_RESOURCE_STATUS_STRIP_PRESENT",
+    "GPU_UNKNOWN_NOT_ZERO",
+    "GPU_PROBE_READ_ONLY_AND_BOUNDED",
+    "NO_GPU_RESET_OR_POWER_MUTATION",
+    "NO_LOG_MUTATION_FROM_GUI"
+  ]
+}
