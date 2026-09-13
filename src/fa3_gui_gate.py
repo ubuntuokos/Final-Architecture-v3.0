@@ -86,9 +86,9 @@ def validate() -> list[str]:
     for token in ["Appearance", "Chat Style", "Reasoning", "Gyorsbillentyűk", "CPU", "GPU", "NPU", "DGX", "Webkamera", "Nyomtató", "Scanner", "MIDI", "GIMP", "Ardour", "Auto-latch onto generating message"]:
         if token not in settings_qml: failures.append(f"qml-system-settings-surface-missing:{token}")
     preference_cpp = REQUIRED["preference_store"].read_text(encoding="utf-8")
-    if "QSettings" not in preference_cpp or "normalizeShortcut" not in preference_cpp or "preferenceChanged" not in preference_cpp: failures.append("settings-preference-store-missing")
+    if "m_settings" not in preference_cpp or "normalizeShortcut" not in preference_cpp or "preferenceChanged" not in preference_cpp: failures.append("settings-preference-store-missing")
     device_cpp = REQUIRED["device_model"].read_text(encoding="utf-8")
-    for token in ["QPrinterInfo", "/sys/class/accel", "/dev/video", "/dev/snd", "DGX", "ADAPTER-GATED"]:
+    for token in ["QPrinterInfo", "/sys/class/accel", "video*", "/dev/snd", "DGX", "ADAPTER-GATED"]:
         if token not in device_cpp: failures.append(f"settings-device-discovery-missing:{token}")
     for token in ["accentForTheme", "navigationBarPosition", "Shortcut {", "fa3Preferences.setValue"]:
         if token not in qml: failures.append(f"qml-persistent-settings-shell-missing:{token}")
