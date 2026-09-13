@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
@@ -10,7 +11,7 @@ DECISION_ID = "FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30"
 GATE_ID = "FA3-AIENG-GATESET-001"
 UPSTREAM_REPO = "rohitg00/ai-engineering-from-scratch"
 REFERENCE_COMMIT = "a56b4b8ad43a3767c771953d217036813f697bc7"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 RULES = [
     "REGISTRY_PUBLICATION_NOT_PRODUCTION_ADMISSION",

@@ -5,13 +5,12 @@ import argparse
 import json
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import BaselineError, load_active_release_baseline
 
 BASELINE_ID = "FA3-RELEASE-CAPABILITY-BASELINE-001"
 SCOPE_ID = "FA3-EVIDENCE-SCOPE-001"
 DECISION_ID = "FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13"
 GATESET_ID = "FA3-RELEASE-EVIDENCE-SCOPE-GATESET-001"
-CURRENT_RELEASE = "2026-08-23/v3.0.11"
-CURRENT_RELEASE_COUNT = 143
 
 PATHS = {
     "baseline": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
@@ -57,6 +56,22 @@ def gate(root: Path) -> dict[str, Any]:
             "findings": [finding("RESCOPE-000", f"missing {path}") for path in missing],
         }
 
+    try:
+        active_baseline = load_active_release_baseline(root)
+    except BaselineError as exc:
+        return {
+            "schema": "fa3.release-evidence-scope-gate-report.v1",
+            "gate_set_id": GATESET_ID,
+            "baseline_id": BASELINE_ID,
+            "scope_id": SCOPE_ID,
+            "result": "FAIL",
+            "blocking_findings": 1,
+            "checks_passed": 0,
+            "checks_total": 18,
+            "findings": [finding("RESCOPE-003", str(exc))],
+        }
+    CURRENT_RELEASE = active_baseline.release
+    CURRENT_RELEASE_COUNT = active_baseline.capability_count
     baseline = load_json(root, "baseline")
     scope = load_json(root, "scope")
     decision = load_json(root, "decision")

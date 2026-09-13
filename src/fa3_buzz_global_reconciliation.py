@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
@@ -10,7 +11,7 @@ DECISION_ID = "FA3-DEC-BUZZ-2026-08-30"
 GATE_ID = "FA3-BUZZ-GATESET-001"
 PROFILE_ID = "FA3-DESKTOP-AGENT-WORKBENCH-001"
 CAPABILITY_ID = "CAP-008"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_EVIDENCE_PATH = "evidence/reference/buzz-ci-2026-08-30.json"
 GLOBAL_EVIDENCE_PATH = "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json"
 GLOBAL_EVIDENCE_ID = "FA3-EVID-BUZZ-GLOBAL-RECONCILIATION-CI-2026-09-06"

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -11,7 +12,7 @@ PROVIDER_ID = "FA3-PROVIDER-MUNDER-DIFFLIN-001"
 DECISION_ID = "FA3-DEC-MUNDER-DIFFLIN-2026-08-30"
 REFERENCE_ID = "FA3-MUNDER-DIFFLIN-UPSTREAM-REFERENCE-2026-08-30"
 GATE_ID = "FA3-MUNDER-DIFFLIN-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v0.4.6"
 REFERENCE_RELEASE_COMMIT = "64bd64df0e8d315a6e895283f776b81f84eef2cc"
 REFERENCE_MAIN_COMMIT = "fc436bd8b673913c71e3230de08e44f355ffc2e3"

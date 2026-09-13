@@ -5,13 +5,14 @@ import argparse
 import json
 from pathlib import Path
 from typing import Any
+from fa3_release_baseline import load_active_release_baseline
 
 PROJECTION_ID = "FA3-GOVERNANCE-TIERING-001"
 GATESET_ID = "FA3-GOVERNANCE-TIERING-GATESET-001"
-EXPECTED_CAPABILITY_COUNT = 143
 EXPECTED_RINGS = ["LAB", "CANDIDATE", "STAGING"]
 
 PATHS = {
+    "baseline": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
     "projection": "canonical/FA3-GOVERNANCE-TIERING-001.json",
     "policy": "canonical/enforcement-policy.json",
     "release": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
@@ -44,6 +45,7 @@ def gate(root: Path) -> dict[str, Any]:
             "findings": [finding("GOVT-000", f"missing {path}") for path in missing],
         }
 
+    expected_count = load_active_release_baseline(root).capability_count
     projection = load_json(root, "projection")
     policy = load_json(root, "policy")
     registry = load_json(root, "registry")
@@ -84,14 +86,14 @@ def gate(root: Path) -> dict[str, Any]:
             "GOVT-002",
             projection.get("authority_delta") == 0
             and projection.get("capability_delta") == 0
-            and projection.get("canonical_capability_count_before") == EXPECTED_CAPABILITY_COUNT
-            and projection.get("canonical_capability_count_after") == EXPECTED_CAPABILITY_COUNT
+            and projection.get("canonical_capability_count_before") == expected_count
+            and projection.get("canonical_capability_count_after") == expected_count
             and projection.get("semantic_effect") == "NO_BASELINE_SEMANTIC_CHANGE",
             "projection changed authority or capability baseline",
         ),
         (
             "GOVT-003",
-            policy.get("canonical_capability_count") == EXPECTED_CAPABILITY_COUNT
+            policy.get("canonical_capability_count") == expected_count
             and policy.get("fail_closed") is True,
             "global canonical capability baseline or fail-closed policy drift",
         ),
@@ -175,7 +177,7 @@ def gate(root: Path) -> dict[str, Any]:
         ),
         (
             "GOVT-015",
-            len(registry_records) == EXPECTED_CAPABILITY_COUNT
+            len(registry_records) == expected_count
             and not any(record.get("subject_id") == PROJECTION_ID for record in registry_records),
             "projection changed the 143-capability Evidence Registry or registered itself as a capability",
         ),

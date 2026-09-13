@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -10,7 +11,7 @@ from typing import Any
 RECEIPT = "evidence/receipts/hrb-systemd-manager-current-host.json"
 GATE_ID = "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001"
 EVIDENCE_LEVEL = "CURRENT_HOST_HRB_SYSTEMD_MANAGER_NEUTRALITY_PASS"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 DIRECT_FORBIDDEN_KEYS = {"CPUAffinity", "NUMAPolicy", "NUMAMask"}
 GUARDED_MANAGER_KEYS = {
     "DefaultLimitNOFILE", "DefaultRestartSec", "DefaultTimeoutStartSec",

@@ -2,6 +2,7 @@
 from __future__ import annotations
 import argparse,csv,json,sys
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
@@ -65,8 +66,6 @@ from fa3_openfx_interop_gate import gate as openfx_interop_gate
 OK=0
 BLOCKED=2
 INPUT=3
-RELEASE="2026-08-23/v3.0.11"
-CAPS=143
 FORBIDDEN={"OPEN","ORPHANED","UNCLASSIFIED"}
 
 RECEIPTS={
@@ -90,7 +89,7 @@ RECEIPTS={
 NAMES={
   1:"modular source graph and schema lint PASS",
   2:"authority lint has no duplicate owner",
-  3:"143 capability catalog validation PASS",
+  3:"active release capability catalog validation PASS",
   4:"current-host fingerprint and source exclusion receipt signed",
   5:"every active provider has current ResolvedRuntimePlan",
   6:"process and CPU/RAM/VRAM/I/O/network envelope fits host budget",
@@ -119,7 +118,12 @@ def writej(p:Path,o):
 def finding(code,msg,**kw):
     return {"code":code,"severity":"P0","message":msg,**kw}
 
+def active_release_values(root:Path):
+    baseline=load_active_release_baseline(root)
+    return baseline.release,baseline.capability_count
+
 def static_check(root:Path):
+    RELEASE,CAPS=active_release_values(root)
     fs=[]
     pol=loadj(root/"canonical/enforcement-policy.json")
     att=loadj(root/"canonical/source-graph-attestation.json")
@@ -231,10 +235,10 @@ def static_check(root:Path):
     if any(att.get(k)!=0 for k in ("orphan_must","unmapped_capabilities","missing_evidence_mappings")):
         fs.append(finding("FA3-STATIC-007","Source graph contains unresolved design gaps"))
 
-    expected=[f"CAP-{i:03d}" for i in range(1,144)]
+    expected=[f"CAP-{i:03d}" for i in range(1,CAPS+1)]
     ids=[r.get("capability_id") for r in rows]
     if len(rows)!=CAPS or ids!=expected:
-        fs.append(finding("FA3-STATIC-008","Capability catalog is not exact CAP-001..CAP-143",rows=len(rows)))
+        fs.append(finding("FA3-STATIC-008",f"Capability catalog is not exact CAP-001..CAP-{CAPS:03d}",rows=len(rows)))
     bad=[r.get("capability_id") for r in rows if r.get("design_conformance")!="DESIGN-CONFORMANT"]
     if bad:
         fs.append(finding("FA3-STATIC-009","Non design-conformant capability found",sample=bad[:20]))
@@ -413,15 +417,16 @@ def static_check(root:Path):
     return rep
 
 def runtime_check(root:Path):
+    RELEASE,CAPS=active_release_values(root)
     fs=[]
     reg=loadj(root/"evidence/evidence-registry.json")
     recs=reg.get("records",[])
     if reg.get("architecture_release")!=RELEASE:
         fs.append(finding("FA3-RUNTIME-001","Evidence Registry release mismatch"))
-    expected=[f"CAP-{i:03d}" for i in range(1,144)]
+    expected=[f"CAP-{i:03d}" for i in range(1,CAPS+1)]
     ids=[r.get("subject_id") for r in recs]
     if len(recs)!=CAPS or ids!=expected:
-        fs.append(finding("FA3-RUNTIME-002","Evidence Registry is not exact 143 capability set",records=len(recs)))
+        fs.append(finding("FA3-RUNTIME-002",f"Evidence Registry is not exact {CAPS} capability set",records=len(recs)))
     pending=[]
     invalid=[]
     for r in recs:
@@ -454,6 +459,7 @@ def receipt_ok(p:Path,signed=False,human=False,independent=False):
     return True,"PASS"
 
 def acceptance_check(root:Path):
+    RELEASE,CAPS=active_release_values(root)
     s=static_check(root)
     r=runtime_check(root)
     t=terax_gate(root,require_current_host=True)
@@ -465,7 +471,7 @@ def acceptance_check(root:Path):
             if not ok: reasons=["static/authority structural gate not PASS"]
         elif i==3:
             ok=s["result"]=="PASS" and s["details"]["capabilities"]==CAPS
-            if not ok: reasons=["143 capability validation not PASS"]
+            if not ok: reasons=[f"{CAPS} capability validation not PASS"]
         else:
             ok=True
             for fn in RECEIPTS[i]:
@@ -486,6 +492,7 @@ def acceptance_check(root:Path):
     return rep
 
 def promote(root:Path):
+    RELEASE,_=active_release_values(root)
     a=acceptance_check(root)
     allowed=a["status"]=="PASS"
     state={"schema":"fa3.runtime-status.v1","architecture_release":RELEASE,"target_state":"PROMOTED",

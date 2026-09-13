@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -23,7 +24,7 @@ PROFILE_ID = "FA3-AGENT-EXEC-001"
 CONTRACT_ID = "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
 CONFORMANCE_ID = "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001"
 DECISION_ID = "FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 P0_RULES = [
     "DAC_EXPLICIT_TYPED_TASK_AND_DELEGATION",

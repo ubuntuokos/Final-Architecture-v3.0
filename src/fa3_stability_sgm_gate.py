@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import hashlib
@@ -15,7 +16,7 @@ DECISION_ID = "FA3-DEC-STABILITY-SGM-2026-09-01"
 REFERENCE_ID = "FA3-STABILITY-SGM-UPSTREAM-REFERENCE-2026-09-01"
 EVIDENCE_ID = "FA3-EVIDENCE-STABILITY-SGM-CI-2026-09-01"
 UPSTREAM_COMMIT = "e8cd657656fa5d61688191730d0e03242bf4ed44"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 P0_RULES = [
     "GEN_PIPELINE_COMPONENT_ADDRESSABILITY_REQUIRED",

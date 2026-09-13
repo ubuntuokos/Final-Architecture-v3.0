@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse
 import copy
 import hashlib
@@ -15,7 +16,7 @@ PROVIDER_ID = "FA3-PROVIDER-MODEL-ARTIFACT-SECURITY-STACK-001"
 DECISION_ID = "FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07"
 MODEL_MANAGER_ID = "FA3-MODEL-MANAGER-001"
 AISEC_ID = "FA3-AI-SEC-VALIDATION-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 EVIDENCE_PATH = "evidence/reference/model-artifact-security-ci-2026-09-07.json"
 DANGEROUS_EXTENSIONS = {".pkl", ".pickle", ".pt", ".pth", ".bin", ".ckpt"}
 RULES = [

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -14,7 +15,7 @@ REFERENCE_ID = "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-08-31"
 EVIDENCE_PATH = "evidence/reference/inference-portability-ci-2026-08-31.json"
 PROVIDER_IDS = ['FA3-PROVIDER-OPENVINO-001','FA3-PROVIDER-ONNXRUNTIME-001','FA3-PROVIDER-TENSORRT-001','FA3-PROVIDER-TENSORRT-RTX-001']
 CAPABILITY_IDS = ['CAP-005','CAP-006','CAP-137','CAP-143']
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 RULES = (
   'INFERENCE_PORTABILITY_NOT_ARCHITECTURAL_AUTHORITY',
   'ONNX_PRIMARY_OPEN_INTERCHANGE_WHEN_SUPPORTED',

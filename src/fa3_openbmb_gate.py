@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from pathlib import Path
 from typing import Any
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 FAMILY_ID = "FA3-PROVIDER-FAMILY-OPENBMB-001"
 DECISION_ID = "FA3-DEC-OPENBMB-2026-09-02"
 GATE_ID = "FA3-OPENBMB-GATESET-001"

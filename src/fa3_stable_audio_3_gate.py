@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -13,7 +14,7 @@ PROVIDER_ID = "FA3-PROVIDER-STABLE-AUDIO-3-001"
 PROFILE_ID = "FA3-MUSIC-001"
 CONTRACT_ID = "FA3-MUSIC-GENERATION-CONTRACTS-001"
 UPSTREAM_PIN = "779434a908193105335fd8d833418603625b2859"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 P0_INVARIANTS = [
     "STABLE_AUDIO_3_REQUIRED_SUPPORTED_PROVIDER",

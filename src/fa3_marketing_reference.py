@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import json
 
 PROFILE_ID = "FA3-MARKETING-001"
 GATE_ID = "FA3-GATE-MARKETING-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 def native_hungarian_content_valid(content):
     text = str(content.get("text", ""))

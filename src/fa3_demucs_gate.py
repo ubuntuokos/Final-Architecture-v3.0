@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import hashlib
@@ -11,7 +12,7 @@ from typing import Any
 PROVIDER_ID = "FA3-PROVIDER-DEMUCS-001"
 PROFILE_ID = "FA3-AUDIO-SEPARATION-001"
 GATE_ID = "FA3-DEMUCS-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v4.1.0"
 REFERENCE_COMMIT = "6a604bb002d12c4fbabb303ba64db40b5c5743f0"
 

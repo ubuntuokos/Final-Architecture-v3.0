@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse, json
 from pathlib import Path
 from typing import Any
@@ -9,7 +10,7 @@ from fa3_gpu_kernel_dispatch_reference import (
     autotune_key, deepgemm_arch_eligible, provider_arch_eligible,
 )
 
-CAPABILITY_COUNT=143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROFILE_ID="FA3-GPU-KERNEL-RUNTIME-001"
 CONTRACT_ID="FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001"
 DECISION_ID="FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03"

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -16,7 +17,7 @@ DECISION_ID = "FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07"
 REFERENCE_ID = "FA3-TENSORRT-RTX-RUNTIME-CACHE-REFERENCE-2026-09-07"
 EVIDENCE_PATH = "evidence/reference/inference-cache-hardening-ci-2026-09-07.json"
 CAPABILITY_IDS = ("CAP-005", "CAP-006", "CAP-137", "CAP-143")
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 RULES = (
     "TENSORRT_RTX_RUNTIME_CACHE_IDENTITY_REQUIRED",
     "TENSORRT_RTX_RUNTIME_CACHE_DRIVER_MONOTONIC_COMPATIBILITY",

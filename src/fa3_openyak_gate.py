@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import csv
@@ -7,7 +8,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITY_IDS = ("CAP-008", "CAP-096")
 EXCLUDED_CAPABILITY_ID = "CAP-107"
 PROFILE_ID = "FA3-DESKTOP-AGENT-WORKBENCH-001"

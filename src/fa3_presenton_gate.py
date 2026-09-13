@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import hashlib
 import io
@@ -13,7 +14,7 @@ CONTRACT_ID = "FA3-PRESENTON-CONTRACTS-001"
 GATE_ID = "FA3-PRESENTON-GATESET-001"
 DECISION_ID = "FA3-DEC-PRESENTON-2026-08-30"
 REFERENCE_ID = "FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 RELEASE = "v0.9.8-beta"
 SOURCE_COMMIT = "88c28f18a63e29742e4922facdba6b95c67959cd"
 OCI_INDEX_DIGEST = "sha256:e6866086f2dbdf9f6c50c8f217123cada2a84f4dd03131ad78f397d6fb11b3d1"

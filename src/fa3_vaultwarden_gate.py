@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
@@ -14,7 +15,7 @@ GATE_ID = "FA3-VAULTWARDEN-GATESET-001"
 ADMISSION_ID = "FA3-VAULTWARDEN-RUNTIME-ADMISSION-001"
 CONFORMANCE_ID = "FA3-VAULTWARDEN-RUNTIME-CONFORMANCE-001"
 RELEASE_ID = "FA3-RELEASE-PROJECTION-VAULTWARDEN-2026-09-12"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 RELEASE = "1.37.2"
 TAG_SHA = "f92e640ef5d96c0ec69ced35e419fef3a4711a2f"
 COMMIT = "46d71107f5094460dd5ecbe1dbac6e6c71e5189a"

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse,json
 from pathlib import Path
 from typing import Any
@@ -15,7 +16,7 @@ OPEN_SORA_ID="FA3-PROVIDER-OPEN-SORA-PLAN-001"
 HELIOS_ID="FA3-PROVIDER-HELIOS-001"
 OPEN_SORA_PIN="f7fa604f4e3a523d6b973e4c89a5620ed1aff65a"
 HELIOS_PIN="babed9811266e4b5b111c9c1e0977a07899066ab"
-CAPABILITY_COUNT=143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITIES=["CAP-016","CAP-123","CAP-126"]
 P0_RULES=[
 "VIDEO_PKU_PROVIDERS_NOT_AUTHORITY",

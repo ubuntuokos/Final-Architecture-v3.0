@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -25,7 +26,7 @@ DECISION_ID = "FA3-DEC-HYBRID-EDITORIAL-2026-08-31"
 EXECUTABLE_GATE_ID = "FA3-GATE-HYBRID-EDITORIAL-001"
 GATESET_ID = "FA3-HYBRID-EDITORIAL-GATESET-001"
 EVIDENCE_PATH = "evidence/reference/hybrid-editorial-ci-2026-08-31.json"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITY_IDS = ["CAP-016", "CAP-017", "CAP-121", "CAP-126"]
 CASE_IDS = [f"HYB-{index:03d}" for index in range(1, 19)]
 

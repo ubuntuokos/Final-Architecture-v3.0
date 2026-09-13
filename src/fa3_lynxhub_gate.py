@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import csv
@@ -8,7 +9,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITY_IDS = ("CAP-057",)
 PROFILE_ID = "FA3-CREATIVE-OPERATIONS-DASHBOARD-001"
 PROVIDER_ID = "FA3-PROVIDER-LYNXHUB-001"

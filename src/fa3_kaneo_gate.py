@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -9,7 +10,7 @@ from typing import Any
 PROVIDER_ID = "FA3-PROVIDER-KANEO-001"
 GATE_ID = "FA3-KANEO-GATESET-001"
 REFERENCE_ID = "FA3-KANEO-UPSTREAM-REFERENCE-2026-09-12"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v2.24.0"
 REFERENCE_COMMIT = "863b979e2af6d9b4d75064edc43a2c118d9af7ce"
 AGENTS_BLOB = "a0ccf325b7da268e0da6ebd463e1c707e65701d7"
