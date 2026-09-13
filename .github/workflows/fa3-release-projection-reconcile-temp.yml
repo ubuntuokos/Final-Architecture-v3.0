@@ -1,0 +1,32 @@
+name: FA3 temporary release projection reconcile
+
+on:
+  push:
+    branches:
+      - fa3-gui-deploy-verification-v1
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-deploy-verification-v1
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Regenerate projection against intended pre-helper head
+        shell: bash
+        run: |
+          set -euo pipefail
+          SNAPSHOT_HEAD="$(git rev-parse HEAD~1)"
+          rm -f .github/workflows/fa3-release-projection-reconcile-temp.yml
+          PYTHONPATH=src python src/fa3_release_projection_regenerate.py --snapshot-head "$SNAPSHOT_HEAD"
+          git checkout -- .github/workflows/fa3-release-projection-reconcile-temp.yml
+          git config user.name "fa3-release-reconcile"
+          git config user.email "fa3-release-reconcile@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3 release projection: reconcile embedded Web Workspace surface"
+          git push origin HEAD:fa3-gui-deploy-verification-v1
