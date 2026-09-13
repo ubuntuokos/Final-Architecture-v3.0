@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-VAULTWARDEN-2026-09-12",
+  "date": "2026-09-12",
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "base_main_commit": "e18ae8bc7c22f76a519d174a996744955b3f3a08",
+  "subject": "Vaultwarden human credential vault provider hardening materialization",
+  "provider_id": "FA3-PROVIDER-VAULTWARDEN-001",
+  "profile_id": "FA3-SCS-001",
+  "contract_id": "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001",
+  "decision_id": "FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12",
+  "gate_id": "FA3-VAULTWARDEN-GATESET-001",
+  "upstream_reference": "FA3-VAULTWARDEN-UPSTREAM-REFERENCE-2026-09-12",
+  "materialized_artifacts": [
+    "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
+    "canonical/contracts/FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001.json",
+    "canonical/decisions/FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12.json",
+    "canonical/references/FA3-VAULTWARDEN-UPSTREAM-REFERENCE-2026-09-12.json",
+    "canonical/vaultwarden-enforcement.json",
+    "canonical/vaultwarden-runtime-admission.json",
+    "canonical/FA3-GATE-VAULTWARDEN-001.json",
+    "canonical/FA3-VAULTWARDEN-RUNTIME-CONFORMANCE-001.json",
+    "src/fa3_vaultwarden_gate.py",
+    "tests/test_vaultwarden_gate.py",
+    "evidence/reference/vaultwarden-reference-pass.json",
+    "canonical/releases/FA3-RELEASE-PROJECTION-VAULTWARDEN-2026-09-12.json"
+  ],
+  "reconciliation": {
+    "provider_inventory": "CLOSED",
+    "authority_boundary": "CLOSED",
+    "contract_surface": "CLOSED",
+    "upstream_identity": "CLOSED",
+    "reference_gate": "PASS_EXPECTED_AND_CI_ENFORCED",
+    "current_host_runtime": "NOT_PROMOTED",
+    "production_image_digest": "UNRESOLVED_FAIL_CLOSED",
+    "client_compatibility_matrix": "PENDING_RUNTIME_SELECTION",
+    "restore_drill": "PENDING_RUNTIME_SELECTION"
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-IDEATION-ADVISORY-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "contracts": [
+    "IdeationAdvisorySessionContext", "ProblemStatement", "ConstraintSet", "IdeaCandidate", "HypothesisRecord",
+    "DecisionCriterion", "CandidateAssessment", "TradeoffRecord", "RiskRecord", "EvidenceReference",
+    "EvidenceConflict", "UncertaintyRecord", "ConfidenceRecord", "RecommendationRecord", "RecommendationTrace",
+    "DecisionHandoff", "VerificationRequest", "ExecutionDelegationRequest", "ProjectionProvenance"
+  ],
+  "semantic_model": {
+    "idea": "HYPOTHESIS_OR_OPTION_NOT_FACT",
+    "hypothesis": "UNVERIFIED_UNTIL_EVIDENCE_BOUND",
+    "recommendation": "ADVISORY_OUTPUT_NOT_DECISION",
+    "decision": "OWNED_BY_USER_OR_EXISTING_FA3_DECISION_AUTHORITY",
+    "authorization": "SEPARATE_REQUIRED_BOUNDARY",
+    "execution": "DELEGATED_ONLY",
+    "verified_result": "REQUIRES_EXECUTION_EVIDENCE_AND_VALIDATION"
+  },
+  "execution_model": {
+    "direct_tool_execution": "FORBIDDEN",
+    "direct_agent_execution": "FORBIDDEN",
+    "direct_repository_write": "FORBIDDEN",
+    "direct_production_mutation": "FORBIDDEN",
+    "typed_mcp_escalation": "REQUIRED_FOR_TOOL_ACTION",
+    "agent_execution_delegation": "REQUIRED_FOR_AGENT_ACTION"
+  },
+  "evidence_model": {
+    "verified_recommendation_requires_evidence_reference": true,
+    "missing_evidence_status": "UNVERIFIED",
+    "conflicting_evidence_status": "CONFLICTED",
+    "uncertainty_required": true,
+    "confidence_required": true,
+    "traceability_to_candidates_and_evidence_required": true,
+    "promotion_claim_requires_independent_verification": true
+  },
+  "state_model": {
+    "canonical_memory_write": "EXISTING_MEMORY_AUTHORITY_ONLY",
+    "cross_workspace_persistence": "FORBIDDEN_BY_DEFAULT",
+    "local_session_state_is_canonical_memory": false
+  }
+}

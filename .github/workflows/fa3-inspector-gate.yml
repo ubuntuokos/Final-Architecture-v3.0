@@ -1,0 +1,54 @@
+name: FA3 Inspector Independent Verification Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-INSPECT*.json'
+      - 'canonical/FA3-GATE-INDEPENDENT-VERIFICATION-001.json'
+      - 'canonical/inspector-enforcement.json'
+      - 'canonical/profiles/FA3-INSPECTOR-001.json'
+      - 'canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json'
+      - 'src/fa3_inspector*.py'
+      - 'tests/test_inspector_gate.py'
+      - '.github/workflows/fa3-inspector-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-INSPECT*.json'
+      - 'canonical/FA3-GATE-INDEPENDENT-VERIFICATION-001.json'
+      - 'canonical/inspector-enforcement.json'
+      - 'canonical/profiles/FA3-INSPECTOR-001.json'
+      - 'canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json'
+      - 'canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json'
+      - 'src/fa3_inspector*.py'
+      - 'tests/test_inspector_gate.py'
+      - '.github/workflows/fa3-inspector-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspector-canonical:
+    name: inspector-canonical / P0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_inspector.py src/fa3_inspector_gate.py tests/test_inspector_gate.py
+      - name: Inspector self-check
+        run: PYTHONPATH=src python src/fa3_inspector.py --self-check
+      - name: Independent verification fail-closed gate
+        run: PYTHONPATH=src python src/fa3_inspector_gate.py
+      - name: Inspector regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_inspector_gate -v

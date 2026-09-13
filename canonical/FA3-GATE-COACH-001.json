@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-COACH-001",
+  "gateset_id": "FA3-COACH-GATESET-001",
+  "profile_id": "FA3-COACH-001",
+  "contract_id": "FA3-COACH-CONTRACTS-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "rule_count": 12,
+  "executable": "PYTHONPATH=src python src/fa3_coach_gate.py",
+  "reference_evidence": "evidence/reference/fa3-coach-reference-pending.json",
+  "current_host_runtime_required_for_reference_pass": false,
+  "current_host_runtime_required_for_runtime_promotion": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

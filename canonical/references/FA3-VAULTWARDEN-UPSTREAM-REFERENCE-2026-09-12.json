@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-VAULTWARDEN-UPSTREAM-REFERENCE-2026-09-12",
+  "provider_id": "FA3-PROVIDER-VAULTWARDEN-001",
+  "repository": "dani-garcia/vaultwarden",
+  "observed_at": "2026-09-12",
+  "stable_reference": {
+    "release": "1.37.2",
+    "tag_object_sha": "f92e640ef5d96c0ec69ced35e419fef3a4711a2f",
+    "commit_sha": "46d71107f5094460dd5ecbe1dbac6e6c71e5189a",
+    "published_at": "2026-08-22T12:29:13Z",
+    "tag_signature_verified": true,
+    "tag_signature_reason": "valid"
+  },
+  "release_observations": {
+    "client_2026_8_0_plus_support_update_required": true,
+    "release_is_prerelease": false,
+    "release_is_immutable": true
+  },
+  "license": {
+    "spdx": "AGPL-3.0-only",
+    "permissive": false,
+    "network_copyleft": true
+  },
+  "observed_surfaces": [
+    "BITWARDEN_COMPATIBLE_SERVER",
+    "WEB_VAULT",
+    "ORGANIZATIONS",
+    "ADMIN_SURFACE",
+    "SMTP",
+    "PUSH",
+    "OIDC_OPTIONAL_SURFACE",
+    "ICON_FETCH_OUTBOUND_SURFACE",
+    "DATABASE",
+    "ATTACHMENTS",
+    "SENDS",
+    "SIGNING_KEYS"
+  ],
+  "fa3_disposition": {
+    "classification": "OPTIONAL_HUMAN_CREDENTIAL_VAULT_PROVIDER_AND_HARDENING_PATTERN_SOURCE",
+    "floating_main_allowed_as_promotion_evidence": false,
+    "floating_latest_container_tag_allowed_for_production": false,
+    "provider_is_machine_secret_broker": false,
+    "provider_is_identity_authority": false,
+    "provider_is_authorization_authority": false,
+    "direct_unscoped_workload_vault_access_allowed": false,
+    "deny_by_default_egress_required": true,
+    "secret_redaction_required": true,
+    "immutable_container_digest_required_for_production": true,
+    "client_compatibility_evidence_required_for_production": true,
+    "restore_drill_required_for_recovery_pass": true,
+    "runtime_provider_required_for_global_promotion_when_disabled": false,
+    "current_host_runtime_promotion_claim": false
+  }
+}

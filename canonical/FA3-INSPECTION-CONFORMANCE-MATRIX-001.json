@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.profile-conformance-matrix.v1",
+  "id": "FA3-INSPECTION-CONFORMANCE-MATRIX-001",
+  "profile_id": "FA3-INSPECTOR-001",
+  "decision_ref": "FA3-DEC-INSPECTOR-2026-09-12",
+  "implementation": "FA3 Inspector 0.1.0",
+  "capability_count": 143,
+  "design_and_reference_checks": {
+    "profile_p0_must": "PASS",
+    "provider_independent_contracts": "PASS",
+    "no_new_capability": "PASS",
+    "no_new_architectural_authority": "PASS",
+    "separation_of_duties": "PASS",
+    "self_attestation_only_production_pass_forbidden": "PASS",
+    "lifecycle_state_distinction": "PASS",
+    "evidence_provenance_and_freshness": "PASS",
+    "silent_repair_forbidden": "PASS",
+    "remediation_requires_reinspection": "PASS",
+    "fail_closed_non_pass_states": "PASS",
+    "decision_registry_direct_link": "PASS"
+  },
+  "runtime_current_host": {
+    "status": "PENDING_CURRENT_HOST_DEPLOYMENT",
+    "promotion_claimed": false,
+    "requirement": "Fresh current-host L2/L3 inspection execution and evidence are required before runtime promotion."
+  }
+}

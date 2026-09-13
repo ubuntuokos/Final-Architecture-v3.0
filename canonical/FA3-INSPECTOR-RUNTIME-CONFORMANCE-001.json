@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.runtime-conformance-record.v1",
+  "id": "FA3-INSPECTOR-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-INSPECTOR-001",
+  "provider_id": "FA3-PROVIDER-INSPECTOR-LOCAL-001",
+  "gate_id": "FA3-GATE-INDEPENDENT-VERIFICATION-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "promotion_claimed": false,
+  "required_evidence": [
+    "fresh executable Inspector gate PASS on target host",
+    "L1 static inspection example",
+    "L2 runtime inspection example",
+    "L3 production inspection example with independent evidence",
+    "negative self-attestation-only production case returning BLOCKED",
+    "stale, missing and drift evidence negative cases"
+  ],
+  "evidence_present": false,
+  "normative_constraint": "Design/reference conformance SHALL NOT be represented as current-host production admission."
+}

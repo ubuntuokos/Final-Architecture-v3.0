@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-COACH-REFERENCE-001",
+  "profile_id": "FA3-COACH-001",
+  "gate_id": "FA3-GATE-COACH-001",
+  "status": "PENDING_EXECUTION",
+  "pass_claimed": false,
+  "runtime_promotion_claimed": false,
+  "current_host_evidence": false,
+  "expected_commands": [
+    "PYTHONPATH=src python src/fa3_coach.py --self-check",
+    "PYTHONPATH=src python src/fa3_coach_gate.py",
+    "pytest -q tests/test_coach_gate.py"
+  ],
+  "required_before_reference_pass": [
+    "successful Coach self-check",
+    "successful fail-closed Coach gate",
+    "successful Coach regression tests"
+  ],
+  "required_before_current_host_promotion": [
+    "fresh target-host deployment evidence",
+    "fresh target-host interaction evidence",
+    "fresh target-host policy/delegation evidence"
+  ],
+  "note": "This placeholder intentionally records no PASS. It prevents design materialization from being misrepresented as executed evidence."
+}
