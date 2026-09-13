@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-DESKTOP-CONTRACTS-001",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-DESKTOP-001",
@@ -37,8 +37,11 @@
     "CoachPreferenceProjection",
     "ManagerPreferenceProjection",
     "InspectorPreferenceProjection",
+    "IdeatorPreferenceProjection",
+    "AdvisorPreferenceProjection",
     "RoleActionVisibilityPreference",
-    "MentorCoachReferralProjection"
+    "MentorCoachReferralProjection",
+    "IdeationAdvisoryInspectorHandoffProjection"
   ],
   "read_model": {
     "canonical_repository": "READ_ONLY",
@@ -51,6 +54,7 @@
     "model_manager_state": "READ_ONLY",
     "manager_work_state": "READ_ONLY_OR_ADAPTER_REQUIRED",
     "inspector_verification_state": "READ_ONLY_OR_ADAPTER_REQUIRED",
+    "ideation_advisory_state": "READ_ONLY_OR_ADAPTER_REQUIRED",
     "policy_and_approval_state": "READ_ONLY",
     "mentor_context": "READ_PROJECTION",
     "coach_project_context": "READ_PROJECTION",
@@ -73,6 +77,8 @@
     "direct_mcp_tool_execution": "FORBIDDEN",
     "direct_model_runtime_control": "FORBIDDEN",
     "direct_peripheral_kernel_or_device_mutation": "FORBIDDEN",
+    "direct_ideation_advisory_decision": "FORBIDDEN",
+    "direct_ideation_advisory_execution": "FORBIDDEN",
     "direct_policy_or_secret_mutation": "FORBIDDEN",
     "sudo_su_pkexec": "FORBIDDEN",
     "free_form_shell": "FORBIDDEN"
@@ -97,20 +103,30 @@
     "AI Mentor",
     "AI Coach",
     "Manager",
-    "Inspector"
+    "Inspector",
+    "Ideator",
+    "Advisor"
   ],
   "header_role_actions": {
     "Ask Mentor": "LOCAL_VISIBILITY_PREFERENCE",
     "Ask Coach": "LOCAL_VISIBILITY_PREFERENCE",
     "Ask Manager": "LOCAL_VISIBILITY_PREFERENCE",
-    "Ask Inspector": "LOCAL_VISIBILITY_PREFERENCE"
+    "Ask Inspector": "LOCAL_VISIBILITY_PREFERENCE",
+    "Ask Ideator": "LOCAL_VISIBILITY_PREFERENCE",
+    "Ask Advisor": "LOCAL_VISIBILITY_PREFERENCE"
   },
   "role_ui_invariants": [
     "ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION",
     "ASK_ROLE_ACTIONS_OPEN_CONVERSATION_SURFACES_NOT_CONFIGURATION_PAGES",
     "ASK_ROLE_ACTION_VISIBILITY_IS_LOCAL_UI_PREFERENCE_ONLY",
     "HIDING_ROLE_ACTION_DOES_NOT_DISABLE_OR_REMOVE_CANONICAL_ROLE",
-    "INSPECTOR_PREFERENCES_MUST_NOT_WEAKEN_INDEPENDENT_VERIFICATION"
+    "INSPECTOR_PREFERENCES_MUST_NOT_WEAKEN_INDEPENDENT_VERIFICATION",
+    "IDEATOR_OUTPUT_MUST_PRESERVE_IDEA_NOT_FACT_AND_HYPOTHESIS_NOT_EVIDENCE",
+    "ADVISOR_OUTPUT_MUST_PRESERVE_RECOMMENDATION_NOT_DECISION",
+    "ADVISOR_MISSING_EVIDENCE_MUST_REMAIN_UNVERIFIED",
+    "ADVISOR_UNCERTAINTY_AND_CONFIDENCE_MUST_REMAIN_EXPLICIT",
+    "ADVISOR_CONFLICTING_EVIDENCE_MUST_REMAIN_VISIBLE",
+    "ADVISOR_HIGH_IMPACT_OR_PROMOTION_MUST_HANDOFF_TO_INSPECTOR"
   ],
   "system_sections": [
     "Overview",
