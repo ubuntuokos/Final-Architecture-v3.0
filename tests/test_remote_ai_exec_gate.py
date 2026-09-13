@@ -39,8 +39,9 @@ class RemoteAIExecutionGateTests(unittest.TestCase):
         spaces = json.loads((ROOT / "canonical/providers/FA3-PROVIDER-HF-SPACES-001.json").read_text())
         model_store = json.loads((ROOT / "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json").read_text())
         self.assertTrue(spaces["separation_from_hf_model_store"]["must_not_be_collapsed"])
-        self.assertEqual(model_store["category"], "model_store")
-        self.assertEqual(model_store["integration_boundary"], "model_manager_only")
+        self.assertEqual(model_store["parent_profile"], "FA3-MODEL-MANAGER-001")
+        self.assertIn("MODEL_SOURCE_PROVIDER", model_store["classification"])
+        self.assertFalse(model_store["architectural_authority"])
         self.assertFalse(spaces["global_hard_dependency"])
         self.assertFalse(spaces["automatic_local_fallback_target"])
 
