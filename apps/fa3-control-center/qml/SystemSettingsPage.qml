@@ -37,85 +37,160 @@ Item {
         draftResult = fa3Repository.createDraftChangeSet(scope, action, target, rationale)
     }
 
-    component SettingLine: RowLayout {
+    component SettingLine: ColumnLayout {
         property string labelText: ""
         property string helpText: ""
         Layout.fillWidth: true
-        spacing: 12
-        ColumnLayout {
+        spacing: 2
+        Label {
+            text: parent.labelText
+            color: root.textPrimary
+            font.pixelSize: 11
+            font.bold: true
             Layout.fillWidth: true
-            spacing: 1
-            Label { text: parent.parent.labelText; color: root.textPrimary; font.pixelSize: 11; font.bold: true }
-            Label { text: parent.parent.helpText; color: root.textMuted; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
+        }
+        Label {
+            text: parent.helpText
+            color: root.textMuted
+            font.pixelSize: 9
+            wrapMode: Text.WordWrap
+            Layout.fillWidth: true
         }
     }
 
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 18
-        spacing: 13
+        spacing: 10
 
         ColumnLayout {
             Layout.fillWidth: true
             spacing: 2
-            Label { text: "Rendszerbeállítások"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
-            Label { text: "Kattints egy kategóriára; a jobb oldalon megjelennek a tényleges vezérlők vagy a ChangeSet-határhoz kötött beállítások."; color: root.textMuted; font.pixelSize: 11 }
+            Label {
+                text: "Rendszerbeállítások"
+                color: root.textPrimary
+                font.pixelSize: 22
+                font.bold: true
+            }
+            Label {
+                text: "Válassz kategóriát a bal oldalon; a jobb oldali munkaterület a rendelkezésre álló helyet használja, és szükség esetén görgethető."
+                color: root.textMuted
+                font.pixelSize: 10
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+            }
         }
 
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 14
+            spacing: 12
 
-            ColumnLayout {
-                Layout.preferredWidth: 330
+            Rectangle {
+                id: categoryPane
+                Layout.preferredWidth: Math.max(220, Math.min(270, root.width * 0.24))
+                Layout.minimumWidth: 220
+                Layout.maximumWidth: 270
                 Layout.fillHeight: true
-                spacing: 8
+                radius: 9
+                color: root.panel
+                border.color: root.border
+                border.width: 1
 
-                Repeater {
-                    model: root.sections
-                    delegate: Rectangle {
-                        required property var modelData
-                        required property int index
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 8
+
+                    Label {
+                        text: "Kategóriák"
+                        color: root.textMuted
+                        font.pixelSize: 9
+                        font.bold: true
+                    }
+
+                    ListView {
+                        id: settingsCategoryList
                         Layout.fillWidth: true
-                        implicitHeight: 82
-                        radius: 8
-                        color: index === root.selectedIndex ? root.panelRaised : (settingsMouse.containsMouse ? "#10233a" : root.panel)
-                        border.color: index === root.selectedIndex ? modelData.tone : root.border
-                        border.width: index === root.selectedIndex ? 2 : 1
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 12
-                            spacing: 10
-                            Rectangle { width: 8; height: 8; radius: 4; color: modelData.tone }
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 3
-                                RowLayout {
-                                    Layout.fillWidth: true
-                                    Label { text: modelData.title; color: root.textPrimary; font.pixelSize: 12; font.bold: true; Layout.fillWidth: true }
-                                    Label { text: modelData.badge; color: modelData.tone; font.pixelSize: 8; font.bold: true }
-                                }
-                                Label { text: modelData.detail; color: root.textMuted; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-                            }
+                        Layout.fillHeight: true
+                        clip: true
+                        spacing: 6
+                        boundsBehavior: Flickable.StopAtBounds
+                        model: root.sections
+                        currentIndex: root.selectedIndex
+                        ScrollBar.vertical: ScrollBar {
+                            policy: ScrollBar.AlwaysOn
+                            active: true
                         }
 
-                        MouseArea {
-                            id: settingsMouse
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: root.selectedIndex = index
+                        delegate: Rectangle {
+                            required property var modelData
+                            required property int index
+                            width: ListView.view.width - 10
+                            height: 54
+                            radius: 7
+                            color: index === root.selectedIndex ? root.panelRaised : (settingsMouse.containsMouse ? "#10233a" : "transparent")
+                            border.color: index === root.selectedIndex ? modelData.tone : "transparent"
+                            border.width: index === root.selectedIndex ? 1 : 0
+
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.leftMargin: 10
+                                anchors.rightMargin: 10
+                                spacing: 8
+                                Rectangle {
+                                    width: 7
+                                    height: 7
+                                    radius: 4
+                                    color: modelData.tone
+                                }
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    spacing: 1
+                                    RowLayout {
+                                        Layout.fillWidth: true
+                                        Label {
+                                            text: modelData.title
+                                            color: root.textPrimary
+                                            font.pixelSize: 11
+                                            font.bold: true
+                                            Layout.fillWidth: true
+                                            elide: Text.ElideRight
+                                        }
+                                        Label {
+                                            text: modelData.badge
+                                            color: modelData.tone
+                                            font.pixelSize: 7
+                                            font.bold: true
+                                        }
+                                    }
+                                    Label {
+                                        text: modelData.detail
+                                        color: root.textMuted
+                                        font.pixelSize: 8
+                                        Layout.fillWidth: true
+                                        elide: Text.ElideRight
+                                    }
+                                }
+                            }
+
+                            MouseArea {
+                                id: settingsMouse
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: root.selectedIndex = index
+                            }
                         }
                     }
                 }
-                Item { Layout.fillHeight: true }
             }
 
             Rectangle {
+                id: settingsWorkspace
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.minimumWidth: 520
                 radius: 9
                 color: root.panel
                 border.color: root.sections[root.selectedIndex].tone
@@ -123,108 +198,233 @@ Item {
 
                 ColumnLayout {
                     anchors.fill: parent
-                    anchors.margins: 18
-                    spacing: 12
+                    anchors.margins: 16
+                    spacing: 10
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Label { text: root.sections[root.selectedIndex].title; color: root.textPrimary; font.pixelSize: 19; font.bold: true; Layout.fillWidth: true }
-                        Label { text: root.sections[root.selectedIndex].badge; color: root.sections[root.selectedIndex].tone; font.pixelSize: 9; font.bold: true }
+                        Label {
+                            text: root.sections[root.selectedIndex].title
+                            color: root.textPrimary
+                            font.pixelSize: 18
+                            font.bold: true
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                        }
+                        Label {
+                            text: root.sections[root.selectedIndex].badge
+                            color: root.sections[root.selectedIndex].tone
+                            font.pixelSize: 9
+                            font.bold: true
+                        }
                     }
-                    Label { text: root.sections[root.selectedIndex].detail; color: root.textMuted; font.pixelSize: 10; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-                    Rectangle { Layout.fillWidth: true; height: 1; color: root.border }
+                    Label {
+                        text: root.sections[root.selectedIndex].detail
+                        color: root.textMuted
+                        font.pixelSize: 10
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 1
+                        color: root.border
+                    }
 
-                    StackLayout {
+                    ScrollView {
+                        id: settingsDetailScroll
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        currentIndex: root.selectedIndex
-
-                        ColumnLayout {
-                            spacing: 14
-                            SettingLine { labelText: "Kompakt navigáció"; helpText: "Keskenyebb oldalsávot és sűrűbb menüt használ." }
-                            Switch {
-                                text: checked ? "Bekapcsolva" : "Kikapcsolva"
-                                checked: root.compactNavigation
-                                onToggled: root.compactNavigationRequested(checked)
-                            }
-                            SettingLine { labelText: "Alsó állapotsáv"; helpText: "CPU / GPU / NPU / RAM / Pressure státuszsáv megjelenítése." }
-                            Switch {
-                                text: checked ? "Látható" : "Rejtett"
-                                checked: root.statusStripVisible
-                                onToggled: root.statusStripRequested(checked)
-                            }
-                            Label { text: "A két megjelenítési beállítás azonnal érvényesül az aktuális Control Center munkamenetben."; color: root.green; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-                            Item { Layout.fillHeight: true }
+                        clip: true
+                        contentWidth: availableWidth
+                        ScrollBar.vertical: ScrollBar {
+                            policy: ScrollBar.AlwaysOn
+                            active: true
                         }
 
                         ColumnLayout {
-                            spacing: 14
-                            SettingLine { labelText: "Erőforrás-profil"; helpText: "A host módosítása nem közvetlen: a választás ChangeSet-tervezetet készít." }
-                            ComboBox { id: resourcePolicy; Layout.preferredWidth: 260; model: ["Balanced", "Interactive", "Throughput"] }
-                            Button {
-                                text: "ChangeSet-tervezet készítése"
-                                onClicked: root.createDraft("resources", "set-resource-policy", "host", "Requested resource policy: " + resourcePolicy.currentText)
-                            }
-                            Label { text: "Közvetlen CPU/GPU/NPU/NUMA módosítás tiltott; a broker/approval lánc marad az authority."; color: root.orange; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-                            Item { Layout.fillHeight: true }
-                        }
+                            width: settingsDetailScroll.availableWidth
+                            spacing: 12
 
-                        ColumnLayout {
-                            spacing: 14
-                            SettingLine { labelText: "Provider-hozzáférés"; helpText: "Lokális-only vagy jóváhagyott távoli provider egress-intent." }
-                            ComboBox { id: networkPolicy; Layout.preferredWidth: 310; model: ["Local only", "Approved remote providers"] }
-                            Button {
-                                text: "Hálózati policy-tervezet"
-                                onClicked: root.createDraft("network", "set-provider-egress-policy", "provider-egress", "Requested network policy: " + networkPolicy.currentText)
-                            }
-                            Label { text: "A beépített Web Workspace nem nyit külső böngészőt; a provider-egress ettől külön policy."; color: root.textMuted; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-                            Item { Layout.fillHeight: true }
-                        }
+                            StackLayout {
+                                id: settingsStack
+                                Layout.fillWidth: true
+                                Layout.minimumHeight: Math.max(300, settingsDetailScroll.availableHeight - 12)
+                                currentIndex: root.selectedIndex
 
-                        ColumnLayout {
-                            spacing: 14
-                            SettingLine { labelText: "Fail-closed védelem"; helpText: "Privilegizált művelet, secret vagy approval megkerülése nem állítható át ebből a GUI-ból." }
-                            CheckBox { text: "Approval required"; checked: true; enabled: false }
-                            CheckBox { text: "Secret values hidden"; checked: true; enabled: false }
-                            Button { text: "Security & Approvals megnyitása"; onClicked: root.navigateRequested(10) }
-                            Label { text: "A biztonsági authority szándékosan nem duplikálható a Rendszerbeállításokban."; color: root.magenta; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
-                            Item { Layout.fillHeight: true }
-                        }
+                                ColumnLayout {
+                                    spacing: 12
+                                    SettingLine {
+                                        labelText: "Kompakt navigáció"
+                                        helpText: "Keskenyebb oldalsávot és sűrűbb menüt használ."
+                                    }
+                                    Switch {
+                                        text: checked ? "Bekapcsolva" : "Kikapcsolva"
+                                        checked: root.compactNavigation
+                                        onToggled: root.compactNavigationRequested(checked)
+                                    }
+                                    SettingLine {
+                                        labelText: "Alsó állapotsáv"
+                                        helpText: "CPU / GPU / NPU / RAM / Pressure státuszsáv megjelenítése."
+                                    }
+                                    Switch {
+                                        text: checked ? "Látható" : "Rejtett"
+                                        checked: root.statusStripVisible
+                                        onToggled: root.statusStripRequested(checked)
+                                    }
+                                    Label {
+                                        text: "A két megjelenítési beállítás azonnal érvényesül az aktuális Control Center munkamenetben."
+                                        color: root.green
+                                        font.pixelSize: 9
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                    Item { Layout.fillHeight: true }
+                                }
 
-                        ColumnLayout {
-                            spacing: 14
-                            SettingLine { labelText: "Frissítési csatorna"; helpText: "A választás kontrollált update-intentként kerül továbbításra." }
-                            ComboBox { id: updateChannel; Layout.preferredWidth: 240; model: ["Stable", "Preview"] }
-                            Button {
-                                text: "Frissítési tervezet"
-                                onClicked: root.createDraft("updates", "set-update-channel", "fa3-components", "Requested update channel: " + updateChannel.currentText)
-                            }
-                            Item { Layout.fillHeight: true }
-                        }
+                                ColumnLayout {
+                                    spacing: 12
+                                    SettingLine {
+                                        labelText: "Erőforrás-profil"
+                                        helpText: "A host módosítása nem közvetlen: a választás ChangeSet-tervezetet készít."
+                                    }
+                                    ComboBox {
+                                        id: resourcePolicy
+                                        Layout.preferredWidth: 260
+                                        model: ["Balanced", "Interactive", "Throughput"]
+                                    }
+                                    Button {
+                                        text: "ChangeSet-tervezet készítése"
+                                        onClicked: root.createDraft("resources", "set-resource-policy", "host", "Requested resource policy: " + resourcePolicy.currentText)
+                                    }
+                                    Label {
+                                        text: "Közvetlen CPU/GPU/NPU/NUMA módosítás tiltott; a broker/approval lánc marad az authority."
+                                        color: root.orange
+                                        font.pixelSize: 9
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                    Item { Layout.fillHeight: true }
+                                }
 
-                        ColumnLayout {
-                            spacing: 14
-                            SettingLine { labelText: "Napló-retention"; helpText: "A retention módosítása Journal policy-tervezet; meglévő archívumot nem töröl közvetlenül." }
-                            RowLayout {
-                                Label { text: "Napok:"; color: root.textMuted }
-                                SpinBox { id: retentionDays; from: 7; to: 3650; value: 90; editable: true }
-                            }
-                            Button {
-                                text: "Retention-tervezet"
-                                onClicked: root.createDraft("journal", "set-retention-days", "journal-retention", "Requested retention days: " + retentionDays.value)
-                            }
-                            Item { Layout.fillHeight: true }
-                        }
-                    }
+                                ColumnLayout {
+                                    spacing: 12
+                                    SettingLine {
+                                        labelText: "Provider-hozzáférés"
+                                        helpText: "Lokális-only vagy jóváhagyott távoli provider egress-intent."
+                                    }
+                                    ComboBox {
+                                        id: networkPolicy
+                                        Layout.preferredWidth: 310
+                                        model: ["Local only", "Approved remote providers"]
+                                    }
+                                    Button {
+                                        text: "Hálózati policy-tervezet"
+                                        onClicked: root.createDraft("network", "set-provider-egress-policy", "provider-egress", "Requested network policy: " + networkPolicy.currentText)
+                                    }
+                                    Label {
+                                        text: "A beépített Web Workspace nem nyit külső böngészőt; a provider-egress ettől külön policy."
+                                        color: root.textMuted
+                                        font.pixelSize: 9
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                    Item { Layout.fillHeight: true }
+                                }
 
-                    Rectangle {
-                        visible: root.draftResult.length > 0
-                        Layout.fillWidth: true
-                        implicitHeight: draftLabel.implicitHeight + 20
-                        radius: 6
-                        color: "#091624"
-                        border.color: root.accent
-                        Label { id: draftLabel; anchors.fill: parent; anchors.margins: 10; text: root.draftResult; color: root.accent; font.pixelSize: 9; wrapMode: Text.WrapAnywhere }
+                                ColumnLayout {
+                                    spacing: 12
+                                    SettingLine {
+                                        labelText: "Fail-closed védelem"
+                                        helpText: "Privilegizált művelet, secret vagy approval megkerülése nem állítható át ebből a GUI-ból."
+                                    }
+                                    CheckBox {
+                                        text: "Approval required"
+                                        checked: true
+                                        enabled: false
+                                    }
+                                    CheckBox {
+                                        text: "Secret values hidden"
+                                        checked: true
+                                        enabled: false
+                                    }
+                                    Button {
+                                        text: "Security & Approvals megnyitása"
+                                        onClicked: root.navigateRequested(10)
+                                    }
+                                    Label {
+                                        text: "A biztonsági authority szándékosan nem duplikálható a Rendszerbeállításokban."
+                                        color: root.magenta
+                                        font.pixelSize: 9
+                                        wrapMode: Text.WordWrap
+                                        Layout.fillWidth: true
+                                    }
+                                    Item { Layout.fillHeight: true }
+                                }
+
+                                ColumnLayout {
+                                    spacing: 12
+                                    SettingLine {
+                                        labelText: "Frissítési csatorna"
+                                        helpText: "A választás kontrollált update-intentként kerül továbbításra."
+                                    }
+                                    ComboBox {
+                                        id: updateChannel
+                                        Layout.preferredWidth: 240
+                                        model: ["Stable", "Preview"]
+                                    }
+                                    Button {
+                                        text: "Frissítési tervezet"
+                                        onClicked: root.createDraft("updates", "set-update-channel", "fa3-components", "Requested update channel: " + updateChannel.currentText)
+                                    }
+                                    Item { Layout.fillHeight: true }
+                                }
+
+                                ColumnLayout {
+                                    spacing: 12
+                                    SettingLine {
+                                        labelText: "Napló-retention"
+                                        helpText: "A retention módosítása Journal policy-tervezet; meglévő archívumot nem töröl közvetlenül."
+                                    }
+                                    RowLayout {
+                                        Label {
+                                            text: "Napok:"
+                                            color: root.textMuted
+                                        }
+                                        SpinBox {
+                                            id: retentionDays
+                                            from: 7
+                                            to: 3650
+                                            value: 90
+                                            editable: true
+                                        }
+                                    }
+                                    Button {
+                                        text: "Retention-tervezet"
+                                        onClicked: root.createDraft("journal", "set-retention-days", "journal-retention", "Requested retention days: " + retentionDays.value)
+                                    }
+                                    Item { Layout.fillHeight: true }
+                                }
+                            }
+
+                            Rectangle {
+                                visible: root.draftResult.length > 0
+                                Layout.fillWidth: true
+                                implicitHeight: draftLabel.implicitHeight + 20
+                                radius: 6
+                                color: "#091624"
+                                border.color: root.accent
+                                Label {
+                                    id: draftLabel
+                                    anchors.fill: parent
+                                    anchors.margins: 10
+                                    text: root.draftResult
+                                    color: root.accent
+                                    font.pixelSize: 9
+                                    wrapMode: Text.WrapAnywhere
+                                }
+                            }
+                        }
                     }
                 }
             }
