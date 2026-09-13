@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-TOKEN-GOVERNANCE-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-TOKEN-GOVERNANCE-001",
+  "status": "PENDING_CURRENT_HOST",
+  "reference_materialized": true,
+  "current_host_os_keychain_adapter": "PENDING_CURRENT_HOST",
+  "current_host_systemd_credential_reference": "PENDING_CURRENT_HOST",
+  "current_host_external_secretref": "PENDING_CURRENT_HOST",
+  "kwallet_required": false,
+  "kwallet_runtime_status": "OPTIONAL_NOT_REQUIRED",
+  "production_admitted": false,
+  "current_host_runtime_promotion_claimed": false,
+  "required_evidence": [
+    "credential write/read/delete or reference resolution without QSettings secret persistence",
+    "CivitAI authenticated request with Authorization header and no URL/DOM token leakage",
+    "redacted logs/telemetry/evidence/export checks",
+    "KWallet-absent startup and build PASS",
+    "backend-unavailable fail-closed authenticated operation"
+  ]
+}
