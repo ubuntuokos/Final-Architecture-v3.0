@@ -64,6 +64,8 @@ jobs:
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
           assert audit['audit_integrity'] == 'PASS', audit
           assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
+          assert acceptance['static_gate'] == 'PASS', acceptance
+          assert acceptance['criteria_total'] == 19, acceptance
           if audit['runtime_closure'] == 'PASS':
               assert acceptance['status'] == 'PASS', acceptance
               assert promotion['actual_state'] == 'PROMOTED', promotion
@@ -75,6 +77,7 @@ jobs:
               'registry_pass_count': audit['registry_pass_count'],
               'registry_pending_count': audit['registry_pending_count'],
               'qualified_current_host_receipt_count': audit['qualified_current_host_receipt_count'],
+              'static_gate': acceptance['static_gate'],
               'acceptance': acceptance['status'],
               'criteria_passed': acceptance['criteria_passed'],
               'criteria_total': acceptance['criteria_total'],
@@ -150,6 +153,8 @@ jobs:
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
           assert audit['audit_integrity'] == 'PASS', audit
           assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
+          assert acceptance['static_gate'] == 'PASS', acceptance
+          assert acceptance['criteria_total'] == 19, acceptance
           if audit['runtime_closure'] == 'PASS':
               assert acceptance['status'] == 'PASS' and acceptance['criteria_passed'] == 19, acceptance
               assert promotion['actual_state'] == 'PROMOTED' and promotion['promotion_allowed'] is True, promotion
@@ -161,6 +166,7 @@ jobs:
               'registry_pass_count': audit['registry_pass_count'],
               'registry_pending_count': audit['registry_pending_count'],
               'qualified_current_host_receipt_count': audit['qualified_current_host_receipt_count'],
+              'static_gate': acceptance['static_gate'],
               'acceptance': acceptance['status'],
               'criteria_passed': acceptance['criteria_passed'],
               'criteria_total': acceptance['criteria_total'],
