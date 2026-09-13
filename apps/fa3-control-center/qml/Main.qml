@@ -13,9 +13,9 @@ ApplicationWindow {
     color: canvas
     title: "Final Architecture 3.0 — Control Center"
 
-    // Canonical navigation name retained for the GUI contract/gate.
     property string dashboardCanonicalName: "Command Center"
     property int selectedIndex: 0
+    property string askRole: "Mentor"
 
     property color canvas: "#07111f"
     property color sidebar: "#081421"
@@ -74,7 +74,6 @@ ApplicationWindow {
         radius: 6
         color: active ? "#102a43" : navMouse.containsMouse ? "#0d1f31" : "transparent"
         border.color: active ? "#1f4c70" : "transparent"
-
         RowLayout {
             anchors.fill: parent
             anchors.leftMargin: 11
@@ -116,10 +115,7 @@ ApplicationWindow {
             spacing: 8
             RowLayout {
                 Layout.fillWidth: true
-                Rectangle {
-                    width: 8; height: 8; radius: 4
-                    color: parent.parent.parent.tone
-                }
+                Rectangle { width: 8; height: 8; radius: 4; color: parent.parent.parent.tone }
                 Label {
                     text: parent.parent.parent.title
                     color: window.textPrimary
@@ -147,7 +143,6 @@ ApplicationWindow {
         clip: true
         contentWidth: availableWidth
         padding: 18
-
         ColumnLayout {
             width: parent.width
             spacing: 16
@@ -169,12 +164,58 @@ ApplicationWindow {
         }
     }
 
+    component QuickLink: Rectangle {
+        id: quickLinkRoot
+        property string linkText: ""
+        property string targetUrl: ""
+        implicitWidth: quickLinkLabel.implicitWidth + 18
+        implicitHeight: 28
+        radius: 6
+        color: quickMouse.containsMouse ? "#132a42" : "#0d1c2f"
+        border.color: window.border
+        Label {
+            id: quickLinkLabel
+            anchors.centerIn: parent
+            text: quickLinkRoot.linkText
+            color: window.textPrimary
+            font.pixelSize: 9
+            font.bold: true
+        }
+        MouseArea {
+            id: quickMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Qt.openUrlExternally(quickLinkRoot.targetUrl)
+        }
+    }
+
+    component StatusItem: RowLayout {
+        property string labelText: ""
+        property string valueText: "N/A"
+        property color tone: window.orange
+        spacing: 5
+        Rectangle { width: 6; height: 6; radius: 3; color: parent.tone }
+        Label { text: parent.labelText; color: window.textMuted; font.pixelSize: 8; font.bold: true }
+        Label { text: parent.valueText; color: window.textPrimary; font.pixelSize: 8 }
+    }
+
+    Menu {
+        id: askMenu
+        MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }
+        MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }
+        MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }
+        MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }
+        MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }
+        MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 0
 
         Rectangle {
-            Layout.preferredWidth: 214
+            Layout.preferredWidth: 224
             Layout.fillHeight: true
             color: window.sidebar
             border.color: window.borderSoft
@@ -214,7 +255,6 @@ ApplicationWindow {
                     clip: true
                     contentWidth: availableWidth
                     background: Item {}
-
                     ColumnLayout {
                         width: parent.width
                         spacing: 3
@@ -224,24 +264,28 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "⌂"; label: "Dashboard"; pageIndex: 0 }
-                        NavButton { iconText: "▣"; label: "Projects"; pageIndex: 1 }
-                        NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 3 }
-                        NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 4 }
-                        NavButton { iconText: "◇"; label: "Architecture"; pageIndex: 5 }
-                        NavButton { iconText: "⚙"; label: "System"; pageIndex: 12 }
+                        NavButton { iconText: "☁"; label: "Remote AI Hub"; pageIndex: 1 }
+                        NavButton { iconText: "▣"; label: "Projects"; pageIndex: 2 }
+                        NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 4 }
+                        NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 5 }
+                        NavButton { iconText: "▦"; label: "Model Manager"; pageIndex: 6 }
+                        NavButton { iconText: "⌕"; label: "Keresés"; pageIndex: 7 }
+                        NavButton { iconText: "◇"; label: "Architecture"; pageIndex: 8 }
+                        NavButton { iconText: "⚙"; label: "Rendszerbeállítások"; pageIndex: 15 }
+                        NavButton { iconText: "ⓘ"; label: "System"; pageIndex: 16 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 2 }
+                        NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "▤"; label: "Resources"; pageIndex: 6 }
-                        NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 7 }
-                        NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 8 }
-                        NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 9 }
-                        NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 10 }
-                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 11 }
+                        NavButton { iconText: "▤"; label: "Resources"; pageIndex: 9 }
+                        NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 10 }
+                        NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 11 }
+                        NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 12 }
+                        NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 13 }
+                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
                     }
                 }
 
@@ -275,15 +319,14 @@ ApplicationWindow {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 62
+                Layout.preferredHeight: 64
                 color: "#081421"
                 border.color: window.borderSoft
-
                 RowLayout {
                     anchors.fill: parent
-                    anchors.leftMargin: 16
-                    anchors.rightMargin: 16
-                    spacing: 10
+                    anchors.leftMargin: 14
+                    anchors.rightMargin: 14
+                    spacing: 8
 
                     ColumnLayout {
                         spacing: 0
@@ -292,7 +335,29 @@ ApplicationWindow {
                             spacing: 7
                             Rectangle { width: 7; height: 7; radius: 4; color: window.green }
                             Label { text: "LOCAL / FA3"; color: window.textPrimary; font.pixelSize: 10; font.bold: true }
-                            Label { text: "⌄"; color: window.textMuted; font.pixelSize: 9 }
+                        }
+                    }
+
+                    Rectangle { width: 1; height: 26; color: window.border }
+                    QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }
+                    QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }
+                    QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
+
+                    ToolButton {
+                        text: "Kérdezd: " + window.askRole + " ▾"
+                        onClicked: askMenu.open()
+                        contentItem: Label {
+                            text: parent.text
+                            color: window.textPrimary
+                            font.pixelSize: 9
+                            font.bold: true
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        background: Rectangle {
+                            radius: 6
+                            color: parent.hovered ? "#132a42" : "#0d1c2f"
+                            border.color: window.border
                         }
                     }
 
@@ -304,10 +369,6 @@ ApplicationWindow {
                         width: 30; height: 30; radius: 6; color: "#0d1c2f"; border.color: window.border
                         Label { anchors.centerIn: parent; text: "↻"; color: window.textPrimary; font.pixelSize: 13 }
                         MouseArea { anchors.fill: parent; onClicked: { fa3Repository.refresh(); fa3Journal.refresh() } }
-                    }
-                    Rectangle {
-                        width: 30; height: 30; radius: 6; color: "#0d1c2f"; border.color: window.border
-                        Label { anchors.centerIn: parent; text: "◌"; color: window.textPrimary; font.pixelSize: 12 }
                     }
                 }
             }
@@ -337,6 +398,17 @@ ApplicationWindow {
                 }
 
                 ModulePage {
+                    pageTitle: "Remote AI Hub"
+                    pageSubtitle: "Providerfüggetlen hosted execution és távoli AI-kapacitás, policy-gated módon"
+                    cards: [
+                        {title: "Hosted Execution", subtitle: "Távoli inference/execution csak explicit provider- és policy-adapteren át.", badge: "GATED", tone: window.orange},
+                        {title: "Hugging Face Spaces", subtitle: "Hosted-execution provider; külön a HF Model Store modelltár-projekciótól.", badge: "PROVIDER", tone: window.accent},
+                        {title: "Remote Queue", subtitle: "Távoli munkák és visszaérkező artifactok operátori projekciója.", badge: "ROUTED", tone: window.cyan},
+                        {title: "Egress Policy", subtitle: "Adat- és artifact-kiküldés fail-closed engedélyezési határral.", badge: "FAIL-CLOSED", tone: window.magenta}
+                    ]
+                }
+
+                ModulePage {
                     pageTitle: "Projects & Workspaces"
                     pageSubtitle: "Projekt-, asset- és knowledge-contextus az operátori felületen"
                     cards: [
@@ -349,7 +421,7 @@ ApplicationWindow {
 
                 ModulePage {
                     pageTitle: "AI Studio"
-                    pageSubtitle: "A teljes lokális kreatív pipeline egységes FA3-felülete"
+                    pageSubtitle: "A teljes lokális kreatív és publikációs pipeline egységes FA3-felülete"
                     cards: [
                         {title: "Image", subtitle: "ComfyUI / InvokeAI / editor bridge projection.", badge: "READY", tone: window.magenta},
                         {title: "Video", subtitle: "Kdenlive, generation, compositing és editorial pipeline.", badge: "READY", tone: window.accent},
@@ -357,7 +429,10 @@ ApplicationWindow {
                         {title: "3D / VFX", subtitle: "Geometry, Blender/Bforartist, Natron/Gaffer kapcsolatok.", badge: "READY", tone: window.orange},
                         {title: "Audio", subtitle: "STT, TTS, restoration, separation és voice fabric.", badge: "READY", tone: window.green},
                         {title: "Music", subtitle: "Music generation, stems, DAW és mastering workflow-k.", badge: "READY", tone: window.magenta},
-                        {title: "Story / Screenplay", subtitle: "FA3 Story profile és production context projection.", badge: "READY", tone: window.accent}
+                        {title: "Story / Screenplay", subtitle: "FA3 Story profile és production context projection.", badge: "READY", tone: window.accent},
+                        {title: "Marketing", subtitle: "Kampány-, tartalom- és publikációs workflow-k.", badge: "PUBLISH", tone: window.orange},
+                        {title: "Weboldal", subtitle: "Webes publikáció, preview és deployment workflow-k.", badge: "PUBLISH", tone: window.cyan},
+                        {title: "Prezentáció", subtitle: "Prezentációk készítése, exportja és publikációs átadása.", badge: "PUBLISH", tone: window.green}
                     ]
                 }
 
@@ -407,6 +482,96 @@ ApplicationWindow {
                                         Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; Layout.preferredWidth: 310; elide: Text.ElideRight }
                                         Label { text: modelData.title; color: window.textMuted; Layout.fillWidth: true; elide: Text.ElideRight }
                                         StatusChip { chipText: modelData.status || "REGISTERED"; tone: modelData.status && modelData.status.indexOf("PENDING") >= 0 ? window.orange : window.green }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ScrollView {
+                    id: modelManagerView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: modelManagerView.availableWidth
+                        spacing: 14
+                        SectionTitle { title: "Model Manager"; subtitle: "FA3-MODEL-MANAGER-001 · modellek felderítése, beszerzése, nyilvántartása és provider-projekciója" }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            ModuleCard { Layout.fillWidth: true; title: "Starter modellek"; subtitle: "Ajánlott induló modellek hardver- és capability-szűréssel."; badge: "CURATED"; tone: window.green }
+                            ModuleCard { Layout.fillWidth: true; title: "Local Registry"; subtitle: "Lokális modellek és provider-kapcsolatok canonical projekciója."; badge: "CANONICAL"; tone: window.accent }
+                            ModuleCard { Layout.fillWidth: true; title: "Compatibility"; subtitle: "Formátum, runtime és hardver-kompatibilitás ellenőrzése."; badge: "GATED"; tone: window.orange }
+                        }
+                        RowLayout {
+                            spacing: 8
+                            QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }
+                            QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }
+                            QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
+                            Item { Layout.fillWidth: true }
+                        }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 350
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 15
+                                spacing: 10
+                                Label { text: "Model registry projection"; color: window.textPrimary; font.pixelSize: 14; font.bold: true }
+                                ListView {
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    clip: true
+                                    model: fa3Repository.recordsByCategory("provider")
+                                    delegate: ItemDelegate {
+                                        width: ListView.view.width
+                                        height: 46
+                                        background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
+                                        contentItem: RowLayout {
+                                            Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; Layout.preferredWidth: 330; elide: Text.ElideRight }
+                                            Label { text: modelData.title; color: window.textMuted; Layout.fillWidth: true; elide: Text.ElideRight }
+                                            StatusChip { chipText: modelData.status || "REGISTERED"; tone: window.green }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ScrollView {
+                    id: searchView
+                    contentWidth: availableWidth
+                    clip: true
+                    padding: 18
+                    ColumnLayout {
+                        width: searchView.availableWidth
+                        spacing: 13
+                        SectionTitle { title: "Keresés"; subtitle: "Egységes keresés a canonical rekordok, provider-ek, döntések és evidence-projekciók között" }
+                        TextField { id: globalSearch; Layout.fillWidth: true; placeholderText: "Keresés ID, cím, státusz vagy útvonal alapján…" }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 620
+                            ListView {
+                                anchors.fill: parent
+                                anchors.margins: 8
+                                clip: true
+                                model: fa3Repository.searchRecords(globalSearch.text)
+                                delegate: ItemDelegate {
+                                    width: ListView.view.width
+                                    height: 56
+                                    background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
+                                    onDoubleClicked: fa3Repository.openLocalPath(modelData.path)
+                                    contentItem: RowLayout {
+                                        StatusChip { chipText: modelData.category.toUpperCase(); tone: window.accent }
+                                        ColumnLayout {
+                                            Layout.fillWidth: true
+                                            spacing: 1
+                                            Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
+                                            Label { text: modelData.title; color: window.textMuted; font.pixelSize: 10; Layout.fillWidth: true; elide: Text.ElideRight }
+                                        }
+                                        Label { text: modelData.status; color: modelData.status.indexOf("PENDING") >= 0 ? window.orange : window.textMuted; font.pixelSize: 10; Layout.preferredWidth: 170 }
                                     }
                                 }
                             }
@@ -560,6 +725,19 @@ ApplicationWindow {
                     ]
                 }
 
+                ModulePage {
+                    pageTitle: "Rendszerbeállítások"
+                    pageSubtitle: "Az FA3 GUI és host-beállítások policy- és ChangeSet-határon belüli kezelési felülete"
+                    cards: [
+                        {title: "Megjelenés", subtitle: "FA3 téma, sűrűség, betűméret és felületi preferenciák.", badge: "GUI", tone: window.accent},
+                        {title: "Erőforrás-policy", subtitle: "CPU/GPU/NPU/NUMA preferenciák csak ChangeSet-intentként.", badge: "GATED", tone: window.orange},
+                        {title: "Hálózat", subtitle: "Lokális szolgáltatások, provider-hozzáférés és egress policy projekció.", badge: "POLICY", tone: window.cyan},
+                        {title: "Biztonság", subtitle: "Security policy, approval és secret-metadata beállítási felület.", badge: "FAIL-CLOSED", tone: window.magenta},
+                        {title: "Frissítések", subtitle: "FA3 komponens- és provider-frissítési állapotok.", badge: "CONTROLLED", tone: window.green},
+                        {title: "Naplózás", subtitle: "Retention, export és archive-kezelési preferenciák authority-határral.", badge: "JOURNAL", tone: window.accent}
+                    ]
+                }
+
                 ScrollView {
                     id: systemView
                     contentWidth: availableWidth
@@ -579,7 +757,7 @@ ApplicationWindow {
                                 columnSpacing: 24
                                 rowSpacing: 13
                                 Label { text: "Application"; color: window.textMuted }
-                                Label { text: "FA3 Control Center 0.3.0"; color: window.textPrimary }
+                                Label { text: "FA3 Control Center 0.3.x"; color: window.textPrimary }
                                 Label { text: "Toolkit"; color: window.textMuted }
                                 Label { text: "Qt 6 / QML / Basic controls"; color: window.textPrimary }
                                 Label { text: "Repository"; color: window.textMuted }
@@ -597,6 +775,26 @@ ApplicationWindow {
                             }
                         }
                     }
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 34
+                color: "#06101c"
+                border.color: window.borderSoft
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 14
+                    anchors.rightMargin: 14
+                    spacing: 18
+                    StatusItem { labelText: "CPU"; valueText: "N/A · " + fa3Repository.cpuThreads + " thr"; tone: window.orange }
+                    StatusItem { labelText: "GPU"; valueText: "N/A"; tone: window.orange }
+                    StatusItem { labelText: "NPU"; valueText: "N/A"; tone: window.orange }
+                    StatusItem { labelText: "RAM"; valueText: "N/A · " + fa3Repository.memoryGiB.toFixed(1) + " GiB total"; tone: window.orange }
+                    StatusItem { labelText: "PRESSURE"; valueText: "N/A"; tone: window.orange }
+                    Item { Layout.fillWidth: true }
+                    Label { text: "TELEMETRY ADAPTER GATED"; color: window.textMuted; font.pixelSize: 8; font.bold: true }
                 }
             }
         }
