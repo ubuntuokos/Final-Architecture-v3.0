@@ -17,12 +17,24 @@
     "provider_or_file_addition_must_not_implicitly_change_capability_count": true,
     "future_release_count_change_requires_explicit_release_baseline_and_reconciliation": true
   },
+  "migration_audit": {
+    "initial_active_scanner_hits": 66,
+    "scanner_self_reference_false_positive_removed": 1,
+    "real_executable_count_assignments_migrated": 65,
+    "final_active_hardcode_hits": 0,
+    "active_scan_roots": [
+      "src",
+      "scripts"
+    ],
+    "historical_and_release_data_literals_preserved": true
+  },
   "migrated_surfaces": [
     "src/fa3_enforce.py",
     "src/fa3_governance_tiering_gate.py",
     "src/fa3_release_projection_gate.py",
     "src/fa3_release_evidence_scope_gate.py",
-    "scripts/fa3_reconcile_release_projection.py"
+    "scripts/fa3_reconcile_release_projection.py",
+    "all active src/*.py capability-count assignments discovered by the fail-closed scanner"
   ],
   "safety_invariants": [
     "FAIL_CLOSED_ON_MISSING_AMBIGUOUS_OR_INCONSISTENT_BASELINE",
