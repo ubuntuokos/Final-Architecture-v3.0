@@ -66,8 +66,8 @@ def gate(root: Path) -> dict:
 
     findings.extend(validate_provider(provider))
 
-    if profile.get("version") != "2.1.0" or PROVIDER_ID not in profile.get("providers", []):
-        findings.append({"code": "LLMFIT-GUI-010", "message": "Model Manager profile does not materialize llmfit"})
+    if profile.get("version") != "2.0.0" or PROVIDER_ID not in profile.get("providers", []):
+        findings.append({"code": "LLMFIT-GUI-010", "message": "Model Manager v2 profile does not materialize llmfit"})
     for invariant in (
         "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
         "MODEL_FIT_PROVIDER_NOT_PLACEMENT_AUTHORITY",
