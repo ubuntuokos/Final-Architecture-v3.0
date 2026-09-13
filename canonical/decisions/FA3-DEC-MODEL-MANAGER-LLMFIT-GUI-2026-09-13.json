@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "title": "Integrate llmfit as a headless Model Manager provider projected natively in FA3 Control Center",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_PROVIDER_AND_GUI_PROJECTION",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "provider_id": "FA3-PROVIDER-LLMFIT-001",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-LLMFIT-GUI-001",
+  "capability_bindings": ["CAP-005", "CAP-016", "CAP-120"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "architectural_authority_model_changed": false,
+  "decisions": [
+    "llmfit is integrated under FA3 Model Manager rather than exposed as a separate user-facing application.",
+    "The normal user experience is native Qt/QML inside FA3 Control Center; llmfit TUI and web dashboard are diagnostic/developer fallbacks only.",
+    "The preferred same-host transport is HTTP over a Unix domain socket owned by the desktop user session.",
+    "llmfit fit, speed, memory, quantization and runtime results are advisory estimates and never constitute production runtime conformance evidence by themselves.",
+    "A benchmark or placement request emitted by the GUI is a typed DRAFT_NOT_SUBMITTED ChangeSet and must traverse existing FA3 approval, Host Resource Broker, runtime and evidence authorities.",
+    "Model placement remains hardware-agnostic at canonical level and is derived from current host capabilities rather than fixed GPU model assumptions.",
+    "The provider is optional; the hardware-aware model-fit evaluation semantics are mandatory and may be implemented by another conforming provider."
+  ],
+  "required_invariants": [
+    "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+    "LLMFIT_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+    "GUI_NO_DIRECT_MODEL_OR_PRIVILEGED_EXECUTION",
+    "PLACEMENT_AUTHORITY_REMAINS_HOST_RESOURCE_BROKER",
+    "MODEL_ROUTING_AUTHORITY_REMAINS_MODEL_ROUTER",
+    "SAME_HOST_HEADLESS_PROVIDER_USES_UNIX_SOCKET_BY_DEFAULT"
+  ],
+  "current_host_runtime_claim": false,
+  "promotion_state": "STATIC_MATERIALIZATION_READY_RUNTIME_EVIDENCE_PENDING"
+}
