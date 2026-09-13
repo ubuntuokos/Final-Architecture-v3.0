@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QObject>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QVariantList>
 
 class JournalService final : public QObject
