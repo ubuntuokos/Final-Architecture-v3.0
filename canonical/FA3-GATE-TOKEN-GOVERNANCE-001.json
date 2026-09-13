@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-TOKEN-GOVERNANCE-001",
+  "profile_id": "FA3-TOKEN-GOVERNANCE-001",
+  "contract_id": "FA3-TOKEN-GOVERNANCE-CONTRACTS-001",
+  "enforcement": "canonical/token-governance-enforcement.json",
+  "priority": "P0",
+  "fail_closed": true,
+  "rule_count": 20,
+  "executable": "python -m unittest tests.test_token_governance_gate -v",
+  "reference_evidence": "evidence/reference/fa3-token-governance-reference.json",
+  "current_host_runtime_required_for_reference_pass": false,
+  "current_host_runtime_required_for_production_promotion": true,
+  "kwallet_required": false,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
