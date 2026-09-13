@@ -33,19 +33,15 @@ Item {
         ["coach", "AI Coach"],
         ["manager", "Manager"],
         ["inspector", t("Ellenőr", "Inspector")],
+        ["ideator", t("Ötletelő", "Ideator")],
+        ["advisor", t("Tanácsadó", "Advisor")],
         ["updates", t("Frissítés", "Updates")],
         ["about", t("Névjegy", "About")],
         ["advanced", t("Haladó", "Advanced")]
     ]
 
-    function t(hu, en) {
-        return language === "en" ? en : hu
-    }
-
-    function px(value) {
-        return Math.max(9, Math.round(value * fontScale))
-    }
-
+    function t(hu, en) { return language === "en" ? en : hu }
+    function px(value) { return Math.max(9, Math.round(value * fontScale)) }
     function sectionIndexFor(key) {
         for (let i = 0; i < sections.length; ++i) {
             if (sections[i][0] === key)
@@ -53,10 +49,7 @@ Item {
         }
         return 0
     }
-
-    function openSection(key) {
-        sectionIndex = sectionIndexFor(key)
-    }
+    function openSection(key) { sectionIndex = sectionIndexFor(key) }
 
     component Card: Rectangle {
         radius: Math.round(12 * root.uiScale)
@@ -68,20 +61,8 @@ Item {
         property string title: ""
         property string subtitle: ""
         spacing: 4
-
-        Label {
-            text: parent.title
-            font.pixelSize: root.px(24)
-            font.bold: true
-        }
-
-        Label {
-            width: parent.width
-            text: parent.subtitle
-            color: root.textMuted
-            font.pixelSize: root.px(13)
-            wrapMode: Text.WordWrap
-        }
+        Label { text: parent.title; font.pixelSize: root.px(24); font.bold: true }
+        Label { width: parent.width; text: parent.subtitle; color: root.textMuted; font.pixelSize: root.px(13); wrapMode: Text.WordWrap }
     }
 
     component PathEditor: Card {
@@ -90,12 +71,10 @@ Item {
         property string label: ""
         property var status: root.settings.pathStatus(pathField.text)
         implicitHeight: Math.round(108 * root.uiScale)
-
         RowLayout {
             anchors.fill: parent
             anchors.margins: 14
             spacing: 10
-
             ColumnLayout {
                 Layout.preferredWidth: Math.round(190 * root.uiScale)
                 Label { text: pathEditor.label; font.bold: true }
@@ -111,14 +90,12 @@ Item {
                           : root.t("nem létezik / nincs felcsatolva", "missing / not mounted")
                 }
             }
-
             TextField {
                 id: pathField
                 Layout.fillWidth: true
                 text: root.settings.value(pathEditor.settingKey, "")
                 onEditingFinished: root.settings.setValue(pathEditor.settingKey, text)
             }
-
             Button {
                 text: root.t("Tallózás", "Browse")
                 onClicked: {
@@ -138,18 +115,11 @@ Item {
         property string settingKey: ""
         property string defaultSequence: ""
         implicitHeight: Math.round(82 * root.uiScale)
-
         RowLayout {
             anchors.fill: parent
             anchors.margins: 14
             spacing: 12
-
-            Label {
-                text: shortcutEditor.actionLabel
-                Layout.preferredWidth: Math.round(240 * root.uiScale)
-                font.bold: true
-            }
-
+            Label { text: shortcutEditor.actionLabel; Layout.preferredWidth: Math.round(240 * root.uiScale); font.bold: true }
             TextField {
                 id: shortcutField
                 Layout.fillWidth: true
@@ -161,7 +131,6 @@ Item {
                         root.settings.setValue(shortcutEditor.settingKey, text)
                 }
             }
-
             Label {
                 Layout.preferredWidth: Math.round(180 * root.uiScale)
                 color: "#d99b32"
@@ -172,7 +141,6 @@ Item {
                     return conflict.length > 0 ? root.t("Ütközés: ", "Conflict: ") + conflict : ""
                 }
             }
-
             Button {
                 text: root.t("Alap", "Default")
                 onClicked: {
@@ -193,20 +161,13 @@ Item {
         property string defaultKey: ""
         property string defaultValue: ""
         implicitHeight: Math.round(178 * root.uiScale)
-
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 16
             spacing: 10
-
             RowLayout {
                 Layout.fillWidth: true
-                Label {
-                    text: integrationGroup.groupTitle
-                    font.pixelSize: root.px(17)
-                    font.bold: true
-                    Layout.fillWidth: true
-                }
+                Label { text: integrationGroup.groupTitle; font.pixelSize: root.px(17); font.bold: true; Layout.fillWidth: true }
                 Label { text: root.t("Alapértelmezett", "Default"); color: root.textMuted }
                 ComboBox {
                     model: [integrationGroup.primaryApp, integrationGroup.secondaryApp]
@@ -214,18 +175,18 @@ Item {
                     onActivated: root.settings.setValue(integrationGroup.defaultKey, currentText)
                 }
             }
-
-            CheckBox {
-                text: integrationGroup.primaryApp
-                checked: root.settings.value(integrationGroup.primaryEnabledKey, true)
-                onToggled: root.settings.setValue(integrationGroup.primaryEnabledKey, checked)
-            }
-            CheckBox {
-                text: integrationGroup.secondaryApp
-                checked: root.settings.value(integrationGroup.secondaryEnabledKey, true)
-                onToggled: root.settings.setValue(integrationGroup.secondaryEnabledKey, checked)
-            }
+            CheckBox { text: integrationGroup.primaryApp; checked: root.settings.value(integrationGroup.primaryEnabledKey, true); onToggled: root.settings.setValue(integrationGroup.primaryEnabledKey, checked) }
+            CheckBox { text: integrationGroup.secondaryApp; checked: root.settings.value(integrationGroup.secondaryEnabledKey, true); onToggled: root.settings.setValue(integrationGroup.secondaryEnabledKey, checked) }
         }
+    }
+
+    component RoleBoundaryLabel: Label {
+        Layout.fillWidth: true
+        Layout.leftMargin: 24
+        Layout.rightMargin: 24
+        wrapMode: Text.WordWrap
+        color: root.textMuted
+        font.pixelSize: root.px(11)
     }
 
     RowLayout {
@@ -237,19 +198,11 @@ Item {
             Layout.fillHeight: true
             color: root.surface1
             border.color: Qt.rgba(root.textPrimary.r, root.textPrimary.g, root.textPrimary.b, 0.08)
-
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 12
                 spacing: 8
-
-                Label {
-                    text: root.t("Beállítások", "Settings")
-                    font.pixelSize: root.px(18)
-                    font.bold: true
-                    Layout.bottomMargin: 8
-                }
-
+                Label { text: root.t("Beállítások", "Settings"); font.pixelSize: root.px(18); font.bold: true; Layout.bottomMargin: 8 }
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -265,14 +218,7 @@ Item {
                         onClicked: root.sectionIndex = index
                     }
                 }
-
-                Label {
-                    Layout.fillWidth: true
-                    wrapMode: Text.WordWrap
-                    text: root.settings.configFilePath
-                    color: root.textMuted
-                    font.pixelSize: root.px(9)
-                }
+                Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; text: root.settings.configFilePath; color: root.textMuted; font.pixelSize: root.px(9) }
             }
         }
 
@@ -288,40 +234,19 @@ Item {
                     width: appearanceView.availableWidth
                     spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Megjelenés", "Appearance")
-                        subtitle: root.t("A Control Center méretezése és vizuális viselkedése.", "Control Center scaling and visual behavior.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Megjelenés", "Appearance"); subtitle: root.t("A Control Center méretezése és vizuális viselkedése.", "Control Center scaling and visual behavior.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(320 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(320 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("UI méretezés", "UI scale") }
                             Slider { from: 0.8; to: 2.0; stepSize: 0.05; value: root.settings.uiScale; onMoved: root.settings.uiScale = value }
                             Label { text: root.t("Alap betűméret", "Base font size") }
                             SpinBox { from: 10; to: 28; value: root.settings.baseFontSize; editable: true; onValueModified: root.settings.baseFontSize = value }
                             Label { text: root.t("Téma", "Theme") }
-                            ComboBox {
-                                model: ["system", "light", "dark"]
-                                currentIndex: root.settings.themeMode === "light" ? 1 : root.settings.themeMode === "dark" ? 2 : 0
-                                onActivated: root.settings.themeMode = currentText
-                            }
+                            ComboBox { model: ["system", "light", "dark"]; currentIndex: root.settings.themeMode === "light" ? 1 : root.settings.themeMode === "dark" ? 2 : 0; onActivated: root.settings.themeMode = currentText }
                             Label { text: root.t("Sűrűség", "Density") }
-                            ComboBox {
-                                model: ["compact", "normal", "spacious"]
-                                currentIndex: root.settings.value("appearance/density", "normal") === "compact" ? 0 : root.settings.value("appearance/density", "normal") === "spacious" ? 2 : 1
-                                onActivated: root.settings.setValue("appearance/density", currentText)
-                            }
+                            ComboBox { model: ["compact", "normal", "spacious"]; currentIndex: root.settings.value("appearance/density", "normal") === "compact" ? 0 : root.settings.value("appearance/density", "normal") === "spacious" ? 2 : 1; onActivated: root.settings.setValue("appearance/density", currentText) }
                             Label { text: root.t("Kisebb animáció", "Reduced motion") }
                             Switch { checked: root.settings.value("appearance/reducedMotion", false); onToggled: root.settings.setValue("appearance/reducedMotion", checked) }
                             Label { text: root.t("Magas kontraszt", "High contrast") }
@@ -335,35 +260,19 @@ Item {
                 id: localeView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: localeView.availableWidth
-                    spacing: 16
+                    width: localeView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Nyelv & régió", "Language & Region")
-                        subtitle: root.t("A GUI nyelve különválik a canonical technikai azonosítóktól.", "UI language remains separate from canonical technical identifiers.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Nyelv & régió", "Language & Region"); subtitle: root.t("A GUI nyelve különválik a multilingual semantic interoperability / Language Control runtime mediation rétegtől.", "UI language remains separate from the multilingual semantic interoperability / Language Control runtime mediation layer.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(190 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(210 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("GUI nyelve", "UI language") }
-                            ComboBox {
-                                model: ["Magyar", "English"]
-                                currentIndex: root.settings.language === "en" ? 1 : 0
-                                onActivated: root.settings.language = currentIndex === 1 ? "en" : "hu"
-                            }
+                            ComboBox { model: ["Magyar", "English"]; currentIndex: root.settings.language === "en" ? 1 : 0; onActivated: root.settings.language = currentIndex === 1 ? "en" : "hu" }
                             Label { text: root.t("Technikai kifejezések angolul", "Keep technical terms in English") }
                             Switch { checked: root.settings.value("locale/technicalTermsEnglish", true); onToggled: root.settings.setValue("locale/technicalTermsEnglish", checked) }
+                            Label { text: "Semantic Interoperability" }
+                            Label { text: "FA3-GUI-LANGUAGE-CONTROL-001 · 文/A · Ctrl+Shift+L"; color: root.accent }
                         }
                     }
                 }
@@ -373,16 +282,9 @@ Item {
                 id: pathsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: pathsView.availableWidth
-                    spacing: 12
+                    width: pathsView.availableWidth; spacing: 12
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Könyvtárak", "Paths & Libraries")
-                        subtitle: root.t("Felhasználói path role-ok; fstab vagy mount policy nem módosul.", "User path roles; fstab and mount policy are never modified here.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Könyvtárak", "Paths & Libraries"); subtitle: root.t("Felhasználói path role-ok; fstab vagy mount policy nem módosul.", "User path roles; fstab and mount policy are never modified here.") }
                     PathEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; label: "Projects"; settingKey: "paths/projects" }
                     PathEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; label: "Workspaces"; settingKey: "paths/workspaces" }
                     PathEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; label: "Models"; settingKey: "paths/models" }
@@ -403,33 +305,15 @@ Item {
                 id: workspaceView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: workspaceView.availableWidth
-                    spacing: 16
+                    width: workspaceView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "Workspace"
-                        subtitle: root.t("Indulás, session restore és autosave.", "Startup, session restore and autosave.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Workspace"; subtitle: root.t("Indulás, session restore és autosave.", "Startup, session restore and autosave.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(220 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(220 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Induló oldal", "Start page") }
-                            ComboBox {
-                                model: ["Command Center", "Projects", "AI Studio", "AI Applications", "Model Manager", "Evidence", "System"]
-                                currentIndex: 0
-                                onActivated: root.settings.setValue("workspace/startPage", currentText)
-                            }
+                            ComboBox { model: ["Command Center", "Projects", "AI Studio", "AI Applications", "Model Manager", "Evidence", "System"]; currentIndex: 0; onActivated: root.settings.setValue("workspace/startPage", currentText) }
                             Label { text: root.t("Session visszaállítása", "Restore session") }
                             Switch { checked: root.settings.value("workspace/restoreSession", true); onToggled: root.settings.setValue("workspace/restoreSession", checked) }
                             Label { text: root.t("Autosave perc", "Autosave minutes") }
@@ -443,27 +327,13 @@ Item {
                 id: dashboardView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: dashboardView.availableWidth
-                    spacing: 16
+                    width: dashboardView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "Dashboard"
-                        subtitle: root.t("Operátori nézetprofil és telemetry frissítés.", "Operator view profile and telemetry refresh.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Dashboard"; subtitle: root.t("Operátori nézetprofil és telemetry frissítés.", "Operator view profile and telemetry refresh.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(180 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(180 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Profil", "Profile") }
                             ComboBox { model: ["Studio", "Operations", "Development", "Presentation", "Custom"]; currentIndex: 0; onActivated: root.settings.setValue("dashboard/profile", currentText) }
                             Label { text: "Telemetry refresh" }
@@ -477,24 +347,13 @@ Item {
                 id: notificationsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: notificationsView.availableWidth
-                    spacing: 16
+                    width: notificationsView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Értesítések", "Notifications")
-                        subtitle: root.t("A GUI saját értesítési preferenciái.", "GUI-owned notification preferences.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Értesítések", "Notifications"); subtitle: root.t("A GUI saját értesítési preferenciái.", "GUI-owned notification preferences.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(170 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(170 * root.uiScale)
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
+                            anchors.fill: parent; anchors.margins: 18
                             CheckBox { text: root.t("Desktop értesítések", "Desktop notifications"); checked: root.settings.value("notifications/enabled", true); onToggled: root.settings.setValue("notifications/enabled", checked) }
                             CheckBox { text: root.t("Csak hiba és kritikus esemény", "Errors and critical events only"); checked: root.settings.value("notifications/errorsOnly", false); onToggled: root.settings.setValue("notifications/errorsOnly", checked) }
                         }
@@ -506,16 +365,9 @@ Item {
                 id: shortcutsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: shortcutsView.availableWidth
-                    spacing: 10
+                    width: shortcutsView.availableWidth; spacing: 10
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Gyorsbillentyűk", "Shortcuts")
-                        subtitle: root.t("A szerep-gyorsbillentyűk közvetlenül a Kérdezd párbeszédeket nyitják; a szerepek már nem főmenüpontok.", "Role shortcuts open the Ask dialogs directly; roles are no longer main-navigation pages.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Gyorsbillentyűk", "Shortcuts"); subtitle: root.t("A szerep-gyorsbillentyűk közvetlenül a Kérdezd párbeszédeket nyitják; a szerepek nem főmenüpontok.", "Role shortcuts open the Ask dialogs directly; roles are not main-navigation pages.") }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: "Command Center"; settingKey: "shortcuts/commandCenter"; defaultSequence: "Ctrl+1" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: "Projects"; settingKey: "shortcuts/projects"; defaultSequence: "Ctrl+2" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: "AI Studio"; settingKey: "shortcuts/studio"; defaultSequence: "Ctrl+3" }
@@ -525,6 +377,8 @@ Item {
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: "Model Manager"; settingKey: "shortcuts/modelManager"; defaultSequence: "Ctrl+7" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Rendszer", "System"); settingKey: "shortcuts/system"; defaultSequence: "Ctrl+8" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Kérdezd az Ellenőrt", "Ask Inspector"); settingKey: "shortcuts/inspector"; defaultSequence: "Ctrl+9" }
+                    ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Kérdezd az Ötletelőt", "Ask Ideator"); settingKey: "shortcuts/ideator"; defaultSequence: "Ctrl+Alt+I" }
+                    ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Kérdezd a Tanácsadót", "Ask Advisor"); settingKey: "shortcuts/advisor"; defaultSequence: "Ctrl+Alt+A" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Beállítások", "Settings"); settingKey: "shortcuts/settings"; defaultSequence: "Ctrl+," }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Asszisztens", "Assistant"); settingKey: "shortcuts/assistant"; defaultSequence: "Ctrl+Space" }
                     ShortcutEditor { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; actionLabel: root.t("Frissítés / újraolvasás", "Refresh"); settingKey: "shortcuts/refresh"; defaultSequence: "Ctrl+R" }
@@ -536,82 +390,21 @@ Item {
                 id: integrationsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: integrationsView.availableWidth
-                    spacing: 14
+                    width: integrationsView.availableWidth; spacing: 14
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Integrációk", "Integrations")
-                        subtitle: root.t("Kreatív, irodai és knowledge alkalmazások. Ezek felhasználói preferenciák, nem authority-k.", "Creative, office and knowledge applications. These are user preferences, not authorities.")
-                    }
-                    IntegrationGroup {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        groupTitle: root.t("Grafika", "Graphics")
-                        primaryApp: "GIMP"
-                        secondaryApp: "Krita"
-                        primaryEnabledKey: "integrations/gimpEnabled"
-                        secondaryEnabledKey: "integrations/kritaEnabled"
-                        defaultKey: "integrations/imageEditor"
-                        defaultValue: "Krita"
-                    }
-                    IntegrationGroup {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        groupTitle: "Video"
-                        primaryApp: "Kdenlive"
-                        secondaryApp: "OpenShot"
-                        primaryEnabledKey: "integrations/kdenliveEnabled"
-                        secondaryEnabledKey: "integrations/openshotEnabled"
-                        defaultKey: "integrations/videoEditor"
-                        defaultValue: "Kdenlive"
-                    }
-                    IntegrationGroup {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        groupTitle: "Audio"
-                        primaryApp: "Ardour"
-                        secondaryApp: "Audacity"
-                        primaryEnabledKey: "integrations/ardourEnabled"
-                        secondaryEnabledKey: "integrations/audacityEnabled"
-                        defaultKey: "integrations/audioEditor"
-                        defaultValue: "Ardour"
-                    }
-                    IntegrationGroup {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        groupTitle: "3D"
-                        primaryApp: "Blender"
-                        secondaryApp: "Bforartist"
-                        primaryEnabledKey: "integrations/blenderEnabled"
-                        secondaryEnabledKey: "integrations/bforartistEnabled"
-                        defaultKey: "integrations/threeDEditor"
-                        defaultValue: "Bforartist"
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Integrációk", "Integrations"); subtitle: root.t("Kreatív, irodai és knowledge alkalmazások. Ezek felhasználói preferenciák, nem authority-k.", "Creative, office and knowledge applications. These are user preferences, not authorities.") }
+                    IntegrationGroup { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; groupTitle: root.t("Grafika", "Graphics"); primaryApp: "GIMP"; secondaryApp: "Krita"; primaryEnabledKey: "integrations/gimpEnabled"; secondaryEnabledKey: "integrations/kritaEnabled"; defaultKey: "integrations/imageEditor"; defaultValue: "Krita" }
+                    IntegrationGroup { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; groupTitle: "Video"; primaryApp: "Kdenlive"; secondaryApp: "OpenShot"; primaryEnabledKey: "integrations/kdenliveEnabled"; secondaryEnabledKey: "integrations/openshotEnabled"; defaultKey: "integrations/videoEditor"; defaultValue: "Kdenlive" }
+                    IntegrationGroup { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; groupTitle: "Audio"; primaryApp: "Ardour"; secondaryApp: "Audacity"; primaryEnabledKey: "integrations/ardourEnabled"; secondaryEnabledKey: "integrations/audacityEnabled"; defaultKey: "integrations/audioEditor"; defaultValue: "Ardour" }
+                    IntegrationGroup { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; groupTitle: "3D"; primaryApp: "Blender"; secondaryApp: "Bforartist"; primaryEnabledKey: "integrations/blenderEnabled"; secondaryEnabledKey: "integrations/bforartistEnabled"; defaultKey: "integrations/threeDEditor"; defaultValue: "Bforartist" }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(220 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(220 * root.uiScale)
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 16
-                            spacing: 10
+                            anchors.fill: parent; anchors.margins: 16; spacing: 10
                             Label { text: "Office & Knowledge"; font.pixelSize: root.px(17); font.bold: true }
                             CheckBox { text: "LibreOffice — " + root.t("dokumentum / iroda", "documents / office"); checked: root.settings.value("integrations/libreOfficeEnabled", true); onToggled: root.settings.setValue("integrations/libreOfficeEnabled", checked) }
                             CheckBox { text: "Obsidian — " + root.t("knowledge / jegyzetek", "knowledge / notes"); checked: root.settings.value("integrations/obsidianEnabled", true); onToggled: root.settings.setValue("integrations/obsidianEnabled", checked) }
-                            Label {
-                                Layout.fillWidth: true
-                                wrapMode: Text.WordWrap
-                                color: root.textMuted
-                                text: root.t("LibreOffice = dokumentumszerkesztő, Obsidian = knowledge/notes workspace. A canonical Knowledge/Memory authority nem változik.", "LibreOffice = document editor, Obsidian = knowledge/notes workspace. Canonical Knowledge/Memory authority is unchanged.")
-                            }
+                            Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.textMuted; text: root.t("LibreOffice = dokumentumszerkesztő, Obsidian = knowledge/notes workspace. A canonical Knowledge/Memory authority nem változik.", "LibreOffice = document editor, Obsidian = knowledge/notes workspace. Canonical Knowledge/Memory authority is unchanged.") }
                         }
                     }
                     Item { Layout.preferredHeight: 20 }
@@ -622,27 +415,13 @@ Item {
                 id: publishingView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: publishingView.availableWidth
-                    spacing: 16
+                    width: publishingView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Publikálás", "Publishing")
-                        subtitle: root.t("Publikálási célok és preferenciák. Token, jelszó, cookie vagy API secret nem tárolható QSettings-ben.", "Publishing targets and preferences. Tokens, passwords, cookies and API secrets are never stored in QSettings.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Publikálás", "Publishing"); subtitle: root.t("Publikálási célok és preferenciák. Token, jelszó, cookie vagy API secret nem tárolható QSettings-ben.", "Publishing targets and preferences. Tokens, passwords, cookies and API secrets are never stored in QSettings.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(370 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(370 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Alap cél", "Default target") }
                             ComboBox { model: ["None", "YouTube", "Facebook", "TikTok", "Website"]; currentIndex: 0; onActivated: root.settings.setValue("publishing/defaultTarget", currentText) }
                             Label { text: "YouTube" }
@@ -664,31 +443,15 @@ Item {
                 id: hdrView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: hdrView.availableWidth
-                    spacing: 16
+                    width: hdrView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "HDR"
-                        subtitle: root.t("Fenntartott beállítási pont a később meghatározandó HDR workflow-hoz.", "Reserved settings surface for the HDR workflow to be specified later.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "HDR"; subtitle: root.t("Fenntartott beállítási pont a később meghatározandó HDR workflow-hoz.", "Reserved settings surface for the HDR workflow to be specified later.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(190 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(190 * root.uiScale)
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
+                            anchors.fill: parent; anchors.margins: 18
                             Label { text: "RESERVED"; color: root.accent; font.bold: true }
-                            Label {
-                                Layout.fillWidth: true
-                                wrapMode: Text.WordWrap
-                                color: root.textMuted
-                                text: root.t("Itt egyelőre nincs automatikus funkció vagy policy. A HDR követelményeit külön fogjuk rögzíteni.", "No automatic function or policy is assigned here yet. HDR requirements will be defined separately.")
-                            }
+                            Label { Layout.fillWidth: true; wrapMode: Text.WordWrap; color: root.textMuted; text: root.t("Itt egyelőre nincs automatikus funkció vagy policy. A HDR követelményeit külön fogjuk rögzíteni.", "No automatic function or policy is assigned here yet. HDR requirements will be defined separately.") }
                         }
                     }
                 }
@@ -698,62 +461,30 @@ Item {
                 id: mentorSettingsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: mentorSettingsView.availableWidth
-                    spacing: 14
+                    width: mentorSettingsView.availableWidth; spacing: 14
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "AI Mentor"
-                        subtitle: root.t("Tanítás, magyarázat, mastery és Practice Lab. A főmenüből kivezetve; konfiguráció itt történik.", "Teaching, explanation, mastery and Practice Lab. Removed from main navigation; configuration lives here.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "AI Mentor"; subtitle: root.t("Tanítás, magyarázat, mastery és Practice Lab. Konfiguráció itt történik.", "Teaching, explanation, mastery and Practice Lab. Configuration lives here.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(430 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(430 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 11
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 11; columnSpacing: 24
                             Label { text: root.t("Mentor engedélyezve", "Mentor enabled") }
                             Switch { checked: root.settings.value("mentor/enabled", true); onToggled: root.settings.setValue("mentor/enabled", checked) }
                             Label { text: root.t("Kérdezd a Mentort gomb", "Ask Mentor button") }
                             Switch { checked: root.settings.value("roleButtons/mentorVisible", true); onToggled: root.settings.setValue("roleButtons/mentorVisible", checked) }
                             Label { text: root.t("Oktatási profil", "Teaching profile") }
-                            ComboBox {
-                                model: ["Teacher", "Guided Learning", "Expert Assistant", "Study", "Custom"]
-                                currentIndex: Math.max(0, model.indexOf(root.settings.value("mentor/profile", "Expert Assistant")))
-                                onActivated: root.settings.setValue("mentor/profile", currentText)
-                            }
+                            ComboBox { model: ["Teacher", "Guided Learning", "Expert Assistant", "Study", "Custom"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("mentor/profile", "Expert Assistant"))); onActivated: root.settings.setValue("mentor/profile", currentText) }
                             Label { text: root.t("Kezdeményezés", "Initiative") }
                             ComboBox { model: ["Silent", "Conservative", "Balanced", "Proactive"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("mentor/initiative", "Balanced"))); onActivated: root.settings.setValue("mentor/initiative", currentText) }
-                            Label { text: root.t("Részletesség", "Detail") }
-                            ComboBox { model: ["Short", "Normal", "Detailed", "Teaching"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("mentor/detail", "Normal"))); onActivated: root.settings.setValue("mentor/detail", currentText) }
                             Label { text: "Memory & Personalization" }
                             ComboBox { model: ["Ask every time", "Ask for new categories", "Allow approved categories", "Never write memory"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("mentor/memoryPolicy", "Ask for new categories"))); onActivated: root.settings.setValue("mentor/memoryPolicy", currentText) }
                             Label { text: "Mastery tracking" }
                             Switch { checked: root.settings.value("mentor/masteryTracking", true); onToggled: root.settings.setValue("mentor/masteryTracking", checked) }
-                            Label { text: root.t("Forrásidézetek", "Require citations") }
-                            Switch { checked: root.settings.value("mentor/citationsRequired", true); onToggled: root.settings.setValue("mentor/citationsRequired", checked) }
                             Label { text: "Practice Lab" }
                             Switch { checked: root.settings.value("mentor/practiceLab", true); onToggled: root.settings.setValue("mentor/practiceLab", checked) }
-                            Label { text: root.t("Voice használata", "Use voice") }
-                            Switch { checked: root.settings.value("mentor/voice", false); onToggled: root.settings.setValue("mentor/voice", checked) }
                         }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        wrapMode: Text.WordWrap
-                        color: root.textMuted
-                        text: "FA3-MENTOR-001 — advisory-only; memory write remains explicit-consent + existing Memory authority escalation."
-                    }
-                    Item { Layout.preferredHeight: 20 }
+                    RoleBoundaryLabel { text: "FA3-MENTOR-001 — advisory-only; memory write remains explicit-consent + existing Memory authority escalation." }
                 }
             }
 
@@ -761,27 +492,13 @@ Item {
                 id: coachSettingsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: coachSettingsView.availableWidth
-                    spacing: 14
+                    width: coachSettingsView.availableWidth; spacing: 14
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "AI Coach"
-                        subtitle: root.t("Cél-, haladás- és végrehajtási támogatás. A főmenüből kivezetve; konfiguráció itt történik.", "Goal, progress and execution guidance. Removed from main navigation; configuration lives here.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "AI Coach"; subtitle: root.t("Cél-, haladás- és végrehajtási támogatás. Konfiguráció itt történik.", "Goal, progress and execution guidance. Configuration lives here.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(430 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(390 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 11
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 11; columnSpacing: 24
                             Label { text: root.t("Coach engedélyezve", "Coach enabled") }
                             Switch { checked: root.settings.value("coach/enabled", true); onToggled: root.settings.setValue("coach/enabled", checked) }
                             Label { text: root.t("Kérdezd a Coachot gomb", "Ask Coach button") }
@@ -790,29 +507,13 @@ Item {
                             ComboBox { model: ["Supportive", "Structured", "Performance", "Critical Reviewer", "Executive", "Custom"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("coach/profile", "Executive"))); onActivated: root.settings.setValue("coach/profile", currentText) }
                             Label { text: root.t("Proaktivitás", "Proactivity") }
                             ComboBox { model: ["Silent", "Advisory", "Balanced", "Proactive", "Strict"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("coach/proactivity", "Balanced"))); onActivated: root.settings.setValue("coach/proactivity", currentText) }
-                            Label { text: root.t("Intervenció", "Intervention") }
-                            ComboBox { model: ["Silent", "Advisory", "Balanced", "Proactive", "Strict"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("coach/intervention", "Balanced"))); onActivated: root.settings.setValue("coach/intervention", currentText) }
-                            Label { text: root.t("Rendszeres check-in", "Regular check-ins") }
-                            Switch { checked: root.settings.value("coach/checkIns", true); onToggled: root.settings.setValue("coach/checkIns", checked) }
                             Label { text: root.t("Projekt-awareness", "Project awareness") }
                             Switch { checked: root.settings.value("coach/projectAwareness", true); onToggled: root.settings.setValue("coach/projectAwareness", checked) }
-                            Label { text: root.t("Heti review", "Weekly review") }
-                            Switch { checked: root.settings.value("coach/weeklyReview", true); onToggled: root.settings.setValue("coach/weeklyReview", checked) }
                             Label { text: root.t("Mentor referral", "Mentor referrals") }
                             Switch { checked: root.settings.value("coach/mentorReferrals", true); onToggled: root.settings.setValue("coach/mentorReferrals", checked) }
-                            Label { text: "Quiet hours" }
-                            TextField { text: root.settings.value("coach/quietHours", "20:00-08:00"); onEditingFinished: root.settings.setValue("coach/quietHours", text) }
                         }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        wrapMode: Text.WordWrap
-                        color: root.textMuted
-                        text: "FA3-COACH-001 — advisory projection; task/runtime mutation remains proposal/ChangeSet + existing authority only."
-                    }
-                    Item { Layout.preferredHeight: 20 }
+                    RoleBoundaryLabel { text: "FA3-COACH-001 — advisory projection; task/runtime mutation remains proposal/ChangeSet + existing authority only." }
                 }
             }
 
@@ -820,27 +521,13 @@ Item {
                 id: managerSettingsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: managerSettingsView.availableWidth
-                    spacing: 14
+                    width: managerSettingsView.availableWidth; spacing: 14
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: "Manager"
-                        subtitle: root.t("Munka, delegálás, függőségek és evidence closure — tartós UI-preferenciák.", "Work, delegation, dependencies and evidence closure — persistent UI preferences.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: "Manager"; subtitle: root.t("Munka, delegálás, függőségek és evidence closure — tartós UI-preferenciák.", "Work, delegation, dependencies and evidence closure — persistent UI preferences.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(300 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(300 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Kérdezd a Managert gomb", "Ask Manager button") }
                             Switch { checked: root.settings.value("roleButtons/managerVisible", true); onToggled: root.settings.setValue("roleButtons/managerVisible", checked) }
                             Label { text: root.t("Alap nézet", "Default view") }
@@ -851,15 +538,7 @@ Item {
                             Switch { checked: root.settings.value("manager/showEvidenceLinks", true); onToggled: root.settings.setValue("manager/showEvidenceLinks", checked) }
                         }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        wrapMode: Text.WordWrap
-                        color: root.textMuted
-                        text: root.t("FA3-MANAGER-001 — a GUI-preferenciák nem módosítják a canonical work lifecycle-t és nem adnak execution authority-t.", "FA3-MANAGER-001 — GUI preferences do not mutate the canonical work lifecycle and grant no execution authority.")
-                    }
-                    Item { Layout.preferredHeight: 20 }
+                    RoleBoundaryLabel { text: root.t("FA3-MANAGER-001 — a GUI-preferenciák nem módosítják a canonical work lifecycle-t és nem adnak execution authority-t.", "FA3-MANAGER-001 — GUI preferences do not mutate the canonical work lifecycle and grant no execution authority.") }
                 }
             }
 
@@ -867,27 +546,13 @@ Item {
                 id: inspectorSettingsView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: inspectorSettingsView.availableWidth
-                    spacing: 14
+                    width: inspectorSettingsView.availableWidth; spacing: 14
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Ellenőr", "Inspector")
-                        subtitle: root.t("Független Verification & Assurance szerep. A beállítások csak felhasználói nézetpreferenciák.", "Independent Verification & Assurance role. Settings here are user-view preferences only.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Ellenőr", "Inspector"); subtitle: root.t("Független Verification & Assurance szerep. A beállítások csak felhasználói nézetpreferenciák.", "Independent Verification & Assurance role. Settings here are user-view preferences only.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(330 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(330 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Kérdezd az Ellenőrt gomb", "Ask Inspector button") }
                             Switch { checked: root.settings.value("roleButtons/inspectorVisible", true); onToggled: root.settings.setValue("roleButtons/inspectorVisible", checked) }
                             Label { text: root.t("Alap inspection nézet", "Default inspection view") }
@@ -896,22 +561,61 @@ Item {
                             Switch { checked: root.settings.value("inspector/evidenceFreshnessWarnings", true); onToggled: root.settings.setValue("inspector/evidenceFreshnessWarnings", checked) }
                             Label { text: root.t("Drift figyelmeztetés", "Drift warnings") }
                             Switch { checked: root.settings.value("inspector/driftWarnings", true); onToggled: root.settings.setValue("inspector/driftWarnings", checked) }
-                            Label { text: root.t("Inconclusive eredmények mutatása", "Show inconclusive results") }
-                            Switch { checked: root.settings.value("inspector/showInconclusive", true); onToggled: root.settings.setValue("inspector/showInconclusive", checked) }
                         }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        wrapMode: Text.WordWrap
-                        color: root.textMuted
-                        text: root.t(
-                            "FA3-INSPECTOR-001 — P0/MUST independent verification. PASS/FAIL/BLOCKED/INCONCLUSIVE/EVIDENCE_MISSING/EVIDENCE_STALE/DRIFT_DETECTED. Certification közben silent repair tilos; remediation külön feladat és utána új inspection szükséges.",
-                            "FA3-INSPECTOR-001 — P0/MUST independent verification. PASS/FAIL/BLOCKED/INCONCLUSIVE/EVIDENCE_MISSING/EVIDENCE_STALE/DRIFT_DETECTED. Silent repair during certification is forbidden; remediation is a separate task followed by re-inspection."
-                        )
-                    }
+                    RoleBoundaryLabel { text: root.t("FA3-INSPECTOR-001 — P0/MUST independent verification. A preferenciák nem gyengíthetik az independent verification kötelezettséget.", "FA3-INSPECTOR-001 — P0/MUST independent verification. Preferences cannot weaken the independent-verification requirement.") }
+                }
+            }
+
+            ScrollView {
+                id: ideatorSettingsView
+                contentWidth: availableWidth
+                ColumnLayout {
+                    width: ideatorSettingsView.availableWidth; spacing: 14
                     Item { Layout.preferredHeight: 20 }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Ötletelő", "Ideator"); subtitle: root.t("Divergens ötletelés, alternatívák, gap discovery, kombinációk és egyszerűsítés. Az ötlet/hipotézis nem tény és nem evidence.", "Divergent exploration, alternatives, gap discovery, combinations and simplification. Ideas/hypotheses are not facts or evidence.") }
+                    Card {
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(320 * root.uiScale)
+                        GridLayout {
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
+                            Label { text: root.t("Kérdezd az Ötletelőt gomb", "Ask Ideator button") }
+                            Switch { checked: root.settings.value("roleButtons/ideatorVisible", true); onToggled: root.settings.setValue("roleButtons/ideatorVisible", checked) }
+                            Label { text: root.t("Alap mód", "Default mode") }
+                            ComboBox { model: ["IDEATE", "CONSTRAINED_IDEATION", "CONTRARIAN", "COMBINE", "GAP_DISCOVERY", "SIMPLIFY"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("ideator/defaultMode", "IDEATE"))); onActivated: root.settings.setValue("ideator/defaultMode", currentText) }
+                            Label { text: root.t("Ötletelési szélesség", "Exploration breadth") }
+                            ComboBox { model: ["Focused", "Balanced", "Wide"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("ideator/breadth", "Balanced"))); onActivated: root.settings.setValue("ideator/breadth", currentText) }
+                            Label { text: root.t("Alternatívák célmennyisége", "Target alternatives") }
+                            SpinBox { from: 2; to: 20; value: root.settings.value("ideator/targetAlternatives", 6); onValueModified: root.settings.setValue("ideator/targetAlternatives", value) }
+                        }
+                    }
+                    RoleBoundaryLabel { text: root.t("FA3-IDEATOR-001 — P1/SHOULD subprofile mode a FA3-IDEATION-ADVISORY-001 alatt. IDEA ≠ FACT; HYPOTHESIS ≠ EVIDENCE; közvetlen tool/agent/repository/production execution tilos.", "FA3-IDEATOR-001 — P1/SHOULD subprofile mode under FA3-IDEATION-ADVISORY-001. IDEA ≠ FACT; HYPOTHESIS ≠ EVIDENCE; direct tool/agent/repository/production execution is forbidden.") }
+                }
+            }
+
+            ScrollView {
+                id: advisorSettingsView
+                contentWidth: availableWidth
+                ColumnLayout {
+                    width: advisorSettingsView.availableWidth; spacing: 14
+                    Item { Layout.preferredHeight: 20 }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Tanácsadó", "Advisor"); subtitle: root.t("Evidence-alapú összehasonlítás, trade-off, kockázat, bizonytalanság és ajánlás. Az ajánlás nem döntés.", "Evidence-grounded comparison, trade-offs, risk, uncertainty and recommendation. A recommendation is not a decision.") }
+                    Card {
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(350 * root.uiScale)
+                        GridLayout {
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
+                            Label { text: root.t("Kérdezd a Tanácsadót gomb", "Ask Advisor button") }
+                            Switch { checked: root.settings.value("roleButtons/advisorVisible", true); onToggled: root.settings.setValue("roleButtons/advisorVisible", checked) }
+                            Label { text: root.t("Alap mód", "Default mode") }
+                            ComboBox { model: ["COMPARE", "TRADEOFF_ANALYSIS", "RISK_ASSESSMENT", "RECOMMEND"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("advisor/defaultMode", "COMPARE"))); onActivated: root.settings.setValue("advisor/defaultMode", currentText) }
+                            Label { text: root.t("Evidence megjelenítés", "Evidence display") }
+                            ComboBox { model: ["Standard", "Detailed", "Strict"]; currentIndex: Math.max(0, model.indexOf(root.settings.value("advisor/evidenceDisplay", "Detailed"))); onActivated: root.settings.setValue("advisor/evidenceDisplay", currentText) }
+                            Label { text: root.t("Bizonytalanság / confidence", "Uncertainty / confidence") }
+                            Label { text: root.t("Kötelező", "Required"); color: root.accent; font.bold: true }
+                            Label { text: root.t("High-impact / promotion handoff", "High-impact / promotion handoff") }
+                            Label { text: "FA3-INSPECTOR-001 · REQUIRED"; color: root.accent; font.bold: true }
+                        }
+                    }
+                    RoleBoundaryLabel { text: root.t("FA3-ADVISOR-001 — P0/MUST subprofile mode a FA3-IDEATION-ADVISORY-001 alatt. RECOMMENDATION ≠ DECISION; hiányzó evidence = UNVERIFIED; conflicting evidence látható marad; high-impact/promotion állítás független Ellenőr-validációt igényel.", "FA3-ADVISOR-001 — P0/MUST subprofile mode under FA3-IDEATION-ADVISORY-001. RECOMMENDATION ≠ DECISION; missing evidence = UNVERIFIED; conflicting evidence stays visible; high-impact/promotion claims require independent Inspector validation.") }
                 }
             }
 
@@ -919,27 +623,13 @@ Item {
                 id: updatesView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: updatesView.availableWidth
-                    spacing: 16
+                    width: updatesView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Frissítés", "Updates")
-                        subtitle: root.t("A Control Center frissítési preferenciái. A GUI nem kap automatikus root jogot.", "Control Center update preferences. The GUI never receives automatic root privileges.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Frissítés", "Updates"); subtitle: root.t("A Control Center frissítési preferenciái. A GUI nem kap automatikus root jogot.", "Control Center update preferences. The GUI never receives automatic root privileges.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(300 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(300 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Telepített verzió", "Installed version") }
                             Label { text: Qt.application.version }
                             Label { text: root.t("Csatorna", "Channel") }
@@ -959,27 +649,13 @@ Item {
                 id: aboutView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: aboutView.availableWidth
-                    spacing: 16
+                    width: aboutView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Névjegy", "About")
-                        subtitle: "FINAL ARCHITECTURE v3.0 — Control Center"
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Névjegy", "About"); subtitle: "FINAL ARCHITECTURE v3.0 — Control Center" }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(390 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(420 * root.uiScale)
                         GridLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            columns: 2
-                            rowSpacing: 12
-                            columnSpacing: 24
+                            anchors.fill: parent; anchors.margins: 18; columns: 2; rowSpacing: 12; columnSpacing: 24
                             Label { text: root.t("Alkalmazás", "Application") }
                             Label { text: "FA3 Control Center" }
                             Label { text: root.t("Verzió", "Version") }
@@ -989,7 +665,9 @@ Item {
                             Label { text: root.t("Új authority", "New authority") }
                             Label { text: "0" }
                             Label { text: root.t("AI szerepek", "AI roles") }
-                            Label { text: "Mentor · Coach · Manager · Inspector" }
+                            Label { text: "Mentor · Coach · Manager · Inspector · Ideator · Advisor" }
+                            Label { text: "Semantic Interoperability" }
+                            Label { text: "FA3-GUI-LANGUAGE-CONTROL-001" }
                             Label { text: root.t("Repository", "Repository") }
                             Label { Layout.fillWidth: true; text: root.repository.repoRoot; elide: Text.ElideMiddle }
                             Label { text: root.t("Host", "Host") }
@@ -1007,25 +685,13 @@ Item {
                 id: advancedView
                 contentWidth: availableWidth
                 ColumnLayout {
-                    width: advancedView.availableWidth
-                    spacing: 16
+                    width: advancedView.availableWidth; spacing: 16
                     Item { Layout.preferredHeight: 20 }
-                    TitleBlock {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        title: root.t("Haladó", "Advanced")
-                        subtitle: root.t("Lokális GUI state visszaállítása. Canonical/Evidence/Memory/project adat nem törlődik.", "Local GUI state reset. Canonical/Evidence/Memory/project data is never deleted.")
-                    }
+                    TitleBlock { Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; title: root.t("Haladó", "Advanced"); subtitle: root.t("Lokális GUI state visszaállítása. Canonical/Evidence/Memory/project adat nem törlődik.", "Local GUI state reset. Canonical/Evidence/Memory/project data is never deleted.") }
                     Card {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 24
-                        Layout.rightMargin: 24
-                        Layout.preferredHeight: Math.round(440 * root.uiScale)
+                        Layout.fillWidth: true; Layout.leftMargin: 24; Layout.rightMargin: 24; Layout.preferredHeight: Math.round(520 * root.uiScale)
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 18
-                            spacing: 10
+                            anchors.fill: parent; anchors.margins: 18; spacing: 10
                             Button { text: root.t("Gyorsbillentyűk alaphelyzetbe", "Reset shortcuts"); onClicked: root.settings.resetGroup("shortcuts") }
                             Button { text: root.t("Integrációk alaphelyzetbe", "Reset integrations"); onClicked: root.settings.resetGroup("integrations") }
                             Button { text: root.t("Publikálás alaphelyzetbe", "Reset publishing"); onClicked: root.settings.resetGroup("publishing") }
@@ -1033,6 +699,8 @@ Item {
                             Button { text: root.t("Coach preferenciák alaphelyzetbe", "Reset Coach preferences"); onClicked: root.settings.resetGroup("coach") }
                             Button { text: root.t("Manager preferenciák alaphelyzetbe", "Reset Manager preferences"); onClicked: root.settings.resetGroup("manager") }
                             Button { text: root.t("Ellenőr preferenciák alaphelyzetbe", "Reset Inspector preferences"); onClicked: root.settings.resetGroup("inspector") }
+                            Button { text: root.t("Ötletelő preferenciák alaphelyzetbe", "Reset Ideator preferences"); onClicked: root.settings.resetGroup("ideator") }
+                            Button { text: root.t("Tanácsadó preferenciák alaphelyzetbe", "Reset Advisor preferences"); onClicked: root.settings.resetGroup("advisor") }
                             Button { text: root.t("Kérdezd-gombok alaphelyzetbe", "Reset Ask buttons"); onClicked: root.settings.resetGroup("roleButtons") }
                             Button { text: root.t("Minden GUI-beállítás alaphelyzetbe…", "Reset all GUI settings…"); onClicked: resetDialog.open() }
                         }
@@ -1048,13 +716,7 @@ Item {
         modal: true
         anchors.centerIn: parent
         standardButtons: Dialog.Ok | Dialog.Cancel
-
-        Label {
-            width: 440
-            wrapMode: Text.WordWrap
-            text: root.t("Ez csak a Control Center lokális felhasználói preferenciáit törli. Canonical, Evidence, Memory vagy projektadatot nem módosít.", "This clears only local Control Center preferences. Canonical, Evidence, Memory and project data are not modified.")
-        }
-
+        Label { width: 440; wrapMode: Text.WordWrap; text: root.t("Ez csak a Control Center lokális felhasználói preferenciáit törli. Canonical, Evidence, Memory vagy projektadatot nem módosít.", "This clears only local Control Center preferences. Canonical, Evidence, Memory and project data are not modified.") }
         onAccepted: root.settings.resetAll()
     }
 }
