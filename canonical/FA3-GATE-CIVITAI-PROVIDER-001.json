@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-CIVITAI-PROVIDER-001",
+  "provider_id": "FA3-PROVIDER-CIVITAI-001",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "enforcement": "canonical/civitai-provider-enforcement.json",
+  "priority": "P1",
+  "fail_closed": true,
+  "rule_count": 16,
+  "executable": "python -m unittest tests.test_civitai_provider_gate -v",
+  "reference_evidence": "evidence/reference/civitai-provider-reference-2026-09-13.json",
+  "current_host_runtime_required_for_reference_pass": false,
+  "current_host_runtime_required_for_production_promotion": true,
+  "kwallet_required": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
