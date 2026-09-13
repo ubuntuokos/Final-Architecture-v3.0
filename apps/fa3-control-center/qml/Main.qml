@@ -147,6 +147,7 @@ ApplicationWindow {
     }
 
     component ModulePage: ScrollView {
+        id: modulePage
         property string pageTitle: ""
         property string pageSubtitle: ""
         property var cards: []
@@ -154,14 +155,14 @@ ApplicationWindow {
         contentWidth: availableWidth
         padding: 18
         ColumnLayout {
-            width: parent.width
+            width: modulePage.availableWidth
             spacing: 16
-            SectionTitle { title: parent.parent.pageTitle; subtitle: parent.parent.pageSubtitle }
+            SectionTitle { title: modulePage.pageTitle; subtitle: modulePage.pageSubtitle }
             Flow {
                 Layout.fillWidth: true
                 spacing: 12
                 Repeater {
-                    model: parent.parent.parent.cards
+                    model: modulePage.cards
                     delegate: ModuleCard {
                         required property var modelData
                         title: modelData.title || ""

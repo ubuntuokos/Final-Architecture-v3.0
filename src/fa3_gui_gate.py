@@ -65,6 +65,7 @@ def validate() -> list[str]:
         if module not in qml: failures.append(f"qml-studio-module-missing:{module}")
     if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
     if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")
+    if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
