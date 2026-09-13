@@ -3,11 +3,20 @@
   "id": "FA3-EVID-OPENMODELDB-PROVIDER-2026-09-13",
   "gate_id": "FA3-GATE-OPENMODELDB-PROVIDER-001",
   "provider_id": "FA3-PROVIDER-OPENMODELDB-001",
-  "status": "PENDING_CI",
+  "status": "PASS",
   "evidence_class": "REFERENCE_STATIC_CONFORMANCE",
   "observed_at": "2026-09-13",
   "upstream_repository": "OpenModelDB/open-model-database",
   "upstream_commit": "782aac088bd83dd3fc438a42eb0c3868dc559110",
+  "validated_head_sha": "d21059dd5d07487d083742e419ee1f0348e748d3",
+  "github_actions_run_id": 34747802938,
+  "github_actions_run_number": 1,
+  "github_actions_job": "static-conformance",
+  "github_actions_conclusion": "success",
+  "validated_steps": [
+    "OpenModelDB provider fail-closed gate",
+    "Existing Model Manager v2 regression gate"
+  ],
   "validated_claims": [
     "catalog is discovery/metadata source, not artifact trust authority",
     "resource SHA-256 is required and must be verified",
@@ -23,5 +32,5 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
-  "promotion_effect": "REFERENCE_STATIC_GATE_ONLY_NO_CURRENT_HOST_OR_MODEL_ARTIFACT_RUNTIME_PASS"
+  "promotion_effect": "REFERENCE_STATIC_GATE_PASS_ONLY_NO_CURRENT_HOST_OR_MODEL_ARTIFACT_RUNTIME_PASS"
 }
