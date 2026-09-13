@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "0cd2c51a21b76baa71fa8a591cd3e7fc78686551",
-    "pre_projection_root_tree_sha": "25fddabcc11d47411552791598fb1eb66114b146",
-    "pre_projection_canonical_tree_sha": "6e586f25f681a9e688560781ce7a67f459efd1f7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 256,
-    "total_post_baseline_commits": 256,
-    "delta_file_count": 1032,
-    "delta_added_files": 1027,
+    "pre_projection_head_sha": "e52665d98d6bd3856551da971e63a3f58847ba0c",
+    "pre_projection_root_tree_sha": "0c64ce24f9f1889cde5aec5fd53de1bd169e9ae2",
+    "pre_projection_canonical_tree_sha": "1a53d8836e821bca6ac1f27fcacc97a30289dc66",
+    "commits_ahead_of_v3_0_11_conformance_commit": 258,
+    "total_post_baseline_commits": 258,
+    "delta_file_count": 1033,
+    "delta_added_files": 1028,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -688,7 +688,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1032,
+  "manifest_entry_count": 1033,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -918,6 +918,11 @@
     {
       "path": "apps/fa3-control-center/qml/ModelManagerPage.qml",
       "git_blob_sha": "0789bf2bfb276782545bd398b677232a2c40e593",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/PlannerControlPage.qml",
+      "git_blob_sha": "0b51ba99900e4d6c8576c44c1bf9d4a18680a931",
       "baseline_delta_status": "added"
     },
     {
