@@ -20,6 +20,7 @@ ApplicationWindow {
     property bool webWorkspaceOpen: false
     property url webWorkspaceUrl: "about:blank"
     property string webWorkspaceTitle: "Web Workspace"
+    property bool llmFitExpanded: false
 
     function openInternalWeb(targetUrl, titleText) {
         webWorkspaceUrl = targetUrl
@@ -147,6 +148,7 @@ ApplicationWindow {
     }
 
     component ModulePage: ScrollView {
+        id: modulePage
         property string pageTitle: ""
         property string pageSubtitle: ""
         property var cards: []
@@ -154,14 +156,14 @@ ApplicationWindow {
         contentWidth: availableWidth
         padding: 18
         ColumnLayout {
-            width: parent.width
+            width: modulePage.availableWidth
             spacing: 16
-            SectionTitle { title: parent.parent.pageTitle; subtitle: parent.parent.pageSubtitle }
+            SectionTitle { title: modulePage.pageTitle; subtitle: modulePage.pageSubtitle }
             Flow {
                 Layout.fillWidth: true
                 spacing: 12
                 Repeater {
-                    model: parent.parent.parent.cards
+                    model: modulePage.cards
                     delegate: ModuleCard {
                         required property var modelData
                         title: modelData.title || ""
@@ -208,16 +210,6 @@ ApplicationWindow {
         Rectangle { width: 6; height: 6; radius: 3; color: parent.tone }
         Label { text: parent.labelText; color: window.textMuted; font.pixelSize: 8; font.bold: true }
         Label { text: parent.valueText; color: window.textPrimary; font.pixelSize: 8 }
-    }
-
-    Menu {
-        id: askMenu
-        MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }
-        MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }
-        MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }
-        MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }
-        MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }
-        MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }
     }
 
     RowLayout {
@@ -354,6 +346,7 @@ ApplicationWindow {
                     QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
 
                     ToolButton {
+                        id: askButton
                         text: "Kérdezd: " + window.askRole + " ▾"
                         onClicked: askMenu.open()
                         contentItem: Label {
@@ -368,6 +361,16 @@ ApplicationWindow {
                             radius: 6
                             color: parent.hovered ? "#132a42" : "#0d1c2f"
                             border.color: window.border
+                        }
+                        Menu {
+                            id: askMenu
+                            y: parent.height
+                            MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }
+                            MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }
+                            MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }
+                            MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }
+                            MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }
+                            MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }
                         }
                     }
 
@@ -519,20 +522,84 @@ ApplicationWindow {
                             QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }
                             QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }
                             QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
+                            ToolButton {
+                                id: llmFitButton
+                                text: "LLM Fit"
+                                checkable: true
+                                checked: window.llmFitExpanded
+                                onClicked: window.llmFitExpanded = !window.llmFitExpanded
+                                contentItem: Label {
+                                    text: parent.text
+                                    color: window.llmFitExpanded ? window.cyan : window.textPrimary
+                                    font.pixelSize: 9
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                background: Rectangle {
+                                    radius: 6
+                                    color: window.llmFitExpanded ? "#12324a" : (parent.hovered ? "#132a42" : "#0d1c2f")
+                                    border.color: window.llmFitExpanded ? window.cyan : window.border
+                                }
+                            }
                             Item { Layout.fillWidth: true }
                         }
                         Panel {
+                            visible: window.llmFitExpanded
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 350
+                            Layout.preferredHeight: visible ? 215 : 0
+                            ColumnLayout {
+                                anchors.fill: parent
+                                anchors.margins: 15
+                                spacing: 10
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    Label { text: "LLM Fit"; color: window.textPrimary; font.pixelSize: 15; font.bold: true }
+                                    StatusChip { chipText: "IN-APP"; tone: window.cyan }
+                                    Item { Layout.fillWidth: true }
+                                    Label { text: "nincs terminálindítás"; color: window.textMuted; font.pixelSize: 9 }
+                                }
+                                GridLayout {
+                                    Layout.fillWidth: true
+                                    columns: 4
+                                    columnSpacing: 18
+                                    rowSpacing: 8
+                                    Label { text: "CPU"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: fa3Repository.cpuThreads + " szál"; color: window.textPrimary; font.pixelSize: 11; font.bold: true }
+                                    Label { text: "RAM"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: fa3Repository.memoryGiB.toFixed(1) + " GiB"; color: window.textPrimary; font.pixelSize: 11; font.bold: true }
+                                    Label { text: "GPU / NPU"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: "adapter-gated"; color: window.orange; font.pixelSize: 10; font.bold: true }
+                                    Label { text: "Model-fit"; color: window.textMuted; font.pixelSize: 9 }
+                                    Label { text: "modell + runtime adapter szükséges"; color: window.orange; font.pixelSize: 10; font.bold: true }
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.WordWrap
+                                    text: "Az LLM Fit az FA3 GUI részeként jelenik meg. A hostból közvetlenül ismert értékeket mutatja; kompatibilitási vagy kapacitás-ajánlást csak tényleges adapter-evidence alapján jelenít meg, szintetikus eredmény nélkül."
+                                    color: window.textMuted
+                                    font.pixelSize: 10
+                                }
+                            }
+                        }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: Math.max(350, modelManagerView.availableHeight - 250)
                             ColumnLayout {
                                 anchors.fill: parent
                                 anchors.margins: 15
                                 spacing: 10
                                 Label { text: "Model registry projection"; color: window.textPrimary; font.pixelSize: 14; font.bold: true }
                                 ListView {
+                                    id: modelRegistryList
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
                                     clip: true
+                                    boundsBehavior: Flickable.StopAtBounds
+                                    ScrollBar.vertical: ScrollBar {
+                                        policy: ScrollBar.AlwaysOn
+                                        active: true
+                                    }
                                     model: fa3Repository.recordsByCategory("provider")
                                     delegate: ItemDelegate {
                                         width: ListView.view.width
