@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.capability-count-dehardcode-decision.v1",
+  "id": "FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13",
+  "migration_id": "FA3-CAPABILITY-COUNT-DEHARDCODE-001",
+  "status": "CANONICAL_CLOSED",
+  "date": "2026-09-13",
+  "active_release": "2026-08-23/v3.0.11",
+  "capability_count_at_migration": 143,
+  "semantic_effect": "NO_CAPABILITY_COUNT_CHANGE",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "decision": {
+    "authoritative_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+    "active_executable_logic_must_load_release_baseline": true,
+    "historical_release_records_may_retain_literal_counts": true,
+    "current_release_mirrors_may_retain_count_only_when_equal_to_active_baseline": true,
+    "provider_or_file_addition_must_not_implicitly_change_capability_count": true,
+    "future_release_count_change_requires_explicit_release_baseline_and_reconciliation": true
+  },
+  "migrated_surfaces": [
+    "src/fa3_enforce.py",
+    "src/fa3_governance_tiering_gate.py",
+    "src/fa3_release_projection_gate.py",
+    "src/fa3_release_evidence_scope_gate.py",
+    "scripts/fa3_reconcile_release_projection.py"
+  ],
+  "safety_invariants": [
+    "FAIL_CLOSED_ON_MISSING_AMBIGUOUS_OR_INCONSISTENT_BASELINE",
+    "EVIDENCE_REGISTRY_CARDINALITY_MUST_EQUAL_ACTIVE_RELEASE_BASELINE",
+    "RELEASE_PROJECTION_COUNT_MUST_EQUAL_ACTIVE_RELEASE_BASELINE",
+    "ENFORCEMENT_POLICY_COUNT_IS_A_VALIDATED_CURRENT_RELEASE_MIRROR",
+    "CURRENT_HOST_EVIDENCE_AND_PROMOTION_BOUNDARIES_UNCHANGED",
+    "NO_NEW_CAPABILITY",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY"
+  ]
+}
