@@ -29,7 +29,9 @@ jobs:
       - name: Install Qt 6 reference build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ninja-build qt6-base-dev qt6-declarative-dev qml6-module-qtquick-controls qml6-module-qtquick-layouts
+          sudo apt-get install -y \
+            ninja-build qt6-base-dev qt6-declarative-dev qt6-webengine-dev \
+            qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtwebengine
       - name: Configure Control Center
         run: cmake -S apps/fa3-control-center -B build/fa3-control-center -GNinja -DCMAKE_BUILD_TYPE=Release
       - name: Build Control Center
