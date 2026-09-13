@@ -1,0 +1,64 @@
+name: FA3 Governance Tiering Projection
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-GOVERNANCE-TIERING-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_enforce.py'
+      - 'src/fa3_governance_tiering_gate.py'
+      - 'tests/test_governance_tiering_gate.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+      - '.github/workflows/fa3-governance-tiering.yml'
+      - 'docs/governance-tiering.md'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-GOVERNANCE-TIERING-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+      - 'evidence/evidence-registry.json'
+      - 'src/fa3_enforce.py'
+      - 'src/fa3_governance_tiering_gate.py'
+      - 'tests/test_governance_tiering_gate.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+      - '.github/workflows/fa3-governance-tiering.yml'
+      - 'docs/governance-tiering.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-governance-tiering-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  derived-projection:
+    name: governance-tiering / zero-authority
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_governance_tiering_gate.py tests/test_governance_tiering_gate.py
+      - name: Projection regression tests
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_tiering_gate.py' -v
+      - name: Validate zero-authority governance projection
+        run: PYTHONPATH=src python src/fa3_governance_tiering_gate.py --root .
+      - name: Upload projection report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-governance-tiering-gate-report
+          if-no-files-found: error
+          path: reports/governance-tiering-gate-report.json
