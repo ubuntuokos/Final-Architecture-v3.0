@@ -10,6 +10,14 @@ Command Center; Projects & Workspaces; AI Studio; Agents & Workflows; Models & P
 
 AI Studio includes Image, Video, Animation, 3D/VFX, Audio, Music, and Story/Screenplay projections.
 
+## Persistent resource status strip
+
+The Control Center renders a compact 38 px bottom status strip across all views. It continuously projects CPU utilization, RAM utilization plus used/total capacity, GPU utilization plus VRAM/temperature when measurable, and NPU detection/utilization when measurable. Unknown accelerator utilization is rendered as `N/A` or `—`, never as a fabricated 0%.
+
+The strip also derives a local read-only pressure summary (`NORMAL`, `WARN`, `CRITICAL`) for operator awareness. That summary is advisory only: host-resource admission remains owned by `FA3-AUTH-HOST-RESOURCE-BROKER-001`, and enforcement remains systemd unified cgroup v2.
+
+GPU discovery is provider-neutral. NVIDIA telemetry uses an exact read-only `nvidia-smi` query when present; Linux DRM/sysfs is used as a fallback for supported GPU metrics. Linux NPU/accelerator detection uses the DRM accel class/device projection when available.
+
 ## Build
 
 ```bash
