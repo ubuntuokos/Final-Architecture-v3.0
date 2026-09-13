@@ -35,8 +35,7 @@ jobs:
         shell: bash
         run: |
           if [[ -f apps/fa3-control-center/qml/MissionControlAppShell.qml \
-             && -f apps/fa3-control-center/qml/ModelManagerHubPage.qml \
-             && -f canonical/decisions/FA3-DEC-GUI-MISSION-CONTROL-MODEL-HUB-2026-09-13.json ]] \
+             && -f apps/fa3-control-center/qml/ModelManagerHubPage.qml ]] \
              && grep -q 'FA3-PROVIDER-OPENHERO-001' apps/fa3-control-center/qml/AppShell.qml; then
             echo "Mission-control source state is already materialized; skipping generator."
           else
