@@ -180,7 +180,6 @@ Rectangle {
                 id: modelSearch
                 Layout.fillWidth: true
                 placeholderText: "Search model, author, description or OpenModelDB tag…"
-                clearButtonEnabled: true
             }
             ComboBox {
                 id: scaleFilter
