@@ -10,6 +10,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSaveFile>
+#include <QSettings>
+#include <QSet>
 #include <QStandardPaths>
 #include <QSysInfo>
 #include <QThread>
@@ -102,12 +104,58 @@ void Fa3RepositoryModel::scanEvidence()
     while (it.hasNext()) { it.next(); ++m_evidenceCount; }
 }
 
+void Fa3RepositoryModel::scanApplications()
+{
+    m_installedApplications.clear();
+    QStringList roots = {
+        QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation),
+        QStringLiteral("/usr/local/share/applications"),
+        QStringLiteral("/usr/share/applications")
+    };
+    QSet<QString> seenRoots;
+    QSet<QString> seenNames;
+    for (const auto &root : roots) {
+        const auto cleanRoot = QDir::cleanPath(root);
+        if (cleanRoot.isEmpty() || seenRoots.contains(cleanRoot) || !QDir(cleanRoot).exists()) continue;
+        seenRoots.insert(cleanRoot);
+        QDirIterator it(cleanRoot, {QStringLiteral("*.desktop")}, QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext()) {
+            const auto path = it.next();
+            QSettings desktop(path, QSettings::IniFormat);
+            desktop.beginGroup(QStringLiteral("Desktop Entry"));
+            const auto type = desktop.value(QStringLiteral("Type")).toString();
+            const bool hidden = desktop.value(QStringLiteral("Hidden"), false).toBool();
+            const bool noDisplay = desktop.value(QStringLiteral("NoDisplay"), false).toBool();
+            const auto name = desktop.value(QStringLiteral("Name")).toString().trimmed();
+            const auto comment = desktop.value(QStringLiteral("Comment")).toString().trimmed();
+            const auto exec = desktop.value(QStringLiteral("Exec")).toString().trimmed();
+            desktop.endGroup();
+            if (type != QStringLiteral("Application") || hidden || noDisplay || name.isEmpty()) continue;
+            const auto key = name.toCaseFolded();
+            if (seenNames.contains(key)) continue;
+            seenNames.insert(key);
+            QVariantMap row;
+            row.insert(QStringLiteral("id"), QFileInfo(path).baseName());
+            row.insert(QStringLiteral("title"), name);
+            row.insert(QStringLiteral("subtitle"), comment.isEmpty() ? exec : comment);
+            row.insert(QStringLiteral("status"), QStringLiteral("INSTALLED"));
+            row.insert(QStringLiteral("category"), QStringLiteral("APPLICATION"));
+            row.insert(QStringLiteral("sourceType"), QStringLiteral("APPLICATION"));
+            row.insert(QStringLiteral("pageIndex"), -1);
+            row.insert(QStringLiteral("path"), path);
+            row.insert(QStringLiteral("exec"), exec);
+            m_installedApplications.append(row);
+        }
+    }
+}
+
 void Fa3RepositoryModel::refresh()
 {
     const auto discovered = discoverRepositoryRoot();
     if (discovered != m_repoRoot) { m_repoRoot = discovered; emit repoRootChanged(); }
     scanCanonical();
     scanEvidence();
+    scanApplications();
     m_lastRefresh = QDateTime::currentDateTime().toString(Qt::ISODate);
     emit recordsChanged();
     emit statisticsChanged();
@@ -120,6 +168,25 @@ QVariantList Fa3RepositoryModel::searchRecords(const QString &query) const
     for (const auto &value : m_records) {
         const auto map = value.toMap();
         const auto haystack = QString("%1 %2 %3 %4 %5").arg(map.value("id").toString(), map.value("title").toString(), map.value("status").toString(), map.value("category").toString(), map.value("path").toString());
+        if (needle.isEmpty() || haystack.contains(needle, Qt::CaseInsensitive)) {
+            result.append(map);
+            if (result.size() >= 300) break;
+        }
+    }
+    return result;
+}
+
+QVariantList Fa3RepositoryModel::searchInstalledApplications(const QString &query) const
+{
+    const auto needle = query.trimmed();
+    QVariantList result;
+    for (const auto &value : m_installedApplications) {
+        const auto map = value.toMap();
+        const auto haystack = QStringLiteral("%1 %2 %3 %4")
+            .arg(map.value(QStringLiteral("title")).toString(),
+                 map.value(QStringLiteral("subtitle")).toString(),
+                 map.value(QStringLiteral("id")).toString(),
+                 map.value(QStringLiteral("exec")).toString());
         if (needle.isEmpty() || haystack.contains(needle, Qt::CaseInsensitive)) {
             result.append(map);
             if (result.size() >= 300) break;
