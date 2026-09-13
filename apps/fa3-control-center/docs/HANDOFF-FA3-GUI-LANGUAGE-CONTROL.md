@@ -2,22 +2,43 @@
 
 Consumer workstream: **FA3 GUI készítése / FA3 Control Center**  
 Source profile: `FA3-GUI-LANGUAGE-CONTROL-001`  
-Source branch: `feat/fa3-gui-language-control`  
-Child PR: **#147**  
+Original child PR: **#147** — merged into parent GUI branch  
 Parent GUI branch: `feat/fa3-gui-settings-mentor-coach` (PR #144)
 
-## Ready for the GUI workstream
+## Integrated state
+
+The Language Control is now part of the parent FA3 GUI branch.
+
+Available artifacts:
 
 1. `qml/LanguageControlPage.qml` — native Qt/QML Language Control surface.
-2. `docs/FA3-GUI-LANGUAGE-CONTROL-001.md` — P0/MUST architectural and GLC acceptance contract.
-3. CMake registration for `LanguageControlPage.qml`.
-4. Automatic unified release-projection reconciliation on the child branch.
+2. `qml/LanguageAwareAppShell.qml` — thin wrapper over the existing `AppShell` that exposes Language Control as a right-side drawer.
+3. `docs/FA3-GUI-LANGUAGE-CONTROL-001.md` — P0/MUST architectural and GLC acceptance contract.
+4. CMake registration for both Language Control QML components.
+5. `src/main.cpp` launches `LanguageAwareAppShell.qml`.
+6. Unified release-projection reconciliation remains automatic through repository automation.
 
-## Integration intent
+## GUI access
 
-Expose this page from FA3 Control Center without creating new authority. Recommended placement is adjacent to Model Manager or as a first-class Language Control entry because it projects model-language capability and mediation state.
+Language Control is reachable directly from the running FA3 Control Center through:
 
-Do **not** merge the concept into the existing static `Language & Region` locale settings. Static GUI i18n and runtime Language Bridge mediation have different authority and policy boundaries.
+- the floating `文/A` launcher button;
+- application shortcut `Ctrl+Shift+L`;
+- the right-side native drawer.
+
+This integration deliberately avoids rewriting the large `AppShell.qml`, reducing merge risk with the ongoing GUI workstream. The GUI workstream may later promote the drawer to a first-class sidebar navigation entry without changing the authority contract.
+
+## Architectural boundary
+
+Do **not** merge runtime mediation into the static `Language & Region` locale settings. Static GUI i18n and runtime Language Bridge mediation are separate concerns.
+
+The GUI contributes:
+
+- authority: **0**
+- capability-count change: **0**
+- provider mandate: **none**
+
+The GUI must not become translation, model-routing, policy, evidence, or promotion authority.
 
 ## Backend bindings
 
@@ -43,7 +64,7 @@ speechRoute
 
 `mediationRequired` is meaningful only when `mediationStateKnown=true`. `cloudEffective` is meaningful only after an effective backend policy result. Missing runtime state remains `UNKNOWN/PENDING_BACKEND`.
 
-User preferences are already expressed through the existing `SettingsStore` surface:
+User preferences remain persisted through the existing `SettingsStore` surface:
 
 ```text
 userLanguage
@@ -56,52 +77,34 @@ validationMode
 viewMode
 ```
 
-## Invariants
+## Mandatory invariants
 
-- Capability count is unchanged by this GUI projection.
-- Architectural authority contribution is zero.
 - Native and mediated model-language capability remain separate.
 - Missing backend state never becomes PASS/ALLOWED/NO by inference.
 - GUI intent cannot bypass backend policy.
 - `SECRET` external translation is denied by contract.
 - Original source remains authoritative; translation remains derived.
 - Provider neutrality is mandatory.
+- Static GUI localization does not substitute for runtime mediation.
+- Runtime-derived values stay fail-closed until a real adapter supplies them.
 
-## Navigation integration
+## Acceptance contract
 
-When the parent GUI workstream reconciles this child PR, add a navigation key such as `languageControl` to `AppShell.qml` and instantiate `LanguageControlPage` at the matching `StackLayout` index.
+Verify before claiming GUI implementation PASS for a new head:
 
-```qml
-LanguageControlPage {
-    settings: fa3Settings
-    surface1: window.surface1
-    surface2: window.surface2
-    textPrimary: window.textPrimary
-    textMuted: window.textMuted
-    accent: window.accent
-    uiScale: window.uiScale
-    fontScale: window.fontScale
-    language: fa3Settings.language
-}
-```
-
-Do not bind runtime-derived properties to placeholders other than the component's fail-closed defaults until real adapters exist.
-
-## Acceptance before parent reconciliation
-
-Verify:
-
-- QML/CMake build for `fa3-control-center`;
-- `GLC-001` through `GLC-010`;
-- User, Expert and Admin views;
+- `FA3 GUI Gate` static-contract job passes;
+- GUI canonical regression passes;
+- GUI unit regression passes;
+- Qt configure/build passes;
+- `GLC-001` through `GLC-010` remain satisfied;
 - unbound mediation state displays `UNKNOWN`, not `NO`;
 - `SECRET + cloudRequested` never appears effective/allowed;
-- no regression to PR #144 Settings/Mentor/Coach/Manager/Inspector surfaces;
+- no regression to Settings/Mentor/Coach/Manager/Inspector/Assistant surfaces;
 - no capability-count or authority-count drift;
-- unified release projection contains the current LanguageControlPage blob.
+- unified release projection contains the current Language Control blobs.
 
-## Current evidence boundary
+## Runtime evidence boundary
 
-An earlier child-head state passed the `FA3 GUI Gate`. After the explicit fail-closed mediation-state correction, the release projection was automatically reconciled, but the newest GUI Gate invocation may require an external/manual workflow action. Do not claim production GUI PASS for the newest head until a successful gate run exists.
+A successful Qt/static GUI build proves the GUI implementation and contract shape only. It does **not** prove a production Language Bridge backend. Backend-derived fields remain `UNKNOWN/PENDING_BACKEND` until real local/online translation adapters, policy routing, semantic validation, speech routing, and Evidence Registry integration are materialized and evidenced.
 
-This child PR and this handoff are the repository-visible source for the separate **FA3 GUI készítése** conversation/workstream.
+This file and PR #144 are the repository-visible handoff source for the separate **FA3 GUI készítése** conversation/workstream.
