@@ -1,0 +1,94 @@
+{
+  "schema": "fa3.current-host-143-audit-reference.v2",
+  "id": "FA3-EVID-CURRENT-HOST-143-AUDIT-2026-09-12",
+  "date": "2026-09-12",
+  "source_main_commit": "e18ae8bc7c22f76a519d174a996744955b3f3a08",
+  "scope": "143-capability Current-Host Evidence Closure + 19-point Acceptance Reconciliation",
+  "truth_status": "VERIFIED_FAIL_CLOSED_BASELINE",
+  "canonical_invariants": {
+    "capability_count": 143,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "document_only_promotion_forbidden": true
+  },
+  "permanent_enforcement": {
+    "workflow_run_id": 34699831162,
+    "workflow_run_number": 727,
+    "head_sha": "e18ae8bc7c22f76a519d174a996744955b3f3a08",
+    "conclusion": "success",
+    "runner_class": "GITHUB_HOSTED_UBUNTU_24_04",
+    "semantics": "STATIC_CANONICAL_AND_FAIL_CLOSED_PROMOTION_SAFETY_PASS_NOT_CURRENT_HOST_RUNTIME_PASS",
+    "promotion_artifact": {
+      "name": "fa3-promotion-reports",
+      "artifact_id": 10299592921,
+      "sha256": "cc1b9cfb17f61622eb208e73d7435b9747614a8e375dab11434646cceb43f5e7"
+    }
+  },
+  "runtime_gate": {
+    "result": "FAIL",
+    "evidence_records": 143,
+    "pass_count": 0,
+    "pending_count": 143,
+    "blocking_code": "FA3-RUNTIME-003"
+  },
+  "acceptance_gate": {
+    "status": "DENIED",
+    "decision": "DENY",
+    "criteria_passed": 3,
+    "criteria_total": 19,
+    "static_gate": "PASS",
+    "runtime_gate": "FAIL",
+    "terax_gate": "FAIL",
+    "missing_receipts": [
+      "host-fingerprint.json",
+      "source-exclusion-receipt.json",
+      "provider-runtime-plans.json",
+      "host-budget-acceptance.json",
+      "survival-plane-acceptance.json",
+      "w3-local-inference.json",
+      "creative-golden-paths.json",
+      "rnnoise-current-host.json",
+      "openviking-current-host.json",
+      "ace-step-current-host.json",
+      "memory-hugepages-current-host.json",
+      "conversational-nle-current-host.json",
+      "conditional-provider-disposition.json",
+      "privileged-action-coverage.json",
+      "rollback-expiry-drill.json",
+      "release-integrity.json",
+      "independent-review.json",
+      "human-promotion-receipt.json"
+    ]
+  },
+  "terax_current_host": {
+    "result": "FAIL",
+    "reference_gate": "PASS",
+    "regression_cases_passed": 17,
+    "regression_cases_total": 17,
+    "blocking_code": "TERAX-HOST-001",
+    "blocking_reason": "Missing current-host Terax receipt"
+  },
+  "promotion": {
+    "target_state": "PROMOTED",
+    "actual_state": "PROMOTION_BLOCKED",
+    "promotion_allowed": false,
+    "acceptance": "DENIED"
+  },
+  "workflow_dispatch_history": {
+    "repository_dispatch_runs_observed": 0,
+    "interpretation": "NO_REAL_GLOBAL_CURRENT_HOST_DISPATCH_HAS_EXECUTED_FOR_THIS REPOSITORY BASELINE"
+  },
+  "component_scope_reference_evidence": {
+    "path": "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
+    "status": "CURRENT_HOST_PRODUCTION_E2E_PASS_SECURITY_REGRESSION_PASS_EVIDENCE_REGISTRY_PASS_PROMOTION_ELIGIBLE",
+    "global_promotion_claim": false,
+    "interpretation": "VALID_COMPONENT_SCOPE_EVIDENCE_NOT_GLOBAL_143_CAPABILITY_PROMOTION"
+  },
+  "closure_implementation": {
+    "auditor": "src/fa3_current_host_evidence_audit.py",
+    "tests": "tests/test_current_host_evidence_audit.py",
+    "workflow": ".github/workflows/fa3-global-current-host-closure.yml",
+    "qualified_receipt_path_pattern": "evidence/receipts/capabilities/CAP-NNN.json",
+    "reconciliation_rule": "ONLY_HASH_BOUND_NON_SYNTHETIC_CURRENT_HOST_RECEIPTS_WITH_POSITIVE_NEGATIVE_ROLLBACK_TESTS_MAY_PROMOTE_A_CAPABILITY"
+  }
+}
