@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-CIVITAI-001",
+  "name": "CivitAI Model Discovery and Staged Acquisition Source Provider",
+  "version": "1.0.0",
+  "status": "ACCEPTED_SPECIALIZED_MODEL_SOURCE_PROVIDER",
+  "priority": "P1",
+  "requirement": "RECOMMENDED_OPTIONAL_PROVIDER",
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "provider_role": "REMOTE_MODEL_DISCOVERY_METADATA_AND_ACQUISITION_SOURCE",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "artifact_trust_authority": false,
+  "model_registry_authority": false,
+  "secrets_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream_reference": {
+    "repository": "civitai/civitai-developer-docs",
+    "branch": "main",
+    "commit": "1279af65561ab47599c6854401662a28fde6491d",
+    "observed_at": "2026-09-13"
+  },
+  "api": {
+    "base_url": "https://civitai.com/api/v1",
+    "model_list": "GET /models",
+    "model_get": "GET /models/{id}",
+    "model_version": "GET /model-versions/{id}",
+    "model_version_by_hash": "GET /model-versions/by-hash/{hash}",
+    "auth": "BEARER_HEADER_VIA_FA3_SECRET_BROKER_WHEN_REQUIRED",
+    "query_token": "FORBIDDEN_BY_FA3_POLICY"
+  },
+  "resource_metadata": {
+    "sha256_path": "modelVersions[].files[].hashes.SHA256",
+    "download_url_path": "modelVersions[].files[].downloadUrl",
+    "format_path": "modelVersions[].files[].metadata.format",
+    "provider_scan_metadata": ["pickleScanResult", "virusScanResult"],
+    "provider_scan_is_fa3_security_admission": false,
+    "air_identifier": "ATTRIBUTED_PROVIDER_IDENTIFIER_NOT_FA3_CANONICAL_ARTIFACT_IDENTITY"
+  },
+  "credential_binding": {
+    "profile_id": "FA3-TOKEN-GOVERNANCE-001",
+    "secret_broker_id": "FA3-SECRET-BROKER-001",
+    "provider_secret_key": "civitai",
+    "kwallet_required": false,
+    "embedded_web_dom_token_injection": "FORBIDDEN",
+    "url_query_token": "FORBIDDEN"
+  },
+  "acquisition_policy": {
+    "public_catalog_anonymous_access": "ALLOWED_WHEN_UPSTREAM_SUPPORTS_IT",
+    "authenticated_download": "SECRET_BROKER_BEARER_HEADER",
+    "destination": "FA3_MODEL_STAGING",
+    "direct_runtime_directory_write": "FORBIDDEN",
+    "provider_sha256_required_when_file_is_selected": true,
+    "checksum_mismatch": "DELETE_PARTIAL_AND_BLOCK_IMPORT",
+    "license_or_usage_terms": "REVIEW_REQUIRED_BEFORE_PROMOTION",
+    "dangerous_serialization": "MODEL_ARTIFACT_SECURITY_ADMISSION_REQUIRED",
+    "runtime_compatibility": "UNKNOWN_UNTIL_EXECUTABLE_EVIDENCE",
+    "production_promotion": "REQUIRES_MODEL_ARTIFACT_SECURITY_AND_RUNTIME_EVIDENCE"
+  },
+  "gui_projection": {
+    "native_catalog": true,
+    "surface": "Model Manager / Sources / CivitAI",
+    "embedded_website_optional": true,
+    "external_browser_default": false,
+    "actions": ["search", "inspect", "select_version", "select_file", "queue_staged_acquisition"]
+  }
+}
