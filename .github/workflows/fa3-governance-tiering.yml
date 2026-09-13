@@ -52,7 +52,7 @@ jobs:
       - name: Syntax check
         run: python -m py_compile src/fa3_governance_tiering_gate.py tests/test_governance_tiering_gate.py
       - name: Projection regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_governance_tiering_gate -v
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_tiering_gate.py' -v
       - name: Validate zero-authority governance projection
         run: PYTHONPATH=src python src/fa3_governance_tiering_gate.py --root .
       - name: Upload projection report
