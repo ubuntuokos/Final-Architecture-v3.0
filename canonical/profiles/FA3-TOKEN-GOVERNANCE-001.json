@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-TOKEN-GOVERNANCE-001",
+  "name": "Unified Token, Credential Reference, Budget and Observability Governance Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_SECURITY_AND_USAGE_GOVERNANCE_OVERLAY",
+  "relationship": {"type": "CROSS-CUTTING-OVERLAY", "parent": "FA3-REGISTRY-001"},
+  "subprofiles": ["FA3-SECRET-BROKER-001", "FA3-AI-TOKEN-BUDGET-001", "FA3-TOKEN-OBSERVABILITY-001"],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "authority": {
+    "secret_custody": "EXISTING_FA3_SECRETS_AUTHORITY_AND_CONFIGURED_BACKEND_ONLY",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "gui": "PROJECTION_AND_INTENT_ONLY"
+  },
+  "scope": [
+    "API tokens and personal access tokens",
+    "provider credentials and credential references",
+    "short-lived session credentials",
+    "AI request token budgets and limits",
+    "token usage accounting without secret-value emission",
+    "provider-neutral credential backend selection"
+  ],
+  "secret_value_policy": {
+    "qsettings": "FORBIDDEN",
+    "repository_config": "FORBIDDEN",
+    "logs": "FORBIDDEN",
+    "telemetry": "FORBIDDEN",
+    "evidence": "FORBIDDEN",
+    "exports": "FORBIDDEN",
+    "urls_or_query_parameters": "FORBIDDEN_WHEN_HEADER_OR_CREDENTIAL_CHANNEL_EXISTS",
+    "embedded_web_dom_injection": "FORBIDDEN",
+    "in_memory_use": "BOUNDED_TO_REQUEST_EXECUTION"
+  },
+  "backend_policy": {
+    "provider_neutral": true,
+    "kwallet": "OPTIONAL_NOT_REQUIRED",
+    "freedesktop_secret_service_or_os_keychain": "OPTIONAL_SUPPORTED_BACKEND",
+    "systemd_credentials": "SUPPORTED_REFERENCE_BACKEND",
+    "environment_reference": "SUPPORTED_REFERENCE_BACKEND_FOR_OPERATOR_MANAGED_RUNTIME",
+    "external_secret_provider": "SUPPORTED_TYPED_SECRETREF_BACKEND",
+    "openbao": "OPTIONAL_REPLACEABLE_PROVIDER_NOT_CANONICAL_AUTHORITY",
+    "plaintext_fallback": "FORBIDDEN"
+  },
+  "invariants": [
+    "SECRET_VALUE_NEVER_STORED_IN_QSETTINGS",
+    "SECRET_VALUE_NEVER_COMMITTED_TO_REPOSITORY",
+    "SECRET_VALUE_NEVER_EMITTED_TO_LOG_TELEMETRY_EVIDENCE_OR_EXPORT",
+    "CREDENTIAL_REFERENCE_IS_NOT_SECRET_VALUE",
+    "KWALLET_IS_OPTIONAL_AND_MUST_NEVER_BE_A_HARD_DEPENDENCY",
+    "SECRET_BACKEND_IS_REPLACEABLE_AND_NOT_ARCHITECTURAL_AUTHORITY",
+    "EMBEDDED_WEB_UI_MUST_NOT_RECEIVE_PROVIDER_TOKEN_BY_DOM_INJECTION",
+    "AI_TOKEN_BUDGET_IS_DISTINCT_FROM_SECRET_CREDENTIAL_TOKEN",
+    "TOKEN_USAGE_OBSERVABILITY_MUST_BE_VALUE_REDACTED",
+    "GUI_CANNOT_GRANT_PROVIDER_OR_SECURITY_AUTHORITY",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ],
+  "implementation_status": "CANONICAL_MATERIALIZED_REFERENCE_GUI_AND_BACKEND_ADAPTER_PENDING_CURRENT_HOST_EVIDENCE"
+}
