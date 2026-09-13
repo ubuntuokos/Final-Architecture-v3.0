@@ -1,0 +1,48 @@
+name: FA3 GUI One-shot Reconciliation
+
+on:
+  push:
+    branches:
+      - fa3-gui-visual-shell-v2
+    paths:
+      - '.github/workflows/fa3-gui-reconcile-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore Journal navigation contract token
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('apps/fa3-control-center/qml/Main.qml')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('labelText', 'label')
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove one-shot workflow before projection regeneration
+        run: rm -f .github/workflows/fa3-gui-reconcile-once.yml
+
+      - name: Regenerate unified release projection
+        run: PYTHONPATH=. python src/fa3_release_projection_regenerate.py
+
+      - name: Commit reconciled projection
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No reconciliation changes required.'
+            exit 0
+          fi
+          git commit -m 'FA3 GUI: reconcile journal contract and release projection'
+          git push origin HEAD:fa3-gui-visual-shell-v2
