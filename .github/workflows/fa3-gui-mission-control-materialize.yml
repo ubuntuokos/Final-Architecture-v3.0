@@ -31,10 +31,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize mission-control model hub
+      - name: Materialize mission-control model hub when absent
+        shell: bash
         run: |
-          python tools/fa3_gui_mission_control_materialize.py
-          python tools/fa3_gui_mission_control_gate_patch.py
+          if [[ -f apps/fa3-control-center/qml/MissionControlAppShell.qml \
+             && -f apps/fa3-control-center/qml/ModelManagerHubPage.qml \
+             && -f canonical/decisions/FA3-DEC-GUI-MISSION-CONTROL-MODEL-HUB-2026-09-13.json ]] \
+             && grep -q 'FA3-PROVIDER-OPENHERO-001' apps/fa3-control-center/qml/AppShell.qml; then
+            echo "Mission-control source state is already materialized; skipping generator."
+          else
+            python tools/fa3_gui_mission_control_materialize.py
+            python tools/fa3_gui_mission_control_gate_patch.py
+          fi
       - name: Finalize Qt 6.4 mission-control QML
         run: PYTHONPATH=. python tools/fa3_gui_mission_control_qt64_finalize.py
       - name: Run GUI static regression gates
