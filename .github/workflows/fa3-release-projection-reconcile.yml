@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: fa3-release-projection-reconcile-${{ github.ref }}
@@ -36,10 +37,12 @@ jobs:
           PYTHONPATH=src python -m unittest discover -s tests -v
           ./bin/fa3-enforce release-projection
       - name: Commit reconciled projection when changed
+        id: commit_projection
         shell: bash
         run: |
           if git diff --quiet -- canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json; then
             echo "Release projection already reconciled."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -47,3 +50,14 @@ jobs:
           git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
           git commit -m "FA3: reconcile unified release projection [projection]"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "reconciled_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Dispatch required gates on reconciled head
+        if: steps.commit_projection.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          echo "Dispatching required gates for ${GITHUB_REF_NAME} at ${{ steps.commit_projection.outputs.reconciled_sha }}"
+          gh workflow run fa3-permanent-enforcement.yml --ref "${GITHUB_REF_NAME}"
+          gh workflow run fa3-gui-gate.yml --ref "${GITHUB_REF_NAME}"
