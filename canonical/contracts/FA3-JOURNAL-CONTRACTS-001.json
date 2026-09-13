@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-JOURNAL-CONTRACTS-001",
+  "name": "Unified Journal and Archive Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile_ids": ["FA3-JOURNAL-001", "FA3-JOURNAL-ARCHIVE-001"],
+  "contracts": {
+    "event": {
+      "schema": "fa3.journal-event.v1",
+      "required": ["id", "timestamp", "domain", "source", "lifecycle", "summary", "integrity"],
+      "optional": ["project_id", "conversation_id", "agent_id", "component_id", "provider_id", "details", "tags", "correlation_id", "evidence", "artifacts"],
+      "integrity_default": "APPEND_ONLY"
+    },
+    "archive": {
+      "schema": "fa3.journal-archive.v1",
+      "required": ["id", "status", "created_at", "reason", "event_count", "digest_algorithm", "payload_sha256", "events"],
+      "digest_algorithm": "SHA-256",
+      "sealed_status": "SEALED",
+      "restore_requires_integrity_pass": true
+    },
+    "delete": {
+      "event_delete": "TOMBSTONE",
+      "archive_delete": "RETENTION_TRASH",
+      "physical_purge": "POLICY_OR_ADMIN_ONLY",
+      "evidence_retention_override": true
+    },
+    "export": {
+      "reference_formats": ["MARKDOWN", "JSON", "HTML"],
+      "portable_future_formats": ["PDF", "CSV", "ZIP_EVIDENCE_BUNDLE"],
+      "secret_redaction_required_before_external_share": true
+    },
+    "share": {
+      "email": "TYPED_DESKTOP_ADAPTER_OR_EXPORT_BUNDLE",
+      "chat": "CONFIGURED_PROVIDER_ADAPTER_OR_EXPORT_BUNDLE",
+      "provider_specific_authority_forbidden": true
+    },
+    "project_lifecycle": {
+      "primary": ["PROPOSED", "EVALUATING", "APPROVED", "PLANNED", "IMPLEMENTING", "VALIDATING", "ACTIVE", "COMPLETED", "ARCHIVED"],
+      "side": ["BLOCKED", "REJECTED", "DEPRECATED", "SUPERSEDED", "FAILED"]
+    }
+  },
+  "fail_closed_rules": [
+    "MALFORMED_EVENT_REJECT_OR_SKIP_WITH_AUDIT",
+    "MALFORMED_ARCHIVE_RESTORE_FORBIDDEN",
+    "DIGEST_MISMATCH_RESTORE_FORBIDDEN",
+    "DIRECT_GUI_PURGE_FORBIDDEN",
+    "ARCHIVE_PASS_CANNOT_PROMOTE_RUNTIME",
+    "COMMUNICATION_ADAPTER_ABSENCE_MUST_FALL_BACK_TO_EXPLICIT_EXPORT_BUNDLE"
+  ]
+}
