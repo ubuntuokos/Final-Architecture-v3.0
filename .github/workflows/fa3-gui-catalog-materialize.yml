@@ -45,20 +45,30 @@ jobs:
         run: cmake -S apps/fa3-control-center -B build/fa3-control-center -GNinja -DCMAKE_BUILD_TYPE=Release
       - name: Build Qt reference application
         run: cmake --build build/fa3-control-center --parallel
+      - name: Commit materialized source state locally
+        shell: bash
+        run: |
+          rm -rf build
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical apps src tests .github/workflows/fa3-gui-gate.yml
+          if git diff --cached --quiet; then
+            echo "Materialized source state already committed."
+          else
+            git commit -m "FA3 GUI: materialize search starter CivitAI OpenModelDB [gui-materialized]"
+          fi
       - name: Reconcile and validate unified release projection
         run: |
           python scripts/fa3_reconcile_release_projection.py --root .
           chmod +x bin/fa3-enforce
           ./bin/fa3-enforce release-projection
-      - name: Commit materialized integration
+      - name: Commit reconciled projection and push
         shell: bash
         run: |
-          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
-            echo "Already materialized."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add canonical apps src tests .github/workflows/fa3-gui-gate.yml
-          git commit -m "FA3 GUI: materialize search starter CivitAI OpenModelDB [gui-materialized]"
+          if ! git diff --quiet -- canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json; then
+            git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+            git commit -m "FA3: reconcile GUI catalog projection [projection]"
+          fi
           git push origin "HEAD:${GITHUB_REF_NAME}"
