@@ -26,6 +26,7 @@ set_source_files_properties(qml/CoachPage.qml PROPERTIES QT_RESOURCE_ALIAS Coach
 set_source_files_properties(qml/ManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ManagerPage.qml)
 set_source_files_properties(qml/ModelManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelManagerPage.qml)
 set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_ALIAS LanguageControlPage.qml)
+set_source_files_properties(qml/AnimationIntegrationPanel.qml PROPERTIES QT_RESOURCE_ALIAS AnimationIntegrationPanel.qml)
 set_source_files_properties(qml/SystemPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemPage.qml)
 set_source_files_properties(qml/EmbeddedAppsPage.qml PROPERTIES QT_RESOURCE_ALIAS EmbeddedAppsPage.qml)
 
@@ -43,6 +44,7 @@ qt_add_qml_module(fa3-control-center
         qml/ManagerPage.qml
         qml/ModelManagerPage.qml
         qml/LanguageControlPage.qml
+        qml/AnimationIntegrationPanel.qml
         qml/SystemPage.qml
         qml/EmbeddedAppsPage.qml
 )
