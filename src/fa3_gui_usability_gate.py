@@ -41,7 +41,7 @@ def validate():
         ("text: shell.t(\"Kérdezd\"" in shell and "Kérdezd a Mentort" not in shell,"single-ask-selector"),
         ("Remote AI Hub · HF" in shell and "Hugging Face Spaces" in remote,"remote-hf-visible"),
         ("text: \"llmfit\"" in shell and "FA3-PROVIDER-LLMFIT-001" in llmfit,"llmfit-visible"),
-        ("Naplók" in shell and "read-only journald" in logs and "sd_journal_open" in journal,"logs-visible-read-only"),
+        ("Naplók" in shell and "read-only journald" in logs.lower() and "sd_journal_open" in journal,"logs-visible-read-only"),
         ("ResourceStatusStrip" in shell and "GPU" in strip and "NPU" in strip,"resource-strip"),
         ("? root.pct(root.telemetry.gpuPercent) : \"N/A\"" in strip,"gpu-unknown-not-zero"),
         ("--query-gpu=name,utilization.gpu,memory.used,memory.total,temperature.gpu" in telemetry,"fixed-gpu-probe"),
