@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
     engine.rootContext()->setContextProperty("fa3Settings", &settings);
-    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/LanguageAwareAppShell.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/AnimationAwareAppShell.qml")));
 
     if (engine.rootObjects().isEmpty()) {
         return 2;
