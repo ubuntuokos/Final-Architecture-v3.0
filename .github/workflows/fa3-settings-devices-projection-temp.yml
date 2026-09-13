@@ -1,0 +1,37 @@
+name: FA3 temporary settings projection regeneration
+
+on:
+  push:
+    branches:
+      - fa3-gui-settings-devices-shortcuts-v1
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-settings-devices-shortcuts-v1
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Regenerate deterministic release projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp_workflow=".github/workflows/fa3-settings-devices-projection-temp.yml"
+          saved="/tmp/fa3-settings-devices-projection-temp.yml"
+          mv "$temp_workflow" "$saved"
+          python src/fa3_release_projection_regenerate.py
+          mv "$saved" "$temp_workflow"
+          git config user.name "fa3-gui-settings"
+          git config user.email "fa3-gui-settings@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if git diff --cached --quiet; then
+            echo "release projection already current"
+            exit 0
+          fi
+          git commit -m "FA3 release projection: reconcile settings device gate correction"
+          git push origin HEAD:fa3-gui-settings-devices-shortcuts-v1
