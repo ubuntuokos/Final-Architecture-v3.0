@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d30db67e40da837f78d6b7b5d7203899207ed278",
-    "pre_projection_root_tree_sha": "2e2da7d794d6c638ef718695148e9cac51c0e002",
-    "pre_projection_canonical_tree_sha": "04db41af1773b7f9b139822f79663ba381d02c73",
-    "commits_ahead_of_v3_0_11_conformance_commit": 188,
-    "total_post_baseline_commits": 188,
-    "delta_file_count": 1057,
-    "delta_added_files": 1052,
+    "pre_projection_head_sha": "5e081a4eff6b6bf7dba39b24a096b848e7ef4614",
+    "pre_projection_root_tree_sha": "17e00ecfc5df075d7aebd213387baffb8341ffd7",
+    "pre_projection_canonical_tree_sha": "654ff798221013ba8c732ac2e9aa83461a562d48",
+    "commits_ahead_of_v3_0_11_conformance_commit": 190,
+    "total_post_baseline_commits": 190,
+    "delta_file_count": 1058,
+    "delta_added_files": 1053,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -696,7 +696,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1057,
+  "manifest_entry_count": 1058,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -911,6 +911,11 @@
     {
       "path": "apps/fa3-control-center/src/Fa3RepositoryModel.h",
       "git_blob_sha": "8f7992acb5f04459f950de7d4266e28cbae6bab2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/ResourceTelemetry.h",
+      "git_blob_sha": "d092ed2d3113d969ba97c2a8501859a7e2b47708",
       "baseline_delta_status": "added"
     },
     {
