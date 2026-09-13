@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-TOKEN-GOVERNANCE-CONTRACTS-001",
+  "name": "Token Governance, SecretRef and Budget Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile_ids": ["FA3-TOKEN-GOVERNANCE-001", "FA3-SECRET-BROKER-001", "FA3-AI-TOKEN-BUDGET-001", "FA3-TOKEN-OBSERVABILITY-001"],
+  "contracts": {
+    "CredentialReference": {
+      "required": ["provider_id", "backend", "reference_id"],
+      "optional": ["account_label", "scope", "expires_at", "last_validated_at"],
+      "secret_value_field_allowed": false
+    },
+    "SecretWriteIntent": {
+      "required": ["provider_id", "backend"],
+      "secret_value_transport": "EPHEMERAL_MEMORY_TO_CREDENTIAL_BACKEND_ONLY",
+      "qsettings_allowed": false,
+      "repository_allowed": false
+    },
+    "AiTokenBudget": {
+      "required": ["scope", "limit_type", "limit"],
+      "limit_types": ["INPUT", "OUTPUT", "TOTAL", "CONTEXT", "SESSION"],
+      "credential_semantics": false
+    },
+    "TokenUsageReceipt": {
+      "required": ["provider_id", "correlation_id"],
+      "optional": ["input_tokens", "output_tokens", "total_tokens", "budget_remaining"],
+      "secret_fields_forbidden": true
+    }
+  },
+  "backend_contract": {
+    "required_semantics": ["STORE_OR_REFERENCE", "READ_FOR_BOUNDED_EXECUTION", "DELETE_OR_REVOKE_REFERENCE", "STATUS_WITHOUT_VALUE"],
+    "kwallet_required": false,
+    "backend_must_be_replaceable": true,
+    "plaintext_fallback_allowed": false
+  },
+  "fail_closed": [
+    "NO_SECRET_BACKEND_FOR_AUTH_REQUIRED_OPERATION",
+    "SECRET_VALUE_IN_SETTINGS_OR_REPOSITORY",
+    "SECRET_VALUE_IN_LOG_TELEMETRY_EVIDENCE_EXPORT",
+    "SECRET_VALUE_IN_URL_QUERY_OR_WEB_DOM",
+    "UNREDACTED_AUTH_FAILURE",
+    "BUDGET_OVERRIDE_BYPASSES_ROUTER_OR_RESOURCE_ADMISSION"
+  ]
+}
