@@ -21,8 +21,24 @@ ApplicationWindow {
     property url webWorkspaceUrl: "about:blank"
     property string webWorkspaceTitle: "Web Workspace"
     property bool llmFitExpanded: false
-    property bool compactNavigation: false
-    property bool statusStripVisible: true
+    property bool compactNavigation: Boolean(fa3Preferences.value("appearance/compactNavigation", false))
+    property bool statusStripVisible: Boolean(fa3Preferences.value("appearance/statusStripVisible", true))
+    property string colorTheme: String(fa3Preferences.value("appearance/colorTheme", "Blue"))
+    property string navigationPosition: String(fa3Preferences.value("appearance/navigationBarPosition", "Left"))
+    property string shortcutDashboard: String(fa3Preferences.value("shortcuts/dashboard", "Ctrl+1"))
+    property string shortcutProjects: String(fa3Preferences.value("shortcuts/projects", "Ctrl+2"))
+    property string shortcutAiStudio: String(fa3Preferences.value("shortcuts/aiStudio", "Ctrl+3"))
+    property string shortcutSearch: String(fa3Preferences.value("shortcuts/search", "Ctrl+K"))
+    property string shortcutSettings: String(fa3Preferences.value("shortcuts/settings", "Ctrl+,"))
+    property string shortcutToggleStatus: String(fa3Preferences.value("shortcuts/toggleStatus", "Ctrl+Shift+S"))
+
+    function accentForTheme(name) {
+        if (name === "Cyan") return "#22d3ee"
+        if (name === "Green") return "#35e0a1"
+        if (name === "Magenta") return "#b778ff"
+        if (name === "Amber") return "#f0b14a"
+        return "#25a7ff"
+    }
 
     function openInternalWeb(targetUrl, titleText) {
         webWorkspaceUrl = targetUrl
@@ -64,7 +80,14 @@ ApplicationWindow {
         {title: "Hálózat", detail: "Lokális szolgáltatások és egress policy", category: "SETTING", pageIndex: 15},
         {title: "Biztonság", detail: "Security policy és approval beállítások", category: "SETTING", pageIndex: 15},
         {title: "Frissítések", detail: "FA3 komponens- és provider-frissítések", category: "SETTING", pageIndex: 15},
-        {title: "Naplózás", detail: "Retention, export és archive preferenciák", category: "SETTING", pageIndex: 15}
+        {title: "Naplózás", detail: "Retention, export és archive preferenciák", category: "SETTING", pageIndex: 15},
+        {title: "Appearance", detail: "Színes téma és Navigation Bar position", category: "SETTING", pageIndex: 15},
+        {title: "Chat Style", detail: "Chat nézet, tipográfia és message-flow", category: "SETTING", pageIndex: 15},
+        {title: "Reasoning", detail: "Reasoning blokk megjelenítési preferenciák", category: "SETTING", pageIndex: 15},
+        {title: "Gyorsbillentyűk", detail: "FA3 Control Center shortcut beállítások", category: "SETTING", pageIndex: 15},
+        {title: "CPU GPU NPU DGX", detail: "Compute és accelerator policy", category: "SETTING", pageIndex: 15},
+        {title: "Webkamera Nyomtató Scanner", detail: "Periféria felderítés és adapter policy", category: "SETTING", pageIndex: 15},
+        {title: "MIDI GIMP Ardour", detail: "MIDI és control-surface mapping", category: "SETTING", pageIndex: 15}
     ]
 
     property var rtdProviderCategories: [
@@ -172,13 +195,36 @@ ApplicationWindow {
     property color panelRaised: "#0f2035"
     property color border: "#1d3550"
     property color borderSoft: "#14283e"
-    property color accent: "#25a7ff"
+    property color accent: accentForTheme(window.colorTheme)
     property color cyan: "#22d3ee"
     property color green: "#35e0a1"
     property color orange: "#f0b14a"
     property color magenta: "#b778ff"
     property color textPrimary: "#f5f8fc"
     property color textMuted: "#8397ad"
+
+    Connections {
+        target: fa3Preferences
+        function onPreferenceChanged(key, value) {
+            if (key === "appearance/colorTheme") window.colorTheme = String(value)
+            else if (key === "appearance/navigationBarPosition") window.navigationPosition = String(value)
+            else if (key === "appearance/compactNavigation") window.compactNavigation = Boolean(value)
+            else if (key === "appearance/statusStripVisible") window.statusStripVisible = Boolean(value)
+            else if (key === "shortcuts/dashboard") window.shortcutDashboard = String(value)
+            else if (key === "shortcuts/projects") window.shortcutProjects = String(value)
+            else if (key === "shortcuts/aiStudio") window.shortcutAiStudio = String(value)
+            else if (key === "shortcuts/search") window.shortcutSearch = String(value)
+            else if (key === "shortcuts/settings") window.shortcutSettings = String(value)
+            else if (key === "shortcuts/toggleStatus") window.shortcutToggleStatus = String(value)
+        }
+    }
+
+    Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 0 } }
+    Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 2 } }
+    Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 3 } }
+    Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 7 } }
+    Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 15 } }
+    Shortcut { sequence: window.shortcutToggleStatus; context: Qt.ApplicationShortcut; onActivated: { window.statusStripVisible = !window.statusStripVisible; fa3Preferences.setValue("appearance/statusStripVisible", window.statusStripVisible) } }
 
     component Panel: Rectangle {
         radius: 9
@@ -353,6 +399,8 @@ ApplicationWindow {
     RowLayout {
         anchors.fill: parent
         spacing: 0
+        LayoutMirroring.enabled: window.navigationPosition === "Right"
+        LayoutMirroring.childrenInherit: false
 
         Rectangle {
             Layout.preferredWidth: window.compactNavigation ? 190 : 224
@@ -983,8 +1031,8 @@ ApplicationWindow {
                     magenta: window.magenta
                     compactNavigation: window.compactNavigation
                     statusStripVisible: window.statusStripVisible
-                    onCompactNavigationRequested: function(enabled) { window.compactNavigation = enabled }
-                    onStatusStripRequested: function(enabled) { window.statusStripVisible = enabled }
+                    onCompactNavigationRequested: function(enabled) { window.compactNavigation = enabled; fa3Preferences.setValue("appearance/compactNavigation", enabled) }
+                    onStatusStripRequested: function(enabled) { window.statusStripVisible = enabled; fa3Preferences.setValue("appearance/statusStripVisible", enabled) }
                     onNavigateRequested: function(pageIndex) { window.selectedIndex = pageIndex }
                 }
 

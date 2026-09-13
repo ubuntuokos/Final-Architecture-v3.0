@@ -20,6 +20,8 @@ REQUIRED = {
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
+    "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
+    "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
@@ -81,6 +83,15 @@ def validate() -> list[str]:
     if "id: providerList" not in models_qml or "Layout.fillHeight: true" not in models_qml or "ScrollBar.AlwaysOn" not in models_qml: failures.append("qml-models-providers-responsive-scrollbar-missing")
     settings_qml = REQUIRED["settings_qml"].read_text(encoding="utf-8")
     if "compactNavigationRequested" not in settings_qml or "statusStripRequested" not in settings_qml or "ChangeSet-tervezet" not in settings_qml or "Security & Approvals megnyitása" not in settings_qml: failures.append("qml-system-settings-interaction-missing")
+    for token in ["Appearance", "Chat Style", "Reasoning", "Gyorsbillentyűk", "CPU", "GPU", "NPU", "DGX", "Webkamera", "Nyomtató", "Scanner", "MIDI", "GIMP", "Ardour", "Auto-latch onto generating message"]:
+        if token not in settings_qml: failures.append(f"qml-system-settings-surface-missing:{token}")
+    preference_cpp = REQUIRED["preference_store"].read_text(encoding="utf-8")
+    if "m_settings" not in preference_cpp or "normalizeShortcut" not in preference_cpp or "preferenceChanged" not in preference_cpp: failures.append("settings-preference-store-missing")
+    device_cpp = REQUIRED["device_model"].read_text(encoding="utf-8")
+    for token in ["QPrinterInfo", "/sys/class/accel", "video*", "/dev/snd", "DGX", "ADAPTER-GATED"]:
+        if token not in device_cpp: failures.append(f"settings-device-discovery-missing:{token}")
+    for token in ["accentForTheme", "navigationBarPosition", "Shortcut {", "fa3Preferences.setValue"]:
+        if token not in qml: failures.append(f"qml-persistent-settings-shell-missing:{token}")
     if "ModelsProvidersPage" not in qml or "AiStudioPage" not in qml or "SystemSettingsPage" not in qml: failures.append("qml-dedicated-page-wiring-missing")
 
     rtd_qml = REQUIRED["rtd_qml"].read_text(encoding="utf-8")
@@ -95,10 +106,11 @@ def validate() -> list[str]:
     if '"canonical_write_allowed", false' not in model_cpp: failures.append("backend-canonical-write-denial-missing")
     if "searchInstalledApplications" not in model_cpp or "scanApplications" not in model_cpp or "QSettings" not in model_cpp: failures.append("backend-installed-app-search-missing")
     for token in FORBIDDEN_BACKEND_TOKENS:
-        if token in model_cpp: failures.append(f"backend-forbidden-token:{token}")
+        if token in model_cpp or token in device_cpp or token in preference_cpp: failures.append(f"backend-forbidden-token:{token}")
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
+    if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
     desktop = REQUIRED["desktop"].read_text(encoding="utf-8")
     if "Exec=fa3-control-center" not in desktop: failures.append("desktop-entry-exec-missing")
     return failures

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 WebEngineQuick)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 WebEngineQuick PrintSupport)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -15,6 +15,10 @@ qt_add_executable(fa3-control-center
     src/Fa3RepositoryModel.h
     src/JournalService.cpp
     src/JournalService.h
+    src/PreferenceStore.cpp
+    src/PreferenceStore.h
+    src/SystemDeviceModel.cpp
+    src/SystemDeviceModel.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -46,6 +50,7 @@ target_link_libraries(fa3-control-center
         Qt6::Quick
         Qt6::QuickControls2
         Qt6::WebEngineQuick
+        Qt6::PrintSupport
 )
 
 install(TARGETS fa3-control-center

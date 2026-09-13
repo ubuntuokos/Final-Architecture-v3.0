@@ -1,5 +1,7 @@
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
+#include "PreferenceStore.h"
+#include "SystemDeviceModel.h"
 
 #include <QColor>
 #include <QGuiApplication>
@@ -37,10 +39,14 @@ int main(int argc, char *argv[])
 
     Fa3RepositoryModel repository;
     JournalService journal;
+    PreferenceStore preferences;
+    SystemDeviceModel devices;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
     engine.rootContext()->setContextProperty("fa3Journal", &journal);
+    engine.rootContext()->setContextProperty("fa3Preferences", &preferences);
+    engine.rootContext()->setContextProperty("fa3Devices", &devices);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
