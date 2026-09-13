@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.openmodeldb-browser-download-enforcement.v1",
+  "id": "FA3-OPENMODELDB-BROWSER-DOWNLOAD-001",
+  "provider_id": "FA3-PROVIDER-OPENMODELDB-001",
+  "parent_profile_id": "FA3-MODEL-MANAGER-001",
+  "decision_id": "FA3-DEC-OPENMODELDB-BROWSER-DOWNLOAD-2026-09-13",
+  "requirement": "P1_RECOMMENDED_NATIVE_GUI_PROJECTION",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "catalog": {
+    "api_endpoint": "https://www.openmodeldb.info/api/v1/models",
+    "website": "https://openmodeldb.info/",
+    "model_page_pattern": "https://openmodeldb.info/models/{id}",
+    "upstream_tag_fields": ["id", "name", "category", "color"],
+    "resource_fields": ["id", "name", "url", "urls", "sha256", "format", "platform", "architecture", "size"],
+    "tag_semantics": "DISPLAY_UPSTREAM_DISCOVERY_METADATA_WITHOUT_UPGRADING_TO_RUNTIME_EVIDENCE"
+  },
+  "gui": {
+    "surface": "Models & Providers",
+    "source_buttons": [
+      {
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/models",
+        "prominence": "NORMAL"
+      },
+      {
+        "label": "OpenModelDB",
+        "url": "https://openmodeldb.info/",
+        "prominence": "HIGHLIGHTED_ADJACENT_TO_HUGGING_FACE"
+      }
+    ],
+    "catalog_filters": ["search", "scale", "architecture", "platform", "tag"],
+    "detail_fields": ["author", "license", "description", "tags", "resources", "sha256"],
+    "download_queue": ["queued", "downloading", "progress", "cancel", "retry", "verified_staged"]
+  },
+  "download_pipeline": {
+    "pattern_source": "STABILITY_MATRIX_STYLE_CATALOG_RESOURCE_SELECTION_AND_PROGRESS_QUEUE",
+    "parallelism": 1,
+    "destination": "FA3_APP_LOCAL_MODEL_STAGING_OPENMODELDB",
+    "runtime_directory_write": "FORBIDDEN",
+    "https_only": true,
+    "sha256_required_before_transport": true,
+    "sha256_mismatch": "DELETE_PARTIAL_OR_STAGED_BYTES_AND_BLOCK_IMPORT",
+    "unknown_license": "ALLOW_STAGING_BUT_BLOCK_PROMOTION",
+    "dangerous_serialization": "ALLOW_VERIFIED_STAGING_BUT_REQUIRE_EXPLICIT_MODEL_ARTIFACT_SECURITY_ADMISSION",
+    "post_download_state": "VERIFIED_STAGED_AWAITING_SECURITY_ADMISSION",
+    "production_promotion": "REQUIRES_EXISTING_MODEL_ARTIFACT_SECURITY_AND_EXECUTABLE_RUNTIME_EVIDENCE"
+  },
+  "fail_closed_rules": [
+    "OPENMODELDB_TAGS_MUST_RETAIN_NAME_CATEGORY_AND_COLOR_WHEN_PRESENT",
+    "OPENMODELDB_TAGS_MUST_NOT_BE_TREATED_AS_RUNTIME_CONFORMANCE_EVIDENCE",
+    "OPENMODELDB_DOWNLOAD_MUST_USE_MEDIATED_STAGING_QUEUE",
+    "OPENMODELDB_DOWNLOAD_MUST_REQUIRE_PROVIDER_SHA256",
+    "OPENMODELDB_DOWNLOAD_MUST_NOT_WRITE_DIRECTLY_TO_RUNTIME_MODEL_DIRECTORIES",
+    "OPENMODELDB_UNKNOWN_LICENSE_MUST_BLOCK_PROMOTION",
+    "OPENMODELDB_DANGEROUS_SERIALIZATION_MUST_REQUIRE_SECURITY_ADMISSION",
+    "OPENMODELDB_SOURCE_BUTTON_MUST_BE_HIGHLIGHTED_NEXT_TO_HUGGING_FACE",
+    "OPENMODELDB_BROWSER_MUST_NOT_CREATE_NEW_MODEL_OR_SECURITY_AUTHORITY"
+  ]
+}
