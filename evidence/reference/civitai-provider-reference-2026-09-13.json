@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-CIVITAI-PROVIDER-REFERENCE-2026-09-13",
+  "date": "2026-09-13",
+  "provider_id": "FA3-PROVIDER-CIVITAI-001",
+  "gate_id": "FA3-GATE-CIVITAI-PROVIDER-001",
+  "status": "REFERENCE_MATERIALIZED_CI_PENDING",
+  "upstream_repository": "civitai/civitai-developer-docs",
+  "upstream_commit": "1279af65561ab47599c6854401662a28fde6491d",
+  "verified_reference_facts": [
+    "GET /api/v1/models is the model catalog endpoint",
+    "model version files expose SHA256 in hashes",
+    "download URLs are exposed per file/version",
+    "authenticated API calls support Authorization Bearer credentials",
+    "some provider resources require authentication"
+  ],
+  "claims": {
+    "canonical_provider_materialized": true,
+    "secret_broker_binding_materialized": true,
+    "current_host_authenticated_download_pass": false,
+    "current_host_staged_download_pass": false,
+    "production_admitted": false
+  },
+  "anti_claim": "Reference metadata and static conformance do not prove CivitAI current-host acquisition, Model Artifact Security admission or runtime compatibility."
+}
