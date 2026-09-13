@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GUI-DISCOVERY-BOOTSTRAP-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Add global Search, Starter Models and user-selectable visible areas to FA3 Control Center",
+  "decision": "ADD_PRIMARY_SEARCH_AND_STARTER_MODEL_SURFACES_PLUS_SETTINGS_AREA_VISIBILITY_AS_NON_AUTHORITATIVE_GUI_PROJECTIONS",
+  "profile_id": "FA3-GUI-DISCOVERY-BOOTSTRAP-001",
+  "starter_profile_id": "FA3-STARTER-MODELS-001",
+  "required_gui_changes": [
+    "ADD_SEARCH_PRIMARY_MENU",
+    "SEARCH_SCOPE_SERVICE_PROJECT_CONVERSATION",
+    "ADD_STARTER_MODELS_PRIMARY_MENU",
+    "ADD_SETTINGS_VISIBLE_AREAS",
+    "KEEP_COMMAND_SEARCH_SETTINGS_REACHABLE",
+    "MODEL_MANAGER_SOURCE_SURFACES_CIVITAI_OPENMODELDB_HUGGING_FACE"
+  ],
+  "boundaries": [
+    "Search is read-only and does not become a new index/canonical authority.",
+    "Conversation search uses the FA3 Unified Journal conversation projection and must not treat systemd journald as conversation history.",
+    "Area visibility changes only local GUI visibility and cannot disable canonical profiles, providers, gates, roles or authorities.",
+    "Starter model actions create or invoke existing Model Manager acquisition requests and cannot bypass Model Artifact Security.",
+    "Reference starter model names are replaceable candidates, not canonical model identities."
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}
