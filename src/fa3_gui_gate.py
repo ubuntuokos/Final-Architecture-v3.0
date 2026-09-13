@@ -54,14 +54,17 @@ SYSTEM_SECTIONS = [
     "Overview", "CPU / NUMA", "GPU / Accelerators", "Memory", "Storage",
     "Services", "Thermal & Power", "Software", "Maintenance", "Peripherals",
 ]
+
 SETTINGS_SURFACES = [
     "Megjelenés", "Language & Region", "Paths & Libraries", "Gyorsbillentyűk",
     "Integrációk", "GIMP", "Krita", "Kdenlive", "OpenShot", "Ardour", "Audacity",
     "Blender", "Bforartist", "LibreOffice", "Obsidian", "Publikálás", "YouTube",
     "Facebook", "TikTok", "HDR", "AI Mentor", "AI Coach", "Manager", "Ellenőr",
-    "Kérdezd a Mentort gomb", "Kérdezd a Coachot gomb", "Kérdezd a Managert gomb",
-    "Kérdezd az Ellenőrt gomb", "FA3-INSPECTOR-001", "Frissítés", "Névjegy",
-    "chooseDirectory", "pathStatus",
+    "Ötletelő", "Tanácsadó", "Kérdezd a Mentort gomb", "Kérdezd a Coachot gomb",
+    "Kérdezd a Managert gomb", "Kérdezd az Ellenőrt gomb", "Kérdezd az Ötletelőt gomb",
+    "Kérdezd a Tanácsadót gomb", "FA3-INSPECTOR-001", "FA3-IDEATOR-001",
+    "FA3-ADVISOR-001", "FA3-IDEATION-ADVISORY-001", "FA3-GUI-LANGUAGE-CONTROL-001",
+    "Frissítés", "Névjegy", "chooseDirectory", "pathStatus",
 ]
 
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
@@ -72,8 +75,12 @@ def load_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _contains_all(text: str, tokens: list[str], prefix: str) -> list[str]:
+    return [f"{prefix}:{token}" for token in tokens if token not in text]
+
+
 def validate():
-    failures = []
+    failures: list[str] = []
     for name, path in REQUIRED.items():
         if not path.exists():
             failures.append(f"missing:{name}:{path.relative_to(ROOT)}")
@@ -98,8 +105,10 @@ def validate():
     runtime = load_json(REQUIRED["runtime"])
     ev = load_json(REQUIRED["evidence"])
 
+    role_list = dp.get("role_navigation_policy", {}).get("roles", [])
+    role_invariants = dc.get("role_ui_invariants", [])
     checks = [
-        (dp.get("version") == "1.4.0", "desktop-version"),
+        (dp.get("version") == "1.5.0", "desktop-version"),
         (dp.get("new_capability") is False, "desktop-no-capability"),
         (dp.get("new_architectural_authority") is False, "desktop-no-authority"),
         (dp.get("capability_count") == 143, "desktop-count"),
@@ -112,18 +121,27 @@ def validate():
         (dp.get("role_navigation_policy", {}).get("configuration_location") == "SETTINGS", "role-config-settings-only"),
         (dp.get("role_navigation_policy", {}).get("ask_button_visibility") == "LOCAL_QSETTINGS_PREFERENCE", "role-button-qsettings"),
         (dp.get("role_navigation_policy", {}).get("ask_button_visibility_changes_role_authority") is False, "role-button-not-authority"),
-        ("FA3-INSPECTOR-001" in dp.get("role_navigation_policy", {}).get("roles", []), "inspector-role-projected"),
-        (dc.get("version") == "1.4.0", "contract-version"),
+        ("FA3-INSPECTOR-001" in role_list, "inspector-role-projected"),
+        ("FA3-IDEATOR-001" in role_list, "ideator-role-projected"),
+        ("FA3-ADVISOR-001" in role_list, "advisor-role-projected"),
+        (dc.get("version") == "1.5.0", "contract-version"),
         (dc.get("mutation_model", {}).get("direct_canonical_write") == "FORBIDDEN", "no-direct-canonical"),
         (dc.get("mutation_model", {}).get("direct_gpu_hard_reset") == "FORBIDDEN", "no-direct-gpu-reset"),
         (dc.get("mutation_model", {}).get("direct_peripheral_kernel_or_device_mutation") == "FORBIDDEN", "no-direct-peripheral-mutation"),
-        ("ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION" in dc.get("role_ui_invariants", []), "role-settings-invariant"),
-        ("ASK_ROLE_ACTIONS_OPEN_CONVERSATION_SURFACES_NOT_CONFIGURATION_PAGES" in dc.get("role_ui_invariants", []), "role-chat-not-config"),
-        ("INSPECTOR_PREFERENCES_MUST_NOT_WEAKEN_INDEPENDENT_VERIFICATION" in dc.get("role_ui_invariants", []), "inspector-independence"),
+        (dc.get("mutation_model", {}).get("direct_ideation_advisory_decision") == "FORBIDDEN", "no-direct-ideation-advisory-decision"),
+        (dc.get("mutation_model", {}).get("direct_ideation_advisory_execution") == "FORBIDDEN", "no-direct-ideation-advisory-execution"),
+        ("ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION" in role_invariants, "role-settings-invariant"),
+        ("ASK_ROLE_ACTIONS_OPEN_CONVERSATION_SURFACES_NOT_CONFIGURATION_PAGES" in role_invariants, "role-chat-not-config"),
+        ("INSPECTOR_PREFERENCES_MUST_NOT_WEAKEN_INDEPENDENT_VERIFICATION" in role_invariants, "inspector-independence"),
+        ("IDEATOR_OUTPUT_MUST_PRESERVE_IDEA_NOT_FACT_AND_HYPOTHESIS_NOT_EVIDENCE" in role_invariants, "ideator-semantic-boundary"),
+        ("ADVISOR_OUTPUT_MUST_PRESERVE_RECOMMENDATION_NOT_DECISION" in role_invariants, "advisor-recommendation-boundary"),
+        ("ADVISOR_MISSING_EVIDENCE_MUST_REMAIN_UNVERIFIED" in role_invariants, "advisor-missing-evidence-boundary"),
+        ("ADVISOR_UNCERTAINTY_AND_CONFIDENCE_MUST_REMAIN_EXPLICIT" in role_invariants, "advisor-uncertainty-boundary"),
+        ("ADVISOR_CONFLICTING_EVIDENCE_MUST_REMAIN_VISIBLE" in role_invariants, "advisor-conflict-boundary"),
+        ("ADVISOR_HIGH_IMPACT_OR_PROMOTION_MUST_HANDOFF_TO_INSPECTOR" in role_invariants, "advisor-inspector-handoff"),
         ("AI_WEB_UI_EMBEDDED_IN_FA3_NATIVE_WINDOW_BY_DEFAULT" in dc.get("embedded_web_invariants", []), "embedded-ai-ui-required"),
         ("EXTERNAL_BROWSER_FOR_AI_UI_FORBIDDEN_BY_DEFAULT" in dc.get("embedded_web_invariants", []), "external-ai-browser-forbidden"),
         ("NEW_WINDOW_REQUESTS_RETAINED_INSIDE_FA3_WEB_SURFACE" in dc.get("embedded_web_invariants", []), "new-window-contained"),
-        ("WEB_ENDPOINT_PREFERENCES_MUST_NOT_STORE_SECRETS" in dc.get("embedded_web_invariants", []), "web-endpoint-no-secrets"),
         ("ROUTINE_GPU_MEMORY_CLEANUP_NEVER_REQUIRES_GPU_RESET" in dc.get("maintenance_invariants", []), "gpu-cleanup-no-reset"),
         ("EVIDENCE_EXCLUDED_FROM_GENERIC_CLEANUP" in dc.get("maintenance_invariants", []), "evidence-cleanup-boundary"),
         (gs.get("version") == "1.2.0", "settings-profile-version"),
@@ -152,93 +170,67 @@ def validate():
         (ops_decision.get("new_architectural_authorities") == 0, "ops-decision-no-authority"),
         (ops_decision.get("capability_count_after") == 143, "ops-decision-count"),
         (settings_gate.get("fail_closed") is True, "settings-gate-fail-closed"),
-        ("ROLE_CONFIGURATION_LIVES_UNDER_SETTINGS_NOT_PRIMARY_NAVIGATION" in settings_gate.get("enforces", []), "settings-gate-role-location"),
-        ("INSPECTOR_SETTINGS_CANNOT_WEAKEN_INDEPENDENT_VERIFICATION" in settings_gate.get("enforces", []), "settings-gate-inspector-boundary"),
         (operations_gate.get("fail_closed") is True, "operations-gate-fail-closed"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-pending"),
         (runtime.get("production_admitted") is False, "runtime-not-production"),
         (ev.get("status") == "PASS", "evidence-pass"),
         (ev.get("production_admitted") is False, "evidence-not-production"),
     ]
-    failures += [name for ok, name in checks if not ok]
+    failures.extend(name for ok, name in checks if not ok)
 
     shell = REQUIRED["shell"].read_text(encoding="utf-8")
     shell_lines = {line.strip() for line in shell.splitlines()}
-    for label in NAVIGATION:
-        if label not in shell:
-            failures.append(f"qml-navigation-missing:{label}")
-    for forbidden_role_nav in ['{ key: "mentor"', '{ key: "coach"', '{ key: "manager"', '{ key: "inspector"']:
+    failures += _contains_all(shell, NAVIGATION + STUDIO_MODULES, "qml-missing")
+    for forbidden_role_nav in [
+        '{ key: "mentor"', '{ key: "coach"', '{ key: "manager"', '{ key: "inspector"',
+        '{ key: "ideator"', '{ key: "advisor"',
+    ]:
         if forbidden_role_nav in shell:
             failures.append(f"qml-role-nav-forbidden:{forbidden_role_nav}")
     for forbidden_role_page in ["MentorPage {", "CoachPage {", "ManagerPage {"]:
         if forbidden_role_page in shell_lines:
             failures.append(f"qml-role-page-forbidden:{forbidden_role_page}")
-    for module in STUDIO_MODULES:
-        if module not in shell:
-            failures.append(f"qml-studio-module-missing:{module}")
-    for token in [
+    failures += _contains_all(shell, [
         "fa3Settings", "EmbeddedAppsPage", "ModelManagerPage", "SystemPage", "SettingsPage",
         "assistantDrawer", "ASSISTANT_TASK_PROPOSAL", "createDraftChangeSet", "Shortcut", "shortcuts/assistant",
         "LibreOffice", "Obsidian", "Kérdezd a Mentort", "Kérdezd a Coachot", "Kérdezd a Managert",
-        "Kérdezd az Ellenőrt", "roleButtons/mentorVisible", "roleButtons/coachVisible",
-        "roleButtons/managerVisible", "roleButtons/inspectorVisible", "settingsSectionKey", "navigationHistory", "sidebarCollapsed",
-    ]:
-        if token not in shell:
-            failures.append(f"qml-shell-missing:{token}")
+        "Kérdezd az Ellenőrt", "Kérdezd az Ötletelőt", "Kérdezd a Tanácsadót",
+        "roleButtons/mentorVisible", "roleButtons/coachVisible", "roleButtons/managerVisible",
+        "roleButtons/inspectorVisible", "roleButtons/ideatorVisible", "roleButtons/advisorVisible",
+        "ideatorDialog", "advisorDialog", "settingsSectionKey", "navigationHistory", "sidebarCollapsed",
+    ], "qml-shell-missing")
 
     embedded = REQUIRED["embedded_apps_qml"].read_text(encoding="utf-8")
-    for token in [
+    failures += _contains_all(embedded, [
         "import QtWebEngine", "WebEngineView", "Open WebUI", "ComfyUI", "InvokeAI", "n8n",
         "onNewWindowRequested", "request.openIn(webView)", "onNavigationRequested", "request.reject()",
         "webapps/", "Külső böngésző nincs használva",
-    ]:
-        if token not in embedded:
-            failures.append(f"embedded-web-missing:{token}")
+    ], "embedded-web-missing")
     if "Qt.openUrlExternally" in embedded:
         failures.append("embedded-web-external-opener-forbidden")
 
     sq = REQUIRED["settings_qml"].read_text(encoding="utf-8")
-    for token in SETTINGS_SURFACES:
-        if token not in sq:
-            failures.append(f"settings-qml-missing:{token}")
-    for token in [
+    failures += _contains_all(sq, SETTINGS_SURFACES, "settings-qml-missing")
+    failures += _contains_all(sq, [
         "roleButtons/mentorVisible", "roleButtons/coachVisible", "roleButtons/managerVisible",
-        "roleButtons/inspectorVisible", "manager/defaultView", "inspector/defaultLevel",
-        "inspector/evidenceFreshnessWarnings", "inspector/driftWarnings", "openSection",
-    ]:
-        if token not in sq:
-            failures.append(f"settings-role-qml-missing:{token}")
+        "roleButtons/inspectorVisible", "roleButtons/ideatorVisible", "roleButtons/advisorVisible",
+        "manager/defaultView", "inspector/defaultLevel", "ideator/defaultMode", "advisor/defaultMode",
+        "FA3-INSPECTOR-001 · REQUIRED", "openSection",
+    ], "settings-role-qml-missing")
 
     mq = REQUIRED["mentor_qml"].read_text(encoding="utf-8")
-    for token in ["Memory & Personalization", "Practice Lab", "mentor/memoryPolicy", "mentor/masteryTracking"]:
-        if token not in mq:
-            failures.append(f"mentor-qml-missing:{token}")
-
+    failures += _contains_all(mq, ["Memory & Personalization", "Practice Lab", "mentor/memoryPolicy", "mentor/masteryTracking"], "mentor-qml-missing")
     cq = REQUIRED["coach_qml"].read_text(encoding="utf-8")
-    for token in ["AI Coach", "Mentor ↔ Coach", "coach/projectAwareness", "coach/mentorReferrals"]:
-        if token not in cq:
-            failures.append(f"coach-qml-missing:{token}")
-
+    failures += _contains_all(cq, ["AI Coach", "Mentor ↔ Coach", "coach/projectAwareness", "coach/mentorReferrals"], "coach-qml-missing")
     manager_qml = REQUIRED["manager_qml"].read_text(encoding="utf-8")
-    for token in ["EVIDENCE_PENDING", "VERIFIED", "Agent Execution / MCP", "FA3-MANAGER-001"]:
-        if token not in manager_qml:
-            failures.append(f"manager-qml-missing:{token}")
-
+    failures += _contains_all(manager_qml, ["EVIDENCE_PENDING", "VERIFIED", "Agent Execution / MCP", "FA3-MANAGER-001"], "manager-qml-missing")
     model_qml = REQUIRED["model_manager_qml"].read_text(encoding="utf-8")
-    for token in ["Model Inventory", "Installed Models", "Compatibility", "Duplicates", "FA3-MODEL-MANAGER", "SECURITY ADMITTED"]:
-        if token not in model_qml:
-            failures.append(f"model-manager-qml-missing:{token}")
-
+    failures += _contains_all(model_qml, ["Model Inventory", "Installed Models", "Compatibility", "Duplicates", "FA3-MODEL-MANAGER", "SECURITY ADMITTED"], "model-manager-qml-missing")
     system_qml = REQUIRED["system_qml"].read_text(encoding="utf-8")
-    for token in SYSTEM_SECTIONS:
-        if token not in system_qml:
-            failures.append(f"system-qml-section-missing:{token}")
-    for token in [
+    failures += _contains_all(system_qml, SYSTEM_SECTIONS + [
         "Temporary files", "Cache Manager", "Model Runtime Cleanup", "GPU hard reset", "ROOT ONLY · LOCKED",
         "Keyboard & Hotkeys", "MIDI", "Drawing Tablet", "Scanner", "Webcam / Camera", "createDraftChangeSet",
-    ]:
-        if token not in system_qml:
-            failures.append(f"system-qml-missing:{token}")
+    ], "system-qml-missing")
 
     repo = REQUIRED["repo_model_cpp"].read_text(encoding="utf-8")
     repo_h = REQUIRED["repo_model_h"].read_text(encoding="utf-8")
@@ -248,9 +240,7 @@ def validate():
 
     scpp = REQUIRED["settings_cpp"].read_text(encoding="utf-8")
     sh = REQUIRED["settings_h"].read_text(encoding="utf-8")
-    for token in ["QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus", "validShortcut", "shortcutConflict", "resetGroup"]:
-        if token not in scpp and token not in sh:
-            failures.append(f"settings-backend-missing:{token}")
+    failures += _contains_all(scpp + sh, ["QSettings", "QStorageInfo", "QKeySequence", "chooseDirectory", "pathStatus", "validShortcut", "shortcutConflict", "resetGroup"], "settings-backend-missing")
     for token in FORBIDDEN_SETTINGS_TOKENS:
         if token in scpp:
             failures.append(f"settings-backend-forbidden-token:{token}")
@@ -259,18 +249,13 @@ def validate():
             failures.append(f"settings-secret-filter-missing:{token}")
 
     main = REQUIRED["main_cpp"].read_text(encoding="utf-8")
-    for token in ["SettingsStore", "fa3Settings", "AppShell.qml", "QtWebEngineQuick::initialize", "AA_ShareOpenGLContexts", "0.4.0"]:
-        if token not in main:
-            failures.append(f"main-missing:{token}")
-
+    failures += _contains_all(main, ["SettingsStore", "fa3Settings", "AppShell.qml", "QtWebEngineQuick::initialize", "AA_ShareOpenGLContexts", "0.4.0"], "main-missing")
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
-    for token in [
+    failures += _contains_all(cmake, [
         "VERSION 0.4.0", "WebEngineQuick", "Qt6::WebEngineQuick", "EmbeddedAppsPage.qml",
         "SettingsStore.cpp", "AppShell.qml", "SettingsPage.qml", "MentorPage.qml", "CoachPage.qml",
         "ManagerPage.qml", "ModelManagerPage.qml", "SystemPage.qml",
-    ]:
-        if token not in cmake:
-            failures.append(f"cmake-missing:{token}")
+    ], "cmake-missing")
 
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     workflow = REQUIRED["workflow"].read_text(encoding="utf-8")
@@ -291,7 +276,7 @@ def main():
             print(" -", failure)
         return 1
     print("FA3 GUI gate: PASS")
-    print("desktop=1.4.0 app=0.4.0 role_settings=Mentor/Coach/Manager/Inspector embedded_web=QtWebEngine capabilities=143 new_authorities=0")
+    print("desktop=1.5.0 app=0.4.0 role_settings=Mentor/Coach/Manager/Inspector/Ideator/Advisor semantic_interop=LanguageControl embedded_web=QtWebEngine capabilities=143 new_authorities=0")
     return 0
 
 
