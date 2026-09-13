@@ -6,6 +6,7 @@ on:
       - "fa3/gui-mission-control-model-hub-2026-09-13"
     paths:
       - 'tools/fa3_gui_mission_control_materialize.py'
+      - 'tools/fa3_gui_mission_control_gate_patch.py'
       - '.github/workflows/fa3-gui-mission-control-materialize.yml'
   workflow_dispatch:
 
@@ -30,7 +31,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Materialize mission-control model hub
-        run: python tools/fa3_gui_mission_control_materialize.py
+        run: |
+          python tools/fa3_gui_mission_control_materialize.py
+          python tools/fa3_gui_mission_control_gate_patch.py
       - name: Run GUI static regression gates
         run: |
           PYTHONPATH=. python src/fa3_gui_gate.py
