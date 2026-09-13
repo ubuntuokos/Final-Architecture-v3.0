@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-TOKEN-OBSERVABILITY-001",
+  "name": "Redacted Token Usage and Credential Metadata Observability Subprofile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "relationship": "SUBPROFILE-OF:FA3-TOKEN-GOVERNANCE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "allowed_fields": ["provider_id", "credential_ref_id", "configured", "backend_type", "last_success_at", "last_failure_class", "input_token_count", "output_token_count", "budget_remaining", "correlation_id"],
+  "forbidden_fields": ["secret_value", "api_token", "password", "cookie", "authorization_header", "bearer_value"],
+  "rules": [
+    "SECRET_VALUE_REDACTION_IS_MANDATORY",
+    "CREDENTIAL_REFERENCE_MAY_BE_OBSERVED_WITHOUT_VALUE",
+    "AUTH_FAILURE_MUST_NOT_ECHO_CREDENTIAL",
+    "TOKEN_COUNTS_MAY_BE_EVIDENCED_WITHOUT_PROMOTING_RUNTIME",
+    "EXPORTS_MUST_PRESERVE_REDACTION"
+  ]
+}
