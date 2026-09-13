@@ -34,6 +34,30 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertFalse(contract["role_ui"]["inspector_independence_can_be_disabled_by_preference"])
         self.assertIn("FA3-INSPECTOR-001", desktop["role_navigation_policy"]["roles"])
 
+    def test_ideator_and_advisor_are_projected_without_new_authority(self):
+        desktop = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_profile"])
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
+        roles = desktop["role_navigation_policy"]["roles"]
+        self.assertIn("FA3-IDEATOR-001", roles)
+        self.assertIn("FA3-ADVISOR-001", roles)
+        self.assertFalse(desktop["new_architectural_authority"])
+        self.assertEqual(143, desktop["capability_count"])
+        self.assertEqual("FORBIDDEN", contract["mutation_model"]["direct_ideation_advisory_decision"])
+        self.assertEqual("FORBIDDEN", contract["mutation_model"]["direct_ideation_advisory_execution"])
+
+    def test_ideator_semantics_remain_fail_closed(self):
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
+        self.assertIn("IDEATOR_OUTPUT_MUST_PRESERVE_IDEA_NOT_FACT_AND_HYPOTHESIS_NOT_EVIDENCE", contract["role_ui_invariants"])
+
+    def test_advisor_semantics_and_inspector_handoff_remain_mandatory(self):
+        contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
+        invariants = contract["role_ui_invariants"]
+        self.assertIn("ADVISOR_OUTPUT_MUST_PRESERVE_RECOMMENDATION_NOT_DECISION", invariants)
+        self.assertIn("ADVISOR_MISSING_EVIDENCE_MUST_REMAIN_UNVERIFIED", invariants)
+        self.assertIn("ADVISOR_UNCERTAINTY_AND_CONFIDENCE_MUST_REMAIN_EXPLICIT", invariants)
+        self.assertIn("ADVISOR_CONFLICTING_EVIDENCE_MUST_REMAIN_VISIBLE", invariants)
+        self.assertIn("ADVISOR_HIGH_IMPACT_OR_PROMOTION_MUST_HANDOFF_TO_INSPECTOR", invariants)
+
     def test_operations_gui_never_directly_resets_gpu(self):
         contract = fa3_gui_gate.load_json(fa3_gui_gate.REQUIRED["desktop_contract"])
         self.assertEqual("FORBIDDEN", contract["mutation_model"]["direct_gpu_hard_reset"])
