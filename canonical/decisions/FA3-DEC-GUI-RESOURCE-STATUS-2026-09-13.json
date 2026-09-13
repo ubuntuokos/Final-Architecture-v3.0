@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GUI-RESOURCE-STATUS-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Persistent FA3 GUI host resource status strip",
+  "decision": "MATERIALIZE",
+  "profile_id": "FA3-DESKTOP-001",
+  "contract_id": "FA3-DESKTOP-CONTRACTS-001",
+  "gate_id": "FA3-GATE-GUI-001",
+  "reference_implementation": "apps/fa3-control-center",
+  "placement": "BOTTOM",
+  "resources": ["CPU", "GPU", "NPU", "RAM"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "mandatory_constraints": [
+    "RESOURCE_STATUS_STRIP_SHALL_REMAIN_VISIBLE_ACROSS_GUI_VIEWS",
+    "UNKNOWN_OR_UNMEASURABLE_ACCELERATOR_UTILIZATION_SHALL_NOT_BE_REPORTED_AS_ZERO",
+    "RAM_SHALL_SHOW_UTILIZATION_AND_USED_TOTAL_CAPACITY_WHEN_MEASURABLE",
+    "GPU_SHALL_SHOW_UTILIZATION_AND_WHEN_AVAILABLE_VRAM_AND_TEMPERATURE",
+    "NPU_SHALL_SHOW_DETECTION_AND_UTILIZATION_ONLY_WHEN_MEASURABLE",
+    "RESOURCE_PRESSURE_STATE_IS_ADVISORY_READ_ONLY_PROJECTION",
+    "HOST_RESOURCE_ADMISSION_REMAINS_FA3_AUTH_HOST_RESOURCE_BROKER_001",
+    "SYSTEMD_UNIFIED_CGROUP_V2_REMAINS_HOST_ENFORCEMENT_AUTHORITY",
+    "NO_PRIVILEGED_HOST_MUTATION_FROM_GUI"
+  ]
+}
