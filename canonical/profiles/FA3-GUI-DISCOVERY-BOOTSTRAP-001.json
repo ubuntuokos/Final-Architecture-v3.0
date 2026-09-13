@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-GUI-DISCOVERY-BOOTSTRAP-001",
+  "name": "Global Search, Starter Model Bootstrap and Area Visibility GUI Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "NATIVE_GUI_DISCOVERY_AND_BOOTSTRAP_PROJECTION",
+  "dependencies": ["FA3-DESKTOP-001", "FA3-GUI-SETTINGS-001", "FA3-MODEL-MANAGER-001", "FA3-JOURNAL-001"],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "surfaces": {
+    "global_search": {
+      "navigation": "PRIMARY_MENU",
+      "scopes": ["SERVICE", "PROJECT", "CONVERSATION"],
+      "mutation_authority": false
+    },
+    "starter_models": {
+      "navigation": "PRIMARY_MENU",
+      "profile": "FA3-STARTER-MODELS-001",
+      "download_authority": "EXISTING_FA3_MODEL_MANAGER_ONLY"
+    },
+    "area_visibility": {
+      "location": "SETTINGS",
+      "storage": "QSettings/XDG",
+      "effect": "UI_VISIBILITY_ONLY"
+    }
+  },
+  "invariants": [
+    "GLOBAL_SEARCH_IS_READ_ONLY",
+    "GLOBAL_SEARCH_SCOPES_SERVICE_PROJECT_CONVERSATION",
+    "SERVICE_RESULTS_ARE_CANONICAL_OR_REGISTERED_SERVICE_PROJECTIONS",
+    "PROJECT_SEARCH_IS_BOUNDED_TO_CONFIGURED_PROJECT_AND_WORKSPACE_ROOTS",
+    "CONVERSATION_SEARCH_USES_JOURNAL_PROJECTION_NOT_SYSTEMD_JOURNAL",
+    "AREA_VISIBILITY_IS_LOCAL_UI_PREFERENCE_ONLY",
+    "HIDING_AREA_DOES_NOT_DISABLE_CANONICAL_PROFILE_PROVIDER_ROLE_OR_AUTHORITY",
+    "COMMAND_CENTER_SEARCH_AND_SETTINGS_REMAIN_REACHABLE",
+    "STARTER_MODEL_DOWNLOADS_ROUTE_THROUGH_EXISTING_MODEL_MANAGER",
+    "STARTER_MODEL_DOWNLOAD_NEVER_WRITES_DIRECTLY_TO_RUNTIME_MODEL_DIRECTORY",
+    "STARTER_MODEL_DOWNLOAD_REQUIRES_EXISTING_HASH_LICENSE_SECURITY_AND_RUNTIME_EVIDENCE_GATES",
+    "GUI_DOES_NOT_CREATE_NEW_MODEL_SEARCH_SECURITY_OR_SECRET_AUTHORITY",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ]
+}
