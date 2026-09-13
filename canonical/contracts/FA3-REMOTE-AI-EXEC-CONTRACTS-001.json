@@ -1,0 +1,89 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "profile": "FA3-REMOTE-AI-EXEC-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-005",
+    "CAP-011"
+  ],
+  "contracts": [
+    "RemoteToolDescriptor",
+    "EndpointSchema",
+    "ToolCapability",
+    "RemoteExecutionRequest",
+    "RemoteExecutionJob",
+    "RemoteExecutionResult",
+    "ArtifactReference",
+    "CredentialReference",
+    "QuotaBudget",
+    "ExecutionProvenance"
+  ],
+  "execution_lifecycle": [
+    "DISCOVERY",
+    "SCHEMA_NORMALIZATION",
+    "TRUST_ADMISSION",
+    "CREDENTIAL_INJECTION",
+    "ROUTING_POLICY",
+    "EXECUTION",
+    "RESULT_OR_ARTIFACT_RETRIEVAL",
+    "ARTIFACT_VALIDATION",
+    "PROVENANCE_AUDIT"
+  ],
+  "routing": {
+    "modes": [
+      "LOCAL_REQUIRED",
+      "LOCAL_PREFERRED_REMOTE_ALLOWED",
+      "REMOTE_ALLOWED",
+      "SPECIFIC_REMOTE_PROVIDER"
+    ],
+    "silent_local_to_remote_fallback": "FORBIDDEN",
+    "remote_execution_requires_explicit_policy_outcome": true,
+    "quota_budget_required": true,
+    "timeout_and_circuit_breaker_required": true
+  },
+  "discovery_and_trust": {
+    "remote_discovery_metadata": "UNTRUSTED_UNTIL_ADMITTED",
+    "agents_md_is_trust_authority": false,
+    "openapi_is_trust_authority": false,
+    "owner_revision_provenance_required": true,
+    "allowlist_or_equivalent_policy_required": true,
+    "schema_normalization_required": true
+  },
+  "credentials": {
+    "canonical_payload_field": "CredentialReference",
+    "raw_secret_in_agent_prompt": "FORBIDDEN",
+    "raw_secret_in_workflow_definition": "FORBIDDEN",
+    "raw_secret_in_canonical_job": "FORBIDDEN",
+    "adapter_boundary_injection_required": true
+  },
+  "provider_abstraction": {
+    "provider_specific_endpoint_fields_above_adapter": "FORBIDDEN",
+    "provider_specific_event_ids_above_adapter": "FORBIDDEN",
+    "provider_specific_auth_above_adapter": "FORBIDDEN",
+    "canonical_request_must_remain_provider_neutral": true
+  },
+  "execution_semantics": {
+    "sync": "SUPPORTED",
+    "async_job": "SUPPORTED",
+    "status": "SUPPORTED",
+    "streaming": "SUPPORTED_WHEN_PROVIDER_SUPPORTS",
+    "cancellation": "SUPPORTED_WHEN_PROVIDER_SUPPORTS",
+    "retry": "POLICY_CONTROLLED",
+    "artifact_validation_before_promotion": "REQUIRED"
+  },
+  "security_and_governance": {
+    "privacy_classification": "REQUIRED",
+    "network_egress_gate": "REQUIRED",
+    "domain_or_service_allowlist": "REQUIRED",
+    "rate_and_quota_budget": "REQUIRED",
+    "artifact_security_validation": "REQUIRED",
+    "audit_trail": "REQUIRED",
+    "execution_provenance": "REQUIRED"
+  }
+}

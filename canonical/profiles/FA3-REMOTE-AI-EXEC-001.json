@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-REMOTE-AI-EXEC-001",
+  "name": "Remote AI Application, Tool & Hosted Execution Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "relationship": "CROSS_LAYER_PROJECTION_PROFILE",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-005",
+    "CAP-011"
+  ],
+  "contract": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+  "primary_reference_provider": "FA3-PROVIDER-HF-SPACES-001",
+  "scope": [
+    "REMOTE_AI_APPLICATION_DISCOVERY",
+    "REMOTE_TOOL_AND_ENDPOINT_SCHEMA_NORMALIZATION",
+    "TRUST_AND_ADMISSION",
+    "CREDENTIAL_REFERENCE_INJECTION",
+    "POLICY_GATED_REMOTE_ROUTING",
+    "SYNCHRONOUS_AND_ASYNCHRONOUS_REMOTE_EXECUTION",
+    "STREAMING_STATUS_CANCELLATION_AND_TIMEOUT",
+    "REMOTE_ARTIFACT_RETRIEVAL_AND_VALIDATION",
+    "EXECUTION_PROVENANCE_AUDIT_AND_OBSERVABILITY",
+    "GRADIO_REST_OPENAPI_AGENTS_MD_AND_MCP_ADAPTER_SURFACES"
+  ],
+  "canonical_objects": [
+    "RemoteToolDescriptor",
+    "EndpointSchema",
+    "ToolCapability",
+    "RemoteExecutionRequest",
+    "RemoteExecutionJob",
+    "RemoteExecutionResult",
+    "ArtifactReference",
+    "CredentialReference",
+    "QuotaBudget",
+    "ExecutionProvenance"
+  ],
+  "execution_planes": [
+    "DISCOVERY",
+    "SCHEMA_NORMALIZATION",
+    "TRUST_ADMISSION",
+    "CREDENTIAL_INJECTION",
+    "ROUTING_POLICY",
+    "EXECUTION",
+    "ARTIFACT_VALIDATION",
+    "PROVENANCE_AUDIT"
+  ],
+  "routing_policy_modes": [
+    "LOCAL_REQUIRED",
+    "LOCAL_PREFERRED_REMOTE_ALLOWED",
+    "REMOTE_ALLOWED",
+    "SPECIFIC_REMOTE_PROVIDER"
+  ],
+  "mandatory_invariants": {
+    "silent_local_to_remote_fallback": "FORBIDDEN",
+    "discovery_metadata_as_trust_authority": "FORBIDDEN",
+    "raw_secret_in_prompt_workflow_or_canonical_job": "FORBIDDEN",
+    "provider_specific_fields_above_adapter_boundary": "FORBIDDEN",
+    "remote_execution_without_policy_admission": "FORBIDDEN",
+    "unvalidated_remote_artifact_promotion": "FORBIDDEN"
+  },
+  "authority": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "workflow_orchestration": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "artifact_and_provenance": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_registry": "FA3-REGISTRY-001"
+  },
+  "excluded_scope": [
+    "GLOBAL_INFERENCE_RUNTIME_AUTHORITY",
+    "AGENT_ORCHESTRATION_AUTHORITY",
+    "WORKFLOW_ORCHESTRATION_AUTHORITY",
+    "LOCAL_GPU_SCHEDULER_AUTHORITY",
+    "IDENTITY_AUTHORITY",
+    "AUTHORIZATION_AUTHORITY",
+    "SECRETS_AUTHORITY",
+    "NETWORK_EGRESS_AUTHORITY",
+    "EVIDENCE_OR_PROVENANCE_AUTHORITY",
+    "CANONICAL_REGISTRY_AUTHORITY"
+  ]
+}

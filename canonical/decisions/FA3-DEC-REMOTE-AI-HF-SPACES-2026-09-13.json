@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13",
+  "date": "2026-09-13",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Provider-neutral remote AI application/tool execution with Hugging Face Spaces primary reference provider",
+  "decision": "MATERIALIZE_AND_FEATURE_IN_GUI",
+  "profile_id": "FA3-REMOTE-AI-EXEC-001",
+  "contract_id": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-HF-SPACES-001",
+  "gate_id": "FA3-GATE-REMOTE-AI-EXEC-001",
+  "gui_profile_id": "FA3-DESKTOP-001",
+  "gui_entry": "Remote AI Hub",
+  "gui_priority": "TOP_LEVEL_FEATURED_IMMEDIATELY_AFTER_COMMAND_CENTER",
+  "canonical_classification": "Mandatory provider-neutral remote AI application, tool and hosted execution projection over existing Model/Backend and MCP/Skill/Tool capabilities; Hugging Face Spaces is the mandatory-supported primary reference provider but not an authority or hard dependency.",
+  "capability_projection": [
+    "CAP-005",
+    "CAP-011"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "mandatory_constraints": [
+    "DISCOVERY_SCHEMA_NORMALIZATION_TRUST_CREDENTIAL_ROUTING_EXECUTION_ARTIFACT_VALIDATION_AND_PROVENANCE_PLANES_MUST_REMAIN_EXPLICITLY_SEPARATED",
+    "REMOTE_DISCOVERY_METADATA_MUST_NOT_BECOME_TRUST_AUTHORITY",
+    "RAW_PROVIDER_SECRETS_MUST_NOT_ENTER_AGENT_PROMPTS_WORKFLOW_DEFINITIONS_OR_CANONICAL_JOB_PAYLOADS",
+    "REMOTE_EXECUTION_MUST_REQUIRE_EXPLICIT_POLICY_ADMISSION",
+    "SILENT_LOCAL_TO_REMOTE_FALLBACK_IS_FORBIDDEN",
+    "PROVIDER_SPECIFIC_FIELDS_MUST_REMAIN_BELOW_THE_ADAPTER_BOUNDARY",
+    "REMOTE_ARTIFACTS_MUST_BE_VALIDATED_BEFORE_PROMOTION",
+    "HF_SPACES_AND_HF_MODEL_STORE_MUST_REMAIN_SEPARATE_PROVIDER_PROJECTIONS",
+    "THE_FA3_GUI_REMOTE_AI_HUB_MUST_REMAIN_A_PROJECTION_AND_INTENT_SURFACE_NOT_A_PROVIDER_BYPASS"
+  ],
+  "supported_hf_spaces_surfaces": [
+    "GRADIO_PYTHON_CLIENT",
+    "GRADIO_JAVASCRIPT_CLIENT",
+    "QUEUE_BASED_REST_OPENAPI",
+    "AGENTS_MD_AGENT_DISCOVERY",
+    "MCP_COMPATIBLE_SPACE_TOOLS"
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-DESKTOP-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-DESKTOP-001",
@@ -14,6 +14,7 @@
     "CanonicalReadProjection",
     "HostTelemetryReadProjection",
     "ProviderAndModelReadProjection",
+    "RemoteAIExecutionReadProjection",
     "EvidenceReadProjection",
     "ApprovalQueueReadProjection",
     "TypedChangeSetDraft",
@@ -27,6 +28,7 @@
     "evidence_store": "READ_ONLY",
     "host_telemetry": "READ_ONLY",
     "provider_runtime_state": "READ_ONLY",
+    "remote_ai_execution_state": "READ_ONLY",
     "policy_and_approval_state": "READ_ONLY"
   },
   "mutation_model": {
@@ -37,12 +39,14 @@
     "direct_gpu_cpu_numa_placement": "FORBIDDEN",
     "direct_mcp_tool_execution": "FORBIDDEN",
     "direct_model_runtime_control": "FORBIDDEN",
+    "direct_remote_provider_execution": "FORBIDDEN",
     "direct_policy_or_secret_mutation": "FORBIDDEN",
     "sudo_su_pkexec": "FORBIDDEN",
     "free_form_shell": "FORBIDDEN"
   },
   "navigation_baseline": [
     "Command Center",
+    "Remote AI Hub",
     "Projects",
     "AI Studio",
     "Agents & Workflows",
@@ -55,6 +59,14 @@
     "Integrations",
     "System"
   ],
+  "featured_navigation": {
+    "entry": "Remote AI Hub",
+    "position": 1,
+    "immediately_after": "Command Center",
+    "visual_emphasis": "CORE_FEATURED",
+    "provider_neutral_surface": true,
+    "primary_reference_provider": "FA3-PROVIDER-HF-SPACES-001"
+  },
   "studio_modules": [
     "Image",
     "Video",

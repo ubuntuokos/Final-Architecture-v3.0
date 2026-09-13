@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "cf76ac77b084cdce0fa05916fbf7a4f68ddb4083",
-    "pre_projection_root_tree_sha": "b3251d1ae1489fe17e52146a0cae49b529537140",
-    "pre_projection_canonical_tree_sha": "9b53f4af09cd1ed46c9867bf7c40c2a7c6f00ac2",
-    "commits_ahead_of_v3_0_11_conformance_commit": 186,
-    "total_post_baseline_commits": 186,
-    "delta_file_count": 1057,
-    "delta_added_files": 1052,
+    "pre_projection_head_sha": "fce4ba62be57592f743884c5ab434fdb1a51ad21",
+    "pre_projection_root_tree_sha": "8748b64791b86c668978fe41d70b1ba800c8e133",
+    "pre_projection_canonical_tree_sha": "00eeaae5cbd103e4744e6240bb38ace2dcc31f3a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 209,
+    "total_post_baseline_commits": 209,
+    "delta_file_count": 1069,
+    "delta_added_files": 1064,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 587,
-    "evidence_files_in_post_baseline_delta": 111,
-    "source_files_in_post_baseline_delta": 119,
-    "test_files_in_post_baseline_delta": 99,
-    "workflow_files_in_post_baseline_delta": 35,
+    "canonical_files_in_post_baseline_delta": 592,
+    "evidence_files_in_post_baseline_delta": 112,
+    "source_files_in_post_baseline_delta": 120,
+    "test_files_in_post_baseline_delta": 101,
+    "workflow_files_in_post_baseline_delta": 37,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -76,6 +76,7 @@
       "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
+      "canonical/providers/FA3-PROVIDER-HF-SPACES-001.json",
       "canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
@@ -198,6 +199,7 @@
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
+      "canonical/profiles/FA3-REMOTE-AI-EXEC-001.json",
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
@@ -267,6 +269,7 @@
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
+      "canonical/contracts/FA3-REMOTE-AI-EXEC-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
@@ -365,6 +368,7 @@
       "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
@@ -503,6 +507,7 @@
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/pyrit-reference-pass.json",
       "evidence/reference/pytorch3d-reference-pass.json",
+      "evidence/reference/remote-ai-hf-spaces-ci-2026-09-13.json",
       "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "evidence/reference/soma-x-reference-pass.json",
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
@@ -546,6 +551,7 @@
     "FA3-IDEATION-ADVISORY-GATESET-001",
     "FA3-INSPECTOR-GATESET-001",
     "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
+    "FA3-REMOTE-AI-EXEC-GATESET-001",
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
     "FA3-CODEX-GATESET-001",
@@ -696,7 +702,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1057,
+  "manifest_entry_count": 1069,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -839,6 +845,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-remote-ai-exec-gate.yml",
+      "git_blob_sha": "12d43cb3b3916609103b86de902f11bb4bdabaae",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-remote-ai-exec-reconcile.yml",
+      "git_blob_sha": "ac13fe47cdc7355f88746e432d827e1345e969db",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
       "git_blob_sha": "a65622d631d9e2111ee7c83a9da635094f54b4e9",
       "baseline_delta_status": "added"
@@ -900,7 +916,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "be4315b962843c5a9cbdcc76fe8f28924b8e3fe8",
+      "git_blob_sha": "dfec722d2f564ede2456430dd52b5e9aef827789",
       "baseline_delta_status": "added"
     },
     {
@@ -1369,6 +1385,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-REMOTE-AI-EXEC-001.json",
+      "git_blob_sha": "2e4981911d4729ffdbba2c99a7a981d147155a23",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json",
       "git_blob_sha": "30a14b1eb8a43fbba4d5454a674b76d058caff48",
       "baseline_delta_status": "added"
@@ -1740,7 +1761,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
-      "git_blob_sha": "787b2e336a5ea442411672bf674b1131e6465691",
+      "git_blob_sha": "b14a1abf0a46aae576bb78eef71c15c1d5b63568",
       "baseline_delta_status": "added"
     },
     {
@@ -1921,6 +1942,11 @@
     {
       "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-REMOTE-AI-EXEC-CONTRACTS-001.json",
+      "git_blob_sha": "ce1f812cde84f1010541b81ad95a147acef9ac99",
       "baseline_delta_status": "added"
     },
     {
@@ -2429,6 +2455,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13.json",
+      "git_blob_sha": "077f4fb3d28ed84e51dc0466d4f0d7e948a1b4bd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "git_blob_sha": "a04f633105e3840e80bdb1237e25e61dd72209b4",
       "baseline_delta_status": "added"
@@ -2510,7 +2541,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "aecb5e33f1e1fee5764db06e31a5df8c68bee3e4",
+      "git_blob_sha": "af4cf4241c7279c10d2ad2a82d59fb689e59e6b3",
       "baseline_delta_status": "modified"
     },
     {
@@ -2546,7 +2577,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -2885,7 +2916,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-001.json",
-      "git_blob_sha": "4c52c045d4e8168fa1974368bb1ab9cb44403ce9",
+      "git_blob_sha": "7bc0f04435162d8dcc8eba1a33a8b4f2b9fa893b",
       "baseline_delta_status": "added"
     },
     {
@@ -3016,6 +3047,11 @@
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
       "git_blob_sha": "e9ac3ac0cd898cb1724f153ece5b53efbda17d20",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-REMOTE-AI-EXEC-001.json",
+      "git_blob_sha": "83495888a3ac3b51ff999d93b1dd02951c950561",
       "baseline_delta_status": "added"
     },
     {
@@ -3196,6 +3232,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-HF-SPACES-001.json",
+      "git_blob_sha": "4f11645636a01c40b531602bf051c44caeb8784c",
       "baseline_delta_status": "added"
     },
     {
@@ -3986,7 +4027,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -4729,6 +4770,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/remote-ai-hf-spaces-ci-2026-09-13.json",
+      "git_blob_sha": "b19127d3b0a057e67a99ccaacefb1af3e50ed55c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "git_blob_sha": "f212258efff1ad57d9f59cb4c1fbcaa19ed76990",
       "baseline_delta_status": "added"
@@ -5050,7 +5096,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "fd8fa06494711d6be6d565319d6a6700754fd6d3",
+      "git_blob_sha": "aa6de7d9cf43bca36674f89bfcd91902de74d71a",
       "baseline_delta_status": "added"
     },
     {
@@ -5371,6 +5417,11 @@
     {
       "path": "src/fa3_release_projection_regenerate.py",
       "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_remote_ai_exec_gate.py",
+      "git_blob_sha": "5ee071a3a12f5b7aa01cca38e09043a18d2c2bc2",
       "baseline_delta_status": "added"
     },
     {
@@ -5869,6 +5920,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_remote_ai_exec_gate.py",
+      "git_blob_sha": "dc9bbda58646b1841bbb2cc203d997574b88993b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_remote_ai_exec_global_reconciliation.py",
+      "git_blob_sha": "27eebb053999a325a799d5e7878abb3a4ab5edf9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_sillytavern_kde_gate.py",
       "git_blob_sha": "ba9da85ebfe26487da457195a72668b9f4c4d4bf",
       "baseline_delta_status": "added"
@@ -5981,6 +6042,11 @@
     {
       "path": "tools/fa3_pytorch3d_global_reconcile.py",
       "git_blob_sha": "22c6d03fdde7407105a4876f8eb00c3139b6e1b3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_remote_ai_exec_global_reconcile.py",
+      "git_blob_sha": "aadf0ed0d01a0495fe630583e2ba091c691e2268",
       "baseline_delta_status": "added"
     }
   ],
@@ -6950,14 +7016,15 @@
     "Filesystem page-cache speculative prefetch/adaptive readahead governance is reconciled under FA3-AUTH-HOST-RESOURCE-BROKER-001 through CAP-001. FA3-PROVIDER-PRELOAD-001 remains optional, replaceable and non-authoritative. Canonical reference PASS does not promote current-host runtime without real cold/warm latency, page-cache, major-fault, I/O-pressure, memory-pressure, host-survival and rollback evidence.",
     "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
     "FA3-INSPECTOR-001 is globally reconciled as a P0/MUST provider-neutral independent verification and assurance overlay. Separation of duties, fresh/provenance-backed evidence, fail-closed non-PASS classifications, no silent repair during certification and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
-    "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory."
+    "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory.",
+    "FA3-REMOTE-AI-EXEC-001 is globally reconciled as a P0/MUST provider-neutral remote AI application/tool/hosted execution projection over CAP-005 and CAP-011. Hugging Face Spaces is the mandatory-supported primary reference provider, not an authority or hard dependency. Remote AI Hub remains a featured GUI projection; silent local-to-remote fallback and direct GUI provider bypass remain forbidden; capability count stays 143 and no architectural authority is added."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "878bed3e28595f70ba2761c55067c43de6b795dc",
-    "regenerated_from_branch_head": "878bed3e28595f70ba2761c55067c43de6b795dc",
+    "source_snapshot_anchor": "fce4ba62be57592f743884c5ab434fdb1a51ad21",
+    "regenerated_from_branch_head": "fce4ba62be57592f743884c5ab434fdb1a51ad21",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -6983,7 +7050,10 @@
     "inspector_snapshot_head": "57c83adadbb2fdf6f5144c30e797f26e2b3d6900",
     "ideation_advisory_reconciliation_generator": "tools/fa3_ideation_advisory_global_reconcile.py",
     "ideation_advisory_deterministic_regeneration_pass": true,
-    "ideation_advisory_snapshot_head": "878bed3e28595f70ba2761c55067c43de6b795dc"
+    "ideation_advisory_snapshot_head": "878bed3e28595f70ba2761c55067c43de6b795dc",
+    "remote_ai_execution_reconciliation_generator": "tools/fa3_remote_ai_exec_global_reconcile.py",
+    "remote_ai_execution_deterministic_regeneration_pass": true,
+    "remote_ai_execution_snapshot_head": "fce4ba62be57592f743884c5ab434fdb1a51ad21"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -7224,6 +7294,38 @@
     "high_impact_verification_handoff": "FA3-INSPECTOR-001",
     "reference_evidence": "evidence/reference/fa3-ideation-advisory-reference-pending.json",
     "reference_gate_status": "CI_ENFORCED",
+    "runtime_status": "PENDING_CURRENT_HOST",
+    "production_admitted": false,
+    "current_host_runtime_promotion_claimed": false,
+    "provider_is_architectural_authority": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "remote_ai_execution_reconciliation": {
+    "profile_id": "FA3-REMOTE-AI-EXEC-001",
+    "contract_id": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+    "provider_id": "FA3-PROVIDER-HF-SPACES-001",
+    "decision_id": "FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13",
+    "gate_id": "FA3-GATE-REMOTE-AI-EXEC-001",
+    "gateset_id": "FA3-REMOTE-AI-EXEC-GATESET-001",
+    "classification": "P0_MUST_PROVIDER_NEUTRAL_REMOTE_AI_APPLICATION_TOOL_HOSTED_EXECUTION_FABRIC",
+    "capability_projection": [
+      "CAP-005",
+      "CAP-011"
+    ],
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_RECONCILED_REFERENCE_GATE_ENFORCED_LIVE_REMOTE_AND_CURRENT_HOST_PROMOTION_NOT_CLAIMED",
+    "gui_entry": "Remote AI Hub",
+    "gui_position": "IMMEDIATELY_AFTER_COMMAND_CENTER",
+    "primary_reference_provider": "HUGGING_FACE_SPACES",
+    "silent_local_to_remote_fallback": "FORBIDDEN",
+    "discovery_metadata_is_trust_authority": false,
+    "credential_reference_only": true,
+    "direct_gui_remote_provider_bypass": "FORBIDDEN",
+    "hf_model_store_separate_projection": true,
+    "reference_evidence": "evidence/reference/remote-ai-hf-spaces-ci-2026-09-13.json",
+    "reference_gate_status": "CI_ENFORCED",
+    "live_remote_execution_status": "NOT_CLAIMED",
     "runtime_status": "PENDING_CURRENT_HOST",
     "production_admitted": false,
     "current_host_runtime_promotion_claimed": false,
