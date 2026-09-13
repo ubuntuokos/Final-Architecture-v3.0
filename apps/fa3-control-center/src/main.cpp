@@ -1,17 +1,37 @@
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
 
+#include <QColor>
 #include <QGuiApplication>
+#include <QPalette>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickStyle>
 #include <QUrl>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QCoreApplication::setApplicationName("FA3 Control Center");
-    QCoreApplication::setApplicationVersion("0.2.0");
+    QCoreApplication::setApplicationVersion("0.3.0");
     QCoreApplication::setOrganizationName("Final Architecture");
+
+    QQuickStyle::setStyle(QStringLiteral("Basic"));
+
+    QPalette palette;
+    palette.setColor(QPalette::Window, QColor("#07111f"));
+    palette.setColor(QPalette::WindowText, QColor("#f5f8fc"));
+    palette.setColor(QPalette::Base, QColor("#0b1728"));
+    palette.setColor(QPalette::AlternateBase, QColor("#0f2035"));
+    palette.setColor(QPalette::Text, QColor("#f5f8fc"));
+    palette.setColor(QPalette::Button, QColor("#10243a"));
+    palette.setColor(QPalette::ButtonText, QColor("#f5f8fc"));
+    palette.setColor(QPalette::Highlight, QColor("#25a7ff"));
+    palette.setColor(QPalette::HighlightedText, QColor("#ffffff"));
+    palette.setColor(QPalette::PlaceholderText, QColor("#6f849a"));
+    palette.setColor(QPalette::ToolTipBase, QColor("#10243a"));
+    palette.setColor(QPalette::ToolTipText, QColor("#f5f8fc"));
+    app.setPalette(palette);
 
     Fa3RepositoryModel repository;
     JournalService journal;
