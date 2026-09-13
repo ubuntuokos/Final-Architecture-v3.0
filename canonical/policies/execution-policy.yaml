@@ -1,0 +1,34 @@
+schema: fa3.execution-policy/v1
+id: FA3-EXECUTION-POLICY-001
+targets:
+  - LOCAL
+  - LAN
+  - CLUSTER
+  - CLOUD
+  - HYBRID
+lease_types:
+  - CPUExecutionLease
+  - AcceleratorExecutionLease
+  - RemoteExecutionLease
+  - ExternalServiceExecutionLease
+external_service_lease:
+  constraints:
+    - provider
+    - capability
+    - request_count
+    - maximum_cost
+    - ttl
+    - egress_policy
+    - credential_scope
+risk_based_hitl:
+  LOW: automatic
+  MEDIUM: automatic_with_audit_and_rollback
+  HIGH: proposal_plus_human_approval
+  CRITICAL: forbidden
+host_enforcement_projection:
+  examples:
+    - systemd
+    - cgroups_v2
+    - numa_placement
+    - local_accelerator_allocation
+  note: Host-specific enforcement is a projection, not the definition of execution governance.
