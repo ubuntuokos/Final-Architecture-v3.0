@@ -1,0 +1,25 @@
+schema: fa3.paid-provider-policy/v1
+id: FA3-PAID-PROVIDER-POLICY-001
+defaults:
+  paid_services_enabled: false
+  execution_preference: local_first
+  deny_on_missing_budget_policy: true
+  deny_on_missing_lease: true
+provider_classes:
+  - LOCAL
+  - REMOTE_FREE
+  - REMOTE_PAID
+requirements:
+  remote_paid:
+    require_global_opt_in: true
+    require_provider_opt_in: true
+    require_valid_credentials: true
+    require_budget_authorization: true
+    require_external_service_execution_lease: true
+    catalog_visibility_may_remain_when_disabled: true
+execution_preferences:
+  - local_first
+  - lowest_cost
+  - fastest
+  - best_quality
+  - manual
