@@ -210,16 +210,6 @@ ApplicationWindow {
         Label { text: parent.valueText; color: window.textPrimary; font.pixelSize: 8 }
     }
 
-    Menu {
-        id: askMenu
-        MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }
-        MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }
-        MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }
-        MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }
-        MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }
-        MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }
-    }
-
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -354,6 +344,7 @@ ApplicationWindow {
                     QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
 
                     ToolButton {
+                        id: askButton
                         text: "Kérdezd: " + window.askRole + " ▾"
                         onClicked: askMenu.open()
                         contentItem: Label {
@@ -368,6 +359,16 @@ ApplicationWindow {
                             radius: 6
                             color: parent.hovered ? "#132a42" : "#0d1c2f"
                             border.color: window.border
+                        }
+                        Menu {
+                            id: askMenu
+                            y: parent.height
+                            MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }
+                            MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }
+                            MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }
+                            MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }
+                            MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }
+                            MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }
                         }
                     }
 

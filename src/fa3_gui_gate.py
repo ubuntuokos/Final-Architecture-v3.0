@@ -64,6 +64,7 @@ def validate() -> list[str]:
     for module in ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]:
         if module not in qml: failures.append(f"qml-studio-module-missing:{module}")
     if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
+    if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
