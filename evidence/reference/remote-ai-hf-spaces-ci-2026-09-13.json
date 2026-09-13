@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-REMOTE-AI-HF-SPACES-CI-2026-09-13",
+  "date": "2026-09-13",
+  "profile_id": "FA3-REMOTE-AI-EXEC-001",
+  "contract_id": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-HF-SPACES-001",
+  "gate_id": "FA3-GATE-REMOTE-AI-EXEC-001",
+  "gateset_id": "FA3-REMOTE-AI-EXEC-GATESET-001",
+  "status": "PENDING_REFERENCE_CI",
+  "reference_only": true,
+  "live_remote_execution_claimed": false,
+  "current_host_runtime_promotion_claimed": false,
+  "production_admitted": false,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "notes": [
+    "This evidence record intentionally does not claim live Hugging Face Spaces execution.",
+    "Static/reference gate evidence is promoted only after the corresponding GitHub Actions run passes.",
+    "Live remote execution requires explicit FA3 policy admission, network egress authorization and CredentialReference resolution."
+  ]
+}
