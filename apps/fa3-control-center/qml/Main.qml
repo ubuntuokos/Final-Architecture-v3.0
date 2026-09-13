@@ -19,6 +19,9 @@ ApplicationWindow {
     property color textPrimary: palette.windowText
     property color textMuted: Qt.rgba(textPrimary.r, textPrimary.g, textPrimary.b, 0.62)
     property int selectedIndex: 0
+    property var selectedFit: ({})
+
+    Component.onCompleted: llmfitClient.refresh()
 
     component Panel: Rectangle {
         radius: 12
@@ -120,8 +123,11 @@ ApplicationWindow {
             ToolButton {
                 text: "↻"
                 ToolTip.visible: hovered
-                ToolTip.text: "Canonical állapot frissítése"
-                onClicked: fa3Repository.refresh()
+                ToolTip.text: "Canonical és Model Manager állapot frissítése"
+                onClicked: {
+                    fa3Repository.refresh()
+                    llmfitClient.refresh()
+                }
             }
         }
     }
@@ -289,7 +295,7 @@ ApplicationWindow {
                                 width: parent.width
                                 wrapMode: Text.WordWrap
                                 color: window.textMuted
-                                text: "A Studio nem indít közvetlenül privilegizált toolt vagy modellt. A végrehajtás a meglévő FA3 model-router, MCP/capability gateway, workflow és host-resource authority-kon keresztül történik."
+                                text: "A Studio a végrehajtást a meglévő FA3 model-router, MCP/capability gateway, workflow és host-resource authority-kon keresztül kéri."
                             }
                         }
                     }
@@ -320,34 +326,207 @@ ApplicationWindow {
                     width: parent.width
                     spacing: 16
                     anchors.margins: 24
-                    SectionTitle { title: "Models & Providers"; subtitle: "Model registry, provider projection és inference állapot" }
-                    RowLayout {
+                    SectionTitle { title: "Models & Providers"; subtitle: "Model Manager, hardware-fit ajánlás, registry és provider projection" }
+
+                    Flow {
                         Layout.fillWidth: true
+                        spacing: 12
                         MetricCard { label: "Provider rekord"; value: fa3Repository.providerCount.toString(); note: "canonical provider registry" }
-                        MetricCard { label: "Capability baseline"; value: "143"; note: "változatlan" }
+                        MetricCard {
+                            label: "llmfit"
+                            value: llmfitClient.statusText
+                            note: llmfitClient.available ? "headless Unix socket" : "provider nincs elérhető"
+                        }
+                        MetricCard {
+                            label: "GPU"
+                            value: llmfitClient.system.gpu_count !== undefined ? llmfitClient.system.gpu_count.toString() : "—"
+                            note: llmfitClient.system.gpu_name || "detected by llmfit"
+                        }
+                        MetricCard {
+                            label: "Available VRAM"
+                            value: llmfitClient.system.gpu_available_gb !== undefined && llmfitClient.system.gpu_available_gb !== null ? Number(llmfitClient.system.gpu_available_gb).toFixed(1) + " GiB" : "—"
+                            note: "fit input, nem admission"
+                        }
                     }
-                    Panel {
+
+                    TabBar {
+                        id: modelTabs
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 520
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 14
-                            TextField { id: providerSearch; Layout.fillWidth: true; placeholderText: "Provider keresése…" }
-                            ListView {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                model: fa3Repository.recordsByCategory("provider").filter(function(v) {
-                                    return providerSearch.text.length === 0 ||
-                                           v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 ||
-                                           v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
-                                })
-                                delegate: ItemDelegate {
-                                    width: ListView.view.width
-                                    height: 50
-                                    contentItem: RowLayout {
-                                        Label { text: modelData.id; font.family: "monospace"; Layout.preferredWidth: 330; elide: Text.ElideRight }
-                                        Label { text: modelData.title; Layout.fillWidth: true; elide: Text.ElideRight }
-                                        Label { text: modelData.status; color: window.textMuted; Layout.preferredWidth: 180 }
+                        TabButton { text: "Model Manager" }
+                        TabButton { text: "Providers" }
+                    }
+
+                    StackLayout {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 660
+                        currentIndex: modelTabs.currentIndex
+
+                        Item {
+                            ColumnLayout {
+                                anchors.fill: parent
+                                spacing: 12
+
+                                Panel {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 86
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.margins: 12
+                                        spacing: 10
+                                        Label { text: "Use case"; color: window.textMuted }
+                                        ComboBox {
+                                            id: fitUseCase
+                                            model: ["general", "coding", "reasoning", "chat", "multimodal", "embedding"]
+                                            currentIndex: 0
+                                        }
+                                        Label { text: "Runtime"; color: window.textMuted }
+                                        ComboBox {
+                                            id: fitRuntime
+                                            model: ["any", "llamacpp", "mlx"]
+                                            currentIndex: 0
+                                        }
+                                        Label { text: "Context"; color: window.textMuted }
+                                        SpinBox {
+                                            id: fitContext
+                                            from: 1024
+                                            to: 1048576
+                                            stepSize: 1024
+                                            value: 8192
+                                            editable: true
+                                        }
+                                        Button {
+                                            text: llmfitClient.busy ? "Frissítés…" : "Ajánlások frissítése"
+                                            enabled: !llmfitClient.busy
+                                            onClicked: llmfitClient.recommendModels(fitUseCase.currentText, fitRuntime.currentText, fitContext.value)
+                                        }
+                                        Item { Layout.fillWidth: true }
+                                        Label {
+                                            text: llmfitClient.available ? llmfitClient.socketPath : llmfitClient.lastError
+                                            color: llmfitClient.available ? window.textMuted : "#d99b32"
+                                            elide: Text.ElideMiddle
+                                            Layout.preferredWidth: 300
+                                        }
+                                    }
+                                }
+
+                                Panel {
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    ColumnLayout {
+                                        anchors.fill: parent
+                                        anchors.margins: 10
+                                        RowLayout {
+                                            Layout.fillWidth: true
+                                            Label { text: "Hardware-fit ajánlások"; font.pixelSize: 16; font.bold: true; Layout.fillWidth: true }
+                                            Label { text: llmfitClient.models.length + " modell"; color: window.textMuted }
+                                        }
+                                        ListView {
+                                            Layout.fillWidth: true
+                                            Layout.fillHeight: true
+                                            clip: true
+                                            model: llmfitClient.models
+                                            delegate: ItemDelegate {
+                                                width: ListView.view.width
+                                                height: 78
+                                                highlighted: window.selectedFit.name === modelData.name
+                                                onClicked: window.selectedFit = modelData
+                                                contentItem: RowLayout {
+                                                    spacing: 12
+                                                    ColumnLayout {
+                                                        Layout.fillWidth: true
+                                                        spacing: 2
+                                                        Label { text: modelData.name || "Unnamed model"; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
+                                                        Label {
+                                                            text: (modelData.provider || "") + "  •  " + (modelData.parameter_count || "") + "  •  " + (modelData.use_case || "")
+                                                            color: window.textMuted
+                                                            elide: Text.ElideRight
+                                                            Layout.fillWidth: true
+                                                        }
+                                                    }
+                                                    Label { text: modelData.fit_label || modelData.fit_level || "—"; color: window.accent; Layout.preferredWidth: 88 }
+                                                    Label { text: modelData.best_quant || "native"; Layout.preferredWidth: 90 }
+                                                    Label {
+                                                        text: modelData.memory_required_gb !== undefined ? Number(modelData.memory_required_gb).toFixed(1) + " GiB" : "—"
+                                                        Layout.preferredWidth: 90
+                                                    }
+                                                    Label {
+                                                        text: modelData.estimated_tps !== undefined && modelData.estimated_tps !== null ? Number(modelData.estimated_tps).toFixed(1) + " tok/s" : "—"
+                                                        Layout.preferredWidth: 100
+                                                    }
+                                                    Label { text: modelData.runtime_label || modelData.runtime || "—"; color: window.textMuted; Layout.preferredWidth: 100 }
+                                                    Label { text: modelData.estimate_confidence_label || modelData.estimate_confidence || "estimated"; color: window.textMuted; Layout.preferredWidth: 105 }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Panel {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 116
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.margins: 14
+                                        spacing: 12
+                                        ColumnLayout {
+                                            Layout.fillWidth: true
+                                            Label { text: window.selectedFit.name ? window.selectedFit.name : "Válassz modellt az admission előkészítéséhez"; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
+                                            Label {
+                                                text: "Az llmfit eredmény becslés. PASS csak mért runtime benchmark + FA3 evidence után adható."
+                                                color: window.textMuted
+                                                wrapMode: Text.WordWrap
+                                                Layout.fillWidth: true
+                                            }
+                                            Label { id: modelFitDraft; color: window.accent; elide: Text.ElideMiddle; Layout.fillWidth: true }
+                                        }
+                                        Button {
+                                            text: "Benchmark ChangeSet"
+                                            enabled: !!window.selectedFit.name
+                                            onClicked: modelFitDraft.text = fa3Repository.createDraftChangeSet(
+                                                "MODEL_MANAGER",
+                                                "benchmark.model_fit",
+                                                window.selectedFit.name,
+                                                "Validate llmfit estimate with measured runtime evidence; runtime=" + (window.selectedFit.runtime || "auto") + "; quant=" + (window.selectedFit.best_quant || "native") + "; context=" + fitContext.value)
+                                        }
+                                        Button {
+                                            text: "Placement ChangeSet"
+                                            enabled: !!window.selectedFit.name
+                                            onClicked: modelFitDraft.text = fa3Repository.createDraftChangeSet(
+                                                "MODEL_MANAGER",
+                                                "request.runtime.placement",
+                                                window.selectedFit.name,
+                                                "Request HRB-mediated placement review from llmfit candidate; fit=" + (window.selectedFit.fit_level || "unknown") + "; memory_gb=" + (window.selectedFit.memory_required_gb || "unknown"))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        Item {
+                            Panel {
+                                anchors.fill: parent
+                                ColumnLayout {
+                                    anchors.fill: parent
+                                    anchors.margins: 14
+                                    TextField { id: providerSearch; Layout.fillWidth: true; placeholderText: "Provider keresése…" }
+                                    ListView {
+                                        Layout.fillWidth: true
+                                        Layout.fillHeight: true
+                                        model: fa3Repository.recordsByCategory("provider").filter(function(v) {
+                                            return providerSearch.text.length === 0 ||
+                                                   v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 ||
+                                                   v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
+                                        })
+                                        delegate: ItemDelegate {
+                                            width: ListView.view.width
+                                            height: 50
+                                            onDoubleClicked: fa3Repository.openLocalPath(modelData.path)
+                                            contentItem: RowLayout {
+                                                Label { text: modelData.id; font.family: "monospace"; Layout.preferredWidth: 330; elide: Text.ElideRight }
+                                                Label { text: modelData.title; Layout.fillWidth: true; elide: Text.ElideRight }
+                                                Label { text: modelData.status; color: window.textMuted; Layout.preferredWidth: 180 }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -491,7 +670,7 @@ ApplicationWindow {
                                 width: parent.width
                                 wrapMode: Text.WordWrap
                                 color: window.textMuted
-                                text: "A GUI evidence rekordokat megjelenít, de nem minősíthet saját magától PASS-nak, nem promotálhat runtime-ot és nem írhatja felül a Unified Observability/Evidence authority döntését."
+                                text: "A GUI evidence rekordokat megjelenít, de PASS vagy promotion állapotot csak a Unified Observability/Evidence authority eredménye alapján mutathat."
                             }
                         }
                     }
@@ -524,7 +703,7 @@ ApplicationWindow {
                     SectionTitle { title: "System"; subtitle: "GUI runtime, repository és platform információ" }
                     Panel {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 260
+                        Layout.preferredHeight: 300
                         GridLayout {
                             anchors.fill: parent
                             anchors.margins: 18
@@ -532,13 +711,15 @@ ApplicationWindow {
                             columnSpacing: 22
                             rowSpacing: 10
                             Label { text: "Application"; color: window.textMuted }
-                            Label { text: "FA3 Control Center 0.1.0" }
+                            Label { text: "FA3 Control Center 0.2.0" }
                             Label { text: "Toolkit"; color: window.textMuted }
                             Label { text: "Qt 6 / QML" }
                             Label { text: "Repository"; color: window.textMuted }
                             Label { text: fa3Repository.repoRoot; elide: Text.ElideMiddle; Layout.fillWidth: true }
+                            Label { text: "Model fit provider"; color: window.textMuted }
+                            Label { text: "llmfit via " + llmfitClient.socketPath; elide: Text.ElideMiddle; Layout.fillWidth: true }
                             Label { text: "Mutation policy"; color: window.textMuted }
-                            Label { text: "Draft ChangeSet only — no direct privileged execution" }
+                            Label { text: "Draft ChangeSet only — execution through existing FA3 authorities" }
                             Label { text: "Display target"; color: window.textMuted }
                             Label { text: "KDE Plasma / Wayland" }
                         }
@@ -573,7 +754,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 color: window.textMuted
                 wrapMode: Text.WordWrap
-                text: "A Save csak helyi DRAFT_NOT_SUBMITTED JSON-t készít. Nem futtat parancsot és nem módosít canonical állapotot."
+                text: "A Save csak helyi DRAFT_NOT_SUBMITTED JSON-t készít. Nem futtat műveletet és nem módosít canonical állapotot."
             }
         }
 
