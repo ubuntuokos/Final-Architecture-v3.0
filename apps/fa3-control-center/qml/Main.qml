@@ -21,6 +21,8 @@ ApplicationWindow {
     property url webWorkspaceUrl: "about:blank"
     property string webWorkspaceTitle: "Web Workspace"
     property bool llmFitExpanded: false
+    property bool compactNavigation: false
+    property bool statusStripVisible: true
 
     function openInternalWeb(targetUrl, titleText) {
         webWorkspaceUrl = targetUrl
@@ -185,7 +187,7 @@ ApplicationWindow {
         property int pageIndex: 0
         property bool active: window.selectedIndex === pageIndex
         Layout.fillWidth: true
-        implicitHeight: 36
+        implicitHeight: window.compactNavigation ? 32 : 36
         radius: 6
         color: active ? "#102a43" : navMouse.containsMouse ? "#0d1f31" : "transparent"
         border.color: active ? "#1f4c70" : "transparent"
@@ -321,7 +323,7 @@ ApplicationWindow {
         spacing: 0
 
         Rectangle {
-            Layout.preferredWidth: 224
+            Layout.preferredWidth: window.compactNavigation ? 190 : 224
             Layout.fillHeight: true
             color: window.sidebar
             border.color: window.borderSoft
@@ -536,21 +538,17 @@ ApplicationWindow {
                     ]
                 }
 
-                ModulePage {
-                    pageTitle: "AI Studio"
-                    pageSubtitle: "A teljes lokális kreatív és publikációs pipeline egységes FA3-felülete"
-                    cards: [
-                        {title: "Image", subtitle: "ComfyUI / InvokeAI / editor bridge projection.", badge: "READY", tone: window.magenta},
-                        {title: "Video", subtitle: "Kdenlive, generation, compositing és editorial pipeline.", badge: "READY", tone: window.accent},
-                        {title: "Animation", subtitle: "Motion, character és timeline workflow-k.", badge: "READY", tone: window.cyan},
-                        {title: "3D / VFX", subtitle: "Geometry, Blender/Bforartist, Natron/Gaffer kapcsolatok.", badge: "READY", tone: window.orange},
-                        {title: "Audio", subtitle: "STT, TTS, restoration, separation és voice fabric.", badge: "READY", tone: window.green},
-                        {title: "Music", subtitle: "Music generation, stems, DAW és mastering workflow-k.", badge: "READY", tone: window.magenta},
-                        {title: "Story / Screenplay", subtitle: "FA3 Story profile és production context projection.", badge: "READY", tone: window.accent},
-                        {title: "Marketing", subtitle: "Kampány-, tartalom- és publikációs workflow-k.", badge: "PUBLISH", tone: window.orange},
-                        {title: "Weboldal", subtitle: "Webes publikáció, preview és deployment workflow-k.", badge: "PUBLISH", tone: window.cyan},
-                        {title: "Prezentáció", subtitle: "Prezentációk készítése, exportja és publikációs átadása.", badge: "PUBLISH", tone: window.green}
-                    ]
+                AiStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    cyan: window.cyan
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
                 }
 
                 ModulePage {
@@ -564,46 +562,16 @@ ApplicationWindow {
                     ]
                 }
 
-                ScrollView {
-                    id: providerView
-                    contentWidth: availableWidth
-                    clip: true
-                    padding: 18
-                    ColumnLayout {
-                        width: providerView.availableWidth
-                        spacing: 13
-                        SectionTitle { title: "Models & Providers"; subtitle: "Model Registry, provider projections and local inference surfaces" }
-                        RowLayout {
-                            Layout.fillWidth: true
-                            ModuleCard { title: "Provider Registry"; subtitle: fa3Repository.providerCount + " canonical provider records"; badge: "CANONICAL"; tone: window.accent; Layout.fillWidth: true }
-                            ModuleCard { title: "Capability Baseline"; subtitle: "FA3 baseline remains authority-stable"; badge: "143"; tone: window.green; Layout.fillWidth: true }
-                            ModuleCard { title: "Pending"; subtitle: "Runtime/conformance attention"; badge: fa3Repository.pendingCount.toString(); tone: fa3Repository.pendingCount > 0 ? window.orange : window.green; Layout.fillWidth: true }
-                        }
-                        TextField { id: providerSearch; Layout.fillWidth: true; placeholderText: "Search provider registry…" }
-                        Panel {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 500
-                            ListView {
-                                anchors.fill: parent
-                                anchors.margins: 8
-                                clip: true
-                                model: fa3Repository.recordsByCategory("provider").filter(function(v) {
-                                    return providerSearch.text.length === 0 || v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 || v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
-                                })
-                                delegate: ItemDelegate {
-                                    width: ListView.view.width
-                                    height: 50
-                                    background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
-                                    contentItem: RowLayout {
-                                        Rectangle { width: 7; height: 7; radius: 4; color: window.green }
-                                        Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; Layout.preferredWidth: 310; elide: Text.ElideRight }
-                                        Label { text: modelData.title; color: window.textMuted; Layout.fillWidth: true; elide: Text.ElideRight }
-                                        StatusChip { chipText: modelData.status || "REGISTERED"; tone: modelData.status && modelData.status.indexOf("PENDING") >= 0 ? window.orange : window.green }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                ModelsProvidersPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    cyan: window.cyan
+                    green: window.green
+                    orange: window.orange
                 }
 
                 ScrollView {
@@ -966,17 +934,22 @@ ApplicationWindow {
                     ]
                 }
 
-                ModulePage {
-                    pageTitle: "Rendszerbeállítások"
-                    pageSubtitle: "Az FA3 GUI és host-beállítások policy- és ChangeSet-határon belüli kezelési felülete"
-                    cards: [
-                        {title: "Megjelenés", subtitle: "FA3 téma, sűrűség, betűméret és felületi preferenciák.", badge: "GUI", tone: window.accent},
-                        {title: "Erőforrás-policy", subtitle: "CPU/GPU/NPU/NUMA preferenciák csak ChangeSet-intentként.", badge: "GATED", tone: window.orange},
-                        {title: "Hálózat", subtitle: "Lokális szolgáltatások, provider-hozzáférés és egress policy projekció.", badge: "POLICY", tone: window.cyan},
-                        {title: "Biztonság", subtitle: "Security policy, approval és secret-metadata beállítási felület.", badge: "FAIL-CLOSED", tone: window.magenta},
-                        {title: "Frissítések", subtitle: "FA3 komponens- és provider-frissítési állapotok.", badge: "CONTROLLED", tone: window.green},
-                        {title: "Naplózás", subtitle: "Retention, export és archive-kezelési preferenciák authority-határral.", badge: "JOURNAL", tone: window.accent}
-                    ]
+                SystemSettingsPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    cyan: window.cyan
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    compactNavigation: window.compactNavigation
+                    statusStripVisible: window.statusStripVisible
+                    onCompactNavigationRequested: function(enabled) { window.compactNavigation = enabled }
+                    onStatusStripRequested: function(enabled) { window.statusStripVisible = enabled }
+                    onNavigateRequested: function(pageIndex) { window.selectedIndex = pageIndex }
                 }
 
                 ScrollView {
@@ -1032,8 +1005,9 @@ ApplicationWindow {
             }
 
             Rectangle {
+                visible: window.statusStripVisible
                 Layout.fillWidth: true
-                Layout.preferredHeight: 34
+                Layout.preferredHeight: visible ? 34 : 0
                 color: "#06101c"
                 border.color: window.borderSoft
                 RowLayout {

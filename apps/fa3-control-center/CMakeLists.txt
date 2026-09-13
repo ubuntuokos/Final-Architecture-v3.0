@@ -21,6 +21,9 @@ set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(qml/DashboardPage.qml PROPERTIES QT_RESOURCE_ALIAS DashboardPage.qml)
 set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)
 set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS WebWorkspace.qml)
+set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelsProvidersPage.qml)
+set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
+set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -31,6 +34,9 @@ qt_add_qml_module(fa3-control-center
         qml/DashboardPage.qml
         qml/JournalPage.qml
         qml/WebWorkspace.qml
+        qml/ModelsProvidersPage.qml
+        qml/AiStudioPage.qml
+        qml/SystemSettingsPage.qml
 )
 
 target_link_libraries(fa3-control-center

@@ -16,6 +16,9 @@ REQUIRED = {
     "main_cpp": ROOT / "apps/fa3-control-center/src/main.cpp",
     "model_cpp": ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
     "qml": ROOT / "apps/fa3-control-center/qml/Main.qml",
+    "models_providers_qml": ROOT / "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+    "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
+    "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
@@ -61,8 +64,11 @@ def validate() -> list[str]:
     qml = REQUIRED["qml"].read_text(encoding="utf-8")
     for label in NAVIGATION:
         if label not in qml: failures.append(f"qml-navigation-missing:{label}")
-    for module in ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay"]:
-        if module not in qml: failures.append(f"qml-studio-module-missing:{module}")
+    studio_qml = REQUIRED["studio_qml"].read_text(encoding="utf-8")
+    for module in ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay", "Office", "Marketing", "Weboldal", "Prezentáció"]:
+        if module not in studio_qml: failures.append(f"qml-studio-module-missing:{module}")
+    for office_surface in ["Writer", "Calc", "Impress", "Preview", "Apply/UNO", "Undo"]:
+        if office_surface not in studio_qml: failures.append(f"qml-office-surface-missing:{office_surface}")
     if "createDraftChangeSet" not in qml: failures.append("qml-changeset-intent-missing")
     if "id: askButton" not in qml or "id: askMenu" not in qml or "y: parent.height" not in qml: failures.append("qml-ask-menu-anchor-missing")
     if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
@@ -70,6 +76,11 @@ def validate() -> list[str]:
     if "id: llmFitButton" not in qml or "property bool llmFitExpanded" not in qml or "nincs terminálindítás" not in qml: failures.append("qml-model-manager-llmfit-surface-missing")
     if "id: searchScope" not in qml or "Telepített alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml: failures.append("qml-unified-search-scopes-missing")
     if "id: architectureScope" not in qml or "Canonical Core" not in qml or "Execution Fabric" not in qml or "Evidence & Release" not in qml or "architectureResults" not in qml: failures.append("qml-architecture-semantic-view-missing")
+    models_qml = REQUIRED["models_providers_qml"].read_text(encoding="utf-8")
+    if "id: providerList" not in models_qml or "Layout.fillHeight: true" not in models_qml or "ScrollBar.AlwaysOn" not in models_qml: failures.append("qml-models-providers-responsive-scrollbar-missing")
+    settings_qml = REQUIRED["settings_qml"].read_text(encoding="utf-8")
+    if "compactNavigationRequested" not in settings_qml or "statusStripRequested" not in settings_qml or "ChangeSet-tervezet" not in settings_qml or "Security & Approvals megnyitása" not in settings_qml: failures.append("qml-system-settings-interaction-missing")
+    if "ModelsProvidersPage" not in qml or "AiStudioPage" not in qml or "SystemSettingsPage" not in qml: failures.append("qml-dedicated-page-wiring-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
