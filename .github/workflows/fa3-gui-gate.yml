@@ -25,7 +25,9 @@ on:
       - 'evidence/reference/fa3-gui-settings-mentor-coach-reference-pass.json'
       - 'src/fa3_gui_gate.py'
       - 'src/fa3_gui_usability_gate.py'
+      - 'src/fa3_gui_catalog_search_starter_gate.py'
       - 'tests/test_fa3_gui_gate.py'
+      - 'tests/test_fa3_gui_catalog_search_starter_gate.py'
       - '.github/workflows/fa3-gui-gate.yml'
   pull_request:
     paths:
@@ -34,7 +36,9 @@ on:
       - 'deployment/fa3-gui/**'
       - 'src/fa3_gui_gate.py'
       - 'src/fa3_gui_usability_gate.py'
+      - 'src/fa3_gui_catalog_search_starter_gate.py'
       - 'tests/test_fa3_gui_gate.py'
+      - 'tests/test_fa3_gui_catalog_search_starter_gate.py'
       - '.github/workflows/fa3-gui-gate.yml'
   workflow_dispatch:
 
@@ -54,8 +58,10 @@ jobs:
         run: PYTHONPATH=. python src/fa3_gui_gate.py
       - name: Run GUI usability regression gate
         run: PYTHONPATH=. python src/fa3_gui_usability_gate.py
+      - name: Run catalog/search/starter regression gate
+        run: PYTHONPATH=. python src/fa3_gui_catalog_search_starter_gate.py
       - name: Run GUI unit regression
-        run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v
+        run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate tests.test_fa3_gui_catalog_search_starter_gate -v
 
   qt-reference-build:
     runs-on: ubuntu-latest
