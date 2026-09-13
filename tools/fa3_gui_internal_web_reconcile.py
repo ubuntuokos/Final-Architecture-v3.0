@@ -5,7 +5,6 @@ main = root / 'apps/fa3-control-center/qml/Main.qml'
 cmake = root / 'apps/fa3-control-center/CMakeLists.txt'
 cpp = root / 'apps/fa3-control-center/src/main.cpp'
 installer = root / 'deployment/fa3-gui/install.sh'
-gate = root / '.github/workflows/fa3-gui-gate.yml'
 web = root / 'apps/fa3-control-center/qml/WebWorkspace.qml'
 
 
@@ -89,23 +88,3 @@ negative = '''done\n\nif grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)
 if marker not in installer_text:
     raise SystemExit('installer negative-gate marker not found')
 installer.write_text(installer_text.replace(marker, negative, 1))
-
-replace_once(
-    gate,
-    '            qt6-base-dev qt6-declarative-dev \\\n',
-    '            qt6-base-dev qt6-declarative-dev qt6-webengine-dev \\\n'
-)
-replace_once(
-    gate,
-    '            qml6-module-qtquick qml6-module-qtquick-controls \\\n',
-    '            qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtwebengine \\\n'
-)
-
-# Remove the one-shot materialization machinery from the resulting branch.
-for transient in [
-    root / '.github/workflows/fa3-internal-web-workspace-reconcile.yml',
-    root / '.github/workflows/fa3-internal-web-reconcile-v2.yml',
-    root / 'tools/fa3_gui_internal_web_reconcile.py',
-]:
-    if transient.exists():
-        transient.unlink()
