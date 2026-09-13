@@ -1,0 +1,34 @@
+name: FA3 GUI release projection reconcile once
+
+on:
+  push:
+    branches:
+      - fa3-gui-restore-navigation-surfaces
+    paths:
+      - .github/workflows/fa3-gui-release-projection-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-restore-navigation-surfaces
+          fetch-depth: 0
+      - name: Remove one-shot workflow before snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/fa3-gui-release-projection-once.yml
+          git add -A
+          git commit -m "chore: retire one-shot GUI projection reconciler"
+      - name: Regenerate release projection deterministically
+        run: |
+          python src/fa3_release_projection_regenerate.py --snapshot-head HEAD
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3 GUI: reconcile unified release projection"
+      - name: Push reconciled branch
+        run: git push origin HEAD:fa3-gui-restore-navigation-surfaces
