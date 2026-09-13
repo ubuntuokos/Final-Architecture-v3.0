@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 WebEngineQuick)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -20,6 +20,7 @@ qt_add_executable(fa3-control-center
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(qml/DashboardPage.qml PROPERTIES QT_RESOURCE_ALIAS DashboardPage.qml)
 set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)
+set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS WebWorkspace.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -29,12 +30,14 @@ qt_add_qml_module(fa3-control-center
         qml/Main.qml
         qml/DashboardPage.qml
         qml/JournalPage.qml
+        qml/WebWorkspace.qml
 )
 
 target_link_libraries(fa3-control-center
     PRIVATE
         Qt6::Quick
         Qt6::QuickControls2
+        Qt6::WebEngineQuick
 )
 
 install(TARGETS fa3-control-center

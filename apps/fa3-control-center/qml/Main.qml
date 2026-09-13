@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
+import QtWebEngine
 
 ApplicationWindow {
     id: window
@@ -16,6 +17,15 @@ ApplicationWindow {
     property string dashboardCanonicalName: "Command Center"
     property int selectedIndex: 0
     property string askRole: "Mentor"
+    property bool webWorkspaceOpen: false
+    property url webWorkspaceUrl: "about:blank"
+    property string webWorkspaceTitle: "Web Workspace"
+
+    function openInternalWeb(targetUrl, titleText) {
+        webWorkspaceUrl = targetUrl
+        webWorkspaceTitle = titleText
+        webWorkspaceOpen = true
+    }
 
     property color canvas: "#07111f"
     property color sidebar: "#081421"
@@ -186,7 +196,7 @@ ApplicationWindow {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: Qt.openUrlExternally(quickLinkRoot.targetUrl)
+            onClicked: window.openInternalWeb(quickLinkRoot.targetUrl, quickLinkRoot.linkText)
         }
     }
 
@@ -377,7 +387,7 @@ ApplicationWindow {
                 id: pages
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                currentIndex: window.selectedIndex
+                currentIndex: window.webWorkspaceOpen ? 17 : window.selectedIndex
 
                 Item {
                     DashboardPage {
@@ -775,6 +785,18 @@ ApplicationWindow {
                             }
                         }
                     }
+                }
+
+                WebWorkspace {
+                    webUrl: window.webWorkspaceUrl
+                    titleText: window.webWorkspaceTitle
+                    surface: window.panel
+                    surfaceRaised: window.panelRaised
+                    borderTone: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    onCloseRequested: window.webWorkspaceOpen = false
                 }
             }
 

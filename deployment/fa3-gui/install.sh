@@ -31,6 +31,8 @@ required_markers=(
   'labelText: "CPU"'
   'labelText: "GPU"'
   'labelText: "NPU"'
+  'import QtWebEngine'
+  'openInternalWeb'
 )
 
 for marker in "${required_markers[@]}"; do
@@ -39,6 +41,11 @@ for marker in "${required_markers[@]}"; do
     exit 3
   fi
 done
+
+if grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then
+  echo "FA3 GUI source-contract check FAILED: QuickLink still escapes to an external browser" >&2
+  exit 3
+fi
 
 if command -v git >/dev/null 2>&1 && git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   SOURCE_REV="$(git -C "$REPO_ROOT" rev-parse --short=12 HEAD)"
@@ -50,8 +57,8 @@ if command -v apt-get >/dev/null 2>&1; then
   sudo apt-get update
   sudo apt-get install -y \
     build-essential cmake ninja-build \
-    qt6-base-dev qt6-declarative-dev \
-    qml6-module-qtquick qml6-module-qtquick-controls \
+    qt6-base-dev qt6-declarative-dev qt6-webengine-dev \
+    qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtwebengine \
     qml6-module-qtquick-layouts qml6-module-qtqml-workerscript
 fi
 
