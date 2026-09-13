@@ -28,6 +28,110 @@ ApplicationWindow {
         webWorkspaceOpen = true
     }
 
+    property var uiSearchIndex: [
+        {title: "Dashboard", detail: "Command Center és rendszerállapot", category: "FUNCTION", pageIndex: 0},
+        {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", pageIndex: 1},
+        {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", pageIndex: 2},
+        {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", pageIndex: 3},
+        {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", pageIndex: 3},
+        {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", pageIndex: 3},
+        {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", pageIndex: 3},
+        {title: "3D / VFX", detail: "AI Studio 3D és VFX", category: "FUNCTION", pageIndex: 3},
+        {title: "Audio", detail: "AI Studio audio", category: "FUNCTION", pageIndex: 3},
+        {title: "Music", detail: "AI Studio zenei workflow", category: "FUNCTION", pageIndex: 3},
+        {title: "Story / Screenplay", detail: "Történet és forgatókönyv", category: "FUNCTION", pageIndex: 3},
+        {title: "Marketing", detail: "Marketing és publikációs workflow", category: "FUNCTION", pageIndex: 3},
+        {title: "Weboldal", detail: "Webes publikáció", category: "FUNCTION", pageIndex: 3},
+        {title: "Prezentáció", detail: "Prezentáció készítés és export", category: "FUNCTION", pageIndex: 3},
+        {title: "Agents & Workflows", detail: "Agentek, taskok és durable workflow-k", category: "FUNCTION", pageIndex: 4},
+        {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", pageIndex: 5},
+        {title: "Model Manager", detail: "Modellek felderítése és nyilvántartása", category: "FUNCTION", pageIndex: 6},
+        {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", pageIndex: 6},
+        {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", pageIndex: 8},
+        {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", pageIndex: 9},
+        {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", pageIndex: 10},
+        {title: "Observability", detail: "Metrics, traces és provenance", category: "FUNCTION", pageIndex: 11},
+        {title: "Napló / Journal", detail: "Rendszer-, beszélgetés- és projektnapló", category: "FUNCTION", pageIndex: 12},
+        {title: "Evidence", detail: "Conformance és promotion evidence", category: "FUNCTION", pageIndex: 13},
+        {title: "Integrations", detail: "Desktop, MCP és provider integrációk", category: "FUNCTION", pageIndex: 14},
+        {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", pageIndex: 15},
+        {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", pageIndex: 16},
+        {title: "Megjelenés", detail: "Téma, sűrűség és betűméret", category: "SETTING", pageIndex: 15},
+        {title: "Erőforrás-policy", detail: "CPU/GPU/NPU/NUMA preferenciák", category: "SETTING", pageIndex: 15},
+        {title: "Hálózat", detail: "Lokális szolgáltatások és egress policy", category: "SETTING", pageIndex: 15},
+        {title: "Biztonság", detail: "Security policy és approval beállítások", category: "SETTING", pageIndex: 15},
+        {title: "Frissítések", detail: "FA3 komponens- és provider-frissítések", category: "SETTING", pageIndex: 15},
+        {title: "Naplózás", detail: "Retention, export és archive preferenciák", category: "SETTING", pageIndex: 15}
+    ]
+
+    function searchUiEntries(query, category) {
+        var needle = query.trim().toLowerCase()
+        var out = []
+        for (var i = 0; i < uiSearchIndex.length; ++i) {
+            var entry = uiSearchIndex[i]
+            if (category !== "ALL" && entry.category !== category)
+                continue
+            var haystack = (entry.title + " " + entry.detail).toLowerCase()
+            if (needle.length === 0 || haystack.indexOf(needle) >= 0) {
+                out.push({id: entry.title, title: entry.title, subtitle: entry.detail, status: "FA3 UI", category: entry.category, sourceType: entry.category, pageIndex: entry.pageIndex, path: ""})
+            }
+        }
+        return out
+    }
+
+    function unifiedSearchResults(query, scope) {
+        var needle = query.trim()
+        var out = []
+        var i
+        if (scope === "ALL" || scope === "PROJECT") {
+            var projectRows = fa3Journal.filteredEvents("ALL", needle)
+            var seenProjects = ({})
+            for (i = projectRows.length - 1; i >= 0; --i) {
+                var p = projectRows[i]
+                var projectId = p.project_id || ""
+                if (projectId.length === 0 || seenProjects[projectId])
+                    continue
+                seenProjects[projectId] = true
+                out.push({id: projectId, title: projectId, subtitle: p.summary || p.details || "Projekt naplóbejegyzés", status: p.lifecycle || "PROJECT", category: "PROJECT", sourceType: "PROJECT", pageIndex: 2, path: ""})
+            }
+        }
+        if (scope === "ALL" || scope === "CONVERSATION") {
+            var conversationRows = fa3Journal.filteredEvents("CONVERSATION", needle)
+            for (i = conversationRows.length - 1; i >= 0; --i) {
+                var c = conversationRows[i]
+                out.push({id: c.id || "CONVERSATION", title: c.summary || "Beszélgetés", subtitle: c.details || c.source || "Conversation journal", status: c.lifecycle || "RECORDED", category: "CONVERSATION", sourceType: "CONVERSATION", pageIndex: 12, path: ""})
+                if (out.length >= 300) break
+            }
+        }
+        if (scope === "ALL" || scope === "APPLICATION") {
+            var apps = fa3Repository.searchInstalledApplications(needle)
+            for (i = 0; i < apps.length; ++i) out.push(apps[i])
+        }
+        if (scope === "ALL" || scope === "FUNCTION") {
+            var functions = searchUiEntries(needle, "FUNCTION")
+            for (i = 0; i < functions.length; ++i) out.push(functions[i])
+        }
+        if (scope === "ALL" || scope === "SETTING") {
+            var settings = searchUiEntries(needle, "SETTING")
+            for (i = 0; i < settings.length; ++i) out.push(settings[i])
+        }
+        if (scope === "ALL" || scope === "CANONICAL") {
+            var records = fa3Repository.searchRecords(needle)
+            for (i = 0; i < records.length; ++i) {
+                var r = records[i]
+                out.push({id: r.id, title: r.title, subtitle: r.path, status: r.status, category: r.category.toUpperCase(), sourceType: "CANONICAL", pageIndex: -1, path: r.path})
+            }
+        }
+        return out
+    }
+
+    function architectureResults(query, scope) {
+        var records = fa3Repository.searchRecords(query)
+        if (scope === "ALL") return records
+        var wanted = scope.toLowerCase()
+        return records.filter(function(v) { return v.category.toLowerCase() === wanted })
+    }
+
     property color canvas: "#07111f"
     property color sidebar: "#081421"
     property color panel: "#0b1728"
@@ -625,30 +729,62 @@ ApplicationWindow {
                     ColumnLayout {
                         width: searchView.availableWidth
                         spacing: 13
-                        SectionTitle { title: "Keresés"; subtitle: "Egységes keresés a canonical rekordok, provider-ek, döntések és evidence-projekciók között" }
-                        TextField { id: globalSearch; Layout.fillWidth: true; placeholderText: "Keresés ID, cím, státusz vagy útvonal alapján…" }
+                        SectionTitle { title: "Keresés"; subtitle: "Projekt, beszélgetés, telepített alkalmazás, FA3-funkció, beállítás és canonical rekord egy helyen" }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 10
+                            ComboBox {
+                                id: searchScope
+                                Layout.preferredWidth: 230
+                                textRole: "label"
+                                valueRole: "value"
+                                model: [
+                                    {label: "Minden", value: "ALL"},
+                                    {label: "Projektek", value: "PROJECT"},
+                                    {label: "Beszélgetések", value: "CONVERSATION"},
+                                    {label: "Telepített alkalmazások", value: "APPLICATION"},
+                                    {label: "FA3 funkciók", value: "FUNCTION"},
+                                    {label: "Beállítások", value: "SETTING"},
+                                    {label: "Canonical rekordok", value: "CANONICAL"}
+                                ]
+                            }
+                            TextField { id: globalSearch; Layout.fillWidth: true; placeholderText: "Mit keresel?" }
+                        }
+                        Label {
+                            text: window.unifiedSearchResults(globalSearch.text, searchScope.currentValue).length + " találat · " + searchScope.currentText
+                            color: window.textMuted
+                            font.pixelSize: 9
+                        }
                         Panel {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 620
+                            Layout.preferredHeight: Math.max(430, searchView.availableHeight - 155)
                             ListView {
+                                id: unifiedSearchList
                                 anchors.fill: parent
                                 anchors.margins: 8
                                 clip: true
-                                model: fa3Repository.searchRecords(globalSearch.text)
+                                boundsBehavior: Flickable.StopAtBounds
+                                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn; active: true }
+                                model: window.unifiedSearchResults(globalSearch.text, searchScope.currentValue)
                                 delegate: ItemDelegate {
                                     width: ListView.view.width
-                                    height: 56
+                                    height: 62
                                     background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
-                                    onDoubleClicked: fa3Repository.openLocalPath(modelData.path)
+                                    onDoubleClicked: {
+                                        if (modelData.pageIndex !== undefined && modelData.pageIndex >= 0)
+                                            window.selectedIndex = modelData.pageIndex
+                                        else if (modelData.sourceType === "CANONICAL" && modelData.path)
+                                            fa3Repository.openLocalPath(modelData.path)
+                                    }
                                     contentItem: RowLayout {
-                                        StatusChip { chipText: modelData.category.toUpperCase(); tone: window.accent }
+                                        StatusChip { chipText: modelData.category || modelData.sourceType || "RESULT"; tone: modelData.sourceType === "SETTING" ? window.orange : window.accent }
                                         ColumnLayout {
                                             Layout.fillWidth: true
                                             spacing: 1
-                                            Label { text: modelData.id; color: window.textPrimary; font.family: "monospace"; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
-                                            Label { text: modelData.title; color: window.textMuted; font.pixelSize: 10; Layout.fillWidth: true; elide: Text.ElideRight }
+                                            Label { text: modelData.title || modelData.id; color: window.textPrimary; font.pixelSize: 11; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
+                                            Label { text: modelData.subtitle || modelData.id || ""; color: window.textMuted; font.pixelSize: 9; Layout.fillWidth: true; elide: Text.ElideRight }
                                         }
-                                        Label { text: modelData.status; color: modelData.status.indexOf("PENDING") >= 0 ? window.orange : window.textMuted; font.pixelSize: 10; Layout.preferredWidth: 170 }
+                                        Label { text: modelData.status || ""; color: (modelData.status || "").indexOf("PENDING") >= 0 ? window.orange : window.textMuted; font.pixelSize: 9; Layout.preferredWidth: 150; elide: Text.ElideRight }
                                     }
                                 }
                             }
@@ -664,23 +800,51 @@ ApplicationWindow {
                     ColumnLayout {
                         width: architectureView.availableWidth
                         spacing: 13
-                        SectionTitle { title: "Architecture Explorer"; subtitle: "Profiles, contracts, providers, decisions, gates and conformance records" }
-                        TextField { id: architectureSearch; Layout.fillWidth: true; placeholderText: "Search canonical graph…" }
+                        SectionTitle { title: "Architecture"; subtitle: "Az FA3 canonical szerkezetének külön nézete: core, execution fabric, gates, runtime és evidence" }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            ModuleCard { Layout.fillWidth: true; title: "Canonical Core"; subtitle: fa3Repository.profileCount + " profile · " + fa3Repository.recordsByCategory("contract").length + " contract · " + fa3Repository.decisionCount + " decision"; badge: "CORE"; tone: window.accent }
+                            ModuleCard { Layout.fillWidth: true; title: "Execution Fabric"; subtitle: fa3Repository.providerCount + " provider · " + fa3Repository.recordsByCategory("gate").length + " gate · " + fa3Repository.recordsByCategory("runtime").length + " runtime"; badge: "FABRIC"; tone: window.cyan }
+                            ModuleCard { Layout.fillWidth: true; title: "Evidence & Release"; subtitle: fa3Repository.evidenceCount + " evidence · " + fa3Repository.pendingCount + " pending canonical item"; badge: "EVIDENCE"; tone: fa3Repository.pendingCount > 0 ? window.orange : window.green }
+                        }
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 10
+                            ComboBox {
+                                id: architectureScope
+                                Layout.preferredWidth: 210
+                                textRole: "label"
+                                valueRole: "value"
+                                model: [
+                                    {label: "Teljes architektúra", value: "ALL"},
+                                    {label: "Profiles", value: "PROFILE"},
+                                    {label: "Contracts", value: "CONTRACT"},
+                                    {label: "Providers", value: "PROVIDER"},
+                                    {label: "Decisions", value: "DECISION"},
+                                    {label: "Gates", value: "GATE"},
+                                    {label: "Runtime conformance", value: "RUNTIME"}
+                                ]
+                            }
+                            TextField { id: architectureSearch; Layout.fillWidth: true; placeholderText: "Architektúra rekord szűrése…" }
+                        }
                         Panel {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 620
+                            Layout.preferredHeight: Math.max(390, architectureView.availableHeight - 300)
                             ListView {
+                                id: architectureList
                                 anchors.fill: parent
                                 anchors.margins: 8
                                 clip: true
-                                model: fa3Repository.searchRecords(architectureSearch.text)
+                                boundsBehavior: Flickable.StopAtBounds
+                                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn; active: true }
+                                model: window.architectureResults(architectureSearch.text, architectureScope.currentValue)
                                 delegate: ItemDelegate {
                                     width: ListView.view.width
-                                    height: 56
+                                    height: 58
                                     background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
                                     onDoubleClicked: fa3Repository.openLocalPath(modelData.path)
                                     contentItem: RowLayout {
-                                        StatusChip { chipText: modelData.category.toUpperCase(); tone: window.accent }
+                                        StatusChip { chipText: modelData.category.toUpperCase(); tone: modelData.category === "gate" ? window.orange : window.accent }
                                         ColumnLayout {
                                             Layout.fillWidth: true
                                             spacing: 1

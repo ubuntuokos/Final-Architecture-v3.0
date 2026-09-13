@@ -68,11 +68,14 @@ def validate() -> list[str]:
     if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
     if "id: modelRegistryList" not in qml or "modelManagerView.availableHeight - 250" not in qml or "ScrollBar.AlwaysOn" not in qml: failures.append("qml-model-registry-responsive-scrollbar-missing")
     if "id: llmFitButton" not in qml or "property bool llmFitExpanded" not in qml or "nincs terminálindítás" not in qml: failures.append("qml-model-manager-llmfit-surface-missing")
+    if "id: searchScope" not in qml or "Telepített alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml: failures.append("qml-unified-search-scopes-missing")
+    if "id: architectureScope" not in qml or "Canonical Core" not in qml or "Execution Fabric" not in qml or "Evidence & Release" not in qml or "architectureResults" not in qml: failures.append("qml-architecture-semantic-view-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
     if '"direct_execution_allowed", false' not in model_cpp: failures.append("backend-direct-execution-denial-missing")
     if '"canonical_write_allowed", false' not in model_cpp: failures.append("backend-canonical-write-denial-missing")
+    if "searchInstalledApplications" not in model_cpp or "scanApplications" not in model_cpp or "QSettings" not in model_cpp: failures.append("backend-installed-app-search-missing")
     for token in FORBIDDEN_BACKEND_TOKENS:
         if token in model_cpp: failures.append(f"backend-forbidden-token:{token}")
 

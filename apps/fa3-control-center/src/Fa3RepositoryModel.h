@@ -39,6 +39,7 @@ public:
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE QVariantList searchRecords(const QString &query) const;
+    Q_INVOKABLE QVariantList searchInstalledApplications(const QString &query) const;
     Q_INVOKABLE QVariantList recordsByCategory(const QString &category) const;
     Q_INVOKABLE QString createDraftChangeSet(const QString &scope, const QString &action, const QString &target, const QString &rationale);
     Q_INVOKABLE bool openLocalPath(const QString &relativePath) const;
@@ -52,10 +53,12 @@ private:
     QString discoverRepositoryRoot() const;
     void scanCanonical();
     void scanEvidence();
+    void scanApplications();
     QVariantMap recordFromJson(const QString &absolutePath, const QString &relativePath) const;
 
     QString m_repoRoot;
     QVariantList m_records;
+    QVariantList m_installedApplications;
     int m_canonicalRecordCount = 0;
     int m_profileCount = 0;
     int m_providerCount = 0;
