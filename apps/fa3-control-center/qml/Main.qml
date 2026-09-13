@@ -66,7 +66,7 @@ ApplicationWindow {
 
     component NavButton: Rectangle {
         property string iconText: "•"
-        property string labelText: ""
+        property string label: ""
         property int pageIndex: 0
         property bool active: window.selectedIndex === pageIndex
         Layout.fillWidth: true
@@ -88,7 +88,7 @@ ApplicationWindow {
                 horizontalAlignment: Text.AlignHCenter
             }
             Label {
-                text: parent.parent.labelText
+                text: parent.parent.label
                 color: parent.parent.active ? window.textPrimary : window.textMuted
                 font.pixelSize: 10
                 font.bold: parent.parent.active
@@ -223,25 +223,25 @@ ApplicationWindow {
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "⌂"; labelText: "Dashboard"; pageIndex: 0 }
-                        NavButton { iconText: "▣"; labelText: "Projects"; pageIndex: 1 }
-                        NavButton { iconText: "⌘"; labelText: "Agents & Workflows"; pageIndex: 3 }
-                        NavButton { iconText: "◫"; labelText: "Models & Providers"; pageIndex: 4 }
-                        NavButton { iconText: "◇"; labelText: "Architecture"; pageIndex: 5 }
-                        NavButton { iconText: "⚙"; labelText: "System"; pageIndex: 12 }
+                        NavButton { iconText: "⌂"; label: "Dashboard"; pageIndex: 0 }
+                        NavButton { iconText: "▣"; label: "Projects"; pageIndex: 1 }
+                        NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 3 }
+                        NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 4 }
+                        NavButton { iconText: "◇"; label: "Architecture"; pageIndex: 5 }
+                        NavButton { iconText: "⚙"; label: "System"; pageIndex: 12 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "✦"; labelText: "AI Studio"; pageIndex: 2 }
+                        NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 2 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "▤"; labelText: "Resources"; pageIndex: 6 }
-                        NavButton { iconText: "◆"; labelText: "Security & Approvals"; pageIndex: 7 }
-                        NavButton { iconText: "⌁"; labelText: "Observability"; pageIndex: 8 }
-                        NavButton { iconText: "≡"; labelText: "Napló / Journal"; pageIndex: 9 }
-                        NavButton { iconText: "✓"; labelText: "Evidence"; pageIndex: 10 }
-                        NavButton { iconText: "↔"; labelText: "Integrations"; pageIndex: 11 }
+                        NavButton { iconText: "▤"; label: "Resources"; pageIndex: 6 }
+                        NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 7 }
+                        NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 8 }
+                        NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 9 }
+                        NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 10 }
+                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 11 }
                     }
                 }
 
