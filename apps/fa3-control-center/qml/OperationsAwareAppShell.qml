@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
+import QtWebEngine
 
 AnimationAwareAppShell {
     id: shell
@@ -21,8 +22,6 @@ AnimationAwareAppShell {
 
     Component.onCompleted: {
         fa3ResourceTelemetry.refreshNow()
-        fa3Journal.refresh(400)
-        llmfitClient.refresh()
     }
 
     component AskDialog: Dialog {
@@ -124,9 +123,13 @@ AnimationAwareAppShell {
             }
             Label { text: "FA3"; font.pixelSize: shell.px(21); font.bold: true }
             Label { text: "Final Architecture 3.0"; font.pixelSize: shell.px(14); font.bold: true }
-            Button { text: "Remote AI Hub · HF"; highlighted: true; onClicked: remoteDrawer.open() }
-            Button { text: shell.t("Naplók", "Logs"); onClicked: logsDrawer.open() }
-            Button { text: "llmfit"; onClicked: llmfitDrawer.open() }
+            Button {
+                text: "Hugging Face"
+                highlighted: true
+                onClicked: huggingFaceDrawer.open()
+                ToolTip.visible: hovered
+                ToolTip.text: shell.t("Hugging Face megnyitása az FA3 beágyazott nézetében", "Open Hugging Face in the embedded FA3 view")
+            }
             Item { Layout.fillWidth: true }
             Label { text: shell.t("Kérdezd", "Ask"); font.bold: true }
             ToolButton {
@@ -148,8 +151,6 @@ AnimationAwareAppShell {
                 onClicked: {
                     fa3Repository.refresh()
                     fa3ResourceTelemetry.refreshNow()
-                    fa3Journal.refresh(400)
-                    llmfitClient.refresh()
                 }
             }
         }
@@ -160,6 +161,98 @@ AnimationAwareAppShell {
         textPrimary: shell.textPrimary
         textMuted: shell.textMuted
         accent: shell.accent
+    }
+
+    // Contextual submenu: provider/advisory surfaces live under Model Manager;
+    // logs live under Settings. They are intentionally absent from the global header.
+    Frame {
+        id: contextualSubmenu
+        parent: shell.contentItem
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.topMargin: Math.round(10 * shell.uiScale)
+        anchors.rightMargin: Math.round(16 * shell.uiScale)
+        z: 1000
+        visible: shell.selectedIndex === shell.indexForKey("modelManager") || shell.selectedIndex === shell.indexForKey("settings")
+        padding: Math.round(5 * shell.uiScale)
+
+        RowLayout {
+            spacing: 6
+            Label {
+                text: shell.selectedIndex === shell.indexForKey("modelManager") ? "Model Manager" : shell.t("Beállítások", "Settings")
+                color: shell.textMuted
+                font.bold: true
+            }
+            Button {
+                visible: shell.selectedIndex === shell.indexForKey("modelManager")
+                text: "llmfit"
+                onClicked: {
+                    llmfitClient.refresh()
+                    llmfitDrawer.open()
+                }
+            }
+            Button {
+                visible: shell.selectedIndex === shell.indexForKey("modelManager")
+                text: "Remote AI Hub"
+                onClicked: remoteDrawer.open()
+            }
+            Button {
+                visible: shell.selectedIndex === shell.indexForKey("settings")
+                text: shell.t("Naplók", "Logs")
+                onClicked: {
+                    fa3Journal.refresh(400)
+                    logsDrawer.open()
+                }
+            }
+        }
+    }
+
+    Drawer {
+        id: huggingFaceDrawer
+        parent: shell.contentItem
+        edge: Qt.RightEdge
+        modal: true
+        width: Math.min(shell.width * 0.90, 1480)
+        height: shell.height
+        contentItem: ColumnLayout {
+            spacing: 0
+            ToolBar {
+                Layout.fillWidth: true
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 10
+                    anchors.rightMargin: 10
+                    ToolButton { text: "←"; enabled: hfWebView.canGoBack; onClicked: hfWebView.goBack() }
+                    ToolButton { text: "→"; enabled: hfWebView.canGoForward; onClicked: hfWebView.goForward() }
+                    ToolButton { text: "↻"; onClicked: hfWebView.reload() }
+                    Label { text: "Hugging Face"; font.bold: true }
+                    TextField {
+                        Layout.fillWidth: true
+                        readOnly: true
+                        text: hfWebView.url.toString()
+                        selectByMouse: true
+                    }
+                    ToolButton { text: "⌂"; onClicked: hfWebView.url = "https://huggingface.co/" }
+                    ToolButton { text: "×"; onClicked: huggingFaceDrawer.close() }
+                }
+            }
+            WebEngineView {
+                id: hfWebView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                url: "https://huggingface.co/"
+                onNewWindowRequested: function(request) {
+                    request.openIn(hfWebView)
+                }
+                onNavigationRequested: function(request) {
+                    const scheme = request.url.scheme
+                    if (scheme === "http" || scheme === "https" || scheme === "file" || scheme === "data" || scheme === "blob" || scheme === "about")
+                        request.accept()
+                    else
+                        request.reject()
+                }
+            }
+        }
     }
 
     Drawer {
@@ -178,14 +271,11 @@ AnimationAwareAppShell {
                     anchors.leftMargin: 12
                     anchors.rightMargin: 12
                     Label {
-                        text: "Remote AI Hub"
+                        text: "Model Manager · Remote AI Hub"
                         font.bold: true
                         Layout.fillWidth: true
                     }
-                    ToolButton {
-                        text: "×"
-                        onClicked: remoteDrawer.close()
-                    }
+                    ToolButton { text: "×"; onClicked: remoteDrawer.close() }
                 }
             }
             RemoteAiHubPanel {
@@ -214,14 +304,11 @@ AnimationAwareAppShell {
                     anchors.leftMargin: 12
                     anchors.rightMargin: 12
                     Label {
-                        text: shell.t("Naplók", "Logs")
+                        text: shell.t("Beállítások · Naplók", "Settings · Logs")
                         font.bold: true
                         Layout.fillWidth: true
                     }
-                    ToolButton {
-                        text: "×"
-                        onClicked: logsDrawer.close()
-                    }
+                    ToolButton { text: "×"; onClicked: logsDrawer.close() }
                 }
             }
             LogsPanel {
@@ -256,10 +343,7 @@ AnimationAwareAppShell {
                         font.bold: true
                         Layout.fillWidth: true
                     }
-                    ToolButton {
-                        text: "×"
-                        onClicked: llmfitDrawer.close()
-                    }
+                    ToolButton { text: "×"; onClicked: llmfitDrawer.close() }
                 }
             }
             LlmfitPanel {
