@@ -19,11 +19,12 @@ REQUIRED = {
     "models_providers_qml": ROOT / "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
+    "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Command Center", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "System"]
+NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "System"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
 
@@ -81,6 +82,12 @@ def validate() -> list[str]:
     settings_qml = REQUIRED["settings_qml"].read_text(encoding="utf-8")
     if "compactNavigationRequested" not in settings_qml or "statusStripRequested" not in settings_qml or "ChangeSet-tervezet" not in settings_qml or "Security & Approvals megnyitása" not in settings_qml: failures.append("qml-system-settings-interaction-missing")
     if "ModelsProvidersPage" not in qml or "AiStudioPage" not in qml or "SystemSettingsPage" not in qml: failures.append("qml-dedicated-page-wiring-missing")
+
+    rtd_qml = REQUIRED["rtd_qml"].read_text(encoding="utf-8")
+    for token in ["Real-Time Data", "ADAPTER-GATED", "Freshness SLA", "Provenance", "FAIL-CLOSED", "Adapter ChangeSet-tervezet"]:
+        if token not in rtd_qml: failures.append(f"qml-rtd-provider-surface-missing:{token}")
+    if "RtdProvidersPage" not in qml or "RTD Data Sources" not in qml or "RTD Adapters" not in qml or '{label: "Real-Time Data", value: "RTD"}' not in qml:
+        failures.append("qml-rtd-cross-surface-projection-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")

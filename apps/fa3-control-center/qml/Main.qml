@@ -33,6 +33,7 @@ ApplicationWindow {
     property var uiSearchIndex: [
         {title: "Dashboard", detail: "Command Center és rendszerállapot", category: "FUNCTION", pageIndex: 0},
         {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", pageIndex: 1},
+        {title: "RTD Providers", detail: "Real-Time Data provider-ek, frissesség, policy és provenance", category: "FUNCTION", pageIndex: 17},
         {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", pageIndex: 2},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", pageIndex: 3},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", pageIndex: 3},
@@ -65,6 +66,33 @@ ApplicationWindow {
         {title: "Frissítések", detail: "FA3 komponens- és provider-frissítések", category: "SETTING", pageIndex: 15},
         {title: "Naplózás", detail: "Retention, export és archive preferenciák", category: "SETTING", pageIndex: 15}
     ]
+
+    property var rtdProviderCategories: [
+        {code: "SEARCH_WEB", title: "Search & Web", description: "Web search, crawling and changing public web data.", protocols: "REST / Plugin / MCP", freshness: "provider-defined"},
+        {code: "NEWS_SOCIAL", title: "News & Social", description: "News wires, RSS and social/event streams.", protocols: "REST / RSS / WebSocket", freshness: "minutes / stream"},
+        {code: "WEATHER_GEO", title: "Weather & Geo", description: "Weather, alerts, geocoding, POI and map context.", protocols: "REST / stream", freshness: "minutes"},
+        {code: "MARKETS", title: "Markets", description: "FX, equities, crypto and commodity market data.", protocols: "REST / WebSocket", freshness: "seconds / provider SLA"},
+        {code: "SPORTS_TRAFFIC", title: "Sports & Traffic", description: "Scores, schedules, transport and traffic state.", protocols: "REST / stream", freshness: "seconds / minutes"},
+        {code: "REPOSITORIES", title: "Repositories", description: "GitHub/GitLab releases, PRs, issues and repository events.", protocols: "API / webhook", freshness: "event / minutes"},
+        {code: "SYSTEM_SENSORS", title: "System & Sensors", description: "Host telemetry, device sensors and IoT observations.", protocols: "local adapter / MQTT", freshness: "seconds"},
+        {code: "ENTERPRISE", title: "Enterprise", description: "CRM, ERP, helpdesk and organization data feeds.", protocols: "API / connector", freshness: "provider-defined"},
+        {code: "SECURITY", title: "Security", description: "CVE, threat intelligence and security advisory feeds.", protocols: "REST / feed", freshness: "minutes / hours"},
+        {code: "MODELS", title: "Models", description: "Changing model metadata, releases, availability and catalog state.", protocols: "API / registry", freshness: "minutes / hours"},
+        {code: "COMMUNICATION", title: "Communication", description: "Mail, calendar and chat events exposed through authorized adapters.", protocols: "connector / webhook", freshness: "event"},
+        {code: "CUSTOM_API", title: "Custom / API", description: "User- or organization-defined real-time data adapters.", protocols: "REST / WebSocket / MCP", freshness: "declared by adapter"}
+    ]
+
+    function searchRtdEntries(query) {
+        var needle = query.trim().toLowerCase()
+        var out = []
+        for (var i = 0; i < rtdProviderCategories.length; ++i) {
+            var entry = rtdProviderCategories[i]
+            var haystack = (entry.code + " " + entry.title + " " + entry.description).toLowerCase()
+            if (needle.length === 0 || haystack.indexOf(needle) >= 0)
+                out.push({id: entry.code, title: entry.title, subtitle: entry.description, status: "ADAPTER-GATED", category: "RTD", sourceType: "RTD", pageIndex: 17, path: ""})
+        }
+        return out
+    }
 
     function searchUiEntries(query, category) {
         var needle = query.trim().toLowerCase()
@@ -116,6 +144,10 @@ ApplicationWindow {
         if (scope === "ALL" || scope === "SETTING") {
             var settings = searchUiEntries(needle, "SETTING")
             for (i = 0; i < settings.length; ++i) out.push(settings[i])
+        }
+        if (scope === "ALL" || scope === "RTD") {
+            var rtdRows = searchRtdEntries(needle)
+            for (i = 0; i < rtdRows.length; ++i) out.push(rtdRows[i])
         }
         if (scope === "ALL" || scope === "CANONICAL") {
             var records = fa3Repository.searchRecords(needle)
@@ -373,6 +405,7 @@ ApplicationWindow {
                         Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "⌂"; label: "Dashboard"; pageIndex: 0 }
                         NavButton { iconText: "☁"; label: "Remote AI Hub"; pageIndex: 1 }
+                        NavButton { iconText: "◉"; label: "RTD Providers"; pageIndex: 17 }
                         NavButton { iconText: "▣"; label: "Projects"; pageIndex: 2 }
                         NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 4 }
                         NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 5 }
@@ -496,7 +529,7 @@ ApplicationWindow {
                 id: pages
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                currentIndex: window.webWorkspaceOpen ? 17 : window.selectedIndex
+                currentIndex: window.webWorkspaceOpen ? 18 : window.selectedIndex
 
                 Item {
                     DashboardPage {
@@ -558,7 +591,8 @@ ApplicationWindow {
                         {title: "Interactive Agents", subtitle: "Goose és desktop agent projection.", badge: "ROUTED", tone: window.accent},
                         {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások.", badge: "READ", tone: window.green},
                         {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
-                        {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta}
+                        {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
+                        {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan}
                     ]
                 }
 
@@ -713,6 +747,7 @@ ApplicationWindow {
                                     {label: "Telepített alkalmazások", value: "APPLICATION"},
                                     {label: "FA3 funkciók", value: "FUNCTION"},
                                     {label: "Beállítások", value: "SETTING"},
+                                    {label: "Real-Time Data", value: "RTD"},
                                     {label: "Canonical rekordok", value: "CANONICAL"}
                                 ]
                             }
@@ -930,6 +965,7 @@ ApplicationWindow {
                         {title: "Creative Apps", subtitle: "Krita, GIMP, Kdenlive, Bforartist/Blender, Natron/Gaffer.", badge: "DESKTOP", tone: window.magenta},
                         {title: "Agent Clients", subtitle: "Goose, Open WebUI, OpenYak and related projections.", badge: "ROUTED", tone: window.accent},
                         {title: "MCP", subtitle: "Capabilities mediated through the central gateway.", badge: "GATED", tone: window.orange},
+                        {title: "RTD Adapters", subtitle: "REST, WebSocket, RSS, webhook, MCP és local adapter kapcsolatok az RTD Providers számára.", badge: "ADAPTER", tone: window.cyan},
                         {title: "Journal Share", subtitle: "E-mail adapter and chat/export bundle handoff.", badge: "ADAPTER", tone: window.green}
                     ]
                 }
@@ -989,6 +1025,20 @@ ApplicationWindow {
                             }
                         }
                     }
+                }
+
+                RtdProvidersPage {
+                    categories: window.rtdProviderCategories
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    cyan: window.cyan
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
                 }
 
                 WebWorkspace {
