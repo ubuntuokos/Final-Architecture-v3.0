@@ -63,12 +63,7 @@ ApplicationWindow {
             RowLayout {
                 width: parent.width
                 Label { text: parent.parent.parent.title; font.pixelSize: 17; font.bold: true; Layout.fillWidth: true }
-                Label {
-                    text: parent.parent.parent.badge
-                    color: window.accent
-                    font.pixelSize: 10
-                    font.bold: true
-                }
+                Label { text: parent.parent.parent.badge; color: window.accent; font.pixelSize: 10; font.bold: true }
             }
             Label {
                 text: parent.parent.subtitle
@@ -82,6 +77,7 @@ ApplicationWindow {
     ListModel {
         id: navigationModel
         ListElement { label: "Command Center"; iconText: "⌂" }
+        ListElement { label: "Remote AI Hub"; iconText: "◎" }
         ListElement { label: "Projects"; iconText: "▣" }
         ListElement { label: "AI Studio"; iconText: "✦" }
         ListElement { label: "Agents & Workflows"; iconText: "⌘" }
@@ -102,18 +98,9 @@ ApplicationWindow {
             anchors.leftMargin: 18
             anchors.rightMargin: 18
             spacing: 14
-
-            Label {
-                text: "FA3"
-                font.pixelSize: 21
-                font.bold: true
-            }
+            Label { text: "FA3"; font.pixelSize: 21; font.bold: true }
             Rectangle { width: 1; height: 28; color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.16) }
-            Label {
-                text: "Final Architecture 3.0"
-                font.pixelSize: 15
-                font.bold: true
-            }
+            Label { text: "Final Architecture 3.0"; font.pixelSize: 15; font.bold: true }
             Item { Layout.fillWidth: true }
             Label { text: "CANONICAL"; color: window.accent; font.bold: true; font.pixelSize: 11 }
             Label { text: "143 capabilities"; color: window.textMuted; font.pixelSize: 12 }
@@ -131,7 +118,7 @@ ApplicationWindow {
         spacing: 0
 
         Rectangle {
-            Layout.preferredWidth: 238
+            Layout.preferredWidth: 252
             Layout.fillHeight: true
             color: window.surface1
             border.color: Qt.rgba(window.textPrimary.r, window.textPrimary.g, window.textPrimary.b, 0.08)
@@ -146,21 +133,56 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     clip: true
+                    spacing: 3
                     model: navigationModel
                     currentIndex: window.selectedIndex
 
                     delegate: ItemDelegate {
                         width: ListView.view.width
-                        height: 44
+                        height: label === "Remote AI Hub" ? 54 : 44
                         highlighted: ListView.isCurrentItem
                         onClicked: {
                             nav.currentIndex = index
                             window.selectedIndex = index
                         }
-                        contentItem: Row {
-                            spacing: 12
-                            Label { text: iconText; width: 22; horizontalAlignment: Text.AlignHCenter }
-                            Label { text: label; font.pixelSize: 13 }
+                        background: Rectangle {
+                            radius: 10
+                            color: parent.highlighted
+                                   ? Qt.rgba(window.accent.r, window.accent.g, window.accent.b, 0.18)
+                                   : label === "Remote AI Hub"
+                                     ? Qt.rgba(window.accent.r, window.accent.g, window.accent.b, 0.08)
+                                     : "transparent"
+                            border.width: label === "Remote AI Hub" ? 1 : 0
+                            border.color: label === "Remote AI Hub" ? Qt.rgba(window.accent.r, window.accent.g, window.accent.b, 0.70) : "transparent"
+                        }
+                        contentItem: RowLayout {
+                            spacing: 10
+                            Label {
+                                text: iconText
+                                width: 22
+                                horizontalAlignment: Text.AlignHCenter
+                                color: label === "Remote AI Hub" ? window.accent : window.textPrimary
+                            }
+                            Label {
+                                text: label
+                                font.pixelSize: 13
+                                font.bold: label === "Remote AI Hub"
+                                Layout.fillWidth: true
+                            }
+                            Rectangle {
+                                visible: label === "Remote AI Hub"
+                                Layout.preferredWidth: 42
+                                Layout.preferredHeight: 20
+                                radius: 10
+                                color: window.accent
+                                Label {
+                                    anchors.centerIn: parent
+                                    text: "CORE"
+                                    color: palette.highlightedText
+                                    font.pixelSize: 9
+                                    font.bold: true
+                                }
+                            }
                         }
                     }
                 }
@@ -248,6 +270,98 @@ ApplicationWindow {
                     width: parent.width
                     spacing: 18
                     anchors.margins: 24
+                    SectionTitle {
+                        title: "Remote AI Hub"
+                        subtitle: "Kiemelt, providerfüggetlen remote AI application / tool / hosted execution projection"
+                    }
+                    Panel {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 148
+                        border.width: 1
+                        border.color: window.accent
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.margins: 18
+                            spacing: 18
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Label { text: "REMOTE AI EXECUTION · P0 / MUST"; color: window.accent; font.pixelSize: 11; font.bold: true }
+                                Label { text: "FA3-REMOTE-AI-EXEC-001"; font.pixelSize: 22; font.bold: true }
+                                Label {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.WordWrap
+                                    color: window.textMuted
+                                    text: "Discovery → schema normalization → trust/admission → CredentialReference → routing policy → execution → artifact validation → provenance/audit."
+                                }
+                            }
+                            ColumnLayout {
+                                Layout.preferredWidth: 300
+                                Label { text: "PRIMARY REFERENCE"; color: window.accent; font.pixelSize: 10; font.bold: true }
+                                Label { text: "Hugging Face Spaces"; font.pixelSize: 18; font.bold: true }
+                                Label { text: "FA3-PROVIDER-HF-SPACES-001"; color: window.textMuted; font.family: "monospace"; font.pixelSize: 10 }
+                            }
+                        }
+                    }
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: 12
+                        ModuleCard { title: "Hosted AI Apps"; subtitle: "Multimodális, artifact-producing remote alkalmazások policy-gated végrehajtása"; badge: "GATED" }
+                        ModuleCard { title: "REST / OpenAPI"; subtitle: "Queue-based remote execution és normalizált endpoint schema"; badge: "ADAPTER" }
+                        ModuleCard { title: "agents.md"; subtitle: "Agent-native discovery metadata; önmagában nem trust authority"; badge: "DISCOVERY" }
+                        ModuleCard { title: "MCP Tools"; subtitle: "MCP-kompatibilis Space tool surface a Central MCP mediation mögött"; badge: "MEDIATED" }
+                    }
+                    Panel {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 172
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: 16
+                            spacing: 8
+                            Label { text: "Routing & trust boundary"; font.pixelSize: 16; font.bold: true }
+                            Label {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                text: "LOCAL_REQUIRED · LOCAL_PREFERRED_REMOTE_ALLOWED · REMOTE_ALLOWED · SPECIFIC_REMOTE_PROVIDER"
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                color: window.textMuted
+                                text: "No silent fallback: lokális kapacitáshiány nem küldhet adatot automatikusan távoli providerhez. agents.md és OpenAPI discovery metadata csak schema-forrás; allowlist/policy admission nélkül nem végrehajtható capability."
+                            }
+                        }
+                    }
+                    Panel {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 170
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: 16
+                            spacing: 7
+                            Label { text: "Provider és credential szeparáció"; font.pixelSize: 16; font.bold: true }
+                            Label {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                color: window.textMuted
+                                text: "A GUI közvetlen remote provider hívást nem végez. A secret csak CredentialReference formában haladhat a canonical jobban, tényleges credential injection kizárólag az adapter boundary-n történhet."
+                            }
+                            Label {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
+                                color: window.textMuted
+                                text: "HF Model Store = modell artifact discovery/download/cache. HF Spaces = remote application/tool/hosted execution. A két provider projection nem vonható össze."
+                            }
+                        }
+                    }
+                }
+            }
+
+            ScrollView {
+                contentWidth: availableWidth
+                ColumnLayout {
+                    width: parent.width
+                    spacing: 18
+                    anchors.margins: 24
                     SectionTitle { title: "Projects & Workspaces"; subtitle: "Projektek, assetek és knowledge-contextus egy közös operátori nézetben" }
                     Flow {
                         Layout.fillWidth: true
@@ -289,7 +403,7 @@ ApplicationWindow {
                                 width: parent.width
                                 wrapMode: Text.WordWrap
                                 color: window.textMuted
-                                text: "A Studio nem indít közvetlenül privilegizált toolt vagy modellt. A végrehajtás a meglévő FA3 model-router, MCP/capability gateway, workflow és host-resource authority-kon keresztül történik."
+                                text: "A Studio nem indít közvetlenül privilegizált toolt, modellt vagy remote providert. A végrehajtás a meglévő FA3 model-router, MCP/capability gateway, workflow, remote-execution és host-resource authority-kon keresztül történik."
                             }
                         }
                     }
@@ -337,9 +451,7 @@ ApplicationWindow {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 model: fa3Repository.recordsByCategory("provider").filter(function(v) {
-                                    return providerSearch.text.length === 0 ||
-                                           v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 ||
-                                           v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
+                                    return providerSearch.text.length === 0 || v.id.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0 || v.title.toLowerCase().indexOf(providerSearch.text.toLowerCase()) >= 0
                                 })
                                 delegate: ItemDelegate {
                                     width: ListView.view.width
@@ -363,11 +475,7 @@ ApplicationWindow {
                     spacing: 16
                     anchors.margins: 24
                     SectionTitle { title: "Architecture Explorer"; subtitle: "Profiles, contracts, providers, decisions, gates és conformance rekordok" }
-                    TextField {
-                        id: architectureSearch
-                        Layout.fillWidth: true
-                        placeholderText: "Keresés ID, név, státusz vagy path alapján…"
-                    }
+                    TextField { id: architectureSearch; Layout.fillWidth: true; placeholderText: "Keresés ID, név, státusz vagy path alapján…" }
                     Panel {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 620
@@ -511,6 +619,7 @@ ApplicationWindow {
                         ModuleCard { title: "Creative Apps"; subtitle: "Krita, GIMP, Kdenlive, Bforartist/Blender, Natron/Gaffer" }
                         ModuleCard { title: "Agent Clients"; subtitle: "Goose, Open WebUI, OpenYak és kapcsolódó projectionök" }
                         ModuleCard { title: "MCP"; subtitle: "Central gateway által mediált capability-k"; badge: "GATED" }
+                        ModuleCard { title: "Remote AI"; subtitle: "Provider-neutral hosted execution projection; policy-gated"; badge: "FEATURED" }
                     }
                 }
             }
@@ -538,7 +647,7 @@ ApplicationWindow {
                             Label { text: "Repository"; color: window.textMuted }
                             Label { text: fa3Repository.repoRoot; elide: Text.ElideMiddle; Layout.fillWidth: true }
                             Label { text: "Mutation policy"; color: window.textMuted }
-                            Label { text: "Draft ChangeSet only — no direct privileged execution" }
+                            Label { text: "Draft ChangeSet only — no direct privileged or remote-provider execution" }
                             Label { text: "Display target"; color: window.textMuted }
                             Label { text: "KDE Plasma / Wayland" }
                         }
