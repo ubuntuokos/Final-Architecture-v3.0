@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.release-capability-baseline.v1",
+  "id": "FA3-RELEASE-CAPABILITY-BASELINE-001",
+  "title": "Release-Scoped Capability Baseline",
+  "type": "CANONICAL_RELEASE_BASELINE_POLICY",
+  "status": "CANONICAL_POLICY",
+  "architecture_release": "2026-08-23/v3.0.11",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "baseline_semantics": "RELEASE_SCOPED",
+  "current_release": "2026-08-23/v3.0.11",
+  "current_release_capability_count": 143,
+  "release_baselines": [
+    {
+      "release": "2026-08-23/v3.0.11",
+      "capability_count": 143,
+      "canonical_registry": "canonical/conformance-matrix.csv",
+      "evidence_registry": "evidence/evidence-registry.json",
+      "release_projection": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+      "status": "ACTIVE_BASELINE"
+    }
+  ],
+  "interpretation": {
+    "canonical_enforcement_policy_count_is_current_release_mirror": true,
+    "capability_count_is_not_timeless_global_constant": true,
+    "future_release_must_declare_its_own_baseline": true,
+    "future_release_may_change_count_only_with_explicit_release_reconciliation": true,
+    "implicit_carry_forward_of_count_forbidden": true,
+    "file_count_or_provider_count_may_not_infer_capability_count": true
+  },
+  "change_control": {
+    "baseline_change_requires_release_id": true,
+    "baseline_change_requires_registry_reconciliation": true,
+    "baseline_change_requires_evidence_registry_reconciliation": true,
+    "baseline_change_requires_release_projection_reconciliation": true,
+    "baseline_change_requires_permanent_enforcement_pass": true,
+    "baseline_change_must_not_be_inferred_from_projection_or_provider_addition": true
+  },
+  "forbidden_inferences": [
+    "V3_0_CAPABILITY_COUNT_143_IS_TIMELESS",
+    "NEW_PROVIDER_IMPLIES_NEW_CAPABILITY",
+    "NEW_FILE_IMPLIES_NEW_CAPABILITY",
+    "PROJECTION_IMPLIES_NEW_CAPABILITY",
+    "FUTURE_RELEASE_INHERITS_143_WITHOUT_DECLARATION"
+  ],
+  "compatibility": {
+    "legacy_current_release_literals_allowed_only_when_equal_to_active_release_baseline": true,
+    "legacy_literal_mismatch_is_fail_closed": true,
+    "migration_target": "CENTRAL_ENFORCEMENT_READS_ACTIVE_RELEASE_BASELINE"
+  }
+}

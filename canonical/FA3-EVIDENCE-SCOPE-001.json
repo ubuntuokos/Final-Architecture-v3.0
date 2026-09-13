@@ -1,0 +1,129 @@
+{
+  "schema": "fa3.evidence-scope.policy.v1",
+  "id": "FA3-EVIDENCE-SCOPE-001",
+  "title": "Host-Scoped Evidence Evaluation Policy",
+  "type": "CANONICAL_EVIDENCE_SCOPE_POLICY",
+  "status": "CANONICAL_POLICY",
+  "architecture_release": "2026-08-23/v3.0.11",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "fail_closed": true,
+  "purpose": "Scope current-host evidence requirements to actual host obligation and activation without weakening canonical support, Acceptance, Promotion or current-host evidence authority.",
+  "observation_model": {
+    "CANONICAL_SUPPORTED": {
+      "axis": "canonical_support",
+      "meaning": "The capability is supported by the canonical architecture; this alone makes no host-runtime claim.",
+      "positive_current_host_required": false
+    },
+    "HOST_AVAILABLE": {
+      "axis": "host_presence",
+      "meaning": "The capability/provider is discoverable or compatible on the host but is not necessarily enabled or active.",
+      "positive_current_host_required": false
+    },
+    "HOST_ENABLED": {
+      "axis": "host_activation",
+      "meaning": "The capability/provider is configured or enabled for use on the host.",
+      "positive_current_host_required": true
+    },
+    "HOST_ACTIVE": {
+      "axis": "host_activation",
+      "meaning": "The capability/provider is executing or serving on the host.",
+      "positive_current_host_required": true
+    },
+    "PRODUCTION_PROMOTED": {
+      "axis": "promotion",
+      "meaning": "The existing Acceptance and Promotion authorities have admitted the runtime for production.",
+      "positive_current_host_required": true
+    }
+  },
+  "evidence_classes": {
+    "DESIGN_OR_REFERENCE": {
+      "may_prove_canonical_support": true,
+      "may_prove_current_host_runtime": false,
+      "may_prove_production_promotion": false
+    },
+    "NEGATIVE_HOST_ASSURANCE": {
+      "may_satisfy_disabled_optional_disposition": true,
+      "may_prove_positive_runtime": false,
+      "may_prove_production_promotion": false
+    },
+    "POSITIVE_CURRENT_HOST": {
+      "may_prove_enabled_or_active_runtime": true,
+      "requires_real_current_host_execution": true
+    },
+    "PROMOTION_RECEIPT": {
+      "owned_by_existing_promotion_authority": true,
+      "requires_acceptance_pass": true,
+      "requires_positive_current_host_evidence": true
+    }
+  },
+  "scope_rules": [
+    {
+      "id": "EVID-SCOPE-MANDATORY-ACTIVE",
+      "when": "obligation=MANDATORY_OR_REQUIRED AND (activation=ALWAYS_ON_OR_GATE OR host_enabled=true OR host_active=true)",
+      "required_evidence": "POSITIVE_CURRENT_HOST",
+      "blocking": true
+    },
+    {
+      "id": "EVID-SCOPE-ENABLED-OR-ACTIVE",
+      "when": "host_enabled=true OR host_active=true",
+      "required_evidence": "POSITIVE_CURRENT_HOST",
+      "blocking": true
+    },
+    {
+      "id": "EVID-SCOPE-PROMOTION",
+      "when": "production_promotion_requested=true OR production_promoted=true",
+      "required_evidence": "POSITIVE_CURRENT_HOST_PLUS_ACCEPTANCE_AND_PROMOTION_RECEIPT",
+      "blocking": true
+    },
+    {
+      "id": "EVID-SCOPE-OPTIONAL-DISABLED",
+      "when": "obligation=OPTIONAL_OR_CONDITIONAL AND host_enabled=false AND host_active=false AND production_promotion_requested=false",
+      "required_evidence": "NEGATIVE_HOST_ASSURANCE",
+      "blocking_if_negative_assurance_passes": false,
+      "positive_runtime_evidence_required": false
+    }
+  ],
+  "negative_assurance": {
+    "allowed_only_for_optional_or_conditional_disabled_components": true,
+    "may_not_substitute_for_enabled_active_or_promoted_runtime": true,
+    "required_checks": [
+      "NO_UNEXPECTED_PROCESS",
+      "NO_UNEXPECTED_LISTENING_PORT",
+      "NO_UNEXPECTED_ACCELERATOR_OR_RESOURCE_LEASE",
+      "NO_UNEXPECTED_NETWORK_EGRESS",
+      "NO_UNEXPECTED_AUTHORITY_CLAIM",
+      "NO_UNEXPECTED_SECRET_USE"
+    ],
+    "unknown_or_partial_result": "BLOCKING_OR_PENDING",
+    "explicit_disabled_disposition_required": true
+  },
+  "registry_interpretation": {
+    "registry_path": "evidence/evidence-registry.json",
+    "obligation_field": "obligation",
+    "activation_field": "activation",
+    "legacy_blocking_field_remains_authoritative_for_current_release_until_scoped_disposition_exists": true,
+    "scope_policy_may_not_downgrade_mandatory_obligation": true,
+    "scope_policy_may_not_create_runtime_pass": true,
+    "scope_policy_may_not_mutate_evidence_registry": true
+  },
+  "authority_boundaries": {
+    "canonical_support_authority_unchanged": true,
+    "evidence_registry_authority_unchanged": true,
+    "acceptance_authority_unchanged": true,
+    "promotion_authority_unchanged": true,
+    "current_host_receipt_authority_unchanged": true,
+    "reference_ci_cannot_promote_runtime": true,
+    "documentation_cannot_promote_runtime": true
+  },
+  "forbidden_inferences": [
+    "CANONICAL_SUPPORTED_IMPLIES_HOST_AVAILABLE",
+    "HOST_AVAILABLE_IMPLIES_HOST_ENABLED",
+    "HOST_ENABLED_IMPLIES_HOST_ACTIVE",
+    "HOST_ACTIVE_IMPLIES_PRODUCTION_PROMOTED",
+    "OPTIONAL_DISABLED_REQUIRES_POSITIVE_RUNTIME_EVIDENCE",
+    "NEGATIVE_ASSURANCE_IMPLIES_POSITIVE_RUNTIME_PASS",
+    "REFERENCE_CI_IMPLIES_CURRENT_HOST_PASS",
+    "MISSING_HOST_DISPOSITION_IS_NONBLOCKING"
+  ]
+}
