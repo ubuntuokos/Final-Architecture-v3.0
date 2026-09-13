@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d30db67e40da837f78d6b7b5d7203899207ed278",
-    "pre_projection_root_tree_sha": "2e2da7d794d6c638ef718695148e9cac51c0e002",
-    "pre_projection_canonical_tree_sha": "04db41af1773b7f9b139822f79663ba381d02c73",
-    "commits_ahead_of_v3_0_11_conformance_commit": 188,
-    "total_post_baseline_commits": 188,
-    "delta_file_count": 1057,
-    "delta_added_files": 1052,
+    "pre_projection_head_sha": "9a0c7e0981e9a4d49ff0292d59b50a42db22ecb6",
+    "pre_projection_root_tree_sha": "ea835807c46c6450e1914ad77e30dab325f4f684",
+    "pre_projection_canonical_tree_sha": "acda4e5c3feaf8a7e35b16b4838477e8467f8b5c",
+    "commits_ahead_of_v3_0_11_conformance_commit": 203,
+    "total_post_baseline_commits": 203,
+    "delta_file_count": 1065,
+    "delta_added_files": 1060,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 587,
+    "canonical_files_in_post_baseline_delta": 592,
     "evidence_files_in_post_baseline_delta": 111,
-    "source_files_in_post_baseline_delta": 119,
-    "test_files_in_post_baseline_delta": 99,
-    "workflow_files_in_post_baseline_delta": 35,
+    "source_files_in_post_baseline_delta": 120,
+    "test_files_in_post_baseline_delta": 100,
+    "workflow_files_in_post_baseline_delta": 36,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -76,6 +76,7 @@
       "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
+      "canonical/providers/FA3-PROVIDER-HF-SPACES-001.json",
       "canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
@@ -198,6 +199,7 @@
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
+      "canonical/profiles/FA3-REMOTE-AI-EXEC-001.json",
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
       "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
@@ -267,6 +269,7 @@
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
+      "canonical/contracts/FA3-REMOTE-AI-EXEC-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
@@ -365,6 +368,7 @@
       "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
@@ -696,7 +700,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1057,
+  "manifest_entry_count": 1065,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -839,6 +843,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-remote-ai-exec-gate.yml",
+      "git_blob_sha": "12d43cb3b3916609103b86de902f11bb4bdabaae",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
       "git_blob_sha": "a65622d631d9e2111ee7c83a9da635094f54b4e9",
       "baseline_delta_status": "added"
@@ -900,7 +909,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "be4315b962843c5a9cbdcc76fe8f28924b8e3fe8",
+      "git_blob_sha": "dfec722d2f564ede2456430dd52b5e9aef827789",
       "baseline_delta_status": "added"
     },
     {
@@ -1369,6 +1378,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-REMOTE-AI-EXEC-001.json",
+      "git_blob_sha": "2e4981911d4729ffdbba2c99a7a981d147155a23",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json",
       "git_blob_sha": "30a14b1eb8a43fbba4d5454a674b76d058caff48",
       "baseline_delta_status": "added"
@@ -1740,7 +1754,7 @@
     },
     {
       "path": "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
-      "git_blob_sha": "787b2e336a5ea442411672bf674b1131e6465691",
+      "git_blob_sha": "b14a1abf0a46aae576bb78eef71c15c1d5b63568",
       "baseline_delta_status": "added"
     },
     {
@@ -1921,6 +1935,11 @@
     {
       "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-REMOTE-AI-EXEC-CONTRACTS-001.json",
+      "git_blob_sha": "ce1f812cde84f1010541b81ad95a147acef9ac99",
       "baseline_delta_status": "added"
     },
     {
@@ -2429,6 +2448,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13.json",
+      "git_blob_sha": "077f4fb3d28ed84e51dc0466d4f0d7e948a1b4bd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "git_blob_sha": "a04f633105e3840e80bdb1237e25e61dd72209b4",
       "baseline_delta_status": "added"
@@ -2885,7 +2909,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DESKTOP-001.json",
-      "git_blob_sha": "4c52c045d4e8168fa1974368bb1ab9cb44403ce9",
+      "git_blob_sha": "7bc0f04435162d8dcc8eba1a33a8b4f2b9fa893b",
       "baseline_delta_status": "added"
     },
     {
@@ -3016,6 +3040,11 @@
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
       "git_blob_sha": "e9ac3ac0cd898cb1724f153ece5b53efbda17d20",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-REMOTE-AI-EXEC-001.json",
+      "git_blob_sha": "83495888a3ac3b51ff999d93b1dd02951c950561",
       "baseline_delta_status": "added"
     },
     {
@@ -3196,6 +3225,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "git_blob_sha": "ea6a1b03742da31dae1d50a74d1aad6177331457",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-HF-SPACES-001.json",
+      "git_blob_sha": "4f11645636a01c40b531602bf051c44caeb8784c",
       "baseline_delta_status": "added"
     },
     {
@@ -5050,7 +5084,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "fd8fa06494711d6be6d565319d6a6700754fd6d3",
+      "git_blob_sha": "aa6de7d9cf43bca36674f89bfcd91902de74d71a",
       "baseline_delta_status": "added"
     },
     {
@@ -5371,6 +5405,11 @@
     {
       "path": "src/fa3_release_projection_regenerate.py",
       "git_blob_sha": "5aa5c8345eb735efbf4c6d0fdf79dfda897310b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_remote_ai_exec_gate.py",
+      "git_blob_sha": "5ee071a3a12f5b7aa01cca38e09043a18d2c2bc2",
       "baseline_delta_status": "added"
     },
     {
@@ -5866,6 +5905,11 @@
     {
       "path": "tests/test_release_projection.py",
       "git_blob_sha": "c127bb6819c0a974d00ec382ff7dc257c22a2c60",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_remote_ai_exec_gate.py",
+      "git_blob_sha": "dc9bbda58646b1841bbb2cc203d997574b88993b",
       "baseline_delta_status": "added"
     },
     {
