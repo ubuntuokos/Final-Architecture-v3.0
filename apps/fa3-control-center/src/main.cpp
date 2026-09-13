@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("FA3ControlCenter");
-    QCoreApplication::setApplicationVersion("0.5.0");
+    QCoreApplication::setApplicationVersion("0.4.0");
     QCoreApplication::setOrganizationName("FinalArchitecture");
     QCoreApplication::setOrganizationDomain("fa3.local");
     QApplication::setApplicationDisplayName("FA3 Control Center");
