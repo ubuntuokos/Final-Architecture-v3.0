@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import json
 import re
 from pathlib import Path
@@ -12,7 +13,7 @@ REGISTRY_ID="FA3-MODEL-REGISTRY-001"
 DECISION_ID="FA3-DEC-MODEL-MANAGER-V2-2026-09-01"
 REFERENCE_ID="FA3-MODEL-MANAGER-PROVIDERS-UPSTREAM-REFERENCE-2026-09-01"
 EVIDENCE_PATH="evidence/reference/model-manager-v2-ci-2026-09-01.json"
-CAPABILITY_COUNT=143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROVIDER_IDS=[
     "FA3-PROVIDER-STABILITY-MATRIX-MODEL-STORE-001",
     "FA3-PROVIDER-HF-MODEL-STORE-001",

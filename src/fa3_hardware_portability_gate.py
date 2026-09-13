@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -24,7 +25,7 @@ AUDIT_EVIDENCE = "evidence/reference/hardware-portability-repository-audit-2026-
 GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
 DECISION_ID = "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITY_BINDINGS = (
     "CAP-001", "CAP-006", "CAP-062", "CAP-063", "CAP-065",
     "CAP-130", "CAP-137", "CAP-142", "CAP-143",

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -16,7 +17,7 @@ GATE_RECORD_ID = "FA3-GATE-BUZZ-RUNTIME-ADMISSION-001"
 DECISION_ID = "FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07"
 REFERENCE_ID = "FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07"
 EVIDENCE_ID = "FA3-EVID-BUZZ-RUNTIME-ADMISSION-CI-2026-09-07"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 UPSTREAM_TAG = "desktop-v0.5.23"
 UPSTREAM_COMMIT = "b9392d9d78744df365f9276e1ffe8c1baa5ea903"
 

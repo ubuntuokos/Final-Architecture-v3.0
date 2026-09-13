@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -11,7 +12,7 @@ PROVIDER_ID = "FA3-PROVIDER-XCMD-001"
 DECISION_ID = "FA3-DEC-XCMD-2026-08-30"
 REFERENCE_ID = "FA3-XCMD-UPSTREAM-REFERENCE-2026-08-30"
 GATE_ID = "FA3-XCMD-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v0.10.1"
 REFERENCE_COMMIT = "1594d06582bf024d0a71ee108afe06a98629ec9a"
 OBSERVED_X_HEAD = "390fa27a231579f1ee493bcd7961bcba4cb85034"

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 import re
@@ -15,7 +16,7 @@ SECURITY_GATE_ID = "FA3-GATE-MODEL-ARTIFACT-SECURITY-001"
 DECISION_ID = "FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13"
 REFERENCE_ID = "FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13"
 UPSTREAM_COMMIT = "782aac088bd83dd3fc438a42eb0c3868dc559110"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 EVIDENCE_PATH = "evidence/reference/openmodeldb-provider-ci-2026-09-13.json"
 
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -13,7 +14,7 @@ DECISION_ID = "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
 GATE_ID = "FA3-STABILITY-MATRIX-LIFECYCLE-GATESET-001"
 EVIDENCE_ID = "FA3-EVIDENCE-STABILITY-MATRIX-LIFECYCLE-CI-2026-09-06"
 CAPABILITIES = ["CAP-005", "CAP-016", "CAP-120", "CAP-135"]
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 P0 = [
     "STABILITY_MATRIX_INTERACTIVE_ADAPTER_NOT_CONTROL_PLANE",
     "STABILITY_MATRIX_UI_SYSTEMD_USER_SERVICE_ONLY",

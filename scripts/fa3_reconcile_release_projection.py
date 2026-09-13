@@ -4,7 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from fa3_release_baseline import load_active_release_baseline
 
 DEFAULT_PROJECTION = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 DEFAULT_POLICY = "canonical/enforcement-policy.json"
@@ -69,6 +73,9 @@ def status_label(status: str) -> str:
 
 
 def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
+    root = Path(root).resolve()
+    active_baseline = load_active_release_baseline(root)
+    capability_count = active_baseline.capability_count
     projection_path = root / projection_rel
     policy_path = root / policy_rel
     projection = loadj(projection_path)
@@ -124,6 +131,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "reference_evidence_records": prefixed("evidence/reference/"),
     })
 
+    projection.setdefault("invariants", {})["canonical_capability_count"] = capability_count
     projection["mandatory_reference_gates"] = list(policy.get("mandatory_reference_gates", []))
     projection["inference_cache_hardening_reconciliation"] = {
         "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -139,7 +147,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "current_host_runtime_promotion_claim": False,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "capability_count_after": 143,
+        "capability_count_after": capability_count,
     }
 
     ls = run(root, "ls-tree", "-r", "--full-tree", snapshot)

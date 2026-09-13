@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse,json,re
 from pathlib import Path
 from typing import Any
@@ -9,7 +10,7 @@ DECISION_ID="FA3-DEC-AUTOGPT-2026-08-30"
 REFERENCE_ID="FA3-AUTOGPT-UPSTREAM-REFERENCE-2026-08-30"
 RUNTIME_ADMISSION_ID="FA3-AUTOGPT-RUNTIME-ADMISSION-001"
 GATE_ID="FA3-AUTOGPT-GATESET-001"
-CAPABILITY_COUNT=143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 OBSERVED_MASTER_HEAD="32a43d005c0c42079ceba68d9a49c28e0eeaa6c7"
 REFERENCE_RELEASE="autogpt-platform-beta-v0.7.3"
 REFERENCE_RELEASE_COMMIT="f49bcca95ed327396d8ebdd0bdf7810de482ac1a"

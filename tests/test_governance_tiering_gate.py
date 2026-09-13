@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 from fa3_governance_tiering_gate import PATHS, PROJECTION_ID, gate
+from fa3_release_baseline import load_active_release_baseline
 
 
 class GovernanceTieringGateTests(unittest.TestCase):
@@ -36,7 +37,7 @@ class GovernanceTieringGateTests(unittest.TestCase):
         self.assertEqual(result["checks_passed"], 16)
         self.assertEqual(result["authority_delta"], 0)
         self.assertEqual(result["capability_delta"], 0)
-        self.assertEqual(result["canonical_capability_count"], 143)
+        self.assertEqual(result["canonical_capability_count"], load_active_release_baseline(self.repo_root).capability_count)
 
     def test_projection_cannot_gain_authority(self) -> None:
         root = self.make_fixture()

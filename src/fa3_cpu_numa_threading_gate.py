@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -17,7 +18,7 @@ REFERENCE = "canonical/references/FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02.json"
 HRB_PROFILE = "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json"
 SYSTEMD_PROVIDER = "canonical/providers/FA3-PROVIDER-SYSTEMD-CGROUPV2-001.json"
 GATE_ID = "FA3-GATE-CPU-NUMA-THREADING-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def loadj(root: Path, relative: str) -> dict[str, Any]:

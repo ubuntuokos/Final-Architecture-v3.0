@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -11,7 +12,7 @@ PROVIDER_ID = "FA3-PROVIDER-ACE-STEP-001"
 PROFILE_ID = "FA3-MUSIC-001"
 CONTRACT_ID = "FA3-MUSIC-GENERATION-CONTRACTS-001"
 GATE_ID = "FA3-ACE-STEP-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 LATEST_FORMAL_RELEASE = "v0.1.8"
 OBSERVED_MAIN = "ca1e85fe9430179831e6bc6be790c332190a3866"
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from pathlib import Path
 from typing import Any
 
-CAPS = 143
+CAPS = module_active_capability_count(__file__)
 PROFILE_ID = "FA3-VOICE-001"
 CONTRACT_ID = "FA3-VOICE-CONTRACTS-001"
 ADMISSION_ID = "FA3-VOICE-PROVIDER-ADMISSION-001"

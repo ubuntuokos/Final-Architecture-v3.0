@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -18,7 +19,7 @@ REFERENCE_ID = "FA3-LOOP-ENGINEERING-UPSTREAM-REFERENCE-2026-09-03"
 EVIDENCE_ID = "FA3-EVIDENCE-LOOP-ENGINEERING-CI-2026-09-03"
 PINNED_COMMIT = "714f1fdf6ea111f27207de6908547c2a155b270c"
 RUNTIME_STATUS = "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CAPABILITY_ID = "CAP-028"
 
 P0_RULES = [

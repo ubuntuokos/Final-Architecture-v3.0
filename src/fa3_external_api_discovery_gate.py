@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 import re
@@ -10,7 +11,7 @@ PROFILE_ID = "FA3-EXTERNAL-API-DISCOVERY-001"
 CONTRACT_ID = "FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30"
 GATE_ID = "FA3-EXTERNAL-API-DISCOVERY-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 SOURCE_IDS = {
     "FA3-SOURCE-PUBLIC-APIS-001",

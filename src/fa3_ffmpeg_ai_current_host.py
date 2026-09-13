@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import hashlib
 import json
@@ -8,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROFILE_ID = "FA3-NEURAL-MEDIA-EXECUTION-001"
 FFMPEG_PROVIDER_ID = "FA3-PROVIDER-FFMPEG-001"
 CURRENT_HOST_GATE_ID = "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001"

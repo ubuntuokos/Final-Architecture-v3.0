@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import argparse, hashlib, json, os, shutil, subprocess, sys, wave
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,7 +16,7 @@ UPSTREAM_COMMIT="074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc"
 OFFICIAL_LANGUAGES={"zh","en","fr","es","ja","ko","it","ru","de"}
 EXPERIMENTAL_LANGUAGES={"hu"}
 SAMPLE_RATE=24000
-CAPS=143
+CAPS = module_active_capability_count(__file__)
 
 class PolicyDenied(RuntimeError): pass
 class ModelTrustDenied(RuntimeError): pass

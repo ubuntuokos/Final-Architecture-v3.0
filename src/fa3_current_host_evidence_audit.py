@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import hashlib
@@ -11,7 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 RELEASE = "2026-08-23/v3.0.11"
 RECEIPT_SCHEMA = "fa3.capability-current-host-evidence.v1"
 HEX64 = re.compile(r"^[0-9a-f]{64}$")

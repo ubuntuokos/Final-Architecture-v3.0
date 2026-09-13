@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import hashlib
 import ipaddress
@@ -10,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 PROVIDER_ID = "FA3-PROVIDER-TERAX-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v0.8.6"
 REFERENCE_COMMIT = "1fdbc50e53b3ac53db3ba80057805a2d54258545"
 REFERENCE_TAG_OBJECT = "0165b39c2e52760316aa3202b6acf0f25fad0551"

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import json
 from pathlib import Path
@@ -12,7 +13,7 @@ DECISION_ID = "FA3-DEC-PYRIT-2026-09-12"
 REFERENCE_ID = "FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12"
 GATE_ID = "FA3-PYRIT-GATESET-001"
 ADMISSION_ID = "FA3-PYRIT-RUNTIME-ADMISSION-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 REFERENCE_RELEASE = "v1.1.0"
 REFERENCE_COMMIT = "d0524f0714840519b826eb770687ca1d4f46a761"
 MANDATORY_CONSTRAINT = (

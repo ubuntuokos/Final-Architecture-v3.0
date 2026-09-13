@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
@@ -19,7 +20,7 @@ PROVIDERS = [
     "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
 ]
 GATE_ID = "FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 
 def loadj(root: Path, relative: str) -> dict[str, Any]:

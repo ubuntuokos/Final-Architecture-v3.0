@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import argparse
 import json
 from copy import deepcopy
 from pathlib import Path
 
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PROFILE_ID = "FA3-PROGRAMMABLE-VIDEO-EDITING-001"
 CONTRACT_ID = "FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001"
 PROVIDER_ID = "FA3-PROVIDER-OPENCUT-001"

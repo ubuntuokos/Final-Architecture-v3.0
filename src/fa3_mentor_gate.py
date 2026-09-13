@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 import hashlib
 import json
 from pathlib import Path
@@ -11,7 +12,7 @@ CONTRACT_ID = "FA3-MENTOR-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-MENTOR-2026-08-30"
 MATRIX_ID = "FA3-MENTOR-CONFORMANCE-MATRIX-001"
 GATE_ID = "FA3-MENTOR-GATESET-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 def _load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))

@@ -5,13 +5,12 @@ import hashlib
 import json
 import subprocess
 from pathlib import Path
+from fa3_release_baseline import load_active_release_baseline
 
 PROJECTION_ID = "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30"
 PROJECTION_PATH = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 DECISION_PATH = "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json"
-BASE_RELEASE = "2026-08-23/v3.0.11"
 BASE_COMMIT = "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60"
-CAPABILITY_COUNT = 143
 EXPECTED_SOURCE_GRAPH_SHA256 = "0418528b52fd9a29d993fc69c1ea508f57cd527d96e234d738c6b8fc553c4f16"
 EXPECTED_SOURCE_GRAPH_NODES = 1615
 EXPECTED_SOURCE_GRAPH_EDGES = 6144
@@ -580,6 +579,9 @@ def collect_git_snapshot_facts(root: Path, snapshot_head: str):
 
 def gate(root: Path):
     root = Path(root).resolve()
+    active_baseline = load_active_release_baseline(root)
+    BASE_RELEASE = active_baseline.release
+    CAPABILITY_COUNT = active_baseline.capability_count
     findings = []
 
     projection = loadj(root / PROJECTION_PATH)

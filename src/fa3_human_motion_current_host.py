@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+from fa3_release_baseline import module_active_capability_count
 
 import hashlib
 import json
@@ -10,7 +11,7 @@ from typing import Any
 
 GEM_REV = "32992550dba114c62243fb55e361311972dce8f9"
 SOMA_REV = "d29dbe5a3f5a0b2632ecac91e8d5125f243a7e36"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 CONFORMANCE_ID = "FA3-HUMAN-MOTION-CURRENT-HOST-CONFORMANCE-001"
 GATE_ID = "FA3-GATE-HUMAN-MOTION-CURRENT-HOST-001"
 EVIDENCE_LEVEL = "CURRENT_HOST_REAL_VIDEO_GEM_X_SOMA_X_DCC_E2E"
