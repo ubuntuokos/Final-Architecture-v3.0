@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-STARTER-MODELS-001",
+  "name": "Minimal Starter Model Bootstrap Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "SHOULD",
+  "canonical_root": false,
+  "relationship": "SUBPROFILE-OF:FA3-MODEL-MANAGER-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "purpose": "Offer a small provider-neutral bootstrap set so a new FA3 installation can acquire enough local models to exercise core text, RAG and speech-adjacent workflows without making particular model brands canonical authorities.",
+  "starter_roles": [
+    {"role":"GENERAL_TEXT_CHAT","requirement":"CORE","reference_candidate":"Qwen/Qwen3-4B-GGUF","reference_variant":"Q4_K_M","provider":"FA3-PROVIDER-HF-MODEL-STORE-001","candidate_is_canonical_identity":false},
+    {"role":"EMBEDDING_RAG","requirement":"CORE","reference_candidate":"nomic-ai/nomic-embed-text-v1.5-GGUF","reference_variant":"Q4_K_M","provider":"FA3-PROVIDER-HF-MODEL-STORE-001","candidate_is_canonical_identity":false},
+    {"role":"VOICE_ACTIVITY_DETECTION","requirement":"CORE","reference_candidate":"snakers4/silero-vad","provider":"FA3-PROVIDER-HF-MODEL-STORE-001","candidate_is_canonical_identity":false},
+    {"role":"SPEECH_TO_TEXT","requirement":"CORE_PROVIDER_RESOLVED","reference_candidate":null,"provider":"EXISTING_STT_PROVIDER_SELECTED_BY_MODEL_MANAGER","candidate_is_canonical_identity":false},
+    {"role":"TEXT_TO_SPEECH","requirement":"RECOMMENDED_OPTIONAL","reference_candidate":"hexgrad/Kokoro-82M","provider":"FA3-PROVIDER-HF-MODEL-STORE-001","candidate_is_canonical_identity":false,"security_note":"Known reference distribution includes dangerous serialization; explicit Model Artifact Security admission is mandatory before promotion."},
+    {"role":"IMAGE_UPSCALING_RESTORATION","requirement":"RECOMMENDED_OPTIONAL_PROVIDER_RESOLVED","reference_candidate":null,"provider":"FA3-PROVIDER-OPENMODELDB-001","candidate_is_canonical_identity":false}
+  ],
+  "download_semantics": {
+    "gui_action": "QUEUE_MODEL_ACQUISITION_REQUEST",
+    "authority": "FA3-MODEL-MANAGER-001_AND_EXISTING_PROVIDER_ADAPTERS",
+    "staging_required": true,
+    "direct_runtime_directory_write": false,
+    "immutable_revision_required_before_promotion": true,
+    "hash_required_before_promotion": true,
+    "license_review_required": true,
+    "model_artifact_security_required": true,
+    "runtime_evidence_required": true,
+    "floating_latest_production_admission": false
+  },
+  "invariants": [
+    "STARTER_SET_IS_BOOTSTRAP_GUIDANCE_NOT_MODEL_AUTHORITY",
+    "REFERENCE_CANDIDATE_CAN_BE_REPLACED_BY_COMPATIBLE_PROVIDER_RESOLVED_MODEL",
+    "DOWNLOAD_ACTION_QUEUES_EXISTING_MODEL_MANAGER_ACQUISITION",
+    "NO_DIRECT_RUNTIME_MODEL_DIRECTORY_WRITE",
+    "NO_SECURITY_OR_LICENSE_BYPASS",
+    "NO_CURRENT_HOST_PASS_FROM_REFERENCE_CATALOG",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ],
+  "current_host_status": "PENDING_CURRENT_HOST"
+}
