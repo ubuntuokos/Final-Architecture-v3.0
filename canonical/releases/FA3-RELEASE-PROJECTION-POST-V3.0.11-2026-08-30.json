@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3d947889426ad4b4e0a5f0f7e377bbf53234a3ec",
-    "pre_projection_root_tree_sha": "6e61d6b165eea86ef3c4fe28efc1909084936762",
-    "pre_projection_canonical_tree_sha": "96fb0b6445d43e912248d1ece6f4f9e27f4ea81a",
-    "commits_ahead_of_v3_0_11_conformance_commit": 334,
-    "total_post_baseline_commits": 334,
-    "delta_file_count": 1192,
-    "delta_added_files": 1187,
+    "pre_projection_head_sha": "922a39018bd23a1987d38fb1d74d2a9745c582aa",
+    "pre_projection_root_tree_sha": "6a58ef72489781ec7edfc2bac3925a80898068cd",
+    "pre_projection_canonical_tree_sha": "1a896f1a0e5dc370dcba16258332f970ebc5d391",
+    "commits_ahead_of_v3_0_11_conformance_commit": 336,
+    "total_post_baseline_commits": 336,
+    "delta_file_count": 1196,
+    "delta_added_files": 1191,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 629,
     "evidence_files_in_post_baseline_delta": 117,
     "source_files_in_post_baseline_delta": 133,
-    "test_files_in_post_baseline_delta": 116,
+    "test_files_in_post_baseline_delta": 117,
     "workflow_files_in_post_baseline_delta": 45,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -716,7 +716,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1192,
+  "manifest_entry_count": 1196,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -900,7 +900,7 @@
     },
     {
       "path": ".github/workflows/fa3-resource-admission-current-host.yml",
-      "git_blob_sha": "252e87f2e5a2628064f20e2c0638b24bccdc9feb",
+      "git_blob_sha": "d0a810ac22f1f3118c2bd0d6eb2c42d297901a11",
       "baseline_delta_status": "added"
     },
     {
@@ -1195,12 +1195,12 @@
     },
     {
       "path": "bin/fa3-current-host-runner-bootstrap.sh",
-      "git_blob_sha": "5f8c6e39a43d8201b10e005701a58e6b58d862c4",
+      "git_blob_sha": "6bf8766aff350d6fdd54e931b374debcd899f6be",
       "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-current-host-runner-doctor",
-      "git_blob_sha": "a8717dbdef5b25725f92388f71f10032a1f7163d",
+      "git_blob_sha": "1bcf6a7d20313403fcc3eff9dfbedde81c389b16",
       "baseline_delta_status": "added"
     },
     {
@@ -1256,6 +1256,11 @@
     {
       "path": "bin/fa3-human-motion-current-host.sh",
       "git_blob_sha": "432ba5d4dd6f9213f1b7b4760698dd2e8b33818a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-install-hrb-validator-bridge.sh",
+      "git_blob_sha": "96cc8c7310e45353c29cb3b1d695d27afce0b4af",
       "baseline_delta_status": "added"
     },
     {
@@ -4420,7 +4425,7 @@
     },
     {
       "path": "canonical/resource-admission-current-host-enforcement.json",
-      "git_blob_sha": "44eda18d26e5f514e2f052f89230036d67a70770",
+      "git_blob_sha": "05761a9646983563e4bf596886563ca53dadd159",
       "baseline_delta_status": "added"
     },
     {
@@ -4870,7 +4875,7 @@
     },
     {
       "path": "evidence/collect-resource-admission-current-host.py",
-      "git_blob_sha": "69ba372dc92415f6df4f484bd41a1bfc1f63e089",
+      "git_blob_sha": "16aabdcb7c803e0eefcd85e65b59435f63889519",
       "baseline_delta_status": "added"
     },
     {
@@ -5360,12 +5365,22 @@
     },
     {
       "path": "fa3-current-host/README.md",
-      "git_blob_sha": "e44f5a0c5e23c5ac4141f919cb6ea6aa5b190a7d",
+      "git_blob_sha": "f5af8b0bc8674a6d97cc1fdb35ba7356b51d5a30",
       "baseline_delta_status": "added"
     },
     {
       "path": "fa3-current-host/manifest.json",
       "git_blob_sha": "c7a7002aa287f114f3fa39a52829ebe1a6d3ee47",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "libexec/fa3-host-resource-broker-validate-root.py",
+      "git_blob_sha": "dc8d5742b8c43931e8914f0f22eee084a58ac662",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "libexec/fa3-host-resource-broker-validator.sh",
+      "git_blob_sha": "5d6edb9384bc9a22a1bff84108a56b46842240da",
       "baseline_delta_status": "added"
     },
     {
@@ -6251,6 +6266,11 @@
     {
       "path": "tests/test_hrb_systemd_manager_current_host_gate.py",
       "git_blob_sha": "9cce6aa37cb6ef168e1d6e159e2f0bc1fb857fce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hrb_validator_bridge.py",
+      "git_blob_sha": "cba5c85c337037086145fc8b56fbf9efccce8daf",
       "baseline_delta_status": "added"
     },
     {
