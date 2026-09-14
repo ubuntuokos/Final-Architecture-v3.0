@@ -9,6 +9,18 @@ This document materializes the canonical multilingual and LLM-routing boundary d
 
 All four are P0/MUST and add **zero** capabilities and **zero** architectural authorities. `FA3-LANGUAGE-BRIDGE-001` is their non-authoritative runtime mediation projection and becomes mandatory whenever mediation is required.
 
+## Three separate language planes
+
+FA3 MUST keep three language concepts separate:
+
+1. **Canonical platform language** — immutable machine/protocol language: English (`en`).
+2. **User interaction language** — selected Primary/Secondary/Additional languages and per-request language context.
+3. **Model/application admission language** — evidence-backed `NATIVE`, `VALIDATED`, `BRIDGED`, `UNVERIFIED` or `UNSUPPORTED` capability.
+
+The English canonical machine plane is **not** a requirement that English be a user's Primary or Secondary language. It exists to keep machine interfaces deterministic across localized installations.
+
+The following identifiers/fields remain English and are not replaced by localized labels: capability IDs, command IDs, GUI action IDs, tool/function names, schema keys, protocol fields, event types, policy rules, error codes, audit/security fields, metric names, model-capability descriptor fields, application-manifest fields, executable gate IDs, test IDs, evidence fields and provenance fields. Human-readable labels/descriptions may be localized, but a localized projection is non-authoritative and cannot mutate the canonical payload.
+
 ## Installation language contract
 
 Every FA3 installation MUST have exactly:
@@ -19,7 +31,7 @@ Every FA3 installation MUST have exactly:
 
 Primary and secondary use BCP47 locale identifiers. Installation or migration state is incomplete while either is missing or they are equal.
 
-No specific language is globally mandatory. Hungarian (`hu-HU`) is one supported language among many. Hungarian-specific models, adapters, translation assets and locale-quality gates become required only when `hu-HU` is selected as the primary or secondary system language. The requirement is **validated Hungarian operability**, not the presence of a Hungarian-specific LLM.
+No specific **user** language is globally mandatory. Hungarian (`hu-HU`) is one supported language among many. Hungarian-specific models, adapters, translation assets and locale-quality gates become required only when `hu-HU` is selected as the primary or secondary system language. The requirement is **validated Hungarian operability**, not the presence of a Hungarian-specific LLM.
 
 ## Language context
 
@@ -68,7 +80,7 @@ The user-facing Translator / Language Control remains the GUI projection of this
 10. semantic validation;
 11. provenance/evidence emission.
 
-Protected material includes code, identifiers, file paths, URLs, addresses, API/model/provider identifiers, hashes, structured keys and explicit glossary terms. Mutation or loss fails closed. A translation cannot grant tools, capabilities or permissions that the original request did not have.
+Protected material includes code, identifiers, command/GUI action IDs, file paths, URLs, addresses, API/model/provider identifiers, hashes, structured keys and explicit glossary terms. Mutation or loss fails closed. A translation cannot grant tools, capabilities or permissions that the original request did not have.
 
 Data classification is evaluated before any external translation route. `SECRET` is denied externally; `CONFIDENTIAL` requires explicit policy permission; `INTERNAL` and `PUBLIC` remain policy-gated. Language fallback never silently becomes model, provider or infrastructure fallback.
 
@@ -142,7 +154,7 @@ The Language Control page contains two distinct layers:
 - **System languages:** mandatory Primary + distinct Secondary, optional Additional languages;
 - **Request language:** per-request input/output and mediation preferences.
 
-The GUI remains a projection/intent surface. `PENDING_BACKEND`, `UNKNOWN`, missing system-language configuration or absent runtime evidence never means PASS.
+The GUI remains a projection/intent surface. `PENDING_BACKEND`, `UNKNOWN`, missing system-language configuration or absent runtime evidence never means PASS. Localized GUI labels never replace canonical command/action identifiers.
 
 ## Enforcement
 
@@ -150,8 +162,13 @@ Run:
 
 ```bash
 ./bin/fa3-enforce language-gateway
-python3 -m unittest tests.test_language_gateway_gate tests.test_language_bridge -v
+python3 -m unittest \
+  tests.test_canonical_language_gate \
+  tests.test_language_gateway_gate \
+  tests.test_language_bridge -v
 ./bin/fa3-enforce static
 ```
 
-The dedicated gate validates the complete **37-case** language/gateway/Bridge reference contract, including the executable Bridge reference runtime. The global static command invokes it fail-closed before the legacy static checks. Real LiteLLM service identity/authentication, Vault injection, Model Registry materialization, HRB-integrated local inference and Language Fabric/Bridge translation E2E require current-host evidence before production promotion.
+The `language-gateway` entrypoint first executes the **8-case canonical-English machine-language gate**, then the complete **37-case** language/gateway/Bridge reference contract, including the executable Bridge reference runtime. The global static command executes both fail-closed before the legacy static checks.
+
+Real LiteLLM service identity/authentication, Vault injection, Model Registry materialization, HRB-integrated local inference and Language Fabric/Bridge translation E2E require current-host evidence before production promotion.
