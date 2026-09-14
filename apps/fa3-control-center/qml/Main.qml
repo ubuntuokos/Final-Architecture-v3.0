@@ -59,6 +59,12 @@ ApplicationWindow {
         chatWorkspaceOpen = false
     }
 
+    function openLanguageControl() {
+        closeTransientWorkspaces()
+        selectedIndex = 23
+        if (languageDrawer.opened) languageDrawer.close()
+    }
+
     property var uiSearchIndex: [
         {title: "Dashboard", detail: "Command Center és rendszerállapot", category: "FUNCTION", pageIndex: 0},
         {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", pageIndex: 1},
@@ -81,6 +87,7 @@ ApplicationWindow {
         {title: "Checkpoint Manager", detail: "Checkpoint, LoRA, VAE és adapter artifact governance", category: "FUNCTION", pageIndex: 20},
         {title: "External Providers Setup", detail: "Külső/fizetős provider engedélyezés, budget és credential state", category: "FUNCTION", pageIndex: 21},
         {title: "Token Control Center", detail: "Credential és AI token governance, budget, audit és költség", category: "FUNCTION", pageIndex: 22},
+        {title: "Tolmács", detail: "Nyelvi híd ember, FA3 és AI modellek között", category: "FUNCTION", pageIndex: 23},
         {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", pageIndex: 6},
         {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", pageIndex: 8},
         {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", pageIndex: 9},
@@ -280,7 +287,7 @@ ApplicationWindow {
         }
     }
 
-    Shortcut { sequence: "Ctrl+Shift+L"; context: Qt.ApplicationShortcut; onActivated: languageDrawer.open() }
+    Shortcut { sequence: "Ctrl+Shift+L"; context: Qt.ApplicationShortcut; onActivated: window.openLanguageControl() }
     Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 0 } }
     Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 2 } }
     Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 3 } }
@@ -588,6 +595,7 @@ ApplicationWindow {
                         NavButton { iconText: "◧"; label: "Checkpoint Manager"; pageIndex: 20 }
                         NavButton { iconText: "#"; label: "Token Control Center"; pageIndex: 22 }
                         NavButton { iconText: "⌕"; label: "Keresés"; pageIndex: 7 }
+                        NavButton { iconText: "文"; label: "Tolmács"; pageIndex: 23 }
                         NavButton { iconText: "◇"; label: "Architecture"; pageIndex: 8 }
                         NavButton { iconText: "⚙"; label: "Rendszerbeállítások"; pageIndex: 15 }
                         NavButton { iconText: "ⓘ"; label: "System"; pageIndex: 16 }
@@ -636,90 +644,133 @@ ApplicationWindow {
             spacing: 0
 
             Rectangle {
+                id: assistantToolbar
                 Layout.fillWidth: true
-                Layout.preferredHeight: 64
+                Layout.preferredHeight: 104
                 color: "#081421"
                 border.color: window.borderSoft
-                RowLayout {
+
+                ColumnLayout {
                     anchors.fill: parent
-                    anchors.leftMargin: 14
-                    anchors.rightMargin: 14
-                    spacing: 8
+                    spacing: 0
 
-                    ColumnLayout {
-                        spacing: 0
-                        Label { text: "Current Environment"; color: window.textMuted; font.pixelSize: 8 }
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 42
                         RowLayout {
-                            spacing: 7
-                            Rectangle { width: 7; height: 7; radius: 4; color: window.green }
-                            Label { text: "LOCAL / FA3"; color: window.textPrimary; font.pixelSize: 10; font.bold: true }
+                            anchors.fill: parent
+                            anchors.leftMargin: 14
+                            anchors.rightMargin: 14
+                            spacing: 10
+
+                            ColumnLayout {
+                                spacing: 0
+                                Label { text: "Current Environment"; color: window.textMuted; font.pixelSize: 8 }
+                                RowLayout {
+                                    spacing: 7
+                                    Rectangle { width: 7; height: 7; radius: 4; color: window.green }
+                                    Label { text: "LOCAL / FA3"; color: window.textPrimary; font.pixelSize: 10; font.bold: true }
+                                }
+                            }
+
+                            Item { Layout.fillWidth: true }
+                            Label { text: "CANONICAL"; color: window.accent; font.pixelSize: 9; font.bold: true }
+                            Rectangle { width: 1; height: 22; color: window.border }
+                            Label { text: fa3Repository.canonicalRecordCount + " records"; color: window.textMuted; font.pixelSize: 9 }
+                            ToolButton {
+                                implicitWidth: 30
+                                implicitHeight: 30
+                                text: "↻"
+                                ToolTip.visible: hovered
+                                ToolTip.text: "FA3 állapot frissítése"
+                                onClicked: { fa3Repository.refresh(); fa3Journal.refresh() }
+                            }
                         }
                     }
 
-                    Rectangle { width: 1; height: 26; color: window.border }
-                    QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }
-                    QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }
-                    QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
+                    Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: window.borderSoft }
 
-                    ToolButton {
-                        id: askButton
-                        text: "Kérdezd: " + window.askRole + " ▾"
-                        onClicked: askMenu.open()
-                        contentItem: Label {
-                            text: parent.text
-                            color: window.textPrimary
-                            font.pixelSize: 9
-                            font.bold: true
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                        }
-                        background: Rectangle {
-                            radius: 6
-                            color: parent.hovered ? "#132a42" : "#0d1c2f"
-                            border.color: window.border
-                        }
-                        Menu {
-                            id: askMenu
-                            y: parent.height
-                            MenuItem { text: "Mentor"; onTriggered: window.openRoleChat("Mentor") }
-                            MenuItem { text: "Coach"; onTriggered: window.openRoleChat("Coach") }
-                            MenuItem { text: "Manager"; onTriggered: window.openRoleChat("Manager") }
-                            MenuItem { text: "Ellenőr"; onTriggered: window.openRoleChat("Ellenőr") }
-                            MenuItem { text: "Ötletelő"; onTriggered: window.openRoleChat("Ötletelő") }
-                            MenuItem { text: "Tanácsadó"; onTriggered: window.openRoleChat("Tanácsadó") }
-                        }
-                    }
+                    Item {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 14
+                            anchors.rightMargin: 14
+                            spacing: 8
 
-                    ToolButton {
-                        id: languageButton
-                        text: "文/A"
-                        onClicked: languageDrawer.open()
-                        ToolTip.visible: hovered
-                        ToolTip.text: "Tolmács / Nyelvi híd · Ctrl+Shift+L"
-                        Accessible.name: "Tolmács / Nyelvi híd"
-                        contentItem: Label {
-                            text: parent.text
-                            color: window.textPrimary
-                            font.pixelSize: 9
-                            font.bold: true
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                        }
-                        background: Rectangle {
-                            radius: 6
-                            color: parent.hovered ? "#132a42" : "#0d1c2f"
-                            border.color: window.border
-                        }
-                    }
+                            Label {
+                                text: "ASSZISZTENS"
+                                color: window.textMuted
+                                font.pixelSize: 8
+                                font.bold: true
+                                Layout.preferredWidth: 72
+                            }
+                            Rectangle { width: 1; height: 26; color: window.border }
 
-                    Item { Layout.fillWidth: true }
-                    Label { text: "CANONICAL"; color: window.accent; font.pixelSize: 9; font.bold: true }
-                    Rectangle { width: 1; height: 25; color: window.border }
-                    Label { text: fa3Repository.canonicalRecordCount + " records"; color: window.textMuted; font.pixelSize: 9 }
-                    Rectangle {
-                        width: 30; height: 30; radius: 6; color: "#0d1c2f"; border.color: window.border
-                        Label { anchors.centerIn: parent; text: "↻"; color: window.textPrimary; font.pixelSize: 13 }
-                        MouseArea { anchors.fill: parent; onClicked: { fa3Repository.refresh(); fa3Journal.refresh() } }
+                            ToolButton {
+                                id: askButton
+                                Layout.minimumWidth: 180
+                                Layout.preferredWidth: 210
+                                Layout.preferredHeight: 32
+                                text: "Kérdezd: " + window.askRole + " ▾"
+                                onClicked: askMenu.open()
+                                contentItem: Label {
+                                    text: parent.text
+                                    color: window.textPrimary
+                                    font.pixelSize: 9
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    elide: Text.ElideRight
+                                }
+                                background: Rectangle {
+                                    radius: 6
+                                    color: parent.hovered ? "#132a42" : "#0d1c2f"
+                                    border.color: window.border
+                                }
+                                Menu {
+                                    id: askMenu
+                                    y: parent.height
+                                    MenuItem { text: "Mentor"; onTriggered: window.openRoleChat("Mentor") }
+                                    MenuItem { text: "Coach"; onTriggered: window.openRoleChat("Coach") }
+                                    MenuItem { text: "Manager"; onTriggered: window.openRoleChat("Manager") }
+                                    MenuItem { text: "Ellenőr"; onTriggered: window.openRoleChat("Ellenőr") }
+                                    MenuItem { text: "Ötletelő"; onTriggered: window.openRoleChat("Ötletelő") }
+                                    MenuItem { text: "Tanácsadó"; onTriggered: window.openRoleChat("Tanácsadó") }
+                                }
+                            }
+
+                            ToolButton {
+                                id: languageButton
+                                Layout.minimumWidth: 118
+                                Layout.preferredWidth: 126
+                                Layout.preferredHeight: 32
+                                text: "文/A  Tolmács"
+                                onClicked: window.openLanguageControl()
+                                ToolTip.visible: hovered
+                                ToolTip.text: "Tolmács / Nyelvi híd · Ctrl+Shift+L"
+                                Accessible.name: "Tolmács / Nyelvi híd"
+                                contentItem: Label {
+                                    text: parent.text
+                                    color: window.textPrimary
+                                    font.pixelSize: 9
+                                    font.bold: true
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                background: Rectangle {
+                                    radius: 6
+                                    color: parent.hovered ? "#132a42" : "#0d1c2f"
+                                    border.color: window.accent
+                                }
+                            }
+
+                            Item { Layout.fillWidth: true }
+                            QuickLink { linkText: "Hugging Face"; targetUrl: "https://huggingface.co/" }
+                            QuickLink { linkText: "CivitAI"; targetUrl: "https://civitai.com/" }
+                            QuickLink { linkText: "OpenModelDB"; targetUrl: "https://openmodeldb.info/" }
+                        }
                     }
                 }
             }
@@ -1305,6 +1356,18 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                }
+
+                LanguageControlPage {
+                    preferences: fa3Preferences
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
                 }
             }
 

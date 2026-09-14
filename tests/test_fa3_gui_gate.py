@@ -63,6 +63,20 @@ class Fa3GuiGateTests(unittest.TestCase):
             self.assertIn(token, page)
         self.assertIn("qml/LanguageControlPage.qml", cmake)
 
+    def test_translator_is_permanent_and_assistant_toolbar_is_responsive(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        self.assertIn('id: assistantToolbar', main)
+        self.assertIn('Layout.preferredHeight: 104', main)
+        self.assertIn('text: "ASSZISZTENS"', main)
+        self.assertIn('Layout.minimumWidth: 180', main)
+        self.assertIn('text: "文/A  Tolmács"', main)
+        self.assertIn('Layout.minimumWidth: 118', main)
+        self.assertIn('function openLanguageControl()', main)
+        self.assertIn('label: "Tolmács"; pageIndex: 23', main)
+        self.assertGreaterEqual(main.count('LanguageControlPage {'), 2)
+        self.assertIn('onActivated: window.openLanguageControl()', main)
+        self.assertIn('onClicked: window.openLanguageControl()', main)
+
 
 if __name__ == "__main__":
     unittest.main()
