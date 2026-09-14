@@ -1,0 +1,82 @@
+# DEVELOPMENT / INTEGRATION ONLY.
+# Production admission MUST use the HRB-materialized Quadlet bundle in ./quadlet.
+name: fa3-blackhole-dev
+
+networks:
+  fa3-internal:
+    driver: bridge
+    internal: true
+
+services:
+  blackhole-api:
+    image: ${FA3_BLACKHOLE_IMAGE:?digest-pinned Blackhole image required}
+    user: "${FA3_BLACKHOLE_UID:-10002}:${FA3_BLACKHOLE_GID:-10002}"
+    restart: "no"
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=512m
+    volumes:
+      - fa3-media-storage:/home/fa3api/storage
+      - fa3-evidence-registry:/home/fa3api/evidence
+      - ${FA3_AUDIT_KEY_FILE:?audit key file required}:/run/secrets/fa3_audit_hmac_key:ro
+    environment:
+      FA3_AUDIT_KEY_FILE: /run/secrets/fa3_audit_hmac_key
+      LITELLM_BASE_URL: http://litellm-proxy:4000
+      COMFYUI_BASE_URL: http://comfyui-worker:8188
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks: [fa3-internal]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/healthz',timeout=3).read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  litellm-proxy:
+    image: ${FA3_LITELLM_IMAGE:?digest-pinned non-root LiteLLM image required}
+    restart: "no"
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=256m
+    env_file:
+      - ${FA3_LITELLM_SECRET_ENV_FILE:?private env file containing LITELLM_MASTER_KEY required}
+    environment:
+      HTTPS_PROXY: ${FA3_DEV_HTTPS_PROXY:?explicit policy proxy required}
+      HTTP_PROXY: ${FA3_DEV_HTTP_PROXY:?explicit policy proxy required}
+      NO_PROXY: 127.0.0.1,localhost,blackhole-api,comfyui-worker
+    networks: [fa3-internal]
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import socket;s=socket.create_connection(('127.0.0.1',4000),3);s.close()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  comfyui-worker:
+    image: ${FA3_COMFYUI_IMAGE:?digest-pinned FA3 ComfyUI image required}
+    restart: "no"
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=2g
+    volumes:
+      - fa3-media-storage:/home/fa3/output
+      - fa3-comfyui-models:/home/fa3/models:ro
+    networks: [fa3-internal]
+    # No GPU is granted by this development compose file.
+    # Production GPU access is materialized only from an authenticated HRB receipt
+    # as an NVIDIA CDI AddDevice in fa3-comfyui-worker.container.
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import socket;s=socket.create_connection(('127.0.0.1',8188),3);s.close()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  fa3-media-storage: {}
+  fa3-evidence-registry: {}
+  fa3-comfyui-models: {}
