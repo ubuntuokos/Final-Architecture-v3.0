@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6a888f83d4f7415a444fa0354a21e576ac56a753",
-    "pre_projection_root_tree_sha": "4e04897a3cc616f12b5a845b72b119943fd0e318",
-    "pre_projection_canonical_tree_sha": "59331f2929a624410d2d546c44aa817a972c3204",
-    "commits_ahead_of_v3_0_11_conformance_commit": 352,
-    "total_post_baseline_commits": 352,
-    "delta_file_count": 1204,
-    "delta_added_files": 1199,
+    "pre_projection_head_sha": "11a646af85804f24f1af9282f73e578f7d8c781f",
+    "pre_projection_root_tree_sha": "9ddaa6d0b1a5d98da0987fbd80f105b509c95495",
+    "pre_projection_canonical_tree_sha": "5c39f3ee7576eda424aa321b98febb4963258692",
+    "commits_ahead_of_v3_0_11_conformance_commit": 356,
+    "total_post_baseline_commits": 356,
+    "delta_file_count": 1205,
+    "delta_added_files": 1200,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 634,
-    "evidence_files_in_post_baseline_delta": 118,
+    "evidence_files_in_post_baseline_delta": 119,
     "source_files_in_post_baseline_delta": 134,
     "test_files_in_post_baseline_delta": 117,
     "workflow_files_in_post_baseline_delta": 46,
@@ -472,6 +472,7 @@
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-coach-reference-pending.json",
+      "evidence/reference/fa3-convertx-reference-pending.json",
       "evidence/reference/fa3-gui-reference-pass.json",
       "evidence/reference/fa3-ideation-advisory-reference-pending.json",
       "evidence/reference/fa3-inspector-reference-pending.json",
@@ -716,7 +717,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1204,
+  "manifest_entry_count": 1205,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -920,7 +921,7 @@
     },
     {
       "path": ".github/workflows/fa3-tools-convertx-conformance.yml",
-      "git_blob_sha": "cd4a203f754369be357b1fe19d5e84a1f9ba44b2",
+      "git_blob_sha": "e6ed2ec598b23d0a1f8d38411d15ad3f223e14be",
       "baseline_delta_status": "added"
     },
     {
@@ -5044,6 +5045,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-convertx-reference-pending.json",
+      "git_blob_sha": "388ffd3446c344b649dcc67b5ba2a0a89a3664a1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/fa3-gui-reference-pass.json",
       "git_blob_sha": "addea128f1b3bd3cec9e00dd4078172f4176df90",
       "baseline_delta_status": "added"
@@ -6645,7 +6651,7 @@
     },
     {
       "path": "tests/test_tools_fabric.py",
-      "git_blob_sha": "889c9adfd80e2d9701c3d90b9567f42ca0393627",
+      "git_blob_sha": "c9dfa64065d13094dfe66e543cf3b72df4ae3346",
       "baseline_delta_status": "added"
     },
     {
