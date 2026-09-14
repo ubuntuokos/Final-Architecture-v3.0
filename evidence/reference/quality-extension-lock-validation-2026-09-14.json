@@ -1,0 +1,20 @@
+{
+  "id": "FA3-EVIDENCE-QUALITY-EXTENSION-LOCK-VALIDATION-2026-09-14",
+  "schema": "fa3.materialization-evidence.v1",
+  "scope": "REPOSITORY_MATERIALIZATION_PENDING_CI",
+  "current_host_production_claim": false,
+  "ci_claim": false,
+  "branch": "fa3/quality-routing-extension-pinning-validation",
+  "pull_request": 188,
+  "checks": [
+    "extension_boundary_policy_and_gate_present",
+    "voice_quality_policy_and_router_present",
+    "managed_upstream_lock_registry_and_gate_present",
+    "whisper_and_demucs_bootstraps_consume_lock_registry",
+    "audio_preflight_contract_and_gate_present",
+    "focused_regression_tests_present",
+    "github_actions_validation_workflow_present"
+  ],
+  "status": "PENDING_CI_EXECUTION",
+  "promotion_allowed": false
+}
