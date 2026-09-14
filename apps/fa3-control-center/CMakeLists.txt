@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 WebEngineQuick PrintSupport)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 QuickDialogs2 WebEngineQuick PrintSupport)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -19,6 +19,8 @@ qt_add_executable(fa3-control-center
     src/PreferenceStore.h
     src/SystemDeviceModel.cpp
     src/SystemDeviceModel.h
+    src/ChatFileService.cpp
+    src/ChatFileService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -30,6 +32,7 @@ set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS Ai
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
+set_source_files_properties(qml/HelpBubble.qml PROPERTIES QT_RESOURCE_ALIAS HelpBubble.qml)
 set_source_files_properties(qml/CheckpointManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS CheckpointManagerPage.qml)
 set_source_files_properties(qml/ExternalProvidersSetupPage.qml PROPERTIES QT_RESOURCE_ALIAS ExternalProvidersSetupPage.qml)
 set_source_files_properties(qml/TokenControlCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS TokenControlCenterPage.qml)
@@ -48,6 +51,7 @@ qt_add_qml_module(fa3-control-center
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
+        qml/HelpBubble.qml
         qml/CheckpointManagerPage.qml
         qml/ExternalProvidersSetupPage.qml
         qml/TokenControlCenterPage.qml
@@ -57,6 +61,7 @@ target_link_libraries(fa3-control-center
     PRIVATE
         Qt6::Quick
         Qt6::QuickControls2
+        Qt6::QuickDialogs2
         Qt6::WebEngineQuick
         Qt6::PrintSupport
 )

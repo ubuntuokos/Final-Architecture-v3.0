@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 Item {
     id: root
@@ -25,6 +26,10 @@ Item {
     property string messageStyle: String(fa3Preferences.value("chat/messageStyle", "Cards"))
     property bool expandToWindowWidth: Boolean(fa3Preferences.value("chat/expandToWindowWidth", false))
     property string adapterState: "ADAPTER-GATED"
+    property string exportText: ""
+    property url pendingCopySource: ""
+    property string operationStatus: ""
+    property bool operationFailed: false
 
     signal closeRequested()
     signal navigateRequested(int pageIndex)
@@ -39,35 +44,113 @@ Item {
         return "FA3 szerepalapú beszélgetési munkatér."
     }
 
+    function showOperationStatus(text, failed) {
+        operationStatus = text
+        operationFailed = failed
+        statusTimer.restart()
+    }
+
+    function parseAttachments(value) {
+        if (!value || value.length === 0) return []
+        try {
+            var parsed = JSON.parse(value)
+            return Array.isArray(parsed) ? parsed : []
+        } catch (e) {
+            return []
+        }
+    }
+
+    function hasAttachment(urlText) {
+        for (var i = 0; i < attachmentModel.count; ++i) {
+            if (attachmentModel.get(i).url === urlText) return true
+        }
+        return false
+    }
+
+    function addAttachmentUrls(urls) {
+        for (var i = 0; i < urls.length; ++i) {
+            var meta = fa3ChatFiles.inspectLocalFile(urls[i])
+            if (!meta.valid) {
+                root.showOperationStatus(meta.error || "A fájl nem csatolható.", true)
+                continue
+            }
+            if (root.hasAttachment(meta.url)) continue
+            attachmentModel.append({
+                url: String(meta.url),
+                path: String(meta.path),
+                name: String(meta.name),
+                mime: String(meta.mime),
+                sizeLabel: String(meta.sizeLabel),
+                analysisClass: String(meta.analysisClass),
+                adapterValidationRequired: Boolean(meta.adapterValidationRequired)
+            })
+        }
+    }
+
+    function pendingAttachmentsJson() {
+        var items = []
+        for (var i = 0; i < attachmentModel.count; ++i) {
+            var item = attachmentModel.get(i)
+            items.push({
+                url: item.url,
+                path: item.path,
+                name: item.name,
+                mime: item.mime,
+                sizeLabel: item.sizeLabel,
+                analysisClass: item.analysisClass,
+                adapterValidationRequired: item.adapterValidationRequired
+            })
+        }
+        return JSON.stringify(items)
+    }
+
     function resetSession() {
+        attachmentModel.clear()
+        composer.clear()
         chatModel.clear()
         chatModel.append({
             kind: "SYSTEM",
             author: "FA3",
             body: role + " chat munkatér megnyitva. " + roleDescription(role),
-            state: "READY"
+            state: "READY",
+            attachmentsJson: "[]"
         })
         chatModel.append({
             kind: "SYSTEM",
             author: "Runtime",
             body: "Nincs hitelesített role-chat provider adapter hozzárendelve. A felület ezért nem állít elő mesterséges választ és nem jelöl hamisan ONLINE állapotot.",
-            state: "ADAPTER-GATED"
+            state: "ADAPTER-GATED",
+            attachmentsJson: "[]"
         })
         Qt.callLater(function() { messageList.positionViewAtEnd() })
     }
 
     function draftPrompt() {
         var text = composer.text.trim()
-        if (text.length === 0) return
-        chatModel.append({kind: "USER", author: "Te", body: text, state: "LOCAL-DRAFT"})
+        if (text.length === 0 && attachmentModel.count === 0) return
+        var attachmentJson = root.pendingAttachmentsJson()
+        chatModel.append({
+            kind: "USER",
+            author: "Te",
+            body: text.length > 0 ? text : "Csatolmány(ok) hozzáadva.",
+            state: "LOCAL-DRAFT",
+            attachmentsJson: attachmentJson
+        })
         composer.clear()
+        attachmentModel.clear()
         chatModel.append({
             kind: "SYSTEM",
             author: "Runtime",
             body: "Az üzenet helyi vázlatként látható, de nincs elküldve: előbb aktív provider/runtime adapter szükséges.",
-            state: "NOT-SENT"
+            state: "NOT-SENT",
+            attachmentsJson: "[]"
         })
         Qt.callLater(function() { messageList.positionViewAtEnd() })
+    }
+
+    function requestMessageExport(author, body, state) {
+        exportText = "# " + role + " — " + author + "\n\n" + body + "\n\n---\nState: " + state + "\n"
+        exportDialog.open()
     }
 
     onRoleChanged: resetSession()
@@ -88,6 +171,47 @@ Item {
     }
 
     ListModel { id: chatModel }
+    ListModel { id: attachmentModel }
+
+    Timer {
+        id: statusTimer
+        interval: 5000
+        repeat: false
+        onTriggered: root.operationStatus = ""
+    }
+
+    FileDialog {
+        id: attachmentDialog
+        title: "Fájlok csatolása az üzenethez"
+        fileMode: FileDialog.OpenFiles
+        nameFilters: [
+            "AI-értelmezhető fájlok (*.txt *.md *.json *.yaml *.yml *.csv *.tsv *.xml *.html *.pdf *.doc *.docx *.odt *.rtf *.xls *.xlsx *.ods *.ppt *.pptx *.odp *.svg *.png *.jpg *.jpeg *.webp *.gif *.bmp *.tif *.tiff *.wav *.mp3 *.flac *.ogg *.mp4 *.mkv *.webm *.mov)",
+            "Minden fájl (*)"
+        ]
+        onAccepted: root.addAttachmentUrls(selectedFiles)
+    }
+
+    FileDialog {
+        id: exportDialog
+        title: "Válasz mentése"
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["Markdown (*.md)", "Szöveg (*.txt)", "Minden fájl (*)"]
+        onAccepted: {
+            var result = fa3ChatFiles.saveTextFile(selectedFile, root.exportText)
+            root.showOperationStatus(result.ok ? "Az üzenet mentve." : (result.error || "A mentés sikertelen."), !result.ok)
+        }
+    }
+
+    FileDialog {
+        id: responseAttachmentSaveDialog
+        title: "Válasz-csatolmány mentése"
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["Minden fájl (*)"]
+        onAccepted: {
+            var result = fa3ChatFiles.copyLocalFile(root.pendingCopySource, selectedFile)
+            root.showOperationStatus(result.ok ? "A csatolmány mentve." : (result.error || "A mentés sikertelen."), !result.ok)
+        }
+    }
 
     component Surface: Rectangle {
         radius: 9
@@ -103,11 +227,11 @@ Item {
 
         Surface {
             Layout.fillWidth: true
-            Layout.preferredHeight: 76
+            Layout.preferredHeight: 72
             RowLayout {
                 anchors.fill: parent
-                anchors.margins: 14
-                spacing: 12
+                anchors.margins: 12
+                spacing: 10
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 2
@@ -122,137 +246,266 @@ Item {
                     border.color: root.orange
                     Label { id: adapterLabel; anchors.centerIn: parent; text: root.adapterState; color: root.orange; font.pixelSize: 8; font.bold: true }
                 }
+                HelpBubble {
+                    helpText: "A chatfelület használható vázlatokhoz és csatolmányok előkészítéséhez. Valódi AI-válasz csak hitelesített role-chat provider/runtime adapterrel engedélyezhető."
+                    bubbleText: root.textPrimary
+                    bubbleBorder: root.border
+                }
                 Button { text: "Models & Providers"; onClicked: root.navigateRequested(5) }
                 Button { text: "Integrations"; onClicked: root.navigateRequested(14) }
                 ToolButton { text: "✕"; onClicked: root.closeRequested() }
             }
         }
 
-        Item {
+        Surface {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            RowLayout {
+
+            ColumnLayout {
                 anchors.fill: parent
-                spacing: 12
+                anchors.margins: root.viewMode === "Compact" ? 10 : 14
+                spacing: root.viewMode === "Compact" ? 7 : 10
 
-                Item { Layout.fillWidth: !root.expandToWindowWidth; Layout.preferredWidth: root.expandToWindowWidth ? 0 : 80 }
-
-                Surface {
+                ListView {
+                    id: messageList
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.maximumWidth: root.expandToWindowWidth ? 100000 : 1120
+                    clip: true
+                    spacing: root.viewMode === "Compact" ? 6 : 10
+                    boundsBehavior: Flickable.StopAtBounds
+                    model: chatModel
+                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn; active: true }
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: root.viewMode === "Compact" ? 10 : 14
-                        spacing: root.viewMode === "Compact" ? 7 : 10
+                    delegate: Item {
+                        id: messageItem
+                        required property string kind
+                        required property string author
+                        required property string body
+                        required property string state
+                        required property string attachmentsJson
+                        property var attachments: root.parseAttachments(attachmentsJson)
+                        width: ListView.view.width
+                        height: messageCard.implicitHeight
 
-                        ListView {
-                            id: messageList
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            clip: true
-                            spacing: root.viewMode === "Compact" ? 6 : 10
-                            boundsBehavior: Flickable.StopAtBounds
-                            model: chatModel
-                            ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn; active: true }
+                        Rectangle {
+                            id: messageCard
+                            width: root.messageStyle === "Bubbles"
+                                ? Math.min(parent.width * 0.82, Math.max(320, messageColumn.implicitWidth + 28))
+                                : (root.expandToWindowWidth ? parent.width - 10 : Math.min(parent.width - 10, 1180))
+                            anchors.horizontalCenter: root.messageStyle !== "Bubbles" && !root.expandToWindowWidth ? parent.horizontalCenter : undefined
+                            anchors.right: messageItem.kind === "USER" && root.messageStyle === "Bubbles" ? parent.right : undefined
+                            anchors.left: messageItem.kind !== "USER" && root.messageStyle === "Bubbles" ? parent.left : undefined
+                            implicitHeight: messageColumn.implicitHeight + (root.messageStyle === "Plain" ? 8 : 20)
+                            radius: root.messageStyle === "Plain" ? 0 : 8
+                            color: root.messageStyle === "Plain" ? "transparent" : (messageItem.kind === "USER" ? "#102a43" : root.panelRaised)
+                            border.color: root.messageStyle === "Plain" ? "transparent" : (messageItem.state === "ADAPTER-GATED" || messageItem.state === "NOT-SENT" ? root.orange : root.border)
 
-                            delegate: Item {
-                                required property string kind
-                                required property string author
-                                required property string body
-                                required property string state
-                                width: ListView.view.width
-                                height: messageCard.implicitHeight
-
-                                Rectangle {
-                                    id: messageCard
-                                    width: root.messageStyle === "Bubbles" ? Math.min(parent.width * 0.82, messageColumn.implicitWidth + 28) : parent.width - 10
-                                    anchors.right: kind === "USER" && root.messageStyle === "Bubbles" ? parent.right : undefined
-                                    anchors.left: kind !== "USER" || root.messageStyle !== "Bubbles" ? parent.left : undefined
-                                    implicitHeight: messageColumn.implicitHeight + (root.messageStyle === "Plain" ? 8 : 20)
-                                    radius: root.messageStyle === "Plain" ? 0 : 8
-                                    color: root.messageStyle === "Plain" ? "transparent" : (kind === "USER" ? "#102a43" : root.panelRaised)
-                                    border.color: root.messageStyle === "Plain" ? "transparent" : (state === "ADAPTER-GATED" || state === "NOT-SENT" ? root.orange : root.border)
-
-                                    ColumnLayout {
-                                        id: messageColumn
-                                        anchors.left: parent.left
-                                        anchors.right: parent.right
-                                        anchors.top: parent.top
-                                        anchors.margins: root.messageStyle === "Plain" ? 4 : 10
-                                        spacing: 4
-                                        RowLayout {
-                                            Layout.fillWidth: true
-                                            Label {
-                                                text: author
-                                                color: kind === "USER" ? root.accent : root.textPrimary
-                                                font.pixelSize: Math.max(9, root.chatFontSize - 3)
-                                                font.bold: true
+                            ColumnLayout {
+                                id: messageColumn
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.margins: root.messageStyle === "Plain" ? 4 : 10
+                                spacing: 5
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    Label {
+                                        text: messageItem.author
+                                        color: messageItem.kind === "USER" ? root.accent : root.textPrimary
+                                        font.pixelSize: Math.max(9, root.chatFontSize - 3)
+                                        font.bold: true
+                                    }
+                                    Item { Layout.fillWidth: true }
+                                    Label {
+                                        visible: root.showGenInfo
+                                        text: messageItem.state
+                                        color: messageItem.state === "ADAPTER-GATED" || messageItem.state === "NOT-SENT" ? root.orange : root.textMuted
+                                        font.pixelSize: 8
+                                    }
+                                    ToolButton {
+                                        visible: messageItem.kind !== "USER"
+                                        text: "⇩"
+                                        implicitWidth: 28
+                                        implicitHeight: 24
+                                        ToolTip.visible: hovered
+                                        ToolTip.text: "Üzenet mentése Markdown vagy szöveg fájlba"
+                                        onClicked: root.requestMessageExport(messageItem.author, messageItem.body, messageItem.state)
+                                    }
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: messageItem.body
+                                    color: root.textPrimary
+                                    wrapMode: Text.WordWrap
+                                    font.pixelSize: root.chatFontSize
+                                    font.weight: root.chatFontWeight === "Semibold" ? Font.DemiBold : (root.chatFontWeight === "Medium" ? Font.Medium : Font.Normal)
+                                }
+                                Flow {
+                                    Layout.fillWidth: true
+                                    visible: messageItem.attachments.length > 0
+                                    spacing: 6
+                                    Repeater {
+                                        model: messageItem.attachments
+                                        delegate: Rectangle {
+                                            required property var modelData
+                                            height: 30
+                                            width: Math.min(messageCard.width - 20, Math.max(150, attachmentName.implicitWidth + 74))
+                                            radius: 6
+                                            color: "#0a1b2d"
+                                            border.color: modelData.adapterValidationRequired ? root.orange : root.border
+                                            RowLayout {
+                                                anchors.fill: parent
+                                                anchors.leftMargin: 8
+                                                anchors.rightMargin: 4
+                                                spacing: 6
+                                                Label {
+                                                    id: attachmentName
+                                                    text: modelData.name + " · " + modelData.analysisClass + " · " + modelData.sizeLabel
+                                                    color: root.textPrimary
+                                                    font.pixelSize: 8
+                                                    Layout.fillWidth: true
+                                                    elide: Text.ElideMiddle
+                                                }
+                                                ToolButton {
+                                                    visible: messageItem.kind !== "USER"
+                                                    text: "⇩"
+                                                    implicitWidth: 24
+                                                    implicitHeight: 24
+                                                    ToolTip.visible: hovered
+                                                    ToolTip.text: "Válasz-csatolmány mentése"
+                                                    onClicked: {
+                                                        root.pendingCopySource = modelData.url
+                                                        responseAttachmentSaveDialog.open()
+                                                    }
+                                                }
                                             }
-                                            Item { Layout.fillWidth: true }
-                                            Label {
-                                                visible: root.showGenInfo
-                                                text: state
-                                                color: state === "ADAPTER-GATED" || state === "NOT-SENT" ? root.orange : root.textMuted
-                                                font.pixelSize: 8
-                                            }
-                                        }
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: body
-                                            color: root.textPrimary
-                                            wrapMode: Text.WordWrap
-                                            font.pixelSize: root.chatFontSize
-                                            font.weight: root.chatFontWeight === "Semibold" ? Font.DemiBold : (root.chatFontWeight === "Medium" ? Font.Medium : Font.Normal)
                                         }
                                     }
                                 }
                             }
                         }
+                    }
+                }
 
-                        Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: root.border }
+                Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: root.border }
 
+                ListView {
+                    id: pendingAttachmentList
+                    visible: attachmentModel.count > 0
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: visible ? 42 : 0
+                    orientation: ListView.Horizontal
+                    spacing: 6
+                    clip: true
+                    model: attachmentModel
+                    boundsBehavior: Flickable.StopAtBounds
+                    ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AsNeeded; active: true }
+
+                    delegate: Rectangle {
+                        required property string name
+                        required property string sizeLabel
+                        required property string analysisClass
+                        required property bool adapterValidationRequired
+                        required property int index
+                        height: 34
+                        width: Math.min(310, Math.max(175, pendingLabel.implicitWidth + 44))
+                        radius: 6
+                        color: "#0a1b2d"
+                        border.color: adapterValidationRequired ? root.orange : root.border
                         RowLayout {
-                            Layout.fillWidth: true
-                            spacing: 8
-                            TextArea {
-                                id: composer
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: root.viewMode === "Compact" ? 58 : 78
-                                placeholderText: "Írj a(z) " + root.role + " szerepnek…"
-                                wrapMode: TextEdit.Wrap
+                            anchors.fill: parent
+                            anchors.leftMargin: 8
+                            anchors.rightMargin: 4
+                            spacing: 6
+                            Label {
+                                id: pendingLabel
+                                text: name + " · " + analysisClass + " · " + sizeLabel
                                 color: root.textPrimary
-                                font.pixelSize: root.chatFontSize
-                                background: Rectangle { radius: 7; color: "#091624"; border.color: root.border }
+                                font.pixelSize: 8
+                                Layout.fillWidth: true
+                                elide: Text.ElideMiddle
                             }
-                            ColumnLayout {
-                                spacing: 6
-                                Button {
-                                    text: "Vázlat"
-                                    enabled: composer.text.trim().length > 0
-                                    onClicked: root.draftPrompt()
-                                }
-                                Button {
-                                    text: "Küldés"
-                                    enabled: false
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: "Aktív és hitelesített role-chat provider adapter szükséges."
-                                }
+                            ToolButton {
+                                text: "✕"
+                                implicitWidth: 24
+                                implicitHeight: 24
+                                onClicked: attachmentModel.remove(index)
                             }
-                        }
-
-                        Label {
-                            Layout.fillWidth: true
-                            text: "A chatablak most ténylegesen megnyílik a kiválasztott szereppel. Üzenetküldés csak provider/runtime admission után engedélyezhető; addig a GUI fail-closed marad."
-                            color: root.orange
-                            font.pixelSize: 9
-                            wrapMode: Text.WordWrap
                         }
                     }
                 }
 
-                Item { Layout.fillWidth: !root.expandToWindowWidth; Layout.preferredWidth: root.expandToWindowWidth ? 0 : 80 }
+                Rectangle {
+                    id: composerFrame
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: root.viewMode === "Compact" ? 116 : 154
+                    Layout.minimumHeight: 104
+                    Layout.maximumHeight: Math.max(140, root.height * 0.34)
+                    radius: 8
+                    color: dropArea.containsDrag ? "#0d2841" : "#091624"
+                    border.color: dropArea.containsDrag ? root.accent : root.border
+                    border.width: dropArea.containsDrag ? 2 : 1
+
+                    TextArea {
+                        id: composer
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        placeholderText: "Írj a(z) " + root.role + " szerepnek… Fájlt ide is húzhatsz."
+                        wrapMode: TextEdit.Wrap
+                        color: root.textPrimary
+                        font.pixelSize: root.chatFontSize
+                        background: null
+                        selectByMouse: true
+                    }
+
+                    DropArea {
+                        id: dropArea
+                        anchors.fill: parent
+                        onDropped: function(drop) {
+                            if (drop.hasUrls) {
+                                root.addAttachmentUrls(drop.urls)
+                                drop.acceptProposedAction()
+                            }
+                        }
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    Button {
+                        text: "＋ Fájl hozzáadása"
+                        onClicked: attachmentDialog.open()
+                    }
+                    HelpBubble {
+                        helpText: "Szöveg, PDF, Office-dokumentum, táblázat, prezentáció, SVG, pixelkép/fotó, hang, videó és egyéb helyi fájl csatolható. A fájl nem kerül automatikusan hálózatra: a kiválasztott provider adapter a küldéskor ellenőrzi, hogy az adott modell valóban tudja-e elemezni."
+                        bubbleText: root.textPrimary
+                        bubbleBorder: root.border
+                    }
+                    Label {
+                        visible: root.operationStatus.length > 0
+                        text: root.operationStatus
+                        color: root.operationFailed ? root.orange : root.green
+                        font.pixelSize: 9
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                    }
+                    Item { Layout.fillWidth: root.operationStatus.length === 0 }
+                    Button {
+                        text: "Vázlat"
+                        enabled: composer.text.trim().length > 0 || attachmentModel.count > 0
+                        onClicked: root.draftPrompt()
+                    }
+                    Button {
+                        text: "Küldés"
+                        enabled: false
+                    }
+                    HelpBubble {
+                        helpText: "A Küldés csak aktív és hitelesített role-chat provider/runtime adapter után lesz engedélyezve. Addig a szöveg és a csatolmányok helyi vázlatként készíthetők elő."
+                        bubbleText: root.textPrimary
+                        bubbleBorder: root.border
+                    }
+                }
             }
         }
     }
