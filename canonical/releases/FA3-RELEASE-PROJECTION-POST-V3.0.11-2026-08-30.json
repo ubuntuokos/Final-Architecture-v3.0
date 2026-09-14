@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2166adf05d3865edc714f4537f6ba98312c3d131",
-    "pre_projection_root_tree_sha": "788ba83c20fefa1f554f4bfdcbf165d266db88dd",
-    "pre_projection_canonical_tree_sha": "06f852dd596f91a4c8b22a14afe65f6df7144bf5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 252,
-    "total_post_baseline_commits": 252,
-    "delta_file_count": 1127,
-    "delta_added_files": 1122,
+    "pre_projection_head_sha": "7825099ae0cc2054757053c5792c8dc5773bc0be",
+    "pre_projection_root_tree_sha": "8d74f5d16cd01b9ee23a7b1833f9d0a4dfa5b4dc",
+    "pre_projection_canonical_tree_sha": "3de183e53f6154bc3ded6cd907ec5079c9ead602",
+    "commits_ahead_of_v3_0_11_conformance_commit": 270,
+    "total_post_baseline_commits": 270,
+    "delta_file_count": 1138,
+    "delta_added_files": 1133,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 606,
+    "canonical_files_in_post_baseline_delta": 612,
     "evidence_files_in_post_baseline_delta": 113,
-    "source_files_in_post_baseline_delta": 124,
-    "test_files_in_post_baseline_delta": 105,
-    "workflow_files_in_post_baseline_delta": 41,
+    "source_files_in_post_baseline_delta": 125,
+    "test_files_in_post_baseline_delta": 106,
+    "workflow_files_in_post_baseline_delta": 42,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -193,6 +193,10 @@
       "canonical/profiles/FA3-JOURNAL-ARCHIVE-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
+      "canonical/profiles/FA3-LANGUAGE-ADMISSION-001.json",
+      "canonical/profiles/FA3-LANGUAGE-FABRIC-001.json",
+      "canonical/profiles/FA3-LANGUAGE-POLICY-001.json",
+      "canonical/profiles/FA3-LLM-GATEWAY-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
@@ -709,7 +713,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1127,
+  "manifest_entry_count": 1138,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -814,6 +818,11 @@
     {
       "path": ".github/workflows/fa3-journal-reconcile.yml",
       "git_blob_sha": "dd66bc9664a1c886879be5c938dfc26fbd6f0c5e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-language-gateway-gate.yml",
+      "git_blob_sha": "5929a997e083f0119bc4d4b88f46e001a8926ee5",
       "baseline_delta_status": "added"
     },
     {
@@ -983,7 +992,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/LanguageControlPage.qml",
-      "git_blob_sha": "912ca27a37427fb15a5868bfd21c99911e367e4c",
+      "git_blob_sha": "88f1325d1655d58a895b0a85727d0019c5ed5c63",
       "baseline_delta_status": "added"
     },
     {
@@ -1183,7 +1192,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "9c5f6f57ce517f90031ac2179aef7edb32c01e5e",
+      "git_blob_sha": "89fb33c69868bfb843e496c2c2a9cbb294d843a9",
       "baseline_delta_status": "modified"
     },
     {
@@ -1664,6 +1673,11 @@
     {
       "path": "canonical/FA3-JOURNAL-ARCHIVE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "aab93937a0c55e9699b8b13587d3703a6254bcea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-LANGUAGE-BRIDGE-001.json",
+      "git_blob_sha": "6242fca2ffa6b93180b6f476c85bc102ced41523",
       "baseline_delta_status": "added"
     },
     {
@@ -2877,6 +2891,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/language-gateway-enforcement.json",
+      "git_blob_sha": "487d15bda5246f9f6b401e824318ffd6b54a9e73",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/lavasr-enforcement.json",
       "git_blob_sha": "61872ce0a1e4887c2ac1357161083056aa964bb2",
       "baseline_delta_status": "added"
@@ -3227,6 +3246,26 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-LANGUAGE-ADMISSION-001.json",
+      "git_blob_sha": "91f82f635bfa6c8e8252cdd121bd727dcdd976f5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-LANGUAGE-FABRIC-001.json",
+      "git_blob_sha": "831df4a4905eafe0c5830dad279a6a8e22464cca",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-LANGUAGE-POLICY-001.json",
+      "git_blob_sha": "50dde238594e479f7bdd1ef26c48b7a3e242dbf5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-LLM-GATEWAY-001.json",
+      "git_blob_sha": "1b7608a95b51342fee2ac8c5b7e95baadfcec643",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
       "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809",
       "baseline_delta_status": "added"
@@ -3318,7 +3357,7 @@
     },
     {
       "path": "canonical/profiles/FA3-VOICE-001.json",
-      "git_blob_sha": "03805efaddd20afbb3aa3c666f7260f7f604d91a",
+      "git_blob_sha": "426c85892abee563a95d698413839a74f4cbb040",
       "baseline_delta_status": "added"
     },
     {
@@ -4342,6 +4381,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/litellm/config.yaml",
+      "git_blob_sha": "a768053bf6a6ac6d7b79ae531e4b1035ad979834",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/lynxhub/README.md",
       "git_blob_sha": "fc84a7806674babba8a6a49ed195d3a8c3fd327f",
       "baseline_delta_status": "added"
@@ -4479,6 +4523,11 @@
     {
       "path": "docs/human-motion-current-host.md",
       "git_blob_sha": "b52a7851d7be15971e686cefaff4da931a2f7a95",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/language-fabric-and-llm-gateway.md",
+      "git_blob_sha": "5dc46ce0835c365d72dbe97c7a74cc929cd43a67",
       "baseline_delta_status": "added"
     },
     {
@@ -5467,6 +5516,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_language_gateway_gate.py",
+      "git_blob_sha": "706cd628dcd6506764a2042263a1a05d86c57e49",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_lavasr_gate.py",
       "git_blob_sha": "5f56dfb1637abfffa42a5775d01668495c912851",
       "baseline_delta_status": "added"
@@ -6039,6 +6093,11 @@
     {
       "path": "tests/test_krita_ai_image_editing_gate.py",
       "git_blob_sha": "bcd8b7ce61f1af8d4325519aa198e4022b4cfc5a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_language_gateway_gate.py",
+      "git_blob_sha": "472768b29e2b0c8ea20f3f2876421f5f758878f2",
       "baseline_delta_status": "added"
     },
     {
