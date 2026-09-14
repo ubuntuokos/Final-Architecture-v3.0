@@ -7,7 +7,7 @@ This document materializes the canonical multilingual and LLM-routing boundary d
 - `FA3-LANGUAGE-ADMISSION-001`
 - `FA3-LLM-GATEWAY-001`
 
-All four are P0/MUST and add **zero** capabilities and **zero** architectural authorities.
+All four are P0/MUST and add **zero** capabilities and **zero** architectural authorities. `FA3-LANGUAGE-BRIDGE-001` is their non-authoritative runtime mediation projection and becomes mandatory whenever mediation is required.
 
 ## Installation language contract
 
@@ -46,11 +46,50 @@ Language capability evidence uses only:
 
 ## Language Fabric
 
-`FA3-LANGUAGE-FABRIC-001` owns provider-neutral mediation logic, not architectural authority. It covers language detection, translation/adaptation, transliteration/locale handling, terminology preservation, structured-data/code protection and STT/TTS language selection.
+`FA3-LANGUAGE-FABRIC-001` owns provider-neutral mediation logic, not architectural authority. It covers language detection, translation/adaptation, transliteration/locale handling, terminology preservation, structured-data/code protection, prompt/response adaptation and STT/TTS language selection.
 
 The original input remains authoritative. Translation is a derived projection with provenance. Language requirements cannot override privacy or provider policy. `SECRET` data is never externally translated.
 
 The user-facing Translator / Language Control remains the GUI projection of this backend boundary through `FA3-GUI-LANGUAGE-CONTROL-001` and `FA3-LANGUAGE-BRIDGE-001`.
+
+## Language Bridge runtime contract
+
+`FA3-LANGUAGE-BRIDGE-001` materializes the mediation path as an explicit pipeline rather than a generic translator. The canonical runtime projection contains:
+
+1. language/locale detection with confidence;
+2. data-class routing before provider selection;
+3. versioned terminology/glossary projection;
+4. protected-token and structured-content guarding;
+5. model/application language-capability routing;
+6. prompt adaptation without authority expansion;
+7. provider-neutral text translation/adaptation;
+8. speech mediation delegated to admitted STT/TTS profiles;
+9. response adaptation to the requested output language;
+10. semantic validation;
+11. provenance/evidence emission.
+
+Protected material includes code, identifiers, file paths, URLs, addresses, API/model/provider identifiers, hashes, structured keys and explicit glossary terms. Mutation or loss fails closed. A translation cannot grant tools, capabilities or permissions that the original request did not have.
+
+Data classification is evaluated before any external translation route. `SECRET` is denied externally; `CONFIDENTIAL` requires explicit policy permission; `INTERNAL` and `PUBLIC` remain policy-gated. Language fallback never silently becomes model, provider or infrastructure fallback.
+
+### LB acceptance gates
+
+The Bridge is guarded by `LB-001` through `LB-012`:
+
+- source language/detection confidence must be admitted;
+- native and mediated capability remain distinct;
+- original source remains authoritative and adaptations retain lineage;
+- protected-token round-trip integrity is required;
+- terminology revision and preservation are validated;
+- prompt adaptation cannot broaden authorization;
+- critical/low-confidence mediation requires semantic validation;
+- data-class routing precedes provider selection and SECRET external translation is denied;
+- fallback domains cannot silently cross;
+- speech mediation delegates to existing STT/TTS authorities;
+- evidence binds route, provider, languages, digests, terminology and validation outcomes;
+- reference/documentation evidence cannot claim current-host production PASS.
+
+Removing any required Bridge component or LB gate is an executable regression failure.
 
 ## LiteLLM gateway
 
@@ -96,7 +135,7 @@ The Model Registry is expected to materialize the actual admitted model/deployme
 
 ## GUI semantics
 
-The Language Control page now contains two distinct layers:
+The Language Control page contains two distinct layers:
 
 - **System languages:** mandatory Primary + distinct Secondary, optional Additional languages;
 - **Request language:** per-request input/output and mediation preferences.
@@ -110,6 +149,7 @@ Run:
 ```bash
 ./bin/fa3-enforce language-gateway
 python3 -m unittest tests.test_language_gateway_gate -v
+./bin/fa3-enforce static
 ```
 
-The gate proves static/reference conformance only. Real LiteLLM service identity/authentication, Vault injection, Model Registry materialization, HRB-integrated local inference and Language Fabric translation E2E require current-host evidence before production promotion.
+The dedicated gate validates the complete 36-case language/gateway/Bridge reference contract. The global static command invokes it fail-closed before the legacy static checks. Real LiteLLM service identity/authentication, Vault injection, Model Registry materialization, HRB-integrated local inference and Language Fabric/Bridge translation E2E require current-host evidence before production promotion.
