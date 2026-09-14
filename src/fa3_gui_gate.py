@@ -21,11 +21,13 @@ REQUIRED = {
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
     "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",
+    "help_bubble_qml": ROOT / "apps/fa3-control-center/qml/HelpBubble.qml",
     "checkpoint_qml": ROOT / "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
     "external_providers_qml": ROOT / "apps/fa3-control-center/qml/ExternalProvidersSetupPage.qml",
     "token_control_qml": ROOT / "apps/fa3-control-center/qml/TokenControlCenterPage.qml",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
+    "chat_file_service": ROOT / "apps/fa3-control-center/src/ChatFileService.cpp",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
@@ -105,8 +107,11 @@ def validate() -> list[str]:
         failures.append("qml-rtd-cross-surface-projection-missing")
 
     chat_qml = REQUIRED["chat_qml"].read_text(encoding="utf-8")
-    for token in ["Kérdezd: ", "ADAPTER-GATED", "Models & Providers", "Integrations", "LOCAL-DRAFT", "NOT-SENT"]:
+    for token in ["Kérdezd: ", "ADAPTER-GATED", "Models & Providers", "Integrations", "LOCAL-DRAFT", "NOT-SENT", "Fájl hozzáadása", "DropArea", "FileDialog", "responseAttachmentSaveDialog", "saveTextFile", "HelpBubble"]:
         if token not in chat_qml: failures.append(f"qml-role-chat-surface-missing:{token}")
+    help_qml = REQUIRED["help_bubble_qml"].read_text(encoding="utf-8")
+    for token in ["ToolTip.visible", "helpText", "hovered || pressed"]:
+        if token not in help_qml: failures.append(f"qml-help-bubble-missing:{token}")
     for role in ["Mentor", "Coach", "Manager", "Ellenőr", "Ötletelő", "Tanácsadó"]:
         if f'window.openRoleChat("{role}")' not in qml: failures.append(f"qml-role-chat-menu-wiring-missing:{role}")
     if "property bool chatWorkspaceOpen" not in qml or "ChatWorkspace" not in qml or "window.chatWorkspaceOpen ? 19" not in qml:
@@ -129,12 +134,22 @@ def validate() -> list[str]:
     if '"direct_execution_allowed", false' not in model_cpp: failures.append("backend-direct-execution-denial-missing")
     if '"canonical_write_allowed", false' not in model_cpp: failures.append("backend-canonical-write-denial-missing")
     if "searchInstalledApplications" not in model_cpp or "scanApplications" not in model_cpp or "QSettings" not in model_cpp: failures.append("backend-installed-app-search-missing")
+    chat_file_cpp = REQUIRED["chat_file_service"].read_text(encoding="utf-8")
+    for token in ["inspectLocalFile", "QMimeDatabase", "QSaveFile", "copyLocalFile", "GENERIC_BINARY"]:
+        if token not in chat_file_cpp: failures.append(f"chat-file-service-missing:{token}")
+    main_cpp = REQUIRED["main_cpp"].read_text(encoding="utf-8")
+    if "ChatFileService" not in main_cpp or 'setContextProperty("fa3ChatFiles"' not in main_cpp:
+        failures.append("chat-file-service-qml-wiring-missing")
     for token in FORBIDDEN_BACKEND_TOKENS:
-        if token in model_cpp or token in device_cpp or token in preference_cpp: failures.append(f"backend-forbidden-token:{token}")
+        if token in model_cpp or token in device_cpp or token in preference_cpp or token in chat_file_cpp: failures.append(f"backend-forbidden-token:{token}")
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml"]:
+        if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
+    installer = REQUIRED["installer"].read_text(encoding="utf-8")
+    if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
     desktop = REQUIRED["desktop"].read_text(encoding="utf-8")
     if "Exec=fa3-control-center" not in desktop: failures.append("desktop-entry-exec-missing")
     return failures
