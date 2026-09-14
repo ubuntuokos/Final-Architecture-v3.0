@@ -35,6 +35,23 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("ModelLibraryService.cpp", cmake)
         self.assertIn("Qt6::Network", cmake)
 
+    def test_integrations_follows_ai_studio_and_application_search_is_fa3_scoped(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+
+        self.assertIn("property var fa3ApplicationIndex", main)
+        self.assertIn("function searchFa3Applications", main)
+        self.assertIn("var apps = searchFa3Applications(needle)", main)
+        self.assertNotIn("fa3Repository.searchInstalledApplications(needle)", main)
+        self.assertIn('{label: "FA3 alkalmazások", value: "APPLICATION"}', main)
+        self.assertNotIn('{label: "Telepített alkalmazások", value: "APPLICATION"}', main)
+        for app in ["ComfyUI", "Automatic1111", "Forge", "Fooocus", "Krita", "GIMP", "Kdenlive", "Open WebUI", "OpenYak", "Ollama", "LM Studio"]:
+            self.assertIn('title: "' + app + '"', main)
+
+        studio = 'NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }'
+        integrations = 'NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }'
+        self.assertEqual(1, main.count(integrations))
+        self.assertIn(studio + "\n                        " + integrations, main)
+
 
 if __name__ == "__main__":
     unittest.main()

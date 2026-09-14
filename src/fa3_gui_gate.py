@@ -83,7 +83,12 @@ def validate() -> list[str]:
     if "id: modulePage" not in qml or "model: modulePage.cards" not in qml or "width: modulePage.availableWidth" not in qml: failures.append("qml-module-page-render-contract-missing")
     if "id: modelRegistryList" not in qml or "modelManagerView.availableHeight - 250" not in qml or "ScrollBar.AlwaysOn" not in qml: failures.append("qml-model-registry-responsive-scrollbar-missing")
     if "id: llmFitButton" not in qml or "property bool llmFitExpanded" not in qml or "nincs terminálindítás" not in qml: failures.append("qml-model-manager-llmfit-surface-missing")
-    if "id: searchScope" not in qml or "Telepített alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml: failures.append("qml-unified-search-scopes-missing")
+    if "id: searchScope" not in qml or "FA3 alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml:
+        failures.append("qml-unified-search-scopes-missing")
+    if "property var fa3ApplicationIndex" not in qml or "function searchFa3Applications" not in qml or "var apps = searchFa3Applications(needle)" not in qml:
+        failures.append("qml-fa3-application-search-missing")
+    if "fa3Repository.searchInstalledApplications(needle)" in qml:
+        failures.append("qml-host-application-search-leak")
     if "id: architectureScope" not in qml or "Canonical Core" not in qml or "Execution Fabric" not in qml or "Evidence & Release" not in qml or "architectureResults" not in qml: failures.append("qml-architecture-semantic-view-missing")
     models_qml = REQUIRED["models_providers_qml"].read_text(encoding="utf-8")
     if "id: providerList" not in models_qml or "Layout.fillHeight: true" not in models_qml or "ScrollBar.AlwaysOn" not in models_qml: failures.append("qml-models-providers-responsive-scrollbar-missing")
