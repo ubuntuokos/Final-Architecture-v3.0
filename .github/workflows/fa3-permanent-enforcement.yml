@@ -20,17 +20,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
       - name: Prepare gate
         run: chmod +x bin/fa3-enforce
       - name: Syntax check
-        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openyak_gate.py src/fa3_obsidian_knowledge_workspace_gate.py src/fa3_lynxhub_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py src/fa3_pytorch3d_provider.py src/fa3_pytorch3d_gate.py src/fa3_pytorch3d_runtime_probe.py src/fa3_openfx_interop.py src/fa3_openfx_interop_gate.py evidence/collect-pytorch3d-current-host.py tools/fa3_pytorch3d_global_reconcile.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py evidence/collect-lynxhub-current-host.py
+        run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openyak_gate.py src/fa3_obsidian_knowledge_workspace_gate.py src/fa3_lynxhub_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_audit_chain.py src/fa3_blackhole_admission.py src/fa3_blackhole_runtime_gate.py apps/blackhole-api/main.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py src/fa3_pytorch3d_provider.py src/fa3_pytorch3d_gate.py src/fa3_pytorch3d_runtime_probe.py src/fa3_openfx_interop.py src/fa3_openfx_interop_gate.py evidence/collect-pytorch3d-current-host.py tools/fa3_pytorch3d_global_reconcile.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-blackhole-oci-admission.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py evidence/collect-lynxhub-current-host.py
       - name: Executable invariant tests
         run: PYTHONPATH=src python -m unittest discover -s tests -v
       - name: Unified post-v3.0.11 release projection gate
@@ -111,6 +111,8 @@ jobs:
         run: ./bin/fa3-enforce marketingskills
       - name: Blackhole Kdenlive integration gate
         run: ./bin/fa3-enforce blackhole-kdenlive
+      - name: Blackhole REST/audit/OCI promotion-boundary gate
+        run: PYTHONPATH=src python src/fa3_blackhole_runtime_gate.py --root .
       - name: Whisper STT mandatory provider gate
         run: ./bin/fa3-enforce whisper-stt
       - name: Whisper STT executable provider conformance
@@ -135,7 +137,7 @@ jobs:
         run: ./bin/fa3-enforce static
       - name: Upload static report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: fa3-static-gate-report
           path: |
@@ -182,6 +184,7 @@ jobs:
             evidence/receipts/marketing-ci-reference-e2e.json
             reports/blackhole-kdenlive-gate-report.json
             reports/blackhole-kdenlive-conformance-report.json
+            reports/blackhole-runtime-reference-gate-report.json
             reports/whisper-stt-gate-report.json
             reports/whisper-stt-conformance-report.json
             reports/cosyvoice-gate-report.json
@@ -193,17 +196,48 @@ jobs:
             reports/openfx-interoperability-gate-report.json
             reports/presenton-gate-report.json
 
-  promotion-safety:
-    name: promotion-safety / fail-closed
+  blackhole-oci-reference:
+    name: blackhole-oci / reference-admission
     needs: canonical-regression
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Static Blackhole runtime admission gate
+        run: PYTHONPATH=src python src/fa3_blackhole_runtime_gate.py --root .
+      - name: Rootless Podman preflight
+        run: |
+          podman version
+          test "$(podman info --format '{{.Host.Security.Rootless}}')" = "true"
+      - name: Build and execute reference OCI admission
+        run: PYTHONPATH=src python evidence/collect-blackhole-oci-admission.py --root . --mode reference
+      - name: Upload Blackhole OCI reference evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: fa3-blackhole-oci-reference
+          if-no-files-found: error
+          path: |
+            reports/blackhole-runtime-reference-gate-report.json
+            reports/blackhole-runtime-reference-oci-report.json
+
+  promotion-safety:
+    name: promotion-safety / fail-closed
+    needs: [canonical-regression, blackhole-oci-reference]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
       - name: Prepare gate
@@ -224,7 +258,7 @@ jobs:
           fi
       - name: Upload promotion reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: fa3-promotion-reports
           path: |
