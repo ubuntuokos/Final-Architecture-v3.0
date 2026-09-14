@@ -9,7 +9,7 @@ from typing import Any
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
-from fa3_audit_chain import AuditChainError, append_event, normalize_key
+from fa3_audit_chain import AuditChainError, append_event, normalize_key, read_jsonl, verify_records
 from fa3_blackhole_admission import AdmissionDenied, validate_request
 from fa3_blackhole_kdenlive import PreparationRequest, prepare_media
 
@@ -81,6 +81,10 @@ def _assert_confined(path_value: str, root: Path, field: str) -> None:
         raise AdmissionDenied("PATH_OUTSIDE_ALLOWED_ROOT", f"{field} is outside the configured allowed root", 403)
 
 
+def _verify_audit_chain() -> None:
+    verify_records(read_jsonl(_audit_path()), _audit_key())
+
+
 def _audit(request_id: str, outcome: str, code: str, lease_id: str | None = None, detail: str | None = None) -> None:
     event = {
         "schema": "fa3.blackhole-api-audit-event.v1",
@@ -98,6 +102,7 @@ def _audit(request_id: str, outcome: str, code: str, lease_id: str | None = None
 @app.on_event("startup")
 def fail_closed_startup() -> None:
     _audit_key()
+    _verify_audit_chain()
     _input_root().resolve()
     _output_root().resolve()
 
@@ -113,6 +118,11 @@ def prepare(request: BlackholePrepareRequest) -> dict[str, Any]:
     payload = request.model_dump()
     lease_id = request.hrb_lease_id
     try:
+        _verify_audit_chain()
+    except AuditChainError as exc:
+        raise HTTPException(status_code=503, detail={"code": "AUDIT_CHAIN_FAILURE", "message": str(exc)}) from exc
+
+    try:
         _assert_confined(request.input_media, _input_root(), "input_media")
         _assert_confined(request.output_dir, _output_root(), "output_dir")
         if request.kdenlive_project:
@@ -124,6 +134,11 @@ def prepare(request: BlackholePrepareRequest) -> dict[str, Any]:
         except AuditChainError as audit_exc:
             raise HTTPException(status_code=503, detail={"code": "AUDIT_CHAIN_FAILURE", "message": str(audit_exc)}) from audit_exc
         raise HTTPException(status_code=exc.http_status, detail={"code": exc.code, "message": exc.message}) from exc
+
+    try:
+        _audit(request_id, "ALLOW", "ADMISSION_PASS", lease_id=lease_id)
+    except AuditChainError as exc:
+        raise HTTPException(status_code=503, detail={"code": "AUDIT_CHAIN_FAILURE", "message": str(exc)}) from exc
 
     preparation_payload = {
         "input_media": request.input_media,
