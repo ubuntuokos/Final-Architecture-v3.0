@@ -1,0 +1,50 @@
+name: FA3 resource evidence normalization
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-HOST-ATTESTATION-001.json'
+      - 'canonical/FA3-COMPUTE-PROFILE-001.json'
+      - 'canonical/FA3-WORKLOAD-RESOURCE-ENVELOPE-001.json'
+      - 'canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json'
+      - 'canonical/FA3-EVIDENCE-ENVELOPE-001.json'
+      - 'canonical/FA3-ENFORCEMENT-RESULT-001.json'
+      - 'canonical/FA3-REFERENCE-SCENARIO-001.json'
+      - 'canonical/FA3-GATE-RESOURCE-EVIDENCE-NORMALIZATION-001.json'
+      - 'canonical/decisions/FA3-DEC-RESOURCE-EVIDENCE-NORMALIZATION-2026-09-14.json'
+      - 'evidence/reference/resource-evidence-normalization-2026-09-14.json'
+      - 'src/fa3_resource_evidence_normalization_gate.py'
+      - 'tests/test_resource_evidence_normalization.py'
+      - 'examples/canonical-reference/**'
+      - 'bin/fa3-enforce'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_resource_evidence_normalization_gate.py examples/canonical-reference/run.py
+      - name: Focused regressions
+        run: PYTHONPATH=src python -m unittest tests.test_resource_evidence_normalization -v
+      - name: Canonical normalization gate
+        run: ./bin/fa3-enforce resource-evidence-normalization
+      - name: Canonical reference scenario
+        run: PYTHONPATH=src python examples/canonical-reference/run.py
+      - name: Prove static preflight binding
+        run: ./bin/fa3-enforce static
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-resource-evidence-normalization
+          path: |
+            reports/resource-evidence-normalization-gate-report.json
+            reports/canonical-reference-scenario-report.json

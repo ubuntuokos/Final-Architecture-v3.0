@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.gate.record.v1",
+  "id": "FA3-GATE-RESOURCE-EVIDENCE-NORMALIZATION-001",
+  "gateset_id": "FA3-RESOURCE-EVIDENCE-NORMALIZATION-GATESET-001",
+  "title": "Resource admission, evidence envelope and enforcement result normalization",
+  "priority": "P0",
+  "status": "MATERIALIZED",
+  "fail_closed": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "entrypoint": "./bin/fa3-enforce resource-evidence-normalization",
+  "static_preflight_binding": "./bin/fa3-enforce static",
+  "promotion_preflight_binding": "./bin/fa3-enforce promote",
+  "report": "reports/resource-evidence-normalization-gate-report.json",
+  "checks": [
+    "RESOURCE_AUTHORITY",
+    "MULTIDIMENSIONAL_COMPUTE",
+    "CU_TU_DIAGNOSTIC_ONLY",
+    "EVIDENCE_CLAIM_SCOPE",
+    "PAYLOAD_INTEGRITY",
+    "RESULT_STATE_EXIT_CODE",
+    "REFERENCE_POSITIVE_NEGATIVE_CASES",
+    "ZERO_DELTA"
+  ]
+}

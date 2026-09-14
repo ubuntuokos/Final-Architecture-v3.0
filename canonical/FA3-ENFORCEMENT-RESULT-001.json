@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.enforcement-result-contract.v1",
+  "id": "FA3-ENFORCEMENT-RESULT-001",
+  "title": "Machine-readable Enforcement Result Envelope",
+  "status": "P0_MUST",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "purpose": "NORMALIZE_GATE_RESULTS_WITHOUT_REPLACING_EXISTING_GATE_OR_PROMOTION_AUTHORITIES",
+  "required_fields": [
+    "schema_id",
+    "schema_version",
+    "gate",
+    "result",
+    "decision",
+    "findings",
+    "evidence_refs"
+  ],
+  "result_states": ["PASS", "BLOCKED", "PENDING", "NOT_APPLICABLE", "ERROR"],
+  "exit_codes": {
+    "PASS": 0,
+    "NOT_APPLICABLE": 0,
+    "BLOCKED": 2,
+    "PENDING": 2,
+    "ERROR": 3
+  },
+  "warn_semantics": "FINDING_SEVERITY_ONLY_NOT_GATE_RESULT",
+  "skip_semantics": "FORBIDDEN_FOR_APPLICABLE_P0_MUST_OBLIGATION",
+  "decision_required_fields": ["reason_code", "promotion_effect", "exit_code"],
+  "invariants": [
+    "EXIT_CODE_IS_FLOW_CONTROL_NOT_SEMANTIC_TAXONOMY",
+    "DETAILED_FAILURE_REASON_LIVES_IN_JSON",
+    "GATE_PASS_ALONE_DOES_NOT_GRANT_GLOBAL_PROMOTION"
+  ]
+}

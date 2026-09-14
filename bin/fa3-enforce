@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "resource-evidence-normalization" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_resource_evidence_normalization_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "static" || "${1:-}" == "promote" || "${1:-}" == "all" ]]; then
+  python3 "$ROOT/src/fa3_resource_evidence_normalization_gate.py" --root "$ROOT" >/dev/null
+fi
+
 if [[ "${1:-}" == "quality-extension-lock" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_quality_extension_lock_gate.py" --root "$ROOT" "$@"

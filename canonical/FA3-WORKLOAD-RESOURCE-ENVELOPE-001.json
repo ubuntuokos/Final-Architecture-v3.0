@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.workload-resource-envelope-policy.v1",
+  "id": "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
+  "title": "Workload Resource Envelope",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "compute_profile_policy": "FA3-COMPUTE-PROFILE-001",
+  "purpose": "ADMIT_WORKLOAD_AGAINST_REQUIRED_RESOURCE_DIMENSIONS",
+  "requirement_schema": {
+    "required_fields": ["metric", "operator", "value"],
+    "operators": [">=", "<=", "==", "contains"]
+  },
+  "evaluation": {
+    "all_requirements_must_pass": true,
+    "missing_metric": "FAIL",
+    "unknown_operator": "FAIL",
+    "cross_metric_compensation": false,
+    "named_hardware_requirement_default": "FORBIDDEN"
+  },
+  "examples": [
+    {"metric": "gpu.vram_gib", "operator": ">=", "value": 24},
+    {"metric": "numa.remote_latency_p95_ns", "operator": "<=", "value": 250},
+    {"metric": "pcie.h2d_gbps", "operator": ">=", "value": 20}
+  ]
+}

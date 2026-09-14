@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.resource-admission-contracts.v1",
+  "id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+  "title": "Canonical Resource Admission Contracts",
+  "status": "P0_MUST",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "authoritative_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "authority_profile": "FA3-HOST-RESOURCE-BROKER-001",
+  "required_inputs": [
+    "FA3-HOST-ATTESTATION-001",
+    "FA3-COMPUTE-PROFILE-001",
+    "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
+    "HRB_LEASE"
+  ],
+  "admission_semantics": {
+    "all_required_dimensions_must_pass": true,
+    "hrb_lease_must_be_current_and_scope_bound": true,
+    "stable_device_identity_required_for_accelerators": ["DEVICE_UUID", "PCI_BDF"],
+    "provider_self_admission_forbidden": true,
+    "named_hardware_default_forbidden": true,
+    "silent_device_or_cpu_fallback_forbidden": true
+  },
+  "provider_self_admission_forbidden": true,
+  "aggregate_diagnostics": {
+    "cu_tu_role": "DERIVED_DIAGNOSTIC_ONLY",
+    "may_inform_gui_or_observability": true,
+    "may_authorize_production_admission": false,
+    "may_compensate_for_failed_dimension": false
+  },
+  "invariants": [
+    "HRB_REMAINS_EXCLUSIVE_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+    "HOST_ATTESTATION_PROVES_IDENTITY_NOT_ELIGIBILITY_BY_SKU",
+    "MEASURED_COMPUTE_PROFILE_IS_MULTIDIMENSIONAL",
+    "WORKLOAD_ENVELOPE_REQUIREMENTS_ALL_PASS",
+    "CU_TU_NOT_PRODUCTION_ADMISSION_AUTHORITY",
+    "MISSING_REQUIRED_METRIC_FAILS_CLOSED"
+  ]
+}
