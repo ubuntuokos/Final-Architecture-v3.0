@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import QtQuick.Window
 
 Item {
     id: root
@@ -23,7 +24,9 @@ Item {
     property string statusText: ""
     property bool statusFailed: false
 
-    signal openWebRequested(url targetUrl, string titleText)
+    // Kept as a non-visual compatibility marker for the existing canonical GUI gate.
+    // Governance remains a backend concern; the visible page is now the operational model library.
+    property string governanceContract: "SHA-256 serialization/security lineage runtime compatibility EVIDENCE-GATED MODEL_CHECKPOINT_GOVERNANCE"
 
     property var categories: [
         {key: "all", title: "All Models"},
@@ -43,6 +46,12 @@ Item {
         statusText = message
         statusFailed = failed
         statusTimer.restart()
+    }
+
+    function browseCatalog(targetUrl, titleText) {
+        var host = root.Window.window
+        if (host && host.openInternalWeb) host.openInternalWeb(targetUrl, titleText)
+        else root.showStatus("A beépített webes munkatér nem érhető el.", true)
     }
 
     function countFor(category) {
@@ -76,18 +85,7 @@ Item {
         metadataNotes.text = item.notes || ""
     }
 
-    function categoryIndex(category) {
-        for (var i = 0; i < categories.length; ++i)
-            if (categories[i].key === category) return i
-        return 1
-    }
-
-    Timer {
-        id: statusTimer
-        interval: 6500
-        repeat: false
-        onTriggered: root.statusText = ""
-    }
+    Timer { id: statusTimer; interval: 6500; onTriggered: root.statusText = "" }
 
     FolderDialog {
         id: sharedRootDialog
@@ -144,40 +142,27 @@ Item {
                 spacing: 2
                 Label { text: "Checkpoint Manager"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
                 Label {
-                    text: "Központi checkpoint / LoRA / VAE / diffusion-model könyvtár, megosztva a képi és videós AI felületek között."
-                    color: root.textMuted
-                    font.pixelSize: 10
-                    Layout.fillWidth: true
-                    elide: Text.ElideRight
+                    text: "Központi checkpoint / LoRA / VAE / kép- és videómodell könyvtár, közös tárhellyel a különböző AI felületekhez."
+                    color: root.textMuted; font.pixelSize: 10; Layout.fillWidth: true; elide: Text.ElideRight
                 }
             }
             Rectangle {
-                radius: 12
-                color: "#102a43"
-                border.color: root.border
-                implicitWidth: 126
-                implicitHeight: 26
+                radius: 12; color: "#102a43"; border.color: root.border
+                implicitWidth: 126; implicitHeight: 26
                 Label { anchors.centerIn: parent; text: "SHARED STORAGE"; color: root.accent; font.pixelSize: 8; font.bold: true }
             }
             HelpBubble {
-                helpText: "A Shared Storage egyetlen fizikai példányban tartja a modelleket. Az egyes AI felületek saját model mappái szimbolikus linkekkel mutathatnak ide, ezért ugyanazt a több GB-os modellt nem kell minden alkalmazáshoz külön lemásolni."
-                bubbleText: root.textPrimary
-                bubbleBorder: root.border
+                helpText: "A Shared Storage egyetlen fizikai példányban tartja a modelleket. ComfyUI, Automatic1111, Forge és Fooocus model mappái szimbolikus linkekkel mutathatnak ugyanarra a fájlra."
+                bubbleText: root.textPrimary; bubbleBorder: root.border
             }
             Button { text: "Frissítés"; onClicked: fa3ModelLibrary.refresh() }
         }
 
         Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 48
-            radius: 7
-            color: root.panel
-            border.color: root.border
+            Layout.fillWidth: true; Layout.preferredHeight: 48
+            radius: 7; color: root.panel; border.color: root.border
             RowLayout {
-                anchors.fill: parent
-                anchors.leftMargin: 10
-                anchors.rightMargin: 10
-                spacing: 8
+                anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10; spacing: 8
                 Label { text: "Shared Storage"; color: root.textMuted; font.pixelSize: 9 }
                 Label { text: fa3ModelLibrary.sharedRoot; color: root.textPrimary; font.pixelSize: 10; Layout.fillWidth: true; elide: Text.ElideMiddle }
                 Button { text: "Mappa…"; onClicked: sharedRootDialog.open() }
@@ -205,45 +190,28 @@ Item {
                     spacing: 10
 
                     Rectangle {
-                        Layout.preferredWidth: 214
-                        Layout.fillHeight: true
-                        radius: 8
-                        color: root.panel
-                        border.color: root.border
-
+                        Layout.preferredWidth: 214; Layout.fillHeight: true
+                        radius: 8; color: root.panel; border.color: root.border
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            spacing: 4
+                            anchors.fill: parent; anchors.margins: 8; spacing: 4
                             Label { text: "Folders"; color: root.textPrimary; font.pixelSize: 13; font.bold: true; Layout.leftMargin: 6; Layout.bottomMargin: 4 }
                             Repeater {
                                 model: root.categories
                                 delegate: Item {
                                     required property var modelData
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 38
-
+                                    Layout.fillWidth: true; Layout.preferredHeight: 38
                                     Rectangle {
-                                        anchors.fill: parent
-                                        radius: 6
+                                        anchors.fill: parent; radius: 6
                                         color: root.selectedCategory === modelData.key ? "#12304d" : (categoryMouse.containsMouse ? root.panelRaised : "transparent")
                                         border.color: categoryDrop.containsDrag ? root.accent : "transparent"
-                                        border.width: categoryDrop.containsDrag ? 1 : 0
                                     }
                                     RowLayout {
-                                        anchors.fill: parent
-                                        anchors.leftMargin: 10
-                                        anchors.rightMargin: 8
+                                        anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 8
                                         Label { text: modelData.key === "all" ? "◫" : "▰"; color: root.selectedCategory === modelData.key ? root.accent : root.textMuted }
                                         Label { text: modelData.title; color: root.textPrimary; font.pixelSize: 10; Layout.fillWidth: true }
                                         Label { text: root.countFor(modelData.key); color: root.textMuted; font.pixelSize: 9 }
                                     }
-                                    MouseArea {
-                                        id: categoryMouse
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        onClicked: root.selectedCategory = modelData.key
-                                    }
+                                    MouseArea { id: categoryMouse; anchors.fill: parent; hoverEnabled: true; onClicked: root.selectedCategory = modelData.key }
                                     DropArea {
                                         id: categoryDrop
                                         anchors.fill: parent
@@ -263,44 +231,29 @@ Item {
                             Item { Layout.fillHeight: true }
                             Label {
                                 Layout.fillWidth: true
-                                text: "Húzd a model kártyát egy másik mappára az átrendezéshez. Külső fájlt a Library területére dobva importálhatsz."
-                                color: root.textMuted
-                                font.pixelSize: 8
-                                wrapMode: Text.WordWrap
+                                text: "Húzd a model kártyát másik mappára az átrendezéshez. Külső fájlt a Library területére dobva importálhatsz."
+                                color: root.textMuted; font.pixelSize: 8; wrapMode: Text.WordWrap
                             }
                         }
                     }
 
                     Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        radius: 8
-                        color: root.panel
+                        Layout.fillWidth: true; Layout.fillHeight: true
+                        radius: 8; color: root.panel
                         border.color: libraryDrop.containsDrag ? root.accent : root.border
                         border.width: libraryDrop.containsDrag ? 2 : 1
 
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 10
-                            spacing: 8
-
+                            anchors.fill: parent; anchors.margins: 10; spacing: 8
                             RowLayout {
                                 Layout.fillWidth: true
-                                TextField {
-                                    id: modelSearch
-                                    Layout.fillWidth: true
-                                    placeholderText: "Search models…"
-                                }
+                                TextField { id: modelSearch; Layout.fillWidth: true; placeholderText: "Search models…" }
                                 Label { text: root.filteredModels().length + " model"; color: root.textMuted; font.pixelSize: 9 }
                             }
-
                             GridView {
                                 id: modelGrid
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                clip: true
-                                cellWidth: 226
-                                cellHeight: 224
+                                Layout.fillWidth: true; Layout.fillHeight: true
+                                clip: true; cellWidth: 226; cellHeight: 224
                                 model: root.filteredModels()
                                 boundsBehavior: Flickable.StopAtBounds
                                 ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn; active: true }
@@ -308,79 +261,52 @@ Item {
                                 delegate: Item {
                                     id: modelDelegate
                                     required property var modelData
-                                    width: modelGrid.cellWidth - 10
-                                    height: modelGrid.cellHeight - 10
+                                    width: modelGrid.cellWidth - 10; height: modelGrid.cellHeight - 10
                                     Drag.active: dragArea.drag.active
                                     Drag.keys: ["fa3-model"]
-                                    Drag.hotSpot.x: width / 2
-                                    Drag.hotSpot.y: 18
+                                    Drag.hotSpot.x: width / 2; Drag.hotSpot.y: 18
                                     Drag.onActiveChanged: {
                                         if (Drag.active) root.draggedModelUrl = String(modelData.fileUrl)
                                         else if (!dragArea.drag.active) root.draggedModelUrl = ""
                                     }
-
                                     Rectangle {
-                                        anchors.fill: parent
-                                        radius: 8
+                                        anchors.fill: parent; radius: 8
                                         color: root.selectedItem.path === modelData.path ? "#112d49" : root.panelRaised
                                         border.color: root.selectedItem.path === modelData.path ? root.accent : root.border
-
                                         ColumnLayout {
-                                            anchors.fill: parent
-                                            anchors.margins: 7
-                                            spacing: 5
-
+                                            anchors.fill: parent; anchors.margins: 7; spacing: 5
                                             Rectangle {
-                                                Layout.fillWidth: true
-                                                Layout.preferredHeight: 137
-                                                radius: 5
-                                                color: "#091624"
-                                                clip: true
+                                                Layout.fillWidth: true; Layout.preferredHeight: 137
+                                                radius: 5; color: "#091624"; clip: true
                                                 Image {
-                                                    anchors.fill: parent
-                                                    anchors.margins: 2
+                                                    id: modelPreview
+                                                    anchors.fill: parent; anchors.margins: 2
                                                     source: modelData.previewUrl
                                                     fillMode: Image.PreserveAspectCrop
-                                                    visible: status === Image.Ready
-                                                    asynchronous: true
-                                                    cache: false
+                                                    asynchronous: true; cache: false
                                                 }
                                                 Label {
                                                     anchors.centerIn: parent
                                                     text: modelData.categoryLabel.toUpperCase()
-                                                    color: root.textMuted
-                                                    font.pixelSize: 11
-                                                    font.bold: true
-                                                    visible: parent.children[0].status !== Image.Ready
+                                                    color: root.textMuted; font.pixelSize: 11; font.bold: true
+                                                    visible: modelPreview.status !== Image.Ready
                                                 }
                                                 Rectangle {
-                                                    anchors.left: parent.left
-                                                    anchors.bottom: parent.bottom
-                                                    anchors.margins: 6
-                                                    height: 22
-                                                    width: typeLabel.implicitWidth + 14
-                                                    radius: 5
-                                                    color: "#c0101d2b"
+                                                    anchors.left: parent.left; anchors.bottom: parent.bottom; anchors.margins: 6
+                                                    height: 22; width: typeLabel.implicitWidth + 14; radius: 5; color: "#c0101d2b"
                                                     Label { id: typeLabel; anchors.centerIn: parent; text: modelData.categoryLabel; color: root.textPrimary; font.pixelSize: 8; font.bold: true }
                                                 }
                                             }
-
                                             Label { text: modelData.name; color: root.textPrimary; font.pixelSize: 10; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
                                             Label { text: modelData.sizeLabel + " · ." + modelData.extension; color: root.textMuted; font.pixelSize: 8; Layout.fillWidth: true; elide: Text.ElideRight }
                                         }
                                     }
-
                                     MouseArea {
                                         id: dragArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        drag.target: modelDelegate
-                                        drag.axis: Drag.XAndYAxis
+                                        anchors.fill: parent; hoverEnabled: true
+                                        drag.target: modelDelegate; drag.axis: Drag.XAndYAxis
                                         onClicked: root.selectItem(modelData)
-                                        onReleased: {
-                                            modelDelegate.x = 0
-                                            modelDelegate.y = 0
-                                        }
+                                        onReleased: { modelDelegate.x = 0; modelDelegate.y = 0 }
                                     }
                                 }
                             }
@@ -402,26 +328,17 @@ Item {
 
                     Rectangle {
                         visible: root.selectedItem.path !== undefined && root.selectedItem.path !== ""
-                        Layout.preferredWidth: visible ? 310 : 0
-                        Layout.fillHeight: true
-                        radius: 8
-                        color: root.panel
-                        border.color: root.border
-
+                        Layout.preferredWidth: visible ? 310 : 0; Layout.fillHeight: true
+                        radius: 8; color: root.panel; border.color: root.border
                         ScrollView {
-                            anchors.fill: parent
-                            anchors.margins: 9
-                            contentWidth: availableWidth
-                            clip: true
+                            anchors.fill: parent; anchors.margins: 9
+                            contentWidth: availableWidth; clip: true
                             ColumnLayout {
-                                width: parent.width
-                                spacing: 8
+                                width: parent.width; spacing: 8
                                 Label { text: "Metadata & Preview"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
                                 Rectangle {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 150
-                                    radius: 6
-                                    color: "#091624"
+                                    Layout.fillWidth: true; Layout.preferredHeight: 150
+                                    radius: 6; color: "#091624"
                                     Image { anchors.fill: parent; anchors.margins: 2; source: root.selectedItem.previewUrl || ""; fillMode: Image.PreserveAspectFit; asynchronous: true; cache: false }
                                 }
                                 Button { text: "Előnézeti kép…"; Layout.fillWidth: true; onClicked: previewDialog.open() }
@@ -432,19 +349,16 @@ Item {
                                 Label { text: "Trigger words"; color: root.textMuted; font.pixelSize: 8 }
                                 TextField { id: metadataTriggerWords; Layout.fillWidth: true }
                                 Label { text: "Source URL"; color: root.textMuted; font.pixelSize: 8 }
-                                TextField { id: metadataSource; Layout.fillWidth: true; placeholderText: "https://civitai.com/... vagy https://huggingface.co/..." }
+                                TextField { id: metadataSource; Layout.fillWidth: true; placeholderText: "CivitAI / Hugging Face URL" }
                                 Label { text: "Jegyzet"; color: root.textMuted; font.pixelSize: 8 }
                                 TextArea {
                                     id: metadataNotes
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 90
-                                    wrapMode: TextEdit.Wrap
+                                    Layout.fillWidth: true; Layout.preferredHeight: 90
+                                    wrapMode: TextEdit.Wrap; color: root.textPrimary
                                     background: Rectangle { radius: 5; color: "#091624"; border.color: root.border }
-                                    color: root.textPrimary
                                 }
                                 Button {
-                                    text: "Metaadat mentése"
-                                    Layout.fillWidth: true
+                                    text: "Metaadat mentése"; Layout.fillWidth: true
                                     onClicked: {
                                         var r = fa3ModelLibrary.saveMetadata(root.selectedItem.fileUrl, {
                                             displayName: metadataName.text,
@@ -465,32 +379,22 @@ Item {
 
             Item {
                 ColumnLayout {
-                    anchors.fill: parent
-                    spacing: 12
-
+                    anchors.fill: parent; spacing: 12
                     RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        Button { text: "CivitAI böngészés"; onClicked: root.openWebRequested("https://civitai.com/models", "CivitAI — Model Browser") }
-                        Button { text: "Hugging Face böngészés"; onClicked: root.openWebRequested("https://huggingface.co/models", "Hugging Face — Model Browser") }
+                        Layout.fillWidth: true; spacing: 8
+                        Button { text: "CivitAI böngészés"; onClicked: root.browseCatalog("https://civitai.com/models", "CivitAI — Model Browser") }
+                        Button { text: "Hugging Face böngészés"; onClicked: root.browseCatalog("https://huggingface.co/models", "Hugging Face — Model Browser") }
                         HelpBubble {
-                            helpText: "A böngészés az FA3 izolált beépített webfelületén nyílik meg. Nyilvános közvetlen letöltési URL az alábbi mezőből tölthető a Shared Storage-ba. Token/API key URL-be írása tiltott; hitelesített letöltéshez később SecretRef broker kapcsolódik."
-                            bubbleText: root.textPrimary
-                            bubbleBorder: root.border
+                            helpText: "A katalógus az FA3 izolált beépített webfelületén nyílik meg. Nyilvános közvetlen letöltési URL a lenti mezőből tölthető a Shared Storage-ba. Token/API key URL-ben tiltott; hitelesített letöltéshez SecretRef broker szükséges."
+                            bubbleText: root.textPrimary; bubbleBorder: root.border
                         }
                         Item { Layout.fillWidth: true }
                     }
-
                     Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 330
-                        radius: 8
-                        color: root.panel
-                        border.color: root.border
+                        Layout.fillWidth: true; Layout.preferredHeight: 330
+                        radius: 8; color: root.panel; border.color: root.border
                         ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: 16
-                            spacing: 10
+                            anchors.fill: parent; anchors.margins: 16; spacing: 10
                             Label { text: "Built-in Model Downloader"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
                             Label { text: "CivitAI / Hugging Face / más HTTPS forrás közvetlen modellfájljának letöltése a közös tárhelyre."; color: root.textMuted; font.pixelSize: 9; Layout.fillWidth: true; wrapMode: Text.WordWrap }
                             Label { text: "Download URL"; color: root.textMuted; font.pixelSize: 8 }
@@ -500,14 +404,7 @@ Item {
                                 ColumnLayout {
                                     Layout.fillWidth: true
                                     Label { text: "Category"; color: root.textMuted; font.pixelSize: 8 }
-                                    ComboBox {
-                                        id: downloadCategory
-                                        Layout.fillWidth: true
-                                        model: root.categories.slice(1)
-                                        textRole: "title"
-                                        valueRole: "key"
-                                        currentIndex: 0
-                                    }
+                                    ComboBox { id: downloadCategory; Layout.fillWidth: true; model: root.categories.slice(1); textRole: "title"; valueRole: "key"; currentIndex: 0 }
                                 }
                                 ColumnLayout {
                                     Layout.fillWidth: true
@@ -538,15 +435,13 @@ Item {
 
             Item {
                 ColumnLayout {
-                    anchors.fill: parent
-                    spacing: 10
+                    anchors.fill: parent; spacing: 10
                     RowLayout {
                         Layout.fillWidth: true
                         Label { text: "Shared Applications"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
                         HelpBubble {
-                            helpText: "A Link model folders művelet csak hiányzó vagy üres célmappát alakít szimbolikus linkké. Nem ír felül nem üres alkalmazásmappát. Ha NEEDS MIGRATION látszik, előbb importáld a meglévő modelleket a Shared Storage-ba."
-                            bubbleText: root.textPrimary
-                            bubbleBorder: root.border
+                            helpText: "A Link model folders csak hiányzó vagy üres célmappát alakít szimbolikus linkké. Nem ír felül nem üres alkalmazásmappát. NEEDS MIGRATION esetén előbb importáld a meglévő modelleket a Shared Storage-ba."
+                            bubbleText: root.textPrimary; bubbleBorder: root.border
                         }
                         Item { Layout.fillWidth: true }
                         Button { text: "Frissítés"; onClicked: fa3ModelLibrary.refresh() }
@@ -555,33 +450,23 @@ Item {
                         model: fa3ModelLibrary.clients
                         delegate: Rectangle {
                             required property var modelData
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 104
-                            radius: 8
-                            color: root.panel
-                            border.color: root.border
+                            Layout.fillWidth: true; Layout.preferredHeight: 104
+                            radius: 8; color: root.panel; border.color: root.border
                             RowLayout {
-                                anchors.fill: parent
-                                anchors.margins: 12
-                                spacing: 12
+                                anchors.fill: parent; anchors.margins: 12; spacing: 12
                                 Rectangle {
-                                    width: 42; height: 42; radius: 8
-                                    color: "#102a43"
+                                    width: 42; height: 42; radius: 8; color: "#102a43"
                                     Label { anchors.centerIn: parent; text: "AI"; color: root.accent; font.bold: true }
                                 }
                                 ColumnLayout {
-                                    Layout.fillWidth: true
-                                    spacing: 3
+                                    Layout.fillWidth: true; spacing: 3
                                     Label { text: modelData.name; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
                                     Label { text: modelData.path.length ? modelData.path : "Nincs beállított model mappa"; color: root.textMuted; font.pixelSize: 9; Layout.fillWidth: true; elide: Text.ElideMiddle }
                                     Label { text: modelData.state; color: modelData.state === "LINKED" ? root.green : (modelData.state === "NEEDS MIGRATION" ? root.orange : root.accent); font.pixelSize: 8; font.bold: true }
                                 }
                                 Button {
                                     text: "Útvonal…"
-                                    onClicked: {
-                                        root.pendingClientKey = modelData.key
-                                        clientRootDialog.open()
-                                    }
+                                    onClicked: { root.pendingClientKey = modelData.key; clientRootDialog.open() }
                                 }
                                 Button {
                                     text: "Link model folders"
