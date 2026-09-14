@@ -23,6 +23,15 @@ on:
       - 'src/fa3_ffmpeg_ai_current_host_gate.py'
       - 'tests/test_ffmpeg_ai_current_host_gate.py'
       - 'evidence/collect-ffmpeg-ai-current-host.py'
+      - 'src/fa3_audit_chain.py'
+      - 'src/fa3_blackhole_admission.py'
+      - 'src/fa3_blackhole_runtime_gate.py'
+      - 'apps/blackhole-api/**'
+      - 'deployment/containers/blackhole-api.Containerfile'
+      - 'evidence/collect-blackhole-oci-admission.py'
+      - 'tests/test_blackhole_runtime_gate.py'
+      - 'canonical/blackhole-runtime-promotion-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-BLACKHOLE-RUNTIME-PROMOTION-2026-09-14.json'
       - '.gitignore'
   workflow_dispatch:
     inputs:
@@ -41,6 +50,11 @@ on:
         required: false
         default: '.fa3-current-host/input/cpu-numa-rollback.json'
         type: string
+      blackhole_production_image:
+        description: 'Optional immutable Blackhole production image reference, required form: registry/name@sha256:<digest>'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -51,11 +65,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
       - name: Verify unified current-host projection
@@ -63,9 +77,11 @@ jobs:
           chmod +x bin/fa3-current-host bin/fa3-enforce
           ./bin/fa3-current-host verify
       - name: Executable regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_ffmpeg_ai_current_host_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_ffmpeg_ai_current_host_gate tests.test_blackhole_runtime_gate -v
       - name: Current-host collector syntax check
-        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py
+        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py src/fa3_audit_chain.py src/fa3_blackhole_admission.py src/fa3_blackhole_runtime_gate.py apps/blackhole-api/main.py evidence/collect-blackhole-oci-admission.py
+      - name: Blackhole REST/audit/OCI reference promotion boundary
+        run: PYTHONPATH=src python src/fa3_blackhole_runtime_gate.py --root .
       - name: Unified release projection must remain coherent
         run: ./bin/fa3-enforce release-projection
 
@@ -76,7 +92,7 @@ jobs:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -88,9 +104,17 @@ jobs:
             --rollback-evidence "${{ inputs.cpu_numa_rollback_evidence }}"
           ./bin/fa3-enforce cpu-numa-threading-current-host
           ./bin/fa3-current-host all
+      - name: Blackhole component production admission
+        if: ${{ inputs.blackhole_production_image != '' }}
+        env:
+          FA3_BLACKHOLE_PRODUCTION_IMAGE: ${{ inputs.blackhole_production_image }}
+        run: |
+          PYTHONPATH=src python src/fa3_ffmpeg_ai_current_host_gate.py --root .
+          PYTHONPATH=src python evidence/collect-blackhole-oci-admission.py --root . --mode current-host --production-image "$FA3_BLACKHOLE_PRODUCTION_IMAGE"
+          PYTHONPATH=src python src/fa3_blackhole_runtime_gate.py --root . --current-host
       - name: Upload current-host execution evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: fa3-current-host-execution
           if-no-files-found: warn
