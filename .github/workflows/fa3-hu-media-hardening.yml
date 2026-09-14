@@ -1,0 +1,75 @@
+name: FA3 HU/Media hardening
+
+on:
+  pull_request:
+    paths:
+      - "src/fa3_marketing_studio.py"
+      - "src/fa3_xtts_worker.py"
+      - "tests/test_fa3_hu_content_studio.py"
+      - "tests/test_ffmpeg_onnx_cuda_contract.py"
+      - "tools/ffmpeg-ai/**"
+      - "canonical/FA3-FFMPEG-ONNX-*.json"
+      - "canonical/FA3-HU-CONTENT-STUDIO-001.*"
+      - "compliance/schemas/fa3_voice_*.json"
+      - ".github/workflows/fa3-hu-media-hardening.yml"
+  workflow_dispatch:
+    inputs:
+      run_current_host:
+        description: "Run current-host FFmpeg ONNX/CUDA acceptance"
+        required: true
+        type: boolean
+        default: false
+      ffmpeg_path: {description: "Attested custom ffmpeg path", required: false, type: string}
+      command_json: {description: "JSON argv for ONNX dnn_processing", required: false, type: string}
+      output_path: {description: "Expected inference output", required: false, type: string}
+      host_attestation: {description: "Qualified host attestation JSON", required: false, type: string}
+      profiler_evidence: {description: "Optional zero-host-transfer profiler evidence", required: false, type: string}
+
+permissions:
+  contents: read
+
+jobs:
+  portable-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Python syntax
+        run: python -m py_compile src/fa3_marketing_studio.py src/fa3_xtts_worker.py tools/ffmpeg-ai/current_host_acceptance.py
+      - name: Shell syntax
+        run: bash -n tools/ffmpeg-ai/build_onnx_cuda_ffmpeg.sh
+      - name: Portable security and contract tests
+        run: python -m unittest -v tests.test_fa3_hu_content_studio tests.test_ffmpeg_onnx_cuda_contract
+
+  current-host-ffmpeg-onnx:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_current_host }}
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail closed on missing inputs
+        env:
+          FFMPEG_PATH: ${{ inputs.ffmpeg_path }}
+          COMMAND_JSON: ${{ inputs.command_json }}
+          OUTPUT_PATH: ${{ inputs.output_path }}
+          HOST_ATTESTATION: ${{ inputs.host_attestation }}
+        run: |
+          set -euo pipefail
+          test -n "$FFMPEG_PATH"; test -n "$COMMAND_JSON"; test -n "$OUTPUT_PATH"; test -n "$HOST_ATTESTATION"
+      - name: Execute attested ONNX/CUDA inference
+        env:
+          FFMPEG_PATH: ${{ inputs.ffmpeg_path }}
+          COMMAND_JSON: ${{ inputs.command_json }}
+          OUTPUT_PATH: ${{ inputs.output_path }}
+          HOST_ATTESTATION: ${{ inputs.host_attestation }}
+          PROFILER_EVIDENCE: ${{ inputs.profiler_evidence }}
+        run: |
+          set -euo pipefail
+          args=(--ffmpeg "$FFMPEG_PATH" --command-json "$COMMAND_JSON" --output "$OUTPUT_PATH" --host-attestation "$HOST_ATTESTATION" --evidence-out evidence/receipts/ffmpeg-onnx-cuda-current-host.json)
+          [[ -z "$PROFILER_EVIDENCE" ]] || args+=(--profiler-evidence "$PROFILER_EVIDENCE")
+          python3 tools/ffmpeg-ai/current_host_acceptance.py "${args[@]}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fa3-ffmpeg-onnx-current-host-evidence
+          path: evidence/receipts/ffmpeg-onnx-cuda-current-host.json
+          if-no-files-found: error

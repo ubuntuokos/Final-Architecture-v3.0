@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.media-inference-experimental-profile.v1",
+  "id": "FA3-FFMPEG-ONNX-ZEROCOPY-001",
+  "title": "FFmpeg ONNX Runtime CUDA zero-copy experimental profile",
+  "status": "EXPERIMENTAL_NOT_PROMOTED",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "depends_on": ["FA3-FFMPEG-ONNX-CUDA-001", "FA3-FFMPEG-ZEROCOPY-001"],
+  "scope_boundary": {
+    "end_to_end_gpu_resident_pipeline_claimed": false,
+    "onnx_cuda_execution_alone_is_zero_copy": false,
+    "promotion_claimed": false
+  },
+  "promotion_requirements": [
+    "AVHWFrames CUDA input interoperability",
+    "ONNX Runtime I/O Binding to device memory",
+    "CUDA pointer/device identity validation",
+    "stream synchronization validation",
+    "profiler evidence proving host_transfer_bytes == 0",
+    "same-GPU UUID binding",
+    "qualified current-host attestation"
+  ],
+  "evidence_state": "PENDING_CURRENT_HOST_PROFILER_EVIDENCE"
+}

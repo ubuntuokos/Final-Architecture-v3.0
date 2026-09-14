@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-HU-MEDIA-HARDENING-2026-09-14",
+  "date": "2026-09-14",
+  "status": "CANONICAL_DECISION",
+  "title": "Harden FFmpeg ONNX/CUDA and Hungarian content/voice pipelines",
+  "depends_on": ["FA3-DEC-ARCHITECTURE-EVOLUTION-2026-09-14"],
+  "decisions": [
+    "Treat FFmpeg ONNX CUDA execution and ONNX zero-copy as separate claims.",
+    "Do not promote zero-copy without device-memory I/O binding and profiler evidence of zero host transfers.",
+    "Use hardware-agnostic CUDA architecture detection/override instead of fixed sm_86/sm_90.",
+    "Make nonfree FFmpeg licensing an explicit opt-in policy, not an unconditional build flag.",
+    "Require cryptographically verifiable, purpose-bound, revocable consent for voice cloning.",
+    "Keep Piper generic Hungarian TTS separate from XTTS voice cloning; never silently substitute it.",
+    "Require Host Resource Broker lease acquisition and release for GPU voice cloning.",
+    "Deny voice providers/models/voices until license and intended-use admission is APPROVED.",
+    "Never synthesize CURRENT_HOST PASS from portable CI, mocks, or build success."
+  ],
+  "current_host_state": "PENDING_CURRENT_HOST",
+  "capability_delta": 0,
+  "authority_delta": 0
+}

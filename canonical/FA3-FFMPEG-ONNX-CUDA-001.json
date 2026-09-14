@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.media-inference-profile.v1",
+  "id": "FA3-FFMPEG-ONNX-CUDA-001",
+  "title": "FFmpeg 9.0.1 + ONNX Runtime CUDA execution profile",
+  "status": "CANONICAL_PROFILE",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "source_identity": {
+    "ffmpeg_release": "9.0.1",
+    "ffmpeg_commit": "bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa",
+    "nv_codec_headers_release": "n12.1.14.0",
+    "nv_codec_headers_commit": "1889e62e2d35ff7aa9baca2bceb14f053785e6f1"
+  },
+  "build_contract": {
+    "required": ["--enable-cuda-nvcc", "--enable-libonnxruntime"],
+    "forbidden_obsolete": ["--enable-libnpp"],
+    "license_profile": "EXPLICIT_POLICY",
+    "nonfree_default": false,
+    "cuda_arch_policy": "DETECT_CURRENT_HOST_OR_EXPLICIT_LIST"
+  },
+  "runtime_acceptance": {
+    "requires_onnxruntime_cuda_execution_provider": true,
+    "requires_ffmpeg_dnn_processing_onnx_inference": true,
+    "requires_host_attestation": true,
+    "requires_nonempty_output": true,
+    "current_host_status": "PENDING_CURRENT_HOST"
+  },
+  "claim_boundary": {
+    "cuda_execution_claim_allowed_after_runtime_acceptance": true,
+    "zero_copy_claimed": false,
+    "zero_copy_profile": "FA3-FFMPEG-ONNX-ZEROCOPY-001"
+  }
+}
