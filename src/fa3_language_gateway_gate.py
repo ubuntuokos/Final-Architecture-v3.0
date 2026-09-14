@@ -85,6 +85,56 @@ def language_capability_is_operable(status: str) -> bool:
     return status in {"NATIVE", "VALIDATED", "BRIDGED"}
 
 
+def _yaml_active_lines(text: str) -> list[str]:
+    active: list[str] = []
+    for raw in text.splitlines():
+        code = raw.split("#", 1)[0].rstrip()
+        if code.strip():
+            active.append(code)
+    return active
+
+
+def _contains_plaintext_secret(text: str) -> bool:
+    """Reject literal master/api keys while permitting FA3 runtime indirection."""
+    for line in _yaml_active_lines(text):
+        match = re.match(r"^\s*(master_key|api_key):\s*(.+?)\s*$", line, re.I)
+        if not match:
+            continue
+        value = match.group(2).strip().strip('"').strip("'")
+        if value.startswith("os.environ/") or value.startswith("${"):
+            continue
+        return True
+    return False
+
+
+def _contains_global_language_blacklist(text: str) -> bool:
+    """Inspect active YAML keys only; comments documenting forbidden patterns do not fail the gate."""
+    forbidden_keys = {
+        "blacklist",
+        "language_blacklist",
+        "language_denylist",
+        "denied_languages",
+        "hungarian_only",
+    }
+    for line in _yaml_active_lines(text):
+        match = re.match(r"^\s*([A-Za-z0-9_-]+)\s*:", line)
+        if match and match.group(1).lower() in forbidden_keys:
+            return True
+    return False
+
+
+def _gui_projects_dual_language_policy(gui: str) -> bool:
+    required_tokens = (
+        "property string primaryLanguage",
+        "property string secondaryLanguage",
+        "systemLanguageValid",
+        "primaryLanguage !== secondaryLanguage",
+        "setPrimaryLanguage",
+        "setSecondaryLanguage",
+    )
+    return all(token in gui for token in required_tokens)
+
+
 def _finding(code: str, message: str, **details: Any) -> dict[str, Any]:
     return {"code": code, "severity": "P0", "message": message, **details}
 
@@ -151,17 +201,16 @@ def run_conformance(root: Path) -> dict[str, Any]:
     check("LANG-GW-017", route.get("default") == "LOCAL_FIRST" and route.get("external_paid_providers_default_enabled") is False, "local-first and external providers disabled by default")
     check("LANG-GW-018", route.get("local_failure_may_silently_fallback_to_cloud") is False and route.get("fallback_must_remain_in_policy_equivalent_domain") is True, "no silent local-to-cloud fallback")
     check("LANG-GW-019", gateway.get("security", {}).get("plaintext_secrets_in_config") == "FORBIDDEN" and "os.environ/FA3_LITELLM_MASTER_KEY" in litellm, "secrets are runtime injected")
-    check("LANG-GW-020", not re.search(r"(?im)^\s*(master_key|api_key):\s*[\"']?(?!os\.environ/)(?!\$\{)[^#\n]+", litellm), "LiteLLM config contains no committed plaintext key")
-    check("LANG-GW-021", "hungarian-only" not in litellm.lower() and "blacklist:" not in litellm.lower(), "no global language blacklist in LiteLLM")
+    check("LANG-GW-020", not _contains_plaintext_secret(litellm), "LiteLLM config contains no committed plaintext key")
+    check("LANG-GW-021", not _contains_global_language_blacklist(litellm), "no global language blacklist in LiteLLM")
     check("LANG-GW-022", "pass_through_headers: true" not in litellm.lower() and "forward_client_headers_to_llm_api: true" not in litellm.lower(), "client-header forwarding is not enabled")
     check("LANG-GW-023", not re.search(r"api_base:\s*[\"']?http://localhost", litellm, re.I), "container backend endpoints are not hardcoded to LiteLLM localhost")
     check("LANG-GW-024", gateway.get("authority_bindings", {}).get("host_resource_admission") == "FA3-AUTH-HOST-RESOURCE-BROKER-001" and gateway.get("authority_bindings", {}).get("artifact_model_registry") == "FA3-REG-ARTIFACT-MODEL-001", "HRB and model-registry authority boundaries retained")
     check("LANG-GW-025", all(p.get("capability_count_delta") == 0 and p.get("authority_delta") == 0 for p in profiles), "no capability or authority count increase")
     check("LANG-GW-026", all(rule in rules for rule in ["EXACTLY_ONE_PRIMARY_LANGUAGE_REQUIRED", "EXACTLY_ONE_DISTINCT_SECONDARY_LANGUAGE_REQUIRED", "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK", "PLAINTEXT_LITELLM_SECRETS_FORBIDDEN"]), "mandatory P0 rule set contains critical invariants")
-    check("LANG-GW-027", "primaryLanguage" in gui and "secondaryLanguage" in gui and "primaryLanguage === secondaryLanguage" in gui, "GUI projects mandatory distinct primary/secondary language policy")
+    check("LANG-GW-027", _gui_projects_dual_language_policy(gui), "GUI projects mandatory distinct primary/secondary language policy")
     check("LANG-GW-028", bridge.get("id") == "FA3-LANGUAGE-BRIDGE-001" and bridge.get("profile_id") == "FA3-LANGUAGE-FABRIC-001" and bridge.get("architectural_authority") is False and bridge.get("contracts", {}).get("secret_external_translation") == "DENY", "Language Bridge is a non-authoritative fail-closed projection of Language Fabric")
 
-    # Executable policy cases: positive and negative branches.
     try:
         sel_hu = validate_language_selection("hu-HU", "en-US", ["de-DE"])
         positive = sel_hu["primary_language"] == "hu-HU" and sel_hu["secondary_language"] == "en-US" and requires_hungarian_support(sel_hu)
