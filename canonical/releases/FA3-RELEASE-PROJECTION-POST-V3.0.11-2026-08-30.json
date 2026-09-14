@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "97617b7bcb852cdd8bf662d1520bc6afd73e4dfd",
-    "pre_projection_root_tree_sha": "1e9540b7be4bfff13e43361363cd0b1e1053e3f6",
-    "pre_projection_canonical_tree_sha": "cb9a7a022a109e67f01e9342deddc0fe1d9da5dc",
-    "commits_ahead_of_v3_0_11_conformance_commit": 338,
-    "total_post_baseline_commits": 338,
-    "delta_file_count": 1201,
-    "delta_added_files": 1196,
+    "pre_projection_head_sha": "8b479a5f31bfe794aa3d05516ed69e4501935ad0",
+    "pre_projection_root_tree_sha": "58ab30e84c9029694256c7e16e7befef0bb34f19",
+    "pre_projection_canonical_tree_sha": "56677b0b52e3a2febaf0617500aff04d44560dcc",
+    "commits_ahead_of_v3_0_11_conformance_commit": 344,
+    "total_post_baseline_commits": 344,
+    "delta_file_count": 1204,
+    "delta_added_files": 1199,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,8 +48,8 @@
     "canonical_files_in_post_baseline_delta": 634,
     "evidence_files_in_post_baseline_delta": 118,
     "source_files_in_post_baseline_delta": 134,
-    "test_files_in_post_baseline_delta": 116,
-    "workflow_files_in_post_baseline_delta": 45,
+    "test_files_in_post_baseline_delta": 117,
+    "workflow_files_in_post_baseline_delta": 46,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -716,7 +716,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1201,
+  "manifest_entry_count": 1204,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -919,6 +919,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-tools-convertx-conformance.yml",
+      "git_blob_sha": "aeedcf6586fd92029641c3dcaed313c5f34e9573",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/gtcrn-reference-gate.yml",
       "git_blob_sha": "b42e43d8ecb4115d27a33072ce51fed78f57b19f",
       "baseline_delta_status": "added"
@@ -955,7 +960,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "a96e557c4a5de98bafe60c155a737e4163b5aada",
+      "git_blob_sha": "f1fe6bf613ef0563db5ecb67f6b896ec1239b75e",
       "baseline_delta_status": "added"
     },
     {
@@ -1036,6 +1041,11 @@
     {
       "path": "apps/fa3-control-center/qml/TokenControlCenterPage.qml",
       "git_blob_sha": "52ed3af59db73a9e47f7997a006cb8aa1cbc22ec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/ToolsOverlay.qml",
+      "git_blob_sha": "56d7536bd45064e31af59df6ce6c4fe1d52360af",
       "baseline_delta_status": "added"
     },
     {
@@ -1130,7 +1140,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "03d595b5079bf54d5a4008cbb5e19cebb717645b",
+      "git_blob_sha": "03ff1a6482bbde94417cd3d05020b0196106e0f5",
       "baseline_delta_status": "added"
     },
     {
@@ -6631,6 +6641,11 @@
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_tools_fabric.py",
+      "git_blob_sha": "889c9adfd80e2d9701c3d90b9567f42ca0393627",
       "baseline_delta_status": "added"
     },
     {
