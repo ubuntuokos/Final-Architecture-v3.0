@@ -12,6 +12,8 @@ ENFORCEMENT_PATH = "canonical/language-gateway-enforcement.json"
 
 REQUIRED_CANONICAL_SURFACE = {
     "capability_id",
+    "command_id",
+    "gui_action_id",
     "tool_name",
     "function_name",
     "schema_key",
