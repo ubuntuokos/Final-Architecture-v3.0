@@ -9,8 +9,6 @@ from typing import Any, Callable
 from fa3_convertx_adapter import (
     AdmissionDenied,
     ConversionRequest,
-    ProviderQuarantined,
-    digest_pinned_image,
     machine_execution_admission,
     validate_current_host_receipt,
     validate_request,
@@ -108,6 +106,7 @@ def gate(root: Path) -> dict[str, Any]:
     provider = docs.get(PROVIDER_ID, {})
     allowlist = docs.get(ALLOWLIST_ID, {})
     conformance = docs.get(CONFORMANCE_ID, {})
+    machine = provider.get("machine_interface", {})
 
     conversion_categories = [row for row in tools.get("categories", []) if row.get("id") == "CONVERSION"]
     if not conversion_categories or conversion_categories[0].get("canonical_execution_profile") != PROFILE_ID:
@@ -118,8 +117,19 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("CONVERTX-PROFILE-POLICY", "Conversion profile is not fail-closed"))
     if profile.get("security", {}).get("xelatex") != "DENY":
         findings.append(finding("CONVERTX-XELATEX", "XeLaTeX must remain denied"))
-    if provider.get("status") != "QUARANTINED":
+
+    provider_status = provider.get("status")
+    if provider_status == "QUARANTINED":
+        if machine.get("machine_execution_enabled") is not False:
+            findings.append(finding("CONVERTX-QUARANTINE-BYPASS", "Quarantined provider cannot enable machine execution"))
+        if machine.get("fa3_adapter_execution_contract_materialized") is not False:
+            findings.append(finding("CONVERTX-QUARANTINE-ADAPTER-CLAIM", "Quarantined provider must not claim a materialized production execution contract"))
+    else:
         receipt_path = root / CURRENT_HOST_RECEIPT
+        if machine.get("fa3_adapter_execution_contract_materialized") is not True:
+            findings.append(finding("CONVERTX-ADAPTER-CONTRACT", "Promoted ConvertX requires a materialized FA3 execution contract"))
+        if machine.get("machine_execution_enabled") is not True:
+            findings.append(finding("CONVERTX-MACHINE-DISABLED", "Promoted ConvertX must explicitly enable the governed machine interface"))
         if not receipt_path.exists():
             findings.append(finding("CONVERTX-PROMOTION-EVIDENCE", "Non-quarantined ConvertX requires a real current-host receipt"))
         else:
@@ -127,10 +137,9 @@ def gate(root: Path) -> dict[str, Any]:
                 validate_current_host_receipt(loadj(receipt_path))
             except AdmissionDenied as exc:
                 findings.append(finding("CONVERTX-PROMOTION-EVIDENCE", str(exc)))
-    if provider.get("machine_interface", {}).get("official_public_api_available") is not False:
+
+    if machine.get("official_public_api_available") is not False:
         findings.append(finding("CONVERTX-API-CLAIM", "ConvertX must not be represented as having an official public API"))
-    if provider.get("machine_interface", {}).get("machine_execution_enabled") is not False and provider.get("status") == "QUARANTINED":
-        findings.append(finding("CONVERTX-QUARANTINE-BYPASS", "Quarantined provider cannot enable machine execution"))
     if provider.get("upstream", {}).get("production_tag_floating_allowed") is not False:
         findings.append(finding("CONVERTX-FLOATING-TAG", "Floating production tags must be forbidden"))
     if allowlist.get("default_policy") != "DENY" or allowlist.get("arbitrary_converter_arguments_allowed") is not False:
@@ -148,8 +157,9 @@ def gate(root: Path) -> dict[str, Any]:
         "result": "PASS" if not findings else "FAIL",
         "provider_id": PROVIDER_ID,
         "profile_id": PROFILE_ID,
-        "provider_status": provider.get("status", "UNKNOWN"),
-        "machine_execution_enabled": provider.get("machine_interface", {}).get("machine_execution_enabled", False),
+        "provider_status": provider_status or "UNKNOWN",
+        "machine_execution_enabled": machine.get("machine_execution_enabled", False),
+        "adapter_execution_contract_materialized": machine.get("fa3_adapter_execution_contract_materialized", False),
         "current_host_status": provider.get("current_host_status", "UNKNOWN"),
         "regressions": regressions,
         "findings": findings,
