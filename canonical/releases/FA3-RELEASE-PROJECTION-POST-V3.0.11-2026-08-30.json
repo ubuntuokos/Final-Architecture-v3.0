@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3b76db7219d4f15d1bb7f3f055fc7784d5992ab6",
-    "pre_projection_root_tree_sha": "4856d8f3b7169e4c65e6641ac2fe0ea3e38947ce",
-    "pre_projection_canonical_tree_sha": "172d07b62e00af5a78ef3345c6b220f725845682",
-    "commits_ahead_of_v3_0_11_conformance_commit": 241,
-    "total_post_baseline_commits": 241,
-    "delta_file_count": 1121,
-    "delta_added_files": 1116,
+    "pre_projection_head_sha": "842f47332bb99f2b1630ba0756843d68ec030f8f",
+    "pre_projection_root_tree_sha": "a13b6191410b1538c7660e1fa8ffc51c284e8167",
+    "pre_projection_canonical_tree_sha": "28cb74277f68d97f378336a1d5af8f8e02fa1742",
+    "commits_ahead_of_v3_0_11_conformance_commit": 240,
+    "total_post_baseline_commits": 240,
+    "delta_file_count": 1123,
+    "delta_added_files": 1118,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -709,7 +709,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1120,
+  "manifest_entry_count": 1122,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -885,7 +885,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "c077c2e7170942e9685fbe6fd9661de3c88e7b1f"
+      "git_blob_sha": "b7f5b0d871694d70811794461ed19c7496cab3a5"
     },
     {
       "path": "apps/fa3-control-center/README.md",
@@ -905,7 +905,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
-      "git_blob_sha": "a66d8b9cc4636feb5081efc838022edbdde4d46b"
+      "git_blob_sha": "66331e4340b5a88a2c2f89284f7cb71331a8e3b6"
     },
     {
       "path": "apps/fa3-control-center/qml/DashboardPage.qml",
@@ -972,6 +972,14 @@
       "git_blob_sha": "aa345ac29958a34846e8ca159df21a2f8a2190a0"
     },
     {
+      "path": "apps/fa3-control-center/src/ModelLibraryService.cpp",
+      "git_blob_sha": "c998d88b3a30535110c59197026d6a810fefb615"
+    },
+    {
+      "path": "apps/fa3-control-center/src/ModelLibraryService.h",
+      "git_blob_sha": "625412b1e987c578ea044a4dc701d7113d0235a9"
+    },
+    {
       "path": "apps/fa3-control-center/src/PreferenceStore.cpp",
       "git_blob_sha": "977c55271599bb2df1b7c8c9ed78949de7928414"
     },
@@ -989,7 +997,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "8156faccf7d1190a3717dd25e2afea8ddeb0e789"
+      "git_blob_sha": "b0ae2ce4bb87b44f05217b99787834ef1411d367"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -4837,7 +4845,7 @@
     },
     {
       "path": "tests/test_fa3_gui_gate.py",
-      "git_blob_sha": "437b48f166bcbd26f0b23bfe412e268edb61e64a"
+      "git_blob_sha": "58fc5015608378f314774ba980e1709e36ff3b8a"
     },
     {
       "path": "tests/test_ffmpeg_ai_current_host_gate.py",
