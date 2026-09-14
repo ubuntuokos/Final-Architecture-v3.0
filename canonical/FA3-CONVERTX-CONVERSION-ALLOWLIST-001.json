@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.convertx-conversion-allowlist.v1",
+  "id": "FA3-CONVERTX-CONVERSION-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-CONVERTX-001",
+  "profile_id": "FA3-FILE-CONVERSION-001",
+  "status": "CANONICAL",
+  "default_policy": "DENY",
+  "activation_policy": "PAIR_REQUIRES_PROVIDER_PROMOTION_AND_CURRENT_HOST_EVIDENCE",
+  "candidate_pairs": [
+    {"from": "image/png", "to": "image/jpeg", "converter_family": "ImageMagick_or_Vips", "state": "CANDIDATE"},
+    {"from": "image/jpeg", "to": "image/png", "converter_family": "ImageMagick_or_Vips", "state": "CANDIDATE"},
+    {"from": "video/mp4", "to": "video/webm", "converter_family": "FFmpeg", "state": "CANDIDATE"},
+    {"from": "audio/wav", "to": "audio/flac", "converter_family": "FFmpeg", "state": "CANDIDATE"},
+    {"from": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "to": "application/pdf", "converter_family": "LibreOffice", "state": "CANDIDATE"},
+    {"from": "text/markdown", "to": "text/html", "converter_family": "Pandoc", "state": "CANDIDATE"},
+    {"from": "model/obj", "to": "model/gltf+json", "converter_family": "Assimp", "state": "CANDIDATE"}
+  ],
+  "explicit_denials": [
+    {
+      "converter_family": "XeLaTeX",
+      "input_extensions": ["tex", "ltx", "latex"],
+      "reason": "Arbitrary local file read risk through TeX input primitives remains unacceptable for the FA3 trust boundary."
+    },
+    {
+      "converter_family": "ANY",
+      "pair": "UNKNOWN",
+      "reason": "Unknown conversion pairs fail closed."
+    }
+  ],
+  "arbitrary_converter_name_allowed": false,
+  "arbitrary_converter_arguments_allowed": false,
+  "fail_closed": true
+}
