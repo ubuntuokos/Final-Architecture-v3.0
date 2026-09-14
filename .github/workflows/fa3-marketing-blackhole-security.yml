@@ -11,6 +11,14 @@ on:
       - 'tests/test_blackhole_ffmpeg_bridge.py'
       - 'canonical/contracts/FA3-MARKETING-SECURITY-CONTRACTS-001.json'
       - 'canonical/contracts/FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-MARKETING-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VOICE-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MARKETING-001.json'
+      - 'canonical/profiles/FA3-VOICE-001.json'
+      - 'canonical/profiles/FA3-STT-MEDIA-001.json'
+      - 'canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json'
+      - 'canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json'
+      - 'canonical/FA3-FFMPEG-ZEROCOPY-001.json'
       - 'canonical/payloads/blackhole_ffmpeg_bridge.json'
       - 'canonical/marketing-security-enforcement.json'
       - 'canonical/blackhole-ffmpeg-bridge-enforcement.json'
@@ -32,7 +40,16 @@ on:
       - 'tests/test_blackhole_ffmpeg_bridge.py'
       - 'canonical/**marketing-security*'
       - 'canonical/**blackhole-ffmpeg-bridge*'
+      - 'canonical/contracts/FA3-MARKETING-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VOICE-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MARKETING-001.json'
+      - 'canonical/profiles/FA3-VOICE-001.json'
+      - 'canonical/profiles/FA3-STT-MEDIA-001.json'
+      - 'canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json'
+      - 'canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json'
+      - 'canonical/FA3-FFMPEG-ZEROCOPY-001.json'
       - 'canonical/payloads/blackhole_ffmpeg_bridge.json'
+  workflow_dispatch:
 
 permissions:
   contents: read
