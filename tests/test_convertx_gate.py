@@ -93,49 +93,62 @@ class ConvertXGateTests(unittest.TestCase):
         with self.assertRaises(a.AdmissionDenied):
             a.validate_current_host_receipt(bad)
 
+    def _write_gate_fixture(self, root: Path, adapter_contract: bool = False):
+        (root / "canonical").mkdir()
+        docs = {
+            "FA3-TOOLS-FABRIC-001.json": {
+                "id": g.TOOLS_ID,
+                "categories": [{"id": "CONVERSION", "canonical_execution_profile": g.PROFILE_ID}],
+                "routing_contract": {"direct_provider_bypass": False},
+            },
+            "FA3-FILE-CONVERSION-001.json": {
+                "id": g.PROFILE_ID,
+                "fail_closed": True,
+                "request_contract": {"arbitrary_cli_arguments_allowed": False},
+                "security": {"xelatex": "DENY"},
+            },
+            "FA3-PROVIDER-CONVERTX-001.json": {
+                "id": g.PROVIDER_ID,
+                "status": "QUARANTINED",
+                "machine_interface": {
+                    "official_public_api_available": False,
+                    "fa3_adapter_execution_contract_materialized": adapter_contract,
+                    "machine_execution_enabled": False,
+                },
+                "upstream": {"production_tag_floating_allowed": False},
+                "current_host_status": "PENDING_REAL_HOST_EXECUTION",
+            },
+            "FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json": {
+                "id": g.ALLOWLIST_ID,
+                "default_policy": "DENY",
+                "arbitrary_converter_arguments_allowed": False,
+                "explicit_denials": [{"converter_family": "XeLaTeX"}],
+            },
+            "FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json": {
+                "id": g.CONFORMANCE_ID,
+                "ci_conformance": {"current_host_claim_forbidden": True},
+            },
+        }
+        for name, doc in docs.items():
+            (root / "canonical" / name).write_text(json.dumps(doc), encoding="utf-8")
+
     def test_canonical_gate_passes_materialized_quarantine(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            (root / "canonical").mkdir()
-            docs = {
-                "FA3-TOOLS-FABRIC-001.json": {
-                    "id": g.TOOLS_ID,
-                    "categories": [{"id": "CONVERSION", "canonical_execution_profile": g.PROFILE_ID}],
-                    "routing_contract": {"direct_provider_bypass": False},
-                },
-                "FA3-FILE-CONVERSION-001.json": {
-                    "id": g.PROFILE_ID,
-                    "fail_closed": True,
-                    "request_contract": {"arbitrary_cli_arguments_allowed": False},
-                    "security": {"xelatex": "DENY"},
-                },
-                "FA3-PROVIDER-CONVERTX-001.json": {
-                    "id": g.PROVIDER_ID,
-                    "status": "QUARANTINED",
-                    "machine_interface": {
-                        "official_public_api_available": False,
-                        "machine_execution_enabled": False,
-                    },
-                    "upstream": {"production_tag_floating_allowed": False},
-                    "current_host_status": "PENDING_REAL_HOST_EXECUTION",
-                },
-                "FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json": {
-                    "id": g.ALLOWLIST_ID,
-                    "default_policy": "DENY",
-                    "arbitrary_converter_arguments_allowed": False,
-                    "explicit_denials": [{"converter_family": "XeLaTeX"}],
-                },
-                "FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json": {
-                    "id": g.CONFORMANCE_ID,
-                    "ci_conformance": {"current_host_claim_forbidden": True},
-                },
-            }
-            for name, doc in docs.items():
-                (root / "canonical" / name).write_text(json.dumps(doc), encoding="utf-8")
+            self._write_gate_fixture(root)
             result = g.gate(root)
             self.assertEqual("PASS", result["result"], result)
             self.assertEqual("QUARANTINED", result["provider_status"])
             self.assertFalse(result["machine_execution_enabled"])
+            self.assertFalse(result["adapter_execution_contract_materialized"])
+
+    def test_quarantine_cannot_claim_production_adapter_contract(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_gate_fixture(root, adapter_contract=True)
+            result = g.gate(root)
+            self.assertEqual("FAIL", result["result"], result)
+            self.assertTrue(any(x["code"] == "CONVERTX-QUARANTINE-ADAPTER-CLAIM" for x in result["findings"]))
 
 
 if __name__ == "__main__":
