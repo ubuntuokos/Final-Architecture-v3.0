@@ -5,6 +5,14 @@ if [[ "${1:-}" == "language-gateway" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" "$@"
 fi
+if [[ "${1:-}" == "static" ]]; then
+  shift
+  # Language/Gateway P0 is part of the global static admission surface. Keep
+  # its report separate while preventing the legacy static gate from passing
+  # if multilingual/gateway invariants fail.
+  python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" >/dev/null
+  exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" static "$@"
+fi
 if [[ "${1:-}" == "mmg-context-ir" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_mmg_context_ir_gate.py" --root "$ROOT" "$@"
