@@ -119,13 +119,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-      - name: Detect already-reconciled projection-only child commit
+      - name: Detect release-surface-equivalent reconciled head
         id: guard
         shell: bash
         run: |
           set -euo pipefail
           projection='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
-          parent="$(git rev-parse HEAD^)"
           recorded="$(python - <<'PY'
           import json
           from pathlib import Path
@@ -136,13 +135,25 @@ jobs:
               print('')
           PY
           )"
-          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
-          if [[ "$recorded" == "$parent" && "${#changed[@]}" -eq 1 && "${changed[0]}" == "$projection" ]]; then
-            echo 'skip=true' >> "$GITHUB_OUTPUT"
-            echo 'Projection already reconciles the release-surface parent; refusing a self-referential follow-up commit.'
-          else
-            echo 'skip=false' >> "$GITHUB_OUTPUT"
+          if [[ -n "$recorded" ]] && git cat-file -e "${recorded}^{commit}" 2>/dev/null; then
+            mapfile -t release_changes < <(
+              git diff --name-only "$recorded" HEAD -- . \
+                ":(exclude)$projection" \
+                ':(exclude)reports/**' \
+                ':(exclude)acceptance/**' \
+                ':(exclude)promotion/**' \
+                ':(exclude)evidence/receipts/**' \
+                ':(exclude).pytest_cache/**' \
+                ':(exclude).mypy_cache/**'
+            )
+            if [[ "${#release_changes[@]}" -eq 0 ]]; then
+              echo 'skip=true' >> "$GITHUB_OUTPUT"
+              echo 'Current head is release-surface-equivalent to the recorded snapshot; refusing unnecessary/self-referential reconciliation.'
+              exit 0
+            fi
+            printf 'Release-surface changes requiring reconciliation:\n%s\n' "${release_changes[*]}"
           fi
+          echo 'skip=false' >> "$GITHUB_OUTPUT"
       - name: Regenerate release projection from immutable PR head
         if: steps.guard.outputs.skip != 'true'
         run: python scripts/fa3_reconcile_release_projection.py --root .
