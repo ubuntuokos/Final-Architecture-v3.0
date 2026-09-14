@@ -7,6 +7,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_language_bridge import run_reference_conformance as run_bridge_reference_conformance
+
 GATE_ID = "FA3-LANGUAGE-GATEWAY-GATESET-001"
 PROFILE_IDS = (
     "FA3-LANGUAGE-POLICY-001",
@@ -164,6 +166,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
         "enforcement": root / "canonical/language-gateway-enforcement.json",
         "litellm": root / "deployment/litellm/config.yaml",
         "gui": root / "apps/fa3-control-center/qml/LanguageControlPage.qml",
+        "bridge_runtime": root / "src/fa3_language_bridge.py",
     }
     missing = [str(p.relative_to(root)) for p in paths.values() if not p.is_file()]
     if missing:
@@ -268,6 +271,8 @@ def run_conformance(root: Path) -> dict[str, Any]:
         "LANGUAGE_REFERENCE_EVIDENCE_CANNOT_PROMOTE_CURRENT_HOST",
     }
     check("LANG-GW-036", required_bridge_rules.issubset(rules) and bridge.get("evidence", {}).get("current_host_runtime_pass_may_be_document_derived") is False, "full Language Bridge P0 rules are canonical and cannot fabricate current-host PASS")
+    bridge_reference = run_bridge_reference_conformance()
+    check("LANG-GW-037", bridge_reference.get("result") == "PASS" and bridge_reference.get("translation_quality_claim") is False and bridge_reference.get("current_host_production_claim") is False, "provider-neutral Language Bridge reference runtime passes without quality/current-host overclaim")
 
     passed = sum(case["result"] == "PASS" for case in checks)
     findings = [_finding(case["id"], case["detail"]) for case in checks if case["result"] != "PASS"]
@@ -279,6 +284,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
         "total": len(checks),
         "cases": checks,
         "findings": findings,
+        "bridge_reference_conformance": bridge_reference,
         "reference_conformance_only": True,
         "current_host_status": "PENDING_CURRENT_HOST",
         "current_host_production_claim": False,
