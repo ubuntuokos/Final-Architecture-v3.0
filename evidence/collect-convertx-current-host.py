@@ -2,20 +2,11 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
 from fa3_convertx_adapter import PROVIDER_ID, digest_pinned_image
-
-
-def sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as fh:
-        for block in iter(lambda: fh.read(1024 * 1024), b""):
-            h.update(block)
-    return h.hexdigest()
 
 
 def main() -> int:
@@ -33,21 +24,27 @@ def main() -> int:
     provider = json.loads(provider_path.read_text(encoding="utf-8"))
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
+    machine = provider.get("machine_interface", {})
     blockers: list[str] = []
     if provider.get("id") != PROVIDER_ID:
         blockers.append("PROVIDER_ID_MISMATCH")
     if provider.get("status") != "APPROVED":
         blockers.append("PROVIDER_NOT_PROMOTED")
-    if not provider.get("machine_interface", {}).get("machine_execution_enabled", False):
+    if not machine.get("machine_execution_enabled", False):
         blockers.append("MACHINE_EXECUTION_DISABLED")
-    if provider.get("machine_interface", {}).get("official_public_api_available") is not True:
-        blockers.append("NO_STABLE_MACHINE_EXECUTION_CONTRACT")
+    if not machine.get("fa3_adapter_execution_contract_materialized", False):
+        blockers.append("FA3_ADAPTER_EXECUTION_CONTRACT_NOT_MATERIALIZED")
     if not args.image or not digest_pinned_image(args.image):
         blockers.append("DIGEST_PINNED_IMAGE_REQUIRED")
+    if not args.input:
+        blockers.append("REAL_INPUT_REQUIRED")
+    if not args.output:
+        blockers.append("REAL_OUTPUT_REQUIRED")
 
-    # Current FA3 policy intentionally prevents this collector from manufacturing a
-    # production PASS from files alone. A future promoted adapter must execute the
-    # conversion and supply HRB + isolation + egress evidence directly.
+    # Upstream may continue to expose no official public API. That alone does not
+    # prevent future promotion: the required machine boundary is an FA3-owned,
+    # versioned adapter/executor contract. Until that executor exists, this
+    # collector cannot manufacture a production PASS from repository state.
     if blockers:
         receipt = {
             "schema": "fa3.convertx-current-host-receipt.v1",
@@ -61,14 +58,17 @@ def main() -> int:
             "egress_denial_verified": False,
             "hrb_lease_verified": False,
             "provider_image": args.image or "",
-            "note": "Current upstream ConvertX web flow is not treated as a stable FA3 machine API. Promotion requires a real adapter/executor and real current-host E2E evidence.",
+            "upstream_official_public_api_available": machine.get("official_public_api_available", False),
+            "fa3_adapter_execution_contract_materialized": machine.get(
+                "fa3_adapter_execution_contract_materialized", False
+            ),
+            "note": "Promotion requires a real FA3 adapter/executor plus real HRB, isolation, egress and output-hash evidence. Repository state alone cannot produce PASS.",
         }
         print(json.dumps(receipt, indent=2, sort_keys=True))
         return 2
 
-    # This branch is deliberately unreachable with the current canonical provider
-    # record. It prevents a future policy edit from silently producing PASS without
-    # implementing the real executor in this collector.
+    # Deliberately fail closed even after policy fields are flipped until the real
+    # executor path is implemented here. This prevents policy-only promotion.
     raise SystemExit("FAIL-CLOSED: real ConvertX production executor is not materialized")
 
 
