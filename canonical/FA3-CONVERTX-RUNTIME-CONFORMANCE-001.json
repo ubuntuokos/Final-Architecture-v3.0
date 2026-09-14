@@ -27,24 +27,44 @@
       "host_mount_denied",
       "unrestricted_egress_denied",
       "root_runtime_denied",
-      "missing_hrb_denied_for_machine_execution",
       "missing_limits_denied",
-      "quarantined_machine_execution_denied",
+      "candidate_validation_requires_explicit_intent",
+      "candidate_validation_allowed_before_promotion",
+      "candidate_pair_denied_for_production",
+      "missing_hrb_denied_for_machine_execution",
       "current_host_claim_without_receipt_denied"
     ],
     "path_traversal_regression_required_on_promoted_runtime": true,
     "archive_bomb_regression_required_on_promoted_runtime": true,
     "malformed_media_regression_required_on_promoted_runtime": true
   },
+  "candidate_validation": {
+    "allowed_while_provider_status": ["QUARANTINED", "APPROVED"],
+    "explicit_intent_required": true,
+    "production_routing_enabled": false,
+    "machine_execution_enabled_not_required": true,
+    "fa3_adapter_execution_contract_required": true,
+    "fa3_candidate_executor_required": true,
+    "digest_pinned_image_required": true,
+    "resource_lease_required": true,
+    "candidate_pair_state_required": true
+  },
   "current_host_production_e2e": {
-    "collector_command": "PYTHONPATH=src python3 evidence/collect-convertx-current-host.py --root . --image <DIGEST_PINNED_IMAGE> --input <REAL_FILE> --output <REAL_OUTPUT>",
+    "collector_command": "PYTHONPATH=src python3 evidence/collect-convertx-current-host.py --root . --candidate-validation --image <DIGEST_PINNED_IMAGE> --input <REAL_FILE> --output <REAL_OUTPUT> --input-media-type <MIME> --output-media-type <MIME> --hrb-lease <REAL_HRB_LEASE>",
     "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "evidence_collection_may_precede_provider_promotion": true,
     "synthetic_input_forbidden": true,
     "digest_pinned_image_required": true,
     "resource_lease_required": true,
     "real_output_hash_required": true,
     "egress_denial_proof_required": true,
     "current_host_status": "PENDING_REAL_HOST_EXECUTION"
+  },
+  "pair_activation": {
+    "candidate_is_not_production_active": true,
+    "required_production_state": "ACTIVE",
+    "pair_specific_evidence_required": true,
+    "implicit_activation_on_provider_promotion_forbidden": true
   },
   "promotion": {
     "provider_status_before_real_e2e": "QUARANTINED",
