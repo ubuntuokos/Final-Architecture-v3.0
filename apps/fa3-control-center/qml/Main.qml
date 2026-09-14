@@ -280,6 +280,7 @@ ApplicationWindow {
         }
     }
 
+    Shortcut { sequence: "Ctrl+Shift+L"; context: Qt.ApplicationShortcut; onActivated: languageDrawer.open() }
     Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 0 } }
     Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 2 } }
     Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 3 } }
@@ -457,6 +458,70 @@ ApplicationWindow {
         Label { text: parent.valueText; color: window.textPrimary; font.pixelSize: 8 }
     }
 
+    Drawer {
+        id: languageDrawer
+        parent: Overlay.overlay
+        edge: Qt.RightEdge
+        modal: true
+        interactive: true
+        width: Math.min(window.width * 0.68, 980)
+        height: window.height
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        background: Rectangle {
+            color: window.canvas
+            border.color: window.border
+        }
+
+        contentItem: ColumnLayout {
+            anchors.fill: parent
+            spacing: 0
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 58
+                color: "#081421"
+                border.color: window.borderSoft
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 12
+                    spacing: 10
+                    Label {
+                        text: "文/A  Tolmács / Nyelvi híd"
+                        color: window.textPrimary
+                        font.pixelSize: 14
+                        font.bold: true
+                        Layout.fillWidth: true
+                    }
+                    Label {
+                        text: "FA3-GUI-LANGUAGE-CONTROL-001"
+                        color: window.textMuted
+                        font.pixelSize: 8
+                    }
+                    ToolButton {
+                        text: "×"
+                        onClicked: languageDrawer.close()
+                    }
+                }
+            }
+
+            LanguageControlPage {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                preferences: fa3Preferences
+                panel: window.panel
+                panelRaised: window.panelRaised
+                border: window.border
+                textPrimary: window.textPrimary
+                textMuted: window.textMuted
+                accent: window.accent
+                green: window.green
+                orange: window.orange
+            }
+        }
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -622,6 +687,28 @@ ApplicationWindow {
                             MenuItem { text: "Ellenőr"; onTriggered: window.openRoleChat("Ellenőr") }
                             MenuItem { text: "Ötletelő"; onTriggered: window.openRoleChat("Ötletelő") }
                             MenuItem { text: "Tanácsadó"; onTriggered: window.openRoleChat("Tanácsadó") }
+                        }
+                    }
+
+                    ToolButton {
+                        id: languageButton
+                        text: "文/A"
+                        onClicked: languageDrawer.open()
+                        ToolTip.visible: hovered
+                        ToolTip.text: "Tolmács / Nyelvi híd · Ctrl+Shift+L"
+                        Accessible.name: "Tolmács / Nyelvi híd"
+                        contentItem: Label {
+                            text: parent.text
+                            color: window.textPrimary
+                            font.pixelSize: 9
+                            font.bold: true
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        background: Rectangle {
+                            radius: 6
+                            color: parent.hovered ? "#132a42" : "#0d1c2f"
+                            border.color: window.border
                         }
                     }
 
