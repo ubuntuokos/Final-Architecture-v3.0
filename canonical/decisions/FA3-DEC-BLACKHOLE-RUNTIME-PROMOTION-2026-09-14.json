@@ -9,6 +9,7 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_semantics": "INHERIT_ACTIVE_RELEASE_BASELINE",
+  "release_projection_reconciliation": "AUTOMATED_FAIL_CLOSED_REQUIRED",
   "mandatory": [
     "HRB lease validation precedes media execution",
     "CU/TU virtual resource limits are fail-closed",
@@ -19,7 +20,8 @@
     "current-host production image FFmpeg binary must match the admitted FFmpeg current-host receipt digest",
     "missing, expired or mismatched evidence blocks promotion",
     "runtime user must be non-root uid 10002",
-    "GitHub Actions used by the touched enforcement workflows are pinned to immutable commit SHAs"
+    "GitHub Actions used by the touched enforcement workflows are pinned to immutable commit SHAs",
+    "release projection manifest and snapshot lineage must be reconciled by the canonical automation"
   ],
   "promotion_semantics": {
     "global_fa3_promotion_changed": false,
