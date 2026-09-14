@@ -18,6 +18,7 @@
   "machine_interface": {
     "official_public_api_available": false,
     "fa3_owned_adapter_required": true,
+    "fa3_adapter_execution_contract_materialized": false,
     "direct_agent_to_convertx_http": false,
     "direct_n8n_to_convertx_http": false,
     "direct_mcp_to_convertx_http": false,
@@ -71,6 +72,7 @@
   "promotion_requirements": [
     "STATIC_CONFORMANCE_PASS",
     "SECURITY_REGRESSION_PASS",
+    "FA3_ADAPTER_EXECUTION_CONTRACT_MATERIALIZED",
     "DIGEST_PINNED_RUNTIME_PASS",
     "REAL_CURRENT_HOST_SAFE_PAIR_E2E_PASS",
     "EGRESS_DENIAL_PASS",
