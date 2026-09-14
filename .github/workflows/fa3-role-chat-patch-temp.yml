@@ -1,0 +1,109 @@
+name: FA3 temporary role chat workspace materialization
+
+on:
+  push:
+    branches:
+      - fa3-gui-role-chat-workspace
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-role-chat-workspace
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Patch Control Center role chat wiring and reconcile projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path('.')
+          main = root / 'apps/fa3-control-center/qml/Main.qml'
+          cmake = root / 'apps/fa3-control-center/CMakeLists.txt'
+          gate = root / 'src/fa3_gui_gate.py'
+
+          text = main.read_text(encoding='utf-8')
+
+          old = '    property string askRole: "Mentor"\n    property bool webWorkspaceOpen: false\n'
+          new = '    property string askRole: "Mentor"\n    property bool webWorkspaceOpen: false\n    property bool chatWorkspaceOpen: false\n'
+          assert old in text, 'askRole property anchor missing'
+          text = text.replace(old, new, 1)
+
+          old = '''    function openInternalWeb(targetUrl, titleText) {\n        webWorkspaceUrl = targetUrl\n        webWorkspaceTitle = titleText\n        webWorkspaceOpen = true\n    }\n'''
+          new = '''    function openInternalWeb(targetUrl, titleText) {\n        chatWorkspaceOpen = false\n        webWorkspaceUrl = targetUrl\n        webWorkspaceTitle = titleText\n        webWorkspaceOpen = true\n    }\n\n    function openRoleChat(roleName) {\n        askRole = roleName\n        webWorkspaceOpen = false\n        chatWorkspaceOpen = true\n    }\n\n    function closeTransientWorkspaces() {\n        webWorkspaceOpen = false\n        chatWorkspaceOpen = false\n    }\n'''
+          assert old in text, 'openInternalWeb anchor missing'
+          text = text.replace(old, new, 1)
+
+          shortcut_pairs = {
+              'Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 0 } }': 'Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 0 } }',
+              'Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 2 } }': 'Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 2 } }',
+              'Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 3 } }': 'Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 3 } }',
+              'Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 7 } }': 'Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 7 } }',
+              'Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 15 } }': 'Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 15 } }',
+          }
+          for old_s, new_s in shortcut_pairs.items():
+              assert old_s in text, f'shortcut anchor missing: {old_s[:50]}'
+              text = text.replace(old_s, new_s, 1)
+
+          old = '            onClicked: window.selectedIndex = parent.pageIndex\n'
+          new = '            onClicked: { window.closeTransientWorkspaces(); window.selectedIndex = parent.pageIndex }\n'
+          assert old in text, 'NavButton click anchor missing'
+          text = text.replace(old, new, 1)
+
+          roles = ['Mentor', 'Coach', 'Manager', 'Ellenőr', 'Ötletelő', 'Tanácsadó']
+          for role in roles:
+              old_s = f'                            MenuItem {{ text: "{role}"; onTriggered: window.askRole = "{role}" }}'
+              new_s = f'                            MenuItem {{ text: "{role}"; onTriggered: window.openRoleChat("{role}") }}'
+              assert old_s in text, f'role menu anchor missing: {role}'
+              text = text.replace(old_s, new_s, 1)
+
+          old = '                currentIndex: window.webWorkspaceOpen ? 18 : window.selectedIndex\n'
+          new = '                currentIndex: window.chatWorkspaceOpen ? 19 : (window.webWorkspaceOpen ? 18 : window.selectedIndex)\n'
+          assert old in text, 'StackLayout currentIndex anchor missing'
+          text = text.replace(old, new, 1)
+
+          web_block = '''                WebWorkspace {\n                    webUrl: window.webWorkspaceUrl\n                    titleText: window.webWorkspaceTitle\n                    surface: window.panel\n                    surfaceRaised: window.panelRaised\n                    borderTone: window.border\n                    textPrimary: window.textPrimary\n                    textMuted: window.textMuted\n                    accent: window.accent\n                    onCloseRequested: window.webWorkspaceOpen = false\n                }\n'''
+          chat_block = web_block + '''\n                ChatWorkspace {\n                    role: window.askRole\n                    panel: window.panel\n                    panelRaised: window.panelRaised\n                    border: window.border\n                    textPrimary: window.textPrimary\n                    textMuted: window.textMuted\n                    accent: window.accent\n                    green: window.green\n                    orange: window.orange\n                    magenta: window.magenta\n                    onCloseRequested: window.chatWorkspaceOpen = false\n                    onNavigateRequested: function(pageIndex) {\n                        window.chatWorkspaceOpen = false\n                        window.webWorkspaceOpen = false\n                        window.selectedIndex = pageIndex\n                    }\n                }\n'''
+          assert web_block in text, 'WebWorkspace block anchor missing'
+          text = text.replace(web_block, chat_block, 1)
+          main.write_text(text, encoding='utf-8')
+
+          ctext = cmake.read_text(encoding='utf-8')
+          old = 'set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)\n'
+          new = old + 'set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)\n'
+          assert old in ctext, 'CMake source property anchor missing'
+          ctext = ctext.replace(old, new, 1)
+          old = '        qml/RtdProvidersPage.qml\n'
+          new = old + '        qml/ChatWorkspace.qml\n'
+          assert old in ctext, 'CMake QML_FILES anchor missing'
+          ctext = ctext.replace(old, new, 1)
+          cmake.write_text(ctext, encoding='utf-8')
+
+          gtext = gate.read_text(encoding='utf-8')
+          old = '    "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",\n'
+          new = old + '    "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",\n'
+          assert old in gtext, 'gate REQUIRED anchor missing'
+          gtext = gtext.replace(old, new, 1)
+          anchor = '''    if "RtdProvidersPage" not in qml or "RTD Data Sources" not in qml or "RTD Adapters" not in qml or '{label: "Real-Time Data", value: "RTD"}' not in qml:\n        failures.append("qml-rtd-cross-surface-projection-missing")\n'''
+          addition = anchor + '''\n    chat_qml = REQUIRED["chat_qml"].read_text(encoding="utf-8")\n    for token in ["Kérdezd: ", "ADAPTER-GATED", "Models & Providers", "Integrations", "LOCAL-DRAFT", "NOT-SENT"]:\n        if token not in chat_qml: failures.append(f"qml-role-chat-surface-missing:{token}")\n    for role in ["Mentor", "Coach", "Manager", "Ellenőr", "Ötletelő", "Tanácsadó"]:\n        if f'window.openRoleChat("{role}")' not in qml: failures.append(f"qml-role-chat-menu-wiring-missing:{role}")\n    if "property bool chatWorkspaceOpen" not in qml or "ChatWorkspace" not in qml or "window.chatWorkspaceOpen ? 19" not in qml:\n        failures.append("qml-role-chat-workspace-wiring-missing")\n'''
+          assert anchor in gtext, 'gate RTD anchor missing'
+          gtext = gtext.replace(anchor, addition, 1)
+          gate.write_text(gtext, encoding='utf-8')
+          PY
+
+          rm .github/workflows/fa3-role-chat-patch-temp.yml
+          python src/fa3_release_projection_regenerate.py
+          python src/fa3_gui_gate.py
+
+          git config user.name "fa3-gui-role-chat"
+          git config user.email "fa3-gui-role-chat@users.noreply.github.com"
+          git add -A
+          git commit -m "FA3 GUI: wire Kérdezd roles to chat workspace"
+          git push origin HEAD:fa3-gui-role-chat-workspace
