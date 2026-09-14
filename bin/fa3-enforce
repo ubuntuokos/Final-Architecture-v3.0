@@ -3,13 +3,15 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if [[ "${1:-}" == "language-gateway" ]]; then
   shift
+  python3 "$ROOT/src/fa3_canonical_language_gate.py" --root "$ROOT" >/dev/null
   exec python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" "$@"
 fi
 if [[ "${1:-}" == "static" ]]; then
   shift
-  # Language/Gateway P0 is part of the global static admission surface. Keep
-  # its report separate while preventing the legacy static gate from passing
-  # if multilingual/gateway invariants fail.
+  # Canonical English machine-language and Language/Gateway P0 are part of the
+  # global static admission surface. Their reports remain separate while the
+  # static entrypoint fails closed if either multilingual invariant layer drifts.
+  python3 "$ROOT/src/fa3_canonical_language_gate.py" --root "$ROOT" >/dev/null
   python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" >/dev/null
   exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" static "$@"
 fi
