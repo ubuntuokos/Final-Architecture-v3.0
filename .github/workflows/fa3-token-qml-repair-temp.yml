@@ -1,0 +1,32 @@
+name: FA3 temporary token QML repair
+
+on:
+  push:
+    branches:
+      - fa3-gui-checkpoint-external-token-centers
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-checkpoint-external-token-centers
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Repair Token Control Center QML
+        run: python src/fa3_fix_token_qml_temp.py
+      - name: Validate GUI contract
+        run: python src/fa3_gui_gate.py
+      - name: Regenerate release projection
+        run: python src/fa3_release_projection_regenerate.py
+      - name: Commit repaired state
+        run: |
+          git config user.name "fa3-gui-repair"
+          git config user.email "fa3-gui-repair@users.noreply.github.com"
+          git add -A
+          git commit -m "FA3 GUI: repair Token Control Center QML syntax"
+          git push origin HEAD:fa3-gui-checkpoint-external-token-centers
