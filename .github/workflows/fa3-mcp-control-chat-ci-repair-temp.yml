@@ -1,0 +1,43 @@
+name: FA3 temporary MCP Control Chat CI repair
+
+on:
+  push:
+    branches:
+      - fa3-mcp-control-chat-v1
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-mcp-control-chat-v1
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Repair permanent GUI gate
+        run: python .github/scripts/fix_mcp_control_gate.py
+      - name: Reconcile release projection and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          workflow=".github/workflows/fa3-mcp-control-chat-ci-repair-temp.yml"
+          helper=".github/scripts/fix_mcp_control_gate.py"
+          workflow_saved="/tmp/fa3-mcp-control-chat-ci-repair-temp.yml"
+          helper_saved="/tmp/fix_mcp_control_gate.py"
+          mv "$workflow" "$workflow_saved"
+          mv "$helper" "$helper_saved"
+          python src/fa3_release_projection_regenerate.py
+          mv "$workflow_saved" "$workflow"
+          mv "$helper_saved" "$helper"
+          git config user.name "fa3-mcp-control-chat-ci-repair"
+          git config user.email "fa3-mcp-control-chat-ci-repair@users.noreply.github.com"
+          git add src/fa3_gui_gate.py canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if git diff --cached --quiet; then
+            echo "No CI repair changes"
+            exit 0
+          fi
+          git commit -m "FA3 MCP Control Chat: repair GUI regression gate"
+          git push origin HEAD:fa3-mcp-control-chat-v1
