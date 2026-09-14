@@ -96,6 +96,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
         "fabric": root / "canonical/profiles/FA3-LANGUAGE-FABRIC-001.json",
         "admission": root / "canonical/profiles/FA3-LANGUAGE-ADMISSION-001.json",
         "gateway": root / "canonical/profiles/FA3-LLM-GATEWAY-001.json",
+        "bridge": root / "canonical/FA3-LANGUAGE-BRIDGE-001.json",
         "enforcement": root / "canonical/language-gateway-enforcement.json",
         "litellm": root / "deployment/litellm/config.yaml",
         "gui": root / "apps/fa3-control-center/qml/LanguageControlPage.qml",
@@ -117,6 +118,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
     fabric = loadj(paths["fabric"])
     admission = loadj(paths["admission"])
     gateway = loadj(paths["gateway"])
+    bridge = loadj(paths["bridge"])
     enforcement = loadj(paths["enforcement"])
     litellm = paths["litellm"].read_text(encoding="utf-8")
     gui = paths["gui"].read_text(encoding="utf-8")
@@ -157,6 +159,7 @@ def run_conformance(root: Path) -> dict[str, Any]:
     check("LANG-GW-025", all(p.get("capability_count_delta") == 0 and p.get("authority_delta") == 0 for p in profiles), "no capability or authority count increase")
     check("LANG-GW-026", all(rule in rules for rule in ["EXACTLY_ONE_PRIMARY_LANGUAGE_REQUIRED", "EXACTLY_ONE_DISTINCT_SECONDARY_LANGUAGE_REQUIRED", "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK", "PLAINTEXT_LITELLM_SECRETS_FORBIDDEN"]), "mandatory P0 rule set contains critical invariants")
     check("LANG-GW-027", "primaryLanguage" in gui and "secondaryLanguage" in gui and "primaryLanguage === secondaryLanguage" in gui, "GUI projects mandatory distinct primary/secondary language policy")
+    check("LANG-GW-028", bridge.get("id") == "FA3-LANGUAGE-BRIDGE-001" and bridge.get("profile_id") == "FA3-LANGUAGE-FABRIC-001" and bridge.get("architectural_authority") is False and bridge.get("contracts", {}).get("secret_external_translation") == "DENY", "Language Bridge is a non-authoritative fail-closed projection of Language Fabric")
 
     # Executable policy cases: positive and negative branches.
     try:
@@ -164,22 +167,22 @@ def run_conformance(root: Path) -> dict[str, Any]:
         positive = sel_hu["primary_language"] == "hu-HU" and sel_hu["secondary_language"] == "en-US" and requires_hungarian_support(sel_hu)
     except LanguagePolicyDenied:
         positive = False
-    check("LANG-GW-028", positive, "hu-HU primary + en-US secondary is accepted and activates Hungarian support")
+    check("LANG-GW-029", positive, "hu-HU primary + en-US secondary is accepted and activates Hungarian support")
 
     try:
         sel_intl = validate_language_selection("en-US", "de-DE")
         international = not requires_hungarian_support(sel_intl)
     except LanguagePolicyDenied:
         international = False
-    check("LANG-GW-029", international, "non-Hungarian international installation does not activate Hungarian-specific dependency")
+    check("LANG-GW-030", international, "non-Hungarian international installation does not activate Hungarian-specific dependency")
 
     duplicate_denied = False
     try:
         validate_language_selection("en-US", "en-US")
     except LanguagePolicyDenied:
         duplicate_denied = True
-    check("LANG-GW-030", duplicate_denied, "identical primary/secondary language fails closed")
-    check("LANG-GW-031", language_capability_is_operable("NATIVE") and language_capability_is_operable("VALIDATED") and language_capability_is_operable("BRIDGED") and not language_capability_is_operable("UNVERIFIED") and not language_capability_is_operable("UNSUPPORTED"), "language admission status semantics are executable")
+    check("LANG-GW-031", duplicate_denied, "identical primary/secondary language fails closed")
+    check("LANG-GW-032", language_capability_is_operable("NATIVE") and language_capability_is_operable("VALIDATED") and language_capability_is_operable("BRIDGED") and not language_capability_is_operable("UNVERIFIED") and not language_capability_is_operable("UNSUPPORTED"), "language admission status semantics are executable")
 
     passed = sum(case["result"] == "PASS" for case in checks)
     findings = [_finding(case["id"], case["detail"]) for case in checks if case["result"] != "PASS"]
