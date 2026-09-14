@@ -11,6 +11,8 @@ qt_standard_project_setup(REQUIRES 6.4)
 
 qt_add_executable(fa3-control-center
     src/main.cpp
+    src/AppCatalogService.cpp
+    src/AppCatalogService.h
     src/Fa3RepositoryModel.cpp
     src/Fa3RepositoryModel.h
     src/JournalService.cpp
@@ -65,6 +67,13 @@ qt_add_qml_module(fa3-control-center
         qml/IntegrationsPage.qml
 )
 
+qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
+    PREFIX "/fa3/canonical"
+    BASE "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical"
+    FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+)
+
 target_link_libraries(fa3-control-center
     PRIVATE
         Qt6::Quick
@@ -77,6 +86,22 @@ target_link_libraries(fa3-control-center
 
 install(TARGETS fa3-control-center
     RUNTIME DESTINATION libexec
+)
+
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
+    DESTINATION libexec
+)
+
+install(FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-LIFECYCLE-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-REQUEST-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+    DESTINATION share/fa3/canonical
+)
+
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../deployment/app-providers/"
+    DESTINATION share/fa3/app-providers
+    FILES_MATCHING PATTERN "*.json"
 )
 
 install(FILES packaging/org.fa3.ControlCenter.desktop

@@ -1,3 +1,4 @@
+#include "AppCatalogService.h"
 #include "ChatFileService.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
     ChatFileService chatFiles;
     ModelLibraryService modelLibrary;
     McpControlService mcpControl;
+    AppCatalogService appCatalog;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
@@ -56,6 +58,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3ChatFiles", &chatFiles);
     engine.rootContext()->setContextProperty("fa3ModelLibrary", &modelLibrary);
     engine.rootContext()->setContextProperty("fa3McpControl", &mcpControl);
+    engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {

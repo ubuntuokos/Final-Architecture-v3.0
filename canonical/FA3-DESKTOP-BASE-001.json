@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.desktop-base.v1",
+  "id": "FA3-DESKTOP-BASE-001",
+  "title": "Generic Linux Desktop Portability Baseline",
+  "type": "CANONICAL_DESKTOP_POLICY",
+  "status": "CANONICAL_POLICY",
+  "priority": "P0",
+  "role": "GENERIC_LINUX_DESKTOP_ABSTRACTION",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "release_baseline": "FA3-RELEASE-CAPABILITY-BASELINE-001",
+  "policy": {
+    "plasma_is_reference_not_core_dependency": true,
+    "core_desktop_interfaces": [
+      "XDG_BASE_DIRECTORY",
+      "DBUS_SESSION_BUS",
+      "XDG_DESKTOP_PORTAL_WHEN_AVAILABLE",
+      "SECRET_SERVICE_OR_FA3_VAULT",
+      "XDG_OPEN_OR_PORTAL_URI_OPEN"
+    ],
+    "direct_core_dependencies_forbidden": [
+      "KWALLET_DIRECT_API",
+      "KIO_DIRECT_API",
+      "KWIN_PRIVATE_API",
+      "PLASMA_PRIVATE_DBUS_API"
+    ],
+    "wayland": "PREFERRED",
+    "x11": "SUPPORTED_COMPATIBILITY",
+    "headless": "SUPPORTED_WHEN_LOCAL_GUI_NOT_REQUIRED",
+    "system_tray": "OPTIONAL_ENHANCEMENT",
+    "global_shortcuts": "OPTIONAL_ENHANCEMENT",
+    "portal_absence": "LIMITED_WITH_APPROVED_FALLBACK_NOT_CORE_FAILURE",
+    "optional_desktop_feature_absence_must_not_block_core_admission": true,
+    "full_control_surface_must_not_depend_on_system_tray": true,
+    "design_system_must_not_require_breeze": true
+  },
+  "support_tiers": {
+    "tier_1_reference": ["KDE_PLASMA_WAYLAND"],
+    "tier_2_supported_targets": ["COSMIC_WAYLAND", "GNOME_WAYLAND", "CINNAMON", "XFCE", "LXQT"],
+    "tier_3_compatible": ["SWAY", "HYPRLAND", "MATE", "OTHER_XDG_COMPATIBLE"]
+  },
+  "required_logical_capabilities": [
+    "LINUX_HOST",
+    "XDG_RUNTIME",
+    "DBUS_SESSION",
+    "URI_OPEN",
+    "SECRET_BACKEND"
+  ],
+  "recommended_capabilities": [
+    "XDG_DESKTOP_PORTAL",
+    "NOTIFICATIONS",
+    "CLIPBOARD",
+    "POWER_INHIBIT"
+  ],
+  "optional_capabilities": [
+    "SYSTEM_TRAY",
+    "GLOBAL_SHORTCUTS",
+    "SCREEN_CAPTURE_PORTAL"
+  ],
+  "evidence": {
+    "gate": "FA3-GATE-DESKTOP-PORTABILITY-001",
+    "command": "python3 ./bin/fa3-desktop-admission --self-test --json",
+    "runtime_probe_command": "python3 ./bin/fa3-desktop-admission --json"
+  }
+}
