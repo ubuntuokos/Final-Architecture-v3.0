@@ -10,6 +10,7 @@ on:
       - 'canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json'
       - 'src/fa3_convertx_*.py'
       - 'evidence/collect-convertx-current-host.py'
+      - 'evidence/reference/fa3-convertx-reference-pending.json'
       - 'tests/test_convertx_gate.py'
       - 'tests/test_tools_fabric.py'
       - 'docs/FA3-TOOLS-CONVERTX-INTEGRATION.md'
@@ -43,10 +44,15 @@ jobs:
           import json
           from pathlib import Path
           provider = json.loads(Path('canonical/FA3-PROVIDER-CONVERTX-001.json').read_text())
+          evidence = json.loads(Path('evidence/reference/fa3-convertx-reference-pending.json').read_text())
           machine = provider['machine_interface']
           assert provider['current_host_status'] == 'PENDING_REAL_HOST_EXECUTION'
           assert provider['status'] == 'QUARANTINED'
           assert machine['machine_execution_enabled'] is False
           assert machine['fa3_adapter_execution_contract_materialized'] is False
+          assert evidence['status'] == 'PENDING_CURRENT_HOST'
+          assert evidence['runtime_claimed'] is False
+          assert evidence['production_admitted'] is False
+          assert evidence['machine_execution_enabled'] is False
           print('PASS: static CI cannot promote, materialize the production adapter, or claim current-host execution')
           PY
