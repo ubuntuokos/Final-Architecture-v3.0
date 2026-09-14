@@ -1,0 +1,47 @@
+{
+  "id": "FA3-VOICE-QUALITY-ROUTING-001",
+  "schema": "fa3.voice-quality-routing.v1",
+  "status": "CANONICAL",
+  "quality_classes": {
+    "BASIC": {
+      "minimum_quality_score": 0,
+      "cpu_fallback_allowed": true,
+      "intended_use": ["system_tts", "accessibility", "preview", "offline_basic"]
+    },
+    "STANDARD": {
+      "minimum_quality_score": 60,
+      "cpu_fallback_allowed": true,
+      "intended_use": ["general_assistant", "draft_media"]
+    },
+    "PRODUCTION": {
+      "minimum_quality_score": 80,
+      "cpu_fallback_allowed": false,
+      "intended_use": ["marketing", "published_media", "client_delivery"]
+    },
+    "PREMIUM_CLONING": {
+      "minimum_quality_score": 90,
+      "cpu_fallback_allowed": false,
+      "intended_use": ["voice_clone", "premium_localization"]
+    }
+  },
+  "routing_policy": {
+    "selected_install_languages_only": true,
+    "primary_and_secondary_languages_are_mandatory_inputs": true,
+    "silent_quality_downgrade_forbidden": true,
+    "provider_selection_requires_language_capability_match": true,
+    "provider_selection_requires_quality_class_match": true,
+    "accelerator_execution_requires_hrb_lease": true,
+    "no_eligible_provider_disposition": "FAIL_CLOSED"
+  },
+  "provider_quality_eligibility": {
+    "FA3-PROVIDER-XTTS-001": ["STANDARD", "PRODUCTION", "PREMIUM_CLONING"],
+    "FA3-PROVIDER-PIPER-001": ["BASIC", "STANDARD"]
+  },
+  "workflow_overrides": {
+    "MARKETING_PRODUCTION": {
+      "required_quality_class": "PRODUCTION",
+      "forbidden_provider_ids": ["FA3-PROVIDER-PIPER-001"],
+      "fallback": "FAIL_CLOSED"
+    }
+  }
+}

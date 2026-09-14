@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "dd9de8b409321990551ccc453f6aebcf54fe3cd7",
-    "pre_projection_root_tree_sha": "e9a463e82551d54df1f8e56cc8a1a9b9835fade3",
-    "pre_projection_canonical_tree_sha": "04880940bab1910cef7751847ff5d1e334ce02d9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 257,
-    "total_post_baseline_commits": 257,
-    "delta_file_count": 1143,
-    "delta_added_files": 1138,
+    "pre_projection_head_sha": "f08b76874886cb255b9982b4763ad70d7ca7335e",
+    "pre_projection_root_tree_sha": "516a185d2b001cf17f40080e6a3bae66400eb757",
+    "pre_projection_canonical_tree_sha": "9285d4efd6bd198d77b48e4b7cc75d0e88314434",
+    "commits_ahead_of_v3_0_11_conformance_commit": 293,
+    "total_post_baseline_commits": 293,
+    "delta_file_count": 1166,
+    "delta_added_files": 1161,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 612,
-    "evidence_files_in_post_baseline_delta": 113,
-    "source_files_in_post_baseline_delta": 125,
-    "test_files_in_post_baseline_delta": 107,
-    "workflow_files_in_post_baseline_delta": 42,
+    "canonical_files_in_post_baseline_delta": 617,
+    "evidence_files_in_post_baseline_delta": 114,
+    "source_files_in_post_baseline_delta": 130,
+    "test_files_in_post_baseline_delta": 113,
+    "workflow_files_in_post_baseline_delta": 43,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -220,6 +220,7 @@
       "canonical/contracts/FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
@@ -372,6 +373,7 @@
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
       "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
+      "canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json",
       "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
       "canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
@@ -515,6 +517,7 @@
       "evidence/reference/presenton-provider-ci-2026-08-30.json",
       "evidence/reference/pyrit-reference-pass.json",
       "evidence/reference/pytorch3d-reference-pass.json",
+      "evidence/reference/quality-extension-lock-validation-2026-09-14.json",
       "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "evidence/reference/soma-x-reference-pass.json",
       "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
@@ -709,7 +712,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1143,
+  "manifest_entry_count": 1166,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -759,6 +762,11 @@
     {
       "path": ".github/workflows/fa3-desktop-portability.yml",
       "git_blob_sha": "232e28e697d150a6fc63d8cd008f984167290c48",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-extension-quality-lock-validation.yml",
+      "git_blob_sha": "0a4d9915045a2f41143b8adbd8100af8515aa734",
       "baseline_delta_status": "added"
     },
     {
@@ -1117,6 +1125,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-audio-preflight",
+      "git_blob_sha": "aee13ff43a1a8d546791dc23391ed37edac61c72",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-blackhole-kdenlive",
       "git_blob_sha": "62bf494ddf82f811845935a76c9aa441d5e006c8",
       "baseline_delta_status": "added"
@@ -1178,7 +1191,7 @@
     },
     {
       "path": "bin/fa3-demucs-bootstrap.sh",
-      "git_blob_sha": "8c7ef8e2fb36ff16929b3c8a881e49ad85f0ac3b",
+      "git_blob_sha": "3ac8de1863a06d9c1c8b2740d127e8bfa1461bb5",
       "baseline_delta_status": "added"
     },
     {
@@ -1203,8 +1216,13 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "9c5f6f57ce517f90031ac2179aef7edb32c01e5e",
+      "git_blob_sha": "d61093f4fdfa897c2cc04169d878497f2ba65fa5",
       "baseline_delta_status": "modified"
+    },
+    {
+      "path": "bin/fa3-extension-boundary",
+      "git_blob_sha": "591d8ab453e24b8e77836b0fcd714ba78a9bf387",
+      "baseline_delta_status": "added"
     },
     {
       "path": "bin/fa3-ffmpeg-ai-current-host.sh",
@@ -1302,8 +1320,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-upstream-lock-gate",
+      "git_blob_sha": "50cfbf1907c3946fcc068be07607a8a8ac12343b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-voice-quality-route",
+      "git_blob_sha": "9299f681009a7717554773ef51e470ec588da256",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-whisper-bootstrap.sh",
-      "git_blob_sha": "eccc2be16974243f41b31d17cfb7d5c6c744c0c5",
+      "git_blob_sha": "b71eef91c5d0106ac56f2e9a674c4c2c0ef3dc60",
       "baseline_delta_status": "added"
     },
     {
@@ -1389,6 +1417,11 @@
     {
       "path": "canonical/FA3-EVIDENCE-SCOPE-001.json",
       "git_blob_sha": "c4efec4f328523f9e074a3b5a2acf01fe955f624",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-EXTENSION-BOUNDARY-001.json",
+      "git_blob_sha": "fa261dd63335eac1228794b042261e0a7f91ab11",
       "baseline_delta_status": "added"
     },
     {
@@ -1802,6 +1835,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json",
+      "git_blob_sha": "83e4f2722103f817e3feb5cb6091e89a516fb8ed",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-VAULTWARDEN-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "4389d2202925fb2dc16ded45c2d7722d1baa80a7",
       "baseline_delta_status": "added"
@@ -1809,6 +1847,11 @@
     {
       "path": "canonical/FA3-VOICE-PROVIDER-ADMISSION-001.json",
       "git_blob_sha": "c1a9070aa211cf5050ca4ac238081a22d59cdbfd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-VOICE-QUALITY-ROUTING-001.json",
+      "git_blob_sha": "bf8777101d1b02a68834494bb6d8491fa4dcc465",
       "baseline_delta_status": "added"
     },
     {
@@ -1924,6 +1967,11 @@
     {
       "path": "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
       "git_blob_sha": "ebc4fd5aa831ebe913e593bcf1d21aa0cc7a607c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
+      "git_blob_sha": "31f2d2b68c5df8272fceb3c757ebdf1982673e3c",
       "baseline_delta_status": "added"
     },
     {
@@ -2699,6 +2747,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
       "git_blob_sha": "add5b74bb177ae0010f5281a799d9fe69d94dacb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json",
+      "git_blob_sha": "79f3c800638506236d13cb54651525d4bc23ac2c",
       "baseline_delta_status": "added"
     },
     {
@@ -4582,6 +4635,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/quality-extension-pinning-validation.md",
+      "git_blob_sha": "26648ed597c7f9254b3ce1e1c4e813cbd2d32031",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/release-evidence-scope.md",
       "git_blob_sha": "a772579e839c97c1121eb440ebef655d8bd208e2",
       "baseline_delta_status": "added"
@@ -5087,6 +5145,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/quality-extension-lock-validation-2026-09-14.json",
+      "git_blob_sha": "87aba9afe717220b036a22c8d85c1d7558089fa0",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/sillytavern-kde-ci-2026-09-07.json",
       "git_blob_sha": "f212258efff1ad57d9f59cb4c1fbcaa19ed76990",
       "baseline_delta_status": "added"
@@ -5242,6 +5305,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_audio_preflight_gate.py",
+      "git_blob_sha": "1b662a3c1117496ba99aad48ee9bdc6b46cf9fb7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_autogpt_gate.py",
       "git_blob_sha": "0ba77dd2a72549863bf475fac2c69e9623bc27c1",
       "baseline_delta_status": "added"
@@ -5385,6 +5453,11 @@
       "path": "src/fa3_enforce.py",
       "git_blob_sha": "684f989565609c650f46c0602111668744e05934",
       "baseline_delta_status": "modified"
+    },
+    {
+      "path": "src/fa3_extension_boundary_gate.py",
+      "git_blob_sha": "0789389b532dba754fefd6185a6480c0e220564b",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_external_api_discovery_gate.py",
@@ -5752,6 +5825,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_quality_extension_lock_gate.py",
+      "git_blob_sha": "90688fc2f60e29ccd62ea3e4f42552b746ffebb3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_release_baseline.py",
       "git_blob_sha": "47c8a50fb9d4320e49bfd77c1a74cd0d862aee5d",
       "baseline_delta_status": "added"
@@ -5812,6 +5890,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_upstream_lock_gate.py",
+      "git_blob_sha": "a334a587b133126201aa5810d3433f38874ab472",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_vaultwarden_gate.py",
       "git_blob_sha": "1bbd6beb55c9d0ba3624b077edde1da00204a386",
       "baseline_delta_status": "added"
@@ -5819,6 +5902,11 @@
     {
       "path": "src/fa3_video_provider_lifecycle_gate.py",
       "git_blob_sha": "b33d4062897cff31b962b01f961c60358ce8cf2a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_voice_quality_router.py",
+      "git_blob_sha": "3a1032397dad158ea89ca79571c24495cf1f2f3e",
       "baseline_delta_status": "added"
     },
     {
@@ -5869,6 +5957,11 @@
     {
       "path": "tests/test_ai_studio_app_lifecycle.py",
       "git_blob_sha": "3e56d5ac8f622f0d1596e288fd9ab70b0cb553b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_audio_preflight_gate.py",
+      "git_blob_sha": "397c4e0038d6e3815d73e8af1cf0828bc96be150",
       "baseline_delta_status": "added"
     },
     {
@@ -5974,6 +6067,11 @@
     {
       "path": "tests/test_developer_agent_coordination.py",
       "git_blob_sha": "938a34ca24475605038bb7ec4f7118e01dd6927b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_extension_boundary.py",
+      "git_blob_sha": "4f880ea58c74324c6c897ece17c84e08f04cbecf",
       "baseline_delta_status": "added"
     },
     {
@@ -6142,6 +6240,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_managed_lock_bootstraps.py",
+      "git_blob_sha": "4c82d8496c3c14efb5e9092d340ff5f2f3e1f8c1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_marketing_gate.py",
       "git_blob_sha": "1da061d4972d5e9822ce10b1abd48740fb892670",
       "baseline_delta_status": "added"
@@ -6297,6 +6400,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_quality_extension_integration.py",
+      "git_blob_sha": "12dcb4b38eee89f6c09a8907c6293e77fc7fcdd5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_release_evidence_scope_gate.py",
       "git_blob_sha": "9b01906a585ff713a5b87c578666726fcafc982c",
       "baseline_delta_status": "added"
@@ -6347,6 +6455,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_upstream_lock_gate.py",
+      "git_blob_sha": "b7a407bd92de143adf1f5531068081cca497aa36",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_vaultwarden_gate.py",
       "git_blob_sha": "6c6c8cd77a74875f677987f820e933339833fc7a",
       "baseline_delta_status": "added"
@@ -6359,6 +6472,11 @@
     {
       "path": "tests/test_video_registry.py",
       "git_blob_sha": "a72938459ccc21fb3a31c045bb9d4459ecd0808c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_voice_quality_router.py",
+      "git_blob_sha": "75c0f4f78b83572aa24aeb321da58f4b4478fdb1",
       "baseline_delta_status": "added"
     },
     {
