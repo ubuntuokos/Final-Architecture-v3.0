@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.blackhole-container-fabric.v1",
+  "id": "FA3-BLACKHOLE-CONTAINER-FABRIC-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_type": "RUNTIME_PROJECTION",
+  "extends": [
+    "FA3-BLACKHOLE-KDENLIVE-001",
+    "FA3-HOST-RESOURCE-BROKER-001"
+  ],
+  "authority_binding": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "runtime_model": {
+    "development": "Podman Compose, explicitly non-production",
+    "production": "rootless Podman Quadlet",
+    "network": "internal-only workload network with dedicated policy egress gateway",
+    "gpu_projection": "authenticated HRB PlacementReceipt -> UUID/BDF -> NVIDIA CDI AddDevice",
+    "gpu_ordinal_as_identity": false,
+    "unscoped_gpu_access": false
+  },
+  "supply_chain": {
+    "immutable_image_digest_required": true,
+    "cosign_verification_required": true,
+    "sbom_attestation_required": true,
+    "vulnerability_admission_required": true,
+    "latest_tag_forbidden": true,
+    "fa3_owned_comfyui_build_required": true
+  },
+  "security": {
+    "rootless_podman_required": true,
+    "non_root_oci_user_required": true,
+    "no_new_privileges": true,
+    "drop_all_capabilities": true,
+    "read_only_rootfs": true,
+    "podman_secrets_required": true,
+    "plaintext_secrets_in_repo_forbidden": true
+  },
+  "readiness": {
+    "healthchecks_required": true,
+    "blackhole_ready_requires_dependencies": true,
+    "current_host_evidence_required_for_production_admission": true
+  },
+  "current_host_runtime_promotion_claim": false
+}
