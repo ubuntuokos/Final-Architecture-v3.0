@@ -42,6 +42,8 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("function searchFa3Applications", main)
         self.assertIn("var apps = searchFa3Applications(needle)", main)
         self.assertNotIn("fa3Repository.searchInstalledApplications(needle)", main)
+        self.assertIn('{label: "FA3 alkalmazások", value: "APPLICATION"}', main)
+        self.assertNotIn('{label: "Telepített alkalmazások", value: "APPLICATION"}', main)
         for app in ["ComfyUI", "Automatic1111", "Forge", "Fooocus", "Krita", "GIMP", "Kdenlive", "Open WebUI", "OpenYak", "Ollama", "LM Studio"]:
             self.assertIn('title: "' + app + '"', main)
 

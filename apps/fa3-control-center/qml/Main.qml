@@ -843,7 +843,7 @@ ApplicationWindow {
                     ColumnLayout {
                         width: searchView.availableWidth
                         spacing: 13
-                        SectionTitle { title: "Keresés"; subtitle: "Projekt, beszélgetés, telepített alkalmazás, FA3-funkció, beállítás és canonical rekord egy helyen" }
+                        SectionTitle { title: "Keresés"; subtitle: "Projekt, beszélgetés, FA3-alkalmazás, FA3-funkció, beállítás és canonical rekord egy helyen" }
                         RowLayout {
                             Layout.fillWidth: true
                             spacing: 10
@@ -856,7 +856,7 @@ ApplicationWindow {
                                     {label: "Minden", value: "ALL"},
                                     {label: "Projektek", value: "PROJECT"},
                                     {label: "Beszélgetések", value: "CONVERSATION"},
-                                    {label: "Telepített alkalmazások", value: "APPLICATION"},
+                                    {label: "FA3 alkalmazások", value: "APPLICATION"},
                                     {label: "FA3 funkciók", value: "FUNCTION"},
                                     {label: "Beállítások", value: "SETTING"},
                                     {label: "Real-Time Data", value: "RTD"},
