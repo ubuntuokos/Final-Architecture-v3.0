@@ -107,3 +107,57 @@ jobs:
           name: fa3-marketing-blackhole-release-projection-candidate
           path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
           if-no-files-found: error
+
+  reconcile-release-projection:
+    needs: reference-security-gates
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Detect already-reconciled projection-only child commit
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          projection='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          parent="$(git rev-parse HEAD^)"
+          recorded="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
+          try:
+              print(json.loads(p.read_text(encoding='utf-8')).get('source_snapshot', {}).get('pre_projection_head_sha', ''))
+          except Exception:
+              print('')
+          PY
+          )"
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          if [[ "$recorded" == "$parent" && "${#changed[@]}" -eq 1 && "${changed[0]}" == "$projection" ]]; then
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+            echo 'Projection already reconciles the release-surface parent; refusing a self-referential follow-up commit.'
+          else
+            echo 'skip=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Regenerate release projection from immutable PR head
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Commit reconciled release projection
+        if: steps.guard.outputs.skip != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          projection='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          if git diff --quiet -- "$projection"; then
+            echo 'Release projection is already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$projection"
+          git commit -m 'FA3: reconcile release projection'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
