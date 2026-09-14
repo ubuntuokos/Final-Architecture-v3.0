@@ -90,5 +90,17 @@ class QuadletTests(unittest.TestCase):
         self.assertIn("@sha256:",out)
 
 
+class ContainerSupplyChainTests(unittest.TestCase):
+    def test_source_archive_digest_is_actually_verified(self):
+        text=(ROOT/"deployment/containers/pytorch3d.Containerfile").read_text(encoding="utf-8")
+        self.assertIn("COPY pytorch3d-source.tar",text)
+        self.assertIn("sha256sum -c -",text)
+        self.assertNotIn("git rev-parse HEAD 2>/dev/null ||",text)
+
+    def test_runtime_install_cannot_fetch_dependencies(self):
+        text=(ROOT/"deployment/containers/pytorch3d.Containerfile").read_text(encoding="utf-8")
+        self.assertIn("--no-index",text)
+
+
 if __name__ == "__main__":
     unittest.main()

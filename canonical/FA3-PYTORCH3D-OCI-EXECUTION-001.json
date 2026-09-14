@@ -14,7 +14,17 @@
   "source_build_only_semantics_preserved": true,
   "host_conda_mamba_allowed": false,
   "container_conda_mamba_exception_enabled": false,
-  "builder": {"isolated_pip_venv_required":true,"builder_base_must_be_digest_pinned":true,"wheel_sha256_required":true,"sbom_required":true,"provenance_required":true},
+  "builder": {
+    "isolated_pip_venv_required": true,
+    "builder_base_must_be_digest_pinned": true,
+    "source_archive_sha256_required": true,
+    "source_revision_digest_binding_required": true,
+    "source_archive_must_be_prequalified": true,
+    "source_commit_self_assertion_forbidden": true,
+    "wheel_sha256_required": true,
+    "sbom_required": true,
+    "provenance_required": true
+  },
   "runtime": {"runtime_base_must_be_digest_pinned":true,"rootless":true,"read_only":true,"network":"none","no_new_privileges":true,"drop_all_capabilities":true,"hrb_gpu_lease_required":true,"fixed_gpu_ordinal_forbidden":true},
   "production_status": "PENDING_CURRENT_HOST",
   "production_promotion_claimed": false
