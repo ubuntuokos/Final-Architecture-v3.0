@@ -58,7 +58,7 @@ if command -v apt-get >/dev/null 2>&1; then
   sudo apt-get install -y \
     build-essential cmake ninja-build \
     qt6-base-dev qt6-declarative-dev qt6-webengine-dev \
-    qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtwebengine \
+    qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-dialogs qml6-module-qtwebengine \
     qml6-module-qtquick-layouts qml6-module-qtqml-workerscript
 fi
 
