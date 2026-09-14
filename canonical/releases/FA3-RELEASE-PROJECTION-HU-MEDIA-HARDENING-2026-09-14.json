@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.release-projection.v1",
+  "id": "FA3-RELEASE-PROJECTION-HU-MEDIA-HARDENING-2026-09-14",
+  "date": "2026-09-14",
+  "status": "PROJECTION_ONLY_PENDING_CURRENT_HOST",
+  "base": "architecture-evolution-2026-09-14",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "canonical_additions": [
+    "FA3-FFMPEG-ONNX-CUDA-001",
+    "FA3-FFMPEG-ONNX-ZEROCOPY-001",
+    "FA3-HU-CONTENT-STUDIO-001"
+  ],
+  "promotion_blockers": [
+    "FFmpeg ONNX/CUDA current-host E2E acceptance evidence",
+    "ONNX zero-copy profiler evidence with zero host transfers",
+    "XTTS current-host provider/license/consent/HRB E2E evidence"
+  ],
+  "production_promotion": false
+}

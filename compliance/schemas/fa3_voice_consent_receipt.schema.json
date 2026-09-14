@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/schemas/fa3_voice_consent_receipt.schema.json",
+  "title": "FA3 voice-cloning consent receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["consent_id", "voice_owner_id", "audit_receipt_id", "valid_from", "expires_at", "revoked_at", "permitted_purposes", "allowed_providers", "allowed_models", "speaker_sha256", "signature"],
+  "properties": {
+    "consent_id": {"type": "string", "minLength": 1},
+    "voice_owner_id": {"type": "string", "minLength": 1},
+    "audit_receipt_id": {"type": "string", "minLength": 1},
+    "valid_from": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "revoked_at": {"type": ["string", "null"], "format": "date-time"},
+    "permitted_purposes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "allowed_providers": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "allowed_models": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "speaker_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "signature": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

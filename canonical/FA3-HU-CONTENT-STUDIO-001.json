@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.hu-content-studio-policy.v1",
+  "id": "FA3-HU-CONTENT-STUDIO-001",
+  "title": "Hungarian-First Marketing and Voice Content Studio",
+  "status": "CANONICAL_POLICY",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "locale": "hu-HU",
+  "copy_generation": {
+    "real_language_validator_required": true,
+    "token_heuristic_forbidden": true,
+    "suppression_gate_required_before_recipient_delivery": true
+  },
+  "voice_fabric": {
+    "voice_cloning": {
+      "provider": "idiap/coqui-ai-TTS",
+      "model": "tts_models/multilingual/multi-dataset/xtts_v2",
+      "provider_class": "OPTIONAL_PROVIDER",
+      "consent_required": true,
+      "purpose_bound_consent": true,
+      "host_resource_broker_lease_required": true,
+      "isolated_worker_required": true,
+      "silent_generic_tts_fallback_forbidden": true
+    },
+    "generic_hungarian_tts": {
+      "provider": "OHF-Voice/piper1-gpl",
+      "provider_class": "OPTIONAL_PROVIDER",
+      "capability": "GENERIC_HU_TTS",
+      "voice_cloning": false,
+      "shell_execution_forbidden": true
+    }
+  },
+  "admission": {
+    "deny_by_default": true,
+    "provider_model_voice_license_review_required": true,
+    "intended_use_review_required": true,
+    "approval_status_required": "APPROVED"
+  },
+  "evidence": {
+    "hardcoded_pass_forbidden": true,
+    "speaker_content_sha256_required": true,
+    "artifact_sha256_required": true,
+    "current_host_pass_requires_qualified_host_attestation_and_attested_lease": true,
+    "default_runtime_state": "PENDING_CURRENT_HOST"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/schemas/fa3_voice_provider_admission.schema.json",
+  "title": "FA3 voice provider admission registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "admissions"],
+  "properties": {
+    "schema": {"const": "fa3.voice-provider-admission.v1"},
+    "admissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["provider", "model", "voice", "status", "allowed_purposes", "license_review_sha256"],
+        "properties": {
+          "provider": {"type": "string", "minLength": 1},
+          "model": {"type": "string", "minLength": 1},
+          "voice": {"type": ["string", "null"]},
+          "status": {"enum": ["APPROVED", "PENDING_LEGAL_REVIEW", "DENIED", "REVOKED"]},
+          "allowed_purposes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "license_review_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}
