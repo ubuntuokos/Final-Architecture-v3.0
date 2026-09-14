@@ -1,0 +1,48 @@
+name: FA3 Tools + ConvertX Conformance
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-TOOLS-FABRIC-001.json'
+      - 'canonical/FA3-FILE-CONVERSION-001.json'
+      - 'canonical/FA3-PROVIDER-CONVERTX-001.json'
+      - 'canonical/FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json'
+      - 'canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json'
+      - 'src/fa3_convertx_*.py'
+      - 'tests/test_convertx_gate.py'
+      - 'tests/test_tools_fabric.py'
+      - 'apps/fa3-control-center/**'
+      - '.github/workflows/fa3-tools-convertx-conformance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: src
+
+jobs:
+  static-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: ConvertX fail-closed regressions
+        run: python -m unittest tests.test_convertx_gate
+      - name: Tools Fabric materialization tests
+        run: python -m unittest tests.test_tools_fabric
+      - name: Canonical ConvertX gate
+        run: python src/fa3_convertx_gate.py --root .
+      - name: Assert no current-host claim from CI
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          provider = json.loads(Path('canonical/FA3-PROVIDER-CONVERTX-001.json').read_text())
+          assert provider['current_host_status'] == 'PENDING_REAL_HOST_EXECUTION'
+          assert provider['status'] == 'QUARANTINED'
+          assert provider['machine_interface']['machine_execution_enabled'] is False
+          print('PASS: static CI cannot promote or claim current-host execution')
+          PY
