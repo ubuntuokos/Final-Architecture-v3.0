@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "171b0b161bdcea88b89fbf89c9450c1bddb2ad8f",
-    "pre_projection_root_tree_sha": "4f57cd5ef23ba6bca2438b1625c6d533fc035821",
-    "pre_projection_canonical_tree_sha": "8a9b7143713c86f4a64056bab6301c8855de184b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 236,
-    "total_post_baseline_commits": 236,
-    "delta_file_count": 1124,
-    "delta_added_files": 1119,
+    "pre_projection_head_sha": "f56df364cdb140c78f829fd2f2326656c7950cdb",
+    "pre_projection_root_tree_sha": "d070ce24e912984dc1d62d5850fb610973fe127b",
+    "pre_projection_canonical_tree_sha": "cac36d98b2925f6cd62936b4e3c8a501525df8a4",
+    "commits_ahead_of_v3_0_11_conformance_commit": 239,
+    "total_post_baseline_commits": 239,
+    "delta_file_count": 1125,
+    "delta_added_files": 1120,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -709,8 +709,12 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1123,
+  "manifest_entry_count": 1128,
   "manifest": [
+    {
+      "path": ".github/scripts/materialize_mcp_control_chat.py",
+      "git_blob_sha": "6e2b813f78f864af06c3aeb5f594ca5d1468e497"
+    },
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
       "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163"
@@ -885,7 +889,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "27bdea2f247ec59530ad4eb107df3062d436f1bc"
+      "git_blob_sha": "4a00f045a7c2dd08e338243f91ce84e5e08ed16e"
     },
     {
       "path": "apps/fa3-control-center/README.md",
@@ -901,7 +905,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/ChatWorkspace.qml",
-      "git_blob_sha": "cee5cb782ab25c920266cf76a1b72c687b69fcfe"
+      "git_blob_sha": "fb735829419be046c2f9f5a4ad7506a5319c8a86"
     },
     {
       "path": "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
@@ -920,6 +924,10 @@
       "git_blob_sha": "2d2cfab6e98b9d376f515ae832dd8dfe7fdb2539"
     },
     {
+      "path": "apps/fa3-control-center/qml/IntegrationsPage.qml",
+      "git_blob_sha": "ff0f91dfa957c1d850664477a992bf9b102b9d6a"
+    },
+    {
       "path": "apps/fa3-control-center/qml/JournalPage.qml",
       "git_blob_sha": "c26be3c215fdbbd1dd76d26ea483cfbdea9e1747"
     },
@@ -929,7 +937,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "b80c4507f033bb459ea8f8e77990c428674f46ac"
+      "git_blob_sha": "cdf0cfaec6609e06e3bedca5c93c9526137a1b30"
     },
     {
       "path": "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
@@ -976,6 +984,14 @@
       "git_blob_sha": "aa345ac29958a34846e8ca159df21a2f8a2190a0"
     },
     {
+      "path": "apps/fa3-control-center/src/McpControlService.cpp",
+      "git_blob_sha": "92a8c83d7f1e77db19fe7c771ca402cc7280cf57"
+    },
+    {
+      "path": "apps/fa3-control-center/src/McpControlService.h",
+      "git_blob_sha": "b92808e30a886fbf49ea775e622825414f14063c"
+    },
+    {
       "path": "apps/fa3-control-center/src/ModelLibraryService.cpp",
       "git_blob_sha": "c998d88b3a30535110c59197026d6a810fefb615"
     },
@@ -1001,7 +1017,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "b0ae2ce4bb87b44f05217b99787834ef1411d367"
+      "git_blob_sha": "cd3f5a051bd278e588a4c94935cce883b245adc0"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -1474,6 +1490,10 @@
     {
       "path": "canonical/FA3-MARKETING-I18N-001.json",
       "git_blob_sha": "7d61f70eca863e66d3fd28a51730bb98f9afd180"
+    },
+    {
+      "path": "canonical/FA3-MCP-CONTROL-CHAT-001.json",
+      "git_blob_sha": "b190f404df7a1d3fb7344f8a7732200c33f6dac7"
     },
     {
       "path": "canonical/FA3-MENTOR-CONFORMANCE-MATRIX-001.json",
@@ -4417,7 +4437,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "b968f6516d8425cfa61016e0e1f9af4ef2e8fb3c"
+      "git_blob_sha": "82519b703b1c3f98c1b0dd235197dbf1a5f7c6d6"
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
@@ -4849,7 +4869,7 @@
     },
     {
       "path": "tests/test_fa3_gui_gate.py",
-      "git_blob_sha": "01c5bc99509458cc94dd77e4e9137e9b592d2d38"
+      "git_blob_sha": "9466c3cc13ddad2eb2c608622a36b86c548c9dac"
     },
     {
       "path": "tests/test_ffmpeg_ai_current_host_gate.py",

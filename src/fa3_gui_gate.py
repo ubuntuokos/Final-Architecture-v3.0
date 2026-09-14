@@ -26,6 +26,9 @@ REQUIRED = {
     "external_providers_qml": ROOT / "apps/fa3-control-center/qml/ExternalProvidersSetupPage.qml",
     "token_control_qml": ROOT / "apps/fa3-control-center/qml/TokenControlCenterPage.qml",
     "language_control_qml": ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml",
+    "integrations_qml": ROOT / "apps/fa3-control-center/qml/IntegrationsPage.qml",
+    "mcp_control_service": ROOT / "apps/fa3-control-center/src/McpControlService.cpp",
+    "mcp_control_contract": ROOT / "canonical/FA3-MCP-CONTROL-CHAT-001.json",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "chat_file_service": ROOT / "apps/fa3-control-center/src/ChatFileService.cpp",
@@ -135,6 +138,17 @@ def validate() -> list[str]:
     for token in ["id: languageDrawer", "id: languageButton", "Ctrl+Shift+L", "LanguageControlPage"]:
         if token not in qml: failures.append(f"qml-language-control-wiring-missing:{token}")
 
+    integrations_qml = REQUIRED["integrations_qml"].read_text(encoding="utf-8")
+    for token in ["MCP Control Chat", "fa3McpControl.targets()", "openMcpControlRequested", "ADAPTER-GATED", "No fabricated CONNECTED state"]:
+        if token not in integrations_qml: failures.append(f"qml-mcp-integrations-surface-missing:{token}")
+    mcp_contract = load_json(REQUIRED["mcp_control_contract"])
+    if mcp_contract.get("id") != "FA3-MCP-CONTROL-CHAT-001" or mcp_contract.get("new_architectural_authority") is not False or mcp_contract.get("capability_count_delta") != 0:
+        failures.append("mcp-control-authority-contract-invalid")
+    for token in ["MCP CONTROL", "WORKFLOW", "MCP Authority", "createDraftRequest", "MCP request vázlat", "Végrehajtás", "DRAFT_NOT_SUBMITTED"]:
+        if token not in chat_qml: failures.append(f"qml-mcp-control-chat-missing:{token}")
+    for token in ["function openMcpChat", "MCP Control Chat", "IntegrationsPage", "workspaceMode: window.chatWorkspaceMode", "requestedMcpTarget: window.mcpChatTarget"]:
+        if token not in qml: failures.append(f"qml-mcp-control-wiring-missing:{token}")
+
     token_qml = REQUIRED["token_control_qml"].read_text(encoding="utf-8")
     for token in ["Token Control Center", "FA3-TOKEN-GOVERNANCE-001", "Credentialek", "AI tokenhasználat", "Budgetek", "Költségek", "Audit", "Riasztások", "Házirendek", "VAULT / BROKER", "Plaintext secret storage forbidden"]:
         if token not in token_qml: failures.append(f"qml-token-control-center-missing:{token}")
@@ -146,19 +160,24 @@ def validate() -> list[str]:
     if '"direct_execution_allowed", false' not in model_cpp: failures.append("backend-direct-execution-denial-missing")
     if '"canonical_write_allowed", false' not in model_cpp: failures.append("backend-canonical-write-denial-missing")
     if "searchInstalledApplications" not in model_cpp or "scanApplications" not in model_cpp or "QSettings" not in model_cpp: failures.append("backend-installed-app-search-missing")
+    mcp_cpp = REQUIRED["mcp_control_service"].read_text(encoding="utf-8")
+    for token in ["DRAFT_NOT_SUBMITTED", "direct_tool_invocation_allowed", "gui_self_approval_allowed", "ADAPTER-GATED", "authoritySnapshot"]:
+        if token not in mcp_cpp: failures.append(f"mcp-control-service-missing:{token}")
     chat_file_cpp = REQUIRED["chat_file_service"].read_text(encoding="utf-8")
     for token in ["inspectLocalFile", "QMimeDatabase", "QSaveFile", "copyLocalFile", "GENERIC_BINARY"]:
         if token not in chat_file_cpp: failures.append(f"chat-file-service-missing:{token}")
     main_cpp = REQUIRED["main_cpp"].read_text(encoding="utf-8")
     if "ChatFileService" not in main_cpp or 'setContextProperty("fa3ChatFiles"' not in main_cpp:
         failures.append("chat-file-service-qml-wiring-missing")
+    if "McpControlService" not in main_cpp or 'setContextProperty("fa3McpControl"' not in main_cpp:
+        failures.append("mcp-control-service-qml-wiring-missing")
     for token in FORBIDDEN_BACKEND_TOKENS:
-        if token in model_cpp or token in device_cpp or token in preference_cpp or token in chat_file_cpp: failures.append(f"backend-forbidden-token:{token}")
+        if token in model_cpp or token in device_cpp or token in preference_cpp or token in chat_file_cpp or token in mcp_cpp: failures.append(f"backend-forbidden-token:{token}")
 
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
-    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml"]:
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml"]:
         if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
