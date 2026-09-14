@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "f42ddabf74c7f52dc50ebd9653736d0d8fad6392",
-    "pre_projection_root_tree_sha": "12e788dbf46925df639ea51ccf36f0d8dabd28dd",
-    "pre_projection_canonical_tree_sha": "d6b86db713427a032b29a70c85efc558c7ceec49",
-    "commits_ahead_of_v3_0_11_conformance_commit": 272,
-    "total_post_baseline_commits": 272,
-    "delta_file_count": 1138,
-    "delta_added_files": 1133,
+    "pre_projection_head_sha": "01732cbd48a89cf1e9769547102fea280c60c4aa",
+    "pre_projection_root_tree_sha": "62e5e2fea06142e3578c630feb51c406d861539a",
+    "pre_projection_canonical_tree_sha": "3d0fd71d75ace9f1feff4d746256056dea27f785",
+    "commits_ahead_of_v3_0_11_conformance_commit": 283,
+    "total_post_baseline_commits": 283,
+    "delta_file_count": 1140,
+    "delta_added_files": 1135,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,8 +47,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 612,
     "evidence_files_in_post_baseline_delta": 113,
-    "source_files_in_post_baseline_delta": 125,
-    "test_files_in_post_baseline_delta": 106,
+    "source_files_in_post_baseline_delta": 126,
+    "test_files_in_post_baseline_delta": 107,
     "workflow_files_in_post_baseline_delta": 42,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -713,7 +713,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1138,
+  "manifest_entry_count": 1140,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1677,7 +1677,7 @@
     },
     {
       "path": "canonical/FA3-LANGUAGE-BRIDGE-001.json",
-      "git_blob_sha": "6242fca2ffa6b93180b6f476c85bc102ced41523",
+      "git_blob_sha": "a73a60626c7820c710bfcf8b364620bf011945a1",
       "baseline_delta_status": "added"
     },
     {
@@ -2892,7 +2892,7 @@
     },
     {
       "path": "canonical/language-gateway-enforcement.json",
-      "git_blob_sha": "487d15bda5246f9f6b401e824318ffd6b54a9e73",
+      "git_blob_sha": "0f7605101d9526936d8e95a6b75e29be0acbc738",
       "baseline_delta_status": "added"
     },
     {
@@ -4527,7 +4527,7 @@
     },
     {
       "path": "docs/language-fabric-and-llm-gateway.md",
-      "git_blob_sha": "5dc46ce0835c365d72dbe97c7a74cc929cd43a67",
+      "git_blob_sha": "a4f7aedc087bd481304cb784f6c99ee9f424433c",
       "baseline_delta_status": "added"
     },
     {
@@ -5516,8 +5516,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_language_bridge.py",
+      "git_blob_sha": "9ca84c6b8c9aa0449bc7c731ad38f842a90076f9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_language_gateway_gate.py",
-      "git_blob_sha": "706cd628dcd6506764a2042263a1a05d86c57e49",
+      "git_blob_sha": "6dc4fa079835a2e4379a48ab4d2453c127338cfb",
       "baseline_delta_status": "added"
     },
     {
@@ -6096,8 +6101,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_language_bridge.py",
+      "git_blob_sha": "c850615a145f285fbfae7834407057f901fafafd",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_language_gateway_gate.py",
-      "git_blob_sha": "472768b29e2b0c8ea20f3f2876421f5f758878f2",
+      "git_blob_sha": "a7c50b9f108ca3b58415a1cc9731e2838477acf6",
       "baseline_delta_status": "added"
     },
     {
