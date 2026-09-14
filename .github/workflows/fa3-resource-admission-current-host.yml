@@ -1,0 +1,97 @@
+name: FA3 Resource Admission Current Host
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json'
+      - 'canonical/resource-admission-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json'
+      - 'evidence/reference/resource-admission-current-host-pending.json'
+      - 'evidence/collect-resource-admission-current-host.py'
+      - 'src/fa3_resource_admission_current_host_gate.py'
+      - 'tests/test_resource_admission_current_host_gate.py'
+      - 'bin/fa3-resource-admission-current-host.sh'
+      - 'bin/fa3-enforce'
+      - 'fa3-current-host/manifest.json'
+      - '.github/workflows/fa3-resource-admission-current-host.yml'
+      - '.github/workflows/fa3-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute real current-host resource admission on the labeled self-hosted runner'
+        required: true
+        default: false
+        type: boolean
+      workload_envelope:
+        description: 'Path to fa3.workload-resource-envelope.v1 JSON on the self-hosted runner'
+        required: false
+        default: '.fa3-current-host/input/resource-workload-envelope.json'
+        type: string
+      hrb_lease:
+        description: 'Path to current HRB AcceleratorExecutionLease JSON on the self-hosted runner'
+        required: false
+        default: '.fa3-current-host/input/resource-hrb-lease.json'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  reference-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py
+      - name: Current-host contract regressions
+        run: PYTHONPATH=src python -m unittest tests.test_resource_admission_current_host_gate -v
+      - name: Parent normalization gate
+        run: ./bin/fa3-enforce resource-evidence-normalization
+      - name: Missing real current-host receipt must fail closed
+        run: |
+          set +e
+          ./bin/fa3-enforce resource-admission-current-host
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Unified current-host projection stays coherent
+        run: ./bin/fa3-current-host verify
+      - name: Unified release projection stays coherent
+        run: ./bin/fa3-enforce release-projection
+
+  production-e2e:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: reference-regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Collect real resource-admission evidence
+        run: |
+          chmod +x bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-resource-admission-current-host.py
+          ./bin/fa3-resource-admission-current-host.sh collect \
+            --workload-envelope "${{ inputs.workload_envelope }}" \
+            --hrb-lease "${{ inputs.hrb_lease }}"
+      - name: Validate current-host receipt
+        run: ./bin/fa3-enforce resource-admission-current-host
+      - name: Upload scoped evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-resource-admission-current-host
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/resource-admission-current-host.json
+            reports/resource-admission-current-host-gate-report.json
+            reports/resource-evidence-normalization-gate-report.json

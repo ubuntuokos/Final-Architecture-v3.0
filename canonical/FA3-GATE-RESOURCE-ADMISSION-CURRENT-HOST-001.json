@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.gate.record.v1",
+  "id": "FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001",
+  "title": "Current-host multidimensional resource admission",
+  "priority": "P0",
+  "status": "MATERIALIZED_REAL_EXECUTION_PENDING",
+  "fail_closed": true,
+  "parent_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+  "evidence_envelope": "FA3-EVIDENCE-ENVELOPE-001",
+  "result_contract": "FA3-ENFORCEMENT-RESULT-001",
+  "evidence_level": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
+  "receipt": "evidence/receipts/resource-admission-current-host.json",
+  "entrypoint": "./bin/fa3-enforce resource-admission-current-host",
+  "collector": "evidence/collect-resource-admission-current-host.py",
+  "current_host_runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "global_promotion_claim": false,
+  "requirements": [
+    "LIVE_HOST_ATTESTATION",
+    "MEASURED_COMPUTE_PROFILE",
+    "NONEMPTY_WORKLOAD_RESOURCE_ENVELOPE",
+    "EXTERNALLY_VALIDATED_HRB_LEASE",
+    "LEASE_UUID_AND_PCI_BINDING_TO_LIVE_HOST",
+    "ALL_REQUIRED_RESOURCE_DIMENSIONS_PASS",
+    "CU_TU_FORBIDDEN_AS_ADMISSION_REQUIREMENTS",
+    "TYPED_EVIDENCE_ENVELOPE_INTEGRITY_PASS"
+  ]
+}

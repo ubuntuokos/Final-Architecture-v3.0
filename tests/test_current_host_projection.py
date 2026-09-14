@@ -27,6 +27,17 @@ class CurrentHostProjectionTests(unittest.TestCase):
         self.assertEqual(manifest["new_capabilities"], 0)
         self.assertEqual(manifest["new_architectural_authorities"], 0)
 
+    def test_resource_admission_surface_is_registered_without_new_authority(self):
+        manifest = json.loads((ROOT / "fa3-current-host/manifest.json").read_text(encoding="utf-8"))
+        surfaces = {item.get("name"): item for item in manifest["registered_current_host_surfaces"]}
+        resource = surfaces.get("resource-admission")
+        self.assertIsNotNone(resource)
+        self.assertEqual(resource["collector"], "evidence/collect-resource-admission-current-host.py")
+        self.assertEqual(resource["gate"], "resource-admission-current-host")
+        self.assertEqual(resource["activation"], "WORKLOAD_SPECIFIC_REAL_HRB_LEASE_REQUIRED")
+        self.assertEqual(resource["machine_model_pin"], "FORBIDDEN")
+        self.assertFalse(resource["global_promotion_claim"])
+
 
 if __name__ == "__main__":
     unittest.main()
