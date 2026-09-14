@@ -18,15 +18,17 @@
   "machine_interface": {
     "official_public_api_available": false,
     "fa3_owned_adapter_required": true,
-    "fa3_adapter_execution_contract_materialized": false,
-    "fa3_candidate_executor_materialized": false,
+    "fa3_adapter_contract_id": "FA3-CONVERTX-ADAPTER-CONTRACTS-001",
+    "fa3_adapter_execution_contract_materialized": true,
+    "fa3_candidate_executor": "src/fa3_convertx_v018_http.py",
+    "fa3_candidate_executor_materialized": true,
     "candidate_validation_allowed_while_quarantined": true,
     "candidate_validation_is_production_routing": false,
     "direct_agent_to_convertx_http": false,
     "direct_n8n_to_convertx_http": false,
     "direct_mcp_to_convertx_http": false,
     "web_ui_is_execution_authority": false,
-    "current_web_route_contract": "COOKIE_AND_JOB_FLOW_INTERNAL_ONLY",
+    "current_web_route_contract": "PINNED_V0_18_0_COOKIE_JOB_FLOW_INTERNAL_ONLY",
     "machine_execution_enabled": false
   },
   "human_ui": {
@@ -48,7 +50,9 @@
     "apparmor_required_when_available": true
   },
   "resource_governance": {
-    "host_resource_broker_required": true,
+    "authoritative_resource_admission_required": true,
+    "current_authoritative_cpu_memory_verifier": "PENDING_MATERIALIZATION",
+    "accelerator_execution_lease_substitution_allowed": false,
     "provider_internal_max_process_is_secondary_guard_only": true,
     "timeout_required": true,
     "cpu_limit_required": true,
@@ -77,6 +81,7 @@
     "SECURITY_REGRESSION_PASS",
     "FA3_ADAPTER_EXECUTION_CONTRACT_MATERIALIZED",
     "FA3_CANDIDATE_EXECUTOR_MATERIALIZED",
+    "AUTHORITATIVE_CPU_MEMORY_RESOURCE_ADMISSION_PASS",
     "DIGEST_PINNED_RUNTIME_PASS",
     "REAL_CURRENT_HOST_SAFE_PAIR_E2E_PASS",
     "PAIR_SPECIFIC_EVIDENCE_PASS",
