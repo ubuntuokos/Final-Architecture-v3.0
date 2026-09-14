@@ -7,18 +7,24 @@ RUNNER_ROOT="${FA3_RUNNER_ROOT:-$HOME/.local/share/fa3/actions-runner}"
 UNIT_NAME="fa3-github-runner.service"
 OUT="${FA3_RUNNER_DOCTOR_RECEIPT:-.fa3-current-host/runner/doctor.json}"
 REQUIRED_LABELS='["self-hosted","linux","x64","fa3-current-host"]'
+VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
+VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   echo "FAIL: runner doctor must not run as root" >&2
   exit 30
 fi
 
-for cmd in python3 systemctl gh; do
+for cmd in python3 systemctl gh sudo; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL: missing prerequisite: $cmd" >&2; exit 31; }
 done
 
 [[ -x "$RUNNER_ROOT/bin/Runner.Listener" ]] || { echo "FAIL: Runner.Listener missing" >&2; exit 32; }
 [[ -s "$RUNNER_ROOT/.runner" ]] || { echo "FAIL: runner registration file missing" >&2; exit 33; }
+[[ -x "$VALIDATOR_CLIENT" ]] || { echo "FAIL: HRB validator client missing" >&2; exit 36; }
+[[ -x "$VALIDATOR_HELPER" ]] || { echo "FAIL: HRB validator privileged helper missing" >&2; exit 37; }
+sudo -n -l "$VALIDATOR_HELPER" /dev/null >/dev/null 2>&1 \
+  || { echo "FAIL: HRB validator bridge is not available non-interactively" >&2; exit 38; }
 
 INSTALLED_VERSION="$($RUNNER_ROOT/bin/Runner.Listener --version | tail -n1 | tr -d '\r')"
 [[ "$INSTALLED_VERSION" == "$RUNNER_VERSION" ]] || { echo "FAIL: runner version drift: $INSTALLED_VERSION" >&2; exit 34; }
@@ -76,6 +82,8 @@ receipt = {
     "labels": sorted(labels),
     "required_labels_present": True,
     "systemd_user_service_active": True,
+    "hrb_validator_bridge_ready": True,
+    "hrb_hmac_key_exposed_to_runner": False,
     "registration_secret_recorded": False,
     "global_promotion_claim": False,
     "provider_e2e_receipt_required_separately": True

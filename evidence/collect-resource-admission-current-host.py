@@ -17,11 +17,11 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 RECEIPT_DEFAULT = ROOT / "evidence/receipts/resource-admission-current-host.json"
-BROKER_DEFAULT = "/usr/local/bin/fa3-host-resource-broker"
+BROKER_DEFAULT = "/usr/local/bin/fa3-host-resource-broker-validator"
 LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
 FORBIDDEN_METRICS = {"cu", "tu", "compute_unit", "tensor_unit", "aggregate.cu", "aggregate.tu"}
 COLLECTOR_ID = "FA3-RESOURCE-ADMISSION-CURRENT-HOST-COLLECTOR-001"
-COLLECTOR_VERSION = "1.1.0"
+COLLECTOR_VERSION = "1.2.0"
 CUDA_COMPUTE_CAPABILITY_MIN = 8.6
 _BDF_RE = re.compile(r"^(?P<domain>[0-9a-fA-F]{4,8}):(?P<bus>[0-9a-fA-F]{2}):(?P<device>[0-9a-fA-F]{2})\.(?P<function>[0-7])$")
 

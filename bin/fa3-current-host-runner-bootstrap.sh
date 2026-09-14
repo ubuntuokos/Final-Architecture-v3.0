@@ -12,19 +12,28 @@ CUSTOM_LABEL="fa3-current-host"
 UNIT_NAME="fa3-github-runner.service"
 UNIT_DIR="$HOME/.config/systemd/user"
 UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-hrb-validator-bridge.sh"
+VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
+VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   echo "FAIL: current-host runner must not run as root" >&2
   exit 20
 fi
 
-for cmd in curl tar sha256sum python3 systemctl; do
+for cmd in curl tar sha256sum python3 systemctl sudo; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL: missing prerequisite: $cmd" >&2; exit 21; }
 done
 
+if [[ ! -x "$VALIDATOR_CLIENT" ]] || ! sudo -n -l "$VALIDATOR_HELPER" /dev/null >/dev/null 2>&1; then
+  echo "INFO: installing root-separated HRB validate-only bridge"
+  sudo "$BRIDGE_INSTALLER" --user "$USER"
+fi
+
 if [[ -e "$RUNNER_ROOT/.runner" ]]; then
   echo "INFO: runner is already configured at $RUNNER_ROOT; refusing implicit re-registration"
-  exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/fa3-current-host-runner-doctor"
+  exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
 fi
 
 mkdir -p "$RUNNER_ROOT" "$UNIT_DIR"
@@ -98,4 +107,4 @@ if command -v loginctl >/dev/null 2>&1; then
   fi
 fi
 
-exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/fa3-current-host-runner-doctor"
+exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"

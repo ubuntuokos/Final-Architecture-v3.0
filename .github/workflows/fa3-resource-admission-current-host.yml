@@ -13,7 +13,13 @@ on:
       - 'src/fa3_resource_admission_smoke.py'
       - 'tests/test_resource_admission_current_host_gate.py'
       - 'tests/test_resource_admission_smoke.py'
+      - 'tests/test_hrb_validator_bridge.py'
+      - 'libexec/fa3-host-resource-broker-validate-root.py'
+      - 'libexec/fa3-host-resource-broker-validator.sh'
+      - 'bin/fa3-install-hrb-validator-bridge.sh'
       - 'bin/fa3-resource-admission-current-host.sh'
+      - 'bin/fa3-current-host-runner-bootstrap.sh'
+      - 'bin/fa3-current-host-runner-doctor'
       - 'bin/fa3-enforce'
       - 'fa3-current-host/manifest.json'
       - '.github/workflows/fa3-resource-admission-current-host.yml'
@@ -52,9 +58,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax check
-        run: python -m py_compile evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py src/fa3_resource_admission_smoke.py
-      - name: Current-host contract and smoke regressions
-        run: PYTHONPATH=src python -m unittest tests.test_resource_admission_current_host_gate tests.test_resource_admission_smoke -v
+        run: python -m py_compile evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py src/fa3_resource_admission_smoke.py libexec/fa3-host-resource-broker-validate-root.py
+      - name: Current-host contract, smoke and HRB validator bridge regressions
+        run: PYTHONPATH=src python -m unittest tests.test_resource_admission_current_host_gate tests.test_resource_admission_smoke tests.test_hrb_validator_bridge -v
       - name: Parent normalization gate
         run: ./bin/fa3-enforce resource-evidence-normalization
       - name: Missing real current-host receipt must fail closed
@@ -79,6 +85,13 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Verify root-separated HRB validator bridge
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x /usr/local/bin/fa3-host-resource-broker-validator
+          test -x /usr/local/libexec/fa3-host-resource-broker-validate-root
+          sudo -n -l /usr/local/libexec/fa3-host-resource-broker-validate-root /dev/null >/dev/null
       - name: Run fail-closed resource-admission smoke bootstrap
         shell: bash
         run: |

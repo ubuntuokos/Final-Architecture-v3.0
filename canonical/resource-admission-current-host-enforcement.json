@@ -5,7 +5,15 @@
   "fail_closed": true,
   "authoritative_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
   "lease_schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
-  "broker_validation_command": ["/usr/local/bin/fa3-host-resource-broker", "validate-lease", "{lease}"],
+  "broker_validation_command": ["/usr/local/bin/fa3-host-resource-broker-validator", "validate-lease", "{lease}"],
+  "secret_boundary": {
+    "hmac_key_root_only": true,
+    "collector_secret_access": false,
+    "runner_secret_access": false,
+    "validation_bridge": "/usr/local/bin/fa3-host-resource-broker-validator",
+    "privileged_helper": "/usr/local/libexec/fa3-host-resource-broker-validate-root",
+    "delegated_operation": "VALIDATE_LEASE_ONLY"
+  },
   "required_receipt_claim": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
   "required_non_claim": "GLOBAL_FA3_PROMOTION",
   "gpu_baseline": {
@@ -17,6 +25,9 @@
   "forbidden_admission_metrics": ["cu", "tu", "compute_unit", "tensor_unit", "aggregate.cu", "aggregate.tu"],
   "rules": [
     "COLLECTOR_MUST_NOT_READ_SECRETS",
+    "HRB_HMAC_KEY_MUST_REMAIN_ROOT_ONLY",
+    "NON_ROOT_COLLECTOR_MUST_USE_VALIDATE_ONLY_PRIVILEGE_BRIDGE",
+    "VALIDATOR_BRIDGE_MUST_NOT_GRANT_ISSUE_REVOKE_OR_KEY_READ_AUTHORITY",
     "HOST_ATTESTATION_MUST_BE_LIVE_AND_SHA256_RECOMPUTABLE",
     "COMPUTE_PROFILE_MUST_BIND_HOST_ATTESTATION_SHA256",
     "WORKLOAD_ENVELOPE_MUST_HAVE_ID_AND_AT_LEAST_ONE_REQUIREMENT",
