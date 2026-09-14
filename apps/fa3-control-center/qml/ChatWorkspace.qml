@@ -25,6 +25,7 @@ Item {
     property bool autoLatchGenerating: Boolean(fa3Preferences.value("chat/autoLatchGenerating", true))
     property string messageStyle: String(fa3Preferences.value("chat/messageStyle", "Cards"))
     property bool expandToWindowWidth: Boolean(fa3Preferences.value("chat/expandToWindowWidth", false))
+
     property string adapterState: "ADAPTER-GATED"
     property string exportText: ""
     property url pendingCopySource: ""
@@ -36,6 +37,14 @@ Item {
     property string mcpRiskHint: "AUTO"
     property var mcpTargets: fa3McpControl.targets()
     property var mcpAuthority: fa3McpControl.authoritySnapshot(mcpTarget)
+
+    // Responsive layout contract: no chat control row is allowed to depend on a
+    // single fixed desktop width. Header and action bars wrap as the workspace narrows.
+    property bool narrowLayout: width < 980
+    property bool veryNarrowLayout: width < 760
+    property int contentMargin: veryNarrowLayout ? 8 : (narrowLayout ? 12 : 18)
+    property int sectionGap: viewMode === "Compact" ? 7 : 10
+    property int controlHeight: viewMode === "Compact" ? 32 : 36
 
     signal closeRequested()
     signal navigateRequested(int pageIndex)
@@ -51,7 +60,6 @@ Item {
         return "FA3 szerepalapú beszélgetési munkatér."
     }
 
-
     function isMcpMode() {
         return workspaceMode === "MCP CONTROL" || workspaceMode === "WORKFLOW"
     }
@@ -63,8 +71,10 @@ Item {
     }
 
     function workspaceDescription() {
-        if (workspaceMode === "MCP CONTROL") return "Természetes nyelvű, policy-gated alkalmazásvezérlés a központi MCP authority-láncon keresztül."
-        if (workspaceMode === "WORKFLOW") return "Több alkalmazáson átívelő terv és artifact-handoff előkészítése; végrehajtás csak admission után."
+        if (workspaceMode === "MCP CONTROL")
+            return "Természetes nyelvű, policy-gated alkalmazásvezérlés a központi MCP authority-láncon keresztül."
+        if (workspaceMode === "WORKFLOW")
+            return "Több alkalmazáson átívelő terv és artifact-handoff előkészítése; végrehajtás csak admission után."
         return roleDescription(role)
     }
 
@@ -176,6 +186,7 @@ Item {
     function draftMcpRequest() {
         var text = composer.text.trim()
         if (text.length === 0 && attachmentModel.count === 0) return
+
         var attachmentJson = root.pendingAttachmentsJson()
         chatModel.append({
             kind: "USER",
@@ -184,14 +195,24 @@ Item {
             state: "MCP-INTENT",
             attachmentsJson: attachmentJson
         })
-        var result = fa3McpControl.createDraftRequest(root.workspaceMode, root.mcpTarget, text, attachmentJson, root.mcpRiskHint)
+
+        var result = fa3McpControl.createDraftRequest(
+            root.workspaceMode,
+            root.mcpTarget,
+            text,
+            attachmentJson,
+            root.mcpRiskHint
+        )
+
         composer.clear()
         attachmentModel.clear()
+
         if (result.ok) {
             chatModel.append({
                 kind: "SYSTEM",
                 author: "MCP Authority",
-                body: "Request " + result.requestId + " · target " + result.target + " · " + result.summary + " A vázlat helyben rögzítve; nincs elküldve és nincs target alkalmazás meghívva.",
+                body: "Request " + result.requestId + " · target " + result.target + " · " + result.summary +
+                      " A vázlat helyben rögzítve; nincs elküldve és nincs target alkalmazás meghívva.",
                 state: result.state,
                 attachmentsJson: "[]"
             })
@@ -204,14 +225,20 @@ Item {
                 attachmentsJson: "[]"
             })
         }
+
         root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
         Qt.callLater(function() { messageList.positionViewAtEnd() })
     }
 
     function draftPrompt() {
-        if (root.isMcpMode()) { root.draftMcpRequest(); return }
+        if (root.isMcpMode()) {
+            root.draftMcpRequest()
+            return
+        }
+
         var text = composer.text.trim()
         if (text.length === 0 && attachmentModel.count === 0) return
+
         var attachmentJson = root.pendingAttachmentsJson()
         chatModel.append({
             kind: "USER",
@@ -229,7 +256,12 @@ Item {
             state: "NOT-SENT",
             attachmentsJson: "[]"
         })
-        Qt.callLater(function() { messageList.positionViewAtEnd() })
+        Qt.callLater(function() {
+            if (root.scrollMessageToTopOnSend)
+                messageList.positionViewAtIndex(Math.max(0, chatModel.count - 2), ListView.Beginning)
+            else
+                messageList.positionViewAtEnd()
+        })
     }
 
     function requestMessageExport(author, body, state) {
@@ -237,13 +269,19 @@ Item {
         exportDialog.open()
     }
 
-    onRoleChanged: { if (!root.isMcpMode()) resetSession() }
+    onRoleChanged: {
+        if (!root.isMcpMode()) resetSession()
+    }
+
     onWorkspaceModeChanged: resetSession()
+
     onRequestedMcpTargetChanged: {
         root.mcpTarget = requestedMcpTarget && requestedMcpTarget.length > 0 ? requestedMcpTarget : "AUTO"
         root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
     }
+
     onMcpTargetChanged: root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
+
     Component.onCompleted: {
         root.mcpTarget = requestedMcpTarget && requestedMcpTarget.length > 0 ? requestedMcpTarget : "AUTO"
         root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
@@ -252,6 +290,7 @@ Item {
 
     Connections {
         target: fa3Preferences
+
         function onPreferenceChanged(key, value) {
             if (key === "chat/viewMode") root.viewMode = String(value)
             else if (key === "chat/fontSize") root.chatFontSize = Number(value)
@@ -292,7 +331,10 @@ Item {
         nameFilters: ["Markdown (*.md)", "Szöveg (*.txt)", "Minden fájl (*)"]
         onAccepted: {
             var result = fa3ChatFiles.saveTextFile(selectedFile, root.exportText)
-            root.showOperationStatus(result.ok ? "Az üzenet mentve." : (result.error || "A mentés sikertelen."), !result.ok)
+            root.showOperationStatus(
+                result.ok ? "Az üzenet mentve." : (result.error || "A mentés sikertelen."),
+                !result.ok
+            )
         }
     }
 
@@ -303,7 +345,10 @@ Item {
         nameFilters: ["Minden fájl (*)"]
         onAccepted: {
             var result = fa3ChatFiles.copyLocalFile(root.pendingCopySource, selectedFile)
-            root.showOperationStatus(result.ok ? "A csatolmány mentve." : (result.error || "A mentés sikertelen."), !result.ok)
+            root.showOperationStatus(
+                result.ok ? "A csatolmány mentve." : (result.error || "A mentés sikertelen."),
+                !result.ok
+            )
         }
     }
 
@@ -314,37 +359,76 @@ Item {
         border.width: 1
     }
 
+    component CompactButton: Button {
+        implicitHeight: root.controlHeight
+        leftPadding: 12
+        rightPadding: 12
+    }
+
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 18
-        spacing: 12
+        anchors.margins: root.contentMargin
+        spacing: root.sectionGap
 
         Surface {
+            id: headerSurface
             Layout.fillWidth: true
-            Layout.preferredHeight: root.isMcpMode() ? 126 : 104
+            Layout.preferredHeight: headerColumn.implicitHeight + 20
+            Layout.minimumHeight: headerColumn.implicitHeight + 20
 
             ColumnLayout {
+                id: headerColumn
                 anchors.fill: parent
                 anchors.margins: 10
-                spacing: 7
+                spacing: 8
 
                 RowLayout {
                     Layout.fillWidth: true
-                    spacing: 10
+                    spacing: 8
+
                     ColumnLayout {
                         Layout.fillWidth: true
+                        Layout.minimumWidth: 0
                         spacing: 2
-                        Label { text: root.workspaceTitle(); color: root.textPrimary; font.pixelSize: 19; font.bold: true }
-                        Label { text: root.workspaceDescription(); color: root.textMuted; font.pixelSize: 9; Layout.fillWidth: true; elide: Text.ElideRight }
+
+                        Label {
+                            Layout.fillWidth: true
+                            text: root.workspaceTitle()
+                            color: root.textPrimary
+                            font.pixelSize: root.veryNarrowLayout ? 16 : 19
+                            font.bold: true
+                            elide: Text.ElideRight
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            text: root.workspaceDescription()
+                            color: root.textMuted
+                            font.pixelSize: 9
+                            elide: Text.ElideRight
+                        }
                     }
+
                     Rectangle {
                         radius: 12
-                        implicitWidth: modeState.implicitWidth + 20
+                        implicitWidth: Math.min(180, modeState.implicitWidth + 20)
                         implicitHeight: 24
                         color: "#2a2113"
                         border.color: root.orange
-                        Label { id: modeState; anchors.centerIn: parent; text: root.isMcpMode() ? "MCP · ADAPTER-GATED" : root.adapterState; color: root.orange; font.pixelSize: 8; font.bold: true }
+
+                        Label {
+                            id: modeState
+                            anchors.centerIn: parent
+                            width: parent.width - 14
+                            text: root.isMcpMode() ? "MCP · ADAPTER-GATED" : root.adapterState
+                            color: root.orange
+                            font.pixelSize: 8
+                            font.bold: true
+                            horizontalAlignment: Text.AlignHCenter
+                            elide: Text.ElideRight
+                        }
                     }
+
                     HelpBubble {
                         helpText: root.isMcpMode()
                                   ? "Authority: GUI capture → planner → policy → approval → central MCP gateway → app adapter → evidence. A GUI nem hagyhat jóvá és nem hívhat közvetlenül MCP toolt."
@@ -352,37 +436,89 @@ Item {
                         bubbleText: root.textPrimary
                         bubbleBorder: root.border
                     }
-                    ToolButton { text: "✕"; onClicked: root.closeRequested() }
+
+                    ToolButton {
+                        text: "✕"
+                        implicitWidth: 32
+                        implicitHeight: 32
+                        onClicked: root.closeRequested()
+                    }
                 }
 
-                RowLayout {
+                Flow {
+                    id: modeFlow
                     Layout.fillWidth: true
-                    spacing: 7
-                    Button { text: "Asszisztens"; checkable: true; checked: root.workspaceMode === "ASSISTANT"; onClicked: root.modeChangeRequested("ASSISTANT") }
-                    Button { text: "MCP Control"; checkable: true; checked: root.workspaceMode === "MCP CONTROL"; onClicked: root.modeChangeRequested("MCP CONTROL") }
-                    Button { text: "Workflow"; checkable: true; checked: root.workspaceMode === "WORKFLOW"; onClicked: root.modeChangeRequested("WORKFLOW") }
-                    Rectangle { width: 1; height: 28; color: root.border; visible: root.isMcpMode() }
-                    Label { visible: root.isMcpMode(); text: "Target"; color: root.textMuted; font.pixelSize: 9 }
+                    Layout.preferredHeight: childrenRect.height
+                    spacing: 6
+
+                    CompactButton {
+                        text: "Asszisztens"
+                        checkable: true
+                        checked: root.workspaceMode === "ASSISTANT"
+                        onClicked: root.modeChangeRequested("ASSISTANT")
+                    }
+
+                    CompactButton {
+                        text: "MCP Control"
+                        checkable: true
+                        checked: root.workspaceMode === "MCP CONTROL"
+                        onClicked: root.modeChangeRequested("MCP CONTROL")
+                    }
+
+                    CompactButton {
+                        text: "Workflow"
+                        checkable: true
+                        checked: root.workspaceMode === "WORKFLOW"
+                        onClicked: root.modeChangeRequested("WORKFLOW")
+                    }
+
+                    Label {
+                        visible: root.isMcpMode()
+                        height: root.controlHeight
+                        verticalAlignment: Text.AlignVCenter
+                        text: "Target"
+                        color: root.textMuted
+                        font.pixelSize: 9
+                    }
+
                     ComboBox {
                         visible: root.isMcpMode()
-                        Layout.preferredWidth: 190
+                        width: root.veryNarrowLayout ? 150 : 190
+                        height: root.controlHeight
                         model: root.mcpTargets
                         textRole: "name"
                         valueRole: "id"
                         currentIndex: root.indexForTarget(root.mcpTarget)
                         onActivated: root.mcpTarget = String(currentValue)
                     }
-                    Label { visible: root.isMcpMode(); text: "Risk"; color: root.textMuted; font.pixelSize: 9 }
+
+                    Label {
+                        visible: root.isMcpMode()
+                        height: root.controlHeight
+                        verticalAlignment: Text.AlignVCenter
+                        text: "Risk"
+                        color: root.textMuted
+                        font.pixelSize: 9
+                    }
+
                     ComboBox {
                         visible: root.isMcpMode()
-                        Layout.preferredWidth: 160
+                        width: root.veryNarrowLayout ? 150 : 180
+                        height: root.controlHeight
                         model: ["AUTO", "READ_ONLY", "MUTATING", "DESTRUCTIVE", "EXTERNAL_SIDE_EFFECT"]
                         currentIndex: Math.max(0, model.indexOf(root.mcpRiskHint))
                         onActivated: root.mcpRiskHint = currentText
                     }
-                    Item { Layout.fillWidth: true }
-                    Button { text: "Models & Providers"; onClicked: root.navigateRequested(5) }
-                    Button { text: "Integrations"; onClicked: root.navigateRequested(14) }
+
+                    CompactButton {
+                        text: root.veryNarrowLayout ? "Models" : "Models & Providers"
+                        onClicked: root.navigateRequested(5)
+                    }
+
+                    CompactButton {
+                        text: "Integrations"
+                        onClicked: root.navigateRequested(14)
+                    }
                 }
             }
         }
@@ -393,31 +529,52 @@ Item {
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: root.viewMode === "Compact" ? 10 : 14
-                spacing: root.viewMode === "Compact" ? 7 : 10
+                anchors.margins: root.viewMode === "Compact" ? 8 : 12
+                spacing: root.sectionGap
 
                 Rectangle {
                     visible: root.isMcpMode()
                     Layout.fillWidth: true
-                    Layout.preferredHeight: visible ? 66 : 0
+                    Layout.preferredHeight: visible ? Math.max(58, mcpAuthorityColumn.implicitHeight + 16) : 0
+                    Layout.minimumHeight: visible ? Math.max(58, mcpAuthorityColumn.implicitHeight + 16) : 0
                     radius: 7
                     color: root.panelRaised
                     border.color: root.border
+
                     ColumnLayout {
+                        id: mcpAuthorityColumn
                         anchors.fill: parent
                         anchors.margins: 8
                         spacing: 5
+
                         RowLayout {
                             Layout.fillWidth: true
-                            Label { text: "MCP Authority"; color: root.textPrimary; font.pixelSize: 9; font.bold: true }
+
+                            Label {
+                                text: "MCP Authority"
+                                color: root.textPrimary
+                                font.pixelSize: 9
+                                font.bold: true
+                            }
+
                             Item { Layout.fillWidth: true }
-                            Label { text: root.mcpAuthority.state || "ADAPTER-GATED"; color: root.orange; font.pixelSize: 8; font.bold: true }
+
+                            Label {
+                                text: root.mcpAuthority.state || "ADAPTER-GATED"
+                                color: root.orange
+                                font.pixelSize: 8
+                                font.bold: true
+                            }
                         }
+
                         Flow {
                             Layout.fillWidth: true
+                            Layout.preferredHeight: childrenRect.height
                             spacing: 5
+
                             Repeater {
                                 model: root.mcpAuthority && root.mcpAuthority.stages ? root.mcpAuthority.stages : []
+
                                 delegate: Rectangle {
                                     required property var modelData
                                     width: stageText.implicitWidth + 16
@@ -425,6 +582,7 @@ Item {
                                     radius: 10
                                     color: modelData.state === "READY" ? "#103528" : "#2a2113"
                                     border.color: modelData.state === "READY" ? root.green : root.orange
+
                                     Label {
                                         id: stageText
                                         anchors.centerIn: parent
@@ -433,9 +591,15 @@ Item {
                                         font.pixelSize: 7
                                         font.bold: true
                                     }
+
                                     ToolTip.visible: stageMouse.containsMouse
                                     ToolTip.text: modelData.detail
-                                    MouseArea { id: stageMouse; anchors.fill: parent; hoverEnabled: true }
+
+                                    MouseArea {
+                                        id: stageMouse
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
                                 }
                             }
                         }
@@ -450,31 +614,51 @@ Item {
                     spacing: root.viewMode === "Compact" ? 6 : 10
                     boundsBehavior: Flickable.StopAtBounds
                     model: chatModel
-                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn; active: true }
+                    ScrollBar.vertical: ScrollBar {
+                        policy: ScrollBar.AlwaysOn
+                        active: true
+                    }
 
                     delegate: Item {
                         id: messageItem
+
                         required property string kind
                         required property string author
                         required property string body
                         required property string state
                         required property string attachmentsJson
+
                         property var attachments: root.parseAttachments(attachmentsJson)
+
                         width: ListView.view.width
-                        height: messageCard.implicitHeight
+                        height: messageCard.implicitHeight + 2
 
                         Rectangle {
                             id: messageCard
-                            width: root.messageStyle === "Bubbles"
-                                ? Math.min(parent.width * 0.82, Math.max(320, messageColumn.implicitWidth + 28))
-                                : (root.expandToWindowWidth ? parent.width - 10 : Math.min(parent.width - 10, 1180))
-                            anchors.horizontalCenter: root.messageStyle !== "Bubbles" && !root.expandToWindowWidth ? parent.horizontalCenter : undefined
-                            anchors.right: messageItem.kind === "USER" && root.messageStyle === "Bubbles" ? parent.right : undefined
-                            anchors.left: messageItem.kind !== "USER" && root.messageStyle === "Bubbles" ? parent.left : undefined
+
+                            width: {
+                                var available = Math.max(0, messageItem.width - 10)
+                                if (root.messageStyle !== "Bubbles")
+                                    return root.expandToWindowWidth ? available : Math.min(available, 1180)
+                                return root.narrowLayout ? available : Math.min(available, Math.max(360, messageItem.width * 0.82))
+                            }
+
+                            anchors.horizontalCenter: root.messageStyle !== "Bubbles" && !root.expandToWindowWidth
+                                                      ? parent.horizontalCenter : undefined
+                            anchors.right: messageItem.kind === "USER" && root.messageStyle === "Bubbles"
+                                           ? parent.right : undefined
+                            anchors.left: messageItem.kind !== "USER" && root.messageStyle === "Bubbles"
+                                          ? parent.left : undefined
+
                             implicitHeight: messageColumn.implicitHeight + (root.messageStyle === "Plain" ? 8 : 20)
                             radius: root.messageStyle === "Plain" ? 0 : 8
-                            color: root.messageStyle === "Plain" ? "transparent" : (messageItem.kind === "USER" ? "#102a43" : root.panelRaised)
-                            border.color: root.messageStyle === "Plain" ? "transparent" : (messageItem.state === "ADAPTER-GATED" || messageItem.state === "NOT-SENT" ? root.orange : root.border)
+                            color: root.messageStyle === "Plain"
+                                   ? "transparent"
+                                   : (messageItem.kind === "USER" ? "#102a43" : root.panelRaised)
+                            border.color: root.messageStyle === "Plain"
+                                          ? "transparent"
+                                          : (messageItem.state === "ADAPTER-GATED" || messageItem.state === "NOT-SENT"
+                                             ? root.orange : root.border)
 
                             ColumnLayout {
                                 id: messageColumn
@@ -483,21 +667,29 @@ Item {
                                 anchors.top: parent.top
                                 anchors.margins: root.messageStyle === "Plain" ? 4 : 10
                                 spacing: 5
+
                                 RowLayout {
                                     Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+
                                     Label {
+                                        Layout.fillWidth: true
+                                        Layout.minimumWidth: 0
                                         text: messageItem.author
                                         color: messageItem.kind === "USER" ? root.accent : root.textPrimary
                                         font.pixelSize: Math.max(9, root.chatFontSize - 3)
                                         font.bold: true
+                                        elide: Text.ElideRight
                                     }
-                                    Item { Layout.fillWidth: true }
+
                                     Label {
-                                        visible: root.showGenInfo
+                                        visible: root.showGenInfo && !root.veryNarrowLayout
                                         text: messageItem.state
-                                        color: messageItem.state === "ADAPTER-GATED" || messageItem.state === "NOT-SENT" ? root.orange : root.textMuted
+                                        color: messageItem.state === "ADAPTER-GATED" || messageItem.state === "NOT-SENT"
+                                               ? root.orange : root.textMuted
                                         font.pixelSize: 8
                                     }
+
                                     ToolButton {
                                         visible: messageItem.kind !== "USER"
                                         text: "⇩"
@@ -505,43 +697,62 @@ Item {
                                         implicitHeight: 24
                                         ToolTip.visible: hovered
                                         ToolTip.text: "Üzenet mentése Markdown vagy szöveg fájlba"
-                                        onClicked: root.requestMessageExport(messageItem.author, messageItem.body, messageItem.state)
+                                        onClicked: root.requestMessageExport(
+                                            messageItem.author,
+                                            messageItem.body,
+                                            messageItem.state
+                                        )
                                     }
                                 }
+
                                 Label {
                                     Layout.fillWidth: true
                                     text: messageItem.body
                                     color: root.textPrimary
                                     wrapMode: Text.WordWrap
                                     font.pixelSize: root.chatFontSize
-                                    font.weight: root.chatFontWeight === "Semibold" ? Font.DemiBold : (root.chatFontWeight === "Medium" ? Font.Medium : Font.Normal)
+                                    font.weight: root.chatFontWeight === "Semibold"
+                                                 ? Font.DemiBold
+                                                 : (root.chatFontWeight === "Medium" ? Font.Medium : Font.Normal)
                                 }
+
                                 Flow {
                                     Layout.fillWidth: true
+                                    Layout.preferredHeight: visible ? childrenRect.height : 0
                                     visible: messageItem.attachments.length > 0
                                     spacing: 6
+
                                     Repeater {
                                         model: messageItem.attachments
+
                                         delegate: Rectangle {
                                             required property var modelData
+
                                             height: 30
-                                            width: Math.min(messageCard.width - 20, Math.max(150, attachmentName.implicitWidth + 74))
+                                            width: Math.min(
+                                                       Math.max(0, messageCard.width - 20),
+                                                       Math.max(120, attachmentName.implicitWidth + 74)
+                                                   )
                                             radius: 6
                                             color: "#0a1b2d"
                                             border.color: modelData.adapterValidationRequired ? root.orange : root.border
+
                                             RowLayout {
                                                 anchors.fill: parent
                                                 anchors.leftMargin: 8
                                                 anchors.rightMargin: 4
                                                 spacing: 6
+
                                                 Label {
                                                     id: attachmentName
+                                                    Layout.fillWidth: true
+                                                    Layout.minimumWidth: 0
                                                     text: modelData.name + " · " + modelData.analysisClass + " · " + modelData.sizeLabel
                                                     color: root.textPrimary
                                                     font.pixelSize: 8
-                                                    Layout.fillWidth: true
                                                     elide: Text.ElideMiddle
                                                 }
+
                                                 ToolButton {
                                                     visible: messageItem.kind !== "USER"
                                                     text: "⇩"
@@ -563,7 +774,11 @@ Item {
                     }
                 }
 
-                Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: root.border }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 1
+                    color: root.border
+                }
 
                 ListView {
                     id: pendingAttachmentList
@@ -575,7 +790,10 @@ Item {
                     clip: true
                     model: attachmentModel
                     boundsBehavior: Flickable.StopAtBounds
-                    ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AsNeeded; active: true }
+                    ScrollBar.horizontal: ScrollBar {
+                        policy: ScrollBar.AsNeeded
+                        active: true
+                    }
 
                     delegate: Rectangle {
                         required property string name
@@ -583,24 +801,32 @@ Item {
                         required property string analysisClass
                         required property bool adapterValidationRequired
                         required property int index
+
                         height: 34
-                        width: Math.min(310, Math.max(175, pendingLabel.implicitWidth + 44))
+                        width: Math.min(
+                                   Math.max(0, pendingAttachmentList.width - 8),
+                                   Math.max(120, pendingLabel.implicitWidth + 44)
+                               )
                         radius: 6
                         color: "#0a1b2d"
                         border.color: adapterValidationRequired ? root.orange : root.border
+
                         RowLayout {
                             anchors.fill: parent
                             anchors.leftMargin: 8
                             anchors.rightMargin: 4
                             spacing: 6
+
                             Label {
                                 id: pendingLabel
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
                                 text: name + " · " + analysisClass + " · " + sizeLabel
                                 color: root.textPrimary
                                 font.pixelSize: 8
-                                Layout.fillWidth: true
                                 elide: Text.ElideMiddle
                             }
+
                             ToolButton {
                                 text: "✕"
                                 implicitWidth: 24
@@ -614,9 +840,9 @@ Item {
                 Rectangle {
                     id: composerFrame
                     Layout.fillWidth: true
-                    Layout.preferredHeight: root.viewMode === "Compact" ? 116 : 154
-                    Layout.minimumHeight: 104
-                    Layout.maximumHeight: Math.max(140, root.height * 0.34)
+                    Layout.preferredHeight: root.viewMode === "Compact" ? 96 : (root.narrowLayout ? 116 : 132)
+                    Layout.minimumHeight: 88
+                    Layout.maximumHeight: Math.max(132, root.height * 0.32)
                     radius: 8
                     color: dropArea.containsDrag ? "#0d2841" : "#091624"
                     border.color: dropArea.containsDrag ? root.accent : root.border
@@ -626,7 +852,9 @@ Item {
                         id: composer
                         anchors.fill: parent
                         anchors.margins: 10
-                        placeholderText: root.isMcpMode() ? ("Írj MCP utasítást · target: " + root.mcpTarget + "… Fájlt ide is húzhatsz.") : ("Írj a(z) " + root.role + " szerepnek… Fájlt ide is húzhatsz.")
+                        placeholderText: root.isMcpMode()
+                                         ? ("Írj MCP utasítást · target: " + root.mcpTarget + "… Fájlt ide is húzhatsz.")
+                                         : ("Írj a(z) " + root.role + " szerepnek… Fájlt ide is húzhatsz.")
                         wrapMode: TextEdit.Wrap
                         color: root.textPrimary
                         font.pixelSize: root.chatFontSize
@@ -637,6 +865,7 @@ Item {
                     DropArea {
                         id: dropArea
                         anchors.fill: parent
+
                         onDropped: function(drop) {
                             if (drop.hasUrls) {
                                 root.addAttachmentUrls(drop.urls)
@@ -646,36 +875,43 @@ Item {
                     }
                 }
 
-                RowLayout {
+                Label {
+                    visible: root.operationStatus.length > 0
                     Layout.fillWidth: true
-                    spacing: 8
-                    Button {
-                        text: "＋ Fájl hozzáadása"
+                    text: root.operationStatus
+                    color: root.operationFailed ? root.orange : root.green
+                    font.pixelSize: 9
+                    wrapMode: Text.WordWrap
+                }
+
+                Flow {
+                    id: actionFlow
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: childrenRect.height
+                    spacing: 7
+
+                    CompactButton {
+                        text: root.veryNarrowLayout ? "＋ Fájl" : "＋ Fájl hozzáadása"
                         onClicked: attachmentDialog.open()
                     }
+
                     HelpBubble {
                         helpText: "Szöveg, PDF, Office-dokumentum, táblázat, prezentáció, SVG, pixelkép/fotó, hang, videó és egyéb helyi fájl csatolható. A fájl nem kerül automatikusan hálózatra: a kiválasztott provider adapter a küldéskor ellenőrzi, hogy az adott modell valóban tudja-e elemezni."
                         bubbleText: root.textPrimary
                         bubbleBorder: root.border
                     }
-                    Label {
-                        visible: root.operationStatus.length > 0
-                        text: root.operationStatus
-                        color: root.operationFailed ? root.orange : root.green
-                        font.pixelSize: 9
-                        Layout.fillWidth: true
-                        elide: Text.ElideRight
-                    }
-                    Item { Layout.fillWidth: root.operationStatus.length === 0 }
-                    Button {
+
+                    CompactButton {
                         text: root.isMcpMode() ? "MCP request vázlat" : "Vázlat"
                         enabled: composer.text.trim().length > 0 || attachmentModel.count > 0
                         onClicked: root.draftPrompt()
                     }
-                    Button {
+
+                    CompactButton {
                         text: root.isMcpMode() ? "Végrehajtás" : "Küldés"
                         enabled: false
                     }
+
                     HelpBubble {
                         helpText: root.isMcpMode()
                                   ? "Végrehajtás csak akkor engedélyezhető, ha a planner typed tool-call tervet ad, a policy outcome PASS, a szükséges approval megvan, a központi MCP gateway és a target adapter hitelesítetten elérhető, majd evidence receipt készül. Jelenleg fail-closed."

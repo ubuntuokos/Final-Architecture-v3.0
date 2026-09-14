@@ -77,6 +77,23 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn('onActivated: window.openLanguageControl()', main)
         self.assertIn('onClicked: window.openLanguageControl()', main)
 
+    def test_chat_workspace_is_responsive_and_keeps_controls_in_bounds(self):
+        chat = (ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml").read_text(encoding="utf-8")
+
+        for token in [
+            'property bool narrowLayout: width < 980',
+            'property bool veryNarrowLayout: width < 760',
+            'id: modeFlow',
+            'id: actionFlow',
+            'Layout.minimumWidth: 0',
+            'var available = Math.max(0, messageItem.width - 10)',
+            'Math.max(0, pendingAttachmentList.width - 8)',
+            'Layout.preferredHeight: childrenRect.height',
+        ]:
+            self.assertIn(token, chat)
+
+        self.assertNotIn('Layout.preferredHeight: root.isMcpMode() ? 126 : 104', chat)
+        self.assertNotIn('Layout.preferredHeight: root.viewMode === "Compact" ? 116 : 154', chat)
 
     def test_mcp_control_chat_is_authority_gated_and_integrated(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
