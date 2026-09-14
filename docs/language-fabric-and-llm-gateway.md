@@ -72,6 +72,8 @@ Protected material includes code, identifiers, file paths, URLs, addresses, API/
 
 Data classification is evaluated before any external translation route. `SECRET` is denied externally; `CONFIDENTIAL` requires explicit policy permission; `INTERNAL` and `PUBLIC` remain policy-gated. Language fallback never silently becomes model, provider or infrastructure fallback.
 
+The executable provider-neutral reference core lives in `src/fa3_language_bridge.py`. It implements local-first provider selection, data-class admission, protected-token round-trip enforcement, critical/low-confidence semantic-validation requirements and attributable mediation receipts. Its built-in conformance deliberately uses deterministic mock translation and therefore makes **no translation-quality or current-host production claim**.
+
 ### LB acceptance gates
 
 The Bridge is guarded by `LB-001` through `LB-012`:
@@ -148,8 +150,8 @@ Run:
 
 ```bash
 ./bin/fa3-enforce language-gateway
-python3 -m unittest tests.test_language_gateway_gate -v
+python3 -m unittest tests.test_language_gateway_gate tests.test_language_bridge -v
 ./bin/fa3-enforce static
 ```
 
-The dedicated gate validates the complete 36-case language/gateway/Bridge reference contract. The global static command invokes it fail-closed before the legacy static checks. Real LiteLLM service identity/authentication, Vault injection, Model Registry materialization, HRB-integrated local inference and Language Fabric/Bridge translation E2E require current-host evidence before production promotion.
+The dedicated gate validates the complete **37-case** language/gateway/Bridge reference contract, including the executable Bridge reference runtime. The global static command invokes it fail-closed before the legacy static checks. Real LiteLLM service identity/authentication, Vault injection, Model Registry materialization, HRB-integrated local inference and Language Fabric/Bridge translation E2E require current-host evidence before production promotion.
