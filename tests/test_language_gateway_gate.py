@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -47,12 +50,50 @@ class TestLanguageGatewayConformance(unittest.TestCase):
     def test_repository_conformance(self) -> None:
         report = run_conformance(ROOT)
         self.assertEqual(report["result"], "PASS", report.get("findings"))
+        self.assertEqual(report["passed"], 36)
+        self.assertEqual(report["total"], 36)
         self.assertFalse(report["current_host_production_claim"])
         self.assertEqual(report["current_host_status"], "PENDING_CURRENT_HOST")
 
     def test_invalid_locale_fails_closed(self) -> None:
         with self.assertRaises(LanguagePolicyDenied):
             validate_language_selection("not a locale", "en-US")
+
+    def test_missing_bridge_component_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            shutil.copytree(ROOT / "canonical", root / "canonical")
+            shutil.copytree(ROOT / "deployment", root / "deployment")
+            target_qml = root / "apps/fa3-control-center/qml"
+            target_qml.mkdir(parents=True)
+            shutil.copy2(ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml", target_qml / "LanguageControlPage.qml")
+
+            bridge_path = root / "canonical/FA3-LANGUAGE-BRIDGE-001.json"
+            bridge = json.loads(bridge_path.read_text(encoding="utf-8"))
+            bridge["components"].pop("FA3-LB-PROTECTED-TOKEN-GUARD")
+            bridge_path.write_text(json.dumps(bridge, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+            report = run_conformance(root)
+            self.assertEqual(report["result"], "FAIL")
+            self.assertTrue(any(item["code"] == "LANG-GW-033" for item in report["findings"]))
+
+    def test_missing_lb_acceptance_gate_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            shutil.copytree(ROOT / "canonical", root / "canonical")
+            shutil.copytree(ROOT / "deployment", root / "deployment")
+            target_qml = root / "apps/fa3-control-center/qml"
+            target_qml.mkdir(parents=True)
+            shutil.copy2(ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml", target_qml / "LanguageControlPage.qml")
+
+            bridge_path = root / "canonical/FA3-LANGUAGE-BRIDGE-001.json"
+            bridge = json.loads(bridge_path.read_text(encoding="utf-8"))
+            bridge["acceptance_gates"] = bridge["acceptance_gates"][:-1]
+            bridge_path.write_text(json.dumps(bridge, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+            report = run_conformance(root)
+            self.assertEqual(report["result"], "FAIL")
+            self.assertTrue(any(item["code"] == "LANG-GW-035" for item in report["findings"]))
 
 
 if __name__ == "__main__":
