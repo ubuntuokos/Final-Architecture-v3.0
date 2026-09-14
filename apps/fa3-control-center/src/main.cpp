@@ -11,8 +11,11 @@
 #include <QGuiApplication>
 #include <QPalette>
 #include <QQmlApplicationEngine>
+#include <QQmlComponent>
 #include <QQmlContext>
+#include <QQuickItem>
 #include <QQuickStyle>
+#include <QQuickWindow>
 #include <QUrl>
 #include <QtWebEngineQuick/qtwebenginequickglobal.h>
 
@@ -64,5 +67,26 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty()) {
         return 2;
     }
+
+    auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst());
+    if (!window) {
+        return 3;
+    }
+
+    QQmlComponent toolsComponent(
+        &engine,
+        QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/ToolsOverlay.qml")));
+    if (toolsComponent.status() != QQmlComponent::Ready) {
+        return 4;
+    }
+    QObject *toolsObject = toolsComponent.create(engine.rootContext());
+    auto *toolsItem = qobject_cast<QQuickItem *>(toolsObject);
+    if (!toolsItem) {
+        delete toolsObject;
+        return 5;
+    }
+    toolsItem->setParent(window->contentItem());
+    toolsItem->setParentItem(window->contentItem());
+
     return app.exec();
 }

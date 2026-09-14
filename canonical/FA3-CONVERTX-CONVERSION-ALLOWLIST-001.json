@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.convertx-conversion-allowlist.v1",
+  "id": "FA3-CONVERTX-CONVERSION-ALLOWLIST-001",
+  "provider_id": "FA3-PROVIDER-CONVERTX-001",
+  "profile_id": "FA3-FILE-CONVERSION-001",
+  "status": "CANONICAL",
+  "default_policy": "DENY",
+  "activation_policy": "PAIR_REQUIRES_PROVIDER_PROMOTION_PAIR_SPECIFIC_EVIDENCE_AND_EXPLICIT_ACTIVE_STATE",
+  "candidate_pairs": [
+    {"from": "image/png", "to": "image/jpeg", "converter_family": "Vips", "provider_converter": "vips", "provider_target": "jpeg", "state": "CANDIDATE"},
+    {"from": "image/jpeg", "to": "image/png", "converter_family": "Vips", "provider_converter": "vips", "provider_target": "png", "state": "CANDIDATE"},
+    {"from": "video/mp4", "to": "video/webm", "converter_family": "FFmpeg", "provider_converter": "ffmpeg", "provider_target": "webm", "state": "CANDIDATE"},
+    {"from": "audio/wav", "to": "audio/flac", "converter_family": "FFmpeg", "provider_converter": "ffmpeg", "provider_target": "flac", "state": "CANDIDATE"},
+    {"from": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "to": "application/pdf", "converter_family": "LibreOffice", "provider_converter": "libreoffice", "provider_target": "pdf", "state": "CANDIDATE"},
+    {"from": "text/markdown", "to": "text/html", "converter_family": "Pandoc", "provider_converter": "pandoc", "provider_target": "html", "state": "CANDIDATE"},
+    {"from": "model/obj", "to": "model/gltf+json", "converter_family": "Assimp", "provider_converter": "assimp", "provider_target": "gltf", "state": "CANDIDATE"}
+  ],
+  "pair_state_contract": {
+    "CANDIDATE": "May be planned and exercised only through explicit isolated candidate-validation admission. It is not production-routable.",
+    "ACTIVE": "May be used by production machine execution only after pair-specific current-host evidence and provider promotion gates pass."
+  },
+  "explicit_denials": [
+    {
+      "converter_family": "XeLaTeX",
+      "input_extensions": ["tex", "ltx", "latex"],
+      "reason": "Arbitrary local file read risk through TeX input primitives remains unacceptable for the FA3 trust boundary."
+    },
+    {
+      "converter_family": "ANY",
+      "pair": "UNKNOWN",
+      "reason": "Unknown conversion pairs fail closed."
+    }
+  ],
+  "arbitrary_converter_name_allowed": false,
+  "arbitrary_converter_arguments_allowed": false,
+  "fail_closed": true
+}

@@ -35,6 +35,8 @@ set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS Jou
 set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS WebWorkspace.qml)
 set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelsProvidersPage.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
+set_source_files_properties(qml/ToolsPage.qml PROPERTIES QT_RESOURCE_ALIAS ToolsPage.qml)
+set_source_files_properties(qml/ToolsOverlay.qml PROPERTIES QT_RESOURCE_ALIAS ToolsOverlay.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
@@ -56,6 +58,8 @@ qt_add_qml_module(fa3-control-center
         qml/WebWorkspace.qml
         qml/ModelsProvidersPage.qml
         qml/AiStudioPage.qml
+        qml/ToolsPage.qml
+        qml/ToolsOverlay.qml
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
@@ -72,6 +76,10 @@ qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
     BASE "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical"
     FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-TOOLS-FABRIC-001.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-FILE-CONVERSION-001.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-PROVIDER-CONVERTX-001.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json"
 )
 
 target_link_libraries(fa3-control-center
@@ -96,6 +104,11 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-LIFECYCLE-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-REQUEST-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-TOOLS-FABRIC-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-FILE-CONVERSION-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-PROVIDER-CONVERTX-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json"
     DESTINATION share/fa3/canonical
 )
 
