@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-BLACKHOLE-REST-CONTROL-PLANE-REFERENCE-2026-09-14",
+  "status": "REFERENCE_STATIC_PASS_RUNTIME_PENDING",
+  "claims": {
+    "api_control_plane_gpu_access": false,
+    "external_request_can_override_executable": false,
+    "external_request_can_override_environment": false,
+    "external_request_can_supply_model_filesystem_path": false,
+    "hrb_lease_issuance_by_api": false,
+    "hrb_lease_validation_required": true,
+    "single_uvicorn_worker_baseline": true,
+    "durable_sqlite_admission_queue": true,
+    "zero_copy_claim_scope": "FRAME_TO_TENSOR_ONLY",
+    "end_to_end_gpu_resident_claim": false
+  },
+  "runtime_promotion": {
+    "status": "PENDING_EXECUTABLE_EVIDENCE",
+    "required": [
+      "custom FFmpeg binary SHA-256",
+      "linked CUDA and ONNX Runtime libraries",
+      "FFmpeg hardware acceleration inventory",
+      "HRB-bound GPU identity",
+      "observed frame-to-tensor zero-copy",
+      "zero unexpected host transfer counters",
+      "NVENC output evidence"
+    ]
+  }
+}

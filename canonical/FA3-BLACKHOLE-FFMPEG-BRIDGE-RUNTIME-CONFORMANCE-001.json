@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-BLACKHOLE-FFMPEG-BRIDGE-RUNTIME-CONFORMANCE-001",
+  "subject_id": "FA3-BLACKHOLE-FFMPEG-BRIDGE-001",
+  "status": "PENDING_CURRENT_HOST",
+  "required_pass_status": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "reference_ci_may_promote_runtime": false,
+  "document_only_promotion_forbidden": true,
+  "required_current_host_evidence": [
+    "broker-validated unexpired purpose-scoped HRB lease",
+    "FFmpeg/ffprobe immutable build-trust receipt",
+    "real non-synthetic source-media provenance",
+    "same GPU UUID across HRB, FFmpeg, ONNX Runtime and NVENC",
+    "observed CUDAExecutionProvider",
+    "measured frame-to-tensor zero-copy and zero unexpected host transfers",
+    "STT result audio/media hash binding and caption QC PASS",
+    "output SHA-256 verification",
+    "rollback/cleanup evidence"
+  ],
+  "end_to_end_gpu_resident_claim": false,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

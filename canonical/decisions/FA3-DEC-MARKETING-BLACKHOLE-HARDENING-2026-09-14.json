@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-MARKETING-BLACKHOLE-HARDENING-2026-09-14",
+  "date": "2026-09-14",
+  "status": "CANONICAL_CLOSED",
+  "decision": "IMPLEMENT",
+  "scope": [
+    "FA3-MARKETING-001 security hardening",
+    "Blackhole/FFmpeg/STT bridge correction"
+  ],
+  "decisions": [
+    "Extend Marketing security with live consent-revocation freshness, purpose/channel/tenant/subject binding, suppression freshness and backend-outage fail-closed behavior.",
+    "Delegate voice-cloning consent to FA3-VOICE-CONTRACTS-001; never create a Marketing-owned voice-consent authority.",
+    "Treat revoked/invalid cloning consent as terminal DENY. Piper-style fallback is generic hu-HU TTS only, never cloning and never consumes speaker reference/embedding.",
+    "Correct the Blackhole payload to valid JSON, dynamically acquire HRB leases, remove static SM admission, add a real FA3-STT-MEDIA-001 transcription stage and separate diagnostic CUDA blocking from production.",
+    "Do not treat use_gpu_resident_zero_copy=true as evidence. Require measured frame-to-tensor evidence and preserve no end-to-end GPU-resident baseline claim.",
+    "Reference CI PASS cannot promote current-host runtime; Blackhole bridge remains PENDING_CURRENT_HOST until real E2E evidence exists."
+  ],
+  "compatibility_with_open_architecture_evolution_pr": {
+    "pr": 176,
+    "zero_copy_semantics": "COMPATIBLE_NO_BROADER_CLAIM",
+    "dependency": "NONE_REQUIRED_FOR_THIS_PR",
+    "post_merge_reconciliation": "Bind directly to FA3-FFMPEG-ZEROCOPY-001 after that policy becomes part of main without weakening this bridge contract."
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}

@@ -1,0 +1,224 @@
+name: FA3 Marketing + Blackhole Security Hardening
+
+on:
+  pull_request:
+    paths:
+      - 'src/fa3_marketing_security.py'
+      - 'src/fa3_marketing_security_gate.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge_gate.py'
+      - 'src/blackhole_api.py'
+      - 'src/fa3_blackhole_client.py'
+      - 'src/fa3_blackhole_api_gate.py'
+      - 'scripts/fa3_blackhole_zerocopy_probe.py'
+      - 'tests/test_marketing_security.py'
+      - 'tests/test_blackhole_ffmpeg_bridge.py'
+      - 'tests/test_blackhole_api.py'
+      - 'tests/test_fa3_blackhole_client.py'
+      - 'deployment/containers/blackhole-api.Containerfile'
+      - 'deployment/containers/blackhole-api.requirements.txt'
+      - 'canonical/contracts/FA3-MARKETING-SECURITY-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-BLACKHOLE-REST-CONTROL-PLANE-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-MARKETING-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VOICE-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MARKETING-001.json'
+      - 'canonical/profiles/FA3-VOICE-001.json'
+      - 'canonical/profiles/FA3-STT-MEDIA-001.json'
+      - 'canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json'
+      - 'canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json'
+      - 'canonical/FA3-FFMPEG-ZEROCOPY-001.json'
+      - 'canonical/payloads/blackhole_ffmpeg_bridge.json'
+      - 'canonical/marketing-security-enforcement.json'
+      - 'canonical/blackhole-ffmpeg-bridge-enforcement.json'
+      - 'canonical/FA3-MARKETING-SECURITY-GATE-001.json'
+      - 'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-GATE-001.json'
+      - 'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/decisions/FA3-DEC-MARKETING-BLACKHOLE-HARDENING-2026-09-14.json'
+      - 'canonical/decisions/FA3-DEC-BLACKHOLE-REST-CONTROL-DATA-PLANE-2026-09-14.json'
+      - 'evidence/reference/marketing-security-ci-2026-09-14.json'
+      - 'evidence/reference/blackhole-ffmpeg-bridge-reference-2026-09-14.json'
+      - 'evidence/reference/blackhole-rest-control-plane-reference-2026-09-14.json'
+      - '.github/workflows/fa3-marketing-blackhole-security.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/fa3_marketing_security.py'
+      - 'src/fa3_marketing_security_gate.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge_gate.py'
+      - 'src/blackhole_api.py'
+      - 'src/fa3_blackhole_client.py'
+      - 'src/fa3_blackhole_api_gate.py'
+      - 'scripts/fa3_blackhole_zerocopy_probe.py'
+      - 'tests/test_marketing_security.py'
+      - 'tests/test_blackhole_ffmpeg_bridge.py'
+      - 'tests/test_blackhole_api.py'
+      - 'tests/test_fa3_blackhole_client.py'
+      - 'deployment/containers/blackhole-api.Containerfile'
+      - 'deployment/containers/blackhole-api.requirements.txt'
+      - 'canonical/**marketing-security*'
+      - 'canonical/**blackhole-ffmpeg-bridge*'
+      - 'canonical/**BLACKHOLE-REST-CONTROL*'
+      - 'canonical/**BLACKHOLE-REST-CONTROL-DATA-PLANE*'
+      - 'canonical/contracts/FA3-MARKETING-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-VOICE-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-MARKETING-001.json'
+      - 'canonical/profiles/FA3-VOICE-001.json'
+      - 'canonical/profiles/FA3-STT-MEDIA-001.json'
+      - 'canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json'
+      - 'canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json'
+      - 'canonical/FA3-FFMPEG-ZEROCOPY-001.json'
+      - 'canonical/payloads/blackhole_ffmpeg_bridge.json'
+      - 'evidence/reference/blackhole-rest-control-plane-reference-2026-09-14.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-security-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Blackhole API test dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            -r deployment/containers/blackhole-api.requirements.txt \
+            requests==2.34.2 httpx==0.28.1
+      - name: Compile new Python surfaces
+        run: |
+          python -m py_compile \
+            src/fa3_marketing_security.py \
+            src/fa3_marketing_security_gate.py \
+            src/fa3_blackhole_ffmpeg_bridge.py \
+            src/fa3_blackhole_ffmpeg_bridge_gate.py \
+            src/blackhole_api.py \
+            src/fa3_blackhole_client.py \
+            src/fa3_blackhole_api_gate.py \
+            scripts/fa3_blackhole_zerocopy_probe.py
+      - name: Parse canonical JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = [
+              'canonical/contracts/FA3-MARKETING-SECURITY-CONTRACTS-001.json',
+              'canonical/marketing-security-enforcement.json',
+              'canonical/FA3-MARKETING-SECURITY-GATE-001.json',
+              'canonical/contracts/FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001.json',
+              'canonical/contracts/FA3-BLACKHOLE-REST-CONTROL-PLANE-CONTRACTS-001.json',
+              'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-RUNTIME-CONFORMANCE-001.json',
+              'canonical/blackhole-ffmpeg-bridge-enforcement.json',
+              'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-GATE-001.json',
+              'canonical/payloads/blackhole_ffmpeg_bridge.json',
+              'canonical/decisions/FA3-DEC-MARKETING-BLACKHOLE-HARDENING-2026-09-14.json',
+              'canonical/decisions/FA3-DEC-BLACKHOLE-REST-CONTROL-DATA-PLANE-2026-09-14.json',
+              'evidence/reference/marketing-security-ci-2026-09-14.json',
+              'evidence/reference/blackhole-ffmpeg-bridge-reference-2026-09-14.json',
+              'evidence/reference/blackhole-rest-control-plane-reference-2026-09-14.json',
+          ]
+          for path in paths:
+              json.loads(Path(path).read_text(encoding='utf-8'))
+          print(f'JSON PASS: {len(paths)} artifacts')
+          PY
+      - name: Focused regression tests
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest \
+            tests.test_marketing_security \
+            tests.test_blackhole_ffmpeg_bridge \
+            tests.test_blackhole_api \
+            tests.test_fa3_blackhole_client
+      - name: Marketing security canonical gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_marketing_security_gate.py --root .
+      - name: Blackhole FFmpeg bridge canonical gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_blackhole_ffmpeg_bridge_gate.py --root .
+      - name: Blackhole REST control-plane canonical gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_blackhole_api_gate.py --root .
+      - name: Generate reconciled release projection candidate
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Upload release projection candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-marketing-blackhole-release-projection-candidate
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if-no-files-found: error
+
+  reconcile-release-projection:
+    needs: reference-security-gates
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Detect release-surface-equivalent reconciled head
+        id: guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          projection='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          recorded="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json')
+          try:
+              print(json.loads(p.read_text(encoding='utf-8')).get('source_snapshot', {}).get('pre_projection_head_sha', ''))
+          except Exception:
+              print('')
+          PY
+          )"
+          if [[ -n "$recorded" ]] && git cat-file -e "${recorded}^{commit}" 2>/dev/null; then
+            mapfile -t release_changes < <(
+              git diff --name-only "$recorded" HEAD -- . \
+                ":(exclude)$projection" \
+                ':(exclude)reports/**' \
+                ':(exclude)acceptance/**' \
+                ':(exclude)promotion/**' \
+                ':(exclude)evidence/receipts/**' \
+                ':(exclude).pytest_cache/**' \
+                ':(exclude).mypy_cache/**'
+            )
+            if [[ "${#release_changes[@]}" -eq 0 ]]; then
+              echo 'skip=true' >> "$GITHUB_OUTPUT"
+              echo 'Current head is release-surface-equivalent to the recorded snapshot; refusing unnecessary/self-referential reconciliation.'
+              exit 0
+            fi
+            printf 'Release-surface changes requiring reconciliation:\n%s\n' "${release_changes[*]}"
+          fi
+          echo 'skip=false' >> "$GITHUB_OUTPUT"
+      - name: Regenerate release projection from immutable PR head
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Commit reconciled release projection
+        if: steps.guard.outputs.skip != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          projection='canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json'
+          if git diff --quiet -- "$projection"; then
+            echo 'Release projection is already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$projection"
+          git commit -m 'FA3: reconcile release projection'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"

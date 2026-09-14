@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "subject_id": "FA3-BLACKHOLE-FFMPEG-BRIDGE-GATESET-001",
+  "status": "PASS",
+  "evidence_class": "REFERENCE_POLICY_AND_EXECUTABLE_REGRESSION",
+  "regression_cases": 16,
+  "regression_passed": 16,
+  "runtime_status": "PENDING_CURRENT_HOST",
+  "current_host_runtime_claim": false,
+  "runtime_promotion_claim": false,
+  "zero_copy_claim_scope": "FRAME_TO_TENSOR_ONLY",
+  "end_to_end_gpu_resident_claim": false,
+  "note": "Reference PASS proves fail-closed admission/evidence logic only. It does not prove current-host zero-copy, FFmpeg build trust, live HRB placement, real-media E2E or production STT."
+}

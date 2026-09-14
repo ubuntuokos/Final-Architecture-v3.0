@@ -1,0 +1,53 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-BLACKHOLE-REST-CONTROL-PLANE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority_delegation": {
+    "authentication_authority": "FA3 security policy",
+    "placement_and_lease_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "execution_policy": "FA3-BLACKHOLE-FFMPEG-BRIDGE-001",
+    "rest_surface_role": "NON_AUTHORITY_CONTROL_PLANE"
+  },
+  "contracts": [
+    "DeclarativeBlackholeRequest",
+    "AuthenticatedPrincipalProjection",
+    "HrbLeaseAdmissionEvidence",
+    "RequestIdIdempotency",
+    "DurableAcceptedJob",
+    "BlackholeJobStatus"
+  ],
+  "request_invariants": [
+    "SCHEMA_EXTRA_FIELDS_FORBIDDEN",
+    "EXECUTABLE_PATH_NOT_CLIENT_CONTROLLED",
+    "RUNTIME_ENVIRONMENT_NOT_CLIENT_CONTROLLED",
+    "MODEL_FILESYSTEM_PATH_NOT_CLIENT_CONTROLLED",
+    "OWNER_DERIVED_FROM_AUTHENTICATED_PRINCIPAL",
+    "PRIORITY_NOT_CLIENT_SELF_ASSERTED",
+    "STATIC_SM_ALLOWLIST_NOT_EXTERNAL_ADMISSION_INPUT",
+    "REQUEST_ID_UUID_REQUIRED"
+  ],
+  "admission_invariants": [
+    "HRB_LEASE_BROKER_VALIDATION_REQUIRED",
+    "HRB_LEASE_MINIMUM_TU_EVIDENCE_REQUIRED",
+    "HRB_LEASE_CAPABILITY_EVIDENCE_REQUIRED",
+    "HRB_LEASE_BLACKHOLE_PURPOSE_SCOPE_REQUIRED",
+    "SAME_REQUEST_ID_SAME_PAYLOAD_IS_IDEMPOTENT",
+    "SAME_REQUEST_ID_DIFFERENT_PAYLOAD_IS_CONFLICT",
+    "HTTP_202_ONLY_AFTER_DURABLE_SQLITE_COMMIT",
+    "API_DOES_NOT_ISSUE_RENEW_OR_REVOKE_HRB_LEASES"
+  ],
+  "execution_invariants": [
+    "GPU_EXECUTION_NOT_PERFORMED_BY_REST_CONTROL_PLANE",
+    "SINGLE_UVICORN_WORKER_SAFE_BASELINE",
+    "CUDA_LAUNCH_BLOCKING_DISABLED_IN_PRODUCTION_POLICY",
+    "ZERO_COPY_CLAIM_SCOPE_FRAME_TO_TENSOR_ONLY",
+    "END_TO_END_GPU_RESIDENT_CLAIM_FALSE_UNTIL_MEASURED"
+  ],
+  "implementation_status": "REFERENCE_STATIC_PASS_CURRENT_HOST_RUNTIME_PENDING"
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-BLACKHOLE-REST-CONTROL-DATA-PLANE-2026-09-14",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "decision": "Separate the Blackhole REST control plane from GPU execution. External callers submit declarative intent only; server policy and the Host Resource Broker remain the exclusive authorities for executable, environment, model resolution and accelerator placement.",
+  "invariants": [
+    "BLACKHOLE_API_HAS_NO_GPU_EXECUTION_AUTHORITY",
+    "CLIENT_EXECUTABLE_OVERRIDE_FORBIDDEN",
+    "CLIENT_ENVIRONMENT_OVERRIDE_FORBIDDEN",
+    "CLIENT_MODEL_FILESYSTEM_PATH_FORBIDDEN",
+    "CLIENT_OWNER_AND_PRIORITY_SELF_ASSERTION_FORBIDDEN",
+    "HRB_REMAINS_EXCLUSIVE_PLACEMENT_AND_LEASE_AUTHORITY",
+    "API_ONLY_VALIDATES_EXISTING_HRB_LEASES",
+    "SINGLE_PROCESS_API_BASELINE",
+    "REQUEST_ID_IDEMPOTENCY_AND_REPLAY_CONFLICT_REQUIRED",
+    "202_REQUIRES_DURABLE_PERSISTENCE",
+    "ZERO_COPY_PROMOTION_REQUIRES_MEASURED_RUNTIME_EVIDENCE",
+    "END_TO_END_GPU_RESIDENT_CLAIM_REMAINS_FALSE_UNTIL_MEASURED"
+  ],
+  "implementation": {
+    "api": "src/blackhole_api.py",
+    "client": "src/fa3_blackhole_client.py",
+    "api_container": "deployment/containers/blackhole-api.Containerfile",
+    "api_requirements": "deployment/containers/blackhole-api.requirements.txt",
+    "api_tests": "tests/test_blackhole_api.py",
+    "client_tests": "tests/test_fa3_blackhole_client.py",
+    "gate": "src/fa3_blackhole_api_gate.py",
+    "zero_copy_probe": "scripts/fa3_blackhole_zerocopy_probe.py",
+    "contract": "canonical/contracts/FA3-BLACKHOLE-REST-CONTROL-PLANE-CONTRACTS-001.json"
+  }
+}

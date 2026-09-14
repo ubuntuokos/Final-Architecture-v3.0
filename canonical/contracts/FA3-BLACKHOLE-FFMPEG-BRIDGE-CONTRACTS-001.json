@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL_INTEGRATION_PROJECTION",
+  "provider_neutral": true,
+  "profile_type": "INTEGRATION_CONTRACT",
+  "delegates_to": [
+    "FA3-STT-MEDIA-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "FA3-HOST-RESOURCE-BROKER-001"
+  ],
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "runtime_lease": {
+    "source": "FA3-HOST-RESOURCE-BROKER-001",
+    "dynamic_runtime_acquisition_required": true,
+    "static_lease_id_in_payload_forbidden": true,
+    "lease_status_required": "VALID",
+    "broker_validation_required": "VALID",
+    "expiry_and_purpose_scope_required": true,
+    "accelerator_identity_required": [
+      "GPU_UUID",
+      "PCI_BDF"
+    ],
+    "same_gpu_required_across_pipeline": true
+  },
+  "hardware_portability": {
+    "live_capability_discovery_required": true,
+    "static_sm_whitelist_as_canonical_admission_forbidden": true,
+    "required_capabilities": [
+      "cuda",
+      "onnxruntime_cuda",
+      "ffmpeg_cuda_hwframes",
+      "nvenc"
+    ]
+  },
+  "pipeline": {
+    "required_stage_order": [
+      "ZERO_COPY_NEURAL_PROCESSING",
+      "BLACKHOLE_TRANSCRIPTION",
+      "CANONICAL_EVIDENCE_GENERATION"
+    ],
+    "transcription_delegates_to": "FA3-STT-MEDIA-001",
+    "neural_media_delegates_to": "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "caption_qc_required": true
+  },
+  "zero_copy_policy": {
+    "intent_boolean_is_evidence": false,
+    "claim_scope": "FRAME_TO_TENSOR_ONLY",
+    "measured_frame_to_tensor_evidence_required": true,
+    "same_gpu_identity_evidence_required": true,
+    "unexpected_host_transfer_count_required": 0,
+    "intermediate_reupload_count_required": 0,
+    "end_to_end_gpu_resident_baseline_claim": false,
+    "compatibility_note": "When FA3-FFMPEG-ZEROCOPY-001 is globally admitted, this bridge must remain no broader than that policy."
+  },
+  "runtime_profiles": {
+    "PRODUCTION": {
+      "CUDA_LAUNCH_BLOCKING_1_allowed": false
+    },
+    "DIAGNOSTIC": {
+      "CUDA_LAUNCH_BLOCKING_1_allowed": true,
+      "production_evidence_eligible": false
+    }
+  },
+  "production_evidence": {
+    "ffmpeg_build_trust_verified": true,
+    "real_non_synthetic_source_provenance": true,
+    "output_sha256": true,
+    "stt_result_hash_binding": true,
+    "caption_qc": true,
+    "rollback_or_cleanup": true,
+    "current_host_required": true
+  },
+  "mandatory_rules": [
+    "BLACKHOLE_BRIDGE_REUSES_EXISTING_STT_NEURAL_MEDIA_HRB_AUTHORITIES",
+    "TRANSCRIPTION_STAGE_MANDATORY",
+    "HRB_RUNTIME_LEASE_REQUIRED",
+    "STATIC_HRB_LEASE_ID_FORBIDDEN",
+    "STATIC_SM_WHITELIST_FORBIDDEN_AS_CANONICAL_ADMISSION",
+    "SAME_GPU_UUID_REQUIRED_ACROSS_HRB_FFMPEG_ONNX_NVENC",
+    "PRODUCTION_CUDA_LAUNCH_BLOCKING_FORBIDDEN",
+    "FFMPEG_BINARY_INTEGRITY_REQUIRED",
+    "ZERO_COPY_INTENT_BOOLEAN_NOT_EVIDENCE",
+    "MEASURED_FRAME_TO_TENSOR_ZERO_COPY_REQUIRED_FOR_ZERO_COPY_PROMOTION",
+    "END_TO_END_GPU_RESIDENT_BASELINE_CLAIM_FORBIDDEN",
+    "REAL_NON_SYNTHETIC_MEDIA_PROVENANCE_REQUIRED_FOR_PRODUCTION",
+    "OUTPUT_HASH_STT_HASH_AND_CAPTION_QC_BINDING_REQUIRED",
+    "ROLLBACK_OR_CLEANUP_EVIDENCE_REQUIRED",
+    "REFERENCE_CI_CANNOT_PROMOTE_CURRENT_HOST_RUNTIME",
+    "CURRENT_HOST_PRODUCTION_E2E_REQUIRED"
+  ]
+}
