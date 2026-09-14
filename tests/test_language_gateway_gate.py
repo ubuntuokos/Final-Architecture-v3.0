@@ -50,8 +50,9 @@ class TestLanguageGatewayConformance(unittest.TestCase):
     def test_repository_conformance(self) -> None:
         report = run_conformance(ROOT)
         self.assertEqual(report["result"], "PASS", report.get("findings"))
-        self.assertEqual(report["passed"], 36)
-        self.assertEqual(report["total"], 36)
+        self.assertEqual(report["passed"], 37)
+        self.assertEqual(report["total"], 37)
+        self.assertEqual(report["bridge_reference_conformance"]["result"], "PASS")
         self.assertFalse(report["current_host_production_claim"])
         self.assertEqual(report["current_host_status"], "PENDING_CURRENT_HOST")
 
@@ -64,6 +65,7 @@ class TestLanguageGatewayConformance(unittest.TestCase):
             root = Path(directory)
             shutil.copytree(ROOT / "canonical", root / "canonical")
             shutil.copytree(ROOT / "deployment", root / "deployment")
+            shutil.copytree(ROOT / "src", root / "src")
             target_qml = root / "apps/fa3-control-center/qml"
             target_qml.mkdir(parents=True)
             shutil.copy2(ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml", target_qml / "LanguageControlPage.qml")
@@ -82,6 +84,7 @@ class TestLanguageGatewayConformance(unittest.TestCase):
             root = Path(directory)
             shutil.copytree(ROOT / "canonical", root / "canonical")
             shutil.copytree(ROOT / "deployment", root / "deployment")
+            shutil.copytree(ROOT / "src", root / "src")
             target_qml = root / "apps/fa3-control-center/qml"
             target_qml.mkdir(parents=True)
             shutil.copy2(ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml", target_qml / "LanguageControlPage.qml")
