@@ -1,3 +1,4 @@
+#include "ChatFileService.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
 #include "PreferenceStore.h"
@@ -41,12 +42,14 @@ int main(int argc, char *argv[])
     JournalService journal;
     PreferenceStore preferences;
     SystemDeviceModel devices;
+    ChatFileService chatFiles;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
     engine.rootContext()->setContextProperty("fa3Journal", &journal);
     engine.rootContext()->setContextProperty("fa3Preferences", &preferences);
     engine.rootContext()->setContextProperty("fa3Devices", &devices);
+    engine.rootContext()->setContextProperty("fa3ChatFiles", &chatFiles);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
