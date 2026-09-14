@@ -68,7 +68,16 @@
     "src/fa3_hrb_systemd_manager_current_host_gate.py",
     "tests/test_hrb_systemd_manager_current_host_gate.py",
     "evidence/collect-hrb-systemd-manager-current-host.py",
-    ".github/workflows/fa3-hrb-systemd-manager-current-host.yml"
+    ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
+    "canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json",
+    "canonical/resource-admission-current-host-enforcement.json",
+    "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
+    "evidence/reference/resource-admission-current-host-pending.json",
+    "src/fa3_resource_admission_current_host_gate.py",
+    "tests/test_resource_admission_current_host_gate.py",
+    "evidence/collect-resource-admission-current-host.py",
+    "bin/fa3-resource-admission-current-host.sh",
+    ".github/workflows/fa3-resource-admission-current-host.yml"
   ],
   "registered_current_host_surfaces": [
     {
@@ -86,6 +95,16 @@
       "hardware_profile": "FA3-HARDWARE-BASELINE-001",
       "machine_model_pin": "FORBIDDEN",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+    },
+    {
+      "name": "resource-admission",
+      "collector": "evidence/collect-resource-admission-current-host.py",
+      "gate": "resource-admission-current-host",
+      "activation": "WORKLOAD_SPECIFIC_REAL_HRB_LEASE_REQUIRED",
+      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "machine_model_pin": "FORBIDDEN",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+      "global_promotion_claim": false
     },
     {
       "name": "terax",

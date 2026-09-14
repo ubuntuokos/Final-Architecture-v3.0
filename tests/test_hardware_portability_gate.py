@@ -11,6 +11,7 @@ if str(SRC) not in sys.path:
 
 from fa3_hardware_portability_gate import (
     CAPABILITY_COUNT,
+    CUDA_COMPUTE_CAPABILITY_MIN,
     evaluate,
     portable_hardware_floor_valid,
     scan_repository,
@@ -24,27 +25,47 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertEqual(CAPABILITY_COUNT, result["capability_count"])
         self.assertEqual(0, result["repository_audit"]["blocking_hardcoded_production_assumptions"])
         self.assertFalse(result["current_host_runtime_promotion_claim"])
+        self.assertEqual(8.6, result["gpu_floor"]["cuda_compute_capability_min"])
+        self.assertFalse(result["gpu_floor"]["sku_series_authority"])
 
     def test_minimum_and_larger_hosts_are_admitted(self):
         self.assertTrue(portable_hardware_floor_valid(
             cpu_packages=1,
             physical_cores_per_qualifying_cpu=8,
             gpu_count=1,
-            gpu_rtx_series=30,
+            gpu_compute_capability=8.6,
         ))
         self.assertTrue(portable_hardware_floor_valid(
             cpu_packages=2,
             physical_cores_per_qualifying_cpu=24,
             gpu_count=4,
-            gpu_rtx_series=50,
+            gpu_compute_capability=12.0,
         ))
+
+    def test_rtx_a1000_class_cc86_is_admitted_without_sku_exception(self):
+        self.assertEqual(8.6, CUDA_COMPUTE_CAPABILITY_MIN)
+        self.assertTrue(portable_hardware_floor_valid(
+            cpu_packages=1,
+            physical_cores_per_qualifying_cpu=8,
+            gpu_count=1,
+            gpu_compute_capability=8.6,
+            gpu_vendor="NVIDIA",
+        ))
+
+    def test_marketing_series_is_not_an_admission_input(self):
+        profile = json.loads((ROOT / "canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        gpu = profile["portable_minimum"]["gpu"]
+        self.assertNotIn("rtx_series_floor", gpu)
+        self.assertFalse(gpu["sku_series_admission_authority"])
+        self.assertEqual(8.6, gpu["cuda_compute_capability_min"])
+        self.assertTrue(gpu["vram_size_pin"].startswith("FORBIDDEN"))
 
     def test_no_fixed_upper_bound(self):
         self.assertTrue(portable_hardware_floor_valid(
             cpu_packages=8,
             physical_cores_per_qualifying_cpu=64,
             gpu_count=16,
-            gpu_rtx_series=60,
+            gpu_compute_capability=12.0,
         ))
 
     def test_floor_rejects_under_minimum_hosts(self):
@@ -52,19 +73,26 @@ class HardwarePortabilityGateTests(unittest.TestCase):
             cpu_packages=1,
             physical_cores_per_qualifying_cpu=7,
             gpu_count=1,
-            gpu_rtx_series=30,
+            gpu_compute_capability=8.6,
         ))
         self.assertFalse(portable_hardware_floor_valid(
             cpu_packages=1,
             physical_cores_per_qualifying_cpu=8,
             gpu_count=0,
-            gpu_rtx_series=50,
+            gpu_compute_capability=12.0,
         ))
         self.assertFalse(portable_hardware_floor_valid(
             cpu_packages=1,
             physical_cores_per_qualifying_cpu=8,
             gpu_count=1,
-            gpu_rtx_series=20,
+            gpu_compute_capability=8.0,
+        ))
+        self.assertFalse(portable_hardware_floor_valid(
+            cpu_packages=1,
+            physical_cores_per_qualifying_cpu=8,
+            gpu_count=1,
+            gpu_compute_capability=12.0,
+            gpu_vendor="OTHER",
         ))
 
     def test_runtime_fixed_cuda_list_is_blocking(self):

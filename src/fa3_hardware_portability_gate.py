@@ -26,6 +26,7 @@ GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
 DECISION_ID = "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
+CUDA_COMPUTE_CAPABILITY_MIN = 8.6
 CAPABILITY_BINDINGS = (
     "CAP-001", "CAP-006", "CAP-062", "CAP-063", "CAP-065",
     "CAP-130", "CAP-137", "CAP-142", "CAP-143",
@@ -84,24 +85,27 @@ def portable_hardware_floor_valid(
     cpu_packages: int,
     physical_cores_per_qualifying_cpu: int,
     gpu_count: int,
-    gpu_rtx_series: int,
+    gpu_compute_capability: float,
+    gpu_vendor: str = "NVIDIA",
 ) -> bool:
+    """Global hardware floor only. VRAM/SKU/model are deliberately not inputs."""
     return (
         isinstance(cpu_packages, int)
         and isinstance(physical_cores_per_qualifying_cpu, int)
         and isinstance(gpu_count, int)
-        and isinstance(gpu_rtx_series, int)
+        and isinstance(gpu_compute_capability, (int, float))
+        and not isinstance(gpu_compute_capability, bool)
+        and isinstance(gpu_vendor, str)
         and cpu_packages >= 1
         and physical_cores_per_qualifying_cpu >= 8
         and gpu_count >= 1
-        and gpu_rtx_series >= 30
+        and gpu_vendor.strip().upper() == "NVIDIA"
+        and float(gpu_compute_capability) >= CUDA_COMPUTE_CAPABILITY_MIN
     )
 
 
 def _is_text_candidate(path: Path) -> bool:
-    if path.suffix.lower() in TEXT_SUFFIXES:
-        return True
-    return path.parent.name == "bin" or path.name.startswith("fa3-")
+    return path.suffix.lower() in TEXT_SUFFIXES or path.parent.name == "bin" or path.name.startswith("fa3-")
 
 
 def _context(text: str, start: int, end: int, radius: int = 240) -> str:
@@ -120,9 +124,7 @@ def scan_repository(root: Path) -> dict[str, Any]:
             continue
         rel = path.relative_to(root).as_posix()
         parts = Path(rel).parts
-        if not parts or parts[0] in SKIP_TOP_LEVEL or "__pycache__" in parts:
-            continue
-        if not _is_text_candidate(path):
+        if not parts or parts[0] in SKIP_TOP_LEVEL or "__pycache__" in parts or not _is_text_candidate(path):
             continue
         try:
             if path.stat().st_size > 2_000_000:
@@ -141,19 +143,11 @@ def scan_repository(root: Path) -> dict[str, Any]:
             runtime_scanned += 1
         policy_or_test_code = rel.startswith("src/") and rel.endswith("_gate.py")
         current_host_tooling = "current-host" in rel.lower() or "current_host" in rel.lower()
-        explicitly_non_normative = (
-            rel.startswith(NON_NORMATIVE_PREFIXES)
-            or policy_or_test_code
-            or current_host_tooling
-        )
+        explicitly_non_normative = rel.startswith(NON_NORMATIVE_PREFIXES) or policy_or_test_code or current_host_tooling
+
         for code, pattern in HARD_RUNTIME_PATTERNS:
             for match in pattern.finditer(text):
-                item = {
-                    "path": rel,
-                    "kind": code,
-                    "offset": match.start(),
-                    "sample": match.group(0)[:120],
-                }
+                item = {"path": rel, "kind": code, "offset": match.start(), "sample": match.group(0)[:120]}
                 if runtime:
                     blocking.append(item)
                 else:
@@ -163,22 +157,13 @@ def scan_repository(root: Path) -> dict[str, Any]:
             for match in pattern.finditer(text):
                 ctx = _context(text, match.start(), match.end())
                 marked_reference = explicitly_non_normative or any(marker in ctx for marker in REFERENCE_MARKERS)
-                item = {
-                    "path": rel,
-                    "kind": code,
-                    "offset": match.start(),
-                    "sample": match.group(0)[:120],
-                }
+                item = {"path": rel, "kind": code, "offset": match.start(), "sample": match.group(0)[:120]}
                 if runtime and not marked_reference:
                     blocking.append(item)
                 else:
                     non_normative.append({
                         **item,
-                        "classification": (
-                            "REFERENCE_OR_EVIDENCE_CONTEXT"
-                            if marked_reference
-                            else "NON_RUNTIME_TEXT"
-                        ),
+                        "classification": "REFERENCE_OR_EVIDENCE_CONTEXT" if marked_reference else "NON_RUNTIME_TEXT",
                     })
 
     return {
@@ -215,36 +200,36 @@ def evaluate(root: Path) -> dict[str, Any]:
     discovery = contract.get("discovery_semantics", {})
     envelope = contract.get("portable_minimum_envelope", {})
     pin_text = json.dumps(profile, sort_keys=True)
-    bound_records = [
-        item for item in evidence_registry.get("records", [])
-        if item.get("subject_id") in CAPABILITY_BINDINGS
-    ]
+    bound_records = [item for item in evidence_registry.get("records", []) if item.get("subject_id") in CAPABILITY_BINDINGS]
 
     checks = [
         check("profile-parent", profile.get("relationship", {}).get("parent") == "FA3-HW-001" and profile.get("canonical_root") is False, "portability baseline is a non-root subprofile of FA3-HW-001"),
-        check("capability-count-stable", profile.get("capability_count") == contract.get("capability_count") == decision.get("capability_count_after") == CAPABILITY_COUNT, "canonical capability count remains 143"),
+        check("capability-count-stable", profile.get("capability_count") == contract.get("capability_count") == decision.get("capability_count_after") == CAPABILITY_COUNT, "canonical capability count unchanged"),
         check("no-new-authority", profile.get("new_architectural_authority") is False and decision.get("new_architectural_authority") is False, "no new architectural authority"),
         check("cpu-floor", cpu.get("package_count_min") == 1 and cpu.get("physical_cores_per_qualifying_cpu_min") == 8, "CPU floor is 1 package and >=8 physical cores per qualifying CPU"),
         check("cpu-unbounded-cardinality", cpu.get("package_count_max") == "UNBOUNDED_BY_FA3" and cpu.get("fixed_socket_count") == "FORBIDDEN", "CPU count is dynamic 1..N"),
-        check("gpu-floor", gpu.get("qualifying_device_count_min") == 1 and gpu.get("rtx_series_floor") == 30, "GPU floor is >=1 NVIDIA RTX 30-series"),
+        check("gpu-floor", gpu.get("qualifying_device_count_min") == 1 and gpu.get("vendor") == "NVIDIA" and float(gpu.get("cuda_compute_capability_min", 0)) == CUDA_COMPUTE_CAPABILITY_MIN, "GPU floor is NVIDIA CUDA compute capability >=8.6"),
+        check("gpu-series-nonauthoritative", gpu.get("sku_series_admission_authority") is False and envelope.get("sku_series_is_admission_authority") is False, "SKU/marketing series is not admission authority"),
         check("gpu-unbounded-cardinality", gpu.get("qualifying_device_count_max") == "UNBOUNDED_BY_FA3" and gpu.get("fixed_device_count") == "FORBIDDEN", "GPU count is dynamic 1..N"),
-        check("newer-gpus-accepted", "MUST_ACCEPT" in gpu.get("newer_generations", "") and envelope.get("newer_rtx_series_allowed") is True, "newer RTX generations are explicitly accepted"),
+        check("contract-gpu-floor", envelope.get("gpu_vendor") == "NVIDIA" and float(envelope.get("cuda_compute_capability_min", 0)) == CUDA_COMPUTE_CAPABILITY_MIN, "discovery contract uses the same capability floor"),
         check("no-cpu-model-pin", cpu.get("vendor_pin") == cpu.get("model_pin") == "FORBIDDEN", "CPU vendor/model pins are forbidden"),
-        check("no-gpu-sku-pin", all(gpu.get(k, "").startswith("FORBIDDEN") for k in ("exact_sku_pin", "vram_size_pin", "sm_pin")), "GPU SKU/VRAM/SM global pins are forbidden"),
+        check("no-gpu-sku-pin", all(str(gpu.get(k, "")).startswith("FORBIDDEN") for k in ("product_line_pin", "exact_sku_pin", "vram_size_pin", "sm_name_pin")), "GPU product line/SKU/VRAM/SM-name global pins are forbidden"),
         check("dynamic-discovery", discovery.get("enumeration") == "DYNAMIC_1_TO_N" and discovery.get("admission_revalidation") is True and discovery.get("topology_change_revalidation") is True, "live discovery and revalidation are mandatory"),
         check("stable-accelerator-identity", discovery.get("ephemeral_runtime_indices_are_identity") is False and set(discovery.get("stable_accelerator_identity_when_available", [])) == {"DEVICE_UUID", "PCI_BDF"}, "CUDA ordinal is not canonical identity"),
-        check("minimum-positive", portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=1, gpu_rtx_series=30), "minimum host is admitted"),
-        check("newer-multigpu-positive", portable_hardware_floor_valid(cpu_packages=4, physical_cores_per_qualifying_cpu=32, gpu_count=8, gpu_rtx_series=60), "larger multi-CPU/multi-GPU newer RTX host is admitted"),
-        check("under-core-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=7, gpu_count=1, gpu_rtx_series=30), "under-core host is rejected"),
-        check("no-gpu-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=0, gpu_rtx_series=50), "host without qualifying GPU is rejected"),
-        check("old-gpu-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=1, gpu_rtx_series=20), "RTX pre-30 generation does not satisfy FA3 floor"),
+        check("minimum-positive", portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=1, gpu_compute_capability=8.6), "Ampere-class CC 8.6 minimum host is admitted independent of SKU naming"),
+        check("newer-multigpu-positive", portable_hardware_floor_valid(cpu_packages=4, physical_cores_per_qualifying_cpu=32, gpu_count=8, gpu_compute_capability=12.0), "larger/newer NVIDIA host is admitted"),
+        check("under-core-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=7, gpu_count=1, gpu_compute_capability=8.6), "under-core host is rejected"),
+        check("no-gpu-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=0, gpu_compute_capability=12.0), "host without qualifying GPU is rejected"),
+        check("old-capability-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=1, gpu_compute_capability=8.0), "GPU below CUDA compute capability 8.6 is rejected"),
+        check("wrong-vendor-negative", not portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_qualifying_cpu=8, gpu_count=1, gpu_compute_capability=12.0, gpu_vendor="OTHER"), "non-NVIDIA device does not satisfy this baseline"),
         check("root-hw-linked", "FA3-HARDWARE-DISCOVERY-CONTRACTS-001" in hw_profile.get("contracts", []) and "FA3-HARDWARE-BASELINE-001" in hw_profile.get("mandatory_subprofiles", []), "FA3-HW root binds portability baseline and discovery contract"),
         check("hw-contract-linked", "FA3-HARDWARE-DISCOVERY-CONTRACTS-001" in hw_contract.get("contract_family_bindings", []), "hardware contract family binds discovery contract"),
-        check("mgpu-dynamic", "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N" in mgpu_profile.get("invariants", []) and "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu_profile.get("invariants", []), "multi-GPU profile is dynamic rather than fixed-count"),
+        check("mgpu-dynamic", "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N" in mgpu_profile.get("invariants", []) and "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu_profile.get("invariants", []), "multi-GPU profile remains dynamic"),
         check("hrb-linked", "FA3-HARDWARE-DISCOVERY-CONTRACTS-001" in hrb_profile.get("contracts", []) and hrb_profile.get("hardware_portability_baseline_profile") == "FA3-HARDWARE-BASELINE-001", "HRB consumes discovery contract without losing authority"),
         check("hrb-contract-dynamic", "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED" in hrb_contract.get("invariants", []) and "FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT" in hrb_contract.get("invariants", []), "HRB contract forbids fixed topology assumptions"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 24 and len(enforcement.get("rules", [])) == 24, "24 mandatory P0 portability rules are fail-closed"),
-        check("evidence-bindings", len(bound_records) == len(CAPABILITY_BINDINGS) and all(DECISION_ID in item.get("source_decision_ids", []) and REFERENCE_EVIDENCE in item.get("evidence_artifacts", []) for item in bound_records), "all hardware-related capability evidence records bind the portability decision/evidence"),
+        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 24 and len(enforcement.get("rules", [])) == 24, "24 mandatory P0 portability rules remain fail-closed"),
+        check("capability-rule-enforced", any(r.get("invariant") == "GPU_MINIMUM_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER" for r in enforcement.get("rules", [])), "capability-based GPU floor is an executable mandatory rule"),
+        check("evidence-bindings", len(bound_records) == len(CAPABILITY_BINDINGS) and all(DECISION_ID in item.get("source_decision_ids", []) and REFERENCE_EVIDENCE in item.get("evidence_artifacts", []) for item in bound_records), "hardware capability evidence remains bound"),
         check("reference-not-promotion", reference_evidence.get("status") == "PASS" and reference_evidence.get("current_host_runtime_promotion_claim") is False and audit_evidence.get("current_host_runtime_promotion_claim") is False, "reference/audit PASS cannot promote current-host runtime"),
         check("decision-supersedes-fixed-interpretations", decision.get("supersedence", {}).get("scope") == "CANONICAL_INTERPRETATION_ONLY" and decision.get("supersedence", {}).get("historical_and_current_host_evidence") == "PRESERVED_AS_EVIDENCE_NOT_PORTABLE_DEFAULT", "fixed canonical interpretations are superseded while evidence is preserved"),
         check("no-accidental-exact-pin-in-profile", "RTX 3080" not in pin_text and "E5-2696" not in pin_text and "T7910" not in pin_text, "portable profile contains no current-host SKU/model identity"),
@@ -252,11 +237,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     ]
 
     audit = scan_repository(root)
-    checks.append(check(
-        "repository-wide-hardcoded-hardware-audit",
-        audit["result"] == "PASS",
-        f"repository text audit blockers={audit['blocking_hardcoded_production_assumptions']}",
-    ))
+    checks.append(check("repository-wide-hardcoded-hardware-audit", audit["result"] == "PASS", f"repository text audit blockers={audit['blocking_hardcoded_production_assumptions']}"))
 
     passed = all(item["status"] == "PASS" for item in checks)
     return {
@@ -269,11 +250,9 @@ def evaluate(root: Path) -> dict[str, Any]:
         "capability_count": CAPABILITY_COUNT,
         "result": "PASS" if passed else "FAIL",
         "current_host_runtime_promotion_claim": False,
+        "gpu_floor": {"vendor": "NVIDIA", "cuda_compute_capability_min": CUDA_COMPUTE_CAPABILITY_MIN, "sku_series_authority": False},
         "checks": checks,
-        "summary": {
-            "passed": sum(item["status"] == "PASS" for item in checks),
-            "total": len(checks),
-        },
+        "summary": {"passed": sum(item["status"] == "PASS" for item in checks), "total": len(checks)},
         "repository_audit": audit,
     }
 

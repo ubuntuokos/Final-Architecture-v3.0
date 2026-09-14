@@ -1,8 +1,8 @@
 # FA3 Current Host
 
-\`fa3-current-host\` is the executable current-host runtime and evidence projection for FINAL ARCHITECTURE v3.0.
+`fa3-current-host` is the executable current-host runtime and evidence projection for FINAL ARCHITECTURE v3.0.
 
-It is **not** a new canonical profile, capability, provider authority, or architectural authority. Canonical identity and policy remain in \`canonical/\` under \`FA3-REGISTRY-001\`; this directory only coordinates current-host collection, validation, admission evidence, and fail-closed promotion checks.
+It is **not** a new canonical profile, capability, provider authority, or architectural authority. Canonical identity and policy remain in `canonical/` under `FA3-REGISTRY-001`; this directory only coordinates current-host collection, validation, admission evidence, and fail-closed promotion checks.
 
 ## Invariants
 
@@ -13,39 +13,64 @@ It is **not** a new canonical profile, capability, provider authority, or archit
 - automatic promotion: **disabled**
 - secret collection: **prohibited**
 - Linux Recovery/Rebuild projection: **out of scope**
-- raw current-host state: stored under \`/.fa3-current-host/\` and ignored by Git
+- raw current-host state: stored under `/.fa3-current-host/` and ignored by Git
 
 ## Commands
 
-\`\`\`bash
+```bash
 ./bin/fa3-current-host verify
 ./bin/fa3-current-host collect
 ./bin/fa3-current-host gate
 ./bin/fa3-current-host status
 ./bin/fa3-current-host all
 ./bin/fa3-current-host promote
-\`\`\`
+```
 
-\`verify\` checks the current-host projection against the canonical policy, the exact \`CAP-001..CAP-143\` conformance surface, the 143-record Evidence Registry, registered collectors/gates, and the unified release manifest.
+`verify` checks the current-host projection against the canonical policy, the exact `CAP-001..CAP-143` conformance surface, the 143-record Evidence Registry, registered collectors/gates, and the unified release manifest.
 
-\`collect\` runs the existing read-only host fingerprint collector. Successful collection remains \`COLLECTED_UNVALIDATED\`; it is never converted to \`PASS\` merely because collection succeeded.
+`collect` runs the existing read-only host fingerprint collector. Successful collection remains `COLLECTED_UNVALIDATED`; it is never converted to `PASS` merely because collection succeeded.
 
-\`gate\` runs the global static, runtime, and 19-point acceptance gates. Exit code \`2\` means fail-closed blocking, not a successful promotion.
+`gate` runs the global static, runtime, and 19-point acceptance gates. Exit code `2` means fail-closed blocking, not a successful promotion.
 
-\`all\` performs \`verify → collect → gate\`. It deliberately does **not** promote.
+`all` performs `verify → collect → gate`. It deliberately does **not** promote.
 
-\`promote\` is explicit and delegates to the existing FA3 promotion guard. It succeeds only when current-host evidence and all 19 acceptance criteria are already PASS.
+`promote` is explicit and delegates to the existing FA3 promotion guard. It succeeds only when current-host evidence and all 19 acceptance criteria are already PASS.
 
 ## Current-host execution
 
-CI validates only the projection structure. Real host execution is opt-in through \`.github/workflows/fa3-current-host.yml\` on a self-hosted runner labeled:
+CI validates only the projection structure. Real host execution is opt-in through `.github/workflows/fa3-current-host.yml` on a self-hosted runner labeled:
 
-\`\`\`text
+```text
 self-hosted, linux, x64, fa3-current-host
-\`\`\`
+```
 
 No GitHub-hosted runner may claim current-host production evidence for the workstation.
 
+## Multidimensional resource admission current-host closure
+
+`FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001` is the executable current-host closure for `FA3-RESOURCE-ADMISSION-CONTRACTS-001`.
+
+It requires all of the following from the real target host:
+
+- a live `FA3-HOST-ATTESTATION-001` projection with exact host identity and accelerator UUID + PCI BDF discovery;
+- a measured `FA3-COMPUTE-PROFILE-001` bound to the host-attestation SHA-256;
+- a non-empty workload-specific `fa3.workload-resource-envelope.v1`;
+- a current `FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1` verified by the external Host Resource Broker;
+- every declared resource dimension PASS with no cross-metric compensation.
+
+`CU`/`TU` values may be reported as diagnostics, but they are forbidden as workload-admission requirements and cannot authorize production execution.
+
+Example on the actual current host:
+
+```bash
+./bin/fa3-resource-admission-current-host.sh collect \
+  --workload-envelope .fa3-current-host/input/resource-workload-envelope.json \
+  --hrb-lease .fa3-current-host/input/resource-hrb-lease.json
+
+./bin/fa3-enforce resource-admission-current-host
+```
+
+A successful receipt may claim only `CURRENT_HOST_RESOURCE_ADMISSION_PASS`. It must explicitly list `GLOBAL_FA3_PROMOTION` as a non-claim. Global promotion still requires the independent runtime Evidence Registry and all 19 acceptance criteria.
 
 ## FFmpeg neural-media current-host closure
 

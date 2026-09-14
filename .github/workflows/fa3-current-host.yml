@@ -23,6 +23,15 @@ on:
       - 'src/fa3_ffmpeg_ai_current_host_gate.py'
       - 'tests/test_ffmpeg_ai_current_host_gate.py'
       - 'evidence/collect-ffmpeg-ai-current-host.py'
+      - 'canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json'
+      - 'canonical/resource-admission-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json'
+      - 'evidence/reference/resource-admission-current-host-pending.json'
+      - 'src/fa3_resource_admission_current_host_gate.py'
+      - 'tests/test_resource_admission_current_host_gate.py'
+      - 'evidence/collect-resource-admission-current-host.py'
+      - 'bin/fa3-resource-admission-current-host.sh'
+      - '.github/workflows/fa3-resource-admission-current-host.yml'
       - '.gitignore'
   workflow_dispatch:
     inputs:
@@ -40,6 +49,16 @@ on:
         description: 'Path on the self-hosted runner to CPU/NUMA rollback and failure-injection evidence JSON'
         required: false
         default: '.fa3-current-host/input/cpu-numa-rollback.json'
+        type: string
+      resource_workload_envelope:
+        description: 'Path on the self-hosted runner to fa3.workload-resource-envelope.v1 JSON'
+        required: false
+        default: '.fa3-current-host/input/resource-workload-envelope.json'
+        type: string
+      resource_hrb_lease:
+        description: 'Path on the self-hosted runner to the current HRB AcceleratorExecutionLease JSON'
+        required: false
+        default: '.fa3-current-host/input/resource-hrb-lease.json'
         type: string
 
 permissions:
@@ -63,9 +82,18 @@ jobs:
           chmod +x bin/fa3-current-host bin/fa3-enforce
           ./bin/fa3-current-host verify
       - name: Executable regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_ffmpeg_ai_current_host_gate -v
+        run: PYTHONPATH=src python -m unittest tests.test_current_host_projection tests.test_cpu_numa_threading_current_host_gate tests.test_ffmpeg_ai_current_host_gate tests.test_resource_admission_current_host_gate -v
       - name: Current-host collector syntax check
-        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py
+        run: python -m py_compile evidence/collect-cpu-numa-threading-current-host.py src/fa3_cpu_numa_threading_current_host_gate.py evidence/collect-ffmpeg-ai-current-host.py src/fa3_ffmpeg_ai_current_host.py src/fa3_ffmpeg_ai_current_host_gate.py evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py
+      - name: Resource admission canonical parent gate
+        run: ./bin/fa3-enforce resource-evidence-normalization
+      - name: Missing real resource-admission receipt must remain fail-closed
+        run: |
+          set +e
+          ./bin/fa3-enforce resource-admission-current-host
+          rc=$?
+          set -e
+          test "$rc" -eq 2
       - name: Unified release projection must remain coherent
         run: ./bin/fa3-enforce release-projection
 
@@ -80,9 +108,13 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Execute current-host collection and global fail-closed gates
+      - name: Execute current-host resource admission, collection and global fail-closed gates
         run: |
-          chmod +x bin/fa3-current-host bin/fa3-enforce evidence/collect-current-host.sh evidence/collect-cpu-numa-threading-current-host.py
+          chmod +x bin/fa3-current-host bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-current-host.sh evidence/collect-cpu-numa-threading-current-host.py evidence/collect-resource-admission-current-host.py
+          ./bin/fa3-resource-admission-current-host.sh collect \
+            --workload-envelope "${{ inputs.resource_workload_envelope }}" \
+            --hrb-lease "${{ inputs.resource_hrb_lease }}"
+          ./bin/fa3-enforce resource-admission-current-host
           python evidence/collect-cpu-numa-threading-current-host.py \
             --performance-evidence "${{ inputs.cpu_numa_performance_evidence }}" \
             --rollback-evidence "${{ inputs.cpu_numa_rollback_evidence }}"
@@ -96,6 +128,7 @@ jobs:
           if-no-files-found: warn
           path: |
             .fa3-current-host/**
+            evidence/receipts/resource-admission-current-host.json
             reports/**
             acceptance/**
             promotion/**
