@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e333c0706ec792bf6c9c49c046da5eb9663cc3f0",
-    "pre_projection_root_tree_sha": "502e3ade13496781132a3a346cfa8303ed857f89",
-    "pre_projection_canonical_tree_sha": "e8d121f1e98200b0cdb33d20c63ce636bb8d7386",
-    "commits_ahead_of_v3_0_11_conformance_commit": 324,
-    "total_post_baseline_commits": 324,
-    "delta_file_count": 1190,
-    "delta_added_files": 1185,
+    "pre_projection_head_sha": "0fcf78f4731aa4ea56a38d14559d6f743d378659",
+    "pre_projection_root_tree_sha": "824c5e219c7afc90bfd5c37bf23b6c27043ee04d",
+    "pre_projection_canonical_tree_sha": "b17ceda08e2f91c9481c3e8650f2005dd5529515",
+    "commits_ahead_of_v3_0_11_conformance_commit": 326,
+    "total_post_baseline_commits": 326,
+    "delta_file_count": 1191,
+    "delta_added_files": 1186,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 629,
+    "canonical_files_in_post_baseline_delta": 630,
     "evidence_files_in_post_baseline_delta": 117,
     "source_files_in_post_baseline_delta": 132,
     "test_files_in_post_baseline_delta": 115,
@@ -716,7 +716,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1190,
+  "manifest_entry_count": 1191,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1891,6 +1891,11 @@
     {
       "path": "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "25d89f5e1aae21567962a28db0ace3174729734d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-TOOLS-FABRIC-001.json",
+      "git_blob_sha": "2186d822615cdde64be4b5830e27b12b1fd648c6",
       "baseline_delta_status": "added"
     },
     {
