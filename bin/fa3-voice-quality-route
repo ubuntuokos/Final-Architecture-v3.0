@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from fa3_voice_quality_router import VoiceQualityRoutingDenied, load_policy, resolve_quality_route
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--language", required=True)
+    parser.add_argument("--quality", required=True)
+    parser.add_argument("--workflow")
+    parser.add_argument("--admitted-provider", action="append", default=[])
+    parser.add_argument("--provider-language", action="append", default=[], help="PROVIDER=locale,locale")
+    parser.add_argument("--accelerator-provider", action="append", default=[])
+    parser.add_argument("--hrb-lease", action="store_true")
+    args = parser.parse_args()
+
+    support = {}
+    for item in args.provider_language:
+        provider, sep, locales = item.partition("=")
+        if not sep:
+            raise SystemExit("--provider-language requires PROVIDER=locale,locale")
+        support[provider] = {value.strip() for value in locales.split(",") if value.strip()}
+
+    try:
+        receipt = resolve_quality_route(
+            policy=load_policy(ROOT),
+            language=args.language,
+            requested_quality=args.quality,
+            workflow=args.workflow,
+            admitted_provider_ids=set(args.admitted_provider),
+            provider_language_support=support,
+            hrb_accelerator_lease=args.hrb_lease,
+            accelerator_provider_ids=set(args.accelerator_provider),
+        )
+    except VoiceQualityRoutingDenied as exc:
+        print(json.dumps({"result": "DENY", "reason": str(exc)}, ensure_ascii=False, indent=2))
+        return 2
+    print(json.dumps({"result": "PASS", **receipt}, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
