@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.gate-descriptor.v1",
+  "id": "FA3-GATE-ARCHITECTURE-EVOLUTION-001",
+  "gateset_id": "FA3-ARCHITECTURE-EVOLUTION-GATESET-001",
+  "status": "MANDATORY_REFERENCE_GATE",
+  "fail_closed": true,
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "entrypoint": "PYTHONPATH=src python src/fa3_architecture_evolution_gate.py --root .",
+  "scope": ["federated-capability-lifecycle","host-attestation-compute-envelope","dependency-qualification-promotion","rootless-oci-execution","pytorch3d-oci-projection","ffmpeg-zero-copy-candidate","pytorch3d-release-count-dehardening"]
+}

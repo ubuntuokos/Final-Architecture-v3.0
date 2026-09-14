@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.dependency-qualification-policy.v1",
+  "id": "FA3-DEPENDENCY-QUALIFICATION-001",
+  "title": "Upstream Dependency Qualification",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "principle": "RANGE_SELECTS_DIGEST_PROVES",
+  "candidate_selection": {
+    "semantic_version_range_allowed": true,
+    "semantic_version_range_is_integrity_identity": false,
+    "immutable_identity_required": ["selected_version","source_commit","source_sha256","artifact_sha256","sbom_sha256","provenance_sha256"]
+  },
+  "state_machine": ["DISCOVERED","UPSTREAM_IDENTITY_VERIFIED","QUARANTINED","BUILD_VERIFIED","STAGING_QUALIFIED","CURRENT_HOST_EXECUTED","CURRENT_HOST_QUALIFIED","ACCEPTANCE_PASS","PROMOTION_AUTHORIZED","PRODUCTION_PROMOTED"],
+  "staging_authority": {"evidence_class":"STAGING_QUALIFICATION","production_authority":false,"may_claim_current_host":false,"may_promote":false,"production_ssot_write":false},
+  "current_host_boundary": {"real_execution_required":true,"host_attestation_digest_required":true,"staging_or_reference_ci_may_not_synthesize":true}
+}

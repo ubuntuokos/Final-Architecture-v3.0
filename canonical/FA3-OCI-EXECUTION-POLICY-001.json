@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.oci-execution-policy.v1",
+  "id": "FA3-OCI-EXECUTION-POLICY-001",
+  "title": "Rootless OCI Execution and Hermetic Build Policy",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "runtime": {"rootless_required":true,"image_digest_required":true,"mutable_tag_only_forbidden":true,"read_only_rootfs_required":true,"no_new_privileges_required":true,"drop_all_capabilities_required":true,"network_default":"NONE","runtime_network_fetch_forbidden":true,"hrb_accelerator_lease_required":true,"static_cuda_ordinal_entitlement_forbidden":true},
+  "build": {"source_revision_immutable":true,"source_integrity_required":true,"builder_image_digest_required":true,"runtime_image_digest_required":true,"sbom_required":true,"provenance_required":true,"artifact_digest_required":true,"host_conda_mamba_forbidden":true,"isolated_provider_container_may_contain_alternate_package_manager_only_by_explicit_provider_exception":true},
+  "source_build_semantics": "SOURCE_BUILD_ONLY_MEANS_FA3_CONTROLS_AND_PROVES_SOURCE_DERIVATION_NOT_THAT_EVERY_PRODUCTION_HOST_RECOMPILES"
+}

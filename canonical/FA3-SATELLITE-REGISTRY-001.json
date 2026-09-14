@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.satellite-registry.v1",
+  "id": "FA3-SATELLITE-REGISTRY-001",
+  "title": "FA3 Domain Satellite Registry",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "lifecycle_policy": "FA3-FEDERATED-CAPABILITY-LIFECYCLE-001",
+  "registry_semantics": "DOMAIN_LIFECYCLE_PROJECTION_NOT_AUTHORITY_ROOT",
+  "satellites": [
+    {"satellite_id":"SAT.MEDIA","domain":"media","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.AUDIO","domain":"audio","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.VOICE","domain":"voice","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.3D","domain":"3d_geometry","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.CODE","domain":"code","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.WEB-AI","domain":"web_ai","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.MARKETING","domain":"marketing","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.AUTOMATION","domain":"automation","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.OFFICE","domain":"office","trust_root":"CENTRAL"},
+    {"satellite_id":"SAT.SECURITY","domain":"security","trust_root":"CENTRAL"}
+  ],
+  "invariants": ["NO_SATELLITE_OWNS_IDENTITY_AUTHORIZATION_SECRETS_HRB_EVIDENCE_OR_PROMOTION_AUTHORITY","SATELLITE_VERSIONING_DOES_NOT_MUTATE_RELEASE_CAPABILITY_COUNT_IMPLICITLY"]
+}

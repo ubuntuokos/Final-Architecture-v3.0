@@ -1,0 +1,57 @@
+name: FA3 Architecture Evolution Gate
+
+on:
+  push:
+    branches:
+      - main
+      - "fa3/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  architecture-evolution:
+    name: architecture-evolution / fail-closed
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_compute_profile.py \
+            src/fa3_dependency_qualification.py \
+            src/fa3_architecture_evolution_gate.py \
+            tools/dependency-gate/simulator.py \
+            tools/render_pytorch3d_quadlet.py \
+            src/fa3_pytorch3d_gate.py
+      - name: Architecture evolution regressions
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_architecture_evolution -v
+      - name: Canonical architecture evolution gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_architecture_evolution_gate.py --root .
+      - name: Existing capability de-hardcode gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_capability_count_dehardcode_gate.py --root .
+      - name: Existing PyTorch3D gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_pytorch3d_gate.py
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-evolution-reports
+          path: |
+            reports/architecture-evolution-gate-report.json
+            reports/capability-count-dehardcode-gate-report.json
+            reports/pytorch3d-gate-report.json

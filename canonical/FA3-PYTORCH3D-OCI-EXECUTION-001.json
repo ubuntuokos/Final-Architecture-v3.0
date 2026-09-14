@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.pytorch3d-oci-execution.v1",
+  "id": "FA3-PYTORCH3D-OCI-EXECUTION-001",
+  "title": "PyTorch3D OCI Build and Execution Projection",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "provider_id": "FA3-PROVIDER-PYTORCH3D-001",
+  "oci_policy": "FA3-OCI-EXECUTION-POLICY-001",
+  "mode": "ADDITIVE_HERMETIC_SOURCE_BUILD_AND_RUNTIME_TRANSPORT",
+  "source_revision": "0a7d4c1a171e8b768c63f15b17564f9ad495f49b",
+  "source_build_only_semantics_preserved": true,
+  "host_conda_mamba_allowed": false,
+  "container_conda_mamba_exception_enabled": false,
+  "builder": {
+    "isolated_pip_venv_required": true,
+    "builder_base_must_be_digest_pinned": true,
+    "source_archive_sha256_required": true,
+    "source_revision_digest_binding_required": true,
+    "source_archive_must_be_prequalified": true,
+    "source_commit_self_assertion_forbidden": true,
+    "wheel_sha256_required": true,
+    "sbom_required": true,
+    "provenance_required": true
+  },
+  "runtime": {"runtime_base_must_be_digest_pinned":true,"rootless":true,"read_only":true,"network":"none","no_new_privileges":true,"drop_all_capabilities":true,"hrb_gpu_lease_required":true,"fixed_gpu_ordinal_forbidden":true},
+  "production_status": "PENDING_CURRENT_HOST",
+  "production_promotion_claimed": false
+}

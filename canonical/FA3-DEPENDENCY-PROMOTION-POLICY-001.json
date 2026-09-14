@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.dependency-promotion-policy.v1",
+  "id": "FA3-DEPENDENCY-PROMOTION-POLICY-001",
+  "title": "Policy-Controlled Dependency Promotion",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "qualification_policy": "FA3-DEPENDENCY-QUALIFICATION-001",
+  "preconditions": ["STAGING_QUALIFIED","CURRENT_HOST_QUALIFIED","ACCEPTANCE_PASS","IMMUTABLE_IDENTITY_COMPLETE"],
+  "risk_tiers": {
+    "AUTO": {"human_approvals_min":0,"constraints":["PATCH_OR_EQUIVALENT_LOW_RISK","ABI_UNCHANGED","POLICY_SURFACE_UNCHANGED","SECURITY_BOUNDARY_UNCHANGED"]},
+    "REVIEW": {"human_approvals_min":1,"examples":["NATIVE_LIBRARY","ABI_CHANGE","MODEL_RUNTIME_CHANGE"]},
+    "CRITICAL": {"human_approvals_min":2,"examples":["AUTHORIZATION","SECRETS","HRB","KERNEL","CUDA_DRIVER","SANDBOX","SUPPLY_CHAIN"]}
+  },
+  "invariants": ["AUTO_NEVER_BYPASSES_CURRENT_HOST_OR_ACCEPTANCE","STAGING_RECEIPT_NEVER_AUTHORIZES_PRODUCTION","PROMOTION_WRITES_REQUIRE_AUTHORIZED_STATE"]
+}

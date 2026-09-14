@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.federated-capability-lifecycle.v1",
+  "id": "FA3-FEDERATED-CAPABILITY-LIFECYCLE-001",
+  "title": "Federated Capability Lifecycle with Central Trust Root",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "principle": "FEDERATED_LIFECYCLE_CENTRALIZED_TRUST_ROOT",
+  "release_composition": {
+    "capability_count_is_release_scoped": true,
+    "fixed_core_capability_count_forbidden": true,
+    "satellite_addition_does_not_imply_new_capability": true,
+    "release_baseline_authority": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json"
+  },
+  "central_trust_contracts": ["IDENTITY","AUTHORIZATION","SECRETS","HOST_RESOURCE_BROKER","EXECUTION_POLICY","SUPPLY_CHAIN","EVIDENCE","AUDIT","LOGGING","NETWORK_EGRESS","STORAGE_GOVERNANCE","RELEASE_PROMOTION"],
+  "satellite_contract": {
+    "independent_versioning_allowed": true,
+    "independent_validation_allowed": true,
+    "own_trust_root_forbidden": true,
+    "central_hrb_bypass_forbidden": true,
+    "central_evidence_bypass_forbidden": true,
+    "required_fields": ["satellite_id","satellite_version","capability_manifest","required_core_contract","provider_registry","resource_policy","permission_envelope","egress_policy","evidence_contract","acceptance_gates","dependency_graph","compatibility_range"]
+  }
+}

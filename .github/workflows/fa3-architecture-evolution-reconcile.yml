@@ -1,0 +1,62 @@
+name: FA3 Architecture Evolution Reconciliation
+
+on:
+  push:
+    branches:
+      - architecture-evolution-2026-09-14
+    paths:
+      - .github/workflows/fa3-architecture-evolution-reconcile.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fa3-architecture-evolution-reconcile-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    name: reconcile / unified projection
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Configure reconciliation identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Prepare global enforcement binding
+        env:
+          PYTHONPATH: src
+        run: python tools/fa3_architecture_evolution_global_reconcile.py --prepare-only
+      - name: Commit non-projection reconciliation
+        run: |
+          git add canonical/enforcement-policy.json src/fa3_enforce.py
+          if ! git diff --cached --quiet; then
+            git commit -m "FA3: bind architecture evolution into global enforcement"
+          fi
+      - name: Regenerate squash-lineage-safe unified projection
+        env:
+          PYTHONPATH: src
+        run: |
+          SNAPSHOT="$(git rev-parse HEAD)"
+          python tools/fa3_architecture_evolution_global_reconcile.py --projection-only --snapshot-head "$SNAPSHOT"
+      - name: Validate regenerated projection before push
+        env:
+          PYTHONPATH: src
+        run: |
+          python src/fa3_release_projection_gate.py
+          python src/fa3_architecture_evolution_gate.py --root .
+          python -m unittest tests.test_release_projection tests.test_architecture_evolution -v
+      - name: Commit and push projection
+        run: |
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3: regenerate unified release projection [projection-reconciled]"
+          git push origin HEAD:${{ github.ref_name }}

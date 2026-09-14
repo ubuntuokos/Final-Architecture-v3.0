@@ -1,0 +1,16 @@
+[Unit]
+Description=FA3 PyTorch3D transient worker template
+
+[Container]
+Image=@IMAGE_REF@
+ContainerName=fa3-pytorch3d-worker
+Network=none
+ReadOnly=true
+NoNewPrivileges=true
+DropCapability=all
+User=10001:10001
+Volume=fa3-pytorch3d-cache.volume:/var/lib/fa3/pytorch3d
+# Accelerator device access is materialized from an HRB lease; no static CUDA ordinal is permitted here.
+
+[Service]
+Restart=no
