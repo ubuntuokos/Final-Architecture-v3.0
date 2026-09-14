@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-BLACKHOLE-RUNTIME-PROMOTION-2026-09-14",
+  "status": "CANONICAL_CLOSED",
+  "decision": "IMPLEMENT",
+  "subject": "FA3 Blackhole REST API, audit-chain and OCI/runtime promotion boundary",
+  "profile_id": "FA3-BLACKHOLE-API-001",
+  "gate_id": "FA3-BLACKHOLE-RUNTIME-PROMOTION-GATESET-001",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_semantics": "INHERIT_ACTIVE_RELEASE_BASELINE",
+  "mandatory": [
+    "HRB lease validation precedes media execution",
+    "CU/TU virtual resource limits are fail-closed",
+    "HMAC-SHA256 audit chain integrity is mandatory",
+    "reference OCI build cannot claim production readiness",
+    "reference OCI build cannot claim zero-copy",
+    "component production promotion requires current-host evidence",
+    "current-host production image FFmpeg binary must match the admitted FFmpeg current-host receipt digest",
+    "missing, expired or mismatched evidence blocks promotion",
+    "runtime user must be non-root uid 10002",
+    "GitHub Actions used by the touched enforcement workflows are pinned to immutable commit SHAs"
+  ],
+  "promotion_semantics": {
+    "global_fa3_promotion_changed": false,
+    "blackhole_component_promotion": "FAIL_CLOSED_CURRENT_HOST_REQUIRED",
+    "github_hosted_oci_result": "REFERENCE_BUILD_PASS_ONLY",
+    "zero_copy_claim": "FORBIDDEN_BY_CURRENT_FFMPEG_CANONICAL_BASELINE"
+  }
+}
