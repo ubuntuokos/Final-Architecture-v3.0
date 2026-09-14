@@ -15,6 +15,20 @@ PROFILE_IDS = (
     "FA3-LLM-GATEWAY-001",
 )
 ALLOWED_LANGUAGE_STATUS = {"NATIVE", "VALIDATED", "BRIDGED", "UNVERIFIED", "UNSUPPORTED"}
+REQUIRED_BRIDGE_COMPONENTS = {
+    "FA3-LB-DETECTION",
+    "FA3-LB-DATA-CLASS-ROUTER",
+    "FA3-LB-TERMINOLOGY",
+    "FA3-LB-PROTECTED-TOKEN-GUARD",
+    "FA3-LB-MODEL-LANGUAGE-ROUTER",
+    "FA3-LB-PROMPT-ADAPTER",
+    "FA3-LB-TEXT-TRANSLATION",
+    "FA3-LB-SPEECH-MEDIATION",
+    "FA3-LB-RESPONSE-ADAPTER",
+    "FA3-LB-SEMANTIC-VALIDATOR",
+    "FA3-LB-PROVENANCE-EVIDENCE",
+}
+REQUIRED_LB_GATES = {f"LB-{index:03d}" for index in range(1, 13)}
 
 
 class LanguagePolicyDenied(ValueError):
@@ -232,6 +246,28 @@ def run_conformance(root: Path) -> dict[str, Any]:
         duplicate_denied = True
     check("LANG-GW-031", duplicate_denied, "identical primary/secondary language fails closed")
     check("LANG-GW-032", language_capability_is_operable("NATIVE") and language_capability_is_operable("VALIDATED") and language_capability_is_operable("BRIDGED") and not language_capability_is_operable("UNVERIFIED") and not language_capability_is_operable("UNSUPPORTED"), "language admission status semantics are executable")
+
+    components = bridge.get("components", {})
+    check("LANG-GW-033", REQUIRED_BRIDGE_COMPONENTS == set(components) and REQUIRED_BRIDGE_COMPONENTS == set(bridge.get("runtime_pipeline", [])), "Language Bridge materializes the full required mediation component stack")
+    protected = components.get("FA3-LB-PROTECTED-TOKEN-GUARD", {})
+    data_router = components.get("FA3-LB-DATA-CLASS-ROUTER", {})
+    validator = components.get("FA3-LB-SEMANTIC-VALIDATOR", {})
+    prompt_adapter = components.get("FA3-LB-PROMPT-ADAPTER", {})
+    check("LANG-GW-034", protected.get("round_trip_integrity_required") is True and protected.get("mutation_or_loss") == "FAIL_CLOSED" and data_router.get("SECRET", {}).get("external_provider") == "DENY" and validator.get("validation_failure") == "FAIL_CLOSED" and prompt_adapter.get("may_expand_capabilities_or_authorization") is False, "protected-token, data-class, validation and prompt-authority boundaries fail closed")
+    bridge_gate_ids = {item.get("id") for item in bridge.get("acceptance_gates", [])}
+    check("LANG-GW-035", bridge_gate_ids == REQUIRED_LB_GATES and set(enforcement.get("language_bridge_acceptance_gates", [])) == REQUIRED_LB_GATES, "LB-001 through LB-012 are complete and enforcement-bound")
+    required_bridge_rules = {
+        "LANGUAGE_DETECTION_CONFIDENCE_FAIL_CLOSED",
+        "LANGUAGE_TERMINOLOGY_REVISION_AND_PRESERVATION_REQUIRED",
+        "LANGUAGE_PROTECTED_TOKEN_ROUNDTRIP_REQUIRED",
+        "LANGUAGE_PROMPT_ADAPTATION_CANNOT_EXPAND_AUTHORITY",
+        "LANGUAGE_SEMANTIC_VALIDATION_REQUIRED_WHEN_CRITICAL_OR_LOW_CONFIDENCE",
+        "LANGUAGE_DATA_CLASSIFICATION_PRECEDES_PROVIDER_ROUTING",
+        "LANGUAGE_SPEECH_MEDIATION_DELEGATES_TO_STT_TTS_AUTHORITIES",
+        "LANGUAGE_MEDIATION_EVIDENCE_COMPLETE",
+        "LANGUAGE_REFERENCE_EVIDENCE_CANNOT_PROMOTE_CURRENT_HOST",
+    }
+    check("LANG-GW-036", required_bridge_rules.issubset(rules) and bridge.get("evidence", {}).get("current_host_runtime_pass_may_be_document_derived") is False, "full Language Bridge P0 rules are canonical and cannot fabricate current-host PASS")
 
     passed = sum(case["result"] == "PASS" for case in checks)
     findings = [_finding(case["id"], case["detail"]) for case in checks if case["result"] != "PASS"]
