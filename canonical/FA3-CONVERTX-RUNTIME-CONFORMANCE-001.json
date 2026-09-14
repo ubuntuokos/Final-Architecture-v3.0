@@ -6,6 +6,8 @@
   "provider_reference_release": "v0.18.0",
   "implementation": {
     "adapter": "src/fa3_convertx_adapter.py",
+    "candidate_http_executor": "src/fa3_convertx_v018_http.py",
+    "adapter_contract": "canonical/contracts/FA3-CONVERTX-ADAPTER-CONTRACTS-001.json",
     "gate": "src/fa3_convertx_gate.py",
     "cli": "bin/fa3-convertx-gate",
     "current_host_collector": "evidence/collect-convertx-current-host.py",
@@ -29,11 +31,13 @@
       "root_runtime_denied",
       "missing_limits_denied",
       "candidate_validation_requires_explicit_intent",
+      "unverified_resource_admission_denied",
       "candidate_validation_allowed_before_promotion",
       "candidate_pair_denied_for_production",
-      "missing_hrb_denied_for_machine_execution",
+      "missing_resource_admission_denied_for_machine_execution",
       "current_host_claim_without_receipt_denied"
     ],
+    "candidate_http_tests": "tests/test_convertx_v018_http.py",
     "path_traversal_regression_required_on_promoted_runtime": true,
     "archive_bomb_regression_required_on_promoted_runtime": true,
     "malformed_media_regression_required_on_promoted_runtime": true
@@ -46,16 +50,24 @@
     "fa3_adapter_execution_contract_required": true,
     "fa3_candidate_executor_required": true,
     "digest_pinned_image_required": true,
-    "resource_lease_required": true,
+    "authoritative_resource_admission_required": true,
     "candidate_pair_state_required": true
   },
+  "resource_admission": {
+    "authoritative_admission_required_before_execution": true,
+    "current_authoritative_cpu_memory_verifier": "PENDING_MATERIALIZATION",
+    "verified_current_host_accelerator_contract": "AcceleratorExecutionLease@1",
+    "accelerator_contract_is_valid_cpu_memory_substitute": false,
+    "new_authority_created_by_convertx": false,
+    "effect": "CURRENT_HOST_PASS_BLOCKED_UNTIL_EXISTING_FA3_RESOURCE_GOVERNANCE_EXPOSES_AN_AUTHORITATIVE_CPU_MEMORY_ADMISSION_PATH"
+  },
   "current_host_production_e2e": {
-    "collector_command": "PYTHONPATH=src python3 evidence/collect-convertx-current-host.py --root . --candidate-validation --image <DIGEST_PINNED_IMAGE> --input <REAL_FILE> --output <REAL_OUTPUT> --input-media-type <MIME> --output-media-type <MIME> --hrb-lease <REAL_HRB_LEASE>",
+    "collector_command": "PYTHONPATH=src python3 evidence/collect-convertx-current-host.py --root . --candidate-validation --image <DIGEST_PINNED_IMAGE> --base-url <LOOPBACK_CONVERTX_URL> --input <REAL_FILE> --output <REAL_OUTPUT> --input-media-type <MIME> --output-media-type <MIME> --resource-admission <AUTHORITATIVE_CPU_MEMORY_ADMISSION_EVIDENCE>",
     "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
     "evidence_collection_may_precede_provider_promotion": true,
     "synthetic_input_forbidden": true,
     "digest_pinned_image_required": true,
-    "resource_lease_required": true,
+    "authoritative_resource_admission_required": true,
     "real_output_hash_required": true,
     "egress_denial_proof_required": true,
     "current_host_status": "PENDING_REAL_HOST_EXECUTION"
