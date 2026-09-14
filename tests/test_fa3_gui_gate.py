@@ -77,6 +77,33 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn('onActivated: window.openLanguageControl()', main)
         self.assertIn('onClicked: window.openLanguageControl()', main)
 
+    def test_tolmacs_starts_live_runtime_and_settings_are_secondary(self):
+        page = (ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml").read_text(encoding="utf-8")
+        service = (ROOT / "apps/fa3-control-center/src/LanguageInterpreterService.cpp").read_text(encoding="utf-8")
+        main_cpp = (ROOT / "apps/fa3-control-center/src/main.cpp").read_text(encoding="utf-8")
+        cmake = (ROOT / "apps/fa3-control-center/CMakeLists.txt").read_text(encoding="utf-8")
+        installer = (ROOT / "deployment/fa3-gui/install.sh").read_text(encoding="utf-8")
+        contract = (ROOT / "canonical/FA3-LANGUAGE-INTERPRETER-RUNTIME-001.json").read_text(encoding="utf-8")
+
+        for token in [
+            'text: "Élő Tolmács"', "fa3Interpreter.startLive", "onVisibleChanged",
+            "Mikrofon / capture", "FA3-PROVIDER-WHISPER-001", "Tolmács beállításai",
+            "FAIL-CLOSED", "EPHEMERAL-TEMP-ONLY", "derived projection",
+        ]:
+            self.assertIn(token, page)
+        for token in [
+            "ffmpeg", "fa3_whisper_stt_provider.py", "fa3.stt-media-request.v1",
+            "FA3_LANGUAGE_TRANSLATION_ADAPTER_ADMITTED", "DENY_EXTERNAL",
+            "TRANSLATION_ADAPTER_REQUIRED", "removeRecursively",
+        ]:
+            self.assertIn(token, service)
+        self.assertIn('setContextProperty("fa3Interpreter"', main_cpp)
+        self.assertIn("LanguageInterpreterService.cpp", cmake)
+        self.assertIn("ffmpeg", installer)
+        self.assertIn('"new_architectural_authority": false', contract)
+        self.assertIn('"capability_count_delta": 0', contract)
+        self.assertIn('"primary_action_semantics": "START_LIVE_INTERPRETER_SESSION"', contract)
+        self.assertIn('"fabricated_translation": "FORBIDDEN"', contract)
 
     def test_mcp_control_chat_is_authority_gated_and_integrated(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
