@@ -17,7 +17,19 @@ Item {
 
     readonly property string profileId: "FA3-GUI-LANGUAGE-CONTROL-001"
     readonly property string bridgeId: "FA3-LANGUAGE-BRIDGE-001"
+    readonly property string policyId: "FA3-LANGUAGE-POLICY-001"
+    readonly property string fabricId: "FA3-LANGUAGE-FABRIC-001"
 
+    // System-language policy. Empty values represent an installation/migration state
+    // that MUST be completed before language admission can be considered satisfied.
+    property string primaryLanguage: String(preferences.value("languagePolicy/primaryLanguage", ""))
+    property string secondaryLanguage: String(preferences.value("languagePolicy/secondaryLanguage", ""))
+    property string additionalLanguages: String(preferences.value("languagePolicy/additionalLanguages", ""))
+    readonly property bool systemLanguageValid: primaryLanguage.length > 0
+                                                && secondaryLanguage.length > 0
+                                                && primaryLanguage !== secondaryLanguage
+
+    // Request-level language controls remain separate from the mandatory system pair.
     property string inputLanguage: String(preferences.value("languageControl/userLanguage", "auto"))
     property string outputLanguage: String(preferences.value("languageControl/outputLanguage", "same-as-input"))
     property bool preferNative: Boolean(preferences.value("languageControl/preferNative", true))
@@ -29,6 +41,20 @@ Item {
 
     function save(key, value) {
         preferences.setValue(key, value)
+    }
+
+    function setPrimaryLanguage(value) {
+        if (value.length === 0 || value === secondaryLanguage)
+            return
+        primaryLanguage = value
+        save("languagePolicy/primaryLanguage", value)
+    }
+
+    function setSecondaryLanguage(value) {
+        if (value.length === 0 || value === primaryLanguage)
+            return
+        secondaryLanguage = value
+        save("languagePolicy/secondaryLanguage", value)
     }
 
     component StatusRow: RowLayout {
@@ -91,10 +117,87 @@ Item {
                     Layout.fillWidth: true
                 }
                 Label {
-                    text: root.profileId + " · " + root.bridgeId + " · P0/MUST"
+                    text: root.profileId + " · " + root.bridgeId + " · " + root.policyId + " · P0/MUST"
                     color: root.accent
                     font.pixelSize: 9
                     font.bold: true
+                }
+            }
+
+            Card {
+                Layout.leftMargin: 18
+                Layout.rightMargin: 18
+                Layout.preferredHeight: 294
+                border.color: root.systemLanguageValid ? root.border : root.orange
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 14
+                    spacing: 8
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Rendszernyelvek"; color: root.textPrimary; font.pixelSize: 13; font.bold: true; Layout.fillWidth: true }
+                        Label {
+                            text: root.systemLanguageValid ? "CONFIGURED" : "REQUIRED"
+                            color: root.systemLanguageValid ? root.green : root.orange
+                            font.pixelSize: 9
+                            font.bold: true
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: "Az FA3 minden telepítésén pontosan egy elsődleges és egy ettől eltérő másodlagos nyelv kötelező. A további nyelvek opcionálisak."
+                        color: root.textMuted
+                        font.pixelSize: 9
+                        wrapMode: Text.WordWrap
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Elsődleges"; color: root.textMuted; Layout.preferredWidth: 130 }
+                        ComboBox {
+                            Layout.fillWidth: true
+                            editable: true
+                            model: ["", "hu-HU", "en-US", "de-DE", "fr-FR", "es-ES", "it-IT", "pl-PL", "ja-JP", "zh-CN"]
+                            currentIndex: Math.max(0, model.indexOf(root.primaryLanguage))
+                            onActivated: root.setPrimaryLanguage(currentText)
+                            onAccepted: root.setPrimaryLanguage(editText)
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Másodlagos"; color: root.textMuted; Layout.preferredWidth: 130 }
+                        ComboBox {
+                            Layout.fillWidth: true
+                            editable: true
+                            model: ["", "hu-HU", "en-US", "de-DE", "fr-FR", "es-ES", "it-IT", "pl-PL", "ja-JP", "zh-CN"]
+                            currentIndex: Math.max(0, model.indexOf(root.secondaryLanguage))
+                            onActivated: root.setSecondaryLanguage(currentText)
+                            onAccepted: root.setSecondaryLanguage(editText)
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "További (0..N)"; color: root.textMuted; Layout.preferredWidth: 130 }
+                        TextField {
+                            Layout.fillWidth: true
+                            text: root.additionalLanguages
+                            placeholderText: "pl. de-DE, fr-FR"
+                            onEditingFinished: {
+                                root.additionalLanguages = text
+                                root.save("languagePolicy/additionalLanguages", text)
+                            }
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true
+                        text: root.primaryLanguage === root.secondaryLanguage && root.primaryLanguage.length > 0
+                              ? "Az elsődleges és másodlagos nyelv nem lehet azonos."
+                              : (root.systemLanguageValid
+                                 ? "A két kötelező rendszernyelv érvényes. A backend admission igazolja a natív vagy Language Fabric által közvetített működőképességet."
+                                 : "A nyelvi konfiguráció befejezetlen; admission és production állapot nem lehet PASS.")
+                        color: root.systemLanguageValid ? root.textMuted : root.orange
+                        font.pixelSize: 9
+                        wrapMode: Text.WordWrap
+                    }
                 }
             }
 
@@ -106,7 +209,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 14
                     spacing: 8
-                    Label { text: "Nyelvi beállítás"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
+                    Label { text: "Kérés-szintű nyelv"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
                     RowLayout {
                         Layout.fillWidth: true
                         Label { text: "Bemeneti nyelv"; color: root.textMuted; Layout.preferredWidth: 130 }
@@ -169,7 +272,7 @@ Item {
                     spacing: 7
                     RowLayout {
                         Layout.fillWidth: true
-                        Label { text: "Language Bridge állapot"; color: root.textPrimary; font.pixelSize: 13; font.bold: true; Layout.fillWidth: true }
+                        Label { text: "Language Fabric / Bridge állapot"; color: root.textPrimary; font.pixelSize: 13; font.bold: true; Layout.fillWidth: true }
                         Label { text: "ADAPTER-GATED"; color: root.orange; font.pixelSize: 9; font.bold: true }
                     }
                     StatusRow { labelText: "Natív nyelvek"; valueText: "N/A" }
@@ -245,14 +348,14 @@ Item {
                 Layout.fillWidth: true
                 Layout.leftMargin: 18
                 Layout.rightMargin: 18
-                Layout.preferredHeight: 76
+                Layout.preferredHeight: 86
                 radius: 8
                 color: root.panelRaised
                 border.color: root.border
                 Label {
                     anchors.fill: parent
                     anchors.margins: 12
-                    text: "Az eredeti input authoritative; a fordítás derived projection. UNKNOWN / PENDING_BACKEND állapot soha nem jelent PASS-t. A GUI nem policy-authority."
+                    text: "Az eredeti input authoritative; a fordítás derived projection. UNKNOWN / PENDING_BACKEND állapot soha nem jelent PASS-t. A GUI nem policy-authority. A LiteLLM nyelvsemleges gateway; a nyelvi döntést a Language Fabric végzi."
                     color: root.textMuted
                     wrapMode: Text.WordWrap
                     font.pixelSize: 9

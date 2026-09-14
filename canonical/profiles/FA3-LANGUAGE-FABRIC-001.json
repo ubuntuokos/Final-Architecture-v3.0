@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LANGUAGE-FABRIC-001",
+  "name": "Provider-Neutral Language Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "depends_on": ["FA3-LANGUAGE-POLICY-001", "FA3-LANGUAGE-ADMISSION-001"],
+  "gui_projection_ids": ["FA3-GUI-LANGUAGE-CONTROL-001", "FA3-LANGUAGE-BRIDGE-001"],
+  "functions": [
+    "language detection",
+    "translation and bidirectional adaptation",
+    "transliteration and locale handling",
+    "terminology preservation",
+    "code-block and structured-data protection",
+    "prompt adaptation",
+    "response adaptation",
+    "STT/TTS language selection"
+  ],
+  "routing_contract": {
+    "prefer_validated_native_when_policy_equivalent": true,
+    "bridge_when_native_support_is_unavailable": true,
+    "translation_is_derived_projection": true,
+    "original_source_remains_authoritative": true,
+    "language_need_may_override_privacy_policy": false,
+    "language_need_may_override_provider_policy": false,
+    "external_translation_for_secret_data": "DENY",
+    "unknown_or_unverified_language_route": "FAIL_CLOSED"
+  },
+  "language_context": {
+    "required": ["user_language", "work_language", "output_language"],
+    "optional": ["source_language"],
+    "work_language_selection": "capability-and-quality-aware",
+    "user_and_work_language_may_differ": true
+  },
+  "system_service": {
+    "translation_service_required": true,
+    "user_facing_interpreter_is_projection": true,
+    "mandatory_translation_vendor": null,
+    "mandatory_cloud_provider": null
+  },
+  "fallback_domains_must_remain_distinct": ["language", "model", "provider", "infrastructure"],
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true
+}
