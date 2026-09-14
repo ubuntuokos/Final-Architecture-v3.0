@@ -10,6 +10,9 @@
     "provider-neutral generic file conversion profile materialized",
     "ConvertX provider remains quarantined and replaceable",
     "deny-by-default conversion allowlist materialized",
+    "candidate and ACTIVE production pair states are separated",
+    "candidate validation is explicitly allowed before provider promotion but never enables production routing",
+    "deterministic internal provider converter mapping is materialized",
     "XeLaTeX explicitly denied",
     "fail-closed adapter and regression gate materialized",
     "Control Center Tools surface exposes status without direct provider execution",
@@ -19,14 +22,18 @@
   "production_admitted": false,
   "machine_execution_enabled": false,
   "missing_runtime_evidence": [
+    "FA3 ConvertX adapter execution contract materialization",
+    "FA3 candidate executor materialization",
     "digest-pinned ConvertX production image materialization",
-    "real current-host HRB lease-backed execution",
+    "authoritative HRB lease verification",
+    "real current-host HRB lease-backed candidate execution",
     "real input to real output conversion with output SHA-256 evidence",
-    "outbound network denial verification on the production worker",
-    "path traversal regression on the production worker",
+    "outbound network denial verification on the candidate worker",
+    "path traversal regression on the candidate worker",
     "archive bomb and malformed-media resource-limit regressions",
+    "pair-specific evidence before CANDIDATE to ACTIVE transition",
     "current-host receipt with CURRENT_HOST_PRODUCTION_E2E_PASS"
   ],
   "promotion_effect": "NONE_UNTIL_REAL_CURRENT_HOST_RECEIPT_PASS",
-  "note": "This record intentionally contains no runtime PASS. Static CI success is reference evidence only and cannot promote ConvertX out of QUARANTINED state."
+  "note": "This record intentionally contains no runtime PASS. Static CI success and candidate-validation design materialization cannot promote ConvertX out of QUARANTINED state or activate any CANDIDATE pair."
 }
