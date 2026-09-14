@@ -9,7 +9,7 @@
   "canonical_root": false,
   "new_capability": false,
   "new_architectural_authority": false,
-  "purpose": "Make FA3 internationally usable while guaranteeing two explicitly selected operating languages on every installation and one stable English canonical machine language for protocols, schemas, policy, audit and evidence.",
+  "purpose": "Make FA3 internationally usable while guaranteeing two explicitly selected operating languages on every installation and one stable English canonical machine language for protocols, schemas, commands, GUI actions, policy, audit and evidence.",
   "language_planes": {
     "canonical_platform_language": {
       "language": "en",
@@ -31,6 +31,8 @@
   "canonical_english_surface": {
     "must_remain_english": [
       "capability_id",
+      "command_id",
+      "gui_action_id",
       "tool_name",
       "function_name",
       "schema_key",
