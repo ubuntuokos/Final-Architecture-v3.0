@@ -8,10 +8,12 @@ on:
       - 'canonical/FA3-PROVIDER-CONVERTX-001.json'
       - 'canonical/FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json'
       - 'canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/contracts/FA3-CONVERTX-ADAPTER-CONTRACTS-001.json'
       - 'src/fa3_convertx_*.py'
       - 'evidence/collect-convertx-current-host.py'
       - 'evidence/reference/fa3-convertx-reference-pending.json'
       - 'tests/test_convertx_gate.py'
+      - 'tests/test_convertx_v018_http.py'
       - 'tests/test_tools_fabric.py'
       - 'docs/FA3-TOOLS-CONVERTX-INTEGRATION.md'
       - 'apps/fa3-control-center/**'
@@ -32,8 +34,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Compile ConvertX Python materialization
+        run: python -m py_compile src/fa3_convertx_adapter.py src/fa3_convertx_gate.py src/fa3_convertx_v018_http.py evidence/collect-convertx-current-host.py
       - name: ConvertX fail-closed regressions
         run: python -m unittest discover -s tests -p 'test_convertx_gate.py' -v
+      - name: ConvertX v0.18.0 adapter contract tests
+        run: python -m unittest discover -s tests -p 'test_convertx_v018_http.py' -v
       - name: Tools Fabric materialization tests
         run: python -m unittest discover -s tests -p 'test_tools_fabric.py' -v
       - name: Canonical ConvertX gate
@@ -45,14 +51,19 @@ jobs:
           from pathlib import Path
           provider = json.loads(Path('canonical/FA3-PROVIDER-CONVERTX-001.json').read_text())
           evidence = json.loads(Path('evidence/reference/fa3-convertx-reference-pending.json').read_text())
+          conformance = json.loads(Path('canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json').read_text())
           machine = provider['machine_interface']
+          resource = conformance['resource_admission']
           assert provider['current_host_status'] == 'PENDING_REAL_HOST_EXECUTION'
           assert provider['status'] == 'QUARANTINED'
           assert machine['machine_execution_enabled'] is False
-          assert machine['fa3_adapter_execution_contract_materialized'] is False
+          assert machine['fa3_adapter_execution_contract_materialized'] is True
+          assert machine['fa3_candidate_executor_materialized'] is True
+          assert resource['current_authoritative_cpu_memory_verifier'] == 'PENDING_MATERIALIZATION'
+          assert resource['accelerator_contract_is_valid_cpu_memory_substitute'] is False
           assert evidence['status'] == 'PENDING_CURRENT_HOST'
           assert evidence['runtime_claimed'] is False
           assert evidence['production_admitted'] is False
           assert evidence['machine_execution_enabled'] is False
-          print('PASS: static CI cannot promote, materialize the production adapter, or claim current-host execution')
+          print('PASS: candidate adapter is materialized while production/current-host promotion remains fail-closed')
           PY
