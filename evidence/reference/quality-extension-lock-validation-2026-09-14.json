@@ -1,11 +1,29 @@
 {
   "id": "FA3-EVIDENCE-QUALITY-EXTENSION-LOCK-VALIDATION-2026-09-14",
   "schema": "fa3.materialization-evidence.v1",
-  "scope": "REPOSITORY_MATERIALIZATION_PENDING_CI",
+  "scope": "REPOSITORY_MATERIALIZATION_CI_VALIDATED",
   "current_host_production_claim": false,
-  "ci_claim": false,
+  "ci_claim": true,
   "branch": "fa3/quality-routing-extension-pinning-validation",
   "pull_request": 188,
+  "merged": true,
+  "merge_commit": "8b9d92c9833805537c8800340ea017de4be8492a",
+  "validated_pr_head": "12064bdef210d39bab0ca75fcd5214dcf22c6303",
+  "validation": {
+    "targeted_quality_extension_lock_workflow": {
+      "run_id": 34878001565,
+      "conclusion": "success"
+    },
+    "pr_permanent_canonical_promotion_gate": {
+      "run_id": 34878001641,
+      "conclusion": "success"
+    },
+    "post_merge_permanent_canonical_promotion_gate": {
+      "run_id": 34878150066,
+      "head_sha": "8b9d92c9833805537c8800340ea017de4be8492a",
+      "conclusion": "success"
+    }
+  },
   "checks": [
     "extension_boundary_policy_and_gate_present",
     "voice_quality_policy_and_router_present",
@@ -13,8 +31,13 @@
     "whisper_and_demucs_bootstraps_consume_lock_registry",
     "audio_preflight_contract_and_gate_present",
     "focused_regression_tests_present",
-    "github_actions_validation_workflow_present"
+    "github_actions_validation_workflow_present",
+    "pull_request_188_merged",
+    "targeted_validation_passed",
+    "pr_permanent_gate_passed",
+    "post_merge_permanent_gate_passed"
   ],
-  "status": "PENDING_CI_EXECUTION",
-  "promotion_allowed": false
+  "status": "REPOSITORY_CI_VALIDATED",
+  "promotion_allowed": false,
+  "promotion_block_reason": "No current-host production promotion claim is established by this repository-only validation record."
 }
