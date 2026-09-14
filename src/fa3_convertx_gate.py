@@ -9,6 +9,7 @@ from typing import Any, Callable
 from fa3_convertx_adapter import (
     AdmissionDenied,
     ConversionRequest,
+    candidate_validation_admission,
     machine_execution_admission,
     validate_current_host_receipt,
     validate_request,
@@ -40,13 +41,31 @@ def _expect_denied(fn: Callable[[], Any]) -> bool:
 
 
 def run_regressions() -> dict[str, Any]:
-    allowlist = {
+    candidate_allowlist = {
         "default_policy": "DENY",
         "candidate_pairs": [
-            {"from": "image/png", "to": "image/jpeg", "state": "CANDIDATE"}
+            {
+                "from": "image/png",
+                "to": "image/jpeg",
+                "state": "CANDIDATE",
+                "provider_converter": "vips",
+                "provider_target": "jpeg",
+            }
         ],
     }
-    good = ConversionRequest("in.png", "image/png", "image/jpeg")
+    active_allowlist = {
+        "default_policy": "DENY",
+        "candidate_pairs": [
+            {
+                "from": "image/png",
+                "to": "image/jpeg",
+                "state": "ACTIVE",
+                "provider_converter": "vips",
+                "provider_target": "jpeg",
+            }
+        ],
+    }
+    good = ConversionRequest("in.png", "image/png", "image/jpeg", hrb_lease_path="lease.json")
     runtime = {
         "non_root": True,
         "read_only_root": True,
@@ -59,21 +78,40 @@ def run_regressions() -> dict[str, Any]:
         "outbound_network": "DENY",
         "image": "ghcr.io/c4illin/convertx@sha256:" + "a" * 64,
     }
-    provider = {"status": "QUARANTINED", "machine_interface": {"machine_execution_enabled": False}}
+    quarantined = {
+        "status": "QUARANTINED",
+        "machine_interface": {
+            "machine_execution_enabled": False,
+            "fa3_adapter_execution_contract_materialized": True,
+            "fa3_candidate_executor_materialized": True,
+            "candidate_validation_allowed_while_quarantined": True,
+            "candidate_validation_is_production_routing": False,
+        },
+    }
     cases: list[tuple[str, bool]] = []
-    cases.append(("unknown_pair_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "application/pdf"), allowlist))))
-    cases.append(("arbitrary_converter_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "image/jpeg", converter_name="ImageMagick"), allowlist))))
-    cases.append(("arbitrary_arguments_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "image/jpeg", provider_arguments=("--danger",)), allowlist))))
-    cases.append(("xelatex_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "image/jpeg", converter_name="XeLaTeX"), allowlist))))
-    cases.append(("latex_extension_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.tex", "image/png", "image/jpeg"), allowlist))))
+    cases.append(("unknown_pair_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "application/pdf"), candidate_allowlist))))
+    cases.append(("arbitrary_converter_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "image/jpeg", converter_name="ImageMagick"), candidate_allowlist))))
+    cases.append(("arbitrary_arguments_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "image/jpeg", provider_arguments=("--danger",)), candidate_allowlist))))
+    cases.append(("xelatex_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.png", "image/png", "image/jpeg", converter_name="XeLaTeX"), candidate_allowlist))))
+    cases.append(("latex_extension_denied", _expect_denied(lambda: validate_request(ConversionRequest("a.tex", "image/png", "image/jpeg"), candidate_allowlist))))
     cases.append(("floating_image_denied", _expect_denied(lambda: validate_runtime_contract({**runtime, "image": "ghcr.io/c4illin/convertx:latest"}))))
     cases.append(("host_mount_denied", _expect_denied(lambda: validate_runtime_contract({**runtime, "host_mounts": ["/home:/home"]}))))
     cases.append(("unrestricted_egress_denied", _expect_denied(lambda: validate_runtime_contract({**runtime, "outbound_network": "ALLOW"}))))
     cases.append(("root_runtime_denied", _expect_denied(lambda: validate_runtime_contract({**runtime, "non_root": False}))))
     cases.append(("missing_limits_denied", _expect_denied(lambda: validate_runtime_contract({**runtime, "resource_limits": False}))))
-    cases.append(("quarantined_machine_execution_denied", _expect_denied(lambda: machine_execution_admission(good, provider, allowlist, runtime, None))))
-    approved = {"status": "APPROVED", "machine_interface": {"machine_execution_enabled": True}}
-    cases.append(("missing_hrb_denied_for_machine_execution", _expect_denied(lambda: machine_execution_admission(good, approved, allowlist, runtime, None))))
+    cases.append(("candidate_validation_requires_explicit_intent", _expect_denied(lambda: candidate_validation_admission(good, quarantined, candidate_allowlist, runtime, explicit=False))))
+    cases.append(("candidate_validation_allowed_before_promotion", candidate_validation_admission(good, quarantined, candidate_allowlist, runtime, explicit=True)["result"] == "ALLOW_CANDIDATE_VALIDATION"))
+    cases.append(("candidate_pair_denied_for_production", _expect_denied(lambda: machine_execution_admission(good, {"status": "APPROVED", "machine_interface": {"machine_execution_enabled": True, "fa3_adapter_execution_contract_materialized": True, "fa3_candidate_executor_materialized": True}}, candidate_allowlist, runtime, {}))))
+    approved = {
+        "status": "APPROVED",
+        "machine_interface": {
+            "machine_execution_enabled": True,
+            "fa3_adapter_execution_contract_materialized": True,
+            "fa3_candidate_executor_materialized": True,
+        },
+    }
+    no_lease = ConversionRequest("in.png", "image/png", "image/jpeg")
+    cases.append(("missing_hrb_denied_for_machine_execution", _expect_denied(lambda: machine_execution_admission(no_lease, approved, active_allowlist, runtime, None))))
     cases.append(("current_host_claim_without_receipt_denied", _expect_denied(lambda: validate_current_host_receipt({"status": "PASS"}))))
     passed = sum(1 for _, ok in cases if ok)
     return {"result": "PASS" if passed == len(cases) else "FAIL", "passed": passed, "total": len(cases), "cases": [{"name": n, "pass": ok} for n, ok in cases]}
@@ -121,13 +159,19 @@ def gate(root: Path) -> dict[str, Any]:
     provider_status = provider.get("status")
     if provider_status == "QUARANTINED":
         if machine.get("machine_execution_enabled") is not False:
-            findings.append(finding("CONVERTX-QUARANTINE-BYPASS", "Quarantined provider cannot enable machine execution"))
-        if machine.get("fa3_adapter_execution_contract_materialized") is not False:
-            findings.append(finding("CONVERTX-QUARANTINE-ADAPTER-CLAIM", "Quarantined provider must not claim a materialized production execution contract"))
+            findings.append(finding("CONVERTX-QUARANTINE-BYPASS", "Quarantined provider cannot enable production machine execution"))
+        if machine.get("candidate_validation_allowed_while_quarantined") is not True:
+            findings.append(finding("CONVERTX-CANDIDATE-VALIDATION", "Quarantined provider must expose an explicit candidate-validation path"))
+        if machine.get("candidate_validation_is_production_routing") is not False:
+            findings.append(finding("CONVERTX-CANDIDATE-PRODUCTION-BYPASS", "Candidate validation must not be production routing"))
+        if machine.get("fa3_candidate_executor_materialized") is True and machine.get("fa3_adapter_execution_contract_materialized") is not True:
+            findings.append(finding("CONVERTX-CANDIDATE-CONTRACT", "Candidate executor cannot be materialized without its FA3 execution contract"))
     else:
         receipt_path = root / CURRENT_HOST_RECEIPT
         if machine.get("fa3_adapter_execution_contract_materialized") is not True:
             findings.append(finding("CONVERTX-ADAPTER-CONTRACT", "Promoted ConvertX requires a materialized FA3 execution contract"))
+        if machine.get("fa3_candidate_executor_materialized") is not True:
+            findings.append(finding("CONVERTX-EXECUTOR", "Promoted ConvertX requires the validated FA3 executor"))
         if machine.get("machine_execution_enabled") is not True:
             findings.append(finding("CONVERTX-MACHINE-DISABLED", "Promoted ConvertX must explicitly enable the governed machine interface"))
         if not receipt_path.exists():
@@ -144,6 +188,10 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("CONVERTX-FLOATING-TAG", "Floating production tags must be forbidden"))
     if allowlist.get("default_policy") != "DENY" or allowlist.get("arbitrary_converter_arguments_allowed") is not False:
         findings.append(finding("CONVERTX-ALLOWLIST", "ConvertX conversion policy is not deny-by-default"))
+    for row in allowlist.get("candidate_pairs", []):
+        if row.get("state") not in {"CANDIDATE", "ACTIVE"} or not row.get("provider_converter") or not row.get("provider_target"):
+            findings.append(finding("CONVERTX-PAIR-MAPPING", "Every ConvertX pair needs an explicit state and deterministic provider mapping"))
+            break
     denied = allowlist.get("explicit_denials", [])
     if not any(row.get("converter_family") == "XeLaTeX" for row in denied):
         findings.append(finding("CONVERTX-XELATEX-ALLOWLIST", "XeLaTeX explicit denial is missing"))
@@ -160,6 +208,7 @@ def gate(root: Path) -> dict[str, Any]:
         "provider_status": provider_status or "UNKNOWN",
         "machine_execution_enabled": machine.get("machine_execution_enabled", False),
         "adapter_execution_contract_materialized": machine.get("fa3_adapter_execution_contract_materialized", False),
+        "candidate_executor_materialized": machine.get("fa3_candidate_executor_materialized", False),
         "current_host_status": provider.get("current_host_status", "UNKNOWN"),
         "regressions": regressions,
         "findings": findings,
