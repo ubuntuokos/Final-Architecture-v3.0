@@ -5,7 +5,7 @@ import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 PROVIDER_ID = "FA3-PROVIDER-CONVERTX-001"
 PROFILE_ID = "FA3-FILE-CONVERSION-001"
@@ -68,11 +68,24 @@ def digest_pinned_image(image_ref: str) -> bool:
     return bool(re.fullmatch(r"[^\s]+@sha256:[0-9a-f]{64}", image_ref.strip()))
 
 
-def pair_is_candidate(allowlist: dict[str, Any], source: str, target: str) -> bool:
-    return any(
-        row.get("from") == source and row.get("to") == target and row.get("state") == "CANDIDATE"
+def resolve_pair(
+    allowlist: dict[str, Any],
+    source: str,
+    target: str,
+    allowed_states: Iterable[str],
+) -> dict[str, Any] | None:
+    states = set(allowed_states)
+    matches = [
+        row
         for row in allowlist.get("candidate_pairs", [])
-    )
+        if row.get("from") == source and row.get("to") == target and row.get("state") in states
+    ]
+    if len(matches) != 1:
+        return None
+    row = matches[0]
+    if not row.get("provider_converter") or not row.get("provider_target"):
+        return None
+    return row
 
 
 def latex_denied(request: ConversionRequest) -> bool:
@@ -83,7 +96,12 @@ def latex_denied(request: ConversionRequest) -> bool:
     return "xelatex" in name or name in {"latex", "pdflatex", "lualatex"}
 
 
-def validate_request(request: ConversionRequest, allowlist: dict[str, Any]) -> None:
+def validate_request(
+    request: ConversionRequest,
+    allowlist: dict[str, Any],
+    *,
+    allowed_states: Iterable[str] = ("CANDIDATE", "ACTIVE"),
+) -> dict[str, Any]:
     findings: list[str] = []
     if request.profile_id != PROFILE_ID:
         findings.append("PROFILE_ID_MISMATCH")
@@ -99,10 +117,17 @@ def validate_request(request: ConversionRequest, allowlist: dict[str, Any]) -> N
         findings.append("LATEX_FAMILY_DENIED")
     if allowlist.get("default_policy") != "DENY":
         findings.append("ALLOWLIST_NOT_FAIL_CLOSED")
-    if not pair_is_candidate(allowlist, request.input_media_type, request.output_media_type):
-        findings.append("CONVERSION_PAIR_NOT_ALLOWLISTED")
+    pair = resolve_pair(
+        allowlist,
+        request.input_media_type,
+        request.output_media_type,
+        allowed_states,
+    )
+    if pair is None:
+        findings.append("CONVERSION_PAIR_NOT_ALLOWLISTED_FOR_REQUEST_STATE")
     if findings:
         raise AdmissionDenied(";".join(findings))
+    return pair
 
 
 def validate_runtime_contract(runtime: dict[str, Any]) -> None:
@@ -136,6 +161,10 @@ def validate_current_host_receipt(receipt: dict[str, Any]) -> None:
         raise AdmissionDenied("current-host receipt is not PASS")
     if receipt.get("evidence_level") != "CURRENT_HOST_PRODUCTION_E2E_PASS":
         raise AdmissionDenied("current-host evidence level insufficient")
+    if receipt.get("candidate_validation") is not True:
+        raise AdmissionDenied("receipt must originate from explicit candidate validation")
+    if receipt.get("production_routing_enabled") is not False:
+        raise AdmissionDenied("candidate evidence cannot claim production routing")
     if receipt.get("synthetic_input") is not False:
         raise AdmissionDenied("synthetic current-host input forbidden")
     if receipt.get("real_output_hash_observed") is not True:
@@ -148,6 +177,43 @@ def validate_current_host_receipt(receipt: dict[str, Any]) -> None:
         raise AdmissionDenied("receipt provider image is not digest pinned")
 
 
+def candidate_validation_admission(
+    request: ConversionRequest,
+    provider: dict[str, Any],
+    allowlist: dict[str, Any],
+    runtime: dict[str, Any],
+    *,
+    explicit: bool,
+) -> dict[str, Any]:
+    pair = validate_request(request, allowlist, allowed_states=("CANDIDATE", "ACTIVE"))
+    validate_runtime_contract(runtime)
+    if explicit is not True:
+        raise AdmissionDenied("candidate validation must be explicitly requested")
+    if provider.get("status") not in {"QUARANTINED", "APPROVED"}:
+        raise AdmissionDenied("provider state does not permit candidate validation")
+    machine = provider.get("machine_interface", {})
+    if machine.get("candidate_validation_allowed_while_quarantined") is not True:
+        raise AdmissionDenied("candidate validation is not enabled by provider policy")
+    if machine.get("candidate_validation_is_production_routing") is not False:
+        raise AdmissionDenied("candidate validation must remain outside production routing")
+    if machine.get("fa3_adapter_execution_contract_materialized") is not True:
+        raise AdmissionDenied("FA3 adapter execution contract is not materialized")
+    if machine.get("fa3_candidate_executor_materialized") is not True:
+        raise AdmissionDenied("FA3 candidate executor is not materialized")
+    if not request.hrb_lease_path:
+        raise AdmissionDenied("candidate validation requires an HRB lease")
+    return {
+        "result": "ALLOW_CANDIDATE_VALIDATION",
+        "provider_id": PROVIDER_ID,
+        "profile_id": PROFILE_ID,
+        "pair": [request.input_media_type, request.output_media_type],
+        "provider_converter": pair["provider_converter"],
+        "provider_target": pair["provider_target"],
+        "production_routing_enabled": False,
+        "direct_provider_bypass": False,
+    }
+
+
 def machine_execution_admission(
     request: ConversionRequest,
     provider: dict[str, Any],
@@ -155,10 +221,15 @@ def machine_execution_admission(
     runtime: dict[str, Any],
     receipt: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    validate_request(request, allowlist)
+    pair = validate_request(request, allowlist, allowed_states=("ACTIVE",))
     validate_runtime_contract(runtime)
-    if provider.get("status") != "APPROVED" or not provider.get("machine_interface", {}).get("machine_execution_enabled"):
+    machine = provider.get("machine_interface", {})
+    if provider.get("status") != "APPROVED" or not machine.get("machine_execution_enabled"):
         raise ProviderQuarantined("ConvertX machine execution remains quarantined")
+    if machine.get("fa3_adapter_execution_contract_materialized") is not True:
+        raise AdmissionDenied("production execution requires a materialized FA3 adapter contract")
+    if machine.get("fa3_candidate_executor_materialized") is not True:
+        raise AdmissionDenied("production execution requires the validated FA3 executor")
     if not request.hrb_lease_path:
         raise AdmissionDenied("machine execution requires an HRB lease")
     if receipt is None:
@@ -169,18 +240,21 @@ def machine_execution_admission(
         "provider_id": PROVIDER_ID,
         "profile_id": PROFILE_ID,
         "pair": [request.input_media_type, request.output_media_type],
+        "provider_converter": pair["provider_converter"],
+        "provider_target": pair["provider_target"],
         "direct_provider_bypass": False,
     }
 
 
 def planning_admission(root: Path, request: ConversionRequest) -> dict[str, Any]:
     _profile, provider, allowlist = load_policy(root)
-    validate_request(request, allowlist)
+    pair = validate_request(request, allowlist, allowed_states=("CANDIDATE", "ACTIVE"))
     return {
         "result": "PLAN_ONLY",
         "provider_id": PROVIDER_ID,
         "provider_status": provider.get("status"),
         "machine_execution_enabled": provider.get("machine_interface", {}).get("machine_execution_enabled", False),
         "pair": [request.input_media_type, request.output_media_type],
-        "reason": "Provider remains fail-closed until promotion gates and real current-host evidence pass.",
+        "pair_state": pair.get("state"),
+        "reason": "Provider remains fail-closed until promotion gates and real current-host evidence pass; candidate pairs are never production-active implicitly.",
     }
