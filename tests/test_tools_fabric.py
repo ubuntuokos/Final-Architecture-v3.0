@@ -41,6 +41,21 @@ class ToolsFabricTests(unittest.TestCase):
         self.assertNotIn("launchInstalled(", text)
         self.assertNotIn("/convert", text)
 
+    def test_convertx_reference_evidence_cannot_claim_runtime_pass(self):
+        evidence = json.loads(
+            (ROOT / "evidence/reference/fa3-convertx-reference-pending.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual("FA3-EVIDENCE-CONVERTX-REFERENCE-001", evidence["id"])
+        self.assertEqual("REFERENCE_DESIGN_AND_CI_ONLY", evidence["evidence_scope"])
+        self.assertEqual("PENDING_CURRENT_HOST", evidence["status"])
+        self.assertFalse(evidence["runtime_claimed"])
+        self.assertFalse(evidence["production_admitted"])
+        self.assertFalse(evidence["machine_execution_enabled"])
+        self.assertEqual(
+            "NONE_UNTIL_REAL_CURRENT_HOST_RECEIPT_PASS",
+            evidence["promotion_effect"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
