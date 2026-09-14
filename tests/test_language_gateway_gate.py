@@ -1,19 +1,19 @@
 from __future__ import annotations
 
-import tempfile
+import sys
 import unittest
 from pathlib import Path
 
-from src.fa3_language_gateway_gate import (
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from fa3_language_gateway_gate import (
     LanguagePolicyDenied,
     language_capability_is_operable,
     requires_hungarian_support,
     run_conformance,
     validate_language_selection,
 )
-
-
-ROOT = Path(__file__).resolve().parents[1]
 
 
 class TestLanguagePolicyFunctions(unittest.TestCase):
@@ -50,9 +50,7 @@ class TestLanguageGatewayConformance(unittest.TestCase):
         self.assertFalse(report["current_host_production_claim"])
         self.assertEqual(report["current_host_status"], "PENDING_CURRENT_HOST")
 
-    def test_plaintext_secret_detector_is_effective(self) -> None:
-        # A compact regression proving the conformance implementation's critical
-        # policy helper continues to fail closed rather than accepting malformed input.
+    def test_invalid_locale_fails_closed(self) -> None:
         with self.assertRaises(LanguagePolicyDenied):
             validate_language_selection("not a locale", "en-US")
 
