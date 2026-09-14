@@ -37,7 +37,7 @@
     "malformed_media_regression_required_on_promoted_runtime": true
   },
   "current_host_production_e2e": {
-    "collector_command": "PYTHONPATH=src python3 evidence/collect-convertx-current-host.py --root . --image <DIGEST_PINNED_IMAGE> --input <REAL_FILE> --output-media-type <ALLOWLISTED_TYPE>",
+    "collector_command": "PYTHONPATH=src python3 evidence/collect-convertx-current-host.py --root . --image <DIGEST_PINNED_IMAGE> --input <REAL_FILE> --output <REAL_OUTPUT>",
     "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
     "synthetic_input_forbidden": true,
     "digest_pinned_image_required": true,
