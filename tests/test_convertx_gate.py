@@ -59,8 +59,8 @@ class ConvertXGateTests(unittest.TestCase):
     def test_regressions_pass(self):
         result = g.run_regressions()
         self.assertEqual("PASS", result["result"], result)
-        self.assertEqual(15, result["passed"])
-        self.assertEqual(15, result["total"])
+        self.assertEqual(16, result["passed"])
+        self.assertEqual(16, result["total"])
 
     def test_safe_candidate_pair_is_valid_for_planning(self):
         request = a.ConversionRequest("input.png", "image/png", "image/jpeg")
@@ -99,32 +99,48 @@ class ConvertXGateTests(unittest.TestCase):
         with self.assertRaises(a.AdmissionDenied):
             a.validate_runtime_contract({**self.runtime, "outbound_network": "ALLOW"})
 
-    def test_candidate_validation_can_run_before_provider_promotion(self):
-        request = a.ConversionRequest(
-            "input.png", "image/png", "image/jpeg", hrb_lease_path="lease.json"
+    def _candidate_request(self):
+        return a.ConversionRequest(
+            "input.png",
+            "image/png",
+            "image/jpeg",
+            resource_admission_path="resource-admission.json",
         )
+
+    def test_candidate_validation_can_run_before_provider_promotion(self):
         result = a.candidate_validation_admission(
-            request,
+            self._candidate_request(),
             self.candidate_provider,
             self.allowlist,
             self.runtime,
             explicit=True,
+            resource_admission_verified=True,
         )
         self.assertEqual("ALLOW_CANDIDATE_VALIDATION", result["result"])
+        self.assertTrue(result["resource_admission_verified"])
         self.assertFalse(result["production_routing_enabled"])
         self.assertEqual("vips", result["provider_converter"])
 
     def test_candidate_validation_must_be_explicit(self):
-        request = a.ConversionRequest(
-            "input.png", "image/png", "image/jpeg", hrb_lease_path="lease.json"
-        )
         with self.assertRaises(a.AdmissionDenied):
             a.candidate_validation_admission(
-                request,
+                self._candidate_request(),
                 self.candidate_provider,
                 self.allowlist,
                 self.runtime,
                 explicit=False,
+                resource_admission_verified=True,
+            )
+
+    def test_candidate_validation_requires_verified_resource_admission(self):
+        with self.assertRaises(a.AdmissionDenied):
+            a.candidate_validation_admission(
+                self._candidate_request(),
+                self.candidate_provider,
+                self.allowlist,
+                self.runtime,
+                explicit=True,
+                resource_admission_verified=False,
             )
 
     def test_candidate_pair_is_not_production_active(self):
@@ -136,23 +152,25 @@ class ConvertXGateTests(unittest.TestCase):
                 "fa3_candidate_executor_materialized": True,
             },
         }
-        request = a.ConversionRequest(
-            "input.png", "image/png", "image/jpeg", hrb_lease_path="lease.json"
-        )
         with self.assertRaises(a.AdmissionDenied):
-            a.machine_execution_admission(request, provider, self.allowlist, self.runtime, {})
+            a.machine_execution_admission(
+                self._candidate_request(),
+                provider,
+                self.allowlist,
+                self.runtime,
+                {},
+                resource_admission_verified=True,
+            )
 
     def test_quarantined_provider_cannot_production_execute(self):
-        request = a.ConversionRequest(
-            "input.png", "image/png", "image/jpeg", hrb_lease_path="lease.json"
-        )
         with self.assertRaises(a.ProviderQuarantined):
             a.machine_execution_admission(
-                request,
+                self._candidate_request(),
                 self.candidate_provider,
                 self.active_allowlist,
                 self.runtime,
                 None,
+                resource_admission_verified=True,
             )
 
     def test_receipt_requires_real_e2e_properties(self):
@@ -166,21 +184,16 @@ class ConvertXGateTests(unittest.TestCase):
             "synthetic_input": True,
             "real_output_hash_observed": True,
             "egress_denial_verified": True,
-            "hrb_lease_verified": True,
+            "resource_admission_verified": True,
             "provider_image": "ghcr.io/c4illin/convertx@sha256:" + "a" * 64,
         }
         with self.assertRaises(a.AdmissionDenied):
             a.validate_current_host_receipt(bad)
 
-    def _write_gate_fixture(
-        self,
-        root: Path,
-        *,
-        adapter_contract: bool = False,
-        candidate_executor: bool = False,
-        machine_execution: bool = False,
-    ):
-        (root / "canonical").mkdir()
+    def _write_gate_fixture(self, root: Path, *, machine_execution: bool = False):
+        (root / "canonical" / "contracts").mkdir(parents=True)
+        (root / "src").mkdir()
+        (root / g.EXECUTOR_PATH).write_text("# materialized test executor\n", encoding="utf-8")
         docs = {
             "FA3-TOOLS-FABRIC-001.json": {
                 "id": g.TOOLS_ID,
@@ -198,8 +211,8 @@ class ConvertXGateTests(unittest.TestCase):
                 "status": "QUARANTINED",
                 "machine_interface": {
                     "official_public_api_available": False,
-                    "fa3_adapter_execution_contract_materialized": adapter_contract,
-                    "fa3_candidate_executor_materialized": candidate_executor,
+                    "fa3_adapter_execution_contract_materialized": True,
+                    "fa3_candidate_executor_materialized": True,
                     "candidate_validation_allowed_while_quarantined": True,
                     "candidate_validation_is_production_routing": False,
                     "machine_execution_enabled": machine_execution,
@@ -225,12 +238,25 @@ class ConvertXGateTests(unittest.TestCase):
             "FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json": {
                 "id": g.CONFORMANCE_ID,
                 "ci_conformance": {"current_host_claim_forbidden": True},
+                "resource_admission": {
+                    "current_authoritative_cpu_memory_verifier": "PENDING_MATERIALIZATION"
+                },
             },
         }
         for name, doc in docs.items():
             (root / "canonical" / name).write_text(json.dumps(doc), encoding="utf-8")
+        contract = {
+            "id": g.CONTRACT_ID,
+            "upstream_reference": {"release": "v0.18.0"},
+            "scope": "CANDIDATE_VALIDATION_ONLY",
+            "production_routing": False,
+            "endpoint_policy": {"base_url": "LOOPBACK_ONLY"},
+        }
+        (root / "canonical" / "contracts" / "FA3-CONVERTX-ADAPTER-CONTRACTS-001.json").write_text(
+            json.dumps(contract), encoding="utf-8"
+        )
 
-    def test_canonical_gate_passes_quarantine_without_executor_claim(self):
+    def test_canonical_gate_passes_materialized_quarantine(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             self._write_gate_fixture(root)
@@ -238,22 +264,13 @@ class ConvertXGateTests(unittest.TestCase):
             self.assertEqual("PASS", result["result"], result)
             self.assertEqual("QUARANTINED", result["provider_status"])
             self.assertFalse(result["machine_execution_enabled"])
-            self.assertFalse(result["candidate_executor_materialized"])
-
-    def test_quarantine_may_materialize_candidate_contract_without_production_routing(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            self._write_gate_fixture(root, adapter_contract=True, candidate_executor=True)
-            result = g.gate(root)
-            self.assertEqual("PASS", result["result"], result)
             self.assertTrue(result["adapter_execution_contract_materialized"])
             self.assertTrue(result["candidate_executor_materialized"])
-            self.assertFalse(result["machine_execution_enabled"])
 
     def test_quarantine_cannot_enable_production_machine_execution(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            self._write_gate_fixture(root, adapter_contract=True, candidate_executor=True, machine_execution=True)
+            self._write_gate_fixture(root, machine_execution=True)
             result = g.gate(root)
             self.assertEqual("FAIL", result["result"], result)
             self.assertTrue(any(x["code"] == "CONVERTX-QUARANTINE-BYPASS" for x in result["findings"]))
