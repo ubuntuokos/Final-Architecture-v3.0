@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.blackhole-egress-policy.v1",
+  "id": "FA3-BLACKHOLE-EGRESS-POLICY-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "authority": "FA3 central policy plane",
+  "default_action": "DENY",
+  "allow_external_paid_providers": false,
+  "setting_key": "ALLOW_EXTERNAL_PAID_PROVIDERS",
+  "direct_egress": {
+    "blackhole_api": false,
+    "comfyui_worker": false,
+    "litellm_proxy": false
+  },
+  "policy_gateway_only": true,
+  "gateway": "fa3-egress-gateway",
+  "allowlist_delivery": "PODMAN_SECRET:fa3-egress-allowlist",
+  "empty_or_missing_allowlist_behavior": "DENY_ALL",
+  "change_requires_audit_event": true,
+  "runtime_rule": "When ALLOW_EXTERNAL_PAID_PROVIDERS=false, paid external provider domains MUST NOT be admitted to the egress allowlist. Enabling the setting permits only explicitly approved domains; it never enables unrestricted internet egress.",
+  "new_capability": false,
+  "new_architectural_authority": false
+}
