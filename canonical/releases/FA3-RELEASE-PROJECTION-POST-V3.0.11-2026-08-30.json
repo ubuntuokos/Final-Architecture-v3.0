@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "281caff5f23d8c5d6884e49eacd2a9a17626fc7d",
-    "pre_projection_root_tree_sha": "f19fb44de7655458a92623c984b7235198b102a6",
-    "pre_projection_canonical_tree_sha": "ee5be8206d74a61b4fef3ebf6fae81baad259c73",
-    "commits_ahead_of_v3_0_11_conformance_commit": 283,
-    "total_post_baseline_commits": 283,
-    "delta_file_count": 1151,
-    "delta_added_files": 1146,
+    "pre_projection_head_sha": "f08b76874886cb255b9982b4763ad70d7ca7335e",
+    "pre_projection_root_tree_sha": "516a185d2b001cf17f40080e6a3bae66400eb757",
+    "pre_projection_canonical_tree_sha": "9285d4efd6bd198d77b48e4b7cc75d0e88314434",
+    "commits_ahead_of_v3_0_11_conformance_commit": 293,
+    "total_post_baseline_commits": 293,
+    "delta_file_count": 1166,
+    "delta_added_files": 1161,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 611,
+    "canonical_files_in_post_baseline_delta": 617,
     "evidence_files_in_post_baseline_delta": 114,
-    "source_files_in_post_baseline_delta": 129,
-    "test_files_in_post_baseline_delta": 111,
-    "workflow_files_in_post_baseline_delta": 42,
+    "source_files_in_post_baseline_delta": 130,
+    "test_files_in_post_baseline_delta": 113,
+    "workflow_files_in_post_baseline_delta": 43,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -712,7 +712,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1150,
+  "manifest_entry_count": 1166,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -757,6 +757,11 @@
     {
       "path": ".github/workflows/fa3-current-host.yml",
       "git_blob_sha": "b3ef7bd7c2e29e88af9d2007e0f61f3281ebdf49",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-desktop-portability.yml",
+      "git_blob_sha": "232e28e697d150a6fc63d8cd008f984167290c48",
       "baseline_delta_status": "added"
     },
     {
@@ -936,7 +941,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "4a00f045a7c2dd08e338243f91ce84e5e08ed16e",
+      "git_blob_sha": "c59e23df83a779a194cd0e437a91838bf67f3410",
       "baseline_delta_status": "added"
     },
     {
@@ -951,7 +956,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/AiStudioPage.qml",
-      "git_blob_sha": "460ccad23d8eec5268d58b09a3cf260c76902fe2",
+      "git_blob_sha": "ded80348e12c70c3b49e0f8fd80ccdbbb0e52741",
       "baseline_delta_status": "added"
     },
     {
@@ -1022,6 +1027,16 @@
     {
       "path": "apps/fa3-control-center/qml/WebWorkspace.qml",
       "git_blob_sha": "b82a4794c1821f5749ccdfb7c469b2992c253f33",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/AppCatalogService.cpp",
+      "git_blob_sha": "b21254ff665b85d5e648c5b02594acf0292481cc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/AppCatalogService.h",
+      "git_blob_sha": "148fd648646c6a8fa46c9c732e231c51ced32afd",
       "baseline_delta_status": "added"
     },
     {
@@ -1096,7 +1111,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "cd3f5a051bd278e588a4c94935cce883b245adc0",
+      "git_blob_sha": "03d595b5079bf54d5a4008cbb5e19cebb717645b",
       "baseline_delta_status": "added"
     },
     {
@@ -1187,6 +1202,11 @@
     {
       "path": "bin/fa3-demucs-hrb-production-e2e.sh",
       "git_blob_sha": "22afacd773b6c0063b92edbb1e996716e6061914",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-desktop-admission",
+      "git_blob_sha": "a3cfde744a2c94095e82f816c0b1cece935540c5",
       "baseline_delta_status": "added"
     },
     {
@@ -1325,6 +1345,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json",
+      "git_blob_sha": "491922e872aaee835b8db1d30af93a3fe00db84c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-APP-LIFECYCLE-001.json",
+      "git_blob_sha": "b28a768864d46b6d4c9ec89e58192f71f405d323",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-APP-REQUEST-001.json",
+      "git_blob_sha": "46bf2df1d04fb47722c8aec73c5a67ed5ec66273",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
       "baseline_delta_status": "added"
@@ -1362,6 +1397,16 @@
     {
       "path": "canonical/FA3-DEMUCS-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "0f4ef99eded354332013e2809106bce842bd223c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-DESKTOP-BASE-001.json",
+      "git_blob_sha": "d54e3b7fdf4e2c20f01b231bcdc84044dc49fc53",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-DESKTOP-PLASMA-001.json",
+      "git_blob_sha": "8d4257b011a46178904c11c0c582ec5d4013f229",
       "baseline_delta_status": "added"
     },
     {
@@ -1407,6 +1452,11 @@
     {
       "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json",
       "git_blob_sha": "269b9d15649dc246c34134886fd3cd4b65e1eba0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json",
+      "git_blob_sha": "76ba74c9e37be747f00733239590507d3512e3b1",
       "baseline_delta_status": "added"
     },
     {
@@ -4385,6 +4435,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/app-providers/README.md",
+      "git_blob_sha": "bc134d1f918705fe792a59a16958f71b2cbf1836",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/fa3-gui/install.sh",
       "git_blob_sha": "6867b7b01fbb2426eab0267c685ac71ba796b888",
       "baseline_delta_status": "added"
@@ -4517,6 +4572,11 @@
     {
       "path": "docs/current-host-runner.md",
       "git_blob_sha": "7d110f44bb63208f7c83aee5c352dfd026f649d5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/desktop-portability.md",
+      "git_blob_sha": "23af9e94917a345bdc0b65aed6c0f9c707343810",
       "baseline_delta_status": "added"
     },
     {
@@ -5205,6 +5265,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "scripts/fa3-app-provisioner.py",
+      "git_blob_sha": "794dbfb69b909946ac27fefcdc29a2da87fca35f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "scripts/fa3_apply_capability_count_dehardcode.py",
       "git_blob_sha": "16226ad27a3a74429957d1128abe409251cb09b5",
       "baseline_delta_status": "added"
@@ -5367,6 +5432,11 @@
     {
       "path": "src/fa3_demucs_provider.py",
       "git_blob_sha": "ea1538a8e77582801db447876228ff06e211b9b0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_desktop_admission.py",
+      "git_blob_sha": "df45dc51ce5c410056a09f723d50bf060865950c",
       "baseline_delta_status": "added"
     },
     {
@@ -5885,6 +5955,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_ai_studio_app_lifecycle.py",
+      "git_blob_sha": "3e56d5ac8f622f0d1596e288fd9ab70b0cb553b1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_audio_preflight_gate.py",
       "git_blob_sha": "397c4e0038d6e3815d73e8af1cf0828bc96be150",
       "baseline_delta_status": "added"
@@ -5982,6 +6057,11 @@
     {
       "path": "tests/test_demucs_provider_runtime.py",
       "git_blob_sha": "8756cc192f3bca8277fcad58d9137895becda1a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_desktop_portability.py",
+      "git_blob_sha": "2dd76940a7d00bea954be5b4f8ab8383e439b459",
       "baseline_delta_status": "added"
     },
     {
