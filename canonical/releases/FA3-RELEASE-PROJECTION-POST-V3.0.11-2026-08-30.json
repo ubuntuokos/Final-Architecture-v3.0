@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "80d62016a6f6ef4d7c5aa6ec73db2a5ad63a8c32",
-    "pre_projection_root_tree_sha": "201a24ce8b2fd125cc02e218c75e614b0febd7cb",
-    "pre_projection_canonical_tree_sha": "73e28f6ad67dc5fdf62bfc9350e00b2b2d3d0536",
-    "commits_ahead_of_v3_0_11_conformance_commit": 244,
-    "total_post_baseline_commits": 244,
-    "delta_file_count": 1142,
-    "delta_added_files": 1137,
+    "pre_projection_head_sha": "95575626c0ff4fb8ffc9dc38daf2a7c18b38ba17",
+    "pre_projection_root_tree_sha": "9a445389d0f8bf38156919d0053bb5725aa04252",
+    "pre_projection_canonical_tree_sha": "a811d24e5a226f7a4456ca49958ba5bf641ec8f4",
+    "commits_ahead_of_v3_0_11_conformance_commit": 248,
+    "total_post_baseline_commits": 248,
+    "delta_file_count": 1152,
+    "delta_added_files": 1147,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 614,
-    "evidence_files_in_post_baseline_delta": 115,
-    "source_files_in_post_baseline_delta": 128,
-    "test_files_in_post_baseline_delta": 107,
+    "canonical_files_in_post_baseline_delta": 616,
+    "evidence_files_in_post_baseline_delta": 116,
+    "source_files_in_post_baseline_delta": 131,
+    "test_files_in_post_baseline_delta": 109,
     "workflow_files_in_post_baseline_delta": 42,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -224,6 +224,7 @@
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-BLACKHOLE-REST-CONTROL-PLANE-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
@@ -296,6 +297,7 @@
       "canonical/decisions/FA3-DEC-ANY-GUARDRAIL-2026-09-07.json",
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-BLACKHOLE-REST-CONTROL-DATA-PLANE-2026-09-14.json",
       "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13.json",
@@ -459,6 +461,7 @@
       "evidence/reference/autogpt-ci-2026-08-30.json",
       "evidence/reference/autogpt-global-reconciliation-ci-2026-08-30.json",
       "evidence/reference/blackhole-ffmpeg-bridge-reference-2026-09-14.json",
+      "evidence/reference/blackhole-rest-control-plane-reference-2026-09-14.json",
       "evidence/reference/buzz-ci-2026-08-30.json",
       "evidence/reference/buzz-global-reconciliation-ci-2026-09-06.json",
       "evidence/reference/buzz-runtime-admission-ci-2026-09-07.json",
@@ -714,7 +717,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1141,
+  "manifest_entry_count": 1152,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -823,7 +826,7 @@
     },
     {
       "path": ".github/workflows/fa3-marketing-blackhole-security.yml",
-      "git_blob_sha": "9c6f09be67e6db782068e7871cda8a4de6bab055",
+      "git_blob_sha": "884f1557218492e02e1391af0849614a30839ee3",
       "baseline_delta_status": "added"
     },
     {
@@ -1907,6 +1910,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-BLACKHOLE-REST-CONTROL-PLANE-CONTRACTS-001.json",
+      "git_blob_sha": "77e9ccdb5bcad9ac234390f4ed992573ba3e1bcc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
       "git_blob_sha": "8447cc860b72b9904ff003334af57cd230bb6c68",
       "baseline_delta_status": "added"
@@ -2279,6 +2287,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
       "git_blob_sha": "10577c781d955c84fb4ce3eda73b08779a3a7db3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BLACKHOLE-REST-CONTROL-DATA-PLANE-2026-09-14.json",
+      "git_blob_sha": "ec8e2cd8b3dace58c8af7ac8fad18bba53a01f9d",
       "baseline_delta_status": "added"
     },
     {
@@ -4367,6 +4380,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/containers/blackhole-api.Containerfile",
+      "git_blob_sha": "d12bb0e748dec7882dd022069f0616054ee09053",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/containers/blackhole-api.requirements.txt",
+      "git_blob_sha": "88642238536b01cf31e3ddc78597806689489da2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/fa3-gui/install.sh",
       "git_blob_sha": "6867b7b01fbb2426eab0267c685ac71ba796b888",
       "baseline_delta_status": "added"
@@ -4764,6 +4787,11 @@
     {
       "path": "evidence/reference/blackhole-ffmpeg-bridge-reference-2026-09-14.json",
       "git_blob_sha": "75538d21ccf3cae50d83ccd7facc2f9950bc5e1a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/blackhole-rest-control-plane-reference-2026-09-14.json",
+      "git_blob_sha": "7b4a8315844688f3fb25e218d999aae54e1220a5",
       "baseline_delta_status": "added"
     },
     {
@@ -5192,8 +5220,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "scripts/fa3_blackhole_zerocopy_probe.py",
+      "git_blob_sha": "36c842884b1b37bfca5eae664cb202c8cb2fbbda",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "scripts/fa3_reconcile_release_projection.py",
       "git_blob_sha": "d0f08b3992cc9d702fba66ca081cb78886582e99",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/blackhole_api.py",
+      "git_blob_sha": "6f5fbc0f81e964a44ffa8389b2ea6c0d833bfae5",
       "baseline_delta_status": "added"
     },
     {
@@ -5224,6 +5262,16 @@
     {
       "path": "src/fa3_autogpt_gate.py",
       "git_blob_sha": "0ba77dd2a72549863bf475fac2c69e9623bc27c1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_blackhole_api_gate.py",
+      "git_blob_sha": "fabb3e1982bb293b02ff743ab14637336e5f887c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_blackhole_client.py",
+      "git_blob_sha": "fd976dff76f280afb9e60ea750d5e74287d198cd",
       "baseline_delta_status": "added"
     },
     {
@@ -5867,6 +5915,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_blackhole_api.py",
+      "git_blob_sha": "7a7d6f578a518a0abd8e061f82e8dc7378ef038c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_blackhole_ffmpeg_bridge.py",
       "git_blob_sha": "01e1b1125929b79333dd8132bb5742b53edfd1d7",
       "baseline_delta_status": "added"
@@ -5969,6 +6022,11 @@
     {
       "path": "tests/test_external_api_discovery_gate.py",
       "git_blob_sha": "e569c674f7b696e00e3d0a6e17e0901b0e97dcda",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_fa3_blackhole_client.py",
+      "git_blob_sha": "86da7a6e8cb0323d679f4cda9bf64b5a65241475",
       "baseline_delta_status": "added"
     },
     {
