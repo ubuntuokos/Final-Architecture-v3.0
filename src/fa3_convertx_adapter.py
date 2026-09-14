@@ -32,10 +32,11 @@ class ConversionRequest:
     profile_id: str = PROFILE_ID
     converter_name: str | None = None
     provider_arguments: tuple[str, ...] = ()
-    hrb_lease_path: str | None = None
+    resource_admission_path: str | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "ConversionRequest":
+        resource_path = data.get("resource_admission_path")
         return cls(
             input_path=str(data["input_path"]),
             input_media_type=str(data["input_media_type"]),
@@ -43,7 +44,7 @@ class ConversionRequest:
             profile_id=str(data.get("profile_id", PROFILE_ID)),
             converter_name=(None if data.get("converter_name") in (None, "") else str(data["converter_name"])),
             provider_arguments=tuple(str(x) for x in data.get("provider_arguments", [])),
-            hrb_lease_path=(None if data.get("hrb_lease_path") in (None, "") else str(data["hrb_lease_path"])),
+            resource_admission_path=(None if resource_path in (None, "") else str(resource_path)),
         )
 
 
@@ -171,10 +172,17 @@ def validate_current_host_receipt(receipt: dict[str, Any]) -> None:
         raise AdmissionDenied("real output hash missing")
     if receipt.get("egress_denial_verified") is not True:
         raise AdmissionDenied("egress denial not verified")
-    if receipt.get("hrb_lease_verified") is not True:
-        raise AdmissionDenied("HRB lease not verified")
+    if receipt.get("resource_admission_verified") is not True:
+        raise AdmissionDenied("authoritative resource admission not verified")
     if not digest_pinned_image(str(receipt.get("provider_image", ""))):
         raise AdmissionDenied("receipt provider image is not digest pinned")
+
+
+def _require_resource_admission(request: ConversionRequest, verified: bool) -> None:
+    if not request.resource_admission_path:
+        raise AdmissionDenied("execution requires authoritative resource-admission evidence")
+    if verified is not True:
+        raise AdmissionDenied("resource-admission evidence has not been authoritatively verified")
 
 
 def candidate_validation_admission(
@@ -184,6 +192,7 @@ def candidate_validation_admission(
     runtime: dict[str, Any],
     *,
     explicit: bool,
+    resource_admission_verified: bool,
 ) -> dict[str, Any]:
     pair = validate_request(request, allowlist, allowed_states=("CANDIDATE", "ACTIVE"))
     validate_runtime_contract(runtime)
@@ -200,8 +209,7 @@ def candidate_validation_admission(
         raise AdmissionDenied("FA3 adapter execution contract is not materialized")
     if machine.get("fa3_candidate_executor_materialized") is not True:
         raise AdmissionDenied("FA3 candidate executor is not materialized")
-    if not request.hrb_lease_path:
-        raise AdmissionDenied("candidate validation requires an HRB lease")
+    _require_resource_admission(request, resource_admission_verified)
     return {
         "result": "ALLOW_CANDIDATE_VALIDATION",
         "provider_id": PROVIDER_ID,
@@ -209,6 +217,7 @@ def candidate_validation_admission(
         "pair": [request.input_media_type, request.output_media_type],
         "provider_converter": pair["provider_converter"],
         "provider_target": pair["provider_target"],
+        "resource_admission_verified": True,
         "production_routing_enabled": False,
         "direct_provider_bypass": False,
     }
@@ -220,6 +229,8 @@ def machine_execution_admission(
     allowlist: dict[str, Any],
     runtime: dict[str, Any],
     receipt: dict[str, Any] | None,
+    *,
+    resource_admission_verified: bool,
 ) -> dict[str, Any]:
     pair = validate_request(request, allowlist, allowed_states=("ACTIVE",))
     validate_runtime_contract(runtime)
@@ -230,8 +241,7 @@ def machine_execution_admission(
         raise AdmissionDenied("production execution requires a materialized FA3 adapter contract")
     if machine.get("fa3_candidate_executor_materialized") is not True:
         raise AdmissionDenied("production execution requires the validated FA3 executor")
-    if not request.hrb_lease_path:
-        raise AdmissionDenied("machine execution requires an HRB lease")
+    _require_resource_admission(request, resource_admission_verified)
     if receipt is None:
         raise AdmissionDenied("machine execution requires current-host production E2E evidence")
     validate_current_host_receipt(receipt)
@@ -242,6 +252,7 @@ def machine_execution_admission(
         "pair": [request.input_media_type, request.output_media_type],
         "provider_converter": pair["provider_converter"],
         "provider_target": pair["provider_target"],
+        "resource_admission_verified": True,
         "direct_provider_bypass": False,
     }
 
@@ -256,5 +267,5 @@ def planning_admission(root: Path, request: ConversionRequest) -> dict[str, Any]
         "machine_execution_enabled": provider.get("machine_interface", {}).get("machine_execution_enabled", False),
         "pair": [request.input_media_type, request.output_media_type],
         "pair_state": pair.get("state"),
-        "reason": "Provider remains fail-closed until promotion gates and real current-host evidence pass; candidate pairs are never production-active implicitly.",
+        "reason": "Provider remains fail-closed until promotion gates, authoritative resource admission, and real current-host evidence pass; candidate pairs are never production-active implicitly.",
     }
