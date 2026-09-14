@@ -1,0 +1,43 @@
+name: FA3 extension quality lock validation
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-EXTENSION-BOUNDARY-001.json'
+      - 'canonical/FA3-VOICE-QUALITY-ROUTING-001.json'
+      - 'canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json'
+      - 'canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json'
+      - 'src/fa3_extension_boundary_gate.py'
+      - 'src/fa3_voice_quality_router.py'
+      - 'src/fa3_upstream_lock_gate.py'
+      - 'src/fa3_audio_preflight_gate.py'
+      - 'tests/test_extension_boundary.py'
+      - 'tests/test_voice_quality_router.py'
+      - 'tests/test_upstream_lock_gate.py'
+      - 'tests/test_audio_preflight_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pytest
+      - name: Canonical policy gates
+        run: |
+          python src/fa3_extension_boundary_gate.py --root .
+          python src/fa3_upstream_lock_gate.py --root .
+          python src/fa3_audio_preflight_gate.py --root .
+      - name: Focused regression tests
+        run: |
+          python -m pytest -q \
+            tests/test_extension_boundary.py \
+            tests/test_voice_quality_router.py \
+            tests/test_upstream_lock_gate.py \
+            tests/test_audio_preflight_gate.py
