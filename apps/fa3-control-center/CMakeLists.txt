@@ -23,6 +23,8 @@ qt_add_executable(fa3-control-center
     src/ChatFileService.h
     src/ModelLibraryService.cpp
     src/ModelLibraryService.h
+    src/McpControlService.cpp
+    src/McpControlService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -39,6 +41,7 @@ set_source_files_properties(qml/CheckpointManagerPage.qml PROPERTIES QT_RESOURCE
 set_source_files_properties(qml/ExternalProvidersSetupPage.qml PROPERTIES QT_RESOURCE_ALIAS ExternalProvidersSetupPage.qml)
 set_source_files_properties(qml/TokenControlCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS TokenControlCenterPage.qml)
 set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_ALIAS LanguageControlPage.qml)
+set_source_files_properties(qml/IntegrationsPage.qml PROPERTIES QT_RESOURCE_ALIAS IntegrationsPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -59,6 +62,7 @@ qt_add_qml_module(fa3-control-center
         qml/ExternalProvidersSetupPage.qml
         qml/TokenControlCenterPage.qml
         qml/LanguageControlPage.qml
+        qml/IntegrationsPage.qml
 )
 
 target_link_libraries(fa3-control-center

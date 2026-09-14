@@ -1,0 +1,75 @@
+{
+  "id": "FA3-MCP-CONTROL-CHAT-001",
+  "title": "FA3 MCP Control Chat",
+  "tier": "P0/MUST",
+  "status": "CANONICAL",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count_delta": 0,
+  "purpose": "Natural-language intent capture and operator-facing orchestration surface for FA3 MCP-controlled desktop/DCC/editor applications.",
+  "authority_chain": [
+    {
+      "stage": "GUI_CAPTURE",
+      "authority": false,
+      "rule": "Capture intent, attachments, target and risk hint only."
+    },
+    {
+      "stage": "PLANNER",
+      "authority": false,
+      "rule": "Produce typed capability calls; adapter required."
+    },
+    {
+      "stage": "POLICY",
+      "authority": true,
+      "rule": "Existing central policy authority classifies and admits capabilities."
+    },
+    {
+      "stage": "APPROVAL",
+      "authority": true,
+      "rule": "Existing approval authority gates mutating/destructive/external-side-effect operations."
+    },
+    {
+      "stage": "MCP_GATEWAY",
+      "authority": true,
+      "rule": "Existing central MCP mediation is the sole tool-routing boundary."
+    },
+    {
+      "stage": "TARGET_ADAPTER",
+      "authority": false,
+      "rule": "App-specific MCP adapter executes only admitted typed calls."
+    },
+    {
+      "stage": "EVIDENCE",
+      "authority": true,
+      "rule": "Existing observability/evidence authority records result, artifact and provenance."
+    }
+  ],
+  "risk_policy": {
+    "READ_ONLY": "Policy may admit without interactive approval only when the capability manifest proves read-only semantics.",
+    "MUTATING": "Explicit operator approval required before gateway invocation.",
+    "DESTRUCTIVE": "Preview/diff plus explicit operator approval required; fail closed if unavailable.",
+    "EXTERNAL_SIDE_EFFECT": "Explicit approval and egress/provider policy required.",
+    "UNKNOWN": "Fail closed and require planner classification plus explicit approval."
+  },
+  "prohibited": [
+    "GUI self-approval",
+    "direct MCP tool invocation from QML",
+    "shell or privilege bypass",
+    "fabricated CONNECTED/PASS state",
+    "execution without policy outcome",
+    "execution without evidence receipt"
+  ],
+  "targets": [
+    "AUTO",
+    "GIMP",
+    "KRITA",
+    "BLENDER",
+    "BFORARTIST",
+    "KDENLIVE",
+    "OPENSHOT",
+    "INKSCAPE",
+    "ARDOUR"
+  ],
+  "runtime_state": "ADAPTER-GATED",
+  "production_admitted": false
+}

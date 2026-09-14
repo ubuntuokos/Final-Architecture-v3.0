@@ -30,9 +30,16 @@ Item {
     property url pendingCopySource: ""
     property string operationStatus: ""
     property bool operationFailed: false
+    property string workspaceMode: "ASSISTANT"
+    property string requestedMcpTarget: "AUTO"
+    property string mcpTarget: requestedMcpTarget
+    property string mcpRiskHint: "AUTO"
+    property var mcpTargets: fa3McpControl.targets()
+    property var mcpAuthority: fa3McpControl.authoritySnapshot(mcpTarget)
 
     signal closeRequested()
     signal navigateRequested(int pageIndex)
+    signal modeChangeRequested(string mode)
 
     function roleDescription(name) {
         if (name === "Mentor") return "Tanulási, szakmai és megvalósítási iránymutatás."
@@ -42,6 +49,30 @@ Item {
         if (name === "Ötletelő") return "Alternatívák, új ötletek és kreatív irányok generálása."
         if (name === "Tanácsadó") return "Opciók, trade-offok és döntéstámogató elemzés."
         return "FA3 szerepalapú beszélgetési munkatér."
+    }
+
+
+    function isMcpMode() {
+        return workspaceMode === "MCP CONTROL" || workspaceMode === "WORKFLOW"
+    }
+
+    function workspaceTitle() {
+        if (workspaceMode === "MCP CONTROL") return "MCP Control Chat"
+        if (workspaceMode === "WORKFLOW") return "MCP Workflow Chat"
+        return "Kérdezd: " + role
+    }
+
+    function workspaceDescription() {
+        if (workspaceMode === "MCP CONTROL") return "Természetes nyelvű, policy-gated alkalmazásvezérlés a központi MCP authority-láncon keresztül."
+        if (workspaceMode === "WORKFLOW") return "Több alkalmazáson átívelő terv és artifact-handoff előkészítése; végrehajtás csak admission után."
+        return roleDescription(role)
+    }
+
+    function indexForTarget(id) {
+        for (var i = 0; i < mcpTargets.length; ++i) {
+            if (String(mcpTargets[i].id) === id) return i
+        }
+        return 0
     }
 
     function showOperationStatus(text, failed) {
@@ -108,24 +139,77 @@ Item {
         attachmentModel.clear()
         composer.clear()
         chatModel.clear()
+        if (root.isMcpMode()) {
+            chatModel.append({
+                kind: "SYSTEM",
+                author: "FA3 MCP Control",
+                body: root.workspaceTitle() + " megnyitva. Target: " + root.mcpTarget + ". A GUI intent-capture felület; nem execution authority.",
+                state: "READY",
+                attachmentsJson: "[]"
+            })
+            chatModel.append({
+                kind: "SYSTEM",
+                author: "MCP Authority",
+                body: "CAPTURE → PLANNER → POLICY → APPROVAL → MCP GATEWAY → TARGET ADAPTER → EVIDENCE. Planner/gateway/app adapter runtime jelenleg nincs hitelesítetten bekötve, ezért végrehajtás fail-closed.",
+                state: "ADAPTER-GATED",
+                attachmentsJson: "[]"
+            })
+        } else {
+            chatModel.append({
+                kind: "SYSTEM",
+                author: "FA3",
+                body: role + " chat munkatér megnyitva. " + roleDescription(role),
+                state: "READY",
+                attachmentsJson: "[]"
+            })
+            chatModel.append({
+                kind: "SYSTEM",
+                author: "Runtime",
+                body: "Nincs hitelesített role-chat provider adapter hozzárendelve. A felület ezért nem állít elő mesterséges választ és nem jelöl hamisan ONLINE állapotot.",
+                state: "ADAPTER-GATED",
+                attachmentsJson: "[]"
+            })
+        }
+        Qt.callLater(function() { messageList.positionViewAtEnd() })
+    }
+
+    function draftMcpRequest() {
+        var text = composer.text.trim()
+        if (text.length === 0 && attachmentModel.count === 0) return
+        var attachmentJson = root.pendingAttachmentsJson()
         chatModel.append({
-            kind: "SYSTEM",
-            author: "FA3",
-            body: role + " chat munkatér megnyitva. " + roleDescription(role),
-            state: "READY",
-            attachmentsJson: "[]"
+            kind: "USER",
+            author: "Te",
+            body: text.length > 0 ? text : "Csatolmány(ok) hozzáadva az MCP intenthez.",
+            state: "MCP-INTENT",
+            attachmentsJson: attachmentJson
         })
-        chatModel.append({
-            kind: "SYSTEM",
-            author: "Runtime",
-            body: "Nincs hitelesített role-chat provider adapter hozzárendelve. A felület ezért nem állít elő mesterséges választ és nem jelöl hamisan ONLINE állapotot.",
-            state: "ADAPTER-GATED",
-            attachmentsJson: "[]"
-        })
+        var result = fa3McpControl.createDraftRequest(root.workspaceMode, root.mcpTarget, text, attachmentJson, root.mcpRiskHint)
+        composer.clear()
+        attachmentModel.clear()
+        if (result.ok) {
+            chatModel.append({
+                kind: "SYSTEM",
+                author: "MCP Authority",
+                body: "Request " + result.requestId + " · target " + result.target + " · " + result.summary + " A vázlat helyben rögzítve; nincs elküldve és nincs target alkalmazás meghívva.",
+                state: result.state,
+                attachmentsJson: "[]"
+            })
+        } else {
+            chatModel.append({
+                kind: "SYSTEM",
+                author: "MCP Authority",
+                body: result.error || "Az MCP request-vázlat nem hozható létre.",
+                state: "REJECTED",
+                attachmentsJson: "[]"
+            })
+        }
+        root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
         Qt.callLater(function() { messageList.positionViewAtEnd() })
     }
 
     function draftPrompt() {
+        if (root.isMcpMode()) { root.draftMcpRequest(); return }
         var text = composer.text.trim()
         if (text.length === 0 && attachmentModel.count === 0) return
         var attachmentJson = root.pendingAttachmentsJson()
@@ -153,8 +237,18 @@ Item {
         exportDialog.open()
     }
 
-    onRoleChanged: resetSession()
-    Component.onCompleted: resetSession()
+    onRoleChanged: { if (!root.isMcpMode()) resetSession() }
+    onWorkspaceModeChanged: resetSession()
+    onRequestedMcpTargetChanged: {
+        root.mcpTarget = requestedMcpTarget && requestedMcpTarget.length > 0 ? requestedMcpTarget : "AUTO"
+        root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
+    }
+    onMcpTargetChanged: root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
+    Component.onCompleted: {
+        root.mcpTarget = requestedMcpTarget && requestedMcpTarget.length > 0 ? requestedMcpTarget : "AUTO"
+        root.mcpAuthority = fa3McpControl.authoritySnapshot(root.mcpTarget)
+        resetSession()
+    }
 
     Connections {
         target: fa3Preferences
@@ -227,33 +321,69 @@ Item {
 
         Surface {
             Layout.fillWidth: true
-            Layout.preferredHeight: 72
-            RowLayout {
+            Layout.preferredHeight: root.isMcpMode() ? 126 : 104
+
+            ColumnLayout {
                 anchors.fill: parent
-                anchors.margins: 12
-                spacing: 10
-                ColumnLayout {
+                anchors.margins: 10
+                spacing: 7
+
+                RowLayout {
                     Layout.fillWidth: true
-                    spacing: 2
-                    Label { text: "Kérdezd: " + root.role; color: root.textPrimary; font.pixelSize: 20; font.bold: true }
-                    Label { text: root.roleDescription(root.role); color: root.textMuted; font.pixelSize: 10; Layout.fillWidth: true; elide: Text.ElideRight }
+                    spacing: 10
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 2
+                        Label { text: root.workspaceTitle(); color: root.textPrimary; font.pixelSize: 19; font.bold: true }
+                        Label { text: root.workspaceDescription(); color: root.textMuted; font.pixelSize: 9; Layout.fillWidth: true; elide: Text.ElideRight }
+                    }
+                    Rectangle {
+                        radius: 12
+                        implicitWidth: modeState.implicitWidth + 20
+                        implicitHeight: 24
+                        color: "#2a2113"
+                        border.color: root.orange
+                        Label { id: modeState; anchors.centerIn: parent; text: root.isMcpMode() ? "MCP · ADAPTER-GATED" : root.adapterState; color: root.orange; font.pixelSize: 8; font.bold: true }
+                    }
+                    HelpBubble {
+                        helpText: root.isMcpMode()
+                                  ? "Authority: GUI capture → planner → policy → approval → central MCP gateway → app adapter → evidence. A GUI nem hagyhat jóvá és nem hívhat közvetlenül MCP toolt."
+                                  : "A chatfelület használható vázlatokhoz és csatolmányok előkészítéséhez. Valódi AI-válasz csak hitelesített role-chat provider/runtime adapterrel engedélyezhető."
+                        bubbleText: root.textPrimary
+                        bubbleBorder: root.border
+                    }
+                    ToolButton { text: "✕"; onClicked: root.closeRequested() }
                 }
-                Rectangle {
-                    radius: 12
-                    implicitWidth: adapterLabel.implicitWidth + 20
-                    implicitHeight: 24
-                    color: "#2a2113"
-                    border.color: root.orange
-                    Label { id: adapterLabel; anchors.centerIn: parent; text: root.adapterState; color: root.orange; font.pixelSize: 8; font.bold: true }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 7
+                    Button { text: "Asszisztens"; checkable: true; checked: root.workspaceMode === "ASSISTANT"; onClicked: root.modeChangeRequested("ASSISTANT") }
+                    Button { text: "MCP Control"; checkable: true; checked: root.workspaceMode === "MCP CONTROL"; onClicked: root.modeChangeRequested("MCP CONTROL") }
+                    Button { text: "Workflow"; checkable: true; checked: root.workspaceMode === "WORKFLOW"; onClicked: root.modeChangeRequested("WORKFLOW") }
+                    Rectangle { width: 1; height: 28; color: root.border; visible: root.isMcpMode() }
+                    Label { visible: root.isMcpMode(); text: "Target"; color: root.textMuted; font.pixelSize: 9 }
+                    ComboBox {
+                        visible: root.isMcpMode()
+                        Layout.preferredWidth: 190
+                        model: root.mcpTargets
+                        textRole: "name"
+                        valueRole: "id"
+                        currentIndex: root.indexForTarget(root.mcpTarget)
+                        onActivated: root.mcpTarget = String(currentValue)
+                    }
+                    Label { visible: root.isMcpMode(); text: "Risk"; color: root.textMuted; font.pixelSize: 9 }
+                    ComboBox {
+                        visible: root.isMcpMode()
+                        Layout.preferredWidth: 160
+                        model: ["AUTO", "READ_ONLY", "MUTATING", "DESTRUCTIVE", "EXTERNAL_SIDE_EFFECT"]
+                        currentIndex: Math.max(0, model.indexOf(root.mcpRiskHint))
+                        onActivated: root.mcpRiskHint = currentText
+                    }
+                    Item { Layout.fillWidth: true }
+                    Button { text: "Models & Providers"; onClicked: root.navigateRequested(5) }
+                    Button { text: "Integrations"; onClicked: root.navigateRequested(14) }
                 }
-                HelpBubble {
-                    helpText: "A chatfelület használható vázlatokhoz és csatolmányok előkészítéséhez. Valódi AI-válasz csak hitelesített role-chat provider/runtime adapterrel engedélyezhető."
-                    bubbleText: root.textPrimary
-                    bubbleBorder: root.border
-                }
-                Button { text: "Models & Providers"; onClicked: root.navigateRequested(5) }
-                Button { text: "Integrations"; onClicked: root.navigateRequested(14) }
-                ToolButton { text: "✕"; onClicked: root.closeRequested() }
             }
         }
 
@@ -265,6 +395,52 @@ Item {
                 anchors.fill: parent
                 anchors.margins: root.viewMode === "Compact" ? 10 : 14
                 spacing: root.viewMode === "Compact" ? 7 : 10
+
+                Rectangle {
+                    visible: root.isMcpMode()
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: visible ? 66 : 0
+                    radius: 7
+                    color: root.panelRaised
+                    border.color: root.border
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 8
+                        spacing: 5
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Label { text: "MCP Authority"; color: root.textPrimary; font.pixelSize: 9; font.bold: true }
+                            Item { Layout.fillWidth: true }
+                            Label { text: root.mcpAuthority.state || "ADAPTER-GATED"; color: root.orange; font.pixelSize: 8; font.bold: true }
+                        }
+                        Flow {
+                            Layout.fillWidth: true
+                            spacing: 5
+                            Repeater {
+                                model: root.mcpAuthority && root.mcpAuthority.stages ? root.mcpAuthority.stages : []
+                                delegate: Rectangle {
+                                    required property var modelData
+                                    width: stageText.implicitWidth + 16
+                                    height: 23
+                                    radius: 10
+                                    color: modelData.state === "READY" ? "#103528" : "#2a2113"
+                                    border.color: modelData.state === "READY" ? root.green : root.orange
+                                    Label {
+                                        id: stageText
+                                        anchors.centerIn: parent
+                                        text: modelData.id + " · " + modelData.state
+                                        color: modelData.state === "READY" ? root.green : root.orange
+                                        font.pixelSize: 7
+                                        font.bold: true
+                                    }
+                                    ToolTip.visible: stageMouse.containsMouse
+                                    ToolTip.text: modelData.detail
+                                    MouseArea { id: stageMouse; anchors.fill: parent; hoverEnabled: true }
+                                }
+                            }
+                        }
+                    }
+                }
 
                 ListView {
                     id: messageList
@@ -450,7 +626,7 @@ Item {
                         id: composer
                         anchors.fill: parent
                         anchors.margins: 10
-                        placeholderText: "Írj a(z) " + root.role + " szerepnek… Fájlt ide is húzhatsz."
+                        placeholderText: root.isMcpMode() ? ("Írj MCP utasítást · target: " + root.mcpTarget + "… Fájlt ide is húzhatsz.") : ("Írj a(z) " + root.role + " szerepnek… Fájlt ide is húzhatsz.")
                         wrapMode: TextEdit.Wrap
                         color: root.textPrimary
                         font.pixelSize: root.chatFontSize
@@ -492,16 +668,18 @@ Item {
                     }
                     Item { Layout.fillWidth: root.operationStatus.length === 0 }
                     Button {
-                        text: "Vázlat"
+                        text: root.isMcpMode() ? "MCP request vázlat" : "Vázlat"
                         enabled: composer.text.trim().length > 0 || attachmentModel.count > 0
                         onClicked: root.draftPrompt()
                     }
                     Button {
-                        text: "Küldés"
+                        text: root.isMcpMode() ? "Végrehajtás" : "Küldés"
                         enabled: false
                     }
                     HelpBubble {
-                        helpText: "A Küldés csak aktív és hitelesített role-chat provider/runtime adapter után lesz engedélyezve. Addig a szöveg és a csatolmányok helyi vázlatként készíthetők elő."
+                        helpText: root.isMcpMode()
+                                  ? "Végrehajtás csak akkor engedélyezhető, ha a planner typed tool-call tervet ad, a policy outcome PASS, a szükséges approval megvan, a központi MCP gateway és a target adapter hitelesítetten elérhető, majd evidence receipt készül. Jelenleg fail-closed."
+                                  : "A Küldés csak aktív és hitelesített role-chat provider/runtime adapter után lesz engedélyezve. Addig a szöveg és a csatolmányok helyi vázlatként készíthetők elő."
                         bubbleText: root.textPrimary
                         bubbleBorder: root.border
                     }

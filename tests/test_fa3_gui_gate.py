@@ -78,5 +78,27 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn('onClicked: window.openLanguageControl()', main)
 
 
+    def test_mcp_control_chat_is_authority_gated_and_integrated(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        chat = (ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml").read_text(encoding="utf-8")
+        integrations = (ROOT / "apps/fa3-control-center/qml/IntegrationsPage.qml").read_text(encoding="utf-8")
+        service = (ROOT / "apps/fa3-control-center/src/McpControlService.cpp").read_text(encoding="utf-8")
+        contract = (ROOT / "canonical/FA3-MCP-CONTROL-CHAT-001.json").read_text(encoding="utf-8")
+        cmake = (ROOT / "apps/fa3-control-center/CMakeLists.txt").read_text(encoding="utf-8")
+
+        for token in ["function openMcpChat", "MCP Control Chat", "IntegrationsPage", "workspaceMode: window.chatWorkspaceMode"]:
+            self.assertIn(token, main)
+        for token in ["MCP CONTROL", "WORKFLOW", "MCP Authority", "MCP request vázlat", "Végrehajtás", "createDraftRequest"]:
+            self.assertIn(token, chat)
+        for token in ["GIMP", "Krita", "Blender", "Kdenlive", "OpenShot", "Inkscape", "Ardour", "No fabricated CONNECTED state"]:
+            self.assertIn(token, integrations)
+        for token in ["DRAFT_NOT_SUBMITTED", "direct_tool_invocation_allowed", "gui_self_approval_allowed", "execution_without_policy_allowed", "execution_without_evidence_allowed"]:
+            self.assertIn(token, service)
+        self.assertIn('"new_architectural_authority": false', contract)
+        self.assertIn('"capability_count_delta": 0', contract)
+        self.assertIn("McpControlService.cpp", cmake)
+        self.assertIn("IntegrationsPage.qml", cmake)
+
+
 if __name__ == "__main__":
     unittest.main()

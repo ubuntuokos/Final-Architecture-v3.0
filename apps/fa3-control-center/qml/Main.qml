@@ -19,6 +19,8 @@ ApplicationWindow {
     property string askRole: "Mentor"
     property bool webWorkspaceOpen: false
     property bool chatWorkspaceOpen: false
+    property string chatWorkspaceMode: "ASSISTANT"
+    property string mcpChatTarget: "AUTO"
     property url webWorkspaceUrl: "about:blank"
     property string webWorkspaceTitle: "Web Workspace"
     property bool llmFitExpanded: false
@@ -50,6 +52,15 @@ ApplicationWindow {
 
     function openRoleChat(roleName) {
         askRole = roleName
+        chatWorkspaceMode = "ASSISTANT"
+        mcpChatTarget = "AUTO"
+        webWorkspaceOpen = false
+        chatWorkspaceOpen = true
+    }
+
+    function openMcpChat(targetId) {
+        chatWorkspaceMode = "MCP CONTROL"
+        mcpChatTarget = targetId && targetId.length > 0 ? targetId : "AUTO"
         webWorkspaceOpen = false
         chatWorkspaceOpen = true
     }
@@ -96,6 +107,7 @@ ApplicationWindow {
         {title: "Napló / Journal", detail: "Rendszer-, beszélgetés- és projektnapló", category: "FUNCTION", pageIndex: 12},
         {title: "Evidence", detail: "Conformance és promotion evidence", category: "FUNCTION", pageIndex: 13},
         {title: "Integrations", detail: "Desktop, MCP és provider integrációk", category: "FUNCTION", pageIndex: 14},
+        {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", pageIndex: 14},
         {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", pageIndex: 15},
         {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", pageIndex: 16},
         {title: "Megjelenés", detail: "Téma, sűrűség és betűméret", category: "SETTING", pageIndex: 15},
@@ -738,6 +750,8 @@ ApplicationWindow {
                                     MenuItem { text: "Ellenőr"; onTriggered: window.openRoleChat("Ellenőr") }
                                     MenuItem { text: "Ötletelő"; onTriggered: window.openRoleChat("Ötletelő") }
                                     MenuItem { text: "Tanácsadó"; onTriggered: window.openRoleChat("Tanácsadó") }
+                                    MenuSeparator {}
+                                    MenuItem { text: "MCP Control Chat"; onTriggered: window.openMcpChat("AUTO") }
                                 }
                             }
 
@@ -1208,16 +1222,18 @@ ApplicationWindow {
                     }
                 }
 
-                ModulePage {
-                    pageTitle: "Integrations"
-                    pageSubtitle: "Desktop, DCC, editor, MCP and provider connections"
-                    cards: [
-                        {title: "Creative Apps", subtitle: "Krita, GIMP, Kdenlive, Bforartist/Blender, Natron/Gaffer.", badge: "DESKTOP", tone: window.magenta},
-                        {title: "Agent Clients", subtitle: "Goose, Open WebUI, OpenYak and related projections.", badge: "ROUTED", tone: window.accent},
-                        {title: "MCP", subtitle: "Capabilities mediated through the central gateway.", badge: "GATED", tone: window.orange},
-                        {title: "RTD Adapters", subtitle: "REST, WebSocket, RSS, webhook, MCP és local adapter kapcsolatok az RTD Providers számára.", badge: "ADAPTER", tone: window.cyan},
-                        {title: "Journal Share", subtitle: "E-mail adapter and chat/export bundle handoff.", badge: "ADAPTER", tone: window.green}
-                    ]
+                IntegrationsPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    cyan: window.cyan
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onOpenMcpControlRequested: function(targetId) { window.openMcpChat(targetId) }
                 }
 
                 SystemSettingsPage {
@@ -1305,6 +1321,8 @@ ApplicationWindow {
 
                 ChatWorkspace {
                     role: window.askRole
+                    workspaceMode: window.chatWorkspaceMode
+                    requestedMcpTarget: window.mcpChatTarget
                     panel: window.panel
                     panelRaised: window.panelRaised
                     border: window.border
@@ -1314,6 +1332,7 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    onModeChangeRequested: function(mode) { window.chatWorkspaceMode = mode }
                     onCloseRequested: window.chatWorkspaceOpen = false
                     onNavigateRequested: function(pageIndex) {
                         window.chatWorkspaceOpen = false
