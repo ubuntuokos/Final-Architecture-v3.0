@@ -38,6 +38,7 @@ set_source_files_properties(qml/HelpBubble.qml PROPERTIES QT_RESOURCE_ALIAS Help
 set_source_files_properties(qml/CheckpointManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS CheckpointManagerPage.qml)
 set_source_files_properties(qml/ExternalProvidersSetupPage.qml PROPERTIES QT_RESOURCE_ALIAS ExternalProvidersSetupPage.qml)
 set_source_files_properties(qml/TokenControlCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS TokenControlCenterPage.qml)
+set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_ALIAS LanguageControlPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -57,6 +58,7 @@ qt_add_qml_module(fa3-control-center
         qml/CheckpointManagerPage.qml
         qml/ExternalProvidersSetupPage.qml
         qml/TokenControlCenterPage.qml
+        qml/LanguageControlPage.qml
 )
 
 target_link_libraries(fa3-control-center
