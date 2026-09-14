@@ -165,9 +165,18 @@ Item {
                         ColumnLayout {
                             spacing: 12
                             Label { text: "Budgetek"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
-                            RowLayout { Label { text: "Napi token budget:"; color: root.textMuted }; SpinBox { id: dailyTokens; from: 0; to: 1000000000; value: 0; editable: true } }
-                            RowLayout { Label { text: "Havi token budget:"; color: root.textMuted }; SpinBox { id: monthlyTokens; from: 0; to: 2000000000; value: 0; editable: true } }
-                            RowLayout { Label { text: "Max context / request:"; color: root.textMuted }; SpinBox { id: contextBudget; from: 0; to: 10000000; value: 0; editable: true } }
+                            RowLayout {
+                                Label { text: "Napi token budget:"; color: root.textMuted }
+                                SpinBox { id: dailyTokens; from: 0; to: 1000000000; value: 0; editable: true }
+                            }
+                            RowLayout {
+                                Label { text: "Havi token budget:"; color: root.textMuted }
+                                SpinBox { id: monthlyTokens; from: 0; to: 2000000000; value: 0; editable: true }
+                            }
+                            RowLayout {
+                                Label { text: "Max context / request:"; color: root.textMuted }
+                                SpinBox { id: contextBudget; from: 0; to: 10000000; value: 0; editable: true }
+                            }
                             Button { text: "Budget policy ChangeSet-tervezet"; onClicked: root.draft("propose.token.budget", "global-token-budget", "daily=" + dailyTokens.value + "; monthly=" + monthlyTokens.value + "; max_context=" + contextBudget.value) }
                             Label { text: "0 = nincs külön GUI-ból kért keret; ez nem jelent korlátlan külső költési engedélyt."; color: root.orange; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
                             Item { Layout.fillHeight: true }
