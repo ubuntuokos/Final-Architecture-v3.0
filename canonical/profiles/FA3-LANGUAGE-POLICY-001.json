@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LANGUAGE-POLICY-001",
+  "name": "System Language Selection & Locale Policy",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "purpose": "Make FA3 internationally usable while guaranteeing two explicitly selected operating languages on every installation.",
+  "installation_contract": {
+    "primary_language": {"required": true, "cardinality": 1, "format": "BCP47"},
+    "secondary_language": {"required": true, "cardinality": 1, "format": "BCP47"},
+    "primary_secondary_must_differ": true,
+    "additional_languages": {"required": false, "cardinality": "0..N", "format": "BCP47"},
+    "installation_may_complete_without_both_required_languages": false
+  },
+  "semantics": {
+    "primary": ["default GUI locale", "default system/assistant response locale", "default document locale", "default STT/TTS locale preference"],
+    "secondary": ["second official FA3 operating language", "validated alternate work/interface language", "not a lower-quality language class"],
+    "additional": ["optional user/request languages", "do not create mandatory installation dependencies"]
+  },
+  "language_neutrality": {
+    "globally_required_specific_language": null,
+    "hungarian_is_global_default": false,
+    "hungarian_specific_assets_required_when": "hu-HU is primary_language OR secondary_language",
+    "international_apps_may_be_admitted_without_hungarian_native_support": true
+  },
+  "runtime_language_context": {
+    "required_fields": ["user_language", "work_language", "output_language"],
+    "optional_fields": ["source_language"],
+    "work_language_may_differ_from_user_language": true,
+    "output_language_defaults_to_primary_for_general_interaction": true
+  },
+  "change_policy": {
+    "primary_secondary_change_after_install_allowed": true,
+    "invariant_must_remain_true_after_change": "exactly one primary and one distinct secondary language",
+    "required_language_capabilities_must_be_reconciled_before_commit": true
+  },
+  "fail_closed": true,
+  "capability_count_delta": 0,
+  "authority_delta": 0
+}
