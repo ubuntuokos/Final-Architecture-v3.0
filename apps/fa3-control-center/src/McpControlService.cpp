@@ -85,7 +85,7 @@ QVariantMap McpControlService::authoritySnapshot(const QString &targetId) const
         {QStringLiteral("target"), effectiveTarget},
         {QStringLiteral("canExecute"), false},
         {QStringLiteral("state"), QStringLiteral("ADAPTER-GATED")},
-        {QStringLiteral("reason"), QStringLiteral("Planner/gateway/app adapters do not yet provide verified runtime admission to this GUI")),
+        {QStringLiteral("reason"), QStringLiteral("Planner/gateway/app adapters do not yet provide verified runtime admission to this GUI")},
         {QStringLiteral("stages"), stages}
     };
 }
