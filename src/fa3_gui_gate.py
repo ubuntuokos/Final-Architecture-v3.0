@@ -25,6 +25,7 @@ REQUIRED = {
     "checkpoint_qml": ROOT / "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
     "external_providers_qml": ROOT / "apps/fa3-control-center/qml/ExternalProvidersSetupPage.qml",
     "token_control_qml": ROOT / "apps/fa3-control-center/qml/TokenControlCenterPage.qml",
+    "language_control_qml": ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "chat_file_service": ROOT / "apps/fa3-control-center/src/ChatFileService.cpp",
@@ -128,6 +129,12 @@ def validate() -> list[str]:
     external_qml = REQUIRED["external_providers_qml"].read_text(encoding="utf-8")
     for token in ["External Providers Setup", "externalProviders/enabled", "BROKER / SECRETREF ONLY", "FORBIDDEN IN GUI STORAGE", "FAIL-CLOSED", "monthlyBudget"]:
         if token not in external_qml: failures.append(f"qml-external-provider-setup-missing:{token}")
+    language_qml = REQUIRED["language_control_qml"].read_text(encoding="utf-8")
+    for token in ["Tolmács / Nyelvi híd", "FA3-GUI-LANGUAGE-CONTROL-001", "FA3-LANGUAGE-BRIDGE-001", "Natív modellnyelv előnyben", "Közvetített nyelv engedélyezése", "ADAPTER-GATED", "PENDING_BACKEND", "SECRET", "derived projection"]:
+        if token not in language_qml: failures.append(f"qml-language-control-surface-missing:{token}")
+    for token in ["id: languageDrawer", "id: languageButton", "Ctrl+Shift+L", "LanguageControlPage"]:
+        if token not in qml: failures.append(f"qml-language-control-wiring-missing:{token}")
+
     token_qml = REQUIRED["token_control_qml"].read_text(encoding="utf-8")
     for token in ["Token Control Center", "FA3-TOKEN-GOVERNANCE-001", "Credentialek", "AI tokenhasználat", "Budgetek", "Költségek", "Audit", "Riasztások", "Házirendek", "VAULT / BROKER", "Plaintext secret storage forbidden"]:
         if token not in token_qml: failures.append(f"qml-token-control-center-missing:{token}")

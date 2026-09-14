@@ -52,6 +52,17 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertEqual(1, main.count(integrations))
         self.assertIn(studio + "\n                        " + integrations, main)
 
+    def test_language_control_is_restored_as_global_drawer(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        page = (ROOT / "apps/fa3-control-center/qml/LanguageControlPage.qml").read_text(encoding="utf-8")
+        cmake = (ROOT / "apps/fa3-control-center/CMakeLists.txt").read_text(encoding="utf-8")
+
+        for token in ["id: languageDrawer", "id: languageButton", "Ctrl+Shift+L", "Tolmács / Nyelvi híd", "LanguageControlPage"]:
+            self.assertIn(token, main)
+        for token in ["FA3-GUI-LANGUAGE-CONTROL-001", "FA3-LANGUAGE-BRIDGE-001", "ADAPTER-GATED", "PENDING_BACKEND", "SECRET", "derived projection"]:
+            self.assertIn(token, page)
+        self.assertIn("qml/LanguageControlPage.qml", cmake)
+
 
 if __name__ == "__main__":
     unittest.main()
