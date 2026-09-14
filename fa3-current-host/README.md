@@ -76,6 +76,8 @@ FA3_HRB_ACQUIRE_COMMAND='fa3-hrb-client acquire --workload {workload} --output {
 
 The command template is tokenized without a shell. The bootstrap never mints or signs a lease itself. If neither a real `--hrb-lease` nor an external acquire command is available, it writes `reports/resource-admission-smoke-bootstrap-report.json`, remains fail-closed, and exits `2`. `--prepare-only` also exits `2` after creating the fixed smoke workload and accelerator hint. PASS requires the existing collector plus the `resource-admission-current-host` gate, so the canonical scoped receipt remains the proof artifact. A smoke PASS is not a global promotion claim.
 
+The `FA3 Resource Admission Current Host` `workflow_dispatch` production job uses this same `smoke` bootstrap on the `[self-hosted, linux, x64, fa3-current-host]` runner. `hrb_lease` is optional: when supplied, it must identify a real lease already present on that host; when left empty, the runner service must already expose the trusted `FA3_HRB_ACQUIRE_COMMAND` adapter in its environment. The workflow deliberately has no dispatch input for an acquire command, so GitHub UI input cannot introduce an arbitrary executable command into the self-hosted production path. If neither lease source is available, the job blocks with exit code `2`. The workflow uploads the scoped smoke/gate reports and generated workload envelope, but never uploads the HRB lease itself.
+
 For a custom workload envelope, the lower-level path remains available:
 
 ```bash

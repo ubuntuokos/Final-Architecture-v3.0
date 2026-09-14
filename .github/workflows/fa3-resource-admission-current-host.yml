@@ -26,14 +26,14 @@ on:
         default: false
         type: boolean
       workload_envelope:
-        description: 'Path to fa3.workload-resource-envelope.v1 JSON on the self-hosted runner'
+        description: 'Output path for the generated fa3.workload-resource-envelope.v1 smoke envelope'
         required: false
-        default: '.fa3-current-host/input/resource-workload-envelope.json'
+        default: '.fa3-current-host/input/resource-smoke-workload-envelope.json'
         type: string
       hrb_lease:
-        description: 'Path to current HRB AcceleratorExecutionLease JSON on the self-hosted runner'
+        description: 'Optional path to a pre-existing real HRB AcceleratorExecutionLease; leave empty to use the runner-preconfigured external HRB acquire adapter'
         required: false
-        default: '.fa3-current-host/input/resource-hrb-lease.json'
+        default: ''
         type: string
 
 permissions:
@@ -79,13 +79,17 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Collect real resource-admission evidence
+      - name: Run fail-closed resource-admission smoke bootstrap
+        shell: bash
         run: |
+          set -euo pipefail
           chmod +x bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-resource-admission-current-host.py
-          ./bin/fa3-resource-admission-current-host.sh collect \
-            --workload-envelope "${{ inputs.workload_envelope }}" \
-            --hrb-lease "${{ inputs.hrb_lease }}"
-      - name: Validate current-host receipt
+          args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")
+          if [[ -n "${{ inputs.hrb_lease }}" ]]; then
+            args+=(--hrb-lease "${{ inputs.hrb_lease }}")
+          fi
+          ./bin/fa3-resource-admission-current-host.sh "${args[@]}"
+      - name: Re-validate current-host receipt independently
         run: ./bin/fa3-enforce resource-admission-current-host
       - name: Upload scoped evidence
         if: always()
@@ -95,5 +99,7 @@ jobs:
           if-no-files-found: warn
           path: |
             evidence/receipts/resource-admission-current-host.json
+            reports/resource-admission-smoke-bootstrap-report.json
             reports/resource-admission-current-host-gate-report.json
             reports/resource-evidence-normalization-gate-report.json
+            .fa3-current-host/input/resource-smoke-workload-envelope.json

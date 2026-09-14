@@ -154,6 +154,21 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
             self.assertEqual(report["acquire"]["return_code"], 1)
             self.assertFalse(any("collect-resource-admission-current-host.py" in " ".join(c) for c in calls))
 
+    def test_self_hosted_workflow_uses_smoke_bootstrap_not_legacy_collect_path(self) -> None:
+        workflow = (ROOT / ".github/workflows/fa3-resource-admission-current-host.yml").read_text(encoding="utf-8")
+        production = workflow.split("  production-e2e:\n", 1)[1]
+        self.assertIn('args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")', production)
+        self.assertIn('./bin/fa3-resource-admission-current-host.sh "${args[@]}"', production)
+        self.assertNotIn("fa3-resource-admission-current-host.sh collect", production)
+        self.assertIn("Re-validate current-host receipt independently", production)
+
+    def test_workflow_does_not_accept_hrb_acquire_command_from_dispatch_ui(self) -> None:
+        workflow = (ROOT / ".github/workflows/fa3-resource-admission-current-host.yml").read_text(encoding="utf-8")
+        dispatch = workflow.split("  workflow_dispatch:\n", 1)[1].split("\npermissions:\n", 1)[0]
+        self.assertNotIn("hrb_acquire_command", dispatch)
+        self.assertIn("hrb_lease:", dispatch)
+        self.assertIn("default: ''", dispatch)
+
 
 if __name__ == "__main__":
     unittest.main()
