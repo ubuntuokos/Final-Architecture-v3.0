@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.language-bridge.projection.v1",
+  "id": "FA3-LANGUAGE-BRIDGE-001",
+  "name": "Language Bridge Runtime Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-MEDIATION-REQUIRED",
+  "profile_id": "FA3-LANGUAGE-FABRIC-001",
+  "policy_id": "FA3-LANGUAGE-POLICY-001",
+  "admission_id": "FA3-LANGUAGE-ADMISSION-001",
+  "gui_projection_id": "FA3-GUI-LANGUAGE-CONTROL-001",
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "contracts": {
+    "input_authority": "original source remains authoritative",
+    "translation_semantics": "derived projection with provenance",
+    "native_vs_mediated": "must remain distinguishable",
+    "unknown_route": "FAIL_CLOSED",
+    "secret_external_translation": "DENY",
+    "provider_selection": "admitted provider only",
+    "language_context": ["user_language", "work_language", "output_language", "source_language?"],
+    "structured_content_protection": ["code blocks", "identifiers", "URLs", "structured data", "protected terminology"]
+  },
+  "activation": {
+    "required_when": "selected admitted application/model cannot natively or directly satisfy the required request language",
+    "not_required_when": "validated native/direct route satisfies the request language and policy",
+    "language_specific_assets": "on-demand according to selected primary/secondary/additional language requirements"
+  },
+  "provider_policy": {
+    "mandatory_vendor": null,
+    "local_first": true,
+    "cloud_allowed_only_when_explicitly_enabled_and_policy_admitted": true,
+    "language_need_may_force_external_provider": false,
+    "silent_provider_fallback": false
+  },
+  "evidence": {
+    "semantic_validation_required": true,
+    "route_and_provider_identity_required": true,
+    "source_and_output_language_required": true,
+    "current_host_runtime_pass_may_be_document_derived": false
+  },
+  "fail_closed": true
+}
