@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.blackhole-image-manifest.v1",
+  "blackhole_api": "REQUIRED: registry/repository@sha256:<approved-digest>",
+  "litellm": "REQUIRED: registry/repository@sha256:<approved-digest>",
+  "comfyui": "REQUIRED: registry/repository@sha256:<approved-digest>",
+  "egress_gateway": "REQUIRED: registry/repository@sha256:<approved-digest>",
+  "requirements": {
+    "non_root_oci_user": true,
+    "cosign_verification": true,
+    "sbom_attestation": true,
+    "vulnerability_admission": true
+  }
+}
