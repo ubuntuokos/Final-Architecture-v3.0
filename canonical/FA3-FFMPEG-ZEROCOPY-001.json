@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.ffmpeg-zerocopy-policy.v1",
+  "id": "FA3-FFMPEG-ZEROCOPY-001",
+  "title": "FFmpeg Torch DNN CUDA Zero-Copy Candidate Policy",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "baseline_release": "9.0.1",
+  "baseline_release_date": "2026-08-12",
+  "upstream_candidate": {"commit":"09bf8dab5b8f5c9d1c9280af4dec7f84e8c0fe8b","commit_date":"2026-08-09","subject":"avfilter/dnn: implement zero-copy CUDA tensor mapping for Torch backend","scope":"DNN_TORCH_CUDA_FRAME_TO_TENSOR_MAPPING"},
+  "supported_cuda_frame_formats": ["rgb0","bgr0","rgb24","bgr24"],
+  "scope_boundary": {"dnn_inference_zero_copy":true,"end_to_end_gpu_resident_pipeline_claimed":false,"gpu_yuv_to_rgb_gap_acknowledged":true},
+  "integration": {"permanent_fork_forbidden":true,"temporary_exact_upstream_backport_candidate_allowed":true,"current_stable_patch_required":false,"production_promoted":false,"current_host_evidence_required_before_promotion":true,"retire_backport_when_stable_upstream_contains_equivalent_and_passes_same_gates":true}
+}
