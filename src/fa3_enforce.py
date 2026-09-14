@@ -61,6 +61,7 @@ from fa3_cpu_numa_threading_gate import gate as cpu_numa_threading_gate
 from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_current_host_gate
 from fa3_hardware_portability_gate import gate as hardware_portability_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
+from fa3_architecture_evolution_gate import gate as architecture_evolution_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 
 OK=0
@@ -225,6 +226,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-097","PyTorch3D differentiable 3D source-build/device-safety gate is not bound into global enforcement policy"))
     if "FA3-OPENFX-INTEROPERABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-099","OpenFX VFX plug-in interoperability gate is not bound into global enforcement policy"))
+    if "FA3-ARCHITECTURE-EVOLUTION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-101","Architecture evolution trust-root/compute/promotion/OCI gate is not bound into global enforcement policy"))
 
     if att.get("release")!=RELEASE or att.get("ci_status")!="PASS" or att.get("design_coverage_status")!="STRUCTURALLY_COMPLETE":
         fs.append(finding("FA3-STATIC-004","Source-graph attestation not current structural PASS"))
@@ -397,6 +400,9 @@ def static_check(root:Path):
     openfx_ref=openfx_interop_gate(root)
     if openfx_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-100","OpenFX VFX plug-in interoperability gate failed",openfx_interoperability_gate=openfx_ref))
+    architecture_evolution_ref=architecture_evolution_gate(root)
+    if architecture_evolution_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-102","Architecture evolution canonical/executable gate failed",architecture_evolution_gate=architecture_evolution_ref))
     mentor_ref=mentor_gate(root)
     if mentor_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-041","FA3 Mentor mandatory canonical/regression gate failed",mentor_gate=mentor_ref))
