@@ -1,7 +1,7 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VOICE-001",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "name": "Provider-Neutral Local Speech Synthesis, Voice Cloning, Identity, Consent & Voice Asset Governance Fabric",
   "status": "CANONICAL_MATERIALIZED",
   "obligation": "P0/MUST-IF-VOICE-SYNTHESIS-USED",
@@ -11,7 +11,13 @@
   "architectural_authority": false,
   "new_capability": false,
   "capability_count": 143,
-  "purpose": "Provider-independent voice synthesis, voice cloning, Hungarian-first routing, media projection and voice-asset governance boundary. Providers are replaceable adapters and never own voice identity, consent, routing, host-resource, registry, policy or evidence authority.",
+  "purpose": "Provider-independent multilingual voice synthesis, voice cloning, media projection and voice-asset governance boundary. Providers are replaceable adapters and never own voice identity, consent, routing, host-resource, registry, language policy or evidence authority.",
+  "language_policy": {
+    "authority_profile": "FA3-LANGUAGE-POLICY-001",
+    "fabric_profile": "FA3-LANGUAGE-FABRIC-001",
+    "native_and_bridged_support_remain_distinct": true,
+    "no_globally_required_voice_language": true
+  },
   "canonical_objects": [
     "VoiceIdentityRef",
     "VoiceConsentProof",
@@ -33,6 +39,7 @@
     "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "model_and_artifact_identity": "FA3-MODEL-REGISTRY-001 and FA3 canonical artifact registry",
+    "language_selection_and_mediation": "FA3-LANGUAGE-POLICY-001 and FA3-LANGUAGE-FABRIC-001",
     "workflow_and_session_lifecycle": "existing FA3 durable workflow/session authorities",
     "observability_and_evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
@@ -44,7 +51,7 @@
     "immutable model/runtime provenance and explicit bootstrap-only acquisition",
     "explicit Host Resource Broker admission for accelerator execution",
     "fail-closed unsupported or unverified language, route, license and policy handling",
-    "Hungarian text normalization and dedicated hu-HU quality evidence",
+    "locale-specific text normalization and quality evidence for every production-admitted language route",
     "native-rate master plus explicit 48 kHz PCM media-mezzanine projection lineage",
     "synthetic-audio disclosure and misuse-policy metadata",
     "isolated provider runtime outside application and ComfyUI environments",
@@ -52,9 +59,12 @@
   ],
   "hungarian_baseline": {
     "locale": "hu-HU",
+    "activation": "CONDITIONAL_SELECTED_SYSTEM_LANGUAGE",
+    "activation_when": "hu-HU is primary_language OR secondary_language",
+    "inactive_when_not_selected": true,
     "voice_cloning_primary_candidate": "FA3-PROVIDER-XTTS-001",
     "lightweight_cpu_fallback_candidate": "FA3-PROVIDER-PIPER-001",
-    "minimum_conformant_capability": "At least one production-admitted hu-HU route; voice cloning requests require a cloning-capable admitted provider.",
+    "minimum_conformant_capability": "When activated, at least one production-admitted hu-HU route; voice cloning requests require a cloning-capable admitted provider.",
     "silent_cross_language_fallback": false
   },
   "providers": [
@@ -70,6 +80,7 @@
     "current_host_real_audio_e2e_required_per_enabled_provider": true,
     "language_quality_evidence_required": true,
     "hungarian_golden_corpus_required": true,
+    "hungarian_golden_corpus_required_when": "hungarian_baseline.activation is active",
     "provider_runtime_required_for_global_promotion_when_disabled": false
   }
 }
