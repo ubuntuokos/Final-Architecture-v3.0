@@ -1,0 +1,56 @@
+{
+  "id": "FA3-UPSTREAM-LOCK-REGISTRY-001",
+  "schema": "fa3.upstream-lock-registry.v1",
+  "status": "CANONICAL",
+  "policy": {
+    "floating_main_allowed_for_runtime": false,
+    "floating_main_allowed_for_promotion_evidence": false,
+    "immutable_identity_required": true,
+    "updates_require_candidate_validation": true,
+    "updates_require_security_scan": true,
+    "updates_require_conformance": true,
+    "updates_require_evidence_binding": true,
+    "lock_change_requires_review": true
+  },
+  "locks": {
+    "whisper": {
+      "provider_id": "FA3-PROVIDER-WHISPER-STT-001",
+      "kind": "git_commit",
+      "upstream": "https://github.com/openai/whisper.git",
+      "version": "20250625",
+      "revision": "31243bad24cc746f07d4c8bfdd2d974872cb1803",
+      "update_policy": "CONTROLLED"
+    },
+    "demucs": {
+      "provider_id": "FA3-PROVIDER-DEMUCS-001",
+      "kind": "release_plus_commit",
+      "upstream": "https://github.com/adefossez/demucs.git",
+      "version": "4.1.0",
+      "revision": "6a604bb002d12c4fbabb303ba64db40b5c5743f0",
+      "update_policy": "CONTROLLED"
+    },
+    "xtts_v2_model": {
+      "provider_id": "FA3-PROVIDER-XTTS-001",
+      "kind": "model_revision",
+      "upstream": "coqui/XTTS-v2",
+      "revision": "6c2b0d75eae4b7047358e3b6bd9325f857d43f77",
+      "update_policy": "CONTROLLED"
+    },
+    "voxcpm_runtime": {
+      "provider_id": "FA3-PROVIDER-VOXCPM-001",
+      "kind": "git_commit",
+      "revision": "f5a1c6a6b901bc732e20f0d59a369f6829ad717a",
+      "update_policy": "CONTROLLED"
+    }
+  },
+  "promotion_pipeline": [
+    "DISCOVER_CANDIDATE",
+    "RESOLVE_IMMUTABLE_IDENTITY",
+    "SECURITY_SCAN",
+    "SANDBOX_CONFORMANCE",
+    "CURRENT_HOST_WHEN_REQUIRED",
+    "WRITE_EVIDENCE",
+    "REVIEW_LOCK_DIFF",
+    "PROMOTE_LOCK"
+  ]
+}
