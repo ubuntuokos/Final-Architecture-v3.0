@@ -1,0 +1,81 @@
+name: FA3 Marketing + Blackhole Security Hardening
+
+on:
+  pull_request:
+    paths:
+      - 'src/fa3_marketing_security.py'
+      - 'src/fa3_marketing_security_gate.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge_gate.py'
+      - 'tests/test_marketing_security.py'
+      - 'tests/test_blackhole_ffmpeg_bridge.py'
+      - 'canonical/contracts/FA3-MARKETING-SECURITY-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001.json'
+      - 'canonical/payloads/blackhole_ffmpeg_bridge.json'
+      - 'canonical/marketing-security-enforcement.json'
+      - 'canonical/blackhole-ffmpeg-bridge-enforcement.json'
+      - 'canonical/FA3-MARKETING-SECURITY-GATE-001.json'
+      - 'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-GATE-001.json'
+      - 'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/decisions/FA3-DEC-MARKETING-BLACKHOLE-HARDENING-2026-09-14.json'
+      - 'evidence/reference/marketing-security-ci-2026-09-14.json'
+      - 'evidence/reference/blackhole-ffmpeg-bridge-reference-2026-09-14.json'
+      - '.github/workflows/fa3-marketing-blackhole-security.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/fa3_marketing_security.py'
+      - 'src/fa3_marketing_security_gate.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge.py'
+      - 'src/fa3_blackhole_ffmpeg_bridge_gate.py'
+      - 'tests/test_marketing_security.py'
+      - 'tests/test_blackhole_ffmpeg_bridge.py'
+      - 'canonical/**marketing-security*'
+      - 'canonical/**blackhole-ffmpeg-bridge*'
+      - 'canonical/payloads/blackhole_ffmpeg_bridge.json'
+
+permissions:
+  contents: read
+
+jobs:
+  reference-security-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile new Python surfaces
+        run: python -m py_compile src/fa3_marketing_security.py src/fa3_marketing_security_gate.py src/fa3_blackhole_ffmpeg_bridge.py src/fa3_blackhole_ffmpeg_bridge_gate.py
+      - name: Parse canonical JSON
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          paths = [
+              'canonical/contracts/FA3-MARKETING-SECURITY-CONTRACTS-001.json',
+              'canonical/marketing-security-enforcement.json',
+              'canonical/FA3-MARKETING-SECURITY-GATE-001.json',
+              'canonical/contracts/FA3-BLACKHOLE-FFMPEG-BRIDGE-CONTRACTS-001.json',
+              'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-RUNTIME-CONFORMANCE-001.json',
+              'canonical/blackhole-ffmpeg-bridge-enforcement.json',
+              'canonical/FA3-BLACKHOLE-FFMPEG-BRIDGE-GATE-001.json',
+              'canonical/payloads/blackhole_ffmpeg_bridge.json',
+              'canonical/decisions/FA3-DEC-MARKETING-BLACKHOLE-HARDENING-2026-09-14.json',
+              'evidence/reference/marketing-security-ci-2026-09-14.json',
+              'evidence/reference/blackhole-ffmpeg-bridge-reference-2026-09-14.json',
+          ]
+          for path in paths:
+              json.loads(Path(path).read_text(encoding='utf-8'))
+          print(f'JSON PASS: {len(paths)} artifacts')
+          PY
+      - name: Focused regression tests
+        run: python -m unittest tests.test_marketing_security tests.test_blackhole_ffmpeg_bridge
+      - name: Marketing security canonical gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_marketing_security_gate.py --root .
+      - name: Blackhole FFmpeg bridge canonical gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_blackhole_ffmpeg_bridge_gate.py --root .

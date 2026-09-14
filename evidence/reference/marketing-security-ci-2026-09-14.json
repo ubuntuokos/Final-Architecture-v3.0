@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "subject_id": "FA3-MARKETING-SECURITY-GATESET-001",
+  "status": "PASS",
+  "evidence_class": "REFERENCE_EXECUTABLE_REGRESSION",
+  "regression_cases": 28,
+  "regression_passed": 28,
+  "covers": [
+    "consent-revocation-expiry-purpose-channel-tenant-subject",
+    "consent-backend-outage-and-staleness",
+    "global-channel-campaign-recipient-suppression",
+    "suppression-backend-outage-and-staleness",
+    "native-hu-content-and-secret-leakage",
+    "voice-consent-delegation-and-generic-fallback-boundary"
+  ],
+  "current_host_runtime_claim": false,
+  "runtime_promotion_claim": false,
+  "note": "Reference evidence validates policy logic only; it does not prove live consent/suppression backends, provider runtime, or current-host delivery/voice execution."
+}

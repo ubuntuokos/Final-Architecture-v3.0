@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MARKETING-SECURITY-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL_SECURITY_PROJECTION",
+  "profile_id": "FA3-MARKETING-001",
+  "provider_neutral": true,
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "delegates_to": [
+    "FA3-MARKETING-CONTRACTS-001",
+    "FA3-VOICE-CONTRACTS-001"
+  ],
+  "consent": {
+    "required_execution_state": "GRANTED",
+    "live_revocation_check_required": true,
+    "revocation_check_max_age_seconds": 300,
+    "expired_fail_closed": true,
+    "subject_authorized_required": true,
+    "purpose_binding_required": true,
+    "channel_binding_required": true,
+    "tenant_binding_required": true,
+    "provenance_and_revocation_refs_required": true,
+    "backend_unavailable_fail_closed": true
+  },
+  "suppression": {
+    "global": true,
+    "unsubscribe": true,
+    "channel": true,
+    "campaign": true,
+    "recipient": true,
+    "state_check_max_age_seconds": 300,
+    "backend_unavailable_fail_closed": true
+  },
+  "content_safety": {
+    "native_hungarian_route_locale": "hu-HU",
+    "english_leakage_fail_closed": true,
+    "explicit_brand_term_allowlist_supported": true,
+    "secret_and_credential_leakage_fail_closed": true,
+    "public_prose_quality_authority_remains": "CAP-125"
+  },
+  "voice_governance": {
+    "voice_profile_id": "FA3-VOICE-001",
+    "voice_contract_id": "FA3-VOICE-CONTRACTS-001",
+    "marketing_may_not_mint_or_extend_voice_consent": true,
+    "voice_clone_requires_scopes": [
+      "VOICE_SYNTHESIS",
+      "VOICE_CLONING"
+    ],
+    "revoked_consent_blocks_all_cloning_fallback": true,
+    "clone_provider_failure_is_not_consent_failure": true,
+    "generic_hu_tts_degraded_fallback_allowed_after_valid_clone_consent_if_policy_allows": true,
+    "generic_fallback_mode": "plain",
+    "generic_fallback_must_not_use_speaker_reference_or_embedding": true
+  },
+  "mandatory_rules": [
+    "CONSENT_STATUS_GRANTED_AT_EXECUTION_TIME",
+    "CONSENT_REVOCATION_LIVE_CHECK_REQUIRED",
+    "CONSENT_REVOCATION_STALE_STATE_FAIL_CLOSED",
+    "CONSENT_EXPIRY_FAIL_CLOSED",
+    "CONSENT_SUBJECT_PURPOSE_CHANNEL_TENANT_BINDING_REQUIRED",
+    "CONSENT_BACKEND_UNAVAILABLE_FAIL_CLOSED",
+    "SUPPRESSION_GLOBAL_UNSUBSCRIBE_CHANNEL_CAMPAIGN_RECIPIENT_ENFORCED",
+    "SUPPRESSION_STATE_FRESHNESS_REQUIRED",
+    "SUPPRESSION_BACKEND_UNAVAILABLE_FAIL_CLOSED",
+    "CENTRAL_MCP_RECIPIENT_RESOLUTION_AND_HITL_REQUIRED",
+    "NATIVE_HUNGARIAN_CONTENT_ROUTE_FAIL_CLOSED",
+    "ENGLISH_LEAKAGE_FAIL_CLOSED_WITH_EXPLICIT_ALLOWLIST_ONLY",
+    "SECRET_LEAKAGE_FAIL_CLOSED",
+    "VOICE_CONSENT_DELEGATES_TO_FA3_VOICE_CONTRACTS",
+    "REVOKED_VOICE_CONSENT_BLOCKS_ALL_CLONING_FALLBACK",
+    "GENERIC_HU_TTS_FALLBACK_MUST_NOT_CONSUME_SPEAKER_REFERENCE",
+    "GENERIC_HU_TTS_FALLBACK_IS_DEGRADED_MODE_NOT_CLONING",
+    "REFERENCE_CI_NEVER_PROMOTES_CURRENT_HOST_RUNTIME"
+  ]
+}

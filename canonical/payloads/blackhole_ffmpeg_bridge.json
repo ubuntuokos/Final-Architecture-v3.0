@@ -1,0 +1,78 @@
+{
+  "$schema": "fa3.blackhole-ffmpeg-bridge-request.v1",
+  "schema_version": "1.0.0",
+  "job_metadata": {
+    "job_id": "JOB-2026-09-14-TRANS-09",
+    "owner": "FA3-MARKETING-STUDIO",
+    "execution_priority": "CRITICAL"
+  },
+  "hardware_constraints": {
+    "hardware_policy_ref": "FA3-HARDWARE-BASELINE-001",
+    "required_capabilities": [
+      "cuda",
+      "ffmpeg_cuda_hwframes",
+      "nvenc",
+      "onnxruntime_cuda"
+    ],
+    "host_resource_broker": {
+      "lease_required": true,
+      "lease_source": "runtime",
+      "require_same_gpu_for_pipeline": true
+    }
+  },
+  "runtime_environment": {
+    "profile": "PRODUCTION",
+    "ffmpeg_binary_override": "./bin/ffmpeg-custom/bin/ffmpeg",
+    "require_binary_integrity_verification": true,
+    "use_gpu_resident_zero_copy": true,
+    "environment_variables": {
+      "OMP_PROC_BIND": "close"
+    }
+  },
+  "pipeline_stages": [
+    {
+      "stage_index": 1,
+      "stage_name": "ZERO_COPY_NEURAL_PROCESSING",
+      "input_file": "storage/raw_ingest/marketing_input_source.mp4",
+      "output_file": "storage/processed/marketing_denoised_1080p.mp4",
+      "parameters": {
+        "target_resolution": "1920x1080",
+        "neural_media_profile_ref": "FA3-NEURAL-MEDIA-EXECUTION-001",
+        "neural_model_ref": "media_enhancer_v3",
+        "video_codec": "h264_nvenc",
+        "bitrate_target": "8M",
+        "audio_passthrough": true,
+        "zero_copy_claim_scope": "FRAME_TO_TENSOR_ONLY",
+        "end_to_end_gpu_resident_claim": false
+      }
+    },
+    {
+      "stage_index": 2,
+      "stage_name": "BLACKHOLE_TRANSCRIPTION",
+      "input_file": "storage/processed/marketing_denoised_1080p.mp4",
+      "parameters": {
+        "stt_profile_ref": "FA3-STT-MEDIA-001",
+        "target_locale": "hu-HU",
+        "output_transcript": "storage/processed/marketing_input_source.transcript.json",
+        "output_subtitles": "storage/processed/marketing_input_source.hu-HU.srt",
+        "caption_qc_required": true
+      }
+    },
+    {
+      "stage_index": 3,
+      "stage_name": "CANONICAL_EVIDENCE_GENERATION",
+      "parameters": {
+        "output_report_destination": "reports/blackhole-ffmpeg-bridge-telemetry.json",
+        "sha256_verification_mandatory": true,
+        "zero_copy_evidence_mandatory": true,
+        "lease_binding_evidence_mandatory": true
+      }
+    }
+  ],
+  "acceptance_policy": {
+    "required_final_status": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "fail_closed": true,
+    "zero_copy_promotion_requires_measured_evidence": true,
+    "end_to_end_gpu_resident_claim": false
+  }
+}
