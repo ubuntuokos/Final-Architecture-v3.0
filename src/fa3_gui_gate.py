@@ -20,6 +20,7 @@ REQUIRED = {
     "studio_qml": ROOT / "apps/fa3-control-center/qml/AiStudioPage.qml",
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
+    "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
@@ -99,6 +100,14 @@ def validate() -> list[str]:
         if token not in rtd_qml: failures.append(f"qml-rtd-provider-surface-missing:{token}")
     if "RtdProvidersPage" not in qml or "RTD Data Sources" not in qml or "RTD Adapters" not in qml or '{label: "Real-Time Data", value: "RTD"}' not in qml:
         failures.append("qml-rtd-cross-surface-projection-missing")
+
+    chat_qml = REQUIRED["chat_qml"].read_text(encoding="utf-8")
+    for token in ["Kérdezd: ", "ADAPTER-GATED", "Models & Providers", "Integrations", "LOCAL-DRAFT", "NOT-SENT"]:
+        if token not in chat_qml: failures.append(f"qml-role-chat-surface-missing:{token}")
+    for role in ["Mentor", "Coach", "Manager", "Ellenőr", "Ötletelő", "Tanácsadó"]:
+        if f'window.openRoleChat("{role}")' not in qml: failures.append(f"qml-role-chat-menu-wiring-missing:{role}")
+    if "property bool chatWorkspaceOpen" not in qml or "ChatWorkspace" not in qml or "window.chatWorkspaceOpen ? 19" not in qml:
+        failures.append("qml-role-chat-workspace-wiring-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")

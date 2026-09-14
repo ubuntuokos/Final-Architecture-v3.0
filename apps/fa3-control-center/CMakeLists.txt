@@ -29,6 +29,7 @@ set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_A
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
+set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -43,6 +44,7 @@ qt_add_qml_module(fa3-control-center
         qml/AiStudioPage.qml
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
+        qml/ChatWorkspace.qml
 )
 
 target_link_libraries(fa3-control-center
