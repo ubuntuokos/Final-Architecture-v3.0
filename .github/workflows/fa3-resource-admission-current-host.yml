@@ -10,7 +10,9 @@ on:
       - 'evidence/reference/resource-admission-current-host-pending.json'
       - 'evidence/collect-resource-admission-current-host.py'
       - 'src/fa3_resource_admission_current_host_gate.py'
+      - 'src/fa3_resource_admission_smoke.py'
       - 'tests/test_resource_admission_current_host_gate.py'
+      - 'tests/test_resource_admission_smoke.py'
       - 'bin/fa3-resource-admission-current-host.sh'
       - 'bin/fa3-enforce'
       - 'fa3-current-host/manifest.json'
@@ -50,9 +52,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax check
-        run: python -m py_compile evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py
-      - name: Current-host contract regressions
-        run: PYTHONPATH=src python -m unittest tests.test_resource_admission_current_host_gate -v
+        run: python -m py_compile evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py src/fa3_resource_admission_smoke.py
+      - name: Current-host contract and smoke regressions
+        run: PYTHONPATH=src python -m unittest tests.test_resource_admission_current_host_gate tests.test_resource_admission_smoke -v
       - name: Parent normalization gate
         run: ./bin/fa3-enforce resource-evidence-normalization
       - name: Missing real current-host receipt must fail closed

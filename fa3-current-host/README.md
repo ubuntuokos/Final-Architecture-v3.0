@@ -60,7 +60,23 @@ It requires all of the following from the real target host:
 
 `CU`/`TU` values may be reported as diagnostics, but they are forbidden as workload-admission requirements and cannot authorize production execution.
 
-Example on the actual current host:
+For a fixed, SKU-independent admission-chain smoke test, use the single bootstrap command with a real HRB lease:
+
+```bash
+./bin/fa3-resource-admission-current-host.sh smoke \
+  --hrb-lease /path/to/current-real-lease.json
+```
+
+If the host HRB exposes a separate authoritative acquire client, the bootstrap may delegate to it without becoming an authority:
+
+```bash
+FA3_HRB_ACQUIRE_COMMAND='fa3-hrb-client acquire --workload {workload} --output {lease} --gpu {gpu_uuid}' \
+  ./bin/fa3-resource-admission-current-host.sh smoke
+```
+
+The command template is tokenized without a shell. The bootstrap never mints or signs a lease itself. If neither a real `--hrb-lease` nor an external acquire command is available, it writes `reports/resource-admission-smoke-bootstrap-report.json`, remains fail-closed, and exits `2`. `--prepare-only` also exits `2` after creating the fixed smoke workload and accelerator hint. PASS requires the existing collector plus the `resource-admission-current-host` gate, so the canonical scoped receipt remains the proof artifact. A smoke PASS is not a global promotion claim.
+
+For a custom workload envelope, the lower-level path remains available:
 
 ```bash
 ./bin/fa3-resource-admission-current-host.sh collect \

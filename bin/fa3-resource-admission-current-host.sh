@@ -10,8 +10,11 @@ case "$cmd" in
   gate)
     exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_resource_admission_current_host_gate.py" --root "$ROOT" "$@"
     ;;
+  smoke)
+    exec python3 "$ROOT/src/fa3_resource_admission_smoke.py" --root "$ROOT" "$@"
+    ;;
   *)
-    echo "usage: $0 {collect|gate} [args...]" >&2
+    echo "usage: $0 {collect|gate|smoke} [args...]" >&2
     exit 3
     ;;
 esac
