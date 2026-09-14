@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "bda6a18f798466ebed8ddf9da27232f59d899160",
-    "pre_projection_root_tree_sha": "303c34120797e977d78de37bc2692829772678f9",
-    "pre_projection_canonical_tree_sha": "65f5d2816873d4b2d1d501fe322bc6ee47023d46",
-    "commits_ahead_of_v3_0_11_conformance_commit": 239,
-    "total_post_baseline_commits": 239,
-    "delta_file_count": 1119,
-    "delta_added_files": 1114,
+    "pre_projection_head_sha": "3b76db7219d4f15d1bb7f3f055fc7784d5992ab6",
+    "pre_projection_root_tree_sha": "4856d8f3b7169e4c65e6641ac2fe0ea3e38947ce",
+    "pre_projection_canonical_tree_sha": "172d07b62e00af5a78ef3345c6b220f725845682",
+    "commits_ahead_of_v3_0_11_conformance_commit": 241,
+    "total_post_baseline_commits": 241,
+    "delta_file_count": 1121,
+    "delta_added_files": 1116,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,7 +47,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 605,
     "evidence_files_in_post_baseline_delta": 113,
-    "source_files_in_post_baseline_delta": 125,
+    "source_files_in_post_baseline_delta": 124,
     "test_files_in_post_baseline_delta": 105,
     "workflow_files_in_post_baseline_delta": 42,
     "provider_records": [
@@ -709,7 +709,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1117,
+  "manifest_entry_count": 1120,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -761,7 +761,7 @@
     },
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
-      "git_blob_sha": "bd5866b69751f16732af6e42598691474c9791aa"
+      "git_blob_sha": "d0a4e5d4358a8d41deca4ab32d785d56f97403cb"
     },
     {
       "path": ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
@@ -885,7 +885,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "d8fcacbc627f38bcfca262b457e32f30d1413bdb"
+      "git_blob_sha": "c077c2e7170942e9685fbe6fd9661de3c88e7b1f"
     },
     {
       "path": "apps/fa3-control-center/README.md",
@@ -901,7 +901,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/ChatWorkspace.qml",
-      "git_blob_sha": "eecead8426bc0110e088fecf4fd756e83540fc32"
+      "git_blob_sha": "cee5cb782ab25c920266cf76a1b72c687b69fcfe"
     },
     {
       "path": "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
@@ -914,6 +914,10 @@
     {
       "path": "apps/fa3-control-center/qml/ExternalProvidersSetupPage.qml",
       "git_blob_sha": "c691dfc90aa99aae247ccf6673b5b7c6f4ec284e"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/HelpBubble.qml",
+      "git_blob_sha": "2d2cfab6e98b9d376f515ae832dd8dfe7fdb2539"
     },
     {
       "path": "apps/fa3-control-center/qml/JournalPage.qml",
@@ -942,6 +946,14 @@
     {
       "path": "apps/fa3-control-center/qml/WebWorkspace.qml",
       "git_blob_sha": "b82a4794c1821f5749ccdfb7c469b2992c253f33"
+    },
+    {
+      "path": "apps/fa3-control-center/src/ChatFileService.cpp",
+      "git_blob_sha": "abf88ab2e81d6996a1e90aa32bef73cc31085fa8"
+    },
+    {
+      "path": "apps/fa3-control-center/src/ChatFileService.h",
+      "git_blob_sha": "6b12f86e69091df5aafe25dc213b83623c9a32a7"
     },
     {
       "path": "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
@@ -977,7 +989,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "35ec3c9d1253463357e853127c82f624b20bc2d9"
+      "git_blob_sha": "8156faccf7d1190a3717dd25e2afea8ddeb0e789"
     },
     {
       "path": "bin/fa3-ai-infra-guard-bootstrap.sh",
@@ -3569,7 +3581,7 @@
     },
     {
       "path": "deployment/fa3-gui/install.sh",
-      "git_blob_sha": "b5b172db239cb345f98ceb47c59878d2d97dadb6"
+      "git_blob_sha": "6867b7b01fbb2426eab0267c685ac71ba796b888"
     },
     {
       "path": "deployment/fa3-gui/uninstall.sh",
@@ -4393,7 +4405,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "6f5947f8e8fb2c328daaa0c0da56d45e1e2c3626"
+      "git_blob_sha": "cf8ba5e985f73ff0e7b914ece53074c183d85261"
     },
     {
       "path": "src/fa3_hardware_portability_gate.py",
