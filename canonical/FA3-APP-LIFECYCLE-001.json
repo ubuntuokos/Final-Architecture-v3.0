@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.app-lifecycle.v1",
+  "id": "FA3-APP-LIFECYCLE-001",
+  "name": "Curated Lazy Application Provisioning",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "scope": "FA3 AI Studio and optional application providers",
+  "decision": "CURATED_FIRST_USE_PROVISIONING",
+  "base_install": {
+    "optional_applications_installed_with_fa3": false,
+    "catalog_metadata_installed_with_fa3": true,
+    "provisioning_runtime_installed_with_fa3": true
+  },
+  "admission_boundary": {
+    "catalog_is_allowlist": true,
+    "catalog_entry_requires_approved_admission": true,
+    "user_supplied_install_source_allowed": false,
+    "install_from_url_allowed": false,
+    "github_search_to_install_allowed": false,
+    "direct_shell_install_from_gui_allowed": false,
+    "unknown_application_fails_closed": true
+  },
+  "installation": {
+    "default_mode": "FIRST_USE",
+    "explicit_install_allowed_for_catalog_entries": true,
+    "confirmation_required_before_materialization": true,
+    "provider_recipe_required": true,
+    "provider_recipe_must_be_repository_controlled": true,
+    "shell_execution": false,
+    "privilege_escalation_must_be_explicit": true
+  },
+  "first_use_flow": [
+    "catalog_admission_check",
+    "compatibility_check",
+    "user_confirmation",
+    "provider_recipe_resolution",
+    "dependency_preflight",
+    "materialization",
+    "security_validation",
+    "registration",
+    "launch"
+  ],
+  "states": [
+    "AVAILABLE",
+    "READY_TO_INSTALL",
+    "INSTALLING",
+    "INSTALLED",
+    "INCOMPATIBLE",
+    "RECIPE_REQUIRED",
+    "ERROR"
+  ],
+  "failure_policy": {
+    "missing_catalog_entry": "DENY",
+    "missing_provider_recipe": "DENY",
+    "failed_preflight": "DENY",
+    "failed_security_validation": "DENY",
+    "unapproved_source": "DENY"
+  },
+  "supersedes": [
+    "eager installation of optional AI Studio applications"
+  ]
+}
