@@ -177,7 +177,7 @@ Item {
                             spacing: 12
                             Label { text: "Provider-ek"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
                             InfoLine { titleText: "Provider projection"; detailText: "Providerenként credential-handle, kvóta, tokenhasználat és költség csak engedélyezett adapterből jelenhet meg."; tone: root.accent }
-                            Button { text: "External Providers Setup megnyitása"; onClicked: root.draft("propose.token.provider-reconciliation", "external-providers", "Reconcile provider token/credential governance with External Providers Setup") }
+                            Button { text: "Provider-token reconciliation tervezet"; onClicked: root.draft("propose.token.provider-reconciliation", "external-providers", "Reconcile provider token/credential governance with External Providers Setup") }
                             Item { Layout.fillHeight: true }
                         }
 

@@ -78,6 +78,9 @@ ApplicationWindow {
         {title: "Agents & Workflows", detail: "Agentek, taskok és durable workflow-k", category: "FUNCTION", pageIndex: 4},
         {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", pageIndex: 5},
         {title: "Model Manager", detail: "Modellek felderítése és nyilvántartása", category: "FUNCTION", pageIndex: 6},
+        {title: "Checkpoint Manager", detail: "Checkpoint, LoRA, VAE és adapter artifact governance", category: "FUNCTION", pageIndex: 20},
+        {title: "External Providers Setup", detail: "Külső/fizetős provider engedélyezés, budget és credential state", category: "FUNCTION", pageIndex: 21},
+        {title: "Token Control Center", detail: "Credential és AI token governance, budget, audit és költség", category: "FUNCTION", pageIndex: 22},
         {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", pageIndex: 6},
         {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", pageIndex: 8},
         {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", pageIndex: 9},
@@ -466,11 +469,14 @@ ApplicationWindow {
                         Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "⌂"; label: "Dashboard"; pageIndex: 0 }
                         NavButton { iconText: "☁"; label: "Remote AI Hub"; pageIndex: 1 }
+                        NavButton { iconText: "⇄"; label: "External Providers Setup"; pageIndex: 21 }
                         NavButton { iconText: "◉"; label: "RTD Providers"; pageIndex: 17 }
                         NavButton { iconText: "▣"; label: "Projects"; pageIndex: 2 }
                         NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 4 }
                         NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 5 }
                         NavButton { iconText: "▦"; label: "Model Manager"; pageIndex: 6 }
+                        NavButton { iconText: "◧"; label: "Checkpoint Manager"; pageIndex: 20 }
+                        NavButton { iconText: "#"; label: "Token Control Center"; pageIndex: 22 }
                         NavButton { iconText: "⌕"; label: "Keresés"; pageIndex: 7 }
                         NavButton { iconText: "◇"; label: "Architecture"; pageIndex: 8 }
                         NavButton { iconText: "⚙"; label: "Rendszerbeállítások"; pageIndex: 15 }
@@ -1131,6 +1137,42 @@ ApplicationWindow {
                         window.webWorkspaceOpen = false
                         window.selectedIndex = pageIndex
                     }
+                }
+
+                CheckpointManagerPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                ExternalProvidersSetupPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                TokenControlCenterPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
                 }
             }
 

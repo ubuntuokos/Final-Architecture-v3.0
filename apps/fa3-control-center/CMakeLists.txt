@@ -30,6 +30,9 @@ set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS Ai
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
 set_source_files_properties(qml/ChatWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS ChatWorkspace.qml)
+set_source_files_properties(qml/CheckpointManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS CheckpointManagerPage.qml)
+set_source_files_properties(qml/ExternalProvidersSetupPage.qml PROPERTIES QT_RESOURCE_ALIAS ExternalProvidersSetupPage.qml)
+set_source_files_properties(qml/TokenControlCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS TokenControlCenterPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -45,6 +48,9 @@ qt_add_qml_module(fa3-control-center
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml
         qml/ChatWorkspace.qml
+        qml/CheckpointManagerPage.qml
+        qml/ExternalProvidersSetupPage.qml
+        qml/TokenControlCenterPage.qml
 )
 
 target_link_libraries(fa3-control-center

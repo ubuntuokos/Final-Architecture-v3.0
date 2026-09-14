@@ -21,13 +21,16 @@ REQUIRED = {
     "settings_qml": ROOT / "apps/fa3-control-center/qml/SystemSettingsPage.qml",
     "rtd_qml": ROOT / "apps/fa3-control-center/qml/RtdProvidersPage.qml",
     "chat_qml": ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml",
+    "checkpoint_qml": ROOT / "apps/fa3-control-center/qml/CheckpointManagerPage.qml",
+    "external_providers_qml": ROOT / "apps/fa3-control-center/qml/ExternalProvidersSetupPage.qml",
+    "token_control_qml": ROOT / "apps/fa3-control-center/qml/TokenControlCenterPage.qml",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "desktop": ROOT / "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "System"]
+NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Checkpoint Manager", "External Providers Setup", "Token Control Center", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "System"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
 
@@ -108,6 +111,18 @@ def validate() -> list[str]:
         if f'window.openRoleChat("{role}")' not in qml: failures.append(f"qml-role-chat-menu-wiring-missing:{role}")
     if "property bool chatWorkspaceOpen" not in qml or "ChatWorkspace" not in qml or "window.chatWorkspaceOpen ? 19" not in qml:
         failures.append("qml-role-chat-workspace-wiring-missing")
+
+    checkpoint_qml = REQUIRED["checkpoint_qml"].read_text(encoding="utf-8")
+    for token in ["Checkpoint Manager", "SHA-256", "serialization/security", "lineage", "runtime compatibility", "EVIDENCE-GATED", "MODEL_CHECKPOINT_GOVERNANCE"]:
+        if token not in checkpoint_qml: failures.append(f"qml-checkpoint-manager-surface-missing:{token}")
+    external_qml = REQUIRED["external_providers_qml"].read_text(encoding="utf-8")
+    for token in ["External Providers Setup", "externalProviders/enabled", "BROKER / SECRETREF ONLY", "FORBIDDEN IN GUI STORAGE", "FAIL-CLOSED", "monthlyBudget"]:
+        if token not in external_qml: failures.append(f"qml-external-provider-setup-missing:{token}")
+    token_qml = REQUIRED["token_control_qml"].read_text(encoding="utf-8")
+    for token in ["Token Control Center", "FA3-TOKEN-GOVERNANCE-001", "Credentialek", "AI tokenhasználat", "Budgetek", "Költségek", "Audit", "Riasztások", "Házirendek", "VAULT / BROKER", "Plaintext secret storage forbidden"]:
+        if token not in token_qml: failures.append(f"qml-token-control-center-missing:{token}")
+    for token in ["CheckpointManagerPage", "ExternalProvidersSetupPage", "TokenControlCenterPage", 'pageIndex: 20', 'pageIndex: 21', 'pageIndex: 22']:
+        if token not in qml: failures.append(f"qml-management-center-wiring-missing:{token}")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
