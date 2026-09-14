@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-CONVERTX-REFERENCE-001",
+  "profile_id": "FA3-FILE-CONVERSION-001",
+  "provider_id": "FA3-PROVIDER-CONVERTX-001",
+  "conformance_id": "FA3-CONVERTX-RUNTIME-CONFORMANCE-001",
+  "evidence_scope": "REFERENCE_DESIGN_AND_CI_ONLY",
+  "status": "PENDING_CURRENT_HOST",
+  "reference_checks": [
+    "provider-neutral generic file conversion profile materialized",
+    "ConvertX provider remains quarantined and replaceable",
+    "deny-by-default conversion allowlist materialized",
+    "XeLaTeX explicitly denied",
+    "fail-closed adapter and regression gate materialized",
+    "Control Center Tools surface exposes status without direct provider execution",
+    "GitHub-hosted static conformance may PASS without current-host promotion"
+  ],
+  "runtime_claimed": false,
+  "production_admitted": false,
+  "machine_execution_enabled": false,
+  "missing_runtime_evidence": [
+    "digest-pinned ConvertX production image materialization",
+    "real current-host HRB lease-backed execution",
+    "real input to real output conversion with output SHA-256 evidence",
+    "outbound network denial verification on the production worker",
+    "path traversal regression on the production worker",
+    "archive bomb and malformed-media resource-limit regressions",
+    "current-host receipt with CURRENT_HOST_PRODUCTION_E2E_PASS"
+  ],
+  "promotion_effect": "NONE_UNTIL_REAL_CURRENT_HOST_RECEIPT_PASS",
+  "note": "This record intentionally contains no runtime PASS. Static CI success is reference evidence only and cannot promote ConvertX out of QUARANTINED state."
+}
