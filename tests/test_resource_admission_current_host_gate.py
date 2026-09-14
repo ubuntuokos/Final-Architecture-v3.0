@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -16,35 +18,67 @@ from fa3_resource_admission_current_host_gate import gate, validate_receipt  # n
 from fa3_resource_evidence_normalization_gate import _canonical_payload_hash  # noqa: E402
 
 
+def canonical_sha256(value: object) -> str:
+    raw = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def refresh_payload_hash(receipt: dict) -> None:
+    receipt["integrity"]["payload_sha256"] = _canonical_payload_hash(receipt["payload"])
+
+
 def fixture() -> dict:
+    attestation = {
+        "schema": "fa3.host-attestation.v1",
+        "host_attestation_id": "FA3-HOST-TEST",
+        "host": "test-host",
+        "secret_collection": "PROHIBITED",
+        "accelerators": [{
+            "uuid": "GPU-TEST",
+            "pci_bdf": "0000:01:00.0",
+            "vendor": "NVIDIA",
+            "memory_total_bytes": 8 * 1024**3,
+            "cuda_compute_capability": 8.6,
+        }],
+    }
+    attestation_sha = canonical_sha256(attestation)
     payload = {
         "schema": "fa3.resource-admission-current-host.payload.v1",
-        "host_attestation": {
-            "schema": "fa3.host-attestation.v1",
-            "host_attestation_id": "FA3-HOST-TEST",
-            "secret_collection": "PROHIBITED",
-            "accelerators": [{"uuid": "GPU-TEST", "pci_bdf": "0000:01:00.0"}],
-        },
-        "host_attestation_sha256": "a" * 64,
+        "host_attestation": attestation,
+        "host_attestation_sha256": attestation_sha,
         "compute_profile": {
             "schema": "fa3.compute-profile.v1",
-            "host_attestation_sha256": "a" * 64,
-            "metrics": {"gpu.vram_gib": 24, "cpu.physical_cores": 16},
+            "host_attestation_sha256": attestation_sha,
+            "metrics": {
+                "gpu.physical_vram_gib": 8.0,
+                "gpu.lease_memory_gib": 4.0,
+                "gpu.vram_gib": 4.0,
+                "gpu.vendor": "NVIDIA",
+                "gpu.cuda_compute_capability": 8.6,
+                "gpu.device_uuid": "GPU-TEST",
+                "gpu.pci_bdf": "0000:01:00.0",
+                "cpu.physical_cores": 16,
+            },
             "diagnostic_aggregates": {"cu": 999, "tu": 999},
         },
         "workload_resource_envelope": {
             "schema": "fa3.workload-resource-envelope.v1",
             "workload_id": "fixture",
-            "requirements": [{"metric": "gpu.vram_gib", "operator": ">=", "value": 24}],
+            "requirements": [{"metric": "gpu.vram_gib", "operator": ">=", "value": 4}],
         },
         "workload_resource_envelope_sha256": "b" * 64,
         "hrb_lease_identity": {
             "schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
             "lease_id": "lease-test",
             "issuer": "FA3-HOST-RESOURCE-BROKER-001",
+            "status": "ACTIVE",
+            "host": "test-host",
             "accelerator_uuid": "GPU-TEST",
-            "pci_bus_id": "0000:01:00.0",
+            "pci_bus_id": "00000000:01:00.0",
+            "numa_node": 0,
+            "memory_max_bytes": 4 * 1024**3,
             "purpose": "fixture",
+            "issued_epoch": int(time.time()) - 5,
             "expires_epoch": 9999999999,
             "lease_file_sha256": "c" * 64,
             "broker_validation": True,
@@ -82,7 +116,7 @@ def fixture() -> dict:
         },
         "provenance": {
             "collector_id": "TEST-FIXTURE-NOT-EVIDENCE",
-            "collector_revision": "1.0.0",
+            "collector_revision": "1.1.0",
             "generated_at": "2026-09-14T00:00:00Z",
             "artifact_digests": [],
         },
@@ -112,9 +146,9 @@ class ResourceAdmissionCurrentHostTests(unittest.TestCase):
         receipt["payload"]["workload_resource_envelope"]["requirements"] = [
             {"metric": "cu", "operator": ">=", "value": 1}
         ]
-        receipt["integrity"]["payload_sha256"] = _canonical_payload_hash(receipt["payload"])
+        refresh_payload_hash(receipt)
         findings = validate_receipt(receipt)
-        self.assertTrue(any(item["code"] == "RA-HOST-010" for item in findings))
+        self.assertTrue(any(item["code"] == "RA-HOST-011" for item in findings))
 
     def test_tampered_payload_is_blocked(self) -> None:
         receipt = fixture()
@@ -131,9 +165,66 @@ class ResourceAdmissionCurrentHostTests(unittest.TestCase):
     def test_missing_broker_validation_is_blocked(self) -> None:
         receipt = fixture()
         receipt["payload"]["hrb_lease_identity"]["broker_validation"] = False
-        receipt["integrity"]["payload_sha256"] = _canonical_payload_hash(receipt["payload"])
+        refresh_payload_hash(receipt)
         findings = validate_receipt(receipt)
-        self.assertTrue(any(item["code"] == "RA-HOST-011" for item in findings))
+        self.assertTrue(any(item["code"] == "RA-HOST-012" for item in findings))
+
+    def test_expired_lease_is_rechecked_at_gate_time(self) -> None:
+        receipt = fixture()
+        receipt["payload"]["hrb_lease_identity"]["expires_epoch"] = 1
+        refresh_payload_hash(receipt)
+        findings = validate_receipt(receipt)
+        self.assertTrue(any(item["code"] == "RA-HOST-013" for item in findings))
+
+    def test_attestation_hash_is_recomputed_not_trusted(self) -> None:
+        receipt = fixture()
+        receipt["payload"]["host_attestation"]["host"] = "tampered-host"
+        refresh_payload_hash(receipt)
+        findings = validate_receipt(receipt)
+        self.assertTrue(any(item["code"] == "RA-HOST-008" for item in findings))
+
+    def test_eight_digit_and_four_digit_bdf_are_equivalent(self) -> None:
+        receipt = fixture()
+        receipt["payload"]["host_attestation"]["accelerators"][0]["pci_bdf"] = "0000:01:00.0"
+        receipt["payload"]["hrb_lease_identity"]["pci_bus_id"] = "00000000:01:00.0"
+        attestation = receipt["payload"]["host_attestation"]
+        attestation_sha = canonical_sha256(attestation)
+        receipt["payload"]["host_attestation_sha256"] = attestation_sha
+        receipt["payload"]["compute_profile"]["host_attestation_sha256"] = attestation_sha
+        refresh_payload_hash(receipt)
+        self.assertEqual(validate_receipt(receipt), [])
+
+    def test_lease_memory_budget_caps_effective_vram(self) -> None:
+        receipt = fixture()
+        receipt["payload"]["hrb_lease_identity"]["memory_max_bytes"] = 2 * 1024**3
+        receipt["payload"]["compute_profile"]["metrics"]["gpu.lease_memory_gib"] = 2.0
+        receipt["payload"]["compute_profile"]["metrics"]["gpu.vram_gib"] = 4.0
+        refresh_payload_hash(receipt)
+        findings = validate_receipt(receipt)
+        self.assertTrue(any(item["code"] == "RA-HOST-018" for item in findings))
+
+    def test_workload_scope_binding_is_mandatory(self) -> None:
+        receipt = fixture()
+        receipt["payload"]["hrb_lease_identity"]["purpose"] = "different-workload"
+        refresh_payload_hash(receipt)
+        findings = validate_receipt(receipt)
+        self.assertTrue(any(item["code"] == "RA-HOST-015" for item in findings))
+
+    def test_a1000_class_compute_capability_8_6_passes(self) -> None:
+        receipt = fixture()
+        self.assertEqual(validate_receipt(receipt), [])
+
+    def test_compute_capability_below_floor_is_blocked(self) -> None:
+        receipt = fixture()
+        receipt["payload"]["host_attestation"]["accelerators"][0]["cuda_compute_capability"] = 8.0
+        receipt["payload"]["compute_profile"]["metrics"]["gpu.cuda_compute_capability"] = 8.0
+        attestation = receipt["payload"]["host_attestation"]
+        attestation_sha = canonical_sha256(attestation)
+        receipt["payload"]["host_attestation_sha256"] = attestation_sha
+        receipt["payload"]["compute_profile"]["host_attestation_sha256"] = attestation_sha
+        refresh_payload_hash(receipt)
+        findings = validate_receipt(receipt)
+        self.assertTrue(any(item["code"] == "RA-HOST-019" for item in findings))
 
     def test_gate_passes_only_with_explicit_receipt_path(self) -> None:
         receipt = fixture()

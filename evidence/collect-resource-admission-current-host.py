@@ -21,7 +21,9 @@ BROKER_DEFAULT = "/usr/local/bin/fa3-host-resource-broker"
 LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
 FORBIDDEN_METRICS = {"cu", "tu", "compute_unit", "tensor_unit", "aggregate.cu", "aggregate.tu"}
 COLLECTOR_ID = "FA3-RESOURCE-ADMISSION-CURRENT-HOST-COLLECTOR-001"
-COLLECTOR_VERSION = "1.0.0"
+COLLECTOR_VERSION = "1.1.0"
+CUDA_COMPUTE_CAPABILITY_MIN = 8.6
+_BDF_RE = re.compile(r"^(?P<domain>[0-9a-fA-F]{4,8}):(?P<bus>[0-9a-fA-F]{2}):(?P<device>[0-9a-fA-F]{2})\.(?P<function>[0-7])$")
 
 
 def now() -> str:
@@ -42,6 +44,20 @@ def sha256_file(path: Path) -> str:
         for block in iter(lambda: fh.read(1024 * 1024), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def normalize_bdf(value: Any) -> str:
+    text = str(value or "").strip().lower()
+    match = _BDF_RE.fullmatch(text)
+    if not match:
+        return text
+    return f"{match.group('domain')[-4:].lower()}:{match.group('bus').lower()}:{match.group('device').lower()}.{match.group('function')}"
+
+
+def purpose_matches_workload(purpose: Any, workload_id: Any) -> bool:
+    purpose_text = str(purpose or "").strip().lower()
+    workload_text = str(workload_id or "").strip().lower()
+    return bool(workload_text) and (purpose_text == workload_text or workload_text in purpose_text)
 
 
 def run(command: list[str], timeout: int = 15) -> tuple[int, str, str]:
@@ -79,11 +95,13 @@ def cpu_info() -> dict[str, Any]:
                 fields[str(item.get("field", "")).rstrip(":")] = str(item.get("data", ""))
         except json.JSONDecodeError:
             pass
+
     def integer(name: str, default: int = 0) -> int:
         try:
             return int(fields.get(name, default))
         except ValueError:
             return default
+
     sockets = integer("Socket(s)", 0)
     cores_per_socket = integer("Core(s) per socket", 0)
     physical = sockets * cores_per_socket if sockets and cores_per_socket else 0
@@ -109,30 +127,32 @@ def memory_total_bytes() -> int:
 def nvidia_accelerators() -> list[dict[str, Any]]:
     if shutil.which("nvidia-smi") is None:
         return []
-    query = "index,uuid,pci.bus_id,name,driver_version,memory.total,temperature.gpu"
+    query = "index,uuid,pci.bus_id,name,driver_version,memory.total,temperature.gpu,compute_cap"
     rc, stdout, _ = run(["nvidia-smi", f"--query-gpu={query}", "--format=csv,noheader,nounits"])
     if rc != 0:
         return []
     result: list[dict[str, Any]] = []
     for line in stdout.splitlines():
         parts = [part.strip() for part in line.split(",")]
-        if len(parts) != 7:
+        if len(parts) != 8:
             continue
         try:
-            index = int(parts[0]); memory_mib = float(parts[5]); temperature = float(parts[6])
+            index = int(parts[0])
+            memory_mib = float(parts[5])
+            temperature = float(parts[6])
+            compute_capability = float(parts[7])
         except ValueError:
             continue
-        bdf = parts[2].lower()
-        if bdf.startswith("00000000:"):
-            bdf = bdf[5:]
         result.append({
             "index_observed": index,
             "uuid": parts[1],
-            "pci_bdf": bdf,
+            "pci_bdf": normalize_bdf(parts[2]),
             "name": parts[3],
+            "vendor": "NVIDIA",
             "driver_version": parts[4],
             "memory_total_bytes": int(memory_mib * 1024 * 1024),
             "temperature_c": temperature,
+            "cuda_compute_capability": compute_capability,
         })
     return result
 
@@ -189,13 +209,44 @@ def collect_host_attestation() -> tuple[dict[str, Any], str]:
     return attestation, sha256_obj(attestation)
 
 
-def validate_lease(path: Path, broker: str, accelerators: list[dict[str, Any]]) -> tuple[dict[str, Any] | None, list[str]]:
+def load_workload(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
+    try:
+        workload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return None, [f"WORKLOAD_UNREADABLE:{exc!r}"]
+    errors: list[str] = []
+    if workload.get("schema") != "fa3.workload-resource-envelope.v1":
+        errors.append("WORKLOAD_SCHEMA_MISMATCH")
+    if not str(workload.get("workload_id", "")).strip():
+        errors.append("WORKLOAD_ID_MISSING")
+    requirements = workload.get("requirements")
+    if not isinstance(requirements, list) or not requirements:
+        errors.append("WORKLOAD_REQUIREMENTS_EMPTY")
+        requirements = []
+    for item in requirements:
+        metric = str(item.get("metric", "")).strip().lower() if isinstance(item, dict) else ""
+        if metric in FORBIDDEN_METRICS:
+            errors.append(f"FORBIDDEN_ADMISSION_METRIC:{metric}")
+    return workload, errors
+
+
+def validate_lease(
+    path: Path,
+    broker: str,
+    accelerators: list[dict[str, Any]],
+    workload: dict[str, Any] | None,
+) -> tuple[dict[str, Any] | None, list[str]]:
     errors: list[str] = []
     try:
         lease = json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
         return None, [f"LEASE_UNREADABLE:{exc!r}"]
-    required = ["schema", "lease_id", "issuer", "accelerator_uuid", "expires_epoch", "purpose", "status", "placement", "signature"]
+
+    required = [
+        "schema", "lease_id", "issuer", "accelerator_uuid", "memory_max_bytes",
+        "expires_epoch", "issued_epoch", "purpose", "host", "status", "nonce",
+        "placement", "enforcement", "signature",
+    ]
     missing = [key for key in required if key not in lease]
     if missing:
         errors.append("LEASE_MISSING_FIELDS:" + ",".join(missing))
@@ -205,22 +256,47 @@ def validate_lease(path: Path, broker: str, accelerators: list[dict[str, Any]]) 
         errors.append("LEASE_ISSUER_MISMATCH")
     if lease.get("status") != "ACTIVE":
         errors.append("LEASE_NOT_ACTIVE")
+    if str(lease.get("host", "")) != socket.gethostname():
+        errors.append("LEASE_HOST_MISMATCH")
     try:
         if int(lease.get("expires_epoch", 0)) <= int(time.time()):
             errors.append("LEASE_EXPIRED")
     except (TypeError, ValueError):
         errors.append("LEASE_EXPIRY_INVALID")
+    try:
+        memory_max_bytes = int(lease.get("memory_max_bytes", 0))
+        if memory_max_bytes <= 0:
+            errors.append("LEASE_MEMORY_BUDGET_INVALID")
+    except (TypeError, ValueError):
+        memory_max_bytes = 0
+        errors.append("LEASE_MEMORY_BUDGET_INVALID")
+
+    workload_id = workload.get("workload_id") if isinstance(workload, dict) else None
+    if not purpose_matches_workload(lease.get("purpose"), workload_id):
+        errors.append("LEASE_WORKLOAD_SCOPE_MISMATCH")
+
     uuid = str(lease.get("accelerator_uuid", ""))
     placement = lease.get("placement") if isinstance(lease.get("placement"), dict) else {}
-    bdf = str(placement.get("pci_bus_id", "")).lower()
-    if bdf.startswith("00000000:"):
-        bdf = bdf[5:]
-    matches = [a for a in accelerators if a["uuid"] == uuid and a["pci_bdf"] == bdf]
+    bdf = normalize_bdf(placement.get("pci_bus_id"))
+    if not bdf or "numa_node" not in placement:
+        errors.append("LEASE_PLACEMENT_INVALID")
+    matches = [a for a in accelerators if a.get("uuid") == uuid and normalize_bdf(a.get("pci_bdf")) == bdf]
     if len(matches) != 1:
         errors.append("LEASE_ACCELERATOR_NOT_BOUND_TO_LIVE_UUID_BDF")
+    elif memory_max_bytes > int(matches[0].get("memory_total_bytes", 0)):
+        errors.append("LEASE_MEMORY_BUDGET_EXCEEDS_PHYSICAL_VRAM")
+    elif float(matches[0].get("cuda_compute_capability", 0.0)) < CUDA_COMPUTE_CAPABILITY_MIN:
+        errors.append("GPU_BELOW_CANONICAL_CAPABILITY_FLOOR")
+
     signature = lease.get("signature")
-    if not isinstance(signature, dict) or signature.get("alg") != "HMAC-SHA256" or not re.fullmatch(r"[0-9a-f]{64}", str(signature.get("value", ""))):
+    if (
+        not isinstance(signature, dict)
+        or signature.get("alg") != "HMAC-SHA256"
+        or signature.get("key_id") != "host-local-v1"
+        or not re.fullmatch(r"[0-9a-f]{64}", str(signature.get("value", "")))
+    ):
         errors.append("LEASE_SIGNATURE_DESCRIPTOR_INVALID")
+
     broker_path = shutil.which(broker) if "/" not in broker else broker
     if not broker_path or not Path(broker_path).is_file():
         errors.append("HRB_BROKER_UNAVAILABLE")
@@ -229,25 +305,6 @@ def validate_lease(path: Path, broker: str, accelerators: list[dict[str, Any]]) 
         if rc != 0 or stdout.strip().splitlines()[-1:] != ["VALID"]:
             errors.append("HRB_BROKER_VALIDATION_FAILED")
     return lease, errors
-
-
-def load_workload(path: Path) -> tuple[dict[str, Any] | None, list[str]]:
-    try:
-        workload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as exc:
-        return None, [f"WORKLOAD_UNREADABLE:{exc!r}"]
-    errors: list[str] = []
-    if workload.get("schema") != "fa3.workload-resource-envelope.v1":
-        errors.append("WORKLOAD_SCHEMA_MISMATCH")
-    requirements = workload.get("requirements")
-    if not isinstance(requirements, list) or not requirements:
-        errors.append("WORKLOAD_REQUIREMENTS_EMPTY")
-        requirements = []
-    for item in requirements:
-        metric = item.get("metric") if isinstance(item, dict) else None
-        if metric in FORBIDDEN_METRICS:
-            errors.append(f"FORBIDDEN_ADMISSION_METRIC:{metric}")
-    return workload, errors
 
 
 def build_compute_profile(attestation: dict[str, Any], attestation_sha: str, lease: dict[str, Any] | None) -> dict[str, Any]:
@@ -260,18 +317,34 @@ def build_compute_profile(attestation: dict[str, Any], attestation_sha: str, lea
     selected: list[dict[str, Any]] = []
     if lease:
         uuid = str(lease.get("accelerator_uuid", ""))
-        selected = [a for a in attestation.get("accelerators", []) if a.get("uuid") == uuid]
+        lease_bdf = normalize_bdf((lease.get("placement") or {}).get("pci_bus_id") if isinstance(lease.get("placement"), dict) else "")
+        selected = [
+            a for a in attestation.get("accelerators", [])
+            if a.get("uuid") == uuid and normalize_bdf(a.get("pci_bdf")) == lease_bdf
+        ]
         if len(selected) == 1:
-            metrics["gpu.vram_gib"] = round(int(selected[0].get("memory_total_bytes", 0)) / (1024 ** 3), 3)
+            physical_bytes = int(selected[0].get("memory_total_bytes", 0))
+            try:
+                lease_bytes = max(0, int(lease.get("memory_max_bytes", 0)))
+            except (TypeError, ValueError):
+                lease_bytes = 0
+            effective_bytes = min(physical_bytes, lease_bytes)
+            metrics["gpu.physical_vram_gib"] = round(physical_bytes / (1024 ** 3), 3)
+            metrics["gpu.lease_memory_gib"] = round(lease_bytes / (1024 ** 3), 3)
+            metrics["gpu.vram_gib"] = round(effective_bytes / (1024 ** 3), 3)
+            metrics["gpu.vendor"] = "NVIDIA"
+            metrics["gpu.cuda_compute_capability"] = float(selected[0].get("cuda_compute_capability", 0.0))
             metrics["gpu.device_uuid"] = selected[0].get("uuid")
-            metrics["gpu.pci_bdf"] = selected[0].get("pci_bdf")
+            metrics["gpu.pci_bdf"] = normalize_bdf(selected[0].get("pci_bdf"))
     return {
         "schema": "fa3.compute-profile.v1",
         "host_attestation_sha256": attestation_sha,
         "metrics": metrics,
-        "selected_accelerator_set": [{"uuid": a["uuid"], "pci_bdf": a["pci_bdf"]} for a in selected],
+        "selected_accelerator_set": [
+            {"uuid": a["uuid"], "pci_bdf": normalize_bdf(a["pci_bdf"])} for a in selected
+        ],
         "diagnostic_aggregates": {},
-        "measurement_semantics": "LIVE_DISCOVERY_ONLY_NO_SYNTHETIC_PERFORMANCE_SCORE",
+        "measurement_semantics": "LIVE_DISCOVERY_WITH_HRB_LEASE_BOUNDED_EFFECTIVE_ACCELERATOR_RESOURCES",
     }
 
 
@@ -285,7 +358,7 @@ def collect(root: Path, workload_path: Path, lease_path: Path, receipt_path: Pat
 
     attestation, attestation_sha = collect_host_attestation()
     workload, workload_errors = load_workload(workload_path)
-    lease, lease_errors = validate_lease(lease_path, broker, attestation.get("accelerators", []))
+    lease, lease_errors = validate_lease(lease_path, broker, attestation.get("accelerators", []), workload)
     profile = build_compute_profile(attestation, attestation_sha, lease)
 
     errors = workload_errors + lease_errors
@@ -310,9 +383,14 @@ def collect(root: Path, workload_path: Path, lease_path: Path, receipt_path: Pat
             "schema": lease.get("schema") if lease else None,
             "lease_id": lease.get("lease_id") if lease else None,
             "issuer": lease.get("issuer") if lease else None,
+            "status": lease.get("status") if lease else None,
+            "host": lease.get("host") if lease else None,
             "accelerator_uuid": lease.get("accelerator_uuid") if lease else None,
-            "pci_bus_id": lease.get("placement", {}).get("pci_bus_id") if lease and isinstance(lease.get("placement"), dict) else None,
+            "pci_bus_id": normalize_bdf(lease.get("placement", {}).get("pci_bus_id")) if lease and isinstance(lease.get("placement"), dict) else None,
+            "numa_node": lease.get("placement", {}).get("numa_node") if lease and isinstance(lease.get("placement"), dict) else None,
+            "memory_max_bytes": lease.get("memory_max_bytes") if lease else None,
             "purpose": lease.get("purpose") if lease else None,
+            "issued_epoch": lease.get("issued_epoch") if lease else None,
             "expires_epoch": lease.get("expires_epoch") if lease else None,
             "lease_file_sha256": sha256_file(lease_path) if lease_path.is_file() else None,
             "broker_validation": not lease_errors,
