@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_blackhole_kdenlive import run_executable_conformance
+from fa3_blackhole_runtime_gate import reference_gate as blackhole_runtime_reference_gate
 
 PROFILE_ID = "FA3-BLACKHOLE-KDENLIVE-001"
 STT_PROFILE_ID = "FA3-STT-001"
@@ -147,8 +148,9 @@ def reference_check(root: Path) -> dict[str, Any]:
 def gate(root: Path) -> dict[str, Any]:
     reference=reference_check(root)
     conformance=run_executable_conformance(root)
+    runtime_promotion=blackhole_runtime_reference_gate(root)
     _write(root/"reports/blackhole-kdenlive-conformance-report.json",conformance)
-    ok=reference["result"]=="PASS" and conformance["result"]=="PASS"
+    ok=reference["result"]=="PASS" and conformance["result"]=="PASS" and runtime_promotion["result"]=="PASS"
     report={
         "schema":"fa3.blackhole-kdenlive-gate-report.v1",
         "gate_id":GATE_ID,
@@ -157,8 +159,9 @@ def gate(root: Path) -> dict[str, Any]:
         "result":"PASS" if ok else "FAIL",
         "reference":reference,
         "conformance":conformance,
+        "runtime_promotion_boundary":runtime_promotion,
         "runtime_required_for_global_promotion":False,
-        "promotion_effect":"MANDATORY_INTEGRATION_CONTRACTS_RUNTIME_OPTIONAL",
+        "promotion_effect":"MANDATORY_INTEGRATION_CONTRACTS_AND_RUNTIME_REFERENCE_BOUNDARY_CURRENT_HOST_OPTIONAL",
     }
     _write(root/"reports/blackhole-kdenlive-gate-report.json",report)
     return report
