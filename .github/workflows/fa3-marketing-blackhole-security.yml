@@ -59,6 +59,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -96,3 +99,11 @@ jobs:
         env:
           PYTHONPATH: src
         run: python src/fa3_blackhole_ffmpeg_bridge_gate.py --root .
+      - name: Generate reconciled release projection candidate
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Upload release projection candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-marketing-blackhole-release-projection-candidate
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if-no-files-found: error
