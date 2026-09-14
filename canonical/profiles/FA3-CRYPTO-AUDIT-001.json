@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.crypto-audit.v1",
+  "id": "FA3-CRYPTO-AUDIT-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_type": "SECURITY_CONTROL_PROJECTION",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "implementation": "src/fa3_audit_logger.py",
+  "ledger": {
+    "format": "JSONL",
+    "write_model": "APPEND_ONLY",
+    "exclusive_file_lock_required": true,
+    "fsync_before_checkpoint": true,
+    "full_chain_verify_before_append": true,
+    "genesis_signature_verified": true,
+    "contiguous_index_required": true,
+    "constant_time_hmac_compare": true
+  },
+  "checkpoint": {
+    "local_head_checkpoint": "ATOMIC_HMAC_PROTECTED",
+    "production_truncation_anchor": "EXTERNAL_ASYMMETRIC_OR_TPM_REQUIRED",
+    "local_checkpoint_alone_is_immutable": false
+  },
+  "key_management": {
+    "repo_plaintext_key_forbidden": true,
+    "podman_secret_or_vault_required": true,
+    "key_id_required": true,
+    "key_version_required": true,
+    "old_verification_keys_retained_during_rotation": true
+  },
+  "privacy": {
+    "pii_in_immutable_payload_forbidden": true,
+    "opaque_refs_digests_codes_only": true,
+    "personal_data_storage": "SEPARATE_ERASABLE_CONSENT_VAULT"
+  },
+  "current_host_runtime_promotion_claim": false,
+  "consent_vault": {
+    "implementation": "src/fa3_consent_vault.py",
+    "encryption_provider": "EXTERNAL_APPROVED_PROVIDER_REQUIRED",
+    "plaintext_persistence_forbidden": true,
+    "logical_erasure_required": true,
+    "audit_binding": "OPAQUE_REF_PLUS_CIPHERTEXT_DIGEST_ONLY"
+  }
+}
