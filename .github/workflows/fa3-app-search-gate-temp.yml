@@ -1,0 +1,46 @@
+name: FA3 temporary app-search gate patch
+
+on:
+  push:
+    branches:
+      - fa3-gui-integrations-fa3-app-search
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fa3-gui-integrations-fa3-app-search
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Align GUI gate and release projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('src/fa3_gui_gate.py')
+          text = path.read_text(encoding='utf-8')
+          old = '    if "id: searchScope" not in qml or "Telepített alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml: failures.append("qml-unified-search-scopes-missing")\n'
+          new = '''    if "id: searchScope" not in qml or "FA3 alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml:\n        failures.append("qml-unified-search-scopes-missing")\n    if "property var fa3ApplicationIndex" not in qml or "function searchFa3Applications" not in qml or "var apps = searchFa3Applications(needle)" not in qml:\n        failures.append("qml-fa3-application-search-missing")\n    if "fa3Repository.searchInstalledApplications(needle)" in qml:\n        failures.append("qml-host-application-search-leak")\n'''
+          if old not in text:
+              raise SystemExit('old unified search gate condition not found')
+          text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+          temp_workflow=".github/workflows/fa3-app-search-gate-temp.yml"
+          saved="/tmp/fa3-app-search-gate-temp.yml"
+          mv "$temp_workflow" "$saved"
+          python src/fa3_release_projection_regenerate.py
+          mv "$saved" "$temp_workflow"
+
+          git config user.name "fa3-gui-integrations-app-search"
+          git config user.email "fa3-gui-integrations-app-search@users.noreply.github.com"
+          git add src/fa3_gui_gate.py canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "FA3 GUI gate: enforce FA3-scoped application search"
+          git push origin HEAD:fa3-gui-integrations-fa3-app-search
