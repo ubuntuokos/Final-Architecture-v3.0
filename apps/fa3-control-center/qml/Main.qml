@@ -106,6 +106,51 @@ ApplicationWindow {
         {title: "MIDI GIMP Ardour", detail: "MIDI és control-surface mapping", category: "SETTING", pageIndex: 15}
     ]
 
+    // User-facing applications represented inside FA3. This catalog is deliberately
+    // independent from the host XDG/.desktop application inventory.
+    property var fa3ApplicationIndex: [
+        {title: "ComfyUI", detail: "FA3 image/video generation frontend · Shared Models", pageIndex: 20},
+        {title: "Automatic1111", detail: "FA3 Stable Diffusion frontend · Shared Models", pageIndex: 20},
+        {title: "Forge", detail: "FA3 Stable Diffusion Forge frontend · Shared Models", pageIndex: 20},
+        {title: "Fooocus", detail: "FA3 image generation frontend · Shared Models", pageIndex: 20},
+        {title: "Krita", detail: "FA3 creative editor integration", pageIndex: 14},
+        {title: "GIMP", detail: "FA3 creative editor integration", pageIndex: 14},
+        {title: "Kdenlive", detail: "FA3 video editor integration", pageIndex: 14},
+        {title: "Bforartist", detail: "FA3 3D/DCC integration", pageIndex: 14},
+        {title: "Blender", detail: "FA3 3D/DCC integration", pageIndex: 14},
+        {title: "Natron", detail: "FA3 compositing integration", pageIndex: 14},
+        {title: "Gaffer", detail: "FA3 compositing/look-dev integration", pageIndex: 14},
+        {title: "Goose", detail: "FA3 agent client integration", pageIndex: 14},
+        {title: "Open WebUI", detail: "FA3 local AI client integration", pageIndex: 14},
+        {title: "OpenYak", detail: "FA3 desktop agent workbench integration", pageIndex: 14},
+        {title: "n8n", detail: "FA3 workflow orchestration application", pageIndex: 4},
+        {title: "Temporal", detail: "FA3 durable workflow runtime", pageIndex: 4},
+        {title: "Ollama", detail: "FA3 local model runtime/provider", pageIndex: 5},
+        {title: "LM Studio", detail: "FA3 local model client/provider", pageIndex: 5}
+    ]
+
+    function searchFa3Applications(query) {
+        var needle = query.trim().toLowerCase()
+        var out = []
+        for (var i = 0; i < fa3ApplicationIndex.length; ++i) {
+            var app = fa3ApplicationIndex[i]
+            var haystack = (app.title + " " + app.detail).toLowerCase()
+            if (needle.length === 0 || haystack.indexOf(needle) >= 0) {
+                out.push({
+                    id: app.title,
+                    title: app.title,
+                    subtitle: app.detail,
+                    status: "FA3 APP",
+                    category: "APPLICATION",
+                    sourceType: "APPLICATION",
+                    pageIndex: app.pageIndex,
+                    path: ""
+                })
+            }
+        }
+        return out
+    }
+
     property var rtdProviderCategories: [
         {code: "SEARCH_WEB", title: "Search & Web", description: "Web search, crawling and changing public web data.", protocols: "REST / Plugin / MCP", freshness: "provider-defined"},
         {code: "NEWS_SOCIAL", title: "News & Social", description: "News wires, RSS and social/event streams.", protocols: "REST / RSS / WebSocket", freshness: "minutes / stream"},
@@ -173,7 +218,7 @@ ApplicationWindow {
             }
         }
         if (scope === "ALL" || scope === "APPLICATION") {
-            var apps = fa3Repository.searchInstalledApplications(needle)
+            var apps = searchFa3Applications(needle)
             for (i = 0; i < apps.length; ++i) out.push(apps[i])
         }
         if (scope === "ALL" || scope === "FUNCTION") {
@@ -485,6 +530,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }
+                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
@@ -493,7 +539,6 @@ ApplicationWindow {
                         NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 11 }
                         NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 12 }
                         NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 13 }
-                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
                     }
                 }
 
