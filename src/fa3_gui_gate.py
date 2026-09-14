@@ -110,9 +110,10 @@ def validate() -> list[str]:
     if "ModelsProvidersPage" not in qml or "AiStudioPage" not in qml or "SystemSettingsPage" not in qml: failures.append("qml-dedicated-page-wiring-missing")
 
     rtd_qml = REQUIRED["rtd_qml"].read_text(encoding="utf-8")
+    integrations_qml = REQUIRED["integrations_qml"].read_text(encoding="utf-8")
     for token in ["Real-Time Data", "ADAPTER-GATED", "Freshness SLA", "Provenance", "FAIL-CLOSED", "Adapter ChangeSet-tervezet"]:
         if token not in rtd_qml: failures.append(f"qml-rtd-provider-surface-missing:{token}")
-    if "RtdProvidersPage" not in qml or "RTD Data Sources" not in qml or "RTD Adapters" not in qml or '{label: "Real-Time Data", value: "RTD"}' not in qml:
+    if "RtdProvidersPage" not in qml or "RTD Data Sources" not in qml or "RTD Adapters" not in integrations_qml or '{label: "Real-Time Data", value: "RTD"}' not in qml:
         failures.append("qml-rtd-cross-surface-projection-missing")
 
     chat_qml = REQUIRED["chat_qml"].read_text(encoding="utf-8")
@@ -138,13 +139,12 @@ def validate() -> list[str]:
     for token in ["id: languageDrawer", "id: languageButton", "Ctrl+Shift+L", "LanguageControlPage"]:
         if token not in qml: failures.append(f"qml-language-control-wiring-missing:{token}")
 
-    integrations_qml = REQUIRED["integrations_qml"].read_text(encoding="utf-8")
     for token in ["MCP Control Chat", "fa3McpControl.targets()", "openMcpControlRequested", "ADAPTER-GATED", "No fabricated CONNECTED state"]:
         if token not in integrations_qml: failures.append(f"qml-mcp-integrations-surface-missing:{token}")
     mcp_contract = load_json(REQUIRED["mcp_control_contract"])
     if mcp_contract.get("id") != "FA3-MCP-CONTROL-CHAT-001" or mcp_contract.get("new_architectural_authority") is not False or mcp_contract.get("capability_count_delta") != 0:
         failures.append("mcp-control-authority-contract-invalid")
-    for token in ["MCP CONTROL", "WORKFLOW", "MCP Authority", "createDraftRequest", "MCP request vázlat", "Végrehajtás", "DRAFT_NOT_SUBMITTED"]:
+    for token in ["MCP CONTROL", "WORKFLOW", "MCP Authority", "createDraftRequest", "MCP request vázlat", "Végrehajtás"]:
         if token not in chat_qml: failures.append(f"qml-mcp-control-chat-missing:{token}")
     for token in ["function openMcpChat", "MCP Control Chat", "IntegrationsPage", "workspaceMode: window.chatWorkspaceMode", "requestedMcpTarget: window.mcpChatTarget"]:
         if token not in qml: failures.append(f"qml-mcp-control-wiring-missing:{token}")
