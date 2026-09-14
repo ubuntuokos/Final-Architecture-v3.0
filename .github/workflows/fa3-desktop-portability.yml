@@ -1,0 +1,66 @@
+name: FA3 Desktop Portability Gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/FA3-DESKTOP-BASE-001.json'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
+      - 'canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json'
+      - 'src/fa3_desktop_admission.py'
+      - 'bin/fa3-desktop-admission'
+      - 'tests/test_desktop_portability.py'
+      - 'docs/desktop-portability.md'
+      - '.github/workflows/fa3-desktop-portability.yml'
+      - 'canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-DESKTOP-BASE-001.json'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
+      - 'canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json'
+      - 'src/fa3_desktop_admission.py'
+      - 'bin/fa3-desktop-admission'
+      - 'tests/test_desktop_portability.py'
+      - '.github/workflows/fa3-desktop-portability.yml'
+      - 'canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json'
+
+permissions:
+  contents: read
+
+jobs:
+  desktop-portability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run desktop portability regression tests
+        run: python3 -m unittest discover -s tests -p 'test_desktop_portability.py' -v
+
+      - name: Run canonical desktop portability gate
+        run: python3 ./bin/fa3-desktop-admission --self-test --json | tee desktop-portability-gate-report.json
+
+      - name: Verify gate receipt
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('desktop-portability-gate-report.json').read_text(encoding='utf-8'))
+          assert report['result'] == 'PASS', report
+          assert report['current_host_production_evidence'] is False, report
+          assert report['canonical']['result'] == 'PASS', report
+          assert report['regression']['result'] == 'PASS', report
+          PY
+
+      - name: Upload synthetic gate receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-desktop-portability-gate-report
+          path: desktop-portability-gate-report.json
+          if-no-files-found: error

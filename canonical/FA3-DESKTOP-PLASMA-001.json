@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.desktop-plasma-reference.v1",
+  "id": "FA3-DESKTOP-PLASMA-001",
+  "title": "KDE Plasma Reference Desktop Profile",
+  "type": "CANONICAL_DESKTOP_REFERENCE_PROFILE",
+  "status": "REFERENCE_PROFILE",
+  "priority": "P1",
+  "role": "REFERENCE_AND_ENHANCED_DESKTOP_IMPLEMENTATION",
+  "base_profile": "FA3-DESKTOP-BASE-001",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "reference_environment": {
+    "desktop": "KDE_PLASMA",
+    "session": "WAYLAND",
+    "tier": 1
+  },
+  "enhancements": [
+    "PLASMA_NATIVE_UX",
+    "KWALLET_VIA_SECRET_BROKER",
+    "KDE_FILE_DIALOG_WHEN_SELECTED_BY_PORTAL_OR_ADAPTER",
+    "KWIN_WAYLAND_ENHANCEMENTS",
+    "PLASMA_NOTIFICATIONS",
+    "PLASMA_TRAY_ENHANCEMENT",
+    "PLASMA_POWER_MANAGEMENT_ENHANCEMENT"
+  ],
+  "constraints": {
+    "enhancements_must_not_become_core_requirements": true,
+    "kwallet_direct_use_by_providers": "FORBIDDEN",
+    "kio_direct_use_by_portable_core": "FORBIDDEN",
+    "plasma_private_api_core_dependency": "FORBIDDEN",
+    "non_plasma_desktop_core_feature_parity": "REQUIRED_EXCEPT_OPTIONAL_ENHANCEMENTS"
+  },
+  "appearance": {
+    "breeze": "REFERENCE_APPEARANCE_ONLY",
+    "runtime_dependency": false,
+    "fa3_design_tokens_required": true
+  }
+}

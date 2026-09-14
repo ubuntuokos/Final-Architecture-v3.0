@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ed871407e7a789a5d185dffd292ad79269380cb2",
-    "pre_projection_root_tree_sha": "bb8eb56a58fc2f97e79c8b19d8f6f2db3acb1e48",
-    "pre_projection_canonical_tree_sha": "ab0ee649de66b6e3ea4d8ba39ca36033240b120c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 253,
-    "total_post_baseline_commits": 253,
-    "delta_file_count": 1135,
-    "delta_added_files": 1130,
+    "pre_projection_head_sha": "dd9de8b409321990551ccc453f6aebcf54fe3cd7",
+    "pre_projection_root_tree_sha": "e9a463e82551d54df1f8e56cc8a1a9b9835fade3",
+    "pre_projection_canonical_tree_sha": "04880940bab1910cef7751847ff5d1e334ce02d9",
+    "commits_ahead_of_v3_0_11_conformance_commit": 257,
+    "total_post_baseline_commits": 257,
+    "delta_file_count": 1143,
+    "delta_added_files": 1138,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 609,
+    "canonical_files_in_post_baseline_delta": 612,
     "evidence_files_in_post_baseline_delta": 113,
-    "source_files_in_post_baseline_delta": 124,
-    "test_files_in_post_baseline_delta": 106,
-    "workflow_files_in_post_baseline_delta": 41,
+    "source_files_in_post_baseline_delta": 125,
+    "test_files_in_post_baseline_delta": 107,
+    "workflow_files_in_post_baseline_delta": 42,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -709,7 +709,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1135,
+  "manifest_entry_count": 1143,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -754,6 +754,11 @@
     {
       "path": ".github/workflows/fa3-current-host.yml",
       "git_blob_sha": "b3ef7bd7c2e29e88af9d2007e0f61f3281ebdf49",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-desktop-portability.yml",
+      "git_blob_sha": "232e28e697d150a6fc63d8cd008f984167290c48",
       "baseline_delta_status": "added"
     },
     {
@@ -1187,6 +1192,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-desktop-admission",
+      "git_blob_sha": "a3cfde744a2c94095e82f816c0b1cece935540c5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-developer-agent-coordination-e2e",
       "git_blob_sha": "d27be98102ddd8b57cf5332d2e24bf676ff09d8c",
       "baseline_delta_status": "added"
@@ -1362,6 +1372,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-DESKTOP-BASE-001.json",
+      "git_blob_sha": "d54e3b7fdf4e2c20f01b231bcdc84044dc49fc53",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-DESKTOP-PLASMA-001.json",
+      "git_blob_sha": "8d4257b011a46178904c11c0c582ec5d4013f229",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9401d95c07e7eef0358258fa77da93384f7a7b62",
       "baseline_delta_status": "added"
@@ -1399,6 +1419,11 @@
     {
       "path": "canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json",
       "git_blob_sha": "269b9d15649dc246c34134886fd3cd4b65e1eba0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json",
+      "git_blob_sha": "76ba74c9e37be747f00733239590507d3512e3b1",
       "baseline_delta_status": "added"
     },
     {
@@ -4497,6 +4522,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/desktop-portability.md",
+      "git_blob_sha": "23af9e94917a345bdc0b65aed6c0f9c707343810",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/governance-tiering.md",
       "git_blob_sha": "8fa415faf815ec8b23351d548d6252d6bf0ff39e",
       "baseline_delta_status": "added"
@@ -5337,6 +5367,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_desktop_admission.py",
+      "git_blob_sha": "df45dc51ce5c410056a09f723d50bf060865950c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_developer_agent_coordination.py",
       "git_blob_sha": "56c0d33be581822285f8b40109a5e1b4281360a3",
       "baseline_delta_status": "added"
@@ -5929,6 +5964,11 @@
     {
       "path": "tests/test_demucs_provider_runtime.py",
       "git_blob_sha": "8756cc192f3bca8277fcad58d9137895becda1a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_desktop_portability.py",
+      "git_blob_sha": "2dd76940a7d00bea954be5b4f8ab8383e439b459",
       "baseline_delta_status": "added"
     },
     {
