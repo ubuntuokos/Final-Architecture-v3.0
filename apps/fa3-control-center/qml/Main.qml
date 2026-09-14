@@ -18,6 +18,7 @@ ApplicationWindow {
     property int selectedIndex: 0
     property string askRole: "Mentor"
     property bool webWorkspaceOpen: false
+    property bool chatWorkspaceOpen: false
     property url webWorkspaceUrl: "about:blank"
     property string webWorkspaceTitle: "Web Workspace"
     property bool llmFitExpanded: false
@@ -41,9 +42,21 @@ ApplicationWindow {
     }
 
     function openInternalWeb(targetUrl, titleText) {
+        chatWorkspaceOpen = false
         webWorkspaceUrl = targetUrl
         webWorkspaceTitle = titleText
         webWorkspaceOpen = true
+    }
+
+    function openRoleChat(roleName) {
+        askRole = roleName
+        webWorkspaceOpen = false
+        chatWorkspaceOpen = true
+    }
+
+    function closeTransientWorkspaces() {
+        webWorkspaceOpen = false
+        chatWorkspaceOpen = false
     }
 
     property var uiSearchIndex: [
@@ -219,11 +232,11 @@ ApplicationWindow {
         }
     }
 
-    Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 0 } }
-    Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 2 } }
-    Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 3 } }
-    Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 7 } }
-    Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: { window.webWorkspaceOpen = false; window.selectedIndex = 15 } }
+    Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 0 } }
+    Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 2 } }
+    Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 3 } }
+    Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 7 } }
+    Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 15 } }
     Shortcut { sequence: window.shortcutToggleStatus; context: Qt.ApplicationShortcut; onActivated: { window.statusStripVisible = !window.statusStripVisible; fa3Preferences.setValue("appearance/statusStripVisible", window.statusStripVisible) } }
 
     component Panel: Rectangle {
@@ -293,7 +306,7 @@ ApplicationWindow {
             id: navMouse
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: window.selectedIndex = parent.pageIndex
+            onClicked: { window.closeTransientWorkspaces(); window.selectedIndex = parent.pageIndex }
         }
     }
 
@@ -552,12 +565,12 @@ ApplicationWindow {
                         Menu {
                             id: askMenu
                             y: parent.height
-                            MenuItem { text: "Mentor"; onTriggered: window.askRole = "Mentor" }
-                            MenuItem { text: "Coach"; onTriggered: window.askRole = "Coach" }
-                            MenuItem { text: "Manager"; onTriggered: window.askRole = "Manager" }
-                            MenuItem { text: "Ellenőr"; onTriggered: window.askRole = "Ellenőr" }
-                            MenuItem { text: "Ötletelő"; onTriggered: window.askRole = "Ötletelő" }
-                            MenuItem { text: "Tanácsadó"; onTriggered: window.askRole = "Tanácsadó" }
+                            MenuItem { text: "Mentor"; onTriggered: window.openRoleChat("Mentor") }
+                            MenuItem { text: "Coach"; onTriggered: window.openRoleChat("Coach") }
+                            MenuItem { text: "Manager"; onTriggered: window.openRoleChat("Manager") }
+                            MenuItem { text: "Ellenőr"; onTriggered: window.openRoleChat("Ellenőr") }
+                            MenuItem { text: "Ötletelő"; onTriggered: window.openRoleChat("Ötletelő") }
+                            MenuItem { text: "Tanácsadó"; onTriggered: window.openRoleChat("Tanácsadó") }
                         }
                     }
 
@@ -577,7 +590,7 @@ ApplicationWindow {
                 id: pages
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                currentIndex: window.webWorkspaceOpen ? 18 : window.selectedIndex
+                currentIndex: window.chatWorkspaceOpen ? 19 : (window.webWorkspaceOpen ? 18 : window.selectedIndex)
 
                 Item {
                     DashboardPage {
@@ -1099,6 +1112,25 @@ ApplicationWindow {
                     textMuted: window.textMuted
                     accent: window.accent
                     onCloseRequested: window.webWorkspaceOpen = false
+                }
+
+                ChatWorkspace {
+                    role: window.askRole
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onCloseRequested: window.chatWorkspaceOpen = false
+                    onNavigateRequested: function(pageIndex) {
+                        window.chatWorkspaceOpen = false
+                        window.webWorkspaceOpen = false
+                        window.selectedIndex = pageIndex
+                    }
                 }
             }
 
