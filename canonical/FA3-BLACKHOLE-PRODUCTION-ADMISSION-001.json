@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.blackhole-production-admission.v1",
+  "id": "FA3-BLACKHOLE-PRODUCTION-ADMISSION-001",
+  "status": "PENDING_CURRENT_HOST",
+  "static_materialization": "IMPLEMENTED",
+  "runtime_admission": "NOT_YET_PROVEN",
+  "current_host_claim": false,
+  "required_evidence": [
+    "rootless_podman",
+    "authenticated_hrb_receipt",
+    "nvidia_cdi_selector_present",
+    "digest_pinned_images",
+    "cosign_verification",
+    "sbom_attestation",
+    "non_root_image_user",
+    "podman_secrets_present",
+    "quadlet_generation_valid",
+    "services_healthy",
+    "blackhole_ready",
+    "external_audit_anchor_verified"
+  ],
+  "promotion_rule": "PASS only after evidence/receipts/blackhole-production-current-host.json reports PASS on the designated current-host runner",
+  "document_only_promotion_forbidden": true
+}
