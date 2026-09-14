@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "0cba051f5a6a901156c1cc92b2f3fe0516fad421",
-    "pre_projection_root_tree_sha": "db8a82f1031a0d93fb9dadf333a34559fd2289bf",
-    "pre_projection_canonical_tree_sha": "2fb4239bd8e9837ad33e32d63bcbd21efdd71e43",
-    "commits_ahead_of_v3_0_11_conformance_commit": 285,
-    "total_post_baseline_commits": 285,
-    "delta_file_count": 1141,
-    "delta_added_files": 1136,
+    "pre_projection_head_sha": "8837320a48e82a46116947f2b44ffb2931d10d92",
+    "pre_projection_root_tree_sha": "eebc934c00805b73cf0b34f1ffc4ba54642bdb6d",
+    "pre_projection_canonical_tree_sha": "f9b499a42e52756c4953764fa5bcbecc679a5dec",
+    "commits_ahead_of_v3_0_11_conformance_commit": 296,
+    "total_post_baseline_commits": 296,
+    "delta_file_count": 1143,
+    "delta_added_files": 1138,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,8 +47,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 612,
     "evidence_files_in_post_baseline_delta": 113,
-    "source_files_in_post_baseline_delta": 126,
-    "test_files_in_post_baseline_delta": 107,
+    "source_files_in_post_baseline_delta": 127,
+    "test_files_in_post_baseline_delta": 108,
     "workflow_files_in_post_baseline_delta": 42,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -713,7 +713,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1140,
+  "manifest_entry_count": 1142,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -822,7 +822,7 @@
     },
     {
       "path": ".github/workflows/fa3-language-gateway-gate.yml",
-      "git_blob_sha": "5929a997e083f0119bc4d4b88f46e001a8926ee5",
+      "git_blob_sha": "b232ef3ac41115aa042837d31997fcf6efc1552b",
       "baseline_delta_status": "added"
     },
     {
@@ -1192,7 +1192,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "ad90d1f40974593f8bd7851fca7cfdace76aab8d",
+      "git_blob_sha": "d2347d9e66ad35b6b9792d78b01403865e130d70",
       "baseline_delta_status": "modified"
     },
     {
@@ -2892,7 +2892,7 @@
     },
     {
       "path": "canonical/language-gateway-enforcement.json",
-      "git_blob_sha": "0f7605101d9526936d8e95a6b75e29be0acbc738",
+      "git_blob_sha": "c0265ebd82665aee3ac94865b98a5bb17d9f9fb3",
       "baseline_delta_status": "added"
     },
     {
@@ -3257,7 +3257,7 @@
     },
     {
       "path": "canonical/profiles/FA3-LANGUAGE-POLICY-001.json",
-      "git_blob_sha": "50dde238594e479f7bdd1ef26c48b7a3e242dbf5",
+      "git_blob_sha": "6679313c651aaf0f8ad04727a29deecf5ff2fc3f",
       "baseline_delta_status": "added"
     },
     {
@@ -4527,7 +4527,7 @@
     },
     {
       "path": "docs/language-fabric-and-llm-gateway.md",
-      "git_blob_sha": "a4f7aedc087bd481304cb784f6c99ee9f424433c",
+      "git_blob_sha": "9074eb0e7a7a57f639bd1db2c4fe1036837d0f14",
       "baseline_delta_status": "added"
     },
     {
@@ -5261,6 +5261,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_canonical_language_gate.py",
+      "git_blob_sha": "cf6b5c5ee0210115563e16ff88dde2df34140052",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_capability_count_dehardcode_gate.py",
       "git_blob_sha": "b99b5af543683f62b8b82c0e7b09e1c5e420c515",
       "baseline_delta_status": "added"
@@ -5878,6 +5883,11 @@
     {
       "path": "tests/test_buzz_runtime_admission_gate.py",
       "git_blob_sha": "9cbd8a41ab44385e63ae42274286b6234c242a09",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_canonical_language_gate.py",
+      "git_blob_sha": "6164d6d038f9ba9e44f6b77241a29b59df88291d",
       "baseline_delta_status": "added"
     },
     {
