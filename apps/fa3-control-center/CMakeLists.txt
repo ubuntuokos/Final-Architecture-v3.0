@@ -25,6 +25,8 @@ qt_add_executable(fa3-control-center
     src/ModelLibraryService.h
     src/McpControlService.cpp
     src/McpControlService.h
+    src/LanguageInterpreterService.cpp
+    src/LanguageInterpreterService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)

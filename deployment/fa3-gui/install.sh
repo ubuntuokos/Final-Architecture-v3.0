@@ -4,6 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 APP_SRC="$REPO_ROOT/apps/fa3-control-center"
 MAIN_QML="$APP_SRC/qml/Main.qml"
+LANGUAGE_QML="$APP_SRC/qml/LanguageControlPage.qml"
 BUILD_DIR="$REPO_ROOT/.build/fa3-control-center"
 PREFIX="${HOME}/.local"
 INSTALLED_BIN="$PREFIX/libexec/fa3-control-center"
@@ -42,6 +43,20 @@ for marker in "${required_markers[@]}"; do
   fi
 done
 
+language_markers=(
+  'text: "Élő Tolmács"'
+  'fa3Interpreter.startLive'
+  'microphoneStatus'
+  'FA3-PROVIDER-WHISPER-001'
+  'FAIL-CLOSED'
+)
+for marker in "${language_markers[@]}"; do
+  if ! grep -Fq "$marker" "$LANGUAGE_QML"; then
+    echo "FA3 GUI live-interpreter source-contract check FAILED: missing $marker" >&2
+    exit 3
+  fi
+done
+
 if grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then
   echo "FA3 GUI source-contract check FAILED: QuickLink still escapes to an external browser" >&2
   exit 3
@@ -56,7 +71,7 @@ fi
 if command -v apt-get >/dev/null 2>&1; then
   sudo apt-get update
   sudo apt-get install -y \
-    build-essential cmake ninja-build \
+    build-essential cmake ninja-build ffmpeg \
     qt6-base-dev qt6-declarative-dev qt6-webengine-dev \
     qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-dialogs qml6-module-qtwebengine \
     qml6-module-qtquick-layouts qml6-module-qtqml-workerscript
@@ -118,7 +133,7 @@ if pgrep -u "$USER" -f "^${INSTALLED_BIN}([[:space:]]|$)" >/dev/null 2>&1; then
   sleep 1
 fi
 
-echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
+echo "FA3 GUI source contract: PASS (${#required_markers[@]} shell + ${#language_markers[@]} live-interpreter surfaces)"
 echo "Installed binary: $INSTALLED_BIN"
 echo "Desktop launcher: $DESKTOP_FILE"
 echo "Repository revision: $SOURCE_REV"
