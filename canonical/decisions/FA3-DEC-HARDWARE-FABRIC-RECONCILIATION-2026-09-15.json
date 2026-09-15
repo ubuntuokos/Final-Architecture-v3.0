@@ -1,0 +1,108 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HARDWARE-FABRIC-RECONCILIATION-2026-09-15",
+  "date": "2026-09-15",
+  "status": "ACCEPTED_RECONCILIATION_REQUIRED",
+  "title": "FA3 hardware fabric reconciliation: no mandatory hardware and workload-scoped admission",
+  "decision": "RECONCILE_ALL_HARDWARE_SEMANTICS_TO_RUNTIME_DISCOVERY_AND_WORKLOAD_SCOPED_REQUIREMENTS",
+  "parent_profile_id": "FA3-HW-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "core_invariants": [
+    "FA3_CORE_HARDWARE_REQUIREMENT_NONE",
+    "NO_GLOBAL_CPU_VENDOR_MODEL_ARCHITECTURE_CORE_COUNT_OR_SOCKET_MINIMUM",
+    "ZERO_ACCELERATOR_HOST_IS_A_VALID_FA3_CORE_HOST",
+    "ACCELERATOR_CARDINALITY_IS_DYNAMIC_0_TO_N",
+    "GPU_NPU_AND_OTHER_ACCELERATOR_CLASSES_ARE_RUNTIME_DISCOVERED",
+    "GPU_VENDOR_IS_NOT_GLOBAL_ADMISSION_AUTHORITY",
+    "NVIDIA_AMD_INTEL_AND_FUTURE_GPU_VENDORS_ARE_CAPABILITY_DISCOVERED",
+    "CPU_VENDOR_AND_ARCHITECTURE_ARE_DISCOVERED_NOT_ADMISSION_ALLOWLISTS",
+    "INTEL_AMD_ARM_AND_FUTURE_CPU_ARCHITECTURES_ARE_NOT_GLOBAL_ALLOWLISTS",
+    "DGX_NVLINK_NVSWITCH_AND_SIMILAR_SYSTEMS_ARE_PLATFORM_OR_FABRIC_PROPERTIES_NOT_REQUIRED_RESOURCE_CLASSES",
+    "WORKLOAD_RESOURCE_ENVELOPE_IS_THE_ONLY_SOURCE_OF_WORKLOAD_HARDWARE_REQUIREMENTS",
+    "NAMED_HARDWARE_REQUIREMENTS_ARE_FORBIDDEN_BY_DEFAULT",
+    "PROVIDER_SPECIFIC_ACCELERATOR_REQUIREMENTS_ARE_ALLOWED_ONLY_WHEN_SCOPED_TO_AN_APPLICABLE_WORKLOAD_OR_PROVIDER",
+    "CURRENT_HOST_AND_REFERENCE_HOST_HARDWARE_FACTS_ARE_EVIDENCE_ONLY",
+    "NO_SILENT_BACKEND_OR_ACCELERATOR_FALLBACK"
+  ],
+  "resource_model": {
+    "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "host_attestation": "IDENTITY_AND_PROVENANCE_NOT_HARDWARE_ALLOWLIST",
+    "compute_profile": "MEASURED_MULTIDIMENSIONAL_CAPABILITIES",
+    "workload_resource_envelope": "METRIC_OPERATOR_VALUE_REQUIREMENTS_NO_CROSS_METRIC_COMPENSATION",
+    "admission": "TYPED_CPU_MEMORY_ACCELERATOR_AND_TOPOLOGY_POLICY",
+    "accelerator_specific_lease": "VALID_ONLY_FOR_WORKLOADS_THAT_REQUIRE_THE_APPLICABLE_ACCELERATOR_CLASS",
+    "cpu_memory_only_workload": "MUST_NOT_REQUIRE_AN_ACCELERATOR_LEASE",
+    "cu_tu": "DIAGNOSTIC_ONLY_NOT_ADMISSION_AUTHORITY"
+  },
+  "discovery_taxonomy": {
+    "cpu": ["architecture", "vendor", "cores", "threads", "isa_features", "numa_topology"],
+    "gpu": ["vendor", "device_identity", "integrated_or_discrete", "memory", "compute_and_media_apis", "topology"],
+    "npu": ["vendor", "device_identity", "runtime_capabilities", "operator_capabilities", "memory_or_partition_properties"],
+    "other_accelerator": ["class", "vendor", "device_identity", "runtime_capabilities"],
+    "platform_fabric": ["dgx", "nvlink", "nvswitch", "pcie", "cxl", "future_fabrics"]
+  },
+  "backend_examples_non_exhaustive": {
+    "nvidia": ["CUDA", "Vulkan", "NVENC_NVDEC_WHEN_PRESENT"],
+    "amd": ["ROCm_HIP_WHEN_PRESENT", "Vulkan"],
+    "intel": ["Level_Zero_oneAPI_WHEN_PRESENT", "OpenVINO_WHEN_PRESENT", "Vulkan"],
+    "cpu": ["NATIVE_CPU", "OpenVINO_WHEN_PRESENT", "ONNX_RUNTIME_CPU_WHEN_PRESENT"],
+    "npu": ["VENDOR_OR_STANDARD_RUNTIME_WHEN_PRESENT"]
+  },
+  "supersedence": {
+    "supersedes_decision_interpretation": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+    "superseded_global_requirements": [
+      "minimum one CPU package",
+      "minimum eight physical CPU cores",
+      "minimum one NVIDIA GPU",
+      "NVIDIA RTX 30 series or newer",
+      "global CUDA compute capability minimum",
+      "global VRAM minimum",
+      "global accelerator count minimum"
+    ],
+    "preserved": [
+      "live discovery",
+      "HRB exclusive authority",
+      "stable device identity when available",
+      "workload-specific capability requirements",
+      "current-host evidence as evidence",
+      "provider-specific MUST-IF-USED requirements"
+    ]
+  },
+  "reconciliation_scope": [
+    "canonical hardware profiles and contracts",
+    "hardware portability enforcement",
+    "host attestation and compute profile collectors",
+    "Host Resource Broker lease and admission typing",
+    "current-host resource admission collector and gate",
+    "resource admission smoke/bootstrap",
+    "host admission orchestrator and doctor",
+    "multi-accelerator and inference portability profiles",
+    "provider-specific hardware gates",
+    "GUI hardware discovery and settings projection",
+    "current-host evidence semantics",
+    "permanent canonical and promotion workflows",
+    "active hardware-sensitive pull requests"
+  ],
+  "required_proof_matrix": [
+    "CPU_ONLY_HOST_CORE_PASS",
+    "ZERO_ACCELERATOR_HOST_CORE_PASS",
+    "AMD_GPU_HOST_CORE_PASS",
+    "INTEL_GPU_HOST_CORE_PASS",
+    "NVIDIA_GPU_HOST_CORE_PASS",
+    "NPU_ONLY_HOST_CORE_PASS",
+    "MULTI_ACCELERATOR_HOST_CORE_PASS",
+    "DGX_ABSENT_CORE_PASS",
+    "UNKNOWN_FUTURE_HARDWARE_CORE_PASS",
+    "CUDA_WORKLOAD_ON_NON_CUDA_HOST_BLOCKED",
+    "ROCM_WORKLOAD_ON_NON_ROCM_HOST_BLOCKED",
+    "NPU_WORKLOAD_ON_HOST_WITHOUT_REQUIRED_NPU_BLOCKED",
+    "INSUFFICIENT_CPU_OR_MEMORY_FOR_WORKLOAD_BLOCKED",
+    "NO_PROVIDER_OR_REFERENCE_HOST_FACT_CAN_PROMOTE_GLOBAL_HARDWARE_REQUIREMENT"
+  ],
+  "authority_impact": "NONE_HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
+  "promotion_semantics": "HARDWARE_FABRIC_RECONCILIATION_REFERENCE_PASS_CANNOT_CREATE_CURRENT_HOST_OR_GLOBAL_PROMOTION",
+  "closure_condition": "RECONCILIATION_IS_NOT_CLOSED_UNTIL_REPOSITORY_WIDE_EXECUTABLE_GATES_AND_CURRENT_HOST_PROOF_CONFIRM_THE_REQUIRED_PROOF_MATRIX"
+}
