@@ -5,14 +5,21 @@ on:
     branches: [main]
     paths:
       - 'canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json'
+      - 'canonical/FA3-RESOURCE-ADMISSION-EVIDENCE-ACCEPTANCE-001.json'
       - 'canonical/resource-admission-current-host-enforcement.json'
       - 'canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json'
       - 'evidence/reference/resource-admission-current-host-pending.json'
+      - 'evidence/reference/resource-admission-current-host-pass.json'
+      - 'evidence/evidence-registry.json'
       - 'evidence/collect-resource-admission-current-host.py'
       - 'src/fa3_resource_admission_current_host_gate.py'
       - 'src/fa3_resource_admission_smoke.py'
+      - 'src/fa3_resource_admission_evidence_acceptance.py'
+      - 'scripts/fa3_reconcile_resource_admission_evidence.py'
       - 'tests/test_resource_admission_current_host_gate.py'
       - 'tests/test_resource_admission_smoke.py'
+      - 'tests/test_resource_admission_evidence_acceptance.py'
+      - 'tests/test_resource_admission_evidence_reconciliation.py'
       - 'tests/test_hrb_validator_bridge.py'
       - 'libexec/fa3-host-resource-broker-validate-root.py'
       - 'libexec/fa3-host-resource-broker-validator.sh'
@@ -58,9 +65,22 @@ jobs:
         with:
           python-version: '3.12'
       - name: Syntax check
-        run: python -m py_compile evidence/collect-resource-admission-current-host.py src/fa3_resource_admission_current_host_gate.py src/fa3_resource_admission_smoke.py libexec/fa3-host-resource-broker-validate-root.py
-      - name: Current-host contract, smoke and HRB validator bridge regressions
-        run: PYTHONPATH=src python -m unittest tests.test_resource_admission_current_host_gate tests.test_resource_admission_smoke tests.test_hrb_validator_bridge -v
+        run: >-
+          python -m py_compile
+          evidence/collect-resource-admission-current-host.py
+          src/fa3_resource_admission_current_host_gate.py
+          src/fa3_resource_admission_smoke.py
+          src/fa3_resource_admission_evidence_acceptance.py
+          scripts/fa3_reconcile_resource_admission_evidence.py
+          libexec/fa3-host-resource-broker-validate-root.py
+      - name: Current-host contract, smoke, evidence acceptance and HRB validator bridge regressions
+        run: >-
+          PYTHONPATH=src python -m unittest
+          tests.test_resource_admission_current_host_gate
+          tests.test_resource_admission_smoke
+          tests.test_resource_admission_evidence_acceptance
+          tests.test_resource_admission_evidence_reconciliation
+          tests.test_hrb_validator_bridge -v
       - name: Parent normalization gate
         run: ./bin/fa3-enforce resource-evidence-normalization
       - name: Missing real current-host receipt must fail closed
@@ -104,6 +124,11 @@ jobs:
           ./bin/fa3-resource-admission-current-host.sh "${args[@]}"
       - name: Re-validate current-host receipt independently
         run: ./bin/fa3-enforce resource-admission-current-host
+      - name: Capture sanitized archival acceptance metadata
+        run: |
+          python src/fa3_resource_admission_evidence_acceptance.py \
+            --receipt evidence/receipts/resource-admission-current-host.json \
+            --output reports/resource-admission-current-host-acceptance.json
       - name: Upload scoped evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -112,7 +137,76 @@ jobs:
           if-no-files-found: warn
           path: |
             evidence/receipts/resource-admission-current-host.json
+            reports/resource-admission-current-host-acceptance.json
             reports/resource-admission-smoke-bootstrap-report.json
             reports/resource-admission-current-host-gate-report.json
             reports/resource-evidence-normalization-gate-report.json
             .fa3-current-host/input/resource-smoke-workload-envelope.json
+
+  reconciliation-pr:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'main' && inputs.execute_current_host }}
+    needs: production-e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: fa3-resource-admission-current-host
+          path: artifact
+      - name: Locate and verify sanitized acceptance metadata
+        id: acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          path="$(find artifact -type f -name resource-admission-current-host-acceptance.json -print -quit)"
+          test -n "$path"
+          python src/fa3_resource_admission_evidence_acceptance.py --verify --acceptance "$path"
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+      - name: Reconcile scoped production evidence
+        run: |
+          python scripts/fa3_reconcile_resource_admission_evidence.py \
+            --root . \
+            --acceptance '${{ steps.acceptance.outputs.path }}'
+          python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Validate reconciled tree
+        run: |
+          PYTHONPATH=src python -m unittest \
+            tests.test_resource_admission_current_host_gate \
+            tests.test_resource_admission_evidence_acceptance \
+            tests.test_resource_admission_evidence_reconciliation -v
+          ./bin/fa3-current-host verify
+          ./bin/fa3-enforce release-projection
+      - name: Open evidence reconciliation pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="fa3/resource-admission-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$branch"
+          git add \
+            evidence/reference/resource-admission-current-host-pass.json \
+            evidence/evidence-registry.json \
+            canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json \
+            canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json \
+            canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json \
+            fa3-current-host/manifest.json
+          git diff --cached --quiet && { echo 'FAIL: reconciliation produced no tracked delta' >&2; exit 2; }
+          git commit -m 'FA3: reconcile real current-host resource admission evidence'
+          git push --set-upstream origin "$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title 'FA3: reconcile real current-host resource admission evidence' \
+            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the 143-capability count, and future workloads still require a fresh HRB lease and fresh admission.'
