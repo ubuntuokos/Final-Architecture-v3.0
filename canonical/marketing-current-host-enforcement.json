@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.marketing-current-host-enforcement.v1",
+  "id": "FA3-MARKETING-CURRENT-HOST-ENFORCEMENT-001",
+  "status": "FAIL_CLOSED",
+  "profile_id": "FA3-MARKETING-001",
+  "provider_ids": [
+    "FA3-PROVIDER-MAUTIC-001",
+    "FA3-PROVIDER-TWENTY-001",
+    "FA3-PROVIDER-LISTMONK-001"
+  ],
+  "runtime": {
+    "container_engine": "rootless-podman",
+    "public_bindings": "loopback-only",
+    "secrets": "host-files-mode-0600",
+    "image_policy": "explicit-release-tag-then-current-host-immutable-id-lock",
+    "external_smtp_during_e2e": "DENIED",
+    "smtp_sink": "internal-test-only"
+  },
+  "admission_candidates": {
+    "mautic": "mautic/mautic:7.1.3-apache",
+    "twenty": "twentycrm/twenty:v2.37.4",
+    "listmonk": "listmonk/listmonk:v6.2.0"
+  },
+  "required_e2e": [
+    "rootless_podman",
+    "immutable_image_lock",
+    "loopback_only_public_bindings",
+    "mautic_health",
+    "mautic_hu_locale",
+    "mautic_contact_roundtrip",
+    "mautic_cron_commands",
+    "twenty_health",
+    "twenty_hu_signup",
+    "twenty_api_key",
+    "twenty_person_roundtrip",
+    "listmonk_health",
+    "listmonk_api_auth",
+    "listmonk_hu_locale",
+    "listmonk_subscriber_roundtrip",
+    "listmonk_smtp_delivery",
+    "smtp_egress_sink_only"
+  ],
+  "promotion_rule": "CURRENT_HOST_PRODUCTION_E2E_PASS_ONLY_IF_ALL_REQUIRED_E2E_PASS",
+  "capability_count": 143,
+  "new_architectural_authorities": 0
+}

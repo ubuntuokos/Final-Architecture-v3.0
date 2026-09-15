@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-MARKETING-CURRENT-HOST-2026-09-03",
+  "date": "2026-09-03",
+  "status": "ACCEPTED_PENDING_REAL_EXECUTION",
+  "title": "Materialize the Hungarian-first FA3 marketing current-host runtime stack",
+  "decision": "Deploy Mautic, Twenty and listmonk as replaceable provider runtimes on rootless Podman with persistent local state, loopback-only operator endpoints, externalized secrets, explicit release tags followed by immutable current-host image locking, and a network-internal SMTP sink for production-path E2E without external mail delivery.",
+  "provider_pins": {
+    "mautic": "7.1.3-apache",
+    "twenty": "v2.37.4",
+    "listmonk": "v6.2.0"
+  },
+  "rationale": [
+    "Mautic 7.2.0 source release is newer, but the current official Docker Hub release image verified for admission is 7.1.3-apache.",
+    "Twenty uses an explicit patch tag; floating latest/v2 tags are not admitted.",
+    "listmonk v6.2.0 is the current stable release candidate and avoids the in-progress v7 line.",
+    "Real provider APIs and durable databases are exercised; reference CI cannot promote runtime state."
+  ],
+  "authority_invariants": {
+    "new_capabilities": 0,
+    "capability_count": 143,
+    "new_architectural_authorities": 0,
+    "providers_are_authorities": false
+  }
+}

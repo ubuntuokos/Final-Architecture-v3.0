@@ -1,0 +1,86 @@
+name: FA3 Marketing Current Host
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fa3/marketing-current-host-2026-09-03
+    paths:
+      - "runtime/marketing/**"
+      - "bin/fa3-marketing-*.sh"
+      - "src/fa3_marketing_current_host_gate.py"
+      - "evidence/collect-marketing-current-host.py"
+      - "canonical/marketing-current-host-enforcement.json"
+      - "canonical/FA3-MARKETING-RUNTIME-CONFORMANCE-001.json"
+      - "canonical/decisions/FA3-DEC-MARKETING-CURRENT-HOST-2026-09-03.json"
+      - "tests/test_marketing_current_host_gate.py"
+      - ".github/workflows/fa3-marketing-current-host.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-marketing-current-host
+  cancel-in-progress: false
+
+jobs:
+  static-admission:
+    name: static-admission
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python syntax
+        run: |
+          python3 -m py_compile             runtime/marketing/fa3_smtp_sink.py             evidence/collect-marketing-current-host.py             src/fa3_marketing_current_host_gate.py             tests/test_marketing_current_host_gate.py
+      - name: Shell syntax
+        run: |
+          bash -n bin/fa3-marketing-bootstrap.sh
+          bash -n bin/fa3-marketing-current-host.sh
+      - name: Current-host gate regression
+        run: python3 -m unittest tests.test_marketing_current_host_gate -v
+
+  current-host-production-e2e:
+    name: current-host-production-e2e
+    needs: static-admission
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - name: Current host identity
+        run: |
+          set -euo pipefail
+          echo "runner=$(hostname)"
+          echo "user=$(id -un)"
+          id
+          podman --version
+          podman info --format json | python3 -c 'import json,sys; o=json.load(sys.stdin); h=o.get("host") or o.get("Host") or {}; s=h.get("security") or h.get("Security") or {}; print("rootless=",s.get("rootless",s.get("Rootless")))'
+
+      - name: Materialize and prove Mautic + Twenty + listmonk
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-marketing-current-host.sh
+          ./bin/fa3-marketing-current-host.sh
+
+      - name: Redacted runtime diagnostics
+        if: always()
+        run: |
+          set +e
+          podman ps -a --format 'table {{.Names}}	{{.Status}}	{{.Image}}	{{.Ports}}'
+          for n in fa3-mkt-mautic-web fa3-mkt-mautic-cron fa3-mkt-mautic-worker fa3-mkt-twenty-server fa3-mkt-twenty-worker fa3-mkt-listmonk; do
+            echo "===== $n ====="
+            podman logs --tail 80 "$n" 2>&1 | sed -E               -e 's/(password|token|secret|app_secret|encryption_key)([=: ]+)[^[:space:]]+/\1\2[REDACTED]/Ig'               -e 's/(Authorization:)[[:space:]]+[^[:space:]]+/\1 [REDACTED]/Ig'
+          done
+
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-marketing-current-host-evidence
+          path: |
+            evidence/receipts/marketing-current-host.json
+          if-no-files-found: warn
+          retention-days: 30
