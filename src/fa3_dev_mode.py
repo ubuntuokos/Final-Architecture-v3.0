@@ -7,7 +7,6 @@ import hashlib
 import json
 import os
 import subprocess
-import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -16,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "config/fa3-dev-policy.json"
 EVIDENCE_DIR = ROOT / "evidence/development/current"
 STATE_DIR = ROOT / "state/development"
+SESSION_PATH = STATE_DIR / "session.json"
 CANDIDATE_DIR = ROOT / "state/promotion-candidates"
 SELF_EXCLUDES = (
     "evidence/development/current/**",
@@ -53,34 +53,90 @@ def _excluded(path: str, policy: dict[str, Any]) -> bool:
     return any(fnmatch.fnmatch(path, p) for p in patterns)
 
 
-def _index_paths() -> list[str]:
-    raw = _run_git("ls-files", "-z").stdout
-    return sorted(p.decode("utf-8", "surrogateescape") for p in raw.split(b"\0") if p)
+def _index_entries() -> list[tuple[str, str, str]]:
+    """Return sorted (path, git_mode, object_id) entries from stage 0 of the Git index."""
+    raw = _run_git("ls-files", "-s", "-z").stdout
+    entries: list[tuple[str, str, str]] = []
+    for record in raw.split(b"\0"):
+        if not record:
+            continue
+        try:
+            metadata, raw_path = record.split(b"\t", 1)
+            mode, object_id, stage = metadata.split(b" ", 2)
+        except ValueError as exc:
+            raise RuntimeError("invalid Git index record") from exc
+        if stage != b"0":
+            raise RuntimeError("unmerged Git index is not eligible for an FA3 snapshot")
+        path = raw_path.decode("utf-8", "surrogateescape")
+        entries.append((path, mode.decode("ascii"), object_id.decode("ascii")))
+    return sorted(entries, key=lambda item: item[0])
 
 
-def _index_blob(path: str) -> bytes:
-    result = _run_git("show", f":{path}", check=False)
-    if result.returncode == 0:
-        return result.stdout
-    # A clean tracked file can still be read from HEAD if an unusual index state exists.
-    result = _run_git("show", f"HEAD:{path}", check=False)
-    if result.returncode != 0:
-        raise RuntimeError(f"cannot read tracked Git blob: {path}")
-    return result.stdout
+def _read_git_blobs(object_ids: list[str]) -> dict[str, bytes]:
+    """Read all required Git blobs in one cat-file process instead of one process per file."""
+    ordered = list(dict.fromkeys(object_ids))
+    if not ordered:
+        return {}
+    process = subprocess.Popen(
+        ["git", "-C", str(ROOT), "cat-file", "--batch"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    assert process.stdin is not None
+    assert process.stdout is not None
+    assert process.stderr is not None
+    process.stdin.write("".join(f"{oid}\n" for oid in ordered).encode("ascii"))
+    process.stdin.close()
+
+    blobs: dict[str, bytes] = {}
+    for requested in ordered:
+        header = process.stdout.readline()
+        if not header:
+            process.kill()
+            raise RuntimeError(f"Git cat-file ended before object {requested}")
+        fields = header.rstrip(b"\n").split(b" ")
+        if len(fields) == 2 and fields[1] == b"missing":
+            process.kill()
+            raise RuntimeError(f"Git index object missing: {requested}")
+        if len(fields) != 3 or fields[1] != b"blob":
+            process.kill()
+            raise RuntimeError(f"Git index object is not a blob: {requested}")
+        size = int(fields[2])
+        data = process.stdout.read(size)
+        separator = process.stdout.read(1)
+        if len(data) != size or separator != b"\n":
+            process.kill()
+            raise RuntimeError(f"truncated Git blob stream: {requested}")
+        blobs[requested] = data
+
+    stderr = process.stderr.read()
+    returncode = process.wait()
+    if returncode != 0:
+        raise RuntimeError(f"git cat-file --batch failed: {stderr.decode('utf-8', 'replace')}")
+    return blobs
 
 
 def build_index_manifest() -> dict[str, Any]:
     policy = _load_policy()
+    entries = [entry for entry in _index_entries() if not _excluded(entry[0], policy)]
+    blobs = _read_git_blobs([entry[2] for entry in entries])
     artifacts: list[dict[str, Any]] = []
-    for path in _index_paths():
-        if _excluded(path, policy):
-            continue
-        blob = _index_blob(path)
-        artifacts.append({"path": path, "sha256": _sha256(blob), "size_bytes": len(blob)})
+    for path, git_mode, object_id in entries:
+        blob = blobs[object_id]
+        artifacts.append(
+            {
+                "path": path,
+                "git_mode": git_mode,
+                "sha256": _sha256(blob),
+                "size_bytes": len(blob),
+            }
+        )
     payload = {
         "schema": "fa3.dev-index-manifest.v1",
         "source": "GIT_INDEX",
         "hash_algorithm": "sha256",
+        "binds_git_mode": True,
         "evidence_self_excluded": True,
         "artifacts": artifacts,
     }
@@ -88,11 +144,35 @@ def build_index_manifest() -> dict[str, Any]:
     return payload
 
 
+def _load_session() -> dict[str, Any] | None:
+    if not SESSION_PATH.exists():
+        return None
+    try:
+        value = json.loads(SESSION_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SystemExit(f"FA3 development session invalid: {exc}")
+    if value.get("environment") != "development":
+        raise SystemExit("FA3 development session has invalid environment")
+    return value
+
+
+def _sticky_taint(extra_taint: list[str]) -> list[str]:
+    session = _load_session()
+    prior = [] if session is None else list(session.get("taint_reasons", []))
+    reasons = sorted(set(prior + list(extra_taint)))
+    if session is not None and reasons:
+        session["tainted"] = True
+        session["taint_reasons"] = reasons
+        session["updated_unix"] = int(time.time())
+        SESSION_PATH.write_text(json.dumps(session, indent=2) + "\n", encoding="utf-8")
+    return reasons
+
+
 def snapshot(extra_taint: list[str] | None = None) -> dict[str, Any]:
     policy = _load_policy()
     EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
     manifest = build_index_manifest()
-    taint = sorted(set(extra_taint or []))
+    taint = _sticky_taint(extra_taint or [])
     receipt = {
         "schema": "fa3.dev-snapshot-receipt.v1",
         "environment": "development",
@@ -152,18 +232,19 @@ def enter() -> None:
         "production_eligible": False,
         "canonical_write": "DENY",
         "tainted": False,
+        "taint_reasons": [],
         "created_unix": int(time.time()),
     }
-    (STATE_DIR / "session.json").write_text(json.dumps(session, indent=2) + "\n", encoding="utf-8")
+    SESSION_PATH.write_text(json.dumps(session, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(session, indent=2))
 
 
 def status(field: str | None = None) -> None:
-    path = STATE_DIR / "session.json"
-    if not path.exists():
-        value: Any = {"environment": "production", "active_dev_session": False}
+    value = _load_session()
+    if value is None:
+        value = {"environment": "production", "active_dev_session": False}
     else:
-        value = json.loads(path.read_text(encoding="utf-8"))
+        value = dict(value)
         value["active_dev_session"] = True
     if field:
         print(value.get(field, ""))
