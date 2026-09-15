@@ -1,0 +1,69 @@
+name: FA3 Orchestration Workforce Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json'
+      - 'canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json'
+      - 'canonical/decisions/FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15.json'
+      - 'canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json'
+      - 'canonical/providers/FA3-PROVIDER-CREWAI-001.json'
+      - 'canonical/providers/FA3-PROVIDER-CONDUCTOR-001.json'
+      - 'canonical/providers/FA3-PROVIDER-OPEN-MULTI-AGENT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-LANGGRAPH-001.json'
+      - 'canonical/providers/FA3-PROVIDER-KESTRA-001.json'
+      - 'canonical/providers/FA3-PROVIDER-PIPECAT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-N8N-001.json'
+      - 'canonical/providers/FA3-PROVIDER-HAYSTACK-001.json'
+      - 'src/fa3_orchestration_workforce.py'
+      - 'src/fa3_orchestration_workforce_gate.py'
+      - 'tests/test_orchestration_workforce.py'
+      - 'examples/orchestration-workforce-media.json'
+      - 'docs/FA3-ORCHESTRATION-WORKFORCE-001.md'
+      - 'bin/fa3-enforce'
+      - '.github/workflows/fa3-orchestration-workforce.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  workforce-contract:
+    name: orchestration-workforce / canonical
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: python -m py_compile src/fa3_orchestration_workforce.py src/fa3_orchestration_workforce_gate.py
+      - name: Unit and negative authority tests
+        run: PYTHONPATH=src python -m unittest tests.test_orchestration_workforce -v
+      - name: Canonical workforce gate
+        run: ./bin/fa3-enforce orchestration-workforce
+      - name: Design-time media routing proof
+        run: PYTHONPATH=src python src/fa3_orchestration_workforce.py --root . --request examples/orchestration-workforce-media.json > reports/orchestration-workforce-media-plan.json
+      - name: Prove pending providers fail closed at runtime
+        shell: bash
+        run: |
+          set +e
+          PYTHONPATH=src python src/fa3_orchestration_workforce.py --root . --request examples/orchestration-workforce-media.json --runtime > reports/orchestration-workforce-runtime-pending.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-orchestration-workforce-reports
+          path: |
+            reports/orchestration-workforce-gate-report.json
+            reports/orchestration-workforce-media-plan.json
+            reports/orchestration-workforce-runtime-pending.json
