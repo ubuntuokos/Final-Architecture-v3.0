@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.host-bootstrap-admission-orchestrator-policy.v1",
+  "id": "FA3-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-001",
+  "title": "Host Bootstrap / Admission Orchestrator",
+  "status": "CANONICAL_POLICY",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "authority": {
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "orchestrator_is_authority": false,
+    "lease_signing": "FORBIDDEN",
+    "lease_validation": "DELEGATE_TO_ROOT_SEPARATED_HRB_BRIDGE",
+    "placement_request": "HINT_ONLY_UNTIL_HRB_ISSUES_VALID_LEASE"
+  },
+  "scope": [
+    "ONE_TIME_LEAST_PRIVILEGE_HOST_BOOTSTRAP",
+    "AUTOMATIC_HOST_ACCELERATOR_DISCOVERY",
+    "WORKLOAD_RESOURCE_ENVELOPE_VALIDATION",
+    "HRB_LEASE_ACQUISITION_DELEGATION",
+    "CANONICAL_CURRENT_HOST_ADMISSION_GATE_COORDINATION",
+    "SCOPED_EVIDENCE_REPORTING"
+  ],
+  "runtime_invariants": {
+    "normal_runtime_as_root": "FORBIDDEN",
+    "manual_issue_lease_required": false,
+    "raw_hmac_key_access_by_user_or_runner": "FORBIDDEN",
+    "cu_tu_admission_authority": "FORBIDDEN",
+    "named_gpu_sku_admission_default": "FORBIDDEN",
+    "global_promotion_from_component_pass": "FORBIDDEN",
+    "shell_interpolation_for_hrb_acquire": "FORBIDDEN"
+  },
+  "exit_codes": {
+    "PASS": 0,
+    "BLOCKED_OR_PENDING": 2,
+    "ERROR_OR_INPUT": 3
+  },
+  "proof_chain": [
+    "WORKLOAD_RESOURCE_ENVELOPE",
+    "HOST_ACCELERATOR_DISCOVERY",
+    "ROOT_SEPARATED_HRB_ACQUIRE_BRIDGE",
+    "ACCELERATOR_EXECUTION_LEASE",
+    "RESOURCE_ADMISSION_CURRENT_HOST_COLLECTOR",
+    "RESOURCE_ADMISSION_CURRENT_HOST_GATE",
+    "SCOPED_RECEIPT"
+  ],
+  "non_claims": [
+    "GLOBAL_FA3_PROMOTION",
+    "PROVIDER_RUNTIME_E2E"
+  ]
+}
