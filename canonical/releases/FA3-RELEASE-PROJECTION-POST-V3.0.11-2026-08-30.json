@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b772c8e5f0b2914b4776c6a6caab665a7235fcf4",
-    "pre_projection_root_tree_sha": "a192145af07d38b5197846da93033cb1fbef0a29",
-    "pre_projection_canonical_tree_sha": "61487b29ca9d439974426a3bd5d71ac4723c7168",
-    "commits_ahead_of_v3_0_11_conformance_commit": 339,
-    "total_post_baseline_commits": 339,
-    "delta_file_count": 1196,
-    "delta_added_files": 1191,
+    "pre_projection_head_sha": "86880948dfca254db6b71d213d0b5d9265d85067",
+    "pre_projection_root_tree_sha": "2140ac4435919fe9e488f3cf30a0983d489069a2",
+    "pre_projection_canonical_tree_sha": "591656ebb0ad5d5b154b7053a2f33a52de523aa8",
+    "commits_ahead_of_v3_0_11_conformance_commit": 341,
+    "total_post_baseline_commits": 341,
+    "delta_file_count": 1197,
+    "delta_added_files": 1192,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,7 +47,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 629,
     "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 133,
+    "source_files_in_post_baseline_delta": 134,
     "test_files_in_post_baseline_delta": 117,
     "workflow_files_in_post_baseline_delta": 45,
     "provider_records": [
@@ -716,7 +716,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1196,
+  "manifest_entry_count": 1197,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -5971,6 +5971,11 @@
     {
       "path": "src/fa3_resource_admission_current_host_gate.py",
       "git_blob_sha": "172529b9521cda7117923043540a1be4aaa074b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_resource_admission_evidence_acceptance.py",
+      "git_blob_sha": "58cbb7f450eed302dd2f4ca5f487d7b1577cb2a0",
       "baseline_delta_status": "added"
     },
     {
