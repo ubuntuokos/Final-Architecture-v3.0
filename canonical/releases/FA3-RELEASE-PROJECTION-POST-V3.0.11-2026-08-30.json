@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e8b0202053ab733b14bde3aac4a6d1f15fc06909",
-    "pre_projection_root_tree_sha": "d5d26efcaad6bfd8bd8febcb046983a59a032b36",
-    "pre_projection_canonical_tree_sha": "16602f09d6d24bb11730939686a0bc87aabd160f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 379,
-    "total_post_baseline_commits": 379,
-    "delta_file_count": 1213,
-    "delta_added_files": 1208,
+    "pre_projection_head_sha": "877cd387946dee948ddbd1889161e9b5e4ec3c7b",
+    "pre_projection_root_tree_sha": "5b30cdbf315d450ead82fe195fbed92d4c0cd40a",
+    "pre_projection_canonical_tree_sha": "8ba82b1d7df78343c20420095e77c3b068729609",
+    "commits_ahead_of_v3_0_11_conformance_commit": 392,
+    "total_post_baseline_commits": 392,
+    "delta_file_count": 1224,
+    "delta_added_files": 1219,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 632,
-    "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 135,
-    "test_files_in_post_baseline_delta": 121,
-    "workflow_files_in_post_baseline_delta": 46,
+    "canonical_files_in_post_baseline_delta": 635,
+    "evidence_files_in_post_baseline_delta": 118,
+    "source_files_in_post_baseline_delta": 138,
+    "test_files_in_post_baseline_delta": 122,
+    "workflow_files_in_post_baseline_delta": 48,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -162,6 +162,7 @@
     ],
     "profile_records": [
       "canonical/profiles/FA3-3D-GEOM-001.json",
+      "canonical/profiles/FA3-ACCEL-GUARD-001.json",
       "canonical/profiles/FA3-AGENT-EXEC-001.json",
       "canonical/profiles/FA3-AI-IMAGE-EDITING-001.json",
       "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
@@ -215,6 +216,7 @@
       "canonical/profiles/FA3-WEB-AI-001.json"
     ],
     "contract_records": [
+      "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001.json",
@@ -717,8 +719,18 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1213,
+  "manifest_entry_count": 1224,
   "manifest": [
+    {
+      "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
+      "git_blob_sha": "7e1667db325e1b211cf5a4a28b87430c2d3462a2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-accelerator-guard.yml",
+      "git_blob_sha": "92a3668b0b4cbaf131bbf597b881e3d4376b99ba",
+      "baseline_delta_status": "added"
+    },
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
       "git_blob_sha": "13498b6335bec64f0cb38958f2f4ff18970f5163",
@@ -961,7 +973,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "c59e23df83a779a194cd0e437a91838bf67f3410",
+      "git_blob_sha": "9fec464c0c785e1f95bf9e49c5375054c9a161b5",
       "baseline_delta_status": "added"
     },
     {
@@ -972,6 +984,11 @@
     {
       "path": "apps/fa3-control-center/packaging/org.fa3.ControlCenter.desktop",
       "git_blob_sha": "a315787ec19fd68105bac6145e4805b3931c16c1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/AcceleratorGuardPage.qml",
+      "git_blob_sha": "805db4f8587c9f0e42feca7eb11a7a918782df00",
       "baseline_delta_status": "added"
     },
     {
@@ -1387,6 +1404,11 @@
     {
       "path": "bin/fa3-whisper-stt",
       "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "8ae2d9a17b86e4914b8a3160f92604e3c4c8f00c",
       "baseline_delta_status": "added"
     },
     {
@@ -2043,6 +2065,11 @@
       "path": "canonical/conformance-matrix.csv",
       "git_blob_sha": "fb430f6da8cdfdc4ee0c5953887e9ab3b062f047",
       "baseline_delta_status": "modified"
+    },
+    {
+      "path": "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
+      "git_blob_sha": "0cdfeae4af2df5a133e016b25702e9ffab286602",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
@@ -3287,6 +3314,11 @@
     {
       "path": "canonical/profiles/FA3-3D-GEOM-001.json",
       "git_blob_sha": "0d04ff3e6858667682da985bec967d0c70735494",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-ACCEL-GUARD-001.json",
+      "git_blob_sha": "81d27501b307f45acad3e384d5a554b881112e7f",
       "baseline_delta_status": "added"
     },
     {
@@ -4770,6 +4802,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/FA3-ACCEL-GUARD-001-design-evidence.json",
+      "git_blob_sha": "c6ba314ea4f55299c72fda768a8196bdc286d7a2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
       "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
       "baseline_delta_status": "added"
@@ -5455,6 +5492,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_accelerator_guard.py",
+      "git_blob_sha": "e6c0c91ba607d4afa17916005cd3aabbb10c76cd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_accelerator_guard_gate.py",
+      "git_blob_sha": "b63c19be16a23360dbaf01126aab2be5bee9b67b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_accelerator_guard_probe.py",
+      "git_blob_sha": "920f78fd611762a352cb768d88262fa2be8a38a8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
       "baseline_delta_status": "added"
@@ -6127,6 +6179,11 @@
     {
       "path": "src/fa3_xcmd_gate.py",
       "git_blob_sha": "2d0dac2c0a413ee3a81ad631a100ddad947d0508",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_accelerator_guard.py",
+      "git_blob_sha": "640d2ca154e2a72fbf6ace2bbb2f8fbce056fa33",
       "baseline_delta_status": "added"
     },
     {
