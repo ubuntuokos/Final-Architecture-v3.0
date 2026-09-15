@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.work-request.v1",
+  "goal": "Produce a governed multimodal media project while preserving FA3 authority boundaries.",
+  "tasks": [
+    {"task_id": "creative", "domain": "media-production", "required_capabilities": ["media_production_planning", "creative_team_planning"]},
+    {"task_id": "transcode", "domain": "media-job", "required_capabilities": ["adaptive_job_graph", "media_batch_job"]},
+    {"task_id": "ingest", "domain": "event-ingest", "required_capabilities": ["event_ingest", "file_arrival_trigger"]},
+    {"task_id": "live-avatar", "domain": "realtime-multimodal", "required_capabilities": ["realtime_multimodal", "audio_video_streaming"]},
+    {"task_id": "gpu-admission", "domain": "resource-governance", "required_capabilities": ["gpu_placement"], "required_authorities": ["host_resource"]}
+  ]
+}
