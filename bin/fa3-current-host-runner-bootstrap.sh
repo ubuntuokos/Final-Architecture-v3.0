@@ -12,6 +12,8 @@ CUSTOM_LABEL="fa3-current-host"
 UNIT_NAME="fa3-github-runner.service"
 UNIT_DIR="$HOME/.config/systemd/user"
 UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
+DROPIN_DIR="$UNIT_DIR/$UNIT_NAME.d"
+DROPIN_PATH="$DROPIN_DIR/20-fa3-hrb-acquire.conf"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-host-admission-bridge.sh"
 VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
@@ -38,8 +40,24 @@ if [[ ! -x "$VALIDATOR_CLIENT" ]] \
   sudo "$BRIDGE_INSTALLER" --user "$USER"
 fi
 
+ensure_acquire_environment() {
+  mkdir -p "$UNIT_DIR" "$DROPIN_DIR"
+  chmod 700 "$UNIT_DIR" "$DROPIN_DIR"
+  cat >"$DROPIN_PATH" <<EOF
+[Service]
+Environment="FA3_HRB_ACQUIRE_COMMAND=$ACQUIRE_TEMPLATE"
+EOF
+  chmod 600 "$DROPIN_PATH"
+  systemctl --user daemon-reload
+  if systemctl --user is-active --quiet "$UNIT_NAME"; then
+    systemctl --user restart "$UNIT_NAME"
+  fi
+}
+
+ensure_acquire_environment
+
 if [[ -e "$RUNNER_ROOT/.runner" ]]; then
-  echo "INFO: runner is already configured at $RUNNER_ROOT; refusing implicit re-registration"
+  echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and refreshing host-admission wiring"
   exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
 fi
 
@@ -93,7 +111,6 @@ After=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=$RUNNER_ROOT_ABS
-Environment="FA3_HRB_ACQUIRE_COMMAND=$ACQUIRE_TEMPLATE"
 ExecStart=$RUNNER_ROOT_ABS/run.sh
 Restart=on-failure
 RestartSec=10
