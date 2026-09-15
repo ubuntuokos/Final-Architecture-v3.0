@@ -36,6 +36,7 @@ jobs:
     env:
       FA3_ENV: production
       FA3_FAIL_CLOSED: '1'
+      FA3_DEV_EVIDENCE_DIR: ${{ runner.temp }}/fa3-dev-evidence
     steps:
       - name: Checkout immutable action
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -54,7 +55,7 @@ jobs:
             src/fa3_dev_update_gate.py \
             bin/fa3-ci-lock-check.py \
             tests/test_fa3_dev_update.py
-      - name: Rebuild deterministic checked-out-tree snapshot
+      - name: Rebuild deterministic checked-out-tree snapshot outside release surface
         run: python src/fa3_dev_mode.py snapshot
       - name: Fail-closed development boundary lock
         run: python bin/fa3-ci-lock-check.py
@@ -71,6 +72,8 @@ jobs:
     name: dev-update-main-integrity / P0
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      FA3_DEV_EVIDENCE_DIR: ${{ runner.temp }}/fa3-dev-evidence
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
