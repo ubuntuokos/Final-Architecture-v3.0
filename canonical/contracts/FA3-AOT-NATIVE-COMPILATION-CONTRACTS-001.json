@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.contract-record.v1",
+  "id": "FA3-AOT-NATIVE-COMPILATION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "name": "Provider-neutral AOT Native Compilation, Artifact and Runtime Admission Contract",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "scope": "language workload -> semantic admission -> pinned toolchain/ABI -> deterministic AOT build -> native artifact -> trust/provenance admission -> isolated execution/load -> evidence/fallback",
+  "stages": [
+    {"id": "AOT-01", "name": "workload_intent", "requires": ["source_identity", "language_runtime_intent", "requested_artifact_kind"]},
+    {"id": "AOT-02", "name": "semantic_compatibility", "requires": ["compatibility_status", "unsupported_feature_scan"], "fail_closed_on": ["UNKNOWN", "UNVERIFIED", "INCOMPATIBLE"]},
+    {"id": "AOT-03", "name": "policy_and_resource_admission", "requires": ["authorization_decision", "resource_budget", "network_egress_policy"]},
+    {"id": "AOT-04", "name": "toolchain_abi_attestation", "requires": ["compiler_identity", "compiler_version", "runtime_abi", "native_toolchain", "target_triple"]},
+    {"id": "AOT-05", "name": "reproducible_build_spec", "requires": ["immutable_source_ref", "dependency_lock", "build_recipe_digest", "build_mode"]},
+    {"id": "AOT-06", "name": "compile", "outputs": ["compiler_receipt", "diagnostics", "native_artifact"]},
+    {"id": "AOT-07", "name": "artifact_trust", "requires": ["artifact_sha256", "source_lineage", "sbom", "provenance_receipt"]},
+    {"id": "AOT-08", "name": "execution_or_load", "requires": ["sandbox_or_load_policy", "abi_match", "resource_admission"]},
+    {"id": "AOT-09", "name": "result_normalization", "outputs": ["exit_status", "stdout_digest", "stderr_digest", "runtime_receipt"]},
+    {"id": "AOT-10", "name": "fallback_or_fail_closed", "requires": ["declared_fallback", "semantic_equivalence_decision"]}
+  ],
+  "artifact_kinds": {"required": ["NATIVE_EXECUTABLE", "PHP_EXTENSION", "SHARED_LIBRARY"], "optional": ["WASI_COMPONENT"]},
+  "p0_invariants": [
+    "AOT_SEMANTIC_COMPATIBILITY_EXPLICIT",
+    "AOT_UNKNOWN_COMPATIBILITY_FAIL_CLOSED",
+    "AOT_SOURCE_AND_TOOLCHAIN_IMMUTABLY_PINNED",
+    "AOT_RUNTIME_ABI_MATCH_REQUIRED",
+    "AOT_BUILD_RECIPE_DIGEST_REQUIRED",
+    "AOT_NATIVE_ARTIFACT_HASH_REQUIRED",
+    "AOT_SBOM_AND_PROVENANCE_REQUIRED",
+    "AOT_IN_PROCESS_LOAD_EXPLICITLY_AUTHORIZED",
+    "AOT_UNTRUSTED_NATIVE_EXECUTION_SANDBOXED",
+    "AOT_NETWORK_BOOTSTRAP_EXPLICITLY_AUTHORIZED",
+    "AOT_FALLBACK_EXPLICIT_AND_SEMANTICALLY_VALIDATED",
+    "AOT_PROVIDER_NOT_AUTHORITY"
+  ],
+  "provider_specific_notes": {
+    "swoole/typephp": {
+      "compatibility_model": "DEFINED_TESTABLE_PHP_SUBSET_NOT_DROP_IN",
+      "primary_platform": "LINUX_X64_FULL_TEST_CI",
+      "php": "8.4-8.5",
+      "native_language": "C++17",
+      "build_modes": ["bin", "ext", "lib"],
+      "special_risk": "binary/shared-library builds may need matching PHP embed library; automatic libphp bootstrap must not bypass FA3 egress/supply-chain policy"
+    }
+  }
+}

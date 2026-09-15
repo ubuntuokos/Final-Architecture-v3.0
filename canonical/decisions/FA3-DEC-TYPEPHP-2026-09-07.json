@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-TYPEPHP-2026-09-07",
+  "date": "2026-09-07",
+  "status": "CANONICAL_CLOSED",
+  "subject": "swoole/typephp",
+  "decision": "ACCEPT_OPTIONAL_PROVIDER_AND_ABSORB_PROVIDER_NEUTRAL_AOT_NATIVE_COMPILATION_PATTERNS",
+  "provider_id": "FA3-PROVIDER-TYPEPHP-001",
+  "contract_id": "FA3-AOT-NATIVE-COMPILATION-CONTRACTS-001",
+  "gate_id": "FA3-GATE-TYPEPHP-AOT-NATIVE-001",
+  "canonical_classification": "OPTIONAL PHP AOT/native-compilation provider + STRONG reference for typed compilation, native artifact generation, toolchain/ABI admission and deterministic build evidence.",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "runtime_dependency_added": false,
+  "provider_runtime_required_for_global_promotion_when_disabled": false,
+  "runtime_activation_requires_separate_current_host_conformance": true,
+  "risk_assessment": {
+    "semantic_compatibility": "ELEVATED_DEFINED_SUBSET",
+    "native_code_execution": "ELEVATED",
+    "in_process_extension_or_library_load": "HIGH",
+    "supply_chain_and_toolchain": "ELEVATED",
+    "upstream_velocity": "HIGH_PIN_REQUIRED",
+    "architecture_fit": "GOOD_BEHIND_PROVIDER_NEUTRAL_ADAPTER"
+  },
+  "absorbed_patterns": ["SEMANTIC_SUBSET_PREFLIGHT", "TOOLCHAIN_ABI_ATTESTATION", "IMMUTABLE_SOURCE_AND_BUILD_RECIPE", "NATIVE_ARTIFACT_LINEAGE", "SBOM_PROVENANCE_BEFORE_EXECUTION", "EXPLICIT_IN_PROCESS_LOAD_POLICY", "SANDBOXED_UNTRUSTED_NATIVE_EXECUTION", "EXPLICIT_EGRESS_FOR_TOOLCHAIN_BOOTSTRAP", "SEMANTICALLY_VALIDATED_FALLBACK"],
+  "mandatory_constraint": "TypePHP SHALL remain optional and disabled by default. It SHALL NOT become an FA3 authority or implicit PHP replacement. Unknown or incompatible semantic state, ABI mismatch, unpinned inputs, missing provenance, unauthorized in-process load or unauthorized network bootstrap SHALL fail closed.",
+  "executable_gate_id": "FA3-GATE-TYPEPHP-AOT-NATIVE-001",
+  "executable_regression_case_count": 12,
+  "executable_gate_status": "MATERIALIZED",
+  "current_host_typephp_runtime_status": "NOT_CLAIMED"
+}
