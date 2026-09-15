@@ -9,6 +9,8 @@ OUT="${FA3_RUNNER_DOCTOR_RECEIPT:-.fa3-current-host/runner/doctor.json}"
 REQUIRED_LABELS='["self-hosted","linux","x64","fa3-current-host"]'
 VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
 VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
+ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
+ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   echo "FAIL: runner doctor must not run as root" >&2
@@ -25,6 +27,12 @@ done
 [[ -x "$VALIDATOR_HELPER" ]] || { echo "FAIL: HRB validator privileged helper missing" >&2; exit 37; }
 sudo -n -l "$VALIDATOR_HELPER" /dev/null >/dev/null 2>&1 \
   || { echo "FAIL: HRB validator bridge is not available non-interactively" >&2; exit 38; }
+[[ -x "$ACQUIRE_CLIENT" ]] || { echo "FAIL: HRB acquire client missing" >&2; exit 39; }
+[[ -x "$ACQUIRE_HELPER" ]] || { echo "FAIL: HRB acquire privileged helper missing" >&2; exit 40; }
+sudo -n -l "$ACQUIRE_HELPER" /dev/null >/dev/null 2>&1 \
+  || { echo "FAIL: HRB acquire bridge is not available non-interactively" >&2; exit 41; }
+"$ACQUIRE_CLIENT" --doctor >/dev/null \
+  || { echo "FAIL: HRB acquire client doctor failed" >&2; exit 42; }
 
 INSTALLED_VERSION="$($RUNNER_ROOT/bin/Runner.Listener --version | tail -n1 | tr -d '\r')"
 [[ "$INSTALLED_VERSION" == "$RUNNER_VERSION" ]] || { echo "FAIL: runner version drift: $INSTALLED_VERSION" >&2; exit 34; }
@@ -83,7 +91,9 @@ receipt = {
     "required_labels_present": True,
     "systemd_user_service_active": True,
     "hrb_validator_bridge_ready": True,
+    "hrb_acquire_bridge_ready": True,
     "hrb_hmac_key_exposed_to_runner": False,
+    "normal_runtime_root_required": False,
     "registration_secret_recorded": False,
     "global_promotion_claim": False,
     "provider_e2e_receipt_required_separately": True
