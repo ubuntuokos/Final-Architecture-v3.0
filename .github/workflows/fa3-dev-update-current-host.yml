@@ -1,0 +1,36 @@
+name: FA3 Dev/Update Current Host Probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  trusted-current-host-probe:
+    name: dev-update-current-host / P0
+    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Assert trusted default branch execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$GITHUB_SHA" = "$(git rev-parse HEAD)"
+      - name: Run non-mutating current-host probe
+        env:
+          PYTHONPATH: src
+        run: python3 src/fa3_dev_update_current_host_probe.py
+      - name: Upload scoped evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fa3-dev-update-current-host-probe
+          path: reports/dev-update-current-host/current-host-probe.json
+          if-no-files-found: error
