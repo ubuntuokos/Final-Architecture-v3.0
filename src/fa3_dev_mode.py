@@ -13,7 +13,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "config/fa3-dev-policy.json"
-EVIDENCE_DIR = ROOT / "evidence/development/current"
+EVIDENCE_DIR = Path(os.environ.get("FA3_DEV_EVIDENCE_DIR", str(ROOT / "evidence/development/current"))).resolve()
 STATE_DIR = ROOT / "state/development"
 SESSION_PATH = STATE_DIR / "session.json"
 CANDIDATE_DIR = ROOT / "state/promotion-candidates"
@@ -90,31 +90,38 @@ def _read_git_blobs(object_ids: list[str]) -> dict[str, bytes]:
     process.stdin.close()
 
     blobs: dict[str, bytes] = {}
-    for requested in ordered:
-        header = process.stdout.readline()
-        if not header:
-            process.kill()
-            raise RuntimeError(f"Git cat-file ended before object {requested}")
-        fields = header.rstrip(b"\n").split(b" ")
-        if len(fields) == 2 and fields[1] == b"missing":
-            process.kill()
-            raise RuntimeError(f"Git index object missing: {requested}")
-        if len(fields) != 3 or fields[1] != b"blob":
-            process.kill()
-            raise RuntimeError(f"Git index object is not a blob: {requested}")
-        size = int(fields[2])
-        data = process.stdout.read(size)
-        separator = process.stdout.read(1)
-        if len(data) != size or separator != b"\n":
-            process.kill()
-            raise RuntimeError(f"truncated Git blob stream: {requested}")
-        blobs[requested] = data
+    try:
+        for requested in ordered:
+            header = process.stdout.readline()
+            if not header:
+                process.kill()
+                raise RuntimeError(f"Git cat-file ended before object {requested}")
+            fields = header.rstrip(b"\n").split(b" ")
+            if len(fields) == 2 and fields[1] == b"missing":
+                process.kill()
+                raise RuntimeError(f"Git index object missing: {requested}")
+            if len(fields) != 3 or fields[1] != b"blob":
+                process.kill()
+                raise RuntimeError(f"Git index object is not a blob: {requested}")
+            size = int(fields[2])
+            data = process.stdout.read(size)
+            separator = process.stdout.read(1)
+            if len(data) != size or separator != b"\n":
+                process.kill()
+                raise RuntimeError(f"truncated Git blob stream: {requested}")
+            blobs[requested] = data
 
-    stderr = process.stderr.read()
-    returncode = process.wait()
-    if returncode != 0:
-        raise RuntimeError(f"git cat-file --batch failed: {stderr.decode('utf-8', 'replace')}")
-    return blobs
+        stderr = process.stderr.read()
+        returncode = process.wait()
+        if returncode != 0:
+            raise RuntimeError(f"git cat-file --batch failed: {stderr.decode('utf-8', 'replace')}")
+        return blobs
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.wait()
+        process.stdout.close()
+        process.stderr.close()
 
 
 def build_index_manifest() -> dict[str, Any]:
