@@ -23,9 +23,35 @@ class DevUpdateCanonicalTests(unittest.TestCase):
         first = fa3_dev_mode.build_index_manifest()
         second = fa3_dev_mode.build_index_manifest()
         self.assertEqual(first["manifest_digest"], second["manifest_digest"])
+        self.assertTrue(first["binds_git_mode"])
+        self.assertTrue(all("git_mode" in item for item in first["artifacts"]))
         paths = {item["path"] for item in first["artifacts"]}
         self.assertNotIn("evidence/development/current/artifact-manifest.json", paths)
         self.assertNotIn("evidence/development/current/receipt.json", paths)
+
+    def test_development_taint_is_sticky(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            state_dir = Path(td)
+            session_path = state_dir / "session.json"
+            session_path.write_text(
+                json.dumps({
+                    "schema": "fa3.dev-session.v1",
+                    "environment": "development",
+                    "tainted": False,
+                    "taint_reasons": [],
+                }),
+                encoding="utf-8",
+            )
+            with mock.patch.object(fa3_dev_mode, "STATE_DIR", state_dir), mock.patch.object(
+                fa3_dev_mode, "SESSION_PATH", session_path
+            ):
+                first = fa3_dev_mode._sticky_taint(["HASH_MISMATCH"])
+                second = fa3_dev_mode._sticky_taint([])
+                self.assertEqual(first, ["HASH_MISMATCH"])
+                self.assertEqual(second, ["HASH_MISMATCH"])
+                persisted = json.loads(session_path.read_text(encoding="utf-8"))
+                self.assertTrue(persisted["tainted"])
+                self.assertEqual(persisted["taint_reasons"], ["HASH_MISMATCH"])
 
     def test_low_risk_os_security_update_can_auto_install(self) -> None:
         result = fa3_update_fabric.classify({
