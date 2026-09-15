@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "dbf7ddf54c3ed0e0d1635e4dcbec7a58c592a43f",
-    "pre_projection_root_tree_sha": "8ef17e3966c6365c5190beda16c61b01a221f57c",
-    "pre_projection_canonical_tree_sha": "ca37f88eea9b280683bcdd1b9375d4f5d89ff059",
-    "commits_ahead_of_v3_0_11_conformance_commit": 356,
-    "total_post_baseline_commits": 356,
-    "delta_file_count": 1201,
-    "delta_added_files": 1196,
+    "pre_projection_head_sha": "559326781f88f5929e451d0819ad4768a45add82",
+    "pre_projection_root_tree_sha": "3577ceadfd66739b5e0eeba218f9ff3b6505309b",
+    "pre_projection_canonical_tree_sha": "81e8b949ad89cc30fd8caf145e5d3f8587b21996",
+    "commits_ahead_of_v3_0_11_conformance_commit": 362,
+    "total_post_baseline_commits": 362,
+    "delta_file_count": 1206,
+    "delta_added_files": 1201,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 630,
+    "canonical_files_in_post_baseline_delta": 632,
     "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 134,
-    "test_files_in_post_baseline_delta": 119,
+    "source_files_in_post_baseline_delta": 135,
+    "test_files_in_post_baseline_delta": 120,
     "workflow_files_in_post_baseline_delta": 45,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -319,6 +319,7 @@
       "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
       "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
       "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
       "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
       "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
       "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
@@ -716,7 +717,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1201,
+  "manifest_entry_count": 1206,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1254,6 +1255,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-host-admission",
+      "git_blob_sha": "5afb20fedbea54b0414bed9eb00480226716036a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-human-motion-current-host.sh",
       "git_blob_sha": "432ba5d4dd6f9213f1b7b4760698dd2e8b33818a",
       "baseline_delta_status": "added"
@@ -1756,6 +1762,11 @@
     {
       "path": "canonical/FA3-HOST-ATTESTATION-001.json",
       "git_blob_sha": "97fbace63872eccd47e2fe6fbb8d52ca6b652d58",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-001.json",
+      "git_blob_sha": "086813877da0758328c2bac583a28833938b8e7f",
       "baseline_delta_status": "added"
     },
     {
@@ -2551,6 +2562,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json",
       "git_blob_sha": "e3d41279c80ac67389df6e57a4073d9513e31ddc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
+      "git_blob_sha": "604f9b1318262767a0c35f645406a662001a9bbd",
       "baseline_delta_status": "added"
     },
     {
@@ -5644,6 +5660,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_host_bootstrap_admission_orchestrator.py",
+      "git_blob_sha": "c6e1ae16e74cd79fb2fc92a3d6924ea224011ac8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
       "git_blob_sha": "8bfc28b93e91b8db30941dd9348225b5d7100c87",
       "baseline_delta_status": "added"
@@ -6271,6 +6292,11 @@
     {
       "path": "tests/test_hardware_portability_gate.py",
       "git_blob_sha": "61e483a51d1fe81c20ea5ab2af79d3e96887f242",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_host_bootstrap_admission_orchestrator.py",
+      "git_blob_sha": "3b783ee1c6e415b092a86cf935657055905101cc",
       "baseline_delta_status": "added"
     },
     {
