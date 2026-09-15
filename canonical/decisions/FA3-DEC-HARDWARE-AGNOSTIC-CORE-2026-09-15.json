@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HARDWARE-AGNOSTIC-CORE-2026-09-15",
+  "title": "FA3 core has no mandatory hardware",
+  "date": "2026-09-15",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "decision": "FA3 core SHALL define no global CPU, accelerator, vendor, SKU, VRAM, CUDA compute-capability, topology, device-count, or reference-host hardware minimum. Hardware is discovered at runtime; resource requirements belong exclusively to individual workloads/providers and are admitted by the Host Resource Broker.",
+  "supersedes_interpretation_of": [
+    "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+  ],
+  "supersedence": {
+    "scope": "CANONICAL_GLOBAL_HARDWARE_FLOOR_INTERPRETATION",
+    "legacy_cpu_gpu_floors": "RECLASSIFIED_AS_NON_GLOBAL_REFERENCE_OR_WORKLOAD_SPECIFIC_REQUIREMENTS",
+    "historical_and_current_host_evidence": "PRESERVED_AS_EVIDENCE_NOT_PORTABLE_DEFAULT"
+  },
+  "invariants": [
+    "FA3_CORE_HARDWARE_REQUIREMENT_NONE",
+    "ZERO_ACCELERATOR_HOST_IS_VALID_FA3_HOST",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_GLOBAL_CPU_CORE_PACKAGE_OR_SOCKET_FLOOR",
+    "NO_GLOBAL_ACCELERATOR_VENDOR_SKU_VRAM_OR_COMPUTE_CAPABILITY_FLOOR",
+    "WORKLOAD_REQUIREMENTS_ARE_WORKLOAD_SCOPED_ONLY",
+    "UNMET_WORKLOAD_REQUIREMENTS_BLOCK_ONLY_THAT_WORKLOAD",
+    "CURRENT_OR_REFERENCE_HOST_FACTS_HAVE_NO_CANONICAL_HARDWARE_AUTHORITY",
+    "HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY"
+  ],
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "global_promotion_claim": false
+}
