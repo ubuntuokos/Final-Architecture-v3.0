@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "id": "FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15",
+  "date": "2026-09-15",
+  "status": "ACCEPTED",
+  "subject": "Productize current-host resource admission without creating a second admission authority",
+  "decision": "Materialize a host bootstrap/admission orchestrator with a root-separated HRB acquire bridge, non-root runtime client, automatic smoke adapter, and generic workload admission command.",
+  "rationale": [
+    "Manual inventory/conformance/issue-lease/raw-JSON choreography is unsuitable as normal product UX.",
+    "The Host Resource Broker remains the sole authority for lease issuance, placement acceptance, validation, and conflict decisions.",
+    "The orchestrator may discover candidates and prepare requests but cannot mint, sign, validate cryptographically, or override a lease.",
+    "Normal application/runtime execution stays non-root after one-time bridge installation."
+  ],
+  "security": {
+    "hmac_key": "ROOT_ONLY",
+    "privilege_boundary": "ROOT_SEPARATED_HRB_ACQUIRE_BRIDGE",
+    "subprocess_shell": false,
+    "lease_binding": [
+      "host",
+      "workload_id/purpose",
+      "accelerator_uuid",
+      "memory_max_bytes",
+      "ACTIVE",
+      "future_expiry"
+    ],
+    "fail_closed": true
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "promotion": "NO_GLOBAL_PROMOTION_CLAIM"
+}
