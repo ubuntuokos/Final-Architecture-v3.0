@@ -1,0 +1,77 @@
+{
+  "id": "FA3-RESOURCE-ADMISSION-EVIDENCE-ACCEPTANCE-001",
+  "version": "1.0.0",
+  "status": "CANONICAL_CLOSED",
+  "classification": "SANITIZED_ARCHIVAL_CURRENT_HOST_EVIDENCE_METADATA",
+  "scope": "CURRENT_HOST_RESOURCE_ADMISSION_PRODUCTION_EVIDENCE_ACCEPTANCE",
+  "parent_gate_id": "FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001",
+  "parent_contract_id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+  "capability_projection": {
+    "capability_id": "CAP-006",
+    "capability": "Resource Fabric",
+    "top_level_capability_status_must_not_be_changed_by_component_acceptance": true
+  },
+  "authority": {
+    "architectural_authority": "NONE",
+    "authoritative_resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "acceptance_layer_can_mint_or_sign_leases": false,
+    "acceptance_layer_can_promote_globally": false
+  },
+  "receipt_requirements": {
+    "schema_id": "FA3-EVIDENCE-ENVELOPE-001",
+    "evidence_class": "CURRENT_HOST_ADMISSION",
+    "gate_id": "FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001",
+    "status": "PASS",
+    "required_claim": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
+    "required_non_claims": [
+      "GLOBAL_FA3_PROMOTION",
+      "PROVIDER_RUNTIME_E2E"
+    ]
+  },
+  "capture_requirements": [
+    "RECEIPT_PAYLOAD_SHA256_MUST_RECOMPUTE",
+    "INLINE_HOST_ATTESTATION_SHA256_MUST_RECOMPUTE",
+    "HRB_LEASE_MUST_HAVE_BEEN_EXTERNALLY_VALIDATED",
+    "HRB_LEASE_MUST_BE_ACTIVE_AND_UNEXPIRED_AT_ACCEPTANCE_CAPTURE_TIME",
+    "RESOURCE_ADMISSION_RESULT_MUST_BE_PASS",
+    "COLLECTOR_ERRORS_MUST_BE_EMPTY",
+    "CU_TU_ADMISSION_AUTHORITY_MUST_BE_FALSE",
+    "CROSS_METRIC_COMPENSATION_MUST_BE_FALSE"
+  ],
+  "sanitization": {
+    "raw_receipt_committed": false,
+    "raw_host_attestation_identity_committed": false,
+    "accelerator_uuid_or_pci_bdf_committed": false,
+    "hrb_lease_id_or_signature_committed": false,
+    "retained_fields": [
+      "receipt_sha256",
+      "receipt_evidence_id",
+      "receipt_generated_at",
+      "workload_id",
+      "lease_expires_epoch",
+      "hrb_validation_boolean",
+      "github_workflow_run_id",
+      "github_workflow_run_url",
+      "git_sha",
+      "claims",
+      "non_claims"
+    ]
+  },
+  "archival_semantics": {
+    "accepted_status": "REAL_EXECUTION_PASS_CAPTURED_PER_WORKLOAD_READMISSION_REQUIRED",
+    "historical_execution_pass": true,
+    "current_or_future_workload_authorization": false,
+    "future_workloads_require_fresh_hrb_lease": true,
+    "future_workloads_require_fresh_resource_admission": true,
+    "expired_source_lease_does_not_invalidate_historical_execution_evidence": true
+  },
+  "projection_semantics": {
+    "component_pass_claim": true,
+    "capability_top_level_status_changed": false,
+    "global_promotion_claim": false,
+    "provider_runtime_e2e_claim": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  },
+  "fail_closed": true
+}
