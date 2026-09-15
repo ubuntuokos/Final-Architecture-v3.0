@@ -37,4 +37,8 @@ if [[ "${1:-}" == "soma-x" || "${1:-}" == "gem-x" || "${1:-}" == "human-motion" 
   shift
   exec python3 "$ROOT/src/fa3_human_motion_gate.py" "$command" --root "$ROOT" "$@"
 fi
+if [[ "${1:-}" == "orchestration-workforce" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_orchestration_workforce_gate.py" --root "$ROOT" "$@"
+fi
 exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" "$@"
