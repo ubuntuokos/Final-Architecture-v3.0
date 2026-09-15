@@ -57,6 +57,7 @@ class OrchestrationWorkforceTests(unittest.TestCase):
             for rel in (
                 "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json",
                 "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
+                "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
                 "canonical/decisions/FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15.json",
                 "canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
                 "examples/orchestration-workforce-media.json",
