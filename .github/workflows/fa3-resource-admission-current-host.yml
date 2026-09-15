@@ -1,6 +1,9 @@
 name: FA3 Resource Admission Current Host
 
 on:
+  push:
+    branches:
+      - 'fa3/resource-admission-evidence-capture-2026-09-15'
   pull_request:
     branches: [main]
     paths:
@@ -76,7 +79,7 @@ jobs:
         run: ./bin/fa3-enforce release-projection
 
   production-e2e:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    if: ${{ (github.event_name == 'workflow_dispatch' && inputs.execute_current_host) || (github.event_name == 'push' && github.ref_name == 'fa3/resource-admission-evidence-capture-2026-09-15') }}
     needs: reference-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
     timeout-minutes: 20
@@ -97,11 +100,17 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-resource-admission-current-host.py
-          args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")
-          if [[ -n "${{ inputs.hrb_lease }}" ]]; then
-            args+=(--hrb-lease "${{ inputs.hrb_lease }}")
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            ./bin/fa3-resource-admission-current-host.sh smoke \
+              --workload-envelope '.fa3-current-host/input/resource-smoke-workload-envelope.json' \
+              --hrb-lease '/home/horvathi/.fa3-current-host/input/resource-smoke-hrb-lease.json'
+          else
+            args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")
+            if [[ -n "${{ inputs.hrb_lease }}" ]]; then
+              args+=(--hrb-lease "${{ inputs.hrb_lease }}")
+            fi
+            ./bin/fa3-resource-admission-current-host.sh "${args[@]}"
           fi
-          ./bin/fa3-resource-admission-current-host.sh "${args[@]}"
       - name: Re-validate current-host receipt independently
         run: ./bin/fa3-enforce resource-admission-current-host
       - name: Upload scoped evidence
