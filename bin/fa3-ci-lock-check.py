@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -53,7 +54,10 @@ def main() -> int:
     if tracked_candidates:
         fail("mutable/frozen local promotion candidates must not be committed: " + ", ".join(tracked_candidates[:8]))
 
-    receipt_path = ROOT / "evidence/development/current/receipt.json"
+    evidence_dir = Path(
+        os.environ.get("FA3_DEV_EVIDENCE_DIR", str(ROOT / "evidence/development/current"))
+    ).resolve()
+    receipt_path = evidence_dir / "receipt.json"
     if receipt_path.exists():
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         if receipt.get("authoritative") is not False or receipt.get("production_eligible") is not False:
