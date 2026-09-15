@@ -6,6 +6,12 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_orchestration_provider_spi import (
+    ProviderRuntimeNotPromoted,
+    compile_plan_envelopes,
+    compile_provider_envelope,
+    load_spi_contract,
+)
 from fa3_orchestration_workforce import compile_cross_domain_plan, load_registry, route_task
 
 PROFILE_REL = Path("canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json")
@@ -58,6 +64,7 @@ def gate(root: Path | str) -> dict[str, Any]:
     contracts = _load(root / CONTRACT_REL)
     decision = _load(root / DECISION_REL)
     registry = load_registry(root)
+    spi = load_spi_contract(root)
 
     _check(profile.get("status") == "CANONICAL", findings, "FA3-ORCH-001", "Workforce profile is not canonical")
     _check(profile.get("priority") == "P0" and profile.get("requirement") == "MUST", findings, "FA3-ORCH-002", "Workforce profile is not P0/MUST")
@@ -65,6 +72,8 @@ def gate(root: Path | str) -> dict[str, Any]:
     _check(not profile.get("new_architectural_authority"), findings, "FA3-ORCH-004", "Workforce profile must not create a new architectural authority")
     _check(decision.get("status") == "CANONICAL_CLOSED" and decision.get("decision") == "ACCEPT", findings, "FA3-ORCH-005", "Canonical decision record is not closed/accepted")
     _check(contracts.get("id") == "FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001", findings, "FA3-ORCH-006", "Contract set mismatch")
+    _check(spi.get("id") == "FA3-ORCHESTRATION-PROVIDER-SPI-001", findings, "FA3-ORCH-006A", "Provider SPI contract mismatch")
+    _check(spi.get("capability_count") == 143 and not spi.get("new_architectural_authority"), findings, "FA3-ORCH-006B", "Provider SPI changed capability or authority baseline")
 
     director = registry.get("director", {})
     _check(director.get("provider") is None, findings, "FA3-ORCH-007", "Top-level Director must be FA3-owned and provider-neutral")
@@ -77,6 +86,7 @@ def gate(root: Path | str) -> dict[str, Any]:
 
     external_provider_ids = {s.get("provider_id") for s in registry["specialists"] if isinstance(s.get("provider_id"), str) and s["provider_id"].startswith("FA3-PROVIDER-")}
     _check(EXPECTED_PROVIDER_RECORDS.issubset(external_provider_ids), findings, "FA3-ORCH-011", "Selected specialist provider bindings are incomplete", missing=sorted(EXPECTED_PROVIDER_RECORDS - external_provider_ids))
+    _check(EXPECTED_PROVIDER_RECORDS.issubset(set(spi.get("adapter_kinds", {}))), findings, "FA3-ORCH-011A", "Provider SPI adapter-kind map is incomplete", missing=sorted(EXPECTED_PROVIDER_RECORDS - set(spi.get("adapter_kinds", {}))))
 
     for provider_id in sorted(EXPECTED_PROVIDER_RECORDS):
         path = root / "canonical/providers" / f"{provider_id}.json"
@@ -100,14 +110,35 @@ def gate(root: Path | str) -> dict[str, Any]:
     _check(any(reason.startswith("ANTI_CAPABILITY:gpu_placement") for reason in rejected.get("FA3-SPECIALIST-ROLE-TEAM-001", [])), findings, "FA3-ORCH-019", "CrewAI role-team specialist is not hard-blocked from GPU placement")
     _check(any(reason.startswith("ANTI_CAPABILITY:gpu_placement") for reason in rejected.get("FA3-MEDIA-PRODUCTION-DIRECTOR-001", [])), findings, "FA3-ORCH-020", "Media Production Director is not hard-blocked from GPU placement")
 
-    runtime_creative = route_task(root, {"task_id":"creative-runtime","domain":"media-production","required_capabilities":["media_production_planning","creative_team_planning"]}, runtime_execution=True)
+    runtime_creative_task = {"task_id":"creative-runtime","domain":"media-production","required_capabilities":["media_production_planning","creative_team_planning"]}
+    runtime_creative = route_task(root, runtime_creative_task, runtime_execution=True)
     _check(runtime_creative.get("status") == "HUMAN_ESCALATION", findings, "FA3-ORCH-021", "Pending current-host provider was runtime-selected", actual=runtime_creative)
+
+    design_creative_route = route_task(root, runtime_creative_task)
+    try:
+        compile_provider_envelope(root, runtime_creative_task, design_creative_route, runtime_execution=True)
+    except ProviderRuntimeNotPromoted:
+        pass
+    else:
+        findings.append(_finding("FA3-ORCH-021A", "Pending provider crossed the adapter SPI into runtime"))
 
     media_request = _load(root / "examples/orchestration-workforce-media.json")
     media_plan = compile_cross_domain_plan(root, media_request)
     expected_media = {"creative":"FA3-MEDIA-PRODUCTION-DIRECTOR-001","transcode":"FA3-SPECIALIST-ADAPTIVE-JOB-GRAPH-001","ingest":"FA3-SPECIALIST-EVENT-INGEST-001","live-avatar":"FA3-SPECIALIST-REALTIME-MULTIMODAL-001","gpu-admission":"FA3-SPECIALIST-RESOURCE-GOVERNANCE-001"}
     actual_media = {d["task_id"]: d.get("specialist_id") for d in media_plan["decisions"] if d["status"] == "ROUTED"}
     _check(media_plan.get("status") == "READY" and all(actual_media.get(k) == v for k, v in expected_media.items()), findings, "FA3-ORCH-022", "Cross-domain media workforce plan does not match the canonical specialist split", expected=expected_media, actual=actual_media)
+
+    adapter_plan = compile_plan_envelopes(root, media_request, media_plan)
+    expected_adapter_kinds = {
+        "creative": "crewai.team-intent/v1",
+        "transcode": "conductor.job-graph-intent/v1",
+        "ingest": "kestra.event-flow-intent/v1",
+        "live-avatar": "pipecat.realtime-pipeline-intent/v1",
+        "gpu-admission": "fa3.hrb-admission-intent/v1",
+    }
+    actual_adapter_kinds = {entry["task_id"]: entry["adapter_kind"] for entry in adapter_plan["envelopes"]}
+    _check(all(actual_adapter_kinds.get(k) == v for k, v in expected_adapter_kinds.items()), findings, "FA3-ORCH-023", "Provider SPI projection does not match canonical media specialist routing", expected=expected_adapter_kinds, actual=actual_adapter_kinds)
+    _check(all(entry.get("canonical") is False for entry in adapter_plan["envelopes"]), findings, "FA3-ORCH-024", "Provider-specific adapter envelope was marked canonical")
 
     result = "PASS" if not findings else "FAIL"
     report = {
@@ -120,11 +151,14 @@ def gate(root: Path | str) -> dict[str, Any]:
             "capability_count":profile.get("capability_count"),
             "specialist_count":len(registry["specialists"]),
             "external_provider_record_count":len(EXPECTED_PROVIDER_RECORDS),
+            "provider_spi_id":spi.get("id"),
+            "provider_spi_adapter_count":len(spi.get("adapter_kinds", {})),
             "director_provider_neutral":director.get("provider") is None,
             "durable_lifecycle_authority":durable[0].get("provider") if len(durable) == 1 else None,
             "resource_authority":resource[0].get("provider") if len(resource) == 1 else None,
             "runtime_provider_promotion_claimed":False,
             "media_reference_plan_status":media_plan.get("status"),
+            "media_adapter_plan_mode":adapter_plan.get("mode"),
         },
     }
     out = root / REPORT_REL
