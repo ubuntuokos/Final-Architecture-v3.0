@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-ACCEL-GUARD-001",
+  "name": "Accelerator Ownership, Contention & User Arbitration Guard",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "profile_alias": "PROFILE-ACCEL-GUARD",
+  "parent_profile_id": "FA3-HOST-RESOURCE-BROKER-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": "CAP-006 Resource Fabric",
+  "contracts": [
+    "FA3-ACCEL-GUARD-CONTRACTS-001",
+    "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001"
+  ],
+  "authority": {
+    "accelerator_admission_placement_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "technical_conflict_assessment": "FA3-ACCEL-GUARD-001",
+    "user_priority": "HUMAN_USER_ONLY_UNLESS_EXPLICIT_SAVED_POLICY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "default_mode": "RECOMMEND",
+  "mandatory_semantics": {
+    "startup_scan": true,
+    "runtime_scan": true,
+    "gpu_and_npu": true,
+    "preexisting_external_usage_must_be_reconciled": true,
+    "runtime_external_usage_must_be_reconciled": true,
+    "technical_impact_may_be_recommended": true,
+    "user_importance_must_not_be_inferred": true,
+    "conflicting_workload_state": "PENDING_USER_DECISION",
+    "unaffected_fa3_workloads_continue": true,
+    "automatic_arbitration_requires_explicit_saved_policy": true,
+    "forced_external_termination_without_user_or_policy": "FORBIDDEN",
+    "silent_fa3_workload_sacrifice": "FORBIDDEN"
+  },
+  "origin_classes": [
+    "FA3_MANAGED",
+    "SYSTEM_TRUSTED",
+    "EXTERNAL_KNOWN",
+    "EXTERNAL_ALLOWED",
+    "EXTERNAL_UNKNOWN",
+    "ORPHANED_FA3"
+  ],
+  "accelerator_states": [
+    "AVAILABLE",
+    "SHARED_SAFE",
+    "CONTENTION_WARNING",
+    "CONFLICT",
+    "USER_DECISION_REQUIRED",
+    "RESERVED",
+    "DEGRADED",
+    "UNKNOWN"
+  ],
+  "workload_states": [
+    "READY",
+    "RUNNING",
+    "WAITING_ACCELERATOR",
+    "PENDING_USER_DECISION",
+    "PAUSING",
+    "PAUSED",
+    "MIGRATING",
+    "TERMINATING",
+    "BLOCKED_BY_POLICY",
+    "FAILED"
+  ],
+  "decision_actions": [
+    "KEEP_EXTERNAL",
+    "PREFER_FA3",
+    "MOVE_FA3",
+    "PAUSE_FA3",
+    "WAIT",
+    "ALLOW_SHARED",
+    "CANCEL_FA3",
+    "ALLOW_ONCE",
+    "REMEMBER_DECISION"
+  ],
+  "modes": [
+    "OBSERVE",
+    "RECOMMEND",
+    "POLICY",
+    "EXCLUSIVE"
+  ],
+  "provider_interface": [
+    "linux-drm-fdinfo",
+    "linux-accel",
+    "nvidia-nvml",
+    "amd-rocm",
+    "amd-xdna",
+    "intel-xe",
+    "intel-npu",
+    "future-provider"
+  ],
+  "attribution_chain": [
+    "PID",
+    "UID_SESSION",
+    "SYSTEMD_UNIT",
+    "CGROUP",
+    "FA3_WORKLOAD_ID",
+    "HRB_LEASE"
+  ],
+  "desktop_policy": {
+    "kwin_plasma_display_stack": "SYSTEM_TRUSTED",
+    "graphics_context_alone_is_not_compute_conflict": true,
+    "ui_accelerator_role_must_be_respected": true
+  },
+  "guarded_access": {
+    "default": "OPT_IN",
+    "purpose": "PRE_MEDIATED_DEVICE_ACCESS_FOR_MANAGED_CGROUPS",
+    "standard_guard_may_detect_after_first_external_context": true,
+    "must_not_claim_universal_preallocation_blocking": true
+  },
+  "implementation_status": "CANONICAL_DESIGN_AND_EXECUTABLE_POLICY_ENGINE_MATERIALIZED_CURRENT_HOST_TELEMETRY_SYSTEMD_QT_E2E_PENDING"
+}
