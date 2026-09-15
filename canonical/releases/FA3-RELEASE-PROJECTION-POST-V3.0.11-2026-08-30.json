@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c46a4ac3bb0ffe33d1d266b083ae7a9abf7da237",
-    "pre_projection_root_tree_sha": "182fc98a3a8aba54d3ae648f43b17cde4ffff1d5",
-    "pre_projection_canonical_tree_sha": "1f4359d83c76c5145fa7e7ec422cc8adb180d47f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 376,
-    "total_post_baseline_commits": 376,
-    "delta_file_count": 1219,
-    "delta_added_files": 1214,
+    "pre_projection_head_sha": "766d6b05d1a8d6bd35ef17a0e74410608c0a62ed",
+    "pre_projection_root_tree_sha": "1e57e7ffb247aa38b9129625da34c3459c57c90f",
+    "pre_projection_canonical_tree_sha": "d5ddebe8370fc846745d15d0760aeed7b26fb8c1",
+    "commits_ahead_of_v3_0_11_conformance_commit": 384,
+    "total_post_baseline_commits": 384,
+    "delta_file_count": 1222,
+    "delta_added_files": 1217,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 642,
+    "canonical_files_in_post_baseline_delta": 643,
     "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 136,
-    "test_files_in_post_baseline_delta": 120,
+    "source_files_in_post_baseline_delta": 137,
+    "test_files_in_post_baseline_delta": 121,
     "workflow_files_in_post_baseline_delta": 46,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -281,6 +281,7 @@
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
       "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
@@ -727,7 +728,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1219,
+  "manifest_entry_count": 1222,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -881,7 +882,7 @@
     },
     {
       "path": ".github/workflows/fa3-orchestration-workforce.yml",
-      "git_blob_sha": "aba9c4de8d850a41291905d0e137dec3478f83f4",
+      "git_blob_sha": "694170e8d7158c49c3f467fb519e16d37673d634",
       "baseline_delta_status": "added"
     },
     {
@@ -2325,6 +2326,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
+      "git_blob_sha": "336395e6252baa50575017d51dba5b505bd57ce9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
       "git_blob_sha": "fbf292d06a4db0252e557ee6b7eca5e6117845d2",
       "baseline_delta_status": "added"
@@ -3481,7 +3487,7 @@
     },
     {
       "path": "canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
-      "git_blob_sha": "ce02555c9fd1b7204c8868d35ec70c868934765e",
+      "git_blob_sha": "4915c0b1aea847e4014d54ca1c7e00e3de917baa",
       "baseline_delta_status": "added"
     },
     {
@@ -6010,13 +6016,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_orchestration_provider_spi.py",
+      "git_blob_sha": "e0fd1bb7186398ab9880e3ff3671db6217a8ecc3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_orchestration_workforce.py",
       "git_blob_sha": "a51995943c9567fc292d2646c2eb5e25bb34bfc0",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_orchestration_workforce_gate.py",
-      "git_blob_sha": "7c9430710a1dde949faec1ff523f8dacc4b74f4f",
+      "git_blob_sha": "fed7b819587a035a6e06116b6f448695d92d0e84",
       "baseline_delta_status": "added"
     },
     {
@@ -6631,7 +6642,12 @@
     },
     {
       "path": "tests/test_orchestration_workforce.py",
-      "git_blob_sha": "14887c776679ef029976adc432b39cffb517a4a4",
+      "git_blob_sha": "f62ba4bd4c16b9182815887f6ec43e2552ce216f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_orchestration_workforce_provider_spi.py",
+      "git_blob_sha": "122b9358c727df9be0860868ef1005ed23722b95",
       "baseline_delta_status": "added"
     },
     {
