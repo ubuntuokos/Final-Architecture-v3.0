@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "922a39018bd23a1987d38fb1d74d2a9745c582aa",
-    "pre_projection_root_tree_sha": "6a58ef72489781ec7edfc2bac3925a80898068cd",
-    "pre_projection_canonical_tree_sha": "1a896f1a0e5dc370dcba16258332f970ebc5d391",
-    "commits_ahead_of_v3_0_11_conformance_commit": 336,
-    "total_post_baseline_commits": 336,
-    "delta_file_count": 1196,
-    "delta_added_files": 1191,
+    "pre_projection_head_sha": "bd008c68bf61505becf1474d092238cfd8778b4f",
+    "pre_projection_root_tree_sha": "a68459c002f66abf8e0a920499a7bebc686c6dab",
+    "pre_projection_canonical_tree_sha": "274fcef98829e70ca51dfdedc5ff7354d4fc0524",
+    "commits_ahead_of_v3_0_11_conformance_commit": 353,
+    "total_post_baseline_commits": 353,
+    "delta_file_count": 1201,
+    "delta_added_files": 1196,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 629,
+    "canonical_files_in_post_baseline_delta": 630,
     "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 133,
-    "test_files_in_post_baseline_delta": 117,
+    "source_files_in_post_baseline_delta": 134,
+    "test_files_in_post_baseline_delta": 119,
     "workflow_files_in_post_baseline_delta": 45,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -716,7 +716,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1196,
+  "manifest_entry_count": 1201,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -900,7 +900,7 @@
     },
     {
       "path": ".github/workflows/fa3-resource-admission-current-host.yml",
-      "git_blob_sha": "d0a810ac22f1f3118c2bd0d6eb2c42d297901a11",
+      "git_blob_sha": "e9fc7eee6ca5ba1455dd4a0d52700a1ae5481d9d",
       "baseline_delta_status": "added"
     },
     {
@@ -1886,6 +1886,11 @@
     {
       "path": "canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json",
       "git_blob_sha": "5438beb930caabe231e7036cdf9008a4a4e92b9a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-RESOURCE-ADMISSION-EVIDENCE-ACCEPTANCE-001.json",
+      "git_blob_sha": "fae7ee8921eb9a96258b68c6aab847bfacd1524f",
       "baseline_delta_status": "added"
     },
     {
@@ -5399,6 +5404,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "scripts/fa3_reconcile_resource_admission_evidence.py",
+      "git_blob_sha": "4ed0d97b6d60f3e0bc4d972646a0927c0af84cd8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
       "baseline_delta_status": "added"
@@ -5971,6 +5981,11 @@
     {
       "path": "src/fa3_resource_admission_current_host_gate.py",
       "git_blob_sha": "172529b9521cda7117923043540a1be4aaa074b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_resource_admission_evidence_acceptance.py",
+      "git_blob_sha": "58cbb7f450eed302dd2f4ca5f487d7b1577cb2a0",
       "baseline_delta_status": "added"
     },
     {
@@ -6556,6 +6571,16 @@
     {
       "path": "tests/test_resource_admission_current_host_gate.py",
       "git_blob_sha": "9dc7489eea921272c25d52d3735b07b15566b0aa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_resource_admission_evidence_acceptance.py",
+      "git_blob_sha": "ab2796f1ebd6cd3ea583f2cc58cb2c7ee81125b6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_resource_admission_evidence_reconciliation.py",
+      "git_blob_sha": "858e80a1b3c720140c0e9290b9961ed4718d56ba",
       "baseline_delta_status": "added"
     },
     {
