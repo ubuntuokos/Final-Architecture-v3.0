@@ -2,6 +2,11 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if [[ "${1:-}" == "dev-update" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_dev_update_gate.py" "$@"
+fi
+
 if [[ "${1:-}" == "resource-admission-current-host" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_resource_admission_current_host_gate.py" --root "$ROOT" "$@"
