@@ -6,6 +6,7 @@ on:
     paths:
       - 'canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json'
       - 'canonical/FA3-RESOURCE-ADMISSION-EVIDENCE-ACCEPTANCE-001.json'
+      - 'canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json'
       - 'canonical/resource-admission-current-host-enforcement.json'
       - 'canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json'
       - 'evidence/reference/resource-admission-current-host-pending.json'
@@ -13,10 +14,12 @@ on:
       - 'evidence/evidence-registry.json'
       - 'evidence/collect-resource-admission-current-host.py'
       - 'src/fa3_resource_admission_current_host_gate.py'
+      - 'src/fa3_resource_admission_policy.py'
       - 'src/fa3_resource_admission_smoke.py'
       - 'src/fa3_resource_admission_evidence_acceptance.py'
       - 'scripts/fa3_reconcile_resource_admission_evidence.py'
       - 'tests/test_resource_admission_current_host_gate.py'
+      - 'tests/test_resource_admission_policy.py'
       - 'tests/test_resource_admission_smoke.py'
       - 'tests/test_resource_admission_evidence_acceptance.py'
       - 'tests/test_resource_admission_evidence_reconciliation.py'
@@ -69,14 +72,16 @@ jobs:
           python -m py_compile
           evidence/collect-resource-admission-current-host.py
           src/fa3_resource_admission_current_host_gate.py
+          src/fa3_resource_admission_policy.py
           src/fa3_resource_admission_smoke.py
           src/fa3_resource_admission_evidence_acceptance.py
           scripts/fa3_reconcile_resource_admission_evidence.py
           libexec/fa3-host-resource-broker-validate-root.py
-      - name: Current-host contract, smoke, evidence acceptance and HRB validator bridge regressions
+      - name: Current-host contract, workload policy, smoke, evidence acceptance and HRB validator bridge regressions
         run: >-
           PYTHONPATH=src python -m unittest
           tests.test_resource_admission_current_host_gate
+          tests.test_resource_admission_policy
           tests.test_resource_admission_smoke
           tests.test_resource_admission_evidence_acceptance
           tests.test_resource_admission_evidence_reconciliation
@@ -112,12 +117,12 @@ jobs:
           test -x /usr/local/bin/fa3-host-resource-broker-validator
           test -x /usr/local/libexec/fa3-host-resource-broker-validate-root
           sudo -n -l /usr/local/libexec/fa3-host-resource-broker-validate-root /dev/null >/dev/null
-      - name: Run fail-closed resource-admission smoke bootstrap
+      - name: Run fail-closed resource-admission accelerator smoke bootstrap
         shell: bash
         run: |
           set -euo pipefail
           chmod +x bin/fa3-enforce bin/fa3-resource-admission-current-host.sh evidence/collect-resource-admission-current-host.py
-          args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")
+          args=(smoke --accelerator-required --workload-envelope "${{ inputs.workload_envelope }}")
           if [[ -n "${{ inputs.hrb_lease }}" ]]; then
             args+=(--hrb-lease "${{ inputs.hrb_lease }}")
           fi
@@ -208,6 +213,7 @@ jobs:
         run: |
           PYTHONPATH=src python -m unittest \
             tests.test_resource_admission_current_host_gate \
+            tests.test_resource_admission_policy \
             tests.test_resource_admission_evidence_acceptance \
             tests.test_resource_admission_evidence_reconciliation -v
           ./bin/fa3-current-host verify
@@ -223,4 +229,4 @@ jobs:
             --base main \
             --head "$FA3_RECONCILIATION_BRANCH" \
             --title 'FA3: reconcile real current-host resource admission evidence' \
-            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the 143-capability count, and future workloads still require a fresh HRB lease and fresh admission.'
+            --body 'Automated reconciliation of a real self-hosted CURRENT_HOST_RESOURCE_ADMISSION_PASS. The raw receipt remains runtime/artifact-only; this PR carries sanitized digest-bound archival acceptance metadata. It does not claim GLOBAL_FA3_PROMOTION or PROVIDER_RUNTIME_E2E, does not change the 143-capability count, and future workloads still require fresh HRB authorization and, when an accelerator is requested, a fresh HRB accelerator lease and fresh admission.'
