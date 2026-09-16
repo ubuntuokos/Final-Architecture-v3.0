@@ -1,0 +1,41 @@
+name: FA3 Release Projection Regeneration (temporary)
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regenerate-projection:
+    name: regenerate unified release projection
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate deterministic projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          snapshot_head="$(git rev-parse HEAD)"
+          PYTHONPATH=src python tools/fa3_buzz_global_reconcile.py \
+            --projection-only \
+            --snapshot-head "$snapshot_head"
+          PYTHONPATH=src python src/fa3_release_projection_gate.py
+          git diff --check
+          git status --short
+      - name: Upload regenerated projection
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-regenerated-release-projection
+          if-no-files-found: error
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
