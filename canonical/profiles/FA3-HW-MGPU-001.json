@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-MGPU-001",
   "name": "Heterogeneous Multi-GPU Placement & Accelerator Binding Profile",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -34,7 +34,8 @@
     "NUMA_TOPOLOGY_MUST_BE_CONSIDERED_WHEN_RELEVANT",
     "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
     "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN",
-    "NEWER_RTX_GENERATIONS_REMAIN_ELIGIBLE_SUBJECT_TO_RUNTIME_CAPABILITY"
+    "NEWER_NVIDIA_GPU_CAPABILITIES_REMAIN_ELIGIBLE_SUBJECT_TO_LIVE_RUNTIME_COMPATIBILITY",
+    "GPU_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "cardinality_policy": {
@@ -42,5 +43,9 @@
     "maximum_qualifying_gpu_count": "UNBOUNDED_BY_FA3",
     "enumeration": "LIVE_DISCOVERY",
     "fixed_runtime_index_identity": false
+  },
+  "reconciliation": {
+    "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+    "date": "2026-09-16"
   }
 }
