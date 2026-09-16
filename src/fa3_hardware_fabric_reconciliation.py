@@ -6,9 +6,12 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 RECONCILIATION_ID = "FA3-HARDWARE-FABRIC-RECONCILIATION-001"
 HRB_AUTHORITY = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 CUDA_CC_MIN = 8.6
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 PATHS = {
     "reconciliation": "canonical/FA3-HARDWARE-FABRIC-RECONCILIATION-001.json",
@@ -83,7 +86,7 @@ def audit(root: Path) -> dict[str, Any]:
         recon.get("id") == RECONCILIATION_ID
         and recon.get("new_capability") is False
         and recon.get("new_architectural_authority") is False
-        and recon.get("capability_count") == 143
+        and recon.get("capability_count") == CAPABILITY_COUNT
         and recon.get("authority_rules", {}).get("resource_admission_placement_reservation_lease") == HRB_AUTHORITY
         and recon.get("authority_rules", {}).get("provider_records_may_redefine_global_hardware_floor") is False
         and recon.get("authority_rules", {}).get("gui_raw_probe_is_admission_authority") is False
@@ -241,7 +244,7 @@ def audit(root: Path) -> dict[str, Any]:
         and evidence.get("global_promotion_claim") is False
         and evidence.get("new_capabilities") == 0
         and evidence.get("new_architectural_authorities") == 0
-        and evidence.get("capability_count_after") == 143
+        and evidence.get("capability_count_after") == CAPABILITY_COUNT
     ):
         findings.append(finding("HWFR-022", "Reconciliation evidence scope/supersedence drift"))
 
@@ -254,7 +257,7 @@ def audit(root: Path) -> dict[str, Any]:
         "current_host_status": "PENDING_CURRENT_HOST",
         "current_host_admission_receipt_present": current_host_receipt.is_file(),
         "global_promotion_claim": False,
-        "capability_count": 143,
+        "capability_count": CAPABILITY_COUNT,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "findings": findings,
