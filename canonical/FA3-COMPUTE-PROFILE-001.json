@@ -9,6 +9,14 @@
   "fail_closed": true,
   "host_attestation_policy": "FA3-HOST-ATTESTATION-001",
   "purpose": "DESCRIBE_MEASURED_RESOURCE_CAPABILITY_WITHOUT_NAMED_HARDWARE_ADMISSION",
+  "compatibility_aliases": [
+    {
+      "id": "FA3-HARDWARE-BASELINE-001",
+      "status": "LEGACY_COMPATIBILITY_ALIAS",
+      "active_profile_authority": false,
+      "portable_admission_authority": false
+    }
+  ],
   "metric_catalog": [
     "cpu.physical_cores",
     "cpu.fp32_score",
@@ -42,6 +50,7 @@
   "invariants": [
     "NO_DIMENSION_COMPENSATION",
     "NO_EXACT_SKU_REQUIRED_FOR_PORTABLE_ADMISSION",
-    "PROFILE_MUST_BIND_HOST_ATTESTATION_SHA256"
+    "PROFILE_MUST_BIND_HOST_ATTESTATION_SHA256",
+    "LEGACY_HARDWARE_BASELINE_ALIAS_MUST_NOT_BE_ACTIVE_PROFILE_AUTHORITY"
   ]
 }
