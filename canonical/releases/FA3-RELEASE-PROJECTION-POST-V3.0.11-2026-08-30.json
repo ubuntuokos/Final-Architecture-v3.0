@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4bd46401973e446ac5c45dee3d555c3fcbe2669e",
-    "pre_projection_root_tree_sha": "11e2610e3de9be66fb797c795941eb580bde74cc",
-    "pre_projection_canonical_tree_sha": "da938b850261832b551859c374fe363a898db3a9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 396,
-    "total_post_baseline_commits": 396,
-    "delta_file_count": 1238,
-    "delta_added_files": 1233,
+    "pre_projection_head_sha": "9d91fc31097a8f67ad6a510867001e5cd727d1d1",
+    "pre_projection_root_tree_sha": "f8cc3b7b5a7578921c5afff6773677139cad9bd3",
+    "pre_projection_canonical_tree_sha": "6f52f86f539f6e859b9dc984b9d8bfe598e90033",
+    "commits_ahead_of_v3_0_11_conformance_commit": 387,
+    "total_post_baseline_commits": 387,
+    "delta_file_count": 1242,
+    "delta_added_files": 1237,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 636,
+    "canonical_files_in_post_baseline_delta": 637,
     "evidence_files_in_post_baseline_delta": 119,
     "source_files_in_post_baseline_delta": 140,
     "test_files_in_post_baseline_delta": 124,
@@ -720,7 +720,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1232,
+  "manifest_entry_count": 1236,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1935,6 +1935,11 @@
     {
       "path": "canonical/FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "e4c4fde5f2060158ef5b3417ccd0985f1876d92e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-REFERENCE-CLI-ANYTHING-001.json",
+      "git_blob_sha": "f4479ead6147401c36aa689e81acedbeebc89af7",
       "baseline_delta_status": "added"
     },
     {
@@ -4805,6 +4810,21 @@
     {
       "path": "docs/quality-extension-pinning-validation.md",
       "git_blob_sha": "26648ed597c7f9254b3ce1e1c4e813cbd2d32031",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/ADOPTION-RULES.md",
+      "git_blob_sha": "d89547ccbfcbbf8f1a6083550317ed42acbeab30",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/CAPABILITY-INDEX.md",
+      "git_blob_sha": "2c39ed7f215b1d1037a317a12176c9129c9ca3bc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/PINNED-REVISION",
+      "git_blob_sha": "65e31ebf9b883997aaefc9af4346a4612f7272d8",
       "baseline_delta_status": "added"
     },
     {
