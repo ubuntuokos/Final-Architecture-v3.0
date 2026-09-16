@@ -3,7 +3,7 @@
   "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
   "name": "Hardware Fabric Semantic Reconciliation",
   "date": "2026-09-16",
-  "status": "MATERIALIZED_PENDING_EXECUTABLE_CI",
+  "status": "REFERENCE_STATIC_PASS",
   "priority": "P0",
   "requirement": "MUST",
   "new_capability": false,
@@ -86,6 +86,13 @@
     "FA3-PROVIDER-OPENVINO-001": "ALIGNED_OPTIONAL_PROVIDER_HRB_BOUND",
     "FA3-PROVIDER-TENSORRT-RTX-001": "ALIGNED_PROVIDER_LOCAL_RTX_AND_CACHE_COMPATIBILITY_NOT_GLOBAL_HARDWARE_BASELINE",
     "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001": "ALLOWED_PROVIDER_LOCAL_ARCHITECTURE_SPECIALIZATION_NOT_GLOBAL_ALLOWLIST"
+  },
+  "reference_verification": {
+    "workflow": "FA3 Hardware Fabric Reconciliation",
+    "run_id": 35054855295,
+    "verified_head_sha": "3d9325feb5e9350d0d951ced5239a28e4d37692f",
+    "result": "PASS",
+    "scope": "STATIC_REPOSITORY_SEMANTIC_RECONCILIATION_NOT_CURRENT_HOST"
   },
   "current_host": {
     "runtime_status": "PENDING_CURRENT_HOST",
