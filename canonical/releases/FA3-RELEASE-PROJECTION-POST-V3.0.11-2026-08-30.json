@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a05d62e979d7105b8ac94e91329e3dd7dc3c7a41",
-    "pre_projection_root_tree_sha": "7345f58ef02c2f040f99aceeea969f7d5f60688d",
-    "pre_projection_canonical_tree_sha": "4f43e73348291b08ddf046e55ae3c008f5bcef79",
-    "commits_ahead_of_v3_0_11_conformance_commit": 383,
-    "total_post_baseline_commits": 383,
-    "delta_file_count": 1213,
-    "delta_added_files": 1208,
+    "pre_projection_head_sha": "1b3b995bfca184e0aa5c89e1fcb382c981620206",
+    "pre_projection_root_tree_sha": "c9b9d59067d364e51ac3ed0bfde67ab1596d85bf",
+    "pre_projection_canonical_tree_sha": "c742f5fb46eef29fc41212d052f6c869ce844345",
+    "commits_ahead_of_v3_0_11_conformance_commit": 397,
+    "total_post_baseline_commits": 397,
+    "delta_file_count": 1224,
+    "delta_added_files": 1219,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 632,
-    "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 135,
-    "test_files_in_post_baseline_delta": 121,
-    "workflow_files_in_post_baseline_delta": 46,
+    "canonical_files_in_post_baseline_delta": 635,
+    "evidence_files_in_post_baseline_delta": 119,
+    "source_files_in_post_baseline_delta": 138,
+    "test_files_in_post_baseline_delta": 123,
+    "workflow_files_in_post_baseline_delta": 47,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -482,6 +482,7 @@
       "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "evidence/reference/gtcrn-reference-pass.json",
+      "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
       "evidence/reference/hardware-portability-ci-2026-09-03.json",
       "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
@@ -717,7 +718,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1213,
+  "manifest_entry_count": 1224,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -792,6 +793,11 @@
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
       "git_blob_sha": "d0a4e5d4358a8d41deca4ab32d785d56f97403cb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hardware-fabric.yml",
+      "git_blob_sha": "7f3379f3ed9bde84a02dc359b6522afaaceecd43",
       "baseline_delta_status": "added"
     },
     {
@@ -1196,7 +1202,7 @@
     },
     {
       "path": "bin/fa3-current-host",
-      "git_blob_sha": "785369bb09b5dd298f34c53b5f7e9e9656423333",
+      "git_blob_sha": "b6cfe1d411d7069f6e97a6a5f5ebb203ced49c30",
       "baseline_delta_status": "added"
     },
     {
@@ -1236,7 +1242,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "1e58a2aa03cbcee3c49c2293ff985eaf197c4123",
+      "git_blob_sha": "a3f99b740b15bcd85c58e12b2c356638a3804d83",
       "baseline_delta_status": "modified"
     },
     {
@@ -1387,6 +1393,11 @@
     {
       "path": "bin/fa3-whisper-stt",
       "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-ACCEL-GUARD-001.json",
+      "git_blob_sha": "b4ecb9d704313df59d66583e3a73dffe9b5af4f2",
       "baseline_delta_status": "added"
     },
     {
@@ -1772,6 +1783,16 @@
     {
       "path": "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "c4f39f6d91574987508a4f6fb2f52aafdb194136",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-HARDWARE-FABRIC-CONFORMANCE-001.json",
+      "git_blob_sha": "d41f7893e92b884f6a7cf1b36e1cea5ca9b6668b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-HARDWARE-FABRIC-RECONCILIATION-001.json",
+      "git_blob_sha": "123ed41ccb5dd80f2d0a2832c7b5d0587a50835d",
       "baseline_delta_status": "added"
     },
     {
@@ -4830,6 +4851,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-hardware-fabric-current-host.py",
+      "git_blob_sha": "a998932afab2c1fa3c6e715b8dd72914e3816076",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-hrb-systemd-manager-current-host.py",
       "git_blob_sha": "4387ed94924395326f98a4ade3ad8565633795fb",
       "baseline_delta_status": "added"
@@ -5077,6 +5103,11 @@
     {
       "path": "evidence/reference/gtcrn-reference-pass.json",
       "git_blob_sha": "a622293b7f97a5b61ae9b3290ad7c808a75c9376",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
+      "git_blob_sha": "0c516124243a028ccdb72e289e16456d94a1d437",
       "baseline_delta_status": "added"
     },
     {
@@ -5455,6 +5486,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_accelerator_guard.py",
+      "git_blob_sha": "28adacf6561253ec94cfc80ed9d334e7ce66ed37",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
       "baseline_delta_status": "added"
@@ -5682,6 +5718,16 @@
     {
       "path": "src/fa3_gui_gate.py",
       "git_blob_sha": "ccc9a941b29c899b1af8269b7ce49d273e0ea307",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hardware_fabric_current_host_gate.py",
+      "git_blob_sha": "6b58ded42abe74a9a13c075e748b0539e230eb85",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hardware_fabric_gate.py",
+      "git_blob_sha": "d8a7484977eefbcd2bdb2675c9247b4c1ed18381",
       "baseline_delta_status": "added"
     },
     {
@@ -6130,6 +6176,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_accelerator_guard.py",
+      "git_blob_sha": "151a81d671f2dfe8ff1630554199b1ca6d3584b9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_acestep_gate.py",
       "git_blob_sha": "8704a54799ec8aa0c1493b8526152cc1261a2fde",
       "baseline_delta_status": "added"
@@ -6317,6 +6368,11 @@
     {
       "path": "tests/test_gtcrn_provider_runtime.py",
       "git_blob_sha": "9fd184c990b585f4d54cefbc90bc20e18703a85d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_hardware_fabric_gate.py",
+      "git_blob_sha": "2616bd3a3a150a1ddf63e06f6ee2f2a239275319",
       "baseline_delta_status": "added"
     },
     {
