@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.provider-family-record.v1",
+  "id": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "name": "Intel accelerator and optimization provider family",
+  "status": "CANONICAL_ACCEPTED_OPTIONAL_FAMILY",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "HARDWARE_AND_PROVIDER_CAPABILITY_CONDITIONED",
+  "provider_members": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-INTEL-XPU-001",
+    "FA3-PROVIDER-INTEL-NPU-001",
+    "FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001",
+    "FA3-PROVIDER-INTEL-NC-001",
+    "FA3-PROVIDER-INTEL-TRITON-XPU-001",
+    "FA3-PROVIDER-XPUM-001"
+  ],
+  "preferred_paths": {
+    "inference": "FA3-PROVIDER-OPENVINO-001",
+    "pytorch_gpu": "FA3-PROVIDER-INTEL-XPU-001",
+    "npu": "FA3-PROVIDER-INTEL-NPU-001",
+    "model_optimization": "FA3-PROVIDER-INTEL-NC-001"
+  },
+  "dependency_only_members": ["FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001"],
+  "experimental_members": ["FA3-PROVIDER-INTEL-TRITON-XPU-001"],
+  "hardware_conditioned_members": ["FA3-PROVIDER-INTEL-NPU-001", "FA3-PROVIDER-XPUM-001"],
+  "retired_new_dependency_denylist": [
+    {"name": "intel_extension_for_pytorch", "upstream": "intel/intel-extension-for-pytorch", "state": "RETIRED_UPSTREAM", "admission": "DENY_NEW_DEPENDENCY", "replacement": "NATIVE_PYTORCH_TORCH_XPU"},
+    {"name": "ipex-llm", "upstream": "intel/ipex-llm", "state": "RETIRED_UPSTREAM", "admission": "DENY_NEW_DEPENDENCY", "replacement": "OPENVINO_OR_NATIVE_TORCH_XPU_OR_LLAMA_CPP_BY_WORKLOAD"}
+  ],
+  "contracts": ["FA3-INTEL-ACCEL-CONTRACTS-001", "FA3-ACCEL-GUARD-CONTRACTS-001"],
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence_and_provenance": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_registry": "FA3-REGISTRY-001"
+  },
+  "normative_constraint": "No Intel provider SHALL become an FA3 model-routing, host-resource, security, evidence/provenance, promotion or canonical-registry authority. Intel accelerator support remains optional and capability-driven and SHALL NOT change the global FA3 hardware minimum."
+}
