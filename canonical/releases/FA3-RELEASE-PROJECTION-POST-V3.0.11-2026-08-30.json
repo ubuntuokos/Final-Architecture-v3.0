@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4bd46401973e446ac5c45dee3d555c3fcbe2669e",
-    "pre_projection_root_tree_sha": "11e2610e3de9be66fb797c795941eb580bde74cc",
-    "pre_projection_canonical_tree_sha": "da938b850261832b551859c374fe363a898db3a9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 396,
-    "total_post_baseline_commits": 396,
-    "delta_file_count": 1238,
-    "delta_added_files": 1233,
+    "pre_projection_head_sha": "7cbd7a7a38485b5f915c9100d1f3d2a72722be74",
+    "pre_projection_root_tree_sha": "3cf8d8959dca3f9beb3889e437ee9bbcb9f4d10c",
+    "pre_projection_canonical_tree_sha": "39b0758fba08b2038e660f49fe9111285dd72dbe",
+    "commits_ahead_of_v3_0_11_conformance_commit": 388,
+    "total_post_baseline_commits": 388,
+    "delta_file_count": 1240,
+    "delta_added_files": 1235,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -720,7 +720,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1232,
+  "manifest_entry_count": 1234,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1309,7 +1309,7 @@
     },
     {
       "path": "bin/fa3-install-hrb-validator-bridge.sh",
-      "git_blob_sha": "96cc8c7310e45353c29cb3b1d695d27afce0b4af",
+      "git_blob_sha": "c495bdcb719f3373141b705404eb4dbf9fed4f52",
       "baseline_delta_status": "added"
     },
     {
@@ -5483,13 +5483,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "libexec/fa3-host-resource-broker-authorize-root.py",
+      "git_blob_sha": "7dbf19ca02ebe42e87f51d11c1aa196054753bcd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "libexec/fa3-host-resource-broker-authorizer.sh",
+      "git_blob_sha": "ea2310ac68e79227ed90ec9e8814209ec1470c61",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "libexec/fa3-host-resource-broker-validate-root.py",
-      "git_blob_sha": "dc8d5742b8c43931e8914f0f22eee084a58ac662",
+      "git_blob_sha": "519563824528423c7bb085e34941f44a58868fdc",
       "baseline_delta_status": "added"
     },
     {
       "path": "libexec/fa3-host-resource-broker-validator.sh",
-      "git_blob_sha": "5d6edb9384bc9a22a1bff84108a56b46842240da",
+      "git_blob_sha": "49b9a5395608e6dcd2b337281b4f3cda8cbb8031",
       "baseline_delta_status": "added"
     },
     {
