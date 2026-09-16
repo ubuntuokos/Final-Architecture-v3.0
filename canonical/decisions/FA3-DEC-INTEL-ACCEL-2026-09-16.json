@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-INTEL-ACCEL-2026-09-16",
+  "title": "Intel CPU/GPU/NPU accelerator capability and provider family",
+  "date": "2026-09-16",
+  "status": "CANONICAL_ACCEPTED",
+  "priority": "P1",
+  "profile_id": "FA3-INTEL-ACCEL-001",
+  "provider_family_id": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "decision": {
+    "intel_acceleration": "FIRST_CLASS_OPTIONAL_HARDWARE_CONDITIONED_PROVIDER_FAMILY",
+    "default_intel_inference_path": "FA3-PROVIDER-OPENVINO-001",
+    "native_pytorch_gpu_path": "FA3-PROVIDER-INTEL-XPU-001",
+    "intel_npu_path": "FA3-PROVIDER-INTEL-NPU-001",
+    "intel_gpu_runtime_dependency": "FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001",
+    "model_optimization_provider": "FA3-PROVIDER-INTEL-NC-001",
+    "experimental_triton_provider": "FA3-PROVIDER-INTEL-TRITON-XPU-001",
+    "optional_datacenter_telemetry": "FA3-PROVIDER-XPUM-001",
+    "legacy_dependencies": {
+      "intel_extension_for_pytorch": "DENY_NEW_DEPENDENCY_RETIRED_UPSTREAM",
+      "intel_ipex_llm": "DENY_NEW_DEPENDENCY_RETIRED_UPSTREAM"
+    }
+  },
+  "hardware_baseline_effect": "NONE_INTEL_GPU_OR_NPU_DOES_NOT_REPLACE_OR_RELAX_FA3_HARDWARE_BASELINE",
+  "authority": {
+    "resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "canonical_registry": "FA3-REGISTRY-001"
+  },
+  "guard_semantics": "FA3-ACCEL-GUARD-001_OBSERVES_AND_RECOMMENDS_BUT_DOES_NOT_OWN_RESOURCE_LEASES",
+  "fallback_semantics": "NO_SILENT_ACCELERATOR_TO_CPU_OR_PROVIDER_FALLBACK",
+  "promotion_semantics": "REFERENCE_GATE_PASS_DOES_NOT_CLAIM_CURRENT_HOST_INTEL_ACCELERATOR_RUNTIME_PASS"
+}
