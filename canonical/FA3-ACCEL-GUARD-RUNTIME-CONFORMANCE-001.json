@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.accelerator-guard-runtime-conformance.v1",
+  "id": "FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-ACCEL-GUARD-001",
+  "status": "EXECUTABLE_CONTROL_PLANE_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "architectural_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "required_runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "collector": "src/fa3_accelerator_guard_probe.py",
+  "canonical_gate": "src/fa3_accelerator_guard_gate.py",
+  "unit_tests": "tests/test_accelerator_guard.py",
+  "required_current_host_receipts": [
+    "accelerator inventory and health",
+    "NVIDIA compute process attribution when NVIDIA is present",
+    "Linux /dev/accel inventory when exposed by the kernel/provider",
+    "best-effort NPU /dev/accel fd ownership attribution",
+    "startup pre-existing external accelerator usage scenario",
+    "runtime external accelerator attachment scenario",
+    "SYSTEM_TRUSTED desktop graphics non-conflict scenario",
+    "PENDING_USER_DECISION transition for material contention",
+    "explicit user-decision audit trail",
+    "explicit saved-policy-only automatic arbitration",
+    "no implicit force-termination receipt",
+    "unaffected workload continuity receipt"
+  ],
+  "promotion_requirements": {
+    "design_gate": "PASS_REQUIRED",
+    "unit_gate": "PASS_REQUIRED",
+    "current_host_telemetry": "PASS_REQUIRED",
+    "startup_contention_e2e": "PASS_REQUIRED",
+    "runtime_contention_e2e": "PASS_REQUIRED",
+    "qt_kde_decision_surface": "PASS_REQUIRED",
+    "plasma_notification": "PASS_REQUIRED",
+    "hrb_action_execution": "PASS_REQUIRED",
+    "rollback": "PASS_REQUIRED"
+  },
+  "promotion_semantics": {
+    "design_or_github_hosted_pass_is_runtime_promotion": false,
+    "current_host_receipt_required": true,
+    "missing_gpu_or_npu_provider_may_be_not_applicable_but_must_be_explicit": true,
+    "user_priority_may_not_be_synthesized_for_test_completion": true
+  },
+  "evidence_output": "reports/accelerator-guard/current-host-receipt.json"
+}

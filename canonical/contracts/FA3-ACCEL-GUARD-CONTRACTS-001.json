@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.contract-record.v1",
+  "id": "FA3-ACCEL-GUARD-CONTRACTS-001",
+  "profile_id": "FA3-ACCEL-GUARD-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "conflict_contract": {
+    "required_fields": [
+      "id",
+      "accelerator_id",
+      "state",
+      "existing_clients",
+      "requesting_workload",
+      "assessment",
+      "recommendation",
+      "decision"
+    ],
+    "state_on_unresolved_material_conflict": "USER_DECISION_REQUIRED",
+    "decision_initial_value": null
+  },
+  "assessment_contract": {
+    "allowed_severity": ["INFO", "WARNING", "HIGH", "CRITICAL"],
+    "risk_dimensions": [
+      "memory_capacity",
+      "compute_contention",
+      "engine_contention",
+      "thermal_power",
+      "queue_partition"
+    ],
+    "must_be_technical_only": true,
+    "must_not_assign_user_importance": true
+  },
+  "decision_contract": {
+    "actions": [
+      "KEEP_EXTERNAL",
+      "PREFER_FA3",
+      "MOVE_FA3",
+      "PAUSE_FA3",
+      "WAIT",
+      "ALLOW_SHARED",
+      "CANCEL_FA3",
+      "ALLOW_ONCE",
+      "REMEMBER_DECISION"
+    ],
+    "default_actor": "USER",
+    "policy_actor_allowed_only_if_explicit_saved_policy": true,
+    "force_termination_requires_separate_explicit_authorization": true
+  },
+  "rest_api": {
+    "GET /v1/accelerators": "list accelerator inventory and effective capacity",
+    "GET /v1/accelerators/{id}": "get accelerator state",
+    "GET /v1/accelerators/{id}/clients": "get attributed clients",
+    "GET /v1/accelerator-conflicts": "list conflicts",
+    "GET /v1/accelerator-conflicts/{conflict_id}": "get conflict",
+    "POST /v1/accelerator-conflicts/{conflict_id}/decision": "submit user or explicit-policy decision",
+    "GET /v1/accelerator-policies": "list saved policies",
+    "POST /v1/accelerator-policies": "create explicit policy",
+    "PATCH /v1/accelerator-policies/{id}": "change explicit policy",
+    "DELETE /v1/accelerator-policies/{id}": "remove explicit policy"
+  },
+  "events": [
+    "accelerator.discovered",
+    "accelerator.client.attached",
+    "accelerator.client.detached",
+    "accelerator.capacity.changed",
+    "accelerator.conflict.detected",
+    "accelerator.conflict.updated",
+    "accelerator.conflict.resolved",
+    "accelerator.decision.required",
+    "accelerator.decision.submitted",
+    "accelerator.decision.applied",
+    "accelerator.decision.failed",
+    "accelerator.policy.matched",
+    "accelerator.policy.applied"
+  ],
+  "gui_contract": {
+    "navigation": [
+      "Resources",
+      "Accelerators",
+      "Overview|GPU|NPU|Workloads|Conflicts|Policies"
+    ],
+    "action_required_persists_until": [
+      "resolved",
+      "cancelled",
+      "requesting_workload_disappeared",
+      "conflict_disappeared"
+    ],
+    "plasma_notification_is_entry_point_not_full_decision_surface": true,
+    "recommendation_must_state_no_action_taken": true
+  },
+  "evidence_fields": [
+    "timestamp",
+    "accelerator_id",
+    "clients",
+    "requesting_workload",
+    "measured_capacity",
+    "assessment",
+    "recommendation",
+    "decision_actor",
+    "decision",
+    "policy_id",
+    "executed_action",
+    "result"
+  ]
+}

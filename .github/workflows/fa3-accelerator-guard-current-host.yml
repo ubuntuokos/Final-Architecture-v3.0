@@ -1,0 +1,50 @@
+name: FA3 Accelerator Guard Current Host
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json'
+      - 'src/fa3_accelerator_guard_probe.py'
+      - '.github/workflows/fa3-accelerator-guard-current-host.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  accelerator-guard-current-host:
+    name: accelerator-guard-current-host / P0
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Prepare evidence directory
+        run: mkdir -p reports/accelerator-guard
+      - name: Syntax and canonical gate
+        run: |
+          python3 -m py_compile src/fa3_accelerator_guard.py src/fa3_accelerator_guard_gate.py src/fa3_accelerator_guard_probe.py
+          PYTHONPATH=src python3 src/fa3_accelerator_guard_gate.py | tee reports/accelerator-guard/canonical-gate.txt
+      - name: Collect read-only accelerator receipt
+        run: |
+          python3 src/fa3_accelerator_guard_probe.py --output reports/accelerator-guard/current-host-receipt.json
+      - name: Record host/runtime facts
+        run: |
+          {
+            echo '=== uname ==='
+            uname -a
+            echo '=== systemd ==='
+            systemctl --version | head -n 1 || true
+            echo '=== cgroup ==='
+            stat -fc %T /sys/fs/cgroup || true
+            echo '=== accelerator nodes ==='
+            ls -l /dev/accel /dev/dri 2>/dev/null || true
+          } > reports/accelerator-guard/host-facts.txt
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-accelerator-guard-current-host-evidence
+          path: reports/accelerator-guard/
