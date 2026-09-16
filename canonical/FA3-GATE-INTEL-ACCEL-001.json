@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.executable-gate-record.v1",
+  "id": "FA3-GATE-INTEL-ACCEL-001",
+  "gateset_id": "FA3-INTEL-ACCEL-GATESET-001",
+  "status": "MATERIALIZED",
+  "priority": "P1",
+  "profile_id": "FA3-INTEL-ACCEL-001",
+  "contract_id": "FA3-INTEL-ACCEL-CONTRACTS-001",
+  "decision_id": "FA3-DEC-INTEL-ACCEL-2026-09-16",
+  "parent_profile_id": "FA3-HW-001",
+  "fail_closed": true,
+  "mandatory_checks": 24,
+  "entrypoint": "src/fa3_intel_accel_gate.py",
+  "test": "tests/test_intel_accel_gate.py",
+  "reference_evidence": "evidence/reference/intel-accel-ci-2026-09-16.json",
+  "repository_audit": "evidence/reference/intel-accel-repository-audit-2026-09-16.json",
+  "report_path": "reports/intel-accel-gate-report.json",
+  "gui_mapping": "canonical/FA3-INTEL-ACCEL-GUI-MAPPING-001.json",
+  "current_host_runtime_promotion_claim": false,
+  "capability_count": 143,
+  "promotion_semantics": "Canonical/reference PASS proves the Intel capability/provider/guard/GUI contracts only. Real Intel CPU/GPU/NPU runtime promotion requires live device discovery, provider readiness, Accelerator Guard observation, HRB admission/lease and typed current-host evidence."
+}
