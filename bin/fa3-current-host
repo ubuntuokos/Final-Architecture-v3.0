@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "hardware-fabric" ]]; then
+  shift
+  env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/evidence/collect-hardware-fabric-current-host.py" "$@"
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_hardware_fabric_current_host_gate.py" --root "$ROOT"
+fi
+
 exec python3 "$ROOT/src/fa3_current_host.py" --root "$ROOT" "$@"
