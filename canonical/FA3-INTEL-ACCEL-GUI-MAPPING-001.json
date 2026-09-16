@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.gui-mapping-record.v1",
+  "id": "FA3-INTEL-ACCEL-GUI-MAPPING-001",
+  "profile_id": "FA3-INTEL-ACCEL-001",
+  "status": "CANONICAL",
+  "surface": "FA3_CONTROL_CENTER",
+  "authority": "PRESENTATION_AND_USER_INTENT_ONLY",
+  "direct_resource_mutation": false,
+  "sections": [
+    {
+      "provider_id": "FA3-PROVIDER-OPENVINO-001",
+      "location": "System Settings > Compute & Accelerators > Intel",
+      "rows": [
+        {"device": "CPU", "label": "OpenVINO CPU", "maturity": "PRODUCTION", "visible_when": "OPENVINO_CPU_READY", "guard_required": false},
+        {"device": "GPU", "label": "OpenVINO Intel GPU", "maturity": "PRODUCTION", "visible_when": "OPENVINO_GPU_READY", "guard_required": true},
+        {"device": "NPU", "label": "OpenVINO Intel NPU", "maturity": "PRODUCTION", "visible_when": "OPENVINO_NPU_READY", "guard_required": true}
+      ]
+    },
+    {
+      "provider_id": "FA3-PROVIDER-INTEL-XPU-001",
+      "location": "System Settings > Compute & Accelerators > Intel",
+      "label": "PyTorch XPU",
+      "maturity": "PRODUCTION",
+      "visible_when": "TORCH_XPU_READY",
+      "guard_required": true
+    },
+    {
+      "provider_id": "FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001",
+      "location": "System Settings > Compute & Accelerators > Intel > Runtime details",
+      "label": "Intel Compute Runtime / Level Zero",
+      "selectable": false,
+      "visibility": "DEPENDENCY_DETAILS_ONLY"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-INTEL-NC-001",
+      "location": "Model Manager > Optimization",
+      "label": "Intel Neural Compressor",
+      "runtime_selector": false
+    },
+    {
+      "provider_id": "FA3-PROVIDER-INTEL-TRITON-XPU-001",
+      "location": "System Settings > Compute & Accelerators > Intel > Experimental",
+      "label": "Triton XPU",
+      "maturity": "EXPERIMENTAL",
+      "default_enabled": false,
+      "explicit_opt_in": true,
+      "guard_required": true
+    },
+    {
+      "provider_id": "FA3-PROVIDER-XPUM-001",
+      "location": "System Settings > Compute & Accelerators > Intel > Telemetry",
+      "label": "Intel XPU Manager",
+      "visible_when": "SUPPORTED_INTEL_DATA_CENTER_GPU"
+    }
+  ],
+  "guard_states": {
+    "READY_FOR_HRB_ADMISSION": "AVAILABLE",
+    "BUSY_EXTERNAL": "CONFLICT_USER_DECISION_REQUIRED",
+    "LEASED_BY_FA3": "IN_USE_BY_FA3",
+    "DEGRADED": "DEGRADED",
+    "UNAVAILABLE": "UNAVAILABLE",
+    "UNSUPPORTED": "UNSUPPORTED",
+    "EXPERIMENTAL_REQUIRES_OPT_IN": "EXPERIMENTAL"
+  },
+  "legacy_hidden": ["intel_extension_for_pytorch", "ipex-llm"],
+  "actions": {
+    "refresh": "READ_ONLY_CAPABILITY_REDISCOVERY",
+    "select_provider": "CREATE_TYPED_CHANGESET_OR_POLICY_INTENT",
+    "resolve_conflict": "USER_DECISION_OR_EXPLICIT_PRIOR_POLICY_TO_HRB",
+    "direct_kill_external_process": "FORBIDDEN",
+    "direct_device_lease": "FORBIDDEN"
+  }
+}
