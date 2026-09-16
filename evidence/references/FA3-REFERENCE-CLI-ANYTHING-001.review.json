@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.reference-review-evidence.v1",
+  "id": "FA3-REFERENCE-CLI-ANYTHING-001-REVIEW-2026-09-16",
+  "reference_id": "FA3-REFERENCE-CLI-ANYTHING-001",
+  "reviewed_at": "2026-09-16",
+  "result": "REFERENCE_REVIEW_PASS",
+  "runtime_pass": false,
+  "source": {
+    "controlled_fork": "ubuntuokos/CLI-Anything",
+    "upstream": "HKUDS/CLI-Anything",
+    "fork_relationship_verified": true,
+    "license": "Apache-2.0",
+    "reviewed_revision": "810c18b0d1ab9b234bc996c9fd999318523a3ef0"
+  },
+  "reviewed_material": [
+    "README.md",
+    "SECURITY.md",
+    "cli-anything-plugin/HARNESS.md",
+    "krita/agent-harness",
+    "kdenlive/agent-harness",
+    "kdenlive/agent-harness/KDENLIVE.md",
+    "blender/agent-harness"
+  ],
+  "material_findings": [
+    "agent-native GUI-to-CLI harness methodology",
+    "machine-readable JSON and stateful REPL patterns",
+    "SKILL.md/capability-discovery patterns",
+    "native-backend-first execution guidance",
+    "MCP backend pattern",
+    "preview/live-preview/trajectory patterns",
+    "real-backend E2E and artifact-verification patterns",
+    "agent-command security threat model and input-hardening patterns"
+  ],
+  "fa3_disposition": {
+    "reference_source": "ACCEPTED",
+    "runtime_dependency": "REJECTED",
+    "build_dependency": "REJECTED",
+    "git_submodule": "REJECTED",
+    "automatic_import": "REJECTED",
+    "authority": "NONE",
+    "consultation_policy": "SHOULD_CONSULT",
+    "provider_materialization": "DEFERRED_UNTIL_RUNTIME_USE"
+  },
+  "closure": {
+    "reference_materialization_complete": true,
+    "runtime_conformance_required_now": false,
+    "current_host_evidence_required_now": false,
+    "reason": "The accepted artifact is a non-executable external reference source. Runtime conformance is required only if a derived or direct component is later materialized for FA3 execution."
+  }
+}
