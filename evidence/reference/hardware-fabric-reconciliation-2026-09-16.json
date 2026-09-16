@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.hardware-fabric-reference-evidence.v1",
+  "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-EVIDENCE-2026-09-16",
+  "date": "2026-09-16",
+  "status": "MATERIALIZED_PENDING_CI",
+  "runtime_evidence_status": "RUNTIME_EVIDENCE_PENDING",
+  "pass_claim": false,
+  "current_host_pass_claim": false,
+  "authority_findings": {
+    "FA3-HW-001": {
+      "path": "canonical/profiles/FA3-HW-001.json",
+      "repository_presence": "VERIFIED_PRESENT",
+      "canonical_root": true
+    },
+    "FA3-COMPUTE-PROFILE-001": {
+      "path": "canonical/FA3-COMPUTE-PROFILE-001.json",
+      "repository_presence": "VERIFIED_PRESENT",
+      "role": "MEASURED_RESOURCE_CAPABILITY_POLICY",
+      "competing_root": false
+    }
+  },
+  "materialized_paths": [
+    "canonical/FA3-ACCEL-GUARD-001.json",
+    "canonical/FA3-HARDWARE-FABRIC-RECONCILIATION-001.json",
+    "canonical/FA3-HARDWARE-FABRIC-CONFORMANCE-001.json",
+    "src/fa3_accelerator_guard.py",
+    "src/fa3_hardware_fabric_gate.py",
+    "src/fa3_hardware_fabric_current_host_gate.py",
+    "evidence/collect-hardware-fabric-current-host.py",
+    "tests/test_accelerator_guard.py",
+    "tests/test_hardware_fabric_gate.py",
+    ".github/workflows/fa3-hardware-fabric.yml"
+  ],
+  "registry_reconciliation": {
+    "active_release_capability_count": 143,
+    "capability_delta": 0,
+    "authority_delta": 0,
+    "central_conformance_matrix_row_delta": 0,
+    "central_evidence_registry_record_delta": 0,
+    "reason": "Hardware-fabric reconciliation hardens existing CAP-001/CAP-006 hardware-resource semantics and introduces no new canonical capability or architectural authority."
+  },
+  "required_ci_commands": [
+    "PYTHONPATH=src python -m unittest tests.test_accelerator_guard tests.test_hardware_fabric_gate -v",
+    "./bin/fa3-enforce hardware-fabric",
+    "./bin/fa3-enforce static"
+  ],
+  "required_current_host_commands": [
+    "./bin/fa3-current-host hardware-fabric",
+    "./bin/fa3-enforce hardware-fabric-current-host"
+  ],
+  "promotion_rule": "CURRENT_HOST_RUNTIME may become PASS only from an executed fa3.hardware-fabric-current-host-receipt.v1 receipt that passes the current-host gate."
+}
