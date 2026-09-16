@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-INTEL-NPU-001",
+  "name": "Intel NPU Runtime Device Provider",
+  "status": "ACCEPTED_REFERENCE",
+  "priority": "P1",
+  "provider_role": "OPTIONAL_INTEL_NPU_DEVICE_AND_OPENVINO_EXECUTION_PROJECTION",
+  "classification": ["OPTIONAL_PROVIDER", "INTEL_NPU_PROVIDER", "HARDWARE_CONDITIONED_PROVIDER"],
+  "parent_profile": "FA3-INTEL-ACCEL-001",
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "upstream_repository": "intel/linux-npu-driver",
+  "execution_provider": "FA3-PROVIDER-OPENVINO-001",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "OPTIONAL_HARDWARE_CONDITIONED",
+  "global_hardware_minimum": false,
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "detection": ["ACCEL_CLASS_NODE", "SYSFS_DEVICE", "PCI_VENDOR_0X8086_WHEN_AVAILABLE", "KERNEL_DRIVER", "OPENVINO_NPU_ALIAS"],
+  "accelerator_guard": {"profile_id": "FA3-ACCEL-GUARD-001", "required": true, "physical_alias_dedup_required": true},
+  "authority_boundaries": {
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "production_pin_policy": "IMMUTABLE_VALIDATED_DRIVER_OPENVINO_PAIR_REQUIRED",
+  "silent_cpu_fallback": false,
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
