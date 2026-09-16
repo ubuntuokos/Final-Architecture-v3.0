@@ -1,0 +1,131 @@
+{
+  "schema": "fa3.hardware-fabric-reconciliation.v1",
+  "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+  "title": "Hardware Fabric Canonical Runtime Admission Evidence Reconciliation",
+  "status": "CANONICAL_RECONCILIATION",
+  "date": "2026-09-16",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "authority_resolution": {
+    "hardware_capability_root": {
+      "id": "FA3-HW-001",
+      "path": "canonical/profiles/FA3-HW-001.json",
+      "repository_presence": "VERIFIED_PRESENT",
+      "canonical_root": true,
+      "retraction_required": false
+    },
+    "measured_compute_profile": {
+      "id": "FA3-COMPUTE-PROFILE-001",
+      "path": "canonical/FA3-COMPUTE-PROFILE-001.json",
+      "role": "MEASURED_RESOURCE_CAPABILITY_POLICY",
+      "competes_with_hardware_root": false
+    },
+    "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "status_model": {
+    "hardware_audit": "MATERIALIZED_PENDING_CI",
+    "current_host_runtime": "RUNTIME_EVIDENCE_PENDING",
+    "document_only_runtime_pass_forbidden": true
+  },
+  "traceability_matrix": [
+    {
+      "requirement": "HF-001",
+      "intent": "Single hardware capability root",
+      "canonical": ["canonical/profiles/FA3-HW-001.json", "canonical/FA3-COMPUTE-PROFILE-001.json"],
+      "runtime": [],
+      "tests": ["tests/test_hardware_fabric_gate.py"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+    },
+    {
+      "requirement": "HF-002",
+      "intent": "Provider-neutral typed accelerator observation",
+      "canonical": ["canonical/FA3-ACCEL-GUARD-001.json"],
+      "runtime": ["src/fa3_accelerator_guard.py"],
+      "tests": ["tests/test_accelerator_guard.py"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+    },
+    {
+      "requirement": "HF-003",
+      "intent": "Detect pre-existing external accelerator occupancy before FA3 admission",
+      "canonical": ["canonical/FA3-ACCEL-GUARD-001.json"],
+      "runtime": ["src/fa3_accelerator_guard.py"],
+      "tests": ["tests/test_accelerator_guard.py::AcceleratorGuardTests.test_preexisting_external_occupancy"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": ".fa3-current-host/hardware-fabric-receipt.json"
+    },
+    {
+      "requirement": "HF-004",
+      "intent": "Detect new external accelerator contention while FA3 is running",
+      "canonical": ["canonical/FA3-ACCEL-GUARD-001.json"],
+      "runtime": ["src/fa3_accelerator_guard.py"],
+      "tests": ["tests/test_accelerator_guard.py::AcceleratorGuardTests.test_runtime_external_contention"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": ".fa3-current-host/hardware-fabric-receipt.json"
+    },
+    {
+      "requirement": "HF-005",
+      "intent": "Default resolution remains human arbitration",
+      "canonical": ["canonical/FA3-ACCEL-GUARD-001.json"],
+      "runtime": ["src/fa3_accelerator_guard.py"],
+      "tests": ["tests/test_accelerator_guard.py::AcceleratorGuardTests.test_default_never_auto_resolves"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+    },
+    {
+      "requirement": "HF-006",
+      "intent": "Automation requires explicit pre-existing user policy and never implies destructive authorization",
+      "canonical": ["canonical/FA3-ACCEL-GUARD-001.json"],
+      "runtime": ["src/fa3_accelerator_guard.py"],
+      "tests": ["tests/test_accelerator_guard.py::AcceleratorGuardTests.test_explicit_policy_can_select_bounded_automatic_resolution"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+    },
+    {
+      "requirement": "HF-007",
+      "intent": "Insufficient observability fails closed for runtime promotion",
+      "canonical": ["canonical/FA3-ACCEL-GUARD-001.json"],
+      "runtime": ["src/fa3_accelerator_guard.py", "src/fa3_hardware_fabric_current_host_gate.py"],
+      "tests": ["tests/test_accelerator_guard.py::AcceleratorGuardTests.test_observability_insufficient"],
+      "gate": "src/fa3_hardware_fabric_current_host_gate.py",
+      "evidence": ".fa3-current-host/hardware-fabric-receipt.json"
+    },
+    {
+      "requirement": "HF-008",
+      "intent": "Permanent static enforcement is part of fa3-enforce static/all/promote",
+      "canonical": ["canonical/FA3-HARDWARE-FABRIC-RECONCILIATION-001.json"],
+      "runtime": ["bin/fa3-enforce", "src/fa3_hardware_fabric_gate.py"],
+      "tests": ["tests/test_hardware_fabric_gate.py"],
+      "gate": "FA3-HARDWARE-FABRIC-GATESET-001",
+      "evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+    },
+    {
+      "requirement": "HF-009",
+      "intent": "CI exercises static tests and attempts current-host execution on labeled self-hosted runner",
+      "canonical": ["canonical/FA3-HARDWARE-FABRIC-CONFORMANCE-001.json"],
+      "runtime": [".github/workflows/fa3-hardware-fabric.yml", "bin/fa3-current-host"],
+      "tests": ["tests/test_accelerator_guard.py", "tests/test_hardware_fabric_gate.py"],
+      "gate": "src/fa3_hardware_fabric_current_host_gate.py",
+      "evidence": ".fa3-current-host/hardware-fabric-receipt.json"
+    },
+    {
+      "requirement": "HF-010",
+      "intent": "No CURRENT_HOST_RUNTIME PASS without executed receipt",
+      "canonical": ["canonical/FA3-HARDWARE-FABRIC-CONFORMANCE-001.json"],
+      "runtime": ["src/fa3_hardware_fabric_current_host_gate.py"],
+      "tests": ["tests/test_hardware_fabric_gate.py::HardwareFabricGateTests.test_no_false_current_host_pass"],
+      "gate": "src/fa3_hardware_fabric_gate.py",
+      "evidence": ".fa3-current-host/hardware-fabric-receipt.json"
+    }
+  ],
+  "closure_requirements": {
+    "static_gate": "PASS",
+    "ci": "PASS",
+    "current_host_runtime": "PASS_ONLY_FROM_EXECUTED_RECEIPT",
+    "unresolved_authority_conflicts": 0
+  }
+}
