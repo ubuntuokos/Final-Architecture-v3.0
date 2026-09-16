@@ -6,6 +6,8 @@ TARGET_USER=""
 LEASE_PATH=""
 HELPER_DST="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 CLIENT_DST="/usr/local/bin/fa3-host-resource-broker-validator"
+AUTHORIZE_HELPER_DST="/usr/local/libexec/fa3-host-resource-broker-authorize-root"
+AUTHORIZE_CLIENT_DST="/usr/local/bin/fa3-host-resource-broker-authorizer"
 BROKER="/usr/local/bin/fa3-host-resource-broker"
 
 while [[ $# -gt 0 ]]; do
@@ -43,34 +45,45 @@ install -o root -g root -m 0755 \
 install -o root -g root -m 0755 \
   "$ROOT/libexec/fa3-host-resource-broker-validator.sh" \
   "$CLIENT_DST"
+install -o root -g root -m 0755 \
+  "$ROOT/libexec/fa3-host-resource-broker-authorize-root.py" \
+  "$AUTHORIZE_HELPER_DST"
+install -o root -g root -m 0755 \
+  "$ROOT/libexec/fa3-host-resource-broker-authorizer.sh" \
+  "$AUTHORIZE_CLIENT_DST"
 
 SUDOERS="/etc/sudoers.d/fa3-hrb-validator-${TARGET_USER}"
 TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
-printf '%s ALL=(root) NOPASSWD: %s *\n' "$TARGET_USER" "$HELPER_DST" >"$TMP"
+{
+  printf '%s ALL=(root) NOPASSWD: %s *\n' "$TARGET_USER" "$HELPER_DST"
+  printf '%s ALL=(root) NOPASSWD: %s *\n' "$TARGET_USER" "$AUTHORIZE_HELPER_DST"
+} >"$TMP"
 chmod 0440 "$TMP"
 visudo -cf "$TMP" >/dev/null
 install -o root -g root -m 0440 "$TMP" "$SUDOERS"
 visudo -cf "$SUDOERS" >/dev/null
 
 KEY="/etc/fa3/host-resource-broker/lease-hmac.key"
-if [[ -e "$KEY" ]]; then
-  mode="$(stat -c '%a' "$KEY")"
-  owner_uid="$(stat -c '%u' "$KEY")"
-  [[ "$owner_uid" == "0" ]] || { echo "FAIL: HRB HMAC key is not root-owned" >&2; exit 26; }
-  other_group_bits=$(( 8#$mode & 077 ))
-  (( other_group_bits == 0 )) || { echo "FAIL: HRB HMAC key permissions are broader than owner-only: $mode" >&2; exit 27; }
-fi
+[[ -e "$KEY" ]] || { echo "FAIL: HRB HMAC key missing: $KEY" >&2; exit 26; }
+mode="$(stat -c '%a' "$KEY")"
+owner_uid="$(stat -c '%u' "$KEY")"
+[[ "$owner_uid" == "0" ]] || { echo "FAIL: HRB HMAC key is not root-owned" >&2; exit 27; }
+other_group_bits=$(( 8#$mode & 077 ))
+(( other_group_bits == 0 )) || { echo "FAIL: HRB HMAC key permissions are broader than owner-only: $mode" >&2; exit 28; }
 
-sudo -u "$TARGET_USER" sudo -n -l "$HELPER_DST" /dev/null >/dev/null 2>&1 \
-  || { echo "FAIL: non-interactive validator sudo rule is not effective" >&2; exit 28; }
+sudo -u "$TARGET_USER" sudo -n -l "$HELPER_DST" validate-lease /dev/null >/dev/null 2>&1 \
+  || { echo "FAIL: non-interactive validator sudo rule is not effective" >&2; exit 29; }
+sudo -u "$TARGET_USER" sudo -n -l "$AUTHORIZE_HELPER_DST" /dev/null 300 >/dev/null 2>&1 \
+  || { echo "FAIL: non-interactive authorizer sudo rule is not effective" >&2; exit 30; }
 
 if [[ -n "$LEASE_PATH" ]]; then
-  [[ "$LEASE_PATH" == /* ]] || { echo "FAIL: --lease must be absolute" >&2; exit 29; }
+  [[ "$LEASE_PATH" == /* ]] || { echo "FAIL: --lease must be absolute" >&2; exit 31; }
   sudo -u "$TARGET_USER" "$CLIENT_DST" validate-lease "$LEASE_PATH"
 fi
 
-echo "FA3 HRB VALIDATOR BRIDGE: INSTALLED"
+echo "FA3 HRB VALIDATOR/AUTHORIZER BRIDGE: INSTALLED"
 echo "USER: $TARGET_USER"
-echo "CLIENT: $CLIENT_DST"
+echo "VALIDATOR: $CLIENT_DST"
+echo "AUTHORIZER: $AUTHORIZE_CLIENT_DST"
 echo "SECRET_ACCESS: ROOT_ONLY"
