@@ -4,7 +4,7 @@
   "date": "2026-09-16",
   "reconciliation_id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
   "scope": "REPOSITORY_SEMANTIC_RECONCILIATION_REFERENCE_NOT_CURRENT_HOST",
-  "status": "STATIC_RECONCILIATION_MATERIALIZED",
+  "status": "REFERENCE_STATIC_PASS",
   "semantic_baseline": {
     "cpu": "1_TO_N_PACKAGES_EACH_QUALIFYING_CPU_AT_LEAST_8_PHYSICAL_CORES",
     "gpu": "1_TO_N_NVIDIA_GPUS_WITH_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
@@ -25,6 +25,17 @@
   ],
   "supersedence_semantics": "The 2026-09-03 artifacts remain immutable historical provenance; their RTX-series floor wording must not be interpreted as the current canonical admission rule.",
   "historical_artifacts_are_preserved": true,
+  "reference_verification": {
+    "workflow": "FA3 Hardware Fabric Reconciliation",
+    "run_id": 35054855295,
+    "verified_head_sha": "3d9325feb5e9350d0d951ced5239a28e4d37692f",
+    "result": "PASS",
+    "gate_steps": [
+      "PY_COMPILE",
+      "CROSS_LAYER_SEMANTIC_REGRESSION_TESTS",
+      "EXECUTABLE_REPOSITORY_HARDWARE_SEMANTIC_RECONCILIATION"
+    ]
+  },
   "current_host_runtime_status": "PENDING_CURRENT_HOST",
   "current_host_runtime_evidence": false,
   "current_host_admission_receipt_required_for_runtime_pass": true,
