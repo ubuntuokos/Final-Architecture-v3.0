@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-ACCEL-GUARD-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-FOR-ACCELERATOR-WORKLOAD-ADMISSION",
+  "parent_profile": "FA3-ACCEL-GUARD-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "AcceleratorUsageObservationRequest",
+    "AcceleratorPhysicalIdentity",
+    "AcceleratorUsageSnapshot",
+    "AcceleratorConflictAssessment",
+    "AcceleratorUserDecisionRequest",
+    "AcceleratorPriorPolicyMatch",
+    "AcceleratorGuardReceipt"
+  ],
+  "required_observation": {
+    "before_hrb_admission": true,
+    "during_fa3_runtime": true,
+    "physical_device_identity": true,
+    "external_usage_attribution_when_observable": true,
+    "fa3_lease_correlation": true
+  },
+  "decision_contract": {
+    "default_mode": "RECOMMEND",
+    "user_decision_required_on_conflict": true,
+    "automatic_action_requires_explicit_prior_policy": true,
+    "no_policy_means_no_forced_eviction": true
+  },
+  "output_states": [
+    "READY_FOR_HRB_ADMISSION", "BUSY_EXTERNAL", "LEASED_BY_FA3", "DEGRADED",
+    "UNAVAILABLE", "UNSUPPORTED", "EXPERIMENTAL_REQUIRES_OPT_IN"
+  ],
+  "authority_boundary": {
+    "guard_may_observe": true,
+    "guard_may_recommend": true,
+    "guard_may_notify": true,
+    "guard_may_lease": false,
+    "guard_may_place": false,
+    "guard_may_override_hrb": false
+  }
+}
