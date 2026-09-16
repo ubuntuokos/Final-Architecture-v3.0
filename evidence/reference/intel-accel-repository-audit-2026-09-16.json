@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.intel-accel-repository-audit.v1",
+  "id": "FA3-INTEL-ACCEL-REPOSITORY-AUDIT-2026-09-16",
+  "date": "2026-09-16",
+  "status": "PASS",
+  "scope": "STATIC_CANONICAL_AND_RUNTIME_DEPENDENCY_AUDIT",
+  "assertions": {
+    "canonical_profile_present": true,
+    "provider_family_present": true,
+    "provider_records_complete": true,
+    "accelerator_guard_contract_present": true,
+    "gui_mapping_present": true,
+    "retired_ipex_paths_denied": true,
+    "current_host_runtime_claimed": false
+  },
+  "runtime_dependency_audit": {
+    "blocked_new_dependencies": ["intel_extension_for_pytorch", "intel/ipex-llm"],
+    "blocking_hits_expected": 0,
+    "scope_roots": ["apps", "src", "bin", "deployment", "libexec"]
+  },
+  "non_claims": [
+    "NO_REAL_INTEL_GPU_EXECUTION_CLAIM",
+    "NO_REAL_INTEL_NPU_EXECUTION_CLAIM",
+    "NO_CURRENT_HOST_PROVIDER_PROMOTION",
+    "NO_GLOBAL_RELEASE_PROMOTION_BY_THIS_ARTIFACT_ALONE"
+  ],
+  "capability_count_after": 143
+}
