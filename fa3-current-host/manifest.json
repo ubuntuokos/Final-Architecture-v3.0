@@ -92,7 +92,7 @@
       "collector": "evidence/collect-hrb-systemd-manager-current-host.py",
       "gate": "src/fa3_hrb_systemd_manager_current_host_gate.py",
       "activation": "ANY_HOST_MEETING_FA3_HARDWARE_BASELINE_DYNAMIC_DISCOVERY",
-      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "hardware_profile": "FA3-COMPUTE-PROFILE-001",
       "machine_model_pin": "FORBIDDEN",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     },
@@ -101,7 +101,7 @@
       "collector": "evidence/collect-resource-admission-current-host.py",
       "gate": "resource-admission-current-host",
       "activation": "WORKLOAD_SPECIFIC_REAL_HRB_LEASE_REQUIRED",
-      "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+      "hardware_profile": "FA3-COMPUTE-PROFILE-001",
       "machine_model_pin": "FORBIDDEN",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
       "global_promotion_claim": false
