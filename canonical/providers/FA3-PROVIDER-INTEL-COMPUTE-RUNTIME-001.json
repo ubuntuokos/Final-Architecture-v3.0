@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001",
+  "name": "Intel Compute Runtime / Level Zero",
+  "status": "ACCEPTED_REFERENCE",
+  "priority": "P1",
+  "provider_role": "INTEL_GPU_LOW_LEVEL_RUNTIME_DEPENDENCY",
+  "classification": ["DEPENDENCY_PROVIDER", "INTEL_GPU_RUNTIME", "LEVEL_ZERO_OPENCL"],
+  "parent_profile": "FA3-INTEL-ACCEL-001",
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "upstream_repository": "intel/compute-runtime",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-REQUIRED-BY-SELECTED-INTEL-GPU-PROVIDER",
+  "activation_mode": "DEPENDENCY_ONLY_HARDWARE_CONDITIONED",
+  "user_selectable": false,
+  "gui_visibility": "DEPENDENCY_DETAILS_ONLY",
+  "detection": ["INTEL_GPU_PCI_IDENTITY", "KERNEL_DRIVER", "LEVEL_ZERO_LOADER_AND_DEVICE", "OPENCL_RUNTIME_WHEN_REQUIRED"],
+  "accelerator_guard": {"profile_id": "FA3-ACCEL-GUARD-001", "direct_user_selection": false, "physical_identity_source": true},
+  "authority_boundaries": {
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "production_pin_policy": "VALIDATED_DRIVER_RUNTIME_COMPATIBILITY_REQUIRED",
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
