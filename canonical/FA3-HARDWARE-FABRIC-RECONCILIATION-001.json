@@ -102,5 +102,11 @@
   },
   "executable_gate": "src/fa3_hardware_fabric_reconciliation.py",
   "test": "tests/test_hardware_fabric_reconciliation.py",
-  "reference_evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+  "reference_evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
+  "dependent_semantic_reconciliations": {
+    "closed_loop_agent_operations": "CUDA_COMPUTE_CAPABILITY_8_6_GLOBAL_FLOOR_INHERITED",
+    "global_enforcement_policy": "CUDA_COMPUTE_CAPABILITY_8_6_GLOBAL_FLOOR_INHERITED",
+    "legacy_rule_identifier_retained_for_compatibility": "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
+    "legacy_rule_identifier_is_admission_authority": false
+  }
 }

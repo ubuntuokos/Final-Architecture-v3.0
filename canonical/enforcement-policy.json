@@ -1198,15 +1198,17 @@
     },
     "gpu": {
       "device_count_min": 1,
-      "minimum_generation": "NVIDIA_RTX_30_SERIES_OR_NEWER",
-      "rtx_series_floor": 30,
-      "newer_rtx_generations_allowed": true,
+      "vendor": "NVIDIA",
+      "cuda_compute_capability_min": 8.6,
+      "sku_series_admission_authority": false,
+      "marketing_identity_required": false,
       "specific_sku_restriction": "NONE",
       "specific_vram_restriction": "NONE",
       "specific_sm_restriction": "NONE"
     },
     "exact_current_host_hardware": "EVIDENCE_ONLY",
-    "discovery_and_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    "discovery_and_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "semantic_reconciliation": "FA3-HARDWARE-FABRIC-RECONCILIATION-001"
   },
   "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
   "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",

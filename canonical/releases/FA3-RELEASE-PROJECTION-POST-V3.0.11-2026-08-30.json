@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1d7e213b072c1680b490225232d9ffd51cc591ba",
-    "pre_projection_root_tree_sha": "583f9a2374b0e24b2cab0a184d50f8de9cbcc8a1",
-    "pre_projection_canonical_tree_sha": "c01aef9851199b90918a0c5a211d34800cd56721",
-    "commits_ahead_of_v3_0_11_conformance_commit": 376,
-    "total_post_baseline_commits": 376,
-    "delta_file_count": 1213,
-    "delta_added_files": 1208,
+    "pre_projection_head_sha": "c9adf0bda9449bc3ce1a0232c0b82ee3247f1230",
+    "pre_projection_root_tree_sha": "21096e57c3e087a4f601215422ad4e84a166ae48",
+    "pre_projection_canonical_tree_sha": "24f4d4d95a2416a4beeb5f0ed4675829386703da",
+    "commits_ahead_of_v3_0_11_conformance_commit": 398,
+    "total_post_baseline_commits": 398,
+    "delta_file_count": 1220,
+    "delta_added_files": 1215,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 632,
-    "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 135,
-    "test_files_in_post_baseline_delta": 121,
-    "workflow_files_in_post_baseline_delta": 46,
+    "canonical_files_in_post_baseline_delta": 633,
+    "evidence_files_in_post_baseline_delta": 118,
+    "source_files_in_post_baseline_delta": 136,
+    "test_files_in_post_baseline_delta": 122,
+    "workflow_files_in_post_baseline_delta": 48,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -482,6 +482,7 @@
       "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
       "evidence/reference/gtcrn-reference-pass.json",
+      "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
       "evidence/reference/hardware-portability-ci-2026-09-03.json",
       "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
       "evidence/reference/hrb-cuda-current-host-2026-08-28.json",
@@ -717,7 +718,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1213,
+  "manifest_entry_count": 1219,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -792,6 +793,16 @@
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
       "git_blob_sha": "d0a4e5d4358a8d41deca4ab32d785d56f97403cb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hardware-fabric-maintenance.yml",
+      "git_blob_sha": "62fa33aa25d83efd62705878ce3a754d70507949",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hardware-fabric-reconciliation.yml",
+      "git_blob_sha": "a766876461fa6953bcbf1a8822ea92bb1331e27e",
       "baseline_delta_status": "added"
     },
     {
@@ -1121,7 +1132,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/SystemDeviceModel.cpp",
-      "git_blob_sha": "b889fc748c4fce896565f41fb9356d0d190b6ad6",
+      "git_blob_sha": "099a7ee7e24b6c5f1284819916d9770eab2d4466",
       "baseline_delta_status": "added"
     },
     {
@@ -1775,6 +1786,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-HARDWARE-FABRIC-RECONCILIATION-001.json",
+      "git_blob_sha": "f89cccbbde45d7f850045888b13f7f54311c83c3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-HOST-ATTESTATION-001.json",
       "git_blob_sha": "97fbace63872eccd47e2fe6fbb8d52ca6b652d58",
       "baseline_delta_status": "added"
@@ -2216,7 +2232,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
-      "git_blob_sha": "96bb4feb551d919e93ff727e7533b88c54b65e7a",
+      "git_blob_sha": "93fb37c62a5998995cf9f493c88271f1b69a28e0",
       "baseline_delta_status": "added"
     },
     {
@@ -2961,7 +2977,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "a73246adc29acb8de26a999729bcefebb8f9f5ef",
+      "git_blob_sha": "62bd5c78281579cff46049d3a106c4fe1370aeb1",
       "baseline_delta_status": "modified"
     },
     {
@@ -3316,7 +3332,7 @@
     },
     {
       "path": "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
-      "git_blob_sha": "605c453fd56410513c0480ce4154b8e05b4158bb",
+      "git_blob_sha": "d5b92a50c9b9f740cb17efde7293330ebcb9cc34",
       "baseline_delta_status": "added"
     },
     {
@@ -3391,12 +3407,12 @@
     },
     {
       "path": "canonical/profiles/FA3-HW-001.json",
-      "git_blob_sha": "cd56aa31757403355d7f2306710b53cc27378f7d",
+      "git_blob_sha": "3d0417fb814770cc5bd7ccf5104dd9706240b25d",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HW-MGPU-001.json",
-      "git_blob_sha": "0b9bcf4d1a986916b4ed6a2653bf9a0f53f266e5",
+      "git_blob_sha": "39f68ed5c1517c98edb581e0e3626a65c4f5f0af",
       "baseline_delta_status": "added"
     },
     {
@@ -5080,6 +5096,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
+      "git_blob_sha": "2bffc1f2ee046002fc17ab8c2bf3dec81b2b6d1b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/hardware-portability-ci-2026-09-03.json",
       "git_blob_sha": "b9723676af35fb9e4d1df6de0c80347656ad4f11",
       "baseline_delta_status": "added"
@@ -5531,7 +5552,7 @@
     },
     {
       "path": "src/fa3_closed_loop_agent_ops_reference.py",
-      "git_blob_sha": "287897f639e179e6ff7319bacb129ba8f433573f",
+      "git_blob_sha": "84a1f21df9725ff48b76d9d364658074a2441b24",
       "baseline_delta_status": "added"
     },
     {
@@ -5685,6 +5706,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_hardware_fabric_reconciliation.py",
+      "git_blob_sha": "ce295843429c6a123722aa48c7ed743571eafd59",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hardware_portability_gate.py",
       "git_blob_sha": "562b48d0c0a502ec1dde48b16cbd177175855acf",
       "baseline_delta_status": "added"
@@ -5801,7 +5827,7 @@
     },
     {
       "path": "src/fa3_loop_engineering_gate.py",
-      "git_blob_sha": "048c2b7bdbffd7849881666bfbe09d4a9779e42a",
+      "git_blob_sha": "8fa0202ee86da0ece101903ab7d2dbf9cbb9f867",
       "baseline_delta_status": "added"
     },
     {
@@ -6320,6 +6346,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_hardware_fabric_reconciliation.py",
+      "git_blob_sha": "9514a1c42d02bca4851dc83e5864a07770dd60bb",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_hardware_portability_gate.py",
       "git_blob_sha": "61e483a51d1fe81c20ea5ab2af79d3e96887f242",
       "baseline_delta_status": "added"
@@ -6446,7 +6477,7 @@
     },
     {
       "path": "tests/test_loop_engineering_gate.py",
-      "git_blob_sha": "ff62d27f160023ed1c2ae995bb8881f875afa962",
+      "git_blob_sha": "79047ad3e3d52440a53ebc3ef043662fed4e9b6d",
       "baseline_delta_status": "added"
     },
     {
@@ -6792,16 +6823,7 @@
   "manifest_scope": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
-    "mutable_runtime_evidence_receipts_excluded": true,
-    "mutable_runtime_paths_excluded": [
-      "reports",
-      "acceptance",
-      "promotion",
-      ".pytest_cache",
-      ".mypy_cache",
-      "__pycache__",
-      "evidence/receipts/* except .gitkeep"
-    ]
+    "mutable_runtime_evidence_receipts_excluded": true
   },
   "conversation_reconciliation": {
     "decision_id": "FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30",
