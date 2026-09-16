@@ -1,0 +1,116 @@
+{
+  "schema": "fa3.reference-source.v1",
+  "id": "FA3-REFERENCE-CLI-ANYTHING-001",
+  "name": "CLI-Anything Agent-Native Application Control Reference Source",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "decision": "REFERENCE_ON_DEMAND_SHOULD_CONSULT",
+  "scope": "FA3 application-control, agent-harness, CLI/MCP integration, desktop/DCC/media automation, preview/state/trajectory, and real-backend validation design work",
+  "source": {
+    "controlled_fork": "https://github.com/ubuntuokos/CLI-Anything",
+    "upstream": "https://github.com/HKUDS/CLI-Anything",
+    "license": "Apache-2.0",
+    "last_reviewed_revision": "810c18b0d1ab9b234bc996c9fd999318523a3ef0",
+    "reviewed_at": "2026-09-16"
+  },
+  "authority": {
+    "canonical": "NONE",
+    "execution": "NONE",
+    "security": "NONE",
+    "admission": "NONE",
+    "resource": "NONE"
+  },
+  "dependency": {
+    "build": false,
+    "runtime": false,
+    "boot": false,
+    "release": false,
+    "git_submodule": false
+  },
+  "import_policy": {
+    "automatic_import": false,
+    "copy_paste_adoption": false,
+    "manual_semantic_adaptation": true,
+    "direct_execution_from_reference_repo": false,
+    "registry_is_trust_authority": false
+  },
+  "consultation_policy": {
+    "mode": "SHOULD_CONSULT",
+    "triggers": [
+      "agent-to-application-control",
+      "gui-to-cli",
+      "application-cli-harness",
+      "mcp-backend",
+      "agent-skill-contract",
+      "machine-readable-json-cli",
+      "stateful-repl",
+      "preview-or-live-preview",
+      "trajectory-or-session-state",
+      "real-backend-e2e",
+      "desktop-automation",
+      "dcc-or-media-application-automation"
+    ],
+    "outcome_requirement": "Record whether a relevant pattern was adopted, adapted, rejected, or not applicable when the reference materially affects a canonical design decision."
+  },
+  "domains": [
+    "agent-native-application-control",
+    "gui-to-cli",
+    "cli-harness",
+    "application-automation",
+    "mcp-backend",
+    "skill-discovery",
+    "json-contracts",
+    "repl",
+    "preview",
+    "live-preview",
+    "trajectory",
+    "state-management",
+    "real-backend-e2e",
+    "artifact-validation",
+    "security-patterns",
+    "desktop-automation",
+    "media-production",
+    "dcc"
+  ],
+  "adoption_gate": [
+    "identify_relevant_reference_pattern",
+    "map_to_existing_fa3_canonical_semantics",
+    "verify_license_and_provenance",
+    "perform_security_and_supply_chain_review",
+    "preserve_fa3_authority_boundaries",
+    "map_resource_admission_if_execution_is_introduced",
+    "materialize_provider_or_runtime_contract_only_if_needed",
+    "add_conformance_and_evidence_for_any_runtime_adoption"
+  ],
+  "authority_boundary": {
+    "hrb_bypass": "FORBIDDEN",
+    "accelerator_lease_bypass": "FORBIDDEN",
+    "resource_admission_bypass": "FORBIDDEN",
+    "self_granted_execution_authority": "FORBIDDEN",
+    "skill_or_registry_metadata_grants_execution": false
+  },
+  "runtime_escalation": {
+    "provider_record_required_when_reference_code_runs_inside_fa3": true,
+    "suggested_provider_id": "FA3-PROVIDER-CLI-ANYTHING-001",
+    "provider_creation_is_deferred_until_runtime_adoption": true
+  },
+  "revision_policy": {
+    "track_controlled_fork": true,
+    "track_upstream": true,
+    "automatic_merge": false,
+    "automatic_fa3_adoption": false,
+    "states": [
+      "REVIEWED",
+      "UPDATE_AVAILABLE",
+      "IMPACT_REVIEW_REQUIRED"
+    ],
+    "rule": "A source revision change may update the pin without changing FA3 semantics only when review finds no materially relevant new pattern; otherwise an FA3 impact review is required."
+  },
+  "reference_material": {
+    "root": "docs/references/cli-anything",
+    "descriptor": "docs/references/cli-anything/REFERENCE.yaml",
+    "capability_index": "docs/references/cli-anything/CAPABILITY-INDEX.md",
+    "adoption_rules": "docs/references/cli-anything/ADOPTION-RULES.md",
+    "revision_pin": "docs/references/cli-anything/PINNED-REVISION"
+  }
+}
