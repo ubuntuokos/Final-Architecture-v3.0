@@ -1,0 +1,97 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-INTEL-ACCEL-001",
+  "name": "Intel CPU/GPU/NPU Accelerator Capability & Provider Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MUST-IF-INTEL-ACCELERATION-SELECTED",
+  "canonical_root": false,
+  "relationship": {"type": "CROSS-CUTTING-OVERLAY", "parent": "FA3-HW-001"},
+  "dependencies": [
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-INFERENCE-PORTABILITY-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-ACCEL-GUARD-001"
+  ],
+  "contracts": ["FA3-INTEL-ACCEL-CONTRACTS-001"],
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "providers": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-INTEL-XPU-001",
+    "FA3-PROVIDER-INTEL-NPU-001",
+    "FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001",
+    "FA3-PROVIDER-INTEL-NC-001",
+    "FA3-PROVIDER-INTEL-TRITON-XPU-001",
+    "FA3-PROVIDER-XPUM-001"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-001", "CAP-005", "CAP-006", "CAP-137", "CAP-143"],
+  "authority": {
+    "hardware_discovery": "NON_AUTHORITY_CAPABILITY",
+    "resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "activation": {
+    "mode": "HARDWARE_AND_PROVIDER_CAPABILITY_CONDITIONED",
+    "intel_cpu": "OPTIONAL_OPENVINO_CPU_PATH",
+    "intel_gpu": "OPTIONAL_LEVEL_ZERO_OPENVINO_OR_NATIVE_TORCH_XPU_PATH",
+    "intel_npu": "OPTIONAL_OPENVINO_NPU_PATH",
+    "intel_npu_is_global_hardware_minimum": false,
+    "intel_gpu_is_global_hardware_minimum": false
+  },
+  "physical_identity": {
+    "intel_gpu": ["PCI_BDF", "PCI_VENDOR_DEVICE", "DRM_RENDER_NODE", "KERNEL_DRIVER"],
+    "intel_npu": ["PCI_BDF_WHEN_AVAILABLE", "ACCEL_CLASS_NODE", "SYSFS_DEVICE", "KERNEL_DRIVER"],
+    "runtime_aliases": ["OPENVINO_DEVICE", "LEVEL_ZERO_DEVICE", "TORCH_XPU_DEVICE"],
+    "runtime_ordinal_is_canonical_identity": false,
+    "alias_deduplication_required": true
+  },
+  "readiness_states": [
+    "ABSENT", "DETECTED", "READY", "DEGRADED", "BUSY_EXTERNAL",
+    "LEASED_FA3", "UNSUPPORTED", "EXPERIMENTAL"
+  ],
+  "provider_policy": {
+    "preferred_inference_provider": "FA3-PROVIDER-OPENVINO-001",
+    "pytorch_gpu_provider": "FA3-PROVIDER-INTEL-XPU-001",
+    "npu_provider": "FA3-PROVIDER-INTEL-NPU-001",
+    "gpu_runtime_dependency": "FA3-PROVIDER-INTEL-COMPUTE-RUNTIME-001",
+    "model_optimization_provider": "FA3-PROVIDER-INTEL-NC-001",
+    "experimental_provider": "FA3-PROVIDER-INTEL-TRITON-XPU-001",
+    "datacenter_telemetry_provider": "FA3-PROVIDER-XPUM-001",
+    "retired_new_dependency_denylist": ["intel_extension_for_pytorch", "intel/ipex-llm"]
+  },
+  "fallback_policy": {
+    "silent_accelerator_to_cpu_fallback": "FORBIDDEN",
+    "silent_provider_substitution": "FORBIDDEN",
+    "explicit_user_or_predeclared_policy_required": true
+  },
+  "gui_mapping": "FA3-INTEL-ACCEL-GUI-MAPPING-001",
+  "gate": "FA3-GATE-INTEL-ACCEL-001",
+  "current_host_projection": {
+    "exact_host_tuple": "EVIDENCE_ONLY_NON_NORMATIVE",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+    "current_host_production_claim": false
+  },
+  "invariants": [
+    "INTEL_ACCEL_PROFILE_NOT_ARCHITECTURAL_AUTHORITY",
+    "INTEL_ACCELERATION_OPTIONAL_AND_HARDWARE_CONDITIONED",
+    "GLOBAL_FA3_HARDWARE_BASELINE_UNCHANGED",
+    "PHYSICAL_DEVICE_IDENTITY_PRECEDES_RUNTIME_ALIAS",
+    "RUNTIME_ORDINAL_NOT_CANONICAL_DEVICE_IDENTITY",
+    "OPENVINO_LEVEL_ZERO_AND_TORCH_XPU_ALIASES_DEDUP_TO_PHYSICAL_DEVICE",
+    "HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE_AUTHORITY",
+    "ACCEL_GUARD_RECOMMENDS_OR_REPORTS_CONFLICTS_BUT_DOES_NOT_EVICT_BY_DEFAULT",
+    "NO_SILENT_ACCELERATOR_TO_CPU_FALLBACK",
+    "NO_SILENT_PROVIDER_SUBSTITUTION",
+    "IPEX_AND_IPEX_LLM_FORBIDDEN_AS_NEW_DEPENDENCIES",
+    "CURRENT_HOST_PASS_REQUIRES_REAL_HOST_EVIDENCE"
+  ],
+  "implementation_status": "CANONICAL_MATERIALIZED_REFERENCE_GATE_BOUND_CURRENT_HOST_RUNTIME_PENDING"
+}
