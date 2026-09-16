@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-INTEL-ACCEL-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MUST-IF-INTEL-ACCELERATION-SELECTED",
+  "parent_profile": "FA3-INTEL-ACCEL-001",
+  "provider_neutral": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "IntelAcceleratorDiscoveryRequest",
+    "IntelPhysicalDeviceDescriptor",
+    "IntelRuntimeAliasDescriptor",
+    "IntelProviderReadinessDescriptor",
+    "IntelCapabilitySnapshot",
+    "IntelAcceleratorConflictObservation",
+    "IntelProviderSelectionReceipt",
+    "IntelAcceleratorEvidenceReceipt"
+  ],
+  "detection": {
+    "cpu": ["CPU_VENDOR_ID", "PACKAGE_TOPOLOGY", "NUMA_LOCALITY", "INSTRUCTION_CAPABILITIES"],
+    "gpu": ["PCI_VENDOR_0X8086", "PCI_BDF", "DRM_RENDER_NODE", "KERNEL_DRIVER", "LEVEL_ZERO_RUNTIME", "OPENVINO_GPU_ALIAS", "TORCH_XPU_ALIAS"],
+    "npu": ["ACCEL_CLASS_NODE", "SYSFS_DEVICE", "PCI_VENDOR_0X8086_WHEN_AVAILABLE", "KERNEL_DRIVER", "OPENVINO_NPU_ALIAS"],
+    "openvino": ["AVAILABLE_DEVICES_CPU", "AVAILABLE_DEVICES_GPU", "AVAILABLE_DEVICES_NPU"],
+    "torch_xpu": ["TORCH_XPU_NAMESPACE_PRESENT", "TORCH_XPU_IS_AVAILABLE", "TORCH_XPU_DEVICE_COUNT"],
+    "runtime_versions": ["KERNEL_DRIVER", "LEVEL_ZERO", "OPENVINO", "PYTORCH", "PROVIDER_VERSION"]
+  },
+  "physical_device_key": {
+    "gpu_preference": ["PCI_BDF", "DRM_RENDER_NODE", "PCI_VENDOR_DEVICE"],
+    "npu_preference": ["PCI_BDF", "ACCEL_CLASS_NODE", "SYSFS_DEVICE"],
+    "alias_dedup": "REQUIRED",
+    "runtime_ordinal": "EPHEMERAL_ALIAS_NOT_IDENTITY"
+  },
+  "readiness_rules": {
+    "ABSENT": "NO_MATCHING_PHYSICAL_DEVICE_OR_OPTIONAL_PROVIDER",
+    "DETECTED": "PHYSICAL_DEVICE_PRESENT_PROVIDER_READINESS_NOT_PROVEN",
+    "READY": "PHYSICAL_DEVICE_AND_SELECTED_PROVIDER_PROBES_PASS",
+    "DEGRADED": "DEVICE_PRESENT_WITH_DRIVER_RUNTIME_OR_HEALTH_LIMITATION",
+    "BUSY_EXTERNAL": "NON_FA3_USAGE_MAY_CONFLICT_WITH_REQUESTED_WORKLOAD",
+    "LEASED_FA3": "HRB_LEASE_EXISTS_FOR_DEVICE",
+    "UNSUPPORTED": "DEVICE_OR_RUNTIME_OUTSIDE_SELECTED_PROVIDER_SUPPORT",
+    "EXPERIMENTAL": "PROVIDER_REQUIRES_EXPLICIT_OPT_IN"
+  },
+  "guard_binding": {
+    "profile": "FA3-ACCEL-GUARD-001",
+    "required_for": ["OPENVINO_GPU", "OPENVINO_NPU", "TORCH_XPU", "TRITON_XPU"],
+    "lease_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "default_conflict_mode": "RECOMMEND_USER_DECIDES",
+    "automatic_resolution": "ONLY_WITH_EXPLICIT_PREDECLARED_USER_POLICY"
+  },
+  "fallback": {
+    "implicit_cpu_fallback": false,
+    "implicit_provider_fallback": false,
+    "explicit_policy_receipt_required": true
+  },
+  "invariants": [
+    "INTEL_VENDOR_MATCH_ALONE_DOES_NOT_PROVE_PROVIDER_READINESS",
+    "GPU_NPU_PROVIDER_READINESS_REQUIRES_RUNTIME_PROBES",
+    "OPENVINO_LEVEL_ZERO_AND_TORCH_XPU_ALIASES_MUST_DEDUP_TO_PHYSICAL_DEVICE",
+    "NO_STATIC_RUNTIME_ORDINAL_AS_CANONICAL_IDENTITY",
+    "NO_SILENT_CPU_FALLBACK",
+    "NO_SILENT_PROVIDER_SUBSTITUTION",
+    "CURRENT_HOST_FACTS_ARE_EVIDENCE_ONLY"
+  ]
+}
