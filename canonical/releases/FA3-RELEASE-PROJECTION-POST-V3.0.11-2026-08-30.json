@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1d7e213b072c1680b490225232d9ffd51cc591ba",
-    "pre_projection_root_tree_sha": "583f9a2374b0e24b2cab0a184d50f8de9cbcc8a1",
-    "pre_projection_canonical_tree_sha": "c01aef9851199b90918a0c5a211d34800cd56721",
-    "commits_ahead_of_v3_0_11_conformance_commit": 376,
-    "total_post_baseline_commits": 376,
-    "delta_file_count": 1213,
-    "delta_added_files": 1208,
+    "pre_projection_head_sha": "8d66845c796325d4612e467cc365714d183e896b",
+    "pre_projection_root_tree_sha": "0f56be57eda5e389bbb6b66f78fd3d974d29a281",
+    "pre_projection_canonical_tree_sha": "82c9e212cd02c3f796f7b64c8e2ed347a51d9651",
+    "commits_ahead_of_v3_0_11_conformance_commit": 380,
+    "total_post_baseline_commits": 380,
+    "delta_file_count": 1224,
+    "delta_added_files": 1219,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,15 +45,17 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 632,
-    "evidence_files_in_post_baseline_delta": 117,
+    "canonical_files_in_post_baseline_delta": 640,
+    "evidence_files_in_post_baseline_delta": 119,
     "source_files_in_post_baseline_delta": 135,
-    "test_files_in_post_baseline_delta": 121,
+    "test_files_in_post_baseline_delta": 122,
     "workflow_files_in_post_baseline_delta": 46,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
       "canonical/providers/FA3-PROVIDER-AI-INFRA-GUARD-001.json",
+      "canonical/providers/FA3-PROVIDER-AMD-AITER-001.json",
+      "canonical/providers/FA3-PROVIDER-AMD-SMI-001.json",
       "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
       "canonical/providers/FA3-PROVIDER-ANY-GUARDRAIL-001.json",
       "canonical/providers/FA3-PROVIDER-ARBOR-001.json",
@@ -128,7 +130,12 @@
       "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
       "canonical/providers/FA3-PROVIDER-QWEN3-TTS-001.json",
       "canonical/providers/FA3-PROVIDER-RAGFLOW-001.json",
+      "canonical/providers/FA3-PROVIDER-RCCL-001.json",
       "canonical/providers/FA3-PROVIDER-RELI3D-001.json",
+      "canonical/providers/FA3-PROVIDER-ROCM-LIBRARIES-001.json",
+      "canonical/providers/FA3-PROVIDER-ROCM-MEDIA-001.json",
+      "canonical/providers/FA3-PROVIDER-ROCM-RUNTIME-001.json",
+      "canonical/providers/FA3-PROVIDER-ROCPROFILER-001.json",
       "canonical/providers/FA3-PROVIDER-SCHED-EXT-001.json",
       "canonical/providers/FA3-PROVIDER-SD35-NVIDIA-NIM-001.json",
       "canonical/providers/FA3-PROVIDER-SEEDANCE-001.json",
@@ -717,7 +724,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1213,
+  "manifest_entry_count": 1224,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -1387,6 +1394,11 @@
     {
       "path": "bin/fa3-whisper-stt",
       "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-ACCEL-ROCM-001.json",
+      "git_blob_sha": "7d5e870b31f9673a84fd1e4e98af5e3db30ee55d",
       "baseline_delta_status": "added"
     },
     {
@@ -3560,6 +3572,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-AMD-AITER-001.json",
+      "git_blob_sha": "b28ece770c451f3a66534404fb23d93c222569d6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-AMD-SMI-001.json",
+      "git_blob_sha": "e496722461e601da27c76a943367629429033b41",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001.json",
       "git_blob_sha": "08303acfa7505abdcad3aaa65b4271bf935aeec7",
       "baseline_delta_status": "added"
@@ -3930,8 +3952,33 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-RCCL-001.json",
+      "git_blob_sha": "ea72655f6f3c50e4c49ef7782d8b20de57deffe7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-RELI3D-001.json",
       "git_blob_sha": "c77fe408a9a496875e82aff4272c8b40c4ecbf39",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-ROCM-LIBRARIES-001.json",
+      "git_blob_sha": "c00749e205237072abfc1e0eb9b15eb435d9e9aa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-ROCM-MEDIA-001.json",
+      "git_blob_sha": "4536dabfcbafbc6417389a957768866b210e2266",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-ROCM-RUNTIME-001.json",
+      "git_blob_sha": "24e33c2eac0e1e8b1c69aa5d9f772d1f1c32fc25",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-ROCPROFILER-001.json",
+      "git_blob_sha": "9c2831ccfa950792f2f6a3233548591dcddd65cd",
       "baseline_delta_status": "added"
     },
     {
@@ -4770,6 +4817,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/FA3-ACCEL-ROCM-001.reference.json",
+      "git_blob_sha": "4733f46840e1ce70fcb8b2cdd2ab836e6371a24f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
       "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
       "baseline_delta_status": "added"
@@ -4912,6 +4964,11 @@
     {
       "path": "evidence/collect-resource-admission-current-host.py",
       "git_blob_sha": "16aabdcb7c803e0eefcd85e65b59435f63889519",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-rocm-current-host.py",
+      "git_blob_sha": "fefb90d815af8c5b968f7fb9f8aca6396bf38dbf",
       "baseline_delta_status": "added"
     },
     {
@@ -6652,6 +6709,11 @@
     {
       "path": "tests/test_resource_evidence_normalization.py",
       "git_blob_sha": "73fa078cb4486e6dbe8a430ce73745dd19b50a9a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_rocm_canonical.py",
+      "git_blob_sha": "9a37c60e0d5f9496087f327a6d5e4d34855e1901",
       "baseline_delta_status": "added"
     },
     {
