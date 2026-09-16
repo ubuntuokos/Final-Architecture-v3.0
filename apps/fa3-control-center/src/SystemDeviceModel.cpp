@@ -39,8 +39,9 @@ void SystemDeviceModel::refresh()
     m_inventory.clear();
 
     addRow(QStringLiteral("CPU"), QStringLiteral("cpu"), QStringLiteral("CPU"),
-           QStringLiteral("%1 logical thread · %2").arg(QThread::idealThreadCount()).arg(QSysInfo::currentCpuArchitecture()),
-           QStringLiteral("DISCOVERED"));
+           QStringLiteral("%1 logical thread · %2 · local GUI observation only; FA3 hardware discovery / HRB remains authoritative for admission and placement")
+               .arg(QThread::idealThreadCount()).arg(QSysInfo::currentCpuArchitecture()),
+           QStringLiteral("OBSERVED_NON_AUTHORITATIVE"));
 
     const QRegularExpression drmCard(QStringLiteral("^card\\d+$"));
     const QDir drmDir(QStringLiteral("/sys/class/drm"));
@@ -52,15 +53,16 @@ void SystemDeviceModel::refresh()
         const auto vendor = readTextFile(base + QStringLiteral("/vendor"));
         const auto device = readTextFile(base + QStringLiteral("/device"));
         addRow(QStringLiteral("GPU"), entry, QStringLiteral("GPU · %1").arg(entry),
-               QStringLiteral("DRM device · vendor %1 · device %2").arg(vendor.isEmpty() ? QStringLiteral("N/A") : vendor,
-                                                                          device.isEmpty() ? QStringLiteral("N/A") : device),
-               QStringLiteral("DISCOVERED"));
+               QStringLiteral("DRM observation · vendor %1 · device %2 · diagnostic only; FA3 hardware discovery / HRB remains authoritative")
+                   .arg(vendor.isEmpty() ? QStringLiteral("N/A") : vendor,
+                        device.isEmpty() ? QStringLiteral("N/A") : device),
+               QStringLiteral("OBSERVED_NON_AUTHORITATIVE"));
         gpuFound = true;
     }
     if (!gpuFound) {
         addRow(QStringLiteral("GPU"), QStringLiteral("gpu-adapter"), QStringLiteral("GPU"),
-               QStringLiteral("No DRM accelerator discovered; provider adapter may supply inventory."),
-               QStringLiteral("ADAPTER-GATED"));
+               QStringLiteral("No local DRM accelerator observation; canonical discovery/provider adapters may still supply inventory. Admission remains HRB-authoritative."),
+               QStringLiteral("ADAPTER_GATED_NON_AUTHORITATIVE"));
     }
 
     const QDir accelDir(QStringLiteral("/sys/class/accel"));
@@ -69,12 +71,13 @@ void SystemDeviceModel::refresh()
         : QStringList{};
     if (accelEntries.isEmpty()) {
         addRow(QStringLiteral("NPU"), QStringLiteral("npu-adapter"), QStringLiteral("NPU"),
-               QStringLiteral("No /sys/class/accel device discovered; vendor adapter remains authoritative."),
-               QStringLiteral("ADAPTER-GATED"));
+               QStringLiteral("No local /sys/class/accel observation; canonical discovery/vendor adapter remains the source of capability truth."),
+               QStringLiteral("ADAPTER_GATED_NON_AUTHORITATIVE"));
     } else {
         for (const auto &entry : accelEntries) {
             addRow(QStringLiteral("NPU"), entry, QStringLiteral("NPU · %1").arg(entry),
-                   QStringLiteral("Linux accelerator class device"), QStringLiteral("DISCOVERED"));
+                   QStringLiteral("Linux accelerator class observation · diagnostic only; FA3 hardware discovery / HRB remains authoritative"),
+                   QStringLiteral("OBSERVED_NON_AUTHORITATIVE"));
         }
     }
 
@@ -82,12 +85,13 @@ void SystemDeviceModel::refresh()
     const auto productVersion = readTextFile(QStringLiteral("/sys/class/dmi/id/product_version"));
     if (productName.contains(QStringLiteral("DGX"), Qt::CaseInsensitive)) {
         addRow(QStringLiteral("DGX"), QStringLiteral("dgx-platform"), productName,
-               productVersion.isEmpty() ? QStringLiteral("NVIDIA DGX platform") : productVersion,
-               QStringLiteral("DISCOVERED"));
+               QStringLiteral("%1 · local platform observation only; no admission authority")
+                   .arg(productVersion.isEmpty() ? QStringLiteral("NVIDIA DGX platform") : productVersion),
+               QStringLiteral("OBSERVED_NON_AUTHORITATIVE"));
     } else {
         addRow(QStringLiteral("DGX"), QStringLiteral("dgx-platform"), QStringLiteral("NVIDIA DGX / NVSwitch fabric"),
-               QStringLiteral("Optional hardware-agnostic FA3 target; not detected on this host."),
-               QStringLiteral("NOT DETECTED"));
+               QStringLiteral("Optional hardware-agnostic FA3 target; not observed by this local diagnostic probe."),
+               QStringLiteral("NOT OBSERVED"));
     }
 
     const QDir devDir(QStringLiteral("/dev"));

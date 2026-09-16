@@ -219,9 +219,9 @@ def run_regressions() -> dict[str, Any]:
         refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=True, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid="GPU-u", pci_bdf="0000:05:00.0", ordinal_only=False),
         not refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=False, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid=None, pci_bdf=None, ordinal_only=True))
     add(P0_RULES[33], "portable FA3 minimum hardware floor without model pins",
-        refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_rtx_series=30, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True)
-        and refimpl.portable_hardware_floor_valid(cpu_packages=2, physical_cores_per_package=32, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=2, gpu_rtx_series=50, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True),
-        not refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=6, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_rtx_series=20, gpu_specific_sku_pinned=True, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, newer_rtx_generations_allowed=True))
+        refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_vendor="NVIDIA", gpu_compute_capability=8.6, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False)
+        and refimpl.portable_hardware_floor_valid(cpu_packages=2, physical_cores_per_package=32, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=2, gpu_vendor="NVIDIA", gpu_compute_capability=12.0, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False),
+        not refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=6, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_vendor="NVIDIA", gpu_compute_capability=8.0, gpu_specific_sku_pinned=True, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False))
     add(P0_RULES[34], "reference CI cannot claim current-host promotion",
         reference_ci_valid(reference_pass=True, current_host_claim=False, production_admission=False),
         not reference_ci_valid(reference_pass=True, current_host_claim=True, production_admission=True))
@@ -327,8 +327,10 @@ def reference_check(root: Path) -> dict[str, Any]:
         and hw_cpu.get("vendor_pinned") is False
         and hw_cpu.get("model_pinned") is False
         and hw_gpu.get("device_count_min") == 1
-        and hw_gpu.get("rtx_series_floor") == 30
-        and hw_gpu.get("newer_rtx_generations_allowed") is True
+        and hw_gpu.get("vendor") == "NVIDIA"
+        and float(hw_gpu.get("cuda_compute_capability_min", 0)) == 8.6
+        and hw_gpu.get("sku_series_admission_authority") is False
+        and hw_gpu.get("marketing_identity_required") is False
         and hw_gpu.get("specific_sku_pinned") is False
         and hw_gpu.get("specific_vram_pinned") is False
         and hw_gpu.get("specific_sm_pinned") is False
@@ -347,17 +349,18 @@ def reference_check(root: Path) -> dict[str, Any]:
         and hw_global_cpu.get("vendor_pin") == "FORBIDDEN"
         and hw_global_cpu.get("model_pin") == "FORBIDDEN"
         and hw_global_gpu.get("minimum_qualifying_device_count") == 1
-        and hw_global_gpu.get("minimum_product_series") == "NVIDIA_RTX_30_SERIES"
-        and hw_global_gpu.get("accepted_product_series") == "NVIDIA_RTX_30_SERIES_OR_NEWER"
-        and hw_global_gpu.get("newer_rtx_series") == "ALLOWED"
+        and hw_global_gpu.get("vendor") == "NVIDIA"
+        and float(hw_global_gpu.get("cuda_compute_capability_min", 0)) == 8.6
+        and hw_global_gpu.get("sku_series_admission_authority") is False
+        and hw_global_gpu.get("marketing_identity_required") is False
         and hw_global_gpu.get("exact_sku_pin") == "FORBIDDEN"
-        and hw_global_gpu.get("architecture_equivalence_without_rtx30_or_newer_series_identity") == "DOES_NOT_SATISFY_MINIMUM"
         and hardware_contract.get("id") == "FA3-HW-CONTRACTS-001"
         and hw_contract_floor.get("cpu", {}).get("package_count_min") == 1
         and hw_contract_floor.get("cpu", {}).get("physical_cores_per_qualifying_cpu_min") == 8
-        and hw_contract_floor.get("gpu", {}).get("rtx_series_floor") == 30
-        and hw_contract_floor.get("gpu", {}).get("newer_rtx_series_allowed") is True
-        and hw_contract_floor.get("gpu", {}).get("architecture_equivalence_alone_insufficient") is True
+        and hw_contract_floor.get("gpu", {}).get("vendor") == "NVIDIA"
+        and float(hw_contract_floor.get("gpu", {}).get("cuda_compute_capability_min", 0)) == 8.6
+        and hw_contract_floor.get("gpu", {}).get("sku_series_is_admission_authority") is False
+        and hw_contract_floor.get("gpu", {}).get("marketing_identity_required") is False
     ):
         findings.append(_finding("LOOP-REF-003B", "global FA3 portable hardware baseline drift"))
 
@@ -466,8 +469,10 @@ def reference_check(root: Path) -> dict[str, Any]:
         and policy.get("loop_engineering_mandatory_p0_rules") == P0_RULES
         and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("cpu", {}).get("package_count_min") == 1
         and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("cpu", {}).get("physical_cores_per_package_min") == 8
-        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("rtx_series_floor") == 30
-        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("newer_rtx_generations_allowed") is True
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("vendor") == "NVIDIA"
+        and float(policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("cuda_compute_capability_min", 0)) == 8.6
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("sku_series_admission_authority") is False
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("marketing_identity_required") is False
         and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("specific_sku_restriction") == "NONE"
     ):
         findings.append(_finding("LOOP-REF-012", "global policy binding drift"))
