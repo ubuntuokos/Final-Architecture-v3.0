@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
   "name": "Closed-Loop Agent Operations, Autonomy Governance & Verification Profile",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -84,15 +84,17 @@
     },
     "gpu": {
       "device_count_min": 1,
-      "minimum_generation": "NVIDIA_RTX_30_SERIES_OR_NEWER",
-      "rtx_series_floor": 30,
-      "newer_rtx_generations_allowed": true,
+      "vendor": "NVIDIA",
+      "cuda_compute_capability_min": 8.6,
+      "sku_series_admission_authority": false,
+      "marketing_identity_required": false,
       "specific_sku_pinned": false,
       "specific_vram_pinned": false,
       "specific_sm_pinned": false
     },
     "admission": "LIVE_DISCOVERY_AND_HRB_ADMISSION; ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE",
-    "inherited_from": "FA3-HW-001/FA3-HW-CONTRACTS-001"
+    "inherited_from": "FA3-HW-001/FA3-HW-CONTRACTS-001",
+    "semantic_reconciliation": "RTX_MARKETING_SERIES_SUPERSEDED_BY_CUDA_COMPUTE_CAPABILITY_8_6"
   },
   "hardware_baseline_profile": "FA3-HW-001"
 }

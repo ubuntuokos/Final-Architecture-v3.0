@@ -25,14 +25,15 @@
     "NO_SILENT_ACCELERATOR_FALLBACK",
     "HARDWARE_DISCOVERY_NOT_PLACEMENT_AUTHORITY",
     "CPU_MINIMUM_1_PACKAGE_8_PHYSICAL_CORES",
-    "GPU_MINIMUM_RTX_30_SERIES_OR_NEWER",
+    "GPU_MINIMUM_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
+    "GPU_SKU_OR_MARKETING_SERIES_IS_NOT_ADMISSION_AUTHORITY",
     "NEWER_HARDWARE_MUST_NOT_BE_REJECTED_BY_MODEL_PIN",
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
     "GPU_CARDINALITY_DYNAMIC_1_TO_N",
     "NO_FIXED_CPU_GPU_COUNT_OR_TOPOLOGY_IDENTITY",
     "LIVE_DISCOVERY_AND_REVALIDATION_REQUIRED"
   ],
-  "version": "1.1.0",
+  "version": "1.2.0",
   "portable_minimum_envelope": {
     "cpu": {
       "package_count_min": 1,
@@ -42,15 +43,22 @@
     },
     "gpu": {
       "qualifying_device_count_min": 1,
-      "rtx_series_floor": 30,
-      "newer_rtx_series_allowed": true,
+      "vendor": "NVIDIA",
+      "cuda_compute_capability_min": 8.6,
+      "sku_series_is_admission_authority": false,
+      "product_line_agnostic": true,
       "exact_sku_vram_sm_agnostic": true,
-      "architecture_equivalence_alone_insufficient": true,
+      "marketing_identity_required": false,
       "qualifying_device_count_max": null
     },
     "current_host_exact_tuple": "EVIDENCE_ONLY"
   },
   "contract_family_bindings": [
     "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
-  ]
+  ],
+  "reconciliation": {
+    "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+    "date": "2026-09-16",
+    "legacy_rtx_series_floor": "SUPERSEDED_BY_CUDA_COMPUTE_CAPABILITY_FLOOR"
+  }
 }
