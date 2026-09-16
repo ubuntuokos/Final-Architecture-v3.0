@@ -7,15 +7,53 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSaveFile>
 #include <QSettings>
 #include <QSet>
 #include <QStandardPaths>
-#include <QSysInfo>
-#include <QThread>
 #include <QUrl>
+
+namespace {
+QJsonObject admittedHostAttestation(const QString &repoRoot)
+{
+    const auto receiptPath = QDir(repoRoot).filePath(QStringLiteral("evidence/receipts/resource-admission-current-host.json"));
+    QFile file(receiptPath);
+    if (!file.open(QIODevice::ReadOnly)) return {};
+
+    QJsonParseError error;
+    const auto document = QJsonDocument::fromJson(file.readAll(), &error);
+    if (error.error != QJsonParseError::NoError || !document.isObject()) return {};
+
+    const auto receipt = document.object();
+    if (receipt.value(QStringLiteral("evidence_class")).toString() != QStringLiteral("CURRENT_HOST_ADMISSION")) return {};
+
+    const auto subject = receipt.value(QStringLiteral("subject")).toObject();
+    if (subject.value(QStringLiteral("profile_id")).toString() != QStringLiteral("FA3-RESOURCE-ADMISSION-CONTRACTS-001")) return {};
+    if (subject.value(QStringLiteral("gate_id")).toString() != QStringLiteral("FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001")) return {};
+
+    const auto result = receipt.value(QStringLiteral("result")).toObject();
+    if (result.value(QStringLiteral("status")).toString() != QStringLiteral("PASS")) return {};
+    bool passClaim = false;
+    for (const auto &claim : result.value(QStringLiteral("claims")).toArray()) {
+        if (claim.toString() == QStringLiteral("CURRENT_HOST_RESOURCE_ADMISSION_PASS")) {
+            passClaim = true;
+            break;
+        }
+    }
+    if (!passClaim) return {};
+
+    const auto payload = receipt.value(QStringLiteral("payload")).toObject();
+    if (payload.value(QStringLiteral("schema")).toString() != QStringLiteral("fa3.resource-admission-current-host.payload.v1")) return {};
+
+    const auto attestation = payload.value(QStringLiteral("host_attestation")).toObject();
+    if (attestation.value(QStringLiteral("schema")).toString() != QStringLiteral("fa3.host-attestation.v1")) return {};
+    if (attestation.value(QStringLiteral("secret_collection")).toString() != QStringLiteral("PROHIBITED")) return {};
+    return attestation;
+}
+}
 
 Fa3RepositoryModel::Fa3RepositoryModel(QObject *parent)
     : QObject(parent), m_repoRoot(discoverRepositoryRoot())
@@ -237,24 +275,27 @@ bool Fa3RepositoryModel::openLocalPath(const QString &relativePath) const
     return QDesktopServices::openUrl(QUrl::fromLocalFile(absolute));
 }
 
-QString Fa3RepositoryModel::hostName() const { return QSysInfo::machineHostName(); }
-QString Fa3RepositoryModel::kernelVersion() const { return QSysInfo::kernelVersion(); }
-int Fa3RepositoryModel::cpuThreads() const { return QThread::idealThreadCount(); }
+QString Fa3RepositoryModel::hostName() const
+{
+    const auto attestation = admittedHostAttestation(m_repoRoot);
+    return attestation.value(QStringLiteral("host")).toString(QStringLiteral("unavailable"));
+}
+
+QString Fa3RepositoryModel::kernelVersion() const
+{
+    const auto attestation = admittedHostAttestation(m_repoRoot);
+    return attestation.value(QStringLiteral("kernel")).toString(QStringLiteral("unavailable"));
+}
+
+int Fa3RepositoryModel::cpuThreads() const
+{
+    const auto attestation = admittedHostAttestation(m_repoRoot);
+    return attestation.value(QStringLiteral("cpu_topology")).toObject().value(QStringLiteral("logical_cpus")).toInt(0);
+}
 
 double Fa3RepositoryModel::memoryGiB() const
 {
-    QFile file("/proc/meminfo");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return 0.0;
-    while (!file.atEnd()) {
-        const auto line = QString::fromUtf8(file.readLine());
-        if (line.startsWith("MemTotal:")) {
-            const auto parts = line.simplified().split(' ');
-            if (parts.size() >= 2) {
-                bool ok = false;
-                const auto kib = parts.at(1).toDouble(&ok);
-                if (ok) return kib / 1024.0 / 1024.0;
-            }
-        }
-    }
-    return 0.0;
+    const auto attestation = admittedHostAttestation(m_repoRoot);
+    const auto bytes = attestation.value(QStringLiteral("memory_total_bytes")).toDouble(0.0);
+    return bytes > 0.0 ? bytes / 1024.0 / 1024.0 / 1024.0 : 0.0;
 }
