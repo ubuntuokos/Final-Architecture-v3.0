@@ -1,0 +1,91 @@
+{
+  "id": "FA3-GITHUB-EXECUTION-CONTROL-SNAPSHOT-2026-09-16",
+  "version": "1.0.0",
+  "generated_at": "2026-09-16",
+  "status": "OPERATIONAL_COORDINATION_ONLY",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "runtime_claims": [],
+  "pass_claims": [],
+  "canonical_authority": false,
+  "promotion_authority": false,
+  "evidence_authority": false,
+  "precedence": [
+    "live GitHub branch/PR state",
+    "canonical FA3 records and contracts",
+    "workstream-specific executable gates and evidence",
+    "this coordination snapshot"
+  ],
+  "scope": {
+    "purpose": "Prevent duplicate materialization, shared-file races, and unsupported PASS/closure claims while multiple FA3 workstreams are open.",
+    "hardware_workstream": {
+      "pr": 205,
+      "ownership": "EXTERNAL_CONVERSATION",
+      "mode": "TRACK_ONLY_DO_NOT_DUPLICATE",
+      "rule": "This execution-control branch must not materialize or edit the hardware reconciliation owned by PR #205. Its merged result is consumed later as an integration input."
+    }
+  },
+  "observed_open_workstreams": [
+    {"pr": 205, "name": "FA3-HARDWARE-FABRIC-RECONCILIATION-001", "coordination": "TRACK_ONLY_EXTERNAL_OWNER"},
+    {"pr": 203, "name": "ROCm accelerator backend", "coordination": "ACTIVE_INDEPENDENT_WITH_SHARED_RELEASE_PROJECTION"},
+    {"pr": 202, "name": "Development Mode and Update Fabric", "coordination": "ACTIVE_SHARED_ENFORCEMENT_AND_GUI"},
+    {"pr": 201, "name": "FA3-ACCEL-GUARD-001", "coordination": "ACTIVE_ACCELERATOR_POLICY"},
+    {"pr": 199, "name": "Orchestration Workforce", "coordination": "ACTIVE_SHARED_ENFORCEMENT"},
+    {"pr": 195, "name": "Tools Fabric and ConvertX", "coordination": "ACTIVE_SHARED_GUI"},
+    {"pr": 186, "name": "Language Fabric and LiteLLM gateway", "coordination": "ACTIVE_SHARED_ENFORCEMENT"},
+    {"pr": 181, "name": "Blackhole runtime promotion replacement validation", "coordination": "ACTIVE_REPLACEMENT_PATH"},
+    {"pr": 177, "name": "Marketing and Blackhole security hardening", "coordination": "ACTIVE_SECURITY_EVIDENCE"},
+    {"pr": 176, "name": "Federated lifecycle and measured compute", "coordination": "ACTIVE_DEPENDENCY_BASE"},
+    {"pr": 178, "name": "HU Content Studio and ONNX/CUDA acceptance", "coordination": "STACKED_ON_PR_176"},
+    {"pr": 187, "name": "Live interpreter GUI", "coordination": "ACTIVE_GUI_LANGUAGE_DEPENDENT"},
+    {"pr": 155, "name": "OpenModelDB browser and staged download manager", "coordination": "ACTIVE_GUI_MODEL_MANAGER"},
+    {"pr": 152, "name": "Persistent resource strip", "coordination": "ACTIVE_GUI_RESOURCE"},
+    {"pr": 151, "name": "llmfit Model Manager integration", "coordination": "ACTIVE_GUI_MODEL_MANAGER"},
+    {"pr": 150, "name": "Remote AI Hub", "coordination": "ACTIVE_GUI_REMOTE_AI"},
+    {"pr": 145, "name": "Manager overlay", "coordination": "ACTIVE_MANAGER"},
+    {"pr": 144, "name": "GUI 0.4 operations surface", "coordination": "ACTIVE_GUI_BASELINE"},
+    {"pr": 138, "name": "mandatory-conversation reconciliation", "coordination": "ACTIVE_LEGACY_RECONCILIATION"}
+  ],
+  "known_replacement_or_dependency_edges": [
+    {"from": 180, "to": 181, "relation": "SUPERSEDED_BY", "source": "PR #181 description"},
+    {"from": 178, "to": 176, "relation": "STACKED_ON", "source": "PR #178 description"},
+    {"from": 202, "to": 201, "relation": "USES_ACCEL_GUARD_SEMANTICS", "source": "PR #202 description"}
+  ],
+  "verified_shared_surfaces": [
+    {
+      "path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+      "prs_verified": [203, 202, 201, 199, 195, 186],
+      "policy": "SERIALIZE_REBASE_REGENERATE_OR_RECONCILE; never hand-merge stale generated projection content"
+    },
+    {
+      "path": "bin/fa3-enforce",
+      "prs_verified": [202, 199, 186],
+      "policy": "SERIALIZE; after each merge rebase remaining PRs, reconcile dispatcher entries, rerun permanent/static enforcement"
+    },
+    {
+      "path": "apps/fa3-control-center/CMakeLists.txt",
+      "prs_verified": [202, 201, 195],
+      "policy": "SERIALIZE_GUI_WIRING; preserve all registered surfaces and rerun Qt/GUI gate after reconciliation"
+    }
+  ],
+  "execution_rules": [
+    "No workstream may infer architectural authority from this snapshot.",
+    "Do not duplicate a workstream already owned by an open PR or another conversation.",
+    "A shared generated release projection is reconciled from the newest accepted base; stale projection content is not manually selected as truth.",
+    "A shared dispatcher or GUI registration file is merged serially and then revalidated as a combined surface.",
+    "GitHub-hosted/static PASS is not current-host PASS.",
+    "Current-host execution is performed only through the workstream's trusted current-host path after the relevant merged/static state is established.",
+    "No PENDING_CURRENT_HOST or PENDING_EXECUTABLE_EVIDENCE state is promoted by documentation or this coordination layer.",
+    "If this snapshot conflicts with live GitHub or canonical state, the live/canonical state wins and this snapshot must be refreshed."
+  ],
+  "default_merge_and_validation_sequence": [
+    "Verify dependency/replacement edges and select the non-superseded PR path.",
+    "Merge or reconcile one shared-hotspot workstream at a time.",
+    "Rebase remaining affected PRs onto the newest main.",
+    "Regenerate/reconcile release projection through the repository's existing mechanism.",
+    "Rerun workstream static tests plus permanent canonical/promotion gates required by the repository.",
+    "Run trusted current-host collection only for workstreams whose static and merged prerequisites are satisfied.",
+    "Write runtime evidence only from actual receipts; retain PENDING otherwise.",
+    "Allow workstream-specific closure/promotion only through its canonical acceptance/evidence authority."
+  ]
+}
