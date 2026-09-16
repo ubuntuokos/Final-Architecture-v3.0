@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-ACCEL-GUARD-001",
+  "name": "Accelerator Contention Observation & User Decision Guard",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-FOR-ACCELERATOR-WORKLOAD-ADMISSION",
+  "canonical_root": false,
+  "relationship": {"type": "CROSS-CUTTING-OVERLAY", "parent": "FA3-HOST-RESOURCE-BROKER-001"},
+  "dependencies": ["FA3-HARDWARE-DISCOVERY-CONTRACTS-001", "FA3-HOST-RESOURCE-BROKER-001"],
+  "contracts": ["FA3-ACCEL-GUARD-CONTRACTS-001"],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-001", "CAP-006", "CAP-137", "CAP-143"],
+  "authority": {
+    "resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "guard": "NON_AUTHORITY_OBSERVATION_AND_RECOMMENDATION_LAYER"
+  },
+  "observation_directions": [
+    "EXTERNAL_USAGE_ALREADY_PRESENT_WHEN_FA3_REQUESTS_ACCELERATOR",
+    "EXTERNAL_USAGE_APPEARS_WHILE_FA3_HOLDS_OR_USES_ACCELERATOR"
+  ],
+  "default_mode": "RECOMMEND",
+  "conflict_resolution": {
+    "default": "NOTIFY_USER_AND_LEAVE_PRIORITY_DECISION_TO_USER",
+    "automatic_resolution": "ONLY_WHEN_EXPLICIT_PRIOR_USER_POLICY_EXISTS",
+    "external_process_termination_without_policy": "FORBIDDEN",
+    "silent_priority_override": "FORBIDDEN"
+  },
+  "states": [
+    "READY_FOR_HRB_ADMISSION", "BUSY_EXTERNAL", "LEASED_BY_FA3", "DEGRADED",
+    "UNAVAILABLE", "UNSUPPORTED", "EXPERIMENTAL_REQUIRES_OPT_IN"
+  ],
+  "invariants": [
+    "ACCEL_GUARD_NOT_RESOURCE_AUTHORITY",
+    "HRB_OWNS_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE",
+    "BIDIRECTIONAL_CONTENTION_OBSERVATION_REQUIRED",
+    "USER_DECISION_DEFAULT_FOR_PRIORITY_CONFLICT",
+    "AUTOMATION_REQUIRES_EXPLICIT_PREDECLARED_USER_POLICY",
+    "PHYSICAL_DEVICE_IDENTITY_REQUIRED_BEFORE_RUNTIME_ALIAS_CONFLICT_DECISION",
+    "NO_SILENT_EVICTION_OR_PROVIDER_SWITCH",
+    "OBSERVATION_AND_DECISION_RECEIPT_REQUIRED"
+  ],
+  "implementation_status": "CANONICAL_CONTRACT_MATERIALIZED_PROVIDER_ADAPTERS_BIND_PER_VENDOR"
+}
