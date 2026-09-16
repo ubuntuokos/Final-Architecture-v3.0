@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-INTEL-XPU-001",
+  "name": "Native PyTorch Intel XPU",
+  "status": "ACCEPTED_REFERENCE",
+  "priority": "P1",
+  "provider_role": "OPTIONAL_NATIVE_PYTORCH_INTEL_GPU_EXECUTION_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "INTEL_GPU_PROVIDER", "PYTORCH_NATIVE_XPU"],
+  "parent_profile": "FA3-INTEL-ACCEL-001",
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "upstream_repository": "pytorch/pytorch",
+  "supporting_upstream_repository": "intel/torch-xpu-ops",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "OPTIONAL_HARDWARE_CONDITIONED",
+  "runtime_activation_status": "NOT_ADMITTED_REFERENCE_ONLY",
+  "detection": ["TORCH_XPU_NAMESPACE_PRESENT", "TORCH_XPU_IS_AVAILABLE", "TORCH_XPU_DEVICE_COUNT", "INTEL_GPU_PHYSICAL_IDENTITY_MATCH"],
+  "accelerator_guard": {"profile_id": "FA3-ACCEL-GUARD-001", "required": true, "physical_alias_dedup_required": true},
+  "legacy_policy": {"intel_extension_for_pytorch": "DENY_NEW_DEPENDENCY_RETIRED_UPSTREAM"},
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "production_pin_policy": "IMMUTABLE_VALIDATED_PYTORCH_RUNTIME_PAIR_REQUIRED",
+  "silent_cpu_fallback": false,
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
