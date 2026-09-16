@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-RCCL-001",
+  "name": "AMD RCCL Multi-GPU Communication Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "AMD_MULTI_GPU_COLLECTIVE_COMMUNICATION",
+  "classification": ["P0_PROVIDER", "MULTI_GPU", "COLLECTIVES", "AMD_GPU"],
+  "profiles": ["FA3-ACCEL-ROCM-001", "FA3-HW-MGPU-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "CONDITIONAL_MULTI_GPU_ONLY",
+  "current_host_runtime_evidence": false,
+  "upstream": ["https://github.com/ROCm/rocm-systems", "https://github.com/ROCm/rccl"],
+  "required_admission": ["ROCM_RUNTIME_ADMITTED", "AT_LEAST_TWO_ELIGIBLE_AMD_GPUS", "P2P_TOPOLOGY_DISCOVERED", "COLLECTIVE_SMOKE_PASS", "HRB_MULTI_DEVICE_LEASE"],
+  "fallback": "SINGLE_DEVICE_OR_FRAMEWORK_SAFE_FALLBACK",
+  "normative_constraint": "RCCL may not infer peer reachability or reserve devices outside the explicit HRB lease.",
+  "version": "1.0.0"
+}

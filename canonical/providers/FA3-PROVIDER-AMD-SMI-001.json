@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AMD-SMI-001",
+  "name": "AMD SMI Telemetry Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "AMD_ACCELERATOR_DISCOVERY_TELEMETRY",
+  "classification": ["P0_PROVIDER", "TELEMETRY", "HARDWARE_DISCOVERY", "AMD_GPU"],
+  "profiles": ["FA3-ACCEL-ROCM-001", "FA3-HOST-RESOURCE-BROKER-001", "FA3-ACCEL-GUARD-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "CONDITIONAL_AMD_GPU",
+  "current_host_runtime_evidence": false,
+  "upstream": "https://github.com/ROCm/rocm-systems",
+  "normalized_outputs": ["DEVICE_ID", "ARCHITECTURE", "VRAM_TOTAL", "VRAM_USED", "GPU_UTILIZATION", "TEMPERATURE", "POWER", "PROCESS_USAGE"],
+  "consumers": ["FA3-ACCEL-GUARD-001", "FA3-HOST-RESOURCE-BROKER-001", "THERMAL_POLICY", "GUI_ACCELERATOR_STATUS"],
+  "required_admission": ["AMD_GPU_PRESENT", "TELEMETRY_READ_PASS", "DEVICE_IDENTITY_BINDING_PASS"],
+  "normative_constraint": "Telemetry is observational by default and cannot independently terminate or reprioritize user workloads.",
+  "version": "1.0.0"
+}

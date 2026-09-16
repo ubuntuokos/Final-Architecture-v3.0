@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ROCPROFILER-001",
+  "name": "ROCm Profiling Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "AMD_GPU_PERFORMANCE_PROFILING",
+  "classification": ["P1_PROVIDER", "PROFILING", "OBSERVABILITY", "AMD_GPU"],
+  "profiles": ["FA3-ACCEL-ROCM-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "ON_DEMAND_AFTER_ROCM_ADMISSION",
+  "current_host_runtime_evidence": false,
+  "upstream": "https://github.com/ROCm/rocm-systems",
+  "components": ["rocprofiler-sdk", "rocprofiler-compute", "rocprofiler-systems"],
+  "required_admission": ["ROCM_RUNTIME_ADMITTED", "PROFILER_DEVICE_ACCESS_PASS", "OVERHEAD_POLICY_PASS"],
+  "normative_constraint": "Profiling must be explicit or policy-authorized and may not silently alter scheduling or accelerator priority.",
+  "version": "1.0.0"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ROCM-RUNTIME-001",
+  "name": "AMD ROCm HIP Runtime Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "AMD_GPU_COMPUTE_RUNTIME",
+  "classification": ["P0_PROVIDER", "ACCELERATOR_RUNTIME", "AMD_GPU", "HIP"],
+  "profiles": ["FA3-ACCEL-ROCM-001", "FA3-HARDWARE-BASELINE-001", "FA3-HOST-RESOURCE-BROKER-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "CONDITIONAL_HARDWARE_DISCOVERY_AND_ADMISSION",
+  "current_host_runtime_evidence": false,
+  "upstream": ["https://github.com/ROCm/TheRock", "https://github.com/ROCm/rocm-systems"],
+  "components": ["HIP", "ROCr runtime", "rocminfo", "ROCm core"],
+  "required_admission": ["AMD_GPU_PRESENT", "SUPPORT_MATRIX_PASS", "HRB_LEASE", "ACCEL_GUARD_PASS", "HIP_SMOKE_PASS", "ROLLBACK_RECEIPT"],
+  "non_matching_host_state": "AVAILABLE_NOT_MATERIALIZED",
+  "normative_constraint": "Must not install or activate ROCm on a host without an eligible AMD GPU solely to satisfy canonical presence.",
+  "version": "1.0.0"
+}

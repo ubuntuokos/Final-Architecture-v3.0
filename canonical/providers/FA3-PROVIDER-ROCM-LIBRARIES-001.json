@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ROCM-LIBRARIES-001",
+  "name": "ROCm Compute Libraries Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "AMD_GPU_MATH_ML_LIBRARY_FABRIC",
+  "classification": ["P0_PROVIDER", "ACCELERATOR_LIBRARIES", "AMD_GPU"],
+  "profiles": ["FA3-ACCEL-ROCM-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "FOLLOW_ROCM_RUNTIME_ADMISSION",
+  "current_host_runtime_evidence": false,
+  "upstream": "https://github.com/ROCm/rocm-libraries",
+  "components": ["MIOpen", "hipDNN", "hipBLAS", "hipBLASLt", "rocBLAS", "Composable Kernel", "hipFFT", "hipSPARSE", "hipTensor", "rocWMMA"],
+  "selection_policy": "INSTALL_ONLY_LIBRARIES_REQUIRED_BY_ADMITTED_WORKLOADS",
+  "required_admission": ["FA3-PROVIDER-ROCM-RUNTIME-001_ADMITTED", "LIBRARY_GPU_ARCH_COMPATIBLE", "CORRECTNESS_SMOKE_PASS"],
+  "normative_constraint": "Library availability must not imply runtime admission or AMD hardware eligibility.",
+  "version": "1.0.0"
+}

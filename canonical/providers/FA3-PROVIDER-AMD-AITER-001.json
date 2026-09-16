@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AMD-AITER-001",
+  "name": "AMD AITER AI Tensor Engine Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "ROCM_AI_OPERATOR_ACCELERATION",
+  "classification": ["P1_PROVIDER", "AI_KERNEL_BACKEND", "AMD_GPU"],
+  "profiles": ["FA3-ACCEL-ROCM-001", "FA3-PROVIDER-ROCM-LIBRARIES-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "CONDITIONAL_WORKLOAD_AND_ARCH_SUPPORT",
+  "current_host_runtime_evidence": false,
+  "upstream": "https://github.com/ROCm/aiter",
+  "operators": ["ATTENTION", "MOE", "GEMM", "NORMALIZATION", "QUANTIZATION", "COMMUNICATION"],
+  "kernel_backends": ["TRITON", "COMPOSABLE_KERNEL", "ASM", "FLYDSL"],
+  "framework_targets": ["vLLM", "SGLang", "CUSTOM_FRAMEWORKS"],
+  "hardware_policy": "CDNA_SUPPORT_MAY_BE_PROMOTED_WHEN_LIVE_EVIDENCE_PASSES;_RDNA_OR_OTHER_TARGETS_REQUIRE_EXPLICIT_SUPPORT_MATRIX_AND_CORRECTNESS_EVIDENCE",
+  "required_admission": ["ROCM_RUNTIME_ADMITTED", "AITER_GPU_ARCH_SUPPORTED", "OPERATOR_CORRECTNESS_PASS", "BENCHMARK_RECEIPT", "ROLLBACK_RECEIPT"],
+  "normative_constraint": "AITER is an optimization provider, never a universal ROCm default or accelerator-selection authority.",
+  "version": "1.0.0"
+}

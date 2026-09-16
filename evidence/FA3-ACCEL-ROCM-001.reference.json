@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.evidence-reference.v1",
+  "id": "EVID-FA3-ACCEL-ROCM-001",
+  "subject_id": "FA3-ACCEL-ROCM-001",
+  "status": "PENDING_LIVE_HOST_EXECUTION",
+  "design_conformance": "DESIGN_CONFORMANT",
+  "runtime_conformance": "NOT_PROMOTED_BY_DOCUMENT_ALONE",
+  "collector": "evidence/collect-rocm-current-host.py",
+  "accepted_terminal_states": [
+    "NOT_APPLICABLE_NOT_MATERIALIZED",
+    "PASS_LIVE_AMD_ROCM_DISCOVERY"
+  ],
+  "pending_states": [
+    "PENDING_ROCM_MATERIALIZATION_OR_REPAIR",
+    "PENDING_HIP_TOOLCHAIN_CONFORMANCE"
+  ],
+  "promotion_requirements": [
+    "LIVE_AMD_GPU",
+    "SUPPORTED_ROCM_TUPLE",
+    "HIP_DEVICE_ENUMERATION",
+    "AMD_SMI_OR_EQUIVALENT_TELEMETRY",
+    "HRB_LEASE",
+    "ACCEL_GUARD_CONFLICT_TEST",
+    "WORKLOAD_SPECIFIC_CORRECTNESS",
+    "ROLLBACK_RECEIPT"
+  ],
+  "release_reconciliation": {
+    "canonical_capability_count": 143,
+    "evidence_registry_record_count": 143,
+    "record_count_delta": 0,
+    "reason": "Provider-level evidence reference for an existing accelerator capability; no new release capability is declared."
+  }
+}
