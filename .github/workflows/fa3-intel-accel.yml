@@ -1,0 +1,50 @@
+name: FA3 Intel Accelerator Gate
+
+on:
+  push:
+    paths:
+      - 'canonical/**INTEL**'
+      - 'canonical/**intel**'
+      - 'canonical/**ACCEL-GUARD**'
+      - 'canonical/providers/FA3-PROVIDER-OPENVINO-001.json'
+      - 'src/fa3_intel_accel_gate.py'
+      - 'tests/test_intel_accel_gate.py'
+      - 'apps/fa3-control-center/**'
+      - 'evidence/reference/intel-accel-*.json'
+      - '.github/workflows/fa3-intel-accel.yml'
+  pull_request:
+    paths:
+      - 'canonical/**INTEL**'
+      - 'canonical/**intel**'
+      - 'canonical/**ACCEL-GUARD**'
+      - 'canonical/providers/FA3-PROVIDER-OPENVINO-001.json'
+      - 'src/fa3_intel_accel_gate.py'
+      - 'tests/test_intel_accel_gate.py'
+      - 'apps/fa3-control-center/**'
+      - 'evidence/reference/intel-accel-*.json'
+      - '.github/workflows/fa3-intel-accel.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: PYTHONPATH=src python -m unittest tests.test_intel_accel_gate -v
+      - name: Canonical gate
+        run: PYTHONPATH=src python src/fa3_intel_accel_gate.py
+      - name: Assert no current-host promotion claim
+        run: |
+          python - <<'PY'
+          import json
+          p = json.load(open('reports/intel-accel-gate-report.json', encoding='utf-8'))
+          assert p['result'] == 'PASS'
+          assert p['current_host_runtime_promotion_claim'] is False
+          PY
