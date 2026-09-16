@@ -9,7 +9,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from fa3_hardware_fabric_reconciliation import audit  # noqa: E402
+from fa3_hardware_fabric_reconciliation import CAPABILITY_COUNT, audit  # noqa: E402
 
 
 class HardwareFabricReconciliationTests(unittest.TestCase):
@@ -23,7 +23,7 @@ class HardwareFabricReconciliationTests(unittest.TestCase):
         self.assertFalse(report["global_promotion_claim"])
         self.assertEqual(report["new_capabilities"], 0)
         self.assertEqual(report["new_architectural_authorities"], 0)
-        self.assertEqual(report["capability_count"], 143)
+        self.assertEqual(report["capability_count"], CAPABILITY_COUNT)
 
 
 if __name__ == "__main__":
