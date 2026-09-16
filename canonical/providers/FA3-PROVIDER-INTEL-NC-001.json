@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-INTEL-NC-001",
+  "name": "Intel Neural Compressor",
+  "status": "ACCEPTED_REFERENCE",
+  "priority": "P1",
+  "provider_role": "OPTIONAL_MODEL_OPTIMIZATION_QUANTIZATION_COMPRESSION_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "MODEL_OPTIMIZATION_PROVIDER", "QUANTIZATION_PROVIDER", "CROSS_VENDOR_CAPABLE_PROVIDER"],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "upstream_repository": "intel/neural-compressor",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MUST-IF-SELECTED",
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "user_surface": "MODEL_MANAGER_OPTIMIZATION",
+  "runtime_selector_exposure": false,
+  "artifact_policy": {
+    "derived_artifact_distinct_identity_required": true,
+    "source_to_derived_lineage_required": true,
+    "quality_and_runtime_compatibility_evidence_required": true,
+    "floating_latest_production_admission": "FORBIDDEN"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "artifact_identity": "FA3-MODEL-REGISTRY-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_REQUIRED",
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
