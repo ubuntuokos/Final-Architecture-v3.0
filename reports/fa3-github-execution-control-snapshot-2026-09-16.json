@@ -34,6 +34,7 @@
     {"pr": 195, "name": "Tools Fabric and ConvertX", "coordination": "ACTIVE_SHARED_GUI"},
     {"pr": 186, "name": "Language Fabric and LiteLLM gateway", "coordination": "ACTIVE_SHARED_ENFORCEMENT"},
     {"pr": 181, "name": "Blackhole runtime promotion replacement validation", "coordination": "ACTIVE_REPLACEMENT_PATH"},
+    {"pr": 180, "name": "earlier Blackhole runtime promotion path", "coordination": "OPEN_SUPERSEDED_NOT_SELECTED", "superseded_by": 181},
     {"pr": 177, "name": "Marketing and Blackhole security hardening", "coordination": "ACTIVE_SECURITY_EVIDENCE"},
     {"pr": 176, "name": "Federated lifecycle and measured compute", "coordination": "ACTIVE_DEPENDENCY_BASE"},
     {"pr": 178, "name": "HU Content Studio and ONNX/CUDA acceptance", "coordination": "STACKED_ON_PR_176"},
@@ -54,7 +55,7 @@
   "verified_shared_surfaces": [
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
-      "prs_verified": [203, 202, 201, 199, 195, 186],
+      "prs_verified": [203, 202, 201, 199, 195, 186, 177],
       "policy": "SERIALIZE_REBASE_REGENERATE_OR_RECONCILE; never hand-merge stale generated projection content"
     },
     {
