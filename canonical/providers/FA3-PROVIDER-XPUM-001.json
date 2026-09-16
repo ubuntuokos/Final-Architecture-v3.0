@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-XPUM-001",
+  "name": "Intel XPU Manager",
+  "status": "ACCEPTED_REFERENCE",
+  "priority": "P2",
+  "provider_role": "OPTIONAL_INTEL_DATA_CENTER_GPU_TELEMETRY_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "TELEMETRY_PROVIDER", "INTEL_DATA_CENTER_GPU_ONLY", "HARDWARE_CONDITIONED_PROVIDER"],
+  "parent_profile": "FA3-INTEL-ACCEL-001",
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "upstream_repository": "intel/xpumanager",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MAY-IF-HARDWARE-COMPATIBLE",
+  "activation_mode": "OPTIONAL_DATA_CENTER_GPU_CONDITIONED",
+  "user_surface": "HARDWARE_MONITOR_TELEMETRY",
+  "resource_admission_authority": false,
+  "detection": ["SUPPORTED_INTEL_DATA_CENTER_GPU", "XPUM_RUNTIME_AVAILABLE", "PHYSICAL_DEVICE_IDENTITY_MATCH"],
+  "authority_boundaries": {
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "not_applicable_semantics": "VALID_ON_NON_DATA_CENTER_INTEL_GPU_HOSTS",
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
