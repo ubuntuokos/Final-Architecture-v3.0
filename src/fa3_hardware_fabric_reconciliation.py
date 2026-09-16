@@ -176,9 +176,22 @@ def audit(root: Path) -> dict[str, Any]:
         findings.append(finding("HWFR-011", "Runtime orchestrator contains superseded marketing-series admission logic"))
 
     admission = text["admission_gate"]
-    for token in ["CUDA_COMPUTE_CAPABILITY_MIN = 8.6", "accelerator_uuid", "pci_bus_id", "CURRENT_HOST_RESOURCE_ADMISSION_PASS"]:
+    # The global portable GPU floor remains rooted in FA3-HW-001. Generic workload
+    # admission must derive whether an accelerator is required and only then enforce
+    # the HRB accelerator lease. A literal global CUDA floor in this gate would
+    # incorrectly make CPU-only workloads accelerator-dependent.
+    for token in [
+        "classify_requirements",
+        "accelerator_required",
+        "ACCELERATOR_LEASE_SCHEMA",
+        "accelerator_uuid",
+        "pci_bus_id",
+        "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
+    ]:
         if token not in admission:
-            findings.append(finding("HWFR-012", "Admission gate capability/lease binding token missing", token=token))
+            findings.append(finding("HWFR-012", "Admission gate workload/lease binding token missing", token=token))
+    if "CUDA_COMPUTE_CAPABILITY_MIN = 8.6" in admission:
+        findings.append(finding("HWFR-012", "Generic admission gate reintroduced a global CUDA floor instead of workload-conditional capability enforcement"))
     if "global_promotion_claim\": True" in admission or "GLOBAL_FA3_PROMOTION\"] if" in admission:
         findings.append(finding("HWFR-013", "Admission gate appears to promote current-host evidence globally"))
 
