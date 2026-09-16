@@ -9,13 +9,14 @@ import time
 from pathlib import Path
 from typing import Any
 
+from fa3_resource_admission_policy import classify_requirements, validate_workload_requirements
 from fa3_resource_evidence_normalization_gate import gate as normalization_gate, validate_evidence_envelope
 
 GATE_ID = "FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001"
 RECEIPT = Path("evidence/receipts/resource-admission-current-host.json")
 CLAIM = "CURRENT_HOST_RESOURCE_ADMISSION_PASS"
-FORBIDDEN_METRICS = {"cu", "tu", "compute_unit", "tensor_unit", "aggregate.cu", "aggregate.tu"}
-CUDA_COMPUTE_CAPABILITY_MIN = 8.6
+ACCELERATOR_LEASE_SCHEMA = "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
+HRB_AUTHORITY = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
 _BDF_RE = re.compile(r"^(?P<domain>[0-9a-fA-F]{4,8}):(?P<bus>[0-9a-fA-F]{2}):(?P<device>[0-9a-fA-F]{2})\.(?P<function>[0-7])$")
 
 
@@ -53,12 +54,101 @@ def approx_equal(left: Any, right: Any, tolerance: float = 0.002) -> bool:
         return False
 
 
+def _validate_hrb_authorization(payload: dict[str, Any], workload_id: Any) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+    authorization = payload.get("hrb_authorization", {})
+    if not isinstance(authorization, dict):
+        authorization = {}
+    if (
+        authorization.get("authority") != HRB_AUTHORITY
+        or authorization.get("status") != "VALID"
+        or not str(authorization.get("authorization_id", "")).strip()
+        or authorization.get("broker_validation") is not True
+    ):
+        findings.append(finding("RA-HOST-012", "Current workload lacks externally validated HRB admission authorization"))
+    if not purpose_matches_workload(authorization.get("workload_id"), workload_id):
+        findings.append(finding("RA-HOST-015", "HRB admission authorization is not workload-scope-bound"))
+    return findings
+
+
+def _validate_accelerator_lease(
+    payload: dict[str, Any],
+    attestation: dict[str, Any],
+    profile: dict[str, Any],
+    workload_id: Any,
+) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+    lease = payload.get("hrb_lease_identity", {})
+    if not isinstance(lease, dict):
+        lease = {}
+    if (
+        lease.get("schema") != ACCELERATOR_LEASE_SCHEMA
+        or lease.get("issuer") != "FA3-HOST-RESOURCE-BROKER-001"
+        or lease.get("status") != "ACTIVE"
+        or lease.get("broker_validation") is not True
+    ):
+        findings.append(finding("RA-HOST-012", "Accelerator workload lacks a valid externally validated HRB accelerator lease"))
+        return findings
+    try:
+        if int(lease.get("expires_epoch", 0)) <= int(time.time()):
+            findings.append(finding("RA-HOST-013", "HRB accelerator lease is expired at gate evaluation time"))
+    except (TypeError, ValueError):
+        findings.append(finding("RA-HOST-013", "HRB accelerator lease expiry is invalid"))
+
+    if str(lease.get("host", "")) != str(attestation.get("host", "")) or not str(attestation.get("host", "")):
+        findings.append(finding("RA-HOST-014", "HRB accelerator lease host is not bound to the live attested host"))
+    if not purpose_matches_workload(lease.get("purpose"), workload_id):
+        findings.append(finding("RA-HOST-015", "HRB accelerator lease purpose is not bound to the workload id"))
+
+    accelerators = attestation.get("accelerators", [])
+    if not isinstance(accelerators, list):
+        accelerators = []
+    uuid = lease.get("accelerator_uuid")
+    bdf = normalize_bdf(lease.get("pci_bus_id"))
+    matches = [
+        accelerator for accelerator in accelerators
+        if isinstance(accelerator, dict)
+        and accelerator.get("uuid") == uuid
+        and normalize_bdf(accelerator.get("pci_bdf")) == bdf
+    ]
+    if len(matches) != 1:
+        findings.append(finding("RA-HOST-016", "HRB lease UUID/PCI BDF is not bound to exactly one live accelerator"))
+        return findings
+
+    live = matches[0]
+    metrics = profile.get("metrics", {}) if isinstance(profile, dict) else {}
+    physical_gib = int(live.get("memory_total_bytes", 0)) / (1024 ** 3)
+    try:
+        lease_memory_bytes = int(lease.get("memory_max_bytes", 0))
+    except (TypeError, ValueError):
+        lease_memory_bytes = 0
+    lease_gib = lease_memory_bytes / (1024 ** 3)
+    effective_gib = min(physical_gib, lease_gib)
+    if lease_memory_bytes <= 0:
+        findings.append(finding("RA-HOST-017", "HRB accelerator lease memory budget is invalid"))
+    if not (
+        approx_equal(metrics.get("gpu.physical_vram_gib"), physical_gib)
+        and approx_equal(metrics.get("gpu.lease_memory_gib"), lease_gib)
+        and approx_equal(metrics.get("gpu.vram_gib"), effective_gib)
+    ):
+        findings.append(finding(
+            "RA-HOST-018",
+            "Compute Profile accelerator memory is not bounded by the HRB lease budget",
+            physical_vram_gib=physical_gib,
+            lease_memory_gib=lease_gib,
+            expected_effective_vram_gib=effective_gib,
+            observed_effective_vram_gib=metrics.get("gpu.vram_gib"),
+        ))
+    if metrics.get("gpu.device_uuid") != live.get("uuid") or normalize_bdf(metrics.get("gpu.pci_bdf")) != normalize_bdf(live.get("pci_bdf")):
+        findings.append(finding("RA-HOST-019", "Compute Profile accelerator identity differs from the HRB-selected live accelerator"))
+    return findings
+
+
 def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     envelope_errors = validate_evidence_envelope(receipt)
     if envelope_errors:
-        findings.append(finding("RA-HOST-001", "Evidence Envelope validation failed", errors=envelope_errors))
-        return findings
+        return [finding("RA-HOST-001", "Evidence Envelope validation failed", errors=envelope_errors)]
 
     if receipt.get("evidence_class") != "CURRENT_HOST_ADMISSION":
         findings.append(finding("RA-HOST-002", "Evidence class is not CURRENT_HOST_ADMISSION"))
@@ -82,95 +172,31 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     attestation_sha = payload.get("host_attestation_sha256")
     recomputed_attestation_sha = canonical_sha256(attestation) if isinstance(attestation, dict) else None
     profile = payload.get("compute_profile", {})
-    if (
-        not attestation_sha
-        or attestation_sha != recomputed_attestation_sha
-        or profile.get("host_attestation_sha256") != attestation_sha
-    ):
-        findings.append(finding(
-            "RA-HOST-008",
-            "Compute Profile is not cryptographically bound to the inline Host Attestation",
-            expected=recomputed_attestation_sha,
-            observed=attestation_sha,
-        ))
+    if not attestation_sha or attestation_sha != recomputed_attestation_sha or profile.get("host_attestation_sha256") != attestation_sha:
+        findings.append(finding("RA-HOST-008", "Compute Profile is not cryptographically bound to the inline Host Attestation"))
 
     workload = payload.get("workload_resource_envelope")
     workload_id = workload.get("workload_id") if isinstance(workload, dict) else None
     requirements = workload.get("requirements", []) if isinstance(workload, dict) else []
     if not isinstance(workload, dict) or workload.get("schema") != "fa3.workload-resource-envelope.v1" or not str(workload_id or "").strip():
         findings.append(finding("RA-HOST-009", "Workload Resource Envelope identity is invalid"))
-    if not isinstance(requirements, list) or not requirements:
-        findings.append(finding("RA-HOST-010", "Workload Resource Envelope has no requirements"))
+    requirement_errors = validate_workload_requirements(requirements)
+    if requirement_errors:
+        findings.append(finding("RA-HOST-011", "Workload requirements are invalid", errors=requirement_errors))
+
+    requested_classes, accelerator_required = classify_requirements(requirements)
+    if payload.get("requested_resource_classes") != requested_classes:
+        findings.append(finding("RA-HOST-024", "Receipt requested_resource_classes does not match workload requirements", expected=requested_classes))
+    if payload.get("accelerator_required") is not accelerator_required:
+        findings.append(finding("RA-HOST-025", "Receipt accelerator_required does not match workload requirements", expected=accelerator_required))
+
+    findings.extend(_validate_hrb_authorization(payload, workload_id))
+    if accelerator_required:
+        findings.extend(_validate_accelerator_lease(payload, attestation, profile, workload_id))
     else:
-        forbidden = sorted({
-            str(item.get("metric", "")).strip().lower()
-            for item in requirements if isinstance(item, dict)
-        } & FORBIDDEN_METRICS)
-        if forbidden:
-            findings.append(finding("RA-HOST-011", "CU/TU scalar diagnostics used as admission requirements", metrics=forbidden))
-
-    lease = payload.get("hrb_lease_identity", {})
-    if (
-        lease.get("schema") != "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1"
-        or lease.get("issuer") != "FA3-HOST-RESOURCE-BROKER-001"
-        or lease.get("status") != "ACTIVE"
-        or lease.get("broker_validation") is not True
-    ):
-        findings.append(finding("RA-HOST-012", "HRB lease identity/status/external broker validation mismatch"))
-    try:
-        if int(lease.get("expires_epoch", 0)) <= int(time.time()):
-            findings.append(finding("RA-HOST-013", "HRB lease is expired at gate evaluation time"))
-    except (TypeError, ValueError):
-        findings.append(finding("RA-HOST-013", "HRB lease expiry is invalid"))
-
-    if str(lease.get("host", "")) != str(attestation.get("host", "")) or not str(attestation.get("host", "")):
-        findings.append(finding("RA-HOST-014", "HRB lease host is not bound to the live attested host"))
-    if not purpose_matches_workload(lease.get("purpose"), workload_id):
-        findings.append(finding("RA-HOST-015", "HRB lease purpose is not bound to the workload id"))
-
-    accelerators = attestation.get("accelerators", [])
-    uuid = lease.get("accelerator_uuid")
-    bdf = normalize_bdf(lease.get("pci_bus_id"))
-    matches = [
-        a for a in accelerators
-        if a.get("uuid") == uuid and normalize_bdf(a.get("pci_bdf")) == bdf
-    ]
-    if len(matches) != 1:
-        findings.append(finding("RA-HOST-016", "HRB lease UUID/PCI BDF is not bound to exactly one live accelerator"))
-
-    metrics = profile.get("metrics", {}) if isinstance(profile, dict) else {}
-    if len(matches) == 1:
-        live = matches[0]
-        physical_gib = int(live.get("memory_total_bytes", 0)) / (1024 ** 3)
-        try:
-            lease_memory_bytes = int(lease.get("memory_max_bytes", 0))
-        except (TypeError, ValueError):
-            lease_memory_bytes = 0
-        lease_gib = lease_memory_bytes / (1024 ** 3)
-        effective_gib = min(physical_gib, lease_gib)
-        if lease_memory_bytes <= 0:
-            findings.append(finding("RA-HOST-017", "HRB lease memory budget is invalid"))
-        if not (
-            approx_equal(metrics.get("gpu.physical_vram_gib"), physical_gib)
-            and approx_equal(metrics.get("gpu.lease_memory_gib"), lease_gib)
-            and approx_equal(metrics.get("gpu.vram_gib"), effective_gib)
-        ):
-            findings.append(finding(
-                "RA-HOST-018",
-                "Compute Profile VRAM admission metric is not bounded by the HRB lease budget",
-                physical_vram_gib=physical_gib,
-                lease_memory_gib=lease_gib,
-                expected_effective_vram_gib=effective_gib,
-                observed_effective_vram_gib=metrics.get("gpu.vram_gib"),
-            ))
-        try:
-            live_cc = float(live.get("cuda_compute_capability", 0.0))
-            profile_cc = float(metrics.get("gpu.cuda_compute_capability", 0.0))
-        except (TypeError, ValueError):
-            live_cc = 0.0
-            profile_cc = 0.0
-        if live.get("vendor") != "NVIDIA" or metrics.get("gpu.vendor") != "NVIDIA" or live_cc < CUDA_COMPUTE_CAPABILITY_MIN or profile_cc < CUDA_COMPUTE_CAPABILITY_MIN:
-            findings.append(finding("RA-HOST-019", "Selected accelerator does not satisfy NVIDIA CUDA compute capability >= 8.6 baseline"))
+        lease = payload.get("hrb_lease_identity")
+        if isinstance(lease, dict) and any(value not in (None, "", False) for value in lease.values()):
+            findings.append(finding("RA-HOST-026", "CPU-only workload unexpectedly carries accelerator lease identity"))
 
     admission = payload.get("admission", {})
     if admission.get("result") != "PASS" or admission.get("decision", {}).get("reason_code") != "RESOURCE_ENVELOPE_AND_HRB_PASS":
@@ -179,7 +205,6 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
         findings.append(finding("RA-HOST-021", "Collector reported current-host resource admission errors", errors=payload.get("errors")))
     if payload.get("cross_metric_compensation") is not False or payload.get("cu_tu_admission_authority") is not False:
         findings.append(finding("RA-HOST-022", "Resource-admission semantics were weakened"))
-
     return findings
 
 
@@ -191,10 +216,8 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
         findings.append(finding("RA-HOST-000", "Parent resource/evidence normalization gate failed"))
     path = receipt_path or (root / RECEIPT)
     try:
-        receipt = loadj(path)
-        findings.extend(validate_receipt(receipt))
+        findings.extend(validate_receipt(loadj(path)))
     except Exception as exc:
-        receipt = {}
         findings.append(finding("RA-HOST-023", "Current-host resource admission receipt missing or unreadable", error=repr(exc)))
     report = {
         "schema_id": "FA3-ENFORCEMENT-RESULT-001",

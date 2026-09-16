@@ -15,13 +15,27 @@
     "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
     "HRB_LEASE"
   ],
+  "required_input_semantics": {
+    "HRB_LEASE": "CONDITIONAL_ACCELERATOR_LEASE_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED",
+    "HRB_ADMISSION_AUTHORIZATION": "REQUIRED_FOR_ALL_WORKLOADS_AND_MUST_ORIGINATE_FROM_FA3_AUTH_HOST_RESOURCE_BROKER_001"
+  },
   "admission_semantics": {
     "all_required_dimensions_must_pass": true,
-    "hrb_lease_must_be_current_and_scope_bound": true,
+    "workload_driven_resource_classes": true,
+    "requested_resource_classes_must_be_derived_from_workload_requirements": true,
+    "accelerator_required_only_when_requested_by_workload": true,
+    "accelerator_lease_required_when_accelerator_required": true,
+    "cpu_only_workload_must_not_require_accelerator_discovery_or_accelerator_lease": true,
+    "hrb_authorization_must_be_current_and_scope_bound": true,
     "stable_device_identity_required_for_accelerators": ["DEVICE_UUID", "PCI_BDF"],
     "provider_self_admission_forbidden": true,
     "named_hardware_default_forbidden": true,
     "silent_device_or_cpu_fallback_forbidden": true
+  },
+  "provider_neutral_core": {
+    "required": true,
+    "vendor_or_runtime_requirements_may_be_enforced_only_when_explicitly_requested_by_workload": true,
+    "global_nvidia_cuda_requirement_for_generic_resource_admission": false
   },
   "provider_self_admission_forbidden": true,
   "aggregate_diagnostics": {
@@ -35,6 +49,11 @@
     "HOST_ATTESTATION_PROVES_IDENTITY_NOT_ELIGIBILITY_BY_SKU",
     "MEASURED_COMPUTE_PROFILE_IS_MULTIDIMENSIONAL",
     "WORKLOAD_ENVELOPE_REQUIREMENTS_ALL_PASS",
+    "REQUESTED_RESOURCE_CLASSES_ARE_WORKLOAD_DERIVED",
+    "CPU_ONLY_WORKLOAD_DOES_NOT_REQUIRE_ACCELERATOR",
+    "ACCELERATOR_WORKLOAD_REQUIRES_CURRENT_SCOPE_BOUND_HRB_ACCELERATOR_LEASE",
+    "PROVIDER_VENDOR_REQUIREMENTS_ARE_CONDITIONAL_NOT_GLOBAL",
+    "NO_SILENT_ACCELERATOR_TO_CPU_FALLBACK",
     "CU_TU_NOT_PRODUCTION_ADMISSION_AUTHORITY",
     "MISSING_REQUIRED_METRIC_FAILS_CLOSED"
   ]

@@ -4,7 +4,13 @@
   "gate_id": "FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001",
   "fail_closed": true,
   "authoritative_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-  "lease_schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
+  "authorization_semantics": {
+    "all_workloads_require_hrb_admission_authority": true,
+    "accelerator_lease_schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
+    "accelerator_lease_required_only_when_accelerator_required": true,
+    "cpu_only_workload_must_not_require_accelerator_lease": true,
+    "no_collector_or_provider_may_mint_authorization": true
+  },
   "broker_validation_command": ["/usr/local/bin/fa3-host-resource-broker-validator", "validate-lease", "{lease}"],
   "secret_boundary": {
     "hmac_key_root_only": true,
@@ -12,13 +18,16 @@
     "runner_secret_access": false,
     "validation_bridge": "/usr/local/bin/fa3-host-resource-broker-validator",
     "privileged_helper": "/usr/local/libexec/fa3-host-resource-broker-validate-root",
-    "delegated_operation": "VALIDATE_LEASE_ONLY"
+    "delegated_operation": "VALIDATE_ACCELERATOR_LEASE_ONLY"
   },
   "required_receipt_claim": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
   "required_non_claim": "GLOBAL_FA3_PROMOTION",
-  "gpu_baseline": {
-    "vendor": "NVIDIA",
-    "cuda_compute_capability_min": 8.6,
+  "accelerator_provider_edge": {
+    "nvidia_cuda_baseline": {
+      "vendor": "NVIDIA",
+      "cuda_compute_capability_min": 8.6
+    },
+    "applies_only_when_workload_explicitly_requests_nvidia_or_cuda_capability": true,
     "sku_or_product_line_admission_authority": false,
     "vram_global_minimum": null
   },
@@ -26,19 +35,21 @@
   "rules": [
     "COLLECTOR_MUST_NOT_READ_SECRETS",
     "HRB_HMAC_KEY_MUST_REMAIN_ROOT_ONLY",
-    "NON_ROOT_COLLECTOR_MUST_USE_VALIDATE_ONLY_PRIVILEGE_BRIDGE",
+    "NON_ROOT_COLLECTOR_MUST_USE_VALIDATE_ONLY_PRIVILEGE_BRIDGE_FOR_ACCELERATOR_LEASES",
     "VALIDATOR_BRIDGE_MUST_NOT_GRANT_ISSUE_REVOKE_OR_KEY_READ_AUTHORITY",
     "HOST_ATTESTATION_MUST_BE_LIVE_AND_SHA256_RECOMPUTABLE",
     "COMPUTE_PROFILE_MUST_BIND_HOST_ATTESTATION_SHA256",
     "WORKLOAD_ENVELOPE_MUST_HAVE_ID_AND_AT_LEAST_ONE_REQUIREMENT",
-    "HRB_LEASE_MUST_BE_ACTIVE_UNEXPIRED_AND_EXTERNALLY_VALIDATED",
-    "HRB_LEASE_EXPIRY_MUST_BE_RECHECKED_AT_GATE_EVALUATION_TIME",
-    "HRB_LEASE_HOST_MUST_MATCH_ATTESTED_HOST",
-    "HRB_LEASE_PURPOSE_MUST_BIND_WORKLOAD_ID",
+    "REQUESTED_RESOURCE_CLASSES_MUST_BE_DERIVED_FROM_WORKLOAD_REQUIREMENTS",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUIRE_ACCELERATOR_DISCOVERY_OR_ACCELERATOR_LEASE",
+    "ACCELERATOR_WORKLOAD_MUST_HAVE_ACTIVE_UNEXPIRED_EXTERNALLY_VALIDATED_HRB_ACCELERATOR_LEASE",
+    "ACCELERATOR_LEASE_EXPIRY_MUST_BE_RECHECKED_AT_GATE_EVALUATION_TIME",
+    "ACCELERATOR_LEASE_HOST_MUST_MATCH_ATTESTED_HOST",
+    "ACCELERATOR_LEASE_PURPOSE_MUST_BIND_WORKLOAD_ID",
     "LEASE_ACCELERATOR_UUID_AND_NORMALIZED_PCI_BDF_MUST_MATCH_LIVE_ATTESTATION",
     "LEASE_MEMORY_MAX_BYTES_MUST_BE_POSITIVE_AND_NOT_EXCEED_PHYSICAL_VRAM",
     "EFFECTIVE_GPU_VRAM_ADMISSION_METRIC_MUST_BE_MIN_PHYSICAL_AND_LEASE_BUDGET",
-    "SELECTED_GPU_MUST_BE_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
+    "NVIDIA_CUDA_CAPABILITY_FLOOR_MAY_APPLY_ONLY_TO_EXPLICIT_NVIDIA_CUDA_WORKLOAD_REQUIREMENTS",
     "EVERY_REQUIRED_DIMENSION_MUST_PASS_WITHOUT_CROSS_METRIC_COMPENSATION",
     "MISSING_REQUIRED_METRIC_MUST_BLOCK",
     "CU_TU_MUST_NEVER_BE_AN_ADMISSION_REQUIREMENT",

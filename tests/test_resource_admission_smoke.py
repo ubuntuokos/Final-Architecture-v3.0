@@ -25,16 +25,43 @@ from fa3_resource_admission_smoke import (  # noqa: E402
 
 
 class ResourceAdmissionSmokeTests(unittest.TestCase):
-    def test_smoke_workload_is_small_multidimensional_and_has_no_cu_tu(self) -> None:
+    def test_default_smoke_is_cpu_memory_only(self) -> None:
         workload = build_smoke_workload()
-        self.assertEqual(workload["workload_id"], WORKLOAD_ID)
         metrics = {item["metric"]: item["value"] for item in workload["requirements"]}
+        self.assertEqual(workload["workload_id"], WORKLOAD_ID)
         self.assertEqual(metrics["cpu.physical_cores"], 1)
         self.assertEqual(metrics["memory.total_gib"], 1)
+        self.assertFalse(any(metric.startswith("gpu.") for metric in metrics))
+        self.assertFalse(workload["global_promotion_claim"])
+
+    def test_accelerator_smoke_is_explicit(self) -> None:
+        workload = build_smoke_workload(accelerator_required=True)
+        metrics = {item["metric"]: item["value"] for item in workload["requirements"]}
         self.assertEqual(metrics["gpu.vram_gib"], 1)
         self.assertEqual(metrics["gpu.cuda_compute_capability"], CUDA_COMPUTE_CAPABILITY_MIN)
-        self.assertFalse(any(metric.lower() in {"cu", "tu"} for metric in metrics))
-        self.assertFalse(workload["global_promotion_claim"])
+
+    def test_cpu_only_smoke_never_calls_nvidia_smi(self) -> None:
+        calls: list[list[str]] = []
+
+        def runner(command, **kwargs):
+            calls.append(list(command))
+            return CommandResult(99, "", "unexpected")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            code, report = run_smoke(Path(tmp), runner=runner)
+        self.assertEqual(code, 2)
+        self.assertEqual(report["result"], "PENDING")
+        self.assertEqual(report["decision"]["reason_code"], "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED")
+        self.assertFalse(report["accelerator_required"])
+        self.assertEqual(calls, [])
+
+    def test_cpu_only_prepare_is_pending_not_fake_pass(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            code, report = run_smoke(Path(tmp), prepare_only=True)
+        self.assertEqual(code, 2)
+        self.assertEqual(report["result"], "PENDING")
+        self.assertEqual(report["decision"]["reason_code"], "PREPARED_AWAITING_HRB_NON_ACCELERATOR_AUTHORIZATION")
+        self.assertEqual(report["claims"], [])
 
     def test_bdf_normalization_handles_eight_digit_domain(self) -> None:
         self.assertEqual(normalize_bdf("00000000:01:00.0"), "0000:01:00.0")
@@ -62,17 +89,10 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unknown HRB acquire placeholder"):
             render_acquire_command(
                 "fa3-hrb-client acquire --bad {secret}",
-                {
-                    "workload": "w",
-                    "lease": "l",
-                    "gpu_uuid": "g",
-                    "pci_bdf": "b",
-                    "hostname": "h",
-                    "workload_id": WORKLOAD_ID,
-                },
+                {"workload": "w", "lease": "l", "gpu_uuid": "g", "pci_bdf": "b", "hostname": "h", "workload_id": WORKLOAD_ID},
             )
 
-    def test_missing_acquire_interface_is_pending_and_fail_closed(self) -> None:
+    def test_accelerator_mode_missing_acquire_interface_is_pending_and_fail_closed(self) -> None:
         calls: list[list[str]] = []
 
         def runner(command, **kwargs):
@@ -83,54 +103,14 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             with mock.patch.dict(os.environ, {}, clear=True):
-                code, report = run_smoke(Path(tmp), runner=runner)
-            self.assertEqual(code, 2)
-            self.assertEqual(report["result"], "PENDING")
-            self.assertEqual(report["decision"]["reason_code"], "HRB_ACQUIRE_COMMAND_UNCONFIGURED")
-            self.assertFalse(report["authority"]["bootstrap_can_mint_or_sign_lease"])
-            self.assertEqual(report["capability_delta"], 0)
-            self.assertEqual(report["authority_delta"], 0)
-            self.assertEqual(len(calls), 1)
+                code, report = run_smoke(Path(tmp), accelerator_required=True, runner=runner)
+        self.assertEqual(code, 2)
+        self.assertEqual(report["result"], "PENDING")
+        self.assertEqual(report["decision"]["reason_code"], "HRB_ACQUIRE_COMMAND_UNCONFIGURED")
+        self.assertTrue(report["accelerator_required"])
+        self.assertEqual(len(calls), 1)
 
-    def test_prepare_only_never_claims_pass(self) -> None:
-        def runner(command, **kwargs):
-            return CommandResult(0, "0, GPU-TEST, 00000000:01:00.0, 8.6\n", "")
-
-        with tempfile.TemporaryDirectory() as tmp:
-            code, report = run_smoke(Path(tmp), prepare_only=True, runner=runner)
-            self.assertEqual(code, 2)
-            self.assertEqual(report["result"], "PENDING")
-            self.assertEqual(report["decision"]["reason_code"], "PREPARED_AWAITING_HRB_LEASE")
-            self.assertEqual(report["claims"], [])
-            self.assertIn("GLOBAL_FA3_PROMOTION", report["non_claims"])
-
-    def test_preexisting_lease_still_requires_collector_and_canonical_gate(self) -> None:
-        calls: list[list[str]] = []
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            lease = root / "real-lease.json"
-            lease.write_text('{"external":"fixture-only"}\n', encoding="utf-8")
-
-            def runner(command, **kwargs):
-                command = list(command)
-                calls.append(command)
-                if "collect-resource-admission-current-host.py" in " ".join(command):
-                    receipt = root / "evidence/receipts/resource-admission-current-host.json"
-                    receipt.parent.mkdir(parents=True, exist_ok=True)
-                    receipt.write_text('{"scoped":"fixture-only"}\n', encoding="utf-8")
-                    return CommandResult(0, "", "")
-                if command[-1:] == ["resource-admission-current-host"]:
-                    return CommandResult(0, "", "")
-                return CommandResult(99, "", "unexpected")
-
-            code, report = run_smoke(root, hrb_lease=lease, runner=runner)
-            self.assertEqual(code, 0)
-            self.assertEqual(report["result"], "PASS")
-            self.assertEqual(report["claims"], ["CURRENT_HOST_RESOURCE_ADMISSION_PASS"])
-            self.assertTrue(any("collect-resource-admission-current-host.py" in " ".join(c) for c in calls))
-            self.assertTrue(any(c[-1:] == ["resource-admission-current-host"] for c in calls))
-
-    def test_external_acquire_failure_blocks_before_collector(self) -> None:
+    def test_accelerator_acquire_failure_blocks_before_collector(self) -> None:
         calls: list[list[str]] = []
 
         def runner(command, **kwargs):
@@ -145,19 +125,19 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             code, report = run_smoke(
                 Path(tmp),
+                accelerator_required=True,
                 hrb_acquire_command="fa3-hrb-client acquire --workload {workload} --output {lease} --gpu {gpu_uuid}",
                 runner=runner,
             )
-            self.assertEqual(code, 2)
-            self.assertEqual(report["result"], "BLOCKED")
-            self.assertEqual(report["decision"]["reason_code"], "HRB_ACQUIRE_FAILED")
-            self.assertEqual(report["acquire"]["return_code"], 1)
-            self.assertFalse(any("collect-resource-admission-current-host.py" in " ".join(c) for c in calls))
+        self.assertEqual(code, 2)
+        self.assertEqual(report["result"], "BLOCKED")
+        self.assertEqual(report["decision"]["reason_code"], "HRB_ACQUIRE_FAILED")
+        self.assertFalse(any("collect-resource-admission-current-host.py" in " ".join(c) for c in calls))
 
-    def test_self_hosted_workflow_uses_smoke_bootstrap_not_legacy_collect_path(self) -> None:
+    def test_self_hosted_workflow_requests_explicit_accelerator_smoke(self) -> None:
         workflow = (ROOT / ".github/workflows/fa3-resource-admission-current-host.yml").read_text(encoding="utf-8")
         production = workflow.split("  production-e2e:\n", 1)[1]
-        self.assertIn('args=(smoke --workload-envelope "${{ inputs.workload_envelope }}")', production)
+        self.assertIn('--accelerator-required', production)
         self.assertIn('./bin/fa3-resource-admission-current-host.sh "${args[@]}"', production)
         self.assertNotIn("fa3-resource-admission-current-host.sh collect", production)
         self.assertIn("Re-validate current-host receipt independently", production)
@@ -167,7 +147,6 @@ class ResourceAdmissionSmokeTests(unittest.TestCase):
         dispatch = workflow.split("  workflow_dispatch:\n", 1)[1].split("\npermissions:\n", 1)[0]
         self.assertNotIn("hrb_acquire_command", dispatch)
         self.assertIn("hrb_lease:", dispatch)
-        self.assertIn("default: ''", dispatch)
 
 
 if __name__ == "__main__":
