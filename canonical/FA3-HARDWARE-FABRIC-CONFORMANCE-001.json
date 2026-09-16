@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.hardware-fabric-conformance.v1",
+  "id": "FA3-HARDWARE-FABRIC-CONFORMANCE-001",
+  "status": "MATERIALIZED_PENDING_CI",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "canonical_bindings": [
+    "FA3-HW-001",
+    "FA3-COMPUTE-PROFILE-001",
+    "FA3-ACCEL-GUARD-001",
+    "FA3-HARDWARE-FABRIC-RECONCILIATION-001"
+  ],
+  "gate_id": "FA3-HARDWARE-FABRIC-GATESET-001",
+  "static_conformance": "PENDING_CI",
+  "runtime_conformance": "RUNTIME_EVIDENCE_PENDING",
+  "current_host_runtime": "RUNTIME_EVIDENCE_PENDING",
+  "promotion_state": "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE",
+  "runtime_receipt": ".fa3-current-host/hardware-fabric-receipt.json",
+  "runtime_pass_claim_requires": {
+    "receipt_exists": true,
+    "schema": "fa3.hardware-fabric-current-host-receipt.v1",
+    "executed": true,
+    "result": "PASS",
+    "guard_default_mode": "RECOMMEND",
+    "destructive_action_performed": false
+  },
+  "ci": {
+    "workflow": ".github/workflows/fa3-hardware-fabric.yml",
+    "static_job": "hardware-fabric-static",
+    "current_host_job": "hardware-fabric-current-host",
+    "current_host_runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"]
+  },
+  "evidence_bindings": [
+    "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
+    ".fa3-current-host/hardware-fabric-receipt.json"
+  ]
+}
