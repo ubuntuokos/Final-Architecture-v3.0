@@ -1,0 +1,171 @@
+{
+  "schema": "fa3.accelerator-backend-policy.v1",
+  "id": "FA3-ACCEL-ROCM-001",
+  "title": "AMD ROCm Accelerator Backend",
+  "status": "CANONICAL_POLICY",
+  "priority": "P0_MUST_CAPABILITY_CONDITIONAL_MATERIALIZATION",
+  "parent": "FA3-HARDWARE-BASELINE-001",
+  "fail_closed": true,
+  "vendor": "AMD",
+  "runtime_family": "ROCM_HIP",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count": 143,
+  "release_baseline": "FA3-RELEASE-CAPABILITY-BASELINE-001",
+  "purpose": "PROVIDE_VENDOR_NEUTRAL_AMD_GPU_EXECUTION_WITHOUT_MAKING_FA3_AMD_SPECIFIC_OR_FORCING_ROCM_ON_NON_AMD_HOSTS",
+  "upstream": {
+    "organization": "https://github.com/ROCm",
+    "build_release_substrate": "https://github.com/ROCm/TheRock",
+    "systems_super_repo": "https://github.com/ROCm/rocm-systems",
+    "libraries_super_repo": "https://github.com/ROCm/rocm-libraries",
+    "ai_operator_repo": "https://github.com/ROCm/aiter"
+  },
+  "provider_family": [
+    "FA3-PROVIDER-ROCM-RUNTIME-001",
+    "FA3-PROVIDER-ROCM-LIBRARIES-001",
+    "FA3-PROVIDER-AMD-AITER-001",
+    "FA3-PROVIDER-RCCL-001",
+    "FA3-PROVIDER-AMD-SMI-001",
+    "FA3-PROVIDER-ROCPROFILER-001",
+    "FA3-PROVIDER-ROCM-MEDIA-001"
+  ],
+  "build_release_policy": {
+    "therock_role": "BUILD_RELEASE_MATERIALIZATION_SUBSTRATE_NOT_AI_PROVIDER",
+    "source_build_default": false,
+    "prefer_supported_release_artifacts": true,
+    "nightly_requires_explicit_policy": true,
+    "immutable_artifact_digest_required_for_promotion": true
+  },
+  "hardware_discovery": {
+    "required_signals": [
+      "PCI_VENDOR_ID_0x1002_OR_EQUIVALENT_TRUSTED_ENUMERATION",
+      "SUPPORTED_AMDGPU_KERNEL_PATH",
+      "ROCM_TARGET_ARCH_DISCOVERY_WHEN_RUNTIME_PRESENT"
+    ],
+    "preferred_tools": [
+      "amd-smi",
+      "rocminfo",
+      "offload-arch"
+    ],
+    "exact_gpu_model_required": false,
+    "live_support_matrix_required": true
+  },
+  "materialization_state_machine": {
+    "amd_gpu_absent": "AVAILABLE_NOT_MATERIALIZED",
+    "amd_gpu_present_runtime_absent": "ELIGIBLE_PENDING_ADMISSION",
+    "amd_gpu_present_runtime_unsupported": "BLOCKED_UNSUPPORTED",
+    "amd_gpu_present_runtime_supported": "ADMISSION_REQUIRED",
+    "admitted_and_conformant": "MATERIALIZED_PASS",
+    "rule": "NEVER_INSTALL_OR_ACTIVATE_ROCM_SOLELY_TO_SATISFY_CANONICAL_PRESENCE"
+  },
+  "admission": {
+    "requires": [
+      "LIVE_HARDWARE_DISCOVERY",
+      "SUPPORTED_GPU_OS_KERNEL_RUNTIME_TUPLE",
+      "HOST_RESOURCE_BROKER_LEASE",
+      "ACCEL_GUARD_CONFLICT_CHECK",
+      "RUNTIME_SMOKE_TEST",
+      "CORRECTNESS_TEST",
+      "ROLLBACK_RECEIPT",
+      "TELEMETRY_RECEIPT"
+    ],
+    "mixed_vendor_allowed": true,
+    "automatic_priority_override_forbidden": true,
+    "user_conflict_decision_default": true
+  },
+  "normalized_accelerator_contract": {
+    "fields": [
+      "vendor",
+      "runtime",
+      "device_id",
+      "architecture",
+      "memory_total_bytes",
+      "memory_used_bytes",
+      "utilization_percent",
+      "temperature_celsius",
+      "power_watts",
+      "lease_state",
+      "conflict_state"
+    ],
+    "vendor_values": ["NVIDIA", "AMD", "INTEL", "OTHER"],
+    "runtime_values": ["CUDA", "ROCM", "VULKAN", "OTHER"]
+  },
+  "telemetry_mapping": {
+    "primary": "AMD_SMI",
+    "secondary": ["rocminfo", "ROCm profiler interfaces"],
+    "consumers": [
+      "FA3-ACCEL-GUARD-001",
+      "FA3-HOST-RESOURCE-BROKER-001",
+      "WORKLOAD_ADMISSION",
+      "THERMAL_POLICY",
+      "GUI_ACCELERATOR_STATUS"
+    ]
+  },
+  "gui_mapping": {
+    "surface": "Hardware > Accelerators",
+    "backend_label": "AMD ROCm",
+    "fields": [
+      "vendor",
+      "gpu_architecture",
+      "runtime_version",
+      "driver_state",
+      "materialization_state",
+      "admission_state",
+      "telemetry_state",
+      "active_workloads",
+      "conflicts"
+    ],
+    "actions": [
+      "CHECK_COMPATIBILITY",
+      "MATERIALIZE_IF_ELIGIBLE",
+      "RUN_CONFORMANCE",
+      "VIEW_EVIDENCE",
+      "ROLLBACK_PROVIDER"
+    ],
+    "non_amd_host_behavior": "SHOW_AVAILABLE_NOT_MATERIALIZED_WITHOUT_INSTALL_PROMPT_SPAM"
+  },
+  "acceptance": {
+    "non_amd_host": [
+      "NO_ROCM_INSTALLATION_REQUIRED",
+      "STATE_EQUALS_AVAILABLE_NOT_MATERIALIZED",
+      "NO_FALSE_RUNTIME_PASS"
+    ],
+    "amd_host": [
+      "DISCOVERY_PASS",
+      "SUPPORT_MATRIX_PASS",
+      "HIP_RUNTIME_SMOKE_PASS",
+      "DEVICE_ENUMERATION_PASS",
+      "TELEMETRY_PASS",
+      "HRB_LEASE_PASS",
+      "ACCEL_GUARD_BIDIRECTIONAL_CONFLICT_PASS",
+      "ROLLBACK_PASS"
+    ],
+    "runtime_pass_requires_live_amd_hardware": true
+  },
+  "evidence": {
+    "collector": "evidence/collect-rocm-current-host.py",
+    "reference_receipt": "evidence/FA3-ACCEL-ROCM-001.reference.json",
+    "current_host_runtime_pass_claimed": false,
+    "absence_is_not_failure": true,
+    "absence_state": "NOT_APPLICABLE_NOT_MATERIALIZED"
+  },
+  "release_reconciliation": {
+    "canonical_capability_count_unchanged": true,
+    "evidence_registry_record_count_unchanged": true,
+    "reason": "PROVIDER_AND_BACKEND_MATERIALIZATION_OF_EXISTING_ACCELERATOR_CAPABILITY_DOES_NOT_CREATE_A_NEW_RELEASE_CAPABILITY",
+    "implicit_capability_count_increment_forbidden": true
+  },
+  "invariants": [
+    "GPU_AGNOSTIC_UPPER_LAYERS",
+    "NO_VENDOR_DEFAULT_AS_ARCHITECTURAL_AUTHORITY",
+    "NO_FORCED_ROCM_ON_NON_AMD_HOST",
+    "NO_RUNTIME_PASS_WITHOUT_LIVE_SUPPORTED_AMD_GPU",
+    "NO_SILENT_ACCELERATOR_PRIORITY_OVERRIDE",
+    "NO_PROVIDER_ADDITION_IMPLIES_NEW_CAPABILITY"
+  ],
+  "version": "1.0.0"
+}

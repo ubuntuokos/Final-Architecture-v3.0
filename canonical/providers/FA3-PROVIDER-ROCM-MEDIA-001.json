@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-ROCM-MEDIA-001",
+  "name": "ROCm Media Acceleration Provider",
+  "status": "ACCEPTED_CONDITIONAL",
+  "provider_role": "AMD_GPU_MEDIA_DECODE_IMAGE_ACCELERATION",
+  "classification": ["P1_PROVIDER", "MEDIA_ACCELERATION", "AMD_GPU"],
+  "profiles": ["FA3-ACCEL-ROCM-001"],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "activation_mode": "CONDITIONAL_WORKLOAD_AND_HARDWARE_SUPPORT",
+  "current_host_runtime_evidence": false,
+  "upstream": "https://github.com/ROCm/rocm-systems",
+  "components": ["rocDecode", "rocJPEG"],
+  "required_admission": ["ROCM_RUNTIME_ADMITTED", "MEDIA_COMPONENT_SUPPORT_MATRIX_PASS", "DECODE_OR_IMAGE_SMOKE_PASS", "ROLLBACK_RECEIPT"],
+  "fallback": "CPU_OR_EXISTING_VENDOR_NEUTRAL_MEDIA_BACKEND",
+  "normative_constraint": "Media acceleration is optional and must not become an AMD-specific upper-layer dependency.",
+  "version": "1.0.0"
+}
