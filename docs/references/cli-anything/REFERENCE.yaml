@@ -1,0 +1,49 @@
+id: FA3-REFERENCE-CLI-ANYTHING-001
+title: CLI-Anything Agent-Native Application Control Reference Source
+class: external-reference
+status: ACTIVE
+priority: P1
+usage_policy: SHOULD_CONSULT
+
+source:
+  controlled_fork: https://github.com/ubuntuokos/CLI-Anything
+  upstream: https://github.com/HKUDS/CLI-Anything
+  license: Apache-2.0
+  last_reviewed_revision: 810c18b0d1ab9b234bc996c9fd999318523a3ef0
+  reviewed_at: 2026-09-16
+
+authority:
+  canonical: NONE
+  execution: NONE
+  security: NONE
+  admission: NONE
+  resource: NONE
+
+dependency:
+  build: false
+  runtime: false
+  release: false
+  git_submodule: false
+
+import_policy:
+  automatic: forbidden
+  direct_runtime_execution: forbidden
+  manual_semantic_adaptation: allowed
+
+consult_when:
+  - agent-to-application-control
+  - gui-to-cli
+  - application-cli-harness
+  - mcp-backend
+  - agent-skill-contract
+  - json-cli-contract
+  - stateful-repl
+  - preview-or-live-preview
+  - trajectory-or-session-state
+  - real-backend-e2e
+  - desktop-automation
+  - dcc-or-media-automation
+
+runtime_escalation:
+  provider_required_if_reference_code_is_executed_by_fa3: true
+  suggested_provider_id: FA3-PROVIDER-CLI-ANYTHING-001
