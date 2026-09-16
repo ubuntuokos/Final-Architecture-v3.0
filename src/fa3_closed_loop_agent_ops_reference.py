@@ -150,22 +150,32 @@ def portable_hardware_floor_valid(*, cpu_packages: int,
                                   cpu_vendor_pinned: bool,
                                   cpu_model_pinned: bool,
                                   gpu_count: int,
-                                  gpu_rtx_series: int,
+                                  gpu_vendor: str = "NVIDIA",
+                                  gpu_compute_capability: float | None = None,
                                   gpu_specific_sku_pinned: bool,
                                   gpu_specific_vram_pinned: bool,
                                   gpu_specific_sm_pinned: bool,
-                                  newer_rtx_generations_allowed: bool) -> bool:
+                                  gpu_rtx_series: int | None = None,
+                                  newer_rtx_generations_allowed: bool | None = None) -> bool:
+    """Portable global floor is capability-based; legacy RTX args are compatibility-only."""
+    if gpu_compute_capability is None:
+        legacy_eligible = (
+            gpu_rtx_series is not None
+            and gpu_rtx_series >= 30
+            and newer_rtx_generations_allowed is True
+        )
+        gpu_compute_capability = 8.6 if legacy_eligible else 0.0
     return (
         cpu_packages >= 1
         and physical_cores_per_package >= 8
         and not cpu_vendor_pinned
         and not cpu_model_pinned
         and gpu_count >= 1
-        and gpu_rtx_series >= 30
+        and str(gpu_vendor).strip().upper() == "NVIDIA"
+        and float(gpu_compute_capability) >= 8.6
         and not gpu_specific_sku_pinned
         and not gpu_specific_vram_pinned
         and not gpu_specific_sm_pinned
-        and newer_rtx_generations_allowed
     )
 
 def disabled_provider_valid(*, enabled: bool, resident_processes: int,
