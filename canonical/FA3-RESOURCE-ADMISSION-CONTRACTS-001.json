@@ -13,8 +13,12 @@
     "FA3-HOST-ATTESTATION-001",
     "FA3-COMPUTE-PROFILE-001",
     "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
-    "HRB_AUTHORIZATION"
+    "HRB_LEASE"
   ],
+  "required_input_semantics": {
+    "HRB_LEASE": "CONDITIONAL_ACCELERATOR_LEASE_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED",
+    "HRB_ADMISSION_AUTHORIZATION": "REQUIRED_FOR_ALL_WORKLOADS_AND_MUST_ORIGINATE_FROM_FA3_AUTH_HOST_RESOURCE_BROKER_001"
+  },
   "admission_semantics": {
     "all_required_dimensions_must_pass": true,
     "workload_driven_resource_classes": true,
