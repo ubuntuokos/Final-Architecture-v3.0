@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1d7e213b072c1680b490225232d9ffd51cc591ba",
-    "pre_projection_root_tree_sha": "583f9a2374b0e24b2cab0a184d50f8de9cbcc8a1",
-    "pre_projection_canonical_tree_sha": "c01aef9851199b90918a0c5a211d34800cd56721",
-    "commits_ahead_of_v3_0_11_conformance_commit": 376,
-    "total_post_baseline_commits": 376,
-    "delta_file_count": 1213,
-    "delta_added_files": 1208,
+    "pre_projection_head_sha": "da275edf794cb813d7d25a12aa4c71da901a847b",
+    "pre_projection_root_tree_sha": "e11bb3cb51d0de5e8ab1741edb0a82c9c9a83769",
+    "pre_projection_canonical_tree_sha": "a93de00360f387185eaa355c37c351a059d038b9",
+    "commits_ahead_of_v3_0_11_conformance_commit": 383,
+    "total_post_baseline_commits": 383,
+    "delta_file_count": 1236,
+    "delta_added_files": 1231,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 632,
+    "canonical_files_in_post_baseline_delta": 645,
     "evidence_files_in_post_baseline_delta": 117,
-    "source_files_in_post_baseline_delta": 135,
-    "test_files_in_post_baseline_delta": 121,
-    "workflow_files_in_post_baseline_delta": 46,
+    "source_files_in_post_baseline_delta": 138,
+    "test_files_in_post_baseline_delta": 123,
+    "workflow_files_in_post_baseline_delta": 47,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -63,8 +63,10 @@
       "canonical/providers/FA3-PROVIDER-COACH-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-CODEGRAFF-001.json",
       "canonical/providers/FA3-PROVIDER-CODEX-001.json",
+      "canonical/providers/FA3-PROVIDER-CONDUCTOR-001.json",
       "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
       "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
+      "canonical/providers/FA3-PROVIDER-CREWAI-001.json",
       "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
@@ -74,6 +76,7 @@
       "canonical/providers/FA3-PROVIDER-GIMP-AI-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-GIMP-COMFYUI-INTEROP-001.json",
       "canonical/providers/FA3-PROVIDER-GTCRN-001.json",
+      "canonical/providers/FA3-PROVIDER-HAYSTACK-001.json",
       "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json",
@@ -82,11 +85,13 @@
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
       "canonical/providers/FA3-PROVIDER-KANEO-001.json",
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
+      "canonical/providers/FA3-PROVIDER-KESTRA-001.json",
       "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-AI-DIFFUSION-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-MCP-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-VISION-TOOLS-001.json",
+      "canonical/providers/FA3-PROVIDER-LANGGRAPH-001.json",
       "canonical/providers/FA3-PROVIDER-LAVASR-001.json",
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
@@ -107,12 +112,14 @@
       "canonical/providers/FA3-PROVIDER-MUSE-CODE-001.json",
       "canonical/providers/FA3-PROVIDER-MUSE-IMAGE-001.json",
       "canonical/providers/FA3-PROVIDER-MYNA-001.json",
+      "canonical/providers/FA3-PROVIDER-N8N-001.json",
       "canonical/providers/FA3-PROVIDER-NATRON-001.json",
       "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
       "canonical/providers/FA3-PROVIDER-OBSIDIAN-001.json",
       "canonical/providers/FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001.json",
       "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
+      "canonical/providers/FA3-PROVIDER-OPEN-MULTI-AGENT-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
@@ -120,6 +127,7 @@
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
+      "canonical/providers/FA3-PROVIDER-PIPECAT-001.json",
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
       "canonical/providers/FA3-PROVIDER-PRELOAD-001.json",
@@ -200,6 +208,7 @@
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
+      "canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-SCS-001.json",
@@ -272,6 +281,8 @@
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
+      "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
@@ -369,6 +380,7 @@
       "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
       "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
       "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
+      "canonical/decisions/FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15.json",
       "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
       "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
       "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
@@ -717,7 +729,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1213,
+  "manifest_entry_count": 1234,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -872,6 +884,11 @@
     {
       "path": ".github/workflows/fa3-openmodeldb-provider-gate.yml",
       "git_blob_sha": "7bb5fff1361e3cde0fa9c097c7a4669098475c20",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-orchestration-workforce.yml",
+      "git_blob_sha": "694170e8d7158c49c3f467fb519e16d37673d634",
       "baseline_delta_status": "added"
     },
     {
@@ -1236,7 +1253,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "1e58a2aa03cbcee3c49c2293ff985eaf197c4123",
+      "git_blob_sha": "50e06630d624037939827a1103a062ca30f8bc07",
       "baseline_delta_status": "modified"
     },
     {
@@ -1890,6 +1907,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json",
+      "git_blob_sha": "c6a325bf4728c73b8d134c393ee97b556121777e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-PYRIT-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "be4dfb51d2bc65bc6ac8a5e2ede9220d08add6d9",
       "baseline_delta_status": "added"
@@ -2327,6 +2349,16 @@
     {
       "path": "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "git_blob_sha": "3963bda8bcd0ac45e5674f95a296c0c986129a85",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-ORCHESTRATION-PROVIDER-SPI-001.json",
+      "git_blob_sha": "336395e6252baa50575017d51dba5b505bd57ce9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001.json",
+      "git_blob_sha": "fbf292d06a4db0252e557ee6b7eca5e6117845d2",
       "baseline_delta_status": "added"
     },
     {
@@ -2827,6 +2859,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
       "git_blob_sha": "dc5e5657e1a2853bd17bef7e19fba62ca85cadfa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ORCHESTRATION-WORKFORCE-2026-09-15.json",
+      "git_blob_sha": "694ba1cfa20e4e0aeeda411d8086fe4e76a94b3a",
       "baseline_delta_status": "added"
     },
     {
@@ -3480,6 +3517,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
+      "git_blob_sha": "4915c0b1aea847e4014d54ca1c7e00e3de917baa",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "git_blob_sha": "ac50b80c700c2489f8632f09edfbc697bb17d106",
       "baseline_delta_status": "added"
@@ -3605,6 +3647,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-CONDUCTOR-001.json",
+      "git_blob_sha": "e4ce38bee0c6657235a3bc7fa0621931b3ff54db",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
       "git_blob_sha": "ac4bf1bcb8c6127f3b8be56deffa61db7e2ed70e",
       "baseline_delta_status": "added"
@@ -3612,6 +3659,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
       "git_blob_sha": "8eed901a56cc8127456d88823b5c7f9eea71eb37",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-CREWAI-001.json",
+      "git_blob_sha": "78ea4ffa9c6e57d38f3ec8cda87ad5c11f14134e",
       "baseline_delta_status": "added"
     },
     {
@@ -3660,6 +3712,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-HAYSTACK-001.json",
+      "git_blob_sha": "e0e5d053ca9be572a415e08ee56c15e8843561aa",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-HELIOS-001.json",
       "git_blob_sha": "9d8f1af74fff63521a514983c37dfb5a33206186",
       "baseline_delta_status": "added"
@@ -3700,6 +3757,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-KESTRA-001.json",
+      "git_blob_sha": "b29c485fa5d804e29c88cb34129732fcaa23f538",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "git_blob_sha": "b547046da9c97c3689ad376ad34a407590e5b96f",
       "baseline_delta_status": "added"
@@ -3722,6 +3784,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-KRITA-VISION-TOOLS-001.json",
       "git_blob_sha": "e4e30bbc2c6dc691cd6086a24705e6c154a99819",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-LANGGRAPH-001.json",
+      "git_blob_sha": "d07363b842a2cc70ee4d9cce3e79db74b18711e0",
       "baseline_delta_status": "added"
     },
     {
@@ -3825,6 +3892,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-N8N-001.json",
+      "git_blob_sha": "c50fbe590657b9f21e07698ff16e0f7cc8003b47",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-NATRON-001.json",
       "git_blob_sha": "e0524645e260b3604a49fa8e061ee0aa8d3b880f",
       "baseline_delta_status": "added"
@@ -3852,6 +3924,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
       "git_blob_sha": "42bd1bea30b3ffe792ee6a53bc531be4c62861ba",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPEN-MULTI-AGENT-001.json",
+      "git_blob_sha": "5dfd1b9aa1daafd092ec7653eed495cdaf490576",
       "baseline_delta_status": "added"
     },
     {
@@ -3887,6 +3964,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
       "git_blob_sha": "1857bb81f8a9073b96db4387e828adc9ff4b7f43",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-PIPECAT-001.json",
+      "git_blob_sha": "82d9e77410770c93e5c63e39fb9f5151eb171089",
       "baseline_delta_status": "added"
     },
     {
@@ -4675,6 +4757,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-ORCHESTRATION-WORKFORCE-001.md",
+      "git_blob_sha": "6ada676572e6a53e7f22510d8fa417be8e285e29",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/buzz-runtime-admission.md",
       "git_blob_sha": "a0eb90943c122658b2febc095e19aa91d41bfa07",
       "baseline_delta_status": "added"
@@ -5400,6 +5487,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "examples/orchestration-workforce-media.json",
+      "git_blob_sha": "9ea97c9b5a599bf57dbd1a476d8d9c0010fc11ed",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "fa3-current-host/HOST-ADMISSION-ORCHESTRATOR.md",
       "git_blob_sha": "6cafd573e6ef35b50f81608c59da2446b9b3f7e9",
       "baseline_delta_status": "added"
@@ -5972,6 +6064,21 @@
     {
       "path": "src/fa3_openyak_gate.py",
       "git_blob_sha": "5f038e554ece27892122a987a88c4fea0e097e37",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_orchestration_provider_spi.py",
+      "git_blob_sha": "e0fd1bb7186398ab9880e3ff3671db6217a8ecc3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_orchestration_workforce.py",
+      "git_blob_sha": "a51995943c9567fc292d2646c2eb5e25bb34bfc0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_orchestration_workforce_gate.py",
+      "git_blob_sha": "fed7b819587a035a6e06116b6f448695d92d0e84",
       "baseline_delta_status": "added"
     },
     {
@@ -6592,6 +6699,16 @@
     {
       "path": "tests/test_openyak_gate.py",
       "git_blob_sha": "37bdd97b84aad21e0c46f4172b9f1ac1e1754c18",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_orchestration_workforce.py",
+      "git_blob_sha": "f62ba4bd4c16b9182815887f6ec43e2552ce216f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_orchestration_workforce_provider_spi.py",
+      "git_blob_sha": "122b9358c727df9be0860868ef1005ed23722b95",
       "baseline_delta_status": "added"
     },
     {
