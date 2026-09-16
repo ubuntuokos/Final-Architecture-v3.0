@@ -1,0 +1,71 @@
+{
+  "schema": "fa3.accelerator-guard.v1",
+  "id": "FA3-ACCEL-GUARD-001",
+  "title": "Accelerator Contention Guard",
+  "status": "CANONICAL_POLICY",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_hardware_root": "FA3-HW-001",
+  "measured_compute_profile": "FA3-COMPUTE-PROFILE-001",
+  "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "capability_count_source": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "default_mode": "RECOMMEND",
+  "automatic_enforcement_default": false,
+  "user_arbitration_default": true,
+  "scope": {
+    "accelerator_kinds": ["GPU", "NPU", "OTHER_TYPED_ACCELERATOR"],
+    "observation_directions": [
+      "PRE_EXISTING_EXTERNAL_OCCUPANCY_AT_FA3_START",
+      "NEW_EXTERNAL_CONTENTION_DURING_FA3_RUNTIME"
+    ],
+    "provider_neutral": true,
+    "provider_probes": ["NVIDIA", "AMD", "INTEL", "GENERIC"]
+  },
+  "states": [
+    "NO_CONTENTION",
+    "PRE_EXISTING_EXTERNAL_OCCUPANCY",
+    "RUNTIME_EXTERNAL_CONTENTION",
+    "OBSERVABILITY_INSUFFICIENT"
+  ],
+  "decision_contract": {
+    "NO_CONTENTION": "CONTINUE_AND_OBSERVE",
+    "PRE_EXISTING_EXTERNAL_OCCUPANCY": "NOTIFY_AND_REQUIRE_USER_DECISION",
+    "RUNTIME_EXTERNAL_CONTENTION": "NOTIFY_AND_REQUIRE_USER_DECISION",
+    "OBSERVABILITY_INSUFFICIENT": "RECOMMEND_OBSERVABILITY_REMEDIATION",
+    "external_process_kill_by_default": "FORBIDDEN",
+    "external_process_preemption_by_default": "FORBIDDEN",
+    "silent_priority_override": "FORBIDDEN",
+    "automatic_resolution": "ALLOWED_ONLY_BY_EXPLICIT_PREEXISTING_USER_POLICY"
+  },
+  "explicit_policy_requirements": {
+    "explicit_user_policy": true,
+    "created_before_conflict": true,
+    "auditable_policy_id": true,
+    "bounded_action": true,
+    "destructive_process_action_requires_separate_authorization": true
+  },
+  "runtime": {
+    "module": "src/fa3_accelerator_guard.py",
+    "current_host_entrypoint": "bin/fa3-current-host hardware-fabric",
+    "static_gate": "src/fa3_hardware_fabric_gate.py",
+    "current_host_gate": "src/fa3_hardware_fabric_current_host_gate.py"
+  },
+  "evidence": {
+    "static_reconciliation": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
+    "current_host_receipt": ".fa3-current-host/hardware-fabric-receipt.json",
+    "current_host_status_until_receipt": "RUNTIME_EVIDENCE_PENDING",
+    "document_only_pass_forbidden": true
+  },
+  "invariants": [
+    "FA3_HW_001_REMAINS_CANONICAL_HARDWARE_ROOT",
+    "COMPUTE_PROFILE_IS_MEASUREMENT_POLICY_NOT_COMPETING_HARDWARE_ROOT",
+    "CONTENTION_DETECTED_IN_BOTH_DIRECTIONS",
+    "USER_ARBITRATION_IS_DEFAULT",
+    "NO_DEFAULT_KILL_OR_PREEMPT",
+    "EXPLICIT_PREEXISTING_POLICY_REQUIRED_FOR_AUTOMATION",
+    "PROVIDER_NEUTRAL_OBSERVATION_WITH_TYPED_VENDOR_ADAPTERS",
+    "CURRENT_HOST_PASS_REQUIRES_EXECUTED_RECEIPT"
+  ]
+}
