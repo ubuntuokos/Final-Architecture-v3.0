@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "4bd46401973e446ac5c45dee3d555c3fcbe2669e",
-    "pre_projection_root_tree_sha": "11e2610e3de9be66fb797c795941eb580bde74cc",
-    "pre_projection_canonical_tree_sha": "da938b850261832b551859c374fe363a898db3a9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 396,
-    "total_post_baseline_commits": 396,
-    "delta_file_count": 1238,
-    "delta_added_files": 1233,
+    "pre_projection_head_sha": "3521cccabbd5b3d6ed361f433adb486e06912cbe",
+    "pre_projection_root_tree_sha": "56e6ba18ec1e1039fa9a1de5b7193dcc11f4d08e",
+    "pre_projection_canonical_tree_sha": "0348a90366ff77c41f37a537bd1d71d82c5707a8",
+    "commits_ahead_of_v3_0_11_conformance_commit": 391,
+    "total_post_baseline_commits": 391,
+    "delta_file_count": 1245,
+    "delta_added_files": 1240,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 636,
-    "evidence_files_in_post_baseline_delta": 119,
+    "canonical_files_in_post_baseline_delta": 637,
+    "evidence_files_in_post_baseline_delta": 120,
     "source_files_in_post_baseline_delta": 140,
     "test_files_in_post_baseline_delta": 124,
     "workflow_files_in_post_baseline_delta": 50,
@@ -720,7 +720,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1232,
+  "manifest_entry_count": 1239,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1935,6 +1935,11 @@
     {
       "path": "canonical/FA3-PYTORCH3D-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "e4c4fde5f2060158ef5b3417ccd0985f1876d92e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-REFERENCE-CLI-ANYTHING-001.json",
+      "git_blob_sha": "bd1b08f12963eac37848701d8e1628d7e83ccd8e",
       "baseline_delta_status": "added"
     },
     {
@@ -4808,6 +4813,31 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/references/README.md",
+      "git_blob_sha": "55635fd965e92dce252630059d59c1e86d6b09ee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/ADOPTION-RULES.md",
+      "git_blob_sha": "f77d98af330f524082190b6d730d01f1e9a709e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/CAPABILITY-INDEX.md",
+      "git_blob_sha": "11146c25864b73d31c8dd21717de70600c4a3e5e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/PINNED-REVISION",
+      "git_blob_sha": "1e3d47371a63425f52a2d43a5b6d47fe8be5aa2f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/references/cli-anything/REFERENCE.yaml",
+      "git_blob_sha": "4149654f6c7e0784a368b3930dfee7ab5b4b5355",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/release-evidence-scope.md",
       "git_blob_sha": "a772579e839c97c1121eb440ebef655d8bd208e2",
       "baseline_delta_status": "added"
@@ -5405,6 +5435,11 @@
     {
       "path": "evidence/reference/xcmd-ci-2026-08-30.json",
       "git_blob_sha": "4cd5ada41cf7010d9720894bc33ee3f49867193d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/references/FA3-REFERENCE-CLI-ANYTHING-001.review.json",
+      "git_blob_sha": "5eccf33ac684e939b3a3329a4b3496fdc4af79cb",
       "baseline_delta_status": "added"
     },
     {
