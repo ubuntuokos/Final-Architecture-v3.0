@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-INTEL-TRITON-XPU-001",
+  "name": "Intel XPU Backend for Triton",
+  "status": "ACCEPTED_EXPERIMENTAL",
+  "priority": "P2",
+  "provider_role": "OPTIONAL_EXPERIMENTAL_INTEL_GPU_TRITON_KERNEL_PROVIDER",
+  "classification": ["OPTIONAL_PROVIDER", "EXPERIMENTAL_PROVIDER", "INTEL_GPU_PROVIDER", "TRITON_BACKEND"],
+  "parent_profile": "FA3-INTEL-ACCEL-001",
+  "provider_family": "FA3-PROVIDER-FAMILY-INTEL-001",
+  "upstream_repository": "intel/intel-xpu-backend-for-triton",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "MAY-IF-EXPLICITLY-SELECTED",
+  "activation_mode": "EXPLICIT_OPT_IN_ONLY",
+  "auto_install": false,
+  "default_enabled": false,
+  "runtime_activation_status": "NOT_ADMITTED_EXPERIMENTAL_REFERENCE_ONLY",
+  "detection": ["INTEL_GPU_PHYSICAL_IDENTITY", "COMPATIBLE_LEVEL_ZERO_STACK", "COMPATIBLE_PYTORCH_TRITON_PAIR"],
+  "accelerator_guard": {"profile_id": "FA3-ACCEL-GUARD-001", "required": true, "physical_alias_dedup_required": true},
+  "authority_boundaries": {
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "promotion_requires": ["CORRECTNESS_EVIDENCE", "COMPATIBILITY_MATRIX_EVIDENCE", "PERFORMANCE_NON_REGRESSION", "ROLLBACK_PROVIDER"],
+  "silent_provider_fallback": false,
+  "current_host_production_evidence": "NOT_CLAIMED"
+}
