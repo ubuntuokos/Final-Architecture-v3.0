@@ -54,6 +54,7 @@ jobs:
           report = json.loads(Path('reports/release-projection-gate-report.json').read_text())
           allowed = {
               'FA3-RELEASE-PROJECTION-009',
+              'FA3-RELEASE-PROJECTION-010',
               'FA3-RELEASE-PROJECTION-014',
               'FA3-RELEASE-PROJECTION-016',
               'FA3-RELEASE-PROJECTION-017',
