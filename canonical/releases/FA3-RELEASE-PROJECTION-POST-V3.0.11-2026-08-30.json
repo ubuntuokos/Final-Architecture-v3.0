@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9471ec970f713731fea4dd544c718751491d43f4",
-    "pre_projection_root_tree_sha": "36371fceb6ba974e86e416b485d8317ab6593690",
-    "pre_projection_canonical_tree_sha": "57e9ba0153d823e0379a24e47d28775e810ee1ee",
-    "commits_ahead_of_v3_0_11_conformance_commit": 389,
-    "total_post_baseline_commits": 389,
-    "delta_file_count": 1252,
-    "delta_added_files": 1247,
+    "pre_projection_head_sha": "df5a28006e7abb01d1e99cf8142b4f3851b6fce4",
+    "pre_projection_root_tree_sha": "9e8e6d0377cbbb2052e600ce713b0b1bc82fa0e4",
+    "pre_projection_canonical_tree_sha": "b5af89b0c76dc280abcb401ca8c2d65599f454cb",
+    "commits_ahead_of_v3_0_11_conformance_commit": 392,
+    "total_post_baseline_commits": 392,
+    "delta_file_count": 1253,
+    "delta_added_files": 1248,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 638,
     "evidence_files_in_post_baseline_delta": 119,
     "source_files_in_post_baseline_delta": 145,
-    "test_files_in_post_baseline_delta": 128,
+    "test_files_in_post_baseline_delta": 129,
     "workflow_files_in_post_baseline_delta": 50,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -720,7 +720,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1246,
+  "manifest_entry_count": 1247,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -5704,7 +5704,7 @@
     },
     {
       "path": "src/fa3_current_host_capability_test_orchestrator.py",
-      "git_blob_sha": "255cc55b6ee422d91484e888270823bafbf29349",
+      "git_blob_sha": "151d55d9c844e249dfc3da4402d3ea2a9e87b011",
       "baseline_delta_status": "added"
     },
     {
@@ -6390,6 +6390,11 @@
     {
       "path": "tests/test_current_host_capability_test_executor_audit.py",
       "git_blob_sha": "90c445d172d4137f8ca43590f3c60e022fb2ae8d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_current_host_capability_test_orchestrator.py",
+      "git_blob_sha": "77e4bbb7bc2c6349b9490329ae6a9704106d33cd",
       "baseline_delta_status": "added"
     },
     {
