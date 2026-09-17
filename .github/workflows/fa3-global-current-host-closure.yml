@@ -7,9 +7,11 @@ on:
       - 'src/fa3_current_host_evidence_audit.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'src/fa3_current_host_capability_attest.py'
+      - 'src/fa3_current_host_capability_test_bundle.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
+      - 'tests/test_current_host_capability_test_bundle.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -40,36 +42,52 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify projection, producer, handoff and auditor syntax
+      - name: Verify projection, bundle assembler, producer, handoff and auditor syntax
         run: |
           chmod +x bin/fa3-current-host bin/fa3-enforce
           python -m py_compile \
+            src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
             tests/test_current_host_evidence_audit.py
           ./bin/fa3-current-host verify
-      - name: Producer, handoff and auditor regression tests
+      - name: Bundle assembler, producer, handoff and auditor regression tests
         run: |
           PYTHONPATH=src python -m unittest \
+            tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
             tests.test_current_host_evidence_audit -v
       - name: Prove empty workspace cannot fabricate capability PASS
         run: |
           rm -rf \
+            .fa3-current-host/test-results \
+            .fa3-current-host/test-plan \
             .fa3-current-host/test-bundles \
             .fa3-current-host/attestations \
             evidence/receipts/capabilities
+          PYTHONPATH=src python src/fa3_current_host_capability_test_bundle.py --root .
           PYTHONPATH=src python src/fa3_current_host_capability_attest.py --root .
           PYTHONPATH=src python src/fa3_current_host_capability_handoff.py --root .
           python3 - <<'PY'
           import json
           from pathlib import Path
+          assembler=json.loads(Path('reports/current-host-capability-test-bundle-assembler.json').read_text())
           producer=json.loads(Path('reports/current-host-capability-attestation-producer.json').read_text())
           handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
+          plan=json.loads(Path('.fa3-current-host/test-plan/capabilities.json').read_text())
+          assert assembler['assembler_integrity'] == 'PASS', assembler
+          assert assembler['materialization_status'] == 'PENDING_CURRENT_HOST_TEST_RESULTS', assembler
+          assert assembler['bundles_materialized'] == 0, assembler
+          assert assembler['pending_capability_count'] == 143, assembler
+          assert assembler['provider_receipts_promoted'] == 0, assembler
+          assert assembler['global_promotion_claim'] is False, assembler
+          assert plan['capability_count'] == 143, plan
+          assert len(plan['capabilities']) == 143, plan
           assert producer['producer_integrity'] == 'PASS', producer
           assert producer['materialization_status'] == 'PENDING_CAPABILITY_TEST_BUNDLES', producer
           assert producer['attestations_materialized'] == 0, producer
@@ -129,6 +147,8 @@ jobs:
           name: fa3-global-current-host-closure-regression
           if-no-files-found: error
           path: |
+            .fa3-current-host/test-plan/capabilities.json
+            reports/current-host-capability-test-bundle-assembler.json
             reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
@@ -161,11 +181,14 @@ jobs:
         run: |
           rm -rf \
             .fa3-current-host/global-closure \
+            .fa3-current-host/test-results \
+            .fa3-current-host/test-plan \
             .fa3-current-host/test-bundles \
             .fa3-current-host/attestations \
             evidence/receipts/capabilities
           mkdir -p \
             .fa3-current-host/global-closure \
+            .fa3-current-host/test-results/capabilities \
             .fa3-current-host/test-bundles/capabilities \
             .fa3-current-host/attestations/capabilities
           bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
@@ -174,6 +197,10 @@ jobs:
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Assemble bundles only from explicit real current-host capability test results
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_test_bundle.py --root .
       - name: Produce attestations only from explicit capability test bundles
         shell: bash
         run: |
@@ -203,11 +230,16 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
+          assembler=json.loads(Path('reports/current-host-capability-test-bundle-assembler.json').read_text())
           producer=json.loads(Path('reports/current-host-capability-attestation-producer.json').read_text())
           handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert assembler['assembler_integrity'] == 'PASS', assembler
+          assert assembler['provider_receipts_promoted'] == 0, assembler
+          assert assembler['generic_host_evidence_promoted'] == 0, assembler
+          assert assembler['global_promotion_claim'] is False, assembler
           assert producer['producer_integrity'] == 'PASS', producer
           assert producer['provider_receipts_promoted'] == 0, producer
           assert producer['generic_host_evidence_promoted'] == 0, producer
@@ -221,12 +253,18 @@ jobs:
           assert acceptance['static_gate'] == 'PASS', acceptance
           assert acceptance['criteria_total'] == 19, acceptance
           if audit['runtime_closure'] == 'PASS':
+              assert assembler['bundles_materialized'] == 143, assembler
+              assert producer['attestations_materialized'] == 143, producer
+              assert handoff['receipts_materialized'] == 143, handoff
               assert acceptance['status'] == 'PASS' and acceptance['criteria_passed'] == 19, acceptance
               assert promotion['actual_state'] == 'PROMOTED' and promotion['promotion_allowed'] is True, promotion
           else:
               assert acceptance['status'] == 'DENIED', acceptance
               assert promotion['actual_state'] == 'PROMOTION_BLOCKED' and promotion['promotion_allowed'] is False, promotion
           print(json.dumps({
+              'bundle_assembler': assembler['materialization_status'],
+              'bundles_materialized': assembler['bundles_materialized'],
+              'pending_capability_tests': assembler['pending_capability_count'],
               'producer': producer['materialization_status'],
               'attestations_materialized': producer['attestations_materialized'],
               'handoff': handoff['materialization_status'],
@@ -250,10 +288,13 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/test-results/capabilities/**
+            .fa3-current-host/test-plan/capabilities.json
             .fa3-current-host/test-bundles/capabilities/**
             .fa3-current-host/attestations/capabilities/**
             evidence/evidence-registry.json
             evidence/receipts/**
+            reports/current-host-capability-test-bundle-assembler.json
             reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
