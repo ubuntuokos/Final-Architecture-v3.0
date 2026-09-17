@@ -14,6 +14,7 @@ PROFILE_ID = "FA3-OS-RUNTIME-001"
 PARENT_PROFILE_ID = "FA3-OS-001"
 CONFORMANCE_ID = "FA3-OS-RUNTIME-CONFORMANCE-001"
 JOURNAL_AUTHORITY = "FA3-JOURNAL-001"
+GUI_PAGE_INDEX = 26
 
 PROFILE_PATH = Path("canonical/profiles/FA3-OS-RUNTIME-001.json")
 ROOT_PROFILE_PATH = Path("canonical/profiles/FA3-OS-001.json")
@@ -68,6 +69,7 @@ def gate(root: Path) -> dict[str, Any]:
     _require(profile.get("runtime_gate") == GATE_ID, findings, "FA3-OS-RUNTIME-GATE-001", "Runtime gate binding drift")
     _require(profile.get("current_host_conformance") == CONFORMANCE_ID, findings, "FA3-OS-RUNTIME-HOST-001", "Current-host conformance binding drift")
     _require(PROFILE_ID in set(parent.get("subprofiles", [])), findings, "FA3-OS-RUNTIME-PARENT-001", "FA3 OS root does not project the runtime subprofile")
+    _require(profile.get("gui_surface", {}).get("page_index") == GUI_PAGE_INDEX, findings, "FA3-OS-RUNTIME-GUI-000", "Runtime profile GUI page index drift", expected=GUI_PAGE_INDEX)
 
     projection = profile.get("projection_policy", {})
     _require(projection.get("authoritative_history") is False and projection.get("rebuildable") is True, findings, "FA3-OS-RUNTIME-PROJ-001", "Derived projection authority boundary drift")
@@ -83,12 +85,14 @@ def gate(root: Path) -> dict[str, Any]:
     main_qml = (root / GUI_MAIN_PATH).read_text(encoding="utf-8")
     cmake = (root / GUI_CMAKE_PATH).read_text(encoding="utf-8")
     page = (root / GUI_PAGE_PATH).read_text(encoding="utf-8")
-    _require('label: "FA3 OS"; pageIndex: 24' in main_qml, findings, "FA3-OS-RUNTIME-GUI-001", "FA3 OS first-class navigation item missing")
-    _require('title: "FA3 OS"' in main_qml and "pageIndex: 24" in main_qml, findings, "FA3-OS-RUNTIME-GUI-002", "FA3 OS global search route missing")
+    _require(f'label: "FA3 OS"; pageIndex: {GUI_PAGE_INDEX}' in main_qml, findings, "FA3-OS-RUNTIME-GUI-001", "FA3 OS first-class navigation item missing")
+    _require('title: "FA3 OS"' in main_qml and f"pageIndex: {GUI_PAGE_INDEX}" in main_qml, findings, "FA3-OS-RUNTIME-GUI-002", "FA3 OS global search route missing")
     _require("Fa3OsPage {" in main_qml, findings, "FA3-OS-RUNTIME-GUI-003", "FA3 OS page is not mounted in the Control Center")
     _require("qml/Fa3OsPage.qml" in cmake, findings, "FA3-OS-RUNTIME-GUI-004", "FA3 OS page is not packaged by CMake")
     _require("CURRENT HOST E2E PENDING" in page, findings, "FA3-OS-RUNTIME-GUI-005", "GUI does not expose the current-host evidence boundary")
     _require("fa3Journal.filteredEvents" in page, findings, "FA3-OS-RUNTIME-GUI-006", "GUI timeline is not bound to the canonical Journal projection")
+    _require('label: "Work Management"; pageIndex: 24' in main_qml, findings, "FA3-OS-RUNTIME-GUI-007", "Work Management route was displaced by FA3 OS")
+    _require('label: "Accelerator Guard"; pageIndex: 25' in main_qml, findings, "FA3-OS-RUNTIME-GUI-008", "Accelerator Guard route was displaced by FA3 OS")
 
     runtime_result = run_reference_conformance()
     if runtime_result.get("result") != "PASS":
@@ -97,7 +101,7 @@ def gate(root: Path) -> dict[str, Any]:
         "gate_id": GATE_ID, "profile_id": PROFILE_ID, "parent_profile_id": PARENT_PROFILE_ID,
         "ledger_authority": JOURNAL_AUTHORITY, "result": "PASS" if not findings else "FAIL",
         "capability_count": capability_count, "current_host_status": conformance.get("status"),
-        "reference_runtime": runtime_result, "findings": findings,
+        "gui_page_index": GUI_PAGE_INDEX, "reference_runtime": runtime_result, "findings": findings,
     }
 
 
