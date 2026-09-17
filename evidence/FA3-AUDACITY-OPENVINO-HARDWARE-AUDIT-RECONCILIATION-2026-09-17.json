@@ -2,9 +2,9 @@
   "schema": "fa3.evidence.v1",
   "id": "FA3-AUDACITY-OPENVINO-HARDWARE-AUDIT-RECONCILIATION-2026-09-17",
   "date": "2026-09-17",
-  "scope": ["FA3-AUDIO-EDIT-001", "FA3-PROVIDER-AUDACITY-OPENVINO-001"],
+  "scope": ["FA3-AUDIO-EDIT-001", "FA3-PROVIDER-AUDACITY-OPENVINO-001", "FA3-AUDACITY-OPENVINO-HARDWARE-AUDIT-GATE-001"],
   "result": "STATIC_RECONCILIATION_MATERIALIZED_CURRENT_HOST_EXECUTION_NOT_CLAIMED",
-  "verified": ["workload-derived resource envelope encoded", "CPU-only path has no implicit accelerator requirement", "accelerator path requires HRB lease", "accelerator path requires FA3-ACCEL-GUARD-001 reconciliation", "fixed hardware placement values forbidden", "implicit accelerator fallback forbidden", "provider remains optional and non-authoritative", "fail-closed denial is workload/provider scoped"],
+  "verified": ["workload-derived resource envelope encoded", "CPU-only path has no implicit accelerator requirement", "accelerator path requires HRB lease", "accelerator path requires FA3-ACCEL-GUARD-001 reconciliation", "fixed hardware placement values forbidden", "display GPU is not compute entitlement", "implicit accelerator/provider fallback forbidden", "provider remains optional and non-authoritative", "positive/negative/rollback regression cases materialized", "fail-closed denial is workload/provider scoped"],
   "pending": ["GitHub CI execution", "real current-host Audacity/OpenVINO runtime compatibility execution", "accelerator-path current-host lease/guard evidence if accelerator execution is exercised"],
   "promotion_rule": "STATIC_OR_PROVIDER_PASS_DOES_NOT_IMPLY_GLOBAL_RUNTIME_PROMOTION"
 }
