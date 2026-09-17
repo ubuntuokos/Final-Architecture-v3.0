@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.canonical-projection.v1",
+  "id": "FA3-MCP-CURRENT-HOST-001",
+  "title": "Central MCP/Capability Gateway Current-Host Runtime Projection",
+  "priority": "P0",
+  "requirement": "MUST",
+  "status": "MATERIALIZED_REAL_EXECUTION_PENDING",
+  "parent_authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "architectural_authority": false,
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "fail_closed": true,
+  "document_only_promotion_forbidden": true,
+  "automatic_promotion": false,
+  "direct_agent_provider_bypass": "DENY",
+  "runtime": {
+    "entrypoint": "bin/fa3-mcp-gateway",
+    "default_bind": "127.0.0.1:18790",
+    "remote_bind_without_separate_exposure_profile": "DENY",
+    "registry": "canonical/mcp-capability-registry.json",
+    "gate": "FA3-GATE-MCP-CURRENT-HOST-001"
+  },
+  "external_authorities_preserved": [
+    "TEMPORAL_DURABLE_WORKFLOW_AUTHORITY",
+    "SECURITY_GOVERNANCE_POLICY_PLANE",
+    "IDENTITY_AUTHORITY",
+    "CENTRAL_SECRET_BROKER",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "MODEL_ROUTER_AUTHORITY",
+    "EVIDENCE_OBSERVABILITY_AUTHORITY",
+    "FA3-REGISTRY-001"
+  ],
+  "global_promotion_claim": false
+}
