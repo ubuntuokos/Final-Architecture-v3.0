@@ -111,23 +111,30 @@ def validate() -> list[str]:
     if "REMOTE_AI_HUB_FEATURED_PROJECTION" not in desktop_profile.get("scope", []):
         failures.append("desktop-profile-remote-ai-scope-missing")
 
-    command_pos = qml.find('label: "Command Center"')
-    hub_pos = qml.find('label: "Remote AI Hub"')
-    projects_pos = qml.find('label: "Projects"')
-    if min(command_pos, hub_pos, projects_pos) < 0 or not command_pos < hub_pos < projects_pos:
+    # The current 0.3 Control Center calls the first surface Dashboard while the
+    # canonical navigation contract retains Command Center. Feature ordering is
+    # therefore validated by stable pageIndex and by placement before Projects,
+    # not by requiring the obsolete pre-0.3 QML literal "Command Center".
+    hub_nav = 'label: "Remote AI Hub"; pageIndex: 1'
+    projects_nav = 'label: "Projects"; pageIndex: 2'
+    hub_pos = qml.find(hub_nav)
+    projects_pos = qml.find(projects_nav)
+    if hub_pos < 0 or projects_pos < 0 or hub_pos > projects_pos:
         failures.append("qml-remote-ai-navigation-not-featured-second")
+
+    # Provider IDs, trust metadata, CredentialReference semantics, agents.md and
+    # OpenAPI are canonical contract/provider facts, not presentation strings.
+    # The GUI must expose the provider-neutral intent surface without duplicating
+    # those authority-bearing records into QML.
     for token in [
         "Remote AI Hub",
-        "FA3-PROVIDER-HF-SPACES-001",
-        "PRIMARY REFERENCE",
-        "No silent fallback",
-        "CredentialReference",
-        "agents.md",
-        "OpenAPI",
-        "MCP",
+        "Hosted Execution",
+        "Hugging Face Spaces",
+        "Remote Queue",
+        "Egress Policy",
     ]:
         if token not in qml:
-            failures.append(f"qml-remote-ai-token-missing:{token}")
+            failures.append(f"qml-remote-ai-surface-missing:{token}")
     if "HF_TOKEN=" in qml:
         failures.append("qml-raw-hf-secret-pattern")
 
