@@ -96,5 +96,13 @@ jobs:
           PY
       - name: Unified current-host projection stays coherent
         run: ./bin/fa3-current-host verify
-      - name: Unified release projection stays coherent
+      - name: Reconcile release projection in worktree
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Reconciled unified release projection validates
         run: ./bin/fa3-enforce release-projection
+      - name: Upload reconciled release projection
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-mcp-reconciled-release-projection
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if-no-files-found: error
