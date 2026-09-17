@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-AUDACITY-OPENVINO-001",
   "name": "OpenVINO AI Plugins for Audacity Provider",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P2",
   "requirement": "OPTIONAL",
@@ -10,15 +10,11 @@
   "pattern_source_strength": "STRONG",
   "new_capability": false,
   "new_architectural_authority": false,
-  "capability_mapping": {
-    "music-separation": "audio.separate",
-    "noise-suppression": "audio.denoise",
-    "whisper-transcription": "speech.transcribe",
-    "music-generation": "music.generate",
-    "audio-super-resolution": "audio.enhance"
-  },
-  "canonical_patterns": ["selection-aware AI processing", "track-in/track-out", "local/offline execution", "device capability discovery", "model acquisition separated from editor lifecycle", "model/version/provenance evidence", "reproducible processing parameters", "non-destructive output where feasible", "policy-controlled provider fallback"],
-  "authority_constraints": ["SHALL NOT become global AI runtime authority", "SHALL NOT become STT authority", "SHALL NOT bypass FA3 model routing or Host Resource Broker", "SHALL NOT silently fall back across devices/providers"],
-  "admission_gate": "AUDACITY_AI_ABI_COMPATIBILITY_GATE",
-  "failure_policy": "fail-closed provider disable; base Audacity and external FA3 AI providers remain available"
+  "capability_mapping": {"music-separation": "audio.separate", "noise-suppression": "audio.denoise", "whisper-transcription": "speech.transcribe", "music-generation": "music.generate", "audio-super-resolution": "audio.enhance"},
+  "canonical_patterns": ["selection-aware AI processing", "track-in/track-out", "local/offline execution", "workload-derived resource admission", "model acquisition separated from editor lifecycle", "model/version/provenance evidence", "reproducible processing parameters", "non-destructive output where feasible", "policy-controlled provider fallback"],
+  "hardware_projection": "FA3-AUDACITY-OPENVINO-HARDWARE-PROJECTION-001",
+  "resource_policy": {"cpu_only": "NO_ACCELERATOR_DISCOVERY_OR_LEASE_REQUIRED", "accelerator": "HRB_LEASE_AND_ACCEL_GUARD_REQUIRED", "device_selection": "CAPABILITY_AND_POLICY_DERIVED", "implicit_accelerator_fallback": "FORBIDDEN", "fixed_hardware_values": "FORBIDDEN"},
+  "authority_constraints": ["SHALL NOT become global AI runtime authority", "SHALL NOT become STT authority", "SHALL NOT bypass FA3 model routing or Host Resource Broker", "SHALL NOT bypass FA3-ACCEL-GUARD-001 when accelerator execution is requested", "SHALL NOT silently fall back across devices/providers"],
+  "admission_gate": "AUDACITY_AI_ABI_AND_RESOURCE_ADMISSION_GATE",
+  "failure_policy": "fail-closed provider disable or workload denial; base Audacity and external FA3 AI providers remain available"
 }
