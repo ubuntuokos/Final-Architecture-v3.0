@@ -1,0 +1,57 @@
+schema_version: 1
+profile: FA3-MCP-CURRENT-HOST-001
+status: PENDING_CURRENT_HOST
+authority: FA3-AUTH-MCP-GATEWAY-001
+capabilities:
+  - capability_id: fa3.image.open
+    risk_class: R0
+    side_effects: [filesystem-read, application-read]
+    providers: []
+  - capability_id: fa3.image.edit
+    risk_class: R2
+    side_effects: [filesystem-write, application-write]
+    providers: []
+  - capability_id: fa3.image.export
+    risk_class: R1
+    side_effects: [filesystem-write]
+    providers: []
+  - capability_id: fa3.video.transcode
+    risk_class: R1
+    side_effects: [filesystem-read, filesystem-write]
+    providers: []
+  - capability_id: fa3.video.track
+    risk_class: R2
+    side_effects: [filesystem-read, filesystem-write, application-write]
+    providers: []
+  - capability_id: fa3.audio.separate
+    risk_class: R1
+    side_effects: [filesystem-read, filesystem-write]
+    providers: []
+  - capability_id: fa3.audio.transcribe
+    risk_class: R1
+    side_effects: [filesystem-read, filesystem-write]
+    providers: []
+  - capability_id: fa3.document.index
+    risk_class: R1
+    side_effects: [filesystem-read, filesystem-write]
+    providers: []
+  - capability_id: fa3.document.retrieve
+    risk_class: R0
+    side_effects: [filesystem-read]
+    providers: []
+  - capability_id: fa3.browser.navigate
+    risk_class: R2
+    side_effects: [network-read, network-write]
+    providers: []
+  - capability_id: fa3.memory.retrieve
+    risk_class: R0
+    side_effects: [application-read]
+    providers: []
+  - capability_id: fa3.3d.mesh.generate
+    risk_class: R2
+    side_effects: [filesystem-write, application-write]
+    providers: []
+
+# Provider lists intentionally remain empty until each adapter passes canonical
+# admission, health and current-host E2E evidence. This seed cannot make a
+# discovered provider executable by itself.
