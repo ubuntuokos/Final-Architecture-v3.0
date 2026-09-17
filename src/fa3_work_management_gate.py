@@ -5,12 +5,14 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_release_baseline import module_active_capability_count
+
 PROJECTION_ID = "FA3-WORK-MANAGEMENT-PROJECTION-001"
 CONTRACT_ID = "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001"
 GATE_ID = "FA3-WORK-MANAGEMENT-GATESET-001"
 KANEO_ID = "FA3-PROVIDER-KANEO-001"
 KANBOARD_ID = "FA3-PROVIDER-KANBOARD-001"
-CAPABILITY_COUNT = 143
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 P0_INVARIANTS = [
     "WORK_MANAGEMENT_SINGLE_MANDATORY_GUI_SURFACE",
     "KANEO_AND_KANBOARD_SHARE_PROVIDER_NEUTRAL_SURFACE",
@@ -82,6 +84,7 @@ def disabled_provider_zero_cost(state: dict[str, Any]) -> bool:
 
 def run_regressions() -> dict[str, Any]:
     cases = []
+
     def add(name: str, positive: bool, negative: bool) -> None:
         cases.append({"name": name, "status": "PASS" if positive and negative else "FAIL",
                       "positive_case": positive, "negative_case": negative})
