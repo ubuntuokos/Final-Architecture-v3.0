@@ -48,16 +48,45 @@ ensure_acquire_environment() {
 Environment="FA3_HRB_ACQUIRE_COMMAND=$ACQUIRE_TEMPLATE"
 EOF
   chmod 600 "$DROPIN_PATH"
-  systemctl --user daemon-reload
-  if systemctl --user is-active --quiet "$UNIT_NAME"; then
-    systemctl --user restart "$UNIT_NAME"
-  fi
 }
 
-ensure_acquire_environment
+write_service_unit() {
+  local runner_root_abs
+  runner_root_abs="$(readlink -f "$RUNNER_ROOT")"
+  mkdir -p "$UNIT_DIR"
+  chmod 700 "$UNIT_DIR"
+  cat >"$UNIT_PATH" <<EOF
+[Unit]
+Description=FA3 GitHub Actions current-host runner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=$runner_root_abs
+ExecStart=$runner_root_abs/run.sh
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=120
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
+EOF
+  chmod 600 "$UNIT_PATH"
+}
+
+activate_service() {
+  write_service_unit
+  ensure_acquire_environment
+  systemctl --user daemon-reload
+  systemctl --user enable --now "$UNIT_NAME"
+}
 
 if [[ -e "$RUNNER_ROOT/.runner" ]]; then
-  echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and refreshing host-admission wiring"
+  echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and recovering service wiring"
+  [[ -x "$RUNNER_ROOT/bin/Runner.Listener" ]] || { echo "FAIL: existing runner registration has no Runner.Listener" >&2; exit 24; }
+  activate_service
   exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
 fi
 
@@ -101,29 +130,7 @@ pushd "$RUNNER_ROOT" >/dev/null
 popd >/dev/null
 
 unset RUNNER_TOKEN FA3_GITHUB_RUNNER_TOKEN
-RUNNER_ROOT_ABS="$(readlink -f "$RUNNER_ROOT")"
-cat >"$UNIT_PATH" <<EOF
-[Unit]
-Description=FA3 GitHub Actions current-host runner
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=simple
-WorkingDirectory=$RUNNER_ROOT_ABS
-ExecStart=$RUNNER_ROOT_ABS/run.sh
-Restart=on-failure
-RestartSec=10
-TimeoutStopSec=120
-KillMode=control-group
-
-[Install]
-WantedBy=default.target
-EOF
-chmod 600 "$UNIT_PATH"
-
-systemctl --user daemon-reload
-systemctl --user enable --now "$UNIT_NAME"
+activate_service
 
 if command -v loginctl >/dev/null 2>&1; then
   LINGER="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
