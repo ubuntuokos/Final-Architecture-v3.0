@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17",
+  "date": "2026-09-17",
+  "status": "CANONICAL_DECISION",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_FA3_SKILL_FABRIC_AND_KEEP_MENGTO_SKILLS_REFERENCE_ONLY",
+  "profile": "FA3-SKILL-FABRIC-001",
+  "reference_provider": "FA3-PROVIDER-MENGTO-SKILLS-001",
+  "contract": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_architectural_authority": 0,
+  "rationale": [
+    "The reusable value is the portable skill/procedure pattern, not a mandatory upstream runtime.",
+    "FA3 already owns orchestration, MCP, authorization, evidence, security, memory and resource-governance boundaries; a parallel AI-Orchestra or execution-authority Skill Router would duplicate authority.",
+    "FA3 can implement the useful patterns natively and remain fully operational without cloning, installing, importing or contacting MengTo/Skills.",
+    "External skill content remains untrusted until admitted by the existing provider-neutral skill package admission contract."
+  ],
+  "supersedes": [
+    "legacy_v1_1_direct_MengTo_skill_import_requirement",
+    "legacy_v1_1_AI_Orchestra_as_separate_authority",
+    "legacy_v1_1_parallel_Skill_Router_execution_authority"
+  ],
+  "closure_conditions": {
+    "provider_neutral_skill_fabric_materialized": true,
+    "MengTo_reference_provider_record_materialized": true,
+    "separate_MengTo_installation_required": false,
+    "upstream_runtime_dependency": false,
+    "capability_count_unchanged": true,
+    "existing_authority_boundaries_preserved": true,
+    "regression_gate_required": true
+  },
+  "final_state": "CONVERSATION_SCOPE_CANONICALLY_CLOSED_AFTER_REGRESSION_GATE_PASS"
+}
