@@ -36,6 +36,13 @@
     ".github/workflows/fa3-current-host.yml",
     "fa3-current-host/README.md",
     "fa3-current-host/manifest.json",
+    "src/fa3_current_host_capability_attestation_collector.py",
+    "tests/test_current_host_capability_attestation_collector.py",
+    "src/fa3_current_host_capability_handoff.py",
+    "tests/test_current_host_capability_handoff.py",
+    "src/fa3_current_host_evidence_audit.py",
+    "tests/test_current_host_evidence_audit.py",
+    ".github/workflows/fa3-global-current-host-closure.yml",
     "src/fa3_cosyvoice_provider.py",
     "src/fa3_cosyvoice_gate.py",
     "tests/test_cosyvoice_gate.py",
@@ -86,6 +93,17 @@
       "gate": null,
       "activation": "ALWAYS_SAFE_READ_ONLY",
       "collection_status": "COLLECTED_UNVALIDATED"
+    },
+    {
+      "name": "capability-attestation-assembly",
+      "collector": "src/fa3_current_host_capability_attestation_collector.py",
+      "gate": "src/fa3_current_host_capability_handoff.py",
+      "activation": "REAL_CURRENT_HOST_EXPLICIT_POSITIVE_NEGATIVE_ROLLBACK_TEST_RESULTS_ONLY",
+      "attestation_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+      "test_execution_fabricated": false,
+      "missing_test_result_is_pass": false,
+      "global_promotion_claim": false,
+      "collection_status": "EXECUTABLE_ASSEMBLY_MATERIALIZED_EXPLICIT_TEST_EXECUTION_RESULTS_PENDING"
     },
     {
       "name": "hrb-systemd-manager-neutrality",
