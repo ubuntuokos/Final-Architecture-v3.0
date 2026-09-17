@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fa3:contract:FA3-OS-EVENT-001",
+  "title": "FA3 OS Event Context Enrichment",
+  "description": "Provider-independent FA3 OS context enrichment payload. This schema does not define the canonical outer event envelope; it MUST be carried inside or referenced from FA3-JOURNAL-CONTRACTS-001.",
+  "x-fa3-contract-id": "FA3-OS-EVENT-001",
+  "x-fa3-canonical-envelope": "FA3-JOURNAL-CONTRACTS-001",
+  "x-fa3-ledger-authority": "FA3-JOURNAL-001",
+  "x-fa3-authoritative-history": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "action",
+    "subject",
+    "capture_policy_id",
+    "provenance",
+    "confidence",
+    "tags"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "action": {"type": "string", "minLength": 1, "maxLength": 128},
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "reference"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1, "maxLength": 64},
+        "reference": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "content_hash": {"type": ["string", "null"], "maxLength": 256},
+        "mime_type": {"type": ["string", "null"], "maxLength": 255}
+      }
+    },
+    "object": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"type": "string", "maxLength": 64},
+        "reference": {"type": "string", "maxLength": 4096},
+        "content_hash": {"type": ["string", "null"], "maxLength": 256}
+      }
+    },
+    "application_id": {"type": ["string", "null"], "maxLength": 256},
+    "session_id": {"type": ["string", "null"], "maxLength": 256},
+    "workstream_id": {"type": ["string", "null"], "maxLength": 256},
+    "artifact_id": {"type": ["string", "null"], "maxLength": 256},
+    "parent_event_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "parent_artifact_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "uri_reference": {"type": ["string", "null"], "maxLength": 4096},
+    "model_reference": {"type": ["string", "null"], "maxLength": 1024},
+    "workflow_reference": {"type": ["string", "null"], "maxLength": 1024},
+    "prompt_reference": {"type": ["string", "null"], "maxLength": 1024},
+    "capture_policy_id": {"type": "string", "const": "FA3-OS-POLICY-001"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["source_class"],
+      "properties": {
+        "source_class": {"enum": ["FA3_NATIVE", "AUTHORITATIVE_OS", "APPLICATION_ADAPTER", "SCOPED_OBSERVATION", "SEMANTIC_INFERENCE"]},
+        "source_reference": {"type": ["string", "null"], "maxLength": 4096}
+      }
+    },
+    "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "tags": {"type": "array", "items": {"type": "string", "maxLength": 128}, "uniqueItems": true},
+    "payload_reference": {"type": ["string", "null"], "maxLength": 4096}
+  }
+}
