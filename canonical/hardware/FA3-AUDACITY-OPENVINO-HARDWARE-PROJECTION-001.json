@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.hardware-projection.v1",
+  "id": "FA3-AUDACITY-OPENVINO-HARDWARE-PROJECTION-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile": "FA3-AUDIO-EDIT-001",
+  "provider": "FA3-PROVIDER-AUDACITY-OPENVINO-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "semantics": {
+    "resource_envelope": "WORKLOAD_DERIVED",
+    "cpu_only_execution": "VALID_WITHOUT_ACCELERATOR_DISCOVERY_OR_LEASE",
+    "accelerator_execution": "REQUIRES_HRB_LEASE_AND_FA3-ACCEL-GUARD-001_RECONCILIATION",
+    "device_selection": "CAPABILITY_AND_POLICY_DERIVED",
+    "fixed_cpu_gpu_npu_numa_values": "FORBIDDEN",
+    "implicit_accelerator_fallback": "FORBIDDEN",
+    "display_gpu_is_compute_entitlement": false,
+    "disabled_provider_runtime_cost": "NEAR_ZERO"
+  },
+  "admission_inputs": ["requested_operation", "model_identity", "runtime_identity", "estimated_cpu", "estimated_memory", "accelerator_required", "accelerator_capabilities_if_required"],
+  "required_evidence": ["workload resource request", "HRB admission receipt", "accelerator lease when used", "Accelerator Guard reconciliation when used", "provider/model/runtime identity", "output provenance"],
+  "failure_policy": "FAIL_CLOSED_FOR_PROVIDER_EXECUTION_WITHOUT_DEGRADING_BASE_AUDACITY"
+}
