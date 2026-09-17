@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "profile_id": "FA3-OS-001",
+  "name": "Context, Activity, Episodic Memory & Workstream Operating Substrate",
+  "version": "3.0.0",
+  "status": "CANONICAL",
+  "priority": "P0 / MUST",
+  "classification": [
+    "LOCAL_FIRST",
+    "PRIVACY_GOVERNED",
+    "PROVIDER_INDEPENDENT",
+    "WORKSTATION_CONTEXT_SUBSTRATE"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count": 143,
+  "authority_mode": "COMPOSITE_PROJECTION_OVER_EXISTING_AUTHORITIES",
+  "normative_scope": "Privacy-governed capture coordination, context normalization, correlation, session/workstream projections, provenance enrichment, episodic retrieval and context composition over existing FA3 authorities without replacing their truth or execution ownership.",
+  "ledger_authority": "FA3-JOURNAL-001",
+  "canonical_event_envelope": "FA3-JOURNAL-CONTRACTS-001",
+  "event_enrichment_contract": "FA3-OS-EVENT-001",
+  "privacy_policy_profile": "FA3-OS-POLICY-001",
+  "historical_truth_rule": "FA3-JOURNAL-001 remains the sole canonical workstation event/history ledger; FA3 OS enrichment is carried inside or referenced from the Journal envelope and MUST NOT define a competing outer event envelope.",
+  "derived_projection_rule": "Embeddings, summaries, inferred sessions/workstreams and semantic indexes are derived, rebuildable projections and MUST NOT rewrite or override canonical Journal history.",
+  "pipeline": [
+    "sources_and_adapters",
+    "capture_broker",
+    "privacy_and_sensitive_policy_gate",
+    "context_ir_normalizer",
+    "FA3-JOURNAL-001",
+    "deterministic_first_correlation",
+    "session_and_workstream_projections",
+    "provenance_and_context_passport",
+    "episodic_memory_and_indexes",
+    "context_composer",
+    "central_capability_gateway_ui_agents"
+  ],
+  "correlation_order": [
+    "deterministic_evidence",
+    "explicit_project_association",
+    "artifact_lineage",
+    "workflow_id",
+    "temporal_relationship",
+    "semantic_inference"
+  ],
+  "authority_boundaries": {
+    "historical_event_truth": "FA3-JOURNAL-001",
+    "durable_workflow_orchestration": "Temporal",
+    "resource_allocation": "FA3-HRB-001",
+    "authorization_and_exposure": "Central Capability/MCP Gateway",
+    "model_and_provider_routing": "existing FA3 inference/model routing authority",
+    "binary_artifact_truth": "existing artifact Registry/BOM and approved project stores",
+    "fa3_os_role": "observe_normalize_correlate_remember_retrieve_compose_context_prove_provenance"
+  },
+  "session_resume": {
+    "output": "Resume Plan",
+    "execution_authority": false,
+    "execution_rule": "Resume Plan execution MUST be delegated to the canonical authority for each requested action."
+  },
+  "reference_pattern_sources": [
+    {
+      "name": "Zeitgeist / GNOME Activity Journal",
+      "role": "REFERENCE_PATTERN_SOURCE_ONLY",
+      "adopted_patterns": ["chronological event history", "actor_subject_time_source modeling"]
+    },
+    {
+      "name": "Pieces OS",
+      "role": "REFERENCE_PATTERN_SOURCE_ONLY",
+      "adopted_patterns": ["local semantic retrieval", "cross-application AI context exposure"]
+    }
+  ],
+  "forbidden_promotions": [
+    "FA3_OS_AS_PARALLEL_EVENT_LEDGER_AUTHORITY",
+    "FA3_OS_AS_WORKFLOW_ORCHESTRATION_AUTHORITY",
+    "FA3_OS_AS_RESOURCE_AUTHORITY",
+    "FA3_OS_AS_AUTHORIZATION_OR_MCP_AUTHORITY",
+    "FA3_OS_AS_MODEL_ROUTING_AUTHORITY",
+    "DERIVED_MEMORY_AS_HISTORICAL_TRUTH",
+    "RESUME_PLAN_AS_EXECUTION_AUTHORITY"
+  ],
+  "invariants": [
+    "The canonical workstation event envelope remains FA3-JOURNAL-CONTRACTS-001.",
+    "All persisted FA3 OS event enrichment is admitted through FA3-OS-POLICY-001 before durable storage.",
+    "Historical event payloads are never silently rewritten by semantic processing.",
+    "Derived projections are deletable and rebuildable from canonical permitted sources.",
+    "Every agent context retrieval is auditable and policy-filtered.",
+    "FA3 OS introduces zero new capabilities and zero new architectural authorities."
+  ]
+}
