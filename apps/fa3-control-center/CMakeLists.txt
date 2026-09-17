@@ -45,6 +45,7 @@ set_source_files_properties(qml/TokenControlCenterPage.qml PROPERTIES QT_RESOURC
 set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_ALIAS LanguageControlPage.qml)
 set_source_files_properties(qml/IntegrationsPage.qml PROPERTIES QT_RESOURCE_ALIAS IntegrationsPage.qml)
 set_source_files_properties(qml/AcceleratorGuardPage.qml PROPERTIES QT_RESOURCE_ALIAS AcceleratorGuardPage.qml)
+set_source_files_properties(qml/WorkManagementPage.qml PROPERTIES QT_RESOURCE_ALIAS WorkManagementPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -67,6 +68,7 @@ qt_add_qml_module(fa3-control-center
         qml/LanguageControlPage.qml
         qml/IntegrationsPage.qml
         qml/AcceleratorGuardPage.qml
+        qml/WorkManagementPage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
