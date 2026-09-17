@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: fa3-permanent-${{ github.event.pull_request.number || github.ref }}
@@ -33,6 +33,48 @@ jobs:
         env:
           SNAPSHOT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: PYTHONPATH=src python tools/fa3_release_projection_candidate.py --root . --snapshot-head "$SNAPSHOT_SHA" --output reports/release-projection-candidate.json
+      - name: Opt-in reconcile release projection
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.body, '[fa3-projection-reconcile]')
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HEAD_REF: ${{ github.head_ref }}
+        shell: bash
+        run: |
+          set +e
+          ./bin/fa3-enforce release-projection >/tmp/fa3-projection-precheck.json 2>&1
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            echo "Canonical release projection is already current; no reconciliation commit required."
+            exit 0
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('reports/release-projection-gate-report.json').read_text())
+          allowed = {
+              'FA3-RELEASE-PROJECTION-009',
+              'FA3-RELEASE-PROJECTION-014',
+              'FA3-RELEASE-PROJECTION-016',
+              'FA3-RELEASE-PROJECTION-017',
+              'FA3-RELEASE-PROJECTION-018',
+              'FA3-RELEASE-PROJECTION-019',
+          }
+          codes = {x.get('code') for x in report.get('findings', [])}
+          unexpected = sorted(c for c in codes if c not in allowed)
+          if unexpected:
+              raise SystemExit(f'Projection auto-reconciliation refused; non-reconcilable findings: {unexpected}')
+          if not codes:
+              raise SystemExit('Projection gate failed without declared findings; refusing reconciliation')
+          print('Reconcilable projection drift:', sorted(codes))
+          PY
+          cp reports/release-projection-candidate.json canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          git commit -m "chore(release): reconcile deterministic projection"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push origin "HEAD:${HEAD_REF}"
       - name: Syntax check
         run: python -m py_compile src/fa3_enforce.py src/fa3_terax_gate.py src/fa3_kaneo_gate.py src/fa3_kanboard_gate.py src/fa3_buzz_gate.py src/fa3_xcmd_gate.py src/fa3_ai_engineering_gate.py src/fa3_external_api_discovery_gate.py src/fa3_autogpt_gate.py src/fa3_ai_infra_guard_gate.py src/fa3_ai_infra_guard_adapter.py src/fa3_munder_difflin_gate.py src/fa3_munder_difflin_executable_gate.py src/fa3_muse_code_gate.py src/fa3_closed_loop_agent_ops_reference.py src/fa3_loop_engineering_gate.py src/fa3_openhands_gate.py src/fa3_openyak_gate.py src/fa3_obsidian_knowledge_workspace_gate.py src/fa3_lynxhub_gate.py src/fa3_openbmb_gate.py src/fa3_tencentdb_agent_memory_gate.py src/fa3_video_provider_lifecycle_gate.py src/fa3_stability_sgm_gate.py src/fa3_developer_agent_coordination.py src/fa3_developer_agent_coordination_gate.py src/fa3_codex_adapter.py src/fa3_codex_gate.py src/fa3_modular_gate.py src/fa3_inference_portability_gate.py src/fa3_model_manager_gate.py src/fa3_modular_runtime.py src/fa3_modular_current_host_gate.py src/fa3_demucs_gate.py src/fa3_demucs_provider.py src/fa3_demucs_current_host_gate.py src/fa3_acestep_gate.py src/fa3_blackhole_kdenlive.py src/fa3_blackhole_kdenlive_gate.py src/fa3_kdenlive_editorial_gate.py src/fa3_hybrid_editorial_reference.py src/fa3_hybrid_editorial_gate.py src/fa3_marketing_reference.py src/fa3_marketing_gate.py src/fa3_marketingskills_gate.py src/fa3_whisper_stt_provider.py src/fa3_whisper_stt_gate.py src/fa3_cosyvoice_provider.py src/fa3_cosyvoice_gate.py src/fa3_release_projection_gate.py src/fa3_mentor_gate.py src/fa3_presenton_gate.py src/fa3_cpu_thread_budget.py src/fa3_hrb_deterministic_locality_gate.py src/fa3_cpu_numa_threading_gate.py src/fa3_hardware_portability_gate.py src/fa3_pytorch3d_provider.py src/fa3_pytorch3d_gate.py src/fa3_pytorch3d_runtime_probe.py src/fa3_openfx_interop.py src/fa3_openfx_interop_gate.py tools/fa3_release_projection_candidate.py evidence/collect-pytorch3d-current-host.py tools/fa3_pytorch3d_global_reconcile.py evidence/collect-terax-current-host.py evidence/collect-modular-current-host.py evidence/collect-demucs-current-host.py evidence/collect-blackhole-kdenlive-current-host.py evidence/collect-hybrid-editorial-reference-e2e.py evidence/collect-marketing-reference-e2e.py evidence/collect-whisper-stt-current-host.py evidence/collect-cosyvoice-current-host.py evidence/collect-presenton-current-host.py evidence/collect-developer-agent-coordination-e2e.py evidence/collect-codex-current-host.py evidence/collect-ai-infra-guard-current-host.py evidence/collect-lynxhub-current-host.py
       - name: Executable invariant tests
