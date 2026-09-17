@@ -8,6 +8,8 @@ import hashlib
 import json
 import os
 import platform
+import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
@@ -24,7 +26,9 @@ RESULT_SCHEMA = "fa3.capability-current-host-test-result.v1"
 REPORT_SCHEMA = "fa3.current-host-capability-test-orchestrator-report.v2"
 ORCHESTRATOR_ID = "FA3-CURRENT-HOST-CAPABILITY-TEST-ORCHESTRATOR-002"
 HOST_FINGERPRINT = ".fa3-current-host/global-closure/host/host-fingerprint.json"
-KINDS = ("positive", "negative", "rollback")
+RESULT_ROOT = ".fa3-current-host/test-results/capabilities"
+ARTIFACT_ROOT = ".fa3-current-host/test-artifacts/capabilities"
+HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -49,7 +53,10 @@ def _sha256(path: Path) -> str:
 def _repo_file(root: Path, rel: Any) -> tuple[Path | None, str | None]:
     if not isinstance(rel, str) or not rel or Path(rel).is_absolute():
         return None, "path missing or absolute"
-    path = (root / rel).resolve()
+    unresolved = root / rel
+    if unresolved.is_symlink():
+        return None, "symlink paths are forbidden"
+    path = unresolved.resolve()
     if path == root or root not in path.parents:
         return None, "path escapes repository"
     if not path.is_file():
@@ -57,11 +64,31 @@ def _repo_file(root: Path, rel: Any) -> tuple[Path | None, str | None]:
     return path, None
 
 
+def _artifact_scope_rel(entry: dict[str, Any]) -> str:
+    return f"{ARTIFACT_ROOT}/{entry['subject_id']}/{entry['test_kind']}"
+
+
+def _artifact_scope(root: Path, entry: dict[str, Any]) -> Path:
+    return (root / _artifact_scope_rel(entry)).resolve()
+
+
+def _prepare_artifact_scope(root: Path, entry: dict[str, Any]) -> Path:
+    scope = _artifact_scope(root, entry)
+    expected_parent = (root / ARTIFACT_ROOT).resolve()
+    if expected_parent not in scope.parents:
+        raise RuntimeError("artifact scope escaped current-host test artifact root")
+    shutil.rmtree(scope, ignore_errors=True)
+    scope.mkdir(parents=True, exist_ok=False)
+    return scope
+
+
 def _command_for_adapter(root: Path, entry: dict[str, Any]) -> tuple[list[str] | None, str | None]:
     adapter, error = _repo_file(root, entry.get("adapter_path"))
     if error or adapter is None:
         return None, error or "adapter missing"
     expected = entry.get("adapter_sha256")
+    if not isinstance(expected, str) or not HEX64.fullmatch(expected):
+        return None, "adapter digest missing/invalid"
     if _sha256(adapter) != expected:
         return None, "adapter digest mismatch"
     argv = entry.get("argv", [])
@@ -103,10 +130,16 @@ def _validate_verdict(
     artifact, error = _repo_file(root, artifact_rel)
     if error:
         findings.append(f"artifact {error}")
-    if not isinstance(artifact_digest, str) or len(artifact_digest) != 64:
+    if not isinstance(artifact_digest, str) or not HEX64.fullmatch(artifact_digest):
         findings.append("artifact_sha256 missing/invalid")
     elif artifact is not None and _sha256(artifact) != artifact_digest:
         findings.append("artifact digest mismatch")
+
+    scope = _artifact_scope(root, entry)
+    if artifact is not None and scope not in artifact.parents:
+        findings.append(
+            "artifact must be created inside the obligation-scoped current-host artifact directory"
+        )
 
     if findings:
         return None, findings
@@ -116,7 +149,12 @@ def _validate_verdict(
     }, []
 
 
-def _sanitized_env(root: Path, entry: dict[str, Any], host_digest: str) -> dict[str, str]:
+def _sanitized_env(
+    root: Path,
+    entry: dict[str, Any],
+    host_digest: str,
+    artifact_scope: Path,
+) -> dict[str, str]:
     keep = ("PATH", "HOME", "LANG", "LC_ALL", "TMPDIR")
     env = {key: os.environ[key] for key in keep if key in os.environ}
     env.update({
@@ -127,6 +165,8 @@ def _sanitized_env(root: Path, entry: dict[str, Any], host_digest: str) -> dict[
         "FA3_TEST_ID": str(entry["test_id"]),
         "FA3_HOST_FINGERPRINT_PATH": HOST_FINGERPRINT,
         "FA3_HOST_FINGERPRINT_SHA256": host_digest,
+        "FA3_TEST_ARTIFACT_DIR": str(artifact_scope),
+        "FA3_TEST_ARTIFACT_REL_DIR": artifact_scope.relative_to(root).as_posix(),
         "FA3_REPOSITORY_ROOT": str(root),
         "PYTHONNOUSERSITE": "1",
     })
@@ -149,12 +189,17 @@ def _execute_entry(
     if not isinstance(ttl, int) or ttl < 60 or ttl > 604800:
         return None, ["ttl_seconds outside 60..604800"]
 
+    try:
+        artifact_scope = _prepare_artifact_scope(root, entry)
+    except Exception as exc:
+        return None, [f"artifact scope preparation failed: {exc}"]
+
     started = datetime.now(timezone.utc)
     try:
         proc = subprocess.run(
             command,
             cwd=root,
-            env=_sanitized_env(root, entry, host_digest),
+            env=_sanitized_env(root, entry, host_digest, artifact_scope),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -203,6 +248,7 @@ def _execute_entry(
             "adapter_path": entry["adapter_path"],
             "adapter_sha256": entry["adapter_sha256"],
             "verdict_schema": VERDICT_SCHEMA,
+            "artifact_scope": _artifact_scope_rel(entry),
             "started_at": started.isoformat(),
             "finished_at": finished.isoformat(),
         },
@@ -237,6 +283,7 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
 
     materialized: list[str] = []
     executed: list[dict[str, Any]] = []
+    result_root = root / RESULT_ROOT
     if execute and entries and not blocking and host_digest is not None:
         for entry in entries:
             key = f"{entry.get('subject_id')}:{entry.get('test_kind')}"
@@ -249,8 +296,8 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
                     "findings": findings,
                 })
                 executed.append({"obligation": key, "status": "REJECTED", "findings": findings})
-                continue
-            out = root / f".fa3-current-host/test-results/capabilities/{entry['subject_id']}/{entry['test_kind']}.json"
+                break
+            out = result_root / entry["subject_id"] / f"{entry['test_kind']}.json"
             if out.is_file():
                 blocking.append({
                     "code": "CHOR-006",
@@ -258,10 +305,14 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
                     "obligation": key,
                 })
                 executed.append({"obligation": key, "status": "REJECTED", "findings": ["result collision"]})
-                continue
+                break
             _write(out, result)
             materialized.append(key)
             executed.append({"obligation": key, "status": "PASS", "findings": []})
+
+    if blocking and execute:
+        shutil.rmtree(result_root, ignore_errors=True)
+        materialized = []
 
     if blocking:
         integrity = "FAIL"
@@ -302,6 +353,8 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
             "adapter_digest_revalidated_before_execution": True,
             "shell_execution_allowed": False,
             "host_fingerprint_bound_by_orchestrator": True,
+            "obligation_scoped_fresh_artifact_required": True,
+            "partial_pass_results_survive_failed_run": False,
             "unregistered_test_execution_allowed": False,
             "provider_pass_is_capability_test_result": False,
             "generic_host_collection_is_capability_test_result": False,
@@ -313,7 +366,9 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Execute only explicitly registered FA3 capability tests on the real current host")
+    parser = argparse.ArgumentParser(
+        description="Execute only explicitly registered FA3 capability tests on the real current host"
+    )
     parser.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--execute", action="store_true")
     args = parser.parse_args()
