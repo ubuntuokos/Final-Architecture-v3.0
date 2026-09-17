@@ -1,0 +1,12 @@
+{
+  "schema": "fa3.contract-record.v1",
+  "id": "FA3-AUDIO-EDIT-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "contracts": {
+    "AudioEditAIRequest": {"required": ["operation", "input_artifact", "selection", "requested_capability", "policy_context"], "operations": ["denoise", "transcribe", "separate", "enhance", "generate"]},
+    "AudioEditAIResult": {"required": ["output_artifacts", "track_mapping", "provider_identity", "model_identity", "parameters", "provenance"]},
+    "AudacityAICompatibilityAdmission": {"required": ["audacity_version", "module_api_abi", "runtime_version", "model_compatibility", "device_capability"], "pass_condition": "all compatible", "failure": "disable OpenVINO provider only"}
+  },
+  "invariants": ["AI outputs MUST be explicit artifacts/tracks/labels", "Every AI transformation MUST carry provider/model/parameter provenance", "Compatibility/admission failure MUST be fail-closed for the affected provider", "Routing and accelerator placement remain FA3 authorities"]
+}
