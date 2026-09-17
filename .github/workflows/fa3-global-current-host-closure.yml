@@ -5,7 +5,9 @@ on:
     branches: [main]
     paths:
       - 'src/fa3_current_host_evidence_audit.py'
+      - 'src/fa3_current_host_capability_handoff.py'
       - 'tests/test_current_host_evidence_audit.py'
+      - 'tests/test_current_host_capability_handoff.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -36,13 +38,34 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify projection and auditor syntax
+      - name: Verify projection, handoff and auditor syntax
         run: |
           chmod +x bin/fa3-current-host bin/fa3-enforce
-          python -m py_compile src/fa3_current_host_evidence_audit.py tests/test_current_host_evidence_audit.py
+          python -m py_compile \
+            src/fa3_current_host_capability_handoff.py \
+            src/fa3_current_host_evidence_audit.py \
+            tests/test_current_host_capability_handoff.py \
+            tests/test_current_host_evidence_audit.py
           ./bin/fa3-current-host verify
-      - name: Auditor regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_current_host_evidence_audit -v
+      - name: Handoff and auditor regression tests
+        run: |
+          PYTHONPATH=src python -m unittest \
+            tests.test_current_host_capability_handoff \
+            tests.test_current_host_evidence_audit -v
+      - name: Prove empty workspace cannot fabricate capability PASS
+        run: |
+          rm -rf .fa3-current-host/attestations evidence/receipts/capabilities
+          PYTHONPATH=src python src/fa3_current_host_capability_handoff.py --root .
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
+          assert report['handoff_integrity'] == 'PASS', report
+          assert report['materialization_status'] == 'PENDING_CURRENT_HOST_ATTESTATIONS', report
+          assert report['receipts_materialized'] == 0, report
+          assert report['provider_receipts_promoted'] == 0, report
+          assert report['global_promotion_claim'] is False, report
+          PY
       - name: Audit exact 143-capability registry
         run: PYTHONPATH=src python src/fa3_current_host_evidence_audit.py --root .
       - name: Reconcile 19-point acceptance without weakening fail-closed semantics
@@ -91,6 +114,7 @@ jobs:
           name: fa3-global-current-host-closure-regression
           if-no-files-found: error
           path: |
+            reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
             reports/runtime-gate-report.json
             reports/terax-gate-report.json
@@ -116,17 +140,26 @@ jobs:
           command -v git
           chmod +x bin/fa3-current-host-runner-doctor bin/fa3-current-host bin/fa3-enforce evidence/collect-current-host.sh
           ./bin/fa3-current-host-runner-doctor
-      - name: Collect read-only host evidence
+      - name: Collect fresh read-only host evidence
         shell: bash
         run: |
-          rm -rf .fa3-current-host/global-closure
-          mkdir -p .fa3-current-host/global-closure
+          rm -rf \
+            .fa3-current-host/global-closure \
+            .fa3-current-host/attestations \
+            evidence/receipts/capabilities
+          mkdir -p \
+            .fa3-current-host/global-closure \
+            .fa3-current-host/attestations/capabilities
           bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
           set +e
           python3 evidence/collect-terax-current-host.py
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Materialize only explicitly attested capability receipts
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_handoff.py --root .
       - name: Reconcile only qualified capability receipts
         shell: bash
         run: |
@@ -148,9 +181,14 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
+          handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert handoff['handoff_integrity'] == 'PASS', handoff
+          assert handoff['provider_receipts_promoted'] == 0, handoff
+          assert handoff['generic_host_evidence_promoted'] == 0, handoff
+          assert handoff['global_promotion_claim'] is False, handoff
           assert audit['audit_integrity'] == 'PASS', audit
           assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
           assert acceptance['static_gate'] == 'PASS', acceptance
@@ -162,6 +200,8 @@ jobs:
               assert acceptance['status'] == 'DENIED', acceptance
               assert promotion['actual_state'] == 'PROMOTION_BLOCKED' and promotion['promotion_allowed'] is False, promotion
           print(json.dumps({
+              'handoff': handoff['materialization_status'],
+              'receipts_materialized': handoff['receipts_materialized'],
               'runtime_closure': audit['runtime_closure'],
               'registry_pass_count': audit['registry_pass_count'],
               'registry_pending_count': audit['registry_pending_count'],
@@ -181,8 +221,10 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/attestations/capabilities/**
             evidence/evidence-registry.json
             evidence/receipts/**
+            reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
             reports/runtime-gate-report.json
             reports/terax-gate-report.json
