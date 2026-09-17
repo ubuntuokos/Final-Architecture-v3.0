@@ -50,18 +50,35 @@ The following feature intent remains valuable and should be re-materialized late
 
 This retained feature intent must use the current Model Manager, ModelLibraryService, Model Artifact Security, workload-driven resource-admission and current Control Center wiring. It must not restore the stale `LegacyMain.qml` architecture.
 
+## Existing reconciliation branch quarantine
+
+Branch `reconcile/gui-model-manager-2026-09-17` exists, but it is **not** an approved integration source.
+
+Decision: `QUARANTINED_NOT_INTEGRATION_SOURCE`.
+
+Reasons:
+
+- it combines llmfit/OpenModelDB reconciliation with unrelated language, tools, update and remote-AI changes;
+- it contains tracked generated/build outputs under `build/fa3-control-center/**`;
+- it is already divergent from current `main`;
+- it has no pull request establishing a reviewable integration boundary;
+- using it as the base for #151 would violate the serialized shared-GUI integration rule.
+
+Useful source fragments may be inspected for reference, but all accepted implementation must be re-materialized from current `main` on a clean, scoped branch.
+
 ## Sequencing decision
 
 The stale shared-GUI workstreams are cleared before llmfit repair:
 
 1. Close #144 as superseded.
-2. Close #155 as superseded-as-branch while preserving its OpenModelDB UX intent in a dedicated successor task.
-3. Reconcile PR #151 from current `main` using current hardware and resource-admission semantics.
-4. Only after #151 is reconciled, re-materialize the retained OpenModelDB catalog/download UX on the then-current Model Manager surface.
+2. Close #155 as superseded-as-branch while preserving its OpenModelDB UX intent in successor issue #220.
+3. Quarantine `reconcile/gui-model-manager-2026-09-17` as non-integration reference only.
+4. Reconcile PR #151 from current `main` using current hardware and resource-admission semantics.
+5. Only after #151 is reconciled, re-materialize the retained OpenModelDB catalog/download UX on the then-current Model Manager surface.
 
 ## Authority and evidence invariants
 
-- No stale PR may overwrite current hardware semantics.
+- No stale PR or unreviewed reconciliation branch may overwrite current hardware semantics.
 - Raw/provider hardware observations remain non-authoritative.
 - HRB remains admission/placement/reservation/lease authority.
 - Resource classes are derived from workload requirements.
