@@ -5,12 +5,16 @@ on:
     paths:
       - 'canonical/providers/FA3-PROVIDER-OPENMODELDB-001.json'
       - 'canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json'
+      - 'canonical/decisions/FA3-DEC-OPENMODELDB-BROWSER-DOWNLOAD-2026-09-13.json'
       - 'canonical/references/FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13.json'
       - 'canonical/openmodeldb-provider-enforcement.json'
+      - 'canonical/openmodeldb-browser-download-enforcement.json'
       - 'canonical/profiles/FA3-MODEL-MANAGER-001.json'
       - 'canonical/model-manager-v2-enforcement.json'
+      - 'apps/fa3-control-center/**'
       - 'src/fa3_openmodeldb_provider_gate.py'
       - 'tests/test_openmodeldb_provider_gate.py'
+      - 'tests/test_openmodeldb_browser_download_manager.py'
       - 'evidence/reference/openmodeldb-provider-ci-2026-09-13.json'
       - '.github/workflows/fa3-openmodeldb-provider-gate.yml'
   workflow_dispatch:
@@ -28,5 +32,7 @@ jobs:
           python-version: '3.12'
       - name: OpenModelDB provider fail-closed gate
         run: python -m unittest tests.test_openmodeldb_provider_gate -v
+      - name: OpenModelDB tagged browser and staged downloader gate
+        run: python -m unittest tests.test_openmodeldb_browser_download_manager -v
       - name: Existing Model Manager v2 regression gate
         run: python -m unittest tests.test_model_manager_v2_gate -v

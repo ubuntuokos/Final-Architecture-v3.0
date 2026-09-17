@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.model-manager-llmfit-gui-reference-evidence.v1",
+  "id": "FA3-EVIDENCE-MODEL-MANAGER-LLMFIT-GUI-REFERENCE-2026-09-13",
+  "date": "2026-09-13",
+  "status": "STATIC_REFERENCE_MATERIALIZED_RUNTIME_PENDING",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "provider_id": "FA3-PROVIDER-LLMFIT-001",
+  "decision_id": "FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-LLMFIT-GUI-001",
+  "capability_count": 143,
+  "static_materialization": {
+    "native_gui_client": true,
+    "headless_user_service": true,
+    "unix_domain_socket_transport": true,
+    "pinned_upstream_release": "v1.1.15",
+    "integrity_checked_installer": true,
+    "typed_changeset_boundary": true
+  },
+  "evidence_boundary": "LLMFIT_ESTIMATES_ARE_ADVISORY_UNTIL_MEASURED_RUNTIME_EVIDENCE",
+  "current_host_runtime_result": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "current_host_runtime_promotion_claim": false,
+  "production_runtime_promotion_claim": false,
+  "required_next_evidence": [
+    "BUILD_FA3_CONTROL_CENTER_WITH_QT6_NETWORK",
+    "START_FA3_LLMFIT_USER_SERVICE_ON_CURRENT_HOST",
+    "VERIFY_UNIX_SOCKET_API_SYSTEM_AND_MODEL_RESPONSES",
+    "VERIFY_NATIVE_GUI_RENDER_AND_FILTERING",
+    "RUN_MEASURED_MODEL_BENCHMARK_THROUGH_EXISTING_FA3_AUTHORITY_CHAIN",
+    "RECONCILE_RESULT_IN_UNIFIED_EVIDENCE_REGISTRY"
+  ]
+}

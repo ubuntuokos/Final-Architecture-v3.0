@@ -5,7 +5,11 @@
   "name": "Provider-Neutral Local Speech Synthesis, Voice Cloning, Identity, Consent & Voice Asset Governance Fabric",
   "status": "CANONICAL_MATERIALIZED",
   "obligation": "P0/MUST-IF-VOICE-SYNTHESIS-USED",
-  "capability_projection": ["CAP-115", "CAP-116", "CAP-117"],
+  "capability_projection": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
   "parent_architecture": "FA3-AUDIO-001",
   "canonical_root": false,
   "architectural_authority": false,
@@ -55,7 +59,10 @@
     "voice_cloning_primary_candidate": "FA3-PROVIDER-XTTS-001",
     "lightweight_cpu_fallback_candidate": "FA3-PROVIDER-PIPER-001",
     "minimum_conformant_capability": "At least one production-admitted hu-HU route; voice cloning requests require a cloning-capable admitted provider.",
-    "silent_cross_language_fallback": false
+    "silent_cross_language_fallback": false,
+    "activation": "CONDITIONAL_SELECTED_SYSTEM_LANGUAGE",
+    "activation_when": "hu-HU is primary_language OR secondary_language",
+    "inactive_when_not_selected": true
   },
   "providers": [
     "FA3-PROVIDER-COSYVOICE-001",
@@ -71,5 +78,20 @@
     "language_quality_evidence_required": true,
     "hungarian_golden_corpus_required": true,
     "provider_runtime_required_for_global_promotion_when_disabled": false
+  },
+  "language_policy": {
+    "authority_profile": "FA3-LANGUAGE-POLICY-001",
+    "fabric_profile": "FA3-LANGUAGE-FABRIC-001",
+    "native_and_bridged_support_remain_distinct": true,
+    "no_globally_required_voice_language": true
+  },
+  "authority": {
+    "language_selection_and_mediation": "FA3-LANGUAGE-POLICY-001 and FA3-LANGUAGE-FABRIC-001"
+  },
+  "authority_bindings": {
+    "language_selection_and_mediation": "FA3-LANGUAGE-POLICY-001 and FA3-LANGUAGE-FABRIC-001"
+  },
+  "validation": {
+    "hungarian_golden_corpus_required_when": "hungarian_baseline.activation is active"
   }
 }

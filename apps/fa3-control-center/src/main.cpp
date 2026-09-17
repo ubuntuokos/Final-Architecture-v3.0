@@ -1,4 +1,8 @@
 #include "AppCatalogService.h"
+#include "LanguageInterpreterService.h"
+#include "LlmfitClient.h"
+#include "OpenModelDbService.h"
+#include "ResourceTelemetry.h"
 #include "ChatFileService.h"
 #include "Fa3RepositoryModel.h"
 #include "JournalService.h"
@@ -12,6 +16,9 @@
 #include <QPalette>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickWindow>
+#include <QQuickItem>
+#include <QQmlComponent>
 #include <QQuickStyle>
 #include <QUrl>
 #include <QtWebEngineQuick/qtwebenginequickglobal.h>
@@ -49,6 +56,10 @@ int main(int argc, char *argv[])
     ModelLibraryService modelLibrary;
     McpControlService mcpControl;
     AppCatalogService appCatalog;
+    ResourceTelemetry resourceTelemetry;
+    OpenModelDbService openModelDb;
+    LlmfitClient llmfitClient;
+    LanguageInterpreterService interpreter;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
@@ -59,10 +70,47 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3ModelLibrary", &modelLibrary);
     engine.rootContext()->setContextProperty("fa3McpControl", &mcpControl);
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
+    engine.rootContext()->setContextProperty("fa3ResourceTelemetry", &resourceTelemetry);
+    engine.rootContext()->setContextProperty("fa3OpenModelDb", &openModelDb);
+    engine.rootContext()->setContextProperty("llmfitClient", &llmfitClient);
+    engine.rootContext()->setContextProperty("fa3Interpreter", &interpreter);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {
         return 2;
     }
+    auto *window = qobject_cast<QQuickWindow *>(engine.rootObjects().constFirst());
+    if (!window) {
+        return 3;
+    }
+
+    auto attachOverlay = [&](const QString &qmlFile) -> bool {
+        QQmlComponent component(
+            &engine,
+            QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/") + qmlFile));
+        if (component.status() != QQmlComponent::Ready) {
+            return false;
+        }
+        QObject *object = component.create(engine.rootContext());
+        auto *item = qobject_cast<QQuickItem *>(object);
+        if (!item) {
+            delete object;
+            return false;
+        }
+        item->setParent(window->contentItem());
+        item->setParentItem(window->contentItem());
+        return true;
+    };
+
+    if (!attachOverlay(QStringLiteral("ResourceStatusStrip.qml"))) {
+        return 4;
+    }
+    if (!attachOverlay(QStringLiteral("ToolsOverlay.qml"))) {
+        return 5;
+    }
+    if (!attachOverlay(QStringLiteral("OperationsExtensionsOverlay.qml"))) {
+        return 6;
+    }
+
     return app.exec();
 }

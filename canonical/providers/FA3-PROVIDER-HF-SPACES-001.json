@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-HF-SPACES-001",
+  "name": "Hugging Face Spaces / Gradio hosted execution",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST_SUPPORT",
+  "provider_role": "MANDATORY_SUPPORTED_PRIMARY_REFERENCE_REMOTE_AI_APPLICATION_TOOL_HOSTED_EXECUTION_PROVIDER",
+  "classification": [
+    "PRIMARY_REFERENCE_PROVIDER",
+    "REMOTE_AI_APPLICATION_PROVIDER",
+    "REMOTE_TOOL_EXECUTION_PROVIDER",
+    "HOSTED_MULTIMODAL_EXECUTION_PROVIDER",
+    "ARTIFACT_PRODUCING_REMOTE_SERVICE_PROVIDER",
+    "DYNAMIC_CAPABILITY_DISCOVERY_PROVIDER"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-005",
+    "CAP-011"
+  ],
+  "parent_profile": "FA3-REMOTE-AI-EXEC-001",
+  "contract": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+  "activation_mode": "POLICY_GATED_ON_DEMAND_REMOTE_EXECUTION",
+  "global_hard_dependency": false,
+  "automatic_local_fallback_target": false,
+  "runtime_activation_requires_admission": true,
+  "adapter_surfaces": [
+    "GRADIO_PYTHON_CLIENT",
+    "GRADIO_JAVASCRIPT_CLIENT",
+    "QUEUE_BASED_REST_OPENAPI",
+    "AGENTS_MD_AGENT_DISCOVERY",
+    "MCP_COMPATIBLE_SPACE_TOOLS"
+  ],
+  "canonical_path": "FA3 orchestrator -> execution gateway -> Remote AI Application, Tool & Hosted Execution Fabric -> provider adapter -> Hugging Face Space",
+  "provider_boundary": {
+    "space_url": "ADAPTER_LOCAL",
+    "gradio_api_name": "ADAPTER_LOCAL",
+    "gradio_event_id": "ADAPTER_LOCAL",
+    "provider_auth_mechanism": "ADAPTER_LOCAL_VIA_CREDENTIAL_REFERENCE",
+    "provider_specific_fields_in_canonical_job": "FORBIDDEN"
+  },
+  "trust_and_security": {
+    "agents_md_trusted_by_discovery_alone": false,
+    "openapi_trusted_by_discovery_alone": false,
+    "space_owner_and_revision_provenance": "REQUIRED",
+    "allowlist_or_policy_admission": "REQUIRED",
+    "privacy_classification": "REQUIRED",
+    "network_egress_gate": "REQUIRED",
+    "credential_reference_only": true,
+    "raw_hf_token_in_prompt_or_job": "FORBIDDEN",
+    "quota_budget": "REQUIRED",
+    "timeout_and_circuit_breaker": "REQUIRED",
+    "artifact_validation": "REQUIRED",
+    "audit_and_execution_provenance": "REQUIRED"
+  },
+  "authority_boundaries": {
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_and_mcp_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "workflow_orchestration": "EXISTING_FA3_TEMPORAL_WORKFLOW_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "network_egress": "EXISTING_FA3_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "GLOBAL_INFERENCE_RUNTIME_AUTHORITY",
+    "AGENT_ORCHESTRATION_AUTHORITY",
+    "WORKFLOW_ORCHESTRATION_AUTHORITY",
+    "LOCAL_GPU_SCHEDULER_AUTHORITY",
+    "IDENTITY_AUTHORITY",
+    "AUTHORIZATION_AUTHORITY",
+    "MCP_GATEWAY_AUTHORITY",
+    "SECRETS_AUTHORITY",
+    "NETWORK_EGRESS_AUTHORITY",
+    "EVIDENCE_PROVENANCE_AUTHORITY",
+    "CANONICAL_REGISTRY_AUTHORITY"
+  ],
+  "separation_from_hf_model_store": {
+    "model_store_provider": "FA3-PROVIDER-HF-MODEL-STORE-001",
+    "model_store_role": "MODEL_ARTIFACT_DISCOVERY_DOWNLOAD_AND_CACHE",
+    "spaces_role": "REMOTE_APPLICATION_TOOL_AND_HOSTED_EXECUTION",
+    "shared_authority": false,
+    "must_not_be_collapsed": true
+  },
+  "normative_constraint": "Hugging Face Spaces SHALL be supported as the primary reference provider for policy-gated remote AI application, tool and hosted execution. It SHALL NOT become an FA3 global hard dependency, canonical inference runtime, agent/workflow orchestrator, local GPU scheduler, trust authority, secret authority or silent local-compute fallback target."
+}

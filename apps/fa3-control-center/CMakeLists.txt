@@ -27,6 +27,14 @@ qt_add_executable(fa3-control-center
     src/ModelLibraryService.h
     src/McpControlService.cpp
     src/McpControlService.h
+    src/ResourceTelemetry.cpp
+    src/ResourceTelemetry.h
+    src/OpenModelDbService.cpp
+    src/OpenModelDbService.h
+    src/LlmfitClient.cpp
+    src/LlmfitClient.h
+    src/LanguageInterpreterService.cpp
+    src/LanguageInterpreterService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -46,6 +54,16 @@ set_source_files_properties(qml/LanguageControlPage.qml PROPERTIES QT_RESOURCE_A
 set_source_files_properties(qml/IntegrationsPage.qml PROPERTIES QT_RESOURCE_ALIAS IntegrationsPage.qml)
 set_source_files_properties(qml/AcceleratorGuardPage.qml PROPERTIES QT_RESOURCE_ALIAS AcceleratorGuardPage.qml)
 
+set_source_files_properties(qml/ResourceStatusStrip.qml PROPERTIES QT_RESOURCE_ALIAS ResourceStatusStrip.qml)
+set_source_files_properties(qml/ToolsOverlay.qml PROPERTIES QT_RESOURCE_ALIAS ToolsOverlay.qml)
+set_source_files_properties(qml/ToolsPage.qml PROPERTIES QT_RESOURCE_ALIAS ToolsPage.qml)
+set_source_files_properties(qml/OperationsExtensionsOverlay.qml PROPERTIES QT_RESOURCE_ALIAS OperationsExtensionsOverlay.qml)
+set_source_files_properties(qml/ManagerPage.qml PROPERTIES QT_RESOURCE_ALIAS ManagerPage.qml)
+set_source_files_properties(qml/OpenModelDbPage.qml PROPERTIES QT_RESOURCE_ALIAS OpenModelDbPage.qml)
+set_source_files_properties(qml/LlmfitPage.qml PROPERTIES QT_RESOURCE_ALIAS LlmfitPage.qml)
+set_source_files_properties(qml/UpdateCenterPage.qml PROPERTIES QT_RESOURCE_ALIAS UpdateCenterPage.qml)
+set_source_files_properties(qml/LiveInterpreterPage.qml PROPERTIES QT_RESOURCE_ALIAS LiveInterpreterPage.qml)
+set_source_files_properties(qml/LanguagePolicyPage.qml PROPERTIES QT_RESOURCE_ALIAS LanguagePolicyPage.qml)
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
     VERSION 1.0
@@ -67,6 +85,16 @@ qt_add_qml_module(fa3-control-center
         qml/LanguageControlPage.qml
         qml/IntegrationsPage.qml
         qml/AcceleratorGuardPage.qml
+        qml/ResourceStatusStrip.qml
+        qml/ToolsOverlay.qml
+        qml/ToolsPage.qml
+        qml/OperationsExtensionsOverlay.qml
+        qml/ManagerPage.qml
+        qml/OpenModelDbPage.qml
+        qml/LlmfitPage.qml
+        qml/UpdateCenterPage.qml
+        qml/LiveInterpreterPage.qml
+        qml/LanguagePolicyPage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"

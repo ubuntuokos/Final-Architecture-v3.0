@@ -1,0 +1,40 @@
+name: FA3 Remote AI Execution Gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-REMOTE-AI-EXEC-001.json'
+      - 'canonical/contracts/FA3-REMOTE-AI-EXEC-CONTRACTS-001.json'
+      - 'canonical/providers/FA3-PROVIDER-HF-SPACES-001.json'
+      - 'canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json'
+      - 'canonical/decisions/FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13.json'
+      - 'canonical/FA3-GATE-REMOTE-AI-EXEC-001.json'
+      - 'canonical/profiles/FA3-DESKTOP-001.json'
+      - 'canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json'
+      - 'apps/fa3-control-center/qml/Main.qml'
+      - 'src/fa3_remote_ai_exec_gate.py'
+      - 'src/fa3_gui_gate.py'
+      - 'tests/test_remote_ai_exec_gate.py'
+      - '.github/workflows/fa3-remote-ai-exec-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run Remote AI canonical regression gate
+        run: PYTHONPATH=src python src/fa3_remote_ai_exec_gate.py
+      - name: Run Remote AI unit regression
+        run: PYTHONPATH=src python -m unittest tests.test_remote_ai_exec_gate -v
+      - name: Re-run GUI canonical gate
+        run: PYTHONPATH=src python src/fa3_gui_gate.py

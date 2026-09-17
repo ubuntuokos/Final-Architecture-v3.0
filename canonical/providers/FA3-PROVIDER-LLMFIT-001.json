@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-LLMFIT-001",
+  "name": "llmfit Hardware-Aware Local LLM Fit Advisory Projection",
+  "status": "ACCEPTED_STRONG_OPTIONAL_PROVIDER",
+  "provider_role": "MODEL_RESOURCE_FIT_ESTIMATION_AND_RUNTIME_RECOMMENDATION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "STRONG_REFERENCE_PROVIDER",
+    "MODEL_MANAGER_PROJECTION_PROVIDER",
+    "READ_ONLY_ADVISORY_PROVIDER"
+  ],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "upstream_repository": "AlexsJones/llmfit",
+  "upstream_release": "v1.1.15",
+  "upstream_release_commit": "a0d9e5bdcf691707c2615e3805b53e7bea2d5151",
+  "observed_at": "2026-09-13",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "OPTIONAL_PROVIDER_FOR_MANDATORY_HARDWARE_AWARE_FIT_EVALUATION",
+  "runtime_activation_status": "GUI_AND_SERVICE_MATERIALIZED_CURRENT_HOST_RUNTIME_EVIDENCE_PENDING",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "global_runtime_promotion_required_when_disabled": false,
+  "transport": {
+    "mode": "HTTP_OVER_UNIX_DOMAIN_SOCKET",
+    "default_user_socket": "%t/fa3/llmfit.sock",
+    "tcp_listener_required": false,
+    "browser_ui_required": false,
+    "terminal_ui_required": false
+  },
+  "api_projection": {
+    "system": "/api/v1/system",
+    "models": "/api/v1/models",
+    "top_models": "/api/v1/models/top",
+    "health": "/health",
+    "stable_client_semantics": "IGNORE_UNKNOWN_FIELDS_PARSE_ONLY_REQUIRED_FIELDS"
+  },
+  "fa3_usage_policy": {
+    "model_fit_estimate": "ADVISORY_ONLY_NOT_RUNTIME_EVIDENCE",
+    "hardware_detection": "READ_ONLY_INPUT_TO_MODEL_MANAGER",
+    "quantization_recommendation": "CANDIDATE_CONFIGURATION_ONLY",
+    "runtime_recommendation": "CANDIDATE_CONFIGURATION_ONLY",
+    "model_routing": "DELEGATE_TO_EXISTING_FA3_MODEL_ROUTER",
+    "accelerator_placement": "DELEGATE_TO_HOST_RESOURCE_BROKER",
+    "production_admission": "REQUIRES_REAL_RUNTIME_BENCHMARK_AND_EVIDENCE",
+    "gui_execution": "NO_DIRECT_PRIVILEGED_OR_MODEL_EXECUTION",
+    "floating_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "mandatory_invariants": [
+    "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+    "LLMFIT_NOT_MODEL_ROUTER",
+    "LLMFIT_NOT_HOST_RESOURCE_BROKER",
+    "LLMFIT_NOT_PROMOTION_AUTHORITY",
+    "GUI_CONSUMES_HEADLESS_PROVIDER_WITHOUT_TERMINAL",
+    "SAME_HOST_DEFAULT_TRANSPORT_IS_UNIX_DOMAIN_SOCKET",
+    "MODEL_PLACEMENT_REMAINS_HARDWARE_AGNOSTIC_AND_HOST_DERIVED"
+  ]
+}

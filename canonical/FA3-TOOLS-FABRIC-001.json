@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.tools-fabric.v1",
+  "id": "FA3-TOOLS-FABRIC-001",
+  "name": "FA3 Tools Fabric",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "class": "USER_FACING_CAPABILITY_AGGREGATION",
+  "execution_authority": false,
+  "policy_authority": false,
+  "purpose": "Task-oriented GUI aggregation for utility workflows without creating a parallel execution or policy authority.",
+  "categories": [
+    {
+      "id": "DIGITALIZATION",
+      "label_hu": "Digitalizálás",
+      "intents": ["digitalize.audio", "digitalize.image", "digitalize.video"],
+      "rule": "Capture/ingest remains distinct from conversion."
+    },
+    {
+      "id": "CONVERSION",
+      "label_hu": "Konvertálás",
+      "intents": ["convert.universal", "convert.document", "convert.image", "convert.audio", "convert.video", "convert.asset3d"],
+      "canonical_execution_profile": "FA3-FILE-CONVERSION-001"
+    },
+    {
+      "id": "TRANSFER",
+      "label_hu": "Fájl küldés / fogadás",
+      "intents": ["transfer.send", "transfer.receive", "transfer.sync"]
+    },
+    {
+      "id": "ARCHIVE_BACKUP",
+      "label_hu": "Archiválás / Biztonsági mentés",
+      "intents": ["archive.compress", "archive.extract", "backup.create", "backup.restore", "backup.snapshot"]
+    },
+    {
+      "id": "DOWNLOADS",
+      "label_hu": "Letöltések",
+      "intents": ["download.general", "download.media", "download.queue"]
+    },
+    {
+      "id": "FILE_UTILITIES",
+      "label_hu": "Fájlműveletek",
+      "intents": ["file.hash", "file.verify", "file.metadata", "file.duplicates"]
+    }
+  ],
+  "gui_contract": {
+    "surface": "FA3 Control Center",
+    "top_level_entry": "Tools",
+    "task_first_navigation": true,
+    "provider_names_are_secondary": true,
+    "quarantined_provider_launch_forbidden": true
+  },
+  "routing_contract": {
+    "flow": ["GUI_INTENT", "CANONICAL_ADMISSION", "RESOURCE_ADMISSION", "PROVIDER_ROUTER", "PROVIDER_EXECUTION", "PROVENANCE"],
+    "direct_provider_bypass": false,
+    "fail_closed_on_unknown_intent": true
+  },
+  "authority": {
+    "new_architectural_authorities": 0,
+    "inherits_existing_policy_and_resource_authorities": true
+  }
+}

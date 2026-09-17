@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-REMOTE-AI-EXEC-001",
+  "gateset_id": "FA3-REMOTE-AI-EXEC-GATESET-001",
+  "profile_id": "FA3-REMOTE-AI-EXEC-001",
+  "contract_id": "FA3-REMOTE-AI-EXEC-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-HF-SPACES-001",
+  "decision_id": "FA3-DEC-REMOTE-AI-HF-SPACES-2026-09-13",
+  "priority": "P0",
+  "fail_closed": true,
+  "rule_count": 26,
+  "executable": "PYTHONPATH=src python src/fa3_remote_ai_exec_gate.py",
+  "unit_test": "PYTHONPATH=src python -m unittest tests.test_remote_ai_exec_gate -v",
+  "gui_gate": "FA3-GATE-GUI-001",
+  "reference_evidence": "evidence/reference/remote-ai-hf-spaces-ci-2026-09-13.json",
+  "live_remote_call_required_for_static_reference_pass": false,
+  "live_remote_call_requires_explicit_policy_and_credentials": true,
+  "current_host_runtime_required_for_runtime_promotion": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

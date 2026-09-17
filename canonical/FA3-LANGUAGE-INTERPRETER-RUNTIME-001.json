@@ -1,0 +1,68 @@
+{
+  "id": "FA3-LANGUAGE-INTERPRETER-RUNTIME-001",
+  "title": "FA3 Live Language Interpreter Runtime Projection",
+  "tier": "P0/MUST",
+  "status": "CANONICAL",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count_delta": 0,
+  "parent_bridge": "FA3-LANGUAGE-BRIDGE-001",
+  "purpose": "Materialize the existing FA3 language-bridge capability as an operator-facing live interpreter session. The toolbar Tolmacs action starts the runtime workspace instead of opening a settings-only surface.",
+  "ui_contract": {
+    "primary_action": "Tolmács",
+    "primary_action_semantics": "START_LIVE_INTERPRETER_SESSION",
+    "settings_semantics": "SECONDARY_EXPLICIT_SETTINGS_DIALOG",
+    "auto_start_on_workspace_entry": true,
+    "stop_capture_on_workspace_exit": true
+  },
+  "pipeline": [
+    {
+      "stage": "AUDIO_CAPTURE",
+      "authority": false,
+      "implementation": "local ffmpeg PCM16 mono 16 kHz ephemeral chunk",
+      "policy": "LOCAL_ONLY"
+    },
+    {
+      "stage": "STT",
+      "authority": false,
+      "provider": "FA3-PROVIDER-WHISPER-001",
+      "policy": "TYPED_REQUEST_AND_PASS_EVIDENCE_REQUIRED"
+    },
+    {
+      "stage": "TRANSLATION",
+      "authority": false,
+      "provider": "ADAPTER_SELECTED",
+      "policy": "ADMITTED_ADAPTER_ONLY_FAIL_CLOSED"
+    },
+    {
+      "stage": "TTS",
+      "authority": false,
+      "provider": "ADAPTER_SELECTED",
+      "policy": "ADMITTED_ADAPTER_ONLY_FAIL_CLOSED"
+    }
+  ],
+  "data_policy": {
+    "original_input": "AUTHORITATIVE",
+    "translation": "DERIVED_PROJECTION",
+    "session_audio_retention": "EPHEMERAL_TEMP_ONLY",
+    "session_audio_delete_on_stop": true,
+    "plaintext_credentials_in_gui": "FORBIDDEN",
+    "secret_external_egress": "FORBIDDEN",
+    "unadmitted_external_egress": "FORBIDDEN"
+  },
+  "translation_adapter_contract": {
+    "request_schema": "fa3.language-translation-request.v1",
+    "result_schema": "fa3.language-translation-result.v1",
+    "admission_flag": "FA3_LANGUAGE_TRANSLATION_ADAPTER_ADMITTED=1",
+    "adapter_path": "FA3_LANGUAGE_TRANSLATION_ADAPTER",
+    "result_requirement": "PASS plus execution_evidence; LOCAL_ONLY evidence required when external egress is not admitted"
+  },
+  "truth_boundary": {
+    "fabricated_transcript": "FORBIDDEN",
+    "fabricated_translation": "FORBIDDEN",
+    "adapter_gated_may_be_displayed_as_pass": false,
+    "missing_required_stage": "VISIBLE_FAIL_CLOSED_PAUSE"
+  },
+  "runtime_state": "CURRENT_HOST_VALIDATION_REQUIRED",
+  "production_admitted": false
+}

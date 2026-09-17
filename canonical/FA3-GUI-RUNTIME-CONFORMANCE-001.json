@@ -12,9 +12,24 @@
   "current_host_receipt_present": false,
   "promotion_blockers": [
     "CURRENT_HOST_QT6_BUILD_RECEIPT_MISSING",
-    "CURRENT_HOST_KDE_WAYLAND_INTERACTIVE_SMOKE_RECEIPT_MISSING"
+    "CURRENT_HOST_KDE_WAYLAND_INTERACTIVE_SMOKE_RECEIPT_MISSING",
+    "CURRENT_HOST_RESOURCE_STATUS_STRIP_VISUAL_RECEIPT_MISSING",
+    "CURRENT_HOST_CPU_RAM_TELEMETRY_RECEIPT_MISSING",
+    "CURRENT_HOST_GPU_TELEMETRY_RECEIPT_MISSING",
+    "CURRENT_HOST_NPU_DETECTION_OR_EXPLICIT_NOT_PRESENT_RECEIPT_MISSING"
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "resource_status_strip": {
+    "required": true,
+    "placement": "BOTTOM",
+    "resources": [
+      "CPU",
+      "GPU",
+      "NPU",
+      "RAM"
+    ],
+    "runtime_receipt_required": true
+  }
 }

@@ -8,7 +8,9 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "capability_projection": ["CAP-057"],
+  "capability_projection": [
+    "CAP-057"
+  ],
   "contracts": [
     "DesktopNavigationDescriptor",
     "CanonicalReadProjection",
@@ -20,14 +22,18 @@
     "ChangeSetSubmissionIntent",
     "WorkspaceDescriptor",
     "StudioModuleDescriptor",
-    "OperatorNotification"
+    "OperatorNotification",
+    "RemoteAIExecutionReadProjection",
+    "HostResourceStatusStripReadProjection",
+    "ResourcePressureReadProjection"
   ],
   "read_model": {
     "canonical_repository": "READ_ONLY",
     "evidence_store": "READ_ONLY",
     "host_telemetry": "READ_ONLY",
     "provider_runtime_state": "READ_ONLY",
-    "policy_and_approval_state": "READ_ONLY"
+    "policy_and_approval_state": "READ_ONLY",
+    "remote_ai_execution_state": "READ_ONLY"
   },
   "mutation_model": {
     "local_draft_changeset": "ALLOW",
@@ -39,10 +45,12 @@
     "direct_model_runtime_control": "FORBIDDEN",
     "direct_policy_or_secret_mutation": "FORBIDDEN",
     "sudo_su_pkexec": "FORBIDDEN",
-    "free_form_shell": "FORBIDDEN"
+    "free_form_shell": "FORBIDDEN",
+    "direct_remote_provider_execution": "FORBIDDEN"
   },
   "navigation_baseline": [
     "Command Center",
+    "Remote AI Hub",
     "Projects",
     "AI Studio",
     "Agents & Workflows",
@@ -77,5 +85,50 @@
     "qt_compile_gate": true,
     "current_host_runtime_receipt_required_for_runtime_promotion": true,
     "reference_compile_pass_claims_current_host_runtime": false
+  },
+  "resource_status_contract": {
+    "visibility": "PERSISTENT",
+    "placement": "BOTTOM",
+    "resources": [
+      "CPU",
+      "GPU",
+      "NPU",
+      "RAM"
+    ],
+    "cpu": [
+      "UTILIZATION"
+    ],
+    "ram": [
+      "UTILIZATION",
+      "USED_GIB",
+      "TOTAL_GIB"
+    ],
+    "gpu": [
+      "UTILIZATION_WHEN_MEASURABLE",
+      "VRAM_WHEN_MEASURABLE",
+      "TEMPERATURE_WHEN_MEASURABLE"
+    ],
+    "npu": [
+      "DETECTION",
+      "UTILIZATION_WHEN_MEASURABLE"
+    ],
+    "unknown_metric_semantics": "N_A_OR_DASH_NEVER_ZERO",
+    "pressure_projection": "ADVISORY_READ_ONLY",
+    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "enforcement_authority": "SYSTEMD_UNIFIED_CGROUP_V2_ONLY"
+  },
+  "featured_navigation": {
+    "entry": "Remote AI Hub",
+    "position": 1,
+    "immediately_after": "Command Center",
+    "visual_emphasis": "CORE_FEATURED",
+    "provider_neutral_surface": true,
+    "primary_reference_provider": "FA3-PROVIDER-HF-SPACES-001"
+  },
+  "validation": {
+    "resource_strip_visual_receipt_required": true,
+    "cpu_ram_runtime_receipt_required": true,
+    "gpu_runtime_receipt_required_when_gpu_present": true,
+    "npu_detection_or_absence_receipt_required": true
   }
 }

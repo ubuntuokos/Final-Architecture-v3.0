@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LANGUAGE-POLICY-001",
+  "name": "System Language Selection, Canonical Machine Language & Locale Policy",
+  "version": "1.1.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "purpose": "Make FA3 internationally usable while guaranteeing two explicitly selected operating languages on every installation and one stable English canonical machine language for protocols, schemas, commands, GUI actions, policy, audit and evidence.",
+  "language_planes": {
+    "canonical_platform_language": {
+      "language": "en",
+      "mutable_by_user_locale_selection": false,
+      "translated_projection_allowed": true,
+      "translated_projection_authoritative": false,
+      "machine_readable_identifiers_remain_english": true
+    },
+    "user_interaction_language": {
+      "source": "primary/secondary/additional system-language configuration and per-request language context",
+      "provider_neutral": true
+    },
+    "model_application_admission_language": {
+      "source": "FA3-LANGUAGE-ADMISSION-001 validated capability evidence",
+      "native_language_match_required": false,
+      "validated_or_bridged_operability_may_satisfy": true
+    }
+  },
+  "canonical_english_surface": {
+    "must_remain_english": [
+      "capability_id",
+      "command_id",
+      "gui_action_id",
+      "tool_name",
+      "function_name",
+      "schema_key",
+      "protocol_field",
+      "event_type",
+      "policy_rule",
+      "error_code",
+      "audit_security_record_field",
+      "metric_name",
+      "model_capability_descriptor_field",
+      "application_manifest_field",
+      "executable_gate_identifier",
+      "test_identifier",
+      "evidence_record_field",
+      "provenance_field"
+    ],
+    "display_labels_may_be_localized": true,
+    "human_readable_descriptions_may_be_localized": true,
+    "localized_label_may_replace_machine_identifier": false,
+    "localized_projection_may_mutate_canonical_payload": false
+  },
+  "installation_contract": {
+    "primary_language": {"required": true, "cardinality": 1, "format": "BCP47"},
+    "secondary_language": {"required": true, "cardinality": 1, "format": "BCP47"},
+    "primary_secondary_must_differ": true,
+    "additional_languages": {"required": false, "cardinality": "0..N", "format": "BCP47"},
+    "installation_may_complete_without_both_required_languages": false
+  },
+  "semantics": {
+    "primary": ["default GUI locale", "default system/assistant response locale", "default document locale", "default STT/TTS locale preference"],
+    "secondary": ["second official FA3 operating language", "validated alternate work/interface language", "not a lower-quality language class"],
+    "additional": ["optional user/request languages", "do not create mandatory installation dependencies"]
+  },
+  "language_neutrality": {
+    "globally_required_specific_language": null,
+    "globally_required_specific_user_language": null,
+    "canonical_machine_language_is_not_user_language_requirement": true,
+    "hungarian_is_global_default": false,
+    "hungarian_specific_assets_required_when": "hu-HU is primary_language OR secondary_language",
+    "international_apps_may_be_admitted_without_hungarian_native_support": true
+  },
+  "runtime_language_context": {
+    "required_fields": ["user_language", "work_language", "output_language"],
+    "optional_fields": ["source_language"],
+    "work_language_may_differ_from_user_language": true,
+    "output_language_defaults_to_primary_for_general_interaction": true
+  },
+  "change_policy": {
+    "primary_secondary_change_after_install_allowed": true,
+    "invariant_must_remain_true_after_change": "exactly one primary and one distinct secondary language",
+    "required_language_capabilities_must_be_reconciled_before_commit": true,
+    "canonical_platform_language_change_by_locale_setting_forbidden": true
+  },
+  "fail_closed": true,
+  "capability_count_delta": 0,
+  "authority_delta": 0
+}

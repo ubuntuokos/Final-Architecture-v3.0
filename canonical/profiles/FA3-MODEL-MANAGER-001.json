@@ -33,7 +33,8 @@
     "FA3-PROVIDER-HF-MODEL-STORE-001",
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
     "FA3-PROVIDER-OLLAMA-MODEL-001",
-    "FA3-PROVIDER-OPENMODELDB-001"
+    "FA3-PROVIDER-OPENMODELDB-001",
+    "FA3-PROVIDER-LLMFIT-001"
   ],
   "authority": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -56,7 +57,10 @@
     "inventory dedup candidate detection",
     "policy-bound physical dedup authorization",
     "policy-bound move/delete/relink mutation requests",
-    "specialized upscaling/restoration catalog discovery projection"
+    "specialized upscaling/restoration catalog discovery projection",
+    "hardware-aware model fit advisory projection",
+    "quantization and runtime candidate recommendation",
+    "native FA3 GUI model-fit projection"
   ],
   "physical_store_policy": {
     "stability_matrix": "PREFERRED_CURRENT_HOST_PHYSICAL_STORE_FOR_NATIVELY_SUPPORTED_MEDIA_MODEL_CLASSES",
@@ -105,7 +109,8 @@
     "hugging_face": "PRIMARY_UPSTREAM_SOURCE_AND_CONTENT_ADDRESSED_CACHE_PROVIDER",
     "lm_studio": "STRONG_OPTIONAL_INTERACTIVE_LLM_DESKTOP_MODEL_LIBRARY_AND_RUNTIME_PROVIDER",
     "ollama": "STRONG_OPTIONAL_LLM_PACKAGING_SERVING_AND_RUNTIME_PROVIDER",
-    "openmodeldb": "SPECIALIZED_OPTIONAL_UPSCALING_RESTORATION_DISCOVERY_METADATA_AND_ACQUISITION_SOURCE_PROVIDER"
+    "openmodeldb": "SPECIALIZED_OPTIONAL_UPSCALING_RESTORATION_DISCOVERY_METADATA_AND_ACQUISITION_SOURCE_PROVIDER",
+    "llmfit": "STRONG_OPTIONAL_HARDWARE_AWARE_MODEL_FIT_AND_RUNTIME_RECOMMENDATION_PROVIDER"
   },
   "provider_extensions": {
     "openmodeldb": {
@@ -145,5 +150,24 @@
     "runtime_provider_direct_download_bypass": "FORBIDDEN",
     "scanner_pass_is_promotion_authority": false,
     "current_host_toolchain_e2e": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  },
+  "llmfit_gui_extension": {
+    "decision_id": "FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13",
+    "provider_id": "FA3-PROVIDER-LLMFIT-001",
+    "gate_id": "FA3-GATE-MODEL-MANAGER-LLMFIT-GUI-001",
+    "ui_surface": "FA3_CONTROL_CENTER_OPERATIONS_MODEL_LAB",
+    "service_mode": "HEADLESS_USER_SERVICE",
+    "transport": "HTTP_OVER_UNIX_DOMAIN_SOCKET",
+    "terminal_required": false,
+    "browser_required": false,
+    "estimate_is_runtime_evidence": false,
+    "benchmark_and_placement_requests": "TYPED_DRAFT_CHANGESET_ONLY",
+    "current_host_runtime_evidence": "PENDING",
+    "invariants": [
+      "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+      "MODEL_FIT_PROVIDER_NOT_PLACEMENT_AUTHORITY",
+      "MODEL_FIT_GUI_IS_READ_ONLY_PLUS_TYPED_DRAFT_INTENT",
+      "MODEL_PLACEMENT_DERIVED_FROM_CURRENT_HOST_CAPABILITIES_NOT_FIXED_GPU_ASSUMPTIONS"
+    ]
   }
 }
