@@ -38,14 +38,17 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # GitHub Actions tokens cannot update workflow files without workflows permission.
+          # Keep the deterministic permanent-CI patch out of this bot commit; it is
+          # applied separately through the authenticated repository control plane.
+          git restore .github/workflows/fa3-permanent-enforcement.yml
           git add \
             canonical/enforcement-policy.json \
             canonical/providers/FA3-PROVIDER-KANEO-001.json \
             canonical/providers/FA3-PROVIDER-KANBOARD-001.json \
             apps/fa3-control-center/CMakeLists.txt \
             apps/fa3-control-center/qml/Main.qml \
-            src/fa3_enforce.py \
-            .github/workflows/fa3-permanent-enforcement.yml
+            src/fa3_enforce.py
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
