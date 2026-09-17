@@ -33,7 +33,8 @@
     "FA3-PROVIDER-HF-MODEL-STORE-001",
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
     "FA3-PROVIDER-OLLAMA-MODEL-001",
-    "FA3-PROVIDER-OPENMODELDB-001"
+    "FA3-PROVIDER-OPENMODELDB-001",
+    "FA3-PROVIDER-LLMFIT-001"
   ],
   "authority": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -56,7 +57,10 @@
     "inventory dedup candidate detection",
     "policy-bound physical dedup authorization",
     "policy-bound move/delete/relink mutation requests",
-    "specialized upscaling/restoration catalog discovery projection"
+    "specialized upscaling/restoration catalog discovery projection",
+    "hardware-aware model-fit advisory projection",
+    "quantization and runtime candidate recommendation",
+    "native FA3 GUI model-fit projection"
   ],
   "physical_store_policy": {
     "stability_matrix": "PREFERRED_CURRENT_HOST_PHYSICAL_STORE_FOR_NATIVELY_SUPPORTED_MEDIA_MODEL_CLASSES",
@@ -84,7 +88,7 @@
     "RUNTIME_COMPATIBILITY_UNKNOWN_UNTIL_EVIDENCED",
     "PROVIDER_NATIVE_RUNTIME_STORES_MAY_REMAIN_NATIVE"
   ],
-  "implementation_status": "CANONICAL_V2_CURRENT_HOST_ADMISSION_MATERIALIZED_REAL_PROVIDER_E2E_PENDING",
+  "implementation_status": "CANONICAL_V2_CURRENT_HOST_ADMISSION_MATERIALIZED_REAL_PROVIDER_E2E_PENDING_LLMFIT_GUI_STATIC",
   "model_registry": "FA3-MODEL-REGISTRY-001",
   "storage_planes": {
     "source_cache": "UPSTREAM_CONTENT_ADDRESSED_SOURCE_CACHE",
@@ -105,7 +109,8 @@
     "hugging_face": "PRIMARY_UPSTREAM_SOURCE_AND_CONTENT_ADDRESSED_CACHE_PROVIDER",
     "lm_studio": "STRONG_OPTIONAL_INTERACTIVE_LLM_DESKTOP_MODEL_LIBRARY_AND_RUNTIME_PROVIDER",
     "ollama": "STRONG_OPTIONAL_LLM_PACKAGING_SERVING_AND_RUNTIME_PROVIDER",
-    "openmodeldb": "SPECIALIZED_OPTIONAL_UPSCALING_RESTORATION_DISCOVERY_METADATA_AND_ACQUISITION_SOURCE_PROVIDER"
+    "openmodeldb": "SPECIALIZED_OPTIONAL_UPSCALING_RESTORATION_DISCOVERY_METADATA_AND_ACQUISITION_SOURCE_PROVIDER",
+    "llmfit": "STRONG_OPTIONAL_HARDWARE_AWARE_MODEL_FIT_AND_RUNTIME_RECOMMENDATION_PROVIDER"
   },
   "provider_extensions": {
     "openmodeldb": {
@@ -116,6 +121,33 @@
       "artifact_trust_authority": false,
       "security_gate_required": "FA3-GATE-MODEL-ARTIFACT-SECURITY-001",
       "current_host_runtime_promotion_claim": false
+    },
+    "llmfit": {
+      "provider_id": "FA3-PROVIDER-LLMFIT-001",
+      "decision_id": "FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13",
+      "gate_id": "FA3-GATE-MODEL-MANAGER-LLMFIT-GUI-001",
+      "ui_surface": "FA3_CONTROL_CENTER_MODELS_AND_PROVIDERS_MODEL_MANAGER_TAB",
+      "service_mode": "HEADLESS_USER_SERVICE",
+      "transport": "HTTP_OVER_UNIX_DOMAIN_SOCKET",
+      "hardware_observation_semantics": "OBSERVED_NON_AUTHORITATIVE",
+      "workload_resource_envelope": "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
+      "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+      "terminal_required": false,
+      "browser_required": false,
+      "estimate_is_runtime_evidence": false,
+      "benchmark_and_placement_requests": "TYPED_DRAFT_CHANGESET_ONLY",
+      "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+      "current_host_runtime_promotion_claim": false,
+      "invariants": [
+        "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+        "MODEL_FIT_PROVIDER_NOT_PLACEMENT_AUTHORITY",
+        "MODEL_FIT_GUI_IS_READ_ONLY_PLUS_TYPED_DRAFT_INTENT",
+        "LLMFIT_HARDWARE_OBSERVATION_NON_AUTHORITATIVE",
+        "REQUESTED_RESOURCE_CLASSES_ARE_WORKLOAD_DERIVED",
+        "CPU_ONLY_WORKLOAD_DOES_NOT_REQUIRE_ACCELERATOR",
+        "ACCELERATOR_WORKLOAD_REQUIRES_CURRENT_SCOPE_BOUND_HRB_ACCELERATOR_LEASE",
+        "PROVIDER_VENDOR_REQUIREMENTS_ARE_CONDITIONAL_NOT_GLOBAL"
+      ]
     }
   },
   "v2_extension": {
