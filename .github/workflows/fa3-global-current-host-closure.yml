@@ -10,11 +10,13 @@ on:
       - 'src/fa3_current_host_capability_attest.py'
       - 'src/fa3_current_host_capability_test_bundle.py'
       - 'src/fa3_current_host_capability_test_executor_audit.py'
+      - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
       - 'tests/test_current_host_capability_test_bundle.py'
       - 'tests/test_current_host_capability_test_executor_audit.py'
+      - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -45,25 +47,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify executor inventory, bundle assembler, producer, handoff and auditor syntax
+      - name: Verify executor inventory, orchestrator, bundle assembler, producer, handoff and auditor syntax
         run: |
           chmod +x bin/fa3-current-host bin/fa3-enforce
           python -m py_compile \
             src/fa3_current_host_capability_test_executor_audit.py \
+            src/fa3_current_host_capability_test_orchestrator.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
             tests/test_current_host_capability_test_executor_audit.py \
+            tests/test_current_host_capability_test_orchestrator.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
             tests/test_current_host_evidence_audit.py
           ./bin/fa3-current-host verify
-      - name: Executor inventory, bundle assembler, producer, handoff and auditor regression tests
+      - name: Executor inventory, orchestrator, bundle assembler, producer, handoff and auditor regression tests
         run: |
           PYTHONPATH=src python -m unittest \
             tests.test_current_host_capability_test_executor_audit \
+            tests.test_current_host_capability_test_orchestrator \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -82,10 +87,25 @@ jobs:
           assert executor['generic_host_evidence_promoted'] == 0, executor
           assert executor['global_promotion_claim'] is False, executor
           PY
+      - name: Prove hosted CI cannot execute current-host capability tests
+        run: |
+          PYTHONPATH=src python src/fa3_current_host_capability_test_orchestrator.py --root .
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
+          assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
+          assert orchestrator['execution_requested'] is False, orchestrator
+          assert orchestrator['results_materialized'] == 0, orchestrator
+          assert orchestrator['provider_receipts_promoted'] == 0, orchestrator
+          assert orchestrator['generic_host_evidence_promoted'] == 0, orchestrator
+          assert orchestrator['global_promotion_claim'] is False, orchestrator
+          PY
       - name: Prove empty workspace cannot fabricate capability PASS
         run: |
           rm -rf \
             .fa3-current-host/test-results \
+            .fa3-current-host/test-artifacts \
             .fa3-current-host/test-plan \
             .fa3-current-host/test-bundles \
             .fa3-current-host/attestations \
@@ -136,11 +156,15 @@ jobs:
           import json
           from pathlib import Path
           executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
+          orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
+          assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
+          assert orchestrator['execution_requested'] is False, orchestrator
+          assert orchestrator['results_materialized'] == 0, orchestrator
           assert audit['audit_integrity'] == 'PASS', audit
           assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
           assert acceptance['static_gate'] == 'PASS', acceptance
@@ -157,6 +181,8 @@ jobs:
               'executor_coverage': executor['coverage_status'],
               'registered_executors': executor['registered_executor_count'],
               'pending_executors': executor['pending_executor_count'],
+              'hosted_orchestrator_execution_requested': orchestrator['execution_requested'],
+              'hosted_orchestrator_results_materialized': orchestrator['results_materialized'],
               'repository_head': audit.get('repository_head'),
               'registry_pass_count': audit['registry_pass_count'],
               'registry_pending_count': audit['registry_pending_count'],
@@ -177,6 +203,7 @@ jobs:
           path: |
             .fa3-current-host/test-plan/capabilities.json
             reports/current-host-capability-test-executor-audit.json
+            reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
             reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
@@ -211,6 +238,7 @@ jobs:
           rm -rf \
             .fa3-current-host/global-closure \
             .fa3-current-host/test-results \
+            .fa3-current-host/test-artifacts \
             .fa3-current-host/test-plan \
             .fa3-current-host/test-bundles \
             .fa3-current-host/attestations \
@@ -218,6 +246,7 @@ jobs:
           mkdir -p \
             .fa3-current-host/global-closure \
             .fa3-current-host/test-results/capabilities \
+            .fa3-current-host/test-artifacts/capabilities \
             .fa3-current-host/test-bundles/capabilities \
             .fa3-current-host/attestations/capabilities
           bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
@@ -226,10 +255,14 @@ jobs:
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
-      - name: Audit explicit capability executor coverage before evidence assembly
+      - name: Audit explicit capability executor coverage before execution
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_capability_test_executor_audit.py --root .
+      - name: Execute only registered capability tests on the real current host
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_test_orchestrator.py --root . --execute
       - name: Assemble bundles only from explicit real current-host capability test results
         shell: bash
         run: |
@@ -264,6 +297,7 @@ jobs:
           import json
           from pathlib import Path
           executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
+          orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           assembler=json.loads(Path('reports/current-host-capability-test-bundle-assembler.json').read_text())
           producer=json.loads(Path('reports/current-host-capability-attestation-producer.json').read_text())
           handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
@@ -276,6 +310,12 @@ jobs:
           assert executor['provider_receipts_promoted'] == 0, executor
           assert executor['generic_host_evidence_promoted'] == 0, executor
           assert executor['global_promotion_claim'] is False, executor
+          assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
+          assert orchestrator['execution_requested'] is True, orchestrator
+          assert orchestrator['results_materialized'] == executor['registered_executor_count'], (orchestrator, executor)
+          assert orchestrator['provider_receipts_promoted'] == 0, orchestrator
+          assert orchestrator['generic_host_evidence_promoted'] == 0, orchestrator
+          assert orchestrator['global_promotion_claim'] is False, orchestrator
           assert assembler['assembler_integrity'] == 'PASS', assembler
           assert assembler['provider_receipts_promoted'] == 0, assembler
           assert assembler['generic_host_evidence_promoted'] == 0, assembler
@@ -295,6 +335,7 @@ jobs:
           if audit['runtime_closure'] == 'PASS':
               assert executor['coverage_status'] == 'COMPLETE_429_OF_429', executor
               assert executor['registered_executor_count'] == 429, executor
+              assert orchestrator['results_materialized'] == 429, orchestrator
               assert assembler['bundles_materialized'] == 143, assembler
               assert producer['attestations_materialized'] == 143, producer
               assert handoff['receipts_materialized'] == 143, handoff
@@ -307,6 +348,8 @@ jobs:
               'executor_coverage': executor['coverage_status'],
               'registered_executors': executor['registered_executor_count'],
               'pending_executors': executor['pending_executor_count'],
+              'orchestrator': orchestrator['status'],
+              'test_results_materialized': orchestrator['results_materialized'],
               'bundle_assembler': assembler['materialization_status'],
               'bundles_materialized': assembler['bundles_materialized'],
               'pending_capability_tests': assembler['pending_capability_count'],
@@ -334,12 +377,14 @@ jobs:
           path: |
             .fa3-current-host/global-closure/**
             .fa3-current-host/test-results/capabilities/**
+            .fa3-current-host/test-artifacts/capabilities/**
             .fa3-current-host/test-plan/capabilities.json
             .fa3-current-host/test-bundles/capabilities/**
             .fa3-current-host/attestations/capabilities/**
             evidence/evidence-registry.json
             evidence/receipts/**
             reports/current-host-capability-test-executor-audit.json
+            reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
             reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
