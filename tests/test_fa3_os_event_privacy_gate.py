@@ -49,7 +49,7 @@ class FA3OSEventPrivacyGateTests(unittest.TestCase):
             td.cleanup()
 
     def test_new_authority_or_capability_is_rejected(self):
-        for field in ("architectural_authority", "new_capability"):
+        for field in ("new_architectural_authority", "new_capability"):
             with self.subTest(field=field):
                 td, root = self._copy_root()
                 try:
@@ -71,7 +71,7 @@ class FA3OSEventPrivacyGateTests(unittest.TestCase):
             self._write(path, obj)
             report = gate(root)
             self.assertEqual(report["result"], "FAIL")
-            self.assertTrue(any(x["code"] == "FA3-OS-PRIV-005" for x in report["reference"]["findings"]))
+            self.assertTrue(any(x["code"] == "FA3-OS-PRIV-006" for x in report["reference"]["findings"]))
         finally:
             td.cleanup()
 
@@ -144,7 +144,7 @@ class FA3OSEventPrivacyGateTests(unittest.TestCase):
         try:
             path = root / "canonical/profiles/FA3-JOURNAL-001.json"
             obj = self._load(path)
-            obj["profile_rules"]["event_history"] = "mutable"
+            obj["invariants"].remove("EVENT_STORAGE_APPEND_ONLY_BY_DEFAULT")
             self._write(path, obj)
             report = gate(root)
             self.assertEqual(report["result"], "FAIL")
