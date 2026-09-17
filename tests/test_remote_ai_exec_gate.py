@@ -47,9 +47,17 @@ class RemoteAIExecutionGateTests(unittest.TestCase):
 
     def test_gui_exposes_remote_ai_hub_as_featured_projection(self) -> None:
         qml = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text()
-        self.assertLess(qml.index('label: "Remote AI Hub"'), qml.index('label: "Projects"'))
-        self.assertIn("FA3-PROVIDER-HF-SPACES-001", qml)
-        self.assertIn("CredentialReference", qml)
+        contract = json.loads((ROOT / "canonical/contracts/FA3-REMOTE-AI-EXEC-CONTRACTS-001.json").read_text())
+        provider = json.loads((ROOT / "canonical/providers/FA3-PROVIDER-HF-SPACES-001.json").read_text())
+        self.assertIn('label: "Remote AI Hub"; pageIndex: 1', qml)
+        self.assertIn('label: "Projects"; pageIndex: 2', qml)
+        self.assertLess(qml.index('label: "Remote AI Hub"; pageIndex: 1'), qml.index('label: "Projects"; pageIndex: 2'))
+        for token in ["Hosted Execution", "Hugging Face Spaces", "Remote Queue", "Egress Policy"]:
+            self.assertIn(token, qml)
+        self.assertEqual(provider["id"], "FA3-PROVIDER-HF-SPACES-001")
+        self.assertTrue(provider["trust_and_security"]["credential_reference_only"])
+        self.assertFalse(contract["discovery_and_trust"]["agents_md_is_trust_authority"])
+        self.assertFalse(contract["discovery_and_trust"]["openapi_is_trust_authority"])
         self.assertNotIn("HF_TOKEN=", qml)
 
 
