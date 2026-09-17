@@ -62,15 +62,18 @@ class GuiModelManagerReconciliationTests(unittest.TestCase):
         self.assertEqual(provider["fa3_usage_policy"]["accelerator_placement"], "DELEGATE_TO_HOST_RESOURCE_BROKER")
 
     def test_capability_and_authority_baseline_is_unchanged(self) -> None:
-        for path in [
-            "canonical/profiles/FA3-REMOTE-AI-EXEC-001.json",
-            "canonical/providers/FA3-PROVIDER-LLMFIT-001.json",
-            "canonical/FA3-TOOLS-FABRIC-001.json",
-        ]:
-            data = self.data(path)
-            serialized = json.dumps(data)
-            self.assertIn("143", serialized)
-        self.assertFalse(self.data("canonical/providers/FA3-PROVIDER-LLMFIT-001.json")["architectural_authority"])
+        remote = self.data("canonical/profiles/FA3-REMOTE-AI-EXEC-001.json")
+        llmfit = self.data("canonical/providers/FA3-PROVIDER-LLMFIT-001.json")
+        tools = self.data("canonical/FA3-TOOLS-FABRIC-001.json")
+        self.assertEqual(remote["capability_count"], 143)
+        self.assertFalse(remote["new_capability"])
+        self.assertFalse(remote["new_architectural_authority"])
+        self.assertEqual(llmfit["capability_count"], 143)
+        self.assertFalse(llmfit["new_capability"])
+        self.assertFalse(llmfit["architectural_authority"])
+        self.assertFalse(tools["execution_authority"])
+        self.assertFalse(tools["policy_authority"])
+        self.assertEqual(tools["authority"]["new_architectural_authorities"], 0)
 
 
 if __name__ == "__main__":
