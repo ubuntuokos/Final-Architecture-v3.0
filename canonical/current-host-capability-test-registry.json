@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.current-host-capability-test-registry.v1",
+  "id": "FA3-CURRENT-HOST-CAPABILITY-TEST-REGISTRY-001",
+  "status": "CANONICAL_MATERIALIZATION_IN_PROGRESS",
+  "canonical_capability_count": 143,
+  "execution_scope": "CURRENT_HOST",
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "test_plan_semantics": {
+    "shell_execution_allowed": false,
+    "explicit_argv_required": true,
+    "positive_negative_rollback_required": true,
+    "test_ids_must_match_evidence_registry": true,
+    "generic_host_collection_is_capability_pass": false,
+    "provider_receipt_is_capability_pass": false,
+    "reference_ci_is_current_host_pass": false,
+    "missing_plan_state": "PENDING_CURRENT_HOST_TEST_PLAN_MATERIALIZATION",
+    "failed_test_state": "BLOCKED_CURRENT_HOST_TEST_FAILURE",
+    "automatic_promotion": false
+  },
+  "records": []
+}
