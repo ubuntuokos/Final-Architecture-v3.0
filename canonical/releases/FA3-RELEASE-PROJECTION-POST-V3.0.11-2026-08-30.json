@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9a51ce2f7a78f2aba57d0d0c1372b2a3cd0e18b3",
-    "pre_projection_root_tree_sha": "694de726a7cbbafc505758d3c43925dca982d47c",
-    "pre_projection_canonical_tree_sha": "5ec75d2350f8e5a4f53251dbb90b048396e9c6ef",
-    "commits_ahead_of_v3_0_11_conformance_commit": 393,
-    "total_post_baseline_commits": 393,
-    "delta_file_count": 1257,
-    "delta_added_files": 1252,
+    "pre_projection_head_sha": "d7c65b56b8c4bf97808c6945946b546e7279309d",
+    "pre_projection_root_tree_sha": "64e96b5cf5de5148b11408d7be524f453178315f",
+    "pre_projection_canonical_tree_sha": "6888d8a338f521cba8115e8ddbebce7e90f0ead0",
+    "commits_ahead_of_v3_0_11_conformance_commit": 409,
+    "total_post_baseline_commits": 409,
+    "delta_file_count": 1267,
+    "delta_added_files": 1262,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 641,
-    "evidence_files_in_post_baseline_delta": 119,
-    "source_files_in_post_baseline_delta": 145,
-    "test_files_in_post_baseline_delta": 130,
-    "workflow_files_in_post_baseline_delta": 50,
+    "canonical_files_in_post_baseline_delta": 645,
+    "evidence_files_in_post_baseline_delta": 120,
+    "source_files_in_post_baseline_delta": 146,
+    "test_files_in_post_baseline_delta": 132,
+    "workflow_files_in_post_baseline_delta": 51,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -202,6 +202,8 @@
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
+      "canonical/profiles/FA3-OS-001.json",
+      "canonical/profiles/FA3-OS-POLICY-001.json",
       "canonical/profiles/FA3-PROGRAMMABLE-VIDEO-EDITING-001.json",
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-SCS-001.json",
@@ -276,6 +278,7 @@
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-OS-EVENT-001.schema.json",
       "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
@@ -597,7 +600,8 @@
     "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001",
     "FA3-PYTORCH3D-GATESET-001",
     "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
-    "FA3-JOURNAL-GATESET-001"
+    "FA3-JOURNAL-GATESET-001",
+    "FA3-OS-EVENT-PRIVACY-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -723,7 +727,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1251,
+  "manifest_entry_count": 1260,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -901,8 +905,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-os-reconcile.yml",
+      "git_blob_sha": "0070c2b1beb994e023b0eb4be074791062aac641",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "299ecabb42836f81d2079cda847f10585e0b7912",
+      "git_blob_sha": "9f90d8cb7181c2e1f9907c49193b8e0fa8af2b4d",
       "baseline_delta_status": "added"
     },
     {
@@ -2381,6 +2390,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-OS-EVENT-001.schema.json",
+      "git_blob_sha": "3123d193104e96b95216dd33138fb8372258d8b1",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
       "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
       "baseline_delta_status": "added"
@@ -3022,12 +3036,17 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "62bd5c78281579cff46049d3a106c4fe1370aeb1",
+      "git_blob_sha": "354c9d249bff8e00a8c4f9eeb374843fecb60271",
       "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
       "git_blob_sha": "6886a361f89b5568e52cdc81fe598e2dbfe0ee19",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/fa3-os-event-privacy-enforcement.json",
+      "git_blob_sha": "0e0fde9842b82cd9a074e5d586832f98d64a0658",
       "baseline_delta_status": "added"
     },
     {
@@ -3058,7 +3077,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -3543,6 +3562,16 @@
     {
       "path": "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
       "git_blob_sha": "e40d8519e5b56fab7a77ec7bcd77f4bcb1a201bc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-OS-001.json",
+      "git_blob_sha": "a4e5320952cad1684f50039b472356b85ea78f1b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-OS-POLICY-001.json",
+      "git_blob_sha": "aaa4566ef1ddde55f0111fbf8d89d3932d60b63f",
       "baseline_delta_status": "added"
     },
     {
@@ -4553,7 +4582,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "unchanged"
+      "baseline_delta_status": "modified"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -5767,7 +5796,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "684f989565609c650f46c0602111668744e05934",
+      "git_blob_sha": "9e7ed623d0392721c97acbdb9a738862866ceab7",
       "baseline_delta_status": "modified"
     },
     {
@@ -6121,6 +6150,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_os_event_privacy_gate.py",
+      "git_blob_sha": "218f1972af15f8b273d30d34ee57f9fffd42cb42",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_page_cache_prefetch_gate.py",
       "git_blob_sha": "9f2c602929cb2d5a4a8256ae4f1785d234f001b3",
       "baseline_delta_status": "added"
@@ -6463,6 +6497,16 @@
     {
       "path": "tests/test_fa3_gui_gate.py",
       "git_blob_sha": "ee1914d7ca49cd7606aa387e309a7c7178b38418",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_fa3_os_event_privacy_gate.py",
+      "git_blob_sha": "b96d186a8fd4617ce39ef26ac9454442dc088ce8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_fa3_os_global_reconciliation.py",
+      "git_blob_sha": "7fcbd09efb2e56a1c8ba900d703f18891e9a25ee",
       "baseline_delta_status": "added"
     },
     {
@@ -6968,6 +7012,11 @@
     {
       "path": "tools/fa3_lavasr_global_reconcile.py",
       "git_blob_sha": "760bdc87480132d7aeef35f0769b8d9a38cce11d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_os_global_reconcile.py",
+      "git_blob_sha": "9cc015cdfba1d8916c6b24aa3d111226575ffca3",
       "baseline_delta_status": "added"
     },
     {
@@ -7948,14 +7997,15 @@
     "FA3-COACH-001 is globally reconciled as a P0/MUST provider-neutral coaching overlay. User-owned goals, explicit commitment, proposal-only operation, typed action delegation, FA3-MENTOR-001 knowledge-gap delegation and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
     "FA3-INSPECTOR-001 is globally reconciled as a P0/MUST provider-neutral independent verification and assurance overlay. Separation of duties, fresh/provenance-backed evidence, fail-closed non-PASS classifications, no silent repair during certification and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
     "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory.",
-    "FA3-JOURNAL-001 and FA3-JOURNAL-ARCHIVE-001 are globally reconciled as P0/MUST cross-cutting journal, work-history and retention projections. Append-only active logging, tombstone deletion, SEALED SHA-256 archives, verify-gated restore, retention-trash semantics and non-promotion authority boundaries are mandatory; capability count stays 143 and no architectural authority is added."
+    "FA3-JOURNAL-001 and FA3-JOURNAL-ARCHIVE-001 are globally reconciled as P0/MUST cross-cutting journal, work-history and retention projections. Append-only active logging, tombstone deletion, SEALED SHA-256 archives, verify-gated restore, retention-trash semantics and non-promotion authority boundaries are mandatory; capability count stays 143 and no architectural authority is added.",
+    "FA3-OS-001 and FA3-OS-POLICY-001 are globally reconciled as a local-first privacy-governed context/activity/episodic-memory overlay on FA3-JOURNAL-001. The Journal remains the sole canonical workstation event/history ledger; derived memory remains rebuildable and non-authoritative, Resume Plan has no execution authority, capability count stays 143 and no architectural authority is added."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "b7eebe06955400708c0bebff9e951f05ad9a90d7",
-    "regenerated_from_branch_head": "b7eebe06955400708c0bebff9e951f05ad9a90d7",
+    "source_snapshot_anchor": "d7c65b56b8c4bf97808c6945946b546e7279309d",
+    "regenerated_from_branch_head": "d7c65b56b8c4bf97808c6945946b546e7279309d",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -7984,7 +8034,10 @@
     "ideation_advisory_snapshot_head": "878bed3e28595f70ba2761c55067c43de6b795dc",
     "journal_reconciliation_generator": "tools/fa3_journal_global_reconcile.py",
     "journal_deterministic_regeneration_pass": true,
-    "journal_snapshot_head": "10e4a348b89d9a81318f35dd16a09fe70380e1bf"
+    "journal_snapshot_head": "10e4a348b89d9a81318f35dd16a09fe70380e1bf",
+    "fa3_os_reconciliation_generator": "tools/fa3_os_global_reconcile.py",
+    "fa3_os_deterministic_regeneration_pass": true,
+    "fa3_os_snapshot_head": "d7c65b56b8c4bf97808c6945946b546e7279309d"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -8256,6 +8309,29 @@
     "event_delete_semantics": "TOMBSTONE",
     "archive_delete_semantics": "RETENTION_TRASH",
     "restore_requires_integrity_pass": true,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "fa3_os_reconciliation": {
+    "profile_id": "FA3-OS-001",
+    "privacy_profile_id": "FA3-OS-POLICY-001",
+    "event_contract_id": "FA3-OS-EVENT-001",
+    "gateset_id": "FA3-OS-EVENT-PRIVACY-GATESET-001",
+    "ledger_authority": "FA3-JOURNAL-001",
+    "canonical_event_envelope": "FA3-JOURNAL-CONTRACTS-001",
+    "classification": "P0_MUST_LOCAL_FIRST_PRIVACY_GOVERNED_CONTEXT_ACTIVITY_EPISODIC_MEMORY_OVERLAY",
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_RECONCILED_CANONICAL_GATE_ENFORCED_RUNTIME_PROJECTION_ONLY",
+    "gate_status": "CI_ENFORCED",
+    "runtime_authority": false,
+    "historical_truth_authority": false,
+    "resume_plan_execution_authority": false,
+    "privacy_gate_before_persistence": true,
+    "keylogging_default": "DENY",
+    "generic_clipboard_default": "DENY",
+    "generic_screen_capture_default": "DENY",
+    "terminal_capture_default": "METADATA_ONLY",
+    "derived_memory_authoritative": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

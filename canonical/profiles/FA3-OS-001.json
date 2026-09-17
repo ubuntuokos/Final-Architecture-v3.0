@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OS-001",
+  "name": "Context, Activity, Episodic Memory & Workstream Operating Substrate",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "CROSS_CUTTING_CONTEXT_ACTIVITY_MEMORY_WORKSTREAM_OVERLAY",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": ["FA3-JOURNAL-CONTRACTS-001", "FA3-OS-EVENT-001"],
+  "subprofiles": ["FA3-OS-POLICY-001"],
+  "classification": ["LOCAL_FIRST", "PRIVACY_GOVERNED", "PROVIDER_INDEPENDENT"],
+  "authority_mode": "COMPOSITE_PROJECTION_OVER_EXISTING_AUTHORITIES",
+  "ledger_authority": "FA3-JOURNAL-001",
+  "canonical_event_envelope": "FA3-JOURNAL-CONTRACTS-001",
+  "event_enrichment_contract": "FA3-OS-EVENT-001",
+  "privacy_policy_profile": "FA3-OS-POLICY-001",
+  "historical_truth_rule": "FA3-JOURNAL-001 remains the sole canonical workstation event/history ledger; FA3 OS MUST NOT define a competing outer event envelope.",
+  "derived_projection_rule": "Embeddings, summaries, inferred sessions/workstreams and semantic indexes are derived, rebuildable projections and MUST NOT rewrite or override canonical Journal history.",
+  "pipeline": [
+    "sources_and_adapters",
+    "capture_broker",
+    "privacy_and_sensitive_policy_gate",
+    "context_ir_normalizer",
+    "FA3-JOURNAL-001",
+    "deterministic_first_correlation",
+    "session_and_workstream_projections",
+    "provenance_and_context_passport",
+    "episodic_memory_and_indexes",
+    "context_composer",
+    "central_capability_gateway_ui_agents"
+  ],
+  "correlation_order": ["deterministic_evidence", "explicit_project_association", "artifact_lineage", "workflow_id", "temporal_relationship", "semantic_inference"],
+  "authority_boundaries": {
+    "historical_event_truth": "FA3-JOURNAL-001",
+    "durable_workflow_orchestration": "Temporal",
+    "resource_allocation": "FA3-HRB-001",
+    "authorization_and_exposure": "Central Capability/MCP Gateway",
+    "model_and_provider_routing": "existing FA3 inference/model routing authority",
+    "binary_artifact_truth": "existing artifact Registry/BOM and approved project stores",
+    "fa3_os_role": "observe_normalize_correlate_remember_retrieve_compose_context_prove_provenance"
+  },
+  "session_resume": {
+    "output": "Resume Plan",
+    "execution_authority": false,
+    "execution_rule": "Resume Plan execution MUST be delegated to the canonical authority for each requested action."
+  },
+  "reference_pattern_sources": [
+    {"name": "Zeitgeist / GNOME Activity Journal", "role": "REFERENCE_PATTERN_SOURCE_ONLY", "adopted_patterns": ["chronological event history", "actor_subject_time_source modeling"]},
+    {"name": "Pieces OS", "role": "REFERENCE_PATTERN_SOURCE_ONLY", "adopted_patterns": ["local semantic retrieval", "cross-application AI context exposure"]}
+  ],
+  "invariants": [
+    "FA3_JOURNAL_REMAINS_EVENT_HISTORY_AUTHORITY",
+    "FA3_JOURNAL_CONTRACT_REMAINS_OUTER_EVENT_ENVELOPE",
+    "PRIVACY_GATE_PRECEDES_DURABLE_PERSISTENCE",
+    "DERIVED_MEMORY_NEVER_REWRITES_HISTORICAL_TRUTH",
+    "RESUME_PLAN_HAS_NO_EXECUTION_AUTHORITY",
+    "CONTEXT_RETRIEVAL_IS_POLICY_FILTERED_AND_AUDITED",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ]
+}
