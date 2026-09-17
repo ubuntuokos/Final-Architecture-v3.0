@@ -1,0 +1,74 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-MENGTO-SKILLS-001",
+  "name": "MengTo Skills Architectural Pattern Source",
+  "version": "1.0.0",
+  "status": "CANONICAL_REFERENCE_PROVIDER",
+  "priority": "OPTIONAL",
+  "requirement": "MAY",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "profile_id": "FA3-SKILL-FABRIC-001",
+  "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+  "classification": ["OPTIONAL_PROVIDER", "REFERENCE_PROVIDER", "ARCHITECTURAL_PATTERN_SOURCE", "NON_AUTHORITY", "NO_RUNTIME_DEPENDENCY"],
+  "upstream": {
+    "repository": "MengTo/Skills",
+    "observed_commit": "5f47e389dac337a1bca5cddf376419248b3010f6",
+    "observed_date": "2026-09-17",
+    "content_imported": false,
+    "installation_required": false,
+    "runtime_dependency": false,
+    "license_revalidation_required_before_any_future_content_import": true
+  },
+  "adopted_patterns_reimplemented_as_FA3_native_rules": [
+    "folder_based_portable_skill_package",
+    "concise_primary_skill_entrypoint",
+    "explicit_use_when_trigger",
+    "procedural_workflow",
+    "guardrails_and_pitfalls",
+    "acceptance_checks",
+    "optional_references_articles_scripts_assets_and_demo",
+    "smallest_matching_skill_loading",
+    "versioned_reusable_prompt_and_workflow_assets",
+    "source_to_skill_capability_extraction_ledger"
+  ],
+  "explicitly_not_adopted": [
+    "upstream_repository_as_runtime_dependency",
+    "upstream_branding_as_FA3_contract",
+    "upstream_agent_specific_tool_names_as_canonical_authority",
+    "automatic_upstream_skill_import",
+    "automatic_upstream_updates",
+    "direct_script_execution_from_skill_content",
+    "direct_tool_authorization_from_skill_content",
+    "monolithic_AI_Orchestra_authority",
+    "parallel_Skill_Router_execution_authority"
+  ],
+  "runtime": {
+    "install_MengTo_Skills": false,
+    "clone_MengTo_Skills": false,
+    "import_python_or_node_package": false,
+    "network_access_to_upstream_required": false,
+    "FA3_operates_when_upstream_is_unavailable": true,
+    "reference_only": true
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "workflow": false,
+    "mcp": false,
+    "execution": false,
+    "secrets": false,
+    "evidence": false,
+    "memory": false,
+    "resources": false
+  },
+  "closure": {
+    "legacy_v1_1_AI_Orchestra_superseded": true,
+    "legacy_direct_MengTo_import_requirement_superseded": true,
+    "FA3_native_pattern_materialization_complete": true,
+    "separate_MengTo_installation_needed": false
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-SKILL-FABRIC-001",
+  "name": "Portable Skill, Procedure & Capability Composition Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "projection_kind": "CONSOLIDATION_OF_EXISTING_CAPABILITIES",
+  "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+  "purpose": "Standardize portable, versioned, minimally loaded skill/procedure packages without creating a new execution, authorization, workflow, MCP, identity, evidence, secrets, memory, model-routing or resource authority.",
+  "canonical_model": {
+    "capability_is_not_agent": true,
+    "capability_is_not_skill": true,
+    "skill_is_not_tool": true,
+    "skill_is_not_provider": true,
+    "skill_role": "DECLARATIVE_VERSIONED_PROCEDURE_PACKAGE",
+    "agent_role": "AUTHORIZED_CONSUMER_OR_COORDINATOR",
+    "tool_role": "POLICY_CONTROLLED_EXECUTION_SURFACE",
+    "provider_role": "OPTIONAL_IMPLEMENTATION_OR_REFERENCE_SOURCE"
+  },
+  "skill_contract": {
+    "primary_entrypoint": "SKILL.md",
+    "required_metadata": ["name", "description", "version", "trigger"],
+    "required_sections": ["use_when", "inputs", "procedure", "guardrails", "pitfalls", "acceptance_checks"],
+    "optional_assets": ["REFERENCES.md", "ARTICLE.md", "scripts/", "assets/", "demo/", "examples/"],
+    "long_explanation_outside_primary_entrypoint": true,
+    "source_links_outside_primary_entrypoint_preferred": true,
+    "project_specific_context_injected_separately": true
+  },
+  "lifecycle": [
+    "discover_or_author_candidate",
+    "extract_reusable_capability_or_pattern",
+    "check_existing_canonical_overlap",
+    "normalize_skill_package",
+    "admit_under_FA3_SKILL_PACKAGE_ADMISSION_CONTRACTS_001",
+    "register_version_digest_dependencies_and_triggers",
+    "select_minimum_eligible_skill_set",
+    "assemble_task_scoped_context",
+    "propose_tool_intent_if_needed",
+    "route_execution_through_existing_authority",
+    "verify_acceptance_checks",
+    "emit_skill_use_and_evidence_receipts"
+  ],
+  "extraction_ledger": {
+    "required_for_external_pattern_sources": true,
+    "classifications": ["CAPABILITY_CANDIDATE", "PATTERN_CANDIDATE", "PROVIDER_CANDIDATE", "REJECT", "MERGE_WITH_EXISTING"],
+    "branding_and_provider_specific_details_are_not_canonical_by_default": true,
+    "existing_authority_overlap_check_required": true
+  },
+  "selection_and_composition": {
+    "smallest_matching_skill_set_required": true,
+    "progressive_disclosure_required": true,
+    "global_everything_context_forbidden": true,
+    "explicit_dependencies_required": true,
+    "dependency_cycles_forbidden": true,
+    "composition_cannot_expand_authority": true
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "durable_workflow": false,
+    "mcp_gateway": false,
+    "tool_execution": false,
+    "secrets": false,
+    "memory": false,
+    "evidence_authority": false,
+    "model_routing": false,
+    "host_resource_governance": false
+  },
+  "runtime_independence": {
+    "external_skill_repository_installation_required": false,
+    "external_skill_runtime_required": false,
+    "vendored_upstream_repository_required": false,
+    "FA3_native_skill_packages_allowed": true,
+    "pattern_can_be_reimplemented_natively": true
+  },
+  "mandatory_rules": [
+    "SKILL_FABRIC_PROVIDER_NEUTRAL",
+    "SKILL_FABRIC_NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "SKILL_PACKAGE_IS_DECLARATIVE_DATA_UNTIL_AUTHORIZED",
+    "SKILL_PACKAGE_MUST_HAVE_EXPLICIT_TRIGGER_AND_ACCEPTANCE_CHECKS",
+    "SKILL_MINIMUM_CONTEXT_LOADING_REQUIRED",
+    "SKILL_COMPOSITION_CANNOT_EXPAND_AUTHORITY",
+    "SKILL_TOOL_INTENT_MUST_USE_EXISTING_CENTRAL_MCP_BOUNDARY",
+    "SKILL_MUTATION_REQUIRES_EXISTING_AUTHORIZATION_AND_HITL_WHERE_APPLICABLE",
+    "EXTERNAL_PATTERN_SOURCE_INSTALLATION_NOT_REQUIRED",
+    "UPSTREAM_BRANDING_NOT_CANONICAL_AUTHORITY",
+    "CAPABILITY_COUNT_REMAINS_143"
+  ]
+}
