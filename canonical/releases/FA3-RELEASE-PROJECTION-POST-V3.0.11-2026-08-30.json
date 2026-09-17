@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d7c65b56b8c4bf97808c6945946b546e7279309d",
-    "pre_projection_root_tree_sha": "64e96b5cf5de5148b11408d7be524f453178315f",
-    "pre_projection_canonical_tree_sha": "6888d8a338f521cba8115e8ddbebce7e90f0ead0",
-    "commits_ahead_of_v3_0_11_conformance_commit": 409,
-    "total_post_baseline_commits": 409,
-    "delta_file_count": 1267,
-    "delta_added_files": 1262,
+    "pre_projection_head_sha": "cfe4254dc52e6f56c90e35f587a22ff9aa9ac5a0",
+    "pre_projection_root_tree_sha": "e093d71effd7623c67d34f1fe70ec84d3f5124f5",
+    "pre_projection_canonical_tree_sha": "daeacc5458897deb50f931710fe295f1d7901e15",
+    "commits_ahead_of_v3_0_11_conformance_commit": 394,
+    "total_post_baseline_commits": 394,
+    "delta_file_count": 1277,
+    "delta_added_files": 1272,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 645,
+    "canonical_files_in_post_baseline_delta": 649,
     "evidence_files_in_post_baseline_delta": 120,
-    "source_files_in_post_baseline_delta": 146,
-    "test_files_in_post_baseline_delta": 132,
-    "workflow_files_in_post_baseline_delta": 51,
+    "source_files_in_post_baseline_delta": 147,
+    "test_files_in_post_baseline_delta": 133,
+    "workflow_files_in_post_baseline_delta": 53,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -292,6 +292,7 @@
       "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
       "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
       "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
+      "canonical/contracts/FA3-WORK-ITEM-PROJECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json"
     ],
     "decision_records": [
@@ -400,6 +401,7 @@
       "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
       "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17.json",
       "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json"
     ],
     "upstream_reference_records": [
@@ -601,7 +603,8 @@
     "FA3-PYTORCH3D-GATESET-001",
     "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
     "FA3-JOURNAL-GATESET-001",
-    "FA3-OS-EVENT-PRIVACY-GATESET-001"
+    "FA3-OS-EVENT-PRIVACY-GATESET-001",
+    "FA3-WORK-MANAGEMENT-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -727,7 +730,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1260,
+  "manifest_entry_count": 1270,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -960,6 +963,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-work-management-materialize.yml",
+      "git_blob_sha": "87cef2bcfcfb207cca2c2391fbbdfc570d63e01c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-work-management.yml",
+      "git_blob_sha": "c8dca0461e53e1a19c54e67f91c1056b2a04dafc",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/gtcrn-reference-gate.yml",
       "git_blob_sha": "b42e43d8ecb4115d27a33072ce51fed78f57b19f",
       "baseline_delta_status": "added"
@@ -996,7 +1009,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9fec464c0c785e1f95bf9e49c5375054c9a161b5",
+      "git_blob_sha": "f13f62dd6a588036e7d0a45307f4dca04e59fe67",
       "baseline_delta_status": "added"
     },
     {
@@ -1061,7 +1074,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "cdf0cfaec6609e06e3bedca5c93c9526137a1b30",
+      "git_blob_sha": "7a5464d1805a7408c51d01f8e29b3c00209b5d0f",
       "baseline_delta_status": "added"
     },
     {
@@ -1087,6 +1100,11 @@
     {
       "path": "apps/fa3-control-center/qml/WebWorkspace.qml",
       "git_blob_sha": "b82a4794c1821f5749ccdfb7c469b2992c253f33",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/WorkManagementPage.qml",
+      "git_blob_sha": "d37f43250a4fff105b956364216992c4d6e50698",
       "baseline_delta_status": "added"
     },
     {
@@ -2015,6 +2033,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-WORK-MANAGEMENT-PROJECTION-001.json",
+      "git_blob_sha": "93eadd9d399732d1efede6e9d674287b08f016f8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-WORKLOAD-RESOURCE-ENVELOPE-001.json",
       "git_blob_sha": "e010b5339f28c3f3f4cc155457ae62e699b78b3f",
       "baseline_delta_status": "added"
@@ -2457,6 +2480,11 @@
     {
       "path": "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
       "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-WORK-ITEM-PROJECTION-CONTRACTS-001.json",
+      "git_blob_sha": "ee54e1fd2fe9353581d392ed1de2633b15df475d",
       "baseline_delta_status": "added"
     },
     {
@@ -3020,6 +3048,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17.json",
+      "git_blob_sha": "fca1238e3f758f4809b43469698ec00e5053a449",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
       "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403",
       "baseline_delta_status": "added"
@@ -3036,7 +3069,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "354c9d249bff8e00a8c4f9eeb374843fecb60271",
+      "git_blob_sha": "f22576662cf6363f16b682de2746e13fd302e36e",
       "baseline_delta_status": "modified"
     },
     {
@@ -3786,12 +3819,12 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
-      "git_blob_sha": "f41fd16983cf31a4366cf379c1a8495b30da1978",
+      "git_blob_sha": "b5cf800ea4439611d10926fe99ef480c59dd107f",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-KANEO-001.json",
-      "git_blob_sha": "d5148bef24317fbcd9dc5b2b6a5eb46123500a97",
+      "git_blob_sha": "2bd7280dfd9dc5c10a9ff8845749086282b3216b",
       "baseline_delta_status": "added"
     },
     {
@@ -4652,6 +4685,11 @@
     {
       "path": "canonical/whisper-stt-enforcement.json",
       "git_blob_sha": "dc5a70dfd2c87ead6765767203b6f11e5661af03",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/work-management-enforcement.json",
+      "git_blob_sha": "46b13f17576633de0a511570d2e26938ffc44a81",
       "baseline_delta_status": "added"
     },
     {
@@ -5796,7 +5834,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "9e7ed623d0392721c97acbdb9a738862866ceab7",
+      "git_blob_sha": "2476f788163b0d5f871dc6c6be2c46b03a5ed221",
       "baseline_delta_status": "modified"
     },
     {
@@ -6307,6 +6345,11 @@
     {
       "path": "src/fa3_whisper_stt_provider.py",
       "git_blob_sha": "56efe5f7778d5509e508ed545901763536b3fb96",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_work_management_gate.py",
+      "git_blob_sha": "3ba035d322249c1e22d5e01ccdd47f715395cd97",
       "baseline_delta_status": "added"
     },
     {
@@ -6970,6 +7013,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_work_management_gate.py",
+      "git_blob_sha": "36c535c3c8429164dcc909c3f3e0a5bd3e7febbf",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_xcmd_gate.py",
       "git_blob_sha": "92e90d366468152c748e2a38bcbbf760070be6f7",
       "baseline_delta_status": "added"
@@ -7027,6 +7075,11 @@
     {
       "path": "tools/fa3_pytorch3d_global_reconcile.py",
       "git_blob_sha": "22c6d03fdde7407105a4876f8eb00c3139b6e1b3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_work_management_global_reconcile.py",
+      "git_blob_sha": "240d51b51b26726c54f82524d4667bbe809fea11",
       "baseline_delta_status": "added"
     }
   ],
@@ -7998,14 +8051,15 @@
     "FA3-INSPECTOR-001 is globally reconciled as a P0/MUST provider-neutral independent verification and assurance overlay. Separation of duties, fresh/provenance-backed evidence, fail-closed non-PASS classifications, no silent repair during certification and current-host non-promotion remain mandatory; capability count stays 143 and no architectural authority is added.",
     "FA3-IDEATION-ADVISORY-001 is globally reconciled as a P0/MUST provider-neutral ideation and advisory overlay. FA3-IDEATOR-001 remains a P1/SHOULD subprofile mode and FA3-ADVISOR-001 a P0/MUST subprofile mode. Idea/fact, hypothesis/evidence, recommendation/decision and decision/authorization/execution boundaries, evidence-grounded recommendations, explicit uncertainty/confidence, Inspector handoff for high-impact claims, current-host non-promotion, capability count 143 and zero new architectural authority are mandatory.",
     "FA3-JOURNAL-001 and FA3-JOURNAL-ARCHIVE-001 are globally reconciled as P0/MUST cross-cutting journal, work-history and retention projections. Append-only active logging, tombstone deletion, SEALED SHA-256 archives, verify-gated restore, retention-trash semantics and non-promotion authority boundaries are mandatory; capability count stays 143 and no architectural authority is added.",
-    "FA3-OS-001 and FA3-OS-POLICY-001 are globally reconciled as a local-first privacy-governed context/activity/episodic-memory overlay on FA3-JOURNAL-001. The Journal remains the sole canonical workstation event/history ledger; derived memory remains rebuildable and non-authoritative, Resume Plan has no execution authority, capability count stays 143 and no architectural authority is added."
+    "FA3-OS-001 and FA3-OS-POLICY-001 are globally reconciled as a local-first privacy-governed context/activity/episodic-memory overlay on FA3-JOURNAL-001. The Journal remains the sole canonical workstation event/history ledger; derived memory remains rebuildable and non-authoritative, Resume Plan has no execution authority, capability count stays 143 and no architectural authority is added.",
+    "FA3-WORK-MANAGEMENT-PROJECTION-001 globally reconciles Kaneo and Kanboard behind one mandatory provider-neutral Work Management Control Center menu. Provider identity remains projection metadata; resource admission is workload-driven and HRB-authoritative, CPU-lightweight by default, and the existing Accelerator Guard decision surface is made GUI-reachable. Capability count remains 143 and no authority is added."
   ],
   "manifest_verification": {
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "d7c65b56b8c4bf97808c6945946b546e7279309d",
-    "regenerated_from_branch_head": "d7c65b56b8c4bf97808c6945946b546e7279309d",
+    "source_snapshot_anchor": "cfe4254dc52e6f56c90e35f587a22ff9aa9ac5a0",
+    "regenerated_from_branch_head": "cfe4254dc52e6f56c90e35f587a22ff9aa9ac5a0",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -8037,7 +8091,10 @@
     "journal_snapshot_head": "10e4a348b89d9a81318f35dd16a09fe70380e1bf",
     "fa3_os_reconciliation_generator": "tools/fa3_os_global_reconcile.py",
     "fa3_os_deterministic_regeneration_pass": true,
-    "fa3_os_snapshot_head": "d7c65b56b8c4bf97808c6945946b546e7279309d"
+    "fa3_os_snapshot_head": "d7c65b56b8c4bf97808c6945946b546e7279309d",
+    "work_management_reconciliation_generator": "tools/fa3_work_management_global_reconcile.py",
+    "work_management_deterministic_regeneration_pass": true,
+    "work_management_snapshot_head": "cfe4254dc52e6f56c90e35f587a22ff9aa9ac5a0"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -8332,6 +8389,28 @@
     "generic_screen_capture_default": "DENY",
     "terminal_capture_default": "METADATA_ONLY",
     "derived_memory_authoritative": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "work_management_reconciliation": {
+    "projection_id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "contract_id": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+    "gateset_id": "FA3-WORK-MANAGEMENT-GATESET-001",
+    "provider_ids": [
+      "FA3-PROVIDER-KANEO-001",
+      "FA3-PROVIDER-KANBOARD-001"
+    ],
+    "optional_external_adapter_type": "GITHUB_ISSUES",
+    "gui_menu": "Work Management",
+    "gui_page_index": 24,
+    "accelerator_guard_gui_page_index": 25,
+    "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "default_resource_class": "CPU_LIGHTWEIGHT",
+    "accelerator_required_by_default": false,
+    "gui_hardware_probe_authority": false,
+    "reconciliation_status": "GLOBAL_RELEASE_INVENTORY_RECONCILED_MANDATORY_GUI_AND_GATE_ENFORCED",
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
