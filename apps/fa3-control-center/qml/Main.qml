@@ -108,6 +108,7 @@ ApplicationWindow {
         {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", pageIndex: 10},
         {title: "Observability", detail: "Metrics, traces és provenance", category: "FUNCTION", pageIndex: 11},
         {title: "Napló / Journal", detail: "Rendszer-, beszélgetés- és projektnapló", category: "FUNCTION", pageIndex: 12},
+        {title: "FA3 OS", detail: "Aktivitás, workstream, privacy és provenance kontextus", category: "FUNCTION", pageIndex: 26},
         {title: "Evidence", detail: "Conformance és promotion evidence", category: "FUNCTION", pageIndex: 13},
         {title: "Integrations", detail: "Desktop, MCP és provider integrációk", category: "FUNCTION", pageIndex: 14},
         {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", pageIndex: 14},
@@ -628,6 +629,7 @@ ApplicationWindow {
                         NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 10 }
                         NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 11 }
                         NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 12 }
+                        NavButton { iconText: "◎"; label: "FA3 OS"; pageIndex: 26 }
                         NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 13 }
                     }
                 }
@@ -1416,6 +1418,19 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                }
+
+                Fa3OsPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onNavigateRequested: function(pageIndex) { window.selectedIndex = pageIndex }
                 }
             }
 

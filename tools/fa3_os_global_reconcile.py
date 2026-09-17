@@ -14,6 +14,9 @@ import fa3_buzz_global_reconcile as common  # noqa: E402
 PROFILE_ID = "FA3-OS-001"
 PRIVACY_PROFILE_ID = "FA3-OS-POLICY-001"
 EVENT_CONTRACT_ID = "FA3-OS-EVENT-001"
+RUNTIME_PROFILE_ID = "FA3-OS-RUNTIME-001"
+RUNTIME_CONFORMANCE_ID = "FA3-OS-RUNTIME-CONFORMANCE-001"
+RUNTIME_GATESET_ID = "FA3-OS-RUNTIME-GATESET-001"
 GATESET_ID = "FA3-OS-EVENT-PRIVACY-GATESET-001"
 LEDGER_AUTHORITY = "FA3-JOURNAL-001"
 JOURNAL_CONTRACT_ID = "FA3-JOURNAL-CONTRACTS-001"
@@ -49,6 +52,9 @@ def patch_policy() -> None:
     policy["fa3_os_profile_id"] = PROFILE_ID
     policy["fa3_os_privacy_profile_id"] = PRIVACY_PROFILE_ID
     policy["fa3_os_event_contract_id"] = EVENT_CONTRACT_ID
+    policy["fa3_os_runtime_profile_id"] = RUNTIME_PROFILE_ID
+    policy["fa3_os_runtime_conformance_id"] = RUNTIME_CONFORMANCE_ID
+    policy["fa3_os_runtime_gate_id"] = RUNTIME_GATESET_ID
     policy["fa3_os_ledger_authority"] = LEDGER_AUTHORITY
     policy["fa3_os_canonical_event_envelope"] = JOURNAL_CONTRACT_ID
     policy["fa3_os_mandatory_p0_rules"] = list(enforcement.get("p0_invariants", []))
@@ -138,6 +144,12 @@ def patch_release_semantics() -> None:
         "profile_id": PROFILE_ID,
         "privacy_profile_id": PRIVACY_PROFILE_ID,
         "event_contract_id": EVENT_CONTRACT_ID,
+        "runtime_profile_id": RUNTIME_PROFILE_ID,
+        "runtime_conformance_id": RUNTIME_CONFORMANCE_ID,
+        "runtime_gateset_id": RUNTIME_GATESET_ID,
+        "reference_runtime_materialized": True,
+        "current_host_runtime_status": "PENDING_CURRENT_HOST",
+        "gui_surface": "FA3 Control Center / FA3 OS",
         "gateset_id": GATESET_ID,
         "ledger_authority": LEDGER_AUTHORITY,
         "canonical_event_envelope": JOURNAL_CONTRACT_ID,

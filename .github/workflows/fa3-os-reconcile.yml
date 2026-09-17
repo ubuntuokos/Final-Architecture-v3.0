@@ -3,10 +3,18 @@ name: FA3 OS Global Reconciliation
 on:
   push:
     branches:
-      - materialize/fa3-os-event-privacy
+      - 'materialize/fa3-os-*'
     paths:
-      - 'tools/fa3_os_global_reconcile.py'
-      - 'tests/test_fa3_os_global_reconciliation.py'
+      - 'canonical/profiles/FA3-OS-*.json'
+      - 'canonical/FA3-OS-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/fa3-os-event-privacy-enforcement.json'
+      - 'src/fa3_os_*.py'
+      - 'bin/fa3-os'
+      - 'apps/fa3-control-center/qml/Fa3OsPage.qml'
+      - 'apps/fa3-control-center/qml/Main.qml'
+      - 'apps/fa3-control-center/CMakeLists.txt'
+      - 'tools/fa3_os_*.py'
+      - 'tests/test_fa3_os_*.py'
       - '.github/workflows/fa3-os-reconcile.yml'
   workflow_dispatch:
 
@@ -20,27 +28,35 @@ concurrency:
 jobs:
   reconcile:
     name: fa3-os-global-reconciliation / P0
-    if: github.ref_name == 'materialize/fa3-os-event-privacy'
+    if: startsWith(github.ref_name, 'materialize/fa3-os-')
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: materialize/fa3-os-event-privacy
+          ref: ${{ github.ref_name }}
           persist-credentials: true
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
+      - name: Materialize FA3 OS runtime and GUI
+        run: python tools/fa3_os_runtime_materialize.py
+
+      - name: Commit runtime materialization
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add canonical/profiles/FA3-OS-001.json canonical/fa3-os-event-privacy-enforcement.json src/fa3_os_event_privacy_gate.py apps/fa3-control-center/CMakeLists.txt apps/fa3-control-center/qml/Main.qml tools/fa3_os_global_reconcile.py bin/fa3-os
+          git diff --cached --quiet || git commit -m "FA3 OS: materialize runtime and Control Center surface"
+
       - name: Prepare FA3 OS global enforcement reconciliation
         run: python tools/fa3_os_global_reconcile.py --prepare-only
 
       - name: Commit non-projection reconciliation
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add canonical/enforcement-policy.json src/fa3_enforce.py .github/workflows/fa3-permanent-enforcement.yml
           git diff --cached --quiet || git commit -m "FA3: reconcile OS global enforcement policy"
 
@@ -52,12 +68,14 @@ jobs:
           git add canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
           git diff --cached --quiet || git commit -m "FA3: reconcile OS unified release projection"
 
-      - name: Validate FA3 OS and global release gates
+      - name: Validate FA3 OS runtime and global release gates
         run: |
-          PYTHONPATH=src python -m unittest tests.test_fa3_os_event_privacy_gate tests.test_fa3_os_global_reconciliation -v
+          PYTHONPATH=src python -m unittest tests.test_fa3_os_event_privacy_gate tests.test_fa3_os_global_reconciliation tests.test_fa3_os_runtime -v
           PYTHONPATH=src python -m unittest tests.test_release_projection -v
+          PYTHONPATH=src python src/fa3_os_runtime.py self-test
+          PYTHONPATH=src python src/fa3_os_runtime_gate.py --repo-root .
           PYTHONPATH=src python src/fa3_os_event_privacy_gate.py --repo-root .
           ./bin/fa3-enforce fa3-os-event-privacy
 
       - name: Push reconciled commits
-        run: git push origin HEAD:materialize/fa3-os-event-privacy
+        run: git push origin HEAD:${{ github.ref_name }}
