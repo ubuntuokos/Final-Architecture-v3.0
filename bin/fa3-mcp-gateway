@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+HOST="${FA3_MCP_GATEWAY_HOST:-127.0.0.1}"
+PORT="${FA3_MCP_GATEWAY_PORT:-18790}"
+REGISTRY="${FA3_MCP_CAPABILITY_REGISTRY:-$ROOT/canonical/mcp-capability-registry.json}"
+
+case "$HOST" in
+  127.0.0.1|localhost|::1) ;;
+  *)
+    echo "DENY: non-loopback MCP Gateway bind requires a separate canonical exposure profile" >&2
+    exit 2
+    ;;
+esac
+
+exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" \
+  python3 "$ROOT/src/fa3_mcp_gateway_server.py" \
+  --registry "$REGISTRY" --host "$HOST" --port "$PORT"
