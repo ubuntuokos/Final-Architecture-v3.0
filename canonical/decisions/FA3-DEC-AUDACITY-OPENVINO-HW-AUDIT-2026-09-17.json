@@ -1,0 +1,11 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AUDACITY-OPENVINO-HW-AUDIT-2026-09-17",
+  "date": "2026-09-17",
+  "status": "CANONICAL_DECISION",
+  "decision": "RECONCILE_WITH_WORKLOAD_DRIVEN_RESOURCE_ADMISSION",
+  "capability_delta": 0,
+  "architectural_authority_delta": 0,
+  "rules": ["Audacity remains P1/SHOULD interactive editor provider.", "Audacity OpenVINO remains P2/OPTIONAL and a strong pattern source.", "CPU-only AI execution requires no accelerator discovery or lease.", "Accelerator execution requires HRB lease and FA3-ACCEL-GUARD-001 reconciliation.", "Resource envelopes are workload-derived; fixed CPU/GPU/NPU/NUMA placement constants are forbidden.", "No implicit display-to-compute or accelerator fallback.", "Provider admission failure is fail-closed and SHALL NOT degrade base Audacity."],
+  "promotion": "CURRENT_HOST_RUNTIME_EVIDENCE_REQUIRED_FOR_RUNTIME_PROMOTION_NOT_FOR_CANONICAL_DESIGN_MATERIALIZATION"
+}
