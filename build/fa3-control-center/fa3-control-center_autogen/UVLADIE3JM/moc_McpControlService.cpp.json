@@ -1,0 +1,62 @@
+{
+    "classes": [
+        {
+            "className": "McpControlService",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "targets",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "targetId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "authoritySnapshot",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "mode",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "targetId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "prompt",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "attachmentsJson",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "riskHint",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "createDraftRequest",
+                    "returnType": "QVariantMap"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "McpControlService",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "McpControlService.h",
+    "outputRevision": 68
+}

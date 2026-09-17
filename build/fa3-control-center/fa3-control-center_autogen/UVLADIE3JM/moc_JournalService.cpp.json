@@ -1,0 +1,384 @@
+{
+    "classes": [
+        {
+            "className": "JournalService",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "refresh",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "domain",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "query",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "filteredEvents",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "domain",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "source",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "projectId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "lifecycle",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "summary",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "details",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "recordEvent",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "reason",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "archiveAll",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "name": "archiveAll",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "name": "archiveByPolicy",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "fileName",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "verifyArchive",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "fileName",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "restoreArchive",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "fileName",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "retireArchive",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "eventId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "softDeleteEvent",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "format",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "query",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "exportJournal",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "format",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "exportJournal",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "query",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "printJournal",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "name": "printJournal",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "channel",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "query",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "shareJournal",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "channel",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "shareJournal",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "name": "openStorageRoot",
+                    "returnType": "bool"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "storageRoot",
+                    "read": "storageRoot",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "lastRefresh",
+                    "notify": "changed",
+                    "read": "lastRefresh",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "lastResult",
+                    "notify": "changed",
+                    "read": "lastResult",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "eventCount",
+                    "notify": "changed",
+                    "read": "eventCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "name": "archiveCount",
+                    "notify": "changed",
+                    "read": "archiveCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "name": "systemCount",
+                    "notify": "changed",
+                    "read": "systemCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 6,
+                    "name": "conversationCount",
+                    "notify": "changed",
+                    "read": "conversationCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 7,
+                    "name": "activeProjectCount",
+                    "notify": "changed",
+                    "read": "activeProjectCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 8,
+                    "name": "closedProjectCount",
+                    "notify": "changed",
+                    "read": "closedProjectCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 9,
+                    "name": "plannedProjectCount",
+                    "notify": "changed",
+                    "read": "plannedProjectCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 10,
+                    "name": "events",
+                    "notify": "changed",
+                    "read": "events",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 11,
+                    "name": "archives",
+                    "notify": "changed",
+                    "read": "archives",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "JournalService",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "changed",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "JournalService.h",
+    "outputRevision": 68
+}

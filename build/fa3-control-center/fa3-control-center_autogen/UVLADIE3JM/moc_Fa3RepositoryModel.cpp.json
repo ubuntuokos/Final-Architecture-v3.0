@@ -1,0 +1,288 @@
+{
+    "classes": [
+        {
+            "className": "Fa3RepositoryModel",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "refresh",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "query",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "searchRecords",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "query",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "searchInstalledApplications",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "recordsByCategory",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "scope",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "action",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "target",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "rationale",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "createDraftChangeSet",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "relativePath",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "openLocalPath",
+                    "returnType": "bool"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "repoRoot",
+                    "notify": "repoRootChanged",
+                    "read": "repoRoot",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "canonicalRecordCount",
+                    "notify": "statisticsChanged",
+                    "read": "canonicalRecordCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "profileCount",
+                    "notify": "statisticsChanged",
+                    "read": "profileCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "providerCount",
+                    "notify": "statisticsChanged",
+                    "read": "providerCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "name": "decisionCount",
+                    "notify": "statisticsChanged",
+                    "read": "decisionCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "name": "evidenceCount",
+                    "notify": "statisticsChanged",
+                    "read": "evidenceCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 6,
+                    "name": "pendingCount",
+                    "notify": "statisticsChanged",
+                    "read": "pendingCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 7,
+                    "name": "lastRefresh",
+                    "notify": "statisticsChanged",
+                    "read": "lastRefresh",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 8,
+                    "name": "hostName",
+                    "read": "hostName",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 9,
+                    "name": "kernelVersion",
+                    "read": "kernelVersion",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 10,
+                    "name": "cpuThreads",
+                    "read": "cpuThreads",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 11,
+                    "name": "memoryGiB",
+                    "read": "memoryGiB",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "double",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 12,
+                    "name": "records",
+                    "notify": "recordsChanged",
+                    "read": "records",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "Fa3RepositoryModel",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "repoRootChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "statisticsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "recordsChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "Fa3RepositoryModel.h",
+    "outputRevision": 68
+}

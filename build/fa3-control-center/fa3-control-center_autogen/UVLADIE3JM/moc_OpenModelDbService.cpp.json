@@ -1,0 +1,229 @@
+{
+    "classes": [
+        {
+            "className": "OpenModelDbService",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "refreshCatalog",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "openExternalUrl",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "name": "openStagingFolder",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "modelId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "modelName",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "licenseId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "resource",
+                            "type": "QVariantMap"
+                        }
+                    ],
+                    "name": "queueDownload",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "downloadId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "cancelDownload",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "downloadId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "retryDownload",
+                    "returnType": "bool"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "models",
+                    "notify": "modelsChanged",
+                    "read": "models",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "tags",
+                    "notify": "modelsChanged",
+                    "read": "tags",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "scales",
+                    "notify": "modelsChanged",
+                    "read": "scales",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "architectures",
+                    "notify": "modelsChanged",
+                    "read": "architectures",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "name": "platforms",
+                    "notify": "modelsChanged",
+                    "read": "platforms",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "name": "downloads",
+                    "notify": "downloadsChanged",
+                    "read": "downloads",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 6,
+                    "name": "catalogStatus",
+                    "notify": "catalogStatusChanged",
+                    "read": "catalogStatus",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 7,
+                    "name": "catalogBusy",
+                    "notify": "catalogStatusChanged",
+                    "read": "catalogBusy",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false
+                },
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 8,
+                    "name": "stagingRoot",
+                    "read": "stagingRoot",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "OpenModelDbService",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "modelsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "downloadsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "catalogStatusChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "OpenModelDbService.h",
+    "outputRevision": 68
+}

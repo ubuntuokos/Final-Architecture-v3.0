@@ -1,0 +1,2516 @@
+[
+    {
+        "classes": [
+            {
+                "className": "AppCatalogService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refresh",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "appId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "application",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "appId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "requestFirstUse",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "appId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "installApproved",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "appId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "launchInstalled",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "sourceUrl",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "category",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "rationale",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "submitApplicationRequest",
+                        "returnType": "QString"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "applications",
+                        "notify": "applicationsChanged",
+                        "read": "applications",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "pendingRequestCount",
+                        "notify": "requestQueueChanged",
+                        "read": "pendingRequestCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "lastError",
+                        "notify": "lastErrorChanged",
+                        "read": "lastError",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "installBusy",
+                        "notify": "installBusyChanged",
+                        "read": "installBusy",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "AppCatalogService",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "applicationsChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "requestQueueChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "lastErrorChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "installBusyChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "appId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "name",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "installationConfirmationRequired",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "appId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "operation",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "success",
+                                "type": "bool"
+                            },
+                            {
+                                "name": "message",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "operationFinished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "requestId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "filePath",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "applicationRequestQueued",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "AppCatalogService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "ChatFileService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "inspectLocalFile",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "destination",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "text",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "saveTextFile",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "source",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "destination",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "copyLocalFile",
+                        "returnType": "QVariantMap"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "ChatFileService",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "ChatFileService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "Fa3RepositoryModel",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refresh",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "query",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "searchRecords",
+                        "returnType": "QVariantList"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "query",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "searchInstalledApplications",
+                        "returnType": "QVariantList"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "category",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "recordsByCategory",
+                        "returnType": "QVariantList"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "scope",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "action",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "target",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "rationale",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "createDraftChangeSet",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "relativePath",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "openLocalPath",
+                        "returnType": "bool"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "repoRoot",
+                        "notify": "repoRootChanged",
+                        "read": "repoRoot",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "canonicalRecordCount",
+                        "notify": "statisticsChanged",
+                        "read": "canonicalRecordCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "profileCount",
+                        "notify": "statisticsChanged",
+                        "read": "profileCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "providerCount",
+                        "notify": "statisticsChanged",
+                        "read": "providerCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "decisionCount",
+                        "notify": "statisticsChanged",
+                        "read": "decisionCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "evidenceCount",
+                        "notify": "statisticsChanged",
+                        "read": "evidenceCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "name": "pendingCount",
+                        "notify": "statisticsChanged",
+                        "read": "pendingCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "name": "lastRefresh",
+                        "notify": "statisticsChanged",
+                        "read": "lastRefresh",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "name": "hostName",
+                        "read": "hostName",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 9,
+                        "name": "kernelVersion",
+                        "read": "kernelVersion",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 10,
+                        "name": "cpuThreads",
+                        "read": "cpuThreads",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 11,
+                        "name": "memoryGiB",
+                        "read": "memoryGiB",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 12,
+                        "name": "records",
+                        "notify": "recordsChanged",
+                        "read": "records",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "Fa3RepositoryModel",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "repoRootChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "statisticsChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "recordsChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "Fa3RepositoryModel.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "JournalService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refresh",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "domain",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "query",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "filteredEvents",
+                        "returnType": "QVariantList"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "domain",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "source",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "projectId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "lifecycle",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "summary",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "details",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "recordEvent",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "reason",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "archiveAll",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "name": "archiveAll",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "name": "archiveByPolicy",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "fileName",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "verifyArchive",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "fileName",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "restoreArchive",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "fileName",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "retireArchive",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "eventId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "softDeleteEvent",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "format",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "query",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "exportJournal",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "format",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "exportJournal",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "query",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "printJournal",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "name": "printJournal",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "channel",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "query",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "shareJournal",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "channel",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "shareJournal",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "name": "openStorageRoot",
+                        "returnType": "bool"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "storageRoot",
+                        "read": "storageRoot",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "lastRefresh",
+                        "notify": "changed",
+                        "read": "lastRefresh",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "lastResult",
+                        "notify": "changed",
+                        "read": "lastResult",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "eventCount",
+                        "notify": "changed",
+                        "read": "eventCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "archiveCount",
+                        "notify": "changed",
+                        "read": "archiveCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "systemCount",
+                        "notify": "changed",
+                        "read": "systemCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "name": "conversationCount",
+                        "notify": "changed",
+                        "read": "conversationCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "name": "activeProjectCount",
+                        "notify": "changed",
+                        "read": "activeProjectCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "name": "closedProjectCount",
+                        "notify": "changed",
+                        "read": "closedProjectCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 9,
+                        "name": "plannedProjectCount",
+                        "notify": "changed",
+                        "read": "plannedProjectCount",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 10,
+                        "name": "events",
+                        "notify": "changed",
+                        "read": "events",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 11,
+                        "name": "archives",
+                        "notify": "changed",
+                        "read": "archives",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "JournalService",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "changed",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "JournalService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "LanguageInterpreterService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "probe",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "sourceLanguage",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "targetLanguage",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "dataClassification",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "localFirst",
+                                "type": "bool"
+                            },
+                            {
+                                "name": "cloudRequested",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "startLive",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "stop",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "pause",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "resume",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "clearTranscript",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "active",
+                        "notify": "runtimeChanged",
+                        "read": "active",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "paused",
+                        "notify": "runtimeChanged",
+                        "read": "paused",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "state",
+                        "notify": "runtimeChanged",
+                        "read": "state",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "detail",
+                        "notify": "runtimeChanged",
+                        "read": "detail",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "sessionId",
+                        "notify": "runtimeChanged",
+                        "read": "sessionId",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "sourceLanguage",
+                        "notify": "runtimeChanged",
+                        "read": "sourceLanguage",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "name": "targetLanguage",
+                        "notify": "runtimeChanged",
+                        "read": "targetLanguage",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "name": "detectedLanguage",
+                        "notify": "transcriptChanged",
+                        "read": "detectedLanguage",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "name": "originalText",
+                        "notify": "transcriptChanged",
+                        "read": "originalText",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 9,
+                        "name": "translatedText",
+                        "notify": "transcriptChanged",
+                        "read": "translatedText",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 10,
+                        "name": "microphoneStatus",
+                        "notify": "runtimeChanged",
+                        "read": "microphoneStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 11,
+                        "name": "sttStatus",
+                        "notify": "runtimeChanged",
+                        "read": "sttStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 12,
+                        "name": "translationStatus",
+                        "notify": "runtimeChanged",
+                        "read": "translationStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 13,
+                        "name": "ttsStatus",
+                        "notify": "runtimeChanged",
+                        "read": "ttsStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "LanguageInterpreterService",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "runtimeChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "transcriptChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "exitCode",
+                                "type": "int"
+                            },
+                            {
+                                "name": "exitStatus",
+                                "type": "QProcess::ExitStatus"
+                            }
+                        ],
+                        "name": "recorderFinished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "error",
+                                "type": "QProcess::ProcessError"
+                            }
+                        ],
+                        "name": "recorderError",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "exitCode",
+                                "type": "int"
+                            },
+                            {
+                                "name": "exitStatus",
+                                "type": "QProcess::ExitStatus"
+                            }
+                        ],
+                        "name": "sttFinished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "exitCode",
+                                "type": "int"
+                            },
+                            {
+                                "name": "exitStatus",
+                                "type": "QProcess::ExitStatus"
+                            }
+                        ],
+                        "name": "translationFinished",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "LanguageInterpreterService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "LlmfitClient",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refresh",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "useCase",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "runtime",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "maxContext",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "recommendModels",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "available",
+                        "notify": "stateChanged",
+                        "read": "available",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "busy",
+                        "notify": "stateChanged",
+                        "read": "busy",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "statusText",
+                        "notify": "stateChanged",
+                        "read": "statusText",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "lastError",
+                        "notify": "stateChanged",
+                        "read": "lastError",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "socketPath",
+                        "read": "socketPath",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "system",
+                        "notify": "dataChanged",
+                        "read": "system",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantMap",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "name": "models",
+                        "notify": "dataChanged",
+                        "read": "models",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "name": "useCase",
+                        "notify": "filtersChanged",
+                        "read": "useCase",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "name": "runtime",
+                        "notify": "filtersChanged",
+                        "read": "runtime",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 9,
+                        "name": "maxContext",
+                        "notify": "filtersChanged",
+                        "read": "maxContext",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "LlmfitClient",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "stateChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "dataChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "filtersChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "LlmfitClient.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "McpControlService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "targets",
+                        "returnType": "QVariantList"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "targetId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "authoritySnapshot",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "mode",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "targetId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "prompt",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "attachmentsJson",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "riskHint",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "createDraftRequest",
+                        "returnType": "QVariantMap"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "McpControlService",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "McpControlService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "ModelLibraryService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refresh",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "directory",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "setSharedRoot",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "urls",
+                                "type": "QVariantList"
+                            },
+                            {
+                                "name": "category",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "importFiles",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "source",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "category",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "moveModel",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "modelUrl",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "metadata",
+                                "type": "QVariantMap"
+                            }
+                        ],
+                        "name": "saveMetadata",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "modelUrl",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "previewUrl",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "setPreview",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "clientKey",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "directory",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "setClientRoot",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "clientKey",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "linkClient",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "category",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "fileName",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "startDownload",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            },
+                            {
+                                "name": "category",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "startDownload",
+                        "returnType": "QVariantMap"
+                    },
+                    {
+                        "access": "public",
+                        "name": "cancelDownload",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "openLocalPath",
+                        "returnType": "bool"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "sharedRoot",
+                        "notify": "sharedRootChanged",
+                        "read": "sharedRoot",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "items",
+                        "notify": "itemsChanged",
+                        "read": "items",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "clients",
+                        "notify": "clientsChanged",
+                        "read": "clients",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "downloadActive",
+                        "notify": "downloadStateChanged",
+                        "read": "downloadActive",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "downloadProgress",
+                        "notify": "downloadStateChanged",
+                        "read": "downloadProgress",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "downloadStatus",
+                        "notify": "downloadStateChanged",
+                        "read": "downloadStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "ModelLibraryService",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "sharedRootChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "itemsChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "clientsChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "downloadStateChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "ModelLibraryService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "OpenModelDbService",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refreshCatalog",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "openExternalUrl",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "name": "openStagingFolder",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "modelId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "modelName",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "licenseId",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "resource",
+                                "type": "QVariantMap"
+                            }
+                        ],
+                        "name": "queueDownload",
+                        "returnType": "QString"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "downloadId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "cancelDownload",
+                        "returnType": "bool"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "downloadId",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "retryDownload",
+                        "returnType": "bool"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "models",
+                        "notify": "modelsChanged",
+                        "read": "models",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "tags",
+                        "notify": "modelsChanged",
+                        "read": "tags",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "scales",
+                        "notify": "modelsChanged",
+                        "read": "scales",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QStringList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "architectures",
+                        "notify": "modelsChanged",
+                        "read": "architectures",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QStringList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "platforms",
+                        "notify": "modelsChanged",
+                        "read": "platforms",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QStringList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "downloads",
+                        "notify": "downloadsChanged",
+                        "read": "downloads",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "name": "catalogStatus",
+                        "notify": "catalogStatusChanged",
+                        "read": "catalogStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "name": "catalogBusy",
+                        "notify": "catalogStatusChanged",
+                        "read": "catalogBusy",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": true,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "name": "stagingRoot",
+                        "read": "stagingRoot",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "OpenModelDbService",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "modelsChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "downloadsChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "catalogStatusChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "OpenModelDbService.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "PreferenceStore",
+                "methods": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "key",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "fallback",
+                                "type": "QVariant"
+                            }
+                        ],
+                        "name": "value",
+                        "returnType": "QVariant"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "key",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "value",
+                        "returnType": "QVariant"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "key",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "value",
+                                "type": "QVariant"
+                            }
+                        ],
+                        "name": "setValue",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "key",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "remove",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "sequence",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "normalizeShortcut",
+                        "returnType": "QString"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "PreferenceStore",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "key",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "value",
+                                "type": "QVariant"
+                            }
+                        ],
+                        "name": "preferenceChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "PreferenceStore.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "ResourceTelemetry",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refreshNow",
+                        "returnType": "void"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "cpuPercent",
+                        "notify": "telemetryChanged",
+                        "read": "cpuPercent",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "ramPercent",
+                        "notify": "telemetryChanged",
+                        "read": "ramPercent",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "ramUsedGiB",
+                        "notify": "telemetryChanged",
+                        "read": "ramUsedGiB",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 3,
+                        "name": "ramTotalGiB",
+                        "notify": "telemetryChanged",
+                        "read": "ramTotalGiB",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 4,
+                        "name": "gpuAvailable",
+                        "notify": "telemetryChanged",
+                        "read": "gpuAvailable",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 5,
+                        "name": "gpuLabel",
+                        "notify": "telemetryChanged",
+                        "read": "gpuLabel",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "name": "gpuPercent",
+                        "notify": "telemetryChanged",
+                        "read": "gpuPercent",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "name": "gpuMemoryUsedGiB",
+                        "notify": "telemetryChanged",
+                        "read": "gpuMemoryUsedGiB",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 8,
+                        "name": "gpuMemoryTotalGiB",
+                        "notify": "telemetryChanged",
+                        "read": "gpuMemoryTotalGiB",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 9,
+                        "name": "gpuTemperatureC",
+                        "notify": "telemetryChanged",
+                        "read": "gpuTemperatureC",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 10,
+                        "name": "npuAvailable",
+                        "notify": "telemetryChanged",
+                        "read": "npuAvailable",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 11,
+                        "name": "npuLabel",
+                        "notify": "telemetryChanged",
+                        "read": "npuLabel",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 12,
+                        "name": "npuPercent",
+                        "notify": "telemetryChanged",
+                        "read": "npuPercent",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "double",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 13,
+                        "name": "pressureState",
+                        "notify": "telemetryChanged",
+                        "read": "pressureState",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 14,
+                        "name": "pressureSummary",
+                        "notify": "telemetryChanged",
+                        "read": "pressureSummary",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "ResourceTelemetry",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "telemetryChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "private",
+                        "name": "sampleFast",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "name": "sampleAccelerators",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "exitCode",
+                                "type": "int"
+                            },
+                            {
+                                "name": "exitStatus",
+                                "type": "QProcess::ExitStatus"
+                            }
+                        ],
+                        "name": "handleGpuProbeFinished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "arguments": [
+                            {
+                                "name": "error",
+                                "type": "QProcess::ProcessError"
+                            }
+                        ],
+                        "name": "handleGpuProbeError",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "ResourceTelemetry.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "SystemDeviceModel",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "refresh",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "kind",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "byKind",
+                        "returnType": "QVariantList"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "inventory",
+                        "notify": "inventoryChanged",
+                        "read": "inventory",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantList",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "lastRefresh",
+                        "notify": "inventoryChanged",
+                        "read": "lastRefresh",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "SystemDeviceModel",
+                "signals": [
+                    {
+                        "access": "public",
+                        "name": "inventoryChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "SystemDeviceModel.h",
+        "outputRevision": 68
+    }
+]

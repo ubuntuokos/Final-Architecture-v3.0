@@ -1,0 +1,60 @@
+{
+    "classes": [
+        {
+            "className": "ChatFileService",
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QUrl"
+                        }
+                    ],
+                    "name": "inspectLocalFile",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "destination",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "text",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "saveTextFile",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "source",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "destination",
+                            "type": "QUrl"
+                        }
+                    ],
+                    "name": "copyLocalFile",
+                    "returnType": "QVariantMap"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "ChatFileService",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "ChatFileService.h",
+    "outputRevision": 68
+}

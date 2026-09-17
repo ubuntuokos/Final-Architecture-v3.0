@@ -1,0 +1,220 @@
+{
+    "classes": [
+        {
+            "className": "AppCatalogService",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "refresh",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "appId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "application",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "appId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "requestFirstUse",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "appId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "installApproved",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "appId",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "launchInstalled",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "sourceUrl",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "rationale",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "submitApplicationRequest",
+                    "returnType": "QString"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "applications",
+                    "notify": "applicationsChanged",
+                    "read": "applications",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "pendingRequestCount",
+                    "notify": "requestQueueChanged",
+                    "read": "pendingRequestCount",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "lastError",
+                    "notify": "lastErrorChanged",
+                    "read": "lastError",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "installBusy",
+                    "notify": "installBusyChanged",
+                    "read": "installBusy",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "AppCatalogService",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "applicationsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "requestQueueChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "lastErrorChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "installBusyChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "appId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "name",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "installationConfirmationRequired",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "appId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "operation",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "success",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "message",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "operationFinished",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "requestId",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "filePath",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "applicationRequestQueued",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "AppCatalogService.h",
+    "outputRevision": 68
+}

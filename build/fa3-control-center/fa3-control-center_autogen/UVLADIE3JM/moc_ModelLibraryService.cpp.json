@@ -1,0 +1,279 @@
+{
+    "classes": [
+        {
+            "className": "ModelLibraryService",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "refresh",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "directory",
+                            "type": "QUrl"
+                        }
+                    ],
+                    "name": "setSharedRoot",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "urls",
+                            "type": "QVariantList"
+                        },
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "importFiles",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "source",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "moveModel",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "modelUrl",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "metadata",
+                            "type": "QVariantMap"
+                        }
+                    ],
+                    "name": "saveMetadata",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "modelUrl",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "previewUrl",
+                            "type": "QUrl"
+                        }
+                    ],
+                    "name": "setPreview",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "clientKey",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "directory",
+                            "type": "QUrl"
+                        }
+                    ],
+                    "name": "setClientRoot",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "clientKey",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "linkClient",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "fileName",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "startDownload",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QUrl"
+                        },
+                        {
+                            "name": "category",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "startDownload",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "name": "cancelDownload",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QUrl"
+                        }
+                    ],
+                    "name": "openLocalPath",
+                    "returnType": "bool"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "sharedRoot",
+                    "notify": "sharedRootChanged",
+                    "read": "sharedRoot",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "items",
+                    "notify": "itemsChanged",
+                    "read": "items",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "clients",
+                    "notify": "clientsChanged",
+                    "read": "clients",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "downloadActive",
+                    "notify": "downloadStateChanged",
+                    "read": "downloadActive",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "name": "downloadProgress",
+                    "notify": "downloadStateChanged",
+                    "read": "downloadProgress",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "name": "downloadStatus",
+                    "notify": "downloadStateChanged",
+                    "read": "downloadStatus",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "ModelLibraryService",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "sharedRootChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "itemsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "clientsChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "downloadStateChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "ModelLibraryService.h",
+    "outputRevision": 68
+}

@@ -1,0 +1,72 @@
+{
+    "classes": [
+        {
+            "className": "SystemDeviceModel",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "refresh",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "kind",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "byKind",
+                    "returnType": "QVariantList"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "inventory",
+                    "notify": "inventoryChanged",
+                    "read": "inventory",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "lastRefresh",
+                    "notify": "inventoryChanged",
+                    "read": "lastRefresh",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "SystemDeviceModel",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "inventoryChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "SystemDeviceModel.h",
+    "outputRevision": 68
+}
