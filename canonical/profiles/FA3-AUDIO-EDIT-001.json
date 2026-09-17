@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AUDIO-EDIT-001",
   "name": "Interactive Audio Editing, Restoration & AI Interchange Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-IF-USED",
@@ -11,20 +11,12 @@
   "new_architectural_authority": false,
   "subprofile_of": "FA3-AUDIO-001",
   "capabilities": ["CAP-017", "CAP-066"],
-  "dependencies": ["FA3-CONTRACT-001", "FA3-SCS-001", "FA3-HW-001", "FA3-STT-001", "FA3-STT-MEDIA-001"],
+  "dependencies": ["FA3-CONTRACT-001", "FA3-SCS-001", "FA3-HW-001", "FA3-STT-001", "FA3-STT-MEDIA-001", "FA3-HOST-RESOURCE-BROKER-001", "FA3-ACCEL-GUARD-001"],
+  "contracts": ["FA3-AUDIO-EDIT-CONTRACTS-001"],
+  "hardware_projection": "FA3-AUDACITY-OPENVINO-HARDWARE-PROJECTION-001",
   "providers": ["FA3-PROVIDER-AUDACITY-001", "FA3-PROVIDER-AUDACITY-OPENVINO-001"],
-  "required_behaviors": ["waveform and multitrack editing", "selection-aware processing", "labels and markers", "AI track round-trip", "STT/subtitle interchange", "stem interchange", "restoration round-trip", "FFmpeg/Kdenlive interchange", "AI provenance", "provider-independent automation/control"],
-  "authority": {
-    "provider_routing": "FA3-AUTH-MODEL-ROUTER-001",
-    "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
-    "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"
-  },
-  "invariants": [
-    "Editor SHALL NOT become orchestration, STT, model-routing, security, evidence or host-resource authority.",
-    "AI providers SHALL return explicit track/label/artifact outputs with provenance.",
-    "Provider fallback SHALL be policy-controlled and observable, never silent."
-  ],
-  "implementation_status": "CANONICAL_CONTRACT_MATERIALIZED_PROVIDER_E2E_PENDING"
+  "required_behaviors": ["waveform and multitrack editing", "selection-aware processing", "labels and markers", "AI track round-trip", "STT/subtitle interchange", "stem interchange", "restoration round-trip", "FFmpeg/Kdenlive interchange", "AI provenance", "provider-independent automation/control", "workload-derived resource admission"],
+  "authority": {"provider_routing": "FA3-AUTH-MODEL-ROUTER-001", "host_admission_placement_reservation": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "accelerator_contention": "FA3-ACCEL-GUARD-001", "security_governance": "FA3-AUTH-SECURITY-GOV-001", "observability_evidence": "FA3-AUTH-OBS-EVIDENCE-001", "artifact_model_identity": "FA3-REG-ARTIFACT-MODEL-001"},
+  "invariants": ["Editor SHALL NOT become orchestration, STT, model-routing, security, evidence or host-resource authority.", "AI providers SHALL return explicit track/label/artifact outputs with provenance.", "CPU-only provider execution SHALL NOT require accelerator discovery or lease.", "Accelerator execution SHALL require HRB lease and Accelerator Guard reconciliation.", "Fixed hardware placement values and implicit accelerator fallback are forbidden.", "Provider fallback SHALL be policy-controlled and observable, never silent."],
+  "implementation_status": "CANONICAL_POST_HARDWARE_AUDIT_RECONCILED_PROVIDER_E2E_PENDING"
 }
