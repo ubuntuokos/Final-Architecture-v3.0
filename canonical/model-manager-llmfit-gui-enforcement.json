@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.model-manager-llmfit-gui-enforcement.v2",
+  "gate_id": "FA3-GATE-MODEL-MANAGER-LLMFIT-GUI-001",
+  "extends_gate_id": "FA3-GATE-MODEL-MANAGER-002",
+  "profile_id": "FA3-MODEL-MANAGER-001",
+  "provider_id": "FA3-PROVIDER-LLMFIT-001",
+  "decision_id": "FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13",
+  "hardware_reconciliation_id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+  "resource_admission_contract_id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+  "workload_resource_envelope_id": "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
+  "accelerator_guard_profile_id": "FA3-ACCEL-GUARD-001",
+  "fail_closed": true,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rule_count": 14,
+  "p0_invariants": [
+    "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+    "LLMFIT_PROVIDER_NOT_ARCHITECTURAL_AUTHORITY",
+    "LLMFIT_NOT_MODEL_ROUTER",
+    "LLMFIT_NOT_HOST_RESOURCE_BROKER",
+    "LLMFIT_HARDWARE_OBSERVATION_NON_AUTHORITATIVE",
+    "RAW_PROVIDER_PROBE_NEVER_ADMISSION_AUTHORITY",
+    "REQUESTED_RESOURCE_CLASSES_ARE_WORKLOAD_DERIVED",
+    "CPU_ONLY_WORKLOAD_DOES_NOT_REQUIRE_ACCELERATOR",
+    "ACCELERATOR_WORKLOAD_REQUIRES_CURRENT_SCOPE_BOUND_HRB_ACCELERATOR_LEASE",
+    "ACCELERATOR_CONFLICT_RESPECTS_FA3_ACCEL_GUARD",
+    "PROVIDER_VENDOR_REQUIREMENTS_ARE_CONDITIONAL_NOT_GLOBAL",
+    "GUI_IS_READ_ONLY_PLUS_TYPED_DRAFT_INTENT",
+    "SAME_HOST_HEADLESS_PROVIDER_USES_UNIX_SOCKET_BY_DEFAULT",
+    "RUNTIME_PROMOTION_REQUIRES_MEASURED_EVIDENCE"
+  ],
+  "required_materialization": [
+    "apps/fa3-control-center/src/LlmfitClient.h",
+    "apps/fa3-control-center/src/LlmfitClient.cpp",
+    "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
+    "deployment/model-manager/llmfit/fa3-llmfit.service",
+    "deployment/model-manager/llmfit/install.sh"
+  ],
+  "transport_policy": {
+    "default": "UNIX_DOMAIN_SOCKET",
+    "default_socket": "%t/fa3/llmfit.sock",
+    "network_listener": "NOT_REQUIRED",
+    "terminal": "NOT_REQUIRED",
+    "embedded_upstream_web_ui": "NOT_USED_BY_DEFAULT"
+  },
+  "hardware_observation_policy": {
+    "provider_probe_state": "OBSERVED_NON_AUTHORITATIVE",
+    "may_inform_fit_estimation": true,
+    "may_authorize_admission": false,
+    "may_create_hrb_lease": false,
+    "may_redefine_global_hardware_floor": false
+  },
+  "workload_admission_policy": {
+    "resource_classes_from_workload": true,
+    "cpu_memory_only_accelerator_required": false,
+    "cpu_memory_only_accelerator_discovery_required": false,
+    "cpu_memory_only_accelerator_lease_required": false,
+    "accelerator_workload_hrb_authorization_required": true,
+    "accelerator_workload_current_scope_bound_lease_required": true,
+    "accelerator_conflict_guard_profile": "FA3-ACCEL-GUARD-001"
+  },
+  "evidence_policy": {
+    "estimate_is_evidence": false,
+    "measured_runtime_required_for_production": true,
+    "gui_may_self_promote": false,
+    "provider_may_self_promote": false
+  }
+}
