@@ -1,7 +1,11 @@
 {
-  "schema": "fa3.terax-enforcement.v1",
+  "schema": "fa3.terax-enforcement.v2",
   "provider_id": "FA3-PROVIDER-TERAX-001",
-  "classification": ["OPTIONAL_DEVELOPER_ADE_PROVIDER", "REFERENCE_IMPLEMENTATION", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "classification": [
+    "OPTIONAL_DEVELOPER_ADE_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
   "mandatory_rule_count": 17,
   "p0_invariants": [
     "READ_BEFORE_EDIT",
@@ -12,7 +16,39 @@
   ],
   "floating_main_allowed_as_promotion_evidence": false,
   "fail_closed": true,
-  "current_host_mode": "DISABLED_REFERENCE_ONLY_ALLOWED",
+  "hardware_audit_reconciliation": {
+    "status": "CANONICAL_RECONCILED_2026_09_17",
+    "hardware_semantic_root": "FA3-HW-001",
+    "hardware_portability_baseline": "FA3-HARDWARE-BASELINE-001",
+    "hardware_fabric_reconciliation": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+    "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "workload_driven_resource_classification": true,
+    "accelerator_required_only_when_requested_by_workload": true,
+    "cpu_only_workload_must_not_require_accelerator_discovery_or_lease": true,
+    "provider_vendor_requirement_is_conditional_not_global": true,
+    "provider_self_admission_forbidden": true,
+    "silent_device_fallback_forbidden": true
+  },
+  "current_host_semantics": {
+    "mode": "AUXILIARY_OPTIONAL_PROVIDER_EVIDENCE",
+    "disabled_reference_state_can_be_measured": true,
+    "missing_receipt_blocks_global_promotion": false,
+    "provider_receipt_substitution_allowed": false,
+    "generic_host_evidence_substitution_allowed": false,
+    "capability_specific_test_substitution_allowed": false,
+    "global_promotion_claim_allowed": false,
+    "disabled_reference_requires_gpu_telemetry": false,
+    "disabled_reference_requires_accelerator_discovery": false,
+    "disabled_reference_requires_accelerator_lease": false
+  },
+  "renderer_semantics": {
+    "webgpu_webgl_ghostty_renderer_reference_commit": "c7f8e6799272ae0b40da94d2702529062923876f",
+    "classification": "PROVIDER_LOCAL_UI_DISPLAY_IMPLEMENTATION_DETAIL",
+    "renderer_acceleration_does_not_create_ai_compute_resource_requirement": true,
+    "renderer_acceleration_does_not_create_global_nvidia_cuda_requirement": true,
+    "renderer_resource_lifecycle_must_release_hidden_or_abandoned_gpu_state": true
+  },
   "rules": [
     "boundary-first host access",
     "explicit workspace authorization",
@@ -30,6 +66,6 @@
     "explicit delegated caller context",
     "security invariant -> executable regression evidence",
     "unsupported/unverified path -> fail closed",
-    "disabled capability -> effectively zero runtime resource cost"
+    "disabled capability -> effectively zero provider-owned runtime resource cost without probing unrequested accelerator classes"
   ]
 }
