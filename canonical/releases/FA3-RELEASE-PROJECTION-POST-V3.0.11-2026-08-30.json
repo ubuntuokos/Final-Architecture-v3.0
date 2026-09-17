@@ -1,8 +1,11 @@
 {
   "schema": "fa3.canonical-release-projection.v1",
   "id": "FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30",
-  "status": "REGENERATION_REQUIRED_FROM_LATEST_MAIN",
-  "projection_semantics": "GENERATED_ARTIFACT_NOT_AUTHORITATIVE_UNTIL_REGENERATED",
-  "invariants": {"canonical_capability_count": 143, "new_capabilities": 0, "new_architectural_authorities": 0},
-  "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_CANONICAL_PROJECTION_REGENERATION_AND_REQUIRED_EVIDENCE_PASS"
+  "date": "2026-08-30",
+  "status": "CANONICAL_PROJECTED_REGENERATION_REQUIRED",
+  "base_release": "2026-08-23/v3.0.11",
+  "projection_semantics": "NO_BASELINE_SEMANTIC_CHANGE_IMPLEMENTATION_PROJECTION_UPDATE",
+  "invariants": {"canonical_capability_count": 143, "new_capabilities": 0, "new_architectural_authorities": 0, "authority_model_changed": false, "baseline_semantics_frozen": true},
+  "regeneration": {"required": true, "source": "LATEST_MAIN_PLUS_FEATURE_DELTA", "reason": "Post-hardware-audit feature branch diverged from generated unified projection."},
+  "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_PROJECTION_REGENERATION_AND_REQUIRED_EVIDENCE_PASS"
 }
