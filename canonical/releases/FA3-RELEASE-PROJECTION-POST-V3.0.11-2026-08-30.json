@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "9a51ce2f7a78f2aba57d0d0c1372b2a3cd0e18b3",
-    "pre_projection_root_tree_sha": "694de726a7cbbafc505758d3c43925dca982d47c",
-    "pre_projection_canonical_tree_sha": "5ec75d2350f8e5a4f53251dbb90b048396e9c6ef",
-    "commits_ahead_of_v3_0_11_conformance_commit": 393,
-    "total_post_baseline_commits": 393,
-    "delta_file_count": 1257,
-    "delta_added_files": 1252,
+    "pre_projection_head_sha": "085cae8514465e10c35de51ae02f09a7d3fd51d5",
+    "pre_projection_root_tree_sha": "679e24c160fdd8101410d2fcff8be076b1836d29",
+    "pre_projection_canonical_tree_sha": "f92fe3c4810d918d7d49d5e9fe0d0de689a2b708",
+    "commits_ahead_of_v3_0_11_conformance_commit": 401,
+    "total_post_baseline_commits": 401,
+    "delta_file_count": 1258,
+    "delta_added_files": 1253,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -723,7 +723,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1251,
+  "manifest_entry_count": 1252,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -902,7 +902,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "299ecabb42836f81d2079cda847f10585e0b7912",
+      "git_blob_sha": "634fb878ff39150e32c650245f7df67ce197524a",
       "baseline_delta_status": "added"
     },
     {
@@ -4112,7 +4112,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TERAX-001.json",
-      "git_blob_sha": "df391bad60cb103f8bf7a21e7e9ce0adfc5ec65b",
+      "git_blob_sha": "c6711dc118044683a7fda2ab6610ee2f12b7ac12",
       "baseline_delta_status": "added"
     },
     {
@@ -4587,7 +4587,7 @@
     },
     {
       "path": "canonical/terax-enforcement.json",
-      "git_blob_sha": "52a8dcfd009b31bd9640bffa77b4b7956cac98b6",
+      "git_blob_sha": "cef704cb250120959ad13cd883f68cc792ff7125",
       "baseline_delta_status": "added"
     },
     {
@@ -5017,7 +5017,7 @@
     },
     {
       "path": "evidence/collect-terax-current-host.py",
-      "git_blob_sha": "d98ee85082047e114c731f24926d12f8ea56ee24",
+      "git_blob_sha": "fed11e028d097c5a3fad11288aedc8091c81dc14",
       "baseline_delta_status": "added"
     },
     {
@@ -5427,7 +5427,7 @@
     },
     {
       "path": "evidence/reference/terax-v0.8.6.json",
-      "git_blob_sha": "49b20d973d746a0d6bf911de89a0736ee77e55dd",
+      "git_blob_sha": "35181d20ea5ac7335bb486779efd32046effc45a",
       "baseline_delta_status": "added"
     },
     {
@@ -6237,7 +6237,7 @@
     },
     {
       "path": "src/fa3_terax_gate.py",
-      "git_blob_sha": "5141aa77ae6c4bbc716ab08f67c462b71d6c5d90",
+      "git_blob_sha": "2db5974d054f5a76c725b2fa963ac42f0ddf262b",
       "baseline_delta_status": "added"
     },
     {
@@ -6882,12 +6882,12 @@
     },
     {
       "path": "tests/test_terax_gate.py",
-      "git_blob_sha": "816c27f4ecf8d9f192165095e2a95e1eb2ce9b40",
+      "git_blob_sha": "5b3dc0538dc83d922416dc3bc2ebf40cf87398e9",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_terax_integration.py",
-      "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "git_blob_sha": "07e5980788b7c0455a12cb245637a4b53a8e1ea0",
       "baseline_delta_status": "added"
     },
     {
@@ -6978,6 +6978,11 @@
     {
       "path": "tools/fa3_pytorch3d_global_reconcile.py",
       "git_blob_sha": "22c6d03fdde7407105a4876f8eb00c3139b6e1b3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tools/fa3_release_projection_candidate.py",
+      "git_blob_sha": "d3f6c32ecca181bd9f9705a6a33e50f8b18399e2",
       "baseline_delta_status": "added"
     }
   ],
@@ -8259,5 +8264,9 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
+  },
+  "scope": {
+    "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
+    "mutable_runtime_evidence_receipts_excluded": true
   }
 }
