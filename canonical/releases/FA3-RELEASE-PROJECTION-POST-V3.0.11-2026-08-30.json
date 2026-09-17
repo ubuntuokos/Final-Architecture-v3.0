@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "40197710b174c679b329787b4756a49f93001f57",
-    "pre_projection_root_tree_sha": "930afad4b82ab7e631999ac74be9d0d490c95638",
-    "pre_projection_canonical_tree_sha": "11c8b1ef42d779ce85b534c411dede6a0e97e16d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 393,
-    "total_post_baseline_commits": 393,
-    "delta_file_count": 1244,
-    "delta_added_files": 1239,
+    "pre_projection_head_sha": "7d63a1ad33faa4eceed032042be4753e741888cd",
+    "pre_projection_root_tree_sha": "f5b22597211e036a91ea1ed7bd9e8d17fe6bdc3c",
+    "pre_projection_canonical_tree_sha": "c4d4291265b19aa9c4dcc5426656003e64f1aa64",
+    "commits_ahead_of_v3_0_11_conformance_commit": 389,
+    "total_post_baseline_commits": 389,
+    "delta_file_count": 1246,
+    "delta_added_files": 1241,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,8 +47,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 637,
     "evidence_files_in_post_baseline_delta": 119,
-    "source_files_in_post_baseline_delta": 141,
-    "test_files_in_post_baseline_delta": 125,
+    "source_files_in_post_baseline_delta": 142,
+    "test_files_in_post_baseline_delta": 126,
     "workflow_files_in_post_baseline_delta": 50,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -720,7 +720,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1238,
+  "manifest_entry_count": 1240,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -794,7 +794,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "2a1e365ce6b991e2f78f1d084f886b3d2622f100",
+      "git_blob_sha": "60d3e1bdab0964584ac30222e49c600c1d17892f",
       "baseline_delta_status": "added"
     },
     {
@@ -5489,7 +5489,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "c7a7002aa287f114f3fa39a52829ebe1a6d3ee47",
+      "git_blob_sha": "83b6a8b95c13d456cef7ed23ff5f013dcde59d54",
       "baseline_delta_status": "added"
     },
     {
@@ -5675,6 +5675,11 @@
     {
       "path": "src/fa3_current_host.py",
       "git_blob_sha": "9f896cfbfbe02f0f56229590a12abacf82727fe2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_current_host_capability_attestation_collector.py",
+      "git_blob_sha": "56b9506c53a4f5459bfab6e34f2865e2b1819d01",
       "baseline_delta_status": "added"
     },
     {
@@ -6345,6 +6350,11 @@
     {
       "path": "tests/test_cpu_numa_threading_gate.py",
       "git_blob_sha": "fd8d484e7d4729262b2baa7c2c1ed2f5b203ba67",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_current_host_capability_attestation_collector.py",
+      "git_blob_sha": "5eb8aa8ff485c009b75f5c26157020c9a463ff02",
       "baseline_delta_status": "added"
     },
     {
