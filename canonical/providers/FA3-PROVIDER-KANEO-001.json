@@ -35,5 +35,21 @@
     "ARCHITECTURAL_AUTHORITY",
     "GLOBAL_WORKFLOW_ORCHESTRATION_AUTHORITY",
     "FA3_CANONICAL_IDENTITY_AUTHORITY"
-  ]
+  ],
+  "work_management_projection": {
+    "projection_id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+    "contract_id": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+    "shared_top_level_surface": "Work Management",
+    "gui_role": "PRIMARY_INTERACTIVE_PROVIDER",
+    "separate_top_level_menu": false,
+    "provider_origin_is_metadata": true
+  },
+  "resource_admission": {
+    "contract_id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "default_resource_class": "CPU_LIGHTWEIGHT",
+    "accelerator_required_by_default": false,
+    "provider_self_admission_forbidden": true,
+    "accelerator_conflict_profile": "FA3-ACCEL-GUARD-001"
+  }
 }

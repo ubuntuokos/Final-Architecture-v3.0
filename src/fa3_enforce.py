@@ -6,6 +6,7 @@ from fa3_release_baseline import load_active_release_baseline
 from fa3_terax_gate import gate as terax_gate, reference_check as terax_reference_check
 from fa3_kaneo_gate import gate as kaneo_gate
 from fa3_kanboard_gate import gate as kanboard_gate
+from fa3_work_management_gate import gate as work_management_gate
 from fa3_buzz_gate import gate as buzz_gate
 from fa3_xcmd_gate import gate as xcmd_gate
 from fa3_ai_engineering_gate import gate as ai_engineering_gate
@@ -241,6 +242,9 @@ def static_check(root:Path):
     if "FA3-OS-EVENT-PRIVACY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-104","FA3 OS event/privacy gate is not bound into global enforcement policy"))
 
+    if "FA3-WORK-MANAGEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-106","Work Management mandatory GUI/provider-neutral gate is not bound into global enforcement policy"))
+
     if len(rows)!=CAPS or ids!=expected:
         fs.append(finding("FA3-STATIC-008",f"Capability catalog is not exact CAP-001..CAP-{CAPS:03d}",rows=len(rows)))
     bad=[r.get("capability_id") for r in rows if r.get("design_conformance")!="DESIGN-CONFORMANT"]
@@ -418,6 +422,10 @@ def static_check(root:Path):
     if fa3_os_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-105","FA3 OS event/privacy substrate gate failed",fa3_os_event_privacy_gate=fa3_os_ref))
 
+    work_management_ref=work_management_gate(root)
+    if work_management_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-107","Work Management provider-neutral GUI gate failed",work_management_gate=work_management_ref))
+
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
          "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"caveman_gate_status":caveman_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"inference_portability_gate_status":inference_portability_ref["result"],"model_manager_gate_status":model_manager_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"muse_code_gate_status":muse_code_ref["result"],"openhands_gate_status":openhands_ref["result"],"openyak_gate_status":openyak_ref["result"],"obsidian_knowledge_workspace_gate_status":obsidian_ref["result"],"lynxhub_gate_status":lynxhub_ref["result"],"loop_engineering_gate_status":loop_engineering_ref["result"],"openbmb_gate_status":openbmb_ref["result"],"gpu_kernel_runtime_gate_status":gpu_kernel_runtime_ref["result"],"video_provider_lifecycle_gate_status":video_provider_lifecycle_ref["result"],"stability_sgm_gate_status":stability_sgm_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"opencut_gate_status":opencut_ref["result"],"ffmpeg_ai_gate_status":ffmpeg_ai_ref["result"],"hybrid_editorial_gate_status":hybrid_editorial_ref["result"],"marketing_gate_status":marketing_ref["result"],"marketingskills_gate_status":marketingskills_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"cosyvoice_gate_status":cosyvoice_ref["result"],"voice_synthesis_gate_status":voice_synthesis_ref["result"],"hrb_deterministic_locality_gate_status":hrb_deterministic_ref["result"],"cpu_numa_threading_gate_status":cpu_numa_threading_ref["result"],"hardware_portability_gate_status":hardware_portability_ref["result"],"pytorch3d_gate_status":pytorch3d_ref["result"],"openfx_interoperability_gate_status":openfx_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"]}}
@@ -513,7 +521,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -529,6 +537,8 @@ def main():
             x=kaneo_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="kanboard":
             x=kanboard_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="work-management":
+            x=work_management_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="buzz":
             x=buzz_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="xcmd":

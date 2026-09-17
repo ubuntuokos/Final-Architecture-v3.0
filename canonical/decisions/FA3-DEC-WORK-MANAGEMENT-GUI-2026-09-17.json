@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17",
+  "date": "2026-09-17",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Unified Kaneo + Kanboard Work Management GUI and post-hardware-audit reconciliation",
+  "decision": "ACCEPT_AND_MATERIALIZE",
+  "projection_id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+  "contract_id": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+  "provider_ids": ["FA3-PROVIDER-KANEO-001", "FA3-PROVIDER-KANBOARD-001"],
+  "mandatory_gui_menu": "Work Management",
+  "gui_page_index": 24,
+  "accelerator_guard_gui_reconciliation_required": true,
+  "accelerator_guard_page_index": 25,
+  "hardware_reconciliation_inputs": [
+    "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+    "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "FA3-ACCEL-GUARD-001"
+  ],
+  "resource_decision": "WORKLOAD_DRIVEN_PROVIDER_NEUTRAL_CPU_LIGHTWEIGHT_BY_DEFAULT_ACCELERATOR_ONLY_ON_EXPLICIT_WORKLOAD_REQUIREMENT",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "mandatory_constraints": [
+    "Kaneo and Kanboard SHALL share one provider-neutral top-level Work Management GUI surface.",
+    "Provider identity SHALL remain projection metadata and SHALL NOT replace canonical work-item identity.",
+    "The GUI SHALL NOT become authorization, workflow, event, evidence, hardware-discovery or resource-admission authority.",
+    "CPU-only work-management workloads SHALL NOT require GPU/NPU discovery or accelerator leases.",
+    "Accelerator resources SHALL be requested only from explicit workload requirements and admitted by HRB.",
+    "The existing Accelerator Guard decision surface SHALL be reachable from the mandatory GUI navigation."
+  ]
+}
