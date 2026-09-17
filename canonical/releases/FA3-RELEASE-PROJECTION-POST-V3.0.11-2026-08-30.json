@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c81fda7f68fd2b79677ea9ace20550e7e89a506e",
-    "pre_projection_root_tree_sha": "b14b1ea698408815c2f6a70cc6ec814f1e66d119",
-    "pre_projection_canonical_tree_sha": "72e2d962ee701d9a6498048ebf31945e107b10ca",
-    "commits_ahead_of_v3_0_11_conformance_commit": 413,
-    "total_post_baseline_commits": 413,
-    "delta_file_count": 1286,
-    "delta_added_files": 1281,
+    "pre_projection_head_sha": "179df12186380832318759b4221339a223168d89",
+    "pre_projection_root_tree_sha": "2b9cb062da82bf35dd3983e11171e326a1485025",
+    "pre_projection_canonical_tree_sha": "3ac0248fc44d69c697d3533bb4c714124c047e6a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 424,
+    "total_post_baseline_commits": 424,
+    "delta_file_count": 1310,
+    "delta_added_files": 1305,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 651,
-    "evidence_files_in_post_baseline_delta": 120,
-    "source_files_in_post_baseline_delta": 150,
-    "test_files_in_post_baseline_delta": 134,
-    "workflow_files_in_post_baseline_delta": 53,
+    "canonical_files_in_post_baseline_delta": 655,
+    "evidence_files_in_post_baseline_delta": 121,
+    "source_files_in_post_baseline_delta": 153,
+    "test_files_in_post_baseline_delta": 135,
+    "workflow_files_in_post_baseline_delta": 54,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -510,6 +510,7 @@
       "evidence/reference/lynxhub-ci-2026-09-05.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
+      "evidence/reference/mcp-current-host-pending.json",
       "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
       "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
       "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
@@ -731,7 +732,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1279,
+  "manifest_entry_count": 1303,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -871,6 +872,11 @@
     {
       "path": ".github/workflows/fa3-journal-reconcile.yml",
       "git_blob_sha": "dd66bc9664a1c886879be5c938dfc26fbd6f0c5e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-mcp-current-host.yml",
+      "git_blob_sha": "e6cde6e77443cc07982e6a8d45c82b53b9dba970",
       "baseline_delta_status": "added"
     },
     {
@@ -1300,7 +1306,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "1e58a2aa03cbcee3c49c2293ff985eaf197c4123",
+      "git_blob_sha": "5e44db5b3c5e5757ba1bca2b895d0a4816df1e5d",
       "baseline_delta_status": "modified"
     },
     {
@@ -1361,6 +1367,11 @@
     {
       "path": "bin/fa3-lynxhub-install-user-integration.sh",
       "git_blob_sha": "7ed333995512a6c4236ec5cda9a7d39a8d97f799",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-mcp-gateway",
+      "git_blob_sha": "0d0f7f7ad75da70b61b763c14aefb9155e9eadb3",
       "baseline_delta_status": "added"
     },
     {
@@ -1709,6 +1720,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-MCP-CURRENT-HOST-001.json",
+      "git_blob_sha": "d5d77af6025d8db3eab2cba7a4df848bebb4ba84",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-MUNDER-DIFFLIN-001.json",
       "git_blob_sha": "b350023c386e574415ec761006e35e00c86caab3",
       "baseline_delta_status": "added"
@@ -1926,6 +1942,11 @@
     {
       "path": "canonical/FA3-MCP-CONTROL-CHAT-001.json",
       "git_blob_sha": "b190f404df7a1d3fb7344f8a7732200c33f6dac7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MCP-CURRENT-HOST-001.json",
+      "git_blob_sha": "b9f1e48fb23fe2f266f8e29ce3dd1c89d89fa933",
       "baseline_delta_status": "added"
     },
     {
@@ -3126,7 +3147,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -3256,6 +3277,16 @@
     {
       "path": "canonical/marketingskills-skill-admission-enforcement.json",
       "git_blob_sha": "9778f4b6f491eb0c9e3df478c2c682b706c8e604",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/mcp-capability-registry.json",
+      "git_blob_sha": "dd1226fdb2930734aff51dfabdbcedd7cf30aad3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/mcp-current-host-enforcement.json",
+      "git_blob_sha": "7c29cbe752f525bbc96b2ed86989bc7e4dbdcde7",
       "baseline_delta_status": "added"
     },
     {
@@ -4636,7 +4667,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -4771,6 +4802,11 @@
     {
       "path": "deployment/lynxhub/systemd/user/lynxhub.service",
       "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/mcp-gateway/fa3-mcp-gateway.service",
+      "git_blob_sha": "ddd8330d6f209f3a44ea882fd2f9f06c22192406",
       "baseline_delta_status": "added"
     },
     {
@@ -4911,6 +4947,66 @@
     {
       "path": "docs/openyak-integration.md",
       "git_blob_sha": "300f6978cc8639efba4976406c752df61db06afa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-AUTHORITY-NONREGRESSION.md",
+      "git_blob_sha": "afc9e664ea1d61cede6b605e3538b56d1a5b55c4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CAPABILITY-CONTRACT-001.md",
+      "git_blob_sha": "70f7bc751d8da029508f32966de38559e0a8c38b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CAPABILITY-REGISTRY-SEED.yaml",
+      "git_blob_sha": "6d2ca374f45a2c8cc089ea1dc0651c9e8e3f3390",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CURRENT-HOST-001.md",
+      "git_blob_sha": "36d7a3bf7fc6499d5fbbdf73f1a2f22d617c6034",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CURRENT-HOST-ADAPTER-STATE.yaml",
+      "git_blob_sha": "8ffb0379355cea67701ea95b984cdd2b864a5a54",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CURRENT-HOST-EVIDENCE-TEMPLATE.yaml",
+      "git_blob_sha": "b85df460201cbd775db73485c38bb903404bb88d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CURRENT-HOST-REGRESSION-GATE.md",
+      "git_blob_sha": "11d6be4fc23f500d1577137e4a08d992ea1395a2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CURRENT-HOST-ROLLBACK.md",
+      "git_blob_sha": "b09d75e75881c17f57a484d1cba3d18070e27ddc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-CURRENT-HOST-SYSTEMD.md",
+      "git_blob_sha": "3ba5734bfa0f3905bb0a0d19beb2f2ba310860b8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-IMPLEMENTATION-NOTES.md",
+      "git_blob_sha": "6abb74a712d8105645c449838c984748cf374144",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-README.md",
+      "git_blob_sha": "4d987105b76236a70e2ab64a6ddcfddd5cbb14da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/profiles/FA3-MCP-SECURITY-NEGATIVE-TESTS.md",
+      "git_blob_sha": "ffd8d16ca6c376e92c1df25cf0c025e31b9f6794",
       "baseline_delta_status": "added"
     },
     {
@@ -5346,6 +5442,11 @@
     {
       "path": "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "git_blob_sha": "ff8e66e40b6605592a69292e435e938022084324",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/mcp-current-host-pending.json",
+      "git_blob_sha": "818019ca00d14ddb9cd9dc3f4b42e587052d5d76",
       "baseline_delta_status": "added"
     },
     {
@@ -6056,6 +6157,21 @@
     {
       "path": "src/fa3_marketingskills_gate.py",
       "git_blob_sha": "1b68d150849eaeb46c6e2291e319c79069ec2e1e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_mcp_current_host_gate.py",
+      "git_blob_sha": "266a29bcf57a438e30841a2581948fdb7d24641b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_mcp_gateway.py",
+      "git_blob_sha": "217124474b8fe8582987e2bb2b92e4652c149cac",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_mcp_gateway_server.py",
+      "git_blob_sha": "02c655d1b3ead2169eca43bdff31b3085df100bf",
       "baseline_delta_status": "added"
     },
     {
@@ -6781,6 +6897,11 @@
     {
       "path": "tests/test_marketingskills_gate.py",
       "git_blob_sha": "de697fa063bd09a17598bcdba0e9efc0a737fea2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_mcp_gateway_current_host.py",
+      "git_blob_sha": "7a5f2dcee6f7e68924c8ea872c03c557370b48e3",
       "baseline_delta_status": "added"
     },
     {

@@ -1,0 +1,26 @@
+{
+  "schema": "fa3.mcp.capability-registry.v1",
+  "profile": "FA3-MCP-CURRENT-HOST-001",
+  "authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "policy_authority": "SECURITY_GOVERNANCE_POLICY_PLANE",
+  "status": "PENDING_CURRENT_HOST",
+  "fail_closed": true,
+  "automatic_provider_activation": false,
+  "direct_agent_provider_bypass": "DENY",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capabilities": [
+    {"capability_id":"fa3.image.open","risk_class":"R0","side_effects":["filesystem-read","application-read"],"approval":"policy","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.image.edit","risk_class":"R2","side_effects":["filesystem-write","application-write"],"approval":"session","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.image.export","risk_class":"R1","side_effects":["filesystem-write"],"approval":"policy","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.video.transcode","risk_class":"R1","side_effects":["filesystem-read","filesystem-write"],"approval":"policy","hrb_required":true,"providers":[]},
+    {"capability_id":"fa3.video.track","risk_class":"R2","side_effects":["filesystem-read","filesystem-write","application-write"],"approval":"session","hrb_required":true,"providers":[]},
+    {"capability_id":"fa3.audio.separate","risk_class":"R1","side_effects":["filesystem-read","filesystem-write"],"approval":"policy","hrb_required":true,"providers":[]},
+    {"capability_id":"fa3.audio.transcribe","risk_class":"R1","side_effects":["filesystem-read","filesystem-write"],"approval":"policy","hrb_required":true,"providers":[]},
+    {"capability_id":"fa3.document.index","risk_class":"R1","side_effects":["filesystem-read","filesystem-write"],"approval":"policy","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.document.retrieve","risk_class":"R0","side_effects":["filesystem-read"],"approval":"policy","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.browser.navigate","risk_class":"R2","side_effects":["network-read","network-write"],"approval":"session","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.memory.retrieve","risk_class":"R0","side_effects":["application-read"],"approval":"policy","hrb_required":false,"providers":[]},
+    {"capability_id":"fa3.3d.mesh.generate","risk_class":"R2","side_effects":["filesystem-write","application-write"],"approval":"session","hrb_required":true,"providers":[]}
+  ]
+}
