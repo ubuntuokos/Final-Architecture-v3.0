@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_release_baseline import active_capability_count
+from fa3_os_runtime_gate import gate as fa3_os_runtime_gate
 
 GATE_ID = "FA3-OS-EVENT-PRIVACY-GATESET-001"
 PROFILE_ID = "FA3-OS-001"
@@ -142,16 +143,20 @@ def reference_check(root: Path) -> dict[str, Any]:
 
 
 def gate(root: Path) -> dict[str, Any]:
-    reference = reference_check(Path(root).resolve())
+    repo_root = Path(root).resolve()
+    reference = reference_check(repo_root)
+    runtime = fa3_os_runtime_gate(repo_root)
+    result = "PASS" if reference["result"] == "PASS" and runtime["result"] == "PASS" else "FAIL"
     return {
         "gate_id": GATE_ID,
         "profile_id": PROFILE_ID,
         "privacy_profile_id": POLICY_ID,
         "event_contract_id": EVENT_CONTRACT_ID,
         "ledger_authority": JOURNAL_PROFILE_ID,
-        "result": reference["result"],
+        "result": result,
         "capability_count": reference.get("capability_count"),
         "reference": reference,
+        "runtime": runtime,
     }
 
 

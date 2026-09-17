@@ -11,9 +11,19 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "contracts": ["FA3-JOURNAL-CONTRACTS-001", "FA3-OS-EVENT-001"],
-  "subprofiles": ["FA3-OS-POLICY-001"],
-  "classification": ["LOCAL_FIRST", "PRIVACY_GOVERNED", "PROVIDER_INDEPENDENT"],
+  "contracts": [
+    "FA3-JOURNAL-CONTRACTS-001",
+    "FA3-OS-EVENT-001"
+  ],
+  "subprofiles": [
+    "FA3-OS-POLICY-001",
+    "FA3-OS-RUNTIME-001"
+  ],
+  "classification": [
+    "LOCAL_FIRST",
+    "PRIVACY_GOVERNED",
+    "PROVIDER_INDEPENDENT"
+  ],
   "authority_mode": "COMPOSITE_PROJECTION_OVER_EXISTING_AUTHORITIES",
   "ledger_authority": "FA3-JOURNAL-001",
   "canonical_event_envelope": "FA3-JOURNAL-CONTRACTS-001",
@@ -34,7 +44,14 @@
     "context_composer",
     "central_capability_gateway_ui_agents"
   ],
-  "correlation_order": ["deterministic_evidence", "explicit_project_association", "artifact_lineage", "workflow_id", "temporal_relationship", "semantic_inference"],
+  "correlation_order": [
+    "deterministic_evidence",
+    "explicit_project_association",
+    "artifact_lineage",
+    "workflow_id",
+    "temporal_relationship",
+    "semantic_inference"
+  ],
   "authority_boundaries": {
     "historical_event_truth": "FA3-JOURNAL-001",
     "durable_workflow_orchestration": "Temporal",
@@ -50,8 +67,22 @@
     "execution_rule": "Resume Plan execution MUST be delegated to the canonical authority for each requested action."
   },
   "reference_pattern_sources": [
-    {"name": "Zeitgeist / GNOME Activity Journal", "role": "REFERENCE_PATTERN_SOURCE_ONLY", "adopted_patterns": ["chronological event history", "actor_subject_time_source modeling"]},
-    {"name": "Pieces OS", "role": "REFERENCE_PATTERN_SOURCE_ONLY", "adopted_patterns": ["local semantic retrieval", "cross-application AI context exposure"]}
+    {
+      "name": "Zeitgeist / GNOME Activity Journal",
+      "role": "REFERENCE_PATTERN_SOURCE_ONLY",
+      "adopted_patterns": [
+        "chronological event history",
+        "actor_subject_time_source modeling"
+      ]
+    },
+    {
+      "name": "Pieces OS",
+      "role": "REFERENCE_PATTERN_SOURCE_ONLY",
+      "adopted_patterns": [
+        "local semantic retrieval",
+        "cross-application AI context exposure"
+      ]
+    }
   ],
   "invariants": [
     "FA3_JOURNAL_REMAINS_EVENT_HISTORY_AUTHORITY",
@@ -60,6 +91,17 @@
     "DERIVED_MEMORY_NEVER_REWRITES_HISTORICAL_TRUTH",
     "RESUME_PLAN_HAS_NO_EXECUTION_AUTHORITY",
     "CONTEXT_RETRIEVAL_IS_POLICY_FILTERED_AND_AUDITED",
-    "NO_NEW_CAPABILITY_OR_AUTHORITY"
-  ]
+    "NO_NEW_CAPABILITY_OR_AUTHORITY",
+    "EXECUTABLE_REFERENCE_RUNTIME_REMAINS_NON_AUTHORITY",
+    "FA3_OS_GUI_IS_FIRST_CLASS_CONTROL_CENTER_SURFACE",
+    "CURRENT_HOST_RUNTIME_ADMISSION_REQUIRES_FRESH_EVIDENCE"
+  ],
+  "runtime_profile": "FA3-OS-RUNTIME-001",
+  "runtime_conformance": "FA3-OS-RUNTIME-CONFORMANCE-001",
+  "gui_surface": {
+    "application": "FA3 Control Center",
+    "menu_label": "FA3 OS",
+    "page_index": 24,
+    "timeline_authority": "FA3-JOURNAL-001"
+  }
 }
