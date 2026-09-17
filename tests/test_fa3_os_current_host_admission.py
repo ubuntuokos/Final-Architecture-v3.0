@@ -5,15 +5,15 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.fa3_os_context_policy import (
+from fa3_os_context_policy import (
     AuthorizationError,
     authorized_retrieve,
     effective_events,
     selective_erase,
     validate_gateway_authorization,
 )
-from src.fa3_os_current_host_gate import REQUIRED_EVIDENCE_FLAGS, _evidence_valid, _repo_head
-from src.fa3_os_runtime import ingest_event, read_journal_events
+from fa3_os_current_host_gate import REQUIRED_EVIDENCE_FLAGS, _evidence_valid, _repo_head
+from fa3_os_runtime import ingest_event, read_journal_events
 
 ROOT = Path(__file__).resolve().parents[1]
 
