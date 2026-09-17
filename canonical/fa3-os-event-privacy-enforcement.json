@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.os-event-privacy-enforcement.v1",
+  "gate_id": "FA3-OS-EVENT-PRIVACY-GATESET-001",
+  "profile_id": "FA3-OS-001",
+  "privacy_profile_id": "FA3-OS-POLICY-001",
+  "event_contract_id": "FA3-OS-EVENT-001",
+  "ledger_authority": "FA3-JOURNAL-001",
+  "canonical_event_envelope": "FA3-JOURNAL-CONTRACTS-001",
+  "fail_closed": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "p0_invariants": [
+    "FA3_OS_JOURNAL_REMAINS_EVENT_AUTHORITY",
+    "FA3_OS_PRIVACY_GATE_BEFORE_PERSISTENCE",
+    "FA3_OS_PROHIBIT_KEYLOG_CLIPBOARD_SCREEN_DEFAULT_CAPTURE",
+    "FA3_OS_TERMINAL_METADATA_ONLY_DEFAULT",
+    "FA3_OS_SECRET_REDACTION_BEFORE_PERSISTENCE",
+    "FA3_OS_DERIVED_MEMORY_NOT_HISTORICAL_TRUTH",
+    "FA3_OS_RESUME_PLAN_NOT_EXECUTION_AUTHORITY",
+    "FA3_OS_SELECTIVE_ERASURE_APPEND_ONLY_COMPATIBLE",
+    "FA3_OS_CONTEXT_RETRIEVAL_AUDITED",
+    "FA3_OS_NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ]
+}
