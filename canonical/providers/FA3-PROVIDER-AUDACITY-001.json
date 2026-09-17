@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AUDACITY-001",
+  "name": "Audacity Interactive Audio Editing Provider",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "SHOULD",
+  "profile": "FA3-AUDIO-EDIT-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "role": "interactive waveform/multitrack editing, restoration and AI interchange workbench",
+  "boundaries": ["NOT an orchestration authority", "NOT an STT authority", "NOT a model/runtime authority", "NOT a security/evidence/host-resource authority"],
+  "interchange": ["FFmpeg", "Kdenlive", "FA3-STT-001", "FA3-STT-MEDIA-001", "FA3-AUDIO-SEPARATION-001"],
+  "provider_evidence": ["version identity", "input/output hashes", "processing parameters", "AI provenance when AI processing is used"]
+}
