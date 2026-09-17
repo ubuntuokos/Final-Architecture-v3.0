@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.current-host-capability-test-executor-registry.v1",
+  "id": "FA3-CURRENT-HOST-CAPABILITY-TEST-EXECUTORS-001",
+  "status": "PENDING_EXECUTOR_REGISTRATION",
+  "capability_count": 143,
+  "required_test_kinds_per_capability": [
+    "positive",
+    "negative",
+    "rollback"
+  ],
+  "required_test_obligation_count": 429,
+  "execution_scope": "CURRENT_HOST",
+  "result_schema": "fa3.capability-current-host-test-result.v1",
+  "registration_semantics": "EXPLICIT_ONLY_NO_INFERENCE",
+  "entries": [],
+  "invariants": {
+    "provider_receipt_substitution_allowed": false,
+    "generic_host_evidence_substitution_allowed": false,
+    "hosted_ci_substitution_allowed": false,
+    "synthetic_executor_allowed": false,
+    "shell_command_registration_allowed": false,
+    "repository_local_adapter_required": true,
+    "exact_registry_test_identity_required": true,
+    "duplicate_test_registration_allowed": false,
+    "automatic_capability_promotion": false,
+    "automatic_global_promotion": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  },
+  "entry_contract": {
+    "required_fields": [
+      "subject_id",
+      "test_kind",
+      "test_id",
+      "adapter_path",
+      "adapter_sha256",
+      "evidence_class",
+      "execution_mode"
+    ],
+    "test_kind_values": [
+      "positive",
+      "negative",
+      "rollback"
+    ],
+    "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+    "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+    "adapter_constraints": {
+      "path_scope": "REPOSITORY_LOCAL",
+      "shell": false,
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "generic_host_collection_only": false
+    }
+  },
+  "review_note": "No executor is registered merely because a provider or current-host collector exists. Each of the 429 registry test obligations requires an explicit capability-specific executable adapter mapping and immutable adapter digest before it can produce a current-host test result."
+}
