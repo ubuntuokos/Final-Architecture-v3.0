@@ -81,6 +81,9 @@ ApplicationWindow {
         {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", pageIndex: 1},
         {title: "RTD Providers", detail: "Real-Time Data provider-ek, frissesség, policy és provenance", category: "FUNCTION", pageIndex: 17},
         {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", pageIndex: 2},
+        {title: "Work Management", detail: "Kaneo + Kanboard provider-neutral projects, boards, tasks és automation", category: "FUNCTION", pageIndex: 24},
+        {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", pageIndex: 24},
+        {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", pageIndex: 25},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", pageIndex: 3},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", pageIndex: 3},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", pageIndex: 3},
@@ -601,6 +604,8 @@ ApplicationWindow {
                         NavButton { iconText: "⇄"; label: "External Providers Setup"; pageIndex: 21 }
                         NavButton { iconText: "◉"; label: "RTD Providers"; pageIndex: 17 }
                         NavButton { iconText: "▣"; label: "Projects"; pageIndex: 2 }
+                        NavButton { iconText: "✓"; label: "Work Management"; pageIndex: 24 }
+                        NavButton { iconText: "⚡"; label: "Accelerator Guard"; pageIndex: 25 }
                         NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 4 }
                         NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 5 }
                         NavButton { iconText: "▦"; label: "Model Manager"; pageIndex: 6 }
@@ -1387,6 +1392,30 @@ ApplicationWindow {
                     accent: window.accent
                     green: window.green
                     orange: window.orange
+                }
+
+                WorkManagementPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                AcceleratorGuardPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
                 }
             }
 
