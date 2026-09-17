@@ -213,12 +213,18 @@ Item {
                         columns: 2
                         columnSpacing: 22
                         rowSpacing: 9
-                        Label { text: "Keylogging"; color: root.textMuted } ; Label { text: "DENY"; color: root.green; font.bold: true }
-                        Label { text: "Generic clipboard"; color: root.textMuted } ; Label { text: "DENY"; color: root.green; font.bold: true }
-                        Label { text: "Continuous / generic screen capture"; color: root.textMuted } ; Label { text: "DENY"; color: root.green; font.bold: true }
-                        Label { text: "Terminal"; color: root.textMuted } ; Label { text: "METADATA_ONLY"; color: root.green; font.bold: true }
-                        Label { text: "Password managers / secret paths"; color: root.textMuted } ; Label { text: "DENY"; color: root.green; font.bold: true }
-                        Label { text: "Browser content"; color: root.textMuted } ; Label { text: "SELECTIVE_OPT_IN"; color: root.orange; font.bold: true }
+                        Label { text: "Keylogging"; color: root.textMuted }
+                        Label { text: "DENY"; color: root.green; font.bold: true }
+                        Label { text: "Generic clipboard"; color: root.textMuted }
+                        Label { text: "DENY"; color: root.green; font.bold: true }
+                        Label { text: "Continuous / generic screen capture"; color: root.textMuted }
+                        Label { text: "DENY"; color: root.green; font.bold: true }
+                        Label { text: "Terminal"; color: root.textMuted }
+                        Label { text: "METADATA_ONLY"; color: root.green; font.bold: true }
+                        Label { text: "Password managers / secret paths"; color: root.textMuted }
+                        Label { text: "DENY"; color: root.green; font.bold: true }
+                        Label { text: "Browser content"; color: root.textMuted }
+                        Label { text: "SELECTIVE_OPT_IN"; color: root.orange; font.bold: true }
                     }
                     Label {
                         Layout.fillWidth: true
