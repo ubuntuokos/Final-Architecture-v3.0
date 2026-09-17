@@ -3,17 +3,68 @@
   "id": "FA3-PROVIDER-TERAX-001",
   "name": "crynta/terax-ai",
   "status": "ACCEPTED_REFERENCE",
+  "priority": "P0_REFERENCE",
   "provider_role": "TERMINAL_FIRST_NATIVE_DEVELOPER_ADE",
-  "classification": ["OPTIONAL_PROVIDER", "REFERENCE_IMPLEMENTATION", "ARCHITECTURAL_PATTERN_SOURCE"],
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_IMPLEMENTATION",
+    "ARCHITECTURAL_PATTERN_SOURCE"
+  ],
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
   "capability_count": 143,
+  "repository": "crynta/terax-ai",
+  "reference_release": {
+    "tag": "v0.8.6",
+    "release_date": "2026-07-27",
+    "annotated_tag_object": "0165b39c2e52760316aa3202b6acf0f25fad0551",
+    "commit_sha": "1fdbc50e53b3ac53db3ba80057805a2d54258545"
+  },
+  "floating_main_allowed_as_promotion_evidence": false,
   "authority_boundaries": {
     "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
     "policy": "FA3-AUTH-SECURITY-GOV-001",
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
     "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "registry": "FA3-REGISTRY-001"
+  },
+  "hardware_audit_alignment": {
+    "status": "RECONCILED_2026_09_17",
+    "canonical_hardware_semantic_root": "FA3-HW-001",
+    "portable_floor_authority": "FA3-HARDWARE-BASELINE-001",
+    "hardware_reconciliation": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+    "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "provider_may_redefine_global_hardware_floor": false,
+    "provider_may_narrow_execution_compatibility": true,
+    "workload_driven_resource_classes_required": true,
+    "provider_self_admission_forbidden": true,
+    "disabled_reference_state": {
+      "workload_execution_requested": false,
+      "requested_resource_classes": [],
+      "accelerator_discovery_required": false,
+      "accelerator_lease_required": false,
+      "nvidia_or_cuda_telemetry_required": false
+    },
+    "enabled_runtime_state": {
+      "hrb_admission_authorization_required": true,
+      "accelerator_lease_required_only_when_accelerator_resource_class_is_requested": true,
+      "cpu_only_execution_must_not_require_accelerator_discovery_or_lease": true,
+      "silent_device_or_cpu_fallback_forbidden": true
+    },
+    "terminal_renderer_acceleration": {
+      "classification": "PROVIDER_LOCAL_UI_DISPLAY_IMPLEMENTATION_DETAIL",
+      "webgpu_webgl_or_other_renderer_is_not_ai_compute_admission_authority": true,
+      "must_not_create_global_nvidia_cuda_requirement": true,
+      "must_not_be_confused_with_model_inference_accelerator_lease": true
+    }
+  },
+  "current_host_evidence": {
+    "role": "AUXILIARY_PROVIDER_CONFORMANCE_ONLY",
+    "may_substitute_for_capability_specific_positive_negative_or_rollback_test": false,
+    "may_promote_any_of_143_capabilities": false,
+    "may_promote_global_runtime": false,
+    "missing_optional_provider_receipt_blocks_global_promotion": false
   }
 }
