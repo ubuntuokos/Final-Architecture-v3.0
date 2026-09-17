@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.work-item-projection-contracts.v1",
+  "id": "FA3-WORK-ITEM-PROJECTION-CONTRACTS-001",
+  "title": "Provider-neutral Work-Item Projection Contracts",
+  "status": "P0_MUST",
+  "projection_id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "work_item_contract": {
+    "required_fields": [
+      "canonical_work_item_id",
+      "project_workspace_scope",
+      "title",
+      "current_state",
+      "provider_id",
+      "provider_instance",
+      "external_object_id",
+      "provider_revision",
+      "observed_canonical_revision",
+      "reconciliation_state",
+      "provenance_refs"
+    ],
+    "canonical_identity_may_equal_provider_object_id": false,
+    "canonical_identity_governance": "FA3_REGISTRY_GOVERNED_PROVIDER_NEUTRAL_IDENTITY",
+    "provider_identity_is_projection_metadata": true,
+    "reconciliation_states": ["SYNCED", "PENDING", "CONFLICT", "STALE", "DISCONNECTED"]
+  },
+  "mutation_contract": {
+    "required_fields": [
+      "actor_identity",
+      "delegated_agent_identity",
+      "project_workspace_scope",
+      "canonical_work_item_id",
+      "current_state",
+      "requested_transition",
+      "mutation_capability",
+      "authorization_authority",
+      "authorization_decision"
+    ],
+    "authorization_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "allow_decision_required": true,
+    "provider_or_event_may_self_authorize": false,
+    "integration_wide_credential_may_bypass_scoped_authorization": false
+  },
+  "event_action_contract": {
+    "event_must_be_typed": true,
+    "event_must_be_validated": true,
+    "event_occurrence_implies_action_authorization": false,
+    "action_requires_separate_authorization": true,
+    "webhook_payload_is_canonical_evidence": false
+  },
+  "provider_adapter_contract": {
+    "supported_adapter_types": ["KANEO", "KANBOARD", "GITHUB_ISSUES", "FUTURE_WORK_ITEM_PROVIDER"],
+    "provider_may_own_canonical_work_item_identity": false,
+    "provider_may_own_workflow_authority": false,
+    "provider_may_own_authorization_authority": false,
+    "provider_may_own_resource_admission": false,
+    "provider_failure_must_be_isolated": true,
+    "remote_revision_required_for_state_import": true,
+    "explicit_reconciliation_required": true
+  },
+  "resource_contract": {
+    "resource_admission_contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "default_resource_class": "CPU_LIGHTWEIGHT",
+    "workload_driven_resource_classes": true,
+    "provider_vendor_requirement_is_global_default": false,
+    "accelerator_required_by_default": false,
+    "cpu_only_requires_accelerator_lease": false,
+    "accelerator_request_requires_fresh_hrb_lease": true,
+    "accelerator_conflict_profile": "FA3-ACCEL-GUARD-001",
+    "silent_accelerator_to_cpu_fallback": "FORBIDDEN"
+  },
+  "gui_contract": {
+    "menu_label": "Work Management",
+    "page_index": 24,
+    "mandatory_top_level_menu": true,
+    "single_shared_surface_for_kaneo_and_kanboard": true,
+    "provider_origin_visible_as_metadata": true,
+    "provider_origin_primary_navigation_axis": false,
+    "gui_is_authority": false,
+    "hardware_probe_is_admission_authority": false,
+    "accelerator_guard_menu_label": "Accelerator Guard",
+    "accelerator_guard_page_index": 25
+  }
+}

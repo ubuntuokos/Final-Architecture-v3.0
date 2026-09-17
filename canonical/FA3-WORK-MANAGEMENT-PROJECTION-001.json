@@ -1,0 +1,83 @@
+{
+  "schema": "fa3.cross-provider-projection.v1",
+  "id": "FA3-WORK-MANAGEMENT-PROJECTION-001",
+  "name": "Provider-neutral Work Management & Work-Item Projection",
+  "date": "2026-09-17",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "classification": "CROSS_PROVIDER_GUI_AND_ADAPTER_PROJECTION",
+  "gui_surface": {
+    "application": "FA3 Control Center",
+    "menu_label": "Work Management",
+    "page_index": 24,
+    "mandatory": true,
+    "provider_neutral": true,
+    "separate_top_level_provider_menus_forbidden": true,
+    "sections": [
+      "OVERVIEW",
+      "PROJECTS_BOARDS_TASKS",
+      "AUTOMATIONS",
+      "ACTIVITY",
+      "PROVIDERS"
+    ]
+  },
+  "provider_bindings": [
+    {
+      "provider_id": "FA3-PROVIDER-KANEO-001",
+      "role": "PRIMARY_INTERACTIVE_PROVIDER",
+      "activation": "OPTIONAL_DISABLED_BY_DEFAULT"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-KANBOARD-001",
+      "role": "SECONDARY_OPTIONAL_PROVIDER_AND_AUTOMATION_PATTERN_SOURCE",
+      "activation": "OPTIONAL_DISABLED_BY_DEFAULT"
+    },
+    {
+      "provider_type": "GITHUB_ISSUES",
+      "role": "OPTIONAL_EXTERNAL_ISSUE_PROJECTION_ADAPTER",
+      "activation": "ADAPTER_GATED",
+      "creates_fa3_authority": false
+    }
+  ],
+  "authority_boundaries": {
+    "registry": "FA3-REGISTRY-001",
+    "authorization": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "event": "EXISTING_FA3_EVENT_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_conflict_assessment": "FA3-ACCEL-GUARD-001"
+  },
+  "resource_semantics": {
+    "contract": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "default_management_workload_class": "CPU_LIGHTWEIGHT",
+    "accelerator_required_by_default": false,
+    "resource_classes_are_workload_driven": true,
+    "cpu_only_workloads_require_accelerator_discovery": false,
+    "cpu_only_workloads_require_accelerator_lease": false,
+    "accelerator_lease_required_only_when_explicitly_requested": true,
+    "provider_self_admission_forbidden": true,
+    "gui_hardware_observation_authoritative": false,
+    "silent_accelerator_to_cpu_fallback_forbidden": true
+  },
+  "accelerator_guard_gui_reconciliation": {
+    "profile_id": "FA3-ACCEL-GUARD-001",
+    "page_component": "apps/fa3-control-center/qml/AcceleratorGuardPage.qml",
+    "menu_label": "Accelerator Guard",
+    "page_index": 25,
+    "mandatory_gui_reachability": true,
+    "reason": "Existing canonical decision surface was build-registered but not reachable from Main.qml navigation."
+  },
+  "provider_failure_semantics": {
+    "canonical_work_item_identity_survives_provider_outage": true,
+    "provider_state_requires_explicit_reconciliation": true,
+    "provider_failure_must_not_fail_open": true,
+    "disabled_provider_zero_near_zero_runtime_cost": true
+  },
+  "normative_constraint": "The FA3 Work Management GUI is a provider-neutral projection and operator surface. Kaneo, Kanboard, GitHub Issues adapters, GUI hardware probes and provider events SHALL NOT become canonical identity, authorization, workflow, event, evidence or resource-admission authorities."
+}
