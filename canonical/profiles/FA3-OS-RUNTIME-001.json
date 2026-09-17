@@ -1,0 +1,84 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OS-RUNTIME-001",
+  "name": "FA3 OS Local Context Capture, Correlation & Episodic Memory Reference Runtime",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "EXECUTABLE_REFERENCE_RUNTIME_SUBPROFILE",
+  "relationship": "SUBPROFILE-OF",
+  "parent_profile": "FA3-OS-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "implementation_status": "EXECUTABLE_REFERENCE_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "ledger_authority": "FA3-JOURNAL-001",
+  "canonical_event_envelope": "FA3-JOURNAL-CONTRACTS-001",
+  "event_enrichment_contract": "FA3-OS-EVENT-001",
+  "privacy_policy_profile": "FA3-OS-POLICY-001",
+  "runtime_entrypoint": "bin/fa3-os",
+  "reference_implementation": "src/fa3_os_runtime.py",
+  "runtime_gate": "FA3-OS-RUNTIME-GATESET-001",
+  "current_host_conformance": "FA3-OS-RUNTIME-CONFORMANCE-001",
+  "gui_surface": {
+    "application": "FA3 Control Center",
+    "menu_label": "FA3 OS",
+    "page_route": "FA3_OS",
+    "mode": "READ_AND_REFERENCE_RUNTIME_STATUS"
+  },
+  "source_adapter_classes": [
+    "EXPLICIT_MANUAL",
+    "FA3_NATIVE",
+    "AUTHORITATIVE_OS",
+    "APPLICATION_ADAPTER",
+    "SCOPED_OBSERVATION"
+  ],
+  "forbidden_default_capture": [
+    "KEYLOGGING",
+    "GENERIC_CLIPBOARD",
+    "CONTINUOUS_SCREENSHOT",
+    "GENERIC_SCREEN_CAPTURE",
+    "PASSWORD_MANAGER_CONTENT",
+    "TERMINAL_CONTENT"
+  ],
+  "runtime_pipeline": [
+    "capture_request",
+    "privacy_gate",
+    "event_normalization",
+    "journal_append",
+    "deterministic_projection",
+    "audited_read_only_retrieval"
+  ],
+  "projection_policy": {
+    "authoritative_history": false,
+    "rebuildable": true,
+    "correlation_order": [
+      "workstream_id",
+      "project_id",
+      "workflow_reference",
+      "session_id",
+      "artifact_id"
+    ],
+    "semantic_inference_not_required_for_reference_runtime": true
+  },
+  "authority_boundaries": {
+    "write_target": "FA3-JOURNAL-001 only through canonical append-only event envelope",
+    "derived_projection_authority": false,
+    "execution_authority": false,
+    "orchestration_authority": false,
+    "resource_authority": false
+  },
+  "invariants": [
+    "PRIVACY_GATE_RUNS_BEFORE_JOURNAL_APPEND",
+    "JOURNAL_REMAINS_SOLE_EVENT_HISTORY_AUTHORITY",
+    "DERIVED_PROJECTION_REBUILDABLE_NON_AUTHORITATIVE",
+    "PROHIBITED_CAPTURE_KINDS_FAIL_CLOSED",
+    "TERMINAL_METADATA_ONLY_BY_DEFAULT",
+    "SECRET_VALUES_NOT_DURABLY_PERSISTED",
+    "GUI_EXPOSES_FA3_OS_AS_FIRST_CLASS_MENU_SURFACE",
+    "CURRENT_HOST_PRODUCTION_ADMISSION_REQUIRES_FRESH_EVIDENCE",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
+  ]
+}
