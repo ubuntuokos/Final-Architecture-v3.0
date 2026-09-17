@@ -8,6 +8,7 @@ on:
       - 'src/fa3_os_current_host_gate.py'
       - 'evidence/collect-fa3-os-runtime-current-host.py'
       - 'tests/test_fa3_os_current_host_admission.py'
+      - 'bin/fa3-current-host-runner-bootstrap.sh'
       - '.github/workflows/fa3-os-current-host.yml'
   workflow_dispatch:
 
@@ -37,6 +38,7 @@ jobs:
             src/fa3_os_current_host_gate.py \
             evidence/collect-fa3-os-runtime-current-host.py \
             tests/test_fa3_os_current_host_admission.py
+          bash -n bin/fa3-current-host-runner-bootstrap.sh
       - name: Admission regressions
         run: |
           PYTHONPATH=src python -m unittest \
