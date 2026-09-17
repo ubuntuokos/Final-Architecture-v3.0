@@ -1,5 +1,5 @@
 {
-  "schema": "fa3.terax-reference-evidence.v1",
+  "schema": "fa3.terax-reference-evidence.v2",
   "provider_id": "FA3-PROVIDER-TERAX-001",
   "repository": "crynta/terax-ai",
   "floating_main_allowed": false,
@@ -24,9 +24,40 @@
     "path": "docs/architecture/cli-control.md",
     "blob_sha": "2c997c54be458e146cb35bbfb93351cb04853bcb"
   },
+  "post_release_pattern_references": [
+    {
+      "purpose": "terminal renderer resource-lifecycle and hardware-portability pattern only; not stable-release promotion evidence",
+      "commit_sha": "c7f8e6799272ae0b40da94d2702529062923876f",
+      "commit_date": "2026-09-07",
+      "subject": "Ghostty/WebGPU terminal backend with WebGL/xterm fallback and hidden-pane GPU resource release",
+      "classification": "EXACT_COMMIT_PATTERN_REFERENCE_NON_PROMOTING"
+    },
+    {
+      "purpose": "resource-lifecycle cleanup pattern only",
+      "commit_sha": "aef75b998e44400fc557fccab9bdbacddb67875b",
+      "commit_date": "2026-09-07",
+      "subject": "release abandoned WASM and presentation state",
+      "classification": "EXACT_COMMIT_PATTERN_REFERENCE_NON_PROMOTING"
+    },
+    {
+      "purpose": "latest observed upstream development identity for drift context only",
+      "commit_sha": "d3c8fd70ef59b16725cf118bc75727d27ceed320",
+      "commit_date": "2026-09-14",
+      "classification": "OBSERVED_HEAD_NON_PROMOTING"
+    }
+  ],
+  "hardware_audit_interpretation": {
+    "stable_baseline_changed": false,
+    "global_hardware_floor_changed_by_terax": false,
+    "webgpu_or_webgl_renderer_is_ui_display_implementation_detail": true,
+    "renderer_gpu_use_is_not_model_inference_accelerator_admission": true,
+    "disabled_reference_evidence_must_not_probe_unrequested_accelerator_classes": true,
+    "any_enabled_workload_must_use_canonical_hrb_admission": true
+  },
   "evidence_policy": {
     "stable_features": "release tag + commit SHA + blob SHA",
     "unreleased_features": "exact commit SHA + blob SHA",
+    "post_release_pattern_reference": "exact commit SHA; non-promoting",
     "floating_branch": "FORBIDDEN_FOR_PROMOTION"
   }
 }
