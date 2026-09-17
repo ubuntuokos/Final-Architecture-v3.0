@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "bc3971fb152b168dff16e2643ad63391675092ef",
-    "pre_projection_root_tree_sha": "d2865bedf2010992360bc08e4ec98c04e3455b04",
-    "pre_projection_canonical_tree_sha": "a9602dc2935f8706448f96493468d7b22d39fa17",
-    "commits_ahead_of_v3_0_11_conformance_commit": 404,
-    "total_post_baseline_commits": 404,
-    "delta_file_count": 1262,
-    "delta_added_files": 1257,
+    "pre_projection_head_sha": "d7c65b56b8c4bf97808c6945946b546e7279309d",
+    "pre_projection_root_tree_sha": "64e96b5cf5de5148b11408d7be524f453178315f",
+    "pre_projection_canonical_tree_sha": "6888d8a338f521cba8115e8ddbebce7e90f0ead0",
+    "commits_ahead_of_v3_0_11_conformance_commit": 409,
+    "total_post_baseline_commits": 409,
+    "delta_file_count": 1267,
+    "delta_added_files": 1262,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 642,
-    "evidence_files_in_post_baseline_delta": 119,
+    "canonical_files_in_post_baseline_delta": 645,
+    "evidence_files_in_post_baseline_delta": 120,
     "source_files_in_post_baseline_delta": 146,
-    "test_files_in_post_baseline_delta": 131,
+    "test_files_in_post_baseline_delta": 132,
     "workflow_files_in_post_baseline_delta": 51,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -95,6 +95,7 @@
       "canonical/providers/FA3-PROVIDER-MARKETINGSKILLS-001.json",
       "canonical/providers/FA3-PROVIDER-MAUTIC-001.json",
       "canonical/providers/FA3-PROVIDER-MAX-001.json",
+      "canonical/providers/FA3-PROVIDER-MENGTO-SKILLS-001.json",
       "canonical/providers/FA3-PROVIDER-MENTOR-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-META-LLAMA-001.json",
       "canonical/providers/FA3-PROVIDER-MINICPM-O-001.json",
@@ -207,6 +208,7 @@
       "canonical/profiles/FA3-REGISTRY-001.json",
       "canonical/profiles/FA3-SCS-001.json",
       "canonical/profiles/FA3-SILLYTAVERN-KDE-DESKTOP-001.json",
+      "canonical/profiles/FA3-SKILL-FABRIC-001.json",
       "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
       "canonical/profiles/FA3-STABILITY-PORTFOLIO-001.json",
       "canonical/profiles/FA3-STANDARD-OPENFX-001.json",
@@ -385,6 +387,7 @@
       "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
       "canonical/decisions/FA3-DEC-RESOURCE-EVIDENCE-NORMALIZATION-2026-09-14.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
+      "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
       "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
       "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
       "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
@@ -724,7 +727,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1256,
+  "manifest_entry_count": 1260,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -2952,6 +2955,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
+      "git_blob_sha": "0cb47640141c2bbb7bd27fc804009aa702712885",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
       "git_blob_sha": "b52b71dd90b4bfa35bab43c3937133a6a05e6963",
       "baseline_delta_status": "added"
@@ -3587,6 +3595,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-SKILL-FABRIC-001.json",
+      "git_blob_sha": "99f2888bf9577f0c979f3f2a9a7dea58516faeb5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-SPEECH-ENHANCEMENT-001.json",
       "git_blob_sha": "b568c23129eac26971f9836f168092b403436923",
       "baseline_delta_status": "added"
@@ -3849,6 +3862,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-MAX-001.json",
       "git_blob_sha": "689e9f5808bd434b48da567fcb4a83e52cce2e17",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-MENGTO-SKILLS-001.json",
+      "git_blob_sha": "3dacf7c489e54dd71f79cb757c72b5b00a65ab35",
       "baseline_delta_status": "added"
     },
     {
@@ -6877,6 +6895,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_skill_fabric_mengto_closure.py",
+      "git_blob_sha": "ea7ec5fdc9ef598f730fbff0edc34135368947af",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_stability_matrix_lifecycle_gate.py",
       "git_blob_sha": "16e5a85475f29da0746fefcd6d35db26087b2870",
       "baseline_delta_status": "added"
@@ -7981,8 +8004,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "bc3971fb152b168dff16e2643ad63391675092ef",
-    "regenerated_from_branch_head": "bc3971fb152b168dff16e2643ad63391675092ef",
+    "source_snapshot_anchor": "d7c65b56b8c4bf97808c6945946b546e7279309d",
+    "regenerated_from_branch_head": "d7c65b56b8c4bf97808c6945946b546e7279309d",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -8014,7 +8037,7 @@
     "journal_snapshot_head": "10e4a348b89d9a81318f35dd16a09fe70380e1bf",
     "fa3_os_reconciliation_generator": "tools/fa3_os_global_reconcile.py",
     "fa3_os_deterministic_regeneration_pass": true,
-    "fa3_os_snapshot_head": "bc3971fb152b168dff16e2643ad63391675092ef"
+    "fa3_os_snapshot_head": "d7c65b56b8c4bf97808c6945946b546e7279309d"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
