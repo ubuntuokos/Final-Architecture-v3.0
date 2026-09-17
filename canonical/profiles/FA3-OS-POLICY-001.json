@@ -1,15 +1,17 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "profile_id": "FA3-OS-POLICY-001",
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-OS-POLICY-001",
   "name": "FA3 OS Activity Privacy & Capture Policy",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "status": "CANONICAL",
-  "priority": "P0 / MUST",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "profile_type": "PRIVACY_AND_CAPTURE_POLICY_SUBPROFILE",
   "relationship": "SUBPROFILE-OF",
   "parent_profile": "FA3-OS-001",
-  "canonical_root": false,
-  "architectural_authority": false,
   "new_capability": false,
+  "new_architectural_authority": false,
   "capability_count": 143,
   "fail_closed": true,
   "policy_gate_position": "BEFORE_DURABLE_PERSISTENCE",
@@ -45,14 +47,7 @@
   "context_retrieval": {
     "policy_filter_required": true,
     "audit_required": true,
-    "minimum_audit_fields": [
-      "request_id",
-      "actor",
-      "purpose",
-      "policy_id",
-      "source_event_refs",
-      "timestamp"
-    ]
+    "minimum_audit_fields": ["request_id", "actor", "purpose", "policy_id", "source_event_refs", "timestamp"]
   },
   "selective_erasure": {
     "supported_scopes": ["time_range", "project", "application", "source", "sensitivity_class", "artifact"],
@@ -73,12 +68,13 @@
     "postcondition": "Erased sensitive content MUST be unrecoverable through FA3 OS retrieval surfaces while minimal non-sensitive audit continuity MAY remain in FA3-JOURNAL-001."
   },
   "invariants": [
-    "No keylogging is permitted.",
-    "Clipboard and screen capture are denied by default.",
-    "Terminal capture is metadata-only by default.",
-    "Password-manager and credential/secret-path capture is denied.",
-    "Redaction occurs before durable persistence.",
-    "Selective erasure never silently rewrites committed Journal history.",
-    "Agent context retrieval is policy-filtered and audited."
+    "KEYLOGGING_DENIED",
+    "CLIPBOARD_AND_SCREEN_CAPTURE_DENIED_BY_DEFAULT",
+    "TERMINAL_METADATA_ONLY_BY_DEFAULT",
+    "PASSWORD_MANAGER_AND_SECRET_PATH_CAPTURE_DENIED",
+    "REDACTION_BEFORE_PERSISTENCE",
+    "SELECTIVE_ERASURE_APPEND_ONLY_COMPATIBLE",
+    "CONTEXT_RETRIEVAL_POLICY_FILTERED_AND_AUDITED",
+    "NO_NEW_CAPABILITY_OR_AUTHORITY"
   ]
 }
