@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-LLMFIT-001",
+  "name": "llmfit Hardware-Aware Local LLM Fit Advisory Projection",
+  "status": "ACCEPTED_STRONG_OPTIONAL_PROVIDER",
+  "provider_role": "MODEL_RESOURCE_FIT_ESTIMATION_AND_RUNTIME_RECOMMENDATION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "STRONG_REFERENCE_PROVIDER",
+    "MODEL_MANAGER_PROJECTION_PROVIDER",
+    "READ_ONLY_ADVISORY_PROVIDER"
+  ],
+  "parent_profile": "FA3-MODEL-MANAGER-001",
+  "upstream_repository": "AlexsJones/llmfit",
+  "upstream_release": "v1.1.15",
+  "upstream_release_commit": "a0d9e5bdcf691707c2615e3805b53e7bea2d5151",
+  "observed_at": "2026-09-13",
+  "semantic_reconciled_at": "2026-09-17",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "OPTIONAL_PROVIDER_FOR_MANDATORY_HARDWARE_AWARE_FIT_EVALUATION",
+  "runtime_activation_status": "GUI_AND_SERVICE_MATERIALIZED_CURRENT_HOST_RUNTIME_EVIDENCE_PENDING",
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "semantic_dependencies": [
+    "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+    "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "FA3-WORKLOAD-RESOURCE-ENVELOPE-001",
+    "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "FA3-ACCEL-GUARD-001"
+  ],
+  "transport": {
+    "mode": "HTTP_OVER_UNIX_DOMAIN_SOCKET",
+    "default_user_socket": "%t/fa3/llmfit.sock",
+    "tcp_listener_required": false,
+    "browser_ui_required": false,
+    "terminal_ui_required": false
+  },
+  "api_projection": {
+    "system": "/api/v1/system",
+    "models": "/api/v1/models",
+    "top_models": "/api/v1/models/top",
+    "health": "/health",
+    "stable_client_semantics": "IGNORE_UNKNOWN_FIELDS_PARSE_ONLY_REQUIRED_FIELDS"
+  },
+  "fa3_usage_policy": {
+    "model_fit_estimate": "ADVISORY_ONLY_NOT_RUNTIME_EVIDENCE",
+    "hardware_detection": "OBSERVED_NON_AUTHORITATIVE_FIT_INPUT_ONLY",
+    "quantization_recommendation": "CANDIDATE_CONFIGURATION_ONLY",
+    "runtime_recommendation": "CANDIDATE_CONFIGURATION_ONLY",
+    "resource_class_derivation": "FROM_DECLARED_WORKLOAD_REQUIREMENTS",
+    "cpu_memory_only_workload": "NO_ACCELERATOR_DISCOVERY_OR_ACCELERATOR_LEASE",
+    "accelerator_workload": "CURRENT_SCOPE_BOUND_HRB_ACCELERATOR_LEASE_REQUIRED",
+    "accelerator_conflict": "FA3_ACCEL_GUARD_RECOMMEND_PENDING_USER_DECISION",
+    "generic_global_nvidia_cuda_requirement": false,
+    "model_routing": "DELEGATE_TO_EXISTING_FA3_MODEL_ROUTER",
+    "accelerator_placement": "DELEGATE_TO_HOST_RESOURCE_BROKER",
+    "production_admission": "REQUIRES_HRB_AUTHORIZATION_AND_REAL_RUNTIME_BENCHMARK_EVIDENCE",
+    "gui_execution": "NO_DIRECT_PRIVILEGED_OR_MODEL_EXECUTION",
+    "floating_latest": "FORBIDDEN_AS_PRODUCTION_ADMISSION"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_conflict_advisory": "FA3-ACCEL-GUARD-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "mandatory_invariants": [
+    "MODEL_FIT_ESTIMATE_NOT_RUNTIME_EVIDENCE",
+    "LLMFIT_NOT_MODEL_ROUTER",
+    "LLMFIT_NOT_HOST_RESOURCE_BROKER",
+    "LLMFIT_NOT_PROMOTION_AUTHORITY",
+    "LLMFIT_HARDWARE_OBSERVATION_NON_AUTHORITATIVE",
+    "REQUESTED_RESOURCE_CLASSES_ARE_WORKLOAD_DERIVED",
+    "CPU_ONLY_WORKLOAD_DOES_NOT_REQUIRE_ACCELERATOR",
+    "ACCELERATOR_WORKLOAD_REQUIRES_CURRENT_SCOPE_BOUND_HRB_ACCELERATOR_LEASE",
+    "PROVIDER_VENDOR_REQUIREMENTS_ARE_CONDITIONAL_NOT_GLOBAL",
+    "GUI_CONSUMES_HEADLESS_PROVIDER_WITHOUT_TERMINAL",
+    "SAME_HOST_DEFAULT_TRANSPORT_IS_UNIX_DOMAIN_SOCKET"
+  ]
+}

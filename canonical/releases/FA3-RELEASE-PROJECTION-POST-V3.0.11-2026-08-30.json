@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d7c65b56b8c4bf97808c6945946b546e7279309d",
-    "pre_projection_root_tree_sha": "64e96b5cf5de5148b11408d7be524f453178315f",
-    "pre_projection_canonical_tree_sha": "6888d8a338f521cba8115e8ddbebce7e90f0ead0",
-    "commits_ahead_of_v3_0_11_conformance_commit": 409,
-    "total_post_baseline_commits": 409,
-    "delta_file_count": 1267,
-    "delta_added_files": 1262,
+    "pre_projection_head_sha": "4abc8de3d76d057da9932d7283930ddb5c33b976",
+    "pre_projection_root_tree_sha": "73f5cf0179549affa32adace8e41ec2794cb8c17",
+    "pre_projection_canonical_tree_sha": "2829155975a9c5c28d21464f6ad64f0bef972e9e",
+    "commits_ahead_of_v3_0_11_conformance_commit": 397,
+    "total_post_baseline_commits": 397,
+    "delta_file_count": 1279,
+    "delta_added_files": 1274,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 645,
-    "evidence_files_in_post_baseline_delta": 120,
-    "source_files_in_post_baseline_delta": 146,
-    "test_files_in_post_baseline_delta": 132,
-    "workflow_files_in_post_baseline_delta": 51,
+    "canonical_files_in_post_baseline_delta": 648,
+    "evidence_files_in_post_baseline_delta": 121,
+    "source_files_in_post_baseline_delta": 147,
+    "test_files_in_post_baseline_delta": 133,
+    "workflow_files_in_post_baseline_delta": 52,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -89,6 +89,7 @@
       "canonical/providers/FA3-PROVIDER-KRITA-VISION-TOOLS-001.json",
       "canonical/providers/FA3-PROVIDER-LAVASR-001.json",
       "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
+      "canonical/providers/FA3-PROVIDER-LLMFIT-001.json",
       "canonical/providers/FA3-PROVIDER-LM-STUDIO-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-LOOP-ENGINEERING-001.json",
       "canonical/providers/FA3-PROVIDER-LYNXHUB-001.json",
@@ -359,6 +360,7 @@
       "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
+      "canonical/decisions/FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
       "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
@@ -513,6 +515,7 @@
       "evidence/reference/model-artifact-security-ci-2026-09-07.json",
       "evidence/reference/model-artifact-security-current-host-materialization-2026-09-08.json",
       "evidence/reference/model-manager-ci-2026-08-31.json",
+      "evidence/reference/model-manager-llmfit-gui-2026-09-13.json",
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
       "evidence/reference/muse-code-ci-2026-09-01.json",
@@ -727,7 +730,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1260,
+  "manifest_entry_count": 1271,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -895,6 +898,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-model-manager-llmfit-gui.yml",
+      "git_blob_sha": "875b48074620210e0f925330a1522ea576961e50",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-modular-current-host.yml",
       "git_blob_sha": "17b4132d337110161e2ff286a366d7f1ebf276d8",
       "baseline_delta_status": "added"
@@ -996,7 +1004,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "9fec464c0c785e1f95bf9e49c5375054c9a161b5",
+      "git_blob_sha": "18a4b9cbd3df9dcc1969bfbdc40da95b6529afc5",
       "baseline_delta_status": "added"
     },
     {
@@ -1066,7 +1074,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
-      "git_blob_sha": "83a03f23b1a86b7147afb9740f54c0c9fb22317a",
+      "git_blob_sha": "4c131ce7dc5cfb16a3ea2c9227873e8b6265ec11",
       "baseline_delta_status": "added"
     },
     {
@@ -1130,6 +1138,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/LlmfitClient.cpp",
+      "git_blob_sha": "5d46d4a56c7b09fd3154fb548360398f459005f2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/LlmfitClient.h",
+      "git_blob_sha": "6d3e590fb007fa8cce7a1ce220411b2f3f3fb84b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/McpControlService.cpp",
       "git_blob_sha": "68f1acf58c95651f10af0a9840e636e9f7250a4b",
       "baseline_delta_status": "added"
@@ -1171,7 +1189,7 @@
     },
     {
       "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "03d595b5079bf54d5a4008cbb5e19cebb717645b",
+      "git_blob_sha": "776486463f85113b67cc3c1218e6f970e87db9bc",
       "baseline_delta_status": "added"
     },
     {
@@ -2815,6 +2833,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-LLMFIT-GUI-2026-09-13.json",
+      "git_blob_sha": "b9b956aaadcf03b76db0da3a14ddb0d526979cf4",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
       "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48",
       "baseline_delta_status": "added"
@@ -3077,7 +3100,7 @@
     {
       "path": "canonical/geometry-closure.json",
       "git_blob_sha": "768d664f41f8ab7fdbe7f250305976e0cf5255e0",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/gimp-comfyui-interop-enforcement.json",
@@ -3252,6 +3275,11 @@
     {
       "path": "canonical/model-manager-inventory-current-host-enforcement.json",
       "git_blob_sha": "9b7cb4e23814e70b8654b29f717c340644e62c00",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/model-manager-llmfit-gui-enforcement.json",
+      "git_blob_sha": "1cf752b2121546ea4d35b5947ff16a3abc0e723c",
       "baseline_delta_status": "added"
     },
     {
@@ -3551,7 +3579,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MODEL-MANAGER-001.json",
-      "git_blob_sha": "178a725cfb3e58cce6e9b4a42d0aeb8a0a4710f4",
+      "git_blob_sha": "0a3da113b5b22dee6f1a567b98155bfce7aa2a0f",
       "baseline_delta_status": "added"
     },
     {
@@ -3832,6 +3860,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-LISTMONK-001.json",
       "git_blob_sha": "8d1a1716b4f0ca289214f2a4e54f3662ed1e9469",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-LLMFIT-001.json",
+      "git_blob_sha": "95d61e2117b21605f6215fe829fbd6d5bfa877ac",
       "baseline_delta_status": "added"
     },
     {
@@ -4582,7 +4615,7 @@
     {
       "path": "canonical/source-graph-attestation.json",
       "git_blob_sha": "0863f453521d89f6bbc437df05fa630cffb20a3e",
-      "baseline_delta_status": "modified"
+      "baseline_delta_status": "unchanged"
     },
     {
       "path": "canonical/stability-matrix-lifecycle-enforcement.json",
@@ -4712,6 +4745,16 @@
     {
       "path": "deployment/lynxhub/systemd/user/lynxhub.service",
       "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-manager/llmfit/fa3-llmfit.service",
+      "git_blob_sha": "c9d77224655d36fe467a3710adb00bd3ffe0863c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-manager/llmfit/install.sh",
+      "git_blob_sha": "04aacf40a87fbb7719329232c54b0caec4b01082",
       "baseline_delta_status": "added"
     },
     {
@@ -5317,6 +5360,11 @@
     {
       "path": "evidence/reference/model-manager-ci-2026-08-31.json",
       "git_blob_sha": "40c1a4396ae643ad57703a5121fc1197a7c99aa7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/model-manager-llmfit-gui-2026-09-13.json",
+      "git_blob_sha": "91fa8e5491edf63be5b32b0bb05254b82c610c06",
       "baseline_delta_status": "added"
     },
     {
@@ -6060,6 +6108,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_model_manager_llmfit_gui_gate.py",
+      "git_blob_sha": "aa01b19c6df3d06405bb741687fe7c28f600f779",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_model_manager_provider_adapter.py",
       "git_blob_sha": "5ed8751f257b0327a812378b5ef02caa016a6c07",
       "baseline_delta_status": "added"
@@ -6747,6 +6800,11 @@
     {
       "path": "tests/test_model_manager_gate.py",
       "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_manager_llmfit_gui_gate.py",
+      "git_blob_sha": "bc95f01f18e130a4837c23fb76ad95741f71122b",
       "baseline_delta_status": "added"
     },
     {
