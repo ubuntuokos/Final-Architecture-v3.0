@@ -1,0 +1,113 @@
+name: FA3 OS Current Host Admission
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/fa3_os_context_policy.py'
+      - 'src/fa3_os_current_host_gate.py'
+      - 'evidence/collect-fa3-os-runtime-current-host.py'
+      - 'tests/test_fa3_os_current_host_admission.py'
+      - '.github/workflows/fa3-os-current-host.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-os-current-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  regression:
+    name: fa3-os-current-host / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_os_context_policy.py \
+            src/fa3_os_current_host_gate.py \
+            evidence/collect-fa3-os-runtime-current-host.py \
+            tests/test_fa3_os_current_host_admission.py
+      - name: Admission regressions
+        run: |
+          PYTHONPATH=src python -m unittest \
+            tests.test_fa3_os_runtime \
+            tests.test_fa3_os_current_host_admission -v
+      - name: Reference runtime gate
+        run: PYTHONPATH=src python src/fa3_os_runtime_gate.py --repo-root .
+      - name: Hosted CI must not fabricate current-host PASS
+        shell: bash
+        run: |
+          rm -f evidence/receipts/fa3-os-runtime-current-host.json
+          set +e
+          PYTHONPATH=src python src/fa3_os_current_host_gate.py --repo-root . --require-evidence
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+
+  current-host-admission:
+    name: fa3-os-current-host / real-execution
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prove runner identity and prerequisites
+        shell: bash
+        run: |
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v git
+          command -v cmake
+          command -v ninja
+          chmod +x bin/fa3-current-host-runner-doctor evidence/collect-fa3-os-runtime-current-host.py
+          ./bin/fa3-current-host-runner-doctor
+      - name: Build Control Center on the real current host
+        shell: bash
+        run: |
+          rm -rf build/fa3-os-current-host
+          cmake -S apps/fa3-control-center -B build/fa3-os-current-host -GNinja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/fa3-os-current-host --parallel 2
+          test -x build/fa3-os-current-host/fa3-control-center
+      - name: Collect fresh FA3 OS current-host evidence
+        id: collect
+        shell: bash
+        run: |
+          mkdir -p reports/fa3-os-current-host evidence/receipts
+          set +e
+          PYTHONPATH=src python3 evidence/collect-fa3-os-runtime-current-host.py \
+            --control-center-binary build/fa3-os-current-host/fa3-control-center \
+            --output evidence/receipts/fa3-os-runtime-current-host.json \
+            | tee reports/fa3-os-current-host/collector.txt
+          rc=${PIPESTATUS[0]}
+          set -e
+          echo "collector_rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Enforce fresh target-host evidence
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_os_current_host_gate.py \
+            --repo-root . \
+            --require-evidence \
+            --output reports/fa3-os-current-host/admission-gate.json
+      - name: Upload FA3 OS current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-os-current-host-admission
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/fa3-os-runtime-current-host.json
+            reports/fa3-os-current-host/**
