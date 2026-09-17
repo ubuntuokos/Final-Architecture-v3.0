@@ -17,6 +17,11 @@ Item {
 
     // Keep mandatory system-language policy visible to the language gate while
     // the primary Tolmács surface is the live interpreter workspace.
+    readonly property string surfaceName: "Tolmács / Nyelvi híd"
+    readonly property string controlProfileId: "FA3-GUI-LANGUAGE-CONTROL-001"
+    readonly property string bridgeProfileId: "FA3-LANGUAGE-BRIDGE-001"
+    readonly property string nativeLanguagePreference: "Natív modellnyelv előnyben"
+    readonly property string mediatedLanguagePreference: "Közvetített nyelv engedélyezése"
     property string primaryLanguage: String(preferences.value("languagePolicy/primaryLanguage", ""))
     property string secondaryLanguage: String(preferences.value("languagePolicy/secondaryLanguage", ""))
     readonly property bool systemLanguageValid: primaryLanguage.length > 0
