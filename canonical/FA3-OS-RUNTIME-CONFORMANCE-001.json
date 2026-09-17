@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.runtime-conformance-record.v1",
+  "id": "FA3-OS-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-OS-RUNTIME-001",
+  "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+  "gate_id": "FA3-OS-RUNTIME-GATESET-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "promotion_claimed": false,
+  "reference_runtime_materialized": true,
+  "reference_runtime_self_test": "CI_REQUIRED",
+  "gui_surface_required": true,
+  "required_evidence": [
+    "fresh FA3-OS-RUNTIME-GATESET-001 PASS",
+    "target-host append to the actual FA3 Journal storage through the privacy gate",
+    "target-host negative capture tests for keylogging, clipboard, screenshot, terminal content and password-manager sources",
+    "target-host deterministic workstream/session projection from real FA3 events",
+    "Control Center FA3 OS menu/page smoke test",
+    "selective-erasure and retention interaction evidence against the actual Journal storage",
+    "Central Capability/MCP Gateway retrieval authorization evidence before agent exposure"
+  ],
+  "evidence_present": false,
+  "normative_constraint": "Reference-runtime and hosted CI PASS SHALL NOT be treated as current-host production admission. This record remains PENDING_CURRENT_HOST until fresh target-host evidence is captured and reconciled."
+}
