@@ -6,8 +6,10 @@ on:
     paths:
       - 'src/fa3_current_host_evidence_audit.py'
       - 'src/fa3_current_host_capability_handoff.py'
+      - 'src/fa3_current_host_capability_attest.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
+      - 'tests/test_current_host_capability_attest.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -38,33 +40,46 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify projection, handoff and auditor syntax
+      - name: Verify projection, producer, handoff and auditor syntax
         run: |
           chmod +x bin/fa3-current-host bin/fa3-enforce
           python -m py_compile \
+            src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
             tests/test_current_host_evidence_audit.py
           ./bin/fa3-current-host verify
-      - name: Handoff and auditor regression tests
+      - name: Producer, handoff and auditor regression tests
         run: |
           PYTHONPATH=src python -m unittest \
+            tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
             tests.test_current_host_evidence_audit -v
       - name: Prove empty workspace cannot fabricate capability PASS
         run: |
-          rm -rf .fa3-current-host/attestations evidence/receipts/capabilities
+          rm -rf \
+            .fa3-current-host/test-bundles \
+            .fa3-current-host/attestations \
+            evidence/receipts/capabilities
+          PYTHONPATH=src python src/fa3_current_host_capability_attest.py --root .
           PYTHONPATH=src python src/fa3_current_host_capability_handoff.py --root .
           python3 - <<'PY'
           import json
           from pathlib import Path
-          report=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
-          assert report['handoff_integrity'] == 'PASS', report
-          assert report['materialization_status'] == 'PENDING_CURRENT_HOST_ATTESTATIONS', report
-          assert report['receipts_materialized'] == 0, report
-          assert report['provider_receipts_promoted'] == 0, report
-          assert report['global_promotion_claim'] is False, report
+          producer=json.loads(Path('reports/current-host-capability-attestation-producer.json').read_text())
+          handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
+          assert producer['producer_integrity'] == 'PASS', producer
+          assert producer['materialization_status'] == 'PENDING_CAPABILITY_TEST_BUNDLES', producer
+          assert producer['attestations_materialized'] == 0, producer
+          assert producer['provider_receipts_promoted'] == 0, producer
+          assert producer['global_promotion_claim'] is False, producer
+          assert handoff['handoff_integrity'] == 'PASS', handoff
+          assert handoff['materialization_status'] == 'PENDING_CURRENT_HOST_ATTESTATIONS', handoff
+          assert handoff['receipts_materialized'] == 0, handoff
+          assert handoff['provider_receipts_promoted'] == 0, handoff
+          assert handoff['global_promotion_claim'] is False, handoff
           PY
       - name: Audit exact 143-capability registry
         run: PYTHONPATH=src python src/fa3_current_host_evidence_audit.py --root .
@@ -114,6 +129,7 @@ jobs:
           name: fa3-global-current-host-closure-regression
           if-no-files-found: error
           path: |
+            reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
             reports/runtime-gate-report.json
@@ -145,10 +161,12 @@ jobs:
         run: |
           rm -rf \
             .fa3-current-host/global-closure \
+            .fa3-current-host/test-bundles \
             .fa3-current-host/attestations \
             evidence/receipts/capabilities
           mkdir -p \
             .fa3-current-host/global-closure \
+            .fa3-current-host/test-bundles/capabilities \
             .fa3-current-host/attestations/capabilities
           bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
           set +e
@@ -156,6 +174,10 @@ jobs:
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Produce attestations only from explicit capability test bundles
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_attest.py --root .
       - name: Materialize only explicitly attested capability receipts
         shell: bash
         run: |
@@ -181,10 +203,15 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
+          producer=json.loads(Path('reports/current-host-capability-attestation-producer.json').read_text())
           handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert producer['producer_integrity'] == 'PASS', producer
+          assert producer['provider_receipts_promoted'] == 0, producer
+          assert producer['generic_host_evidence_promoted'] == 0, producer
+          assert producer['global_promotion_claim'] is False, producer
           assert handoff['handoff_integrity'] == 'PASS', handoff
           assert handoff['provider_receipts_promoted'] == 0, handoff
           assert handoff['generic_host_evidence_promoted'] == 0, handoff
@@ -200,6 +227,8 @@ jobs:
               assert acceptance['status'] == 'DENIED', acceptance
               assert promotion['actual_state'] == 'PROMOTION_BLOCKED' and promotion['promotion_allowed'] is False, promotion
           print(json.dumps({
+              'producer': producer['materialization_status'],
+              'attestations_materialized': producer['attestations_materialized'],
               'handoff': handoff['materialization_status'],
               'receipts_materialized': handoff['receipts_materialized'],
               'runtime_closure': audit['runtime_closure'],
@@ -221,9 +250,11 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/test-bundles/capabilities/**
             .fa3-current-host/attestations/capabilities/**
             evidence/evidence-registry.json
             evidence/receipts/**
+            reports/current-host-capability-attestation-producer.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
             reports/runtime-gate-report.json
