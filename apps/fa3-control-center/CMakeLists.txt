@@ -102,6 +102,7 @@ qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
     BASE "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical"
     FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-TOOLS-FABRIC-001.json"
 )
 
 target_link_libraries(fa3-control-center
@@ -126,6 +127,7 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-LIFECYCLE-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-REQUEST-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-TOOLS-FABRIC-001.json"
     DESTINATION share/fa3/canonical
 )
 
