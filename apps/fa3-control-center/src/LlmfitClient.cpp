@@ -12,6 +12,8 @@
 #include <memory>
 
 namespace {
+constexpr auto kHardwareObservationStatus = "OBSERVED_NON_AUTHORITATIVE";
+
 QByteArray decodeChunked(const QByteArray &body, bool *ok)
 {
     QByteArray decoded;
@@ -256,7 +258,7 @@ QString LlmfitClient::draftRationale(const QString &purpose, const QVariantMap &
     root.insert("purpose", purpose);
     root.insert("source_provider_id", providerId());
     root.insert("provider_result_semantics", "ADVISORY_ESTIMATE_ONLY");
-    root.insert("hardware_observation_status", observationAuthority());
+    root.insert("hardware_observation_status", QString::fromLatin1(kHardwareObservationStatus));
     root.insert("candidate", candidateProjection(model));
     root.insert("workload_resource_envelope", envelope);
     root.insert("admission_authority", "FA3-AUTH-HOST-RESOURCE-BROKER-001");
