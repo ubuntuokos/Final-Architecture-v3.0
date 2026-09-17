@@ -5,8 +5,10 @@ on:
     branches: [main]
     paths:
       - 'src/fa3_current_host_evidence_audit.py'
+      - 'src/fa3_current_host_capability_attestation_collector.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'tests/test_current_host_evidence_audit.py'
+      - 'tests/test_current_host_capability_attestation_collector.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
@@ -38,33 +40,49 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify projection, handoff and auditor syntax
+      - name: Verify projection, attestation collector, handoff and auditor syntax
         run: |
           chmod +x bin/fa3-current-host bin/fa3-enforce
           python -m py_compile \
+            src/fa3_current_host_capability_attestation_collector.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            tests/test_current_host_capability_attestation_collector.py \
             tests/test_current_host_capability_handoff.py \
             tests/test_current_host_evidence_audit.py
           ./bin/fa3-current-host verify
-      - name: Handoff and auditor regression tests
+      - name: Attestation collector, handoff and auditor regression tests
         run: |
           PYTHONPATH=src python -m unittest \
+            tests.test_current_host_capability_attestation_collector \
             tests.test_current_host_capability_handoff \
             tests.test_current_host_evidence_audit -v
       - name: Prove empty workspace cannot fabricate capability PASS
         run: |
-          rm -rf .fa3-current-host/attestations evidence/receipts/capabilities
+          rm -rf \
+            .fa3-current-host/input/capability-test-results \
+            .fa3-current-host/attestations \
+            evidence/receipts/capabilities
+          PYTHONPATH=src python src/fa3_current_host_capability_attestation_collector.py --root .
           PYTHONPATH=src python src/fa3_current_host_capability_handoff.py --root .
           python3 - <<'PY'
           import json
           from pathlib import Path
-          report=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
-          assert report['handoff_integrity'] == 'PASS', report
-          assert report['materialization_status'] == 'PENDING_CURRENT_HOST_ATTESTATIONS', report
-          assert report['receipts_materialized'] == 0, report
-          assert report['provider_receipts_promoted'] == 0, report
-          assert report['global_promotion_claim'] is False, report
+          collector=json.loads(Path('.fa3-current-host/reports/capability-attestation-collector.json').read_text())
+          handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
+          assert collector['result'] == 'PASS', collector
+          assert collector['materialization_status'] == 'PENDING_CURRENT_HOST_TEST_RESULTS', collector
+          assert collector['attestations_materialized'] == 0, collector
+          assert collector['synthetic_results_accepted'] == 0, collector
+          assert collector['ci_reference_results_accepted'] == 0, collector
+          assert collector['provider_authority_results_accepted'] == 0, collector
+          assert collector['global_promotion_claim'] is False, collector
+          assert collector['test_execution_fabricated'] is False, collector
+          assert handoff['handoff_integrity'] == 'PASS', handoff
+          assert handoff['materialization_status'] == 'PENDING_CURRENT_HOST_ATTESTATIONS', handoff
+          assert handoff['receipts_materialized'] == 0, handoff
+          assert handoff['provider_receipts_promoted'] == 0, handoff
+          assert handoff['global_promotion_claim'] is False, handoff
           PY
       - name: Audit exact 143-capability registry
         run: PYTHONPATH=src python src/fa3_current_host_evidence_audit.py --root .
@@ -114,6 +132,7 @@ jobs:
           name: fa3-global-current-host-closure-regression
           if-no-files-found: error
           path: |
+            .fa3-current-host/reports/capability-attestation-collector.json
             reports/current-host-capability-handoff.json
             reports/current-host-evidence-audit.json
             reports/runtime-gate-report.json
@@ -149,6 +168,7 @@ jobs:
             evidence/receipts/capabilities
           mkdir -p \
             .fa3-current-host/global-closure \
+            .fa3-current-host/input/capability-test-results \
             .fa3-current-host/attestations/capabilities
           bash evidence/collect-current-host.sh .fa3-current-host/global-closure/host
           set +e
@@ -156,6 +176,10 @@ jobs:
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Assemble capability attestations only from explicit real test-result bundles
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_attestation_collector.py --root .
       - name: Materialize only explicitly attested capability receipts
         shell: bash
         run: |
@@ -181,10 +205,17 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
+          collector=json.loads(Path('.fa3-current-host/reports/capability-attestation-collector.json').read_text())
           handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert collector['result'] == 'PASS', collector
+          assert collector['synthetic_results_accepted'] == 0, collector
+          assert collector['ci_reference_results_accepted'] == 0, collector
+          assert collector['provider_authority_results_accepted'] == 0, collector
+          assert collector['global_promotion_claim'] is False, collector
+          assert collector['test_execution_fabricated'] is False, collector
           assert handoff['handoff_integrity'] == 'PASS', handoff
           assert handoff['provider_receipts_promoted'] == 0, handoff
           assert handoff['generic_host_evidence_promoted'] == 0, handoff
@@ -194,12 +225,15 @@ jobs:
           assert acceptance['static_gate'] == 'PASS', acceptance
           assert acceptance['criteria_total'] == 19, acceptance
           if audit['runtime_closure'] == 'PASS':
+              assert collector['attestations_materialized'] == 143, collector
               assert acceptance['status'] == 'PASS' and acceptance['criteria_passed'] == 19, acceptance
               assert promotion['actual_state'] == 'PROMOTED' and promotion['promotion_allowed'] is True, promotion
           else:
               assert acceptance['status'] == 'DENIED', acceptance
               assert promotion['actual_state'] == 'PROMOTION_BLOCKED' and promotion['promotion_allowed'] is False, promotion
           print(json.dumps({
+              'attestations_materialized': collector['attestations_materialized'],
+              'attestation_collection': collector['materialization_status'],
               'handoff': handoff['materialization_status'],
               'receipts_materialized': handoff['receipts_materialized'],
               'runtime_closure': audit['runtime_closure'],
@@ -221,7 +255,9 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/input/capability-test-results/**
             .fa3-current-host/attestations/capabilities/**
+            .fa3-current-host/reports/capability-attestation-collector.json
             evidence/evidence-registry.json
             evidence/receipts/**
             reports/current-host-capability-handoff.json
