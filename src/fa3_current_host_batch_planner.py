@@ -55,11 +55,18 @@ def build_plan(root: Path, batch_size: int = DEFAULT_BATCH_SIZE) -> dict[str, An
     producers = load_json(root / "canonical/current-host-capability-qualification-constituent-producers.json")
 
     capability_ids = sorted(
-        [row["id"] for row in evidence.get("records", []) if isinstance(row.get("id"), str) and row["id"].startswith("CAP-")],
+        [
+            row["subject_id"]
+            for row in evidence.get("records", [])
+            if isinstance(row.get("subject_id"), str) and row["subject_id"].startswith("CAP-")
+        ],
         key=cap_sort_key,
     )
-    if len(capability_ids) != evidence.get("canonical_capability_count"):
+    expected_capability_count = evidence.get("canonical_capability_count")
+    if len(capability_ids) != expected_capability_count:
         raise ValueError("evidence registry capability count mismatch")
+    if len(set(capability_ids)) != len(capability_ids):
+        raise ValueError("evidence registry contains duplicate capability subject_id values")
 
     executor_keys = _entry_keys(executors)
     qualification_keys = _entry_keys(qualifications)
