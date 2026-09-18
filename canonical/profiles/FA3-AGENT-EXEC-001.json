@@ -38,11 +38,7 @@
     "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN",
     "SANDBOX_NETWORK_DENY_DEFAULT",
     "EPHEMERAL_AGENT_WORKSPACE_PER_TASK",
-    "SANDBOX_BACKEND_COMPATIBILITY_EVIDENCE_REQUIRED",
-    "HUMAN_APPROVED_AGENT_MUTATION_DIGEST_BOUND",
-    "APPROVED_BASE_SHA_PINNED_FOR_INTEGRATION",
-    "INTEGRATION_MAIN_UPDATE_COMPARE_AND_SWAP",
-    "CURRENT_HOST_SECRET_ISOLATION_NEGATIVE_PROOF_REQUIRED_FOR_INTEGRATION_BROKER_ACTIVATION"
+    "SANDBOX_BACKEND_COMPATIBILITY_EVIDENCE_REQUIRED"
   ],
   "implementation_status": "CANONICAL_BASELINE_PLUS_MANDATORY_SANDBOX_AND_REFERENCE_COORDINATION_RUNTIME_V0_2",
   "sandbox_profile": "FA3-AGENT-SANDBOX-001",
@@ -59,26 +55,5 @@
     "hosted_ci_substitution_allowed": false,
     "optional_provider_runtime_required": false,
     "global_promotion_claim": false
-  },
-  "integration_broker": {
-    "id": "FA3-INTEGRATION-BROKER-001",
-    "gate_id": "FA3-INTEGRATION-BROKER-GATESET-001",
-    "contract_family": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
-    "capability_id": "CAP-028",
-    "architectural_authority": false,
-    "direct_agent_main_write": "FORBIDDEN",
-    "approved_proposal": "IMMUTABLE_DIGEST_BOUND",
-    "main_update": "COMPARE_AND_SWAP_FAIL_CLOSED"
-  },
-  "current_host_security_surfaces": [
-    {
-      "id": "FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001",
-      "capability_id": "CAP-028",
-      "gate_id": "FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-GATESET-001",
-      "status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
-      "relationship_to_cap028_qualification": "ADDITIONAL_P0_SECURITY_SURFACE_NOT_A_SUBSTITUTE_FOR_POSITIVE_NEGATIVE_ROLLBACK_QUALIFICATION",
-      "hosted_ci_substitution_allowed": false,
-      "global_promotion_claim": false
-    }
-  ]
+  }
 }
