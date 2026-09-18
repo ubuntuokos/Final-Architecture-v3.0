@@ -19,6 +19,7 @@ on:
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'src/fa3_cap076_acceptance_resilience_current_host.py'
+      - 'src/fa3_cap054_external_asset_inventory_current_host.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
@@ -31,6 +32,7 @@ on:
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
+      - 'tests/test_cap054_external_asset_inventory_current_host.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -73,6 +75,7 @@ jobs:
             src/fa3_current_host_capability_test_orchestrator.py \
             src/fa3_cap075_contract_registry_current_host.py \
             src/fa3_cap076_acceptance_resilience_current_host.py \
+            src/fa3_cap054_external_asset_inventory_current_host.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
@@ -85,6 +88,7 @@ jobs:
             tests/test_current_host_capability_test_orchestrator.py \
             tests/test_cap075_contract_registry_current_host.py \
             tests/test_cap076_acceptance_resilience_current_host.py \
+            tests/test_cap054_external_asset_inventory_current_host.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
@@ -101,6 +105,7 @@ jobs:
             tests.test_current_host_capability_test_orchestrator \
             tests.test_cap075_contract_registry_current_host \
             tests.test_cap076_acceptance_resilience_current_host \
+            tests.test_cap054_external_asset_inventory_current_host \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -125,6 +130,9 @@ jobs:
           cap076=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-076']
           assert len(cap076) == 3, cap076
           assert {row['test_kind'] for row in cap076} == {'positive','negative','rollback'}, cap076
+          cap054=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-054']
+          assert len(cap054) == 3, cap054
+          assert {row['test_kind'] for row in cap054} == {'positive','negative','rollback'}, cap054
           PY
       - name: Audit explicit qualification constituent producer coverage
         run: |
@@ -145,6 +153,9 @@ jobs:
           cap076=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-076']
           assert len(cap076) == 3, cap076
           assert {row['test_kind'] for row in cap076} == {'positive','negative','rollback'}, cap076
+          cap054=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-054']
+          assert len(cap054) == 3, cap054
+          assert {row['test_kind'] for row in cap054} == {'positive','negative','rollback'}, cap054
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
         run: |
@@ -179,6 +190,9 @@ jobs:
           cap076=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-076']
           assert len(cap076) == 3, cap076
           assert {row['test_kind'] for row in cap076} == {'positive','negative','rollback'}, cap076
+          cap054=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-054']
+          assert len(cap054) == 3, cap054
+          assert {row['test_kind'] for row in cap054} == {'positive','negative','rollback'}, cap054
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
         run: |
