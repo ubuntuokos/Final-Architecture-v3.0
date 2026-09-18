@@ -17,6 +17,7 @@ on:
       - 'src/fa3_current_host_capability_qualification_constituent_orchestrator.py'
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
+      - 'src/fa3_current_host_batch_planner.py'
       - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'src/fa3_cap076_acceptance_resilience_current_host.py'
       - 'src/fa3_cap054_external_asset_inventory_current_host.py'
@@ -32,6 +33,8 @@ on:
       - 'tests/test_current_host_capability_qualification_constituent_orchestrator.py'
       - 'tests/test_current_host_capability_test_executor_audit.py'
       - 'tests/test_current_host_capability_test_orchestrator.py'
+      - 'tests/test_current_host_batch_planner.py'
+      - 'docs/current-host-closure-batches.md'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
       - 'tests/test_cap054_external_asset_inventory_current_host.py'
@@ -77,6 +80,7 @@ jobs:
             src/fa3_current_host_capability_qualification_constituent_orchestrator.py \
             src/fa3_current_host_capability_test_executor_audit.py \
             src/fa3_current_host_capability_test_orchestrator.py \
+            src/fa3_current_host_batch_planner.py \
             src/fa3_cap075_contract_registry_current_host.py \
             src/fa3_cap076_acceptance_resilience_current_host.py \
             src/fa3_cap054_external_asset_inventory_current_host.py \
@@ -92,6 +96,7 @@ jobs:
             tests/test_current_host_capability_qualification_constituent_orchestrator.py \
             tests/test_current_host_capability_test_executor_audit.py \
             tests/test_current_host_capability_test_orchestrator.py \
+            tests/test_current_host_batch_planner.py \
             tests/test_cap075_contract_registry_current_host.py \
             tests/test_cap076_acceptance_resilience_current_host.py \
             tests/test_cap054_external_asset_inventory_current_host.py \
@@ -111,6 +116,7 @@ jobs:
             tests.test_current_host_capability_qualification_constituent_orchestrator \
             tests.test_current_host_capability_test_executor_audit \
             tests.test_current_host_capability_test_orchestrator \
+            tests.test_current_host_batch_planner \
             tests.test_cap075_contract_registry_current_host \
             tests.test_cap076_acceptance_resilience_current_host \
             tests.test_cap054_external_asset_inventory_current_host \
@@ -120,6 +126,22 @@ jobs:
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
             tests.test_current_host_evidence_audit -v
+      - name: Plan deterministic fail-closed current-host closure batches
+        run: |
+          PYTHONPATH=src python src/fa3_current_host_batch_planner.py --root . --batch-size 5
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
+          assert plan['status'] == 'PASS', plan
+          assert plan['capability_count'] == 143, plan
+          assert plan['required_test_obligation_count'] == 429, plan
+          assert plan['materialized_obligation_count'] + plan['pending_obligation_count'] == 429, plan
+          assert plan['fully_materialized_capability_count'] + plan['pending_materialization_capability_count'] == 143, plan
+          assert plan['invariants']['materialized_executor_implies_runtime_pass'] is False, plan
+          assert plan['invariants']['batch_completion_implies_global_promotion'] is False, plan
+          assert plan['invariants']['global_promotion_claim'] is False, plan
+          PY
       - name: Audit explicit capability-level qualification definitions
         run: |
           PYTHONPATH=src python src/fa3_current_host_capability_test_qualification_audit.py --root .
@@ -339,11 +361,13 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/test-plan/capabilities.json
+            reports/current-host-closure-batch-plan.json
             reports/current-host-capability-test-qualification-audit.json
             reports/current-host-capability-qualification-constituent-producer-audit.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
             reports/current-host-capability-qualification-constituent-producer-audit.json
             reports/current-host-capability-qualification-constituent-orchestrator.json
+            reports/current-host-closure-batch-plan.json
             reports/current-host-capability-test-executor-audit.json
             reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
@@ -401,6 +425,10 @@ jobs:
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Snapshot batch plan before real current-host execution
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_batch_planner.py --root . --batch-size 5
       - name: Audit explicit capability qualification coverage before execution
         shell: bash
         run: |
