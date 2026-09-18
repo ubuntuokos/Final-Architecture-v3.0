@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2a2cf63aba250ad0db254019df494f13301cb0a2",
-    "pre_projection_root_tree_sha": "260ccb169704d2042ac9aa8d5bc7e20b82047f06",
-    "pre_projection_canonical_tree_sha": "8ccec39b89ba4c17bc7749d7c39c956ce487843c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 427,
-    "total_post_baseline_commits": 427,
-    "delta_file_count": 1341,
-    "delta_added_files": 1336,
+    "pre_projection_head_sha": "8a39de4c89b1599fb5b8455855f84c7e2fc49911",
+    "pre_projection_root_tree_sha": "5dbea90550f4cc6beddb7c4ab21e4748a443681a",
+    "pre_projection_canonical_tree_sha": "6cd2fc4738bc6782f0fcdbd24a85e223b4dde690",
+    "commits_ahead_of_v3_0_11_conformance_commit": 430,
+    "total_post_baseline_commits": 430,
+    "delta_file_count": 1342,
+    "delta_added_files": 1337,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,7 +47,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 663,
     "evidence_files_in_post_baseline_delta": 125,
-    "source_files_in_post_baseline_delta": 160,
+    "source_files_in_post_baseline_delta": 161,
     "test_files_in_post_baseline_delta": 141,
     "workflow_files_in_post_baseline_delta": 57,
     "provider_records": [
@@ -738,7 +738,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1334,
+  "manifest_entry_count": 1335,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -6442,7 +6442,7 @@
     },
     {
       "path": "src/fa3_os_context_policy.py",
-      "git_blob_sha": "254a1e9d331d25a85832c3c7513c09ae7276c5b9",
+      "git_blob_sha": "9467c3c0a4ca278e1555ee114f62c141e1ab0862",
       "baseline_delta_status": "added"
     },
     {
@@ -6453,6 +6453,11 @@
     {
       "path": "src/fa3_os_event_privacy_gate.py",
       "git_blob_sha": "b055784dc09c0c5656890c874963d40f4e9df959",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_os_mcp_adapter.py",
+      "git_blob_sha": "d0d81970843ea1d76110a4365c80a12165c266ec",
       "baseline_delta_status": "added"
     },
     {
