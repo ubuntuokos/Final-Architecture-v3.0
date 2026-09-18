@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PAGEINDEX-MCP-001",
+  "name": "VectifyAI/pageindex-mcp",
+  "status": "ACCEPTED_OPTIONAL_PRODUCTION_CANDIDATE_CURRENT_HOST_PENDING",
+  "provider_role": "CLOUD_BACKED_REASONING_RAG_MCP_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "MCP_PROVIDER_BEHIND_CENTRAL_GATEWAY",
+    "DOCUMENT_INDEXING_PROVIDER",
+    "DOCUMENT_RETRIEVAL_PROVIDER",
+    "CLOUD_BACKED_DATA_PROCESSOR",
+    "STDIO_ADAPTER_PROVIDER"
+  ],
+  "projects_existing_capabilities": [
+    "fa3.document.index",
+    "fa3.document.retrieve"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "parent_authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "runtime_projection": {
+    "upstream_release": "v1.8.2",
+    "upstream_commit": "bda946b4b6fffaaf6926aa8809bc62e0098f30e8",
+    "package": "@pageindex/mcp@1.8.2",
+    "mcpb_sha256": "972705b6991a5291112db368fafccf2ce89926a8a0318601cba89bff4adc5de2",
+    "transport": "MANAGED_STDIO",
+    "node_requirement": ">=20.8.1",
+    "remote_service": "https://app.pageindex.ai/mcp",
+    "oauth_token_storage_upstream_default": "~/.pageindex-mcp/oauth-tokens.json",
+    "fa3_secret_rule": "EPHEMERAL_SECRET_BROKER_MATERIALIZATION_ONLY"
+  },
+  "capability_bindings": [
+    {
+      "capability_id": "fa3.document.index",
+      "adapter_id": "fa3.adapter.pageindex.index",
+      "canonical_operation": "index_pdf",
+      "upstream_tool": "process_document",
+      "approval_override": "explicit",
+      "state": "PENDING_CURRENT_HOST"
+    },
+    {
+      "capability_id": "fa3.document.retrieve",
+      "adapter_id": "fa3.adapter.pageindex.retrieve",
+      "canonical_operations": {
+        "metadata": "get_document",
+        "structure": "get_document_structure",
+        "pages": "get_page_content"
+      },
+      "state": "PENDING_CURRENT_HOST"
+    }
+  ],
+  "data_governance": {
+    "local_pdf_may_leave_host": true,
+    "remote_processing_required": true,
+    "local_upload_requires_explicit_approval": true,
+    "arbitrary_dynamic_remote_tool_exposure": "DENY",
+    "network_egress": "EXTERNAL_NETWORK_EGRESS_AUTHORITY_ONLY",
+    "signed_upload_destination": "DYNAMIC_PROVIDER_DESTINATION_POLICY_GATED"
+  },
+  "authority_boundaries": {
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "authorization_policy": "EXISTING_FA3_SECURITY_GOVERNANCE_ONLY",
+    "identity": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRET_BROKER_ONLY",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "workflow": "EXISTING_FA3_WORKFLOW_AUTHORITY_ONLY",
+    "model_routing": "EXISTING_FA3_MODEL_ROUTING_AUTHORITY_ONLY",
+    "evidence": "EXISTING_FA3_EVIDENCE_OBSERVABILITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_MCP_AUTHORITY",
+    "FA3_POLICY_AUTHORITY",
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_WORKFLOW_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY"
+  ],
+  "global_runtime_promotion_claim": false
+}
