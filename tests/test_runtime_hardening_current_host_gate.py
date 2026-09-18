@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import copy
 import json
+import tempfile
+import unittest
 from pathlib import Path
 
 from src.fa3_runtime_hardening_current_host import (
@@ -139,53 +141,70 @@ def modeled_envelope(*, synthetic: bool = False):
     }
 
 
-def test_quadlet_reference_security_contract():
-    assert quadlet_security_findings(GOOD_QUADLET) == []
-    assert "QUADLET_NETWORK_NOT_DENY_DEFAULT" in quadlet_security_findings(GOOD_QUADLET.replace("Network=none", "Network=host"))
-    assert "QUADLET_IMAGE_NOT_DIGEST_PINNED" in quadlet_security_findings(
-        GOOD_QUADLET.replace("@sha256:" + "a" * 64, ":latest")
-    )
-    assert "QUADLET_GVISOR_RUNSC_NOT_ENFORCED" in quadlet_security_findings(
-        GOOD_QUADLET.replace("GlobalArgs=--runtime=runsc\n", "")
-    )
+class TestRuntimeHardeningCurrentHost(unittest.TestCase):
+    def test_quadlet_reference_security_contract(self):
+        self.assertEqual(quadlet_security_findings(GOOD_QUADLET), [])
+        self.assertIn(
+            "QUADLET_NETWORK_NOT_DENY_DEFAULT",
+            quadlet_security_findings(GOOD_QUADLET.replace("Network=none", "Network=host")),
+        )
+        self.assertIn(
+            "QUADLET_IMAGE_NOT_DIGEST_PINNED",
+            quadlet_security_findings(GOOD_QUADLET.replace("@sha256:" + "a" * 64, ":latest")),
+        )
+        self.assertIn(
+            "QUADLET_GVISOR_RUNSC_NOT_ENFORCED",
+            quadlet_security_findings(GOOD_QUADLET.replace("GlobalArgs=--runtime=runsc\n", "")),
+        )
+
+    def test_pcie_budget_is_supporting_evidence_not_zero_copy_proof(self):
+        self.assertEqual(
+            pcie_copy_budget_findings(good_pcie(), gpu_uuid="GPU-test", pci_bdf="0000:65:00.0"),
+            [],
+        )
+        bad = {**good_pcie(), "semantics": "ZERO_COPY_PROOF"}
+        self.assertIn(
+            "PCIE_COPY_BUDGET_SEMANTICS_INVALID",
+            pcie_copy_budget_findings(bad, gpu_uuid="GPU-test", pci_bdf="0000:65:00.0"),
+        )
+
+    def test_frame_trace_rejects_any_host_frame_copy(self):
+        self.assertEqual(
+            frame_trace_findings(good_frame_trace(), gpu_uuid="GPU-test", pci_bdf="0000:65:00.0"),
+            [],
+        )
+        bad = copy.deepcopy(good_frame_trace())
+        bad["neural_segment"]["device_to_host_frame_copy_count"] = 1
+        self.assertIn(
+            "FRAME_TRACE_HOST_FRAME_COPY_OBSERVED",
+            frame_trace_findings(bad, gpu_uuid="GPU-test", pci_bdf="0000:65:00.0"),
+        )
+
+    def test_modeled_current_host_shape_valid_but_synthetic_fixture_is_rejected(self):
+        self.assertEqual(validate_current_host_envelope(modeled_envelope()), [])
+        findings = validate_current_host_envelope(modeled_envelope(synthetic=True))
+        self.assertTrue(any(x["code"] == "RUNTIME-HARDENING-HOST-006" for x in findings))
+
+    def test_current_host_gate_fails_closed_on_synthetic_fixture(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt = Path(tmp) / "receipt.json"
+            receipt.write_text(json.dumps(modeled_envelope(synthetic=True)), encoding="utf-8")
+            report = gate(ROOT, receipt)
+        self.assertEqual(report["result"], "BLOCKED")
+        self.assertEqual(report["decision"]["exit_code"], 2)
+        self.assertEqual(
+            report["decision"]["promotion_effect"],
+            "COMPONENT_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED",
+        )
+        self.assertIs(report["global_promotion_claim"], False)
+        self.assertEqual(report["capability_count"], 143)
+
+    def test_reference_quadlet_template_is_non_runnable_placeholder(self):
+        path = ROOT / "deployment/quadlet/fa3-agent-sandbox.container.in"
+        text = path.read_text(encoding="utf-8")
+        self.assertEqual(quadlet_security_findings(text, allow_image_placeholder=True), [])
+        self.assertTrue(quadlet_security_findings(text))
 
 
-def test_pcie_budget_is_supporting_evidence_not_zero_copy_proof():
-    assert pcie_copy_budget_findings(good_pcie(), gpu_uuid="GPU-test", pci_bdf="0000:65:00.0") == []
-    bad = {**good_pcie(), "semantics": "ZERO_COPY_PROOF"}
-    assert "PCIE_COPY_BUDGET_SEMANTICS_INVALID" in pcie_copy_budget_findings(
-        bad, gpu_uuid="GPU-test", pci_bdf="0000:65:00.0"
-    )
-
-
-def test_frame_trace_rejects_any_host_frame_copy():
-    assert frame_trace_findings(good_frame_trace(), gpu_uuid="GPU-test", pci_bdf="0000:65:00.0") == []
-    bad = copy.deepcopy(good_frame_trace())
-    bad["neural_segment"]["device_to_host_frame_copy_count"] = 1
-    assert "FRAME_TRACE_HOST_FRAME_COPY_OBSERVED" in frame_trace_findings(
-        bad, gpu_uuid="GPU-test", pci_bdf="0000:65:00.0"
-    )
-
-
-def test_modeled_current_host_shape_valid_but_synthetic_fixture_is_rejected():
-    assert validate_current_host_envelope(modeled_envelope()) == []
-    findings = validate_current_host_envelope(modeled_envelope(synthetic=True))
-    assert any(x["code"] == "RUNTIME-HARDENING-HOST-006" for x in findings)
-
-
-def test_current_host_gate_fails_closed_on_synthetic_fixture(tmp_path):
-    receipt = tmp_path / "receipt.json"
-    receipt.write_text(json.dumps(modeled_envelope(synthetic=True)), encoding="utf-8")
-    report = gate(ROOT, receipt)
-    assert report["result"] == "BLOCKED"
-    assert report["decision"]["exit_code"] == 2
-    assert report["decision"]["promotion_effect"] == "COMPONENT_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED"
-    assert report["global_promotion_claim"] is False
-    assert report["capability_count"] == 143
-
-
-def test_reference_quadlet_template_is_non_runnable_placeholder():
-    path = ROOT / "deployment/quadlet/fa3-agent-sandbox.container.in"
-    text = path.read_text(encoding="utf-8")
-    assert quadlet_security_findings(text, allow_image_placeholder=True) == []
-    assert quadlet_security_findings(text)
+if __name__ == "__main__":
+    unittest.main()
