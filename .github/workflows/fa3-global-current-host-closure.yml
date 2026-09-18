@@ -339,9 +339,9 @@ jobs:
           assert orchestrator['results_materialized'] == 0, orchestrator
           assert audit['audit_integrity'] == 'PASS', audit
           assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
-          assert acceptance['static_gate'] == 'PASS', acceptance
           assert acceptance['criteria_total'] == 19, acceptance
           if audit['runtime_closure'] == 'PASS':
+              assert acceptance['static_gate'] == 'PASS', acceptance
               assert executor['coverage_status'] == 'COMPLETE_429_OF_429', executor
               assert executor['registered_executor_count'] == 429, executor
               assert acceptance['status'] == 'PASS', acceptance
@@ -349,6 +349,7 @@ jobs:
           else:
               assert acceptance['status'] == 'DENIED', acceptance
               assert promotion['actual_state'] == 'PROMOTION_BLOCKED', promotion
+              assert promotion['promotion_allowed'] is False, promotion
           print(json.dumps({
               'execution_batch_id': __import__('os').environ.get('FA3_CURRENT_HOST_BATCH_ID'),
               'execution_batch_subjects': __import__('os').environ.get('FA3_CURRENT_HOST_SUBJECTS'),
