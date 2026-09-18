@@ -62,8 +62,8 @@ from pathlib import Path
 
 runner_file, api_file, out_file, repo, expected_version, labels_json = sys.argv[1:]
 required = set(json.loads(labels_json))
-local = json.loads(Path(runner_file).read_text(encoding="utf-8"))
-api = json.loads(Path(api_file).read_text(encoding="utf-8"))
+local = json.loads(Path(runner_file).read_text(encoding="utf-8-sig"))
+api = json.loads(Path(api_file).read_text(encoding="utf-8-sig"))
 name = local.get("agentName") or local.get("name")
 if not name:
     raise SystemExit("FAIL: local .runner has no agentName")
