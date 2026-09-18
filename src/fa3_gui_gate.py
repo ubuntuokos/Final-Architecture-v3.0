@@ -144,6 +144,8 @@ def validate() -> list[str]:
 
     for token in ["MCP Control Chat", "fa3McpControl.targets()", "openMcpControlRequested", "ADAPTER-GATED", "No fabricated CONNECTED state"]:
         if token not in integrations_qml: failures.append(f"qml-mcp-integrations-surface-missing:{token}")
+    for token in ["Central MCP Gateway", "FA3-MCP-GATEWAY-001", "openMcpGatewayRequested", "MCP Gateway megnyitása"]:
+        if token not in integrations_qml: failures.append(f"qml-mcp-gateway-integrations-link-missing:{token}")
     mcp_contract = load_json(REQUIRED["mcp_control_contract"])
     if mcp_contract.get("id") != "FA3-MCP-CONTROL-CHAT-001" or mcp_contract.get("new_architectural_authority") is not False or mcp_contract.get("capability_count_delta") != 0:
         failures.append("mcp-control-authority-contract-invalid")

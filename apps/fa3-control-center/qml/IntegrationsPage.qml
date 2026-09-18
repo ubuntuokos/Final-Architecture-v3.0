@@ -18,6 +18,7 @@ Item {
     property var mcpTargets: fa3McpControl.targets()
 
     signal openMcpControlRequested(string targetId)
+    signal openMcpGatewayRequested()
 
     component Card: Rectangle {
         radius: 9
@@ -86,6 +87,33 @@ Item {
                         Label { text: "FA3-MCP-CONTROL-CHAT-001"; color: root.accent; font.pixelSize: 9; font.bold: true }
                     }
                     Button { text: "MCP Control megnyitása"; onClicked: root.openMcpControlRequested("AUTO") }
+                }
+            }
+
+            Card {
+                Layout.fillWidth: true
+                Layout.leftMargin: 18
+                Layout.rightMargin: 18
+                Layout.preferredHeight: 132
+                border.color: root.cyan
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    spacing: 18
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 5
+                        Label { text: "Central MCP Gateway"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                        Label { text: "FA3-MCP-GATEWAY-001 · MCP 2026-07-28 · STATELESS"; color: root.cyan; font.pixelSize: 9; font.bold: true }
+                        Label {
+                            Layout.fillWidth: true
+                            text: "Registry, routing, permissions, security, evidence és MCP Inspector egyetlen operatori felületen. A runtime promotion current-host evidence-gated."
+                            color: root.textMuted
+                            font.pixelSize: 9
+                            wrapMode: Text.WordWrap
+                        }
+                    }
+                    Button { text: "MCP Gateway megnyitása"; onClicked: root.openMcpGatewayRequested() }
                 }
             }
 

@@ -1243,6 +1243,7 @@ ApplicationWindow {
                     orange: window.orange
                     magenta: window.magenta
                     onOpenMcpControlRequested: function(targetId) { window.openMcpChat(targetId) }
+                    onOpenMcpGatewayRequested: function() { window.closeTransientWorkspaces(); window.selectedIndex = 27 }
                 }
 
                 SystemSettingsPage {
