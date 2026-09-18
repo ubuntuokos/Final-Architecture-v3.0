@@ -187,8 +187,12 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-070","Stability provider portfolio gate is not bound into global enforcement policy"))
     if "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-046","Developer-agent coordination gate is not bound into global enforcement policy"))
-    if "FA3-INTEGRATION-BROKER-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-109","Human-approved integration broker gate is not bound into global enforcement policy"))
+    if not (
+        pol.get("integration_broker_gate_id") == "FA3-INTEGRATION-BROKER-GATESET-001"
+        and pol.get("integration_broker_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("integration_broker_global_static_required") is True
+    ):
+        fs.append(finding("FA3-STATIC-109","Human-approved integration broker cross-cutting static binding is invalid"))
     if "FA3-CODEX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-048","Codex adapter gate is not bound into global enforcement policy"))
     if "FA3-AUTOGPT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
