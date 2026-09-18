@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HU-AQC-001",
+  "name": "Hungarian Automated Quality Control for Text and Speech",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
+  "contracts": [
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+    "FA3-VOICE-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-VOICE-001",
+    "FA3-STT-MEDIA-001",
+    "FA3-MARKETING-001"
+  ],
+  "locale": "hu-HU",
+  "measurement_dimensions": {
+    "text": [
+      "LANGUAGE_CONFIDENCE",
+      "GRAMMAR_STYLE",
+      "TEGEZES_MAGAZAS_REGISTER_CONSISTENCY",
+      "TERMINOLOGY",
+      "TOXICITY_POLICY"
+    ],
+    "intelligibility": [
+      "ASR_BACK_TRANSCRIPTION_CER",
+      "ASR_BACK_TRANSCRIPTION_WER"
+    ],
+    "naturalness": [
+      "PROVIDER_NEUTRAL_PERCEPTUAL_SPEECH_QUALITY"
+    ],
+    "speaker_identity": [
+      "SPEAKER_EMBEDDING_SIMILARITY_IF_CLONING"
+    ],
+    "signal_integrity": [
+      "CLIPPING",
+      "LOUDNESS",
+      "SILENCE_RATIO",
+      "FINITE_AUDIO"
+    ]
+  },
+  "default_thresholds": {
+    "language_confidence_min": 0.98,
+    "grammar_score_min": 0.9,
+    "toxicity_score_max": 0.05,
+    "asr_cer_max": 0.04,
+    "asr_wer_max": 0.08,
+    "perceptual_quality_min": 0.75,
+    "speaker_similarity_min_if_cloning": 0.75,
+    "clipping_ratio_max": 0.001,
+    "silence_ratio_max": 0.2
+  },
+  "scorer_policy": {
+    "single_judge_model_authority": false,
+    "perceptual_scorer_provider_neutral": true,
+    "nisqa_code_role": "OPTIONAL_REFERENCE_IMPLEMENTATION",
+    "nisqa_published_pretrained_weights": "LICENSE_ADMISSION_REQUIRED_CC_BY_NC_SA_4_0_NOT_COMMERCIAL_BASELINE",
+    "commercially_distributed_runtime_requires": "COMMERCIAL_COMPATIBLE_WEIGHTS_OR_OWN_RETRAINED_SCORER"
+  },
+  "human_review_policy": {
+    "per_artifact_default_required": false,
+    "calibration_and_golden_corpus_required": true,
+    "threshold_change_requires_review": true,
+    "drift_sampling_required": true
+  },
+  "invariants": [
+    "NATURALNESS_INTELLIGIBILITY_AND_SPEAKER_IDENTITY_ARE_SEPARATE_SIGNALS",
+    "ASR_BACK_TRANSCRIPTION_REQUIRED_FOR_PRODUCTION_HU_SPEECH",
+    "SPEAKER_SIMILARITY_REQUIRED_ONLY_WHEN_CLONING",
+    "SINGLE_MODEL_OR_METRIC_CANNOT_SELF_AUTHORIZE_PRODUCTION",
+    "LICENSE_ADMISSION_REQUIRED_FOR_SCORER_MODELS_AND_WEIGHTS",
+    "HUMAN_REVIEW_MOVES_TO_CALIBRATION_NOT_REMOVED",
+    "FAILED_REQUIRED_DIMENSION_FAILS_CLOSED"
+  ],
+  "current_host_runtime_status": "PENDING_CURRENT_HOST_HU_AQC_CALIBRATION",
+  "current_host_runtime_promotion_claimed": false
+}

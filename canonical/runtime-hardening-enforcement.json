@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.runtime-hardening-enforcement.v1",
+  "gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "rules": {
+    "hrb_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001_ONLY",
+    "runtime_launcher_resource_authority": "DENY",
+    "environment_variable_resource_authority": "DENY",
+    "arbitrary_agent_host_subprocess": "DENY",
+    "agent_network_default": "DENY",
+    "agent_workspace": "EPHEMERAL_OVERLAY",
+    "accelerated_neural_media_claim": "ZERO_HOST_ROUND_TRIP",
+    "nvidia_primary_ai_frame_provider": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "ffmpeg_media_core": "REQUIRED_PRESERVED",
+    "hu_aqc": "MULTI_SIGNAL_FAIL_CLOSED",
+    "nisqa_pretrained_noncommercial_weights_as_commercial_baseline": "DENY",
+    "shadow_authoritative_output": "DENY",
+    "shadow_external_side_effects": "DENY",
+    "shadow_can_assign_promoted": "DENY",
+    "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS"
+  }
+}

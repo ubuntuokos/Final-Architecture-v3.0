@@ -1,11 +1,15 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-VOICE-001",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "name": "Provider-Neutral Local Speech Synthesis, Voice Cloning, Identity, Consent & Voice Asset Governance Fabric",
   "status": "CANONICAL_MATERIALIZED",
   "obligation": "P0/MUST-IF-VOICE-SYNTHESIS-USED",
-  "capability_projection": ["CAP-115", "CAP-116", "CAP-117"],
+  "capability_projection": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
   "parent_architecture": "FA3-AUDIO-001",
   "canonical_root": false,
   "architectural_authority": false,
@@ -24,7 +28,9 @@
     "VoiceProviderDecisionReceipt",
     "VoiceMediaProjection",
     "VoiceQualityReport",
-    "VoiceExecutionEvidence"
+    "VoiceExecutionEvidence",
+    "HungarianQualityPlan",
+    "HungarianQualityReceipt"
   ],
   "contracts": "FA3-VOICE-CONTRACTS-001",
   "provider_admission": "FA3-VOICE-PROVIDER-ADMISSION-001",
@@ -48,7 +54,10 @@
     "native-rate master plus explicit 48 kHz PCM media-mezzanine projection lineage",
     "synthetic-audio disclosure and misuse-policy metadata",
     "isolated provider runtime outside application and ComfyUI environments",
-    "disabled optional provider has zero or near-zero runtime cost"
+    "disabled optional provider has zero or near-zero runtime cost",
+    "production hu-HU synthesis requires FA3-HU-AQC-001 multi-signal automated quality receipt",
+    "naturalness, intelligibility and speaker similarity remain independent quality dimensions",
+    "quality scorer code, models and weights require separate license admission"
   ],
   "hungarian_baseline": {
     "locale": "hu-HU",
@@ -70,6 +79,10 @@
     "current_host_real_audio_e2e_required_per_enabled_provider": true,
     "language_quality_evidence_required": true,
     "hungarian_golden_corpus_required": true,
-    "provider_runtime_required_for_global_promotion_when_disabled": false
-  }
+    "provider_runtime_required_for_global_promotion_when_disabled": false,
+    "hu_aqc_profile": "FA3-HU-AQC-001",
+    "automated_multi_signal_quality_gate_required": true,
+    "human_review_role": "CALIBRATION_GOLDEN_CORPUS_THRESHOLD_DRIFT_NOT_PER_ARTIFACT_DEFAULT"
+  },
+  "hu_aqc_profile_id": "FA3-HU-AQC-001"
 }

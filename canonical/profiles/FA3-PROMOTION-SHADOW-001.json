@@ -1,0 +1,86 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-PROMOTION-SHADOW-001",
+  "name": "Shadow/Canary Execution and Evidence Accumulation Without Promotion Authority",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001"
+  ],
+  "axes": {
+    "current_host_evidence": [
+      "PENDING_CURRENT_HOST",
+      "PASS",
+      "FAIL"
+    ],
+    "execution_mode": [
+      "DEV",
+      "SHADOW",
+      "PRODUCTION"
+    ]
+  },
+  "execution_matrix": {
+    "PENDING_CURRENT_HOST": {
+      "DEV": "ALLOW_NON_AUTHORITATIVE",
+      "SHADOW": "ALLOW_NON_AUTHORITATIVE_IF_SANDBOXED",
+      "PRODUCTION": "DENY"
+    },
+    "PASS": {
+      "DEV": "ALLOW_NON_AUTHORITATIVE",
+      "SHADOW": "ALLOW_NON_AUTHORITATIVE",
+      "PRODUCTION": "ALLOW_ONLY_WITH_FULL_CANONICAL_PROMOTION_GATE"
+    },
+    "FAIL": {
+      "DEV": "ALLOW_DIAGNOSTIC_ONLY",
+      "SHADOW": "DENY",
+      "PRODUCTION": "DENY"
+    }
+  },
+  "shadow_requirements": {
+    "input": [
+      "SYNTHETIC",
+      "READ_ONLY_MIRROR",
+      "SANITIZED_MIRROR"
+    ],
+    "production_data_requires_governance_admission": true,
+    "authoritative_output": false,
+    "external_side_effects": false,
+    "output_quarantine": true,
+    "evidence_collection": true,
+    "workspace_ephemeral": true,
+    "network": [
+      "DENY",
+      "LEASE_SCOPED"
+    ]
+  },
+  "production_requirements": {
+    "current_host_evidence": "PASS",
+    "acceptance_criteria_passed": 19,
+    "acceptance_criteria_total": 19,
+    "canonical_promotion_gate": "PASS",
+    "human_promotion_receipt_requirement": "UNCHANGED"
+  },
+  "shadow_may_advance_to": [
+    "CURRENT_HOST_PASS",
+    "PROMOTION_ELIGIBLE"
+  ],
+  "shadow_may_never_assign": [
+    "PROMOTED"
+  ],
+  "promotion_authority": "EXISTING_FA3_CANONICAL_PROMOTION_GATE_ONLY",
+  "invariants": [
+    "PENDING_CURRENT_HOST_DOES_NOT_EQUAL_PRODUCTION_AUTHORITY",
+    "SHADOW_OUTPUT_ALWAYS_NON_AUTHORITATIVE",
+    "SHADOW_EXTERNAL_SIDE_EFFECTS_FORBIDDEN",
+    "SHADOW_CANNOT_ASSIGN_PROMOTED",
+    "PRODUCTION_STILL_REQUIRES_CURRENT_HOST_PASS_AND_19_OF_19_ACCEPTANCE",
+    "FAIL_CLOSED_PROMOTION_SEMANTICS_UNCHANGED",
+    "REAL_PRODUCTION_DATA_SHADOWING_REQUIRES_DATA_GOVERNANCE_ADMISSION"
+  ]
+}

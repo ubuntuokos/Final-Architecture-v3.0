@@ -84,8 +84,10 @@ def reference_check(root: Path) -> dict[str, Any]:
 
     if not (
         profile.get("id") == PROFILE_ID
-        and profile.get("version") == "1.1.0"
+        and profile.get("version") == "1.2.0"
         and CONTRACT_ID in profile.get("contracts", [])
+        and profile.get("sandbox_profile") == "FA3-AGENT-SANDBOX-001"
+        and "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN" in profile.get("invariants", [])
         and profile.get("capability_count") == CAPABILITY_COUNT
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
