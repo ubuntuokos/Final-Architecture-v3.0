@@ -22,6 +22,12 @@ UPSTREAM_VERSION = "1.8.2"
 UPSTREAM_COMMIT = "bda946b4b6fffaaf6926aa8809bc62e0098f30e8"
 MCPB_SHA256 = "972705b6991a5291112db368fafccf2ce89926a8a0318601cba89bff4adc5de2"
 REQUIRED_TOOLS = {"process_document", "get_document", "get_document_structure", "get_page_content"}
+EXPECTED_REQUIRED_FIELDS = {
+    "process_document": {"url"},
+    "get_document": {"doc_name"},
+    "get_document_structure": {"doc_name"},
+    "get_page_content": {"doc_name", "pages"},
+}
 RETRIEVE_TOOL_MAP = {"metadata": "get_document", "structure": "get_document_structure", "pages": "get_page_content"}
 SECRET_KEY_FRAGMENTS = ("token", "authorization", "credential", "secret", "api_key", "apikey")
 
@@ -247,7 +253,21 @@ class PageIndexMcpAdapter:
         missing = sorted(REQUIRED_TOOLS - set(tools))
         if missing:
             raise GatewayDenied("PAGEINDEX_REQUIRED_TOOLS_MISSING", "Missing required PageIndex tools: " + ",".join(missing))
-        return {"provider_id": PROVIDER_ID, "server_info": session.server_info, "tools": sorted(tools), "required_tools": sorted(REQUIRED_TOOLS)}
+        for name, required_fields in EXPECTED_REQUIRED_FIELDS.items():
+            schema = tools[name].get("inputSchema", {})
+            actual_required = set(schema.get("required", [])) if isinstance(schema, dict) else set()
+            if not required_fields.issubset(actual_required):
+                raise GatewayDenied(
+                    "PAGEINDEX_REMOTE_CONTRACT_DRIFT",
+                    f"PageIndex tool schema drift for {name}: required={sorted(actual_required)}",
+                )
+        return {
+            "provider_id": PROVIDER_ID,
+            "server_info": session.server_info,
+            "tools": sorted(tools),
+            "required_tools": sorted(REQUIRED_TOOLS),
+            "contract_required_fields": {name: sorted(fields) for name, fields in EXPECTED_REQUIRED_FIELDS.items()},
+        }
 
     def _validate_source(self, source: Any) -> str:
         if not isinstance(source, str) or not source.strip():
@@ -300,24 +320,58 @@ class PageIndexMcpAdapter:
             upstream_args["folder_id"] = folder_id
         result = self._call("process_document", upstream_args)
         decoded = extract_json_text(result)
-        return {"provider": PROVIDER_ID, "operation": "index_pdf", "doc_id": find_doc_id(decoded), "upstream_result": result}
+        parsed = urlparse(source)
+        if parsed.scheme:
+            document_name = arguments.get("document_name")
+            if not isinstance(document_name, str) or not document_name.strip():
+                raise GatewayDenied(
+                    "PAGEINDEX_DOCUMENT_NAME_REQUIRED",
+                    "document_name is required for remote URL indexing because the final uploaded filename may differ from the URL path",
+                )
+            document_name = document_name.strip()
+        else:
+            supplied_name = arguments.get("document_name")
+            document_name = supplied_name.strip() if isinstance(supplied_name, str) and supplied_name.strip() else Path(source).name
+        return {
+            "provider": PROVIDER_ID,
+            "operation": "index_pdf",
+            "doc_id": find_doc_id(decoded),
+            "document_name": document_name,
+            "folder_id": arguments.get("folder_id"),
+            "upstream_result": result,
+        }
 
     def retrieve(self, arguments: dict[str, Any]) -> dict[str, Any]:
         operation = arguments.get("operation")
-        doc_id = arguments.get("doc_id")
+        document_name = arguments.get("document_name")
         if operation not in RETRIEVE_TOOL_MAP:
             raise GatewayDenied("PAGEINDEX_SCHEMA", "operation must be metadata, structure or pages")
-        if not isinstance(doc_id, str) or not doc_id.strip():
-            raise GatewayDenied("PAGEINDEX_SCHEMA", "doc_id is required")
+        if not isinstance(document_name, str) or not document_name.strip():
+            raise GatewayDenied("PAGEINDEX_SCHEMA", "document_name is required")
         tool = RETRIEVE_TOOL_MAP[operation]
-        upstream_args: dict[str, Any] = {"doc_id": doc_id.strip()}
+        upstream_args: dict[str, Any] = {"doc_name": document_name.strip()}
+        folder_id = arguments.get("folder_id")
+        if folder_id is not None:
+            if not isinstance(folder_id, str) or not folder_id.strip():
+                raise GatewayDenied("PAGEINDEX_SCHEMA", "folder_id must be a non-empty string or omitted")
+            upstream_args["folder_id"] = folder_id.strip()
+        if "wait_for_completion" in arguments:
+            if not isinstance(arguments["wait_for_completion"], bool):
+                raise GatewayDenied("PAGEINDEX_SCHEMA", "wait_for_completion must be boolean")
+            upstream_args["wait_for_completion"] = arguments["wait_for_completion"]
         if operation == "pages":
             pages = arguments.get("pages")
             if not isinstance(pages, str) or not pages.strip():
                 raise GatewayDenied("PAGEINDEX_SCHEMA", "pages is required for pages operation")
             upstream_args["pages"] = pages.strip()
         result = self._call(tool, upstream_args)
-        return {"provider": PROVIDER_ID, "operation": operation, "upstream_tool": tool, "upstream_result": result}
+        return {
+            "provider": PROVIDER_ID,
+            "operation": operation,
+            "upstream_tool": tool,
+            "document_name": document_name.strip(),
+            "upstream_result": result,
+        }
 
 
 def build_adapters(config: PageIndexAdapterConfig) -> tuple[Adapter, Adapter]:
