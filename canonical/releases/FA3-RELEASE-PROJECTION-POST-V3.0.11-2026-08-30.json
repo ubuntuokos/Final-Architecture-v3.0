@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8bef70b7ea9207d0cfd8ddd69a01387a61bf8a1a",
-    "pre_projection_root_tree_sha": "88c1a537c7c83f4489227ba66a4a22d5e221700f",
-    "pre_projection_canonical_tree_sha": "0320465f910560a540e9cbd24bf5fec8a314259e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 424,
-    "total_post_baseline_commits": 424,
-    "delta_file_count": 1358,
-    "delta_added_files": 1353,
+    "pre_projection_head_sha": "8d157a6031fb457fb9c73d71e54954d8f10c019a",
+    "pre_projection_root_tree_sha": "ccfa782cd76b50b705b8ab3b2f9236bb1209bb2d",
+    "pre_projection_canonical_tree_sha": "4933e62f88b3460e6beaff9999fed02f7111745d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 431,
+    "total_post_baseline_commits": 431,
+    "delta_file_count": 1368,
+    "delta_added_files": 1363,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 670,
-    "evidence_files_in_post_baseline_delta": 127,
-    "source_files_in_post_baseline_delta": 162,
-    "test_files_in_post_baseline_delta": 142,
-    "workflow_files_in_post_baseline_delta": 58,
+    "canonical_files_in_post_baseline_delta": 671,
+    "evidence_files_in_post_baseline_delta": 129,
+    "source_files_in_post_baseline_delta": 165,
+    "test_files_in_post_baseline_delta": 143,
+    "workflow_files_in_post_baseline_delta": 59,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -498,6 +498,7 @@
       "evidence/reference/fa3-journal-archive-reference.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/fa3-os-current-host-2026-09-18.json",
+      "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
@@ -744,7 +745,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1351,
+  "manifest_entry_count": 1361,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -934,6 +935,11 @@
     {
       "path": ".github/workflows/fa3-os-current-host.yml",
       "git_blob_sha": "d591d237f9be624172b7ad0ba3ef73d20c6b7f78",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-os-mcp-agent-exposure.yml",
+      "git_blob_sha": "e9cbaf1634c777571a231b57e2168cb3f5b35cb5",
       "baseline_delta_status": "added"
     },
     {
@@ -1418,7 +1424,7 @@
     },
     {
       "path": "bin/fa3-mcp-gateway",
-      "git_blob_sha": "0d0f7f7ad75da70b61b763c14aefb9155e9eadb3",
+      "git_blob_sha": "e7ab766979ca04634acfbe08f7e736043b710ead",
       "baseline_delta_status": "added"
     },
     {
@@ -1464,6 +1470,11 @@
     {
       "path": "bin/fa3-os",
       "git_blob_sha": "2bd2f773230fcb2a39ae27f5a7b25facdc1a4615",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-os-mcp-agent-exposure-install",
+      "git_blob_sha": "23dedf35a0ace5e71cb46cfb10938ca366105b1d",
       "baseline_delta_status": "added"
     },
     {
@@ -2059,6 +2070,11 @@
     {
       "path": "canonical/FA3-OPENFX-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "6f5d2b82c7756cadc472e87e8e6f298844fd1f83",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-OS-MCP-AGENT-EXPOSURE-CONFORMANCE-001.json",
+      "git_blob_sha": "4449e5521df2f4aec9a95ce28c52ed5c71071e59",
       "baseline_delta_status": "added"
     },
     {
@@ -3383,7 +3399,7 @@
     },
     {
       "path": "canonical/mcp-capability-registry.json",
-      "git_blob_sha": "6063ed0015e56b6e7a009ebb9605ec7e39d1fe5d",
+      "git_blob_sha": "1ad90805b9502bde59ced45c8c453593f4670074",
       "baseline_delta_status": "added"
     },
     {
@@ -4937,6 +4953,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in",
+      "git_blob_sha": "3152a94e877ff35bcf146176adcb7eb91579f660",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/mcp-gateway/fa3-mcp-gateway.service",
       "git_blob_sha": "ddd8330d6f209f3a44ea882fd2f9f06c22192406",
       "baseline_delta_status": "added"
@@ -5237,6 +5258,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/collect-fa3-os-mcp-agent-exposure-current-host.py",
+      "git_blob_sha": "b4adb79e185918d61ab811c4695c93fdf563d192",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-fa3-os-runtime-current-host.py",
       "git_blob_sha": "c89daf2dfd4232f23d37f1e03b953d5accc1e120",
       "baseline_delta_status": "added"
@@ -5494,6 +5520,11 @@
     {
       "path": "evidence/reference/fa3-os-current-host-2026-09-18.json",
       "git_blob_sha": "0b9b94112707a4a9225bc96e896cfc4e723e3799",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
+      "git_blob_sha": "855a63ae445e46979848ebdde2e96b2715285d64",
       "baseline_delta_status": "added"
     },
     {
@@ -6358,7 +6389,7 @@
     },
     {
       "path": "src/fa3_mcp_gateway.py",
-      "git_blob_sha": "6b84fd940f9aa0548c7c65293be18833a8484399",
+      "git_blob_sha": "25b52d7ba2af9dca5902c24f1adda7b30f366fe2",
       "baseline_delta_status": "added"
     },
     {
@@ -6368,7 +6399,12 @@
     },
     {
       "path": "src/fa3_mcp_gateway_server.py",
-      "git_blob_sha": "17b4d4128c7b6854cffa65daa2f6b1b20c3bdb82",
+      "git_blob_sha": "f1ac900b93ca3d665c587627d774d10a44ebf8b7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_mcp_unix_client.py",
+      "git_blob_sha": "c9b6be50383f24272b93de16b4bfc65c735942b5",
       "baseline_delta_status": "added"
     },
     {
@@ -6538,7 +6574,12 @@
     },
     {
       "path": "src/fa3_os_mcp_adapter.py",
-      "git_blob_sha": "d0d81970843ea1d76110a4365c80a12165c266ec",
+      "git_blob_sha": "c7c3add4c6ec2a697c23bc82bcccc3e028ecb415",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_os_mcp_agent_exposure_gate.py",
+      "git_blob_sha": "237926e400cd96b5071a30618e4f76512e5411d0",
       "baseline_delta_status": "added"
     },
     {
@@ -6639,6 +6680,11 @@
     {
       "path": "src/fa3_resource_evidence_normalization_gate.py",
       "git_blob_sha": "068b1c4b9d449deef45ed3b3160cf3494c3c5c2c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_security_policy_plane.py",
+      "git_blob_sha": "109af5e95050f6bdf698fdfc7bb67df982bb31e9",
       "baseline_delta_status": "added"
     },
     {
@@ -6944,6 +6990,11 @@
     {
       "path": "tests/test_fa3_os_global_reconciliation.py",
       "git_blob_sha": "7fcbd09efb2e56a1c8ba900d703f18891e9a25ee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_fa3_os_mcp_agent_exposure.py",
+      "git_blob_sha": "283ac31db08f8bc653c126a7bde3637ec81908a2",
       "baseline_delta_status": "added"
     },
     {

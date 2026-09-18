@@ -5,6 +5,9 @@ import argparse
 import importlib
 import json
 import os
+import socket
+import socketserver
+import struct
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Mapping
@@ -13,6 +16,21 @@ from fa3_mcp_gateway import Adapter, McpGateway
 
 MODERN_PROTOCOL_VERSION = "2026-07-28"
 SERVER_INFO = {"name": "fa3-central-mcp-gateway", "version": "3.0"}
+
+
+def load_policy_resolver(spec: str | None = None):
+    raw = spec if spec is not None else os.environ.get("FA3_MCP_POLICY_RESOLVER", "")
+    raw = raw.strip()
+    if not raw:
+        return None
+    if ":" not in raw:
+        raise RuntimeError(f"Invalid MCP policy resolver reference: {raw}")
+    module_name, function_name = raw.split(":", 1)
+    return getattr(importlib.import_module(module_name), function_name)
+
+
+class ThreadingUnixHTTPServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
+    daemon_threads = True
 
 
 def load_adapter_factories(gateway: McpGateway, specs: str | None = None) -> int:
@@ -116,7 +134,12 @@ def _tool_catalog(gateway: McpGateway) -> list[dict[str, Any]]:
     return rows
 
 
-def handle_mcp_rpc(gateway: McpGateway, body: dict[str, Any], headers: Mapping[str, str]) -> dict[str, Any]:
+def handle_mcp_rpc(
+    gateway: McpGateway,
+    body: dict[str, Any],
+    headers: Mapping[str, str],
+    peer_context: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Handle the canonical MCP 2026-07-28 stateless request path."""
     if body.get("jsonrpc") != "2.0":
         return _rpc_error(body.get("id"), -32600, "jsonrpc must be 2.0", "INVALID_SCHEMA")
@@ -165,11 +188,12 @@ def handle_mcp_rpc(gateway: McpGateway, body: dict[str, Any], headers: Mapping[s
             "arguments": arguments,
             "provider_id": governance.get("provider_id"),
             "policy_decision": governance.get("policy_decision"),
+            "policy_request": governance.get("policy_request"),
             "approval": governance.get("approval"),
             "hrb_lease": governance.get("hrb_lease"),
             "secret_refs": governance.get("secret_refs", []),
         }
-        receipt = gateway.invoke(request)
+        receipt = gateway.invoke(request, peer_context=peer_context)
         return _result(request_id, {
             "content": [{"type": "text", "text": json.dumps(receipt, ensure_ascii=False, sort_keys=True)}],
             "structuredContent": {"receipt": receipt},
@@ -181,6 +205,17 @@ def handle_mcp_rpc(gateway: McpGateway, body: dict[str, Any], headers: Mapping[s
 
 class Handler(BaseHTTPRequestHandler):
     gateway: McpGateway
+
+    def _peer_context(self) -> dict[str, Any]:
+        if getattr(self.server, "address_family", None) != socket.AF_UNIX:
+            return {"transport": "tcp", "address": str(self.client_address)}
+        size = struct.calcsize("3i")
+        pid, uid, gid = struct.unpack("3i", self.connection.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, size))
+        try:
+            cgroup = Path(f"/proc/{pid}/cgroup").read_text(encoding="utf-8")
+        except Exception:
+            cgroup = ""
+        return {"transport": "unix", "pid": pid, "uid": uid, "gid": gid, "cgroup": cgroup}
 
     def _send(self, status: int, payload: Any, extra_headers: Mapping[str, str] | None = None) -> None:
         raw = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -237,14 +272,17 @@ class Handler(BaseHTTPRequestHandler):
 
         if self.path == "/mcp":
             headers = {key: value for key, value in self.headers.items()}
-            self._send(200, handle_mcp_rpc(self.gateway, payload, headers))
+            self._send(200, handle_mcp_rpc(self.gateway, payload, headers, peer_context=self._peer_context()))
             return
 
         if self.path not in {"/invoke", "/v1/dispatch"}:
             self._send(404, {"error": "NOT_FOUND"})
             return
 
-        receipt = self.gateway.invoke(payload)
+        if "_peer_context" in payload:
+            self._send(400, {"error": "RESERVED_FIELD"})
+            return
+        receipt = self.gateway.invoke(payload, peer_context=self._peer_context())
         self._send(200 if receipt["result_status"] == "success" else 403, receipt)
 
 
@@ -253,12 +291,32 @@ def main() -> int:
     parser.add_argument("--registry", default="canonical/mcp-capability-registry.json")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=18790)
+    parser.add_argument("--unix-socket")
     args = parser.parse_args()
-    if args.host not in {"127.0.0.1", "::1", "localhost"}:
-        raise SystemExit("Refusing non-loopback bind without a separate canonical exposure profile")
-    gateway = McpGateway.from_path(Path(args.registry))
+    resolver = load_policy_resolver()
+    gateway = McpGateway.from_path(Path(args.registry), policy_resolver=resolver)
     load_adapter_factories(gateway)
     Handler.gateway = gateway
+    if args.unix_socket:
+        sock = Path(args.unix_socket).expanduser()
+        sock.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            sock.unlink()
+        except FileNotFoundError:
+            pass
+        server = ThreadingUnixHTTPServer(str(sock), Handler)
+        os.chmod(sock, 0o600)
+        try:
+            server.serve_forever()
+        finally:
+            server.server_close()
+            try:
+                sock.unlink()
+            except FileNotFoundError:
+                pass
+        return 0
+    if args.host not in {"127.0.0.1", "::1", "localhost"}:
+        raise SystemExit("Refusing non-loopback bind without a separate canonical exposure profile")
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     server.serve_forever()
     return 0

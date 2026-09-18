@@ -148,7 +148,34 @@
       ],
       "approval": "policy",
       "hrb_required": false,
-      "providers": []
+      "providers": [
+        {
+          "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+          "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
+          "state": "CONNECTED",
+          "priority": 10,
+          "transport": "unix-user-service",
+          "approval_override": "policy",
+          "evidence_ref": "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
+          "gate_id": "FA3-OS-MCP-AGENT-EXPOSURE-GATESET-001",
+          "policy_mode": "external_resolver",
+          "identity_scope": {
+            "actor_prefixes": [
+              "FA3-AGENT-"
+            ],
+            "client_ids": [
+              "fa3-agent-runtime"
+            ]
+          },
+          "require_scoped_arguments": true,
+          "policy_scope_arguments": [
+            "project_id",
+            "workstream_id"
+          ],
+          "require_policy_purpose": true,
+          "receipt_audit_required": true
+        }
+      ]
     },
     {
       "capability_id": "fa3.3d.mesh.generate",

@@ -4,6 +4,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HOST="${FA3_MCP_GATEWAY_HOST:-127.0.0.1}"
 PORT="${FA3_MCP_GATEWAY_PORT:-18790}"
 REGISTRY="${FA3_MCP_CAPABILITY_REGISTRY:-$ROOT/canonical/mcp-capability-registry.json}"
+UNIX_SOCKET="${FA3_MCP_GATEWAY_UNIX_SOCKET:-}"
+
+if [[ -n "$UNIX_SOCKET" ]]; then
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" \
+    python3 "$ROOT/src/fa3_mcp_gateway_server.py" \
+    --registry "$REGISTRY" --unix-socket "$UNIX_SOCKET"
+fi
 
 case "$HOST" in
   127.0.0.1|localhost|::1) ;;

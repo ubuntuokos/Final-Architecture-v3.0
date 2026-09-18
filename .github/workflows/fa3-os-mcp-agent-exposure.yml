@@ -1,0 +1,86 @@
+name: FA3 OS MCP Agent Exposure
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-OS-MCP-AGENT-EXPOSURE-CONFORMANCE-001.json'
+      - 'canonical/FA3-OS-RUNTIME-CONFORMANCE-001.json'
+      - 'canonical/mcp-capability-registry.json'
+      - 'src/fa3_mcp_gateway.py'
+      - 'src/fa3_mcp_gateway_server.py'
+      - 'src/fa3_mcp_unix_client.py'
+      - 'src/fa3_security_policy_plane.py'
+      - 'src/fa3_os_mcp_adapter.py'
+      - 'src/fa3_os_mcp_agent_exposure_gate.py'
+      - 'evidence/collect-fa3-os-mcp-agent-exposure-current-host.py'
+      - 'evidence/reference/fa3-os-mcp-agent-exposure-*'
+      - 'deployment/mcp-gateway/fa3-mcp-gateway-user.service.in'
+      - 'bin/fa3-mcp-gateway'
+      - 'bin/fa3-os-mcp-agent-exposure-install'
+      - 'tests/test_fa3_os_mcp_agent_exposure.py'
+      - '.github/workflows/fa3-os-mcp-agent-exposure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-os-mcp-agent-exposure-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    name: fa3-os-mcp-agent-exposure / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: |
+          python -m py_compile             src/fa3_mcp_gateway.py             src/fa3_mcp_gateway_server.py             src/fa3_mcp_unix_client.py             src/fa3_security_policy_plane.py             src/fa3_os_mcp_adapter.py             src/fa3_os_mcp_agent_exposure_gate.py             evidence/collect-fa3-os-mcp-agent-exposure-current-host.py
+          bash -n bin/fa3-mcp-gateway
+          bash -n bin/fa3-os-mcp-agent-exposure-install
+      - name: Agent-exposure regressions
+        run: PYTHONPATH=src python -m unittest tests.test_fa3_os_mcp_agent_exposure tests.test_mcp_gateway_current_host -v
+      - name: Static agent-exposure gate
+        run: PYTHONPATH=src python src/fa3_os_mcp_agent_exposure_gate.py --repo-root .
+
+  current-host:
+    name: fa3-os-mcp-agent-exposure / real-execution
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Prove runner and user-systemd prerequisites
+        run: |
+          bash bin/fa3-current-host-runner-doctor
+          systemctl --user --version
+          systemd-run --user --version
+      - name: Collect persistent agent-exposure evidence
+        run: |
+          set -o pipefail
+          mkdir -p evidence/receipts reports/fa3-os-mcp-agent-exposure
+          PYTHONPATH=src python3 evidence/collect-fa3-os-mcp-agent-exposure-current-host.py             --output evidence/receipts/fa3-os-mcp-agent-exposure-current-host.json             | tee reports/fa3-os-mcp-agent-exposure/collector.txt
+      - name: Enforce fresh current-host evidence
+        run: |
+          set -o pipefail
+          PYTHONPATH=src python3 src/fa3_os_mcp_agent_exposure_gate.py             --repo-root .             --require-evidence             --receipt evidence/receipts/fa3-os-mcp-agent-exposure-current-host.json             | tee reports/fa3-os-mcp-agent-exposure/gate.txt
+      - name: Upload agent-exposure evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-os-mcp-agent-exposure-current-host
+          path: |
+            evidence/receipts/fa3-os-mcp-agent-exposure-current-host.json
+            reports/fa3-os-mcp-agent-exposure/**
+          if-no-files-found: error

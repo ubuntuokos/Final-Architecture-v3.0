@@ -25,6 +25,7 @@ class Adapter:
     adapter_id: str
     provider_id: str
     handler: Callable[[dict[str, Any]], dict[str, Any]]
+    receipt_handler: Callable[[dict[str, Any], dict[str, Any]], None] | None = None
 
 
 def canonical_sha256(value: Any) -> str:
@@ -44,8 +45,13 @@ class McpGateway:
     enforced before an admitted CONNECTED adapter may be invoked.
     """
 
-    def __init__(self, registry: dict[str, Any]):
+    def __init__(
+        self,
+        registry: dict[str, Any],
+        policy_resolver: Callable[[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]], dict[str, Any]] | None = None,
+    ):
         self.registry = registry
+        self.policy_resolver = policy_resolver
         self.adapters: dict[str, Adapter] = {}
         self._capabilities = {
             item["capability_id"]: item
@@ -54,8 +60,12 @@ class McpGateway:
         }
 
     @classmethod
-    def from_path(cls, path: Path) -> "McpGateway":
-        return cls(json.loads(path.read_text(encoding="utf-8")))
+    def from_path(
+        cls,
+        path: Path,
+        policy_resolver: Callable[[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]], dict[str, Any]] | None = None,
+    ) -> "McpGateway":
+        return cls(json.loads(path.read_text(encoding="utf-8")), policy_resolver=policy_resolver)
 
     def register_adapter(self, adapter: Adapter) -> None:
         self.adapters[adapter.adapter_id] = adapter
@@ -129,6 +139,54 @@ class McpGateway:
         if not _nonempty(decision.get("decision_id")):
             raise GatewayDenied("INVALID_POLICY_DECISION", "Policy decision id is required")
 
+    def _resolve_policy(
+        self,
+        request: dict[str, Any],
+        capability: dict[str, Any],
+        binding: dict[str, Any],
+        peer_context: dict[str, Any],
+    ) -> dict[str, Any]:
+        mode = str(binding.get("policy_mode", "client_asserted"))
+        if mode == "client_asserted":
+            return request
+        if mode != "external_resolver":
+            raise GatewayDenied("INVALID_POLICY_MODE", "Unsupported provider policy mode")
+        if self.policy_resolver is None:
+            raise GatewayDenied("POLICY_RESOLVER_UNAVAILABLE", "External policy resolver is unavailable")
+        decision = self.policy_resolver(request, capability, binding, peer_context)
+        if not isinstance(decision, dict):
+            raise GatewayDenied("INVALID_POLICY_DECISION", "External policy resolver returned invalid decision")
+        effective = dict(request)
+        effective["policy_decision"] = decision
+        return effective
+
+    def _validate_policy_scope(
+        self,
+        request: dict[str, Any],
+        binding: dict[str, Any],
+    ) -> None:
+        decision = request.get("policy_decision")
+        arguments = request.get("arguments")
+        if not isinstance(decision, dict) or not isinstance(arguments, dict):
+            raise GatewayDenied("POLICY_SCOPE_MISMATCH", "Policy scope cannot be validated")
+        if binding.get("require_policy_purpose") is True and not _nonempty(decision.get("purpose")):
+            raise GatewayDenied("POLICY_SCOPE_MISMATCH", "Policy purpose is required")
+        scope = decision.get("scope")
+        if not isinstance(scope, dict):
+            scope = {}
+        scoped_keys = tuple(str(x) for x in binding.get("policy_scope_arguments", []))
+        present = 0
+        for key in scoped_keys:
+            value = str(arguments.get(key, "")).strip()
+            if not value:
+                continue
+            present += 1
+            allowed = scope.get(key + "s", [])
+            if not isinstance(allowed, list) or value not in {str(x) for x in allowed}:
+                raise GatewayDenied("POLICY_SCOPE_MISMATCH", f"Policy decision does not authorize {key}")
+        if binding.get("require_scoped_arguments") is True and present == 0:
+            raise GatewayDenied("POLICY_SCOPE_MISMATCH", "At least one scoped retrieval argument is required")
+
     def _validate_approval(
         self,
         request: dict[str, Any],
@@ -172,8 +230,9 @@ class McpGateway:
         if not isinstance(refs, list) or any(not _nonempty(ref) for ref in refs):
             raise GatewayDenied("INVALID_SECRET_REFERENCE", "Secret references must be opaque non-empty ids")
 
-    def invoke(self, request: dict[str, Any]) -> dict[str, Any]:
+    def invoke(self, request: dict[str, Any], peer_context: dict[str, Any] | None = None) -> dict[str, Any]:
         started = time.time()
+        peer_context = peer_context or {}
         actor = request.get("actor_id")
         client = request.get("client_id")
         session = request.get("session_id")
@@ -188,19 +247,21 @@ class McpGateway:
             return self._deny(request, "INVALID_SCHEMA", "Arguments must be an object", started)
 
         try:
-            self._validate_policy(request, capability)
-            self._validate_hrb(request, capability)
             self._validate_secret_refs(request)
             binding = self._select_binding(capability, request.get("provider_id"))
-            self._validate_approval(request, capability, binding)
+            effective_request = self._resolve_policy(request, capability, binding, peer_context)
+            self._validate_policy(effective_request, capability)
+            self._validate_policy_scope(effective_request, binding)
+            self._validate_hrb(effective_request, capability)
+            self._validate_approval(effective_request, capability, binding)
             adapter = self.adapters[binding["adapter_id"]]
             if adapter.provider_id != binding.get("provider_id"):
                 raise GatewayDenied("PROVIDER_BINDING_MISMATCH", "Adapter/provider binding mismatch")
             result = adapter.handler(arguments)
             if not isinstance(result, dict):
                 raise GatewayDenied("INVALID_RESULT_SCHEMA", "Adapter result must be an object")
-            return self._receipt(
-                request=request,
+            receipt = self._receipt(
+                request=effective_request,
                 status="success",
                 reason_code="DISPATCH_PASS",
                 started=started,
@@ -208,6 +269,16 @@ class McpGateway:
                 adapter_id=adapter.adapter_id,
                 result=result,
             )
+            if binding.get("receipt_audit_required") is True:
+                if adapter.receipt_handler is None:
+                    raise GatewayDenied("AUDIT_HANDLER_UNAVAILABLE", "Required retrieval audit handler is unavailable")
+                try:
+                    adapter.receipt_handler(effective_request, receipt)
+                except GatewayDenied:
+                    raise
+                except Exception as exc:
+                    raise GatewayDenied("AUDIT_WRITE_FAILED", f"Required retrieval audit failed: {type(exc).__name__}") from exc
+            return receipt
         except GatewayDenied as exc:
             return self._deny(request, exc.code, exc.message, started)
 
