@@ -3,7 +3,7 @@
   "id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
   "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
   "provider_neutral": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "contracts": [
     "MediaExecutionProviderDescriptor",
     "MediaProbeReceipt",
@@ -15,7 +15,10 @@
     "FrameServerInteropReceipt",
     "EncodeMuxReceipt",
     "MediaQualityReceipt",
-    "MediaExecutionEvidence"
+    "MediaExecutionEvidence",
+    "GPUFrameResidencyReceipt",
+    "GPUExternalMemoryInteropReceipt",
+    "GPUTransferIntegrityReceipt"
   ],
   "operations": [
     "media.probe",
@@ -59,7 +62,16 @@
     "accelerated_neural_claim_semantics": "ZERO_HOST_ROUND_TRIP",
     "host_frame_round_trip_during_neural_segment_max": 0,
     "dlpack_shared_gpu_memory_supported_path": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
-    "full_pipeline_zero_copy_marketing_claim_forbidden_without_end_to_end_proof": true
+    "full_pipeline_zero_copy_marketing_claim_forbidden_without_end_to_end_proof": true,
+    "portable_gpu_frame_fabric": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "vapoursynth_release": "R80",
+    "residency_trace_required": true,
+    "implicit_gpu_upload_download_forbidden_inside_resident_segment": true,
+    "host_pixel_materialization_forbidden_inside_resident_segment": true,
+    "vspipe_y4m_ffmpeg_zero_host_roundtrip_claim_forbidden": true,
+    "pcie_telemetry_is_primary_zero_copy_proof": false,
+    "fixed_pcie_percent_threshold_forbidden": true,
+    "foreign_api_external_memory_and_semaphore_evidence_required": true
   },
   "quality_requirements": {
     "vmaf": true,
@@ -79,7 +91,10 @@
     "provider_local_backend_routing_authority": false,
     "backend_selection_authority": "FA3-INFERENCE-PORTABILITY-001",
     "primary_nvidia_ai_frame_provider": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
-    "secondary_frameserver_adapter": "FA3-PROVIDER-VS-MLRT-001"
+    "secondary_frameserver_adapter": "FA3-PROVIDER-VS-MLRT-001",
+    "frame_fabric_provider": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "vs_mlrt_gpu_residency_assumed": false,
+    "vs_mlrt_backend_specific_current_host_e2e_required": true
   },
   "runtime_isolation": {
     "isolated_environment_required": true,
