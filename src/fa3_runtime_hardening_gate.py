@@ -42,6 +42,10 @@ PATHS = {
     "voice": "canonical/profiles/FA3-VOICE-001.json",
     "voice_routing": "canonical/FA3-VOICE-QUALITY-ROUTING-001.json",
     "policy": "canonical/enforcement-policy.json",
+    "current_host_conformance": "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+    "current_host_gate": "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+    "current_host_enforcement": "canonical/runtime-hardening-current-host-enforcement.json",
+    "current_host_decision": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
 }
 
 
@@ -211,8 +215,29 @@ def gate(root: Path) -> dict[str, Any]:
         ):
             findings.append(finding("HARDEN-001", "Profile capability/authority invariant drift", profile=record.get("id")))
 
-    if data["contract"].get("capability_count") != CAPABILITY_COUNT:
+    contract = data["contract"]
+    if contract.get("capability_count") != CAPABILITY_COUNT:
         findings.append(finding("HARDEN-002", "Runtime hardening contract capability count drift"))
+    frame_trace = contract.get("frame_copy_telemetry", {})
+    pcie_budget = contract.get("pcie_copy_budget", {})
+    current_host_contract = contract.get("current_host_closure", {})
+    if not (
+        frame_trace.get("schema") == "fa3.cuda-copy-trace.v1"
+        and frame_trace.get("neural_segment_host_to_device_frame_copy_count_max") == 0
+        and frame_trace.get("neural_segment_device_to_host_frame_copy_count_max") == 0
+        and frame_trace.get("neural_segment_host_frame_round_trips_max") == 0
+        and frame_trace.get("dlpack_shared_gpu_memory_required") is True
+        and frame_trace.get("full_pipeline_true_zero_copy_claim_requires_separate_proof") is True
+        and pcie_budget.get("role") == "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF"
+        and float(pcie_budget.get("default_current_link_utilization_ratio_max", 1)) <= 0.05
+        and float(pcie_budget.get("sampling_interval_seconds_max", 1)) <= 0.025
+        and pcie_budget.get("hardcoded_gpu_ordinal_forbidden") is True
+        and pcie_budget.get("hardcoded_gpu_sku_link_capacity_forbidden") is True
+        and current_host_contract.get("conformance_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-001"
+        and current_host_contract.get("gate_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        and current_host_contract.get("current_host_runtime_promotion_claim") is False
+    ):
+        findings.append(finding("HARDEN-018", "Current-host frame-copy/PCIe evidence contract drift"))
 
     provider = data["provider"]
     if (
@@ -306,6 +331,57 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("HARDEN-015", "Runtime hardening policy binding missing"))
     if policy.get("canonical_capability_count") != CAPABILITY_COUNT:
         findings.append(finding("HARDEN-016", "Global capability count drift"))
+
+    current_host = data["current_host_conformance"]
+    current_host_gate = data["current_host_gate"]
+    current_host_enforcement = data["current_host_enforcement"]
+    current_host_decision = data["current_host_decision"]
+    if not (
+        current_host.get("id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-001"
+        and current_host.get("current_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+        and current_host.get("global_promotion_claim") is False
+        and current_host.get("new_capabilities") == 0
+        and current_host.get("new_architectural_authorities") == 0
+        and current_host.get("capability_count_after") == CAPABILITY_COUNT
+        and current_host_gate.get("id") == "FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001"
+        and current_host_gate.get("gateset_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        and current_host_gate.get("parent_gateset_id") == GATE_ID
+        and current_host_gate.get("fail_closed") is True
+        and current_host_gate.get("synthetic_fixture_may_produce_current_host_pass") is False
+        and current_host_gate.get("component_pass_may_assign_global_promotion") is False
+        and current_host_enforcement.get("status") == "MATERIALIZED_REAL_EXECUTION_PENDING"
+        and current_host_enforcement.get("pcie_copy_budget_is_zero_copy_proof") is False
+        and current_host_enforcement.get("full_pipeline_true_zero_copy_claimed") is False
+        and current_host_decision.get("parent_gate_id") == GATE_ID
+        and current_host_decision.get("current_host_runtime_promotion_claim") is False
+    ):
+        findings.append(finding("HARDEN-019", "Runtime-hardening current-host closure materialization drift"))
+
+    if not (
+        policy.get("runtime_hardening_current_host_conformance_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-001"
+        and policy.get("runtime_hardening_current_host_gate_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        and policy.get("runtime_hardening_current_host_gate_record_id") == "FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001"
+        and policy.get("runtime_hardening_current_host_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+        and policy.get("runtime_hardening_current_host_global_promotion_claim") is False
+    ):
+        findings.append(finding("HARDEN-020", "Current-host closure is not bound into permanent policy"))
+
+    quadlet_template = root / "deployment/quadlet/fa3-agent-sandbox.container.in"
+    try:
+        template_text = quadlet_template.read_text(encoding="utf-8")
+        required_tokens = [
+            "Image=@FA3_IMAGE_DIGEST@",
+            "Network=none",
+            "ReadOnly=true",
+            "NoNewPrivileges=true",
+            "DropCapability=all",
+            "Pull=never",
+            "GlobalArgs=--runtime=runsc",
+        ]
+        if not all(token in template_text for token in required_tokens):
+            findings.append(finding("HARDEN-021", "Reference gVisor Quadlet template hardening drift"))
+    except OSError as exc:
+        findings.append(finding("HARDEN-021", "Reference gVisor Quadlet template missing", error=repr(exc)))
 
     regression_rows = regressions()
     failed = [x["name"] for x in regression_rows if x["result"] != "PASS"]
