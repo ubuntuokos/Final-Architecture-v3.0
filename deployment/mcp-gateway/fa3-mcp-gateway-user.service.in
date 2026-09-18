@@ -5,11 +5,11 @@ After=default.target
 [Service]
 Type=simple
 WorkingDirectory=@RUNTIME_ROOT@
-Environment="FA3_MCP_GATEWAY_UNIX_SOCKET=%t/fa3/mcp-gateway.sock"
-Environment="FA3_MCP_CAPABILITY_REGISTRY=@RUNTIME_ROOT@/canonical/mcp-capability-registry.json"
-Environment="FA3_MCP_ADAPTER_FACTORIES=fa3_os_mcp_adapter:create_adapters"
-Environment="FA3_MCP_POLICY_RESOLVER=fa3_security_policy_plane:resolve_policy"
-ExecStart=/usr/bin/env bash @RUNTIME_ROOT@/bin/fa3-mcp-gateway
+Environment=@ENV_SOCKET@
+Environment=@ENV_REGISTRY@
+Environment=@ENV_FACTORIES@
+Environment=@ENV_POLICY@
+ExecStart=/usr/bin/env bash @BIN_PATH@
 Restart=on-failure
 RestartSec=2
 RuntimeDirectory=fa3
