@@ -5,6 +5,9 @@ import argparse
 import importlib
 import json
 import os
+import socket
+import socketserver
+import struct
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -39,8 +42,34 @@ def load_adapter_factories(gateway: McpGateway, specs: str | None = None) -> int
     return registered
 
 
+def load_policy_resolver(spec: str | None = None):
+    raw = spec if spec is not None else os.environ.get("FA3_MCP_POLICY_RESOLVER", "")
+    raw = raw.strip()
+    if not raw:
+        return None
+    if ":" not in raw:
+        raise RuntimeError(f"Invalid MCP policy resolver reference: {raw}")
+    module_name, function_name = raw.split(":", 1)
+    return getattr(importlib.import_module(module_name), function_name)
+
+
+class ThreadingUnixHTTPServer(socketserver.ThreadingMixIn, socketserver.UnixStreamServer):
+    daemon_threads = True
+
+
 class Handler(BaseHTTPRequestHandler):
     gateway: McpGateway
+
+    def _peer_context(self) -> dict[str, Any]:
+        if getattr(self.server, "address_family", None) != socket.AF_UNIX:
+            return {"transport": "tcp", "address": str(self.client_address)}
+        size = struct.calcsize("3i")
+        pid, uid, gid = struct.unpack("3i", self.connection.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, size))
+        try:
+            cgroup = Path(f"/proc/{pid}/cgroup").read_text(encoding="utf-8")
+        except Exception:
+            cgroup = ""
+        return {"transport": "unix", "pid": pid, "uid": uid, "gid": gid, "cgroup": cgroup}
 
     def _send(self, status: int, payload: Any) -> None:
         raw = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -79,7 +108,10 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:
             self._send(400, {"error": "INVALID_JSON"})
             return
-        receipt = self.gateway.invoke(payload)
+        if "_peer_context" in payload:
+            self._send(400, {"error": "RESERVED_FIELD"})
+            return
+        receipt = self.gateway.invoke(payload, peer_context=self._peer_context())
         self._send(200 if receipt["result_status"] == "success" else 403, receipt)
 
 
@@ -88,12 +120,32 @@ def main() -> int:
     parser.add_argument("--registry", default="canonical/mcp-capability-registry.json")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=18790)
+    parser.add_argument("--unix-socket")
     args = parser.parse_args()
-    if args.host not in {"127.0.0.1", "::1", "localhost"}:
-        raise SystemExit("Refusing non-loopback bind without a separate canonical exposure profile")
-    gateway = McpGateway.from_path(Path(args.registry))
+    resolver = load_policy_resolver()
+    gateway = McpGateway.from_path(Path(args.registry), policy_resolver=resolver)
     load_adapter_factories(gateway)
     Handler.gateway = gateway
+    if args.unix_socket:
+        sock = Path(args.unix_socket).expanduser()
+        sock.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            sock.unlink()
+        except FileNotFoundError:
+            pass
+        server = ThreadingUnixHTTPServer(str(sock), Handler)
+        os.chmod(sock, 0o600)
+        try:
+            server.serve_forever()
+        finally:
+            server.server_close()
+            try:
+                sock.unlink()
+            except FileNotFoundError:
+                pass
+        return 0
+    if args.host not in {"127.0.0.1", "::1", "localhost"}:
+        raise SystemExit("Refusing non-loopback bind without a separate canonical exposure profile")
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     server.serve_forever()
     return 0
