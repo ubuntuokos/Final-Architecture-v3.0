@@ -29,6 +29,9 @@ REQUIRED = {
     "integrations_qml": ROOT / "apps/fa3-control-center/qml/IntegrationsPage.qml",
     "mcp_control_service": ROOT / "apps/fa3-control-center/src/McpControlService.cpp",
     "mcp_control_contract": ROOT / "canonical/FA3-MCP-CONTROL-CHAT-001.json",
+    "mcp_gateway_qml": ROOT / "apps/fa3-control-center/qml/McpGatewayPage.qml",
+    "mcp_gateway_service": ROOT / "apps/fa3-control-center/src/McpGatewayService.cpp",
+    "mcp_gateway_contract": ROOT / "canonical/FA3-MCP-GATEWAY-GUI-001.json",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "chat_file_service": ROOT / "apps/fa3-control-center/src/ChatFileService.cpp",
@@ -36,7 +39,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Checkpoint Manager", "External Providers Setup", "Token Control Center", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "System"]
+NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Checkpoint Manager", "External Providers Setup", "Token Control Center", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "MCP Gateway", "System"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
 
@@ -141,6 +144,8 @@ def validate() -> list[str]:
 
     for token in ["MCP Control Chat", "fa3McpControl.targets()", "openMcpControlRequested", "ADAPTER-GATED", "No fabricated CONNECTED state"]:
         if token not in integrations_qml: failures.append(f"qml-mcp-integrations-surface-missing:{token}")
+    for token in ["Central MCP Gateway", "FA3-MCP-GATEWAY-001", "openMcpGatewayRequested", "MCP Gateway megnyitása"]:
+        if token not in integrations_qml: failures.append(f"qml-mcp-gateway-integrations-link-missing:{token}")
     mcp_contract = load_json(REQUIRED["mcp_control_contract"])
     if mcp_contract.get("id") != "FA3-MCP-CONTROL-CHAT-001" or mcp_contract.get("new_architectural_authority") is not False or mcp_contract.get("capability_count_delta") != 0:
         failures.append("mcp-control-authority-contract-invalid")
@@ -148,6 +153,20 @@ def validate() -> list[str]:
         if token not in chat_qml: failures.append(f"qml-mcp-control-chat-missing:{token}")
     for token in ["function openMcpChat", "MCP Control Chat", "IntegrationsPage", "workspaceMode: window.chatWorkspaceMode", "requestedMcpTarget: window.mcpChatTarget"]:
         if token not in qml: failures.append(f"qml-mcp-control-wiring-missing:{token}")
+
+    mcp_gateway_qml = REQUIRED["mcp_gateway_qml"].read_text(encoding="utf-8")
+    mcp_gateway_service = REQUIRED["mcp_gateway_service"].read_text(encoding="utf-8")
+    mcp_gateway_contract = load_json(REQUIRED["mcp_gateway_contract"])
+    for token in ["Central MCP Gateway", "Overview", "Servers", "Tools", "Providers", "Capabilities", "Routes", "Requests", "Permissions", "Security", "Logs", "MCP Inspector", "Settings", "No fabricated CONNECTED/PASS"]:
+        if token not in mcp_gateway_qml: failures.append(f"qml-mcp-gateway-surface-missing:{token}")
+    if mcp_gateway_contract.get("id") != "FA3-MCP-GATEWAY-GUI-001" or mcp_gateway_contract.get("direct_qml_tool_invocation") is not False:
+        failures.append("mcp-gateway-page-contract-invalid")
+    for token in ["QNetworkAccessManager", "/healthz", "/readyz", "/capabilities", "directQmlExecutionAllowed"]:
+        if token not in mcp_gateway_service: failures.append(f"mcp-gateway-readonly-service-missing:{token}")
+    if "McpGatewayPage" not in qml or 'pageIndex: 27' not in qml:
+        failures.append("qml-mcp-gateway-page-wiring-missing")
+    if 'setContextProperty("fa3McpGateway"' not in REQUIRED["main_cpp"].read_text(encoding="utf-8"):
+        failures.append("mcp-gateway-service-qml-wiring-missing")
 
     token_qml = REQUIRED["token_control_qml"].read_text(encoding="utf-8")
     for token in ["Token Control Center", "FA3-TOKEN-GOVERNANCE-001", "Credentialek", "AI tokenhasználat", "Budgetek", "Költségek", "Audit", "Riasztások", "Házirendek", "VAULT / BROKER", "Plaintext secret storage forbidden"]:
@@ -177,7 +196,7 @@ def validate() -> list[str]:
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
-    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml"]:
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml"]:
         if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")

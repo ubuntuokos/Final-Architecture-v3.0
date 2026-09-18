@@ -4,6 +4,7 @@
 #include "JournalService.h"
 #include "ModelLibraryService.h"
 #include "McpControlService.h"
+#include "McpGatewayService.h"
 #include "PreferenceStore.h"
 #include "SystemDeviceModel.h"
 
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
     ChatFileService chatFiles;
     ModelLibraryService modelLibrary;
     McpControlService mcpControl;
+    McpGatewayService mcpGateway;
     AppCatalogService appCatalog;
 
     QQmlApplicationEngine engine;
@@ -58,6 +60,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3ChatFiles", &chatFiles);
     engine.rootContext()->setContextProperty("fa3ModelLibrary", &modelLibrary);
     engine.rootContext()->setContextProperty("fa3McpControl", &mcpControl);
+    engine.rootContext()->setContextProperty("fa3McpGateway", &mcpGateway);
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 

@@ -80,6 +80,8 @@ def pass_receipt() -> dict:
         "EVIDENCE_RECEIPT": "PASS",
         "TIMEOUT_CANCELLATION": "PASS",
         "AUTHORITY_NONREGRESSION": "PASS",
+        "MODERN_STATELESS_PROTOCOL": "PASS",
+        "HEADER_ROUTING": "PASS",
     })
     return {
         "schema": "fa3.mcp.current-host.evidence.v1",

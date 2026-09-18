@@ -10,7 +10,12 @@
   "receipt": "evidence/receipts/mcp-current-host.json",
   "entrypoint": "./bin/fa3-enforce mcp-current-host",
   "static_entrypoint": "./bin/fa3-enforce mcp-current-host --static",
-  "current_host_runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "current_host_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
   "capability_delta": 0,
   "authority_delta": 0,
   "global_promotion_claim": false,
@@ -29,6 +34,9 @@
     "EXECUTION_RECEIPT_EMISSION",
     "AUTHORITY_NONREGRESSION",
     "NO_DOCUMENT_ONLY_CONNECTED_PROMOTION",
-    "REAL_CURRENT_HOST_E2E_EVIDENCE_REQUIRED"
+    "REAL_CURRENT_HOST_E2E_EVIDENCE_REQUIRED",
+    "MCP_2026_07_28_STATELESS_CANONICAL",
+    "SERVER_DISCOVER_AND_HEADER_ROUTING_CONFORMANCE",
+    "NO_MCP_TRANSPORT_SESSION_ON_MODERN_PATH"
   ]
 }

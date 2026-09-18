@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.gui-projection.v1",
+  "id": "FA3-MCP-GATEWAY-GUI-001",
+  "profile": "FA3-MCP-GATEWAY-001",
+  "desktop_profile": "FA3-DESKTOP-001",
+  "priority": "P0",
+  "requirement": "MUST",
+  "surface": "FA3 Control Center / MCP Gateway",
+  "native_stack": "Qt6/QML/KDE",
+  "sections": ["Overview", "Servers", "Tools", "Providers", "Capabilities", "Routes", "Requests", "Permissions", "Security", "Logs", "MCP Inspector", "Settings"],
+  "live_read_only_endpoints": ["/healthz", "/readyz", "/capabilities"],
+  "direct_qml_tool_invocation": false,
+  "gui_self_approval": false,
+  "fabricated_connected_state": false,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "production_admitted": false
+}

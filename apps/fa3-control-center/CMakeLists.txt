@@ -27,6 +27,8 @@ qt_add_executable(fa3-control-center
     src/ModelLibraryService.h
     src/McpControlService.cpp
     src/McpControlService.h
+    src/McpGatewayService.cpp
+    src/McpGatewayService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -47,6 +49,7 @@ set_source_files_properties(qml/IntegrationsPage.qml PROPERTIES QT_RESOURCE_ALIA
 set_source_files_properties(qml/AcceleratorGuardPage.qml PROPERTIES QT_RESOURCE_ALIAS AcceleratorGuardPage.qml)
 set_source_files_properties(qml/Fa3OsPage.qml PROPERTIES QT_RESOURCE_ALIAS Fa3OsPage.qml)
 set_source_files_properties(qml/WorkManagementPage.qml PROPERTIES QT_RESOURCE_ALIAS WorkManagementPage.qml)
+set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS McpGatewayPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -71,6 +74,7 @@ qt_add_qml_module(fa3-control-center
         qml/AcceleratorGuardPage.qml
         qml/Fa3OsPage.qml
         qml/WorkManagementPage.qml
+        qml/McpGatewayPage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"

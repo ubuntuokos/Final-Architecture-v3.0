@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.reference.v1",
+  "id": "FA3-MCP-GATEWAY-MICROSOFT-REFERENCE-2026-09-18",
+  "upstream": "microsoft/mcp-gateway",
+  "upstream_url": "https://github.com/microsoft/mcp-gateway",
+  "observed_commit": "3594c4eee36308ac131aad1c946ea14140b4353d",
+  "observed_date": "2026-09-18",
+  "license": "MIT",
+  "role": ["ARCHITECTURE_REFERENCE", "IMPLEMENTATION_DONOR", "REGRESSION_REFERENCE"],
+  "runtime_dependency": false,
+  "authority": false,
+  "adopt": ["data/control plane split", "registries", "dynamic routing", "management surface", "authorization patterns"],
+  "do_not_inherit": ["Azure dependency", "Kubernetes dependency", "Entra dependency", "session-affinity canonicality", "in-process privileged agent tools"],
+  "modernization_requirement": "FA3 canonical path MUST use MCP 2026-07-28 stateless semantics regardless of upstream session-aware implementation state."
+}
