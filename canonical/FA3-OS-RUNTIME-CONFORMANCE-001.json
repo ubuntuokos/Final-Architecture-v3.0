@@ -4,11 +4,11 @@
   "profile_id": "FA3-OS-RUNTIME-001",
   "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
   "gate_id": "FA3-OS-RUNTIME-GATESET-001",
-  "status": "PENDING_CURRENT_HOST",
-  "production_admitted": false,
+  "status": "CURRENT_HOST_ADMITTED",
+  "production_admitted": true,
   "promotion_claimed": false,
   "reference_runtime_materialized": true,
-  "reference_runtime_self_test": "CI_REQUIRED",
+  "reference_runtime_self_test": "PASS",
   "gui_surface_required": true,
   "required_evidence": [
     "fresh FA3-OS-RUNTIME-GATESET-001 PASS",
@@ -19,6 +19,16 @@
     "selective-erasure and retention interaction evidence against the actual Journal storage",
     "Central Capability/MCP Gateway retrieval authorization evidence before agent exposure"
   ],
-  "evidence_present": false,
-  "normative_constraint": "Reference-runtime and hosted CI PASS SHALL NOT be treated as current-host production admission. This record remains PENDING_CURRENT_HOST until fresh target-host evidence is captured and reconciled."
+  "evidence_present": true,
+  "normative_constraint": "Current-host runtime admission is proven by durable evidence reference; this component-level PASS does not claim global FA3 promotion, does not promote the canonical MCP registry, and does not authorize autonomous agent exposure without separate gateway-adapter admission.",
+  "current_host_evidence_ref": "evidence/reference/fa3-os-current-host-2026-09-18.json",
+  "current_host_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "current_host_evidence_source_branch": "fa3/os-current-host-admission-20260917",
+  "current_host_evidence_branch_head_sha": "8660c157fb3146fa0b9b2dc0e574e0ff447dc3a5",
+  "current_host_tested_merge_sha": "576d4486695cfeb98da047125ab1de888692947e",
+  "current_host_workflow_run_id": 35297182734,
+  "current_host_real_execution_job_id": 105452073721,
+  "agent_exposure_admitted": false,
+  "agent_exposure_status": "ADAPTER_GATED",
+  "agent_exposure_requirement": "Separate canonical Central MCP Gateway adapter admission remains required before autonomous agent exposure."
 }

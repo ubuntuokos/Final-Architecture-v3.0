@@ -62,8 +62,8 @@ from pathlib import Path
 
 runner_file, api_file, out_file, repo, expected_version, labels_json = sys.argv[1:]
 required = set(json.loads(labels_json))
-local = json.loads(Path(runner_file).read_text(encoding="utf-8"))
-api = json.loads(Path(api_file).read_text(encoding="utf-8"))
+local = json.loads(Path(runner_file).read_text(encoding="utf-8-sig"))
+api = json.loads(Path(api_file).read_text(encoding="utf-8-sig"))
 name = local.get("agentName") or local.get("name")
 if not name:
     raise SystemExit("FAIL: local .runner has no agentName")
@@ -73,7 +73,8 @@ if repo.lower() not in server_url.lower() and "github.com" not in server_url.low
 remote = next((r for r in api.get("runners", []) if r.get("name") == name), None)
 if remote is None:
     raise SystemExit(f"FAIL: runner {name!r} not found in repository runner inventory")
-labels = {x.get("name") for x in remote.get("labels", []) if isinstance(x, dict)}
+raw_labels = {str(x.get("name", "")) for x in remote.get("labels", []) if isinstance(x, dict)}
+labels = {label.lower() for label in raw_labels}
 missing = sorted(required - labels)
 if missing:
     raise SystemExit("FAIL: missing runner labels: " + ", ".join(missing))
@@ -92,7 +93,7 @@ receipt = {
     "runner_version": expected_version,
     "runner_status": remote.get("status"),
     "runner_busy": bool(remote.get("busy")),
-    "labels": sorted(labels),
+    "labels": sorted(raw_labels),
     "required_labels_present": True,
     "systemd_user_service_active": True,
     "hrb_validator_bridge_ready": True,

@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.current-host-evidence-reference.v1",
+  "id": "FA3-OS-CURRENT-HOST-EVIDENCE-2026-09-18",
+  "conformance_id": "FA3-OS-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-OS-RUNTIME-001",
+  "component_scope": "FA3_OS_RUNTIME_CURRENT_HOST_ONLY",
+  "result": "PASS",
+  "status": "CURRENT_HOST_ADMITTED",
+  "production_admitted": true,
+  "global_promotion_claim": false,
+  "agent_exposure_admitted": false,
+  "agent_exposure_status": "ADAPTER_GATED",
+  "captured_at": "2026-09-18T01:55:32.417Z",
+  "source": {
+    "branch": "fa3/os-current-host-admission-20260917",
+    "branch_head_sha": "8660c157fb3146fa0b9b2dc0e574e0ff447dc3a5",
+    "tested_pull_request_merge_sha": "576d4486695cfeb98da047125ab1de888692947e",
+    "base_main_sha": "e6b3d3f61481832931f0ca5f20798a8ef4da19c7",
+    "pull_request": 224,
+    "workflow_run_id": 35297182734,
+    "workflow_run_number": 20,
+    "real_execution_job_id": 105452073721
+  },
+  "artifact": {
+    "artifact_id": 10528482865,
+    "name": "fa3-os-current-host-admission",
+    "sha256": "430b667173f40471232c21cef26ebc7347238b7331fba7e365ed2680d0e08def",
+    "expires_at": "2026-12-17T01:54:08Z",
+    "durable_reference_record": true
+  },
+  "host": {
+    "system": "Linux",
+    "release": "7.0.0-38-generic",
+    "machine": "x86_64",
+    "node": "horvath-precisiontower7910",
+    "uid": 1000
+  },
+  "required_evidence_flags": {
+    "reference_runtime_gate_pass": true,
+    "actual_journal_append_verified": true,
+    "privacy_negative_tests_passed": true,
+    "deterministic_projection_verified": true,
+    "control_center_smoke_passed": true,
+    "selective_erasure_retention_verified": true,
+    "gateway_authorization_verified": true,
+    "retrieval_audit_verified": true
+  },
+  "gateway_evidence": {
+    "mode": "CENTRAL_MCP_GATEWAY_EPHEMERAL_ADMISSION_BINDING",
+    "authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "capability": "fa3.memory.retrieve",
+    "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+    "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
+    "result_status": "success",
+    "reason_code": "DISPATCH_PASS",
+    "request_sha256": "8bb918d600ac86e0932eee4b6a7988dafbe3e2e4a4d0dc146208c7a943bfa6af",
+    "canonical_registry_mutated": false,
+    "canonical_registry_sha256_before": "f6ae3d38c601e90979680091eb94e7950e738d67dd857eed341cfa0768993015",
+    "canonical_registry_sha256_after": "f6ae3d38c601e90979680091eb94e7950e738d67dd857eed341cfa0768993015",
+    "global_gateway_promotion_claim": false
+  },
+  "invariants": {
+    "journal_authority": "FA3-JOURNAL-001",
+    "canonical_mcp_registry_promoted_by_this_evidence": false,
+    "historical_truth_authority_transferred": false,
+    "execution_authority_transferred": false,
+    "orchestration_authority_transferred": false,
+    "resource_authority_transferred": false
+  }
+}
