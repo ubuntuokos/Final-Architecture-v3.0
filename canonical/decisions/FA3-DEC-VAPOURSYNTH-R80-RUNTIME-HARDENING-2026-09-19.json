@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_CLOSED",
+  "subject": "VapourSynth R80 portable GPU-resident frame fabric, immutable Quadlet lease materialization, bounded agent execution and 22-point production promotion",
+  "decision": "INTEGRATE_VAPOURSYNTH_R80_INTO_EXISTING_RUNTIME_HARDENING_AND_EXTEND_PRODUCTION_ACCEPTANCE_TO_22_WITHOUT_NEW_AUTHORITY",
+  "refines_decision_id": "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19",
+  "profile_ids": [
+    "FA3-RUNTIME-ISOLATION-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-MEDIA-GPU-ZEROCOPY-001",
+    "FA3-PROMOTION-SHADOW-001"
+  ],
+  "contract_ids": [
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001"
+  ],
+  "provider_ids": [
+    "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "FA3-PROVIDER-VS-MLRT-001"
+  ],
+  "gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "acceptance_criteria_before": 19,
+  "acceptance_criteria_after": 22,
+  "acceptance_extension": [
+    {
+      "id": "CRIT-020",
+      "name": "Provider Isolation & Lease Materialization"
+    },
+    {
+      "id": "CRIT-021",
+      "name": "Bounded Agent Execution"
+    },
+    {
+      "id": "CRIT-022",
+      "name": "Accelerator Residency & Transfer Integrity"
+    }
+  ],
+  "architecture": {
+    "portable_gpu_frame_fabric": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "nvidia_fast_path": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "neural_runtime_adapter": "FA3-PROVIDER-VS-MLRT-001",
+    "host_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "tool_mediation_authority": "FA3-AUTH-MCP-GATEWAY-001"
+  },
+  "mandatory_semantics": [
+    "CANONICAL_QUADLET_TEMPLATE_IMMUTABLE_AND_NOT_REWRITTEN_PER_LEASE",
+    "HRB_MATERIALIZES_ROOTLESS_EPHEMERAL_QUADLET",
+    "HOST_IMPACT_AGENT_DEFAULT_GVISOR_RUNSC_IF_COMPATIBLE",
+    "DIRECT_AGENT_CONTAINER_RUNTIME_SOCKET_FORBIDDEN",
+    "CENTRAL_MCP_GATEWAY_AUTHENTICATED_UDS_DEFAULT_TOOL_CHANNEL",
+    "VAPOURSYNTH_R80_VULKAN_1_4_GPU_RESIDENCY_REFERENCE",
+    "VSVULKAN4_EXTERNAL_MEMORY_AND_TIMELINE_SEMAPHORE_INTEROP",
+    "VS_MLRT_GPU_RESIDENCY_NOT_ASSUMED",
+    "VSPIPE_Y4M_FFMPEG_NOT_ZERO_HOST_ROUND_TRIP_EVIDENCE",
+    "PCIE_NVML_TELEMETRY_CORROBORATING_ONLY"
+  ],
+  "supersession_semantics": {
+    "existing_19_point_acceptance_gate": "REFINED_TO_22_POINT_ACCEPTANCE_GATE",
+    "pcie_5_percent_zero_copy_threshold": "REJECTED_AS_PRIMARY_PROOF",
+    "vspipe_y4m_ffmpeg_zero_copy_claim": "COMPATIBILITY_ONLY_NOT_ZERO_HOST_ROUND_TRIP_PROOF",
+    "vapoursynth_plus_vs_mlrt_conflated_provider": "SPLIT_FRAME_FABRIC_AND_NEURAL_RUNTIME_ADAPTER"
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}
