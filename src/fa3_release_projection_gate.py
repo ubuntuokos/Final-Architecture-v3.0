@@ -729,6 +729,61 @@ def gate(root: Path):
             )
         )
 
+    cap028_host = projection.get("cap028_current_host_reconciliation", {})
+    cap028_required_paths = {
+        "canonical/profiles/FA3-AGENT-EXEC-001.json",
+        "canonical/current-host-capability-test-qualifications.json",
+        "canonical/current-host-capability-qualification-constituent-producers.json",
+        "canonical/current-host-capability-test-executors.json",
+        "src/fa3_cap028_agent_execution_current_host.py",
+        "tests/test_cap028_agent_execution_current_host.py",
+        ".github/workflows/fa3-global-current-host-closure.yml",
+        "fa3-current-host/manifest.json",
+        "docs/current-host-runner.md",
+    }
+    cap028_registry = next(
+        (row for row in records if row.get("subject_id") == "CAP-028"),
+        {},
+    )
+    cap028_qualification_ids = [
+        "FA3-QUAL-CAP-028-POS-001",
+        "FA3-QUAL-CAP-028-NEG-001",
+        "FA3-QUAL-CAP-028-ROLLBACK-001",
+    ]
+    if (
+        cap028_host.get("subject_id") != "CAP-028"
+        or cap028_host.get("qualification_ids") != cap028_qualification_ids
+        or cap028_host.get("producer_adapter") != "src/fa3_cap028_agent_execution_current_host.py"
+        or cap028_host.get("execution_backend") != "WASMTIME_WASI"
+        or cap028_host.get("status") != "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING"
+        or cap028_host.get("source_decision_ids") != cap028_registry.get("source_decision_ids")
+        or cap028_host.get("source_decision_count") != len(cap028_registry.get("source_decision_ids", []))
+        or cap028_host.get("registered_obligation_delta") != 3
+        or cap028_host.get("registered_executor_count_after") != 18
+        or cap028_host.get("pending_executor_count_after") != 411
+        or cap028_host.get("hosted_ci_substitution_allowed") is not False
+        or cap028_host.get("optional_provider_runtime_required") is not False
+        or cap028_host.get("current_host_runtime_pass_claim") is not False
+        or cap028_host.get("global_promotion_claim") is not False
+        or cap028_host.get("new_capabilities") != 0
+        or cap028_host.get("new_architectural_authorities") != 0
+        or cap028_host.get("capability_count_after") != CAPABILITY_COUNT
+        or policy.get("cap028_current_host_subject_id") != "CAP-028"
+        or policy.get("cap028_current_host_qualification_ids") != cap028_qualification_ids
+        or policy.get("cap028_current_host_producer_adapter") != "src/fa3_cap028_agent_execution_current_host.py"
+        or policy.get("cap028_current_host_execution_backend") != "WASMTIME_WASI"
+        or policy.get("cap028_current_host_status") != "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING"
+        or policy.get("cap028_current_host_global_promotion_claim") is not False
+        or not cap028_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-110",
+                "CAP-028 current-host capability qualification reconciliation invariant mismatch",
+                missing_manifest_paths=sorted(cap028_required_paths - manifest_paths),
+            )
+        )
+
     kanboard = projection.get("kanboard_reconciliation", {})
     inventory = projection.get("overlay_inventory", {})
     required_kanboard_manifest_paths = {
