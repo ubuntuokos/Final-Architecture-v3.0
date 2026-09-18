@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AGENT-SANDBOX-001",
+  "name": "Mandatory Agent Sandbox, Ephemeral Workspace & Network-Deny Execution Boundary",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "relationship": "SUBPROFILE-OF",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "contracts": [
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001"
+  ],
+  "backend_policy": {
+    "gvisor": {
+      "classification": "PREFERRED_UNTRUSTED_OCI_IF_CURRENT_HOST_COMPATIBLE",
+      "current_host_evidence_required": true
+    },
+    "wasmtime_wasi": {
+      "classification": "PREFERRED_WASM_WASI_FOR_WASM_NATIVE_TOOLS",
+      "capability_scoped_preopens_required": true
+    },
+    "hardened_rootless_oci": {
+      "classification": "CONDITIONAL_TRUSTED_PROVIDER_NO_ARBITRARY_HOST_CODE",
+      "explicit_admission_required": true
+    },
+    "host_subprocess": {
+      "classification": "DENY_FOR_ARBITRARY_OR_UNTRUSTED_AGENT_CODE"
+    }
+  },
+  "filesystem_policy": {
+    "workspace": "EPHEMERAL_OVERLAY_PER_TASK",
+    "base": "READ_ONLY",
+    "writable_mounts": "EXPLICIT_ALLOWLIST_ONLY",
+    "host_home_visibility": "DENY",
+    "host_process_visibility": "DENY",
+    "direct_canonical_repository_write": "DENY",
+    "destroy_after_task": true
+  },
+  "network_policy": {
+    "default": "DENY",
+    "allowed_exception": "EXPLICIT_SCOPED_EGRESS_LEASE",
+    "direct_mcp_bypass": "DENY"
+  },
+  "invariants": [
+    "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN",
+    "SANDBOX_BACKEND_CURRENT_HOST_COMPATIBILITY_EVIDENCE_REQUIRED",
+    "EPHEMERAL_OVERLAY_WORKSPACE_PER_TASK",
+    "HOST_HOME_AND_PROCESS_NAMESPACE_NOT_VISIBLE",
+    "NETWORK_DENY_DEFAULT",
+    "SCOPED_EGRESS_REQUIRES_EXPLICIT_LEASE",
+    "MCP_TOOL_ACCESS_REMAINS_CENTRAL_GATEWAY_MEDIATED",
+    "SANDBOX_PROVIDER_NOT_SECURITY_RESOURCE_OR_EVIDENCE_AUTHORITY",
+    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER"
+  ],
+  "current_host_runtime_status": "PENDING_CURRENT_HOST_SANDBOX_BACKEND_CONFORMANCE",
+  "current_host_runtime_promotion_claimed": false
+}
