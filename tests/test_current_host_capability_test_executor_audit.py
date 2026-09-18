@@ -24,6 +24,14 @@ class ExecutorAuditTests(unittest.TestCase):
         shutil.copy(ROOT / "canonical/current-host-capability-test-executors.json", root / "canonical/current-host-capability-test-executors.json")
         shutil.copy(ROOT / "canonical/current-host-capability-test-qualifications.json", root / "canonical/current-host-capability-test-qualifications.json")
         shutil.copy(ROOT / "src/fa3_current_host_capability_test_qualifier.py", root / "src/fa3_current_host_capability_test_qualifier.py")
+        for rel in (
+            "canonical/current-host-capability-test-executors.json",
+            "canonical/current-host-capability-test-qualifications.json",
+        ):
+            path = root / rel
+            registry = json.loads(path.read_text())
+            registry["entries"] = []
+            path.write_text(json.dumps(registry))
         return td, root
 
     @staticmethod
