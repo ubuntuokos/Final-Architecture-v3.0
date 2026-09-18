@@ -772,6 +772,177 @@
           ]
         }
       ]
+    },
+    {
+      "qualification_id": "FA3-QUAL-CAP-028-POS-001",
+      "subject_id": "CAP-028",
+      "test_kind": "positive",
+      "test_id": "AT-CAP-028-POS",
+      "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+      "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "max_constituent_ttl_seconds": 1800,
+      "completeness_basis": {
+        "type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+        "source_decision_ids": [
+          "DEC-CAP-028",
+          "FA3-CORE-001",
+          "FA3-CORE-002",
+          "FA3-CORE-003",
+          "FA3-CORE-004",
+          "FA3-CORE-006",
+          "FA3-CORE-007",
+          "FA3-CORE-008",
+          "FA3-REG-001",
+          "FA3-REG-002",
+          "FA3-REG-003",
+          "FA3-DEC-AUTOGPT-2026-08-30",
+          "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+          "FA3-DEC-OPENHANDS-2026-09-01",
+          "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+        ]
+      },
+      "required_constituents": [
+        {
+          "constituent_id": "CAP028-POS-AGENT-EXECUTION",
+          "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION",
+          "covers_source_decision_ids": [
+            "DEC-CAP-028",
+            "FA3-CORE-001",
+            "FA3-CORE-002",
+            "FA3-CORE-003",
+            "FA3-CORE-004",
+            "FA3-CORE-006",
+            "FA3-CORE-007",
+            "FA3-CORE-008",
+            "FA3-REG-001",
+            "FA3-REG-002",
+            "FA3-REG-003",
+            "FA3-DEC-AUTOGPT-2026-08-30",
+            "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+            "FA3-DEC-OPENHANDS-2026-09-01",
+            "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+          ]
+        }
+      ]
+    },
+    {
+      "qualification_id": "FA3-QUAL-CAP-028-NEG-001",
+      "subject_id": "CAP-028",
+      "test_kind": "negative",
+      "test_id": "AT-CAP-028-NEG",
+      "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+      "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "max_constituent_ttl_seconds": 1800,
+      "completeness_basis": {
+        "type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+        "source_decision_ids": [
+          "DEC-CAP-028",
+          "FA3-CORE-001",
+          "FA3-CORE-002",
+          "FA3-CORE-003",
+          "FA3-CORE-004",
+          "FA3-CORE-006",
+          "FA3-CORE-007",
+          "FA3-CORE-008",
+          "FA3-REG-001",
+          "FA3-REG-002",
+          "FA3-REG-003",
+          "FA3-DEC-AUTOGPT-2026-08-30",
+          "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+          "FA3-DEC-OPENHANDS-2026-09-01",
+          "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+        ]
+      },
+      "required_constituents": [
+        {
+          "constituent_id": "CAP028-NEG-AGENT-EXECUTION",
+          "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION",
+          "covers_source_decision_ids": [
+            "DEC-CAP-028",
+            "FA3-CORE-001",
+            "FA3-CORE-002",
+            "FA3-CORE-003",
+            "FA3-CORE-004",
+            "FA3-CORE-006",
+            "FA3-CORE-007",
+            "FA3-CORE-008",
+            "FA3-REG-001",
+            "FA3-REG-002",
+            "FA3-REG-003",
+            "FA3-DEC-AUTOGPT-2026-08-30",
+            "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+            "FA3-DEC-OPENHANDS-2026-09-01",
+            "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+          ]
+        }
+      ]
+    },
+    {
+      "qualification_id": "FA3-QUAL-CAP-028-ROLLBACK-001",
+      "subject_id": "CAP-028",
+      "test_kind": "rollback",
+      "test_id": "ROLLBACK-CAP-028",
+      "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+      "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "max_constituent_ttl_seconds": 1800,
+      "completeness_basis": {
+        "type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+        "source_decision_ids": [
+          "DEC-CAP-028",
+          "FA3-CORE-001",
+          "FA3-CORE-002",
+          "FA3-CORE-003",
+          "FA3-CORE-004",
+          "FA3-CORE-006",
+          "FA3-CORE-007",
+          "FA3-CORE-008",
+          "FA3-REG-001",
+          "FA3-REG-002",
+          "FA3-REG-003",
+          "FA3-DEC-AUTOGPT-2026-08-30",
+          "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+          "FA3-DEC-OPENHANDS-2026-09-01",
+          "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+        ]
+      },
+      "required_constituents": [
+        {
+          "constituent_id": "CAP028-ROLLBACK-AGENT-EXECUTION",
+          "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION",
+          "covers_source_decision_ids": [
+            "DEC-CAP-028",
+            "FA3-CORE-001",
+            "FA3-CORE-002",
+            "FA3-CORE-003",
+            "FA3-CORE-004",
+            "FA3-CORE-006",
+            "FA3-CORE-007",
+            "FA3-CORE-008",
+            "FA3-REG-001",
+            "FA3-REG-002",
+            "FA3-REG-003",
+            "FA3-DEC-AUTOGPT-2026-08-30",
+            "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+            "FA3-DEC-OPENHANDS-2026-09-01",
+            "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+          ]
+        }
+      ]
     }
   ],
   "invariants": {

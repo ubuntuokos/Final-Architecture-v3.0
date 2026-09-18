@@ -41,5 +41,19 @@
     "SANDBOX_BACKEND_COMPATIBILITY_EVIDENCE_REQUIRED"
   ],
   "implementation_status": "CANONICAL_BASELINE_PLUS_MANDATORY_SANDBOX_AND_REFERENCE_COORDINATION_RUNTIME_V0_2",
-  "sandbox_profile": "FA3-AGENT-SANDBOX-001"
+  "sandbox_profile": "FA3-AGENT-SANDBOX-001",
+  "current_host_capability_qualification": {
+    "subject_id": "CAP-028",
+    "qualification_ids": [
+      "FA3-QUAL-CAP-028-POS-001",
+      "FA3-QUAL-CAP-028-NEG-001",
+      "FA3-QUAL-CAP-028-ROLLBACK-001"
+    ],
+    "producer_adapter": "src/fa3_cap028_agent_execution_current_host.py",
+    "execution_backend": "WASMTIME_WASI",
+    "execution_status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+    "hosted_ci_substitution_allowed": false,
+    "optional_provider_runtime_required": false,
+    "global_promotion_claim": false
+  }
 }
