@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+from typing import Any
+
+PROVIDER_ID = "FA3-PROVIDER-PAGEINDEX-LOCAL-001"
+GATE_ID = "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001"
+
+
+def loadj(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def finding(code: str, message: str, **extra: Any) -> dict[str, Any]:
+    return {"code": code, "severity": "P0", "message": message, **extra}
+
+
+def gate(root: Path) -> dict[str, Any]:
+    root = root.resolve()
+    findings: list[dict[str, Any]] = []
+    try:
+        knowledge = loadj(root / "canonical/profiles/FA3-KNOWLEDGE-001.json")
+        sub = loadj(root / "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json")
+        contracts = loadj(root / "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json")
+        provider = loadj(root / "canonical/providers/FA3-PROVIDER-PAGEINDEX-LOCAL-001.json")
+        decision = loadj(root / "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json")
+        page_ref = loadj(root / "canonical/references/FA3-PAGEINDEX-LOCAL-UPSTREAM-REFERENCE-2026-09-18.json")
+        openkb = loadj(root / "canonical/references/FA3-OPENKB-UPSTREAM-REFERENCE-2026-09-18.json")
+        condb = loadj(root / "canonical/references/FA3-CONDB-UPSTREAM-REFERENCE-2026-09-18.json")
+        enforcement = loadj(root / "canonical/knowledge-hybrid-retrieval-enforcement.json")
+        registry = loadj(root / "canonical/mcp-capability-registry.json")
+    except Exception as exc:
+        return {"schema":"fa3.knowledge-hybrid-retrieval-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":[finding("KNOWLEDGE-000","Materialization unreadable",error=repr(exc))],"global_promotion_claim":False}
+
+    if knowledge.get("id") != "FA3-KNOWLEDGE-001" or knowledge.get("canonical_root") is not True:
+        findings.append(finding("KNOWLEDGE-001","Existing FA3-KNOWLEDGE-001 must remain canonical root"))
+    if knowledge.get("capability_count") != 143 or knowledge.get("new_architectural_authority") is not False:
+        findings.append(finding("KNOWLEDGE-002","Knowledge root capability/authority invariant drift"))
+    if sub.get("parent_profile") != "FA3-KNOWLEDGE-001" or sub.get("canonical_root") is not False:
+        findings.append(finding("KNOWLEDGE-003","Hybrid retrieval must be a subprofile, not a new root"))
+    required_contracts={"RetrievalPlan","RetrievalTrace","ContextPassport","StructuralIndex","HierarchicalNode","EvidenceLink","SourceRegion","MediaSegment","TemporalSpan","CrossModalRelation"}
+    actual=set(contracts.get("contracts",{}))
+    if not required_contracts.issubset(actual):
+        findings.append(finding("KNOWLEDGE-004","Hybrid retrieval contract family incomplete",missing=sorted(required_contracts-actual)))
+    if provider.get("id") != PROVIDER_ID or provider.get("architectural_authority") is not False:
+        findings.append(finding("KNOWLEDGE-005","PageIndex Local provider identity/authority drift"))
+    local=provider.get("local_runtime",{})
+    if local.get("model_access") != "FA3_MODEL_ROUTER_LOOPBACK_ONLY" or local.get("direct_external_model_provider") != "DENY" or local.get("pageindex_api_key") != "DENY":
+        findings.append(finding("KNOWLEDGE-006","PageIndex Local direct egress/credential boundary drift"))
+    if page_ref.get("commit") != "9a8dd6658278fec90347e8ac3388a205305667a3":
+        findings.append(finding("KNOWLEDGE-007","PageIndex Local upstream pin drift"))
+    if openkb.get("materialized_provider") is not False or "source authority" not in [x.lower() for x in openkb.get("prohibited_roles",[])]:
+        findings.append(finding("KNOWLEDGE-008","OpenKB must remain non-authoritative reference/optional compiler"))
+    if condb.get("materialized_provider") is not False or "durable knowledge authority" not in [x.lower() for x in condb.get("prohibited_roles",[])]:
+        findings.append(finding("KNOWLEDGE-009","ConDB must remain rebuildable acceleration reference"))
+    if decision.get("capability_count_after") != 143 or decision.get("new_architectural_authorities") != 0:
+        findings.append(finding("KNOWLEDGE-010","Decision changes capability/authority baseline"))
+    if enforcement.get("rules",{}).get("media_binary_in_knowledge_store") != "DENY":
+        findings.append(finding("KNOWLEDGE-011","Binary media must remain outside knowledge index"))
+
+    for cap_id, adapter_id in (
+        ("fa3.document.index","fa3.adapter.pageindex.local.index"),
+        ("fa3.document.retrieve","fa3.adapter.pageindex.local.retrieve"),
+    ):
+        cap=next((x for x in registry.get("capabilities",[]) if x.get("capability_id")==cap_id),None)
+        rows=[x for x in (cap or {}).get("providers",[]) if x.get("provider_id")==PROVIDER_ID]
+        if len(rows)!=1 or rows[0].get("adapter_id")!=adapter_id:
+            findings.append(finding("KNOWLEDGE-012","Local PageIndex binding missing/duplicated",capability_id=cap_id))
+            continue
+        row=rows[0]
+        if row.get("state")=="CONNECTED" and not row.get("evidence_ref"):
+            findings.append(finding("KNOWLEDGE-013","CONNECTED local provider requires current-host evidence",capability_id=cap_id))
+        elif row.get("state") not in {"PENDING_CURRENT_HOST","CONNECTED"}:
+            findings.append(finding("KNOWLEDGE-014","Invalid local provider lifecycle state",capability_id=cap_id))
+        cloud=[x for x in (cap or {}).get("providers",[]) if x.get("provider_id")=="FA3-PROVIDER-PAGEINDEX-MCP-001"]
+        if not cloud:
+            findings.append(finding("KNOWLEDGE-015","Existing PageIndex MCP cloud provider binding must be preserved",capability_id=cap_id))
+        elif int(row.get("priority",999)) >= int(cloud[0].get("priority",999)):
+            findings.append(finding("KNOWLEDGE-016","Admitted local provider must route before optional cloud provider",capability_id=cap_id))
+
+    for rel in [
+        "src/fa3_hybrid_retrieval.py",
+        "src/fa3_pageindex_local_provider.py",
+        "apps/fa3-control-center/qml/KnowledgePage.qml",
+    ]:
+        if not (root/rel).is_file():
+            findings.append(finding("KNOWLEDGE-017","Required runtime/GUI artifact missing",path=rel))
+
+    return {
+        "schema":"fa3.knowledge-hybrid-retrieval-gate-report.v1",
+        "gate_id":GATE_ID,
+        "result":"PASS" if not findings else "FAIL",
+        "findings":findings,
+        "capability_count":143,
+        "authority_delta":0,
+        "global_promotion_claim":False,
+    }
+
+
+def main() -> int:
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--root",default=".")
+    parser.add_argument("--report",default="reports/knowledge-hybrid-retrieval-gate-report.json")
+    args=parser.parse_args()
+    report=gate(Path(args.root))
+    path=Path(args.root)/args.report
+    path.parent.mkdir(parents=True,exist_ok=True)
+    path.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+    print(json.dumps(report,indent=2,ensure_ascii=False))
+    return 0 if report["result"]=="PASS" else 2
+
+
+if __name__=="__main__":
+    raise SystemExit(main())

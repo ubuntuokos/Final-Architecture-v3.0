@@ -1,0 +1,68 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+  "name": "Hierarchical + Hybrid Retrieval Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "fa3.document.index",
+    "fa3.document.retrieve",
+    "fa3.memory.retrieve"
+  ],
+  "contracts": [
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001"
+  ],
+  "retrieval_strategies": [
+    "metadata",
+    "lexical",
+    "vector_optional",
+    "hierarchical",
+    "tree_reasoning",
+    "rerank",
+    "evidence_fusion"
+  ],
+  "provider_roles": {
+    "primary_local_candidate": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+    "optional_cloud_provider": "FA3-PROVIDER-PAGEINDEX-MCP-001",
+    "optional_compiler_reference": "OPENKB_PATTERN_SOURCE",
+    "optional_acceleration_reference": "CONDB_PATTERN_SOURCE"
+  },
+  "multimodal_projection": {
+    "binary_authority": "EXISTING_ARTIFACT_STORE_ONLY",
+    "supported_derived_units": [
+      "SourceRegion",
+      "MediaSegment",
+      "TemporalSpan",
+      "CrossModalRelation"
+    ],
+    "image_adapter": "DERIVED_STRUCTURAL_PROJECTION",
+    "video_adapter": "TEMPORAL_SEGMENT_PROJECTION",
+    "audio_adapter": "TRANSCRIPT_AND_TEMPORAL_SEGMENT_PROJECTION",
+    "binary_payload_in_knowledge_index": "DENY"
+  },
+  "authority_boundaries": {
+    "source_truth": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACTS",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "invariants": [
+    "PROVIDER_NEUTRAL_PLANNER",
+    "RETRIEVAL_PLAN_BEFORE_PROVIDER_DISPATCH",
+    "RETRIEVAL_TRACE_AFTER_PROVIDER_DISPATCH",
+    "EVIDENCE_FUSION_PRESERVES_SOURCE_LINEAGE",
+    "CONTEXT_PASSPORT_IS_DERIVED_AND_REBUILDABLE",
+    "NO_PROVIDER_BECOMES_KNOWLEDGE_AUTHORITY",
+    "VECTOR_SEARCH_OPTIONAL_NOT_REQUIRED",
+    "LOCAL_FIRST_ROUTING_WHEN_ADMITTED"
+  ],
+  "runtime_status": "MATERIALIZED_CURRENT_HOST_PENDING"
+}

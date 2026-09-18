@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "86cac327db250d444fba13dbc331bcb7fe67722d",
-    "pre_projection_root_tree_sha": "57a7f77b4e99a21d2a660056e8b71ef3eb8902e0",
-    "pre_projection_canonical_tree_sha": "650fab1db22c0de0c47108ba9b228b827ae271ff",
-    "commits_ahead_of_v3_0_11_conformance_commit": 402,
-    "total_post_baseline_commits": 402,
-    "delta_file_count": 1372,
-    "delta_added_files": 1367,
+    "pre_projection_head_sha": "d95fdc0643bf9b35ec113fcb087282a38ae36f60",
+    "pre_projection_root_tree_sha": "7761edbfe322eb6b0027ce2627f2e35309c9c16a",
+    "pre_projection_canonical_tree_sha": "4a28f9b3144d167084a52071c58a7f89a88c2a22",
+    "commits_ahead_of_v3_0_11_conformance_commit": 406,
+    "total_post_baseline_commits": 406,
+    "delta_file_count": 1388,
+    "delta_added_files": 1383,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 671,
+    "canonical_files_in_post_baseline_delta": 680,
     "evidence_files_in_post_baseline_delta": 129,
-    "source_files_in_post_baseline_delta": 167,
-    "test_files_in_post_baseline_delta": 145,
-    "workflow_files_in_post_baseline_delta": 59,
+    "source_files_in_post_baseline_delta": 170,
+    "test_files_in_post_baseline_delta": 146,
+    "workflow_files_in_post_baseline_delta": 60,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -121,6 +121,7 @@
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
       "canonical/providers/FA3-PROVIDER-OPENYAK-001.json",
+      "canonical/providers/FA3-PROVIDER-PAGEINDEX-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-PAGEINDEX-MCP-001.json",
       "canonical/providers/FA3-PROVIDER-PIPER-001.json",
       "canonical/providers/FA3-PROVIDER-POSTHOG-001.json",
@@ -182,6 +183,7 @@
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
+      "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json",
       "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "canonical/profiles/FA3-HUMAN-KNOWLEDGE-WORKSPACE-001.json",
       "canonical/profiles/FA3-HUMAN-MOTION-001.json",
@@ -254,6 +256,7 @@
       "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
+      "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001.json",
       "canonical/contracts/FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001.json",
@@ -349,6 +352,7 @@
       "canonical/decisions/FA3-DEC-KANEO-UPSTREAM-RECONCILIATION-2026-09-12.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
       "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
@@ -420,6 +424,7 @@
       "canonical/references/FA3-BUZZ-RUNTIME-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-CAVEMAN-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-CODEX-UPSTREAM-REFERENCE-2026-08-31.json",
+      "canonical/references/FA3-CONDB-UPSTREAM-REFERENCE-2026-09-18.json",
       "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-DEEPGEMM-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-FFMPEG-AI-UPSTREAM-REFERENCE-2026-09-03.json",
@@ -451,9 +456,11 @@
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENKB-UPSTREAM-REFERENCE-2026-09-18.json",
       "canonical/references/FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13.json",
       "canonical/references/FA3-OPENVID-UPSTREAM-REFERENCE-2026-09-04.json",
       "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
+      "canonical/references/FA3-PAGEINDEX-LOCAL-UPSTREAM-REFERENCE-2026-09-18.json",
       "canonical/references/FA3-PAGEINDEX-MCP-UPSTREAM-REFERENCE-2026-09-18.json",
       "canonical/references/FA3-PKU-YUAN-VIDEO-UPSTREAM-REFERENCE-2026-09-03.json",
       "canonical/references/FA3-PRESENTON-UPSTREAM-REFERENCE-2026-08-30.json",
@@ -619,7 +626,8 @@
     "FA3-OPENFX-INTEROPERABILITY-GATESET-001",
     "FA3-JOURNAL-GATESET-001",
     "FA3-OS-EVENT-PRIVACY-GATESET-001",
-    "FA3-WORK-MANAGEMENT-GATESET-001"
+    "FA3-WORK-MANAGEMENT-GATESET-001",
+    "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -745,7 +753,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1365,
+  "manifest_entry_count": 1381,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -888,6 +896,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-knowledge-hybrid-retrieval.yml",
+      "git_blob_sha": "65fa52b328436431c1a7e160609566f72403ae0f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-mcp-current-host.yml",
       "git_blob_sha": "f514a97f4ff2131c61559c28af853ee1905916db",
       "baseline_delta_status": "added"
@@ -959,7 +972,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "96e36da4b362c721b40ca88452ccbffd1ae055f8",
+      "git_blob_sha": "e2531cdfa48542f898fdc9d40f0931707e7a2833",
       "baseline_delta_status": "added"
     },
     {
@@ -1054,7 +1067,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "b387b468ec0548d9216c7ed2fc5cc1bcd9391069",
+      "git_blob_sha": "0442f5fdae69c72e2cdfe8d679717d74747d98c8",
       "baseline_delta_status": "added"
     },
     {
@@ -1118,13 +1131,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/KnowledgePage.qml",
+      "git_blob_sha": "e220e157838f899cf97caf375c8a3fda22825e4e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/qml/LanguageControlPage.qml",
       "git_blob_sha": "912ca27a37427fb15a5868bfd21c99911e367e4c",
       "baseline_delta_status": "added"
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "8946fad5ea4769d0ee55fc13b4cc9eeae34e975a",
+      "git_blob_sha": "35fbee65f5dc54d991e152d75b69f54d77e409f1",
       "baseline_delta_status": "added"
     },
     {
@@ -1359,7 +1377,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "6597037be599f62ef66b390f1d92aa82ae02766c",
+      "git_blob_sha": "5a74176a2dccd5d6820108ddc27f8c8e2fec717d",
       "baseline_delta_status": "modified"
     },
     {
@@ -1709,7 +1727,7 @@
     },
     {
       "path": "canonical/FA3-GATE-GUI-001.json",
-      "git_blob_sha": "979bcbd173c2c586dc80820c7093a01e1f4db23c",
+      "git_blob_sha": "707cc313b364df742c2a32b400b1232f4c0e3a08",
       "baseline_delta_status": "added"
     },
     {
@@ -1755,6 +1773,11 @@
     {
       "path": "canonical/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.json",
       "git_blob_sha": "6a07344b5fe5d8d487fb8fbd92488b8b3c16ce8b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-KNOWLEDGE-HYBRID-RETRIEVAL-001.json",
+      "git_blob_sha": "8dca22be14816ef5f444ca06de97f96662b2340a",
       "baseline_delta_status": "added"
     },
     {
@@ -2403,6 +2426,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json",
+      "git_blob_sha": "241524cd0c712a1befaf2a44ad98f0597d0bb49d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
       "git_blob_sha": "906b8d5075f35489f731764c8d460375e17f4b4f",
       "baseline_delta_status": "added"
@@ -2474,7 +2502,7 @@
     },
     {
       "path": "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
-      "git_blob_sha": "4962ddfc8040b67285db408d63e1f9930965129a",
+      "git_blob_sha": "94dabda5df5a88f656346a83de40b445486a6d86",
       "baseline_delta_status": "added"
     },
     {
@@ -2908,6 +2936,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
+      "git_blob_sha": "e9ab32ccb42d7f423b12d2851c88b862c5fc93bf",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
       "git_blob_sha": "d5fa12afae024c6347063eadc0ae368156842769",
       "baseline_delta_status": "added"
@@ -3224,7 +3257,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "d83bb1958ec5fdbd147e3ba37e3bcab8865b6e66",
+      "git_blob_sha": "b4f568ea9d8549bfe67bdfb862988d6ae368b42a",
       "baseline_delta_status": "modified"
     },
     {
@@ -3358,6 +3391,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/knowledge-hybrid-retrieval-enforcement.json",
+      "git_blob_sha": "ee911412232041231bd8e43ff260820b3a5c795f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/krita-ai-image-editing-enforcement.json",
       "git_blob_sha": "8ea099a6a34c8b420a735424c4a7b465d9996fa2",
       "baseline_delta_status": "added"
@@ -3399,7 +3437,7 @@
     },
     {
       "path": "canonical/mcp-capability-registry.json",
-      "git_blob_sha": "1ad90805b9502bde59ced45c8c453593f4670074",
+      "git_blob_sha": "ecfdeded045bb7bbc25ecdca9ac62a252d1f8196",
       "baseline_delta_status": "added"
     },
     {
@@ -3668,6 +3706,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json",
+      "git_blob_sha": "837b6c010465414048274c1dff9bb1be682d5730",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
       "git_blob_sha": "0c7fc0ad192d55333afb005dcfb8da6526d0ab64",
       "baseline_delta_status": "added"
@@ -3734,7 +3777,7 @@
     },
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
-      "git_blob_sha": "5b66f41a552c9c207395e2a5c0026be5152c78d8",
+      "git_blob_sha": "592573c7a73d8f36abdf5c75bcb8e8231e5a3db8",
       "baseline_delta_status": "added"
     },
     {
@@ -4213,6 +4256,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-PAGEINDEX-LOCAL-001.json",
+      "git_blob_sha": "7eadb50d63092045a6bf9584d89fbe85b57a2c40",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-PAGEINDEX-MCP-001.json",
       "git_blob_sha": "a92fb78f7ca2933865b051910db9746fcb0b4dc3",
       "baseline_delta_status": "added"
@@ -4468,6 +4516,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-CONDB-UPSTREAM-REFERENCE-2026-09-18.json",
+      "git_blob_sha": "916b6f7e5072f7daf798cdfd8309186ccd412c82",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-COSYVOICE-UPSTREAM-REFERENCE-2026-08-31.json",
       "git_blob_sha": "3ccbfab73da5f6a441326de7b89579ecdbdb5b49",
       "baseline_delta_status": "added"
@@ -4623,6 +4676,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-OPENKB-UPSTREAM-REFERENCE-2026-09-18.json",
+      "git_blob_sha": "8479a3b3617462167a9531ec4c475fe5d377196e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-OPENMODELDB-UPSTREAM-REFERENCE-2026-09-13.json",
       "git_blob_sha": "61911b24aa095dd2e08a86f9bf9ffa1f97e14ce7",
       "baseline_delta_status": "added"
@@ -4635,6 +4693,11 @@
     {
       "path": "canonical/references/FA3-OPENYAK-UPSTREAM-REFERENCE-2026-09-05.json",
       "git_blob_sha": "0d7c1e0468818f1cb311644a17739767b119b570",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-PAGEINDEX-LOCAL-UPSTREAM-REFERENCE-2026-09-18.json",
+      "git_blob_sha": "8e6a360d9c6c96dbdd78932f95853b7274bcfe23",
       "baseline_delta_status": "added"
     },
     {
@@ -5025,6 +5088,11 @@
     {
       "path": "docs/FA3-JOURNAL-ARCHIVE-001.md",
       "git_blob_sha": "c3eef92dba9cb6af1552510b227e90f83284cdc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-KNOWLEDGE-HYBRID-RETRIEVAL-001.md",
+      "git_blob_sha": "7b56b3d61659252fc5a7a45e3536377796936e1c",
       "baseline_delta_status": "added"
     },
     {
@@ -6189,7 +6257,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "2476f788163b0d5f871dc6c6be2c46b03a5ed221",
+      "git_blob_sha": "28b9406ec38f4242362b8dcd80ae045d003e35f6",
       "baseline_delta_status": "modified"
     },
     {
@@ -6244,7 +6312,7 @@
     },
     {
       "path": "src/fa3_gui_gate.py",
-      "git_blob_sha": "8a3765b7947a45880a4c1414f0e7ae3575634454",
+      "git_blob_sha": "26b4be0a70ed1eefeabac12c5114c45a29c6d257",
       "baseline_delta_status": "added"
     },
     {
@@ -6295,6 +6363,11 @@
     {
       "path": "src/fa3_hybrid_editorial_reference.py",
       "git_blob_sha": "c659bf419043b8e1f866ed164662cf5b38b3487f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hybrid_retrieval.py",
+      "git_blob_sha": "3b88ce6b11263ff0cf6434ec7326f1568e6aabee",
       "baseline_delta_status": "added"
     },
     {
@@ -6355,6 +6428,11 @@
     {
       "path": "src/fa3_kdenlive_editorial_gate.py",
       "git_blob_sha": "7062adc4732329ae060267f6ef7689bd2ad55a91",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_knowledge_hybrid_retrieval_gate.py",
+      "git_blob_sha": "2a414512165ad4a13157b9aae19f07a8538ca071",
       "baseline_delta_status": "added"
     },
     {
@@ -6605,6 +6683,11 @@
     {
       "path": "src/fa3_page_cache_prefetch_gate.py",
       "git_blob_sha": "9f2c602929cb2d5a4a8256ae4f1785d234f001b3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_pageindex_local_provider.py",
+      "git_blob_sha": "79112a7c70db37ebc6a60b3b4f841f27ccc299a6",
       "baseline_delta_status": "added"
     },
     {
@@ -7170,6 +7253,11 @@
     {
       "path": "tests/test_kdenlive_editorial.py",
       "git_blob_sha": "a805ea489ad6281fbf55e9ba53779d494f7fb086",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_knowledge_hybrid_retrieval.py",
+      "git_blob_sha": "b9e92f6725fff1df83cac7340f11183dbe9dc8ca",
       "baseline_delta_status": "added"
     },
     {

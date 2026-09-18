@@ -32,6 +32,7 @@ REQUIRED = {
     "mcp_gateway_qml": ROOT / "apps/fa3-control-center/qml/McpGatewayPage.qml",
     "mcp_gateway_service": ROOT / "apps/fa3-control-center/src/McpGatewayService.cpp",
     "mcp_gateway_contract": ROOT / "canonical/FA3-MCP-GATEWAY-GUI-001.json",
+    "knowledge_qml": ROOT / "apps/fa3-control-center/qml/KnowledgePage.qml",
     "preference_store": ROOT / "apps/fa3-control-center/src/PreferenceStore.cpp",
     "device_model": ROOT / "apps/fa3-control-center/src/SystemDeviceModel.cpp",
     "chat_file_service": ROOT / "apps/fa3-control-center/src/ChatFileService.cpp",
@@ -39,7 +40,7 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Checkpoint Manager", "External Providers Setup", "Token Control Center", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "MCP Gateway", "System"]
+NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Checkpoint Manager", "External Providers Setup", "Token Control Center", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "MCP Gateway", "Knowledge & Retrieval", "System"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
 
@@ -165,6 +166,11 @@ def validate() -> list[str]:
         if token not in mcp_gateway_service: failures.append(f"mcp-gateway-readonly-service-missing:{token}")
     if "McpGatewayPage" not in qml or 'pageIndex: 27' not in qml:
         failures.append("qml-mcp-gateway-page-wiring-missing")
+    knowledge_qml = REQUIRED["knowledge_qml"].read_text(encoding="utf-8")
+    for token in ["Knowledge & Retrieval", "FA3-KNOWLEDGE-001", "Hierarchical + Hybrid", "PageIndex Local", "OpenKB", "ConDB", "RetrievalPlan", "RetrievalTrace", "ContextPassport", "No fabricated CONNECTED/PASS"]:
+        if token not in knowledge_qml: failures.append(f"qml-knowledge-surface-missing:{token}")
+    if "KnowledgePage" not in qml or 'pageIndex: 28' not in qml:
+        failures.append("qml-knowledge-page-wiring-missing")
     if 'setContextProperty("fa3McpGateway"' not in REQUIRED["main_cpp"].read_text(encoding="utf-8"):
         failures.append("mcp-gateway-service-qml-wiring-missing")
 
@@ -196,7 +202,7 @@ def validate() -> list[str]:
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
-    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml"]:
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml"]:
         if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")
