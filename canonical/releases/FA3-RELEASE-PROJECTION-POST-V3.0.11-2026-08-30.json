@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "28c20ccdea5301f2643e5c978f1099f2976293e7",
-    "pre_projection_root_tree_sha": "bea12bf60a97d4bd349bd47d304c3b7598783850",
-    "pre_projection_canonical_tree_sha": "715512f873591a67efd3ae22cd6cd2cda1f0fa28",
-    "commits_ahead_of_v3_0_11_conformance_commit": 399,
-    "total_post_baseline_commits": 399,
-    "delta_file_count": 1358,
-    "delta_added_files": 1353,
+    "pre_projection_head_sha": "24db3efc371967de2fd7cee7cb343624f110b973",
+    "pre_projection_root_tree_sha": "8a838b217b1b1de277b8f7a1225de6db80b49336",
+    "pre_projection_canonical_tree_sha": "a030f1b323b2f253b9b36b4c321503f4fc53a7eb",
+    "commits_ahead_of_v3_0_11_conformance_commit": 401,
+    "total_post_baseline_commits": 401,
+    "delta_file_count": 1359,
+    "delta_added_files": 1354,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,7 +47,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 670,
     "evidence_files_in_post_baseline_delta": 127,
-    "source_files_in_post_baseline_delta": 162,
+    "source_files_in_post_baseline_delta": 163,
     "test_files_in_post_baseline_delta": 142,
     "workflow_files_in_post_baseline_delta": 58,
     "provider_records": [
@@ -744,7 +744,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1351,
+  "manifest_entry_count": 1352,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -5994,6 +5994,11 @@
     {
       "path": "src/fa3_buzz_runtime_admission_gate.py",
       "git_blob_sha": "06bd9c4fe35227320a77165ab8a60ef3621e5d7d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_cap075_contract_registry_current_host.py",
+      "git_blob_sha": "f51236830bce50a7e203b8c0e7345cd0e4c71b42",
       "baseline_delta_status": "added"
     },
     {
