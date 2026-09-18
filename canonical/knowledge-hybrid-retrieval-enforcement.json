@@ -1,0 +1,20 @@
+{
+  "schema": "fa3.knowledge-hybrid-retrieval-enforcement.v1",
+  "gate_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "rules": {
+    "knowledge_root": "FA3-KNOWLEDGE-001",
+    "planner": "PROVIDER_NEUTRAL_REQUIRED",
+    "retrieval_plan": "REQUIRED",
+    "retrieval_trace": "REQUIRED",
+    "context_passport": "REQUIRED_FOR_CONTEXT_HANDOFF",
+    "pageindex_local_state": "PENDING_CURRENT_HOST_OR_EVIDENCE_CONNECTED",
+    "local_model_endpoint": "LOOPBACK_FA3_MODEL_ROUTER_ONLY",
+    "direct_pageindex_cloud_from_local_provider": "DENY",
+    "openkb_authority": "DENY",
+    "condb_authority": "DENY",
+    "media_binary_in_knowledge_store": "DENY"
+  }
+}

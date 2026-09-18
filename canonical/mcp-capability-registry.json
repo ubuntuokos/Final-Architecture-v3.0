@@ -98,6 +98,18 @@
       "hrb_required": false,
       "providers": [
         {
+          "provider_id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+          "adapter_id": "fa3.adapter.pageindex.local.index",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 20,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
+          "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+          "network_egress": "DENY_DIRECT_PROVIDER_EGRESS"
+        },
+        {
           "provider_id": "FA3-PROVIDER-PAGEINDEX-MCP-001",
           "adapter_id": "fa3.adapter.pageindex.index",
           "state": "PENDING_CURRENT_HOST",
@@ -118,6 +130,18 @@
       "approval": "policy",
       "hrb_required": false,
       "providers": [
+        {
+          "provider_id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+          "adapter_id": "fa3.adapter.pageindex.local.retrieve",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 20,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
+          "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+          "network_egress": "DENY_DIRECT_PROVIDER_EGRESS"
+        },
         {
           "provider_id": "FA3-PROVIDER-PAGEINDEX-MCP-001",
           "adapter_id": "fa3.adapter.pageindex.retrieve",

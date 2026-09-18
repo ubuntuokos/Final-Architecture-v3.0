@@ -1,0 +1,63 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+  "name": "VectifyAI/PageIndex Local SDK",
+  "status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "subprofile": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+  "provider_role": "PREFERRED_LOCAL_HIERARCHICAL_REASONING_RETRIEVAL_PROVIDER",
+  "classification": [
+    "LOCAL_PROVIDER",
+    "DOCUMENT_TREE_INDEX_PROVIDER",
+    "REASONING_RETRIEVAL_PROVIDER",
+    "CENTRAL_MCP_ADAPTER_PROVIDER"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "activation_mode": "PREFERRED_WHEN_CURRENT_HOST_ADMITTED",
+  "upstream": {
+    "repository": "VectifyAI/PageIndex",
+    "commit": "9a8dd6658278fec90347e8ac3388a205305667a3",
+    "package_version": "0.2.10",
+    "license": "MIT"
+  },
+  "capability_bindings": [
+    {
+      "capability_id": "fa3.document.index",
+      "adapter_id": "fa3.adapter.pageindex.local.index",
+      "state": "PENDING_CURRENT_HOST",
+      "priority": 20
+    },
+    {
+      "capability_id": "fa3.document.retrieve",
+      "adapter_id": "fa3.adapter.pageindex.local.retrieve",
+      "state": "PENDING_CURRENT_HOST",
+      "priority": 20
+    }
+  ],
+  "local_runtime": {
+    "indexing": "LOCAL_PAGEINDEX_FLASH",
+    "index_storage": "LOCAL_ONLY",
+    "model_access": "FA3_MODEL_ROUTER_LOOPBACK_ONLY",
+    "direct_external_model_provider": "DENY",
+    "pageindex_cloud_api": "DENY",
+    "pageindex_api_key": "DENY",
+    "supported_native_input": [
+      "text_based_pdf"
+    ],
+    "multimodal": "USE_FA3_MEDIA_ADAPTERS_TO_DERIVED_KNOWLEDGE_CONTRACTS"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp": "FA3-AUTH-MCP-GATEWAY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "source_truth": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACTS",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "global_runtime_promotion_claim": false
+}
