@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-VOICE-CAPABILITY-CURRENT-HOST-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Capability-level current-host closure for CAP-115, CAP-116 and CAP-117",
+  "decision": "REGISTER_NINE_PROVIDER_NEUTRAL_FAIL_CLOSED_CURRENT_HOST_OBLIGATIONS_WITHOUT_RUNTIME_PASS_CLAIM",
+  "profile_id": "FA3-VOICE-001",
+  "conformance_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-CONFORMANCE-001",
+  "gate_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-GATESET-001",
+  "capability_bindings": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
+  "registered_obligation_delta": 9,
+  "registered_executor_count_before": 18,
+  "registered_executor_count_after": 27,
+  "pending_executor_count_after": 402,
+  "implementation": [
+    "Provider-neutral capability bundle rather than provider receipt substitution",
+    "CAP-115 requires real STT plus TTS plus central gateway/session mediation",
+    "CAP-116 additionally requires real streaming and real_time_factor <= 1.0",
+    "CAP-117 requires production voice/cloning consent, reference hash, rights and synthetic disclosure",
+    "hu-HU capability PASS requires FA3-HU-AQC-001 PASS",
+    "CosyVoice experimental Hungarian status cannot satisfy production hu-HU capability PASS",
+    "Rollback requires byte-exact state restoration, provider unload, zero active leases and temporary asset cleanup"
+  ],
+  "current_host_runtime_status": "PENDING_REAL_SELF_HOSTED_EVIDENCE_BUNDLES",
+  "current_host_runtime_pass_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
