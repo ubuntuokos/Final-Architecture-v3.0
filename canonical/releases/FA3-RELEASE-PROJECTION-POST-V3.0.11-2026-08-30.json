@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "7c24c4235d6533322889f0c981331933543912d2",
-    "pre_projection_root_tree_sha": "48a65f4cc021ad6f70dbff66cae92793e55b45a7",
-    "pre_projection_canonical_tree_sha": "48e8fbbc9d55b0e47713bc75b915833e30a7e49f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 407,
-    "total_post_baseline_commits": 407,
-    "delta_file_count": 1346,
-    "delta_added_files": 1341,
+    "pre_projection_head_sha": "05078c8390490d47f8fda30a20bf55072cdb01ee",
+    "pre_projection_root_tree_sha": "c13b8b43ba5eac5643c4f235e8a0109bfc0cd8a9",
+    "pre_projection_canonical_tree_sha": "8394312f8c9f9b0b9f3f37d9fa1ce08090c45a05",
+    "commits_ahead_of_v3_0_11_conformance_commit": 410,
+    "total_post_baseline_commits": 410,
+    "delta_file_count": 1348,
+    "delta_added_files": 1343,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,9 +45,9 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 663,
+    "canonical_files_in_post_baseline_delta": 664,
     "evidence_files_in_post_baseline_delta": 126,
-    "source_files_in_post_baseline_delta": 162,
+    "source_files_in_post_baseline_delta": 163,
     "test_files_in_post_baseline_delta": 141,
     "workflow_files_in_post_baseline_delta": 57,
     "provider_records": [
@@ -739,7 +739,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1339,
+  "manifest_entry_count": 1341,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -2029,6 +2029,11 @@
     {
       "path": "canonical/FA3-OPENFX-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "6f5d2b82c7756cadc472e87e8e6f298844fd1f83",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-OS-MCP-AGENT-EXPOSURE-CONFORMANCE-001.json",
+      "git_blob_sha": "e846f026dc7496fe7b773ec04f70aa35220923c6",
       "baseline_delta_status": "added"
     },
     {
@@ -6474,6 +6479,11 @@
     {
       "path": "src/fa3_os_mcp_adapter.py",
       "git_blob_sha": "c7c3add4c6ec2a697c23bc82bcccc3e028ecb415",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_os_mcp_agent_exposure_gate.py",
+      "git_blob_sha": "d26e67b8f205bda63414915c8efdd56fc8825ce0",
       "baseline_delta_status": "added"
     },
     {
