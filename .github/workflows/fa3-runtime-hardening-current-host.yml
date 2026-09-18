@@ -1,0 +1,197 @@
+name: FA3 Runtime Hardening Current-Host Closure
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json'
+      - 'canonical/runtime-hardening-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json'
+      - 'canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json'
+      - 'src/fa3_runtime_hardening_current_host.py'
+      - 'src/fa3_runtime_hardening_current_host_gate.py'
+      - 'evidence/collect-runtime-isolation-sandbox-current-host.py'
+      - 'evidence/collect-media-gpu-zerocopy-current-host.py'
+      - 'evidence/collect-hu-aqc-current-host.py'
+      - 'evidence/collect-promotion-shadow-current-host.py'
+      - 'tests/test_runtime_hardening_current_host_gate.py'
+      - 'fa3-current-host/manifest.json'
+      - 'docs/runtime-hardening-current-host.md'
+      - '.github/workflows/fa3-runtime-hardening-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute all four runtime-hardening current-host evidence surfaces'
+        required: true
+        default: false
+        type: boolean
+      oci_image:
+        description: 'Preloaded immutable OCI image containing /bin/true; network pulling is forbidden'
+        required: false
+        default: ''
+        type: string
+      gvisor_proof:
+        description: 'Path to production gVisor OCI isolation proof on the self-hosted runner'
+        required: false
+        default: '.fa3-current-host/input/gvisor-oci-proof.json'
+        type: string
+      hrb_receipt:
+        description: 'Path to fresh HRB GPU UUID/BDF placement receipt'
+        required: false
+        default: '.fa3-current-host/input/media-zero-hrb.json'
+        type: string
+      input_video:
+        description: 'Approved local seekable video used for PyNvVideoCodec current-host proof'
+        required: false
+        default: '.fa3-current-host/input/media-zero-input.mp4'
+        type: string
+      hu_aqc_audio:
+        description: 'Approved local PCM16 WAV for Hungarian AQC'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc.wav'
+        type: string
+      hu_aqc_metrics:
+        description: 'Current-host HU-AQC scorer bundle with model/license provenance'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-metrics.json'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-runtime-hardening-current-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  regression:
+    name: runtime-hardening-current-host / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare gates
+        run: chmod +x bin/fa3-enforce
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_runtime_hardening_current_host.py \
+            src/fa3_runtime_hardening_current_host_gate.py \
+            evidence/collect-runtime-isolation-sandbox-current-host.py \
+            evidence/collect-media-gpu-zerocopy-current-host.py \
+            evidence/collect-hu-aqc-current-host.py \
+            evidence/collect-promotion-shadow-current-host.py \
+            tests/test_runtime_hardening_current_host_gate.py
+      - name: Current-host fail-closed regression tests
+        run: PYTHONPATH=src python -m unittest tests.test_runtime_hardening_current_host_gate -v
+      - name: Parent runtime-hardening canonical gate
+        run: ./bin/fa3-enforce runtime-hardening
+      - name: Hosted CI may validate materialization but must remain PENDING
+        run: |
+          rm -f \
+            evidence/receipts/runtime-isolation-sandbox-current-host.json \
+            evidence/receipts/media-gpu-zerocopy-current-host.json \
+            evidence/receipts/hu-aqc-current-host.json \
+            evidence/receipts/promotion-shadow-current-host.json
+          ./bin/fa3-enforce runtime-hardening-current-host
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('reports/runtime-hardening-current-host-gate-report.json').read_text())
+          assert report['result'] == 'PASS', report
+          assert report['status'] == 'PENDING_CURRENT_HOST', report
+          assert report['surface_pass_count'] == 0, report
+          assert report['current_host_runtime_promotion_claim'] is False, report
+          assert report['global_promotion_claim'] is False, report
+          PY
+      - name: Unified release projection coherence
+        run: ./bin/fa3-enforce release-projection
+      - name: Upload reference reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-runtime-hardening-current-host-reference
+          if-no-files-found: warn
+          path: |
+            reports/runtime-hardening-gate-report.json
+            reports/runtime-hardening-current-host-gate-report.json
+
+  current-host:
+    name: runtime-hardening-current-host / real-execution
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prove runner identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          chmod +x bin/fa3-current-host-runner-doctor bin/fa3-enforce
+          ./bin/fa3-current-host-runner-doctor
+      - name: Collect runtime isolation and sandbox evidence
+        shell: bash
+        run: |
+          set -u
+          args=()
+          if [[ -n "${{ inputs.oci_image }}" ]]; then args+=(--oci-image "${{ inputs.oci_image }}"); fi
+          if [[ -f "${{ inputs.gvisor_proof }}" ]]; then args+=(--gvisor-proof "${{ inputs.gvisor_proof }}"); fi
+          set +e
+          PYTHONPATH=src python3 evidence/collect-runtime-isolation-sandbox-current-host.py --root . "${args[@]}"
+          echo "sandbox_collector_rc=$?" >> "$GITHUB_ENV"
+          exit 0
+      - name: Collect PyNvVideoCodec zero-host-round-trip evidence
+        shell: bash
+        run: |
+          set +e
+          PYTHONPATH=src python3 evidence/collect-media-gpu-zerocopy-current-host.py \
+            --root . \
+            --input-video "${{ inputs.input_video }}" \
+            --hrb-receipt "${{ inputs.hrb_receipt }}"
+          echo "media_collector_rc=$?" >> "$GITHUB_ENV"
+          exit 0
+      - name: Collect Hungarian AQC evidence
+        shell: bash
+        run: |
+          set +e
+          PYTHONPATH=src python3 evidence/collect-hu-aqc-current-host.py \
+            --root . \
+            --audio "${{ inputs.hu_aqc_audio }}" \
+            --metrics-json "${{ inputs.hu_aqc_metrics }}"
+          echo "hu_aqc_collector_rc=$?" >> "$GITHUB_ENV"
+          exit 0
+      - name: Collect Shadow execution evidence
+        shell: bash
+        run: |
+          set +e
+          PYTHONPATH=src python3 evidence/collect-promotion-shadow-current-host.py \
+            --root . \
+            --sandbox-receipt evidence/receipts/runtime-isolation-sandbox-current-host.json
+          echo "shadow_collector_rc=$?" >> "$GITHUB_ENV"
+          exit 0
+      - name: Enforce all four current-host surfaces
+        run: ./bin/fa3-enforce runtime-hardening-current-host --require-evidence
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-runtime-hardening-current-host-evidence
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/runtime-isolation-sandbox-current-host.json
+            evidence/receipts/media-gpu-zerocopy-current-host.json
+            evidence/receipts/hu-aqc-current-host.json
+            evidence/receipts/promotion-shadow-current-host.json
+            reports/runtime-hardening-current-host-gate-report.json
