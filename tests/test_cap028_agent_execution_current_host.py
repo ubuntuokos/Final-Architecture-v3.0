@@ -46,6 +46,7 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
                 "binary": "/usr/bin/wasmtime",
                 "module_sha256": "a" * 64,
                 "returncode": 0,
+                "compatibility_evidence": True,
                 "filesystem_preopens": [],
                 "network_lease": False,
                 "host_subprocess_agent_execution": False,
@@ -107,8 +108,22 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
         self.assertEqual(result["pre_sha256"], result["post_sha256"])
         self.assertNotEqual(result["pre_sha256"], result["mutated_sha256"])
 
-    def test_sandbox_policy_rejects_host_subprocess_backend(self):
+    def test_sandbox_policy_admits_wasmtime_and_rejects_host_subprocess_backend(self):
         self.assertTrue(cap028._sandbox_policy_ok())
+        from src.fa3_runtime_hardening import agent_sandbox_valid
+        self.assertFalse(
+            agent_sandbox_valid(
+                backend="HOST_SUBPROCESS",
+                arbitrary_code=True,
+                explicit_admission=True,
+                ephemeral_overlay=True,
+                host_home_visible=False,
+                host_processes_visible=False,
+                network_mode="DENY",
+                direct_mcp_bypass=False,
+                compatibility_evidence=True,
+            )
+        )
 
 
 if __name__ == "__main__":
