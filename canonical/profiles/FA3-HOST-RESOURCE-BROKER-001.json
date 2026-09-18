@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -119,7 +119,9 @@
     "fixed prefetch cycle interval as a portable baseline",
     "fixed prefetch memory percentages as portable defaults",
     "fixed prefetch process concurrency as a portable default",
-    "fixed prefetch sort strategy or device readahead value without workload benchmark"
+    "fixed prefetch sort strategy or device readahead value without workload benchmark",
+    "runtime mutation of version-controlled canonical Quadlet templates",
+    "fixed CDI device identifier or CUDA ordinal as portable provider placement"
   ],
   "non_authority_scope": [
     "provider execution semantics",
@@ -182,5 +184,35 @@
     "environment_variable_authority": false,
     "container_runtime_may_reselect_resources": false,
     "provider_hard_dependency": false
+  },
+  "quadlet_runtime_projection": {
+    "profile_id": "FA3-RUNTIME-ISOLATION-001",
+    "canonical_template_mutation_forbidden": true,
+    "rootless_required": true,
+    "materialization_root": "$XDG_RUNTIME_DIR/containers/systemd",
+    "lease_bound_resources": [
+      "cpu",
+      "memory",
+      "accelerator",
+      "mounts",
+      "network"
+    ],
+    "read_only_rootfs_default": true,
+    "no_new_privileges_default": true,
+    "drop_all_capabilities_default": true,
+    "network_default": "DENY",
+    "accelerator_identity": [
+      "GPU_UUID",
+      "PCI_BDF"
+    ],
+    "nvidia_projection": "CDI_WHEN_AVAILABLE",
+    "runtime_ordinal_is_noncanonical": true,
+    "evidence": [
+      "template_digest",
+      "lease_id",
+      "materialized_unit_digest",
+      "effective_runtime_config",
+      "cleanup_receipt"
+    ]
   }
 }
