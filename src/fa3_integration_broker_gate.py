@@ -74,6 +74,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         "broker": root / "src/fa3_integration_broker.py",
         "wrapper": root / "bin/fa3-integration-committer.py",
         "secret_gate": root / "src/fa3_podman_secret_negative_gate.py",
+        "secret_gate_record": root / "canonical/FA3-GATE-PODMAN-SECRET-ISOLATION-CURRENT-HOST-001.json",
+        "secret_conformance": root / "canonical/FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001.json",
     }
     for name, path in paths.items():
         if not path.exists():
@@ -88,6 +90,8 @@ def reference_check(root: Path) -> dict[str, Any]:
     policy = _load(paths["policy"])
     proposal_schema = _load(paths["proposal_schema"])
     event_schema = _load(paths["event_schema"])
+    secret_gate_record = _load(paths["secret_gate_record"])
+    secret_conformance = _load(paths["secret_conformance"])
     source = paths["broker"].read_text(encoding="utf-8")
 
     if not (
@@ -107,6 +111,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
         and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and decision.get("capability_id") == "CAP-028"
     ):
         findings.append(_finding("IB-REF-003", "integration broker decision drift"))
     if not (
@@ -133,6 +138,20 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("IB-REF-008", "proposal schema identity drift"))
     if event_schema.get("$id") != "https://fa3.internal/schemas/agent-integration-event.v1.json":
         findings.append(_finding("IB-REF-009", "event schema identity drift"))
+
+    if not (
+        secret_gate_record.get("gateset_id") == "FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-GATESET-001"
+        and secret_gate_record.get("capability_id") == "CAP-028"
+        and secret_gate_record.get("fail_closed") is True
+        and secret_gate_record.get("current_host_runner_required") is True
+        and secret_gate_record.get("current_host_runtime_promotion_claim") is False
+        and secret_conformance.get("id") == "FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001"
+        and secret_conformance.get("capability_id") == "CAP-028"
+        and secret_conformance.get("status") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+        and secret_conformance.get("missing_runtime_or_secret_precondition") == "BLOCKED_NOT_SKIP"
+        and secret_conformance.get("current_host_runtime_promotion_claim") is False
+    ):
+        findings.append(_finding("IB-REF-012", "Podman secret-isolation current-host binding drift"))
 
     required_source_tokens = [
         "worktree", "apply", "--check", "update-ref", "refs/heads/main",
