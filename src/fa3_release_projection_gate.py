@@ -698,7 +698,8 @@ def gate(root: Path):
         or runtime_hardening.get("current_host_conformance_id") != "FA3-RUNTIME-HARDENING-CURRENT-HOST-001"
         or runtime_hardening.get("current_host_gate_id") != "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
         or runtime_hardening.get("current_host_gate_record_id") != "FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001"
-        or runtime_hardening.get("current_host_runtime_status") != "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+        or runtime_hardening.get("current_host_runtime_status") != "PENDING_CURRENT_HOST_BACKEND_MEDIA_AQC_SHADOW_E2E"
+        or runtime_hardening.get("current_host_executable_closure_status") != "MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
         or runtime_hardening.get("pcie_copy_budget_is_zero_copy_proof") is not False
         or runtime_hardening.get("new_capabilities") != 0
         or runtime_hardening.get("new_architectural_authorities") != 0
