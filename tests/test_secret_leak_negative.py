@@ -31,6 +31,8 @@ class TestSecretLeakNegative(unittest.TestCase):
                 "inspect_contains_no_raw_secret": True,
                 "image_resolved_to_content_id": True,
                 "secret_store_entry_exists_during_probe": True,
+                "container_removed_after_probe": True,
+                "secret_removed_after_probe": True,
             },
             "current_host_runtime_promotion_claim": False,
             "global_promotion_claim": False,
