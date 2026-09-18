@@ -35,6 +35,7 @@ jobs:
         run: |
           python -m py_compile \
             src/fa3_os_context_policy.py \
+            src/fa3_os_mcp_adapter.py \
             src/fa3_os_current_host_gate.py \
             evidence/collect-fa3-os-runtime-current-host.py \
             tests/test_fa3_os_current_host_admission.py
