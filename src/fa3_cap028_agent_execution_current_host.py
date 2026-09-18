@@ -210,9 +210,10 @@ def _run_positive(root: Path, scope: Path) -> dict[str, Any]:
     if not workspace_plan_valid({"worker": "cap028-worktree"}, ["worker"]):
         raise RuntimeError("isolated mutating workspace plan rejected")
     if not budget_valid(
-        usage={"tokens": 10, "cost": 0, "time": 1, "tools": 1, "subagents": 0},
-        limits={"tokens": 100, "cost": 1, "time": 60, "tools": 5, "subagents": 1},
-        agent_can_raise_limits=False,
+        usage={"tokens": 10, "cost": 0, "time": 1, "tool_calls": 1, "subagents": 0},
+        limits={"tokens": 100, "cost": 1, "time": 60, "tool_calls": 5, "subagents": 1},
+        self_raise=False,
+        extension_human_approved=False,
     ):
         raise RuntimeError("bounded execution budget rejected")
     if not _sandbox_policy_ok():
