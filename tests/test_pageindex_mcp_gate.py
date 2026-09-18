@@ -213,6 +213,14 @@ class PageIndexMcpTests(unittest.TestCase):
         self.assertEqual("denied", receipt["result_status"])
         self.assertEqual("PAGEINDEX_REMOTE_CONTRACT_DRIFT", receipt["reason_code"])
 
+    def test_current_host_surfaces_do_not_escape_runtime_expressions(self) -> None:
+        runner = (ROOT / "bin/fa3-pageindex-mcp-current-host.sh").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/fa3-pageindex-mcp-current-host.yml").read_text(encoding="utf-8")
+        self.assertNotIn(r"\${", runner)
+        self.assertNotIn(r"\${{", workflow)
+        self.assertIn("${FA3_PAGEINDEX_MCP_SOURCE_ROOT:-}", runner)
+        self.assertIn("${{ inputs.source_root }}", workflow)
+
     def test_current_host_pass_is_not_fabricated(self) -> None:
         report = gate(ROOT, current_host=True)
         self.assertEqual("BLOCKED", report["result"])
