@@ -13,7 +13,7 @@ Run `./bin/fa3-enforce stability-matrix-lifecycle` for the 23-case executable re
 ## Permanent gates
 
 - `canonical-regression / P0` validates the exact 143-capability catalog, v3.0.11 source-graph attestation, 36/36 reconciliation, geometry closure, and scope invariants.
-- `promotion-safety / fail-closed` proves that runtime `PROMOTED` cannot be set until the current-host Evidence Registry and all 19 acceptance criteria are PASS.
+- `promotion-safety / fail-closed` proves that runtime `PROMOTED` cannot be set until the current-host Evidence Registry and all 22 acceptance criteria are PASS.
 
 Runtime evidence starts at `PENDING_CURRENT_HOST`; documentation alone never promotes the runtime.
 
@@ -930,7 +930,7 @@ python evidence/collect-cpu-numa-threading-current-host.py \
 ./bin/fa3-enforce cpu-numa-threading-current-host
 ```
 
-The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 19 acceptance criteria.
+The result remains component-scoped evidence. Global promotion still requires the complete Evidence Registry and all 22 acceptance criteria.
 
 ## FA3 Stability AI mandatory support portfolio
 
@@ -1224,3 +1224,12 @@ The desktop reference is pinned to stable Linux Obsidian `1.13.7` (`obsidian_1.1
 ```
 
 Reference PASS is not current-host runtime promotion. Full design and operator boundaries: [`docs/obsidian-integration.md`](docs/obsidian-integration.md).
+
+
+## VapourSynth R80 GPU-resident frame fabric
+
+FA3 uses VapourSynth **R80** as the portable Vulkan 1.4 GPU-resident frame-fabric reference inside `FA3-MEDIA-GPU-ZEROCOPY-001`. NVIDIA PyNvVideoCodec remains the NVIDIA-specific fast path; `FA3-PROVIDER-VS-MLRT-001` is a separate neural-runtime adapter whose backend residency must be proven on the current host.
+
+A `vspipe --y4m | ffmpeg` boundary is supported for compatibility but is not accepted as zero-host-round-trip evidence. Foreign-GPU zero-copy claims require residency tracing, VSVulkan4 external-memory/semaphore interop where applicable, device-identity matching, no host pixel materialization, and current-host E2E evidence. PCIe/NVML telemetry is corroborating only.
+
+The production promotion gate is **22/22**: CRIT-020 covers immutable rootless Quadlet lease materialization, CRIT-021 bounded host-impact agent execution, and CRIT-022 accelerator residency/transfer integrity.
