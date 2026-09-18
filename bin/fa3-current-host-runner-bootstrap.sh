@@ -83,10 +83,78 @@ activate_service() {
   systemctl --user enable --now "$UNIT_NAME"
 }
 
+repair_remote_runner_labels() {
+  command -v gh >/dev/null 2>&1 || {
+    echo "FAIL: gh is required to repair existing runner labels" >&2
+    exit 25
+  }
+
+  local tmp runner_id missing_csv self_hosted payload
+  local -a state
+  tmp="$(mktemp)"
+  gh api "repos/\${REPO}/actions/runners?per_page=100" >"$tmp"
+
+  mapfile -t state < <(
+    python3 - "$RUNNER_ROOT/.runner" "$tmp" <<'PY'
+from __future__ import annotations
+import json
+import sys
+from pathlib import Path
+
+runner_file, api_file = sys.argv[1:]
+local = json.loads(Path(runner_file).read_text(encoding="utf-8-sig"))
+api = json.loads(Path(api_file).read_text(encoding="utf-8-sig"))
+name = local.get("agentName") or local.get("name")
+if not name:
+    raise SystemExit("FAIL: local .runner has no agentName")
+remote = next((r for r in api.get("runners", []) if r.get("name") == name), None)
+if remote is None:
+    raise SystemExit(f"FAIL: runner {name!r} not found in repository runner inventory")
+labels = {str(x.get("name", "")).lower() for x in remote.get("labels", []) if isinstance(x, dict)}
+repairable = ("linux", "x64", "fa3-current-host")
+missing = [label for label in repairable if label not in labels]
+print(remote["id"])
+print(",".join(missing))
+print("1" if "self-hosted" in labels else "0")
+PY
+  )
+  rm -f "$tmp"
+
+  runner_id="\${state[0]:-}"
+  missing_csv="\${state[1]:-}"
+  self_hosted="\${state[2]:-0}"
+
+  [[ -n "$runner_id" ]] || { echo "FAIL: unable to resolve runner id" >&2; exit 26; }
+  [[ "$self_hosted" == "1" ]] || {
+    echo "FAIL: existing runner lost the read-only self-hosted label; re-registration is required" >&2
+    exit 27
+  }
+
+  if [[ -z "$missing_csv" ]]; then
+    return 0
+  fi
+
+  echo "INFO: repairing runner labels: $missing_csv"
+  payload="$(
+    python3 - "$missing_csv" <<'PY'
+import json
+import sys
+labels = [x for x in sys.argv[1].split(",") if x]
+print(json.dumps({"labels": labels}))
+PY
+  )"
+  printf '%s\n' "$payload" |
+    gh api --method POST \
+      -H "Accept: application/vnd.github+json" \
+      "repos/\${REPO}/actions/runners/\${runner_id}/labels" \
+      --input - >/dev/null
+}
+
 if [[ -e "$RUNNER_ROOT/.runner" ]]; then
   echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and recovering service wiring"
   [[ -x "$RUNNER_ROOT/bin/Runner.Listener" ]] || { echo "FAIL: existing runner registration has no Runner.Listener" >&2; exit 24; }
   activate_service
+  repair_remote_runner_labels
   exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
 fi
 
