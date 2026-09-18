@@ -1,0 +1,59 @@
+name: FA3 Runtime Hardening Current Host CRIT-020-022
+on:
+  workflow_dispatch:
+    inputs:
+      quadlet_evidence:
+        required: false
+        default: '.fa3-current-host/input/provider-quadlet-isolation.json'
+        type: string
+      agent_evidence:
+        required: false
+        default: '.fa3-current-host/input/agent-sandbox.json'
+        type: string
+      residency_evidence:
+        required: false
+        default: '.fa3-current-host/input/neural-video-residency.json'
+        type: string
+permissions:
+  contents: read
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host prerequisites and evidence inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v podman
+          command -v runsc
+          test -f "${{ inputs.quadlet_evidence }}"
+          test -f "${{ inputs.agent_evidence }}"
+          test -f "${{ inputs.residency_evidence }}"
+      - name: Normalize signed CRIT-020..022 receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 evidence/collect-runtime-hardening-current-host.py \
+            --quadlet-evidence "${{ inputs.quadlet_evidence }}" \
+            --agent-evidence "${{ inputs.agent_evidence }}" \
+            --residency-evidence "${{ inputs.residency_evidence }}"
+      - name: Validate global acceptance
+        shell: bash
+        run: ./bin/fa3-enforce acceptance
+      - name: Upload current-host receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-runtime-hardening-current-host-crit-020-022
+          if-no-files-found: error
+          path: |
+            evidence/receipts/provider-quadlet-isolation-current-host.json
+            evidence/receipts/agent-sandbox-current-host.json
+            evidence/receipts/neural-video-residency-current-host.json
