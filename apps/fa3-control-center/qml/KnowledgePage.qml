@@ -75,7 +75,8 @@ Item {
                     ColumnLayout { anchors.fill: parent; anchors.margins: 12
                         Label { text: "OpenKB"; color: root.textPrimary; font.bold: true }
                         Label { text: "OPTIONAL COMPILER"; color: root.orange; font.pixelSize: 8; font.bold: true }
-                        Label { Layout.fillWidth: true; text: "Materialized derived knowledge compiler; nem source authority."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }\n                        Label { text: "PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 8; font.bold: true }
+                        Label { Layout.fillWidth: true; text: "Materialized derived knowledge compiler; nem source authority."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
+                        Label { text: "PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 8; font.bold: true }
                     }
                 }
                 Card {
@@ -83,7 +84,8 @@ Item {
                     ColumnLayout { anchors.fill: parent; anchors.margins: 12
                         Label { text: "ConDB"; color: root.textPrimary; font.bold: true }
                         Label { text: "OPTIONAL CACHE"; color: root.orange; font.pixelSize: 8; font.bold: true }
-                        Label { Layout.fillWidth: true; text: "Materialized tree-search/cache accelerator; derived és rebuildable."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }\n                        Label { text: "PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 8; font.bold: true }
+                        Label { Layout.fillWidth: true; text: "Materialized tree-search/cache accelerator; derived és rebuildable."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
+                        Label { text: "PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 8; font.bold: true }
                     }
                 }
             }

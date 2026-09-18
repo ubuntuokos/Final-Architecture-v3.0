@@ -13,7 +13,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from fa3_mcp_gateway import Adapter, GatewayDenied\nfrom fa3_asset_egress_policy import validate_decision
+from fa3_mcp_gateway import Adapter, GatewayDenied
+from fa3_asset_egress_policy import validate_decision
 
 PROVIDER_ID = "FA3-PROVIDER-PAGEINDEX-MCP-001"
 INDEX_ADAPTER_ID = "fa3.adapter.pageindex.index"
