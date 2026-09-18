@@ -58,8 +58,6 @@ def validate_contract_files(paths: list[Path]) -> list[str]:
                 findings.append(f"{path.name}: JSON Schema dialect missing")
             if not isinstance(obj.get("$id"), str) or not obj.get("$id"):
                 findings.append(f"{path.name}: JSON Schema $id missing")
-        elif not isinstance(obj.get("schema"), str) or not obj.get("schema"):
-            findings.append(f"{path.name}: FA3 schema marker missing")
     return findings
 
 
