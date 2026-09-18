@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, os, platform, socket, sys, wave
+import argparse, json, os, platform, socket, subprocess, sys, wave
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -10,6 +10,12 @@ from fa3_cosyvoice_provider import PROVIDER_ID, PROFILE_ID, execute_synthesis, s
 
 def now():
     return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
+
+def repo_head():
+    try:
+        return subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True,stderr=subprocess.DEVNULL).strip()
+    except Exception:
+        return "UNKNOWN"
 
 def write(path:Path,obj):
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -52,7 +58,10 @@ def main():
         "provider_id":PROVIDER_ID,
         "profile_id":PROFILE_ID,
         "collected_at":now(),
+        "repository_head":repo_head(),
         "current_host":True,
+        "synthetic":False,
+        "global_promotion_claim":False,
         "production_e2e":True,
         "host":{"hostname":socket.gethostname(),"platform":platform.platform(),"python":platform.python_version()},
         "request_path":str(req_path),
@@ -69,7 +78,8 @@ def main():
         "frame_count":frames,
         "provider_result_path":str(result_path.resolve()),
         "provider_result_sha256":sha256_file(result_path),
-        "execution_evidence":result["execution_evidence"]
+        "execution_evidence":result["execution_evidence"],
+        "streaming_metrics":result["execution_evidence"].get("streaming_metrics")
     }
     write(Path(args.output).expanduser().resolve(),receipt)
     print(json.dumps(receipt,ensure_ascii=False,indent=2))
