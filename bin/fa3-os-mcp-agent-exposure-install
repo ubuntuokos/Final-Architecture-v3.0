@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+RUNTIME_ROOT="${FA3_MCP_RUNTIME_ROOT:-$HOME/.local/share/fa3/mcp-gateway-runtime}"
+UNIT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user"
+UNIT_NAME="fa3-mcp-gateway.service"
+UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
+TEMPLATE="$ROOT/deployment/mcp-gateway/fa3-mcp-gateway-user.service.in"
+REGISTRY_SOURCE="$ROOT/canonical/mcp-capability-registry.json"
+START=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --registry)
+      REGISTRY_SOURCE="$2"
+      shift 2
+      ;;
+    --start)
+      START=1
+      shift
+      ;;
+    --stop)
+      systemctl --user disable --now "$UNIT_NAME" || true
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
+[[ -f "$REGISTRY_SOURCE" ]] || { echo "Missing registry: $REGISTRY_SOURCE" >&2; exit 3; }
+[[ -f "$TEMPLATE" ]] || { echo "Missing service template: $TEMPLATE" >&2; exit 4; }
+
+JOURNAL_DIR="${FA3_OS_JOURNAL_DIR:-$HOME/.local/share/Final Architecture/FA3 Control Center/journal}"
+mkdir -p "$RUNTIME_ROOT/src" "$RUNTIME_ROOT/bin" "$RUNTIME_ROOT/canonical" "$UNIT_DIR" "$JOURNAL_DIR"
+
+for file in   fa3_mcp_gateway.py   fa3_mcp_gateway_server.py   fa3_os_mcp_adapter.py   fa3_os_context_policy.py   fa3_os_runtime.py   fa3_security_policy_plane.py
+do
+  install -m 0644 "$ROOT/src/$file" "$RUNTIME_ROOT/src/$file"
+done
+install -m 0755 "$ROOT/bin/fa3-mcp-gateway" "$RUNTIME_ROOT/bin/fa3-mcp-gateway"
+install -m 0644 "$REGISTRY_SOURCE" "$RUNTIME_ROOT/canonical/mcp-capability-registry.json"
+
+python3 - "$TEMPLATE" "$UNIT_PATH" "$RUNTIME_ROOT" "$JOURNAL_DIR" <<'PY'
+from __future__ import annotations
+import sys
+from pathlib import Path
+
+template_path, unit_path, runtime_root, journal_dir = sys.argv[1:]
+text = Path(template_path).read_text(encoding="utf-8")
+def q(value: str) -> str:
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+text = text.replace("@RUNTIME_ROOT@", q(runtime_root))
+text = text.replace("@JOURNAL_DIR@", q(journal_dir))
+Path(unit_path).write_text(text, encoding="utf-8")
+PY
+
+systemctl --user daemon-reload
+systemd-analyze --user verify "$UNIT_PATH"
+
+if [[ "$START" -eq 1 ]]; then
+  systemctl --user enable --now "$UNIT_NAME"
+fi
+
+echo "FA3 MCP runtime installed: $RUNTIME_ROOT"
+echo "FA3 MCP unit: $UNIT_PATH"
