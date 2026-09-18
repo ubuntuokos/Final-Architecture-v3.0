@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import json
 import tempfile
 import time
 import unittest
@@ -162,6 +163,36 @@ class Fa3OsContextPolicyTests(unittest.TestCase):
         not_admitted["gateway_runtime_admitted"] = False
         with self.assertRaises(AuthorizationError):
             validate_gateway_authorization(not_admitted)
+
+
+class Fa3OsCanonicalAdmissionStateTests(unittest.TestCase):
+    def test_canonical_conformance_is_bound_to_durable_current_host_evidence(self) -> None:
+        conformance = json.loads((ROOT / "canonical/FA3-OS-RUNTIME-CONFORMANCE-001.json").read_text())
+        self.assertEqual(conformance["status"], "CURRENT_HOST_ADMITTED")
+        self.assertTrue(conformance["production_admitted"])
+        self.assertTrue(conformance["evidence_present"])
+        self.assertFalse(conformance["promotion_claimed"])
+        self.assertFalse(conformance["agent_exposure_admitted"])
+        self.assertEqual(conformance["agent_exposure_status"], "ADAPTER_GATED")
+        evidence_path = ROOT / conformance["current_host_evidence_ref"]
+        self.assertTrue(evidence_path.is_file())
+        evidence = json.loads(evidence_path.read_text())
+        self.assertEqual(evidence["result"], "PASS")
+        self.assertTrue(evidence["production_admitted"])
+        self.assertFalse(evidence["global_promotion_claim"])
+        self.assertFalse(evidence["agent_exposure_admitted"])
+        self.assertEqual(evidence["source"]["workflow_run_id"], 35297182734)
+        self.assertEqual(
+            evidence["artifact"]["sha256"],
+            "430b667173f40471232c21cef26ebc7347238b7331fba7e365ed2680d0e08def",
+        )
+        self.assertTrue(all(evidence["required_evidence_flags"].values()))
+
+    def test_gui_exposes_admitted_host_but_keeps_agent_exposure_gated(self) -> None:
+        page = (ROOT / "apps/fa3-control-center/qml/Fa3OsPage.qml").read_text()
+        self.assertIn("CURRENT HOST E2E ADMITTED", page)
+        self.assertIn("AGENT EXPOSURE ADAPTER-GATED", page)
+        self.assertNotIn("CURRENT HOST E2E PENDING", page)
 
 
 class Fa3OsCurrentHostGateEvidenceTests(unittest.TestCase):
