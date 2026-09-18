@@ -144,18 +144,7 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
-          producer_audit=json.loads(Path('reports/current-host-capability-qualification-constituent-producer-audit.json').read_text())
-          producer_orchestrator=json.loads(Path('reports/current-host-capability-qualification-constituent-orchestrator.json').read_text())
           executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
-          assert producer_audit['audit_integrity'] == 'PASS', producer_audit
-          assert producer_audit['registered_producer_count'] + producer_audit['pending_producer_count'] == producer_audit['required_constituent_count'], producer_audit
-          assert producer_audit['global_promotion_claim'] is False, producer_audit
-          assert producer_orchestrator['orchestrator_integrity'] == 'PASS', producer_orchestrator
-          assert producer_orchestrator['execution_requested'] is True, producer_orchestrator
-          assert producer_orchestrator['constituents_materialized'] == producer_audit['registered_producer_count'], (producer_orchestrator, producer_audit)
-          assert producer_orchestrator['provider_receipts_promoted'] == 0, producer_orchestrator
-          assert producer_orchestrator['component_receipts_promoted'] == 0, producer_orchestrator
-          assert producer_orchestrator['global_promotion_claim'] is False, producer_orchestrator
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['required_test_obligation_count'] == 429, executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
@@ -395,6 +384,8 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
+          producer_audit=json.loads(Path('reports/current-host-capability-qualification-constituent-producer-audit.json').read_text())
+          producer_orchestrator=json.loads(Path('reports/current-host-capability-qualification-constituent-orchestrator.json').read_text())
           executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
           orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           assembler=json.loads(Path('reports/current-host-capability-test-bundle-assembler.json').read_text())
@@ -403,6 +394,15 @@ jobs:
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert producer_audit['audit_integrity'] == 'PASS', producer_audit
+          assert producer_audit['registered_producer_count'] + producer_audit['pending_producer_count'] == producer_audit['required_constituent_count'], producer_audit
+          assert producer_audit['global_promotion_claim'] is False, producer_audit
+          assert producer_orchestrator['orchestrator_integrity'] == 'PASS', producer_orchestrator
+          assert producer_orchestrator['execution_requested'] is True, producer_orchestrator
+          assert producer_orchestrator['constituents_materialized'] == producer_audit['registered_producer_count'], (producer_orchestrator, producer_audit)
+          assert producer_orchestrator['provider_receipts_promoted'] == 0, producer_orchestrator
+          assert producer_orchestrator['component_receipts_promoted'] == 0, producer_orchestrator
+          assert producer_orchestrator['global_promotion_claim'] is False, producer_orchestrator
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['required_test_obligation_count'] == 429, executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
