@@ -7,10 +7,10 @@
   "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
   "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
   "gate_id": "FA3-OS-MCP-AGENT-EXPOSURE-GATESET-001",
-  "status": "PENDING_CURRENT_HOST",
-  "agent_exposure_admitted": false,
-  "production_binding_connected": false,
-  "evidence_present": false,
+  "status": "CURRENT_HOST_ADMITTED",
+  "agent_exposure_admitted": true,
+  "production_binding_connected": true,
+  "evidence_present": true,
   "promotion_claimed": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -26,6 +26,6 @@
     "unscoped and non-agent invocation denial",
     "canonical MCP registry CONNECTED binding only after current-host PASS"
   ],
-  "evidence_ref": null,
+  "evidence_ref": "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
   "normative_constraint": "Agent exposure remains fail-closed until the persistent gateway binding has fresh current-host E2E evidence. Runtime admission alone does not authorize agents."
 }
