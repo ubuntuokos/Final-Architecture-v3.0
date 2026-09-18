@@ -11,6 +11,12 @@ from fa3_whisper_stt_provider import RuntimeOptions, execute_transcription, sha2
 def now():
     return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
 
+def repo_head():
+    try:
+        return subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True,stderr=subprocess.DEVNULL).strip()
+    except Exception:
+        return "UNKNOWN"
+
 def write(path,obj):
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -59,7 +65,10 @@ def main():
         "provider_id":"FA3-PROVIDER-WHISPER-001",
         "profile_id":"FA3-STT-MEDIA-001",
         "collected_at":now(),
+        "repository_head":repo_head(),
         "current_host":True,
+        "synthetic":False,
+        "global_promotion_claim":False,
         "ci":False,
         "host":{
             "hostname":socket.gethostname(),
