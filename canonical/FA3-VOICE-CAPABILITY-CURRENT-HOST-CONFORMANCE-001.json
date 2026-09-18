@@ -122,5 +122,30 @@
     "missing_bundle": "PENDING_OR_FAIL_WHEN_EXECUTION_REQUIRED",
     "current_host_pass_requires_all_subject_obligations": true,
     "global_promotion_unchanged": "429_OF_429_PLUS_19_OF_19_EXISTING_CANONICAL_PROMOTION_GATE"
-  }
+  },
+  "provider_collector_bindings": {
+    "FA3-PROVIDER-COSYVOICE-001": {
+      "collector": "evidence/collect-cosyvoice-current-host.py",
+      "status": "MATERIALIZED",
+      "hu_HU_production_status": "DENIED_EXPERIMENTAL_FOR_CAPABILITY_PASS"
+    },
+    "FA3-PROVIDER-XTTS-001": {
+      "collector": "evidence/collect-xtts-current-host.py",
+      "status": "REQUIRED_NOT_YET_MATERIALIZED",
+      "hu_HU_production_status": "CANDIDATE_PENDING_CURRENT_HOST_AND_HU_AQC"
+    },
+    "FA3-PROVIDER-PIPER-001": {
+      "collector": "evidence/collect-piper-current-host.py",
+      "status": "REQUIRED_NOT_YET_MATERIALIZED",
+      "hu_HU_production_status": "CANDIDATE_PENDING_CURRENT_HOST_AND_HU_AQC",
+      "capability_limit": "NO_VOICE_CLONING_NO_CAP116"
+    }
+  },
+  "known_current_host_blockers": [
+    "XTTS_CURRENT_HOST_COLLECTOR_NOT_YET_MATERIALIZED",
+    "PIPER_CURRENT_HOST_COLLECTOR_NOT_YET_MATERIALIZED",
+    "COSYVOICE_HU_HU_REMAINS_EXPERIMENTAL_NOT_PRODUCTION_CAPABILITY_EVIDENCE",
+    "CAP116_REQUIRES_STREAMING_REAL_TIME_FACTOR_LE_ONE",
+    "ALL_THREE_CAPABILITIES_REQUIRE_FRESH_FA3_HU_AQC_001_PASS"
+  ]
 }
