@@ -48,8 +48,10 @@
     "canonical/FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-STABLE-AUDIO-3-001.json",
+    "canonical/FA3-GATE-VOICE-CAPABILITY-CURRENT-HOST-001.json",
     "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
     "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-VOICE-CAPABILITY-CURRENT-HOST-CONFORMANCE-001.json",
     "canonical/conformance-matrix.csv",
     "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
     "canonical/cpu-numa-threading-current-host-enforcement.json",
@@ -60,6 +62,7 @@
     "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
     "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
     "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+    "canonical/decisions/FA3-DEC-VOICE-CAPABILITY-CURRENT-HOST-2026-09-19.json",
     "canonical/enforcement-policy.json",
     "canonical/ffmpeg-ai-current-host-enforcement.json",
     "canonical/hrb-systemd-manager-current-host-enforcement.json",
@@ -71,6 +74,8 @@
     "canonical/resource-admission-current-host-enforcement.json",
     "canonical/runtime-hardening-current-host-enforcement.json",
     "canonical/stable-audio-3-enforcement.json",
+    "canonical/voice-capability-current-host-enforcement.json",
+    "docs/current-host-runner.md",
     "docs/pageindex-mcp-current-host.md",
     "docs/runtime-hardening-current-host.md",
     "evidence/collect-cosyvoice-current-host.py",
@@ -105,6 +110,8 @@
     "src/fa3_runtime_hardening_current_host.py",
     "src/fa3_runtime_hardening_current_host_gate.py",
     "src/fa3_stable_audio_3_gate.py",
+    "src/fa3_voice_capability_current_host.py",
+    "src/fa3_voice_capability_current_host_gate.py",
     "tests/test_cap028_agent_execution_current_host.py",
     "tests/test_cosyvoice_gate.py",
     "tests/test_cpu_numa_threading_current_host_gate.py",
@@ -114,7 +121,8 @@
     "tests/test_pageindex_mcp_gate.py",
     "tests/test_resource_admission_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_gate.py",
-    "tests/test_stable_audio_3_gate.py"
+    "tests/test_stable_audio_3_gate.py",
+    "tests/test_voice_capability_current_host.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -257,6 +265,37 @@
         "FA3-QUAL-CAP-028-ROLLBACK-001"
       ],
       "collection_status": "CAPABILITY_EXECUTORS_REGISTERED_REAL_EXECUTION_PENDING",
+      "global_promotion_claim": false
+    },
+    {
+      "name": "voice-capabilities-115-116-117",
+      "collector": null,
+      "gate": "voice-capability-current-host",
+      "activation": "REAL_CURRENT_HOST_PROVIDER_NEUTRAL_HU_HU_VOICE_BUNDLES_REQUIRED",
+      "capability_ids": [
+        "CAP-115",
+        "CAP-116",
+        "CAP-117"
+      ],
+      "qualification_ids": [
+        "FA3-QUAL-CAP-115-POS-001",
+        "FA3-QUAL-CAP-115-NEG-001",
+        "FA3-QUAL-CAP-115-ROLLBACK-001",
+        "FA3-QUAL-CAP-116-POS-001",
+        "FA3-QUAL-CAP-116-NEG-001",
+        "FA3-QUAL-CAP-116-ROLLBACK-001",
+        "FA3-QUAL-CAP-117-POS-001",
+        "FA3-QUAL-CAP-117-NEG-001",
+        "FA3-QUAL-CAP-117-ROLLBACK-001"
+      ],
+      "registered_obligation_count": 9,
+      "bundle_root": ".fa3-current-host/input/voice-capabilities",
+      "collection_status": "CAPABILITY_EXECUTORS_REGISTERED_REAL_EXECUTION_PENDING",
+      "known_blockers": [
+        "XTTS_CURRENT_HOST_COLLECTOR_NOT_YET_MATERIALIZED",
+        "PIPER_CURRENT_HOST_COLLECTOR_NOT_YET_MATERIALIZED",
+        "HU_AQC_AND_STT_COMPONENT_EVIDENCE_REQUIRED"
+      ],
       "global_promotion_claim": false
     }
   ],
