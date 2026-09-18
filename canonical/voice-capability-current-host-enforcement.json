@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.voice-capability-current-host-enforcement.v1",
+  "gate_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-GATESET-001",
+  "conformance_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-CONFORMANCE-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+  "rules": {
+    "exact_evidence_registry_source_decision_coverage": "REQUIRED",
+    "repository_head_binding": "REQUIRED",
+    "evidence_freshness_hours": 24,
+    "locale": "hu-HU",
+    "raw_provider_receipt_as_capability_pass": "DENY",
+    "hosted_ci_current_host_substitution": "DENY",
+    "provider_authority": "DENY",
+    "silent_fallback": "DENY",
+    "hu_quality_profile": "FA3-HU-AQC-001",
+    "hu_quality_pass": "REQUIRED",
+    "native_master_preservation": "REQUIRED",
+    "media_mezzanine_48khz_pcm_lineage": "REQUIRED",
+    "license_output_rights": "PASS_REQUIRED",
+    "cap115_stt_input": "REQUIRED",
+    "cap115_central_gateway_mediation": "REQUIRED",
+    "cap116_streaming": "REQUIRED",
+    "cap116_real_time_factor_max": 1,
+    "cap117_consent_reference_rights": "REQUIRED",
+    "rollback_unload": "REQUIRED",
+    "global_promotion_effect": "NONE"
+  }
+}
