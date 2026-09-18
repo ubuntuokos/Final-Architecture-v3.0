@@ -1,0 +1,25 @@
+# FA3 reference Quadlet template for untrusted-agent current-host materialization.
+# This file is intentionally NON-RUNNABLE until @FA3_IMAGE_DIGEST@ is replaced by
+# an admitted, fully qualified image reference pinned with @sha256:<64 hex>.
+# The installed instance, not this template, is current-host evidence.
+
+[Unit]
+Description=FA3 untrusted agent gVisor sandbox
+
+[Container]
+Image=@FA3_IMAGE_DIGEST@
+ContainerName=fa3-agent-sandbox
+Network=none
+ReadOnly=true
+ReadOnlyTmpfs=true
+NoNewPrivileges=true
+DropCapability=all
+Pull=never
+GlobalArgs=--runtime=runsc
+UserNS=keep-id
+
+[Service]
+Restart=no
+
+[Install]
+WantedBy=default.target
