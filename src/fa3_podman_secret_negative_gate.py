@@ -118,6 +118,20 @@ def collect_current_host(root: Path, image: str) -> dict[str, Any]:
             _run(["podman", "secret", "exists", secret_name], check=False).returncode == 0
         )
 
+        if container_created:
+            _run(["podman", "rm", "-f", inspect_name])
+            container_created = False
+        checks["container_removed_after_probe"] = (
+            _run(["podman", "container", "exists", inspect_name], check=False).returncode != 0
+        )
+
+        if secret_created:
+            _run(["podman", "secret", "rm", secret_name])
+            secret_created = False
+        checks["secret_removed_after_probe"] = (
+            _run(["podman", "secret", "exists", secret_name], check=False).returncode != 0
+        )
+
         status = "PASS" if all(checks.values()) else "FAIL"
         receipt = {
             "schema": RECEIPT_SCHEMA,
@@ -180,6 +194,8 @@ def validate_receipt(receipt: dict[str, Any]) -> tuple[bool, list[str]]:
         "inspect_contains_no_raw_secret",
         "image_resolved_to_content_id",
         "secret_store_entry_exists_during_probe",
+        "container_removed_after_probe",
+        "secret_removed_after_probe",
     }
     if not isinstance(checks, dict) or set(checks) != required_checks or not all(checks.values()):
         errors.append("checks")
