@@ -1,0 +1,32 @@
+[Unit]
+Description=FA3 PageIndex Local Provider
+After=fa3-pageindex-model-router.service
+Requires=fa3-pageindex-model-router.service
+
+[Service]
+Type=simple
+WorkingDirectory=@RUNTIME_ROOT@
+Environment=@ENV_SOCKET@
+Environment=@ENV_STORAGE@
+Environment=@ENV_ROOTS@
+Environment=@ENV_ROUTER@
+Environment=@ENV_INDEX_MODEL@
+Environment=@ENV_CHAT_MODEL@
+ExecStart=@VENV_PYTHON@ @SERVICE_SCRIPT@
+Restart=on-failure
+RestartSec=2
+RuntimeDirectory=fa3
+RuntimeDirectoryMode=0700
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=@RUNTIME_ROOT@
+IPAddressDeny=any
+IPAddressAllow=localhost
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+SystemCallArchitectures=native
+UMask=0077
+
+[Install]
+WantedBy=default.target
