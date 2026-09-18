@@ -121,8 +121,12 @@ def reference_check(root: Path) -> dict[str, Any]:
     }
     if not required_contracts.issubset(set(contract.get("contracts", []))):
         findings.append(_finding("IB-REF-005", "developer-agent contract family missing broker contracts"))
-    if GATE_ID not in policy.get("mandatory_reference_gates", []):
-        findings.append(_finding("IB-REF-006", "integration broker gate missing from global policy"))
+    if not (
+        policy.get("integration_broker_gate_id") == GATE_ID
+        and policy.get("integration_broker_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and policy.get("integration_broker_global_static_required") is True
+    ):
+        findings.append(_finding("IB-REF-006", "integration broker explicit global policy binding drift"))
     if policy.get("integration_broker_mandatory_p0_rules") != P0_RULES:
         findings.append(_finding("IB-REF-007", "global integration broker P0 rules drift"))
     if proposal_schema.get("$id") != "https://fa3.internal/schemas/agent-task-proposal.v1.json":
