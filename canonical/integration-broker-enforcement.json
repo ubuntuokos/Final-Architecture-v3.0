@@ -32,5 +32,7 @@
   "executable_gate": "./bin/fa3-enforce integration-broker",
   "broker_entrypoint": "bin/fa3-integration-committer.py",
   "current_host_secret_gate": "./bin/fa3-enforce podman-secret-isolation-current-host --require-evidence",
-  "current_host_production_promotion_claim": false
+  "current_host_production_promotion_claim": false,
+  "capability_id": "CAP-028",
+  "enforcement_class": "P0_CROSS_CUTTING_STATIC_GATE"
 }
