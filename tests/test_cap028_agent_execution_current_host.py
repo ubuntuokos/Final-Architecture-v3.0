@@ -16,6 +16,26 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
         ids = cap028._expected_source_decisions(ROOT)
         return {"FA3_COVERS_SOURCE_DECISION_IDS_JSON": json.dumps(ids, separators=(",", ":"))}
 
+    def test_agent_exec_profile_binds_cap028_current_host_qualification(self):
+        profile = json.loads(
+            (ROOT / "canonical/profiles/FA3-AGENT-EXEC-001.json").read_text(encoding="utf-8")
+        )
+        binding = profile["current_host_capability_qualification"]
+        self.assertEqual(binding["subject_id"], "CAP-028")
+        self.assertEqual(
+            binding["qualification_ids"],
+            [
+                "FA3-QUAL-CAP-028-POS-001",
+                "FA3-QUAL-CAP-028-NEG-001",
+                "FA3-QUAL-CAP-028-ROLLBACK-001",
+            ],
+        )
+        self.assertEqual(binding["execution_backend"], "WASMTIME_WASI")
+        self.assertEqual(binding["execution_status"], "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING")
+        self.assertFalse(binding["hosted_ci_substitution_allowed"])
+        self.assertFalse(binding["optional_provider_runtime_required"])
+        self.assertFalse(binding["global_promotion_claim"])
+
     def test_exact_source_decision_coverage_matches_evidence_registry(self):
         ids = cap028._expected_source_decisions(ROOT)
         self.assertIn("DEC-CAP-028", ids)
