@@ -1,0 +1,108 @@
+name: FA3 MCP Gateway Current Host
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-MCP-CURRENT-HOST-001.json'
+      - 'canonical/FA3-GATE-MCP-CURRENT-HOST-001.json'
+      - 'canonical/mcp-capability-registry.json'
+      - 'canonical/mcp-current-host-enforcement.json'
+      - 'docs/profiles/FA3-MCP-*'
+      - 'src/fa3_mcp_gateway.py'
+      - 'src/fa3_mcp_gateway_server.py'
+      - 'src/fa3_mcp_current_host_gate.py'
+      - 'tests/test_mcp_gateway_current_host.py'
+      - 'evidence/reference/mcp-current-host-pending.json'
+      - 'bin/fa3-mcp-gateway'
+      - 'bin/fa3-enforce'
+      - 'deployment/mcp-gateway/fa3-mcp-gateway.service'
+      - 'fa3-current-host/manifest.json'
+      - '.github/workflows/fa3-mcp-current-host.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: >-
+          python -m py_compile
+          src/fa3_mcp_gateway.py
+          src/fa3_mcp_gateway_server.py
+          src/fa3_mcp_current_host_gate.py
+      - name: Gateway and fail-closed contract regressions
+        run: PYTHONPATH=src python -m unittest tests.test_mcp_gateway_current_host -v
+      - name: Static current-host contract gate
+        run: bash bin/fa3-enforce mcp-current-host --static
+      - name: Missing real current-host receipt must remain blocked
+        shell: bash
+        run: |
+          set +e
+          bash bin/fa3-enforce mcp-current-host
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Loopback service smoke remains non-ready without CONNECTED adapters
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash bin/fa3-mcp-gateway > /tmp/fa3-mcp-gateway.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          python - <<'PY'
+          import json, time, urllib.error, urllib.request
+          for _ in range(50):
+              try:
+                  with urllib.request.urlopen('http://127.0.0.1:18790/healthz', timeout=1) as r:
+                      health=json.load(r)
+                  assert health['status']=='ok'
+                  assert health['authority']=='FA3-AUTH-MCP-GATEWAY-001'
+                  break
+              except Exception:
+                  time.sleep(0.1)
+          else:
+              raise SystemExit('gateway health endpoint did not become available')
+          try:
+              urllib.request.urlopen('http://127.0.0.1:18790/readyz', timeout=1)
+              raise SystemExit('gateway unexpectedly ready without a CONNECTED adapter')
+          except urllib.error.HTTPError as exc:
+              assert exc.code == 503
+          req=urllib.request.Request(
+              'http://127.0.0.1:18790/invoke',
+              method='POST',
+              data=json.dumps({'capability_id':'fa3.unknown','arguments':{}}).encode(),
+              headers={'Content-Type':'application/json'},
+          )
+          try:
+              urllib.request.urlopen(req, timeout=1)
+              raise SystemExit('unknown/identity-less invocation unexpectedly allowed')
+          except urllib.error.HTTPError as exc:
+              assert exc.code == 403
+              receipt=json.load(exc)
+              assert receipt['result_status']=='denied'
+              assert receipt['reason_code']=='UNKNOWN_IDENTITY'
+          PY
+      - name: Unified current-host projection stays coherent
+        run: ./bin/fa3-current-host verify
+      - name: Reconcile release projection in worktree
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Reconciled unified release projection validates
+        run: ./bin/fa3-enforce release-projection
+      - name: Upload reconciled release projection
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-mcp-reconciled-release-projection
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if-no-files-found: error

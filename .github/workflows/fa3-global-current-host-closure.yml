@@ -5,16 +5,21 @@ on:
     branches: [main]
     paths:
       - 'canonical/current-host-capability-test-executors.json'
+      - 'canonical/current-host-capability-test-qualifications.json'
       - 'src/fa3_current_host_evidence_audit.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'src/fa3_current_host_capability_attest.py'
       - 'src/fa3_current_host_capability_test_bundle.py'
+      - 'src/fa3_current_host_capability_test_qualification_audit.py'
+      - 'src/fa3_current_host_capability_test_qualifier.py'
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
       - 'tests/test_current_host_capability_test_bundle.py'
+      - 'tests/test_current_host_capability_test_qualification_audit.py'
+      - 'tests/test_current_host_capability_test_qualifier.py'
       - 'tests/test_current_host_capability_test_executor_audit.py'
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'evidence/reference/current-host-143-audit-*.json'
@@ -51,12 +56,16 @@ jobs:
         run: |
           chmod +x bin/fa3-current-host bin/fa3-enforce
           python -m py_compile \
+            src/fa3_current_host_capability_test_qualification_audit.py \
+            src/fa3_current_host_capability_test_qualifier.py \
             src/fa3_current_host_capability_test_executor_audit.py \
             src/fa3_current_host_capability_test_orchestrator.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            tests/test_current_host_capability_test_qualification_audit.py \
+            tests/test_current_host_capability_test_qualifier.py \
             tests/test_current_host_capability_test_executor_audit.py \
             tests/test_current_host_capability_test_orchestrator.py \
             tests/test_current_host_capability_test_bundle.py \
@@ -67,12 +76,29 @@ jobs:
       - name: Executor inventory, orchestrator, bundle assembler, producer, handoff and auditor regression tests
         run: |
           PYTHONPATH=src python -m unittest \
+            tests.test_current_host_capability_test_qualification_audit \
+            tests.test_current_host_capability_test_qualifier \
             tests.test_current_host_capability_test_executor_audit \
             tests.test_current_host_capability_test_orchestrator \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
             tests.test_current_host_evidence_audit -v
+      - name: Audit explicit capability-level qualification definitions
+        run: |
+          PYTHONPATH=src python src/fa3_current_host_capability_test_qualification_audit.py --root .
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          qualification=json.loads(Path('reports/current-host-capability-test-qualification-audit.json').read_text())
+          assert qualification['audit_integrity'] == 'PASS', qualification
+          assert qualification['required_test_obligation_count'] == 429, qualification
+          assert qualification['qualified_definition_count'] + qualification['pending_definition_count'] == 429, qualification
+          assert qualification['provider_receipts_promoted'] == 0, qualification
+          assert qualification['component_receipts_promoted'] == 0, qualification
+          assert qualification['generic_host_evidence_promoted'] == 0, qualification
+          assert qualification['global_promotion_claim'] is False, qualification
+          PY
       - name: Audit explicit current-host capability executor coverage
         run: |
           PYTHONPATH=src python src/fa3_current_host_capability_test_executor_audit.py --root .
@@ -202,6 +228,7 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/test-plan/capabilities.json
+            reports/current-host-capability-test-qualification-audit.json
             reports/current-host-capability-test-executor-audit.json
             reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
@@ -255,6 +282,10 @@ jobs:
           terax_collect_rc=$?
           set -e
           echo "terax_collect_rc=$terax_collect_rc" > .fa3-current-host/global-closure/collector-status.txt
+      - name: Audit explicit capability qualification coverage before execution
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_test_qualification_audit.py --root .
       - name: Audit explicit capability executor coverage before execution
         shell: bash
         run: |

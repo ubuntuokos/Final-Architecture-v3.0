@@ -1,0 +1,14 @@
+schema_version: 1
+profile: FA3-MCP-CURRENT-HOST-001
+default_state: ADAPTER_GATED
+allowed_states:
+  - DISCOVERED
+  - QUARANTINED
+  - ADAPTER_GATED
+  - PENDING_CURRENT_HOST
+  - CONNECTED
+  - DISABLED
+adapters: []
+
+# CONNECTED requires admitted current-host E2E evidence. Discovery, catalog
+# presence, GUI visibility or documentation alone can never promote an adapter.

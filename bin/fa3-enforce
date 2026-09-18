@@ -2,6 +2,21 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if [[ "${1:-}" == "pageindex-mcp-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_mcp_gate.py" --root "$ROOT" --current-host "$@"
+fi
+
+if [[ "${1:-}" == "pageindex-mcp" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_mcp_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "mcp-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_mcp_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "resource-admission-current-host" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_resource_admission_current_host_gate.py" --root "$ROOT" "$@"
