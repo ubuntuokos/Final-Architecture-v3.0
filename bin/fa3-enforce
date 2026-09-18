@@ -2,7 +2,12 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-if [[ "${1:-}" == "runtime-hardening" ]]; then\n  shift\n  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_runtime_hardening_gate.py" --root "$ROOT" "$@"\nfi\n\nif [[ "${1:-}" == "knowledge-hybrid-retrieval" ]]; then
+if [[ "${1:-}" == "runtime-hardening" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_runtime_hardening_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "knowledge-hybrid-retrieval" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_knowledge_hybrid_retrieval_gate.py" --root "$ROOT" "$@"
 fi
