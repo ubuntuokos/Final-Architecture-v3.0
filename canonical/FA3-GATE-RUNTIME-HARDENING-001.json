@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-RUNTIME-HARDENING-001",
+  "gateset_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "profile_ids": [
+    "FA3-RUNTIME-ISOLATION-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-MEDIA-GPU-ZEROCOPY-001",
+    "FA3-HU-AQC-001",
+    "FA3-PROMOTION-SHADOW-001"
+  ],
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_runtime_hardening_gate.py --root .",
+  "current_host_runtime_required_for_static_pass": false,
+  "current_host_runtime_required_for_production_promotion": true,
+  "shadow_runtime_may_produce_promotion_authority": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
