@@ -40,8 +40,6 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
         ), patch.object(
             cap028, "_validate_canonical_boundaries", return_value={"all": {"result": "PASS"}}
         ), patch.object(
-            cap028, "_validated_sandbox", return_value={"status": "CURRENT_HOST_PASS"}
-        ), patch.object(
             cap028,
             "_run_wasmtime",
             return_value={
@@ -57,6 +55,7 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
         self.assertEqual(result["status"], "PASS")
         self.assertFalse(result["provider_runtime_dependency_required"])
         self.assertFalse(result["real_sandbox_execution"]["host_subprocess_agent_execution"])
+        self.assertTrue(result["real_sandbox_execution"]["compatibility_evidence"])
 
     def test_negative_matrix_rejects_host_subprocess_mcp_and_authority_expansion(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as td, patch.dict(
@@ -64,7 +63,18 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
         ), patch.object(
             cap028, "_validate_canonical_boundaries", return_value={"all": {"result": "PASS"}}
         ), patch.object(
-            cap028, "_validated_sandbox", return_value={"status": "CURRENT_HOST_PASS"}
+            cap028,
+            "_run_wasmtime",
+            return_value={
+                "binary": "/usr/bin/wasmtime",
+                "version": "wasmtime test",
+                "module_sha256": "b" * 64,
+                "returncode": 0,
+                "compatibility_evidence": True,
+                "filesystem_preopens": [],
+                "network_lease": False,
+                "host_subprocess_agent_execution": False,
+            },
         ):
             result = cap028.run_mode(ROOT, Path(td), "negative")
         self.assertEqual(result["status"], "PASS")
@@ -76,7 +86,18 @@ class Cap028AgentExecutionCurrentHostTests(unittest.TestCase):
         ), patch.object(
             cap028, "_validate_canonical_boundaries", return_value={"all": {"result": "PASS"}}
         ), patch.object(
-            cap028, "_validated_sandbox", return_value={"status": "CURRENT_HOST_PASS"}
+            cap028,
+            "_run_wasmtime",
+            return_value={
+                "binary": "/usr/bin/wasmtime",
+                "version": "wasmtime test",
+                "module_sha256": "c" * 64,
+                "returncode": 0,
+                "compatibility_evidence": True,
+                "filesystem_preopens": [],
+                "network_lease": False,
+                "host_subprocess_agent_execution": False,
+            },
         ):
             result = cap028.run_mode(ROOT, Path(td), "rollback")
         self.assertEqual(result["status"], "PASS")
