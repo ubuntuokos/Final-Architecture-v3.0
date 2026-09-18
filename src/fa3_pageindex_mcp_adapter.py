@@ -36,6 +36,7 @@ SECRET_KEY_FRAGMENTS = ("token", "authorization", "credential", "secret", "api_k
 class PageIndexAdapterConfig:
     command: tuple[str, ...]
     oauth_home: Path
+    source_root: Path | None = None
     allowed_roots: tuple[Path, ...] = ()
     allowed_remote_hosts: tuple[str, ...] = ()
     timeout_seconds: float = 30.0
@@ -61,9 +62,35 @@ class PageIndexAdapterConfig:
         if self.strict_supply_chain:
             if self.source_commit != UPSTREAM_COMMIT or self.release_sha256 != MCPB_SHA256:
                 raise GatewayDenied("PAGEINDEX_SUPPLY_CHAIN_MISMATCH", "PageIndex supply-chain proof does not match canonical pin")
-            joined = " ".join(self.command)
-            if "@pageindex/mcp" in joined and "@pageindex/mcp@1.8.2" not in joined:
-                raise GatewayDenied("PAGEINDEX_FLOATING_PACKAGE_DENIED", "PageIndex npm invocation must pin @pageindex/mcp@1.8.2")
+            if self.source_root is None or not self.source_root.is_absolute() or not self.source_root.is_dir():
+                raise GatewayDenied("PAGEINDEX_SOURCE_ROOT_REQUIRED", "Pinned PageIndex source root is required")
+            try:
+                head = subprocess.run(
+                    ["git", "-C", str(self.source_root), "rev-parse", "HEAD"],
+                    check=True, text=True, capture_output=True, timeout=5,
+                ).stdout.strip()
+                dirty = subprocess.run(
+                    ["git", "-C", str(self.source_root), "diff", "--quiet"],
+                    check=False, timeout=5,
+                ).returncode
+                cached_dirty = subprocess.run(
+                    ["git", "-C", str(self.source_root), "diff", "--cached", "--quiet"],
+                    check=False, timeout=5,
+                ).returncode
+            except Exception as exc:
+                raise GatewayDenied("PAGEINDEX_SOURCE_PROOF_FAILED", f"Unable to verify pinned source tree: {type(exc).__name__}") from exc
+            if head != UPSTREAM_COMMIT or dirty != 0 or cached_dirty != 0:
+                raise GatewayDenied("PAGEINDEX_SOURCE_PROOF_FAILED", "PageIndex source tree is not the clean canonical commit")
+            package_path = self.source_root / "package.json"
+            build_path = (self.source_root / "build" / "index.js").resolve()
+            try:
+                package = json.loads(package_path.read_text(encoding="utf-8"))
+            except Exception as exc:
+                raise GatewayDenied("PAGEINDEX_BUILD_PROOF_FAILED", "PageIndex package metadata is unreadable") from exc
+            if package.get("name") != "@pageindex/mcp" or package.get("version") != UPSTREAM_VERSION or not build_path.is_file():
+                raise GatewayDenied("PAGEINDEX_BUILD_PROOF_FAILED", "PageIndex build/package does not match canonical version")
+            if len(self.command) != 2 or Path(self.command[0]).name != "node" or Path(self.command[1]).resolve() != build_path:
+                raise GatewayDenied("PAGEINDEX_COMMAND_NOT_CANONICAL", "Production PageIndex command must be node <pinned-source>/build/index.js")
 
 
 class JsonRpcStdioSession:
@@ -394,9 +421,11 @@ def factory_from_env() -> tuple[Adapter, Adapter]:
     home = os.environ.get("FA3_PAGEINDEX_MCP_OAUTH_HOME", "")
     roots = tuple(Path(v).expanduser().resolve() for v in os.environ.get("FA3_PAGEINDEX_MCP_ALLOWED_ROOTS", "").split(":") if v)
     hosts = tuple(v.strip().lower() for v in os.environ.get("FA3_PAGEINDEX_MCP_ALLOWED_REMOTE_HOSTS", "").split(",") if v.strip())
+    source_root_raw = os.environ.get("FA3_PAGEINDEX_MCP_SOURCE_ROOT", "")
     config = PageIndexAdapterConfig(
         command=command,
         oauth_home=Path(home).expanduser(),
+        source_root=Path(source_root_raw).expanduser().resolve() if source_root_raw else None,
         allowed_roots=roots,
         allowed_remote_hosts=hosts,
         timeout_seconds=float(os.environ.get("FA3_PAGEINDEX_MCP_TIMEOUT", "30")),
