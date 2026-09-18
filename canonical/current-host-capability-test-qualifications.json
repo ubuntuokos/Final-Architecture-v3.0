@@ -1,0 +1,58 @@
+{
+  "schema": "fa3.current-host-capability-test-qualification-registry.v1",
+  "id": "FA3-CURRENT-HOST-CAPABILITY-TEST-QUALIFICATIONS-001",
+  "status": "PENDING_CAPABILITY_QUALIFICATION_DEFINITIONS",
+  "capability_count": 143,
+  "required_test_kinds_per_capability": [
+    "positive",
+    "negative",
+    "rollback"
+  ],
+  "required_test_obligation_count": 429,
+  "execution_scope": "CURRENT_HOST",
+  "registration_semantics": "EXPLICIT_ONLY_NO_INFERENCE",
+  "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+  "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v1",
+  "entries": [],
+  "invariants": {
+    "provider_receipt_substitution_allowed": false,
+    "component_receipt_substitution_allowed": false,
+    "generic_host_evidence_substitution_allowed": false,
+    "hosted_ci_substitution_allowed": false,
+    "static_reference_substitution_allowed": false,
+    "synthetic_constituent_allowed": false,
+    "implicit_constituent_inference_allowed": false,
+    "evidence_registry_artifact_inference_allowed": false,
+    "exact_registry_test_identity_required": true,
+    "exact_source_decision_coverage_required": true,
+    "explicit_constituent_set_required": true,
+    "current_host_binding_required": true,
+    "freshness_required": true,
+    "source_artifact_hash_binding_required": true,
+    "automatic_capability_promotion": false,
+    "automatic_global_promotion": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0
+  },
+  "entry_contract": {
+    "required_fields": [
+      "qualification_id",
+      "subject_id",
+      "test_kind",
+      "test_id",
+      "coverage_semantics",
+      "evidence_authority_id",
+      "runtime_constituent_schema",
+      "completeness_basis",
+      "required_constituents",
+      "max_constituent_ttl_seconds"
+    ],
+    "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+    "completeness_basis_type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+    "allowed_source_evidence_classes": [
+      "COMPONENT_CURRENT_HOST_EXECUTION",
+      "CROSS_CUTTING_CURRENT_HOST_EXECUTION"
+    ]
+  },
+  "review_note": "A capability-level test obligation may be registered only after an explicit qualification definition partitions and exactly covers the capability's Evidence Registry source_decision_ids. Provider, component, generic-host, static/reference or inferred evidence is never a substitute for complete capability-obligation qualification."
+}
