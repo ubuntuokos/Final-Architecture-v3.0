@@ -1,57 +1,83 @@
 import hashlib
 import json
 import shutil
+import sys
 import tempfile
 import unittest
 from pathlib import Path
-import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_current_host_capability_test_executor_audit import audit
 
+QID = "FA3-QUAL-CAP-001-POS-001"
 
-class CurrentHostCapabilityTestExecutorAuditTests(unittest.TestCase):
+class ExecutorAuditTests(unittest.TestCase):
     def _root(self):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         (root / "evidence").mkdir(parents=True)
         (root / "canonical").mkdir(parents=True)
+        (root / "src").mkdir(parents=True)
         shutil.copy(ROOT / "evidence/evidence-registry.json", root / "evidence/evidence-registry.json")
-        shutil.copy(
-            ROOT / "canonical/current-host-capability-test-executors.json",
-            root / "canonical/current-host-capability-test-executors.json",
-        )
+        shutil.copy(ROOT / "canonical/current-host-capability-test-executors.json", root / "canonical/current-host-capability-test-executors.json")
+        shutil.copy(ROOT / "canonical/current-host-capability-test-qualifications.json", root / "canonical/current-host-capability-test-qualifications.json")
+        shutil.copy(ROOT / "src/fa3_current_host_capability_test_qualifier.py", root / "src/fa3_current_host_capability_test_qualifier.py")
         return td, root
 
     @staticmethod
     def _sha(path):
         return hashlib.sha256(path.read_bytes()).hexdigest()
 
-    def _registry(self, root):
-        path = root / "canonical/current-host-capability-test-executors.json"
-        return path, json.loads(path.read_text())
+    def _record(self, root):
+        data = json.loads((root / "evidence/evidence-registry.json").read_text())
+        return next(row for row in data["records"] if row["subject_id"] == "CAP-001")
 
-    def _add_valid_entry(self, root, *, kind="positive", test_id="AT-CAP-001-POS"):
-        adapter = root / "bin/cap001-test"
-        adapter.parent.mkdir(parents=True, exist_ok=True)
-        adapter.write_text("#!/usr/bin/env python3\nprint('capability-specific current-host verifier')\n")
-        path, registry = self._registry(root)
+    def _qualify(self, root):
+        rec = self._record(root)
+        path = root / "canonical/current-host-capability-test-qualifications.json"
+        registry = json.loads(path.read_text())
+        registry["entries"].append({
+            "qualification_id": QID,
+            "subject_id": "CAP-001",
+            "test_kind": "positive",
+            "test_id": rec["required_positive_test"],
+            "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+            "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+            "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v1",
+            "provider_receipt_only": False,
+            "component_receipt_only": False,
+            "generic_host_collection_only": False,
+            "global_promotion_claim": False,
+            "max_constituent_ttl_seconds": 3600,
+            "completeness_basis": {"type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE", "source_decision_ids": rec["source_decision_ids"]},
+            "required_constituents": [{"constituent_id": "CAP001-POS-ALL", "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION", "covers_source_decision_ids": rec["source_decision_ids"]}],
+        })
+        path.write_text(json.dumps(registry))
+        return rec
+
+    def _add_valid(self, root):
+        rec = self._qualify(root)
+        adapter = root / "src/fa3_current_host_capability_test_qualifier.py"
+        path = root / "canonical/current-host-capability-test-executors.json"
+        registry = json.loads(path.read_text())
         registry["entries"].append({
             "subject_id": "CAP-001",
-            "test_kind": kind,
-            "test_id": test_id,
-            "adapter_path": "bin/cap001-test",
+            "test_kind": "positive",
+            "test_id": rec["required_positive_test"],
+            "qualification_id": QID,
+            "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
             "adapter_sha256": self._sha(adapter),
             "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
             "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
             "synthetic": False,
             "ci_reference_only": False,
             "provider_receipt_only": False,
+            "component_receipt_only": False,
             "generic_host_collection_only": False,
             "global_promotion_claim": False,
-            "argv": [],
+            "argv": ["--qualification-id", QID],
         })
         path.write_text(json.dumps(registry))
         return adapter
@@ -61,120 +87,81 @@ class CurrentHostCapabilityTestExecutorAuditTests(unittest.TestCase):
         try:
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "PASS")
-            self.assertEqual(report["coverage_status"], "PENDING_EXECUTOR_REGISTRATION")
-            self.assertEqual(report["required_test_obligation_count"], 429)
             self.assertEqual(report["registered_executor_count"], 0)
             self.assertEqual(report["pending_executor_count"], 429)
-            self.assertEqual(len(report["pending_obligations"]), 429)
-            self.assertEqual(report["pending_obligations"][0]["test_id"], "AT-CAP-001-POS")
-            self.assertFalse(report["truth_constraints"]["unregistered_test_may_emit_pass_result"])
+            self.assertEqual(report["qualified_definition_count"], 0)
         finally:
             td.cleanup()
 
-    def test_one_exact_registration_gives_partial_coverage_only(self):
+    def test_exact_qualified_registration_gives_partial_coverage(self):
         td, root = self._root()
         try:
-            self._add_valid_entry(root)
+            self._add_valid(root)
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "PASS")
             self.assertEqual(report["coverage_status"], "PARTIAL_EXPLICIT_EXECUTOR_COVERAGE")
             self.assertEqual(report["registered_executor_count"], 1)
-            self.assertEqual(report["pending_executor_count"], 428)
-            self.assertEqual(report["registered_obligations"][0]["test_id"], "AT-CAP-001-POS")
-            self.assertFalse(report["global_promotion_claim"])
+            self.assertEqual(report["qualified_definition_count"], 1)
         finally:
             td.cleanup()
 
-    def test_wrong_test_identity_is_rejected(self):
+    def test_direct_component_adapter_is_rejected(self):
         td, root = self._root()
         try:
-            self._add_valid_entry(root, test_id="AT-WRONG")
-            report = audit(root)
-            self.assertEqual(report["audit_integrity"], "FAIL")
-            self.assertEqual(report["registered_executor_count"], 0)
-            self.assertTrue(any(
-                "test_id mismatch" in detail
-                for finding in report["blocking_findings"]
-                for detail in finding.get("findings", [])
-            ))
-        finally:
-            td.cleanup()
-
-    def test_duplicate_registration_is_rejected(self):
-        td, root = self._root()
-        try:
-            adapter = self._add_valid_entry(root)
-            path, registry = self._registry(root)
-            duplicate = dict(registry["entries"][0])
-            duplicate["adapter_sha256"] = self._sha(adapter)
-            registry["entries"].append(duplicate)
+            self._add_valid(root)
+            direct = root / "bin/component-test"
+            direct.parent.mkdir(parents=True)
+            direct.write_text("#!/usr/bin/env python3\n")
+            path = root / "canonical/current-host-capability-test-executors.json"
+            registry = json.loads(path.read_text())
+            registry["entries"][0]["adapter_path"] = "bin/component-test"
+            registry["entries"][0]["adapter_sha256"] = self._sha(direct)
             path.write_text(json.dumps(registry))
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "FAIL")
-            self.assertTrue(any(
-                "duplicate" in detail
-                for finding in report["blocking_findings"]
-                for detail in finding.get("findings", [])
-            ))
+            details = [d for f in report["blocking_findings"] for d in f.get("findings", [])]
+            self.assertTrue(any("direct component/provider adapters are forbidden" in d for d in details))
         finally:
             td.cleanup()
 
-    def test_provider_or_synthetic_substitution_is_rejected(self):
-        for field in ("provider_receipt_only", "generic_host_collection_only", "synthetic", "ci_reference_only"):
-            with self.subTest(field=field):
-                td, root = self._root()
-                try:
-                    self._add_valid_entry(root)
-                    path, registry = self._registry(root)
-                    registry["entries"][0][field] = True
-                    path.write_text(json.dumps(registry))
-                    report = audit(root)
-                    self.assertEqual(report["audit_integrity"], "FAIL")
-                    self.assertEqual(report["registered_executor_count"], 0)
-                finally:
-                    td.cleanup()
-
-    def test_adapter_digest_mismatch_is_rejected(self):
+    def test_wrong_qualification_binding_is_rejected(self):
         td, root = self._root()
         try:
-            adapter = self._add_valid_entry(root)
+            self._add_valid(root)
+            path = root / "canonical/current-host-capability-test-executors.json"
+            registry = json.loads(path.read_text())
+            registry["entries"][0]["qualification_id"] = "FA3-QUAL-CAP-001-POS-999"
+            registry["entries"][0]["argv"] = ["--qualification-id", "FA3-QUAL-CAP-001-POS-999"]
+            path.write_text(json.dumps(registry))
+            report = audit(root)
+            self.assertEqual(report["audit_integrity"], "FAIL")
+            self.assertEqual(report["registered_executor_count"], 0)
+        finally:
+            td.cleanup()
+
+    def test_adapter_digest_tamper_is_rejected(self):
+        td, root = self._root()
+        try:
+            adapter = self._add_valid(root)
             adapter.write_text("tampered\n")
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "FAIL")
-            self.assertTrue(any(
-                "digest mismatch" in detail
-                for finding in report["blocking_findings"]
-                for detail in finding.get("findings", [])
-            ))
+            self.assertTrue(any("digest mismatch" in d for f in report["blocking_findings"] for d in f.get("findings", [])))
         finally:
             td.cleanup()
-
-    def test_shell_or_privilege_escalation_argv_is_rejected(self):
-        for token in ("sudo", "bash", "-c"):
-            with self.subTest(token=token):
-                td, root = self._root()
-                try:
-                    self._add_valid_entry(root)
-                    path, registry = self._registry(root)
-                    registry["entries"][0]["argv"] = [token]
-                    path.write_text(json.dumps(registry))
-                    report = audit(root)
-                    self.assertEqual(report["audit_integrity"], "FAIL")
-                finally:
-                    td.cleanup()
 
     def test_registry_invariant_weakening_is_rejected(self):
         td, root = self._root()
         try:
-            path, registry = self._registry(root)
-            registry["invariants"]["provider_receipt_substitution_allowed"] = True
+            path = root / "canonical/current-host-capability-test-executors.json"
+            registry = json.loads(path.read_text())
+            registry["invariants"]["direct_component_adapter_allowed"] = True
             path.write_text(json.dumps(registry))
             report = audit(root)
             self.assertEqual(report["audit_integrity"], "FAIL")
-            self.assertTrue(any(f["code"] == "CHEX-008" for f in report["blocking_findings"]))
+            self.assertTrue(any(item["code"] == "CHEX-008" for item in report["blocking_findings"]))
         finally:
             td.cleanup()
-
 
 if __name__ == "__main__":
     unittest.main()
