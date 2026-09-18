@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import wave
 from pathlib import Path
 from typing import Any
 
@@ -170,7 +171,14 @@ def validate_coverage(root: Path, subject_id: str) -> list[str]:
     return expected
 
 
-def _validate_hu_aqc(root: Path, bundle_path: Path, quality: Any, *, cloning: bool) -> dict[str, Any]:
+def _validate_hu_aqc(
+    root: Path,
+    bundle_path: Path,
+    quality: Any,
+    *,
+    cloning: bool,
+    expected_audio_sha256: str,
+) -> dict[str, Any]:
     path, spec = _checked_artifact(bundle_path, quality, "HU-AQC")
     receipt = loadj(path)
     if not (
@@ -185,6 +193,7 @@ def _validate_hu_aqc(root: Path, bundle_path: Path, quality: Any, *, cloning: bo
         and receipt.get("scorer_provenance_admitted") is True
         and receipt.get("signal_metrics_recomputed_locally") is True
         and receipt.get("asr_error_rates_recomputed_locally") is True
+        and receipt.get("audio_sha256") == expected_audio_sha256
     ):
         raise ValueError("HU-AQC current-host receipt invariant mismatch")
     aqc = receipt.get("aqc", {})
@@ -255,6 +264,8 @@ def _validate_provider(root: Path, bundle_path: Path, provider: Any) -> dict[str
         raise ValueError("provider runtime identity missing")
     if not str(provider.get("model_identity", "")).strip():
         raise ValueError("provider model identity missing")
+    if receipt.get("repository_head") != repo_head(root):
+        raise ValueError("provider receipt repository HEAD mismatch")
     if receipt.get("current_host") is not True:
         raise ValueError("provider receipt is not current-host evidence")
     if receipt.get("synthetic") is True:
@@ -268,25 +279,52 @@ def _validate_provider(root: Path, bundle_path: Path, provider: Any) -> dict[str
         )
         if "EXPERIMENTAL" in language_status or normalize_locale(receipt.get("language")) == "hu-HU":
             raise ValueError("CosyVoice experimental Hungarian evidence cannot satisfy production hu-HU capability PASS")
+    output_sha = str(receipt.get("output_audio_sha256", receipt.get("audio_sha256", ""))).lower()
+    if not re.fullmatch(r"[0-9a-f]{64}", output_sha):
+        raise ValueError("provider receipt output audio digest missing")
     return {
         "provider_id": provider_id,
         "collector": collector,
         "receipt_path": str(receipt_path),
         "receipt_sha256": receipt_spec["sha256"],
+        "output_audio_sha256": output_sha,
     }
+
+
+def _wav_contract(path: Path) -> dict[str, int]:
+    try:
+        with wave.open(str(path), "rb") as wav:
+            return {
+                "sample_rate_hz": wav.getframerate(),
+                "channels": wav.getnchannels(),
+                "sample_width_bytes": wav.getsampwidth(),
+                "frames": wav.getnframes(),
+            }
+    except (wave.Error, EOFError) as exc:
+        raise ValueError(f"voice artifact is not readable PCM WAV: {path}") from exc
 
 
 def _validate_audio(bundle_path: Path, bundle: dict[str, Any]) -> dict[str, Any]:
     native_path, native = _checked_artifact(bundle_path, bundle.get("native_output"), "native output")
+    native_wav = _wav_contract(native_path)
     native_sr = int(native.get("sample_rate_hz", 0))
-    if native_sr not in {22050, 24000, 48000} or int(native.get("channels", 0)) < 1:
+    if (
+        native_sr not in {22050, 24000, 48000}
+        or int(native.get("channels", 0)) < 1
+        or native_wav["sample_rate_hz"] != native_sr
+        or native_wav["channels"] != int(native.get("channels", 0))
+        or native_wav["frames"] <= 0
+    ):
         raise ValueError("native output audio contract invalid")
 
     media_path, media = _checked_artifact(bundle_path, bundle.get("media_projection"), "48k media projection")
-    if int(media.get("sample_rate_hz", 0)) != 48000:
+    media_wav = _wav_contract(media_path)
+    if int(media.get("sample_rate_hz", 0)) != 48000 or media_wav["sample_rate_hz"] != 48000:
         raise ValueError("media projection must be 48 kHz")
-    if str(media.get("sample_format", "")).upper() not in {"PCM", "PCM_S16LE", "PCM_S24LE", "PCM_F32LE"}:
+    if str(media.get("sample_format", "")).upper() not in {"PCM", "PCM_S16LE", "PCM_S24LE"}:
         raise ValueError("media projection must use explicit PCM format")
+    if media_wav["frames"] <= 0 or media_wav["channels"] != int(media.get("channels", media_wav["channels"])):
+        raise ValueError("media projection WAV contract invalid")
     lineage = media.get("lineage", {})
     if not isinstance(lineage, dict):
         raise ValueError("media projection lineage missing")
@@ -317,8 +355,10 @@ def _validate_stt(root: Path, bundle_path: Path, stt: Any) -> dict[str, Any]:
         and normalize_locale(receipt.get("detected_language")) in {"hu", "hu-HU"}
     ):
         raise ValueError("STT current-host receipt invariant mismatch")
-    if receipt.get("repository_head") not in {None, repo_head(root)}:
+    if receipt.get("repository_head") != repo_head(root):
         raise ValueError("STT receipt repository head mismatch")
+    if receipt.get("synthetic") is not False or receipt.get("global_promotion_claim") is not False:
+        raise ValueError("STT receipt synthetic/promotion invariant mismatch")
     return {
         "collector": collector,
         "receipt_path": str(path),
@@ -389,6 +429,8 @@ def _validate_common(root: Path, bundle_path: Path, bundle: dict[str, Any], subj
     provider = _validate_provider(root, bundle_path, bundle.get("provider"))
     rights = _validate_rights(bundle.get("license_and_rights"))
     audio = _validate_audio(bundle_path, bundle)
+    if provider["output_audio_sha256"] != audio["native_sha256"]:
+        raise ValueError("provider receipt output does not match native master")
     rollback = _validate_rollback(bundle.get("rollback"))
     return {
         "provider": provider,
@@ -400,7 +442,13 @@ def _validate_common(root: Path, bundle_path: Path, bundle: dict[str, Any], subj
 
 def _validate_cap115(root: Path, bundle_path: Path, bundle: dict[str, Any]) -> dict[str, Any]:
     common = _validate_common(root, bundle_path, bundle, "CAP-115")
-    quality = _validate_hu_aqc(root, bundle_path, bundle.get("quality"), cloning=False)
+    quality = _validate_hu_aqc(
+        root,
+        bundle_path,
+        bundle.get("quality"),
+        cloning=False,
+        expected_audio_sha256=common["audio"]["native_sha256"],
+    )
     stt = _validate_stt(root, bundle_path, bundle.get("stt"))
     control = bundle.get("control_surface", {})
     if not (
@@ -473,7 +521,13 @@ def _validate_cap117(root: Path, bundle_path: Path, bundle: dict[str, Any]) -> d
         raise ValueError("CAP-117 synthetic disclosure missing")
     if production.get("impersonation_fraud_disinformation_use") is not False:
         raise ValueError("CAP-117 forbidden misuse disposition missing")
-    quality = _validate_hu_aqc(root, bundle_path, bundle.get("quality"), cloning=True)
+    quality = _validate_hu_aqc(
+        root,
+        bundle_path,
+        bundle.get("quality"),
+        cloning=True,
+        expected_audio_sha256=common["audio"]["native_sha256"],
+    )
     return {
         **common,
         "quality": quality,
