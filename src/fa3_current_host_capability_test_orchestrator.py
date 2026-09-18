@@ -256,7 +256,7 @@ def _execute_entry(
     return result, []
 
 
-def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
+def orchestrate(root: Path, *, execute: bool, subjects: set[str] | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     coverage = audit_executors(root)
     blocking: list[dict[str, Any]] = []
@@ -269,6 +269,13 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
 
     executor_registry = _load(root / EXECUTOR_REGISTRY)
     entries = executor_registry.get("entries", []) if isinstance(executor_registry.get("entries"), list) else []
+    available_subjects = {str(entry.get("subject_id")) for entry in entries if isinstance(entry, dict)}
+    requested_subjects = sorted(subjects or [], key=lambda x: (int(x.split('-', 1)[1]) if x.startswith('CAP-') and x.split('-', 1)[1].isdigit() else 10**9, x))
+    if subjects is not None:
+        unknown = sorted(set(subjects) - available_subjects)
+        if unknown:
+            blocking.append({"code": "CHOR-007", "message": "Requested batch contains subjects without registered executors", "subjects": unknown})
+        entries = [entry for entry in entries if isinstance(entry, dict) and entry.get("subject_id") in subjects]
     host_path = root / HOST_FINGERPRINT
     host_digest: str | None = None
     if execute and entries and not blocking:
@@ -336,6 +343,8 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
         "capability_count": CAPABILITY_COUNT,
         "required_test_obligation_count": OBLIGATION_COUNT,
         "registered_executor_count": coverage.get("registered_executor_count", 0),
+        "selected_executor_count": len(entries),
+        "requested_subjects": requested_subjects,
         "pending_executor_count": coverage.get("pending_executor_count", OBLIGATION_COUNT),
         "results_materialized": len(materialized),
         "materialized_obligations": materialized,
@@ -371,8 +380,10 @@ def main() -> int:
     )
     parser.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--subjects", default="", help="Comma-separated capability IDs to execute as one batch")
     args = parser.parse_args()
-    report = orchestrate(Path(args.root), execute=args.execute)
+    subjects = {item.strip() for item in args.subjects.split(",") if item.strip()} if args.subjects else None
+    report = orchestrate(Path(args.root), execute=args.execute, subjects=subjects)
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0 if report["orchestrator_integrity"] == "PASS" else 2
 
