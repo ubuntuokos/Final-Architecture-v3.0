@@ -22,6 +22,11 @@ from fa3_os_runtime import (
 AUTH_SCHEMA = "fa3.gateway-authorization-receipt.v1"
 AUTH_ISSUER = "central-mcp-gateway"
 CONTEXT_READ_CAPABILITY = "FA3_OS_CONTEXT_READ"
+MCP_GATEWAY_RECEIPT_SCHEMA = "fa3.mcp.gateway.receipt.v1"
+MCP_GATEWAY_AUTHORITY = "FA3-AUTH-MCP-GATEWAY-001"
+MCP_CONTEXT_READ_CAPABILITY = "fa3.memory.retrieve"
+MCP_OS_PROVIDER_ID = "FA3-OS-REFERENCE-RUNTIME-001"
+MCP_OS_ADAPTER_ID = "fa3.adapter.fa3-os.memory.retrieve"
 ERASURE_SCHEMA = "fa3.os-selective-erasure-receipt.v1"
 RETRIEVAL_SCHEMA = "fa3.os-context-retrieval-receipt.v1"
 SUPPORTED_ERASURE_SCOPES = {
@@ -201,6 +206,132 @@ def _event_allowed_by_scope(event: dict[str, Any], scope: dict[str, Any]) -> boo
     if isinstance(applications, list) and applications and str(enrichment.get("application_id", "")) not in {str(v) for v in applications}:
         return False
     return True
+
+
+def scoped_retrieve_events(
+    journal_path: Path,
+    *,
+    text: str = "",
+    project_id: str = "",
+    workstream_id: str = "",
+    limit: int = 100,
+) -> list[dict[str, Any]]:
+    """Return effective FA3 OS events for an already-admitted caller.
+
+    This helper performs no authorization itself. It is intentionally suitable
+    only for a mediation boundary that has already enforced identity/policy,
+    such as the Central MCP/Capability Gateway adapter below.
+    """
+    needle = text.lower().strip()
+    rows: list[dict[str, Any]] = []
+    for event in effective_events(journal_path):
+        enrichment = extract_enrichment(event)
+        if enrichment is None:
+            continue
+        if project_id and str(event.get("project_id", "")) != project_id:
+            continue
+        if workstream_id and str(enrichment.get("workstream_id", "")) != workstream_id:
+            continue
+        if needle and needle not in canonical_json(event).lower():
+            continue
+        rows.append(event)
+        if len(rows) >= max(1, min(int(limit), 500)):
+            break
+    return rows
+
+
+def validate_mcp_gateway_receipt(
+    receipt: dict[str, Any],
+    *,
+    now: dt.datetime | None = None,
+    max_age_seconds: int = 300,
+) -> dict[str, Any]:
+    if not isinstance(receipt, dict):
+        raise AuthorizationError("FA3-OS-MCP-AUTH-001: gateway invocation receipt must be an object")
+    required = {
+        "schema": MCP_GATEWAY_RECEIPT_SCHEMA,
+        "authority": MCP_GATEWAY_AUTHORITY,
+        "capability_id": MCP_CONTEXT_READ_CAPABILITY,
+        "provider_id": MCP_OS_PROVIDER_ID,
+        "adapter_id": MCP_OS_ADAPTER_ID,
+        "result_status": "success",
+        "reason_code": "DISPATCH_PASS",
+    }
+    for key, expected in required.items():
+        if receipt.get(key) != expected:
+            raise AuthorizationError(f"FA3-OS-MCP-AUTH-002: invalid {key}")
+    for key in ("actor_id", "client_id", "session_id", "policy_decision_id", "request_sha256"):
+        if not str(receipt.get(key, "")).strip():
+            raise AuthorizationError(f"FA3-OS-MCP-AUTH-003: missing {key}")
+    try:
+        stamp = int(receipt.get("timestamp_epoch", 0))
+    except (TypeError, ValueError) as exc:
+        raise AuthorizationError("FA3-OS-MCP-AUTH-004: invalid timestamp") from exc
+    now_epoch = int((now or dt.datetime.now(dt.timezone.utc)).timestamp())
+    if stamp <= 0 or stamp > now_epoch + 60 or now_epoch - stamp > max(1, int(max_age_seconds)):
+        raise AuthorizationError("FA3-OS-MCP-AUTH-005: stale or future gateway receipt")
+    result = receipt.get("result")
+    if not isinstance(result, dict):
+        raise AuthorizationError("FA3-OS-MCP-AUTH-006: gateway result payload missing")
+    refs = result.get("source_event_refs")
+    if not isinstance(refs, list) or any(not str(ref).strip() for ref in refs):
+        raise AuthorizationError("FA3-OS-MCP-AUTH-007: source event references missing or malformed")
+    return receipt
+
+
+def record_mcp_gateway_retrieval_audit(
+    journal_path: Path,
+    *,
+    gateway_receipt: dict[str, Any],
+    purpose: str,
+    project_id: str = "",
+) -> dict[str, Any]:
+    receipt = validate_mcp_gateway_receipt(gateway_receipt)
+    if not purpose.strip():
+        raise ValueError("FA3-OS-MCP-AUDIT-001: purpose is required")
+    result = receipt["result"]
+    source_refs = [str(ref) for ref in result.get("source_event_refs", [])]
+    audit_event = {
+        "schema": JOURNAL_SCHEMA,
+        "id": "FA3-EVT-" + str(uuid.uuid4()).upper(),
+        "timestamp": utc_now(),
+        "event_type": "AUDIT",
+        "domain": "AUDIT",
+        "source": "FA3 OS",
+        "project_id": project_id,
+        "lifecycle": "AUTHORIZED_RETRIEVAL",
+        "summary": "FA3 OS context retrieval mediated by Central MCP Gateway",
+        "details": canonical_json({
+            "fa3_os_retrieval_audit": {
+                "actor": receipt["actor_id"],
+                "purpose": purpose,
+                "policy_id": POLICY_ID,
+                "policy_decision_id": receipt["policy_decision_id"],
+                "source_event_refs": source_refs,
+                "timestamp": utc_now(),
+                "gateway_authority": receipt["authority"],
+                "gateway_receipt_schema": receipt["schema"],
+                "gateway_request_sha256": receipt["request_sha256"],
+                "capability": receipt["capability_id"],
+                "provider_id": receipt["provider_id"],
+                "adapter_id": receipt["adapter_id"],
+            }
+        }),
+        "tags": ["FA3_OS", "CONTEXT_RETRIEVAL", "MCP_GATEWAY_MEDIATED", "AUTHORIZED"],
+        "integrity": "APPEND_ONLY",
+    }
+    append_journal_event(journal_path, audit_event)
+    return {
+        "schema": RETRIEVAL_SCHEMA,
+        "result": "PASS",
+        "policy_id": POLICY_ID,
+        "ledger_authority": JOURNAL_AUTHORITY,
+        "gateway_authority": receipt["authority"],
+        "gateway_capability": receipt["capability_id"],
+        "event_count": len(source_refs),
+        "source_event_refs": source_refs,
+        "audit_event_id": audit_event["id"],
+    }
 
 
 def authorized_retrieve(
