@@ -34,6 +34,7 @@ on:
       - 'tests/test_current_host_capability_test_executor_audit.py'
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_batch_planner.py'
+      - 'tests/test_current_host_batch_orchestration.py'
       - 'docs/current-host-closure-batches.md'
       - 'tests/test_cap075_contract_registry_current_host.py'
       - 'tests/test_cap076_acceptance_resilience_current_host.py'
@@ -45,10 +46,15 @@ on:
   workflow_dispatch:
     inputs:
       execute_current_host:
-        description: 'Execute the fail-closed 143-capability closure on the real FA3 current-host runner'
+        description: 'Execute a fail-closed capability batch on the real FA3 current-host runner'
         required: true
         default: false
         type: boolean
+      execution_batch_id:
+        description: 'Execution-ready batch ID from the deterministic planner (for example EXEC-001)'
+        required: false
+        default: 'EXEC-001'
+        type: string
 
 permissions:
   contents: read
@@ -97,6 +103,7 @@ jobs:
             tests/test_current_host_capability_test_executor_audit.py \
             tests/test_current_host_capability_test_orchestrator.py \
             tests/test_current_host_batch_planner.py \
+            tests/test_current_host_batch_orchestration.py \
             tests/test_cap075_contract_registry_current_host.py \
             tests/test_cap076_acceptance_resilience_current_host.py \
             tests/test_cap054_external_asset_inventory_current_host.py \
@@ -117,6 +124,7 @@ jobs:
             tests.test_current_host_capability_test_executor_audit \
             tests.test_current_host_capability_test_orchestrator \
             tests.test_current_host_batch_planner \
+            tests.test_current_host_batch_orchestration \
             tests.test_cap075_contract_registry_current_host \
             tests.test_cap076_acceptance_resilience_current_host \
             tests.test_cap054_external_asset_inventory_current_host \
@@ -337,6 +345,8 @@ jobs:
               assert acceptance['status'] == 'DENIED', acceptance
               assert promotion['actual_state'] == 'PROMOTION_BLOCKED', promotion
           print(json.dumps({
+              'execution_batch_id': __import__('os').environ.get('FA3_CURRENT_HOST_BATCH_ID'),
+              'execution_batch_subjects': __import__('os').environ.get('FA3_CURRENT_HOST_SUBJECTS'),
               'executor_coverage': executor['coverage_status'],
               'registered_executors': executor['registered_executor_count'],
               'pending_executors': executor['pending_executor_count'],
@@ -429,6 +439,28 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_batch_planner.py --root . --batch-size 5
+      - name: Select explicit execution-ready capability batch
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
+          requested=os.environ.get('FA3_REQUESTED_BATCH_ID', 'EXEC-001')
+          batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
+          if batch is None:
+              raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
+          subjects=batch['capabilities']
+          if not subjects:
+              raise SystemExit(f'Empty execution batch: {requested}')
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
+              fh.write(f"FA3_CURRENT_HOST_BATCH_ID={requested}\n")
+              fh.write(f"FA3_CURRENT_HOST_SUBJECTS={','.join(subjects)}\n")
+              fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={batch['obligation_count']}\n")
+          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': batch['obligation_count']}, indent=2))
+          PY
+        env:
+          FA3_REQUESTED_BATCH_ID: ${{ inputs.execution_batch_id }}
       - name: Audit explicit capability qualification coverage before execution
         shell: bash
         run: |
@@ -440,7 +472,7 @@ jobs:
       - name: Execute registered qualification constituent producers on the real current host
         shell: bash
         run: |
-          PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute
+          PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects "$FA3_CURRENT_HOST_SUBJECTS"
       - name: Audit explicit capability executor coverage before execution
         shell: bash
         run: |
@@ -448,7 +480,7 @@ jobs:
       - name: Execute only registered capability tests on the real current host
         shell: bash
         run: |
-          PYTHONPATH=src python3 src/fa3_current_host_capability_test_orchestrator.py --root . --execute
+          PYTHONPATH=src python3 src/fa3_current_host_capability_test_orchestrator.py --root . --execute --subjects "$FA3_CURRENT_HOST_SUBJECTS"
       - name: Assemble bundles only from explicit real current-host capability test results
         shell: bash
         run: |
@@ -497,7 +529,8 @@ jobs:
           assert producer_audit['global_promotion_claim'] is False, producer_audit
           assert producer_orchestrator['orchestrator_integrity'] == 'PASS', producer_orchestrator
           assert producer_orchestrator['execution_requested'] is True, producer_orchestrator
-          assert producer_orchestrator['constituents_materialized'] == producer_audit['registered_producer_count'], (producer_orchestrator, producer_audit)
+          assert producer_orchestrator['constituents_materialized'] == producer_orchestrator['selected_producer_count'], producer_orchestrator
+          assert producer_orchestrator['constituents_materialized'] == int(__import__('os').environ['FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT']), producer_orchestrator
           assert producer_orchestrator['provider_receipts_promoted'] == 0, producer_orchestrator
           assert producer_orchestrator['component_receipts_promoted'] == 0, producer_orchestrator
           assert producer_orchestrator['global_promotion_claim'] is False, producer_orchestrator
@@ -509,7 +542,8 @@ jobs:
           assert executor['global_promotion_claim'] is False, executor
           assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
           assert orchestrator['execution_requested'] is True, orchestrator
-          assert orchestrator['results_materialized'] == executor['registered_executor_count'], (orchestrator, executor)
+          assert orchestrator['results_materialized'] == orchestrator['selected_executor_count'], orchestrator
+          assert orchestrator['results_materialized'] == int(__import__('os').environ['FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT']), orchestrator
           assert orchestrator['provider_receipts_promoted'] == 0, orchestrator
           assert orchestrator['generic_host_evidence_promoted'] == 0, orchestrator
           assert orchestrator['global_promotion_claim'] is False, orchestrator
