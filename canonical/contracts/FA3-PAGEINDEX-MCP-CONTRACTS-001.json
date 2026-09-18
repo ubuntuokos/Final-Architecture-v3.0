@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-PAGEINDEX-MCP-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-PAGEINDEX-MCP-001",
+  "parent_authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "fail_closed": true,
+  "transport": {
+    "type": "managed-stdio",
+    "shell": false,
+    "interactive_oauth_during_invocation": "DENY",
+    "command_must_be_supply_chain_pinned": true
+  },
+  "capabilities": {
+    "fa3.document.index": {
+      "adapter_id": "fa3.adapter.pageindex.index",
+      "approval_override": "explicit",
+      "input": {
+        "required": [
+          "source"
+        ],
+        "optional": [
+          "folder_id"
+        ],
+        "source_types": [
+          "scoped_local_pdf",
+          "allowlisted_https_pdf"
+        ]
+      },
+      "upstream_tool": "process_document",
+      "output": [
+        "doc_id",
+        "upstream_result"
+      ],
+      "max_file_bytes": 104857600
+    },
+    "fa3.document.retrieve": {
+      "adapter_id": "fa3.adapter.pageindex.retrieve",
+      "input": {
+        "required": [
+          "operation",
+          "doc_id"
+        ],
+        "operation_enum": [
+          "metadata",
+          "structure",
+          "pages"
+        ],
+        "pages_required_for": [
+          "pages"
+        ]
+      },
+      "upstream_tool_map": {
+        "metadata": "get_document",
+        "structure": "get_document_structure",
+        "pages": "get_page_content"
+      }
+    }
+  },
+  "upstream_tool_allowlist": [
+    "process_document",
+    "get_document",
+    "get_document_structure",
+    "get_page_content"
+  ],
+  "upstream_internal_tools_not_exposed": [
+    "get_signed_upload_url",
+    "submit_document"
+  ],
+  "security": {
+    "inline_tokens": "DENY",
+    "caller_supplied_command": "DENY",
+    "caller_supplied_environment": "DENY",
+    "local_path_escape": "DENY",
+    "non_https_remote_source": "DENY",
+    "non_allowlisted_remote_source": "DENY",
+    "provider_result_secret_material": "DENY",
+    "direct_agent_to_pageindex": "DENY"
+  }
+}
