@@ -34,6 +34,12 @@ CLONING_MODES = {
     "ultimate_clone",
     "instruct2",
 }
+PROVIDER_COLLECTOR_BINDINGS = {
+    "FA3-PROVIDER-COSYVOICE-001": "evidence/collect-cosyvoice-current-host.py",
+    "FA3-PROVIDER-XTTS-001": "evidence/collect-xtts-current-host.py",
+    "FA3-PROVIDER-PIPER-001": "evidence/collect-piper-current-host.py",
+}
+
 RIGHTS_DIMENSIONS = (
     "code_license",
     "runtime_license",
@@ -243,7 +249,14 @@ def _validate_rights(rights: Any) -> dict[str, Any]:
 def _validate_provider(root: Path, bundle_path: Path, provider: Any) -> dict[str, Any]:
     if not isinstance(provider, dict):
         raise ValueError("provider evidence missing")
-    collector = _collector_bound(root, provider.get("collector"))
+    provider_id = str(provider.get("provider_id", "")).strip()
+    expected_collector = PROVIDER_COLLECTOR_BINDINGS.get(provider_id)
+    if not expected_collector:
+        raise ValueError("provider has no admitted current-host collector binding")
+    collector_spec = provider.get("collector")
+    if not isinstance(collector_spec, dict) or collector_spec.get("path") != expected_collector:
+        raise ValueError("provider current-host collector binding mismatch")
+    collector = _collector_bound(root, collector_spec)
     receipt_path, receipt_spec = _checked_artifact(bundle_path, provider.get("receipt"), "provider")
     receipt = loadj(receipt_path)
     if provider.get("provider_id") != receipt.get("provider_id"):
@@ -272,7 +285,6 @@ def _validate_provider(root: Path, bundle_path: Path, provider: Any) -> dict[str
         raise ValueError("synthetic provider receipt forbidden")
     if receipt.get("global_promotion_claim") is True:
         raise ValueError("provider receipt attempted global promotion")
-    provider_id = str(provider.get("provider_id"))
     if provider_id == "FA3-PROVIDER-COSYVOICE-001":
         language_status = str(
             receipt.get("language_promotion_status", provider.get("language_status", ""))
@@ -497,7 +509,13 @@ def _validate_streaming(streaming: Any) -> dict[str, Any]:
 
 def _validate_cap116(root: Path, bundle_path: Path, bundle: dict[str, Any]) -> dict[str, Any]:
     common = _validate_common(root, bundle_path, bundle, "CAP-116")
-    quality = _validate_hu_aqc(root, bundle_path, bundle.get("quality"), cloning=False)
+    quality = _validate_hu_aqc(
+        root,
+        bundle_path,
+        bundle.get("quality"),
+        cloning=False,
+        expected_audio_sha256=common["audio"]["native_sha256"],
+    )
     stt = _validate_stt(root, bundle_path, bundle.get("stt"))
     streaming = _validate_streaming(bundle.get("streaming"))
     return {**common, "quality": quality, "stt": stt, "streaming": streaming}
