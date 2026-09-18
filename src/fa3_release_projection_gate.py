@@ -2638,7 +2638,7 @@ def gate(root: Path):
     if (
         promotion.get("fail_closed") is not True
         or promotion.get("current_host_evidence_required") is not True
-        or promotion.get("acceptance_criteria_required") != 19
+        or promotion.get("acceptance_criteria_required") != 22
         or promotion.get("document_only_promotion_forbidden") is not True
     ):
         findings.append(finding("FA3-RELEASE-PROJECTION-013", "Promotion safety semantics weakened"))
