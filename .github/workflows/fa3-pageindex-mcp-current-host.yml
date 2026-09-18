@@ -1,0 +1,68 @@
+name: FA3 PageIndex MCP Current-Host E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_root:
+        description: 'Absolute pinned PageIndex MCP source-build root'
+        required: true
+        default: '/opt/fa3/providers/pageindex-mcp-bda946b4b6fffaaf6926aa8809bc62e0098f30e8'
+        type: string
+      oauth_home:
+        description: 'Absolute ephemeral Secret-Broker home containing .pageindex-mcp/oauth-tokens.json'
+        required: true
+        type: string
+      sample_pdf:
+        description: 'Absolute path to an approved local PDF for real upload/retrieval E2E'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  pageindex-current-host:
+    name: pageindex-mcp-current-host / authenticated-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify prerequisites
+        shell: bash
+        env:
+          SOURCE_ROOT: \${{ inputs.source_root }}
+          OAUTH_HOME: \${{ inputs.oauth_home }}
+          SAMPLE_PDF: \${{ inputs.sample_pdf }}
+        run: |
+          command -v node
+          command -v git
+          test -d "$SOURCE_ROOT/.git"
+          test -r "$SOURCE_ROOT/build/index.js"
+          test -r "$OAUTH_HOME/.pageindex-mcp/oauth-tokens.json"
+          test -r "$SAMPLE_PDF"
+          mode="$(stat -c '%a' "$OAUTH_HOME/.pageindex-mcp/oauth-tokens.json")"
+          test "$mode" -le 600
+      - name: Run real Gateway to PageIndex index/retrieve E2E
+        shell: bash
+        env:
+          SOURCE_ROOT: \${{ inputs.source_root }}
+          OAUTH_HOME: \${{ inputs.oauth_home }}
+          SAMPLE_PDF: \${{ inputs.sample_pdf }}
+        run: |
+          bash bin/fa3-pageindex-mcp-current-host.sh \
+            --source-root "$SOURCE_ROOT" \
+            --oauth-home "$OAUTH_HOME" \
+            --sample-pdf "$SAMPLE_PDF"
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-pageindex-mcp-current-host-evidence
+          path: |
+            evidence/receipts/pageindex-mcp-current-host.json
+            reports/pageindex-mcp-current-host-gate-report.json
