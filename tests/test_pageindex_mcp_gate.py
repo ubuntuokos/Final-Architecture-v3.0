@@ -159,6 +159,19 @@ class PageIndexMcpTests(unittest.TestCase):
         report = gate(ROOT)
         self.assertEqual("PASS", report["result"], report)
 
+    def test_cap140_governance_is_canonical_and_fail_closed(self) -> None:
+        provider = json.loads((ROOT / "canonical/providers/FA3-PROVIDER-PAGEINDEX-MCP-001.json").read_text(encoding="utf-8"))
+        enforcement = json.loads((ROOT / "canonical/pageindex-mcp-enforcement.json").read_text(encoding="utf-8"))
+        gate_record = json.loads((ROOT / "canonical/FA3-GATE-PAGEINDEX-MCP-001.json").read_text(encoding="utf-8"))
+        governance = provider["data_governance"]
+        self.assertEqual("FA3-ASSET-EGRESS-POLICY-001", governance["asset_egress_profile"])
+        self.assertEqual("CAP-140", governance["asset_egress_capability"])
+        self.assertTrue(governance["gateway_generated_egress_decision_required"])
+        self.assertTrue(governance["local_upload_requires_source_sha256"])
+        self.assertEqual("FA3-ASSET-EGRESS-POLICY-001", enforcement["asset_egress_profile"])
+        self.assertTrue(enforcement["gateway_generated_egress_decision_required"])
+        self.assertIn("CAP_140_GATEWAY_ISSUED_ASSET_EGRESS_DECISION", gate_record["requirements"])
+
     def test_index_requires_provider_specific_explicit_approval(self) -> None:
         req = base_request("fa3.document.index", {"source": str(self.pdf)})
         denied = self.gateway().invoke(req)
