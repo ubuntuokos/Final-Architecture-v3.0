@@ -114,7 +114,7 @@ def test_pending_current_host_can_shadow_but_cannot_produce_authority():
     assert not shadow_execution_valid(**{**base, "data_governance_admitted": False})
 
 
-def test_production_requires_current_host_pass_and_all_19_acceptance_criteria():
+def test_production_requires_current_host_pass_and_all_22_acceptance_criteria():
     base = dict(
         current_host_evidence="PASS",
         execution_mode="PRODUCTION",
@@ -127,13 +127,13 @@ def test_production_requires_current_host_pass_and_all_19_acceptance_criteria():
         evidence_collection=True,
         workspace_ephemeral=False,
         network_mode="LEASE_SCOPED",
-        acceptance_criteria_passed=19,
-        acceptance_criteria_total=19,
+        acceptance_criteria_passed=22,
+        acceptance_criteria_total=22,
         canonical_promotion_gate_pass=True,
     )
     assert shadow_execution_valid(**base)
     assert not shadow_execution_valid(**{**base, "current_host_evidence": "PENDING_CURRENT_HOST"})
-    assert not shadow_execution_valid(**{**base, "acceptance_criteria_passed": 18})
+    assert not shadow_execution_valid(**{**base, "acceptance_criteria_passed": 21})
     assert not shadow_execution_valid(**{**base, "canonical_promotion_gate_pass": False})
 
 
