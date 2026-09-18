@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a5c66f40c89e82e158f3378c0390522a0ffa8455",
-    "pre_projection_root_tree_sha": "d8ded69065113ca5a0ba22488c98a00a578c077c",
-    "pre_projection_canonical_tree_sha": "b0e2201079f75306db6d08be2a41a4250e08a680",
-    "commits_ahead_of_v3_0_11_conformance_commit": 404,
-    "total_post_baseline_commits": 404,
-    "delta_file_count": 1390,
-    "delta_added_files": 1385,
+    "pre_projection_head_sha": "7ac3ea0e3ab06d0c60cb6fdce64e20b0baf2a787",
+    "pre_projection_root_tree_sha": "48ca3722da7f582d1b3f5125937e40b128e10af8",
+    "pre_projection_canonical_tree_sha": "3cceea3fa2fe9897be70c097e518cb625ab7a70d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 411,
+    "total_post_baseline_commits": 411,
+    "delta_file_count": 1393,
+    "delta_added_files": 1388,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 680,
+    "canonical_files_in_post_baseline_delta": 681,
     "evidence_files_in_post_baseline_delta": 129,
-    "source_files_in_post_baseline_delta": 171,
-    "test_files_in_post_baseline_delta": 147,
+    "source_files_in_post_baseline_delta": 172,
+    "test_files_in_post_baseline_delta": 148,
     "workflow_files_in_post_baseline_delta": 60,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -753,7 +753,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1383,
+  "manifest_entry_count": 1386,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -827,7 +827,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "b279c5ef65e9757acea6321211587ad454a9f012",
+      "git_blob_sha": "8f508bfb1c942829783f3e649b23d2c17a96de3c",
       "baseline_delta_status": "added"
     },
     {
@@ -1578,6 +1578,11 @@
     {
       "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-CANONICAL-SERVICE-CATALOG-001.json",
+      "git_blob_sha": "92575fe09dc772246210a718688fbe06bcfe81be",
       "baseline_delta_status": "added"
     },
     {
@@ -2677,17 +2682,17 @@
     },
     {
       "path": "canonical/current-host-capability-qualification-constituent-producers.json",
-      "git_blob_sha": "69339288cb4f46ef97687b437fc62ac6ce245ae9",
+      "git_blob_sha": "188c48868b43a17bdb8657c4e55d0426a55ed412",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/current-host-capability-test-executors.json",
-      "git_blob_sha": "7ac23d1c6c814cfc169b35d920e954ebdcee5065",
+      "git_blob_sha": "8f966669e3ee929b6724f95d44ed639a16cabb99",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
-      "git_blob_sha": "7c5da520e7426d522991d3ebc85ba1f35f4c4dc7",
+      "git_blob_sha": "11dfe47b197f147740f4e57abe3eb553baf3b7d0",
       "baseline_delta_status": "added"
     },
     {
@@ -6101,6 +6106,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_cap074_service_catalog_current_host.py",
+      "git_blob_sha": "b437a7e61bac7591841ab8bc5f760540f8f46c4d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_cap075_contract_registry_current_host.py",
       "git_blob_sha": "5e52f4e6df70f2386281f17fdcb3cec43c1561ac",
       "baseline_delta_status": "added"
@@ -6938,6 +6948,11 @@
     {
       "path": "tests/test_cap054_external_asset_inventory_current_host.py",
       "git_blob_sha": "191d8d12a0e7fa2e5af670c2ea33cea83b7b54ff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_cap074_service_catalog_current_host.py",
+      "git_blob_sha": "d2a95f813a4ca3eb59407d3d70edb095f77797ea",
       "baseline_delta_status": "added"
     },
     {
