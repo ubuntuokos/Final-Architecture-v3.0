@@ -28,6 +28,7 @@
     ".github/workflows/fa3-cosyvoice-current-host.yml",
     ".github/workflows/fa3-current-host.yml",
     ".github/workflows/fa3-ffmpeg-ai-current-host.yml",
+    ".github/workflows/fa3-global-current-host-closure.yml",
     ".github/workflows/fa3-hrb-systemd-manager-current-host.yml",
     ".github/workflows/fa3-pageindex-mcp-current-host.yml",
     ".github/workflows/fa3-pageindex-mcp.yml",
@@ -52,6 +53,9 @@
     "canonical/conformance-matrix.csv",
     "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
     "canonical/cpu-numa-threading-current-host-enforcement.json",
+    "canonical/current-host-capability-qualification-constituent-producers.json",
+    "canonical/current-host-capability-test-executors.json",
+    "canonical/current-host-capability-test-qualifications.json",
     "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
     "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
     "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
@@ -87,6 +91,7 @@
     "evidence/reference/resource-admission-current-host-pending.json",
     "fa3-current-host/README.md",
     "fa3-current-host/manifest.json",
+    "src/fa3_cap028_agent_execution_current_host.py",
     "src/fa3_cosyvoice_gate.py",
     "src/fa3_cosyvoice_provider.py",
     "src/fa3_cpu_numa_threading_current_host_gate.py",
@@ -100,6 +105,7 @@
     "src/fa3_runtime_hardening_current_host.py",
     "src/fa3_runtime_hardening_current_host_gate.py",
     "src/fa3_stable_audio_3_gate.py",
+    "tests/test_cap028_agent_execution_current_host.py",
     "tests/test_cosyvoice_gate.py",
     "tests/test_cpu_numa_threading_current_host_gate.py",
     "tests/test_current_host_projection.py",
@@ -237,6 +243,20 @@
       "gate": "runtime-hardening-current-host",
       "activation": "REAL_SELF_HOSTED_SANDBOX_PASS_REQUIRED_NON_AUTHORITATIVE",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+      "global_promotion_claim": false
+    },
+    {
+      "name": "cap028-agent-execution",
+      "collector": null,
+      "gate": "global-current-host-closure",
+      "activation": "REAL_CURRENT_HOST_WASMTIME_AGENT_EXECUTION_PLUS_PROVIDER_BOUNDARY_REGRESSIONS",
+      "capability_id": "CAP-028",
+      "qualification_ids": [
+        "FA3-QUAL-CAP-028-POS-001",
+        "FA3-QUAL-CAP-028-NEG-001",
+        "FA3-QUAL-CAP-028-ROLLBACK-001"
+      ],
+      "collection_status": "CAPABILITY_EXECUTORS_REGISTERED_REAL_EXECUTION_PENDING",
       "global_promotion_claim": false
     }
   ],
