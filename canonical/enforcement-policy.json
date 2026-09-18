@@ -52,7 +52,6 @@
     "FA3-EXTERNAL-API-DISCOVERY-GATESET-001",
     "FA3-PRESENTON-GATESET-001",
     "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001",
-    "FA3-INTEGRATION-BROKER-GATESET-001",
     "FA3-CODEX-GATESET-001",
     "FA3-INFERENCE-PORTABILITY-GATESET-001",
     "FA3-MODEL-MANAGER-GATESET-001",
@@ -1630,5 +1629,7 @@
   ],
   "podman_secret_isolation_current_host_gate_id": "FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-GATESET-001",
   "podman_secret_isolation_current_host_status": "PENDING_REAL_SELF_HOSTED_EXECUTION",
-  "podman_secret_isolation_current_host_global_promotion_claim": false
+  "podman_secret_isolation_current_host_global_promotion_claim": false,
+  "integration_broker_enforcement_class": "P0_CROSS_CUTTING_STATIC_GATE",
+  "integration_broker_global_static_required": true
 }
