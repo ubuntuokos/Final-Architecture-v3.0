@@ -106,7 +106,7 @@ ApplicationWindow {
         {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", pageIndex: 6},
         {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", pageIndex: 8},
         {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", pageIndex: 9},
-        {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", pageIndex: 10},
+        {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", pageIndex: 10},\n        {title: "Malware Defense", detail: "ClamAV, YARA-X, Falco, karantén, host és threat-intelligence védelem", category: "FUNCTION", pageIndex: 29},
         {title: "Observability", detail: "Metrics, traces és provenance", category: "FUNCTION", pageIndex: 11},
         {title: "Napló / Journal", detail: "Rendszer-, beszélgetés- és projektnapló", category: "FUNCTION", pageIndex: 12},
         {title: "FA3 OS", detail: "Aktivitás, workstream, privacy és provenance kontextus", category: "FUNCTION", pageIndex: 26},
@@ -630,7 +630,7 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "▤"; label: "Resources"; pageIndex: 9 }
-                        NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 10 }
+                        NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 10 }\n                        NavButton { iconText: "盾"; label: "Malware Defense"; pageIndex: 29 }
                         NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 11 }
                         NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 12 }
                         NavButton { iconText: "◎"; label: "FA3 OS"; pageIndex: 26 }
@@ -1451,6 +1451,19 @@ ApplicationWindow {
                 }
 
                 KnowledgePage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    cyan: window.cyan
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                MalwareDefensePage {
                     panel: window.panel
                     panelRaised: window.panelRaised
                     border: window.border
