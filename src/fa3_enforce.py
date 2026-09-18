@@ -191,6 +191,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-093","Stability Matrix interactive lifecycle gate is not bound into global enforcement policy"))
     if "FA3-OBSIDIAN-KNOWLEDGE-WORKSPACE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-095","Obsidian human knowledge workspace gate is not bound into global enforcement policy"))
+    if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
