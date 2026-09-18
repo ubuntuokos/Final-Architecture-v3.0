@@ -15,12 +15,15 @@
   "entries": [],
   "invariants": {
     "provider_receipt_substitution_allowed": false,
+    "component_receipt_substitution_allowed": false,
     "generic_host_evidence_substitution_allowed": false,
     "hosted_ci_substitution_allowed": false,
     "synthetic_executor_allowed": false,
     "shell_command_registration_allowed": false,
+    "direct_component_adapter_allowed": false,
     "repository_local_adapter_required": true,
     "exact_registry_test_identity_required": true,
+    "canonical_capability_qualification_required": true,
     "duplicate_test_registration_allowed": false,
     "automatic_capability_promotion": false,
     "automatic_global_promotion": false,
@@ -32,6 +35,7 @@
       "subject_id",
       "test_kind",
       "test_id",
+      "qualification_id",
       "adapter_path",
       "adapter_sha256",
       "evidence_class",
@@ -44,14 +48,22 @@
     ],
     "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
     "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+    "qualification_registry": "canonical/current-host-capability-test-qualifications.json",
     "adapter_constraints": {
       "path_scope": "REPOSITORY_LOCAL",
+      "canonical_adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "argv_contract": [
+        "--qualification-id",
+        "<qualification_id>"
+      ],
       "shell": false,
       "synthetic": false,
       "ci_reference_only": false,
       "provider_receipt_only": false,
-      "generic_host_collection_only": false
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "direct_component_adapter": false
     }
   },
-  "review_note": "No executor is registered merely because a provider or current-host collector exists. Each of the 429 registry test obligations requires an explicit capability-specific executable adapter mapping and immutable adapter digest before it can produce a current-host test result."
+  "review_note": "No executor is registered merely because a provider, component, or current-host collector exists. Each of the 429 registry test obligations requires an accepted capability-level qualification definition and may execute only through the canonical qualifier adapter bound to that exact qualification_id and immutable adapter digest."
 }
