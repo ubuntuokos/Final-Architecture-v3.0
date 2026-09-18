@@ -47,6 +47,10 @@ def validate_registry(registry: dict[str, Any]) -> list[dict[str, Any]]:
         findings.append(finding("MCP-STATIC-006", "Current-host projection may not create capability/authority delta"))
     if not isinstance(registry.get("policy_authority"), str) or not registry.get("policy_authority", "").strip():
         findings.append(finding("MCP-STATIC-007", "External policy authority binding is missing"))
+    if registry.get("canonical_gateway_profile") != "FA3-MCP-GATEWAY-001" or registry.get("canonical_protocol") != "2026-07-28":
+        findings.append(finding("MCP-STATIC-016", "Final Central MCP Gateway modern protocol binding missing"))
+    if registry.get("transport_session_state") is not False:
+        findings.append(finding("MCP-STATIC-017", "Modern MCP transport session state must be disabled"))
 
     seen: set[str] = set()
     capabilities = registry.get("capabilities", [])
@@ -105,7 +109,7 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     missing_denials = sorted(code for code in REQUIRED_DENIALS if checks.get(code) != "DENY")
     if missing_denials:
         findings.append(finding("MCP-HOST-007", "Required negative conformance denials missing", missing=missing_denials))
-    for required in ("ADMITTED_PROVIDER_INVOCATION", "EVIDENCE_RECEIPT", "TIMEOUT_CANCELLATION", "AUTHORITY_NONREGRESSION"):
+    for required in ("ADMITTED_PROVIDER_INVOCATION", "EVIDENCE_RECEIPT", "TIMEOUT_CANCELLATION", "AUTHORITY_NONREGRESSION", "MODERN_STATELESS_PROTOCOL", "HEADER_ROUTING"):
         if checks.get(required) != "PASS":
             findings.append(finding("MCP-HOST-008", "Required positive current-host check missing", check=required))
     return findings
