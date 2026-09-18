@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+  "name": "VapourSynth R80 GPU-Resident Frame Fabric",
+  "status": "REQUIRED_SUPPORTED_PORTABLE_FRAME_FABRIC_PENDING_CURRENT_HOST",
+  "classification": [
+    "PORTABLE_GPU_RESIDENT_FRAME_FABRIC",
+    "VULKAN_1_4_REFERENCE",
+    "REPLACEABLE_PROVIDER",
+    "NOT_RESOURCE_OR_ROUTING_AUTHORITY"
+  ],
+  "profile": "FA3-MEDIA-GPU-ZEROCOPY-001",
+  "contracts": [
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+    "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001"
+  ],
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-016",
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "vapoursynth/vapoursynth",
+    "release": "R80",
+    "immutable_commit": "732845793a1caf5838d4f7b94f6ce668a19c908e",
+    "license_spdx": "LGPL-2.1",
+    "floating_master_allowed_for_production": false
+  },
+  "runtime": {
+    "gpu_api": "Vulkan 1.4",
+    "gpu_resident_node_type": "vnode:gpu",
+    "explicit_upload": "std.GPUUpload",
+    "explicit_download": "std.GPUDownload",
+    "external_memory_export": "VSVulkan4.exportGPUPlane",
+    "external_semaphore_export": "VSVulkan4.exportGPUSemaphore",
+    "fallback_sync": "VSVulkan4.waitGPUFrame",
+    "device_identity": "Vulkan UUID matched to foreign API device",
+    "gpu_cache_budgeted": true
+  },
+  "role_boundaries": {
+    "nvidia_fast_path_provider": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "neural_runtime_adapter": "FA3-PROVIDER-VS-MLRT-001",
+    "deterministic_media_core": "FA3-PROVIDER-FFMPEG-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "backend_routing_authority": "FA3-INFERENCE-PORTABILITY-001"
+  },
+  "evidence_semantics": {
+    "set_output_may_preserve_gpu_residency": true,
+    "vspipe_common_vsscript_consumers_download_gpu_output": true,
+    "vspipe_y4m_ffmpeg_zero_host_round_trip_claim_allowed": false,
+    "pcie_fixed_percent_threshold_is_primary_proof": false,
+    "residency_trace_required": true,
+    "host_pixel_materialization_inside_resident_segment_max": 0,
+    "external_memory_and_device_side_semaphore_proof_required_for_foreign_api_zero_copy": true
+  },
+  "current_host": {
+    "required_e2e": [
+      "VULKAN_GPU_RESIDENCY",
+      "VSVULKAN4_FOREIGN_MEMORY_INTEROP",
+      "DEVICE_SIDE_SEMAPHORE_SYNC",
+      "NEURAL_BACKEND_RESIDENCY",
+      "HARDWARE_ENCODER_ZERO_HOST_ROUND_TRIP"
+    ],
+    "runtime_promotion_claimed": false,
+    "status": "PENDING_REAL_CURRENT_HOST_EXECUTION"
+  }
+}
