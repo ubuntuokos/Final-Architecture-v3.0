@@ -32,7 +32,7 @@ jobs:
           python-version: '3.12'
       - name: Syntax
         run: |
-          python -m py_compile src/fa3_pageindex_local_gateway_adapter.py src/fa3_pageindex_local_service.py src/fa3_pageindex_model_router.py src/fa3_pageindex_local_evidence.py src/fa3_pageindex_local_runtime_probe.py src/fa3_pageindex_local_current_host_gate.py evidence/collect-pageindex-local-current-host.py
+          python -m py_compile src/fa3_mcp_unix_client.py src/fa3_pageindex_local_gateway_adapter.py src/fa3_pageindex_local_service.py src/fa3_pageindex_model_router.py src/fa3_pageindex_local_evidence.py src/fa3_pageindex_local_runtime_probe.py src/fa3_pageindex_local_current_host_gate.py evidence/collect-pageindex-local-current-host.py
           bash -n bin/fa3-pageindex-local-bootstrap.sh
           bash -n bin/fa3-pageindex-local-install
       - name: Regression

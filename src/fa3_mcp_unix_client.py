@@ -21,8 +21,15 @@ class UnixHTTPConnection(http.client.HTTPConnection):
         self.sock = sock
 
 
-def request(socket_path: str, method: str, path: str, payload: dict[str, Any] | None = None) -> tuple[int, dict[str, Any]]:
-    conn = UnixHTTPConnection(socket_path)
+def request(
+    socket_path: str,
+    method: str,
+    path: str,
+    payload: dict[str, Any] | None = None,
+    *,
+    timeout: float = 5.0,
+) -> tuple[int, dict[str, Any]]:
+    conn = UnixHTTPConnection(socket_path, timeout=timeout)
     body = None if payload is None else json.dumps(payload).encode("utf-8")
     headers = {} if body is None else {"Content-Type": "application/json"}
     conn.request(method, path, body=body, headers=headers)
