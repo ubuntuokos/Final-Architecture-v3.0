@@ -1,10 +1,12 @@
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
-from src.fa3_cap076_acceptance_resilience_current_host import (
+from fa3_cap076_acceptance_resilience_current_host import (
     _run_negative,
     _run_rollback,
     validate_acceptance_promotion,
