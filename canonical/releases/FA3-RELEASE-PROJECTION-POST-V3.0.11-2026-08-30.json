@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "e6b3d3f61481832931f0ca5f20798a8ef4da19c7",
-    "pre_projection_root_tree_sha": "c92acae0065bc5bab2f5b5bff562ef9a39aee2b6",
-    "pre_projection_canonical_tree_sha": "8ccec39b89ba4c17bc7749d7c39c956ce487843c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 397,
-    "total_post_baseline_commits": 397,
-    "delta_file_count": 1337,
-    "delta_added_files": 1332,
+    "pre_projection_head_sha": "b87037aeda35d606b16cbd7091b3107277296aec",
+    "pre_projection_root_tree_sha": "7f3e6ac88de10ce862cf9ecd24dfabf8a0555312",
+    "pre_projection_canonical_tree_sha": "a133cf904601c75613cef1fa222676d6bebe13da",
+    "commits_ahead_of_v3_0_11_conformance_commit": 407,
+    "total_post_baseline_commits": 407,
+    "delta_file_count": 1346,
+    "delta_added_files": 1341,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 663,
-    "evidence_files_in_post_baseline_delta": 124,
+    "canonical_files_in_post_baseline_delta": 670,
+    "evidence_files_in_post_baseline_delta": 125,
     "source_files_in_post_baseline_delta": 159,
     "test_files_in_post_baseline_delta": 140,
     "workflow_files_in_post_baseline_delta": 56,
@@ -197,6 +197,7 @@
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
+      "canonical/profiles/FA3-MCP-GATEWAY-001.json",
       "canonical/profiles/FA3-MENTOR-001.json",
       "canonical/profiles/FA3-MESH-GEN-001.json",
       "canonical/profiles/FA3-MODEL-ARTIFACT-SECURITY-001.json",
@@ -271,6 +272,7 @@
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
@@ -310,6 +312,7 @@
       "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13.json",
       "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-CENTRAL-MCP-GATEWAY-2026-09-18.json",
       "canonical/decisions/FA3-DEC-COACH-2026-09-12.json",
       "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
       "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
@@ -433,6 +436,7 @@
       "canonical/references/FA3-LYNXHUB-UPSTREAM-REFERENCE-2026-09-05.json",
       "canonical/references/FA3-MARKETING-UPSTREAM-REFERENCE-2026-08-31.json",
       "canonical/references/FA3-MARKETINGSKILLS-UPSTREAM-REFERENCE-2026-09-03.json",
+      "canonical/references/FA3-MCP-GATEWAY-MICROSOFT-REFERENCE-2026-09-18.json",
       "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-MINIMAX-H3-INTEGRATION-INDEX-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-MINIMAX-H3-SERVICE-REFERENCE-2026-09-07.json",
@@ -515,6 +519,7 @@
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "evidence/reference/mcp-current-host-pending.json",
+      "evidence/reference/mcp-gateway-final-decision-2026-09-18.json",
       "evidence/reference/minimax-h3-service-access-ci-2026-09-07.json",
       "evidence/reference/mmg-context-ir-ci-2026-09-09.json",
       "evidence/reference/mmg-context-ir-global-reconciliation-ci-2026-09-09.json",
@@ -738,7 +743,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1330,
+  "manifest_entry_count": 1339,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1751,6 +1756,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-MCP-GATEWAY-001.json",
+      "git_blob_sha": "8aafb1287e0a364f516660a1d14089cd82da9833",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-MUNDER-DIFFLIN-001.json",
       "git_blob_sha": "b350023c386e574415ec761006e35e00c86caab3",
       "baseline_delta_status": "added"
@@ -1978,6 +1988,11 @@
     {
       "path": "canonical/FA3-MCP-CURRENT-HOST-001.json",
       "git_blob_sha": "b9f1e48fb23fe2f266f8e29ce3dd1c89d89fa933",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-MCP-GATEWAY-GUI-001.json",
+      "git_blob_sha": "e6cfdaa6566b9ad469d6722ce176bed32aca0496",
       "baseline_delta_status": "added"
     },
     {
@@ -2436,6 +2451,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
+      "git_blob_sha": "febeac3ebda284100b874b5b119ff08bd97bb496",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0",
       "baseline_delta_status": "added"
@@ -2658,6 +2678,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
       "git_blob_sha": "6f521d55c73c93c543087327d37c5c8b0629ec0e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CENTRAL-MCP-GATEWAY-2026-09-18.json",
+      "git_blob_sha": "1a07301d4a0f9424db853e0b38cb0da4bfcb43b4",
       "baseline_delta_status": "added"
     },
     {
@@ -3341,6 +3366,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/mcp-gateway-enforcement.json",
+      "git_blob_sha": "555a7f65b09313923a55961e5277211a1c052656",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/mentor-enforcement.json",
       "git_blob_sha": "9cc5df062983caff69a073ead54fce9b06acbf71",
       "baseline_delta_status": "added"
@@ -3668,6 +3698,11 @@
     {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
       "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-MCP-GATEWAY-001.json",
+      "git_blob_sha": "2742ebf5f05bf56fcc938c49ee50321bd43f8070",
       "baseline_delta_status": "added"
     },
     {
@@ -4471,6 +4506,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/references/FA3-MCP-GATEWAY-MICROSOFT-REFERENCE-2026-09-18.json",
+      "git_blob_sha": "68e18b4773dfebfa95980af840289163bf42416b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/references/FA3-MEGALIST-UPSTREAM-REFERENCE-2026-08-30.json",
       "git_blob_sha": "d68eba09d84f462d421b9a04dae055362992251b",
       "baseline_delta_status": "added"
@@ -4938,6 +4978,11 @@
     {
       "path": "docs/FA3-JOURNAL-ARCHIVE-001.md",
       "git_blob_sha": "c3eef92dba9cb6af1552510b227e90f83284cdc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-MCP-GATEWAY-001.md",
+      "git_blob_sha": "9bac85eb14ccc2d709cccb7b851513843678f501",
       "baseline_delta_status": "added"
     },
     {
@@ -5523,6 +5568,11 @@
     {
       "path": "evidence/reference/mcp-current-host-pending.json",
       "git_blob_sha": "818019ca00d14ddb9cd9dc3f4b42e587052d5d76",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/mcp-gateway-final-decision-2026-09-18.json",
+      "git_blob_sha": "5c31c7cfb927735a1d43080515b21bef3691506e",
       "baseline_delta_status": "added"
     },
     {
