@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-ASSET-EGRESS-POLICY-001",
+  "name": "Asset Egress Governance Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "capability_binding": "CAP-140",
+  "capability_name": "AI Gateway Security, Multi-Provider Routing & Egress Governance",
+  "authority": "SECURITY_GOVERNANCE_POLICY_PLANE",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-ASSET-EGRESS-CONTRACTS-001"
+  ],
+  "invariants": [
+    "LOCAL_ASSET_EGRESS_DEFAULT_DENY",
+    "EXTERNAL_DESTINATION_EXPLICITLY_ALLOWLISTED",
+    "SOURCE_SHA256_AND_DATA_CLASS_REQUIRED",
+    "PURPOSE_AND_PROVIDER_BINDING_REQUIRED",
+    "EXPLICIT_APPROVAL_REQUIRED_FOR_CLOUD_UPLOAD",
+    "NO_INLINE_SECRET_MATERIAL",
+    "EGRESS_DECISION_AND_RECEIPT_REQUIRED",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK"
+  ]
+}
