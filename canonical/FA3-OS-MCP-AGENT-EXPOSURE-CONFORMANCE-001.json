@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.runtime-conformance-record.v1",
+  "id": "FA3-OS-MCP-AGENT-EXPOSURE-CONFORMANCE-001",
+  "profile_id": "FA3-OS-RUNTIME-001",
+  "parent_conformance": "FA3-OS-RUNTIME-CONFORMANCE-001",
+  "capability_id": "fa3.memory.retrieve",
+  "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+  "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
+  "gate_id": "FA3-OS-MCP-AGENT-EXPOSURE-GATESET-001",
+  "status": "PENDING_CURRENT_HOST",
+  "agent_exposure_admitted": false,
+  "production_binding_connected": false,
+  "evidence_present": false,
+  "promotion_claimed": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "required_evidence": [
+    "persistent user-session Central MCP Gateway service",
+    "AF_UNIX kernel peer credential attestation",
+    "fa3-agent.slice cgroup admission",
+    "external Security Governance Policy Plane resolver",
+    "project/workstream-scoped fa3.memory.retrieve",
+    "automatic append-only Journal retrieval audit",
+    "unscoped and non-agent invocation denial",
+    "canonical MCP registry CONNECTED binding only after current-host PASS"
+  ],
+  "evidence_ref": null,
+  "normative_constraint": "Agent exposure remains fail-closed until the persistent gateway binding has fresh current-host E2E evidence. Runtime admission alone does not authorize agents."
+}
