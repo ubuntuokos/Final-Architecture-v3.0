@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d6f21039a58a56e2e94df78681251ce4dbca6ceb",
-    "pre_projection_root_tree_sha": "68806e3772825fc4d78a2e8c3cebf2ad55fe04d6",
-    "pre_projection_canonical_tree_sha": "7c0308f76a0f8f996e8b1e7fad1b9ac1455b1de3",
-    "commits_ahead_of_v3_0_11_conformance_commit": 432,
-    "total_post_baseline_commits": 432,
-    "delta_file_count": 1422,
-    "delta_added_files": 1417,
+    "pre_projection_head_sha": "1280196117689cb863306d3ac370d9cfa3b6d46a",
+    "pre_projection_root_tree_sha": "b8f85d7e50bbf78824cec5fd1645e8fa47819ecc",
+    "pre_projection_canonical_tree_sha": "ce409755ffb3c40ffb4dcfe0675221d08f7ab8cf",
+    "commits_ahead_of_v3_0_11_conformance_commit": 426,
+    "total_post_baseline_commits": 426,
+    "delta_file_count": 1424,
+    "delta_added_files": 1419,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,8 +47,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 696,
     "evidence_files_in_post_baseline_delta": 133,
-    "source_files_in_post_baseline_delta": 177,
-    "test_files_in_post_baseline_delta": 151,
+    "source_files_in_post_baseline_delta": 178,
+    "test_files_in_post_baseline_delta": 152,
     "workflow_files_in_post_baseline_delta": 61,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -764,7 +764,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1415,
+  "manifest_entry_count": 1417,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -824,7 +824,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "a5075bd4818b89c3d7a75bb5d6f6ba73bab4dc53"
+      "git_blob_sha": "621266142365693cb3fd1c7b5cf78c92d7d77626"
     },
     {
       "path": ".github/workflows/fa3-governance-tiering.yml",
@@ -940,7 +940,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "5d2b0aa5e91015f27f79b01b43d619973a4cc18e"
+      "git_blob_sha": "2096e02f0066c40940b6121893abea5db39ecf20"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -1800,15 +1800,15 @@
     },
     {
       "path": "canonical/current-host-capability-qualification-constituent-producers.json",
-      "git_blob_sha": "da2066879d5f96552a489f96c0b183cea5554e7c"
+      "git_blob_sha": "30c285f2976a54e0f41fcdd6be94827ee23b371b"
     },
     {
       "path": "canonical/current-host-capability-test-executors.json",
-      "git_blob_sha": "09fdd08d2209b7f11e2dd78b5ba7abc385f1d7ba"
+      "git_blob_sha": "66372799d57661ab0cb034fb7d4b127b32017dc2"
     },
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
-      "git_blob_sha": "deaf2b0c2675250a8c36eb4bf12fb8d76022a8c9"
+      "git_blob_sha": "b7972076fe89ac31fc52988615763a49da55fc7d"
     },
     {
       "path": "canonical/current-host-runner-enforcement.json",
@@ -2272,7 +2272,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "cb13007e8b56e609e1059579684177ce3ed7312d"
+      "git_blob_sha": "9834f87fc6cd72e13ce9f749877fc52910f35f9b"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -3088,7 +3088,7 @@
     },
     {
       "path": "canonical/profiles/FA3-AGENT-EXEC-001.json",
-      "git_blob_sha": "9ab815a429d6b63b9b2b8d24eec691f048ec2a2c"
+      "git_blob_sha": "10d7b13fa1067217b94e941290980889bd649ec0"
     },
     {
       "path": "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
@@ -4308,7 +4308,7 @@
     },
     {
       "path": "docs/current-host-runner.md",
-      "git_blob_sha": "7d110f44bb63208f7c83aee5c352dfd026f649d5"
+      "git_blob_sha": "5786b066587b428fa4c9cc97b91f7fbf2ea8cf2e"
     },
     {
       "path": "docs/desktop-portability.md",
@@ -5020,7 +5020,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "64d57af46865e9c5bc6d30027f8764612c1e872d"
+      "git_blob_sha": "e98a0fe0943300d836853b2a9324842ddde43858"
     },
     {
       "path": "fa3-current-host/README.md",
@@ -5125,6 +5125,10 @@
     {
       "path": "src/fa3_buzz_runtime_admission.py",
       "git_blob_sha": "3e3e1996ac993239e49cec23373785ee447f9c74"
+    },
+    {
+      "path": "src/fa3_cap028_agent_execution_current_host.py",
+      "git_blob_sha": "c42590368d500fb3235ff388bcdeaad6a6458d4d"
     },
     {
       "path": "src/fa3_cap054_external_asset_inventory_current_host.py",
@@ -5656,7 +5660,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "9408cbcbf3d87e94473c3ad104db339e7f4000cd"
+      "git_blob_sha": "8fd844d62dabc1064ff2067bc82b172e8c0e81ee"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -5821,6 +5825,10 @@
     {
       "path": "tests/test_buzz_runtime_admission_gate.py",
       "git_blob_sha": "9cbd8a41ab44385e63ae42274286b6234c242a09"
+    },
+    {
+      "path": "tests/test_cap028_agent_execution_current_host.py",
+      "git_blob_sha": "b1df1327f3763e2e4958cf79baf837ea47ec97c6"
     },
     {
       "path": "tests/test_cap054_external_asset_inventory_current_host.py",
@@ -6471,7 +6479,8 @@
     "CosyVoice materialized as FA3-PROVIDER-COSYVOICE-001 under provider-neutral FA3-VOICE-001 with 21-case fail-closed executable regression, explicit voice-consent/reference-hash binding, HRB-gated CUDA, pinned source/model provenance, and separate current-host production E2E; Hungarian remains experimental pending dedicated quality evidence.",
     "FA3-PROVIDER-CAVEMAN-001 materialized under FA3-KNOWLEDGE-001 with a provider-neutral recoverable context-transformation contract, 15-rule executable fail-closed regression gate, PASS reference evidence and CAP-010/global inventory reconciliation; capability count remains 143 and Caveman receives no architectural authority or runtime promotion.",
     "2026-09-19 runtime hardening/shadow reconciliation: five cross-cutting P0 profiles, PyNvVideoCodec NVIDIA AI-frame provider projection, Hungarian multi-signal AQC, and non-authoritative Shadow execution were materialized with zero capability/authority delta; production promotion remains 19/19 plus current-host evidence.",
-    "2026-09-19 runtime-hardening current-host closure materialization: four real self-hosted evidence surfaces and fail-closed admission gate added; no runtime PASS or global promotion is claimed before real execution."
+    "2026-09-19 runtime-hardening current-host closure materialization: four real self-hosted evidence surfaces and fail-closed admission gate added; no runtime PASS or global promotion is claimed before real execution.",
+    "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -7801,5 +7810,45 @@
       "HU_AQC",
       "PROMOTION_SHADOW"
     ]
+  },
+  "cap028_current_host_reconciliation": {
+    "subject_id": "CAP-028",
+    "qualification_ids": [
+      "FA3-QUAL-CAP-028-POS-001",
+      "FA3-QUAL-CAP-028-NEG-001",
+      "FA3-QUAL-CAP-028-ROLLBACK-001"
+    ],
+    "producer_adapter": "src/fa3_cap028_agent_execution_current_host.py",
+    "execution_backend": "WASMTIME_WASI",
+    "status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+    "source_decision_ids": [
+      "DEC-CAP-028",
+      "FA3-CORE-001",
+      "FA3-CORE-002",
+      "FA3-CORE-003",
+      "FA3-CORE-004",
+      "FA3-CORE-006",
+      "FA3-CORE-007",
+      "FA3-CORE-008",
+      "FA3-REG-001",
+      "FA3-REG-002",
+      "FA3-REG-003",
+      "FA3-DEC-AUTOGPT-2026-08-30",
+      "FA3-DEC-CODEX-ADAPTER-2026-08-31",
+      "FA3-DEC-OPENHANDS-2026-09-01",
+      "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+    ],
+    "source_decision_count": 15,
+    "registered_obligation_delta": 3,
+    "registered_executor_count_before": 15,
+    "registered_executor_count_after": 18,
+    "pending_executor_count_after": 411,
+    "hosted_ci_substitution_allowed": false,
+    "optional_provider_runtime_required": false,
+    "current_host_runtime_pass_claim": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
   }
 }
