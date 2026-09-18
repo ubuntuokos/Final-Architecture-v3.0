@@ -67,7 +67,10 @@
     "prefer": "NVDEC_OR_HW_DECODE -> CUDA_FILTERS_WHEN_SUPPORTED -> NVENC_OR_ADMITTED_ENCODER",
     "runtime_codec_support_matrix_required": true,
     "av1_encode_must_not_be_assumed": true,
-    "copy_minimization_required": true
+    "copy_minimization_required": true,
+    "accelerated_neural_nvidia_primary_path": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "dnn_processing_role": "SUPPORTED_COMPATIBILITY_PATH_NOT_PRIMARY_NVIDIA_AI_FRAME_PATH",
+    "zero_host_roundtrip_subprofile": "FA3-MEDIA-GPU-ZEROCOPY-001"
   },
   "forbidden_authorities": [
     "DURABLE_ORCHESTRATION_AUTHORITY",
