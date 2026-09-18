@@ -38,10 +38,11 @@
     "NVENC_OR_ADMITTED_ENCODER_INTEROP"
   ],
   "boundary": {
-    "resource_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "backend_routing_authority": "FA3-INFERENCE-PORTABILITY-001",
-    "model_identity_authority": "FA3-MODEL-REGISTRY-001",
-    "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001"
+    "resource_placement_binding": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "backend_routing_binding": "FA3-INFERENCE-PORTABILITY-001",
+    "model_identity_registry": "FA3-MODEL-REGISTRY-001",
+    "evidence_binding": "FA3-AUTH-OBS-EVIDENCE-001",
+    "provider_owns_any_architectural_authority": false
   },
   "runtime_activation": {
     "status": "PENDING_CURRENT_HOST",
