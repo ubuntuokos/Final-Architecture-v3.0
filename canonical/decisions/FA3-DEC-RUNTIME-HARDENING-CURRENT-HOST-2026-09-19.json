@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Executable current-host closure for runtime isolation, gVisor agent sandboxing and accelerated neural-media zero-host-round-trip evidence",
+  "decision": "MATERIALIZE_AS_CHILD_CURRENT_HOST_CLOSURE_OF_FA3_RUNTIME_HARDENING_GATESET_WITHOUT_CREATING_A_PARALLEL_MODERNIZATION_AUTHORITY",
+  "parent_decision_id": "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19",
+  "parent_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "current_host_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-001",
+  "mandatory_outcomes": [
+    "INSTALLED_QUADLET_AND_ACTUAL_RUNSC_RUNTIME_ARE_BOTH_PROVEN",
+    "AGENT_BOUNDARY_IS_MEASURED_FROM_CONFIGURATION_AND_RUNTIME_NOT_CONSTANT_BOOLEAN",
+    "HRB_GPU_UUID_PLUS_PCI_BDF_SELECTS_ACCELERATOR",
+    "PCIE_TELEMETRY_IS_COPY_BUDGET_SUPPORTING_EVIDENCE_NOT_ZERO_COPY_PROOF",
+    "FRAME_COPY_TRACE_PROVES_ZERO_HOST_FRAME_ROUND_TRIP_DURING_NEURAL_SEGMENT",
+    "CURRENT_HOST_EVIDENCE_USES_FA3_EVIDENCE_ENVELOPE_WITH_PAYLOAD_SHA256",
+    "COMPONENT_PASS_DOES_NOT_ASSIGN_GLOBAL_PROMOTION"
+  ],
+  "superseded_proposal_semantics": {
+    "hardcoded_gpu_index_0": "FORBIDDEN",
+    "rtx_3080_fixed_pcie_capacity": "FORBIDDEN",
+    "500ms_pcie_sampling": "FORBIDDEN_FOR_THIS_GATE",
+    "low_pcie_utilization_equals_zero_copy": "FORBIDDEN_CLAIM",
+    "constant_false_agent_privilege_test": "FORBIDDEN_AS_EVIDENCE",
+    "PROMOTED_MODERNIZED_CORE_from_component_gate": "FORBIDDEN"
+  },
+  "current_state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
+  "current_host_runtime_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
