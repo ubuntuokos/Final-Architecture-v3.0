@@ -6,22 +6,37 @@
     "BASIC": {
       "minimum_quality_score": 0,
       "cpu_fallback_allowed": true,
-      "intended_use": ["system_tts", "accessibility", "preview", "offline_basic"]
+      "intended_use": [
+        "system_tts",
+        "accessibility",
+        "preview",
+        "offline_basic"
+      ]
     },
     "STANDARD": {
       "minimum_quality_score": 60,
       "cpu_fallback_allowed": true,
-      "intended_use": ["general_assistant", "draft_media"]
+      "intended_use": [
+        "general_assistant",
+        "draft_media"
+      ]
     },
     "PRODUCTION": {
       "minimum_quality_score": 80,
       "cpu_fallback_allowed": false,
-      "intended_use": ["marketing", "published_media", "client_delivery"]
+      "intended_use": [
+        "marketing",
+        "published_media",
+        "client_delivery"
+      ]
     },
     "PREMIUM_CLONING": {
       "minimum_quality_score": 90,
       "cpu_fallback_allowed": false,
-      "intended_use": ["voice_clone", "premium_localization"]
+      "intended_use": [
+        "voice_clone",
+        "premium_localization"
+      ]
     }
   },
   "routing_policy": {
@@ -34,14 +49,41 @@
     "no_eligible_provider_disposition": "FAIL_CLOSED"
   },
   "provider_quality_eligibility": {
-    "FA3-PROVIDER-XTTS-001": ["STANDARD", "PRODUCTION", "PREMIUM_CLONING"],
-    "FA3-PROVIDER-PIPER-001": ["BASIC", "STANDARD"]
+    "FA3-PROVIDER-XTTS-001": [
+      "STANDARD",
+      "PRODUCTION",
+      "PREMIUM_CLONING"
+    ],
+    "FA3-PROVIDER-PIPER-001": [
+      "BASIC",
+      "STANDARD"
+    ]
   },
   "workflow_overrides": {
     "MARKETING_PRODUCTION": {
       "required_quality_class": "PRODUCTION",
-      "forbidden_provider_ids": ["FA3-PROVIDER-PIPER-001"],
+      "forbidden_provider_ids": [
+        "FA3-PROVIDER-PIPER-001"
+      ],
       "fallback": "FAIL_CLOSED"
     }
+  },
+  "aqc_policy": {
+    "profile_id": "FA3-HU-AQC-001",
+    "required_for_quality_classes": [
+      "PRODUCTION",
+      "PREMIUM_CLONING"
+    ],
+    "dimensions": [
+      "TEXT_LANGUAGE_AND_REGISTER",
+      "INTELLIGIBILITY_ASR_CER_WER",
+      "PERCEPTUAL_NATURALNESS",
+      "SPEAKER_SIMILARITY_IF_CLONING",
+      "SIGNAL_INTEGRITY"
+    ],
+    "single_metric_authority": false,
+    "nisqa_provider": "OPTIONAL_LICENSE_ADMITTED_REFERENCE_ONLY",
+    "human_review": "CALIBRATION_AND_GOLDEN_CORPUS_NOT_PER_ARTIFACT_DEFAULT",
+    "fail_closed": true
   }
 }
