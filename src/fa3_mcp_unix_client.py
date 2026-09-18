@@ -40,12 +40,12 @@ def main() -> int:
     parser.add_argument("--socket", required=True)
     parser.add_argument("--method", choices=("GET", "POST"), default="GET")
     parser.add_argument("--path", required=True)
-    parser.add_argument("--request-file")
+    parser.add_argument("--request-file")\n    parser.add_argument("--timeout", type=float, default=5.0)
     args = parser.parse_args()
     payload = None
     if args.request_file:
         payload = json.loads(Path(args.request_file).read_text(encoding="utf-8"))
-    status, value = request(args.socket, args.method, args.path, payload)
+    status, value = request(args.socket, args.method, args.path, payload, timeout=args.timeout)
     print(json.dumps({"http_status": status, "body": value}, ensure_ascii=False))
     return 0
 
