@@ -83,19 +83,21 @@ activate_service() {
   systemctl --user enable --now "$UNIT_NAME"
 }
 
-repair_remote_runner_labels() {
+inspect_existing_runner_labels() {
   command -v gh >/dev/null 2>&1 || {
-    echo "FAIL: gh is required to repair existing runner labels" >&2
+    echo "FAIL: gh is required to inspect existing runner labels" >&2
     exit 25
   }
 
-  local tmp runner_id missing_csv self_hosted payload
-  local -a state
+  local tmp
   tmp="$(mktemp)"
-  gh api "repos/\${REPO}/actions/runners?per_page=100" >"$tmp"
+  if ! gh api "repos/${REPO}/actions/runners?per_page=100" >"$tmp"; then
+    rm -f "$tmp"
+    echo "FAIL: unable to read repository runner inventory with gh" >&2
+    exit 26
+  fi
 
-  mapfile -t state < <(
-    python3 - "$RUNNER_ROOT/.runner" "$tmp" <<'PY'
+  python3 - "$RUNNER_ROOT/.runner" "$tmp" <<'PY'
 from __future__ import annotations
 import json
 import sys
@@ -111,50 +113,80 @@ remote = next((r for r in api.get("runners", []) if r.get("name") == name), None
 if remote is None:
     raise SystemExit(f"FAIL: runner {name!r} not found in repository runner inventory")
 labels = {str(x.get("name", "")).lower() for x in remote.get("labels", []) if isinstance(x, dict)}
-repairable = ("linux", "x64", "fa3-current-host")
-missing = [label for label in repairable if label not in labels]
-print(remote["id"])
+required = ("self-hosted", "linux", "x64", "fa3-current-host")
+missing = [label for label in required if label not in labels]
+print(name)
 print(",".join(missing))
-print("1" if "self-hosted" in labels else "0")
 PY
-  )
   rm -f "$tmp"
+}
 
-  runner_id="\${state[0]:-}"
-  missing_csv="\${state[1]:-}"
-  self_hosted="\${state[2]:-0}"
-
-  [[ -n "$runner_id" ]] || { echo "FAIL: unable to resolve runner id" >&2; exit 26; }
-  [[ "$self_hosted" == "1" ]] || {
-    echo "FAIL: existing runner lost the read-only self-hosted label; re-registration is required" >&2
+reregister_existing_runner() {
+  local existing_name remove_token runner_token
+  command -v gh >/dev/null 2>&1 || {
+    echo "FAIL: gh is required to re-register an existing runner" >&2
     exit 27
   }
 
-  if [[ -z "$missing_csv" ]]; then
-    return 0
-  fi
-
-  echo "INFO: repairing runner labels: $missing_csv"
-  payload="$(
-    python3 - "$missing_csv" <<'PY'
+  existing_name="$(python3 - "$RUNNER_ROOT/.runner" <<'PY'
 import json
 import sys
-labels = [x for x in sys.argv[1].split(",") if x]
-print(json.dumps({"labels": labels}))
+from pathlib import Path
+obj = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8-sig"))
+name = obj.get("agentName") or obj.get("name")
+if not name:
+    raise SystemExit("FAIL: local .runner has no agentName")
+print(name)
 PY
   )"
-  printf '%s\n' "$payload" |
-    gh api --method POST \
-      -H "Accept: application/vnd.github+json" \
-      "repos/\${REPO}/actions/runners/\${runner_id}/labels" \
-      --input - >/dev/null
+
+  echo "INFO: requesting short-lived remove and registration tokens for runner re-registration"
+  if ! remove_token="$(gh api --method POST "repos/${REPO}/actions/runners/remove-token" --jq .token)"; then
+    echo "FAIL: gh authentication needs repository Administration: write to re-register the runner" >&2
+    exit 28
+  fi
+  if ! runner_token="$(gh api --method POST "repos/${REPO}/actions/runners/registration-token" --jq .token)"; then
+    unset remove_token
+    echo "FAIL: unable to obtain short-lived runner registration token" >&2
+    exit 29
+  fi
+
+  systemctl --user stop "$UNIT_NAME" || true
+  pushd "$RUNNER_ROOT" >/dev/null
+  if ! ./config.sh remove --token "$remove_token"; then
+    popd >/dev/null
+    unset remove_token runner_token
+    activate_service
+    echo "FAIL: runner removal/reconfiguration preparation failed; previous service restored" >&2
+    exit 30
+  fi
+  unset remove_token
+
+  ./config.sh \
+    --unattended \
+    --url "$REPO_URL" \
+    --token "$runner_token" \
+    --name "$existing_name" \
+    --labels "$CUSTOM_LABEL" \
+    --work _work \
+    --disableupdate
+  popd >/dev/null
+  unset runner_token
+
+  activate_service
 }
 
 if [[ -e "$RUNNER_ROOT/.runner" ]]; then
   echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and recovering service wiring"
   [[ -x "$RUNNER_ROOT/bin/Runner.Listener" ]] || { echo "FAIL: existing runner registration has no Runner.Listener" >&2; exit 24; }
   activate_service
-  repair_remote_runner_labels
+  mapfile -t runner_state < <(inspect_existing_runner_labels)
+  runner_missing_labels="${runner_state[1]:-}"
+  if [[ -n "$runner_missing_labels" ]]; then
+    echo "INFO: default/custom runner label drift detected: $runner_missing_labels"
+    echo "INFO: re-registering runner so GitHub reapplies default OS/architecture labels"
+    reregister_existing_runner
+  fi
   exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
 fi
 
