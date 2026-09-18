@@ -2,12 +2,41 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
+import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
-from fa3_mcp_gateway import McpGateway
+from fa3_mcp_gateway import Adapter, McpGateway
+
+
+def load_adapter_factories(gateway: McpGateway, specs: str | None = None) -> int:
+    """Load admitted adapter factories declared by the host profile.
+
+    Specs are comma-separated module:function references. Factories return one
+    Adapter or an iterable of Adapters. Any malformed factory fails startup.
+    """
+    raw = specs if specs is not None else os.environ.get("FA3_MCP_ADAPTER_FACTORIES", "")
+    registered = 0
+    for spec in (part.strip() for part in raw.split(",")):
+        if not spec:
+            continue
+        if ":" not in spec:
+            raise RuntimeError(f"Invalid MCP adapter factory reference: {spec}")
+        module_name, function_name = spec.split(":", 1)
+        factory = getattr(importlib.import_module(module_name), function_name)
+        produced = factory()
+        adapters = (produced,) if isinstance(produced, Adapter) else tuple(produced)
+        if not adapters:
+            raise RuntimeError(f"MCP adapter factory returned no adapters: {spec}")
+        for adapter in adapters:
+            if not isinstance(adapter, Adapter):
+                raise RuntimeError(f"MCP adapter factory returned invalid object: {spec}")
+            gateway.register_adapter(adapter)
+            registered += 1
+    return registered
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -63,6 +92,7 @@ def main() -> int:
     if args.host not in {"127.0.0.1", "::1", "localhost"}:
         raise SystemExit("Refusing non-loopback bind without a separate canonical exposure profile")
     gateway = McpGateway.from_path(Path(args.registry))
+    load_adapter_factories(gateway)
     Handler.gateway = gateway
     server = ThreadingHTTPServer((args.host, args.port), Handler)
     server.serve_forever()
