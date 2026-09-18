@@ -653,6 +653,52 @@ def gate(root: Path):
     if projection.get("manifest_entry_count") != len(manifest) or len(manifest_paths) != len(manifest):
         findings.append(finding("FA3-RELEASE-PROJECTION-008", "Projection manifest cardinality/uniqueness mismatch"))
 
+    runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
+    runtime_hardening_required_paths = {
+        "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
+        "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
+        "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
+        "canonical/profiles/FA3-HU-AQC-001.json",
+        "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
+        "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+        "canonical/providers/FA3-PROVIDER-PYNVVIDEOCODEC-001.json",
+        "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
+        "canonical/FA3-GATE-RUNTIME-HARDENING-001.json",
+        "canonical/runtime-hardening-enforcement.json",
+        "src/fa3_runtime_hardening.py",
+        "src/fa3_runtime_hardening_gate.py",
+        "tests/test_runtime_hardening_gate.py",
+    }
+    if (
+        runtime_hardening.get("profile_ids") != [
+            "FA3-RUNTIME-ISOLATION-001",
+            "FA3-AGENT-SANDBOX-001",
+            "FA3-MEDIA-GPU-ZEROCOPY-001",
+            "FA3-HU-AQC-001",
+            "FA3-PROMOTION-SHADOW-001",
+        ]
+        or runtime_hardening.get("contract_id") != "FA3-RUNTIME-HARDENING-CONTRACTS-001"
+        or runtime_hardening.get("provider_id") != "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+        or runtime_hardening.get("decision_id") != "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19"
+        or runtime_hardening.get("gate_id") != "FA3-RUNTIME-HARDENING-GATESET-001"
+        or runtime_hardening.get("reconciliation_status")
+        != "GLOBAL_RELEASE_RECONCILED_STATIC_GATE_ENFORCED_CURRENT_HOST_RUNTIME_PENDING"
+        or runtime_hardening.get("shadow_execution_authoritative") is not False
+        or runtime_hardening.get("production_gate_bypass") is not False
+        or runtime_hardening.get("new_capabilities") != 0
+        or runtime_hardening.get("new_architectural_authorities") != 0
+        or runtime_hardening.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-RUNTIME-HARDENING-GATESET-001" not in projection_gates
+        or not runtime_hardening_required_paths.issubset(manifest_paths)
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-109",
+                "Runtime hardening/shadow global release reconciliation invariant mismatch",
+                missing_manifest_paths=sorted(runtime_hardening_required_paths - manifest_paths),
+            )
+        )
+
     kanboard = projection.get("kanboard_reconciliation", {})
     inventory = projection.get("overlay_inventory", {})
     required_kanboard_manifest_paths = {

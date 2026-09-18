@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+  "version": "1.0.0",
+  "provider_neutral": true,
+  "capability_count": 143,
+  "contracts": [
+    "RuntimeIsolationPlan",
+    "RuntimeIsolationReceipt",
+    "SandboxExecutionPlan",
+    "SandboxExecutionReceipt",
+    "FrameMemoryResidencyPlan",
+    "FrameCopyTelemetry",
+    "HungarianQualityPlan",
+    "HungarianQualityReceipt",
+    "ShadowExecutionPlan",
+    "ShadowExecutionReceipt",
+    "PromotionEligibilityReceipt"
+  ],
+  "runtime_isolation": {
+    "hrb_resource_decision_required": true,
+    "launcher_may_reselect_resources": false,
+    "environment_variable_authority": false,
+    "cgroup_v2_projection_required_when_linux": true,
+    "explicit_device_projection_required_for_accelerator": true
+  },
+  "sandbox": {
+    "arbitrary_agent_host_subprocess": "DENY",
+    "ephemeral_workspace_required": true,
+    "network_default": "DENY",
+    "explicit_mounts_only": true
+  },
+  "media": {
+    "accelerated_neural_claim": "ZERO_HOST_ROUND_TRIP",
+    "host_round_trip_during_neural_segment_max": 0,
+    "copy_telemetry_required": true
+  },
+  "hu_aqc": {
+    "dimensions_must_be_independent": true,
+    "production_fail_closed": true,
+    "scorer_license_admission_required": true
+  },
+  "shadow": {
+    "output_authoritative": false,
+    "external_side_effects": false,
+    "promotion_authority": false,
+    "production_gate_bypass": false
+  }
+}

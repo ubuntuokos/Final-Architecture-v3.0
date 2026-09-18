@@ -11,6 +11,11 @@ if [[ "${1:-}" == "pageindex-knowledge-closure" ]]; then
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_knowledge_closure_gate.py" --root "$ROOT" "$@"
 fi
 
+if [[ "${1:-}" == "runtime-hardening" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_runtime_hardening_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "knowledge-hybrid-retrieval" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_knowledge_hybrid_retrieval_gate.py" --root "$ROOT" "$@"

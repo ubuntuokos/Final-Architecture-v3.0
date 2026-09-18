@@ -3,7 +3,7 @@
   "id": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
   "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
   "provider_neutral": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "contracts": [
     "MediaExecutionProviderDescriptor",
     "MediaProbeReceipt",
@@ -55,7 +55,11 @@
     "gpu_resident_pipeline_preferred_when_capability_supported": true,
     "hwupload_hwdownload_minimization_required": true,
     "zero_copy_claim_requires_measured_copy_evidence": true,
-    "zero_copy_claim_requires_stable_release_capability": true
+    "zero_copy_claim_requires_stable_release_capability": true,
+    "accelerated_neural_claim_semantics": "ZERO_HOST_ROUND_TRIP",
+    "host_frame_round_trip_during_neural_segment_max": 0,
+    "dlpack_shared_gpu_memory_supported_path": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "full_pipeline_zero_copy_marketing_claim_forbidden_without_end_to_end_proof": true
   },
   "quality_requirements": {
     "vmaf": true,
@@ -73,7 +77,9 @@
     "frameserver_boundary_required_for_non_ffmpeg_native_models": true,
     "reference_adapter": "FA3-PROVIDER-VS-MLRT-001",
     "provider_local_backend_routing_authority": false,
-    "backend_selection_authority": "FA3-INFERENCE-PORTABILITY-001"
+    "backend_selection_authority": "FA3-INFERENCE-PORTABILITY-001",
+    "primary_nvidia_ai_frame_provider": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "secondary_frameserver_adapter": "FA3-PROVIDER-VS-MLRT-001"
   },
   "runtime_isolation": {
     "isolated_environment_required": true,

@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_CLOSED",
+  "subject": "FA3 runtime isolation, agent sandboxing, accelerated media residency, Hungarian automated quality control and shadow/canary execution",
+  "decision": "MATERIALIZE_CROSS_CUTTING_RUNTIME_HARDENING_WITH_SHADOW_EXECUTION_WITHOUT_CHANGING_EXISTING_AUTHORITIES_OR_PRODUCTION_PROMOTION_GATE",
+  "profile_ids": [
+    "FA3-RUNTIME-ISOLATION-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-MEDIA-GPU-ZEROCOPY-001",
+    "FA3-HU-AQC-001",
+    "FA3-PROMOTION-SHADOW-001"
+  ],
+  "contract_id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+  "provider_ids": [
+    "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+  ],
+  "gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "supersession_semantics": {
+    "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03": "REFINED_NVIDIA_AI_FRAME_PATH_ONLY_FFMPEG_MEDIA_CORE_RETAINED",
+    "FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11": "UNCHANGED_CURRENT_HOST_EVIDENCE_REQUIREMENT",
+    "existing_19_point_acceptance_gate": "UNCHANGED"
+  },
+  "mandatory_outcomes": [
+    "HRB_REMAINS_RESOURCE_AUTHORITY",
+    "ARBITRARY_AGENT_HOST_SUBPROCESS_EXECUTION_FORBIDDEN",
+    "NVIDIA_ACCELERATED_AI_MEDIA_USES_ZERO_HOST_ROUND_TRIP_EVIDENCE_SEMANTICS",
+    "HUNGARIAN_PRODUCTION_TEXT_AND_SPEECH_QUALITY_USES_MULTI_SIGNAL_AQC",
+    "SHADOW_EXECUTION_IS_NON_AUTHORITATIVE_AND_CANNOT_BYPASS_PROMOTION"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "current_host_runtime_promotion_claim": false
+}

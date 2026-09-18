@@ -22,7 +22,6 @@ from fa3_loop_engineering_gate import gate as loop_engineering_gate
 from fa3_openhands_gate import gate as openhands_gate
 from fa3_openyak_gate import gate as openyak_gate
 from fa3_obsidian_knowledge_workspace_gate import gate as obsidian_knowledge_workspace_gate
-from fa3_knowledge_hybrid_retrieval_gate import gate as knowledge_hybrid_retrieval_gate
 from fa3_pageindex_knowledge_closure_gate import gate as pageindex_knowledge_closure_gate
 from fa3_lynxhub_gate import gate as lynxhub_gate
 from fa3_openbmb_gate import gate as openbmb_gate
@@ -66,6 +65,7 @@ from fa3_hardware_portability_gate import gate as hardware_portability_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
+from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
 
 OK=0
 BLOCKED=2
@@ -139,6 +139,10 @@ def static_check(root:Path):
     if projection_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-039","Unified post-v3.0.11 canonical release projection gate failed",release_projection_gate=projection_ref))
 
+    runtime_hardening_ref=runtime_hardening_gate(root)
+    if runtime_hardening_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-108","Cross-cutting runtime hardening gate failed",runtime_hardening_gate=runtime_hardening_ref))
+
     if pol.get("architecture_release")!=RELEASE or pol.get("canonical_capability_count")!=CAPS:
         fs.append(finding("FA3-STATIC-001","Enforcement policy release/capability invariant mismatch"))
     if not pol.get("fail_closed") or not pol.get("document_only_promotion_forbidden"):
@@ -196,7 +200,7 @@ def static_check(root:Path):
     if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
     if "FA3-PAGEINDEX-KNOWLEDGE-CLOSURE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-107","PageIndex/Knowledge closure gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-109","PageIndex/Knowledge closure gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -330,12 +334,9 @@ def static_check(root:Path):
     obsidian_ref=obsidian_knowledge_workspace_gate(root)
     if obsidian_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-096","Obsidian human knowledge workspace boundary regression gate failed",obsidian_knowledge_workspace_gate=obsidian_ref))
-    knowledge_hybrid_ref=knowledge_hybrid_retrieval_gate(root)
-    if knowledge_hybrid_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-107","Knowledge hierarchical/hybrid retrieval executable gate failed",knowledge_hybrid_retrieval_gate=knowledge_hybrid_ref))
     pageindex_knowledge_ref=pageindex_knowledge_closure_gate(root)
     if pageindex_knowledge_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-108","PageIndex/Knowledge closure executable gate failed",pageindex_knowledge_closure_gate=pageindex_knowledge_ref))
+        fs.append(finding("FA3-STATIC-110","PageIndex/Knowledge closure executable gate failed",pageindex_knowledge_closure_gate=pageindex_knowledge_ref))
     lynxhub_ref=lynxhub_gate(root)
     if lynxhub_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-087","LynxHub Creative Operations Dashboard boundary regression gate failed",lynxhub_gate=lynxhub_ref))
@@ -533,7 +534,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","pageindex-knowledge-closure","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","pageindex-knowledge-closure","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -673,6 +674,8 @@ def main():
             x=presenton_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="fa3-os-event-privacy":
             x=fa3_os_event_privacy_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="runtime-hardening":
+            x=runtime_hardening_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="acceptance":
             x=acceptance_check(root); print(json.dumps(x,indent=2)); return OK if x["status"]=="PASS" else BLOCKED
         if a.command in ("promote","all"):

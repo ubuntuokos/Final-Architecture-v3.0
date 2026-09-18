@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+  "name": "NVIDIA PyNvVideoCodec",
+  "status": "REQUIRED_SUPPORTED_NVIDIA_ACCELERATED_AI_FRAME_PROVIDER_PENDING_CURRENT_HOST",
+  "classification": [
+    "PRIMARY_NVIDIA_AI_FRAME_IO_PROVIDER",
+    "DLPACK_GPU_TENSOR_INTEROP_REFERENCE",
+    "REPLACEABLE_PROVIDER",
+    "NOT_RESOURCE_OR_ROUTING_AUTHORITY"
+  ],
+  "profile": "FA3-MEDIA-GPU-ZEROCOPY-001",
+  "contract": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
+  "capability_projection": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-016",
+    "CAP-121",
+    "CAP-126",
+    "CAP-137"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "hard_dependency_for_all_media_jobs": false,
+  "upstream": {
+    "project": "NVIDIA PyNvVideoCodec",
+    "observed_api_version": "2.2",
+    "exact_release_or_artifact_digest_required_at_admission": true,
+    "floating_latest_allowed_for_production": false
+  },
+  "required_supported_surfaces": [
+    "DEVICE_MEMORY_DECODE",
+    "DLPACK_EXPORT",
+    "PYTORCH_FROM_DLPACK_SHARED_GPU_MEMORY",
+    "NVENC_OR_ADMITTED_ENCODER_INTEROP"
+  ],
+  "boundary": {
+    "resource_placement_binding": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "backend_routing_binding": "FA3-INFERENCE-PORTABILITY-001",
+    "model_identity_registry": "FA3-MODEL-REGISTRY-001",
+    "evidence_binding": "FA3-AUTH-OBS-EVIDENCE-001",
+    "provider_owns_any_architectural_authority": false
+  },
+  "runtime_activation": {
+    "status": "PENDING_CURRENT_HOST",
+    "hrb_lease_required": true,
+    "gpu_uuid_pci_bdf_required": true,
+    "copy_telemetry_required": true,
+    "zero_host_round_trip_e2e_required": true,
+    "current_host_runtime_promotion_claimed": false
+  }
+}
