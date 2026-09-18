@@ -16,12 +16,18 @@ from fa3_current_host_capability_test_qualification_audit import (
     QUALIFICATION_REGISTRY,
     audit as audit_qualifications,
 )
+from fa3_current_host_capability_qualification_constituent_producer_audit import (
+    PRODUCER_REGISTRY,
+    audit as audit_constituent_producers,
+)
 
 VERDICT_SCHEMA = "fa3.capability-current-host-test-verdict.v1"
 QUALIFIED_ARTIFACT_SCHEMA = "fa3.capability-current-host-test-qualification.v1"
 EVIDENCE_CLASS = "CAPABILITY_SPECIFIC_EXECUTABLE_TEST"
 CONSTITUENT_ROOT = ".fa3-current-host/qualification-constituents"
-ALLOWED_SOURCE_PREFIXES = (".fa3-current-host/", "evidence/receipts/")
+SOURCE_ROOT = ".fa3-current-host/qualification-source-artifacts"
+CONSTITUENT_ORCHESTRATOR_ID = "FA3-CURRENT-HOST-QUALIFICATION-CONSTITUENT-ORCHESTRATOR-001"
+ALLOWED_SOURCE_PREFIXES = (f"{SOURCE_ROOT}/",)
 FORBIDDEN_SOURCE_PREFIXES = (
     "evidence/reference/",
     "evidence/static/",
@@ -108,6 +114,15 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
     qualification_report = audit_qualifications(root)
     if qualification_report.get("audit_integrity") != "PASS":
         return None, ["capability qualification registry audit failed"]
+    producer_report = audit_constituent_producers(root)
+    if producer_report.get("audit_integrity") != "PASS":
+        return None, ["qualification constituent producer registry audit failed"]
+    producer_map = {
+        (item.get("qualification_id"), item.get("constituent_id")): item
+        for item in producer_report.get("accepted_producers", [])
+        if isinstance(item, dict)
+    }
+
     accepted = [
         item
         for item in qualification_report.get("accepted_qualifications", [])
@@ -175,6 +190,11 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
         if not isinstance(constituent_id, str) or not constituent_id:
             findings.append("canonical constituent_id invalid")
             continue
+        producer = producer_map.get((qualification_id, constituent_id))
+        if producer is None:
+            findings.append(f"{constituent_id}: no accepted canonical constituent producer")
+            continue
+
         manifest_rel = f"{CONSTITUENT_ROOT}/{qualification_id}/{constituent_id}.json"
         manifest_path, manifest_error = _repo_file(root, manifest_rel)
         if manifest_error or manifest_path is None:
@@ -199,6 +219,7 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
             ("synthetic", False),
             ("ci_reference_only", False),
             ("provider_receipt_only", False),
+            ("component_receipt_only", False),
             ("generic_host_collection_only", False),
             ("global_promotion_claim", False),
             ("evidence_authority_id", EVIDENCE_AUTHORITY),
@@ -211,6 +232,26 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
         for key, expected_value in exact_fields:
             if manifest.get(key) != expected_value:
                 local_findings.append(f"{key} mismatch")
+
+        producer_meta = manifest.get("producer")
+        if not isinstance(producer_meta, dict):
+            local_findings.append("producer provenance missing")
+        else:
+            for key, expected_value in (
+                ("orchestrator_id", CONSTITUENT_ORCHESTRATOR_ID),
+                ("producer_registry", PRODUCER_REGISTRY),
+                ("producer_id", producer.get("producer_id")),
+                ("execution_mode", "REAL_CURRENT_HOST_EXECUTION"),
+                ("adapter_path", producer.get("adapter_path")),
+                ("adapter_sha256", producer.get("adapter_sha256")),
+                ("artifact_scope", f"{SOURCE_ROOT}/{qualification_id}/{constituent_id}"),
+            ):
+                if producer_meta.get(key) != expected_value:
+                    local_findings.append(f"producer.{key} mismatch")
+            for time_key in ("started_at", "finished_at"):
+                _, time_error = _parse_time(producer_meta.get(time_key), f"producer.{time_key}")
+                if time_error:
+                    local_findings.append(time_error)
 
         collected_at, collected_error = _parse_time(manifest.get("collected_at"), "collected_at")
         expires_at, expires_error = _parse_time(manifest.get("expires_at"), "expires_at")
@@ -240,6 +281,10 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
             local_findings.append(f"source artifact {source_error or 'missing'}")
         elif not isinstance(source_digest, str) or _sha256(source_path) != source_digest:
             local_findings.append("source artifact digest mismatch")
+        if source_path is not None:
+            exact_source_scope = (root / SOURCE_ROOT / qualification_id / constituent_id).resolve()
+            if exact_source_scope not in source_path.parents:
+                local_findings.append("source artifact outside exact registered producer scope")
 
         if local_findings:
             findings.extend(f"{constituent_id}: {item}" for item in local_findings)
@@ -254,6 +299,13 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
             "source_artifact_sha256": source_digest,
             "collected_at": manifest["collected_at"],
             "expires_at": manifest["expires_at"],
+            "producer": {
+                "producer_id": producer.get("producer_id"),
+                "producer_registry": PRODUCER_REGISTRY,
+                "adapter_path": producer.get("adapter_path"),
+                "adapter_sha256": producer.get("adapter_sha256"),
+                "orchestrator_id": CONSTITUENT_ORCHESTRATOR_ID,
+            },
         })
 
     if len(accepted_constituents) != len(expected_constituents):
@@ -281,6 +333,7 @@ def qualify(root: Path, qualification_id: str) -> tuple[dict[str, Any] | None, l
         "completeness_basis": definition.get("completeness_basis"),
         "host_fingerprint_path": host_rel,
         "host_fingerprint_sha256": host_digest,
+        "constituent_producer_registry": PRODUCER_REGISTRY,
         "constituents": accepted_constituents,
     }
     output = actual_scope / "capability-obligation-qualification.json"

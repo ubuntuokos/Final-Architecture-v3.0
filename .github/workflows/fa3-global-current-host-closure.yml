@@ -6,12 +6,15 @@ on:
     paths:
       - 'canonical/current-host-capability-test-executors.json'
       - 'canonical/current-host-capability-test-qualifications.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
       - 'src/fa3_current_host_evidence_audit.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'src/fa3_current_host_capability_attest.py'
       - 'src/fa3_current_host_capability_test_bundle.py'
       - 'src/fa3_current_host_capability_test_qualification_audit.py'
       - 'src/fa3_current_host_capability_test_qualifier.py'
+      - 'src/fa3_current_host_capability_qualification_constituent_producer_audit.py'
+      - 'src/fa3_current_host_capability_qualification_constituent_orchestrator.py'
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
       - 'tests/test_current_host_evidence_audit.py'
@@ -20,6 +23,8 @@ on:
       - 'tests/test_current_host_capability_test_bundle.py'
       - 'tests/test_current_host_capability_test_qualification_audit.py'
       - 'tests/test_current_host_capability_test_qualifier.py'
+      - 'tests/test_current_host_capability_qualification_constituent_producer_audit.py'
+      - 'tests/test_current_host_capability_qualification_constituent_orchestrator.py'
       - 'tests/test_current_host_capability_test_executor_audit.py'
       - 'tests/test_current_host_capability_test_orchestrator.py'
       - 'evidence/reference/current-host-143-audit-*.json'
@@ -58,6 +63,8 @@ jobs:
           python -m py_compile \
             src/fa3_current_host_capability_test_qualification_audit.py \
             src/fa3_current_host_capability_test_qualifier.py \
+            src/fa3_current_host_capability_qualification_constituent_producer_audit.py \
+            src/fa3_current_host_capability_qualification_constituent_orchestrator.py \
             src/fa3_current_host_capability_test_executor_audit.py \
             src/fa3_current_host_capability_test_orchestrator.py \
             src/fa3_current_host_capability_test_bundle.py \
@@ -66,6 +73,8 @@ jobs:
             src/fa3_current_host_evidence_audit.py \
             tests/test_current_host_capability_test_qualification_audit.py \
             tests/test_current_host_capability_test_qualifier.py \
+            tests/test_current_host_capability_qualification_constituent_producer_audit.py \
+            tests/test_current_host_capability_qualification_constituent_orchestrator.py \
             tests/test_current_host_capability_test_executor_audit.py \
             tests/test_current_host_capability_test_orchestrator.py \
             tests/test_current_host_capability_test_bundle.py \
@@ -78,6 +87,8 @@ jobs:
           PYTHONPATH=src python -m unittest \
             tests.test_current_host_capability_test_qualification_audit \
             tests.test_current_host_capability_test_qualifier \
+            tests.test_current_host_capability_qualification_constituent_producer_audit \
+            tests.test_current_host_capability_qualification_constituent_orchestrator \
             tests.test_current_host_capability_test_executor_audit \
             tests.test_current_host_capability_test_orchestrator \
             tests.test_current_host_capability_test_bundle \
@@ -98,6 +109,34 @@ jobs:
           assert qualification['component_receipts_promoted'] == 0, qualification
           assert qualification['generic_host_evidence_promoted'] == 0, qualification
           assert qualification['global_promotion_claim'] is False, qualification
+          PY
+      - name: Audit explicit qualification constituent producer coverage
+        run: |
+          PYTHONPATH=src python src/fa3_current_host_capability_qualification_constituent_producer_audit.py --root .
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          producer_audit=json.loads(Path('reports/current-host-capability-qualification-constituent-producer-audit.json').read_text())
+          assert producer_audit['audit_integrity'] == 'PASS', producer_audit
+          assert producer_audit['registered_producer_count'] + producer_audit['pending_producer_count'] == producer_audit['required_constituent_count'], producer_audit
+          assert producer_audit['provider_receipts_promoted'] == 0, producer_audit
+          assert producer_audit['component_receipts_promoted'] == 0, producer_audit
+          assert producer_audit['generic_host_evidence_promoted'] == 0, producer_audit
+          assert producer_audit['global_promotion_claim'] is False, producer_audit
+          PY
+      - name: Prove hosted CI cannot produce current-host qualification constituents
+        run: |
+          PYTHONPATH=src python src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root .
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          producer_orchestrator=json.loads(Path('reports/current-host-capability-qualification-constituent-orchestrator.json').read_text())
+          assert producer_orchestrator['orchestrator_integrity'] == 'PASS', producer_orchestrator
+          assert producer_orchestrator['execution_requested'] is False, producer_orchestrator
+          assert producer_orchestrator['constituents_materialized'] == 0, producer_orchestrator
+          assert producer_orchestrator['provider_receipts_promoted'] == 0, producer_orchestrator
+          assert producer_orchestrator['component_receipts_promoted'] == 0, producer_orchestrator
+          assert producer_orchestrator['global_promotion_claim'] is False, producer_orchestrator
           PY
       - name: Audit explicit current-host capability executor coverage
         run: |
@@ -130,6 +169,8 @@ jobs:
       - name: Prove empty workspace cannot fabricate capability PASS
         run: |
           rm -rf \
+            .fa3-current-host/qualification-source-artifacts \
+            .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results \
             .fa3-current-host/test-artifacts \
             .fa3-current-host/test-plan \
@@ -229,6 +270,10 @@ jobs:
           path: |
             .fa3-current-host/test-plan/capabilities.json
             reports/current-host-capability-test-qualification-audit.json
+            reports/current-host-capability-qualification-constituent-producer-audit.json
+            reports/current-host-capability-qualification-constituent-orchestrator.json
+            reports/current-host-capability-qualification-constituent-producer-audit.json
+            reports/current-host-capability-qualification-constituent-orchestrator.json
             reports/current-host-capability-test-executor-audit.json
             reports/current-host-capability-test-orchestrator.json
             reports/current-host-capability-test-bundle-assembler.json
@@ -264,6 +309,8 @@ jobs:
         run: |
           rm -rf \
             .fa3-current-host/global-closure \
+            .fa3-current-host/qualification-source-artifacts \
+            .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results \
             .fa3-current-host/test-artifacts \
             .fa3-current-host/test-plan \
@@ -272,6 +319,8 @@ jobs:
             evidence/receipts/capabilities
           mkdir -p \
             .fa3-current-host/global-closure \
+            .fa3-current-host/qualification-source-artifacts \
+            .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results/capabilities \
             .fa3-current-host/test-artifacts/capabilities \
             .fa3-current-host/test-bundles/capabilities \
@@ -286,6 +335,14 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_capability_test_qualification_audit.py --root .
+      - name: Audit explicit qualification constituent producer coverage before execution
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_producer_audit.py --root .
+      - name: Execute registered qualification constituent producers on the real current host
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute
       - name: Audit explicit capability executor coverage before execution
         shell: bash
         run: |
@@ -327,6 +384,8 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
+          producer_audit=json.loads(Path('reports/current-host-capability-qualification-constituent-producer-audit.json').read_text())
+          producer_orchestrator=json.loads(Path('reports/current-host-capability-qualification-constituent-orchestrator.json').read_text())
           executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
           orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
           assembler=json.loads(Path('reports/current-host-capability-test-bundle-assembler.json').read_text())
@@ -335,6 +394,15 @@ jobs:
           audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
           acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
           promotion=json.loads(Path('promotion/runtime-status.json').read_text())
+          assert producer_audit['audit_integrity'] == 'PASS', producer_audit
+          assert producer_audit['registered_producer_count'] + producer_audit['pending_producer_count'] == producer_audit['required_constituent_count'], producer_audit
+          assert producer_audit['global_promotion_claim'] is False, producer_audit
+          assert producer_orchestrator['orchestrator_integrity'] == 'PASS', producer_orchestrator
+          assert producer_orchestrator['execution_requested'] is True, producer_orchestrator
+          assert producer_orchestrator['constituents_materialized'] == producer_audit['registered_producer_count'], (producer_orchestrator, producer_audit)
+          assert producer_orchestrator['provider_receipts_promoted'] == 0, producer_orchestrator
+          assert producer_orchestrator['component_receipts_promoted'] == 0, producer_orchestrator
+          assert producer_orchestrator['global_promotion_claim'] is False, producer_orchestrator
           assert executor['audit_integrity'] == 'PASS', executor
           assert executor['required_test_obligation_count'] == 429, executor
           assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
@@ -407,6 +475,8 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/qualification-source-artifacts/**
+            .fa3-current-host/qualification-constituents/**
             .fa3-current-host/test-results/capabilities/**
             .fa3-current-host/test-artifacts/capabilities/**
             .fa3-current-host/test-plan/capabilities.json

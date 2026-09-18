@@ -50,7 +50,7 @@ class QualificationAuditTests(unittest.TestCase):
             "test_id": rec["required_positive_test"],
             "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
             "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
-            "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v1",
+            "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
             "provider_receipt_only": False,
             "component_receipt_only": False,
             "generic_host_collection_only": False,
