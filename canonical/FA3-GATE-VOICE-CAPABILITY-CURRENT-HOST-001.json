@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-VOICE-CAPABILITY-CURRENT-HOST-001",
+  "gateset_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-GATESET-001",
+  "conformance_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-CONFORMANCE-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_voice_capability_current_host_gate.py --root .",
+  "current_host_execution_via": "src/fa3_voice_capability_current_host.py",
+  "capability_bindings": [
+    "CAP-115",
+    "CAP-116",
+    "CAP-117"
+  ],
+  "registered_obligation_delta": 9,
+  "registered_executor_count_after": 27,
+  "pending_executor_count_after": 402,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}
