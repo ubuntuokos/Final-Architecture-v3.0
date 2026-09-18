@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3493ffa9189faa2a655cac3d958edad29a64945a",
-    "pre_projection_root_tree_sha": "ba42ab7740ee9f8b1b61e3206a9b788b221690fc",
-    "pre_projection_canonical_tree_sha": "ec63c5aa69dca479992a9e23dc111ab0efbd843b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 395,
-    "total_post_baseline_commits": 395,
-    "delta_file_count": 1315,
-    "delta_added_files": 1310,
+    "pre_projection_head_sha": "077270b069e2b3a377ba5bb957c5fb27325df42a",
+    "pre_projection_root_tree_sha": "46b9111ad39f37d7979bf8778d303f92aa340210",
+    "pre_projection_canonical_tree_sha": "518597e87977c24b8bb9e6a42bd50d7bfb252a2d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 397,
+    "total_post_baseline_commits": 397,
+    "delta_file_count": 1316,
+    "delta_added_files": 1311,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 656,
+    "canonical_files_in_post_baseline_delta": 657,
     "evidence_files_in_post_baseline_delta": 121,
     "source_files_in_post_baseline_delta": 155,
     "test_files_in_post_baseline_delta": 137,
@@ -732,7 +732,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1308,
+  "manifest_entry_count": 1309,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -2547,6 +2547,11 @@
     {
       "path": "canonical/cpu-numa-threading-enforcement.json",
       "git_blob_sha": "10a97261aa2d20bbcc6c008e53fb9ddbf4c69601",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-capability-qualification-constituent-producers.json",
+      "git_blob_sha": "9f360db488866f0b6c65b811bf85e1cc58fc5ba6",
       "baseline_delta_status": "added"
     },
     {
