@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AGENT-SANDBOX-001",
   "name": "Mandatory Agent Sandbox, Ephemeral Workspace & Network-Deny Execution Boundary",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -21,7 +21,9 @@
   "backend_policy": {
     "gvisor": {
       "classification": "PREFERRED_UNTRUSTED_OCI_IF_CURRENT_HOST_COMPATIBLE",
-      "current_host_evidence_required": true
+      "current_host_evidence_required": true,
+      "runtime": "runsc",
+      "default_for_host_impact_if_compatible": true
     },
     "wasmtime_wasi": {
       "classification": "PREFERRED_WASM_WASI_FOR_WASM_NATIVE_TOOLS",
@@ -42,12 +44,14 @@
     "host_home_visibility": "DENY",
     "host_process_visibility": "DENY",
     "direct_canonical_repository_write": "DENY",
-    "destroy_after_task": true
+    "destroy_after_task": true,
+    "direct_container_runtime_socket": "DENY"
   },
   "network_policy": {
     "default": "DENY",
     "allowed_exception": "EXPLICIT_SCOPED_EGRESS_LEASE",
-    "direct_mcp_bypass": "DENY"
+    "direct_mcp_bypass": "DENY",
+    "central_mcp_gateway_transport": "AUTHENTICATED_UNIX_SOCKET"
   },
   "invariants": [
     "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN",
@@ -58,8 +62,37 @@
     "SCOPED_EGRESS_REQUIRES_EXPLICIT_LEASE",
     "MCP_TOOL_ACCESS_REMAINS_CENTRAL_GATEWAY_MEDIATED",
     "SANDBOX_PROVIDER_NOT_SECURITY_RESOURCE_OR_EVIDENCE_AUTHORITY",
-    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER"
+    "TASK_END_DESTROYS_EPHEMERAL_UPPER_LAYER",
+    "HOST_IMPACT_DEFAULT_GVISOR_RUNSC_IF_COMPATIBLE",
+    "DIRECT_CONTAINER_RUNTIME_SOCKET_DENY",
+    "CENTRAL_MCP_GATEWAY_UDS_DEFAULT_TOOL_CHANNEL",
+    "TASK_END_WORKSPACE_DESTRUCTION_RECEIPT_REQUIRED"
   ],
   "current_host_runtime_status": "PENDING_CURRENT_HOST_SANDBOX_BACKEND_CONFORMANCE",
-  "current_host_runtime_promotion_claimed": false
+  "current_host_runtime_promotion_claimed": false,
+  "host_impact_policy": {
+    "activation_capabilities": [
+      "FS_WRITE",
+      "PROCESS_EXEC",
+      "CODE_EXEC",
+      "BROWSER_CONTROL",
+      "EXTERNAL_TOOL_EXEC"
+    ],
+    "preferred_backend": "GVISOR_RUNSC",
+    "alternate_backend_requires": "EXPLICIT_CANONICAL_COMPATIBILITY_ADMISSION",
+    "direct_host_project_write": "DENY",
+    "direct_container_runtime_socket": "DENY",
+    "default_network": "DENY",
+    "default_tool_channel": "CENTRAL_MCP_GATEWAY_AUTHENTICATED_UNIX_SOCKET",
+    "workspace": "TASK_BOUND_EPHEMERAL_OVERLAY",
+    "workspace_destruction_receipt_required": true,
+    "lease_validation": [
+      "signature",
+      "expiry",
+      "task_binding",
+      "capability_narrowing",
+      "resource_binding",
+      "replay_protection"
+    ]
+  }
 }

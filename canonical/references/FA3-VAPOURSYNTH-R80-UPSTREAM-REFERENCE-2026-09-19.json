@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-VAPOURSYNTH-R80-UPSTREAM-REFERENCE-2026-09-19",
+  "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+  "repository": "vapoursynth/vapoursynth",
+  "release": "R80",
+  "release_published_at": "2026-09-16T07:48:51Z",
+  "immutable_commit": "732845793a1caf5838d4f7b94f6ce668a19c908e",
+  "license_spdx": "LGPL-2.1",
+  "verified_source_objects": {
+    "doc/gpufilters.rst": "d900a33fea4482b38c44af1a6a1b76acdf21b711",
+    "doc/functions/video/gpuupload_gpudownload.rst": "368e4c0f9cbbf597791139aa8952a52eba0fab36",
+    "include/VSVulkan4.h": "917f244b9ee59929a0815bb83eaa9ae7d182a4c5",
+    "sdk/gpu_cuda_invert_example.cu": "3eded2cb46cfdccdae752755b6a92094f81af2f1"
+  },
+  "verified_semantics": [
+    "Vulkan 1.4 is required for the GPU path",
+    "vnode:gpu frames remain GPU resident across compatible consecutive GPU filters",
+    "std.GPUUpload and std.GPUDownload define residency boundaries",
+    "VSScript/vspipe consumers download GPU-resident output",
+    "VSVulkan4 can export GPU plane memory and timeline semaphores when supported",
+    "Vulkan device UUID can be matched to foreign API device identity",
+    "CUDA interop reference code exists upstream"
+  ],
+  "upstream_caveat": "The R80 documentation describes the CUDA interop sample as reference code not yet run on NVIDIA hardware; FA3 therefore requires real current-host E2E before promotion.",
+  "floating_master_allowed_for_promotion_evidence": false,
+  "current_host_runtime_evidence": "NOT_CLAIMED"
+}

@@ -46,13 +46,23 @@
     "HardwareInventorySnapshot",
     "HardwareDiscoveryReceipt",
     "HardwareRevalidationReceipt",
-    "TopologyChangeEvent"
+    "TopologyChangeEvent",
+    "ProviderRuntimeMaterializationRequest",
+    "EphemeralQuadletMaterializationReceipt",
+    "RuntimeDeviceProjectionReceipt"
   ],
   "accelerator_identity": {
-    "canonical": ["device_uuid", "pci_bdf"],
+    "canonical": [
+      "device_uuid",
+      "pci_bdf"
+    ],
     "ephemeral_runtime_index_is_identity": false
   },
-  "execution_profiles": ["LATENCY", "BALANCED", "BATCH"],
+  "execution_profiles": [
+    "LATENCY",
+    "BALANCED",
+    "BATCH"
+  ],
   "cache_layer_taxonomy": [
     "MODEL_ARTIFACT_CACHE",
     "RUNTIME_COMPILATION_CACHE",
@@ -152,9 +162,22 @@
     "PREFETCH_REQUIRES_IO_AND_MEMORY_PRESSURE_EVIDENCE",
     "PREFETCH_CONFIGURATION_MUST_BE_ROLLBACKABLE",
     "PREFETCH_MUST_NOT_OVERRIDE_HRB_PLACEMENT",
-    "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST"
+    "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST",
+    "CANONICAL_QUADLET_TEMPLATE_MUST_NOT_BE_MUTATED_PER_LEASE",
+    "LEASE_BOUND_QUADLET_MUST_BE_EPHEMERAL_AND_ROOTLESS",
+    "ACCELERATOR_RUNTIME_PROJECTION_MUST_DERIVE_FROM_STABLE_HRB_IDENTITY"
   ],
-  "version": "1.3.0",
+  "version": "1.5.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001"
+  "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
+  "quadlet_materialization": {
+    "canonical_template_immutable": true,
+    "rootless_required": true,
+    "runtime_root": "$XDG_RUNTIME_DIR/containers/systemd",
+    "hrb_lease_binding_required": true,
+    "stable_accelerator_identity_required": true,
+    "runtime_device_projection": "CDI_OR_EQUIVALENT",
+    "per_lease_canonical_template_mutation": "DENY",
+    "cleanup_receipt_required": true
+  }
 }

@@ -757,12 +757,12 @@
   "promotion": {
     "fail_closed": true,
     "current_host_evidence_required": true,
-    "acceptance_criteria_required": 19,
+    "acceptance_criteria_required": 22,
     "document_only_promotion_forbidden": true,
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1401,
+  "manifest_entry_count": 1408,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -938,7 +938,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "0d6c88cd522e2d7d20a9a69f4ef72216d913a4c0"
+      "git_blob_sha": "5ded92ebec7e291e358315228f3624cba2fcf7a4"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -967,6 +967,10 @@
     {
       "path": ".github/workflows/fa3-resource-evidence-normalization.yml",
       "git_blob_sha": "b54d8fad225556723a6ec8caf2bbfe3dc9a1f11e"
+    },
+    {
+      "path": ".github/workflows/fa3-runtime-hardening-current-host.yml",
+      "git_blob_sha": "f73605ac7d47726aed3c7984fac452e55d5d0e34"
     },
     {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
@@ -1594,7 +1598,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "906b8d5075f35489f731764c8d460375e17f4b4f"
+      "git_blob_sha": "aff6a80c4f137642e04d6cf93e710fbd2d3cb51f"
     },
     {
       "path": "canonical/contracts/FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001.json",
@@ -1694,7 +1698,7 @@
     },
     {
       "path": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "82eece0230d8aefe44e6d740d74e96d89ab98e35"
+      "git_blob_sha": "cdf90c762e6e07251532f2bb91fe32e0f35068a5"
     },
     {
       "path": "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
@@ -1718,7 +1722,7 @@
     },
     {
       "path": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
-      "git_blob_sha": "3ace0b4d7f5dd67288a5172f8b4b74db9ba04a01"
+      "git_blob_sha": "c3a72f222d161714ee944c231c39c982b5406aac"
     },
     {
       "path": "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
@@ -2225,6 +2229,10 @@
       "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19.json",
+      "git_blob_sha": "2986d7bc9be770e9ca9e39abe6d41d19450a09e6"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
       "git_blob_sha": "185d00dc1ad0f3f5db23a1531091de44458fb9f1"
     },
@@ -2262,7 +2270,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "c87566a163649311ca272cc97376085b571e86fd"
+      "git_blob_sha": "a8f205e48c41326ed76df070244c550c52d188a4"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -2550,7 +2558,7 @@
     },
     {
       "path": "canonical/FA3-GATE-RUNTIME-HARDENING-001.json",
-      "git_blob_sha": "2ae782c177f0da283065f135b9f35908d28719db"
+      "git_blob_sha": "444fbd5a0c227b63e208da98cd3d502ec48cdf9f"
     },
     {
       "path": "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json",
@@ -2762,7 +2770,7 @@
     },
     {
       "path": "canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json",
-      "git_blob_sha": "83e4f2722103f817e3feb5cb6091e89a516fb8ed"
+      "git_blob_sha": "8e60aa802ef62e282508d60d57c5b11045217ac9"
     },
     {
       "path": "canonical/FA3-VAULTWARDEN-RUNTIME-CONFORMANCE-001.json",
@@ -3074,7 +3082,7 @@
     },
     {
       "path": "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
-      "git_blob_sha": "ae5033199e4966493c2d4c6516aac68842e6e76e"
+      "git_blob_sha": "f34c7f72999b2d15a7910362e17b91efd5579a8f"
     },
     {
       "path": "canonical/profiles/FA3-AI-IMAGE-EDITING-001.json",
@@ -3146,7 +3154,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "0195788ac9ff6f0e807f37ccb68a6372c31b1376"
+      "git_blob_sha": "8a98661f1350fba259ef6d2a40312a1fe827c768"
     },
     {
       "path": "canonical/profiles/FA3-HU-AQC-001.json",
@@ -3214,7 +3222,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
-      "git_blob_sha": "8e5e163fde217549155422fdaf0dbc2a86d3396b"
+      "git_blob_sha": "bff4083c1bd1996f16680cf09599d711a4db2fa4"
     },
     {
       "path": "canonical/profiles/FA3-MENTOR-001.json",
@@ -3238,7 +3246,7 @@
     },
     {
       "path": "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
-      "git_blob_sha": "71f217121be936bdea378614aec61dd18ba20e9f"
+      "git_blob_sha": "8f1a75e4257240b297971f84e7445bac708662bf"
     },
     {
       "path": "canonical/profiles/FA3-OS-001.json",
@@ -3258,7 +3266,7 @@
     },
     {
       "path": "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
-      "git_blob_sha": "3454cfc4a56c3f761c9b0c61aff66085fa3eda13"
+      "git_blob_sha": "58bb25190499851ee669d9fd38fc41a02285c4ee"
     },
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
@@ -3266,7 +3274,7 @@
     },
     {
       "path": "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
-      "git_blob_sha": "4aa0777a8a8224dd5a17252f506bf89245ca0b99"
+      "git_blob_sha": "153f1dd56bc2b8900da1ab694f343aa454f964bf"
     },
     {
       "path": "canonical/profiles/FA3-SCS-001.json",
@@ -3737,6 +3745,10 @@
       "git_blob_sha": "51e6f2941108fb61a02e67ec5e26913591834210"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-VAPOURSYNTH-R80-001.json",
+      "git_blob_sha": "f827d1f30847935094780a03db34d7f0d33e7aa8"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-VAULTWARDEN-001.json",
       "git_blob_sha": "5ca4f3859fa12ac963c65bd629bf608adabfd0a1"
     },
@@ -3746,7 +3758,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-VS-MLRT-001.json",
-      "git_blob_sha": "068c287adf18be81ed7dab8b2c14f230def9d796"
+      "git_blob_sha": "7f30aa52f07b1b9eef9d2fcb1f537311ad4bbf5e"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-WHISPER-001.json",
@@ -4013,6 +4025,10 @@
       "git_blob_sha": "d5037d87898b646d9cdbb47dc41e709721aacddd"
     },
     {
+      "path": "canonical/references/FA3-VAPOURSYNTH-R80-UPSTREAM-REFERENCE-2026-09-19.json",
+      "git_blob_sha": "d7debe3b4000de0684b355b059404cd163a58de7"
+    },
+    {
       "path": "canonical/references/FA3-VAULTWARDEN-UPSTREAM-REFERENCE-2026-09-12.json",
       "git_blob_sha": "08de94978411a04e3990082cf9478516171877cf"
     },
@@ -4090,7 +4106,7 @@
     },
     {
       "path": "canonical/runtime-hardening-enforcement.json",
-      "git_blob_sha": "39207543aa9776945bfda186aff8240a9abc55da"
+      "git_blob_sha": "f006d1b084219d490be29e19a10ccf1083f90a63"
     },
     {
       "path": "canonical/sillytavern-kde-enforcement.json",
@@ -4299,6 +4315,10 @@
     {
       "path": "docs/FA3-MCP-GATEWAY-001.md",
       "git_blob_sha": "9bac85eb14ccc2d709cccb7b851513843678f501"
+    },
+    {
+      "path": "docs/FA3-VAPOURSYNTH-R80-RUNTIME-HARDENING.md",
+      "git_blob_sha": "f9fb6874210ff9a0e71b3d14b16cc7540627e60a"
     },
     {
       "path": "docs/governance-tiering.md",
@@ -4545,6 +4565,10 @@
       "git_blob_sha": "d537e5c75e0d0d9cc7f74bea534bd67810c407e0"
     },
     {
+      "path": "evidence/collect-runtime-hardening-current-host.py",
+      "git_blob_sha": "42f0e20023a86003a07f9af85a005084d60f22cd"
+    },
+    {
       "path": "evidence/collect-stable-audio-3-current-host.py",
       "git_blob_sha": "0fdf4ad553583a18d5c35c12d36a4ae71e2d175b"
     },
@@ -4558,7 +4582,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "081cf6d51dfc96bcc078af4a5e6d028137ee1646"
+      "git_blob_sha": "8661c516fdb9b8f1947cb3d2b9c6bc9964d9caee"
     },
     {
       "path": "evidence/FA3-ACCEL-GUARD-001-design-evidence.json",
@@ -4913,6 +4937,10 @@
       "git_blob_sha": "49b20d973d746a0d6bf911de89a0736ee77e55dd"
     },
     {
+      "path": "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json",
+      "git_blob_sha": "b641c5cb1a45fbd8d989be85bcd6d26d9db7d86c"
+    },
+    {
       "path": "evidence/reference/vaultwarden-reference-pass.json",
       "git_blob_sha": "5c07ed577ca64a64ec079258f32a8e646d68af8f"
     },
@@ -4998,7 +5026,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "1d79145dfc036e88a6474ef112f176a3fda7f6be"
+      "git_blob_sha": "47dc2dcb2a88065f1fa18b59259dab34cf9e47da"
     },
     {
       "path": "scripts/fa3_apply_capability_count_dehardcode.py",
@@ -5222,7 +5250,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "87114802ad37d2db1ee74b8e762faf3b9c2eef95"
+      "git_blob_sha": "4bc30b13da7480d1935342533af0c3d9be4d4b72"
     },
     {
       "path": "src/fa3_extension_boundary_gate.py",
@@ -5610,7 +5638,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "71827294e6a8f228b38b5d720b4975fcec33e2ec"
+      "git_blob_sha": "4672047776417fe5b56d7705571df72f2dedfae4"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -5638,11 +5666,11 @@
     },
     {
       "path": "src/fa3_runtime_hardening_gate.py",
-      "git_blob_sha": "4ba925aa03fc50921667b313195aa7c9333175a5"
+      "git_blob_sha": "b07bfb46364ab1bad1f88ee0fe1194b205342f29"
     },
     {
       "path": "src/fa3_runtime_hardening.py",
-      "git_blob_sha": "56e5c75542d3cccf81eceb6a6259611187d28c94"
+      "git_blob_sha": "ec706bbaeffc218f35999b6acd0102ed34e13ed8"
     },
     {
       "path": "src/fa3_security_policy_plane.py",
@@ -6242,7 +6270,7 @@
     },
     {
       "path": "tests/test_runtime_hardening_gate.py",
-      "git_blob_sha": "e07e03a054a8c67ec13068b9b90040d26cf77d99"
+      "git_blob_sha": "094a48ba029278e65c7ae0481d280e1127c04265"
     },
     {
       "path": "tests/test_sillytavern_kde_gate.py",
@@ -7728,7 +7756,39 @@
     "hu_aqc": "MULTI_SIGNAL_FAIL_CLOSED",
     "shadow_execution_authoritative": false,
     "production_gate_bypass": false,
-    "current_host_runtime_status": "PENDING_CURRENT_HOST_BACKEND_MEDIA_AQC_SHADOW_E2E",
+    "current_host_runtime_status": "PENDING_CURRENT_HOST_CRIT_020_021_022_AND_EXISTING_E2E",
+    "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "portable_gpu_frame_fabric_provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "nvidia_fast_path_provider_id": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "neural_runtime_adapter_id": "FA3-PROVIDER-VS-MLRT-001",
+    "refinement_decision_id": "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19",
+    "acceptance_criteria_required": 22,
+    "acceptance_extension": [
+      "CRIT-020",
+      "CRIT-021",
+      "CRIT-022"
+    ],
+    "quadlet_materialization": "ROOTLESS_HRB_LEASE_BOUND_IMMUTABLE_TEMPLATE",
+    "host_impact_agent_default_backend": "GVISOR_RUNSC_IF_COMPATIBLE",
+    "portable_gpu_frame_fabric": "VAPOURSYNTH_R80_VULKAN_1_4",
+    "vspipe_y4m_ffmpeg_zero_host_round_trip_evidence": "DENY",
+    "pcie_nvml_telemetry_role": "CORROBORATING_ONLY"
+  },
+  "vapoursynth_r80_reconciliation": {
+    "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "upstream_reference_id": "FA3-VAPOURSYNTH-R80-UPSTREAM-REFERENCE-2026-09-19",
+    "immutable_release": "R80",
+    "immutable_commit": "732845793a1caf5838d4f7b94f6ce668a19c908e",
+    "license_spdx": "LGPL-2.1",
+    "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+    "decision_id": "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19",
+    "gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+    "reference_evidence": "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json",
+    "reference_evidence_status": "PASS",
+    "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,

@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-RUNTIME-ISOLATION-001",
   "name": "Runtime Isolation, Immutable Provider Packaging & HRB-Derived Resource Projection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -74,8 +74,45 @@
     "SBOM_DIGEST_PROVENANCE_REQUIRED",
     "NATIVE_DESKTOP_GUI_ALLOWED_ONLY_OUTSIDE_UNTRUSTED_AUTONOMOUS_EXECUTION",
     "NO_SILENT_DEVICE_CPU_OR_CLOUD_FALLBACK",
-    "DISABLED_OPTIONAL_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
+    "DISABLED_OPTIONAL_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
+    "CANONICAL_QUADLET_TEMPLATE_IMMUTABLE",
+    "HRB_LEASE_MATERIALIZES_EPHEMERAL_ROOTLESS_QUADLET",
+    "RUNTIME_QUADLET_LIVES_UNDER_XDG_RUNTIME",
+    "QUADLET_NETWORK_DENY_DEFAULT",
+    "RUNTIME_ORDINAL_NOT_CANONICAL_DEVICE_IDENTITY"
   ],
   "current_host_runtime_status": "PENDING_CURRENT_HOST_BACKEND_CONFORMANCE",
-  "current_host_runtime_promotion_claimed": false
+  "current_host_runtime_promotion_claimed": false,
+  "quadlet_materialization": {
+    "canonical_template_immutable": true,
+    "rootless_required": true,
+    "lease_materialization_root": "$XDG_RUNTIME_DIR/containers/systemd",
+    "hrb_lease_required": true,
+    "lease_bound_resources": [
+      "cpu",
+      "memory",
+      "accelerator",
+      "mounts",
+      "network"
+    ],
+    "read_only_rootfs_default": true,
+    "no_new_privileges_default": true,
+    "drop_capabilities_default": "ALL",
+    "network_default": "DENY",
+    "accelerator_identity": [
+      "GPU_UUID",
+      "PCI_BDF"
+    ],
+    "nvidia_device_projection": "CDI_WHEN_AVAILABLE",
+    "runtime_ordinal_is_noncanonical": true,
+    "canonical_template_mutation_per_lease": "FORBIDDEN",
+    "materialized_unit_cleanup_required": true,
+    "evidence": [
+      "canonical_template_digest",
+      "lease_id",
+      "materialized_unit_digest",
+      "effective_runtime_config",
+      "cleanup_receipt"
+    ]
+  }
 }

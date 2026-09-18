@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-PROMOTION-SHADOW-001",
   "name": "Shadow/Canary Execution and Evidence Accumulation Without Promotion Authority",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -61,10 +61,16 @@
   },
   "production_requirements": {
     "current_host_evidence": "PASS",
-    "acceptance_criteria_passed": 19,
-    "acceptance_criteria_total": 19,
+    "acceptance_criteria_passed": 22,
+    "acceptance_criteria_total": 22,
     "canonical_promotion_gate": "PASS",
-    "human_promotion_receipt_requirement": "UNCHANGED"
+    "human_promotion_receipt_requirement": "UNCHANGED",
+    "canonical_promotion_gate_pass": true,
+    "runtime_hardening_extended_criteria": [
+      "CRIT-020",
+      "CRIT-021",
+      "CRIT-022"
+    ]
   },
   "shadow_may_advance_to": [
     "CURRENT_HOST_PASS",
@@ -79,7 +85,7 @@
     "SHADOW_OUTPUT_ALWAYS_NON_AUTHORITATIVE",
     "SHADOW_EXTERNAL_SIDE_EFFECTS_FORBIDDEN",
     "SHADOW_CANNOT_ASSIGN_PROMOTED",
-    "PRODUCTION_STILL_REQUIRES_CURRENT_HOST_PASS_AND_19_OF_19_ACCEPTANCE",
+    "PRODUCTION_STILL_REQUIRES_CURRENT_HOST_PASS_AND_22_OF_22_ACCEPTANCE",
     "FAIL_CLOSED_PROMOTION_SEMANTICS_UNCHANGED",
     "REAL_PRODUCTION_DATA_SHADOWING_REQUIRES_DATA_GOVERNANCE_ADMISSION"
   ]

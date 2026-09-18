@@ -1,13 +1,14 @@
 {
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-VS-MLRT-001",
-  "name": "VapourSynth + vs-mlrt",
+  "name": "vs-mlrt Neural Runtime Adapter",
   "status": "REQUIRED_SUPPORTED_REFERENCE_ADAPTER_RUNTIME_CONDITIONAL",
   "classification": [
     "REQUIRED_SUPPORTED_EXTERNAL_NEURAL_FILTER_ADAPTER",
     "FRAME_SERVER_INTEROP_REFERENCE",
     "REPLACEABLE_PROVIDER",
-    "NOT_ROUTING_AUTHORITY"
+    "NOT_ROUTING_AUTHORITY",
+    "VAPOURSYNTH_R80_GPU_FABRIC_CONSUMER"
   ],
   "profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
   "contract": "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001",
@@ -69,7 +70,8 @@
     "backend_selection_authority": "FA3-INFERENCE-PORTABILITY-001",
     "gpu_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "direct_ffmpeg_static_plugin_baseline": false,
-    "model_identity_registry": "FA3-MODEL-REGISTRY-001"
+    "model_identity_registry": "FA3-MODEL-REGISTRY-001",
+    "frame_fabric_provider": "FA3-PROVIDER-VAPOURSYNTH-R80-001"
   },
   "runtime_activation": {
     "status": "CONDITIONAL_NOT_CURRENT_HOST_PROMOTED",
@@ -79,5 +81,12 @@
     "hrb_receipt_required_for_accelerator": true,
     "real_media_quality_e2e_required": true,
     "current_host_runtime_promotion_claimed": false
+  },
+  "vapoursynth_frame_fabric_provider": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+  "residency_policy": {
+    "native_gpu_residency_assumed": false,
+    "backend_specific_current_host_e2e_required": true,
+    "implicit_download_forbidden_for_zero_host_round_trip_claim": true,
+    "zero_host_round_trip_promotion_requires_residency_trace": true
   }
 }

@@ -17,5 +17,19 @@
   "shadow_runtime_may_produce_promotion_authority": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "version": "1.1.0",
+  "promotion_acceptance_criteria_extension": [
+    "CRIT-020",
+    "CRIT-021",
+    "CRIT-022"
+  ],
+  "portable_gpu_frame_fabric_provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+  "nvidia_fast_path_provider_id": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+  "neural_runtime_adapter_id": "FA3-PROVIDER-VS-MLRT-001",
+  "current_host_acceptance_receipts": [
+    "evidence/receipts/provider-quadlet-isolation-current-host.json",
+    "evidence/receipts/agent-sandbox-current-host.json",
+    "evidence/receipts/neural-video-residency-current-host.json"
+  ]
 }

@@ -88,6 +88,9 @@ RECEIPTS={
   17:["rollback-expiry-drill.json"],
   18:["release-integrity.json"],
   19:["independent-review.json","human-promotion-receipt.json"],
+  20:["provider-quadlet-isolation-current-host.json"],
+  21:["agent-sandbox-current-host.json"],
+  22:["neural-video-residency-current-host.json"],
 }
 NAMES={
   1:"modular source graph and schema lint PASS",
@@ -109,6 +112,9 @@ NAMES={
   17:"evidence expiry/invalidation and rollback drill works",
   18:"generated master digest matches release manifest",
   19:"independent review and human promotion receipt complete",
+  20:"rootless Quadlet provider isolation and HRB lease materialization PASS",
+  21:"bounded host-impact agent execution under gVisor/runsc PASS",
+  22:"accelerator residency and transfer-integrity current-host E2E PASS",
 }
 
 def loadj(p:Path):
@@ -487,7 +493,7 @@ def acceptance_check(root:Path):
     r=runtime_check(root)
     t=terax_gate(root,require_current_host=True)
     results=[]
-    for i in range(1,20):
+    for i in range(1,23):
         reasons=[]
         if i in (1,2):
             ok=s["result"]=="PASS"
@@ -499,7 +505,7 @@ def acceptance_check(root:Path):
             ok=True
             for fn in RECEIPTS[i]:
                 rok,why=receipt_ok(root/"evidence/receipts"/fn,
-                                   signed=(i in (4,19)),
+                                   signed=(i in (4,19,20,21,22)),
                                    human=(fn=="human-promotion-receipt.json"),
                                    independent=(fn=="independent-review.json"))
                 if not rok:
@@ -510,7 +516,7 @@ def acceptance_check(root:Path):
     rep={"schema":"fa3.acceptance-report.v1","architecture_release":RELEASE,
          "status":"PASS" if all_ok else "DENIED","decision":"ACCEPT" if all_ok else "DENY","fail_closed":True,
          "static_gate":s["result"],"runtime_gate":r["result"],"terax_gate":t["result"],
-         "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":19,"criteria":results}
+         "criteria_passed":sum(x["status"]=="PASS" for x in results),"criteria_total":22,"criteria":results}
     writej(root/"acceptance/acceptance-report.json",rep)
     return rep
 
@@ -520,7 +526,7 @@ def promote(root:Path):
     allowed=a["status"]=="PASS"
     state={"schema":"fa3.runtime-status.v1","architecture_release":RELEASE,"target_state":"PROMOTED",
            "actual_state":"PROMOTED" if allowed else "PROMOTION_BLOCKED","promotion_allowed":allowed,"acceptance":a["status"],
-           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence, all 19 acceptance criteria, and the mandatory Terax gate are PASS."}
+           "reason":None if allowed else "Fail-closed: PROMOTED is forbidden until all current-host evidence, all 22 acceptance criteria, and the mandatory Terax gate are PASS."}
     writej(root/"promotion/runtime-status.json",state)
     return state,OK if allowed else BLOCKED
 
