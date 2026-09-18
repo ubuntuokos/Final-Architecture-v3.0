@@ -1,0 +1,37 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19",
+  "date": "2026-09-19",
+  "status": "REFERENCE_VERIFIED",
+  "references": [
+    {
+      "project": "NVIDIA PyNvVideoCodec",
+      "observed_version_family": "2.2",
+      "observed_latest_release": "2.2.3",
+      "urls": [
+        "https://docs.nvidia.com/video-technologies/pynvvideocodec/index.html",
+        "https://docs.nvidia.com/video-technologies/pynvvideocodec/pynvc-api-prog-guide/using_pynvvideocodec_apis.html"
+      ],
+      "facts": [
+        "SimpleDecoder supports use_device_memory=True",
+        "DecodedFrame implements DLPack interoperability",
+        "torch.from_dlpack shares GPU memory without a host copy"
+      ]
+    },
+    {
+      "project": "gVisor",
+      "urls": [
+        "https://gvisor.dev/docs/",
+        "https://gvisor.dev/docs/user_guide/rootless/",
+        "https://gvisor.dev/docs/architecture_guide/intro/"
+      ],
+      "facts": [
+        "runsc is an OCI runtime",
+        "runsc --rootless supports one-off do mode",
+        "runsc do exposes host filesystem read-only by default and is therefore not sufficient as production OCI isolation proof"
+      ]
+    }
+  ],
+  "production_admission_effect": "REFERENCE_ONLY_NOT_CURRENT_HOST_PASS",
+  "global_promotion_claim": false
+}
