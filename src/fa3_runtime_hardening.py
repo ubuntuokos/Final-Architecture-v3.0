@@ -7,7 +7,7 @@ from typing import Any
 from fa3_release_baseline import module_active_capability_count
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
-PRODUCTION_ACCEPTANCE_TOTAL = 19
+PRODUCTION_ACCEPTANCE_TOTAL = 22
 
 ALLOWED_SANDBOX_BACKENDS = {"GVISOR", "WASMTIME_WASI", "HARDENED_ROOTLESS_OCI"}
 SHADOW_INPUT_MODES = {"SYNTHETIC", "READ_ONLY_MIRROR", "SANITIZED_MIRROR"}
