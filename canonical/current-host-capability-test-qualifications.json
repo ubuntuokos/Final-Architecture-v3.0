@@ -772,6 +772,201 @@
           ]
         }
       ]
+    },
+    {
+      "qualification_id": "FA3-QUAL-CAP-001-POS-001",
+      "subject_id": "CAP-001",
+      "test_kind": "positive",
+      "test_id": "AT-CAP-001-POS",
+      "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+      "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "max_constituent_ttl_seconds": 1800,
+      "completeness_basis": {
+        "type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+        "source_decision_ids": [
+          "DEC-CAP-001",
+          "FA3-CORE-001",
+          "FA3-CORE-002",
+          "FA3-CORE-003",
+          "FA3-CORE-004",
+          "FA3-CORE-005",
+          "FA3-CORE-006",
+          "FA3-CORE-007",
+          "FA3-CORE-008",
+          "FA3-HOST-001",
+          "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+          "FA3-HOST-002",
+          "FA3-HOST-003",
+          "FA3-HOST-004",
+          "FA3-REG-001",
+          "FA3-REG-002",
+          "FA3-REG-003",
+          "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+          "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+        ]
+      },
+      "required_constituents": [
+        {
+          "constituent_id": "CAP001-POS-HOST-FOUNDATION",
+          "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION",
+          "covers_source_decision_ids": [
+            "DEC-CAP-001",
+            "FA3-CORE-001",
+            "FA3-CORE-002",
+            "FA3-CORE-003",
+            "FA3-CORE-004",
+            "FA3-CORE-005",
+            "FA3-CORE-006",
+            "FA3-CORE-007",
+            "FA3-CORE-008",
+            "FA3-HOST-001",
+            "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+            "FA3-HOST-002",
+            "FA3-HOST-003",
+            "FA3-HOST-004",
+            "FA3-REG-001",
+            "FA3-REG-002",
+            "FA3-REG-003",
+            "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+            "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+          ]
+        }
+      ]
+    },
+    {
+      "qualification_id": "FA3-QUAL-CAP-001-NEG-001",
+      "subject_id": "CAP-001",
+      "test_kind": "negative",
+      "test_id": "AT-CAP-001-NEG",
+      "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+      "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "max_constituent_ttl_seconds": 1800,
+      "completeness_basis": {
+        "type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+        "source_decision_ids": [
+          "DEC-CAP-001",
+          "FA3-CORE-001",
+          "FA3-CORE-002",
+          "FA3-CORE-003",
+          "FA3-CORE-004",
+          "FA3-CORE-005",
+          "FA3-CORE-006",
+          "FA3-CORE-007",
+          "FA3-CORE-008",
+          "FA3-HOST-001",
+          "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+          "FA3-HOST-002",
+          "FA3-HOST-003",
+          "FA3-HOST-004",
+          "FA3-REG-001",
+          "FA3-REG-002",
+          "FA3-REG-003",
+          "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+          "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+        ]
+      },
+      "required_constituents": [
+        {
+          "constituent_id": "CAP001-NEG-HOST-FOUNDATION",
+          "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION",
+          "covers_source_decision_ids": [
+            "DEC-CAP-001",
+            "FA3-CORE-001",
+            "FA3-CORE-002",
+            "FA3-CORE-003",
+            "FA3-CORE-004",
+            "FA3-CORE-005",
+            "FA3-CORE-006",
+            "FA3-CORE-007",
+            "FA3-CORE-008",
+            "FA3-HOST-001",
+            "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+            "FA3-HOST-002",
+            "FA3-HOST-003",
+            "FA3-HOST-004",
+            "FA3-REG-001",
+            "FA3-REG-002",
+            "FA3-REG-003",
+            "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+            "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+          ]
+        }
+      ]
+    },
+    {
+      "qualification_id": "FA3-QUAL-CAP-001-ROLLBACK-001",
+      "subject_id": "CAP-001",
+      "test_kind": "rollback",
+      "test_id": "ROLLBACK-CAP-001",
+      "coverage_semantics": "COMPLETE_CAPABILITY_OBLIGATION",
+      "evidence_authority_id": "FA3-AUTH-OBS-EVIDENCE-001",
+      "runtime_constituent_schema": "fa3.capability-current-host-qualification-constituent.v2",
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "max_constituent_ttl_seconds": 1800,
+      "completeness_basis": {
+        "type": "EXACT_EVIDENCE_REGISTRY_SOURCE_DECISION_COVERAGE",
+        "source_decision_ids": [
+          "DEC-CAP-001",
+          "FA3-CORE-001",
+          "FA3-CORE-002",
+          "FA3-CORE-003",
+          "FA3-CORE-004",
+          "FA3-CORE-005",
+          "FA3-CORE-006",
+          "FA3-CORE-007",
+          "FA3-CORE-008",
+          "FA3-HOST-001",
+          "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+          "FA3-HOST-002",
+          "FA3-HOST-003",
+          "FA3-HOST-004",
+          "FA3-REG-001",
+          "FA3-REG-002",
+          "FA3-REG-003",
+          "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+          "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+        ]
+      },
+      "required_constituents": [
+        {
+          "constituent_id": "CAP001-ROLLBACK-HOST-FOUNDATION",
+          "source_evidence_class": "CROSS_CUTTING_CURRENT_HOST_EXECUTION",
+          "covers_source_decision_ids": [
+            "DEC-CAP-001",
+            "FA3-CORE-001",
+            "FA3-CORE-002",
+            "FA3-CORE-003",
+            "FA3-CORE-004",
+            "FA3-CORE-005",
+            "FA3-CORE-006",
+            "FA3-CORE-007",
+            "FA3-CORE-008",
+            "FA3-HOST-001",
+            "FA3-DEC-CPU-NUMA-THREADING-2026-09-02",
+            "FA3-HOST-002",
+            "FA3-HOST-003",
+            "FA3-HOST-004",
+            "FA3-REG-001",
+            "FA3-REG-002",
+            "FA3-REG-003",
+            "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+            "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
+          ]
+        }
+      ]
     }
   ],
   "invariants": {
