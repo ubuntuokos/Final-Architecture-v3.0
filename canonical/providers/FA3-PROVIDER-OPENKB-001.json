@@ -1,0 +1,40 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENKB-001",
+  "name": "VectifyAI/OpenKB Derived Knowledge Compiler",
+  "status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "subprofile": "FA3-KNOWLEDGE-COMPILATION-001",
+  "provider_role": "OPTIONAL_DERIVED_KNOWLEDGE_COMPILER",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "upstream": {
+    "repository": "VectifyAI/OpenKB",
+    "commit": "ff54396e575ee6feb0113b631a34caa082b441cc",
+    "license": "Apache-2.0"
+  },
+  "inputs": [
+    "authoritative local documents",
+    "PageIndex-derived structural indexes",
+    "Journal-bound source refs"
+  ],
+  "outputs": [
+    "summary projections",
+    "concept projections",
+    "entity projections",
+    "cross-links",
+    "contradiction candidates",
+    "CompilationReceipt"
+  ],
+  "model_access": "FA3_MODEL_ROUTER_LOOPBACK_ONLY",
+  "direct_external_model_provider": "DENY",
+  "source_authority": "DENY",
+  "journal_authority": "DENY",
+  "storage_authority": "DENY",
+  "output_state": "DERIVED_REBUILDABLE",
+  "runtime_status": "PENDING_CURRENT_HOST",
+  "global_runtime_promotion_claim": false
+}
