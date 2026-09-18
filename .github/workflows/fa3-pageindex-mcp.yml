@@ -45,6 +45,10 @@ jobs:
           src/fa3_pageindex_mcp_adapter.py
           src/fa3_pageindex_mcp_gate.py
           evidence/collect-pageindex-mcp-current-host.py
+      - name: Shell syntax
+        run: |
+          bash -n bin/fa3-pageindex-mcp-bootstrap.sh
+          bash -n bin/fa3-pageindex-mcp-current-host.sh
       - name: Adapter and gate regression
         run: PYTHONPATH=src python -m unittest tests.test_pageindex_mcp_gate -v
       - name: PageIndex static admission gate
