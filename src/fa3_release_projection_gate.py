@@ -668,6 +668,16 @@ def gate(root: Path):
         "src/fa3_runtime_hardening.py",
         "src/fa3_runtime_hardening_gate.py",
         "tests/test_runtime_hardening_gate.py",
+        "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/runtime-hardening-current-host-enforcement.json",
+        "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+        "src/fa3_runtime_hardening_current_host.py",
+        "src/fa3_runtime_hardening_current_host_gate.py",
+        "evidence/collect-runtime-hardening-current-host.py",
+        "tests/test_runtime_hardening_current_host_gate.py",
+        "deployment/quadlet/fa3-agent-sandbox.container.in",
+        "bin/fa3-enforce",
     }
     if (
         runtime_hardening.get("profile_ids") != [
@@ -685,6 +695,11 @@ def gate(root: Path):
         != "GLOBAL_RELEASE_RECONCILED_STATIC_GATE_ENFORCED_CURRENT_HOST_RUNTIME_PENDING"
         or runtime_hardening.get("shadow_execution_authoritative") is not False
         or runtime_hardening.get("production_gate_bypass") is not False
+        or runtime_hardening.get("current_host_conformance_id") != "FA3-RUNTIME-HARDENING-CURRENT-HOST-001"
+        or runtime_hardening.get("current_host_gate_id") != "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or runtime_hardening.get("current_host_gate_record_id") != "FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001"
+        or runtime_hardening.get("current_host_runtime_status") != "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
+        or runtime_hardening.get("pcie_copy_budget_is_zero_copy_proof") is not False
         or runtime_hardening.get("new_capabilities") != 0
         or runtime_hardening.get("new_architectural_authorities") != 0
         or runtime_hardening.get("capability_count_after") != CAPABILITY_COUNT
