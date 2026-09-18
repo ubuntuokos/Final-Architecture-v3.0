@@ -163,7 +163,7 @@ def validate() -> list[str]:
         if token not in mcp_gateway_service: failures.append(f"mcp-gateway-readonly-service-missing:{token}")
     if "McpGatewayPage" not in qml or 'pageIndex: 27' not in qml:
         failures.append("qml-mcp-gateway-page-wiring-missing")
-    if 'setContextProperty("fa3McpGateway"' not in main_cpp:
+    if 'setContextProperty("fa3McpGateway"' not in REQUIRED["main_cpp"].read_text(encoding="utf-8"):
         failures.append("mcp-gateway-service-qml-wiring-missing")
 
     token_qml = REQUIRED["token_control_qml"].read_text(encoding="utf-8")
