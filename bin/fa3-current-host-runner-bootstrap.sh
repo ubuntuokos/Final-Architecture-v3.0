@@ -48,16 +48,145 @@ ensure_acquire_environment() {
 Environment="FA3_HRB_ACQUIRE_COMMAND=$ACQUIRE_TEMPLATE"
 EOF
   chmod 600 "$DROPIN_PATH"
-  systemctl --user daemon-reload
-  if systemctl --user is-active --quiet "$UNIT_NAME"; then
-    systemctl --user restart "$UNIT_NAME"
-  fi
 }
 
-ensure_acquire_environment
+write_service_unit() {
+  local runner_root_abs
+  runner_root_abs="$(readlink -f "$RUNNER_ROOT")"
+  mkdir -p "$UNIT_DIR"
+  chmod 700 "$UNIT_DIR"
+  cat >"$UNIT_PATH" <<EOF
+[Unit]
+Description=FA3 GitHub Actions current-host runner
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=$runner_root_abs
+ExecStart=$runner_root_abs/run.sh
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=120
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
+EOF
+  chmod 600 "$UNIT_PATH"
+}
+
+activate_service() {
+  write_service_unit
+  ensure_acquire_environment
+  systemctl --user daemon-reload
+  systemctl --user enable --now "$UNIT_NAME"
+}
+
+inspect_existing_runner_labels() {
+  command -v gh >/dev/null 2>&1 || {
+    echo "FAIL: gh is required to inspect existing runner labels" >&2
+    exit 25
+  }
+
+  local tmp
+  tmp="$(mktemp)"
+  if ! gh api "repos/${REPO}/actions/runners?per_page=100" >"$tmp"; then
+    rm -f "$tmp"
+    echo "FAIL: unable to read repository runner inventory with gh" >&2
+    exit 26
+  fi
+
+  python3 - "$RUNNER_ROOT/.runner" "$tmp" <<'PY'
+from __future__ import annotations
+import json
+import sys
+from pathlib import Path
+
+runner_file, api_file = sys.argv[1:]
+local = json.loads(Path(runner_file).read_text(encoding="utf-8-sig"))
+api = json.loads(Path(api_file).read_text(encoding="utf-8-sig"))
+name = local.get("agentName") or local.get("name")
+if not name:
+    raise SystemExit("FAIL: local .runner has no agentName")
+remote = next((r for r in api.get("runners", []) if r.get("name") == name), None)
+if remote is None:
+    raise SystemExit(f"FAIL: runner {name!r} not found in repository runner inventory")
+labels = {str(x.get("name", "")).lower() for x in remote.get("labels", []) if isinstance(x, dict)}
+required = ("self-hosted", "linux", "x64", "fa3-current-host")
+missing = [label for label in required if label not in labels]
+print(name)
+print(",".join(missing))
+PY
+  rm -f "$tmp"
+}
+
+reregister_existing_runner() {
+  local existing_name remove_token runner_token
+  command -v gh >/dev/null 2>&1 || {
+    echo "FAIL: gh is required to re-register an existing runner" >&2
+    exit 27
+  }
+
+  existing_name="$(python3 - "$RUNNER_ROOT/.runner" <<'PY'
+import json
+import sys
+from pathlib import Path
+obj = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8-sig"))
+name = obj.get("agentName") or obj.get("name")
+if not name:
+    raise SystemExit("FAIL: local .runner has no agentName")
+print(name)
+PY
+  )"
+
+  echo "INFO: requesting short-lived remove and registration tokens for runner re-registration"
+  if ! remove_token="$(gh api --method POST "repos/${REPO}/actions/runners/remove-token" --jq .token)"; then
+    echo "FAIL: gh authentication needs repository Administration: write to re-register the runner" >&2
+    exit 28
+  fi
+  if ! runner_token="$(gh api --method POST "repos/${REPO}/actions/runners/registration-token" --jq .token)"; then
+    unset remove_token
+    echo "FAIL: unable to obtain short-lived runner registration token" >&2
+    exit 29
+  fi
+
+  systemctl --user stop "$UNIT_NAME" || true
+  pushd "$RUNNER_ROOT" >/dev/null
+  if ! ./config.sh remove --token "$remove_token"; then
+    popd >/dev/null
+    unset remove_token runner_token
+    activate_service
+    echo "FAIL: runner removal/reconfiguration preparation failed; previous service restored" >&2
+    exit 30
+  fi
+  unset remove_token
+
+  ./config.sh \
+    --unattended \
+    --url "$REPO_URL" \
+    --token "$runner_token" \
+    --name "$existing_name" \
+    --labels "$CUSTOM_LABEL" \
+    --work _work \
+    --disableupdate
+  popd >/dev/null
+  unset runner_token
+
+  activate_service
+}
 
 if [[ -e "$RUNNER_ROOT/.runner" ]]; then
-  echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and refreshing host-admission wiring"
+  echo "INFO: runner is already configured at $RUNNER_ROOT; preserving registration and recovering service wiring"
+  [[ -x "$RUNNER_ROOT/bin/Runner.Listener" ]] || { echo "FAIL: existing runner registration has no Runner.Listener" >&2; exit 24; }
+  activate_service
+  mapfile -t runner_state < <(inspect_existing_runner_labels)
+  runner_missing_labels="${runner_state[1]:-}"
+  if [[ -n "$runner_missing_labels" ]]; then
+    echo "INFO: default/custom runner label drift detected: $runner_missing_labels"
+    echo "INFO: re-registering runner so GitHub reapplies default OS/architecture labels"
+    reregister_existing_runner
+  fi
   exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
 fi
 
@@ -101,29 +230,7 @@ pushd "$RUNNER_ROOT" >/dev/null
 popd >/dev/null
 
 unset RUNNER_TOKEN FA3_GITHUB_RUNNER_TOKEN
-RUNNER_ROOT_ABS="$(readlink -f "$RUNNER_ROOT")"
-cat >"$UNIT_PATH" <<EOF
-[Unit]
-Description=FA3 GitHub Actions current-host runner
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=simple
-WorkingDirectory=$RUNNER_ROOT_ABS
-ExecStart=$RUNNER_ROOT_ABS/run.sh
-Restart=on-failure
-RestartSec=10
-TimeoutStopSec=120
-KillMode=control-group
-
-[Install]
-WantedBy=default.target
-EOF
-chmod 600 "$UNIT_PATH"
-
-systemctl --user daemon-reload
-systemctl --user enable --now "$UNIT_NAME"
+activate_service
 
 if command -v loginctl >/dev/null 2>&1; then
   LINGER="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"

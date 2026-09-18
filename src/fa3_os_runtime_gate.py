@@ -79,8 +79,44 @@ def gate(root: Path) -> dict[str, Any]:
 
     _require(conformance.get("schema") == "fa3.runtime-conformance-record.v1", findings, "FA3-OS-RUNTIME-CONF-001", "Runtime conformance schema drift")
     _require(conformance.get("id") == CONFORMANCE_ID and conformance.get("profile_id") == PROFILE_ID, findings, "FA3-OS-RUNTIME-CONF-002", "Runtime conformance identity drift")
-    _require(conformance.get("status") == "PENDING_CURRENT_HOST", findings, "FA3-OS-RUNTIME-CONF-003", "Hosted/reference materialization falsely claims current-host admission")
-    _require(conformance.get("production_admitted") is False and conformance.get("promotion_claimed") is False, findings, "FA3-OS-RUNTIME-CONF-004", "Current-host production admission was claimed without evidence")
+    conformance_status = conformance.get("status")
+    _require(conformance_status in {"PENDING_CURRENT_HOST", "CURRENT_HOST_ADMITTED"}, findings, "FA3-OS-RUNTIME-CONF-003", "Unknown current-host conformance status")
+    if conformance_status == "PENDING_CURRENT_HOST":
+        _require(
+            conformance.get("production_admitted") is False
+            and conformance.get("promotion_claimed") is False
+            and conformance.get("evidence_present") is False,
+            findings,
+            "FA3-OS-RUNTIME-CONF-004",
+            "Pending current-host state must remain fail-closed",
+        )
+    elif conformance_status == "CURRENT_HOST_ADMITTED":
+        evidence_ref = str(conformance.get("current_host_evidence_ref", "")).strip()
+        _require(
+            conformance.get("production_admitted") is True
+            and conformance.get("promotion_claimed") is False
+            and conformance.get("evidence_present") is True,
+            findings,
+            "FA3-OS-RUNTIME-CONF-005",
+            "Admitted current-host state is missing verified component evidence semantics",
+        )
+        _require(bool(evidence_ref) and (root / evidence_ref).is_file(), findings, "FA3-OS-RUNTIME-CONF-006", "Durable current-host evidence reference is missing")
+        _require(
+            conformance.get("agent_exposure_admitted") is False
+            and conformance.get("agent_exposure_status") == "ADAPTER_GATED",
+            findings,
+            "FA3-OS-RUNTIME-CONF-007",
+            "Current-host runtime admission improperly promoted agent exposure",
+        )
+        if evidence_ref and (root / evidence_ref).is_file():
+            try:
+                evidence_ref_record = _load(root / evidence_ref)
+                _require(evidence_ref_record.get("result") == "PASS", findings, "FA3-OS-RUNTIME-CONF-008", "Durable current-host evidence does not claim PASS")
+                _require(evidence_ref_record.get("production_admitted") is True, findings, "FA3-OS-RUNTIME-CONF-009", "Durable evidence does not bind production admission")
+                _require(evidence_ref_record.get("global_promotion_claim") is False, findings, "FA3-OS-RUNTIME-CONF-010", "Component evidence improperly claims global promotion")
+                _require(evidence_ref_record.get("agent_exposure_admitted") is False, findings, "FA3-OS-RUNTIME-CONF-011", "Component evidence improperly admits agent exposure")
+            except Exception as exc:
+                findings.append(_finding("FA3-OS-RUNTIME-CONF-012", "Durable current-host evidence could not be validated", error=str(exc)))
 
     main_qml = (root / GUI_MAIN_PATH).read_text(encoding="utf-8")
     cmake = (root / GUI_CMAKE_PATH).read_text(encoding="utf-8")
@@ -89,7 +125,11 @@ def gate(root: Path) -> dict[str, Any]:
     _require('title: "FA3 OS"' in main_qml and f"pageIndex: {GUI_PAGE_INDEX}" in main_qml, findings, "FA3-OS-RUNTIME-GUI-002", "FA3 OS global search route missing")
     _require("Fa3OsPage {" in main_qml, findings, "FA3-OS-RUNTIME-GUI-003", "FA3 OS page is not mounted in the Control Center")
     _require("qml/Fa3OsPage.qml" in cmake, findings, "FA3-OS-RUNTIME-GUI-004", "FA3 OS page is not packaged by CMake")
-    _require("CURRENT HOST E2E PENDING" in page, findings, "FA3-OS-RUNTIME-GUI-005", "GUI does not expose the current-host evidence boundary")
+    if conformance_status == "CURRENT_HOST_ADMITTED":
+        _require("CURRENT HOST E2E ADMITTED" in page, findings, "FA3-OS-RUNTIME-GUI-005", "GUI does not expose admitted current-host state")
+        _require("AGENT EXPOSURE ADAPTER-GATED" in page, findings, "FA3-OS-RUNTIME-GUI-008A", "GUI does not preserve the agent-exposure boundary")
+    else:
+        _require("CURRENT HOST E2E PENDING" in page, findings, "FA3-OS-RUNTIME-GUI-005", "GUI does not expose the current-host evidence boundary")
     _require("fa3Journal.filteredEvents" in page, findings, "FA3-OS-RUNTIME-GUI-006", "GUI timeline is not bound to the canonical Journal projection")
     _require('label: "Work Management"; pageIndex: 24' in main_qml, findings, "FA3-OS-RUNTIME-GUI-007", "Work Management route was displaced by FA3 OS")
     _require('label: "Accelerator Guard"; pageIndex: 25' in main_qml, findings, "FA3-OS-RUNTIME-GUI-008", "Accelerator Guard route was displaced by FA3 OS")
