@@ -56,11 +56,15 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         text = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
         self.assertGreaterEqual(text.count('encoding="utf-8-sig"'), 2, text)
 
-    def test_bootstrap_repairs_existing_runner_label_drift(self) -> None:
+    def test_bootstrap_reregisters_on_default_label_drift(self) -> None:
         text = (ROOT / "bin/fa3-current-host-runner-bootstrap.sh").read_text()
-        self.assertIn("repair_remote_runner_labels", text)
-        self.assertIn("actions/runners/\${runner_id}/labels", text)
-        self.assertIn('repairable = ("linux", "x64", "fa3-current-host")', text)
+        self.assertIn("inspect_existing_runner_labels", text)
+        self.assertIn("reregister_existing_runner", text)
+        self.assertIn("actions/runners/remove-token", text)
+        self.assertIn("actions/runners/registration-token", text)
+        self.assertIn('required = ("self-hosted", "linux", "x64", "fa3-current-host")', text)
+        self.assertNotIn("--no-default-labels", text)
+        self.assertNotIn("actions/runners/${runner_id}/labels", text)
 
     def test_wrong_runner_labels_workflow_is_rejected(self) -> None:
         text = (ROOT / ".github/workflows/fa3-current-host-runner.yml").read_text()
