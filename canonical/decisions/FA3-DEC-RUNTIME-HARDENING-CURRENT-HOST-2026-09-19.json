@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Current-host evidence closure for runtime isolation/agent sandbox, PyNvVideoCodec zero-host-round-trip, Hungarian AQC and Shadow execution",
+  "decision": "MATERIALIZE_FAIL_CLOSED_CURRENT_HOST_COLLECTORS_GATE_AND_SELF_HOSTED_WORKFLOW_WITHOUT_CLAIMING_UNEXECUTED_RUNTIME_PASS",
+  "parent_decision": "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19",
+  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "required_surfaces": [
+    "RUNTIME_ISOLATION_AGENT_SANDBOX",
+    "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+    "HU_AQC",
+    "PROMOTION_SHADOW"
+  ],
+  "upstream_evidence_basis": {
+    "pynvvideocodec": "NVIDIA PyNvVideoCodec 2.2+ device-memory DLPack interoperability",
+    "gvisor": "gVisor rootless runsc do is compatibility smoke only; production OCI isolation requires stronger proof"
+  },
+  "current_host_runtime_status": "PENDING_REAL_SELF_HOSTED_EXECUTION",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

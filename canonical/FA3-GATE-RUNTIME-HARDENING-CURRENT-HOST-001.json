@@ -1,0 +1,15 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001",
+  "gateset_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_runtime_hardening_current_host_gate.py --root . --require-evidence",
+  "hosted_ci_reference_mode": "MATERIALIZATION_AND_NEGATIVE_REGRESSION_ONLY",
+  "current_host_runner_required": true,
+  "global_promotion_claim": false,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0
+}

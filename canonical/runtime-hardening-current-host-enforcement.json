@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.runtime-hardening-current-host-enforcement.v1",
+  "gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "current_host_status": "PENDING_REAL_EXECUTION",
+  "rules": {
+    "github_hosted_substitution": "DENY",
+    "missing_receipt": "PENDING_OR_FAIL_WHEN_REQUIRED",
+    "stale_receipt": "DENY",
+    "repository_head_mismatch": "DENY",
+    "synthetic_receipt_as_current_host_pass": "DENY",
+    "sandbox_compatibility_smoke_as_production_isolation": "DENY",
+    "media_full_pipeline_zero_copy_overclaim": "DENY",
+    "hu_aqc_single_metric_authority": "DENY",
+    "shadow_authoritative_output": "DENY",
+    "shadow_external_side_effects": "DENY",
+    "shadow_promotion_authority": "DENY",
+    "global_promotion_effect": "NONE"
+  }
+}

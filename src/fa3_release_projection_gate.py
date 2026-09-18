@@ -668,6 +668,21 @@ def gate(root: Path):
         "src/fa3_runtime_hardening.py",
         "src/fa3_runtime_hardening_gate.py",
         "tests/test_runtime_hardening_gate.py",
+        "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+        "canonical/runtime-hardening-current-host-enforcement.json",
+        "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+        "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
+        "src/fa3_runtime_hardening_current_host.py",
+        "src/fa3_runtime_hardening_current_host_gate.py",
+        "evidence/collect-runtime-isolation-sandbox-current-host.py",
+        "evidence/collect-media-gpu-zerocopy-current-host.py",
+        "evidence/collect-hu-aqc-current-host.py",
+        "evidence/collect-promotion-shadow-current-host.py",
+        "tests/test_runtime_hardening_current_host_gate.py",
+        "docs/runtime-hardening-current-host.md",
+        ".github/workflows/fa3-runtime-hardening-current-host.yml",
+        "fa3-current-host/manifest.json",
     }
     if (
         runtime_hardening.get("profile_ids") != [
@@ -681,6 +696,21 @@ def gate(root: Path):
         or runtime_hardening.get("provider_id") != "FA3-PROVIDER-PYNVVIDEOCODEC-001"
         or runtime_hardening.get("decision_id") != "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19"
         or runtime_hardening.get("gate_id") != "FA3-RUNTIME-HARDENING-GATESET-001"
+        or runtime_hardening.get("current_host_conformance_id")
+        != "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        or runtime_hardening.get("current_host_gate_id")
+        != "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        or runtime_hardening.get("current_host_decision_id")
+        != "FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19"
+        or runtime_hardening.get("current_host_runtime_status")
+        != "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+        or runtime_hardening.get("current_host_runtime_promotion_claim") is not False
+        or runtime_hardening.get("current_host_surfaces") != [
+            "RUNTIME_ISOLATION_AGENT_SANDBOX",
+            "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+            "HU_AQC",
+            "PROMOTION_SHADOW",
+        ]
         or runtime_hardening.get("reconciliation_status")
         != "GLOBAL_RELEASE_RECONCILED_STATIC_GATE_ENFORCED_CURRENT_HOST_RUNTIME_PENDING"
         or runtime_hardening.get("shadow_execution_authoritative") is not False

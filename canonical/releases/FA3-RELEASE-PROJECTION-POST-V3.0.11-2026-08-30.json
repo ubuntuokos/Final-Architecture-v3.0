@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "ec3e6775f4058be2f95be21740814a3702251862",
-    "pre_projection_root_tree_sha": "65e91b340c5272c4612a0558e576b59db43064b7",
-    "pre_projection_canonical_tree_sha": "ce0a53b4008cdd53097a7554541258d4161902c8",
-    "commits_ahead_of_v3_0_11_conformance_commit": 438,
-    "total_post_baseline_commits": 438,
-    "delta_file_count": 1408,
-    "delta_added_files": 1403,
+    "pre_projection_head_sha": "d6f21039a58a56e2e94df78681251ce4dbca6ceb",
+    "pre_projection_root_tree_sha": "68806e3772825fc4d78a2e8c3cebf2ad55fe04d6",
+    "pre_projection_canonical_tree_sha": "7c0308f76a0f8f996e8b1e7fad1b9ac1455b1de3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 432,
+    "total_post_baseline_commits": 432,
+    "delta_file_count": 1422,
+    "delta_added_files": 1417,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 691,
-    "evidence_files_in_post_baseline_delta": 129,
-    "source_files_in_post_baseline_delta": 175,
-    "test_files_in_post_baseline_delta": 150,
-    "workflow_files_in_post_baseline_delta": 60,
+    "canonical_files_in_post_baseline_delta": 696,
+    "evidence_files_in_post_baseline_delta": 133,
+    "source_files_in_post_baseline_delta": 177,
+    "test_files_in_post_baseline_delta": 151,
+    "workflow_files_in_post_baseline_delta": 61,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -405,6 +405,7 @@
       "canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json",
       "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
       "canonical/decisions/FA3-DEC-RESOURCE-EVIDENCE-NORMALIZATION-2026-09-14.json",
+      "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
       "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
       "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
       "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
@@ -476,6 +477,7 @@
       "canonical/references/FA3-PUBLIC-APIS-UPSTREAM-REFERENCE-2026-08-30.json",
       "canonical/references/FA3-PYRIT-UPSTREAM-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-PYTORCH3D-UPSTREAM-REFERENCE-2026-09-11.json",
+      "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
       "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-SOMA-X-UPSTREAM-REFERENCE-2026-09-12.json",
       "canonical/references/FA3-STABILITY-MATRIX-UPSTREAM-REFERENCE-2026-08-31.json",
@@ -762,7 +764,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1401,
+  "manifest_entry_count": 1415,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -938,7 +940,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "0d6c88cd522e2d7d20a9a69f4ef72216d913a4c0"
+      "git_blob_sha": "5d2b0aa5e91015f27f79b01b43d619973a4cc18e"
     },
     {
       "path": ".github/workflows/fa3-presenton-current-host.yml",
@@ -967,6 +969,10 @@
     {
       "path": ".github/workflows/fa3-resource-evidence-normalization.yml",
       "git_blob_sha": "b54d8fad225556723a6ec8caf2bbfe3dc9a1f11e"
+    },
+    {
+      "path": ".github/workflows/fa3-runtime-hardening-current-host.yml",
+      "git_blob_sha": "97f6a8b01d317173f456c4fff795bcb7776a505e"
     },
     {
       "path": ".github/workflows/fa3-sillytavern-kde.yml",
@@ -1258,7 +1264,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "cae4b0a77ee23c26202b10f1910c446a04dfa3d0"
+      "git_blob_sha": "e6c209e8b22c0571bb65d607403d82e3e668edbe"
     },
     {
       "path": "bin/fa3-extension-boundary",
@@ -2185,6 +2191,10 @@
       "git_blob_sha": "cf61354f8275ed0fd9cbb729d337c5ee706a1034"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+      "git_blob_sha": "6b70d007cbe24462dc4f109eee1b5cb3debe0b5c"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
       "git_blob_sha": "6cb7d58da9067edce7efb234bd84eee5ebfefa8c"
     },
@@ -2262,7 +2272,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "c87566a163649311ca272cc97376085b571e86fd"
+      "git_blob_sha": "cb13007e8b56e609e1059579684177ce3ed7312d"
     },
     {
       "path": "canonical/external-api-discovery-enforcement.json",
@@ -2553,6 +2563,10 @@
       "git_blob_sha": "2ae782c177f0da283065f135b9f35908d28719db"
     },
     {
+      "path": "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+      "git_blob_sha": "8a68ef01b3b1e8c974c81237f036b6059fe23a6c"
+    },
+    {
       "path": "canonical/FA3-GATE-SILLYTAVERN-KDE-001.json",
       "git_blob_sha": "30a14b1eb8a43fbba4d5454a674b76d058caff48"
     },
@@ -2751,6 +2765,10 @@
     {
       "path": "canonical/FA3-RESOURCE-ADMISSION-EVIDENCE-ACCEPTANCE-001.json",
       "git_blob_sha": "fae7ee8921eb9a96258b68c6aab847bfacd1524f"
+    },
+    {
+      "path": "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+      "git_blob_sha": "1cbc55b12b9eee30077aab43220e548608b4b281"
     },
     {
       "path": "canonical/FA3-SOMA-X-RUNTIME-CONFORMANCE-001.json",
@@ -3074,7 +3092,7 @@
     },
     {
       "path": "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
-      "git_blob_sha": "ae5033199e4966493c2d4c6516aac68842e6e76e"
+      "git_blob_sha": "512f0d6a74d681a0127d637fb626ada71f4f50fd"
     },
     {
       "path": "canonical/profiles/FA3-AI-IMAGE-EDITING-001.json",
@@ -3150,7 +3168,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HU-AQC-001.json",
-      "git_blob_sha": "220fcc3d59b8b95c5dc225eae819916a96fc4daa"
+      "git_blob_sha": "88c5bdc2a76023b091a5b302dddbe5dc2865ded6"
     },
     {
       "path": "canonical/profiles/FA3-HUMAN-KNOWLEDGE-WORKSPACE-001.json",
@@ -3214,7 +3232,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
-      "git_blob_sha": "8e5e163fde217549155422fdaf0dbc2a86d3396b"
+      "git_blob_sha": "2b8e2e424c27c2a3dc9240bf8a0da60d3d1b3726"
     },
     {
       "path": "canonical/profiles/FA3-MENTOR-001.json",
@@ -3258,7 +3276,7 @@
     },
     {
       "path": "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
-      "git_blob_sha": "3454cfc4a56c3f761c9b0c61aff66085fa3eda13"
+      "git_blob_sha": "7a7d40f188a1d2f3cba9ba379d26551aa4319010"
     },
     {
       "path": "canonical/profiles/FA3-REGISTRY-001.json",
@@ -3266,7 +3284,7 @@
     },
     {
       "path": "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
-      "git_blob_sha": "4aa0777a8a8224dd5a17252f506bf89245ca0b99"
+      "git_blob_sha": "0a477a052f9e4adad852c1b38997de322e3d9ef4"
     },
     {
       "path": "canonical/profiles/FA3-SCS-001.json",
@@ -3985,6 +4003,10 @@
       "git_blob_sha": "a9c9de9a4f00fe376ec84bceba674a63eb95aec7"
     },
     {
+      "path": "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
+      "git_blob_sha": "eda4e83925d53e8acb4cee9a94a452c35dd45edf"
+    },
+    {
       "path": "canonical/references/FA3-SILLYTAVERN-UPSTREAM-REFERENCE-2026-09-07.json",
       "git_blob_sha": "446702b77e9b1efd1d08d1fd2547bee93023bbdf"
     },
@@ -4087,6 +4109,10 @@
     {
       "path": "canonical/resource-admission-current-host-enforcement.json",
       "git_blob_sha": "fa120f7d997535e3dca79ce3cf540e8827fd3317"
+    },
+    {
+      "path": "canonical/runtime-hardening-current-host-enforcement.json",
+      "git_blob_sha": "f2d9c96a37864644a09055db90847fa2f72c66a3"
     },
     {
       "path": "canonical/runtime-hardening-enforcement.json",
@@ -4417,6 +4443,10 @@
       "git_blob_sha": "a772579e839c97c1121eb440ebef655d8bd208e2"
     },
     {
+      "path": "docs/runtime-hardening-current-host.md",
+      "git_blob_sha": "156d3da9ea8f36f40648cb189a8f7241d2673838"
+    },
+    {
       "path": "docs/sillytavern-kde-integration.md",
       "git_blob_sha": "b63c034cc5f1a2225b39b91f46b98533a28d9ba1"
     },
@@ -4477,6 +4507,10 @@
       "git_blob_sha": "4387ed94924395326f98a4ade3ad8565633795fb"
     },
     {
+      "path": "evidence/collect-hu-aqc-current-host.py",
+      "git_blob_sha": "2177be30cea5c2c20af68dcbbf8f8241870c00d0"
+    },
+    {
       "path": "evidence/collect-human-motion-current-host.py",
       "git_blob_sha": "1e917c87d18ebdc58c19591c949f7239a7edaabc"
     },
@@ -4499,6 +4533,10 @@
     {
       "path": "evidence/collect-marketing-reference-e2e.py",
       "git_blob_sha": "9e6dc530ec5e5e0a7c3e5096c4e3ee05573f0b9a"
+    },
+    {
+      "path": "evidence/collect-media-gpu-zerocopy-current-host.py",
+      "git_blob_sha": "d2fe38780dd553868ae0758e88d1bc2e89e9e449"
     },
     {
       "path": "evidence/collect-minimax-h3-current-host.py",
@@ -4533,6 +4571,10 @@
       "git_blob_sha": "af720bea7bfb7e0c7c2f0a0899817d1a895ebf77"
     },
     {
+      "path": "evidence/collect-promotion-shadow-current-host.py",
+      "git_blob_sha": "c2ff2dd90451d9829d9947a9a07afe965a666618"
+    },
+    {
       "path": "evidence/collect-pyrit-current-host.py",
       "git_blob_sha": "1e0c7859d958e177a6b9601626121b73a25107f2"
     },
@@ -4543,6 +4585,10 @@
     {
       "path": "evidence/collect-resource-admission-current-host.py",
       "git_blob_sha": "d537e5c75e0d0d9cc7f74bea534bd67810c407e0"
+    },
+    {
+      "path": "evidence/collect-runtime-isolation-sandbox-current-host.py",
+      "git_blob_sha": "f859e5b69837b043a157ca6293559efbb06133e6"
     },
     {
       "path": "evidence/collect-stable-audio-3-current-host.py",
@@ -4974,7 +5020,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "2560fb6d9549fce51407a2796d6575489f154672"
+      "git_blob_sha": "64d57af46865e9c5bc6d30027f8764612c1e872d"
     },
     {
       "path": "fa3-current-host/README.md",
@@ -5610,7 +5656,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "71827294e6a8f228b38b5d720b4975fcec33e2ec"
+      "git_blob_sha": "9408cbcbf3d87e94473c3ad104db339e7f4000cd"
     },
     {
       "path": "src/fa3_release_projection_regenerate.py",
@@ -5637,8 +5683,16 @@
       "git_blob_sha": "068b1c4b9d449deef45ed3b3160cf3494c3c5c2c"
     },
     {
+      "path": "src/fa3_runtime_hardening_current_host_gate.py",
+      "git_blob_sha": "c029da16d781923f89917631eacf2a81f82fe0c3"
+    },
+    {
+      "path": "src/fa3_runtime_hardening_current_host.py",
+      "git_blob_sha": "2a10f467162ca234c803b405f0c8314e57aa0d00"
+    },
+    {
       "path": "src/fa3_runtime_hardening_gate.py",
-      "git_blob_sha": "4ba925aa03fc50921667b313195aa7c9333175a5"
+      "git_blob_sha": "8e91f40a31591c27869089e7ba37565225d0a2c5"
     },
     {
       "path": "src/fa3_runtime_hardening.py",
@@ -6241,6 +6295,10 @@
       "git_blob_sha": "73fa078cb4486e6dbe8a430ce73745dd19b50a9a"
     },
     {
+      "path": "tests/test_runtime_hardening_current_host_gate.py",
+      "git_blob_sha": "917becfb19c6eaf54f21aa8030920a62ca972466"
+    },
+    {
       "path": "tests/test_runtime_hardening_gate.py",
       "git_blob_sha": "e07e03a054a8c67ec13068b9b90040d26cf77d99"
     },
@@ -6412,7 +6470,8 @@
     "Krita-Kdenlive Hybrid Editorial integration reconciled: OTIO canonical interchange, 18-case executable gate, reference E2E PASS semantics; current-host production runtime remains pending.",
     "CosyVoice materialized as FA3-PROVIDER-COSYVOICE-001 under provider-neutral FA3-VOICE-001 with 21-case fail-closed executable regression, explicit voice-consent/reference-hash binding, HRB-gated CUDA, pinned source/model provenance, and separate current-host production E2E; Hungarian remains experimental pending dedicated quality evidence.",
     "FA3-PROVIDER-CAVEMAN-001 materialized under FA3-KNOWLEDGE-001 with a provider-neutral recoverable context-transformation contract, 15-rule executable fail-closed regression gate, PASS reference evidence and CAP-010/global inventory reconciliation; capability count remains 143 and Caveman receives no architectural authority or runtime promotion.",
-    "2026-09-19 runtime hardening/shadow reconciliation: five cross-cutting P0 profiles, PyNvVideoCodec NVIDIA AI-frame provider projection, Hungarian multi-signal AQC, and non-authoritative Shadow execution were materialized with zero capability/authority delta; production promotion remains 19/19 plus current-host evidence."
+    "2026-09-19 runtime hardening/shadow reconciliation: five cross-cutting P0 profiles, PyNvVideoCodec NVIDIA AI-frame provider projection, Hungarian multi-signal AQC, and non-authoritative Shadow execution were materialized with zero capability/authority delta; production promotion remains 19/19 plus current-host evidence.",
+    "2026-09-19 runtime-hardening current-host closure materialization: four real self-hosted evidence surfaces and fail-closed admission gate added; no runtime PASS or global promotion is claimed before real execution."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -7728,10 +7787,19 @@
     "hu_aqc": "MULTI_SIGNAL_FAIL_CLOSED",
     "shadow_execution_authoritative": false,
     "production_gate_bypass": false,
-    "current_host_runtime_status": "PENDING_CURRENT_HOST_BACKEND_MEDIA_AQC_SHADOW_E2E",
+    "current_host_runtime_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
     "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "capability_count_after": 143
+    "capability_count_after": 143,
+    "current_host_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+    "current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+    "current_host_decision_id": "FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19",
+    "current_host_surfaces": [
+      "RUNTIME_ISOLATION_AGENT_SANDBOX",
+      "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+      "HU_AQC",
+      "PROMOTION_SHADOW"
+    ]
   }
 }
