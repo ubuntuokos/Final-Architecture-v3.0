@@ -35,9 +35,9 @@ jobs:
       - name: Verify prerequisites
         shell: bash
         env:
-          SOURCE_ROOT: \${{ inputs.source_root }}
-          OAUTH_HOME: \${{ inputs.oauth_home }}
-          SAMPLE_PDF: \${{ inputs.sample_pdf }}
+          SOURCE_ROOT: ${{ inputs.source_root }}
+          OAUTH_HOME: ${{ inputs.oauth_home }}
+          SAMPLE_PDF: ${{ inputs.sample_pdf }}
         run: |
           command -v node
           command -v git
@@ -50,9 +50,9 @@ jobs:
       - name: Run real Gateway to PageIndex index/retrieve E2E
         shell: bash
         env:
-          SOURCE_ROOT: \${{ inputs.source_root }}
-          OAUTH_HOME: \${{ inputs.oauth_home }}
-          SAMPLE_PDF: \${{ inputs.sample_pdf }}
+          SOURCE_ROOT: ${{ inputs.source_root }}
+          OAUTH_HOME: ${{ inputs.oauth_home }}
+          SAMPLE_PDF: ${{ inputs.sample_pdf }}
         run: |
           bash bin/fa3-pageindex-mcp-current-host.sh \
             --source-root "$SOURCE_ROOT" \
