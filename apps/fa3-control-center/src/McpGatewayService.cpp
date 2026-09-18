@@ -57,20 +57,22 @@ void McpGatewayService::getJson(const QString &path, const std::function<void(co
     QNetworkRequest request(QUrl(QStringLiteral("http://127.0.0.1:18790") + path));
     request.setRawHeader("Accept", "application/json");
     QNetworkReply *reply = m_network->get(request);
-    connect(reply, &QNetworkReply::finished, this, [this, reply, onSuccess]() {
-        const auto guard = std::unique_ptr<QNetworkReply, std::function<void(QNetworkReply*)>>(
-            reply, [](QNetworkReply *r) { r->deleteLater(); });
-        if (reply->error() != QNetworkReply::NoError) {
-            setError(reply->errorString());
-            return;
-        }
+    connect(reply, &QNetworkReply::finished, this, [this, reply, path, onSuccess]() {
+        const int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        const QByteArray raw = reply->readAll();
         QJsonParseError error;
-        const QJsonDocument doc = QJsonDocument::fromJson(reply->readAll(), &error);
-        if (error.error != QJsonParseError::NoError || !doc.isObject()) {
-            setError(QStringLiteral("Invalid gateway JSON response"));
+        const QJsonDocument doc = QJsonDocument::fromJson(raw, &error);
+        const bool expectedNotReady = path == QStringLiteral("/readyz") && status == 503;
+        if ((!expectedNotReady && reply->error() != QNetworkReply::NoError) ||
+            error.error != QJsonParseError::NoError || !doc.isObject()) {
+            setError(reply->error() == QNetworkReply::NoError
+                ? QStringLiteral("Invalid gateway JSON response")
+                : reply->errorString());
+            reply->deleteLater();
             return;
         }
         onSuccess(doc.object().toVariantMap());
+        reply->deleteLater();
     });
 }
 
