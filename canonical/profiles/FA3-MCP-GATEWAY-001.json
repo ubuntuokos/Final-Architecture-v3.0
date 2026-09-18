@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-MCP-GATEWAY-001",
+  "title": "Central MCP Gateway, Registry, Routing & Governance Fabric",
+  "priority": "P0",
+  "requirement": "MUST",
+  "status": "CANONICAL",
+  "authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_neutral": true,
+  "fail_closed": true,
+  "single_logical_gateway": true,
+  "direct_agent_provider_bypass": "DENY",
+  "canonical_transport": {
+    "protocol": "MCP",
+    "revision": "2026-07-28",
+    "mode": "STATELESS",
+    "endpoint": "/mcp",
+    "server_discover": "REQUIRED",
+    "initialize_handshake": "FORBIDDEN_ON_CANONICAL_MODERN_PATH",
+    "mcp_session_id": "FORBIDDEN_ON_CANONICAL_MODERN_PATH",
+    "header_routing": ["MCP-Protocol-Version", "Mcp-Method", "Mcp-Name"],
+    "legacy_stateful_support": "COMPATIBILITY_ADAPTER_ONLY"
+  },
+  "planes": {
+    "data": ["stateless MCP ingress", "typed capability dispatch", "result/stream forwarding"],
+    "control": ["provider registry", "tool registry", "capability registry", "route registry", "lifecycle projection"],
+    "policy": ["external policy decision enforcement", "approval enforcement", "rate/timeout/circuit controls"],
+    "governance": ["provenance", "evidence receipts", "supply-chain admission", "revocation", "audit projection"]
+  },
+  "preserved_external_authorities": [
+    "SECURITY_GOVERNANCE_POLICY_PLANE",
+    "IDENTITY_AUTHORITY",
+    "CENTRAL_SECRET_BROKER",
+    "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "TEMPORAL_DURABLE_WORKFLOW_AUTHORITY",
+    "MODEL_ROUTER_AUTHORITY",
+    "EVIDENCE_OBSERVABILITY_AUTHORITY",
+    "FA3-JOURNAL-001",
+    "FA3-REGISTRY-001"
+  ],
+  "runtime_projection": "FA3-MCP-CURRENT-HOST-001",
+  "gui_projection": "FA3-MCP-GATEWAY-GUI-001",
+  "reference_implementations": ["microsoft/mcp-gateway"],
+  "production_admitted": false,
+  "production_admission_rule": "REAL_CURRENT_HOST_E2E_AND_ALL_P0_GATES_REQUIRED"
+}
