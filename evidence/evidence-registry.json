@@ -251,7 +251,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
+        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06",
+        "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -260,7 +261,8 @@
         "evidence/reference/model-manager-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -331,6 +333,15 @@
         "deepgemm_status": "OPTIONAL_CONDITIONAL_PINNED_CAPABILITY_DESCRIPTOR",
         "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE",
         "global_runtime_promotion_claim": false
+      },
+      "vapoursynth_r80_runtime_hardening_status": {
+        "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+        "runtime_hardening_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+        "reference_evidence_status": "PASS",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "acceptance_criterion": "CRIT-022",
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -376,7 +387,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+        "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -385,7 +397,8 @@
         "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
+        "evidence/reference/hardware-portability-ci-2026-09-03.json",
+        "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -463,6 +476,15 @@
         "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
         "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "vapoursynth_r80_runtime_hardening_status": {
+        "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+        "runtime_hardening_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+        "reference_evidence_status": "PASS",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "acceptance_criterion": "CRIT-022",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
@@ -927,7 +949,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
-        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06"
+        "FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06",
+        "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -935,7 +958,8 @@
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -1007,6 +1031,15 @@
         "helios_runtime_status": "EXECUTION_CANDIDATE_NOT_PROMOTED",
         "current_host_runtime_evidence": "NOT_CLAIMED",
         "production_provider_admission": false,
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "vapoursynth_r80_runtime_hardening_status": {
+        "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+        "runtime_hardening_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+        "reference_evidence_status": "PASS",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "acceptance_criterion": "CRIT-022",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
@@ -5427,13 +5460,15 @@
         "FA3-DEC-HYBRID-EDITORIAL-2026-08-31",
         "FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01",
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
-        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
+        "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
+        "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
         "evidence/reference/opencut-ci-2026-09-01.json",
-        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json"
+        "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
+        "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5482,6 +5517,15 @@
         "evidence_level_required": "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS",
         "component_pass_claim": false,
         "global_promotion_claim": false
+      },
+      "vapoursynth_r80_runtime_hardening_status": {
+        "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+        "runtime_hardening_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+        "reference_evidence_status": "PASS",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "acceptance_criterion": "CRIT-022",
+        "ci_reference_pass_does_not_promote_runtime": true
       }
     },
     {
@@ -5700,7 +5744,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03",
-        "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11"
+        "FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11",
+        "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -5708,7 +5753,8 @@
         "evidence/reference/opencut-ci-2026-09-01.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/pku-yuan-video-lifecycle-ci-2026-09-03.json",
-        "evidence/reference/openfx-interoperability-ci-2026-09-11.json"
+        "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
+        "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -5781,6 +5827,15 @@
         "reference_evidence": "evidence/reference/openfx-interoperability-ci-2026-09-11.json",
         "runtime_status": "PENDING_CURRENT_HOST",
         "current_host_runtime_evidence": "PENDING_REAL_OPENFX_HOST_PLUGIN_RENDER_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "vapoursynth_r80_runtime_hardening_status": {
+        "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+        "runtime_hardening_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+        "reference_evidence_status": "PASS",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "acceptance_criterion": "CRIT-022",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
@@ -6244,7 +6299,8 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+        "FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -6252,7 +6308,8 @@
         "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
+        "evidence/reference/hardware-portability-ci-2026-09-03.json",
+        "evidence/reference/vapoursynth-r80-runtime-hardening-ci-2026-09-19.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -6312,6 +6369,15 @@
         "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
         "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "vapoursynth_r80_runtime_hardening_status": {
+        "provider_id": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
+        "runtime_hardening_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+        "reference_evidence_status": "PASS",
+        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "acceptance_criterion": "CRIT-022",
         "ci_reference_pass_does_not_promote_runtime": true
       }
     },
