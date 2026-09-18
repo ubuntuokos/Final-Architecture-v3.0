@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3bcb6af80ac287aa24dbd69fcd308c4da266efda",
-    "pre_projection_root_tree_sha": "b18953414c734000899aeacc517a1db7b646ca77",
-    "pre_projection_canonical_tree_sha": "1c99f536b0481b654b62bdb500c0511793584dbd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 434,
-    "total_post_baseline_commits": 434,
-    "delta_file_count": 1342,
-    "delta_added_files": 1337,
+    "pre_projection_head_sha": "c57745426e8e16826651efe38ccbb060e31b356a",
+    "pre_projection_root_tree_sha": "18d3b9b1774f0a77cddbd846863985c44b6cbc6e",
+    "pre_projection_canonical_tree_sha": "73d9ed9d7c3c6201706a2bb8dfb3478b55391745",
+    "commits_ahead_of_v3_0_11_conformance_commit": 440,
+    "total_post_baseline_commits": 440,
+    "delta_file_count": 1343,
+    "delta_added_files": 1338,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 663,
-    "evidence_files_in_post_baseline_delta": 125,
+    "evidence_files_in_post_baseline_delta": 126,
     "source_files_in_post_baseline_delta": 161,
     "test_files_in_post_baseline_delta": 141,
     "workflow_files_in_post_baseline_delta": 57,
@@ -493,6 +493,7 @@
       "evidence/reference/fa3-inspector-reference-pending.json",
       "evidence/reference/fa3-journal-archive-reference.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
+      "evidence/reference/fa3-os-current-host-2026-09-18.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
@@ -738,7 +739,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1335,
+  "manifest_entry_count": 1336,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1082,7 +1083,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Fa3OsPage.qml",
-      "git_blob_sha": "7272622bb3ca1c409b92d7624aca0e5071930b1c",
+      "git_blob_sha": "972aa3a78359f4e23d9becdf519e58178f3f635e",
       "baseline_delta_status": "added"
     },
     {
@@ -2027,7 +2028,7 @@
     },
     {
       "path": "canonical/FA3-OS-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "0d2f1d8fa2fb84ac48961be5de8c0475715ef682",
+      "git_blob_sha": "63df3aec75b97a0b7a7362781e7aa3c6bb1970b3",
       "baseline_delta_status": "added"
     },
     {
@@ -5426,6 +5427,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-os-current-host-2026-09-18.json",
+      "git_blob_sha": "0b9b94112707a4a9225bc96e896cfc4e723e3799",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "git_blob_sha": "02135adc819382ba6ee90c425be1f5e61520d24f",
       "baseline_delta_status": "added"
@@ -6467,7 +6473,7 @@
     },
     {
       "path": "src/fa3_os_runtime_gate.py",
-      "git_blob_sha": "26332b009a71b3987434dd76b8d49232b53e3c7c",
+      "git_blob_sha": "45649283df2a850cf3799cc7a5182bb36346e6b4",
       "baseline_delta_status": "added"
     },
     {
@@ -6852,7 +6858,7 @@
     },
     {
       "path": "tests/test_fa3_os_current_host_admission.py",
-      "git_blob_sha": "2ceb1ce2df59a94585c200d23918b3896a05618f",
+      "git_blob_sha": "44f5e149c9ac006739ef660f8b0146e9bec5d6f0",
       "baseline_delta_status": "added"
     },
     {
