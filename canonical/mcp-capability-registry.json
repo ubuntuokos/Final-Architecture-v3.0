@@ -118,7 +118,12 @@
           "transport": "stdio",
           "approval_override": "explicit",
           "evidence_ref": null,
-          "gate_id": "FA3-GATE-PAGEINDEX-MCP-001"
+          "gate_id": "FA3-GATE-PAGEINDEX-MCP-001",
+          "asset_egress_mode": "LOCAL_FILE_UPLOAD",
+          "asset_egress_profile": "FA3-ASSET-EGRESS-POLICY-001",
+          "asset_egress_destination_uri": "https://app.pageindex.ai/mcp",
+          "asset_egress_data_class": "USER_DOCUMENT",
+          "asset_egress_purpose": "PageIndex Cloud document indexing"
         }
       ]
     },

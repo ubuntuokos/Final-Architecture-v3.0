@@ -82,7 +82,11 @@
     "local_upload_requires_explicit_approval": true,
     "arbitrary_dynamic_remote_tool_exposure": "DENY",
     "network_egress": "EXTERNAL_NETWORK_EGRESS_AUTHORITY_ONLY",
-    "signed_upload_destination": "DYNAMIC_PROVIDER_DESTINATION_POLICY_GATED"
+    "signed_upload_destination": "DYNAMIC_PROVIDER_DESTINATION_POLICY_GATED",
+    "asset_egress_profile": "FA3-ASSET-EGRESS-POLICY-001",
+    "asset_egress_capability": "CAP-140",
+    "gateway_generated_egress_decision_required": true,
+    "local_upload_requires_source_sha256": true
   },
   "authority_boundaries": {
     "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",

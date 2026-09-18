@@ -221,6 +221,47 @@ class McpGateway:
         if not _nonempty(lease.get("lease_id")):
             raise GatewayDenied("MISSING_OR_INVALID_HRB_LEASE", "HRB lease id is required")
 
+    def _apply_asset_egress(self, request: dict[str, Any], binding: dict[str, Any]) -> dict[str, Any]:
+        if binding.get("asset_egress_mode") != "LOCAL_FILE_UPLOAD":
+            return request
+        arguments = request.get("arguments")
+        if not isinstance(arguments, dict):
+            raise GatewayDenied("ASSET_EGRESS_SCHEMA", "Asset egress requires object arguments")
+        source = arguments.get("source")
+        if not isinstance(source, str) or not source.strip():
+            raise GatewayDenied("ASSET_EGRESS_SOURCE_INVALID", "Local asset source is required")
+        if "://" in source:
+            return request
+        path = Path(source).expanduser().resolve()
+        if not path.is_file():
+            raise GatewayDenied("ASSET_EGRESS_SOURCE_INVALID", "Local asset source must exist")
+        digest = hashlib.sha256()
+        with path.open("rb") as fh:
+            for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+                digest.update(chunk)
+        try:
+            from fa3_asset_egress_policy import evaluate
+            decision = evaluate({
+                "request_id": "FA3-EGRESS-REQ-" + canonical_sha256({"source": str(path), "provider": binding.get("provider_id")})[:24].upper(),
+                "source_ref": str(path),
+                "source_sha256": digest.hexdigest(),
+                "data_class": binding.get("asset_egress_data_class", "USER_DOCUMENT"),
+                "destination_provider": binding.get("provider_id"),
+                "destination_uri": binding.get("asset_egress_destination_uri"),
+                "purpose": binding.get("asset_egress_purpose", "provider upload"),
+                "approval": request.get("approval"),
+            })
+        except Exception as exc:
+            raise GatewayDenied("ASSET_EGRESS_POLICY_ERROR", type(exc).__name__) from exc
+        if decision.get("status") != "ALLOW":
+            raise GatewayDenied("ASSET_EGRESS_DENIED", str(decision.get("reason_code", "DENY")))
+        effective = dict(request)
+        effective_arguments = dict(arguments)
+        effective_arguments["_fa3_asset_egress_decision"] = decision
+        effective["arguments"] = effective_arguments
+        effective["asset_egress_decision"] = decision
+        return effective
+
     def _validate_secret_refs(self, request: dict[str, Any]) -> None:
         if "secrets" in request or "credential" in request or "token" in request:
             raise GatewayDenied("INLINE_SECRET_FORBIDDEN", "Durable/inline credential material is forbidden")
@@ -254,10 +295,11 @@ class McpGateway:
             self._validate_policy_scope(effective_request, binding)
             self._validate_hrb(effective_request, capability)
             self._validate_approval(effective_request, capability, binding)
+            effective_request = self._apply_asset_egress(effective_request, binding)
             adapter = self.adapters[binding["adapter_id"]]
             if adapter.provider_id != binding.get("provider_id"):
                 raise GatewayDenied("PROVIDER_BINDING_MISMATCH", "Adapter/provider binding mismatch")
-            result = adapter.handler(arguments)
+            result = adapter.handler(effective_request["arguments"])
             if not isinstance(result, dict):
                 raise GatewayDenied("INVALID_RESULT_SCHEMA", "Adapter result must be an object")
             receipt = self._receipt(
@@ -304,6 +346,7 @@ class McpGateway:
         policy = request.get("policy_decision") if isinstance(request.get("policy_decision"), dict) else {}
         approval = request.get("approval") if isinstance(request.get("approval"), dict) else {}
         lease = request.get("hrb_lease") if isinstance(request.get("hrb_lease"), dict) else {}
+        egress = request.get("asset_egress_decision") if isinstance(request.get("asset_egress_decision"), dict) else {}
         receipt = {
             "schema": RECEIPT_SCHEMA,
             "profile_id": PROFILE_ID,
@@ -318,6 +361,7 @@ class McpGateway:
             "policy_decision_id": policy.get("decision_id"),
             "approval_id": approval.get("approval_id"),
             "resource_lease_id": lease.get("lease_id"),
+            "asset_egress_decision_id": egress.get("decision_id"),
             "request_sha256": canonical_sha256(safe_request),
             "result_status": status,
             "reason_code": reason_code,
