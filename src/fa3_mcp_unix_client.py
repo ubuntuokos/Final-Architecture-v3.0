@@ -47,7 +47,8 @@ def main() -> int:
     parser.add_argument("--socket", required=True)
     parser.add_argument("--method", choices=("GET", "POST"), default="GET")
     parser.add_argument("--path", required=True)
-    parser.add_argument("--request-file")\n    parser.add_argument("--timeout", type=float, default=5.0)
+    parser.add_argument("--request-file")
+    parser.add_argument("--timeout", type=float, default=5.0)
     args = parser.parse_args()
     payload = None
     if args.request_file:
