@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import module_active_capability_count
-import argparse, hashlib, json, os, shutil, subprocess, sys, wave
+import argparse, hashlib, json, os, shutil, subprocess, sys, time, wave
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -192,6 +192,8 @@ def execute_synthesis(root:Path, req:dict[str,Any], repo_path:Path, model_dir:Pa
     cosy=AutoModel(model_dir=str(model_dir),load_trt=False,load_vllm=False,fp16=False)
     mode=req["mode"]
     ref=validated["reference_audio"]
+    started=time.monotonic()
+    first_chunk_at=None
     if mode=="zero_shot":
         iterator=cosy.inference_zero_shot(req["text"],req["prompt_text"],ref,stream=bool(req.get("streaming",False)))
     elif mode=="cross_lingual":
@@ -203,10 +205,17 @@ def execute_synthesis(root:Path, req:dict[str,Any], repo_path:Path, model_dir:Pa
     for item in iterator:
         speech=item.get("tts_speech")
         if speech is not None:
+            if first_chunk_at is None:
+                first_chunk_at=time.monotonic()
             chunks.append(speech.detach().cpu())
     if not chunks:
         raise RuntimeError("CosyVoice returned no audio chunks")
+    completed=time.monotonic()
     speech=torch.cat(chunks,dim=1)
+    audio_duration_seconds=float(speech.shape[-1])/float(cosy.sample_rate)
+    wall_time_seconds=completed-started
+    first_audio_ms=None if first_chunk_at is None else (first_chunk_at-started)*1000.0
+    real_time_factor=None if audio_duration_seconds<=0 else wall_time_seconds/audio_duration_seconds
     output=output.expanduser().resolve()
     output.parent.mkdir(parents=True,exist_ok=True)
     torchaudio.save(str(output),speech,cosy.sample_rate)
@@ -240,7 +249,15 @@ def execute_synthesis(root:Path, req:dict[str,Any], repo_path:Path, model_dir:Pa
             "hrb_lease_id":None if lease is None else lease.get("lease_id"),
             "gpu_uuid":None if lease is None else lease.get("gpu_uuid"),
             "sox":sox,
-            "streaming":bool(req.get("streaming",False))
+            "streaming":bool(req.get("streaming",False)),
+            "streaming_metrics":{
+                "chunk_count":len(chunks),
+                "first_audio_ms":first_audio_ms,
+                "completion_ms":wall_time_seconds*1000.0,
+                "audio_duration_seconds":audio_duration_seconds,
+                "wall_time_seconds":wall_time_seconds,
+                "real_time_factor":real_time_factor
+            }
         }
     }
 
