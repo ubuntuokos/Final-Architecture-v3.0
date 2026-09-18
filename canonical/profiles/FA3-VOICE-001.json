@@ -84,5 +84,33 @@
     "automated_multi_signal_quality_gate_required": true,
     "human_review_role": "CALIBRATION_GOLDEN_CORPUS_THRESHOLD_DRIFT_NOT_PER_ARTIFACT_DEFAULT"
   },
-  "hu_aqc_profile_id": "FA3-HU-AQC-001"
+  "hu_aqc_profile_id": "FA3-HU-AQC-001",
+  "current_host_capability_qualification": {
+    "conformance_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-GATESET-001",
+    "subjects": {
+      "CAP-115": [
+        "FA3-QUAL-CAP-115-POS-001",
+        "FA3-QUAL-CAP-115-NEG-001",
+        "FA3-QUAL-CAP-115-ROLLBACK-001"
+      ],
+      "CAP-116": [
+        "FA3-QUAL-CAP-116-POS-001",
+        "FA3-QUAL-CAP-116-NEG-001",
+        "FA3-QUAL-CAP-116-ROLLBACK-001"
+      ],
+      "CAP-117": [
+        "FA3-QUAL-CAP-117-POS-001",
+        "FA3-QUAL-CAP-117-NEG-001",
+        "FA3-QUAL-CAP-117-ROLLBACK-001"
+      ]
+    },
+    "producer_adapter": "src/fa3_voice_capability_current_host.py",
+    "bundle_root": ".fa3-current-host/input/voice-capabilities",
+    "locale_baseline": "hu-HU",
+    "status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+    "hosted_ci_substitution_allowed": false,
+    "raw_provider_receipt_substitution_allowed": false,
+    "global_promotion_claim": false
+  }
 }
