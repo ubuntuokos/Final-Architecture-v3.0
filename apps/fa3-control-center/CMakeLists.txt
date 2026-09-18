@@ -51,6 +51,7 @@ set_source_files_properties(qml/Fa3OsPage.qml PROPERTIES QT_RESOURCE_ALIAS Fa3Os
 set_source_files_properties(qml/WorkManagementPage.qml PROPERTIES QT_RESOURCE_ALIAS WorkManagementPage.qml)
 set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS McpGatewayPage.qml)
 set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS KnowledgePage.qml)
+set_source_files_properties(qml/MalwareDefensePage.qml PROPERTIES QT_RESOURCE_ALIAS MalwareDefensePage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -77,6 +78,7 @@ qt_add_qml_module(fa3-control-center
         qml/WorkManagementPage.qml
         qml/McpGatewayPage.qml
         qml/KnowledgePage.qml
+        qml/MalwareDefensePage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
@@ -100,7 +102,9 @@ install(TARGETS fa3-control-center
     RUNTIME DESTINATION libexec
 )
 
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
+install(PROGRAMS
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../src/fa3_malware_defense_runtime.py"
     DESTINATION libexec
 )
 
@@ -108,6 +112,10 @@ install(FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-LIFECYCLE-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-APP-REQUEST-001.json"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-AI-STUDIO-APP-CATALOG-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-MALWARE-DEFENSE-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-MALWARE-DEFENSE-SOURCE-MATRIX-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-MALWARE-DEFENSE-PROVIDERS-001.json"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../canonical/FA3-MALWARE-DEFENSE-RUNTIME-CONFORMANCE-001.json"
     DESTINATION share/fa3/canonical
 )
 
