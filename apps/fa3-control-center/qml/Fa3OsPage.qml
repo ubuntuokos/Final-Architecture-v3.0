@@ -109,7 +109,7 @@ Item {
             Metric { labelText: "Event authority"; valueText: "JOURNAL"; noteText: "FA3-JOURNAL-001"; tone: root.green }
             Metric { labelText: "Privacy"; valueText: "FAIL-CLOSED"; noteText: "gate before persistence"; tone: root.magenta }
             Metric { labelText: "OS events"; valueText: root.osEvents().length.toString(); noteText: "canonical Journal enrichment"; tone: root.accent }
-            Metric { labelText: "Host admission"; valueText: "PENDING"; noteText: "CURRENT HOST E2E PENDING"; tone: root.orange }
+            Metric { labelText: "Host admission"; valueText: "ADMITTED"; noteText: "CURRENT HOST E2E ADMITTED"; tone: root.green }
         }
 
         TabBar {
@@ -233,7 +233,11 @@ Item {
                         text: "A Global Pause, alkalmazás/path/project allow/deny és selective-erasure vezérlők canonical követelmények. Ebben a referencia-GUI-ban szándékosan nem jelennek meg működő kapcsolóként addig, amíg nincs current-host admitted command bridge és auditált authorization path."
                     }
                     Item { Layout.fillHeight: true }
-                    Label { text: "CURRENT HOST E2E PENDING"; color: root.orange; font.bold: true }
+                    ColumnLayout {
+                        spacing: 3
+                        Label { text: "CURRENT HOST E2E ADMITTED"; color: root.green; font.bold: true }
+                        Label { text: "AGENT EXPOSURE ADAPTER-GATED"; color: root.orange; font.bold: true; font.pixelSize: 10 }
+                    }
                 }
             }
 
