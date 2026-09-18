@@ -66,6 +66,11 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         self.assertNotIn("--no-default-labels", text)
         self.assertNotIn("actions/runners/${runner_id}/labels", text)
 
+    def test_runner_doctor_normalizes_default_label_case(self) -> None:
+        text = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
+        self.assertIn("labels = {label.lower() for label in raw_labels}", text)
+        self.assertIn('"labels": sorted(raw_labels)', text)
+
     def test_wrong_runner_labels_workflow_is_rejected(self) -> None:
         text = (ROOT / ".github/workflows/fa3-current-host-runner.yml").read_text()
         text = text.replace(
