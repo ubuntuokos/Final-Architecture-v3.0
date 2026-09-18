@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "077270b069e2b3a377ba5bb957c5fb27325df42a",
-    "pre_projection_root_tree_sha": "46b9111ad39f37d7979bf8778d303f92aa340210",
-    "pre_projection_canonical_tree_sha": "518597e87977c24b8bb9e6a42bd50d7bfb252a2d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 397,
-    "total_post_baseline_commits": 397,
-    "delta_file_count": 1316,
-    "delta_added_files": 1311,
+    "pre_projection_head_sha": "67de85726c03a7a1dd942bdcebf1d4546fccbd56",
+    "pre_projection_root_tree_sha": "5d1e367cf257d43970974dac58d94af637c252bb",
+    "pre_projection_canonical_tree_sha": "8575585f278703524555ac3f7ca1dca894f97a50",
+    "commits_ahead_of_v3_0_11_conformance_commit": 399,
+    "total_post_baseline_commits": 399,
+    "delta_file_count": 1317,
+    "delta_added_files": 1312,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,7 +47,7 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 657,
     "evidence_files_in_post_baseline_delta": 121,
-    "source_files_in_post_baseline_delta": 155,
+    "source_files_in_post_baseline_delta": 156,
     "test_files_in_post_baseline_delta": 137,
     "workflow_files_in_post_baseline_delta": 54,
     "provider_records": [
@@ -732,7 +732,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1309,
+  "manifest_entry_count": 1310,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -5907,6 +5907,11 @@
     {
       "path": "src/fa3_current_host_capability_handoff.py",
       "git_blob_sha": "5ca00e7404af463c7f7367f67224bf926ed4749d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_current_host_capability_qualification_constituent_producer_audit.py",
+      "git_blob_sha": "e6293fa3524b0bf9c5d6ce09c459acf99f96e465",
       "baseline_delta_status": "added"
     },
     {
