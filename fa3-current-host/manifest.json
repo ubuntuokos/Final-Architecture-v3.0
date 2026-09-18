@@ -114,7 +114,17 @@
     "tests/test_pageindex_mcp_gate.py",
     "tests/test_resource_admission_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_gate.py",
-    "tests/test_stable_audio_3_gate.py"
+    "tests/test_stable_audio_3_gate.py",
+    ".github/workflows/fa3-integration-broker.yml",
+    "canonical/FA3-GATE-INTEGRATION-BROKER-001.json",
+    "canonical/FA3-GATE-PODMAN-SECRET-ISOLATION-CURRENT-HOST-001.json",
+    "canonical/FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001.json",
+    "canonical/integration-broker-enforcement.json",
+    "src/fa3_integration_broker.py",
+    "src/fa3_integration_broker_gate.py",
+    "src/fa3_podman_secret_negative_gate.py",
+    "tests/test_integration_broker.py",
+    "tests/test_secret_leak_negative.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -257,6 +267,17 @@
         "FA3-QUAL-CAP-028-ROLLBACK-001"
       ],
       "collection_status": "CAPABILITY_EXECUTORS_REGISTERED_REAL_EXECUTION_PENDING",
+      "global_promotion_claim": false
+    },
+    {
+      "name": "podman-secret-isolation",
+      "collector": "src/fa3_podman_secret_negative_gate.py --collect",
+      "gate": "podman-secret-isolation-current-host",
+      "activation": "CAP028_INTEGRATION_BROKER_REAL_ROOTLESS_PODMAN_PRELOADED_IMAGE_REQUIRED",
+      "capability_id": "CAP-028",
+      "conformance_id": "FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+      "hosted_ci_substitution_allowed": false,
       "global_promotion_claim": false
     }
   ],
