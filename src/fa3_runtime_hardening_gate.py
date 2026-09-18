@@ -32,6 +32,12 @@ PATHS = {
     "shadow": "canonical/profiles/FA3-PROMOTION-SHADOW-001.json",
     "contract": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
     "provider": "canonical/providers/FA3-PROVIDER-PYNVVIDEOCODEC-001.json",
+    "vapoursynth_provider": "canonical/providers/FA3-PROVIDER-VAPOURSYNTH-R80-001.json",
+    "vapoursynth_reference": "canonical/references/FA3-VAPOURSYNTH-R80-UPSTREAM-REFERENCE-2026-09-19.json",
+    "vapoursynth_decision": "canonical/decisions/FA3-DEC-VAPOURSYNTH-R80-RUNTIME-HARDENING-2026-09-19.json",
+    "neural_contract": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
+    "vsmlrt": "canonical/providers/FA3-PROVIDER-VS-MLRT-001.json",
+    "upstream_locks": "canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json",
     "decision": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
     "gate": "canonical/FA3-GATE-RUNTIME-HARDENING-001.json",
     "enforcement": "canonical/runtime-hardening-enforcement.json",
@@ -162,14 +168,14 @@ def regressions() -> list[dict[str, Any]]:
         not shadow_execution_valid(**{**shadow, "external_side_effects": True}),
     )
     add(
-        "production-19-of-19",
+        "production-22-of-22",
         shadow_execution_valid(
             **{
                 **shadow,
                 "current_host_evidence": "PASS",
                 "execution_mode": "PRODUCTION",
-                "acceptance_criteria_passed": 19,
-                "acceptance_criteria_total": 19,
+                "acceptance_criteria_passed": 22,
+                "acceptance_criteria_total": 22,
                 "canonical_promotion_gate_pass": True,
             }
         ),
@@ -178,8 +184,8 @@ def regressions() -> list[dict[str, Any]]:
                 **shadow,
                 "current_host_evidence": "PENDING_CURRENT_HOST",
                 "execution_mode": "PRODUCTION",
-                "acceptance_criteria_passed": 19,
-                "acceptance_criteria_total": 19,
+                "acceptance_criteria_passed": 22,
+                "acceptance_criteria_total": 22,
                 "canonical_promotion_gate_pass": True,
             }
         ),
@@ -225,6 +231,37 @@ def gate(root: Path) -> dict[str, Any]:
     ):
         findings.append(finding("HARDEN-003", "PyNvVideoCodec provider authority/promotion invariant drift"))
 
+    vapoursynth = data["vapoursynth_provider"]
+    if (
+        vapoursynth.get("id") != "FA3-PROVIDER-VAPOURSYNTH-R80-001"
+        or vapoursynth.get("upstream", {}).get("release") != "R80"
+        or vapoursynth.get("upstream", {}).get("immutable_commit") != "732845793a1caf5838d4f7b94f6ce668a19c908e"
+        or vapoursynth.get("architectural_authority") is not False
+        or vapoursynth.get("new_capability") is not False
+        or vapoursynth.get("capability_count") != CAPABILITY_COUNT
+        or vapoursynth.get("current_host", {}).get("runtime_promotion_claimed") is not False
+    ):
+        findings.append(finding("HARDEN-018", "VapourSynth R80 provider pin/authority/promotion invariant drift"))
+
+    reference = data["vapoursynth_reference"]
+    if (
+        reference.get("release") != "R80"
+        or reference.get("immutable_commit") != "732845793a1caf5838d4f7b94f6ce668a19c908e"
+        or reference.get("license_spdx") != "LGPL-2.1"
+        or reference.get("current_host_runtime_evidence") != "NOT_CLAIMED"
+    ):
+        findings.append(finding("HARDEN-019", "VapourSynth R80 upstream reference invariant drift"))
+
+    vapour_decision = data["vapoursynth_decision"]
+    if (
+        vapour_decision.get("new_capabilities") != 0
+        or vapour_decision.get("new_architectural_authorities") != 0
+        or vapour_decision.get("capability_count_after") != CAPABILITY_COUNT
+        or vapour_decision.get("acceptance_criteria_after") != 22
+        or vapour_decision.get("current_host_runtime_promotion_claim") is not False
+    ):
+        findings.append(finding("HARDEN-020", "VapourSynth runtime-hardening decision invariant drift"))
+
     decision = data["decision"]
     if (
         decision.get("new_capabilities") != 0
@@ -243,13 +280,31 @@ def gate(root: Path) -> dict[str, Any]:
         "arbitrary_agent_host_subprocess": "DENY",
         "accelerated_neural_media_claim": "ZERO_HOST_ROUND_TRIP",
         "shadow_can_assign_promoted": "DENY",
-        "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS",
+        "production_acceptance_criteria": "22_OF_22_PLUS_CURRENT_HOST_PASS",
+        "rootless_provider_quadlet_materialization": "HRB_LEASE_BOUND_IMMUTABLE_TEMPLATE",
+        "canonical_quadlet_template_mutation_per_lease": "DENY",
+        "host_impact_agent_default_backend": "GVISOR_RUNSC_IF_COMPATIBLE",
+        "direct_agent_container_runtime_socket": "DENY",
+        "agent_default_tool_channel": "CENTRAL_MCP_GATEWAY_AUTHENTICATED_UNIX_SOCKET",
+        "portable_gpu_frame_fabric": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+        "vs_mlrt_role": "SEPARATE_NEURAL_RUNTIME_ADAPTER",
+        "vspipe_y4m_ffmpeg_zero_host_round_trip_evidence": "DENY",
+        "pcie_fixed_percent_zero_copy_proof": "DENY",
+        "pcie_nvml_telemetry_role": "CORROBORATING_ONLY",
     }
     for key, value in expected.items():
         if rules.get(key) != value:
             findings.append(finding("HARDEN-005", "Runtime-hardening enforcement rule drift", rule=key))
 
     hrb = data["hrb"]
+    quadlet = hrb.get("quadlet_runtime_projection", {})
+    if (
+        quadlet.get("canonical_template_mutation_forbidden") is not True
+        or quadlet.get("rootless_required") is not True
+        or quadlet.get("materialization_root") != "$XDG_RUNTIME_DIR/containers/systemd"
+        or quadlet.get("runtime_ordinal_is_noncanonical") is not True
+    ):
+        findings.append(finding("HARDEN-021", "HRB Quadlet lease materialization policy missing/drifted"))
     projection = hrb.get("runtime_isolation_projection_policy", {})
     if (
         projection.get("profile_id") != "FA3-RUNTIME-ISOLATION-001"
@@ -261,6 +316,15 @@ def gate(root: Path) -> dict[str, Any]:
 
     agent_exec = data["agent_exec"]
     closed_loop = data["closed_loop"]
+    sandbox_profile = data["agent_sandbox"]
+    host_impact = sandbox_profile.get("host_impact_policy", {})
+    if (
+        host_impact.get("preferred_backend") != "GVISOR_RUNSC"
+        or host_impact.get("direct_container_runtime_socket") != "DENY"
+        or host_impact.get("default_tool_channel") != "CENTRAL_MCP_GATEWAY_AUTHENTICATED_UNIX_SOCKET"
+        or host_impact.get("workspace_destruction_receipt_required") is not True
+    ):
+        findings.append(finding("HARDEN-022", "Host-impact agent sandbox policy missing/drifted"))
     if agent_exec.get("sandbox_profile") != "FA3-AGENT-SANDBOX-001":
         findings.append(finding("HARDEN-007", "Agent execution profile is not bound to mandatory sandbox"))
     if "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN" not in agent_exec.get("invariants", []):
@@ -269,6 +333,43 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("HARDEN-009", "Closed-loop operations missing sandbox binding"))
 
     media_profile = data["media"]
+    zero_profile = data["media_zero"]
+    zero_roles = zero_profile.get("provider_roles", {})
+    zero_evidence = zero_profile.get("evidence_policy", {})
+    if (
+        zero_roles.get("portable_gpu_frame_fabric") != "FA3-PROVIDER-VAPOURSYNTH-R80-001"
+        or zero_roles.get("primary_nvidia_ai_frame_executor") != "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+        or zero_roles.get("neural_runtime_adapter") != "FA3-PROVIDER-VS-MLRT-001"
+        or zero_evidence.get("vspipe_y4m_ffmpeg_zero_host_round_trip_claim") != "FORBIDDEN"
+        or zero_evidence.get("pcie_nvml_telemetry_role") != "CORROBORATING_ONLY"
+    ):
+        findings.append(finding("HARDEN-023", "Portable GPU frame fabric or zero-host evidence semantics drift"))
+
+    neural_contract = data["neural_contract"]
+    frame_policy = neural_contract.get("frame_memory_policy", {})
+    if (
+        frame_policy.get("portable_gpu_frame_fabric") != "FA3-PROVIDER-VAPOURSYNTH-R80-001"
+        or frame_policy.get("residency_trace_required") is not True
+        or frame_policy.get("vspipe_y4m_ffmpeg_zero_host_roundtrip_claim_forbidden") is not True
+        or frame_policy.get("pcie_telemetry_is_primary_zero_copy_proof") is not False
+    ):
+        findings.append(finding("HARDEN-024", "Neural-media residency contract drift"))
+
+    vsmlrt = data["vsmlrt"]
+    if (
+        vsmlrt.get("vapoursynth_frame_fabric_provider") != "FA3-PROVIDER-VAPOURSYNTH-R80-001"
+        or vsmlrt.get("residency_policy", {}).get("native_gpu_residency_assumed") is not False
+        or vsmlrt.get("residency_policy", {}).get("backend_specific_current_host_e2e_required") is not True
+    ):
+        findings.append(finding("HARDEN-025", "vs-mlrt adapter separation/residency policy drift"))
+
+    upstream_lock = data["upstream_locks"].get("locks", {}).get("vapoursynth_r80", {})
+    if (
+        upstream_lock.get("version") != "R80"
+        or upstream_lock.get("revision") != "732845793a1caf5838d4f7b94f6ce668a19c908e"
+    ):
+        findings.append(finding("HARDEN-026", "VapourSynth R80 upstream lock missing/drifted"))
+
     media_policy = media_profile.get("accelerated_ai_frame_policy", {})
     if (
         media_profile.get("zero_host_roundtrip_profile_id") != "FA3-MEDIA-GPU-ZEROCOPY-001"
@@ -293,8 +394,8 @@ def gate(root: Path) -> dict[str, Any]:
     shadow = data["shadow"]
     prod = shadow.get("production_requirements", {})
     if (
-        prod.get("acceptance_criteria_passed") != 19
-        or prod.get("acceptance_criteria_total") != 19
+        prod.get("acceptance_criteria_passed") != 22
+        or prod.get("acceptance_criteria_total") != 22
         or shadow.get("shadow_may_never_assign") != ["PROMOTED"]
     ):
         findings.append(finding("HARDEN-013", "Shadow execution weakens canonical promotion gate"))
