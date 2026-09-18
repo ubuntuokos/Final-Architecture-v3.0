@@ -326,10 +326,8 @@ class PageIndexMcpAdapter:
     def _call(self, tool: str, arguments: dict[str, Any]) -> dict[str, Any]:
         if tool not in REQUIRED_TOOLS:
             raise GatewayDenied("PAGEINDEX_TOOL_NOT_ALLOWLISTED", "Upstream tool is not allowlisted")
+        self.probe()
         session = self._get_session()
-        tools = session.list_tools()
-        if tool not in tools:
-            raise GatewayDenied("PAGEINDEX_TOOL_UNAVAILABLE", f"Required upstream tool unavailable: {tool}")
         result = session.call_tool(tool, arguments)
         if result.get("isError") is True:
             raise GatewayDenied("PAGEINDEX_TOOL_ERROR", f"PageIndex tool returned isError: {tool}")
