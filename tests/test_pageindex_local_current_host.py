@@ -6,8 +6,24 @@ from fa3_pageindex_local_gateway_adapter import build_adapters
 from fa3_pageindex_local_evidence import write_fixture_pdf,TOKEN
 ROOT=Path(__file__).resolve().parents[1]
 class PageIndexLocalCurrentHostTests(unittest.TestCase):
-    def test_static_gate_pending(self):
+    def test_static_gate_admitted_or_pending(self):
         report=gate(ROOT); self.assertEqual("PASS",report["result"],json.dumps(report,indent=2))
+    def test_admission_wiring_is_consistent(self):
+        conf=json.loads((ROOT/"canonical/FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001.json").read_text())
+        provider=json.loads((ROOT/"canonical/providers/FA3-PROVIDER-PAGEINDEX-LOCAL-001.json").read_text())
+        reg=json.loads((ROOT/"canonical/mcp-capability-registry.json").read_text())
+        if conf["status"]=="CURRENT_HOST_ADMITTED":
+            self.assertTrue(conf["production_binding_connected"])
+            self.assertTrue(conf["evidence_present"])
+            self.assertEqual("CURRENT_HOST_ADMITTED",provider["status"])
+            self.assertTrue((ROOT/conf["evidence_ref"]).is_file())
+            rows=[]
+            for cap in reg["capabilities"]:
+                if cap["capability_id"] in {"fa3.document.index","fa3.document.retrieve"}:
+                    rows += [p for p in cap["providers"] if p.get("provider_id")=="FA3-PROVIDER-PAGEINDEX-LOCAL-001"]
+            self.assertEqual(2,len(rows))
+            self.assertTrue(all(x["state"]=="CONNECTED" and x["evidence_ref"]==conf["evidence_ref"] for x in rows))
+
     def test_fixture_pdf_contains_token(self):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/"x.pdf"; sha=write_fixture_pdf(p)

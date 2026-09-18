@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
   "name": "VectifyAI/PageIndex Local SDK",
-  "status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "status": "CURRENT_HOST_ADMITTED",
   "parent_profile": "FA3-KNOWLEDGE-001",
   "subprofile": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
   "provider_role": "PREFERRED_LOCAL_HIERARCHICAL_REASONING_RETRIEVAL_PROVIDER",
@@ -19,7 +19,7 @@
   "capability_count": 143,
   "capability_count_delta": 0,
   "authority_delta": 0,
-  "activation_mode": "PREFERRED_WHEN_CURRENT_HOST_ADMITTED",
+  "activation_mode": "PREFERRED_CURRENT_HOST_ADMITTED",
   "upstream": {
     "repository": "VectifyAI/PageIndex",
     "commit": "9a8dd6658278fec90347e8ac3388a205305667a3",
@@ -30,16 +30,18 @@
     {
       "capability_id": "fa3.document.index",
       "adapter_id": "fa3.adapter.pageindex.local.index",
-      "state": "PENDING_CURRENT_HOST",
+      "state": "CONNECTED",
       "priority": 20,
-      "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001"
+      "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+      "evidence_ref": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json"
     },
     {
       "capability_id": "fa3.document.retrieve",
       "adapter_id": "fa3.adapter.pageindex.local.retrieve",
-      "state": "PENDING_CURRENT_HOST",
+      "state": "CONNECTED",
       "priority": 20,
-      "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001"
+      "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+      "evidence_ref": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json"
     }
   ],
   "local_runtime": {
@@ -66,5 +68,7 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
   "global_runtime_promotion_claim": false,
-  "current_host_conformance": "FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001"
+  "current_host_conformance": "FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001",
+  "current_host_evidence_ref": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json",
+  "production_binding_connected": true
 }
