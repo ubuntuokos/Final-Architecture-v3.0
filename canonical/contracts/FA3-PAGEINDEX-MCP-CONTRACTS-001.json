@@ -21,7 +21,8 @@
           "source"
         ],
         "optional": [
-          "folder_id"
+          "folder_id",
+          "document_name"
         ],
         "source_types": [
           "scoped_local_pdf",
@@ -40,7 +41,11 @@
       "input": {
         "required": [
           "operation",
-          "doc_id"
+          "document_name"
+        ],
+        "optional": [
+          "folder_id",
+          "pages"
         ],
         "operation_enum": [
           "metadata",
@@ -77,5 +82,26 @@
     "non_allowlisted_remote_source": "DENY",
     "provider_result_secret_material": "DENY",
     "direct_agent_to_pageindex": "DENY"
+  },
+  "remote_contract": {
+    "source_repo": "VectifyAI/PageIndex",
+    "source_commit": "18eb5c9b3c31d305c022974aa194a7047950228b",
+    "source_path": "tests/data/cloud_mcp_contract.json",
+    "expected_required_fields": {
+      "process_document": [
+        "url"
+      ],
+      "get_document": [
+        "doc_name"
+      ],
+      "get_document_structure": [
+        "doc_name"
+      ],
+      "get_page_content": [
+        "doc_name",
+        "pages"
+      ]
+    },
+    "runtime_tools_list_schema_must_match": true
   }
 }
