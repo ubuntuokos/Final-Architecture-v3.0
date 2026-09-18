@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.enforcement-projection.v1",
+  "id": "FA3-MCP-GATEWAY-ENFORCEMENT-001",
+  "profile": "FA3-MCP-GATEWAY-001",
+  "gate": "FA3-GATE-MCP-GATEWAY-001",
+  "authority": "FA3-AUTH-MCP-GATEWAY-001",
+  "mode": "FAIL_CLOSED",
+  "canonical_protocol": "2026-07-28",
+  "denials": [
+    "UNSUPPORTED_PROTOCOL_VERSION",
+    "MISSING_PROTOCOL_METADATA",
+    "HEADER_BODY_MISMATCH",
+    "MCP_SESSION_ID_FORBIDDEN",
+    "LEGACY_INITIALIZE_FORBIDDEN",
+    "UNKNOWN_IDENTITY",
+    "UNKNOWN_CAPABILITY",
+    "UNKNOWN_PROVIDER",
+    "UNADMITTED_ADAPTER",
+    "INVALID_SCHEMA",
+    "MISSING_POLICY_DECISION",
+    "MISSING_REQUIRED_APPROVAL",
+    "MISSING_OR_INVALID_HRB_LEASE",
+    "INVALID_SECRET_REFERENCE",
+    "INLINE_SECRET_FORBIDDEN",
+    "BYPASS_PATH_DETECTED"
+  ],
+  "legacy_compatibility": {
+    "in_canonical_modern_endpoint": "DENY",
+    "separate_adapter": "ALLOW_IF_ADMITTED_AND_GATED"
+  },
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "global_promotion_claim": false
+}
