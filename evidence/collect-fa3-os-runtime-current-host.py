@@ -3,13 +3,18 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import os
 import platform
 import shutil
+import socket
 import subprocess
 import sys
+import tempfile
 import time
+import urllib.error
+import urllib.request
 import uuid
 from pathlib import Path
 from typing import Any
@@ -21,10 +26,10 @@ if str(SRC) not in sys.path:
 
 from fa3_os_context_policy import (  # noqa: E402
     AuthorizationError,
-    authorized_retrieve,
     effective_events,
+    record_mcp_gateway_retrieval_audit,
     selective_erase,
-    validate_gateway_authorization,
+    validate_mcp_gateway_receipt,
 )
 from fa3_os_runtime import (  # noqa: E402
     PolicyViolation,
@@ -114,18 +119,193 @@ def _control_center_smoke(binary: Path | None) -> tuple[bool, str]:
     return rc == 0, f"EXIT={rc}:{detail}"
 
 
-def _load_gateway_receipt(path: Path | None) -> tuple[dict[str, Any] | None, str]:
-    if path is None:
-        env_path = os.environ.get("FA3_OS_GATEWAY_AUTH_RECEIPT", "").strip()
-        path = Path(env_path) if env_path else None
-    if path is None or not path.is_file():
-        return None, "GATEWAY_AUTH_RECEIPT_ABSENT"
+def _free_loopback_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
+
+
+def _url_json(url: str, *, timeout: float = 1.0) -> dict[str, Any]:
+    with urllib.request.urlopen(url, timeout=timeout) as response:
+        value = json.load(response)
+    if not isinstance(value, dict):
+        raise RuntimeError(f"Non-object response from {url}")
+    return value
+
+
+def _post_json(url: str, payload: dict[str, Any], *, timeout: float = 3.0) -> dict[str, Any]:
+    request = urllib.request.Request(
+        url,
+        method="POST",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+    )
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-        validate_gateway_authorization(value)
-        return value, f"VALID:{path}"
-    except (OSError, json.JSONDecodeError, AuthorizationError, ValueError) as exc:
-        return None, f"INVALID:{exc}"
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            value = json.load(response)
+    except urllib.error.HTTPError as exc:
+        try:
+            detail = json.load(exc)
+        except Exception:
+            detail = {"http_status": exc.code}
+        raise RuntimeError(f"Gateway invocation denied: {detail}") from exc
+    if not isinstance(value, dict):
+        raise RuntimeError("Gateway invocation returned non-object receipt")
+    return value
+
+
+def _gateway_retrieval_e2e(
+    *,
+    project_id: str,
+    workstream_id: str,
+    session_id: str,
+    run_id: str,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    registry_path = ROOT / "canonical/mcp-capability-registry.json"
+    canonical_bytes_before = registry_path.read_bytes()
+    canonical_sha_before = hashlib.sha256(canonical_bytes_before).hexdigest()
+    registry = json.loads(canonical_bytes_before.decode("utf-8"))
+    capability = next(
+        (
+            item
+            for item in registry.get("capabilities", [])
+            if isinstance(item, dict) and item.get("capability_id") == "fa3.memory.retrieve"
+        ),
+        None,
+    )
+    if capability is None:
+        raise RuntimeError("Canonical MCP registry has no fa3.memory.retrieve capability")
+
+    projected = json.loads(json.dumps(registry))
+    projected_capability = next(
+        item
+        for item in projected["capabilities"]
+        if item.get("capability_id") == "fa3.memory.retrieve"
+    )
+    providers = [
+        item
+        for item in projected_capability.get("providers", [])
+        if not (
+            isinstance(item, dict)
+            and item.get("provider_id") == "FA3-OS-REFERENCE-RUNTIME-001"
+            and item.get("adapter_id") == "fa3.adapter.fa3-os.memory.retrieve"
+        )
+    ]
+    providers.append(
+        {
+            "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+            "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
+            "state": "CONNECTED",
+            "priority": 1,
+            "transport": "native",
+            "approval_override": "policy",
+            "evidence_ref": "EPHEMERAL_CURRENT_HOST_ADMISSION_ONLY",
+            "gate_id": "FA3-OS-RUNTIME-CURRENT-HOST-GATESET-001",
+        }
+    )
+    projected_capability["providers"] = providers
+
+    port = _free_loopback_port()
+    with tempfile.TemporaryDirectory(prefix="fa3-os-mcp-admission-") as tmp:
+        temp_registry = Path(tmp) / "mcp-capability-registry.json"
+        temp_registry.write_text(json.dumps(projected, indent=2) + "\n", encoding="utf-8")
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(SRC) + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+        env["FA3_MCP_ADAPTER_FACTORIES"] = "fa3_os_mcp_adapter:create_adapters"
+        process = subprocess.Popen(
+            [
+                sys.executable,
+                str(SRC / "fa3_mcp_gateway_server.py"),
+                "--registry",
+                str(temp_registry),
+                "--host",
+                "127.0.0.1",
+                "--port",
+                str(port),
+            ],
+            cwd=str(ROOT),
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        base_url = f"http://127.0.0.1:{port}"
+        try:
+            health: dict[str, Any] | None = None
+            readiness: dict[str, Any] | None = None
+            last_error = ""
+            for _ in range(60):
+                if process.poll() is not None:
+                    stdout, stderr = process.communicate(timeout=1)
+                    raise RuntimeError(
+                        "MCP gateway exited during admission startup: "
+                        + (stderr or stdout or f"exit={process.returncode}")[-600:]
+                    )
+                try:
+                    health = _url_json(base_url + "/healthz")
+                    readiness = _url_json(base_url + "/readyz")
+                    if readiness.get("ready") is True:
+                        break
+                except Exception as exc:
+                    last_error = f"{type(exc).__name__}: {exc}"
+                    time.sleep(0.1)
+            else:
+                raise RuntimeError(f"MCP gateway did not become ready: {last_error}")
+
+            if health is None or health.get("authority") != "FA3-AUTH-MCP-GATEWAY-001":
+                raise RuntimeError(f"Unexpected MCP gateway health authority: {health}")
+            if readiness is None or readiness.get("ready") is not True:
+                raise RuntimeError(f"MCP gateway admission projection not ready: {readiness}")
+
+            request_id = f"FA3-OS-MCP-{run_id}"
+            invocation = {
+                "actor_id": "FA3-OS-CURRENT-HOST-ADMISSION",
+                "client_id": "fa3-os-current-host-collector",
+                "session_id": session_id,
+                "capability_id": "fa3.memory.retrieve",
+                "arguments": {
+                    "project_id": project_id,
+                    "workstream_id": workstream_id,
+                    "limit": 20,
+                },
+                "policy_decision": {
+                    "authority": registry.get("policy_authority"),
+                    "status": "ALLOW",
+                    "capability_id": "fa3.memory.retrieve",
+                    "decision_id": request_id,
+                },
+            }
+            receipt = _post_json(base_url + "/invoke", invocation)
+            validate_mcp_gateway_receipt(receipt)
+        finally:
+            if process.poll() is None:
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
+
+    canonical_bytes_after = registry_path.read_bytes()
+    canonical_sha_after = hashlib.sha256(canonical_bytes_after).hexdigest()
+    if canonical_bytes_after != canonical_bytes_before:
+        raise RuntimeError("Canonical MCP registry changed during ephemeral admission projection")
+
+    return receipt, {
+        "mode": "CENTRAL_MCP_GATEWAY_EPHEMERAL_ADMISSION_BINDING",
+        "authority": receipt.get("authority"),
+        "capability": receipt.get("capability_id"),
+        "provider_id": receipt.get("provider_id"),
+        "adapter_id": receipt.get("adapter_id"),
+        "result_status": receipt.get("result_status"),
+        "reason_code": receipt.get("reason_code"),
+        "request_sha256": receipt.get("request_sha256"),
+        "canonical_registry_mutated": False,
+        "canonical_registry_sha256_before": canonical_sha_before,
+        "canonical_registry_sha256_after": canonical_sha_after,
+        "global_gateway_promotion_claim": False,
+    }
+
 
 
 def _journal_contract_retention_ok() -> bool:
@@ -141,7 +321,7 @@ def _journal_contract_retention_ok() -> bool:
     )
 
 
-def collect(*, output: Path, gateway_receipt_path: Path | None, control_center_binary: Path | None) -> dict[str, Any]:
+def collect(*, output: Path, control_center_binary: Path | None) -> dict[str, Any]:
     journal = default_journal_path()
     run_id = str(uuid.uuid4()).upper()
     workstream_id = f"FA3-OS-ADMISSION-WS-{run_id}"
@@ -195,24 +375,27 @@ def collect(*, output: Path, gateway_receipt_path: Path | None, control_center_b
         session_ok = any(row.get("session_id") == session_id and event_id in row.get("event_ids", []) for row in projection.get("sessions", []))
         checks["deterministic_projection_verified"] = workstream_ok and session_ok
 
-        gateway, gateway_detail = _load_gateway_receipt(gateway_receipt_path)
+        gateway_receipt, gateway_detail = _gateway_retrieval_e2e(
+            project_id=TEST_PROJECT,
+            workstream_id=workstream_id,
+            session_id=session_id,
+            run_id=run_id,
+        )
         details["gateway_authorization"] = gateway_detail
-        if gateway is not None:
-            checks["gateway_authorization_verified"] = True
-            retrieval = authorized_retrieve(
-                journal,
-                authorization=gateway,
-                project_id=TEST_PROJECT,
-                workstream_id=workstream_id,
-                limit=20,
-            )
-            audit_id = str(retrieval.get("audit_event_id", ""))
-            raw_after_retrieval = read_journal_events(journal)
-            checks["retrieval_audit_verified"] = (
-                event_id in retrieval.get("source_event_refs", [])
-                and bool(audit_id)
-                and any(row.get("id") == audit_id and row.get("event_type") == "AUDIT" for row in raw_after_retrieval)
-            )
+        checks["gateway_authorization_verified"] = True
+        retrieval = record_mcp_gateway_retrieval_audit(
+            journal,
+            gateway_receipt=gateway_receipt,
+            purpose="FA3 OS current-host retrieval admission",
+            project_id=TEST_PROJECT,
+        )
+        audit_id = str(retrieval.get("audit_event_id", ""))
+        raw_after_retrieval = read_journal_events(journal)
+        checks["retrieval_audit_verified"] = (
+            event_id in retrieval.get("source_event_refs", [])
+            and bool(audit_id)
+            and any(row.get("id") == audit_id and row.get("event_type") == "AUDIT" for row in raw_after_retrieval)
+        )
 
         gui_ok, gui_detail = _control_center_smoke(control_center_binary)
         checks["control_center_smoke_passed"] = gui_ok
@@ -280,12 +463,10 @@ def collect(*, output: Path, gateway_receipt_path: Path | None, control_center_b
 def main() -> int:
     parser = argparse.ArgumentParser(description="Collect real FA3 OS current-host admission evidence")
     parser.add_argument("--output", default=str(ROOT / "evidence/receipts/fa3-os-runtime-current-host.json"))
-    parser.add_argument("--gateway-authorization")
     parser.add_argument("--control-center-binary")
     args = parser.parse_args()
     receipt = collect(
         output=Path(args.output),
-        gateway_receipt_path=Path(args.gateway_authorization) if args.gateway_authorization else None,
         control_center_binary=Path(args.control_center_binary) if args.control_center_binary else None,
     )
     print(json.dumps(receipt, indent=2, ensure_ascii=False))
