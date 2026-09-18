@@ -6,7 +6,7 @@ The application is deliberately a **projection and intent surface**, not a new F
 
 ## Views
 
-Command Center; Projects & Workspaces; AI Studio; Agents & Workflows; Models & Providers; Architecture Explorer; Resources; Security & Approvals; Observability; **Napló / Journal**; Evidence; Integrations; System.
+Command Center; Projects & Workspaces; AI Studio; Agents & Workflows; Models & Providers; Architecture Explorer; Resources; Security & Approvals; **Malware Defense**; Observability; **Napló / Journal**; Evidence; Integrations; System.
 
 AI Studio includes Image, Video, Animation, 3D/VFX, Audio, Music, and Story/Screenplay projections.
 
