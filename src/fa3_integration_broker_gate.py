@@ -149,7 +149,7 @@ def _init_repo(repo: Path) -> str:
     subprocess.run(["git", "-C", str(repo), "config", "user.email", "fixture@localhost"], check=True)
     (repo / "work").mkdir()
     (repo / "work/item.txt").write_text("baseline\n", encoding="utf-8")
-    (repo / ".gitignore").write_text("/_agent-inbox/\\n/_agent-ledger/\\n", encoding="utf-8")
+    (repo / ".gitignore").write_text("/_agent-inbox/\n/_agent-ledger/\n", encoding="utf-8")
     (repo / "src").mkdir()
     (repo / "src/fa3_enforce.py").write_text(
         "#!/usr/bin/env python3\n"
