@@ -156,6 +156,12 @@ class AgentExposureTests(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/fa3-os-mcp-agent-exposure.yml").read_text(encoding="utf-8")
         self.assertGreaterEqual(workflow.count("set -o pipefail"), 2)
 
+    def test_current_host_agent_probe_uses_transient_service_not_scope(self) -> None:
+        collector = (ROOT / "evidence/collect-fa3-os-mcp-agent-exposure-current-host.py").read_text(encoding="utf-8")
+        self.assertIn('"--slice=fa3-agent.slice"', collector)
+        self.assertNotIn('"--scope"', collector)
+        self.assertIn('"--pipe"', collector)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -61,14 +61,14 @@ def _agent_invoke(socket_path: Path, payload: dict[str, Any]) -> tuple[int, dict
     try:
         cmd = [
             "systemd-run", "--user", "--wait", "--collect", "--pipe", "--quiet",
-            "--scope", "--slice=fa3-agent.slice",
+            "--slice=fa3-agent.slice",
             sys.executable, str(SRC / "fa3_mcp_unix_client.py"),
             "--socket", str(socket_path), "--method", "POST", "--path", "/invoke",
             "--request-file", request_file,
         ]
         proc = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, timeout=20)
         if proc.returncode != 0:
-            raise RuntimeError(f"agent scope invocation failed rc={proc.returncode}: {proc.stderr[-500:]}")
+            raise RuntimeError(f"agent service invocation failed rc={proc.returncode}: {proc.stderr[-500:]}")
         line = next((x for x in reversed(proc.stdout.splitlines()) if x.strip().startswith("{")), "")
         result = json.loads(line)
         return int(result["http_status"]), result["body"]
