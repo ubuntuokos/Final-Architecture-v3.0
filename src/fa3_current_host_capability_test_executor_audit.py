@@ -10,12 +10,16 @@ import re
 from pathlib import Path
 from typing import Any
 
+from fa3_current_host_capability_test_qualification_audit import audit as audit_qualifications
+
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 OBLIGATION_COUNT = CAPABILITY_COUNT * 3
 REGISTRY_SCHEMA = "fa3.current-host-capability-test-executor-registry.v1"
-REPORT_SCHEMA = "fa3.current-host-capability-test-executor-audit.v1"
-AUDITOR_ID = "FA3-CURRENT-HOST-CAPABILITY-TEST-EXECUTOR-AUDIT-001"
+REPORT_SCHEMA = "fa3.current-host-capability-test-executor-audit.v2"
+AUDITOR_ID = "FA3-CURRENT-HOST-CAPABILITY-TEST-EXECUTOR-AUDIT-002"
 EXECUTOR_REGISTRY = "canonical/current-host-capability-test-executors.json"
+QUALIFICATION_REGISTRY = "canonical/current-host-capability-test-qualifications.json"
+QUALIFIER_ADAPTER = "src/fa3_current_host_capability_test_qualifier.py"
 EVIDENCE_REGISTRY = "evidence/evidence-registry.json"
 KINDS = ("positive", "negative", "rollback")
 CAP_ID = re.compile(r"^CAP-\d{3}$")
@@ -66,7 +70,20 @@ def audit(root: Path) -> dict[str, Any]:
     root = Path(root).resolve()
     evidence = _load(root / EVIDENCE_REGISTRY)
     executors = _load(root / EXECUTOR_REGISTRY)
+    qualification = audit_qualifications(root)
     findings: list[dict[str, Any]] = []
+
+    if qualification.get("audit_integrity") != "PASS":
+        findings.append({
+            "code": "CHEX-016",
+            "message": "Capability qualification registry audit failed",
+            "findings": qualification.get("blocking_findings", []),
+        })
+    accepted_qualifications = {
+        (row.get("subject_id"), row.get("test_kind")): row
+        for row in qualification.get("accepted_qualifications", [])
+        if isinstance(row, dict)
+    }
 
     records = evidence.get("records", [])
     expected_ids = [f"CAP-{i:03d}" for i in range(1, CAPABILITY_COUNT + 1)]
@@ -92,10 +109,12 @@ def audit(root: Path) -> dict[str, Any]:
     invariants = executors.get("invariants")
     required_false = (
         "provider_receipt_substitution_allowed",
+        "component_receipt_substitution_allowed",
         "generic_host_evidence_substitution_allowed",
         "hosted_ci_substitution_allowed",
         "synthetic_executor_allowed",
         "shell_command_registration_allowed",
+        "direct_component_adapter_allowed",
         "automatic_capability_promotion",
         "automatic_global_promotion",
     )
@@ -109,8 +128,12 @@ def audit(root: Path) -> dict[str, Any]:
             findings.append({"code": "CHEX-009", "message": "repository_local_adapter_required must be true"})
         if invariants.get("exact_registry_test_identity_required") is not True:
             findings.append({"code": "CHEX-010", "message": "exact_registry_test_identity_required must be true"})
+        if invariants.get("canonical_capability_qualification_required") is not True:
+            findings.append({"code": "CHEX-017", "message": "canonical_capability_qualification_required must be true"})
         if invariants.get("duplicate_test_registration_allowed") is not False:
             findings.append({"code": "CHEX-011", "message": "duplicate registrations must remain forbidden"})
+        if invariants.get("new_capabilities") != 0 or invariants.get("new_architectural_authorities") != 0:
+            findings.append({"code": "CHEX-018", "message": "Executor layer may not create capabilities or authorities"})
 
     obligation_map: dict[tuple[str, str], dict[str, Any]] = {}
     for record in records:
@@ -149,6 +172,7 @@ def audit(root: Path) -> dict[str, Any]:
         kind = entry.get("test_kind")
         key = (cap, kind)
         obligation = obligation_map.get(key)
+        qualification_row = accepted_qualifications.get(key)
         if not isinstance(cap, str) or not CAP_ID.fullmatch(cap):
             entry_findings.append("subject_id invalid")
         if kind not in KINDS:
@@ -160,6 +184,14 @@ def audit(root: Path) -> dict[str, Any]:
         if key in registered:
             entry_findings.append("duplicate capability/test-kind registration")
 
+        if qualification_row is None:
+            entry_findings.append("no accepted canonical capability qualification for obligation")
+        else:
+            if entry.get("qualification_id") != qualification_row.get("qualification_id"):
+                entry_findings.append("qualification_id does not match accepted canonical qualification")
+            if entry.get("test_id") != qualification_row.get("test_id"):
+                entry_findings.append("executor test_id does not match accepted qualification test_id")
+
         if entry.get("execution_mode") != "REAL_CURRENT_HOST_EXECUTION":
             entry_findings.append("execution_mode is not REAL_CURRENT_HOST_EXECUTION")
         if entry.get("evidence_class") != "CAPABILITY_SPECIFIC_EXECUTABLE_TEST":
@@ -170,11 +202,15 @@ def audit(root: Path) -> dict[str, Any]:
             entry_findings.append("ci_reference_only must be false")
         if entry.get("provider_receipt_only") is not False:
             entry_findings.append("provider_receipt_only must be false")
+        if entry.get("component_receipt_only") is not False:
+            entry_findings.append("component_receipt_only must be false")
         if entry.get("generic_host_collection_only") is not False:
             entry_findings.append("generic_host_collection_only must be false")
         if entry.get("global_promotion_claim") is not False:
             entry_findings.append("global_promotion_claim must be false")
 
+        if entry.get("adapter_path") != QUALIFIER_ADAPTER:
+            entry_findings.append("adapter_path must be the canonical capability qualifier; direct component/provider adapters are forbidden")
         adapter, adapter_err = _repo_adapter(root, entry.get("adapter_path"))
         if adapter_err:
             entry_findings.append(adapter_err)
@@ -184,9 +220,10 @@ def audit(root: Path) -> dict[str, Any]:
         elif adapter is not None and _sha256(adapter) != digest:
             entry_findings.append("adapter digest mismatch")
 
+        expected_argv = ["--qualification-id", entry.get("qualification_id")]
         args = entry.get("argv", [])
-        if not isinstance(args, list) or any(not isinstance(item, str) for item in args):
-            entry_findings.append("argv must be a list of strings")
+        if args != expected_argv:
+            entry_findings.append("argv must bind only the exact canonical qualification_id")
         if isinstance(args, list) and any(item in {"sudo", "sh", "bash", "-c", "--shell"} for item in args):
             entry_findings.append("shell/privilege escalation tokens are forbidden in argv")
 
@@ -196,6 +233,7 @@ def audit(root: Path) -> dict[str, Any]:
             "subject_id": cap,
             "test_kind": kind,
             "test_id": entry.get("test_id"),
+            "qualification_id": entry.get("qualification_id"),
             "adapter_path": entry.get("adapter_path"),
             "status": status,
             "findings": entry_findings,
@@ -212,13 +250,10 @@ def audit(root: Path) -> dict[str, Any]:
         else:
             registered[key] = entry
 
-    pending = [
-        obligation
-        for key, obligation in obligation_map.items()
-        if key not in registered
-    ]
+    pending = [obligation for key, obligation in obligation_map.items() if key not in registered]
     registered_rows = [
         obligation_map[key] | {
+            "qualification_id": entry.get("qualification_id"),
             "adapter_path": entry.get("adapter_path"),
             "adapter_sha256": entry.get("adapter_sha256"),
         }
@@ -230,7 +265,7 @@ def audit(root: Path) -> dict[str, Any]:
         coverage = "BLOCKED_INVALID_EXECUTOR_REGISTRY"
     elif len(registered) == OBLIGATION_COUNT:
         integrity = "PASS"
-        coverage = "COMPLETE_429_OF_429"
+        coverage = f"COMPLETE_{OBLIGATION_COUNT}_OF_{OBLIGATION_COUNT}"
     elif registered:
         integrity = "PASS"
         coverage = "PARTIAL_EXPLICIT_EXECUTOR_COVERAGE"
@@ -242,8 +277,12 @@ def audit(root: Path) -> dict[str, Any]:
         "schema": REPORT_SCHEMA,
         "id": AUDITOR_ID,
         "executor_registry": EXECUTOR_REGISTRY,
+        "qualification_registry": QUALIFICATION_REGISTRY,
         "capability_count": CAPABILITY_COUNT,
         "required_test_obligation_count": OBLIGATION_COUNT,
+        "qualification_audit_integrity": qualification.get("audit_integrity"),
+        "qualified_definition_count": qualification.get("qualified_definition_count", 0),
+        "pending_qualification_definition_count": qualification.get("pending_definition_count", OBLIGATION_COUNT),
         "audit_integrity": integrity,
         "coverage_status": coverage,
         "registered_executor_count": len(registered),
@@ -254,14 +293,18 @@ def audit(root: Path) -> dict[str, Any]:
         "entry_audit": entry_reports,
         "blocking_findings": findings,
         "provider_receipts_promoted": 0,
+        "component_receipts_promoted": 0,
         "generic_host_evidence_promoted": 0,
         "global_promotion_claim": False,
         "truth_constraints": {
             "executor_mapping_may_be_inferred_from_provider": False,
+            "executor_mapping_may_be_inferred_from_component": False,
             "executor_mapping_may_be_inferred_from_current_host_collector": False,
             "unregistered_test_may_emit_pass_result": False,
             "hosted_ci_may_satisfy_current_host_test": False,
             "synthetic_executor_may_satisfy_current_host_test": False,
+            "direct_component_adapter_can_satisfy_capability_test": False,
+            "executor_requires_canonical_capability_qualification": True,
             "executor_registry_is_promotion_authority": False,
         },
     }
