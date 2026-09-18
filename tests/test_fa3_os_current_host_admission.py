@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -9,10 +10,13 @@ from fa3_os_context_policy import (
     AuthorizationError,
     authorized_retrieve,
     effective_events,
+    record_mcp_gateway_retrieval_audit,
     selective_erase,
     validate_gateway_authorization,
+    validate_mcp_gateway_receipt,
 )
 from fa3_os_current_host_gate import REQUIRED_EVIDENCE_FLAGS, _evidence_valid, _repo_head
+from fa3_os_mcp_adapter import create_adapters
 from fa3_os_runtime import ingest_event, read_journal_events
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,6 +57,34 @@ def valid_authorization() -> dict:
     }
 
 
+def valid_mcp_gateway_receipt(source_event_refs: list[str]) -> dict:
+    return {
+        "schema": "fa3.mcp.gateway.receipt.v1",
+        "profile_id": "FA3-MCP-CURRENT-HOST-001",
+        "authority": "FA3-AUTH-MCP-GATEWAY-001",
+        "timestamp_epoch": int(time.time()),
+        "actor_id": "TEST-ACTOR",
+        "client_id": "TEST-CLIENT",
+        "session_id": "TEST-SESSION",
+        "capability_id": "fa3.memory.retrieve",
+        "provider_id": "FA3-OS-REFERENCE-RUNTIME-001",
+        "adapter_id": "fa3.adapter.fa3-os.memory.retrieve",
+        "policy_decision_id": "POLICY-TEST",
+        "approval_id": None,
+        "resource_lease_id": None,
+        "request_sha256": "a" * 64,
+        "result_status": "success",
+        "reason_code": "DISPATCH_PASS",
+        "duration_ms": 1,
+        "global_promotion_claim": False,
+        "result": {
+            "event_count": len(source_event_refs),
+            "source_event_refs": source_event_refs,
+            "events": [],
+        },
+    }
+
+
 class Fa3OsContextPolicyTests(unittest.TestCase):
     def test_selective_erasure_is_append_only_and_hides_event_from_effective_projection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -86,6 +118,40 @@ class Fa3OsContextPolicyTests(unittest.TestCase):
             audit_id = result["audit_event_id"]
             raw = read_journal_events(journal)
             self.assertTrue(any(row.get("id") == audit_id and row.get("event_type") == "AUDIT" for row in raw))
+
+    def test_mcp_gateway_receipt_is_validated_and_audited(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            journal = Path(tmp) / "active.jsonl"
+            event_id = ingest_event(valid_request(), journal)["event_id"]
+            receipt = valid_mcp_gateway_receipt([event_id])
+            self.assertIs(validate_mcp_gateway_receipt(receipt), receipt)
+            audited = record_mcp_gateway_retrieval_audit(
+                journal,
+                gateway_receipt=receipt,
+                purpose="current-host regression",
+                project_id="TEST-PROJECT",
+            )
+            self.assertIn(event_id, audited["source_event_refs"])
+            raw = read_journal_events(journal)
+            self.assertTrue(
+                any(
+                    row.get("id") == audited["audit_event_id"]
+                    and row.get("event_type") == "AUDIT"
+                    for row in raw
+                )
+            )
+
+    def test_mcp_gateway_receipt_wrong_authority_fails_closed(self) -> None:
+        receipt = valid_mcp_gateway_receipt([])
+        receipt["authority"] = "WRONG-AUTHORITY"
+        with self.assertRaises(AuthorizationError):
+            validate_mcp_gateway_receipt(receipt)
+
+    def test_fa3_os_mcp_adapter_factory_is_bound_to_reference_runtime(self) -> None:
+        adapters = create_adapters()
+        self.assertEqual(len(adapters), 1)
+        self.assertEqual(adapters[0].provider_id, "FA3-OS-REFERENCE-RUNTIME-001")
+        self.assertEqual(adapters[0].adapter_id, "fa3.adapter.fa3-os.memory.retrieve")
 
     def test_expired_or_non_admitted_gateway_receipt_fails_closed(self) -> None:
         expired = valid_authorization()
