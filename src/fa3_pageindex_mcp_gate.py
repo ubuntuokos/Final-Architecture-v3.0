@@ -53,6 +53,16 @@ def validate_static(root: Path) -> list[dict[str, Any]]:
         findings.append(finding("PAGEINDEX-STATIC-009", "Dynamic remote tool passthrough must be denied"))
     if reference.get("commit") != UPSTREAM_COMMIT or reference.get("mcpb_sha256") != MCPB_SHA256:
         findings.append(finding("PAGEINDEX-STATIC-010", "Upstream reference is not immutable-pinned"))
+    cloud_ref = reference.get("cloud_contract_reference", {})
+    remote_contract = contract.get("remote_contract", {})
+    if (
+        cloud_ref.get("commit") != "18eb5c9b3c31d305c022974aa194a7047950228b"
+        or remote_contract.get("source_commit") != "18eb5c9b3c31d305c022974aa194a7047950228b"
+        or remote_contract.get("runtime_tools_list_schema_must_match") is not True
+    ):
+        findings.append(finding("PAGEINDEX-STATIC-014", "Cloud MCP retrieval contract reference is not frozen"))
+    if enforcement.get("production_execution") != "CLEAN_PINNED_SOURCE_BUILD_ONLY" or enforcement.get("floating_npx_execution") != "DENY":
+        findings.append(finding("PAGEINDEX-STATIC-015", "Production supply-chain execution policy mismatch"))
 
     bindings: dict[str, list[dict[str, Any]]] = {}
     for cap in registry.get("capabilities", []):
