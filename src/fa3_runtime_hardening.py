@@ -4,7 +4,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-CAPABILITY_COUNT = 143
+from fa3_release_baseline import module_active_capability_count
+
+CAPABILITY_COUNT = module_active_capability_count(__file__)
 PRODUCTION_ACCEPTANCE_TOTAL = 19
 
 ALLOWED_SANDBOX_BACKENDS = {"GVISOR", "WASMTIME_WASI", "HARDENED_ROOTLESS_OCI"}
