@@ -36,6 +36,14 @@ class QualificationConstituentProducerAuditTests(unittest.TestCase):
             ROOT / "canonical/current-host-capability-qualification-constituent-producers.json",
             root / "canonical/current-host-capability-qualification-constituent-producers.json",
         )
+        for rel in (
+            "canonical/current-host-capability-test-qualifications.json",
+            "canonical/current-host-capability-qualification-constituent-producers.json",
+        ):
+            path = root / rel
+            registry = json.loads(path.read_text())
+            registry["entries"] = []
+            path.write_text(json.dumps(registry))
         return td, root
 
     def _record(self, root):

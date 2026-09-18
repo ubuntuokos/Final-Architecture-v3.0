@@ -1,7 +1,7 @@
 {
   "schema": "fa3.current-host-capability-test-executor-registry.v1",
   "id": "FA3-CURRENT-HOST-CAPABILITY-TEST-EXECUTORS-001",
-  "status": "PENDING_EXECUTOR_REGISTRATION",
+  "status": "PARTIAL_EXPLICIT_EXECUTOR_COVERAGE",
   "capability_count": 143,
   "required_test_kinds_per_capability": [
     "positive",
@@ -12,7 +12,74 @@
   "execution_scope": "CURRENT_HOST",
   "result_schema": "fa3.capability-current-host-test-result.v1",
   "registration_semantics": "EXPLICIT_ONLY_NO_INFERENCE",
-  "entries": [],
+  "entries": [
+    {
+      "subject_id": "CAP-075",
+      "test_kind": "positive",
+      "test_id": "AT-CAP-075-POS",
+      "qualification_id": "FA3-QUAL-CAP-075-POS-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-075-POS-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-075",
+      "test_kind": "negative",
+      "test_id": "AT-CAP-075-NEG",
+      "qualification_id": "FA3-QUAL-CAP-075-NEG-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-075-NEG-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-075",
+      "test_kind": "rollback",
+      "test_id": "ROLLBACK-CAP-075",
+      "qualification_id": "FA3-QUAL-CAP-075-ROLLBACK-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-075-ROLLBACK-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    }
+  ],
   "invariants": {
     "provider_receipt_substitution_allowed": false,
     "component_receipt_substitution_allowed": false,

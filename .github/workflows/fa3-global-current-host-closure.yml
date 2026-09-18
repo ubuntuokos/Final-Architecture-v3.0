@@ -17,6 +17,7 @@ on:
       - 'src/fa3_current_host_capability_qualification_constituent_orchestrator.py'
       - 'src/fa3_current_host_capability_test_executor_audit.py'
       - 'src/fa3_current_host_capability_test_orchestrator.py'
+      - 'src/fa3_cap075_contract_registry_current_host.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
@@ -27,6 +28,7 @@ on:
       - 'tests/test_current_host_capability_qualification_constituent_orchestrator.py'
       - 'tests/test_current_host_capability_test_executor_audit.py'
       - 'tests/test_current_host_capability_test_orchestrator.py'
+      - 'tests/test_cap075_contract_registry_current_host.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -67,6 +69,7 @@ jobs:
             src/fa3_current_host_capability_qualification_constituent_orchestrator.py \
             src/fa3_current_host_capability_test_executor_audit.py \
             src/fa3_current_host_capability_test_orchestrator.py \
+            src/fa3_cap075_contract_registry_current_host.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
@@ -77,6 +80,7 @@ jobs:
             tests/test_current_host_capability_qualification_constituent_orchestrator.py \
             tests/test_current_host_capability_test_executor_audit.py \
             tests/test_current_host_capability_test_orchestrator.py \
+            tests/test_cap075_contract_registry_current_host.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
@@ -91,6 +95,7 @@ jobs:
             tests.test_current_host_capability_qualification_constituent_orchestrator \
             tests.test_current_host_capability_test_executor_audit \
             tests.test_current_host_capability_test_orchestrator \
+            tests.test_cap075_contract_registry_current_host \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -109,6 +114,9 @@ jobs:
           assert qualification['component_receipts_promoted'] == 0, qualification
           assert qualification['generic_host_evidence_promoted'] == 0, qualification
           assert qualification['global_promotion_claim'] is False, qualification
+          cap075=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-075']
+          assert len(cap075) == 3, cap075
+          assert {row['test_kind'] for row in cap075} == {'positive','negative','rollback'}, cap075
           PY
       - name: Audit explicit qualification constituent producer coverage
         run: |
@@ -123,6 +131,9 @@ jobs:
           assert producer_audit['component_receipts_promoted'] == 0, producer_audit
           assert producer_audit['generic_host_evidence_promoted'] == 0, producer_audit
           assert producer_audit['global_promotion_claim'] is False, producer_audit
+          cap075=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-075']
+          assert len(cap075) == 3, cap075
+          assert {row['test_kind'] for row in cap075} == {'positive','negative','rollback'}, cap075
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
         run: |
@@ -151,6 +162,9 @@ jobs:
           assert executor['provider_receipts_promoted'] == 0, executor
           assert executor['generic_host_evidence_promoted'] == 0, executor
           assert executor['global_promotion_claim'] is False, executor
+          cap075=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-075']
+          assert len(cap075) == 3, cap075
+          assert {row['test_kind'] for row in cap075} == {'positive','negative','rollback'}, cap075
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
         run: |
