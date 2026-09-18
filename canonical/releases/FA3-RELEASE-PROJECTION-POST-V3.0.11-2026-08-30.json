@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8d0e90b3bbc60f092d5ee4197e50c49e28170e57",
-    "pre_projection_root_tree_sha": "61215ea615ce16cde0a0aab15d634bbbc6a27218",
-    "pre_projection_canonical_tree_sha": "902660fc111233bd59ef873898a66b04f9a09354",
-    "commits_ahead_of_v3_0_11_conformance_commit": 429,
-    "total_post_baseline_commits": 429,
-    "delta_file_count": 1367,
-    "delta_added_files": 1362,
+    "pre_projection_head_sha": "8d157a6031fb457fb9c73d71e54954d8f10c019a",
+    "pre_projection_root_tree_sha": "ccfa782cd76b50b705b8ab3b2f9236bb1209bb2d",
+    "pre_projection_canonical_tree_sha": "4933e62f88b3460e6beaff9999fed02f7111745d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 431,
+    "total_post_baseline_commits": 431,
+    "delta_file_count": 1368,
+    "delta_added_files": 1363,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,7 +46,7 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 671,
-    "evidence_files_in_post_baseline_delta": 128,
+    "evidence_files_in_post_baseline_delta": 129,
     "source_files_in_post_baseline_delta": 165,
     "test_files_in_post_baseline_delta": 143,
     "workflow_files_in_post_baseline_delta": 59,
@@ -498,6 +498,7 @@
       "evidence/reference/fa3-journal-archive-reference.json",
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/fa3-os-current-host-2026-09-18.json",
+      "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
@@ -744,7 +745,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1360,
+  "manifest_entry_count": 1361,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -2073,7 +2074,7 @@
     },
     {
       "path": "canonical/FA3-OS-MCP-AGENT-EXPOSURE-CONFORMANCE-001.json",
-      "git_blob_sha": "e846f026dc7496fe7b773ec04f70aa35220923c6",
+      "git_blob_sha": "4449e5521df2f4aec9a95ce28c52ed5c71071e59",
       "baseline_delta_status": "added"
     },
     {
@@ -3398,7 +3399,7 @@
     },
     {
       "path": "canonical/mcp-capability-registry.json",
-      "git_blob_sha": "1b65e7331eee719300cf562f345cd82168330e76",
+      "git_blob_sha": "1ad90805b9502bde59ced45c8c453593f4670074",
       "baseline_delta_status": "added"
     },
     {
@@ -5519,6 +5520,11 @@
     {
       "path": "evidence/reference/fa3-os-current-host-2026-09-18.json",
       "git_blob_sha": "0b9b94112707a4a9225bc96e896cfc4e723e3799",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
+      "git_blob_sha": "855a63ae445e46979848ebdde2e96b2715285d64",
       "baseline_delta_status": "added"
     },
     {
