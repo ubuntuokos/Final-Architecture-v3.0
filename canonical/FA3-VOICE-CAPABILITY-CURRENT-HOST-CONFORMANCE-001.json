@@ -1,0 +1,126 @@
+{
+  "schema": "fa3.voice-capability-current-host-conformance.v1",
+  "id": "FA3-VOICE-CAPABILITY-CURRENT-HOST-CONFORMANCE-001",
+  "status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+  "profile_id": "FA3-VOICE-001",
+  "parent_gate_ids": [
+    "FA3-VOICE-SYNTHESIS-GATESET-001",
+    "FA3-COSYVOICE-GATESET-001",
+    "FA3-RUNTIME-HARDENING-GATESET-001"
+  ],
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "architectural_authority": false,
+  "global_promotion_claim": false,
+  "execution_scope": "REAL_CURRENT_HOST_EXECUTION",
+  "locale_baseline": "hu-HU",
+  "input_root": ".fa3-current-host/input/voice-capabilities",
+  "capability_contracts": {
+    "CAP-115": {
+      "subject": "Local Voice I/O Studio & Agent Voice Control Surface",
+      "required_bundle": "CAP-115.json",
+      "positive": [
+        "REAL_CURRENT_HOST_STT_INPUT_PASS",
+        "REAL_CURRENT_HOST_TTS_OUTPUT_PASS",
+        "HU_HU_LOCALE_QUALITY_PASS",
+        "CENTRAL_GATEWAY_MEDIATION_PASS",
+        "VOICE_IDENTITY_SESSION_BINDING_PASS",
+        "PROVIDER_NOT_SESSION_OR_ROUTING_AUTHORITY",
+        "NATIVE_MASTER_AND_48KHZ_MEDIA_LINEAGE_PASS",
+        "LICENSE_OUTPUT_RIGHTS_PASS"
+      ],
+      "negative": [
+        "DIRECT_PROVIDER_CONTROL_SURFACE_DENIED",
+        "SILENT_LANGUAGE_PROVIDER_DEVICE_CLOUD_FALLBACK_DENIED",
+        "UNLEASED_ACCELERATOR_DENIED",
+        "EXPIRED_OR_REVOKED_CONSENT_DENIED_WHEN_HUMAN_VOICE_USED"
+      ],
+      "rollback": [
+        "SESSION_STATE_ROLLBACK_HASH_EQUAL",
+        "PROVIDER_UNLOADED",
+        "ACTIVE_RESOURCE_LEASES_AFTER_ZERO",
+        "TEMPORARY_ASSETS_REMOVED"
+      ]
+    },
+    "CAP-116": {
+      "subject": "Real-Time Voice Interaction & Conversational Audio",
+      "required_bundle": "CAP-116.json",
+      "positive": [
+        "REAL_CURRENT_HOST_STT_INPUT_PASS",
+        "REAL_CURRENT_HOST_STREAMING_TTS_PASS",
+        "HU_HU_LOCALE_QUALITY_PASS",
+        "STREAMING_CHUNK_COUNT_AT_LEAST_TWO",
+        "FIRST_AUDIO_PRECEDES_COMPLETION",
+        "REAL_TIME_FACTOR_LE_ONE",
+        "SESSION_CORRELATION_BOUND",
+        "PROVIDER_NOT_SESSION_AUTHORITY"
+      ],
+      "negative": [
+        "NON_STREAMING_PROVIDER_CANNOT_SATISFY_CAP116",
+        "REAL_TIME_FACTOR_OVER_ONE_DENIED",
+        "SILENT_FALLBACK_DENIED",
+        "UNLEASED_ACCELERATOR_DENIED"
+      ],
+      "rollback": [
+        "CONVERSATION_STATE_ROLLBACK_HASH_EQUAL",
+        "PROVIDER_UNLOADED",
+        "ACTIVE_RESOURCE_LEASES_AFTER_ZERO",
+        "TEMPORARY_ASSETS_REMOVED"
+      ]
+    },
+    "CAP-117": {
+      "subject": "AI Voice & Vocal Production",
+      "required_bundle": "CAP-117.json",
+      "positive": [
+        "REAL_CURRENT_HOST_PRODUCTION_VOICE_PASS",
+        "HU_HU_LOCALE_QUALITY_PASS",
+        "CLONING_OR_HUMAN_REFERENCE_TYPED_CONSENT_PASS",
+        "REFERENCE_AUDIO_HASH_LINEAGE_PASS",
+        "LICENSE_AND_OUTPUT_RIGHTS_PASS",
+        "SYNTHETIC_DISCLOSURE_PASS",
+        "NATIVE_MASTER_AND_48KHZ_MEDIA_LINEAGE_PASS",
+        "SPEAKER_SIMILARITY_PASS_IF_CLONING"
+      ],
+      "negative": [
+        "MISSING_EXPIRED_REVOKED_OR_SCOPE_INSUFFICIENT_CONSENT_DENIED",
+        "REFERENCE_HASH_MISMATCH_DENIED",
+        "NONCOMMERCIAL_OR_UNKNOWN_RIGHTS_PRODUCTION_DENIED",
+        "COSYVOICE_EXPERIMENTAL_HU_CANNOT_SATISFY_PRODUCTION_HU_BASELINE"
+      ],
+      "rollback": [
+        "PRODUCTION_TASK_ROLLBACK_HASH_EQUAL",
+        "PROVIDER_UNLOADED",
+        "ACTIVE_RESOURCE_LEASES_AFTER_ZERO",
+        "TEMPORARY_ASSETS_REMOVED"
+      ]
+    }
+  },
+  "common_bundle_invariants": [
+    "REPOSITORY_HEAD_BOUND",
+    "FRESH_WITHIN_24_HOURS",
+    "CURRENT_HOST_TRUE",
+    "SYNTHETIC_FALSE",
+    "GLOBAL_PROMOTION_CLAIM_FALSE",
+    "LOCALE_HU_HU",
+    "PROVIDER_CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "PROVIDER_LANGUAGE_STATUS_PRODUCTION_ADMITTED",
+    "PROVIDER_LOCAL_EXECUTION_TRUE",
+    "PROVIDER_RUNTIME_MODEL_IMMUTABLE_IDENTITY_PRESENT",
+    "PROVIDER_OPTIONAL_RUNTIME_NOT_GLOBAL_DEPENDENCY",
+    "QUALITY_RECEIPT_FA3_HU_AQC_001_PASS",
+    "LICENSE_OUTPUT_RIGHTS_PASS",
+    "NATIVE_AUDIO_HASH_BOUND",
+    "MEDIA_48KHZ_PCM_DERIVED_HASH_LINEAGE_BOUND",
+    "ROLLBACK_UNLOAD_PROOF_PRESENT"
+  ],
+  "admission": {
+    "raw_provider_receipt_substitution": "DENY",
+    "component_receipt_only": "DENY",
+    "provider_receipt_only": "DENY",
+    "hosted_ci_substitution": "DENY",
+    "missing_bundle": "PENDING_OR_FAIL_WHEN_EXECUTION_REQUIRED",
+    "current_host_pass_requires_all_subject_obligations": true,
+    "global_promotion_unchanged": "429_OF_429_PLUS_19_OF_19_EXISTING_CANONICAL_PROMOTION_GATE"
+  }
+}
