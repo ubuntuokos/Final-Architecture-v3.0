@@ -20,7 +20,11 @@
     "IntegrationIntent",
     "ProviderAdapterDescriptor",
     "CoordinationEvent",
-    "ExecutionEvidence"
+    "ExecutionEvidence",
+    "AgentChangeProposal",
+    "HumanApprovalReceipt",
+    "IntegrationEvidence",
+    "IntegrationLedgerEvent"
   ],
   "provider_adapter_lifecycle": [
     "spawn",
@@ -45,7 +49,12 @@
       "CONSTRAIN",
       "TERMINATE"
     ],
-    "cleanup": "PROCESS_WORKTREE_LEASE_PENDING_MESSAGE_ZEROIZATION"
+    "cleanup": "PROCESS_WORKTREE_LEASE_PENDING_MESSAGE_ZEROIZATION",
+    "approved_proposal": "IMMUTABLE_AFTER_HUMAN_APPROVAL_DIGEST_BOUND",
+    "approval_binding": "PROPOSAL_DIGEST_PLUS_APPROVED_BASE_SHA",
+    "trusted_gate_source": "APPROVED_BASE_SHA_IMMUTABLE_WORKTREE",
+    "main_update": "COMPARE_AND_SWAP_FAIL_CLOSED",
+    "integration_ledger": "APPEND_ONLY_SEPARATE_FROM_APPROVED_PROPOSAL"
   },
   "authority_boundaries": {
     "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
@@ -61,6 +70,10 @@
     "MESSAGE_REPLAY_AS_NEW_EXECUTION",
     "UNBOUNDED_AGENT_TO_AGENT_HOPS",
     "CRITICAL_MUTATION_WITHOUT_REQUIRED_APPROVAL",
-    "VERIFIED_WITHOUT_EXECUTABLE_EVIDENCE"
+    "VERIFIED_WITHOUT_EXECUTABLE_EVIDENCE",
+    "APPROVED_PROPOSAL_MUTATION",
+    "SELF_VALIDATING_GATE_MODIFICATION",
+    "GIT_ADD_DOT_IN_INTEGRATION_BROKER",
+    "STALE_BASE_MAIN_UPDATE"
   ]
 }
