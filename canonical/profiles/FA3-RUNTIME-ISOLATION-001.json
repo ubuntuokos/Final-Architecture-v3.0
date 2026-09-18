@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-RUNTIME-ISOLATION-001",
+  "name": "Runtime Isolation, Immutable Provider Packaging & HRB-Derived Resource Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-001",
+    "CAP-028",
+    "CAP-076",
+    "CAP-080"
+  ],
+  "contracts": [
+    "FA3-RUNTIME-HARDENING-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-SCS-001",
+    "FA3-MODEL-ARTIFACT-SECURITY-001"
+  ],
+  "authority_boundaries": {
+    "resource_admission_placement_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "runtime_launcher": "IMPLEMENTATION_ONLY_NO_RESOURCE_AUTHORITY"
+  },
+  "execution_classes": {
+    "service_provider": {
+      "preferred_runtime": "ROOTLESS_OCI",
+      "image_policy": "MINIMAL_IMMUTABLE_REPRODUCIBLE",
+      "digest_pin_required": true,
+      "sbom_required": true,
+      "provenance_required": true,
+      "distroless_mandatory": false
+    },
+    "untrusted_agent": {
+      "delegates_to": "FA3-AGENT-SANDBOX-001"
+    },
+    "desktop_gui": {
+      "native_execution_allowed": true,
+      "condition": "NO_AUTONOMOUS_UNTRUSTED_CODE_EXECUTION_AND_EXPLICIT_PROVIDER_BOUNDARY"
+    }
+  },
+  "resource_projection": {
+    "hrb_lease_required_for_accelerator": true,
+    "canonical_accelerator_identity": [
+      "GPU_UUID",
+      "PCI_BDF"
+    ],
+    "launcher_materializes": [
+      "CGROUP_V2_LIMITS",
+      "CPUSET_AND_MEMORY_PLACEMENT",
+      "DEVICE_ALLOWLIST",
+      "CDI_OR_EQUIVALENT_DEVICE_PROJECTION"
+    ],
+    "environment_variables_are_security_authority": false,
+    "container_runtime_may_reselect_resources": false,
+    "silent_device_fallback_forbidden": true
+  },
+  "invariants": [
+    "HRB_REMAINS_RESOURCE_AUTHORITY",
+    "RUNTIME_LAUNCHER_MATERIALIZES_BUT_CANNOT_RESELECT_HRB_RESOURCES",
+    "ENVIRONMENT_VARIABLES_NOT_SECURITY_OR_RESOURCE_AUTHORITY",
+    "SERVICE_PROVIDER_ROOTLESS_OCI_PREFERRED",
+    "MINIMAL_IMMUTABLE_REPRODUCIBLE_IMAGE_REQUIRED_WHEN_OCI_USED",
+    "DISTROLESS_NOT_GLOBALLY_MANDATORY",
+    "SBOM_DIGEST_PROVENANCE_REQUIRED",
+    "NATIVE_DESKTOP_GUI_ALLOWED_ONLY_OUTSIDE_UNTRUSTED_AUTONOMOUS_EXECUTION",
+    "NO_SILENT_DEVICE_CPU_OR_CLOUD_FALLBACK",
+    "DISABLED_OPTIONAL_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST"
+  ],
+  "current_host_runtime_status": "PENDING_CURRENT_HOST_BACKEND_CONFORMANCE",
+  "current_host_runtime_promotion_claimed": false
+}
