@@ -149,6 +149,7 @@ def _init_repo(repo: Path) -> str:
     subprocess.run(["git", "-C", str(repo), "config", "user.email", "fixture@localhost"], check=True)
     (repo / "work").mkdir()
     (repo / "work/item.txt").write_text("baseline\n", encoding="utf-8")
+    (repo / ".gitignore").write_text("/_agent-inbox/\\n/_agent-ledger/\\n", encoding="utf-8")
     (repo / "src").mkdir()
     (repo / "src/fa3_enforce.py").write_text(
         "#!/usr/bin/env python3\n"
@@ -168,7 +169,7 @@ def _init_repo(repo: Path) -> str:
         encoding="utf-8",
     )
     executable.chmod(0o755)
-    subprocess.run(["git", "-C", str(repo), "add", "--", "work/item.txt", "src/fa3_enforce.py", "bin/fa3-enforce"], check=True)
+    subprocess.run(["git", "-C", str(repo), "add", "--", ".gitignore", "work/item.txt", "src/fa3_enforce.py", "bin/fa3-enforce"], check=True)
     subprocess.run(["git", "-C", str(repo), "commit", "-m", "baseline"], check=True, capture_output=True, text=True)
     return subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
 
