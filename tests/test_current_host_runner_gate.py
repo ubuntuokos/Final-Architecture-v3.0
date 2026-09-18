@@ -52,6 +52,10 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         text += '\nprintf "%s\\n" "$RUNNER_TOKEN" > "$HOME/token.txt"\n'
         self.assertTrue(any("persist registration token" in x for x in validate_bootstrap_text(text)))
 
+    def test_runner_doctor_accepts_utf8_bom_metadata(self) -> None:
+        text = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
+        self.assertGreaterEqual(text.count('encoding="utf-8-sig"'), 2, text)
+
     def test_wrong_runner_labels_workflow_is_rejected(self) -> None:
         text = (ROOT / ".github/workflows/fa3-current-host-runner.yml").read_text()
         text = text.replace(
