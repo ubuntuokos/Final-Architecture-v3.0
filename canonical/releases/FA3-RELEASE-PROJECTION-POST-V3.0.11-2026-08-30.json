@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "b87037aeda35d606b16cbd7091b3107277296aec",
-    "pre_projection_root_tree_sha": "7f3e6ac88de10ce862cf9ecd24dfabf8a0555312",
-    "pre_projection_canonical_tree_sha": "a133cf904601c75613cef1fa222676d6bebe13da",
-    "commits_ahead_of_v3_0_11_conformance_commit": 407,
-    "total_post_baseline_commits": 407,
-    "delta_file_count": 1346,
-    "delta_added_files": 1341,
+    "pre_projection_head_sha": "5ae6ff4a1ff8cf9d291974bc8f086e59dad1f99c",
+    "pre_projection_root_tree_sha": "3ace09e1ffca7bfd87fc712a0ff0b8213ac16540",
+    "pre_projection_canonical_tree_sha": "2e3112d90bbb73b202eb2f1ad18014e35a0e078b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 415,
+    "total_post_baseline_commits": 415,
+    "delta_file_count": 1352,
+    "delta_added_files": 1347,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,9 +47,9 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 670,
     "evidence_files_in_post_baseline_delta": 125,
-    "source_files_in_post_baseline_delta": 159,
-    "test_files_in_post_baseline_delta": 140,
-    "workflow_files_in_post_baseline_delta": 56,
+    "source_files_in_post_baseline_delta": 160,
+    "test_files_in_post_baseline_delta": 141,
+    "workflow_files_in_post_baseline_delta": 57,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -743,7 +743,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1339,
+  "manifest_entry_count": 1345,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -888,6 +888,11 @@
     {
       "path": ".github/workflows/fa3-mcp-current-host.yml",
       "git_blob_sha": "e6cde6e77443cc07982e6a8d45c82b53b9dba970",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-mcp-gateway.yml",
+      "git_blob_sha": "775ee90bfabdcc0dbf2af720ef11487a25f956d3",
       "baseline_delta_status": "added"
     },
     {
@@ -1111,6 +1116,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/McpGatewayPage.qml",
+      "git_blob_sha": "621b1f14935fbfc2e3bdf78901cf4477068608de",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
       "git_blob_sha": "83a03f23b1a86b7147afb9740f54c0c9fb22317a",
       "baseline_delta_status": "added"
@@ -1188,6 +1198,16 @@
     {
       "path": "apps/fa3-control-center/src/McpControlService.h",
       "git_blob_sha": "b92808e30a886fbf49ea775e622825414f14063c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/McpGatewayService.cpp",
+      "git_blob_sha": "e34151e5ffe11dd3007d641028f7bdbab8dd7124",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/McpGatewayService.h",
+      "git_blob_sha": "5f0da4470ee91eace9cb122a3fb307dbc6a36a47",
       "baseline_delta_status": "added"
     },
     {
@@ -6326,8 +6346,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_mcp_gateway_gate.py",
+      "git_blob_sha": "9239339e83ec1d59bda533a697281f3c5eff0f44",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_mcp_gateway_server.py",
-      "git_blob_sha": "efd89eee40078fff512a0c2d9006917b97b3c0d7",
+      "git_blob_sha": "17b4d4128c7b6854cffa65daa2f6b1b20c3bdb82",
       "baseline_delta_status": "added"
     },
     {
@@ -7088,6 +7113,11 @@
     {
       "path": "tests/test_mcp_gateway_current_host.py",
       "git_blob_sha": "7a5f2dcee6f7e68924c8ea872c03c557370b48e3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_mcp_gateway_final.py",
+      "git_blob_sha": "7c0bd4cc455773d9b0b0b64cd238f2852686003b",
       "baseline_delta_status": "added"
     },
     {
