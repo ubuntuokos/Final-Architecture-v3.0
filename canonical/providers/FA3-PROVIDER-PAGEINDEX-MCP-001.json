@@ -32,7 +32,12 @@
     "node_requirement": ">=20.8.1",
     "remote_service": "https://app.pageindex.ai/mcp",
     "oauth_token_storage_upstream_default": "~/.pageindex-mcp/oauth-tokens.json",
-    "fa3_secret_rule": "EPHEMERAL_SECRET_BROKER_MATERIALIZATION_ONLY"
+    "fa3_secret_rule": "EPHEMERAL_SECRET_BROKER_MATERIALIZATION_ONLY",
+    "cloud_contract_reference": {
+      "repository": "VectifyAI/PageIndex",
+      "commit": "18eb5c9b3c31d305c022974aa194a7047950228b",
+      "path": "tests/data/cloud_mcp_contract.json"
+    }
   },
   "capability_bindings": [
     {
@@ -51,7 +56,22 @@
         "structure": "get_document_structure",
         "pages": "get_page_content"
       },
-      "state": "PENDING_CURRENT_HOST"
+      "state": "PENDING_CURRENT_HOST",
+      "canonical_input": {
+        "required": [
+          "operation",
+          "document_name"
+        ],
+        "optional": [
+          "folder_id",
+          "pages"
+        ],
+        "operation_enum": [
+          "metadata",
+          "structure",
+          "pages"
+        ]
+      }
     }
   ],
   "data_governance": {
