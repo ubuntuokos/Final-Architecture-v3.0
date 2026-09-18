@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "provider_neutral": true,
   "capability_count": 143,
   "contracts": [
@@ -15,25 +15,44 @@
     "HungarianQualityReceipt",
     "ShadowExecutionPlan",
     "ShadowExecutionReceipt",
-    "PromotionEligibilityReceipt"
+    "PromotionEligibilityReceipt",
+    "QuadletMaterializationReceipt",
+    "WorkspaceDestructionReceipt",
+    "GPUResidencyTrace",
+    "GPUExternalMemoryInteropReceipt",
+    "GPUTransferIntegrityReceipt"
   ],
   "runtime_isolation": {
     "hrb_resource_decision_required": true,
     "launcher_may_reselect_resources": false,
     "environment_variable_authority": false,
     "cgroup_v2_projection_required_when_linux": true,
-    "explicit_device_projection_required_for_accelerator": true
+    "explicit_device_projection_required_for_accelerator": true,
+    "quadlet_template_immutable": true,
+    "quadlet_rootless_required": true,
+    "quadlet_runtime_root": "$XDG_RUNTIME_DIR/containers/systemd",
+    "quadlet_per_lease_canonical_template_mutation": "DENY",
+    "quadlet_network_default": "DENY"
   },
   "sandbox": {
     "arbitrary_agent_host_subprocess": "DENY",
     "ephemeral_workspace_required": true,
     "network_default": "DENY",
-    "explicit_mounts_only": true
+    "explicit_mounts_only": true,
+    "host_impact_default_backend": "GVISOR_RUNSC_IF_COMPATIBLE",
+    "direct_container_runtime_socket": "DENY",
+    "default_tool_channel": "CENTRAL_MCP_GATEWAY_AUTHENTICATED_UNIX_SOCKET",
+    "workspace_destruction_receipt_required": true
   },
   "media": {
     "accelerated_neural_claim": "ZERO_HOST_ROUND_TRIP",
     "host_round_trip_during_neural_segment_max": 0,
-    "copy_telemetry_required": true
+    "copy_telemetry_required": true,
+    "portable_gpu_frame_fabric": "FA3-PROVIDER-VAPOURSYNTH-R80-001",
+    "vspipe_y4m_ffmpeg_zero_host_round_trip_claim": "DENY",
+    "host_pixel_materialization_during_resident_segment_max": 0,
+    "pcie_nvml_telemetry_role": "CORROBORATING_ONLY",
+    "fixed_pcie_percent_threshold_as_proof": "DENY"
   },
   "hu_aqc": {
     "dimensions_must_be_independent": true,
