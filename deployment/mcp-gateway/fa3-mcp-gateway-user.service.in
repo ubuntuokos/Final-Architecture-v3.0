@@ -4,7 +4,7 @@ After=default.target
 
 [Service]
 Type=simple
-WorkingDirectory=@RUNTIME_ROOT@
+WorkingDirectory=@WORKING_DIR@
 Environment=@ENV_SOCKET@
 Environment=@ENV_REGISTRY@
 Environment=@ENV_FACTORIES@

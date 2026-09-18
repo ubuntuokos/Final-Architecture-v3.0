@@ -50,9 +50,14 @@ import sys
 from pathlib import Path
 
 template_path, unit_path, runtime_root, journal_dir = sys.argv[1:]
+if not Path(runtime_root).is_absolute():
+    raise SystemExit("FA3 MCP runtime root must be absolute")
+if any(ch.isspace() for ch in runtime_root) or any(ch in runtime_root for ch in ('"', "'", "\\", "%")):
+    raise SystemExit("FA3 MCP runtime root contains unsupported systemd WorkingDirectory characters")
 text = Path(template_path).read_text(encoding="utf-8")
 def q(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+text = text.replace("@WORKING_DIR@", runtime_root)
 text = text.replace("@RUNTIME_ROOT@", q(runtime_root))
 text = text.replace("@JOURNAL_DIR@", q(journal_dir))
 text = text.replace("@ENV_SOCKET@", q("FA3_MCP_GATEWAY_UNIX_SOCKET=%t/fa3/mcp-gateway.sock"))

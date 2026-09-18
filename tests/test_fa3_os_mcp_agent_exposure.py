@@ -143,5 +143,19 @@ class AgentExposureTests(unittest.TestCase):
         self.assertEqual(receipt["reason_code"], "POLICY_DENY")
 
 
+    def test_user_service_working_directory_is_absolute_and_unquoted(self) -> None:
+        template = (ROOT / "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in").read_text(encoding="utf-8")
+        installer = (ROOT / "bin/fa3-os-mcp-agent-exposure-install").read_text(encoding="utf-8")
+        self.assertIn("WorkingDirectory=@WORKING_DIR@", template)
+        self.assertNotIn("WorkingDirectory=@RUNTIME_ROOT@", template)
+        self.assertIn('text = text.replace("@WORKING_DIR@", runtime_root)', installer)
+        self.assertNotIn('text = text.replace("@WORKING_DIR@", q(runtime_root))', installer)
+        self.assertIn("FA3 MCP runtime root must be absolute", installer)
+
+    def test_current_host_workflow_propagates_pipeline_failures(self) -> None:
+        workflow = (ROOT / ".github/workflows/fa3-os-mcp-agent-exposure.yml").read_text(encoding="utf-8")
+        self.assertGreaterEqual(workflow.count("set -o pipefail"), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

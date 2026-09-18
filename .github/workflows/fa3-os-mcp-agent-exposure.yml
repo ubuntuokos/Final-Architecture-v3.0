@@ -69,10 +69,12 @@ jobs:
           systemd-run --user --version
       - name: Collect persistent agent-exposure evidence
         run: |
+          set -o pipefail
           mkdir -p evidence/receipts reports/fa3-os-mcp-agent-exposure
           PYTHONPATH=src python3 evidence/collect-fa3-os-mcp-agent-exposure-current-host.py             --output evidence/receipts/fa3-os-mcp-agent-exposure-current-host.json             | tee reports/fa3-os-mcp-agent-exposure/collector.txt
       - name: Enforce fresh current-host evidence
         run: |
+          set -o pipefail
           PYTHONPATH=src python3 src/fa3_os_mcp_agent_exposure_gate.py             --repo-root .             --require-evidence             --receipt evidence/receipts/fa3-os-mcp-agent-exposure-current-host.json             | tee reports/fa3-os-mcp-agent-exposure/gate.txt
       - name: Upload agent-exposure evidence
         uses: actions/upload-artifact@v4
