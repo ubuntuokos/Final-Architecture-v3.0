@@ -83,6 +83,11 @@ def connected_registry() -> dict:
                     "priority": 100,
                     "approval_override": "explicit",
                     "evidence_ref": "fixture",
+                    "asset_egress_mode": "LOCAL_FILE_UPLOAD",
+                    "asset_egress_profile": "FA3-ASSET-EGRESS-POLICY-001",
+                    "asset_egress_destination_uri": "https://app.pageindex.ai/mcp",
+                    "asset_egress_data_class": "USER_DOCUMENT",
+                    "asset_egress_purpose": "PageIndex Cloud document indexing",
                 }],
             },
             {
@@ -164,6 +169,20 @@ class PageIndexMcpTests(unittest.TestCase):
         self.assertEqual("success", passed["result_status"], passed)
         self.assertEqual("doc-test", passed["result"]["doc_id"])
         self.assertEqual("sample.pdf", passed["result"]["document_name"])
+        self.assertTrue(str(passed.get("asset_egress_decision_id", "")).startswith("FA3-EGRESS-"))
+
+    def test_asset_egress_destination_drift_denied(self) -> None:
+        registry = connected_registry()
+        binding = registry["capabilities"][0]["providers"][0]
+        binding["asset_egress_destination_uri"] = "https://example.invalid/upload"
+        gw = McpGateway(registry)
+        for adapter in self.adapters:
+            gw.register_adapter(adapter)
+        req = base_request("fa3.document.index", {"source": str(self.pdf)})
+        req["approval"] = {"status": "APPROVED", "approval_id": "a1", "capability_id": "fa3.document.index"}
+        receipt = gw.invoke(req)
+        self.assertEqual("denied", receipt["result_status"])
+        self.assertEqual("ASSET_EGRESS_DENIED", receipt["reason_code"])
 
     def test_retrieve_translation(self) -> None:
         gw = self.gateway()

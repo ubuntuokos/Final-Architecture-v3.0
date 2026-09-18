@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from fa3_mcp_gateway import Adapter, GatewayDenied
+from fa3_mcp_gateway import Adapter, GatewayDenied\nfrom fa3_asset_egress_policy import validate_decision
 
 PROVIDER_ID = "FA3-PROVIDER-PAGEINDEX-MCP-001"
 INDEX_ADAPTER_ID = "fa3.adapter.pageindex.index"
@@ -337,6 +337,17 @@ class PageIndexMcpAdapter:
 
     def index(self, arguments: dict[str, Any]) -> dict[str, Any]:
         source = self._validate_source(arguments.get("source"))
+        parsed = urlparse(source)
+        if not parsed.scheme:
+            digest = hashlib.sha256()
+            with Path(source).open("rb") as fh:
+                for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            decision = arguments.get("_fa3_asset_egress_decision")
+            try:
+                validate_decision(decision, source_sha256=digest.hexdigest(), provider_id=PROVIDER_ID)
+            except Exception as exc:
+                raise GatewayDenied("PAGEINDEX_ASSET_EGRESS_DENIED", "Gateway-authorized CAP-140 asset egress decision required") from exc
         upstream_args: dict[str, Any] = {"url": source}
         if "folder_id" in arguments:
             folder_id = arguments["folder_id"]
