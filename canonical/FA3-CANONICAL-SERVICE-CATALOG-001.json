@@ -1,0 +1,179 @@
+{
+  "schema": "fa3.service-catalog-dependency-graph.v1",
+  "id": "FA3-CANONICAL-SERVICE-CATALOG-001",
+  "status": "CANONICAL",
+  "capability_id": "CAP-074",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "graph_semantics": {
+    "service_source_must_exist": true,
+    "every_service_requires_dependency_evidence": true,
+    "dangling_dependencies_forbidden": true,
+    "duplicate_edges_forbidden": true,
+    "service_dependency_cycles_forbidden": true,
+    "dependency_evidence_must_be_present_in_source": true
+  },
+  "services": [
+    {
+      "id": "svc:lynxhub",
+      "kind": "SYSTEMD_USER",
+      "source_path": "deployment/lynxhub/systemd/user/lynxhub.service",
+      "activation": "ON_DEMAND"
+    },
+    {
+      "id": "svc:mcp-gateway-user",
+      "kind": "SYSTEMD_USER_TEMPLATE",
+      "source_path": "deployment/mcp-gateway/fa3-mcp-gateway-user.service.in",
+      "activation": "USER_SESSION"
+    },
+    {
+      "id": "svc:mcp-gateway-system",
+      "kind": "SYSTEMD_SYSTEM",
+      "source_path": "deployment/mcp-gateway/fa3-mcp-gateway.service",
+      "activation": "SYSTEM"
+    },
+    {
+      "id": "svc:presenton",
+      "kind": "PODMAN_QUADLET",
+      "source_path": "deployment/presenton/presenton.container",
+      "activation": "OPTIONAL"
+    },
+    {
+      "id": "svc:sillytavern-kde",
+      "kind": "SYSTEMD_USER",
+      "source_path": "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
+      "activation": "USER_SESSION"
+    }
+  ],
+  "resources": [
+    {
+      "id": "res:graphical-session.target",
+      "kind": "SYSTEMD_TARGET"
+    },
+    {
+      "id": "res:ai-creative-ops.target",
+      "kind": "SYSTEMD_TARGET"
+    },
+    {
+      "id": "res:default.target",
+      "kind": "SYSTEMD_TARGET"
+    },
+    {
+      "id": "res:network.target",
+      "kind": "SYSTEMD_TARGET"
+    },
+    {
+      "id": "res:network-online.target",
+      "kind": "SYSTEMD_TARGET"
+    },
+    {
+      "id": "res:ai-creative.target",
+      "kind": "SYSTEMD_TARGET"
+    },
+    {
+      "id": "res:mcp-capability-registry",
+      "kind": "CANONICAL_ARTIFACT",
+      "path": "canonical/mcp-capability-registry.json"
+    },
+    {
+      "id": "res:litellm-loopback",
+      "kind": "LOCAL_API"
+    },
+    {
+      "id": "res:comfyui-loopback",
+      "kind": "LOCAL_API"
+    },
+    {
+      "id": "res:presenton-database-url",
+      "kind": "SECRET"
+    },
+    {
+      "id": "res:presenton-auth-password",
+      "kind": "SECRET"
+    }
+  ],
+  "edges": [
+    {
+      "source": "svc:lynxhub",
+      "target": "res:graphical-session.target",
+      "relation": "AFTER",
+      "evidence_token": "After=graphical-session.target ai-creative-ops.target"
+    },
+    {
+      "source": "svc:lynxhub",
+      "target": "res:ai-creative-ops.target",
+      "relation": "AFTER",
+      "evidence_token": "After=graphical-session.target ai-creative-ops.target"
+    },
+    {
+      "source": "svc:mcp-gateway-user",
+      "target": "res:default.target",
+      "relation": "AFTER",
+      "evidence_token": "After=default.target"
+    },
+    {
+      "source": "svc:mcp-gateway-system",
+      "target": "res:network.target",
+      "relation": "AFTER",
+      "evidence_token": "After=network.target"
+    },
+    {
+      "source": "svc:mcp-gateway-system",
+      "target": "res:mcp-capability-registry",
+      "relation": "REQUIRES_ARTIFACT",
+      "evidence_token": "ConditionPathExists=/opt/fa3/Final-Architecture-v3.0/canonical/mcp-capability-registry.json"
+    },
+    {
+      "source": "svc:presenton",
+      "target": "res:network-online.target",
+      "relation": "AFTER",
+      "evidence_token": "After=network-online.target"
+    },
+    {
+      "source": "svc:presenton",
+      "target": "res:ai-creative.target",
+      "relation": "WANTED_BY",
+      "evidence_token": "WantedBy=ai-creative.target"
+    },
+    {
+      "source": "svc:presenton",
+      "target": "res:litellm-loopback",
+      "relation": "LOCAL_API",
+      "evidence_token": "LITELLM_BASE_URL=http://host.containers.internal:4000/v1"
+    },
+    {
+      "source": "svc:presenton",
+      "target": "res:comfyui-loopback",
+      "relation": "LOCAL_API",
+      "evidence_token": "COMFYUI_URL=http://host.containers.internal:9876"
+    },
+    {
+      "source": "svc:presenton",
+      "target": "res:presenton-database-url",
+      "relation": "SECRET",
+      "evidence_token": "Secret=presenton-database-url,type=env,target=DATABASE_URL"
+    },
+    {
+      "source": "svc:presenton",
+      "target": "res:presenton-auth-password",
+      "relation": "SECRET",
+      "evidence_token": "Secret=presenton-auth-password,type=env,target=AUTH_PASSWORD"
+    },
+    {
+      "source": "svc:sillytavern-kde",
+      "target": "res:graphical-session.target",
+      "relation": "AFTER",
+      "evidence_token": "After=graphical-session.target"
+    }
+  ],
+  "invariants": [
+    "CATALOG_RECORDS_REPOSITORY_DEPLOYMENT_FACTS_ONLY",
+    "DEPENDENCY_EDGE_REQUIRES_SOURCE_EVIDENCE_TOKEN",
+    "DANGLING_DEPENDENCY_FAILS_CLOSED",
+    "SERVICE_CYCLE_FAILS_CLOSED",
+    "CATALOG_IS_NOT_RUNTIME_OR_RESOURCE_AUTHORITY",
+    "NO_NEW_CAPABILITY_OR_ARCHITECTURAL_AUTHORITY"
+  ]
+}

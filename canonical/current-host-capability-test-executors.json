@@ -210,6 +210,138 @@
       ],
       "timeout_seconds": 60,
       "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-074",
+      "test_kind": "positive",
+      "test_id": "AT-CAP-074-POS",
+      "qualification_id": "FA3-QUAL-CAP-074-POS-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-074-POS-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-074",
+      "test_kind": "negative",
+      "test_id": "AT-CAP-074-NEG",
+      "qualification_id": "FA3-QUAL-CAP-074-NEG-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-074-NEG-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-074",
+      "test_kind": "rollback",
+      "test_id": "ROLLBACK-CAP-074",
+      "qualification_id": "FA3-QUAL-CAP-074-ROLLBACK-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-074-ROLLBACK-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-080",
+      "test_kind": "positive",
+      "test_id": "AT-CAP-080-POS",
+      "qualification_id": "FA3-QUAL-CAP-080-POS-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-080-POS-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-080",
+      "test_kind": "negative",
+      "test_id": "AT-CAP-080-NEG",
+      "qualification_id": "FA3-QUAL-CAP-080-NEG-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-080-NEG-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
+    },
+    {
+      "subject_id": "CAP-080",
+      "test_kind": "rollback",
+      "test_id": "ROLLBACK-CAP-080",
+      "qualification_id": "FA3-QUAL-CAP-080-ROLLBACK-001",
+      "adapter_path": "src/fa3_current_host_capability_test_qualifier.py",
+      "adapter_sha256": "a298a4ed241a804dff24d48600d205c4095b335b250c8f81d7a8f066ba4d4180",
+      "evidence_class": "CAPABILITY_SPECIFIC_EXECUTABLE_TEST",
+      "execution_mode": "REAL_CURRENT_HOST_EXECUTION",
+      "synthetic": false,
+      "ci_reference_only": false,
+      "provider_receipt_only": false,
+      "component_receipt_only": false,
+      "generic_host_collection_only": false,
+      "global_promotion_claim": false,
+      "argv": [
+        "--qualification-id",
+        "FA3-QUAL-CAP-080-ROLLBACK-001"
+      ],
+      "timeout_seconds": 60,
+      "ttl_seconds": 1800
     }
   ],
   "invariants": {
