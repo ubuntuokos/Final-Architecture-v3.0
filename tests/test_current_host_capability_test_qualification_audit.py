@@ -20,6 +20,10 @@ class QualificationAuditTests(unittest.TestCase):
         (root / "canonical").mkdir(parents=True)
         shutil.copy(ROOT / "evidence/evidence-registry.json", root / "evidence/evidence-registry.json")
         shutil.copy(ROOT / "canonical/current-host-capability-test-qualifications.json", root / "canonical/current-host-capability-test-qualifications.json")
+        qpath = root / "canonical/current-host-capability-test-qualifications.json"
+        qreg = json.loads(qpath.read_text())
+        qreg["entries"] = []
+        qpath.write_text(json.dumps(qreg))
         return td, root
 
     def _record(self, root):
