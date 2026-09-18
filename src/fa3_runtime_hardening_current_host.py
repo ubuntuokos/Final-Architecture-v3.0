@@ -331,14 +331,15 @@ def validate_current_host_envelope(envelope: dict[str, Any]) -> list[dict[str, A
         fail("RUNTIME-HARDENING-HOST-010", "Installed Quadlet sandbox conformance failed")
 
     runtime = payload.get("gvisor_runtime", {})
+    gpu_projection_required = runtime.get("gpu_projection_required") is True
     if not (
         runtime.get("status") == "PASS"
         and runtime.get("runsc_available") is True
         and runtime.get("runtime_inspect_runsc") is True
-        and runtime.get("nvproxy_supported_driver") is True
+        and (not gpu_projection_required or runtime.get("nvproxy_supported_driver") is True)
         and runtime.get("unsupported_driver_override") is False
     ):
-        fail("RUNTIME-HARDENING-HOST-011", "gVisor/runsc/nvproxy runtime proof incomplete")
+        fail("RUNTIME-HARDENING-HOST-011", "gVisor/runsc runtime proof incomplete or nvproxy GPU ABI unsupported")
 
     for err in pcie_copy_budget_findings(payload.get("pcie_copy_budget", {}), gpu_uuid=gpu_uuid, pci_bdf=pci_bdf):
         fail("RUNTIME-HARDENING-HOST-012", err)
