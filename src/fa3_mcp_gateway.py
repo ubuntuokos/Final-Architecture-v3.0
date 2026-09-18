@@ -129,8 +129,14 @@ class McpGateway:
         if not _nonempty(decision.get("decision_id")):
             raise GatewayDenied("INVALID_POLICY_DECISION", "Policy decision id is required")
 
-    def _validate_approval(self, request: dict[str, Any], capability: dict[str, Any]) -> None:
-        mode = str(capability.get("approval", "policy"))
+    def _validate_approval(
+        self,
+        request: dict[str, Any],
+        capability: dict[str, Any],
+        binding: dict[str, Any] | None = None,
+    ) -> None:
+        override = binding.get("approval_override") if isinstance(binding, dict) else None
+        mode = str(override if override in {"policy", "session", "explicit", "strong"} else capability.get("approval", "policy"))
         if mode not in {"session", "explicit", "strong"}:
             return
         approval = request.get("approval")
@@ -183,10 +189,10 @@ class McpGateway:
 
         try:
             self._validate_policy(request, capability)
-            self._validate_approval(request, capability)
             self._validate_hrb(request, capability)
             self._validate_secret_refs(request)
             binding = self._select_binding(capability, request.get("provider_id"))
+            self._validate_approval(request, capability, binding)
             adapter = self.adapters[binding["adapter_id"]]
             if adapter.provider_id != binding.get("provider_id"):
                 raise GatewayDenied("PROVIDER_BINDING_MISMATCH", "Adapter/provider binding mismatch")

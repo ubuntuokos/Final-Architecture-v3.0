@@ -1,0 +1,77 @@
+name: FA3 PageIndex MCP Provider Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-PAGEINDEX-MCP-001.json'
+      - 'canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json'
+      - 'canonical/references/FA3-PAGEINDEX-MCP-UPSTREAM-REFERENCE-2026-09-18.json'
+      - 'canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json'
+      - 'canonical/FA3-GATE-PAGEINDEX-MCP-001.json'
+      - 'canonical/pageindex-mcp-enforcement.json'
+      - 'canonical/mcp-capability-registry.json'
+      - 'src/fa3_mcp_gateway.py'
+      - 'src/fa3_mcp_gateway_server.py'
+      - 'src/fa3_pageindex_mcp_adapter.py'
+      - 'src/fa3_pageindex_mcp_gate.py'
+      - 'tests/test_pageindex_mcp_gate.py'
+      - 'evidence/collect-pageindex-mcp-current-host.py'
+      - 'evidence/reference/pageindex-mcp-*'
+      - 'bin/fa3-pageindex-mcp-*'
+      - '.github/workflows/fa3-pageindex-mcp*.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pageindex-mcp-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: >-
+          python -m py_compile
+          src/fa3_mcp_gateway.py
+          src/fa3_mcp_gateway_server.py
+          src/fa3_pageindex_mcp_adapter.py
+          src/fa3_pageindex_mcp_gate.py
+          evidence/collect-pageindex-mcp-current-host.py
+      - name: Shell syntax
+        run: |
+          bash -n bin/fa3-pageindex-mcp-bootstrap.sh
+          bash -n bin/fa3-pageindex-mcp-current-host.sh
+      - name: Adapter and gate regression
+        run: PYTHONPATH=src python -m unittest tests.test_pageindex_mcp_gate -v
+      - name: PageIndex static admission gate
+        run: bash bin/fa3-enforce pageindex-mcp
+      - name: Central MCP registry remains valid
+        run: bash bin/fa3-enforce mcp-current-host --static
+      - name: Real authenticated current-host receipt must not be fabricated
+        shell: bash
+        run: |
+          set +e
+          bash bin/fa3-enforce pageindex-mcp-current-host
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - name: Reconcile release projection in worktree
+        run: python scripts/fa3_reconcile_release_projection.py --root .
+      - name: Reconciled release projection validates
+        run: bash bin/fa3-enforce release-projection
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-pageindex-mcp-gate-report
+          path: |
+            reports/pageindex-mcp-gate-report.json
+            reports/pageindex-mcp-current-host-gate-report.json
