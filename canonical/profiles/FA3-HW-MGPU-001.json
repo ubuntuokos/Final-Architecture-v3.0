@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-MGPU-001",
   "name": "Heterogeneous Multi-GPU Placement & Accelerator Binding Profile",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -26,26 +26,29 @@
     "switcheroo-control"
   ],
   "invariants": [
-    "HETEROGENEOUS_PLACEMENT_IS_MANDATORY_BASELINE",
-    "DISPLAY_SAFETY_RESERVE_EXPLICIT",
-    "LEASE_TO_RUNTIME_BINDING_EVIDENCED",
+    "HETEROGENEOUS_PLACEMENT_SUPPORT_IS_MANDATORY_WHEN_ACCELERATORS_ARE_PRESENT",
+    "DISPLAY_SAFETY_RESERVE_EXPLICIT_WHEN_APPLICABLE",
+    "LEASE_TO_RUNTIME_BINDING_EVIDENCED_FOR_ACCELERATOR_WORKLOADS",
     "PLACEMENT_PROVIDER_CANNOT_REPLACE_HRB_AUTHORITY",
     "FALLBACK_AND_PREEMPTION_EXPLICIT",
     "NUMA_TOPOLOGY_MUST_BE_CONSIDERED_WHEN_RELEVANT",
-    "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N_AT_HOST_BASELINE",
+    "ACCELERATOR_WORKLOAD_SELECTED_DEVICE_COUNT_DYNAMIC_1_TO_N",
     "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN",
-    "NEWER_NVIDIA_GPU_CAPABILITIES_REMAIN_ELIGIBLE_SUBJECT_TO_LIVE_RUNTIME_COMPATIBILITY",
+    "PROVIDER_LOCAL_ACCELERATOR_COMPATIBILITY_MAY_NARROW_EXECUTION",
     "GPU_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "cardinality_policy": {
-    "minimum_qualifying_gpu_count": 1,
+    "minimum_qualifying_gpu_count": 0,
     "maximum_qualifying_gpu_count": "UNBOUNDED_BY_FA3",
+    "host_baseline_accelerator_count": "0_TO_N",
+    "accelerator_workload_selected_count": "1_TO_N_WHEN_REQUESTED",
     "enumeration": "LIVE_DISCOVERY",
     "fixed_runtime_index_identity": false
   },
   "reconciliation": {
     "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
-    "date": "2026-09-16"
+    "date": "2026-09-20"
   }
 }
