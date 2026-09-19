@@ -11,6 +11,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "src/fa3_mat001_foundation_current_host.py",
     "src/fa3_mat002_runtime_knowledge_current_host.py",
     "src/fa3_mat003_interaction_creative_current_host.py",
+    "canonical/FA3-DESKTOP-PLASMA-001.json",
     "src/fa3_desktop_admission.py",
     "src/fa3_mat004_media_authoring_verification_current_host.py",
     "src/fa3_full_current_host_capability_producer.py",
