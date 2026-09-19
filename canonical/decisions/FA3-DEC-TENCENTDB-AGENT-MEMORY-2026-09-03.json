@@ -75,12 +75,14 @@
     "issue_1073": "OPEN_LICENSE_AMBIGUITY_ROOT_MIT_VS_README_DOCKER_PROPRIETARY_BLOCKS_PRODUCTION_COMPONENT_ADMISSION"
   },
   "hardware_decision": {
-    "current_host_reference": "Dell Precision T7910 / 2x E5-2696 v4 / 44C-88T / expected 2 NUMA",
+    "current_host_reference": "REMOVED_LEGACY_HOST_REFERENCE_FRESH_LIVE_DISCOVERY_ONLY",
     "portable_constant": false,
     "live_topology_required": true,
     "hrb_admission_required": true,
     "provider_static_cpu_gpu_defaults_forbidden": true,
-    "accelerator_uuid_bdf_required_if_used": true
+    "accelerator_uuid_bdf_required_if_used": true,
+    "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+    "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
   },
   "executable_regression_case_count": 30,
   "executable_gate_status": "MATERIALIZED"
