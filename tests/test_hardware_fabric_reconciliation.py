@@ -19,7 +19,7 @@ class HardwareFabricReconciliationTests(unittest.TestCase):
 
     def test_static_reconciliation_never_promotes_current_host(self) -> None:
         report = audit(ROOT)
-        self.assertEqual(report["current_host_status"], "PENDING_CURRENT_HOST")
+        self.assertEqual(report["current_host_status"], "PENDING_VENDOR_NEUTRAL_MULTI_VENDOR_CURRENT_HOST_EVIDENCE")
         self.assertFalse(report["global_promotion_claim"])
         self.assertEqual(report["new_capabilities"], 0)
         self.assertEqual(report["new_architectural_authorities"], 0)
