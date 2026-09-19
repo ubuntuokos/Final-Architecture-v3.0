@@ -37,7 +37,7 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
             "audio_local",
             "desktop_wayland",
             "graphics_3d",
-            "pytorch3d_runtime",
+            "metric_3d_reconstruction",
             "toolchain_build",
             "storage_io",
             "security_local",
