@@ -26,6 +26,11 @@
     "pcie_sampling_interval_seconds_max": 0.025,
     "pcie_budget_ratio_max": 0.05,
     "frame_copy_trace_required": "CUPTI_OR_NSIGHT_OR_CUDA_ACTIVITY",
-    "fa3_evidence_envelope_required": "PASS"
+    "fa3_evidence_envelope_required": "PASS",
+    "real_execution_preflight": "REQUIRED_PASS_BEFORE_COLLECTORS",
+    "preflight_receipt": ".fa3-current-host/runtime-hardening/preflight.json",
+    "preflight_as_surface_pass": "DENY",
+    "preflight_as_global_promotion": "DENY",
+    "network_pull_during_preflight_or_execution": "DENY"
   }
 }
