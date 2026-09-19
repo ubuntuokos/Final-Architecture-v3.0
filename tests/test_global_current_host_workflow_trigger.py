@@ -11,6 +11,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "src/fa3_mat001_foundation_current_host.py",
     "src/fa3_mat002_runtime_knowledge_current_host.py",
     "src/fa3_mat003_interaction_creative_current_host.py",
+    "src/fa3_desktop_admission.py",
     "src/fa3_mat004_media_authoring_verification_current_host.py",
     "src/fa3_full_current_host_capability_producer.py",
     "src/fa3_full_current_host_preflight.py",
@@ -21,6 +22,8 @@ EXECUTION_SENSITIVE_PATHS = {
     "bin/fa3-current-host-runner-doctor",
     "tests/test_current_host_capability_qualification_constituent_orchestrator.py",
     "tests/test_mat002_runtime_knowledge_current_host.py",
+    "tests/test_mat003_interaction_creative_current_host.py",
+    "tests/test_desktop_portability.py",
     ".github/workflows/fa3-global-current-host-closure.yml",
 }
 
