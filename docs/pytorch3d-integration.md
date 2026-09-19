@@ -37,7 +37,7 @@ A builder nem tölt le forrást vagy függőséget. Előfeltételei:
 1. az exact commitra checkoutolt, integritásvizsgált forrás;
 2. külön pip venv a megfelelő Torch/torchvision párral;
 3. a Torch által használt CUDA major.minor verzióval egyező side-by-side build toolkit;
-4. érvényes HRB build/accelerator receipt;
+4. érvényes `CURRENT_HOST_ADMISSION` Evidence Envelope, benne broker-validált HRB accelerator lease kötés;
 5. telepített Syft az SBOM előállításához.
 
 Példa:
@@ -48,13 +48,13 @@ CUDA_HOME=/usr/local/cuda-12.8 \
   --source-dir /path/to/pytorch3d \
   --venv /path/to/pytorch3d-venv \
   --wheelhouse /path/to/wheelhouse \
-  --hrb-receipt /path/to/hrb-build-receipt.json \
+  --admission-receipt /path/to/resource-admission-current-host.json \
   --receipt /path/to/pytorch3d-build-receipt.json \
   --sbom /path/to/pytorch3d-wheel.cdx.json \
   --provenance /path/to/pytorch3d-build-provenance.json
 ```
 
-A builder exact source pint, tiszta tracked source tree-t, izolált venvet, CUDA ABI-egyezést és HRB-ből származó accelerator-architektúrát/build thread budgetet követel. Az eredmény egy SHA-256-tal azonosított wheel, SBOM és build provenance.
+A builder exact source pint, tiszta tracked source tree-t, izolált venvet, CUDA ABI-egyezést és a validált current-host admission compute profile-ból származó, HRB által kiválasztott accelerator compute capability-t és host CPU-kapacitási build budgetet követel. Az eredmény egy SHA-256-tal azonosított wheel, SBOM és build provenance.
 
 ## Current-host E2E
 
@@ -68,8 +68,10 @@ A source-built wheelt csak akkor kell materializálni, ha egy job kifejezetten a
   --sbom /path/to/pytorch3d-wheel.cdx.json \
   --provenance /path/to/pytorch3d-build-provenance.json \
   --build-receipt /path/to/pytorch3d-build-receipt.json \
-  --hrb-receipt /path/to/hrb-runtime-receipt.json
+  --admission-receipt /path/to/resource-admission-current-host.json
 ```
+
+A builder és a collector a `FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001` által validált, `CURRENT_HOST_ADMISSION` osztályú Evidence Envelope-ot fogyasztja. Saját vagy kézzel gyártott „PyTorch3D HRB receipt” nem admission-forrás; az accelerator UUID/BDF és lease identity kizárólag a kanonikus envelope `hrb_lease_identity` mezőjéből származhat.
 
 A collector valódi CUDA-extension importot, mesh/pointcloud műveletet, Chamfer-gradienst, mesh rasterizálást, kamera-transzformációt, marching cubes műveletet, OBJ/PLY roundtripet és Pulsar renderelést futtat. Negatív teszt igazolja, hogy hibás CUDA-eszköznél fail-closed hiba keletkezik, és a hívó aktív eszköze nem változik. A probe subprocess kilépése után a collector ellenőrzi, hogy a folyamat GPU-contextje megszűnt.
 
