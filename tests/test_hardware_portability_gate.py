@@ -107,6 +107,56 @@ class HardwarePortabilityGateTests(unittest.TestCase):
             self.assertEqual("FAIL", audit["result"])
             self.assertEqual(1, audit["blocking_hardcoded_production_assumptions"])
 
+    def test_single_fixed_cuda_visible_device_is_blocking(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "src").mkdir()
+            (root / "src" / "bad.py").write_text(
+                'import os\nos.environ["CUDA_VISIBLE_DEVICES"] = "0"\n',
+                encoding="utf-8",
+            )
+            audit = scan_repository(root)
+            self.assertEqual("FAIL", audit["result"])
+            self.assertTrue(any(x["kind"] == "FIXED_CUDA_VISIBLE_DEVICES_LIST" for x in audit["blocking_matches"]))
+
+    def test_arbitrary_runtime_sku_and_bdf_are_blocking(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "src").mkdir()
+            (root / "src" / "current_host_bad.py").write_text(
+                'GPU = "RTX A1000"\nPCI = "0000:65:00.0"\n',
+                encoding="utf-8",
+            )
+            audit = scan_repository(root)
+            self.assertEqual("FAIL", audit["result"])
+            kinds = {x["kind"] for x in audit["blocking_matches"]}
+            self.assertIn("GPU_SKU_RTX", kinds)
+            self.assertIn("LITERAL_PCI_BDF", kinds)
+
+    def test_apps_cpp_and_qml_are_runtime_audit_surfaces(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "apps" / "demo").mkdir(parents=True)
+            (root / "apps" / "demo" / "bad.cpp").write_text(
+                'const char *gpu = "RTX 5090";\n',
+                encoding="utf-8",
+            )
+            audit = scan_repository(root)
+            self.assertEqual("FAIL", audit["result"])
+            self.assertTrue(any(x["path"].endswith("bad.cpp") for x in audit["blocking_matches"]))
+
+    def test_current_host_tooling_is_not_blanket_exempt_from_literal_machine_pins(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "src").mkdir()
+            (root / "src" / "fa3_demo_current_host.py").write_text(
+                'TARGET = "0000:AF:00.0"\n',
+                encoding="utf-8",
+            )
+            audit = scan_repository(root)
+            self.assertEqual("FAIL", audit["result"])
+            self.assertTrue(any(x["kind"] == "LITERAL_PCI_BDF" for x in audit["blocking_matches"]))
+
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
