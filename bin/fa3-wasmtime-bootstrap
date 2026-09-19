@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="\${FA3_WASMTIME_VERSION:-48.0.2}"
+EXPECTED_VERSION="48.0.2"
+ASSET="wasmtime-v\${VERSION}-x86_64-linux.tar.xz"
+URL="https://github.com/bytecodealliance/wasmtime/releases/download/v\${VERSION}/\${ASSET}"
+EXPECTED_SHA256="f2b0ad1ce9253f2f9a38793c2c42cd1cba4e90b27dc40d685eaf723dc8438d94"
+ROOT="\${FA3_WASMTIME_ROOT:-$HOME/.local/share/fa3/wasmtime/v\${VERSION}}"
+BIN_DIR="\${FA3_WASMTIME_BIN_DIR:-$HOME/.local/bin}"
+TARGET="\${ROOT}/bin/wasmtime"
+LINK="\${BIN_DIR}/wasmtime"
+
+if [[ \${EUID:-$(id -u)} -eq 0 ]]; then
+  echo "FAIL: Wasmtime bootstrap must run rootless" >&2
+  exit 20
+fi
+
+if [[ "$VERSION" != "$EXPECTED_VERSION" ]]; then
+  echo "FAIL: unapproved Wasmtime version: $VERSION" >&2
+  exit 21
+fi
+
+for cmd in curl sha256sum tar mktemp install python3; do
+  command -v "$cmd" >/dev/null 2>&1 || {
+    echo "FAIL: missing bootstrap prerequisite: $cmd" >&2
+    exit 22
+  }
+done
+
+mkdir -p "$ROOT" "$BIN_DIR"
+
+verify_installed() {
+  [[ -x "$TARGET" ]] || return 1
+  local observed
+  observed="$("$TARGET" --version 2>/dev/null | head -n1 || true)"
+  [[ "$observed" == "wasmtime \${VERSION} "* || "$observed" == "wasmtime \${VERSION}" ]]
+}
+
+if verify_installed; then
+  ln -sfn "$TARGET" "$LINK"
+  echo "PASS: Wasmtime \${VERSION} already installed and verified at $TARGET"
+  exit 0
+fi
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+archive="$tmp/$ASSET"
+
+curl \
+  --fail \
+  --location \
+  --proto '=https' \
+  --tlsv1.2 \
+  --retry 3 \
+  --retry-delay 2 \
+  --output "$archive" \
+  "$URL"
+
+actual_sha="$(sha256sum "$archive" | awk '{print $1}')"
+if [[ "$actual_sha" != "$EXPECTED_SHA256" ]]; then
+  echo "FAIL: Wasmtime asset SHA-256 mismatch: $actual_sha" >&2
+  exit 23
+fi
+
+extract="$tmp/extract"
+mkdir -p "$extract"
+tar -xJf "$archive" -C "$extract"
+source_dir="$extract/wasmtime-v\${VERSION}-x86_64-linux"
+[[ -x "$source_dir/wasmtime" ]] || {
+  echo "FAIL: expected Wasmtime binary missing from verified archive" >&2
+  exit 24
+}
+
+install_tmp="\${ROOT}.new.$$"
+rm -rf "$install_tmp"
+mkdir -p "$install_tmp/bin"
+install -m 0755 "$source_dir/wasmtime" "$install_tmp/bin/wasmtime"
+
+if [[ -f "$source_dir/LICENSE" ]]; then
+  install -m 0644 "$source_dir/LICENSE" "$install_tmp/LICENSE"
+fi
+
+rm -rf "$ROOT"
+mv "$install_tmp" "$ROOT"
+ln -sfn "$TARGET" "$LINK"
+
+verify_installed || {
+  echo "FAIL: installed Wasmtime version verification failed" >&2
+  exit 25
+}
+
+receipt_dir="\${FA3_WASMTIME_RECEIPT_DIR:-.fa3-current-host/dependencies}"
+mkdir -p "$receipt_dir"
+python3 - "$receipt_dir/wasmtime.json" "$VERSION" "$EXPECTED_SHA256" "$TARGET" <<'PY'
+import datetime as dt
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+out, version, digest, binary = sys.argv[1:]
+observed = subprocess.check_output([binary, "--version"], text=True).strip()
+receipt = {
+    "schema": "fa3.current-host-dependency-receipt.v1",
+    "dependency_id": "FA3-WASMTIME-CURRENT-HOST-DEPENDENCY-001",
+    "status": "PASS",
+    "observed_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+    "version": version,
+    "asset_sha256": digest,
+    "binary": binary,
+    "observed_version": observed,
+    "rootless_install": os.geteuid() != 0,
+    "official_release_asset_only": True,
+    "global_promotion_claim": False,
+}
+Path(out).write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+
+echo "PASS: installed verified Wasmtime \${VERSION} at $TARGET"
