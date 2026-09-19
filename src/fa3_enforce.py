@@ -136,6 +136,10 @@ def static_check(root:Path):
     mapping=loadj(root/"canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json")
     rows=list(csv.DictReader((root/"canonical/conformance-matrix.csv").open(encoding="utf-8-sig",newline="")))
 
+    hardware_portability_ref=hardware_portability_gate(root)
+    if hardware_portability_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-081","Primary hardware portability and repository-wide legacy/hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
+
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-039","Unified post-v3.0.11 canonical release projection gate failed",release_projection_gate=projection_ref))
@@ -417,9 +421,6 @@ def static_check(root:Path):
     cpu_numa_threading_ref=cpu_numa_threading_gate(root)
     if cpu_numa_threading_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-069","CPU/NUMA physical-core-first thread governance gate failed",cpu_numa_threading_gate=cpu_numa_threading_ref))
-    hardware_portability_ref=hardware_portability_gate(root)
-    if hardware_portability_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-081","Hardware portability and repository-wide hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
     pytorch3d_ref=pytorch3d_gate(root)
     if pytorch3d_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-098","PyTorch3D differentiable 3D source-build/device-safety gate failed",pytorch3d_gate=pytorch3d_ref))
