@@ -312,14 +312,14 @@ def _reference_secret_service_activation_aliases(env: Mapping[str, str]) -> list
     alias = activation.get("activation_bus_name")
     if not (
         profile.get("id") == PLASMA_ID
-        and activation.get("mode") == "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT"
+        and activation.get("mode") == "REFERENCE_PROVIDER_SECRET_SERVICE_ADAPTER"
         and activation.get("core_requirement") is False
         and activation.get("architectural_authority") is False
         and activation.get("standard_interface_required") is True
-        and activation.get("standard_bus_name_required") is True
+        and activation.get("standard_bus_name_preferred") is True
         and activation.get("compatibility_bus_name_allowed") is True
-        and activation.get("compatibility_endpoint_diagnostic_only") is True
-        and activation.get("activation_alias_semantics") == "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY"
+        and activation.get("compatibility_endpoint_may_satisfy_fa3_secret_backend") is True
+        and activation.get("activation_alias_semantics") == "FA3_REFERENCE_ADAPTER_ONLY_NO_SYSTEM_SECRET_SERVICE_CLAIM"
         and activation.get("preferred_standard_bus_name") == "org.freedesktop.secrets"
         and activation.get("object_path") == "/org/freedesktop/secrets"
         and activation.get("interface") == "org.freedesktop.Secret.Service"
@@ -454,11 +454,13 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "introspection_format": "BUSCTL_XML_INTERFACE",
         }
 
-    # Reference-desktop aliases are activation hints only. Invoke the D-Bus
-    # daemon's standard StartServiceByName method rather than introspecting a
-    # provider-specific alias object path. The alias never becomes capability
-    # evidence: portable PASS still requires the standard bus name and the
-    # standard org.freedesktop.Secret.Service interface.
+    # The Tier-1 reference desktop may expose the same Secret Service API
+    # under a provider-specific compatibility bus name. This is not system-wide
+    # Secret Service interoperability and must never imply that the standard
+    # org.freedesktop.secrets name is present. It may satisfy only FA3's logical
+    # SECRET_BACKEND through the canonical reference adapter, and only when
+    # exact XML introspection proves org.freedesktop.Secret.Service on the
+    # standard object path.
     aliases = _reference_secret_service_activation_aliases(env)
     reference_activation_succeeded = False
     activation_errors: list[str] = []
@@ -469,8 +471,10 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         if activation_error:
             activation_errors.append(f"{alias}: {activation_error}")
 
-        # Activation may complete asynchronously. Poll only the standard
-        # endpoint for a short bounded interval; no alias endpoint is trusted.
+        # Activation may complete asynchronously. Prefer the standard endpoint.
+        # If the provider intentionally exposes only its reference alias, prove
+        # the exact standard interface there and scope that proof to the FA3
+        # reference adapter only.
         for _ in range(5):
             verify = _secret_service_introspect(busctl, standard_name, env)
             verified_standard = _secret_service_interface_proven(verify)
@@ -486,6 +490,25 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                     "reference_activation_errors": activation_errors,
                     "standard_name_verified": True,
                     "compatibility_endpoint_verified": False,
+                    "fa3_reference_adapter_only": False,
+                    "introspection_format": "BUSCTL_XML_INTERFACE",
+                }
+
+            alias_verify = _secret_service_introspect(busctl, alias, env)
+            alias_interface = _secret_service_interface_proven(alias_verify)
+            if alias_interface:
+                return {
+                    "available": True,
+                    "live_name": False,
+                    "standard_interface": True,
+                    "dbus_activation_attempted": True,
+                    "reference_activation_attempted": True,
+                    "reference_activation_succeeded": reference_activation_succeeded,
+                    "reference_activation_method": "DBUS_START_SERVICE_BY_NAME",
+                    "reference_activation_errors": activation_errors,
+                    "standard_name_verified": False,
+                    "compatibility_endpoint_verified": True,
+                    "fa3_reference_adapter_only": True,
                     "introspection_format": "BUSCTL_XML_INTERFACE",
                 }
             time.sleep(0.2)
@@ -501,6 +524,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "reference_activation_errors": activation_errors,
         "standard_name_verified": False,
         "compatibility_endpoint_verified": False,
+        "fa3_reference_adapter_only": False,
         "introspection_format": "BUSCTL_XML_INTERFACE",
     }
 
@@ -535,6 +559,7 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, An
         "secret_service_reference_activation_errors": secret_probe.get("reference_activation_errors", []),
         "secret_service_standard_name_verified": secret_probe.get("standard_name_verified", secret_service),
         "secret_service_compatibility_endpoint_verified": secret_probe.get("compatibility_endpoint_verified", False),
+        "secret_service_fa3_reference_adapter_only": secret_probe.get("fa3_reference_adapter_only", False),
         "secret_service_introspection_format": secret_probe.get("introspection_format"),
         "fa3_vault": _truthy(env.get("FA3_VAULT_AVAILABLE")),
         "uri_open": bool(shutil.which("xdg-open")) or portal,
@@ -631,7 +656,9 @@ def evaluate_desktop(
             "reference_activation_succeeded": bool(probes.get("secret_service_reference_activation_succeeded")),
             "reference_activation_method": probes.get("secret_service_reference_activation_method"),
             "reference_activation_errors": probes.get("secret_service_reference_activation_errors", []),
-            "compatibility_endpoint_verified_diagnostic_only": bool(probes.get("secret_service_compatibility_endpoint_verified")),
+            "compatibility_endpoint_verified": bool(probes.get("secret_service_compatibility_endpoint_verified")),
+            "fa3_reference_adapter_only": bool(probes.get("secret_service_fa3_reference_adapter_only")),
+            "system_secret_service_interop": "PASS" if bool(probes.get("secret_service_standard_name_verified")) else "LIMITED",
             "introspection_format": probes.get("secret_service_introspection_format"),
             "fa3_vault_available": bool(probes.get("fa3_vault")),
         },
@@ -691,14 +718,16 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and plasma.get("capability_count") == CAPABILITY_COUNT
         and plasma.get("constraints", {}).get("enhancements_must_not_become_core_requirements") is True
         and plasma.get("appearance", {}).get("runtime_dependency") is False
-        and secret_activation.get("mode") == "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT"
+        and secret_activation.get("mode") == "REFERENCE_PROVIDER_SECRET_SERVICE_ADAPTER"
         and secret_activation.get("core_requirement") is False
         and secret_activation.get("architectural_authority") is False
         and secret_activation.get("standard_interface_required") is True
-        and secret_activation.get("standard_bus_name_required") is True
+        and secret_activation.get("standard_bus_name_preferred") is True
         and secret_activation.get("compatibility_bus_name_allowed") is True
-        and secret_activation.get("compatibility_endpoint_diagnostic_only") is True
-        and secret_activation.get("activation_alias_semantics") == "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY"
+        and secret_activation.get("compatibility_endpoint_may_satisfy_fa3_secret_backend") is True
+        and secret_activation.get("activation_alias_semantics") == "FA3_REFERENCE_ADAPTER_ONLY_NO_SYSTEM_SECRET_SERVICE_CLAIM"
+        and secret_activation.get("standard_bus_name_required_for_system_interop") is True
+        and secret_activation.get("compatibility_endpoint_scope") == "FA3_REFERENCE_ADAPTER_ONLY"
         and secret_activation.get("activation_method") == "DBUS_START_SERVICE_BY_NAME"
         and secret_activation.get("preferred_standard_bus_name") == "org.freedesktop.secrets"
         and secret_activation.get("object_path") == "/org/freedesktop/secrets"

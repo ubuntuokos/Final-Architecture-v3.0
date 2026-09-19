@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/fa3-global-current-host-closure.yml"
 
 EXECUTION_SENSITIVE_PATHS = {
+    "canonical/FA3-DESKTOP-PLASMA-001.json",
     "src/fa3_current_host_capability_qualification_constituent_orchestrator.py",
     "src/fa3_current_host_capability_test_orchestrator.py",
     "src/fa3_mat001_foundation_current_host.py",

@@ -134,15 +134,39 @@ class DesktopPortabilityTests(unittest.TestCase):
             "secret_service_standard_interface": True,
             "secret_service_standard_name_verified": True,
             "secret_service_dbus_activation_attempted": True,
-            "secret_service_reference_activation_attempted": True,
-            "secret_service_compatibility_endpoint_verified": True,
+            "secret_service_reference_activation_attempted": False,
+            "secret_service_compatibility_endpoint_verified": False,
+            "secret_service_fa3_reference_adapter_only": False,
         }
         report = evaluate_desktop(self._env("KDE", "wayland"), probes, require_gui=True)
         evidence = report["secret_backend_evidence"]
         self.assertTrue(evidence["standard_name_verified"])
         self.assertTrue(evidence["standard_interface_verified"])
-        self.assertTrue(evidence["reference_activation_attempted"])
-        self.assertTrue(evidence["compatibility_endpoint_verified_diagnostic_only"])
+        self.assertFalse(evidence["compatibility_endpoint_verified"])
+        self.assertFalse(evidence["fa3_reference_adapter_only"])
+        self.assertEqual(evidence["system_secret_service_interop"], "PASS")
+
+    def test_reference_adapter_report_does_not_claim_system_secret_service(self):
+        probes = {
+            **FULL_PROBES,
+            "secret_service": True,
+            "secret_service_live_name": False,
+            "secret_service_standard_interface": True,
+            "secret_service_standard_name_verified": False,
+            "secret_service_dbus_activation_attempted": True,
+            "secret_service_reference_activation_attempted": True,
+            "secret_service_compatibility_endpoint_verified": True,
+            "secret_service_fa3_reference_adapter_only": True,
+        }
+        report = evaluate_desktop(self._env("KDE", "wayland"), probes, require_gui=True)
+        evidence = report["secret_backend_evidence"]
+        self.assertEqual(report["result"], "PASS")
+        self.assertEqual(report["capabilities"]["secret_backend"], "PASS")
+        self.assertFalse(evidence["standard_name_verified"])
+        self.assertTrue(evidence["standard_interface_verified"])
+        self.assertTrue(evidence["compatibility_endpoint_verified"])
+        self.assertTrue(evidence["fa3_reference_adapter_only"])
+        self.assertEqual(evidence["system_secret_service_interop"], "LIMITED")
 
     def test_headless_is_valid_when_gui_not_required(self):
         report = evaluate_desktop({}, {key: False for key in FULL_PROBES}, require_gui=False)
@@ -322,7 +346,7 @@ class DesktopPortabilityTests(unittest.TestCase):
     @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
     @patch("fa3_desktop_admission._dbus_start_service_by_name")
     @patch("fa3_desktop_admission._secret_service_introspect")
-    def test_compatibility_activation_is_not_capability_authority_without_standard_name(
+    def test_reference_alias_exact_secret_service_interface_satisfies_only_fa3_backend(
         self,
         introspect,
         start_service,
@@ -331,16 +355,21 @@ class DesktopPortabilityTests(unittest.TestCase):
         _aliases,
         _sleep,
     ):
-        introspect.return_value = Mock(returncode=1, stdout="", stderr="standard name unavailable")
+        introspect.side_effect = [
+            Mock(returncode=1, stdout="", stderr="standard name unavailable"),
+            Mock(returncode=1, stdout="", stderr="standard name unavailable"),
+            Mock(returncode=0, stdout="<node><interface name='org.freedesktop.Secret.Service'><method name='OpenSession'/></interface></node>", stderr=""),
+        ]
         start_service.return_value = Mock(returncode=0, stdout="u 1\n", stderr="")
         probe = _secret_service_probe(self._env("KDE", "wayland"))
-        self.assertFalse(probe["available"])
+        self.assertTrue(probe["available"])
         self.assertTrue(probe["reference_activation_attempted"])
         self.assertTrue(probe["reference_activation_succeeded"])
-        self.assertEqual(probe["reference_activation_method"], "DBUS_START_SERVICE_BY_NAME")
-        self.assertFalse(probe["compatibility_endpoint_verified"])
-        self.assertFalse(probe["standard_interface"])
+        self.assertTrue(probe["compatibility_endpoint_verified"])
+        self.assertTrue(probe["fa3_reference_adapter_only"])
+        self.assertTrue(probe["standard_interface"])
         self.assertFalse(probe["standard_name_verified"])
+        self.assertFalse(probe["live_name"])
 
     @patch("fa3_desktop_admission.time.sleep", return_value=None)
     @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
@@ -403,16 +432,18 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertEqual(aliases, ["org.kde.secretservicecompat"])
         plasma = json.loads((ROOT / "canonical/FA3-DESKTOP-PLASMA-001.json").read_text(encoding="utf-8"))
         activation = plasma["secret_service_activation"]
-        self.assertEqual(activation["mode"], "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT")
+        self.assertEqual(activation["mode"], "REFERENCE_PROVIDER_SECRET_SERVICE_ADAPTER")
         self.assertFalse(activation["core_requirement"])
         self.assertFalse(activation["architectural_authority"])
         self.assertTrue(activation["standard_interface_required"])
-        self.assertTrue(activation["standard_bus_name_required"])
+        self.assertTrue(activation["standard_bus_name_preferred"])
+        self.assertTrue(activation["standard_bus_name_required_for_system_interop"])
         self.assertTrue(activation["compatibility_bus_name_allowed"])
-        self.assertTrue(activation["compatibility_endpoint_diagnostic_only"])
+        self.assertTrue(activation["compatibility_endpoint_may_satisfy_fa3_secret_backend"])
+        self.assertEqual(activation["compatibility_endpoint_scope"], "FA3_REFERENCE_ADAPTER_ONLY")
         self.assertEqual(
             activation["activation_alias_semantics"],
-            "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY",
+            "FA3_REFERENCE_ADAPTER_ONLY_NO_SYSTEM_SECRET_SERVICE_CLAIM",
         )
         self.assertEqual(activation["activation_method"], "DBUS_START_SERVICE_BY_NAME")
         self.assertEqual(activation["preferred_standard_bus_name"], "org.freedesktop.secrets")
@@ -495,12 +526,39 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertEqual(report["result"], "FAIL")
         self.assertEqual(report["capabilities"]["secret_backend"], "FAIL")
 
+    @patch("fa3_desktop_admission.time.sleep", return_value=None)
+    @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
+    @patch("fa3_desktop_admission._dbus_start_service_by_name")
+    @patch("fa3_desktop_admission._secret_service_introspect")
+    def test_reference_alias_without_exact_standard_interface_fails_closed(
+        self,
+        introspect,
+        start_service,
+        _present,
+        _which,
+        _aliases,
+        _sleep,
+    ):
+        introspect.side_effect = [
+            Mock(returncode=1, stdout="", stderr="standard unavailable"),
+            Mock(returncode=1, stdout="", stderr="standard unavailable"),
+            Mock(returncode=0, stdout="<node><interface name='org.freedesktop.DBus.Peer'/></node>", stderr=""),
+        ] * 5
+        start_service.return_value = Mock(returncode=0, stdout="u 1\n", stderr="")
+        probe = _secret_service_probe(self._env("KDE", "wayland"))
+        self.assertFalse(probe["available"])
+        self.assertFalse(probe["compatibility_endpoint_verified"])
+        self.assertFalse(probe["standard_name_verified"])
+
     def test_secret_service_probe_remains_provider_neutral(self):
         text = (ROOT / "src/fa3_desktop_admission.py").read_text(encoding="utf-8")
         self.assertIn("org.freedesktop.secrets", text)
         self.assertIn("org.freedesktop.Secret.Service", text)
         self.assertIn("StartServiceByName", text)
-        self.assertNotIn("_secret_service_introspect(busctl, alias, env)", text)
+        self.assertIn("_secret_service_introspect(busctl, alias, env)", text)
+        self.assertIn("FA3_REFERENCE_ADAPTER_ONLY", text)
         for forbidden in ("kwallet-query", "kwalletd6", "ksecretd", "org.kde.KWallet"):
             self.assertNotIn(forbidden, text)
 
