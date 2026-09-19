@@ -125,7 +125,15 @@ def probe_python(path: Path) -> dict[str, Any]:
         " import pytorch3d;out['pytorch3d_version']=getattr(pytorch3d,'__version__','unknown');"
         "\nprint(json.dumps(out))"
     )
-    proc = run([str(path), "-c", code], 30)
+    timeout_seconds = 30
+    try:
+        proc = run([str(path), "-c", code], timeout_seconds)
+    except subprocess.TimeoutExpired:
+        return {
+            "path": str(path),
+            "probe_status": "TIMEOUT",
+            "timeout_seconds": timeout_seconds,
+        }
     if proc.returncode != 0:
         return {
             "path": str(path),
