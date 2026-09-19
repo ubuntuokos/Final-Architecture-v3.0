@@ -54,3 +54,9 @@ python3 ./bin/fa3-desktop-admission --require-gui --json
 ```
 
 A CI self-test proves the policy and deterministic compatibility cases only. It is not current-host evidence for Plasma, COSMIC, GNOME, or another desktop. A real host support claim requires a runtime probe receipt from that host.
+
+### Secret Service compatibility activation
+
+A Plasma referencia-profilban az `org.kde.secretservicecompat` név kizárólag **aktiválási hint és diagnosztikai jel**. Nem FA3 capability-endpoint, nem architekturális autoritás, és önmagában akkor sem elég a portable Secret Backend PASS-hoz, ha a standard Secret Service interfészt exportálja.
+
+A portable PASS feltétele az aktiválási kísérlet után is ugyanaz: a kliensnek a szabványos `org.freedesktop.secrets` busznéven, a `/org/freedesktop/secrets` objektumon sikeresen kell introspektálnia az `org.freedesktop.Secret.Service` interfészt. Ha ez nem bizonyítható, a desktop admission fail-closed marad. A canonical FA3 Vault továbbra is külön, provider-semleges fallback lehet, ha saját admissionje PASS.
