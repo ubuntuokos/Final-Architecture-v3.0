@@ -8,6 +8,9 @@ on:
       - 'canonical/current-host-capability-test-qualifications.json'
       - 'canonical/current-host-capability-qualification-constituent-producers.json'
       - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/FA3-WASMTIME-CURRENT-HOST-DEPENDENCY-001.json'
+      - 'bin/fa3-wasmtime-bootstrap'
+      - 'tests/test_wasmtime_current_host_bootstrap.py'
       - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
       - 'src/fa3_full_current_host_capability_producer.py'
       - 'src/fa3_full_current_host_preflight.py'
@@ -23,6 +26,9 @@ on:
       - 'canonical/current-host-capability-test-qualifications.json'
       - 'canonical/current-host-capability-qualification-constituent-producers.json'
       - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/FA3-WASMTIME-CURRENT-HOST-DEPENDENCY-001.json'
+      - 'bin/fa3-wasmtime-bootstrap'
+      - 'tests/test_wasmtime_current_host_bootstrap.py'
       - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
       - 'src/fa3_current_host_evidence_audit.py'
       - 'src/fa3_current_host_capability_handoff.py'
@@ -218,6 +224,7 @@ jobs:
             tests.test_mat004_media_authoring_verification_current_host \
             tests.test_full_current_host_capability_producer \
             tests.test_full_current_host_preflight \
+            tests.test_wasmtime_current_host_bootstrap \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -452,6 +459,13 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Bootstrap pinned Wasmtime sandbox runtime
+        shell: bash
+        run: |
+          chmod +x bin/fa3-wasmtime-bootstrap
+          ./bin/fa3-wasmtime-bootstrap
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: Prove runner control-plane identity
         shell: bash
         run: |
@@ -677,6 +691,7 @@ jobs:
           path: |
             .fa3-current-host/global-closure/**
             .fa3-current-host/full-closure/preflight.json
+            .fa3-current-host/dependencies/wasmtime.json
             .fa3-current-host/qualification-source-artifacts/**
             .fa3-current-host/qualification-constituents/**
             .fa3-current-host/test-results/capabilities/**

@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.current-host-dependency.v1",
+  "dependency_id": "FA3-WASMTIME-CURRENT-HOST-DEPENDENCY-001",
+  "status": "CANONICAL",
+  "purpose": "CAP-028 real WASMTIME_WASI sandbox execution and FULL-429 current-host closure",
+  "upstream": "bytecodealliance/wasmtime",
+  "version": "48.0.2",
+  "release_tag": "v48.0.2",
+  "platform": "x86_64-linux",
+  "asset": "wasmtime-v48.0.2-x86_64-linux.tar.xz",
+  "asset_sha256": "f2b0ad1ce9253f2f9a38793c2c42cd1cba4e90b27dc40d685eaf723dc8438d94",
+  "install_scope": "ROOTLESS_USER_LOCAL",
+  "install_root": "$HOME/.local/share/fa3/wasmtime/v48.0.2",
+  "command_link": "$HOME/.local/bin/wasmtime",
+  "bootstrap": "bin/fa3-wasmtime-bootstrap",
+  "network_policy": "HTTPS_OFFICIAL_GITHUB_RELEASE_ASSET_ONLY_DURING_DEPENDENCY_BOOTSTRAP",
+  "failure_semantics": "FAIL_CLOSED",
+  "current_host_runtime_pass_claim": false,
+  "global_promotion_claim": false,
+  "capability_bindings": [
+    "CAP-028"
+  ],
+  "capability_delta": 0,
+  "architectural_authority_delta": 0
+}
