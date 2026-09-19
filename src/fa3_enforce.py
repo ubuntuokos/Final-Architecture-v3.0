@@ -136,6 +136,12 @@ def static_check(root:Path):
     mapping=loadj(root/"canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json")
     rows=list(csv.DictReader((root/"canonical/conformance-matrix.csv").open(encoding="utf-8-sig",newline="")))
 
+    # Primary cross-cutting precondition: no other architecture/static result is
+    # meaningful until the hardware/desktop/HRB/evidence audit has passed.
+    hardware_portability_ref=hardware_portability_gate(root)
+    if hardware_portability_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-081","Primary hardware audit precondition failed",hardware_portability_gate=hardware_portability_ref))
+
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-039","Unified post-v3.0.11 canonical release projection gate failed",release_projection_gate=projection_ref))
@@ -176,8 +182,14 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-086","LynxHub Creative Operations Dashboard gate is not bound into global enforcement policy"))
     if "FA3-LOOP-ENGINEERING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-078","Closed-loop agent operations governance gate is not bound into global enforcement policy"))
-    if "FA3-HARDWARE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-080","Hardware portability/repository-assumption gate is not bound into global enforcement policy"))
+    if (
+        "FA3-HARDWARE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[])
+        or not pol.get("mandatory_reference_gates")
+        or pol.get("mandatory_reference_gates")[0] != "FA3-HARDWARE-PORTABILITY-GATESET-001"
+        or pol.get("hardware_audit_primary_gate") is not True
+        or pol.get("hardware_audit_primary_gate_order") != 1
+    ):
+        fs.append(finding("FA3-STATIC-080","Hardware audit is not bound as the first mandatory global enforcement precondition"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-070","OpenBMB provider-family boundary/hardware gate is not bound into global enforcement policy"))
     if "FA3-GPU-KERNEL-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -417,9 +429,6 @@ def static_check(root:Path):
     cpu_numa_threading_ref=cpu_numa_threading_gate(root)
     if cpu_numa_threading_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-069","CPU/NUMA physical-core-first thread governance gate failed",cpu_numa_threading_gate=cpu_numa_threading_ref))
-    hardware_portability_ref=hardware_portability_gate(root)
-    if hardware_portability_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-081","Hardware portability and repository-wide hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
     pytorch3d_ref=pytorch3d_gate(root)
     if pytorch3d_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-098","PyTorch3D differentiable 3D source-build/device-safety gate failed",pytorch3d_gate=pytorch3d_ref))
