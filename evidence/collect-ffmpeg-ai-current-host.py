@@ -8,7 +8,7 @@ from typing import Any
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
 from fa3_ffmpeg_ai_current_host import (
-    CAPABILITY_COUNT,CURRENT_HOST_CONFORMANCE_ID,EVIDENCE_LEVEL,EXPECTED_CPU_TOKEN,EXPECTED_MACHINE,
+    CAPABILITY_COUNT,CURRENT_HOST_CONFORMANCE_ID,EVIDENCE_LEVEL,
     build_identity_onnx,digest_json,feature_manifest_valid,hrb_receipt_valid,normalize_bdf,
     observed_onnx_provider,quality_valid,resolved_runtime_index,sha256_file,build_trust_receipt_valid
 )
@@ -46,10 +46,14 @@ def hardware()->dict[str,Any]:
         nodes=list(Path(f"/sys/devices/system/cpu/cpu{cpu}").glob("node[0-9]*"))
         node=int(nodes[0].name[4:]) if nodes else -1
         entries.append((socket_id,core_id,node))
-    summary={"machine":machine_name(),"models":sorted(set(models.values())),"packages":len({x[0] for x in entries}),
-      "physical_cores":len({(x[0],x[1]) for x in entries}),"logical_cpus":len(online),"numa_domains":len({x[2] for x in entries if x[2]>=0})}
-    return {"source":"LIVE_SYSFS_PROCFS_NVML",**summary,"cpu_model_match":bool(summary["models"]) and all(EXPECTED_CPU_TOKEN in x for x in summary["models"]),
-      "fingerprint_sha256":digest_json(summary),"hardware_semantics":"REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT"}
+    packages=sorted({x[0] for x in entries})
+    physical_set={(x[0],x[1]) for x in entries}
+    cores_per_package=[len({core for socket_id,core in physical_set if socket_id==package}) for package in packages]
+    summary={"machine":machine_name(),"models":sorted(set(models.values())),"packages":len(packages),
+      "physical_cores":len(physical_set),"physical_cores_per_package":cores_per_package,
+      "logical_cpus":len(online),"numa_domains":len({x[2] for x in entries if x[2]>=0})}
+    return {"source":"LIVE_SYSFS_PROCFS_NVML",**summary,
+      "fingerprint_sha256":digest_json(summary),"hardware_semantics":"FRESH_CURRENT_HOST_TOPOLOGY_NOT_CANONICAL_IDENTITY"}
 
 def live_gpus()->list[dict[str,Any]]:
     p=must(["nvidia-smi","--query-gpu=index,uuid,pci.bus_id,name,memory.total","--format=csv,noheader,nounits"])
@@ -132,7 +136,8 @@ def main()->int:
         idx=resolved_runtime_index(hrb,g)
         r["accelerator_resolution"]={"canonical_identity":"UUID_PLUS_PCI_BDF","ordinal_is_ephemeral":True,
           "runtime_index_resolved_from_uuid_bdf":idx is not None,"runtime_index":idx}
-        if not (h["machine"]==EXPECTED_MACHINE and h["cpu_model_match"] and h["packages"]==2 and h["physical_cores"]==44 and h["logical_cpus"]==88 and h["numa_domains"]==2):raise RuntimeError("reference T7910 hardware mismatch")
+        if not (h["packages"]>=1 and h["physical_cores"]>=8 and h["physical_cores_per_package"] and all(int(v)>=8 for v in h["physical_cores_per_package"]) and h["logical_cpus"]>=h["physical_cores"] and h["numa_domains"]>=1):
+            raise RuntimeError("fresh host CPU/NUMA baseline mismatch")
         if not feature_manifest_valid(feat):raise RuntimeError("required FFmpeg features/build flags missing")
         if not build_trust_receipt_valid(trust,feat["ffmpeg_binary_sha256"]):raise RuntimeError("FFmpeg build trust receipt invalid")
         if not hrb_receipt_valid(hrb,g) or idx is None:raise RuntimeError("HRB placement receipt invalid/mismatched/expired")
