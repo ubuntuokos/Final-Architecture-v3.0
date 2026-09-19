@@ -80,6 +80,15 @@ class HardwarePortabilityGateTests(unittest.TestCase):
             audit=scan_repository(root)
             self.assertEqual("FAIL",audit["result"],audit)
 
+    def test_legacy_host_reference_is_blocking_even_outside_runtime(self):
+        old_cpu = "E5-" + "26" + "96 v4"
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); p=root/"docs"; p.mkdir()
+            (p/"legacy.md").write_text("Historical machine: " + old_cpu + "\n",encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+            self.assertEqual(1,audit["legacy_repository_reference_count"])
+
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); p=root/"canonical"/"references"; p.mkdir(parents=True)
