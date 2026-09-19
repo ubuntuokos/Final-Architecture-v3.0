@@ -359,6 +359,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "dbus_activation_attempted": False,
             "reference_activation_attempted": False,
             "standard_name_verified": True,
+            "compatibility_endpoint_verified": False,
         }
 
     busctl = shutil.which("busctl")
@@ -370,6 +371,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "dbus_activation_attempted": False,
             "reference_activation_attempted": False,
             "standard_name_verified": False,
+            "compatibility_endpoint_verified": False,
         }
 
     # First try the standards-only service name. This may activate providers
@@ -388,6 +390,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "dbus_activation_attempted": True,
             "reference_activation_attempted": False,
             "standard_name_verified": True,
+            "compatibility_endpoint_verified": False,
         }
 
     # Some reference desktops package a provider under a compatibility bus
@@ -404,13 +407,14 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             and "org.freedesktop.Secret.Service" in alias_proc.stdout
         )
         if alias_standard_interface:
+            standard_name_live = _dbus_name_present("org.freedesktop.secrets", env)
             return {
                 "available": True,
-                "live_name": _dbus_name_present("org.freedesktop.secrets", env),
+                "live_name": standard_name_live,
                 "standard_interface": True,
                 "dbus_activation_attempted": True,
                 "reference_activation_attempted": True,
-                "standard_name_verified": _dbus_name_present("org.freedesktop.secrets", env),
+                "standard_name_verified": standard_name_live,
                 "compatibility_endpoint_verified": True,
             }
 
