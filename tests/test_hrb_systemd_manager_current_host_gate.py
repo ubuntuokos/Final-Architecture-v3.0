@@ -24,7 +24,7 @@ def base_receipt():
             "cardinality_semantics": "DYNAMIC_1_TO_N",
             "host_identity_semantics": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
             "cpu": {"package_count": 1, "physical_cores_by_package": {"0": 8}},
-            "gpu": {"devices": [{"vendor": "NVIDIA", "cuda_compute_capability": 8.6, "qualifies_portable_floor": True, "device_uuid": "GPU-X", "pci_bdf": "0000:01:00.0", "name_evidence_only": "NVIDIA RTX A1000"}]},
+            "gpu": {"devices": [{"vendor": "NVIDIA", "cuda_compute_capability": 8.6, "qualifies_portable_floor": True, "device_uuid": "GPU-X", "pci_bdf": "0000:01:00.0", "name_evidence_only": "NVIDIA Fixture Accelerator X"}]},
         },
         "systemd_manager": {"source": "SYSTEMD_ANALYZE_CAT_CONFIG", "returncode": 0, "assignments": []},
         "host_survival_policy": {},
