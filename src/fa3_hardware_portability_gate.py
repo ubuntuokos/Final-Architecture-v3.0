@@ -258,6 +258,11 @@ def evaluate(root: Path) -> dict[str, Any]:
     ]
     audit=scan_repository(root)
     checks.append(check(
+        "legacy-host-and-audit-artifacts-absent",
+        audit["legacy_repository_reference_count"] == 0,
+        f"legacy repository references={audit['legacy_repository_reference_count']}",
+    ))
+    checks.append(check(
         "repository-wide-hardcoded-hardware-audit",
         audit["result"]=="PASS",
         f"repository blockers={audit['blocking_hardcoded_production_assumptions']} legacy={audit['legacy_repository_reference_count']}",
