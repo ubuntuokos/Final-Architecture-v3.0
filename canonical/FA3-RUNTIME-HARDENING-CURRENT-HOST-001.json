@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.runtime-conformance.v1",
+  "id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "parent_gate_id": "FA3-GATE-RUNTIME-HARDENING-001",
+  "profile_ids": [
+    "FA3-RUNTIME-ISOLATION-001",
+    "FA3-AGENT-SANDBOX-001",
+    "FA3-MEDIA-GPU-ZEROCOPY-001"
+  ],
+  "provider_id": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+  "evidence_level": "CURRENT_HOST_RUNTIME_HARDENING_E2E_PASS",
+  "receipt": "evidence/receipts/runtime-hardening-current-host.json",
+  "collector": "evidence/collect-runtime-hardening-current-host.py",
+  "gate": "src/fa3_runtime_hardening_current_host_gate.py",
+  "required_external_inputs": [
+    {
+      "type": "RESOURCE_ADMISSION_EVIDENCE",
+      "schema_id": "FA3-EVIDENCE-ENVELOPE-001",
+      "evidence_class": "CURRENT_HOST_ADMISSION",
+      "required_claim": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
+      "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    {
+      "type": "FRAME_COPY_TRACE",
+      "schema": "fa3.cuda-copy-trace.v1",
+      "accepted_collectors": ["CUPTI", "NSIGHT_SYSTEMS", "CUDA_ACTIVITY_TRACE"],
+      "requirement": "ZERO_HOST_FRAME_ROUND_TRIP_DURING_NEURAL_SEGMENT"
+    }
+  ],
+  "sandbox_requirements": {
+    "quadlet_installed_instance_required": true,
+    "network": "none",
+    "read_only": true,
+    "no_new_privileges": true,
+    "drop_capability": "all",
+    "pull": "never",
+    "image_digest_pin_required": true,
+    "actual_oci_runtime": "runsc",
+    "host_home_visibility": "DENY",
+    "container_engine_socket_visibility": "DENY",
+    "nvproxy_driver_abi_required_when_sandbox_gpu_projected": true,
+    "unsupported_nvproxy_driver_override_allowed": false
+  },
+  "media_evidence_semantics": {
+    "pcie_copy_budget_role": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+    "pcie_default_budget_ratio_max": 0.05,
+    "pcie_sampling_interval_seconds_max": 0.025,
+    "gpu_selection": "HRB_GPU_UUID_PLUS_PCI_BDF",
+    "hardcoded_gpu_ordinal_forbidden": true,
+    "hardcoded_gpu_sku_pcie_capacity_forbidden": true,
+    "zero_host_round_trip_requires_frame_copy_trace": true,
+    "full_pipeline_true_zero_copy_claim_requires_separate_proof": true
+  },
+  "current_state": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING",
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
