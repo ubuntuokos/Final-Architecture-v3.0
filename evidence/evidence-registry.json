@@ -414,7 +414,6 @@
         "profile_id": "FA3-CPU-NUMA-THREADING-001",
         "contract_id": "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
         "gate_id": "FA3-CPU-NUMA-THREADING-GATESET-001",
-        "reference_evidence": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
         "runtime_activation_status": "CANONICAL_REFERENCE_PASS_CURRENT_HOST_THREADING_E2E_PENDING",
         "current_host_runtime_evidence": "PENDING_REAL_LEGACY_HOST_REMOVED_EXECUTION",
         "promotion_semantics": "REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
@@ -6726,7 +6725,7 @@
     "security_issue_672": "OPEN_CONFIRMED_AT_PIN",
     "acl_issue_890": "CLOSED_EXPLICIT_BINDING_PATTERN_ACCEPTED",
     "license_issue_1073": "OPEN_BLOCKING_COMPONENT_LICENSE_CLARITY",
-    "hardware_reference": "Dell LEGACY_HOST_REMOVED / 2x LEGACY_CPU_REMOVED / 44C-88T / expected 2 NUMA; live discovery + HRB admission; no static GPU ordinal",
+    "hardware_reference": "fresh live CPU/NUMA topology + HRB admission; no static accelerator ordinal",
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "current_host_runtime_promotion_claim": false,
     "production_provider_admission": false,
