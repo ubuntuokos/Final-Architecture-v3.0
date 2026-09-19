@@ -60,6 +60,12 @@ class Mat003InteractionCreativeCurrentHostTests(unittest.TestCase):
         self.assertFalse(computer_use_intent_allowed({**good, "private_kde_api": True}))
         self.assertFalse(computer_use_intent_allowed({**good, "broker": "DIRECT_KWIN"}))
 
+    def test_cap013_uses_canonical_current_user_session_discovery(self):
+        text = (ROOT / "src/fa3_mat003_interaction_creative_current_host.py").read_text(encoding="utf-8")
+        self.assertIn("discover_current_user_session_environment", text)
+        self.assertIn('"session_discovery": session_context["evidence"]', text)
+        self.assertNotIn("def _systemd_user_environment", text)
+
     def _film_plan(self):
         return {
             "schema": "fa3.film-direction-plan.v1",
