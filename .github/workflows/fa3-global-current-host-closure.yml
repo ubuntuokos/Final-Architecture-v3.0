@@ -206,6 +206,7 @@ jobs:
             src/fa3_mat003_interaction_creative_current_host.py \
             src/fa3_plasma_secret_service_diagnostic.py \
             src/fa3_mat004_media_authoring_verification_current_host.py \
+            tests/test_plasma_secret_service_diagnostic.py \
             src/fa3_full_current_host_capability_producer.py \
             src/fa3_full_current_host_preflight.py \
             src/fa3_current_host_runtime_resolver.py \
@@ -304,6 +305,7 @@ jobs:
             tests.test_mat001_foundation_current_host \
             tests.test_mat002_runtime_knowledge_current_host \
             tests.test_mat003_interaction_creative_current_host \
+            tests.test_plasma_secret_service_diagnostic \
             tests.test_mat004_media_authoring_verification_current_host \
             tests.test_hrb_systemd_manager_current_host_gate \
             tests.test_hrb_systemd_manager_current_host_collector \
@@ -657,6 +659,13 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects "$FA3_CURRENT_HOST_SUBJECTS"
+      - name: Collect persistent CAP-013 Plasma Secret Service diagnostic
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_plasma_secret_service_diagnostic.py \
+            --output .fa3-current-host/global-closure/diagnostics/cap013-plasma-secret-service.json
       - name: Audit explicit capability executor coverage before execution
         shell: bash
         run: |

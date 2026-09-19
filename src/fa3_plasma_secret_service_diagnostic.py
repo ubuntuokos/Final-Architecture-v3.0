@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import configparser
+import json
 import os
+import re
 import shutil
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
 
-SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v1"
+SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v2"
 ALIAS = "org.kde.secretservicecompat"
 STANDARD = "org.freedesktop.secrets"
+OBJECT_PATH = "/org/freedesktop/secrets"
+STANDARD_INTERFACE = "org.freedesktop.Secret.Service"
 
 
 def _parse_kde_bool(raw: str | None, default: bool) -> tuple[bool, str]:
@@ -64,24 +70,139 @@ def _read_config_state(env: Mapping[str, str]) -> dict[str, Any]:
     }
 
 
-def _user_bus_names(env: Mapping[str, str]) -> set[str]:
+def _run_busctl(
+    env: Mapping[str, str],
+    argv: list[str],
+    *,
+    timeout: int = 5,
+) -> subprocess.CompletedProcess[str] | None:
     busctl = shutil.which("busctl")
     if not busctl or not env.get("DBUS_SESSION_BUS_ADDRESS"):
-        return set()
+        return None
     try:
-        proc = subprocess.run(
-            [busctl, "--user", "--no-pager", "--list"],
+        return subprocess.run(
+            [busctl, "--user", *argv],
             check=False,
             capture_output=True,
             text=True,
-            timeout=5,
+            timeout=timeout,
             env=dict(env),
         )
     except (OSError, subprocess.SubprocessError):
-        return set()
-    if proc.returncode != 0:
+        return None
+
+
+def _user_bus_names(env: Mapping[str, str]) -> set[str]:
+    proc = _run_busctl(env, ["--no-pager", "--list"])
+    if proc is None or proc.returncode != 0:
         return set()
     return {line.split()[0] for line in proc.stdout.splitlines() if line.split()}
+
+
+def _redact_unique_names(text: str) -> str:
+    value = re.sub(r":[A-Za-z0-9_.-]+", "<UNIQUE_NAME>", text or "")
+    return " ".join(value.split())[:300]
+
+
+def _name_owner_diagnostic(
+    env: Mapping[str, str],
+    bus_name: str,
+    *,
+    live_names: set[str],
+) -> dict[str, Any]:
+    if bus_name not in live_names:
+        return {
+            "queried": False,
+            "reason": "WELL_KNOWN_NAME_NOT_LIVE",
+            "returncode": None,
+            "owner_parse_ok": False,
+            "unique_owner": None,
+            "stdout_shape": None,
+        }
+    proc = _run_busctl(
+        env,
+        [
+            "call",
+            "org.freedesktop.DBus",
+            "/org/freedesktop/DBus",
+            "org.freedesktop.DBus",
+            "GetNameOwner",
+            "s",
+            bus_name,
+        ],
+    )
+    if proc is None:
+        return {
+            "queried": True,
+            "reason": "BUSCTL_UNAVAILABLE_OR_CALL_FAILED",
+            "returncode": None,
+            "owner_parse_ok": False,
+            "unique_owner": None,
+            "stdout_shape": None,
+        }
+    stdout = proc.stdout or ""
+    match = re.fullmatch(r'\s*s\s+"?(:[A-Za-z0-9_.-]+)"?\s*', stdout)
+    owner = match.group(1) if match else None
+    return {
+        "queried": True,
+        "reason": None if proc.returncode == 0 else "GET_NAME_OWNER_NONZERO",
+        "returncode": proc.returncode,
+        "owner_parse_ok": owner is not None,
+        "unique_owner": owner,
+        "stdout_shape": _redact_unique_names(stdout),
+        "stderr_summary": _redact_unique_names(proc.stderr or "") if proc.returncode != 0 else "",
+    }
+
+
+def _introspection_diagnostic(
+    env: Mapping[str, str],
+    target: str | None,
+    *,
+    target_live: bool,
+) -> dict[str, Any]:
+    if not target or not target_live:
+        return {
+            "queried": False,
+            "returncode": None,
+            "xml_parse_ok": False,
+            "standard_interface_present": False,
+            "interface_names": [],
+            "stderr_summary": "",
+        }
+    proc = _run_busctl(
+        env,
+        ["--xml-interface", "introspect", target, OBJECT_PATH],
+    )
+    if proc is None:
+        return {
+            "queried": True,
+            "returncode": None,
+            "xml_parse_ok": False,
+            "standard_interface_present": False,
+            "interface_names": [],
+            "stderr_summary": "BUSCTL_UNAVAILABLE_OR_INTROSPECTION_FAILED",
+        }
+    interfaces: list[str] = []
+    parse_ok = False
+    if proc.returncode == 0 and proc.stdout.strip():
+        try:
+            root = ET.fromstring(proc.stdout)
+            interfaces = sorted({
+                str(node.attrib.get("name"))
+                for node in root.iter()
+                if node.tag == "interface" and node.attrib.get("name")
+            })[:64]
+            parse_ok = True
+        except ET.ParseError:
+            parse_ok = False
+    return {
+        "queried": True,
+        "returncode": proc.returncode,
+        "xml_parse_ok": parse_ok,
+        "standard_interface_present": STANDARD_INTERFACE in interfaces,
+        "interface_names": interfaces,
+        "stderr_summary": _redact_unique_names(proc.stderr or "") if proc.returncode != 0 else "",
+    }
 
 
 def collect_plasma_secret_service_diagnostic(
@@ -90,14 +211,92 @@ def collect_plasma_secret_service_diagnostic(
     supplied = dict(os.environ if env is None else env)
     names = _user_bus_names(supplied)
     state = _read_config_state(supplied)
+
+    alias_live = ALIAS in names
+    standard_live = STANDARD in names
+    alias_owner = _name_owner_diagnostic(supplied, ALIAS, live_names=names)
+    standard_owner = _name_owner_diagnostic(supplied, STANDARD, live_names=names)
+    alias_owner_name = alias_owner.get("unique_owner")
+    standard_owner_name = standard_owner.get("unique_owner")
+
     return {
         "schema": SCHEMA,
         "read_only": True,
         "secret_values_read": False,
         "secret_values_emitted": False,
         "provider_specific_diagnostic_only": True,
+        "admission_effect": "NONE_DIAGNOSTIC_ONLY",
+        "promotion_effect": "NONE_DIAGNOSTIC_ONLY",
+        "object_path": OBJECT_PATH,
+        "required_standard_interface": STANDARD_INTERFACE,
         "ksecretd_binary_present": shutil.which("ksecretd") is not None,
-        "reference_alias_live": ALIAS in names,
-        "standard_secret_service_live": STANDARD in names,
+        "reference_alias_live": alias_live,
+        "standard_secret_service_live": standard_live,
+        "reference_alias_owner": alias_owner,
+        "standard_name_owner": standard_owner,
+        "reference_alias_introspection": _introspection_diagnostic(
+            supplied,
+            ALIAS,
+            target_live=alias_live,
+        ),
+        "reference_owner_introspection": _introspection_diagnostic(
+            supplied,
+            alias_owner_name if isinstance(alias_owner_name, str) else None,
+            target_live=isinstance(alias_owner_name, str) and bool(alias_owner_name),
+        ),
+        "standard_name_introspection": _introspection_diagnostic(
+            supplied,
+            STANDARD,
+            target_live=standard_live,
+        ),
+        "standard_owner_introspection": _introspection_diagnostic(
+            supplied,
+            standard_owner_name if isinstance(standard_owner_name, str) else None,
+            target_live=isinstance(standard_owner_name, str) and bool(standard_owner_name),
+        ),
         **state,
     }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Collect read-only KDE Plasma Secret Service current-host diagnostics"
+    )
+    parser.add_argument(
+        "--output",
+        default=".fa3-current-host/global-closure/diagnostics/cap013-plasma-secret-service.json",
+    )
+    args = parser.parse_args()
+
+    output = Path(args.output)
+    if not output.is_absolute():
+        output = Path.cwd() / output
+    output.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        from fa3_desktop_admission import discover_current_user_session_environment
+
+        session = discover_current_user_session_environment()
+        report = collect_plasma_secret_service_diagnostic(session["environment"])
+        report["session_discovery"] = session["evidence"]
+        report["collection_status"] = "PASS"
+    except Exception as exc:
+        report = {
+            "schema": SCHEMA,
+            "read_only": True,
+            "secret_values_read": False,
+            "secret_values_emitted": False,
+            "provider_specific_diagnostic_only": True,
+            "admission_effect": "NONE_DIAGNOSTIC_ONLY",
+            "promotion_effect": "NONE_DIAGNOSTIC_ONLY",
+            "collection_status": "INCOMPLETE",
+            "collection_error_type": type(exc).__name__,
+        }
+
+    output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
