@@ -300,6 +300,7 @@ class DesktopPortabilityTests(unittest.TestCase):
     ):
         run.side_effect = [
             Mock(returncode=1, stdout="", stderr="standard name not activatable"),
+            Mock(returncode=0, stdout="u 1\n", stderr=""),
             Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
             Mock(returncode=1, stdout="", stderr="standard name still unavailable"),
         ]
@@ -307,12 +308,28 @@ class DesktopPortabilityTests(unittest.TestCase):
         probe = _secret_service_probe(env)
         self.assertFalse(probe["available"])
         self.assertTrue(probe["reference_activation_attempted"])
+        self.assertTrue(probe["reference_activation_succeeded"])
         self.assertTrue(probe["compatibility_endpoint_verified"])
         self.assertFalse(probe["standard_interface"])
         self.assertFalse(probe["standard_name_verified"])
         self.assertFalse(probe["live_name"])
-        self.assertEqual(run.call_args_list[1].args[0][3], "org.example.SecretCompat")
-        self.assertEqual(run.call_args_list[2].args[0][3], "org.freedesktop.secrets")
+        self.assertEqual(
+            run.call_args_list[1].args[0],
+            [
+                "/usr/bin/busctl",
+                "--user",
+                "call",
+                "org.freedesktop.DBus",
+                "/org/freedesktop/DBus",
+                "org.freedesktop.DBus",
+                "StartServiceByName",
+                "su",
+                "org.example.SecretCompat",
+                "0",
+            ],
+        )
+        self.assertEqual(run.call_args_list[2].args[0][3], "org.example.SecretCompat")
+        self.assertEqual(run.call_args_list[3].args[0][3], "org.freedesktop.secrets")
 
     @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
@@ -327,6 +344,7 @@ class DesktopPortabilityTests(unittest.TestCase):
     ):
         run.side_effect = [
             Mock(returncode=1, stdout="", stderr="standard name initially unavailable"),
+            Mock(returncode=0, stdout="u 1\n", stderr=""),
             Mock(returncode=1, stdout="", stderr="activation alias exposes no standard object"),
             Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
         ]
@@ -334,6 +352,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         probe = _secret_service_probe(env)
         self.assertTrue(probe["available"])
         self.assertTrue(probe["reference_activation_attempted"])
+        self.assertTrue(probe["reference_activation_succeeded"])
         self.assertFalse(probe["compatibility_endpoint_verified"])
         self.assertTrue(probe["standard_interface"])
         self.assertTrue(probe["standard_name_verified"])
@@ -352,6 +371,7 @@ class DesktopPortabilityTests(unittest.TestCase):
     ):
         run.side_effect = [
             Mock(returncode=1, stdout="", stderr="standard name not activatable"),
+            Mock(returncode=0, stdout="u 1\n", stderr=""),
             Mock(returncode=0, stdout="org.example.PrivateWallet interface - -\n", stderr=""),
             Mock(returncode=1, stdout="", stderr="standard name still unavailable"),
         ]
@@ -359,6 +379,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         probe = _secret_service_probe(env)
         self.assertFalse(probe["available"])
         self.assertTrue(probe["reference_activation_attempted"])
+        self.assertTrue(probe["reference_activation_succeeded"])
         self.assertFalse(probe["compatibility_endpoint_verified"])
         self.assertFalse(probe["standard_interface"])
 
@@ -379,10 +400,36 @@ class DesktopPortabilityTests(unittest.TestCase):
             activation["activation_alias_semantics"],
             "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY",
         )
+        self.assertEqual(activation["activation_method"], "DBUS_START_SERVICE_BY_NAME")
         self.assertEqual(activation["preferred_standard_bus_name"], "org.freedesktop.secrets")
         self.assertEqual(activation["object_path"], "/org/freedesktop/secrets")
         self.assertEqual(activation["interface"], "org.freedesktop.Secret.Service")
         self.assertEqual(_reference_secret_service_activation_aliases(self._env("GNOME", "wayland")), [])
+
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_reference_activation_uses_dbus_start_service_by_name_only_as_hint(self, run, _which):
+        from fa3_desktop_admission import _request_dbus_activation
+        run.return_value = Mock(returncode=0, stdout="u 1\n", stderr="")
+        env = self._env("KDE", "wayland")
+        result = _request_dbus_activation("/usr/bin/busctl", "org.example.SecretCompat", env)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                "/usr/bin/busctl",
+                "--user",
+                "call",
+                "org.freedesktop.DBus",
+                "/org/freedesktop/DBus",
+                "org.freedesktop.DBus",
+                "StartServiceByName",
+                "su",
+                "org.example.SecretCompat",
+                "0",
+            ],
+        )
+        self.assertEqual(run.call_args.kwargs["env"]["DBUS_SESSION_BUS_ADDRESS"], env["DBUS_SESSION_BUS_ADDRESS"])
 
     @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=[])
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
