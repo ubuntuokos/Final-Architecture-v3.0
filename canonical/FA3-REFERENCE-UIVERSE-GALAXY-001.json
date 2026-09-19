@@ -1,0 +1,67 @@
+{
+  "id": "FA3-REFERENCE-UIVERSE-GALAXY-001",
+  "title": "Uiverse Galaxy UI Pattern Reference Source",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "class": "EXTERNAL_REFERENCE",
+  "priority": "P1",
+  "requirement": "SHOULD_CONSULT",
+  "scope": [
+    "buttons",
+    "cards",
+    "checkboxes",
+    "forms",
+    "inputs",
+    "notifications",
+    "patterns",
+    "radio-buttons",
+    "toggle-switches",
+    "tooltips",
+    "loaders",
+    "micro-interactions",
+    "css-animation-patterns"
+  ],
+  "source": {
+    "upstream": "https://github.com/uiverse-io/galaxy",
+    "pinned_revision": "adbd2adde0a299a3956ea288fb444ec01891ca41",
+    "reviewed_revision": "adbd2adde0a299a3956ea288fb444ec01891ca41",
+    "reviewed_revision_date": "2024-09-02T14:32:05Z",
+    "license": "MIT",
+    "license_blob_sha": "f6c794ca60b0f6f02588f6ed8138972f2215b35a"
+  },
+  "authority": {
+    "canonical": "NONE",
+    "execution": "NONE",
+    "security": "NONE",
+    "admission": "NONE",
+    "resource": "NONE",
+    "design_system": "NONE"
+  },
+  "dependency": {
+    "build": false,
+    "runtime": false,
+    "git_submodule": false,
+    "network_runtime": false,
+    "vendored_repository": false
+  },
+  "import_policy": {
+    "automatic_import": "FORBIDDEN",
+    "raw_copy_paste_adoption": "FORBIDDEN",
+    "manual_pattern_adaptation": "ALLOWED_AFTER_FA3_UI_COMPONENT_FABRIC_REVIEW",
+    "direct_runtime_use": "FORBIDDEN",
+    "script_or_remote_resource_adoption": "FORBIDDEN",
+    "production_component_must_be_fa3_native": true
+  },
+  "license_and_provenance": {
+    "source_record_required": true,
+    "original_author_when_known_should_be_retained": true,
+    "original_path_or_url_should_be_retained": true,
+    "license_metadata_required": true,
+    "mit_notice_retention_required_when_license_terms_apply": true
+  },
+  "promotion_rule": {
+    "provider_materialization_implied": false,
+    "provider_creation_requires_separate_canonical_decision": true,
+    "reference_admission_does_not_admit_any_individual_component": true
+  }
+}

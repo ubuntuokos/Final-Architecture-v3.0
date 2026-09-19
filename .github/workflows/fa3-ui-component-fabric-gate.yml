@@ -1,0 +1,40 @@
+name: FA3 UI Component Fabric Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json'
+      - 'canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json'
+      - 'canonical/FA3-REFERENCE-UIVERSE-GALAXY-001.json'
+      - 'canonical/FA3-GATE-UI-COMPONENT-FABRIC-001.json'
+      - 'canonical/FA3-UI-COMPONENT-FABRIC-EVIDENCE-ACCEPTANCE-001.json'
+      - 'canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json'
+      - 'evidence/reference/fa3-ui-component-fabric-reference-pass.json'
+      - 'src/fa3_ui_component_fabric_gate.py'
+      - 'tests/test_ui_component_fabric_gate.py'
+      - '.github/workflows/fa3-ui-component-fabric-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canonical:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_ui_component_fabric_gate.py tests/test_ui_component_fabric_gate.py
+      - name: UI Component Fabric canonical gate
+        run: PYTHONPATH=. python src/fa3_ui_component_fabric_gate.py
+      - name: UI Component Fabric regression tests
+        run: PYTHONPATH=. python -m unittest tests.test_ui_component_fabric_gate -v
+      - name: Existing GUI authority non-regression
+        run: PYTHONPATH=. python src/fa3_gui_gate.py
