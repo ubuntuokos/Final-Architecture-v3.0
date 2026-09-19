@@ -216,7 +216,7 @@ def run_regressions() -> dict[str, Any]:
         refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=False, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=False, gpu_uuid=None, pci_bdf=None, ordinal_only=False),
         not refimpl.hardware_admission_valid(live_discovery=False, hrb_lease=False, static_cpu_ids=True, reference_as_portable_default=True, accelerator_required=False, gpu_uuid=None, pci_bdf=None, ordinal_only=False))
     add(P0_RULES[32], "accelerator execution requires HRB lease UUID+BDF",
-        refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=True, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid="GPU-u", pci_bdf="0000:05:00.0", ordinal_only=False),
+        refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=True, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid="GPU-u", pci_bdf="0000:3b:00.0", ordinal_only=False),
         not refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=False, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid=None, pci_bdf=None, ordinal_only=True))
     add(P0_RULES[33], "portable FA3 minimum hardware floor without model pins",
         refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_vendor="NVIDIA", gpu_compute_capability=8.6, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False)
