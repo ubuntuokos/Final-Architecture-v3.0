@@ -38,6 +38,28 @@ def _dedupe(paths: Iterable[Path]) -> list[Path]:
     return out
 
 
+def _dedupe_launchers(paths: Iterable[Path]) -> list[Path]:
+    """Deduplicate executable launch paths without resolving venv symlinks.
+
+    Resolving venv/bin/python to its base interpreter discards pyvenv.cfg based
+    environment discovery and therefore hides the venv's site-packages.
+    """
+    seen: set[str] = set()
+    out: list[Path] = []
+    for path in paths:
+        try:
+            expanded = path.expanduser()
+            absolute = Path(os.path.abspath(os.fspath(expanded)))
+        except Exception:
+            continue
+        key = str(absolute)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(absolute)
+    return out
+
+
 def approved_python_roots() -> list[Path]:
     roots = [
         Path("/AI-modells"),
@@ -87,7 +109,7 @@ def candidate_python_interpreters() -> list[Path]:
                 candidates.extend(root.glob(pattern))
         except OSError:
             pass
-    return [p for p in _dedupe(candidates) if p.is_file() and os.access(p, os.X_OK)]
+    return [p for p in _dedupe_launchers(candidates) if p.is_file() and os.access(p, os.X_OK)]
 
 
 def probe_python(path: Path) -> dict[str, Any]:

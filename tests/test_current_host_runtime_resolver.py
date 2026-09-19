@@ -60,6 +60,21 @@ class CurrentHostRuntimeResolverTests(unittest.TestCase):
                 candidates = resolver.candidate_python_interpreters()
             self.assertEqual(fake.resolve(), candidates[0])
 
+    def test_python_override_preserves_venv_symlink_launcher(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            base = root / "base-python"
+            base.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+            base.chmod(0o755)
+            venv_bin = root / "venv" / "bin"
+            venv_bin.mkdir(parents=True)
+            launcher = venv_bin / "python"
+            launcher.symlink_to(base)
+            with mock.patch.dict(os.environ, {"FA3_AI_PYTHON": str(launcher)}, clear=False):
+                candidates = resolver.candidate_python_interpreters()
+            self.assertEqual(launcher.absolute(), candidates[0])
+            self.assertNotEqual(base.resolve(), candidates[0])
+
     def test_search_roots_are_bounded_not_whole_home(self):
         roots = [str(p) for p in resolver.approved_python_roots()]
         self.assertNotIn(str(Path.home().resolve()), roots)
