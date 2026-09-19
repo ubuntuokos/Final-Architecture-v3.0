@@ -15,6 +15,9 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_kde_secret_service_reference_diagnostics import (
+    collect_kde_secret_service_reference_diagnostics,
+)
 
 BASE_ID = "FA3-DESKTOP-BASE-001"
 PLASMA_ID = "FA3-DESKTOP-PLASMA-001"
@@ -368,6 +371,64 @@ def _secret_service_interface_proven(proc: subprocess.CompletedProcess[str] | No
     )
 
 
+def _introspection_diagnostic(proc: subprocess.CompletedProcess[str] | None) -> dict[str, Any]:
+    if proc is None:
+        return {
+            "status": "UNAVAILABLE",
+            "returncode": None,
+            "xml_present": False,
+            "standard_interface_proven": False,
+            "error": "INTROSPECTION_INVOCATION_UNAVAILABLE",
+        }
+    proven = _secret_service_interface_proven(proc)
+    error: str | None = None
+    if proc.returncode != 0:
+        detail = (proc.stderr or "").strip()
+        error = detail[:500] if detail else f"RETURN_CODE_{proc.returncode}"
+    elif not proc.stdout.strip():
+        error = "EMPTY_XML"
+    elif not proven:
+        error = "STANDARD_INTERFACE_NOT_PRESENT_IN_XML"
+    return {
+        "status": "PASS" if proc.returncode == 0 else "FAIL",
+        "returncode": proc.returncode,
+        "xml_present": bool(proc.stdout.strip()),
+        "standard_interface_proven": proven,
+        "error": error,
+    }
+
+
+def _bounded_reference_diagnostics(
+    env: Mapping[str, str],
+    alias: str | None,
+    standard_introspection: dict[str, Any],
+    alias_introspection: dict[str, Any],
+    owner_introspection: dict[str, Any],
+    owner_unique_name: str | None,
+) -> dict[str, Any]:
+    try:
+        reference = collect_kde_secret_service_reference_diagnostics(env, alias=alias)
+    except Exception as exc:
+        reference = {
+            "schema": "fa3.kde-secret-service-reference-diagnostics.v1",
+            "diagnostic_only": True,
+            "authoritative_for_pass": False,
+            "mutation_performed": False,
+            "secret_material_read": False,
+            "collection_status": "ERROR",
+            "error_type": type(exc).__name__,
+        }
+    return {
+        "diagnostic_only": True,
+        "authoritative_for_pass": False,
+        "standard_introspection": standard_introspection,
+        "reference_alias_introspection": alias_introspection,
+        "reference_owner_introspection": owner_introspection,
+        "reference_owner_unique_name": owner_unique_name,
+        "reference_environment": reference,
+    }
+
+
 def _dbus_start_service_by_name(
     busctl: str,
     bus_name: str,
@@ -455,11 +516,16 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         }
 
     standard_name = "org.freedesktop.secrets"
+    standard_introspection_diagnostic: dict[str, Any] = {}
+    alias_introspection_diagnostic: dict[str, Any] = {}
+    owner_introspection_diagnostic: dict[str, Any] = {}
+    diagnostic_owner_unique_name: str | None = None
     # A standard bus name is not trusted by name alone. It must expose the
     # standard interface on the standard Secret Service object path.
     live_name = _dbus_name_present(standard_name, env)
     if live_name:
         verify = _secret_service_introspect(busctl, standard_name, env)
+        standard_introspection_diagnostic = _introspection_diagnostic(verify)
         verified_interface = _secret_service_interface_proven(verify)
         if verified_interface:
             return {
@@ -475,6 +541,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
 
     # Standards-only D-Bus activation remains the preferred portable route.
     proc = _secret_service_introspect(busctl, standard_name, env)
+    standard_introspection_diagnostic = _introspection_diagnostic(proc)
     standard_interface = _secret_service_interface_proven(proc)
     if standard_interface:
         return {
@@ -511,6 +578,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         # reference adapter only.
         for _ in range(5):
             verify = _secret_service_introspect(busctl, standard_name, env)
+            standard_introspection_diagnostic = _introspection_diagnostic(verify)
             verified_standard = _secret_service_interface_proven(verify)
             if verified_standard:
                 return {
@@ -529,6 +597,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                 }
 
             alias_verify = _secret_service_introspect(busctl, alias, env)
+            alias_introspection_diagnostic = _introspection_diagnostic(alias_verify)
             alias_interface = _secret_service_interface_proven(alias_verify)
             if alias_interface:
                 return {
@@ -546,6 +615,14 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                     "reference_owner_unique_name": None,
                     "fa3_reference_adapter_only": True,
                     "introspection_format": "BUSCTL_XML_INTERFACE",
+                    "diagnostics": _bounded_reference_diagnostics(
+                        env,
+                        alias,
+                        standard_introspection_diagnostic,
+                        alias_introspection_diagnostic,
+                        owner_introspection_diagnostic,
+                        diagnostic_owner_unique_name,
+                    ),
                 }
 
             # Some D-Bus implementations can expose an activation alias whose
@@ -557,7 +634,9 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             if activation_ok:
                 owner = _dbus_name_owner(busctl, alias, env)
                 if owner:
+                    diagnostic_owner_unique_name = owner
                     owner_verify = _secret_service_introspect(busctl, owner, env)
+                    owner_introspection_diagnostic = _introspection_diagnostic(owner_verify)
                     owner_interface = _secret_service_interface_proven(owner_verify)
                     if owner_interface:
                         return {
@@ -575,6 +654,14 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                             "reference_owner_unique_name": owner,
                             "fa3_reference_adapter_only": True,
                             "introspection_format": "BUSCTL_XML_INTERFACE",
+                            "diagnostics": _bounded_reference_diagnostics(
+                                env,
+                                alias,
+                                standard_introspection_diagnostic,
+                                alias_introspection_diagnostic,
+                                owner_introspection_diagnostic,
+                                diagnostic_owner_unique_name,
+                            ),
                         }
             time.sleep(0.2)
 
@@ -593,6 +680,14 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "reference_owner_unique_name": None,
         "fa3_reference_adapter_only": False,
         "introspection_format": "BUSCTL_XML_INTERFACE",
+        "diagnostics": _bounded_reference_diagnostics(
+            env,
+            aliases[0] if aliases else None,
+            standard_introspection_diagnostic,
+            alias_introspection_diagnostic,
+            owner_introspection_diagnostic,
+            diagnostic_owner_unique_name,
+        ) if classify_desktop(env).get("desktop") == "KDE_PLASMA" else {},
     }
 
 def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, Any]:
@@ -630,6 +725,7 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, An
         "secret_service_reference_owner_unique_name": secret_probe.get("reference_owner_unique_name"),
         "secret_service_fa3_reference_adapter_only": secret_probe.get("fa3_reference_adapter_only", False),
         "secret_service_introspection_format": secret_probe.get("introspection_format"),
+        "secret_service_diagnostics": secret_probe.get("diagnostics", {}),
         "fa3_vault": _truthy(env.get("FA3_VAULT_AVAILABLE")),
         "uri_open": bool(shutil.which("xdg-open")) or portal,
         "notifications": bool(shutil.which("notify-send")) or portal,
@@ -731,6 +827,7 @@ def evaluate_desktop(
             "fa3_reference_adapter_only": bool(probes.get("secret_service_fa3_reference_adapter_only")),
             "system_secret_service_interop": "PASS" if bool(probes.get("secret_service_standard_name_verified")) else "LIMITED",
             "introspection_format": probes.get("secret_service_introspection_format"),
+            "diagnostics": probes.get("secret_service_diagnostics", {}),
             "fa3_vault_available": bool(probes.get("fa3_vault")),
         },
         "findings": findings,
