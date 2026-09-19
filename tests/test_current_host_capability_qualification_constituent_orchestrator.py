@@ -79,6 +79,12 @@ class QualificationConstituentOrchestratorTests(unittest.TestCase):
         adapter = root / "src/cap001_positive_producer.py"
         if mode == "exit-fail":
             adapter.write_text("raise SystemExit(7)\n")
+        elif mode == "structured-reject":
+            adapter.write_text(
+                "import json,sys\n"
+                "print(json.dumps({'status':'REJECTED','findings':['HRB collector failed rc=2: systemd manager neutrality violation']}), file=sys.stderr)\n"
+                "raise SystemExit(2)\n"
+            )
         else:
             outside = mode == "outside"
             wrong = mode == "wrong-status"
@@ -213,6 +219,27 @@ print(json.dumps(verdict))
                 for finding in report["blocking_findings"]
                 for detail in finding.get("findings", [])
             ))
+        finally:
+            td.cleanup()
+
+    @unittest.skipIf(hasattr(os, "geteuid") and os.geteuid() == 0, "real current-host execution must be non-root")
+    def test_structured_registered_producer_rejection_is_preserved(self):
+        td, root = self._root(mode="structured-reject")
+        try:
+            self._host(root)
+            report = orchestrate(root, execute=True)
+            self.assertEqual(report["orchestrator_integrity"], "FAIL")
+            details = [
+                detail
+                for finding in report["blocking_findings"]
+                for detail in finding.get("findings", [])
+            ]
+            self.assertIn("producer adapter returncode 2", details)
+            self.assertTrue(any(
+                detail.startswith("producer rejection: HRB collector failed rc=2:")
+                for detail in details
+            ))
+            self.assertFalse((root / ".fa3-current-host/qualification-constituents").exists())
         finally:
             td.cleanup()
 
