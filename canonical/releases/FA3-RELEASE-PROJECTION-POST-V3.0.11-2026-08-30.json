@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1c8d8eb6029404c13a895ee6a405d9f73e9b1c94",
-    "pre_projection_root_tree_sha": "1163a0ce6a92bc723e6d148a0bff25b6a2955f99",
-    "pre_projection_canonical_tree_sha": "86137562175ba96494063b8e2914b9ffe04ce586",
-    "commits_ahead_of_v3_0_11_conformance_commit": 425,
-    "total_post_baseline_commits": 425,
-    "delta_file_count": 1462,
-    "delta_added_files": 1457,
+    "pre_projection_head_sha": "27e6e879894e565f6ea22704331df4182453bf8c",
+    "pre_projection_root_tree_sha": "d83e9e4718544257e2d915960bdad0950857ea83",
+    "pre_projection_canonical_tree_sha": "70333298bb395ece79c0d1d06d7981217cdbf323",
+    "commits_ahead_of_v3_0_11_conformance_commit": 419,
+    "total_post_baseline_commits": 419,
+    "delta_file_count": 1463,
+    "delta_added_files": 1458,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 709,
+    "canonical_files_in_post_baseline_delta": 710,
     "evidence_files_in_post_baseline_delta": 134,
     "source_files_in_post_baseline_delta": 188,
     "test_files_in_post_baseline_delta": 162,
@@ -769,7 +769,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1455,
+  "manifest_entry_count": 1456,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -2769,6 +2769,11 @@
     {
       "path": "canonical/cpu-numa-threading-enforcement.json",
       "git_blob_sha": "10a97261aa2d20bbcc6c008e53fb9ddbf4c69601",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-capability-proof-recipes.json",
+      "git_blob_sha": "9d89a41049a92018b97ffcc422b2055f684df21f",
       "baseline_delta_status": "added"
     },
     {
