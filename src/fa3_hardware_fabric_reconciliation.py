@@ -65,7 +65,7 @@ def audit(root: Path) -> dict[str, Any]:
             "schema": "fa3.hardware-fabric-reconciliation-report.v1",
             "reconciliation_id": RECONCILIATION_ID,
             "result": "FAIL",
-            "current_host_status": "PENDING_CURRENT_HOST",
+            "current_host_status": "PENDING_VENDOR_NEUTRAL_MULTI_VENDOR_CURRENT_HOST_EVIDENCE",
             "global_promotion_claim": False,
             "findings": [finding("HWFR-001", "Required reconciliation surface is missing", missing=missing)],
         }
@@ -153,8 +153,8 @@ def audit(root: Path) -> dict[str, Any]:
     if not (
         mgpu.get("relationship", {}).get("parent") == "FA3-HW-001"
         and mgpu.get("authority", {}).get("admission_placement_reservation_lease") == HRB_AUTHORITY
-        and "GPU_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants", [])
-        and "NEWER_RTX_GENERATIONS_REMAIN_ELIGIBLE_SUBJECT_TO_RUNTIME_CAPABILITY" not in mgpu_text
+        and "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants", [])
+        and "NEWER_RTX_GENERATIONS_REMAIN_ELIGIBLE_SUBJECT_TO_RUNTIME_CAPABILITY" not in mgpu_text and "NEWER_NVIDIA_GPU_CAPABILITIES_REMAIN_ELIGIBLE_SUBJECT_TO_LIVE_RUNTIME_COMPATIBILITY" not in mgpu_text
     ):
         findings.append(finding("HWFR-008", "Multi-GPU profile hardware semantics drift"))
 
@@ -169,7 +169,7 @@ def audit(root: Path) -> dict[str, Any]:
         findings.append(finding("HWFR-009", "Host Resource Broker authority/binding drift"))
 
     orchestrator = text["runtime_orchestrator"]
-    for token in ["gpu.cuda_compute_capability", "gpu.vram_gib", "uuid", "pci_bdf", HRB_AUTHORITY]:
+    for token in ["gpu.vram_gib", "uuid", "pci_bdf", HRB_AUTHORITY]:
         if token not in orchestrator:
             findings.append(finding("HWFR-010", "Runtime orchestrator capability/identity/authority token missing", token=token))
     if "NVIDIA_RTX_30_SERIES" in orchestrator or "RTX_30_SERIES" in orchestrator:
