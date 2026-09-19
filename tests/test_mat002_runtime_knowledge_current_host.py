@@ -12,6 +12,7 @@ from fa3_mat002_runtime_knowledge_current_host import (
     agent_task_allowed,
     deliberation_valid,
     expected_source_decisions,
+    hrb_failure_summary,
     knowledge_note_allowed,
     validate_exact_coverage,
     workspace_allowed,
@@ -60,6 +61,31 @@ class Mat002RuntimeKnowledgeCurrentHostTests(unittest.TestCase):
         self.assertFalse(knowledge_note_allowed({**good,"status":"DRAFT"}))
         self.assertFalse(knowledge_note_allowed({**good,"visibility":"UNKNOWN"}))
         self.assertFalse(knowledge_note_allowed({**good,"index":False}))
+
+    def test_hrb_failure_summary_is_bounded_and_sanitized(self):
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/"receipt.json"
+            path.write_text(json.dumps({
+                "check_summary":{
+                    "hardware_floor_pass":False,
+                    "manager_neutrality_pass":False,
+                    "failed_checks":["hardware_floor_pass","manager_neutrality_pass"],
+                    "qualifying_gpu_count":0,
+                    "manager_violation_reasons":["GLOBAL_CPU_OR_NUMA_PLACEMENT_MUST_NOT_REPLACE_HRB"],
+                    "secret_field":"must-not-leak"
+                },
+                "hardware_discovery":{"devices":[{"device_uuid":"secret"}]}
+            })+"\n",encoding="utf-8")
+            summary=hrb_failure_summary(path)
+            self.assertFalse(summary["hardware_floor_pass"])
+            self.assertEqual(summary["qualifying_gpu_count"],0)
+            self.assertNotIn("secret_field",summary)
+            self.assertNotIn("hardware_discovery",summary)
+
+    def test_hrb_failure_summary_fails_closed_when_receipt_missing(self):
+        with tempfile.TemporaryDirectory() as td:
+            summary=hrb_failure_summary(Path(td)/"missing.json")
+            self.assertEqual(summary,{"failed_checks":["receipt_unavailable"]})
 
     def test_mat002_capability_set_is_exact_second_batch(self):
         self.assertEqual(CAPABILITIES,("CAP-006","CAP-007","CAP-008","CAP-009","CAP-010"))
