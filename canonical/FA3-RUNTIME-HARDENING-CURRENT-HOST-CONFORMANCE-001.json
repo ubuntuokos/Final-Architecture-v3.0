@@ -97,5 +97,16 @@
     "hosted_ci_may_claim_current_host_pass": false,
     "document_only_promotion_forbidden": true,
     "production_global_promotion_criteria_unchanged": "CURRENT_HOST_PASS_PLUS_19_OF_19_ACCEPTANCE_PLUS_EXISTING_CANONICAL_PROMOTION_GATE"
+  },
+  "execution_preflight": {
+    "required": true,
+    "entrypoint": "src/fa3_runtime_hardening_current_host_preflight.py",
+    "receipt": ".fa3-current-host/runtime-hardening/preflight.json",
+    "pass_status": "READY_FOR_REAL_EXECUTION",
+    "required_before_collectors": true,
+    "preflight_pass_is_surface_pass": false,
+    "preflight_pass_is_current_host_hardening_pass": false,
+    "preflight_pass_is_global_promotion": false,
+    "network_pull_allowed": false
   }
 }
