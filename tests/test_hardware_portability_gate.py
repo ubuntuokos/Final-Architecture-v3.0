@@ -65,7 +65,7 @@ class HardwarePortabilityGateTests(unittest.TestCase):
             'CUDA_VISIBLE_DEVICES="0,1"\n',
             'ROCR_VISIBLE_DEVICES="0,1"\n',
             'ZE_AFFINITY_MASK="0.0"\n',
-            'DEVICE="0000:05:00.0"\n',
+            'DEVICE="0000:3b:00.0"\n',
         ):
             with self.subTest(line=line), tempfile.TemporaryDirectory() as td:
                 root=Path(td); (root/"apps").mkdir()
@@ -76,14 +76,14 @@ class HardwarePortabilityGateTests(unittest.TestCase):
     def test_apps_qml_cpp_are_audited(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); (root/"apps").mkdir()
-            (root/"apps"/"bad.qml").write_text('property string gpu: "RTX 3090"\n',encoding="utf-8")
+            (root/"apps"/"bad.qml").write_text('property string gpu: "RTX 4070"\n',encoding="utf-8")
             audit=scan_repository(root)
             self.assertEqual("FAIL",audit["result"],audit)
 
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); p=root/"canonical"/"references"; p.mkdir(parents=True)
-            (p/"fixture.md").write_text("Reference evidence only: Xeon E5-2697 v4, RTX 3090, 0000:05:00.0.",encoding="utf-8")
+            (p/"fixture.md").write_text("Reference evidence only: Xeon Xeon Gold 6430, RTX 4070, 0000:3b:00.0.",encoding="utf-8")
             audit=scan_repository(root)
             self.assertEqual("PASS",audit["result"])
             self.assertGreaterEqual(audit["non_normative_hardware_mentions"],2)
