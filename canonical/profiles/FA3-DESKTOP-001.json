@@ -11,7 +11,9 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "capability_projection": ["CAP-057"],
+  "capability_projection": [
+    "CAP-057"
+  ],
   "contract": "FA3-DESKTOP-CONTRACTS-001",
   "reference_implementation": "apps/fa3-control-center",
   "scope": [
@@ -57,6 +59,13 @@
     "display_protocol": "WAYLAND_PRIMARY",
     "browser_shell": false,
     "direct_privileged_executor": false,
-    "draft_changeset_only": true
+    "draft_changeset_only": true,
+    "display_protocol_compatibility": [
+      "X11"
+    ],
+    "display_protocol_exclusive": false,
+    "x11_support": "REQUIRED_COMPATIBILITY",
+    "desktop_environment_binding": "DESKTOP_AGNOSTIC_XDG_DBUS_PORTAL_BASELINE",
+    "desktop_specific_integrations": "OPTIONAL_ADAPTER_PROVIDER_LAYER_ONLY"
   }
 }
