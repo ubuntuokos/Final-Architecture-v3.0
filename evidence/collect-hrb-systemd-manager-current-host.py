@@ -237,6 +237,36 @@ def main() -> int:
     }
     writej(receipt_path, receipt)
     print(json.dumps(receipt, indent=2))
+    if status != "PASS":
+        failures: list[str] = []
+        if not hardware_ok:
+            failures.append(
+                "portable hardware floor not proven "
+                f"(cpu_cores_by_package={cpu_counts}, qualifying_gpu_count={len(qualifying_gpu)})"
+            )
+        if manager.get("returncode") != 0:
+            failures.append(
+                f"systemd-analyze cat-config failed rc={manager.get('returncode')}: "
+                f"{str(manager.get('stderr') or '').strip()[:500]}"
+            )
+        for violation in violations[:8]:
+            failures.append(
+                "systemd manager neutrality violation "
+                f"{violation.get('key')}={violation.get('value')} "
+                f"source={violation.get('source')} reason={violation.get('reason')}"
+            )
+        if not cgroup.get("unified"):
+            failures.append("unified cgroup v2 not proven")
+        if not cgroup.get("effective_cpus"):
+            failures.append("effective cgroup cpuset is empty")
+        if not cgroup.get("effective_memory_nodes"):
+            failures.append("effective cgroup memory-node set is empty")
+        failed_negatives = sorted(k for k, ok in negatives.items() if not ok)
+        if failed_negatives:
+            failures.append(f"manager-neutrality negative tests failed: {failed_negatives}")
+        if not failures:
+            failures.append("HRB/systemd manager current-host receipt did not satisfy PASS criteria")
+        print("; ".join(failures), file=sys.stderr)
     return 0 if status == "PASS" else 2
 
 

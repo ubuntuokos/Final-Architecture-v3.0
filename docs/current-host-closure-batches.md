@@ -31,3 +31,7 @@ Materialization still does **not** mean runtime closure. The next stage is physi
 ## External RT3D engine scope
 
 CAP-027 is provider-neutral `Realtime / Virtual Production Interchange`. Proprietary RT3D engines excluded by canonical policy are not discovered, installed, registered, launched, evidenced or promoted by FA3. Users may operate such software independently outside FA3.
+
+## Fail-closed producer diagnostics
+
+When a registered qualification constituent producer rejects execution, the orchestrator preserves only the producer's bounded structured `REJECTED/findings` payload alongside the return code. Raw stdout/stderr is not promoted. Partial constituent/source-artifact trees are still removed on any blocking producer failure, and diagnostic preservation never converts rejection into PASS or promotion evidence.
