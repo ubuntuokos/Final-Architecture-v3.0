@@ -748,6 +748,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         "base": root / "canonical/FA3-DESKTOP-BASE-001.json",
         "plasma": root / "canonical/FA3-DESKTOP-PLASMA-001.json",
         "gate": root / "canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json",
+        "profile": root / "canonical/profiles/FA3-DESKTOP-001.json",
     }
     missing = [str(path.relative_to(root)) for path in paths.values() if not path.is_file()]
     if missing:
@@ -756,6 +757,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
     base = _load_json(paths["base"])
     plasma = _load_json(paths["plasma"])
     gate = _load_json(paths["gate"])
+    profile = _load_json(paths["profile"])
     findings: list[dict[str, Any]] = []
 
     forbidden = set(base.get("policy", {}).get("direct_core_dependencies_forbidden", []))
@@ -778,6 +780,18 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and {"COSMIC_WAYLAND", "GNOME_WAYLAND", "CINNAMON", "XFCE", "LXQT"}.issubset(tier2)
     ):
         findings.append({"code": "DESKTOP_BASE_POLICY_DRIFT", "severity": "P0"})
+
+    runtime_profile = profile.get("runtime", {})
+    if not (
+        profile.get("id") == "FA3-DESKTOP-001"
+        and runtime_profile.get("display_protocol") == "WAYLAND_PRIMARY"
+        and "X11" in runtime_profile.get("display_protocol_compatibility", [])
+        and runtime_profile.get("display_protocol_exclusive") is False
+        and runtime_profile.get("x11_support") == "REQUIRED_COMPATIBILITY"
+        and runtime_profile.get("desktop_environment_binding") == "DESKTOP_AGNOSTIC_XDG_DBUS_PORTAL_BASELINE"
+        and runtime_profile.get("desktop_specific_integrations") == "OPTIONAL_ADAPTER_PROVIDER_LAYER_ONLY"
+    ):
+        findings.append({"code": "DESKTOP_PROFILE_PROTOCOL_PORTABILITY_DRIFT", "severity": "P0"})
 
     secret_activation = plasma.get("secret_service_activation", {})
     if not (
