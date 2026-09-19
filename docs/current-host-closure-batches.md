@@ -19,8 +19,8 @@ The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*
 
 ## Current materialization frontier
 
-After MAT-002, explicit registration coverage is **48/429 obligations** across sixteen fully materialized capabilities; **381 obligations remain pending materialization**. MAT-001 contributes CAP-001 through CAP-005 and MAT-002 contributes CAP-006 through CAP-010, each with explicit positive, negative and rollback obligations.
+After MAT-003, explicit registration coverage is **63/429 obligations** across twenty-one fully materialized capabilities; **366 obligations remain pending materialization**. MAT-001 contributes CAP-001 through CAP-005, MAT-002 contributes CAP-006 through CAP-010, and MAT-003 contributes CAP-011 through CAP-015, each with explicit positive, negative and rollback obligations.
 
-Materialization does **not** mean runtime closure. `EXEC-001` (CAP-001 through CAP-005) is execution-ready but remains pending physical execution on the non-root self-hosted `fa3-current-host` runner. `EXEC-002` (CAP-006 through CAP-010) becomes execution-ready from the same registry-derived planner after MAT-002. Until a physical run produces valid qualification constituents, capability test results, bundles, attestations and capability receipts, the affected Evidence Registry records remain pending and global promotion remains fail-closed.
+Materialization does **not** mean runtime closure. `EXEC-001` (CAP-001 through CAP-005), `EXEC-002` (CAP-006 through CAP-010), and `EXEC-003` (CAP-011 through CAP-015) are execution-ready from the registry-derived planner but remain pending physical execution on the non-root self-hosted `fa3-current-host` runner. Until a physical run produces valid qualification constituents, capability test results, bundles, attestations and capability receipts, the affected Evidence Registry records remain pending and global promotion remains fail-closed.
 
-The next deterministic materialization batch is **MAT-003 = CAP-011, CAP-012, CAP-013, CAP-014, CAP-015**.
+The next deterministic materialization batch is **MAT-004 = CAP-016, CAP-017, CAP-018, CAP-019, CAP-020**.
