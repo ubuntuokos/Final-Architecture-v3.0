@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_current_host_capability_qualification_constituent_orchestrator import orchestrate
+from fa3_current_host_capability_qualification_constituent_orchestrator import _typed_producer_failure, orchestrate
 
 QID = "FA3-QUAL-CAP-001-POS-001"
 CID = "CAP001-POS-ALL"
@@ -226,6 +226,20 @@ print(json.dumps(verdict))
             self.assertTrue(any(item["code"] == "QCPO-004" for item in report["blocking_findings"]))
         finally:
             td.cleanup()
+
+    def test_typed_producer_failure_preserves_declared_findings_only(self):
+        stderr='noise before\n'+json.dumps({
+            "status":"REJECTED",
+            "findings":["HRB collector blocked rc=2 summary={\"failed_checks\":[\"cgroup_v2_pass\"]}"]
+        })+'\n'
+        findings=_typed_producer_failure(stderr,2)
+        self.assertEqual(findings[0],"producer adapter returncode 2")
+        self.assertIn("producer finding: HRB collector blocked",findings[1])
+
+    def test_untyped_producer_stderr_is_not_exposed(self):
+        findings=_typed_producer_failure("password=hunter2\nraw failure\n",7)
+        self.assertEqual(findings,["producer adapter returncode 7"])
+        self.assertNotIn("hunter2"," ".join(findings))
 
 
 if __name__ == "__main__":
