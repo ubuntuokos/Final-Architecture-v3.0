@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: fa3-release-projection-reconcile-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   reconcile:
