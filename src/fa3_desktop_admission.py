@@ -6,6 +6,7 @@ import json
 import os
 import platform
 import shutil
+import shlex
 import stat
 import subprocess
 import time
@@ -406,6 +407,74 @@ def _activation_diagnostic(proc: subprocess.CompletedProcess[str] | None) -> tup
     return False, detail[:500] or f"returncode={proc.returncode}"
 
 
+def _activation_result_code(proc: subprocess.CompletedProcess[str] | None) -> int | None:
+    if proc is None or proc.returncode != 0:
+        return None
+    try:
+        parts = shlex.split(proc.stdout.strip())
+    except ValueError:
+        return None
+    if len(parts) == 2 and parts[0] == "u" and parts[1].isdigit():
+        value = int(parts[1])
+        return value if value in {1, 2} else None
+    return None
+
+
+def _dbus_activatable_names(busctl: str, env: Mapping[str, str]) -> set[str]:
+    try:
+        proc = subprocess.run(
+            [
+                busctl,
+                "--user",
+                "call",
+                "org.freedesktop.DBus",
+                "/org/freedesktop/DBus",
+                "org.freedesktop.DBus",
+                "ListActivatableNames",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return set()
+    if proc.returncode != 0:
+        return set()
+    try:
+        parts = shlex.split(proc.stdout.strip())
+    except ValueError:
+        return set()
+    if len(parts) < 2 or parts[0] != "as" or not parts[1].isdigit():
+        return set()
+    count = int(parts[1])
+    names = parts[2:]
+    return set(names[:count]) if len(names) >= count else set()
+
+
+def _secret_bus_state(
+    busctl: str,
+    standard_name: str,
+    aliases: list[str],
+    env: Mapping[str, str],
+) -> dict[str, Any]:
+    live = _user_bus_names(env)
+    activatable = _dbus_activatable_names(busctl, env)
+    return {
+        "standard_live": standard_name in live,
+        "standard_activatable": standard_name in activatable,
+        "reference_aliases": [
+            {
+                "bus_name": alias,
+                "live": alias in live,
+                "activatable": alias in activatable,
+            }
+            for alias in aliases
+        ],
+    }
+
+
 def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     busctl = shutil.which("busctl")
     if not busctl or not env.get("DBUS_SESSION_BUS_ADDRESS"):
@@ -460,11 +529,18 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     # evidence: portable PASS still requires the standard bus name and the
     # standard org.freedesktop.Secret.Service interface.
     aliases = _reference_secret_service_activation_aliases(env)
+    bus_state_before_activation = _secret_bus_state(busctl, standard_name, aliases, env)
     reference_activation_succeeded = False
     activation_errors: list[str] = []
+    activation_results: list[dict[str, Any]] = []
     for alias in aliases:
         activation_proc = _dbus_start_service_by_name(busctl, alias, env)
         activation_ok, activation_error = _activation_diagnostic(activation_proc)
+        activation_results.append({
+            "bus_name": alias,
+            "accepted": activation_ok,
+            "result_code": _activation_result_code(activation_proc),
+        })
         reference_activation_succeeded = reference_activation_succeeded or activation_ok
         if activation_error:
             activation_errors.append(f"{alias}: {activation_error}")
@@ -484,6 +560,9 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                     "reference_activation_succeeded": reference_activation_succeeded,
                     "reference_activation_method": "DBUS_START_SERVICE_BY_NAME",
                     "reference_activation_errors": activation_errors,
+                    "reference_activation_results": activation_results,
+                    "bus_state_before_activation": bus_state_before_activation,
+                    "bus_state_after_activation": _secret_bus_state(busctl, standard_name, aliases, env),
                     "standard_name_verified": True,
                     "compatibility_endpoint_verified": False,
                     "introspection_format": "BUSCTL_XML_INTERFACE",
@@ -499,6 +578,9 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "reference_activation_succeeded": reference_activation_succeeded,
         "reference_activation_method": "DBUS_START_SERVICE_BY_NAME" if aliases else None,
         "reference_activation_errors": activation_errors,
+        "reference_activation_results": activation_results,
+        "bus_state_before_activation": bus_state_before_activation,
+        "bus_state_after_activation": _secret_bus_state(busctl, standard_name, aliases, env),
         "standard_name_verified": False,
         "compatibility_endpoint_verified": False,
         "introspection_format": "BUSCTL_XML_INTERFACE",
@@ -533,6 +615,9 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, An
         "secret_service_reference_activation_succeeded": secret_probe.get("reference_activation_succeeded", False),
         "secret_service_reference_activation_method": secret_probe.get("reference_activation_method"),
         "secret_service_reference_activation_errors": secret_probe.get("reference_activation_errors", []),
+        "secret_service_reference_activation_results": secret_probe.get("reference_activation_results", []),
+        "secret_service_bus_state_before_activation": secret_probe.get("bus_state_before_activation", {}),
+        "secret_service_bus_state_after_activation": secret_probe.get("bus_state_after_activation", {}),
         "secret_service_standard_name_verified": secret_probe.get("standard_name_verified", secret_service),
         "secret_service_compatibility_endpoint_verified": secret_probe.get("compatibility_endpoint_verified", False),
         "secret_service_introspection_format": secret_probe.get("introspection_format"),
@@ -631,6 +716,9 @@ def evaluate_desktop(
             "reference_activation_succeeded": bool(probes.get("secret_service_reference_activation_succeeded")),
             "reference_activation_method": probes.get("secret_service_reference_activation_method"),
             "reference_activation_errors": probes.get("secret_service_reference_activation_errors", []),
+            "reference_activation_results": probes.get("secret_service_reference_activation_results", []),
+            "bus_state_before_activation": probes.get("secret_service_bus_state_before_activation", {}),
+            "bus_state_after_activation": probes.get("secret_service_bus_state_after_activation", {}),
             "compatibility_endpoint_verified_diagnostic_only": bool(probes.get("secret_service_compatibility_endpoint_verified")),
             "introspection_format": probes.get("secret_service_introspection_format"),
             "fa3_vault_available": bool(probes.get("fa3_vault")),
