@@ -397,20 +397,18 @@ VPLC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REFERENCE_P
 
 HWPORT_PROFILE_ID = "FA3-HARDWARE-BASELINE-001"
 HWPORT_CONTRACT_ID = "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
-HWPORT_DECISION_ID = "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+HWPORT_DECISION_ID = "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
 HWPORT_GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 HWPORT_EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
 HWPORT_PROFILE_PATH = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
 HWPORT_CONTRACT_PATH = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
-HWPORT_DECISION_PATH = "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json"
+HWPORT_DECISION_PATH = "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json"
 HWPORT_GATE_RECORD_PATH = "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json"
 HWPORT_ENFORCEMENT_PATH = "canonical/hardware-portability-enforcement.json"
-HWPORT_EVIDENCE_PATH = "evidence/reference/hardware-portability-ci-2026-09-03.json"
-HWPORT_AUDIT_PATH = "evidence/reference/hardware-portability-repository-audit-2026-09-03.json"
 HWPORT_GATE_PATH = "src/fa3_hardware_portability_gate.py"
 HWPORT_TEST_PATH = "tests/test_hardware_portability_gate.py"
 HWPORT_CAPABILITY_IDS = ("CAP-001", "CAP-006", "CAP-062", "CAP-063", "CAP-065", "CAP-130", "CAP-137", "CAP-142", "CAP-143")
-HWPORT_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING"
+HWPORT_RECONCILIATION_STATUS = "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING"
 
 _MUTABLE_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache", ".mypy_cache", ".fa3-current-host"}
 _MUTABLE_DIR_NAMES = {"__pycache__"}
@@ -2578,8 +2576,6 @@ def gate(root: Path):
         HWPORT_DECISION_PATH,
         HWPORT_GATE_RECORD_PATH,
         HWPORT_ENFORCEMENT_PATH,
-        HWPORT_EVIDENCE_PATH,
-        HWPORT_AUDIT_PATH,
         HWPORT_GATE_PATH,
         HWPORT_TEST_PATH,
         "canonical/profiles/FA3-HW-001.json",
@@ -2599,7 +2595,6 @@ def gate(root: Path):
         "profile_records": [HWPORT_PROFILE_PATH],
         "contract_records": [HWPORT_CONTRACT_PATH],
         "decision_records": [HWPORT_DECISION_PATH],
-        "reference_evidence_records": [HWPORT_EVIDENCE_PATH, HWPORT_AUDIT_PATH],
     }
     missing_hwport_inventory = [
         {"inventory": key, "path": required}
@@ -2612,22 +2607,22 @@ def gate(root: Path):
     hwport_contract = loadj(root / HWPORT_CONTRACT_PATH) if (root / HWPORT_CONTRACT_PATH).is_file() else {}
     hwport_decision = loadj(root / HWPORT_DECISION_PATH) if (root / HWPORT_DECISION_PATH).is_file() else {}
     hwport_gate_record = loadj(root / HWPORT_GATE_RECORD_PATH) if (root / HWPORT_GATE_RECORD_PATH).is_file() else {}
-    hwport_evidence = loadj(root / HWPORT_EVIDENCE_PATH) if (root / HWPORT_EVIDENCE_PATH).is_file() else {}
-    hwport_audit = loadj(root / HWPORT_AUDIT_PATH) if (root / HWPORT_AUDIT_PATH).is_file() else {}
     invalid_hwport_bindings = []
     for capability_id in HWPORT_CAPABILITY_IDS:
         record = next((item for item in records if item.get("subject_id") == capability_id), {})
         status = record.get("hardware_portability_projection_status", {})
         if (
             HWPORT_DECISION_ID not in record.get("source_decision_ids", [])
-            or HWPORT_EVIDENCE_PATH not in record.get("evidence_artifacts", [])
             or record.get("status") != "PENDING_CURRENT_HOST"
             or record.get("promotion_state") != "NOT_RUNTIME_PROMOTED_BY_DOCUMENT_ALONE"
             or status.get("profile_id") != HWPORT_PROFILE_ID
             or status.get("contract_id") != HWPORT_CONTRACT_ID
             or status.get("gate_id") != HWPORT_GATE_ID
-            or status.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+            or status.get("current_host_runtime_evidence") != "PENDING_FRESH_CURRENT_HOST_EXECUTION"
             or status.get("ci_reference_pass_does_not_promote_runtime") is not True
+            or status.get("decision_id") != HWPORT_DECISION_ID
+            or status.get("legacy_host_evidence_accepted") is not False
+            or status.get("static_pass_is_current_host_pass") is not False
         ):
             invalid_hwport_bindings.append(capability_id)
 
@@ -2639,11 +2634,9 @@ def gate(root: Path):
         or hardware_portability.get("executable_gate_id") != HWPORT_EXECUTABLE_GATE_ID
         or hardware_portability.get("capability_bindings") != list(HWPORT_CAPABILITY_IDS)
         or hardware_portability.get("reconciliation_status") != HWPORT_RECONCILIATION_STATUS
-        or hardware_portability.get("reference_evidence") != HWPORT_EVIDENCE_PATH
-        or hardware_portability.get("repository_audit") != HWPORT_AUDIT_PATH
-        or hardware_portability.get("reference_evidence_status") != "PASS"
-        or hardware_portability.get("repository_audit_status") != "PASS"
-        or hardware_portability.get("current_host_runtime_evidence") != "PENDING_REAL_CURRENT_HOST_EXECUTION"
+        or hardware_portability.get("current_host_runtime_evidence") != "PENDING_FRESH_CURRENT_HOST_EXECUTION"
+        or hardware_portability.get("legacy_host_evidence_accepted") is not False
+        or hardware_portability.get("exact_current_host_hardware") != "FRESH_EVIDENCE_ONLY_NOT_CANONICAL"
         or hardware_portability.get("current_host_runtime_promotion_claim") is not False
         or hardware_portability.get("new_capabilities") != 0
         or hardware_portability.get("new_architectural_authorities") != 0
@@ -2661,18 +2654,17 @@ def gate(root: Path):
         or hwport_contract.get("provider_neutral") is not True
         or hwport_decision.get("id") != HWPORT_DECISION_ID
         or hwport_decision.get("status") != "ACCEPTED_MATERIALIZED"
+        or hwport_decision.get("decision") != "SINGLE_CURRENT_VENDOR_NEUTRAL_HARDWARE_AUDIT_NO_LEGACY_HOST_BASELINE"
+        or hwport_decision.get("evidence_policy", {}).get("legacy_hardware_audit_artifacts") != "REMOVE_FROM_REPOSITORY"
+        or hwport_decision.get("evidence_policy", {}).get("legacy_host_specific_records") != "REMOVE_FROM_REPOSITORY"
         or hwport_gate_record.get("id") != HWPORT_EXECUTABLE_GATE_ID
         or hwport_gate_record.get("fail_closed") is not True
-        or hwport_evidence.get("status") != "PASS"
-        or hwport_evidence.get("current_host_runtime_promotion_claim") is not False
-        or hwport_audit.get("status") != "PASS"
-        or hwport_audit.get("blocking_hardcoded_production_assumptions") != 0
-        or hwport_audit.get("current_host_runtime_promotion_claim") is not False
+        or hwport_gate_record.get("decision_id") != HWPORT_DECISION_ID
     ):
         findings.append(
             finding(
                 "FA3-RELEASE-PROJECTION-037",
-                "Hardware portability baseline/discovery/repository-audit global reconciliation invariant mismatch",
+                "Hardware vendor-neutral baseline/discovery/audit projection invariant mismatch",
                 reconciliation_status=hardware_portability.get("reconciliation_status"),
                 missing_inventory_members=missing_hwport_inventory,
                 missing_manifest_paths=missing_hwport_manifest,
