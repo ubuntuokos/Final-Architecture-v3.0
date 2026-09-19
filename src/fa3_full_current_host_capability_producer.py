@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import Any
 from urllib.request import urlopen
 
+from fa3_current_host_runtime_resolver import resolve_python_runtime, resolve_unreal_runtime
+
 VERDICT_SCHEMA = "fa3.capability-current-host-qualification-constituent-verdict.v1"
 MODES = ("positive", "negative", "rollback")
 
@@ -273,41 +275,54 @@ def proof_graphics_3d(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 def proof_unreal_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     scope.mkdir(parents=True, exist_ok=True)
-    found = _find_any(("UnrealEditor-Cmd", "UnrealEditor"))
-    if not found:
-        raise RuntimeError("UnrealEditor/UnrealEditor-Cmd required")
-    name, binary = found
-    proc = cmd([binary, "-Version", "-Unattended", "-NullRHI"], 90)
-    output = (proc.stdout + "\n" + proc.stderr).strip()
-    if proc.returncode != 0 or not output:
-        raise RuntimeError(f"Unreal runtime version probe failed rc={proc.returncode}")
-    return {"application": name, "binary": binary, "version_output_sha256": sha(output.encode()), "unattended": True}
+    resolved = resolve_unreal_runtime()
+    selected = resolved.get("selected")
+    if not isinstance(selected, dict):
+        raise RuntimeError("validated UnrealEditor/UnrealEditor-Cmd required in approved roots")
+    binary = str(selected["path"])
+    output = str(selected.get("output_tail") or "")
+    return {
+        "application": Path(binary).name,
+        "binary": binary,
+        "version_output_sha256": sha(output.encode()),
+        "unattended": True,
+        "candidate_count": len(resolved.get("candidates", [])),
+    }
 
 
 def proof_pytorch3d_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     scope.mkdir(parents=True, exist_ok=True)
-    if importlib.util.find_spec("torch") is None or importlib.util.find_spec("pytorch3d") is None:
-        raise RuntimeError("torch and pytorch3d modules required")
+    resolved = resolve_python_runtime(require_torch=True, require_pytorch3d=True, require_cuda=False)
+    selected = resolved.get("selected")
+    if not isinstance(selected, dict):
+        raise RuntimeError("approved local Python runtime with torch and pytorch3d required")
+    python = str(selected["path"])
     code = (
         "import json,torch,pytorch3d;"
         "v=torch.tensor([[0.,0.,0.],[1.,0.,0.],[0.,1.,0.]]);"
         "area=torch.linalg.vector_norm(torch.cross(v[1]-v[0],v[2]-v[0],dim=0)).item()/2;"
         "print(json.dumps({'area':area,'torch':torch.__version__,'pytorch3d':getattr(pytorch3d,'__version__','unknown')}))"
     )
-    proc = cmd([sys.executable, "-c", code], 30)
+    proc = cmd([python, "-c", code], 30)
     if proc.returncode != 0:
         raise RuntimeError(f"PyTorch3D proof failed: {proc.stderr[-1500:]}")
     row = json.loads(proc.stdout.strip())
     if abs(float(row.get("area", 0.0)) - 0.5) > 1e-6:
         raise RuntimeError("PyTorch3D metric geometry check failed")
+    row["python"] = python
     return row
 
 
 def proof_gpu_compute(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     scope.mkdir(parents=True, exist_ok=True)
     smi = shutil.which("nvidia-smi")
-    if not smi or importlib.util.find_spec("torch") is None:
-        raise RuntimeError("nvidia-smi and torch required")
+    if not smi:
+        raise RuntimeError("nvidia-smi required")
+    resolved = resolve_python_runtime(require_torch=True, require_pytorch3d=False, require_cuda=True)
+    selected = resolved.get("selected")
+    if not isinstance(selected, dict):
+        raise RuntimeError("approved local Python runtime with torch + CUDA required")
+    python = str(selected["path"])
     inv = cmd([smi, "--query-gpu=uuid,pci.bus_id,driver_version", "--format=csv,noheader,nounits"], 20)
     if inv.returncode != 0 or not inv.stdout.strip():
         raise RuntimeError("NVIDIA inventory unavailable")
@@ -319,7 +334,7 @@ def proof_gpu_compute(scope: Path, cap: str, subject: str) -> dict[str, Any]:
         "c=a@a.T;torch.cuda.synchronize();"
         "print(json.dumps({'device':torch.cuda.get_device_name(),'sum':float(c.sum().item())}))"
     )
-    proc = cmd([sys.executable, "-c", code], 60)
+    proc = cmd([python, "-c", code], 60)
     if proc.returncode != 0:
         raise RuntimeError(f"CUDA compute proof failed: {proc.stderr[-1500:]}")
     row = json.loads(proc.stdout.strip())
@@ -327,6 +342,8 @@ def proof_gpu_compute(scope: Path, cap: str, subject: str) -> dict[str, Any]:
         raise RuntimeError("CUDA compute result invalid")
     return {
         "cuda_compute": True,
+        "python": python,
+        "torch_version": selected.get("torch_version"),
         "device_name": row.get("device"),
         "result_sum": row.get("sum"),
         "inventory_sha256": sha(inv.stdout.encode()),
