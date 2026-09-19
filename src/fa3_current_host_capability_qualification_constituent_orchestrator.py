@@ -47,6 +47,31 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _structured_rejection_findings(stderr: str) -> list[str]:
+    """Extract bounded findings only from a registered producer's structured REJECTED verdict."""
+    for raw in reversed(stderr.splitlines()):
+        line = raw.strip()
+        if not line:
+            continue
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(obj, dict) or obj.get("status") != "REJECTED":
+            continue
+        findings = obj.get("findings")
+        if not isinstance(findings, list):
+            return []
+        safe: list[str] = []
+        for item in findings:
+            if isinstance(item, str) and item.strip():
+                safe.append(item.strip()[:2000])
+            if len(safe) >= 8:
+                break
+        return safe
+    return []
+
+
 def _repo_file(root: Path, rel: Any) -> tuple[Path | None, str | None]:
     if not isinstance(rel, str) or not rel or Path(rel).is_absolute():
         return None, "path missing or absolute"
@@ -214,7 +239,12 @@ def _execute(
     finished = datetime.now(timezone.utc)
 
     if proc.returncode != 0:
-        return None, [f"producer adapter returncode {proc.returncode}"]
+        findings = [f"producer adapter returncode {proc.returncode}"]
+        findings.extend(
+            f"producer rejection: {detail}"
+            for detail in _structured_rejection_findings(proc.stderr)
+        )
+        return None, findings
     try:
         verdict = json.loads(proc.stdout)
     except Exception as exc:
@@ -394,6 +424,7 @@ def orchestrate(root: Path, *, execute: bool, subjects: set[str] | None = None) 
             "host_fingerprint_bound_by_orchestrator": True,
             "obligation_scoped_fresh_source_artifact_required": True,
             "partial_constituents_survive_failed_run": False,
+            "structured_registered_producer_rejection_findings_preserved": True,
             "hosted_ci_may_produce_current_host_constituents": False,
         },
     }
