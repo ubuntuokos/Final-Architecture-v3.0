@@ -495,7 +495,19 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     probes = collect_runtime_probes(session_env)
     report = evaluate_desktop(session_env, probes, require_gui=True)
     if report.get("result") != "PASS":
-        raise RuntimeError(f"desktop admission failed: {report}")
+        diagnostic = None
+        if (
+            report.get("desktop", {}).get("desktop") == "KDE_PLASMA"
+            and report.get("capabilities", {}).get("secret_backend") == "FAIL"
+        ):
+            from fa3_plasma_secret_service_diagnostic import (
+                collect_plasma_secret_service_diagnostic,
+            )
+            diagnostic = collect_plasma_secret_service_diagnostic(session_env)
+        raise RuntimeError(
+            f"desktop admission failed: {report}; "
+            f"plasma_secret_service_diagnostic={diagnostic}"
+        )
     if report.get("desktop", {}).get("desktop") != "KDE_PLASMA":
         raise RuntimeError(f"KDE Plasma current-user session not proven: {report.get('desktop')}")
     if report.get("session", {}).get("type") != "wayland":
