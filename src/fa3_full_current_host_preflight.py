@@ -128,12 +128,13 @@ def preflight(root: Path) -> dict[str, Any]:
             findings.append(f"required command missing: {name}")
 
     any_groups: dict[str, dict[str, Any]] = {}
-    if "graphics_3d" in primitives:
+    if {"graphics_3d", "metric_3d_reconstruction"} & primitives:
         found = any_command(("bforartists", "bforartists-bin", "blender"))
         any_groups["graphics_3d"] = {
             "candidates": ["bforartists", "bforartists-bin", "blender"],
             "selected": found[0] if found else None,
             "path": found[1] if found else None,
+            "used_by": sorted({"graphics_3d", "metric_3d_reconstruction"} & primitives),
         }
         if not found:
             findings.append("Bforartists or Blender executable missing")
@@ -153,11 +154,6 @@ def preflight(root: Path) -> dict[str, Any]:
         python_runtimes["gpu_compute"] = gpu_python
         if not gpu_python.get("selected"):
             findings.append("no approved local Python runtime with torch + CUDA available")
-    if "pytorch3d_runtime" in primitives:
-        p3d_python = resolve_python_runtime(require_torch=True, require_pytorch3d=True, require_cuda=False)
-        python_runtimes["pytorch3d_runtime"] = p3d_python
-        if not p3d_python.get("selected"):
-            findings.append("no approved local Python runtime with torch + pytorch3d available")
 
     cuda: dict[str, Any] = {"required": "gpu_compute" in primitives}
     if cuda["required"]:
