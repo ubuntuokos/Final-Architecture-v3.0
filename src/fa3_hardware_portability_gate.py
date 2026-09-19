@@ -58,7 +58,7 @@ HARD_RUNTIME_PATTERNS = (
 
 CONCRETE_HOST_PATTERNS = (
     ("CPU_MODEL_LITERAL", re.compile(r"\b(?:Xeon(?:\s+(?:Gold|Silver|Bronze|Platinum))?\s+[A-Z]?\d{4,5}[A-Z]?|E5[- ]\d{4}(?:\s+v\d)?|EPYC\s+\d{4}[A-Z]?|Core\s+i[3579]-\d{4,5}[A-Z]*)\b", re.I)),
-    ("NVIDIA_SKU_LITERAL", re.compile(r"\b(?:GeForce\s+)?RTX\s+(?:A?\d{3,4}|PRO\s+\d+)|\bDGX(?:\s+(?:A100|H100|H200|B200|Station|Spark))?\b", re.I)),
+    ("NVIDIA_SKU_LITERAL", re.compile(r"\b(?:GeForce\s+)?RTX\s+(?:A?\d{3,4}|PRO\s+\d+)|\bDGX\s+(?:A100|H100|H200|B200|Station|Spark)\b", re.I)),
     ("AMD_SKU_LITERAL", re.compile(r"\b(?:Radeon\s+RX\s+\d{4}[A-Z]*|Instinct\s+MI\d{2,3}[A-Z]*|MI\d{2,3}[A-Z]*)\b", re.I)),
     ("INTEL_GPU_SKU_LITERAL", re.compile(r"\bIntel\s+Arc\s+[AB]\d{3}\b", re.I)),
 )
