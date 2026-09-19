@@ -310,11 +310,13 @@ def _reference_secret_service_activation_aliases(env: Mapping[str, str]) -> list
     alias = activation.get("activation_bus_name")
     if not (
         profile.get("id") == PLASMA_ID
-        and activation.get("mode") == "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT"
+        and activation.get("mode") == "REFERENCE_PROVIDER_COMPATIBILITY_ENDPOINT"
         and activation.get("core_requirement") is False
         and activation.get("architectural_authority") is False
-        and activation.get("standard_verification_required") is True
-        and activation.get("post_activation_standard_bus_name") == "org.freedesktop.secrets"
+        and activation.get("standard_interface_required") is True
+        and activation.get("standard_bus_name_preferred") is True
+        and activation.get("compatibility_bus_name_allowed") is True
+        and activation.get("preferred_standard_bus_name") == "org.freedesktop.secrets"
         and activation.get("object_path") == "/org/freedesktop/secrets"
         and activation.get("interface") == "org.freedesktop.Secret.Service"
         and isinstance(alias, str)
@@ -357,6 +359,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "dbus_activation_attempted": False,
             "reference_activation_attempted": False,
             "standard_name_verified": True,
+            "compatibility_endpoint_verified": False,
         }
 
     busctl = shutil.which("busctl")
@@ -368,6 +371,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "dbus_activation_attempted": False,
             "reference_activation_attempted": False,
             "standard_name_verified": False,
+            "compatibility_endpoint_verified": False,
         }
 
     # First try the standards-only service name. This may activate providers
@@ -386,12 +390,14 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "dbus_activation_attempted": True,
             "reference_activation_attempted": False,
             "standard_name_verified": True,
+            "compatibility_endpoint_verified": False,
         }
 
-    # Some reference desktops package a Secret Service implementation under a
-    # compatibility activation name. That alias may only start the provider;
-    # PASS still requires the provider to register and expose the standard
-    # org.freedesktop.secrets service afterwards.
+    # Some reference desktops package a provider under a compatibility bus
+    # name to avoid claiming the global org.freedesktop.secrets name. The
+    # reference profile may map that endpoint, but PASS still requires the
+    # standard Secret Service object path and interface. The bus-name mapping
+    # itself is not an API or authority.
     aliases = _reference_secret_service_activation_aliases(env)
     for alias in aliases:
         alias_proc = _secret_service_introspect(busctl, alias, env)
@@ -400,23 +406,16 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             and alias_proc.returncode == 0
             and "org.freedesktop.Secret.Service" in alias_proc.stdout
         )
-        if not alias_standard_interface:
-            continue
-        standard_live = _dbus_name_present("org.freedesktop.secrets", env)
-        verify = _secret_service_introspect(busctl, "org.freedesktop.secrets", env) if standard_live else None
-        verified_standard = bool(
-            verify is not None
-            and verify.returncode == 0
-            and "org.freedesktop.Secret.Service" in verify.stdout
-        )
-        if verified_standard:
+        if alias_standard_interface:
+            standard_name_live = _dbus_name_present("org.freedesktop.secrets", env)
             return {
                 "available": True,
-                "live_name": True,
+                "live_name": standard_name_live,
                 "standard_interface": True,
                 "dbus_activation_attempted": True,
                 "reference_activation_attempted": True,
-                "standard_name_verified": True,
+                "standard_name_verified": standard_name_live,
+                "compatibility_endpoint_verified": True,
             }
 
     return {
@@ -426,6 +425,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "dbus_activation_attempted": True,
         "reference_activation_attempted": bool(aliases),
         "standard_name_verified": False,
+        "compatibility_endpoint_verified": False,
     }
 
 
@@ -456,6 +456,7 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, bo
         "secret_service_dbus_activation_attempted": secret_probe["dbus_activation_attempted"],
         "secret_service_reference_activation_attempted": secret_probe.get("reference_activation_attempted", False),
         "secret_service_standard_name_verified": secret_probe.get("standard_name_verified", secret_service),
+        "secret_service_compatibility_endpoint_verified": secret_probe.get("compatibility_endpoint_verified", False),
         "fa3_vault": _truthy(env.get("FA3_VAULT_AVAILABLE")),
         "uri_open": bool(shutil.which("xdg-open")) or portal,
         "notifications": bool(shutil.which("notify-send")) or portal,
@@ -598,11 +599,13 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and plasma.get("capability_count") == CAPABILITY_COUNT
         and plasma.get("constraints", {}).get("enhancements_must_not_become_core_requirements") is True
         and plasma.get("appearance", {}).get("runtime_dependency") is False
-        and secret_activation.get("mode") == "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT"
+        and secret_activation.get("mode") == "REFERENCE_PROVIDER_COMPATIBILITY_ENDPOINT"
         and secret_activation.get("core_requirement") is False
         and secret_activation.get("architectural_authority") is False
-        and secret_activation.get("standard_verification_required") is True
-        and secret_activation.get("post_activation_standard_bus_name") == "org.freedesktop.secrets"
+        and secret_activation.get("standard_interface_required") is True
+        and secret_activation.get("standard_bus_name_preferred") is True
+        and secret_activation.get("compatibility_bus_name_allowed") is True
+        and secret_activation.get("preferred_standard_bus_name") == "org.freedesktop.secrets"
         and secret_activation.get("object_path") == "/org/freedesktop/secrets"
         and secret_activation.get("interface") == "org.freedesktop.Secret.Service"
         and isinstance(secret_activation.get("activation_bus_name"), str)
