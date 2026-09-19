@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "07e7bb456130d8addb0714b3c8db7738d50aa6c1",
-    "pre_projection_root_tree_sha": "6ae21631fd670f3319c38e88d076a82c7445cf41",
-    "pre_projection_canonical_tree_sha": "f60f36659803f44de21b8b81b9fae6b743912ef5",
-    "commits_ahead_of_v3_0_11_conformance_commit": 445,
-    "total_post_baseline_commits": 445,
-    "delta_file_count": 1486,
-    "delta_added_files": 1481,
+    "pre_projection_head_sha": "4df148309506cee29a3b1b2f34e973a537006b3d",
+    "pre_projection_root_tree_sha": "681375dfa18ba7f5b24e9cdb38ae95d8abb5f52e",
+    "pre_projection_canonical_tree_sha": "c214910af9c5e81d4cd8e40398feb9bcd88e670b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 447,
+    "total_post_baseline_commits": 447,
+    "delta_file_count": 1488,
+    "delta_added_files": 1483,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,8 +47,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 717,
     "evidence_files_in_post_baseline_delta": 134,
-    "source_files_in_post_baseline_delta": 193,
-    "test_files_in_post_baseline_delta": 171,
+    "source_files_in_post_baseline_delta": 194,
+    "test_files_in_post_baseline_delta": 172,
     "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -777,7 +777,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1479,
+  "manifest_entry_count": 1481,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -836,7 +836,7 @@
     },
     {
       "path": ".github/workflows/fa3-desktop-portability.yml",
-      "git_blob_sha": "232e28e697d150a6fc63d8cd008f984167290c48",
+      "git_blob_sha": "7e9fe6bff0882af35d2acc26c8b45af331172713",
       "baseline_delta_status": "added"
     },
     {
@@ -851,7 +851,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "37dc054fd62b648f3ab23033a3981f3fdd185611",
+      "git_blob_sha": "d9eb96968ab25021770cbda696bad75b6cb92f7d",
       "baseline_delta_status": "added"
     },
     {
@@ -6546,7 +6546,7 @@
     },
     {
       "path": "src/fa3_desktop_admission.py",
-      "git_blob_sha": "c6af6e23b20f7d671f74cfeac6cb563a48ecd33b",
+      "git_blob_sha": "5d1629b0cd3368af9bda7d476bed234d34e15ff6",
       "baseline_delta_status": "added"
     },
     {
@@ -6737,6 +6737,11 @@
     {
       "path": "src/fa3_kaneo_gate.py",
       "git_blob_sha": "fb24e33634cd634a24d654b6d46064bb5ca94e22",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_kde_secret_service_reference_diagnostics.py",
+      "git_blob_sha": "f5f993f503cfd6fd9cdd01e17fe37be41297309c",
       "baseline_delta_status": "added"
     },
     {
@@ -7481,7 +7486,7 @@
     },
     {
       "path": "tests/test_desktop_portability.py",
-      "git_blob_sha": "de80fa269755fb5a25e9d28d2a713f149e5e836b",
+      "git_blob_sha": "72e7142ca158e77646b119c13cde94b5ae4f18f0",
       "baseline_delta_status": "added"
     },
     {
@@ -7561,7 +7566,7 @@
     },
     {
       "path": "tests/test_global_current_host_workflow_trigger.py",
-      "git_blob_sha": "a44eec9a9750a64c8284361afdb56baed4f3594c",
+      "git_blob_sha": "15943b36913b8d4dd75ac4c6ab42d956171178a6",
       "baseline_delta_status": "added"
     },
     {
@@ -7697,6 +7702,11 @@
     {
       "path": "tests/test_kaneo_gate.py",
       "git_blob_sha": "42d8cbb454507294eda6f1376a81fb054e2e0258",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_kde_secret_service_reference_diagnostics.py",
+      "git_blob_sha": "14879d4f9ad8ef57f2dbfa08b81d3e0c4ce355c1",
       "baseline_delta_status": "added"
     },
     {
