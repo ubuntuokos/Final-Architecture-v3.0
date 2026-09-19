@@ -122,11 +122,17 @@ def _bus_inventory(env: Mapping[str, str]) -> dict[str, dict[str, Any]]:
     return inventory
 
 
+def _user_bus_names(env: Mapping[str, str]) -> set[str]:
+    """Compatibility helper: listed names may be activatable and are not proof of ownership."""
+    return set(_bus_inventory(env))
+
+
 def _name_owner_diagnostic(
     env: Mapping[str, str],
     bus_name: str,
     *,
     inventory: Mapping[str, Mapping[str, Any]] | None = None,
+    live_names: set[str] | None = None,
 ) -> dict[str, Any]:
     proc = _run_busctl(
         env,
@@ -140,7 +146,7 @@ def _name_owner_diagnostic(
             bus_name,
         ],
     )
-    listed = bus_name in (inventory or {})
+    listed = bus_name in (inventory or {}) or (live_names is not None and bus_name in live_names)
     inventory_row = dict((inventory or {}).get(bus_name, {}))
     if proc is None:
         return {
@@ -171,8 +177,10 @@ def _name_owner_diagnostic(
 def _introspection_diagnostic(
     env: Mapping[str, str],
     target: str | None,
+    *,
+    target_live: bool | None = None,
 ) -> dict[str, Any]:
-    if not target:
+    if not target or target_live is False:
         return {
             "queried": False,
             "returncode": None,
@@ -219,7 +227,7 @@ def _introspection_diagnostic(
 
 def _process_count(name: str) -> dict[str, Any]:
     pgrep = shutil.which("pgrep")
-    if not pgrep:
+    if not pgrep or Path(pgrep).name != "pgrep":
         return {"probe_available": False, "count": None}
     try:
         proc = subprocess.run(
@@ -267,7 +275,7 @@ def _activation_entry() -> dict[str, Any]:
 def _package_versions() -> dict[str, Any]:
     dpkg = shutil.which("dpkg-query")
     packages = ("kwallet6", "libpam-kwallet5", "plasma-workspace")
-    if not dpkg:
+    if not dpkg or Path(dpkg).name != "dpkg-query":
         return {name: None for name in packages}
     out: dict[str, Any] = {}
     for package in packages:
@@ -310,9 +318,13 @@ def collect_plasma_secret_service_diagnostic(
     owners = {
         ALIAS: _name_owner_diagnostic(supplied, ALIAS, inventory=inventory),
         STANDARD: _name_owner_diagnostic(supplied, STANDARD, inventory=inventory),
-        KSECRETD_BUS: _name_owner_diagnostic(supplied, KSECRETD_BUS, inventory=inventory),
-        KWALLETD_BUS: _name_owner_diagnostic(supplied, KWALLETD_BUS, inventory=inventory),
     }
+    if supplied.get("DBUS_SESSION_BUS_ADDRESS"):
+        owners[KSECRETD_BUS] = _name_owner_diagnostic(supplied, KSECRETD_BUS, inventory=inventory)
+        owners[KWALLETD_BUS] = _name_owner_diagnostic(supplied, KWALLETD_BUS, inventory=inventory)
+    else:
+        owners[KSECRETD_BUS] = {"queried": False, "owner_parse_ok": False, "unique_owner": None}
+        owners[KWALLETD_BUS] = {"queried": False, "owner_parse_ok": False, "unique_owner": None}
     alias_owner = owners[ALIAS].get("unique_owner")
     standard_owner = owners[STANDARD].get("unique_owner")
 
@@ -332,6 +344,8 @@ def collect_plasma_secret_service_diagnostic(
         "standard_secret_service_listed": STANDARD in inventory,
         "standard_secret_service_live": bool(standard_owner),
         "bus_name_owners": owners,
+        "reference_alias_owner": owners[ALIAS],
+        "standard_name_owner": owners[STANDARD],
         "reference_alias_introspection": _introspection_diagnostic(
             supplied,
             ALIAS if alias_owner else None,
