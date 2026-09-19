@@ -15,9 +15,11 @@ ALLOW_CONTENT = {
     "tests/test_external_rt3d_engine_exclusion_gate.py",
 }
 FORBIDDEN_SUBSTRINGS = (
-    "unreal",
     "epic games",
     ".local/share/epic",
+)
+ENGINE_PATTERN = re.compile(
+    r"(?i)(?:\\bunreal(?:\\s+engine|editor(?:-cmd)?)?\\b|fa3_unreal|unreal_runtime|profile-unreal)"
 )
 UE_PATTERN = re.compile(r"(?i)(?:^|[^a-z0-9])ue5(?:[^a-z0-9]|$)")
 
@@ -55,6 +57,8 @@ def token_findings(path: str, text: str) -> list[str]:
         if token in low_text:
             findings.append(f"forbidden integration token in content: {path}")
             break
+    if ENGINE_PATTERN.search(path) or ENGINE_PATTERN.search(text):
+        findings.append(f"forbidden proprietary RT3D engine integration token: {path}")
     if UE_PATTERN.search(path) or UE_PATTERN.search(text):
         findings.append(f"forbidden UE5 integration token: {path}")
     return findings
