@@ -231,7 +231,7 @@ class DesktopPortabilityTests(unittest.TestCase):
 
         verified = Mock(
             returncode=0,
-            stdout="org.freedesktop.Secret.Service interface - -\n",
+            stdout="<node><interface name='org.freedesktop.Secret.Service'><method name='OpenSession'/></interface></node>",
             stderr="",
         )
         with (
@@ -243,6 +243,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertTrue(probes["secret_service"])
         self.assertTrue(probes["secret_service_live_name"])
         self.assertTrue(probes["secret_service_standard_interface"])
+        self.assertEqual(probes["secret_service_introspection_format"], "BUSCTL_XML_INTERFACE")
         self.assertFalse(probes["secret_service_dbus_activation_attempted"])
         self.assertEqual(
             seen,
@@ -269,6 +270,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertTrue(probe["available"])
         self.assertTrue(probe["live_name"])
         self.assertTrue(probe["standard_interface"])
+        self.assertEqual(probe["introspection_format"], "BUSCTL_XML_INTERFACE")
         self.assertTrue(probe["dbus_activation_attempted"])
         argv = run.call_args.args[0]
         self.assertEqual(
@@ -276,10 +278,10 @@ class DesktopPortabilityTests(unittest.TestCase):
             [
                 "/usr/bin/busctl",
                 "--user",
+                "--xml-interface",
                 "introspect",
                 "org.freedesktop.secrets",
                 "/org/freedesktop/secrets",
-                "org.freedesktop.Secret.Service",
             ],
         )
         self.assertEqual(
@@ -300,7 +302,7 @@ class DesktopPortabilityTests(unittest.TestCase):
     ):
         run.side_effect = [
             Mock(returncode=1, stdout="", stderr="standard name not activatable"),
-            Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
+            Mock(returncode=0, stdout="<node><interface name='org.freedesktop.Secret.Service'><method name='OpenSession'/></interface></node>", stderr=""),
             Mock(returncode=1, stdout="", stderr="standard name still unavailable"),
         ]
         env = self._env("KDE", "wayland")
@@ -328,7 +330,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         run.side_effect = [
             Mock(returncode=1, stdout="", stderr="standard name initially unavailable"),
             Mock(returncode=1, stdout="", stderr="activation alias exposes no standard object"),
-            Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
+            Mock(returncode=0, stdout="<node><interface name='org.freedesktop.Secret.Service'><method name='OpenSession'/></interface></node>", stderr=""),
         ]
         env = self._env("KDE", "wayland")
         probe = _secret_service_probe(env)
@@ -352,7 +354,7 @@ class DesktopPortabilityTests(unittest.TestCase):
     ):
         run.side_effect = [
             Mock(returncode=1, stdout="", stderr="standard name not activatable"),
-            Mock(returncode=0, stdout="org.example.PrivateWallet interface - -\n", stderr=""),
+            Mock(returncode=0, stdout="<node><interface name='org.example.PrivateWallet'><method name='Open'/></interface></node>", stderr=""),
             Mock(returncode=1, stdout="", stderr="standard name still unavailable"),
         ]
         env = self._env("KDE", "wayland")
@@ -400,6 +402,43 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertFalse(probe["available"])
         self.assertFalse(probe["standard_interface"])
         self.assertFalse(probe["standard_name_verified"])
+
+    @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=[])
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", return_value=True)
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_human_readable_filtered_table_is_not_interface_identity_proof(
+        self,
+        run,
+        _present,
+        _which,
+        _aliases,
+    ):
+        run.return_value = Mock(
+            returncode=0,
+            stdout=".OpenSession method sv (vo) - -\n.SearchItems method a{ss} aoao - -\n",
+            stderr="",
+        )
+        probe = _secret_service_probe(self._env("KDE", "wayland"))
+        self.assertFalse(probe["available"])
+        self.assertFalse(probe["standard_interface"])
+        self.assertFalse(probe["standard_name_verified"])
+
+    @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=[])
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", return_value=True)
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_malformed_introspection_xml_fails_closed(
+        self,
+        run,
+        _present,
+        _which,
+        _aliases,
+    ):
+        run.return_value = Mock(returncode=0, stdout="<node><interface", stderr="")
+        probe = _secret_service_probe(self._env("KDE", "wayland"))
+        self.assertFalse(probe["available"])
+        self.assertFalse(probe["standard_interface"])
 
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
     @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
