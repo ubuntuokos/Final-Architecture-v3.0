@@ -319,6 +319,7 @@ def _reference_secret_service_activation_aliases(env: Mapping[str, str]) -> list
         and activation.get("compatibility_bus_name_allowed") is True
         and activation.get("compatibility_endpoint_diagnostic_only") is True
         and activation.get("activation_alias_semantics") == "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY"
+        and activation.get("activation_method") == "DBUS_START_SERVICE_BY_NAME"
         and activation.get("preferred_standard_bus_name") == "org.freedesktop.secrets"
         and activation.get("object_path") == "/org/freedesktop/secrets"
         and activation.get("interface") == "org.freedesktop.Secret.Service"
@@ -366,6 +367,32 @@ def _secret_service_interface_proven(proc: subprocess.CompletedProcess[str] | No
     )
 
 
+def _request_dbus_activation(busctl: str, bus_name: str, env: Mapping[str, str]):
+    """Request D-Bus activation by name; this is never capability proof."""
+    try:
+        return subprocess.run(
+            [
+                busctl,
+                "--user",
+                "call",
+                "org.freedesktop.DBus",
+                "/org/freedesktop/DBus",
+                "org.freedesktop.DBus",
+                "StartServiceByName",
+                "su",
+                bus_name,
+                "0",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
 def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     busctl = shutil.which("busctl")
     if not busctl or not env.get("DBUS_SESSION_BUS_ADDRESS"):
@@ -375,6 +402,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "standard_interface": False,
             "dbus_activation_attempted": False,
             "reference_activation_attempted": False,
+            "reference_activation_succeeded": False,
             "standard_name_verified": False,
             "compatibility_endpoint_verified": False,
             "introspection_format": "BUSCTL_XML_INTERFACE",
@@ -409,6 +437,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "standard_interface": True,
             "dbus_activation_attempted": True,
             "reference_activation_attempted": False,
+            "reference_activation_succeeded": False,
             "standard_name_verified": True,
             "compatibility_endpoint_verified": False,
             "introspection_format": "BUSCTL_XML_INTERFACE",
@@ -420,9 +449,23 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     # successful introspection addressed to the standard bus name.
     aliases = _reference_secret_service_activation_aliases(env)
     compatibility_endpoint_verified = False
+    reference_activation_succeeded = False
     for alias in aliases:
-        alias_proc = _secret_service_introspect(busctl, alias, env)
-        compatibility_endpoint_verified = compatibility_endpoint_verified or _secret_service_interface_proven(alias_proc)
+        activation = _request_dbus_activation(busctl, alias, env)
+        activation_ok = bool(activation is not None and activation.returncode == 0)
+        reference_activation_succeeded = reference_activation_succeeded or activation_ok
+
+        # The compatibility name is activation-only. Its endpoint can be
+        # inspected for diagnostics after a successful activation request, but
+        # it can never satisfy the portable Secret Backend requirement.
+        alias_proc = _secret_service_introspect(busctl, alias, env) if activation_ok else None
+        compatibility_endpoint_verified = (
+            compatibility_endpoint_verified
+            or _secret_service_interface_proven(alias_proc)
+        )
+
+        # Portable PASS still requires exact XML proof addressed to the
+        # standard Secret Service name after the activation hint.
         verify = _secret_service_introspect(busctl, standard_name, env)
         verified_standard = _secret_service_interface_proven(verify)
         if verified_standard:
@@ -432,6 +475,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                 "standard_interface": True,
                 "dbus_activation_attempted": True,
                 "reference_activation_attempted": True,
+                "reference_activation_succeeded": reference_activation_succeeded,
                 "standard_name_verified": True,
                 "compatibility_endpoint_verified": compatibility_endpoint_verified,
                 "introspection_format": "BUSCTL_XML_INTERFACE",
@@ -443,6 +487,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "standard_interface": False,
         "dbus_activation_attempted": True,
         "reference_activation_attempted": bool(aliases),
+        "reference_activation_succeeded": reference_activation_succeeded,
         "standard_name_verified": False,
         "compatibility_endpoint_verified": compatibility_endpoint_verified,
         "introspection_format": "BUSCTL_XML_INTERFACE",
@@ -474,6 +519,7 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, An
         "secret_service_standard_interface": secret_probe["standard_interface"],
         "secret_service_dbus_activation_attempted": secret_probe["dbus_activation_attempted"],
         "secret_service_reference_activation_attempted": secret_probe.get("reference_activation_attempted", False),
+        "secret_service_reference_activation_succeeded": secret_probe.get("reference_activation_succeeded", False),
         "secret_service_standard_name_verified": secret_probe.get("standard_name_verified", secret_service),
         "secret_service_compatibility_endpoint_verified": secret_probe.get("compatibility_endpoint_verified", False),
         "secret_service_introspection_format": secret_probe.get("introspection_format"),
@@ -569,6 +615,7 @@ def evaluate_desktop(
             "standard_interface_verified": bool(probes.get("secret_service_standard_interface")),
             "standard_activation_attempted": bool(probes.get("secret_service_dbus_activation_attempted")),
             "reference_activation_attempted": bool(probes.get("secret_service_reference_activation_attempted")),
+            "reference_activation_succeeded": bool(probes.get("secret_service_reference_activation_succeeded")),
             "compatibility_endpoint_verified_diagnostic_only": bool(probes.get("secret_service_compatibility_endpoint_verified")),
             "introspection_format": probes.get("secret_service_introspection_format"),
             "fa3_vault_available": bool(probes.get("fa3_vault")),
@@ -637,6 +684,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and secret_activation.get("compatibility_bus_name_allowed") is True
         and secret_activation.get("compatibility_endpoint_diagnostic_only") is True
         and secret_activation.get("activation_alias_semantics") == "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY"
+        and secret_activation.get("activation_method") == "DBUS_START_SERVICE_BY_NAME"
         and secret_activation.get("preferred_standard_bus_name") == "org.freedesktop.secrets"
         and secret_activation.get("object_path") == "/org/freedesktop/secrets"
         and secret_activation.get("interface") == "org.freedesktop.Secret.Service"
