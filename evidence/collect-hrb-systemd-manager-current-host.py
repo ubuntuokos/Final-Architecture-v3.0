@@ -15,7 +15,6 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from fa3_hrb_systemd_manager_current_host_gate import manager_violations
-from fa3_hardware_portability_gate import CUDA_COMPUTE_CAPABILITY_MIN
 
 EVIDENCE_LEVEL = "CURRENT_HOST_HRB_SYSTEMD_MANAGER_NEUTRALITY_PASS"
 
@@ -74,7 +73,17 @@ def parse_cuda_compute_capability(value: str) -> float | None:
     return parsed if parsed > 0 else None
 
 
+def _normalize_bdf(value: str) -> str:
+    text = str(value or "").strip().lower()
+    if len(text.split(":")) == 2:
+        text = "0000:" + text
+    if len(text.split(":")[0]) > 4:
+        text = text[-12:]
+    return text
+
+
 def parse_gpu_rows(text: str) -> list[dict[str, Any]]:
+    """Optional NVIDIA enrichment; never defines the global hardware floor."""
     devices: list[dict[str, Any]] = []
     for row in csv.reader(text.splitlines()):
         if len(row) != 6:
@@ -85,41 +94,106 @@ def parse_gpu_rows(text: str) -> list[dict[str, Any]]:
             vram_mib = int(float(memory))
         except ValueError:
             vram_mib = 0
+        canonical_bdf = _normalize_bdf(bdf)
         devices.append({
-            "device_uuid": uuid,
-            "pci_bdf": bdf,
+            "stable_id": uuid or ("pci:" + canonical_bdf),
+            "device_uuid": uuid or None,
+            "pci_bdf": canonical_bdf,
             "vendor": "NVIDIA",
+            "vendor_id": "0x10de",
             "name_evidence_only": name,
             "driver_version": driver,
             "vram_mib_evidence_only": vram_mib,
+            "runtime_apis": ["CUDA"],
             "cuda_compute_capability": capability,
-            "qualifies_portable_floor": capability is not None and capability >= CUDA_COMPUTE_CAPABILITY_MIN,
-            "admission_semantics": "RUNTIME_CAPABILITY_NOT_MARKETING_NAME",
-            "identity_semantics": "UUID_PLUS_PCI_BDF_WHEN_AVAILABLE",
+            "qualifies_portable_floor": bool(uuid or canonical_bdf),
+            "admission_semantics": "GLOBAL_FLOOR_VENDOR_NEUTRAL_PROVIDER_CAPABILITIES_WORKLOAD_SCOPED",
+            "identity_semantics": "STABLE_DEVICE_ID_PLUS_PCI_BDF_WHEN_AVAILABLE",
         })
     return devices
 
 
-def discover_gpu() -> dict[str, Any]:
-    proc = subprocess.run(
-        [
-            "nvidia-smi",
-            "--query-gpu=uuid,pci.bus_id,name,driver_version,memory.total,compute_cap",
-            "--format=csv,noheader,nounits",
-        ],
-        text=True, capture_output=True, check=False,
-    )
-    devices = parse_gpu_rows(proc.stdout) if proc.returncode == 0 else []
+def _read_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def _pci_vendor_name(vendor_id: str) -> str:
     return {
-        "source": "NVIDIA_SMI_LIVE_DISCOVERY",
-        "query_semantics": "CUDA_COMPUTE_CAPABILITY_AUTHORITATIVE_SKU_NAME_EVIDENCE_ONLY",
-        "cuda_compute_capability_min": CUDA_COMPUTE_CAPABILITY_MIN,
-        "returncode": proc.returncode,
-        "stderr": proc.stderr[-2000:],
+        "0x10de": "NVIDIA",
+        "0x1002": "AMD",
+        "0x8086": "INTEL",
+    }.get(vendor_id.lower(), "PCI_" + vendor_id.lower().removeprefix("0x").upper())
+
+
+def discover_accelerators() -> dict[str, Any]:
+    devices_by_bdf: dict[str, dict[str, Any]] = {}
+    pci_root = Path("/sys/bus/pci/devices")
+    if pci_root.is_dir():
+        for dev in sorted(pci_root.iterdir()):
+            class_code = _read_text(dev / "class").lower()
+            if not (class_code.startswith("0x0300") or class_code.startswith("0x0302")):
+                continue
+            bdf = _normalize_bdf(dev.name)
+            vendor_id = _read_text(dev / "vendor").lower()
+            device_id = _read_text(dev / "device").lower()
+            driver = ""
+            try:
+                driver = (dev / "driver").resolve().name
+            except OSError:
+                pass
+            devices_by_bdf[bdf] = {
+                "stable_id": "pci:" + bdf,
+                "device_uuid": None,
+                "pci_bdf": bdf,
+                "vendor": _pci_vendor_name(vendor_id),
+                "vendor_id": vendor_id,
+                "device_id": device_id,
+                "driver": driver,
+                "runtime_apis": [],
+                "qualifies_portable_floor": True,
+                "admission_semantics": "GLOBAL_FLOOR_VENDOR_NEUTRAL_PROVIDER_CAPABILITIES_WORKLOAD_SCOPED",
+                "identity_semantics": "STABLE_DEVICE_ID_PLUS_PCI_BDF_WHEN_AVAILABLE",
+            }
+
+    nvidia_rc = None
+    nvidia_stderr = ""
+    try:
+        proc = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-gpu=uuid,pci.bus_id,name,driver_version,memory.total,compute_cap",
+                "--format=csv,noheader,nounits",
+            ],
+            text=True, capture_output=True, check=False,
+        )
+        nvidia_rc = proc.returncode
+        nvidia_stderr = proc.stderr[-2000:]
+        if proc.returncode == 0:
+            for enriched in parse_gpu_rows(proc.stdout):
+                bdf = enriched["pci_bdf"]
+                base = devices_by_bdf.get(bdf, {})
+                devices_by_bdf[bdf] = {**base, **enriched}
+    except OSError as exc:
+        nvidia_rc = 127
+        nvidia_stderr = repr(exc)
+
+    devices = sorted(devices_by_bdf.values(), key=lambda x: str(x.get("pci_bdf", "")))
+    return {
+        "source": "PCI_SYSFS_LIVE_DISCOVERY_WITH_OPTIONAL_PROVIDER_ENRICHMENT",
+        "query_semantics": "VENDOR_NEUTRAL_GLOBAL_FLOOR_PROVIDER_RUNTIME_CAPABILITIES_OPTIONAL_AND_WORKLOAD_SCOPED",
+        "nvidia_enrichment_returncode": nvidia_rc,
+        "nvidia_enrichment_stderr": nvidia_stderr,
         "device_count": len(devices),
         "devices": devices,
     }
 
+
+def discover_gpu() -> dict[str, Any]:
+    """Compatibility alias for older receipt consumers."""
+    return discover_accelerators()
 
 def hardware_discovery() -> dict[str, Any]:
     obj = {
@@ -128,7 +202,7 @@ def hardware_discovery() -> dict[str, Any]:
         "cardinality_semantics": "DYNAMIC_1_TO_N",
         "host_identity_semantics": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
         "cpu": discover_cpu(),
-        "gpu": discover_gpu(),
+        "accelerators": discover_accelerators(),
     }
     raw = json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()
     obj["fingerprint_sha256"] = hashlib.sha256(raw).hexdigest()
@@ -249,8 +323,8 @@ def main() -> int:
     cgroup = collect_cgroup_v2()
     violations = manager_violations(manager.get("assignments", []), survival)
     cpu_counts = hardware.get("cpu", {}).get("physical_cores_by_package", {})
-    qualifying_gpu = [d for d in hardware.get("gpu", {}).get("devices", []) if d.get("qualifies_portable_floor")]
-    hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and len(qualifying_gpu) >= 1
+    qualifying_accelerators = [d for d in hardware.get("accelerators", {}).get("devices", []) if d.get("qualifies_portable_floor")]
+    hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and len(qualifying_accelerators) >= 1
     negatives = negative_tests()
     status = "PASS" if hardware_ok and manager.get("returncode") == 0 and not violations and cgroup.get("unified") and cgroup.get("effective_cpus") and cgroup.get("effective_memory_nodes") and all(negatives.values()) else "FAIL"
     receipt = {
@@ -280,7 +354,7 @@ def main() -> int:
         if not hardware_ok:
             failures.append(
                 "portable hardware floor not proven "
-                f"(cpu_cores_by_package={cpu_counts}, qualifying_gpu_count={len(qualifying_gpu)})"
+                f"(cpu_cores_by_package={cpu_counts}, qualifying_accelerator_count={len(qualifying_accelerators)})"
             )
         if manager.get("returncode") != 0:
             failures.append(
