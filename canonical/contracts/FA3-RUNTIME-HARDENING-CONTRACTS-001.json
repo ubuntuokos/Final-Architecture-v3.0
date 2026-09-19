@@ -45,5 +45,32 @@
     "external_side_effects": false,
     "promotion_authority": false,
     "production_gate_bypass": false
+  },
+  "frame_copy_telemetry": {
+    "schema": "fa3.cuda-copy-trace.v1",
+    "accepted_collectors": [
+      "CUPTI",
+      "NSIGHT_SYSTEMS",
+      "CUDA_ACTIVITY_TRACE"
+    ],
+    "neural_segment_frame_count_min": 1,
+    "host_to_device_frame_copy_count_max": 0,
+    "device_to_host_frame_copy_count_max": 0,
+    "host_frame_round_trips_max": 0,
+    "dlpack_shared_gpu_memory_required": true,
+    "full_pipeline_true_zero_copy_claim_requires_separate_proof": true
+  },
+  "pcie_copy_budget": {
+    "role": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+    "current_link_utilization_ratio_max": 0.05,
+    "sampling_interval_seconds_max": 0.025,
+    "capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
+    "hardcoded_gpu_ordinal_forbidden": true,
+    "hardcoded_gpu_sku_link_capacity_forbidden": true
+  },
+  "evidence_normalization": {
+    "envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
+    "current_host_surfaces_require_payload_sha256": true,
+    "component_pass_never_implies_global_promotion": true
   }
 }

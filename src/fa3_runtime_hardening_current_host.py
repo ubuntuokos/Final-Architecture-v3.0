@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_resource_evidence_normalization_gate import validate_evidence_envelope
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 CONFORMANCE_ID = "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
@@ -94,6 +95,29 @@ def find_key(value: Any, names: set[str]) -> Any:
     return None
 
 
+def _nested_evidence_envelope_reasons(receipt: Any, *, surface: str) -> list[str]:
+    if not isinstance(receipt, dict):
+        return ["receipt is not an object"]
+    envelope = receipt.get("evidence_envelope")
+    if not isinstance(envelope, dict):
+        return ["FA3 Evidence Envelope missing"]
+    errors = list(validate_evidence_envelope(envelope))
+    if envelope.get("evidence_class") != "CURRENT_HOST_RUNTIME":
+        errors.append("evidence class is not CURRENT_HOST_RUNTIME")
+    subject = envelope.get("subject", {})
+    if subject.get("gate_id") != GATE_ID:
+        errors.append("evidence envelope gate binding mismatch")
+    result = envelope.get("result", {})
+    if result.get("scope") != surface:
+        errors.append("evidence envelope surface scope mismatch")
+    if "GLOBAL_FA3_PROMOTION" not in result.get("non_claims", []):
+        errors.append("evidence envelope missing GLOBAL_FA3_PROMOTION non-claim")
+    execution = envelope.get("execution_context", {})
+    if not execution.get("host_attestation_ref"):
+        errors.append("evidence envelope host attestation binding missing")
+    return errors
+
+
 def _base_reasons(
     receipt: Any,
     *,
@@ -160,8 +184,25 @@ def validate_runtime_sandbox_receipt(receipt: Any, *, root: Path) -> tuple[bool,
         and gvisor.get("network_default_deny_verified") is True
         and gvisor.get("explicit_mount_allowlist_verified") is True
         and gvisor.get("ephemeral_overlay_verified") is True
+        and gvisor.get("runtime_inspect_runsc") is True
+        and (gvisor.get("gpu_projection_required") is not True or gvisor.get("nvproxy_supported_driver") is True)
+        and gvisor.get("unsupported_driver_override") is False
     ):
-        reasons.append("gVisor production OCI isolation proof is incomplete")
+        reasons.append("gVisor production OCI isolation/runsc/nvproxy proof is incomplete")
+    quadlet = receipt.get("quadlet", {})
+    if not (
+        quadlet.get("status") == "PASS"
+        and quadlet.get("network_none") is True
+        and quadlet.get("read_only") is True
+        and quadlet.get("no_new_privileges") is True
+        and quadlet.get("drop_capability_all") is True
+        and quadlet.get("pull_never") is True
+        and quadlet.get("image_digest_pinned") is True
+        and quadlet.get("runtime_runsc") is True
+        and quadlet.get("forbidden_host_mounts_present") is False
+    ):
+        reasons.append("installed Quadlet fail-closed policy is incomplete")
+    reasons.extend(_nested_evidence_envelope_reasons(receipt, surface="RUNTIME_ISOLATION_AGENT_SANDBOX"))
     return not reasons, reasons
 
 
@@ -216,12 +257,43 @@ def validate_media_zero_receipt(receipt: Any, *, root: Path) -> tuple[bool, list
     if not (
         telemetry.get("present") is True
         and telemetry.get("scope") == "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE"
+        and telemetry.get("semantics") == "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF"
+        and telemetry.get("capacity_source") == "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH"
         and isinstance(telemetry.get("samples"), list)
-        and len(telemetry.get("samples")) > 0
+        and len(telemetry.get("samples")) >= 10
     ):
-        reasons.append("PCIe copy telemetry is missing")
+        reasons.append("PCIe copy-budget telemetry is missing or has invalid semantics")
+    else:
+        try:
+            interval = float(telemetry.get("sampling_interval_seconds"))
+            ratio = float(telemetry.get("budget_ratio"))
+            budget = float(telemetry.get("budget_kb_s"))
+            max_rx = float(telemetry.get("max_rx_kb_s"))
+            max_tx = float(telemetry.get("max_tx_kb_s"))
+            if not (0 < interval <= 0.025):
+                reasons.append("PCIe sampling interval exceeds 25ms")
+            if not (0 < ratio <= 0.05):
+                reasons.append("PCIe copy budget ratio exceeds 5%")
+            if budget <= 0 or max_rx >= budget or max_tx >= budget:
+                reasons.append("PCIe copy budget exceeded or invalid")
+        except (TypeError, ValueError):
+            reasons.append("PCIe copy-budget numeric fields invalid")
+    trace = receipt.get("frame_copy_trace", {})
+    segment = trace.get("neural_segment", {}) if isinstance(trace, dict) else {}
+    if not (
+        trace.get("schema") == "fa3.cuda-copy-trace.v1"
+        and trace.get("status") == "PASS"
+        and trace.get("collector", {}).get("kind") in {"CUPTI", "NSIGHT_SYSTEMS", "CUDA_ACTIVITY_TRACE"}
+        and int(segment.get("frame_count", 0)) > 0
+        and int(segment.get("host_to_device_frame_copy_count", -1)) == 0
+        and int(segment.get("device_to_host_frame_copy_count", -1)) == 0
+        and int(segment.get("host_frame_round_trips", -1)) == 0
+        and segment.get("dlpack_shared_gpu_memory") is True
+    ):
+        reasons.append("GPU frame-copy trace does not prove zero host frame round-trips")
     if receipt.get("full_pipeline_zero_copy_claim") is not False:
         reasons.append("unsupported full-pipeline zero-copy claim")
+    reasons.extend(_nested_evidence_envelope_reasons(receipt, surface="MEDIA_GPU_ZERO_HOST_ROUND_TRIP"))
     return not reasons, reasons
 
 
