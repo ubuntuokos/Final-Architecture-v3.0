@@ -6,6 +6,7 @@ import json
 import os
 import platform
 import shutil
+import stat
 import subprocess
 from pathlib import Path
 from typing import Any, Mapping
@@ -62,7 +63,224 @@ def classify_desktop(env: Mapping[str, str]) -> dict[str, Any]:
     }
 
 
-def _dbus_name_present(name: str) -> bool:
+def _owned_socket(path: Path, uid: int) -> bool:
+    try:
+        info = path.lstat()
+    except OSError:
+        return False
+    return stat.S_ISSOCK(info.st_mode) and info.st_uid == uid
+
+
+def _safe_runtime_dir(uid: int) -> Path | None:
+    path = Path(f"/run/user/{uid}")
+    try:
+        info = path.lstat()
+    except OSError:
+        return None
+    if not stat.S_ISDIR(info.st_mode) or info.st_uid != uid:
+        return None
+    return path
+
+
+def _systemd_user_environment_snapshot(env: Mapping[str, str]) -> dict[str, str]:
+    systemctl = shutil.which("systemctl")
+    if not systemctl:
+        return {}
+    try:
+        proc = subprocess.run(
+            [systemctl, "--user", "show-environment"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return {}
+    if proc.returncode != 0:
+        return {}
+    wanted = {
+        "XDG_CURRENT_DESKTOP",
+        "DESKTOP_SESSION",
+        "XDG_SESSION_TYPE",
+        "XDG_RUNTIME_DIR",
+        "DBUS_SESSION_BUS_ADDRESS",
+        "WAYLAND_DISPLAY",
+        "DISPLAY",
+    }
+    out: dict[str, str] = {}
+    for raw in proc.stdout.splitlines():
+        if "=" not in raw:
+            continue
+        key, value = raw.split("=", 1)
+        if key in wanted and value:
+            out[key] = value
+    return out
+
+
+def _loginctl_session_properties(uid: int) -> dict[str, str]:
+    loginctl = shutil.which("loginctl")
+    if not loginctl:
+        return {}
+
+    session_ids: list[str] = []
+    try:
+        preferred = subprocess.run(
+            [loginctl, "show-user", str(uid), "-p", "Display", "--value"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if preferred.returncode == 0 and preferred.stdout.strip():
+            session_ids.append(preferred.stdout.strip())
+
+        listed = subprocess.run(
+            [loginctl, "list-sessions", "--no-legend", "--no-pager"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if listed.returncode == 0:
+            for raw in listed.stdout.splitlines():
+                parts = raw.split()
+                if len(parts) >= 2 and parts[1] == str(uid) and parts[0] not in session_ids:
+                    session_ids.append(parts[0])
+    except (OSError, subprocess.SubprocessError):
+        return {}
+
+    for session_id in session_ids:
+        try:
+            proc = subprocess.run(
+                [
+                    loginctl,
+                    "show-session",
+                    session_id,
+                    "-p", "Id",
+                    "-p", "User",
+                    "-p", "Type",
+                    "-p", "Remote",
+                    "-p", "Active",
+                    "-p", "State",
+                    "-p", "Class",
+                    "-p", "Desktop",
+                ],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except (OSError, subprocess.SubprocessError):
+            continue
+        if proc.returncode != 0:
+            continue
+        props: dict[str, str] = {}
+        for raw in proc.stdout.splitlines():
+            if "=" in raw:
+                key, value = raw.split("=", 1)
+                props[key] = value
+        if (
+            props.get("User") == str(uid)
+            and props.get("Type", "").lower() in {"wayland", "x11"}
+            and props.get("Remote", "").lower() == "no"
+            and props.get("Active", "").lower() == "yes"
+        ):
+            return props
+    return {}
+
+
+def _user_bus_names(env: Mapping[str, str]) -> set[str]:
+    if not shutil.which("busctl") or not env.get("DBUS_SESSION_BUS_ADDRESS"):
+        return set()
+    try:
+        proc = subprocess.run(
+            ["busctl", "--user", "--no-pager", "--list"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return set()
+    if proc.returncode != 0:
+        return set()
+    return {
+        line.split()[0]
+        for line in proc.stdout.splitlines()
+        if line.split()
+    }
+
+
+def discover_current_user_session_environment(
+    env: Mapping[str, str] | None = None,
+) -> dict[str, Any]:
+    merged = dict(os.environ if env is None else env)
+    uid = os.getuid()
+    sources: dict[str, str] = {}
+
+    runtime = _safe_runtime_dir(uid)
+    if runtime is not None:
+        if not merged.get("XDG_RUNTIME_DIR"):
+            merged["XDG_RUNTIME_DIR"] = str(runtime)
+            sources["xdg_runtime"] = "OWNED_RUN_USER_DIRECTORY"
+        bus = runtime / "bus"
+        if not merged.get("DBUS_SESSION_BUS_ADDRESS") and _owned_socket(bus, uid):
+            merged["DBUS_SESSION_BUS_ADDRESS"] = f"unix:path={bus}"
+            sources["dbus_session"] = "OWNED_USER_BUS_SOCKET"
+
+    for key, value in _systemd_user_environment_snapshot(merged).items():
+        if not merged.get(key):
+            merged[key] = value
+            sources[key.lower()] = "SYSTEMD_USER_ENVIRONMENT"
+
+    session = _loginctl_session_properties(uid)
+    if session:
+        if not merged.get("XDG_SESSION_TYPE"):
+            merged["XDG_SESSION_TYPE"] = session.get("Type", "").lower()
+            sources["xdg_session_type"] = "LOGINCTL_ACTIVE_LOCAL_SESSION"
+        desktop = session.get("Desktop", "").strip()
+        if desktop and not merged.get("XDG_CURRENT_DESKTOP"):
+            merged["XDG_CURRENT_DESKTOP"] = desktop
+            sources["xdg_current_desktop"] = "LOGINCTL_ACTIVE_LOCAL_SESSION"
+
+    if (
+        runtime is not None
+        and merged.get("XDG_SESSION_TYPE", "").lower() == "wayland"
+        and not merged.get("WAYLAND_DISPLAY")
+    ):
+        for candidate in sorted(runtime.glob("wayland-*")):
+            if candidate.name.endswith(".lock"):
+                continue
+            if _owned_socket(candidate, uid):
+                merged["WAYLAND_DISPLAY"] = candidate.name
+                sources["wayland_display"] = "OWNED_RUNTIME_WAYLAND_SOCKET"
+                break
+
+    bus_names = _user_bus_names(merged)
+    kde_bus_identity = "org.kde.KWin" in bus_names or "org.kde.plasmashell" in bus_names
+    if kde_bus_identity and not merged.get("XDG_CURRENT_DESKTOP"):
+        merged["XDG_CURRENT_DESKTOP"] = "KDE"
+        sources["xdg_current_desktop"] = "USER_DBUS_KDE_IDENTITY"
+
+    evidence = {
+        "uid": uid,
+        "runtime_dir_proven": runtime is not None,
+        "user_bus_socket_proven": bool(merged.get("DBUS_SESSION_BUS_ADDRESS")),
+        "active_local_graphical_session_proven": bool(session),
+        "session_type": merged.get("XDG_SESSION_TYPE", "").lower() or None,
+        "desktop_class": classify_desktop(merged).get("desktop"),
+        "wayland_socket_proven": bool(merged.get("WAYLAND_DISPLAY")) if merged.get("XDG_SESSION_TYPE", "").lower() == "wayland" else None,
+        "kde_bus_identity_proven": kde_bus_identity,
+        "portal_bus_identity_proven": "org.freedesktop.portal.Desktop" in bus_names,
+        "secret_service_bus_identity_proven": "org.freedesktop.secrets" in bus_names,
+        "sources": sources,
+    }
+    return {"environment": merged, "evidence": evidence}
+
+
+def _dbus_name_present(name: str, env: Mapping[str, str] | None = None) -> bool:
     if not shutil.which("busctl"):
         return False
     try:
@@ -72,6 +290,7 @@ def _dbus_name_present(name: str) -> bool:
             capture_output=True,
             text=True,
             timeout=2,
+            env=dict(os.environ if env is None else env),
         )
     except (OSError, subprocess.SubprocessError):
         return False
@@ -82,8 +301,8 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, bo
     env = dict(os.environ if env is None else env)
     portal_override = env.get("FA3_DESKTOP_PORTAL_AVAILABLE")
     secret_override = env.get("FA3_SECRET_SERVICE_AVAILABLE")
-    portal = _truthy(portal_override) if portal_override is not None else _dbus_name_present("org.freedesktop.portal.Desktop")
-    secret_service = _truthy(secret_override) if secret_override is not None else _dbus_name_present("org.freedesktop.secrets")
+    portal = _truthy(portal_override) if portal_override is not None else _dbus_name_present("org.freedesktop.portal.Desktop", env)
+    secret_service = _truthy(secret_override) if secret_override is not None else _dbus_name_present("org.freedesktop.secrets", env)
     return {
         "linux_host": platform.system().lower() == "linux",
         "xdg_runtime": bool(env.get("XDG_RUNTIME_DIR")),

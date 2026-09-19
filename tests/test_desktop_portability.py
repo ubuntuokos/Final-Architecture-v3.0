@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 import shutil
 import sys
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -15,6 +16,8 @@ from fa3_desktop_admission import (
     PLASMA_ID,
     canonical_check,
     classify_desktop,
+    collect_runtime_probes,
+    discover_current_user_session_environment,
     evaluate_desktop,
     regression_check,
     self_test,
@@ -125,6 +128,99 @@ class DesktopPortabilityTests(unittest.TestCase):
         report = evaluate_desktop({}, {key: False for key in FULL_PROBES}, require_gui=False)
         self.assertEqual(report["result"], "PASS")
         self.assertEqual(report["mode"], "HEADLESS_COMPATIBLE")
+
+    @patch("fa3_desktop_admission.os.getuid", return_value=1000)
+    @patch("fa3_desktop_admission._safe_runtime_dir", return_value=Path("/run/user/1000"))
+    @patch("fa3_desktop_admission._owned_socket", return_value=True)
+    @patch(
+        "fa3_desktop_admission._systemd_user_environment_snapshot",
+        return_value={"WAYLAND_DISPLAY": "wayland-0"},
+    )
+    @patch(
+        "fa3_desktop_admission._loginctl_session_properties",
+        return_value={
+            "Id": "2",
+            "User": "1000",
+            "Type": "wayland",
+            "Remote": "no",
+            "Active": "yes",
+            "Desktop": "",
+        },
+    )
+    @patch(
+        "fa3_desktop_admission._user_bus_names",
+        return_value={
+            "org.kde.KWin",
+            "org.kde.plasmashell",
+            "org.freedesktop.portal.Desktop",
+            "org.freedesktop.secrets",
+        },
+    )
+    def test_current_user_session_discovery_reconstructs_only_proven_session(
+        self,
+        _bus,
+        _session,
+        _systemd,
+        _socket,
+        _runtime,
+        _uid,
+    ):
+        discovered = discover_current_user_session_environment({})
+        env = discovered["environment"]
+        evidence = discovered["evidence"]
+        self.assertEqual(env["XDG_RUNTIME_DIR"], "/run/user/1000")
+        self.assertEqual(env["DBUS_SESSION_BUS_ADDRESS"], "unix:path=/run/user/1000/bus")
+        self.assertEqual(env["XDG_SESSION_TYPE"], "wayland")
+        self.assertEqual(env["WAYLAND_DISPLAY"], "wayland-0")
+        self.assertEqual(env["XDG_CURRENT_DESKTOP"], "KDE")
+        self.assertTrue(evidence["active_local_graphical_session_proven"])
+        self.assertTrue(evidence["kde_bus_identity_proven"])
+        self.assertTrue(evidence["portal_bus_identity_proven"])
+        self.assertTrue(evidence["secret_service_bus_identity_proven"])
+        self.assertEqual(evidence["desktop_class"], "KDE_PLASMA")
+
+    @patch("fa3_desktop_admission.os.getuid", return_value=1000)
+    @patch("fa3_desktop_admission._safe_runtime_dir", return_value=Path("/run/user/1000"))
+    @patch("fa3_desktop_admission._owned_socket", return_value=True)
+    @patch("fa3_desktop_admission._systemd_user_environment_snapshot", return_value={})
+    @patch("fa3_desktop_admission._loginctl_session_properties", return_value={})
+    @patch("fa3_desktop_admission._user_bus_names", return_value=set())
+    def test_session_discovery_does_not_invent_graphical_session(
+        self,
+        _bus,
+        _session,
+        _systemd,
+        _socket,
+        _runtime,
+        _uid,
+    ):
+        discovered = discover_current_user_session_environment({})
+        env = discovered["environment"]
+        self.assertNotIn("XDG_SESSION_TYPE", env)
+        self.assertNotIn("XDG_CURRENT_DESKTOP", env)
+        report = evaluate_desktop(env, {**FULL_PROBES, "secret_service": True}, require_gui=True)
+        self.assertEqual(report["result"], "FAIL")
+        self.assertEqual(report["capabilities"]["local_gui_session"], "FAIL")
+
+    def test_runtime_dbus_probes_use_supplied_session_environment(self):
+        env = self._env("KDE", "wayland")
+        seen = []
+
+        def probe(name, supplied):
+            seen.append((name, supplied.get("DBUS_SESSION_BUS_ADDRESS")))
+            return True
+
+        with patch("fa3_desktop_admission._dbus_name_present", side_effect=probe):
+            probes = collect_runtime_probes(env)
+        self.assertTrue(probes["portal"])
+        self.assertTrue(probes["secret_service"])
+        self.assertEqual(
+            seen,
+            [
+                ("org.freedesktop.portal.Desktop", env["DBUS_SESSION_BUS_ADDRESS"]),
+                ("org.freedesktop.secrets", env["DBUS_SESSION_BUS_ADDRESS"]),
+            ],
+        )
 
     def test_headless_fails_when_gui_is_required(self):
         report = evaluate_desktop({}, {key: False for key in FULL_PROBES}, require_gui=True)
