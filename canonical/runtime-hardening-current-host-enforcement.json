@@ -1,23 +1,48 @@
 {
   "schema": "fa3.runtime-hardening-current-host-enforcement.v1",
   "gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
-  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "parent_gate_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-001",
+  "status": "MATERIALIZED_REAL_EXECUTION_PENDING",
   "fail_closed": true,
-  "capability_count": 143,
-  "authority_delta": 0,
-  "current_host_status": "PENDING_REAL_EXECUTION",
-  "rules": {
-    "github_hosted_substitution": "DENY",
-    "missing_receipt": "PENDING_OR_FAIL_WHEN_REQUIRED",
-    "stale_receipt": "DENY",
-    "repository_head_mismatch": "DENY",
-    "synthetic_receipt_as_current_host_pass": "DENY",
-    "sandbox_compatibility_smoke_as_production_isolation": "DENY",
-    "media_full_pipeline_zero_copy_overclaim": "DENY",
-    "hu_aqc_single_metric_authority": "DENY",
-    "shadow_authoritative_output": "DENY",
-    "shadow_external_side_effects": "DENY",
-    "shadow_promotion_authority": "DENY",
-    "global_promotion_effect": "NONE"
-  }
+  "checks": {
+    "CRIT-020-QUADLET-GVISOR-SANDBOX": {
+      "installed_quadlet_required": true,
+      "actual_runsc_runtime_required": true,
+      "nvproxy_driver_abi_required_when_gpu_projected": true
+    },
+    "CRIT-021-AGENT-BOUNDARY": {
+      "network_default": "DENY",
+      "rootfs": "READ_ONLY",
+      "no_new_privileges": true,
+      "drop_capabilities": "ALL",
+      "host_home": "DENY",
+      "container_engine_socket": "DENY"
+    },
+    "CRIT-022A-PCIE-COPY-BUDGET": {
+      "semantics": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+      "default_budget_ratio_max": 0.05,
+      "sampling_interval_seconds_max": 0.025,
+      "capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
+      "hardcoded_gpu_sku_capacity": "DENY"
+    },
+    "CRIT-022B-GPU-FRAME-ZERO-HOST-ROUND-TRIP": {
+      "frame_copy_trace_required": true,
+      "host_to_device_frame_copy_count_max": 0,
+      "device_to_host_frame_copy_count_max": 0,
+      "host_frame_round_trips_max": 0,
+      "dlpack_shared_gpu_memory_required": true
+    }
+  },
+  "evidence_envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
+  "host_attestation_required": true,
+  "hrb_resource_admission_required": true,
+  "pcie_copy_budget_is_zero_copy_proof": false,
+  "full_pipeline_true_zero_copy_claimed": false,
+  "synthetic_fixture_may_produce_current_host_pass": false,
+  "promotion_effect": "COMPONENT_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED",
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143
 }
