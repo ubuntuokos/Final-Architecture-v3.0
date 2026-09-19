@@ -200,6 +200,10 @@ jobs:
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            src/fa3_hrb_systemd_manager_current_host_gate.py \
+            evidence/collect-hrb-systemd-manager-current-host.py \
+            tests/test_hrb_systemd_manager_current_host_gate.py \
+            tests/test_hrb_systemd_manager_current_host_collector.py \
             tests/test_current_host_capability_test_qualification_audit.py \
             tests/test_current_host_capability_test_qualifier.py \
             tests/test_current_host_capability_qualification_constituent_producer_audit.py \
@@ -287,6 +291,8 @@ jobs:
             tests.test_mat002_runtime_knowledge_current_host \
             tests.test_mat003_interaction_creative_current_host \
             tests.test_mat004_media_authoring_verification_current_host \
+            tests.test_hrb_systemd_manager_current_host_gate \
+            tests.test_hrb_systemd_manager_current_host_collector \
             tests.test_full_current_host_capability_producer \
             tests.test_full_current_host_preflight \
             tests.test_current_host_runtime_resolver \

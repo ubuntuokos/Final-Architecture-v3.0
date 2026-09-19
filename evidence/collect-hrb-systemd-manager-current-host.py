@@ -15,6 +15,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from fa3_hrb_systemd_manager_current_host_gate import manager_violations
+from fa3_hardware_portability_gate import CUDA_COMPUTE_CAPABILITY_MIN
 
 EVIDENCE_LEVEL = "CURRENT_HOST_HRB_SYSTEMD_MANAGER_NEUTRALITY_PASS"
 
@@ -65,42 +66,54 @@ def discover_cpu() -> dict[str, Any]:
     }
 
 
-def rtx_series_class(name: str) -> int | None:
-    m = re.search(r"\bGeForce\s+RTX\s+(\d{4})\b", name, re.I)
-    if m:
-        return int(m.group(1)[:2])
-    lower = name.lower()
-    if "rtx" in lower and "blackwell" in lower:
-        return 50
-    if "rtx" in lower and "ada" in lower:
-        return 40
-    return None
+def parse_cuda_compute_capability(value: str) -> float | None:
+    try:
+        parsed = float(value.strip())
+    except (TypeError, ValueError):
+        return None
+    return parsed if parsed > 0 else None
+
+
+def parse_gpu_rows(text: str) -> list[dict[str, Any]]:
+    devices: list[dict[str, Any]] = []
+    for row in csv.reader(text.splitlines()):
+        if len(row) != 6:
+            continue
+        uuid, bdf, name, driver, memory, compute_cap = (x.strip() for x in row)
+        capability = parse_cuda_compute_capability(compute_cap)
+        try:
+            vram_mib = int(float(memory))
+        except ValueError:
+            vram_mib = 0
+        devices.append({
+            "device_uuid": uuid,
+            "pci_bdf": bdf,
+            "vendor": "NVIDIA",
+            "name_evidence_only": name,
+            "driver_version": driver,
+            "vram_mib_evidence_only": vram_mib,
+            "cuda_compute_capability": capability,
+            "qualifies_portable_floor": capability is not None and capability >= CUDA_COMPUTE_CAPABILITY_MIN,
+            "admission_semantics": "RUNTIME_CAPABILITY_NOT_MARKETING_NAME",
+            "identity_semantics": "UUID_PLUS_PCI_BDF_WHEN_AVAILABLE",
+        })
+    return devices
 
 
 def discover_gpu() -> dict[str, Any]:
     proc = subprocess.run(
-        ["nvidia-smi", "--query-gpu=uuid,pci.bus_id,name,driver_version,memory.total", "--format=csv,noheader,nounits"],
+        [
+            "nvidia-smi",
+            "--query-gpu=uuid,pci.bus_id,name,driver_version,memory.total,compute_cap",
+            "--format=csv,noheader,nounits",
+        ],
         text=True, capture_output=True, check=False,
     )
-    devices: list[dict[str, Any]] = []
-    if proc.returncode == 0:
-        for row in csv.reader(proc.stdout.splitlines()):
-            if len(row) != 5:
-                continue
-            uuid, bdf, name, driver, memory = (x.strip() for x in row)
-            series = rtx_series_class(name)
-            devices.append({
-                "device_uuid": uuid,
-                "pci_bdf": bdf,
-                "name_evidence_only": name,
-                "driver_version": driver,
-                "vram_mib_evidence_only": int(float(memory)),
-                "rtx_series_class": series,
-                "qualifies_portable_floor": series is not None and series >= 30,
-                "identity_semantics": "UUID_PLUS_PCI_BDF_WHEN_AVAILABLE",
-            })
+    devices = parse_gpu_rows(proc.stdout) if proc.returncode == 0 else []
     return {
         "source": "NVIDIA_SMI_LIVE_DISCOVERY",
+        "query_semantics": "CUDA_COMPUTE_CAPABILITY_AUTHORITATIVE_SKU_NAME_EVIDENCE_ONLY",
+        "cuda_compute_capability_min": CUDA_COMPUTE_CAPABILITY_MIN,
         "returncode": proc.returncode,
         "stderr": proc.stderr[-2000:],
         "device_count": len(devices),
@@ -155,6 +168,24 @@ def collect_systemd_manager() -> dict[str, Any]:
     }
 
 
+def nearest_nonempty_cgroup_value(current: Path, mount: Path, filename: str) -> tuple[str, str]:
+    current = current.resolve()
+    mount = mount.resolve()
+    if current != mount and mount not in current.parents:
+        raise RuntimeError("current cgroup path escapes cgroup v2 mount")
+    probe = current
+    while True:
+        candidate = probe / filename
+        if candidate.is_file():
+            value = candidate.read_text().strip()
+            if value:
+                rel = probe.relative_to(mount).as_posix()
+                return value, "/" if rel == "." else "/" + rel
+        if probe == mount:
+            return "", ""
+        probe = probe.parent
+
+
 def collect_cgroup_v2() -> dict[str, Any]:
     mount = Path("/sys/fs/cgroup")
     unified = any(" - cgroup2 " in line for line in Path("/proc/self/mountinfo").read_text().splitlines())
@@ -164,17 +195,24 @@ def collect_cgroup_v2() -> dict[str, Any]:
             relative = line[3:].strip().lstrip("/")
             break
     current = mount / relative if relative else mount
-    cpus = current / "cpuset.cpus.effective"
-    mems = current / "cpuset.mems.effective"
     controllers = current / "cgroup.controllers"
     if not controllers.is_file():
         controllers = mount / "cgroup.controllers"
+    effective_cpus, effective_cpus_source = nearest_nonempty_cgroup_value(
+        current, mount, "cpuset.cpus.effective"
+    )
+    effective_mems, effective_mems_source = nearest_nonempty_cgroup_value(
+        current, mount, "cpuset.mems.effective"
+    )
     return {
         "unified": unified,
         "cgroup_path": "/" + relative if relative else "/",
         "controllers": controllers.read_text().split() if controllers.is_file() else [],
-        "effective_cpus": cpus.read_text().strip() if cpus.is_file() else "",
-        "effective_memory_nodes": mems.read_text().strip() if mems.is_file() else "",
+        "effective_cpus": effective_cpus,
+        "effective_cpus_source_cgroup": effective_cpus_source,
+        "effective_memory_nodes": effective_mems,
+        "effective_memory_nodes_source_cgroup": effective_mems_source,
+        "cpuset_resolution_semantics": "NEAREST_NONEMPTY_EFFECTIVE_ANCESTOR_WHEN_LEAF_EMPTY",
     }
 
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import module_active_capability_count
+from fa3_hardware_portability_gate import CUDA_COMPUTE_CAPABILITY_MIN
 
 import argparse
 import json
@@ -104,7 +105,19 @@ def hardware_floor_valid(discovery: dict[str, Any]) -> bool:
         per_package = [int(v) for v in counts.values()]
     except (TypeError, ValueError):
         return False
-    qualifying = [d for d in gpu.get("devices", []) if isinstance(d, dict) and d.get("qualifies_portable_floor") is True]
+    qualifying: list[dict[str, Any]] = []
+    for device in gpu.get("devices", []):
+        if not isinstance(device, dict):
+            continue
+        try:
+            capability = float(device.get("cuda_compute_capability"))
+        except (TypeError, ValueError):
+            continue
+        if (
+            str(device.get("vendor", "")).strip().upper() == "NVIDIA"
+            and capability >= CUDA_COMPUTE_CAPABILITY_MIN
+        ):
+            qualifying.append(device)
     return (
         package_count >= 1
         and len(per_package) == package_count
@@ -134,7 +147,16 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     if violations:
         fail("HRB-SYSD-HOST-005", "operator systemd Manager defaults violate HRB neutrality", violations=violations)
     cgroup = receipt.get("cgroup_v2", {})
-    if not (cgroup.get("unified") is True and cgroup.get("cgroup_path") and isinstance(cgroup.get("controllers"), list) and cgroup.get("effective_cpus") and cgroup.get("effective_memory_nodes")):
+    if not (
+        cgroup.get("unified") is True
+        and cgroup.get("cgroup_path")
+        and isinstance(cgroup.get("controllers"), list)
+        and cgroup.get("effective_cpus")
+        and cgroup.get("effective_cpus_source_cgroup")
+        and cgroup.get("effective_memory_nodes")
+        and cgroup.get("effective_memory_nodes_source_cgroup")
+        and cgroup.get("cpuset_resolution_semantics") == "NEAREST_NONEMPTY_EFFECTIVE_ANCESTOR_WHEN_LEAF_EMPTY"
+    ):
         fail("HRB-SYSD-HOST-006", "unified cgroup v2 projection substrate is incomplete")
     if not (
         receipt.get("hardware_profile_id") == "FA3-HARDWARE-BASELINE-001"
