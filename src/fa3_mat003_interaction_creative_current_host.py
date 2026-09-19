@@ -445,32 +445,6 @@ def computer_use_intent_allowed(intent: dict[str, Any]) -> bool:
     )
 
 
-def _systemd_user_environment() -> dict[str, str]:
-    merged = dict(os.environ)
-    systemctl = shutil.which("systemctl")
-    if not systemctl:
-        return merged
-    proc = cmd([systemctl, "--user", "show-environment"], 10)
-    if proc.returncode != 0:
-        return merged
-    wanted = {
-        "XDG_CURRENT_DESKTOP",
-        "DESKTOP_SESSION",
-        "XDG_SESSION_TYPE",
-        "XDG_RUNTIME_DIR",
-        "DBUS_SESSION_BUS_ADDRESS",
-        "WAYLAND_DISPLAY",
-        "DISPLAY",
-    }
-    for line in proc.stdout.splitlines():
-        if "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        if key in wanted and value and not merged.get(key):
-            merged[key] = value
-    return merged
-
-
 def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     for rel in (
         "canonical/FA3-DESKTOP-BASE-001.json",
@@ -510,9 +484,14 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
             ),
         }
 
-    from fa3_desktop_admission import collect_runtime_probes, evaluate_desktop
+    from fa3_desktop_admission import (
+        collect_runtime_probes,
+        discover_current_user_session_environment,
+        evaluate_desktop,
+    )
 
-    session_env = _systemd_user_environment()
+    session_context = discover_current_user_session_environment()
+    session_env = session_context["environment"]
     probes = collect_runtime_probes(session_env)
     report = evaluate_desktop(session_env, probes, require_gui=True)
     if report.get("result") != "PASS":
@@ -563,6 +542,7 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
         "kwin_present": kwin_present,
         "plasmashell_present": plasma_present,
         "portal_introspection_pass": True,
+        "session_discovery": session_context["evidence"],
         "private_kde_api_used": False,
         "desktop_mutation_performed": False,
     }
