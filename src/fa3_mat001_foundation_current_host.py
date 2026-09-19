@@ -41,12 +41,17 @@ def validate_secret_mode(m:int)->bool:return stat.S_IMODE(m)&0o077==0
 def validate_provider_route(r:dict[str,Any],allowed:set[str])->bool:
     return isinstance(r.get("provider_id"),str) and r["provider_id"] in allowed and isinstance(r.get("backend"),str) and bool(r["backend"]) and r.get("local_only") is True
 
-def physical_cores()->int:
-    s=set()
+def physical_core_packages()->dict[str,set[str]]:
+    out:dict[str,set[str]]={}
     for c in Path("/sys/devices/system/cpu").glob("cpu[0-9]*"):
-        try:s.add(((c/"topology/physical_package_id").read_text().strip(),(c/"topology/core_id").read_text().strip()))
+        try:
+            package=(c/"topology/physical_package_id").read_text().strip()
+            core=(c/"topology/core_id").read_text().strip()
+            out.setdefault(package,set()).add(core)
         except OSError:pass
-    return len(s)
+    return out
+def host_baseline_valid(uid:int,packages:dict[str,set[str]],cgroup_v2:bool,compute_caps:list[float])->bool:
+    return uid!=0 and bool(packages) and all(len(cores)>=8 for cores in packages.values()) and cgroup_v2 and any(cap>=8.6 for cap in compute_caps)
 def cmd(a:list[str],t:int=15):return subprocess.run(a,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=t,shell=False,check=False)
 def exact_rollback(scope:Path,name:str,baseline:bytes,fault:bytes)->dict[str,Any]:
     p=scope/name;p.write_bytes(baseline);pre=sha_file(p);p.write_bytes(fault);mut=sha_file(p);p.write_bytes(baseline);post=sha_file(p)
@@ -54,15 +59,30 @@ def exact_rollback(scope:Path,name:str,baseline:bytes,fault:bytes)->dict[str,Any
     return {"pre_sha256":pre,"mutated_sha256":mut,"post_sha256":post,"rollback_hash_equal":True}
 
 def cap001(root:Path,scope:Path,mode:str)->dict[str,Any]:
-    if mode=="negative": return {"mode":mode,"status":"PASS","cases":{"root_denied":True,"lt8_cores_denied":True,"no_cgroup_v2_denied":True,"no_accelerator_denied":True}}
+    if mode=="negative":
+        good_packages={"0":set(str(x) for x in range(8))}
+        cases={
+            "root_denied":not host_baseline_valid(0,good_packages,True,[8.6]),
+            "lt8_cores_per_cpu_denied":not host_baseline_valid(1000,{"0":set(str(x) for x in range(7))},True,[8.6]),
+            "no_cgroup_v2_denied":not host_baseline_valid(1000,good_packages,False,[8.6]),
+            "compute_cap_below_86_denied":not host_baseline_valid(1000,good_packages,True,[8.0]),
+            "no_accelerator_denied":not host_baseline_valid(1000,good_packages,True,[]),
+        }
+        if not all(cases.values()):raise RuntimeError("host baseline negative matrix failed")
+        return {"mode":mode,"status":"PASS","fault_injection":"POLICY_INPUT_MATRIX","cases":cases}
     if mode=="rollback": return {"mode":mode,"status":"PASS",**exact_rollback(scope,"host-state.json",b'{"admission":"DENY_BY_DEFAULT"}\n',b'{"admission":"ALLOW_ALL"}\n')}
     for x in ["canonical/FA3-HOST-ATTESTATION-001.json","canonical/FA3-COMPUTE-PROFILE-001.json","canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"]:repo_file(root,x)
-    if platform.system()!="Linux" or os.geteuid()==0 or not Path("/sys/fs/cgroup/cgroup.controllers").is_file():raise RuntimeError("Linux/non-root/cgroup-v2 host baseline failed")
-    nodes=list(Path("/sys/devices/system/node").glob("node[0-9]*"));cores=physical_cores()
-    if not nodes or cores<8:raise RuntimeError(f"NUMA/core baseline failed nodes={len(nodes)} cores={cores}")
-    n=shutil.which("nvidia-smi");p=cmd([n,"--query-gpu=name,uuid,memory.total","--format=csv,noheader"]) if n else None
+    if platform.system()!="Linux":raise RuntimeError("Linux host required")
+    nodes=list(Path("/sys/devices/system/node").glob("node[0-9]*"));packages=physical_core_packages();cgroup=Path("/sys/fs/cgroup/cgroup.controllers").is_file()
+    n=shutil.which("nvidia-smi");p=cmd([n,"--query-gpu=name,uuid,memory.total,compute_cap","--format=csv,noheader,nounits"]) if n else None
     if not p or p.returncode or not p.stdout.strip():raise RuntimeError("NVIDIA accelerator inventory unavailable")
-    return {"mode":mode,"status":"PASS","kernel":platform.release(),"uid":os.geteuid(),"numa_nodes":len(nodes),"physical_cores":cores,"accelerators":[x.strip() for x in p.stdout.splitlines() if x.strip()]}
+    rows=[x.strip() for x in p.stdout.splitlines() if x.strip()];caps=[]
+    for row in rows:
+        try:caps.append(float(row.rsplit(",",1)[1].strip()))
+        except (ValueError,IndexError):raise RuntimeError(f"cannot parse GPU compute capability: {row}")
+    if not nodes or not host_baseline_valid(os.geteuid(),packages,cgroup,caps):
+        raise RuntimeError(f"portable host baseline failed nodes={len(nodes)} packages={ {k:len(v) for k,v in packages.items()} } compute_caps={caps}")
+    return {"mode":mode,"status":"PASS","kernel":platform.release(),"uid":os.geteuid(),"numa_nodes":len(nodes),"physical_cores_per_package":{k:len(v) for k,v in packages.items()},"gpu_compute_capabilities":caps,"accelerators":rows}
 
 def cap002(root:Path,scope:Path,mode:str)->dict[str,Any]:
     if mode=="negative":
