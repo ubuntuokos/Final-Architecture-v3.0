@@ -7,8 +7,10 @@ on:
       - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - 'canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json'
       - 'src/fa3_desktop_admission.py'
+      - 'src/fa3_kde_secret_service_reference_diagnostics.py'
       - 'bin/fa3-desktop-admission'
       - 'tests/test_desktop_portability.py'
+      - 'tests/test_kde_secret_service_reference_diagnostics.py'
       - 'docs/desktop-portability.md'
       - '.github/workflows/fa3-desktop-portability.yml'
       - 'canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json'
@@ -19,8 +21,10 @@ on:
       - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - 'canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json'
       - 'src/fa3_desktop_admission.py'
+      - 'src/fa3_kde_secret_service_reference_diagnostics.py'
       - 'bin/fa3-desktop-admission'
       - 'tests/test_desktop_portability.py'
+      - 'tests/test_kde_secret_service_reference_diagnostics.py'
       - '.github/workflows/fa3-desktop-portability.yml'
       - 'canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json'
 
@@ -41,7 +45,10 @@ jobs:
           python-version: '3.12'
 
       - name: Run desktop portability regression tests
-        run: python3 -m unittest discover -s tests -p 'test_desktop_portability.py' -v
+        run: |
+          PYTHONPATH=src python3 -m unittest \
+            tests.test_desktop_portability \
+            tests.test_kde_secret_service_reference_diagnostics -v
 
       - name: Run canonical desktop portability gate
         run: python3 ./bin/fa3-desktop-admission --self-test --json | tee desktop-portability-gate-report.json
