@@ -390,8 +390,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         and proc.returncode == 0
         and standard_interface_name in proc.stdout
     )
-    standard_live = _dbus_name_present(standard_name, env)
-    if standard_interface and standard_live:
+    if standard_interface:
         return {
             "available": True,
             "live_name": True,
@@ -414,8 +413,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             and verify.returncode == 0
             and standard_interface_name in verify.stdout
         )
-        standard_live = _dbus_name_present(standard_name, env)
-        if verified_interface and standard_live:
+        if verified_interface:
             return {
                 "available": True,
                 "live_name": True,
