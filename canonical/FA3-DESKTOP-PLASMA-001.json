@@ -38,16 +38,18 @@
     "fa3_design_tokens_required": true
   },
   "secret_service_activation": {
-    "mode": "REFERENCE_PROVIDER_COMPATIBILITY_ENDPOINT",
+    "mode": "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT",
     "activation_bus_name": "org.kde.secretservicecompat",
     "preferred_standard_bus_name": "org.freedesktop.secrets",
     "object_path": "/org/freedesktop/secrets",
     "interface": "org.freedesktop.Secret.Service",
     "standard_interface_required": true,
-    "standard_bus_name_preferred": true,
+    "standard_bus_name_required": true,
     "compatibility_bus_name_allowed": true,
+    "compatibility_endpoint_diagnostic_only": true,
+    "activation_alias_semantics": "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY",
     "core_requirement": false,
     "architectural_authority": false,
-    "semantics": "REFERENCE_PROFILE_MAY_MAP_AN_ALTERNATE_BUS_NAME_ONLY_WHEN_THE_STANDARD_SECRET_SERVICE_INTERFACE_AND_OBJECT_PATH_ARE_PROVEN"
+    "semantics": "REFERENCE_ALIAS_MAY_ONLY_TRIGGER_PROVIDER_PORTABLE_PASS_REQUIRES_STANDARD_BUS_NAME_AND_STANDARD_SECRET_SERVICE_INTERFACE"
   }
 }
