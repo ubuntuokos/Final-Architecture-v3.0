@@ -71,6 +71,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         base = json.loads((ROOT / "canonical/FA3-DESKTOP-BASE-001.json").read_text(encoding="utf-8"))
         plasma = json.loads((ROOT / "canonical/FA3-DESKTOP-PLASMA-001.json").read_text(encoding="utf-8"))
         gate = json.loads((ROOT / "canonical/FA3-GATE-DESKTOP-PORTABILITY-001.json").read_text(encoding="utf-8"))
+        profile = json.loads((ROOT / "canonical/profiles/FA3-DESKTOP-001.json").read_text(encoding="utf-8"))
         self.assertEqual(base["id"], BASE_ID)
         self.assertEqual(plasma["id"], PLASMA_ID)
         self.assertEqual(plasma["base_profile"], BASE_ID)
@@ -79,6 +80,13 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertEqual(base["new_capabilities"], 0)
         self.assertEqual(plasma["new_capabilities"], 0)
         self.assertEqual(gate["new_capabilities"], 0)
+        runtime = profile["runtime"]
+        self.assertEqual(runtime["display_protocol"], "WAYLAND_PRIMARY")
+        self.assertIn("X11", runtime["display_protocol_compatibility"])
+        self.assertFalse(runtime["display_protocol_exclusive"])
+        self.assertEqual(runtime["x11_support"], "REQUIRED_COMPATIBILITY")
+        self.assertEqual(runtime["desktop_environment_binding"], "DESKTOP_AGNOSTIC_XDG_DBUS_PORTAL_BASELINE")
+        self.assertEqual(runtime["desktop_specific_integrations"], "OPTIONAL_ADAPTER_PROVIDER_LAYER_ONLY")
 
     def test_plasma_wayland_is_tier_1_reference(self):
         report = evaluate_desktop(self._env("KDE", "wayland"), FULL_PROBES, require_gui=True)
