@@ -104,13 +104,17 @@ jobs:
           python -m py_compile \
             src/fa3_runtime_hardening_current_host.py \
             src/fa3_runtime_hardening_current_host_gate.py \
+            src/fa3_runtime_hardening_current_host_preflight.py \
             evidence/collect-runtime-isolation-sandbox-current-host.py \
             evidence/collect-media-gpu-zerocopy-current-host.py \
             evidence/collect-hu-aqc-current-host.py \
             evidence/collect-promotion-shadow-current-host.py \
             tests/test_runtime_hardening_current_host_gate.py
       - name: Current-host fail-closed regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_runtime_hardening_current_host_gate -v
+        run: |
+          PYTHONPATH=src python -m unittest \
+            tests.test_runtime_hardening_current_host_gate \
+            tests.test_runtime_hardening_current_host_preflight -v
       - name: Parent runtime-hardening canonical gate
         run: ./bin/fa3-enforce runtime-hardening
       - name: Hosted CI may validate materialization but must remain PENDING
@@ -161,6 +165,25 @@ jobs:
           test "$(id -u)" -ne 0
           chmod +x bin/fa3-current-host-runner-doctor bin/fa3-enforce
           ./bin/fa3-current-host-runner-doctor
+      - name: Fail-fast runtime-hardening preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --root .
+            --oci-image "${{ inputs.oci_image }}"
+            --quadlet "${{ inputs.quadlet }}"
+            --agent-container "${{ inputs.agent_container }}"
+            --host-attestation-ref "${{ inputs.host_attestation_ref }}"
+            --resource-admission-receipt "${{ inputs.resource_admission_receipt }}"
+            --frame-trace "${{ inputs.frame_trace }}"
+            --input-video "${{ inputs.input_video }}"
+            --hu-aqc-audio "${{ inputs.hu_aqc_audio }}"
+            --hu-aqc-metrics "${{ inputs.hu_aqc_metrics }}"
+          )
+          if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
+          PYTHONPATH=src python3 src/fa3_runtime_hardening_current_host_preflight.py "${args[@]}"
+
       - name: Collect runtime isolation and sandbox evidence
         shell: bash
         run: |
@@ -223,3 +246,4 @@ jobs:
             evidence/receipts/hu-aqc-current-host.json
             evidence/receipts/promotion-shadow-current-host.json
             reports/runtime-hardening-current-host-gate-report.json
+            .fa3-current-host/runtime-hardening/preflight.json
