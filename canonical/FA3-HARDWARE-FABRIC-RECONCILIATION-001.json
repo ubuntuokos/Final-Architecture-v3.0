@@ -2,8 +2,8 @@
   "schema": "fa3.reconciliation-record.v1",
   "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
   "name": "Hardware Fabric Semantic Reconciliation",
-  "date": "2026-09-16",
-  "status": "REFERENCE_STATIC_PASS",
+  "date": "2026-09-20",
+  "status": "REFERENCE_STATIC_PASS_WORKLOAD_DRIVEN",
   "priority": "P0",
   "requirement": "MUST",
   "new_capability": false,
@@ -20,7 +20,7 @@
   ],
   "authority_rules": {
     "hardware_semantic_root": "FA3-HW-001",
-    "portable_hardware_floor": "FA3-HARDWARE-BASELINE-001",
+    "portable_hardware_floor": "FA3-HARDWARE-BASELINE-001_CPU_CORE_FLOOR_ACCELERATOR_OPTIONAL",
     "discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
     "resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "provider_records_may_narrow_execution_compatibility": true,
@@ -34,19 +34,17 @@
       "minimum_physical_cores_per_qualifying_cpu": 8,
       "vendor_model_agnostic": true
     },
-    "gpu": {
-      "minimum_qualifying_device_count": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
-      "sku_or_marketing_series_admission_authority": false,
-      "exact_sku_vram_sm_pin": "FORBIDDEN",
-      "maximum_qualifying_device_count": "UNBOUNDED_BY_FA3"
+    "accelerator": {
+      "minimum_device_count": 0,
+      "maximum_device_count": "UNBOUNDED_BY_FA3",
+      "global_vendor_runtime_architecture_or_compute_capability_floor": null,
+      "requirement_semantics": "WORKLOAD_AND_PROVIDER_CONDITIONAL"
     }
   },
   "reconciled_layers": {
-    "canonical": "ROOT_PROFILE_AND_CONTRACT_ALIGNED_TO_CAPABILITY_FLOOR",
-    "runtime": "LIVE_DISCOVERY_AND_STABLE_UUID_PCI_BDF_IDENTITY_REQUIRED",
-    "admission": "HRB_EXCLUSIVE_AUTHORITY_AND_CAPABILITY_ENVELOPE_REQUIRED",
+    "canonical": "ROOT_PROFILE_AND_CONTRACT_ALIGNED_TO_CPU_CORE_FLOOR_AND_ACCELERATOR_OPTIONALITY",
+    "runtime": "LIVE_CPU_AND_OPTIONAL_ACCELERATOR_DISCOVERY_WITH_STABLE_IDENTITY_WHEN_AVAILABLE",
+    "admission": "HRB_EXCLUSIVE_AUTHORITY_RESOURCE_CLASSES_DERIVED_FROM_WORKLOAD",
     "provider": "EXECUTION_COMPATIBILITY_MAY_BE_PROVIDER_LOCAL_BUT_NOT_GLOBAL_BASELINE_AUTHORITY",
     "gui": "LOCAL_OS_PROBES_DIAGNOSTIC_ONLY_OBSERVED_NON_AUTHORITATIVE",
     "evidence": "LEGACY_2026_09_03_SERIES_BASED_REFERENCE_RETAINED_AS_HISTORICAL_AND_SUPERSEDED_BY_2026_09_16_RECONCILIATION_EVIDENCE"
@@ -56,29 +54,29 @@
       "id": "HWFR-DRIFT-001",
       "severity": "P0",
       "surface": "canonical/profiles/FA3-HW-001.json",
-      "finding": "RTX marketing series was used as the portable global GPU floor",
-      "resolution": "REPLACED_WITH_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER"
+      "finding": "Legacy global RTX/NVIDIA/CUDA capability floor survived later workload-driven resource admission",
+      "resolution": "GLOBAL_ACCELERATOR_MINIMUM_ZERO_AND_PROVIDER_LOCAL_CONDITIONAL_COMPATIBILITY"
     },
     {
       "id": "HWFR-DRIFT-002",
       "severity": "P0",
       "surface": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
-      "finding": "RTX series floor contradicted discovery contract series non-authority",
-      "resolution": "ALIGNED_WITH_FA3_HARDWARE_DISCOVERY_CONTRACTS_001"
+      "finding": "Global accelerator vendor/runtime floor contradicted provider-neutral workload-driven admission",
+      "resolution": "REMOVED_GLOBAL_ACCELERATOR_VENDOR_RUNTIME_ARCHITECTURE_FLOOR"
     },
     {
       "id": "HWFR-DRIFT-003",
       "severity": "P0",
-      "surface": "apps/fa3-control-center/src/SystemDeviceModel.cpp",
-      "finding": "Raw local OS probes were projected with DISCOVERED status without explicit authority boundary",
-      "resolution": "ACCELERATOR_PROBES_NOW_OBSERVED_NON_AUTHORITATIVE_AND_HRB_BOUNDARY_EXPLICIT"
+      "surface": "evidence/collect-hrb-systemd-manager-current-host.py",
+      "finding": "CAP-006 manager-neutrality evidence incorrectly required a qualifying NVIDIA CUDA GPU",
+      "resolution": "SYSTEMD_MANAGER_NEUTRALITY_USES_CPU_CORE_FLOOR_ONLY_AND_ACCELERATOR_DISCOVERY_IS_DIAGNOSTIC"
     },
     {
       "id": "HWFR-DRIFT-004",
       "severity": "P0",
-      "surface": "evidence/reference/hardware-portability-*-2026-09-03.json",
-      "finding": "Historical PASS evidence contains superseded RTX-series floor semantics",
-      "resolution": "HISTORICAL_EVIDENCE_PRESERVED_AND_EXPLICITLY_SUPERSEDED_BY_NEW_RECONCILIATION_EVIDENCE"
+      "surface": "reports/fa3-hardware-fabric-maintenance.py",
+      "finding": "Maintenance helper could reintroduce the superseded global NVIDIA CUDA floor",
+      "resolution": "MAINTENANCE_REWRITTEN_FOR_WORKLOAD_DRIVEN_ACCELERATOR_OPTIONALITY"
     }
   ],
   "provider_classification": {
@@ -89,9 +87,7 @@
   },
   "reference_verification": {
     "workflow": "FA3 Hardware Fabric Reconciliation",
-    "run_id": 35054855295,
-    "verified_head_sha": "3d9325feb5e9350d0d951ced5239a28e4d37692f",
-    "result": "PASS",
+    "result": "PENDING_PR_VALIDATION",
     "scope": "STATIC_REPOSITORY_SEMANTIC_RECONCILIATION_NOT_CURRENT_HOST"
   },
   "current_host": {
@@ -102,11 +98,12 @@
   },
   "executable_gate": "src/fa3_hardware_fabric_reconciliation.py",
   "test": "tests/test_hardware_fabric_reconciliation.py",
-  "reference_evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
+  "reference_evidence": "evidence/reference/hardware-workload-driven-reconciliation-2026-09-20.json",
   "dependent_semantic_reconciliations": {
-    "closed_loop_agent_operations": "CUDA_COMPUTE_CAPABILITY_8_6_GLOBAL_FLOOR_INHERITED",
-    "global_enforcement_policy": "CUDA_COMPUTE_CAPABILITY_8_6_GLOBAL_FLOOR_INHERITED",
+    "closed_loop_agent_operations": "CPU_CORE_FLOOR_ACCELERATOR_OPTIONAL_WORKLOAD_DRIVEN",
+    "global_enforcement_policy": "CPU_CORE_FLOOR_ACCELERATOR_OPTIONAL_WORKLOAD_DRIVEN",
     "legacy_rule_identifier_retained_for_compatibility": "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
-    "legacy_rule_identifier_is_admission_authority": false
+    "legacy_rule_identifier_is_admission_authority": false,
+    "canonical_decision": "FA3-DEC-HARDWARE-WORKLOAD-DRIVEN-BASELINE-2026-09-20"
   }
 }
