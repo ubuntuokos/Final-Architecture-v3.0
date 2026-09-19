@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 import shutil
 import sys
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -18,6 +18,7 @@ from fa3_desktop_admission import (
     classify_desktop,
     collect_runtime_probes,
     discover_current_user_session_environment,
+    _reference_secret_service_activation_aliases,
     _secret_service_probe,
     evaluate_desktop,
     regression_check,
@@ -259,6 +260,64 @@ class DesktopPortabilityTests(unittest.TestCase):
             run.call_args.kwargs["env"]["DBUS_SESSION_BUS_ADDRESS"],
             env["DBUS_SESSION_BUS_ADDRESS"],
         )
+
+    @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", side_effect=[False, True])
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_reference_activation_hint_must_end_in_standard_service(
+        self,
+        run,
+        _present,
+        _which,
+        _aliases,
+    ):
+        run.side_effect = [
+            Mock(returncode=1, stdout="", stderr="standard name not activatable"),
+            Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
+            Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
+        ]
+        env = self._env("KDE", "wayland")
+        probe = _secret_service_probe(env)
+        self.assertTrue(probe["available"])
+        self.assertTrue(probe["reference_activation_attempted"])
+        self.assertTrue(probe["standard_name_verified"])
+        self.assertEqual(run.call_args_list[1].args[0][3], "org.example.SecretCompat")
+        self.assertEqual(run.call_args_list[2].args[0][3], "org.freedesktop.secrets")
+
+    @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", side_effect=[False, False])
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_reference_activation_alias_cannot_replace_standard_name(
+        self,
+        run,
+        _present,
+        _which,
+        _aliases,
+    ):
+        run.side_effect = [
+            Mock(returncode=1, stdout="", stderr="standard name not activatable"),
+            Mock(returncode=0, stdout="org.freedesktop.Secret.Service interface - -\n", stderr=""),
+        ]
+        env = self._env("KDE", "wayland")
+        probe = _secret_service_probe(env)
+        self.assertFalse(probe["available"])
+        self.assertTrue(probe["reference_activation_attempted"])
+        self.assertFalse(probe["standard_name_verified"])
+
+    def test_plasma_reference_activation_hint_is_non_authoritative(self):
+        env = self._env("KDE", "wayland")
+        aliases = _reference_secret_service_activation_aliases(env)
+        self.assertEqual(aliases, ["org.kde.secretservicecompat"])
+        plasma = json.loads((ROOT / "canonical/FA3-DESKTOP-PLASMA-001.json").read_text(encoding="utf-8"))
+        activation = plasma["secret_service_activation"]
+        self.assertFalse(activation["core_requirement"])
+        self.assertFalse(activation["architectural_authority"])
+        self.assertTrue(activation["standard_verification_required"])
+        self.assertEqual(activation["post_activation_standard_bus_name"], "org.freedesktop.secrets")
+        self.assertEqual(activation["interface"], "org.freedesktop.Secret.Service")
+        self.assertEqual(_reference_secret_service_activation_aliases(self._env("GNOME", "wayland")), [])
 
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
     @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
