@@ -263,7 +263,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         _which,
     ):
         run.return_value.returncode = 0
-        run.return_value.stdout = "org.freedesktop.Secret.Service interface - -\n"
+        run.return_value.stdout = "<node><interface name='org.freedesktop.Secret.Service'><method name='OpenSession'/></interface></node>"
         run.return_value.stderr = ""
         env = self._env("KDE", "wayland")
         probe = _secret_service_probe(env)
@@ -313,8 +313,8 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertFalse(probe["standard_interface"])
         self.assertFalse(probe["standard_name_verified"])
         self.assertFalse(probe["live_name"])
-        self.assertEqual(run.call_args_list[1].args[0][3], "org.example.SecretCompat")
-        self.assertEqual(run.call_args_list[2].args[0][3], "org.freedesktop.secrets")
+        self.assertEqual(run.call_args_list[1].args[0][4], "org.example.SecretCompat")
+        self.assertEqual(run.call_args_list[2].args[0][4], "org.freedesktop.secrets")
 
     @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
