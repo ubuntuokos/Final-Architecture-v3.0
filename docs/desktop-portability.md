@@ -29,6 +29,8 @@ Providers must use the FA3 secret broker boundary. A Secret Service implementati
 
 For the Tier-1 Plasma reference desktop, FA3 may use a **reference-only D-Bus endpoint mapping** when the installed provider exposes the Secret Service protocol under a compatibility bus name instead of claiming the global `org.freedesktop.secrets` name. The mapped endpoint satisfies admission only when read-only introspection proves the standard object path `/org/freedesktop/secrets` and the standard `org.freedesktop.Secret.Service` interface. The standard bus name remains preferred, but it is not required when a canonical reference-profile mapping proves an equivalent standards-compliant endpoint. The mapping is not a portable-core dependency, architectural authority, secret-broker authority, or provider-private API; direct KWallet APIs remain forbidden.
 
+Runtime identity proof uses read-only D-Bus XML introspection of `/org/freedesktop/secrets` and requires an exact `org.freedesktop.Secret.Service` interface declaration. Human-readable `busctl introspect ... INTERFACE` table output is not used as interface-identity evidence because interface-filtered output may contain only member rows.
+
 ## Appearance
 
 Breeze is the reference Plasma appearance, not a runtime dependency. FA3-owned design tokens define spacing, typography, scaling, icon/control sizing, and light/dark behavior so the UI remains coherent under other desktops and themes.
