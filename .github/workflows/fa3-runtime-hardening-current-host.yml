@@ -5,12 +5,15 @@ on:
     branches: [main]
     paths:
       - 'canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json'
       - 'canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json'
       - 'canonical/runtime-hardening-current-host-enforcement.json'
       - 'canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json'
       - 'canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json'
       - 'src/fa3_runtime_hardening_current_host.py'
+      - 'src/fa3_runtime_hardening_evidence.py'
       - 'src/fa3_runtime_hardening_current_host_gate.py'
+      - 'deployment/quadlet/fa3-agent-sandbox.container.in'
       - 'evidence/collect-runtime-isolation-sandbox-current-host.py'
       - 'evidence/collect-media-gpu-zerocopy-current-host.py'
       - 'evidence/collect-hu-aqc-current-host.py'
@@ -31,15 +34,25 @@ on:
         required: false
         default: ''
         type: string
-      gvisor_proof:
-        description: 'Path to production gVisor OCI isolation proof on the self-hosted runner'
+      quadlet:
+        description: 'Installed FA3 agent sandbox Quadlet path'
         required: false
-        default: '.fa3-current-host/input/gvisor-oci-proof.json'
+        default: '~/.config/containers/systemd/fa3-agent-sandbox.container'
         type: string
-      hrb_receipt:
-        description: 'Path to fresh HRB GPU UUID/BDF placement receipt'
+      sandbox_gpu:
+        description: 'Require gVisor nvproxy driver-ABI proof because a GPU is projected into the sandbox'
         required: false
-        default: '.fa3-current-host/input/media-zero-hrb.json'
+        default: false
+        type: boolean
+      resource_admission_receipt:
+        description: 'Path to FA3-EVIDENCE-ENVELOPE-001 CURRENT_HOST_ADMISSION PASS for the media GPU'
+        required: false
+        default: '.fa3-current-host/input/resource-admission-current-host.json'
+        type: string
+      frame_copy_trace:
+        description: 'Path to normalized fa3.cuda-copy-trace.v1 from CUPTI/Nsight/CUDA activity tracing'
+        required: false
+        default: '.fa3-current-host/input/media-frame-copy-trace.json'
         type: string
       input_video:
         description: 'Approved local seekable video used for PyNvVideoCodec current-host proof'
@@ -83,6 +96,7 @@ jobs:
         run: |
           python -m py_compile \
             src/fa3_runtime_hardening_current_host.py \
+            src/fa3_runtime_hardening_evidence.py \
             src/fa3_runtime_hardening_current_host_gate.py \
             evidence/collect-runtime-isolation-sandbox-current-host.py \
             evidence/collect-media-gpu-zerocopy-current-host.py \
@@ -145,9 +159,9 @@ jobs:
         shell: bash
         run: |
           set -u
-          args=()
+          args=(--quadlet "${{ inputs.quadlet }}")
           if [[ -n "${{ inputs.oci_image }}" ]]; then args+=(--oci-image "${{ inputs.oci_image }}"); fi
-          if [[ -f "${{ inputs.gvisor_proof }}" ]]; then args+=(--gvisor-proof "${{ inputs.gvisor_proof }}"); fi
+          if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
           set +e
           PYTHONPATH=src python3 evidence/collect-runtime-isolation-sandbox-current-host.py --root . "${args[@]}"
           echo "sandbox_collector_rc=$?" >> "$GITHUB_ENV"
@@ -159,7 +173,8 @@ jobs:
           PYTHONPATH=src python3 evidence/collect-media-gpu-zerocopy-current-host.py \
             --root . \
             --input-video "${{ inputs.input_video }}" \
-            --hrb-receipt "${{ inputs.hrb_receipt }}"
+            --resource-admission-receipt "${{ inputs.resource_admission_receipt }}" \
+            --frame-copy-trace "${{ inputs.frame_copy_trace }}"
           echo "media_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect Hungarian AQC evidence

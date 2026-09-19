@@ -18,6 +18,18 @@
     "shadow_authoritative_output": "DENY",
     "shadow_external_side_effects": "DENY",
     "shadow_promotion_authority": "DENY",
-    "global_promotion_effect": "NONE"
+    "global_promotion_effect": "NONE",
+    "installed_quadlet_missing": "DENY_CURRENT_HOST_PASS",
+    "quadlet_image_without_digest_pin": "DENY",
+    "actual_runsc_runtime_missing": "DENY_CURRENT_HOST_PASS",
+    "nvproxy_driver_abi_missing_when_gpu_projected": "DENY_CURRENT_HOST_PASS",
+    "resource_admission_envelope_missing_or_invalid": "DENY_CURRENT_HOST_PASS",
+    "pcie_copy_budget_sampling_interval_max_seconds": 0.025,
+    "pcie_copy_budget_ratio_max": 0.05,
+    "pcie_copy_budget_capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
+    "pcie_copy_budget_as_zero_copy_proof": "DENY",
+    "frame_copy_trace_missing": "DENY_CURRENT_HOST_PASS",
+    "frame_copy_trace_host_frame_copy_count_max": 0,
+    "evidence_envelope_payload_sha256": "REQUIRED"
   }
 }

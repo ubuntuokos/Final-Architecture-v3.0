@@ -9,6 +9,12 @@ from pathlib import Path
 from typing import Any, Callable
 
 from fa3_release_baseline import module_active_capability_count
+from fa3_runtime_hardening_evidence import (
+    embedded_evidence_reasons,
+    frame_copy_trace_reasons,
+    pcie_copy_budget_reasons,
+    quadlet_security_reasons,
+)
 
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 CONFORMANCE_ID = "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
@@ -134,6 +140,7 @@ def validate_runtime_sandbox_receipt(receipt: Any, *, root: Path) -> tuple[bool,
     rootless = receipt.get("rootless_oci", {})
     wasi = receipt.get("wasmtime_wasi", {})
     gvisor = receipt.get("gvisor", {})
+    quadlet = receipt.get("quadlet", {})
     if cgroup.get("present") is not True:
         reasons.append("cgroup v2 is not proven")
     if not (
@@ -154,14 +161,25 @@ def validate_runtime_sandbox_receipt(receipt: Any, *, root: Path) -> tuple[bool,
     ):
         reasons.append("Wasmtime/WASI restricted execution proof is incomplete")
     if not (
+        quadlet.get("status") == "PASS"
+        and quadlet.get("installed_instance") is True
+        and quadlet.get("security_findings") == []
+        and quadlet.get("image_digest_pinned") is True
+    ):
+        reasons.append("installed Quadlet security contract is not proven")
+    gpu_projection_required = gvisor.get("gpu_projection_required") is True
+    if not (
         gvisor.get("compatibility_smoke_status") == "PASS"
         and gvisor.get("production_oci_isolation_status") == "PASS"
+        and gvisor.get("actual_runtime_runsc") is True
         and gvisor.get("host_fs_default_exposure") is False
         and gvisor.get("network_default_deny_verified") is True
         and gvisor.get("explicit_mount_allowlist_verified") is True
         and gvisor.get("ephemeral_overlay_verified") is True
+        and (not gpu_projection_required or gvisor.get("nvproxy_supported_driver") is True)
+        and gvisor.get("unsupported_driver_override") is False
     ):
-        reasons.append("gVisor production OCI isolation proof is incomplete")
+        reasons.append("gVisor production OCI/runsc proof is incomplete")
     return not reasons, reasons
 
 
@@ -190,13 +208,16 @@ def validate_media_zero_receipt(receipt: Any, *, root: Path) -> tuple[bool, list
     provider = receipt.get("pynvvideocodec", {})
     dlpack = receipt.get("dlpack", {})
     telemetry = receipt.get("copy_telemetry", {})
+    frame_trace = receipt.get("frame_copy_trace", {})
     if not (
         hrb.get("status") == "PASS"
+        and hrb.get("resource_admission_evidence_id")
+        and hrb.get("broker_validation") is True
         and hrb.get("gpu_uuid")
         and hrb.get("pci_bdf")
         and isinstance(hrb.get("gpu_index"), int)
     ):
-        reasons.append("fresh HRB UUID/BDF binding is not proven")
+        reasons.append("fresh resource-admission/HRB UUID-BDF binding is not proven")
     if not (
         provider.get("status") == "PASS"
         and _version_tuple(provider.get("version")) >= (2, 2)
@@ -210,19 +231,15 @@ def validate_media_zero_receipt(receipt: Any, *, root: Path) -> tuple[bool, list
         and dlpack.get("pointer_identity") is True
         and dlpack.get("torch_tensor_is_cuda") is True
         and dlpack.get("torch_cuda_device_match") is True
-        and dlpack.get("host_frame_round_trips") == 0
     ):
-        reasons.append("DLPack zero-host-round-trip proof is incomplete")
-    if not (
-        telemetry.get("present") is True
-        and telemetry.get("scope") == "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE"
-        and isinstance(telemetry.get("samples"), list)
-        and len(telemetry.get("samples")) > 0
-    ):
-        reasons.append("PCIe copy telemetry is missing")
+        reasons.append("DLPack shared GPU-memory pointer identity proof is incomplete")
+    reasons.extend(frame_copy_trace_reasons(frame_trace, gpu_uuid=str(hrb.get("gpu_uuid") or ""), pci_bdf=str(hrb.get("pci_bdf") or "")))
+    reasons.extend(pcie_copy_budget_reasons(telemetry, gpu_uuid=str(hrb.get("gpu_uuid") or ""), pci_bdf=str(hrb.get("pci_bdf") or "")))
+    typed_payload = receipt.get("evidence_payload", {})
+    reasons.extend(embedded_evidence_reasons(receipt.get("evidence_envelope"), expected_payload=typed_payload))
     if receipt.get("full_pipeline_zero_copy_claim") is not False:
         reasons.append("unsupported full-pipeline zero-copy claim")
-    return not reasons, reasons
+    return not reasons, sorted(set(reasons))
 
 
 def validate_hu_aqc_receipt(receipt: Any, *, root: Path) -> tuple[bool, list[str]]:
