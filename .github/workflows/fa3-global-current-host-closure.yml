@@ -15,6 +15,7 @@ on:
       - 'src/fa3_full_current_host_preflight.py'
       - 'tests/test_full_current_host_capability_producer.py'
       - 'tests/test_full_current_host_preflight.py'
+      - 'tests/test_wasmtime_bootstrap.py'
       - 'tests/test_full_current_host_preflight.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   pull_request:
@@ -151,6 +152,7 @@ jobs:
             tests/test_mat002_runtime_knowledge_current_host.py \
             tests/test_full_current_host_capability_producer.py \
             tests/test_full_current_host_preflight.py \
+            tests/test_wasmtime_bootstrap.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
@@ -219,6 +221,7 @@ jobs:
             tests.test_mat004_media_authoring_verification_current_host \
             tests.test_full_current_host_capability_producer \
             tests.test_full_current_host_preflight \
+            tests.test_wasmtime_bootstrap \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
