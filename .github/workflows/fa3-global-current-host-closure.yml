@@ -11,9 +11,11 @@ on:
       - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
       - 'src/fa3_full_current_host_capability_producer.py'
       - 'src/fa3_full_current_host_preflight.py'
+      - 'bin/fa3-bootstrap-wasmtime'
       - 'src/fa3_full_current_host_preflight.py'
       - 'tests/test_full_current_host_capability_producer.py'
       - 'tests/test_full_current_host_preflight.py'
+      - 'tests/test_wasmtime_bootstrap.py'
       - 'tests/test_full_current_host_preflight.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   pull_request:
@@ -150,6 +152,7 @@ jobs:
             tests/test_mat002_runtime_knowledge_current_host.py \
             tests/test_full_current_host_capability_producer.py \
             tests/test_full_current_host_preflight.py \
+            tests/test_wasmtime_bootstrap.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
@@ -218,6 +221,7 @@ jobs:
             tests.test_mat004_media_authoring_verification_current_host \
             tests.test_full_current_host_capability_producer \
             tests.test_full_current_host_preflight \
+            tests.test_wasmtime_bootstrap \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -452,6 +456,20 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Bootstrap pinned Wasmtime when absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          if command -v wasmtime >/dev/null 2>&1; then
+            wasmtime --version
+          else
+            chmod +x bin/fa3-bootstrap-wasmtime
+            tool_bin="$(bin/fa3-bootstrap-wasmtime)"
+            echo "$tool_bin" >> "$GITHUB_PATH"
+            export PATH="$tool_bin:$PATH"
+            wasmtime --version
+          fi
+
       - name: Prove runner control-plane identity
         shell: bash
         run: |
