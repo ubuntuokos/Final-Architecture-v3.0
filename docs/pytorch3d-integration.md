@@ -71,6 +71,8 @@ A source-built wheelt csak akkor kell materializálni, ha egy job kifejezetten a
   --admission-receipt /path/to/resource-admission-current-host.json
 ```
 
+A legacy `--hrb-receipt` interfész megszűnt; kézzel gyártott provider-specifikus HRB receipt nem elfogadható admission-bizonyíték.
+
 A builder és a collector a `FA3-GATE-RESOURCE-ADMISSION-CURRENT-HOST-001` által validált, `CURRENT_HOST_ADMISSION` osztályú Evidence Envelope-ot fogyasztja. Saját vagy kézzel gyártott „PyTorch3D HRB receipt” nem admission-forrás; az accelerator UUID/BDF és lease identity kizárólag a kanonikus envelope `hrb_lease_identity` mezőjéből származhat.
 
 A collector valódi CUDA-extension importot, mesh/pointcloud műveletet, Chamfer-gradienst, mesh rasterizálást, kamera-transzformációt, marching cubes műveletet, OBJ/PLY roundtripet és Pulsar renderelést futtat. Negatív teszt igazolja, hogy hibás CUDA-eszköznél fail-closed hiba keletkezik, és a hívó aktív eszköze nem változik. A probe subprocess kilépése után a collector ellenőrzi, hogy a folyamat GPU-contextje megszűnt.
