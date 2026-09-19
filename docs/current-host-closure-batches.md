@@ -19,8 +19,8 @@ The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*
 
 ## Current materialization frontier
 
-After MAT-001, explicit registration coverage is **33/429 obligations** across eleven fully materialized capabilities. MAT-001 contributes CAP-001 through CAP-005 (15 obligations) on top of the prior 18 obligations.
+After MAT-002, explicit registration coverage is **48/429 obligations** across sixteen fully materialized capabilities; **381 obligations remain pending materialization**. MAT-001 contributes CAP-001 through CAP-005 and MAT-002 contributes CAP-006 through CAP-010, each with explicit positive, negative and rollback obligations.
 
-MAT-001 being materialized does **not** mean those capabilities have passed runtime closure. Their first real execution batch is `EXEC-001`, selected from the registry-derived planner and executed only by the self-hosted `fa3-current-host` runner. Until that physical execution produces valid qualification constituents, test results, bundles, attestations and capability receipts, their Evidence Registry state remains pending.
+Materialization does **not** mean runtime closure. `EXEC-001` (CAP-001 through CAP-005) is execution-ready but remains pending physical execution on the non-root self-hosted `fa3-current-host` runner. `EXEC-002` (CAP-006 through CAP-010) becomes execution-ready from the same registry-derived planner after MAT-002. Until a physical run produces valid qualification constituents, capability test results, bundles, attestations and capability receipts, the affected Evidence Registry records remain pending and global promotion remains fail-closed.
 
-The next deterministic materialization batch is **MAT-002 = CAP-006, CAP-007, CAP-008, CAP-009, CAP-010**.
+The next deterministic materialization batch is **MAT-003 = CAP-011, CAP-012, CAP-013, CAP-014, CAP-015**.
