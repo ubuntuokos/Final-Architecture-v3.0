@@ -27,7 +27,7 @@ XDG Desktop Portal, notifications, clipboard integration, power inhibition, syst
 
 Providers must use the FA3 secret broker boundary. A Secret Service implementation such as KWallet or GNOME Keyring may satisfy that boundary. The approved FA3 vault may be used as a fallback. Providers must not bind directly to a desktop-specific wallet API.
 
-For the Tier-1 Plasma reference desktop, FA3 may use a **reference-only D-Bus activation hint** when the installed Secret Service implementation is packaged under a compatibility activation name rather than directly under `org.freedesktop.secrets`. The hint may start the provider, but it cannot satisfy admission by itself: FA3 must subsequently prove the standard `org.freedesktop.secrets` bus name and `org.freedesktop.Secret.Service` interface. The activation hint is not a portable-core dependency, architectural authority, or provider API.
+For the Tier-1 Plasma reference desktop, FA3 may use a **reference-only D-Bus endpoint mapping** when the installed provider exposes the Secret Service protocol under a compatibility bus name instead of claiming the global `org.freedesktop.secrets` name. The mapped endpoint satisfies admission only when read-only introspection proves the standard object path `/org/freedesktop/secrets` and the standard `org.freedesktop.Secret.Service` interface. The standard bus name remains preferred, but it is not required when a canonical reference-profile mapping proves an equivalent standards-compliant endpoint. The mapping is not a portable-core dependency, architectural authority, secret-broker authority, or provider-private API; direct KWallet APIs remain forbidden.
 
 ## Appearance
 
