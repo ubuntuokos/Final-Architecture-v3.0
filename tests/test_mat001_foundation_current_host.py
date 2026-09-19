@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_mat001_foundation_current_host import (
     CAPABILITIES,
     expected_source_decisions,
+    host_baseline_valid,
     validate_bind_target,
     validate_exact_coverage,
     validate_provider_route,
@@ -44,6 +45,15 @@ class Mat001FoundationCurrentHostTests(unittest.TestCase):
                 validate_exact_coverage(root, "CAP-001", list(reversed(expected)))
         finally:
             td.cleanup()
+
+    def test_host_baseline_rejects_floor_violations(self):
+        good_packages = {"0": set(str(x) for x in range(8))}
+        self.assertTrue(host_baseline_valid(1000, good_packages, True, [8.6]))
+        self.assertFalse(host_baseline_valid(0, good_packages, True, [8.6]))
+        self.assertFalse(host_baseline_valid(1000, {"0": set(str(x) for x in range(7))}, True, [8.6]))
+        self.assertFalse(host_baseline_valid(1000, good_packages, False, [8.6]))
+        self.assertFalse(host_baseline_valid(1000, good_packages, True, [8.0]))
+        self.assertFalse(host_baseline_valid(1000, good_packages, True, []))
 
     def test_network_policy_is_loopback_only(self):
         self.assertTrue(validate_bind_target("127.0.0.1"))
