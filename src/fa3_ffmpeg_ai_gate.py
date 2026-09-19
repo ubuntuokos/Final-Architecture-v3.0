@@ -285,7 +285,7 @@ def gate(root: Path):
         and host_gate.get("fail_closed") is True
         and host_gate.get("current_host_runtime_promotion_claim") is False
         and host_enf.get("gate_id") == "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001"
-        and host_enf.get("status") == "MATERIALIZED_REAL_EXECUTION_PENDING"
+        and host_enf.get("status") == "MATERIALIZED_VENDOR_NEUTRAL_HOST_REAL_EXECUTION_PENDING"
         and host_dec.get("id") == "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
         and host_dec.get("current_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
         and host_dec.get("current_host_runtime_promotion_claim") is False
