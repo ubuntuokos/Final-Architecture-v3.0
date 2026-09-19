@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "29275f0ddbb9c5da2da6389eb1f059b7380f36c5",
-    "pre_projection_root_tree_sha": "117734636d824bdb3a7b8447ba7af6d3b6438444",
-    "pre_projection_canonical_tree_sha": "acb21086c549aeb3df24d77fb93d612c6375e0af",
-    "commits_ahead_of_v3_0_11_conformance_commit": 416,
-    "total_post_baseline_commits": 416,
-    "delta_file_count": 1446,
-    "delta_added_files": 1441,
+    "pre_projection_head_sha": "3e4ba64bb2b3479d8df498be3e2159d871d1a89f",
+    "pre_projection_root_tree_sha": "54d1921d461feb81814e8f766cf2c8bec85e730b",
+    "pre_projection_canonical_tree_sha": "a60b3f5728afa10d3dea4ca3823e29040ff58f6b",
+    "commits_ahead_of_v3_0_11_conformance_commit": 422,
+    "total_post_baseline_commits": 422,
+    "delta_file_count": 1448,
+    "delta_added_files": 1443,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,8 +47,8 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 703,
     "evidence_files_in_post_baseline_delta": 133,
-    "source_files_in_post_baseline_delta": 184,
-    "test_files_in_post_baseline_delta": 158,
+    "source_files_in_post_baseline_delta": 185,
+    "test_files_in_post_baseline_delta": 159,
     "workflow_files_in_post_baseline_delta": 62,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -765,7 +765,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1439,
+  "manifest_entry_count": 1441,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1029,7 +1029,7 @@
     },
     {
       "path": ".github/workflows/fa3-runtime-hardening-current-host.yml",
-      "git_blob_sha": "89eb27b27664fffb142c9d34cba299be4d1bd362",
+      "git_blob_sha": "793d84c114665b150aeeb6b3054baa7e23bd6f65",
       "baseline_delta_status": "added"
     },
     {
@@ -2199,7 +2199,7 @@
     },
     {
       "path": "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
-      "git_blob_sha": "2893674aa39927805d31ff4d7720f5e592869511",
+      "git_blob_sha": "279e6876db0ce4f5b0299bd8e66805193b31a5d0",
       "baseline_delta_status": "added"
     },
     {
@@ -4989,7 +4989,7 @@
     },
     {
       "path": "canonical/runtime-hardening-current-host-enforcement.json",
-      "git_blob_sha": "aa06c523d132b4ec429dd129a10e5dea3db7823b",
+      "git_blob_sha": "926dcf6c476c8e9536ec692ba21a26126d4b51e2",
       "baseline_delta_status": "added"
     },
     {
@@ -5419,7 +5419,7 @@
     },
     {
       "path": "docs/runtime-hardening-current-host.md",
-      "git_blob_sha": "156d3da9ea8f36f40648cb189a8f7241d2673838",
+      "git_blob_sha": "12014c512f933d484f96e66583da38871d82dd62",
       "baseline_delta_status": "added"
     },
     {
@@ -6144,7 +6144,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "e98a0fe0943300d836853b2a9324842ddde43858",
+      "git_blob_sha": "f66cd8fa7e30e48ce985bd20e6ef1b57f43f213c",
       "baseline_delta_status": "added"
     },
     {
@@ -7013,6 +7013,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_runtime_hardening_current_host_preflight.py",
+      "git_blob_sha": "65d496c4cb24ef1f978692e62ea4f3a10f899879",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_runtime_hardening_gate.py",
       "git_blob_sha": "8e91f40a31591c27869089e7ba37565225d0a2c5",
       "baseline_delta_status": "added"
@@ -7795,6 +7800,11 @@
     {
       "path": "tests/test_runtime_hardening_current_host_gate.py",
       "git_blob_sha": "4598b47d40a3ffc222fb5ea46b8c8e395f9a56fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_runtime_hardening_current_host_preflight.py",
+      "git_blob_sha": "de0ff4dae2eb58dda5df8c8926884614094263d2",
       "baseline_delta_status": "added"
     },
     {
