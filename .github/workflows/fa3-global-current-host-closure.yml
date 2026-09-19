@@ -141,6 +141,9 @@ on:
       - 'bin/fa3-enforce'
       - 'bin/fa3-bootstrap-wasmtime'
       - 'tests/test_global_current_host_workflow_trigger.py'
+      - 'tests/test_full_current_host_preflight.py'
+      - 'tests/test_current_host_runtime_resolver.py'
+      - 'tests/test_wasmtime_bootstrap.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
     inputs:
