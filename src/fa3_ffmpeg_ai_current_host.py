@@ -371,7 +371,7 @@ def make_reference_receipt() -> dict[str, Any]:
     """Synthetic PASS fixture for unit tests only; never current-host evidence."""
     now = datetime.now(timezone.utc)
     future = now.replace(year=now.year + 1).isoformat().replace("+00:00", "Z")
-    gpus = [{"index": 1, "uuid": "GPU-test", "pci_bdf": "0000:a5:00.0", "name": "NVIDIA Test GPU"}]
+    gpus = [{"index": 1, "uuid": "GPU-test", "pci_bdf": "0000:65:00.0", "name": "NVIDIA Test GPU"}]
     ffhash = "a" * 64
     h = "b" * 64
     return {
@@ -417,7 +417,7 @@ def make_reference_receipt() -> dict[str, Any]:
             "lease_id": "lease-test",
             "workload_class": "NEURAL_MEDIA",
             "device_uuid": "GPU-test",
-            "pci_bdf": "0000:a5:00.0",
+            "pci_bdf": "0000:65:00.0",
             "placement_source": "LIVE_TOPOLOGY",
             "static_runtime_ordinal_as_identity": False,
             "expires_at": future,
@@ -445,7 +445,7 @@ def make_reference_receipt() -> dict[str, Any]:
             "cuda_filter_executed": True,
             "nvenc_encode_executed": True,
             "gpu_uuid": "GPU-test",
-            "pci_bdf": "0000:a5:00.0",
+            "pci_bdf": "0000:65:00.0",
             "source_sha256": "1" * 64,
             "output_sha256": "2" * 64,
         },
