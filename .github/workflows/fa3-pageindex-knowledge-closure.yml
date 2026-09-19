@@ -1,0 +1,46 @@
+name: FA3 PageIndex Knowledge Closure
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/profiles/FA3-KNOWLEDGE-*.json'
+      - 'canonical/profiles/FA3-MULTIMODAL-KNOWLEDGE-REASONING-001.json'
+      - 'canonical/profiles/FA3-ASSET-EGRESS-POLICY-001.json'
+      - 'canonical/providers/FA3-PROVIDER-OPENKB-001.json'
+      - 'canonical/providers/FA3-PROVIDER-CONDB-001.json'
+      - 'canonical/contracts/FA3-KNOWLEDGE-*.json'
+      - 'canonical/contracts/FA3-MULTIMODAL-KNOWLEDGE-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-ASSET-EGRESS-CONTRACTS-001.json'
+      - 'canonical/FA3-KNOWLEDGE-DERIVATION-BRIDGE-001.json'
+      - 'canonical/FA3-GATE-PAGEINDEX-KNOWLEDGE-CLOSURE-001.json'
+      - 'canonical/pageindex-knowledge-closure-enforcement.json'
+      - 'src/fa3_knowledge_compilation.py'
+      - 'src/fa3_multimodal_knowledge.py'
+      - 'src/fa3_asset_egress_policy.py'
+      - 'src/fa3_openkb_provider.py'
+      - 'src/fa3_condb_provider.py'
+      - 'src/fa3_pageindex_knowledge_closure_gate.py'
+      - 'tests/test_pageindex_knowledge_closure.py'
+      - '.github/workflows/fa3-pageindex-knowledge-closure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  closure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_knowledge_compilation.py src/fa3_multimodal_knowledge.py src/fa3_asset_egress_policy.py src/fa3_openkb_provider.py src/fa3_condb_provider.py src/fa3_pageindex_knowledge_closure_gate.py
+      - name: Regression
+        run: PYTHONPATH=src python -m unittest tests.test_pageindex_knowledge_closure tests.test_knowledge_hybrid_retrieval -v
+      - name: Closure gate
+        run: PYTHONPATH=src python src/fa3_pageindex_knowledge_closure_gate.py --root .
+      - name: Hybrid retrieval gate
+        run: PYTHONPATH=src python src/fa3_knowledge_hybrid_retrieval_gate.py --root .

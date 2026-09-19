@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.pageindex-knowledge-closure-enforcement.v1",
+  "gate_id": "FA3-PAGEINDEX-KNOWLEDGE-CLOSURE-GATESET-001",
+  "fail_closed": true,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "rules": {
+    "knowledge_root": "FA3-KNOWLEDGE-001",
+    "compilation_subprofile": "FA3-KNOWLEDGE-COMPILATION-001",
+    "multimodal_subprofile": "FA3-MULTIMODAL-KNOWLEDGE-REASONING-001",
+    "asset_egress_profile": "FA3-ASSET-EGRESS-POLICY-001",
+    "source_authority": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACTS",
+    "openkb_authority": "DENY",
+    "condb_authority": "DENY",
+    "direct_external_model_provider": "DENY",
+    "cloud_upload_without_egress_decision": "DENY",
+    "binary_media_in_knowledge_store": "DENY"
+  }
+}

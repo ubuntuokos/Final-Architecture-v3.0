@@ -167,7 +167,7 @@ def validate() -> list[str]:
     if "McpGatewayPage" not in qml or 'pageIndex: 27' not in qml:
         failures.append("qml-mcp-gateway-page-wiring-missing")
     knowledge_qml = REQUIRED["knowledge_qml"].read_text(encoding="utf-8")
-    for token in ["Knowledge & Retrieval", "FA3-KNOWLEDGE-001", "Hierarchical + Hybrid", "PageIndex Local", "OpenKB", "ConDB", "RetrievalPlan", "RetrievalTrace", "ContextPassport", "No fabricated CONNECTED/PASS"]:
+    for token in ["Knowledge & Retrieval", "FA3-KNOWLEDGE-001", "Hierarchical + Hybrid", "PageIndex Local", "OpenKB", "ConDB", "CAP-140", "OPTIONAL COMPILER", "OPTIONAL CACHE", "Evidence-backed provider", "RetrievalPlan", "RetrievalTrace", "ContextPassport", "No fabricated CONNECTED/PASS"]:
         if token not in knowledge_qml: failures.append(f"qml-knowledge-surface-missing:{token}")
     if "KnowledgePage" not in qml or 'pageIndex: 28' not in qml:
         failures.append("qml-knowledge-page-wiring-missing")

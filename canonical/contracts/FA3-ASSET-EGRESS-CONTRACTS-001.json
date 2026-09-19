@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-ASSET-EGRESS-CONTRACTS-001",
+  "capability_binding": "CAP-140",
+  "authority": "SECURITY_GOVERNANCE_POLICY_PLANE",
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "contracts": {
+    "AssetEgressRequest": {
+      "required": [
+        "request_id",
+        "source_ref",
+        "source_sha256",
+        "data_class",
+        "destination_provider",
+        "destination_uri",
+        "purpose"
+      ]
+    },
+    "AssetEgressDecision": {
+      "required": [
+        "decision_id",
+        "authority",
+        "status",
+        "request_id",
+        "source_sha256",
+        "destination_provider",
+        "destination_origin",
+        "purpose",
+        "approval_id"
+      ]
+    },
+    "AssetEgressReceipt": {
+      "required": [
+        "receipt_id",
+        "decision_id",
+        "source_sha256",
+        "destination_provider",
+        "destination_origin",
+        "status",
+        "timestamp_utc"
+      ],
+      "append_only": true
+    }
+  },
+  "forbidden": [
+    "inline_secret",
+    "credential",
+    "token",
+    "api_key"
+  ]
+}

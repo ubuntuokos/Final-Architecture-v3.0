@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.component-record.v1",
+  "id": "FA3-KNOWLEDGE-DERIVATION-BRIDGE-001",
+  "name": "Journal/Artifact to Derived Knowledge Bridge",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "inputs": [
+    "FA3-JOURNAL-001 event refs",
+    "original artifact refs",
+    "source hashes",
+    "source locators"
+  ],
+  "outputs": [
+    "FA3-KNOWLEDGE-COMPILATION-CONTRACTS-001 derived projections"
+  ],
+  "rules": [
+    "SOURCE_REFERENCE_AND_SHA256_REQUIRED",
+    "DERIVED_OUTPUT_MUST_BIND_PROVENANCE_EDGE",
+    "SOURCE_EVENT_OR_ARTIFACT_MUST_NOT_BE_MUTATED",
+    "BRIDGE_OUTPUT_REBUILDABLE",
+    "BRIDGE_NOT_MEMORY_OR_JOURNAL_AUTHORITY"
+  ]
+}

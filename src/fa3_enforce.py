@@ -22,6 +22,7 @@ from fa3_loop_engineering_gate import gate as loop_engineering_gate
 from fa3_openhands_gate import gate as openhands_gate
 from fa3_openyak_gate import gate as openyak_gate
 from fa3_obsidian_knowledge_workspace_gate import gate as obsidian_knowledge_workspace_gate
+from fa3_pageindex_knowledge_closure_gate import gate as pageindex_knowledge_closure_gate
 from fa3_lynxhub_gate import gate as lynxhub_gate
 from fa3_openbmb_gate import gate as openbmb_gate
 from fa3_gpu_kernel_runtime_gate import gate as gpu_kernel_runtime_gate, current_host_gate as gpu_kernel_runtime_current_host_gate
@@ -205,6 +206,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-095","Obsidian human knowledge workspace gate is not bound into global enforcement policy"))
     if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
+    if "FA3-PAGEINDEX-KNOWLEDGE-CLOSURE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-111","PageIndex/Knowledge closure gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -338,6 +341,9 @@ def static_check(root:Path):
     obsidian_ref=obsidian_knowledge_workspace_gate(root)
     if obsidian_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-096","Obsidian human knowledge workspace boundary regression gate failed",obsidian_knowledge_workspace_gate=obsidian_ref))
+    pageindex_knowledge_ref=pageindex_knowledge_closure_gate(root)
+    if pageindex_knowledge_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-112","PageIndex/Knowledge closure executable gate failed",pageindex_knowledge_closure_gate=pageindex_knowledge_ref))
     lynxhub_ref=lynxhub_gate(root)
     if lynxhub_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-087","LynxHub Creative Operations Dashboard boundary regression gate failed",lynxhub_gate=lynxhub_ref))
@@ -538,7 +544,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","pageindex-knowledge-closure","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -594,6 +600,8 @@ def main():
             x=openyak_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="obsidian-knowledge-workspace":
             x=obsidian_knowledge_workspace_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="pageindex-knowledge-closure":
+            x=pageindex_knowledge_closure_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="lynxhub":
             x=lynxhub_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="openbmb":

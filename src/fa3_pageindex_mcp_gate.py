@@ -63,6 +63,21 @@ def validate_static(root: Path) -> list[dict[str, Any]]:
         findings.append(finding("PAGEINDEX-STATIC-014", "Cloud MCP retrieval contract reference is not frozen"))
     if enforcement.get("production_execution") != "CLEAN_PINNED_SOURCE_BUILD_ONLY" or enforcement.get("floating_npx_execution") != "DENY":
         findings.append(finding("PAGEINDEX-STATIC-015", "Production supply-chain execution policy mismatch"))
+    governance = provider.get("data_governance", {})
+    if (
+        governance.get("asset_egress_profile") != "FA3-ASSET-EGRESS-POLICY-001"
+        or governance.get("asset_egress_capability") != "CAP-140"
+        or governance.get("gateway_generated_egress_decision_required") is not True
+        or governance.get("local_upload_requires_source_sha256") is not True
+    ):
+        findings.append(finding("PAGEINDEX-STATIC-016", "CAP-140 asset-egress governance binding mismatch"))
+    if (
+        enforcement.get("asset_egress_profile") != "FA3-ASSET-EGRESS-POLICY-001"
+        or enforcement.get("asset_egress_capability") != "CAP-140"
+        or enforcement.get("gateway_generated_egress_decision_required") is not True
+        or enforcement.get("source_sha256_required") is not True
+    ):
+        findings.append(finding("PAGEINDEX-STATIC-017", "PageIndex cloud enforcement does not require gateway-issued CAP-140 decision"))
 
     bindings: dict[str, list[dict[str, Any]]] = {}
     for cap in registry.get("capabilities", []):
@@ -102,7 +117,8 @@ def validate_current_host(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     checks = receipt.get("checks", {})
     required_pass = {
         "GATEWAY_INDEX_INVOCATION", "GATEWAY_METADATA_RETRIEVAL", "GATEWAY_STRUCTURE_RETRIEVAL",
-        "GATEWAY_PAGE_CONTENT_RETRIEVAL", "PROVIDER_ADAPTER_RECEIPTS", "SECRET_NON_DISCLOSURE", "AUTHORITY_NONREGRESSION",
+        "GATEWAY_PAGE_CONTENT_RETRIEVAL", "PROVIDER_ADAPTER_RECEIPTS", "SECRET_NON_DISCLOSURE",
+        "AUTHORITY_NONREGRESSION", "ASSET_EGRESS_DECISION",
     }
     for name in sorted(required_pass):
         if checks.get(name) != "PASS":

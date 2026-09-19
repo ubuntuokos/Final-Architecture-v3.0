@@ -2,7 +2,7 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
   "name": "VectifyAI/PageIndex Local SDK",
-  "status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "status": "CURRENT_HOST_ADMITTED",
   "parent_profile": "FA3-KNOWLEDGE-001",
   "subprofile": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
   "provider_role": "PREFERRED_LOCAL_HIERARCHICAL_REASONING_RETRIEVAL_PROVIDER",
@@ -19,7 +19,7 @@
   "capability_count": 143,
   "capability_count_delta": 0,
   "authority_delta": 0,
-  "activation_mode": "PREFERRED_WHEN_CURRENT_HOST_ADMITTED",
+  "activation_mode": "PREFERRED_CURRENT_HOST_ADMITTED",
   "upstream": {
     "repository": "VectifyAI/PageIndex",
     "commit": "9a8dd6658278fec90347e8ac3388a205305667a3",
@@ -30,14 +30,18 @@
     {
       "capability_id": "fa3.document.index",
       "adapter_id": "fa3.adapter.pageindex.local.index",
-      "state": "PENDING_CURRENT_HOST",
-      "priority": 20
+      "state": "CONNECTED",
+      "priority": 20,
+      "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+      "evidence_ref": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json"
     },
     {
       "capability_id": "fa3.document.retrieve",
       "adapter_id": "fa3.adapter.pageindex.local.retrieve",
-      "state": "PENDING_CURRENT_HOST",
-      "priority": 20
+      "state": "CONNECTED",
+      "priority": 20,
+      "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+      "evidence_ref": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json"
     }
   ],
   "local_runtime": {
@@ -50,7 +54,11 @@
     "supported_native_input": [
       "text_based_pdf"
     ],
-    "multimodal": "USE_FA3_MEDIA_ADAPTERS_TO_DERIVED_KNOWLEDGE_CONTRACTS"
+    "multimodal": "USE_FA3_MEDIA_ADAPTERS_TO_DERIVED_KNOWLEDGE_CONTRACTS",
+    "provider_transport": "UNIX_USER_SERVICE",
+    "provider_service": "fa3-pageindex-local.service",
+    "model_router_service": "fa3-pageindex-model-router.service",
+    "ingest_root": "~/.local/share/fa3/knowledge-ingest"
   },
   "authority_boundaries": {
     "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
@@ -59,5 +67,8 @@
     "source_truth": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACTS",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
-  "global_runtime_promotion_claim": false
+  "global_runtime_promotion_claim": false,
+  "current_host_conformance": "FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001",
+  "current_host_evidence_ref": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json",
+  "production_binding_connected": true
 }
