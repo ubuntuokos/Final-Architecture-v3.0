@@ -38,6 +38,8 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
             self.assertIn(cap, recipes)
         self.assertEqual("Realtime / Virtual Production Interchange", recipes["CAP-027"]["subject"])
         self.assertEqual("graphics_3d", recipes["CAP-027"]["primitive"])
+        self.assertEqual("metric_3d_reconstruction", recipes["CAP-032"]["primitive"])
+        self.assertNotEqual("pytorch3d_runtime", recipes["CAP-032"]["primitive"])
         excluded_primitive = "un" + "real_runtime"
         self.assertNotIn(excluded_primitive, {row["primitive"] for row in recipes.values()})
 
