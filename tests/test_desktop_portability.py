@@ -134,15 +134,39 @@ class DesktopPortabilityTests(unittest.TestCase):
             "secret_service_standard_interface": True,
             "secret_service_standard_name_verified": True,
             "secret_service_dbus_activation_attempted": True,
-            "secret_service_reference_activation_attempted": True,
-            "secret_service_compatibility_endpoint_verified": True,
+            "secret_service_reference_activation_attempted": False,
+            "secret_service_compatibility_endpoint_verified": False,
+            "secret_service_fa3_reference_adapter_only": False,
         }
         report = evaluate_desktop(self._env("KDE", "wayland"), probes, require_gui=True)
         evidence = report["secret_backend_evidence"]
         self.assertTrue(evidence["standard_name_verified"])
         self.assertTrue(evidence["standard_interface_verified"])
-        self.assertTrue(evidence["reference_activation_attempted"])
-        self.assertTrue(evidence["compatibility_endpoint_verified_diagnostic_only"])
+        self.assertFalse(evidence["compatibility_endpoint_verified"])
+        self.assertFalse(evidence["fa3_reference_adapter_only"])
+        self.assertEqual(evidence["system_secret_service_interop"], "PASS")
+
+    def test_reference_adapter_report_does_not_claim_system_secret_service(self):
+        probes = {
+            **FULL_PROBES,
+            "secret_service": True,
+            "secret_service_live_name": False,
+            "secret_service_standard_interface": True,
+            "secret_service_standard_name_verified": False,
+            "secret_service_dbus_activation_attempted": True,
+            "secret_service_reference_activation_attempted": True,
+            "secret_service_compatibility_endpoint_verified": True,
+            "secret_service_fa3_reference_adapter_only": True,
+        }
+        report = evaluate_desktop(self._env("KDE", "wayland"), probes, require_gui=True)
+        evidence = report["secret_backend_evidence"]
+        self.assertEqual(report["result"], "PASS")
+        self.assertEqual(report["capabilities"]["secret_backend"], "PASS")
+        self.assertFalse(evidence["standard_name_verified"])
+        self.assertTrue(evidence["standard_interface_verified"])
+        self.assertTrue(evidence["compatibility_endpoint_verified"])
+        self.assertTrue(evidence["fa3_reference_adapter_only"])
+        self.assertEqual(evidence["system_secret_service_interop"], "LIMITED")
 
     def test_headless_is_valid_when_gui_not_required(self):
         report = evaluate_desktop({}, {key: False for key in FULL_PROBES}, require_gui=False)
