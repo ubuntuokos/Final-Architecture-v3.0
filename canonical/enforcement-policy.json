@@ -1588,5 +1588,19 @@
     "SHADOW_EXTERNAL_SIDE_EFFECTS_FORBIDDEN",
     "SHADOW_CANNOT_ASSIGN_PROMOTED",
     "PRODUCTION_REQUIRES_CURRENT_HOST_PASS_AND_19_OF_19_ACCEPTANCE"
-  ]
+  ],
+  "runtime_hardening_current_host_conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "runtime_hardening_current_host_gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+  "runtime_hardening_current_host_status": "PENDING_REAL_SELF_HOSTED_EXECUTION",
+  "runtime_hardening_current_host_global_promotion_claim": false,
+  "cap028_current_host_subject_id": "CAP-028",
+  "cap028_current_host_qualification_ids": [
+    "FA3-QUAL-CAP-028-POS-001",
+    "FA3-QUAL-CAP-028-NEG-001",
+    "FA3-QUAL-CAP-028-ROLLBACK-001"
+  ],
+  "cap028_current_host_producer_adapter": "src/fa3_cap028_agent_execution_current_host.py",
+  "cap028_current_host_execution_backend": "WASMTIME_WASI",
+  "cap028_current_host_status": "REGISTERED_REAL_CURRENT_HOST_EXECUTION_PENDING",
+  "cap028_current_host_global_promotion_claim": false
 }

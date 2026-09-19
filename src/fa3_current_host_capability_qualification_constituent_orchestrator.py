@@ -266,7 +266,7 @@ def _execute(
     return manifest, []
 
 
-def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
+def orchestrate(root: Path, *, execute: bool, subjects: set[str] | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     producer_audit = audit_producers(root)
     blocking: list[dict[str, Any]] = []
@@ -288,6 +288,20 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
         if isinstance(entry, dict)
         and (entry.get("qualification_id"), entry.get("constituent_id")) in accepted_keys
     ]
+    available_subjects = {str(entry.get("subject_id")) for entry in entries}
+    requested_subjects = sorted(
+        subjects or [],
+        key=lambda x: (int(x.split("-", 1)[1]) if x.startswith("CAP-") and x.split("-", 1)[1].isdigit() else 10**9, x),
+    )
+    if subjects is not None:
+        unknown = sorted(set(subjects) - available_subjects)
+        if unknown:
+            blocking.append({
+                "code": "QCPO-007",
+                "message": "Requested batch contains subjects without registered constituent producers",
+                "subjects": unknown,
+            })
+        entries = [entry for entry in entries if entry.get("subject_id") in subjects]
 
     host_path = root / HOST_FINGERPRINT
     host_digest: str | None = None
@@ -360,6 +374,8 @@ def orchestrate(root: Path, *, execute: bool) -> dict[str, Any]:
         "execution_requested": execute,
         "required_constituent_count": producer_audit.get("required_constituent_count", 0),
         "registered_producer_count": producer_audit.get("registered_producer_count", 0),
+        "selected_producer_count": len(entries),
+        "requested_subjects": requested_subjects,
         "pending_producer_count": producer_audit.get("pending_producer_count", 0),
         "constituents_materialized": len(materialized),
         "materialized_constituents": materialized,
@@ -389,8 +405,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Execute registered FA3 current-host qualification constituent producers")
     parser.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--subjects", default="", help="Comma-separated capability IDs to execute as one batch")
     args = parser.parse_args()
-    report = orchestrate(Path(args.root), execute=args.execute)
+    subjects = {item.strip() for item in args.subjects.split(",") if item.strip()} if args.subjects else None
+    report = orchestrate(Path(args.root), execute=args.execute, subjects=subjects)
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0 if report["orchestrator_integrity"] == "PASS" else 2
 

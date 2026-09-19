@@ -42,6 +42,11 @@ PATHS = {
     "voice": "canonical/profiles/FA3-VOICE-001.json",
     "voice_routing": "canonical/FA3-VOICE-QUALITY-ROUTING-001.json",
     "policy": "canonical/enforcement-policy.json",
+    "current_host_conformance": "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
+    "current_host_gate": "canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json",
+    "current_host_enforcement": "canonical/runtime-hardening-current-host-enforcement.json",
+    "current_host_decision": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+    "current_host_reference": "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
 }
 
 
@@ -306,6 +311,53 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("HARDEN-015", "Runtime hardening policy binding missing"))
     if policy.get("canonical_capability_count") != CAPABILITY_COUNT:
         findings.append(finding("HARDEN-016", "Global capability count drift"))
+
+    current_host = data["current_host_conformance"]
+    current_host_gate = data["current_host_gate"]
+    current_host_enforcement = data["current_host_enforcement"]
+    current_host_decision = data["current_host_decision"]
+    current_host_reference = data["current_host_reference"]
+    if not (
+        current_host.get("id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001"
+        and current_host.get("status") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+        and current_host.get("capability_count") == CAPABILITY_COUNT
+        and current_host.get("new_capabilities") == 0
+        and current_host.get("new_architectural_authorities") == 0
+        and current_host.get("global_promotion_claim") is False
+        and len(current_host.get("surfaces", [])) == 4
+    ):
+        findings.append(finding("HARDEN-018", "Runtime hardening current-host conformance materialization drift"))
+    if not (
+        current_host_gate.get("gateset_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        and current_host_gate.get("conformance_id") == current_host.get("id")
+        and current_host_gate.get("fail_closed") is True
+        and current_host_gate.get("current_host_runner_required") is True
+        and current_host_gate.get("global_promotion_claim") is False
+    ):
+        findings.append(finding("HARDEN-019", "Runtime hardening current-host gate materialization drift"))
+    host_rules = current_host_enforcement.get("rules", {})
+    if not (
+        current_host_enforcement.get("gate_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        and current_host_enforcement.get("fail_closed") is True
+        and host_rules.get("github_hosted_substitution") == "DENY"
+        and host_rules.get("sandbox_compatibility_smoke_as_production_isolation") == "DENY"
+        and host_rules.get("shadow_promotion_authority") == "DENY"
+    ):
+        findings.append(finding("HARDEN-020", "Runtime hardening current-host enforcement drift"))
+    if not (
+        current_host_decision.get("status") == "CANONICAL_CLOSED"
+        and current_host_decision.get("current_host_runtime_promotion_claim") is False
+        and current_host_decision.get("global_promotion_claim") is False
+        and current_host_reference.get("production_admission_effect") == "REFERENCE_ONLY_NOT_CURRENT_HOST_PASS"
+    ):
+        findings.append(finding("HARDEN-021", "Runtime hardening current-host decision/reference overclaim"))
+    if not (
+        policy.get("runtime_hardening_current_host_conformance_id") == current_host.get("id")
+        and policy.get("runtime_hardening_current_host_gate_id") == "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
+        and policy.get("runtime_hardening_current_host_status") == "PENDING_REAL_SELF_HOSTED_EXECUTION"
+        and policy.get("runtime_hardening_current_host_global_promotion_claim") is False
+    ):
+        findings.append(finding("HARDEN-022", "Global policy current-host hardening binding drift"))
 
     regression_rows = regressions()
     failed = [x["name"] for x in regression_rows if x["result"] != "PASS"]

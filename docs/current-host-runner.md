@@ -20,7 +20,7 @@ The bootstrap downloads the archive to a temporary file, validates the exact dig
 
 ## Host prerequisites
 
-The runner user must be non-root and have `curl`, `tar`, `sha256sum`, `python3`, `systemctl`, and preferably an authenticated `gh` CLI with permission to create/read repository self-hosted runners. The runner itself is installed under:
+The runner user must be non-root and have `curl`, `tar`, `sha256sum`, `python3`, `systemctl`, and preferably an authenticated `gh` CLI with permission to create/read repository self-hosted runners. The 429-capability closure additionally requires locally admitted runtime prerequisites for every registered executor; CAP-028 currently requires `wasmtime` for real WASM/WASI sandbox execution. Missing executor prerequisites are fail-closed and must not be replaced by hosted CI or synthetic receipts. The runner itself is installed under:
 
 ```text
 $HOME/.local/share/fa3/actions-runner
