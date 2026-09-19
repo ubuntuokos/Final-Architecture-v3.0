@@ -26,6 +26,7 @@ on:
       - 'src/fa3_cap028_agent_execution_current_host.py'
       - 'src/fa3_mat001_foundation_current_host.py'
       - 'src/fa3_mat002_runtime_knowledge_current_host.py'
+      - 'src/fa3_mat003_interaction_creative_current_host.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
@@ -47,6 +48,7 @@ on:
       - 'tests/test_cap028_agent_execution_current_host.py'
       - 'tests/test_mat001_foundation_current_host.py'
       - 'tests/test_mat002_runtime_knowledge_current_host.py'
+      - 'tests/test_mat003_interaction_creative_current_host.py'
       - 'evidence/reference/current-host-143-audit-*.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
@@ -101,6 +103,7 @@ jobs:
             src/fa3_cap028_agent_execution_current_host.py \
             src/fa3_mat001_foundation_current_host.py \
             src/fa3_mat002_runtime_knowledge_current_host.py \
+            src/fa3_mat003_interaction_creative_current_host.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
@@ -155,7 +158,7 @@ jobs:
           assert plan['execution_ready_capabilities'] == ready_caps, plan
           assert plan['fully_materialized_capability_count'] == len(ready_caps), plan
           assert plan['pending_materialization_capability_count'] == 143 - len(ready_caps), plan
-          assert plan['next_materialization_batch']['capabilities'] == ['CAP-011','CAP-012','CAP-013','CAP-014','CAP-015'], plan
+          assert plan['next_materialization_batch']['capabilities'] == ['CAP-016','CAP-017','CAP-018','CAP-019','CAP-020'], plan
           assert plan['invariants']['materialized_executor_implies_runtime_pass'] is False, plan
           assert plan['invariants']['batch_completion_implies_global_promotion'] is False, plan
           assert plan['invariants']['global_promotion_claim'] is False, plan
@@ -177,6 +180,7 @@ jobs:
             tests.test_cap028_agent_execution_current_host \
             tests.test_mat001_foundation_current_host \
             tests.test_mat002_runtime_knowledge_current_host \
+            tests.test_mat003_interaction_creative_current_host \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -213,12 +217,12 @@ jobs:
           cap028=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-028']
           assert len(cap028) == 3, cap028
           assert {row['test_kind'] for row in cap028} == {'positive','negative','rollback'}, cap028
-          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005','CAP-006','CAP-007','CAP-008','CAP-009','CAP-010']:
+          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005','CAP-006','CAP-007','CAP-008','CAP-009','CAP-010','CAP-011','CAP-012','CAP-013','CAP-014','CAP-015']:
               rows=[row for row in qualification['accepted_qualifications'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert qualification['qualified_definition_count'] == 48, qualification
-          assert qualification['pending_definition_count'] == 381, qualification
+          assert qualification['qualified_definition_count'] == 63, qualification
+          assert qualification['pending_definition_count'] == 366, qualification
           PY
       - name: Audit explicit qualification constituent producer coverage
         run: |
@@ -251,11 +255,11 @@ jobs:
           cap028=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-028']
           assert len(cap028) == 3, cap028
           assert {row['test_kind'] for row in cap028} == {'positive','negative','rollback'}, cap028
-          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005','CAP-006','CAP-007','CAP-008','CAP-009','CAP-010']:
+          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005','CAP-006','CAP-007','CAP-008','CAP-009','CAP-010','CAP-011','CAP-012','CAP-013','CAP-014','CAP-015']:
               rows=[row for row in producer_audit['accepted_producers'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert producer_audit['registered_producer_count'] == 48, producer_audit
+          assert producer_audit['registered_producer_count'] == 63, producer_audit
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
         run: |
@@ -302,12 +306,12 @@ jobs:
           cap028=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-028']
           assert len(cap028) == 3, cap028
           assert {row['test_kind'] for row in cap028} == {'positive','negative','rollback'}, cap028
-          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005','CAP-006','CAP-007','CAP-008','CAP-009','CAP-010']:
+          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005','CAP-006','CAP-007','CAP-008','CAP-009','CAP-010','CAP-011','CAP-012','CAP-013','CAP-014','CAP-015']:
               rows=[row for row in executor['registered_obligations'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert executor['registered_executor_count'] == 48, executor
-          assert executor['pending_executor_count'] == 381, executor
+          assert executor['registered_executor_count'] == 63, executor
+          assert executor['pending_executor_count'] == 366, executor
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
         run: |
