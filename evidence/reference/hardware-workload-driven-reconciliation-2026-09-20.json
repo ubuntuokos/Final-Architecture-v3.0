@@ -1,0 +1,27 @@
+{
+  "schema": "fa3.hardware-workload-driven-reconciliation-evidence.v1",
+  "id": "FA3-EVIDENCE-HARDWARE-WORKLOAD-DRIVEN-RECONCILIATION-2026-09-20",
+  "date": "2026-09-20",
+  "decision_id": "FA3-DEC-HARDWARE-WORKLOAD-DRIVEN-BASELINE-2026-09-20",
+  "reconciliation_id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
+  "scope": "REPOSITORY_SEMANTIC_RECONCILIATION_REFERENCE_NOT_CURRENT_HOST",
+  "status": "PENDING_PR_VALIDATION",
+  "semantic_baseline": {
+    "cpu": "1_TO_N_PACKAGES_EACH_QUALIFYING_CPU_AT_LEAST_8_PHYSICAL_CORES",
+    "accelerator": "0_TO_N_GLOBAL_BASELINE_NO_VENDOR_RUNTIME_ARCHITECTURE_OR_COMPUTE_CAPABILITY_FLOOR",
+    "accelerator_requirements": "WORKLOAD_AND_PROVIDER_CONDITIONAL",
+    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "supersedes_semantic_content_of": [
+    "evidence/reference/hardware-portability-ci-2026-09-03.json",
+    "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
+    "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+  ],
+  "historical_artifacts_are_preserved": true,
+  "current_host_runtime_status": "PENDING_CURRENT_HOST",
+  "current_host_runtime_evidence": false,
+  "global_promotion_claim": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
