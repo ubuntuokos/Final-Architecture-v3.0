@@ -11,7 +11,7 @@ class StabilityPortfolioGateTests(unittest.TestCase):
     def test_old_cpu_baseline_fails(self):
         td,root=self._copy()
         try:
-            p=root/"canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json"; d=json.loads(p.read_text()); d["hardware_reference"]["cpu"]="2x Intel Xeon E5-2697 v4"; p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
+            p=root/"canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json"; d=json.loads(p.read_text()); d["hardware_policy"]["cpu_model_or_topology_pin"]="LEGACY_HOST_PIN"; p.write_text(json.dumps(d)); self.assertEqual("FAIL",s.gate(root)["result"])
         finally: td.cleanup()
     def test_nim_cannot_be_current_host_default(self):
         td,root=self._copy()
