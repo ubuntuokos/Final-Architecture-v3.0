@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_current_host_batch_planner import build_plan
+from fa3_current_host_runtime_resolver import resolve_python_runtime, resolve_unreal_runtime
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -137,15 +138,18 @@ def preflight(root: Path) -> dict[str, Any]:
         }
         if not found:
             findings.append("Bforartists or Blender executable missing")
-    if "unreal_runtime" in primitives:
-        found = any_command(("UnrealEditor-Cmd", "UnrealEditor"))
+    unreal_runtime: dict[str, Any] = {"required": "unreal_runtime" in primitives}
+    if unreal_runtime["required"]:
+        resolved_unreal = resolve_unreal_runtime()
+        unreal_runtime.update(resolved_unreal)
+        selected = resolved_unreal.get("selected")
         any_groups["unreal_runtime"] = {
-            "candidates": ["UnrealEditor-Cmd", "UnrealEditor"],
-            "selected": found[0] if found else None,
-            "path": found[1] if found else None,
+            "selected": Path(selected["path"]).name if isinstance(selected, dict) else None,
+            "path": selected.get("path") if isinstance(selected, dict) else None,
+            "candidate_count": len(resolved_unreal.get("candidates", [])),
         }
-        if not found:
-            findings.append("UnrealEditor-Cmd or UnrealEditor executable missing")
+        if not selected:
+            findings.append("validated UnrealEditor-Cmd or UnrealEditor executable missing from approved roots")
     if "toolchain_build" in primitives:
         found = any_command(("cc", "gcc", "clang"))
         any_groups["toolchain_build"] = {
@@ -156,34 +160,30 @@ def preflight(root: Path) -> dict[str, Any]:
         if not found:
             findings.append("C compiler missing")
 
-    python_modules: dict[str, bool] = {}
+    python_runtimes: dict[str, Any] = {}
     if "gpu_compute" in primitives:
-        python_modules["torch"] = importlib.util.find_spec("torch") is not None
+        gpu_python = resolve_python_runtime(require_torch=True, require_pytorch3d=False, require_cuda=True)
+        python_runtimes["gpu_compute"] = gpu_python
+        if not gpu_python.get("selected"):
+            findings.append("no approved local Python runtime with torch + CUDA available")
     if "pytorch3d_runtime" in primitives:
-        python_modules["pytorch3d"] = importlib.util.find_spec("pytorch3d") is not None
-        python_modules.setdefault("torch", importlib.util.find_spec("torch") is not None)
-    for name, present in python_modules.items():
-        if not present:
-            findings.append(f"required Python module missing: {name}")
+        p3d_python = resolve_python_runtime(require_torch=True, require_pytorch3d=True, require_cuda=False)
+        python_runtimes["pytorch3d_runtime"] = p3d_python
+        if not p3d_python.get("selected"):
+            findings.append("no approved local Python runtime with torch + pytorch3d available")
 
     cuda: dict[str, Any] = {"required": "gpu_compute" in primitives}
-    if cuda["required"] and python_modules.get("torch"):
-        proc = run([
-            sys.executable,
-            "-c",
-            "import json,torch;print(json.dumps({'available':torch.cuda.is_available(),'count':torch.cuda.device_count()}))",
-        ], 20)
-        if proc.returncode != 0:
-            findings.append("torch CUDA preflight failed")
-            cuda.update({"available": False, "count": 0, "returncode": proc.returncode})
+    if cuda["required"]:
+        selected = python_runtimes.get("gpu_compute", {}).get("selected")
+        if isinstance(selected, dict):
+            cuda.update({
+                "available": selected.get("cuda_available"),
+                "count": selected.get("cuda_count"),
+                "python": selected.get("path"),
+                "torch_version": selected.get("torch_version"),
+            })
         else:
-            try:
-                value = json.loads(proc.stdout.strip())
-            except Exception:
-                value = {"available": False, "count": 0}
-            cuda.update(value)
-            if value.get("available") is not True or int(value.get("count", 0)) < 1:
-                findings.append("CUDA device unavailable to current-host runner")
+            cuda.update({"available": False, "count": 0, "python": None})
 
     desktop: dict[str, Any] = {"required": "desktop_wayland" in primitives}
     if desktop["required"]:
@@ -226,7 +226,8 @@ def preflight(root: Path) -> dict[str, Any]:
         "primitives": sorted(primitives),
         "commands": commands,
         "any_command_groups": any_groups,
-        "python_modules": python_modules,
+        "python_runtimes": python_runtimes,
+        "unreal_runtime": unreal_runtime,
         "cuda": cuda,
         "desktop": desktop,
         "findings": sorted(set(findings)),
