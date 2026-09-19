@@ -11,7 +11,7 @@ from fa3_release_baseline import module_active_capability_count
 
 PROFILE = "canonical/profiles/FA3-HARDWARE-BASELINE-001.json"
 CONTRACT = "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json"
-DECISION = "canonical/decisions/FA3-DEC-HARDWARE-PORTABILITY-2026-09-03.json"
+DECISION = "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json"
 ENFORCEMENT = "canonical/hardware-portability-enforcement.json"
 GATE_RECORD = "canonical/FA3-GATE-HARDWARE-PORTABILITY-001.json"
 HW_PROFILE = "canonical/profiles/FA3-HW-001.json"
@@ -20,12 +20,10 @@ MGPU_PROFILE = "canonical/profiles/FA3-HW-MGPU-001.json"
 HRB_PROFILE = "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json"
 HRB_CONTRACT = "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json"
 EVIDENCE_REGISTRY = "evidence/evidence-registry.json"
-REFERENCE_EVIDENCE = "evidence/reference/hardware-portability-ci-2026-09-03.json"
-AUDIT_EVIDENCE = "evidence/reference/hardware-portability-repository-audit-2026-09-03.json"
 
 GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
-DECISION_ID = "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+DECISION_ID = "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
 CAPABILITY_COUNT = module_active_capability_count(__file__)
 
 REFERENCE_VENDOR_FAMILIES = {"NVIDIA", "AMD", "INTEL"}
@@ -188,7 +186,7 @@ def evaluate(root: Path) -> dict[str, Any]:
     enforcement=loadj(root,ENFORCEMENT); gate_record=loadj(root,GATE_RECORD)
     hw_profile=loadj(root,HW_PROFILE); hw_contract=loadj(root,HW_CONTRACT); mgpu=loadj(root,MGPU_PROFILE)
     hrb_profile=loadj(root,HRB_PROFILE); hrb_contract=loadj(root,HRB_CONTRACT)
-    evidence_registry=loadj(root,EVIDENCE_REGISTRY); reference_evidence=loadj(root,REFERENCE_EVIDENCE); audit_evidence=loadj(root,AUDIT_EVIDENCE)
+    evidence_registry=loadj(root,EVIDENCE_REGISTRY)
 
     cpu=profile.get("portable_minimum",{}).get("cpu",{}); gpu=profile.get("portable_minimum",{}).get("gpu",{})
     discovery=contract.get("discovery_semantics",{}); envelope=contract.get("portable_minimum_envelope",{})
@@ -214,19 +212,20 @@ def evaluate(root: Path) -> dict[str, Any]:
       check("enforcement-vendor-neutral", any(r.get("invariant")=="NO_VENDOR_OR_RUNTIME_API_DEFINES_THE_GLOBAL_ACCELERATOR_FLOOR" for r in enforcement.get("rules",[])), "vendor-neutral floor mandatory"),
       check("decision-vendor-neutral", decision.get("vendor_neutrality",{}).get("core_vendor_allowlist")=="FORBIDDEN_AS_ADMISSION_AUTHORITY", "vendor allowlist cannot be authority"),
       check("evidence-bindings", len(bound)==len(CAPABILITY_BINDINGS) and all(DECISION_ID in x.get("source_decision_ids",[]) for x in bound), "evidence bindings retained"),
-      check("reference-not-promotion", reference_evidence.get("current_host_runtime_promotion_claim") is False and audit_evidence.get("current_host_runtime_promotion_claim") is False, "static/reference cannot promote"),
       check("gate-record", gate_record.get("id")==EXECUTABLE_GATE_ID and gate_record.get("gateset_id")==GATE_ID and gate_record.get("fail_closed") is True, "gate record bound"),
     ]
     audit=scan_repository(root)
     checks.append(check("repository-wide-hardcoded-hardware-audit", audit["result"]=="PASS", f"repository blockers={audit['blocking_hardcoded_production_assumptions']}"))
     passed=all(x["status"]=="PASS" for x in checks)
     return {
-      "schema":"fa3.hardware-portability-gate-report.v2",
+      "schema":"fa3.hardware-portability-gate-report.v3",
       "gate_id":GATE_ID,
       "executable_gate_id":EXECUTABLE_GATE_ID,
       "capability_count":CAPABILITY_COUNT,
       "result":"PASS" if passed else "FAIL",
       "current_host_runtime_promotion_claim":False,
+      "legacy_host_evidence_accepted":False,
+      "fresh_current_host_evidence_required":True,
       "accelerator_floor":{"vendor_pin":"FORBIDDEN","runtime_api_pin":"FORBIDDEN","minimum_device_count":1,"compatibility":"WORKLOAD_PROVIDER_SCOPED"},
       "supported_reference_vendor_families":sorted(REFERENCE_VENDOR_FAMILIES),
       "supported_reference_platform_families":sorted(REFERENCE_PLATFORM_FAMILIES),
