@@ -17,8 +17,7 @@
     "knowledge_cache": 9,
     "agent_process": 11,
     "security_local": 11,
-    "graphics_3d": 5,
-    "unreal_runtime": 1,
+    "graphics_3d": 6,
     "document_publish": 5,
     "pytorch3d_runtime": 1,
     "toolchain_build": 4,
@@ -107,15 +106,17 @@
     },
     {
       "capability_id": "CAP-027",
-      "subject": "Unreal/Realtime Production",
+      "subject": "Realtime / Virtual Production Interchange",
       "activation": "PROFILE",
-      "primitive": "unreal_runtime",
+      "primitive": "graphics_3d",
       "execution_scope": "CURRENT_HOST",
       "network_policy": "NONE",
       "external_side_effects_allowed": false,
       "human_approval_required": false,
       "global_promotion_claim": false,
-      "dependency_failure_semantics": "REJECTED_NOT_PASS"
+      "dependency_failure_semantics": "REJECTED_NOT_PASS",
+      "engine_specific_dependency": false,
+      "external_proprietary_rt3d_engine_integration": "OUT_OF_SCOPE"
     },
     {
       "capability_id": "CAP-029",
