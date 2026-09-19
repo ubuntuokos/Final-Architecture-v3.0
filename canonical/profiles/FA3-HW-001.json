@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-001",
   "name": "Provider-Neutral Hardware Capability & Heterogeneous Accelerator Baseline",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -37,14 +37,15 @@
     "NO_SILENT_FALLBACK",
     "CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_CANONICAL_SEMANTICS",
     "PORTABLE_CPU_FLOOR_MIN_1_PACKAGE_MIN_8_PHYSICAL_CORES",
-    "PORTABLE_GPU_FLOOR_MIN_1_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
-    "GPU_SKU_OR_MARKETING_SERIES_IS_NOT_ADMISSION_AUTHORITY",
-    "NEWER_GPU_CAPABILITIES_EXPLICITLY_ALLOWED_SUBJECT_TO_RUNTIME_COMPATIBILITY",
-    "NO_CANONICAL_CPU_VENDOR_MODEL_OR_GPU_SKU_VRAM_SM_PIN",
+    "GLOBAL_ACCELERATOR_MINIMUM_IS_ZERO",
+    "NO_GLOBAL_ACCELERATOR_VENDOR_RUNTIME_ARCHITECTURE_OR_COMPUTE_CAPABILITY_FLOOR",
+    "ACCELERATOR_REQUIREMENTS_ARE_WORKLOAD_AND_PROVIDER_CONDITIONAL",
+    "NO_CANONICAL_CPU_VENDOR_MODEL_OR_ACCELERATOR_SKU_VRAM_SM_PIN",
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "NO_FIXED_CPU_SOCKET_GPU_COUNT_PCI_BDF_OR_CUDA_ORDINAL_PORTABLE_DEFAULT",
-    "LIVE_HARDWARE_DISCOVERY_AND_ADMISSION_REVALIDATION_REQUIRED"
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_FIXED_CPU_SOCKET_ACCELERATOR_COUNT_PCI_BDF_OR_RUNTIME_ORDINAL_PORTABLE_DEFAULT",
+    "LIVE_HARDWARE_DISCOVERY_AND_ADMISSION_REVALIDATION_REQUIRED",
+    "ACCELERATOR_WORKLOAD_REQUIRES_HRB_AUTHORIZATION_AND_STABLE_IDENTITY_WHEN_AVAILABLE"
   ],
   "implementation_status": "CANONICAL_PORTABLE_BASELINE_DYNAMIC_1_TO_N_CAPABILITY_DISCOVERY_REVALIDATION_AND_GENERIC_CURRENT_HOST_RESOURCE_PROJECTION_VALIDATION_MATERIALIZED",
   "minimum_portable_hardware_envelope": {
@@ -57,20 +58,29 @@
       "package_count_max": "UNBOUNDED_BY_FA3"
     },
     "gpu": {
-      "minimum_qualifying_device_count": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
+      "minimum_qualifying_device_count": 0,
+      "qualifying_device_count_max": "UNBOUNDED_BY_FA3",
+      "required_globally": false,
+      "vendor_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "runtime_or_compute_capability_floor": "NONE_GLOBAL_WORKLOAD_OR_PROVIDER_CONDITIONAL",
       "sku_series_admission_authority": false,
-      "product_line_pin": "FORBIDDEN",
-      "exact_sku_pin": "FORBIDDEN",
-      "vram_pin": "FORBIDDEN",
-      "sm_pin": "FORBIDDEN",
+      "product_line_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "exact_sku_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "vram_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "sm_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
       "marketing_identity_required": false,
-      "newer_capability_equivalent_or_better_hardware": "ALLOWED_SUBJECT_TO_LIVE_RUNTIME_COMPATIBILITY",
-      "qualifying_device_count_max": "UNBOUNDED_BY_FA3"
+      "workload_provider_constraints": "ALLOWED_ONLY_AFTER_EXPLICIT_ACCELERATOR_RESOURCE_CLASS_REQUEST"
     },
     "exact_current_host_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
-    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator": {
+      "minimum_device_count": 0,
+      "maximum_device_count": "UNBOUNDED_BY_FA3",
+      "vendor_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "runtime_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "architecture_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "requirements": "WORKLOAD_AND_PROVIDER_CONDITIONAL"
+    }
   },
   "mandatory_subprofiles": [
     "FA3-HARDWARE-BASELINE-001"
@@ -79,7 +89,9 @@
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
   "reconciliation": {
     "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
-    "date": "2026-09-16",
-    "legacy_marketing_series_floor": "SUPERSEDED_BY_CAPABILITY_FLOOR"
+    "date": "2026-09-20",
+    "legacy_marketing_series_floor": "SUPERSEDED",
+    "legacy_global_nvidia_cuda_cc86_floor": "SUPERSEDED_BY_WORKLOAD_DRIVEN_ACCELERATOR_ADMISSION",
+    "decision_id": "FA3-DEC-HARDWARE-WORKLOAD-DRIVEN-BASELINE-2026-09-20"
   }
 }
