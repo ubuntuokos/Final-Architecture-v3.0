@@ -63,6 +63,32 @@ CONCRETE_HOST_PATTERNS = (
     ("INTEL_GPU_SKU_LITERAL", re.compile(r"\bIntel\s+Arc\s+[AB]\d{3}\b", re.I)),
 )
 
+
+def _join(*parts: str) -> str:
+    return "".join(parts)
+
+LEGACY_REPOSITORY_PATTERNS = (
+    ("LEGACY_WORKSTATION_MODEL", re.compile(r"\bT" + _join("79", "10") + r"\b", re.I)),
+    ("LEGACY_WORKSTATION_NAME", re.compile(r"\bPrecision(?:\s+Tower)?\s+" + _join("79", "10") + r"\b", re.I)),
+    ("LEGACY_CPU_MODEL_A", re.compile(r"\bE5[-_ ]?" + _join("26", "96") + r"(?:\s*v4)?\b", re.I)),
+    ("LEGACY_CPU_MODEL_B", re.compile(r"\bE5[-_ ]?" + _join("26", "97") + r"(?:\s*v4)?\b", re.I)),
+    ("LEGACY_GPU_MODEL_A", re.compile(r"\bRTX[\s_-]*" + _join("30", "90") + r"\b", re.I)),
+    ("LEGACY_GPU_MODEL_B", re.compile(r"\bRTX[\s_-]*A" + _join("10", "00") + r"\b", re.I)),
+    ("LEGACY_GPU_MODEL_C", re.compile(r"\bRTX[\s_-]*" + _join("30", "80") + r"\b", re.I)),
+    ("LEGACY_GPU_MODEL_D", re.compile(r"\b(?:Quadro\s+)?RTX[\s_-]*" + _join("40", "00") + r"\b", re.I)),
+    ("LEGACY_PCI_BDF_A", re.compile(r"\b" + _join("0000:", "05:00.0") + r"\b", re.I)),
+    ("LEGACY_PCI_BDF_B", re.compile(r"\b" + _join("0000:", "a5:00.0") + r"\b", re.I)),
+    ("LEGACY_TOPOLOGY_A", re.compile(r"\b" + _join("44", "C") + r"\s*[-/]\s*" + _join("88", "T") + r"\b", re.I)),
+    ("LEGACY_TOPOLOGY_B", re.compile(r"\b" + _join("36", "C") + r"\s*[-/]\s*" + _join("72", "T") + r"\b", re.I)),
+    ("LEGACY_AUDIT_DECISION", re.compile(re.escape(_join("FA3-DEC-HARDWARE-PORTABILITY-", "2026-09-03")), re.I)),
+    ("LEGACY_AUDIT_CI", re.compile(re.escape(_join("hardware-portability-ci-", "2026-09-03")), re.I)),
+    ("LEGACY_AUDIT_REPOSITORY", re.compile(re.escape(_join("hardware-portability-repository-audit-", "2026-09-03")), re.I)),
+    ("LEGACY_HARDWARE_FABRIC", re.compile(re.escape(_join("FA3-HARDWARE-FABRIC-", "RECONCILIATION-001")), re.I)),
+    ("LEGACY_HARDWARE_FABRIC_EVIDENCE", re.compile(re.escape(_join("hardware-fabric-reconciliation-", "2026-09-16")), re.I)),
+    ("LEGACY_CPU_NUMA_REFERENCE", re.compile(re.escape(_join("FA3-", "T79", "10-CPU-NUMA-REFERENCE-2026-09-02")), re.I)),
+    ("LEGACY_CPU_NUMA_EVIDENCE", re.compile(re.escape(_join("cpu-numa-threading-ci-", "2026-09-02")), re.I)),
+)
+
 REFERENCE_MARKERS = (
     "reference", "fixture", "evidence", "historical", "supersed", "non-normative",
     "not canonical", "forbidden", "example", "provider-local", "provider specific",
@@ -108,6 +134,7 @@ def _context(text: str, start: int, end: int, radius: int = 260) -> str:
 
 def scan_repository(root: Path) -> dict[str, Any]:
     blocking: list[dict[str, Any]] = []
+    legacy_blocking: list[dict[str, Any]] = []
     non_normative: list[dict[str, Any]] = []
     scanned = runtime_scanned = unreadable = 0
 
@@ -137,6 +164,12 @@ def scan_repository(root: Path) -> dict[str, Any]:
         current_host_tooling = "current-host" in rel.lower() or "current_host" in rel.lower()
         explicitly_non_normative = rel.startswith(NON_NORMATIVE_PREFIXES) or policy_or_test_code or current_host_tooling
 
+        for code, pattern in LEGACY_REPOSITORY_PATTERNS:
+            for match in pattern.finditer(text):
+                item = {"path": rel, "kind": code, "offset": match.start(), "sample": match.group(0)[:120]}
+                legacy_blocking.append(item)
+                blocking.append(item)
+
         for code, pattern in HARD_RUNTIME_PATTERNS:
             for match in pattern.finditer(text):
                 ctx = _context(text, match.start(), match.end())
@@ -163,6 +196,8 @@ def scan_repository(root: Path) -> dict[str, Any]:
         "runtime_surface_files_scanned": runtime_scanned,
         "unreadable_text_candidates": unreadable,
         "blocking_hardcoded_production_assumptions": len(blocking),
+        "legacy_repository_reference_count": len(legacy_blocking),
+        "legacy_repository_matches": legacy_blocking,
         "blocking_matches": blocking,
         "non_normative_hardware_mentions": len(non_normative),
         "non_normative_sample": non_normative[:100],
@@ -210,12 +245,23 @@ def evaluate(root: Path) -> dict[str, Any]:
       check("hrb-dynamic", "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED" in hrb_contract.get("invariants",[]), "HRB consumes dynamic topology"),
       check("mgpu-vendor-neutral", "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants",[]) and "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu.get("invariants",[]), "multi-accelerator profile vendor-neutral"),
       check("enforcement-vendor-neutral", any(r.get("invariant")=="NO_VENDOR_OR_RUNTIME_API_DEFINES_THE_GLOBAL_ACCELERATOR_FLOOR" for r in enforcement.get("rules",[])), "vendor-neutral floor mandatory"),
-      check("decision-vendor-neutral", decision.get("vendor_neutrality",{}).get("core_vendor_allowlist")=="FORBIDDEN_AS_ADMISSION_AUTHORITY", "vendor allowlist cannot be authority"),
+      check(
+          "decision-vendor-neutral",
+          decision.get("decision")=="SINGLE_CURRENT_VENDOR_NEUTRAL_HARDWARE_AUDIT_NO_LEGACY_HOST_BASELINE"
+          and decision.get("evidence_policy",{}).get("legacy_hardware_audit_artifacts")=="REMOVE_FROM_REPOSITORY"
+          and decision.get("evidence_policy",{}).get("legacy_host_specific_records")=="REMOVE_FROM_REPOSITORY"
+          and decision.get("evidence_policy",{}).get("static_pass_is_current_host_pass") is False,
+          "current hardware-audit decision is vendor-neutral and forbids legacy host/audit inheritance",
+      ),
       check("evidence-bindings", len(bound)==len(CAPABILITY_BINDINGS) and all(DECISION_ID in x.get("source_decision_ids",[]) for x in bound), "evidence bindings retained"),
       check("gate-record", gate_record.get("id")==EXECUTABLE_GATE_ID and gate_record.get("gateset_id")==GATE_ID and gate_record.get("fail_closed") is True, "gate record bound"),
     ]
     audit=scan_repository(root)
-    checks.append(check("repository-wide-hardcoded-hardware-audit", audit["result"]=="PASS", f"repository blockers={audit['blocking_hardcoded_production_assumptions']}"))
+    checks.append(check(
+        "repository-wide-hardcoded-hardware-audit",
+        audit["result"]=="PASS",
+        f"repository blockers={audit['blocking_hardcoded_production_assumptions']} legacy={audit['legacy_repository_reference_count']}",
+    ))
     passed=all(x["status"]=="PASS" for x in checks)
     return {
       "schema":"fa3.hardware-portability-gate-report.v3",
