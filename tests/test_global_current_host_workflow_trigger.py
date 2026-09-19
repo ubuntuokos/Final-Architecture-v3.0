@@ -11,6 +11,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "src/fa3_mat001_foundation_current_host.py",
     "src/fa3_mat002_runtime_knowledge_current_host.py",
     "src/fa3_mat003_interaction_creative_current_host.py",
+    "src/fa3_desktop_admission.py",
     "src/fa3_mat004_media_authoring_verification_current_host.py",
     "src/fa3_full_current_host_capability_producer.py",
     "src/fa3_full_current_host_preflight.py",
@@ -21,6 +22,8 @@ EXECUTION_SENSITIVE_PATHS = {
     "bin/fa3-current-host-runner-doctor",
     "tests/test_current_host_capability_qualification_constituent_orchestrator.py",
     "tests/test_mat002_runtime_knowledge_current_host.py",
+    "tests/test_mat003_interaction_creative_current_host.py",
+    "tests/test_desktop_portability.py",
     ".github/workflows/fa3-global-current-host-closure.yml",
 }
 
@@ -45,6 +48,16 @@ class GlobalCurrentHostWorkflowTriggerTests(unittest.TestCase):
         pr_paths = _event_paths(text, "pull_request", "workflow_dispatch")
         self.assertEqual(sorted(EXECUTION_SENSITIVE_PATHS - push_paths), [])
         self.assertEqual(sorted(EXECUTION_SENSITIVE_PATHS - pr_paths), [])
+
+    def test_every_main_push_path_is_also_pr_validated(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        push_paths = _event_paths(text, "push", "pull_request")
+        pr_paths = _event_paths(text, "pull_request", "workflow_dispatch")
+        self.assertEqual(
+            sorted(push_paths - pr_paths),
+            [],
+            "a main-push-triggering current-host change must also be validated on pull_request",
+        )
 
 
 if __name__ == "__main__":
