@@ -42,6 +42,36 @@ def exact_rollback(scope:Path,name:str,baseline:bytes,fault:bytes)->dict[str,Any
     if pre!=post or pre==mut:raise RuntimeError("exact rollback proof failed")
     return {"pre_sha256":pre,"mutated_sha256":mut,"post_sha256":post,"rollback_hash_equal":True}
 
+def hrb_failure_summary(receipt_path:Path)->dict[str,Any]:
+    try:
+        receipt=load(receipt_path)
+    except Exception:
+        return {"failed_checks":["receipt_unavailable"]}
+    summary=receipt.get("check_summary")
+    if not isinstance(summary,dict):
+        return {"failed_checks":["check_summary_unavailable"]}
+    allowed={
+        "hardware_floor_pass","manager_collection_pass","manager_neutrality_pass",
+        "cgroup_v2_pass","negative_tests_pass","failed_checks","cpu_package_count",
+        "min_physical_cores_per_package","gpu_device_count","qualifying_gpu_count",
+        "systemd_manager_returncode","manager_violation_reasons","cgroup_unified",
+        "effective_cpu_set_present","effective_memory_nodes_present","failed_negative_tests",
+    }
+    return {key:summary.get(key) for key in sorted(allowed) if key in summary}
+
+def hrb_gate_failure_summary(root:Path)->dict[str,Any]:
+    report=root/"reports/hrb-systemd-manager-current-host-gate-report.json"
+    try:
+        payload=load(report)
+    except Exception:
+        return {"finding_codes":["gate_report_unavailable"]}
+    findings=payload.get("findings")
+    rows=findings if isinstance(findings,list) else []
+    return {
+        "finding_codes":[str(row.get("code")) for row in rows if isinstance(row,dict) and row.get("code")],
+        "finding_messages":[str(row.get("message"))[:240] for row in rows if isinstance(row,dict) and row.get("message")],
+    }
+
 def workspace_allowed(candidate:Path,approved_root:Path,home:Path,model_roots:tuple[Path,...]=())->bool:
     candidate,approved_root,home=candidate.resolve(),approved_root.resolve(),home.resolve()
     if candidate in {Path("/"),home,approved_root} or approved_root not in candidate.parents:return False
@@ -87,9 +117,23 @@ def cap006(root:Path,scope:Path,mode:str)->dict[str,Any]:
         return {"mode":mode,"status":"PASS",**exact_rollback(scope,"resource-policy.json",b'{"authority":"HRB","admission":"DENY_BY_DEFAULT"}\n',b'{"authority":"APPLICATION","admission":"ALLOW_ALL"}\n')}
     receipt=scope/"hrb-systemd-manager-current-host.json"
     p=cmd([sys.executable,str(collector),"--root",str(root),"--receipt",str(receipt)],90)
-    if p.returncode:raise RuntimeError(f"HRB collector failed rc={p.returncode}: {p.stderr[-2000:]}")
+    if p.returncode:
+        summary=hrb_failure_summary(receipt)
+        raise RuntimeError(
+            "HRB collector blocked rc="
+            +str(p.returncode)
+            +" summary="
+            +json.dumps(summary,sort_keys=True,separators=(",",":"))
+        )
     g=cmd([sys.executable,str(gate),"--root",str(root),"--receipt",str(receipt)],60)
-    if g.returncode:raise RuntimeError(f"HRB gate failed rc={g.returncode}: {g.stderr[-2000:]}")
+    if g.returncode:
+        summary=hrb_gate_failure_summary(root)
+        raise RuntimeError(
+            "HRB gate blocked rc="
+            +str(g.returncode)
+            +" summary="
+            +json.dumps(summary,sort_keys=True,separators=(",",":"))
+        )
     ev=load(receipt)
     return {"mode":mode,"status":"PASS","evidence_level":ev.get("evidence_level"),"resource_authority_id":ev.get("resource_authority_id"),"cgroup_v2":ev.get("cgroup_v2"),"manager_violations":ev.get("manager_violations")}
 
