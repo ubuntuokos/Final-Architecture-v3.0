@@ -27,6 +27,8 @@ XDG Desktop Portal, notifications, clipboard integration, power inhibition, syst
 
 Providers must use the FA3 secret broker boundary. A Secret Service implementation such as KWallet or GNOME Keyring may satisfy that boundary. The approved FA3 vault may be used as a fallback. Providers must not bind directly to a desktop-specific wallet API.
 
+For the Tier-1 Plasma reference desktop, FA3 may use a **reference-only D-Bus activation hint** when the installed Secret Service implementation is packaged under a compatibility activation name rather than directly under `org.freedesktop.secrets`. The hint may start the provider, but it cannot satisfy admission by itself: FA3 must subsequently prove the standard `org.freedesktop.secrets` bus name and `org.freedesktop.Secret.Service` interface. The activation hint is not a portable-core dependency, architectural authority, or provider API.
+
 ## Appearance
 
 Breeze is the reference Plasma appearance, not a runtime dependency. FA3-owned design tokens define spacing, typography, scaling, icon/control sizing, and light/dark behavior so the UI remains coherent under other desktops and themes.
