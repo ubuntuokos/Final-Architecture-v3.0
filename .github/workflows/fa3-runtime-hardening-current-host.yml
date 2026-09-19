@@ -31,15 +31,35 @@ on:
         required: false
         default: ''
         type: string
-      gvisor_proof:
-        description: 'Path to production gVisor OCI isolation proof on the self-hosted runner'
+      quadlet:
+        description: 'Installed FA3 agent-sandbox Quadlet path'
         required: false
-        default: '.fa3-current-host/input/gvisor-oci-proof.json'
+        default: '~/.config/containers/systemd/fa3-agent-sandbox.container'
         type: string
-      hrb_receipt:
-        description: 'Path to fresh HRB GPU UUID/BDF placement receipt'
+      agent_container:
+        description: 'Running Podman container name whose OCI runtime must resolve to runsc'
         required: false
-        default: '.fa3-current-host/input/media-zero-hrb.json'
+        default: 'fa3-agent-sandbox'
+        type: string
+      host_attestation_ref:
+        description: 'Exact current-host attestation reference bound into the evidence envelope'
+        required: false
+        default: ''
+        type: string
+      sandbox_gpu:
+        description: 'Require nvproxy driver ABI validation for GPU projection into the gVisor sandbox'
+        required: false
+        default: false
+        type: boolean
+      resource_admission_receipt:
+        description: 'Validated CURRENT_HOST_ADMISSION Evidence Envelope for the neural-media workload'
+        required: false
+        default: 'evidence/receipts/resource-admission-current-host.json'
+        type: string
+      frame_trace:
+        description: 'Normalized fa3.cuda-copy-trace.v1 from CUPTI, Nsight Systems, or CUDA activity tracing'
+        required: false
+        default: '.fa3-current-host/input/media-zero-frame-trace.json'
         type: string
       input_video:
         description: 'Approved local seekable video used for PyNvVideoCodec current-host proof'
@@ -145,11 +165,16 @@ jobs:
         shell: bash
         run: |
           set -u
-          args=()
-          if [[ -n "${{ inputs.oci_image }}" ]]; then args+=(--oci-image "${{ inputs.oci_image }}"); fi
-          if [[ -f "${{ inputs.gvisor_proof }}" ]]; then args+=(--gvisor-proof "${{ inputs.gvisor_proof }}"); fi
+          args=(
+            --root .
+            --oci-image "${{ inputs.oci_image }}"
+            --quadlet "${{ inputs.quadlet }}"
+            --agent-container "${{ inputs.agent_container }}"
+            --host-attestation-ref "${{ inputs.host_attestation_ref }}"
+          )
+          if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
           set +e
-          PYTHONPATH=src python3 evidence/collect-runtime-isolation-sandbox-current-host.py --root . "${args[@]}"
+          PYTHONPATH=src python3 evidence/collect-runtime-isolation-sandbox-current-host.py "${args[@]}"
           echo "sandbox_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect PyNvVideoCodec zero-host-round-trip evidence
@@ -159,7 +184,10 @@ jobs:
           PYTHONPATH=src python3 evidence/collect-media-gpu-zerocopy-current-host.py \
             --root . \
             --input-video "${{ inputs.input_video }}" \
-            --hrb-receipt "${{ inputs.hrb_receipt }}"
+            --resource-admission-receipt "${{ inputs.resource_admission_receipt }}" \
+            --frame-trace "${{ inputs.frame_trace }}" \
+            --sampling-interval 0.02 \
+            --pcie-budget-ratio 0.05
           echo "media_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect Hungarian AQC evidence

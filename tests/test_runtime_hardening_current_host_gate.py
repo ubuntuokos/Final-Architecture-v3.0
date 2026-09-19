@@ -12,9 +12,53 @@ from src.fa3_runtime_hardening_current_host import (
     validate_shadow_receipt,
 )
 from src.fa3_runtime_hardening_current_host_gate import gate
+from src.fa3_resource_evidence_normalization_gate import _canonical_payload_hash
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def envelope(surface, payload=None):
+    payload = payload or {"surface": surface, "test": True}
+    return {
+        "schema_id": "FA3-EVIDENCE-ENVELOPE-001",
+        "schema_version": "1.0.0",
+        "evidence_id": "FA3-TEST-" + surface,
+        "evidence_class": "CURRENT_HOST_RUNTIME",
+        "subject": {
+            "profile_id": "FA3-TEST",
+            "provider_id": None,
+            "gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
+        },
+        "canonical_context": {
+            "architecture_release": "2026-08-23/v3.0.11",
+            "release_baseline_id": "FA3-RELEASE-CAPABILITY-BASELINE-001",
+            "release_manifest_digest": "sha256:" + "a" * 64,
+        },
+        "execution_context": {
+            "host_attestation_ref": "FA3-HOST-TEST",
+            "compute_profile_ref": None,
+            "workload_resource_envelope_ref": None,
+            "hrb_lease_ref": None,
+            "diagnostics": {},
+        },
+        "provenance": {
+            "collector_id": "TEST",
+            "collector_revision": "1",
+            "generated_at": "2026-09-19T00:00:00Z",
+            "artifact_digests": [],
+        },
+        "integrity": {"payload_sha256": _canonical_payload_hash(payload)},
+        "result": {
+            "status": "PASS",
+            "scope": surface,
+            "claims": ["TEST_PASS"],
+            "non_claims": ["GLOBAL_FA3_PROMOTION"],
+        },
+        "payload_schema_id": "fa3.test.payload.v1",
+        "payload": payload,
+        "promotion_authority": False,
+    }
 
 
 def base(schema, surface):
@@ -68,8 +112,24 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
                 "network_default_deny_verified": False,
                 "explicit_mount_allowlist_verified": False,
                 "ephemeral_overlay_verified": False,
+                "runtime_inspect_runsc": False,
+                "gpu_projection_required": False,
+                "nvproxy_supported_driver": True,
+                "unsupported_driver_override": False,
+            },
+            "quadlet": {
+                "status": "PASS",
+                "network_none": True,
+                "read_only": True,
+                "no_new_privileges": True,
+                "drop_capability_all": True,
+                "pull_never": True,
+                "image_digest_pinned": True,
+                "runtime_runsc": True,
+                "forbidden_host_mounts_present": False,
             },
         })
+        receipt["evidence_envelope"] = envelope("RUNTIME_ISOLATION_AGENT_SANDBOX")
         ok, reasons = validate_runtime_sandbox_receipt(receipt, root=ROOT)
         self.assertFalse(ok)
         self.assertTrue(any("gVisor" in reason for reason in reasons))
@@ -79,6 +139,10 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
             "network_default_deny_verified": True,
             "explicit_mount_allowlist_verified": True,
             "ephemeral_overlay_verified": True,
+            "runtime_inspect_runsc": True,
+            "gpu_projection_required": False,
+            "nvproxy_supported_driver": True,
+            "unsupported_driver_override": False,
         })
         ok, reasons = validate_runtime_sandbox_receipt(receipt, root=ROOT)
         self.assertTrue(ok, reasons)
@@ -100,11 +164,32 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
                 "host_frame_round_trips": 0,
             },
             "copy_telemetry": {
-                "present": True, "scope": "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE",
-                "samples": [{"rx_mb_s": 0.0, "tx_mb_s": 0.0}],
+                "present": True,
+                "scope": "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE",
+                "semantics": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+                "capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
+                "sampling_interval_seconds": 0.02,
+                "budget_ratio": 0.05,
+                "budget_kb_s": 1000000.0,
+                "max_rx_kb_s": 1000.0,
+                "max_tx_kb_s": 2000.0,
+                "samples": [{"rx_kb_s": 1000.0, "tx_kb_s": 2000.0}] * 10,
+            },
+            "frame_copy_trace": {
+                "schema": "fa3.cuda-copy-trace.v1",
+                "status": "PASS",
+                "collector": {"kind": "CUPTI", "version": "test"},
+                "neural_segment": {
+                    "frame_count": 8,
+                    "host_to_device_frame_copy_count": 0,
+                    "device_to_host_frame_copy_count": 0,
+                    "host_frame_round_trips": 0,
+                    "dlpack_shared_gpu_memory": True,
+                },
             },
             "full_pipeline_zero_copy_claim": False,
         })
+        receipt["evidence_envelope"] = envelope("MEDIA_GPU_ZERO_HOST_ROUND_TRIP")
         ok, reasons = validate_media_zero_receipt(receipt, root=ROOT)
         self.assertTrue(ok, reasons)
         bad = copy.deepcopy(receipt)

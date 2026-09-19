@@ -18,6 +18,14 @@
     "shadow_authoritative_output": "DENY",
     "shadow_external_side_effects": "DENY",
     "shadow_promotion_authority": "DENY",
-    "global_promotion_effect": "NONE"
+    "global_promotion_effect": "NONE",
+    "installed_quadlet_required": "PASS",
+    "actual_runsc_runtime_required": "PASS",
+    "nvproxy_driver_abi_when_gpu_projected": "PASS",
+    "pcie_copy_budget_role": "SUPPORTING_NOT_ZERO_COPY_PROOF",
+    "pcie_sampling_interval_seconds_max": 0.025,
+    "pcie_budget_ratio_max": 0.05,
+    "frame_copy_trace_required": "CUPTI_OR_NSIGHT_OR_CUDA_ACTIVITY",
+    "fa3_evidence_envelope_required": "PASS"
   }
 }
