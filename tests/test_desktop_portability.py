@@ -19,6 +19,7 @@ from fa3_desktop_admission import (
     collect_runtime_probes,
     discover_current_user_session_environment,
     _dbus_start_service_by_name,
+    _introspection_diagnostic,
     _reference_secret_service_activation_aliases,
     _secret_service_probe,
     evaluate_desktop,
@@ -126,6 +127,48 @@ class DesktopPortabilityTests(unittest.TestCase):
         report = evaluate_desktop(self._env("COSMIC", "wayland"), probes, require_gui=True)
         self.assertEqual(report["result"], "FAIL")
         self.assertEqual(report["capabilities"]["secret_backend"], "FAIL")
+
+    def test_diagnostic_metadata_cannot_grant_secret_backend(self):
+        probes = {
+            **FULL_PROBES,
+            "secret_service": False,
+            "fa3_vault": False,
+            "secret_service_diagnostics": {
+                "diagnostic_only": True,
+                "authoritative_for_pass": False,
+                "reference_environment": {
+                    "configuration": {
+                        "ksecret_backend_enabled": "TRUE",
+                        "standard_secret_service_api_enabled": "TRUE",
+                    },
+                    "dbus": {
+                        "activatable": {
+                            "targets": {
+                                "org.freedesktop.secrets": True,
+                                "org.kde.secretservicecompat": True,
+                            }
+                        }
+                    },
+                },
+            },
+        }
+        report = evaluate_desktop(self._env("KDE", "wayland"), probes, require_gui=True)
+        self.assertEqual(report["result"], "FAIL")
+        self.assertEqual(report["capabilities"]["secret_backend"], "FAIL")
+        self.assertTrue(report["secret_backend_evidence"]["diagnostics"]["diagnostic_only"])
+
+    def test_introspection_diagnostic_never_copies_xml_payload(self):
+        proc = Mock(
+            returncode=0,
+            stdout="<node><interface name='org.freedesktop.DBus.Peer'/><node name='TOP_SECRET_SENTINEL'/></node>",
+            stderr="",
+        )
+        diagnostic = _introspection_diagnostic(proc)
+        encoded = json.dumps(diagnostic, sort_keys=True)
+        self.assertFalse(diagnostic["standard_interface_proven"])
+        self.assertEqual(diagnostic["error"], "STANDARD_INTERFACE_NOT_PRESENT_IN_XML")
+        self.assertNotIn("TOP_SECRET_SENTINEL", encoded)
+        self.assertNotIn("<node", encoded)
 
     def test_secret_backend_report_preserves_standard_verification_evidence(self):
         probes = {
@@ -598,7 +641,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertIn("_secret_service_introspect(busctl, alias, env)", text)
         self.assertIn("_secret_service_introspect(busctl, owner, env)", text)
         self.assertIn("FA3_REFERENCE_ADAPTER_ONLY", text)
-        for forbidden in ("kwallet-query", "kwalletd6", "ksecretd", "org.kde.KWallet"):
+        for forbidden in ("kwallet-query", "kwalletd6", "ksecretd", "org.kde.KWallet", "kwalletrc", "KSecretD", "apiEnabled"):
             self.assertNotIn(forbidden, text)
 
     def test_headless_fails_when_gui_is_required(self):
