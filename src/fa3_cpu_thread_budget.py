@@ -40,11 +40,11 @@ def discover_live_topology() -> dict[str, Any]:
     }
 
 
-def make_reference_t7910_topology() -> dict[str, Any]:
+def make_synthetic_dual_numa_topology() -> dict[str, Any]:
     logical: list[dict[str, int]] = []
     cpu_id = 0
     for socket_id in range(2):
-        for core_id in range(22):
+        for core_id in range(8):
             for _smt_thread in range(2):
                 logical.append(
                     {
@@ -57,9 +57,8 @@ def make_reference_t7910_topology() -> dict[str, Any]:
                 cpu_id += 1
     return {
         "schema": "fa3.cpu-thread-topology-snapshot.v1",
-        "source": "SYNTHETIC_REFERENCE_FIXTURE_NOT_CURRENT_HOST",
-        "reference_deployment_id": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
-        "allowed_cpus": list(range(88)),
+        "source": "SYNTHETIC_PORTABILITY_FIXTURE_NOT_CURRENT_HOST",
+        "allowed_cpus": list(range(32)),
         "logical_cpus": logical,
     }
 
