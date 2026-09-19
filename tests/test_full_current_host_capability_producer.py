@@ -34,8 +34,12 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
         self.assertNotIn("CAP-075", recipes)
         self.assertNotIn("CAP-076", recipes)
         self.assertNotIn("CAP-080", recipes)
-        for cap in ("CAP-021", "CAP-025", "CAP-032", "CAP-100", "CAP-143"):
+        for cap in ("CAP-021", "CAP-025", "CAP-027", "CAP-032", "CAP-100", "CAP-143"):
             self.assertIn(cap, recipes)
+        self.assertEqual("Realtime / Virtual Production Interchange", recipes["CAP-027"]["subject"])
+        self.assertEqual("graphics_3d", recipes["CAP-027"]["primitive"])
+        excluded_primitive = "un" + "real_runtime"
+        self.assertNotIn(excluded_primitive, {row["primitive"] for row in recipes.values()})
 
     def test_recipe_policy_is_fail_closed(self):
         recipe = {
