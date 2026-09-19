@@ -423,7 +423,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
 
     return {
         "available": False,
-        "live_name": False,
+        "live_name": live_name,
         "standard_interface": False,
         "dbus_activation_attempted": True,
         "reference_activation_attempted": bool(aliases),
