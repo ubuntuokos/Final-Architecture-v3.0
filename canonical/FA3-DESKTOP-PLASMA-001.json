@@ -38,19 +38,21 @@
     "fa3_design_tokens_required": true
   },
   "secret_service_activation": {
-    "mode": "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT",
+    "mode": "REFERENCE_PROVIDER_SECRET_SERVICE_ADAPTER",
     "activation_bus_name": "org.kde.secretservicecompat",
     "preferred_standard_bus_name": "org.freedesktop.secrets",
     "object_path": "/org/freedesktop/secrets",
     "interface": "org.freedesktop.Secret.Service",
     "standard_interface_required": true,
-    "standard_bus_name_required": true,
+    "standard_bus_name_preferred": true,
+    "standard_bus_name_required_for_system_interop": true,
     "compatibility_bus_name_allowed": true,
-    "compatibility_endpoint_diagnostic_only": true,
-    "activation_alias_semantics": "ACTIVATION_ONLY_NO_CAPABILITY_OR_INTERFACE_AUTHORITY",
+    "compatibility_endpoint_may_satisfy_fa3_secret_backend": true,
+    "compatibility_endpoint_scope": "FA3_REFERENCE_ADAPTER_ONLY",
+    "activation_alias_semantics": "FA3_REFERENCE_ADAPTER_ONLY_NO_SYSTEM_SECRET_SERVICE_CLAIM",
     "core_requirement": false,
     "architectural_authority": false,
-    "semantics": "REFERENCE_ALIAS_MAY_ONLY_TRIGGER_PROVIDER_VIA_DBUS_DAEMON_START_SERVICE_BY_NAME_PORTABLE_PASS_REQUIRES_STANDARD_BUS_NAME_AND_STANDARD_SECRET_SERVICE_INTERFACE",
+    "semantics": "STANDARD_BUS_NAME_REMAINS_PREFERRED_FOR_SYSTEM_INTEROP; KDE_REFERENCE_ALIAS_MAY_SATISFY_ONLY_FA3_SECRET_BACKEND_WHEN_EXACT_XML_INTROSPECTION_PROVES_ORG_FREEDESKTOP_SECRET_SERVICE",
     "activation_method": "DBUS_START_SERVICE_BY_NAME"
   }
 }
