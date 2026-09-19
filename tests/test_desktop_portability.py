@@ -18,6 +18,7 @@ from fa3_desktop_admission import (
     classify_desktop,
     collect_runtime_probes,
     discover_current_user_session_environment,
+    _dbus_start_service_by_name,
     _reference_secret_service_activation_aliases,
     _secret_service_probe,
     evaluate_desktop,
@@ -251,6 +252,32 @@ class DesktopPortabilityTests(unittest.TestCase):
                 ("org.freedesktop.portal.Desktop", env["DBUS_SESSION_BUS_ADDRESS"]),
                 ("org.freedesktop.secrets", env["DBUS_SESSION_BUS_ADDRESS"]),
             ],
+        )
+
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_reference_alias_activation_uses_dbus_daemon_start_service_by_name(self, run):
+        run.return_value = Mock(returncode=0, stdout="u 1\n", stderr="")
+        env = self._env("KDE", "wayland")
+        proc = _dbus_start_service_by_name("/usr/bin/busctl", "org.example.SecretCompat", env)
+        self.assertEqual(proc.returncode, 0)
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                "/usr/bin/busctl",
+                "--user",
+                "call",
+                "org.freedesktop.DBus",
+                "/org/freedesktop/DBus",
+                "org.freedesktop.DBus",
+                "StartServiceByName",
+                "su",
+                "org.example.SecretCompat",
+                "0",
+            ],
+        )
+        self.assertEqual(
+            run.call_args.kwargs["env"]["DBUS_SESSION_BUS_ADDRESS"],
+            env["DBUS_SESSION_BUS_ADDRESS"],
         )
 
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
