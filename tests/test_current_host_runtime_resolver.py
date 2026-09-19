@@ -1,4 +1,5 @@
 import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -50,6 +51,38 @@ class CurrentHostRuntimeResolverTests(unittest.TestCase):
                 require_torch=True, require_pytorch3d=False, require_cuda=True
             )
             self.assertIsNone(result["selected"])
+
+    def test_probe_timeout_is_recorded_without_aborting_discovery(self):
+        timeout = subprocess.TimeoutExpired(cmd=["/fake/slow-python"], timeout=30)
+        with mock.patch.object(resolver, "run", side_effect=timeout):
+            result = resolver.probe_python(Path("/fake/slow-python"))
+        self.assertEqual("TIMEOUT", result["probe_status"])
+        self.assertEqual("/fake/slow-python", result["path"])
+        self.assertEqual(30, result["timeout_seconds"])
+
+    def test_resolver_skips_timeout_and_selects_later_candidate(self):
+        candidates = [Path("/fake/slow-python"), Path("/fake/gpu-python")]
+        probes = {
+            "/fake/slow-python": {
+                "path": "/fake/slow-python",
+                "probe_status": "TIMEOUT",
+                "timeout_seconds": 30,
+            },
+            "/fake/gpu-python": {
+                "path": "/fake/gpu-python",
+                "probe_status": "PASS",
+                "modules": {"torch": True, "pytorch3d": False},
+                "cuda_available": True,
+                "cuda_count": 1,
+                "torch_version": "test",
+            },
+        }
+        with mock.patch.object(resolver, "candidate_python_interpreters", return_value=candidates),              mock.patch.object(resolver, "probe_python", side_effect=lambda p: probes[str(p)]):
+            result = resolver.resolve_python_runtime(
+                require_torch=True, require_pytorch3d=False, require_cuda=True
+            )
+        self.assertEqual("/fake/gpu-python", result["selected"]["path"])
+        self.assertEqual("TIMEOUT", result["candidates"][0]["probe_status"])
 
     def test_explicit_python_override_is_considered_first(self):
         with tempfile.TemporaryDirectory() as td:
