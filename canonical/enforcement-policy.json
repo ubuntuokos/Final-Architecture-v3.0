@@ -1202,19 +1202,29 @@
       "vendor_restriction": "NONE",
       "model_restriction": "NONE"
     },
+    "accelerator": {
+      "device_count_min": 0,
+      "device_count_max": "UNBOUNDED_BY_FA3",
+      "vendor_restriction": "NONE_GLOBAL",
+      "runtime_restriction": "NONE_GLOBAL",
+      "architecture_restriction": "NONE_GLOBAL",
+      "compute_capability_floor": "NONE_GLOBAL",
+      "workload_provider_constraints": "CONDITIONAL",
+      "explicit_accelerator_request_requires_hrb_authorization": true
+    },
     "gpu": {
-      "device_count_min": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
+      "device_count_min": 0,
+      "global_vendor_restriction": "NONE",
+      "global_cuda_compute_capability_min": null,
       "sku_series_admission_authority": false,
       "marketing_identity_required": false,
-      "specific_sku_restriction": "NONE",
-      "specific_vram_restriction": "NONE",
-      "specific_sm_restriction": "NONE"
+      "specific_sku_restriction": "NONE_GLOBAL",
+      "specific_vram_restriction": "NONE_GLOBAL",
+      "specific_sm_restriction": "NONE_GLOBAL"
     },
     "exact_current_host_hardware": "EVIDENCE_ONLY",
     "discovery_and_placement_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "semantic_reconciliation": "FA3-HARDWARE-FABRIC-RECONCILIATION-001"
+    "semantic_reconciliation": "FA3-DEC-HARDWARE-WORKLOAD-DRIVEN-BASELINE-2026-09-20"
   },
   "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
   "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
