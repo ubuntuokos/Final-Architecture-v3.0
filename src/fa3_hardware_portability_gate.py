@@ -21,6 +21,14 @@ HRB_CONTRACT = "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json"
 EVIDENCE_REGISTRY = "evidence/evidence-registry.json"
 REFERENCE_EVIDENCE = "evidence/reference/hardware-portability-ci-2026-09-03.json"
 AUDIT_EVIDENCE = "evidence/reference/hardware-portability-repository-audit-2026-09-03.json"
+ENFORCEMENT_POLICY = "canonical/enforcement-policy.json"
+DESKTOP_BASE = "canonical/FA3-DESKTOP-BASE-001.json"
+DESKTOP_PROFILE = "canonical/profiles/FA3-DESKTOP-001.json"
+RESOURCE_ADMISSION_CONTRACT = "canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json"
+EVIDENCE_SCOPE_POLICY = "canonical/FA3-EVIDENCE-SCOPE-001.json"
+RUNTIME_HARDENING_CONTRACT = "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json"
+RUNTIME_HARDENING_CURRENT_HOST_ENFORCEMENT = "canonical/runtime-hardening-current-host-enforcement.json"
+RELEASE_PROJECTION = "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
 
 GATE_ID = "FA3-HARDWARE-PORTABILITY-GATESET-001"
 EXECUTABLE_GATE_ID = "FA3-GATE-HARDWARE-PORTABILITY-001"
@@ -32,7 +40,7 @@ CAPABILITY_BINDINGS = (
     "CAP-130", "CAP-137", "CAP-142", "CAP-143",
 )
 
-RUNTIME_PREFIXES = ("src/", "bin/", "deployment/", ".github/workflows/")
+RUNTIME_PREFIXES = ("src/", "bin/", "deployment/", ".github/workflows/", "apps/")
 NON_NORMATIVE_PREFIXES = (
     "fa3-current-host/", "evidence/", "canonical/references/",
     "tests/", "examples/",
@@ -45,25 +53,23 @@ TEXT_SUFFIXES = {
 }
 
 HARD_RUNTIME_PATTERNS = (
-    ("FIXED_CUDA_VISIBLE_DEVICES_LIST", re.compile(r"CUDA_VISIBLE_DEVICES[^\n=]{0,40}=\s*[\"']?\d+(?:\s*,\s*\d+)+")),
+    ("FIXED_CUDA_VISIBLE_DEVICES_LIST", re.compile(r"CUDA_VISIBLE_DEVICES[^\n=]{0,40}=\s*[\"']?\d+(?:\s*,\s*\d+)*[\"']?")),
     ("FIXED_CPUAFFINITY", re.compile(r"(?mi)^\s*CPUAffinity\s*=\s*\d")),
     ("FIXED_NUMAMASK", re.compile(r"(?mi)^\s*NUMAMask\s*=\s*\d")),
+    ("FIXED_NUMA_NODE_ASSIGNMENT", re.compile(r"\b(?:NUMA_NODE|numa_node|NUMANode)\s*[=:]\s*[\"']?\d+\b")),
     ("FIXED_TASKSET_CPU_LIST", re.compile(r"\btaskset\s+-c\s+\d", re.I)),
     ("FIXED_NUMACTL_BINDING", re.compile(r"\bnumactl\s+--(?:physcpubind|cpunodebind|membind)(?:=|\s+)\d", re.I)),
-    ("FIXED_NVIDIA_SMI_ORDINAL", re.compile(r"\bnvidia-smi\s+-i\s+\d", re.I)),
+    ("FIXED_NVIDIA_SMI_ORDINAL", re.compile(r"\bnvidia-smi[^\n]{0,160}?\s-i\s+\d+\b", re.I)),
     ("FIXED_GPU_COUNT_COMPARISON", re.compile(r"\b(?:gpu_count|num_gpus|device_count)\s*(?:==|!=)\s*[1-9]\d*\b", re.I)),
 )
 
 CONCRETE_HOST_PATTERNS = (
-    ("CPU_MODEL_E5_2696", re.compile(r"\bE5[- ]2696(?:\s+v4)?\b", re.I)),
-    ("CPU_MODEL_E5_2697", re.compile(r"\bE5[- ]2697(?:\s+v4)?\b", re.I)),
-    ("GPU_SKU_RTX3080", re.compile(r"\bRTX\s*3080\b", re.I)),
-    ("GPU_SKU_RTX4000", re.compile(r"\b(?:Quadro\s+)?RTX\s*4000\b", re.I)),
-    ("HOST_MODEL_T7910", re.compile(r"\b(?:T7910|Precision(?:\s+Tower)?\s+7910)\b", re.I)),
-    ("REFERENCE_TOPOLOGY_44C88T", re.compile(r"\b44C\s*/\s*88T\b", re.I)),
-    ("REFERENCE_TOPOLOGY_36C72T", re.compile(r"\b36C\s*/\s*72T\b", re.I)),
-    ("REFERENCE_PCI_BDF_05", re.compile(r"\b0000:05:00\.0\b", re.I)),
-    ("REFERENCE_PCI_BDF_A5", re.compile(r"\b0000:A5:00\.0\b", re.I)),
+    ("CPU_MODEL_XEON_E5_SKU", re.compile(r"\b(?:Intel\s+)?(?:Xeon(?:\s+CPU)?\s+)?E5[- ]\d{4}(?:\s+v\d)?\b", re.I)),
+    ("CPU_MODEL_EPYC_SKU", re.compile(r"\b(?:AMD\s+)?EPYC\s+\d{4}[A-Z]?\b", re.I)),
+    ("GPU_SKU_RTX", re.compile(r"\b(?:(?:GeForce|Quadro)\s+)?RTX\s*(?:A\s*)?\d{3,4}(?:\s*(?:Ti|SUPER))?\b", re.I)),
+    ("HOST_MODEL_PRECISION", re.compile(r"\b(?:Dell\s+)?Precision(?:\s+Tower)?\s+\d{4}\b", re.I)),
+    ("REFERENCE_CORE_THREAD_TOPOLOGY", re.compile(r"\b\d{1,3}C\s*/\s*\d{1,3}T\b", re.I)),
+    ("LITERAL_PCI_BDF", re.compile(r"\b(?:[0-9A-F]{4,8}:)?[0-9A-F]{2}:[0-9A-F]{2}\.[0-7]\b", re.I)),
 )
 
 REFERENCE_MARKERS = (
@@ -141,9 +147,10 @@ def scan_repository(root: Path) -> dict[str, Any]:
         runtime = rel.startswith(RUNTIME_PREFIXES)
         if runtime:
             runtime_scanned += 1
-        policy_or_test_code = rel.startswith("src/") and rel.endswith("_gate.py")
-        current_host_tooling = "current-host" in rel.lower() or "current_host" in rel.lower()
-        explicitly_non_normative = rel.startswith(NON_NORMATIVE_PREFIXES) or policy_or_test_code or current_host_tooling
+        if rel == "src/fa3_hardware_portability_gate.py":
+            # Do not let this scanner's own regex literals become findings.
+            continue
+        explicitly_non_normative = rel.startswith(NON_NORMATIVE_PREFIXES)
 
         for code, pattern in HARD_RUNTIME_PATTERNS:
             for match in pattern.finditer(text):
@@ -193,6 +200,14 @@ def evaluate(root: Path) -> dict[str, Any]:
     evidence_registry = loadj(root, EVIDENCE_REGISTRY)
     reference_evidence = loadj(root, REFERENCE_EVIDENCE)
     audit_evidence = loadj(root, AUDIT_EVIDENCE)
+    enforcement_policy = loadj(root, ENFORCEMENT_POLICY)
+    desktop_base = loadj(root, DESKTOP_BASE)
+    desktop_profile = loadj(root, DESKTOP_PROFILE)
+    resource_admission = loadj(root, RESOURCE_ADMISSION_CONTRACT)
+    evidence_scope = loadj(root, EVIDENCE_SCOPE_POLICY)
+    runtime_hardening = loadj(root, RUNTIME_HARDENING_CONTRACT)
+    runtime_hardening_current_host = loadj(root, RUNTIME_HARDENING_CURRENT_HOST_ENFORCEMENT)
+    release_projection = loadj(root, RELEASE_PROJECTION)
 
     pmin = profile.get("portable_minimum", {})
     cpu = pmin.get("cpu", {})
@@ -227,13 +242,19 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("mgpu-dynamic", "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N" in mgpu_profile.get("invariants", []) and "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu_profile.get("invariants", []), "multi-GPU profile remains dynamic"),
         check("hrb-linked", "FA3-HARDWARE-DISCOVERY-CONTRACTS-001" in hrb_profile.get("contracts", []) and hrb_profile.get("hardware_portability_baseline_profile") == "FA3-HARDWARE-BASELINE-001", "HRB consumes discovery contract without losing authority"),
         check("hrb-contract-dynamic", "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED" in hrb_contract.get("invariants", []) and "FIXED_GPU_COUNT_CPU_LIST_NUMA_NODE_OR_CUDA_ORDINAL_IS_NOT_PORTABLE_PLACEMENT" in hrb_contract.get("invariants", []), "HRB contract forbids fixed topology assumptions"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 24 and len(enforcement.get("rules", [])) == 24, "24 mandatory P0 portability rules remain fail-closed"),
+        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 31 and len(enforcement.get("rules", [])) == 31, "31 mandatory P0 primary hardware-audit rules remain fail-closed"),
         check("capability-rule-enforced", any(r.get("invariant") == "GPU_MINIMUM_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER" for r in enforcement.get("rules", [])), "capability-based GPU floor is an executable mandatory rule"),
         check("evidence-bindings", len(bound_records) == len(CAPABILITY_BINDINGS) and all(DECISION_ID in item.get("source_decision_ids", []) and REFERENCE_EVIDENCE in item.get("evidence_artifacts", []) for item in bound_records), "hardware capability evidence remains bound"),
         check("reference-not-promotion", reference_evidence.get("status") == "PASS" and reference_evidence.get("current_host_runtime_promotion_claim") is False and audit_evidence.get("current_host_runtime_promotion_claim") is False, "reference/audit PASS cannot promote current-host runtime"),
         check("decision-supersedes-fixed-interpretations", decision.get("supersedence", {}).get("scope") == "CANONICAL_INTERPRETATION_ONLY" and decision.get("supersedence", {}).get("historical_and_current_host_evidence") == "PRESERVED_AS_EVIDENCE_NOT_PORTABLE_DEFAULT", "fixed canonical interpretations are superseded while evidence is preserved"),
-        check("no-accidental-exact-pin-in-profile", "RTX 3080" not in pin_text and "E5-2696" not in pin_text and "T7910" not in pin_text, "portable profile contains no current-host SKU/model identity"),
-        check("gate-record", gate_record.get("gateset_id") == GATE_ID and gate_record.get("id") == EXECUTABLE_GATE_ID and gate_record.get("fail_closed") is True, "canonical executable gate record is bound"),
+        check("no-accidental-exact-pin-in-profile", "rtx_series_floor" not in pin_text.lower() and "E5-2696" not in pin_text and "T7910" not in pin_text, "portable profile contains no current-host SKU/model identity"),
+        check("gate-record", gate_record.get("gateset_id") == GATE_ID and gate_record.get("id") == EXECUTABLE_GATE_ID and gate_record.get("fail_closed") is True and gate_record.get("primary_audit_precondition") is True, "canonical executable gate record is bound as the primary audit precondition"),
+        check("primary-enforcement-order", enforcement_policy.get("mandatory_reference_gates", [None])[0] == GATE_ID and enforcement_policy.get("hardware_audit_primary_gate") is True and enforcement_policy.get("hardware_audit_primary_gate_order") == 1, "hardware audit is the first mandatory cross-cutting enforcement gate"),
+        check("desktop-wayland-x11-agnostic", desktop_base.get("policy", {}).get("wayland") == "PREFERRED" and desktop_base.get("policy", {}).get("x11") == "SUPPORTED_COMPATIBILITY" and desktop_base.get("policy", {}).get("plasma_is_reference_not_core_dependency") is True and desktop_profile.get("runtime", {}).get("display_protocol") == "WAYLAND_PRIMARY" and "X11" in desktop_profile.get("runtime", {}).get("display_protocol_compatibility", []) and desktop_profile.get("runtime", {}).get("display_protocol_exclusive") is False and desktop_profile.get("runtime", {}).get("desktop_environment_binding") == "DESKTOP_AGNOSTIC_XDG_DBUS_PORTAL_BASELINE", "Wayland remains preferred while X11 compatibility and desktop-agnostic core semantics are mandatory"),
+        check("hrb-resource-admission-authority", resource_admission.get("authoritative_admission_authority") == "FA3-AUTH-HOST-RESOURCE-BROKER-001" and resource_admission.get("required_input_semantics", {}).get("HRB_ADMISSION_AUTHORIZATION") == "REQUIRED_FOR_ALL_WORKLOADS_AND_MUST_ORIGINATE_FROM_FA3_AUTH_HOST_RESOURCE_BROKER_001" and "HRB_REMAINS_EXCLUSIVE_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY" in resource_admission.get("invariants", []), "all workload admission remains HRB-authorized and accelerator execution remains lease-bound"),
+        check("static-vs-current-host-evidence", evidence_scope.get("evidence_classes", {}).get("DESIGN_OR_REFERENCE", {}).get("may_prove_current_host_runtime") is False and evidence_scope.get("evidence_classes", {}).get("POSITIVE_CURRENT_HOST", {}).get("requires_real_current_host_execution") is True and evidence_scope.get("authority_boundaries", {}).get("reference_ci_cannot_promote_runtime") is True, "static/reference PASS cannot become physical current-host evidence"),
+        check("pcie-proof-semantics", runtime_hardening.get("pcie_copy_budget", {}).get("role") == "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF" and runtime_hardening.get("frame_copy_telemetry", {}).get("host_to_device_frame_copy_count_max") == 0 and runtime_hardening.get("frame_copy_telemetry", {}).get("device_to_host_frame_copy_count_max") == 0 and runtime_hardening.get("frame_copy_telemetry", {}).get("host_frame_round_trips_max") == 0 and runtime_hardening.get("frame_copy_telemetry", {}).get("full_pipeline_true_zero_copy_claim_requires_separate_proof") is True and runtime_hardening_current_host.get("current_host_status") == "PENDING_REAL_EXECUTION" and runtime_hardening_current_host.get("rules", {}).get("global_promotion_effect") == "NONE", "PCIe budget is supporting telemetry only; zero-host-round-trip requires copy trace and real current-host execution"),
+        check("release-projection-primary-audit", release_projection.get("hardware_portability_reconciliation", {}).get("primary_mandatory_gate") is True and release_projection.get("hardware_portability_reconciliation", {}).get("primary_gate_order") == 1 and release_projection.get("hardware_portability_reconciliation", {}).get("static_reference_pass_is_current_host_pass") is False, "release projection carries primary hardware-audit and evidence-scope semantics"),
     ]
 
     audit = scan_repository(root)
@@ -250,6 +271,7 @@ def evaluate(root: Path) -> dict[str, Any]:
         "capability_count": CAPABILITY_COUNT,
         "result": "PASS" if passed else "FAIL",
         "current_host_runtime_promotion_claim": False,
+        "audit_role": "FIRST_MANDATORY_CROSS_CUTTING_ARCHITECTURE_GATE",
         "gpu_floor": {"vendor": "NVIDIA", "cuda_compute_capability_min": CUDA_COMPUTE_CAPABILITY_MIN, "sku_series_authority": False},
         "checks": checks,
         "summary": {"passed": sum(item["status"] == "PASS" for item in checks), "total": len(checks)},
