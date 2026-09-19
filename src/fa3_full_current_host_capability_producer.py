@@ -388,6 +388,25 @@ def proof_desktop_wayland(scope: Path, cap: str, subject: str) -> dict[str, Any]
     scope.mkdir(parents=True, exist_ok=True)
     from fa3_desktop_admission import collect_runtime_probes, evaluate_desktop
     session_env = dict(os.environ)
+    systemctl = shutil.which("systemctl")
+    if systemctl:
+        proc = cmd([systemctl, "--user", "show-environment"], 10)
+        if proc.returncode == 0:
+            wanted = {
+                "XDG_CURRENT_DESKTOP",
+                "DESKTOP_SESSION",
+                "XDG_SESSION_TYPE",
+                "XDG_RUNTIME_DIR",
+                "DBUS_SESSION_BUS_ADDRESS",
+                "WAYLAND_DISPLAY",
+                "DISPLAY",
+            }
+            for line in proc.stdout.splitlines():
+                if "=" not in line:
+                    continue
+                key, value = line.split("=", 1)
+                if key in wanted and value and not session_env.get(key):
+                    session_env[key] = value
     report = evaluate_desktop(session_env, collect_runtime_probes(session_env), require_gui=True)
     if report.get("result") != "PASS":
         raise RuntimeError(f"desktop admission failed: {report}")
