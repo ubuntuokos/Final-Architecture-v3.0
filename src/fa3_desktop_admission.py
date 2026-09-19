@@ -381,8 +381,6 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         }
 
     standard_name = "org.freedesktop.secrets"
-    standard_interface_name = "org.freedesktop.Secret.Service"
-
     # A standard bus name is not trusted by name alone. It must expose the
     # standard interface on the standard Secret Service object path.
     live_name = _dbus_name_present(standard_name, env)
@@ -436,11 +434,12 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                 "reference_activation_attempted": True,
                 "standard_name_verified": True,
                 "compatibility_endpoint_verified": compatibility_endpoint_verified,
+                "introspection_format": "BUSCTL_XML_INTERFACE",
             }
 
     return {
         "available": False,
-        "live_name": False,
+        "live_name": live_name,
         "standard_interface": False,
         "dbus_activation_attempted": True,
         "reference_activation_attempted": bool(aliases),
