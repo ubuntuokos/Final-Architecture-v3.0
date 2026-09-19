@@ -49,7 +49,7 @@ SKIP_TOP_LEVEL = {".git", "reports", "acceptance", "promotion", ".pytest_cache",
 TEXT_SUFFIXES = {
     ".json", ".py", ".md", ".sh", ".yml", ".yaml", ".csv", ".toml", ".ini",
     ".conf", ".service", ".socket", ".target", ".container", ".caddy", ".sql",
-    ".txt", ".env", ".rules",
+    ".txt", ".env", ".rules", ".cpp", ".cc", ".cxx", ".h", ".hpp", ".qml",
 }
 
 HARD_RUNTIME_PATTERNS = (
