@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.canonical-decision.v1",
+  "decision_id": "FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19",
+  "title": "Exclude Unreal Engine from FA3 runtime and integration scope",
+  "date": "2026-09-19",
+  "status": "CANONICAL",
+  "scope": "RT3D_ENGINE_SCOPE_AND_CURRENT_HOST_CLOSURE",
+  "decision": {
+    "excluded_engine": "Unreal Engine",
+    "fa3_scope_state": "OUT_OF_SCOPE",
+    "installation_management": "DENY",
+    "runtime_discovery": "DENY",
+    "runtime_execution": "DENY",
+    "provider_registration": "DENY",
+    "gui_projection": "DENY",
+    "menu_projection": "DENY",
+    "mcp_projection": "DENY",
+    "workflow_dependency": "DENY",
+    "evidence_dependency": "DENY",
+    "promotion_dependency": "DENY",
+    "environment_variable_contract": "DENY",
+    "external_use_outside_fa3": "ALLOWED_BUT_NOT_GOVERNED_OR_SUPPORTED_BY_FA3",
+    "capability_027_repurposed_subject": "Realtime / Virtual Production Interchange",
+    "capability_027_proof_primitive": "graphics_3d",
+    "capability_027_provider_neutral": true,
+    "capability_027_engine_specific_dependency": false,
+    "capability_delta": 0,
+    "architectural_authority_delta": 0,
+    "canonical_capability_count": 143
+  },
+  "migration": {
+    "remove_runtime_resolver": true,
+    "remove_full_429_preflight_dependency": true,
+    "remove_full_429_proof_primitive": true,
+    "remove_fa3_environment_overrides": true,
+    "preserve_historical_git_commits": true,
+    "preserve_capability_identifier": "CAP-027",
+    "renumber_capabilities": false
+  },
+  "rationale": [
+    "The engine requires an external registration and distribution workflow that is not appropriate as a mandatory or managed FA3 dependency.",
+    "Users who need the engine may operate it independently outside FA3.",
+    "FA3 retains provider-neutral realtime and virtual-production interoperability through existing 3D/DCC capability surfaces."
+  ],
+  "non_claims": {
+    "external_engine_installation_removed_from_user_host": false,
+    "external_engine_supported_by_fa3": false,
+    "external_engine_current_host_evidence_claimed": false
+  }
+}
