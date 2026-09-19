@@ -54,7 +54,17 @@ class HrbSystemdManagerCurrentHostTests(unittest.TestCase):
     def test_larger_dynamic_host_passes(self):
         receipt = base_receipt()
         receipt["hardware_discovery"]["cpu"] = {"package_count": 4, "physical_cores_by_package": {"0": 32, "1": 32, "2": 64, "3": 64}}
-        receipt["hardware_discovery"]["gpu"]["devices"] = [{"qualifies_portable_floor": True} for _ in range(8)]
+        receipt["hardware_discovery"]["gpu"]["devices"] = [
+            {
+                "vendor": "NVIDIA",
+                "cuda_compute_capability": 8.9,
+                "qualifies_portable_floor": True,
+                "device_uuid": f"GPU-{idx}",
+                "pci_bdf": f"0000:{idx + 1:02x}:00.0",
+                "name_evidence_only": f"GPU fixture {idx}",
+            }
+            for idx in range(8)
+        ]
         self.assertEqual(validate_receipt(receipt), [])
 
     def test_gpu_marketing_name_is_not_admission_authority(self):
