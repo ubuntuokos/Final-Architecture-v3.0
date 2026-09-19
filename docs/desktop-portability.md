@@ -54,3 +54,7 @@ python3 ./bin/fa3-desktop-admission --require-gui --json
 ```
 
 A CI self-test proves the policy and deterministic compatibility cases only. It is not current-host evidence for Plasma, COSMIC, GNOME, or another desktop. A real host support claim requires a runtime probe receipt from that host.
+
+### Plasma Secret Service activation hint
+
+A Plasma referencia-profil `org.kde.secretservicecompat` neve kizárólag provider-aktiválási hint. Az alias önmagában nem capability és nem autoritás, ezért nem kell rajta a standard Secret Service interfésznek elérhetőnek lennie. PASS csak akkor adható, ha az aktiválási kísérlet után a szabványos `org.freedesktop.secrets` név és a `org.freedesktop.Secret.Service` interfész külön, élő user-session D-Bus bizonyítékkal igazolt.
