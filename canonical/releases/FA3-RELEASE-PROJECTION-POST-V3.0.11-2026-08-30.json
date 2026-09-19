@@ -513,7 +513,6 @@
       "evidence/reference/codex-adapter-ci-2026-08-31.json",
       "evidence/reference/conversation-reconciliation-2026-08-30.json",
       "evidence/reference/cosyvoice-ci-2026-08-31.json",
-      "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
       "evidence/reference/current-host-143-audit-2026-09-12.json",
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "evidence/reference/demucs-v4.1.0.json",
@@ -772,7 +771,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1472,
+  "manifest_entry_count": 1471,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -5770,11 +5769,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-      "git_blob_sha": "49bf336b2349094f9092c848fba435130f3804be",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "evidence/reference/current-host-143-audit-2026-09-12.json",
       "git_blob_sha": "4ef0bd86d868c29bdee291df859485ad0a6dd4a6",
       "baseline_delta_status": "added"
@@ -8711,7 +8705,7 @@
     "capability_count": 143,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "hardware_reference": "2x Intel Xeon E5-2696 v4 / 44C-88T / live topology-HRB admission",
+    "hardware_reference": "LIVE_CPU_NUMA_TOPOLOGY_PLUS_HRB_ADMISSION_NO_HOST_MODEL_CONSTANT",
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PROVIDER_E2E",
     "runtime_promotion_claim": false
   },
@@ -8785,7 +8779,7 @@
     "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
     "ffmpeg_stable_reference": "9.0.1 / n9.0.1 / 2026-08-12",
     "vs_mlrt_reference_commit": "8cd6cf266a430fdb9f6d797a4e33ab2952d52ce2",
-    "hardware_reference": "2x Intel Xeon E5-2696 v4 / 44C-88T / expected 2 NUMA; live topology + HRB UUID/BDF accelerator admission",
+    "hardware_reference": "LIVE_CPU_NUMA_TOPOLOGY_PLUS_HRB_STABLE_ACCELERATOR_IDENTITY_ADMISSION",
     "runtime_activation_status": "PENDING_REAL_CURRENT_HOST_E2E",
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
