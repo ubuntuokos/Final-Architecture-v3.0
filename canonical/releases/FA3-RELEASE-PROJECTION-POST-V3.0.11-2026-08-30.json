@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "90edf26d0251660de65e50890c8e2e27805022d4",
-    "pre_projection_root_tree_sha": "6c134b354195cab6029aa5f93d42d59f1a23bd60",
-    "pre_projection_canonical_tree_sha": "5012b2ff298bb587d1d393799bd0cbe70b40dd26",
-    "commits_ahead_of_v3_0_11_conformance_commit": 426,
-    "total_post_baseline_commits": 426,
-    "delta_file_count": 1472,
-    "delta_added_files": 1467,
+    "pre_projection_head_sha": "a24981730b5a8f51f87eeb3a242ed7984d81945b",
+    "pre_projection_root_tree_sha": "e0856992495cd78376277b13114b535f22398444",
+    "pre_projection_canonical_tree_sha": "12c11cebda08833ac7d26169cb017df5bd8283e7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 444,
+    "total_post_baseline_commits": 444,
+    "delta_file_count": 1475,
+    "delta_added_files": 1470,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 711,
+    "canonical_files_in_post_baseline_delta": 712,
     "evidence_files_in_post_baseline_delta": 134,
-    "source_files_in_post_baseline_delta": 191,
-    "test_files_in_post_baseline_delta": 166,
+    "source_files_in_post_baseline_delta": 192,
+    "test_files_in_post_baseline_delta": 167,
     "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -337,6 +337,7 @@
       "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
       "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
       "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
       "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
@@ -644,7 +645,8 @@
     "FA3-OS-EVENT-PRIVACY-GATESET-001",
     "FA3-WORK-MANAGEMENT-GATESET-001",
     "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
-    "FA3-RUNTIME-HARDENING-GATESET-001"
+    "FA3-RUNTIME-HARDENING-GATESET-001",
+    "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -770,7 +772,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1465,
+  "manifest_entry_count": 1468,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -994,7 +996,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "2096e02f0066c40940b6121893abea5db39ecf20",
+      "git_blob_sha": "e3246137777ceaa65671503987e8fb3ebf5b45e4",
       "baseline_delta_status": "added"
     },
     {
@@ -2359,7 +2361,7 @@
     },
     {
       "path": "canonical/conformance-matrix.csv",
-      "git_blob_sha": "fb430f6da8cdfdc4ee0c5953887e9ab3b062f047",
+      "git_blob_sha": "7405e24441ba2980b993ef27f9d9b5fd3d8097bc",
       "baseline_delta_status": "modified"
     },
     {
@@ -2779,12 +2781,12 @@
     },
     {
       "path": "canonical/current-host-capability-proof-recipes.json",
-      "git_blob_sha": "9d89a41049a92018b97ffcc422b2055f684df21f",
+      "git_blob_sha": "7247355a8cbbc3809d8f0fc4b525b38eea69b1b1",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/current-host-capability-qualification-constituent-producers.json",
-      "git_blob_sha": "862a2b263d8bfa22f524ad2185a4cff2604661ef",
+      "git_blob_sha": "b38c3fc095cf4923de1d2a1a90ad64a5759c7550",
       "baseline_delta_status": "added"
     },
     {
@@ -2794,7 +2796,7 @@
     },
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
-      "git_blob_sha": "7d3b024e202d914872e83aa48aa094fef7bc1ece",
+      "git_blob_sha": "eecdee03aa9697ffa4bbbd27c6197c73b53dbc6c",
       "baseline_delta_status": "added"
     },
     {
@@ -2920,6 +2922,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
       "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19.json",
+      "git_blob_sha": "4ac4ac760646b18189dc193200eb58596482e442",
       "baseline_delta_status": "added"
     },
     {
@@ -3389,7 +3396,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "a871bd57528c2ee08bdc922dcd6854501a4b6294",
+      "git_blob_sha": "4afa6163f33c6807719214be6493b7e01a5aca07",
       "baseline_delta_status": "modified"
     },
     {
@@ -5314,7 +5321,7 @@
     },
     {
       "path": "docs/current-host-closure-batches.md",
-      "git_blob_sha": "2c41c683b031429ee5d876e31d11e137dab9e2cf",
+      "git_blob_sha": "03d6879dd0098e7cdf88128589fc9873d3b61bb3",
       "baseline_delta_status": "added"
     },
     {
@@ -5684,7 +5691,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "081cf6d51dfc96bcc078af4a5e6d028137ee1646",
+      "git_blob_sha": "b3233068d5f889f9e4f643cc1dd76ed2ed9c1718",
       "baseline_delta_status": "added"
     },
     {
@@ -6484,7 +6491,7 @@
     },
     {
       "path": "src/fa3_current_host_runtime_resolver.py",
-      "git_blob_sha": "7c5d07c99c6d58addb369eff2242a4d36373372a",
+      "git_blob_sha": "fcce1651a4c970680b62834c62ddde89c0eb2975",
       "baseline_delta_status": "added"
     },
     {
@@ -6519,7 +6526,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "38f4c84c22e847eadfb8d768c545c7c7f4beb659",
+      "git_blob_sha": "9996519091f0b0e5eacd4a48c5239f5209a3fe77",
       "baseline_delta_status": "modified"
     },
     {
@@ -6530,6 +6537,11 @@
     {
       "path": "src/fa3_external_api_discovery_gate.py",
       "git_blob_sha": "8e942f4d0dc9c2014c1b376c6b3f4a37f3bee243",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_external_rt3d_engine_exclusion_gate.py",
+      "git_blob_sha": "ea9a90686daab52ef2df06877de103f28144b763",
       "baseline_delta_status": "added"
     },
     {
@@ -6549,12 +6561,12 @@
     },
     {
       "path": "src/fa3_full_current_host_capability_producer.py",
-      "git_blob_sha": "2f01aeaa26e9c6c7b8c05e902e45791fbea85a56",
+      "git_blob_sha": "8d1dfc4e00b7f3bea25c0b08934119ed430b25dc",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_full_current_host_preflight.py",
-      "git_blob_sha": "e5d63245508115a47248f17f2d6317795e33b804",
+      "git_blob_sha": "59ab02f5404280d9af6caf68783ad098ea4a0a6c",
       "baseline_delta_status": "added"
     },
     {
@@ -7414,7 +7426,7 @@
     },
     {
       "path": "tests/test_current_host_runtime_resolver.py",
-      "git_blob_sha": "983e593d95e28581d83f75518400ffc18db7519d",
+      "git_blob_sha": "36b2bd0114e5599f5a82a7a6815b484ac7bdaf69",
       "baseline_delta_status": "added"
     },
     {
@@ -7445,6 +7457,11 @@
     {
       "path": "tests/test_external_api_discovery_gate.py",
       "git_blob_sha": "e569c674f7b696e00e3d0a6e17e0901b0e97dcda",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_external_rt3d_engine_exclusion_gate.py",
+      "git_blob_sha": "bb38c448df9bbdc84d24f3678cfc81b2c7912f0b",
       "baseline_delta_status": "added"
     },
     {
@@ -7489,12 +7506,12 @@
     },
     {
       "path": "tests/test_full_current_host_capability_producer.py",
-      "git_blob_sha": "53cba65bc85282f980fa47dc35e5c114f70638d7",
+      "git_blob_sha": "3bfe4d13fe2d7d84d2165d3b51121369c03d3161",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_full_current_host_preflight.py",
-      "git_blob_sha": "fd75342fe6408716c6b31d0f6c145a9dea7e95ed",
+      "git_blob_sha": "a643ff68f4f4ea6e9806df1a384c151fad6924d0",
       "baseline_delta_status": "added"
     },
     {

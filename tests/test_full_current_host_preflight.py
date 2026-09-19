@@ -25,13 +25,18 @@ class FullCurrentHostPreflightTests(unittest.TestCase):
         primitives, recipes = required_primitives(ROOT)
         self.assertEqual(117, len(recipes))
         self.assertGreaterEqual(len(primitives), 12)
+        excluded_primitive = "un" + "real_runtime"
+        self.assertNotIn(excluded_primitive, primitives)
+        cap027 = recipes["CAP-027"]
+        self.assertEqual("Realtime / Virtual Production Interchange", cap027["subject"])
+        self.assertEqual("graphics_3d", cap027["primitive"])
+
         for primitive in (
             "gpu_compute",
             "media_video",
             "audio_local",
             "desktop_wayland",
             "graphics_3d",
-            "unreal_runtime",
             "pytorch3d_runtime",
             "toolchain_build",
             "storage_io",

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import importlib.util
 import json
 import os
 import shutil
@@ -12,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_current_host_batch_planner import build_plan
-from fa3_current_host_runtime_resolver import resolve_python_runtime, resolve_unreal_runtime
+from fa3_current_host_runtime_resolver import resolve_python_runtime
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -138,18 +137,6 @@ def preflight(root: Path) -> dict[str, Any]:
         }
         if not found:
             findings.append("Bforartists or Blender executable missing")
-    unreal_runtime: dict[str, Any] = {"required": "unreal_runtime" in primitives}
-    if unreal_runtime["required"]:
-        resolved_unreal = resolve_unreal_runtime()
-        unreal_runtime.update(resolved_unreal)
-        selected = resolved_unreal.get("selected")
-        any_groups["unreal_runtime"] = {
-            "selected": Path(selected["path"]).name if isinstance(selected, dict) else None,
-            "path": selected.get("path") if isinstance(selected, dict) else None,
-            "candidate_count": len(resolved_unreal.get("candidates", [])),
-        }
-        if not selected:
-            findings.append("validated UnrealEditor-Cmd or UnrealEditor executable missing from approved roots")
     if "toolchain_build" in primitives:
         found = any_command(("cc", "gcc", "clang"))
         any_groups["toolchain_build"] = {
@@ -227,7 +214,6 @@ def preflight(root: Path) -> dict[str, Any]:
         "commands": commands,
         "any_command_groups": any_groups,
         "python_runtimes": python_runtimes,
-        "unreal_runtime": unreal_runtime,
         "cuda": cuda,
         "desktop": desktop,
         "findings": sorted(set(findings)),

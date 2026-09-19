@@ -60,33 +60,9 @@ class CurrentHostRuntimeResolverTests(unittest.TestCase):
                 candidates = resolver.candidate_python_interpreters()
             self.assertEqual(fake.resolve(), candidates[0])
 
-    def test_unreal_override_must_be_executable_and_probe_validated(self):
-        with tempfile.TemporaryDirectory() as td:
-            fake = Path(td) / "UnrealEditor-Cmd"
-            fake.write_text("#!/bin/sh\necho Unreal Engine 5 test\nexit 0\n", encoding="utf-8")
-            fake.chmod(0o755)
-            with mock.patch.dict(os.environ, {"FA3_UNREAL_EDITOR": str(fake)}, clear=False):
-                candidates = resolver.candidate_unreal_binaries()
-                self.assertEqual(fake.resolve(), candidates[0])
-                result = resolver.resolve_unreal_runtime()
-            self.assertEqual(str(fake.resolve()), result["selected"]["path"])
-            self.assertEqual("PASS", result["selected"]["probe_status"])
-
-    def test_unreal_probe_failure_is_not_selected(self):
-        with tempfile.TemporaryDirectory() as td:
-            fake = Path(td) / "UnrealEditor"
-            fake.write_text("#!/bin/sh\nexit 7\n", encoding="utf-8")
-            fake.chmod(0o755)
-            with mock.patch.object(resolver, "candidate_unreal_binaries", return_value=[fake]):
-                result = resolver.resolve_unreal_runtime()
-            self.assertIsNone(result["selected"])
-            self.assertEqual("ERROR", result["candidates"][0]["probe_status"])
-
     def test_search_roots_are_bounded_not_whole_home(self):
         roots = [str(p) for p in resolver.approved_python_roots()]
         self.assertNotIn(str(Path.home().resolve()), roots)
-        unreal_roots = [str(p) for p in resolver.approved_unreal_roots()]
-        self.assertNotIn(str(Path.home().resolve()), unreal_roots)
 
 
 if __name__ == "__main__":
