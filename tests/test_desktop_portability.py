@@ -212,12 +212,22 @@ class DesktopPortabilityTests(unittest.TestCase):
             seen.append((name, supplied.get("DBUS_SESSION_BUS_ADDRESS")))
             return True
 
-        with patch("fa3_desktop_admission._dbus_name_present", side_effect=probe):
+        xml = "<node><interface name='org.freedesktop.Secret.Service'><method name='OpenSession'/></interface></node>"
+        with (
+            patch("fa3_desktop_admission._dbus_name_present", side_effect=probe),
+            patch("fa3_desktop_admission.shutil.which", side_effect=lambda name: "/usr/bin/busctl" if name == "busctl" else None),
+            patch(
+                "fa3_desktop_admission._secret_service_introspect",
+                return_value=Mock(returncode=0, stdout=xml, stderr=""),
+            ) as introspect,
+        ):
             probes = collect_runtime_probes(env)
         self.assertTrue(probes["portal"])
         self.assertTrue(probes["secret_service"])
         self.assertTrue(probes["secret_service_live_name"])
         self.assertFalse(probes["secret_service_dbus_activation_attempted"])
+        self.assertEqual(probes["secret_service_verified_bus_name"], "org.freedesktop.secrets")
+        self.assertEqual(probes["secret_service_introspection_format"], "BUSCTL_XML_INTERFACE")
         self.assertEqual(
             seen,
             [
@@ -225,6 +235,7 @@ class DesktopPortabilityTests(unittest.TestCase):
                 ("org.freedesktop.secrets", env["DBUS_SESSION_BUS_ADDRESS"]),
             ],
         )
+        self.assertEqual(introspect.call_args.args[2]["DBUS_SESSION_BUS_ADDRESS"], env["DBUS_SESSION_BUS_ADDRESS"])
 
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
     @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
