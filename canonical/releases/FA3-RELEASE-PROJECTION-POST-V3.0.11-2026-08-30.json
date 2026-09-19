@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "c000a807203e19d471045bf0ba07fa1742be07e2",
-    "pre_projection_root_tree_sha": "fa7f461e0a217b138c7290d266cd5180c4858db3",
-    "pre_projection_canonical_tree_sha": "69dbfd20aa0f3c7ebd12fe2d09f45e201063ccf3",
-    "commits_ahead_of_v3_0_11_conformance_commit": 432,
-    "total_post_baseline_commits": 432,
-    "delta_file_count": 1484,
-    "delta_added_files": 1479,
+    "pre_projection_head_sha": "92879352d677f8290b76ee1883df052676aff15c",
+    "pre_projection_root_tree_sha": "cb0b2bd0c9255a131dce37b5990f36f4c0ea6350",
+    "pre_projection_canonical_tree_sha": "a53af573575974f099d1050a8b32e8d1984b72a2",
+    "commits_ahead_of_v3_0_11_conformance_commit": 436,
+    "total_post_baseline_commits": 436,
+    "delta_file_count": 1485,
+    "delta_added_files": 1480,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 716,
     "evidence_files_in_post_baseline_delta": 134,
     "source_files_in_post_baseline_delta": 193,
-    "test_files_in_post_baseline_delta": 170,
+    "test_files_in_post_baseline_delta": 171,
     "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -776,7 +776,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1477,
+  "manifest_entry_count": 1478,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -850,7 +850,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "9a42d8c416cbc000316194f21dfa9ea12a881e35",
+      "git_blob_sha": "9a195e49e8b557026a439fab9ce94ec2fd46b2ed",
       "baseline_delta_status": "added"
     },
     {
@@ -5345,7 +5345,7 @@
     },
     {
       "path": "docs/current-host-closure-batches.md",
-      "git_blob_sha": "a2ac81d67bfc8502927c445a4f3107979b644b7b",
+      "git_blob_sha": "81be867d322be625d8359e4cf98e734f7294fc60",
       "baseline_delta_status": "added"
     },
     {
@@ -5595,7 +5595,7 @@
     },
     {
       "path": "evidence/collect-hrb-systemd-manager-current-host.py",
-      "git_blob_sha": "ce77a389979b8336416a87567363a4825cef5c4e",
+      "git_blob_sha": "ecb43f97c97822b15c14c979934cba70ad3139b0",
       "baseline_delta_status": "added"
     },
     {
@@ -6650,7 +6650,7 @@
     },
     {
       "path": "src/fa3_hrb_systemd_manager_current_host_gate.py",
-      "git_blob_sha": "5e083f83951c8e8b3a982760c94210356c8cca29",
+      "git_blob_sha": "5f2aa0a09be1c3c3f3f046d19b07275868b582a9",
       "baseline_delta_status": "added"
     },
     {
@@ -7604,8 +7604,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_hrb_systemd_manager_current_host_collector.py",
+      "git_blob_sha": "6d57d1ef173fd16f604f396917acba15597624b2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_hrb_systemd_manager_current_host_gate.py",
-      "git_blob_sha": "9cce6aa37cb6ef168e1d6e159e2f0bc1fb857fce",
+      "git_blob_sha": "44c1392fbb8b8f35f920aa5e45acd11e269873f7",
       "baseline_delta_status": "added"
     },
     {
