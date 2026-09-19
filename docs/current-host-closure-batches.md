@@ -19,8 +19,10 @@ The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*
 
 ## Current materialization frontier
 
-After MAT-004, explicit registration coverage is **78/429 obligations** across twenty-six fully materialized capabilities; **351 obligations remain pending materialization**. MAT-001 contributes CAP-001 through CAP-005, MAT-002 contributes CAP-006 through CAP-010, MAT-003 contributes CAP-011 through CAP-015, and MAT-004 contributes CAP-016 through CAP-020, each with explicit positive, negative and rollback obligations.
+The repository-side materialization stage is complete: explicit registration coverage is **429/429 obligations** across all **143 capabilities**. Every capability has an explicit positive, negative and rollback qualification definition, qualification-constituent producer and capability-test executor.
 
-Materialization does **not** mean runtime closure. `EXEC-001` (CAP-001 through CAP-005), `EXEC-002` (CAP-006 through CAP-010), `EXEC-003` (CAP-011 through CAP-015), and `EXEC-004` (CAP-016 through CAP-020) are execution-ready from the registry-derived planner but remain pending physical execution on the non-root self-hosted `fa3-current-host` runner. Until a physical run produces valid qualification constituents, capability test results, bundles, attestations and capability receipts, the affected Evidence Registry records remain pending and global promotion remains fail-closed.
+The 117 capabilities that were still unmaterialized after MAT-004 are bound through `canonical/current-host-capability-proof-recipes.json` to explicit real-host proof primitives. Registration alone cannot produce PASS: missing Bforartists/Blender, Unreal, PyTorch3D, CUDA, FFmpeg, KDE/Wayland or other recipe dependencies causes the corresponding real current-host obligation to fail closed.
 
-The next deterministic materialization batch is **MAT-005 = CAP-021, CAP-022, CAP-023, CAP-024, CAP-025**.
+There is no remaining `MAT-*` batch. `next_materialization_batch` is `null`, and all 143 capabilities are now execution-ready in deterministic `EXEC-*` batches.
+
+Materialization still does **not** mean runtime closure. The next stage is physical execution of all execution batches on the non-root self-hosted `fa3-current-host` runner, followed by qualification bundles, attestations, handoff and the existing promotion-safety chain. Until those real executions succeed, Evidence Registry runtime records remain pending and global promotion remains fail-closed.
