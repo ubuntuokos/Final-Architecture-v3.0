@@ -2,8 +2,8 @@
   "schema": "fa3.reconciliation-record.v1",
   "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
   "name": "Hardware Fabric Semantic Reconciliation",
-  "date": "2026-09-16",
-  "status": "REFERENCE_STATIC_PASS",
+  "date": "2026-09-20",
+  "status": "REOPENED_VENDOR_NEUTRAL_REAUDIT",
   "priority": "P0",
   "requirement": "MUST",
   "new_capability": false,
@@ -36,18 +36,29 @@
     },
     "gpu": {
       "minimum_qualifying_device_count": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
+      "vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "global_vendor_capability_floor": "FORBIDDEN",
+      "workload_runtime_compatibility_required": true,
+      "provider_capability_negotiation_required": true,
+      "supported_reference_vendor_families": [
+        "NVIDIA",
+        "AMD",
+        "INTEL"
+      ],
+      "supported_reference_platform_families": [
+        "NVIDIA_DGX"
+      ],
       "sku_or_marketing_series_admission_authority": false,
-      "exact_sku_vram_sm_pin": "FORBIDDEN",
+      "exact_sku_vram_arch_pin": "FORBIDDEN",
       "maximum_qualifying_device_count": "UNBOUNDED_BY_FA3"
     }
   },
   "reconciled_layers": {
-    "canonical": "ROOT_PROFILE_AND_CONTRACT_ALIGNED_TO_CAPABILITY_FLOOR",
-    "runtime": "LIVE_DISCOVERY_AND_STABLE_UUID_PCI_BDF_IDENTITY_REQUIRED",
+    "canonical": "ROOT_PROFILE_AND_CONTRACT_ALIGNED_TO_VENDOR_NEUTRAL_WORKLOAD_CAPABILITY_NEGOTIATION",
+    "runtime": "LIVE_VENDOR_NEUTRAL_DISCOVERY_REQUIRED_PROVIDER_ADAPTERS_MAY_BE_VENDOR_SPECIFIC",
     "admission": "HRB_EXCLUSIVE_AUTHORITY_AND_CAPABILITY_ENVELOPE_REQUIRED",
-    "provider": "EXECUTION_COMPATIBILITY_MAY_BE_PROVIDER_LOCAL_BUT_NOT_GLOBAL_BASELINE_AUTHORITY",
+    "provider": "CUDA_ROCM_LEVEL_ZERO_ONEAPI_AND_DGX_CONSTRAINTS_PROVIDER_WORKLOAD_SCOPED_ONLY",
     "gui": "LOCAL_OS_PROBES_DIAGNOSTIC_ONLY_OBSERVED_NON_AUTHORITATIVE",
     "evidence": "LEGACY_2026_09_03_SERIES_BASED_REFERENCE_RETAINED_AS_HISTORICAL_AND_SUPERSEDED_BY_2026_09_16_RECONCILIATION_EVIDENCE"
   },
@@ -79,6 +90,13 @@
       "surface": "evidence/reference/hardware-portability-*-2026-09-03.json",
       "finding": "Historical PASS evidence contains superseded RTX-series floor semantics",
       "resolution": "HISTORICAL_EVIDENCE_PRESERVED_AND_EXPLICITLY_SUPERSEDED_BY_NEW_RECONCILIATION_EVIDENCE"
+    },
+    {
+      "id": "HWFR-DRIFT-005",
+      "severity": "P0",
+      "surface": "src/fa3_host_bootstrap_admission_orchestrator.py + HRB acquire bridge",
+      "finding": "Generic current-host admission path still assumes nvidia-smi and NVIDIA-shaped GPU identity",
+      "resolution": "OPEN_REQUIRES_VENDOR_NEUTRAL_DISCOVERY_AND_GENERIC_ACCELERATOR_IDENTITY_BRIDGE"
     }
   ],
   "provider_classification": {
@@ -91,11 +109,11 @@
     "workflow": "FA3 Hardware Fabric Reconciliation",
     "run_id": 35054855295,
     "verified_head_sha": "3d9325feb5e9350d0d951ced5239a28e4d37692f",
-    "result": "PASS",
+    "result": "SUPERSEDED_BY_2026_09_20_REAUDIT",
     "scope": "STATIC_REPOSITORY_SEMANTIC_RECONCILIATION_NOT_CURRENT_HOST"
   },
   "current_host": {
-    "runtime_status": "PENDING_CURRENT_HOST",
+    "runtime_status": "PENDING_VENDOR_NEUTRAL_MULTI_VENDOR_CURRENT_HOST_EVIDENCE",
     "repository_receipt_present": false,
     "static_reconciliation_must_not_promote_runtime": true,
     "global_promotion_claim": false
@@ -104,8 +122,9 @@
   "test": "tests/test_hardware_fabric_reconciliation.py",
   "reference_evidence": "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json",
   "dependent_semantic_reconciliations": {
-    "closed_loop_agent_operations": "CUDA_COMPUTE_CAPABILITY_8_6_GLOBAL_FLOOR_INHERITED",
-    "global_enforcement_policy": "CUDA_COMPUTE_CAPABILITY_8_6_GLOBAL_FLOOR_INHERITED",
+    "closed_loop_agent_operations": "VENDOR_NEUTRAL_GLOBAL_FLOOR_REQUIRED",
+    "global_enforcement_policy": "VENDOR_NEUTRAL_GLOBAL_FLOOR_REQUIRED",
+    "generic_host_admission": "MUST_NOT_EMBED_VENDOR_DISCOVERY_OR_VENDOR_SHAPED_IDENTITY",
     "legacy_rule_identifier_retained_for_compatibility": "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
     "legacy_rule_identifier_is_admission_authority": false
   }
