@@ -40,6 +40,7 @@
     "bin/fa3-pageindex-mcp-bootstrap.sh",
     "bin/fa3-pageindex-mcp-current-host.sh",
     "bin/fa3-resource-admission-current-host.sh",
+    "bin/fa3-wasmtime-bootstrap",
     "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
     "canonical/FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001.json",
     "canonical/FA3-GATE-FFMPEG-AI-CURRENT-HOST-001.json",
@@ -50,6 +51,7 @@
     "canonical/FA3-GATE-STABLE-AUDIO-3-001.json",
     "canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json",
     "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-WASMTIME-CURRENT-HOST-DEPENDENCY-001.json",
     "canonical/conformance-matrix.csv",
     "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
     "canonical/cpu-numa-threading-current-host-enforcement.json",
@@ -116,7 +118,8 @@
     "tests/test_resource_admission_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_preflight.py",
-    "tests/test_stable_audio_3_gate.py"
+    "tests/test_stable_audio_3_gate.py",
+    "tests/test_wasmtime_current_host_bootstrap.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -280,5 +283,18 @@
     "semantics": "FAIL_FAST_EXECUTION_READINESS_ONLY_NOT_RUNTIME_PASS",
     "network_pull_allowed": false,
     "global_promotion_claim": false
+  },
+  "current_host_dependencies": {
+    "wasmtime": {
+      "dependency_id": "FA3-WASMTIME-CURRENT-HOST-DEPENDENCY-001",
+      "version": "48.0.2",
+      "bootstrap": "bin/fa3-wasmtime-bootstrap",
+      "install_scope": "ROOTLESS_USER_LOCAL",
+      "capability_bindings": [
+        "CAP-028"
+      ],
+      "failure_semantics": "FAIL_CLOSED",
+      "global_promotion_claim": false
+    }
   }
 }
