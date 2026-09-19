@@ -8,6 +8,7 @@ import platform
 import shutil
 import stat
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -336,10 +337,10 @@ def _secret_service_introspect(busctl: str, bus_name: str, env: Mapping[str, str
             [
                 busctl,
                 "--user",
+                "--xml-interface",
                 "introspect",
                 bus_name,
                 "/org/freedesktop/secrets",
-                "org.freedesktop.Secret.Service",
             ],
             check=False,
             capture_output=True,
@@ -349,6 +350,20 @@ def _secret_service_introspect(busctl: str, bus_name: str, env: Mapping[str, str
         )
     except (OSError, subprocess.SubprocessError):
         return None
+
+
+def _secret_service_interface_proven(proc: subprocess.CompletedProcess[str] | None) -> bool:
+    if proc is None or proc.returncode != 0 or not proc.stdout.strip():
+        return False
+    try:
+        root = ET.fromstring(proc.stdout)
+    except ET.ParseError:
+        return False
+    return any(
+        node.tag == "interface"
+        and node.attrib.get("name") == "org.freedesktop.Secret.Service"
+        for node in root.iter()
+    )
 
 
 def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
@@ -362,6 +377,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "reference_activation_attempted": False,
             "standard_name_verified": False,
             "compatibility_endpoint_verified": False,
+            "introspection_format": "BUSCTL_XML_INTERFACE",
         }
 
     standard_name = "org.freedesktop.secrets"
@@ -372,11 +388,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     live_name = _dbus_name_present(standard_name, env)
     if live_name:
         verify = _secret_service_introspect(busctl, standard_name, env)
-        verified_interface = bool(
-            verify is not None
-            and verify.returncode == 0
-            and standard_interface_name in verify.stdout
-        )
+        verified_interface = _secret_service_interface_proven(verify)
         if verified_interface:
             return {
                 "available": True,
@@ -386,15 +398,12 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                 "reference_activation_attempted": False,
                 "standard_name_verified": True,
                 "compatibility_endpoint_verified": False,
+                "introspection_format": "BUSCTL_XML_INTERFACE",
             }
 
     # Standards-only D-Bus activation remains the preferred portable route.
     proc = _secret_service_introspect(busctl, standard_name, env)
-    standard_interface = bool(
-        proc is not None
-        and proc.returncode == 0
-        and standard_interface_name in proc.stdout
-    )
+    standard_interface = _secret_service_interface_proven(proc)
     if standard_interface:
         return {
             "available": True,
@@ -404,6 +413,7 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
             "reference_activation_attempted": False,
             "standard_name_verified": True,
             "compatibility_endpoint_verified": False,
+            "introspection_format": "BUSCTL_XML_INTERFACE",
         }
 
     # A reference-desktop compatibility name may be touched only to trigger a
@@ -414,17 +424,9 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     compatibility_endpoint_verified = False
     for alias in aliases:
         alias_proc = _secret_service_introspect(busctl, alias, env)
-        compatibility_endpoint_verified = compatibility_endpoint_verified or bool(
-            alias_proc is not None
-            and alias_proc.returncode == 0
-            and standard_interface_name in alias_proc.stdout
-        )
+        compatibility_endpoint_verified = compatibility_endpoint_verified or _secret_service_interface_proven(alias_proc)
         verify = _secret_service_introspect(busctl, standard_name, env)
-        verified_standard = bool(
-            verify is not None
-            and verify.returncode == 0
-            and standard_interface_name in verify.stdout
-        )
+        verified_standard = _secret_service_interface_proven(verify)
         if verified_standard:
             return {
                 "available": True,
@@ -444,9 +446,10 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "reference_activation_attempted": bool(aliases),
         "standard_name_verified": False,
         "compatibility_endpoint_verified": compatibility_endpoint_verified,
+        "introspection_format": "BUSCTL_XML_INTERFACE",
     }
 
-def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, bool]:
+def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, Any]:
     env = dict(os.environ if env is None else env)
     portal_override = env.get("FA3_DESKTOP_PORTAL_AVAILABLE")
     secret_override = env.get("FA3_SECRET_SERVICE_AVAILABLE")
@@ -474,6 +477,7 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, bo
         "secret_service_reference_activation_attempted": secret_probe.get("reference_activation_attempted", False),
         "secret_service_standard_name_verified": secret_probe.get("standard_name_verified", secret_service),
         "secret_service_compatibility_endpoint_verified": secret_probe.get("compatibility_endpoint_verified", False),
+        "secret_service_introspection_format": secret_probe.get("introspection_format"),
         "fa3_vault": _truthy(env.get("FA3_VAULT_AVAILABLE")),
         "uri_open": bool(shutil.which("xdg-open")) or portal,
         "notifications": bool(shutil.which("notify-send")) or portal,
@@ -567,6 +571,7 @@ def evaluate_desktop(
             "standard_activation_attempted": bool(probes.get("secret_service_dbus_activation_attempted")),
             "reference_activation_attempted": bool(probes.get("secret_service_reference_activation_attempted")),
             "compatibility_endpoint_verified_diagnostic_only": bool(probes.get("secret_service_compatibility_endpoint_verified")),
+            "introspection_format": probes.get("secret_service_introspection_format"),
             "fa3_vault_available": bool(probes.get("fa3_vault")),
         },
         "findings": findings,
