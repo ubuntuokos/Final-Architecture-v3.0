@@ -28,7 +28,7 @@
   },
   "rationale": [
     "CAP-032 is a capability contract and must not be coupled to the availability of one upstream Python/CUDA package",
-    "the post-Unreal FULL-429 current-host run proved that PyTorch3D availability was the sole global preflight blocker while the rest of the host prerequisites passed",
+    "the post external-RT3D-engine-removal FULL-429 current-host run proved that PyTorch3D availability was the sole global preflight blocker while the rest of the host prerequisites passed",
     "Open3D v0.20 provides actively maintained reconstruction registration geometry processing and official modern Python/CUDA distribution",
     "Kaolin v0.18 provides actively maintained differentiable and neural 3D primitives with modern PyTorch/CUDA support and an Apache-2.0 default package surface",
     "PyTorch3D remains useful and maintained enough to retain as a supported compatibility/reference provider, but its runtime packaging must not gate all CAP-032 execution",
