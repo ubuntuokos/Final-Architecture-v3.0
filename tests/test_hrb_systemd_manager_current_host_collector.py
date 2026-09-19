@@ -15,7 +15,7 @@ spec.loader.exec_module(collector)
 class HrbSystemdManagerCollectorTests(unittest.TestCase):
     def test_gpu_floor_uses_compute_capability_not_marketing_name(self):
         rows = collector.parse_gpu_rows(
-            "GPU-A, 00000000:A1:00.0, NVIDIA RTX A1000, 610.57.04, 8188, 8.6\n"
+            "GPU-A, 00000000:A1:00.0, NVIDIA Fixture Accelerator X, 610.57.04, 8188, 8.6\n"
             "GPU-B, 00000000:B1:00.0, NVIDIA GeForce RTX 5090, 610.57.04, 24564, 8.0\n"
         )
         self.assertEqual(len(rows), 2)
@@ -26,7 +26,7 @@ class HrbSystemdManagerCollectorTests(unittest.TestCase):
 
     def test_invalid_compute_capability_fails_closed(self):
         rows = collector.parse_gpu_rows(
-            "GPU-A, 00000000:A1:00.0, NVIDIA RTX A1000, 610.57.04, 8188, N/A\n"
+            "GPU-A, 00000000:A1:00.0, NVIDIA Fixture Accelerator X, 610.57.04, 8188, N/A\n"
         )
         self.assertEqual(rows[0]["cuda_compute_capability"], None)
         self.assertFalse(rows[0]["qualifies_portable_floor"])
