@@ -216,8 +216,43 @@ def gate(root: Path) -> dict[str, Any]:
         ):
             findings.append(finding("HARDEN-001", "Profile capability/authority invariant drift", profile=record.get("id")))
 
-    if data["contract"].get("capability_count") != CAPABILITY_COUNT:
+    contract = data["contract"]
+    if contract.get("capability_count") != CAPABILITY_COUNT:
         findings.append(finding("HARDEN-002", "Runtime hardening contract capability count drift"))
+    media_contract = contract.get("media", {})
+    frame_trace = media_contract.get("frame_copy_trace", {})
+    pcie_budget = media_contract.get("pcie_copy_budget", {})
+    resource_admission = media_contract.get("resource_admission_evidence", {})
+    runtime_envelope = media_contract.get("runtime_evidence_envelope", {})
+    sandbox_contract = contract.get("sandbox", {}).get("current_host_quadlet", {})
+    if not (
+        frame_trace.get("schema") == "fa3.cuda-copy-trace.v1"
+        and frame_trace.get("host_to_device_frame_copy_count_max") == 0
+        and frame_trace.get("device_to_host_frame_copy_count_max") == 0
+        and frame_trace.get("host_frame_round_trips_max") == 0
+        and frame_trace.get("dlpack_shared_gpu_memory_required") is True
+        and frame_trace.get("full_pipeline_true_zero_copy_claim_requires_separate_proof") is True
+        and pcie_budget.get("semantics") == "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF"
+        and float(pcie_budget.get("sampling_interval_seconds_max", 1)) <= 0.025
+        and int(pcie_budget.get("sample_count_min", 0)) >= 10
+        and float(pcie_budget.get("budget_ratio_max", 1)) <= 0.05
+        and pcie_budget.get("capacity_source") == "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH"
+        and pcie_budget.get("hardcoded_gpu_ordinal_forbidden") is True
+        and pcie_budget.get("hardcoded_gpu_sku_link_capacity_forbidden") is True
+        and resource_admission.get("envelope_id") == "FA3-EVIDENCE-ENVELOPE-001"
+        and resource_admission.get("evidence_class") == "CURRENT_HOST_ADMISSION"
+        and resource_admission.get("required_claim") == "CURRENT_HOST_RESOURCE_ADMISSION_PASS"
+        and resource_admission.get("hrb_broker_validation_required") is True
+        and runtime_envelope.get("envelope_id") == "FA3-EVIDENCE-ENVELOPE-001"
+        and runtime_envelope.get("payload_sha256_required") is True
+        and runtime_envelope.get("component_pass_never_implies_global_promotion") is True
+        and sandbox_contract.get("installed_instance_required") is True
+        and sandbox_contract.get("actual_oci_runtime") == "RUNSC"
+        and sandbox_contract.get("image_digest_pin_required") is True
+        and sandbox_contract.get("nvproxy_driver_abi_required_when_gpu_projected") is True
+        and sandbox_contract.get("unsupported_driver_override_allowed") is False
+    ):
+        findings.append(finding("HARDEN-023", "Current-host runtime evidence contract drift"))
 
     provider = data["provider"]
     if (
@@ -341,6 +376,15 @@ def gate(root: Path) -> dict[str, Any]:
         and current_host_enforcement.get("fail_closed") is True
         and host_rules.get("github_hosted_substitution") == "DENY"
         and host_rules.get("sandbox_compatibility_smoke_as_production_isolation") == "DENY"
+        and host_rules.get("installed_quadlet_missing") == "DENY_CURRENT_HOST_PASS"
+        and host_rules.get("actual_runsc_runtime_missing") == "DENY_CURRENT_HOST_PASS"
+        and host_rules.get("resource_admission_envelope_missing_or_invalid") == "DENY_CURRENT_HOST_PASS"
+        and host_rules.get("pcie_copy_budget_as_zero_copy_proof") == "DENY"
+        and float(host_rules.get("pcie_copy_budget_sampling_interval_max_seconds", 1)) <= 0.025
+        and float(host_rules.get("pcie_copy_budget_ratio_max", 1)) <= 0.05
+        and host_rules.get("frame_copy_trace_missing") == "DENY_CURRENT_HOST_PASS"
+        and host_rules.get("frame_copy_trace_host_frame_copy_count_max") == 0
+        and host_rules.get("evidence_envelope_payload_sha256") == "REQUIRED"
         and host_rules.get("shadow_promotion_authority") == "DENY"
     ):
         findings.append(finding("HARDEN-020", "Runtime hardening current-host enforcement drift"))
