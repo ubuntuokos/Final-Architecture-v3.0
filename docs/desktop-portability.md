@@ -62,3 +62,7 @@ A Plasma referencia-profilban az `org.kde.secretservicecompat` név kizárólag 
 A portable PASS feltétele az aktiválási kísérlet után is ugyanaz: a kliensnek a szabványos `org.freedesktop.secrets` busznéven, a `/org/freedesktop/secrets` objektumon sikeresen kell introspektálnia az `org.freedesktop.Secret.Service` interfészt. Ha ez nem bizonyítható, a desktop admission fail-closed marad. A canonical FA3 Vault továbbra is külön, provider-semleges fallback lehet, ha saját admissionje PASS.
 
 A runtime bizonyítás a `busctl --user --xml-interface introspect` XML dokumentumát parszolja, és csak az objektumon deklarált pontos `org.freedesktop.Secret.Service` interfészt fogadja el. Az interfészre szűrt, emberi olvasásra szánt táblázatos `busctl introspect ... INTERFACE` kimenet nem identitás-bizonyíték, mert az csak tag-sorokat is tartalmazhat.
+
+### Secret Service activation boundary
+
+For the KDE reference profile, `org.kde.secretservicecompat` is an activation hint only. FA3 requests the compatibility service through `org.freedesktop.DBus.StartServiceByName`, then independently verifies `org.freedesktop.secrets` at `/org/freedesktop/secrets` using exact XML interface identity for `org.freedesktop.Secret.Service`. A successful compatibility activation or compatibility-endpoint introspection remains diagnostic-only and cannot satisfy Secret Backend admission.
