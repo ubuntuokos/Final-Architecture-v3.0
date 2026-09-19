@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "217a14236f401fde24ce516bcb54b79c1c9be4a5",
-    "pre_projection_root_tree_sha": "0fabbe054e9f7d4a26264657dbe37ed47b017b66",
-    "pre_projection_canonical_tree_sha": "a51ee334ca429cc5e7d7501246958f7f8fc795ce",
-    "commits_ahead_of_v3_0_11_conformance_commit": 430,
-    "total_post_baseline_commits": 430,
-    "delta_file_count": 1477,
-    "delta_added_files": 1472,
+    "pre_projection_head_sha": "04553de138f31d870fcb9f55b8a78cb235b1c54a",
+    "pre_projection_root_tree_sha": "cfbe5c6073c898cfdf421e51e71747dd095c3344",
+    "pre_projection_canonical_tree_sha": "c178f67effe7e033e15d48ccfeb7790dbdd9197f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 446,
+    "total_post_baseline_commits": 446,
+    "delta_file_count": 1483,
+    "delta_added_files": 1478,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 712,
+    "canonical_files_in_post_baseline_delta": 716,
     "evidence_files_in_post_baseline_delta": 134,
     "source_files_in_post_baseline_delta": 193,
-    "test_files_in_post_baseline_delta": 168,
+    "test_files_in_post_baseline_delta": 169,
     "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -81,6 +81,7 @@
       "canonical/providers/FA3-PROVIDER-JOURNAL-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
       "canonical/providers/FA3-PROVIDER-KANEO-001.json",
+      "canonical/providers/FA3-PROVIDER-KAOLIN-001.json",
       "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
       "canonical/providers/FA3-PROVIDER-KLING-001.json",
       "canonical/providers/FA3-PROVIDER-KRITA-001.json",
@@ -110,11 +111,13 @@
       "canonical/providers/FA3-PROVIDER-MYNA-001.json",
       "canonical/providers/FA3-PROVIDER-NATRON-001.json",
       "canonical/providers/FA3-PROVIDER-NEMOTRON-001.json",
+      "canonical/providers/FA3-PROVIDER-NVDIFFRAST-001.json",
       "canonical/providers/FA3-PROVIDER-OBSIDIAN-001.json",
       "canonical/providers/FA3-PROVIDER-OBSIDIAN-LOCAL-REST-API-001.json",
       "canonical/providers/FA3-PROVIDER-OLLAMA-MODEL-001.json",
       "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
+      "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
       "canonical/providers/FA3-PROVIDER-OPENMODELDB-001.json",
@@ -373,6 +376,7 @@
       "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
@@ -772,7 +776,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1470,
+  "manifest_entry_count": 1476,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -846,7 +850,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "359d9024d5dfe13970421043e3201751608097e2",
+      "git_blob_sha": "077d5ef7ef8bb6fe8ed792b02ada1ef0c296ff8b",
       "baseline_delta_status": "added"
     },
     {
@@ -2781,12 +2785,12 @@
     },
     {
       "path": "canonical/current-host-capability-proof-recipes.json",
-      "git_blob_sha": "7247355a8cbbc3809d8f0fc4b525b38eea69b1b1",
+      "git_blob_sha": "eb5475b681ea6140884ab10b0081a06bf135c214",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/current-host-capability-qualification-constituent-producers.json",
-      "git_blob_sha": "b38c3fc095cf4923de1d2a1a90ad64a5759c7550",
+      "git_blob_sha": "fc4edd0873839f157698d1a873b2da4726cdd155",
       "baseline_delta_status": "added"
     },
     {
@@ -2796,7 +2800,7 @@
     },
     {
       "path": "canonical/current-host-capability-test-qualifications.json",
-      "git_blob_sha": "eecdee03aa9697ffa4bbbd27c6197c73b53dbc6c",
+      "git_blob_sha": "b8dabf26d7eb29e68c8b708279f9634a238dc71e",
       "baseline_delta_status": "added"
     },
     {
@@ -3105,6 +3109,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19.json",
+      "git_blob_sha": "6eaf82c7c16577d07cf65e9b4d00513b136157de",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
       "git_blob_sha": "f58a6514a664603bfb3548c46d742d3f3cbfeb7e",
       "baseline_delta_status": "added"
@@ -3261,7 +3270,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
-      "git_blob_sha": "add5b74bb177ae0010f5281a799d9fe69d94dacb",
+      "git_blob_sha": "989d6c8125dce6642a45fb089b60cea8e7b525e9",
       "baseline_delta_status": "added"
     },
     {
@@ -3836,7 +3845,7 @@
     },
     {
       "path": "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
-      "git_blob_sha": "d77726152d97f4a991ab54fa0f83ace1a5945706",
+      "git_blob_sha": "47aa74192cd02f7d94a71661f0cd38822ad6e7ac",
       "baseline_delta_status": "added"
     },
     {
@@ -4230,6 +4239,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-KAOLIN-001.json",
+      "git_blob_sha": "49c5580737b296d9a2f8cf6531a017d9e1d95661",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-KDENLIVE-001.json",
       "git_blob_sha": "3813c624a4fe23cdfe90c36a5ec9cd205b70a576",
       "baseline_delta_status": "added"
@@ -4375,6 +4389,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-NVDIFFRAST-001.json",
+      "git_blob_sha": "af76275d361c847e930d5e67846c96ffa04bf98c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-OBSIDIAN-001.json",
       "git_blob_sha": "a296a0db0e010624dd99ab63b47272ebc1072934",
       "baseline_delta_status": "added"
@@ -4397,6 +4416,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "git_blob_sha": "2b5c0fca2d6c3361966d6967637945e1dec933ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
+      "git_blob_sha": "72840d3ada2d9bad486eb3afde7890741e33148f",
       "baseline_delta_status": "added"
     },
     {
@@ -4471,7 +4495,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-PYTORCH3D-001.json",
-      "git_blob_sha": "bbb3246dce179b8ea40cb5dd64c17648bf735270",
+      "git_blob_sha": "70bffb503d97a8258e221d6773ebb35d72b1aeca",
       "baseline_delta_status": "added"
     },
     {
@@ -5036,7 +5060,7 @@
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-PYTORCH3D-2026-09-11.json",
-      "git_blob_sha": "0e5fa817a09deb97e5acf943e148b62af4c7c105",
+      "git_blob_sha": "299c01fa4e996a2622716e0ceb1c6cec1540d6f8",
       "baseline_delta_status": "added"
     },
     {
@@ -5360,6 +5384,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/metric-3d-provider-fabric.md",
+      "git_blob_sha": "8fc5f9146091f38db5e3c6b79edfe03e54ba79da",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/model-artifact-security-current-host.md",
       "git_blob_sha": "a46272a0c11b2e12ca6a5574c20b7f29461cea58",
       "baseline_delta_status": "added"
@@ -5451,7 +5480,7 @@
     },
     {
       "path": "docs/pytorch3d-integration.md",
-      "git_blob_sha": "ddab0fb1d6d62f2361c83286af29d160f0889014",
+      "git_blob_sha": "e1f5557c939aabd2f6b20305611acd379acdea7f",
       "baseline_delta_status": "added"
     },
     {
@@ -5691,7 +5720,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "b3233068d5f889f9e4f643cc1dd76ed2ed9c1718",
+      "git_blob_sha": "aa8c10ca753dd8251e8b536951a87f83ff1a4d63",
       "baseline_delta_status": "added"
     },
     {
@@ -6561,12 +6590,12 @@
     },
     {
       "path": "src/fa3_full_current_host_capability_producer.py",
-      "git_blob_sha": "8d1dfc4e00b7f3bea25c0b08934119ed430b25dc",
+      "git_blob_sha": "db222a9a04eaf82b6eba3d50f024a68abdc0d890",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_full_current_host_preflight.py",
-      "git_blob_sha": "59ab02f5404280d9af6caf68783ad098ea4a0a6c",
+      "git_blob_sha": "72c2336ad0f495acc6b2bc2b73e2d8a1c1b105d9",
       "baseline_delta_status": "added"
     },
     {
@@ -7511,12 +7540,12 @@
     },
     {
       "path": "tests/test_full_current_host_capability_producer.py",
-      "git_blob_sha": "3bfe4d13fe2d7d84d2165d3b51121369c03d3161",
+      "git_blob_sha": "447e1954ccf2dc8e036e159de50ead3dad5f0e10",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_full_current_host_preflight.py",
-      "git_blob_sha": "a643ff68f4f4ea6e9806df1a384c151fad6924d0",
+      "git_blob_sha": "f77b8187062c34c86ccc1b8df3fa1538e66e17ba",
       "baseline_delta_status": "added"
     },
     {
@@ -7742,6 +7771,11 @@
     {
       "path": "tests/test_mentor_gate.py",
       "git_blob_sha": "25127303b7e544c13a534c11e4833be52a0a6dd9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_metric_3d_provider_fabric.py",
+      "git_blob_sha": "70b3ae01a651f24b60baa20bf040ab9bfdf59a9b",
       "baseline_delta_status": "added"
     },
     {
