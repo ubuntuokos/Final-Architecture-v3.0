@@ -12,6 +12,16 @@ if [[ "${1:-}" == "pageindex-knowledge-closure" ]]; then
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_knowledge_closure_gate.py" --root "$ROOT" "$@"
 fi
 
+if [[ "${1:-}" == "podman-secret-isolation-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_podman_secret_negative_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "integration-broker" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_integration_broker_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "runtime-hardening-current-host" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_runtime_hardening_current_host_gate.py" --root "$ROOT" "$@"

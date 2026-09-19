@@ -32,6 +32,7 @@ from fa3_stability_sgm_gate import gate as stability_sgm_gate
 from fa3_stability_portfolio_gate import gate as stability_portfolio_gate
 from fa3_stability_matrix_lifecycle_gate import gate as stability_matrix_lifecycle_gate
 from fa3_developer_agent_coordination_gate import gate as developer_agent_coordination_gate
+from fa3_integration_broker_gate import gate as integration_broker_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
 from fa3_inference_portability_gate import gate as inference_portability_gate
@@ -187,6 +188,12 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-070","Stability provider portfolio gate is not bound into global enforcement policy"))
     if "FA3-DEVELOPER-AGENT-COORDINATION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-046","Developer-agent coordination gate is not bound into global enforcement policy"))
+    if not (
+        pol.get("integration_broker_gate_id") == "FA3-INTEGRATION-BROKER-GATESET-001"
+        and pol.get("integration_broker_enforcement_class") == "P0_CROSS_CUTTING_STATIC_GATE"
+        and pol.get("integration_broker_global_static_required") is True
+    ):
+        fs.append(finding("FA3-STATIC-109","Human-approved integration broker cross-cutting static binding is invalid"))
     if "FA3-CODEX-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-048","Codex adapter gate is not bound into global enforcement policy"))
     if "FA3-AUTOGPT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -200,7 +207,7 @@ def static_check(root:Path):
     if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
     if "FA3-PAGEINDEX-KNOWLEDGE-CLOSURE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-109","PageIndex/Knowledge closure gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-111","PageIndex/Knowledge closure gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -336,7 +343,7 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-096","Obsidian human knowledge workspace boundary regression gate failed",obsidian_knowledge_workspace_gate=obsidian_ref))
     pageindex_knowledge_ref=pageindex_knowledge_closure_gate(root)
     if pageindex_knowledge_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-110","PageIndex/Knowledge closure executable gate failed",pageindex_knowledge_closure_gate=pageindex_knowledge_ref))
+        fs.append(finding("FA3-STATIC-112","PageIndex/Knowledge closure executable gate failed",pageindex_knowledge_closure_gate=pageindex_knowledge_ref))
     lynxhub_ref=lynxhub_gate(root)
     if lynxhub_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-087","LynxHub Creative Operations Dashboard boundary regression gate failed",lynxhub_gate=lynxhub_ref))
@@ -364,6 +371,9 @@ def static_check(root:Path):
     dac_ref=developer_agent_coordination_gate(root)
     if dac_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-047","Developer-agent coordination contract/runtime E2E gate failed",developer_agent_coordination_gate=dac_ref))
+    integration_broker_ref=integration_broker_gate(root)
+    if integration_broker_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-110","Human-approved integration broker regression gate failed",integration_broker_gate=integration_broker_ref))
     codex_ref=codex_gate(root)
     if codex_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-049","Codex adapter/admission regression gate failed",codex_gate=codex_ref))
@@ -534,7 +544,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","pageindex-knowledge-closure","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","pageindex-knowledge-closure","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -610,6 +620,8 @@ def main():
             x=stability_portfolio_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="developer-agent-coordination":
             x=developer_agent_coordination_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="integration-broker":
+            x=integration_broker_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="codex":
             x=codex_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="codex-current-host":
