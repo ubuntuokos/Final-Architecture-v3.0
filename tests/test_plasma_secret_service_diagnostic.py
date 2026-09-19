@@ -7,6 +7,7 @@ from unittest.mock import patch
 from fa3_plasma_secret_service_diagnostic import (
     ALIAS,
     STANDARD,
+    KSECRETD_BUS,
     STANDARD_INTERFACE,
     _introspection_diagnostic,
     _name_owner_diagnostic,
@@ -191,6 +192,25 @@ class PlasmaSecretServiceDiagnosticTests(unittest.TestCase):
         self.assertTrue(report["reference_owner_introspection"]["standard_interface_present"])
         self.assertEqual(report["admission_effect"], "NONE_DIAGNOSTIC_ONLY")
         self.assertEqual(report["promotion_effect"], "NONE_DIAGNOSTIC_ONLY")
+
+
+    @patch("fa3_plasma_secret_service_diagnostic._run_busctl")
+    def test_activatable_listing_does_not_imply_live_owner(self, run_busctl):
+        run_busctl.return_value = subprocess.CompletedProcess(
+            args=["busctl"], returncode=1, stdout="",
+            stderr="Call failed: The name does not have an owner\n",
+        )
+        report = _name_owner_diagnostic(
+            {"DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus"},
+            ALIAS,
+            inventory={ALIAS: {"listed": True, "pid_present": False, "process": "-"}},
+        )
+        self.assertTrue(report["listed"])
+        self.assertFalse(report["owner_parse_ok"])
+        self.assertIsNone(report["unique_owner"])
+
+    def test_runtime_diagnostic_bus_identity_constant_is_stable(self):
+        self.assertEqual(KSECRETD_BUS, "org.kde.ksecretd")
 
 
 if __name__ == "__main__":
