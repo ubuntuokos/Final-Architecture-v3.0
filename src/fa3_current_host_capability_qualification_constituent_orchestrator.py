@@ -175,6 +175,27 @@ def _validate_verdict(
     }, []
 
 
+def _typed_producer_failure(stderr: str, returncode: int) -> list[str]:
+    findings = [f"producer adapter returncode {returncode}"]
+    lines = [line.strip() for line in stderr.splitlines() if line.strip()]
+    if not lines:
+        return findings
+    try:
+        payload = json.loads(lines[-1])
+    except json.JSONDecodeError:
+        return findings
+    if not isinstance(payload, dict) or payload.get("status") != "REJECTED":
+        return findings
+    declared = payload.get("findings")
+    if not isinstance(declared, list) or any(not isinstance(item, str) for item in declared):
+        return findings
+    for item in declared[:8]:
+        clean = " ".join(item.split())
+        if clean:
+            findings.append("producer finding: " + clean[:1000])
+    return findings
+
+
 def _execute(
     root: Path,
     entry: dict[str, Any],
@@ -214,7 +235,7 @@ def _execute(
     finished = datetime.now(timezone.utc)
 
     if proc.returncode != 0:
-        return None, [f"producer adapter returncode {proc.returncode}"]
+        return None, _typed_producer_failure(proc.stderr, proc.returncode)
     try:
         verdict = json.loads(proc.stdout)
     except Exception as exc:
