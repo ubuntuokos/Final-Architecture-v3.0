@@ -28,12 +28,62 @@
     "arbitrary_agent_host_subprocess": "DENY",
     "ephemeral_workspace_required": true,
     "network_default": "DENY",
-    "explicit_mounts_only": true
+    "explicit_mounts_only": true,
+    "current_host_quadlet": {
+      "installed_instance_required": true,
+      "network": "DENY",
+      "read_only_rootfs": true,
+      "no_new_privileges": true,
+      "drop_capability": "ALL",
+      "pull_policy": "NEVER",
+      "image_digest_pin_required": true,
+      "actual_oci_runtime": "RUNSC",
+      "nvproxy_driver_abi_required_when_gpu_projected": true,
+      "unsupported_driver_override_allowed": false
+    }
   },
   "media": {
     "accelerated_neural_claim": "ZERO_HOST_ROUND_TRIP",
     "host_round_trip_during_neural_segment_max": 0,
-    "copy_telemetry_required": true
+    "copy_telemetry_required": true,
+    "frame_copy_trace": {
+      "schema": "fa3.cuda-copy-trace.v1",
+      "accepted_collectors": [
+        "CUPTI",
+        "NSIGHT_SYSTEMS",
+        "CUDA_ACTIVITY_TRACE"
+      ],
+      "frame_count_min": 1,
+      "host_to_device_frame_copy_count_max": 0,
+      "device_to_host_frame_copy_count_max": 0,
+      "host_frame_round_trips_max": 0,
+      "dlpack_shared_gpu_memory_required": true,
+      "full_pipeline_true_zero_copy_claim_requires_separate_proof": true
+    },
+    "pcie_copy_budget": {
+      "semantics": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+      "sampling_interval_seconds_max": 0.025,
+      "sample_count_min": 10,
+      "budget_ratio_max": 0.05,
+      "capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
+      "hardcoded_gpu_ordinal_forbidden": true,
+      "hardcoded_gpu_sku_link_capacity_forbidden": true
+    },
+    "resource_admission_evidence": {
+      "envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
+      "evidence_class": "CURRENT_HOST_ADMISSION",
+      "required_claim": "CURRENT_HOST_RESOURCE_ADMISSION_PASS",
+      "stable_accelerator_identity": [
+        "GPU_UUID",
+        "PCI_BDF"
+      ],
+      "hrb_broker_validation_required": true
+    },
+    "runtime_evidence_envelope": {
+      "envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
+      "payload_sha256_required": true,
+      "component_pass_never_implies_global_promotion": true
+    }
   },
   "hu_aqc": {
     "dimensions_must_be_independent": true,
