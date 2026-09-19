@@ -8761,7 +8761,7 @@
     "capability_count": 143,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
-    "hardware_reference": "2x Intel Xeon E5-2696 v4 / 44C-88T / live topology-HRB admission",
+    "hardware_reference": "REFERENCE_HOST_EVIDENCE_ONLY_NON_NORMATIVE; runtime hardware is discovered dynamically and admitted by FA3-HARDWARE-BASELINE-001 + HRB",
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_PROVIDER_E2E",
     "runtime_promotion_claim": false
   },
@@ -8835,7 +8835,7 @@
     "reference_evidence_status": "CI_CANONICAL_EXECUTABLE_REGRESSION_PASS",
     "ffmpeg_stable_reference": "9.0.1 / n9.0.1 / 2026-08-12",
     "vs_mlrt_reference_commit": "8cd6cf266a430fdb9f6d797a4e33ab2952d52ce2",
-    "hardware_reference": "2x Intel Xeon E5-2696 v4 / 44C-88T / expected 2 NUMA; live topology + HRB UUID/BDF accelerator admission",
+    "hardware_reference": "REFERENCE_HOST_EVIDENCE_ONLY_NON_NORMATIVE; runtime hardware is discovered dynamically and admitted by FA3-HARDWARE-BASELINE-001 + HRB",
     "runtime_activation_status": "PENDING_REAL_CURRENT_HOST_E2E",
     "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
     "current_host_runtime_promotion_claim": false,
@@ -8979,10 +8979,10 @@
       "hardware_profile": "FA3-HW-001",
       "hardware_contract": "FA3-HW-CONTRACTS-001",
       "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
-      "gpu": "MIN_NVIDIA_RTX_30_SERIES_OR_NEWER",
-      "newer_rtx_generations_allowed": true,
-      "architecture_equivalence_without_rtx30_or_newer_series_identity_satisfies_floor": false,
-      "concrete_cpu_or_gpu_model_pin": false
+      "gpu": "MIN_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
+      "concrete_cpu_or_gpu_model_pin": false,
+      "newer_runtime_capabilities_allowed": true,
+      "marketing_series_identity_required": false
     },
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
@@ -9017,8 +9017,15 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143,
     "portable_cpu": "1_TO_N_PACKAGES_MIN_8_PHYSICAL_CORES_PER_QUALIFYING_CPU",
-    "portable_gpu": "1_TO_N_NVIDIA_RTX_30_SERIES_OR_NEWER",
-    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
+    "portable_gpu": "1_TO_N_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE",
+    "primary_mandatory_gate": true,
+    "primary_gate_order": 1,
+    "audit_scope": "HARDWARE_DESKTOP_HRB_EVIDENCE_PCIE_CROSS_CUTTING",
+    "desktop_semantics": "WAYLAND_PREFERRED_X11_SUPPORTED_DESKTOP_AGNOSTIC",
+    "resource_admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "static_reference_pass_is_current_host_pass": false,
+    "pcie_copy_budget_is_zero_copy_proof": false
   },
   "marketingskills_skill_admission_reconciliation": {
     "provider_id": "FA3-PROVIDER-MARKETINGSKILLS-001",
