@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "3e4ba64bb2b3479d8df498be3e2159d871d1a89f",
-    "pre_projection_root_tree_sha": "54d1921d461feb81814e8f766cf2c8bec85e730b",
-    "pre_projection_canonical_tree_sha": "a60b3f5728afa10d3dea4ca3823e29040ff58f6b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 422,
-    "total_post_baseline_commits": 422,
-    "delta_file_count": 1448,
-    "delta_added_files": 1443,
+    "pre_projection_head_sha": "2f0b6e77534e3feda6ec93ac58112624e0790b8c",
+    "pre_projection_root_tree_sha": "443e35c66aab5378d5f905a3cc7a43c1828240c5",
+    "pre_projection_canonical_tree_sha": "4d517d3f6e965c545b995c469080c8a6e00563ef",
+    "commits_ahead_of_v3_0_11_conformance_commit": 427,
+    "total_post_baseline_commits": 427,
+    "delta_file_count": 1458,
+    "delta_added_files": 1453,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 703,
-    "evidence_files_in_post_baseline_delta": 133,
-    "source_files_in_post_baseline_delta": 185,
-    "test_files_in_post_baseline_delta": 159,
-    "workflow_files_in_post_baseline_delta": 62,
+    "canonical_files_in_post_baseline_delta": 709,
+    "evidence_files_in_post_baseline_delta": 134,
+    "source_files_in_post_baseline_delta": 186,
+    "test_files_in_post_baseline_delta": 160,
+    "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -226,6 +226,7 @@
       "canonical/profiles/FA3-STORAGE-FUSE-001.json",
       "canonical/profiles/FA3-STT-001.json",
       "canonical/profiles/FA3-STT-MEDIA-001.json",
+      "canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json",
       "canonical/profiles/FA3-VIDEO-001.json",
       "canonical/profiles/FA3-VOICE-001.json",
       "canonical/profiles/FA3-WEB-AI-001.json"
@@ -302,6 +303,7 @@
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
+      "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
       "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
@@ -416,6 +418,7 @@
       "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
       "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
       "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
+      "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
       "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
       "canonical/decisions/FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12.json",
@@ -517,6 +520,7 @@
       "evidence/reference/fa3-mentor-v0.2.0.json",
       "evidence/reference/fa3-os-current-host-2026-09-18.json",
       "evidence/reference/fa3-os-mcp-agent-exposure-admission-2026-09-18.json",
+      "evidence/reference/fa3-ui-component-fabric-reference-pass.json",
       "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "evidence/reference/gem-x-reference-pass.json",
       "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
@@ -765,7 +769,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1441,
+  "manifest_entry_count": 1451,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1040,6 +1044,11 @@
     {
       "path": ".github/workflows/fa3-stable-audio-3-current-host.yml",
       "git_blob_sha": "bc65f0467f5b15d3c36a77ba3423e3e75d3cccab",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-ui-component-fabric-gate.yml",
+      "git_blob_sha": "a6f8a7a31dce4302277c267e76303d59265a836b",
       "baseline_delta_status": "added"
     },
     {
@@ -1983,6 +1992,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-UI-COMPONENT-FABRIC-001.json",
+      "git_blob_sha": "aa8eca60c69a78121bbfc0e6bf0e315d4dfc0145",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-VAULTWARDEN-001.json",
       "git_blob_sha": "f751d77901392134c30d042631af2b3d229031ff",
       "baseline_delta_status": "added"
@@ -2183,6 +2197,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-REFERENCE-UIVERSE-GALAXY-001.json",
+      "git_blob_sha": "399b82113b073d7e333f078ec744e826352f969d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-RELEASE-CAPABILITY-BASELINE-001.json",
       "git_blob_sha": "bc8808dc32c2cbc9039ef1bc7b599bc1ddae3c7d",
       "baseline_delta_status": "added"
@@ -2210,6 +2229,11 @@
     {
       "path": "canonical/FA3-STABLE-AUDIO-3-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "25d89f5e1aae21567962a28db0ace3174729734d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-UI-COMPONENT-FABRIC-EVIDENCE-ACCEPTANCE-001.json",
+      "git_blob_sha": "97c9213a5ace740b7f41a7a7a5b6609bf7e12274",
       "baseline_delta_status": "added"
     },
     {
@@ -2685,6 +2709,11 @@
     {
       "path": "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
       "git_blob_sha": "3c709dde055ea3add0cdd601fc4e7560d8d1e0a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
+      "git_blob_sha": "eeff7b27825e9f086b3bbf3954e5f16394cbd9d7",
       "baseline_delta_status": "added"
     },
     {
@@ -3285,6 +3314,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
       "git_blob_sha": "cb453c8c062c2653fe70d788767d3b2685202a0c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
+      "git_blob_sha": "2d3e614a5c703742e67510b9a09d2a9393155f11",
       "baseline_delta_status": "added"
     },
     {
@@ -4000,6 +4034,11 @@
     {
       "path": "canonical/profiles/FA3-STT-MEDIA-001.json",
       "git_blob_sha": "e606b448afdda1b90aa35f06a646a5be14511b2c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json",
+      "git_blob_sha": "bb21d7fbb0b369c90df263cfe1fcb9345187e1f6",
       "baseline_delta_status": "added"
     },
     {
@@ -5768,6 +5807,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/fa3-ui-component-fabric-reference-pass.json",
+      "git_blob_sha": "bc03ccef1b2a852041ccd27d24de8fc9cfc3011d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
       "git_blob_sha": "02135adc819382ba6ee90c425be1f5e61520d24f",
       "baseline_delta_status": "added"
@@ -7068,6 +7112,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_ui_component_fabric_gate.py",
+      "git_blob_sha": "056927a7fcf75b25cf1a72249e5084d2cc1e1d0f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_upstream_lock_gate.py",
       "git_blob_sha": "a334a587b133126201aa5810d3433f38874ab472",
       "baseline_delta_status": "added"
@@ -7860,6 +7909,11 @@
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_ui_component_fabric_gate.py",
+      "git_blob_sha": "e93d8c7716f12882d04a50ef31b61850bf4dae32",
       "baseline_delta_status": "added"
     },
     {
