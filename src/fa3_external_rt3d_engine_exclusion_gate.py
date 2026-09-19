@@ -19,7 +19,7 @@ FORBIDDEN_SUBSTRINGS = (
     ".local/share/epic",
 )
 ENGINE_PATTERN = re.compile(
-    r"(?i)(?:\\bunreal(?:\\s+engine|editor(?:-cmd)?)?\\b|fa3_unreal|unreal_runtime|profile-unreal)"
+    r"(?i)(?:\bunreal(?:\s+engine|editor(?:-cmd)?)?\b|fa3_unreal|unreal_runtime|profile-unreal)"
 )
 UE_PATTERN = re.compile(r"(?i)(?:^|[^a-z0-9])ue5(?:[^a-z0-9]|$)")
 
