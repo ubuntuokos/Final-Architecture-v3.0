@@ -71,6 +71,7 @@ on:
       - 'tests/test_pytorch3d_build_readiness.py'
       - 'tests/test_wasmtime_bootstrap.py'
       - 'tests/test_global_current_host_workflow_trigger.py'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   pull_request:
     branches: [main]
@@ -141,6 +142,7 @@ on:
       - 'bin/fa3-enforce'
       - 'bin/fa3-bootstrap-wasmtime'
       - 'tests/test_global_current_host_workflow_trigger.py'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
     inputs:
