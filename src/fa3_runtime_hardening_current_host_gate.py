@@ -25,6 +25,8 @@ MATERIALIZATION_PATHS = {
     "manifest": "fa3-current-host/manifest.json",
     "workflow": ".github/workflows/fa3-runtime-hardening-current-host.yml",
     "shared": "src/fa3_runtime_hardening_current_host.py",
+    "evidence_helpers": "src/fa3_runtime_hardening_evidence.py",
+    "quadlet_template": "deployment/quadlet/fa3-agent-sandbox.container.in",
     "sandbox_collector": "evidence/collect-runtime-isolation-sandbox-current-host.py",
     "media_collector": "evidence/collect-media-gpu-zerocopy-current-host.py",
     "hu_aqc_collector": "evidence/collect-hu-aqc-current-host.py",
@@ -76,6 +78,12 @@ def _materialization_check(root: Path) -> tuple[list[dict[str, Any]], dict[str, 
         and gate_record.get("current_host_runner_required") is True
         and gate_record.get("global_promotion_claim") is False
         and gate_record.get("capability_count") == CAPABILITY_COUNT
+        and gate_record.get("installed_quadlet_required") is True
+        and gate_record.get("actual_runsc_runtime_required") is True
+        and gate_record.get("resource_admission_evidence_envelope_required") is True
+        and gate_record.get("frame_copy_trace_required") is True
+        and gate_record.get("pcie_copy_budget_is_zero_copy_proof") is False
+        and gate_record.get("component_pass_may_assign_global_promotion") is False
     ):
         findings.append(finding("HARDEN-HOST-004", "current-host gate-record invariant drift"))
 
@@ -88,6 +96,15 @@ def _materialization_check(root: Path) -> tuple[list[dict[str, Any]], dict[str, 
         and rules.get("github_hosted_substitution") == "DENY"
         and rules.get("sandbox_compatibility_smoke_as_production_isolation") == "DENY"
         and rules.get("media_full_pipeline_zero_copy_overclaim") == "DENY"
+        and rules.get("installed_quadlet_missing") == "DENY_CURRENT_HOST_PASS"
+        and rules.get("actual_runsc_runtime_missing") == "DENY_CURRENT_HOST_PASS"
+        and rules.get("resource_admission_envelope_missing_or_invalid") == "DENY_CURRENT_HOST_PASS"
+        and rules.get("pcie_copy_budget_as_zero_copy_proof") == "DENY"
+        and float(rules.get("pcie_copy_budget_sampling_interval_max_seconds", 1)) <= 0.025
+        and float(rules.get("pcie_copy_budget_ratio_max", 1)) <= 0.05
+        and rules.get("frame_copy_trace_missing") == "DENY_CURRENT_HOST_PASS"
+        and rules.get("frame_copy_trace_host_frame_copy_count_max") == 0
+        and rules.get("evidence_envelope_payload_sha256") == "REQUIRED"
         and rules.get("shadow_promotion_authority") == "DENY"
         and rules.get("global_promotion_effect") == "NONE"
     ):
@@ -148,10 +165,27 @@ def _materialization_check(root: Path) -> tuple[list[dict[str, Any]], dict[str, 
         "runs-on: [self-hosted, linux, x64, fa3-current-host]",
         "runtime-hardening-current-host",
         "--require-evidence",
+        "--resource-admission-receipt",
+        "--frame-copy-trace",
+        "--quadlet",
     ]
     for token in required_workflow_tokens:
         if token not in workflow:
             findings.append(finding("HARDEN-HOST-011", "current-host workflow contract drift", token=token))
+
+    quadlet_template = data["quadlet_template"]
+    required_quadlet_tokens = [
+        "Image=@FA3_IMAGE_DIGEST@",
+        "Network=none",
+        "ReadOnly=true",
+        "NoNewPrivileges=true",
+        "DropCapability=all",
+        "Pull=never",
+        "GlobalArgs=--runtime=runsc",
+    ]
+    for token in required_quadlet_tokens:
+        if token not in quadlet_template:
+            findings.append(finding("HARDEN-HOST-012", "reference Quadlet template drift", token=token))
     return findings, data
 
 
