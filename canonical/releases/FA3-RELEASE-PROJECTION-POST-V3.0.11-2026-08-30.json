@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "fb82c4c57ab5fc783a1451d5fb28e037537038c3",
-    "pre_projection_root_tree_sha": "f9bf29fad293a6d75db4b00b86195f769359e7de",
-    "pre_projection_canonical_tree_sha": "22920aff87605c37d8ad0736d486673be2a4ff2d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 438,
-    "total_post_baseline_commits": 438,
-    "delta_file_count": 1468,
-    "delta_added_files": 1463,
+    "pre_projection_head_sha": "06cc8948afad308caafe5aa64d71f16a2783f2a7",
+    "pre_projection_root_tree_sha": "fe1304b805f07ceb3b68df50e41f269fedd4d11a",
+    "pre_projection_canonical_tree_sha": "736a8df3a97dca74e19008f2b626f5b605a97ee5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 425,
+    "total_post_baseline_commits": 425,
+    "delta_file_count": 1470,
+    "delta_added_files": 1465,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 711,
     "evidence_files_in_post_baseline_delta": 134,
     "source_files_in_post_baseline_delta": 190,
-    "test_files_in_post_baseline_delta": 164,
+    "test_files_in_post_baseline_delta": 165,
     "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -770,7 +770,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1461,
+  "manifest_entry_count": 1463,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -844,7 +844,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "94cd02abea05b7b43fe2288527ea59c31d100cac",
+      "git_blob_sha": "540fd2415df1f2456bf2f1f991d205818fcb506a",
       "baseline_delta_status": "added"
     },
     {
@@ -1335,6 +1335,11 @@
     {
       "path": "bin/fa3-blackhole-whisper-e2e.sh",
       "git_blob_sha": "5cb52dccb47031ff59c5d6f17bbb1369861040da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-bootstrap-wasmtime",
+      "git_blob_sha": "fe32e6379b5e9541c9ea7320649b91fd70ef7a4c",
       "baseline_delta_status": "added"
     },
     {
@@ -7995,6 +8000,11 @@
     {
       "path": "tests/test_voice_synthesis_gate.py",
       "git_blob_sha": "692fa2edc15fd78870cbc3f24fe97879a93af322",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_wasmtime_bootstrap.py",
+      "git_blob_sha": "a326239b2415c38693b93edc4207cffcedc7e450",
       "baseline_delta_status": "added"
     },
     {
