@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import platform
+import re
 import shutil
 import stat
 import subprocess
@@ -406,6 +407,39 @@ def _activation_diagnostic(proc: subprocess.CompletedProcess[str] | None) -> tup
     return False, detail[:500] or f"returncode={proc.returncode}"
 
 
+def _dbus_name_owner(
+    busctl: str,
+    bus_name: str,
+    env: Mapping[str, str],
+) -> str | None:
+    """Resolve a live well-known D-Bus name to its unique owner without trusting provider APIs."""
+    try:
+        proc = subprocess.run(
+            [
+                busctl,
+                "--user",
+                "call",
+                "org.freedesktop.DBus",
+                "/org/freedesktop/DBus",
+                "org.freedesktop.DBus",
+                "GetNameOwner",
+                "s",
+                bus_name,
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if proc.returncode != 0:
+        return None
+    match = re.fullmatch(r'\s*s\s+"(:[A-Za-z0-9_.-]+)"\s*', proc.stdout or "")
+    return match.group(1) if match else None
+
+
 def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
     busctl = shutil.which("busctl")
     if not busctl or not env.get("DBUS_SESSION_BUS_ADDRESS"):
@@ -508,9 +542,40 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
                     "reference_activation_errors": activation_errors,
                     "standard_name_verified": False,
                     "compatibility_endpoint_verified": True,
+                    "reference_owner_verified": False,
+                    "reference_owner_unique_name": None,
                     "fa3_reference_adapter_only": True,
                     "introspection_format": "BUSCTL_XML_INTERFACE",
                 }
+
+            # Some D-Bus implementations can expose an activation alias whose
+            # well-known name is transient during startup. Bind fallback proof
+            # to the alias' live unique owner, then require the exact standard
+            # Secret Service interface on the standard object path. This does
+            # not trust any provider-private interface or claim system-wide
+            # org.freedesktop.secrets interoperability.
+            if activation_ok:
+                owner = _dbus_name_owner(busctl, alias, env)
+                if owner:
+                    owner_verify = _secret_service_introspect(busctl, owner, env)
+                    owner_interface = _secret_service_interface_proven(owner_verify)
+                    if owner_interface:
+                        return {
+                            "available": True,
+                            "live_name": False,
+                            "standard_interface": True,
+                            "dbus_activation_attempted": True,
+                            "reference_activation_attempted": True,
+                            "reference_activation_succeeded": reference_activation_succeeded,
+                            "reference_activation_method": "DBUS_START_SERVICE_BY_NAME",
+                            "reference_activation_errors": activation_errors,
+                            "standard_name_verified": False,
+                            "compatibility_endpoint_verified": True,
+                            "reference_owner_verified": True,
+                            "reference_owner_unique_name": owner,
+                            "fa3_reference_adapter_only": True,
+                            "introspection_format": "BUSCTL_XML_INTERFACE",
+                        }
             time.sleep(0.2)
 
     return {
@@ -524,6 +589,8 @@ def _secret_service_probe(env: Mapping[str, str]) -> dict[str, Any]:
         "reference_activation_errors": activation_errors,
         "standard_name_verified": False,
         "compatibility_endpoint_verified": False,
+        "reference_owner_verified": False,
+        "reference_owner_unique_name": None,
         "fa3_reference_adapter_only": False,
         "introspection_format": "BUSCTL_XML_INTERFACE",
     }
@@ -559,6 +626,8 @@ def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, An
         "secret_service_reference_activation_errors": secret_probe.get("reference_activation_errors", []),
         "secret_service_standard_name_verified": secret_probe.get("standard_name_verified", secret_service),
         "secret_service_compatibility_endpoint_verified": secret_probe.get("compatibility_endpoint_verified", False),
+        "secret_service_reference_owner_verified": secret_probe.get("reference_owner_verified", False),
+        "secret_service_reference_owner_unique_name": secret_probe.get("reference_owner_unique_name"),
         "secret_service_fa3_reference_adapter_only": secret_probe.get("fa3_reference_adapter_only", False),
         "secret_service_introspection_format": secret_probe.get("introspection_format"),
         "fa3_vault": _truthy(env.get("FA3_VAULT_AVAILABLE")),
@@ -657,6 +726,8 @@ def evaluate_desktop(
             "reference_activation_method": probes.get("secret_service_reference_activation_method"),
             "reference_activation_errors": probes.get("secret_service_reference_activation_errors", []),
             "compatibility_endpoint_verified": bool(probes.get("secret_service_compatibility_endpoint_verified")),
+            "reference_owner_verified": bool(probes.get("secret_service_reference_owner_verified")),
+            "reference_owner_unique_name": probes.get("secret_service_reference_owner_unique_name"),
             "fa3_reference_adapter_only": bool(probes.get("secret_service_fa3_reference_adapter_only")),
             "system_secret_service_interop": "PASS" if bool(probes.get("secret_service_standard_name_verified")) else "LIMITED",
             "introspection_format": probes.get("secret_service_introspection_format"),
