@@ -104,6 +104,7 @@
     "src/fa3_resource_admission_current_host_gate.py",
     "src/fa3_runtime_hardening_current_host.py",
     "src/fa3_runtime_hardening_current_host_gate.py",
+    "src/fa3_runtime_hardening_current_host_preflight.py",
     "src/fa3_stable_audio_3_gate.py",
     "tests/test_cap028_agent_execution_current_host.py",
     "tests/test_cosyvoice_gate.py",
@@ -114,6 +115,7 @@
     "tests/test_pageindex_mcp_gate.py",
     "tests/test_resource_admission_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_gate.py",
+    "tests/test_runtime_hardening_current_host_preflight.py",
     "tests/test_stable_audio_3_gate.py"
   ],
   "registered_current_host_surfaces": [
@@ -219,7 +221,8 @@
       "gate": "runtime-hardening-current-host",
       "activation": "REAL_SELF_HOSTED_CGROUPV2_PRELOADED_OCI_WASMTIME_GVISOR_PROOF_REQUIRED",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
-      "global_promotion_claim": false
+      "global_promotion_claim": false,
+      "preflight": "src/fa3_runtime_hardening_current_host_preflight.py"
     },
     {
       "name": "media-gpu-zero-host-round-trip",
@@ -270,5 +273,12 @@
     "command": "bin/fa3-current-host promote",
     "required_acceptance_criteria": 19,
     "global_promotion_claim_from_collection": false
+  },
+  "runtime_hardening_preflight": {
+    "entrypoint": "src/fa3_runtime_hardening_current_host_preflight.py",
+    "receipt": ".fa3-current-host/runtime-hardening/preflight.json",
+    "semantics": "FAIL_FAST_EXECUTION_READINESS_ONLY_NOT_RUNTIME_PASS",
+    "network_pull_allowed": false,
+    "global_promotion_claim": false
   }
 }
