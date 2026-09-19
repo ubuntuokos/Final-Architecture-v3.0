@@ -18,6 +18,8 @@ from fa3_desktop_admission import (
     classify_desktop,
     collect_runtime_probes,
     discover_current_user_session_environment,
+    _activation_result_code,
+    _dbus_activatable_names,
     _dbus_start_service_by_name,
     _reference_secret_service_activation_aliases,
     _secret_service_probe,
@@ -254,6 +256,31 @@ class DesktopPortabilityTests(unittest.TestCase):
             ],
         )
 
+    def test_activation_result_code_is_bounded_to_dbus_spec_values(self):
+        self.assertEqual(_activation_result_code(Mock(returncode=0, stdout="u 1\n", stderr="")), 1)
+        self.assertEqual(_activation_result_code(Mock(returncode=0, stdout="u 2\n", stderr="")), 2)
+        self.assertIsNone(_activation_result_code(Mock(returncode=0, stdout="u 99\n", stderr="")))
+        self.assertIsNone(_activation_result_code(Mock(returncode=1, stdout="", stderr="failed")))
+
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_activatable_name_snapshot_uses_standard_dbus_daemon_method(self, run):
+        run.return_value = Mock(
+            returncode=0,
+            stdout='as 3 "org.freedesktop.secrets" "org.example.SecretCompat" "org.example.Other"\n',
+            stderr="",
+        )
+        env = self._env("KDE", "wayland")
+        names = _dbus_activatable_names("/usr/bin/busctl", env)
+        self.assertEqual(
+            names,
+            {"org.freedesktop.secrets", "org.example.SecretCompat", "org.example.Other"},
+        )
+        self.assertEqual(run.call_args.args[0][-1], "ListActivatableNames")
+        self.assertEqual(
+            run.call_args.kwargs["env"]["DBUS_SESSION_BUS_ADDRESS"],
+            env["DBUS_SESSION_BUS_ADDRESS"],
+        )
+
     @patch("fa3_desktop_admission.subprocess.run")
     def test_reference_alias_activation_uses_dbus_daemon_start_service_by_name(self, run):
         run.return_value = Mock(returncode=0, stdout="u 1\n", stderr="")
@@ -395,6 +422,8 @@ class DesktopPortabilityTests(unittest.TestCase):
         self.assertFalse(probe["reference_activation_succeeded"])
         self.assertEqual(probe["reference_activation_method"], "DBUS_START_SERVICE_BY_NAME")
         self.assertTrue(any("service unknown" in item for item in probe["reference_activation_errors"]))
+        self.assertEqual(probe["reference_activation_results"][0]["bus_name"], "org.example.SecretCompat")
+        self.assertFalse(probe["reference_activation_results"][0]["accepted"])
         self.assertFalse(probe["standard_interface"])
 
     def test_plasma_reference_activation_hint_is_non_authoritative(self):
