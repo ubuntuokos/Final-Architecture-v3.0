@@ -195,6 +195,7 @@ def _loopback_server(directory: Path):
 
 
 def proof_knowledge_cache(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     source = scope / "source.txt"
     body = f"{cap} {subject} current-host knowledge sentinel"
     source.write_text(body + "\n", encoding="utf-8")
@@ -213,6 +214,7 @@ def proof_knowledge_cache(scope: Path, cap: str, subject: str) -> dict[str, Any]
 
 
 def proof_agent_process(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     code = (
         "import json,os;"
         f"print(json.dumps({{'capability_id':'{cap}','pid':os.getpid(),'status':'PASS'}}))"
@@ -227,6 +229,7 @@ def proof_agent_process(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_security_local(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     benign = scope / "benign.txt"
     flagged = scope / "flagged.txt"
     benign.write_text("ordinary local current-host content\n", encoding="utf-8")
@@ -255,6 +258,7 @@ def _find_any(names: tuple[str, ...]) -> tuple[str, str] | None:
 
 
 def proof_graphics_3d(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     found = _find_any(("bforartists", "bforartists-bin", "blender"))
     if not found:
         raise RuntimeError("Bforartists or Blender required")
@@ -268,6 +272,7 @@ def proof_graphics_3d(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_unreal_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     found = _find_any(("UnrealEditor-Cmd", "UnrealEditor"))
     if not found:
         raise RuntimeError("UnrealEditor/UnrealEditor-Cmd required")
@@ -280,6 +285,7 @@ def proof_unreal_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_pytorch3d_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     if importlib.util.find_spec("torch") is None or importlib.util.find_spec("pytorch3d") is None:
         raise RuntimeError("torch and pytorch3d modules required")
     code = (
@@ -298,6 +304,7 @@ def proof_pytorch3d_runtime(scope: Path, cap: str, subject: str) -> dict[str, An
 
 
 def proof_gpu_compute(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     smi = shutil.which("nvidia-smi")
     if not smi or importlib.util.find_spec("torch") is None:
         raise RuntimeError("nvidia-smi and torch required")
@@ -338,6 +345,7 @@ def _ffprobe(path: Path) -> dict[str, Any]:
 
 
 def proof_audio_local(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         raise RuntimeError("ffmpeg required")
@@ -357,6 +365,7 @@ def proof_audio_local(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_media_video(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         raise RuntimeError("ffmpeg required")
@@ -376,6 +385,7 @@ def proof_media_video(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_desktop_wayland(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     from fa3_desktop_admission import collect_runtime_probes, evaluate_desktop
     session_env = dict(os.environ)
     report = evaluate_desktop(session_env, collect_runtime_probes(session_env), require_gui=True)
@@ -394,6 +404,7 @@ def proof_desktop_wayland(scope: Path, cap: str, subject: str) -> dict[str, Any]
 
 
 def proof_document_publish(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     source = scope / "document.md"
     source.write_text(f"# {subject}\n\n{cap} current-host publication sentinel.\n", encoding="utf-8")
     source_hash = sha_file(source)
@@ -418,6 +429,7 @@ def proof_document_publish(scope: Path, cap: str, subject: str) -> dict[str, Any
 
 
 def proof_toolchain_build(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     compiler = _find_any(("cc", "gcc", "clang"))
     if not compiler:
         raise RuntimeError("C compiler required")
@@ -436,6 +448,7 @@ def proof_toolchain_build(scope: Path, cap: str, subject: str) -> dict[str, Any]
 
 
 def proof_storage_io(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     path = scope / "storage.bin"
     block = hashlib.sha256(f"{cap}:{subject}".encode()).digest()
     payload = block * (1024 * 1024 // len(block))
@@ -451,6 +464,7 @@ def proof_storage_io(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_network_loopback(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     page = scope / "index.txt"
     sentinel = f"{cap}:{subject}:LOOPBACK_PASS"
     page.write_text(sentinel + "\n", encoding="utf-8")
@@ -468,6 +482,7 @@ def proof_network_loopback(scope: Path, cap: str, subject: str) -> dict[str, Any
 
 
 def proof_system_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     cgroup = Path("/sys/fs/cgroup/cgroup.controllers")
     proc_status = Path("/proc/self/status")
     if not cgroup.is_file() or not proc_status.is_file():
@@ -488,6 +503,7 @@ def proof_system_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
 
 
 def proof_pipeline_transform(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     source = {"capability_id": cap, "subject": subject, "values": [3, 1, 2]}
     src = scope / "input.json"; write(src, source)
     db = sqlite3.connect(scope / "transform.sqlite3")
@@ -505,6 +521,7 @@ def proof_pipeline_transform(scope: Path, cap: str, subject: str) -> dict[str, A
 
 
 def proof_external_conditional(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    scope.mkdir(parents=True, exist_ok=True)
     # Exercise the local adapter boundary only. No third-party endpoint is contacted.
     return {
         **proof_network_loopback(scope, cap, subject),
