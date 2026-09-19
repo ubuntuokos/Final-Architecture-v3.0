@@ -35,3 +35,9 @@ CAP-027 is provider-neutral `Realtime / Virtual Production Interchange`. Proprie
 ## Fail-closed producer diagnostics
 
 When a registered qualification constituent producer rejects execution, the orchestrator preserves only the producer's bounded structured `REJECTED/findings` payload alongside the return code. Raw stdout/stderr is not promoted. Partial constituent/source-artifact trees are still removed on any blocking producer failure, and diagnostic preservation never converts rejection into PASS or promotion evidence.
+
+## Resource Fabric hardware-discovery evidence
+
+CAP-006 current-host qualification must evaluate the portable GPU floor from live NVIDIA CUDA compute capability, not from product or marketing names. GPU names and VRAM remain evidence-only. A visible NVIDIA accelerator qualifies the global baseline only when the discovered CUDA compute capability satisfies the canonical minimum.
+
+For cgroup v2 cpuset evidence, an empty leaf effective value must not be interpreted as zero available CPU or memory nodes when the effective allowance is inherited. The collector records the nearest non-empty effective ancestor together with its cgroup source path. This is discovery evidence only; HRB remains the exclusive admission and placement authority.
