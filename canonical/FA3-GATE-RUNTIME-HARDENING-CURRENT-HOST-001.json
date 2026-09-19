@@ -2,14 +2,25 @@
   "schema": "fa3.gate-record.v1",
   "id": "FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001",
   "gateset_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
-  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
+  "parent_gate_id": "FA3-GATE-RUNTIME-HARDENING-001",
+  "parent_gateset_id": "FA3-RUNTIME-HARDENING-GATESET-001",
+  "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-001",
   "priority": "P0",
   "fail_closed": true,
-  "executable": "PYTHONPATH=src python src/fa3_runtime_hardening_current_host_gate.py --root . --require-evidence",
-  "hosted_ci_reference_mode": "MATERIALIZATION_AND_NEGATIVE_REGRESSION_ONLY",
-  "current_host_runner_required": true,
-  "global_promotion_claim": false,
-  "capability_count": 143,
+  "mode": "CURRENT_HOST",
+  "executable": "./bin/fa3-enforce runtime-hardening-current-host",
+  "receipt": "evidence/receipts/runtime-hardening-current-host.json",
+  "checks": [
+    "CRIT-020-QUADLET-GVISOR-SANDBOX",
+    "CRIT-021-AGENT-BOUNDARY",
+    "CRIT-022A-PCIE-COPY-BUDGET",
+    "CRIT-022B-GPU-FRAME-ZERO-HOST-ROUND-TRIP"
+  ],
+  "missing_applicable_evidence": "BLOCKED",
+  "synthetic_fixture_may_produce_current_host_pass": false,
+  "component_pass_may_assign_global_promotion": false,
+  "current_host_runtime_promotion_claim": false,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
 }
