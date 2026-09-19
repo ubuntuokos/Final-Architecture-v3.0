@@ -36,5 +36,16 @@
     "breeze": "REFERENCE_APPEARANCE_ONLY",
     "runtime_dependency": false,
     "fa3_design_tokens_required": true
+  },
+  "secret_service_activation": {
+    "mode": "REFERENCE_PROVIDER_COMPATIBILITY_ACTIVATION_HINT",
+    "activation_bus_name": "org.kde.secretservicecompat",
+    "post_activation_standard_bus_name": "org.freedesktop.secrets",
+    "object_path": "/org/freedesktop/secrets",
+    "interface": "org.freedesktop.Secret.Service",
+    "standard_verification_required": true,
+    "core_requirement": false,
+    "architectural_authority": false,
+    "semantics": "ACTIVATION_HINT_ONLY_PASS_REQUIRES_STANDARD_SECRET_SERVICE_NAME_AND_INTERFACE"
   }
 }
