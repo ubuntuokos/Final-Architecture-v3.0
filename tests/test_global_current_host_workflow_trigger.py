@@ -49,6 +49,16 @@ class GlobalCurrentHostWorkflowTriggerTests(unittest.TestCase):
         self.assertEqual(sorted(EXECUTION_SENSITIVE_PATHS - push_paths), [])
         self.assertEqual(sorted(EXECUTION_SENSITIVE_PATHS - pr_paths), [])
 
+    def test_every_main_push_path_is_also_pr_validated(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        push_paths = _event_paths(text, "push", "pull_request")
+        pr_paths = _event_paths(text, "pull_request", "workflow_dispatch")
+        self.assertEqual(
+            sorted(push_paths - pr_paths),
+            [],
+            "a main-push-triggering current-host change must also be validated on pull_request",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
