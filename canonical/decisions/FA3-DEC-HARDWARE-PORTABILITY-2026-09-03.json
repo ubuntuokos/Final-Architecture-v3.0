@@ -3,7 +3,7 @@
   "id": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
   "date": "2026-09-03",
   "status": "ACCEPTED_MATERIALIZED",
-  "title": "FA3 model-agnostic 1..N CPU/GPU hardware portability baseline",
+  "title": "FA3 vendor-neutral model-agnostic 1..N CPU/accelerator hardware portability baseline",
   "decision": "CANONICALIZE_DYNAMIC_HARDWARE_FLOOR_AND_SUPERSEDE_FIXED_HOST_INTERPRETATIONS",
   "profile_id": "FA3-HARDWARE-BASELINE-001",
   "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
@@ -16,10 +16,12 @@
   "accepted": [
     "minimum one CPU package and at least eight physical cores per qualifying CPU",
     "one or more CPU packages discovered dynamically",
-    "minimum one NVIDIA RTX 30-series GPU or newer",
-    "one or more qualifying GPUs discovered dynamically",
-    "all newer RTX generations remain admissible when workload runtime capabilities are satisfied",
-    "live CPU core SMT cpuset NUMA memory PCIe GPU driver and runtime capability discovery",
+    "minimum one qualifying accelerator with no global vendor or runtime API requirement",
+    "NVIDIA AMD and Intel accelerators are supported through provider/workload capability negotiation",
+    "NVIDIA DGX is a supported platform family and is not a separate architectural authority",
+    "CUDA compute capability ROCm architecture and Level Zero/oneAPI requirements are provider/workload-scoped rather than global hardware-floor requirements",
+    "one or more qualifying accelerators discovered dynamically",
+    "live CPU core SMT cpuset NUMA memory PCIe accelerator driver and runtime capability discovery",
     "admission and placement through the existing Host Resource Broker",
     "exact current-host topology retained only as evidence or reference deployment data"
   ],
@@ -27,19 +29,34 @@
     "concrete CPU vendor or model",
     "fixed CPU package or socket count above the minimum",
     "static CPU ID lists or NUMA node IDs",
-    "concrete GPU SKU",
-    "fixed GPU count above the minimum",
-    "fixed VRAM size or SM value as the platform baseline",
+    "global accelerator vendor requirement",
+    "global CUDA ROCm Level Zero oneAPI or other runtime API requirement",
+    "global vendor-specific architecture or compute-capability floor",
+    "concrete accelerator SKU",
+    "fixed accelerator count above the minimum",
+    "fixed VRAM size or architecture name as the platform baseline",
     "fixed PCI BDF",
-    "fixed CUDA ordinal or CUDA_VISIBLE_DEVICES list",
-    "specific workstation or server model"
+    "fixed runtime ordinal or visible-device list",
+    "specific workstation server or DGX model"
   ],
   "supersedence": {
     "scope": "CANONICAL_INTERPRETATION_ONLY",
-    "rule": "Any earlier FA3 text or configuration that treats an exact CPU model, socket count, CPU list, NUMA node, GPU SKU, GPU count, PCI address or CUDA ordinal as a portable canonical requirement is superseded by this decision.",
+    "rule": "Any earlier FA3 text or configuration that treats an exact CPU model, socket count, CPU list, NUMA node, accelerator vendor/SKU/count, vendor runtime API/capability floor, PCI address or runtime ordinal as a portable canonical requirement is superseded by this decision.",
     "historical_and_current_host_evidence": "PRESERVED_AS_EVIDENCE_NOT_PORTABLE_DEFAULT",
     "reference_deployments": "PRESERVED_AS_NON_NORMATIVE_FIXTURES"
   },
   "authority_impact": "NONE_HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
-  "promotion_semantics": "REFERENCE_AND_REPOSITORY_AUDIT_PASS_DO_NOT_REPLACE_CURRENT_HOST_DISCOVERY_AND_ADMISSION_EVIDENCE"
+  "promotion_semantics": "REFERENCE_AND_REPOSITORY_AUDIT_PASS_DO_NOT_REPLACE_CURRENT_HOST_DISCOVERY_AND_ADMISSION_EVIDENCE",
+  "vendor_neutrality": {
+    "core_vendor_allowlist": "FORBIDDEN_AS_ADMISSION_AUTHORITY",
+    "supported_reference_vendor_families": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "supported_reference_platform_families": [
+      "NVIDIA_DGX"
+    ],
+    "provider_specific_constraints": "ALLOWED_ONLY_WHEN_WORKLOAD_SCOPED_AND_HRB_ADMITTED"
+  }
 }
