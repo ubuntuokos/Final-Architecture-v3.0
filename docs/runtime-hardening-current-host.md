@@ -39,6 +39,31 @@ runsc --rootless do is deliberately not accepted as production isolation proof b
 - The ephemeral workspace is destroyed.
 - The run cannot set PROMOTED or acquire promotion authority.
 
+
+## Real-execution preflight
+
+Before any of the four collectors run, the self-hosted workflow now executes `src/fa3_runtime_hardening_current_host_preflight.py`. It fails closed unless all execution prerequisites are already present on the current host.
+
+The preflight requires:
+
+- a PASS runner-doctor receipt proving the labeled runner is online;
+- rootless execution;
+- local `podman`, `wasmtime`, `runsc` and `nvidia-smi`;
+- locally importable `pynvml`, `PyNvVideoCodec` and `torch`;
+- an installed digest-pinned agent Quadlet with `Network=none`, read-only root, no-new-privileges, drop-all capabilities, `Pull=never` and `runsc`;
+- a running agent container whose actual Podman inspection resolves to `runsc`;
+- an immutable, already preloaded OCI image. Network pulling remains forbidden;
+- an exact host-attestation reference;
+- a valid PASS `CURRENT_HOST_ADMISSION` Evidence Envelope with HRB accelerator UUID/BDF binding;
+- a PASS `fa3.cuda-copy-trace.v1` produced by CUPTI, Nsight Systems or CUDA activity tracing, with zero frame H2D/D2H transfers and zero host frame round-trips;
+- the approved local media input;
+- the Hungarian PCM16 AQC audio and JSON scorer bundle;
+- nvproxy driver compatibility when GPU projection into the gVisor sandbox is explicitly requested.
+
+The result is written to `.fa3-current-host/runtime-hardening/preflight.json`.
+
+A preflight PASS means only `READY_FOR_REAL_EXECUTION`. It is not one of the four runtime-hardening surface PASS receipts, does not promote the component, and cannot claim global FA3 promotion.
+
 ## Operator execution
 
 Use the FA3 Runtime Hardening Current-Host Closure workflow with execute_current_host=true on the runner carrying all labels: self-hosted, linux, x64, fa3-current-host.
