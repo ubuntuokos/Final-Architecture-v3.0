@@ -60,3 +60,5 @@ A CI self-test proves the policy and deterministic compatibility cases only. It 
 A Plasma referencia-profilban az `org.kde.secretservicecompat` név kizárólag **aktiválási hint és diagnosztikai jel**. Nem FA3 capability-endpoint, nem architekturális autoritás, és önmagában akkor sem elég a portable Secret Backend PASS-hoz, ha a standard Secret Service interfészt exportálja.
 
 A portable PASS feltétele az aktiválási kísérlet után is ugyanaz: a kliensnek a szabványos `org.freedesktop.secrets` busznéven, a `/org/freedesktop/secrets` objektumon sikeresen kell introspektálnia az `org.freedesktop.Secret.Service` interfészt. Ha ez nem bizonyítható, a desktop admission fail-closed marad. A canonical FA3 Vault továbbra is külön, provider-semleges fallback lehet, ha saját admissionje PASS.
+
+A runtime bizonyítás a `busctl --user --xml-interface introspect` XML dokumentumát parszolja, és csak az objektumon deklarált pontos `org.freedesktop.Secret.Service` interfészt fogadja el. Az interfészre szűrt, emberi olvasásra szánt táblázatos `busctl introspect ... INTERFACE` kimenet nem identitás-bizonyíték, mert az csak tag-sorokat is tartalmazhat.
