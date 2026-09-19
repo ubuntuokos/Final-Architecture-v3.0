@@ -19,8 +19,8 @@ The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*
 
 ## Current materialization frontier
 
-After MAT-003, explicit registration coverage is **63/429 obligations** across twenty-one fully materialized capabilities; **366 obligations remain pending materialization**. MAT-001 contributes CAP-001 through CAP-005, MAT-002 contributes CAP-006 through CAP-010, and MAT-003 contributes CAP-011 through CAP-015, each with explicit positive, negative and rollback obligations.
+After MAT-004, explicit registration coverage is **78/429 obligations** across twenty-six fully materialized capabilities; **351 obligations remain pending materialization**. MAT-001 contributes CAP-001 through CAP-005, MAT-002 contributes CAP-006 through CAP-010, MAT-003 contributes CAP-011 through CAP-015, and MAT-004 contributes CAP-016 through CAP-020, each with explicit positive, negative and rollback obligations.
 
-Materialization does **not** mean runtime closure. `EXEC-001` (CAP-001 through CAP-005), `EXEC-002` (CAP-006 through CAP-010), and `EXEC-003` (CAP-011 through CAP-015) are execution-ready from the registry-derived planner but remain pending physical execution on the non-root self-hosted `fa3-current-host` runner. Until a physical run produces valid qualification constituents, capability test results, bundles, attestations and capability receipts, the affected Evidence Registry records remain pending and global promotion remains fail-closed.
+Materialization does **not** mean runtime closure. `EXEC-001` (CAP-001 through CAP-005), `EXEC-002` (CAP-006 through CAP-010), `EXEC-003` (CAP-011 through CAP-015), and `EXEC-004` (CAP-016 through CAP-020) are execution-ready from the registry-derived planner but remain pending physical execution on the non-root self-hosted `fa3-current-host` runner. Until a physical run produces valid qualification constituents, capability test results, bundles, attestations and capability receipts, the affected Evidence Registry records remain pending and global promotion remains fail-closed.
 
-The next deterministic materialization batch is **MAT-004 = CAP-016, CAP-017, CAP-018, CAP-019, CAP-020**.
+The next deterministic materialization batch is **MAT-005 = CAP-021, CAP-022, CAP-023, CAP-024, CAP-025**.
