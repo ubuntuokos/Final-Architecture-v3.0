@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "7eab813a131fd8709c8a773b97f7ce1067d6cb89",
-    "pre_projection_root_tree_sha": "7f91bfb8426544ffe56f32b1f19333d6daa45e53",
-    "pre_projection_canonical_tree_sha": "b30159449feba11a566c664aa24ae6bb852e2c98",
-    "commits_ahead_of_v3_0_11_conformance_commit": 431,
-    "total_post_baseline_commits": 431,
-    "delta_file_count": 1483,
-    "delta_added_files": 1478,
+    "pre_projection_head_sha": "c000a807203e19d471045bf0ba07fa1742be07e2",
+    "pre_projection_root_tree_sha": "fa7f461e0a217b138c7290d266cd5180c4858db3",
+    "pre_projection_canonical_tree_sha": "69dbfd20aa0f3c7ebd12fe2d09f45e201063ccf3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 432,
+    "total_post_baseline_commits": 432,
+    "delta_file_count": 1484,
+    "delta_added_files": 1479,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 716,
     "evidence_files_in_post_baseline_delta": 134,
     "source_files_in_post_baseline_delta": 193,
-    "test_files_in_post_baseline_delta": 169,
+    "test_files_in_post_baseline_delta": 170,
     "workflow_files_in_post_baseline_delta": 63,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -776,7 +776,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1476,
+  "manifest_entry_count": 1477,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -850,7 +850,7 @@
     },
     {
       "path": ".github/workflows/fa3-global-current-host-closure.yml",
-      "git_blob_sha": "077d5ef7ef8bb6fe8ed792b02ada1ef0c296ff8b",
+      "git_blob_sha": "9a42d8c416cbc000316194f21dfa9ea12a881e35",
       "baseline_delta_status": "added"
     },
     {
@@ -7551,6 +7551,11 @@
     {
       "path": "tests/test_gimp_comfyui_interop_gate.py",
       "git_blob_sha": "d06c6bfa247294828ebda84d0b327885576cdff6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_global_current_host_workflow_trigger.py",
+      "git_blob_sha": "b04032d83fed62932a0e264a607075cb02ccf9bb",
       "baseline_delta_status": "added"
     },
     {
