@@ -1,0 +1,135 @@
+name: FA3 Integration Broker
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'bin/fa3-integration-committer.py'
+      - 'bin/fa3-enforce'
+      - 'src/fa3_integration_broker.py'
+      - 'src/fa3_integration_broker_gate.py'
+      - 'src/fa3_podman_secret_negative_gate.py'
+      - 'src/fa3_enforce.py'
+      - 'tests/test_integration_broker.py'
+      - 'tests/test_secret_leak_negative.py'
+      - 'canonical/FA3-GATE-INTEGRATION-BROKER-001.json'
+      - 'canonical/FA3-PODMAN-SECRET-ISOLATION-CURRENT-HOST-CONFORMANCE-001.json'
+      - 'canonical/FA3-GATE-PODMAN-SECRET-ISOLATION-CURRENT-HOST-001.json'
+      - 'canonical/integration-broker-enforcement.json'
+      - 'canonical/schemas/**'
+      - 'canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json'
+      - 'canonical/enforcement-policy.json'
+      - '.gitignore'
+      - '.github/workflows/fa3-integration-broker.yml'
+  workflow_dispatch:
+    inputs:
+      execute_current_host:
+        description: 'Execute the real rootless Podman secret-isolation proof'
+        required: true
+        default: false
+        type: boolean
+      secret_test_image:
+        description: 'Preloaded immutable/non-latest OCI image with sh and sha256sum'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-integration-broker-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  regression:
+    name: integration-broker / regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare executable gates
+        run: chmod +x bin/fa3-enforce bin/fa3-integration-committer.py
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_integration_broker.py \
+            src/fa3_integration_broker_gate.py \
+            src/fa3_podman_secret_negative_gate.py \
+            bin/fa3-integration-committer.py \
+            tests/test_integration_broker.py \
+            tests/test_secret_leak_negative.py
+      - name: Broker and secret negative regressions
+        run: |
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_integration_broker.py' -v
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_secret_leak_negative.py' -v
+      - name: Integration broker canonical gate
+        run: ./bin/fa3-enforce integration-broker
+      - name: Hosted CI must not claim Podman current-host PASS
+        run: |
+          rm -f evidence/receipts/podman-secret-isolation-current-host.json
+          ./bin/fa3-enforce podman-secret-isolation-current-host
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('reports/podman-secret-isolation-current-host-gate-report.json').read_text())
+          assert report['result'] == 'PASS', report
+          assert report['status'] == 'PENDING_CURRENT_HOST', report
+          assert report['current_host_runtime_promotion_claim'] is False, report
+          assert report['global_promotion_claim'] is False, report
+          PY
+      - name: Global static enforcement
+        run: ./bin/fa3-enforce static
+      - name: Upload reference reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-integration-broker-reference
+          if-no-files-found: warn
+          path: |
+            reports/integration-broker-gate-report.json
+            reports/podman-secret-isolation-current-host-gate-report.json
+            reports/static-gate-report.json
+
+  current-host:
+    name: integration-broker / podman-secret-current-host
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    needs: regression
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Prove runner identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          chmod +x bin/fa3-current-host-runner-doctor bin/fa3-enforce
+          ./bin/fa3-current-host-runner-doctor
+      - name: Execute real Podman secret isolation proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 src/fa3_podman_secret_negative_gate.py \
+            --root . \
+            --collect \
+            --require-evidence \
+            --image "${{ inputs.secret_test_image }}"
+      - name: Upload current-host receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-podman-secret-isolation-current-host
+          if-no-files-found: warn
+          path: |
+            evidence/receipts/podman-secret-isolation-current-host.json
+            reports/podman-secret-isolation-current-host-gate-report.json
