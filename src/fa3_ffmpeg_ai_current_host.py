@@ -17,12 +17,6 @@ CURRENT_HOST_EXECUTABLE_GATE_ID = "FA3-GATE-FFMPEG-AI-CURRENT-HOST-001"
 CURRENT_HOST_CONFORMANCE_ID = "FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001"
 EVIDENCE_LEVEL = "CURRENT_HOST_FFMPEG_NEURAL_MEDIA_E2E_PASS"
 HRB_AUTHORITY_ID = "FA3-AUTH-HOST-RESOURCE-BROKER-001"
-EXPECTED_MACHINE = "Dell Precision Tower 7910"
-EXPECTED_CPU_TOKEN = "E5-2696 v4"
-REFERENCE_PHYSICAL_CORES = 44
-REFERENCE_LOGICAL_CPUS = 88
-REFERENCE_NUMA_DOMAINS = 2
-
 REQUIRED_BUILD_FLAGS = {
     "--enable-libonnxruntime",
     "--enable-libopenvino",
@@ -264,18 +258,20 @@ def validate_current_host_receipt(receipt: dict[str, Any]) -> list[dict[str, Any
         fail("FFMPEG-AI-HOST-001", "current-host receipt identity/status/evidence level mismatch")
 
     hw = receipt.get("hardware", {})
+    cores_per_package = hw.get("physical_cores_per_package", [])
     if not (
         hw.get("source") == "LIVE_SYSFS_PROCFS_NVML"
-        and hw.get("machine") == EXPECTED_MACHINE
-        and hw.get("cpu_model_match") is True
-        and hw.get("packages") == 2
-        and hw.get("physical_cores") == REFERENCE_PHYSICAL_CORES
-        and hw.get("logical_cpus") == REFERENCE_LOGICAL_CPUS
-        and hw.get("numa_domains") == REFERENCE_NUMA_DOMAINS
+        and int(hw.get("packages", 0) or 0) >= 1
+        and int(hw.get("physical_cores", 0) or 0) >= 8
+        and isinstance(cores_per_package, list)
+        and bool(cores_per_package)
+        and all(int(value) >= 8 for value in cores_per_package)
+        and int(hw.get("logical_cpus", 0) or 0) >= int(hw.get("physical_cores", 0) or 0)
+        and int(hw.get("numa_domains", 0) or 0) >= 1
         and valid_digest(hw.get("fingerprint_sha256"))
-        and hw.get("hardware_semantics") == "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT"
+        and hw.get("hardware_semantics") == "FRESH_CURRENT_HOST_TOPOLOGY_NOT_CANONICAL_IDENTITY"
     ):
-        fail("FFMPEG-AI-HOST-002", "live T7910 hardware evidence mismatch")
+        fail("FFMPEG-AI-HOST-002", "fresh vendor-neutral CPU/NUMA hardware evidence mismatch")
 
     feature = receipt.get("ffmpeg_feature_manifest", {})
     if not feature_manifest_valid(feature):
