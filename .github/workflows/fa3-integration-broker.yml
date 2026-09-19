@@ -58,9 +58,17 @@ jobs:
         run: chmod +x bin/fa3-enforce bin/fa3-integration-committer.py
       - name: Syntax check
         run: |
-          python -m py_compile             src/fa3_integration_broker.py             src/fa3_integration_broker_gate.py             src/fa3_podman_secret_negative_gate.py             bin/fa3-integration-committer.py             tests/test_integration_broker.py             tests/test_secret_leak_negative.py
+          python -m py_compile \
+            src/fa3_integration_broker.py \
+            src/fa3_integration_broker_gate.py \
+            src/fa3_podman_secret_negative_gate.py \
+            bin/fa3-integration-committer.py \
+            tests/test_integration_broker.py \
+            tests/test_secret_leak_negative.py
       - name: Broker and secret negative regressions
-        run: |\n          PYTHONPATH=src python -m unittest discover -s tests -p 'test_integration_broker.py' -v\n          PYTHONPATH=src python -m unittest discover -s tests -p 'test_secret_leak_negative.py' -v
+        run: |
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_integration_broker.py' -v
+          PYTHONPATH=src python -m unittest discover -s tests -p 'test_secret_leak_negative.py' -v
       - name: Integration broker canonical gate
         run: ./bin/fa3-enforce integration-broker
       - name: Hosted CI must not claim Podman current-host PASS
@@ -111,7 +119,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          PYTHONPATH=src python3 src/fa3_podman_secret_negative_gate.py             --root .             --collect             --require-evidence             --image "${{ inputs.secret_test_image }}"
+          PYTHONPATH=src python3 src/fa3_podman_secret_negative_gate.py \
+            --root . \
+            --collect \
+            --require-evidence \
+            --image "${{ inputs.secret_test_image }}"
       - name: Upload current-host receipt
         if: always()
         uses: actions/upload-artifact@v4
