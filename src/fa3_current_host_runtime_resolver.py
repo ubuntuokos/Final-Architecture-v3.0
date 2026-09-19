@@ -151,80 +151,9 @@ def resolve_python_runtime(*, require_torch: bool, require_pytorch3d: bool, requ
     }
 
 
-def approved_unreal_roots() -> list[Path]:
-    roots = [
-        Path("/opt"),
-        Path("/usr/local"),
-        Path("/AI-modells"),
-        Path("/opt/AI-modells"),
-        Path.home() / "UnrealEngine",
-        Path.home() / ".local/share/Epic",
-        Path.home() / ".local/share/fa3",
-    ]
-    override = os.environ.get("FA3_UNREAL_ROOT")
-    if override:
-        roots.insert(0, Path(override))
-    return _dedupe(roots)
-
-
-def candidate_unreal_binaries() -> list[Path]:
-    candidates: list[Path] = []
-    override = os.environ.get("FA3_UNREAL_EDITOR")
-    if override:
-        candidates.append(Path(override))
-    for name in ("UnrealEditor-Cmd", "UnrealEditor"):
-        path = shutil.which(name)
-        if path:
-            candidates.append(Path(path))
-
-    fixed = [
-        Path("/opt/UnrealEngine/Engine/Binaries/Linux/UnrealEditor-Cmd"),
-        Path("/opt/UnrealEngine/Engine/Binaries/Linux/UnrealEditor"),
-        Path.home() / "UnrealEngine/Engine/Binaries/Linux/UnrealEditor-Cmd",
-        Path.home() / "UnrealEngine/Engine/Binaries/Linux/UnrealEditor",
-    ]
-    candidates.extend(fixed)
-
-    for root in approved_unreal_roots():
-        if not root.exists():
-            continue
-        try:
-            for pattern in (
-                "UnrealEngine*/Engine/Binaries/Linux/UnrealEditor-Cmd",
-                "UnrealEngine*/Engine/Binaries/Linux/UnrealEditor",
-                "*/UnrealEngine*/Engine/Binaries/Linux/UnrealEditor-Cmd",
-                "*/UnrealEngine*/Engine/Binaries/Linux/UnrealEditor",
-                "*/Engine/Binaries/Linux/UnrealEditor-Cmd",
-                "*/Engine/Binaries/Linux/UnrealEditor",
-            ):
-                candidates.extend(root.glob(pattern))
-        except OSError:
-            pass
-    return [p for p in _dedupe(candidates) if p.is_file() and os.access(p, os.X_OK)]
-
-
-def probe_unreal(path: Path) -> dict[str, Any]:
-    proc = run([str(path), "-Version", "-Unattended", "-NullRHI"], 90)
-    output = (proc.stdout + "\n" + proc.stderr).strip()
-    return {
-        "path": str(path),
-        "returncode": proc.returncode,
-        "output_present": bool(output),
-        "output_tail": output[-1500:],
-        "probe_status": "PASS" if proc.returncode == 0 and bool(output) else "ERROR",
-    }
-
-
-def resolve_unreal_runtime() -> dict[str, Any]:
-    probes = [probe_unreal(path) for path in candidate_unreal_binaries()]
-    selected = next((row for row in probes if row.get("probe_status") == "PASS"), None)
-    return {"selected": selected, "candidates": probes}
-
-
 if __name__ == "__main__":
     payload = {
         "gpu_python": resolve_python_runtime(require_torch=True, require_pytorch3d=False, require_cuda=True),
         "pytorch3d_python": resolve_python_runtime(require_torch=True, require_pytorch3d=True, require_cuda=False),
-        "unreal": resolve_unreal_runtime(),
     }
     print(json.dumps(payload, indent=2))
