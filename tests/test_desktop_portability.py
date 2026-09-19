@@ -228,11 +228,20 @@ class DesktopPortabilityTests(unittest.TestCase):
             seen.append((name, supplied.get("DBUS_SESSION_BUS_ADDRESS")))
             return True
 
-        with patch("fa3_desktop_admission._dbus_name_present", side_effect=probe):
+        verified = Mock(
+            returncode=0,
+            stdout="org.freedesktop.Secret.Service interface - -\n",
+            stderr="",
+        )
+        with (
+            patch("fa3_desktop_admission._dbus_name_present", side_effect=probe),
+            patch("fa3_desktop_admission._secret_service_introspect", return_value=verified),
+        ):
             probes = collect_runtime_probes(env)
         self.assertTrue(probes["portal"])
         self.assertTrue(probes["secret_service"])
         self.assertTrue(probes["secret_service_live_name"])
+        self.assertTrue(probes["secret_service_standard_interface"])
         self.assertFalse(probes["secret_service_dbus_activation_attempted"])
         self.assertEqual(
             seen,
@@ -279,7 +288,7 @@ class DesktopPortabilityTests(unittest.TestCase):
 
     @patch("fa3_desktop_admission._reference_secret_service_activation_aliases", return_value=["org.example.SecretCompat"])
     @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
-    @patch("fa3_desktop_admission._dbus_name_present", side_effect=[False, True])
+    @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
     @patch("fa3_desktop_admission.subprocess.run")
     def test_reference_activation_hint_must_end_in_standard_service(
         self,
