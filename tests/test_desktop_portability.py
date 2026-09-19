@@ -18,6 +18,7 @@ from fa3_desktop_admission import (
     classify_desktop,
     collect_runtime_probes,
     discover_current_user_session_environment,
+    _secret_service_probe,
     evaluate_desktop,
     regression_check,
     self_test,
@@ -214,6 +215,8 @@ class DesktopPortabilityTests(unittest.TestCase):
             probes = collect_runtime_probes(env)
         self.assertTrue(probes["portal"])
         self.assertTrue(probes["secret_service"])
+        self.assertTrue(probes["secret_service_live_name"])
+        self.assertFalse(probes["secret_service_dbus_activation_attempted"])
         self.assertEqual(
             seen,
             [
@@ -221,6 +224,69 @@ class DesktopPortabilityTests(unittest.TestCase):
                 ("org.freedesktop.secrets", env["DBUS_SESSION_BUS_ADDRESS"]),
             ],
         )
+
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_secret_service_standard_introspection_may_activate_provider(
+        self,
+        run,
+        _present,
+        _which,
+    ):
+        run.return_value.returncode = 0
+        run.return_value.stdout = "org.freedesktop.Secret.Service interface - -\n"
+        run.return_value.stderr = ""
+        env = self._env("KDE", "wayland")
+        probe = _secret_service_probe(env)
+        self.assertTrue(probe["available"])
+        self.assertFalse(probe["live_name"])
+        self.assertTrue(probe["standard_interface"])
+        self.assertTrue(probe["dbus_activation_attempted"])
+        argv = run.call_args.args[0]
+        self.assertEqual(
+            argv,
+            [
+                "/usr/bin/busctl",
+                "--user",
+                "introspect",
+                "org.freedesktop.secrets",
+                "/org/freedesktop/secrets",
+                "org.freedesktop.Secret.Service",
+            ],
+        )
+        self.assertEqual(
+            run.call_args.kwargs["env"]["DBUS_SESSION_BUS_ADDRESS"],
+            env["DBUS_SESSION_BUS_ADDRESS"],
+        )
+
+    @patch("fa3_desktop_admission.shutil.which", return_value="/usr/bin/busctl")
+    @patch("fa3_desktop_admission._dbus_name_present", return_value=False)
+    @patch("fa3_desktop_admission.subprocess.run")
+    def test_secret_service_activation_failure_remains_fail_closed(
+        self,
+        run,
+        _present,
+        _which,
+    ):
+        run.return_value.returncode = 1
+        run.return_value.stdout = ""
+        run.return_value.stderr = "service unavailable"
+        env = self._env("KDE", "wayland")
+        probe = _secret_service_probe(env)
+        self.assertFalse(probe["available"])
+        self.assertTrue(probe["dbus_activation_attempted"])
+        probes = {**FULL_PROBES, "secret_service": probe["available"], "fa3_vault": False}
+        report = evaluate_desktop(env, probes, require_gui=True)
+        self.assertEqual(report["result"], "FAIL")
+        self.assertEqual(report["capabilities"]["secret_backend"], "FAIL")
+
+    def test_secret_service_probe_remains_provider_neutral(self):
+        text = (ROOT / "src/fa3_desktop_admission.py").read_text(encoding="utf-8")
+        self.assertIn("org.freedesktop.secrets", text)
+        self.assertIn("org.freedesktop.Secret.Service", text)
+        for forbidden in ("kwallet-query", "kwalletd6", "ksecretd", "org.kde.KWallet"):
+            self.assertNotIn(forbidden, text)
 
     def test_headless_fails_when_gui_is_required(self):
         report = evaluate_desktop({}, {key: False for key in FULL_PROBES}, require_gui=True)

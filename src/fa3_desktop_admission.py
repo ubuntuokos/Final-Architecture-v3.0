@@ -297,18 +297,89 @@ def _dbus_name_present(name: str, env: Mapping[str, str] | None = None) -> bool:
     return proc.returncode == 0 and name in proc.stdout
 
 
+def _secret_service_probe(env: Mapping[str, str]) -> dict[str, bool]:
+    live_name = _dbus_name_present("org.freedesktop.secrets", env)
+    if live_name:
+        return {
+            "available": True,
+            "live_name": True,
+            "standard_interface": True,
+            "dbus_activation_attempted": False,
+        }
+
+    busctl = shutil.which("busctl")
+    if not busctl or not env.get("DBUS_SESSION_BUS_ADDRESS"):
+        return {
+            "available": False,
+            "live_name": False,
+            "standard_interface": False,
+            "dbus_activation_attempted": False,
+        }
+
+    # A standards-only Introspect call is intentionally used here: D-Bus may
+    # activate an installed Secret Service provider, but no secret is read,
+    # written, unlocked, or provider-specific API invoked.
+    try:
+        proc = subprocess.run(
+            [
+                busctl,
+                "--user",
+                "introspect",
+                "org.freedesktop.secrets",
+                "/org/freedesktop/secrets",
+                "org.freedesktop.Secret.Service",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return {
+            "available": False,
+            "live_name": False,
+            "standard_interface": False,
+            "dbus_activation_attempted": True,
+        }
+
+    standard_interface = (
+        proc.returncode == 0
+        and "org.freedesktop.Secret.Service" in proc.stdout
+    )
+    return {
+        "available": standard_interface,
+        "live_name": False,
+        "standard_interface": standard_interface,
+        "dbus_activation_attempted": True,
+    }
+
+
 def collect_runtime_probes(env: Mapping[str, str] | None = None) -> dict[str, bool]:
     env = dict(os.environ if env is None else env)
     portal_override = env.get("FA3_DESKTOP_PORTAL_AVAILABLE")
     secret_override = env.get("FA3_SECRET_SERVICE_AVAILABLE")
     portal = _truthy(portal_override) if portal_override is not None else _dbus_name_present("org.freedesktop.portal.Desktop", env)
-    secret_service = _truthy(secret_override) if secret_override is not None else _dbus_name_present("org.freedesktop.secrets", env)
+    secret_probe = (
+        {
+            "available": _truthy(secret_override),
+            "live_name": _truthy(secret_override),
+            "standard_interface": _truthy(secret_override),
+            "dbus_activation_attempted": False,
+        }
+        if secret_override is not None
+        else _secret_service_probe(env)
+    )
+    secret_service = secret_probe["available"]
     return {
         "linux_host": platform.system().lower() == "linux",
         "xdg_runtime": bool(env.get("XDG_RUNTIME_DIR")),
         "dbus_session": bool(env.get("DBUS_SESSION_BUS_ADDRESS")),
         "portal": portal,
         "secret_service": secret_service,
+        "secret_service_live_name": secret_probe["live_name"],
+        "secret_service_standard_interface": secret_probe["standard_interface"],
+        "secret_service_dbus_activation_attempted": secret_probe["dbus_activation_attempted"],
         "fa3_vault": _truthy(env.get("FA3_VAULT_AVAILABLE")),
         "uri_open": bool(shutil.which("xdg-open")) or portal,
         "notifications": bool(shutil.which("notify-send")) or portal,
