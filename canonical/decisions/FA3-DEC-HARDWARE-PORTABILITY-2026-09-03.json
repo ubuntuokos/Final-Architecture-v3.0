@@ -16,7 +16,7 @@
   "accepted": [
     "minimum one CPU package and at least eight physical cores per qualifying CPU",
     "one or more CPU packages discovered dynamically",
-    "minimum one NVIDIA RTX 30-series GPU or newer",
+    "minimum one NVIDIA accelerator with CUDA compute capability >= 8.6; marketing series/SKU is not admission authority",
     "one or more qualifying GPUs discovered dynamically",
     "all newer RTX generations remain admissible when workload runtime capabilities are satisfied",
     "live CPU core SMT cpuset NUMA memory PCIe GPU driver and runtime capability discovery",
@@ -41,5 +41,15 @@
     "reference_deployments": "PRESERVED_AS_NON_NORMATIVE_FIXTURES"
   },
   "authority_impact": "NONE_HRB_REMAINS_EXCLUSIVE_RESOURCE_AUTHORITY",
-  "promotion_semantics": "REFERENCE_AND_REPOSITORY_AUDIT_PASS_DO_NOT_REPLACE_CURRENT_HOST_DISCOVERY_AND_ADMISSION_EVIDENCE"
+  "promotion_semantics": "REFERENCE_AND_REPOSITORY_AUDIT_PASS_DO_NOT_REPLACE_CURRENT_HOST_DISCOVERY_AND_ADMISSION_EVIDENCE",
+  "reinterpretation_2026_09_20": {
+    "status": "CANONICAL_CLARIFICATION",
+    "primary_gate": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+    "primary_gate_role": "FIRST_MANDATORY_CROSS_CUTTING_ARCHITECTURE_GATE",
+    "desktop_semantics": "WAYLAND_PREFERRED_X11_SUPPORTED_DESKTOP_AGNOSTIC_CORE",
+    "resource_semantics": "HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+    "evidence_semantics": "STATIC_REFERENCE_PASS_NEVER_EQUALS_PHYSICAL_CURRENT_HOST_PASS",
+    "pcie_semantics": "PCIE_COPY_BUDGET_IS_SUPPORTING_TELEMETRY_ONLY_ZERO_HOST_ROUND_TRIP_REQUIRES_GPU_COPY_TRACE",
+    "repository_audit_semantics": "GENERIC_MACHINE_SKU_BDF_AND_FIXED_TOPOLOGY_PATTERNS_MUST_BE_DETECTED_NOT_ONLY_KNOWN_REFERENCE_HOST_VALUES"
+  }
 }
