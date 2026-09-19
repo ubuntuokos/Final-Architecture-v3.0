@@ -9,7 +9,7 @@
   "decision_id": "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
   "parent_profile_id": "FA3-HW-001",
   "fail_closed": true,
-  "mandatory_checks": 24,
+  "mandatory_checks": 31,
   "entrypoint": "src/fa3_hardware_portability_gate.py",
   "test": "tests/test_hardware_portability_gate.py",
   "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
@@ -17,5 +17,17 @@
   "report_path": "reports/hardware-portability-gate-report.json",
   "current_host_runtime_promotion_claim": false,
   "capability_count": 143,
-  "promotion_semantics": "Canonical and repository-audit PASS is design/reference evidence only; real hosts must still pass live discovery, HRB admission and workload-specific current-host evidence."
+  "promotion_semantics": "Canonical and repository-audit PASS is design/reference evidence only; real hosts must still pass live discovery, HRB admission and workload-specific current-host evidence.",
+  "audit_role": "FIRST_MANDATORY_CROSS_CUTTING_ARCHITECTURE_GATE",
+  "primary_audit_precondition": true,
+  "cross_cutting_scope": [
+    "HARDWARE_PORTABILITY",
+    "DESKTOP_PROTOCOL_PORTABILITY",
+    "HRB_RESOURCE_ADMISSION",
+    "EVIDENCE_SCOPE_SEPARATION",
+    "PCIE_ZERO_HOST_ROUND_TRIP_PROOF_SEMANTICS"
+  ],
+  "reinterpretation_date": "2026-09-20",
+  "physical_current_host_claim_requires_real_execution": true,
+  "pcie_copy_budget_is_zero_copy_proof": false
 }
