@@ -1,13 +1,14 @@
 # PyTorch3D integráció az FA3-ban
 
-A `facebookresearch/pytorch3d` a `FA3-PROVIDER-PYTORCH3D-001` alatt kötelezően támogatott referencia és feltételes helyi végrehajtó provider. Nem új 3D-rendszergyökér: a `FA3-DIFFERENTIABLE-3D-001` nem-root alprofil a `FA3-3D-GEOM-001` egyetlen canonical geometry authority alatt, és kizárólag a már létező `CAP-032 — Metric 3D Reconstruction` képességet vetíti ki.
+A `facebookresearch/pytorch3d` a `FA3-PROVIDER-PYTORCH3D-001` alatt kötelezően auditált referencia és feltételes kompatibilitási provider. Nem új 3D-rendszergyökér, és 2026-09-19-től **nem CAP-032 globális runtime hard dependency**. A `FA3-DIFFERENTIABLE-3D-001` nem-root alprofil a `FA3-3D-GEOM-001` egyetlen canonical geometry authority alatt; a CAP-032 core current-host proof provider-neutral, a PyTorch3D pedig csak explicit provider-választás esetén szükséges.
 
 ## Aktuális admission állapot
 
 - Canonical és executable reference gate: `PASS`.
 - Forrás: `facebookresearch/pytorch3d@0a7d4c1a171e8b768c63f15b17564f9ad495f49b`.
 - Licenc: BSD-3-Clause.
-- Runtime: `PENDING_CURRENT_HOST`.
+- Provider-specifikus runtime: `PENDING_CURRENT_HOST`.
+- CAP-032 core closure függ ettől: **nem**.
 - Production promotion: nincs engedélyezve.
 - Capability-k száma: változatlanul 143.
 - Új architectural authority: 0.
@@ -57,7 +58,7 @@ A builder exact source pint, tiszta tracked source tree-t, izolált venvet, CUDA
 
 ## Current-host E2E
 
-A source-built wheelt előbb a megadott izolált venvbe kell telepíteni `--no-index --no-deps` módban, majd az alábbi collector futtatható:
+A source-built wheelt csak akkor kell materializálni, ha egy job kifejezetten a PyTorch3D providert választja. A wheelt előbb a megadott izolált venvbe kell telepíteni `--no-index --no-deps` módban, majd az alábbi collector futtatható:
 
 ```bash
 ./bin/fa3-pytorch3d-current-host.sh \
@@ -73,3 +74,8 @@ A source-built wheelt előbb a megadott izolált venvbe kell telepíteni `--no-i
 A collector valódi CUDA-extension importot, mesh/pointcloud műveletet, Chamfer-gradienst, mesh rasterizálást, kamera-transzformációt, marching cubes műveletet, OBJ/PLY roundtripet és Pulsar renderelést futtat. Negatív teszt igazolja, hogy hibás CUDA-eszköznél fail-closed hiba keletkezik, és a hívó aktív eszköze nem változik. A probe subprocess kilépése után a collector ellenőrzi, hogy a folyamat GPU-contextje megszűnt.
 
 A `fa3-pytorch3d-current-host.yml` workflow csak manuálisan indul a `[self-hosted, linux, x64, fa3-current-host]` runneren. A receipt megszületéséig a `CAP-032` globális runtime státusza változatlanul `PENDING_CURRENT_HOST`; reference vagy dokumentumalapú PASS nem promóció.
+
+
+## 2026-09-19 provider-fabric korrekció
+
+A CAP-032 provider-neutral core proof és a provider-szerepek részletes leírása: `docs/metric-3d-provider-fabric.md`. A PyTorch3D referencia gate továbbra is fail-closed, de a PyTorch3D current-host runtime PASS nem előfeltétele a CAP-032 core current-host closure-nek.

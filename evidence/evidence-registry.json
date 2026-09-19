@@ -1769,7 +1769,8 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-PYTORCH3D-2026-09-11"
+        "FA3-DEC-PYTORCH3D-2026-09-11",
+        "FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -1787,7 +1788,23 @@
         "runtime_status": "PENDING_CURRENT_HOST",
         "production_admitted": false,
         "current_host_runtime_evidence": "PENDING_REAL_SOURCE_BUILD_CUDA_KERNEL_RENDER_METRIC_LIFECYCLE_AND_ROLLBACK_E2E",
-        "reference_pass_does_not_promote_runtime": true
+        "reference_pass_does_not_promote_runtime": true,
+        "cap032_global_runtime_hard_dependency": false,
+        "runtime_promotion_required_for_cap032_core_closure": false
+      },
+      "metric_3d_provider_fabric_status": {
+        "core_primitive": "metric_3d_reconstruction",
+        "core_current_host_proof": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "global_single_provider_hard_dependency": false,
+        "provider_selection": "EXPLICIT_TYPED_JOB_ADMISSION_NO_SILENT_FALLBACK",
+        "providers": {
+          "open3d": "FA3-PROVIDER-OPEN3D-001",
+          "kaolin": "FA3-PROVIDER-KAOLIN-001",
+          "pytorch3d": "FA3-PROVIDER-PYTORCH3D-001",
+          "nvdiffrast": "FA3-PROVIDER-NVDIFFRAST-001"
+        },
+        "nvdiffrast_production_admitted": false,
+        "global_promotion_claim": false
       }
     },
     {

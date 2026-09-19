@@ -1,0 +1,88 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPEN3D-001",
+  "name": "isl-org/Open3D",
+  "status": "ACCEPTED_PREFERRED_GENERAL_METRIC_3D_PROVIDER_CONDITIONAL_RUNTIME",
+  "provider_role": "GENERAL_3D_DATA_PROCESSING_REGISTRATION_RECONSTRUCTION_AND_METRIC_GEOMETRY_EXECUTION_PROVIDER",
+  "classification": [
+    "PREFERRED_SUPPORTED_PROVIDER",
+    "LOCAL_FIRST",
+    "OFFICIAL_BINARY_AVAILABLE",
+    "MIT_LICENSE",
+    "CPU_AND_ACCELERATOR_CAPABLE",
+    "NOT_CAP032_GLOBAL_HARD_DEPENDENCY"
+  ],
+  "profile_ids": [
+    "FA3-3D-GEOM-001"
+  ],
+  "contract_ids": [
+    "FA3-GEOMETRY-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "isl-org/Open3D",
+    "verified_on": "2026-09-19",
+    "release_reference": "v0.20.0",
+    "release_date": "2026-09-16",
+    "release_commit_short": "b6c5e19",
+    "license": "MIT",
+    "supported_python": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13",
+      "3.14"
+    ],
+    "linux_x86_64_standard_wheel": "CUDA_ENABLED",
+    "cpu_only_wheel": "open3d-cpu",
+    "intel_xpu_wheel": "open3d-xpu",
+    "cuda_build_support": "CUDA_12"
+  },
+  "capability_surface": [
+    "pointcloud_processing",
+    "mesh_processing",
+    "surface_registration",
+    "scene_reconstruction",
+    "poisson_surface_reconstruction",
+    "icp_and_ndt_registration",
+    "gpu_accelerated_tensor_geometry",
+    "gaussian_splat_visualization",
+    "obj_ply_and_common_3d_interchange"
+  ],
+  "activation": {
+    "mode": "CONDITIONAL_BY_TYPED_CAP032_JOB",
+    "global_current_host_hard_dependency": false,
+    "requires_hrb_lease_for_accelerator_execution": true,
+    "cpu_execution_allowed_when_explicitly_requested_by_job": true,
+    "silent_gpu_cpu_provider_fallback": false,
+    "runtime_network_fetch": false
+  },
+  "supply_chain": {
+    "official_release_artifact_preferred": true,
+    "github_artifact_attestation_verification_required_when_available": true,
+    "immutable_version_or_digest_required": true,
+    "runtime_install_from_floating_main": false
+  },
+  "authority_boundaries": {
+    "geometry_semantics": false,
+    "dcc_scene_and_final_asset": false,
+    "workflow": false,
+    "host_resource": false,
+    "device_routing": false,
+    "security": false,
+    "evidence": false
+  },
+  "production_policy": {
+    "role": "PREFERRED_GENERAL_CAP032_PROVIDER_NOT_REQUIRED_FOR_CORE_PROOF",
+    "provider_specific_runtime_evidence_required_before_promotion": true,
+    "core_cap032_closure_may_use_provider_neutral_dcc_geometry_proof": true,
+    "global_promotion_claim": false
+  }
+}

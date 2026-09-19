@@ -272,28 +272,75 @@ def proof_graphics_3d(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     return {"application": name, "binary": binary, "headless_smoke": True}
 
 
-def proof_pytorch3d_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
-    scope.mkdir(parents=True, exist_ok=True)
-    resolved = resolve_python_runtime(require_torch=True, require_pytorch3d=True, require_cuda=False)
-    selected = resolved.get("selected")
-    if not isinstance(selected, dict):
-        raise RuntimeError("approved local Python runtime with torch and pytorch3d required")
-    python = str(selected["path"])
-    code = (
-        "import json,torch,pytorch3d;"
-        "v=torch.tensor([[0.,0.,0.],[1.,0.,0.],[0.,1.,0.]]);"
-        "area=torch.linalg.vector_norm(torch.cross(v[1]-v[0],v[2]-v[0],dim=0)).item()/2;"
-        "print(json.dumps({'area':area,'torch':torch.__version__,'pytorch3d':getattr(pytorch3d,'__version__','unknown')}))"
-    )
-    proc = cmd([python, "-c", code], 30)
-    if proc.returncode != 0:
-        raise RuntimeError(f"PyTorch3D proof failed: {proc.stderr[-1500:]}")
-    row = json.loads(proc.stdout.strip())
-    if abs(float(row.get("area", 0.0)) - 0.5) > 1e-6:
-        raise RuntimeError("PyTorch3D metric geometry check failed")
-    row["python"] = python
-    return row
+def proof_metric_3d_reconstruction(scope: Path, cap: str, subject: str) -> dict[str, Any]:
+    """Prove the provider-neutral CAP-032 baseline on the existing DCC geometry kernel.
 
+    This is deliberately not a differentiable/neural-rendering claim. It performs
+    a real point-set -> convex-hull mesh reconstruction and verifies metric
+    geometry. Open3D, Kaolin and PyTorch3D remain replaceable specialized
+    providers behind the same CAP-032 authority boundary.
+    """
+    scope.mkdir(parents=True, exist_ok=True)
+    found = _find_any(("bforartists", "bforartists-bin", "blender"))
+    if not found:
+        raise RuntimeError("Bforartists or Blender required for metric 3D reconstruction proof")
+    name, binary = found
+    script = scope / "metric_3d_reconstruction.py"
+    script.write_text(
+        "import bpy,bmesh,json\n"
+        "mesh=bpy.data.meshes.new('fa3_metric_reconstruction')\n"
+        "obj=bpy.data.objects.new('fa3_metric_reconstruction',mesh)\n"
+        "bm=bmesh.new()\n"
+        "coords=[(0.,0.,0.),(1.,0.,0.),(0.,1.,0.),(1.,1.,0.),"
+        "(0.,0.,1.),(1.,0.,1.),(0.,1.,1.),(1.,1.,1.)]\n"
+        "verts=[bm.verts.new(co) for co in coords]\n"
+        "bm.verts.ensure_lookup_table()\n"
+        "bmesh.ops.convex_hull(bm,input=verts,use_existing_faces=False)\n"
+        "bm.to_mesh(mesh);bm.free();mesh.update()\n"
+        "vv=[v.co.copy() for v in mesh.vertices]\n"
+        "volume=0.0\n"
+        "for poly in mesh.polygons:\n"
+        " p=[vv[i] for i in poly.vertices]\n"
+        " for i in range(1,len(p)-1): volume += p[0].dot(p[i].cross(p[i+1]))/6.0\n"
+        "dims=[]\n"
+        "for axis in range(3):\n"
+        " values=[float(v[axis]) for v in vv];dims.append(max(values)-min(values))\n"
+        "payload={'vertices':len(mesh.vertices),'faces':len(mesh.polygons),"
+        "'volume':abs(float(volume)),'dimensions':dims}\n"
+        "print('FA3_METRIC_3D_JSON='+json.dumps(payload,sort_keys=True))\n",
+        encoding="utf-8",
+    )
+    proc = cmd([binary, "--background", "--factory-startup", "--python", str(script)], 90)
+    combined = proc.stdout + "\n" + proc.stderr
+    if proc.returncode != 0:
+        raise RuntimeError(f"metric 3D reconstruction runtime failed: {proc.stderr[-1500:]}")
+    marker = "FA3_METRIC_3D_JSON="
+    payload_line = next((line for line in reversed(combined.splitlines()) if marker in line), None)
+    if payload_line is None:
+        raise RuntimeError("metric 3D reconstruction proof payload missing")
+    row = json.loads(payload_line.split(marker, 1)[1].strip())
+    dims = row.get("dimensions")
+    if (
+        int(row.get("vertices", 0)) < 8
+        or int(row.get("faces", 0)) < 6
+        or abs(float(row.get("volume", 0.0)) - 1.0) > 1e-5
+        or not isinstance(dims, list)
+        or len(dims) != 3
+        or any(abs(float(value) - 1.0) > 1e-5 for value in dims)
+    ):
+        raise RuntimeError(f"metric 3D reconstruction invariant failed: {row}")
+    return {
+        "application": name,
+        "binary": binary,
+        "provider_class": "DCC_GEOMETRY_KERNEL",
+        "point_set_to_mesh_reconstruction": True,
+        "metric_volume": row["volume"],
+        "metric_dimensions": dims,
+        "vertex_count": row["vertices"],
+        "face_count": row["faces"],
+        "differentiable_or_neural_provider_claim": False,
+        "provider_hard_dependency": False,
+    }
 
 def proof_gpu_compute(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     scope.mkdir(parents=True, exist_ok=True)
@@ -554,7 +601,7 @@ PRIMITIVES = {
     "agent_process": proof_agent_process,
     "security_local": proof_security_local,
     "graphics_3d": proof_graphics_3d,
-    "pytorch3d_runtime": proof_pytorch3d_runtime,
+    "metric_3d_reconstruction": proof_metric_3d_reconstruction,
     "gpu_compute": proof_gpu_compute,
     "audio_local": proof_audio_local,
     "media_video": proof_media_video,

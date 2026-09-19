@@ -19,7 +19,6 @@
     "security_local": 11,
     "graphics_3d": 6,
     "document_publish": 5,
-    "pytorch3d_runtime": 1,
     "toolchain_build": 4,
     "storage_io": 3,
     "audio_local": 7,
@@ -29,7 +28,8 @@
     "desktop_wayland": 9,
     "gpu_compute": 8,
     "media_video": 17,
-    "network_loopback": 3
+    "network_loopback": 3,
+    "metric_3d_reconstruction": 1
   },
   "recipes": [
     {
@@ -158,13 +158,15 @@
       "capability_id": "CAP-032",
       "subject": "Metric 3D Reconstruction",
       "activation": "PROFILE/JOB",
-      "primitive": "pytorch3d_runtime",
+      "primitive": "metric_3d_reconstruction",
       "execution_scope": "CURRENT_HOST",
       "network_policy": "NONE",
       "external_side_effects_allowed": false,
       "human_approval_required": false,
       "global_promotion_claim": false,
-      "dependency_failure_semantics": "REJECTED_NOT_PASS"
+      "dependency_failure_semantics": "REJECTED_NOT_PASS",
+      "provider_selection": "PROVIDER_NEUTRAL_CORE_PROOF_SPECIALIZED_PROVIDERS_CONDITIONAL",
+      "advanced_provider_profile": "FA3-DIFFERENTIABLE-3D-001"
     },
     {
       "capability_id": "CAP-033",
