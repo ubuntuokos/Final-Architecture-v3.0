@@ -1,6 +1,21 @@
 name: FA3 Global Current-Host Evidence Closure
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/current-host-capability-test-executors.json'
+      - 'canonical/current-host-capability-test-qualifications.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
+      - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_full_current_host_preflight.py'
+      - 'src/fa3_full_current_host_preflight.py'
+      - 'tests/test_full_current_host_capability_producer.py'
+      - 'tests/test_full_current_host_preflight.py'
+      - 'tests/test_full_current_host_preflight.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
   pull_request:
     branches: [main]
     paths:
@@ -65,9 +80,9 @@ on:
         default: false
         type: boolean
       execution_batch_id:
-        description: 'Execution-ready batch ID from the deterministic planner (for example EXEC-001)'
+        description: 'Execution-ready batch ID, or FULL-429 for complete physical closure'
         required: false
-        default: 'EXEC-001'
+        default: 'FULL-429'
         type: string
 
 permissions:
@@ -112,6 +127,7 @@ jobs:
             src/fa3_mat003_interaction_creative_current_host.py \
             src/fa3_mat004_media_authoring_verification_current_host.py \
             src/fa3_full_current_host_capability_producer.py \
+            src/fa3_full_current_host_preflight.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
@@ -133,6 +149,7 @@ jobs:
             tests/test_mat001_foundation_current_host.py \
             tests/test_mat002_runtime_knowledge_current_host.py \
             tests/test_full_current_host_capability_producer.py \
+            tests/test_full_current_host_preflight.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
@@ -200,6 +217,7 @@ jobs:
             tests.test_mat003_interaction_creative_current_host \
             tests.test_mat004_media_authoring_verification_current_host \
             tests.test_full_current_host_capability_producer \
+            tests.test_full_current_host_preflight \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -425,10 +443,10 @@ jobs:
 
   current-host-closure:
     name: current-host-closure / real-execution
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.execute_current_host) }}
     needs: closure-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
-    timeout-minutes: 90
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -448,6 +466,7 @@ jobs:
         run: |
           rm -rf \
             .fa3-current-host/global-closure \
+            .fa3-current-host/full-closure \
             .fa3-current-host/qualification-source-artifacts \
             .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results \
@@ -458,6 +477,7 @@ jobs:
             evidence/receipts/capabilities
           mkdir -p \
             .fa3-current-host/global-closure \
+            .fa3-current-host/full-closure \
             .fa3-current-host/qualification-source-artifacts \
             .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results/capabilities \
@@ -474,6 +494,11 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_batch_planner.py --root . --batch-size 5
+      - name: Fail-fast FULL-429 current-host preflight
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_full_current_host_preflight.py --root .
+
       - name: Select explicit execution-ready capability batch
         shell: bash
         run: |
@@ -481,21 +506,30 @@ jobs:
           import json, os
           from pathlib import Path
           plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
-          requested=os.environ.get('FA3_REQUESTED_BATCH_ID', 'EXEC-001')
-          batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
-          if batch is None:
-              raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
-          subjects=batch['capabilities']
+          requested=(os.environ.get('FA3_REQUESTED_BATCH_ID') or 'FULL-429').strip()
+          if requested == 'FULL-429':
+              subjects=plan['execution_ready_capabilities']
+              if len(subjects) != 143:
+                  raise SystemExit(f'FULL-429 requires 143 execution-ready capabilities, got {len(subjects)}')
+              obligation_count=plan['materialized_obligation_count']
+              if obligation_count != 429 or plan['pending_obligation_count'] != 0:
+                  raise SystemExit(f'FULL-429 requires exact 429/429 materialization: {plan}')
+          else:
+              batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
+              if batch is None:
+                  raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
+              subjects=batch['capabilities']
+              obligation_count=batch['obligation_count']
           if not subjects:
-              raise SystemExit(f'Empty execution batch: {requested}')
+              raise SystemExit(f'Empty execution selection: {requested}')
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
               fh.write(f"FA3_CURRENT_HOST_BATCH_ID={requested}\n")
               fh.write(f"FA3_CURRENT_HOST_SUBJECTS={','.join(subjects)}\n")
-              fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={batch['obligation_count']}\n")
-          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': batch['obligation_count']}, indent=2))
+              fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={obligation_count}\n")
+          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count}, indent=2))
           PY
         env:
-          FA3_REQUESTED_BATCH_ID: ${{ inputs.execution_batch_id }}
+          FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-429' || inputs.execution_batch_id }}
       - name: Audit explicit capability qualification coverage before execution
         shell: bash
         run: |
@@ -642,6 +676,7 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/full-closure/preflight.json
             .fa3-current-host/qualification-source-artifacts/**
             .fa3-current-host/qualification-constituents/**
             .fa3-current-host/test-results/capabilities/**
