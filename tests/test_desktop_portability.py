@@ -266,7 +266,7 @@ class DesktopPortabilityTests(unittest.TestCase):
         env = self._env("KDE", "wayland")
         probe = _secret_service_probe(env)
         self.assertTrue(probe["available"])
-        self.assertFalse(probe["live_name"])
+        self.assertTrue(probe["live_name"])
         self.assertTrue(probe["standard_interface"])
         self.assertTrue(probe["dbus_activation_attempted"])
         argv = run.call_args.args[0]
