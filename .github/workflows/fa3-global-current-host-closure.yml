@@ -12,6 +12,8 @@ on:
       - 'src/fa3_full_current_host_capability_producer.py'
       - 'src/fa3_full_current_host_preflight.py'
       - 'src/fa3_current_host_runtime_resolver.py'
+      - 'src/fa3_pytorch3d_build_readiness.py'
+      - 'tests/test_pytorch3d_build_readiness.py'
       - 'bin/fa3-bootstrap-wasmtime'
       - 'src/fa3_full_current_host_preflight.py'
       - 'tests/test_full_current_host_capability_producer.py'
@@ -50,6 +52,8 @@ on:
       - 'src/fa3_mat003_interaction_creative_current_host.py'
       - 'src/fa3_mat004_media_authoring_verification_current_host.py'
       - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_pytorch3d_build_readiness.py'
+      - 'tests/test_pytorch3d_build_readiness.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
@@ -133,6 +137,7 @@ jobs:
             src/fa3_full_current_host_capability_producer.py \
             src/fa3_full_current_host_preflight.py \
             src/fa3_current_host_runtime_resolver.py \
+            src/fa3_pytorch3d_build_readiness.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
@@ -156,6 +161,7 @@ jobs:
             tests/test_full_current_host_capability_producer.py \
             tests/test_full_current_host_preflight.py \
             tests/test_current_host_runtime_resolver.py \
+            tests/test_pytorch3d_build_readiness.py \
             tests/test_wasmtime_bootstrap.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
@@ -226,6 +232,7 @@ jobs:
             tests.test_full_current_host_capability_producer \
             tests.test_full_current_host_preflight \
             tests.test_current_host_runtime_resolver \
+            tests.test_pytorch3d_build_readiness \
             tests.test_wasmtime_bootstrap \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
@@ -490,6 +497,7 @@ jobs:
           rm -rf \
             .fa3-current-host/global-closure \
             .fa3-current-host/full-closure \
+            .fa3-current-host/pytorch3d \
             .fa3-current-host/qualification-source-artifacts \
             .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results \
@@ -501,6 +509,7 @@ jobs:
           mkdir -p \
             .fa3-current-host/global-closure \
             .fa3-current-host/full-closure \
+            .fa3-current-host/pytorch3d \
             .fa3-current-host/qualification-source-artifacts \
             .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results/capabilities \
@@ -517,6 +526,10 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_batch_planner.py --root . --batch-size 5
+      - name: Collect read-only PyTorch3D build readiness
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_pytorch3d_build_readiness.py --root .
       - name: Fail-fast FULL-429 current-host preflight
         shell: bash
         run: |
@@ -700,6 +713,7 @@ jobs:
           path: |
             .fa3-current-host/global-closure/**
             .fa3-current-host/full-closure/preflight.json
+            .fa3-current-host/pytorch3d/**
             .fa3-current-host/qualification-source-artifacts/**
             .fa3-current-host/qualification-constituents/**
             .fa3-current-host/test-results/capabilities/**
