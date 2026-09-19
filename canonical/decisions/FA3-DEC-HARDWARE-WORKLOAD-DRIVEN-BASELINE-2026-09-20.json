@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HARDWARE-WORKLOAD-DRIVEN-BASELINE-2026-09-20",
+  "date": "2026-09-20",
+  "status": "ACCEPTED_MATERIALIZED_PENDING_PR_VALIDATION",
+  "title": "FA3 workload-driven provider-neutral hardware baseline",
+  "decision": "REMOVE_GLOBAL_ACCELERATOR_VENDOR_RUNTIME_ARCHITECTURE_FLOOR_AND_BIND_ACCELERATOR_REQUIREMENTS_TO_WORKLOAD_PROVIDER_HRB_ADMISSION",
+  "parent_profile_id": "FA3-HW-001",
+  "profile_id": "FA3-HARDWARE-BASELINE-001",
+  "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "resource_admission_contract_id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": {
+    "cpu_core_floor": {
+      "minimum_package_count": 1,
+      "minimum_physical_cores_per_qualifying_cpu": 8,
+      "vendor_model_agnostic": true
+    },
+    "global_accelerator_floor": {
+      "minimum_device_count": 0,
+      "vendor": null,
+      "runtime": null,
+      "architecture": null,
+      "compute_capability": null
+    },
+    "accelerator_requirement_semantics": "ONLY_WHEN_EXPLICIT_WORKLOAD_RESOURCE_CLASS_OR_PROVIDER_RUNTIME_COMPATIBILITY_REQUIRES_ACCELERATOR",
+    "accelerator_admission": "CURRENT_SCOPE_BOUND_HRB_AUTHORIZATION_AND_LEASE_WHEN_ACCELERATOR_REQUIRED",
+    "provider_local_constraints": "MAY_NARROW_COMPATIBILITY_BUT_MUST_NOT_REDEFINE_GLOBAL_FA3_HARDWARE_BASELINE",
+    "discovery": "CPU_1_TO_N_ACCELERATOR_0_TO_N_LIVE_DISCOVERY",
+    "silent_fallback": "FORBIDDEN"
+  },
+  "supersedes_semantic_content_of": [
+    "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+    "FA3-HARDWARE-FABRIC-RECONCILIATION-001@2026-09-16"
+  ],
+  "preserved_as_historical_evidence": [
+    "evidence/reference/hardware-portability-ci-2026-09-03.json",
+    "evidence/reference/hardware-portability-repository-audit-2026-09-03.json",
+    "evidence/reference/hardware-fabric-reconciliation-2026-09-16.json"
+  ],
+  "invariants": [
+    "NO_GLOBAL_NVIDIA_REQUIREMENT",
+    "NO_GLOBAL_CUDA_REQUIREMENT",
+    "NO_GLOBAL_COMPUTE_CAPABILITY_MINIMUM",
+    "NO_GLOBAL_GPU_OR_NPU_DEVICE_REQUIREMENT",
+    "CPU_ONLY_WORKLOAD_DOES_NOT_REQUIRE_ACCELERATOR_DISCOVERY_OR_LEASE",
+    "ACCELERATOR_WORKLOAD_REQUIRES_HRB_AUTHORIZATION_AND_SCOPE_BOUND_LEASE",
+    "PROVIDER_LOCAL_HARDWARE_COMPATIBILITY_DOES_NOT_BECOME_GLOBAL_BASELINE",
+    "HOST_ATTESTATION_IS_EVIDENCE_NOT_SKU_ALLOWLIST",
+    "NO_SILENT_ACCELERATOR_TO_CPU_OR_PROVIDER_FALLBACK"
+  ],
+  "authority_impact": "NONE_HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_PLACEMENT_RESERVATION_LEASE_AUTHORITY",
+  "promotion_semantics": "STATIC_RECONCILIATION_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
+}
