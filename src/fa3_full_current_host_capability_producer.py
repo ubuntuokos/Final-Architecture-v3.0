@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Any
 from urllib.request import urlopen
 
-from fa3_current_host_runtime_resolver import resolve_python_runtime, resolve_unreal_runtime
+from fa3_current_host_runtime_resolver import resolve_python_runtime
 
 VERDICT_SCHEMA = "fa3.capability-current-host-qualification-constituent-verdict.v1"
 MODES = ("positive", "negative", "rollback")
@@ -271,23 +271,6 @@ def proof_graphics_3d(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     if proc.returncode != 0 or sentinel not in combined:
         raise RuntimeError(f"3D runtime smoke failed: {proc.stderr[-1500:]}")
     return {"application": name, "binary": binary, "headless_smoke": True}
-
-
-def proof_unreal_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
-    scope.mkdir(parents=True, exist_ok=True)
-    resolved = resolve_unreal_runtime()
-    selected = resolved.get("selected")
-    if not isinstance(selected, dict):
-        raise RuntimeError("validated UnrealEditor/UnrealEditor-Cmd required in approved roots")
-    binary = str(selected["path"])
-    output = str(selected.get("output_tail") or "")
-    return {
-        "application": Path(binary).name,
-        "binary": binary,
-        "version_output_sha256": sha(output.encode()),
-        "unattended": True,
-        "candidate_count": len(resolved.get("candidates", [])),
-    }
 
 
 def proof_pytorch3d_runtime(scope: Path, cap: str, subject: str) -> dict[str, Any]:
@@ -572,7 +555,6 @@ PRIMITIVES = {
     "agent_process": proof_agent_process,
     "security_local": proof_security_local,
     "graphics_3d": proof_graphics_3d,
-    "unreal_runtime": proof_unreal_runtime,
     "pytorch3d_runtime": proof_pytorch3d_runtime,
     "gpu_compute": proof_gpu_compute,
     "audio_local": proof_audio_local,
