@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from src import fa3_pytorch3d_build_readiness as readiness
+import fa3_pytorch3d_build_readiness as readiness
 
 
 class PyTorch3DBuildReadinessTests(unittest.TestCase):
