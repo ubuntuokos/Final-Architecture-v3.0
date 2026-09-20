@@ -202,22 +202,37 @@ step ca certificate fa3-mtls-client "$TMP/c.crt" "$TMP/c.key" \
   --root "$RC" \
   --not-after 10m
 
+# Prove both leaf certificates are valid for their intended TLS roles before
+# attempting the live handshake.  Keep the trust anchor limited to the Root
+# and supply the issuing intermediate explicitly as untrusted chain material.
+openssl verify -purpose sslserver -CAfile "$RC" -untrusted "$IC" "$TMP/b.crt" >/dev/null
+openssl verify -purpose sslclient -CAfile "$RC" -untrusted "$IC" "$TMP/c.crt" >/dev/null
+
 openssl s_server \
   -accept "127.0.0.1:$MTLS_PORT" \
   -cert "$TMP/b.crt" \
+  -cert_chain "$IC" \
   -key "$TMP/b.key" \
   -CAfile "$RC" \
   -Verify 1 \
   -quiet >"$TMP/s.log" 2>&1 &
 PID=$!
 sleep 1
-printf '' | openssl s_client \
+if ! printf '' | openssl s_client \
   -connect "127.0.0.1:$MTLS_PORT" \
   -servername localhost \
   -cert "$TMP/c.crt" \
+  -cert_chain "$IC" \
   -key "$TMP/c.key" \
   -CAfile "$RC" \
-  -verify_return_error >/dev/null 2>&1
+  -verify_return_error >"$TMP/c.log" 2>&1; then
+  echo "mTLS handshake failed" >&2
+  echo "--- openssl s_server ---" >&2
+  sed -n '1,160p' "$TMP/s.log" >&2
+  echo "--- openssl s_client ---" >&2
+  sed -n '1,200p' "$TMP/c.log" >&2
+  exit 1
+fi
 kill "$PID"
 wait "$PID" 2>/dev/null || true
 PID=""
