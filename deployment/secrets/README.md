@@ -93,3 +93,5 @@ fa3-secrets-admin assert-closed
 Bulk secret export does not exist. `list` returns SecretRef metadata only and is administrative. Secret values are retrieved only through an admitted consumer projection.
 
 Exactly one active projection policy may exist for a SecretRef. Duplicate policies fail closed; there is no first-match-wins behavior. Policy filenames are hash-based and do not disclose provider or credential names.
+
+For a machine/service SecretRef, the dedicated provider Unix user must be a member of `fa3-secret-clients`. The consuming provider unit must also use `PartOf=fa3-secrets.target` (in addition to requiring its projection unit) so full FA3 exit stops the provider before the vault is unmounted and the LUKS mapping is closed.
