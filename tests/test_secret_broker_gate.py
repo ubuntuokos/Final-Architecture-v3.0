@@ -1,4 +1,4 @@
-import json,subprocess,unittest
+import json,os,pwd,subprocess,tempfile,unittest
 from pathlib import Path
 from src import fa3_secret_broker_gate as g
 ROOT=Path(__file__).resolve().parents[1]
@@ -34,6 +34,27 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("systemctl stop fa3-secrets.target",lifecycle)
         self.assertIn("assert_closed",lifecycle)
 
+    def test_policy_preflight_validation(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"policy.json"
+            user=pwd.getpwuid(os.getuid()).pw_name
+            good={"schema":"fa3.secret-projection-policy.v1","secret_id":"test/user-token","classification":"USER_SESSION_SECRET","secret_kind":"API_TOKEN",
+                  "allowed_consumers":[{"consumer_id":"TEST","allowed_unix_users":[user],"allowed_executables":[],"allowed_systemd_units":[]}],
+                  "allowed_projections":["UDS_SINGLE_SECRET"],"exportable":False}
+            p.write_text(json.dumps(good))
+            subprocess.run(["python3",str(ROOT/"bin/fa3-secret-policyctl"),"check",str(p)],check=True,capture_output=True,text=True)
+            good["exportable"]=True;p.write_text(json.dumps(good))
+            r=subprocess.run(["python3",str(ROOT/"bin/fa3-secret-policyctl"),"check",str(p)],capture_output=True,text=True)
+            self.assertNotEqual(0,r.returncode)
+
+    def test_operator_surface_is_single_entrypoint(self):
+        admin=(ROOT/"bin/fa3-secrets-admin").read_text()
+        for token in ("put","rotate","revoke","metadata","list","policy-install","policy-remove","backup","restore","assert-closed"):
+            self.assertIn(token,admin)
+        recovery=(ROOT/"bin/fa3-secret-vault-recovery").read_text()
+        self.assertIn("vault_closed_during_backup",recovery)
+        self.assertIn('"final_vault_state":"CLOSED"',recovery)
+
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
         mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
@@ -42,7 +63,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("CREDENTIALS_DIRECTORY",mount)
         self.assertNotIn("FA3_SECRET_VALUE",init+mount+client)
     def test_shell_syntax(self):
-        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh"]:
+        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","bin/fa3-secret-vault-recovery","bin/fa3-secrets-admin","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh"]:
             subprocess.run(["bash","-n",str(ROOT/path)],check=True)
 
 if __name__=="__main__":unittest.main()
