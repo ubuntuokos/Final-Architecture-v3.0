@@ -41,6 +41,19 @@ class SessionVaultTests(unittest.TestCase):
   self.assertIn("--label "+label,s)
   self.assertIn("-L "+label,s)
   self.assertNotIn("FA3_SESSION_VAULT",s)
+ def test_external_storage_name_is_non_disclosing(self):
+  p=json.loads((ROOT/"canonical/profiles/FA3-SESSION-VAULT-001.json").read_text())
+  image=p["storage"]["default_image"]
+  self.assertEqual("GENERIC_NON_DISCLOSING",p["storage"]["external_naming_policy"])
+  self.assertNotIn("vault",image.lower())
+  self.assertNotIn("key",image.lower())
+  self.assertNotIn("cert",image.lower())
+  self.assertEqual("~/.local/share/fa3/state/fa3-state.img",image)
+  self.assertEqual("$XDG_RUNTIME_DIR/fa3-state",p["storage"]["session_mount_alias"])
+  self.assertEqual("FA3_STATE",p["storage"]["filesystem_label"])
+  cpp=(ROOT/"apps/fa3-control-center/src/SessionVaultService.cpp").read_text()
+  self.assertIn("/.local/share/fa3/state/fa3-state.img",cpp)
+  self.assertIn("/.local/share/fa3/vault/fa3-session-vault.img",cpp)
  def test_runtime_is_not_falsely_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
   self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])

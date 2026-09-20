@@ -42,7 +42,7 @@ ScrollView {
                 id: statusCol
                 anchors.fill: parent; anchors.margins: 14
                 Label { text: "Állapot: " + fa3SessionVault.statusText; color: fa3SessionVault.unlocked ? root.green : root.orange; font.bold: true }
-                Label { text: "Image: " + fa3SessionVault.imagePath; color: root.textMuted; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
+                Label { text: "Tárolófájl: " + fa3SessionVault.imagePath; color: root.textMuted; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
                 Label { visible: fa3SessionVault.unlocked; text: "Mount: " + fa3SessionVault.mountPath; color: root.textMuted; wrapMode: Text.WrapAnywhere; Layout.fillWidth: true }
                 Label { visible: fa3SessionVault.errorMessage.length > 0; text: fa3SessionVault.errorMessage; color: root.magenta; wrapMode: Text.WordWrap; Layout.fillWidth: true }
             }
@@ -113,7 +113,7 @@ ScrollView {
                 Label { text: "Első inicializálás szükséges"; color: root.orange; font.bold: true }
                 Label {
                     Layout.fillWidth: true
-                    text: "Futtasd egyszer:  bin/fa3-session-vault-init\nEz létrehozza a helyi LUKS2 image-et. USB, HSM és air-gap nem kötelező."
+                    text: "Futtasd egyszer:  bin/fa3-session-vault-init\nEz létrehozza a helyi, generikus nevű LUKS2 tároló image-et. USB, HSM és air-gap nem kötelező."
                     color: root.textMuted; wrapMode: Text.WordWrap
                 }
             }

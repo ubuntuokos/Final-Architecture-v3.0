@@ -19,10 +19,19 @@ static constexpr auto UDISKS_SERVICE = "org.freedesktop.UDisks2";
 SessionVaultService::SessionVaultService(QObject *parent)
     : QObject(parent)
 {
-    m_imagePath = qEnvironmentVariable("FA3_SESSION_VAULT_IMAGE",
-        QDir::homePath() + QStringLiteral("/.local/share/fa3/vault/fa3-session-vault.img"));
+    const QString explicitImage = qEnvironmentVariable("FA3_SESSION_VAULT_IMAGE");
+    const QString defaultImage = QDir::homePath() + QStringLiteral("/.local/share/fa3/state/fa3-state.img");
+    const QString legacyImage = QDir::homePath() + QStringLiteral("/.local/share/fa3/vault/fa3-session-vault.img");
+    if (!explicitImage.isEmpty())
+        m_imagePath = explicitImage;
+    else if (QFileInfo::exists(defaultImage))
+        m_imagePath = defaultImage;
+    else if (QFileInfo::exists(legacyImage))
+        m_imagePath = legacyImage;
+    else
+        m_imagePath = defaultImage;
     const QString runtime = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
-    m_aliasPath = runtime + QStringLiteral("/fa3-session-vault");
+    m_aliasPath = runtime + QStringLiteral("/fa3-state");
     refresh();
     QTimer::singleShot(0, this, [this]() { tryAutoUnlock(); });
 }

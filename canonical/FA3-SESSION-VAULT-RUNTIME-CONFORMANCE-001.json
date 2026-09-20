@@ -12,6 +12,7 @@
   },
   "required_checks": [
     "LUKS2_IMAGE_CREATED",
+    "EXTERNAL_STORAGE_NAME_NON_DISCLOSING",
     "UDISKS2_LOOP_SETUP_PASS",
     "LUKS2_UNLOCK_PASS",
     "NODEV_NOSUID_NOEXEC_MOUNT_PASS",
@@ -26,5 +27,11 @@
   "production_runtime_promoted": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143
+  "capability_count": 143,
+  "migration": {
+    "legacy_default_image": "~/.local/share/fa3/vault/fa3-session-vault.img",
+    "new_default_image": "~/.local/share/fa3/state/fa3-state.img",
+    "legacy_read_compatibility": true,
+    "recreation_required": false
+  }
 }
