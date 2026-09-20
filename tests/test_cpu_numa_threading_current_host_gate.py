@@ -22,21 +22,22 @@ def fixture() -> dict:
         "evidence_level": "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS",
         "hardware": {
             "source": "LIVE_SYSFS_PROCFS",
-            "machine": "Dell Precision Tower 7910",
-            "cpu_model_match": True,
+            "machine": "fixture-host",
+            "models": ["fixture-cpu"],
             "packages": 2,
-            "physical_cores": 44,
-            "logical_cpus": 88,
+            "physical_cores": 16,
+            "physical_cores_per_package": [8, 8],
+            "logical_cpus": 32,
             "numa_domains": 2,
             "smt_width": 2,
             "fingerprint_sha256": DIGEST,
         },
-        "hardware_semantics": "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT",
+        "hardware_semantics": "FRESH_CURRENT_HOST_TOPOLOGY_NOT_CANONICAL_IDENTITY",
         "placement": {
             "topology_source": "LIVE_OS_AFFINITY_AND_SYSFS",
             "cgroup_v2": True,
             "cgroup_path": "/system.slice/fa3-test.scope",
-            "effective_cpus": list(range(88)),
+            "effective_cpus": list(range(32)),
             "effective_memory_nodes": [0, 1],
             "visible_numa_nodes": [0, 1],
             "affinity_matches_effective_cpuset": True,
@@ -44,21 +45,21 @@ def fixture() -> dict:
         },
         "thread_plan": {
             "status": "ADMITTED",
-            "visible_physical_cores": 44,
-            "thread_budget": 44,
+            "visible_physical_cores": 16,
+            "thread_budget": 16,
             "uses_smt_above_physical_budget": False,
             "environment": {
-                "OMP_NUM_THREADS": "44", "MKL_NUM_THREADS": "44",
-                "OPENBLAS_NUM_THREADS": "44", "NUMEXPR_NUM_THREADS": "8",
+                "OMP_NUM_THREADS": "16", "MKL_NUM_THREADS": "16",
+                "OPENBLAS_NUM_THREADS": "16", "NUMEXPR_NUM_THREADS": "8",
                 "OMP_PLACES": "cores", "OMP_PROC_BIND": "close",
             },
         },
         "numa_local_plans": [
-            {"status": "ADMITTED", "numa_node": 0, "visible_physical_cores": 22, "thread_budget": 22},
-            {"status": "ADMITTED", "numa_node": 1, "visible_physical_cores": 22, "thread_budget": 22},
+            {"status": "ADMITTED", "numa_node": 0, "visible_physical_cores": 8, "thread_budget": 8},
+            {"status": "ADMITTED", "numa_node": 1, "visible_physical_cores": 8, "thread_budget": 8},
         ],
         "accelerator_locality_source": "LIVE_PCI_SYSFS_NO_STATIC_MAPPING",
-        "accelerator_locality": [{"pci_address": "0000:05:00.0", "numa_node": 0}],
+        "accelerator_locality": [{"pci_address": "0000:65:00.0", "numa_node": 0}],
         "negative_tests": {
             "missing_hrb_receipt_denied": True,
             "physical_core_oversubscription_denied": True,
@@ -88,12 +89,12 @@ class CpuNumaCurrentHostGateTests(unittest.TestCase):
     def test_complete_live_receipt_contract_passes(self):
         self.assertEqual(validate_receipt(fixture()), [])
 
-    def test_obsolete_hardware_default_fails_closed(self):
+    def test_under_minimum_live_hardware_fails_closed(self):
         receipt = fixture()
-        receipt["hardware"].update({"cpu_model_match": False, "physical_cores": 36, "logical_cpus": 72})
+        receipt["hardware"].update({"physical_cores": 7, "physical_cores_per_package": [7], "logical_cpus": 14, "packages": 1})
         self.assertTrue(any(item["code"] == "CPU-NUMA-HOST-002" for item in validate_receipt(receipt)))
 
-    def test_reference_values_cannot_be_portable_defaults(self):
+    def test_current_host_values_cannot_be_portable_defaults(self):
         receipt = fixture()
         receipt["hardware_semantics"] = "GLOBAL_THREAD_DEFAULT"
         self.assertTrue(any(item["code"] == "CPU-NUMA-HOST-003" for item in validate_receipt(receipt)))
@@ -113,7 +114,7 @@ class CpuNumaCurrentHostGateTests(unittest.TestCase):
 
     def test_synthetic_fixture_is_test_only(self):
         receipt = copy.deepcopy(fixture())
-        receipt["hardware"]["source"] = "SYNTHETIC_REFERENCE_FIXTURE_NOT_CURRENT_HOST"
+        receipt["hardware"]["source"] = "SYNTHETIC_PORTABILITY_FIXTURE_NOT_CURRENT_HOST"
         self.assertTrue(any(item["code"] == "CPU-NUMA-HOST-002" for item in validate_receipt(receipt)))
 
 

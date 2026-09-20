@@ -51,8 +51,6 @@
   ],
   "hardware_policy": {
     "portable_baseline": "LIVE_DISCOVERY_AND_HRB_ADMISSION",
-    "reference_host_cpu": "2x Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected two NUMA domains",
-    "reference_host_gpu": "RTX 3080 12GB-class compute route is evidence context only",
     "fixed_cpu_or_numa_ids_forbidden": true,
     "static_cuda_ordinal_as_canonical_identity_forbidden": true,
     "accelerator_identity": [
@@ -60,7 +58,11 @@
       "PCI_BDF"
     ],
     "hrb_lease_required": true,
-    "codec_feature_discovery_required": true
+    "codec_feature_discovery_required": true,
+    "global_profile": "FA3-HARDWARE-BASELINE-001",
+    "host_identity_pin": "FORBIDDEN",
+    "accelerator_requirements": "PROVIDER_WORKLOAD_SCOPED_AND_HRB_ADMITTED",
+    "fresh_current_host_evidence_required": true
   },
   "authority_boundaries": {
     "durable_orchestration": "Temporal",

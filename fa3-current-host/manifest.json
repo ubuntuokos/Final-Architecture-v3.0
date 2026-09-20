@@ -191,13 +191,13 @@
       "name": "cpu-numa-threading",
       "collector": "evidence/collect-cpu-numa-threading-current-host.py",
       "gate": "cpu-numa-threading-current-host",
-      "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
+      "activation": "ANY_HOST_MEETING_FA3_HARDWARE_BASELINE_PLUS_FRESH_PERFORMANCE_AND_ROLLBACK_EVIDENCE"
     },
     {
       "name": "ffmpeg-neural-media",
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
       "gate": "ffmpeg-ai-current-host",
-      "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
+      "activation": "WORKLOAD_SPECIFIC_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     },
     {

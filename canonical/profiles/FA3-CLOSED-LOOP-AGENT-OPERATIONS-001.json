@@ -68,8 +68,8 @@
     "LOOP_PATTERN_REGISTRY_TYPED_VERSIONED",
     "LOOP_ENGINEERING_CLI_AND_MARKDOWN_FORMATS_NOT_HARD_DEPENDENCIES",
     "HRB_LIVE_CPU_NUMA_GPU_ADMISSION_NO_STATIC_REFERENCE_PLACEMENT",
-    "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE_UUID_BDF",
-    "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
+    "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE_AND_DISCOVERED_STABLE_ID_WHEN_AVAILABLE",
+    "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_ACCELERATOR_0_TO_N_VENDOR_NEUTRAL_NO_MODEL_PIN",
     "REFERENCE_CI_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
     "DISABLED_REFERENCE_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
     "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN",
@@ -86,19 +86,23 @@
       "model_pinned": false,
       "socket_topology_pinned": false
     },
-    "gpu": {
-      "device_count_min": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
+    "admission": "LIVE_DISCOVERY_AND_HRB_ADMISSION; ACCELERATOR_EXECUTION_REQUIRES_SCOPE_BOUND_HRB_LEASE",
+    "inherited_from": "FA3-HW-001/FA3-HW-CONTRACTS-001",
+    "semantic_reconciliation": "VENDOR_NEUTRAL_GLOBAL_FLOOR_PROVIDER_WORKLOAD_CAPABILITIES_ONLY",
+    "accelerator": {
+      "device_count_min": 0,
+      "vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "workload_provider_compatibility_required": true,
       "sku_series_admission_authority": false,
       "marketing_identity_required": false,
       "specific_sku_pinned": false,
       "specific_vram_pinned": false,
-      "specific_sm_pinned": false
-    },
-    "admission": "LIVE_DISCOVERY_AND_HRB_ADMISSION; ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE",
-    "inherited_from": "FA3-HW-001/FA3-HW-CONTRACTS-001",
-    "semantic_reconciliation": "RTX_MARKETING_SERIES_SUPERSEDED_BY_CUDA_COMPUTE_CAPABILITY_8_6"
+      "specific_architecture_pinned": false,
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_lease": false,
+      "required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
+    }
   },
   "hardware_baseline_profile": "FA3-HW-001",
   "sandbox_profile": "FA3-AGENT-SANDBOX-001"

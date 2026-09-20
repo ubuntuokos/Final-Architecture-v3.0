@@ -113,7 +113,7 @@ A real run requires two attributed local inputs:
 
 The collector performs no network model fetch. It generates a tiny deterministic ONNX Identity model and a synthetic BT.709 A/V golden clip locally, proves ONNX Runtime CUDA execution without CPU fallback, executes hardware decode → `scale_cuda` → NVENC → mux, then measures VMAF/SSIM/PSNR plus A/V duration, timestamp monotonicity and color/HDR expectations. Stable FFmpeg 9.0.1 DNN zero-copy is explicitly **not** claimed.
 
-Run on the T7910:
+Run on the current admitted host:
 
 ```bash
 bin/fa3-ffmpeg-ai-current-host.sh \

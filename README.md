@@ -903,7 +903,7 @@ The 32-rule CI PASS is not an installed-provider or language-quality claim. Ever
 
 The portable baseline is physical-core-first and derived from the live process affinity/admitted cpuset. Global `nproc` fan-out, fixed CPU/NUMA IDs, `OMP_NUM_THREADS=88`, `NUMEXPR_NUM_THREADS=44`, mirrored full-size PyTorch inter-op pools and default `numactl --interleave=all` are fail-closed. `OMP_PLACES=cores`, NUMA-local `OMP_PROC_BIND=close`, disabled nested parallelism, bounded BLAS pools, `min(8,budget)` NumExpr and separate PyTorch intra/inter-op planning are mandatory. SMT, OpenMP spread and NUMA interleave require benchmark evidence plus explicit admission. KMP affinity/blocktime remains Intel-provider-scoped; `DNNL_VERBOSE` is logging only.
 
-The corrected T7910 reference deployment is **2× Intel Xeon E5-2696 v4 @ 2.20 GHz = 44 physical cores / 88 logical CPUs / expected two NUMA domains**. This supersedes the obsolete E5-2697 v4 36C/72T reference claim, but does not turn the workstation model or the counts into canonical constants. OS-visible topology and accelerator locality must be rediscovered at boot/admission. The reference throughput pattern is two NUMA-local 22-core workers; host-wide 44-core and SMT 88-thread modes remain measurement/admission gated.
+The CPU/NUMA policy is hardware-agnostic: topology, SMT, NUMA domains, accelerator locality and admitted thread budgets are discovered live. No workstation model, CPU SKU, package/core/thread count, NUMA count or accelerator SKU is retained as a canonical or reference-host constant.
 
 Run the executable gate and reference launcher with:
 
@@ -913,15 +913,15 @@ PYTHONPATH=src python -m unittest tests.test_cpu_numa_threading_gate -v
 bin/fa3-cpu-thread-budget --request request.json
 ```
 
-The committed reference evidence proves canonical policy and positive/negative runtime behavior only. Real T7910 promotion still requires current-host topology, cgroup/systemd receipt matching, oversubscription negatives, NUMA locality/performance telemetry and rollback evidence.
+Committed static evidence proves policy structure only. Physical promotion requires fresh current-host topology, cgroup/systemd receipt matching, oversubscription negatives, locality/performance telemetry and rollback evidence.
 
-### T7910 CPU/NUMA current-host closure
+### CPU/NUMA current-host closure
 
-`FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001` now materializes the missing real-host validation surface. It reads CPU package/core/SMT/NUMA facts from live sysfs/procfs, compares the process affinity with the effective unified-cgroup-v2 cpuset and memory nodes, derives the math-runtime plan through the HRB receipt, discovers accelerator locality from live PCI sysfs, and executes fail-closed oversubscription/policy negatives. The current T7910 reference admission is exactly **2× E5-2696 v4 / 44 physical cores / 88 logical CPUs / two NUMA domains**; E5-2697 v4 or 36C/72T cannot satisfy this host-specific gate.
+`FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001` validates the real target host from live sysfs/procfs, process affinity, unified-cgroup-v2 cpusets/memory nodes, HRB-derived placement, live PCI locality and fail-closed oversubscription/policy negatives. It accepts any host satisfying the current vendor-neutral FA3 hardware baseline; no machine model or fixed CPU/NUMA topology is an admission identity.
 
 Those numbers remain a reference-host assertion, not portable FA3 hardware defaults and not global thread counts. A real PASS additionally requires workload-specific benchmark evidence with at least three iterations plus rollback/failure-injection evidence bound to the same live hardware fingerprint. CI fixtures validate the contract but cannot claim current-host PASS.
 
-Run the collector and component gate on the T7910 with:
+Run the collector and component gate on the current admitted host with:
 
 ```bash
 python evidence/collect-cpu-numa-threading-current-host.py \
@@ -940,7 +940,7 @@ Required-supported projections: SAI ModelSpec compatibility; SD3.5; Stable Audio
 
 ModelSpec metadata is imported into the canonical FA3 Model Registry but ModelSpec is not the canonical schema authority. Code licence, model/weight licence, output rights, commercial threshold, attribution, AUP/use restriction and redistribution are separate versioned policy dimensions. The Stability AUP effective 2026-09-30 is treated as a versioned admission snapshot.
 
-Hardware policy uses the corrected T7910 reference: **2× E5-2696 v4 / 44C-88T / expected two NUMA domains**, with live topology/GPU discovery and HRB admission. The RTX 3080 12GB-class compute route makes Stable Audio 3 Medium, SF3D and SPAR3D low-VRAM plausible local candidates only after real E2E. Arbor/ReLi3D/SD3.5 local variants remain validation-gated. Stable Layers and SD3.5 NVIDIA NIM are remote/distributed-first on this host; NVIDIA's official NIM target does not make RTX 3080 a supported local-default route.
+Hardware policy is vendor-neutral and capability-driven. Stability providers are local candidates only when their workload-specific memory/runtime requirements are satisfied by live discovery and HRB admission; remote/distributed providers remain provider-policy choices rather than consequences of a historical workstation configuration.
 
 The provider-neutral DAW integration profile is mandatory; Stability's launch DAW plugin remains optional/incubation on Linux until a native supported format exists. Runtimes use isolated pip venvs or containers; conda/mamba is not an FA3 baseline.
 
@@ -962,13 +962,13 @@ The family contributes two provider-neutral contracts. `FA3-WORKSPACE-SCOPED-AGE
 Provider disposition and boundaries:
 
 - **MiniCPM-V 4.6** is an optional 1.3B local image/video understanding provider candidate. Exact model revision, hashes, licenses, backend compatibility, VRAM and quality evidence are still required.
-- **MiniCPM-o 4.5** is an optional 9B full-duplex omnimodal provider candidate. It is not admitted by default on the T7910 until live VRAM/QoS/latency, continuous-capture consent/privacy and quality evidence pass.
+- **MiniCPM-o 4.5** is an optional 9B full-duplex omnimodal provider candidate. It is not admitted by default until live VRAM/QoS/latency, continuous-capture consent/privacy and quality evidence pass.
 - **AgentCPM** is an optional long-horizon/deep-research provider and evaluation pattern source. Its loops must be bounded, cancellable, checkpointed and budgeted; AgentDock tools remain behind canonical MCP and sandbox admission.
 - **UltraRAG 3.0** is an optional transparent-RAG provider/pattern source. Its MCP servers are projections behind the Central MCP Gateway, and its YAML conditions/loops do not become workflow authority.
-- **CPM.cu** is an optional CUDA inference backend only. Its upstream CUDA 12.6/12.8 images do not prove compatibility with the current FA3 CUDA 13.2 + RTX 3080/sm86 reference path.
-- **EdgeClaw, PilotDeck, StaffDeck, ForgeTrain, ForgeStencil and AgentCPM-GUI** are immutable pattern sources only. PilotDeck/StaffDeck AGPL code is not vendored. ForgeTrain's matching harness is upstream-described as coming soon, and ForgeTrain/ForgeStencil datacenter-GPU results are not T7910 evidence.
+- **CPM.cu** is an optional CUDA inference backend only. Upstream CUDA container tags do not prove compatibility with the active FA3 runtime; activation requires an immutable provider/runtime compatibility check against live discovered accelerator capabilities.
+- **EdgeClaw, PilotDeck, StaffDeck, ForgeTrain, ForgeStencil and AgentCPM-GUI** are immutable pattern sources only. PilotDeck/StaffDeck AGPL code is not vendored. ForgeTrain's matching harness is upstream-described as coming soon, and upstream datacenter-GPU results are not current-host evidence.
 
-The T7910 reference remains **2× E5-2696 v4 / 44 physical cores / 88 logical CPUs / two NUMA domains**, but those numbers and the expected RTX 3080 compute role are evidence assertions rather than portable defaults. Every activation must rediscover live sysfs/procfs/cgroup/PCI/NVML topology and obtain an HRB placement/lease receipt. CPM.cu additionally requires a target-native CUDA ABI and SM build, correctness/quality gates, benchmark samples and rollback evidence. No upstream Docker image, `CUDA_VISIBLE_DEVICES`, `nvidia-smi` visibility or reference CI PASS can substitute for admission.
+No historical workstation tuple is retained as an FA3 reference baseline. Every activation must rediscover live sysfs/procfs/cgroup/PCI accelerator topology and obtain an HRB placement/lease receipt. Provider-specific CUDA/ROCm/Level Zero requirements additionally require target-native runtime/architecture compatibility, correctness/quality gates, benchmark samples and rollback evidence.
 
 Run the 31-rule fail-closed gate with:
 
@@ -996,13 +996,13 @@ Stable FFmpeg 9.0.1 `dnn_processing` does not accept CUDA hardware frames, so an
 
 The preferred hardware path is GPU-resident decode/filter/encode when supported by the actual device, with unnecessary `hwdownload`/`hwupload` minimized. Codec/filter support is always runtime-discovered; AV1 encode or any other feature is never inferred from “NVIDIA GPU” alone. Accelerator jobs require a Host Resource Broker lease and canonical GPU UUID + PCI BDF identity; static `cuda:0`/ordinal values are never canonical placement identity.
 
-The corrected Dell Precision T7910 reference remains **2× Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected two NUMA domains**. These values and the RTX 3080 12GB-class compute role are host evidence context, not portable defaults. CPU/NUMA topology, cgroup cpusets, PCI locality and GPU capabilities are rediscovered at boot/admission.
+The neural-media hardware baseline is the current vendor-neutral FA3 hardware profile. CPU/NUMA topology, cgroup cpusets, PCI locality and accelerator capabilities are rediscovered at boot/admission; exact host models, CPU SKUs, accelerator SKUs and fixed topology counts are forbidden as portable defaults.
 
 `FA3-PROVIDER-VS-MLRT-001` registers **VapourSynth + vs-mlrt** as the required-supported external neural-filter/frame-server reference adapter for jobs that do not fit upstream FFmpeg DNN efficiently, including super-resolution, restoration/denoise and frame interpolation. Backend selection remains with Inference Portability and placement remains with HRB. Real-ESRGAN- and RIFE-family models are optional admitted model families, not permanent mandatory canonical models.
 
 Claims that `real_esrgan=...` or `python_script=...` are standard upstream FFmpeg filters are explicitly forbidden. Out-of-tree FFmpeg AI filters require their own immutable source/patch pin, security review, maintenance responsibility and real E2E admission.
 
-Production media QA requires codec/container/timestamp validation, A/V sync, color/HDR metadata checks and VMAF + SSIM + PSNR where reference comparison is applicable, with artifact SHA-256 and provenance. The committed reference PASS does **not** claim current-host runtime promotion; real T7910 execution still requires build/feature receipts, HRB-bound accelerator evidence, real-media E2E, quality metrics, copy telemetry and rollback/failure-injection evidence.
+Production media QA requires codec/container/timestamp validation, A/V sync, color/HDR metadata checks and VMAF + SSIM + PSNR where reference comparison is applicable, with artifact SHA-256 and provenance. A committed static PASS does **not** claim current-host runtime promotion; real execution still requires build/feature receipts, HRB-bound accelerator evidence, real-media E2E, quality metrics, copy telemetry and rollback/failure-injection evidence.
 
 Run the permanent executable gate with:
 
@@ -1040,7 +1040,7 @@ TencentDB Agent Memory, MemoryCore, MemoryProxy and provider ACLs are projection
 
 Runtime activation is **blocked** as `NOT_ADMITTED_PENDING_SECURITY_LICENSE_CURRENT_HOST`. At the pinned source, upstream issue #672 remains open and static source inspection still shows unauthenticated rate-limit admin handlers, fail-open empty admin API-key behavior and incomplete/disableable Git-source SSRF protection. Issue #1073 also remains open because the root MIT declaration conflicts with a proprietary declaration in `README.docker.md`. Issue #890 is closed and is treated as a clarified design pattern: Chat Memory sharing uses explicit Fixed Binding + search fan-out with source-agent provenance.
 
-Hardware policy follows the corrected T7910 reference: **2× Intel Xeon E5-2696 v4 / 44 physical cores / 88 logical CPUs / expected two NUMA domains**, but these are current-host evidence assertions, never portable constants. Every deployment must rediscover live CPU/NUMA/cgroup/PCI/GPU topology and obtain Host Resource Broker admission. Background extraction/consolidation is bounded and backpressured; model/embedding/reranking device selection stays with the existing Model Router + HRB. Accelerator identity uses live GPU UUID + PCI BDF, never static `cuda:0`.
+Hardware policy is fully live-discovered and HRB-admitted. Background extraction/consolidation is bounded and backpressured; model/embedding/reranking device selection stays with the existing Model Router + HRB. Accelerator identity uses stable live device identity plus PCI topology where available, never a static runtime ordinal.
 
 Run the 30-rule fail-closed gate with:
 
@@ -1063,7 +1063,7 @@ A real run requires two attributed local inputs:
 
 The collector performs no network model fetch. It generates a tiny deterministic ONNX Identity model and a synthetic BT.709 A/V golden clip locally, proves ONNX Runtime CUDA execution without CPU fallback, executes hardware decode → `scale_cuda` → NVENC → mux, then measures VMAF/SSIM/PSNR plus A/V duration, timestamp monotonicity and color/HDR expectations. Stable FFmpeg 9.0.1 DNN zero-copy is explicitly **not** claimed.
 
-Run on the T7910:
+Run on the current admitted host:
 
 ```bash
 bin/fa3-ffmpeg-ai-current-host.sh \
@@ -1079,11 +1079,11 @@ Or dispatch `FA3 FFmpeg Neural Media Current-Host E2E` with `execute_current_hos
 
 `FA3-GPU-KERNEL-RUNTIME-001` is the P0/MUST provider-neutral **GPU Kernel Optimization, Autotuning & Architecture-Aware Dispatch** subprofile under the existing inference-portability/hardware execution baseline. It adds **no capability** and **no architectural authority**; the canonical count remains **143**. The Host Resource Broker remains the exclusive host admission, placement, reservation and lease authority, and `FA3-CUDA-PY-001` remains an NVIDIA accelerator execution provider rather than an authority.
 
-The corrected T7910 reference remains **2× Intel Xeon E5-2696 v4 @ 2.20 GHz / 44 physical cores / 88 logical CPUs / expected two NUMA domains**. The expected compute route is the **RTX 3080 12GB / SM86** and the RTX A1000 is an expected display/auxiliary projection when present. These are current-host reference assertions only: CPU/NUMA/cgroup/PCI/GPU UUID/BDF/VRAM/SM/driver/CUDA topology is rediscovered live and accelerator execution requires an HRB lease.
+GPU-kernel runtime admission is based on live CPU/NUMA/cgroup/PCI/accelerator capabilities plus an HRB lease. Exact host models, CPU SKUs, accelerator SKUs, VRAM values, architecture values and fixed device counts are not retained as reference assertions.
 
 `FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001` is the required-supported SM86 reference provider, but custom kernels are never preferred merely because they are custom. Selection is correctness-first and benchmark-driven across the eligible PyTorch/cuBLAS(Lt), Triton and admitted custom SM86 paths. Autotune keys bind operation/shape/batch/dtype/layout/device UUID/architecture and runtime/provider/kernel versions; JIT or compiled caches are derived artifacts with fingerprinted invalidation.
 
-`FA3-PROVIDER-DEEPGEMM-001` registers `fw-ai/DeepGEMM` as a conditional, replaceable SM90/SM100 provider and pattern source, pinned to commit `31f4f7276de598d2b59942f6613aa534055b4ab5` (MIT). Its current upstream requirements are SM90 or SM100, therefore **DeepGEMM is explicitly denied on the current RTX 3080/SM86 host**. No source-port, FP8/FP4 emulation or unsupported-architecture claim is allowed. A future Hopper/Blackwell activation requires live compatible hardware, HRB admission, immutable build/dependency identity, correctness/quality, shape-bound benchmarks, cache invalidation and rollback evidence.
+`FA3-PROVIDER-DEEPGEMM-001` registers `fw-ai/DeepGEMM` as a conditional, replaceable provider and pattern source pinned to an immutable revision. Its architecture support is provider metadata, not a global FA3 hardware rule. Activation is denied unless live hardware satisfies the pinned provider support matrix and requires HRB admission, immutable build/dependency identity, correctness/quality, shape-bound benchmarks, cache invalidation and rollback evidence.
 
 Mandatory invariants include no silent backend/device/precision fallback, UUID+BDF canonical accelerator identity, benchmark-first selection, correctness before performance, VRAM/workspace preflight, HRB-derived NUMA locality, display/auxiliary GPU role protection, workload-specific optimization profiles, fused-operation evidence, kernel-level selection/execution receipts and rollback.
 
@@ -1094,7 +1094,7 @@ Run the canonical/reference gate with:
 PYTHONPATH=src python -m unittest tests.test_gpu_kernel_runtime_gate -v
 ```
 
-The committed reference PASS is **not** current-host evidence. On the actual T7910, first create lease-bound benchmark and rollback evidence, then collect the component receipt and run:
+The committed reference PASS is **not** current-host evidence. On the actual target host, first create lease-bound benchmark and rollback evidence, then collect the component receipt and run:
 
 ```bash
 python3 bin/fa3-gpu-kernel-benchmark --hrb-lease /path/to/lease.json
@@ -1135,7 +1135,7 @@ The gate contains 30 fail-closed P0 regressions. Reference CI PASS does not asse
 
 Authority boundaries do not move: **Temporal remains the Global Durable Orchestration authority**; Central MCP/Capability Gateway remains tool mediation; Security Governance remains policy authority; Host Resource Broker remains CPU/NUMA/GPU admission, placement and lease authority; Model Router, Evidence/Observability and release-integrity authorities remain unchanged.
 
-The canonical FA3 hardware floor for this profile is deliberately **model-agnostic**: at least **1 CPU package with at least 8 physical cores per admitted CPU**, plus at least **1 NVIDIA RTX accelerator at RTX 30-series or newer**. Newer RTX generations are explicitly accepted. FA3 does **not** pin a CPU vendor/model, GPU SKU, VRAM size, SM value, socket topology above the minimum, or a particular workstation. Exact T7910/E5/RTX observations elsewhere in the repository are current-host evidence only and must not be interpreted as portable FA3 admission defaults. Every execution rediscovers live CPU/NUMA/cgroup/PCI/GPU capabilities, and accelerator work requires an HRB lease; static CPU IDs and CUDA ordinal identity remain forbidden.
+The canonical FA3 hardware floor is deliberately **vendor- and model-agnostic**: at least **1 CPU package with at least 8 physical cores per qualifying CPU** and **0..N accelerators**. CPU-only hosts and CPU-only workloads conform without accelerator discovery or leases. NVIDIA, AMD and Intel accelerator families, NVIDIA DGX platforms and future compatible device families are references rather than an allowlist. An accelerator-required workload must negotiate provider/runtime compatibility and obtain an HRB lease for a compatible discovered device; no silent CPU or alternate-device fallback is allowed.
 
 Run the 36-rule positive/negative gate with:
 
@@ -1155,7 +1155,7 @@ The immutable baseline is OpenYak `v1.4.0` / commit `73240597e17d31749f2dbc6c52e
 
 Runtime boundaries are fail-closed: models route only through the FA3 LiteLLM OpenAI-compatible endpoint; MCP tools execute only through the central gateway; managed/direct Ollama, direct cloud BYOK, remote access, provider-native messaging channels, privileged connectors, system-path mutation, credential/model-store access and direct PostgreSQL/Valkey/NATS access are denied. OpenYak SQLite is application state only; shared memory uses canonical `memory.*` tools and durable work escalates to Temporal. Workspace read may be allowed inside an admitted bounded project root, while write/delete and shell remain human-gated.
 
-The packaged v1.4.0 Tauri shell uses a dynamically selected loopback port, so the previously observed `127.0.0.1:20882` is evidence, not a portable constant. Because upstream defaults `GDK_BACKEND=x11` when unset, FA3 current-host promotion requires an explicit Wayland launch and WebKitGTK/KDE smoke evidence. No current-host runtime promotion is claimed by the static package.
+The packaged v1.4.0 Tauri shell uses a dynamically selected loopback port, so the previously observed `127.0.0.1:20882` is evidence, not a portable constant. Wayland is preferred and X11 remains supported; FA3 selects the admitted XDG session backend and requires session-native WebKitGTK smoke evidence. No current-host runtime promotion is claimed by the static package.
 
 Run the 24-rule positive/negative gate with:
 
@@ -1169,11 +1169,11 @@ See `docs/openyak-integration.md` for the exact activation boundary and pending 
 
 ## LynxHub optional Creative Operations Dashboard
 
-`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in the KDE/Wayland user session.
+`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in an admitted Linux desktop session; KDE/Wayland remains the reference path and X11 is supported.
 
 The immutable application baseline is LynxHub `V3.5.8` / source commit `96129c218b8bd4337fd3e4cf220aa97a46c486a5`; the native `LynxHub-V3.5.8-linux_amd64.deb` digest is `b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435`. When action cards are used, Custom Actions is pinned to `v0.4.4` / commit `418be2f8d2488f67f8c6f7728729161577f4c90e` / artifact digest `125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83`. Floating updates and automatic plugin updates are forbidden.
 
-The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, requires Wayland unless an exception is admitted, and deliberately omits `--no-sandbox`.
+The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, selects the admitted Wayland or X11 session, and deliberately omits `--no-sandbox`.
 
 LynxHub owns only dashboard presentation and approved launch requests. systemd keeps service lifecycle; Stability Matrix keeps ComfyUI/InvokeAI/Forge/Wan2GP package lifecycle; Open WebUI and Goose remain operator clients; the Orchestrator and Temporal keep workflow execution/durability; the Central MCP/Capability Gateway keeps tool policy. Direct MCP/Ollama agent routes, secrets/database access, free-form shell actions, `sudo`/root administration and duplicate desktop autostart are denied.
 
@@ -1191,7 +1191,7 @@ Run the 28-rule positive/negative canonical gate with:
 PYTHONPATH=src python -m unittest tests.test_lynxhub_gate -v
 ```
 
-The current-host collector is read-only and remains fail-closed until the real installed package, Wayland/sandbox launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
+The current-host collector is read-only and remains fail-closed until the real installed package, session-native sandboxed launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
 
 
 ## FA3 portable hardware baseline
@@ -1199,9 +1199,9 @@ The current-host collector is read-only and remains fail-closed until the real i
 `FA3-HARDWARE-BASELINE-001` is the mandatory P0 portability subprofile of `FA3-HW-001`. It defines only a minimum hardware envelope, never a workstation identity:
 
 - CPU: **1..N packages**, each qualifying CPU has at least **8 physical cores**. CPU vendor/model, fixed socket count, static CPU lists and static NUMA IDs are not canonical requirements.
-- GPU: **1..N NVIDIA RTX GPUs**, with a minimum generation of **RTX 30-series**. RTX 40/50 and later generations are explicitly admissible when the selected workload/runtime supports them. Exact GPU SKU, fixed GPU count, VRAM size, SM value, PCI BDF and CUDA ordinal are not global FA3 requirements.
+- Accelerator: **0..N typed GPU/NPU/integrated/other accelerators**. No accelerator, vendor, product family, runtime API, architecture or marketing generation is a global minimum. Provider-specific NVIDIA/CUDA, AMD/ROCm, Intel/Level Zero/oneAPI or other requirements apply only to workloads that explicitly select those providers. Such workloads require compatible live discovery and an HRB lease.
 - Hardware is rediscovered at boot/admission and revalidated after topology change. `FA3-HARDWARE-DISCOVERY-CONTRACTS-001` supplies the provider-neutral discovery descriptors; the existing Host Resource Broker remains the exclusive admission/placement/reservation/lease authority.
-- Exact T7910, Xeon, RTX, PCIe, NUMA or current-host observations may exist in reference/current-host evidence, but they are **non-normative** and cannot become portable defaults.
+- Historical workstation/CPU/GPU/BDF/topology records are not retained in the repository. Current-host hardware facts must be freshly collected for the host state being validated and never become portable defaults.
 
 The fail-closed repository audit and regression gate is:
 
@@ -1210,7 +1210,7 @@ The fail-closed repository audit and regression gate is:
 PYTHONPATH=src python -m unittest tests.test_hardware_portability_gate -v
 ```
 
-Any newly introduced fixed production runtime GPU list/count, CPU affinity/NUMA mask, CUDA ordinal or unclassified concrete reference-host assumption blocks the canonical static gate. Capability count remains **143** and new architectural authorities remain **0**.
+Any newly introduced global accelerator-presence/vendor/runtime floor, fixed production runtime device list/count, CPU affinity/NUMA mask, runtime ordinal or unclassified concrete reference-host assumption blocks the canonical static gate. Capability count remains **143** and new architectural authorities remain **0**.
 ## Obsidian human knowledge workspace finalization (2026-09-07)
 
 `FA3-HUMAN-KNOWLEDGE-WORKSPACE-001` finalizes Obsidian as an **optional human-facing local Markdown knowledge workspace provider** projected only to existing `CAP-010` and `CAP-018`. The capability count remains **143** and no architectural authority is added. Obsidian is not the agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority.

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import module_active_capability_count
-from fa3_hardware_portability_gate import CUDA_COMPUTE_CAPABILITY_MIN
 
 import argparse
 import json
@@ -96,7 +95,7 @@ def manager_violations(assignments: list[dict[str, Any]], host_survival_policy: 
 
 def hardware_floor_valid(discovery: dict[str, Any]) -> bool:
     cpu = discovery.get("cpu", {})
-    gpu = discovery.get("gpu", {})
+    accelerator = discovery.get("accelerators", discovery.get("gpu", {}))
     counts = cpu.get("physical_cores_by_package", {})
     if not isinstance(counts, dict) or not counts:
         return False
@@ -105,28 +104,29 @@ def hardware_floor_valid(discovery: dict[str, Any]) -> bool:
         per_package = [int(v) for v in counts.values()]
     except (TypeError, ValueError):
         return False
-    qualifying: list[dict[str, Any]] = []
-    for device in gpu.get("devices", []):
+
+    devices = accelerator.get("devices", [])
+    if not isinstance(devices, list):
+        return False
+    for device in devices:
         if not isinstance(device, dict):
-            continue
-        try:
-            capability = float(device.get("cuda_compute_capability"))
-        except (TypeError, ValueError):
-            continue
-        if (
-            str(device.get("vendor", "")).strip().upper() == "NVIDIA"
-            and capability >= CUDA_COMPUTE_CAPABILITY_MIN
-        ):
-            qualifying.append(device)
+            return False
+        stable_identity = (
+            str(device.get("stable_id", "")).strip()
+            or str(device.get("device_uuid", "")).strip()
+            or str(device.get("pci_bdf", "")).strip()
+        )
+        if not stable_identity:
+            return False
+
     return (
         package_count >= 1
         and len(per_package) == package_count
         and min(per_package) >= 8
-        and len(qualifying) >= 1
-        and discovery.get("cardinality_semantics") == "DYNAMIC_1_TO_N"
+        and discovery.get("cpu_cardinality_semantics") == "DYNAMIC_1_TO_N"
+        and discovery.get("accelerator_cardinality_semantics") == "DYNAMIC_0_TO_N"
         and discovery.get("host_identity_semantics") == "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY"
     )
-
 
 def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []

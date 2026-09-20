@@ -27,7 +27,7 @@
     "accelerator_lease_required_when_accelerator_required": true,
     "cpu_only_workload_must_not_require_accelerator_discovery_or_accelerator_lease": true,
     "hrb_authorization_must_be_current_and_scope_bound": true,
-    "stable_device_identity_required_for_accelerators": ["DEVICE_UUID", "PCI_BDF"],
+    "stable_device_identity_required_for_accelerators": "PROVIDER_STABLE_ID_OR_DEVICE_UUID_OR_PCI_BDF_WHEN_APPLICABLE",
     "provider_self_admission_forbidden": true,
     "named_hardware_default_forbidden": true,
     "silent_device_or_cpu_fallback_forbidden": true

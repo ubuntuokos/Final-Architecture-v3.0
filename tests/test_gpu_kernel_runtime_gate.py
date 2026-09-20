@@ -13,7 +13,7 @@ class GPUKernelRuntimeTests(unittest.TestCase):
         self.assertFalse(r["current_host_provider_runtime_evidence"])
 
     def test_framework_native_baseline_is_not_sm86_pinned(self):
-        req=KernelRequest("r","l","GPU-x","0000:05:00.0","sm89","linear_silu",64,4096,4096,1,"BF16","NT")
+        req=KernelRequest("r","l","GPU-x","0000:3b:00.0","sm89","linear_silu",64,4096,4096,1,"BF16","NT")
         base=KernelCandidate(g.FRAMEWORK_PROVIDER,("sm89",),("BF16",),("linear_silu",),False,True,1.0)
         self.assertEqual(g.FRAMEWORK_PROVIDER,choose_candidate(req,[base]).provider_id)
 
@@ -23,13 +23,13 @@ class GPUKernelRuntimeTests(unittest.TestCase):
         self.assertTrue(provider_arch_eligible("sm89",("sm89",)))
 
     def test_custom_without_correctness_is_not_selected(self):
-        req=KernelRequest("r","l","GPU-x","0000:05:00.0","sm86","linear_silu",64,4096,4096,1,"BF16","NT")
+        req=KernelRequest("r","l","GPU-x","0000:3b:00.0","sm86","linear_silu",64,4096,4096,1,"BF16","NT")
         base=KernelCandidate(g.FRAMEWORK_PROVIDER,("sm86",),("BF16",),("linear_silu",),False,True,1.0)
         bad=KernelCandidate(g.AMPERE_PROVIDER,("sm86",),("BF16",),("linear_silu",),True,False,0.1)
         self.assertEqual(g.FRAMEWORK_PROVIDER,choose_candidate(req,[base,bad]).provider_id)
 
     def test_requested_ineligible_provider_fails_no_silent_fallback(self):
-        req=KernelRequest("r","l","GPU-x","0000:05:00.0","sm86","linear_silu",64,4096,4096,1,"BF16","NT",g.DEEPGEMM_PROVIDER)
+        req=KernelRequest("r","l","GPU-x","0000:3b:00.0","sm86","linear_silu",64,4096,4096,1,"BF16","NT",g.DEEPGEMM_PROVIDER)
         base=KernelCandidate(g.FRAMEWORK_PROVIDER,("sm86",),("BF16",),("linear_silu",),False,True,1.0)
         with self.assertRaises(ValueError): choose_candidate(req,[base])
 
@@ -37,9 +37,9 @@ class GPUKernelRuntimeTests(unittest.TestCase):
         adm=json.loads((ROOT/g.PATHS["admission"]).read_text())
         self.assertTrue(g.admission_portability_valid(adm))
         text=json.dumps(adm)
-        self.assertNotIn("RTX 3080",text)
-        self.assertNotIn("E5-2696",text)
-        self.assertNotIn("T7910",text)
+        self.assertNotIn("LEGACY_ACCELERATOR_SKU",text)
+        self.assertNotIn("LEGACY_CPU_SKU",text)
+        self.assertNotIn("LEGACY_HOST_MODEL",text)
 
     def test_deepgemm_pin_is_immutable(self):
         ref=json.loads((ROOT/g.PATHS["reference"]).read_text())

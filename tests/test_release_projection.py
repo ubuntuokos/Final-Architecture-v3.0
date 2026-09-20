@@ -740,7 +740,27 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             path = dst / "evidence/evidence-registry.json"
             obj = json.loads(path.read_text(encoding="utf-8"))
             cap006 = next(item for item in obj["records"] if item["subject_id"] == "CAP-006")
-            cap006["source_decision_ids"].remove("FA3-DEC-HARDWARE-PORTABILITY-2026-09-03")
+            cap006["source_decision_ids"].remove("FA3-DEC-HARDWARE-AUDIT-2026-09-20")
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-037"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_hardware_portability_cpu_only_baseline_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "canonical/profiles/FA3-HW-001.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            accelerator = obj["minimum_portable_hardware_envelope"]["accelerator"]
+            accelerator["minimum_qualifying_device_count"] = 1
+            accelerator["cpu_only_host_conforms"] = False
             path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
             report = self._gate_copy(dst, facts)
             self.assertEqual("FAIL", report["result"])

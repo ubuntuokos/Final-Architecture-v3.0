@@ -55,8 +55,8 @@ P0_RULES = [
     "LOOP_PATTERN_REGISTRY_TYPED_VERSIONED",
     "LOOP_ENGINEERING_CLI_AND_MARKDOWN_FORMATS_NOT_HARD_DEPENDENCIES",
     "HRB_LIVE_CPU_NUMA_GPU_ADMISSION_NO_STATIC_REFERENCE_PLACEMENT",
-    "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE_UUID_BDF",
-    "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_GPU_RTX30_OR_NEWER_NO_MODEL_PIN",
+    "ACCELERATOR_EXECUTION_REQUIRES_HRB_LEASE_AND_DISCOVERED_STABLE_ID_WHEN_AVAILABLE",
+    "FA3_PORTABLE_HARDWARE_FLOOR_CPU_1X8C_ACCELERATOR_0_TO_N_VENDOR_NEUTRAL_NO_MODEL_PIN",
     "REFERENCE_CI_NOT_CURRENT_HOST_PROMOTION_EVIDENCE",
     "DISABLED_REFERENCE_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
 ]
@@ -215,13 +215,13 @@ def run_regressions() -> dict[str, Any]:
     add(P0_RULES[31], "HRB live CPU NUMA GPU admission",
         refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=False, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=False, gpu_uuid=None, pci_bdf=None, ordinal_only=False),
         not refimpl.hardware_admission_valid(live_discovery=False, hrb_lease=False, static_cpu_ids=True, reference_as_portable_default=True, accelerator_required=False, gpu_uuid=None, pci_bdf=None, ordinal_only=False))
-    add(P0_RULES[32], "accelerator execution requires HRB lease UUID+BDF",
-        refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=True, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid="GPU-u", pci_bdf="0000:05:00.0", ordinal_only=False),
+    add(P0_RULES[32], "accelerator execution requires an HRB lease and discovered stable identity when available",
+        refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=True, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid="stable-device-id", pci_bdf=None, ordinal_only=False),
         not refimpl.hardware_admission_valid(live_discovery=True, hrb_lease=False, static_cpu_ids=False, reference_as_portable_default=False, accelerator_required=True, gpu_uuid=None, pci_bdf=None, ordinal_only=True))
-    add(P0_RULES[33], "portable FA3 minimum hardware floor without model pins",
-        refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_vendor="NVIDIA", gpu_compute_capability=8.6, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False)
-        and refimpl.portable_hardware_floor_valid(cpu_packages=2, physical_cores_per_package=32, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=2, gpu_vendor="NVIDIA", gpu_compute_capability=12.0, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False),
-        not refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=6, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=1, gpu_vendor="NVIDIA", gpu_compute_capability=8.0, gpu_specific_sku_pinned=True, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False))
+    add(P0_RULES[33], "portable FA3 CPU floor with optional 0..N accelerators",
+        refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=0, gpu_vendor=None, gpu_compute_capability=None, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False)
+        and refimpl.portable_hardware_floor_valid(cpu_packages=2, physical_cores_per_package=32, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=2, gpu_vendor="INTEL", gpu_compute_capability=None, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False),
+        not refimpl.portable_hardware_floor_valid(cpu_packages=1, physical_cores_per_package=8, cpu_vendor_pinned=False, cpu_model_pinned=False, gpu_count=0, gpu_vendor=None, gpu_compute_capability=None, gpu_specific_sku_pinned=False, gpu_specific_vram_pinned=False, gpu_specific_sm_pinned=False, accelerator_required=True))
     add(P0_RULES[34], "reference CI cannot claim current-host promotion",
         reference_ci_valid(reference_pass=True, current_host_claim=False, production_admission=False),
         not reference_ci_valid(reference_pass=True, current_host_claim=True, production_admission=True))
@@ -319,27 +319,31 @@ def reference_check(root: Path) -> dict[str, Any]:
 
     hw = profile.get("portable_hardware_minimum", {})
     hw_cpu = hw.get("cpu", {})
-    hw_gpu = hw.get("gpu", {})
+    hw_accel = hw.get("accelerator", {})
     if not (
         hw.get("semantics") == "FA3_GLOBAL_PORTABLE_MINIMUM_NOT_CURRENT_HOST_MODEL_PIN"
         and hw_cpu.get("package_count_min") == 1
         and hw_cpu.get("physical_cores_per_package_min") == 8
         and hw_cpu.get("vendor_pinned") is False
         and hw_cpu.get("model_pinned") is False
-        and hw_gpu.get("device_count_min") == 1
-        and hw_gpu.get("vendor") == "NVIDIA"
-        and float(hw_gpu.get("cuda_compute_capability_min", 0)) == 8.6
-        and hw_gpu.get("sku_series_admission_authority") is False
-        and hw_gpu.get("marketing_identity_required") is False
-        and hw_gpu.get("specific_sku_pinned") is False
-        and hw_gpu.get("specific_vram_pinned") is False
-        and hw_gpu.get("specific_sm_pinned") is False
+        and hw_accel.get("device_count_min") == 0
+        and hw_accel.get("cpu_only_host_conforms") is True
+        and hw_accel.get("cpu_only_workload_requires_lease") is False
+        and hw_accel.get("required_workload_admission") == "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
+        and hw_accel.get("vendor_pin") == "FORBIDDEN"
+        and hw_accel.get("global_runtime_api_pin") == "FORBIDDEN"
+        and hw_accel.get("workload_provider_compatibility_required") is True
+        and hw_accel.get("sku_series_admission_authority") is False
+        and hw_accel.get("marketing_identity_required") is False
+        and hw_accel.get("specific_sku_pinned") is False
+        and hw_accel.get("specific_vram_pinned") is False
+        and hw_accel.get("specific_architecture_pinned") is False
     ):
         findings.append(_finding("LOOP-REF-003A", "portable FA3 hardware floor drift"))
 
     hw_global = hardware_profile.get("minimum_portable_hardware_envelope", {})
     hw_global_cpu = hw_global.get("cpu", {})
-    hw_global_gpu = hw_global.get("gpu", {})
+    hw_global_accelerator = hw_global.get("accelerator", {})
     hw_contract_floor = hardware_contract.get("portable_minimum_envelope", {})
     if not (
         hardware_profile.get("id") == "FA3-HW-001"
@@ -348,19 +352,33 @@ def reference_check(root: Path) -> dict[str, Any]:
         and hw_global_cpu.get("minimum_physical_cores_per_qualifying_cpu") == 8
         and hw_global_cpu.get("vendor_pin") == "FORBIDDEN"
         and hw_global_cpu.get("model_pin") == "FORBIDDEN"
-        and hw_global_gpu.get("minimum_qualifying_device_count") == 1
-        and hw_global_gpu.get("vendor") == "NVIDIA"
-        and float(hw_global_gpu.get("cuda_compute_capability_min", 0)) == 8.6
-        and hw_global_gpu.get("sku_series_admission_authority") is False
-        and hw_global_gpu.get("marketing_identity_required") is False
-        and hw_global_gpu.get("exact_sku_pin") == "FORBIDDEN"
+        and hw_global_accelerator.get("minimum_qualifying_device_count") == 0
+        and hw_global_accelerator.get("cpu_only_host_conforms") is True
+        and hw_global_accelerator.get("cpu_only_workload_requires_lease") is False
+        and hw_global_accelerator.get("required_workload_admission") == "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
+        and hw_global_accelerator.get("vendor_pin") == "FORBIDDEN"
+        and hw_global_accelerator.get("global_runtime_api_pin") == "FORBIDDEN"
+        and hw_global_accelerator.get("workload_runtime_compatibility") == "REQUIRED"
+        and hw_global_accelerator.get("provider_capability_negotiation") == "REQUIRED"
+        and {"NVIDIA","AMD","INTEL"} <= set(hw_global_accelerator.get("supported_reference_vendor_families", []))
+        and "NVIDIA_DGX" in set(hw_global_accelerator.get("supported_reference_platform_families", []))
+        and hw_global_accelerator.get("sku_series_admission_authority") is False
+        and hw_global_accelerator.get("marketing_identity_required") is False
+        and hw_global_accelerator.get("exact_sku_pin") == "FORBIDDEN"
         and hardware_contract.get("id") == "FA3-HW-CONTRACTS-001"
         and hw_contract_floor.get("cpu", {}).get("package_count_min") == 1
         and hw_contract_floor.get("cpu", {}).get("physical_cores_per_qualifying_cpu_min") == 8
-        and hw_contract_floor.get("gpu", {}).get("vendor") == "NVIDIA"
-        and float(hw_contract_floor.get("gpu", {}).get("cuda_compute_capability_min", 0)) == 8.6
-        and hw_contract_floor.get("gpu", {}).get("sku_series_is_admission_authority") is False
-        and hw_contract_floor.get("gpu", {}).get("marketing_identity_required") is False
+        and hw_contract_floor.get("accelerator", {}).get("qualifying_device_count_min") == 0
+        and hw_contract_floor.get("accelerator", {}).get("cpu_only_host_conforms") is True
+        and hw_contract_floor.get("accelerator", {}).get("cpu_only_workload_requires_lease") is False
+        and hw_contract_floor.get("accelerator", {}).get("vendor_pin") == "FORBIDDEN"
+        and hw_contract_floor.get("accelerator", {}).get("global_runtime_api_pin") == "FORBIDDEN"
+        and hw_contract_floor.get("accelerator", {}).get("workload_runtime_compatibility_required") is True
+        and hw_contract_floor.get("accelerator", {}).get("provider_capability_negotiation_required") is True
+        and {"NVIDIA","AMD","INTEL"} <= set(hw_contract_floor.get("accelerator", {}).get("supported_reference_vendor_families", []))
+        and "NVIDIA_DGX" in set(hw_contract_floor.get("accelerator", {}).get("supported_reference_platform_families", []))
+        and hw_contract_floor.get("accelerator", {}).get("sku_series_is_admission_authority") is False
+        and hw_contract_floor.get("accelerator", {}).get("marketing_identity_required") is False
     ):
         findings.append(_finding("LOOP-REF-003B", "global FA3 portable hardware baseline drift"))
 
@@ -469,11 +487,16 @@ def reference_check(root: Path) -> dict[str, Any]:
         and policy.get("loop_engineering_mandatory_p0_rules") == P0_RULES
         and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("cpu", {}).get("package_count_min") == 1
         and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("cpu", {}).get("physical_cores_per_package_min") == 8
-        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("vendor") == "NVIDIA"
-        and float(policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("cuda_compute_capability_min", 0)) == 8.6
-        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("sku_series_admission_authority") is False
-        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("marketing_identity_required") is False
-        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("gpu", {}).get("specific_sku_restriction") == "NONE"
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("device_count_min") == 0
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("cpu_only_host_conforms") is True
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("cpu_only_workload_requires_lease") is False
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("vendor_restriction") == "NONE"
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("runtime_api_restriction") == "NONE"
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("vendor_specific_capability_floor") == "NONE"
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("compatibility") == "WORKLOAD_PROVIDER_SCOPED"
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("fixed_device_count") is False
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("fixed_pci_bdf") is False
+        and policy.get("fa3_portable_minimum_hardware_envelope", {}).get("accelerator", {}).get("fixed_runtime_ordinal") is False
     ):
         findings.append(_finding("LOOP-REF-012", "global policy binding drift"))
 

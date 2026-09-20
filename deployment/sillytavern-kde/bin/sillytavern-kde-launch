@@ -43,11 +43,11 @@ height="${FA3_SILLYTAVERN_HEIGHT:-900}"
 ozone_args=()
 if [[ "${XDG_SESSION_TYPE:-}" == "wayland" ]]; then
   ozone_args=(--ozone-platform=wayland)
-elif [[ "${FA3_SILLYTAVERN_ALLOW_XWAYLAND:-0}" != "1" ]]; then
-  printf 'FA3 SillyTavern KDE: Wayland session required; set an explicit FA3_SILLYTAVERN_ALLOW_XWAYLAND=1 exception only when admitted.\n' >&2
+elif [[ "${XDG_SESSION_TYPE:-}" != "x11" ]]; then
+  printf 'FA3 SillyTavern KDE: an admitted Wayland or X11 desktop session is required.\n' >&2
   exit 69
 else
-  printf 'FA3 SillyTavern KDE: using explicitly admitted non-Wayland/XWayland compatibility exception.\n' >&2
+  printf 'FA3 SillyTavern KDE: using supported X11 compatibility session.\n' >&2
 fi
 
 unset ELECTRON_RUN_AS_NODE

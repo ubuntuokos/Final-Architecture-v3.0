@@ -55,7 +55,7 @@ class InferenceCacheHardeningGateTests(unittest.TestCase):
 
     def test_cache_identity_requires_gpu_version_cig_and_origin_driver(self):
         good = {
-            "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+            "gpu_sku": "fixture-accelerator-generation-a",
             "tensorrt_rtx_version": "1.6.1.120",
             "cuda_context_cig_state": "DISABLED",
             "cache_origin_driver_version": "610.43.02",
@@ -69,13 +69,13 @@ class InferenceCacheHardeningGateTests(unittest.TestCase):
 
     def test_older_driver_rejects_cache_reuse(self):
         cache = {
-            "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+            "gpu_sku": "fixture-accelerator-generation-a",
             "tensorrt_rtx_version": "1.6.1.120",
             "cuda_context_cig_state": "DISABLED",
             "cache_origin_driver_version": "610.43.02",
         }
         runtime = {
-            "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+            "gpu_sku": "fixture-accelerator-generation-a",
             "tensorrt_rtx_version": "1.6.1.120",
             "cuda_context_cig_state": "DISABLED",
             "runtime_driver_version": "609.99.00",
@@ -84,13 +84,13 @@ class InferenceCacheHardeningGateTests(unittest.TestCase):
 
     def test_cig_or_version_drift_rejects_cache_reuse(self):
         cache = {
-            "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+            "gpu_sku": "fixture-accelerator-generation-a",
             "tensorrt_rtx_version": "1.6.1.120",
             "cuda_context_cig_state": "DISABLED",
             "cache_origin_driver_version": "610.43.02",
         }
         runtime = {
-            "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+            "gpu_sku": "fixture-accelerator-generation-a",
             "tensorrt_rtx_version": "1.6.1.120",
             "cuda_context_cig_state": "DISABLED",
             "runtime_driver_version": "610.57.04",
@@ -124,7 +124,7 @@ class InferenceCacheHardeningGateTests(unittest.TestCase):
             "observability_source": "APPLICATION_LOG",
             "runtime_driver_version": "610.57.04",
             "cache_origin_driver_version": "610.43.02",
-            "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+            "gpu_sku": "fixture-accelerator-generation-a",
             "tensorrt_rtx_version": "1.6.1.120",
             "cuda_context_cig_state": "DISABLED",
             "first_inference_latency_ms": 2200.0,

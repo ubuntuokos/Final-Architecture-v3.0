@@ -101,7 +101,7 @@ def reference_execution() -> dict[str, Any]:
             "hrb_lease": {
                 "lease_id": "lease-reference-openfx-001",
                 "device_uuid": "GPU-reference-uuid",
-                "pci_bdf": "0000:05:00.0",
+                "pci_bdf": "0000:3b:00.0",
                 "role": "COMPUTE",
                 "runtime_ordinal": 0,
                 "runtime_ordinal_is_canonical": False,

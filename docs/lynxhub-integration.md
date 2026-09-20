@@ -93,7 +93,7 @@ Static/reference checks:
 PYTHONPATH=src python -m unittest tests.test_lynxhub_gate -v
 ```
 
-Current-host evidence collection is read-only and must run in the real Wayland session. Supply the original `.deb` and pinned Custom Actions archive when available:
+Current-host evidence collection is read-only and must run in the real admitted Wayland or X11 session. Supply the original `.deb` and pinned Custom Actions archive when available:
 
 ```bash
 python evidence/collect-lynxhub-current-host.py \
@@ -102,7 +102,7 @@ python evidence/collect-lynxhub-current-host.py \
   --output evidence/current-host/lynxhub-current-host.json
 ```
 
-The collector does not install, start, stop or reconfigure anything. Runtime promotion also requires a human-observed Wayland UI/action smoke, bypass-negative results, OpenSnitch/default-deny evidence, clean stop and rollback receipt.
+The collector does not install, start, stop or reconfigure anything. Runtime promotion also requires a human-observed session-native UI/action smoke, bypass-negative results, OpenSnitch/default-deny evidence, clean stop and rollback receipt.
 
 Rollback of the FA3 user adapter preserves the Debian package and LynxHub data:
 

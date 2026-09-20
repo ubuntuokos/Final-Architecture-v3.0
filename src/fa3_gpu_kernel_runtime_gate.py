@@ -112,7 +112,7 @@ def run_regressions()->dict[str,Any]:
     cases=[]
     def add(rule,detail,pos,neg):
         cases.append({"rule_id":rule,"detail":detail,"positive_case":bool(pos),"negative_case":bool(neg),"status":"PASS" if pos and neg else "FAIL"})
-    req86=KernelRequest("r","lease","GPU-uuid","0000:05:00.0","sm86","linear_silu",1024,4096,4096,1,"BF16","NT")
+    req86=KernelRequest("r","lease","GPU-uuid","0000:3b:00.0","sm86","linear_silu",1024,4096,4096,1,"BF16","NT")
     req89=KernelRequest("r2","lease2","GPU-y","0000:06:00.0","sm89","linear_silu",512,4096,4096,1,"BF16","NT")
     base86=KernelCandidate(FRAMEWORK_PROVIDER,("sm86",),("BF16",),("linear_silu",),False,True,1.0,0,8<<30)
     base89=KernelCandidate(FRAMEWORK_PROVIDER,("sm89",),("BF16",),("linear_silu",),False,True,1.1,0,8<<30)
