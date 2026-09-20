@@ -44,7 +44,7 @@ Item {
             spacing: 2
             Label { text: "Token Control Center"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
             Label {
-                text: "Credential-titkok és AI-fogyasztási tokenek közös, provider-semleges governance felülete. API tokenek, külső provider belépési titkok és FA3-jelszavak: FA3-SECRET-BROKER-001; raw secret value nem jelenik meg a GUI-ban."
+                text: "FA3-TOKEN-GOVERNANCE-001 · Credential-titkok és AI-fogyasztási tokenek közös, provider-semleges governance felülete. API tokenek, külső provider belépési titkok és FA3-jelszavak: FA3-SECRET-BROKER-001; raw secret value nem jelenik meg a GUI-ban."
                 color: root.textMuted; font.pixelSize: 10; wrapMode: Text.WordWrap; Layout.fillWidth: true
             }
         }
@@ -134,7 +134,8 @@ Item {
                             Label { text: "Két külön tokenréteg"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
                             InfoLine { titleText: "1. Credential / access token"; detailText: "API key, OAuth, JWT, session, MCP/service token. Az alkalmazás csak SecretRef/capability handle-t kaphat; tartós plaintext secret tiltott."; tone: root.orange }
                             InfoLine { titleText: "2. AI fogyasztási token"; detailText: "Input, output, context, cache és reasoning tokenhasználat, kvóták, budgetek és költségek. Valós számláló csak runtime/provider telemetry adapterből jelenhet meg."; tone: root.accent }
-                            InfoLine { titleText: "Secret runtime"; detailText: "FA3-SECRET-BROKER-001 materialized · generikus nevű külön LUKS2 image · desktop/display-server agnostic core · production promotion requires real current-host E2E."; tone: root.green }\n                            InfoLine { titleText: "Usage telemetry"; detailText: "Valós tokenhasználat/költség továbbra is N/A, amíg admitted telemetry adapter nincs."; tone: root.textMuted }
+                            InfoLine { titleText: "Secret runtime"; detailText: "FA3-SECRET-BROKER-001 materialized · generikus nevű külön LUKS2 image · desktop/display-server agnostic core · production promotion requires real current-host E2E."; tone: root.green }
+                            InfoLine { titleText: "Usage telemetry"; detailText: "Valós tokenhasználat/költség továbbra is N/A, amíg admitted telemetry adapter nincs."; tone: root.textMuted }
                             Item { Layout.fillHeight: true }
                         }
 
@@ -239,7 +240,9 @@ Item {
                             Label { text: "Házirendek"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
                             CheckBox { text: "Least scope"; checked: true; enabled: false }
                             CheckBox { text: "Expiry + rotation + revocation required"; checked: true; enabled: false }
-                            CheckBox { text: "Plaintext secret storage forbidden"; checked: true; enabled: false }\n                            CheckBox { text: "Full vault mount to application forbidden"; checked: true; enabled: false }\n                            CheckBox { text: "Podman secret: type=mount default; env forbidden"; checked: true; enabled: false }
+                            CheckBox { text: "Plaintext secret storage forbidden"; checked: true; enabled: false }
+                            CheckBox { text: "Full vault mount to application forbidden"; checked: true; enabled: false }
+                            CheckBox { text: "Podman secret: type=mount default; env forbidden"; checked: true; enabled: false }
                             CheckBox { text: "Audited broker access"; checked: true; enabled: false }
                             CheckBox { text: "Fail-closed on missing credential/usage evidence"; checked: true; enabled: false }
                             Item { Layout.fillHeight: true }
