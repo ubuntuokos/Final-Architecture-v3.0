@@ -33,7 +33,7 @@ def check()->dict:
     req(g.get("priority")=="P0" and g.get("fail_closed") is True and g.get("production_runtime_promoted") is False,"SB-015")
     broker=(ROOT/"src/fa3_secret_broker.py").read_text()
     req("SO_PEERCRED" in broker and "secret_ref_sha256" in broker and "secret_values_collected" in broker and "serve_forever" in broker,"SB-016")
-    req("bulk" not in broker.lower() or "bulk export" not in broker.lower(),"SB-017")
+    req('if op=="bulk"' not in broker and "unsupported operation" in broker,"SB-017")
     client=(ROOT/"bin/fa3-secretctl").read_text()
     req("getpass.getpass" in client and "secret_b64" in client and "os.environ" not in client,"SB-018")
     init=(ROOT/"bin/fa3-secret-vault-init").read_text()
@@ -50,5 +50,7 @@ def check()->dict:
     req(sv.get("machine_secret_boundary",{}).get("profile")=="FA3-SECRET-BROKER-001" and sv["machine_secret_boundary"].get("raw_machine_application_secret_storage")=="FORBIDDEN","SB-024")
     return {"schema":"fa3.secret-broker-gate-report.v1","gate_id":"FA3-GATE-SECRET-BROKER-001","result":"PASS" if not findings else "FAIL","findings":findings,"production_runtime_promoted":False,"global_promotion_claim":False,"capability_count":143}
 def main()->int:
-    out=check();print(json.dumps(out,indent=2));return 0 if out["result"]=="PASS" else 2
+    out=check()
+    q=ROOT/"reports/secret-broker-gate-report.json";q.parent.mkdir(parents=True,exist_ok=True);q.write_text(json.dumps(out,indent=2)+"\n")
+    print(json.dumps(out,indent=2));return 0 if out["result"]=="PASS" else 2
 if __name__=="__main__":raise SystemExit(main())
