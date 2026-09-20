@@ -9,7 +9,7 @@ getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service 
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
-MAPPER="fa3-sb-e2e-$$"; RMAPPER="fa3-sb-restore-$$"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"
+MAPPER="fa3-sb-e2e-$"; RMAPPER="fa3-sb-restore-$"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"; PROJ="/run/fa3-secret-broker-e2e-$"
 BROKER_PID=""; RESTORE_PID=""
 cleanup(){
   if [[ -n "$RESTORE_PID" ]]; then kill "$RESTORE_PID" >/dev/null 2>&1 || true; wait "$RESTORE_PID" 2>/dev/null || true; fi
@@ -68,7 +68,7 @@ CANARY_HASH="$(printf '%s' "$CANARY" | sha256sum | cut -d' ' -f1)"
 printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
 GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
 [[ "$GOT_HASH" == "$CANARY_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
-PROJ="/run/fa3-secret-broker-e2e-$"; install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
+install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
 runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection SYSTEMD_CREDENTIAL --output "$PROJ/api-token"
 [[ "$(stat -c '%a' "$PROJ/api-token")" == "600" ]] || { echo "projection file mode mismatch" >&2; exit 2; }
 SYSTEMD_HASH="$(systemd-run --quiet --wait --pipe --collect --service-type=oneshot --property="User=$PROBE_USER" --property="LoadCredential=api-token:$PROJ/api-token" /bin/sh -c 'sha256sum "$CREDENTIALS_DIRECTORY/api-token" | cut -d" " -f1')"
@@ -96,6 +96,8 @@ PY
 kill "$BROKER_PID"; wait "$BROKER_PID" 2>/dev/null || true; BROKER_PID=""
 umount "$MNT"; PRIMARY_UNMOUNT=true
 cryptsetup close "$MAPPER"; PRIMARY_CLOSE=true
+FA3_MACHINE_STATE_IMAGE="$IMG" FA3_MACHINE_STATE_MAPPER="$MAPPER" FA3_MACHINE_STATE_MOUNT="$MNT" /usr/local/libexec/fa3-secret-vault-mount assert-closed
+FA3_EXIT_CLOSED_STATE=true
 cp --reflink=never --sparse=always --preserve=mode,timestamps "$IMG" "$BACKUP"; cmp -s "$IMG" "$BACKUP"
 OPAQUE_BACKUP=true
 cryptsetup open --readonly --type luks2 --key-file "$KEY" "$BACKUP" "$RMAPPER"
@@ -123,7 +125,7 @@ x={
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
  "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
- "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"opaque_backup_copy_pass":True,
+ "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True},
  "test_unlock_key_ephemeral":True,"secret_values_collected":False,"runtime_promotion_eligible":True,
  "global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143
