@@ -19,7 +19,8 @@ class T(unittest.TestCase):
  def test_bootstrap_fetch_verify_is_nounset_safe(self):
   s=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
   self.assertNotIn('out="$7" base="https://github.com/$repo/releases/download/v$ver"',s)
-  self.assertIn('out="$7"; local base; base="https://github.com/$repo/releases/download/v$ver"',s)
+  self.assertIn('out="$7" verifier="$8"; local base; base="https://github.com/$repo/releases/download/v$ver"',s)
+  self.assertIn('"$verifier" verify-blob',s)
  def test_bootstrap_self_bootstraps_pinned_cosign(self):
   s=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
   self.assertIn("bootstrap_cosign",s)
