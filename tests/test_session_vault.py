@@ -33,6 +33,14 @@ class SessionVaultTests(unittest.TestCase):
   self.assertIn("tryAutoUnlock",s)
   self.assertIn("QTimer::singleShot",s)
   self.assertIn('m_statusText = QStringLiteral("LOCKED")',s)
+ def test_filesystem_label_fits_ext4_limit(self):
+  p=json.loads((ROOT/"canonical/profiles/FA3-SESSION-VAULT-001.json").read_text())
+  label=p["storage"]["filesystem_label"]
+  self.assertLessEqual(len(label),16)
+  s=(ROOT/"bin/fa3-session-vault-init").read_text()
+  self.assertIn("--label "+label,s)
+  self.assertIn("-L "+label,s)
+  self.assertNotIn("FA3_SESSION_VAULT",s)
  def test_runtime_is_not_falsely_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
   self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
