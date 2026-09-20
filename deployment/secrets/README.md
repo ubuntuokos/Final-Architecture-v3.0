@@ -1,6 +1,8 @@
 # FA3 encrypted secrets runtime
 
-The machine/service secret store is a separate LUKS2 image at `/var/lib/fa3/state/fa3-machine-state.img`. It is opened only while `fa3-secrets.target` is active. The raw mount is owned by `fa3-secret-broker`; consumers never receive the full mount.
+The FA3 credential-secret store is a separate LUKS2 image at `/var/lib/fa3/state/fa3-machine-state.img`. The external image name is intentionally generic and MUST NOT disclose that credentials are stored inside. It is opened only while `fa3-secrets.target` is active. The raw mount is owned by `fa3-secret-broker`; consumers never receive the full mount.
+
+Only credential secrets belong here: tokens, API keys, OAuth secrets, external-provider login secrets, service/database/SMTP passwords, MCP/provider credentials and equivalent authentication material. Cache, project data, model data, documents, telemetry, general configuration and ordinary application state are out of scope.
 
 Install creates the service identities `fa3-secret-broker`, `fa3-secret-clients`, and `fa3-secret-admin`, installs the units/scripts, initializes the image once with `sudo bin/fa3-secret-vault-init`, and then starts/stops the lifecycle with `sudo systemctl start|stop fa3-secrets.target`.
 
