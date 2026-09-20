@@ -48,9 +48,10 @@ def check()->dict:
     req("User=fa3-secret-broker" in broker_unit and "NoNewPrivileges=true" in broker_unit and "RestrictAddressFamilies=AF_UNIX" in broker_unit and "CapabilityBoundingSet=" in broker_unit and "chgrp fa3-secret-clients /run/fa3-secret-broker" in broker_unit,"SB-022")
     req("Requires=fa3-secret-broker.service" in target and "PartOf=fa3-secrets.target" in broker_unit and "PartOf=fa3-secrets.target" in vault_unit,"SB-023")
     lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
+    installer=(ROOT/"bin/fa3-secret-broker-install").read_text()
     exit_contract=p.get("lifecycle",{}).get("fa3_exit_contract",{})
     req(exit_contract.get("command")=="/usr/local/sbin/fa3-secrets-lifecycle exit" and set(exit_contract.get("completion_requires",[]))=={"SECRET_DEPENDENT_PROVIDERS_STOPPED","SECRET_BROKER_INACTIVE","VAULT_SERVICE_INACTIVE","VAULT_UNMOUNTED","LUKS_MAPPING_CLOSED"} and exit_contract.get("incomplete_shutdown")=="FAIL_CLOSED_NOT_EXITED","SB-023A")
-    req("systemctl stop fa3-secrets.target" in lifecycle and "mountpoint -q" in lifecycle and "/dev/mapper/$MAPPER" in lifecycle and "assert_closed" in lifecycle,"SB-023B")
+    req("systemctl stop fa3-secrets.target" in lifecycle and "mountpoint -q" in lifecycle and "/dev/mapper/$MAPPER" in lifecycle and "assert_closed" in lifecycle and "/usr/local/sbin/fa3-secrets-lifecycle" in installer,"SB-023B")
     sv=load("canonical/profiles/FA3-SESSION-VAULT-001.json")
     req(sv.get("machine_secret_boundary",{}).get("profile")=="FA3-SECRET-BROKER-001" and sv["machine_secret_boundary"].get("raw_machine_application_secret_storage")=="FORBIDDEN","SB-024")
     return {"schema":"fa3.secret-broker-gate-report.v1","gate_id":"FA3-GATE-SECRET-BROKER-001","result":"PASS" if not findings else "FAIL","findings":findings,"production_runtime_promoted":False,"global_promotion_claim":False,"capability_count":143}
