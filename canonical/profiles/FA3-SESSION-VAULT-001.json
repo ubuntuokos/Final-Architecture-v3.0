@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-SESSION-VAULT-001",
+  "name": "FA3 Session Unlock & Encrypted Vault Image",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "parent_profile": "FA3-SCS-001",
+  "mode": "MUST_IF_SESSION_VAULT_CONFIGURED",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "purpose": "Gate an FA3 user session on an encrypted mountable vault image without creating a new identity or authorization authority.",
+  "storage": {
+    "default_type": "LUKS2_FILE_IMAGE",
+    "filesystem": "ext4",
+    "default_image": "~/.local/share/fa3/vault/fa3-session-vault.img",
+    "session_mount_alias": "$XDG_RUNTIME_DIR/fa3-session-vault",
+    "mount_options": ["nodev", "nosuid", "noexec"],
+    "same_host_allowed": true,
+    "removable_media_required": false
+  },
+  "unlock_sources": [
+    "INTERACTIVE_FA3_VAULT_PASSPHRASE",
+    "FREEDESKTOP_SECRET_SERVICE",
+    "FA3_HUMAN_CREDENTIAL_VAULT_ADAPTER",
+    "OPTIONAL_REMOVABLE_SECRET_FILE"
+  ],
+  "session_semantics": {
+    "unlock_on_fa3_login": true,
+    "lock_on_explicit_fa3_logout": true,
+    "lock_on_control_center_shutdown_best_effort": true,
+    "secret_value_persisted_by_control_center": false,
+    "identity_authority": false,
+    "authorization_authority": false
+  },
+  "root_ca_binding": {
+    "root_private_key_may_reside_inside_vault": true,
+    "root_private_key_online_issuing_runtime_access": "FORBIDDEN",
+    "root_unlock_secret_may_use_credential_vault": true
+  },
+  "backup": {
+    "opaque_encrypted_image_copy_supported": true,
+    "multiple_backup_targets_supported": true,
+    "removable_media_optional": true,
+    "restore_test_required_for_production_recovery_claim": true
+  }
+}
