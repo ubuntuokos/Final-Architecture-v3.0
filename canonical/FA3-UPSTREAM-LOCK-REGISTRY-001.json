@@ -41,6 +41,15 @@
       "kind": "git_commit",
       "revision": "f5a1c6a6b901bc732e20f0d59a369f6829ad717a",
       "update_policy": "CONTROLLED"
+    },
+    "step_ca": {
+      "provider_id": "FA3-PROVIDER-STEP-CA-001",
+      "kind": "release_plus_commit",
+      "upstream": "https://github.com/smallstep/certificates.git",
+      "version": "0.30.2",
+      "revision": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
+      "verification": "CHECKSUMS_PLUS_SIGSTORE_RELEASE_BUNDLE",
+      "update_policy": "CONTROLLED"
     }
   },
   "promotion_pipeline": [

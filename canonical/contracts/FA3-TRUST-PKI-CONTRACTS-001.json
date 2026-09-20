@@ -1,0 +1,117 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-TRUST-PKI-CONTRACTS-001",
+  "name": "Trust, PKI and Machine Identity Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-TRUST-PKI-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "CertificateAuthorityDescriptor",
+    "TrustBundle",
+    "IssuancePolicy",
+    "CertificateRequest",
+    "CertificateIdentity",
+    "CertificateIssuanceReceipt",
+    "CertificateRenewalRequest",
+    "CertificateRenewalReceipt",
+    "CertificateRevocationDisposition",
+    "SSHCertificateRequest",
+    "SSHCertificateIdentity",
+    "MachineIdentityBinding",
+    "CertificateAuditEvent",
+    "PKIBackupEvidence",
+    "PKIRestoreEvidence",
+    "ProviderCompatibilityEvidence"
+  ],
+  "required_fields": {
+    "TrustBundle": [
+      "bundle_id",
+      "version",
+      "root_fingerprints",
+      "published_at",
+      "evidence_ref"
+    ],
+    "IssuancePolicy": [
+      "policy_id",
+      "subject_scope",
+      "san_policy",
+      "default_ttl",
+      "max_ttl",
+      "provisioner_class"
+    ],
+    "CertificateRequest": [
+      "request_id",
+      "actor_identity_ref",
+      "public_key_or_csr_ref",
+      "requested_sans",
+      "purpose",
+      "policy_ref"
+    ],
+    "CertificateIdentity": [
+      "serial",
+      "issuer_ref",
+      "subject",
+      "sans",
+      "not_before",
+      "not_after",
+      "public_key_fingerprint"
+    ],
+    "CertificateIssuanceReceipt": [
+      "request_id",
+      "certificate_ref",
+      "policy_ref",
+      "issuer_ref",
+      "audit_ref"
+    ],
+    "MachineIdentityBinding": [
+      "identity_ref",
+      "certificate_ref",
+      "binding_scope",
+      "expires_at"
+    ],
+    "CertificateAuditEvent": [
+      "event_id",
+      "operation",
+      "actor_identity_ref",
+      "certificate_ref_redacted",
+      "policy_ref",
+      "evidence_ref"
+    ],
+    "PKIBackupEvidence": [
+      "backup_id",
+      "root_material_scope",
+      "online_state_scope",
+      "encryption_state",
+      "integrity_result",
+      "created_at"
+    ],
+    "PKIRestoreEvidence": [
+      "restore_id",
+      "backup_id",
+      "ca_health_result",
+      "issuance_test_result",
+      "trust_validation_result",
+      "tested_at",
+      "evidence_ref"
+    ]
+  },
+  "semantic_boundaries": {
+    "certificate_issuer": "PROVIDER_EXECUTION_UNDER_FA3_TRUST_POLICY",
+    "identity_authority": "OUT_OF_SCOPE_EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "OUT_OF_SCOPE_EXISTING_FA3_AUTHORIZATION_AUTHORITY_ONLY",
+    "secrets": "OUT_OF_SCOPE_EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "public_web_pki_lifecycle": "SEPARATE_EXTERNAL_CERTIFICATE_LIFECYCLE_BOUNDARY"
+  },
+  "invariants": [
+    "ROOT_PRIVATE_KEY_REFERENCE_NEVER_POINTS_TO_ONLINE_RUNTIME",
+    "PRIVATE_KEY_VALUE_NEVER_APPEARS_IN_CANONICAL_CONTRACT_OR_EVIDENCE",
+    "CERTIFICATE_VALIDATION_SUCCESS_IS_NOT_AUTHORIZATION_SUCCESS",
+    "WORKLOAD_CERTIFICATE_DEFAULT_TTL_LE_24H",
+    "TRUST_BUNDLE_UPDATE_REQUIRES_VERSIONED_EVIDENCE",
+    "RECOVERY_PASS_REQUIRES_RESTORE_AND_ISSUANCE_VALIDATION"
+  ]
+}
