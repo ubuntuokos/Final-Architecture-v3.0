@@ -41,6 +41,7 @@ cat > "$POL/current-host.json" <<'JSON'
   "schema": "fa3.secret-projection-policy.v1",
   "secret_id": "test/current-host",
   "classification": "MACHINE_SERVICE_SECRET",
+  "secret_kind": "API_TOKEN",
   "allowed_consumers": [
     {
       "consumer_id": "FA3-CURRENT-HOST-SECRET-PROBE",
@@ -64,7 +65,7 @@ for _ in $(seq 1 50); do [[ -S "$SOCK" ]] && break; sleep 0.1; done
 "$ROOT/bin/fa3-secretctl" --socket "$SOCK" health >/dev/null
 CANARY="FA3_SECRET_BROKER_CANARY_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
 CANARY_HASH="$(printf '%s' "$CANARY" | sha256sum | cut -d' ' -f1)"
-printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET >/dev/null
+printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
 GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
 [[ "$GOT_HASH" == "$CANARY_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
 if runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-UNAUTHORIZED-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/deny.err"; then
@@ -78,7 +79,10 @@ import sys
 from pathlib import Path
 from fa3_secret_broker import request
 r=request(Path(sys.argv[1]),{"op":"bulk","secret_id":"test/current-host","consumer_id":"FA3-CURRENT-HOST-SECRET-PROBE"})
-raise SystemExit(0 if r.get("ok") is False else 2)
+if r.get("ok") is not False:
+    raise SystemExit(2)
+bad=request(Path(sys.argv[1]),{"op":"put","secret_id":"test/not-credential","classification":"MACHINE_SERVICE_SECRET","secret_kind":"CACHE","secret_b64":"eA=="})
+raise SystemExit(0 if bad.get("ok") is False else 2)
 PY
 ! grep -Fq "$CANARY" "$AUDIT"
 ! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY"
@@ -111,7 +115,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"authorized_single_secret_get":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,
+ "checks":{"authorized_single_secret_get":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True},
