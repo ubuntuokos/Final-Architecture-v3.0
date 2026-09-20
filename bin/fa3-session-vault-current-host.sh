@@ -20,6 +20,10 @@ RESTORE_MOUNT_PASS=false
 
 die(){ echo "session-vault current-host: $*" >&2; exit 2; }
 need(){ command -v "$1" >/dev/null 2>&1 || die "missing prerequisite: $1"; }
+block_value(){
+  local tag="$1" dev="$2"
+  sudo blkid -p -o value -s "$tag" "$dev" 2>/dev/null || true
+}
 
 cleanup_restore(){
   if [[ -n "$RMOUNT" ]] && findmnt -rn "$RMOUNT" >/dev/null 2>&1; then udisksctl unmount -b "$RCLEAR" >/dev/null 2>&1 || true; fi
@@ -64,7 +68,8 @@ if [[ -z "$CLEAR" || ! -b "$CLEAR" ]]; then
   CLEAR="$(lsblk -nrpo NAME,TYPE "$LOOP" | awk '$2=="crypt"{print $1; exit}')"
 fi
 [[ -n "$CLEAR" && -b "$CLEAR" ]] || die "failed to discover cleartext device"
-[[ "$(blkid -o value -s TYPE "$CLEAR")" == "ext4" ]] || die "ext4 filesystem required"
+fs_type="$(block_value TYPE "$CLEAR")"
+[[ "$fs_type" == "ext4" ]] || die "ext4 filesystem required (device=$CLEAR detected=${fs_type:-unknown})"
 
 sudo e2label "$CLEAR" FA3_STATE
 [[ "$(sudo e2label "$CLEAR")" == "FA3_STATE" ]] || die "filesystem label normalization failed"
