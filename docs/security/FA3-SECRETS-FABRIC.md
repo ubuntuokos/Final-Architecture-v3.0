@@ -54,3 +54,10 @@ Rotation preserves the existing classification and secret kind by default; a rot
 Exactly one active projection policy is permitted per SecretRef. Duplicate policy definitions deny access fail-closed. Policy filenames are SHA-256-derived and non-disclosing.
 
 Backup requires the secrets lifecycle to be CLOSED. Restore validates LUKS2, starts the restored runtime only long enough to prove broker health, then executes the normal FA3 secrets exit path and finishes in CLOSED state. A failed restore rolls back the previous encrypted image and remains closed.
+
+
+## Unlock credential and rekey
+
+The canonical automatic unlock credential uses `systemd-creds --with-key=host`. The default must not use implicit `auto` TPM2 binding, because hardware discovery may not silently alter the canonical portability contract. TPM2, FIDO2 and PKCS#11/HSM unlock mechanisms remain explicit optional higher-assurance adapters.
+
+The LUKS2 unlock passphrase can be rotated through `fa3-secrets-admin rekey`. Rekey requires the secrets lifecycle to be CLOSED. It uses a two-phase keyslot transition: add and verify the new key, materialize and verify the new encrypted systemd credential, prove start/health/exit, then remove the old key and verify that it no longer unlocks the image. A successful rekey always ends in CLOSED state. Current-host promotion requires real evidence of this sequence.
