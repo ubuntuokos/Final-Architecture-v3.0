@@ -46,6 +46,10 @@ class SecretStore:
         if x.get("schema")!="fa3.secret-index.v1" or not isinstance(x.get("secrets"),dict): raise RuntimeError("invalid secret index")
         return x
     def metadata(self, secret_id:str)->dict[str,Any]|None: return self._index()["secrets"].get(secret_id)
+    def list_metadata(self)->list[dict[str,Any]]:
+        idx=self._index()["secrets"]
+        return [{"secret_id":sid,"version":meta["version"],"classification":meta["classification"],"secret_kind":meta["secret_kind"]}
+                for sid,meta in sorted(idx.items())]
     def put(self, secret_id:str, value:bytes, classification:str, secret_kind:str)->dict[str,Any]:
         if not valid_secret_id(secret_id): raise ValueError("invalid secret_id")
         if not value or len(value)>MAX_SECRET_BYTES: raise ValueError("secret size outside 1..524288 bytes")
@@ -138,15 +142,36 @@ class Broker:
         op=str(req.get("op",""));sid=str(req.get("secret_id",""));consumer=str(req.get("consumer_id",""))
         projection=str(req.get("projection","UDS_SINGLE_SECRET"))
         if op=="health":return {"ok":True,"schema":"fa3.secret-broker-health.v1","raw_vault_export":False}
-        if op in {"put","delete"}:
+        if op in {"put","rotate","delete","revoke","list_metadata","admin_metadata"}:
             if not _is_admin(uid):
                 self._audit(op,sid,consumer,uid,projection,"DENY_ADMIN_REQUIRED");return {"ok":False,"error":"admin authorization required"}
-            if op=="put":
+            if op in {"put","rotate"}:
                 try:value=base64.b64decode(req.get("secret_b64",""),validate=True)
                 except Exception:return {"ok":False,"error":"invalid secret payload"}
-                meta=self.store.put(sid,value,str(req.get("classification","MACHINE_SERVICE_SECRET")),str(req.get("secret_kind","")))
+                classification=str(req.get("classification","MACHINE_SERVICE_SECRET"))
+                secret_kind=str(req.get("secret_kind",""))
+                old=self.store.metadata(sid)
+                if op=="rotate":
+                    if not old:
+                        self._audit(op,sid,consumer or "ADMIN",uid,projection,"DENY_MISSING")
+                        return {"ok":False,"error":"cannot rotate missing secret"}
+                    if old.get("classification")!=classification or old.get("secret_kind")!=secret_kind:
+                        self._audit(op,sid,consumer or "ADMIN",uid,projection,"DENY_METADATA_CHANGE")
+                        return {"ok":False,"error":"rotation cannot change classification or secret_kind"}
+                meta=self.store.put(sid,value,classification,secret_kind)
                 self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"metadata":meta}
-            ok=self.store.delete(sid);self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"deleted":ok}
+            if op=="list_metadata":
+                self._audit(op,"_metadata_index",consumer or "ADMIN",uid,projection,"ALLOW")
+                return {"ok":True,"secrets":self.store.list_metadata(),"secret_values_collected":False}
+            if op=="admin_metadata":
+                meta=self.store.metadata(sid)
+                if not meta:
+                    self._audit(op,sid,consumer or "ADMIN",uid,projection,"DENY_MISSING")
+                    return {"ok":False,"error":"secret not found"}
+                self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW")
+                return {"ok":True,"metadata":{"secret_id":sid,"version":meta["version"],"classification":meta["classification"],"secret_kind":meta["secret_kind"]}}
+            ok=self.store.delete(sid);self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW")
+            return {"ok":True,"revoked":ok} if op=="revoke" else {"ok":True,"deleted":ok}
         if op not in {"get","metadata"}:return {"ok":False,"error":"unsupported operation"}
         if not valid_secret_id(sid):return {"ok":False,"error":"invalid secret_id"}
         policy=self.policies.get(sid)
