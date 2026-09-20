@@ -5,7 +5,7 @@ ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
 for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
-TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0700 "$TMP"
+TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
 MAPPER="fa3-sb-e2e-$$"; RMAPPER="fa3-sb-restore-$$"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"
 BROKER_PID=""; RESTORE_PID=""
@@ -23,7 +23,7 @@ truncate -s 192M "$IMG"; chmod 0600 "$IMG"; head -c 64 /dev/urandom > "$KEY"; ch
 cryptsetup luksFormat --batch-mode --type luks2 --pbkdf argon2id --label FA3_MSTATE --key-file "$KEY" "$IMG"
 cryptsetup open --type luks2 --key-file "$KEY" "$IMG" "$MAPPER"
 mkfs.ext4 -q -m0 -L FA3_MSTATE "/dev/mapper/$MAPPER"
-mkdir -p "$MNT" "$POL" "$RUN"; mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"
+mkdir -p "$MNT" "$POL" "$RUN"; chmod 0755 "$POL"; mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"
 chown fa3-secret-broker:fa3-secret-broker "$MNT" "$RUN"; chmod 0750 "$MNT" "$RUN"
 runuser -u fa3-secret-broker -- mkdir -m0700 "$MNT/objects"
 runuser -u fa3-secret-broker -- sh -c 'printf "%s\n" '''{"schema":"fa3.secret-index.v1","secrets":{}}''' > "$1/index.json"; chmod 0600 "$1/index.json"' sh "$MNT"
@@ -46,7 +46,9 @@ cat > "$POL/current-host.json" <<'JSON'
 JSON
 chmod 0644 "$POL/current-host.json"
 SOCK="$RUN/broker.sock"; AUDIT="$RUN/audit.jsonl"
-runuser -u fa3-secret-broker -- python3 "$ROOT/src/fa3_secret_broker.py" serve --vault-root "$MNT" --policy-dir "$POL" --socket "$SOCK" --audit-log "$AUDIT" &
+BROKER_PY="/usr/local/lib/fa3/fa3_secret_broker.py"
+[[ -r "$BROKER_PY" ]] || { echo "installed broker module missing; run installer first" >&2; exit 2; }
+runuser -u fa3-secret-broker -- python3 "$BROKER_PY" serve --vault-root "$MNT" --policy-dir "$POL" --socket "$SOCK" --audit-log "$AUDIT" &
 BROKER_PID=$!
 for _ in $(seq 1 50); do [[ -S "$SOCK" ]] && break; sleep 0.1; done
 [[ -S "$SOCK" ]] || { echo "broker socket did not appear" >&2; exit 2; }
@@ -59,6 +61,13 @@ GOT_HASH="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" get test/current-host --c
 if "$ROOT/bin/fa3-secretctl" --socket "$SOCK" get test/current-host --consumer FA3-UNAUTHORIZED-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/deny.err"; then
   echo "unauthorized consumer unexpectedly received secret" >&2; exit 2
 fi
+PYTHONPATH="$ROOT/src" python3 - "$SOCK" <<'PY'
+import sys
+from pathlib import Path
+from fa3_secret_broker import request
+r=request(Path(sys.argv[1]),{"op":"bulk","secret_id":"test/current-host","consumer_id":"FA3-CURRENT-HOST-SECRET-PROBE"})
+raise SystemExit(0 if r.get("ok") is False else 2)
+PY
 ! grep -Fq "$CANARY" "$AUDIT"
 ! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY"
 ! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY"
@@ -71,7 +80,7 @@ cryptsetup open --readonly --type luks2 --key-file "$KEY" "$BACKUP" "$RMAPPER"
 mkdir -p "$RMNT"; mount -o ro,nodev,nosuid,noexec "/dev/mapper/$RMAPPER" "$RMNT"
 RESTORE_UNLOCK=true; RESTORE_MOUNT=true
 RSOCK="$RUN/restore.sock"; RAUDIT="$RUN/restore-audit.jsonl"
-runuser -u fa3-secret-broker -- python3 "$ROOT/src/fa3_secret_broker.py" serve --vault-root "$RMNT" --policy-dir "$POL" --socket "$RSOCK" --audit-log "$RAUDIT" &
+runuser -u fa3-secret-broker -- python3 "$BROKER_PY" serve --vault-root "$RMNT" --policy-dir "$POL" --socket "$RSOCK" --audit-log "$RAUDIT" &
 RESTORE_PID=$!
 for _ in $(seq 1 50); do [[ -S "$RSOCK" ]] && break; sleep 0.1; done
 [[ -S "$RSOCK" ]] || { echo "restore broker socket did not appear" >&2; exit 2; }
