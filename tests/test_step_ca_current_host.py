@@ -20,6 +20,14 @@ class T(unittest.TestCase):
   s=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
   self.assertNotIn('out="$7" base="https://github.com/$repo/releases/download/v$ver"',s)
   self.assertIn('out="$7"; local base; base="https://github.com/$repo/releases/download/v$ver"',s)
+ def test_bootstrap_self_bootstraps_pinned_cosign(self):
+  s=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
+  self.assertIn("bootstrap_cosign",s)
+  self.assertIn("cosign 3.1.2 verifier",s)
+  self.assertIn("3ef5d389c3f508b96025fd1b92744a305c46e95951c91242b57467567d5622db",s)
+  self.assertIn("f7622ed3cf22e55e1ae6377c080979ff77a22da9981c11df222a2e444991e7cf",s)
+  self.assertIn("90e7ae0b5dfd60f20816b52c012addf7fc055ebcc7bea4ce81c428ca8518c302",s)
+  self.assertNotIn('"$(cosign_bin)" verify-blob',s)
  def test_collector_no_root_key_arg(self): self.assertNotIn("--root-key",(ROOT/"evidence/collect-step-ca-root-ceremony.py").read_text())
  def test_not_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text()); self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
