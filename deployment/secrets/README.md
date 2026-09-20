@@ -46,7 +46,7 @@ fa3-secrets-admin status
 Projection policy contains metadata only and may be checked before installation:
 
 ```bash
-/usr/local/sbin/fa3-secret-policyctl check provider-policy.json
+fa3-secrets-admin policy-check provider-policy.json
 fa3-secrets-admin policy-install provider-policy.json
 ```
 
