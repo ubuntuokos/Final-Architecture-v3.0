@@ -60,7 +60,12 @@ class SecretStore:
         version=int((old or {}).get("version",0))+1
         previous=json.loads(json.dumps(idx))
         idx["secrets"][secret_id]={"object":obj,"version":version,"classification":classification,"secret_kind":secret_kind}
-        _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
+        try:
+            _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
+        except Exception:
+            try:(self.objects/obj).unlink()
+            except FileNotFoundError:pass
+            raise
         if old:
             try:
                 (self.objects/old["object"]).unlink()
@@ -98,18 +103,21 @@ class PolicyStore:
     def __init__(self, root:Path): self.root=root
     def get(self, secret_id:str)->dict[str,Any]|None:
         if not self.root.is_dir():return None
+        matches=[]
         for p in sorted(self.root.glob("*.json")):
             try:x=json.loads(p.read_text())
             except Exception:continue
             if x.get("schema")=="fa3.secret-projection-policy.v1" and x.get("secret_id")==secret_id and x.get("secret_kind") in ALLOWED_SECRET_KINDS:
-                if x.get("classification")=="MACHINE_SERVICE_SECRET":
-                    consumers=x.get("allowed_consumers") or []
-                    if not consumers:return None
-                    for consumer in consumers:
-                        users=consumer.get("allowed_unix_users") or []
-                        if len(users)!=1 or users[0] in {"root","fa3-secret-broker"}:return None
-                return x
-        return None
+                matches.append(x)
+        if len(matches)!=1:return None
+        x=matches[0]
+        if x.get("classification")=="MACHINE_SERVICE_SECRET":
+            consumers=x.get("allowed_consumers") or []
+            if not consumers:return None
+            for consumer in consumers:
+                users=consumer.get("allowed_unix_users") or []
+                if len(users)!=1 or users[0] in {"root","fa3-secret-broker"}:return None
+        return x
 
 def _peer_identity(conn:socket.socket)->tuple[int,int,int]:
     return struct.unpack("3i",conn.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,struct.calcsize("3i")))
