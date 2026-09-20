@@ -117,6 +117,13 @@ class T(unittest.TestCase):
   self.assertIn('argv.group(1).strip()',s)
   self.assertNotIn('[[ "$execstart" == "$PRODUCTION_EXECSTART" ]]',s)
   self.assertIn('"host_port_80_untouched": True',s)
+ def test_mtls_e2e_sends_intermediate_chain_and_reports_failures(self):
+  s=(ROOT/"bin/fa3-step-ca-e2e.sh").read_text()
+  self.assertGreaterEqual(s.count('-cert_chain "$IC"'),2)
+  self.assertIn('openssl verify -purpose sslserver -CAfile "$RC" -untrusted "$IC" "$TMP/b.crt"',s)
+  self.assertIn('openssl verify -purpose sslclient -CAfile "$RC" -untrusted "$IC" "$TMP/c.crt"',s)
+  self.assertIn('echo "mTLS handshake failed" >&2',s)
+  self.assertIn("for command in curl flock openssl python3 sed seq ssh-keygen ss step systemctl; do",s)
  def test_restore_cleanup_is_fail_safe(self):
   s=(ROOT/"bin/fa3-step-ca-backup-restore-drill.sh").read_text()
   self.assertIn('if [[ -n "$PID" ]] && kill -0 "$PID"',s)
