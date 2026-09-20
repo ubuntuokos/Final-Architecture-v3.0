@@ -8,7 +8,9 @@
     "gui_service": "apps/fa3-control-center/src/SessionVaultService.cpp",
     "control_page": "apps/fa3-control-center/qml/SessionVaultPage.qml",
     "initializer": "bin/fa3-session-vault-init",
-    "auto_unlock": "apps/fa3-control-center/src/SessionVaultService.cpp"
+    "auto_unlock": "apps/fa3-control-center/src/SessionVaultService.cpp",
+    "current_host_e2e": "bin/fa3-session-vault-current-host.sh",
+    "current_host_gate": "src/fa3_session_vault_current_host_gate.py"
   },
   "required_checks": [
     "LUKS2_IMAGE_CREATED",
@@ -33,5 +35,7 @@
     "new_default_image": "~/.local/share/fa3/state/fa3-state.img",
     "legacy_read_compatibility": true,
     "recreation_required": false
-  }
+  },
+  "current_host_enforcement": "canonical/session-vault-current-host-enforcement.json",
+  "current_host_receipt_path": "evidence/receipts/session-vault-current-host.json"
 }

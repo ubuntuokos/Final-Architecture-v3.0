@@ -56,6 +56,12 @@ class SessionVaultTests(unittest.TestCase):
   cpp=(ROOT/"apps/fa3-control-center/src/SessionVaultService.cpp").read_text()
   self.assertIn("/.local/share/fa3/state/fa3-state.img",cpp)
   self.assertIn("/.local/share/fa3/vault/fa3-session-vault.img",cpp)
+ def test_current_host_closure_is_materialized_but_unpromoted(self):
+  x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
+  self.assertEqual("bin/fa3-session-vault-current-host.sh",x["reference_implementation"]["current_host_e2e"])
+  self.assertEqual("src/fa3_session_vault_current_host_gate.py",x["reference_implementation"]["current_host_gate"])
+  self.assertEqual("evidence/receipts/session-vault-current-host.json",x["current_host_receipt_path"])
+  self.assertIsNone(x["current_host_receipt"])
  def test_runtime_is_not_falsely_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
   self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
