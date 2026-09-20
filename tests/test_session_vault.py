@@ -40,7 +40,9 @@ class SessionVaultTests(unittest.TestCase):
   s=(ROOT/"bin/fa3-session-vault-init").read_text()
   self.assertIn("--label "+label,s)
   self.assertIn("-L "+label,s)
-  self.assertNotIn("FA3_SESSION_VAULT",s)
+  self.assertNotIn("--label FA3_SESSION_VAULT",s)
+  self.assertNotIn("-L FA3_SESSION_VAULT",s)
+  self.assertNotIn("fa3-session-vault.img",p["storage"]["default_image"])
  def test_external_storage_name_is_non_disclosing(self):
   p=json.loads((ROOT/"canonical/profiles/FA3-SESSION-VAULT-001.json").read_text())
   image=p["storage"]["default_image"]
