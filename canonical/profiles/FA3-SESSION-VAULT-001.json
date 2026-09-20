@@ -15,15 +15,21 @@
   "storage": {
     "default_type": "LUKS2_FILE_IMAGE",
     "filesystem": "ext4",
-    "default_image": "~/.local/share/fa3/vault/fa3-session-vault.img",
-    "session_mount_alias": "$XDG_RUNTIME_DIR/fa3-session-vault",
+    "default_image": "~/.local/share/fa3/state/fa3-state.img",
+    "session_mount_alias": "$XDG_RUNTIME_DIR/fa3-state",
     "mount_options": [
       "nodev",
       "nosuid",
       "noexec"
     ],
     "same_host_allowed": true,
-    "removable_media_required": false
+    "removable_media_required": false,
+    "filesystem_label": "FA3_STATE",
+    "legacy_image_paths": [
+      "~/.local/share/fa3/vault/fa3-session-vault.img"
+    ],
+    "external_naming_policy": "GENERIC_NON_DISCLOSING",
+    "external_name_must_not_disclose_contents": true
   },
   "unlock_sources": [
     "INTERACTIVE_FA3_VAULT_PASSPHRASE",
