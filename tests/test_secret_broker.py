@@ -1,4 +1,5 @@
 import base64,json,os,pwd,tempfile,unittest
+from unittest import mock
 from pathlib import Path
 from src import fa3_secret_broker as b
 
@@ -32,6 +33,32 @@ class SecretBrokerTests(unittest.TestCase):
             self.assertNotIn("TOP-SECRET-CANARY",log)
             self.assertIn("secret_ref_sha256",log)
             self.assertIn('"secret_values_collected":false',log)
+    def test_admin_rotate_list_and_revoke(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);broker=b.Broker(root/"v",root/"p",root/"a")
+            with mock.patch.object(b,"_is_admin",return_value=True):
+                put=broker.handle({"op":"put","secret_id":"provider/api","classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN","secret_b64":base64.b64encode(b"one").decode()},os.getuid(),os.getgid(),os.getpid())
+                self.assertTrue(put["ok"]);self.assertEqual(1,put["metadata"]["version"])
+                rot=broker.handle({"op":"rotate","secret_id":"provider/api","classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN","secret_b64":base64.b64encode(b"two").decode()},os.getuid(),os.getgid(),os.getpid())
+                self.assertTrue(rot["ok"]);self.assertEqual(2,rot["metadata"]["version"])
+                listing=broker.handle({"op":"list_metadata"},os.getuid(),os.getgid(),os.getpid())
+                self.assertTrue(listing["ok"]);self.assertFalse(listing["secret_values_collected"])
+                self.assertEqual([{"secret_id":"provider/api","version":2,"classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN"}],listing["secrets"])
+                self.assertNotIn("two",json.dumps(listing))
+                rev=broker.handle({"op":"revoke","secret_id":"provider/api"},os.getuid(),os.getgid(),os.getpid())
+                self.assertTrue(rev["ok"]);self.assertTrue(rev["revoked"])
+                self.assertIsNone(broker.store.metadata("provider/api"))
+
+    def test_rotate_fails_closed_on_metadata_change_or_missing_secret(self):
+        with tempfile.TemporaryDirectory() as td:
+            broker=b.Broker(Path(td)/"v",Path(td)/"p",Path(td)/"a")
+            with mock.patch.object(b,"_is_admin",return_value=True):
+                missing=broker.handle({"op":"rotate","secret_id":"missing","classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN","secret_b64":base64.b64encode(b"x").decode()},os.getuid(),os.getgid(),os.getpid())
+                self.assertFalse(missing["ok"])
+                broker.handle({"op":"put","secret_id":"provider/api","classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN","secret_b64":base64.b64encode(b"one").decode()},os.getuid(),os.getgid(),os.getpid())
+                changed=broker.handle({"op":"rotate","secret_id":"provider/api","classification":"MACHINE_SERVICE_SECRET","secret_kind":"SERVICE_PASSWORD","secret_b64":base64.b64encode(b"two").decode()},os.getuid(),os.getgid(),os.getpid())
+                self.assertFalse(changed["ok"])
+
     def test_bulk_export_has_no_operation(self):
         with tempfile.TemporaryDirectory() as td:
             br=b.Broker(Path(td)/"v",Path(td)/"p",Path(td)/"a")
