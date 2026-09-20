@@ -101,7 +101,7 @@ trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
-for command in curl flock openssl python3 seq ssh-keygen ss step systemctl; do
+for command in curl flock openssl python3 sed seq ssh-keygen ss step systemctl; do
   command -v "$command" >/dev/null || {
     echo "required command missing: $command" >&2
     exit 2
