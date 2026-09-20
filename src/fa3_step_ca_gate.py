@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from pathlib import Path
@@ -13,6 +14,10 @@ CONTRACT_ID = "FA3-TRUST-PKI-CONTRACTS-001"
 PROVIDER_ID = "FA3-PROVIDER-STEP-CA-001"
 DECISION_ID = "FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20"
 REFERENCE_ID = "FA3-STEP-CA-UPSTREAM-REFERENCE-2026-09-20"
+PROMOTION_DECISION_ID = "FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20"
+CURRENT_HOST_EVIDENCE_ID = "FA3-STEP-CA-CURRENT-HOST-EVIDENCE-2026-09-20"
+CURRENT_HOST_EVIDENCE_PATH = "evidence/reference/step-ca-current-host-2026-09-20.json"
+TESTED_MAIN_SHA = "bc2762ddc85a7501ab3d2be612329399470ea276"
 GATE_ID = "FA3-STEP-CA-GATESET-001"
 RELEASE = "0.30.2"
 COMMIT = "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31"
@@ -46,6 +51,7 @@ PATHS = {
     "contract": "canonical/contracts/FA3-TRUST-PKI-CONTRACTS-001.json",
     "provider": "canonical/providers/FA3-PROVIDER-STEP-CA-001.json",
     "decision": "canonical/decisions/FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20.json",
+    "promotion_decision": "canonical/decisions/FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20.json",
     "reference": "canonical/references/FA3-STEP-CA-UPSTREAM-REFERENCE-2026-09-20.json",
     "enforcement": "canonical/step-ca-enforcement.json",
     "admission": "canonical/step-ca-runtime-admission.json",
@@ -53,6 +59,7 @@ PATHS = {
     "gate": "canonical/FA3-GATE-STEP-CA-001.json",
     "release": "canonical/releases/FA3-RELEASE-PROJECTION-STEP-CA-2026-09-20.json",
     "evidence": "evidence/reference/step-ca-reference-pass.json",
+    "current_host_evidence": CURRENT_HOST_EVIDENCE_PATH,
     "service": "deployment/step-ca/fa3-step-ca.service",
     "ca_example": "deployment/step-ca/ca.json.example",
     "gui": "apps/fa3-control-center/qml/TrustCertificatesPage.qml",
@@ -66,6 +73,74 @@ def duration_hours(value: str) -> float:
     if not m or (not m.group(1) and not m.group(2)):
         raise ValueError(value)
     return float(m.group(1) or 0) + float(m.group(2) or 0) / 60.0
+
+def git_blob_sha(path: Path) -> str:
+    data = path.read_bytes()
+    header = f"blob {len(data)}\0".encode()
+    return hashlib.sha1(header + data).hexdigest()
+
+def current_host_evidence_valid(root: Path, ev: dict[str, Any]) -> bool:
+    flags = ev.get("required_evidence_flags", {})
+    required_flags = {
+        "supply_chain_pass", "offline_root_ceremony_pass", "activation_pass",
+        "root_private_key_never_exported_online", "systemd_credential_unlock",
+        "activation_transfer_bundle_removed", "acme_issue_pass", "acme_reorder_pass",
+        "host_port_80_untouched", "temporary_ca_override_restored", "mtls_pass",
+        "ssh_certificate_pass", "trust_bundle_pass", "workload_certificate_ttl_le_24h",
+        "backup_restore_pass", "shadow_health_pass", "post_restore_issuance_pass",
+        "backup_excludes_root_private_key", "backup_excludes_unlock_secret",
+        "no_secret_values_collected",
+    }
+    blobs = ev.get("source", {}).get("runtime_surface_git_blobs", {})
+    required_runtime_paths = {
+        "bin/fa3-step-ca-bootstrap.sh",
+        "bin/fa3-step-ca-root-ceremony.sh",
+        "bin/fa3-step-ca-activate.sh",
+        "bin/fa3-step-ca-e2e.sh",
+        "bin/fa3-step-ca-backup-restore-drill.sh",
+        "evidence/collect-step-ca-current-host.py",
+        "src/fa3_step_ca_current_host_gate.py",
+    }
+    blob_match = set(blobs) == required_runtime_paths and all(
+        (root / rel).is_file() and git_blob_sha(root / rel) == blobs.get(rel)
+        for rel in required_runtime_paths
+    )
+    inv = ev.get("invariants", {})
+    supply = ev.get("supply_chain", {})
+    runtime = ev.get("runtime", {})
+    return (
+        ev.get("schema") == "fa3.current-host-evidence-reference.v1"
+        and ev.get("id") == CURRENT_HOST_EVIDENCE_ID
+        and ev.get("provider_id") == PROVIDER_ID
+        and ev.get("result") == "PASS"
+        and ev.get("status") == "CURRENT_HOST_ADMITTED"
+        and ev.get("evidence_level") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and ev.get("synthetic") is False
+        and ev.get("production_admitted") is True
+        and ev.get("runtime_promotion_eligible") is True
+        and ev.get("global_promotion_claim") is False
+        and ev.get("source", {}).get("tested_main_sha") == TESTED_MAIN_SHA
+        and ev.get("source", {}).get("raw_receipt_committed") is False
+        and all(flags.get(name) is True for name in required_flags)
+        and blob_match
+        and supply.get("architecture") == "amd64"
+        and supply.get("server_version") == RELEASE
+        and supply.get("client_version") == "0.30.6"
+        and supply.get("server_sigstore_verified") is True
+        and supply.get("client_sigstore_verified") is True
+        and runtime.get("service_active") is True
+        and runtime.get("service_user") == "fa3-step-ca"
+        and runtime.get("bind") == "127.0.0.1:9443"
+        and runtime.get("root_private_key_present_online") is False
+        and runtime.get("intermediate_key_encrypted") is True
+        and runtime.get("certificate_chain_valid") is True
+        and inv.get("secret_values_collected") is False
+        and inv.get("provider_is_architectural_authority") is False
+        and inv.get("new_capabilities") == 0
+        and inv.get("new_architectural_authorities") == 0
+        and inv.get("capability_count_after") == CAPABILITY_COUNT
+        and inv.get("global_fa3_promotion_claim") is False
+    )
 
 def deployment_policy_valid(root: Path) -> tuple[bool, list[str]]:
     findings: list[str] = []
@@ -134,7 +209,6 @@ def provider_policy_valid(provider: dict[str, Any]) -> bool:
         and p.get("maximum_workload_certificate_ttl") == "24h"
         and p.get("certificate_identity_is_authorization") is False
         and p.get("current_host_e2e_required_for_runtime_promotion") is True
-        and provider.get("promotion", {}).get("production_runtime_promoted") is False
     )
 
 def reference_check(root: Path) -> dict[str, Any]:
@@ -156,6 +230,17 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append("profile")
     if not provider_policy_valid(p["provider"]):
         findings.append("provider")
+    provider_promotion = p["provider"].get("promotion", {})
+    if not (
+        p["provider"].get("runtime_activation_status") == "ADMITTED_CURRENT_HOST"
+        and p["provider"].get("runtime_promotion_decision") == PROMOTION_DECISION_ID
+        and provider_promotion.get("production_runtime_promoted") is True
+        and provider_promotion.get("scope") == "CURRENT_HOST_PROVIDER_RUNTIME_ONLY"
+        and provider_promotion.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and provider_promotion.get("tested_main_sha") == TESTED_MAIN_SHA
+        and provider_promotion.get("global_promotion_claim") is False
+    ):
+        findings.append("provider-promotion")
     required_contracts = {
         "TrustBundle","IssuancePolicy","CertificateRequest","CertificateIdentity",
         "CertificateIssuanceReceipt","MachineIdentityBinding","CertificateAuditEvent",
@@ -177,6 +262,18 @@ def reference_check(root: Path) -> dict[str, Any]:
         and decision.get("capability_count_after") == CAPABILITY_COUNT
     ):
         findings.append("decision")
+    promotion_decision = p["promotion_decision"]
+    if not (
+        promotion_decision.get("id") == PROMOTION_DECISION_ID
+        and promotion_decision.get("status") == "CANONICAL_CLOSED"
+        and promotion_decision.get("decision") == "PROMOTE_STEP_CA_CURRENT_HOST_RUNTIME_ONLY_FROM_REAL_COMPOSITE_PASS"
+        and promotion_decision.get("evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and promotion_decision.get("tested_main_sha") == TESTED_MAIN_SHA
+        and promotion_decision.get("new_capabilities") == 0
+        and promotion_decision.get("new_architectural_authorities") == 0
+        and promotion_decision.get("capability_count_after") == CAPABILITY_COUNT
+    ):
+        findings.append("promotion-decision")
     ref = p["reference"]
     if not (
         ref.get("id") == REFERENCE_ID and ref.get("stable_reference", {}).get("release") == RELEASE
@@ -194,23 +291,42 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append("enforcement")
     admission = p["admission"]
     if not (
-        admission.get("status") == "NOT_ADMITTED"
+        admission.get("status") == "ADMITTED_CURRENT_HOST"
         and admission.get("current_host_evidence_required") is True
-        and admission.get("production_runtime_promoted") is False
+        and admission.get("current_blockers") == []
+        and admission.get("production_runtime_promoted") is True
+        and admission.get("global_promotion_claim") is False
+        and admission.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and admission.get("promotion_decision") == PROMOTION_DECISION_ID
+        and admission.get("immutable_runtime_pin", {}).get("binary_artifact_digest_status") == "VERIFIED_CURRENT_HOST_AMD64"
+        and admission.get("current_host_closure", {}).get("status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and admission.get("current_host_closure", {}).get("tested_main_sha") == TESTED_MAIN_SHA
     ):
         findings.append("admission")
     conf = p["conformance"]
     if not (
-        conf.get("status") in {"NOT_EXECUTED", "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION"}
+        conf.get("status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
         and conf.get("synthetic_evidence_allowed_for_promotion") is False
-        and conf.get("current_host_receipt") is None
-        and conf.get("production_runtime_promoted") is False
+        and conf.get("current_host_receipt") == "evidence/receipts/step-ca-current-host.json"
+        and conf.get("current_host_receipt_persistence") == "LOCAL_GITIGNORED_RUNTIME_EVIDENCE"
+        and conf.get("durable_current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and conf.get("tested_main_sha") == TESTED_MAIN_SHA
+        and conf.get("production_runtime_promoted") is True
+        and conf.get("production_promotion_scope") == "CURRENT_HOST_PROVIDER_RUNTIME_ONLY"
+        and conf.get("global_promotion_claim") is False
+        and conf.get("promotion_decision") == PROMOTION_DECISION_ID
     ):
         findings.append("conformance")
     gate = p["gate"]
     if not (
         gate.get("id") == "FA3-GATE-STEP-CA-001" and gate.get("gateset_id") == GATE_ID
         and gate.get("fail_closed") is True and gate.get("rule_count") == len(P0_INVARIANTS)
+        and gate.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and gate.get("current_host_runtime_status") == "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        and gate.get("production_runtime_promoted") is True
+        and gate.get("production_promotion_scope") == "CURRENT_HOST_PROVIDER_RUNTIME_ONLY"
+        and gate.get("global_promotion_claim") is False
+        and gate.get("runtime_promotion_decision") == PROMOTION_DECISION_ID
     ):
         findings.append("gate")
     ev = p["evidence"]
@@ -220,11 +336,26 @@ def reference_check(root: Path) -> dict[str, Any]:
         and ev.get("production_runtime_promoted") is False
     ):
         findings.append("evidence")
+    current_host_ev = p["current_host_evidence"]
+    if not current_host_evidence_valid(root, current_host_ev):
+        findings.append("current-host-evidence")
+    release = p["release"]
+    if not (
+        release.get("runtime_promotion_decision_id") == PROMOTION_DECISION_ID
+        and release.get("current_host_evidence_reference") == CURRENT_HOST_EVIDENCE_PATH
+        and release.get("tested_main_sha") == TESTED_MAIN_SHA
+        and release.get("reconciliation", {}).get("current_host_runtime") == "PROMOTED_CURRENT_HOST_ONLY"
+        and release.get("reconciliation", {}).get("offline_root_ceremony") == "PASS_REAL_CURRENT_HOST"
+        and release.get("reconciliation", {}).get("runtime_recovery_drill") == "PASS_REAL_CURRENT_HOST"
+        and release.get("reconciliation", {}).get("current_host_composite_gate") == "PASS"
+        and release.get("reconciliation", {}).get("global_fa3_promotion_claim") == "FALSE"
+    ):
+        findings.append("release-promotion")
     ok, deploy_findings = deployment_policy_valid(root)
     if not ok:
         findings.extend(deploy_findings)
     gui = (root / PATHS["gui"]).read_text(encoding="utf-8")
-    if "RUNTIME NOT PROMOTED" not in gui or "OFFLINE ONLY" not in gui:
+    if "RUNTIME PROMOTED · CURRENT HOST" not in gui or "OFFLINE ONLY" not in gui or "global FA3 promotion: NO" not in gui:
         findings.append("gui-honest-state")
     return {"result":"PASS" if not findings else "FAIL","rules_checked":len(P0_INVARIANTS),"findings":findings}
 
@@ -260,7 +391,8 @@ def main() -> int:
     result = "PASS" if reference["result"] == regressions["result"] == "PASS" else "FAIL"
     print(json.dumps({"schema":"fa3.step-ca-gate-report.v1","gate_id":GATE_ID,
         "provider_id":PROVIDER_ID,"reference":reference,"regressions":regressions,
-        "production_runtime_promoted":False,"result":result}, indent=2, sort_keys=True))
+        "production_runtime_promoted":True,"production_promotion_scope":"CURRENT_HOST_PROVIDER_RUNTIME_ONLY",
+        "global_promotion_claim":False,"result":result}, indent=2, sort_keys=True))
     return 0 if result == "PASS" else 1
 
 if __name__ == "__main__":
