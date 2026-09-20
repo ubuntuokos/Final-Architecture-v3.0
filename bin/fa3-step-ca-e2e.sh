@@ -17,6 +17,7 @@ DROPIN="$DROPIN_DIR/90-fa3-e2e-acme-port.conf"
 TMP=""
 PID=""
 OVERRIDE_ACTIVE=false
+PRODUCTION_EXECSTART=""
 
 wait_for_ca() {
   local attempt
@@ -76,7 +77,9 @@ cleanup() {
   [[ -n "$TMP" ]] && rm -rf -- "$TMP"
   exit "$rc"
 }
-trap cleanup EXIT\ntrap 'exit 130' INT\ntrap 'exit 143' TERM
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 for command in curl flock openssl python3 seq ssh-keygen ss step systemctl; do
   command -v "$command" >/dev/null || {
