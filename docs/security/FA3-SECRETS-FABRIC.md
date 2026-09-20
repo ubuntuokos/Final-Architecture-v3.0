@@ -37,3 +37,9 @@ No NVIDIA, CUDA, GPU, NPU, accelerator SKU or topology is required. The core is 
 ## Promotion boundary
 
 Repository/reference PASS does not promote production runtime. Promotion requires a real current-host receipt proving LUKS2, mount flags, unprivileged broker execution, authorized access, unauthorized denial, no argv/environment/audit leakage, explicit cleanup, and backup/restore broker health. Provider/runtime PASS does not imply global FA3 promotion.
+
+## FA3 exit semantics
+
+A teljes FA3 kilépés nem azonos egy GUI-ablak bezárásával. A secrets lifecycle lezárását a `/usr/local/sbin/fa3-secrets-lifecycle exit` művelet végzi: leállítja a `fa3-secrets.target` egységet, majd fail-closed módon ellenőrzi, hogy a broker és a vault service inaktív, a `/run/fa3/machine-state` mount eltűnt, és a `fa3-machine-state` LUKS mapper bezárult. Az FA3 csak ezen postconditionök teljesülése után tekinthető teljesen kilépett állapotúnak.
+
+A `fa3-secret-vault.service` külön `ExecStopPost` ellenőrzést is futtat. Ha az unmount vagy a LUKS close nem teljesül, a shutdown nem kaphat PASS állapotot.
