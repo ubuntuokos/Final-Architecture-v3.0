@@ -1,43 +1,81 @@
-# FA3 step-ca offline Root CA ceremony
+# FA3 step-ca Root CA ceremony
 
-The Root CA is **offline by role and custody**: its private key is not installed in, exposed to, or used by the online `step-ca` issuing runtime. The Root key must remain encrypted on separate cold-storage/removable media and is connected only when a Root signing operation is intentionally performed.
+The FA3 Root CA is offline by **operational role**, not by a mandatory storage device type. The online `fa3-step-ca` issuing service must never load or use the Root private key during normal operation.
 
-Network isolation during the ceremony is a recommended high-assurance control, but it is **not** a PASS, admission, or promotion requirement. A default route does not invalidate the ceremony.
+For the default single-host FA3 deployment, the Root private key may remain on the same machine when it is:
 
-## Preconditions
+- strongly encrypted at rest;
+- stored outside the FA3 repository, `/etc/fa3`, and `/var/lib/fa3-step-ca`;
+- not readable by the `fa3-step-ca` service account;
+- protected by an operator-controlled unlock secret;
+- backed up redundantly in encrypted form.
 
-- Generate and retain `root_ca_key` and `root-password.txt` directly on dedicated Root cold-storage media; do not place them in the FA3 repository, evidence tree, `/etc/fa3`, or `/var/lib/fa3-step-ca`.
-- Keep Root and Intermediate password files outside Git and evidence.
-- Use a separate transfer medium/bundle for the online issuing runtime. Never copy the Root private key or Root password to it.
-- Air-gap or disconnect networking when practical for higher-assurance ceremonies; this is recommended, not mandatory.
+Removable media, HSM/YubiKey and an air-gapped ceremony host are optional higher-assurance controls. They are not prerequisites for the default FA3 workflow.
 
-## Root and Intermediate
+## Default practical layout
 
-Run the following **from the dedicated Root media directory**:
+Use a private user-owned directory:
 
-```bash
-umask 077
-openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-384 -aes-256-cbc -pass file:root-password.txt -out root_ca_key
-openssl req -new -x509 -sha384 -days 3650 -key root_ca_key -passin file:root-password.txt -subj "/CN=FA3 Offline Root CA" -addext "basicConstraints=critical,CA:TRUE,pathlen:1" -addext "keyUsage=critical,keyCertSign,cRLSign" -out root_ca.crt
-openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 -aes-256-cbc -pass file:intermediate-password.txt -out intermediate_ca_key
-openssl req -new -sha256 -key intermediate_ca_key -passin file:intermediate-password.txt -subj "/CN=FA3 Issuing Intermediate CA" -out intermediate_ca.csr
-cat > intermediate.ext <<'EOF'
-basicConstraints=critical,CA:TRUE,pathlen:0
-keyUsage=critical,keyCertSign,cRLSign
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-EOF
-openssl x509 -req -sha256 -days 1095 -in intermediate_ca.csr -CA root_ca.crt -CAkey root_ca_key -passin file:root-password.txt -CAcreateserial -extfile intermediate.ext -out intermediate_ca.crt
-openssl verify -CAfile root_ca.crt intermediate_ca.crt
+```text
+~/.local/share/fa3/pki/root/
+  root_ca_key
+  root-password.txt
+  root_ca.crt
+  intermediate_ca.csr
+  intermediate.ext
 ```
 
-Generate the receipt with `evidence/collect-step-ca-root-ceremony.py`. The receipt may record whether a default route was present, but that value is observational only.
-
-Transfer to the online issuing runtime only:
+The online issuing runtime receives only:
 
 - `root_ca.crt`
 - `intermediate_ca.crt`
 - encrypted `intermediate_ca_key`
 - the ceremony receipt
 
-Never transfer `root_ca_key` or `root-password.txt`. After signing the Intermediate, unmount/remove the Root cold-storage media when it is not needed.
+Never copy `root_ca_key` or `root-password.txt` into the repository, evidence tree, `/etc/fa3`, `/var/lib/fa3-step-ca`, or the step-ca runtime backup.
+
+The Root custody backup is a different backup class from the step-ca runtime backup. It may contain the encrypted Root private key, but it must remain encrypted, access-controlled, and independent of the online issuing runtime. Keep at least two recoverable encrypted copies when the Root CA is important enough that loss would require rebuilding trust.
+
+## Ceremony
+
+```bash
+ROOT_DIR="${FA3_ROOT_CA_DIR:-$HOME/.local/share/fa3/pki/root}"
+install -d -m0700 "$ROOT_DIR"
+cd "$ROOT_DIR"
+umask 077
+
+openssl rand -base64 48 > root-password.txt
+openssl rand -base64 48 > intermediate-password.txt
+
+openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-384 -aes-256-cbc -pass file:root-password.txt -out root_ca_key
+
+openssl req -new -x509 -sha384 -days 3650   -key root_ca_key   -passin file:root-password.txt   -subj "/CN=FA3 Offline Root CA"   -addext "basicConstraints=critical,CA:TRUE,pathlen:1"   -addext "keyUsage=critical,keyCertSign,cRLSign"   -out root_ca.crt
+
+openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 -aes-256-cbc -pass file:intermediate-password.txt -out intermediate_ca_key
+
+openssl req -new -sha256   -key intermediate_ca_key   -passin file:intermediate-password.txt   -subj "/CN=FA3 Issuing Intermediate CA"   -out intermediate_ca.csr
+
+cat > intermediate.ext <<'EOF'
+basicConstraints=critical,CA:TRUE,pathlen:0
+keyUsage=critical,keyCertSign,cRLSign
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+EOF
+
+openssl x509 -req -sha256 -days 1095   -in intermediate_ca.csr   -CA root_ca.crt   -CAkey root_ca_key   -passin file:root-password.txt   -CAcreateserial   -extfile intermediate.ext   -out intermediate_ca.crt
+
+openssl verify -CAfile root_ca.crt intermediate_ca.crt
+```
+
+Generate the receipt with `evidence/collect-step-ca-root-ceremony.py`. The `--medium-id` argument is optional and exists only as an audit/custody label; it does not imply removable media.
+
+## Higher-assurance options
+
+Operators who need stronger physical separation may instead use:
+
+- removable encrypted cold storage;
+- HSM or YubiKey PIV;
+- an air-gapped ceremony host;
+- geographically separated encrypted Root-key backups.
+
+These options improve resistance to host compromise, but they do not change the FA3 architectural authority or runtime admission model.
