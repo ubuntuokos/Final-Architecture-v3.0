@@ -22,14 +22,23 @@ if [[ ! -f /var/lib/fa3-step-ca/secrets/ssh_host_ca_key ]]; then
  step crypto keypair /var/lib/fa3-step-ca/certs/ssh_user_ca_key.pub /var/lib/fa3-step-ca/secrets/ssh_user_ca_key --kty EC --curve P-256 --password-file /etc/fa3/secrets/step-ca-password
  chown fa3-step-ca:fa3-step-ca /var/lib/fa3-step-ca/certs/ssh_* /var/lib/fa3-step-ca/secrets/ssh_*; chmod 0600 /var/lib/fa3-step-ca/secrets/ssh_*
 fi
-grep -q '"name": "fa3-jwk"' /etc/fa3/step-ca/ca.json || step ca provisioner add fa3-jwk --type JWK --create --password-file /etc/fa3/secrets/fa3-jwk-password --ca-config /etc/fa3/step-ca/ca.json
+grep -q '"name": "fa3-jwk"' /etc/fa3/step-ca/ca.json || step ca provisioner add fa3-jwk --type JWK --create --password-file /etc/fa3/secrets/fa3-jwk-password --ca-url https://127.0.0.1:9443 --root /var/lib/fa3-step-ca/certs/root_ca.crt --ca-config /etc/fa3/step-ca/ca.json
 systemctl daemon-reload; systemctl enable --now fa3-step-ca.service
 for i in $(seq 1 30); do curl -fsS --cacert /var/lib/fa3-step-ca/certs/root_ca.crt https://127.0.0.1:9443/health >/dev/null && break; sleep 1; done
 curl -fsS --cacert /var/lib/fa3-step-ca/certs/root_ca.crt https://127.0.0.1:9443/health >/dev/null
+
+# The Session Vault can recreate this short-lived bundle.  Once activation is
+# healthy, remove the paired encrypted key and passwords from the user runtime
+# directory so they cannot remain readable for the rest of the login session.
+for f in root_ca.crt intermediate_ca.crt intermediate_ca_key intermediate-password.txt jwk-password.txt step-ca-root-ceremony.json; do
+ rm -f -- "$T/$f"
+done
+rmdir -- "$T"
+
 python3 - /var/lib/fa3-step-ca/evidence/activation.json <<'PY'
 import json,sys
 from datetime import datetime,timezone
 from pathlib import Path
-x={"schema":"fa3.step-ca-activation-receipt.v1","status":"PASS","service_user":"fa3-step-ca","root_private_key_present_online":False,"intermediate_key_encrypted":True,"systemd_credential_unlock":True,"activated_at":datetime.now(timezone.utc).isoformat(),"secret_values_collected":False}
+x={"schema":"fa3.step-ca-activation-receipt.v1","status":"PASS","service_user":"fa3-step-ca","root_private_key_present_online":False,"intermediate_key_encrypted":True,"systemd_credential_unlock":True,"transfer_bundle_removed":True,"activated_at":datetime.now(timezone.utc).isoformat(),"secret_values_collected":False}
 Path(sys.argv[1]).write_text(json.dumps(x,indent=2)+"\n")
 PY

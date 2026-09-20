@@ -10,23 +10,41 @@ OPERATOR_ID="${FA3_STEP_CA_OPERATOR_ID:-local-operator}"
 LOOP=""
 CLEAR=""
 MOUNT=""
+RECEIPT_WRITTEN=false
+TRANSFER_CREATED=false
+bundle_files=(root_ca.crt intermediate_ca.crt intermediate_ca_key intermediate-password.txt jwk-password.txt step-ca-root-ceremony.json)
 
 die(){ echo "step-ca root ceremony: $*" >&2; exit 2; }
 need(){ command -v "$1" >/dev/null 2>&1 || die "missing prerequisite: $1"; }
 
 cleanup(){
+  local rc=$? cleanup_rc=0
+  trap - EXIT INT TERM
+  set +e
   if [[ -n "$MOUNT" ]] && findmnt -rn "$MOUNT" >/dev/null 2>&1; then
-    udisksctl unmount --block-device "$CLEAR" >/dev/null 2>&1 || true
+    udisksctl unmount --block-device "$CLEAR" >/dev/null 2>&1 || cleanup_rc=1
   fi
   if [[ -n "$LOOP" && -b "$LOOP" ]]; then
-    udisksctl lock --block-device "$LOOP" >/dev/null 2>&1 || true
-    udisksctl loop-delete --block-device "$LOOP" >/dev/null 2>&1 || true
+    udisksctl lock --block-device "$LOOP" >/dev/null 2>&1 || cleanup_rc=1
+    udisksctl loop-delete --block-device "$LOOP" >/dev/null 2>&1 || cleanup_rc=1
   fi
+  if (( rc != 0 || cleanup_rc != 0 )); then
+    if [[ "$RECEIPT_WRITTEN" == true ]]; then rm -f -- "$RECEIPT"; fi
+    if [[ "$TRANSFER_CREATED" == true && -d "$TRANSFER" && ! -L "$TRANSFER" ]]; then
+      for f in "${bundle_files[@]}"; do rm -f -- "$TRANSFER/$f"; done
+      rmdir -- "$TRANSFER" 2>/dev/null || true
+    fi
+  fi
+  if (( cleanup_rc != 0 )); then echo "step-ca root ceremony: vault cleanup failed" >&2; fi
+  if (( rc == 0 && cleanup_rc != 0 )); then exit 2; fi
+  exit "$rc"
 }
-trap cleanup EXIT INT TERM
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 [[ "$(id -u)" -ne 0 ]] || die "run as the desktop user, not root"
-for c in udisksctl openssl python3 findmnt lsblk install cp cmp grep awk stat; do need "$c"; done
+for c in udisksctl openssl python3 ip findmnt lsblk install cp cmp grep awk stat find; do need "$c"; done
 [[ -f "$IMAGE" && ! -L "$IMAGE" ]] || die "FA3 state image missing: $IMAGE"
 [[ "$(stat -c '%a' "$IMAGE")" == "600" ]] || die "FA3 state image mode must be 0600"
 
@@ -91,9 +109,15 @@ openssl verify -CAfile "$ROOT_DIR/root_ca.crt" "$ROOT_DIR/root_ca.crt" >/dev/nul
 openssl verify -CAfile "$ROOT_DIR/root_ca.crt" "$ROOT_DIR/intermediate_ca.crt" >/dev/null
 
 python3 "$ROOT/evidence/collect-step-ca-root-ceremony.py"   --root-cert "$ROOT_DIR/root_ca.crt"   --intermediate-cert "$ROOT_DIR/intermediate_ca.crt"   --operator-id "$OPERATOR_ID"   --medium-id "fa3-state-image"   --output "$RECEIPT" >/dev/null
+RECEIPT_WRITTEN=true
 
-rm -rf -- "$TRANSFER"
+if [[ -e "$TRANSFER" || -L "$TRANSFER" ]]; then
+  [[ -d "$TRANSFER" && ! -L "$TRANSFER" ]] || die "unsafe transfer-bundle path: $TRANSFER"
+  for f in "${bundle_files[@]}"; do rm -f -- "$TRANSFER/$f"; done
+  rmdir -- "$TRANSFER" || die "transfer bundle contains unexpected entries: $TRANSFER"
+fi
 install -d -m0700 "$TRANSFER"
+TRANSFER_CREATED=true
 install -m0644 "$ROOT_DIR/root_ca.crt" "$TRANSFER/root_ca.crt"
 install -m0644 "$ROOT_DIR/intermediate_ca.crt" "$TRANSFER/intermediate_ca.crt"
 install -m0600 "$ROOT_DIR/intermediate_ca_key" "$TRANSFER/intermediate_ca_key"
@@ -104,7 +128,7 @@ install -m0644 "$RECEIPT" "$TRANSFER/step-ca-root-ceremony.json"
 for forbidden in root_ca_key root-password.txt root_ca.key root.key; do
   [[ ! -e "$TRANSFER/$forbidden" ]] || die "forbidden Root secret escaped into transfer bundle"
 done
-[[ "$(find "$TRANSFER" -maxdepth 1 -type f | wc -l)" -eq 6 ]] || die "unexpected transfer-bundle contents"
+[[ "$(find "$TRANSFER" -maxdepth 1 -type f | wc -l)" -eq "${#bundle_files[@]}" ]] || die "unexpected transfer-bundle contents"
 
 echo "FA3 step-ca Root ceremony PASS"
 echo "Root custody remains inside encrypted state image: $ROOT_DIR"

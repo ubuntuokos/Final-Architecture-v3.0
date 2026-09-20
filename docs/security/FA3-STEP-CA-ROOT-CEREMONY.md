@@ -51,7 +51,7 @@ The Root private key and Root password are never copied into the activation bund
 ## Manual equivalent
 
 ```bash
-ROOT_DIR="${FA3_ROOT_CA_DIR:-${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fa3-session-vault/pki/root}"
+ROOT_DIR="${FA3_ROOT_CA_DIR:-${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fa3-state/pki/root}"
 install -d -m0700 "$ROOT_DIR"
 cd "$ROOT_DIR"
 umask 077
