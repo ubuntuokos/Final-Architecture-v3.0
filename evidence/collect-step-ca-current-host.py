@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-import argparse,hashlib,json,pwd,subprocess
+import argparse,hashlib,json,pwd,stat,subprocess
 from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def load(p): return json.loads(Path(p).read_text())
 def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def cmd(x): return subprocess.run(x,text=True,capture_output=True)
+def intermediate_key_boundary(p,activation,account):
+ p=Path(p)
+ if account is None or activation.get("intermediate_key_encrypted") is not True or p.is_symlink(): return False
+ try: st=p.stat()
+ except OSError: return False
+ return stat.S_ISREG(st.st_mode) and st.st_uid==account.pw_uid and st.st_gid==account.pw_gid and stat.S_IMODE(st.st_mode)==0o600
 def rootkey():
  for b in (Path("/etc/fa3"),Path("/var/lib/fa3-step-ca")):
   if b.exists():
@@ -19,12 +25,12 @@ def main():
  if s.get("status")!="PASS": fs.append("SUPPLY_CHAIN"); 
  if c.get("status")!="PASS": fs.append("ROOT_CEREMONY")
  if act.get("status")!="PASS": fs.append("ACTIVATION")
- try: user=pwd.getpwnam("fa3-step-ca").pw_name
- except KeyError: user=None; fs.append("SERVICE_USER")
+ try: account=pwd.getpwnam("fa3-step-ca"); user=account.pw_name
+ except KeyError: account=None; user=None; fs.append("SERVICE_USER")
  b=Path("/usr/local/bin/step-ca")
  if not b.is_file(): fs.append("BINARY")
  elif s.get("server",{}).get("binary_sha256")!=sha(b.resolve()): fs.append("BINARY_DIGEST")
- ik=Path("/var/lib/fa3-step-ca/secrets/intermediate_ca_key"); encrypted=ik.is_file() and "ENCRYPTED PRIVATE KEY" in ik.read_text(errors="ignore"); present=rootkey()
+ ik=Path("/var/lib/fa3-step-ca/secrets/intermediate_ca_key"); encrypted=intermediate_key_boundary(ik,act,account); present=rootkey()
  if present: fs.append("ROOT_KEY_ONLINE")
  if not encrypted: fs.append("INTERMEDIATE_ENCRYPTION")
  rc=Path("/var/lib/fa3-step-ca/certs/root_ca.crt"); ic=Path("/var/lib/fa3-step-ca/certs/intermediate_ca.crt"); chain=rc.is_file() and ic.is_file() and cmd(["openssl","verify","-CAfile",str(rc),str(ic)]).returncode==0

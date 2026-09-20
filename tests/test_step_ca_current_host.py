@@ -1,7 +1,10 @@
-import json,tempfile,unittest
+import importlib.util,json,os,tempfile,unittest
 from pathlib import Path
+from types import SimpleNamespace
 import fa3_step_ca_current_host_gate as g
 ROOT=Path(__file__).resolve().parents[1]
+COLLECTOR_SPEC=importlib.util.spec_from_file_location("fa3_step_ca_current_host_collector",ROOT/"evidence/collect-step-ca-current-host.py")
+COLLECTOR=importlib.util.module_from_spec(COLLECTOR_SPEC); COLLECTOR_SPEC.loader.exec_module(COLLECTOR)
 def good():
  d="a"*64
  return {"schema":"fa3.step-ca-current-host-receipt.v1","provider_id":g.PROVIDER_ID,"status":"PASS","evidence_level":"CURRENT_HOST_PRODUCTION_E2E_PASS","synthetic":False,"supply_chain":{"status":"PASS","server":{"version":"0.30.2","asset_sha256":d,"binary_sha256":d,"sigstore_verified":True},"client":{"version":"0.30.6","asset_sha256":d,"binary_sha256":d,"sigstore_verified":True}},"root_ceremony":{"status":"PASS","network_default_route_present":True,"root_private_key_bytes_collected":False,"root_private_key_exported_online":False,"chain_verification":"PASS"},"activation":{"status":"PASS","service_user":"fa3-step-ca","root_private_key_present_online":False,"intermediate_key_encrypted":True,"systemd_credential_unlock":True,"transfer_bundle_removed":True},"runtime":{"service_active":True,"bind":"127.0.0.1:9443","root_private_key_present_online":False,"certificate_chain_valid":True},"e2e":{"acme_issue_pass":True,"acme_reorder_pass":True,"mtls_pass":True,"ssh_certificate_pass":True,"trust_bundle_pass":True,"max_observed_tls_ttl_hours":0.2},"backup_restore":{"status":"PASS","root_private_key_in_backup":False,"unlock_secret_in_backup":False,"shadow_health_pass":True,"post_restore_issuance_pass":True},"secret_values_collected":False,"runtime_promotion_eligible":True,"global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143}
@@ -66,6 +69,15 @@ class T(unittest.TestCase):
   self.assertIn("ROOT_CUSTODY_BACKUP_MUST_BE_REDUNDANT_AND_ENCRYPTED",decision["constraints"])
   self.assertIn('default="local-protected-storage"',collector)
  def test_collector_no_root_key_arg(self): self.assertNotIn("--root-key",(ROOT/"evidence/collect-step-ca-root-ceremony.py").read_text())
+ def test_unprivileged_collector_uses_attestation_and_key_metadata_not_secret_bytes(self):
+  with tempfile.TemporaryDirectory() as d:
+   key=Path(d)/"intermediate_ca_key"; key.write_text("collector must not read these bytes")
+   key.chmod(0o600); account=SimpleNamespace(pw_uid=os.getuid(),pw_gid=os.getgid())
+   self.assertTrue(COLLECTOR.intermediate_key_boundary(key,{"intermediate_key_encrypted":True},account))
+   self.assertFalse(COLLECTOR.intermediate_key_boundary(key,{"intermediate_key_encrypted":False},account))
+   key.chmod(0o640)
+   self.assertFalse(COLLECTOR.intermediate_key_boundary(key,{"intermediate_key_encrypted":True},account))
+  self.assertNotIn("ik.read_text",(ROOT/"evidence/collect-step-ca-current-host.py").read_text())
  def test_activation_removes_ephemeral_transfer_bundle(self):
   s=(ROOT/"bin/fa3-step-ca-activate.sh").read_text()
   self.assertIn('rm -f -- "$T/$f"',s)
