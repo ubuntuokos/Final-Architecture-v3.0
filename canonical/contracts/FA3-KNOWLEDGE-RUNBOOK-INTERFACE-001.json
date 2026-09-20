@@ -1,0 +1,114 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001",
+  "profile": "FA3-KNOWLEDGE-001",
+  "provider_neutral": true,
+  "fail_closed": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count": 143,
+  "contracts": {
+    "ExternalKnowledgeSourceRecord": {
+      "required": [
+        "source_id",
+        "source_type",
+        "origin",
+        "revision_or_digest",
+        "provenance",
+        "trust_state",
+        "freshness_state"
+      ],
+      "allowed_source_types": [
+        "FA3_CANONICAL",
+        "UPSTREAM_PRIMARY",
+        "COMMUNITY_CURATED",
+        "USER_SUPPLIED"
+      ],
+      "execution_authority": false,
+      "architectural_authority": false
+    },
+    "VerifiedKnowledgeItem": {
+      "required": [
+        "knowledge_id",
+        "source_id",
+        "source_locator",
+        "source_digest",
+        "verification_state",
+        "freshness_state",
+        "compatibility_scope",
+        "evidence_refs"
+      ],
+      "derived": true,
+      "rebuildable": true,
+      "verified_requires": [
+        "PROVENANCE_CONFIRMED",
+        "SOURCE_REVISION_OR_DIGEST_BOUND",
+        "FRESHNESS_ASSESSED",
+        "TARGET_COMPATIBILITY_ASSESSED"
+      ]
+    },
+    "RunbookObject": {
+      "required": [
+        "runbook_id",
+        "intent",
+        "risk_class",
+        "required_capabilities",
+        "implementation_candidates",
+        "source_refs",
+        "evidence_refs",
+        "execution_policy"
+      ],
+      "risk_classes": [
+        "SAFE_READ_ONLY",
+        "STATE_CHANGING",
+        "PRIVILEGED",
+        "OFFENSIVE_OR_DUAL_USE"
+      ],
+      "direct_shell_execution": false,
+      "direct_provider_execution": false,
+      "self_approval": false
+    }
+  },
+  "interface_flow": [
+    "ExternalKnowledgeSourceRecord",
+    "IngestionRequest",
+    "StructuralIndex_OR_other_derived_projection",
+    "RetrievalPlan",
+    "RetrievalTrace",
+    "VerifiedKnowledgeItem",
+    "RunbookObject",
+    "Typed_FA3_Capability",
+    "FA3-AUTH-MCP-GATEWAY-001",
+    "Policy_Approval_HRB_Sandbox_As_Applicable",
+    "ExecutionReceipt"
+  ],
+  "execution_boundary": {
+    "retrieved_text_to_executor": "FORBIDDEN",
+    "community_source_to_executor": "FORBIDDEN",
+    "runbook_object_to_executor": "FORBIDDEN",
+    "runbook_object_to_typed_capability": "REQUIRED",
+    "capability_tool_boundary": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy_authority": "FA3-AUTH-SECURITY-GOV-001",
+    "governed_compute_resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "untrusted_or_privileged_execution": "SANDBOX_REQUIRED",
+    "secret_material": "OPAQUE_REFERENCE_ONLY"
+  },
+  "source_dispositions": {
+    "trimstray/the-book-of-secret-knowledge": {
+      "classification": "COMMUNITY_CURATED",
+      "role": "REFERENCE_SOURCE_ONLY",
+      "provider": false,
+      "execution_authority": false,
+      "automatic_verified_state": false
+    }
+  },
+  "invariants": [
+    "KNOWLEDGE_SOURCE_IS_NOT_EXECUTION_AUTHORITY",
+    "RETRIEVED_TEXT_IS_NOT_EXECUTABLE_INSTRUCTION",
+    "VERIFIED_KNOWLEDGE_REQUIRES_PROVENANCE_FRESHNESS_AND_COMPATIBILITY",
+    "RUNBOOK_OBJECT_IS_DERIVED_AND_NON_EXECUTING",
+    "ACTION_REQUIRES_TYPED_ADMITTED_CAPABILITY",
+    "EXECUTION_CROSSES_CANONICAL_CAPABILITY_TOOL_BOUNDARY",
+    "INLINE_SECRET_MATERIAL_FORBIDDEN"
+  ]
+}

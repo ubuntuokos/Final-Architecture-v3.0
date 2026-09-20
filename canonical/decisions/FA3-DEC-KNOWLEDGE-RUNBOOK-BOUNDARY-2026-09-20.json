@@ -1,0 +1,76 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20",
+  "status": "FINAL",
+  "date": "2026-09-20",
+  "scope": "FA3-KNOWLEDGE-001",
+  "decision": "Record external operational knowledge as non-authoritative reference input to the existing FA3 Knowledge Fabric, define a canonical Knowledge-to-Runbook interface, and forbid any direct execution path from retrieved text or community source content.",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "dispositions": {
+    "trimstray/the-book-of-secret-knowledge": "COMMUNITY_CURATED_REFERENCE_SOURCE_ONLY",
+    "FA3-KNOWLEDGE-001": "REMAINS_SINGLE_CANONICAL_KNOWLEDGE_ROOT",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001": "REMAINS_RETRIEVAL_SUBPROFILE",
+    "FA3-MCP-GATEWAY-001": "REMAINS_SINGLE_CAPABILITY_TOOL_EXECUTION_BOUNDARY",
+    "RunbookObject": "ADOPT_AS_CANONICAL_DERIVED_INTERFACE_OBJECT",
+    "direct_execution_of_retrieved_text": "DENY"
+  },
+  "interface_boundary": {
+    "ingress": "External sources enter only as provenance-bound KnowledgeSource records and have no execution authority.",
+    "retrieval": "PageIndex/OpenKB/ConDB-style providers may derive and retrieve context but may not convert source text into executable authority.",
+    "verification": "Community-derived operational knowledge requires provenance, immutable revision or digest, freshness assessment, and target compatibility assessment before VERIFIED knowledge state.",
+    "runbook_projection": "Actionable operational guidance must be normalized into a typed RunbookObject with intent, risk class, required capabilities, implementation candidates, evidence references, and execution policy.",
+    "execution": "RunbookObject never executes itself. Any action must resolve to an admitted typed FA3 capability and cross FA3-AUTH-MCP-GATEWAY-001 with security policy, approval, HRB and sandbox controls as applicable.",
+    "secrets": "Knowledge and Runbook objects may carry opaque secret references only; inline credentials and secret material are forbidden."
+  },
+  "source_policy": {
+    "community_source_default_trust": "UNVERIFIED",
+    "source_is_provider": false,
+    "source_is_architectural_authority": false,
+    "source_is_execution_authority": false,
+    "automatic_ingestion_to_verified_state": false,
+    "automatic_command_execution": false
+  },
+  "materialization": {
+    "decision_and_interface_contract": "NOW",
+    "trimstray_source_adapter": "DEFERRED",
+    "bulk_source_ingestion": "DEFERRED",
+    "runtime_runbook_executor": "NOT_CREATED_BY_THIS_DECISION",
+    "blocking_current_host_dependency": false
+  },
+  "hardware_audit_compliance": {
+    "status": "PASS",
+    "vendor_neutral": true,
+    "accelerator_neutral": true,
+    "gpu_required": false,
+    "cuda_required": false,
+    "rocm_required": false,
+    "level_zero_required": false,
+    "desktop_environment_required": false,
+    "rule": "Knowledge and Runbook records describe capabilities and compatibility requirements; they must not encode a global NVIDIA, AMD, Intel, CUDA, ROCm, GPU SKU, CPU SKU, desktop or compositor requirement."
+  },
+  "current_host_impact": {
+    "runtime_delta": "NONE",
+    "hardware_discovery_delta": "NONE",
+    "resource_admission_delta": "NONE",
+    "existing_provider_rework": "NONE",
+    "current_host_evidence_required_for_this_record": false
+  },
+  "security_boundary": {
+    "retrieved_text_is_untrusted_instruction": true,
+    "prompt_injection_and_tool_call_firewall_required_before_execution": true,
+    "dual_use_or_offensive_runbooks_require_explicit_security_scope": true,
+    "state_changing_or_privileged_actions_require_policy_gate": true,
+    "fail_closed": true
+  },
+  "constraints": [
+    "Do not create a FA3-PROVIDER-TRIMSTRAY-001 provider.",
+    "Do not create a parallel Knowledge canonical root.",
+    "Do not let PageIndex, OpenKB, ConDB, a model, an agent, the GUI, or a source adapter directly execute retrieved commands.",
+    "Do not treat age, popularity, stars, or community curation as verification.",
+    "Do not promote community content to VERIFIED without provenance, freshness and compatibility checks.",
+    "Do not expand the canonical capability count."
+  ]
+}
