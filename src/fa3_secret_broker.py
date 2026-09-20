@@ -29,7 +29,10 @@ def _atomic_write(path: Path, data: bytes, mode: int = 0o600) -> None:
 class SecretStore:
     def __init__(self, root: Path):
         self.root=root; self.objects=root/"objects"; self.index_path=root/"index.json"
-        self.objects.mkdir(parents=True, exist_ok=True); os.chmod(self.objects,0o700)
+        if not self.objects.exists():
+            self.objects.mkdir(parents=True, exist_ok=True); os.chmod(self.objects,0o700)
+        elif self.objects.stat().st_mode & 0o077:
+            raise RuntimeError("secret object directory permissions too broad")
         if not self.index_path.exists(): _atomic_write(self.index_path,b'{"schema":"fa3.secret-index.v1","secrets":{}}\n')
     def _index(self)->dict[str,Any]:
         x=json.loads(self.index_path.read_text())
