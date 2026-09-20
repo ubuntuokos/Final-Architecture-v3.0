@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "61ab1e9ce1f2de145f5e2c68bcffe4abacaaa0b7",
-    "pre_projection_root_tree_sha": "d717458e1976530f21be457f96d9b510adeab03b",
-    "pre_projection_canonical_tree_sha": "ba439bcef4ff8058b4dc8233d2fc333d9671b3c6",
-    "commits_ahead_of_v3_0_11_conformance_commit": 479,
-    "total_post_baseline_commits": 479,
-    "delta_file_count": 1540,
-    "delta_added_files": 1535,
+    "pre_projection_head_sha": "e613c0eac952dbdf4c9affaebd4d6557e77e4bfd",
+    "pre_projection_root_tree_sha": "0f91f26d8e5352933aaa46b8846d93c7abcb3dcc",
+    "pre_projection_canonical_tree_sha": "22173f4fc0ae4b48c61365762521915054f5ac4a",
+    "commits_ahead_of_v3_0_11_conformance_commit": 475,
+    "total_post_baseline_commits": 475,
+    "delta_file_count": 1542,
+    "delta_added_files": 1537,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 742,
+    "canonical_files_in_post_baseline_delta": 744,
     "evidence_files_in_post_baseline_delta": 135,
     "source_files_in_post_baseline_delta": 197,
     "test_files_in_post_baseline_delta": 176,
@@ -285,6 +285,7 @@
       "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json",
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
@@ -374,6 +375,7 @@
       "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
+      "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json",
       "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
       "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
@@ -785,7 +787,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1534,
+  "manifest_entry_count": 1536,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -924,7 +926,7 @@
     },
     {
       "path": ".github/workflows/fa3-knowledge-hybrid-retrieval.yml",
-      "git_blob_sha": "65fa52b328436431c1a7e160609566f72403ae0f",
+      "git_blob_sha": "a3030b71a9726c7b120d45b2f18f3609485ff3d9",
       "baseline_delta_status": "added"
     },
     {
@@ -2713,6 +2715,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json",
+      "git_blob_sha": "7ca20f5c85d2e626f8443204b418819fcb253bf7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "git_blob_sha": "aa43a3ac7ae553eac72da88dddf66948db1944d5",
       "baseline_delta_status": "added"
@@ -3190,6 +3197,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
       "git_blob_sha": "e9ab32ccb42d7f423b12d2851c88b862c5fc93bf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json",
+      "git_blob_sha": "a373e897a143dd528af56c6c15c352f23f4f1d82",
       "baseline_delta_status": "added"
     },
     {
@@ -3689,7 +3701,7 @@
     },
     {
       "path": "canonical/knowledge-hybrid-retrieval-enforcement.json",
-      "git_blob_sha": "ee911412232041231bd8e43ff260820b3a5c795f",
+      "git_blob_sha": "37930366f37d700c10a39b5580860e2adc7f3c81",
       "baseline_delta_status": "added"
     },
     {
@@ -4084,7 +4096,7 @@
     },
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
-      "git_blob_sha": "592573c7a73d8f36abdf5c75bcb8e8231e5a3db8",
+      "git_blob_sha": "8efa33569635deede2f23f5e3756404580ea8043",
       "baseline_delta_status": "added"
     },
     {
@@ -6994,7 +7006,7 @@
     },
     {
       "path": "src/fa3_knowledge_hybrid_retrieval_gate.py",
-      "git_blob_sha": "2a414512165ad4a13157b9aae19f07a8538ca071",
+      "git_blob_sha": "e1608538f507842c0e663bd02a2b804aed769770",
       "baseline_delta_status": "added"
     },
     {

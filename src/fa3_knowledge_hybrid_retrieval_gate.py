@@ -25,8 +25,10 @@ def gate(root: Path) -> dict[str, Any]:
         knowledge = loadj(root / "canonical/profiles/FA3-KNOWLEDGE-001.json")
         sub = loadj(root / "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json")
         contracts = loadj(root / "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json")
+        runbook_contract = loadj(root / "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json")
         provider = loadj(root / "canonical/providers/FA3-PROVIDER-PAGEINDEX-LOCAL-001.json")
         decision = loadj(root / "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json")
+        runbook_decision = loadj(root / "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json")
         page_ref = loadj(root / "canonical/references/FA3-PAGEINDEX-LOCAL-UPSTREAM-REFERENCE-2026-09-18.json")
         openkb = loadj(root / "canonical/references/FA3-OPENKB-UPSTREAM-REFERENCE-2026-09-18.json")
         condb = loadj(root / "canonical/references/FA3-CONDB-UPSTREAM-REFERENCE-2026-09-18.json")
@@ -60,6 +62,44 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("KNOWLEDGE-010","Decision changes capability/authority baseline"))
     if enforcement.get("rules",{}).get("media_binary_in_knowledge_store") != "DENY":
         findings.append(finding("KNOWLEDGE-011","Binary media must remain outside knowledge index"))
+
+    runbook_contracts = runbook_contract.get("contracts", {})
+    if not {"ExternalKnowledgeSourceRecord", "VerifiedKnowledgeItem", "RunbookObject"}.issubset(set(runbook_contracts)):
+        findings.append(finding("KNOWLEDGE-018","Knowledge-to-Runbook interface contract family incomplete"))
+    execution_boundary = runbook_contract.get("execution_boundary", {})
+    if execution_boundary.get("retrieved_text_to_executor") != "FORBIDDEN" or execution_boundary.get("runbook_object_to_typed_capability") != "REQUIRED":
+        findings.append(finding("KNOWLEDGE-019","Retrieved text or RunbookObject execution boundary drift"))
+    if execution_boundary.get("capability_tool_boundary") != "FA3-AUTH-MCP-GATEWAY-001":
+        findings.append(finding("KNOWLEDGE-020","Runbook execution must cross the canonical MCP/capability tool boundary"))
+    if execution_boundary.get("governed_compute_resource_authority") != "FA3-AUTH-HOST-RESOURCE-BROKER-001":
+        findings.append(finding("KNOWLEDGE-027","Governed Runbook compute must retain HRB resource authority"))
+    source = runbook_contract.get("source_dispositions", {}).get("trimstray/the-book-of-secret-knowledge", {})
+    if source.get("role") != "REFERENCE_SOURCE_ONLY" or source.get("provider") is not False or source.get("execution_authority") is not False:
+        findings.append(finding("KNOWLEDGE-021","Trimstray source disposition drifted toward provider/execution authority"))
+    rules = enforcement.get("rules", {})
+    required_boundary_rules = {
+        "external_reference_source_execution_authority": "DENY",
+        "retrieved_text_direct_execution": "DENY",
+        "runbook_object_required_for_knowledge_derived_action": "REQUIRED",
+        "runbook_object_direct_execution": "DENY",
+        "runbook_execution_boundary": "FA3-AUTH-MCP-GATEWAY-001",
+        "community_source_provenance": "REQUIRED",
+        "community_source_revision_or_digest_binding": "REQUIRED",
+        "community_source_freshness_assessment": "REQUIRED_BEFORE_VERIFIED",
+        "community_source_target_compatibility_assessment": "REQUIRED_BEFORE_VERIFIED",
+        "inline_secret_material_in_knowledge_or_runbook": "DENY",
+    }
+    drift = {key: {"expected": value, "actual": rules.get(key)} for key, value in required_boundary_rules.items() if rules.get(key) != value}
+    if drift:
+        findings.append(finding("KNOWLEDGE-022","Knowledge-to-Runbook fail-closed enforcement drift",drift=drift))
+    if runbook_decision.get("capability_count_after") != 143 or runbook_decision.get("new_architectural_authorities") != 0:
+        findings.append(finding("KNOWLEDGE-023","Runbook boundary decision changes capability/authority baseline"))
+    if runbook_decision.get("dispositions", {}).get("trimstray/the-book-of-secret-knowledge") != "COMMUNITY_CURATED_REFERENCE_SOURCE_ONLY":
+        findings.append(finding("KNOWLEDGE-024","Community source classification drift"))
+    if runbook_decision.get("hardware_audit_compliance", {}).get("status") != "PASS" or runbook_decision.get("hardware_audit_compliance", {}).get("vendor_neutral") is not True:
+        findings.append(finding("KNOWLEDGE-025","Runbook boundary hardware-audit compliance missing or non-neutral"))
+    if runbook_decision.get("current_host_impact", {}).get("runtime_delta") != "NONE":
+        findings.append(finding("KNOWLEDGE-026","Decision unexpectedly introduces current-host runtime delta"))
 
     for cap_id, adapter_id in (
         ("fa3.document.index","fa3.adapter.pageindex.local.index"),
