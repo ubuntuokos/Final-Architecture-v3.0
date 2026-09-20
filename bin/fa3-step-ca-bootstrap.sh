@@ -21,7 +21,7 @@ bootstrap_cosign(){
  curl -fL --retry 3 "$base/$asset" -o "$work/$asset"
  [[ "$(sha "$work/cosign_checksums.txt")" == "3ef5d389c3f508b96025fd1b92744a305c46e95951c91242b57467567d5622db" ]] || { echo "cosign checksum-manifest digest mismatch" >&2; return 2; }
  [[ "$(sha "$work/$asset")" == "$expected" ]] || { echo "cosign binary digest mismatch" >&2; return 2; }
- (cd "$work" && grep -F "$asset" cosign_checksums.txt | sha256sum -c -) >&2
+ verify_checksum_entry "$work/cosign_checksums.txt" "$asset" "$work" >&2
  install -m0755 "$work/$asset" "$STATE/bin/cosign"
  validate_cosign "$STATE/bin/cosign" "$a" || { echo "bootstrapped cosign identity mismatch" >&2; return 2; }
  echo "$STATE/bin/cosign"
@@ -35,7 +35,17 @@ resolve_cosign(){
  bootstrap_cosign "$a"
 }
 sha(){ sha256sum "$1"|awk '{print $1}'; }
-fetch_verify(){ local repo="$1" ver="$2" asset="$3" expected="$4" bundle="$5" csum="$6" out="$7" verifier="$8"; local base; base="https://github.com/$repo/releases/download/v$ver"; mkdir -p "$out"; curl -fL --retry 3 "$base/checksums.txt" -o "$out/checksums.txt"; curl -fL --retry 3 "$base/$asset" -o "$out/$asset"; curl -fL --retry 3 "$base/$asset.sigstore.json" -o "$out/$asset.sigstore.json"; [[ "$(sha "$out/checksums.txt")" == "$csum" ]]; [[ "$(sha "$out/$asset")" == "$expected" ]]; [[ "$(sha "$out/$asset.sigstore.json")" == "$bundle" ]]; (cd "$out" && grep -F "$asset" checksums.txt | sha256sum -c -); "$verifier" verify-blob --bundle "$out/$asset.sigstore.json" --certificate-identity-regexp "$IDENTITY_RE" --certificate-oidc-issuer "$ISSUER" "$out/$asset" >/dev/null; }
+verify_checksum_entry(){
+ local manifest="$1" asset="$2" workdir="$3" line count
+ line="$(awk -v name="$asset" '$2 == name {print}' "$manifest")"
+ count="$(printf '%s\n' "$line" | sed '/^$/d' | wc -l)"
+ [[ "$count" -eq 1 ]] || { echo "checksum manifest must contain exactly one entry for $asset (found $count)" >&2; return 2; }
+ if ! (cd "$workdir" && printf '%s\n' "$line" | sha256sum -c -); then
+  echo "checksum verification failed for $asset" >&2
+  return 2
+ fi
+}
+fetch_verify(){ local repo="$1" ver="$2" asset="$3" expected="$4" bundle="$5" csum="$6" out="$7" verifier="$8"; local base; base="https://github.com/$repo/releases/download/v$ver"; mkdir -p "$out"; curl -fL --retry 3 "$base/checksums.txt" -o "$out/checksums.txt"; curl -fL --retry 3 "$base/$asset" -o "$out/$asset"; curl -fL --retry 3 "$base/$asset.sigstore.json" -o "$out/$asset.sigstore.json"; [[ "$(sha "$out/checksums.txt")" == "$csum" ]]; [[ "$(sha "$out/$asset")" == "$expected" ]]; [[ "$(sha "$out/$asset.sigstore.json")" == "$bundle" ]]; verify_checksum_entry "$out/checksums.txt" "$asset" "$out"; "$verifier" verify-blob --bundle "$out/$asset.sigstore.json" --certificate-identity-regexp "$IDENTITY_RE" --certificate-oidc-issuer "$ISSUER" "$out/$asset" >/dev/null; }
 extract_bin(){ python3 - "$1" "$2" "$3" <<'PY'
 import os,sys,tarfile
 from pathlib import Path
