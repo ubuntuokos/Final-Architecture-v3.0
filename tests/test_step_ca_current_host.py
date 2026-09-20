@@ -16,6 +16,10 @@ class T(unittest.TestCase):
  def test_ssh_paths(self):
   x=json.loads((ROOT/"deployment/step-ca/ca.json.example").read_text()); self.assertIn("ssh_host_ca_key",x["ssh"]["hostKey"])
  def test_bootstrap_never_makes_root(self): self.assertNotIn("root_ca_key",(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text())
+ def test_bootstrap_fetch_verify_is_nounset_safe(self):
+  s=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
+  self.assertNotIn('out="$7" base="https://github.com/$repo/releases/download/v$ver"',s)
+  self.assertIn('out="$7"; local base; base="https://github.com/$repo/releases/download/v$ver"',s)
  def test_collector_no_root_key_arg(self): self.assertNotIn("--root-key",(ROOT/"evidence/collect-step-ca-root-ceremony.py").read_text())
  def test_not_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text()); self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
