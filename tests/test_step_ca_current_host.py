@@ -110,7 +110,12 @@ class T(unittest.TestCase):
   self.assertIn('--http-listen "127.0.0.1:$ACME_HTTP_PORT"',s)
   self.assertGreaterEqual(s.count('--standalone'),2)
   self.assertIn('90-fa3-e2e-acme-port.conf',s)
-  self.assertIn('[[ "$execstart" == "$PRODUCTION_EXECSTART" ]]',s)
+  self.assertIn('execstart_signature()',s)
+  self.assertIn('PRODUCTION_EXECSTART_SIGNATURE="$(execstart_signature)"',s)
+  self.assertIn('[[ "$signature" == "$PRODUCTION_EXECSTART_SIGNATURE" ]]',s)
+  self.assertIn('path.group(1).strip()',s)
+  self.assertIn('argv.group(1).strip()',s)
+  self.assertNotIn('[[ "$execstart" == "$PRODUCTION_EXECSTART" ]]',s)
   self.assertIn('"host_port_80_untouched": True',s)
  def test_restore_cleanup_is_fail_safe(self):
   s=(ROOT/"bin/fa3-step-ca-backup-restore-drill.sh").read_text()
