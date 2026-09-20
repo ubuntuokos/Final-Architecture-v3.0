@@ -29,6 +29,13 @@ class T(unittest.TestCase):
   self.assertIn("f7622ed3cf22e55e1ae6377c080979ff77a22da9981c11df222a2e444991e7cf",s)
   self.assertIn("90e7ae0b5dfd60f20816b52c012addf7fc055ebcc7bea4ce81c428ca8518c302",s)
   self.assertNotIn('"$(cosign_bin)" verify-blob',s)
+ def test_bootstrap_checksum_matching_is_exact_and_fail_closed(self):
+  s=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
+  self.assertIn("verify_checksum_entry",s)
+  self.assertIn('$2 == name {print}',s)
+  self.assertIn("must contain exactly one entry",s)
+  self.assertNotIn('grep -F "$asset" cosign_checksums.txt',s)
+  self.assertNotIn('grep -F "$asset" checksums.txt',s)
  def test_collector_no_root_key_arg(self): self.assertNotIn("--root-key",(ROOT/"evidence/collect-step-ca-root-ceremony.py").read_text())
  def test_not_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text()); self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
