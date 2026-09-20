@@ -29,8 +29,24 @@ open_vault(){
   for o in nodev nosuid noexec; do grep -qw "$o" <<<"${opts//,/ }" || { echo "mount option missing: $o" >&2; return 2; }; done
   trap - ERR
 }
+assert_closed(){
+  if mountpoint -q "$MNT"; then
+    echo "vault remains mounted: $MNT" >&2
+    return 2
+  fi
+  if [[ -e "/dev/mapper/$MAPPER" ]]; then
+    echo "LUKS mapper remains open: $MAPPER" >&2
+    return 2
+  fi
+}
 close_vault(){
   if mountpoint -q "$MNT"; then umount "$MNT"; fi
   if [[ -e "/dev/mapper/$MAPPER" ]]; then cryptsetup close "$MAPPER"; fi
+  assert_closed
 }
-case "$ACTION" in open) open_vault;; close) close_vault;; *) echo "usage: $0 open|close" >&2; exit 2;; esac
+case "$ACTION" in
+  open) open_vault;;
+  close) close_vault;;
+  assert-closed) assert_closed;;
+  *) echo "usage: $0 open|close|assert-closed" >&2; exit 2;;
+esac
