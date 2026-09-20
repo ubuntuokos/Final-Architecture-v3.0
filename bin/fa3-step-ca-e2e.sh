@@ -31,10 +31,17 @@ wait_for_ca() {
   return 1
 }
 
-production_execstart_restored() {
+production_execstart_is_safe() {
   local execstart
   execstart="$(systemctl show fa3-step-ca.service --property=ExecStart --value)" || return 1
-  [[ "$execstart" != *"--acme-http-port"* && "$execstart" != *"--acme-tls-port"* && "$execstart" != *"--insecure"* ]]
+  [[ -n "$execstart" && "$execstart" != *"--acme-http-port"* && "$execstart" != *"--acme-tls-port"* && "$execstart" != *"--insecure"* ]]
+}
+
+production_execstart_restored() {
+  local execstart
+  [[ -n "$PRODUCTION_EXECSTART" ]] || return 1
+  execstart="$(systemctl show fa3-step-ca.service --property=ExecStart --value)" || return 1
+  [[ "$execstart" == "$PRODUCTION_EXECSTART" ]]
 }
 
 remove_override() {
@@ -69,7 +76,7 @@ cleanup() {
   [[ -n "$TMP" ]] && rm -rf -- "$TMP"
   exit "$rc"
 }
-trap cleanup EXIT INT TERM
+trap cleanup EXIT\ntrap 'exit 130' INT\ntrap 'exit 143' TERM
 
 for command in curl flock openssl python3 seq ssh-keygen ss step systemctl; do
   command -v "$command" >/dev/null || {
@@ -93,8 +100,13 @@ if [[ -e "$DROPIN" ]]; then
   systemctl daemon-reload
   systemctl restart fa3-step-ca.service
   wait_for_ca
-  production_execstart_restored
 fi
+
+production_execstart_is_safe || {
+  echo "production step-ca ExecStart contains a test-only flag; refusing E2E" >&2
+  exit 1
+}
+PRODUCTION_EXECSTART="$(systemctl show fa3-step-ca.service --property=ExecStart --value)"
 
 TMP="$(mktemp -d /var/tmp/fa3-step-ca-e2e.XXXXXX)"
 chmod 700 "$TMP"
@@ -137,12 +149,14 @@ step ca certificate localhost "$TMP/a.crt" "$TMP/a.key" \
   --provisioner fa3-acme \
   --ca-url "$CA" \
   --root "$RC" \
+  --standalone \
   --http-listen "127.0.0.1:$ACME_HTTP_PORT" \
   --not-after 10m
 step ca certificate localhost "$TMP/b.crt" "$TMP/b.key" \
   --provisioner fa3-acme \
   --ca-url "$CA" \
   --root "$RC" \
+  --standalone \
   --http-listen "127.0.0.1:$ACME_HTTP_PORT" \
   --not-after 10m
 

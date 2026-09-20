@@ -101,13 +101,15 @@ class T(unittest.TestCase):
   self.assertIn('--ca-config /etc/fa3/step-ca/ca.json',s)
  def test_ssh_e2e_is_noninteractive_inside_ephemeral_root_only_directory(self):
   s=(ROOT/"bin/fa3-step-ca-e2e.sh").read_text()
-  self.assertIn('--no-agent --no-password --insecure --not-after 10m',s)
+  for flag in ('--no-agent','--no-password','--insecure','--not-after 10m'):\n   self.assertIn(flag,s)
  def test_acme_e2e_uses_ephemeral_port_and_restores_service(self):
   s=(ROOT/"bin/fa3-step-ca-e2e.sh").read_text()
   self.assertNotIn('--http-listen 127.0.0.1:80',s)
   self.assertIn('--acme-http-port=$ACME_HTTP_PORT',s)
   self.assertIn('--http-listen "127.0.0.1:$ACME_HTTP_PORT"',s)
+  self.assertGreaterEqual(s.count('--standalone'),2)
   self.assertIn('90-fa3-e2e-acme-port.conf',s)
+  self.assertIn('[[ "$execstart" == "$PRODUCTION_EXECSTART" ]]',s)
   self.assertIn('"host_port_80_untouched": True',s)
  def test_restore_cleanup_is_fail_safe(self):
   s=(ROOT/"bin/fa3-step-ca-backup-restore-drill.sh").read_text()
