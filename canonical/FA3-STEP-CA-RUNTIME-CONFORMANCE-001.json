@@ -31,6 +31,9 @@
     "backup_restore": "bin/fa3-step-ca-backup-restore-drill.sh",
     "collector": "evidence/collect-step-ca-current-host.py",
     "gate": "src/fa3_step_ca_current_host_gate.py",
-    "test_client": "smallstep/cli@0.30.6"
+    "test_client": "smallstep/cli@0.30.6",
+    "root_ceremony_runner": "bin/fa3-step-ca-root-ceremony.sh",
+    "root_ceremony_storage": "FA3-SESSION-VAULT-001",
+    "root_ceremony_transfer_bundle": "$XDG_RUNTIME_DIR/fa3-step-ca-transfer"
   }
 }

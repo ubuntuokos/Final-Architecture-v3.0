@@ -47,5 +47,14 @@
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143
+  "capability_count": 143,
+  "root_ceremony": {
+    "runner": "bin/fa3-step-ca-root-ceremony.sh",
+    "custody": "FA3_SESSION_VAULT_LUKS2_IMAGE",
+    "state_image": "~/.local/share/fa3/state/fa3-state.img",
+    "root_private_key_transfer": "FORBIDDEN",
+    "root_password_transfer": "FORBIDDEN",
+    "online_bundle": "$XDG_RUNTIME_DIR/fa3-step-ca-transfer",
+    "network_isolation_required": false
+  }
 }
