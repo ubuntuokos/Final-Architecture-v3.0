@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/schemas/session-vault-current-host-receipt.v1.json",
+  "title": "FA3 Session Vault Current-Host Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema","status","real_execution","synthetic","image_path","luks2",
+    "external_storage_name_non_disclosing","loop_setup_pass","unlock_pass",
+    "filesystem","luks_label","filesystem_label","mount_pass","mount_options",
+    "service_account_isolation_pass","explicit_unmount_pass","explicit_lock_pass",
+    "loop_cleanup_pass","opaque_backup_copy_pass","opaque_backup_restore_unlock_pass",
+    "opaque_backup_restore_mount_pass","secret_service","secret_values_collected",
+    "runtime_promotion_eligible","global_promotion_claim"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.session-vault-current-host-receipt.v1"},
+    "status": {"const": "PASS"},
+    "real_execution": {"const": true},
+    "synthetic": {"const": false},
+    "image_path": {"type": "string", "pattern": "/\\.local/share/fa3/state/fa3-state\\.img$"},
+    "luks2": {"const": true},
+    "external_storage_name_non_disclosing": {"const": true},
+    "loop_setup_pass": {"const": true},
+    "unlock_pass": {"const": true},
+    "filesystem": {"const": "ext4"},
+    "luks_label": {"const": "FA3_STATE"},
+    "filesystem_label": {"const": "FA3_STATE"},
+    "mount_pass": {"const": true},
+    "mount_options": {
+      "type": "array",
+      "allOf": [
+        {"contains": {"const": "nodev"}},
+        {"contains": {"const": "nosuid"}},
+        {"contains": {"const": "noexec"}}
+      ]
+    },
+    "service_account_isolation_pass": {"const": true},
+    "explicit_unmount_pass": {"const": true},
+    "explicit_lock_pass": {"const": true},
+    "loop_cleanup_pass": {"const": true},
+    "opaque_backup_copy_pass": {"const": true},
+    "opaque_backup_restore_unlock_pass": {"const": true},
+    "opaque_backup_restore_mount_pass": {"const": true},
+    "secret_service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["configured","lookup_pass_if_configured"],
+      "properties": {
+        "configured": {"type": "boolean"},
+        "lookup_pass_if_configured": {"type": ["boolean","null"]}
+      }
+    },
+    "secret_values_collected": {"const": false},
+    "runtime_promotion_eligible": {"const": true},
+    "global_promotion_claim": {"const": false}
+  }
+}
