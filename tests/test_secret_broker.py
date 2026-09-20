@@ -80,6 +80,19 @@ class SecretBrokerTests(unittest.TestCase):
             s=b.SecretStore(Path(td))
             with self.assertRaises(ValueError):s.put("cache/item",b"x","MACHINE_SERVICE_SECRET","CACHE")
 
+    def test_duplicate_policy_for_same_secret_fails_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);vault=root/"vault";pol=root/"policy";audit=root/"audit.jsonl";pol.mkdir()
+            broker=b.Broker(vault,pol,audit)
+            broker.store.put("provider/token",b"VALUE","MACHINE_SERVICE_SECRET","API_TOKEN")
+            user=pwd.getpwuid(os.getuid()).pw_name
+            policy={"schema":"fa3.secret-projection-policy.v1","secret_id":"provider/token","classification":"USER_SESSION_SECRET","secret_kind":"API_TOKEN",
+                    "allowed_consumers":[{"consumer_id":"TEST-CONSUMER","allowed_unix_users":[user],"allowed_executables":[],"allowed_systemd_units":[]}],
+                    "allowed_projections":["UDS_SINGLE_SECRET"],"exportable":False}
+            (pol/"a.json").write_text(json.dumps(policy));(pol/"b.json").write_text(json.dumps(policy))
+            r=broker.handle({"op":"get","secret_id":"provider/token","consumer_id":"TEST-CONSUMER","projection":"UDS_SINGLE_SECRET"},os.getuid(),os.getgid(),os.getpid())
+            self.assertFalse(r["ok"])
+
     def test_policy_metadata_kind_mismatch_denied(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);vault=root/"vault";pol=root/"policy";audit=root/"audit.jsonl";pol.mkdir()
