@@ -27,6 +27,11 @@ class SessionVaultCurrentHostTests(unittest.TestCase):
   self.assertIn("udisksctl unlock --block-device",s)
   self.assertNotIn("--key-file",s)
   self.assertNotIn("FA3_VAULT_PASSPHRASE",s)
+ def test_block_metadata_probe_is_privileged_and_diagnostic(self):
+  s=(ROOT/"bin/fa3-session-vault-current-host.sh").read_text()
+  self.assertIn('sudo blkid -p -o value -s "$tag" "$dev"',s)
+  self.assertIn('detected=${fs_type:-unknown}',s)
+  self.assertNotIn('$(blkid -o value -s TYPE "$CLEAR")',s)
  def test_script_requires_service_account_isolation(self):
   s=(ROOT/"bin/fa3-session-vault-current-host.sh").read_text()
   self.assertIn("sudo -u fa3-step-ca test -r",s)
