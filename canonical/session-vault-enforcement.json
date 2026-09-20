@@ -4,7 +4,7 @@
   "profile_id": "FA3-SESSION-VAULT-001",
   "contract_id": "FA3-SESSION-VAULT-CONTRACTS-001",
   "fail_closed": true,
-  "mandatory_rule_count": 21,
+  "mandatory_rule_count": 22,
   "p0_invariants": [
     "SESSION_VAULT_LUKS2_IMAGE_REQUIRED",
     "SESSION_MOUNT_USER_SCOPED",
@@ -26,10 +26,12 @@
     "RESTORE_REQUIRED_FOR_RECOVERY_PASS",
     "NO_NEW_IDENTITY_OR_AUTHORIZATION_AUTHORITY",
     "NO_NEW_CAPABILITY_OR_ARCHITECTURAL_AUTHORITY",
-    "REAL_CURRENT_HOST_E2E_RECEIPT_REQUIRED_FOR_RUNTIME_PROMOTION"
+    "REAL_CURRENT_HOST_E2E_RECEIPT_REQUIRED_FOR_RUNTIME_PROMOTION",
+    "APPLICATION_MACHINE_SECRETS_USE_FA3_SECRET_BROKER"
   ],
   "runtime_provider": "UDISKS2_DBUS_PLUS_LUKS2",
   "password_manager_boundary": "FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001",
   "production_runtime_promotion_requires_current_host_e2e": true,
-  "current_host_gate": "FA3-GATE-SESSION-VAULT-CURRENT-HOST-001"
+  "current_host_gate": "FA3-GATE-SESSION-VAULT-CURRENT-HOST-001",
+  "machine_secret_profile": "FA3-SECRET-BROKER-001"
 }
