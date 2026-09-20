@@ -2,9 +2,11 @@
 
 ## Decision
 
-FA3 machine/service tokens, passwords and API credentials use the P0/MUST profile `FA3-SECRET-BROKER-001`. The canonical local store is a separate LUKS2 image named generically `/var/lib/fa3/state/fa3-machine-state.img`. It is not the user Session Vault and it does not create a new secrets, identity, authorization, orchestration or evidence authority.
+FA3 tokens, API keys, OAuth secrets, external-provider login secrets, service/database/SMTP passwords, MCP/provider credentials and equivalent authentication material use the P0/MUST profile `FA3-SECRET-BROKER-001`. The canonical local store is a separate LUKS2 image at the intentionally generic, non-disclosing path `/var/lib/fa3/state/fa3-machine-state.img`. Its external name MUST NOT reveal that it contains credentials. It is not the user Session Vault and it does not create a new secrets, identity, authorization, orchestration or evidence authority.
 
 The existing `FA3-SESSION-VAULT-001` remains user-session custody for the offline Root CA and session state. New raw machine/application credentials must not be stored in that user-mounted image.
+
+The vault content scope is **credential secrets only**. Cache data, model data, project files, documents, telemetry, general configuration and ordinary application state are forbidden. Non-secret identity metadata such as provider name or username belongs in normal provider/application configuration; only the sensitive credential value belongs in the encrypted vault.
 
 ## Lifecycle
 
@@ -30,7 +32,7 @@ The closed LUKS2 image can be copied opaquely to user-selected backup storage. R
 
 ## Hardware and desktop audit
 
-No NVIDIA, CUDA, GPU, NPU, accelerator SKU or topology is required. The core is headless-capable and desktop-neutral. Wayland remains preferred by FA3 desktop policy, X11 remains supported, and KDE/KWallet is not a core dependency. Secret Service is an optional desktop adapter only.
+No NVIDIA, CUDA, GPU, NPU, accelerator SKU or topology is required. The core is headless-capable and has no canonical KDE, GNOME, Wayland, X11 or other desktop/display-server dependency. Any desktop unlock or management UI is an optional adapter and cannot become a prerequisite for the secrets core.
 
 ## Promotion boundary
 
