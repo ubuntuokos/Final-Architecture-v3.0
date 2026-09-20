@@ -6,6 +6,11 @@ from pathlib import Path
 from typing import Any
 
 MAX_SECRET_BYTES = 512 * 1024
+ALLOWED_SECRET_KINDS = {
+    "API_KEY","API_TOKEN","SERVICE_TOKEN","OAUTH_CLIENT_SECRET","OAUTH_REFRESH_TOKEN",
+    "PROVIDER_CREDENTIAL","PROVIDER_LOGIN_PASSWORD","SERVICE_PASSWORD","DATABASE_PASSWORD",
+    "SMTP_PASSWORD","MCP_PROVIDER_CREDENTIAL","PRIVATE_CREDENTIAL_MATERIAL","GENERIC_FA3_CREDENTIAL",
+}
 SECRET_ID_RE = re.compile(r"^[A-Za-z0-9._:/-]{1,256}$")
 def valid_secret_id(value:str)->bool:
     return bool(SECRET_ID_RE.fullmatch(value)) and all(part not in {"", ".", ".."} for part in value.split("/"))
@@ -41,19 +46,20 @@ class SecretStore:
         if x.get("schema")!="fa3.secret-index.v1" or not isinstance(x.get("secrets"),dict): raise RuntimeError("invalid secret index")
         return x
     def metadata(self, secret_id:str)->dict[str,Any]|None: return self._index()["secrets"].get(secret_id)
-    def put(self, secret_id:str, value:bytes, classification:str)->dict[str,Any]:
+    def put(self, secret_id:str, value:bytes, classification:str, secret_kind:str)->dict[str,Any]:
         if not valid_secret_id(secret_id): raise ValueError("invalid secret_id")
         if not value or len(value)>MAX_SECRET_BYTES: raise ValueError("secret size outside 1..524288 bytes")
         if classification not in {"MACHINE_SERVICE_SECRET","USER_SESSION_SECRET"}: raise ValueError("invalid classification")
+        if secret_kind not in ALLOWED_SECRET_KINDS: raise ValueError("invalid secret_kind: credential secrets only")
         idx=self._index(); old=idx["secrets"].get(secret_id); obj=secrets.token_hex(32)
         _atomic_write(self.objects/obj,value)
         version=int((old or {}).get("version",0))+1
-        idx["secrets"][secret_id]={"object":obj,"version":version,"classification":classification}
+        idx["secrets"][secret_id]={"object":obj,"version":version,"classification":classification,"secret_kind":secret_kind}
         _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
         if old:
             try:(self.objects/old["object"]).unlink()
             except FileNotFoundError:pass
-        return {"secret_id":secret_id,"version":version,"classification":classification}
+        return {"secret_id":secret_id,"version":version,"classification":classification,"secret_kind":secret_kind}
     def get(self, secret_id:str)->tuple[dict[str,Any],bytes]:
         meta=self.metadata(secret_id)
         if not meta: raise KeyError("secret not found")
@@ -77,7 +83,7 @@ class PolicyStore:
         for p in sorted(self.root.glob("*.json")):
             try:x=json.loads(p.read_text())
             except Exception:continue
-            if x.get("schema")=="fa3.secret-projection-policy.v1" and x.get("secret_id")==secret_id:
+            if x.get("schema")=="fa3.secret-projection-policy.v1" and x.get("secret_id")==secret_id and x.get("secret_kind") in ALLOWED_SECRET_KINDS:
                 if x.get("classification")=="MACHINE_SERVICE_SECRET":
                     consumers=x.get("allowed_consumers") or []
                     if not consumers:return None
@@ -138,7 +144,7 @@ class Broker:
             if op=="put":
                 try:value=base64.b64decode(req.get("secret_b64",""),validate=True)
                 except Exception:return {"ok":False,"error":"invalid secret payload"}
-                meta=self.store.put(sid,value,str(req.get("classification","MACHINE_SERVICE_SECRET")))
+                meta=self.store.put(sid,value,str(req.get("classification","MACHINE_SERVICE_SECRET")),str(req.get("secret_kind","")))
                 self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"metadata":meta}
             ok=self.store.delete(sid);self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"deleted":ok}
         if op not in {"get","metadata"}:return {"ok":False,"error":"unsupported operation"}
@@ -155,8 +161,11 @@ class Broker:
                 meta,value=self.store.get(sid)
         except Exception as exc:
             self._audit(op,sid,consumer,uid,projection,"DENY_MISSING");return {"ok":False,"error":str(exc)}
+        if meta.get("classification") != policy.get("classification") or meta.get("secret_kind") != policy.get("secret_kind"):
+            self._audit(op,sid,consumer,uid,projection,"DENY_METADATA_POLICY_MISMATCH")
+            return {"ok":False,"error":"policy metadata mismatch"}
         self._audit(op,sid,consumer,uid,projection,"ALLOW")
-        out={"ok":True,"metadata":{"secret_id":sid,"version":meta["version"],"classification":meta["classification"]}}
+        out={"ok":True,"metadata":{"secret_id":sid,"version":meta["version"],"classification":meta["classification"],"secret_kind":meta["secret_kind"]}}
         if op=="get":out["secret_b64"]=base64.b64encode(value).decode("ascii")
         return out
 
