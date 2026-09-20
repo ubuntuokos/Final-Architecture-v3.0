@@ -15,6 +15,7 @@ BROKER_PID=""; RESTORE_PID=""
 SIMG="/var/lib/fa3/state/.fa3-mstate-e2e-$RUN_ID.img"
 SMAPPER="fa3-machine-state-e2e-$RUN_ID"
 ECRED="/run/fa3-mstate-e2e-$RUN_ID.cred"
+REKEY_NEW="/run/fa3-mstate-e2e-$RUN_ID.new.key"
 DROPIN_DIR="/etc/systemd/system/fa3-secret-vault.service.d"
 DROPIN="$DROPIN_DIR/90-fa3-secret-e2e-$RUN_ID.conf"
 SYSTEMD_PHASE_ACTIVE=false
@@ -25,7 +26,7 @@ cleanup(){
     rmdir "$DROPIN_DIR" >/dev/null 2>&1 || true
     systemctl daemon-reload >/dev/null 2>&1 || true
   fi
-  rm -f "$SIMG" "$ECRED"
+  rm -f "$SIMG" "$ECRED" "$REKEY_NEW"
   if [[ -n "$RESTORE_PID" ]]; then kill "$RESTORE_PID" >/dev/null 2>&1 || true; wait "$RESTORE_PID" 2>/dev/null || true; fi
   if [[ -n "$BROKER_PID" ]]; then kill "$BROKER_PID" >/dev/null 2>&1 || true; wait "$BROKER_PID" 2>/dev/null || true; fi
   mountpoint -q "$RMNT" && umount "$RMNT" || true
@@ -173,7 +174,7 @@ umount "$RMNT"; cryptsetup close "$RMAPPER"
 FA3_MACHINE_STATE_MAPPER="fa3-machine-state" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle assert-closed >/dev/null
 cp --reflink=never --sparse=always "$IMG" "$SIMG"
 chmod 0600 "$SIMG"
-systemd-creds encrypt --name=fa3-machine-state-key "$KEY" "$ECRED" >/dev/null
+systemd-creds encrypt --with-key=host --name=fa3-machine-state-key "$KEY" "$ECRED" >/dev/null
 chmod 0600 "$ECRED"
 install -d -m0755 "$DROPIN_DIR"
 cat > "$DROPIN" <<EOF
@@ -204,11 +205,36 @@ FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-st
 [[ ! -e "/dev/mapper/$SMAPPER" ]]
 SYSTEMD_TARGET_LIFECYCLE_PASS=true
 ENCRYPTED_SYSTEMD_UNLOCK_RUNTIME_PASS=true
+HARDWARE_NEUTRAL_SYSTEMD_CREDENTIAL_HOST_KEY_MODE_PASS=true
+
+head -c 64 /dev/urandom > "$REKEY_NEW"
+chmod 0600 "$REKEY_NEW"
+FA3_MACHINE_STATE_IMAGE="$SIMG" \
+FA3_MACHINE_STATE_CREDENTIAL="$ECRED" \
+FA3_MACHINE_STATE_MAPPER="$SMAPPER" \
+FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" \
+FA3_REKEY_NEW_KEY_FILE="$REKEY_NEW" \
+  /usr/local/sbin/fa3-secret-vault-rekey >/dev/null
+
+if cryptsetup open --test-passphrase --type luks2 --key-file "$KEY" "$SIMG" >/dev/null 2>&1; then
+  echo "old unlock key unexpectedly still works after rekey" >&2
+  exit 2
+fi
+cryptsetup open --test-passphrase --type luks2 --key-file "$REKEY_NEW" "$SIMG"
+! systemctl is-active --quiet fa3-secrets.target
+! systemctl is-active --quiet fa3-secret-broker.service
+! systemctl is-active --quiet fa3-secret-vault.service
+! mountpoint -q /run/fa3/machine-state
+[[ ! -e "/dev/mapper/$SMAPPER" ]]
+LUKS_UNLOCK_KEY_ROTATION_PASS=true
+OLD_UNLOCK_KEY_REJECTED_AFTER_REKEY=true
+NEW_UNLOCK_KEY_ACCEPTED_AFTER_REKEY=true
+REKEY_FINAL_CLOSED_STATE_PASS=true
 SYSTEMD_PHASE_ACTIVE=false
-rm -f "$DROPIN" "$SIMG" "$ECRED"
+rm -f "$DROPIN" "$SIMG" "$ECRED" "$REKEY_NEW"
 rmdir "$DROPIN_DIR" >/dev/null 2>&1 || true
 systemctl daemon-reload
-[[ ! -e "$DROPIN" && ! -e "$SIMG" && ! -e "$ECRED" ]]
+[[ ! -e "$DROPIN" && ! -e "$SIMG" && ! -e "$ECRED" && ! -e "$REKEY_NEW" ]]
 SYSTEMD_E2E_ARTIFACT_CLEANUP_PASS=true
 
 opts='["nodev","nosuid","noexec"]'
@@ -222,7 +248,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},
