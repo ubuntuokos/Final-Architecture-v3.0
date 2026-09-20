@@ -9,7 +9,6 @@
     "status",
     "ceremony_id",
     "operator_id",
-    "medium_id",
     "root_private_key_bytes_collected",
     "root_private_key_exported_online",
     "root_certificate",
@@ -34,7 +33,8 @@
     },
     "medium_id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Optional custody/storage label retained for audit compatibility. It does not imply removable media."
     },
     "network_default_route_present": {
       "type": "boolean",
