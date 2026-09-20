@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.session-vault-current-host-receipt.v1",
+  "status": "PASS",
+  "real_execution": true,
+  "synthetic": false,
+  "image_path": "~/.local/share/fa3/state/fa3-state.img",
+  "luks2": true,
+  "external_storage_name_non_disclosing": true,
+  "loop_setup_pass": true,
+  "unlock_pass": true,
+  "filesystem": "ext4",
+  "luks_label": "FA3_STATE",
+  "filesystem_label": "FA3_STATE",
+  "mount_pass": true,
+  "mount_options": [
+    "nodev",
+    "nosuid",
+    "noexec"
+  ],
+  "service_account_isolation_pass": true,
+  "explicit_unmount_pass": true,
+  "explicit_lock_pass": true,
+  "loop_cleanup_pass": true,
+  "opaque_backup_copy_pass": true,
+  "opaque_backup_restore_unlock_pass": true,
+  "opaque_backup_restore_mount_pass": true,
+  "secret_service": {
+    "configured": false,
+    "lookup_pass_if_configured": null
+  },
+  "secret_values_collected": false,
+  "runtime_promotion_eligible": true,
+  "global_promotion_claim": false
+}

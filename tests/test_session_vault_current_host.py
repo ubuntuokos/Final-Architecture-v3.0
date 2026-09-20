@@ -41,10 +41,12 @@ class SessionVaultCurrentHostTests(unittest.TestCase):
   self.assertIn("cp --reflink=never",s)
   self.assertIn("Re-enter the vault passphrase",s)
   self.assertIn("--read-only",s)
- def test_conformance_stays_unpromoted(self):
+ def test_conformance_records_real_pass_but_stays_unpromoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
-  self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"])
-  self.assertIsNone(x["current_host_receipt"])
+  self.assertEqual("CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE",x["status"])
+  self.assertEqual("evidence/receipts/session-vault-current-host.json",x["current_host_receipt"])
+  self.assertTrue(x["current_host_result"]["real_execution"])
+  self.assertTrue(x["current_host_result"]["runtime_promotion_eligible"])
   self.assertFalse(x["production_runtime_promoted"])
  def test_missing_receipt_fails(self):
   with tempfile.TemporaryDirectory() as td:

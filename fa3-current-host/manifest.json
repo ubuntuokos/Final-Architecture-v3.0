@@ -301,8 +301,10 @@
       "collector": "bin/fa3-session-vault-current-host.sh",
       "gate": "session-vault-current-host",
       "activation": "REAL_USER_SESSION_LUKS2_UDISKS2_UNLOCK_MOUNT_ISOLATION_LOCK_AND_OPAQUE_RESTORE_REQUIRED",
-      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
-      "global_promotion_claim": false
+      "collection_status": "REAL_CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE",
+      "global_promotion_claim": false,
+      "receipt": "evidence/receipts/session-vault-current-host.json",
+      "production_runtime_promoted": false
     }
   ],
   "global_gate_sequence": [
