@@ -20,7 +20,7 @@ Machine/service secrets require dedicated service identities. Processes running 
 
 ## Delivery
 
-File/FD-based delivery is the default. systemd credentials are supported. Rootless Podman integration uses `type=mount` secret delivery by default. Secret-to-environment projection is forbidden by the canonical default. Bulk export and full-vault bind mounts are forbidden.
+File/FD-based delivery is the default. systemd credentials are supported. Rootless Podman integration uses `type=mount` secret delivery by default. Secret-to-environment projection is forbidden by the canonical default. Bulk export and full-vault bind mounts are forbidden. Infisical remains an optional backend provider under the same broker boundary: targeted secret retrieval only, never a parallel secrets authority. Podman is a delivery adapter; its default secret store is not described as RAM-only unless separate current-host evidence proves that property.
 
 The broker audit contains only operation metadata and a SHA-256 of the SecretRef identifier. Raw values are excluded from Git, canonical records, Journal, telemetry, logs and evidence.
 
