@@ -26,7 +26,7 @@ fa3-secrets-admin help
 The deterministic lifecycle is:
 
 ```text
-init -> start -> policy-install -> put/use/rotate/revoke -> backup as needed -> exit -> assert-closed
+init -> start -> policy-install -> put/use/rotate/revoke -> exit -> backup/rekey/restore as needed -> assert-closed
 ```
 
 One-time initialization creates the generic/non-disclosing LUKS2 image and its encrypted systemd unlock credential:
@@ -56,7 +56,7 @@ Store a new token or password interactively; the secret value is entered through
 fa3-secrets-admin put provider/example --kind API_TOKEN
 ```
 
-Rotate the value without changing its classification or secret kind:
+Rotate a stored credential value without changing its classification or secret kind:
 
 ```bash
 fa3-secrets-admin rotate provider/example
@@ -95,3 +95,19 @@ Bulk secret export does not exist. `list` returns SecretRef metadata only and is
 Exactly one active projection policy may exist for a SecretRef. Duplicate policies fail closed; there is no first-match-wins behavior. Policy filenames are hash-based and do not disclose provider or credential names.
 
 For a machine/service SecretRef, the dedicated provider Unix user must be a member of `fa3-secret-clients`. The consuming provider unit must also use `PartOf=fa3-secrets.target` (in addition to requiring its projection unit) so full FA3 exit stops the provider before the vault is unmounted and the LUKS mapping is closed.
+
+
+## Unlock-key rotation
+
+The default encrypted systemd unlock credential is created with `systemd-creds --with-key=host`. This is deliberate: the canonical default must not silently become TPM2-bound on hosts where a TPM2 happens to exist. TPM2/FIDO2/PKCS#11 remain explicit optional adapters.
+
+Rekey is a closed-vault operation:
+
+```bash
+fa3-secrets-admin exit
+fa3-secrets-admin assert-closed
+fa3-secrets-admin rekey
+fa3-secrets-admin assert-closed
+```
+
+The rekey flow adds the new LUKS2 keyslot first, verifies the new encrypted systemd credential, proves a real start/health/exit cycle with the new credential, removes the old keyslot, proves the old key no longer unlocks the image and the new key does, and finishes with the vault closed. Plaintext rekey material exists only transiently under root-only `/run` tmpfs paths and is removed before PASS.
