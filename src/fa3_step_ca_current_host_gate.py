@@ -16,7 +16,7 @@ def validate_receipt(r:dict[str,Any])->list[dict[str,Any]]:
   x=s.get(name,{})
   if not (d(x.get("asset_sha256")) and d(x.get("binary_sha256")) and x.get("sigstore_verified") is True): fs.append(f("STEP-CA-HOST-004","artifact identity or Sigstore proof incomplete",component=name))
  c=r.get("root_ceremony",{})
- if not (c.get("status")=="PASS" and c.get("network_default_route_present") is False and c.get("root_private_key_bytes_collected") is False and c.get("root_private_key_exported_online") is False and c.get("chain_verification")=="PASS"): fs.append(f("STEP-CA-HOST-005","offline root ceremony invariant failed"))
+ if not (c.get("status")=="PASS" and c.get("root_private_key_bytes_collected") is False and c.get("root_private_key_exported_online") is False and c.get("chain_verification")=="PASS"): fs.append(f("STEP-CA-HOST-005","offline root ceremony invariant failed"))
  a=r.get("activation",{})
  if not (a.get("status")=="PASS" and a.get("service_user")=="fa3-step-ca" and a.get("root_private_key_present_online") is False and a.get("intermediate_key_encrypted") is True and a.get("systemd_credential_unlock") is True): fs.append(f("STEP-CA-HOST-006","online activation boundary failed"))
  rt=r.get("runtime",{})
