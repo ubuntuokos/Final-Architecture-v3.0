@@ -5,10 +5,15 @@ ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
 for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
+getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
+if ! getent passwd fa3-sb-probe >/dev/null; then
+  useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients fa3-sb-probe
+  PROBE_CREATED=true
+fi
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
 MAPPER="fa3-sb-e2e-$$"; RMAPPER="fa3-sb-restore-$$"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"
-BROKER_PID=""; RESTORE_PID=""
+BROKER_PID=""; RESTORE_PID=""; PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 cleanup(){
   if [[ -n "$RESTORE_PID" ]]; then kill "$RESTORE_PID" >/dev/null 2>&1 || true; wait "$RESTORE_PID" 2>/dev/null || true; fi
   if [[ -n "$BROKER_PID" ]]; then kill "$BROKER_PID" >/dev/null 2>&1 || true; wait "$BROKER_PID" 2>/dev/null || true; fi
@@ -16,6 +21,7 @@ cleanup(){
   [[ -e "/dev/mapper/$RMAPPER" ]] && cryptsetup close "$RMAPPER" || true
   mountpoint -q "$MNT" && umount "$MNT" || true
   [[ -e "/dev/mapper/$MAPPER" ]] && cryptsetup close "$MAPPER" || true
+  if [[ "$PROBE_CREATED" == true ]]; then userdel "$PROBE_USER" >/dev/null 2>&1 || true; fi
   rm -rf "$TMP"
 }
 trap cleanup EXIT INT TERM
@@ -36,7 +42,7 @@ cat > "$POL/current-host.json" <<'JSON'
   "allowed_consumers": [
     {
       "consumer_id": "FA3-CURRENT-HOST-SECRET-PROBE",
-      "allowed_unix_users": ["root"],
+      "allowed_unix_users": ["fa3-sb-probe"],
       "allowed_executables": [],
       "allowed_systemd_units": []
     }
@@ -57,10 +63,13 @@ for _ in $(seq 1 50); do [[ -S "$SOCK" ]] && break; sleep 0.1; done
 CANARY="FA3_SECRET_BROKER_CANARY_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
 CANARY_HASH="$(printf '%s' "$CANARY" | sha256sum | cut -d' ' -f1)"
 printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET >/dev/null
-GOT_HASH="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
+GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
 [[ "$GOT_HASH" == "$CANARY_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
-if "$ROOT/bin/fa3-secretctl" --socket "$SOCK" get test/current-host --consumer FA3-UNAUTHORIZED-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/deny.err"; then
+if runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-UNAUTHORIZED-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/deny.err"; then
   echo "unauthorized consumer unexpectedly received secret" >&2; exit 2
+fi
+if runuser -u "$PROBE_USER" -- test -r "$MNT/index.json" || runuser -u "$PROBE_USER" -- test -x "$MNT/objects"; then
+  echo "consumer unexpectedly has raw vault access" >&2; exit 2
 fi
 PYTHONPATH="$ROOT/src" python3 - "$SOCK" <<'PY'
 import sys
@@ -100,7 +109,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"authorized_single_secret_get":True,"unauthorized_consumer_denied":True,"bulk_export_absent":True,
+ "checks":{"authorized_single_secret_get":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True},
