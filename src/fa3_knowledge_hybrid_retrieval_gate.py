@@ -71,6 +71,8 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("KNOWLEDGE-019","Retrieved text or RunbookObject execution boundary drift"))
     if execution_boundary.get("capability_tool_boundary") != "FA3-AUTH-MCP-GATEWAY-001":
         findings.append(finding("KNOWLEDGE-020","Runbook execution must cross the canonical MCP/capability tool boundary"))
+    if execution_boundary.get("governed_compute_resource_authority") != "FA3-AUTH-HOST-RESOURCE-BROKER-001":
+        findings.append(finding("KNOWLEDGE-027","Governed Runbook compute must retain HRB resource authority"))
     source = runbook_contract.get("source_dispositions", {}).get("trimstray/the-book-of-secret-knowledge", {})
     if source.get("role") != "REFERENCE_SOURCE_ONLY" or source.get("provider") is not False or source.get("execution_authority") is not False:
         findings.append(finding("KNOWLEDGE-021","Trimstray source disposition drifted toward provider/execution authority"))
