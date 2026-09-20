@@ -12,10 +12,12 @@ jobs:
           python-version: "3.12"
       - name: Unit tests
         run: PYTHONPATH=. python -m unittest tests.test_session_vault_current_host -v
-      - name: Real receipt remains mandatory
+      - name: Committed real current-host receipt passes
+        run: PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root .
+      - name: Missing receipt remains fail-closed
         run: |
           set +e
-          PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root .
+          PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root . --receipt evidence/receipts/session-vault-current-host-missing.json
           rc=$?
           set -e
           test "$rc" -eq 2

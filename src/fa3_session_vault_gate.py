@@ -19,7 +19,12 @@ def main():
  req(e.get("fail_closed") is True and "NO_MANDATORY_REMOVABLE_MEDIA" in e["p0_invariants"],"SV-004")
  req("FA3_STEP_CA_SERVICE_MUST_NOT_READ_SESSION_VAULT" in e["p0_invariants"],"SV-005")
  req("REMOVABLE_MEDIA_IS_OPTIONAL" in d["constraints"] and d["new_architectural_authorities"]==0,"SV-006")
- req(c["status"]=="MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION" and c["production_runtime_promoted"] is False,"SV-007")
+ allowed_status={"MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION","CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE"}
+ req(c["status"] in allowed_status and c["production_runtime_promoted"] is False,"SV-007")
+ if c["status"]=="CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE":
+  req(c.get("current_host_receipt")=="evidence/receipts/session-vault-current-host.json","SV-007A")
+  result=c.get("current_host_result") or {}
+  req(result.get("result")=="PASS" and result.get("real_execution") is True and result.get("synthetic") is False,"SV-007B")
  for path in ["apps/fa3-control-center/src/SessionVaultService.cpp","apps/fa3-control-center/qml/SessionVaultPage.qml","bin/fa3-session-vault-init"]:
   req((ROOT/path).is_file(),"SV-MISSING:"+path)
  cpp=(ROOT/"apps/fa3-control-center/src/SessionVaultService.cpp").read_text()

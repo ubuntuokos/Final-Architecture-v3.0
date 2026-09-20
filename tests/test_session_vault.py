@@ -61,8 +61,8 @@ class SessionVaultTests(unittest.TestCase):
   self.assertEqual("bin/fa3-session-vault-current-host.sh",x["reference_implementation"]["current_host_e2e"])
   self.assertEqual("src/fa3_session_vault_current_host_gate.py",x["reference_implementation"]["current_host_gate"])
   self.assertEqual("evidence/receipts/session-vault-current-host.json",x["current_host_receipt_path"])
-  self.assertIsNone(x["current_host_receipt"])
+  self.assertEqual("evidence/receipts/session-vault-current-host.json",x["current_host_receipt"])
  def test_runtime_is_not_falsely_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
-  self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
+  self.assertEqual("CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE",x["status"]); self.assertFalse(x["production_runtime_promoted"])
 if __name__=="__main__": unittest.main()
