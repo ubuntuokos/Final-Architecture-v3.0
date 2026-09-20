@@ -15,7 +15,7 @@ Item {
     property color orange: "#f0b14a"
     property color magenta: "#b778ff"
 
-    inline component Card: Rectangle {
+    component Card: Rectangle {
         radius: 10
         color: root.panel
         border.color: root.border
