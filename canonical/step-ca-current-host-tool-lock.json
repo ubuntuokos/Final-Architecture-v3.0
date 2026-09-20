@@ -46,5 +46,27 @@
     "certificate_identity_regexp": "https://github\\.com/smallstep/workflows/.*",
     "certificate_oidc_issuer": "https://token.actions.githubusercontent.com"
   },
-  "update_policy": "CONTROLLED_FAIL_CLOSED"
+  "update_policy": "CONTROLLED_FAIL_CLOSED",
+  "bootstrap_verifier": {
+    "repository": "sigstore/cosign",
+    "version": "3.1.2",
+    "tag": "v3.1.2",
+    "commit": "193d2153431f8bb0d945a4c1ee721872f73add67",
+    "tag_object": "dc80df70da727f4abdd843640594025584a270ae",
+    "tag_signature_verified_by_github": true,
+    "checksums_sha256": "3ef5d389c3f508b96025fd1b92744a305c46e95951c91242b57467567d5622db",
+    "trust_bootstrap": "REPO_PINNED_BINARY_AND_CHECKSUMS_DIGEST",
+    "artifacts": {
+      "amd64": {
+        "asset": "cosign-linux-amd64",
+        "sha256": "f7622ed3cf22e55e1ae6377c080979ff77a22da9981c11df222a2e444991e7cf"
+      },
+      "arm64": {
+        "asset": "cosign-linux-arm64",
+        "sha256": "90e7ae0b5dfd60f20816b52c012addf7fc055ebcc7bea4ce81c428ca8518c302"
+      }
+    },
+    "role": "SUPPLY_CHAIN_VERIFIER_ONLY",
+    "authority": false
+  }
 }
