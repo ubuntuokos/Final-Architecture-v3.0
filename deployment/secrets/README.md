@@ -59,7 +59,7 @@ fa3-secrets-admin put provider/example --kind API_TOKEN
 Rotate the value without changing its classification or secret kind:
 
 ```bash
-fa3-secrets-admin rotate provider/example --kind API_TOKEN
+fa3-secrets-admin rotate provider/example
 ```
 
 Inspect administrative metadata only:
@@ -91,3 +91,5 @@ fa3-secrets-admin assert-closed
 ```
 
 Bulk secret export does not exist. `list` returns SecretRef metadata only and is administrative. Secret values are retrieved only through an admitted consumer projection.
+
+Exactly one active projection policy may exist for a SecretRef. Duplicate policies fail closed; there is no first-match-wins behavior. Policy filenames are hash-based and do not disclose provider or credential names.
