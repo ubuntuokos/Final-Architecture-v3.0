@@ -19,7 +19,7 @@ cleanup(){
   mountpoint -q "$MNT" && umount "$MNT" || true
   [[ -e "/dev/mapper/$MAPPER" ]] && cryptsetup close "$MAPPER" || true
   if [[ "$PROBE_CREATED" == true ]]; then userdel "$PROBE_USER" >/dev/null 2>&1 || true; fi
-  rm -rf "$TMP"
+  rm -rf "$PROJ" "$TMP"
 }
 trap cleanup EXIT INT TERM
 if ! getent passwd "$PROBE_USER" >/dev/null; then
@@ -68,7 +68,7 @@ CANARY_HASH="$(printf '%s' "$CANARY" | sha256sum | cut -d' ' -f1)"
 printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
 GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
 [[ "$GOT_HASH" == "$CANARY_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
-PROJ="$TMP/projection"; install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
+PROJ="/run/fa3-secret-broker-e2e-$"; install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
 runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection SYSTEMD_CREDENTIAL --output "$PROJ/api-token"
 [[ "$(stat -c '%a' "$PROJ/api-token")" == "600" ]] || { echo "projection file mode mismatch" >&2; exit 2; }
 SYSTEMD_HASH="$(systemd-run --quiet --wait --pipe --collect --service-type=oneshot --property="User=$PROBE_USER" --property="LoadCredential=api-token:$PROJ/api-token" /bin/sh -c 'sha256sum "$CREDENTIALS_DIRECTORY/api-token" | cut -d" " -f1')"
