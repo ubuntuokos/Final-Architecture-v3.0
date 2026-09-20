@@ -10,7 +10,7 @@ step ca certificate fa3-mtls-client "$TMP/c.crt" "$TMP/c.key" --provisioner fa3-
 openssl s_server -accept 127.0.0.1:9444 -cert "$TMP/b.crt" -key "$TMP/b.key" -CAfile "$RC" -Verify 1 -quiet >"$TMP/s.log" 2>&1 & PID=$!; sleep 1
 printf '' | openssl s_client -connect 127.0.0.1:9444 -servername localhost -cert "$TMP/c.crt" -key "$TMP/c.key" -CAfile "$RC" -verify_return_error >/dev/null 2>&1
 kill "$PID"; wait "$PID" 2>/dev/null || true
-step ssh certificate fa3-e2e "$TMP/ssh_e2e" --provisioner fa3-jwk --provisioner-password-file "$JP" --ca-url "$CA" --root "$RC" --no-agent --not-after 10m
+step ssh certificate fa3-e2e "$TMP/ssh_e2e" --provisioner fa3-jwk --provisioner-password-file "$JP" --ca-url "$CA" --root "$RC" --no-agent --no-password --insecure --not-after 10m
 ssh-keygen -Lf "$TMP/ssh_e2e-cert.pub" >/dev/null; openssl verify -CAfile "$RC" "$IC" >/dev/null; openssl verify -CAfile "$RC" -untrusted "$IC" "$TMP/b.crt" >/dev/null
 TTL="$(python3 - "$TMP/b.crt" <<'PY'
 import datetime,subprocess,sys

@@ -34,6 +34,7 @@
     "test_client": "smallstep/cli@0.30.6",
     "root_ceremony_runner": "bin/fa3-step-ca-root-ceremony.sh",
     "root_ceremony_storage": "FA3-SESSION-VAULT-001",
-    "root_ceremony_transfer_bundle": "$XDG_RUNTIME_DIR/fa3-step-ca-transfer"
+    "root_ceremony_transfer_bundle": "$XDG_RUNTIME_DIR/fa3-step-ca-transfer",
+    "root_ceremony_transfer_bundle_lifecycle": "PURGED_AFTER_SUCCESSFUL_ACTIVATION"
   }
 }

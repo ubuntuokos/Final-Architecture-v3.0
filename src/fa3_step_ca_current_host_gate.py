@@ -18,7 +18,7 @@ def validate_receipt(r:dict[str,Any])->list[dict[str,Any]]:
  c=r.get("root_ceremony",{})
  if not (c.get("status")=="PASS" and c.get("root_private_key_bytes_collected") is False and c.get("root_private_key_exported_online") is False and c.get("chain_verification")=="PASS"): fs.append(f("STEP-CA-HOST-005","offline root ceremony invariant failed"))
  a=r.get("activation",{})
- if not (a.get("status")=="PASS" and a.get("service_user")=="fa3-step-ca" and a.get("root_private_key_present_online") is False and a.get("intermediate_key_encrypted") is True and a.get("systemd_credential_unlock") is True): fs.append(f("STEP-CA-HOST-006","online activation boundary failed"))
+ if not (a.get("status")=="PASS" and a.get("service_user")=="fa3-step-ca" and a.get("root_private_key_present_online") is False and a.get("intermediate_key_encrypted") is True and a.get("systemd_credential_unlock") is True and a.get("transfer_bundle_removed") is True): fs.append(f("STEP-CA-HOST-006","online activation boundary failed"))
  rt=r.get("runtime",{})
  if not (rt.get("service_active") is True and rt.get("bind")=="127.0.0.1:9443" and rt.get("root_private_key_present_online") is False and rt.get("certificate_chain_valid") is True): fs.append(f("STEP-CA-HOST-007","live runtime invariant failed"))
  e=r.get("e2e",{})

@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 [[ "$(id -u)" -eq 0 && "${FA3_STEP_CA_MAINTENANCE_ACK:-}" == YES ]] || { echo "root + FA3_STEP_CA_MAINTENANCE_ACK=YES required" >&2; exit 2; }
-ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"; OUT="$ROOT/evidence/runtime/step-ca-current-host/backup-restore.json"; TMP="$(mktemp -d /var/tmp/fa3-step-ca-restore.XXXXXX)"; chmod 0755 "$TMP"; trap 'rm -rf "$TMP"' EXIT
+ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"; OUT="$ROOT/evidence/runtime/step-ca-current-host/backup-restore.json"; TMP="$(mktemp -d /var/tmp/fa3-step-ca-restore.XXXXXX)"; chmod 0755 "$TMP"
+PID=""; PRIMARY_STOPPED=false
+cleanup(){
+ local rc=$?
+ set +e
+ if [[ -n "$PID" ]] && kill -0 "$PID" 2>/dev/null; then kill "$PID"; wait "$PID" 2>/dev/null; fi
+ if [[ "$PRIMARY_STOPPED" == true ]]; then systemctl start fa3-step-ca.service; fi
+ rm -rf -- "$TMP"
+ return "$rc"
+}
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+PRIMARY_STOPPED=true
 systemctl stop fa3-step-ca.service
 mkdir -p "$TMP/backup/state/secrets" "$TMP/backup/config"; cp -a /var/lib/fa3-step-ca/db /var/lib/fa3-step-ca/certs "$TMP/backup/state/"; cp -a /var/lib/fa3-step-ca/secrets/intermediate_ca_key /var/lib/fa3-step-ca/secrets/ssh_host_ca_key /var/lib/fa3-step-ca/secrets/ssh_user_ca_key "$TMP/backup/state/secrets/"; cp -a /etc/fa3/step-ca/ca.json "$TMP/backup/config/ca.json"
-systemctl start fa3-step-ca.service; tar -C "$TMP/backup" -czf "$TMP/backup.tar.gz" .; LIST="$(tar -tzf "$TMP/backup.tar.gz")"; ! grep -Eq 'root_ca_key|step-ca-password|fa3-jwk-password' <<<"$LIST"
+systemctl start fa3-step-ca.service; PRIMARY_STOPPED=false; tar -C "$TMP/backup" -czf "$TMP/backup.tar.gz" .; LIST="$(tar -tzf "$TMP/backup.tar.gz")"; ! grep -Eq 'root_ca_key|step-ca-password|fa3-jwk-password' <<<"$LIST"
 mkdir -p "$TMP/restore"; tar -xzf "$TMP/backup.tar.gz" -C "$TMP/restore"
 python3 - "$TMP/restore/config/ca.json" "$TMP/restore" <<'PY'
 import json,sys
@@ -16,7 +29,7 @@ runuser -u fa3-step-ca -- /usr/local/bin/step-ca "$TMP/restore/config/ca.json" -
 for i in $(seq 1 20); do curl -fsS --cacert "$TMP/restore/state/certs/root_ca.crt" https://127.0.0.1:9445/health >/dev/null && break; sleep 1; done
 curl -fsS --cacert "$TMP/restore/state/certs/root_ca.crt" https://127.0.0.1:9445/health >/dev/null
 step ca certificate fa3-restore-check "$TMP/r.crt" "$TMP/r.key" --provisioner fa3-jwk --provisioner-password-file /etc/fa3/secrets/fa3-jwk-password --ca-url https://127.0.0.1:9445 --root "$TMP/restore/state/certs/root_ca.crt" --not-after 10m
-kill "$PID"; wait "$PID" 2>/dev/null || true; SHA="$(sha256sum "$TMP/backup.tar.gz"|awk '{print $1}')"; mkdir -p "$(dirname "$OUT")"
+kill "$PID"; wait "$PID" 2>/dev/null || true; PID=""; SHA="$(sha256sum "$TMP/backup.tar.gz"|awk '{print $1}')"; mkdir -p "$(dirname "$OUT")"
 python3 - "$OUT" "$SHA" <<'PY'
 import json,sys
 from datetime import datetime,timezone
