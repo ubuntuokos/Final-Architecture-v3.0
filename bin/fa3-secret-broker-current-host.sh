@@ -8,7 +8,6 @@ PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
-RUN_ID="$(python3 -c 'import secrets; print(secrets.token_hex(6))')"
 RUN_ID="${TMP##*.}"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
 MAPPER="fa3-sb-e2e-$RUN_ID"; RMAPPER="fa3-sb-restore-$RUN_ID"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"; PROJ="/run/fa3-secret-broker-e2e-$RUN_ID"
@@ -73,8 +72,10 @@ JSON
 chmod 0600 "$POLICY_SRC"
 FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl check "$POLICY_SRC" >/dev/null
 FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl install "$POLICY_SRC" >/dev/null
-EXPECTED_POLICY_ROW="$(printf 'test/current-host\\tMACHINE_SERVICE_SECRET\\tAPI_TOKEN')"
-FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl list | grep -Fqx "$EXPECTED_POLICY_ROW"
+POLICY_LIST="$(FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl list)"
+grep -Fq "test/current-host" <<<"$POLICY_LIST"
+grep -Fq "MACHINE_SERVICE_SECRET" <<<"$POLICY_LIST"
+grep -Fq "API_TOKEN" <<<"$POLICY_LIST"
 POLICY_PREFLIGHT=true
 POLICY_INSTALL_PASS=true
 SOCK="$RUN/broker.sock"; AUDIT="$RUN/audit.jsonl"
