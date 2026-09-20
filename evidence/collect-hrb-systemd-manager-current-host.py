@@ -106,8 +106,8 @@ def parse_gpu_rows(text: str) -> list[dict[str, Any]]:
             "vram_mib_evidence_only": vram_mib,
             "runtime_apis": ["CUDA"],
             "cuda_compute_capability": capability,
-            "qualifies_portable_floor": bool(uuid or canonical_bdf),
-            "admission_semantics": "GLOBAL_FLOOR_VENDOR_NEUTRAL_PROVIDER_CAPABILITIES_WORKLOAD_SCOPED",
+            "eligible_for_workload_admission": bool(uuid or canonical_bdf),
+            "admission_semantics": "PROVIDER_CAPABILITIES_ARE_WORKLOAD_SCOPED_NOT_GLOBAL_FLOOR",
             "identity_semantics": "STABLE_DEVICE_ID_PLUS_PCI_BDF_WHEN_AVAILABLE",
         })
     return devices
@@ -134,7 +134,11 @@ def discover_accelerators() -> dict[str, Any]:
     if pci_root.is_dir():
         for dev in sorted(pci_root.iterdir()):
             class_code = _read_text(dev / "class").lower()
-            if not (class_code.startswith("0x0300") or class_code.startswith("0x0302")):
+            if not (
+                class_code.startswith("0x03")
+                or class_code.startswith("0x0b40")
+                or class_code.startswith("0x12")
+            ):
                 continue
             bdf = _normalize_bdf(dev.name)
             vendor_id = _read_text(dev / "vendor").lower()
@@ -153,8 +157,8 @@ def discover_accelerators() -> dict[str, Any]:
                 "device_id": device_id,
                 "driver": driver,
                 "runtime_apis": [],
-                "qualifies_portable_floor": True,
-                "admission_semantics": "GLOBAL_FLOOR_VENDOR_NEUTRAL_PROVIDER_CAPABILITIES_WORKLOAD_SCOPED",
+                "eligible_for_workload_admission": True,
+                "admission_semantics": "PROVIDER_CAPABILITIES_ARE_WORKLOAD_SCOPED_NOT_GLOBAL_FLOOR",
                 "identity_semantics": "STABLE_DEVICE_ID_PLUS_PCI_BDF_WHEN_AVAILABLE",
             }
 
@@ -183,7 +187,7 @@ def discover_accelerators() -> dict[str, Any]:
     devices = sorted(devices_by_bdf.values(), key=lambda x: str(x.get("pci_bdf", "")))
     return {
         "source": "PCI_SYSFS_LIVE_DISCOVERY_WITH_OPTIONAL_PROVIDER_ENRICHMENT",
-        "query_semantics": "VENDOR_NEUTRAL_GLOBAL_FLOOR_PROVIDER_RUNTIME_CAPABILITIES_OPTIONAL_AND_WORKLOAD_SCOPED",
+        "query_semantics": "OPTIONAL_0_TO_N_VENDOR_NEUTRAL_INVENTORY_PROVIDER_RUNTIME_CAPABILITIES_WORKLOAD_SCOPED",
         "nvidia_enrichment_returncode": nvidia_rc,
         "nvidia_enrichment_stderr": nvidia_stderr,
         "device_count": len(devices),
@@ -199,7 +203,8 @@ def hardware_discovery() -> dict[str, Any]:
     obj = {
         "schema": "fa3.hardware-discovery-receipt.v1",
         "source": "LIVE_CURRENT_HOST",
-        "cardinality_semantics": "DYNAMIC_1_TO_N",
+        "cpu_cardinality_semantics": "DYNAMIC_1_TO_N",
+        "accelerator_cardinality_semantics": "DYNAMIC_0_TO_N",
         "host_identity_semantics": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
         "cpu": discover_cpu(),
         "accelerators": discover_accelerators(),
@@ -323,8 +328,13 @@ def main() -> int:
     cgroup = collect_cgroup_v2()
     violations = manager_violations(manager.get("assignments", []), survival)
     cpu_counts = hardware.get("cpu", {}).get("physical_cores_by_package", {})
-    qualifying_accelerators = [d for d in hardware.get("accelerators", {}).get("devices", []) if d.get("qualifies_portable_floor")]
-    hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and len(qualifying_accelerators) >= 1
+    accelerator_devices = hardware.get("accelerators", {}).get("devices", [])
+    accelerator_inventory_ok = isinstance(accelerator_devices, list) and all(
+        isinstance(device, dict)
+        and bool(device.get("stable_id") or device.get("device_uuid") or device.get("pci_bdf"))
+        for device in accelerator_devices
+    )
+    hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and accelerator_inventory_ok
     negatives = negative_tests()
     status = "PASS" if hardware_ok and manager.get("returncode") == 0 and not violations and cgroup.get("unified") and cgroup.get("effective_cpus") and cgroup.get("effective_memory_nodes") and all(negatives.values()) else "FAIL"
     receipt = {
@@ -346,6 +356,7 @@ def main() -> int:
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,
+        "accelerator_inventory_semantics": "OPTIONAL_0_TO_N_CPU_ONLY_HOST_CONFORMANT",
     }
     writej(receipt_path, receipt)
     print(json.dumps(receipt, indent=2))
@@ -353,8 +364,8 @@ def main() -> int:
         failures: list[str] = []
         if not hardware_ok:
             failures.append(
-                "portable hardware floor not proven "
-                f"(cpu_cores_by_package={cpu_counts}, qualifying_accelerator_count={len(qualifying_accelerators)})"
+                "portable hardware baseline not proven "
+                f"(cpu_cores_by_package={cpu_counts}, accelerator_inventory_valid={accelerator_inventory_ok})"
             )
         if manager.get("returncode") != 0:
             failures.append(

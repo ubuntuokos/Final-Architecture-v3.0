@@ -2580,6 +2580,7 @@ def gate(root: Path):
         HWPORT_TEST_PATH,
         "canonical/profiles/FA3-HW-001.json",
         "canonical/contracts/FA3-HW-CONTRACTS-001.json",
+        "canonical/hrb-systemd-manager-current-host-enforcement.json",
         "canonical/profiles/FA3-HW-MGPU-001.json",
         "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
         "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
@@ -2607,6 +2608,14 @@ def gate(root: Path):
     hwport_contract = loadj(root / HWPORT_CONTRACT_PATH) if (root / HWPORT_CONTRACT_PATH).is_file() else {}
     hwport_decision = loadj(root / HWPORT_DECISION_PATH) if (root / HWPORT_DECISION_PATH).is_file() else {}
     hwport_gate_record = loadj(root / HWPORT_GATE_RECORD_PATH) if (root / HWPORT_GATE_RECORD_PATH).is_file() else {}
+    hwport_root_profile = loadj(root / "canonical/profiles/FA3-HW-001.json") if (root / "canonical/profiles/FA3-HW-001.json").is_file() else {}
+    hwport_root_contract = loadj(root / "canonical/contracts/FA3-HW-CONTRACTS-001.json") if (root / "canonical/contracts/FA3-HW-CONTRACTS-001.json").is_file() else {}
+    hwport_hrb_current_host = loadj(root / "canonical/hrb-systemd-manager-current-host-enforcement.json") if (root / "canonical/hrb-systemd-manager-current-host-enforcement.json").is_file() else {}
+    hwport_accelerator = hwport_profile.get("portable_minimum", {}).get("accelerator", {})
+    hwport_discovery_envelope = hwport_contract.get("portable_minimum_envelope", {})
+    hwport_root_accelerator = hwport_root_profile.get("minimum_portable_hardware_envelope", {}).get("accelerator", {})
+    hwport_root_contract_accelerator = hwport_root_contract.get("portable_minimum_envelope", {}).get("accelerator", {})
+    hwport_workload_policy = hwport_decision.get("workload_admission_policy", {})
     invalid_hwport_bindings = []
     for capability_id in HWPORT_CAPABILITY_IDS:
         record = next((item for item in records if item.get("subject_id") == capability_id), {})
@@ -2650,13 +2659,33 @@ def gate(root: Path):
         or hwport_profile.get("relationship", {}).get("parent") != "FA3-HW-001"
         or hwport_profile.get("new_capability") is not False
         or hwport_profile.get("new_architectural_authority") is not False
+        or hwport_accelerator.get("qualifying_device_count_min") != 0
+        or hwport_accelerator.get("cpu_only_host_conforms") is not True
+        or hwport_accelerator.get("cpu_only_workload_requires_lease") is not False
+        or hwport_accelerator.get("vendor_pin") != "FORBIDDEN"
+        or hwport_accelerator.get("global_runtime_api_pin") != "FORBIDDEN"
         or hwport_contract.get("id") != HWPORT_CONTRACT_ID
         or hwport_contract.get("provider_neutral") is not True
+        or hwport_contract.get("discovery_semantics", {}).get("accelerator_enumeration") != "DYNAMIC_0_TO_N"
+        or hwport_discovery_envelope.get("accelerator_devices_min") != 0
+        or hwport_discovery_envelope.get("cpu_only_host_conforms") is not True
+        or hwport_discovery_envelope.get("cpu_only_workload_requires_accelerator_lease") is not False
+        or hwport_root_accelerator.get("minimum_qualifying_device_count") != 0
+        or hwport_root_accelerator.get("cpu_only_host_conforms") is not True
+        or hwport_root_accelerator.get("cpu_only_workload_requires_lease") is not False
+        or hwport_root_contract_accelerator.get("qualifying_device_count_min") != 0
+        or hwport_root_contract_accelerator.get("cpu_only_host_conforms") is not True
+        or hwport_root_contract_accelerator.get("cpu_only_workload_requires_lease") is not False
         or hwport_decision.get("id") != HWPORT_DECISION_ID
         or hwport_decision.get("status") != "ACCEPTED_MATERIALIZED"
         or hwport_decision.get("decision") != "SINGLE_CURRENT_VENDOR_NEUTRAL_HARDWARE_AUDIT_NO_LEGACY_HOST_BASELINE"
         or hwport_decision.get("evidence_policy", {}).get("legacy_hardware_audit_artifacts") != "REMOVE_FROM_REPOSITORY"
         or hwport_decision.get("evidence_policy", {}).get("legacy_host_specific_records") != "REMOVE_FROM_REPOSITORY"
+        or hwport_workload_policy.get("accelerator_cardinality_global") != "0_TO_N"
+        or hwport_workload_policy.get("cpu_only_workload_requests_accelerator_lease") is not False
+        or hwport_workload_policy.get("accelerator_required_workload") != "REQUIRES_COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
+        or "ACCELERATOR_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_0_TO_N_CPU_ONLY_CONFORMANT" not in hwport_hrb_current_host.get("p0_invariants", [])
+        or "GPU_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_" + "1_TO_N" in hwport_hrb_current_host.get("p0_invariants", [])
         or hwport_gate_record.get("id") != HWPORT_EXECUTABLE_GATE_ID
         or hwport_gate_record.get("fail_closed") is not True
         or hwport_gate_record.get("decision_id") != HWPORT_DECISION_ID

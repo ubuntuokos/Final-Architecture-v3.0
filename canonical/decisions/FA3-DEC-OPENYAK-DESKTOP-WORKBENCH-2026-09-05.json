@@ -57,12 +57,12 @@
     "OPENYAK_PROVIDER_SCHEDULER_NOT_PLATFORM_AUTHORITY",
     "OPENYAK_REMOTE_ACCESS_AND_NATIVE_CHANNELS_DISABLED",
     "OPENYAK_DIRECT_GPU_ALLOCATION_FORBIDDEN",
-    "OPENYAK_WAYLAND_CURRENT_HOST_SMOKE_REQUIRED",
+    "OPENYAK_WAYLAND_PREFERRED_X11_SUPPORTED_CURRENT_HOST_SMOKE_REQUIRED",
     "OPENYAK_CURRENT_HOST_PROMOTION_REQUIRES_REAL_E2E"
   ],
   "upstream_corrections": [
     "The packaged v1.4.0 Tauri shell selects an unused loopback port; 127.0.0.1:20882 is an observed current-host value, not an upstream stable contract.",
-    "The v1.4.0 Linux launcher defaults GDK_BACKEND to x11 when unset; FA3 Wayland activation therefore requires an explicit Wayland launch and smoke evidence.",
+    "Wayland is preferred and X11 remains a supported compatibility session; promotion requires session-native WebKitGTK smoke evidence without forcing a display backend.",
     "OPENYAK_OPENCLAW_ENABLED is not a v1.4.0 Settings field; FA3 disables provider-native messaging with OPENYAK_CHANNELS_ENABLED=false and policy denial."
   ],
   "executable_gate_id": "FA3-GATE-OPENYAK-001",

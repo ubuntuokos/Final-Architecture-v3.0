@@ -20,7 +20,7 @@
   "model": {"upstream_id": "openbmb/MiniCPM-V-4.6", "declared_parameters": "1.3B", "revision": "REQUIRED_AT_ACTIVATION_NO_FLOATING", "weight_license_and_output_rights_gate": "REQUIRED"},
   "declared_modalities": ["IMAGE_INPUT", "VIDEO_INPUT", "TEXT_OUTPUT"],
   "supported_backend_claims_are_discovery_inputs_only": ["SGLang", "vLLM", "llama.cpp", "Ollama"],
-  "current_host_policy": "T7910_CANDIDATE_ONLY_AFTER_LIVE_HRB_TOPOLOGY_VRAM_BACKEND_ABI_AND_QUALITY_BENCHMARK_ADMISSION",
+  "current_host_policy": "CURRENT_HOST_CANDIDATE_ONLY_AFTER_LIVE_HRB_TOPOLOGY_MEMORY_BACKEND_ABI_AND_QUALITY_BENCHMARK_ADMISSION",
   "authority_boundaries": {"model_registry": "FA3-MODEL-REGISTRY-001", "model_routing": "FA3-AUTH-MODEL-ROUTER-001", "host_resource_and_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "security": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
   "normative_constraint": "MiniCPM-V is a replaceable model/inference provider only; it SHALL NOT own model identity, routing, placement, workflow, memory, security or evidence authority."
 }

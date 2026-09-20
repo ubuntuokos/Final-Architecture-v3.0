@@ -13,7 +13,7 @@
   },
   "current_host_target": {
     "os_family": "Ubuntu/Kubuntu 26.04",
-    "desktop_protocol": "Wayland",
+    "desktop_protocol": "Wayland preferred; X11 supported compatibility",
     "package_format": "deb",
     "package_version": "1.4.0",
     "backend_binding": "127.0.0.1:DYNAMIC_OR_POLICY_ADMITTED_PORT",
@@ -30,11 +30,11 @@
     "OPENYAK_REMOTE_ACCESS_ENABLED": false,
     "OPENYAK_CHANNELS_ENABLED": false,
     "OPENYAK_DEBUG": false,
-    "GDK_BACKEND": "wayland"
+    "DISPLAY_BACKEND": "AUTO_FROM_ADMITTED_XDG_SESSION"
   },
   "blocking_conditions": [
     "native package is not yet verified on the current host against the pinned digest",
-    "Wayland/WebKitGTK desktop smoke evidence is not recorded",
+    "session-native Wayland/X11 WebKitGTK desktop smoke evidence is not recorded",
     "LiteLLM-only route and direct Ollama denial are not proven on the current host",
     "central MCP gateway route and direct connector bypass denial are not proven",
     "bounded workspace and permission-ceiling positive/negative tests are not recorded",
@@ -44,7 +44,7 @@
   "future_admission_requirements": [
     "package version and SHA-256 match",
     "dependency/SBOM and license admission pass",
-    "Wayland launch, tray, dialog, document and artifact smoke pass",
+    "admitted Wayland or X11 launch, tray, dialog, document and artifact smoke pass",
     "loopback backend and rotated local session token pass",
     "LiteLLM model routing positive and direct Ollama/cloud bypass negative pass",
     "central MCP gateway positive and direct stdio/filesystem/shell/browser/database MCP negative pass",

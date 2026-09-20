@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-001",
   "name": "Provider-Neutral Hardware Capability & Heterogeneous Accelerator Baseline",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -31,12 +31,15 @@
     "NO_SILENT_FALLBACK",
     "CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_CANONICAL_SEMANTICS",
     "PORTABLE_CPU_FLOOR_MIN_1_PACKAGE_MIN_8_PHYSICAL_CORES",
-    "PORTABLE_ACCELERATOR_FLOOR_MIN_1_VENDOR_NEUTRAL_WORKLOAD_QUALIFIED",
+    "PORTABLE_ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N_NO_GLOBAL_MINIMUM",
+    "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
     "ACCELERATOR_VENDOR_SKU_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY",
     "ACCELERATOR_RUNTIME_COMPATIBILITY_IS_WORKLOAD_PROVIDER_SCOPED_NOT_GLOBAL_VENDOR_SCOPED",
     "NO_CANONICAL_CPU_VENDOR_MODEL_OR_ACCELERATOR_VENDOR_SKU_VRAM_ARCH_PIN",
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
     "NO_FIXED_CPU_SOCKET_ACCELERATOR_COUNT_PCI_BDF_OR_RUNTIME_ORDINAL_PORTABLE_DEFAULT",
     "LIVE_HARDWARE_DISCOVERY_AND_ADMISSION_REVALIDATION_REQUIRED"
   ],
@@ -50,8 +53,8 @@
       "packages_above_minimum": "ALLOWED",
       "package_count_max": "UNBOUNDED_BY_FA3"
     },
-    "gpu": {
-      "minimum_qualifying_device_count": 1,
+    "accelerator": {
+      "minimum_qualifying_device_count": 0,
       "vendor_pin": "FORBIDDEN",
       "global_runtime_api_pin": "FORBIDDEN",
       "global_cuda_compute_capability_floor": "FORBIDDEN",
@@ -73,7 +76,10 @@
       "vram_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
       "architecture_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
       "marketing_identity_required": false,
-      "qualifying_device_count_max": "UNBOUNDED_BY_FA3"
+      "qualifying_device_count_max": "UNBOUNDED_BY_FA3",
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_lease": false,
+      "required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     },
     "exact_current_host_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
     "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"

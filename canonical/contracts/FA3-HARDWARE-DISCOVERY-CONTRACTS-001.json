@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -29,21 +29,23 @@
     "TopologyChangeEvent"
   ],
   "discovery_semantics": {
-    "enumeration": "DYNAMIC_1_TO_N",
+    "cpu_enumeration": "DYNAMIC_1_TO_N",
+    "accelerator_enumeration": "DYNAMIC_0_TO_N",
     "startup_discovery": true,
     "admission_revalidation": true,
     "topology_change_revalidation": true,
     "ephemeral_runtime_indices_are_identity": false,
     "stable_accelerator_identity_when_available": [
+      "PROVIDER_STABLE_ID",
       "DEVICE_UUID",
-      "PCI_BDF"
+      "PCI_BDF_WHEN_APPLICABLE"
     ],
     "missing_optional_locality_metadata": "EXPLICIT_UNKNOWN_NOT_INVENTED"
   },
   "portable_minimum_envelope": {
     "cpu_packages_min": 1,
     "physical_cores_per_qualifying_cpu_min": 8,
-    "gpu_devices_min": 1,
+    "accelerator_devices_min": 0,
     "accelerator_vendor_pin": "FORBIDDEN",
     "global_runtime_api_pin": "FORBIDDEN",
     "global_vendor_capability_floor": "FORBIDDEN",
@@ -59,11 +61,17 @@
     ],
     "sku_series_is_admission_authority": false,
     "upper_cpu_package_limit": null,
-    "upper_gpu_device_limit": null
+    "upper_accelerator_device_limit": null,
+    "cpu_only_host_conforms": true,
+    "cpu_only_workload_requires_accelerator_lease": false,
+    "accelerator_required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
   },
   "invariants": [
     "DISCOVERY_IS_PROVIDER_NEUTRAL_AND_NOT_PLACEMENT_AUTHORITY",
     "DISCOVERY_ENUMERATES_ALL_VISIBLE_CPU_PACKAGES_AND_QUALIFYING_ACCELERATORS",
+    "ACCELERATOR_DISCOVERY_MAY_RETURN_EMPTY_SET",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_WITHOUT_COMPATIBLE_DEVICE_FAILS_CLOSED",
     "CPU_AND_ACCELERATOR_COUNTS_HAVE_NO_FA3_FIXED_UPPER_BOUND",
     "CPU_MODEL_VENDOR_AND_SOCKET_COUNT_ARE_NOT_ADMISSION_IDENTITY",
     "ACCELERATOR_VENDOR_SKU_VRAM_ARCH_AND_ORDINAL_ARE_NOT_GLOBAL_BASELINE_IDENTITY",

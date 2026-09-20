@@ -40,7 +40,7 @@ RULES = [
     "LYNXHUB_SINGLE_USER_SERVICE_UNDER_CREATIVE_OPS_TARGET",
     "LYNXHUB_DUPLICATE_AUTOSTART_AND_TRANSIENT_APP_UNIT_FORBIDDEN",
     "LYNXHUB_EFFECTIVE_NO_SANDBOX_LAUNCH_FORBIDDEN",
-    "LYNXHUB_WAYLAND_REQUIRED_XWAYLAND_EXCEPTION_GATED",
+    "LYNXHUB_WAYLAND_PREFERRED_X11_SUPPORTED_SESSION_ADAPTER",
     "LYNXHUB_GPU_DISPLAY_ONLY_NO_DEVICE_ASSUMPTION",
     "LYNXHUB_NO_OWN_PLATFORM_PORT_OR_DAEMON",
     "LYNXHUB_CUSTOM_ACTIONS_FIXED_ID_VERSIONED_WRAPPER_ONLY",
@@ -134,7 +134,7 @@ def lifecycle_valid(*, user_session: bool, on_demand: bool, service: str, target
 
 
 def launch_valid(*, display: str, no_sandbox: bool, root_helper: bool, gpu_role: str, fixed_gpu: bool) -> bool:
-    return display == "wayland" and not no_sandbox and not root_helper and gpu_role == "DISPLAY_COMPOSITING_ONLY" and not fixed_gpu
+    return display in {"wayland", "x11"} and not no_sandbox and not root_helper and gpu_role == "DISPLAY_COMPOSITING_ONLY" and not fixed_gpu
 
 
 def action_valid(*, versioned: bool, fixed_id: bool, free_shell: bool, eval_used: bool, privileged: bool, direct_mcp: bool, direct_ollama: bool, secret_access: bool) -> bool:
@@ -210,7 +210,7 @@ def regression_cases() -> list[dict[str, Any]]:
     add(7, "one on-demand user unit belongs to the creative operations target", lifecycle_valid(**good_lifecycle), not lifecycle_valid(**{**good_lifecycle, "service": "lynxhub-root.service"}))
     add(8, "duplicate autostart and transient units are denied", lifecycle_valid(**good_lifecycle), not lifecycle_valid(**{**good_lifecycle, "duplicate_autostart": True, "transient_parallel": True}))
     add(9, "effective Electron launch preserves sandboxing", launch_valid(**good_launch), not launch_valid(**{**good_launch, "no_sandbox": True}))
-    add(10, "Wayland is canonical and XWayland needs an exception", launch_valid(**good_launch), not launch_valid(**{**good_launch, "display": "x11"}))
+    add(10, "Wayland is preferred and X11 uses the supported session adapter", launch_valid(**good_launch) and launch_valid(**{**good_launch, "display": "x11"}), not launch_valid(**{**good_launch, "display": "unknown"}))
     add(11, "GPU is display-only without fixed device assumptions", launch_valid(**good_launch), not launch_valid(**{**good_launch, "fixed_gpu": True}))
     add(12, "dashboard owns no platform port or daemon", ownership_valid(**good_owners), not ownership_valid(**{**good_owners, "provider_owns_port": True}))
     add(13, "Custom Actions use a versioned fixed-ID wrapper", action_valid(**good_action), not action_valid(**{**good_action, "fixed_id": False}))
@@ -269,7 +269,7 @@ def deployment_check(root: Path) -> dict[str, Any]:
     active_action = "\n".join(line for line in action.splitlines() if not line.lstrip().startswith("#"))
     checks = [
         ("ExecStart=%h/.local/libexec/fa3/lynxhub-launch" in service and "NoNewPrivileges=yes" in service and not re.search(r"^\[Install\]$", service, re.MULTILINE), "LYNXHUB-DEP-002", "user service topology or hardening drift"),
-        ("/opt/LynxHub/lynxhub" in active_launch and "--no-sandbox" not in active_launch and "XDG_SESSION_TYPE" in active_launch, "LYNXHUB-DEP-003", "hardened Wayland launch wrapper drift"),
+        ("/opt/LynxHub/lynxhub" in active_launch and "--no-sandbox" not in active_launch and "XDG_SESSION_TYPE" in active_launch and '"x11"' in active_launch, "LYNXHUB-DEP-003", "hardened desktop-session launch wrapper drift"),
         ("case \"$action\" in" in active_action and "eval " not in active_action and "sudo " not in active_action and "pkexec " not in active_action and "systemctl --user" in active_action, "LYNXHUB-DEP-004", "fixed action wrapper drift"),
         ("Exec=@START_WRAPPER@" in desktop and "--no-sandbox" not in desktop and "X-GNOME-Autostart-enabled=false" in desktop, "LYNXHUB-DEP-005", "effective desktop entry template drift"),
     ]
@@ -300,7 +300,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     checks = [
         (profile.get("id") == PROFILE_ID and profile.get("relationship") == "SUBPROFILE-OF" and profile.get("requirement") == "MAY" and profile.get("capability_projection") == list(CAPABILITY_IDS) and profile.get("new_capability") is False and profile.get("new_architectural_authority") is False and profile.get("capability_count") == CAPABILITY_COUNT, "LYNXHUB-REF-003", "dashboard profile drift"),
         (provider.get("id") == PROVIDER_ID and provider.get("canonical_root") is False and provider.get("architectural_authority") is False and provider.get("hard_dependency") is False and provider.get("capability_projection") == list(CAPABILITY_IDS) and provider.get("runtime_activation_status") == RUNTIME_STATUS and provider.get("current_host_runtime_evidence") == "NOT_CLAIMED" and immutable_component_tuple_valid(provider.get("immutable_component_tuple", {})) and immutable_actions_tuple_valid(provider.get("custom_actions_tuple", {})), "LYNXHUB-REF-004", "provider identity, projection, runtime or pins drift"),
-        (contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True and contract.get("new_capability") is False and contract.get("new_architectural_authority") is False and contract.get("capability_count") == CAPABILITY_COUNT and contract.get("deployment", {}).get("single_named_user_service") == "lynxhub.service" and contract.get("desktop", {}).get("electron_no_sandbox_flag") == "FORBIDDEN" and contract.get("actions", {}).get("direct_mcp_tool_execution") == "DENY", "LYNXHUB-REF-005", "provider-neutral contract drift"),
+        (contract.get("id") == CONTRACT_ID and contract.get("provider_neutral") is True and contract.get("new_capability") is False and contract.get("new_architectural_authority") is False and contract.get("capability_count") == CAPABILITY_COUNT and contract.get("deployment", {}).get("single_named_user_service") == "lynxhub.service" and contract.get("desktop", {}).get("wayland") == "PREFERRED" and contract.get("desktop", {}).get("x11") == "SUPPORTED_COMPATIBILITY" and contract.get("desktop", {}).get("electron_no_sandbox_flag") == "FORBIDDEN" and contract.get("actions", {}).get("direct_mcp_tool_execution") == "DENY", "LYNXHUB-REF-005", "provider-neutral contract drift"),
         (decision.get("id") == DECISION_ID and decision.get("status") == "CANONICAL_CLOSED" and decision.get("mandatory_rules") == RULES and decision.get("new_capabilities") == 0 and decision.get("new_architectural_authorities") == 0 and decision.get("capability_count_after") == CAPABILITY_COUNT and decision.get("current_host_runtime_promotion_claimed") is False, "LYNXHUB-REF-006", "decision drift"),
         (reference.get("id") == REFERENCE_ID and reference.get("release") == PINNED_VERSION and reference.get("commit") == PINNED_COMMIT and reference.get("linux_package", {}).get("filename") == PINNED_DEB and reference.get("linux_package", {}).get("sha256") == PINNED_DEB_SHA256 and reference.get("custom_actions", {}).get("sha256") == PINNED_ACTIONS_SHA256 and reference.get("promotion_use") == "REFERENCE_AND_STATIC_CONFORMANCE_ONLY", "LYNXHUB-REF-007", "upstream reference drift"),
         (gate_record.get("id") == EXECUTABLE_GATE_ID and gate_record.get("gate_set_id") == GATE_ID and gate_record.get("rule_count") == len(RULES) and gate_record.get("fail_closed") is True and enforcement.get("gate_id") == GATE_ID and enforcement.get("rules") == RULES and enforcement.get("rule_count") == len(RULES), "LYNXHUB-REF-008", "gate/enforcement drift"),

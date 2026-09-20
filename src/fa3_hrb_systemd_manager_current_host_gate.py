@@ -105,24 +105,26 @@ def hardware_floor_valid(discovery: dict[str, Any]) -> bool:
     except (TypeError, ValueError):
         return False
 
-    qualifying = []
-    for device in accelerator.get("devices", []):
+    devices = accelerator.get("devices", [])
+    if not isinstance(devices, list):
+        return False
+    for device in devices:
         if not isinstance(device, dict):
-            continue
+            return False
         stable_identity = (
             str(device.get("stable_id", "")).strip()
             or str(device.get("device_uuid", "")).strip()
             or str(device.get("pci_bdf", "")).strip()
         )
-        if stable_identity and device.get("qualifies_portable_floor") is True:
-            qualifying.append(device)
+        if not stable_identity:
+            return False
 
     return (
         package_count >= 1
         and len(per_package) == package_count
         and min(per_package) >= 8
-        and len(qualifying) >= 1
-        and discovery.get("cardinality_semantics") == "DYNAMIC_1_TO_N"
+        and discovery.get("cpu_cardinality_semantics") == "DYNAMIC_1_TO_N"
+        and discovery.get("accelerator_cardinality_semantics") == "DYNAMIC_0_TO_N"
         and discovery.get("host_identity_semantics") == "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY"
     )
 

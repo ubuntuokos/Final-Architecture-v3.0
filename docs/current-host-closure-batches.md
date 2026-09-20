@@ -38,6 +38,6 @@ When a registered qualification constituent producer rejects execution, the orch
 
 ## Resource Fabric hardware-discovery evidence
 
-CAP-006 current-host qualification must evaluate the portable GPU floor from live NVIDIA CUDA compute capability, not from product or marketing names. GPU names and VRAM remain evidence-only. A visible NVIDIA accelerator qualifies the global baseline only when the discovered CUDA compute capability satisfies the canonical minimum.
+CAP-006 current-host qualification must accept an empty accelerator inventory for a CPU-only host and enumerate 0..N typed accelerators without a vendor or runtime allowlist. Accelerator names, memory sizes, architecture values and runtime capabilities remain evidence inputs, not global eligibility floors. Only a workload that explicitly requires an accelerator may demand a compatible discovered device and current scope-bound HRB lease; provider-specific CUDA, ROCm, Level Zero/oneAPI or other runtime checks remain workload scoped.
 
 For cgroup v2 cpuset evidence, an empty leaf effective value must not be interpreted as zero available CPU or memory nodes when the effective allowance is inherited. The collector records the nearest non-empty effective ancestor together with its cgroup source path. This is discovery evidence only; HRB remains the exclusive admission and placement authority.

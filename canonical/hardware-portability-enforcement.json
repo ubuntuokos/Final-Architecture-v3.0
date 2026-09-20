@@ -20,12 +20,15 @@
   "capability_count": 143,
   "fail_closed": true,
   "current_host_runtime_promotion_claim": false,
-  "mandatory_rule_count": 24,
+  "mandatory_rule_count": 28,
   "p0_invariants": [
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
     "CPU_MINIMUM_ONE_PACKAGE_AND_EIGHT_PHYSICAL_CORES_PER_QUALIFYING_CPU",
-    "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
-    "ACCELERATOR_MINIMUM_ONE_VENDOR_NEUTRAL_WORKLOAD_QUALIFIED_DEVICE",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_GLOBAL_ACCELERATOR_PRESENCE_REQUIREMENT",
+    "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
     "ACCELERATOR_VENDOR_SKU_OR_SERIES_NAME_MUST_NOT_BE_GLOBAL_ADMISSION_AUTHORITY",
     "WORKLOAD_PROVIDER_CAPABILITY_NEGOTIATION_DETERMINES_ACCELERATOR_COMPATIBILITY",
     "NO_CONCRETE_CPU_VENDOR_MODEL_SOCKET_COUNT_AS_CANONICAL_REQUIREMENT",
@@ -63,13 +66,13 @@
     },
     {
       "id": "HWPORT-003",
-      "invariant": "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
+      "invariant": "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
       "priority": "P0",
       "mandatory": true
     },
     {
       "id": "HWPORT-004",
-      "invariant": "ACCELERATOR_MINIMUM_ONE_VENDOR_NEUTRAL_WORKLOAD_QUALIFIED_DEVICE",
+      "invariant": "NO_GLOBAL_ACCELERATOR_PRESENCE_REQUIREMENT",
       "priority": "P0",
       "mandatory": true
     },
@@ -190,6 +193,30 @@
     {
       "id": "HWPORT-024",
       "invariant": "REFERENCE_PASS_CANNOT_PROMOTE_CURRENT_HOST_RUNTIME",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-025",
+      "invariant": "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-026",
+      "invariant": "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-027",
+      "invariant": "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
+      "priority": "P0",
+      "mandatory": true
+    },
+    {
+      "id": "HWPORT-028",
+      "invariant": "NO_GLOBAL_ACCELERATOR_PRESENCE_REQUIREMENT",
       "priority": "P0",
       "mandatory": true
     }

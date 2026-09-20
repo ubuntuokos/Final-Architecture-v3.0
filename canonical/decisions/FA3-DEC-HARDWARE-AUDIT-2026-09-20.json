@@ -16,7 +16,9 @@
   "accepted": [
     "global hardware policy is vendor-neutral and workload/provider capability based",
     "minimum one CPU package with at least eight physical cores per qualifying CPU",
-    "minimum one qualifying accelerator with dynamic 1..N discovery",
+    "zero to N accelerators with dynamic discovery and no global accelerator minimum",
+    "CPU-only hosts and CPU-only workloads conform without accelerator discovery or leases",
+    "an accelerator-required workload must obtain an HRB lease for a compatible discovered device",
     "NVIDIA AMD and Intel accelerator families are supported without becoming global admission authorities",
     "NVIDIA DGX is supported as a platform family and not as a separate authority",
     "CUDA ROCm Level Zero oneAPI and other vendor runtime requirements are workload/provider scoped only",
@@ -30,6 +32,7 @@
     "specific CPU model socket count CPU-ID list or NUMA layout",
     "specific GPU accelerator SKU fixed count VRAM architecture PCI BDF or runtime ordinal",
     "global accelerator vendor requirement",
+    "global accelerator-presence requirement for CPU-only hosts or workloads",
     "global CUDA ROCm Level Zero oneAPI or vendor-specific architecture floor",
     "promoting static repository PASS to physical current-host PASS",
     "reusing prior-host physical evidence as evidence for a different or later host state"
@@ -56,5 +59,11 @@
     "current_host_receipts": "FRESH_PER_HOST_STATE",
     "static_pass_is_current_host_pass": false,
     "global_promotion_claim": false
+  },
+  "workload_admission_policy": {
+    "accelerator_cardinality_global": "0_TO_N",
+    "cpu_only_workload_requests_accelerator_lease": false,
+    "accelerator_required_workload": "REQUIRES_COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE",
+    "missing_required_accelerator": "FAIL_CLOSED_NO_SILENT_CPU_OR_OTHER_DEVICE_FALLBACK"
   }
 }

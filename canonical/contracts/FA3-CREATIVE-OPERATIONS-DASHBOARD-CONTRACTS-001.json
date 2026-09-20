@@ -50,8 +50,9 @@
     "own_platform_port_or_daemon": "FORBIDDEN"
   },
   "desktop": {
-    "wayland_is_canonical_display_protocol": true,
-    "xwayland_fallback_requires_explicit_exception": true,
+    "wayland": "PREFERRED",
+    "x11": "SUPPORTED_COMPATIBILITY",
+    "display_backend": "AUTO_FROM_ADMITTED_XDG_SESSION",
     "electron_no_sandbox_flag": "FORBIDDEN",
     "root_or_setuid_helper_owned_by_adapter": "FORBIDDEN",
     "gpu_use": "DISPLAY_COMPOSITING_ONLY",
@@ -100,7 +101,7 @@
     "downloaded_deb_digest": true,
     "effective_desktop_entry_uses_hardened_wrapper": true,
     "single_user_service_and_no_duplicate_autostart": true,
-    "wayland_and_sandboxed_process": true,
+    "admitted_session_and_sandboxed_process": true,
     "positive_and_negative_action_cases": true,
     "egress_and_bypass_denial": true,
     "clean_stop_and_rollback": true,

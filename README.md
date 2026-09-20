@@ -1135,7 +1135,7 @@ The gate contains 30 fail-closed P0 regressions. Reference CI PASS does not asse
 
 Authority boundaries do not move: **Temporal remains the Global Durable Orchestration authority**; Central MCP/Capability Gateway remains tool mediation; Security Governance remains policy authority; Host Resource Broker remains CPU/NUMA/GPU admission, placement and lease authority; Model Router, Evidence/Observability and release-integrity authorities remain unchanged.
 
-The canonical FA3 hardware floor is deliberately **vendor- and model-agnostic**: at least **1 CPU package with at least 8 physical cores per qualifying CPU**, plus at least **1 workload-qualified accelerator**. NVIDIA, AMD and Intel accelerator families are supported through provider/workload capability negotiation; NVIDIA DGX is a supported platform family, not an architectural authority. FA3 does **not** globally pin a CPU vendor/model, accelerator vendor/SKU, CUDA/ROCm/Level Zero API, VRAM size, architecture value, device count above the minimum or workstation/server model. Every execution rediscovers live capabilities and accelerator work requires HRB admission.
+The canonical FA3 hardware floor is deliberately **vendor- and model-agnostic**: at least **1 CPU package with at least 8 physical cores per qualifying CPU** and **0..N accelerators**. CPU-only hosts and CPU-only workloads conform without accelerator discovery or leases. NVIDIA, AMD and Intel accelerator families, NVIDIA DGX platforms and future compatible device families are references rather than an allowlist. An accelerator-required workload must negotiate provider/runtime compatibility and obtain an HRB lease for a compatible discovered device; no silent CPU or alternate-device fallback is allowed.
 
 Run the 36-rule positive/negative gate with:
 
@@ -1155,7 +1155,7 @@ The immutable baseline is OpenYak `v1.4.0` / commit `73240597e17d31749f2dbc6c52e
 
 Runtime boundaries are fail-closed: models route only through the FA3 LiteLLM OpenAI-compatible endpoint; MCP tools execute only through the central gateway; managed/direct Ollama, direct cloud BYOK, remote access, provider-native messaging channels, privileged connectors, system-path mutation, credential/model-store access and direct PostgreSQL/Valkey/NATS access are denied. OpenYak SQLite is application state only; shared memory uses canonical `memory.*` tools and durable work escalates to Temporal. Workspace read may be allowed inside an admitted bounded project root, while write/delete and shell remain human-gated.
 
-The packaged v1.4.0 Tauri shell uses a dynamically selected loopback port, so the previously observed `127.0.0.1:20882` is evidence, not a portable constant. Because upstream defaults `GDK_BACKEND=x11` when unset, FA3 current-host promotion requires an explicit Wayland launch and WebKitGTK/KDE smoke evidence. No current-host runtime promotion is claimed by the static package.
+The packaged v1.4.0 Tauri shell uses a dynamically selected loopback port, so the previously observed `127.0.0.1:20882` is evidence, not a portable constant. Wayland is preferred and X11 remains supported; FA3 selects the admitted XDG session backend and requires session-native WebKitGTK smoke evidence. No current-host runtime promotion is claimed by the static package.
 
 Run the 24-rule positive/negative gate with:
 
@@ -1169,11 +1169,11 @@ See `docs/openyak-integration.md` for the exact activation boundary and pending 
 
 ## LynxHub optional Creative Operations Dashboard
 
-`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in the KDE/Wayland user session.
+`FA3-PROVIDER-LYNXHUB-001` registers `TheLynxHub/LynxHub` as an **optional Creative Operations Dashboard** under the provider-neutral `FA3-CREATIVE-OPERATIONS-DASHBOARD-001` profile. It projects only to existing `CAP-057`, adds no capability or authority, is not a hard dependency and runs on demand in an admitted Linux desktop session; KDE/Wayland remains the reference path and X11 is supported.
 
 The immutable application baseline is LynxHub `V3.5.8` / source commit `96129c218b8bd4337fd3e4cf220aa97a46c486a5`; the native `LynxHub-V3.5.8-linux_amd64.deb` digest is `b13882eb5d0443b84bd8c2488c659a149c5b16e15f22fad93aa6ad3c5f33a435`. When action cards are used, Custom Actions is pinned to `v0.4.4` / commit `418be2f8d2488f67f8c6f7728729161577f4c90e` / artifact digest `125c3382393ef32bde5d1eae415a7a7829493e0d77504f02e6f72fc85bb6ef83`. Floating updates and automatic plugin updates are forbidden.
 
-The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, requires Wayland unless an exception is admitted, and deliberately omits `--no-sandbox`.
+The existing Debian installation is preserved. FA3 adds a single on-demand `lynxhub.service` under `ai-creative-ops.target`, a per-user desktop override and fixed-ID wrappers. The vendor package desktop entry contains `--no-sandbox`; it is not accepted as the effective FA3 launcher. The hardened wrapper uses the package executable at `/opt/LynxHub/lynxhub`, selects the admitted Wayland or X11 session, and deliberately omits `--no-sandbox`.
 
 LynxHub owns only dashboard presentation and approved launch requests. systemd keeps service lifecycle; Stability Matrix keeps ComfyUI/InvokeAI/Forge/Wan2GP package lifecycle; Open WebUI and Goose remain operator clients; the Orchestrator and Temporal keep workflow execution/durability; the Central MCP/Capability Gateway keeps tool policy. Direct MCP/Ollama agent routes, secrets/database access, free-form shell actions, `sudo`/root administration and duplicate desktop autostart are denied.
 
@@ -1191,7 +1191,7 @@ Run the 28-rule positive/negative canonical gate with:
 PYTHONPATH=src python -m unittest tests.test_lynxhub_gate -v
 ```
 
-The current-host collector is read-only and remains fail-closed until the real installed package, Wayland/sandbox launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
+The current-host collector is read-only and remains fail-closed until the real installed package, session-native sandboxed launch, Custom Actions, bypass denials, egress policy, human smoke and rollback receipts pass. See `docs/lynxhub-integration.md`.
 
 
 ## FA3 portable hardware baseline
@@ -1199,7 +1199,7 @@ The current-host collector is read-only and remains fail-closed until the real i
 `FA3-HARDWARE-BASELINE-001` is the mandatory P0 portability subprofile of `FA3-HW-001`. It defines only a minimum hardware envelope, never a workstation identity:
 
 - CPU: **1..N packages**, each qualifying CPU has at least **8 physical cores**. CPU vendor/model, fixed socket count, static CPU lists and static NUMA IDs are not canonical requirements.
-- GPU: **1..N NVIDIA RTX GPUs**, with a minimum generation of **RTX 30-series**. RTX 40/50 and later generations are explicitly admissible when the selected workload/runtime supports them. Exact GPU SKU, fixed GPU count, VRAM size, SM value, PCI BDF and CUDA ordinal are not global FA3 requirements.
+- Accelerator: **0..N typed GPU/NPU/integrated/other accelerators**. No accelerator, vendor, product family, runtime API, architecture or marketing generation is a global minimum. Provider-specific NVIDIA/CUDA, AMD/ROCm, Intel/Level Zero/oneAPI or other requirements apply only to workloads that explicitly select those providers. Such workloads require compatible live discovery and an HRB lease.
 - Hardware is rediscovered at boot/admission and revalidated after topology change. `FA3-HARDWARE-DISCOVERY-CONTRACTS-001` supplies the provider-neutral discovery descriptors; the existing Host Resource Broker remains the exclusive admission/placement/reservation/lease authority.
 - Historical workstation/CPU/GPU/BDF/topology records are not retained in the repository. Current-host hardware facts must be freshly collected for the host state being validated and never become portable defaults.
 
@@ -1210,7 +1210,7 @@ The fail-closed repository audit and regression gate is:
 PYTHONPATH=src python -m unittest tests.test_hardware_portability_gate -v
 ```
 
-Any newly introduced fixed production runtime GPU list/count, CPU affinity/NUMA mask, CUDA ordinal or unclassified concrete reference-host assumption blocks the canonical static gate. Capability count remains **143** and new architectural authorities remain **0**.
+Any newly introduced global accelerator-presence/vendor/runtime floor, fixed production runtime device list/count, CPU affinity/NUMA mask, runtime ordinal or unclassified concrete reference-host assumption blocks the canonical static gate. Capability count remains **143** and new architectural authorities remain **0**.
 ## Obsidian human knowledge workspace finalization (2026-09-07)
 
 `FA3-HUMAN-KNOWLEDGE-WORKSPACE-001` finalizes Obsidian as an **optional human-facing local Markdown knowledge workspace provider** projected only to existing `CAP-010` and `CAP-018`. The capability count remains **143** and no architectural authority is added. Obsidian is not the agent-memory, Knowledge/RAG, PostgreSQL/pgvector, MCP, identity, policy, secrets, workflow, event, evidence, registry or general-filesystem authority.

@@ -25,6 +25,9 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertEqual(CAPABILITY_COUNT,result["capability_count"])
         self.assertEqual("FORBIDDEN",result["accelerator_floor"]["vendor_pin"])
         self.assertEqual("FORBIDDEN",result["accelerator_floor"]["runtime_api_pin"])
+        self.assertEqual(0,result["accelerator_floor"]["minimum_device_count"])
+        self.assertTrue(result["accelerator_floor"]["cpu_only_host_conforms"])
+        self.assertFalse(result["accelerator_floor"]["cpu_only_workload_requires_lease"])
         self.assertFalse(result["current_host_runtime_promotion_claim"])
 
     def test_vendor_neutral_reference_families(self):
@@ -44,21 +47,26 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertFalse(portable_hardware_floor_valid(
             cpu_packages=1, physical_cores_per_qualifying_cpu=8,
             accelerator_count=1, accelerator_vendor="AMD", workload_compatible=False,
+            accelerator_required=True,
         ))
 
     def test_floor_rejects_only_global_minimum_failures(self):
         self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=7,accelerator_count=1))
-        self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0))
+        self.assertTrue(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0))
+        self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0,accelerator_required=True))
         self.assertTrue(portable_hardware_floor_valid(cpu_packages=4,physical_cores_per_qualifying_cpu=64,accelerator_count=16,accelerator_vendor="FUTURE_VENDOR"))
 
     def test_canonical_profile_has_no_vendor_or_runtime_pin(self):
         obj=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
-        gpu=obj["portable_minimum"]["gpu"]
-        self.assertEqual("FORBIDDEN",gpu["vendor_pin"])
-        self.assertEqual("FORBIDDEN",gpu["global_runtime_api_pin"])
-        self.assertTrue(gpu["global_cuda_compute_capability_floor"].startswith("FORBIDDEN"))
-        self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(gpu["supported_reference_vendor_families"]))
-        self.assertIn("NVIDIA_DGX",gpu["supported_reference_platform_families"])
+        accelerator=obj["portable_minimum"]["accelerator"]
+        self.assertEqual(0,accelerator["qualifying_device_count_min"])
+        self.assertTrue(accelerator["cpu_only_host_conforms"])
+        self.assertFalse(accelerator["cpu_only_workload_requires_lease"])
+        self.assertEqual("FORBIDDEN",accelerator["vendor_pin"])
+        self.assertEqual("FORBIDDEN",accelerator["global_runtime_api_pin"])
+        self.assertTrue(accelerator["global_cuda_compute_capability_floor"].startswith("FORBIDDEN"))
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(accelerator["supported_reference_vendor_families"]))
+        self.assertIn("NVIDIA_DGX",accelerator["supported_reference_platform_families"])
 
     def test_runtime_fixed_vendor_lists_are_blocking(self):
         for line in (
@@ -88,6 +96,27 @@ class HardwarePortabilityGateTests(unittest.TestCase):
             audit=scan_repository(root)
             self.assertEqual("FAIL",audit["result"],audit)
             self.assertEqual(1,audit["legacy_repository_reference_count"])
+
+    def test_legacy_host_reference_embedded_in_identifier_is_blocking(self):
+        old_host = "NOT_" + "T" + "79" + "10" + "_EVIDENCE"
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); p=root/"canonical"; p.mkdir()
+            (p/"bad.json").write_text(json.dumps({"claim": old_host}),encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+            self.assertEqual(1,audit["legacy_repository_reference_count"])
+
+    def test_legacy_global_accelerator_floor_tokens_are_blocking(self):
+        old_rules = (
+            "ACCELERATOR_CARDINALITY_DYNAMIC_" + "1_TO_N",
+            "GPU_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_" + "1_TO_N",
+        )
+        for old_rule in old_rules:
+            with self.subTest(old_rule=old_rule), tempfile.TemporaryDirectory() as td:
+                root=Path(td); p=root/"canonical"; p.mkdir()
+                (p/"bad.json").write_text(json.dumps({"invariant": old_rule}),encoding="utf-8")
+                audit=scan_repository(root)
+                self.assertEqual("FAIL",audit["result"],audit)
 
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:

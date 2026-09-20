@@ -68,14 +68,14 @@ def _join(*parts: str) -> str:
     return "".join(parts)
 
 LEGACY_REPOSITORY_PATTERNS = (
-    ("LEGACY_WORKSTATION_MODEL", re.compile(r"\bT" + _join("79", "10") + r"\b", re.I)),
-    ("LEGACY_WORKSTATION_NAME", re.compile(r"\bPrecision(?:\s+Tower)?\s+" + _join("79", "10") + r"\b", re.I)),
-    ("LEGACY_CPU_MODEL_A", re.compile(r"\bE5[-_ ]?" + _join("26", "96") + r"(?:\s*v4)?\b", re.I)),
-    ("LEGACY_CPU_MODEL_B", re.compile(r"\bE5[-_ ]?" + _join("26", "97") + r"(?:\s*v4)?\b", re.I)),
-    ("LEGACY_GPU_MODEL_A", re.compile(r"\bRTX[\s_-]*" + _join("30", "90") + r"\b", re.I)),
-    ("LEGACY_GPU_MODEL_B", re.compile(r"\bRTX[\s_-]*A" + _join("10", "00") + r"\b", re.I)),
-    ("LEGACY_GPU_MODEL_C", re.compile(r"\bRTX[\s_-]*" + _join("30", "80") + r"\b", re.I)),
-    ("LEGACY_GPU_MODEL_D", re.compile(r"\b(?:Quadro\s+)?RTX[\s_-]*" + _join("40", "00") + r"\b", re.I)),
+    ("LEGACY_WORKSTATION_MODEL", re.compile(r"(?<![A-Za-z0-9])T" + _join("79", "10") + r"(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_WORKSTATION_NAME", re.compile(r"(?<![A-Za-z0-9])Precision(?:\s+Tower)?\s+" + _join("79", "10") + r"(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_CPU_MODEL_A", re.compile(r"(?<![A-Za-z0-9])E5[-_ ]?" + _join("26", "96") + r"(?:[\s_-]*v4)?(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_CPU_MODEL_B", re.compile(r"(?<![A-Za-z0-9])E5[-_ ]?" + _join("26", "97") + r"(?:[\s_-]*v4)?(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_GPU_MODEL_A", re.compile(r"(?<![A-Za-z0-9])RTX[\s_-]*" + _join("30", "90") + r"(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_GPU_MODEL_B", re.compile(r"(?<![A-Za-z0-9])RTX[\s_-]*A" + _join("10", "00") + r"(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_GPU_MODEL_C", re.compile(r"(?<![A-Za-z0-9])RTX[\s_-]*" + _join("30", "80") + r"(?![A-Za-z0-9])", re.I)),
+    ("LEGACY_GPU_MODEL_D", re.compile(r"(?<![A-Za-z0-9])(?:Quadro\s+)?RTX[\s_-]*" + _join("40", "00") + r"(?![A-Za-z0-9])", re.I)),
     ("LEGACY_PCI_BDF_A", re.compile(r"\b" + _join("0000:", "05:00.0") + r"\b", re.I)),
     ("LEGACY_PCI_BDF_B", re.compile(r"\b" + _join("0000:", "a5:00.0") + r"\b", re.I)),
     ("LEGACY_TOPOLOGY_A", re.compile(r"\b" + _join("44", "C") + r"\s*[-/]\s*" + _join("88", "T") + r"\b", re.I)),
@@ -87,6 +87,10 @@ LEGACY_REPOSITORY_PATTERNS = (
     ("LEGACY_HARDWARE_FABRIC_EVIDENCE", re.compile(re.escape(_join("hardware-fabric-reconciliation-", "2026-09-16")), re.I)),
     ("LEGACY_CPU_NUMA_REFERENCE", re.compile(re.escape(_join("FA3-", "T79", "10-CPU-NUMA-REFERENCE-2026-09-02")), re.I)),
     ("LEGACY_CPU_NUMA_EVIDENCE", re.compile(re.escape(_join("cpu-numa-threading-ci-", "2026-09-02")), re.I)),
+    ("LEGACY_GLOBAL_ACCELERATOR_CARDINALITY", re.compile(re.escape(_join("ACCELERATOR_CARDINALITY_DYNAMIC_", "1_TO_N")), re.I)),
+    ("LEGACY_CURRENT_HOST_GPU_CARDINALITY", re.compile(re.escape(_join("GPU_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_", "1_TO_N")), re.I)),
+    ("LEGACY_GLOBAL_ACCELERATOR_MINIMUM", re.compile(re.escape(_join("ACCELERATOR_MINIMUM_ONE_", "VENDOR_NEUTRAL_WORKLOAD_QUALIFIED_DEVICE")), re.I)),
+    ("LEGACY_GLOBAL_NVIDIA_FLOOR", re.compile(re.escape(_join("GLOBAL_GPU_BASELINE_IS_", "NVIDIA_CUDA_COMPUTE_CAPABILITY")), re.I)),
 )
 
 REFERENCE_MARKERS = (
@@ -108,11 +112,17 @@ def portable_hardware_floor_valid(
     accelerator_count: int | None = None,
     accelerator_vendor: str | None = None,
     workload_compatible: bool = True,
+    accelerator_required: bool = False,
     gpu_count: int | None = None,
     gpu_compute_capability: float | None = None,
     gpu_vendor: str | None = None,
 ) -> bool:
-    """Global floor only: vendor/runtime API are not admission inputs."""
+    """Validate the global CPU floor and optional accelerator inventory.
+
+    Accelerator compatibility is an admission condition only for workloads that
+    explicitly require one. CPU-only hosts and workloads therefore remain valid
+    with an empty accelerator inventory and no accelerator lease.
+    """
     count = accelerator_count if accelerator_count is not None else gpu_count
     vendor = accelerator_vendor if accelerator_vendor is not None else gpu_vendor
     return (
@@ -121,8 +131,8 @@ def portable_hardware_floor_valid(
         and isinstance(count, int)
         and cpu_packages >= 1
         and physical_cores_per_qualifying_cpu >= 8
-        and count >= 1
-        and workload_compatible is True
+        and count >= 0
+        and (not accelerator_required or (count >= 1 and workload_compatible is True))
         and (vendor is None or (isinstance(vendor, str) and bool(vendor.strip())))
     )
 
@@ -203,16 +213,19 @@ def scan_repository(root: Path) -> dict[str, Any]:
         "non_normative_sample": non_normative[:100],
     }
 
-def _neutral_gpu_record(gpu: dict[str, Any]) -> bool:
+def _neutral_accelerator_record(accelerator: dict[str, Any]) -> bool:
     return (
-        gpu.get("qualifying_device_count_min", gpu.get("minimum_qualifying_device_count")) == 1
-        and gpu.get("vendor_pin") == "FORBIDDEN"
-        and gpu.get("global_runtime_api_pin") == "FORBIDDEN"
-        and str(gpu.get("global_cuda_compute_capability_floor", "FORBIDDEN")).startswith("FORBIDDEN")
-        and gpu.get("workload_runtime_compatibility", "REQUIRED") in {"REQUIRED", True}
-        and gpu.get("provider_capability_negotiation", "REQUIRED") in {"REQUIRED", True}
-        and REFERENCE_VENDOR_FAMILIES <= set(gpu.get("supported_reference_vendor_families", []))
-        and REFERENCE_PLATFORM_FAMILIES <= set(gpu.get("supported_reference_platform_families", []))
+        accelerator.get("qualifying_device_count_min", accelerator.get("minimum_qualifying_device_count")) == 0
+        and accelerator.get("cpu_only_host_conforms") is True
+        and accelerator.get("cpu_only_workload_requires_lease") is False
+        and accelerator.get("required_workload_admission") == "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
+        and accelerator.get("vendor_pin") == "FORBIDDEN"
+        and accelerator.get("global_runtime_api_pin") == "FORBIDDEN"
+        and str(accelerator.get("global_cuda_compute_capability_floor", "FORBIDDEN")).startswith("FORBIDDEN")
+        and accelerator.get("workload_runtime_compatibility", "REQUIRED") in {"REQUIRED", True}
+        and accelerator.get("provider_capability_negotiation", "REQUIRED") in {"REQUIRED", True}
+        and REFERENCE_VENDOR_FAMILIES <= set(accelerator.get("supported_reference_vendor_families", []))
+        and REFERENCE_PLATFORM_FAMILIES <= set(accelerator.get("supported_reference_platform_families", []))
     )
 
 def evaluate(root: Path) -> dict[str, Any]:
@@ -223,27 +236,28 @@ def evaluate(root: Path) -> dict[str, Any]:
     hrb_profile=loadj(root,HRB_PROFILE); hrb_contract=loadj(root,HRB_CONTRACT)
     evidence_registry=loadj(root,EVIDENCE_REGISTRY)
 
-    cpu=profile.get("portable_minimum",{}).get("cpu",{}); gpu=profile.get("portable_minimum",{}).get("gpu",{})
+    cpu=profile.get("portable_minimum",{}).get("cpu",{}); accelerator=profile.get("portable_minimum",{}).get("accelerator",{})
     discovery=contract.get("discovery_semantics",{}); envelope=contract.get("portable_minimum_envelope",{})
     bound=[x for x in evidence_registry.get("records",[]) if x.get("subject_id") in CAPABILITY_BINDINGS]
 
     checks=[
       check("cpu-floor", cpu.get("package_count_min")==1 and cpu.get("physical_cores_per_qualifying_cpu_min")==8, "CPU floor remains vendor/model agnostic"),
-      check("vendor-neutral-portable-profile", _neutral_gpu_record(gpu), "global accelerator floor has no vendor/runtime API pin"),
-      check("vendor-neutral-root-profile", _neutral_gpu_record(hw_profile.get("minimum_portable_hardware_envelope",{}).get("gpu",{})), "FA3-HW root is vendor-neutral"),
-      check("vendor-neutral-root-contract", _neutral_gpu_record(hw_contract.get("portable_minimum_envelope",{}).get("gpu",{})), "root hardware contract is vendor-neutral"),
-      check("vendor-neutral-discovery-contract", envelope.get("accelerator_vendor_pin")=="FORBIDDEN" and envelope.get("global_runtime_api_pin")=="FORBIDDEN" and envelope.get("global_vendor_capability_floor")=="FORBIDDEN", "discovery contract is vendor-neutral"),
+      check("vendor-neutral-portable-profile", _neutral_accelerator_record(accelerator), "global accelerator inventory is optional and has no vendor/runtime API pin"),
+      check("vendor-neutral-root-profile", _neutral_accelerator_record(hw_profile.get("minimum_portable_hardware_envelope",{}).get("accelerator",{})), "FA3-HW root is vendor-neutral and CPU-only conformant"),
+      check("vendor-neutral-root-contract", _neutral_accelerator_record(hw_contract.get("portable_minimum_envelope",{}).get("accelerator",{})), "root hardware contract is vendor-neutral and CPU-only conformant"),
+      check("vendor-neutral-discovery-contract", envelope.get("accelerator_devices_min")==0 and envelope.get("cpu_only_host_conforms") is True and envelope.get("cpu_only_workload_requires_accelerator_lease") is False and envelope.get("accelerator_vendor_pin")=="FORBIDDEN" and envelope.get("global_runtime_api_pin")=="FORBIDDEN" and envelope.get("global_vendor_capability_floor")=="FORBIDDEN", "discovery contract is vendor-neutral and accepts an empty accelerator set"),
       check("nvidia-supported", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="NVIDIA"), "NVIDIA supported"),
       check("amd-supported", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="AMD"), "AMD supported"),
       check("intel-supported", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="INTEL"), "Intel supported"),
-      check("dgx-supported", "NVIDIA_DGX" in gpu.get("supported_reference_platform_families",[]), "DGX supported as platform family"),
-      check("provider-compatibility-fail-closed", not portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="AMD",workload_compatible=False), "workload/provider incompatibility fails closed"),
-      check("no-accelerator-negative", not portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0), "below global minimum fails"),
-      check("dynamic-discovery", discovery.get("enumeration")=="DYNAMIC_1_TO_N" and discovery.get("admission_revalidation") is True and discovery.get("topology_change_revalidation") is True, "live discovery/revalidation required"),
-      check("stable-identity", discovery.get("ephemeral_runtime_indices_are_identity") is False and set(discovery.get("stable_accelerator_identity_when_available",[]))=={"DEVICE_UUID","PCI_BDF"}, "runtime ordinal not canonical identity"),
+      check("dgx-supported", "NVIDIA_DGX" in accelerator.get("supported_reference_platform_families",[]), "DGX supported as platform family"),
+      check("provider-compatibility-fail-closed", not portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="AMD",workload_compatible=False,accelerator_required=True), "required accelerator workload/provider incompatibility fails closed"),
+      check("cpu-only-host-positive", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0), "CPU-only host satisfies the global baseline"),
+      check("required-accelerator-negative", not portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0,accelerator_required=True), "accelerator-required workload fails without a compatible device"),
+      check("dynamic-discovery", discovery.get("cpu_enumeration")=="DYNAMIC_1_TO_N" and discovery.get("accelerator_enumeration")=="DYNAMIC_0_TO_N" and discovery.get("admission_revalidation") is True and discovery.get("topology_change_revalidation") is True, "live 1..N CPU and 0..N accelerator discovery/revalidation required"),
+      check("stable-identity", discovery.get("ephemeral_runtime_indices_are_identity") is False and {"PROVIDER_STABLE_ID","DEVICE_UUID","PCI_BDF_WHEN_APPLICABLE"} <= set(discovery.get("stable_accelerator_identity_when_available",[])), "runtime ordinal is not canonical identity and PCI identity is conditional"),
       check("hrb-linked", hrb_profile.get("hardware_portability_baseline_profile")=="FA3-HARDWARE-BASELINE-001" and "FA3-HARDWARE-DISCOVERY-CONTRACTS-001" in hrb_profile.get("contracts",[]), "HRB remains sole authority"),
       check("hrb-dynamic", "DYNAMIC_CPU_AND_GPU_CARDINALITY_DISCOVERY_REQUIRED" in hrb_contract.get("invariants",[]), "HRB consumes dynamic topology"),
-      check("mgpu-vendor-neutral", "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants",[]) and "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu.get("invariants",[]), "multi-accelerator profile vendor-neutral"),
+      check("mgpu-vendor-neutral", mgpu.get("cardinality_policy",{}).get("minimum_qualifying_accelerator_count")==0 and "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N" in mgpu.get("invariants",[]) and "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY" in mgpu.get("invariants",[]) and "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN" in mgpu.get("invariants",[]), "multi-accelerator profile is conditional and vendor-neutral"),
       check("enforcement-vendor-neutral", any(r.get("invariant")=="NO_VENDOR_OR_RUNTIME_API_DEFINES_THE_GLOBAL_ACCELERATOR_FLOOR" for r in enforcement.get("rules",[])), "vendor-neutral floor mandatory"),
       check(
           "decision-vendor-neutral",
@@ -277,7 +291,7 @@ def evaluate(root: Path) -> dict[str, Any]:
       "current_host_runtime_promotion_claim":False,
       "legacy_host_evidence_accepted":False,
       "fresh_current_host_evidence_required":True,
-      "accelerator_floor":{"vendor_pin":"FORBIDDEN","runtime_api_pin":"FORBIDDEN","minimum_device_count":1,"compatibility":"WORKLOAD_PROVIDER_SCOPED"},
+      "accelerator_floor":{"vendor_pin":"FORBIDDEN","runtime_api_pin":"FORBIDDEN","minimum_device_count":0,"cardinality":"0_TO_N","cpu_only_host_conforms":True,"cpu_only_workload_requires_lease":False,"required_workload_admission":"COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE","compatibility":"WORKLOAD_PROVIDER_SCOPED"},
       "supported_reference_vendor_families":sorted(REFERENCE_VENDOR_FAMILIES),
       "supported_reference_platform_families":sorted(REFERENCE_PLATFORM_FAMILIES),
       "checks":checks,

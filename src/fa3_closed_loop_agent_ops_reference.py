@@ -142,8 +142,8 @@ def hardware_admission_valid(*, live_discovery: bool, hrb_lease: bool,
     if not live_discovery or static_cpu_ids or reference_as_portable_default or ordinal_only:
         return False
     if accelerator_required:
-        return hrb_lease and bool(gpu_uuid) and bool(pci_bdf)
-    return True
+        return hrb_lease and bool(gpu_uuid or pci_bdf)
+    return not hrb_lease
 
 def portable_hardware_floor_valid(*, cpu_packages: int,
                                   physical_cores_per_package: int,
@@ -157,15 +157,20 @@ def portable_hardware_floor_valid(*, cpu_packages: int,
                                   gpu_specific_sm_pinned: bool,
                                   gpu_rtx_series: int | None = None,
                                   newer_rtx_generations_allowed: bool | None = None,
-                                  workload_compatible: bool = True) -> bool:
-    """Global FA3 floor: >=1 qualifying accelerator; vendor/runtime constraints are workload-scoped."""
+                                  workload_compatible: bool = True,
+                                  accelerator_required: bool = False) -> bool:
+    """Global CPU floor plus an optional 0..N accelerator inventory.
+
+    Compatibility becomes an admission condition only when the workload explicitly
+    requires an accelerator; a CPU-only host therefore remains baseline-conformant.
+    """
     return (
         cpu_packages >= 1
         and physical_cores_per_package >= 8
         and not cpu_vendor_pinned
         and not cpu_model_pinned
-        and gpu_count >= 1
-        and workload_compatible is True
+        and gpu_count >= 0
+        and (not accelerator_required or (gpu_count >= 1 and workload_compatible is True))
         and not gpu_specific_sku_pinned
         and not gpu_specific_vram_pinned
         and not gpu_specific_sm_pinned

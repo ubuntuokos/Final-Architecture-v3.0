@@ -13,23 +13,23 @@ spec.loader.exec_module(collector)
 
 
 class HrbSystemdManagerCollectorTests(unittest.TestCase):
-    def test_gpu_floor_uses_compute_capability_not_marketing_name(self):
+    def test_provider_enrichment_does_not_create_a_global_cuda_floor(self):
         rows = collector.parse_gpu_rows(
             "GPU-A, 00000000:A1:00.0, NVIDIA Fixture Accelerator X, 610.57.04, 8188, 8.6\n"
             "GPU-B, 00000000:B1:00.0, NVIDIA GeForce RTX 5090, 610.57.04, 24564, 8.0\n"
         )
         self.assertEqual(len(rows), 2)
-        self.assertTrue(rows[0]["qualifies_portable_floor"])
+        self.assertTrue(rows[0]["eligible_for_workload_admission"])
         self.assertEqual(rows[0]["cuda_compute_capability"], 8.6)
-        self.assertEqual(rows[0]["admission_semantics"], "RUNTIME_CAPABILITY_NOT_MARKETING_NAME")
-        self.assertFalse(rows[1]["qualifies_portable_floor"])
+        self.assertEqual(rows[0]["admission_semantics"], "PROVIDER_CAPABILITIES_ARE_WORKLOAD_SCOPED_NOT_GLOBAL_FLOOR")
+        self.assertTrue(rows[1]["eligible_for_workload_admission"])
 
-    def test_invalid_compute_capability_fails_closed(self):
+    def test_missing_cuda_capability_remains_workload_scoped(self):
         rows = collector.parse_gpu_rows(
             "GPU-A, 00000000:A1:00.0, NVIDIA Fixture Accelerator X, 610.57.04, 8188, N/A\n"
         )
         self.assertEqual(rows[0]["cuda_compute_capability"], None)
-        self.assertFalse(rows[0]["qualifies_portable_floor"])
+        self.assertTrue(rows[0]["eligible_for_workload_admission"])
 
     def test_effective_cpuset_walks_to_nearest_nonempty_ancestor(self):
         with tempfile.TemporaryDirectory() as td:

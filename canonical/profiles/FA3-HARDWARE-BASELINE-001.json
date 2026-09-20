@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HARDWARE-BASELINE-001",
   "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -35,8 +35,8 @@
       "model_pin": "FORBIDDEN",
       "fixed_socket_count": "FORBIDDEN"
     },
-    "gpu": {
-      "qualifying_device_count_min": 1,
+    "accelerator": {
+      "qualifying_device_count_min": 0,
       "qualifying_device_count_max": "UNBOUNDED_BY_FA3",
       "vendor_pin": "FORBIDDEN",
       "global_runtime_api_pin": "FORBIDDEN",
@@ -58,7 +58,10 @@
       "exact_sku_pin": "FORBIDDEN",
       "vram_size_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
       "architecture_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
-      "fixed_device_count": "FORBIDDEN"
+      "fixed_device_count": "FORBIDDEN",
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_lease": false,
+      "required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     }
   },
   "runtime_discovery": {
@@ -76,7 +79,7 @@
       "NUMA",
       "MEMORY_LOCALITY"
     ],
-    "gpu": [
+    "accelerator": [
       "STABLE_DEVICE_ID",
       "PCI_BDF",
       "VENDOR",
@@ -93,13 +96,17 @@
       "BDF",
       "LOCALITY"
     ],
-    "cardinality": "ENUMERATE_1_TO_N_NO_STATIC_INDEX_ASSUMPTION"
+    "cpu_cardinality": "ENUMERATE_1_TO_N_NO_STATIC_INDEX_ASSUMPTION",
+    "accelerator_cardinality": "ENUMERATE_0_TO_N_NO_STATIC_INDEX_ASSUMPTION"
   },
   "invariants": [
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
     "CPU_MINIMUM_ONE_PACKAGE_AND_EIGHT_PHYSICAL_CORES_PER_QUALIFYING_CPU",
-    "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
-    "ACCELERATOR_MINIMUM_ONE_VENDOR_NEUTRAL_WORKLOAD_QUALIFIED_DEVICE",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_GLOBAL_ACCELERATOR_PRESENCE_REQUIREMENT",
+    "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
     "ACCELERATOR_VENDOR_SKU_OR_SERIES_NAME_MUST_NOT_BE_GLOBAL_ADMISSION_AUTHORITY",
     "ACCELERATOR_COMPATIBILITY_MUST_BE_DERIVED_FROM_WORKLOAD_AND_PROVIDER_CAPABILITIES",
     "NO_CONCRETE_CPU_VENDOR_MODEL_SOCKET_COUNT_AS_CANONICAL_REQUIREMENT",

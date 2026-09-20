@@ -8866,7 +8866,7 @@
     "current_host_runtime_promotion_claim": false,
     "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
     "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-    "exact_current_host_hardware": "FRESH_CURRENT_HOST_EVIDENCE_ONLY"
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
   },
   "video_provider_lifecycle_reconciliation": {
     "profile_id": "FA3-VIDEO-001",
@@ -8923,9 +8923,9 @@
       "hardware_profile": "FA3-HW-001",
       "hardware_contract": "FA3-HW-CONTRACTS-001",
       "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
-      "gpu": "MIN_ONE_VENDOR_NEUTRAL_WORKLOAD_QUALIFIED_ACCELERATOR",
-      "newer_rtx_generations_allowed": true,
-      "architecture_equivalence_without_rtx30_or_newer_series_identity_satisfies_floor": false,
+      "accelerator": "OPTIONAL_0_TO_N_CPU_ONLY_CONFORMANT_WORKLOAD_REQUIRED_HRB_LEASE",
+      "vendor_or_runtime_allowlist": false,
+      "provider_specific_compatibility_is_workload_scoped": true,
       "concrete_cpu_or_gpu_model_pin": false
     },
     "new_capabilities": 0,
@@ -8958,7 +8958,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143,
     "portable_cpu": "1_TO_N_PACKAGES_MIN_8_PHYSICAL_CORES_PER_QUALIFYING_CPU",
-    "portable_accelerator": "1_TO_N_VENDOR_NEUTRAL_WORKLOAD_QUALIFIED_ACCELERATORS",
+    "portable_accelerator": "0_TO_N_VENDOR_NEUTRAL_ACCELERATORS_CPU_ONLY_CONFORMANT_WORKLOAD_REQUIRED_HRB_LEASE",
     "supported_reference_vendor_families": [
       "NVIDIA",
       "AMD",

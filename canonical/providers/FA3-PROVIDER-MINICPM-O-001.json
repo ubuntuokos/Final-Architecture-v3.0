@@ -20,7 +20,7 @@
   "model": {"upstream_id": "openbmb/MiniCPM-o-4_5", "declared_parameters": "9B", "revision": "REQUIRED_AT_ACTIVATION_NO_FLOATING", "weight_license_and_output_rights_gate": "REQUIRED"},
   "declared_modalities": ["IMAGE_INPUT", "VIDEO_INPUT", "AUDIO_INPUT", "TEXT_INPUT", "TEXT_OUTPUT", "SPEECH_OUTPUT"],
   "continuous_capture_policy": "EXPLICIT_USER_CONSENT_VISIBLE_CAPTURE_STATE_RETENTION_POLICY_AND_EGRESS_GATE_REQUIRED",
-  "current_host_policy": "NO_DEFAULT_FULL_DUPLEX_ADMISSION_ON_T7910_UNTIL_LIVE_VRAM_QOS_LATENCY_CAPTURE_PRIVACY_AND_QUALITY_EVIDENCE_PASS",
+  "current_host_policy": "NO_DEFAULT_FULL_DUPLEX_ADMISSION_UNTIL_LIVE_RESOURCE_QOS_LATENCY_CAPTURE_PRIVACY_AND_QUALITY_EVIDENCE_PASS",
   "degraded_or_quantized_mode": "DISTINCT_MODEL_ARTIFACT_AND_EXPLICIT_QUALITY_GATED_RUNTIME_PLAN_REQUIRED",
   "authority_boundaries": {"model_registry": "FA3-MODEL-REGISTRY-001", "model_routing": "FA3-AUTH-MODEL-ROUTER-001", "voice_identity_and_consent": "FA3-VOICE-001", "host_resource_and_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001", "security": "FA3-AUTH-SECURITY-GOV-001", "evidence": "FA3-AUTH-OBS-EVIDENCE-001"},
   "normative_constraint": "MiniCPM-o is a replaceable omnimodal model/inference provider only; continuous capture and voice use remain subject to canonical FA3 consent, privacy, routing, HRB and evidence controls."
