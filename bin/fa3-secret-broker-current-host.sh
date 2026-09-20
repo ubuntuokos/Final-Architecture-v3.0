@@ -3,7 +3,7 @@ set -euo pipefail
 [[ "$(id -u)" -eq 0 ]] || { echo "Run with sudo/root." >&2; exit 2; }
 ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
-for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run install truncate mktemp tr; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
@@ -55,6 +55,8 @@ cat > "$POL/current-host.json" <<'JSON'
 }
 JSON
 chmod 0644 "$POL/current-host.json"
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl check "$POL/current-host.json" >/dev/null
+POLICY_PREFLIGHT=true
 SOCK="$RUN/broker.sock"; AUDIT="$RUN/audit.jsonl"
 BROKER_PY="/usr/local/lib/fa3/fa3_secret_broker.py"
 [[ -r "$BROKER_PY" ]] || { echo "installed broker module missing; run installer first" >&2; exit 2; }
@@ -63,11 +65,32 @@ BROKER_PID=$!
 for _ in $(seq 1 50); do [[ -S "$SOCK" ]] && break; sleep 0.1; done
 [[ -S "$SOCK" ]] || { echo "broker socket did not appear" >&2; exit 2; }
 "$ROOT/bin/fa3-secretctl" --socket "$SOCK" health >/dev/null
-CANARY="FA3_SECRET_BROKER_CANARY_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
-CANARY_HASH="$(printf '%s' "$CANARY" | sha256sum | cut -d' ' -f1)"
-printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+CANARY1="FA3_SECRET_BROKER_CANARY1_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+CANARY1_HASH="$(printf '%s' "$CANARY1" | sha256sum | cut -d' ' -f1)"
+printf '%s' "$CANARY1" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
 GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
-[[ "$GOT_HASH" == "$CANARY_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
+[[ "$GOT_HASH" == "$CANARY1_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
+
+CANARY2="FA3_SECRET_BROKER_CANARY2_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+CANARY_HASH="$(printf '%s' "$CANARY2" | sha256sum | cut -d' ' -f1)"
+printf '%s' "$CANARY2" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" rotate test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+META="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" admin-metadata test/current-host)"
+grep -Fq '"version": 2' <<<"$META"
+grep -Fq '"secret_kind": "API_TOKEN"' <<<"$META"
+LIST="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" list-metadata)"
+grep -Fq '"secret_id": "test/current-host"' <<<"$LIST"
+! grep -Fq "$CANARY1" <<<"$LIST"
+! grep -Fq "$CANARY2" <<<"$LIST"
+ROTATION_PASS=true
+METADATA_ONLY_LIST_PASS=true
+
+REVOKE_CANARY="FA3_SECRET_BROKER_REVOKE_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+printf '%s' "$REVOKE_CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/revoke --classification MACHINE_SERVICE_SECRET --kind SERVICE_PASSWORD >/dev/null
+"$ROOT/bin/fa3-secretctl" --socket "$SOCK" revoke test/revoke >/dev/null
+if "$ROOT/bin/fa3-secretctl" --socket "$SOCK" admin-metadata test/revoke >/dev/null 2>&1; then
+  echo "revoked secret still has active metadata" >&2; exit 2
+fi
+REVOCATION_PASS=true
 install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
 runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection SYSTEMD_CREDENTIAL --output "$PROJ/api-token"
 [[ "$(stat -c '%a' "$PROJ/api-token")" == "600" ]] || { echo "projection file mode mismatch" >&2; exit 2; }
@@ -90,9 +113,13 @@ if r.get("ok") is not False:
 bad=request(Path(sys.argv[1]),{"op":"put","secret_id":"test/not-credential","classification":"MACHINE_SERVICE_SECRET","secret_kind":"CACHE","secret_b64":"eA=="})
 raise SystemExit(0 if bad.get("ok") is False else 2)
 PY
-! grep -Fq "$CANARY" "$AUDIT"
-! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY"
-! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY"
+! grep -Fq "$CANARY1" "$AUDIT"
+! grep -Fq "$CANARY2" "$AUDIT"
+! grep -Fq "$REVOKE_CANARY" "$AUDIT"
+! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY1"
+! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY2"
+! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY1"
+! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY2"
 kill "$BROKER_PID"; wait "$BROKER_PID" 2>/dev/null || true; BROKER_PID=""
 umount "$MNT"; PRIMARY_UNMOUNT=true
 cryptsetup close "$MAPPER"; PRIMARY_CLOSE=true
@@ -123,7 +150,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"policy_preflight_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True},
