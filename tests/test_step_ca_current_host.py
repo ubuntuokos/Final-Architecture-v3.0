@@ -46,6 +46,19 @@ class T(unittest.TestCase):
   self.assertNotIn("OFFLINE_CEREMONY_DEFAULT_ROUTE_FORBIDDEN",enforcement["p0_invariants"])
   self.assertEqual("boolean",schema["properties"]["network_default_route_present"]["type"])
   self.assertNotIn("network_default_route_present",schema["required"])
+ def test_root_custody_default_is_local_encrypted_and_redundant(self):
+  enforcement=json.loads((ROOT/"canonical/step-ca-current-host-enforcement.json").read_text())
+  decision=json.loads((ROOT/"canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json").read_text())
+  collector=(ROOT/"evidence/collect-step-ca-root-ceremony.py").read_text()
+  policy=enforcement["root_custody_policy"]
+  self.assertTrue(policy["same_host_allowed"])
+  self.assertFalse(policy["removable_media_required"])
+  self.assertFalse(policy["hsm_required"])
+  self.assertFalse(policy["air_gap_required"])
+  self.assertEqual("REDUNDANT_ENCRYPTED_BACKUP_REQUIRED",policy["durability"])
+  self.assertIn("SAME_HOST_ENCRYPTED_ROOT_STORAGE_ALLOWED_OUTSIDE_STEP_CA_RUNTIME",decision["constraints"])
+  self.assertIn("ROOT_CUSTODY_BACKUP_MUST_BE_REDUNDANT_AND_ENCRYPTED",decision["constraints"])
+  self.assertIn('default="local-protected-storage"',collector)
  def test_collector_no_root_key_arg(self): self.assertNotIn("--root-key",(ROOT/"evidence/collect-step-ca-root-ceremony.py").read_text())
  def test_not_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text()); self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
