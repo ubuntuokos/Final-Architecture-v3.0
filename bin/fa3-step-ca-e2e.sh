@@ -17,7 +17,7 @@ DROPIN="$DROPIN_DIR/90-fa3-e2e-acme-port.conf"
 TMP=""
 PID=""
 OVERRIDE_ACTIVE=false
-PRODUCTION_EXECSTART=""
+PRODUCTION_EXECSTART_SIGNATURE=""
 
 wait_for_ca() {
   local attempt
@@ -32,17 +32,37 @@ wait_for_ca() {
   return 1
 }
 
+execstart_signature() {
+  systemctl show fa3-step-ca.service --property=ExecStart --value |
+    python3 -c '
+import json
+import re
+import sys
+
+raw = sys.stdin.read().strip()
+path = re.search(r"(?:^|\{\s*)path=(.*?)\s*;\s*argv\[\]=", raw)
+argv = re.search(r"\bargv\[\]=(.*?)\s*;\s*ignore_errors=", raw)
+if not path or not argv:
+    raise SystemExit(1)
+print(json.dumps(
+    {"path": path.group(1).strip(), "argv": argv.group(1).strip()},
+    sort_keys=True,
+    separators=(",", ":"),
+))
+'
+}
+
 production_execstart_is_safe() {
-  local execstart
-  execstart="$(systemctl show fa3-step-ca.service --property=ExecStart --value)" || return 1
-  [[ -n "$execstart" && "$execstart" != *"--acme-http-port"* && "$execstart" != *"--acme-tls-port"* && "$execstart" != *"--insecure"* ]]
+  local signature
+  signature="$(execstart_signature)" || return 1
+  [[ -n "$signature" && "$signature" != *"--acme-http-port"* && "$signature" != *"--acme-tls-port"* && "$signature" != *"--insecure"* ]]
 }
 
 production_execstart_restored() {
-  local execstart
-  [[ -n "$PRODUCTION_EXECSTART" ]] || return 1
-  execstart="$(systemctl show fa3-step-ca.service --property=ExecStart --value)" || return 1
-  [[ "$execstart" == "$PRODUCTION_EXECSTART" ]]
+  local signature
+  [[ -n "$PRODUCTION_EXECSTART_SIGNATURE" ]] || return 1
+  signature="$(execstart_signature)" || return 1
+  [[ "$signature" == "$PRODUCTION_EXECSTART_SIGNATURE" ]]
 }
 
 remove_override() {
@@ -52,7 +72,7 @@ remove_override() {
   systemctl restart fa3-step-ca.service
   wait_for_ca
   production_execstart_restored || {
-    echo "production step-ca ExecStart was not restored" >&2
+    echo "production step-ca ExecStart command signature was not restored" >&2
     return 1
   }
   OVERRIDE_ACTIVE=false
@@ -109,7 +129,7 @@ production_execstart_is_safe || {
   echo "production step-ca ExecStart contains a test-only flag; refusing E2E" >&2
   exit 1
 }
-PRODUCTION_EXECSTART="$(systemctl show fa3-step-ca.service --property=ExecStart --value)"
+PRODUCTION_EXECSTART_SIGNATURE="$(execstart_signature)"
 
 TMP="$(mktemp -d /var/tmp/fa3-step-ca-e2e.XXXXXX)"
 chmod 700 "$TMP"
