@@ -26,12 +26,14 @@ class SecretBrokerGateTests(unittest.TestCase):
         p=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
         x=p["lifecycle"]["fa3_exit_contract"]
         self.assertEqual("/usr/local/sbin/fa3-secrets-lifecycle exit",x["command"])
+        self.assertIn("SECRETS_TARGET_INACTIVE",x["completion_requires"])
         self.assertIn("VAULT_UNMOUNTED",x["completion_requires"])
         self.assertIn("LUKS_MAPPING_CLOSED",x["completion_requires"])
         unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
         self.assertIn("ExecStopPost=/usr/local/libexec/fa3-secret-vault-mount assert-closed",unit)
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
         self.assertIn("systemctl stop fa3-secrets.target",lifecycle)
+        self.assertIn("systemctl is-active --quiet fa3-secrets.target",lifecycle)
         self.assertIn("assert_closed",lifecycle)
 
     def test_policy_preflight_validation(self):
