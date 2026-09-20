@@ -40,8 +40,8 @@ import re
 import sys
 
 raw = sys.stdin.read().strip()
-path = re.search(r"(?:^|\\{\\s*)path=(.*?)\\s*;\\s*argv\\[\\]=", raw)
-argv = re.search(r"\\bargv\\[\\]=(.*?)\\s*;\\s*ignore_errors=", raw)
+path = re.search(r"(?:^|\{\s*)path=(.*?)\s*;\s*argv\[\]=", raw)
+argv = re.search(r"\bargv\[\]=(.*?)\s*;\s*ignore_errors=", raw)
 if not path or not argv:
     raise SystemExit(1)
 print(json.dumps(
