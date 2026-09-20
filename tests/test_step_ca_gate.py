@@ -33,6 +33,17 @@ class StepCAGateTests(unittest.TestCase):
         bad["pki_policy"]["online_root_private_key_allowed"] = True
         self.assertFalse(g.provider_policy_valid(bad))
 
+    def test_current_host_promotion_evidence_is_bound_to_runtime_surface(self):
+        root = Path(__file__).resolve().parents[1]
+        evidence = g.loadj(root / g.CURRENT_HOST_EVIDENCE_PATH)
+        self.assertTrue(g.current_host_evidence_valid(root, evidence))
+        bad = copy.deepcopy(evidence)
+        bad["global_promotion_claim"] = True
+        self.assertFalse(g.current_host_evidence_valid(root, bad))
+        bad = copy.deepcopy(evidence)
+        bad["source"]["runtime_surface_git_blobs"]["bin/fa3-step-ca-e2e.sh"] = "0" * 40
+        self.assertFalse(g.current_host_evidence_valid(root, bad))
+
     def test_duration_parser(self):
         self.assertEqual(12, g.duration_hours("12h"))
         self.assertEqual(24, g.duration_hours("24h"))

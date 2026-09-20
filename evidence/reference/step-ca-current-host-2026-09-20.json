@@ -1,0 +1,102 @@
+{
+  "schema": "fa3.current-host-evidence-reference.v1",
+  "id": "FA3-STEP-CA-CURRENT-HOST-EVIDENCE-2026-09-20",
+  "date": "2026-09-20",
+  "provider_id": "FA3-PROVIDER-STEP-CA-001",
+  "runtime_conformance_id": "FA3-STEP-CA-RUNTIME-CONFORMANCE-001",
+  "current_host_conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
+  "gate_id": "FA3-GATE-STEP-CA-CURRENT-HOST-001",
+  "component_scope": "STEP_CA_CURRENT_HOST_RUNTIME_ONLY",
+  "result": "PASS",
+  "status": "CURRENT_HOST_ADMITTED",
+  "evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "synthetic": false,
+  "production_admitted": true,
+  "runtime_promotion_eligible": true,
+  "global_promotion_claim": false,
+  "captured_at": "2026-09-20T20:11:25.498069+00:00",
+  "source": {
+    "tested_main_sha": "bc2762ddc85a7501ab3d2be612329399470ea276",
+    "raw_receipt_path": "evidence/receipts/step-ca-current-host.json",
+    "raw_receipt_committed": false,
+    "raw_receipt_sha256": null,
+    "receipt_persistence": "LOCAL_GITIGNORED_RUNTIME_EVIDENCE",
+    "final_gate_result": "PASS",
+    "runtime_surface_git_blobs": {
+      "bin/fa3-step-ca-bootstrap.sh": "1c06f520d208bc6223f8df8622acb46969c9eb66",
+      "bin/fa3-step-ca-root-ceremony.sh": "ea07d76db4c78ce40f14a0bbdcb6d0302f25d632",
+      "bin/fa3-step-ca-activate.sh": "19b25a6afd979a0925df06f8017b1fca625a2ce9",
+      "bin/fa3-step-ca-e2e.sh": "b3ad889ad82ae1bbba7c677c6159d9c6afd08b88",
+      "bin/fa3-step-ca-backup-restore-drill.sh": "45b22becee85fe0eca585b3ad06efc04ef942def",
+      "evidence/collect-step-ca-current-host.py": "f295664e2bb5ae4c2bf1c39345c2fef2ef46e837",
+      "src/fa3_step_ca_current_host_gate.py": "fdae2158dcd29c90f3405d789ebc76046179691a"
+    }
+  },
+  "supply_chain": {
+    "architecture": "amd64",
+    "cosign_version": "3.1.2",
+    "cosign_binary_sha256": "f7622ed3cf22e55e1ae6377c080979ff77a22da9981c11df222a2e444991e7cf",
+    "server_version": "0.30.2",
+    "server_asset_sha256": "126615795bafe3f2d3f890e2d628fa6e2857315fb48d0671d34b23047cc37d73",
+    "server_binary_sha256": "53597e5f169ce8251daee828727d140e09e29c839eefc2823fcb662ed644b6da",
+    "server_sigstore_verified": true,
+    "client_version": "0.30.6",
+    "client_asset_sha256": "e44a5dc5f880a694b24a0f2941a69a81b0bc6ee053170fdfde18453d4d5816de",
+    "client_binary_sha256": "b795e5b0600b67bfb609f83a5fd2aa2cf1f753fa49e31558c688d90b0d1468c8",
+    "client_sigstore_verified": true
+  },
+  "runtime": {
+    "service_active": true,
+    "service_user": "fa3-step-ca",
+    "bind": "127.0.0.1:9443",
+    "root_private_key_present_online": false,
+    "intermediate_key_encrypted": true,
+    "certificate_chain_valid": true
+  },
+  "required_evidence_flags": {
+    "supply_chain_pass": true,
+    "offline_root_ceremony_pass": true,
+    "activation_pass": true,
+    "root_private_key_never_exported_online": true,
+    "systemd_credential_unlock": true,
+    "activation_transfer_bundle_removed": true,
+    "acme_issue_pass": true,
+    "acme_reorder_pass": true,
+    "host_port_80_untouched": true,
+    "temporary_ca_override_restored": true,
+    "mtls_pass": true,
+    "ssh_certificate_pass": true,
+    "trust_bundle_pass": true,
+    "workload_certificate_ttl_le_24h": true,
+    "backup_restore_pass": true,
+    "shadow_health_pass": true,
+    "post_restore_issuance_pass": true,
+    "backup_excludes_root_private_key": true,
+    "backup_excludes_unlock_secret": true,
+    "no_secret_values_collected": true
+  },
+  "e2e": {
+    "acme_challenge": "http-01",
+    "acme_validation_port": 30311,
+    "mtls_listener_port": 48805,
+    "max_observed_tls_ttl_hours": 0.18333333333333332,
+    "privileged_test_harness": true,
+    "service_remains_unprivileged": true,
+    "completed_at": "2026-09-20T20:11:25.205690+00:00"
+  },
+  "backup_restore": {
+    "status": "PASS",
+    "backup_sha256": "8d29fcfd9f64787f27c9de6de7d9da10dace746cd609df9d2ca217ec10da7f0b",
+    "maintenance_stop_used": true,
+    "persistent_backup_created": false,
+    "completed_at": "2026-09-20T19:54:37.177052+00:00"
+  },
+  "invariants": {
+    "secret_values_collected": false,
+    "provider_is_architectural_authority": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "global_fa3_promotion_claim": false
+  }
+}
