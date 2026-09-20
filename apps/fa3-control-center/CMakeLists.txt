@@ -51,6 +51,7 @@ set_source_files_properties(qml/Fa3OsPage.qml PROPERTIES QT_RESOURCE_ALIAS Fa3Os
 set_source_files_properties(qml/WorkManagementPage.qml PROPERTIES QT_RESOURCE_ALIAS WorkManagementPage.qml)
 set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS McpGatewayPage.qml)
 set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS KnowledgePage.qml)
+set_source_files_properties(qml/TrustCertificatesPage.qml PROPERTIES QT_RESOURCE_ALIAS TrustCertificatesPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -77,6 +78,7 @@ qt_add_qml_module(fa3-control-center
         qml/WorkManagementPage.qml
         qml/McpGatewayPage.qml
         qml/KnowledgePage.qml
+        qml/TrustCertificatesPage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"

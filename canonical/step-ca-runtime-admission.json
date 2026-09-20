@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.runtime-admission.v1",
+  "id": "FA3-STEP-CA-RUNTIME-ADMISSION-001",
+  "provider_id": "FA3-PROVIDER-STEP-CA-001",
+  "status": "NOT_ADMITTED",
+  "fail_closed": true,
+  "optional_provider": false,
+  "disabled_state_global_blocker": false,
+  "current_host_evidence_required": true,
+  "immutable_runtime_pin": {
+    "release": "0.30.2",
+    "release_commit": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
+    "binary_artifact_digest": null,
+    "binary_artifact_digest_status": "UNRESOLVED_UNTIL_TARGET_ARCHITECTURE_SELECTED_AND_VERIFIED"
+  },
+  "activation_requires": [
+    "UPSTREAM_CHECKSUM_AND_SIGSTORE_VERIFICATION_PASS",
+    "DEDICATED_FA3_STEP_CA_USER",
+    "OFFLINE_ROOT_CEREMONY_RECEIPT",
+    "ONLINE_INTERMEDIATE_PRIVATE_KEY_ONLY",
+    "SYSTEMD_CREDENTIAL_UNLOCK_SECRET",
+    "TRUST_BUNDLE_INSTALL_AND_VALIDATION_PASS",
+    "ACME_ENROLLMENT_PASS",
+    "MTLS_CLIENT_SERVER_PASS",
+    "SSH_CERTIFICATE_PASS",
+    "BACKUP_AND_RESTORE_DRILL_PASS",
+    "CURRENT_HOST_PRODUCTION_E2E_RECEIPT_PASS"
+  ],
+  "current_blockers": [
+    "NO_CURRENT_HOST_BINARY_ARTIFACT_DIGEST",
+    "NO_OFFLINE_ROOT_CEREMONY_RECEIPT",
+    "NO_CURRENT_HOST_MTLS_ACME_SSH_E2E_RECEIPT",
+    "NO_PKI_RESTORE_DRILL_EVIDENCE"
+  ],
+  "production_runtime_promoted": false
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-TRUST-PKI-001",
+  "name": "Trust, PKI, Machine Identity & Certificate Authority Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-SCS-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-TRUST-PKI-CONTRACTS-001"
+  ],
+  "authority": {
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "identity_binding": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "EXISTING_FA3_AUTHORIZATION_AUTHORITY_ONLY",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001"
+  },
+  "topology": {
+    "root_ca": "OFFLINE_ONLY",
+    "issuing_ca": "ONLINE_INTERMEDIATE_PROVIDER",
+    "workload_identity": "SHORT_LIVED_X509",
+    "ssh_identity": "SHORT_LIVED_SSH_CERTIFICATE",
+    "internal_enrollment": "ACME_V2_AND_POLICY_GATED_PROVISIONERS",
+    "public_tls": "SEPARATE_EXTERNAL_CERTIFICATE_LIFECYCLE_BOUNDARY"
+  },
+  "invariants": [
+    "ROOT_PRIVATE_KEY_NEVER_PRESENT_IN_ONLINE_CA_RUNTIME",
+    "CERTIFICATE_ISSUANCE_DOES_NOT_GRANT_APPLICATION_AUTHORIZATION",
+    "WORKLOAD_PRIVATE_KEYS_ARE_GENERATED_AT_OR_NEAR_THE_WORKLOAD_BOUNDARY",
+    "SHORT_LIVED_CERTIFICATES_ARE_THE_DEFAULT_REVOCATION_STRATEGY",
+    "TRUST_BUNDLE_AND_ISSUANCE_POLICY_ARE_VERSIONED_CANONICAL_INPUTS",
+    "PROVIDER_CAN_BE_REPLACED_WITHOUT_CHANGING_FA3_TRUST_CONTRACTS",
+    "CURRENT_HOST_RUNTIME_PROMOTION_REQUIRES_REAL_E2E_EVIDENCE"
+  ],
+  "implementation_status": "CANONICAL_REFERENCE_AND_DEPLOYMENT_PROJECTION_MATERIALIZED_RUNTIME_NOT_PROMOTED"
+}
