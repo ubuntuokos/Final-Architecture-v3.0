@@ -25,8 +25,9 @@ cryptsetup open --type luks2 --key-file "$KEY" "$IMG" "$MAPPER"
 mkfs.ext4 -q -m0 -L FA3_MSTATE "/dev/mapper/$MAPPER"
 mkdir -p "$MNT" "$POL" "$RUN"; chmod 0755 "$POL"; mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"
 chown fa3-secret-broker:fa3-secret-broker "$MNT" "$RUN"; chmod 0750 "$MNT" "$RUN"
-runuser -u fa3-secret-broker -- mkdir -m0700 "$MNT/objects"
-runuser -u fa3-secret-broker -- sh -c 'printf "%s\n" '''{"schema":"fa3.secret-index.v1","secrets":{}}''' > "$1/index.json"; chmod 0600 "$1/index.json"' sh "$MNT"
+install -d -o fa3-secret-broker -g fa3-secret-broker -m0700 "$MNT/objects"
+printf '%s\n' '{"schema":"fa3.secret-index.v1","secrets":{}}' > "$MNT/index.json"
+chown fa3-secret-broker:fa3-secret-broker "$MNT/index.json"; chmod 0600 "$MNT/index.json"
 cat > "$POL/current-host.json" <<'JSON'
 {
   "schema": "fa3.secret-projection-policy.v1",
