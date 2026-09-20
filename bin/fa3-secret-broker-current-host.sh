@@ -3,7 +3,7 @@ set -euo pipefail
 [[ "$(id -u)" -eq 0 ]] || { echo "Run with sudo/root." >&2; exit 2; }
 ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
-for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
@@ -50,7 +50,7 @@ cat > "$POL/current-host.json" <<'JSON'
       "allowed_systemd_units": []
     }
   ],
-  "allowed_projections": ["UDS_SINGLE_SECRET"],
+  "allowed_projections": ["UDS_SINGLE_SECRET", "SYSTEMD_CREDENTIAL"],
   "exportable": false
 }
 JSON
@@ -68,6 +68,12 @@ CANARY_HASH="$(printf '%s' "$CANARY" | sha256sum | cut -d' ' -f1)"
 printf '%s' "$CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
 GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
 [[ "$GOT_HASH" == "$CANARY_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
+PROJ="$TMP/projection"; install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
+runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection SYSTEMD_CREDENTIAL --output "$PROJ/api-token"
+[[ "$(stat -c '%a' "$PROJ/api-token")" == "600" ]] || { echo "projection file mode mismatch" >&2; exit 2; }
+SYSTEMD_HASH="$(systemd-run --quiet --wait --pipe --collect --service-type=oneshot --property="User=$PROBE_USER" --property="LoadCredential=api-token:$PROJ/api-token" /bin/sh -c 'sha256sum "$CREDENTIALS_DIRECTORY/api-token" | cut -d" " -f1')"
+[[ "$SYSTEMD_HASH" == "$CANARY_HASH" ]] || { echo "systemd LoadCredential projection mismatch" >&2; exit 2; }
+rm -f "$PROJ/api-token"
 if runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-UNAUTHORIZED-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/deny.err"; then
   echo "unauthorized consumer unexpectedly received secret" >&2; exit 2
 fi
@@ -115,7 +121,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"authorized_single_secret_get":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True},
