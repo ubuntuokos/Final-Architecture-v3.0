@@ -8,6 +8,7 @@ PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
+RUN_ID="$(python3 -c 'import secrets; print(secrets.token_hex(6))')"
 RUN_ID="${TMP##*.}"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
 MAPPER="fa3-sb-e2e-$RUN_ID"; RMAPPER="fa3-sb-restore-$RUN_ID"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"; PROJ="/run/fa3-secret-broker-e2e-$RUN_ID"
