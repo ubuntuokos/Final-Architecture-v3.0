@@ -7,6 +7,8 @@ from typing import Any
 
 MAX_SECRET_BYTES = 512 * 1024
 SECRET_ID_RE = re.compile(r"^[A-Za-z0-9._:/-]{1,256}$")
+def valid_secret_id(value:str)->bool:
+    return bool(SECRET_ID_RE.fullmatch(value)) and all(part not in {"", ".", ".."} for part in value.split("/"))
 DEFAULT_SOCKET = "/run/fa3-secret-broker/broker.sock"
 DEFAULT_VAULT = "/run/fa3/machine-state"
 DEFAULT_POLICY = "/etc/fa3/secret-policy.d"
@@ -40,7 +42,7 @@ class SecretStore:
         return x
     def metadata(self, secret_id:str)->dict[str,Any]|None: return self._index()["secrets"].get(secret_id)
     def put(self, secret_id:str, value:bytes, classification:str)->dict[str,Any]:
-        if not SECRET_ID_RE.fullmatch(secret_id): raise ValueError("invalid secret_id")
+        if not valid_secret_id(secret_id): raise ValueError("invalid secret_id")
         if not value or len(value)>MAX_SECRET_BYTES: raise ValueError("secret size outside 1..524288 bytes")
         if classification not in {"MACHINE_SERVICE_SECRET","USER_SESSION_SECRET"}: raise ValueError("invalid classification")
         idx=self._index(); old=idx["secrets"].get(secret_id); obj=secrets.token_hex(32)
@@ -75,7 +77,14 @@ class PolicyStore:
         for p in sorted(self.root.glob("*.json")):
             try:x=json.loads(p.read_text())
             except Exception:continue
-            if x.get("schema")=="fa3.secret-projection-policy.v1" and x.get("secret_id")==secret_id:return x
+            if x.get("schema")=="fa3.secret-projection-policy.v1" and x.get("secret_id")==secret_id:
+                if x.get("classification")=="MACHINE_SERVICE_SECRET":
+                    consumers=x.get("allowed_consumers") or []
+                    if not consumers:return None
+                    for consumer in consumers:
+                        users=consumer.get("allowed_unix_users") or []
+                        if len(users)!=1 or users[0] in {"root","fa3-secret-broker"}:return None
+                return x
         return None
 
 def _peer_identity(conn:socket.socket)->tuple[int,int,int]:
@@ -133,7 +142,7 @@ class Broker:
                 self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"metadata":meta}
             ok=self.store.delete(sid);self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"deleted":ok}
         if op not in {"get","metadata"}:return {"ok":False,"error":"unsupported operation"}
-        if not SECRET_ID_RE.fullmatch(sid):return {"ok":False,"error":"invalid secret_id"}
+        if not valid_secret_id(sid):return {"ok":False,"error":"invalid secret_id"}
         policy=self.policies.get(sid)
         if not policy or not authorize(policy,uid,pid,consumer,projection):
             self._audit(op,sid,consumer,uid,projection,"DENY_POLICY");return {"ok":False,"error":"policy denied"}
