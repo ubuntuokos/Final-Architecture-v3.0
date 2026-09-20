@@ -116,7 +116,26 @@
     "tests/test_resource_admission_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_preflight.py",
-    "tests/test_stable_audio_3_gate.py"
+    "tests/test_stable_audio_3_gate.py",
+    ".github/workflows/fa3-step-ca-current-host.yml",
+    "bin/fa3-step-ca-bootstrap.sh",
+    "bin/fa3-step-ca-activate.sh",
+    "bin/fa3-step-ca-current-host.sh",
+    "bin/fa3-step-ca-e2e.sh",
+    "bin/fa3-step-ca-backup-restore-drill.sh",
+    "canonical/FA3-STEP-CA-CURRENT-HOST-001.json",
+    "canonical/step-ca-current-host-enforcement.json",
+    "canonical/step-ca-current-host-tool-lock.json",
+    "canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json",
+    "canonical/references/FA3-STEP-CA-CURRENT-HOST-UPSTREAM-LOCK-001.json",
+    "canonical/schemas/step-ca-root-ceremony-receipt.v1.json",
+    "canonical/schemas/step-ca-current-host-receipt.v1.json",
+    "docs/step-ca-current-host.md",
+    "docs/security/FA3-STEP-CA-ROOT-CEREMONY.md",
+    "evidence/collect-step-ca-root-ceremony.py",
+    "evidence/collect-step-ca-current-host.py",
+    "src/fa3_step_ca_current_host_gate.py",
+    "tests/test_step_ca_current_host.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -260,6 +279,14 @@
         "FA3-QUAL-CAP-028-ROLLBACK-001"
       ],
       "collection_status": "CAPABILITY_EXECUTORS_REGISTERED_REAL_EXECUTION_PENDING",
+      "global_promotion_claim": false
+    },
+    {
+      "name": "step-ca-internal-pki",
+      "collector": "evidence/collect-step-ca-current-host.py",
+      "gate": "step-ca-current-host",
+      "activation": "REAL_CURRENT_HOST_SIGNED_RUNTIME_PLUS_OFFLINE_ROOT_CEREMONY_PLUS_ACME_MTLS_SSH_AND_RESTORE_E2E_REQUIRED",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
       "global_promotion_claim": false
     }
   ],

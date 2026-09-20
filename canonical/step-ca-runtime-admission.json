@@ -10,8 +10,8 @@
   "immutable_runtime_pin": {
     "release": "0.30.2",
     "release_commit": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
-    "binary_artifact_digest": null,
-    "binary_artifact_digest_status": "UNRESOLVED_UNTIL_TARGET_ARCHITECTURE_SELECTED_AND_VERIFIED"
+    "binary_artifact_digest": "ARCH_SPECIFIC_FROM_FA3-STEP-CA-CURRENT-HOST-TOOL-LOCK-001",
+    "binary_artifact_digest_status": "PINNED_PER_SUPPORTED_ARCHITECTURE_PENDING_CURRENT_HOST_VERIFICATION"
   },
   "activation_requires": [
     "UPSTREAM_CHECKSUM_AND_SIGSTORE_VERIFICATION_PASS",
@@ -32,5 +32,12 @@
     "NO_CURRENT_HOST_MTLS_ACME_SSH_E2E_RECEIPT",
     "NO_PKI_RESTORE_DRILL_EVIDENCE"
   ],
-  "production_runtime_promoted": false
+  "production_runtime_promoted": false,
+  "current_host_closure": {
+    "conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
+    "enforcement_id": "FA3-STEP-CA-CURRENT-HOST-ENFORCEMENT-001",
+    "gate_id": "FA3-GATE-STEP-CA-CURRENT-HOST-001",
+    "composite_receipt": "evidence/receipts/step-ca-current-host.json",
+    "status": "MATERIALIZED_PENDING_REAL_EXECUTION"
+  }
 }
