@@ -36,7 +36,8 @@ chown fa3-secret-broker:fa3-secret-clients "$RUN"; chmod 0750 "$RUN"
 install -d -o fa3-secret-broker -g fa3-secret-broker -m0700 "$MNT/objects"
 printf '%s\n' '{"schema":"fa3.secret-index.v1","secrets":{}}' > "$MNT/index.json"
 chown fa3-secret-broker:fa3-secret-broker "$MNT/index.json"; chmod 0600 "$MNT/index.json"
-cat > "$POL/current-host.json" <<'JSON'
+POLICY_SRC="$TMP/current-host-policy.json"
+cat > "$POLICY_SRC" <<'JSON'
 {
   "schema": "fa3.secret-projection-policy.v1",
   "secret_id": "test/current-host",
@@ -54,9 +55,126 @@ cat > "$POL/current-host.json" <<'JSON'
   "exportable": false
 }
 JSON
-chmod 0644 "$POL/current-host.json"
-FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl check "$POL/current-host.json" >/dev/null
+chmod 0600 "$POLICY_SRC"
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl check "$POLICY_SRC" >/dev/null
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl install "$POLICY_SRC" >/dev/null
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl list | grep -Fq SOCK="$RUN/broker.sock"; AUDIT="$RUN/audit.jsonl"
+BROKER_PY="/usr/local/lib/fa3/fa3_secret_broker.py"
+[[ -r "$BROKER_PY" ]] || { echo "installed broker module missing; run installer first" >&2; exit 2; }
+runuser -u fa3-secret-broker -- python3 "$BROKER_PY" serve --vault-root "$MNT" --policy-dir "$POL" --socket "$SOCK" --audit-log "$AUDIT" &
+BROKER_PID=$!
+for _ in $(seq 1 50); do [[ -S "$SOCK" ]] && break; sleep 0.1; done
+[[ -S "$SOCK" ]] || { echo "broker socket did not appear" >&2; exit 2; }
+"$ROOT/bin/fa3-secretctl" --socket "$SOCK" health >/dev/null
+CANARY1="FA3_SECRET_BROKER_CANARY1_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+CANARY1_HASH="$(printf '%s' "$CANARY1" | sha256sum | cut -d' ' -f1)"
+printf '%s' "$CANARY1" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
+[[ "$GOT_HASH" == "$CANARY1_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
+
+CANARY2="FA3_SECRET_BROKER_CANARY2_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+CANARY_HASH="$(printf '%s' "$CANARY2" | sha256sum | cut -d' ' -f1)"
+printf '%s' "$CANARY2" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" rotate test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+META="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" admin-metadata test/current-host)"
+grep -Fq '"version": 2' <<<"$META"
+grep -Fq '"secret_kind": "API_TOKEN"' <<<"$META"
+LIST="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" list-metadata)"
+grep -Fq '"secret_id": "test/current-host"' <<<"$LIST"
+! grep -Fq "$CANARY1" <<<"$LIST"
+! grep -Fq "$CANARY2" <<<"$LIST"
+ROTATION_PASS=true
+METADATA_ONLY_LIST_PASS=true
+
+REVOKE_CANARY="FA3_SECRET_BROKER_REVOKE_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
+printf '%s' "$REVOKE_CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/revoke --classification MACHINE_SERVICE_SECRET --kind SERVICE_PASSWORD >/dev/null
+"$ROOT/bin/fa3-secretctl" --socket "$SOCK" revoke test/revoke >/dev/null
+if "$ROOT/bin/fa3-secretctl" --socket "$SOCK" admin-metadata test/revoke >/dev/null 2>&1; then
+  echo "revoked secret still has active metadata" >&2; exit 2
+fi
+REVOCATION_PASS=true
+install -d -o "$PROBE_USER" -g "$PROBE_USER" -m0700 "$PROJ"
+runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection SYSTEMD_CREDENTIAL --output "$PROJ/api-token"
+[[ "$(stat -c '%a' "$PROJ/api-token")" == "600" ]] || { echo "projection file mode mismatch" >&2; exit 2; }
+SYSTEMD_HASH="$(systemd-run --quiet --wait --pipe --collect --service-type=oneshot --property="User=$PROBE_USER" --property="LoadCredential=api-token:$PROJ/api-token" /bin/sh -c 'sha256sum "$CREDENTIALS_DIRECTORY/api-token" | cut -d" " -f1')"
+[[ "$SYSTEMD_HASH" == "$CANARY_HASH" ]] || { echo "systemd LoadCredential projection mismatch" >&2; exit 2; }
+rm -f "$PROJ/api-token"
+if runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-UNAUTHORIZED-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/deny.err"; then
+  echo "unauthorized consumer unexpectedly received secret" >&2; exit 2
+fi
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl remove test/current-host
+if runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET >/dev/null 2>"$TMP/policy-remove-deny.err"; then
+  echo "removed policy unexpectedly still authorizes secret" >&2; exit 2
+fi
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl install "$POLICY_SRC" >/dev/null
+POLICY_INSTALL_REMOVE_PASS=true
+if runuser -u "$PROBE_USER" -- test -r "$MNT/index.json" || runuser -u "$PROBE_USER" -- test -x "$MNT/objects"; then
+  echo "consumer unexpectedly has raw vault access" >&2; exit 2
+fi
+PYTHONPATH="$ROOT/src" python3 - "$SOCK" <<'PY'
+import sys
+from pathlib import Path
+from fa3_secret_broker import request
+r=request(Path(sys.argv[1]),{"op":"bulk","secret_id":"test/current-host","consumer_id":"FA3-CURRENT-HOST-SECRET-PROBE"})
+if r.get("ok") is not False:
+    raise SystemExit(2)
+bad=request(Path(sys.argv[1]),{"op":"put","secret_id":"test/not-credential","classification":"MACHINE_SERVICE_SECRET","secret_kind":"CACHE","secret_b64":"eA=="})
+raise SystemExit(0 if bad.get("ok") is False else 2)
+PY
+! grep -Fq "$CANARY1" "$AUDIT"
+! grep -Fq "$CANARY2" "$AUDIT"
+! grep -Fq "$REVOKE_CANARY" "$AUDIT"
+! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY1"
+! tr '\0' '\n' < "/proc/$BROKER_PID/environ" | grep -Fq "$CANARY2"
+! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY1"
+! tr '\0' ' ' < "/proc/$BROKER_PID/cmdline" | grep -Fq "$CANARY2"
+kill "$BROKER_PID"; wait "$BROKER_PID" 2>/dev/null || true; BROKER_PID=""
+umount "$MNT"; PRIMARY_UNMOUNT=true
+cryptsetup close "$MAPPER"; PRIMARY_CLOSE=true
+FA3_MACHINE_STATE_IMAGE="$IMG" FA3_MACHINE_STATE_MAPPER="$MAPPER" FA3_MACHINE_STATE_MOUNT="$MNT" /usr/local/libexec/fa3-secret-vault-mount assert-closed
+FA3_EXIT_CLOSED_STATE=true
+cp --reflink=never --sparse=always --preserve=mode,timestamps "$IMG" "$BACKUP"; cmp -s "$IMG" "$BACKUP"
+OPAQUE_BACKUP=true
+cryptsetup open --readonly --type luks2 --key-file "$KEY" "$BACKUP" "$RMAPPER"
+mkdir -p "$RMNT"; mount -o ro,nodev,nosuid,noexec "/dev/mapper/$RMAPPER" "$RMNT"
+RESTORE_UNLOCK=true; RESTORE_MOUNT=true
+RSOCK="$RUN/restore.sock"; RAUDIT="$RUN/restore-audit.jsonl"
+runuser -u fa3-secret-broker -- python3 "$BROKER_PY" serve --vault-root "$RMNT" --policy-dir "$POL" --socket "$RSOCK" --audit-log "$RAUDIT" &
+RESTORE_PID=$!
+for _ in $(seq 1 50); do [[ -S "$RSOCK" ]] && break; sleep 0.1; done
+[[ -S "$RSOCK" ]] || { echo "restore broker socket did not appear" >&2; exit 2; }
+"$ROOT/bin/fa3-secretctl" --socket "$RSOCK" health >/dev/null
+RESTORE_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$RSOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
+[[ "$RESTORE_HASH" == "$CANARY_HASH" ]] || { echo "restored secret value mismatch" >&2; exit 2; }
+! grep -Fq "$CANARY2" "$RAUDIT"
+RESTORE_HEALTH=true
+RESTORE_SECRET_READ_PASS=true
+kill "$RESTORE_PID"; wait "$RESTORE_PID" 2>/dev/null || true; RESTORE_PID=""
+umount "$RMNT"; cryptsetup close "$RMAPPER"
+opts='["nodev","nosuid","noexec"]'
+mkdir -p "$(dirname "$RECEIPT")"
+python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" <<'PY'
+import json,sys
+from datetime import datetime,timezone
+from pathlib import Path
+x={
+ "schema":"fa3.secret-broker-current-host-receipt.v1","status":"PASS","real_execution":True,"synthetic":False,
+ "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
+ "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
+ "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
+ "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
+ "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
+ "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},
+ "test_unlock_key_ephemeral":True,"secret_values_collected":False,"runtime_promotion_eligible":True,
+ "global_promotion_claim":False,"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143
+}
+Path(sys.argv[1]).write_text(json.dumps(x,indent=2)+"\n")
+PY
+PYTHONPATH="$ROOT/src" python3 "$ROOT/src/fa3_secret_broker_current_host_gate.py" --root "$ROOT" --receipt "$RECEIPT" --require-evidence
+echo "FA3 Secret Broker current-host E2E PASS"
+test/current-host\tMACHINE_SERVICE_SECRET\tAPI_TOKEN'
 POLICY_PREFLIGHT=true
+POLICY_INSTALL_PASS=true
 SOCK="$RUN/broker.sock"; AUDIT="$RUN/audit.jsonl"
 BROKER_PY="/usr/local/lib/fa3/fa3_secret_broker.py"
 [[ -r "$BROKER_PY" ]] || { echo "installed broker module missing; run installer first" >&2; exit 2; }
