@@ -9,7 +9,10 @@ class SecretBrokerTests(unittest.TestCase):
             root=Path(td)
             s=b.SecretStore(root)
             m1=s.put("provider/api","alpha".encode(),"MACHINE_SERVICE_SECRET","API_TOKEN")
+            old_obj=root/"objects"/s.metadata("provider/api")["object"]
+            self.assertTrue(old_obj.is_file())
             m2=s.put("provider/api","beta".encode(),"MACHINE_SERVICE_SECRET","API_TOKEN")
+            self.assertFalse(old_obj.exists())
             self.assertEqual(1,m1["version"]);self.assertEqual(2,m2["version"])
             meta,value=s.get("provider/api")
             self.assertEqual(b"beta",value)
@@ -64,6 +67,14 @@ class SecretBrokerTests(unittest.TestCase):
             br=b.Broker(Path(td)/"v",Path(td)/"p",Path(td)/"a")
             r=br.handle({"op":"bulk"},os.getuid(),os.getgid(),os.getpid())
             self.assertFalse(r["ok"])
+    def test_broker_invalid_kind_returns_structured_deny(self):
+        with tempfile.TemporaryDirectory() as td:
+            broker=b.Broker(Path(td)/"v",Path(td)/"p",Path(td)/"a")
+            with mock.patch.object(b,"_is_admin",return_value=True):
+                r=broker.handle({"op":"put","secret_id":"bad/kind","classification":"MACHINE_SERVICE_SECRET","secret_kind":"CACHE","secret_b64":base64.b64encode(b"x").decode()},os.getuid(),os.getgid(),os.getpid())
+                self.assertFalse(r["ok"])
+                self.assertIn("credential secrets only",r["error"])
+
     def test_non_credential_kind_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             s=b.SecretStore(Path(td))
