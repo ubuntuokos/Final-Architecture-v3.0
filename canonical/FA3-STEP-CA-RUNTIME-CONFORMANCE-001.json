@@ -2,7 +2,7 @@
   "schema": "fa3.runtime-conformance.v1",
   "id": "FA3-STEP-CA-RUNTIME-CONFORMANCE-001",
   "provider_id": "FA3-PROVIDER-STEP-CA-001",
-  "status": "NOT_EXECUTED",
+  "status": "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",
   "scope": "CURRENT_HOST_INTERNAL_PKI_RUNTIME",
   "synthetic_evidence_allowed_for_promotion": false,
   "required_checks": [
@@ -21,5 +21,16 @@
   ],
   "current_host_receipt": null,
   "production_runtime_promoted": false,
-  "note": "Repository materialization does not claim that step-ca is installed or admitted on the current FA3 host."
+  "note": "Repository materialization does not claim that step-ca is installed or admitted on the current FA3 host.",
+  "current_host_tooling": {
+    "conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
+    "bootstrap": "bin/fa3-step-ca-bootstrap.sh",
+    "activation": "bin/fa3-step-ca-activate.sh",
+    "root_ceremony_collector": "evidence/collect-step-ca-root-ceremony.py",
+    "e2e": "bin/fa3-step-ca-e2e.sh",
+    "backup_restore": "bin/fa3-step-ca-backup-restore-drill.sh",
+    "collector": "evidence/collect-step-ca-current-host.py",
+    "gate": "src/fa3_step_ca_current_host_gate.py",
+    "test_client": "smallstep/cli@0.30.6"
+  }
 }

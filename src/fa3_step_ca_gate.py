@@ -94,6 +94,11 @@ def deployment_policy_valid(root: Path) -> tuple[bool, list[str]]:
         findings.append("ca-intermediate")
     if "root" in Path(str(ca.get("key", ""))).name.lower():
         findings.append("ca-key-must-not-be-root")
+    ssh = ca.get("ssh", {})
+    if "ssh_host_ca_key" not in str(ssh.get("hostKey", "")):
+        findings.append("ssh-host-key")
+    if "ssh_user_ca_key" not in str(ssh.get("userKey", "")):
+        findings.append("ssh-user-key")
 
     claims = ca.get("authority", {}).get("claims", {})
     try:
