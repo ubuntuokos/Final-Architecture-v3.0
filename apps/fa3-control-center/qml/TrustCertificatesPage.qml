@@ -46,13 +46,13 @@ Item {
                     radius: 11
                     implicitWidth: stateLabel.implicitWidth + 20
                     implicitHeight: 24
-                    color: "#2a2113"
-                    border.color: root.orange
+                    color: "#10281f"
+                    border.color: root.green
                     Label {
                         id: stateLabel
                         anchors.centerIn: parent
-                        text: "RUNTIME NOT PROMOTED"
-                        color: root.orange; font.pixelSize: 8; font.bold: true
+                        text: "RUNTIME PROMOTED · CURRENT HOST"
+                        color: root.green; font.pixelSize: 8; font.bold: true
                     }
                 }
             }
@@ -99,16 +99,17 @@ Item {
                     }
                 }
                 Card {
-                    Layout.fillWidth: true; Layout.preferredHeight: 235
+                    Layout.fillWidth: true; Layout.preferredHeight: 255
                     ColumnLayout {
                         anchors.fill: parent; anchors.margins: 14; spacing: 8
                         Label { text: "Promotion requirements"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
                         Label { text: "✓ canonical/reference gate"; color: root.green; font.pixelSize: 9 }
-                        Label { text: "○ verified current-host artifact digest + Sigstore"; color: root.orange; font.pixelSize: 9 }
-                        Label { text: "○ offline root ceremony receipt"; color: root.orange; font.pixelSize: 9 }
-                        Label { text: "○ ACME issue/renew + mTLS E2E"; color: root.orange; font.pixelSize: 9 }
-                        Label { text: "○ SSH certificate E2E"; color: root.orange; font.pixelSize: 9 }
-                        Label { text: "○ backup / restore / post-restore issuance"; color: root.orange; font.pixelSize: 9 }
+                        Label { text: "✓ verified current-host artifact digest + Sigstore"; color: root.green; font.pixelSize: 9 }
+                        Label { text: "✓ offline root ceremony receipt"; color: root.green; font.pixelSize: 9 }
+                        Label { text: "✓ ACME issue/reorder + mTLS E2E"; color: root.green; font.pixelSize: 9 }
+                        Label { text: "✓ SSH certificate E2E"; color: root.green; font.pixelSize: 9 }
+                        Label { text: "✓ backup / restore / post-restore issuance"; color: root.green; font.pixelSize: 9 }
+                        Label { text: "Scope: current-host step-ca runtime only · global FA3 promotion: NO"; color: root.cyan; font.pixelSize: 9; font.bold: true }
                         Label {
                             Layout.fillWidth: true; wrapMode: Text.WordWrap
                             text: "A GUI nem állíthat elő PASS-t és nem adhat ki tanúsítványt közvetlen QML-hívással."
