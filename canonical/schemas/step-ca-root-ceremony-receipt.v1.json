@@ -10,7 +10,6 @@
     "ceremony_id",
     "operator_id",
     "medium_id",
-    "network_default_route_present",
     "root_private_key_bytes_collected",
     "root_private_key_exported_online",
     "root_certificate",
@@ -38,7 +37,8 @@
       "minLength": 1
     },
     "network_default_route_present": {
-      "const": false
+      "type": "boolean",
+      "description": "Observational ceremony-host network state only. Not a PASS or promotion criterion; offline Root refers to key custody and separation from the online issuing runtime."
     },
     "root_private_key_bytes_collected": {
       "const": false

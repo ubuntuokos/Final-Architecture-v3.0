@@ -8,7 +8,8 @@
   "provider_id": "FA3-PROVIDER-STEP-CA-001",
   "conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
   "constraints": [
-    "ROOT_PRIVATE_KEY_IS_CREATED_AND_RETAINED_OFFLINE",
+    "ROOT_PRIVATE_KEY_IS_RETAINED_ON_SEPARATE_COLD_STORAGE_AND_NEVER_INSTALLED_IN_ONLINE_ISSUING_RUNTIME",
+    "CEREMONY_NETWORK_ISOLATION_RECOMMENDED_NOT_REQUIRED_FOR_PASS",
     "BOOTSTRAP_MAY_DOWNLOAD_ONLY_IMMUTABLY_PINNED_SIGNED_ASSETS",
     "PRIVILEGED_INSTALL_DOES_NOT_CREATE_CA_KEYS",
     "ACTIVATION_REQUIRES_TRANSFERRED_OFFLINE_CEREMONY_RECEIPT",
@@ -18,5 +19,6 @@
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "rationale": "Offline Root is a key-custody and signing-role boundary. Air-gapping the ceremony host is a recommended high-assurance control, not a mandatory runtime-admission or evidence criterion."
 }

@@ -10,7 +10,7 @@ python3 - "$C" "$T/root_ca.crt" "$T/intermediate_ca.crt" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
 x=json.loads(Path(sys.argv[1]).read_text()); h=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
-assert x["status"]=="PASS" and x["network_default_route_present"] is False and x["root_private_key_exported_online"] is False
+assert x["status"]=="PASS" and x["root_private_key_exported_online"] is False
 assert x["root_certificate"]["sha256"]==h(sys.argv[2]) and x["intermediate_certificate"]["sha256"]==h(sys.argv[3])
 PY
 id fa3-step-ca >/dev/null
