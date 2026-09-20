@@ -55,7 +55,6 @@ set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS 
 set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS KnowledgePage.qml)
 set_source_files_properties(qml/TrustCertificatesPage.qml PROPERTIES QT_RESOURCE_ALIAS TrustCertificatesPage.qml)
 set_source_files_properties(qml/SessionVaultPage.qml PROPERTIES QT_RESOURCE_ALIAS SessionVaultPage.qml)
-set_source_files_properties(qml/SessionVaultLogin.qml PROPERTIES QT_RESOURCE_ALIAS SessionVaultLogin.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -84,7 +83,6 @@ qt_add_qml_module(fa3-control-center
         qml/KnowledgePage.qml
         qml/TrustCertificatesPage.qml
         qml/SessionVaultPage.qml
-        qml/SessionVaultLogin.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"

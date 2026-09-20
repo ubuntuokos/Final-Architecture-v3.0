@@ -27,10 +27,10 @@ ScrollView {
         spacing: 14
         anchors.margins: 18
 
-        Label { text: "Session Vault / Belépés"; color: root.textPrimary; font.pixelSize: 24; font.bold: true }
+        Label { text: "Session Vault / Kulcsvault"; color: root.textPrimary; font.pixelSize: 24; font.bold: true }
         Label {
             Layout.fillWidth: true
-            text: "Az FA3 belépés egy LUKS2 image-et nyit meg a felhasználói sessionhöz. Nem OS-login és nem új identity authority."
+            text: "Az OS-be bejelentkezett felhasználó az FA3 felhasználó. A LUKS2 vault csak a kulcsokat és érzékeny adatokat védi; külön FA3-login nincs az alap egyszemélyes módban."
             color: root.textMuted; wrapMode: Text.WordWrap
         }
 
@@ -56,7 +56,7 @@ ScrollView {
                 id: unlockCol
                 anchors.fill: parent; anchors.margins: 14
                 spacing: 10
-                Label { text: "Feloldási forrás"; color: root.textPrimary; font.bold: true }
+                Label { text: "Feloldás"; color: root.textPrimary; font.bold: true }
                 TextField {
                     id: passphrase
                     Layout.fillWidth: true
@@ -71,12 +71,12 @@ ScrollView {
                 RowLayout {
                     Layout.fillWidth: true
                     Button {
-                        text: "Belépés jelszóval"
+                        text: "Vault feloldása jelszóval"
                         enabled: fa3SessionVault.configured && !fa3SessionVault.unlocked
                         onClicked: { fa3SessionVault.unlockWithPassphrase(passphrase.text); passphrase.text = "" }
                     }
                     Button {
-                        text: "Jelszókezelő / Secret Service"
+                        text: "Feloldás jelszókezelőből"
                         enabled: fa3SessionVault.configured && !fa3SessionVault.unlocked
                         onClicked: fa3SessionVault.unlockWithSecretService()
                     }
@@ -93,7 +93,7 @@ ScrollView {
                         onClicked: { fa3SessionVault.storePassphraseInSecretService(passphrase.text); passphrase.text = "" }
                     }
                     Button {
-                        text: "FA3 kijelentkezés / Vault zárása"
+                        text: "Vault zárolása"
                         enabled: fa3SessionVault.unlocked
                         onClicked: fa3SessionVault.lock()
                     }
@@ -129,7 +129,7 @@ ScrollView {
                 Label { text: "Kulcskezelési szabály"; color: root.textPrimary; font.bold: true }
                 Label {
                     Layout.fillWidth: true
-                    text: "A Root CA kulcs tárolható ebben a titkosított image-ben. A fa3-step-ca service account nem olvashatja. A teljes zárt image tetszőleges felhasználói backup célra másolható; cserélhető média csak egy opcionális lehetőség."
+                    text: "A Root CA kulcs tárolható ebben a titkosított image-ben. A fa3-step-ca service account nem olvashatja. A Control Center induláskor megpróbálja a feloldást a desktop jelszókezelőből; ha nincs ott titok, a vault egyszerűen LOCKED marad. A zárt image több backup célra másolható; cserélhető média opcionális."
                     color: root.textMuted; wrapMode: Text.WordWrap
                 }
             }

@@ -9,6 +9,7 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QStandardPaths>
+#include <QTimer>
 #include <QUrl>
 #include <QVariantMap>
 #include <unistd.h>
@@ -23,6 +24,7 @@ SessionVaultService::SessionVaultService(QObject *parent)
     const QString runtime = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
     m_aliasPath = runtime + QStringLiteral("/fa3-session-vault");
     refresh();
+    QTimer::singleShot(0, this, [this]() { tryAutoUnlock(); });
 }
 
 SessionVaultService::~SessionVaultService()
@@ -146,6 +148,37 @@ bool SessionVaultService::openVault(const QString &passphrase)
 
 bool SessionVaultService::unlockWithPassphrase(const QString &passphrase)
 {
+    return openVault(passphrase);
+}
+
+bool SessionVaultService::tryAutoUnlock()
+{
+    if (!configured() || m_unlocked)
+        return m_unlocked;
+
+    QProcess p;
+    p.start(QStringLiteral("secret-tool"),
+            {QStringLiteral("lookup"), QStringLiteral("application"), QStringLiteral("FA3"),
+             QStringLiteral("purpose"), QStringLiteral("session-vault")});
+    if (!p.waitForStarted(1000) || !p.waitForFinished(3000) || p.exitCode() != 0) {
+        clearError();
+        m_statusText = QStringLiteral("LOCKED");
+        emit stateChanged();
+        return false;
+    }
+
+    QByteArray secret = p.readAllStandardOutput();
+    while (secret.endsWith('\n') || secret.endsWith('\r'))
+        secret.chop(1);
+    if (secret.isEmpty()) {
+        clearError();
+        m_statusText = QStringLiteral("LOCKED");
+        emit stateChanged();
+        return false;
+    }
+
+    const QString passphrase = QString::fromUtf8(secret);
+    secret.fill('\0');
     return openVault(passphrase);
 }
 

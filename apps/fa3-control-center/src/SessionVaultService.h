@@ -23,6 +23,7 @@ public:
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE bool unlockWithPassphrase(const QString &passphrase);
+    Q_INVOKABLE bool tryAutoUnlock();
     Q_INVOKABLE bool unlockWithSecretService();
     Q_INVOKABLE bool unlockWithSecretFile(const QString &pathOrUrl);
     Q_INVOKABLE bool storePassphraseInSecretService(const QString &passphrase);

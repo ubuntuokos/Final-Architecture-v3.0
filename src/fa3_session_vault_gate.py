@@ -14,19 +14,20 @@ def main():
   if not ok: findings.append(code)
  req(p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==143,"SV-001")
  req(p["storage"]["default_type"]=="LUKS2_FILE_IMAGE" and p["storage"]["removable_media_required"] is False,"SV-002")
+ req(p["session_semantics"]["separate_fa3_login_required"] is False and p["multi_user"]["default_enabled"] is False,"SV-002A")
  req("FREEDESKTOP_SECRET_SERVICE" in p["unlock_sources"] and "FA3_HUMAN_CREDENTIAL_VAULT_ADAPTER" in p["unlock_sources"],"SV-003")
  req(e.get("fail_closed") is True and "NO_MANDATORY_REMOVABLE_MEDIA" in e["p0_invariants"],"SV-004")
  req("FA3_STEP_CA_SERVICE_MUST_NOT_READ_SESSION_VAULT" in e["p0_invariants"],"SV-005")
  req("REMOVABLE_MEDIA_IS_OPTIONAL" in d["constraints"] and d["new_architectural_authorities"]==0,"SV-006")
  req(c["status"]=="MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION" and c["production_runtime_promoted"] is False,"SV-007")
- for path in ["apps/fa3-control-center/src/SessionVaultService.cpp","apps/fa3-control-center/qml/SessionVaultLogin.qml","apps/fa3-control-center/qml/SessionVaultPage.qml","bin/fa3-session-vault-init"]:
+ for path in ["apps/fa3-control-center/src/SessionVaultService.cpp","apps/fa3-control-center/qml/SessionVaultPage.qml","bin/fa3-session-vault-init"]:
   req((ROOT/path).is_file(),"SV-MISSING:"+path)
  cpp=(ROOT/"apps/fa3-control-center/src/SessionVaultService.cpp").read_text()
  req("org.freedesktop.UDisks2" in cpp and "LoopSetup" in cpp and "Unlock" in cpp and "Mount" in cpp,"SV-008")
- req("secret-tool" in cpp and "application" in cpp and "session-vault" in cpp,"SV-009")
+ req("secret-tool" in cpp and "application" in cpp and "session-vault" in cpp and "tryAutoUnlock" in cpp,"SV-009")
  init=(ROOT/"bin/fa3-session-vault-init").read_text()
  req("--type luks2" in init and "--pbkdf argon2id" in init and "nodev,nosuid,noexec" in init,"SV-010")
- req("PASS=" not in " ".join([]),"SV-011")
+ req(not (ROOT/"apps/fa3-control-center/qml/SessionVaultLogin.qml").exists(),"SV-011")
  out={"schema":"fa3.session-vault-gate-report.v1","gate_id":"FA3-GATE-SESSION-VAULT-001","result":"PASS" if not findings else "FAIL","findings":findings}
  print(json.dumps(out,indent=2))
  return 0 if not findings else 2

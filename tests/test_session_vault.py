@@ -17,6 +17,22 @@ class SessionVaultTests(unittest.TestCase):
  def test_initializer_has_no_secret_file(self):
   s=(ROOT/"bin/fa3-session-vault-init").read_text()
   self.assertIn("--key-file -",s); self.assertNotIn("password.txt",s); self.assertIn("nodev,nosuid,noexec",s)
+ def test_single_user_default_has_no_second_login(self):
+  p=json.loads((ROOT/"canonical/profiles/FA3-SESSION-VAULT-001.json").read_text())
+  d=json.loads((ROOT/"canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json").read_text())
+  main=(ROOT/"apps/fa3-control-center/qml/Main.qml").read_text()
+  cmake=(ROOT/"apps/fa3-control-center/CMakeLists.txt").read_text()
+  self.assertFalse(p["session_semantics"]["separate_fa3_login_required"])
+  self.assertFalse(p["multi_user"]["default_enabled"])
+  self.assertIn("NO_SEPARATE_FA3_LOGIN_FOR_SINGLE_USER_DEFAULT",d["constraints"])
+  self.assertNotIn("SessionVaultLogin",main)
+  self.assertNotIn("SessionVaultLogin.qml",cmake)
+  self.assertFalse((ROOT/"apps/fa3-control-center/qml/SessionVaultLogin.qml").exists())
+ def test_auto_unlock_is_best_effort_not_app_gate(self):
+  s=(ROOT/"apps/fa3-control-center/src/SessionVaultService.cpp").read_text()
+  self.assertIn("tryAutoUnlock",s)
+  self.assertIn("QTimer::singleShot",s)
+  self.assertIn('m_statusText = QStringLiteral("LOCKED")',s)
  def test_runtime_is_not_falsely_promoted(self):
   x=json.loads((ROOT/"canonical/FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001.json").read_text())
   self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])

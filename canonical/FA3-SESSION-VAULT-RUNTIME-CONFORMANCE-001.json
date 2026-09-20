@@ -6,16 +6,18 @@
   "fail_closed": true,
   "reference_implementation": {
     "gui_service": "apps/fa3-control-center/src/SessionVaultService.cpp",
-    "login_surface": "apps/fa3-control-center/qml/SessionVaultLogin.qml",
     "control_page": "apps/fa3-control-center/qml/SessionVaultPage.qml",
-    "initializer": "bin/fa3-session-vault-init"
+    "initializer": "bin/fa3-session-vault-init",
+    "auto_unlock": "apps/fa3-control-center/src/SessionVaultService.cpp"
   },
   "required_checks": [
     "LUKS2_IMAGE_CREATED",
     "UDISKS2_LOOP_SETUP_PASS",
     "LUKS2_UNLOCK_PASS",
     "NODEV_NOSUID_NOEXEC_MOUNT_PASS",
-    "SECRET_SERVICE_UNLOCK_PASS_IF_CONFIGURED",
+    "NO_SEPARATE_FA3_LOGIN_IN_SINGLE_USER_DEFAULT",
+    "SECRET_SERVICE_AUTO_UNLOCK_PASS_IF_CONFIGURED",
+    "MANUAL_UNLOCK_FALLBACK_PASS",
     "EXPLICIT_LOCK_REMOVES_CLEAR_MAPPING",
     "FA3_STEP_CA_USER_CANNOT_READ_ROOT_KEY",
     "OPAQUE_BACKUP_RESTORE_PASS"
