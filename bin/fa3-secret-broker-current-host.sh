@@ -7,10 +7,6 @@ for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
-if ! getent passwd fa3-sb-probe >/dev/null; then
-  useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients fa3-sb-probe
-  PROBE_CREATED=true
-fi
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
 MAPPER="fa3-sb-e2e-$$"; RMAPPER="fa3-sb-restore-$$"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"
@@ -26,12 +22,17 @@ cleanup(){
   rm -rf "$TMP"
 }
 trap cleanup EXIT INT TERM
+if ! getent passwd "$PROBE_USER" >/dev/null; then
+  useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients "$PROBE_USER"
+  PROBE_CREATED=true
+fi
 truncate -s 192M "$IMG"; chmod 0600 "$IMG"; head -c 64 /dev/urandom > "$KEY"; chmod 0600 "$KEY"
 cryptsetup luksFormat --batch-mode --type luks2 --pbkdf argon2id --label FA3_MSTATE --key-file "$KEY" "$IMG"
 cryptsetup open --type luks2 --key-file "$KEY" "$IMG" "$MAPPER"
 mkfs.ext4 -q -m0 -L FA3_MSTATE "/dev/mapper/$MAPPER"
 mkdir -p "$MNT" "$POL" "$RUN"; chmod 0755 "$POL"; mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"
-chown fa3-secret-broker:fa3-secret-broker "$MNT" "$RUN"; chmod 0750 "$MNT" "$RUN"
+chown fa3-secret-broker:fa3-secret-broker "$MNT"; chmod 0750 "$MNT"
+chown fa3-secret-broker:fa3-secret-clients "$RUN"; chmod 0750 "$RUN"
 install -d -o fa3-secret-broker -g fa3-secret-broker -m0700 "$MNT/objects"
 printf '%s\n' '{"schema":"fa3.secret-index.v1","secrets":{}}' > "$MNT/index.json"
 chown fa3-secret-broker:fa3-secret-broker "$MNT/index.json"; chmod 0600 "$MNT/index.json"
