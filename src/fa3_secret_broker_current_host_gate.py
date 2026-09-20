@@ -11,7 +11,7 @@ def validate(x:dict)->list[str]:
     req(x.get("luks2") is True and x.get("filesystem")=="ext4" and set(x.get("mount_options",[]))=={"nodev","nosuid","noexec"},"SBH-003")
     req(x.get("broker_unprivileged") is True and x.get("broker_user")=="fa3-secret-broker","SBH-004")
     checks=x.get("checks",{})
-    for k in ["authorized_single_secret_get","unauthorized_consumer_denied","bulk_export_absent","audit_contains_no_raw_secret","secret_absent_from_argv","secret_absent_from_environment","broker_health_pass","explicit_unmount_pass","luks_close_pass","opaque_backup_copy_pass","restore_unlock_pass","restore_mount_pass","restore_broker_health_pass"]:
+    for k in ["authorized_single_secret_get","unauthorized_consumer_denied","raw_vault_access_denied","bulk_export_absent","audit_contains_no_raw_secret","secret_absent_from_argv","secret_absent_from_environment","broker_health_pass","explicit_unmount_pass","luks_close_pass","opaque_backup_copy_pass","restore_unlock_pass","restore_mount_pass","restore_broker_health_pass"]:
         req(checks.get(k) is True,"SBH-"+k)
     req(x.get("secret_values_collected") is False and x.get("runtime_promotion_eligible") is True and x.get("global_promotion_claim") is False,"SBH-005")
     req(x.get("new_capabilities")==0 and x.get("new_architectural_authorities")==0 and x.get("capability_count_after")==143,"SBH-006")
