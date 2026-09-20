@@ -51,21 +51,31 @@ class SecretBrokerGateTests(unittest.TestCase):
 
     def test_operator_surface_is_single_entrypoint(self):
         admin=(ROOT/"bin/fa3-secrets-admin").read_text()
-        for token in ("put","rotate","revoke","metadata","list","policy-install","policy-remove","backup","restore","assert-closed"):
+        for token in ("put","rotate","revoke","metadata","list","policy-install","policy-remove","backup","restore","rekey","assert-closed"):
             self.assertIn(token,admin)
         recovery=(ROOT/"bin/fa3-secret-vault-recovery").read_text()
         self.assertIn("vault_closed_during_backup",recovery)
         self.assertIn('"final_vault_state":"CLOSED"',recovery)
+
+    def test_rekey_is_fail_closed_and_hardware_neutral(self):
+        rekey=(ROOT/"bin/fa3-secret-vault-rekey").read_text()
+        self.assertIn("--with-key=host",rekey)
+        self.assertIn("luksAddKey",rekey)
+        self.assertIn("luksRemoveKey",rekey)
+        self.assertIn("open --test-passphrase",rekey)
+        self.assertIn("FA3_REKEY_NEW_KEY_FILE",rekey)
+        self.assertIn("final state: CLOSED",rekey)
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
         mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
         client=(ROOT/"bin/fa3-secretctl").read_text()
         self.assertIn("systemd-creds encrypt",init)
+        self.assertIn("--with-key=host",init)
         self.assertIn("CREDENTIALS_DIRECTORY",mount)
         self.assertNotIn("FA3_SECRET_VALUE",init+mount+client)
     def test_shell_syntax(self):
-        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","bin/fa3-secret-vault-recovery","bin/fa3-secrets-admin","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh"]:
+        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","bin/fa3-secret-vault-recovery","bin/fa3-secret-vault-rekey","bin/fa3-secrets-admin","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh"]:
             subprocess.run(["bash","-n",str(ROOT/path)],check=True)
 
 if __name__=="__main__":unittest.main()
