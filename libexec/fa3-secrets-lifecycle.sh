@@ -9,6 +9,10 @@ MNT="${FA3_MACHINE_STATE_MOUNT:-/run/fa3/machine-state}"
 
 assert_closed() {
   local failed=0
+  if systemctl is-active --quiet fa3-secrets.target; then
+    echo "FA3 secrets shutdown incomplete: target still active" >&2
+    failed=1
+  fi
   if systemctl is-active --quiet fa3-secret-broker.service; then
     echo "FA3 secrets shutdown incomplete: broker still active" >&2
     failed=1
