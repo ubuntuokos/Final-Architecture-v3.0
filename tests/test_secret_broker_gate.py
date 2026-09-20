@@ -22,6 +22,18 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertFalse(p["portability"]["desktop_environment_required"])
         self.assertFalse(p["portability"]["display_server_required"])
 
+    def test_fa3_exit_requires_closed_vault(self):
+        p=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
+        x=p["lifecycle"]["fa3_exit_contract"]
+        self.assertEqual("/usr/local/sbin/fa3-secrets-lifecycle exit",x["command"])
+        self.assertIn("VAULT_UNMOUNTED",x["completion_requires"])
+        self.assertIn("LUKS_MAPPING_CLOSED",x["completion_requires"])
+        unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
+        self.assertIn("ExecStopPost=/usr/local/libexec/fa3-secret-vault-mount assert-closed",unit)
+        lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
+        self.assertIn("systemctl stop fa3-secrets.target",lifecycle)
+        self.assertIn("assert_closed",lifecycle)
+
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
         mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
@@ -30,7 +42,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("CREDENTIALS_DIRECTORY",mount)
         self.assertNotIn("FA3_SECRET_VALUE",init+mount+client)
     def test_shell_syntax(self):
-        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","libexec/fa3-secret-vault-mount.sh"]:
+        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh"]:
             subprocess.run(["bash","-n",str(ROOT/path)],check=True)
 
 if __name__=="__main__":unittest.main()
