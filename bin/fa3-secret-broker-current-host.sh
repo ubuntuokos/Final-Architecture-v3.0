@@ -72,10 +72,7 @@ JSON
 chmod 0600 "$POLICY_SRC"
 FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl check "$POLICY_SRC" >/dev/null
 FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl install "$POLICY_SRC" >/dev/null
-POLICY_LIST="$(FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl list)"
-grep -Fq "test/current-host" <<<"$POLICY_LIST"
-grep -Fq "MACHINE_SERVICE_SECRET" <<<"$POLICY_LIST"
-grep -Fq "API_TOKEN" <<<"$POLICY_LIST"
+FA3_SECRET_POLICY_DIR="$POL" /usr/local/sbin/fa3-secret-policyctl list | python3 -c 'import sys; rows=[line.rstrip().split(chr(9)) for line in sys.stdin]; raise SystemExit(0 if ["test/current-host","MACHINE_SERVICE_SECRET","API_TOKEN"] in rows else 2)'
 POLICY_PREFLIGHT=true
 POLICY_INSTALL_PASS=true
 SOCK="$RUN/broker.sock"; AUDIT="$RUN/audit.jsonl"
