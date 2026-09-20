@@ -129,6 +129,11 @@ class T(unittest.TestCase):
   self.assertIn('if [[ -n "$PID" ]] && kill -0 "$PID"',s)
   self.assertIn('if [[ "$PRIMARY_STOPPED" == true ]]; then systemctl start fa3-step-ca.service; fi',s)
   self.assertIn("trap cleanup EXIT",s)
- def test_not_promoted(self):
-  x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text()); self.assertEqual("MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",x["status"]); self.assertFalse(x["production_runtime_promoted"])
+ def test_current_host_runtime_promoted_only(self):
+  x=json.loads((ROOT/"canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json").read_text())
+  self.assertEqual("CURRENT_HOST_PRODUCTION_E2E_PASS",x["status"])
+  self.assertTrue(x["production_runtime_promoted"])
+  self.assertEqual("CURRENT_HOST_PROVIDER_RUNTIME_ONLY",x["production_promotion_scope"])
+  self.assertFalse(x["global_promotion_claim"])
+  self.assertEqual("evidence/reference/step-ca-current-host-2026-09-20.json",x["durable_current_host_evidence_reference"])
 if __name__=="__main__": unittest.main()
