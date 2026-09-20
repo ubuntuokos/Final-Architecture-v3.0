@@ -78,6 +78,17 @@ class T(unittest.TestCase):
    key.chmod(0o640)
    self.assertFalse(COLLECTOR.intermediate_key_boundary(key,{"intermediate_key_encrypted":True},account))
   self.assertNotIn("ik.read_text",(ROOT/"evidence/collect-step-ca-current-host.py").read_text())
+ def test_unprivileged_collector_can_reach_public_evidence_and_stat_known_secret_metadata(self):
+  bootstrap=(ROOT/"bin/fa3-step-ca-bootstrap.sh").read_text()
+  activation=(ROOT/"bin/fa3-step-ca-activate.sh").read_text()
+  collector=(ROOT/"evidence/collect-step-ca-current-host.py").read_text()
+  for script in (bootstrap,activation):
+   self.assertIn('-m0755 /var/lib/fa3-step-ca/{certs,evidence}',script)
+   self.assertIn('-m0711 /var/lib/fa3-step-ca/secrets',script)
+   self.assertIn('-m0700 /var/lib/fa3-step-ca/db',script)
+  self.assertIn('chmod 0644 /var/lib/fa3-step-ca/evidence/activation.json',activation)
+  self.assertIn('online Root private key forbidden',activation)
+  self.assertIn('act.get("root_private_key_present_online") is not False or rootkey()',collector)
  def test_activation_removes_ephemeral_transfer_bundle(self):
   s=(ROOT/"bin/fa3-step-ca-activate.sh").read_text()
   self.assertIn('rm -f -- "$T/$f"',s)

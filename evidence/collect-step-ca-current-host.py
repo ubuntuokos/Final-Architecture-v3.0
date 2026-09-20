@@ -30,7 +30,7 @@ def main():
  b=Path("/usr/local/bin/step-ca")
  if not b.is_file(): fs.append("BINARY")
  elif s.get("server",{}).get("binary_sha256")!=sha(b.resolve()): fs.append("BINARY_DIGEST")
- ik=Path("/var/lib/fa3-step-ca/secrets/intermediate_ca_key"); encrypted=intermediate_key_boundary(ik,act,account); present=rootkey()
+ ik=Path("/var/lib/fa3-step-ca/secrets/intermediate_ca_key"); encrypted=intermediate_key_boundary(ik,act,account); present=act.get("root_private_key_present_online") is not False or rootkey()
  if present: fs.append("ROOT_KEY_ONLINE")
  if not encrypted: fs.append("INTERMEDIATE_ENCRYPTION")
  rc=Path("/var/lib/fa3-step-ca/certs/root_ca.crt"); ic=Path("/var/lib/fa3-step-ca/certs/intermediate_ca.crt"); chain=rc.is_file() and ic.is_file() and cmd(["openssl","verify","-CAfile",str(rc),str(ic)]).returncode==0

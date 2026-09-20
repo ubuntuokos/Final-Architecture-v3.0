@@ -85,7 +85,10 @@ PY
 install_runtime(){
  [[ "$(id -u)" -eq 0 ]] || { echo "install requires root" >&2; exit 2; }; [[ -f "$STATE/supply-chain.json" && -x "$STATE/bin/step-ca" && -x "$STATE/bin/step" ]]
  id fa3-step-ca >/dev/null 2>&1 || useradd --system --home-dir /var/lib/fa3-step-ca --shell /usr/sbin/nologin fa3-step-ca
- install -d -o fa3-step-ca -g fa3-step-ca -m0700 /var/lib/fa3-step-ca/{certs,secrets,db,evidence}; install -d -o root -g root -m0755 /usr/local/lib/fa3/step-ca/0.30.2/bin /usr/local/lib/fa3/step-cli/0.30.6/bin /etc/fa3/step-ca; install -d -o root -g root -m0700 /etc/fa3/secrets
+ install -d -o fa3-step-ca -g fa3-step-ca -m0755 /var/lib/fa3-step-ca/{certs,evidence}
+ install -d -o fa3-step-ca -g fa3-step-ca -m0711 /var/lib/fa3-step-ca/secrets
+ install -d -o fa3-step-ca -g fa3-step-ca -m0700 /var/lib/fa3-step-ca/db
+ install -d -o root -g root -m0755 /usr/local/lib/fa3/step-ca/0.30.2/bin /usr/local/lib/fa3/step-cli/0.30.6/bin /etc/fa3/step-ca; install -d -o root -g root -m0700 /etc/fa3/secrets
  install -m0755 "$STATE/bin/step-ca" /usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca; install -m0755 "$STATE/bin/step" /usr/local/lib/fa3/step-cli/0.30.6/bin/step; ln -sfn /usr/local/lib/fa3/step-ca/0.30.2/bin/step-ca /usr/local/bin/step-ca; ln -sfn /usr/local/lib/fa3/step-cli/0.30.6/bin/step /usr/local/bin/step
  install -m0644 "$ROOT/deployment/step-ca/fa3-step-ca.service" /etc/systemd/system/fa3-step-ca.service; systemctl daemon-reload; echo "Installed verified binaries/unit only; no CA key created, service not started."
 }
