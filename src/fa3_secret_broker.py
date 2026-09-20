@@ -137,7 +137,13 @@ class Broker:
         policy=self.policies.get(sid)
         if not policy or not authorize(policy,uid,pid,consumer,projection):
             self._audit(op,sid,consumer,uid,projection,"DENY_POLICY");return {"ok":False,"error":"policy denied"}
-        try:meta,value=self.store.get(sid)
+        try:
+            if op=="metadata":
+                meta=self.store.metadata(sid)
+                if not meta: raise KeyError("secret not found")
+                value=None
+            else:
+                meta,value=self.store.get(sid)
         except Exception as exc:
             self._audit(op,sid,consumer,uid,projection,"DENY_MISSING");return {"ok":False,"error":str(exc)}
         self._audit(op,sid,consumer,uid,projection,"ALLOW")
