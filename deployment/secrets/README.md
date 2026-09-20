@@ -11,3 +11,5 @@ Policies live in `/etc/fa3/secret-policy.d/*.json` and contain no secret values.
 Machine/service secrets require a dedicated Unix service identity. Same-UID desktop applications share the OS-user trust boundary; FA3 does not claim strong malicious-process isolation between processes running as the same Unix UID.
 
 Podman delivery uses secret file mounts by default; environment-variable secret projection is forbidden unless an explicit non-default exception policy is admitted.
+
+Full FA3 exit must execute `sudo /usr/local/sbin/fa3-secrets-lifecycle exit`. This stops `fa3-secrets.target` and refuses to report a completed exit while the broker or vault service is active, the runtime mount still exists, or the LUKS mapping remains open. Closing a GUI window alone is not the canonical full-FA3 exit signal.
