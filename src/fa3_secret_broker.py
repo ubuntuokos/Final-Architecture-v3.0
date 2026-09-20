@@ -58,11 +58,20 @@ class SecretStore:
         idx=self._index(); old=idx["secrets"].get(secret_id); obj=secrets.token_hex(32)
         _atomic_write(self.objects/obj,value)
         version=int((old or {}).get("version",0))+1
+        previous=json.loads(json.dumps(idx))
         idx["secrets"][secret_id]={"object":obj,"version":version,"classification":classification,"secret_kind":secret_kind}
         _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
         if old:
-            try:(self.objects/old["object"]).unlink()
-            except FileNotFoundError:pass
+            try:
+                (self.objects/old["object"]).unlink()
+                dfd=os.open(self.objects,os.O_DIRECTORY)
+                try:os.fsync(dfd)
+                finally:os.close(dfd)
+            except Exception:
+                _atomic_write(self.index_path,(json.dumps(previous,sort_keys=True,separators=(",",":"))+"\n").encode())
+                try:(self.objects/obj).unlink()
+                except FileNotFoundError:pass
+                raise
         return {"secret_id":secret_id,"version":version,"classification":classification,"secret_kind":secret_kind}
     def get(self, secret_id:str)->tuple[dict[str,Any],bytes]:
         meta=self.metadata(secret_id)
@@ -73,11 +82,16 @@ class SecretStore:
         if st.st_mode & 0o077: raise RuntimeError("secret object permissions too broad")
         return meta,p.read_bytes()
     def delete(self, secret_id:str)->bool:
-        idx=self._index(); old=idx["secrets"].pop(secret_id,None)
+        idx=self._index(); old=idx["secrets"].get(secret_id)
         if not old:return False
-        _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
-        try:(self.objects/old["object"]).unlink()
+        obj=self.objects/old["object"]
+        try:obj.unlink()
         except FileNotFoundError:pass
+        dfd=os.open(self.objects,os.O_DIRECTORY)
+        try:os.fsync(dfd)
+        finally:os.close(dfd)
+        idx["secrets"].pop(secret_id,None)
+        _atomic_write(self.index_path,(json.dumps(idx,sort_keys=True,separators=(",",":"))+"\n").encode())
         return True
 
 class PolicyStore:
@@ -158,7 +172,11 @@ class Broker:
                     if old.get("classification")!=classification or old.get("secret_kind")!=secret_kind:
                         self._audit(op,sid,consumer or "ADMIN",uid,projection,"DENY_METADATA_CHANGE")
                         return {"ok":False,"error":"rotation cannot change classification or secret_kind"}
-                meta=self.store.put(sid,value,classification,secret_kind)
+                try:
+                    meta=self.store.put(sid,value,classification,secret_kind)
+                except Exception as exc:
+                    self._audit(op,sid,consumer or "ADMIN",uid,projection,"DENY_STORE")
+                    return {"ok":False,"error":str(exc)}
                 self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW");return {"ok":True,"metadata":meta}
             if op=="list_metadata":
                 self._audit(op,"_metadata_index",consumer or "ADMIN",uid,projection,"ALLOW")
@@ -170,7 +188,11 @@ class Broker:
                     return {"ok":False,"error":"secret not found"}
                 self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW")
                 return {"ok":True,"metadata":{"secret_id":sid,"version":meta["version"],"classification":meta["classification"],"secret_kind":meta["secret_kind"]}}
-            ok=self.store.delete(sid);self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW")
+            try:ok=self.store.delete(sid)
+            except Exception as exc:
+                self._audit(op,sid,consumer or "ADMIN",uid,projection,"DENY_STORE")
+                return {"ok":False,"error":str(exc)}
+            self._audit(op,sid,consumer or "ADMIN",uid,projection,"ALLOW")
             return {"ok":True,"revoked":ok} if op=="revoke" else {"ok":True,"deleted":ok}
         if op not in {"get","metadata"}:return {"ok":False,"error":"unsupported operation"}
         if not valid_secret_id(sid):return {"ok":False,"error":"invalid secret_id"}
