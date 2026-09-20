@@ -201,7 +201,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append("admission")
     conf = p["conformance"]
     if not (
-        conf.get("status") == "NOT_EXECUTED"
+        conf.get("status") in {"NOT_EXECUTED", "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION"}
         and conf.get("synthetic_evidence_allowed_for_promotion") is False
         and conf.get("current_host_receipt") is None
         and conf.get("production_runtime_promoted") is False
