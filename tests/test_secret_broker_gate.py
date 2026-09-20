@@ -12,6 +12,16 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertEqual("FORBIDDEN",p["machine_secret_boundary"]["raw_machine_application_secret_storage"])
         init=(ROOT/"bin/fa3-session-vault-init").read_text()
         self.assertNotIn('$MNT/credentials',init);self.assertIn('$MNT/secret-refs',init)
+    def test_image_name_is_generic_and_non_disclosing(self):
+        p=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
+        image=Path(p["storage_classes"]["machine_service"]["default_image"]).name.lower()
+        for forbidden in ("secret","credential","token","password","passwd","key","auth"):
+            self.assertNotIn(forbidden,image)
+        self.assertEqual("GENERIC_NON_DISCLOSING",p["storage_classes"]["machine_service"]["external_naming_policy"])
+        self.assertEqual("CREDENTIAL_SECRETS_ONLY",p["secret_scope"]["mode"])
+        self.assertFalse(p["portability"]["desktop_environment_required"])
+        self.assertFalse(p["portability"]["display_server_required"])
+
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
         mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
