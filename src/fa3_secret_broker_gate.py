@@ -45,7 +45,7 @@ def check()->dict:
     broker_unit=(ROOT/"deployment/secrets/fa3-secret-broker.service").read_text()
     target=(ROOT/"deployment/secrets/fa3-secrets.target").read_text()
     req("LoadCredentialEncrypted=fa3-machine-state-key:" in vault_unit and "CapabilityBoundingSet=CAP_SYS_ADMIN" in vault_unit,"SB-021")
-    req("User=fa3-secret-broker" in broker_unit and "NoNewPrivileges=true" in broker_unit and "RestrictAddressFamilies=AF_UNIX" in broker_unit and "CapabilityBoundingSet=" in broker_unit,"SB-022")
+    req("User=fa3-secret-broker" in broker_unit and "NoNewPrivileges=true" in broker_unit and "RestrictAddressFamilies=AF_UNIX" in broker_unit and "CapabilityBoundingSet=" in broker_unit and "chgrp fa3-secret-clients /run/fa3-secret-broker" in broker_unit,"SB-022")
     req("Requires=fa3-secret-broker.service" in target and "PartOf=fa3-secrets.target" in broker_unit and "PartOf=fa3-secrets.target" in vault_unit,"SB-023")
     sv=load("canonical/profiles/FA3-SESSION-VAULT-001.json")
     req(sv.get("machine_secret_boundary",{}).get("profile")=="FA3-SECRET-BROKER-001" and sv["machine_secret_boundary"].get("raw_machine_application_secret_storage")=="FORBIDDEN","SB-024")
