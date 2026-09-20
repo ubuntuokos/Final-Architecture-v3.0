@@ -114,6 +114,7 @@ ApplicationWindow {
         {title: "Integrations", detail: "Desktop, MCP és provider integrációk", category: "FUNCTION", pageIndex: 14},
         {title: "MCP Gateway", detail: "Central MCP Gateway registry, routing, policy és security operátori felület", category: "FUNCTION", pageIndex: 27},
         {title: "Trust & Certificates", detail: "Belső PKI, machine identity, ACME, mTLS és SSH certificate állapot", category: "FUNCTION", pageIndex: 29},
+        {title: "Session Vault / Belépés", detail: "LUKS2 key-vault image, FA3 session unlock és jelszókezelő integráció", category: "FUNCTION", pageIndex: 30},
         {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", pageIndex: 14},
         {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", pageIndex: 15},
         {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", pageIndex: 16},
@@ -628,6 +629,7 @@ ApplicationWindow {
                         NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
                         NavButton { iconText: "⇄"; label: "MCP Gateway"; pageIndex: 27 }
                         NavButton { iconText: "⌾"; label: "Trust & Certificates"; pageIndex: 29 }
+                        NavButton { iconText: "▣"; label: "Session Vault / Belépés"; pageIndex: 30 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
@@ -1477,6 +1479,18 @@ ApplicationWindow {
                     orange: window.orange
                     magenta: window.magenta
                 }
+
+                SessionVaultPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
             }
 
             Rectangle {
@@ -1523,4 +1537,18 @@ ApplicationWindow {
             csScope.clear(); csAction.clear(); csTarget.clear(); csRationale.clear()
         }
     }
+    SessionVaultLogin {
+        anchors.fill: parent
+        z: 10000
+        visible: fa3SessionVault.configured && !fa3SessionVault.unlocked
+        canvas: window.canvas
+        panel: window.panel
+        border: window.border
+        textPrimary: window.textPrimary
+        textMuted: window.textMuted
+        accent: window.accent
+        green: window.green
+        magenta: window.magenta
+    }
+
 }

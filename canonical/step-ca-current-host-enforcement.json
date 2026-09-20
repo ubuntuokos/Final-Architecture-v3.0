@@ -46,7 +46,7 @@
   ],
   "network_isolation_policy": "RECOMMENDED_HIGH_ASSURANCE_CONTROL_NOT_REQUIRED_FOR_PASS",
   "root_custody_policy": {
-    "default": "LOCAL_PROTECTED_ENCRYPTED",
+    "default": "FA3_SESSION_VAULT_LUKS2_IMAGE",
     "same_host_allowed": true,
     "removable_media_required": false,
     "hsm_required": false,
@@ -57,6 +57,8 @@
       "REMOVABLE_COLD_STORAGE",
       "HSM_OR_YUBIKEY_PIV",
       "AIR_GAPPED_CEREMONY_HOST"
-    ]
+    ],
+    "session_vault_profile": "FA3-SESSION-VAULT-001",
+    "fallback_when_session_vault_disabled": "LOCAL_PROTECTED_ENCRYPTED"
   }
 }

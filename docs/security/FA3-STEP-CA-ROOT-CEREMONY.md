@@ -14,10 +14,10 @@ Removable media, HSM/YubiKey and an air-gapped ceremony host are optional higher
 
 ## Default practical layout
 
-Use a private user-owned directory:
+Default storage is the mounted FA3 Session Vault image. After FA3 login/unlock, use:
 
 ```text
-~/.local/share/fa3/pki/root/
+$XDG_RUNTIME_DIR/fa3-session-vault/pki/root/
   root_ca_key
   root-password.txt
   root_ca.crt
@@ -34,12 +34,12 @@ The online issuing runtime receives only:
 
 Never copy `root_ca_key` or `root-password.txt` into the repository, evidence tree, `/etc/fa3`, `/var/lib/fa3-step-ca`, or the step-ca runtime backup.
 
-The Root custody backup is a different backup class from the step-ca runtime backup. It may contain the encrypted Root private key, but it must remain encrypted, access-controlled, and independent of the online issuing runtime. Keep at least two recoverable encrypted copies when the Root CA is important enough that loss would require rebuilding trust.
+The Root custody backup is a different backup class from the step-ca runtime backup. The preferred backup unit is the **closed LUKS2 Session Vault image itself**, which can be copied as opaque encrypted data to one or more user-selected destinations. Removable media is only one optional destination.
 
 ## Ceremony
 
 ```bash
-ROOT_DIR="${FA3_ROOT_CA_DIR:-$HOME/.local/share/fa3/pki/root}"
+ROOT_DIR="${FA3_ROOT_CA_DIR:-${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fa3-session-vault/pki/root}"
 install -d -m0700 "$ROOT_DIR"
 cd "$ROOT_DIR"
 umask 077

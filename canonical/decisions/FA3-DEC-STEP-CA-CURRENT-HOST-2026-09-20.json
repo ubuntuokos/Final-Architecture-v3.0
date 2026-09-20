@@ -9,6 +9,7 @@
   "conformance_id": "FA3-STEP-CA-CURRENT-HOST-001",
   "constraints": [
     "ROOT_PRIVATE_KEY_IS_ENCRYPTED_AND_NEVER_INSTALLED_IN_OR_READABLE_BY_ONLINE_ISSUING_RUNTIME",
+    "FA3_SESSION_VAULT_IS_DEFAULT_LOCAL_ROOT_CUSTODY_WHEN_CONFIGURED",
     "SAME_HOST_ENCRYPTED_ROOT_STORAGE_ALLOWED_OUTSIDE_STEP_CA_RUNTIME",
     "REMOVABLE_MEDIA_HSM_AND_AIR_GAP_ARE_OPTIONAL_HIGH_ASSURANCE_CONTROLS",
     "ROOT_CUSTODY_BACKUP_MUST_BE_REDUNDANT_AND_ENCRYPTED",
@@ -22,5 +23,5 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
-  "rationale": "FA3 defaults to practical local operation: the Root private key may remain on the same host if encrypted, operator-controlled, inaccessible to the fa3-step-ca service, and redundantly backed up. Removable media, HSM and air-gap are optional higher-assurance controls."
+  "rationale": "FA3 defaults to a mountable encrypted Session Vault image for practical same-host Root custody when configured. The image unlocks with the FA3 user session and remains inaccessible to the fa3-step-ca service. Password-manager/Secret Service unlock is supported; removable media, HSM and air-gap remain optional higher-assurance controls."
 }

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 QuickDialogs2 WebEngineQuick PrintSupport Network)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick QuickControls2 QuickDialogs2 WebEngineQuick PrintSupport Network DBus)
 
 qt_standard_project_setup(REQUIRES 6.4)
 
@@ -29,6 +29,8 @@ qt_add_executable(fa3-control-center
     src/McpControlService.h
     src/McpGatewayService.cpp
     src/McpGatewayService.h
+    src/SessionVaultService.cpp
+    src/SessionVaultService.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -52,6 +54,8 @@ set_source_files_properties(qml/WorkManagementPage.qml PROPERTIES QT_RESOURCE_AL
 set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS McpGatewayPage.qml)
 set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS KnowledgePage.qml)
 set_source_files_properties(qml/TrustCertificatesPage.qml PROPERTIES QT_RESOURCE_ALIAS TrustCertificatesPage.qml)
+set_source_files_properties(qml/SessionVaultPage.qml PROPERTIES QT_RESOURCE_ALIAS SessionVaultPage.qml)
+set_source_files_properties(qml/SessionVaultLogin.qml PROPERTIES QT_RESOURCE_ALIAS SessionVaultLogin.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -79,6 +83,8 @@ qt_add_qml_module(fa3-control-center
         qml/McpGatewayPage.qml
         qml/KnowledgePage.qml
         qml/TrustCertificatesPage.qml
+        qml/SessionVaultPage.qml
+        qml/SessionVaultLogin.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
@@ -96,13 +102,16 @@ target_link_libraries(fa3-control-center
         Qt6::WebEngineQuick
         Qt6::PrintSupport
         Qt6::Network
+        Qt6::DBus
 )
 
 install(TARGETS fa3-control-center
     RUNTIME DESTINATION libexec
 )
 
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
+install(PROGRAMS
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/fa3-app-provisioner.py"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/fa3-session-vault-init"
     DESTINATION libexec
 )
 
