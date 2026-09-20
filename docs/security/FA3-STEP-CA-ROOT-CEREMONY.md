@@ -17,7 +17,7 @@ Removable media, HSM/YubiKey and an air-gapped ceremony host are optional higher
 Default storage is the mounted FA3 Session Vault image. After FA3 login/unlock, use:
 
 ```text
-$XDG_RUNTIME_DIR/fa3-session-vault/pki/root/
+$XDG_RUNTIME_DIR/fa3-state/pki/root/
   root_ca_key
   root-password.txt
   root_ca.crt
@@ -36,7 +36,19 @@ Never copy `root_ca_key` or `root-password.txt` into the repository, evidence tr
 
 The Root custody backup is a different backup class from the step-ca runtime backup. The preferred backup unit is the **closed LUKS2 Session Vault image itself**, which can be copied as opaque encrypted data to one or more user-selected destinations. Removable media is only one optional destination.
 
-## Ceremony
+## Recommended current-host ceremony
+
+Run the orchestrated, idempotent ceremony:
+
+```bash
+bin/fa3-step-ca-root-ceremony.sh
+```
+
+It unlocks the validated FA3 state image interactively, creates or verifies Root/Intermediate material inside the encrypted image, writes the non-secret ceremony receipt, prepares a short-lived online activation bundle under `$XDG_RUNTIME_DIR`, and closes the state image on exit.
+
+The Root private key and Root password are never copied into the activation bundle.
+
+## Manual equivalent
 
 ```bash
 ROOT_DIR="${FA3_ROOT_CA_DIR:-${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fa3-session-vault/pki/root}"
