@@ -7,7 +7,7 @@ def run(*c):
  if p.returncode: raise RuntimeError(p.stderr.strip())
  return p.stdout.strip()
 def main():
- a=argparse.ArgumentParser(); a.add_argument("--root-cert",required=True); a.add_argument("--intermediate-cert",required=True); a.add_argument("--operator-id",required=True); a.add_argument("--medium-id",required=True); a.add_argument("--output",default="evidence/receipts/step-ca-root-ceremony.json"); x=a.parse_args(); r=Path(x.root_cert).resolve(); i=Path(x.intermediate_cert).resolve()
+ a=argparse.ArgumentParser(); a.add_argument("--root-cert",required=True); a.add_argument("--intermediate-cert",required=True); a.add_argument("--operator-id",required=True); a.add_argument("--medium-id",default="local-protected-storage"); a.add_argument("--output",default="evidence/receipts/step-ca-root-ceremony.json"); x=a.parse_args(); r=Path(x.root_cert).resolve(); i=Path(x.intermediate_cert).resolve()
  route_present=bool(run("ip","route","show","default"))
  run("openssl","verify","-CAfile",str(r),str(r)); run("openssl","verify","-CAfile",str(r),str(i))
  for p in (r,i):
