@@ -3,7 +3,8 @@ set -euo pipefail
 [[ "$(id -u)" -eq 0 ]] || { echo "Run with sudo/root." >&2; exit 2; }
 ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
-for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
 if ! getent passwd fa3-sb-probe >/dev/null; then
@@ -13,7 +14,7 @@ fi
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
 MAPPER="fa3-sb-e2e-$$"; RMAPPER="fa3-sb-restore-$$"; MNT="$TMP/mnt"; RMNT="$TMP/rmnt"; POL="$TMP/policy"; RUN="$TMP/run"
-BROKER_PID=""; RESTORE_PID=""; PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
+BROKER_PID=""; RESTORE_PID=""
 cleanup(){
   if [[ -n "$RESTORE_PID" ]]; then kill "$RESTORE_PID" >/dev/null 2>&1 || true; wait "$RESTORE_PID" 2>/dev/null || true; fi
   if [[ -n "$BROKER_PID" ]]; then kill "$BROKER_PID" >/dev/null 2>&1 || true; wait "$BROKER_PID" 2>/dev/null || true; fi
