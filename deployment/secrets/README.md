@@ -13,3 +13,81 @@ Machine/service secrets require a dedicated Unix service identity. Same-UID desk
 Podman delivery uses secret file mounts by default; environment-variable secret projection is forbidden unless an explicit non-default exception policy is admitted.
 
 Full FA3 exit must execute `sudo /usr/local/sbin/fa3-secrets-lifecycle exit`. This stops `fa3-secrets.target` and refuses to report a completed exit while the broker or vault service is active, the runtime mount still exists, or the LUKS mapping remains open. Closing a GUI window alone is not the canonical full-FA3 exit signal.
+
+
+## Operator workflow
+
+After one-time installation, use only the unified operator entry point:
+
+```bash
+fa3-secrets-admin help
+```
+
+The deterministic lifecycle is:
+
+```text
+init -> start -> policy-install -> put/use/rotate/revoke -> backup as needed -> exit -> assert-closed
+```
+
+One-time initialization creates the generic/non-disclosing LUKS2 image and its encrypted systemd unlock credential:
+
+```bash
+fa3-secrets-admin init
+```
+
+Start and verify the secrets runtime:
+
+```bash
+fa3-secrets-admin start
+fa3-secrets-admin health
+fa3-secrets-admin status
+```
+
+Projection policy contains metadata only and may be checked before installation:
+
+```bash
+/usr/local/sbin/fa3-secret-policyctl check provider-policy.json
+fa3-secrets-admin policy-install provider-policy.json
+```
+
+Store a new token or password interactively; the secret value is entered through the terminal prompt and is never an argv argument:
+
+```bash
+fa3-secrets-admin put provider/example --kind API_TOKEN
+```
+
+Rotate the value without changing its classification or secret kind:
+
+```bash
+fa3-secrets-admin rotate provider/example --kind API_TOKEN
+```
+
+Inspect administrative metadata only:
+
+```bash
+fa3-secrets-admin metadata provider/example
+fa3-secrets-admin list
+```
+
+Revoke the active credential:
+
+```bash
+fa3-secrets-admin revoke provider/example
+```
+
+A backup is permitted only with the vault closed. The default backup image name remains generic and non-disclosing:
+
+```bash
+fa3-secrets-admin exit
+fa3-secrets-admin assert-closed
+fa3-secrets-admin backup
+```
+
+Restore validates LUKS2, temporarily starts the restored runtime for broker-health validation, and then closes it again. Successful restore therefore finishes in CLOSED state:
+
+```bash
+fa3-secrets-admin restore /var/backups/fa3/fa3-machine-state-YYYYMMDDTHHMMSSZ.img
+fa3-secrets-admin assert-closed
+```
+
+Bulk secret export does not exist. `list` returns SecretRef metadata only and is administrative. Secret values are retrieved only through an admitted consumer projection.
