@@ -40,7 +40,7 @@ Repository/reference PASS does not promote production runtime. Promotion require
 
 ## FA3 exit semantics
 
-A teljes FA3 kilépés nem azonos egy GUI-ablak bezárásával. A secrets lifecycle lezárását a `/usr/local/sbin/fa3-secrets-lifecycle exit` művelet végzi: leállítja a `fa3-secrets.target` egységet, majd fail-closed módon ellenőrzi, hogy a broker és a vault service inaktív, a `/run/fa3/machine-state` mount eltűnt, és a `fa3-machine-state` LUKS mapper bezárult. Az FA3 csak ezen postconditionök teljesülése után tekinthető teljesen kilépett állapotúnak.
+A teljes FA3 kilépés nem azonos egy GUI-ablak bezárásával. A secrets lifecycle lezárását a `/usr/local/sbin/fa3-secrets-lifecycle exit` művelet végzi: leállítja a `fa3-secrets.target` egységet, majd fail-closed módon ellenőrzi, hogy maga a target, a broker és a vault service is inaktív, a `/run/fa3/machine-state` mount eltűnt, és a `fa3-machine-state` LUKS mapper bezárult. Az FA3 csak ezen postconditionök teljesülése után tekinthető teljesen kilépett állapotúnak.
 
 A `fa3-secret-vault.service` külön `ExecStopPost` ellenőrzést is futtat. Ha az unmount vagy a LUKS close nem teljesül, a shutdown nem kaphat PASS állapotot.
 
