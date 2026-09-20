@@ -129,7 +129,7 @@ ScrollView {
                 Label { text: "Kulcskezelési szabály"; color: root.textPrimary; font.bold: true }
                 Label {
                     Layout.fillWidth: true
-                    text: "A Root CA kulcs és user-session custody tárolható ebben a titkosított image-ben. A fa3-step-ca service account nem olvashatja. Machine/service API tokenek és jelszavak nem ebbe kerülnek: azokat a külön FA3-SECRET-BROKER-001 machine-state LUKS2 vault kezeli. A Control Center induláskor megpróbálja a Session Vault feloldását a desktop jelszókezelőből; ha nincs ott titok, a vault LOCKED marad."
+                    text: "A Root CA kulcs és user-session custody tárolható ebben a titkosított image-ben. A fa3-step-ca service account nem olvashatja. FA3 tokenek, külső provider belépési titkok és egyéb FA3-jelszavak nem ebbe kerülnek: azokat a külön FA3-SECRET-BROKER-001 kezeli egy generikus nevű LUKS2 image-ben. A Session Vault feloldásához a Secret Service csak opcionális adapter; sem KDE, sem GNOME, sem konkrét desktop vagy display server nem canonical függőség."
                     color: root.textMuted; wrapMode: Text.WordWrap
                 }
             }
