@@ -156,6 +156,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn('"host_mount_namespace_visibility_pass":True',current_host)
         self.assertIn("fa3-secret-broker-current-host.lock",current_host)
         self.assertIn("fa3-machine-state-e2e-*",current_host)
+        self.assertIn("preserving E2E backing image because systemd mount/mapper cleanup is incomplete",current_host)
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
