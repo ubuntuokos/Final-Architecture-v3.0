@@ -86,10 +86,13 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertEqual("DEDICATED_EPHEMERAL_NON_ROOT",boundary["broker_admin_e2e_identity"])
         self.assertEqual({"fa3-secret-admin","fa3-secret-clients"},set(boundary["broker_admin_required_groups"]))
         self.assertEqual("FORBIDDEN",boundary["root_peer_admin_assumption_for_e2e"])
+        self.assertEqual("REMOVE_BEFORE_RECEIPT",boundary["broker_admin_e2e_cleanup"])
         current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
         self.assertIn('ADMIN_USER="fa3-sb-admin-probe"',current_host)
         self.assertIn('--groups fa3-secret-admin,fa3-secret-clients "$ADMIN_USER"',current_host)
         self.assertIn('runuser -u "$ADMIN_USER"',current_host)
+        self.assertIn('userdel "$ADMIN_USER"',current_host)
+        self.assertIn('"ephemeral_admin_probe_removed_pass":True',current_host)
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
