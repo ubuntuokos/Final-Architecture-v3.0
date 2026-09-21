@@ -3,6 +3,8 @@ set -euo pipefail
 [[ "$(id -u)" -eq 0 ]] || { echo "Run with sudo/root." >&2; exit 2; }
 ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
+BRIDGE_SOURCE_COMMIT="${FA3_CURRENT_HOST_PRIVILEGED_BRIDGE_SOURCE_COMMIT:-}"
+[[ "$BRIDGE_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "missing/invalid privileged bridge source binding" >&2; exit 2; }
 for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl install truncate mktemp tr; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
@@ -239,16 +241,16 @@ SYSTEMD_E2E_ARTIFACT_CLEANUP_PASS=true
 
 opts='["nodev","nosuid","noexec"]'
 mkdir -p "$(dirname "$RECEIPT")"
-python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" <<'PY'
+python3 - "$RECEIPT" "$CANARY_HASH" "$(sha256sum "$IMG"|cut -d' ' -f1)" "$BRIDGE_SOURCE_COMMIT" <<'PY'
 import json,sys
 from datetime import datetime,timezone
 from pathlib import Path
 x={
  "schema":"fa3.secret-broker-current-host-receipt.v1","status":"PASS","real_execution":True,"synthetic":False,
- "executed_at":datetime.now(timezone.utc).isoformat(),"luks2":True,"filesystem":"ext4",
+ "executed_at":datetime.now(timezone.utc).isoformat(),"bridge_source_commit":sys.argv[4],"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"current_host_privileged_bridge_source_binding_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},

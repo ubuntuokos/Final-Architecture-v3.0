@@ -78,3 +78,35 @@ The secret-free receipt is written to:
 After registration, dispatch **FA3 Current Host Runner Control Plane** with `execute_current_host=true`. The `current-host-runner / real-smoke` job can start only if GitHub can actually assign the required label set.
 
 Once that smoke test passes, re-run the previously cancelled provider jobs, beginning with PR #91 X-CMD `xcmd-current-host / production-e2e`. A provider PASS remains separate from global 143-capability Evidence Registry closure and from the 19-point promotion gate.
+
+
+## Secret Broker privileged bridge
+
+The current-host runner itself remains non-root. Secret Broker tests require LUKS2, mount, systemd and rekey operations that need root privileges, so the runner bootstrap installs a separate exact-command bridge.
+
+Run the normal bootstrap from the intended checked-out commit:
+
+```bash
+./bin/fa3-current-host-runner-bootstrap.sh
+```
+
+If the Secret Broker bridge is missing or source-stale, bootstrap requests sudo once and runs:
+
+```text
+bin/fa3-install-secret-broker-current-host-bridge.sh
+```
+
+The resulting sudoers entry authorizes only:
+
+```text
+/usr/local/libexec/fa3-secret-broker-current-host-root
+```
+
+with no arguments. General passwordless sudo is not granted. The root helper executes only the root-owned package installed from the bound Git commit. The workflow invokes the non-root client:
+
+```bash
+FA3_REPO_ROOT="$PWD" /usr/local/bin/fa3-secret-broker-current-host-bridge doctor
+FA3_REPO_ROOT="$PWD" /usr/local/bin/fa3-secret-broker-current-host-bridge run
+```
+
+If the checkout and installed source binding differ, the bridge fails closed.

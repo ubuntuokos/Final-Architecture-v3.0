@@ -15,12 +15,16 @@ UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
 DROPIN_DIR="$UNIT_DIR/$UNIT_NAME.d"
 DROPIN_PATH="$DROPIN_DIR/20-fa3-hrb-acquire.conf"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-host-admission-bridge.sh"
 VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
 VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
 ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
 ACQUIRE_TEMPLATE="/usr/local/bin/fa3-host-resource-broker-acquire --workload {workload} --lease-output {lease} --accelerator-uuid {gpu_uuid}"
+SECRET_BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-secret-broker-current-host-bridge.sh"
+SECRET_BRIDGE_CLIENT="/usr/local/bin/fa3-secret-broker-current-host-bridge"
+SECRET_BRIDGE_HELPER="/usr/local/libexec/fa3-secret-broker-current-host-root"
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   echo "FAIL: current-host runner must not run as root" >&2
@@ -39,6 +43,18 @@ if [[ ! -x "$VALIDATOR_CLIENT" ]] \
   echo "INFO: installing root-separated HRB validation + acquire bridges"
   sudo "$BRIDGE_INSTALLER" --user "$USER"
 fi
+
+ensure_secret_broker_current_host_bridge() {
+  if [[ ! -x "$SECRET_BRIDGE_CLIENT" ]] \
+    || [[ ! -x "$SECRET_BRIDGE_HELPER" ]] \
+    || ! FA3_REPO_ROOT="$REPO_ROOT" "$SECRET_BRIDGE_CLIENT" doctor >/dev/null 2>&1; then
+    echo "INFO: installing commit-bound Secret Broker current-host privileged bridge"
+    sudo "$SECRET_BRIDGE_INSTALLER" --user "$USER"
+  fi
+  FA3_REPO_ROOT="$REPO_ROOT" "$SECRET_BRIDGE_CLIENT" doctor >/dev/null
+}
+
+ensure_secret_broker_current_host_bridge
 
 ensure_acquire_environment() {
   mkdir -p "$UNIT_DIR" "$DROPIN_DIR"

@@ -63,3 +63,31 @@ The canonical automatic unlock credential uses `systemd-creds --with-key=host`. 
 The LUKS2 unlock passphrase can be rotated through `fa3-secrets-admin rekey`. Rekey requires the secrets lifecycle to be CLOSED. It uses a two-phase keyslot transition: add and verify the new key, materialize and verify the new encrypted systemd credential, prove start/health/exit, then remove the old key and verify that it no longer unlocks the image. A successful rekey always ends in CLOSED state. Current-host promotion requires real evidence of this sequence.
 
 Cross-host disaster recovery is not implied by an encrypted image backup alone. With the canonical `systemd-creds --with-key=host` default, automatic restore is scoped to the same systemd host-credential domain. Cross-host DR requires a separate explicitly admitted recovery-credential adapter; that recovery credential must remain outside the encrypted image.
+
+
+## Current-host privileged bridge
+
+The GitHub Actions current-host runner remains non-root. The Secret Broker physical LUKS2/systemd closure must not call general `sudo` from a workflow.
+
+The supported boundary is:
+
+```text
+non-root fa3-current-host runner
+        |
+        v
+/usr/local/bin/fa3-secret-broker-current-host-bridge
+        |
+        | sudo -n, exact command only, no arguments
+        v
+/usr/local/libexec/fa3-secret-broker-current-host-root
+        |
+        v
+root-owned immutable package
+/usr/local/lib/fa3/current-host-secret-broker
+```
+
+The installer writes a sudoers rule for exactly one root-owned helper and explicitly forbids general passwordless sudo. The helper accepts no arguments. The installed E2E package is produced from a Git archive of one exact commit and records that commit in `SOURCE_COMMIT`.
+
+The non-root bridge client compares the current checkout commit with the installed source binding before any privileged execution. Physical evidence contains `bridge_source_commit` and the `current_host_privileged_bridge_source_binding_pass` check. Source drift therefore fails closed and requires rerunning the current-host runner bootstrap from the intended commit.
+
+The privileged helper writes only sanitized current-host evidence to the fixed runtime handoff directory `/run/fa3/current-host-secret-broker`. It does not expose raw token/password values or provide a general-purpose privileged execution interface.
