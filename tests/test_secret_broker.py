@@ -4,6 +4,12 @@ from pathlib import Path
 from src import fa3_secret_broker as b
 
 class SecretBrokerTests(unittest.TestCase):
+    def test_peer_identity_maps_linux_so_peercred_order(self):
+        conn=mock.Mock()
+        conn.getsockopt.return_value=b.struct.pack("3i",4242,1001,1002)
+        self.assertEqual((1001,1002,4242),b._peer_identity(conn))
+        conn.getsockopt.assert_called_once_with(b.socket.SOL_SOCKET,b.socket.SO_PEERCRED,b.struct.calcsize("3i"))
+
     def test_store_rotation_and_permissions(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
