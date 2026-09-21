@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AGENT-INSTRUCTION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "projection_profile": "FA3-AGENT-INSTRUCTIONS-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "AgentInstructionProjection",
+    "ScopedInstructionResolution",
+    "InstructionProjectionMetadata",
+    "InstructionProjectionGateReport"
+  ],
+  "metadata_contract": {
+    "schema": "fa3.agent-instruction-projection.v1",
+    "required_fields": [
+      "schema",
+      "profile",
+      "scope",
+      "authority"
+    ],
+    "authority_value": "NON_CANONICAL_PROJECTION",
+    "scope_resolution": "NEAREST_ANCESTOR_SCOPE",
+    "unknown_or_ambiguous_scope": "FAIL_CLOSED"
+  },
+  "resolution_semantics": {
+    "root_document": "ALWAYS_INCLUDED_WHEN_PRESENT",
+    "nested_documents": "INCLUDED_ONLY_FOR_TARGET_ANCESTOR_CHAIN",
+    "merge_order": "ROOT_TO_NEAREST",
+    "effective_precedence": "NEAREST_SCOPE_WINS",
+    "sibling_scope_leakage": false,
+    "nested_file_may_narrow_scope": true,
+    "nested_file_may_expand_authority": false,
+    "projection_may_override_canonical_record": false,
+    "projection_may_override_executable_gate": false,
+    "conflict_result": "FAIL_CLOSED_AND_ESCALATE"
+  },
+  "security_semantics": {
+    "raw_secret_projection": "FORBIDDEN",
+    "credential_reference_only": true,
+    "instruction_to_bypass_gate": "FORBIDDEN",
+    "instruction_to_weaken_test": "FORBIDDEN",
+    "instruction_to_fabricate_evidence": "FORBIDDEN"
+  },
+  "hardware_semantics": {
+    "binding": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "global_vendor_requirement": "FORBIDDEN",
+    "global_runtime_api_requirement": "FORBIDDEN",
+    "accelerator_cardinality": "DYNAMIC_0_TO_N",
+    "logical_cpu_equals_physical_core": false,
+    "current_host_tuple_is_global_baseline": false
+  },
+  "invariants": [
+    "PROJECT_INSTRUCTIONS_ARE_UNTRUSTED_SCOPED_CONTEXT",
+    "PROJECTION_DOES_NOT_CREATE_AUTHORITY",
+    "SCOPE_CAN_NARROW_PERMISSIONS_BUT_CANNOT_EXPAND_AUTHORITY",
+    "SIBLING_SCOPE_DOES_NOT_APPLY",
+    "UNMANAGED_AGENTS_MD_FAILS_CLOSED",
+    "CANONICAL_OR_GATE_CONFLICT_FAILS_CLOSED",
+    "NO_VENDOR_OR_RUNTIME_API_DEFINES_GLOBAL_ACCELERATOR_FLOOR",
+    "NO_FABRICATED_EVIDENCE_OR_PASS_STATE",
+    "NO_GATE_TEST_OR_SECURITY_BYPASS_INSTRUCTION"
+  ]
+}

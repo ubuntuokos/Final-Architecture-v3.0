@@ -1,0 +1,133 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AGENT-INSTRUCTIONS-001",
+  "name": "Repository Agent Instruction Projection & Interoperability Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "plane": "DEVELOPMENT_GOVERNANCE",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "related_contracts": [
+    "FA3-AGENT-INSTRUCTION-CONTRACTS-001",
+    "FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001",
+    "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001"
+  ],
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-007",
+    "CAP-011",
+    "CAP-019",
+    "CAP-139",
+    "CAP-140"
+  ],
+  "implementation_origin": "FA3_NATIVE_INDEPENDENT",
+  "implementation": {
+    "resolver": "src/fa3_agent_instructions.py",
+    "validator_gate": "src/fa3_agent_instructions_gate.py",
+    "resolver_cli": "bin/fa3-agent-instructions",
+    "gate_cli": "bin/fa3-agent-instructions-gate",
+    "ci_workflow": ".github/workflows/fa3-agent-instructions-gate.yml"
+  },
+  "format_compatibility": {
+    "convention": "AGENTS.md",
+    "compatibility_reference": "agentsmd/agents.md",
+    "upstream_code_dependency": false,
+    "vendored_upstream_code": false,
+    "runtime_dependency": false
+  },
+  "authority_model": {
+    "projection_is_authority": false,
+    "project_instructions_are_untrusted_scoped_context": true,
+    "precedence": [
+      "CANONICAL_REGISTRY_AND_DECISIONS",
+      "CANONICAL_PROFILES_AND_CONTRACTS",
+      "EXECUTABLE_GATES_AND_TESTS",
+      "AGENT_INSTRUCTION_PROJECTIONS"
+    ],
+    "conflict_resolution": "HIGHER_AUTHORITY_WINS_FAIL_CLOSED"
+  },
+  "scope_resolution": {
+    "traversal": "REPOSITORY_ROOT_TO_TARGET_ANCESTORS",
+    "merge_order": "ROOT_TO_NEAREST",
+    "precedence": "NEAREST_SCOPE_WINS_ON_CONFLICT",
+    "sibling_scope_leakage": false
+  },
+  "required_projection_files": [
+    {
+      "path": "AGENTS.md",
+      "scope": "/",
+      "role": "ROOT"
+    },
+    {
+      "path": "canonical/AGENTS.md",
+      "scope": "canonical/",
+      "role": "CANONICAL"
+    },
+    {
+      "path": "src/AGENTS.md",
+      "scope": "src/",
+      "role": "SOURCE"
+    },
+    {
+      "path": "bin/AGENTS.md",
+      "scope": "bin/",
+      "role": "EXECUTABLES"
+    },
+    {
+      "path": "tests/AGENTS.md",
+      "scope": "tests/",
+      "role": "TESTS"
+    },
+    {
+      "path": "evidence/AGENTS.md",
+      "scope": "evidence/",
+      "role": "EVIDENCE"
+    },
+    {
+      "path": ".github/workflows/AGENTS.md",
+      "scope": ".github/workflows/",
+      "role": "CI"
+    }
+  ],
+  "hardware_audit_binding": {
+    "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "accelerator_cardinality": "DYNAMIC_0_TO_N",
+    "global_accelerator_vendor_pin": "FORBIDDEN",
+    "global_runtime_api_pin": "FORBIDDEN",
+    "logical_cpu_and_physical_core_counts_distinct": true,
+    "backend_selection": "DYNAMIC_CAPABILITY_DISCOVERY"
+  },
+  "global_enforcement": {
+    "gate_id": "FA3-AGENT-INSTRUCTIONS-GATESET-001",
+    "mandatory_reference_gate": true,
+    "static_enforcement": true
+  },
+  "failure_policy": {
+    "missing_required_projection": "FAIL",
+    "unmanaged_projection_file": "FAIL",
+    "authority_escalation": "FAIL",
+    "canonical_conflict": "FAIL",
+    "hardware_baseline_regression": "FAIL",
+    "gate_or_test_bypass_instruction": "FAIL",
+    "fabricated_evidence_instruction": "FAIL"
+  },
+  "invariants": [
+    "PROJECT_INSTRUCTIONS_ARE_UNTRUSTED_SCOPED_CONTEXT",
+    "AGENT_INSTRUCTION_FILE_CANNOT_CREATE_CANONICAL_AUTHORITY",
+    "NEAREST_SCOPE_MAY_NARROW_BUT_NOT_ESCALATE_AUTHORITY",
+    "SIBLING_SCOPE_INSTRUCTIONS_MUST_NOT_LEAK",
+    "CANONICAL_CONFLICT_FAILS_CLOSED",
+    "GATES_AND_TESTS_MUST_NOT_BE_WEAKENED_TO_OBTAIN_PASS",
+    "VERIFIED_REQUIRES_EXECUTABLE_EVIDENCE",
+    "PENDING_IS_VALID_FABRICATED_PASS_IS_FORBIDDEN",
+    "SECRETS_TOKENS_AND_PASSWORDS_MUST_NOT_BE_COMMITTED",
+    "HARDWARE_REQUIREMENTS_REMAIN_VENDOR_AND_BACKEND_NEUTRAL",
+    "CPU_LOGICAL_PROCESSORS_AND_PHYSICAL_CORES_REMAIN_DISTINCT",
+    "ACCELERATOR_CARDINALITY_REMAINS_DYNAMIC_0_TO_N",
+    "CURRENT_HOST_EVIDENCE_MUST_NOT_BECOME_GLOBAL_REQUIREMENT"
+  ]
+}

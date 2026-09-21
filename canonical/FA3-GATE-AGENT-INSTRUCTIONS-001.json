@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-AGENT-INSTRUCTIONS-001",
+  "gateset_id": "FA3-AGENT-INSTRUCTIONS-GATESET-001",
+  "profile_id": "FA3-AGENT-INSTRUCTIONS-001",
+  "contract_id": "FA3-AGENT-INSTRUCTION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "global_static_enforcement": true,
+  "mandatory_reference_gate": true,
+  "entrypoint": "PYTHONPATH=src python3 -m fa3_agent_instructions_gate --root .",
+  "resolver_entrypoint": "PYTHONPATH=src python3 -m fa3_agent_instructions --root . --target PATH --format json",
+  "test_entrypoint": "PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agent_instructions_gate.py'",
+  "hardware_regression_gate": "PYTHONPATH=src python3 -m fa3_hardware_portability_gate --root .",
+  "current_host_required": false,
+  "current_host_runtime_promotion_claim": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "positive_requirements": [
+    "ALL_REQUIRED_PROJECTIONS_PRESENT",
+    "ALL_PROJECTIONS_METADATA_GOVERNED",
+    "ALL_PROJECTIONS_NON_CANONICAL",
+    "SCOPE_RESOLUTION_DETERMINISTIC",
+    "HARDWARE_AUDIT_BINDING_CURRENT",
+    "GLOBAL_ENFORCEMENT_BINDING_PRESENT",
+    "RELEASE_CAPABILITY_BASELINE_PRESERVED"
+  ],
+  "negative_requirements": [
+    "AUTHORITY_ESCALATION_REJECTED",
+    "UNMANAGED_PROJECTION_REJECTED",
+    "SIBLING_SCOPE_LEAKAGE_REJECTED",
+    "VENDOR_OR_RUNTIME_GLOBAL_REQUIREMENT_REJECTED",
+    "GATE_OR_TEST_BYPASS_REJECTED",
+    "FABRICATED_EVIDENCE_INSTRUCTION_REJECTED"
+  ]
+}
