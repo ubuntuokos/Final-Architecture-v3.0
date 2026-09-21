@@ -34,8 +34,8 @@
   "service": {
     "manager": "systemd --user",
     "unit": "fa3-github-runner.service",
-    "linger_recommended": true,
-    "restart_policy": "on-failure"
+    "restart_policy": "on-failure",
+    "linger_required": true
   },
   "evidence": {
     "doctor_receipt": ".fa3-current-host/runner/doctor.json",
