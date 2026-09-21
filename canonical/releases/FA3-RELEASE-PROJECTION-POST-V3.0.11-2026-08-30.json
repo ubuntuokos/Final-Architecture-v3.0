@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "1b71aabfec465679b82142cd5a87532c5e4d11ae",
-    "pre_projection_root_tree_sha": "bafd656f33a001c8d3094ea336aa1bc587ff0984",
-    "pre_projection_canonical_tree_sha": "1ddf0f8ec6fd12c11492bb1ec841089af332c96e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 488,
-    "total_post_baseline_commits": 488,
-    "delta_file_count": 1578,
-    "delta_added_files": 1573,
+    "pre_projection_head_sha": "dfd4f85aa131dc50fae592576c0f6a892f9754c9",
+    "pre_projection_root_tree_sha": "79d7e296e8e6ba360ed0815ad3b4d0c24ab1c55b",
+    "pre_projection_canonical_tree_sha": "d0c6b5ebbc1605efc4fa9f4e82beb42bd1ff892d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 505,
+    "total_post_baseline_commits": 505,
+    "delta_file_count": 1581,
+    "delta_added_files": 1576,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -790,7 +790,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1571,
+  "manifest_entry_count": 1574,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -1049,7 +1049,7 @@
     },
     {
       "path": ".github/workflows/fa3-secret-broker-current-host.yml",
-      "git_blob_sha": "0e1537ca8deb8690d753c2a8c3521f4850a0d97a",
+      "git_blob_sha": "e11d2c23a536c5cc5ccfc7ff37364f6d2f31dd06",
       "baseline_delta_status": "added"
     },
     {
@@ -1444,7 +1444,7 @@
     },
     {
       "path": "bin/fa3-current-host-runner-bootstrap.sh",
-      "git_blob_sha": "46338942cba0eee7c8e121862a3b60aa0f9a4ea9",
+      "git_blob_sha": "a1e4bdc794795608818a0e8481867edc02743639",
       "baseline_delta_status": "added"
     },
     {
@@ -1525,6 +1525,11 @@
     {
       "path": "bin/fa3-install-hrb-validator-bridge.sh",
       "git_blob_sha": "96cc8c7310e45353c29cb3b1d695d27afce0b4af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-install-secret-broker-current-host-bridge.sh",
+      "git_blob_sha": "51f6c97764f480261caa8cbc00ce75e5ac0ce1a2",
       "baseline_delta_status": "added"
     },
     {
@@ -1634,7 +1639,7 @@
     },
     {
       "path": "bin/fa3-secret-broker-current-host.sh",
-      "git_blob_sha": "b455afb3584164a506b1bb1fb5fd36439b09fbbe",
+      "git_blob_sha": "070b247d603d0eb1b1ac31da69b3a3b3f7787320",
       "baseline_delta_status": "added"
     },
     {
@@ -2109,7 +2114,7 @@
     },
     {
       "path": "canonical/FA3-GATE-SECRET-BROKER-001.json",
-      "git_blob_sha": "49b62bffa7efd0b43d9c335bee34981377f3a46c",
+      "git_blob_sha": "96bad38426aaac2996ea83bf2af0b145270b99f0",
       "baseline_delta_status": "added"
     },
     {
@@ -2394,7 +2399,7 @@
     },
     {
       "path": "canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "4682472dd06895f8bb83fd6683d7c09d5988d2a0",
+      "git_blob_sha": "bc87eb2f2752c741335c052802279b41bc344393",
       "baseline_delta_status": "added"
     },
     {
@@ -2879,7 +2884,7 @@
     },
     {
       "path": "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "8df9ca395d0b5a67b79e5e30e6b7c3268d8969e5",
+      "git_blob_sha": "7a1e96b75ec91cb4eb57a90cde953a717ff03935",
       "baseline_delta_status": "added"
     },
     {
@@ -3519,7 +3524,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
-      "git_blob_sha": "a884500c5315c3e8fc17be64ca4e460fd40a93e1",
+      "git_blob_sha": "3dcde872772a65d5d99a553b70f639d4b7bf2a4e",
       "baseline_delta_status": "added"
     },
     {
@@ -4264,7 +4269,7 @@
     },
     {
       "path": "canonical/profiles/FA3-SECRET-BROKER-001.json",
-      "git_blob_sha": "d90d8e6c909f94ee5ac819f131d4070038ecca9e",
+      "git_blob_sha": "a3434618850883cbe5adc2635d5ee10a0a79e05e",
       "baseline_delta_status": "added"
     },
     {
@@ -5324,7 +5329,7 @@
     },
     {
       "path": "canonical/releases/FA3-RELEASE-PROJECTION-SECRET-BROKER-2026-09-20.json",
-      "git_blob_sha": "47353bc8e2fe58801130ca41460efe16693ebc97",
+      "git_blob_sha": "62197207cb3a5c89e55b7393054627a1a714dbf7",
       "baseline_delta_status": "added"
     },
     {
@@ -5364,7 +5369,7 @@
     },
     {
       "path": "canonical/schemas/secret-broker-current-host-receipt.v1.json",
-      "git_blob_sha": "a05b00fef112f99f5b59714f91ee651e6fd189e5",
+      "git_blob_sha": "e4996e4140ce739c516dcf7015013cbb966d0875",
       "baseline_delta_status": "added"
     },
     {
@@ -5389,7 +5394,7 @@
     },
     {
       "path": "canonical/secret-broker-enforcement.json",
-      "git_blob_sha": "fdcbca5afd57436cd5ef769f1ea5f3006611881f",
+      "git_blob_sha": "ffd18d3d9051847f27d1a8c0faeeaf5a51b55a13",
       "baseline_delta_status": "added"
     },
     {
@@ -5724,7 +5729,7 @@
     },
     {
       "path": "docs/current-host-runner.md",
-      "git_blob_sha": "a249ffdd3d3632d520982ff40755c2f69d876d00",
+      "git_blob_sha": "8b894103c2aea273b285428f4bc22ef5e83e8492",
       "baseline_delta_status": "added"
     },
     {
@@ -5889,7 +5894,7 @@
     },
     {
       "path": "docs/security/FA3-SECRETS-FABRIC.md",
-      "git_blob_sha": "1a7b1646d4a455ea77605da0197e2a7dd057dee2",
+      "git_blob_sha": "6bce4cc220e85d78358ae085d729179b967f77fb",
       "baseline_delta_status": "added"
     },
     {
@@ -6655,6 +6660,16 @@
     {
       "path": "libexec/fa3-host-resource-broker-validator.sh",
       "git_blob_sha": "5d6edb9384bc9a22a1bff84108a56b46842240da",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "libexec/fa3-secret-broker-current-host-bridge.sh",
+      "git_blob_sha": "0a47d44103008c0d3422597e032cd738024cb3fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "libexec/fa3-secret-broker-current-host-root.sh",
+      "git_blob_sha": "88449d3a442be337cd694006cdc6ea0981b10845",
       "baseline_delta_status": "added"
     },
     {
@@ -7564,12 +7579,12 @@
     },
     {
       "path": "src/fa3_secret_broker_current_host_gate.py",
-      "git_blob_sha": "dad59eea4519fbf6df9285058e761decf0044bbb",
+      "git_blob_sha": "f557634524dbd2a57ef726a1d323b6ac8314a559",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_secret_broker_gate.py",
-      "git_blob_sha": "2c0bbfbf40533c61b9eae97068bab96bc6853ae9",
+      "git_blob_sha": "337fa49ba89268c318e493ef2117ea023c422495",
       "baseline_delta_status": "added"
     },
     {
@@ -8444,12 +8459,12 @@
     },
     {
       "path": "tests/test_secret_broker_current_host.py",
-      "git_blob_sha": "5c735008efcc270bf7f788f59979d90bcbe77897",
+      "git_blob_sha": "9233f54f7c6f5568605085979bd017b1ec5716b7",
       "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_secret_broker_gate.py",
-      "git_blob_sha": "b2c22e2375ea656044bb135a139709ef821fb87f",
+      "git_blob_sha": "9da79e4b1b415b8dc4ea4b545f5851d326b690cf",
       "baseline_delta_status": "added"
     },
     {
