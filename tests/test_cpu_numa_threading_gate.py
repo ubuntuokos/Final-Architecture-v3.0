@@ -22,9 +22,26 @@ class CpuNumaThreadingGateTests(unittest.TestCase):
         topology = make_synthetic_dual_numa_topology()
         plan = build_thread_plan(topology, {"authority_receipt": "HRB_PLACEMENT_RECEIPT"})
         self.assertEqual(plan["thread_budget"], 16)
+        self.assertEqual(plan["fully_allocated_physical_cores"], 16)
+        self.assertEqual(plan["partially_allocated_physical_cores"], 0)
         node0 = [entry["cpu_id"] for entry in topology["logical_cpus"] if entry["numa_node"] == 0]
         local = build_thread_plan(topology, {"authority_receipt": "HRB_PLACEMENT_RECEIPT", "allowed_cpus": node0, "numa_node": 0})
         self.assertEqual(local["thread_budget"], 8)
+
+    def test_partial_smt_visibility_is_reported_separately(self):
+        topology = make_synthetic_dual_numa_topology()
+        one_thread_per_core = list(range(0, 32, 2))
+        plan = build_thread_plan(
+            topology,
+            {
+                "authority_receipt": "HRB_PLACEMENT_RECEIPT",
+                "allowed_cpus": one_thread_per_core,
+            },
+        )
+        self.assertEqual(plan["visible_logical_cpus"], 16)
+        self.assertEqual(plan["visible_physical_cores"], 16)
+        self.assertEqual(plan["fully_allocated_physical_cores"], 0)
+        self.assertEqual(plan["partially_allocated_physical_cores"], 16)
 
     def test_oversubscription_fails_closed(self):
         topology = make_synthetic_dual_numa_topology()
