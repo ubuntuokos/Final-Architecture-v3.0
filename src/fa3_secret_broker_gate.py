@@ -80,7 +80,7 @@ def check()->dict:
     bridge_root=(ROOT/"libexec/fa3-secret-broker-current-host-root.sh").read_text()
     bridge_workflow=(ROOT/".github/workflows/fa3-secret-broker-current-host.yml").read_text()
     bootstrap=(ROOT/"bin/fa3-current-host-runner-bootstrap.sh").read_text()
-    req('NOPASSWD: %s ""' in bridge_installer and "GENERAL_PASSWORDLESS_SUDO: NO" in bridge_installer and "git -C" in bridge_installer and "archive --format=tar" in bridge_installer,"SB-023K")
+    req('NOPASSWD: %s ""' in bridge_installer and "GENERAL_PASSWORDLESS_SUDO: NO" in bridge_installer and "git -C" in bridge_installer and "archive --format=tar" in bridge_installer and '"deployment/secrets/run-fa3-machine\\\\x2dstate.mount"' in bridge_installer,"SB-023K")
     req("privileged helper accepts no arguments" in bridge_root and 'PACKAGE_ROOT="/usr/local/lib/fa3/current-host-secret-broker"' in bridge_root and "FA3_CURRENT_HOST_PRIVILEGED_BRIDGE_SOURCE_COMMIT" in bridge_root,"SB-023L")
     req('sudo -n "$HELPER"' in bridge_client and "privileged bridge source drift" in bridge_client and "git -C" in bridge_client,"SB-023M")
     req("/usr/local/bin/fa3-secret-broker-current-host-bridge doctor" in bridge_workflow and "/usr/local/bin/fa3-secret-broker-current-host-bridge run" in bridge_workflow and "sudo FA3_REPO_ROOT" not in bridge_workflow,"SB-023N")
