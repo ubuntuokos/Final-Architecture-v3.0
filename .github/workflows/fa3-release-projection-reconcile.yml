@@ -40,6 +40,8 @@ jobs:
           ./bin/fa3-enforce release-projection
       - name: Commit reconciled projection when changed
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
