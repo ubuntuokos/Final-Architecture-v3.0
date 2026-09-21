@@ -7,8 +7,10 @@ BRIDGE_SOURCE_COMMIT="${FA3_CURRENT_HOST_PRIVILEGED_BRIDGE_SOURCE_COMMIT:-}"
 [[ "$BRIDGE_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "missing/invalid privileged bridge source binding" >&2; exit 2; }
 for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl install truncate mktemp tr; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
+ADMIN_USER="fa3-sb-admin-probe"; ADMIN_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
 getent group fa3-secret-clients >/dev/null || { echo "fa3-secret-clients group missing; run installer first" >&2; exit 2; }
+getent group fa3-secret-admin >/dev/null || { echo "fa3-secret-admin group missing; run installer first" >&2; exit 2; }
 TMP="$(mktemp -d /var/tmp/fa3-secret-broker-e2e.XXXXXX)"; chmod 0711 "$TMP"
 RUN_ID="${TMP##*.}"
 IMG="$TMP/fa3-machine-state.img"; BACKUP="$TMP/fa3-machine-state.backup.img"; KEY="$TMP/key"
@@ -36,6 +38,7 @@ cleanup(){
   mountpoint -q "$MNT" && umount "$MNT" || true
   [[ -e "/dev/mapper/$MAPPER" ]] && cryptsetup close "$MAPPER" || true
   if [[ "$PROBE_CREATED" == true ]]; then userdel "$PROBE_USER" >/dev/null 2>&1 || true; fi
+  if [[ "$ADMIN_CREATED" == true ]]; then userdel "$ADMIN_USER" >/dev/null 2>&1 || true; fi
   rm -rf "$PROJ" "$TMP"
 }
 trap cleanup EXIT INT TERM
@@ -43,6 +46,13 @@ if ! getent passwd "$PROBE_USER" >/dev/null; then
   useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients "$PROBE_USER"
   PROBE_CREATED=true
 fi
+if ! getent passwd "$ADMIN_USER" >/dev/null; then
+  useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-admin,fa3-secret-clients "$ADMIN_USER"
+  ADMIN_CREATED=true
+fi
+id -nG "$ADMIN_USER" | tr " " "\n" | grep -Fxq fa3-secret-admin
+id -nG "$ADMIN_USER" | tr " " "\n" | grep -Fxq fa3-secret-clients
+admin_secretctl(){ runuser -u "$ADMIN_USER" -- "$ROOT/bin/fa3-secretctl" "$@"; }
 truncate -s 192M "$IMG"; chmod 0600 "$IMG"; head -c 64 /dev/urandom > "$KEY"; chmod 0600 "$KEY"
 cryptsetup luksFormat --batch-mode --type luks2 --pbkdf argon2id --label FA3_MSTATE --key-file "$KEY" "$IMG"
 cryptsetup open --type luks2 --key-file "$KEY" "$IMG" "$MAPPER"
@@ -88,17 +98,18 @@ for _ in $(seq 1 50); do [[ -S "$SOCK" ]] && break; sleep 0.1; done
 "$ROOT/bin/fa3-secretctl" --socket "$SOCK" health >/dev/null
 CANARY1="FA3_SECRET_BROKER_CANARY1_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
 CANARY1_HASH="$(printf '%s' "$CANARY1" | sha256sum | cut -d' ' -f1)"
-printf '%s' "$CANARY1" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+printf '%s' "$CANARY1" | admin_secretctl --socket "$SOCK" put test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+NON_ROOT_ADMIN_AUTHORIZATION_PASS=true
 GOT_HASH="$(runuser -u "$PROBE_USER" -- /usr/local/bin/fa3-secretctl --socket "$SOCK" get test/current-host --consumer FA3-CURRENT-HOST-SECRET-PROBE --projection UDS_SINGLE_SECRET | sha256sum | cut -d' ' -f1)"
 [[ "$GOT_HASH" == "$CANARY1_HASH" ]] || { echo "authorized secret projection mismatch" >&2; exit 2; }
 
 CANARY2="FA3_SECRET_BROKER_CANARY2_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
 CANARY_HASH="$(printf '%s' "$CANARY2" | sha256sum | cut -d' ' -f1)"
-printf '%s' "$CANARY2" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" rotate test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
-META="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" admin-metadata test/current-host)"
+printf '%s' "$CANARY2" | admin_secretctl --socket "$SOCK" rotate test/current-host --classification MACHINE_SERVICE_SECRET --kind API_TOKEN >/dev/null
+META="$(admin_secretctl --socket "$SOCK" admin-metadata test/current-host)"
 grep -Fq '"version": 2' <<<"$META"
 grep -Fq '"secret_kind": "API_TOKEN"' <<<"$META"
-LIST="$("$ROOT/bin/fa3-secretctl" --socket "$SOCK" list-metadata)"
+LIST="$(admin_secretctl --socket "$SOCK" list-metadata)"
 grep -Fq '"secret_id": "test/current-host"' <<<"$LIST"
 ! grep -Fq "$CANARY1" <<<"$LIST"
 ! grep -Fq "$CANARY2" <<<"$LIST"
@@ -106,9 +117,9 @@ ROTATION_PASS=true
 METADATA_ONLY_LIST_PASS=true
 
 REVOKE_CANARY="FA3_SECRET_BROKER_REVOKE_$(head -c 32 /dev/urandom | sha256sum | cut -d' ' -f1)"
-printf '%s' "$REVOKE_CANARY" | "$ROOT/bin/fa3-secretctl" --socket "$SOCK" put test/revoke --classification MACHINE_SERVICE_SECRET --kind SERVICE_PASSWORD >/dev/null
-"$ROOT/bin/fa3-secretctl" --socket "$SOCK" revoke test/revoke >/dev/null
-if "$ROOT/bin/fa3-secretctl" --socket "$SOCK" admin-metadata test/revoke >/dev/null 2>&1; then
+printf '%s' "$REVOKE_CANARY" | admin_secretctl --socket "$SOCK" put test/revoke --classification MACHINE_SERVICE_SECRET --kind SERVICE_PASSWORD >/dev/null
+admin_secretctl --socket "$SOCK" revoke test/revoke >/dev/null
+if admin_secretctl --socket "$SOCK" admin-metadata test/revoke >/dev/null 2>&1; then
   echo "revoked secret still has active metadata" >&2; exit 2
 fi
 REVOCATION_PASS=true
@@ -130,7 +141,7 @@ POLICY_INSTALL_REMOVE_PASS=true
 if runuser -u "$PROBE_USER" -- test -r "$MNT/index.json" || runuser -u "$PROBE_USER" -- test -x "$MNT/objects"; then
   echo "consumer unexpectedly has raw vault access" >&2; exit 2
 fi
-PYTHONPATH="$ROOT/src" python3 - "$SOCK" <<'PY'
+runuser -u "$ADMIN_USER" -- env PYTHONPATH="$ROOT/src" python3 - "$SOCK" <<'PY'
 import sys
 from pathlib import Path
 from fa3_secret_broker import request
@@ -138,7 +149,8 @@ r=request(Path(sys.argv[1]),{"op":"bulk","secret_id":"test/current-host","consum
 if r.get("ok") is not False:
     raise SystemExit(2)
 bad=request(Path(sys.argv[1]),{"op":"put","secret_id":"test/not-credential","classification":"MACHINE_SERVICE_SECRET","secret_kind":"CACHE","secret_b64":"eA=="})
-raise SystemExit(0 if bad.get("ok") is False else 2)
+if bad.get("ok") is not False or "credential secrets only" not in str(bad.get("error","")):
+    raise SystemExit(2)
 PY
 ! grep -Fq "$CANARY1" "$AUDIT"
 ! grep -Fq "$CANARY2" "$AUDIT"
@@ -250,7 +262,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"bridge_source_commit":sys.argv[4],"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"current_host_privileged_bridge_source_binding_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"current_host_privileged_bridge_source_binding_pass":True,"non_root_admin_authorization_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},
