@@ -36,9 +36,10 @@ if compgen -G '/etc/systemd/system/fa3-secret-vault.service.d/90-fa3-secret-e2e-
   rmdir /etc/systemd/system/fa3-secret-vault.service.d >/dev/null 2>&1 || true
   STALE_DROPIN_REMOVED=true
 fi
-if compgen -G '/etc/systemd/system/run-fa3-machine\x2dstate.mount.d/90-fa3-secret-e2e-*.conf' >/dev/null; then
-  rm -f '/etc/systemd/system/run-fa3-machine\x2dstate.mount.d/'90-fa3-secret-e2e-*.conf
-  rmdir '/etc/systemd/system/run-fa3-machine\x2dstate.mount.d' >/dev/null 2>&1 || true
+STALE_MOUNT_DROPIN_DIR="/etc/systemd/system/$MOUNT_UNIT.d"
+if compgen -G "$STALE_MOUNT_DROPIN_DIR/90-fa3-secret-e2e-*.conf" >/dev/null; then
+  rm -f "$STALE_MOUNT_DROPIN_DIR"/90-fa3-secret-e2e-*.conf
+  rmdir "$STALE_MOUNT_DROPIN_DIR" >/dev/null 2>&1 || true
   STALE_DROPIN_REMOVED=true
 fi
 if [[ "$STALE_DROPIN_REMOVED" == true ]]; then systemctl daemon-reload; fi
@@ -313,6 +314,7 @@ fi
 cryptsetup open --test-passphrase --type luks2 --key-file "$REKEY_NEW" "$SIMG"
 ! systemctl is-active --quiet fa3-secrets.target
 ! systemctl is-active --quiet fa3-secret-broker.service
+! systemctl is-active --quiet "$MOUNT_UNIT"
 ! systemctl is-active --quiet fa3-secret-vault.service
 ! mountpoint -q /run/fa3/machine-state
 [[ ! -e "/dev/mapper/$SMAPPER" ]]
