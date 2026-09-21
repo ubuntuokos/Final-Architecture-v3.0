@@ -33,7 +33,7 @@ class AgentInstructionGateTests(unittest.TestCase):
     def test_repository_gate_passes(self):
         report=evaluate(ROOT)
         self.assertEqual("PASS",report["result"],report)
-        self.assertEqual({"passed":9,"total":9},report["summary"])
+        self.assertEqual({"passed":10,"total":10},report["summary"])
         self.assertTrue(report["fail_closed"])
         self.assertFalse(report["upstream_code_dependency"])
         self.assertFalse(report["current_host_runtime_promotion_claim"])
