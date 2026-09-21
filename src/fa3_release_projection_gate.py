@@ -460,6 +460,20 @@ def _git(root: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
+def _git_z(root: Path, *args: str) -> str:
+    proc = subprocess.run(
+        ["git", "-C", str(root), *args],
+        capture_output=True,
+        check=False,
+    )
+    if proc.returncode != 0:
+        stderr = proc.stderr.decode("utf-8", "surrogateescape").strip()
+        raise RuntimeError(
+            f"git {' '.join(args)} failed with rc={proc.returncode}: {stderr}"
+        )
+    return proc.stdout.decode("utf-8", "surrogateescape")
+
+
 def _git_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
     proc = subprocess.run(
         ["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant],
@@ -507,21 +521,26 @@ def _snapshot_release_surface_equivalent_except_projection(
 
 
 def _diff_rows(root: Path, snapshot_head: str):
-    raw = _git(root, "diff", "--name-status", "--find-renames", BASE_COMMIT, snapshot_head)
+    raw = _git_z(root, "diff", "--name-status", "-z", "--find-renames", BASE_COMMIT, snapshot_head)
+    tokens = raw.split("\0")
+    if tokens and tokens[-1] == "":
+        tokens.pop()
     rows = []
-    for line in raw.splitlines():
-        if not line:
-            continue
-        parts = line.split("\t")
-        status = parts[0]
+    i = 0
+    while i < len(tokens):
+        status = tokens[i]
+        i += 1
         if status.startswith(("R", "C")):
-            if len(parts) < 3:
-                raise RuntimeError(f"unparseable rename/copy row: {line}")
-            path = parts[-1]
+            if i + 1 >= len(tokens):
+                raise RuntimeError(f"unparseable rename/copy record: {status}")
+            _old_path = tokens[i]
+            path = tokens[i + 1]
+            i += 2
         else:
-            if len(parts) < 2:
-                raise RuntimeError(f"unparseable name-status row: {line}")
-            path = parts[1]
+            if i >= len(tokens):
+                raise RuntimeError(f"unparseable name-status record: {status}")
+            path = tokens[i]
+            i += 1
         rows.append((status, path))
     return rows
 
