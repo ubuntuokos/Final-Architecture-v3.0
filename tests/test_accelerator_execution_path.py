@@ -147,6 +147,31 @@ class AcceleratorExecutionPathTests(unittest.TestCase):
         self.assertEqual(validate_execution_requirement(requirement), [])
         self.assertTrue(execution_path_matches(requirement, self.zluda))
 
+    def test_binding_records_the_framework_path_that_matched(self):
+        requirement = {
+            "acceptable_execution_paths": [
+                {"backend": "level-zero", "backend_class": "native", "framework_backend": "pytorch-xpu"}
+            ],
+            "allow_translation": False,
+        }
+        candidate = {
+            "accelerator_id": "accel:intel:1",
+            "name": "level-zero",
+            "class": "native",
+            "detected": True,
+            "available": True,
+            "binding_scope": "DEVICE",
+            "framework_backends": ["openvino", "pytorch-xpu"],
+            "health": "READY",
+        }
+        binding = bind_hrb_execution_path(
+            authority_receipt="HRB_PLACEMENT_RECEIPT",
+            accelerator_id="accel:intel:1",
+            requirement=requirement,
+            candidate=candidate,
+        )
+        self.assertEqual(binding["framework_backend"], "pytorch-xpu")
+
     def test_hrb_binding_requires_authority_and_exact_device(self):
         requirement = {
             "acceptable_execution_paths": [
