@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -114,7 +114,8 @@
     "FULL_AND_PARTIAL_PHYSICAL_CORE_VISIBILITY_MUST_BE_REPRESENTED",
     "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
     "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
-    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT"
+    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT",
+    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION"
   ],
   "compatibility_aliases": {
     "GpuDeviceDescriptor": "AcceleratorDeviceDescriptor(kind=GPU)",
@@ -183,7 +184,9 @@
       "backend_required": [
         "name",
         "class",
-        "available"
+        "detected",
+        "available",
+        "binding_scope"
       ],
       "backend_optional": [
         "runtime_version",
@@ -203,7 +206,13 @@
         "COMPUTE_RUNTIME_PRESENCE_DOES_NOT_IMPLY_FRAMEWORK_COMPATIBILITY",
         "TRANSLATION_BACKENDS_ARE_NEVER_IMPLICIT_FALLBACK"
       ],
-      "unknown_vendor_policy": "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE"
+      "unknown_vendor_policy": "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE",
+      "backend_binding_semantics": {
+        "DEVICE": "BACKEND_CAPABILITY_IS_ATTRIBUTABLY_BOUND_TO_THIS_ACCELERATOR",
+        "HOST_UNBOUND": "BACKEND_DETECTED_ON_HOST_BUT_NOT_SAFELY_MAPPED_TO_THIS_ACCELERATOR",
+        "available_true_requires": "DETECTED_AND_DEVICE_BOUND",
+        "host_unbound_admission": "FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING"
+      }
     }
   }
 }
