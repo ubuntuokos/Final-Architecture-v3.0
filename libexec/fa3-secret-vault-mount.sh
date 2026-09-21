@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
-[[ "$(id -u)" -eq 0 ]] || { echo "root required" >&2; exit 2; }
+
 ACTION="${1:-}"
 IMAGE="${FA3_MACHINE_STATE_IMAGE:-/var/lib/fa3/state/fa3-machine-state.img}"
 MAPPER="${FA3_MACHINE_STATE_MAPPER:-fa3-machine-state}"
 MNT="${FA3_MACHINE_STATE_MOUNT:-/run/fa3/machine-state}"
 KEY="${CREDENTIALS_DIRECTORY:-}/fa3-machine-state-key"
 
-require_host_mount_namespace(){
-  local self_ns init_ns
-  self_ns="$(readlink /proc/self/ns/mnt)"
-  init_ns="$(readlink /proc/1/ns/mnt)"
-  [[ -n "$self_ns" && "$self_ns" == "$init_ns" ]] || {
-    echo "host mount namespace required: refusing private-namespace vault operation" >&2
-    return 2
-  }
+require_root(){
+  [[ "$(id -u)" -eq 0 ]] || { echo "root required" >&2; return 2; }
+}
+
+assert_mapper_open(){
+  [[ -e "/dev/mapper/$MAPPER" ]] || { echo "LUKS mapper missing: $MAPPER" >&2; return 2; }
+  [[ "$(blkid -p -o value -s TYPE "/dev/mapper/$MAPPER")" == "ext4" ]] || { echo "ext4 required" >&2; return 2; }
+  [[ "$(blkid -p -o value -s LABEL "/dev/mapper/$MAPPER")" == "FA3_MSTATE" ]] || { echo "FA3_MSTATE filesystem label required" >&2; return 2; }
 }
 
 assert_open(){
-  local source source_real mapper_real fstype opts
+  local source source_real mapper_real fstype opts owner mode
   mountpoint -q "$MNT" || { echo "vault mountpoint not active: $MNT" >&2; return 2; }
-  [[ -e "/dev/mapper/$MAPPER" ]] || { echo "LUKS mapper missing: $MAPPER" >&2; return 2; }
+  assert_mapper_open
   source="$(findmnt -rn -T "$MNT" -o SOURCE)"
   source_real="$(readlink -f "$source")"
   mapper_real="$(readlink -f "/dev/mapper/$MAPPER")"
@@ -34,35 +34,37 @@ assert_open(){
   for o in nodev nosuid noexec; do
     grep -qw "$o" <<<"${opts//,/ }" || { echo "mount option missing: $o" >&2; return 2; }
   done
+  owner="$(stat -c '%U:%G' "$MNT")"
+  mode="$(stat -c '%a' "$MNT")"
+  [[ "$owner" == "fa3-secret-broker:fa3-secret-broker" ]] || { echo "vault root ownership mismatch: $owner" >&2; return 2; }
+  [[ "$mode" == "750" ]] || { echo "vault root mode mismatch: $mode" >&2; return 2; }
+  [[ -d "$MNT/objects" && -f "$MNT/index.json" ]] || { echo "vault structure incomplete" >&2; return 2; }
 }
 
-open_vault(){
-  require_host_mount_namespace
+open_mapper(){
+  require_root
+  local opened=false
   rollback_open(){
     rc=$?
-    mountpoint -q "$MNT" && umount "$MNT" >/dev/null 2>&1 || true
-    [[ -e "/dev/mapper/$MAPPER" ]] && cryptsetup close "$MAPPER" >/dev/null 2>&1 || true
+    if [[ "$opened" == true && -e "/dev/mapper/$MAPPER" ]]; then
+      cryptsetup close "$MAPPER" >/dev/null 2>&1 || true
+    fi
     exit "$rc"
   }
   trap rollback_open ERR
   [[ -f "$IMAGE" && ! -L "$IMAGE" ]] || { echo "machine-state image missing" >&2; exit 2; }
   [[ "$(stat -c '%a' "$IMAGE")" == "600" ]] || { echo "machine-state image mode must be 0600" >&2; exit 2; }
   [[ -r "$KEY" ]] || { echo "systemd encrypted credential not materialized" >&2; exit 2; }
+  [[ ! -e "/dev/mapper/$MAPPER" ]] || { echo "LUKS mapper already open: $MAPPER" >&2; exit 2; }
   cryptsetup isLuks "$IMAGE"
   cryptsetup luksDump "$IMAGE" | grep -Eq '^Version:[[:space:]]+2$'
-  install -d -o fa3-secret-broker -g fa3-secret-broker -m0750 "$MNT"
-  if [[ ! -e "/dev/mapper/$MAPPER" ]]; then cryptsetup open --type luks2 --key-file "$KEY" "$IMAGE" "$MAPPER"; fi
-  [[ "$(blkid -p -o value -s TYPE "/dev/mapper/$MAPPER")" == "ext4" ]] || { echo "ext4 required" >&2; return 2; }
-  [[ "$(blkid -p -o value -s LABEL "/dev/mapper/$MAPPER")" == "FA3_MSTATE" ]] || { echo "FA3_MSTATE filesystem label required" >&2; return 2; }
-  if ! mountpoint -q "$MNT"; then mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"; fi
-  chown fa3-secret-broker:fa3-secret-broker "$MNT"
-  chmod 0750 "$MNT"
-  assert_open
+  cryptsetup open --type luks2 --key-file "$KEY" "$IMAGE" "$MAPPER"
+  opened=true
+  assert_mapper_open
   trap - ERR
 }
 
 assert_closed(){
-  require_host_mount_namespace
   if mountpoint -q "$MNT"; then
     echo "vault remains mounted: $MNT" >&2
     return 2
@@ -73,17 +75,20 @@ assert_closed(){
   fi
 }
 
-close_vault(){
-  require_host_mount_namespace
-  if mountpoint -q "$MNT"; then umount "$MNT"; fi
+close_mapper(){
+  require_root
+  if mountpoint -q "$MNT"; then
+    echo "refusing LUKS close while vault mount is active: $MNT" >&2
+    return 2
+  fi
   if [[ -e "/dev/mapper/$MAPPER" ]]; then cryptsetup close "$MAPPER"; fi
   assert_closed
 }
 
 case "$ACTION" in
-  open) open_vault;;
-  close) close_vault;;
-  assert-open) require_host_mount_namespace; assert_open;;
+  open|open-mapper) open_mapper;;
+  close|close-mapper) close_mapper;;
+  assert-open) assert_open;;
   assert-closed) assert_closed;;
-  *) echo "usage: $0 open|close|assert-open|assert-closed" >&2; exit 2;;
+  *) echo "usage: $0 open|close|open-mapper|close-mapper|assert-open|assert-closed" >&2; exit 2;;
 esac
