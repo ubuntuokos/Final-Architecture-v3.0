@@ -5,7 +5,7 @@ ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
 BRIDGE_SOURCE_COMMIT="${FA3_CURRENT_HOST_PRIVILEGED_BRIDGE_SOURCE_COMMIT:-}"
 [[ "$BRIDGE_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "missing/invalid privileged bridge source binding" >&2; exit 2; }
-for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl install truncate mktemp tr; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl journalctl install truncate mktemp tr; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 ADMIN_USER="fa3-sb-admin-probe"; ADMIN_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
@@ -214,7 +214,12 @@ LoadCredentialEncrypted=fa3-machine-state-key:$ECRED
 EOF
 systemctl daemon-reload
 SYSTEMD_PHASE_ACTIVE=true
-systemctl start fa3-secrets.target
+if ! systemctl start fa3-secrets.target; then
+  echo "FAIL: fa3-secrets.target start failed; collecting bounded diagnostics" >&2
+  systemctl --no-pager --full status fa3-secret-vault.service fa3-secret-broker.service fa3-secrets.target >&2 || true
+  journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service >&2 || true
+  exit 2
+fi
 systemctl is-active --quiet fa3-secret-vault.service
 systemctl is-active --quiet fa3-secret-broker.service
 mountpoint -q /run/fa3/machine-state
