@@ -46,9 +46,24 @@ class SecretBrokerGateTests(unittest.TestCase):
         unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
         self.assertIn("CapabilityBoundingSet=CAP_SYS_ADMIN CAP_CHOWN CAP_FOWNER",unit)
         self.assertIn("AmbientCapabilities=CAP_SYS_ADMIN CAP_CHOWN CAP_FOWNER",unit)
+        lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
+        self.assertIn("diagnose_runtime",lifecycle)
+        self.assertIn("journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service",lifecycle)
+
+    def test_lifecycle_start_requires_broker_readiness_and_health(self):
+        profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
+        expected={"SECRETS_TARGET_ACTIVE","VAULT_SERVICE_ACTIVE","VAULT_MOUNTED","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
+        self.assertEqual(expected,set(profile["lifecycle"]["start_completion_requires"]))
+        self.assertEqual("FAIL_CLOSED_ROLLBACK_TO_CLOSED",profile["lifecycle"]["start_readiness_timeout"])
+        lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
+        self.assertIn("wait_broker_ready",lifecycle)
+        self.assertIn('[[ -S "$BROKER_SOCKET" ]]',lifecycle)
+        self.assertIn('"$BROKER_HEALTH_CLI" --socket "$BROKER_SOCKET" health',lifecycle)
+        self.assertIn("broker readiness/health timeout",lifecycle)
+        self.assertIn("systemctl stop fa3-secrets.target",lifecycle)
         current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
-        self.assertIn("collecting bounded diagnostics",current_host)
-        self.assertIn("journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service",current_host)
+        self.assertIn('/usr/local/sbin/fa3-secrets-lifecycle start',current_host)
+        self.assertIn("broker health failed after lifecycle readiness PASS",current_host)
 
     def test_policy_preflight_validation(self):
         with tempfile.TemporaryDirectory() as td:
