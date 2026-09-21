@@ -74,7 +74,12 @@ cleanup(){
     rmdir "$MOUNT_DROPIN_DIR" >/dev/null 2>&1 || true
     systemctl daemon-reload >/dev/null 2>&1 || true
   fi
-  rm -f "$SIMG" "$ECRED" "$REKEY_NEW"
+  rm -f "$ECRED" "$REKEY_NEW"
+  if mountpoint -q /run/fa3/machine-state || [[ -e "/dev/mapper/$SMAPPER" ]]; then
+    echo "FAIL: preserving E2E backing image because systemd mount/mapper cleanup is incomplete: $SIMG" >&2
+  else
+    rm -f "$SIMG"
+  fi
   if [[ -n "$RESTORE_PID" ]]; then kill "$RESTORE_PID" >/dev/null 2>&1 || true; wait "$RESTORE_PID" 2>/dev/null || true; fi
   if [[ -n "$BROKER_PID" ]]; then kill "$BROKER_PID" >/dev/null 2>&1 || true; wait "$BROKER_PID" 2>/dev/null || true; fi
   mountpoint -q "$RMNT" && umount "$RMNT" || true
