@@ -83,6 +83,13 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("privileged bridge source drift",client)
         self.assertIn("/usr/local/bin/fa3-secret-broker-current-host-bridge run",workflow)
         self.assertNotIn('run: sudo FA3_REPO_ROOT',workflow)
+        self.assertEqual("DEDICATED_EPHEMERAL_NON_ROOT",boundary["broker_admin_e2e_identity"])
+        self.assertEqual({"fa3-secret-admin","fa3-secret-clients"},set(boundary["broker_admin_required_groups"]))
+        self.assertEqual("FORBIDDEN",boundary["root_peer_admin_assumption_for_e2e"])
+        current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
+        self.assertIn('ADMIN_USER="fa3-sb-admin-probe"',current_host)
+        self.assertIn('--groups fa3-secret-admin,fa3-secret-clients "$ADMIN_USER"',current_host)
+        self.assertIn('runuser -u "$ADMIN_USER"',current_host)
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
