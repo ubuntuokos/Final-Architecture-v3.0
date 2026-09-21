@@ -249,7 +249,10 @@ class AcceleratorDeviceDescriptor:
 
     @property
     def workload_compatible(self) -> bool:
-        return any(backend.available for backend in self.backends)
+        return any(
+            backend.available and backend.backend_class in {"native", "portable"}
+            for backend in self.backends
+        )
 
     def as_dict(self) -> dict[str, Any]:
         value = asdict(self)
