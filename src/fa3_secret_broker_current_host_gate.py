@@ -10,6 +10,7 @@ SCHEMA = "fa3.secret-broker-current-host-receipt.v1"
 REQUIRED_CHECKS = [
     "current_host_privileged_bridge_source_binding_pass",
     "non_root_admin_authorization_pass",
+    "ephemeral_admin_probe_removed_pass",
     "authorized_single_secret_get",
     "systemd_loadcredential_projection_pass",
     "encrypted_systemd_unlock_runtime_pass",
