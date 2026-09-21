@@ -91,6 +91,41 @@ class AcceleratorExecutionPathTests(unittest.TestCase):
         self.assertTrue(execution_path_matches(requirement, self.vulkan))
         self.assertFalse(execution_path_matches(requirement, self.cuda))
 
+    def test_canonical_descriptor_name_and_class_aliases_are_accepted(self):
+        requirement = {
+            "acceptable_execution_paths": [
+                {"backend": "vulkan", "backend_class": "portable", "framework_backend": "vulkan-compute"}
+            ],
+            "allow_translation": False,
+        }
+        descriptor = {
+            "name": "vulkan",
+            "class": "portable",
+            "detected": True,
+            "available": True,
+            "binding_scope": "DEVICE",
+            "framework_backend": "vulkan-compute",
+            "health": "READY",
+        }
+        self.assertTrue(execution_path_matches(requirement, descriptor))
+
+    def test_host_unbound_descriptor_is_never_execution_compatible(self):
+        requirement = {
+            "acceptable_execution_paths": [
+                {"backend": "vulkan", "backend_class": "portable"}
+            ],
+            "allow_translation": False,
+        }
+        descriptor = {
+            "name": "vulkan",
+            "class": "portable",
+            "detected": True,
+            "available": False,
+            "binding_scope": "HOST_UNBOUND",
+            "health": "READY",
+        }
+        self.assertFalse(execution_path_matches(requirement, descriptor))
+
     def test_translation_is_denied_by_default(self):
         self.assertFalse(execution_path_matches({}, self.zluda))
         requirement = {
