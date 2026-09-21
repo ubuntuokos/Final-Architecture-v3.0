@@ -14,6 +14,8 @@ The vault content scope is **credential secrets only**. Cache data, model data, 
 
 The default machine-state unlock source is `LoadCredentialEncrypted=fa3-machine-state-key:...`. TPM2, FIDO2/PKCS#11 and removable recovery mechanisms are optional higher-assurance choices, not global hardware requirements.
 
+Lifecycle STARTED is a readiness state, not merely a systemd process state. The target, vault service, hardened mount and LUKS mapper must be present, and the unprivileged broker must have created its Unix socket and returned a successful health response. The lifecycle polls that readiness for a bounded interval; timeout or health failure is fail-closed, emits bounded service/journal diagnostics, stops `fa3-secrets.target`, and attempts to return to CLOSED. The same lifecycle path is exercised by the physical current-host E2E and by unlock-key rotation.
+
 ## Access model
 
 Consumers use `SecretReference`; they never receive the full vault mount. The broker listens only on a local Unix domain socket and verifies Linux peer credentials using `SO_PEERCRED`. Each secret has an explicit policy binding consumer identity, Unix service identity and optional executable/systemd-unit constraints to allowed projection types.
