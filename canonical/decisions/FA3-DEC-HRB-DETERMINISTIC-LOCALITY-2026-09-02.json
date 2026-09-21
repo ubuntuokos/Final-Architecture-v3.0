@@ -40,7 +40,11 @@
     "systemd manager-global CPUAffinity NUMAPolicy and NUMAMask remain neutral and cannot replace HRB placement",
     "AI/HPC task file-descriptor memlock OOM restart timeout and timer tuning is per-service slice or scope policy after HRB admission",
     "memory-pressure observability remains enabled unless an explicit host-survival policy says otherwise",
-    "privileged or host-global resource-policy changes require semantic diff explicit approval bounded apply acceptance evidence rollback and expiry"
+    "privileged or host-global resource-policy changes require semantic diff explicit approval bounded apply acceptance evidence rollback and expiry",
+    "AcceleratorAssignment binds a workload-compatible execution path in addition to the physical accelerator identity",
+    "physical accelerator presence alone cannot satisfy accelerator admission without a compatible discovered backend",
+    "translation backends require explicit workload policy and are never implicit fallback",
+    "silent accelerator backend substitution is fail-closed"
   ],
   "explicitly_not_baseline": [
     "PDS",
@@ -65,6 +69,6 @@
   ],
   "consumer_policy": "ComfyUI Ollama llama.cpp PyTorch STT video and other local accelerator consumers SHALL consume HRB placement and SHALL NOT create parallel resource authority.",
   "current_host_claim": "REFERENCE_CONFORMANCE_ONLY_UNTIL_CURRENT_HOST_TOPOLOGY_LOCALITY_E2E_IS_COLLECTED",
-  "last_amended_at": "2026-09-03",
-  "amendment": "GLOBAL_SYSTEMD_MANAGER_AI_HPC_TUNING_SUPERSEDED_BY_HRB_ADMITTED_PER_WORKLOAD_PROJECTION"
+  "last_amended_at": "2026-09-21",
+  "amendment": "EXECUTION_BACKEND_FABRIC_BOUND_TO_HRB_ACCELERATOR_ASSIGNMENT_WITH_EXPLICIT_TRANSLATION_POLICY"
 }
