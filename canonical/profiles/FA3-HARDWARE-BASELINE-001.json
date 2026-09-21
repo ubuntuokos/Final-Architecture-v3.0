@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HARDWARE-BASELINE-001",
   "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -114,7 +114,12 @@
       "TRANSLATION"
     ],
     "device_presence_implies_backend_usability": false,
-    "unknown_vendor_is_valid_discovery_output": true
+    "unknown_vendor_is_valid_discovery_output": true,
+    "backend_binding_policy": {
+      "available_requires_device_binding": true,
+      "host_unbound_backend_is_discovery_only": true,
+      "host_unbound_backend_may_authorize_admission": false
+    }
   },
   "invariants": [
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
@@ -137,7 +142,8 @@
     "FULL_AND_PARTIAL_PHYSICAL_CORE_VISIBILITY_MUST_BE_REPRESENTED",
     "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
     "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
-    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT"
+    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT",
+    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION"
   ],
   "current_host_semantics": "EXACT_HOST_TUPLES_ALLOWED_AS_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS",
   "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND"
