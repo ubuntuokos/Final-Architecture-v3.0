@@ -70,7 +70,7 @@ class HardwarePortabilityGateTests(unittest.TestCase):
 
     def test_discovery_contract_distinguishes_cpu_and_backend_dimensions(self):
         obj=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
-        self.assertEqual("1.4.0",obj["version"])
+        self.assertEqual("1.4.1",obj["version"])
         cpu=obj["descriptor_schemas"]["cpu"]
         accel=obj["descriptor_schemas"]["accelerator"]
         self.assertIn("physical_cores_fully_allocated",cpu["required_counts"])
@@ -84,6 +84,16 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertEqual(
             accel["unknown_vendor_policy"],
             "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE",
+        )
+        binding=accel["backend_binding_semantics"]
+        self.assertTrue(binding["available_true_requires"]=="DETECTED_AND_DEVICE_BOUND")
+        self.assertEqual(
+            binding["host_unbound_admission"],
+            "FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING",
+        )
+        self.assertIn(
+            "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
+            obj["invariants"],
         )
 
     def test_runtime_fixed_vendor_lists_are_blocking(self):
