@@ -17,17 +17,9 @@ assert_mapper_open(){
   [[ "$(blkid -p -o value -s LABEL "/dev/mapper/$MAPPER")" == "FA3_MSTATE" ]] || { echo "FA3_MSTATE filesystem label required" >&2; return 2; }
 }
 
-assert_open(){
-  local source source_real mapper_real fstype opts owner mode
+assert_mount_common(){
+  local fstype opts owner mode
   mountpoint -q "$MNT" || { echo "vault mountpoint not active: $MNT" >&2; return 2; }
-  assert_mapper_open
-  source="$(findmnt -rn -T "$MNT" -o SOURCE)"
-  source_real="$(readlink -f "$source")"
-  mapper_real="$(readlink -f "/dev/mapper/$MAPPER")"
-  [[ -n "$source_real" && "$source_real" == "$mapper_real" ]] || {
-    echo "vault mount source mismatch: expected mapper $MAPPER" >&2
-    return 2
-  }
   fstype="$(findmnt -rn -T "$MNT" -o FSTYPE)"
   [[ "$fstype" == "ext4" ]] || { echo "mounted vault filesystem must be ext4" >&2; return 2; }
   opts="$(findmnt -rn -T "$MNT" -o OPTIONS)"
@@ -39,6 +31,23 @@ assert_open(){
   [[ "$owner" == "fa3-secret-broker:fa3-secret-broker" ]] || { echo "vault root ownership mismatch: $owner" >&2; return 2; }
   [[ "$mode" == "750" ]] || { echo "vault root mode mismatch: $mode" >&2; return 2; }
   [[ -d "$MNT/objects" && -f "$MNT/index.json" ]] || { echo "vault structure incomplete" >&2; return 2; }
+}
+
+assert_broker_open(){
+  assert_mount_common
+}
+
+assert_open(){
+  local source source_real mapper_real
+  assert_mount_common
+  assert_mapper_open
+  source="$(findmnt -rn -T "$MNT" -o SOURCE)"
+  source_real="$(readlink -f "$source")"
+  mapper_real="$(readlink -f "/dev/mapper/$MAPPER")"
+  [[ -n "$source_real" && "$source_real" == "$mapper_real" ]] || {
+    echo "vault mount source mismatch: expected mapper $MAPPER" >&2
+    return 2
+  }
 }
 
 open_mapper(){
@@ -89,6 +98,7 @@ case "$ACTION" in
   open|open-mapper) open_mapper;;
   close|close-mapper) close_mapper;;
   assert-open) assert_open;;
+  assert-broker-open) assert_broker_open;;
   assert-closed) assert_closed;;
-  *) echo "usage: $0 open|close|open-mapper|close-mapper|assert-open|assert-closed" >&2; exit 2;;
+  *) echo "usage: $0 open|close|open-mapper|close-mapper|assert-open|assert-broker-open|assert-closed" >&2; exit 2;;
 esac
