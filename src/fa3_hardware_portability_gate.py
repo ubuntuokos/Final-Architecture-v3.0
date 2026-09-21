@@ -246,6 +246,14 @@ def evaluate(root: Path) -> dict[str, Any]:
       check("vendor-neutral-root-profile", _neutral_accelerator_record(hw_profile.get("minimum_portable_hardware_envelope",{}).get("accelerator",{})), "FA3-HW root is vendor-neutral and CPU-only conformant"),
       check("vendor-neutral-root-contract", _neutral_accelerator_record(hw_contract.get("portable_minimum_envelope",{}).get("accelerator",{})), "root hardware contract is vendor-neutral and CPU-only conformant"),
       check("vendor-neutral-discovery-contract", envelope.get("accelerator_devices_min")==0 and envelope.get("cpu_only_host_conforms") is True and envelope.get("cpu_only_workload_requires_accelerator_lease") is False and envelope.get("accelerator_vendor_pin")=="FORBIDDEN" and envelope.get("global_runtime_api_pin")=="FORBIDDEN" and envelope.get("global_vendor_capability_floor")=="FORBIDDEN", "discovery contract is vendor-neutral and accepts an empty accelerator set"),
+      check(
+          "device-bound-backend-admission",
+          contract.get("descriptor_schemas",{}).get("accelerator",{}).get("backend_binding_semantics",{}).get("available_true_requires")=="DETECTED_AND_DEVICE_BOUND"
+          and contract.get("descriptor_schemas",{}).get("accelerator",{}).get("backend_binding_semantics",{}).get("host_unbound_admission")=="FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING"
+          and "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION" in contract.get("invariants",[])
+          and any(r.get("invariant")=="UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION" for r in enforcement.get("rules",[])),
+          "host-level backend detection cannot authorize a specific accelerator without device binding",
+      ),
       check("nvidia-supported", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="NVIDIA"), "NVIDIA supported"),
       check("amd-supported", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="AMD"), "AMD supported"),
       check("intel-supported", portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=1,accelerator_vendor="INTEL"), "Intel supported"),
