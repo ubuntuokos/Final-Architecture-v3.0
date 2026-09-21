@@ -24,7 +24,8 @@ class ReleaseProjectionGateTests(unittest.TestCase):
     def test_reconcile_runs_on_main_push(self):
         workflow = (ROOT / ".github/workflows/fa3-release-projection-reconcile.yml").read_text(encoding="utf-8")
         self.assertIn('      - "main"', workflow)
-        self.assertIn("!contains(github.event.head_commit.message, '[projection]')", workflow)
+        self.assertIn("!startsWith(github.event.head_commit.message, 'FA3: reconcile unified release projection [projection]')", workflow)
+        self.assertNotIn("!contains(github.event.head_commit.message, '[projection]')", workflow)
 
     def _copy_repo(self):
         projection = json.loads((ROOT / PROJECTION_PATH).read_text(encoding="utf-8"))
