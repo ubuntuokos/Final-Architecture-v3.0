@@ -39,42 +39,51 @@ class SecretBrokerGateTests(unittest.TestCase):
     def test_vault_service_capabilities_are_minimal_and_diagnostic(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
         caps=profile["lifecycle"]["vault_service_capabilities"]
-        expected={"CAP_SYS_ADMIN","CAP_CHOWN","CAP_FOWNER"}
+        expected={"CAP_SYS_ADMIN"}
         self.assertEqual(expected,set(caps["bounding_set"]))
         self.assertEqual(expected,set(caps["ambient"]))
         self.assertEqual("FORBIDDEN",caps["broader_capabilities"])
         unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
-        self.assertIn("CapabilityBoundingSet=CAP_SYS_ADMIN CAP_CHOWN CAP_FOWNER",unit)
-        self.assertIn("AmbientCapabilities=CAP_SYS_ADMIN CAP_CHOWN CAP_FOWNER",unit)
+        self.assertIn("CapabilityBoundingSet=CAP_SYS_ADMIN",unit)
+        self.assertIn("AmbientCapabilities=CAP_SYS_ADMIN",unit)
+        self.assertNotIn("CAP_CHOWN",unit)
+        self.assertNotIn("CAP_FOWNER",unit)
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
         self.assertIn("diagnose_runtime",lifecycle)
-        self.assertIn("journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service",lifecycle)
+        self.assertIn('journalctl --no-pager -n 160 -u fa3-secret-vault.service -u "$MOUNT_UNIT" -u fa3-secret-broker.service',lifecycle)
 
-    def test_vault_mount_owner_uses_host_mount_namespace(self):
+    def test_vault_mount_is_systemd_managed_and_mapper_service_is_separate(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
         contract=profile["lifecycle"]["mount_namespace_contract"]
-        self.assertEqual("PID1_HOST_MOUNT_NAMESPACE",contract["required_namespace"])
-        self.assertEqual("FORBIDDEN_FOR_VAULT_MOUNT_OWNER",contract["private_mount_namespace"])
-        self.assertTrue(contract["runtime_namespace_guard"])
-        self.assertTrue(contract["broker_mountpoint_preflight"])
-        unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
-        self.assertIn("PrivateMounts=false",unit)
-        directives={line.split("=",1)[0] for line in unit.splitlines() if "=" in line and not line.lstrip().startswith("#")}
-        self.assertTrue(set(contract["forbidden_vault_unit_directives"]).isdisjoint(directives))
-        mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
-        self.assertIn("readlink /proc/self/ns/mnt",mount)
-        self.assertIn("readlink /proc/1/ns/mnt",mount)
-        self.assertIn("host mount namespace required",mount)
-        self.assertIn("vault mount source mismatch",mount)
+        self.assertEqual("run-fa3-machine\\x2dstate.mount",contract["mount_unit"])
+        self.assertEqual("SYSTEM_MANAGER_MAIN_MOUNT_NAMESPACE",contract["mount_visibility"])
+        self.assertEqual("LUKS_MAPPER_ONLY",contract["credential_service_role"])
+        self.assertEqual("FORBIDDEN",contract["credential_service_mount_ownership"])
+        self.assertEqual("MAY_BE_PRIVATE",contract["credential_service_filesystem_namespace"])
+        self.assertEqual("NOT_REQUIRED",contract["pid1_namespace_introspection"])
+        self.assertEqual("HELPER_ASSERT_BROKER_OPEN_NO_DEVICE_ACCESS",contract["broker_mount_validation"])
+        self.assertEqual("LIFECYCLE_ASSERT_OPEN_RESOLVES_EXPECTED_MAPPER",contract["host_mount_source_validation"])
+        mount_unit=(ROOT/"deployment/secrets/run-fa3-machine\\x2dstate.mount").read_text()
+        self.assertIn("What=/dev/mapper/fa3-machine-state",mount_unit)
+        self.assertIn("Where=/run/fa3/machine-state",mount_unit)
+        self.assertIn("Type=ext4",mount_unit)
+        self.assertIn("Options=nodev,nosuid,noexec",mount_unit)
+        helper=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
+        self.assertNotIn("/proc/1/ns/mnt",helper)
+        self.assertIn("open_mapper",helper)
+        self.assertIn("close_mapper",helper)
+        self.assertIn("vault mount source mismatch",helper)
         broker=(ROOT/"deployment/secrets/fa3-secret-broker.service").read_text()
-        self.assertIn("ExecStartPre=/usr/bin/mountpoint -q /run/fa3/machine-state",broker)
+        self.assertIn("Requires=run-fa3-machine\\x2dstate.mount",broker)
+        self.assertIn("ExecStartPre=/usr/local/libexec/fa3-secret-vault-mount assert-broker-open",broker)
+        self.assertIn("PrivateDevices=true",broker)
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
-        self.assertIn("force_host_cleanup",lifecycle)
-        self.assertIn('"$VAULT_MOUNT_HELPER" close',lifecycle)
+        self.assertIn('systemctl stop "$MOUNT_UNIT"',lifecycle)
+        self.assertIn('"$VAULT_MOUNT_HELPER" close-mapper',lifecycle)
 
     def test_lifecycle_start_requires_broker_readiness_and_health(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
-        expected={"SECRETS_TARGET_ACTIVE","VAULT_SERVICE_ACTIVE","VAULT_MOUNTED","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
+        expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
         self.assertEqual(expected,set(profile["lifecycle"]["start_completion_requires"]))
         self.assertEqual("FAIL_CLOSED_ROLLBACK_TO_CLOSED",profile["lifecycle"]["start_readiness_timeout"])
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
@@ -147,6 +156,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn('"host_mount_namespace_visibility_pass":True',current_host)
         self.assertIn("fa3-secret-broker-current-host.lock",current_host)
         self.assertIn("fa3-machine-state-e2e-*",current_host)
+        self.assertIn("preserving E2E backing image because systemd mount/mapper cleanup is incomplete",current_host)
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()

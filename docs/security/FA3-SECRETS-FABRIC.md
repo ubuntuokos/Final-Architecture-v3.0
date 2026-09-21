@@ -32,17 +32,19 @@ The broker audit contains only operation metadata and a SHA-256 of the SecretRef
 
 The closed LUKS2 image can be copied opaquely to user-selected backup storage. Recovery is not PASS until a copy is independently opened read-only and the restored broker health check succeeds. The unlock secret is never stored in the same image.
 
-## Vault service capability and mount-namespace boundary
+## Vault mapper and host-mount boundary
 
-The privileged vault service retains only the Linux capabilities required by its existing mechanics: `CAP_SYS_ADMIN` for dm-crypt/mount operations, `CAP_CHOWN` for assigning the mounted vault root to the broker identity, and `CAP_FOWNER` for enforcing the vault-root mode after ownership assignment. Broader capability sets are forbidden. The unprivileged broker service retains an empty capability bounding set.
+The privileged credential-bearing service no longer owns the filesystem mount. Its responsibility is limited to validating the encrypted image and opening or closing the LUKS2 device-mapper mapping. Its capability boundary is therefore reduced to exactly `CAP_SYS_ADMIN`; `CAP_CHOWN`, `CAP_FOWNER` and broader capability sets are forbidden.
 
-The vault service is the owner of a mount that must become visible to the broker and to the host lifecycle controller. It therefore MUST execute mount/open/close/assert operations in the PID 1 host mount namespace. Filesystem-namespace sandboxing directives such as `PrivateTmp=`, `ProtectSystem=`, `ProtectHome=`, `ReadWritePaths=` and related mount-isolation controls are forbidden on the mount-owning vault unit because they can make a successful mount private to the service. The helper independently compares `/proc/self/ns/mnt` with `/proc/1/ns/mnt` and refuses the operation if they differ.
+The host-visible filesystem mount is owned by the native systemd mount unit `run-fa3-machine\\x2dstate.mount`, corresponding to `/run/fa3/machine-state`. The mount unit requires the mapper service, mounts the mapper as ext4 with `nodev,nosuid,noexec`, and is required by the unprivileged broker. Because PID 1 supervises the mount unit directly, the mount exists in the system manager's main mount namespace without requiring the credential-bearing service to disable normal filesystem namespace hardening or introspect `/proc/1/ns/mnt`.
 
-This exception applies only to the short-lived privileged mount-owning unit. The broker remains strongly sandboxed and receives no mount capability. Its `ExecStartPre` requires `/run/fa3/machine-state` to be a real mountpoint, so a bare directory can never become the broker vault root.
+The encrypted credential remains delivered through `LoadCredentialEncrypted=` only to the mapper service. That service may therefore use its own filesystem namespace without affecting mount visibility. The broker retains its existing strong sandbox, including `PrivateDevices=true`, and receives no mount or mapper capability. Its `ExecStartPre` therefore uses the device-free `assert-broker-open` check to verify the ext4 mount, hardening flags, ownership/mode and vault structure without touching `/dev/mapper`. The root lifecycle separately runs the full `assert-open` check and resolves the mounted source to the expected mapper.
 
-Lifecycle rollback performs an explicit host-namespace cleanup after stopping `fa3-secrets.target`. The physical current-host E2E is single-instance locked, detects and closes unmounted stale `fa3-machine-state-e2e-*` mappings left by a previous failed run, and removes only its reserved E2E artifacts. A mounted stale mapper is not auto-unmounted blindly; that state fails closed for diagnosis.
+New images persist `fa3-secret-broker:fa3-secret-broker` ownership and mode `0750` on the ext4 root at initialization, so mount ownership does not require privileged mutation during normal startup. Lifecycle shutdown is ordered broker → systemd mount unit → mapper service. Rollback explicitly stops all three layers and refuses to close a mapper while its mount remains active.
 
-Current-host systemd lifecycle failures are fail-closed and self-diagnosing: the E2E prints bounded `systemctl status` output and at most 120 relevant journal entries for the vault and broker units before cleanup. No raw secret values are intentionally emitted by these diagnostics.
+The physical current-host E2E uses a drop-in to point the canonical mount unit at its disposable mapper and proves from the host context that the mounted source resolves to that mapper. It remains single-instance locked, detects stale E2E mappings, and requires `host_mount_namespace_visibility_pass` before a PASS receipt can be emitted.
+
+Current-host systemd lifecycle failures remain fail-closed and self-diagnosing with bounded status/journal output. No raw secret values are intentionally emitted by these diagnostics.
 
 ## Hardware and desktop audit
 

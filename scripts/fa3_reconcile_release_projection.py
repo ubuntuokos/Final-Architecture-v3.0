@@ -24,6 +24,14 @@ def run(root: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
+def run_z(root: Path, *args: str) -> str:
+    proc = subprocess.run(["git", "-C", str(root), *args], capture_output=True, check=False)
+    if proc.returncode != 0:
+        stderr = proc.stderr.decode("utf-8", "surrogateescape").strip()
+        raise RuntimeError(f"git {' '.join(args)} failed: {stderr}")
+    return proc.stdout.decode("utf-8", "surrogateescape")
+
+
 def loadj(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -46,14 +54,26 @@ def mutable_path(rel: str) -> bool:
 
 
 def diff_rows(root: Path, base: str, snapshot: str):
-    raw = run(root, "diff", "--name-status", "--find-renames", base, snapshot)
+    raw = run_z(root, "diff", "--name-status", "-z", "--find-renames", base, snapshot)
+    tokens = raw.split("\0")
+    if tokens and tokens[-1] == "":
+        tokens.pop()
     rows = []
-    for line in raw.splitlines():
-        if not line:
-            continue
-        parts = line.split("\t")
-        status = parts[0]
-        path = parts[-1]
+    i = 0
+    while i < len(tokens):
+        status = tokens[i]
+        i += 1
+        if status.startswith(("R", "C")):
+            if i + 1 >= len(tokens):
+                raise RuntimeError(f"unparseable rename/copy record: {status}")
+            _old_path = tokens[i]
+            path = tokens[i + 1]
+            i += 2
+        else:
+            if i >= len(tokens):
+                raise RuntimeError(f"unparseable name-status record: {status}")
+            path = tokens[i]
+            i += 1
         rows.append((status, path))
     return rows
 
@@ -150,12 +170,12 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "capability_count_after": capability_count,
     }
 
-    ls = run(root, "ls-tree", "-r", "--full-tree", snapshot)
+    ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
-    for line in ls.splitlines():
-        if not line:
+    for record in ls.split("\0"):
+        if not record:
             continue
-        meta, path = line.split("\t", 1)
+        meta, path = record.split("\t", 1)
         mode, obj_type, sha = meta.split()
         if obj_type != "blob" or path == projection_rel or mutable_path(path):
             continue
