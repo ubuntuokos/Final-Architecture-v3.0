@@ -18,6 +18,8 @@ import socket
 import subprocess
 from typing import Any
 
+from fa3_hardware_discovery import discover_accelerator_devices
+
 
 def _run(argv: list[str]) -> tuple[int, str, str]:
     proc = subprocess.run(argv, text=True, capture_output=True, check=False)
@@ -98,6 +100,7 @@ def _fd_holders(device_paths: list[str]) -> list[dict[str, Any]]:
 def collect() -> dict[str, Any]:
     accel = sorted(glob.glob("/dev/accel/accel*"))
     dri = sorted(glob.glob("/dev/dri/renderD*"))
+    inventory = [device.as_dict() for device in discover_accelerator_devices()]
     return {
         "schema": "fa3.accelerator-guard-current-host-receipt.v1",
         "profile_id": "FA3-ACCEL-GUARD-001",
@@ -105,6 +108,8 @@ def collect() -> dict[str, Any]:
         "host": socket.gethostname(),
         "uid": os.getuid(),
         "read_only": True,
+        "accelerator_inventory": inventory,
+        "inventory_source": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "nvidia": _nvidia(),
         "linux_accel_devices": accel,
         "linux_accel_fd_holders": _fd_holders(accel),
@@ -112,6 +117,8 @@ def collect() -> dict[str, Any]:
         "limitations": [
             "DRM render-node fd presence alone does not identify per-engine conflict.",
             "NPU usage attribution is provider/kernel dependent; /dev/accel fd ownership is best-effort.",
+            "Physical device discovery does not prove compute backend or framework compatibility.",
+            "Vendor-specific telemetry enriches the generic inventory but does not replace it.",
             "This collector does not authorize, stop, pause, migrate, or kill workloads."
         ],
     }
