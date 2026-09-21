@@ -152,7 +152,8 @@
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
-        "evidence/reference/marketing-ci-2026-08-31.json"
+        "evidence/reference/marketing-ci-2026-08-31.json",
+        "evidence/reference/secret-broker-current-host-2026-09-21.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -162,6 +163,17 @@
         "gate_id": "FA3-GATE-MARKETING-001",
         "runtime_status": "PENDING_CURRENT_HOST",
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "secret_broker_projection_status": {
+        "profile_id": "FA3-SECRET-BROKER-001",
+        "conformance_id": "FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001",
+        "gate_id": "FA3-GATE-SECRET-BROKER-CURRENT-HOST-001",
+        "current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-21.json",
+        "runtime_status": "CURRENT_HOST_ADMITTED",
+        "production_runtime_admitted": true,
+        "component_scope": "FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",
+        "global_promotion_claim": false,
+        "optional_adapter_admission": "SEPARATE_EVIDENCE_REQUIRED"
       }
     },
     {
