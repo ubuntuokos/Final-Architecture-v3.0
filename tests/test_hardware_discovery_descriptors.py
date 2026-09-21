@@ -111,6 +111,26 @@ class HardwareDiscoveryDescriptorTests(unittest.TestCase):
         self.assertEqual(zluda.as_dict()["class"], "translation")
         self.assertTrue(zluda.experimental)
 
+    def test_translation_only_device_is_not_default_workload_compatible(self):
+        zluda = AcceleratorBackendDescriptor(
+            name="zluda",
+            backend_class="translation",
+            detected=True,
+            available=True,
+            binding_scope="DEVICE",
+            experimental=True,
+        )
+        device = AcceleratorDeviceDescriptor(
+            discovery_id="pci:0000:00:03.0",
+            kind="gpu",
+            vendor="AMD",
+            vendor_id="0x1002",
+            device_id="0x0002",
+            pci_bdf="0000:00:03.0",
+            backends=(zluda,),
+        )
+        self.assertFalse(device.workload_compatible)
+
     def test_invalid_backend_class_is_rejected(self):
         with self.assertRaises(ValueError):
             AcceleratorBackendDescriptor(
