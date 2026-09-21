@@ -14,7 +14,7 @@ class HrbDeterministicLocalityGateTests(unittest.TestCase):
     def test_reference_gate_passes(self):
         result = evaluate(ROOT)
         self.assertEqual(result["status"], "PASS")
-        self.assertEqual(result["summary"], {"passed": 32, "total": 32})
+        self.assertEqual(result["summary"], {"passed": 33, "total": 33})
         self.assertFalse(result["current_host_runtime_promotion_claim"])
 
     def test_authority_and_capability_count_are_preserved(self):
