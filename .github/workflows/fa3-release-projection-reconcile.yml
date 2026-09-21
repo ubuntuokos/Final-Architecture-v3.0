@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: fa3-release-projection-reconcile-${{ github.ref }}
@@ -54,6 +55,35 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            if git diff --quiet -- "${projection}"; then
+              echo "Release projection already reconciled."
+              exit 0
+            fi
+
+            git add "${projection}"
+            git commit -m "FA3: reconcile unified release projection [projection]"
+
+            projection_branch="automation/release-projection-${GITHUB_SHA:0:12}"
+            git push origin "HEAD:refs/heads/${projection_branch}"
+
+            pr_url="$(gh pr create \
+              --repo "${GITHUB_REPOSITORY}" \
+              --base main \
+              --head "${projection_branch}" \
+              --title "FA3: reconcile unified release projection [projection]" \
+              --body "Automated post-merge release-projection reconciliation for main commit \`${GITHUB_SHA}\`. This PR contains only the generated canonical release projection and must pass the normal protected-branch checks before merge.")"
+            echo "Created protected-main projection PR: ${pr_url}"
+
+            pr_number="$(gh pr view "${pr_url}" --repo "${GITHUB_REPOSITORY}" --json number --jq .number)"
+            if gh pr merge "${pr_number}" --repo "${GITHUB_REPOSITORY}" --auto --squash --delete-branch; then
+              echo "Auto-merge enabled for projection PR #${pr_number}."
+            else
+              echo "::notice::Auto-merge is unavailable; projection PR #${pr_number} remains open for normal protected-branch merge."
+            fi
+            exit 0
+          fi
 
           for attempt in 1 2 3; do
             git fetch origin "+refs/heads/${GITHUB_REF_NAME}:${remote_ref}"
