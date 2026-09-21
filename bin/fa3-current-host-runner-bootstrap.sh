@@ -27,7 +27,7 @@ if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   exit 20
 fi
 
-for cmd in curl tar sha256sum python3 systemctl sudo; do
+for cmd in curl tar sha256sum python3 systemctl loginctl sudo; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL: missing prerequisite: $cmd" >&2; exit 21; }
 done
 
@@ -48,6 +48,17 @@ ensure_acquire_environment() {
 Environment="FA3_HRB_ACQUIRE_COMMAND=$ACQUIRE_TEMPLATE"
 EOF
   chmod 600 "$DROPIN_PATH"
+}
+
+ensure_linger() {
+  local linger
+  linger="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
+  if [[ "$linger" != "yes" ]]; then
+    echo "INFO: enabling systemd user linger for boot-persistent current-host runner"
+    sudo loginctl enable-linger "$USER"
+  fi
+  linger="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
+  [[ "$linger" == "yes" ]] || { echo "FAIL: systemd user linger is not enabled for $USER" >&2; exit 31; }
 }
 
 write_service_unit() {
@@ -77,6 +88,7 @@ EOF
 }
 
 activate_service() {
+  ensure_linger
   write_service_unit
   ensure_acquire_environment
   systemctl --user daemon-reload
@@ -232,11 +244,5 @@ popd >/dev/null
 unset RUNNER_TOKEN FA3_GITHUB_RUNNER_TOKEN
 activate_service
 
-if command -v loginctl >/dev/null 2>&1; then
-  LINGER="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
-  if [[ "$LINGER" != "yes" ]]; then
-    echo "NOTICE: enable boot-persistent user service with: sudo loginctl enable-linger '$USER'" >&2
-  fi
-fi
-
+ensure_linger
 exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"
