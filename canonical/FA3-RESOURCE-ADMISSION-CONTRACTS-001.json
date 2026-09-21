@@ -17,7 +17,8 @@
   ],
   "required_input_semantics": {
     "HRB_LEASE": "CONDITIONAL_ACCELERATOR_LEASE_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED",
-    "HRB_ADMISSION_AUTHORIZATION": "REQUIRED_FOR_ALL_WORKLOADS_AND_MUST_ORIGINATE_FROM_FA3_AUTH_HOST_RESOURCE_BROKER_001"
+    "HRB_ADMISSION_AUTHORIZATION": "REQUIRED_FOR_ALL_WORKLOADS_AND_MUST_ORIGINATE_FROM_FA3_AUTH_HOST_RESOURCE_BROKER_001",
+    "ACCELERATOR_EXECUTION_PATH": "REQUIRED_WHEN_ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED_AND_WORKLOAD_DECLARES_EXECUTION_PATH_CONSTRAINTS"
   },
   "admission_semantics": {
     "all_required_dimensions_must_pass": true,
@@ -30,12 +31,17 @@
     "stable_device_identity_required_for_accelerators": "PROVIDER_STABLE_ID_OR_DEVICE_UUID_OR_PCI_BDF_WHEN_APPLICABLE",
     "provider_self_admission_forbidden": true,
     "named_hardware_default_forbidden": true,
-    "silent_device_or_cpu_fallback_forbidden": true
+    "silent_device_or_cpu_fallback_forbidden": true,
+    "accelerator_execution_path_must_match_workload": true,
+    "translation_backend_requires_explicit_opt_in": true,
+    "silent_backend_fallback_forbidden": true
   },
   "provider_neutral_core": {
     "required": true,
     "vendor_or_runtime_requirements_may_be_enforced_only_when_explicitly_requested_by_workload": true,
-    "global_nvidia_cuda_requirement_for_generic_resource_admission": false
+    "global_nvidia_cuda_requirement_for_generic_resource_admission": false,
+    "backend_compatibility_is_capability_based": true,
+    "native_portable_translation_classes_are_distinct": true
   },
   "provider_self_admission_forbidden": true,
   "aggregate_diagnostics": {
@@ -55,6 +61,10 @@
     "PROVIDER_VENDOR_REQUIREMENTS_ARE_CONDITIONAL_NOT_GLOBAL",
     "NO_SILENT_ACCELERATOR_TO_CPU_FALLBACK",
     "CU_TU_NOT_PRODUCTION_ADMISSION_AUTHORITY",
-    "MISSING_REQUIRED_METRIC_FAILS_CLOSED"
-  ]
+    "MISSING_REQUIRED_METRIC_FAILS_CLOSED",
+    "ACCELERATOR_EXECUTION_PATH_MUST_MATCH_WORKLOAD_REQUIREMENT",
+    "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_OPT_IN",
+    "NO_SILENT_ACCELERATOR_BACKEND_FALLBACK"
+  ],
+  "version": "1.1.0"
 }
