@@ -15,12 +15,24 @@
   "current_host_provider_runtime_evidence": false,
   "current_host_runtime_promotion_claim": false,
   "production_provider_admission_claim": false,
-  "hardware_claim": "PORTABLE_PROVIDER_BOUNDARY_AND_CAPABILITY_ADMISSION_REGRESSION_ONLY",
+  "hardware_claim": "BACKEND_NEUTRAL_DISPATCH_PROVIDER_BOUNDARY_AND_CAPABILITY_ADMISSION_REGRESSION_ONLY",
   "capability_count_after": 143,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "conclusion": "GPU_KERNEL_RUNTIME_CANONICAL_PORTABILITY_PROVIDER_BOUNDARY_AND_ADMISSION_REGRESSION_PASS_REAL_CURRENT_HOST_PROVIDER_E2E_PENDING",
-  "version": "1.1.0",
+  "conclusion": "GPU_KERNEL_RUNTIME_BACKEND_NEUTRAL_CONTRACT_REGRESSION_PASS_WITH_SYNTHETIC_CUDA_ROCM_XPU_VULKAN_PATHS_REAL_PROVIDER_CURRENT_HOST_E2E_SEPARATE",
+  "version": "1.2.0",
   "hardware_portability_decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
-  "baseline_provider_id": "FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001"
+  "baseline_provider_id": "FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001",
+  "updated_at": "2026-09-21",
+  "backend_neutral_regression": {
+    "synthetic_execution_paths": [
+      "CUDA_NATIVE",
+      "ROCM_NATIVE",
+      "LEVEL_ZERO_XPU_NATIVE",
+      "VULKAN_PORTABLE"
+    ],
+    "translation_default": "DENY",
+    "current_materialized_provider_family": "NVIDIA_CUDA"
+  },
+  "baseline_provider_semantics": "CURRENTLY_MATERIALIZED_CUDA_REFERENCE_BASELINE_NOT_GLOBAL_BACKEND_FLOOR"
 }
