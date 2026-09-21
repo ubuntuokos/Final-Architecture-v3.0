@@ -26,6 +26,7 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         self.assertIn('      - "main"', workflow)
         self.assertIn("!contains(github.event.head_commit.message, '[projection]')", workflow)
         self.assertIn("pull-requests: write", workflow)
+        self.assertIn("GH_TOKEN: ${{ github.token }}", workflow)
         self.assertIn('if [ "${GITHUB_REF_NAME}" = "main" ]; then', workflow)
         self.assertIn('projection_branch="automation/release-projection-${GITHUB_SHA:0:12}"', workflow)
         self.assertIn("gh pr create", workflow)
