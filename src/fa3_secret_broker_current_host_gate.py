@@ -15,6 +15,7 @@ REQUIRED_CHECKS = [
     "systemd_loadcredential_projection_pass",
     "encrypted_systemd_unlock_runtime_pass",
     "systemd_target_lifecycle_pass",
+    "host_mount_namespace_visibility_pass",
     "secrets_target_inactive_pass",
     "hardware_neutral_systemd_credential_host_key_mode_pass",
     "luks_unlock_key_rotation_pass",
