@@ -84,6 +84,7 @@ class SecretBrokerGateTests(unittest.TestCase):
     def test_current_host_runtime_is_durably_admitted_without_global_promotion(self):
         conformance=json.loads((ROOT/"canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json").read_text())
         gate=json.loads((ROOT/"canonical/FA3-GATE-SECRET-BROKER-001.json").read_text())
+        enforcement=json.loads((ROOT/"canonical/secret-broker-enforcement.json").read_text())
         evidence=json.loads((ROOT/"evidence/reference/secret-broker-current-host-2026-09-21.json").read_text())
         registry=json.loads((ROOT/"evidence/evidence-registry.json").read_text())
         self.assertEqual("CURRENT_HOST_ADMITTED",conformance["status"])
@@ -92,6 +93,9 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertFalse(conformance["global_promotion_claim"])
         self.assertTrue(gate["production_runtime_promoted"])
         self.assertFalse(gate["global_promotion_claim"])
+        self.assertTrue(enforcement["production_runtime_promoted"])
+        self.assertEqual("FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",enforcement["runtime_promotion_scope"])
+        self.assertFalse(enforcement["global_promotion_claim"])
         self.assertEqual("PASS",evidence["result"])
         self.assertTrue(evidence["runtime"]["real_execution"])
         self.assertFalse(evidence["runtime"]["synthetic"])
