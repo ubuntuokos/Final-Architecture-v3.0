@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "de3af206c019df539752d0d0c633c8ce6ac0af7a",
-    "pre_projection_root_tree_sha": "3c2f35a12dd2b6a1c93419c9c827c666017d7f33",
-    "pre_projection_canonical_tree_sha": "9987cc04d6be7f8f8f8b73bb82b2223a0ddc6e0d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 560,
-    "total_post_baseline_commits": 560,
-    "delta_file_count": 1591,
-    "delta_added_files": 1586,
+    "pre_projection_head_sha": "b5d1755482cded4309dd2825d35d5014b7b331c2",
+    "pre_projection_root_tree_sha": "7ec21c392102df99ff8fe1131f1005cb23ccc1c8",
+    "pre_projection_canonical_tree_sha": "2693874cf47527c6556b7b02826b5c8efec78801",
+    "commits_ahead_of_v3_0_11_conformance_commit": 566,
+    "total_post_baseline_commits": 566,
+    "delta_file_count": 1607,
+    "delta_added_files": 1602,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 754,
-    "evidence_files_in_post_baseline_delta": 136,
-    "source_files_in_post_baseline_delta": 203,
-    "test_files_in_post_baseline_delta": 182,
-    "workflow_files_in_post_baseline_delta": 70,
+    "canonical_files_in_post_baseline_delta": 758,
+    "evidence_files_in_post_baseline_delta": 137,
+    "source_files_in_post_baseline_delta": 206,
+    "test_files_in_post_baseline_delta": 184,
+    "workflow_files_in_post_baseline_delta": 72,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -172,6 +172,7 @@
       "canonical/profiles/FA3-3D-GEOM-001.json",
       "canonical/profiles/FA3-ACCEL-GUARD-001.json",
       "canonical/profiles/FA3-AGENT-EXEC-001.json",
+      "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json",
       "canonical/profiles/FA3-AGENT-SANDBOX-001.json",
       "canonical/profiles/FA3-AI-IMAGE-EDITING-001.json",
       "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
@@ -241,6 +242,7 @@
     "contract_records": [
       "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
+      "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
@@ -665,7 +667,8 @@
     "FA3-WORK-MANAGEMENT-GATESET-001",
     "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
     "FA3-RUNTIME-HARDENING-GATESET-001",
-    "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001"
+    "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
+    "FA3-AGENT-INSTRUCTIONS-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -791,8 +794,13 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1584,
+  "manifest_entry_count": 1600,
   "manifest": [
+    {
+      "path": ".github/workflows/AGENTS.md",
+      "git_blob_sha": "40f643f01a90208da3c96fc668a0871cf54f1f11",
+      "baseline_delta_status": "added"
+    },
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
       "git_blob_sha": "7e1667db325e1b211cf5a4a28b87430c2d3462a2",
@@ -801,6 +809,11 @@
     {
       "path": ".github/workflows/fa3-accelerator-guard.yml",
       "git_blob_sha": "92a3668b0b4cbaf131bbf597b881e3d4376b99ba",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-agent-instructions-gate.yml",
+      "git_blob_sha": "dbeae6381c2d9ec874ff9478445be6d31d7f438b",
       "baseline_delta_status": "added"
     },
     {
@@ -1149,6 +1162,11 @@
       "baseline_delta_status": "modified"
     },
     {
+      "path": "AGENTS.md",
+      "git_blob_sha": "5109f76f8d0ad7b057e50b2558d9ead50bcbf3b2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "README.md",
       "git_blob_sha": "c9d21b834bc68d8cec5127b203ef504a49d3ba08",
       "baseline_delta_status": "added"
@@ -1381,6 +1399,21 @@
     {
       "path": "apps/fa3-control-center/src/main.cpp",
       "git_blob_sha": "453b75fd2e3210b7bf4ddb384f502bd04f95f32d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/AGENTS.md",
+      "git_blob_sha": "b09a0719dcb46734bcd2c65cf5d31db4d992cf11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-agent-instructions",
+      "git_blob_sha": "e61e3ffa31ff95fa4eb7ea00e1ba6df99ce4fe94",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-agent-instructions-gate",
+      "git_blob_sha": "b3e18fff05e0d41d6c40f20cc1ce67b60f1814e9",
       "baseline_delta_status": "added"
     },
     {
@@ -1759,6 +1792,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/AGENTS.md",
+      "git_blob_sha": "108be3f11ea14ad7f5fab7026e37b8c18c8ee067",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-ACCEL-GUARD-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "8ae2d9a17b86e4914b8a3160f92604e3c4c8f00c",
       "baseline_delta_status": "added"
@@ -1866,6 +1904,11 @@
     {
       "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "009f194101184e93e87ae45474d38f2597648b83",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-AGENT-INSTRUCTIONS-001.json",
+      "git_blob_sha": "b1ac389bb93df1df40b91702f13fbabc395e6c08",
       "baseline_delta_status": "added"
     },
     {
@@ -2571,6 +2614,11 @@
     {
       "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
       "git_blob_sha": "8af93429cf03e9a81766eb4f636f602237673de2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
+      "git_blob_sha": "5d9eee9a6db0cb6444a144683bd21bde8b13bf04",
       "baseline_delta_status": "added"
     },
     {
@@ -3655,7 +3703,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "5f7c8f1621b81e66fcd43295fb902980a1d83f0f",
+      "git_blob_sha": "8095916c9076deae8f602957a27d6837e9c9eaf8",
       "baseline_delta_status": "modified"
     },
     {
@@ -4026,6 +4074,11 @@
     {
       "path": "canonical/profiles/FA3-AGENT-EXEC-001.json",
       "git_blob_sha": "10d7b13fa1067217b94e941290980889bd649ec0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json",
+      "git_blob_sha": "cdb3477a40521eb9cf171e20ace3279142d2250f",
       "baseline_delta_status": "added"
     },
     {
@@ -5934,6 +5987,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/AGENTS.md",
+      "git_blob_sha": "5fa400dfff39276878c0ce2601a204b31a270de5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/FA3-ACCEL-GUARD-001-design-evidence.json",
       "git_blob_sha": "c6ba314ea4f55299c72fda768a8196bdc286d7a2",
       "baseline_delta_status": "added"
@@ -6724,6 +6782,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/AGENTS.md",
+      "git_blob_sha": "d8fa77ce850b513b96b6259a40139a0354bc019e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_accelerator_backend_probe.py",
       "git_blob_sha": "89aee04efd008d86272ed0bf072c287b936cabeb",
       "baseline_delta_status": "added"
@@ -6751,6 +6814,16 @@
     {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_agent_instructions.py",
+      "git_blob_sha": "715c1bc655c94d6b4971c235ebeb78ab1b81804d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_agent_instructions_gate.py",
+      "git_blob_sha": "aeaac1c93dadd318e1c6524950fcf5b54b64539a",
       "baseline_delta_status": "added"
     },
     {
@@ -7005,7 +7078,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "c554ff07b86034afd6dbaacd0505547cda855525",
+      "git_blob_sha": "65330ea072ed2e205d05126169669826d3a2bac9",
       "baseline_delta_status": "modified"
     },
     {
@@ -7739,6 +7812,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/AGENTS.md",
+      "git_blob_sha": "c538831db59c6143b71fb16722da316b54c0d103",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_accelerator_backend_probe.py",
       "git_blob_sha": "a6039b8ce16da7860adaaac8760dcebfa4021f94",
       "baseline_delta_status": "added"
@@ -7756,6 +7834,11 @@
     {
       "path": "tests/test_acestep_gate.py",
       "git_blob_sha": "8704a54799ec8aa0c1493b8526152cc1261a2fde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_agent_instructions_gate.py",
+      "git_blob_sha": "e535b3501150f60e77f16d9106a77f1eb9af2be4",
       "baseline_delta_status": "added"
     },
     {
@@ -10156,6 +10239,32 @@
     "translation_backend_default": "DENY",
     "silent_backend_substitution": "FORBIDDEN",
     "hrb_remains_exclusive_resource_authority": true,
+    "current_host_runtime_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "agent_instruction_projection_reconciliation": {
+    "status": "GLOBAL_PROJECTION_RECONCILED_AGENT_GATE_PASS_CURRENT_HOST_NOT_APPLICABLE",
+    "profile_id": "FA3-AGENT-INSTRUCTIONS-001",
+    "contract_id": "FA3-AGENT-INSTRUCTION-CONTRACTS-001",
+    "gate_id": "FA3-AGENT-INSTRUCTIONS-GATESET-001",
+    "parent_profile_id": "FA3-AGENT-EXEC-001",
+    "classification": "P0_DEVELOPMENT_GOVERNANCE_PROJECTION",
+    "projection_authority": "NON_CANONICAL_PROJECTION",
+    "implementation_origin": "FA3_NATIVE_INDEPENDENT",
+    "scope_resolution": "ROOT_TO_NEAREST",
+    "effective_precedence": "NEAREST_SCOPE_WINS",
+    "sibling_scope_leakage": false,
+    "upstream_code_dependency": false,
+    "vendored_upstream_code": false,
+    "global_static_enforcement": true,
+    "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "accelerator_cardinality": "DYNAMIC_0_TO_N",
+    "global_accelerator_vendor_pin": "FORBIDDEN",
+    "global_runtime_api_pin": "FORBIDDEN",
+    "logical_physical_cpu_counts_distinct": true,
+    "current_host_required": false,
     "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,

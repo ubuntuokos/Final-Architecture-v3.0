@@ -81,7 +81,8 @@
     "FA3-WORK-MANAGEMENT-GATESET-001",
     "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
     "FA3-RUNTIME-HARDENING-GATESET-001",
-    "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001"
+    "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
+    "FA3-AGENT-INSTRUCTIONS-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -1652,5 +1653,10 @@
     "execution_path_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "currently_materialized_provider_family": "NVIDIA_CUDA",
     "translation_implicit_fallback": false
-  }
+  },
+  "agent_instruction_projection_profile_id": "FA3-AGENT-INSTRUCTIONS-001",
+  "agent_instruction_projection_gate_id": "FA3-AGENT-INSTRUCTIONS-GATESET-001",
+  "agent_instruction_projection_authority": "NON_CANONICAL_PROJECTION",
+  "agent_instruction_projection_fail_closed": true,
+  "agent_instruction_projection_current_host_claim": false
 }
