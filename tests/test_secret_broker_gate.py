@@ -36,6 +36,20 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("systemctl is-active --quiet fa3-secrets.target",lifecycle)
         self.assertIn("assert_closed",lifecycle)
 
+    def test_vault_service_capabilities_are_minimal_and_diagnostic(self):
+        profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
+        caps=profile["lifecycle"]["vault_service_capabilities"]
+        expected={"CAP_SYS_ADMIN","CAP_CHOWN","CAP_FOWNER"}
+        self.assertEqual(expected,set(caps["bounding_set"]))
+        self.assertEqual(expected,set(caps["ambient"]))
+        self.assertEqual("FORBIDDEN",caps["broader_capabilities"])
+        unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
+        self.assertIn("CapabilityBoundingSet=CAP_SYS_ADMIN CAP_CHOWN CAP_FOWNER",unit)
+        self.assertIn("AmbientCapabilities=CAP_SYS_ADMIN CAP_CHOWN CAP_FOWNER",unit)
+        current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
+        self.assertIn("collecting bounded diagnostics",current_host)
+        self.assertIn("journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service",current_host)
+
     def test_policy_preflight_validation(self):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/"policy.json"
