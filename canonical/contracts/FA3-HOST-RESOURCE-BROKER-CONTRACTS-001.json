@@ -46,13 +46,29 @@
     "HardwareInventorySnapshot",
     "HardwareDiscoveryReceipt",
     "HardwareRevalidationReceipt",
-    "TopologyChangeEvent"
+    "TopologyChangeEvent",
+    "AcceleratorExecutionPath",
+    "AcceleratorBackendRequirement",
+    "BackendCompatibilityReceipt"
   ],
   "accelerator_identity": {
-    "canonical": ["device_uuid", "pci_bdf"],
-    "ephemeral_runtime_index_is_identity": false
+    "canonical": [
+      "device_uuid",
+      "pci_bdf"
+    ],
+    "ephemeral_runtime_index_is_identity": false,
+    "canonical_preference": [
+      "provider_stable_id",
+      "device_uuid",
+      "pci_bdf_when_applicable"
+    ],
+    "pci_bdf_semantics": "CURRENT_TOPOLOGY_LOCATION_NOT_PERMANENT_IDENTITY"
   },
-  "execution_profiles": ["LATENCY", "BALANCED", "BATCH"],
+  "execution_profiles": [
+    "LATENCY",
+    "BALANCED",
+    "BATCH"
+  ],
   "cache_layer_taxonomy": [
     "MODEL_ARTIFACT_CACHE",
     "RUNTIME_COMPILATION_CACHE",
@@ -152,9 +168,43 @@
     "PREFETCH_REQUIRES_IO_AND_MEMORY_PRESSURE_EVIDENCE",
     "PREFETCH_CONFIGURATION_MUST_BE_ROLLBACKABLE",
     "PREFETCH_MUST_NOT_OVERRIDE_HRB_PLACEMENT",
-    "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST"
+    "DISABLED_PREFETCH_PROVIDER_MUST_HAVE_NEAR_ZERO_RUNTIME_COST",
+    "HRB_ACCELERATOR_ASSIGNMENT_BINDS_COMPATIBLE_EXECUTION_PATH",
+    "PHYSICAL_DEVICE_PRESENCE_IS_NOT_SUFFICIENT_FOR_ACCELERATOR_ADMISSION",
+    "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_WORKLOAD_POLICY",
+    "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION"
   ],
-  "version": "1.3.0",
+  "version": "1.4.0",
   "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001"
+  "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
+  "accelerator_execution_path": {
+    "required_fields": [
+      "accelerator_id",
+      "backend",
+      "backend_class"
+    ],
+    "optional_fields": [
+      "runtime_version",
+      "framework_backend",
+      "provider_id",
+      "translation_backend"
+    ],
+    "backend_classes": [
+      "native",
+      "portable",
+      "translation"
+    ],
+    "device_presence_is_sufficient": false,
+    "lease_binds_device_and_execution_path": true,
+    "translation_requires_explicit_workload_policy": true,
+    "silent_backend_substitution": false,
+    "compatibility_source": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001_ACCELERATOR_BACKEND_DESCRIPTOR"
+  },
+  "legacy_acquire_projection": {
+    "schema": "FA3-HOST-RESOURCE-BROKER-001/AcceleratorExecutionLease@1",
+    "tracked_bridge": "libexec/fa3-host-resource-broker-acquire.py",
+    "current_identifier_constraint": "GPU_UUID",
+    "disposition": "LEGACY_NVIDIA_CUDA_PROJECTION_RETAINED_UNTIL_GENERIC_PRIVILEGED_BROKER_CLI_IS_MATERIALIZED",
+    "authority_change": false
+  }
 }
