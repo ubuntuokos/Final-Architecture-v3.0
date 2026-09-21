@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HARDWARE-BASELINE-001",
   "name": "Portable Hardware Baseline & Dynamic Topology Admission Profile",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -73,21 +73,31 @@
     ],
     "cpu": [
       "PACKAGE",
+      "DIE_WHEN_EXPOSED",
+      "CLUSTER_WHEN_EXPOSED",
       "PHYSICAL_CORE",
-      "SMT",
-      "CPUSET",
+      "LOGICAL_CPU",
+      "SMT_SIBLING_SET",
+      "FULL_CORE_ALLOCATION",
+      "PARTIAL_CORE_ALLOCATION",
+      "CPUSET_EFFECTIVE",
       "NUMA",
       "MEMORY_LOCALITY"
     ],
     "accelerator": [
-      "STABLE_DEVICE_ID",
-      "PCI_BDF",
+      "DISCOVERY_ID",
+      "STABLE_DEVICE_ID_WHEN_AVAILABLE",
+      "DEVICE_UUID_WHEN_AVAILABLE",
+      "PCI_BDF_WHEN_APPLICABLE",
       "VENDOR",
+      "VENDOR_ID",
+      "DEVICE_ID",
       "DEVICE_CLASS",
       "MEMORY",
-      "DRIVER",
-      "RUNTIME_APIS",
-      "RUNTIME_CAPABILITIES",
+      "KERNEL_DRIVER",
+      "DEVICE_NODES",
+      "BACKEND_DESCRIPTORS",
+      "EXECUTION_PATHS",
       "HEALTH",
       "NUMA_LOCALITY"
     ],
@@ -97,7 +107,14 @@
       "LOCALITY"
     ],
     "cpu_cardinality": "ENUMERATE_1_TO_N_NO_STATIC_INDEX_ASSUMPTION",
-    "accelerator_cardinality": "ENUMERATE_0_TO_N_NO_STATIC_INDEX_ASSUMPTION"
+    "accelerator_cardinality": "ENUMERATE_0_TO_N_NO_STATIC_INDEX_ASSUMPTION",
+    "backend_classes": [
+      "NATIVE",
+      "PORTABLE",
+      "TRANSLATION"
+    ],
+    "device_presence_implies_backend_usability": false,
+    "unknown_vendor_is_valid_discovery_output": true
   },
   "invariants": [
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
@@ -115,7 +132,12 @@
     "LIVE_DISCOVERY_AND_REVALIDATION_REQUIRED",
     "CURRENT_HOST_FACTS_ARE_EVIDENCE_ONLY",
     "HRB_REMAINS_EXCLUSIVE_RESOURCE_ADMISSION_AND_PLACEMENT_AUTHORITY",
-    "APPLICATIONS_AND_SERVICES_CONSUME_DISCOVERED_CAPABILITIES_NOT_MACHINE_IDENTITY"
+    "APPLICATIONS_AND_SERVICES_CONSUME_DISCOVERED_CAPABILITIES_NOT_MACHINE_IDENTITY",
+    "LOGICAL_CPU_AND_PHYSICAL_CORE_COUNTS_MUST_BE_DISTINCT",
+    "FULL_AND_PARTIAL_PHYSICAL_CORE_VISIBILITY_MUST_BE_REPRESENTED",
+    "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
+    "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
+    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT"
   ],
   "current_host_semantics": "EXACT_HOST_TUPLES_ALLOWED_AS_EVIDENCE_ONLY_NOT_PORTABLE_REQUIREMENTS",
   "implementation_status": "CANONICAL_MATERIALIZED_EXECUTABLE_REPOSITORY_AUDIT_BOUND"
