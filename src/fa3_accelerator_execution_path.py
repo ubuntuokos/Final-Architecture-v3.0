@@ -109,6 +109,25 @@ def compatible_execution_paths(
     return [candidate for candidate in candidates if execution_path_matches(requirement, candidate)]
 
 
+def _matched_framework_backend(requirement: Any, candidate: dict[str, Any]) -> str | None:
+    candidate_frameworks = _candidate_framework_backends(candidate)
+    if isinstance(requirement, dict):
+        for wanted in requirement.get("acceptable_execution_paths", []):
+            if not isinstance(wanted, dict):
+                continue
+            if _name(wanted.get("backend")) != _candidate_backend(candidate):
+                continue
+            if _name(wanted.get("backend_class")) != _candidate_backend_class(candidate):
+                continue
+            wanted_framework = _name(wanted.get("framework_backend"))
+            if wanted_framework:
+                if wanted_framework in candidate_frameworks:
+                    return wanted_framework
+                continue
+            return next(iter(sorted(candidate_frameworks)), None)
+    return next(iter(sorted(candidate_frameworks)), None)
+
+
 def bind_hrb_execution_path(
     *,
     authority_receipt: str,
@@ -128,7 +147,7 @@ def bind_hrb_execution_path(
         "accelerator_id": accelerator_id,
         "backend": _candidate_backend(candidate),
         "backend_class": _candidate_backend_class(candidate),
-        "framework_backend": next(iter(sorted(_candidate_framework_backends(candidate))), None),
+        "framework_backend": _matched_framework_backend(requirement, candidate),
         "runtime_version": str(candidate.get("runtime_version") or "") or None,
         "provider_id": str(candidate.get("provider_id") or "") or None,
         "translation_backend": (
