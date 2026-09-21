@@ -8,8 +8,10 @@ BRIDGE_SOURCE_COMMIT="${FA3_CURRENT_HOST_PRIVILEGED_BRIDGE_SOURCE_COMMIT:-}"
 for c in cryptsetup mkfs.ext4 mount umount mountpoint findmnt sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl journalctl install truncate mktemp tr flock; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
 exec 9>/run/fa3-secret-broker-current-host.lock
 flock -n 9 || { echo "another FA3 Secret Broker current-host E2E is already running" >&2; exit 2; }
+MOUNT_UNIT='run-fa3-machine\x2dstate.mount'
 if systemctl is-active --quiet fa3-secrets.target \
   || systemctl is-active --quiet fa3-secret-broker.service \
+  || systemctl is-active --quiet "$MOUNT_UNIT" \
   || systemctl is-active --quiet fa3-secret-vault.service \
   || mountpoint -q /run/fa3/machine-state; then
   echo "current-host E2E requires the production secrets lifecycle to be CLOSED" >&2
@@ -28,11 +30,18 @@ for stale_path in /dev/mapper/fa3-machine-state-e2e-*; do
   }
 done
 rm -f /var/lib/fa3/state/.fa3-mstate-e2e-*.img /run/fa3-mstate-e2e-*.cred /run/fa3-mstate-e2e-*.new.key
+STALE_DROPIN_REMOVED=false
 if compgen -G '/etc/systemd/system/fa3-secret-vault.service.d/90-fa3-secret-e2e-*.conf' >/dev/null; then
   rm -f /etc/systemd/system/fa3-secret-vault.service.d/90-fa3-secret-e2e-*.conf
   rmdir /etc/systemd/system/fa3-secret-vault.service.d >/dev/null 2>&1 || true
-  systemctl daemon-reload
+  STALE_DROPIN_REMOVED=true
 fi
+if compgen -G '/etc/systemd/system/run-fa3-machine\x2dstate.mount.d/90-fa3-secret-e2e-*.conf' >/dev/null; then
+  rm -f '/etc/systemd/system/run-fa3-machine\x2dstate.mount.d/'90-fa3-secret-e2e-*.conf
+  rmdir '/etc/systemd/system/run-fa3-machine\x2dstate.mount.d' >/dev/null 2>&1 || true
+  STALE_DROPIN_REMOVED=true
+fi
+if [[ "$STALE_DROPIN_REMOVED" == true ]]; then systemctl daemon-reload; fi
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 ADMIN_USER="fa3-sb-admin-probe"; ADMIN_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
@@ -49,15 +58,19 @@ ECRED="/run/fa3-mstate-e2e-$RUN_ID.cred"
 REKEY_NEW="/run/fa3-mstate-e2e-$RUN_ID.new.key"
 DROPIN_DIR="/etc/systemd/system/fa3-secret-vault.service.d"
 DROPIN="$DROPIN_DIR/90-fa3-secret-e2e-$RUN_ID.conf"
+MOUNT_DROPIN_DIR="/etc/systemd/system/$MOUNT_UNIT.d"
+MOUNT_DROPIN="$MOUNT_DROPIN_DIR/90-fa3-secret-e2e-$RUN_ID.conf"
 SYSTEMD_PHASE_ACTIVE=false
 cleanup(){
-  if [[ -f "$DROPIN" || "$SYSTEMD_PHASE_ACTIVE" == true ]]; then
+  if [[ -f "$DROPIN" || -f "$MOUNT_DROPIN" || "$SYSTEMD_PHASE_ACTIVE" == true ]]; then
     systemctl stop fa3-secrets.target >/dev/null 2>&1 || true
+    systemctl stop "$MOUNT_UNIT" >/dev/null 2>&1 || true
     FA3_MACHINE_STATE_MAPPER="$SMAPPER" \
     FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" \
-      /usr/local/libexec/fa3-secret-vault-mount close >/dev/null 2>&1 || true
-    rm -f "$DROPIN"
+      /usr/local/libexec/fa3-secret-vault-mount close-mapper >/dev/null 2>&1 || true
+    rm -f "$DROPIN" "$MOUNT_DROPIN"
     rmdir "$DROPIN_DIR" >/dev/null 2>&1 || true
+    rmdir "$MOUNT_DROPIN_DIR" >/dev/null 2>&1 || true
     systemctl daemon-reload >/dev/null 2>&1 || true
   fi
   rm -f "$SIMG" "$ECRED" "$REKEY_NEW"
@@ -229,7 +242,7 @@ cp --reflink=never --sparse=always "$IMG" "$SIMG"
 chmod 0600 "$SIMG"
 systemd-creds encrypt --with-key=host --name=fa3-machine-state-key "$KEY" "$ECRED" >/dev/null
 chmod 0600 "$ECRED"
-install -d -m0755 "$DROPIN_DIR"
+install -d -m0755 "$DROPIN_DIR" "$MOUNT_DROPIN_DIR"
 cat > "$DROPIN" <<EOF
 [Unit]
 ConditionPathExists=
@@ -242,12 +255,24 @@ Environment=FA3_MACHINE_STATE_MOUNT=/run/fa3/machine-state
 LoadCredentialEncrypted=
 LoadCredentialEncrypted=fa3-machine-state-key:$ECRED
 EOF
+cat > "$MOUNT_DROPIN" <<EOF
+[Mount]
+What=/dev/mapper/$SMAPPER
+EOF
 systemctl daemon-reload
 SYSTEMD_PHASE_ACTIVE=true
 if ! FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle start >/dev/null; then
   echo "FAIL: systemd secrets lifecycle did not reach broker-ready state" >&2
   exit 2
 fi
+systemctl is-active --quiet "$MOUNT_UNIT"
+mountpoint -q /run/fa3/machine-state
+HOST_SOURCE="$(findmnt -rn -T /run/fa3/machine-state -o SOURCE)"
+[[ "$(readlink -f "$HOST_SOURCE")" == "$(readlink -f "/dev/mapper/$SMAPPER")" ]] || {
+  echo "FAIL: systemd mount unit is not backed by the E2E mapper" >&2
+  exit 2
+}
+HOST_MOUNT_NAMESPACE_VISIBILITY_PASS=true
 if ! /usr/local/bin/fa3-secretctl health >/dev/null; then
   echo "FAIL: broker health failed after lifecycle readiness PASS" >&2
   FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle status >&2 || true
@@ -260,6 +285,7 @@ if ! FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machi
 fi
 if systemctl is-active --quiet fa3-secrets.target \
   || systemctl is-active --quiet fa3-secret-broker.service \
+  || systemctl is-active --quiet "$MOUNT_UNIT" \
   || systemctl is-active --quiet fa3-secret-vault.service \
   || mountpoint -q /run/fa3/machine-state \
   || [[ -e "/dev/mapper/$SMAPPER" ]]; then
@@ -295,10 +321,11 @@ OLD_UNLOCK_KEY_REJECTED_AFTER_REKEY=true
 NEW_UNLOCK_KEY_ACCEPTED_AFTER_REKEY=true
 REKEY_FINAL_CLOSED_STATE_PASS=true
 SYSTEMD_PHASE_ACTIVE=false
-rm -f "$DROPIN" "$SIMG" "$ECRED" "$REKEY_NEW"
+rm -f "$DROPIN" "$MOUNT_DROPIN" "$SIMG" "$ECRED" "$REKEY_NEW"
 rmdir "$DROPIN_DIR" >/dev/null 2>&1 || true
+rmdir "$MOUNT_DROPIN_DIR" >/dev/null 2>&1 || true
 systemctl daemon-reload
-[[ ! -e "$DROPIN" && ! -e "$SIMG" && ! -e "$ECRED" && ! -e "$REKEY_NEW" ]]
+[[ ! -e "$DROPIN" && ! -e "$MOUNT_DROPIN" && ! -e "$SIMG" && ! -e "$ECRED" && ! -e "$REKEY_NEW" ]]
 SYSTEMD_E2E_ARTIFACT_CLEANUP_PASS=true
 
 opts='["nodev","nosuid","noexec"]'
