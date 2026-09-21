@@ -6,7 +6,38 @@ IMAGE="${FA3_MACHINE_STATE_IMAGE:-/var/lib/fa3/state/fa3-machine-state.img}"
 MAPPER="${FA3_MACHINE_STATE_MAPPER:-fa3-machine-state}"
 MNT="${FA3_MACHINE_STATE_MOUNT:-/run/fa3/machine-state}"
 KEY="${CREDENTIALS_DIRECTORY:-}/fa3-machine-state-key"
+
+require_host_mount_namespace(){
+  local self_ns init_ns
+  self_ns="$(readlink /proc/self/ns/mnt)"
+  init_ns="$(readlink /proc/1/ns/mnt)"
+  [[ -n "$self_ns" && "$self_ns" == "$init_ns" ]] || {
+    echo "host mount namespace required: refusing private-namespace vault operation" >&2
+    return 2
+  }
+}
+
+assert_open(){
+  local source source_real mapper_real fstype opts
+  mountpoint -q "$MNT" || { echo "vault mountpoint not active: $MNT" >&2; return 2; }
+  [[ -e "/dev/mapper/$MAPPER" ]] || { echo "LUKS mapper missing: $MAPPER" >&2; return 2; }
+  source="$(findmnt -rn -T "$MNT" -o SOURCE)"
+  source_real="$(readlink -f "$source")"
+  mapper_real="$(readlink -f "/dev/mapper/$MAPPER")"
+  [[ -n "$source_real" && "$source_real" == "$mapper_real" ]] || {
+    echo "vault mount source mismatch: expected mapper $MAPPER" >&2
+    return 2
+  }
+  fstype="$(findmnt -rn -T "$MNT" -o FSTYPE)"
+  [[ "$fstype" == "ext4" ]] || { echo "mounted vault filesystem must be ext4" >&2; return 2; }
+  opts="$(findmnt -rn -T "$MNT" -o OPTIONS)"
+  for o in nodev nosuid noexec; do
+    grep -qw "$o" <<<"${opts//,/ }" || { echo "mount option missing: $o" >&2; return 2; }
+  done
+}
+
 open_vault(){
+  require_host_mount_namespace
   rollback_open(){
     rc=$?
     mountpoint -q "$MNT" && umount "$MNT" >/dev/null 2>&1 || true
@@ -24,12 +55,14 @@ open_vault(){
   [[ "$(blkid -p -o value -s TYPE "/dev/mapper/$MAPPER")" == "ext4" ]] || { echo "ext4 required" >&2; return 2; }
   [[ "$(blkid -p -o value -s LABEL "/dev/mapper/$MAPPER")" == "FA3_MSTATE" ]] || { echo "FA3_MSTATE filesystem label required" >&2; return 2; }
   if ! mountpoint -q "$MNT"; then mount -o nodev,nosuid,noexec "/dev/mapper/$MAPPER" "$MNT"; fi
-  chown fa3-secret-broker:fa3-secret-broker "$MNT"; chmod 0750 "$MNT"
-  opts="$(findmnt -rn -T "$MNT" -o OPTIONS)"
-  for o in nodev nosuid noexec; do grep -qw "$o" <<<"${opts//,/ }" || { echo "mount option missing: $o" >&2; return 2; }; done
+  chown fa3-secret-broker:fa3-secret-broker "$MNT"
+  chmod 0750 "$MNT"
+  assert_open
   trap - ERR
 }
+
 assert_closed(){
+  require_host_mount_namespace
   if mountpoint -q "$MNT"; then
     echo "vault remains mounted: $MNT" >&2
     return 2
@@ -39,14 +72,18 @@ assert_closed(){
     return 2
   fi
 }
+
 close_vault(){
+  require_host_mount_namespace
   if mountpoint -q "$MNT"; then umount "$MNT"; fi
   if [[ -e "/dev/mapper/$MAPPER" ]]; then cryptsetup close "$MAPPER"; fi
   assert_closed
 }
+
 case "$ACTION" in
   open) open_vault;;
   close) close_vault;;
+  assert-open) require_host_mount_namespace; assert_open;;
   assert-closed) assert_closed;;
-  *) echo "usage: $0 open|close|assert-closed" >&2; exit 2;;
+  *) echo "usage: $0 open|close|assert-open|assert-closed" >&2; exit 2;;
 esac

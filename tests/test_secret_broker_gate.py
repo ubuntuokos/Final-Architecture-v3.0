@@ -50,6 +50,28 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("diagnose_runtime",lifecycle)
         self.assertIn("journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service",lifecycle)
 
+    def test_vault_mount_owner_uses_host_mount_namespace(self):
+        profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
+        contract=profile["lifecycle"]["mount_namespace_contract"]
+        self.assertEqual("PID1_HOST_MOUNT_NAMESPACE",contract["required_namespace"])
+        self.assertEqual("FORBIDDEN_FOR_VAULT_MOUNT_OWNER",contract["private_mount_namespace"])
+        self.assertTrue(contract["runtime_namespace_guard"])
+        self.assertTrue(contract["broker_mountpoint_preflight"])
+        unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
+        self.assertIn("PrivateMounts=false",unit)
+        directives={line.split("=",1)[0] for line in unit.splitlines() if "=" in line and not line.lstrip().startswith("#")}
+        self.assertTrue(set(contract["forbidden_vault_unit_directives"]).isdisjoint(directives))
+        mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
+        self.assertIn("readlink /proc/self/ns/mnt",mount)
+        self.assertIn("readlink /proc/1/ns/mnt",mount)
+        self.assertIn("host mount namespace required",mount)
+        self.assertIn("vault mount source mismatch",mount)
+        broker=(ROOT/"deployment/secrets/fa3-secret-broker.service").read_text()
+        self.assertIn("ExecStartPre=/usr/bin/mountpoint -q /run/fa3/machine-state",broker)
+        lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
+        self.assertIn("force_host_cleanup",lifecycle)
+        self.assertIn('"$VAULT_MOUNT_HELPER" close',lifecycle)
+
     def test_lifecycle_start_requires_broker_readiness_and_health(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
         expected={"SECRETS_TARGET_ACTIVE","VAULT_SERVICE_ACTIVE","VAULT_MOUNTED","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
@@ -122,6 +144,9 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn('runuser -u "$ADMIN_USER"',current_host)
         self.assertIn('userdel "$ADMIN_USER"',current_host)
         self.assertIn('"ephemeral_admin_probe_removed_pass":True',current_host)
+        self.assertIn('"host_mount_namespace_visibility_pass":True',current_host)
+        self.assertIn("fa3-secret-broker-current-host.lock",current_host)
+        self.assertIn("fa3-machine-state-e2e-*",current_host)
 
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()

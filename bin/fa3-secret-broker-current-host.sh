@@ -5,7 +5,34 @@ ROOT="${FA3_REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 RECEIPT="${FA3_SECRET_BROKER_RECEIPT:-$ROOT/evidence/receipts/secret-broker-current-host.json}"
 BRIDGE_SOURCE_COMMIT="${FA3_CURRENT_HOST_PRIVILEGED_BRIDGE_SOURCE_COMMIT:-}"
 [[ "$BRIDGE_SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || { echo "missing/invalid privileged bridge source binding" >&2; exit 2; }
-for c in cryptsetup mkfs.ext4 mount umount mountpoint sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl journalctl install truncate mktemp tr; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+for c in cryptsetup mkfs.ext4 mount umount mountpoint findmnt sha256sum runuser python3 grep awk cp cmp stat getent useradd userdel seq head systemd-run systemd-creds systemctl journalctl install truncate mktemp tr flock; do command -v "$c" >/dev/null || { echo "missing prerequisite: $c" >&2; exit 2; }; done
+exec 9>/run/fa3-secret-broker-current-host.lock
+flock -n 9 || { echo "another FA3 Secret Broker current-host E2E is already running" >&2; exit 2; }
+if systemctl is-active --quiet fa3-secrets.target \
+  || systemctl is-active --quiet fa3-secret-broker.service \
+  || systemctl is-active --quiet fa3-secret-vault.service \
+  || mountpoint -q /run/fa3/machine-state; then
+  echo "current-host E2E requires the production secrets lifecycle to be CLOSED" >&2
+  exit 2
+fi
+for stale_path in /dev/mapper/fa3-machine-state-e2e-*; do
+  [[ -e "$stale_path" ]] || continue
+  stale_name="${stale_path##*/}"
+  if findmnt -rn -S "$stale_path" >/dev/null 2>&1; then
+    echo "stale E2E mapper is still mounted; refusing automatic cleanup: $stale_name" >&2
+    exit 2
+  fi
+  cryptsetup close "$stale_name" || {
+    echo "failed to close stale E2E mapper: $stale_name" >&2
+    exit 2
+  }
+done
+rm -f /var/lib/fa3/state/.fa3-mstate-e2e-*.img /run/fa3-mstate-e2e-*.cred /run/fa3-mstate-e2e-*.new.key
+if compgen -G '/etc/systemd/system/fa3-secret-vault.service.d/90-fa3-secret-e2e-*.conf' >/dev/null; then
+  rm -f /etc/systemd/system/fa3-secret-vault.service.d/90-fa3-secret-e2e-*.conf
+  rmdir /etc/systemd/system/fa3-secret-vault.service.d >/dev/null 2>&1 || true
+  systemctl daemon-reload
+fi
 PROBE_USER="fa3-sb-probe"; PROBE_CREATED=false
 ADMIN_USER="fa3-sb-admin-probe"; ADMIN_CREATED=false
 getent passwd fa3-secret-broker >/dev/null || { echo "fa3-secret-broker service user missing; run installer first" >&2; exit 2; }
@@ -26,6 +53,9 @@ SYSTEMD_PHASE_ACTIVE=false
 cleanup(){
   if [[ -f "$DROPIN" || "$SYSTEMD_PHASE_ACTIVE" == true ]]; then
     systemctl stop fa3-secrets.target >/dev/null 2>&1 || true
+    FA3_MACHINE_STATE_MAPPER="$SMAPPER" \
+    FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" \
+      /usr/local/libexec/fa3-secret-vault-mount close >/dev/null 2>&1 || true
     rm -f "$DROPIN"
     rmdir "$DROPIN_DIR" >/dev/null 2>&1 || true
     systemctl daemon-reload >/dev/null 2>&1 || true
@@ -282,7 +312,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"bridge_source_commit":sys.argv[4],"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"current_host_privileged_bridge_source_binding_pass":True,"non_root_admin_authorization_pass":True,"ephemeral_admin_probe_removed_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"current_host_privileged_bridge_source_binding_pass":True,"non_root_admin_authorization_pass":True,"ephemeral_admin_probe_removed_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"host_mount_namespace_visibility_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},

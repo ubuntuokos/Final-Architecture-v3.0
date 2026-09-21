@@ -32,9 +32,15 @@ The broker audit contains only operation metadata and a SHA-256 of the SecretRef
 
 The closed LUKS2 image can be copied opaquely to user-selected backup storage. Recovery is not PASS until a copy is independently opened read-only and the restored broker health check succeeds. The unlock secret is never stored in the same image.
 
-## Vault service capability boundary
+## Vault service capability and mount-namespace boundary
 
 The privileged vault service retains only the Linux capabilities required by its existing mechanics: `CAP_SYS_ADMIN` for dm-crypt/mount operations, `CAP_CHOWN` for assigning the mounted vault root to the broker identity, and `CAP_FOWNER` for enforcing the vault-root mode after ownership assignment. Broader capability sets are forbidden. The unprivileged broker service retains an empty capability bounding set.
+
+The vault service is the owner of a mount that must become visible to the broker and to the host lifecycle controller. It therefore MUST execute mount/open/close/assert operations in the PID 1 host mount namespace. Filesystem-namespace sandboxing directives such as `PrivateTmp=`, `ProtectSystem=`, `ProtectHome=`, `ReadWritePaths=` and related mount-isolation controls are forbidden on the mount-owning vault unit because they can make a successful mount private to the service. The helper independently compares `/proc/self/ns/mnt` with `/proc/1/ns/mnt` and refuses the operation if they differ.
+
+This exception applies only to the short-lived privileged mount-owning unit. The broker remains strongly sandboxed and receives no mount capability. Its `ExecStartPre` requires `/run/fa3/machine-state` to be a real mountpoint, so a bare directory can never become the broker vault root.
+
+Lifecycle rollback performs an explicit host-namespace cleanup after stopping `fa3-secrets.target`. The physical current-host E2E is single-instance locked, detects and closes unmounted stale `fa3-machine-state-e2e-*` mappings left by a previous failed run, and removes only its reserved E2E artifacts. A mounted stale mapper is not auto-unmounted blindly; that state fails closed for diagnosis.
 
 Current-host systemd lifecycle failures are fail-closed and self-diagnosing: the E2E prints bounded `systemctl status` output and at most 120 relevant journal entries for the vault and broker units before cleanup. No raw secret values are intentionally emitted by these diagnostics.
 
