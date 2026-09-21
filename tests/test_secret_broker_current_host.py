@@ -9,7 +9,10 @@ class SecretBrokerCurrentHostTests(unittest.TestCase):
                 "secret_values_collected":False,"runtime_promotion_eligible":True,"global_promotion_claim":False,
                 "new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143}
     def test_good_receipt(self):self.assertEqual([],g.validate(self.good()))
-    def test_missing_or_invalid_bridge_source_denied(self):\n        x=self.good();x["bridge_source_commit"]="bad";self.assertTrue(g.validate(x))\n        x=self.good();x["checks"]["current_host_privileged_bridge_source_binding_pass"]=False;self.assertTrue(g.validate(x))\n    def test_synthetic_denied(self):
+    def test_missing_or_invalid_bridge_source_denied(self):
+        x=self.good();x["bridge_source_commit"]="bad";self.assertTrue(g.validate(x))
+        x=self.good();x["checks"]["current_host_privileged_bridge_source_binding_pass"]=False;self.assertTrue(g.validate(x))
+    def test_synthetic_denied(self):
         x=self.good();x["synthetic"]=True;self.assertTrue(g.validate(x))
     def test_missing_credential_scope_proof_denied(self):
         x=self.good();x["checks"]["credential_scope_enforced"]=False;self.assertTrue(g.validate(x))
