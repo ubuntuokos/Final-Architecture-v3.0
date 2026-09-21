@@ -2,7 +2,7 @@
   "schema": "fa3.contract-record.v1",
   "id": "FA3-ACCEL-GUARD-CONTRACTS-001",
   "profile_id": "FA3-ACCEL-GUARD-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
   "conflict_contract": {
@@ -20,7 +20,12 @@
     "decision_initial_value": null
   },
   "assessment_contract": {
-    "allowed_severity": ["INFO", "WARNING", "HIGH", "CRITICAL"],
+    "allowed_severity": [
+      "INFO",
+      "WARNING",
+      "HIGH",
+      "CRITICAL"
+    ],
     "risk_dimensions": [
       "memory_capacity",
       "compute_contention",
@@ -102,5 +107,23 @@
     "policy_id",
     "executed_action",
     "result"
-  ]
+  ],
+  "inventory_contract": {
+    "descriptor_source": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001/AcceleratorDeviceDescriptor",
+    "execution_path_source": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001/AcceleratorExecutionPathDescriptor",
+    "required_for_alternative_recommendation": [
+      "accelerator_id",
+      "kind",
+      "effective_capacity",
+      "health",
+      "execution_paths"
+    ],
+    "physical_device_presence_is_execution_compatibility": false
+  },
+  "recommendation_contract": {
+    "alternative_must_match_requested_accelerator_kind": true,
+    "alternative_must_match_workload_execution_requirement": true,
+    "incompatible_backend_must_not_be_recommended": true,
+    "recommendation_is_not_placement_authority": true
+  }
 }
