@@ -91,3 +91,14 @@ The installer writes a sudoers rule for exactly one root-owned helper and explic
 The non-root bridge client compares the current checkout commit with the installed source binding before any privileged execution. Physical evidence contains `bridge_source_commit` and the `current_host_privileged_bridge_source_binding_pass` check. Source drift therefore fails closed and requires rerunning the current-host runner bootstrap from the intended commit.
 
 The privileged helper writes only sanitized current-host evidence to the fixed runtime handoff directory `/run/fa3/current-host-secret-broker`. It does not expose raw token/password values or provide a general-purpose privileged execution interface.
+
+
+## Dedicated current-host admin probe
+
+The physical Secret Broker E2E does not rely on a root peer being interpreted as broker admin over the Unix socket. Broker mutations are exercised through a dedicated temporary non-root identity named `fa3-sb-admin-probe`.
+
+The test creates that identity only when it does not already exist, requires membership in both `fa3-secret-admin` and `fa3-secret-clients`, performs the administrative put/rotate/revoke/metadata operations through that identity, and executes the credential-scope negative probe through the same authorized admin identity.
+
+A pre-existing `fa3-sb-admin-probe` causes fail-closed termination. The probe identity is removed before the PASS receipt is written, and the current-host receipt requires both `non_root_admin_authorization_pass` and `ephemeral_admin_probe_removed_pass`.
+
+This preserves the separation between the root-only host mechanics needed for LUKS2/systemd tests and the broker's own SO_PEERCRED/group-based administration boundary.
