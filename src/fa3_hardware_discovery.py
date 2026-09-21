@@ -197,6 +197,8 @@ class AcceleratorBackendDescriptor:
     name: str
     backend_class: str
     available: bool
+    detected: bool = True
+    binding_scope: str = "DEVICE"
     runtime_version: str | None = None
     driver_version: str | None = None
     framework_backends: tuple[str, ...] = ()
@@ -208,6 +210,10 @@ class AcceleratorBackendDescriptor:
             raise ValueError("backend name must be non-empty")
         if self.backend_class not in BACKEND_CLASSES:
             raise ValueError(f"unsupported backend class: {self.backend_class}")
+        if self.binding_scope not in {"DEVICE", "HOST_UNBOUND"}:
+            raise ValueError(f"unsupported backend binding scope: {self.binding_scope}")
+        if self.available and (not self.detected or self.binding_scope != "DEVICE"):
+            raise ValueError("available backend must be detected and bound to one device")
 
     def as_dict(self) -> dict[str, Any]:
         value = asdict(self)
