@@ -47,6 +47,7 @@ ARCHIVE_PATHS=(
   "libexec/fa3-secret-broker-current-host-root.sh"
   "libexec/fa3-secret-broker-current-host-bridge.sh"
   "deployment/secrets/fa3-secret-vault.service"
+  "deployment/secrets/run-fa3-machine\\x2dstate.mount"
   "deployment/secrets/fa3-secret-broker.service"
   "deployment/secrets/fa3-secrets.target"
 )

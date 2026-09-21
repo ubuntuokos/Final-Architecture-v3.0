@@ -138,6 +138,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertEqual("FORBIDDEN",boundary["general_passwordless_sudo"])
         self.assertIn('NOPASSWD: %s ""',installer)
         self.assertNotIn("NOPASSWD: ALL",installer)
+        self.assertIn('"deployment/secrets/run-fa3-machine\\\\x2dstate.mount"',installer)
         self.assertIn("privileged helper accepts no arguments",helper)
         self.assertIn("SOURCE_COMMIT",helper)
         self.assertIn("privileged bridge source drift",client)
