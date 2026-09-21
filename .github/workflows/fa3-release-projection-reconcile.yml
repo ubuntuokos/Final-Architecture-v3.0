@@ -19,7 +19,11 @@ concurrency:
 
 jobs:
   reconcile:
-    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[projection]')
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        !startsWith(github.event.head_commit.message, 'FA3: reconcile unified release projection [projection]')
+      }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
