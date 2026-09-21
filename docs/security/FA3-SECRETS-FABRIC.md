@@ -30,6 +30,12 @@ The broker audit contains only operation metadata and a SHA-256 of the SecretRef
 
 The closed LUKS2 image can be copied opaquely to user-selected backup storage. Recovery is not PASS until a copy is independently opened read-only and the restored broker health check succeeds. The unlock secret is never stored in the same image.
 
+## Vault service capability boundary
+
+The privileged vault service retains only the Linux capabilities required by its existing mechanics: `CAP_SYS_ADMIN` for dm-crypt/mount operations, `CAP_CHOWN` for assigning the mounted vault root to the broker identity, and `CAP_FOWNER` for enforcing the vault-root mode after ownership assignment. Broader capability sets are forbidden. The unprivileged broker service retains an empty capability bounding set.
+
+Current-host systemd lifecycle failures are fail-closed and self-diagnosing: the E2E prints bounded `systemctl status` output and at most 120 relevant journal entries for the vault and broker units before cleanup. No raw secret values are intentionally emitted by these diagnostics.
+
 ## Hardware and desktop audit
 
 No NVIDIA, CUDA, GPU, NPU, accelerator SKU or topology is required. The core is headless-capable and has no canonical KDE, GNOME, Wayland, X11 or other desktop/display-server dependency. Any desktop unlock or management UI is an optional adapter and cannot become a prerequisite for the secrets core.
