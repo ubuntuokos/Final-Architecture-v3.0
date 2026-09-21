@@ -214,23 +214,29 @@ LoadCredentialEncrypted=fa3-machine-state-key:$ECRED
 EOF
 systemctl daemon-reload
 SYSTEMD_PHASE_ACTIVE=true
-if ! systemctl start fa3-secrets.target; then
-  echo "FAIL: fa3-secrets.target start failed; collecting bounded diagnostics" >&2
-  systemctl --no-pager --full status fa3-secret-vault.service fa3-secret-broker.service fa3-secrets.target >&2 || true
-  journalctl --no-pager -n 120 -u fa3-secret-vault.service -u fa3-secret-broker.service >&2 || true
+if ! FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle start >/dev/null; then
+  echo "FAIL: systemd secrets lifecycle did not reach broker-ready state" >&2
   exit 2
 fi
-systemctl is-active --quiet fa3-secret-vault.service
-systemctl is-active --quiet fa3-secret-broker.service
-mountpoint -q /run/fa3/machine-state
-[[ -e "/dev/mapper/$SMAPPER" ]]
-/usr/local/bin/fa3-secretctl health >/dev/null
-FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle exit >/dev/null
-! systemctl is-active --quiet fa3-secrets.target
-! systemctl is-active --quiet fa3-secret-broker.service
-! systemctl is-active --quiet fa3-secret-vault.service
-! mountpoint -q /run/fa3/machine-state
-[[ ! -e "/dev/mapper/$SMAPPER" ]]
+if ! /usr/local/bin/fa3-secretctl health >/dev/null; then
+  echo "FAIL: broker health failed after lifecycle readiness PASS" >&2
+  FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle status >&2 || true
+  exit 2
+fi
+if ! FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle exit >/dev/null; then
+  echo "FAIL: systemd secrets lifecycle exit did not reach CLOSED state" >&2
+  FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle status >&2 || true
+  exit 2
+fi
+if systemctl is-active --quiet fa3-secrets.target \
+  || systemctl is-active --quiet fa3-secret-broker.service \
+  || systemctl is-active --quiet fa3-secret-vault.service \
+  || mountpoint -q /run/fa3/machine-state \
+  || [[ -e "/dev/mapper/$SMAPPER" ]]; then
+  echo "FAIL: independent systemd lifecycle CLOSED postcondition check failed" >&2
+  FA3_MACHINE_STATE_MAPPER="$SMAPPER" FA3_MACHINE_STATE_MOUNT="/run/fa3/machine-state" /usr/local/sbin/fa3-secrets-lifecycle status >&2 || true
+  exit 2
+fi
 SYSTEMD_TARGET_LIFECYCLE_PASS=true
 ENCRYPTED_SYSTEMD_UNLOCK_RUNTIME_PASS=true
 HARDWARE_NEUTRAL_SYSTEMD_CREDENTIAL_HOST_KEY_MODE_PASS=true
