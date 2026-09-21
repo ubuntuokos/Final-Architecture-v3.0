@@ -43,20 +43,32 @@ def validate_execution_requirement(requirement: Any) -> list[str]:
     return errors
 
 
+def _candidate_backend(candidate: dict[str, Any]) -> str:
+    return _name(candidate.get("backend", candidate.get("name")))
+
+
+def _candidate_backend_class(candidate: dict[str, Any]) -> str:
+    return _name(candidate.get("backend_class", candidate.get("class")))
+
+
 def _candidate_usable(candidate: dict[str, Any]) -> bool:
     if candidate.get("available") is not True:
         return False
-    if _name(candidate.get("backend_class")) not in BACKEND_CLASSES:
+    if candidate.get("detected", True) is not True:
+        return False
+    if str(candidate.get("binding_scope", "DEVICE")).upper() != "DEVICE":
+        return False
+    if _candidate_backend_class(candidate) not in BACKEND_CLASSES:
         return False
     if str(candidate.get("health", "READY")).upper() in _UNHEALTHY:
         return False
-    return bool(_name(candidate.get("backend")))
+    return bool(_candidate_backend(candidate))
 
 
 def execution_path_matches(requirement: Any, candidate: dict[str, Any]) -> bool:
     if not isinstance(candidate, dict) or not _candidate_usable(candidate):
         return False
-    candidate_class = _name(candidate.get("backend_class"))
+    candidate_class = _candidate_backend_class(candidate)
     allow_translation = bool(requirement.get("allow_translation", False)) if isinstance(requirement, dict) else False
     if candidate_class == "translation" and not allow_translation:
         return False
@@ -67,7 +79,7 @@ def execution_path_matches(requirement: Any, candidate: dict[str, Any]) -> bool:
         return False
 
     for wanted in requirement["acceptable_execution_paths"]:
-        if _name(wanted.get("backend")) != _name(candidate.get("backend")):
+        if _name(wanted.get("backend")) != _candidate_backend(candidate):
             continue
         if _name(wanted.get("backend_class")) != candidate_class:
             continue
@@ -102,14 +114,14 @@ def bind_hrb_execution_path(
         "schema": "fa3.hrb-accelerator-execution-binding.v1",
         "authority_receipt": authority_receipt,
         "accelerator_id": accelerator_id,
-        "backend": _name(candidate.get("backend")),
-        "backend_class": _name(candidate.get("backend_class")),
+        "backend": _candidate_backend(candidate),
+        "backend_class": _candidate_backend_class(candidate),
         "framework_backend": _name(candidate.get("framework_backend")) or None,
         "runtime_version": str(candidate.get("runtime_version") or "") or None,
         "provider_id": str(candidate.get("provider_id") or "") or None,
         "translation_backend": (
-            _name(candidate.get("backend"))
-            if _name(candidate.get("backend_class")) == "translation"
+            _candidate_backend(candidate)
+            if _candidate_backend_class(candidate) == "translation"
             else None
         ),
         "fallback_policy": "DENY_SILENT_SUBSTITUTION",
