@@ -13,6 +13,15 @@
     "DependencyLockAttestation",
     "BuildRecipeIdentity",
     "TrustDecision",
-    "SupplyChainAdmissionReceipt"
-  ]
+    "SupplyChainAdmissionReceipt",
+    "SecretReference",
+    "CredentialLeaseRequest",
+    "CredentialLease",
+    "SigningKeyReference"
+  ],
+  "secret_contract_semantics": {
+    "raw_secret_values_in_canonical_or_evidence": "FORBIDDEN",
+    "secret_reference_resolution": "FA3-SECRET-BROKER-001_OR_ADMITTED_SECRET_PROVIDER",
+    "runtime_secret_delivery": "LEASE_OR_POLICY_GATED_PROJECTION"
+  }
 }

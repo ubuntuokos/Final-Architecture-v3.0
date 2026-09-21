@@ -62,5 +62,11 @@
     "default_enabled": false,
     "separate_login_surface": "ONLY_IF_EXPLICIT_MULTI_USER_PROFILE_IS_ENABLED",
     "current_reference_implementation": "SINGLE_USER_SESSION_VAULT_ONLY"
+  },
+  "machine_secret_boundary": {
+    "profile": "FA3-SECRET-BROKER-001",
+    "raw_machine_application_secret_storage": "FORBIDDEN",
+    "session_vault_role": "USER_SESSION_CUSTODY_AND_ROOT_CA_STORAGE",
+    "legacy_credentials_directory": "NON_CANONICAL_MIGRATION_SOURCE_ONLY"
   }
 }

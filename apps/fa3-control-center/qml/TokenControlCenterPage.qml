@@ -44,7 +44,7 @@ Item {
             spacing: 2
             Label { text: "Token Control Center"; color: root.textPrimary; font.pixelSize: 22; font.bold: true }
             Label {
-                text: "Credential-tokenek és AI-fogyasztási tokenek közös, provider-semleges governance felülete. Target contract: FA3-TOKEN-GOVERNANCE-001."
+                text: "FA3-TOKEN-GOVERNANCE-001 · Credential-titkok és AI-fogyasztási tokenek közös, provider-semleges governance felülete. API tokenek, külső provider belépési titkok és FA3-jelszavak: FA3-SECRET-BROKER-001; raw secret value nem jelenik meg a GUI-ban."
                 color: root.textMuted; font.pixelSize: 10; wrapMode: Text.WordWrap; Layout.fillWidth: true
             }
         }
@@ -54,7 +54,7 @@ Item {
             spacing: 10
             Repeater {
                 model: [
-                    {title: "Credential values", value: "NEVER STORED", tone: root.magenta},
+                    {title: "Credential values", value: "LUKS2 ENCRYPTED", tone: root.green},
                     {title: "Secret delivery", value: "VAULT / BROKER", tone: root.green},
                     {title: "AI usage", value: "ADAPTER-GATED", tone: root.orange},
                     {title: "Policy", value: "FAIL-CLOSED", tone: root.accent}
@@ -134,14 +134,15 @@ Item {
                             Label { text: "Két külön tokenréteg"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
                             InfoLine { titleText: "1. Credential / access token"; detailText: "API key, OAuth, JWT, session, MCP/service token. Az alkalmazás csak SecretRef/capability handle-t kaphat; tartós plaintext secret tiltott."; tone: root.orange }
                             InfoLine { titleText: "2. AI fogyasztási token"; detailText: "Input, output, context, cache és reasoning tokenhasználat, kvóták, budgetek és költségek. Valós számláló csak runtime/provider telemetry adapterből jelenhet meg."; tone: root.accent }
-                            InfoLine { titleText: "Current runtime state"; detailText: "Credential metadata és policy kezelhető; valós tokenhasználat/költség jelenleg N/A, amíg admitted telemetry adapter nincs."; tone: root.textMuted }
+                            InfoLine { titleText: "Secret runtime"; detailText: "FA3-SECRET-BROKER-001 materialized · generikus nevű külön LUKS2 image · desktop/display-server agnostic core · production promotion requires real current-host E2E."; tone: root.green }
+                            InfoLine { titleText: "Usage telemetry"; detailText: "Valós tokenhasználat/költség továbbra is N/A, amíg admitted telemetry adapter nincs."; tone: root.textMuted }
                             Item { Layout.fillHeight: true }
                         }
 
                         ColumnLayout {
                             spacing: 12
                             Label { text: "Credentialek"; color: root.textPrimary; font.pixelSize: 16; font.bold: true }
-                            InfoLine { titleText: "Security boundary"; detailText: "Raw secret value nem kerülhet QSettings-be, repository configba, logba, telemetry-be vagy Evidence-be."; tone: root.magenta }
+                            InfoLine { titleText: "Security boundary"; detailText: "Raw FA3 credential-secret a külön, generikus nevű titkosított image-ben marad; token, külső provider belépési titok és jelszó nem kerülhet QSettings-be, Session Vault raw credential könyvtárba, repository configba, logba, telemetry-be vagy Evidence-be."; tone: root.magenta }
                             TextField { id: credentialProvider; Layout.fillWidth: true; placeholderText: "Provider ID (metadata only)" }
                             TextField { id: credentialRef; Layout.fillWidth: true; placeholderText: "SecretRef / credential handle (nem secret value)" }
                             ComboBox { id: credentialKind; Layout.preferredWidth: 260; model: ["API key handle", "OAuth handle", "JWT handle", "Session handle", "MCP/service token handle"] }
@@ -240,6 +241,8 @@ Item {
                             CheckBox { text: "Least scope"; checked: true; enabled: false }
                             CheckBox { text: "Expiry + rotation + revocation required"; checked: true; enabled: false }
                             CheckBox { text: "Plaintext secret storage forbidden"; checked: true; enabled: false }
+                            CheckBox { text: "Full vault mount to application forbidden"; checked: true; enabled: false }
+                            CheckBox { text: "Podman secret: type=mount default; env forbidden"; checked: true; enabled: false }
                             CheckBox { text: "Audited broker access"; checked: true; enabled: false }
                             CheckBox { text: "Fail-closed on missing credential/usage evidence"; checked: true; enabled: false }
                             Item { Layout.fillHeight: true }
