@@ -51,6 +51,17 @@ def _candidate_backend_class(candidate: dict[str, Any]) -> str:
     return _name(candidate.get("backend_class", candidate.get("class")))
 
 
+def _candidate_framework_backends(candidate: dict[str, Any]) -> set[str]:
+    values: set[str] = set()
+    singular = _name(candidate.get("framework_backend"))
+    if singular:
+        values.add(singular)
+    plural = candidate.get("framework_backends")
+    if isinstance(plural, (list, tuple, set)):
+        values.update(_name(value) for value in plural if _name(value))
+    return values
+
+
 def _candidate_usable(candidate: dict[str, Any]) -> bool:
     if candidate.get("available") is not True:
         return False
@@ -84,7 +95,8 @@ def execution_path_matches(requirement: Any, candidate: dict[str, Any]) -> bool:
         if _name(wanted.get("backend_class")) != candidate_class:
             continue
         wanted_framework = _name(wanted.get("framework_backend"))
-        if wanted_framework and wanted_framework != _name(candidate.get("framework_backend")):
+        candidate_frameworks = _candidate_framework_backends(candidate)
+        if wanted_framework and wanted_framework not in candidate_frameworks:
             continue
         return True
     return False
@@ -116,7 +128,7 @@ def bind_hrb_execution_path(
         "accelerator_id": accelerator_id,
         "backend": _candidate_backend(candidate),
         "backend_class": _candidate_backend_class(candidate),
-        "framework_backend": _name(candidate.get("framework_backend")) or None,
+        "framework_backend": next(iter(sorted(_candidate_framework_backends(candidate))), None),
         "runtime_version": str(candidate.get("runtime_version") or "") or None,
         "provider_id": str(candidate.get("provider_id") or "") or None,
         "translation_backend": (
