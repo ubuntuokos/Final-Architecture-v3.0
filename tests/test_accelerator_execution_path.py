@@ -104,7 +104,7 @@ class AcceleratorExecutionPathTests(unittest.TestCase):
             "detected": True,
             "available": True,
             "binding_scope": "DEVICE",
-            "framework_backend": "vulkan-compute",
+            "framework_backends": ["vulkan-compute"],
             "health": "READY",
         }
         self.assertTrue(execution_path_matches(requirement, descriptor))
