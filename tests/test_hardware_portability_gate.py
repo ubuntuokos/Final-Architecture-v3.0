@@ -68,6 +68,24 @@ class HardwarePortabilityGateTests(unittest.TestCase):
         self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(accelerator["supported_reference_vendor_families"]))
         self.assertIn("NVIDIA_DGX",accelerator["supported_reference_platform_families"])
 
+    def test_discovery_contract_distinguishes_cpu_and_backend_dimensions(self):
+        obj=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        self.assertEqual("1.4.0",obj["version"])
+        cpu=obj["descriptor_schemas"]["cpu"]
+        accel=obj["descriptor_schemas"]["accelerator"]
+        self.assertIn("physical_cores_fully_allocated",cpu["required_counts"])
+        self.assertIn("physical_cores_partially_allocated",cpu["required_counts"])
+        self.assertEqual(
+            set(obj["discovery_semantics"]["backend_classes"]),
+            {"native","portable","translation"},
+        )
+        self.assertFalse(obj["discovery_semantics"]["device_presence_implies_workload_compatibility"])
+        self.assertFalse(obj["discovery_semantics"]["unknown_accelerator_vendor_is_error"])
+        self.assertEqual(
+            accel["unknown_vendor_policy"],
+            "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE",
+        )
+
     def test_runtime_fixed_vendor_lists_are_blocking(self):
         for line in (
             'CUDA_VISIBLE_DEVICES="0,1"\n',
