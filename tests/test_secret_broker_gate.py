@@ -81,6 +81,29 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn('systemctl stop "$MOUNT_UNIT"',lifecycle)
         self.assertIn('"$VAULT_MOUNT_HELPER" close-mapper',lifecycle)
 
+    def test_current_host_runtime_is_durably_admitted_without_global_promotion(self):
+        conformance=json.loads((ROOT/"canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json").read_text())
+        gate=json.loads((ROOT/"canonical/FA3-GATE-SECRET-BROKER-001.json").read_text())
+        evidence=json.loads((ROOT/"evidence/reference/secret-broker-current-host-2026-09-21.json").read_text())
+        registry=json.loads((ROOT/"evidence/evidence-registry.json").read_text())
+        self.assertEqual("CURRENT_HOST_ADMITTED",conformance["status"])
+        self.assertTrue(conformance["production_runtime_promoted"])
+        self.assertEqual("FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",conformance["runtime_promotion_scope"])
+        self.assertFalse(conformance["global_promotion_claim"])
+        self.assertTrue(gate["production_runtime_promoted"])
+        self.assertFalse(gate["global_promotion_claim"])
+        self.assertEqual("PASS",evidence["result"])
+        self.assertTrue(evidence["runtime"]["real_execution"])
+        self.assertFalse(evidence["runtime"]["synthetic"])
+        self.assertFalse(evidence["runtime"]["secret_values_collected"])
+        self.assertEqual(36,len(evidence["checks"]))
+        self.assertTrue(all(evidence["checks"].values()))
+        cap3=next(x for x in registry["records"] if x["subject_id"]=="CAP-003")
+        self.assertEqual("PENDING_CURRENT_HOST",cap3["status"])
+        self.assertEqual("CURRENT_HOST_ADMITTED",cap3["secret_broker_projection_status"]["runtime_status"])
+        self.assertTrue(cap3["secret_broker_projection_status"]["production_runtime_admitted"])
+        self.assertFalse(cap3["secret_broker_projection_status"]["global_promotion_claim"])
+
     def test_lifecycle_start_requires_broker_readiness_and_health(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
         expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
