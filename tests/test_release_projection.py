@@ -25,6 +25,13 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/fa3-release-projection-reconcile.yml").read_text(encoding="utf-8")
         self.assertIn('      - "main"', workflow)
         self.assertIn("!contains(github.event.head_commit.message, '[projection]')", workflow)
+        self.assertIn("pull-requests: write", workflow)
+        self.assertIn('if [ "${GITHUB_REF_NAME}" = "main" ]; then', workflow)
+        self.assertIn('projection_branch="automation/release-projection-${GITHUB_SHA:0:12}"', workflow)
+        self.assertIn("gh pr create", workflow)
+        self.assertIn('gh pr merge "${pr_number}"', workflow)
+        self.assertIn("--auto --squash --delete-branch", workflow)
+        self.assertNotIn('git push origin "HEAD:main"', workflow)
 
     def _copy_repo(self):
         projection = json.loads((ROOT / PROJECTION_PATH).read_text(encoding="utf-8"))
