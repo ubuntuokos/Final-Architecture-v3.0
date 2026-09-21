@@ -23,6 +23,7 @@ P0 = [
     "RUNNER_NON_ROOT_EXECUTION_REQUIRED",
     "RUNNER_SYSTEMD_USER_SERVICE_REQUIRED",
     "RUNNER_SERVICE_ACTIVE_FOR_EVIDENCE",
+    "RUNNER_SYSTEMD_USER_LINGER_REQUIRED",
     "RUNNER_SERVER_SIDE_ONLINE_STATE_REQUIRED",
     "RUNNER_WORKSPACE_USER_OWNED",
     "RUNNER_GITHUB_HOSTED_SUBSTITUTION_FORBIDDEN",
@@ -59,6 +60,7 @@ def validate_conformance(obj: dict[str, Any]) -> list[str]:
         (reg.get("token_persistence") == "FORBIDDEN", "registration token persistence permitted"),
         (reg.get("server_side_label_revalidation") == "REQUIRED", "server-side label revalidation missing"),
         (service.get("manager") == "systemd --user", "service manager drift"),
+        (service.get("linger_required") is True, "systemd user linger not required"),
         (evidence.get("github_hosted_substitution") == "FORBIDDEN", "GitHub-hosted substitution permitted"),
         (promotion.get("runner_doctor_pass_is_global_promotion") is False, "doctor PASS promotes globally"),
         (promotion.get("provider_e2e_must_run_separately") is True, "provider E2E separation missing"),
@@ -94,6 +96,7 @@ def validate_bootstrap_text(text: str) -> list[str]:
         '--unattended',
         '--labels "$CUSTOM_LABEL"',
         'systemctl --user enable --now',
+        'sudo loginctl enable-linger "$USER"',
         'FA3_GITHUB_RUNNER_TOKEN',
         'actions/runners/registration-token',
         'if [[ ${EUID:-$(id -u)} -eq 0 ]]',
@@ -121,6 +124,8 @@ def validate_doctor_text(text: str) -> list[str]:
         'required_labels_present',
         'registration_secret_recorded',
         'global_promotion_claim',
+        'loginctl show-user "$USER" -p Linger --value',
+        'systemd_user_linger_enabled',
     ):
         if needle not in text:
             errors.append(f"doctor missing: {needle}")
