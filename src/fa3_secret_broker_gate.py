@@ -40,7 +40,7 @@ def check()->dict:
     init=(ROOT/"bin/fa3-secret-vault-init").read_text()
     req("systemd-creds encrypt" in init and "--with-key=host" in init and "--key-file -" in init and "FA3_MSTATE" in init,"SB-019")
     mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
-    req('CREDENTIALS_DIRECTORY' in mount and "nodev,nosuid,noexec" in mount and "cryptsetup close" in mount and "assert_closed" in mount,"SB-020")
+    req('CREDENTIALS_DIRECTORY' in mount and "for o in nodev nosuid noexec" in mount and "cryptsetup close" in mount and "assert_closed" in mount,"SB-020")
     vault_unit=(ROOT/"deployment/secrets/fa3-secret-vault.service").read_text()
     mount_unit=(ROOT/"deployment/secrets/run-fa3-machine\\x2dstate.mount").read_text()
     broker_unit=(ROOT/"deployment/secrets/fa3-secret-broker.service").read_text()
