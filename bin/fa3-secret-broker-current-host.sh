@@ -154,6 +154,13 @@ bad=request(Path(sys.argv[1]),{"op":"put","secret_id":"test/not-credential","cla
 if bad.get("ok") is not False or "credential secrets only" not in str(bad.get("error","")):
     raise SystemExit(2)
 PY
+userdel "$ADMIN_USER"
+ADMIN_CREATED=false
+if getent passwd "$ADMIN_USER" >/dev/null; then
+  echo "ephemeral admin probe identity persisted after authorization proof" >&2
+  exit 2
+fi
+EPHEMERAL_ADMIN_PROBE_REMOVED_PASS=true
 ! grep -Fq "$CANARY1" "$AUDIT"
 ! grep -Fq "$CANARY2" "$AUDIT"
 ! grep -Fq "$REVOKE_CANARY" "$AUDIT"
@@ -264,7 +271,7 @@ x={
  "executed_at":datetime.now(timezone.utc).isoformat(),"bridge_source_commit":sys.argv[4],"luks2":True,"filesystem":"ext4",
  "mount_options":["nodev","nosuid","noexec"],"broker_unprivileged":True,"broker_user":"fa3-secret-broker",
  "canary_sha256":sys.argv[2],"encrypted_image_sha256":sys.argv[3],
- "checks":{"current_host_privileged_bridge_source_binding_pass":True,"non_root_admin_authorization_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
+ "checks":{"current_host_privileged_bridge_source_binding_pass":True,"non_root_admin_authorization_pass":True,"ephemeral_admin_probe_removed_pass":True,"authorized_single_secret_get":True,"systemd_loadcredential_projection_pass":True,"encrypted_systemd_unlock_runtime_pass":True,"systemd_target_lifecycle_pass":True,"secrets_target_inactive_pass":True,"hardware_neutral_systemd_credential_host_key_mode_pass":True,"luks_unlock_key_rotation_pass":True,"old_unlock_key_rejected_after_rekey":True,"new_unlock_key_accepted_after_rekey":True,"rekey_final_closed_state_pass":True,"systemd_e2e_artifact_cleanup_pass":True,"policy_preflight_pass":True,"policy_install_remove_pass":True,"rotation_pass":True,"revocation_pass":True,"metadata_only_list_pass":True,"unauthorized_consumer_denied":True,"raw_vault_access_denied":True,"bulk_export_absent":True,"credential_scope_enforced":True,
  "audit_contains_no_raw_secret":True,"secret_absent_from_argv":True,"secret_absent_from_environment":True,
  "broker_health_pass":True,"explicit_unmount_pass":True,"luks_close_pass":True,"fa3_exit_closed_state_pass":True,"opaque_backup_copy_pass":True,
  "restore_unlock_pass":True,"restore_mount_pass":True,"restore_broker_health_pass":True,"restore_secret_read_pass":True},
