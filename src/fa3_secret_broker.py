@@ -120,7 +120,8 @@ class PolicyStore:
         return x
 
 def _peer_identity(conn:socket.socket)->tuple[int,int,int]:
-    return struct.unpack("3i",conn.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,struct.calcsize("3i")))
+    pid,uid,gid=struct.unpack("3i",conn.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,struct.calcsize("3i")))
+    return uid,gid,pid
 def _username(uid:int)->str:
     try:return pwd.getpwuid(uid).pw_name
     except KeyError:return str(uid)
