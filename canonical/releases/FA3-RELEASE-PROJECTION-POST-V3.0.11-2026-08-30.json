@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d5d8b92647bb40cfd0280694e230e7a478f5e42e",
-    "pre_projection_root_tree_sha": "8868b3db44668a4c07baa2ecaaa7e44de6a7d7bb",
-    "pre_projection_canonical_tree_sha": "2a03be2e1b271b9155bc8b13d0a154875619812e",
-    "commits_ahead_of_v3_0_11_conformance_commit": 492,
-    "total_post_baseline_commits": 492,
-    "delta_file_count": 1583,
-    "delta_added_files": 1578,
+    "pre_projection_head_sha": "e0a81136ead7bb2fbab40d510259fe3c164180af",
+    "pre_projection_root_tree_sha": "63c839cca4b019640ff3946f2f22e0682b064bef",
+    "pre_projection_canonical_tree_sha": "bdb79ef3fef6e6c733284097ea4efef1941549ed",
+    "commits_ahead_of_v3_0_11_conformance_commit": 504,
+    "total_post_baseline_commits": 504,
+    "delta_file_count": 1586,
+    "delta_added_files": 1581,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,9 +47,9 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 754,
     "evidence_files_in_post_baseline_delta": 136,
-    "source_files_in_post_baseline_delta": 200,
-    "test_files_in_post_baseline_delta": 179,
-    "workflow_files_in_post_baseline_delta": 68,
+    "source_files_in_post_baseline_delta": 201,
+    "test_files_in_post_baseline_delta": 180,
+    "workflow_files_in_post_baseline_delta": 69,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -791,7 +791,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1576,
+  "manifest_entry_count": 1579,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -876,6 +876,11 @@
     {
       "path": ".github/workflows/fa3-gui-gate.yml",
       "git_blob_sha": "d0a4e5d4358a8d41deca4ab32d785d56f97403cb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hardware-discovery-descriptors.yml",
+      "git_blob_sha": "48f77626194795e43d94130f8b845acd51432b93",
       "baseline_delta_status": "added"
     },
     {
@@ -2640,7 +2645,7 @@
     },
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
-      "git_blob_sha": "ddef4cce255d0534f784b781d938f9e63830eb06",
+      "git_blob_sha": "aa1e82077914a78908c6fb18cf56d2aff59d5212",
       "baseline_delta_status": "added"
     },
     {
@@ -2700,7 +2705,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "4140a4a2984fb3536bf9e6a1258958914ae13041",
+      "git_blob_sha": "1520720d4a105ddc6b5346b289caa3140c466496",
       "baseline_delta_status": "added"
     },
     {
@@ -3710,7 +3715,7 @@
     },
     {
       "path": "canonical/hardware-portability-enforcement.json",
-      "git_blob_sha": "d541ea2464e14beb61cccf7686cab4e6efd77e24",
+      "git_blob_sha": "e16008f949e76397cc9328f77d2694cc64822547",
       "baseline_delta_status": "added"
     },
     {
@@ -4100,7 +4105,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
-      "git_blob_sha": "8d1a73c80effa4481921f81af0abc88562b64b11",
+      "git_blob_sha": "e482138ca85ad78800d10885a81e5da43bbb2fc3",
       "baseline_delta_status": "added"
     },
     {
@@ -6880,7 +6885,7 @@
     },
     {
       "path": "src/fa3_cpu_thread_budget.py",
-      "git_blob_sha": "1ffb43c9a85116088698286880937ac768390055",
+      "git_blob_sha": "01e8e3692558a797039de5f09b8b2338e40f2399",
       "baseline_delta_status": "added"
     },
     {
@@ -7056,6 +7061,11 @@
     {
       "path": "src/fa3_gui_gate.py",
       "git_blob_sha": "26b4be0a70ed1eefeabac12c5114c45a29c6d257",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_hardware_discovery.py",
+      "git_blob_sha": "411a0ec062f5a29a98a0eff5f447623c6315f7dd",
       "baseline_delta_status": "added"
     },
     {
@@ -7850,7 +7860,7 @@
     },
     {
       "path": "tests/test_cpu_numa_threading_gate.py",
-      "git_blob_sha": "f9b2b2cd415567594783a5e5e3e02d4c26ac59f8",
+      "git_blob_sha": "f873efeebb2b59d5f095dce4586890a29ff4fc30",
       "baseline_delta_status": "added"
     },
     {
@@ -8044,8 +8054,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_hardware_discovery_descriptors.py",
+      "git_blob_sha": "751ee89ccf0888cc0f8e5892080b22afb2ab3a47",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_hardware_portability_gate.py",
-      "git_blob_sha": "fd1ed0df461caf59d5a402f753dd764a81690327",
+      "git_blob_sha": "0a8a288054af2ad596a1a1b4b0a2d43857a5e976",
       "baseline_delta_status": "added"
     },
     {
