@@ -18,6 +18,9 @@ import socket
 import subprocess
 from typing import Any
 
+from fa3_hardware_discovery import discover_accelerator_devices
+from fa3_accelerator_backend_probe import enrich_accelerator_backends
+
 
 def _run(argv: list[str]) -> tuple[int, str, str]:
     proc = subprocess.run(argv, text=True, capture_output=True, check=False)
@@ -95,9 +98,17 @@ def _fd_holders(device_paths: list[str]) -> list[dict[str, Any]]:
     return sorted(holders, key=lambda x: x["pid"])
 
 
-def collect() -> dict[str, Any]:
+def collect(*, include_framework_probes: bool = False) -> dict[str, Any]:
     accel = sorted(glob.glob("/dev/accel/accel*"))
     dri = sorted(glob.glob("/dev/dri/renderD*"))
+    raw_devices = discover_accelerator_devices()
+    inventory = [
+        device.as_dict()
+        for device in enrich_accelerator_backends(
+            raw_devices,
+            include_framework_probes=include_framework_probes,
+        )
+    ]
     return {
         "schema": "fa3.accelerator-guard-current-host-receipt.v1",
         "profile_id": "FA3-ACCEL-GUARD-001",
@@ -105,6 +116,9 @@ def collect() -> dict[str, Any]:
         "host": socket.gethostname(),
         "uid": os.getuid(),
         "read_only": True,
+        "accelerator_inventory": inventory,
+        "inventory_source": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001+FA3_ACCELERATOR_BACKEND_PROBE",
+        "framework_probes_enabled": include_framework_probes,
         "nvidia": _nvidia(),
         "linux_accel_devices": accel,
         "linux_accel_fd_holders": _fd_holders(accel),
@@ -112,6 +126,8 @@ def collect() -> dict[str, Any]:
         "limitations": [
             "DRM render-node fd presence alone does not identify per-engine conflict.",
             "NPU usage attribution is provider/kernel dependent; /dev/accel fd ownership is best-effort.",
+            "Physical device discovery does not prove compute backend or framework compatibility.",
+            "Vendor-specific telemetry enriches the generic inventory but does not replace it.",
             "This collector does not authorize, stop, pause, migrate, or kill workloads."
         ],
     }
@@ -120,8 +136,13 @@ def collect() -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--framework-probes",
+        action="store_true",
+        help="also probe optional framework backends such as PyTorch XPU/OpenVINO",
+    )
     args = parser.parse_args()
-    receipt = collect()
+    receipt = collect(include_framework_probes=args.framework_probes)
     text = json.dumps(receipt, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

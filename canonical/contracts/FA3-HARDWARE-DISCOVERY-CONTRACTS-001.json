@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "version": "1.3.0",
+  "version": "1.4.1",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -26,7 +26,13 @@
     "HardwareAdmissionInput",
     "HardwareDiscoveryReceipt",
     "HardwareRevalidationReceipt",
-    "TopologyChangeEvent"
+    "TopologyChangeEvent",
+    "CpuLogicalProcessorDescriptor",
+    "CpuPhysicalCoreDescriptor",
+    "CpuPhysicalCoreAllocationDescriptor",
+    "AcceleratorDeviceDescriptor",
+    "AcceleratorBackendDescriptor",
+    "AcceleratorExecutionPathDescriptor"
   ],
   "discovery_semantics": {
     "cpu_enumeration": "DYNAMIC_1_TO_N",
@@ -40,7 +46,28 @@
       "DEVICE_UUID",
       "PCI_BDF_WHEN_APPLICABLE"
     ],
-    "missing_optional_locality_metadata": "EXPLICIT_UNKNOWN_NOT_INVENTED"
+    "missing_optional_locality_metadata": "EXPLICIT_UNKNOWN_NOT_INVENTED",
+    "cpu_topology_identity": {
+      "logical_cpu": "DISTINCT_FROM_PHYSICAL_CORE",
+      "physical_core": "PACKAGE_PLUS_OPTIONAL_DIE_CLUSTER_PLUS_CORE_ID",
+      "smt_siblings": "DISCOVERED_FROM_LIVE_SYSFS_TOPOLOGY",
+      "full_and_partial_core_allocation": "MUST_BE_REPRESENTED_SEPARATELY"
+    },
+    "accelerator_pipeline": [
+      "PHYSICAL_DEVICE",
+      "KERNEL_OR_DEVICE_DRIVER",
+      "DEVICE_OR_COMPUTE_API",
+      "COMPUTE_BACKEND",
+      "FRAMEWORK_BACKEND",
+      "OPTIONAL_COMPATIBILITY_OR_TRANSLATION_LAYER"
+    ],
+    "backend_classes": [
+      "native",
+      "portable",
+      "translation"
+    ],
+    "device_presence_implies_workload_compatibility": false,
+    "unknown_accelerator_vendor_is_error": false
   },
   "portable_minimum_envelope": {
     "cpu_packages_min": 1,
@@ -82,6 +109,110 @@
     "STATIC_CPU_ID_NUMA_NODE_PCI_BDF_AND_RUNTIME_ORDINAL_PLACEMENT_IS_FORBIDDEN",
     "CURRENT_HOST_DISCOVERY_OUTPUT_IS_EVIDENCE_NOT_CANONICAL_REQUIREMENT",
     "HRB_CONSUMES_DISCOVERY_RECEIPTS_FOR_ADMISSION_PLACEMENT_RESERVATION_AND_LEASE",
-    "NO_SILENT_DEVICE_OR_TOPOLOGY_FALLBACK"
-  ]
+    "NO_SILENT_DEVICE_OR_TOPOLOGY_FALLBACK",
+    "LOGICAL_CPU_AND_PHYSICAL_CORE_COUNTS_MUST_BE_DISTINCT",
+    "FULL_AND_PARTIAL_PHYSICAL_CORE_VISIBILITY_MUST_BE_REPRESENTED",
+    "PHYSICAL_ACCELERATOR_PRESENCE_DOES_NOT_IMPLY_COMPUTE_BACKEND_USABILITY",
+    "ACCELERATOR_BACKEND_CLASS_MUST_DISTINGUISH_NATIVE_PORTABLE_AND_TRANSLATION",
+    "UNKNOWN_ACCELERATOR_VENDOR_IS_VALID_DISCOVERY_OUTPUT",
+    "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION"
+  ],
+  "compatibility_aliases": {
+    "GpuDeviceDescriptor": "AcceleratorDeviceDescriptor(kind=GPU)",
+    "GpuRuntimeCapabilityDescriptor": "AcceleratorBackendDescriptor(device_kind=GPU)",
+    "semantics": "LEGACY_CONTRACT_NAMES_RETAINED_FOR_COMPATIBILITY_NOT_SEPARATE_AUTHORITY"
+  },
+  "descriptor_schemas": {
+    "cpu": {
+      "logical_processor_required": [
+        "cpu_id",
+        "package_id",
+        "core_id",
+        "numa_node",
+        "online_sibling_cpus"
+      ],
+      "logical_processor_optional": [
+        "die_id",
+        "cluster_id"
+      ],
+      "physical_core_identity": [
+        "package_id",
+        "die_id_when_exposed",
+        "cluster_id_when_exposed",
+        "core_id"
+      ],
+      "required_counts": [
+        "logical_cpus_total",
+        "physical_cores_total",
+        "logical_cpus_visible",
+        "physical_cores_visible",
+        "physical_cores_fully_allocated",
+        "physical_cores_partially_allocated"
+      ],
+      "count_semantics": {
+        "logical_cpu": "OS_SCHEDULABLE_PROCESSOR_OR_HARDWARE_THREAD",
+        "physical_core": "DEDUPLICATED_PHYSICAL_CORE_TOPOLOGY_IDENTITY",
+        "fully_allocated_core": "ALL_ONLINE_SIBLING_LOGICAL_CPUS_ARE_IN_EFFECTIVE_CPU_ENVELOPE",
+        "partially_allocated_core": "SOME_BUT_NOT_ALL_ONLINE_SIBLING_LOGICAL_CPUS_ARE_IN_EFFECTIVE_CPU_ENVELOPE"
+      },
+      "effective_cpu_envelope": [
+        "ONLINE_CPUS",
+        "SCHED_GETAFFINITY",
+        "CGROUP_V2_CPUSET_CPUS_EFFECTIVE",
+        "HRB_PLACEMENT_WHEN_PRESENT"
+      ]
+    },
+    "accelerator": {
+      "device_required": [
+        "discovery_id",
+        "kind",
+        "vendor",
+        "vendor_id",
+        "device_id",
+        "health"
+      ],
+      "device_optional": [
+        "stable_device_id",
+        "device_uuid",
+        "pci_bdf",
+        "numa_node",
+        "kernel_driver",
+        "device_nodes",
+        "memory_bytes",
+        "architecture"
+      ],
+      "backend_required": [
+        "name",
+        "class",
+        "detected",
+        "available",
+        "binding_scope"
+      ],
+      "backend_optional": [
+        "runtime_version",
+        "driver_version",
+        "framework_backends",
+        "experimental",
+        "evidence_sources"
+      ],
+      "backend_classes": {
+        "native": "HARDWARE_VENDOR_OR_DEVICE_NATIVE_EXECUTION_PATH",
+        "portable": "CROSS_VENDOR_OR_PORTABLE_EXECUTION_PATH",
+        "translation": "COMPATIBILITY_OR_TRANSLATION_EXECUTION_PATH"
+      },
+      "execution_path_semantics": [
+        "PHYSICAL_DEVICE_PRESENCE_DOES_NOT_IMPLY_BACKEND_USABILITY",
+        "DRIVER_PRESENCE_DOES_NOT_IMPLY_COMPUTE_RUNTIME_USABILITY",
+        "COMPUTE_RUNTIME_PRESENCE_DOES_NOT_IMPLY_FRAMEWORK_COMPATIBILITY",
+        "TRANSLATION_BACKENDS_ARE_NEVER_IMPLICIT_FALLBACK"
+      ],
+      "unknown_vendor_policy": "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE",
+      "backend_binding_semantics": {
+        "DEVICE": "BACKEND_CAPABILITY_IS_ATTRIBUTABLY_BOUND_TO_THIS_ACCELERATOR",
+        "HOST_UNBOUND": "BACKEND_DETECTED_ON_HOST_BUT_NOT_SAFELY_MAPPED_TO_THIS_ACCELERATOR",
+        "available_true_requires": "DETECTED_AND_DEVICE_BOUND",
+        "host_unbound_admission": "FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING"
+      }
+    }
+  }
 }

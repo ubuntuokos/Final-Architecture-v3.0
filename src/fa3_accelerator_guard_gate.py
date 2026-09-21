@@ -27,6 +27,9 @@ REQUIRED_PROFILE_INVARIANTS = {
     "automatic_arbitration_requires_explicit_saved_policy": True,
     "forced_external_termination_without_user_or_policy": "FORBIDDEN",
     "silent_fa3_workload_sacrifice": "FORBIDDEN",
+    "alternative_must_match_execution_path": True,
+    "physical_device_presence_not_sufficient_for_execution": True,
+    "translation_backend_never_implicit": True,
 }
 
 

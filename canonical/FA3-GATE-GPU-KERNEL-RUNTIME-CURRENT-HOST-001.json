@@ -4,7 +4,7 @@
   "priority": "P0",
   "status": "CANONICAL",
   "fail_closed": true,
-  "scope": "REAL_LIVE_ADMITTED_GPU_KERNEL_RUNTIME_E2E",
+  "scope": "REAL_LIVE_ADMITTED_NVIDIA_CUDA_PROVIDER_KERNEL_RUNTIME_E2E",
   "command": "./bin/fa3-enforce gpu-kernel-runtime-current-host",
   "receipt": "evidence/receipts/gpu-kernel-runtime-current-host.json",
   "requirements": [
@@ -12,13 +12,16 @@
     "HARDWARE_DISCOVERY_REVALIDATED",
     "HRB_LEASE_VALID",
     "PROVIDER_CAPABILITY_RUNTIME_COMPATIBILITY_VALID",
-    "DEVICE_UUID_AND_PCI_BDF_LIVE_IDENTITY",
+    "STABLE_ACCELERATOR_IDENTITY_AND_CURRENT_TOPOLOGY_BINDING",
+    "CUDA_EXECUTION_PATH_COMPATIBILITY_VALID",
     "CORRECTNESS_PASS",
     "BENCHMARK_PASS",
     "ROLLBACK_PASS"
   ],
   "ci_fixture_can_satisfy_current_host": false,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "exact_host_tuple_required": false,
-  "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001"
+  "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
+  "evidence_scope": "NVIDIA_CUDA_PROVIDER_FAMILY_ONLY_NOT_GENERIC_ACCELERATOR_FABRIC",
+  "generic_accelerator_fabric_current_host_claim": false
 }

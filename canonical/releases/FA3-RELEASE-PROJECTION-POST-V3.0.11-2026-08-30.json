@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "117dfd0beddbf354a77d51fd5b75ab3838a82a7b",
-    "pre_projection_root_tree_sha": "72955bd8747c410d655da7daea821e74743d5d5c",
-    "pre_projection_canonical_tree_sha": "1d61ea99cfb5e5b0d9ea3cc4c8d0f7f5f7f89a4b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 493,
-    "total_post_baseline_commits": 493,
-    "delta_file_count": 1583,
-    "delta_added_files": 1578,
+    "pre_projection_head_sha": "de3af206c019df539752d0d0c633c8ce6ac0af7a",
+    "pre_projection_root_tree_sha": "3c2f35a12dd2b6a1c93419c9c827c666017d7f33",
+    "pre_projection_canonical_tree_sha": "9987cc04d6be7f8f8f8b73bb82b2223a0ddc6e0d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 560,
+    "total_post_baseline_commits": 560,
+    "delta_file_count": 1591,
+    "delta_added_files": 1586,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -47,9 +47,9 @@
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 754,
     "evidence_files_in_post_baseline_delta": 136,
-    "source_files_in_post_baseline_delta": 200,
-    "test_files_in_post_baseline_delta": 179,
-    "workflow_files_in_post_baseline_delta": 68,
+    "source_files_in_post_baseline_delta": 203,
+    "test_files_in_post_baseline_delta": 182,
+    "workflow_files_in_post_baseline_delta": 70,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -791,7 +791,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1576,
+  "manifest_entry_count": 1584,
   "manifest": [
     {
       "path": ".github/workflows/fa3-accelerator-guard-current-host.yml",
@@ -874,8 +874,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-gpu-kernel-runtime-reference.yml",
+      "git_blob_sha": "676d8dd7c8f06d5fb41fbf87badaf733c560b273",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-gui-gate.yml",
       "git_blob_sha": "d0a4e5d4358a8d41deca4ab32d785d56f97403cb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-hardware-discovery-descriptors.yml",
+      "git_blob_sha": "869a878a57d2794387a6c1e68e49478a6b23ba4f",
       "baseline_delta_status": "added"
     },
     {
@@ -1910,12 +1920,12 @@
     },
     {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "7c1c68bc665963570e30e911f7b5a7dcb2ebb476",
+      "git_blob_sha": "306c4a4575df806db64241eb66931a101d96f917",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/FA3-GATE-GPU-KERNEL-RUNTIME-CURRENT-HOST-001.json",
-      "git_blob_sha": "da92bf03bd612327050ef1d4ec059f39b6d8db40",
+      "git_blob_sha": "5e6825140b63b214ae1113c6804ca51ef9f96bab",
       "baseline_delta_status": "added"
     },
     {
@@ -2385,7 +2395,7 @@
     },
     {
       "path": "canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json",
-      "git_blob_sha": "fdd6706ccc8f9cd91876c2c1882b00cfe060d8de",
+      "git_blob_sha": "277b310e9f74c6616222473a64713201f780e481",
       "baseline_delta_status": "added"
     },
     {
@@ -2470,7 +2480,7 @@
     },
     {
       "path": "canonical/FA3-WORKLOAD-RESOURCE-ENVELOPE-001.json",
-      "git_blob_sha": "e010b5339f28c3f3f4cc155457ae62e699b78b3f",
+      "git_blob_sha": "e9a1c15f84c6ae92d0736c0c50d4b93e48ea9c8c",
       "baseline_delta_status": "added"
     },
     {
@@ -2555,7 +2565,7 @@
     },
     {
       "path": "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
-      "git_blob_sha": "0cdfeae4af2df5a133e016b25702e9ffab286602",
+      "git_blob_sha": "c677a3e9780ce940885829266f0961807cfaec41",
       "baseline_delta_status": "added"
     },
     {
@@ -2640,7 +2650,7 @@
     },
     {
       "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
-      "git_blob_sha": "ddef4cce255d0534f784b781d938f9e63830eb06",
+      "git_blob_sha": "aa1e82077914a78908c6fb18cf56d2aff59d5212",
       "baseline_delta_status": "added"
     },
     {
@@ -2695,12 +2705,12 @@
     },
     {
       "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
-      "git_blob_sha": "6a294bfeec1e82f89fd167d2df8821011765bbfb",
+      "git_blob_sha": "5134e53be7e414b7b856b649216f557807892969",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "4140a4a2984fb3536bf9e6a1258958914ae13041",
+      "git_blob_sha": "68cc3c495ba8a575ede05589825a35602a2207f6",
       "baseline_delta_status": "added"
     },
     {
@@ -2715,7 +2725,7 @@
     },
     {
       "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "906b8d5075f35489f731764c8d460375e17f4b4f",
+      "git_blob_sha": "1f202a6ce302fbdf073bad6d91bb83cdf1e0ab22",
       "baseline_delta_status": "added"
     },
     {
@@ -3170,7 +3180,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
-      "git_blob_sha": "c9627ec9b92619a00eac83f2dfa1d76c1499e38d",
+      "git_blob_sha": "1a57e5aaba75e224671ed34f3e90604afe97b044",
       "baseline_delta_status": "added"
     },
     {
@@ -3195,7 +3205,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
-      "git_blob_sha": "fb0314fd17466813532812ece47e6c7a26a809b3",
+      "git_blob_sha": "7b967b920f3727f88b2d25c52fe9b1ac84b6222d",
       "baseline_delta_status": "added"
     },
     {
@@ -3645,7 +3655,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "0894716110448e9c5f37fdb6cdbce30cd2d209e6",
+      "git_blob_sha": "5f7c8f1621b81e66fcd43295fb902980a1d83f0f",
       "baseline_delta_status": "modified"
     },
     {
@@ -3695,12 +3705,12 @@
     },
     {
       "path": "canonical/gpu-kernel-runtime-admission.json",
-      "git_blob_sha": "553f9783cd89fe5d288137286745a319a920c754",
+      "git_blob_sha": "1760322404a4f6de8ae13b3b60e0cbd5da44bb0e",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/gpu-kernel-runtime-enforcement.json",
-      "git_blob_sha": "d7ab76884945dfef702a804ac6a1ad9047e40c3a",
+      "git_blob_sha": "57b7ddb8ee4d03acbd97302366ca4b028cc72f06",
       "baseline_delta_status": "added"
     },
     {
@@ -3710,12 +3720,12 @@
     },
     {
       "path": "canonical/hardware-portability-enforcement.json",
-      "git_blob_sha": "d541ea2464e14beb61cccf7686cab4e6efd77e24",
+      "git_blob_sha": "bd0293119caaef675707b9da76ec59e6de320d6e",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/hrb-deterministic-locality-enforcement.json",
-      "git_blob_sha": "526bfa1875cd8a9187247e2aa23396a8b654b4e7",
+      "git_blob_sha": "2eb0bd4f179e420d90b5ec57fa801e5756f673ae",
       "baseline_delta_status": "added"
     },
     {
@@ -4010,7 +4020,7 @@
     },
     {
       "path": "canonical/profiles/FA3-ACCEL-GUARD-001.json",
-      "git_blob_sha": "81d27501b307f45acad3e384d5a554b881112e7f",
+      "git_blob_sha": "08b788a9c67249aa4dad9f6847cc18b7cfbda3bf",
       "baseline_delta_status": "added"
     },
     {
@@ -4095,12 +4105,12 @@
     },
     {
       "path": "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
-      "git_blob_sha": "f0796c5960a0c0db27ac8e905b0e11894fc527e9",
+      "git_blob_sha": "bde89ee4d198580f23690eb743a83cf3bc58c57f",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
-      "git_blob_sha": "8d1a73c80effa4481921f81af0abc88562b64b11",
+      "git_blob_sha": "9fda90411ca4cba65be5cfaa1bdb700921cd0649",
       "baseline_delta_status": "added"
     },
     {
@@ -4110,7 +4120,7 @@
     },
     {
       "path": "canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json",
-      "git_blob_sha": "0195788ac9ff6f0e807f37ccb68a6372c31b1376",
+      "git_blob_sha": "4e4189e53efcf553fbb1b81251d548c4ed8a3506",
       "baseline_delta_status": "added"
     },
     {
@@ -5990,7 +6000,7 @@
     },
     {
       "path": "evidence/collect-gpu-kernel-runtime-current-host.py",
-      "git_blob_sha": "b78d2fb8faa7a0d3bc8ab87ce38eae157c78d2f4",
+      "git_blob_sha": "7ecc9ce51e80dd15b402ae2365221ae442b66932",
       "baseline_delta_status": "added"
     },
     {
@@ -6135,7 +6145,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "322a30568c85f4b1e6d987e4d75e8cd86cfdeada",
+      "git_blob_sha": "794f3a35be107286ad65afe044c65932b07d962b",
       "baseline_delta_status": "added"
     },
     {
@@ -6285,7 +6295,7 @@
     },
     {
       "path": "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-      "git_blob_sha": "bb895604481124e79f5055f21784f4550e5f8c41",
+      "git_blob_sha": "5eb8822b003422c0166eeeb2e94cb09fb3966fe3",
       "baseline_delta_status": "added"
     },
     {
@@ -6714,18 +6724,28 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_accelerator_backend_probe.py",
+      "git_blob_sha": "89aee04efd008d86272ed0bf072c287b936cabeb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_accelerator_execution_path.py",
+      "git_blob_sha": "2e5f7e2466897c343897aab5faa2a90bdaf7d7a2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_accelerator_guard.py",
-      "git_blob_sha": "e6c0c91ba607d4afa17916005cd3aabbb10c76cd",
+      "git_blob_sha": "a5070953e9ec518b6e45f4a767e3c0f2ba42ef60",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_accelerator_guard_gate.py",
-      "git_blob_sha": "b63c19be16a23360dbaf01126aab2be5bee9b67b",
+      "git_blob_sha": "f099c2c3fdacf8cc58174f545d2ccf3496b48193",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_accelerator_guard_probe.py",
-      "git_blob_sha": "920f78fd611762a352cb768d88262fa2be8a38a8",
+      "git_blob_sha": "1a687ff7986c5dd097311f1d18894d2031b9ff6c",
       "baseline_delta_status": "added"
     },
     {
@@ -6880,7 +6900,7 @@
     },
     {
       "path": "src/fa3_cpu_thread_budget.py",
-      "git_blob_sha": "1ffb43c9a85116088698286880937ac768390055",
+      "git_blob_sha": "01e8e3692558a797039de5f09b8b2338e40f2399",
       "baseline_delta_status": "added"
     },
     {
@@ -7035,12 +7055,12 @@
     },
     {
       "path": "src/fa3_gpu_kernel_dispatch_reference.py",
-      "git_blob_sha": "ef1d21d6509f320c91505131f063956922abebc9",
+      "git_blob_sha": "ebad0256cab15ab2bc1d976d42909b571cf9c521",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_gpu_kernel_runtime_gate.py",
-      "git_blob_sha": "04f5bce01cf947f04b5ebab3b33bfd3e95dd1f0c",
+      "git_blob_sha": "44f4a11fae942d656c266ded1dd82c0cdba1d22e",
       "baseline_delta_status": "added"
     },
     {
@@ -7059,8 +7079,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_hardware_discovery.py",
+      "git_blob_sha": "9a7dfbe74553beed1ebe5b1c3aa8202c6b8cc52b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hardware_portability_gate.py",
-      "git_blob_sha": "5b85688c7fc88a323539f9c8e5aa312a37b98512",
+      "git_blob_sha": "0a9f7e3048f90f4dbec60e648c09a7f930ac8b3d",
       "baseline_delta_status": "added"
     },
     {
@@ -7070,7 +7095,7 @@
     },
     {
       "path": "src/fa3_hrb_deterministic_locality_gate.py",
-      "git_blob_sha": "8bfc28b93e91b8db30941dd9348225b5d7100c87",
+      "git_blob_sha": "f4595a0d7cd9af232e51037e4b668e6f2b4f9038",
       "baseline_delta_status": "added"
     },
     {
@@ -7545,7 +7570,7 @@
     },
     {
       "path": "src/fa3_resource_admission_policy.py",
-      "git_blob_sha": "344d892b677debc8200c5ae805bcc69a42c11fc9",
+      "git_blob_sha": "f98f96cfabcc3f7128aefb5866c1e57433b380e6",
       "baseline_delta_status": "added"
     },
     {
@@ -7714,8 +7739,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_accelerator_backend_probe.py",
+      "git_blob_sha": "a6039b8ce16da7860adaaac8760dcebfa4021f94",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_accelerator_execution_path.py",
+      "git_blob_sha": "39a9b83ed17b99cc0711cf32b678bcbb51349e57",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_accelerator_guard.py",
-      "git_blob_sha": "640d2ca154e2a72fbf6ace2bbb2f8fbce056fa33",
+      "git_blob_sha": "591c57f8224bcd9d5ba601276657fb8e0a5c89cf",
       "baseline_delta_status": "added"
     },
     {
@@ -7850,7 +7885,7 @@
     },
     {
       "path": "tests/test_cpu_numa_threading_gate.py",
-      "git_blob_sha": "f9b2b2cd415567594783a5e5e3e02d4c26ac59f8",
+      "git_blob_sha": "f873efeebb2b59d5f095dce4586890a29ff4fc30",
       "baseline_delta_status": "added"
     },
     {
@@ -8030,7 +8065,7 @@
     },
     {
       "path": "tests/test_gpu_kernel_runtime_gate.py",
-      "git_blob_sha": "62969740cac02792b5d05f531a934ce82b63f490",
+      "git_blob_sha": "bec6866239c67aecec67669c5e556a0fc623fe05",
       "baseline_delta_status": "added"
     },
     {
@@ -8044,8 +8079,13 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_hardware_discovery_descriptors.py",
+      "git_blob_sha": "ff6debebf07ba5cc2bb66bb1732a9d49d5d4f211",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_hardware_portability_gate.py",
-      "git_blob_sha": "fd1ed0df461caf59d5a402f753dd764a81690327",
+      "git_blob_sha": "9c5771748e81cfcbf11e2f98e18786ba57c08733",
       "baseline_delta_status": "added"
     },
     {
@@ -8060,7 +8100,7 @@
     },
     {
       "path": "tests/test_hrb_deterministic_locality_gate.py",
-      "git_blob_sha": "d6eba9a62ebedb58b23ede4d6316d42b37916e76",
+      "git_blob_sha": "350db10ae6322586099b95a00b2752839eaaac7c",
       "baseline_delta_status": "added"
     },
     {
@@ -8435,7 +8475,7 @@
     },
     {
       "path": "tests/test_resource_admission_policy.py",
-      "git_blob_sha": "cdc64cee51dcb246b93764c5b93c4dd88611c772",
+      "git_blob_sha": "48189344b4b25443f6ec52b7fe71a036e3f6d776",
       "baseline_delta_status": "added"
     },
     {
@@ -9411,7 +9451,11 @@
     "current_host_runtime_promotion_claim": false,
     "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
     "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE",
+    "contract_version": "1.2.0",
+    "execution_backend_semantics": "BACKEND_NEUTRAL_CURRENTLY_MATERIALIZED_CUDA_PROVIDERS",
+    "global_backend_floor": "NONE",
+    "current_host_evidence_scope": "NVIDIA_CUDA_PROVIDER_FAMILY_ONLY_UNTIL_GENERIC_PROVIDER_E2E_EXISTS"
   },
   "video_provider_lifecycle_reconciliation": {
     "profile_id": "FA3-VIDEO-001",
@@ -10091,6 +10135,28 @@
     "optional_provider_runtime_required": false,
     "current_host_runtime_pass_claim": false,
     "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "hardware_execution_backend_fabric_reconciliation": {
+    "status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_GATES_PASS_CURRENT_HOST_PROVIDER_EVIDENCE_SCOPED",
+    "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "hardware_discovery_contract_version": "1.4.1",
+    "hrb_contract_id": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "hrb_contract_version": "1.4.0",
+    "resource_admission_contract_id": "FA3-RESOURCE-ADMISSION-CONTRACTS-001",
+    "accelerator_guard_profile_id": "FA3-ACCEL-GUARD-001",
+    "gpu_kernel_runtime_profile_id": "FA3-GPU-KERNEL-RUNTIME-001",
+    "gpu_kernel_runtime_contract_version": "1.2.0",
+    "global_accelerator_floor": 0,
+    "global_backend_floor": "NONE",
+    "cpu_only_baseline_conformant": true,
+    "backend_binding_requires_device_evidence": true,
+    "translation_backend_default": "DENY",
+    "silent_backend_substitution": "FORBIDDEN",
+    "hrb_remains_exclusive_resource_authority": true,
+    "current_host_runtime_promotion_claim": false,
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143

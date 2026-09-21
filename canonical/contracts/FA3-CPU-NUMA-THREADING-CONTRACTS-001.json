@@ -84,5 +84,21 @@
     "MULTI_NUMA_INSTANCE_POLICY_DERIVES_FROM_LIVE_TOPOLOGY_NOT_FIXED_NUMERIC_CONSTANT",
     "THREAD_OVERSUBSCRIPTION_MUST_FAIL_CLOSED",
     "THREAD_BUDGET_PLACEMENT_REQUIRES_EVIDENCE_AND_ROLLBACK"
-  ]
+  ],
+  "version": "1.2.0",
+  "discovery_descriptor_binding": {
+    "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "cpu_topology_descriptor": "CpuCoreTopologyDescriptor",
+    "logical_processor_descriptor": "CpuLogicalProcessorDescriptor",
+    "physical_core_descriptor": "CpuPhysicalCoreDescriptor",
+    "allocation_descriptor": "CpuPhysicalCoreAllocationDescriptor",
+    "semantics": {
+      "logical_cpu_is_physical_core": false,
+      "physical_core_identity": "PACKAGE_PLUS_OPTIONAL_DIE_CLUSTER_PLUS_CORE_ID",
+      "default_budget_basis": "VISIBLE_PHYSICAL_CORES",
+      "full_core_allocation": "ALL_ONLINE_SIBLING_THREADS_VISIBLE",
+      "partial_core_allocation": "SOME_BUT_NOT_ALL_ONLINE_SIBLING_THREADS_VISIBLE",
+      "smt_above_physical_budget": "EXPLICIT_BENCHMARK_ADMISSION_REQUIRED"
+    }
+  }
 }

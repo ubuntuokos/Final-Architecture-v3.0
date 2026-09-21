@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HOST-RESOURCE-BROKER-001",
   "name": "Host Resource Broker",
-  "version": "1.7.0",
+  "version": "1.4.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -182,5 +182,18 @@
     "environment_variable_authority": false,
     "container_runtime_may_reselect_resources": false,
     "provider_hard_dependency": false
+  },
+  "accelerator_execution_path_policy": {
+    "source_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+    "discovery_source": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "assignment_binds_device_and_execution_path": true,
+    "physical_device_presence_is_sufficient": false,
+    "translation_requires_explicit_workload_policy": true,
+    "silent_backend_substitution": false,
+    "backend_classes": [
+      "native",
+      "portable",
+      "translation"
+    ]
   }
 }
