@@ -66,6 +66,24 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("FA3_REKEY_NEW_KEY_FILE",rekey)
         self.assertIn("final state: CLOSED",rekey)
 
+    def test_current_host_privileged_bridge_is_exact_and_source_bound(self):
+        installer=(ROOT/"bin/fa3-install-secret-broker-current-host-bridge.sh").read_text()
+        client=(ROOT/"libexec/fa3-secret-broker-current-host-bridge.sh").read_text()
+        helper=(ROOT/"libexec/fa3-secret-broker-current-host-root.sh").read_text()
+        workflow=(ROOT/".github/workflows/fa3-secret-broker-current-host.yml").read_text()
+        profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
+        boundary=profile["current_host_privilege_boundary"]
+        self.assertEqual("NON_ROOT",boundary["runner_identity"])
+        self.assertEqual("NOPASSWD_SINGLE_HELPER_NO_ARGUMENTS",boundary["sudo_policy"])
+        self.assertEqual("FORBIDDEN",boundary["general_passwordless_sudo"])
+        self.assertIn('NOPASSWD: %s ""',installer)
+        self.assertNotIn("NOPASSWD: ALL",installer)
+        self.assertIn("privileged helper accepts no arguments",helper)
+        self.assertIn("SOURCE_COMMIT",helper)
+        self.assertIn("privileged bridge source drift",client)
+        self.assertIn("/usr/local/bin/fa3-secret-broker-current-host-bridge run",workflow)
+        self.assertNotIn('run: sudo FA3_REPO_ROOT',workflow)
+
     def test_runtime_scripts_do_not_use_secret_env_or_argv(self):
         init=(ROOT/"bin/fa3-secret-vault-init").read_text()
         mount=(ROOT/"libexec/fa3-secret-vault-mount.sh").read_text()
@@ -75,7 +93,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("CREDENTIALS_DIRECTORY",mount)
         self.assertNotIn("FA3_SECRET_VALUE",init+mount+client)
     def test_shell_syntax(self):
-        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","bin/fa3-secret-vault-recovery","bin/fa3-secret-vault-rekey","bin/fa3-secrets-admin","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh"]:
+        for path in ["bin/fa3-secret-vault-init","bin/fa3-secret-broker-install","bin/fa3-secret-broker-current-host.sh","bin/fa3-secret-vault-recovery","bin/fa3-secret-vault-rekey","bin/fa3-secrets-admin","bin/fa3-install-secret-broker-current-host-bridge.sh","libexec/fa3-secret-vault-mount.sh","libexec/fa3-secrets-lifecycle.sh","libexec/fa3-secret-broker-current-host-root.sh","libexec/fa3-secret-broker-current-host-bridge.sh"]:
             subprocess.run(["bash","-n",str(ROOT/path)],check=True)
 
 if __name__=="__main__":unittest.main()
