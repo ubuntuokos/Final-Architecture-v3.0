@@ -46,10 +46,12 @@ if ! getent passwd "$PROBE_USER" >/dev/null; then
   useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients "$PROBE_USER"
   PROBE_CREATED=true
 fi
-if ! getent passwd "$ADMIN_USER" >/dev/null; then
-  useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-admin,fa3-secret-clients "$ADMIN_USER"
-  ADMIN_CREATED=true
+if getent passwd "$ADMIN_USER" >/dev/null; then
+  echo "ephemeral admin probe identity already exists: $ADMIN_USER" >&2
+  exit 2
 fi
+useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-admin,fa3-secret-clients "$ADMIN_USER"
+ADMIN_CREATED=true
 id -nG "$ADMIN_USER" | tr " " "\n" | grep -Fxq fa3-secret-admin
 id -nG "$ADMIN_USER" | tr " " "\n" | grep -Fxq fa3-secret-clients
 admin_secretctl(){ runuser -u "$ADMIN_USER" -- "$ROOT/bin/fa3-secretctl" "$@"; }
