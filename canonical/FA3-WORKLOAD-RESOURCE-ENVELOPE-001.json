@@ -10,8 +10,17 @@
   "compute_profile_policy": "FA3-COMPUTE-PROFILE-001",
   "purpose": "ADMIT_WORKLOAD_AGAINST_REQUIRED_RESOURCE_DIMENSIONS",
   "requirement_schema": {
-    "required_fields": ["metric", "operator", "value"],
-    "operators": [">=", "<=", "==", "contains"]
+    "required_fields": [
+      "metric",
+      "operator",
+      "value"
+    ],
+    "operators": [
+      ">=",
+      "<=",
+      "==",
+      "contains"
+    ]
   },
   "evaluation": {
     "all_requirements_must_pass": true,
@@ -21,8 +30,67 @@
     "named_hardware_requirement_default": "FORBIDDEN"
   },
   "examples": [
-    {"metric": "gpu.vram_gib", "operator": ">=", "value": 24},
-    {"metric": "numa.remote_latency_p95_ns", "operator": "<=", "value": 250},
-    {"metric": "pcie.h2d_gbps", "operator": ">=", "value": 20}
-  ]
+    {
+      "metric": "gpu.vram_gib",
+      "operator": ">=",
+      "value": 24
+    },
+    {
+      "metric": "numa.remote_latency_p95_ns",
+      "operator": "<=",
+      "value": 250
+    },
+    {
+      "metric": "pcie.h2d_gbps",
+      "operator": ">=",
+      "value": 20
+    },
+    {
+      "accelerator_execution": {
+        "acceptable_execution_paths": [
+          {
+            "backend": "cuda",
+            "backend_class": "native",
+            "framework_backend": "pytorch-cuda"
+          },
+          {
+            "backend": "rocm",
+            "backend_class": "native",
+            "framework_backend": "pytorch-rocm"
+          },
+          {
+            "backend": "level-zero",
+            "backend_class": "native",
+            "framework_backend": "pytorch-xpu"
+          }
+        ],
+        "allow_translation": false
+      }
+    }
+  ],
+  "version": "1.1.0",
+  "accelerator_execution_requirement_schema": {
+    "optional": true,
+    "required_fields_when_present": [
+      "acceptable_execution_paths"
+    ],
+    "execution_path_fields": [
+      "backend",
+      "backend_class",
+      "framework_backend"
+    ],
+    "backend_classes": [
+      "native",
+      "portable",
+      "translation"
+    ],
+    "translation_default": "DENY",
+    "translation_enable_field": "allow_translation",
+    "semantics": [
+      "ACCELERATOR_RESOURCE_CLASS_IS_REQUESTED_ONLY_WHEN_WORKLOAD_REQUIRES_IT",
+      "EXECUTION_PATH_REQUIREMENT_IS_CAPABILITY_BASED_NOT_VENDOR_NAME_BASED",
+      "TRANSLATION_PATH_IS_EXPLICIT_OPT_IN",
+      "MISSING_COMPATIBLE_EXECUTION_PATH_FAILS_CLOSED"
+    ]
+  }
 }
