@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+from pathlib import Path
 from typing import Any, Iterable
 
 from fa3_hardware_discovery import discover_cpu_topology, physical_core_key
@@ -219,7 +220,6 @@ def main() -> int:
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     if args.topology:
-        from pathlib import Path
         topology = json.loads(Path(args.topology).read_text())
     else:
         topology = discover_live_topology()
