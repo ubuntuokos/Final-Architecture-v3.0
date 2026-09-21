@@ -49,6 +49,7 @@ class HrbDeterministicLocalityGateTests(unittest.TestCase):
         by_name = {item["name"]: item for item in result["checks"]}
         self.assertEqual(by_name["preload-optional"]["status"], "PASS")
         self.assertEqual(by_name["page-cache-prefetch-subgate"]["status"], "PASS")
+        self.assertEqual(by_name["execution-path-binding"]["status"], "PASS")
         self.assertEqual(by_name["enforcement-complete"]["status"], "PASS")
 
 
