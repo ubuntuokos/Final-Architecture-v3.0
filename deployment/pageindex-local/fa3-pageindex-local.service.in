@@ -1,7 +1,5 @@
 [Unit]
 Description=FA3 PageIndex Local Provider
-After=fa3-pageindex-model-router.service
-Requires=fa3-pageindex-model-router.service
 
 [Service]
 Type=simple
@@ -10,8 +8,8 @@ Environment=@ENV_SOCKET@
 Environment=@ENV_STORAGE@
 Environment=@ENV_ROOTS@
 Environment=@ENV_ROUTER@
-Environment=@ENV_INDEX_MODEL@
-Environment=@ENV_CHAT_MODEL@
+Environment=@ENV_INDEX_ROUTE@
+Environment=@ENV_REASON_ROUTE@
 ExecStart=@VENV_PYTHON@ @SERVICE_SCRIPT@
 Restart=on-failure
 RestartSec=2

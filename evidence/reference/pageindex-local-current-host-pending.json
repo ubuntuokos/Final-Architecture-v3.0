@@ -2,11 +2,11 @@
   "schema": "fa3.pageindex-local.current-host-reference.v1",
   "provider_id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
   "gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
-  "status": "SUPERSEDED_BY_CURRENT_HOST_ADMISSION",
-  "reason": "Superseded after exact-head current-host CANDIDATE_PASS; see immutable admission evidence.",
+  "status": "PENDING_CURRENT_HOST",
+  "reason": "Central FA3 Model Router revalidation required after removal of the PageIndex-owned Ollama-bound router projection.",
   "required_receipt": "evidence/receipts/pageindex-local-current-host.json",
-  "connected_provider_claim": true,
+  "connected_provider_claim": false,
   "global_promotion_claim": false,
-  "superseded_by": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json",
-  "candidate_workflow_run_id": 35404877967
+  "candidate_workflow_run_id": 35404877967,
+  "supersedes_admission_evidence": "evidence/reference/pageindex-local-current-host-admission-2026-09-19.json"
 }

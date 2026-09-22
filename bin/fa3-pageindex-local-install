@@ -11,57 +11,82 @@ USER_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 PAGEINDEX_RUNTIME_DIR="$USER_RUNTIME_DIR/fa3-pageindex-local"
 PAGEINDEX_SOCKET="$PAGEINDEX_RUNTIME_DIR/pageindex-local.sock"
 [[ "$USER_RUNTIME_DIR" = /* && "$PAGEINDEX_RUNTIME_DIR" = /* && "$PAGEINDEX_SOCKET" = /* ]] || { echo "Invalid user runtime directory" >&2; exit 2; }
-ALLOWED_ROOT=""; MODEL="${FA3_PAGEINDEX_MODEL:-}"; START=0; STOP=0
+
+ALLOWED_ROOT=""
+MODEL_ROUTER_URL="${FA3_MODEL_ROUTER_URL:-}"
+INDEX_ROUTE="${FA3_PAGEINDEX_INDEX_ROUTE:-fa3-pageindex-index}"
+REASON_ROUTE="${FA3_PAGEINDEX_REASON_ROUTE:-fa3-pageindex-reason}"
+START=0; STOP=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --allowed-root) ALLOWED_ROOT="$2"; shift 2 ;;
-    --model) MODEL="$2"; shift 2 ;;
+    --model-router) MODEL_ROUTER_URL="$2"; shift 2 ;;
+    --index-route) INDEX_ROUTE="$2"; shift 2 ;;
+    --reason-route) REASON_ROUTE="$2"; shift 2 ;;
     --start) START=1; shift ;;
     --stop) STOP=1; shift ;;
     *) echo "Unknown argument: $1" >&2; exit 2 ;;
   esac
 done
+
 if [[ "$STOP" -eq 1 ]]; then
-  systemctl --user disable --now fa3-pageindex-local.service fa3-pageindex-model-router.service 2>/dev/null || true
-  rm -f "$DROPIN_DIR/pageindex-local.conf"; systemctl --user daemon-reload
-  systemctl --user try-restart fa3-mcp-gateway.service 2>/dev/null || true; exit 0
+  systemctl --user disable --now fa3-pageindex-local.service 2>/dev/null || true
+  systemctl --user disable --now fa3-pageindex-model-router.service 2>/dev/null || true
+  rm -f "$UNIT_DIR/fa3-pageindex-model-router.service"
+  rm -f "$DROPIN_DIR/pageindex-local.conf"
+  systemctl --user daemon-reload
+  systemctl --user try-restart fa3-mcp-gateway.service 2>/dev/null || true
+  exit 0
 fi
+
 test -x "$VENV/bin/python" || { echo "Run bin/fa3-pageindex-local-bootstrap.sh first" >&2; exit 3; }
 test -n "$ALLOWED_ROOT" || { echo "--allowed-root required" >&2; exit 3; }
+test -n "$MODEL_ROUTER_URL" || { echo "Central FA3 Model Router URL missing; set FA3_MODEL_ROUTER_URL or --model-router" >&2; exit 4; }
+test -n "$INDEX_ROUTE" && test -n "$REASON_ROUTE" || { echo "Logical PageIndex Model Router routes are required" >&2; exit 4; }
 ALLOWED_ROOT="$(realpath "$ALLOWED_ROOT")"; test -d "$ALLOWED_ROOT"
-if [[ -z "$MODEL" ]]; then
-  MODEL="$(python3 - <<'PY'
-import json,urllib.request
-with urllib.request.urlopen("http://127.0.0.1:11434/api/tags",timeout=5) as r: rows=json.load(r).get("models",[])
-names=[x.get("name") for x in rows if isinstance(x,dict) and x.get("name")]
-for needle in ("qwen","llama","gemma"):
-    for name in names:
-        if needle in name.lower(): print(name); raise SystemExit
-if names: print(names[0])
+
+python3 - "$MODEL_ROUTER_URL" "$INDEX_ROUTE" "$REASON_ROUTE" <<'PY'
+import sys
+from urllib.parse import urlparse
+url,index_route,reason_route=sys.argv[1:]
+u=urlparse(url)
+if u.scheme not in {"http","https"} or u.hostname not in {"127.0.0.1","::1","localhost"}:
+    raise SystemExit("PageIndex may reach only the loopback central FA3 Model Router")
+if u.username or u.password or u.query or u.fragment:
+    raise SystemExit("Central Model Router URL may not contain credentials/query/fragment")
+for name,value in (("index",index_route),("reason",reason_route)):
+    if not value.strip() or "://" in value or any(ch.isspace() for ch in value):
+        raise SystemExit(f"{name} route must be a logical alias, not a provider endpoint/model path")
 PY
-)"
-fi
-test -n "$MODEL" || { echo "No local Ollama model available; set FA3_PAGEINDEX_MODEL" >&2; exit 4; }
+
 mkdir -p "$RUNTIME_ROOT/src" "$RUNTIME_ROOT/storage" "$UNIT_DIR" "$DROPIN_DIR"
-for f in fa3_mcp_gateway.py fa3_pageindex_local_provider.py fa3_pageindex_local_service.py fa3_pageindex_model_router.py; do install -m 0644 "$REPO_ROOT/src/$f" "$RUNTIME_ROOT/src/$f"; done
+for f in fa3_mcp_gateway.py fa3_pageindex_local_provider.py fa3_pageindex_local_service.py; do
+  install -m 0644 "$REPO_ROOT/src/$f" "$RUNTIME_ROOT/src/$f"
+done
+
+# Remove the superseded PageIndex-owned router projection. Model routing is a central FA3 authority.
+systemctl --user disable --now fa3-pageindex-model-router.service 2>/dev/null || true
+rm -f "$UNIT_DIR/fa3-pageindex-model-router.service" "$RUNTIME_ROOT/src/fa3_pageindex_model_router.py"
+
 test -d "$GATEWAY_RUNTIME/src" || { echo "Central MCP Gateway runtime missing" >&2; exit 5; }
 install -m 0644 "$REPO_ROOT/src/fa3_pageindex_local_gateway_adapter.py" "$GATEWAY_RUNTIME/src/fa3_pageindex_local_gateway_adapter.py"
-python3 - "$REPO_ROOT" "$UNIT_DIR" "$RUNTIME_ROOT" "$VENV" "$ALLOWED_ROOT" "$MODEL" "$PAGEINDEX_SOCKET" <<'PY'
+
+python3 - "$REPO_ROOT" "$UNIT_DIR" "$RUNTIME_ROOT" "$VENV" "$ALLOWED_ROOT" "$MODEL_ROUTER_URL" "$INDEX_ROUTE" "$REASON_ROUTE" "$PAGEINDEX_SOCKET" <<'PY'
 from pathlib import Path
 import sys
-repo,unit_dir,runtime,venv,allowed,model,pageindex_socket=sys.argv[1:]
+repo,unit_dir,runtime,venv,allowed,router,index_route,reason_route,pageindex_socket=sys.argv[1:]
 def q(v): return '"' + v.replace("\\","\\\\").replace('"','\\"') + '"'
 def render(src,dst,repls):
     text=Path(src).read_text()
     for k,v in repls.items(): text=text.replace(k,v)
     Path(dst).write_text(text)
-render(Path(repo)/"deployment/pageindex-local/fa3-pageindex-model-router.service.in",Path(unit_dir)/"fa3-pageindex-model-router.service",{"@SYSTEM_PYTHON@":q(sys.executable),"@ROUTER_SCRIPT@":q(str(Path(runtime)/"src/fa3_pageindex_model_router.py"))})
 render(Path(repo)/"deployment/pageindex-local/fa3-pageindex-local.service.in",Path(unit_dir)/"fa3-pageindex-local.service",{
  "@RUNTIME_ROOT@":runtime,"@VENV_PYTHON@":q(str(Path(venv)/"bin/python")),"@SERVICE_SCRIPT@":q(str(Path(runtime)/"src/fa3_pageindex_local_service.py")),
  "@ENV_SOCKET@":q("FA3_PAGEINDEX_LOCAL_SOCKET="+pageindex_socket),"@ENV_STORAGE@":q("FA3_PAGEINDEX_LOCAL_STORAGE="+str(Path(runtime)/"storage")),
- "@ENV_ROOTS@":q("FA3_PAGEINDEX_LOCAL_ALLOWED_ROOTS="+allowed),"@ENV_ROUTER@":q("FA3_PAGEINDEX_MODEL_ROUTER=http://127.0.0.1:18791/v1"),
- "@ENV_INDEX_MODEL@":q("FA3_PAGEINDEX_INDEX_MODEL="+model),"@ENV_CHAT_MODEL@":q("FA3_PAGEINDEX_CHAT_MODEL="+model)})
+ "@ENV_ROOTS@":q("FA3_PAGEINDEX_LOCAL_ALLOWED_ROOTS="+allowed),"@ENV_ROUTER@":q("FA3_MODEL_ROUTER_URL="+router),
+ "@ENV_INDEX_ROUTE@":q("FA3_PAGEINDEX_INDEX_ROUTE="+index_route),"@ENV_REASON_ROUTE@":q("FA3_PAGEINDEX_REASON_ROUTE="+reason_route)})
 PY
+
 cat > "$DROPIN_DIR/pageindex-local.conf" <<EOF
 [Unit]
 Requires=fa3-pageindex-local.service
@@ -72,11 +97,11 @@ Environment="FA3_MCP_ADAPTER_FACTORIES=fa3_os_mcp_adapter:create_adapters,fa3_pa
 Environment="FA3_PAGEINDEX_LOCAL_SOCKET=$PAGEINDEX_SOCKET"
 BindReadOnlyPaths="$PAGEINDEX_RUNTIME_DIR"
 EOF
+
 systemctl --user daemon-reload
-systemd-analyze --user verify "$UNIT_DIR/fa3-pageindex-model-router.service" "$UNIT_DIR/fa3-pageindex-local.service" "$UNIT_DIR/fa3-mcp-gateway.service"
+systemd-analyze --user verify "$UNIT_DIR/fa3-pageindex-local.service" "$UNIT_DIR/fa3-mcp-gateway.service"
 if [[ "$START" -eq 1 ]]; then
-  systemctl --user enable fa3-pageindex-model-router.service fa3-pageindex-local.service
-  systemctl --user restart fa3-pageindex-model-router.service
+  systemctl --user enable fa3-pageindex-local.service
   systemctl --user restart fa3-pageindex-local.service
   for _ in $(seq 1 80); do
     [[ -S "$PAGEINDEX_SOCKET" ]] && break
@@ -91,5 +116,6 @@ if [[ "$START" -eq 1 ]]; then
     exit 7
   }
 fi
-printf 'PageIndex Local model: %s\n' "$MODEL"
+printf 'PageIndex Local central Model Router: %s\n' "$MODEL_ROUTER_URL"
+printf 'PageIndex Local logical routes: index=%s reason=%s\n' "$INDEX_ROUTE" "$REASON_ROUTE"
 printf 'PageIndex Local socket: %s\n' "$PAGEINDEX_SOCKET"

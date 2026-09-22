@@ -36,7 +36,7 @@ jobs:
           python-version: '3.12'
       - name: Syntax
         run: |
-          python -m py_compile src/fa3_mcp_unix_client.py src/fa3_pageindex_local_gateway_adapter.py src/fa3_pageindex_local_service.py src/fa3_pageindex_model_router.py src/fa3_pageindex_local_evidence.py src/fa3_pageindex_local_runtime_probe.py src/fa3_pageindex_local_current_host_gate.py evidence/collect-pageindex-local-current-host.py
+          python -m py_compile src/fa3_mcp_unix_client.py src/fa3_pageindex_local_gateway_adapter.py src/fa3_pageindex_local_service.py src/fa3_pageindex_local_evidence.py src/fa3_pageindex_local_runtime_probe.py src/fa3_pageindex_local_current_host_gate.py evidence/collect-pageindex-local-current-host.py
           bash -n bin/fa3-pageindex-local-bootstrap.sh
           bash -n bin/fa3-pageindex-local-install
       - name: Regression
@@ -71,10 +71,8 @@ jobs:
         run: |
           mkdir -p reports/pageindex-local
           systemctl --user status fa3-pageindex-local.service --no-pager > reports/pageindex-local/pageindex-local-status.txt 2>&1 || true
-          systemctl --user status fa3-pageindex-model-router.service --no-pager > reports/pageindex-local/model-router-status.txt 2>&1 || true
           systemctl --user status fa3-mcp-gateway.service --no-pager > reports/pageindex-local/mcp-gateway-status.txt 2>&1 || true
           journalctl --user -u fa3-pageindex-local.service -n 250 --no-pager > reports/pageindex-local/pageindex-local-journal.txt 2>&1 || true
-          journalctl --user -u fa3-pageindex-model-router.service -n 250 --no-pager > reports/pageindex-local/model-router-journal.txt 2>&1 || true
           journalctl --user -u fa3-mcp-gateway.service -n 250 --no-pager > reports/pageindex-local/mcp-gateway-journal.txt 2>&1 || true
       - name: Upload evidence
         if: always()

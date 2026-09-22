@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,json,os,time,urllib.request
+import argparse,json,os,time
 from pathlib import Path
 from typing import Any
 from fa3_mcp_gateway import GatewayDenied
@@ -17,16 +17,6 @@ def wait_gateway(sock:Path,timeout:float=30)->dict[str,Any]:
         except Exception: pass
         time.sleep(.25)
     raise RuntimeError("Central MCP Gateway not ready")
-def wait_router(timeout:float=30)->dict[str,Any]:
-    end=time.time()+timeout
-    while time.time()<end:
-        try:
-            with urllib.request.urlopen("http://127.0.0.1:18791/healthz",timeout=2) as r:
-                body=json.load(r)
-                if isinstance(body,dict): return body
-        except Exception: pass
-        time.sleep(.25)
-    raise RuntimeError("PageIndex model router not ready")
 def wait_provider_socket(timeout:float=30)->bool:
     runtime=Path(os.environ.get("XDG_RUNTIME_DIR",f"/run/user/{os.getuid()}"))
     sock=runtime/"fa3-pageindex-local/pageindex-local.sock"
@@ -43,13 +33,22 @@ def invoke(sock:Path,capid:str,args:dict[str,Any])->dict[str,Any]:
     return unix_request(str(sock),"POST","/invoke",payload(capid,args),timeout=900)[1]
 def probe(sock:Path,pdf:Path,allowed_root:Path)->dict[str,Any]:
     checks={}
-    ready=wait_gateway(sock); router=wait_router()
+    ready=wait_gateway(sock)
     checks["gateway_ready"]=ready.get("ready") is True
-    checks["model_router_loopback_verified"]=router.get("authority")=="FA3-AUTH-MODEL-ROUTER-001" and router.get("egress")=="LOOPBACK_ONLY"
+    router_url=os.environ.get("FA3_MODEL_ROUTER_URL","")
+    index_route=os.environ.get("FA3_PAGEINDEX_INDEX_ROUTE","fa3-pageindex-index")
+    reason_route=os.environ.get("FA3_PAGEINDEX_REASON_ROUTE","fa3-pageindex-reason")
+    try:
+        PageIndexLocalConfig(Path("/tmp/x"),(allowed_root,),router_url,index_route,reason_route).validate()
+        checks["model_router_loopback_verified"]=True
+        checks["logical_model_routes_verified"]=all(x.startswith("fa3-") and "://" not in x for x in (index_route,reason_route))
+    except GatewayDenied:
+        checks["model_router_loopback_verified"]=False
+        checks["logical_model_routes_verified"]=False
     checks["provider_socket_ready"]=wait_provider_socket()
     if not checks["provider_socket_ready"]: raise RuntimeError("PageIndex Local provider socket not ready")
     try:
-        PageIndexLocalConfig(Path("/tmp/x"),(allowed_root,),"http://192.0.2.1/v1","x","x").validate()
+        PageIndexLocalConfig(Path("/tmp/x"),(allowed_root,),"http://192.0.2.1/v1","fa3-index","fa3-reason").validate()
         checks["nonloopback_model_route_denied"]=False
     except GatewayDenied as exc:
         checks["nonloopback_model_route_denied"]=exc.code=="PAGEINDEX_LOCAL_MODEL_ROUTER_EGRESS"
@@ -71,7 +70,7 @@ def probe(sock:Path,pdf:Path,allowed_root:Path)->dict[str,Any]:
     checks["central_gateway_provider_receipts"]=all(x.get("provider_id")==PROVIDER and str(x.get("adapter_id","")).startswith("fa3.adapter.pageindex.local.") for x in receipts)
     plan,trace,passport=retrieval_evidence(doc_id,receipts)
     checks["retrieval_plan_trace_passport"]=bool(plan.get("plan_id") and trace.get("trace_id") and passport.get("passport_id")) and passport.get("rebuildable") is True
-    return {"schema":"fa3.pageindex-local.runtime-probe.v1","checks":checks,"doc_id":doc_id,"retrieval_plan":plan,"retrieval_trace":trace,"context_passport":passport,"reason_text":text_of(reason.get("result")),"receipts":receipts}
+    return {"schema":"fa3.pageindex-local.runtime-probe.v2","checks":checks,"doc_id":doc_id,"model_routes":{"index":index_route,"reason":reason_route},"retrieval_plan":plan,"retrieval_trace":trace,"context_passport":passport,"reason_text":text_of(reason.get("result")),"receipts":receipts}
 def main()->int:
     ap=argparse.ArgumentParser(); ap.add_argument("--socket",required=True); ap.add_argument("--pdf",required=True); ap.add_argument("--allowed-root",required=True); ap.add_argument("--output",required=True); a=ap.parse_args()
     result=probe(Path(a.socket),Path(a.pdf),Path(a.allowed_root))

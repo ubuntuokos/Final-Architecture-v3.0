@@ -10,9 +10,9 @@ def _config()->PageIndexLocalConfig:
     return PageIndexLocalConfig(
       storage_path=Path(os.environ["FA3_PAGEINDEX_LOCAL_STORAGE"]).expanduser().resolve(),
       allowed_roots=roots,
-      model_router_base_url=os.environ["FA3_PAGEINDEX_MODEL_ROUTER"],
-      index_model=os.environ["FA3_PAGEINDEX_INDEX_MODEL"],
-      chat_model=os.environ.get("FA3_PAGEINDEX_CHAT_MODEL",os.environ["FA3_PAGEINDEX_INDEX_MODEL"]),
+      model_router_base_url=os.environ["FA3_MODEL_ROUTER_URL"],
+      index_route=os.environ.get("FA3_PAGEINDEX_INDEX_ROUTE","fa3-pageindex-index"),
+      reason_route=os.environ.get("FA3_PAGEINDEX_REASON_ROUTE","fa3-pageindex-reason"),
     )
 class Handler(socketserver.StreamRequestHandler):
     provider:PageIndexLocalProvider
