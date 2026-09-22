@@ -1,20 +1,35 @@
 name: FA3 Central Model Router Current-Host E2E
 
 on:
+  push:
+    paths:
+      - "canonical/FA3-AUTH-MODEL-ROUTER-001.json"
+      - "canonical/model-router-enforcement.json"
+      - "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json"
+      - "canonical/model-manager-current-host-enforcement.json"
+      - "deployment/model-router/**"
+      - "src/fa3_model_router_*.py"
+      - "src/fa3_model_manager_current_host_gate.py"
+      - "evidence/collect-model-router-current-host.py"
+      - "evidence/collect-model-manager-current-host.py"
+      - "bin/fa3-model-router-*"
+      - ".github/workflows/fa3-model-router-current-host.yml"
   workflow_dispatch:
     inputs:
       providers_file:
-        description: "Absolute current-host runtime provider registry JSON"
-        required: true
+        description: "Optional absolute current-host runtime provider registry JSON; defaults to runner FA3_MODEL_ROUTER_PROVIDERS or ~/.config/fa3/model-router/providers.json"
+        required: false
+        default: ""
         type: string
       credential_file:
-        description: "Absolute 0600/0400 central Model Router credential file"
-        required: true
+        description: "Optional absolute 0600/0400 central Model Router credential file; defaults to runner FA3_MODEL_ROUTER_MASTER_KEY_FILE"
+        required: false
+        default: ""
         type: string
       port:
-        description: "Loopback port for the central router"
-        required: true
-        default: "4000"
+        description: "Loopback port for the central router; defaults to runner FA3_MODEL_ROUTER_PORT or 4000"
+        required: false
+        default: ""
         type: string
 
 permissions:
@@ -29,6 +44,26 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Resolve current-host runtime inputs
+        id: runtime
+        shell: bash
+        env:
+          PROVIDERS_INPUT: ${{ inputs.providers_file || '' }}
+          CREDENTIAL_INPUT: ${{ inputs.credential_file || '' }}
+          PORT_INPUT: ${{ inputs.port || '' }}
+        run: |
+          set -euo pipefail
+          providers="$PROVIDERS_INPUT"
+          credential="$CREDENTIAL_INPUT"
+          port="$PORT_INPUT"
+          if [ -z "$providers" ]; then providers="${FA3_MODEL_ROUTER_PROVIDERS:-$HOME/.config/fa3/model-router/providers.json}"; fi
+          if [ -z "$credential" ]; then credential="${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}"; fi
+          if [ -z "$port" ]; then port="${FA3_MODEL_ROUTER_PORT:-4000}"; fi
+          {
+            echo "providers=$providers"
+            echo "credential=$credential"
+            echo "port=$port"
+          } >> "$GITHUB_OUTPUT"
       - name: Verify current-host prerequisites
         shell: bash
         run: |
@@ -37,16 +72,22 @@ jobs:
           command -v python3
           command -v litellm
           command -v systemctl
-          test -s "${{ inputs.providers_file }}"
-          test -s "${{ inputs.credential_file }}"
+          test -s "${{ steps.runtime.outputs.providers }}" || {
+            echo "BLOCKED: central Model Router runtime provider registry is missing" >&2
+            exit 2
+          }
+          test -n "${{ steps.runtime.outputs.credential }}" && test -s "${{ steps.runtime.outputs.credential }}" || {
+            echo "BLOCKED: FA3_MODEL_ROUTER_MASTER_KEY_FILE/current-host credential is missing" >&2
+            exit 2
+          }
       - name: Materialize and prove central Model Router
         shell: bash
         run: |
           set -euo pipefail
           bash bin/fa3-model-router-current-host.sh \
-            --providers "${{ inputs.providers_file }}" \
-            --credential-file "${{ inputs.credential_file }}" \
-            --port "${{ inputs.port }}"
+            --providers "${{ steps.runtime.outputs.providers }}" \
+            --credential-file "${{ steps.runtime.outputs.credential }}" \
+            --port "${{ steps.runtime.outputs.port }}"
       - name: Assert provider-neutral current-host receipt
         shell: bash
         run: |
@@ -60,6 +101,10 @@ jobs:
           assert r["physical_model_pinned"] is False
           assert r["runtime_selected"] is True
           assert {"fa3-pageindex-index","fa3-pageindex-reason"}.issubset(r["logical_routes"])
+          for route in ("fa3-pageindex-index","fa3-pageindex-reason"):
+              b=r["route_bindings"][route]
+              assert b["selection"]=="RUNTIME_DISCOVERED"
+              assert b["provider_id"] and b["runtime_id"] and b["model"]
           PY
       - name: Upload evidence
         if: always()
