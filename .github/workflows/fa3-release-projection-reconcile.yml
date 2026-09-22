@@ -44,74 +44,54 @@ jobs:
             echo "valid=false" >> "$GITHUB_OUTPUT"
             echo "::warning::Protected main projection is stale or invalid; generating a fail-closed recovery branch."
           fi
+      - name: Validate existing branch projection
+        id: branch_projection
+        if: github.ref_name != 'main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x bin/fa3-enforce
+          if ./bin/fa3-enforce release-projection; then
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+            echo "Branch projection is already valid; no bot-authored projection commit is permitted."
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Branch projection is stale or invalid; validating a regenerated workspace copy."
+          fi
       - name: Regenerate unified release projection
-        if: github.ref_name != 'main' || steps.main_projection.outputs.valid != 'true'
+        if: (github.ref_name == 'main' && steps.main_projection.outputs.valid != 'true') || (github.ref_name != 'main' && steps.branch_projection.outputs.valid != 'true')
         run: python scripts/fa3_reconcile_release_projection.py --root .
       - name: Validate reconciled canonical projection
-        if: github.ref_name != 'main' || steps.main_projection.outputs.valid != 'true'
+        if: (github.ref_name == 'main' && steps.main_projection.outputs.valid != 'true') || (github.ref_name != 'main' && steps.branch_projection.outputs.valid != 'true')
         run: |
           chmod +x bin/fa3-enforce
           PYTHONPATH=src python -m unittest discover -s tests -v
           ./bin/fa3-enforce release-projection
-      - name: Commit reconciled projection when changed
-        if: github.ref_name != 'main' || steps.main_projection.outputs.valid != 'true'
+      - name: Preserve reconciled projection safely
+        if: (github.ref_name == 'main' && steps.main_projection.outputs.valid != 'true') || (github.ref_name != 'main' && steps.branch_projection.outputs.valid != 'true')
         shell: bash
         run: |
           set -euo pipefail
 
           projection="canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
-          remote_ref="refs/remotes/origin/${GITHUB_REF_NAME}"
 
-          validate_projection() {
-            python scripts/fa3_reconcile_release_projection.py --root .
-            chmod +x bin/fa3-enforce
-            PYTHONPATH=src python -m unittest discover -s tests -v
-            ./bin/fa3-enforce release-projection
-          }
+          if git diff --quiet -- "${projection}"; then
+            echo "Release projection already reconciled."
+            exit 0
+          fi
+
+          if [ "${GITHUB_REF_NAME}" != "main" ]; then
+            echo "::error::PR branch projection is stale. The regenerated workspace copy is valid, but CI must not push a GITHUB_TOKEN-authored PR-head commit because required status checks would not run on that new head."
+            echo "::error::Commit the regenerated projection through the normal author/agent branch update, then rerun protected checks."
+            exit 2
+          fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${projection}"
+          git commit -m "FA3: reconcile unified release projection [projection]"
 
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            if git diff --quiet -- "${projection}"; then
-              echo "Release projection already reconciled."
-              exit 0
-            fi
-
-            git add "${projection}"
-            git commit -m "FA3: reconcile unified release projection [projection]"
-
-            recovery_branch="automation/release-projection-recovery-${GITHUB_SHA:0:12}"
-            git push origin "HEAD:refs/heads/${recovery_branch}"
-            echo "::error::Protected main projection failed validation. Reconciled projection was preserved on ${recovery_branch}; merge it only through the normal protected PR path."
-            exit 1
-          fi
-
-          for attempt in 1 2 3; do
-            git fetch origin "+refs/heads/${GITHUB_REF_NAME}:${remote_ref}"
-            remote_sha="$(git rev-parse "${remote_ref}")"
-            local_sha="$(git rev-parse HEAD)"
-
-            if [ "${local_sha}" != "${remote_sha}" ]; then
-              echo "Branch advanced during reconciliation; refreshing from ${remote_sha} (attempt ${attempt}/3)."
-              git reset --hard "${remote_ref}"
-              validate_projection
-            fi
-
-            if git diff --quiet -- "${projection}"; then
-              echo "Release projection already reconciled."
-              exit 0
-            fi
-
-            git add "${projection}"
-            git commit -m "FA3: reconcile unified release projection [projection]"
-
-            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
-              exit 0
-            fi
-
-            echo "Projection push raced with another branch update; retrying from the new remote head."
-          done
-
-          echo "Release projection could not be committed after 3 race-safe reconciliation attempts." >&2
+          recovery_branch="automation/release-projection-recovery-${GITHUB_SHA:0:12}"
+          git push origin "HEAD:refs/heads/${recovery_branch}"
+          echo "::error::Protected main projection failed validation. Reconciled projection was preserved on ${recovery_branch}; merge it only through the normal protected PR path."
           exit 1
