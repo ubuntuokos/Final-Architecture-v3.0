@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-AI-COMMS-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-AI-COMMS-001",
   "provider_neutral": true,
@@ -12,7 +12,13 @@
     "HumanAuditableMessageEnvelope",
     "CommunicationProvenance",
     "DefinedTerm",
-    "CanonicalStructuredPayload"
+    "CanonicalStructuredPayload",
+    "ApplicationCommunicationPolicy",
+    "LogicalModelRole",
+    "CrossApplicationGatewayBinding",
+    "PartnerReplacementRequest",
+    "ApplicationWakeAuthorization",
+    "SecurityEmergencyWakeEvent"
   ],
   "human_auditable_message_envelope": {
     "required_fields": [
@@ -61,7 +67,16 @@
     "STRUCTURED_PAYLOAD_WITHOUT_AUTHORITATIVE_HUMAN_TEXT",
     "PROVIDER_DEFINED_COMMUNICATION_AUTHORITY",
     "LANGUAGE_BRIDGE_DEFINED_PRIVATE_PROTOCOL",
-    "PARALLEL_COMPONENT_OWNED_MODEL_ROUTER"
+    "PARALLEL_COMPONENT_OWNED_MODEL_ROUTER",
+    "UNDECLARED_APPLICATION_MODEL_PARTICIPANT",
+    "PARTNER_FAILURE_WITHOUT_REPLACEMENT",
+    "PARTICIPANT_SET_EXPANSION_DURING_REPLACEMENT",
+    "CROSS_APPLICATION_COMMUNICATION_WITHOUT_PROTECTED_GATEWAY",
+    "CROSS_APPLICATION_GATEWAY_BYPASS",
+    "MODEL_ROUTER_GRANTED_COMMUNICATION_AUTHORITY",
+    "SLEEPING_APPLICATION_WAKE_WITHOUT_USER_DIRECTIVE_OR_SECURITY_EMERGENCY",
+    "SECURITY_EMERGENCY_WAKE_TO_NON_SECURITY_TARGET",
+    "SECURITY_EMERGENCY_WAKE_WITHOUT_IMMEDIATE_USER_NOTIFICATION"
   ],
   "audit_requirements": [
     "SENDER_AND_RECIPIENT_ATTRIBUTABLE",
@@ -70,6 +85,46 @@
     "LANGUAGE_TAG_RECORDED",
     "HUMAN_TEXT_DIGESTABLE",
     "SCHEMA_ID_RECORDED_WHEN_STRUCTURED",
-    "FAILURE_REASON_RECORDED_ON_DENIAL"
-  ]
+    "FAILURE_REASON_RECORDED_ON_DENIAL",
+    "APPLICATION_AND_LOGICAL_ROLE_ATTRIBUTABLE",
+    "PARTNER_REPLACEMENT_REASON_RECORDED",
+    "PARTNER_REPLACEMENT_ROUTER_PROVENANCE_RECORDED",
+    "CROSS_APP_GATEWAY_ID_RECORDED",
+    "WAKE_AUTHORIZATION_BASIS_RECORDED",
+    "SECURITY_EMERGENCY_TRIGGER_SEVERITY_CONFIDENCE_RECORDED",
+    "SECURITY_EMERGENCY_USER_NOTIFICATION_RECORDED"
+  ],
+  "topology_policy_schema": "canonical/schemas/ai-comms-topology-policy.v1.json",
+  "application_participant_contract": {
+    "identity": "LOGICAL_MODEL_ROLE",
+    "physical_model_pin_allowed": false,
+    "provider_pin_allowed": false,
+    "every_declared_role_required_for_app": true,
+    "undeclared_participant": "DENY"
+  },
+  "partner_replacement_contract": {
+    "unfit_partner_action": "REPLACE",
+    "replacement_must_use_existing_logical_role": true,
+    "candidate_must_be_pre_admitted": true,
+    "participant_count_delta_must_equal": 0,
+    "central_model_router_required": true,
+    "router_does_not_gain_communication_authority": true
+  },
+  "cross_application_contract": {
+    "default": "DENY",
+    "explicit_app_relationship_required": true,
+    "protected_gateway_required": true,
+    "gateway_bypass": "DENY",
+    "security_emergency_does_not_bypass_gateway": true
+  },
+  "wake_contract": {
+    "sleeping_app_requires_explicit_user_directive": true,
+    "security_emergency_wake_exception": true,
+    "emergency_target_must_be_pre_authorized_security_app_and_role": true,
+    "minimum_severity": "CRITICAL",
+    "minimum_confidence": 0.9,
+    "least_privilege_required": true,
+    "immediate_user_notification_required": true,
+    "audit_required": true
+  }
 }
