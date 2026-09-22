@@ -100,6 +100,12 @@ jobs:
             exit 1
           fi
 
-          echo "::error::PR branch projection is stale. The regenerated workspace copy is valid, but CI must not push a GITHUB_TOKEN-authored PR-head commit because required status checks would not run on that new head."
-          echo "::error::Commit the regenerated projection through the normal author/agent branch update, then rerun protected checks."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${projection}"
+          git commit -m "FA3: reconcile unified release projection [projection]"
+
+          recovery_branch="automation/release-projection-pr-${GITHUB_SHA:0:12}"
+          git push --force-with-lease origin "HEAD:refs/heads/${recovery_branch}"
+          echo "::error::PR branch projection is stale. The validated projection commit was preserved on ${recovery_branch}; an authorized author/agent must adopt that commit onto the PR head so protected checks run on the resulting head."
           exit 2
