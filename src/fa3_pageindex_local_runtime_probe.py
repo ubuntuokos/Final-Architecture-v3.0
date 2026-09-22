@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,json,time,urllib.request
+import argparse,json,os,time,urllib.request
 from pathlib import Path
 from typing import Any
 from fa3_mcp_gateway import GatewayDenied
@@ -27,6 +27,14 @@ def wait_router(timeout:float=30)->dict[str,Any]:
         except Exception: pass
         time.sleep(.25)
     raise RuntimeError("PageIndex model router not ready")
+def wait_provider_socket(timeout:float=30)->bool:
+    runtime=Path(os.environ.get("XDG_RUNTIME_DIR",f"/run/user/{os.getuid()}"))
+    sock=runtime/"fa3-pageindex-local/pageindex-local.sock"
+    end=time.time()+timeout
+    while time.time()<end:
+        if sock.exists() and sock.is_socket(): return True
+        time.sleep(.25)
+    return False
 def payload(capid:str,args:dict[str,Any])->dict[str,Any]:
     return {"actor_id":"FA3-CURRENT-HOST-PAGEINDEX","client_id":"fa3-pageindex-local-e2e","session_id":"PAGEINDEX-LOCAL-E2E",
       "capability_id":capid,"provider_id":PROVIDER,"arguments":args,
@@ -38,6 +46,8 @@ def probe(sock:Path,pdf:Path,allowed_root:Path)->dict[str,Any]:
     ready=wait_gateway(sock); router=wait_router()
     checks["gateway_ready"]=ready.get("ready") is True
     checks["model_router_loopback_verified"]=router.get("authority")=="FA3-AUTH-MODEL-ROUTER-001" and router.get("egress")=="LOOPBACK_ONLY"
+    checks["provider_socket_ready"]=wait_provider_socket()
+    if not checks["provider_socket_ready"]: raise RuntimeError("PageIndex Local provider socket not ready")
     try:
         PageIndexLocalConfig(Path("/tmp/x"),(allowed_root,),"http://192.0.2.1/v1","x","x").validate()
         checks["nonloopback_model_route_denied"]=False

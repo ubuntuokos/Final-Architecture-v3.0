@@ -8,7 +8,7 @@ CONF="FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001"
 GATE="FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001"
 REQUIRED_FLAGS=(
  "pinned_source_clean","pageindex_version_verified","isolated_venv_verified",
- "model_router_loopback_verified","nonloopback_model_route_denied","systemd_egress_hardening",
+ "model_router_loopback_verified","provider_socket_ready","nonloopback_model_route_denied","systemd_egress_hardening",
  "path_escape_denied","real_pdf_index","metadata_retrieval","structure_retrieval",
  "page_retrieval","reason_retrieval","central_gateway_provider_receipts","gateway_ready",
  "retrieval_plan_trace_passport","canonical_registry_unchanged","persistent_services_active",
@@ -24,6 +24,15 @@ def static_findings(root:Path)->tuple[list[dict[str,Any]],dict[str,Any]]:
         reg=loadj(root/"canonical/mcp-capability-registry.json")
         if prov.get("upstream",{}).get("commit")!="9a8dd6658278fec90347e8ac3388a205305667a3" or prov.get("upstream",{}).get("package_version")!="0.2.10":
             fs.append(finding("PIL-001","PageIndex upstream pin drift"))
+        local_unit=(root/"deployment/pageindex-local/fa3-pageindex-local.service.in").read_text(encoding="utf-8")
+        router_unit=(root/"deployment/pageindex-local/fa3-pageindex-model-router.service.in").read_text(encoding="utf-8")
+        installer=(root/"bin/fa3-pageindex-local-install").read_text(encoding="utf-8")
+        if "RuntimeDirectory=fa3-pageindex-local" not in local_unit or "RuntimeDirectory=fa3\n" in local_unit:
+            fs.append(finding("PIL-016","PageIndex provider must own a dedicated runtime directory"))
+        if "After=default.target" in router_unit:
+            fs.append(finding("PIL-017","PageIndex model-router ordering cycle regression"))
+        if "%t/fa3-pageindex-local/pageindex-local.sock" not in installer or "restart fa3-pageindex-local.service" not in installer:
+            fs.append(finding("PIL-018","PageIndex installer must bind dedicated socket and restart provider"))
         if prov.get("architectural_authority") is not False or prov.get("capability_count")!=143:
             fs.append(finding("PIL-002","authority/capability invariant drift"))
         expected="CONNECTED" if conf.get("status")=="CURRENT_HOST_ADMITTED" else "PENDING_CURRENT_HOST"

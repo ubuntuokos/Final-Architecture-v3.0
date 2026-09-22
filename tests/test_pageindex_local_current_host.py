@@ -40,6 +40,15 @@ class PageIndexLocalCurrentHostTests(unittest.TestCase):
         router=(ROOT/"deployment/pageindex-local/fa3-pageindex-model-router.service.in").read_text()
         for text in (unit,router):
             self.assertIn("IPAddressDeny=any",text); self.assertIn("IPAddressAllow=localhost",text)
+    def test_runtime_directory_and_restart_are_isolated(self):
+        unit=(ROOT/"deployment/pageindex-local/fa3-pageindex-local.service.in").read_text()
+        router=(ROOT/"deployment/pageindex-local/fa3-pageindex-model-router.service.in").read_text()
+        installer=(ROOT/"bin/fa3-pageindex-local-install").read_text()
+        self.assertIn("RuntimeDirectory=fa3-pageindex-local",unit)
+        self.assertNotIn("RuntimeDirectory=fa3\n",unit)
+        self.assertNotIn("After=default.target",router)
+        self.assertIn("%t/fa3-pageindex-local/pageindex-local.sock",installer)
+        self.assertIn("restart fa3-pageindex-local.service",installer)
     def test_gateway_adapter_requires_absolute_socket(self):
         with self.assertRaises(Exception): build_adapters(Path("relative.sock"))
 if __name__=="__main__": unittest.main()

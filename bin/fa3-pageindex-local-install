@@ -54,7 +54,7 @@ def render(src,dst,repls):
 render(Path(repo)/"deployment/pageindex-local/fa3-pageindex-model-router.service.in",Path(unit_dir)/"fa3-pageindex-model-router.service",{"@SYSTEM_PYTHON@":q(sys.executable),"@ROUTER_SCRIPT@":q(str(Path(runtime)/"src/fa3_pageindex_model_router.py"))})
 render(Path(repo)/"deployment/pageindex-local/fa3-pageindex-local.service.in",Path(unit_dir)/"fa3-pageindex-local.service",{
  "@RUNTIME_ROOT@":runtime,"@VENV_PYTHON@":q(str(Path(venv)/"bin/python")),"@SERVICE_SCRIPT@":q(str(Path(runtime)/"src/fa3_pageindex_local_service.py")),
- "@ENV_SOCKET@":q("FA3_PAGEINDEX_LOCAL_SOCKET=%t/fa3/pageindex-local.sock"),"@ENV_STORAGE@":q("FA3_PAGEINDEX_LOCAL_STORAGE="+str(Path(runtime)/"storage")),
+ "@ENV_SOCKET@":q("FA3_PAGEINDEX_LOCAL_SOCKET=%t/fa3-pageindex-local/pageindex-local.sock"),"@ENV_STORAGE@":q("FA3_PAGEINDEX_LOCAL_STORAGE="+str(Path(runtime)/"storage")),
  "@ENV_ROOTS@":q("FA3_PAGEINDEX_LOCAL_ALLOWED_ROOTS="+allowed),"@ENV_ROUTER@":q("FA3_PAGEINDEX_MODEL_ROUTER=http://127.0.0.1:18791/v1"),
  "@ENV_INDEX_MODEL@":q("FA3_PAGEINDEX_INDEX_MODEL="+model),"@ENV_CHAT_MODEL@":q("FA3_PAGEINDEX_CHAT_MODEL="+model)})
 PY
@@ -70,7 +70,9 @@ EOF
 systemctl --user daemon-reload
 systemd-analyze --user verify "$UNIT_DIR/fa3-pageindex-model-router.service" "$UNIT_DIR/fa3-pageindex-local.service" "$UNIT_DIR/fa3-mcp-gateway.service"
 if [[ "$START" -eq 1 ]]; then
-  systemctl --user enable --now fa3-pageindex-model-router.service fa3-pageindex-local.service
+  systemctl --user enable fa3-pageindex-model-router.service fa3-pageindex-local.service
+  systemctl --user restart fa3-pageindex-model-router.service
+  systemctl --user restart fa3-pageindex-local.service
   systemctl --user restart fa3-mcp-gateway.service
 fi
 printf 'PageIndex Local model: %s\n' "$MODEL"
