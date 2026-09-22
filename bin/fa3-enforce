@@ -21,9 +21,10 @@ if [[ "${1:-}" == "language-gateway" ]]; then
 fi
 if [[ "${1:-}" == "static" ]]; then
   shift
-  # Canonical English machine-language and Language/Gateway P0 are part of the
-  # global static admission surface. Their reports remain separate while the
-  # static entrypoint fails closed if either multilingual invariant layer drifts.
+  # Central Model Router plus canonical language/gateway P0 are part of the
+  # global static admission surface. Each report remains separate and any drift
+  # fails closed before the legacy global static gate.
+  python3 "$ROOT/src/fa3_model_router_gate.py" --root "$ROOT" >/dev/null
   python3 "$ROOT/src/fa3_canonical_language_gate.py" --root "$ROOT" >/dev/null
   python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" >/dev/null
   exec python3 "$ROOT/src/fa3_enforce.py" --root "$ROOT" static "$@"
