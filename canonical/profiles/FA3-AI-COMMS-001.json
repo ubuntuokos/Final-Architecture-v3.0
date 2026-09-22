@@ -1,0 +1,65 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-AI-COMMS-001",
+  "name": "Human-Auditable Model-to-Model Communication",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-028"
+  ],
+  "contract_family": "FA3-AI-COMMS-CONTRACTS-001",
+  "gate_id": "FA3-AI-COMMS-GATESET-001",
+  "applies_to": [
+    "MODEL_TO_MODEL",
+    "AGENT_TO_AGENT",
+    "MODEL_TO_AGENT",
+    "AGENT_TO_MODEL"
+  ],
+  "allowed_communication_modes": [
+    "HUMAN_LANGUAGE",
+    "CANONICAL_STRUCTURED"
+  ],
+  "invariants": [
+    "HUMAN_AUDITABLE_SEMANTICS_REQUIRED",
+    "PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
+    "EMERGENT_CODEBOOK_FORBIDDEN",
+    "MODEL_ONLY_SLANG_OR_UNDEFINED_SHORTHAND_FORBIDDEN",
+    "OPAQUE_ENCODING_AS_SEMANTIC_CHANNEL_FORBIDDEN",
+    "HUMAN_READABLE_TEXT_IS_AUTHORITATIVE",
+    "DECLARED_HUMAN_LANGUAGE_REQUIRED",
+    "STRUCTURED_MESSAGE_SCHEMA_MUST_BE_VERSIONED",
+    "STRUCTURED_PAYLOAD_IS_SUPPLEMENTAL_ONLY",
+    "NEW_SHORTHAND_REQUIRES_HUMAN_READABLE_DEFINITION",
+    "MESSAGE_PROVENANCE_REQUIRED",
+    "UNKNOWN_COMMUNICATION_MODE_FAILS_CLOSED",
+    "PROVIDER_CANNOT_CREATE_COMMUNICATION_POLICY_AUTHORITY",
+    "LANGUAGE_BRIDGE_CANNOT_CREATE_PRIVATE_MODEL_LANGUAGE",
+    "CENTRAL_MODEL_ROUTER_REUSED_NO_PARALLEL_ROUTER"
+  ],
+  "authority_boundaries": {
+    "communication_policy": "FA3-AI-COMMS-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "model_router_semantics": {
+    "routing_authority_reused": true,
+    "parallel_model_router_forbidden": true,
+    "router_is_not_semantic_authority": true
+  },
+  "language_bridge_semantics": {
+    "translation_or_normalization_allowed": true,
+    "private_model_language_creation_forbidden": true,
+    "semantic_authority_expansion_forbidden": true
+  }
+}
