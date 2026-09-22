@@ -1,0 +1,71 @@
+name: FA3 Central Model Router Current-Host E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      providers_file:
+        description: "Absolute current-host runtime provider registry JSON"
+        required: true
+        type: string
+      credential_file:
+        description: "Absolute 0600/0400 central Model Router credential file"
+        required: true
+        type: string
+      port:
+        description: "Loopback port for the central router"
+        required: true
+        default: "4000"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v litellm
+          command -v systemctl
+          test -s "${{ inputs.providers_file }}"
+          test -s "${{ inputs.credential_file }}"
+      - name: Materialize and prove central Model Router
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash bin/fa3-model-router-current-host.sh \
+            --providers "${{ inputs.providers_file }}" \
+            --credential-file "${{ inputs.credential_file }}" \
+            --port "${{ inputs.port }}"
+      - name: Assert provider-neutral current-host receipt
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/receipts/model-router-current-host.json").read_text())
+          assert r["result"]=="PASS"
+          assert r["provider_neutral"] is True
+          assert r["physical_backend_pinned"] is False
+          assert r["physical_model_pinned"] is False
+          assert r["runtime_selected"] is True
+          assert {"fa3-pageindex-index","fa3-pageindex-reason"}.issubset(r["logical_routes"])
+          PY
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-model-router-current-host-evidence
+          path: |
+            evidence/receipts/model-router-current-host.json
+            reports/model-router-current-host-gate-report.json

@@ -12,12 +12,12 @@ on:
         required: true
         type: string
       model_alias:
-        description: "Admitted LiteLLM logical local model alias"
+        description: "Central FA3 Model Router logical route alias"
         required: true
-        default: "fa3-local-primary"
+        default: "fa3-text-primary"
         type: string
       gateway_url:
-        description: "Loopback LiteLLM origin"
+        description: "Loopback central FA3 Model Router / LiteLLM data-plane origin"
         required: true
         default: "http://127.0.0.1:4000"
         type: string
@@ -30,7 +30,7 @@ on:
         required: true
         type: string
       credential_file:
-        description: "Optional absolute 0600/0400 LiteLLM credential file path; otherwise runner env is used"
+        description: "Optional absolute 0600/0400 central Model Router credential file path; otherwise runner env is used"
         required: false
         default: ""
         type: string
@@ -62,9 +62,9 @@ jobs:
           if [ -n "$CREDENTIAL_FILE_INPUT" ]; then
             test -f "$CREDENTIAL_FILE_INPUT"
           else
-            test -n "${FA3_LITELLM_MASTER_KEY_FILE:-}${FA3_LITELLM_MASTER_KEY:-}"
+            test -n "${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}${FA3_MODEL_ROUTER_MASTER_KEY:-}${FA3_LITELLM_MASTER_KEY_FILE:-}${FA3_LITELLM_MASTER_KEY:-}"
           fi
-      - name: Run real LiteLLM and Language Bridge E2E
+      - name: Run central Model Router data-plane and Language Bridge E2E
         shell: bash
         env:
           CREDENTIAL_FILE_INPUT: ${{ inputs.credential_file }}

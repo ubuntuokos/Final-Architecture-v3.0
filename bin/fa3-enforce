@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ "${1:-}" == "model-router-current-host" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_model_router_current_host_gate.py" --root "$ROOT" "$@"
+fi
+if [[ "${1:-}" == "model-router" ]]; then
+  shift
+  exec python3 "$ROOT/src/fa3_model_router_gate.py" --root "$ROOT" "$@"
+fi
 if [[ "${1:-}" == "language-gateway-current-host" ]]; then
   shift
   exec python3 "$ROOT/src/fa3_language_gateway_current_host_gate.py" --root "$ROOT" "$@"
 fi
 if [[ "${1:-}" == "language-gateway" ]]; then
   shift
+  python3 "$ROOT/src/fa3_model_router_gate.py" --root "$ROOT" >/dev/null
   python3 "$ROOT/src/fa3_canonical_language_gate.py" --root "$ROOT" >/dev/null
   exec python3 "$ROOT/src/fa3_language_gateway_gate.py" --root "$ROOT" "$@"
 fi

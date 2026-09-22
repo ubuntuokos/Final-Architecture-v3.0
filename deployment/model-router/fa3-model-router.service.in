@@ -1,0 +1,26 @@
+[Unit]
+Description=FA3 Central Provider-Neutral Model Router
+After=network.target
+ConditionPathExists=%PROVIDERS%
+
+[Service]
+Type=simple
+RuntimeDirectory=fa3-model-router
+RuntimeDirectoryMode=0700
+ExecStartPre=%PYTHON% %ROOT%/src/fa3_model_router_materialize.py --root %ROOT% --providers %PROVIDERS% --output %t/fa3-model-router/litellm.generated.yaml --selection-receipt %t/fa3-model-router/selection.json
+ExecStart=%ROOT%/bin/fa3-model-router-serve --litellm %LITELLM% --config %t/fa3-model-router/litellm.generated.yaml --credential-file %CREDENTIAL% --port %PORT%
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=any
+IPAddressAllow=localhost
+LockPersonality=yes
+MemoryDenyWriteExecute=no
+UMask=0077
+
+[Install]
+WantedBy=default.target

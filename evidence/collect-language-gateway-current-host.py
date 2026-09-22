@@ -84,7 +84,7 @@ def _read_sample(path_value: str) -> tuple[str, str, int]:
 
 
 def _read_gateway_token(explicit_file: str | None) -> tuple[str, str]:
-    credential_file = explicit_file or os.environ.get("FA3_LITELLM_MASTER_KEY_FILE", "")
+    credential_file = explicit_file or os.environ.get("FA3_MODEL_ROUTER_MASTER_KEY_FILE", "") or os.environ.get("FA3_LITELLM_MASTER_KEY_FILE", "")
     if credential_file:
         path = Path(credential_file).expanduser().resolve()
         if not path.is_file():
@@ -96,9 +96,9 @@ def _read_gateway_token(explicit_file: str | None) -> tuple[str, str]:
         if not token:
             raise CollectionDenied("LiteLLM credential file is empty")
         return token, "FILE"
-    token = os.environ.get("FA3_LITELLM_MASTER_KEY", "").strip()
+    token = os.environ.get("FA3_MODEL_ROUTER_MASTER_KEY", "").strip() or os.environ.get("FA3_LITELLM_MASTER_KEY", "").strip()
     if not token:
-        raise CollectionDenied("FA3_LITELLM_MASTER_KEY_FILE or FA3_LITELLM_MASTER_KEY is required")
+        raise CollectionDenied("FA3_MODEL_ROUTER_MASTER_KEY_FILE/FA3_MODEL_ROUTER_MASTER_KEY (or legacy LiteLLM aliases) is required")
     return token, "ENVIRONMENT"
 
 

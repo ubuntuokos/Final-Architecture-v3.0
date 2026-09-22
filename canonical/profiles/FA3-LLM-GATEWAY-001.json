@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-LLM-GATEWAY-001",
   "name": "Provider-Neutral LLM API Gateway",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -92,5 +92,13 @@
   },
   "capability_count_delta": 0,
   "authority_delta": 0,
-  "fail_closed": true
+  "fail_closed": true,
+  "model_router_materialization": {
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "role": "REFERENCE_DATA_PLANE_ONLY",
+    "single_routing_plane": true,
+    "operational_config": "GENERATED_AT_RUNTIME_BY_FA3_MODEL_ROUTER",
+    "committed_physical_provider_or_model_routes": "FORBIDDEN",
+    "runtime_selection_receipt_required": true
+  }
 }

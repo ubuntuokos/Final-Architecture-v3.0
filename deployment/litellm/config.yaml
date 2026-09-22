@@ -1,37 +1,18 @@
-# FA3-LLM-GATEWAY-001 reference baseline.
-# Runtime secrets and endpoint addresses MUST be injected from the FA3 secret/config authorities.
-# External/cloud providers are intentionally absent from the default configuration.
+# FA3-LLM-GATEWAY-001 non-operational reference baseline.
+# FA3-AUTH-MODEL-ROUTER-001 is the single routing authority.
+# The operational LiteLLM model_list is generated at runtime by
+# src/fa3_model_router_materialize.py from admitted current-host providers.
+# Physical provider endpoints and model identifiers MUST NOT be committed here.
 
-model_list:
-  - model_name: fa3-text-primary
-    litellm_params:
-      model: openai/fa3-local-primary
-      api_base: os.environ/FA3_LLM_PRIMARY_API_BASE
-      api_key: os.environ/FA3_LLM_PRIMARY_API_KEY
-    tpm: 100000
-    rpm: 1000
-
-  - model_name: fa3-text-secondary
-    litellm_params:
-      model: openai/fa3-local-secondary
-      api_base: os.environ/FA3_LLM_SECONDARY_API_BASE
-      api_key: os.environ/FA3_LLM_SECONDARY_API_KEY
-    tpm: 100000
-    rpm: 1000
+model_list: []
 
 router_settings:
   routing_strategy: simple-shuffle
-  fallbacks:
-    - fa3-text-primary:
-        - fa3-text-secondary
 
-# The master key is never committed as plaintext.
+# Compatibility-only reference secret indirection. The operational generated
+# central-router config uses FA3_MODEL_ROUTER_MASTER_KEY.
 general_settings:
   master_key: os.environ/FA3_LITELLM_MASTER_KEY
 
-# Language policy is deliberately NOT encoded here. FA3-LANGUAGE-FABRIC-001
-# selects/mediates user/work/output languages before/after gateway execution.
-# Do not add a global Hungarian-only or other language-only blacklist.
-# Do not enable arbitrary client-header forwarding.
-# Do not add cloud providers to this baseline. They are materialized only from
-# explicitly enabled, admitted FA3 provider policy and must not be silent fallbacks.
+# Language policy is deliberately NOT encoded here.
+# Cloud providers and silent local-to-cloud fallback are absent by design.
