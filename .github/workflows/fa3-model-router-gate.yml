@@ -1,0 +1,60 @@
+name: FA3 Central Model Router Gate
+
+on:
+  push:
+    paths:
+      - "canonical/FA3-AUTH-MODEL-ROUTER-001.json"
+      - "canonical/model-router-enforcement.json"
+      - "canonical/profiles/FA3-LLM-GATEWAY-001.json"
+      - "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json"
+      - "canonical/model-manager-current-host-enforcement.json"
+      - "deployment/litellm/config.yaml"
+      - "deployment/model-router/**"
+      - "src/fa3_model_router_*.py"
+      - "src/fa3_model_manager_current_host_gate.py"
+      - "bin/fa3-model-router-*"
+      - "evidence/collect-model-router-current-host.py"
+      - "evidence/collect-model-manager-current-host.py"
+      - "tests/test_model_router_*.py"
+      - "tests/test_model_manager_current_host_gate.py"
+      - ".github/workflows/fa3-model-router-*.yml"
+  pull_request:
+    paths:
+      - "canonical/FA3-AUTH-MODEL-ROUTER-001.json"
+      - "canonical/model-router-enforcement.json"
+      - "canonical/profiles/FA3-LLM-GATEWAY-001.json"
+      - "deployment/litellm/config.yaml"
+      - "deployment/model-router/**"
+      - "src/fa3_model_router_*.py"
+      - "bin/fa3-model-router-*"
+      - "evidence/collect-model-router-current-host.py"
+      - "tests/test_model_router_*.py"
+      - ".github/workflows/fa3-model-router-*.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Model Router unit and static gates
+        run: |
+          set -euo pipefail
+          python3 -m py_compile \
+            src/fa3_model_router_materialize.py \
+            src/fa3_model_router_gate.py \
+            src/fa3_model_router_current_host_gate.py \
+            evidence/collect-model-router-current-host.py \
+            evidence/collect-model-manager-current-host.py \
+            src/fa3_model_manager_current_host_gate.py
+          python3 -m unittest \
+            tests.test_model_router_materialize \
+            tests.test_model_router_gate \
+            tests.test_model_manager_current_host_gate
+          python3 src/fa3_model_router_gate.py --root .
