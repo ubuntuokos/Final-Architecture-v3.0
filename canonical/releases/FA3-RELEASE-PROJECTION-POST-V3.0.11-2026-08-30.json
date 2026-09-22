@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "47c7e1ce7d0c620752e414f4661bfd1c526f2c0a",
-    "pre_projection_root_tree_sha": "10c0e12da9819ad6e1f5767bf5c6dcdfc12c13ea",
-    "pre_projection_canonical_tree_sha": "44333bce467108e6f4a8118425f7fce4aeaa8fcd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 308,
-    "total_post_baseline_commits": 308,
-    "delta_file_count": 1165,
-    "delta_added_files": 1160,
+    "pre_projection_head_sha": "2c2f806fab71b57ecd3cb211eef81535938a28b2",
+    "pre_projection_root_tree_sha": "9657ca25449c72ae2fe18479d0c59769877babb2",
+    "pre_projection_canonical_tree_sha": "b88acf0135a0346e40f41ca6df603338ce6f5d03",
+    "commits_ahead_of_v3_0_11_conformance_commit": 311,
+    "total_post_baseline_commits": 311,
+    "delta_file_count": 1166,
+    "delta_added_files": 1161,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 614,
     "evidence_files_in_post_baseline_delta": 115,
     "source_files_in_post_baseline_delta": 131,
-    "test_files_in_post_baseline_delta": 111,
+    "test_files_in_post_baseline_delta": 112,
     "workflow_files_in_post_baseline_delta": 45,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -713,7 +713,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1164,
+  "manifest_entry_count": 1165,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -852,7 +852,7 @@
     },
     {
       "path": ".github/workflows/fa3-model-manager-current-host.yml",
-      "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645",
+      "git_blob_sha": "6cec6b2974142ffcf24574cc89e7bf9dbf574dc3",
       "baseline_delta_status": "added"
     },
     {
@@ -1207,7 +1207,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "f13709f4e49ccb375dccbc556569b4300bb16d5c",
+      "git_blob_sha": "3f8c2267180307ed3ea338dedc23300039bb4807",
       "baseline_delta_status": "modified"
     },
     {
@@ -1762,7 +1762,7 @@
     },
     {
       "path": "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "ca932e0437d49c2c6b8f4b60b327db15b4606ecd",
+      "git_blob_sha": "bd031cd7f64f3bea4ff55d6e1ec4ada07135b00b",
       "baseline_delta_status": "added"
     },
     {
@@ -2587,7 +2587,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
-      "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea",
+      "git_blob_sha": "f83c3ba075aedf04166d3d36696d6561b4ca3541",
       "baseline_delta_status": "added"
     },
     {
@@ -3002,7 +3002,7 @@
     },
     {
       "path": "canonical/model-manager-current-host-enforcement.json",
-      "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf",
+      "git_blob_sha": "324fa59fc342139ad1517c3f519998f9737cf93d",
       "baseline_delta_status": "added"
     },
     {
@@ -4762,7 +4762,7 @@
     },
     {
       "path": "evidence/collect-model-manager-current-host.py",
-      "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012",
+      "git_blob_sha": "1f6ce56679b52f2530d83a976e287bfc97e28435",
       "baseline_delta_status": "added"
     },
     {
@@ -5697,7 +5697,7 @@
     },
     {
       "path": "src/fa3_model_manager_current_host_gate.py",
-      "git_blob_sha": "ad9429deaaccdea50d764998ff323605595d29b3",
+      "git_blob_sha": "3e5a04affad8a379482b55c9425e6c78b99bc552",
       "baseline_delta_status": "added"
     },
     {
@@ -6293,6 +6293,11 @@
     {
       "path": "tests/test_model_inventory_current_host_adapter.py",
       "git_blob_sha": "7fb31600d12a757f10d13d4296bf3ee0e24ac24e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_manager_current_host_gate.py",
+      "git_blob_sha": "68cf2dda4a0215fa0f0fc1d592c500bdbf73a636",
       "baseline_delta_status": "added"
     },
     {
