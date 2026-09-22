@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "a74ba9458fc16e8403283cac7d798c9b795cd783",
-    "pre_projection_root_tree_sha": "9d6840412b5b51b2b48f3be1bc94517f5e9b8a4e",
-    "pre_projection_canonical_tree_sha": "a32956c451b85967943f79496f8e23de51079595",
-    "commits_ahead_of_v3_0_11_conformance_commit": 306,
-    "total_post_baseline_commits": 306,
-    "delta_file_count": 1149,
-    "delta_added_files": 1144,
+    "pre_projection_head_sha": "47c7e1ce7d0c620752e414f4661bfd1c526f2c0a",
+    "pre_projection_root_tree_sha": "10c0e12da9819ad6e1f5767bf5c6dcdfc12c13ea",
+    "pre_projection_canonical_tree_sha": "44333bce467108e6f4a8118425f7fce4aeaa8fcd",
+    "commits_ahead_of_v3_0_11_conformance_commit": 308,
+    "total_post_baseline_commits": 308,
+    "delta_file_count": 1165,
+    "delta_added_files": 1160,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 612,
-    "evidence_files_in_post_baseline_delta": 114,
-    "source_files_in_post_baseline_delta": 128,
-    "test_files_in_post_baseline_delta": 109,
-    "workflow_files_in_post_baseline_delta": 43,
+    "canonical_files_in_post_baseline_delta": 614,
+    "evidence_files_in_post_baseline_delta": 115,
+    "source_files_in_post_baseline_delta": 131,
+    "test_files_in_post_baseline_delta": 111,
+    "workflow_files_in_post_baseline_delta": 45,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -713,7 +713,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1148,
+  "manifest_entry_count": 1164,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -822,7 +822,7 @@
     },
     {
       "path": ".github/workflows/fa3-language-gateway-current-host.yml",
-      "git_blob_sha": "6ee0d59f1d62c9d2faa2aa599367960e45d0f983",
+      "git_blob_sha": "c63fa9691222efbb366d2667d2bb64d4d56c8f57",
       "baseline_delta_status": "added"
     },
     {
@@ -853,6 +853,16 @@
     {
       "path": ".github/workflows/fa3-model-manager-current-host.yml",
       "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-router-current-host.yml",
+      "git_blob_sha": "3d288f217b2991a1c716b869317fdd4e65234151",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-router-gate.yml",
+      "git_blob_sha": "c4d098f8ea52502cc702cc65b780d4f8eedff574",
       "baseline_delta_status": "added"
     },
     {
@@ -1197,7 +1207,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "457f6c63451ae88fda650fe1a2a473790c92baaa",
+      "git_blob_sha": "f13709f4e49ccb375dccbc556569b4300bb16d5c",
       "baseline_delta_status": "modified"
     },
     {
@@ -1266,6 +1276,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-model-router-current-host.sh",
+      "git_blob_sha": "95e00bc32710b3faf538d1fd58db75da4c43ac12",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-install",
+      "git_blob_sha": "8970b6f6ee13fef33d9174f8de08b653b53d8450",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-serve",
+      "git_blob_sha": "0b7b9c6fee6905debbb1e55a73aeabf344a1e3d7",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-model-security-admit",
       "git_blob_sha": "39e539bad6765757143a7ea6e208d120b7aeb87e",
       "baseline_delta_status": "added"
@@ -1313,6 +1338,11 @@
     {
       "path": "bin/fa3-whisper-stt",
       "git_blob_sha": "8d48c1113ae8bd2b81909f410d95a312b95d1223",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-AUTH-MODEL-ROUTER-001.json",
+      "git_blob_sha": "7dfde3128168ef48d77a0efe022aab96a3bcf98c",
       "baseline_delta_status": "added"
     },
     {
@@ -2996,6 +3026,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/model-router-enforcement.json",
+      "git_blob_sha": "3d45c27795579e59051563b35a72d635d95a3ada",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/modular-enforcement.json",
       "git_blob_sha": "3e52e879ac92543141bcd7bd6c10a2f3dc7af7b0",
       "baseline_delta_status": "added"
@@ -3272,7 +3307,7 @@
     },
     {
       "path": "canonical/profiles/FA3-LLM-GATEWAY-001.json",
-      "git_blob_sha": "146005e5e6a8570c1a126157cd79db5d506c4777",
+      "git_blob_sha": "353cb86a3cd4b3c525f3df02da01ecc635400f7e",
       "baseline_delta_status": "added"
     },
     {
@@ -4392,7 +4427,7 @@
     },
     {
       "path": "deployment/litellm/config.yaml",
-      "git_blob_sha": "a768053bf6a6ac6d7b79ae531e4b1035ad979834",
+      "git_blob_sha": "1d0d92e91a42433d292bb30780f15555b86d85d5",
       "baseline_delta_status": "added"
     },
     {
@@ -4433,6 +4468,16 @@
     {
       "path": "deployment/lynxhub/systemd/user/lynxhub.service",
       "git_blob_sha": "e9eda7c8a641953e4b5addf8956d63a58dac0cfe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-router/fa3-model-router.service.in",
+      "git_blob_sha": "d1578967dc39e3e7b33d82b7a46a48a9fdf5173d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-router/routes.json",
+      "git_blob_sha": "19f132ef01f2905a24aec7a893174ede99b26c32",
       "baseline_delta_status": "added"
     },
     {
@@ -4566,6 +4611,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/model-router-runtime.md",
+      "git_blob_sha": "8dba584e08191944ee965b2404865282d4952072",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/modular-current-host.md",
       "git_blob_sha": "e0a6f5c1de84b0833de74274fc1747e0a17458ba",
       "baseline_delta_status": "added"
@@ -4677,7 +4727,7 @@
     },
     {
       "path": "evidence/collect-language-gateway-current-host.py",
-      "git_blob_sha": "fb3506ba5fec83d66d78508fd5918341779903a2",
+      "git_blob_sha": "3b11dbcf8e00e693b9a29af0216f6fd7c45fdffd",
       "baseline_delta_status": "added"
     },
     {
@@ -4713,6 +4763,11 @@
     {
       "path": "evidence/collect-model-manager-current-host.py",
       "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-model-router-current-host.py",
+      "git_blob_sha": "70be8d89d3c8fc4d33607209ff258105f617e5b5",
       "baseline_delta_status": "added"
     },
     {
@@ -5666,6 +5721,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_model_router_current_host_gate.py",
+      "git_blob_sha": "0d82276f789f06bcc7dd0b51f26df4cd61f404ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_gate.py",
+      "git_blob_sha": "433f5adb8f4196e9b3ae328133128d78f5a57f13",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_materialize.py",
+      "git_blob_sha": "0cdc0c1d65d7cbf69129b1108cdf5ab129d75e16",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_modular_current_host_gate.py",
       "git_blob_sha": "dd3f12ee9c2614e0cc7f5ce8a9512fa49d44b361",
       "baseline_delta_status": "added"
@@ -6238,6 +6308,16 @@
     {
       "path": "tests/test_model_manager_v2_gate.py",
       "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_gate.py",
+      "git_blob_sha": "0d3816ef4e0ce76aa06ed29e7543055bc365cf61",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_materialize.py",
+      "git_blob_sha": "6d4637e2ac4520a319366b897fab1e49392469e8",
       "baseline_delta_status": "added"
     },
     {
