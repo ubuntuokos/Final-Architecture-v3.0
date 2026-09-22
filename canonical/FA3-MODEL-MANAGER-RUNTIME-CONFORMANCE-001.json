@@ -1,5 +1,5 @@
 {
-  "schema": "fa3.model-manager-runtime-conformance.v1",
+  "schema": "fa3.model-manager-runtime-conformance.v2",
   "id": "FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001",
   "profile_id": "FA3-MODEL-MANAGER-001",
   "model_registry_id": "FA3-MODEL-REGISTRY-001",
@@ -8,7 +8,11 @@
     "FA3-PROVIDER-LM-STUDIO-MODEL-001",
     "FA3-PROVIDER-OLLAMA-MODEL-001"
   ],
-  "date": "2026-09-01",
+  "serving_provider_ids": [
+    "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+    "FA3-PROVIDER-OLLAMA-MODEL-001"
+  ],
+  "date": "2026-09-22",
   "status": "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",
   "canonical_root": false,
   "architectural_authority": false,
@@ -25,15 +29,24 @@
   "current_host_production_e2e": {
     "receipt": "evidence/receipts/model-manager-current-host.json",
     "required_level": "CURRENT_HOST_MODEL_PROVIDER_E2E_PASS",
+    "pass_semantics": "AT_LEAST_ONE_REAL_LOCAL_SERVING_RUNTIME_PASS",
+    "provider_evidence_is_independent": true,
+    "optional_provider_absence_blocks_other_provider_admission": false,
     "network_fetch_default": "FORBIDDEN_LOCAL_ARTIFACTS_ONLY",
-    "hf_requirement": "IMMUTABLE_LOCAL_HUB_SNAPSHOT_AND_CONTENT_SHA256",
-    "lm_studio_requirement": "LOCAL_MODEL_DISCOVERY_CPU_ONLY_LOAD_ONE_SHOT_INFERENCE_UNLOAD",
-    "ollama_requirement": "EPHEMERAL_LOOPBACK_CPU_ONLY_SERVER_LOCAL_MODEL_GENERATE_SIZE_VRAM_ZERO_UNLOAD",
+    "hf_requirement_when_present": "IMMUTABLE_LOCAL_HUB_SNAPSHOT_AND_CONTENT_SHA256",
+    "lm_studio_requirement_when_present": "LOCAL_MODEL_DISCOVERY_CPU_ONLY_LOAD_ONE_SHOT_INFERENCE_UNLOAD",
+    "ollama_requirement_when_present": "EPHEMERAL_LOOPBACK_CPU_ONLY_SERVER_LOCAL_MODEL_GENERATE_SIZE_VRAM_ZERO_UNLOAD",
     "downloads_or_pulls": "FORBIDDEN",
     "remote_models": "FORBIDDEN",
     "accelerator_smoke": "NOT_CLAIMED",
     "accelerator_promotion": "REQUIRES_SEPARATE_HRB_ADMISSION_OR_LEASE_AND_EVIDENCE",
     "global_promotion_dependency_when_provider_disabled": false
+  },
+  "model_router_relationship": {
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "model_manager_is_router": false,
+    "router_may_consume_only_individually_admitted_provider_entries": true,
+    "router_must_not_treat_combined_pass_as_all_provider_pass": true
   },
   "current_host_status": "PENDING_REAL_HOST_EXECUTION"
 }
