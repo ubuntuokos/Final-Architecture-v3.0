@@ -7,12 +7,12 @@ from pathlib import Path
 from typing import Any
 
 from fa3_uaf import ActionRegistry, UafError
+from fa3_release_baseline import load_active_release_baseline
 
 GATE_ID = "FA3-UNIFIED-ACTION-FABRIC-GATESET-001"
 PROFILE_ID = "FA3-UNIFIED-ACTION-FABRIC-001"
 CONTRACT_ID = "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-UNIFIED-ACTION-FABRIC-2026-09-21"
-CAPABILITY_COUNT = 143
 FORBIDDEN_GLOBAL_HARDWARE_TOKENS = (
     "nvidia", "cuda", "rocm", "level zero", "oneapi",
     "zluda", "pci_bdf", "gpu sku",
@@ -33,6 +33,7 @@ def _finding(code: str, message: str, **details: Any) -> dict[str, Any]:
 def validate(root: Path) -> list[dict[str, Any]]:
     root = root.resolve()
     findings: list[dict[str, Any]] = []
+    capability_count = load_active_release_baseline(root).capability_count
     required = {
         "profile": root / "canonical/profiles/FA3-UNIFIED-ACTION-FABRIC-001.json",
         "contract": root / "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
@@ -69,7 +70,7 @@ def validate(root: Path) -> list[dict[str, Any]]:
         (profile.get("id") == PROFILE_ID, "UAF-GATE-002", "profile id mismatch"),
         (profile.get("priority") == "P0" and profile.get("requirement") == "MUST", "UAF-GATE-003", "profile is not P0/MUST"),
         (profile.get("new_capability") is False and profile.get("new_architectural_authority") is False, "UAF-GATE-004", "profile changes capability or authority baseline"),
-        (profile.get("capability_count") == CAPABILITY_COUNT, "UAF-GATE-005", "capability count drift"),
+        (profile.get("capability_count") == capability_count, "UAF-GATE-005", "capability count drift"),
         (profile.get("provider_neutral") is True and profile.get("fail_closed") is True, "UAF-GATE-006", "provider-neutral/fail-closed invariant disabled"),
         (profile.get("hrb_authority") == "FA3-AUTH-HOST-RESOURCE-BROKER-001", "UAF-GATE-007", "HRB authority not preserved"),
         (profile.get("mcp_boundary") == "FA3-MCP-GATEWAY-001", "UAF-GATE-008", "Central MCP Gateway boundary not preserved"),
