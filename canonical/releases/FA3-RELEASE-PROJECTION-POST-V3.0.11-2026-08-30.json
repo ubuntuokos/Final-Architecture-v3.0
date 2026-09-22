@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "fdaf246bf12bf76b49dca1387d83bcc7218644a6",
-    "pre_projection_root_tree_sha": "d2c1797c596497bc6590bfa763d62bc7fb56696a",
-    "pre_projection_canonical_tree_sha": "52590504bbc991d747e89bf537f82eb85976c2a2",
-    "commits_ahead_of_v3_0_11_conformance_commit": 608,
-    "total_post_baseline_commits": 608,
-    "delta_file_count": 1657,
-    "delta_added_files": 1652,
+    "pre_projection_head_sha": "a1684ebd5b03396aae793e45fc1f6151fc94bf7b",
+    "pre_projection_root_tree_sha": "8f2576410580557d5334aacf276a473d589d9dd8",
+    "pre_projection_canonical_tree_sha": "29fe4bfaf1fc72b64c594ff4ef6bbaf6cdc3ad2d",
+    "commits_ahead_of_v3_0_11_conformance_commit": 610,
+    "total_post_baseline_commits": 610,
+    "delta_file_count": 1658,
+    "delta_added_files": 1653,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -48,7 +48,7 @@
     "canonical_files_in_post_baseline_delta": 780,
     "evidence_files_in_post_baseline_delta": 138,
     "source_files_in_post_baseline_delta": 214,
-    "test_files_in_post_baseline_delta": 191,
+    "test_files_in_post_baseline_delta": 192,
     "workflow_files_in_post_baseline_delta": 75,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -811,7 +811,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1650,
+  "manifest_entry_count": 1651,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -1015,12 +1015,12 @@
     },
     {
       "path": ".github/workflows/fa3-model-router-current-host.yml",
-      "git_blob_sha": "78cfeecac32c2efab07bfab4c5fc12b9ed7ee72b",
+      "git_blob_sha": "40e2070fdf2180c4ebf054bedb91e7d2d7064874",
       "baseline_delta_status": "added"
     },
     {
       "path": ".github/workflows/fa3-model-router-gate.yml",
-      "git_blob_sha": "082dd7769bce8971b2039b5fcbbd306e5e10dbcc",
+      "git_blob_sha": "4483010e28b723c00cba98ab806a7bd690da4286",
       "baseline_delta_status": "added"
     },
     {
@@ -6305,7 +6305,7 @@
     },
     {
       "path": "evidence/collect-model-router-current-host.py",
-      "git_blob_sha": "70be8d89d3c8fc4d33607209ff258105f617e5b5",
+      "git_blob_sha": "7058cb5ac7b6f5b353ec4e4cef83dec46b72c440",
       "baseline_delta_status": "added"
     },
     {
@@ -7640,7 +7640,7 @@
     },
     {
       "path": "src/fa3_model_router_current_host_gate.py",
-      "git_blob_sha": "0d82276f789f06bcc7dd0b51f26df4cd61f404ce",
+      "git_blob_sha": "37b741cff41220b03fd27ec17423e640649800b4",
       "baseline_delta_status": "added"
     },
     {
@@ -8666,6 +8666,11 @@
     {
       "path": "tests/test_model_manager_v2_gate.py",
       "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_current_host_gate.py",
+      "git_blob_sha": "e37873a4c9a6a50b4b70ff789480ef58d3cb47d2",
       "baseline_delta_status": "added"
     },
     {
