@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "d86526fec4559f4d4348142de2f15e08bc678bd2",
-    "pre_projection_root_tree_sha": "60a71396630fc17e695555bfe6fb34b1556979dd",
-    "pre_projection_canonical_tree_sha": "fa235f6f25549f62ccef4c598c2bbf2d0aa6b15f",
-    "commits_ahead_of_v3_0_11_conformance_commit": 315,
-    "total_post_baseline_commits": 315,
-    "delta_file_count": 1166,
-    "delta_added_files": 1161,
+    "pre_projection_head_sha": "d75e497627e932e1a2474228458997e9b466c0cb",
+    "pre_projection_root_tree_sha": "49b5ea6420505ab43c979351c0d93b6569358a89",
+    "pre_projection_canonical_tree_sha": "05312671d722663e9c66611b0fdd2b6c2d91b1c7",
+    "commits_ahead_of_v3_0_11_conformance_commit": 317,
+    "total_post_baseline_commits": 317,
+    "delta_file_count": 1167,
+    "delta_added_files": 1162,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -49,7 +49,7 @@
     "evidence_files_in_post_baseline_delta": 115,
     "source_files_in_post_baseline_delta": 131,
     "test_files_in_post_baseline_delta": 112,
-    "workflow_files_in_post_baseline_delta": 45,
+    "workflow_files_in_post_baseline_delta": 46,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -713,7 +713,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1165,
+  "manifest_entry_count": 1166,
   "manifest": [
     {
       "path": ".github/workflows/fa3-ai-infra-guard-current-host.yml",
@@ -828,6 +828,11 @@
     {
       "path": ".github/workflows/fa3-language-gateway-gate.yml",
       "git_blob_sha": "89632c12cce650ba96b098ca6acb69ca17efc24e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-litellm-lock-probe.yml",
+      "git_blob_sha": "eb9964d7aab76dcd63e1f4e9593fc44514b55600",
       "baseline_delta_status": "added"
     },
     {
