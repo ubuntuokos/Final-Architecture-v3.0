@@ -43,6 +43,8 @@ P0_RULES = [
     "DAC_EPHEMERAL_WORKER_CLEANUP_REQUIRED",
     "DAC_REFERENCE_E2E_POSITIVE_AND_NEGATIVE_PASS",
     "DAC_REFERENCE_E2E_NOT_CURRENT_HOST_PROVIDER_PROMOTION",
+    "DAC_HUMAN_AUDITABLE_MODEL_COMMUNICATION",
+    "DAC_PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
 ]
 
 
@@ -104,6 +106,10 @@ def reference_check(root: Path) -> dict[str, Any]:
         and contracts.get("provider_neutral") is True
         and required_contracts.issubset(set(contracts.get("contracts", [])))
         and contracts.get("capability_count") == CAPABILITY_COUNT
+        and contracts.get("communication_policy") == "FA3-AI-COMMS-001"
+        and {"PRIVATE_MODEL_LANGUAGE", "EMERGENT_AGENT_CODEBOOK", "MODEL_ONLY_SLANG"}.issubset(
+            set(contracts.get("forbidden_semantics", []))
+        )
     ):
         findings.append(_finding("DAC-REF-003", "Coordination contract family drift"))
 
@@ -173,6 +179,9 @@ def run_regressions() -> dict[str, Any]:
         "provider_cannot_own_authority": not provider_authority_assignment_allowed(
             provider_id="provider-x", authority_owner="provider-x"
         ),
+        "private_model_language_denied": run_reference_e2e()["negative_cases"].get("private_model_language_denied") is True,
+        "missing_human_readable_semantics_denied": run_reference_e2e()["negative_cases"].get("missing_human_readable_semantics_denied") is True,
+        "unversioned_structured_protocol_denied": run_reference_e2e()["negative_cases"].get("unversioned_structured_protocol_denied") is True,
     }
     passed = sum(cases.values())
     return {
