@@ -157,6 +157,7 @@ def reference_check(root: Path) -> dict[str, Any]:
 
 
 def run_regressions() -> dict[str, Any]:
+    e2e = run_reference_e2e()
     cases = {
         "duplicate_mutating_workspace_denied": not workspace_plan_valid(
             {"a": "same", "b": "same"}, ["a", "b"]
@@ -179,9 +180,9 @@ def run_regressions() -> dict[str, Any]:
         "provider_cannot_own_authority": not provider_authority_assignment_allowed(
             provider_id="provider-x", authority_owner="provider-x"
         ),
-        "private_model_language_denied": run_reference_e2e()["negative_cases"].get("private_model_language_denied") is True,
-        "missing_human_readable_semantics_denied": run_reference_e2e()["negative_cases"].get("missing_human_readable_semantics_denied") is True,
-        "unversioned_structured_protocol_denied": run_reference_e2e()["negative_cases"].get("unversioned_structured_protocol_denied") is True,
+        "private_model_language_denied": e2e["negative_cases"].get("private_model_language_denied") is True,
+        "missing_human_readable_semantics_denied": e2e["negative_cases"].get("missing_human_readable_semantics_denied") is True,
+        "unversioned_structured_protocol_denied": e2e["negative_cases"].get("unversioned_structured_protocol_denied") is True,
     }
     passed = sum(cases.values())
     return {
