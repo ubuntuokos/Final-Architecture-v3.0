@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/hu-aqc-scorer-receipt.v1.json",
+  "title": "FA3 HU-AQC Current-Host Scorer Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "scorer", "measurement_id", "repository_head", "captured_at",
+    "current_host_measured", "synthetic", "host_attestation_ref", "subject", "model", "measurements"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.hu-aqc-scorer-receipt.v1"},
+    "scorer": {"enum": ["asr", "language", "grammar", "toxicity", "perceptual", "speaker"]},
+    "measurement_id": {"type": "string", "minLength": 1},
+    "repository_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "current_host_measured": {"const": true},
+    "synthetic": {"const": false},
+    "host_attestation_ref": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audio_sha256", "reference_text_sha256"],
+      "properties": {
+        "audio_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "reference_text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "sha256", "license_status", "license_evidence_ref"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^(sha256:)?[0-9a-f]{64}$"},
+        "license_status": {"const": "ADMITTED"},
+        "license_evidence_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "measurements": {"type": "object", "minProperties": 1}
+  }
+}

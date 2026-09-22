@@ -11,6 +11,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from fa3_host_attestation import canonical_sha256, load_artifact
+from fa3_hu_aqc_input import validate_bundle
 from fa3_resource_evidence_normalization_gate import validate_evidence_envelope
 from fa3_runtime_hardening_current_host import repo_head, sha256_file, utcnow, write_json
 
@@ -73,9 +75,17 @@ def validate_resource_admission(path: Path) -> tuple[list[str], dict[str, Any]]:
     if "CURRENT_HOST_RESOURCE_ADMISSION_PASS" not in result.get("claims", []):
         findings.append("resource-admission PASS claim missing")
     execution = env.get("execution_context", {})
-    if not execution.get("host_attestation_ref"):
+    host_ref = str(execution.get("host_attestation_ref") or "")
+    if not host_ref:
         findings.append("resource-admission host_attestation_ref missing")
     payload = env.get("payload", {})
+    attestation = payload.get("host_attestation")
+    if isinstance(attestation, dict):
+        expected_ref = "sha256:" + canonical_sha256(attestation)
+        if host_ref != expected_ref:
+            findings.append("resource-admission host_attestation_ref is not bound to the inline attestation digest")
+    else:
+        findings.append("resource-admission inline host attestation missing")
     lease = payload.get("hrb_lease_identity", {})
     if not lease.get("accelerator_uuid") or not lease.get("pci_bus_id"):
         findings.append("resource-admission HRB accelerator UUID/BDF binding missing")
@@ -223,9 +233,9 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
     container_findings, container_inspect = inspect_running_container(args.agent_container)
     findings.extend(container_findings)
 
-    host_attestation_ref = str(args.host_attestation_ref or "").strip()
-    if not host_attestation_ref:
-        findings.append("host_attestation_ref missing")
+    host_attestation_path = Path(args.host_attestation).expanduser().resolve()
+    host_findings, host_attestation_ref, _, host_artifact = load_artifact(host_attestation_path)
+    findings.extend(host_findings)
 
     resource_path = Path(args.resource_admission_receipt).expanduser().resolve() if args.resource_admission_receipt else None
     frame_trace_path = Path(args.frame_trace).expanduser().resolve() if args.frame_trace else None
@@ -247,7 +257,14 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
     hu_audio = Path(args.hu_aqc_audio).expanduser().resolve()
     hu_metrics = Path(args.hu_aqc_metrics).expanduser().resolve()
     findings.extend(validate_file(hu_audio, "Hungarian AQC PCM16 WAV"))
-    findings.extend(validate_json_file(hu_metrics, "Hungarian AQC scorer bundle"))
+    hu_json_findings = validate_json_file(hu_metrics, "Hungarian AQC scorer bundle")
+    findings.extend(hu_json_findings)
+    hu_bundle: dict[str, Any] = {}
+    if not hu_json_findings:
+        hu_bundle = _load_json(hu_metrics)
+        findings.extend(validate_bundle(root, audio=hu_audio, bundle=hu_bundle))
+        if host_attestation_ref and hu_bundle.get("host_attestation_ref") != host_attestation_ref:
+            findings.append("HU-AQC bundle host_attestation_ref does not match preflight attestation")
 
     driver = host_driver_version() if args.sandbox_gpu else ""
     if args.sandbox_gpu and not driver:
@@ -304,6 +321,9 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
         },
         "evidence_inputs": {
             "host_attestation_ref": host_attestation_ref,
+            "host_attestation": str(host_attestation_path),
+            "host_attestation_artifact_sha256": sha256_file(host_attestation_path) if host_attestation_path.is_file() else None,
+            "host_attestation_validated": not host_findings and bool(host_artifact),
             "media_claim_required": bool(args.require_media_claim),
             "resource_admission_receipt": str(resource_path) if resource_path else None,
             "resource_admission_sha256": sha256_file(resource_path) if resource_path and resource_path.is_file() else None,
@@ -340,7 +360,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--oci-image", required=True)
     p.add_argument("--quadlet", required=True)
     p.add_argument("--agent-container", required=True)
-    p.add_argument("--host-attestation-ref", required=True)
+    p.add_argument("--host-attestation", required=True)
     p.add_argument("--sandbox-gpu", action="store_true")
     p.add_argument("--require-media-claim", action="store_true")
     p.add_argument("--resource-admission-receipt", default="")

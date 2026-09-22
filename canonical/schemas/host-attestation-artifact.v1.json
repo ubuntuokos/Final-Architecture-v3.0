@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/host-attestation-artifact.v1.json",
+  "title": "FA3 Digest-Bound Current-Host Attestation Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "host_attestation_ref", "host_attestation_sha256", "attestation"],
+  "properties": {
+    "schema": {"const": "fa3.host-attestation-artifact.v1"},
+    "host_attestation_ref": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "host_attestation_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "attestation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schema", "host_attestation_id", "captured_at", "host", "kernel", "os_release",
+        "cpu_model", "cpu_microcode", "cpu_topology", "numa_topology", "memory_total_bytes",
+        "accelerators", "driver_versions", "runtime_versions", "pcie_topology", "storage_identity",
+        "thermal_power_state", "collector_version", "secret_collection"
+      ],
+      "properties": {
+        "schema": {"const": "fa3.host-attestation.v1"},
+        "host_attestation_id": {"type": "string", "minLength": 1},
+        "captured_at": {"type": "string", "format": "date-time"},
+        "host": {"type": "string", "minLength": 1},
+        "kernel": {"type": "string", "minLength": 1},
+        "memory_total_bytes": {"type": "integer", "minimum": 1},
+        "accelerators": {"type": "array"},
+        "collector_version": {"type": "string", "minLength": 1},
+        "secret_collection": {"const": "PROHIBITED"}
+      }
+    }
+  }
+}

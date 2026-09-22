@@ -6,14 +6,30 @@ on:
     paths:
       - 'canonical/FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001.json'
       - 'canonical/FA3-GATE-RUNTIME-HARDENING-CURRENT-HOST-001.json'
+      - 'canonical/FA3-EVIDENCE-ENVELOPE-001.json'
+      - 'canonical/FA3-HOST-ATTESTATION-001.json'
+      - 'canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-HU-AQC-001.json'
       - 'canonical/runtime-hardening-current-host-enforcement.json'
+      - 'canonical/schemas/host-attestation-artifact.v1.json'
+      - 'canonical/schemas/hu-aqc-current-host-input.v2.json'
+      - 'canonical/schemas/hu-aqc-scorer-receipt.v1.json'
       - 'canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json'
       - 'canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json'
       - 'src/fa3_runtime_hardening_current_host.py'
       - 'src/fa3_runtime_hardening_current_host_gate.py'
       - 'src/fa3_runtime_hardening_current_host_preflight.py'
+      - 'src/fa3_host_attestation.py'
+      - 'src/fa3_hu_aqc_input.py'
       - 'tests/test_runtime_hardening_current_host_preflight.py'
+      - 'tests/test_host_attestation.py'
+      - 'tests/test_hu_aqc_input_producer.py'
+      - 'tests/test_resource_admission_current_host_gate.py'
+      - 'tests/test_resource_admission_evidence_acceptance.py'
+      - 'tests/test_resource_evidence_normalization.py'
       - 'evidence/collect-runtime-isolation-sandbox-current-host.py'
+      - 'evidence/collect-host-attestation-current-host.py'
+      - 'evidence/produce-hu-aqc-current-host-input.py'
       - 'evidence/collect-media-gpu-zerocopy-current-host.py'
       - 'evidence/collect-hu-aqc-current-host.py'
       - 'evidence/collect-promotion-shadow-current-host.py'
@@ -43,10 +59,10 @@ on:
         required: false
         default: 'fa3-agent-sandbox'
         type: string
-      host_attestation_ref:
-        description: 'Exact current-host attestation reference bound into the evidence envelope'
+      host_attestation:
+        description: 'Fresh digest-bound current-host attestation artifact shared by all scorer receipts'
         required: false
-        default: ''
+        default: '.fa3-current-host/input/host-attestation.json'
         type: string
       sandbox_gpu:
         description: 'Require nvproxy driver ABI validation for GPU projection into the gVisor sandbox'
@@ -77,6 +93,46 @@ on:
         description: 'Approved local PCM16 WAV for Hungarian AQC'
         required: false
         default: '.fa3-current-host/input/hu-aqc.wav'
+        type: string
+      hu_aqc_reference_text:
+        description: 'UTF-8 reference text consumed by every HU-AQC scorer receipt'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-reference.txt'
+        type: string
+      hu_aqc_asr_receipt:
+        description: 'Real current-host ASR scorer receipt'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-asr.json'
+        type: string
+      hu_aqc_language_receipt:
+        description: 'Real current-host Hungarian language scorer receipt'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-language.json'
+        type: string
+      hu_aqc_grammar_receipt:
+        description: 'Real current-host Hungarian grammar/register scorer receipt'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-grammar.json'
+        type: string
+      hu_aqc_toxicity_receipt:
+        description: 'Real current-host toxicity scorer receipt'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-toxicity.json'
+        type: string
+      hu_aqc_perceptual_receipt:
+        description: 'Real current-host provider-neutral perceptual scorer receipt'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-perceptual.json'
+        type: string
+      hu_aqc_cloning:
+        description: 'Require speaker-identity measurement for a cloning run'
+        required: false
+        default: false
+        type: boolean
+      hu_aqc_speaker_receipt:
+        description: 'Real current-host speaker-similarity scorer receipt when cloning'
+        required: false
+        default: '.fa3-current-host/input/hu-aqc-speaker.json'
         type: string
       hu_aqc_metrics:
         description: 'Current-host HU-AQC scorer bundle with model/license provenance'
@@ -109,9 +165,13 @@ jobs:
       - name: Syntax check
         run: |
           python -m py_compile \
+            src/fa3_host_attestation.py \
+            src/fa3_hu_aqc_input.py \
             src/fa3_runtime_hardening_current_host.py \
             src/fa3_runtime_hardening_current_host_gate.py \
             src/fa3_runtime_hardening_current_host_preflight.py \
+            evidence/collect-host-attestation-current-host.py \
+            evidence/produce-hu-aqc-current-host-input.py \
             evidence/collect-runtime-isolation-sandbox-current-host.py \
             evidence/collect-media-gpu-zerocopy-current-host.py \
             evidence/collect-hu-aqc-current-host.py \
@@ -121,7 +181,9 @@ jobs:
         run: |
           PYTHONPATH=src python -m unittest \
             tests.test_runtime_hardening_current_host_gate \
-            tests.test_runtime_hardening_current_host_preflight -v
+            tests.test_runtime_hardening_current_host_preflight \
+            tests.test_host_attestation \
+            tests.test_hu_aqc_input_producer -v
       - name: Parent runtime-hardening canonical gate
         run: ./bin/fa3-enforce runtime-hardening
       - name: Hosted CI may validate materialization but must remain PENDING
@@ -172,6 +234,26 @@ jobs:
           test "$(id -u)" -ne 0
           chmod +x bin/fa3-current-host-runner-doctor bin/fa3-enforce
           ./bin/fa3-current-host-runner-doctor
+      - name: Produce HU-AQC input from real scorer receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --root .
+            --audio "${{ inputs.hu_aqc_audio }}"
+            --reference-text-file "${{ inputs.hu_aqc_reference_text }}"
+            --host-attestation "${{ inputs.host_attestation }}"
+            --asr-receipt "${{ inputs.hu_aqc_asr_receipt }}"
+            --language-receipt "${{ inputs.hu_aqc_language_receipt }}"
+            --grammar-receipt "${{ inputs.hu_aqc_grammar_receipt }}"
+            --toxicity-receipt "${{ inputs.hu_aqc_toxicity_receipt }}"
+            --perceptual-receipt "${{ inputs.hu_aqc_perceptual_receipt }}"
+            --output "${{ inputs.hu_aqc_metrics }}"
+          )
+          if [[ "${{ inputs.hu_aqc_cloning }}" == "true" ]]; then
+            args+=(--cloning --speaker-receipt "${{ inputs.hu_aqc_speaker_receipt }}")
+          fi
+          PYTHONPATH=src python3 evidence/produce-hu-aqc-current-host-input.py "${args[@]}"
       - name: Fail-fast runtime-hardening preflight
         shell: bash
         run: |
@@ -181,7 +263,7 @@ jobs:
             --oci-image "${{ inputs.oci_image }}"
             --quadlet "${{ inputs.quadlet }}"
             --agent-container "${{ inputs.agent_container }}"
-            --host-attestation-ref "${{ inputs.host_attestation_ref }}"
+            --host-attestation "${{ inputs.host_attestation }}"
             --hu-aqc-audio "${{ inputs.hu_aqc_audio }}"
             --hu-aqc-metrics "${{ inputs.hu_aqc_metrics }}"
           )
@@ -205,7 +287,7 @@ jobs:
             --oci-image "${{ inputs.oci_image }}"
             --quadlet "${{ inputs.quadlet }}"
             --agent-container "${{ inputs.agent_container }}"
-            --host-attestation-ref "${{ inputs.host_attestation_ref }}"
+            --host-attestation "${{ inputs.host_attestation }}"
           )
           if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
           set +e

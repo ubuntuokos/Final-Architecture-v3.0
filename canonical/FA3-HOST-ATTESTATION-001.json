@@ -33,7 +33,11 @@
   },
   "digest": {
     "canonical_serialization_required": true,
-    "sha256_required": true
+    "sha256_required": true,
+    "artifact_schema": "fa3.host-attestation-artifact.v1",
+    "reference_format": "sha256:<64_lowercase_hex>",
+    "reference_must_equal_canonical_attestation_digest": true,
+    "identifier_only_reference_forbidden": true
   },
   "invariants": [
     "CURRENT_HOST_EVIDENCE_MUST_BIND_EXACT_ATTESTATION_DIGEST",

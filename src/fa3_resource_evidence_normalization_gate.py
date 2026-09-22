@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -65,6 +66,8 @@ def validate_evidence_envelope(envelope: dict[str, Any]) -> list[str]:
         execution = envelope.get("execution_context")
         if not isinstance(execution, dict) or not execution.get("host_attestation_ref"):
             errors.append("current_host_requires_host_attestation_ref")
+        elif not re.fullmatch(r"sha256:[0-9a-f]{64}", str(execution.get("host_attestation_ref"))):
+            errors.append("current_host_requires_digest_bound_host_attestation_ref")
 
     canonical = envelope.get("canonical_context", {})
     for key in ("architecture_release", "release_baseline_id", "release_manifest_digest"):
@@ -224,7 +227,7 @@ def _reference_envelope(*, current_host: bool = False, tampered: bool = False) -
     }
     if current_host:
         envelope["execution_context"] = {
-            "host_attestation_ref": "FA3-HOST-ATTESTATION-REF-001",
+            "host_attestation_ref": "sha256:" + "a" * 64,
             "compute_profile_ref": "FA3-COMPUTE-PROFILE-REF-001",
             "workload_resource_envelope_ref": "FA3-WORKLOAD-RESOURCE-ENVELOPE-REF-001",
             "hrb_lease_ref": "FA3-HRB-LEASE-REF-001",

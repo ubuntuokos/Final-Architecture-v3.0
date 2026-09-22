@@ -27,6 +27,8 @@ def refresh_payload_hash(receipt: dict) -> None:
 
 
 def base_envelope(payload: dict) -> dict:
+    attestation = payload.get("host_attestation")
+    host_ref = "sha256:" + canonical_sha256(attestation) if isinstance(attestation, dict) else "sha256:" + "0" * 64
     return {
         "schema_id": "FA3-EVIDENCE-ENVELOPE-001",
         "schema_version": "1.0.0",
@@ -43,7 +45,7 @@ def base_envelope(payload: dict) -> dict:
             "release_manifest_digest": "sha256:test",
         },
         "execution_context": {
-            "host_attestation_ref": "FA3-HOST-TEST",
+            "host_attestation_ref": host_ref,
             "compute_profile_ref": "INLINE_SHA256:test",
             "workload_resource_envelope_ref": "fixture",
             "hrb_lease_ref": "fixture",
@@ -210,6 +212,11 @@ class ResourceAdmissionCurrentHostTests(unittest.TestCase):
         refresh_payload_hash(receipt)
         self.assertTrue(any(item["code"] == "RA-HOST-025" for item in validate_receipt(receipt)))
 
+    def test_attestation_identifier_cannot_replace_digest_binding(self) -> None:
+        receipt = cpu_fixture()
+        receipt["execution_context"]["host_attestation_ref"] = "FA3-HOST-CPU"
+        self.assertTrue(any(item["code"] in {"RA-HOST-001", "RA-HOST-027"} for item in validate_receipt(receipt)))
+
     def test_cpu_only_workload_rejects_accelerator_lease_leakage(self) -> None:
         receipt = cpu_fixture()
         receipt["payload"]["hrb_lease_identity"] = {"schema": "unexpected"}
@@ -255,6 +262,7 @@ class ResourceAdmissionCurrentHostTests(unittest.TestCase):
         attestation_sha = canonical_sha256(attestation)
         receipt["payload"]["host_attestation_sha256"] = attestation_sha
         receipt["payload"]["compute_profile"]["host_attestation_sha256"] = attestation_sha
+        receipt["execution_context"]["host_attestation_ref"] = "sha256:" + attestation_sha
         refresh_payload_hash(receipt)
         self.assertEqual(validate_receipt(receipt), [])
 

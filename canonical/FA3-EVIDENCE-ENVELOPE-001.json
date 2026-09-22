@@ -49,6 +49,8 @@
   "current_host_requirements": {
     "execution_context_required": true,
     "host_attestation_ref_required": true,
+    "host_attestation_ref_format": "sha256:<64_lowercase_hex>",
+    "identifier_only_host_attestation_ref_forbidden": true,
     "resource_refs_required_when_accelerator_claimed": true
   },
   "integrity": {

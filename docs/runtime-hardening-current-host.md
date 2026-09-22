@@ -27,9 +27,12 @@ PyNvVideoCodec remains an optional NVIDIA adapter for this proof. It is not a gl
 
 ### 3. Hungarian AQC
 
+- `evidence/produce-hu-aqc-current-host-input.py` assembles the input bundle; it never invents or defaults a score.
+- ASR, language, grammar/register, toxicity and perceptual quality must arrive as separate fresh `fa3.hu-aqc-scorer-receipt.v1` current-host receipts. Speaker similarity is additionally required for cloning.
+- Every scorer receipt must bind the same audio digest, reference-text digest, repository HEAD and digest-bound host attestation.
 - PCM16 WAV signal integrity is recomputed locally.
 - CER/WER is recomputed locally from reference text and ASR back-transcription.
-- Language, grammar/register, toxicity, perceptual quality and optional speaker-identity scorers must carry model digests, versions, admitted licenses and current-host provenance.
+- Every scorer must carry a model digest, version, admitted-license evidence and current-host provenance. Source receipt digests are revalidated by the collector.
 - All required dimensions must pass independently.
 
 ### 4. Shadow execution
@@ -54,11 +57,12 @@ The preflight requires:
 - an installed digest-pinned agent Quadlet with `Network=none`, read-only root, no-new-privileges, drop-all capabilities, `Pull=never` and `runsc`;
 - a running agent container whose actual Podman inspection resolves to `runsc`;
 - an immutable, already preloaded OCI image. Network pulling remains forbidden;
-- an exact host-attestation reference;
+- a fresh `fa3.host-attestation-artifact.v1` produced locally by `evidence/collect-host-attestation-current-host.py`;
+- an exact `sha256:<64 lowercase hex>` host-attestation reference recomputed from canonical JSON bytes; a host identifier alone is rejected;
 - a valid PASS `CURRENT_HOST_ADMISSION` Evidence Envelope with provider-compatible HRB accelerator binding only when the media claim is requested;
 - when an explicit zero-host-round-trip claim is requested, a PASS `fa3.accelerator-copy-trace.v1` produced by the selected provider trace adapter, with zero frame H2D/D2H transfers and zero host frame round-trips;
 - the approved local media input only when the media claim is requested;
-- the Hungarian PCM16 AQC audio and JSON scorer bundle;
+- the Hungarian PCM16 AQC audio, reference text, independent real scorer receipts and the producer-generated `fa3.hu-aqc-current-host-input.v2` bundle;
 - nvproxy driver compatibility when GPU projection into the gVisor sandbox is explicitly requested.
 
 The result is written to `.fa3-current-host/runtime-hardening/preflight.json`.
@@ -69,7 +73,7 @@ A preflight PASS means only `READY_FOR_REAL_EXECUTION`. It is not a runtime-hard
 
 Use the FA3 Runtime Hardening Current-Host Closure workflow with execute_current_host=true on the runner carrying all labels: self-hosted, linux, x64, fa3-current-host.
 
-The workflow does not install packages, pull container images, download models, or create credentials. All prerequisites and test artifacts must already be locally admitted.
+Before dispatch, the operator runs `evidence/collect-host-attestation-current-host.py`, then executes every scorer against that exact digest-bound artifact. The workflow assembles the HU-AQC input bundle from those already admitted local scorer receipts and revalidates every binding. It does not install packages, pull container images, download models, create credentials or manufacture scorer values. Audio, reference text, host attestation, scorer model artifacts and scorer receipts must already be locally admitted.
 
 The expected status before the real run is EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING.
 

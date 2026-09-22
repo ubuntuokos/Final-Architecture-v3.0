@@ -171,9 +171,13 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
 
     attestation_sha = payload.get("host_attestation_sha256")
     recomputed_attestation_sha = canonical_sha256(attestation) if isinstance(attestation, dict) else None
+    expected_attestation_ref = "sha256:" + recomputed_attestation_sha if recomputed_attestation_sha else None
+    observed_attestation_ref = receipt.get("execution_context", {}).get("host_attestation_ref")
     profile = payload.get("compute_profile", {})
     if not attestation_sha or attestation_sha != recomputed_attestation_sha or profile.get("host_attestation_sha256") != attestation_sha:
         findings.append(finding("RA-HOST-008", "Compute Profile is not cryptographically bound to the inline Host Attestation"))
+    if not expected_attestation_ref or observed_attestation_ref != expected_attestation_ref:
+        findings.append(finding("RA-HOST-027", "Evidence Envelope host-attestation reference is not bound to the canonical inline attestation digest"))
 
     workload = payload.get("workload_resource_envelope")
     workload_id = workload.get("workload_id") if isinstance(workload, dict) else None

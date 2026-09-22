@@ -69,6 +69,14 @@ class ResourceEvidenceNormalizationTests(unittest.TestCase):
         del envelope["execution_context"]["host_attestation_ref"]
         self.assertIn("current_host_requires_host_attestation_ref", validate_evidence_envelope(envelope))
 
+    def test_current_host_rejects_non_digest_attestation_reference(self) -> None:
+        envelope = _reference_envelope(current_host=True)
+        envelope["execution_context"]["host_attestation_ref"] = "FA3-HOST-IDENTIFIER-ONLY"
+        self.assertIn(
+            "current_host_requires_digest_bound_host_attestation_ref",
+            validate_evidence_envelope(envelope),
+        )
+
     def test_exit_code_contract_is_stable(self) -> None:
         self.assertEqual(normalized_result(gate_id="x", mode="x", result="PASS", reason_code="x")["decision"]["exit_code"], 0)
         self.assertEqual(normalized_result(gate_id="x", mode="x", result="PENDING", reason_code="x")["decision"]["exit_code"], 2)

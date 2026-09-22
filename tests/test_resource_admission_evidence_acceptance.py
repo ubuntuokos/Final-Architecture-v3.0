@@ -56,7 +56,7 @@ def valid_receipt(expires_epoch=2000):
             "release_baseline_id": "fixture",
             "release_manifest_digest": "sha256:fixture",
         },
-        "execution_context": {"host_attestation_ref": "fixture"},
+        "execution_context": {"host_attestation_ref": "sha256:" + "a" * 64},
         "provenance": {
             "collector_id": "fixture",
             "collector_revision": "1",
