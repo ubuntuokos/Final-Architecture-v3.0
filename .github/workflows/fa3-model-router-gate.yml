@@ -48,6 +48,7 @@ jobs:
           set -euo pipefail
           python3 -m py_compile \
             src/fa3_model_router_materialize.py \
+            src/fa3_model_router_provider_discovery.py \
             src/fa3_model_router_gate.py \
             src/fa3_model_router_current_host_gate.py \
             evidence/collect-model-router-current-host.py \
