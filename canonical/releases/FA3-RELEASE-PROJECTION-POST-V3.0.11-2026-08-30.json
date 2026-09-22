@@ -9059,7 +9059,9 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143,
-    "release_projection_inclusion": "PROFILE_CONTRACT_RUNTIME_DECISION_ENFORCEMENT_RUNTIME_GATE_TEST_COLLECTOR_RUNNER_EXAMPLE_AND_MANIFEST"
+    "release_projection_inclusion": "PROFILE_CONTRACT_RUNTIME_DECISION_ENFORCEMENT_RUNTIME_GATE_TEST_COLLECTOR_RUNNER_EXAMPLE_AI_COMMS_POLICY_AND_MANIFEST",
+    "runtime_version": "0.2.0",
+    "communication_policy": "FA3-AI-COMMS-001"
   },
   "codex_reconciliation": {
     "provider_id": "FA3-PROVIDER-CODEX-001",
@@ -10386,5 +10388,34 @@
     "new_capabilities": 0,
     "new_architectural_authorities": 0,
     "capability_count_after": 143
+  },
+  "ai_comms_reconciliation": {
+    "profile_id": "FA3-AI-COMMS-001",
+    "contract_id": "FA3-AI-COMMS-CONTRACTS-001",
+    "decision_id": "FA3-DEC-AI-COMMS-2026-09-22",
+    "gate_id": "FA3-AI-COMMS-GATESET-001",
+    "classification": "P0_CROSS_CUTTING_HUMAN_AUDITABLE_MODEL_COMMUNICATION_POLICY",
+    "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_P0_HUMAN_AUDITABLE_GATE_REQUIRED",
+    "priority": "P0",
+    "requirement": "MUST",
+    "fail_closed": true,
+    "private_model_language_forbidden": true,
+    "emergent_codebook_forbidden": true,
+    "model_only_slang_forbidden": true,
+    "opaque_semantic_channel_forbidden": true,
+    "human_readable_semantics_authoritative": true,
+    "structured_payload_semantics": "VERSIONED_SUPPLEMENTAL_ONLY",
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "model_router_reused": true,
+    "parallel_model_router_created": false,
+    "language_bridge_private_language_authority": false,
+    "current_host_production_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "capability_bindings": [
+      "CAP-028"
+    ],
+    "release_projection_inclusion": "PROFILE_CONTRACT_DECISION_ENFORCEMENT_RUNTIME_GATE_TEST_WORKFLOW_GLOBAL_ENFORCEMENT_AND_MANIFEST"
   }
 }
