@@ -47,10 +47,19 @@ class PageIndexLocalCurrentHostTests(unittest.TestCase):
         self.assertIn("RuntimeDirectory=fa3-pageindex-local",unit)
         self.assertNotIn("RuntimeDirectory=fa3\n",unit)
         self.assertNotIn("After=default.target",router)
-        dedicated="%t/fa3-pageindex-local/pageindex-local.sock"
-        self.assertGreaterEqual(installer.count(dedicated),2)
+        self.assertIn('PAGEINDEX_SOCKET="$PAGEINDEX_RUNTIME_DIR/pageindex-local.sock"',installer)
+        self.assertIn('FA3_PAGEINDEX_LOCAL_SOCKET=$PAGEINDEX_SOCKET',installer)
+        self.assertIn('BindReadOnlyPaths="$PAGEINDEX_RUNTIME_DIR"',installer)
+        self.assertIn("Gateway PageIndex socket environment mismatch",installer)
         self.assertNotIn("%t/fa3/pageindex-local.sock",installer)
         self.assertIn("restart fa3-pageindex-local.service",installer)
     def test_gateway_adapter_requires_absolute_socket(self):
         with self.assertRaises(Exception): build_adapters(Path("relative.sock"))
+    def test_gateway_adapter_unavailable_reports_namespace_visibility(self):
+        adapter=build_adapters(Path("/tmp/fa3-pageindex-missing/socket.sock"))[0]
+        with self.assertRaises(Exception) as ctx:
+            adapter.handler({"source":"/tmp/no.pdf"})
+        msg=str(ctx.exception)
+        self.assertIn("socket_exists=False",msg)
+        self.assertIn("parent_exists=False",msg)
 if __name__=="__main__": unittest.main()

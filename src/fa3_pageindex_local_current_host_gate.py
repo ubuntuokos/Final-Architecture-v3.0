@@ -31,10 +31,13 @@ def static_findings(root:Path)->tuple[list[dict[str,Any]],dict[str,Any]]:
             fs.append(finding("PIL-016","PageIndex provider must own a dedicated runtime directory"))
         if "After=default.target" in router_unit:
             fs.append(finding("PIL-017","PageIndex model-router ordering cycle regression"))
-        dedicated_socket="%t/fa3-pageindex-local/pageindex-local.sock"
         legacy_socket="%t/fa3/pageindex-local.sock"
-        if installer.count(dedicated_socket)<2 or legacy_socket in installer or "restart fa3-pageindex-local.service" not in installer:
-            fs.append(finding("PIL-018","PageIndex provider and gateway must share the dedicated socket path and restart provider"))
+        if legacy_socket in installer or 'PAGEINDEX_SOCKET="$PAGEINDEX_RUNTIME_DIR/pageindex-local.sock"' not in installer or "restart fa3-pageindex-local.service" not in installer:
+            fs.append(finding("PIL-018","PageIndex provider and gateway must share one absolute dedicated socket contract and restart provider"))
+        if 'BindReadOnlyPaths="$PAGEINDEX_RUNTIME_DIR"' not in installer:
+            fs.append(finding("PIL-019","Gateway sandbox must explicitly bind the PageIndex runtime directory read-only"))
+        if 'FA3_PAGEINDEX_LOCAL_SOCKET=$PAGEINDEX_SOCKET' not in installer or 'Gateway PageIndex socket environment mismatch' not in installer:
+            fs.append(finding("PIL-020","Gateway PageIndex socket environment must be exact and fail-closed"))
         if prov.get("architectural_authority") is not False or prov.get("capability_count")!=143:
             fs.append(finding("PIL-002","authority/capability invariant drift"))
         expected="CONNECTED" if conf.get("status")=="CURRENT_HOST_ADMITTED" else "PENDING_CURRENT_HOST"

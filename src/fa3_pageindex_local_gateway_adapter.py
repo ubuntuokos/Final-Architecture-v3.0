@@ -24,7 +24,17 @@ class PageIndexLocalRpcClient:
                 if b"\n" in part: break
             raw=b"".join(chunks).split(b"\n",1)[0]
         except (OSError,TimeoutError) as exc:
-            raise GatewayDenied("PAGEINDEX_LOCAL_SERVICE_UNAVAILABLE",type(exc).__name__) from exc
+            try:
+                parent=self.socket_path.parent
+                detail=(
+                    f"{type(exc).__name__};socket={self.socket_path};"
+                    f"socket_exists={self.socket_path.exists()};"
+                    f"socket_is_socket={self.socket_path.is_socket()};"
+                    f"parent_exists={parent.exists()};parent_is_dir={parent.is_dir()}"
+                )
+            except Exception:
+                detail=type(exc).__name__
+            raise GatewayDenied("PAGEINDEX_LOCAL_SERVICE_UNAVAILABLE",detail) from exc
         finally: s.close()
         try: response=json.loads(raw.decode())
         except Exception as exc: raise GatewayDenied("PAGEINDEX_LOCAL_RPC_SCHEMA","invalid provider response") from exc
