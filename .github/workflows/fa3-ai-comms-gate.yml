@@ -7,16 +7,20 @@ on:
       - "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
       - "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
       - "canonical/ai-comms-enforcement.json"
+      - "canonical/schemas/ai-comms-topology-policy.v1.json"
+      - "canonical/FA3-APP-LIFECYCLE-001.json"
       - "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json"
       - "canonical/developer-agent-coordination-enforcement.json"
       - "canonical/enforcement-policy.json"
       - "src/fa3_ai_comms.py"
+      - "src/fa3_ai_comms_topology.py"
       - "src/fa3_ai_comms_gate.py"
       - "src/fa3_developer_agent_coordination.py"
       - "src/fa3_developer_agent_coordination_gate.py"
       - "src/fa3_enforce.py"
       - "bin/fa3-enforce"
       - "tests/test_ai_comms.py"
+      - "tests/test_ai_comms_topology.py"
       - "tests/test_developer_agent_coordination.py"
       - ".github/workflows/fa3-ai-comms-gate.yml"
   pull_request:
@@ -25,17 +29,22 @@ on:
       - "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
       - "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
       - "canonical/ai-comms-enforcement.json"
+      - "canonical/schemas/ai-comms-topology-policy.v1.json"
+      - "canonical/FA3-APP-LIFECYCLE-001.json"
       - "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json"
       - "canonical/developer-agent-coordination-enforcement.json"
       - "canonical/enforcement-policy.json"
       - "src/fa3_ai_comms.py"
+      - "src/fa3_ai_comms_topology.py"
       - "src/fa3_ai_comms_gate.py"
       - "src/fa3_developer_agent_coordination.py"
       - "src/fa3_developer_agent_coordination_gate.py"
       - "src/fa3_enforce.py"
       - "bin/fa3-enforce"
       - "tests/test_ai_comms.py"
+      - "tests/test_ai_comms_topology.py"
       - "tests/test_developer_agent_coordination.py"
+      - ".github/workflows/fa3-ai-comms-gate.yml"
   workflow_dispatch:
 
 permissions:
@@ -53,7 +62,25 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m py_compile             src/fa3_ai_comms.py             src/fa3_ai_comms_gate.py             src/fa3_developer_agent_coordination.py             src/fa3_developer_agent_coordination_gate.py
-          PYTHONPATH=src python3 -m unittest             tests.test_ai_comms             tests.test_developer_agent_coordination -v
+          python3 -m py_compile \
+            src/fa3_ai_comms.py \
+            src/fa3_ai_comms_topology.py \
+            src/fa3_ai_comms_gate.py \
+            src/fa3_developer_agent_coordination.py \
+            src/fa3_developer_agent_coordination_gate.py
+          PYTHONPATH=src python3 -m unittest \
+            tests.test_ai_comms \
+            tests.test_ai_comms_topology \
+            tests.test_developer_agent_coordination -v
           PYTHONPATH=src python3 src/fa3_ai_comms_gate.py --root .
           PYTHONPATH=src python3 src/fa3_developer_agent_coordination_gate.py --root .
+      - name: Hardware Audit regression gate
+        shell: bash
+        run: PYTHONPATH=src python3 -m fa3_hardware_portability_gate --root .
+      - name: Upload AI communication gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-ai-comms-gate-evidence
+          path: reports/ai-comms-gate-report.json
+          if-no-files-found: error
