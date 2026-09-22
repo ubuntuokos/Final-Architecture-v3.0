@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "parent_profile": "FA3-AGENT-EXEC-001",
   "provider_neutral": true,
@@ -13,6 +13,7 @@
     "AgentDelegation",
     "WorkspaceLease",
     "AgentMessage",
+    "AICommunicationEnvelope",
     "AgentMessageCursor",
     "AgentResult",
     "HumanEscalation",
@@ -55,7 +56,8 @@
     "trusted_gate_source": "APPROVED_BASE_SHA_IMMUTABLE_WORKTREE",
     "protected_branch_update": "FORBIDDEN_TO_BROKER",
     "candidate_delivery": "LOCAL_CANDIDATE_BRANCH_THEN_PROTECTED_BRANCH_PR_SUBMISSION",
-    "integration_ledger": "APPEND_ONLY_SEPARATE_FROM_APPROVED_PROPOSAL"
+    "integration_ledger": "APPEND_ONLY_SEPARATE_FROM_APPROVED_PROPOSAL",
+    "message_semantics": "HUMAN_AUDITABLE_FA3_AI_COMMS_001_FAIL_CLOSED_BEFORE_PERSISTENCE"
   },
   "authority_boundaries": {
     "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
@@ -76,6 +78,12 @@
     "SELF_VALIDATING_GATE_MODIFICATION",
     "GIT_ADD_DOT_IN_INTEGRATION_BROKER",
     "STALE_BASE_CANDIDATE_PREPARATION",
-    "BROKER_DIRECT_PROTECTED_BRANCH_UPDATE"
-  ]
+    "BROKER_DIRECT_PROTECTED_BRANCH_UPDATE",
+    "PRIVATE_MODEL_LANGUAGE",
+    "EMERGENT_AGENT_CODEBOOK",
+    "MODEL_ONLY_SLANG",
+    "OPAQUE_SEMANTIC_CHANNEL",
+    "UNVERSIONED_PRIVATE_STRUCTURED_PROTOCOL"
+  ],
+  "communication_policy": "FA3-AI-COMMS-001"
 }

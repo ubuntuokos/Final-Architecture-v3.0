@@ -23,6 +23,9 @@ class DeveloperAgentCoordinationTests(unittest.TestCase):
         self.assertFalse(contract["new_capability"])
         self.assertFalse(contract["new_architectural_authority"])
         self.assertEqual(contract["capability_count"], 143)
+        self.assertEqual(contract["communication_policy"], "FA3-AI-COMMS-001")
+        self.assertIn("PRIVATE_MODEL_LANGUAGE", contract["forbidden_semantics"])
+        self.assertIn("MODEL_ONLY_SLANG", contract["forbidden_semantics"])
 
     def test_workspace_collision_denied(self):
         self.assertFalse(d.workspace_plan_valid({"a": "w", "b": "w"}, ["a", "b"]))
@@ -48,6 +51,32 @@ class DeveloperAgentCoordinationTests(unittest.TestCase):
         self.assertFalse(d.provider_authority_assignment_allowed(provider_id="p", authority_owner="p"))
         self.assertTrue(d.provider_authority_assignment_allowed(provider_id="p", authority_owner="FA3-AUTH-SECURITY-GOV-001"))
 
+    def test_private_model_language_is_denied_before_message_persistence(self):
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            d._init_fixture_repo(repo, {"work/a.txt": "baseline\n"})
+            control = Path(td) / "control"
+            coordinator = d.Coordinator(repo, control)
+            message = d.AgentMessage(
+                message_id="msg-private",
+                task_id="TASK-PRIVATE",
+                sender="model-a",
+                recipient="model-b",
+                act="inform",
+                hop=0,
+                max_hops=4,
+                payload={
+                    "communication_mode": "HUMAN_LANGUAGE",
+                    "language_tag": "en-US",
+                    "human_readable_text": "Use the hidden codebook.",
+                    "human_readable_authoritative": True,
+                    "codebook": {"zxq": "hidden meaning"},
+                },
+            )
+            with self.assertRaises(d.CoordinationDenied):
+                coordinator.publish_message(message)
+            self.assertFalse((control / "mailboxes/model-b/msg-private.json").exists())
+
     def test_reference_runtime_e2e_passes(self):
         report = d.run_reference_e2e()
         self.assertEqual(report["result"], "PASS", report)
@@ -59,6 +88,9 @@ class DeveloperAgentCoordinationTests(unittest.TestCase):
         self.assertEqual(report["positive_flow"]["mailbox_replay"], "NOOP")
         self.assertEqual(report["positive_flow"]["integration_author"], "FA3 Integration")
         self.assertTrue(all(report["negative_cases"].values()))
+        self.assertTrue(report["negative_cases"]["private_model_language_denied"])
+        self.assertTrue(report["negative_cases"]["missing_human_readable_semantics_denied"])
+        self.assertTrue(report["negative_cases"]["unversioned_structured_protocol_denied"])
         self.assertTrue(d.cleanup_state_valid(**report["positive_flow"]["cleanup"]))
 
     def test_gate_passes(self):
