@@ -1,0 +1,40 @@
+name: FA3 Central Model Router Gate
+on:
+  pull_request:
+    paths:
+      - canonical/profiles/FA3-MODEL-ROUTER-001.json
+      - canonical/contracts/FA3-MODEL-ROUTER-CONTRACTS-001.json
+      - canonical/model-router-enforcement.json
+      - deployment/model-router/**
+      - src/fa3_model_router_*.py
+      - tests/test_model_router_*.py
+      - bin/fa3-model-router-*
+      - .github/workflows/fa3-model-router-*.yml
+  push:
+    paths:
+      - canonical/profiles/FA3-MODEL-ROUTER-001.json
+      - canonical/contracts/FA3-MODEL-ROUTER-CONTRACTS-001.json
+      - canonical/model-router-enforcement.json
+      - deployment/model-router/**
+      - src/fa3_model_router_*.py
+      - tests/test_model_router_*.py
+      - bin/fa3-model-router-*
+permissions:
+  contents: read
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Model Router regression and canonical gate
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 src/fa3_model_router_runtime.py regression
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 src/fa3_model_router_gate.py --root "$GITHUB_WORKSPACE"
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_router_runtime tests.test_model_router_gate -v
+          bash -n bin/fa3-model-router-materialize bin/fa3-model-router-install bin/fa3-model-router-current-host.sh

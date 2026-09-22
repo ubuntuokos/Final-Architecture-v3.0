@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CATALOG="${FA3_MODEL_ROUTER_PROVIDER_CATALOG:-}"
+CREDENTIAL_FILE="${FA3_MODEL_ROUTER_CREDENTIAL_FILE:-}"
+PORT="${FA3_MODEL_ROUTER_PORT:-4000}"
+START=0
+BOOTSTRAP=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --catalog) CATALOG="$2"; shift 2;;
+    --credential-file) CREDENTIAL_FILE="$2"; shift 2;;
+    --port) PORT="$2"; shift 2;;
+    --start) START=1; shift;;
+    --bootstrap-litellm) BOOTSTRAP=1; shift;;
+    *) echo "unknown argument: $1" >&2; exit 3;;
+  esac
+done
+[[ -n "$CATALOG" && -f "$CATALOG" ]] || { echo "provider catalog is required" >&2; exit 2; }
+[[ -n "$CREDENTIAL_FILE" && -f "$CREDENTIAL_FILE" ]] || { echo "credential file is required" >&2; exit 2; }
+[[ "$PORT" =~ ^[0-9]+$ ]] && (( PORT >= 1024 && PORT <= 65535 )) || { echo "invalid port" >&2; exit 2; }
+mode="$(stat -c '%a' "$CREDENTIAL_FILE")"
+(( 8#$mode & 8#077 == 0 )) || { echo "credential file must not be group/world accessible" >&2; exit 2; }
+BASE="$HOME/.local/share/fa3/model-router"
+VENV="$BASE/venv"
+if (( BOOTSTRAP )); then
+  python3 -m venv "$VENV"
+  "$VENV/bin/python" -m pip install --upgrade pip
+  "$VENV/bin/pip" install 'litellm[proxy]==1.102.0'
+fi
+LITELLM="${FA3_LITELLM_BIN:-$VENV/bin/litellm}"
+[[ -x "$LITELLM" ]] || { echo "LiteLLM executable missing; use --bootstrap-litellm or FA3_LITELLM_BIN" >&2; exit 2; }
+PYTHON="${FA3_MODEL_ROUTER_PYTHON:-$(command -v python3)}"
+UNIT_DIR="$HOME/.config/systemd/user"
+mkdir -p "$UNIT_DIR"
+sed \
+  -e "s|@PROVIDER_CATALOG@|$CATALOG|g" \
+  -e "s|@CREDENTIAL_FILE@|$CREDENTIAL_FILE|g" \
+  -e "s|@PYTHON@|$PYTHON|g" \
+  -e "s|@REPO_ROOT@|$ROOT|g" \
+  -e "s|@LITELLM@|$LITELLM|g" \
+  -e "s|@PORT@|$PORT|g" \
+  "$ROOT/deployment/model-router/fa3-model-router.service.in" > "$UNIT_DIR/fa3-model-router.service"
+systemctl --user daemon-reload
+if (( START )); then
+  systemctl --user enable --now fa3-model-router.service
+fi
+printf 'FA3_MODEL_ROUTER_URL=http://127.0.0.1:%s\n' "$PORT"
+printf 'FA3_MODEL_ROUTER_RECEIPT=%s/evidence/receipts/model-router-current-host.json\n' "$ROOT"

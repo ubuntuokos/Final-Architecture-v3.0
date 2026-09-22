@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MODEL-ROUTER-001",
+  "name": "Central Provider-Neutral Model Router Runtime",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count_delta": 0,
+  "authority_id": "FA3-AUTH-MODEL-ROUTER-001",
+  "scope": [
+    "logical route policy",
+    "current-host admitted provider/model candidate filtering",
+    "runtime provider/model selection",
+    "authority-bound route resolution receipts",
+    "LiteLLM data-plane configuration materialization"
+  ],
+  "authority_boundaries": {
+    "inventory": "FA3-MODEL-MANAGER-001",
+    "artifact_model_identity": "EXISTING_FA3_ARTIFACT_MODEL_REGISTRY_ONLY",
+    "placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "data_plane": {
+    "reference_implementation": "LiteLLM Proxy",
+    "routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "role": "AUTHENTICATED_PROVIDER_NORMALIZATION_AND_EXECUTION_DATA_PLANE",
+    "may_select_unadmitted_physical_provider_or_model": false,
+    "may_mutate_canonical_route_policy": false,
+    "generated_runtime_config_only": true
+  },
+  "client_contract": {
+    "client_submits_logical_route_only": true,
+    "client_physical_provider_pin": "DENY",
+    "client_physical_model_pin": "DENY",
+    "pageindex_routes": [
+      "fa3-pageindex-index",
+      "fa3-pageindex-reason"
+    ]
+  },
+  "provider_catalog": {
+    "schema": "fa3.model-router.provider-catalog.v1",
+    "producer": "MODEL_MANAGER_OR_ADMITTED_PROVIDER_ADAPTER",
+    "admitted_required": true,
+    "available_required": true,
+    "canonical_physical_binding": false,
+    "runtime_physical_selection_receipt_required": true
+  },
+  "routing_policy": {
+    "default": "LOCAL_FIRST",
+    "external_provider_default": "DENY",
+    "silent_local_to_cloud_fallback": "DENY",
+    "route_required_capabilities_enforced": true,
+    "route_preferred_capabilities_ranked": true,
+    "deterministic_tie_break_required": true,
+    "physical_binding_source": "CURRENT_HOST_PROVIDER_CATALOG_ONLY"
+  },
+  "current_host_evidence": {
+    "collector": "evidence/collect-model-router-current-host.py",
+    "gate": "src/fa3_model_router_current_host_gate.py",
+    "receipt": "evidence/receipts/model-router-current-host.json",
+    "evidence_level": "CURRENT_HOST_MODEL_ROUTER_E2E_PASS",
+    "requires_real_litellm_data_plane": true,
+    "requires_real_model_execution": true,
+    "requires_dynamic_provider_catalog": true,
+    "requires_pageindex_logical_routes": true,
+    "global_promotion_claim": false
+  },
+  "fail_closed": true
+}

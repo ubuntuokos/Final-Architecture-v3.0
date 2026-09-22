@@ -1,0 +1,59 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-MODEL-ROUTER-CONTRACTS-001",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-MODEL-ROUTER-001",
+  "routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count_delta": 0,
+  "contracts": [
+    "LogicalModelRoute",
+    "ProviderRuntimeCandidate",
+    "CurrentHostProviderCatalog",
+    "RouteResolution",
+    "GeneratedLiteLLMDataPlaneConfig",
+    "ModelRouterCurrentHostReceipt"
+  ],
+  "provider_runtime_candidate_required_fields": [
+    "candidate_id",
+    "provider_id",
+    "runtime",
+    "model_id",
+    "litellm_model",
+    "locality",
+    "admitted",
+    "available",
+    "capabilities"
+  ],
+  "logical_route_forbidden_fields": [
+    "provider_id",
+    "model",
+    "model_id",
+    "api_base",
+    "runtime"
+  ],
+  "required_semantics": {
+    "logical_route": "STABLE_CLIENT_FACING_ALIAS_WITHOUT_PHYSICAL_PROVIDER_OR_MODEL_BINDING",
+    "provider_catalog": "CURRENT_HOST_DYNAMIC_ADMITTED_AVAILABLE_CANDIDATES_ONLY",
+    "selection": "MODEL_ROUTER_AUTHORITY_ONLY",
+    "litellm": "DATA_PLANE_ONLY_CONFIGURED_FROM_AUTHORITY_RESOLUTION",
+    "placement": "HOST_RESOURCE_BROKER_ONLY_WHEN_RESOURCE_ADMISSION_OR_LEASE_IS_REQUIRED",
+    "inventory": "MODEL_MANAGER_OR_ADMITTED_PROVIDER_ADAPTER_ONLY",
+    "secret": "RUNTIME_INJECTION_ONLY",
+    "evidence": "ROUTE_PROVIDER_RUNTIME_MODEL_AND_CONFIG_DIGEST_BOUND"
+  },
+  "invariants": [
+    "NO_CANONICAL_OLLAMA_PIN",
+    "NO_CANONICAL_LM_STUDIO_PIN",
+    "NO_CANONICAL_LLAMA_CPP_PIN",
+    "NO_CANONICAL_MODEL_NAME_PIN",
+    "CLIENTS_REQUEST_LOGICAL_ROUTES_ONLY",
+    "LITELLM_NOT_INDEPENDENT_ROUTING_AUTHORITY",
+    "MODEL_MANAGER_NOT_MODEL_ROUTER",
+    "HRB_PLACEMENT_AUTHORITY_PRESERVED",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
+    "CURRENT_HOST_RECEIPT_REQUIRED_FOR_RUNTIME_CLAIM"
+  ]
+}

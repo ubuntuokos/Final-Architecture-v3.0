@@ -1,0 +1,26 @@
+[Unit]
+Description=FA3 Central Provider-Neutral Model Router (LiteLLM data plane)
+After=network.target
+
+[Service]
+Type=simple
+Environment=PYTHONUNBUFFERED=1
+Environment=FA3_MODEL_ROUTER_PROVIDER_CATALOG=@PROVIDER_CATALOG@
+Environment=FA3_LITELLM_MASTER_KEY_FILE=@CREDENTIAL_FILE@
+RuntimeDirectory=fa3-model-router
+RuntimeDirectoryMode=0700
+ExecStartPre=/usr/bin/env bash -lc 'export FA3_LITELLM_MASTER_KEY="$(cat "$FA3_LITELLM_MASTER_KEY_FILE")"; exec @PYTHON@ @REPO_ROOT@/src/fa3_model_router_runtime.py materialize --catalog "$FA3_MODEL_ROUTER_PROVIDER_CATALOG" --routes @REPO_ROOT@/deployment/model-router/routes.json --config-out %t/fa3-model-router/litellm.generated.yaml --resolution-out %t/fa3-model-router/resolution.json'
+ExecStart=/usr/bin/env bash -lc 'export FA3_LITELLM_MASTER_KEY="$(cat "$FA3_LITELLM_MASTER_KEY_FILE")"; exec @LITELLM@ --config %t/fa3-model-router/litellm.generated.yaml --host 127.0.0.1 --port @PORT@'
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+RestrictSUIDSGID=yes
+LockPersonality=yes
+IPAddressDeny=any
+IPAddressAllow=localhost
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,32 @@
+{
+  "schema": "fa3.model-router.routes.v1",
+  "authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "provider_neutral": true,
+  "physical_binding": "FORBIDDEN_IN_CANONICAL_ROUTE_MANIFEST",
+  "routes": [
+    {
+      "route": "fa3-text-primary",
+      "required_capabilities": ["text"],
+      "preferred_capabilities": ["reasoning"],
+      "allow_external": false
+    },
+    {
+      "route": "fa3-text-secondary",
+      "required_capabilities": ["text"],
+      "preferred_capabilities": [],
+      "allow_external": false
+    },
+    {
+      "route": "fa3-pageindex-index",
+      "required_capabilities": ["text"],
+      "preferred_capabilities": ["long_context"],
+      "allow_external": false
+    },
+    {
+      "route": "fa3-pageindex-reason",
+      "required_capabilities": ["text"],
+      "preferred_capabilities": ["reasoning", "long_context"],
+      "allow_external": false
+    }
+  ]
+}

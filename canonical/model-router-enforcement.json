@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.model-router-enforcement.v1",
+  "gate_id": "FA3-MODEL-ROUTER-GATESET-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "physical_provider_pin_in_canonical": "DENY",
+  "physical_model_pin_in_canonical": "DENY",
+  "client_owned_model_selection": "DENY",
+  "litellm_independent_route_authority": "DENY",
+  "provider_catalog_requires_admitted": true,
+  "provider_catalog_requires_available": true,
+  "external_provider_default": "DENY",
+  "silent_local_to_cloud_fallback": "DENY",
+  "current_host_receipt_required_for_runtime_claim": true
+}
