@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_resource_evidence_normalization_gate import _canonical_payload_hash
+from fa3_host_attestation import load_artifact
 from fa3_runtime_hardening_current_host import repo_head, sha256_file, utcnow, write_json
 
 GATE_ID = "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
@@ -178,7 +179,7 @@ def collect(
     oci_image: str,
     quadlet: Path,
     agent_container: str,
-    host_attestation_ref: str,
+    host_attestation: Path,
     sandbox_gpu: bool,
     output: Path,
 ) -> dict[str, Any]:
@@ -190,6 +191,14 @@ def collect(
         "synthetic": False,
         "global_promotion_claim": False,
         "cgroup_v2": {"present": Path("/sys/fs/cgroup/cgroup.controllers").is_file()},
+    }
+    attestation_findings, host_attestation_ref, _, _ = load_artifact(host_attestation)
+    receipt["host_attestation"] = {
+        "path": str(host_attestation),
+        "sha256": sha256_file(host_attestation) if host_attestation.is_file() else None,
+        "reference": host_attestation_ref or None,
+        "status": "PASS" if not attestation_findings else "FAIL",
+        "findings": attestation_findings,
     }
 
     podman = shutil.which("podman")
@@ -264,7 +273,9 @@ def collect(
     receipt["gvisor"] = gvisor
 
     passed = (
-        receipt["cgroup_v2"]["present"] is True
+        not attestation_findings
+        and bool(host_attestation_ref)
+        and receipt["cgroup_v2"]["present"] is True
         and rootless_oci.get("status") == "PASS"
         and wasi.get("status") == "PASS"
         and quadlet_result.get("status") == "PASS"
@@ -273,6 +284,7 @@ def collect(
     )
     payload = {
         "repository_head": receipt["repository_head"],
+        "host_attestation": receipt["host_attestation"],
         "quadlet": quadlet_result,
         "gvisor": gvisor,
         "cgroup_v2": receipt["cgroup_v2"],
@@ -291,7 +303,7 @@ def main() -> int:
     p.add_argument("--oci-image", required=True)
     p.add_argument("--quadlet", required=True)
     p.add_argument("--agent-container", required=True)
-    p.add_argument("--host-attestation-ref", required=True)
+    p.add_argument("--host-attestation", required=True)
     p.add_argument("--sandbox-gpu", action="store_true")
     p.add_argument("--output", default="evidence/receipts/runtime-isolation-sandbox-current-host.json")
     a = p.parse_args()
@@ -303,7 +315,7 @@ def main() -> int:
         oci_image=a.oci_image,
         quadlet=Path(a.quadlet).expanduser().resolve(),
         agent_container=a.agent_container,
-        host_attestation_ref=a.host_attestation_ref,
+        host_attestation=Path(a.host_attestation).expanduser().resolve(),
         sandbox_gpu=a.sandbox_gpu,
         output=(root / a.output).resolve() if not Path(a.output).is_absolute() else Path(a.output),
     )

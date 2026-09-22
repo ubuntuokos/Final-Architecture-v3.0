@@ -1,7 +1,7 @@
 {
   "schema": "fa3.contract-set.v1",
   "id": "FA3-RUNTIME-HARDENING-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "provider_neutral": true,
   "capability_count": 143,
   "contracts": [
@@ -44,7 +44,13 @@
   "hu_aqc": {
     "dimensions_must_be_independent": true,
     "production_fail_closed": true,
-    "scorer_license_admission_required": true
+    "scorer_license_admission_required": true,
+    "input_producer_required": true,
+    "input_schema": "fa3.hu-aqc-current-host-input.v2",
+    "scorer_receipt_schema": "fa3.hu-aqc-scorer-receipt.v1",
+    "asr_scorer_provenance_required": true,
+    "source_receipt_digest_revalidation_required": true,
+    "default_scores_forbidden": true
   },
   "shadow": {
     "output_authoritative": false,
@@ -81,6 +87,8 @@
   "evidence_normalization": {
     "envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
     "current_host_surfaces_require_payload_sha256": true,
-    "component_pass_never_implies_global_promotion": true
+    "component_pass_never_implies_global_promotion": true,
+    "host_attestation_artifact_schema": "fa3.host-attestation-artifact.v1",
+    "host_attestation_ref_must_be_exact_sha256": true
   }
 }

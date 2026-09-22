@@ -11,8 +11,8 @@ from pathlib import Path
 from typing import Any
 
 from fa3_runtime_hardening import evaluate_hungarian_aqc
+from fa3_hu_aqc_input import BUNDLE_SCHEMA, validate_bundle
 from fa3_runtime_hardening_current_host import (
-    fresh_timestamp,
     load_json,
     repo_head,
     sha256_file,
@@ -79,7 +79,7 @@ def _signal_metrics(path: Path) -> dict[str, Any]:
 
 def _scorers_admitted(bundle: dict[str, Any], cloning: bool) -> tuple[bool, list[str]]:
     scorers = bundle.get("scorers", {})
-    required = ["language", "grammar", "toxicity", "perceptual"]
+    required = ["asr", "language", "grammar", "toxicity", "perceptual"]
     if cloning:
         required.append("speaker")
     reasons: list[str] = []
@@ -92,8 +92,13 @@ def _scorers_admitted(bundle: dict[str, Any], cloning: bool) -> tuple[bool, list
             reasons.append(f"{name} scorer model digest invalid")
         if row.get("license_status") != "ADMITTED":
             reasons.append(f"{name} scorer license not admitted")
+        if not row.get("license_evidence_ref"):
+            reasons.append(f"{name} scorer license evidence missing")
         if row.get("current_host_measured") is not True:
             reasons.append(f"{name} scorer not marked current-host measured")
+        source_digest = str(row.get("source_receipt_sha256", ""))
+        if not re.fullmatch(r"[0-9a-fA-F]{64}", source_digest):
+            reasons.append(f"{name} scorer source receipt digest invalid")
     return not reasons, reasons
 
 
@@ -113,16 +118,11 @@ def collect(root: Path, *, audio: Path, metrics_path: Path, output: Path) -> dic
         if not metrics_path.is_file():
             raise RuntimeError(f"metrics input missing: {metrics_path}")
         bundle = load_json(metrics_path)
-        if bundle.get("schema") != "fa3.hu-aqc-current-host-input.v1":
+        if bundle.get("schema") != BUNDLE_SCHEMA:
             raise RuntimeError("HU-AQC metrics input schema mismatch")
-        if bundle.get("locale") != "hu-HU":
-            raise RuntimeError("HU-AQC metrics input locale is not hu-HU")
-        if bundle.get("repository_head") != repo_head(root):
-            raise RuntimeError("HU-AQC metrics input is not bound to repository HEAD")
-        if not fresh_timestamp(bundle.get("captured_at")):
-            raise RuntimeError("HU-AQC metrics input is stale")
-        if bundle.get("current_host_measured") is not True or bundle.get("synthetic") is not False:
-            raise RuntimeError("HU-AQC metrics input is not real current-host evidence")
+        bundle_findings = validate_bundle(root, audio=audio, bundle=bundle)
+        if bundle_findings:
+            raise RuntimeError("; ".join(bundle_findings))
         reference = str(bundle.get("reference_text", ""))
         hypothesis = str(bundle.get("asr_transcript", ""))
         if not reference or not hypothesis:

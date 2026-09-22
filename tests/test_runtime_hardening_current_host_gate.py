@@ -36,7 +36,7 @@ def envelope(surface, payload=None):
             "release_manifest_digest": "sha256:" + "a" * 64,
         },
         "execution_context": {
-            "host_attestation_ref": "FA3-HOST-TEST",
+            "host_attestation_ref": "sha256:" + "a" * 64,
             "compute_profile_ref": None,
             "workload_resource_envelope_ref": None,
             "hrb_lease_ref": None,

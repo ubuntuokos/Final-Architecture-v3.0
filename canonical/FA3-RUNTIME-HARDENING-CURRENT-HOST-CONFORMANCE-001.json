@@ -65,7 +65,10 @@
       ],
       "receipt": "evidence/receipts/hu-aqc-current-host.json",
       "collector": "evidence/collect-hu-aqc-current-host.py",
+      "input_producer": "evidence/produce-hu-aqc-current-host-input.py",
       "pass_requires": [
+        "DIGEST_BOUND_HOST_ATTESTATION_PASS",
+        "INDEPENDENT_REAL_SCORER_RECEIPTS_PASS",
         "CURRENT_HOST_MEASUREMENT_PROVENANCE",
         "AUDIO_SIGNAL_METRICS_RECOMPUTED_LOCALLY",
         "ASR_CER_WER_RECOMPUTED_LOCALLY",
@@ -107,6 +110,9 @@
     "preflight_pass_is_surface_pass": false,
     "preflight_pass_is_current_host_hardening_pass": false,
     "preflight_pass_is_global_promotion": false,
-    "network_pull_allowed": false
+    "network_pull_allowed": false,
+    "host_attestation_collector": "evidence/collect-host-attestation-current-host.py",
+    "host_attestation_artifact_schema": "fa3.host-attestation-artifact.v1",
+    "identifier_only_attestation_reference_allowed": false
   }
 }

@@ -388,7 +388,7 @@ def collect(root: Path, workload_path: Path, lease_path: Path | None, receipt_pa
             "release_manifest_digest": release_manifest_digest(root),
         },
         "execution_context": {
-            "host_attestation_ref": attestation["host_attestation_id"],
+            "host_attestation_ref": "sha256:" + attestation_sha,
             "compute_profile_ref": "INLINE_SHA256:" + sha256_obj(profile),
             "workload_resource_envelope_ref": str(workload_path.resolve()),
             "hrb_lease_ref": str(lease_path.resolve()) if lease_path else None,

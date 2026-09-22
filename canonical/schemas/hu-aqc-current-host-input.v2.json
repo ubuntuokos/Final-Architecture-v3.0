@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.internal/schemas/hu-aqc-current-host-input.v2.json",
+  "title": "FA3 HU-AQC Current-Host Input Bundle",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema", "locale", "repository_head", "captured_at", "current_host_measured", "synthetic",
+    "host_attestation_ref", "host_attestation_path", "audio_sha256", "reference_text", "reference_text_path",
+    "reference_text_sha256", "asr_transcript", "language_confidence", "grammar_score",
+    "register_consistent", "toxicity_score", "perceptual_quality", "cloning", "scorers",
+    "source_receipts", "producer"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.hu-aqc-current-host-input.v2"},
+    "locale": {"const": "hu-HU"},
+    "repository_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "current_host_measured": {"const": true},
+    "synthetic": {"const": false},
+    "host_attestation_ref": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "host_attestation_path": {"type": "string", "minLength": 1},
+    "audio_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "reference_text": {"type": "string", "minLength": 1},
+    "reference_text_path": {"type": "string", "minLength": 1},
+    "reference_text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "language_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "grammar_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "register_consistent": {"type": "boolean"},
+    "toxicity_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "perceptual_quality": {"type": "number", "minimum": 0, "maximum": 1},
+    "speaker_similarity": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "cloning": {"type": "boolean"},
+    "scorers": {"type": "object", "minProperties": 5},
+    "source_receipts": {"type": "object", "minProperties": 5},
+    "producer": {
+      "type": "object",
+      "required": ["id", "version", "default_scores_used", "single_judge_authority"],
+      "properties": {
+        "default_scores_used": {"const": false},
+        "single_judge_authority": {"const": false}
+      }
+    }
+  }
+}
