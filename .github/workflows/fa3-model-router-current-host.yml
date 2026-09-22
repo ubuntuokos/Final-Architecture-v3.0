@@ -44,7 +44,27 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Resolve current-host runtime inputs
+      - name: Bootstrap pinned LiteLLM data plane
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v systemctl
+          venv="${RUNNER_TEMP}/fa3-model-router-venv"
+          python3 -m venv "$venv"
+          "$venv/bin/python" -m pip install --disable-pip-version-check "litellm[proxy]==1.101.0"
+          "$venv/bin/litellm" --version
+          echo "$venv/bin" >> "$GITHUB_PATH"
+
+      - name: Refresh provider-specific current-host admission evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 evidence/collect-model-manager-current-host.py --root .
+          PYTHONPATH=src python3 src/fa3_model_manager_current_host_gate.py --root .
+
+      - name: Resolve provider-neutral runtime inputs
         id: runtime
         shell: bash
         env:
@@ -56,36 +76,40 @@ jobs:
           providers="$PROVIDERS_INPUT"
           credential="$CREDENTIAL_INPUT"
           port="$PORT_INPUT"
-          if [ -z "$providers" ]; then providers="${FA3_MODEL_ROUTER_PROVIDERS:-$HOME/.config/fa3/model-router/providers.json}"; fi
-          if [ -z "$credential" ]; then credential="${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}"; fi
+
+          if [ -z "$providers" ]; then
+            providers="${FA3_MODEL_ROUTER_PROVIDERS:-}"
+          fi
+          if [ -z "$providers" ]; then
+            providers="${RUNNER_TEMP}/fa3-model-router-providers.json"
+            python3 src/fa3_model_router_provider_discovery.py --root . --output "$providers"
+          fi
+
+          if [ -z "$credential" ]; then
+            credential="${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}"
+          fi
+          if [ -z "$credential" ]; then
+            credential="${RUNNER_TEMP}/fa3-model-router-master-key"
+            python3 - "$credential" <<'PY'
+          import secrets, sys
+          from pathlib import Path
+          p=Path(sys.argv[1])
+          p.write_text("sk-fa3-" + secrets.token_urlsafe(48) + "\n", encoding="utf-8")
+          p.chmod(0o600)
+          PY
+          fi
+
           if [ -z "$port" ]; then port="${FA3_MODEL_ROUTER_PORT:-4000}"; fi
+
+          test -s "$providers" || { echo "BLOCKED: no provider-neutral runtime registry" >&2; exit 2; }
+          test -s "$credential" || { echo "BLOCKED: no router credential" >&2; exit 2; }
+          command -v litellm
+
           {
             echo "providers=$providers"
             echo "credential=$credential"
             echo "port=$port"
           } >> "$GITHUB_OUTPUT"
-      - name: Verify current-host prerequisites
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(id -u)" -ne 0
-          command -v python3
-          command -v litellm
-          command -v systemctl
-          test -s "${{ steps.runtime.outputs.providers }}" || {
-            echo "BLOCKED: central Model Router runtime provider registry is missing" >&2
-            exit 2
-          }
-          test -n "${{ steps.runtime.outputs.credential }}" && test -s "${{ steps.runtime.outputs.credential }}" || {
-            echo "BLOCKED: FA3_MODEL_ROUTER_MASTER_KEY_FILE/current-host credential is missing" >&2
-            exit 2
-          }
-      - name: Refresh provider-specific current-host admission evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 evidence/collect-model-manager-current-host.py --root .
-          PYTHONPATH=src python3 src/fa3_model_manager_current_host_gate.py --root .
 
       - name: Materialize and prove central Model Router
         shell: bash
