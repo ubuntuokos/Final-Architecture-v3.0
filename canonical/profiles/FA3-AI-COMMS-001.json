@@ -1,8 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-AI-COMMS-001",
-  "name": "Human-Auditable Model-to-Model Communication",
-  "version": "1.0.0",
+  "name": "Human-Auditable, Policy-Bounded Model-to-Model Communication",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -42,7 +42,22 @@
     "UNKNOWN_COMMUNICATION_MODE_FAILS_CLOSED",
     "PROVIDER_CANNOT_CREATE_COMMUNICATION_POLICY_AUTHORITY",
     "LANGUAGE_BRIDGE_CANNOT_CREATE_PRIVATE_MODEL_LANGUAGE",
-    "CENTRAL_MODEL_ROUTER_REUSED_NO_PARALLEL_ROUTER"
+    "CENTRAL_MODEL_ROUTER_REUSED_NO_PARALLEL_ROUTER",
+    "APPLICATION_MODEL_PARTICIPANT_SET_CLOSED",
+    "APPLICATION_PRIMARY_MODEL_REQUIRED",
+    "UNAUTHORIZED_AI_PARTICIPANT_ADDITION_FORBIDDEN",
+    "UNFIT_PARTNER_REPLACEMENT_REQUIRED",
+    "PARTNER_REPLACEMENT_PRESERVES_PARTICIPANT_CARDINALITY",
+    "PARTNER_REPLACEMENT_USES_CENTRAL_MODEL_ROUTER",
+    "CROSS_APPLICATION_COMMUNICATION_DEFAULT_DENY",
+    "CROSS_APPLICATION_PROTECTED_GATEWAY_REQUIRED",
+    "CROSS_APPLICATION_GATEWAY_BYPASS_FORBIDDEN",
+    "MODEL_ROUTER_DOES_NOT_GRANT_COMMUNICATION_AUTHORITY",
+    "SLEEPING_APPLICATION_WAKE_REQUIRES_EXPLICIT_USER_DIRECTIVE",
+    "SECURITY_EMERGENCY_WAKE_NARROW_EXCEPTION",
+    "SECURITY_EMERGENCY_WAKE_ONLY_PREAUTHORIZED_SECURITY_TARGET",
+    "SECURITY_EMERGENCY_WAKE_LEAST_PRIVILEGE",
+    "SECURITY_EMERGENCY_WAKE_IMMEDIATE_USER_NOTIFICATION"
   ],
   "authority_boundaries": {
     "communication_policy": "FA3-AI-COMMS-001",
@@ -55,11 +70,58 @@
   "model_router_semantics": {
     "routing_authority_reused": true,
     "parallel_model_router_forbidden": true,
-    "router_is_not_semantic_authority": true
+    "router_is_not_semantic_authority": true,
+    "communication_authority_granted_by_routing": false,
+    "may_expand_application_participant_set": false,
+    "may_select_replacement_for_existing_role": true
   },
   "language_bridge_semantics": {
     "translation_or_normalization_allowed": true,
     "private_model_language_creation_forbidden": true,
     "semantic_authority_expansion_forbidden": true
+  },
+  "topology_policy_schema": "canonical/schemas/ai-comms-topology-policy.v1.json",
+  "participant_semantics": {
+    "declaration_unit": "LOGICAL_MODEL_ROLE_NOT_PHYSICAL_PROVIDER_OR_MODEL_PIN",
+    "participant_set": "CLOSED_PER_APPLICATION",
+    "each_declared_role_must_be_required_for_app": true,
+    "autonomous_participant_addition": "DENY"
+  },
+  "partner_replacement_semantics": {
+    "action_on_unfit_partner": "REPLACE",
+    "canonical_triggers": [
+      "MISSING_REQUIRED_CAPABILITY",
+      "TASK_EXECUTION_INVALID",
+      "UNAUTHORIZED_OPERATION_ATTEMPT",
+      "AUTONOMOUS_SCOPE_EXPANSION_ATTEMPT",
+      "UNAUTHORIZED_MODEL_APP_OR_RESOURCE_ATTEMPT"
+    ],
+    "replacement_uses_existing_logical_role": true,
+    "participant_count_delta": 0,
+    "replacement_candidate_must_be_pre_admitted": true,
+    "selection_authority": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "cross_application_semantics": {
+    "default": "DENY",
+    "explicit_relationship_required": true,
+    "protected_gateway_required": true,
+    "gateway_bypass_forbidden": true,
+    "direct_ipc_socket_localhost_mcp_provider_or_side_channel_bypass": "DENY"
+  },
+  "wake_semantics": {
+    "sleeping_application_default": "DENY",
+    "normal_wake_basis": "EXPLICIT_USER_DIRECTIVE",
+    "security_emergency_exception": "SECURITY_EMERGENCY_WAKE",
+    "security_exception_target": "PREAUTHORIZED_SECURITY_APPLICATION_AND_MODEL_ROLE_ONLY",
+    "least_privilege_required": true,
+    "immediate_user_notification_required": true,
+    "cross_app_gateway_bypass_allowed": false
+  },
+  "hardware_audit_reconciliation": {
+    "vendor_neutral": true,
+    "accelerator_requirement_created": false,
+    "cpu_only_conformance_affected": false,
+    "physical_model_or_provider_pin_created": false,
+    "current_host_observation_promoted_to_global_requirement": false
   }
 }

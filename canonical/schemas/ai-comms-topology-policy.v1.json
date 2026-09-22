@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.ai-comms-topology-policy.v1",
+  "title": "FA3 AI Communications Topology Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "applications",
+    "cross_app_gateways",
+    "security_emergency_wake"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.ai-comms-topology-policy.v1"
+    },
+    "applications": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/application"
+      }
+    },
+    "cross_app_gateways": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gateway"
+      }
+    },
+    "security_emergency_wake": {
+      "$ref": "#/$defs/securityEmergencyWake"
+    }
+  },
+  "$defs": {
+    "modelRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role_id",
+        "required_for_app"
+      ],
+      "properties": {
+        "role_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_for_app": {
+          "const": true
+        }
+      }
+    },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_model_role",
+        "model_roles",
+        "state",
+        "security_app"
+      ],
+      "properties": {
+        "primary_model_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/modelRole"
+          }
+        },
+        "state": {
+          "enum": [
+            "ACTIVE",
+            "SLEEPING"
+          ]
+        },
+        "security_app": {
+          "type": "boolean"
+        }
+      }
+    },
+    "gateway": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_app",
+        "target_app",
+        "gateway_id",
+        "protected",
+        "bypass_forbidden",
+        "allowed_source_roles",
+        "allowed_target_roles"
+      ],
+      "properties": {
+        "source_app": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_app": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gateway_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protected": {
+          "const": true
+        },
+        "bypass_forbidden": {
+          "const": true
+        },
+        "allowed_source_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_target_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "securityEmergencyWake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "authorized_detectors",
+        "target_security_apps",
+        "allowed_triggers",
+        "minimum_severity",
+        "minimum_confidence",
+        "least_privilege_required",
+        "immediate_user_notification_required",
+        "gateway_still_required_for_cross_app"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "authorized_detectors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "target_security_apps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "ACTIVE_MALWARE",
+              "RANSOMWARE_BEHAVIOR",
+              "DESTRUCTIVE_FILE_ENCRYPTION",
+              "ACTIVE_INTRUSION",
+              "LATERAL_PROPAGATION",
+              "CRITICAL_CREDENTIAL_COMPROMISE"
+            ]
+          }
+        },
+        "minimum_severity": {
+          "const": "CRITICAL"
+        },
+        "minimum_confidence": {
+          "type": "number",
+          "minimum": 0.9,
+          "maximum": 1
+        },
+        "least_privilege_required": {
+          "const": true
+        },
+        "immediate_user_notification_required": {
+          "const": true
+        },
+        "gateway_still_required_for_cross_app": {
+          "const": true
+        }
+      }
+    }
+  }
+}

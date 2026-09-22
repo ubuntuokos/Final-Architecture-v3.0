@@ -12,7 +12,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from fa3_developer_agent_coordination import AgentTask, Coordinator, ProviderAdapter
+from fa3_developer_agent_coordination import (
+    AgentTask,
+    Coordinator,
+    ProviderAdapter,
+    developer_coordination_topology_policy,
+)
 
 PROVIDER_ID = "FA3-PROVIDER-CODEX-001"
 ADAPTER_ID = "FA3-CODEX-ADAPTER-001"
@@ -508,7 +513,12 @@ def run_ci_adapter_contract_e2e() -> dict[str, Any]:
             AgentTask("CODEX-CI-B", "codex-b", PROVIDER_ID, "work/b.txt", "codex-b-pass\n"),
         ]
         control = base / "control"
-        result = Coordinator(repo, control).run(tasks, CodexAdapter(fake, timeout_seconds=60))
+        result = Coordinator(
+            repo,
+            control,
+            communication_topology_policy=developer_coordination_topology_policy(),
+            participant_roles={"coordinator": "coordinator", **{task.agent_id: "worker" for task in tasks}},
+        ).run(tasks, CodexAdapter(fake, timeout_seconds=60))
         worker_results = [
             json.loads((control / "results" / f"{task.task_id}.json").read_text(encoding="utf-8"))
             for task in tasks

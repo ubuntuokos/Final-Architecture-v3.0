@@ -5,7 +5,7 @@
   "contract_family": "FA3-AI-COMMS-CONTRACTS-001",
   "decision_id": "FA3-DEC-AI-COMMS-2026-09-22",
   "fail_closed": true,
-  "mandatory_rule_count": 15,
+  "mandatory_rule_count": 30,
   "p0_invariants": [
     "COMM_HUMAN_AUDITABLE_SEMANTICS_REQUIRED",
     "COMM_PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
@@ -21,14 +21,36 @@
     "COMM_UNKNOWN_MODE_FAIL_CLOSED",
     "COMM_PROVIDER_CANNOT_CREATE_PROTOCOL_AUTHORITY",
     "COMM_LANGUAGE_BRIDGE_NON_AUTHORITY",
-    "COMM_MODEL_ROUTER_REUSED_NO_PARALLEL_ROUTER"
+    "COMM_MODEL_ROUTER_REUSED_NO_PARALLEL_ROUTER",
+    "COMM_APP_PARTICIPANT_SET_CLOSED",
+    "COMM_APP_PRIMARY_MODEL_REQUIRED",
+    "COMM_UNAUTHORIZED_AI_PARTICIPANT_ADDITION_DENIED",
+    "COMM_UNFIT_PARTNER_REPLACEMENT_REQUIRED",
+    "COMM_REPLACEMENT_PRESERVES_PARTICIPANT_SET",
+    "COMM_REPLACEMENT_USES_CENTRAL_MODEL_ROUTER",
+    "COMM_CROSS_APP_DEFAULT_DENY",
+    "COMM_CROSS_APP_PROTECTED_GATEWAY_REQUIRED",
+    "COMM_GATEWAY_BYPASS_DENIED",
+    "COMM_ROUTER_DOES_NOT_GRANT_COMMUNICATION_AUTHORITY",
+    "COMM_SLEEPING_APP_WAKE_REQUIRES_USER_DIRECTIVE",
+    "COMM_SECURITY_EMERGENCY_WAKE_NARROW_EXCEPTION",
+    "COMM_SECURITY_EMERGENCY_WAKE_PREAUTHORIZED_SECURITY_TARGET_ONLY",
+    "COMM_SECURITY_EMERGENCY_WAKE_LEAST_PRIVILEGE",
+    "COMM_SECURITY_EMERGENCY_WAKE_IMMEDIATE_USER_NOTIFICATION"
   ],
   "runtime_integration": {
     "module": "src/fa3_ai_comms.py",
+    "topology_module": "src/fa3_ai_comms_topology.py",
+    "topology_policy_schema": "canonical/schemas/ai-comms-topology-policy.v1.json",
     "developer_agent_coordination_boundary": "Coordinator.publish_message",
-    "deny_before_persistence": true
+    "application_dispatch_boundary": "MUST_VALIDATE_BEFORE_MODEL_OR_APP_DISPATCH",
+    "application_wake_boundary": "MUST_VALIDATE_BEFORE_SLEEPING_APP_ACTIVATION",
+    "deny_before_persistence_or_dispatch": true
   },
   "executable_gate": "./bin/fa3-enforce ai-comms",
   "reference_runtime_required": true,
-  "current_host_production_promotion_claim": false
+  "current_host_production_promotion_claim": false,
+  "report_paths": [
+    "reports/ai-comms-gate-report.json"
+  ]
 }

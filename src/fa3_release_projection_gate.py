@@ -74,10 +74,14 @@ AI_COMMS_CONTRACT_PATH = "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
 AI_COMMS_DECISION_PATH = "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
 AI_COMMS_ENFORCEMENT_PATH = "canonical/ai-comms-enforcement.json"
 AI_COMMS_RUNTIME_PATH = "src/fa3_ai_comms.py"
+AI_COMMS_TOPOLOGY_RUNTIME_PATH = "src/fa3_ai_comms_topology.py"
 AI_COMMS_GATE_PATH = "src/fa3_ai_comms_gate.py"
 AI_COMMS_TEST_PATH = "tests/test_ai_comms.py"
+AI_COMMS_TOPOLOGY_TEST_PATH = "tests/test_ai_comms_topology.py"
+AI_COMMS_TOPOLOGY_SCHEMA_PATH = "canonical/schemas/ai-comms-topology-policy.v1.json"
+AI_COMMS_APP_LIFECYCLE_PATH = "canonical/FA3-APP-LIFECYCLE-001.json"
 AI_COMMS_WORKFLOW_PATH = ".github/workflows/fa3-ai-comms-gate.yml"
-AI_COMMS_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_P0_HUMAN_AUDITABLE_GATE_REQUIRED"
+AI_COMMS_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_P0_CLOSED_TOPOLOGY_GATE_REQUIRED"
 CODEX_PROVIDER_ID = "FA3-PROVIDER-CODEX-001"
 CODEX_GATE_ID = "FA3-CODEX-GATESET-001"
 CODEX_CONTRACT_ID = "FA3-CODEX-ADAPTER-CONTRACTS-001"
@@ -1109,8 +1113,12 @@ def gate(root: Path):
         AI_COMMS_DECISION_PATH,
         AI_COMMS_ENFORCEMENT_PATH,
         AI_COMMS_RUNTIME_PATH,
+        AI_COMMS_TOPOLOGY_RUNTIME_PATH,
         AI_COMMS_GATE_PATH,
         AI_COMMS_TEST_PATH,
+        AI_COMMS_TOPOLOGY_TEST_PATH,
+        AI_COMMS_TOPOLOGY_SCHEMA_PATH,
+        AI_COMMS_APP_LIFECYCLE_PATH,
         AI_COMMS_WORKFLOW_PATH,
         "bin/fa3-enforce",
         "src/fa3_enforce.py",
@@ -1141,6 +1149,26 @@ def gate(root: Path):
         or ai_comms.get("fail_closed") is not True
         or ai_comms.get("private_model_language_forbidden") is not True
         or ai_comms.get("human_readable_semantics_authoritative") is not True
+        or ai_comms.get("closed_application_participant_set") is not True
+        or ai_comms.get("logical_model_roles_only") is not True
+        or ai_comms.get("autonomous_new_ai_party_forbidden") is not True
+        or ai_comms.get("primary_model_required") is not True
+        or ai_comms.get("unfit_partner_action") != "REPLACE"
+        or ai_comms.get("replacement_participant_count_delta") != 0
+        or ai_comms.get("replacement_candidate_pre_admission_required") is not True
+        or ai_comms.get("replacement_uses_central_model_router") is not True
+        or ai_comms.get("cross_application_default") != "DENY"
+        or ai_comms.get("protected_cross_application_gateway_required") is not True
+        or ai_comms.get("gateway_bypass_forbidden") is not True
+        or ai_comms.get("model_router_grants_communication_authority") is not False
+        or ai_comms.get("sleeping_application_user_directive_required") is not True
+        or ai_comms.get("security_emergency_wake_exception") is not True
+        or ai_comms.get("security_emergency_preauthorized_security_target_only") is not True
+        or ai_comms.get("security_emergency_least_privilege_required") is not True
+        or ai_comms.get("security_emergency_immediate_user_notification_required") is not True
+        or ai_comms.get("security_emergency_gateway_bypass_allowed") is not False
+        or ai_comms.get("hardware_vendor_requirement_created") is not False
+        or ai_comms.get("cpu_only_conformance_affected") is not False
         or ai_comms.get("model_router_reused") is not True
         or ai_comms.get("parallel_model_router_created") is not False
         or ai_comms.get("current_host_production_claim") is not False
@@ -1159,15 +1187,30 @@ def gate(root: Path):
         or ai_comms_profile.get("new_architectural_authority") is not False
         or ai_comms_profile.get("capability_count") != CAPABILITY_COUNT
         or "PRIVATE_MODEL_LANGUAGE_FORBIDDEN" not in ai_comms_profile.get("invariants", [])
+        or "APPLICATION_MODEL_PARTICIPANT_SET_CLOSED" not in ai_comms_profile.get("invariants", [])
+        or "UNFIT_PARTNER_REPLACEMENT_REQUIRED" not in ai_comms_profile.get("invariants", [])
+        or "CROSS_APPLICATION_PROTECTED_GATEWAY_REQUIRED" not in ai_comms_profile.get("invariants", [])
+        or "SLEEPING_APPLICATION_WAKE_REQUIRES_EXPLICIT_USER_DIRECTIVE" not in ai_comms_profile.get("invariants", [])
+        or "SECURITY_EMERGENCY_WAKE_NARROW_EXCEPTION" not in ai_comms_profile.get("invariants", [])
+        or ai_comms_profile.get("model_router_semantics", {}).get("communication_authority_granted_by_routing") is not False
         or ai_comms_contract.get("id") != AI_COMMS_CONTRACT_ID
         or ai_comms_contract.get("parent_profile") != AI_COMMS_PROFILE_ID
         or "PRIVATE_MODEL_LANGUAGE" not in ai_comms_contract.get("forbidden_semantics", [])
+        or "UNDECLARED_APPLICATION_MODEL_PARTICIPANT" not in ai_comms_contract.get("forbidden_semantics", [])
+        or "CROSS_APPLICATION_GATEWAY_BYPASS" not in ai_comms_contract.get("forbidden_semantics", [])
+        or ai_comms_contract.get("partner_replacement_contract", {}).get("unfit_partner_action") != "REPLACE"
+        or ai_comms_contract.get("wake_contract", {}).get("immediate_user_notification_required") is not True
         or ai_comms_decision.get("id") != AI_COMMS_DECISION_ID
         or ai_comms_decision.get("status") != "CANONICAL_CLOSED"
         or ai_comms_decision.get("new_capabilities") != 0
         or ai_comms_decision.get("new_architectural_authorities") != 0
         or ai_comms_decision.get("model_router_reconciliation", {}).get("authority_reused") is not True
         or ai_comms_decision.get("model_router_reconciliation", {}).get("parallel_router_created") is not False
+        or ai_comms_decision.get("model_router_reconciliation", {}).get("communication_authority_granted_to_router") is not False
+        or ai_comms_decision.get("partner_replacement_reconciliation", {}).get("unfit_partner_action") != "REPLACE"
+        or ai_comms_decision.get("cross_application_reconciliation", {}).get("protected_gateway_required") is not True
+        or ai_comms_decision.get("wake_reconciliation", {}).get("exception") != "SECURITY_EMERGENCY_WAKE"
+        or ai_comms_decision.get("wake_reconciliation", {}).get("immediate_user_notification_required") is not True
         or ai_comms_enforcement.get("gate_id") != AI_COMMS_GATE_ID
         or ai_comms_enforcement.get("fail_closed") is not True
         or ai_comms_enforcement.get("current_host_production_promotion_claim") is not False
@@ -1176,7 +1219,7 @@ def gate(root: Path):
         findings.append(
             finding(
                 "FA3-RELEASE-PROJECTION-111",
-                "AI communication human-auditable/private-language prohibition release reconciliation mismatch",
+                "AI communication human-auditable/closed-topology/wake-control release reconciliation mismatch",
                 reconciliation_status=ai_comms.get("reconciliation_status"),
                 missing_overlay_members=missing_ai_comms_overlay_members,
                 missing_manifest_paths=ai_comms_manifest_missing,

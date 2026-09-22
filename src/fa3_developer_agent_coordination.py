@@ -14,6 +14,11 @@ from pathlib import Path
 from typing import Any, Protocol
 
 from fa3_ai_comms import CommunicationDenied, message_semantics_allowed, validate_message_envelope
+from fa3_ai_comms_topology import (
+    CommunicationTopologyDenied,
+    authorize_message as authorize_topology_message,
+    validate_topology_policy,
+)
 
 RUNTIME_ID = "FA3-DEVELOPER-AGENT-COORDINATION-REF-RUNTIME-001"
 RUNTIME_VERSION = "0.2.0"
@@ -194,6 +199,48 @@ def provider_authority_assignment_allowed(*, provider_id: str, authority_owner: 
     return bool(provider_id and authority_owner and provider_id != authority_owner)
 
 
+def developer_coordination_topology_policy() -> dict[str, Any]:
+    return {
+        "schema": "fa3.ai-comms-topology-policy.v1",
+        "applications": {
+            "developer-agent-coordination": {
+                "primary_model_role": "coordinator",
+                "model_roles": [
+                    {"role_id": "coordinator", "required_for_app": True},
+                    {"role_id": "worker", "required_for_app": True},
+                ],
+                "state": "ACTIVE",
+                "security_app": False,
+            },
+            "security-response": {
+                "primary_model_role": "security-main",
+                "model_roles": [{"role_id": "security-main", "required_for_app": True}],
+                "state": "SLEEPING",
+                "security_app": True,
+            },
+        },
+        "cross_app_gateways": [],
+        "security_emergency_wake": {
+            "enabled": True,
+            "authorized_detectors": ["fa3-security-sensor"],
+            "target_security_apps": ["security-response"],
+            "allowed_triggers": [
+                "ACTIVE_MALWARE",
+                "RANSOMWARE_BEHAVIOR",
+                "DESTRUCTIVE_FILE_ENCRYPTION",
+                "ACTIVE_INTRUSION",
+                "LATERAL_PROPAGATION",
+                "CRITICAL_CREDENTIAL_COMPROMISE",
+            ],
+            "minimum_severity": "CRITICAL",
+            "minimum_confidence": 0.9,
+            "least_privilege_required": True,
+            "immediate_user_notification_required": True,
+            "gateway_still_required_for_cross_app": True,
+        },
+    }
+
+
 class BuiltinDeterministicAdapter:
     provider_id = FIXTURE_PROVIDER_ID
 
@@ -239,11 +286,35 @@ class BuiltinDeterministicAdapter:
 
 
 class Coordinator:
-    def __init__(self, repo: Path, control_root: Path, *, max_message_hops: int = 4):
+    def __init__(
+        self,
+        repo: Path,
+        control_root: Path,
+        *,
+        communication_topology_policy: dict[str, Any],
+        participant_roles: dict[str, str],
+        application_id: str = "developer-agent-coordination",
+        max_message_hops: int = 4,
+    ):
         self.repo = repo.resolve()
         self.control_root = control_root.resolve()
         self.control_root.mkdir(parents=True, exist_ok=True)
         self.max_message_hops = max_message_hops
+        self.communication_topology_policy = communication_topology_policy
+        self.application_id = application_id
+        try:
+            validate_topology_policy(self.communication_topology_policy)
+        except CommunicationTopologyDenied as exc:
+            raise CoordinationDenied(f"invalid communication topology policy: {exc}") from exc
+        app = self.communication_topology_policy.get("applications", {}).get(self.application_id)
+        if not isinstance(app, dict):
+            raise CoordinationDenied("coordinator application is not declared in communication topology policy")
+        declared_roles = {str(item.get("role_id")) for item in app.get("model_roles", []) if isinstance(item, dict)}
+        if not isinstance(participant_roles, dict) or not participant_roles:
+            raise CoordinationDenied("closed participant role binding is required")
+        if any(not isinstance(actor, str) or not actor or role not in declared_roles for actor, role in participant_roles.items()):
+            raise CoordinationDenied("participant role binding contains an undeclared actor or logical role")
+        self.participant_roles = dict(participant_roles)
         self.base_commit = self.git(self.repo, "rev-parse", "HEAD").strip()
         self.event_log = self.control_root / "events.jsonl"
         self.workspaces: dict[str, Path] = {}
@@ -291,6 +362,38 @@ class Coordinator:
         if action != "ALLOW":
             self.event("CIRCUIT_BREAKER", task_id=message.task_id, state="TERMINATE", reason="MESSAGE_HOP_BUDGET")
             raise CoordinationDenied("message hop budget exceeded")
+        sender_role = self.participant_roles.get(message.sender)
+        recipient_role = self.participant_roles.get(message.recipient)
+        if sender_role is None or recipient_role is None:
+            self.event(
+                "MESSAGE_TOPOLOGY_DENIED",
+                message_id=message.message_id,
+                sender=message.sender,
+                recipient=message.recipient,
+                reason="UNDECLARED_APPLICATION_MODEL_PARTICIPANT",
+                policy_id="FA3-AI-COMMS-001",
+            )
+            raise CoordinationDenied("message participant is not in the closed application participant set")
+        try:
+            topology_audit = authorize_topology_message(
+                self.communication_topology_policy,
+                sender_app=self.application_id,
+                sender_role=sender_role,
+                recipient_app=self.application_id,
+                recipient_role=recipient_role,
+            )
+        except CommunicationTopologyDenied as exc:
+            self.event(
+                "MESSAGE_TOPOLOGY_DENIED",
+                message_id=message.message_id,
+                sender=message.sender,
+                recipient=message.recipient,
+                sender_role=sender_role,
+                recipient_role=recipient_role,
+                reason=str(exc),
+                policy_id="FA3-AI-COMMS-001",
+            )
+            raise CoordinationDenied(f"message topology denied: {exc}") from exc
         try:
             comm_audit = validate_message_envelope(
                 message.payload,
@@ -321,6 +424,11 @@ class Coordinator:
             language_tag=comm_audit["language_tag"],
             human_text_sha256=comm_audit["human_text_sha256"],
             communication_policy="FA3-AI-COMMS-001",
+            communication_scope=topology_audit["scope"],
+            application_id=self.application_id,
+            sender_role=sender_role,
+            recipient_role=recipient_role,
+            gateway_id=topology_audit["gateway_id"],
         )
         return final
 
@@ -563,7 +671,12 @@ def _positive_reference_flow(base: Path) -> dict[str, Any]:
         AgentTask("TASK-TEST", "test-agent", FIXTURE_PROVIDER_ID, "work/tests.txt", "test-result\n"),
         AgentTask("TASK-SEC", "security-agent", FIXTURE_PROVIDER_ID, "work/security.txt", "security-result\n"),
     ]
-    coordinator = Coordinator(repo, base / "positive-control")
+    coordinator = Coordinator(
+        repo,
+        base / "positive-control",
+        communication_topology_policy=developer_coordination_topology_policy(),
+        participant_roles={"coordinator": "coordinator", **{task.agent_id: "worker" for task in tasks}},
+    )
     return coordinator.run(tasks, BuiltinDeterministicAdapter())
 
 
@@ -574,7 +687,12 @@ def _overlap_negative_flow(base: Path) -> bool:
         AgentTask("TASK-A", "agent-a", FIXTURE_PROVIDER_ID, "work/shared.txt", "a\n"),
         AgentTask("TASK-B", "agent-b", FIXTURE_PROVIDER_ID, "work/shared.txt", "b\n"),
     ]
-    coordinator = Coordinator(repo, base / "conflict-control")
+    coordinator = Coordinator(
+        repo,
+        base / "conflict-control",
+        communication_topology_policy=developer_coordination_topology_policy(),
+        participant_roles={"coordinator": "coordinator", **{task.agent_id: "worker" for task in tasks}},
+    )
     try:
         coordinator.run(tasks, BuiltinDeterministicAdapter())
     except ConflictDetected:
