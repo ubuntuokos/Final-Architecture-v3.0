@@ -3,8 +3,8 @@
   "id": "FA3-DEC-AI-COMMS-2026-09-22",
   "date": "2026-09-22",
   "status": "CANONICAL_CLOSED",
-  "subject": "Human-auditable model-to-model and agent-to-agent communication",
-  "decision": "MANDATE_HUMAN_AUDITABLE_COMMUNICATION_AND_FORBID_PRIVATE_MODEL_LANGUAGE",
+  "subject": "Human-auditable, closed-participant model communication, protected inter-application gateways, partner replacement and controlled wake",
+  "decision": "MANDATE_HUMAN_AUDITABLE_POLICY_BOUNDED_MODEL_COMMUNICATION_AND_CONTROLLED_WAKE",
   "profile_id": "FA3-AI-COMMS-001",
   "contract_family": "FA3-AI-COMMS-CONTRACTS-001",
   "gate_id": "FA3-AI-COMMS-GATESET-001",
@@ -19,7 +19,10 @@
     "authority_reused": true,
     "parallel_router_created": false,
     "semantic_policy_authority_granted_to_router": false,
-    "applies_to_pr_351": true
+    "applies_to_pr_351": true,
+    "communication_authority_granted_to_router": false,
+    "router_may_expand_participant_set": false,
+    "replacement_selection_for_existing_role_allowed": true
   },
   "language_fabric_reconciliation": {
     "language_bridge_may_translate_or_normalize": true,
@@ -32,7 +35,49 @@
     "unknown_communication_mode": "DENY",
     "missing_authoritative_human_text": "DENY",
     "private_codebook_or_opaque_semantic_channel": "DENY",
-    "unversioned_structured_protocol": "DENY"
+    "unversioned_structured_protocol": "DENY",
+    "undeclared_app_participant": "DENY",
+    "unfit_partner": "REPLACE",
+    "replacement_participant_expansion": "DENY",
+    "cross_app_without_protected_gateway": "DENY",
+    "sleeping_app_wake_without_user_directive": "DENY",
+    "valid_security_emergency_wake": "ALLOW_WITH_IMMEDIATE_NOTIFICATION_AND_AUDIT"
   },
-  "evidence_claim": "REFERENCE_STATIC_AND_RUNTIME_REGRESSION_EVIDENCE_ONLY_NO_CURRENT_HOST_PROMOTION"
+  "evidence_claim": "REFERENCE_STATIC_AND_RUNTIME_REGRESSION_EVIDENCE_ONLY_NO_CURRENT_HOST_PROMOTION",
+  "application_participant_reconciliation": {
+    "logical_roles_only": true,
+    "closed_participant_set": true,
+    "autonomous_new_ai_party": "FORBIDDEN",
+    "primary_model_required": true
+  },
+  "partner_replacement_reconciliation": {
+    "unfit_partner_action": "REPLACE",
+    "replacement_candidate_pre_admission_required": true,
+    "participant_count_delta": 0,
+    "selection_authority": "FA3-AUTH-MODEL-ROUTER-001"
+  },
+  "cross_application_reconciliation": {
+    "default": "DENY",
+    "explicit_relationship_required": true,
+    "protected_gateway_required": true,
+    "gateway_bypass": "FORBIDDEN",
+    "direct_side_channel": "FORBIDDEN"
+  },
+  "wake_reconciliation": {
+    "sleeping_app_normal_wake": "EXPLICIT_USER_DIRECTIVE_ONLY",
+    "exception": "SECURITY_EMERGENCY_WAKE",
+    "exception_scope": "PREAUTHORIZED_SECURITY_APPLICATION_AND_MODEL_ROLE_ONLY",
+    "critical_severity_required": true,
+    "high_confidence_required": true,
+    "least_privilege_required": true,
+    "immediate_user_notification_required": true,
+    "gateway_bypass_allowed": false
+  },
+  "hardware_audit_reconciliation": {
+    "vendor_neutral": true,
+    "cpu_only_conformance_unchanged": true,
+    "accelerator_floor_created": false,
+    "provider_or_model_pin_created": false,
+    "current_host_hardware_promoted_to_policy": false
+  }
 }
