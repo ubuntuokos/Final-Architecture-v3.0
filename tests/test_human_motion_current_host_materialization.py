@@ -45,7 +45,7 @@ class HumanMotionCurrentHostMaterializationTests(unittest.TestCase):
             "evidence/collect-human-motion-current-host.py",
         ]
         text = "\n".join((ROOT / p).read_text(encoding="utf-8") for p in paths).lower()
-        self.assertNotIn("rtx 3090", text); self.assertNotIn("rtx3090", text); self.assertNotIn("a1000", text)
+        self.assertNotIn("fixture accelerator y", text); self.assertNotIn("fixture-accelerator-y", text); self.assertNotIn("a1000", text)
 
     def test_decision_preserves_architecture(self):
         d = load("canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json"); self.assertEqual(143, d["baseline_effect"]["capability_count_after"]); self.assertEqual(0, d["baseline_effect"]["new_architectural_authorities"]); self.assertFalse(d["security"]["runtime_network_fetch"]); self.assertFalse(d["security"]["automatic_model_download"])

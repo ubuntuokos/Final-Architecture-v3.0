@@ -1,12 +1,15 @@
 name: FA3 Global Current-Host Evidence Closure
 
 on:
-  pull_request:
+  push:
     branches: [main]
     paths:
       - 'canonical/current-host-capability-test-executors.json'
       - 'canonical/current-host-capability-test-qualifications.json'
       - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
+      - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
       - 'src/fa3_current_host_evidence_audit.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'src/fa3_current_host_capability_attest.py'
@@ -25,6 +28,90 @@ on:
       - 'src/fa3_cap080_verified_skill_supply_chain_current_host.py'
       - 'src/fa3_cap028_agent_execution_current_host.py'
       - 'src/fa3_mat001_foundation_current_host.py'
+      - 'src/fa3_mat002_runtime_knowledge_current_host.py'
+      - 'src/fa3_mat003_interaction_creative_current_host.py'
+      - 'src/fa3_desktop_admission.py'
+      - 'src/fa3_plasma_secret_service_diagnostic.py'
+      - 'src/fa3_mat004_media_authoring_verification_current_host.py'
+      - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_full_current_host_preflight.py'
+      - 'src/fa3_current_host_runtime_resolver.py'
+      - 'src/fa3_pytorch3d_build_readiness.py'
+      - 'src/fa3_hrb_systemd_manager_current_host_gate.py'
+      - 'evidence/collect-current-host.sh'
+      - 'evidence/collect-hrb-systemd-manager-current-host.py'
+      - 'bin/fa3-current-host'
+      - 'bin/fa3-current-host-runner-doctor'
+      - 'bin/fa3-enforce'
+      - 'bin/fa3-bootstrap-wasmtime'
+      - 'tests/test_current_host_evidence_audit.py'
+      - 'tests/test_current_host_capability_handoff.py'
+      - 'tests/test_current_host_capability_attest.py'
+      - 'tests/test_current_host_capability_test_bundle.py'
+      - 'tests/test_current_host_capability_test_qualification_audit.py'
+      - 'tests/test_current_host_capability_test_qualifier.py'
+      - 'tests/test_current_host_capability_qualification_constituent_producer_audit.py'
+      - 'tests/test_current_host_capability_qualification_constituent_orchestrator.py'
+      - 'tests/test_current_host_capability_test_executor_audit.py'
+      - 'tests/test_current_host_capability_test_orchestrator.py'
+      - 'tests/test_current_host_batch_planner.py'
+      - 'tests/test_current_host_batch_orchestration.py'
+      - 'tests/test_cap075_contract_registry_current_host.py'
+      - 'tests/test_cap076_acceptance_resilience_current_host.py'
+      - 'tests/test_cap054_external_asset_inventory_current_host.py'
+      - 'tests/test_cap074_service_catalog_current_host.py'
+      - 'tests/test_cap080_verified_skill_supply_chain_current_host.py'
+      - 'tests/test_cap028_agent_execution_current_host.py'
+      - 'tests/test_mat001_foundation_current_host.py'
+      - 'tests/test_mat002_runtime_knowledge_current_host.py'
+      - 'tests/test_mat003_interaction_creative_current_host.py'
+      - 'tests/test_desktop_portability.py'
+      - 'tests/test_plasma_secret_service_diagnostic.py'
+      - 'tests/test_mat004_media_authoring_verification_current_host.py'
+      - 'tests/test_full_current_host_capability_producer.py'
+      - 'tests/test_full_current_host_preflight.py'
+      - 'tests/test_current_host_runtime_resolver.py'
+      - 'tests/test_pytorch3d_build_readiness.py'
+      - 'tests/test_wasmtime_bootstrap.py'
+      - 'tests/test_global_current_host_workflow_trigger.py'
+      - '.github/workflows/fa3-global-current-host-closure.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/current-host-capability-test-executors.json'
+      - 'canonical/current-host-capability-test-qualifications.json'
+      - 'canonical/current-host-capability-qualification-constituent-producers.json'
+      - 'canonical/current-host-capability-proof-recipes.json'
+      - 'canonical/FA3-DESKTOP-PLASMA-001.json'
+      - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
+      - 'src/fa3_current_host_evidence_audit.py'
+      - 'src/fa3_current_host_capability_handoff.py'
+      - 'src/fa3_current_host_capability_attest.py'
+      - 'src/fa3_current_host_capability_test_bundle.py'
+      - 'src/fa3_current_host_capability_test_qualification_audit.py'
+      - 'src/fa3_current_host_capability_test_qualifier.py'
+      - 'src/fa3_current_host_capability_qualification_constituent_producer_audit.py'
+      - 'src/fa3_current_host_capability_qualification_constituent_orchestrator.py'
+      - 'src/fa3_current_host_capability_test_executor_audit.py'
+      - 'src/fa3_current_host_capability_test_orchestrator.py'
+      - 'src/fa3_current_host_batch_planner.py'
+      - 'src/fa3_cap075_contract_registry_current_host.py'
+      - 'src/fa3_cap076_acceptance_resilience_current_host.py'
+      - 'src/fa3_cap054_external_asset_inventory_current_host.py'
+      - 'src/fa3_cap074_service_catalog_current_host.py'
+      - 'src/fa3_cap080_verified_skill_supply_chain_current_host.py'
+      - 'src/fa3_cap028_agent_execution_current_host.py'
+      - 'src/fa3_mat001_foundation_current_host.py'
+      - 'src/fa3_mat002_runtime_knowledge_current_host.py'
+      - 'src/fa3_mat003_interaction_creative_current_host.py'
+      - 'src/fa3_desktop_admission.py'
+      - 'src/fa3_plasma_secret_service_diagnostic.py'
+      - 'src/fa3_mat004_media_authoring_verification_current_host.py'
+      - 'src/fa3_full_current_host_capability_producer.py'
+      - 'src/fa3_full_current_host_preflight.py'
+      - 'src/fa3_current_host_runtime_resolver.py'
+      - 'src/fa3_pytorch3d_build_readiness.py'
+      - 'tests/test_pytorch3d_build_readiness.py'
       - 'tests/test_current_host_evidence_audit.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
@@ -45,7 +132,24 @@ on:
       - 'tests/test_cap080_verified_skill_supply_chain_current_host.py'
       - 'tests/test_cap028_agent_execution_current_host.py'
       - 'tests/test_mat001_foundation_current_host.py'
+      - 'tests/test_mat002_runtime_knowledge_current_host.py'
+      - 'tests/test_mat003_interaction_creative_current_host.py'
+      - 'tests/test_desktop_portability.py'
+      - 'tests/test_plasma_secret_service_diagnostic.py'
+      - 'tests/test_mat004_media_authoring_verification_current_host.py'
+      - 'tests/test_full_current_host_capability_producer.py'
       - 'evidence/reference/current-host-143-audit-*.json'
+      - 'src/fa3_hrb_systemd_manager_current_host_gate.py'
+      - 'evidence/collect-current-host.sh'
+      - 'evidence/collect-hrb-systemd-manager-current-host.py'
+      - 'bin/fa3-current-host'
+      - 'bin/fa3-current-host-runner-doctor'
+      - 'bin/fa3-enforce'
+      - 'bin/fa3-bootstrap-wasmtime'
+      - 'tests/test_global_current_host_workflow_trigger.py'
+      - 'tests/test_full_current_host_preflight.py'
+      - 'tests/test_current_host_runtime_resolver.py'
+      - 'tests/test_wasmtime_bootstrap.py'
       - '.github/workflows/fa3-global-current-host-closure.yml'
   workflow_dispatch:
     inputs:
@@ -55,9 +159,9 @@ on:
         default: false
         type: boolean
       execution_batch_id:
-        description: 'Execution-ready batch ID from the deterministic planner (for example EXEC-001)'
+        description: 'Execution-ready batch ID, or FULL-429 for complete physical closure'
         required: false
-        default: 'EXEC-001'
+        default: 'FULL-429'
         type: string
 
 permissions:
@@ -98,10 +202,23 @@ jobs:
             src/fa3_cap080_verified_skill_supply_chain_current_host.py \
             src/fa3_cap028_agent_execution_current_host.py \
             src/fa3_mat001_foundation_current_host.py \
+            src/fa3_mat002_runtime_knowledge_current_host.py \
+            src/fa3_mat003_interaction_creative_current_host.py \
+            src/fa3_plasma_secret_service_diagnostic.py \
+            src/fa3_mat004_media_authoring_verification_current_host.py \
+            tests/test_plasma_secret_service_diagnostic.py \
+            src/fa3_full_current_host_capability_producer.py \
+            src/fa3_full_current_host_preflight.py \
+            src/fa3_current_host_runtime_resolver.py \
+            src/fa3_pytorch3d_build_readiness.py \
             src/fa3_current_host_capability_test_bundle.py \
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            src/fa3_hrb_systemd_manager_current_host_gate.py \
+            evidence/collect-hrb-systemd-manager-current-host.py \
+            tests/test_hrb_systemd_manager_current_host_gate.py \
+            tests/test_hrb_systemd_manager_current_host_collector.py \
             tests/test_current_host_capability_test_qualification_audit.py \
             tests/test_current_host_capability_test_qualifier.py \
             tests/test_current_host_capability_qualification_constituent_producer_audit.py \
@@ -117,6 +234,12 @@ jobs:
             tests/test_cap080_verified_skill_supply_chain_current_host.py \
             tests/test_cap028_agent_execution_current_host.py \
             tests/test_mat001_foundation_current_host.py \
+            tests/test_mat002_runtime_knowledge_current_host.py \
+            tests/test_full_current_host_capability_producer.py \
+            tests/test_full_current_host_preflight.py \
+            tests/test_current_host_runtime_resolver.py \
+            tests/test_pytorch3d_build_readiness.py \
+            tests/test_wasmtime_bootstrap.py \
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
@@ -138,6 +261,11 @@ jobs:
           executor_keys={(row['subject_id'],row['test_kind']) for row in executors['entries']}
           qualification_keys={(row['subject_id'],row['test_kind']) for row in qualifications['entries']}
           producer_keys={(row['subject_id'],row['test_kind']) for row in producers['entries']}
+          evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
+          expected_caps=sorted(
+              [row['subject_id'] for row in evidence['records']],
+              key=lambda x: int(x.split('-',1)[1]),
+          )
           ready_keys=executor_keys & qualification_keys & producer_keys
           ready_caps=sorted(
               {subject for subject,_ in ready_keys},
@@ -146,12 +274,15 @@ jobs:
           assert plan['status'] == 'PASS', plan
           assert plan['capability_count'] == 143, plan
           assert plan['required_test_obligation_count'] == 429, plan
-          assert plan['materialized_obligation_count'] == len(ready_keys), plan
-          assert plan['pending_obligation_count'] == 429 - len(ready_keys), plan
-          assert plan['execution_ready_capabilities'] == ready_caps, plan
-          assert plan['fully_materialized_capability_count'] == len(ready_caps), plan
-          assert plan['pending_materialization_capability_count'] == 143 - len(ready_caps), plan
-          assert plan['next_materialization_batch']['capabilities'] == ['CAP-006','CAP-007','CAP-008','CAP-009','CAP-010'], plan
+          assert len(ready_keys) == 429, ready_keys
+          assert ready_caps == expected_caps, (ready_caps, expected_caps)
+          assert plan['materialized_obligation_count'] == 429, plan
+          assert plan['pending_obligation_count'] == 0, plan
+          assert plan['execution_ready_capabilities'] == expected_caps, plan
+          assert plan['fully_materialized_capability_count'] == 143, plan
+          assert plan['pending_materialization_capability_count'] == 0, plan
+          assert plan['next_materialization_batch'] is None, plan
+          assert plan['materialization_batches'] == [], plan
           assert plan['invariants']['materialized_executor_implies_runtime_pass'] is False, plan
           assert plan['invariants']['batch_completion_implies_global_promotion'] is False, plan
           assert plan['invariants']['global_promotion_claim'] is False, plan
@@ -172,6 +303,17 @@ jobs:
             tests.test_cap080_verified_skill_supply_chain_current_host \
             tests.test_cap028_agent_execution_current_host \
             tests.test_mat001_foundation_current_host \
+            tests.test_mat002_runtime_knowledge_current_host \
+            tests.test_mat003_interaction_creative_current_host \
+            tests.test_plasma_secret_service_diagnostic \
+            tests.test_mat004_media_authoring_verification_current_host \
+            tests.test_hrb_systemd_manager_current_host_gate \
+            tests.test_hrb_systemd_manager_current_host_collector \
+            tests.test_full_current_host_capability_producer \
+            tests.test_full_current_host_preflight \
+            tests.test_current_host_runtime_resolver \
+            tests.test_pytorch3d_build_readiness \
+            tests.test_wasmtime_bootstrap \
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
@@ -190,30 +332,14 @@ jobs:
           assert qualification['component_receipts_promoted'] == 0, qualification
           assert qualification['generic_host_evidence_promoted'] == 0, qualification
           assert qualification['global_promotion_claim'] is False, qualification
-          cap075=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-075']
-          assert len(cap075) == 3, cap075
-          assert {row['test_kind'] for row in cap075} == {'positive','negative','rollback'}, cap075
-          cap076=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-076']
-          assert len(cap076) == 3, cap076
-          assert {row['test_kind'] for row in cap076} == {'positive','negative','rollback'}, cap076
-          cap054=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-054']
-          assert len(cap054) == 3, cap054
-          assert {row['test_kind'] for row in cap054} == {'positive','negative','rollback'}, cap054
-          cap074=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-074']
-          assert len(cap074) == 3, cap074
-          assert {row['test_kind'] for row in cap074} == {'positive','negative','rollback'}, cap074
-          cap080=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-080']
-          assert len(cap080) == 3, cap080
-          assert {row['test_kind'] for row in cap080} == {'positive','negative','rollback'}, cap080
-          cap028=[row for row in qualification['accepted_qualifications'] if row['subject_id']=='CAP-028']
-          assert len(cap028) == 3, cap028
-          assert {row['test_kind'] for row in cap028} == {'positive','negative','rollback'}, cap028
-          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005']:
+          evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
+          subjects=[row['subject_id'] for row in evidence['records']]
+          for subject in subjects:
               rows=[row for row in qualification['accepted_qualifications'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert qualification['qualified_definition_count'] == 33, qualification
-          assert qualification['pending_definition_count'] == 396, qualification
+          assert qualification['qualified_definition_count'] == 429, qualification
+          assert qualification['pending_definition_count'] == 0, qualification
           PY
       - name: Audit explicit qualification constituent producer coverage
         run: |
@@ -228,29 +354,14 @@ jobs:
           assert producer_audit['component_receipts_promoted'] == 0, producer_audit
           assert producer_audit['generic_host_evidence_promoted'] == 0, producer_audit
           assert producer_audit['global_promotion_claim'] is False, producer_audit
-          cap075=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-075']
-          assert len(cap075) == 3, cap075
-          assert {row['test_kind'] for row in cap075} == {'positive','negative','rollback'}, cap075
-          cap076=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-076']
-          assert len(cap076) == 3, cap076
-          assert {row['test_kind'] for row in cap076} == {'positive','negative','rollback'}, cap076
-          cap054=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-054']
-          assert len(cap054) == 3, cap054
-          assert {row['test_kind'] for row in cap054} == {'positive','negative','rollback'}, cap054
-          cap074=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-074']
-          assert len(cap074) == 3, cap074
-          assert {row['test_kind'] for row in cap074} == {'positive','negative','rollback'}, cap074
-          cap080=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-080']
-          assert len(cap080) == 3, cap080
-          assert {row['test_kind'] for row in cap080} == {'positive','negative','rollback'}, cap080
-          cap028=[row for row in producer_audit['accepted_producers'] if row['subject_id']=='CAP-028']
-          assert len(cap028) == 3, cap028
-          assert {row['test_kind'] for row in cap028} == {'positive','negative','rollback'}, cap028
-          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005']:
+          evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
+          subjects=[row['subject_id'] for row in evidence['records']]
+          for subject in subjects:
               rows=[row for row in producer_audit['accepted_producers'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert producer_audit['registered_producer_count'] == 33, producer_audit
+          assert producer_audit['registered_producer_count'] == 429, producer_audit
+          assert producer_audit['pending_producer_count'] == 0, producer_audit
           PY
       - name: Prove hosted CI cannot produce current-host qualification constituents
         run: |
@@ -279,30 +390,14 @@ jobs:
           assert executor['provider_receipts_promoted'] == 0, executor
           assert executor['generic_host_evidence_promoted'] == 0, executor
           assert executor['global_promotion_claim'] is False, executor
-          cap075=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-075']
-          assert len(cap075) == 3, cap075
-          assert {row['test_kind'] for row in cap075} == {'positive','negative','rollback'}, cap075
-          cap076=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-076']
-          assert len(cap076) == 3, cap076
-          assert {row['test_kind'] for row in cap076} == {'positive','negative','rollback'}, cap076
-          cap054=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-054']
-          assert len(cap054) == 3, cap054
-          assert {row['test_kind'] for row in cap054} == {'positive','negative','rollback'}, cap054
-          cap074=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-074']
-          assert len(cap074) == 3, cap074
-          assert {row['test_kind'] for row in cap074} == {'positive','negative','rollback'}, cap074
-          cap080=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-080']
-          assert len(cap080) == 3, cap080
-          assert {row['test_kind'] for row in cap080} == {'positive','negative','rollback'}, cap080
-          cap028=[row for row in executor['registered_obligations'] if row['subject_id']=='CAP-028']
-          assert len(cap028) == 3, cap028
-          assert {row['test_kind'] for row in cap028} == {'positive','negative','rollback'}, cap028
-          for subject in ['CAP-001','CAP-002','CAP-003','CAP-004','CAP-005']:
+          evidence=json.loads(Path('evidence/evidence-registry.json').read_text())
+          subjects=[row['subject_id'] for row in evidence['records']]
+          for subject in subjects:
               rows=[row for row in executor['registered_obligations'] if row['subject_id']==subject]
               assert len(rows) == 3, (subject, rows)
               assert {row['test_kind'] for row in rows} == {'positive','negative','rollback'}, (subject, rows)
-          assert executor['registered_executor_count'] == 33, executor
-          assert executor['pending_executor_count'] == 396, executor
+          assert executor['registered_executor_count'] == 429, executor
+          assert executor['pending_executor_count'] == 0, executor
           PY
       - name: Prove hosted CI cannot execute current-host capability tests
         run: |
@@ -444,15 +539,29 @@ jobs:
 
   current-host-closure:
     name: current-host-closure / real-execution
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.execute_current_host) }}
     needs: closure-regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]
-    timeout-minutes: 90
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Bootstrap pinned Wasmtime when absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          if command -v wasmtime >/dev/null 2>&1; then
+            wasmtime --version
+          else
+            chmod +x bin/fa3-bootstrap-wasmtime
+            tool_bin="$(bin/fa3-bootstrap-wasmtime)"
+            echo "$tool_bin" >> "$GITHUB_PATH"
+            export PATH="$tool_bin:$PATH"
+            wasmtime --version
+          fi
+
       - name: Prove runner control-plane identity
         shell: bash
         run: |
@@ -467,6 +576,8 @@ jobs:
         run: |
           rm -rf \
             .fa3-current-host/global-closure \
+            .fa3-current-host/full-closure \
+            .fa3-current-host/pytorch3d \
             .fa3-current-host/qualification-source-artifacts \
             .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results \
@@ -477,6 +588,8 @@ jobs:
             evidence/receipts/capabilities
           mkdir -p \
             .fa3-current-host/global-closure \
+            .fa3-current-host/full-closure \
+            .fa3-current-host/pytorch3d \
             .fa3-current-host/qualification-source-artifacts \
             .fa3-current-host/qualification-constituents \
             .fa3-current-host/test-results/capabilities \
@@ -493,6 +606,16 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_batch_planner.py --root . --batch-size 5
+      - name: Collect optional PyTorch3D build readiness diagnostic
+        continue-on-error: true
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_pytorch3d_build_readiness.py --root .
+      - name: Fail-fast FULL-429 current-host preflight
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_full_current_host_preflight.py --root .
+
       - name: Select explicit execution-ready capability batch
         shell: bash
         run: |
@@ -500,21 +623,30 @@ jobs:
           import json, os
           from pathlib import Path
           plan=json.loads(Path('reports/current-host-closure-batch-plan.json').read_text())
-          requested=os.environ.get('FA3_REQUESTED_BATCH_ID', 'EXEC-001')
-          batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
-          if batch is None:
-              raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
-          subjects=batch['capabilities']
+          requested=(os.environ.get('FA3_REQUESTED_BATCH_ID') or 'FULL-429').strip()
+          if requested == 'FULL-429':
+              subjects=plan['execution_ready_capabilities']
+              if len(subjects) != 143:
+                  raise SystemExit(f'FULL-429 requires 143 execution-ready capabilities, got {len(subjects)}')
+              obligation_count=plan['materialized_obligation_count']
+              if obligation_count != 429 or plan['pending_obligation_count'] != 0:
+                  raise SystemExit(f'FULL-429 requires exact 429/429 materialization: {plan}')
+          else:
+              batch=next((row for row in plan['execution_batches'] if row['batch_id']==requested), None)
+              if batch is None:
+                  raise SystemExit(f'Unknown or non-execution-ready batch: {requested}')
+              subjects=batch['capabilities']
+              obligation_count=batch['obligation_count']
           if not subjects:
-              raise SystemExit(f'Empty execution batch: {requested}')
+              raise SystemExit(f'Empty execution selection: {requested}')
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
               fh.write(f"FA3_CURRENT_HOST_BATCH_ID={requested}\n")
               fh.write(f"FA3_CURRENT_HOST_SUBJECTS={','.join(subjects)}\n")
-              fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={batch['obligation_count']}\n")
-          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': batch['obligation_count']}, indent=2))
+              fh.write(f"FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT={obligation_count}\n")
+          print(json.dumps({'batch_id': requested, 'capabilities': subjects, 'obligation_count': obligation_count}, indent=2))
           PY
         env:
-          FA3_REQUESTED_BATCH_ID: ${{ inputs.execution_batch_id }}
+          FA3_REQUESTED_BATCH_ID: ${{ github.event_name == 'push' && 'FULL-429' || inputs.execution_batch_id }}
       - name: Audit explicit capability qualification coverage before execution
         shell: bash
         run: |
@@ -527,6 +659,13 @@ jobs:
         shell: bash
         run: |
           PYTHONPATH=src python3 src/fa3_current_host_capability_qualification_constituent_orchestrator.py --root . --execute --subjects "$FA3_CURRENT_HOST_SUBJECTS"
+      - name: Collect persistent CAP-013 Plasma Secret Service diagnostic
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          PYTHONPATH=src python3 src/fa3_plasma_secret_service_diagnostic.py \
+            --output .fa3-current-host/global-closure/diagnostics/cap013-plasma-secret-service.json
       - name: Audit explicit capability executor coverage before execution
         shell: bash
         run: |
@@ -661,6 +800,8 @@ jobs:
           if-no-files-found: error
           path: |
             .fa3-current-host/global-closure/**
+            .fa3-current-host/full-closure/preflight.json
+            .fa3-current-host/pytorch3d/**
             .fa3-current-host/qualification-source-artifacts/**
             .fa3-current-host/qualification-constituents/**
             .fa3-current-host/test-results/capabilities/**

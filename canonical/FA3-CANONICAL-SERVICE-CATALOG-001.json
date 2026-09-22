@@ -45,6 +45,12 @@
       "kind": "SYSTEMD_USER",
       "source_path": "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
       "activation": "USER_SESSION"
+    },
+    {
+      "id": "svc:step-ca",
+      "kind": "SYSTEMD_SYSTEM",
+      "source_path": "deployment/step-ca/fa3-step-ca.service",
+      "activation": "SYSTEM_POLICY_GATED"
     }
   ],
   "resources": [
@@ -166,6 +172,12 @@
       "target": "res:graphical-session.target",
       "relation": "AFTER",
       "evidence_token": "After=graphical-session.target"
+    },
+    {
+      "source": "svc:step-ca",
+      "target": "res:network-online.target",
+      "relation": "AFTER",
+      "evidence_token": "After=network-online.target"
     }
   ],
   "invariants": [

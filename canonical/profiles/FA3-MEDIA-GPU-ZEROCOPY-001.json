@@ -1,11 +1,11 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-MEDIA-GPU-ZEROCOPY-001",
-  "name": "Accelerated Neural Video Zero-Host-Round-Trip Execution",
-  "version": "1.0.0",
+  "name": "Accelerated Neural Video Memory-Residency Evidence (compatibility ID retained)",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
-  "requirement": "MUST-IF-ACCELERATED-AI-VIDEO-USED",
+  "requirement": "MUST-IF-ZERO-HOST-ROUND-TRIP-IS-CLAIMED",
   "canonical_root": false,
   "parent_profile": "FA3-NEURAL-MEDIA-EXECUTION-001",
   "relationship": "SUBPROFILE-OF",
@@ -24,17 +24,17 @@
     "FA3-RUNTIME-HARDENING-CONTRACTS-001",
     "FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001"
   ],
-  "claim_semantics": "ZERO_HOST_ROUND_TRIP",
-  "nvidia_primary_path": [
-    "PYNVVIDEOCODEC_NVDEC_DEVICE_MEMORY",
-    "DLPACK_SHARED_GPU_TENSOR",
-    "PYTORCH_TRITON_OR_TENSORRT_INFERENCE",
-    "PYNVVIDEOCODEC_OR_NVENC_ENCODE"
+  "claim_classification": [
+    "ZERO_COPY_PROVEN",
+    "TRANSFER_MINIMIZED",
+    "NOT_ZERO_COPY"
   ],
   "provider_roles": {
-    "primary_nvidia_ai_frame_executor": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
-    "secondary_neural_frameserver": "FA3-PROVIDER-VS-MLRT-001",
-    "deterministic_media_core": "FA3-PROVIDER-FFMPEG-001"
+    "provider_selection": "WORKLOAD_CAPABILITY_PLUS_HRB_ADMISSION",
+    "nvidia_adapter": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "neural_frameserver_adapter": "FA3-PROVIDER-VS-MLRT-001",
+    "deterministic_media_core": "FA3-PROVIDER-FFMPEG-001",
+    "future_amd_intel_npu_or_other_adapters": "ALLOWED_WITH_PROVIDER_SPECIFIC_EVIDENCE"
   },
   "ffmpeg_preserved_roles": [
     "DEMUX_MUX",
@@ -46,20 +46,23 @@
   ],
   "evidence_policy": {
     "host_frame_round_trips_during_neural_segment_max": 0,
-    "host_device_copy_telemetry_required": true,
+    "host_device_copy_telemetry_required_only_for_zero_copy_proven": true,
     "gpu_to_gpu_copy_allowed_if_evidenced": true,
     "requested_backend_must_equal_observed_backend": true,
-    "full_pipeline_true_zero_copy_claim_forbidden_without_proof": true
+    "full_pipeline_true_zero_copy_claim_forbidden_without_proof": true,
+    "fixed_five_percent_pcie_threshold_forbidden": true,
+    "low_link_utilization_is_not_zero_copy_proof": true,
+    "non_claiming_or_cpu_only_workload_may_be_not_applicable": true
   },
   "invariants": [
     "ZERO_HOST_ROUND_TRIP_NOT_MARKETING_ZERO_COPY",
     "NO_CPU_FRAME_ROUND_TRIP_INSIDE_ACCELERATED_NEURAL_SEGMENT",
-    "COPY_TELEMETRY_REQUIRED",
+    "COPY_TELEMETRY_REQUIRED_FOR_ZERO_COPY_PROVEN",
     "GPU_TO_GPU_COPY_ALLOWED_ONLY_WITH_EXPLICIT_EVIDENCE",
-    "FFMPEG_DNN_NOT_PRIMARY_NVIDIA_AI_FRAME_PATH",
+    "NO_VENDOR_PROVIDER_IS_GLOBAL_MEDIA_AUTHORITY",
     "FFMPEG_MEDIA_CORE_REMAINS_REQUIRED",
     "VS_MLRT_REMAINS_REQUIRED_SUPPORTED_SECONDARY_NEURAL_ADAPTER",
-    "HRB_LEASE_UUID_BDF_REQUIRED",
+    "ACCELERATOR_CLAIM_REQUIRES_PROVIDER_COMPATIBLE_HRB_LEASE",
     "NO_SILENT_CPU_DISPLAY_GPU_OR_CLOUD_FALLBACK"
   ],
   "current_host_runtime_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",

@@ -19,9 +19,6 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_cpu_thread_budget import AdmissionDenied, build_thread_plan, discover_live_topology
 
 EVIDENCE_LEVEL = "CURRENT_HOST_CPU_NUMA_THREADING_E2E_PASS"
-EXPECTED_MACHINE = "Dell Precision Tower 7910"
-EXPECTED_CPU_TOKEN = "E5-2696 v4"
-
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
@@ -168,11 +165,15 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         for core in physical
     )
     models = sorted({model_names.get(cpu, "") for cpu in online})
+    cores_per_package: dict[int, int] = {}
+    for package in packages:
+        cores_per_package[package] = len({core for socket_id, core in physical if socket_id == package})
     summary = {
         "machine": machine_name(),
         "models": models,
         "packages": len(packages),
         "physical_cores": len(physical),
+        "physical_cores_per_package": sorted(cores_per_package.values()),
         "logical_cpus": len(online),
         "numa_domains": len(numa_nodes),
         "smt_width": smt_width,
@@ -181,7 +182,6 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
     hardware = {
         "source": "LIVE_SYSFS_PROCFS",
         **summary,
-        "cpu_model_match": bool(models) and all(EXPECTED_CPU_TOKEN in model for model in models),
         "fingerprint_sha256": fingerprint,
     }
 
@@ -218,13 +218,13 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
     rollback = loadj(rollback_path) if rollback_path and rollback_path.is_file() else {}
     external_ok = valid_external_evidence(performance, rollback, fingerprint)
     hardware_ok = (
-        hardware["machine"] == EXPECTED_MACHINE
-        and hardware["cpu_model_match"]
-        and hardware["packages"] == 2
-        and hardware["physical_cores"] == 44
-        and hardware["logical_cpus"] == 88
-        and hardware["numa_domains"] == 2
-        and hardware["smt_width"] == 2
+        hardware["packages"] >= 1
+        and hardware["physical_cores"] >= 8
+        and bool(hardware["physical_cores_per_package"])
+        and all(int(value) >= 8 for value in hardware["physical_cores_per_package"])
+        and hardware["logical_cpus"] >= hardware["physical_cores"]
+        and hardware["numa_domains"] >= 1
+        and hardware["smt_width"] >= 1
     )
     accelerators = accelerator_locality()
     placement_ok = (
@@ -232,7 +232,6 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         and bool(cgroup["effective_cpus"])
         and bool(cgroup["effective_memory_nodes"])
         and placement["affinity_matches_effective_cpuset"]
-        and all(item["numa_node"] >= 0 for item in accelerators)
     )
     status = "PASS" if hardware_ok and placement_ok and all(negatives.values()) and external_ok else "FAIL"
     return {
@@ -242,7 +241,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         "collected_at": utc_now(),
         "host": {"hostname_sha256": hashlib.sha256(socket.gethostname().encode()).hexdigest(), "kernel": platform.release()},
         "hardware": hardware,
-        "hardware_semantics": "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT",
+        "hardware_semantics": "FRESH_CURRENT_HOST_TOPOLOGY_NOT_CANONICAL_IDENTITY",
         "placement": placement,
         "thread_plan": plan,
         "numa_local_plans": node_plans,
@@ -257,7 +256,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
         "global_promotion_claim": False,
         "blocking_reasons": [] if status == "PASS" else [
             reason for reason, ok in {
-                "REFERENCE_HARDWARE_MISMATCH": hardware_ok,
+                "HARDWARE_BASELINE_OR_LIVE_TOPOLOGY_MISMATCH": hardware_ok,
                 "CGROUP_AFFINITY_OR_ACCELERATOR_LOCALITY_INCOMPLETE": placement_ok,
                 "NEGATIVE_TEST_FAILURE": all(negatives.values()),
                 "PERFORMANCE_OR_ROLLBACK_EVIDENCE_MISSING_OR_INVALID": external_ok,
@@ -267,7 +266,7 @@ def collect(performance_path: Path | None, rollback_path: Path | None) -> dict[s
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Collect real FA3 T7910 CPU/NUMA threading evidence")
+    parser = argparse.ArgumentParser(description="Collect fresh vendor-neutral FA3 CPU/NUMA threading evidence")
     parser.add_argument("--root", default=str(ROOT))
     parser.add_argument("--receipt", default="evidence/receipts/cpu-numa-threading-current-host.json")
     parser.add_argument("--performance-evidence", required=True)

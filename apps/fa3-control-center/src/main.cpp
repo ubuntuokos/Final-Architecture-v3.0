@@ -7,6 +7,7 @@
 #include "McpGatewayService.h"
 #include "PreferenceStore.h"
 #include "SystemDeviceModel.h"
+#include "SessionVaultService.h"
 
 #include <QColor>
 #include <QGuiApplication>
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
     McpControlService mcpControl;
     McpGatewayService mcpGateway;
     AppCatalogService appCatalog;
+    SessionVaultService sessionVault;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("fa3Repository", &repository);
@@ -62,6 +64,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("fa3McpControl", &mcpControl);
     engine.rootContext()->setContextProperty("fa3McpGateway", &mcpGateway);
     engine.rootContext()->setContextProperty("fa3AppCatalog", &appCatalog);
+    engine.rootContext()->setContextProperty("fa3SessionVault", &sessionVault);
     engine.load(QUrl(QStringLiteral("qrc:/qt/qml/FA3/ControlCenter/Main.qml")));
 
     if (engine.rootObjects().isEmpty()) {

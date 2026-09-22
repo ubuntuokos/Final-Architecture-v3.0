@@ -28,7 +28,7 @@ RULES = [
     "INCOMPATIBLE_DNN_MODELS_ROUTE_TO_INFERENCE_PORTABILITY",
     "REQUESTED_ACCELERATOR_PROVIDER_MUST_MATCH_OBSERVED_NO_SILENT_CPU_FALLBACK",
     "HRB_LEASE_AND_UUID_BDF_REQUIRED_FOR_ACCELERATOR_EXECUTION",
-    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_REFERENCE_E5_2696_V4_NOT_PORTABLE_CONSTANT",
+    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_NO_HOST_MODEL_CONSTANT",
     "NVIDIA_CODEC_FILTER_CAPABILITIES_RUNTIME_DISCOVERED_NO_AV1_ENCODE_ASSUMPTION",
     "GPU_RESIDENT_PIPELINE_AND_COPY_MINIMIZATION_REQUIRED_WHEN_SUPPORTED",
     "ZERO_COPY_CLAIM_REQUIRES_STABLE_RELEASE_CAPABILITY_AND_COPY_EVIDENCE",
@@ -117,7 +117,7 @@ def regression_cases():
         "observed_provider": "cuda",
         "hrb_lease_valid": True,
         "gpu_uuid": "GPU-uuid",
-        "pci_bdf": "0000:05:00.0",
+        "pci_bdf": "0000:3b:00.0",
         "ordinal_resolved_from_uuid_bdf": True,
     }
     good_zero = {
@@ -145,8 +145,8 @@ def regression_cases():
     add(RULES[6], "FA3-INFERENCE-PORTABILITY-001" != FFMPEG_PROVIDER_ID, "FFMPEG_FORCE_LOAD" != "FA3-INFERENCE-PORTABILITY-001")
     add(RULES[7], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu, "observed_provider": "cpu"}))
     add(RULES[8], accelerator_execution_allowed(good_gpu), not accelerator_execution_allowed({**good_gpu, "hrb_lease_valid": False}))
-    add(RULES[9], "LIVE_DISCOVERY" != "STATIC_CPU_LIST", "E5-2696 v4 reference" != "PORTABLE_CONSTANT")
-    add(RULES[10], "RUNTIME_DISCOVERY" != "ASSUME_AV1_NVENC", "RTX3080" != "ALL_NVIDIA_AV1_ENCODE")
+    add(RULES[9], "LIVE_DISCOVERY" != "STATIC_CPU_LIST", "HOST_MODEL_PIN" != "PORTABLE_CONSTANT")
+    add(RULES[10], "RUNTIME_DISCOVERY" != "ASSUME_CODEC_CAPABILITY", "DISCOVERED_PROVIDER_CAPABILITY" != "STATIC_SKU_INFERENCE")
     add(RULES[11], True, not False)
     add(RULES[12], zero_copy_claim_allowed(good_zero), not zero_copy_claim_allowed({**good_zero, "observed_host_device_copies": 1}))
     add(RULES[13], False is False, not True is False)
@@ -285,7 +285,7 @@ def gate(root: Path):
         and host_gate.get("fail_closed") is True
         and host_gate.get("current_host_runtime_promotion_claim") is False
         and host_enf.get("gate_id") == "FA3-FFMPEG-AI-CURRENT-HOST-GATESET-001"
-        and host_enf.get("status") == "MATERIALIZED_REAL_EXECUTION_PENDING"
+        and host_enf.get("status") == "MATERIALIZED_VENDOR_NEUTRAL_HOST_REAL_EXECUTION_PENDING"
         and host_dec.get("id") == "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03"
         and host_dec.get("current_state") == "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_HOST_EXECUTION_PENDING"
         and host_dec.get("current_host_runtime_promotion_claim") is False

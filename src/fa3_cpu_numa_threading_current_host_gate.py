@@ -39,21 +39,23 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
         fail("CPU-NUMA-HOST-001", "current-host receipt identity, status or evidence level mismatch")
 
     hardware = receipt.get("hardware", {})
+    cores_per_package = hardware.get("physical_cores_per_package", [])
     if not (
         hardware.get("source") == "LIVE_SYSFS_PROCFS"
-        and hardware.get("machine") == "Dell Precision Tower 7910"
-        and hardware.get("cpu_model_match") is True
-        and hardware.get("packages") == 2
-        and hardware.get("physical_cores") == 44
-        and hardware.get("logical_cpus") == 88
-        and hardware.get("numa_domains") == 2
-        and hardware.get("smt_width") == 2
+        and int(hardware.get("packages", 0) or 0) >= 1
+        and int(hardware.get("physical_cores", 0) or 0) >= 8
+        and isinstance(cores_per_package, list)
+        and bool(cores_per_package)
+        and all(int(value) >= 8 for value in cores_per_package)
+        and int(hardware.get("logical_cpus", 0) or 0) >= int(hardware.get("physical_cores", 0) or 0)
+        and int(hardware.get("numa_domains", 0) or 0) >= 1
+        and int(hardware.get("smt_width", 0) or 0) >= 1
         and _digest(hardware.get("fingerprint_sha256"))
     ):
-        fail("CPU-NUMA-HOST-002", "live T7910 2x E5-2696 v4 / 44C / 88T / two-NUMA evidence mismatch")
+        fail("CPU-NUMA-HOST-002", "live vendor-neutral CPU/NUMA hardware baseline evidence mismatch")
 
-    if receipt.get("hardware_semantics") != "REFERENCE_HOST_ASSERTION_NOT_PORTABLE_DEFAULT":
-        fail("CPU-NUMA-HOST-003", "reference hardware values were promoted to portable defaults")
+    if receipt.get("hardware_semantics") != "FRESH_CURRENT_HOST_TOPOLOGY_NOT_CANONICAL_IDENTITY":
+        fail("CPU-NUMA-HOST-003", "current-host topology was not classified as fresh non-canonical evidence")
 
     placement = receipt.get("placement", {})
     if not (
@@ -77,7 +79,7 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     )
     if not (
         plan.get("status") == "ADMITTED"
-        and 1 <= budget <= physical <= 44
+        and 1 <= budget <= physical
         and plan.get("uses_smt_above_physical_budget") is False
         and env.get("OMP_PLACES") == "cores"
         and env.get("OMP_PROC_BIND") == "close"

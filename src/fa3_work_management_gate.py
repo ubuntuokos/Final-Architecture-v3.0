@@ -141,7 +141,7 @@ def gate(root: Path) -> dict[str, Any]:
         "kaneo": root / "canonical/providers/FA3-PROVIDER-KANEO-001.json",
         "kanboard": root / "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
         "resource": root / "canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json",
-        "hardware": root / "canonical/FA3-HARDWARE-FABRIC-RECONCILIATION-001.json",
+        "hardware": root / "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
         "accelerator_guard": root / "canonical/profiles/FA3-ACCEL-GUARD-001.json",
         "policy": root / "canonical/enforcement-policy.json",
         "main_qml": root / "apps/fa3-control-center/qml/Main.qml",
@@ -185,8 +185,11 @@ def gate(root: Path) -> dict[str, Any]:
     sem = resource.get("admission_semantics", {})
     if sem.get("workload_driven_resource_classes") is not True or sem.get("cpu_only_workload_must_not_require_accelerator_discovery_or_accelerator_lease") is not True or resource.get("authoritative_admission_authority") != "FA3-AUTH-HOST-RESOURCE-BROKER-001":
         fs.append(finding("WM-009", "Canonical resource-admission semantics incompatible with Work Management"))
-    if hardware.get("authority_rules", {}).get("gui_raw_probe_is_admission_authority") is not False:
-        fs.append(finding("WM-010", "GUI hardware probe became admission authority"))
+    if (
+        hardware.get("authority", {}).get("discovery") != "NON_AUTHORITY_CAPABILITY"
+        or hardware.get("authority", {}).get("resource_admission_placement_reservation_lease") != "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    ):
+        fs.append(finding("WM-010", "Hardware discovery/resource-admission authority boundary drift"))
     if accel.get("id") != "FA3-ACCEL-GUARD-001" or accel.get("new_architectural_authority") is not False:
         fs.append(finding("WM-011", "Accelerator Guard boundary drift"))
 

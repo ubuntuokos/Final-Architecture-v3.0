@@ -1,0 +1,99 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-STEP-CA-001",
+  "name": "smallstep/certificates (step-ca)",
+  "version": "1.0.0-fa3",
+  "status": "ACCEPTED_CANONICAL_INTERNAL_CA_PROVIDER_RUNTIME_PROMOTED_CURRENT_HOST",
+  "parent_profile": "FA3-TRUST-PKI-001",
+  "provider_role": "CANONICAL_DEFAULT_INTERNAL_X509_SSH_CA_AND_ACME_SERVER_PROVIDER",
+  "classification": [
+    "INTERNAL_PKI_PROVIDER",
+    "X509_CA_PROVIDER",
+    "SSH_CA_PROVIDER",
+    "ACME_V2_SERVER",
+    "LOCAL_SELF_HOSTED_CAPABLE",
+    "APACHE_2_0",
+    "REPLACEABLE_PROVIDER"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "activation_mode": "FA3_TRUST_PKI_POLICY_GATED",
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "ADMITTED_CURRENT_HOST",
+  "contracts": [
+    "FA3-TRUST-PKI-CONTRACTS-001"
+  ],
+  "decision": "FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20",
+  "upstream_reference": "FA3-STEP-CA-UPSTREAM-REFERENCE-2026-09-20",
+  "upstream": {
+    "repository": "smallstep/certificates",
+    "release": "0.30.2",
+    "tag": "v0.30.2",
+    "release_commit": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
+    "license": "Apache-2.0",
+    "release_artifact_sigstore_available": true,
+    "checksums_asset_sha256": "5076defb1b4759f270fd85a31fc7e4756ddf2551237249aa12739f5be1544f98"
+  },
+  "authority_boundaries": {
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "identity_binding": "EXISTING_FA3_IDENTITY_AUTHORITY_ONLY",
+    "authorization": "EXISTING_FA3_AUTHORIZATION_AUTHORITY_ONLY",
+    "machine_secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "mcp_tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "artifact_trust": "FA3-REG-ARTIFACT-MODEL-001",
+    "certificate_issuance": "PROVIDER_OPERATION_UNDER_FA3_TRUST_PKI_POLICY"
+  },
+  "prohibited_authority_roles": [
+    "FA3_SECURITY_POLICY_AUTHORITY",
+    "FA3_IDENTITY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_ARTIFACT_TRUST_AUTHORITY"
+  ],
+  "pki_policy": {
+    "offline_root_private_key_required": true,
+    "online_root_private_key_allowed": false,
+    "online_issuer": "INTERMEDIATE_ONLY",
+    "default_workload_certificate_ttl": "12h",
+    "maximum_workload_certificate_ttl": "24h",
+    "acme_v2_internal_enrollment": true,
+    "ssh_certificate_support": true,
+    "certificate_identity_is_authorization": false,
+    "loopback_default_bind": true,
+    "remote_exposure_requires_explicit_policy": true,
+    "private_key_values_in_evidence": false,
+    "current_host_e2e_required_for_runtime_promotion": true
+  },
+  "implementation": {
+    "gate": "src/fa3_step_ca_gate.py",
+    "gate_record": "canonical/FA3-GATE-STEP-CA-001.json",
+    "enforcement": "canonical/step-ca-enforcement.json",
+    "runtime_admission": "canonical/step-ca-runtime-admission.json",
+    "runtime_conformance": "canonical/FA3-STEP-CA-RUNTIME-CONFORMANCE-001.json",
+    "reference_evidence": "evidence/reference/step-ca-reference-pass.json",
+    "deployment": "deployment/step-ca",
+    "gui": "apps/fa3-control-center/qml/TrustCertificatesPage.qml",
+    "gate_command": "./bin/fa3-enforce trust-pki"
+  },
+  "promotion": {
+    "reference_gate": "PASS_REQUIRED",
+    "release_signature_and_checksum": "REQUIRED",
+    "offline_root_ceremony": "REQUIRED_FOR_RUNTIME",
+    "mtls_acme_ssh_e2e": "REQUIRED_FOR_RUNTIME",
+    "backup_restore_drill": "REQUIRED_FOR_RUNTIME",
+    "production_runtime_promoted": true,
+    "scope": "CURRENT_HOST_PROVIDER_RUNTIME_ONLY",
+    "current_host_evidence_reference": "evidence/reference/step-ca-current-host-2026-09-20.json",
+    "tested_main_sha": "bc2762ddc85a7501ab3d2be612329399470ea276",
+    "global_promotion_claim": false
+  },
+  "runtime_promotion_decision": "FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20"
+}

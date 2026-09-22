@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-ACCEL-GUARD-001",
   "name": "Accelerator Ownership, Contention & User Arbitration Guard",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -36,7 +36,10 @@
     "unaffected_fa3_workloads_continue": true,
     "automatic_arbitration_requires_explicit_saved_policy": true,
     "forced_external_termination_without_user_or_policy": "FORBIDDEN",
-    "silent_fa3_workload_sacrifice": "FORBIDDEN"
+    "silent_fa3_workload_sacrifice": "FORBIDDEN",
+    "alternative_must_match_execution_path": true,
+    "physical_device_presence_not_sufficient_for_execution": true,
+    "translation_backend_never_implicit": true
   },
   "origin_classes": [
     "FA3_MANAGED",
@@ -86,6 +89,7 @@
     "EXCLUSIVE"
   ],
   "provider_interface": [
+    "generic-pci-sysfs-drm-accel",
     "linux-drm-fdinfo",
     "linux-accel",
     "nvidia-nvml",

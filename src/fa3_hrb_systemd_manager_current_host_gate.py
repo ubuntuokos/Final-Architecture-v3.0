@@ -95,7 +95,7 @@ def manager_violations(assignments: list[dict[str, Any]], host_survival_policy: 
 
 def hardware_floor_valid(discovery: dict[str, Any]) -> bool:
     cpu = discovery.get("cpu", {})
-    gpu = discovery.get("gpu", {})
+    accelerator = discovery.get("accelerators", discovery.get("gpu", {}))
     counts = cpu.get("physical_cores_by_package", {})
     if not isinstance(counts, dict) or not counts:
         return False
@@ -104,16 +104,29 @@ def hardware_floor_valid(discovery: dict[str, Any]) -> bool:
         per_package = [int(v) for v in counts.values()]
     except (TypeError, ValueError):
         return False
-    qualifying = [d for d in gpu.get("devices", []) if isinstance(d, dict) and d.get("qualifies_portable_floor") is True]
+
+    devices = accelerator.get("devices", [])
+    if not isinstance(devices, list):
+        return False
+    for device in devices:
+        if not isinstance(device, dict):
+            return False
+        stable_identity = (
+            str(device.get("stable_id", "")).strip()
+            or str(device.get("device_uuid", "")).strip()
+            or str(device.get("pci_bdf", "")).strip()
+        )
+        if not stable_identity:
+            return False
+
     return (
         package_count >= 1
         and len(per_package) == package_count
         and min(per_package) >= 8
-        and len(qualifying) >= 1
-        and discovery.get("cardinality_semantics") == "DYNAMIC_1_TO_N"
+        and discovery.get("cpu_cardinality_semantics") == "DYNAMIC_1_TO_N"
+        and discovery.get("accelerator_cardinality_semantics") == "DYNAMIC_0_TO_N"
         and discovery.get("host_identity_semantics") == "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY"
     )
-
 
 def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
@@ -134,7 +147,16 @@ def validate_receipt(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     if violations:
         fail("HRB-SYSD-HOST-005", "operator systemd Manager defaults violate HRB neutrality", violations=violations)
     cgroup = receipt.get("cgroup_v2", {})
-    if not (cgroup.get("unified") is True and cgroup.get("cgroup_path") and isinstance(cgroup.get("controllers"), list) and cgroup.get("effective_cpus") and cgroup.get("effective_memory_nodes")):
+    if not (
+        cgroup.get("unified") is True
+        and cgroup.get("cgroup_path")
+        and isinstance(cgroup.get("controllers"), list)
+        and cgroup.get("effective_cpus")
+        and cgroup.get("effective_cpus_source_cgroup")
+        and cgroup.get("effective_memory_nodes")
+        and cgroup.get("effective_memory_nodes_source_cgroup")
+        and cgroup.get("cpuset_resolution_semantics") == "NEAREST_NONEMPTY_EFFECTIVE_ANCESTOR_WHEN_LEAF_EMPTY"
+    ):
         fail("HRB-SYSD-HOST-006", "unified cgroup v2 projection substrate is incomplete")
     if not (
         receipt.get("hardware_profile_id") == "FA3-HARDWARE-BASELINE-001"

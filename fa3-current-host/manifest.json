@@ -104,6 +104,7 @@
     "src/fa3_resource_admission_current_host_gate.py",
     "src/fa3_runtime_hardening_current_host.py",
     "src/fa3_runtime_hardening_current_host_gate.py",
+    "src/fa3_runtime_hardening_current_host_preflight.py",
     "src/fa3_stable_audio_3_gate.py",
     "tests/test_cap028_agent_execution_current_host.py",
     "tests/test_cosyvoice_gate.py",
@@ -114,7 +115,37 @@
     "tests/test_pageindex_mcp_gate.py",
     "tests/test_resource_admission_current_host_gate.py",
     "tests/test_runtime_hardening_current_host_gate.py",
-    "tests/test_stable_audio_3_gate.py"
+    "tests/test_runtime_hardening_current_host_preflight.py",
+    "tests/test_stable_audio_3_gate.py",
+    ".github/workflows/fa3-step-ca-current-host.yml",
+    ".github/workflows/fa3-step-ca-session-vault-ceremony.yml",
+    "bin/fa3-step-ca-bootstrap.sh",
+    "bin/fa3-step-ca-activate.sh",
+    "bin/fa3-step-ca-current-host.sh",
+    "bin/fa3-step-ca-e2e.sh",
+    "bin/fa3-step-ca-backup-restore-drill.sh",
+    "bin/fa3-step-ca-root-ceremony.sh",
+    "canonical/FA3-STEP-CA-CURRENT-HOST-001.json",
+    "canonical/step-ca-current-host-enforcement.json",
+    "canonical/step-ca-current-host-tool-lock.json",
+    "canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json",
+    "canonical/references/FA3-STEP-CA-CURRENT-HOST-UPSTREAM-LOCK-001.json",
+    "canonical/schemas/step-ca-root-ceremony-receipt.v1.json",
+    "canonical/schemas/step-ca-current-host-receipt.v1.json",
+    "docs/step-ca-current-host.md",
+    "docs/security/FA3-STEP-CA-ROOT-CEREMONY.md",
+    "evidence/collect-step-ca-root-ceremony.py",
+    "evidence/collect-step-ca-current-host.py",
+    "src/fa3_step_ca_current_host_gate.py",
+    "tests/test_step_ca_current_host.py",
+    "tests/test_step_ca_session_vault_ceremony.py",
+    ".github/workflows/fa3-session-vault-current-host.yml",
+    "bin/fa3-session-vault-current-host.sh",
+    "canonical/FA3-GATE-SESSION-VAULT-CURRENT-HOST-001.json",
+    "canonical/session-vault-current-host-enforcement.json",
+    "canonical/schemas/session-vault-current-host-receipt.v1.json",
+    "src/fa3_session_vault_current_host_gate.py",
+    "tests/test_session_vault_current_host.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -189,13 +220,13 @@
       "name": "cpu-numa-threading",
       "collector": "evidence/collect-cpu-numa-threading-current-host.py",
       "gate": "cpu-numa-threading-current-host",
-      "activation": "T7910_REFERENCE_HOST_ONLY_EXTERNAL_PERFORMANCE_AND_ROLLBACK_EVIDENCE_REQUIRED"
+      "activation": "ANY_HOST_MEETING_FA3_HARDWARE_BASELINE_PLUS_FRESH_PERFORMANCE_AND_ROLLBACK_EVIDENCE"
     },
     {
       "name": "ffmpeg-neural-media",
       "collector": "evidence/collect-ffmpeg-ai-current-host.py",
       "gate": "ffmpeg-ai-current-host",
-      "activation": "T7910_REFERENCE_HOST_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
+      "activation": "WORKLOAD_SPECIFIC_HRB_LEASE_AND_FFMPEG_BUILD_TRUST_REQUIRED",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
     },
     {
@@ -219,7 +250,8 @@
       "gate": "runtime-hardening-current-host",
       "activation": "REAL_SELF_HOSTED_CGROUPV2_PRELOADED_OCI_WASMTIME_GVISOR_PROOF_REQUIRED",
       "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
-      "global_promotion_claim": false
+      "global_promotion_claim": false,
+      "preflight": "src/fa3_runtime_hardening_current_host_preflight.py"
     },
     {
       "name": "media-gpu-zero-host-round-trip",
@@ -258,6 +290,25 @@
       ],
       "collection_status": "CAPABILITY_EXECUTORS_REGISTERED_REAL_EXECUTION_PENDING",
       "global_promotion_claim": false
+    },
+    {
+      "name": "step-ca-internal-pki",
+      "collector": "evidence/collect-step-ca-current-host.py",
+      "gate": "step-ca-current-host",
+      "root_ceremony_runner": "bin/fa3-step-ca-root-ceremony.sh",
+      "activation": "REAL_CURRENT_HOST_SIGNED_RUNTIME_PLUS_OFFLINE_ROOT_CEREMONY_PLUS_ACME_MTLS_SSH_AND_RESTORE_E2E_REQUIRED",
+      "collection_status": "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING",
+      "global_promotion_claim": false
+    },
+    {
+      "name": "session-vault",
+      "collector": "bin/fa3-session-vault-current-host.sh",
+      "gate": "session-vault-current-host",
+      "activation": "REAL_USER_SESSION_LUKS2_UDISKS2_UNLOCK_MOUNT_ISOLATION_LOCK_AND_OPAQUE_RESTORE_REQUIRED",
+      "collection_status": "REAL_CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE",
+      "global_promotion_claim": false,
+      "receipt": "evidence/receipts/session-vault-current-host.json",
+      "production_runtime_promoted": false
     }
   ],
   "global_gate_sequence": [
@@ -270,5 +321,12 @@
     "command": "bin/fa3-current-host promote",
     "required_acceptance_criteria": 19,
     "global_promotion_claim_from_collection": false
+  },
+  "runtime_hardening_preflight": {
+    "entrypoint": "src/fa3_runtime_hardening_current_host_preflight.py",
+    "receipt": ".fa3-current-host/runtime-hardening/preflight.json",
+    "semantics": "FAIL_FAST_EXECUTION_READINESS_ONLY_NOT_RUNTIME_PASS",
+    "network_pull_allowed": false,
+    "global_promotion_claim": false
   }
 }

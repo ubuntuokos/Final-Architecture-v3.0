@@ -1,0 +1,16 @@
+# step-ca current-host closure
+
+1. Normal user: `bin/fa3-step-ca-bootstrap.sh prepare`.
+2. Explicit root install: `sudo FA3_REPO_ROOT="$PWD" FA3_STEP_CA_BOOTSTRAP_STATE="$PWD/.fa3-current-host/step-ca/bootstrap" bin/fa3-step-ca-bootstrap.sh install`. No CA key is created and the service is not started.
+3. Perform `docs/security/FA3-STEP-CA-ROOT-CEREMONY.md`.
+4. Activate with `bin/fa3-step-ca-activate.sh` and the approved transfer bundle plus external password files. After the service health check passes, activation deletes the complete ephemeral transfer bundle; rerun the idempotent ceremony to recreate it after a failed or later activation.
+5. Run `bin/fa3-step-ca-current-host.sh preflight`.
+6. Run privileged ACME/mTLS/SSH E2E: `sudo FA3_REPO_ROOT="$PWD" bin/fa3-step-ca-e2e.sh`.
+7. Run recovery drill: `sudo FA3_REPO_ROOT="$PWD" FA3_STEP_CA_MAINTENANCE_ACK=YES bin/fa3-step-ca-backup-restore-drill.sh`.
+8. Final gate: `bin/fa3-step-ca-current-host.sh collect`.
+
+The E2E harness requires root only to install and remove its runtime-only systemd override, restart the CA service, and inspect the host listener state. ACME HTTP-01 validation uses a kernel-selected free loopback port; it does not bind or reconfigure host port 80. Before the temporary override is installed, the harness records the production `ExecStart` command signature (executable path plus `argv[]`); after ACME validation it removes the override, restarts the unprivileged CA daemon, and fails closed unless that exact command signature is restored. Volatile systemd runtime metadata such as PID and start time is intentionally excluded from this equality check. The host port-80 listener is sampled before and after the ACME test and must remain unchanged. The mTLS listener also uses a kernel-selected free loopback port. The OpenSSL test server and client each receive the issuing intermediate explicitly via `-cert_chain`, while the Root remains the only trust anchor; leaf certificates are also checked for `sslserver` and `sslclient` purpose before the live handshake. The disposable SSH test key is intentionally non-interactive and unencrypted only inside the root-owned mode-0700 temporary directory, which the exit trap deletes. The recovery drill uses a short maintenance stop, restores a shadow instance on 127.0.0.1:9445, and proves post-restore issuance. Its exit trap terminates the shadow instance and restarts the primary service if an error occurs while it is stopped. Root private key and password/unlock files are excluded from backup evidence. A PASS can promote only the step-ca provider runtime, never global FA3.
+
+## Current-host closure status — 2026-09-20
+
+The composite real current-host receipt completed with `CURRENT_HOST_PRODUCTION_E2E_PASS` on main commit `bc2762ddc85a7501ab3d2be612329399470ea276`. ACME issue/reorder, mTLS, SSH certificate issuance, trust-bundle validation, supply-chain verification, offline-Root/online-intermediate separation, activation cleanup, and backup/restore/post-restore issuance all passed. The durable sanitized reference is `evidence/reference/step-ca-current-host-2026-09-20.json`; the raw receipt remains local under `evidence/receipts/` and is intentionally Git-ignored. This promotes only `FA3-PROVIDER-STEP-CA-001` on the current host and does not claim global FA3 promotion.

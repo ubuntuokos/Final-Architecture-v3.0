@@ -1,0 +1,67 @@
+name: FA3 step-ca Current-Host Closure
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/fa3-step-ca-current-host.yml'
+      - 'bin/fa3-step-ca-*.sh'
+      - 'canonical/**STEP-CA**'
+      - 'canonical/**step-ca**'
+      - 'deployment/step-ca/**'
+      - 'docs/step-ca-current-host.md'
+      - 'docs/security/FA3-STEP-CA-ROOT-CEREMONY.md'
+      - 'evidence/collect-step-ca-*.py'
+      - 'src/fa3_step_ca*.py'
+      - 'tests/test_step_ca*.py'
+      - 'fa3-current-host/manifest.json'
+  workflow_dispatch:
+    inputs:
+      verify_existing_runtime:
+        description: Verify an already provisioned current-host PKI; never creates Root CA keys
+        required: true
+        default: false
+        type: boolean
+permissions:
+  contents: read
+jobs:
+  static-closure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          PYTHONPATH=src python3 -m unittest tests.test_step_ca_gate tests.test_step_ca_current_host -v
+          PYTHONPATH=src python3 src/fa3_step_ca_gate.py
+      - name: Missing real receipt must fail closed
+        run: |
+          set +e
+          PYTHONPATH=src python3 src/fa3_step_ca_current_host_gate.py --root .
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+  real-current-host-verification:
+    if: github.event_name == 'workflow_dispatch' && inputs.verify_existing_runtime == true
+    runs-on: [self-hosted, linux, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - run: |
+          test "$(id -u)" -ne 0
+          bin/fa3-step-ca-bootstrap.sh prepare
+          bin/fa3-step-ca-current-host.sh collect
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-step-ca-current-host-evidence
+          if-no-files-found: error
+          path: |
+            .fa3-current-host/step-ca/bootstrap/supply-chain.json
+            evidence/receipts/step-ca-root-ceremony.json
+            evidence/runtime/step-ca-current-host/e2e.json
+            evidence/runtime/step-ca-current-host/backup-restore.json
+            evidence/receipts/step-ca-current-host.json
+            reports/step-ca-current-host-gate-report.json

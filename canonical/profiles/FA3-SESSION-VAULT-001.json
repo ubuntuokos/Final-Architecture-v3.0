@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-SESSION-VAULT-001",
+  "name": "FA3 Encrypted Session Vault",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "parent_profile": "FA3-SCS-001",
+  "mode": "MUST_IF_SESSION_VAULT_CONFIGURED",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "purpose": "Provide encrypted user-session key custody without adding a second login to the default single-user FA3 experience.",
+  "storage": {
+    "default_type": "LUKS2_FILE_IMAGE",
+    "filesystem": "ext4",
+    "default_image": "~/.local/share/fa3/state/fa3-state.img",
+    "session_mount_alias": "$XDG_RUNTIME_DIR/fa3-state",
+    "mount_options": [
+      "nodev",
+      "nosuid",
+      "noexec"
+    ],
+    "same_host_allowed": true,
+    "removable_media_required": false,
+    "filesystem_label": "FA3_STATE",
+    "legacy_image_paths": [
+      "~/.local/share/fa3/vault/fa3-session-vault.img"
+    ],
+    "external_naming_policy": "GENERIC_NON_DISCLOSING",
+    "external_name_must_not_disclose_contents": true
+  },
+  "unlock_sources": [
+    "INTERACTIVE_FA3_VAULT_PASSPHRASE",
+    "FREEDESKTOP_SECRET_SERVICE",
+    "FA3_HUMAN_CREDENTIAL_VAULT_ADAPTER",
+    "OPTIONAL_REMOVABLE_SECRET_FILE"
+  ],
+  "session_semantics": {
+    "os_session_is_default_user_identity": true,
+    "separate_fa3_login_required": false,
+    "auto_unlock_from_secret_service_on_control_center_start": true,
+    "manual_unlock_fallback": true,
+    "lock_on_control_center_shutdown_best_effort": true,
+    "secret_value_persisted_by_control_center": false,
+    "identity_authority": false,
+    "authorization_authority": false
+  },
+  "root_ca_binding": {
+    "root_private_key_may_reside_inside_vault": true,
+    "root_private_key_online_issuing_runtime_access": "FORBIDDEN",
+    "root_unlock_secret_may_use_credential_vault": true
+  },
+  "backup": {
+    "opaque_encrypted_image_copy_supported": true,
+    "multiple_backup_targets_supported": true,
+    "removable_media_optional": true,
+    "restore_test_required_for_production_recovery_claim": true
+  },
+  "multi_user": {
+    "default_enabled": false,
+    "separate_login_surface": "ONLY_IF_EXPLICIT_MULTI_USER_PROFILE_IS_ENABLED",
+    "current_reference_implementation": "SINGLE_USER_SESSION_VAULT_ONLY"
+  },
+  "machine_secret_boundary": {
+    "profile": "FA3-SECRET-BROKER-001",
+    "raw_machine_application_secret_storage": "FORBIDDEN",
+    "session_vault_role": "USER_SESSION_CUSTODY_AND_ROOT_CA_STORAGE",
+    "legacy_credentials_directory": "NON_CANONICAL_MIGRATION_SOURCE_ONLY"
+  }
+}

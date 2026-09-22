@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-UAF-EVIDENCE-RECEIPT-001.schema.json",
+  "x-fa3-contract-id": "FA3-UAF-EVIDENCE-RECEIPT-001",
+  "title": "FA3 UAF Evidence Receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "request_id",
+    "trace_id",
+    "action_id",
+    "contract_version",
+    "principal_ref",
+    "context_digest",
+    "argument_digest",
+    "provider_id",
+    "result_digest",
+    "status",
+    "global_promotion_claim"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.uaf.evidence-receipt.v1"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "trace_id": {
+      "type": "string"
+    },
+    "action_id": {
+      "type": "string"
+    },
+    "contract_version": {
+      "type": "string"
+    },
+    "principal_ref": {
+      "type": "string"
+    },
+    "context_digest": {
+      "type": "string"
+    },
+    "argument_digest": {
+      "type": "string"
+    },
+    "provider_id": {
+      "type": "string"
+    },
+    "resource_lease_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "secret_lease_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "result_digest": {
+      "type": "string"
+    },
+    "started_epoch": {
+      "type": "integer"
+    },
+    "completed_epoch": {
+      "type": "integer"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "BLOCKED",
+        "ERROR"
+      ]
+    },
+    "global_promotion_claim": {
+      "const": false
+    }
+  },
+  "additionalProperties": false
+}

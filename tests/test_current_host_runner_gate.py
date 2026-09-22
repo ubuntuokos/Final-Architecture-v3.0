@@ -66,6 +66,15 @@ class CurrentHostRunnerGateTests(unittest.TestCase):
         self.assertNotIn("--no-default-labels", text)
         self.assertNotIn("actions/runners/${runner_id}/labels", text)
 
+    def test_runner_linger_is_required(self) -> None:
+        conf = json.loads((ROOT / "canonical/FA3-CURRENT-HOST-RUNNER-CONFORMANCE-001.json").read_text())
+        self.assertTrue(conf["service"]["linger_required"])
+        bootstrap = (ROOT / "bin/fa3-current-host-runner-bootstrap.sh").read_text()
+        doctor = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
+        self.assertIn('sudo loginctl enable-linger "$USER"', bootstrap)
+        self.assertIn('loginctl show-user "$USER" -p Linger --value', doctor)
+        self.assertIn('"systemd_user_linger_enabled": True', doctor)
+
     def test_runner_doctor_normalizes_default_label_case(self) -> None:
         text = (ROOT / "bin/fa3-current-host-runner-doctor").read_text()
         self.assertIn("labels = {label.lower() for label in raw_labels}", text)

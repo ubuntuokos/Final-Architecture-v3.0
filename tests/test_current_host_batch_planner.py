@@ -23,6 +23,12 @@ class TestCurrentHostBatchPlanner(unittest.TestCase):
             report["fully_materialized_capability_count"] + report["pending_materialization_capability_count"],
             143,
         )
+        self.assertEqual(report["materialized_obligation_count"], 429)
+        self.assertEqual(report["pending_obligation_count"], 0)
+        self.assertEqual(report["fully_materialized_capability_count"], 143)
+        self.assertEqual(report["pending_materialization_capability_count"], 0)
+        self.assertIsNone(report["next_materialization_batch"])
+        self.assertEqual(report["materialization_batches"], [])
 
     def test_execution_ready_requires_all_three_registration_layers(self):
         report = build_plan(ROOT, batch_size=5)

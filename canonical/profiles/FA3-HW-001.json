@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-001",
   "name": "Provider-Neutral Hardware Capability & Heterogeneous Accelerator Baseline",
-  "version": "1.3.0",
+  "version": "1.5.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -13,12 +13,6 @@
   "contracts": [
     "FA3-HW-CONTRACTS-001",
     "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
-  ],
-  "reference_hosts": [
-    "Dell Precision Tower 7910 is reference-only, never canonical hardware identity"
-  ],
-  "reference_deployment_records": [
-    "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02"
   ],
   "current_host_validation_surfaces": [
     "FA3-GATE-HRB-SYSTEMD-MANAGER-CURRENT-HOST-001",
@@ -37,16 +31,19 @@
     "NO_SILENT_FALLBACK",
     "CURRENT_HOST_FACTS_ARE_EVIDENCE_NOT_CANONICAL_SEMANTICS",
     "PORTABLE_CPU_FLOOR_MIN_1_PACKAGE_MIN_8_PHYSICAL_CORES",
-    "PORTABLE_GPU_FLOOR_MIN_1_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
-    "GPU_SKU_OR_MARKETING_SERIES_IS_NOT_ADMISSION_AUTHORITY",
-    "NEWER_GPU_CAPABILITIES_EXPLICITLY_ALLOWED_SUBJECT_TO_RUNTIME_COMPATIBILITY",
-    "NO_CANONICAL_CPU_VENDOR_MODEL_OR_GPU_SKU_VRAM_SM_PIN",
+    "PORTABLE_ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N_NO_GLOBAL_MINIMUM",
+    "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
+    "ACCELERATOR_VENDOR_SKU_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY",
+    "ACCELERATOR_RUNTIME_COMPATIBILITY_IS_WORKLOAD_PROVIDER_SCOPED_NOT_GLOBAL_VENDOR_SCOPED",
+    "NO_CANONICAL_CPU_VENDOR_MODEL_OR_ACCELERATOR_VENDOR_SKU_VRAM_ARCH_PIN",
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "NO_FIXED_CPU_SOCKET_GPU_COUNT_PCI_BDF_OR_CUDA_ORDINAL_PORTABLE_DEFAULT",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_FIXED_CPU_SOCKET_ACCELERATOR_COUNT_PCI_BDF_OR_RUNTIME_ORDINAL_PORTABLE_DEFAULT",
     "LIVE_HARDWARE_DISCOVERY_AND_ADMISSION_REVALIDATION_REQUIRED"
   ],
-  "implementation_status": "CANONICAL_PORTABLE_BASELINE_DYNAMIC_1_TO_N_CAPABILITY_DISCOVERY_REVALIDATION_AND_GENERIC_CURRENT_HOST_RESOURCE_PROJECTION_VALIDATION_MATERIALIZED",
+  "implementation_status": "CANONICAL_VENDOR_NEUTRAL_DYNAMIC_HARDWARE_BASELINE",
   "minimum_portable_hardware_envelope": {
     "cpu": {
       "minimum_package_count": 1,
@@ -56,18 +53,33 @@
       "packages_above_minimum": "ALLOWED",
       "package_count_max": "UNBOUNDED_BY_FA3"
     },
-    "gpu": {
-      "minimum_qualifying_device_count": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
+    "accelerator": {
+      "minimum_qualifying_device_count": 0,
+      "vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "global_cuda_compute_capability_floor": "FORBIDDEN",
+      "global_rocm_arch_floor": "FORBIDDEN",
+      "global_level_zero_device_floor": "FORBIDDEN",
+      "workload_runtime_compatibility": "REQUIRED",
+      "provider_capability_negotiation": "REQUIRED",
+      "supported_reference_vendor_families": [
+        "NVIDIA",
+        "AMD",
+        "INTEL"
+      ],
+      "supported_reference_platform_families": [
+        "NVIDIA_DGX"
+      ],
       "sku_series_admission_authority": false,
       "product_line_pin": "FORBIDDEN",
       "exact_sku_pin": "FORBIDDEN",
-      "vram_pin": "FORBIDDEN",
-      "sm_pin": "FORBIDDEN",
+      "vram_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+      "architecture_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
       "marketing_identity_required": false,
-      "newer_capability_equivalent_or_better_hardware": "ALLOWED_SUBJECT_TO_LIVE_RUNTIME_COMPATIBILITY",
-      "qualifying_device_count_max": "UNBOUNDED_BY_FA3"
+      "qualifying_device_count_max": "UNBOUNDED_BY_FA3",
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_lease": false,
+      "required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     },
     "exact_current_host_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
     "admission_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
@@ -76,10 +88,5 @@
     "FA3-HARDWARE-BASELINE-001"
   ],
   "hardware_portability_profile": "FA3-HARDWARE-BASELINE-001",
-  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-  "reconciliation": {
-    "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
-    "date": "2026-09-16",
-    "legacy_marketing_series_floor": "SUPERSEDED_BY_CAPABILITY_FLOOR"
-  }
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
 }

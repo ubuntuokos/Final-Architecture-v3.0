@@ -27,6 +27,8 @@ XDG Desktop Portal, notifications, clipboard integration, power inhibition, syst
 
 Providers must use the FA3 secret broker boundary. A Secret Service implementation such as KWallet or GNOME Keyring may satisfy that boundary. The approved FA3 vault may be used as a fallback. Providers must not bind directly to a desktop-specific wallet API.
 
+For the Tier-1 Plasma reference desktop, FA3 may use a **reference-only D-Bus endpoint mapping** when the installed provider exposes the Secret Service protocol under a compatibility bus name instead of claiming the global `org.freedesktop.secrets` name. The mapped endpoint satisfies admission only when read-only introspection proves the standard object path `/org/freedesktop/secrets` and the standard `org.freedesktop.Secret.Service` interface. The standard bus name remains preferred, but it is not required when a canonical reference-profile mapping proves an equivalent standards-compliant endpoint. The mapping is not a portable-core dependency, architectural authority, secret-broker authority, or provider-private API; direct KWallet APIs remain forbidden.
+
 ## Appearance
 
 Breeze is the reference Plasma appearance, not a runtime dependency. FA3-owned design tokens define spacing, typography, scaling, icon/control sizing, and light/dark behavior so the UI remains coherent under other desktops and themes.
@@ -52,3 +54,11 @@ python3 ./bin/fa3-desktop-admission --require-gui --json
 ```
 
 A CI self-test proves the policy and deterministic compatibility cases only. It is not current-host evidence for Plasma, COSMIC, GNOME, or another desktop. A real host support claim requires a runtime probe receipt from that host.
+
+### Secret Service compatibility activation
+
+A Plasma referencia-profilban az `org.kde.secretservicecompat` név kizárólag **aktiválási hint és diagnosztikai jel**. Nem FA3 capability-endpoint, nem architekturális autoritás, és önmagában akkor sem elég a portable Secret Backend PASS-hoz, ha a standard Secret Service interfészt exportálja.
+
+A portable PASS feltétele az aktiválási kísérlet után is ugyanaz: a kliensnek a szabványos `org.freedesktop.secrets` busznéven, a `/org/freedesktop/secrets` objektumon sikeresen kell introspektálnia az `org.freedesktop.Secret.Service` interfészt. Ha ez nem bizonyítható, a desktop admission fail-closed marad. A canonical FA3 Vault továbbra is külön, provider-semleges fallback lehet, ha saját admissionje PASS.
+
+A runtime bizonyítás a `busctl --user --xml-interface introspect` XML dokumentumát parszolja, és csak az objektumon deklarált pontos `org.freedesktop.Secret.Service` interfészt fogadja el. Az interfészre szűrt, emberi olvasásra szánt táblázatos `busctl introspect ... INTERFACE` kimenet nem identitás-bizonyíték, mert az csak tag-sorokat is tartalmazhat.

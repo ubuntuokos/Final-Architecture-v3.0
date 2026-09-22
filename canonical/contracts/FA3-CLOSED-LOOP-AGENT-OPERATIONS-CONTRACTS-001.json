@@ -242,24 +242,24 @@
       "cpu_package_count_min": 1,
       "physical_cores_per_package_min": 8,
       "cpu_vendor_or_model_pin_forbidden": true,
-      "gpu_device_count_min": 1,
-      "gpu_minimum_generation": "NVIDIA_RTX_30_SERIES_OR_NEWER",
-      "gpu_rtx_series_floor": 30,
-      "newer_rtx_generations_allowed": true,
-      "specific_gpu_sku_vram_sm_pin_forbidden": true
+      "accelerator_device_count_min": 0,
+      "accelerator_vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "workload_provider_compatibility_required": true,
+      "specific_accelerator_sku_vram_arch_pin_forbidden": true,
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_accelerator_lease": false,
+      "accelerator_required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     },
-    "current_host_exact_hardware": "EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_DEFAULT",
+    "current_host_exact_hardware": "FRESH_EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_DEFAULT",
     "live_cpu_numa_gpu_discovery": true,
     "accelerator_requires_hrb_lease": true,
-    "canonical_accelerator_identity": [
-      "GPU_UUID",
-      "PCI_BDF"
-    ],
-    "cuda_ordinal_not_canonical_identity": true,
+    "canonical_accelerator_identity": "DISCOVERED_STABLE_ID_WHEN_AVAILABLE; PCI_BDF_ONLY_WHEN_APPLICABLE",
     "static_cpu_id_placement_forbidden": true,
     "display_aux_role_protection": true,
     "inherited_from_profile": "FA3-HW-001",
-    "inherited_from_contract": "FA3-HW-CONTRACTS-001"
+    "inherited_from_contract": "FA3-HW-CONTRACTS-001",
+    "runtime_ordinal_not_canonical_identity": true
   },
   "forbidden_semantics": [
     "LOOP_PROVIDER_AS_DURABLE_ORCHESTRATION_AUTHORITY",

@@ -1,0 +1,35 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19",
+  "date": "2026-09-19",
+  "status": "CANONICAL_DECISION",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_UI_COMPONENT_FABRIC_AND_KEEP_UIVERSE_GALAXY_REFERENCE_ONLY",
+  "profile": "FA3-UI-COMPONENT-FABRIC-001",
+  "parent_profile": "FA3-DESKTOP-001",
+  "contract": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+  "reference_source": "FA3-REFERENCE-UIVERSE-GALAXY-001",
+  "gate": "FA3-GATE-UI-COMPONENT-FABRIC-001",
+  "evidence_acceptance": "FA3-UI-COMPONENT-FABRIC-EVIDENCE-ACCEPTANCE-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_architectural_authority": 0,
+  "rationale": [
+    "Uiverse Galaxy is a large HTML/CSS UI pattern archive rather than an FA3 runtime framework.",
+    "The useful value is pattern diversity and micro-interaction reference material, not a production dependency.",
+    "FA3 production UI must remain native to the FA3 design, accessibility, security, provenance and evidence contracts.",
+    "A reference-only classification avoids creating an unnecessary provider or runtime authority.",
+    "Per-component intake remains fail-closed and cannot be inferred from admission of the reference source itself."
+  ],
+  "closure_conditions": {
+    "provider_neutral_ui_component_fabric_materialized": true,
+    "uiverse_galaxy_reference_record_materialized": true,
+    "separate_uiverse_installation_required": false,
+    "upstream_runtime_dependency": false,
+    "automatic_component_import_allowed": false,
+    "individual_component_admission_separate": true,
+    "capability_count_unchanged": true,
+    "existing_authority_boundaries_preserved": true,
+    "regression_gate_required": true
+  },
+  "final_state": "CONVERSATION_SCOPE_CANONICALLY_CLOSED_AFTER_REFERENCE_REGRESSION_GATE_PASS"
+}

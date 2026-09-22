@@ -48,8 +48,9 @@ class SillyTavernKdeGateTests(unittest.TestCase):
         self.assertFalse(stkde.endpoint_valid(loopback=True, event_derived=False, fixed_port=True))
 
     def test_second_wrapper_and_no_sandbox_are_rejected(self):
-        self.assertTrue(stkde.desktop_valid(wayland=True, no_sandbox=False, second_wrapper=False, fixed_gpu=False))
-        self.assertFalse(stkde.desktop_valid(wayland=True, no_sandbox=True, second_wrapper=True, fixed_gpu=False))
+        self.assertTrue(stkde.desktop_valid(display_protocol="wayland", no_sandbox=False, second_wrapper=False, fixed_gpu=False))
+        self.assertTrue(stkde.desktop_valid(display_protocol="x11", no_sandbox=False, second_wrapper=False, fixed_gpu=False))
+        self.assertFalse(stkde.desktop_valid(display_protocol="wayland", no_sandbox=True, second_wrapper=True, fixed_gpu=False))
 
     def test_prompt_and_percentage_routing_are_rejected(self):
         self.assertTrue(stkde.model_valid(existing_router=True, prompt_keyword=False, percentage_router=False, direct_runtime=False))

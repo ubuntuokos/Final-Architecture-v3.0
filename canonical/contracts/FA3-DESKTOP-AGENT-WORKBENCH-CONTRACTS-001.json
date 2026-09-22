@@ -56,9 +56,10 @@
     "local_session_auth_required": true
   },
   "desktop": {
-    "wayland_is_canonical_display_protocol": true,
-    "forced_x11_without_explicit_exception": "FORBIDDEN",
-    "wayland_webkitgtk_smoke_required_for_current_host_promotion": true,
+    "wayland": "PREFERRED",
+    "x11": "SUPPORTED_COMPATIBILITY",
+    "display_backend": "AUTO_FROM_ADMITTED_XDG_SESSION",
+    "session_native_webkitgtk_smoke_required_for_current_host_promotion": true,
     "gpu_model_or_count_assumption": "FORBIDDEN"
   },
   "model_access": {
@@ -125,7 +126,7 @@
     "mcp_gateway_route_and_bypass_denial": true,
     "permission_positive_negative_cases": true,
     "workspace_escape_denial": true,
-    "wayland_smoke": true,
+    "session_native_desktop_smoke": true,
     "rollback": true,
     "provider_log_is_canonical_evidence": false,
     "canonical_export_authority": "FA3-AUTH-OBS-EVIDENCE-001"
@@ -140,7 +141,7 @@
     "DIRECT_OLLAMA_OR_PROVIDER_MANAGED_MODEL_RUNTIME",
     "REMOTE_TUNNEL_OR_UNADMITTED_MESSAGING_CHANNEL",
     "FIXED_PORT_ASSUMED_FROM_ONE_HOST_OBSERVATION",
-    "FORCED_X11_WITHOUT_EXPLICIT_EXCEPTION",
+    "UNSUPPORTED_OR_UNPROVEN_DISPLAY_SESSION",
     "CI_REFERENCE_PASS_CLAIMS_CURRENT_HOST_RUNTIME"
   ]
 }

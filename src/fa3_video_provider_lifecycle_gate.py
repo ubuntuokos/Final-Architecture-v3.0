@@ -115,7 +115,7 @@ def run_regressions():
     add(P0_RULES[5],"canonical video IR remains provider neutral",provider_neutral_ir_valid(False,"FA3-VIDEO-CONTRACTS-001"),not provider_neutral_ir_valid(True,"provider-ir"))
     add(P0_RULES[6],"requested backend equals observed backend",backend_match_valid("cuda","cuda"),not backend_match_valid("cuda","cpu"))
     add(P0_RULES[7],"backend fallback explicit and authorized",fallback_valid(True,True,False),not fallback_valid(False,False,True))
-    add(P0_RULES[8],"local accelerator requires HRB UUID BDF",accelerator_valid(True,"GPU-u","0000:05:00.0",False),not accelerator_valid(False,None,None,True))
+    add(P0_RULES[8],"local accelerator requires HRB UUID BDF",accelerator_valid(True,"GPU-u","0000:3b:00.0",False),not accelerator_valid(False,None,None,True))
     add(P0_RULES[9],"runtime adapter model tuple pinned",runtime_tuple_valid("torch-2.10.0","diffusers-0.38.0","sha256:model"),not runtime_tuple_valid("latest","main","floating"))
     add(P0_RULES[10],"model VAE text encoder compatibility explicit",component_compat_valid("m","v","t","receipt"),not component_compat_valid("m",None,"t",None))
     add(P0_RULES[11],"cache is derived not canonical state",cache_not_authority(True,False),not cache_not_authority(False,True))

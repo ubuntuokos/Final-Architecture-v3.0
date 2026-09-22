@@ -13,6 +13,8 @@ from fa3_resource_admission_policy import (  # noqa: E402
     classify_requirements,
     metric_resource_class,
     validate_workload_requirements,
+    validate_accelerator_execution_requirement,
+    validate_workload_envelope,
 )
 
 
@@ -36,6 +38,36 @@ class ResourceAdmissionPolicyTests(unittest.TestCase):
     def test_npu_and_provider_neutral_accelerator_metrics_are_accelerator_class(self) -> None:
         self.assertEqual(metric_resource_class("npu.memory_gib"), "accelerator")
         self.assertEqual(metric_resource_class("accelerator.memory_gib"), "accelerator")
+
+    def test_execution_requirement_requires_accelerator_resource_class(self) -> None:
+        errors = validate_workload_envelope({
+            "requirements": [
+                {"metric": "cpu.physical_cores", "operator": ">=", "value": 8},
+            ],
+            "accelerator_execution": {
+                "acceptable_execution_paths": [
+                    {"backend": "cuda", "backend_class": "native", "framework_backend": "pytorch-cuda"},
+                ],
+                "allow_translation": False,
+            },
+        })
+        self.assertIn("ACCELERATOR_EXECUTION_WITHOUT_ACCELERATOR_RESOURCE_CLASS", errors)
+
+    def test_translation_requirement_is_explicit_opt_in(self) -> None:
+        denied = validate_accelerator_execution_requirement({
+            "acceptable_execution_paths": [
+                {"backend": "zluda", "backend_class": "translation", "framework_backend": "cuda-compat"},
+            ],
+            "allow_translation": False,
+        })
+        self.assertIn("TRANSLATION_PATH_NOT_EXPLICITLY_ALLOWED:0", denied)
+        admitted = validate_accelerator_execution_requirement({
+            "acceptable_execution_paths": [
+                {"backend": "zluda", "backend_class": "translation", "framework_backend": "cuda-compat"},
+            ],
+            "allow_translation": True,
+        })
+        self.assertEqual(admitted, [])
 
     def test_cu_tu_remain_forbidden_admission_metrics(self) -> None:
         errors = validate_workload_requirements([

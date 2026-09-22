@@ -33,7 +33,7 @@ RULES = [
     "SILLYTAVERN_KDE_USER_SESSION_ON_DEMAND_ONLY",
     "SILLYTAVERN_KDE_ELECTRON_OWNS_SERVER_CHILD_LIFECYCLE",
     "SILLYTAVERN_KDE_LOOPBACK_EVENT_DERIVED_URL_NO_FIXED_PORT",
-    "SILLYTAVERN_KDE_KDE6_WAYLAND_FIRST_CLASS",
+    "SILLYTAVERN_KDE_WAYLAND_PREFERRED_X11_SUPPORTED",
     "SILLYTAVERN_KDE_ELECTRON_SANDBOX_DISABLE_FORBIDDEN",
     "SILLYTAVERN_KDE_NO_FIXED_GPU_IDENTITY_OR_COUNT",
     "SILLYTAVERN_KDE_MODEL_ROUTING_AUTHORITY_PRESERVED",
@@ -107,8 +107,8 @@ def endpoint_valid(*, loopback: bool, event_derived: bool, fixed_port: bool) -> 
     return loopback and event_derived and not fixed_port
 
 
-def desktop_valid(*, wayland: bool, no_sandbox: bool, second_wrapper: bool, fixed_gpu: bool) -> bool:
-    return wayland and not no_sandbox and not second_wrapper and not fixed_gpu
+def desktop_valid(*, display_protocol: str, no_sandbox: bool, second_wrapper: bool, fixed_gpu: bool) -> bool:
+    return display_protocol in {"wayland", "x11"} and not no_sandbox and not second_wrapper and not fixed_gpu
 
 
 def dependency_valid(*, runtime_install: bool, explicit_prepare: bool, pinned_lock: bool) -> bool:
@@ -172,7 +172,7 @@ def regression_cases() -> list[dict[str, Any]]:
     }
     life = dict(user_session=True, on_demand=True, desktop_owns_server=True, separate_backend=False)
     endpoint = dict(loopback=True, event_derived=True, fixed_port=False)
-    desktop = dict(wayland=True, no_sandbox=False, second_wrapper=False, fixed_gpu=False)
+    desktop = dict(display_protocol="wayland", no_sandbox=False, second_wrapper=False, fixed_gpu=False)
     deps = dict(runtime_install=False, explicit_prepare=True, pinned_lock=True)
     model = dict(existing_router=True, prompt_keyword=False, percentage_router=False, direct_runtime=False)
     tool = dict(central_gateway=True, free_shell=False, fake_sandbox=False, privileged=False, side_effect_human_gate=True)
@@ -192,7 +192,7 @@ def regression_cases() -> list[dict[str, Any]]:
     add(7, "lifecycle is on-demand in the user session", lifecycle_valid(**life), not lifecycle_valid(**{**life, "on_demand": False}))
     add(8, "Electron owns the SillyTavern server child lifecycle", lifecycle_valid(**life), not lifecycle_valid(**{**life, "desktop_owns_server": False, "separate_backend": True}))
     add(9, "server URL is loopback and event-derived without a fixed port", endpoint_valid(**endpoint), not endpoint_valid(**{**endpoint, "event_derived": False, "fixed_port": True}))
-    add(10, "KDE6 Wayland is first-class", desktop_valid(**desktop), not desktop_valid(**{**desktop, "wayland": False}))
+    add(10, "Wayland is preferred and X11 remains supported", desktop_valid(**desktop) and desktop_valid(**{**desktop, "display_protocol": "x11"}), not desktop_valid(**{**desktop, "display_protocol": "unknown"}))
     add(11, "Electron sandbox disable is denied", desktop_valid(**desktop), not desktop_valid(**{**desktop, "no_sandbox": True}))
     add(12, "no fixed GPU identity or count is assumed", desktop_valid(**desktop), not desktop_valid(**{**desktop, "fixed_gpu": True}))
     add(13, "existing FA3 model router remains authority", model_valid(**model), not model_valid(**{**model, "existing_router": False, "direct_runtime": True}))
@@ -228,8 +228,8 @@ def deployment_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("SILLYKDE-DEP-002", "normal launcher contains forbidden mutation or privilege token"))
     if PINNED_COMMIT not in launch or PINNED_ENTRY_BLOB not in launch or PINNED_LOCK_BLOB not in launch:
         findings.append(_finding("SILLYKDE-DEP-003", "normal launcher does not enforce immutable source/Electron pins"))
-    if "--ozone-platform=wayland" not in launch or "XDG_SESSION_TYPE" not in launch:
-        findings.append(_finding("SILLYKDE-DEP-004", "Wayland preflight/launch semantics missing"))
+    if "--ozone-platform=wayland" not in launch or "XDG_SESSION_TYPE" not in launch or '"x11"' not in launch:
+        findings.append(_finding("SILLYKDE-DEP-004", "Wayland-preferred/X11-compatible session launch semantics missing"))
     if "[Install]" in unit or "WantedBy=" in unit:
         findings.append(_finding("SILLYKDE-DEP-005", "user service became enableable/autostarted by default"))
     if "NoNewPrivileges=true" not in unit or "PrivateTmp=true" not in unit:

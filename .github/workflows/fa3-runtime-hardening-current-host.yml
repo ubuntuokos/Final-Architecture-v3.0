@@ -11,6 +11,8 @@ on:
       - 'canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json'
       - 'src/fa3_runtime_hardening_current_host.py'
       - 'src/fa3_runtime_hardening_current_host_gate.py'
+      - 'src/fa3_runtime_hardening_current_host_preflight.py'
+      - 'tests/test_runtime_hardening_current_host_preflight.py'
       - 'evidence/collect-runtime-isolation-sandbox-current-host.py'
       - 'evidence/collect-media-gpu-zerocopy-current-host.py'
       - 'evidence/collect-hu-aqc-current-host.py'
@@ -31,15 +33,40 @@ on:
         required: false
         default: ''
         type: string
-      gvisor_proof:
-        description: 'Path to production gVisor OCI isolation proof on the self-hosted runner'
+      quadlet:
+        description: 'Installed FA3 agent-sandbox Quadlet path'
         required: false
-        default: '.fa3-current-host/input/gvisor-oci-proof.json'
+        default: '~/.config/containers/systemd/fa3-agent-sandbox.container'
         type: string
-      hrb_receipt:
-        description: 'Path to fresh HRB GPU UUID/BDF placement receipt'
+      agent_container:
+        description: 'Running Podman container name whose OCI runtime must resolve to runsc'
         required: false
-        default: '.fa3-current-host/input/media-zero-hrb.json'
+        default: 'fa3-agent-sandbox'
+        type: string
+      host_attestation_ref:
+        description: 'Exact current-host attestation reference bound into the evidence envelope'
+        required: false
+        default: ''
+        type: string
+      sandbox_gpu:
+        description: 'Require nvproxy driver ABI validation for GPU projection into the gVisor sandbox'
+        required: false
+        default: false
+        type: boolean
+      require_media_claim:
+        description: 'Require provider-scoped ZERO_COPY_PROVEN evidence; false keeps the conditional media surface NOT_APPLICABLE'
+        required: false
+        default: false
+        type: boolean
+      resource_admission_receipt:
+        description: 'Validated CURRENT_HOST_ADMISSION Evidence Envelope for the neural-media workload'
+        required: false
+        default: 'evidence/receipts/resource-admission-current-host.json'
+        type: string
+      frame_trace:
+        description: 'Normalized fa3.accelerator-copy-trace.v1 from the selected provider trace adapter'
+        required: false
+        default: '.fa3-current-host/input/media-zero-frame-trace.json'
         type: string
       input_video:
         description: 'Approved local seekable video used for PyNvVideoCodec current-host proof'
@@ -84,13 +111,17 @@ jobs:
           python -m py_compile \
             src/fa3_runtime_hardening_current_host.py \
             src/fa3_runtime_hardening_current_host_gate.py \
+            src/fa3_runtime_hardening_current_host_preflight.py \
             evidence/collect-runtime-isolation-sandbox-current-host.py \
             evidence/collect-media-gpu-zerocopy-current-host.py \
             evidence/collect-hu-aqc-current-host.py \
             evidence/collect-promotion-shadow-current-host.py \
             tests/test_runtime_hardening_current_host_gate.py
       - name: Current-host fail-closed regression tests
-        run: PYTHONPATH=src python -m unittest tests.test_runtime_hardening_current_host_gate -v
+        run: |
+          PYTHONPATH=src python -m unittest \
+            tests.test_runtime_hardening_current_host_gate \
+            tests.test_runtime_hardening_current_host_preflight -v
       - name: Parent runtime-hardening canonical gate
         run: ./bin/fa3-enforce runtime-hardening
       - name: Hosted CI may validate materialization but must remain PENDING
@@ -141,25 +172,57 @@ jobs:
           test "$(id -u)" -ne 0
           chmod +x bin/fa3-current-host-runner-doctor bin/fa3-enforce
           ./bin/fa3-current-host-runner-doctor
+      - name: Fail-fast runtime-hardening preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --root .
+            --oci-image "${{ inputs.oci_image }}"
+            --quadlet "${{ inputs.quadlet }}"
+            --agent-container "${{ inputs.agent_container }}"
+            --host-attestation-ref "${{ inputs.host_attestation_ref }}"
+            --hu-aqc-audio "${{ inputs.hu_aqc_audio }}"
+            --hu-aqc-metrics "${{ inputs.hu_aqc_metrics }}"
+          )
+          if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
+          if [[ "${{ inputs.require_media_claim }}" == "true" ]]; then
+            args+=(
+              --require-media-claim
+              --resource-admission-receipt "${{ inputs.resource_admission_receipt }}"
+              --frame-trace "${{ inputs.frame_trace }}"
+              --input-video "${{ inputs.input_video }}"
+            )
+          fi
+          PYTHONPATH=src python3 src/fa3_runtime_hardening_current_host_preflight.py "${args[@]}"
+
       - name: Collect runtime isolation and sandbox evidence
         shell: bash
         run: |
           set -u
-          args=()
-          if [[ -n "${{ inputs.oci_image }}" ]]; then args+=(--oci-image "${{ inputs.oci_image }}"); fi
-          if [[ -f "${{ inputs.gvisor_proof }}" ]]; then args+=(--gvisor-proof "${{ inputs.gvisor_proof }}"); fi
+          args=(
+            --root .
+            --oci-image "${{ inputs.oci_image }}"
+            --quadlet "${{ inputs.quadlet }}"
+            --agent-container "${{ inputs.agent_container }}"
+            --host-attestation-ref "${{ inputs.host_attestation_ref }}"
+          )
+          if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
           set +e
-          PYTHONPATH=src python3 evidence/collect-runtime-isolation-sandbox-current-host.py --root . "${args[@]}"
+          PYTHONPATH=src python3 evidence/collect-runtime-isolation-sandbox-current-host.py "${args[@]}"
           echo "sandbox_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect PyNvVideoCodec zero-host-round-trip evidence
+        if: ${{ inputs.require_media_claim }}
         shell: bash
         run: |
           set +e
           PYTHONPATH=src python3 evidence/collect-media-gpu-zerocopy-current-host.py \
             --root . \
             --input-video "${{ inputs.input_video }}" \
-            --hrb-receipt "${{ inputs.hrb_receipt }}"
+            --resource-admission-receipt "${{ inputs.resource_admission_receipt }}" \
+            --frame-trace "${{ inputs.frame_trace }}" \
+            --sampling-interval 0.02
           echo "media_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect Hungarian AQC evidence
@@ -181,8 +244,13 @@ jobs:
             --sandbox-receipt evidence/receipts/runtime-isolation-sandbox-current-host.json
           echo "shadow_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
-      - name: Enforce all four current-host surfaces
-        run: ./bin/fa3-enforce runtime-hardening-current-host --require-evidence
+      - name: Enforce all applicable current-host surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--require-evidence)
+          if [[ "${{ inputs.require_media_claim }}" == "true" ]]; then args+=(--require-media-claim); fi
+          ./bin/fa3-enforce runtime-hardening-current-host "${args[@]}"
       - name: Upload current-host evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -195,3 +263,4 @@ jobs:
             evidence/receipts/hu-aqc-current-host.json
             evidence/receipts/promotion-shadow-current-host.json
             reports/runtime-hardening-current-host-gate-report.json
+            .fa3-current-host/runtime-hardening/preflight.json

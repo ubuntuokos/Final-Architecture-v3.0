@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.gate.record.v1",
+  "id": "FA3-GATE-UNIFIED-ACTION-FABRIC-001",
+  "title": "Unified Action Fabric canonical and security boundary gate",
+  "profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "entrypoint": "./bin/fa3-enforce uaf",
+  "result_contract": "FA3-ENFORCEMENT-RESULT-001",
+  "gate_set": "FA3-UNIFIED-ACTION-FABRIC-GATESET-001",
+  "requirements": [
+    "SINGLE_ACTION_CONTRACT",
+    "NO_DIRECT_AGENT_OR_GUI_PROVIDER_BYPASS",
+    "VENDOR_NEUTRAL_HARDWARE_REQUIREMENTS",
+    "PHYSICAL_LOGICAL_CPU_DISTINCTION",
+    "HRB_AUTHORITY_PRESERVED",
+    "SECRET_BROKER_BOUNDARY_PRESERVED",
+    "CENTRAL_MCP_GATEWAY_PRESERVED",
+    "EVIDENCE_REQUIRED",
+    "NO_STATIC_TO_CURRENT_HOST_PROMOTION"
+  ],
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "global_promotion_claim": false
+}

@@ -28,18 +28,41 @@
     "PlacementReceipt"
   ],
   "math_runtime_projections": {
-    "openmp": ["OMP_NUM_THREADS", "OMP_THREAD_LIMIT", "OMP_PLACES", "OMP_PROC_BIND", "OMP_DYNAMIC", "OMP_MAX_ACTIVE_LEVELS"],
-    "mkl": ["MKL_NUM_THREADS", "MKL_DYNAMIC"],
-    "openblas": ["OPENBLAS_NUM_THREADS"],
-    "numexpr": ["NUMEXPR_MAX_THREADS", "NUMEXPR_NUM_THREADS"],
-    "pytorch": ["intra_op_threads", "inter_op_threads"],
-    "intel_libiomp_optional": ["KMP_AFFINITY", "KMP_BLOCKTIME"],
-    "onednn_logging_only": ["DNNL_VERBOSE"]
+    "openmp": [
+      "OMP_NUM_THREADS",
+      "OMP_THREAD_LIMIT",
+      "OMP_PLACES",
+      "OMP_PROC_BIND",
+      "OMP_DYNAMIC",
+      "OMP_MAX_ACTIVE_LEVELS"
+    ],
+    "mkl": [
+      "MKL_NUM_THREADS",
+      "MKL_DYNAMIC"
+    ],
+    "openblas": [
+      "OPENBLAS_NUM_THREADS"
+    ],
+    "numexpr": [
+      "NUMEXPR_MAX_THREADS",
+      "NUMEXPR_NUM_THREADS"
+    ],
+    "pytorch": [
+      "intra_op_threads",
+      "inter_op_threads"
+    ],
+    "intel_libiomp_optional": [
+      "KMP_AFFINITY",
+      "KMP_BLOCKTIME"
+    ],
+    "onednn_logging_only": [
+      "DNNL_VERBOSE"
+    ]
   },
   "invariants": [
     "CPU_THREAD_BUDGET_DERIVES_FROM_HRB_PLACEMENT_NOT_LIBRARY_ENVIRONMENT",
     "TOPOLOGY_MUST_BE_LIVE_DISCOVERED_AND_VALIDATED_AT_BOOT_OR_ADMISSION",
-    "REFERENCE_HOST_FACTS_ARE_EVIDENCE_NOT_CANONICAL_HARDWARE_IDENTITY",
+    "CURRENT_HOST_TOPOLOGY_FACTS_MUST_BE_FRESH_AND_NOT_CANONICAL_HARDWARE_IDENTITY",
     "GLOBAL_NPROC_TO_ALL_THREAD_POOLS_FORBIDDEN",
     "PHYSICAL_CORE_FIRST_BUDGETING_REQUIRED",
     "BUDGET_MUST_NOT_EXCEED_PHYSICAL_CORES_VISIBLE_IN_ADMITTED_CPUSET_BY_DEFAULT",
@@ -58,8 +81,24 @@
     "INTEL_KMP_SETTINGS_ARE_PROVIDER_SCOPED_NOT_GLOBAL",
     "DNNL_VERBOSE_IS_LOGGING_ONLY_NOT_RESOURCE_POLICY",
     "SMT_ABOVE_PHYSICAL_CORE_BUDGET_REQUIRES_BENCHMARK_AND_EXPLICIT_ADMISSION",
-    "DUAL_SOCKET_MULTI_INSTANCE_IS_REFERENCE_POLICY_NOT_PORTABLE_NUMERIC_CONSTANT",
+    "MULTI_NUMA_INSTANCE_POLICY_DERIVES_FROM_LIVE_TOPOLOGY_NOT_FIXED_NUMERIC_CONSTANT",
     "THREAD_OVERSUBSCRIPTION_MUST_FAIL_CLOSED",
     "THREAD_BUDGET_PLACEMENT_REQUIRES_EVIDENCE_AND_ROLLBACK"
-  ]
+  ],
+  "version": "1.2.0",
+  "discovery_descriptor_binding": {
+    "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "cpu_topology_descriptor": "CpuCoreTopologyDescriptor",
+    "logical_processor_descriptor": "CpuLogicalProcessorDescriptor",
+    "physical_core_descriptor": "CpuPhysicalCoreDescriptor",
+    "allocation_descriptor": "CpuPhysicalCoreAllocationDescriptor",
+    "semantics": {
+      "logical_cpu_is_physical_core": false,
+      "physical_core_identity": "PACKAGE_PLUS_OPTIONAL_DIE_CLUSTER_PLUS_CORE_ID",
+      "default_budget_basis": "VISIBLE_PHYSICAL_CORES",
+      "full_core_allocation": "ALL_ONLINE_SIBLING_THREADS_VISIBLE",
+      "partial_core_allocation": "SOME_BUT_NOT_ALL_ONLINE_SIBLING_THREADS_VISIBLE",
+      "smt_above_physical_budget": "EXPLICIT_BENCHMARK_ADMISSION_REQUIRED"
+    }
+  }
 }

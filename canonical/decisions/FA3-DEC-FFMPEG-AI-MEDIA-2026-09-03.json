@@ -23,7 +23,7 @@
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
-  "hardware_reference": "2x Intel Xeon E5-2696 v4 / 44C-88T / expected 2 NUMA / RTX 3080 12GB-class compute evidence context; all live topology and accelerator identity rediscovered",
+  "hardware_reference": "Vendor-neutral CPU/NUMA live topology; accelerator requirements are provider/workload-scoped and resolved through HRB stable identity.",
   "runtime_activation_status": "PENDING_REAL_CURRENT_HOST_E2E",
   "mandatory_rules": [
     "NEURAL_MEDIA_PROFILE_MANDATORY_NO_NEW_CAPABILITY_AUTHORITY",
@@ -35,7 +35,7 @@
     "INCOMPATIBLE_DNN_MODELS_ROUTE_TO_INFERENCE_PORTABILITY",
     "REQUESTED_ACCELERATOR_PROVIDER_MUST_MATCH_OBSERVED_NO_SILENT_CPU_FALLBACK",
     "HRB_LEASE_AND_UUID_BDF_REQUIRED_FOR_ACCELERATOR_EXECUTION",
-    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_REFERENCE_E5_2696_V4_NOT_PORTABLE_CONSTANT",
+    "LIVE_CPU_NUMA_TOPOLOGY_REQUIRED_NO_HOST_MODEL_CONSTANT",
     "NVIDIA_CODEC_FILTER_CAPABILITIES_RUNTIME_DISCOVERED_NO_AV1_ENCODE_ASSUMPTION",
     "GPU_RESIDENT_PIPELINE_AND_COPY_MINIMIZATION_REQUIRED_WHEN_SUPPORTED",
     "ZERO_COPY_CLAIM_REQUIRES_STABLE_RELEASE_CAPABILITY_AND_COPY_EVIDENCE",
@@ -56,5 +56,6 @@
     "FFmpeg 9.0.1 provides ONNX Runtime and OpenVINO DNN backends, but its ONNX CUDA path can fall back to CPU; FA3 therefore adds a fail-closed observed-provider check instead of inheriting silent fallback.",
     "Stable 9.0.1 dnn_processing does not accept CUDA hardware frames, while development trunk has CUDA-frame work; zero-copy DNN therefore remains capability-evidence gated rather than a stable baseline claim.",
     "Modern super-resolution, restoration and frame interpolation are better isolated behind a frame-server adapter such as VapourSynth/vs-mlrt and the existing inference-portability authority."
-  ]
+  ],
+  "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
 }

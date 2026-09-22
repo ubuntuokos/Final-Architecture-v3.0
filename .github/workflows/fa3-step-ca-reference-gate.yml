@@ -1,0 +1,36 @@
+name: FA3 step-ca trust PKI reference gate
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/**'
+      - 'deployment/step-ca/**'
+      - 'src/fa3_step_ca_gate.py'
+      - 'tests/test_step_ca_gate.py'
+      - 'bin/fa3-enforce'
+      - 'apps/fa3-control-center/**'
+      - '.github/workflows/fa3-step-ca-reference-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**'
+      - 'deployment/step-ca/**'
+      - 'src/fa3_step_ca_gate.py'
+      - 'tests/test_step_ca_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run step-ca canonical gate
+        run: PYTHONPATH=src python3 src/fa3_step_ca_gate.py
+      - name: Run step-ca unit tests
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_step_ca_gate.py' -v

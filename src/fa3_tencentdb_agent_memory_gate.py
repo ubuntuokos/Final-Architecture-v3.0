@@ -71,7 +71,7 @@ def run_regressions():
  add(P0_RULES[24],"Git argument injection denied",git_arg_valid("https://github.com/a/b.git"),not git_arg_valid("https://github.com/a/b.git --upload-pack=x"))
  add(P0_RULES[25],"component licence clarity",license_valid(True,True,True),not license_valid(True,True,False))
  add(P0_RULES[26],"HRB live topology",hrb_valid(True,True,False,False),not hrb_valid(False,False,True,True))
- add(P0_RULES[27],"accelerator UUID+BDF",accelerator_valid(True,True,"GPU-u","0000:05:00.0",False),not accelerator_valid(False,False,None,None,True))
+ add(P0_RULES[27],"accelerator UUID+BDF",accelerator_valid(True,True,"GPU-u","0000:3b:00.0",False),not accelerator_valid(False,False,None,None,True))
  add(P0_RULES[28],"promotion requires security/licence/E2E",promotion_valid(True,True,True,True),not promotion_valid(False,False,False,True))
  add(P0_RULES[29],"disabled zero residency",disabled_valid(False,0,0,0),not disabled_valid(False,1,1,0))
  p=sum(x["status"]=="PASS" for x in c); return {"schema":"fa3.tencentdb-agent-memory-regression-report.v1","result":"PASS" if p==len(c) else "FAIL","passed":p,"total":len(c),"cases":c}

@@ -124,13 +124,13 @@ def benchmark_receipt_valid(obj: dict[str, Any]) -> bool:
 
 def run_regressions() -> dict[str, Any]:
     cache = {
-        "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+        "gpu_sku": "fixture-accelerator-generation-a",
         "tensorrt_rtx_version": "1.6.1.120",
         "cuda_context_cig_state": "DISABLED",
         "cache_origin_driver_version": "610.43.02",
     }
     runtime_ok = {
-        "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+        "gpu_sku": "fixture-accelerator-generation-a",
         "tensorrt_rtx_version": "1.6.1.120",
         "cuda_context_cig_state": "DISABLED",
         "runtime_driver_version": "610.57.04",
@@ -144,7 +144,7 @@ def run_regressions() -> dict[str, Any]:
         "observability_source": "PROFILER",
         "runtime_driver_version": "610.57.04",
         "cache_origin_driver_version": "610.43.02",
-        "gpu_sku": "NVIDIA-GeForce-RTX-3090",
+        "gpu_sku": "fixture-accelerator-generation-a",
         "tensorrt_rtx_version": "1.6.1.120",
         "cuda_context_cig_state": "DISABLED",
         "first_inference_latency_ms": 2200.0,

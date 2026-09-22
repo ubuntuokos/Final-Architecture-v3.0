@@ -29,15 +29,10 @@ class TestCurrentHostBatchOrchestration(unittest.TestCase):
         self.assertIs(producer["global_promotion_claim"], False)
         self.assertIs(executor["global_promotion_claim"], False)
 
-    def test_unregistered_subject_fails_closed(self):
+    def test_unknown_subject_fails_closed_after_full_materialization(self):
         plan = build_plan(ROOT, batch_size=5)
-        pending = [
-            row["capability_id"]
-            for row in plan["capabilities"]
-            if row["materialization_status"] == "PENDING_EXECUTOR_MATERIALIZATION"
-        ]
-        self.assertTrue(pending)
-        subject = pending[0]
+        self.assertEqual(plan["pending_materialization_capability_count"], 0)
+        subject = "CAP-999"
         producer = orchestrate_producers(ROOT, execute=False, subjects={subject})
         executor = orchestrate_tests(ROOT, execute=False, subjects={subject})
         self.assertEqual(producer["orchestrator_integrity"], "FAIL")

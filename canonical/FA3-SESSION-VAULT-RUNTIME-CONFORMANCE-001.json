@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.session-vault-runtime-conformance.v1",
+  "id": "FA3-SESSION-VAULT-RUNTIME-CONFORMANCE-001",
+  "profile_id": "FA3-SESSION-VAULT-001",
+  "status": "CURRENT_HOST_PASS_RUNTIME_PROMOTION_ELIGIBLE",
+  "fail_closed": true,
+  "reference_implementation": {
+    "gui_service": "apps/fa3-control-center/src/SessionVaultService.cpp",
+    "control_page": "apps/fa3-control-center/qml/SessionVaultPage.qml",
+    "initializer": "bin/fa3-session-vault-init",
+    "auto_unlock": "apps/fa3-control-center/src/SessionVaultService.cpp",
+    "current_host_e2e": "bin/fa3-session-vault-current-host.sh",
+    "current_host_gate": "src/fa3_session_vault_current_host_gate.py"
+  },
+  "required_checks": [
+    "LUKS2_IMAGE_CREATED",
+    "EXTERNAL_STORAGE_NAME_NON_DISCLOSING",
+    "UDISKS2_LOOP_SETUP_PASS",
+    "LUKS2_UNLOCK_PASS",
+    "NODEV_NOSUID_NOEXEC_MOUNT_PASS",
+    "NO_SEPARATE_FA3_LOGIN_IN_SINGLE_USER_DEFAULT",
+    "SECRET_SERVICE_AUTO_UNLOCK_PASS_IF_CONFIGURED",
+    "MANUAL_UNLOCK_FALLBACK_PASS",
+    "EXPLICIT_LOCK_REMOVES_CLEAR_MAPPING",
+    "FA3_STEP_CA_USER_CANNOT_READ_ROOT_KEY",
+    "OPAQUE_BACKUP_RESTORE_PASS"
+  ],
+  "current_host_receipt": "evidence/receipts/session-vault-current-host.json",
+  "production_runtime_promoted": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "migration": {
+    "legacy_default_image": "~/.local/share/fa3/vault/fa3-session-vault.img",
+    "new_default_image": "~/.local/share/fa3/state/fa3-state.img",
+    "legacy_read_compatibility": true,
+    "recreation_required": false
+  },
+  "current_host_enforcement": "canonical/session-vault-current-host-enforcement.json",
+  "current_host_receipt_path": "evidence/receipts/session-vault-current-host.json",
+  "current_host_result": {
+    "result": "PASS",
+    "real_execution": true,
+    "synthetic": false,
+    "runtime_promotion_eligible": true,
+    "global_promotion_claim": false,
+    "secret_values_collected": false
+  }
+}

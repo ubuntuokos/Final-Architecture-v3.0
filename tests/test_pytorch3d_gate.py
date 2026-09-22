@@ -75,6 +75,34 @@ class PyTorch3DGateTests(unittest.TestCase):
         job["fallback_policy"] = "CPU"
         self.assertEqual("FAIL", admit_job(job)["result"])
 
+    def test_build_candidate_uses_current_host_admission_sources(self):
+        candidate = reference_build_candidate()
+        self.assertEqual(
+            "CURRENT_HOST_ADMISSION_HRB_BOUND_COMPUTE_PROFILE",
+            candidate["target_architectures_source"],
+        )
+        self.assertEqual(
+            "CURRENT_HOST_ADMISSION_COMPUTE_PROFILE",
+            candidate["build_parallelism_source"],
+        )
+        self.assertEqual("PASS", validate_build_candidate(candidate)["result"])
+
+    def test_legacy_manual_hrb_build_source_fails_closed(self):
+        candidate = reference_build_candidate()
+        candidate["target_architectures_source"] = "HRB_DISCOVERY"
+        candidate["build_parallelism_source"] = "HRB_LEASE"
+        self.assertEqual("FAIL", validate_build_candidate(candidate)["result"])
+
+    def test_build_and_e2e_scripts_require_canonical_admission_receipt(self):
+        builder = (self.root / "bin/fa3-pytorch3d-source-build.sh").read_text(encoding="utf-8")
+        collector = (self.root / "evidence/collect-pytorch3d-current-host.py").read_text(encoding="utf-8")
+        self.assertIn("--admission-receipt", builder)
+        self.assertIn("fa3_resource_admission_current_host_gate", builder)
+        self.assertNotIn("--hrb-receipt", builder)
+        self.assertIn("--admission-receipt", collector)
+        self.assertIn("validate_resource_admission_receipt", collector)
+        self.assertNotIn("--hrb-receipt", collector)
+
     def test_negative_authority_claim_fails(self):
         report = self.mutate_and_gate("provider", lambda data: data["authority_boundaries"].update(geometry_semantics=True))
         self.assertEqual("FAIL", report["result"])

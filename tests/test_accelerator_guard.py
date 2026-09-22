@@ -63,6 +63,87 @@ def test_alternative_accelerator_is_recommended_but_not_applied():
     assert conflict.recommendation.action_taken is False
 
 
+def test_alternative_must_match_execution_path_requirement():
+    requirement = {
+        "acceptable_execution_paths": [
+            {"backend": "cuda", "backend_class": "native", "framework_backend": "pytorch-cuda"},
+        ],
+        "allow_translation": False,
+    }
+    busy = AcceleratorSnapshot(
+        "gpu-busy", "GPU", 24 * GIB,
+        clients=(ClientUsage(100, "python", Origin.EXTERNAL_UNKNOWN, 20 * GIB, 0.9),),
+        safety_headroom_bytes=1 * GIB,
+        execution_paths=({
+            "accelerator_id": "gpu-busy",
+            "backend": "cuda",
+            "backend_class": "native",
+            "framework_backend": "pytorch-cuda",
+            "available": True,
+            "health": "READY",
+        },),
+    )
+    rocm_free = AcceleratorSnapshot(
+        "gpu-rocm", "GPU", 24 * GIB,
+        safety_headroom_bytes=1 * GIB,
+        execution_paths=({
+            "accelerator_id": "gpu-rocm",
+            "backend": "rocm",
+            "backend_class": "native",
+            "framework_backend": "pytorch-rocm",
+            "available": True,
+            "health": "READY",
+        },),
+    )
+    cuda_free = AcceleratorSnapshot(
+        "gpu-cuda", "GPU", 16 * GIB,
+        safety_headroom_bytes=1 * GIB,
+        execution_paths=({
+            "accelerator_id": "gpu-cuda",
+            "backend": "cuda",
+            "backend_class": "native",
+            "framework_backend": "pytorch-cuda",
+            "available": True,
+            "health": "READY",
+        },),
+    )
+    request = WorkloadRequest("fa3-cuda-job", 8 * GIB, "GPU", execution_requirement=requirement)
+    conflict = evaluate_request(
+        busy,
+        request,
+        candidates=(rocm_free, cuda_free),
+        conflict_id="backend-aware",
+    )
+    assert conflict is not None
+    assert conflict.recommendation.action == DecisionAction.MOVE_FA3
+    assert conflict.recommendation.target_accelerator_id == "gpu-cuda"
+
+
+def test_incompatible_current_device_never_silently_falls_back():
+    requirement = {
+        "acceptable_execution_paths": [
+            {"backend": "cuda", "backend_class": "native", "framework_backend": "pytorch-cuda"},
+        ],
+        "allow_translation": False,
+    }
+    rocm = AcceleratorSnapshot(
+        "gpu-rocm", "GPU", 24 * GIB,
+        execution_paths=({
+            "accelerator_id": "gpu-rocm",
+            "backend": "rocm",
+            "backend_class": "native",
+            "framework_backend": "pytorch-rocm",
+            "available": True,
+            "health": "READY",
+        },),
+    )
+    request = WorkloadRequest("fa3-cuda-job", 4 * GIB, "GPU", execution_requirement=requirement)
+    conflict = evaluate_request(rocm, request, conflict_id="no-silent-fallback")
+    assert conflict is not None
+    assert conflict.recommendation.action == DecisionAction.WAIT
+    assert "incompatible" in conflict.assessment.reason
+
+
 def test_only_explicit_saved_policy_can_decide_automatically():
     busy = AcceleratorSnapshot(
         "gpu-1", "GPU", 24 * GIB,

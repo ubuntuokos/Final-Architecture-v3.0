@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20",
+  "date": "2026-09-20",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Smallstep step-ca integration as the FA3 internal PKI and machine-certificate provider",
+  "decision": "ADOPT_STEP_CA_AS_DEFAULT_REPLACEABLE_INTERNAL_CA_PROVIDER_UNDER_FA3_TRUST_PKI_POLICY",
+  "profile_id": "FA3-TRUST-PKI-001",
+  "provider_id": "FA3-PROVIDER-STEP-CA-001",
+  "contract_id": "FA3-TRUST-PKI-CONTRACTS-001",
+  "gate_id": "FA3-STEP-CA-GATESET-001",
+  "parent_profile": "FA3-SCS-001",
+  "mandatory_constraints": [
+    "ROOT_CA_PRIVATE_KEY_IS_OFFLINE_ONLY",
+    "ONLINE_STEP_CA_USES_INTERMEDIATE_KEY_ONLY",
+    "STEP_CA_IS_PROVIDER_NOT_FA3_SECURITY_IDENTITY_OR_AUTHORIZATION_AUTHORITY",
+    "CERTIFICATES_ARE_IDENTITY_CREDENTIALS_NOT_AUTHORIZATION_DECISIONS",
+    "WORKLOAD_CERTIFICATES_DEFAULT_TO_SHORT_LIVED_12H_AND_MAX_24H",
+    "RUNTIME_PROMOTION_REQUIRES_REAL_CURRENT_HOST_MTLS_ACME_SSH_AND_RECOVERY_EVIDENCE"
+  ],
+  "adopted_surfaces": [
+    "X509_SERVER_CERTIFICATES",
+    "X509_CLIENT_CERTIFICATES",
+    "MUTUAL_TLS",
+    "ACME_V2",
+    "SSH_CERTIFICATES",
+    "TRUST_BUNDLE_DISTRIBUTION"
+  ],
+  "runtime_promotion": "BLOCKED_PENDING_CURRENT_HOST_AND_OFFLINE_ROOT_CEREMONY_EVIDENCE",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

@@ -4,143 +4,155 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "src"
+ROOT=Path(__file__).resolve().parents[1]
+SRC=ROOT/"src"
 if str(SRC) not in sys.path:
-    sys.path.insert(0, str(SRC))
+    sys.path.insert(0,str(SRC))
 
 from fa3_hardware_portability_gate import (
     CAPABILITY_COUNT,
-    CUDA_COMPUTE_CAPABILITY_MIN,
+    REFERENCE_PLATFORM_FAMILIES,
+    REFERENCE_VENDOR_FAMILIES,
     evaluate,
     portable_hardware_floor_valid,
     scan_repository,
 )
 
-
 class HardwarePortabilityGateTests(unittest.TestCase):
     def test_repository_gate_passes(self):
-        result = evaluate(ROOT)
-        self.assertEqual("PASS", result["result"], result)
-        self.assertEqual(CAPABILITY_COUNT, result["capability_count"])
-        self.assertEqual(0, result["repository_audit"]["blocking_hardcoded_production_assumptions"])
+        result=evaluate(ROOT)
+        self.assertEqual("PASS",result["result"],result)
+        self.assertEqual(CAPABILITY_COUNT,result["capability_count"])
+        self.assertEqual("FORBIDDEN",result["accelerator_floor"]["vendor_pin"])
+        self.assertEqual("FORBIDDEN",result["accelerator_floor"]["runtime_api_pin"])
+        self.assertEqual(0,result["accelerator_floor"]["minimum_device_count"])
+        self.assertTrue(result["accelerator_floor"]["cpu_only_host_conforms"])
+        self.assertFalse(result["accelerator_floor"]["cpu_only_workload_requires_lease"])
         self.assertFalse(result["current_host_runtime_promotion_claim"])
-        self.assertEqual(8.6, result["gpu_floor"]["cuda_compute_capability_min"])
-        self.assertFalse(result["gpu_floor"]["sku_series_authority"])
 
-    def test_minimum_and_larger_hosts_are_admitted(self):
+    def test_vendor_neutral_reference_families(self):
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= REFERENCE_VENDOR_FAMILIES)
+        self.assertIn("NVIDIA_DGX",REFERENCE_PLATFORM_FAMILIES)
+        for vendor in ("NVIDIA","AMD","INTEL"):
+            self.assertTrue(portable_hardware_floor_valid(
+                cpu_packages=1, physical_cores_per_qualifying_cpu=8,
+                accelerator_count=1, accelerator_vendor=vendor,
+            ))
+
+    def test_vendor_specific_capability_is_not_global_floor(self):
         self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=1,
-            gpu_compute_capability=8.6,
-        ))
-        self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=2,
-            physical_cores_per_qualifying_cpu=24,
-            gpu_count=4,
-            gpu_compute_capability=12.0,
-        ))
-
-    def test_rtx_a1000_class_cc86_is_admitted_without_sku_exception(self):
-        self.assertEqual(8.6, CUDA_COMPUTE_CAPABILITY_MIN)
-        self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=1,
-            gpu_compute_capability=8.6,
-            gpu_vendor="NVIDIA",
-        ))
-
-    def test_marketing_series_is_not_an_admission_input(self):
-        profile = json.loads((ROOT / "canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
-        gpu = profile["portable_minimum"]["gpu"]
-        self.assertNotIn("rtx_series_floor", gpu)
-        self.assertFalse(gpu["sku_series_admission_authority"])
-        self.assertEqual(8.6, gpu["cuda_compute_capability_min"])
-        self.assertTrue(gpu["vram_size_pin"].startswith("FORBIDDEN"))
-
-    def test_no_fixed_upper_bound(self):
-        self.assertTrue(portable_hardware_floor_valid(
-            cpu_packages=8,
-            physical_cores_per_qualifying_cpu=64,
-            gpu_count=16,
-            gpu_compute_capability=12.0,
-        ))
-
-    def test_floor_rejects_under_minimum_hosts(self):
-        self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=7,
-            gpu_count=1,
-            gpu_compute_capability=8.6,
+            cpu_packages=1, physical_cores_per_qualifying_cpu=8,
+            gpu_count=1, gpu_vendor="AMD", gpu_compute_capability=0.0,
         ))
         self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=0,
-            gpu_compute_capability=12.0,
-        ))
-        self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=1,
-            gpu_compute_capability=8.0,
-        ))
-        self.assertFalse(portable_hardware_floor_valid(
-            cpu_packages=1,
-            physical_cores_per_qualifying_cpu=8,
-            gpu_count=1,
-            gpu_compute_capability=12.0,
-            gpu_vendor="OTHER",
+            cpu_packages=1, physical_cores_per_qualifying_cpu=8,
+            accelerator_count=1, accelerator_vendor="AMD", workload_compatible=False,
+            accelerator_required=True,
         ))
 
-    def test_runtime_fixed_cuda_list_is_blocking(self):
+    def test_floor_rejects_only_global_minimum_failures(self):
+        self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=7,accelerator_count=1))
+        self.assertTrue(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0))
+        self.assertFalse(portable_hardware_floor_valid(cpu_packages=1,physical_cores_per_qualifying_cpu=8,accelerator_count=0,accelerator_required=True))
+        self.assertTrue(portable_hardware_floor_valid(cpu_packages=4,physical_cores_per_qualifying_cpu=64,accelerator_count=16,accelerator_vendor="FUTURE_VENDOR"))
+
+    def test_canonical_profile_has_no_vendor_or_runtime_pin(self):
+        obj=json.loads((ROOT/"canonical/profiles/FA3-HARDWARE-BASELINE-001.json").read_text(encoding="utf-8"))
+        accelerator=obj["portable_minimum"]["accelerator"]
+        self.assertEqual(0,accelerator["qualifying_device_count_min"])
+        self.assertTrue(accelerator["cpu_only_host_conforms"])
+        self.assertFalse(accelerator["cpu_only_workload_requires_lease"])
+        self.assertEqual("FORBIDDEN",accelerator["vendor_pin"])
+        self.assertEqual("FORBIDDEN",accelerator["global_runtime_api_pin"])
+        self.assertTrue(accelerator["global_cuda_compute_capability_floor"].startswith("FORBIDDEN"))
+        self.assertTrue({"NVIDIA","AMD","INTEL"} <= set(accelerator["supported_reference_vendor_families"]))
+        self.assertIn("NVIDIA_DGX",accelerator["supported_reference_platform_families"])
+
+    def test_discovery_contract_distinguishes_cpu_and_backend_dimensions(self):
+        obj=json.loads((ROOT/"canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json").read_text(encoding="utf-8"))
+        self.assertEqual("1.4.1",obj["version"])
+        cpu=obj["descriptor_schemas"]["cpu"]
+        accel=obj["descriptor_schemas"]["accelerator"]
+        self.assertIn("physical_cores_fully_allocated",cpu["required_counts"])
+        self.assertIn("physical_cores_partially_allocated",cpu["required_counts"])
+        self.assertEqual(
+            set(obj["discovery_semantics"]["backend_classes"]),
+            {"native","portable","translation"},
+        )
+        self.assertFalse(obj["discovery_semantics"]["device_presence_implies_workload_compatibility"])
+        self.assertFalse(obj["discovery_semantics"]["unknown_accelerator_vendor_is_error"])
+        self.assertEqual(
+            accel["unknown_vendor_policy"],
+            "VALID_DISCOVERY_RESULT_NOT_GLOBAL_ADMISSION_FAILURE",
+        )
+        binding=accel["backend_binding_semantics"]
+        self.assertTrue(binding["available_true_requires"]=="DETECTED_AND_DEVICE_BOUND")
+        self.assertEqual(
+            binding["host_unbound_admission"],
+            "FORBIDDEN_UNTIL_PROVIDER_OR_RUNTIME_PROVES_DEVICE_BINDING",
+        )
+        self.assertIn(
+            "UNBOUND_HOST_BACKEND_DETECTION_MUST_NOT_AUTHORIZE_DEVICE_ADMISSION",
+            obj["invariants"],
+        )
+
+    def test_runtime_fixed_vendor_lists_are_blocking(self):
+        for line in (
+            'CUDA_VISIBLE_DEVICES="0,1"\n',
+            'ROCR_VISIBLE_DEVICES="0,1"\n',
+            'ZE_AFFINITY_MASK="0.0"\n',
+            'DEVICE="0000:3b:00.0"\n',
+        ):
+            with self.subTest(line=line), tempfile.TemporaryDirectory() as td:
+                root=Path(td); (root/"apps").mkdir()
+                (root/"apps"/"bad.py").write_text(line,encoding="utf-8")
+                audit=scan_repository(root)
+                self.assertEqual("FAIL",audit["result"],audit)
+
+    def test_apps_qml_cpp_are_audited(self):
         with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            (root / "src").mkdir()
-            (root / "src" / "bad.py").write_text(
-                'import os\nos.environ["CUDA_VISIBLE_DEVICES"] = "0,1"\n',
-                encoding="utf-8",
-            )
-            audit = scan_repository(root)
-            self.assertEqual("FAIL", audit["result"])
-            self.assertEqual(1, audit["blocking_hardcoded_production_assumptions"])
+            root=Path(td); (root/"apps").mkdir()
+            (root/"apps"/"bad.qml").write_text('property string gpu: "RTX 4070"\n',encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+
+    def test_legacy_host_reference_is_blocking_even_outside_runtime(self):
+        old_cpu = "E5-" + "26" + "96 v4"
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); p=root/"docs"; p.mkdir()
+            (p/"legacy.md").write_text("Historical machine: " + old_cpu + "\n",encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+            self.assertEqual(1,audit["legacy_repository_reference_count"])
+
+    def test_legacy_host_reference_embedded_in_identifier_is_blocking(self):
+        old_host = "NOT_" + "T" + "79" + "10" + "_EVIDENCE"
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); p=root/"canonical"; p.mkdir()
+            (p/"bad.json").write_text(json.dumps({"claim": old_host}),encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("FAIL",audit["result"],audit)
+            self.assertEqual(1,audit["legacy_repository_reference_count"])
+
+    def test_legacy_global_accelerator_floor_tokens_are_blocking(self):
+        old_rules = (
+            "ACCELERATOR_CARDINALITY_DYNAMIC_" + "1_TO_N",
+            "GPU_CARDINALITY_IS_LIVE_DISCOVERED_DYNAMIC_" + "1_TO_N",
+        )
+        for old_rule in old_rules:
+            with self.subTest(old_rule=old_rule), tempfile.TemporaryDirectory() as td:
+                root=Path(td); p=root/"canonical"; p.mkdir()
+                (p/"bad.json").write_text(json.dumps({"invariant": old_rule}),encoding="utf-8")
+                audit=scan_repository(root)
+                self.assertEqual("FAIL",audit["result"],audit)
 
     def test_reference_evidence_hardware_tuple_is_non_normative(self):
         with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            p = root / "canonical" / "references"
-            p.mkdir(parents=True)
-            (p / "fixture.md").write_text(
-                "Reference evidence only: E5-2696 v4, RTX 3080, 44C/88T.",
-                encoding="utf-8",
-            )
-            audit = scan_repository(root)
-            self.assertEqual("PASS", audit["result"])
-            self.assertGreaterEqual(audit["non_normative_hardware_mentions"], 3)
+            root=Path(td); p=root/"canonical"/"references"; p.mkdir(parents=True)
+            (p/"fixture.md").write_text("Reference evidence only: Xeon Xeon Gold 6430, RTX 4070, 0000:3b:00.0.",encoding="utf-8")
+            audit=scan_repository(root)
+            self.assertEqual("PASS",audit["result"])
+            self.assertGreaterEqual(audit["non_normative_hardware_mentions"],2)
 
-    def test_runtime_reference_fixture_is_allowed_only_when_marked(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            (root / "src").mkdir()
-            (root / "src" / "fixture.py").write_text(
-                '# reference topology fixture only\nMODEL = "E5-2696 v4"\n',
-                encoding="utf-8",
-            )
-            audit = scan_repository(root)
-            self.assertEqual("PASS", audit["result"])
-            self.assertGreaterEqual(audit["non_normative_hardware_mentions"], 1)
-
-    def test_reference_evidence_cannot_promote_runtime(self):
-        obj = json.loads(
-            (ROOT / "evidence/reference/hardware-portability-ci-2026-09-03.json")
-            .read_text(encoding="utf-8")
-        )
-        self.assertEqual("PASS", obj["status"])
-        self.assertFalse(obj["current_host_runtime_evidence"])
-        self.assertFalse(obj["current_host_runtime_promotion_claim"])
-
-
-if __name__ == "__main__":
+if __name__=="__main__":
     unittest.main()

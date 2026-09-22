@@ -1,8 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-GPU-KERNEL-RUNTIME-001",
-  "name": "Provider-Neutral GPU Kernel Optimization, Autotuning & Architecture-Aware Dispatch",
-  "version": "1.1.0",
+  "name": "Provider-Neutral GPU Kernel Optimization, Autotuning & Backend-Aware Dispatch",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -27,7 +27,6 @@
   ],
   "dependencies": [
     "FA3-HOST-RESOURCE-BROKER-001",
-    "FA3-CUDA-PY-001",
     "FA3-INFERENCE-PORTABILITY-001",
     "FA3-HARDWARE-BASELINE-001",
     "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
@@ -43,13 +42,13 @@
     "kernel_providers": "EXECUTION_PROVIDERS_NOT_AUTHORITIES"
   },
   "scope": [
-    "live GPU architecture and runtime capability discovery",
-    "shape dtype layout workload aware kernel candidate selection",
+    "live accelerator architecture driver backend runtime and topology capability discovery",
+    "shape dtype layout workload and execution-path aware kernel candidate selection",
     "benchmark and correctness governed autotuning",
     "JIT and compiled-kernel cache identity/invalidation",
     "fused operation admission",
     "precision policy projection",
-    "VRAM/workspace preflight",
+    "accelerator-memory/workspace preflight",
     "kernel execution telemetry and rollback"
   ],
   "providers": [
@@ -67,11 +66,11 @@
     "GPU_KERNEL_PROFILE_NOT_AUTHORITY",
     "KERNEL_PROVIDER_NEUTRAL_CONTRACT_REQUIRED",
     "HRB_LEASE_REQUIRED_BEFORE_ACCELERATOR_KERNEL_EXECUTION",
-    "ACCELERATOR_UUID_AND_PCI_BDF_CANONICAL_IDENTITY",
-    "CUDA_RUNTIME_ORDINAL_NOT_CANONICAL_IDENTITY",
-    "LIVE_GPU_SM_DRIVER_CUDA_TOPOLOGY_DISCOVERY_REQUIRED",
+    "STABLE_ACCELERATOR_IDENTITY_AND_CURRENT_TOPOLOGY_BINDING_REQUIRED",
+    "RUNTIME_DEVICE_ORDINAL_NOT_CANONICAL_IDENTITY",
+    "LIVE_ACCELERATOR_ARCH_DRIVER_BACKEND_TOPOLOGY_DISCOVERY_REQUIRED",
     "EXACT_HOST_TUPLE_EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION",
-    "LIVE_ADMITTED_GPU_MUST_HAVE_ELIGIBLE_BASELINE_KERNEL_PROVIDER",
+    "LIVE_ADMITTED_ACCELERATOR_MUST_HAVE_ELIGIBLE_KERNEL_PROVIDER",
     "PROVIDER_ARCHITECTURE_SUPPORT_DERIVED_FROM_IMMUTABLE_CAPABILITY_DESCRIPTOR",
     "INELIGIBLE_PROVIDER_FAILS_CLOSED_WITHOUT_SILENT_SUBSTITUTION",
     "NO_SILENT_BACKEND_DEVICE_OR_PRECISION_FALLBACK",
@@ -82,10 +81,10 @@
     "CUSTOM_KERNEL_NOT_DEFAULT_WITHOUT_EVIDENCE",
     "FUSED_OPERATION_REQUIRES_CORRECTNESS_PERFORMANCE_STABILITY",
     "PRECISION_POLICY_EXPLICIT_AND_WORKLOAD_BOUND",
-    "FP8_FP4_REQUIRES_NATIVE_SUPPORTED_PROVIDER_PATH",
+    "LOW_PRECISION_REQUIRES_NATIVE_SUPPORTED_PROVIDER_PATH",
     "NUMA_CPU_LOCALITY_CONSUMES_HRB_PLACEMENT",
-    "HRB_GPU_ROLE_AND_RESERVATION_HONORED",
-    "VRAM_WORKSPACE_PREFLIGHT_REQUIRED",
+    "HRB_ACCELERATOR_ROLE_EXECUTION_PATH_AND_RESERVATION_HONORED",
+    "ACCELERATOR_MEMORY_WORKSPACE_PREFLIGHT_REQUIRED",
     "ROLLBACK_PROVIDER_AND_PROFILE_REQUIRED",
     "KERNEL_LEVEL_OBSERVABILITY_AND_SELECTION_RECEIPT_REQUIRED",
     "WORKLOAD_SPECIFIC_OPTIMIZATION_PROFILE_REQUIRED",
@@ -97,8 +96,9 @@
   "hardware_portability": {
     "profile_id": "FA3-HARDWARE-BASELINE-001",
     "discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-    "cardinality": "DYNAMIC_1_TO_N",
-    "exact_gpu_sku_vram_sm_pci_ordinal": "EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_IDENTITY",
+    "cardinality": "DYNAMIC_1_TO_N_WHEN_GPU_KERNEL_PROFILE_IS_REQUESTED",
+    "exact_accelerator_sku_memory_arch_pci_runtime_ordinal": "EVIDENCE_ONLY_NOT_CANONICAL_ADMISSION_IDENTITY",
+    "backend_floor": "NONE_GLOBAL_WORKLOAD_AND_PROVIDER_CAPABILITY_SCOPED",
     "admission_and_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
   },
   "provider_policy": {
@@ -108,6 +108,20 @@
       "FA3-PROVIDER-DEEPGEMM-001"
     ],
     "selection": "LIVE_CAPABILITY_CORRECTNESS_BENCHMARK_AND_EXPLICIT_FALLBACK_POLICY",
-    "fixed_current_host_provider": "FORBIDDEN"
+    "fixed_current_host_provider": "FORBIDDEN",
+    "global_backend_floor": "NONE",
+    "currently_materialized_provider_family": "NVIDIA_CUDA_REFERENCE_AND_OPTIMIZATION_PROVIDERS",
+    "baseline_provider_semantics": "CURRENTLY_MATERIALIZED_CUDA_REFERENCE_BASELINE_NOT_GLOBAL_BACKEND_FLOOR"
+  },
+  "provider_scoped_dependencies": {
+    "FA3-PROVIDER-FRAMEWORK-NATIVE-CUDA-KERNEL-001": [
+      "FA3-CUDA-PY-001"
+    ],
+    "FA3-PROVIDER-AMPERE-KERNEL-RUNTIME-001": [
+      "FA3-CUDA-PY-001"
+    ],
+    "FA3-PROVIDER-DEEPGEMM-001": [
+      "FA3-CUDA-PY-001"
+    ]
   }
 }

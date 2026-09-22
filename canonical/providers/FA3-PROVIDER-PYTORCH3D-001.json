@@ -2,15 +2,16 @@
   "schema": "fa3.provider-record.v1",
   "id": "FA3-PROVIDER-PYTORCH3D-001",
   "name": "facebookresearch/pytorch3d",
-  "status": "ACCEPTED_REQUIRED_SUPPORTED_REFERENCE_CONDITIONAL_RUNTIME_NOT_PROMOTED",
-  "provider_role": "PRIMARY_DIFFERENTIABLE_3D_GEOMETRY_NEURAL_RENDERING_AND_RECONSTRUCTION_EXECUTION_REFERENCE_PROVIDER",
+  "status": "ACCEPTED_REQUIRED_SUPPORTED_REFERENCE_CONDITIONAL_COMPATIBILITY_RUNTIME_NOT_PROMOTED",
+  "provider_role": "COMPATIBILITY_DIFFERENTIABLE_3D_GEOMETRY_NEURAL_RENDERING_AND_RECONSTRUCTION_PROVIDER",
   "classification": [
     "REQUIRED_SUPPORTED_REFERENCE",
     "CONDITIONAL_EXECUTION_PROVIDER",
     "LOCAL_FIRST",
     "SOURCE_BUILD_ONLY",
     "CUDA_EXTENSION",
-    "PERMISSIVE_LICENSE"
+    "PERMISSIVE_LICENSE",
+    "COMPATIBILITY_PROVIDER_NOT_CAP032_RUNTIME_HARD_DEPENDENCY"
   ],
   "profile_ids": [
     "FA3-DIFFERENTIABLE-3D-001"
@@ -78,7 +79,7 @@
     "torch": "2.9.1+cu128",
     "build_toolkit": "CUDA 12.8 side-by-side",
     "system_default_toolkit": "CUDA 13.2 not accepted as the build pair for a cu128 Torch runtime",
-    "accelerator": "RTX 3090 compute role",
+    "accelerator": "provider-qualified live accelerator",
     "target_architecture": "sm_86",
     "display_accelerator_hidden_from_worker": true,
     "runtime_status": "UNVERIFIED_CANDIDATE_REQUIRES_REAL_BUILD_AND_GPU_E2E"
@@ -90,7 +91,10 @@
     "requires_single_visible_compute_accelerator": true,
     "automatic_gpu_or_cpu_fallback": false,
     "long_lived_daemon_required": false,
-    "execution_model": "TRANSIENT_JOB_WORKER"
+    "execution_model": "TRANSIENT_JOB_WORKER",
+    "global_current_host_hard_dependency": false,
+    "cap032_core_proof_dependency": false,
+    "specialized_differentiable_job_dependency": "CONDITIONAL_BY_PROVIDER_SELECTION"
   },
   "authority_boundaries": {
     "geometry_semantics": false,
@@ -121,6 +125,7 @@
     "quality_determinism_resource_and_latency_evidence": "REQUIRED",
     "worker_unload_vram_release_and_rollback": "REQUIRED",
     "current_host_runtime_evidence": "PENDING",
-    "runtime_promotion_claimed": false
+    "runtime_promotion_claimed": false,
+    "runtime_promotion_required_for_cap032_core_closure": false
   }
 }

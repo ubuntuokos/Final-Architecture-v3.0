@@ -15,8 +15,8 @@
   "new_architectural_authority": false,
   "accepted": [
     "live dynamic 1..N CPU package discovery with portable minimum validation",
-    "live dynamic 1..N NVIDIA RTX discovery with RTX 30-series-or-newer portable floor",
-    "exact GPU UUID PCI BDF name VRAM and driver values as current-host evidence only",
+    "live dynamic 0..N accelerator discovery with CPU-only host conformance and vendor/runtime compatibility evaluated per workload/provider",
+    "accelerator stable identity PCI BDF when applicable name memory and driver values as current-host evidence only",
     "merged systemd Manager configuration inspection through systemd-analyze cat-config",
     "operator global CPUAffinity NUMAPolicy NUMAMask and unsafe unbounded defaults fail closed",
     "host-global lifecycle or file-descriptor overrides require an approved expiring HostSurvivalPolicyReceipt",
@@ -25,12 +25,13 @@
     "current-host PASS remains component-scoped and cannot promote global FA3 runtime"
   ],
   "explicitly_rejected": [
-    "Dell T7910 or any other machine model as admission identity",
+    "any concrete workstation server or platform model as admission identity",
     "CPU vendor model or fixed socket count as current-host admission identity",
     "fixed GPU SKU VRAM SM device count PCI BDF or CUDA ordinal as portable requirement",
     "reuse of a machine-specific reference collector as the general FA3 hardware admission gate",
     "document-only or hosted-CI evidence presented as real current-host PASS"
   ],
-  "reference_host_policy": "EXISTING_MACHINE_SPECIFIC_REFERENCE_EVIDENCE_MAY_REMAIN_NON_NORMATIVE_BUT_CANNOT_DEFINE_PORTABLE_ADMISSION",
-  "current_host_claim": "REAL_EXECUTION_PENDING_ANY_HOST_MEETING_FA3_HARDWARE_BASELINE"
+  "reference_host_policy": "LEGACY_MACHINE_SPECIFIC_REFERENCE_EVIDENCE_REMOVED_NEW_CURRENT_HOST_EVIDENCE_MUST_BE_FRESH",
+  "current_host_claim": "REAL_EXECUTION_PENDING_ANY_HOST_MEETING_FA3_HARDWARE_BASELINE",
+  "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
 }

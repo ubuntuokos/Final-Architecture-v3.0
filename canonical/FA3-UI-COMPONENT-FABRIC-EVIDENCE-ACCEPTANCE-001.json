@@ -1,0 +1,56 @@
+{
+  "id": "FA3-UI-COMPONENT-FABRIC-EVIDENCE-ACCEPTANCE-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "classification": "STATIC_UI_FABRIC_REFERENCE_CONFORMANCE_ACCEPTANCE",
+  "scope": "UI_COMPONENT_FABRIC_CANONICAL_AND_REFERENCE_SOURCE_ACCEPTANCE",
+  "parent_gate_id": "FA3-GATE-UI-COMPONENT-FABRIC-001",
+  "parent_contract_id": "FA3-UI-COMPONENT-FABRIC-CONTRACTS-001",
+  "parent_profile_id": "FA3-UI-COMPONENT-FABRIC-001",
+  "evidence_contract_id": "FA3-EVIDENCE-ENVELOPE-001",
+  "capability_projection": {
+    "capability_id": "CAP-057",
+    "top_level_capability_status_must_not_be_changed_by_component_acceptance": true
+  },
+  "required_reference_claims": [
+    "UI_COMPONENT_FABRIC_REFERENCE_PASS",
+    "UIVERSE_GALAXY_REFERENCE_PINNED",
+    "UIVERSE_GALAXY_IS_REFERENCE_ONLY",
+    "NO_RUNTIME_DEPENDENCY",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "CAPABILITY_COUNT_UNCHANGED"
+  ],
+  "required_non_claims": [
+    "CURRENT_HOST_RUNTIME_PASS",
+    "INDIVIDUAL_COMPONENT_PRODUCTION_ADMISSION",
+    "GLOBAL_FA3_PROMOTION",
+    "PROVIDER_RUNTIME_E2E"
+  ],
+  "acceptance_checks": [
+    "PROFILE_IS_SUBPROFILE_OF_FA3_DESKTOP_001",
+    "PROFILE_IS_PROVIDER_NEUTRAL",
+    "CAPABILITY_COUNT_REMAINS_143",
+    "ZERO_NEW_ARCHITECTURAL_AUTHORITIES",
+    "EXTERNAL_REFERENCE_REVISION_IS_PINNED",
+    "UPSTREAM_IS_NOT_BUILD_OR_RUNTIME_DEPENDENCY",
+    "AUTOMATIC_IMPORT_IS_FORBIDDEN",
+    "RAW_COPY_PASTE_TO_PRODUCTION_IS_FORBIDDEN",
+    "SCRIPT_AND_REMOTE_EXECUTABLE_RESOURCE_ADOPTION_IS_FORBIDDEN",
+    "FA3_DESIGN_TOKEN_NORMALIZATION_IS_REQUIRED",
+    "ACCESSIBILITY_ADMISSION_IS_REQUIRED",
+    "REDUCED_MOTION_IS_REQUIRED_FOR_ANIMATED_COMPONENTS",
+    "SECURITY_ADMISSION_IS_FAIL_CLOSED",
+    "PROVENANCE_AND_LICENSE_METADATA_ARE_REQUIRED",
+    "INDIVIDUAL_COMPONENT_ADMISSION_REMAINS_SEPARATE",
+    "REFERENCE_PASS_DOES_NOT_CLAIM_CURRENT_HOST_RUNTIME"
+  ],
+  "projection_semantics": {
+    "reference_pass_claim": true,
+    "individual_component_pass_claim": false,
+    "current_host_runtime_claim": false,
+    "global_promotion_claim": false,
+    "capability_delta": 0,
+    "authority_delta": 0
+  },
+  "fail_closed": true
+}

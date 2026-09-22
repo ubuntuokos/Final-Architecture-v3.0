@@ -142,37 +142,35 @@ def hardware_admission_valid(*, live_discovery: bool, hrb_lease: bool,
     if not live_discovery or static_cpu_ids or reference_as_portable_default or ordinal_only:
         return False
     if accelerator_required:
-        return hrb_lease and bool(gpu_uuid) and bool(pci_bdf)
-    return True
+        return hrb_lease and bool(gpu_uuid or pci_bdf)
+    return not hrb_lease
 
 def portable_hardware_floor_valid(*, cpu_packages: int,
                                   physical_cores_per_package: int,
                                   cpu_vendor_pinned: bool,
                                   cpu_model_pinned: bool,
                                   gpu_count: int,
-                                  gpu_vendor: str = "NVIDIA",
+                                  gpu_vendor: str | None = None,
                                   gpu_compute_capability: float | None = None,
                                   gpu_specific_sku_pinned: bool,
                                   gpu_specific_vram_pinned: bool,
                                   gpu_specific_sm_pinned: bool,
                                   gpu_rtx_series: int | None = None,
-                                  newer_rtx_generations_allowed: bool | None = None) -> bool:
-    """Portable global floor is capability-based; legacy RTX args are compatibility-only."""
-    if gpu_compute_capability is None:
-        legacy_eligible = (
-            gpu_rtx_series is not None
-            and gpu_rtx_series >= 30
-            and newer_rtx_generations_allowed is True
-        )
-        gpu_compute_capability = 8.6 if legacy_eligible else 0.0
+                                  newer_rtx_generations_allowed: bool | None = None,
+                                  workload_compatible: bool = True,
+                                  accelerator_required: bool = False) -> bool:
+    """Global CPU floor plus an optional 0..N accelerator inventory.
+
+    Compatibility becomes an admission condition only when the workload explicitly
+    requires an accelerator; a CPU-only host therefore remains baseline-conformant.
+    """
     return (
         cpu_packages >= 1
         and physical_cores_per_package >= 8
         and not cpu_vendor_pinned
         and not cpu_model_pinned
-        and gpu_count >= 1
-        and str(gpu_vendor).strip().upper() == "NVIDIA"
-        and float(gpu_compute_capability) >= 8.6
+        and gpu_count >= 0
+        and (not accelerator_required or (gpu_count >= 1 and workload_compatible is True))
         and not gpu_specific_sku_pinned
         and not gpu_specific_vram_pinned
         and not gpu_specific_sm_pinned

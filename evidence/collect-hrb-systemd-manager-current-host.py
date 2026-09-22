@@ -65,57 +65,149 @@ def discover_cpu() -> dict[str, Any]:
     }
 
 
-def rtx_series_class(name: str) -> int | None:
-    m = re.search(r"\bGeForce\s+RTX\s+(\d{4})\b", name, re.I)
-    if m:
-        return int(m.group(1)[:2])
-    lower = name.lower()
-    if "rtx" in lower and "blackwell" in lower:
-        return 50
-    if "rtx" in lower and "ada" in lower:
-        return 40
-    return None
+def parse_cuda_compute_capability(value: str) -> float | None:
+    try:
+        parsed = float(value.strip())
+    except (TypeError, ValueError):
+        return None
+    return parsed if parsed > 0 else None
 
 
-def discover_gpu() -> dict[str, Any]:
-    proc = subprocess.run(
-        ["nvidia-smi", "--query-gpu=uuid,pci.bus_id,name,driver_version,memory.total", "--format=csv,noheader,nounits"],
-        text=True, capture_output=True, check=False,
-    )
+def _normalize_bdf(value: str) -> str:
+    text = str(value or "").strip().lower()
+    if len(text.split(":")) == 2:
+        text = "0000:" + text
+    if len(text.split(":")[0]) > 4:
+        text = text[-12:]
+    return text
+
+
+def parse_gpu_rows(text: str) -> list[dict[str, Any]]:
+    """Optional NVIDIA enrichment; never defines the global hardware floor."""
     devices: list[dict[str, Any]] = []
-    if proc.returncode == 0:
-        for row in csv.reader(proc.stdout.splitlines()):
-            if len(row) != 5:
-                continue
-            uuid, bdf, name, driver, memory = (x.strip() for x in row)
-            series = rtx_series_class(name)
-            devices.append({
-                "device_uuid": uuid,
-                "pci_bdf": bdf,
-                "name_evidence_only": name,
-                "driver_version": driver,
-                "vram_mib_evidence_only": int(float(memory)),
-                "rtx_series_class": series,
-                "qualifies_portable_floor": series is not None and series >= 30,
-                "identity_semantics": "UUID_PLUS_PCI_BDF_WHEN_AVAILABLE",
-            })
+    for row in csv.reader(text.splitlines()):
+        if len(row) != 6:
+            continue
+        uuid, bdf, name, driver, memory, compute_cap = (x.strip() for x in row)
+        capability = parse_cuda_compute_capability(compute_cap)
+        try:
+            vram_mib = int(float(memory))
+        except ValueError:
+            vram_mib = 0
+        canonical_bdf = _normalize_bdf(bdf)
+        devices.append({
+            "stable_id": uuid or ("pci:" + canonical_bdf),
+            "device_uuid": uuid or None,
+            "pci_bdf": canonical_bdf,
+            "vendor": "NVIDIA",
+            "vendor_id": "0x10de",
+            "name_evidence_only": name,
+            "driver_version": driver,
+            "vram_mib_evidence_only": vram_mib,
+            "runtime_apis": ["CUDA"],
+            "cuda_compute_capability": capability,
+            "eligible_for_workload_admission": bool(uuid or canonical_bdf),
+            "admission_semantics": "PROVIDER_CAPABILITIES_ARE_WORKLOAD_SCOPED_NOT_GLOBAL_FLOOR",
+            "identity_semantics": "STABLE_DEVICE_ID_PLUS_PCI_BDF_WHEN_AVAILABLE",
+        })
+    return devices
+
+
+def _read_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def _pci_vendor_name(vendor_id: str) -> str:
     return {
-        "source": "NVIDIA_SMI_LIVE_DISCOVERY",
-        "returncode": proc.returncode,
-        "stderr": proc.stderr[-2000:],
+        "0x10de": "NVIDIA",
+        "0x1002": "AMD",
+        "0x8086": "INTEL",
+    }.get(vendor_id.lower(), "PCI_" + vendor_id.lower().removeprefix("0x").upper())
+
+
+def discover_accelerators() -> dict[str, Any]:
+    devices_by_bdf: dict[str, dict[str, Any]] = {}
+    pci_root = Path("/sys/bus/pci/devices")
+    if pci_root.is_dir():
+        for dev in sorted(pci_root.iterdir()):
+            class_code = _read_text(dev / "class").lower()
+            if not (
+                class_code.startswith("0x03")
+                or class_code.startswith("0x0b40")
+                or class_code.startswith("0x12")
+            ):
+                continue
+            bdf = _normalize_bdf(dev.name)
+            vendor_id = _read_text(dev / "vendor").lower()
+            device_id = _read_text(dev / "device").lower()
+            driver = ""
+            try:
+                driver = (dev / "driver").resolve().name
+            except OSError:
+                pass
+            devices_by_bdf[bdf] = {
+                "stable_id": "pci:" + bdf,
+                "device_uuid": None,
+                "pci_bdf": bdf,
+                "vendor": _pci_vendor_name(vendor_id),
+                "vendor_id": vendor_id,
+                "device_id": device_id,
+                "driver": driver,
+                "runtime_apis": [],
+                "eligible_for_workload_admission": True,
+                "admission_semantics": "PROVIDER_CAPABILITIES_ARE_WORKLOAD_SCOPED_NOT_GLOBAL_FLOOR",
+                "identity_semantics": "STABLE_DEVICE_ID_PLUS_PCI_BDF_WHEN_AVAILABLE",
+            }
+
+    nvidia_rc = None
+    nvidia_stderr = ""
+    try:
+        proc = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-gpu=uuid,pci.bus_id,name,driver_version,memory.total,compute_cap",
+                "--format=csv,noheader,nounits",
+            ],
+            text=True, capture_output=True, check=False,
+        )
+        nvidia_rc = proc.returncode
+        nvidia_stderr = proc.stderr[-2000:]
+        if proc.returncode == 0:
+            for enriched in parse_gpu_rows(proc.stdout):
+                bdf = enriched["pci_bdf"]
+                base = devices_by_bdf.get(bdf, {})
+                devices_by_bdf[bdf] = {**base, **enriched}
+    except OSError as exc:
+        nvidia_rc = 127
+        nvidia_stderr = repr(exc)
+
+    devices = sorted(devices_by_bdf.values(), key=lambda x: str(x.get("pci_bdf", "")))
+    return {
+        "source": "PCI_SYSFS_LIVE_DISCOVERY_WITH_OPTIONAL_PROVIDER_ENRICHMENT",
+        "query_semantics": "OPTIONAL_0_TO_N_VENDOR_NEUTRAL_INVENTORY_PROVIDER_RUNTIME_CAPABILITIES_WORKLOAD_SCOPED",
+        "nvidia_enrichment_returncode": nvidia_rc,
+        "nvidia_enrichment_stderr": nvidia_stderr,
         "device_count": len(devices),
         "devices": devices,
     }
 
 
+def discover_gpu() -> dict[str, Any]:
+    """Compatibility alias for older receipt consumers."""
+    return discover_accelerators()
+
 def hardware_discovery() -> dict[str, Any]:
     obj = {
         "schema": "fa3.hardware-discovery-receipt.v1",
         "source": "LIVE_CURRENT_HOST",
-        "cardinality_semantics": "DYNAMIC_1_TO_N",
+        "cpu_cardinality_semantics": "DYNAMIC_1_TO_N",
+        "accelerator_cardinality_semantics": "DYNAMIC_0_TO_N",
         "host_identity_semantics": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
         "cpu": discover_cpu(),
-        "gpu": discover_gpu(),
+        "accelerators": discover_accelerators(),
     }
     raw = json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()
     obj["fingerprint_sha256"] = hashlib.sha256(raw).hexdigest()
@@ -155,6 +247,24 @@ def collect_systemd_manager() -> dict[str, Any]:
     }
 
 
+def nearest_nonempty_cgroup_value(current: Path, mount: Path, filename: str) -> tuple[str, str]:
+    current = current.resolve()
+    mount = mount.resolve()
+    if current != mount and mount not in current.parents:
+        raise RuntimeError("current cgroup path escapes cgroup v2 mount")
+    probe = current
+    while True:
+        candidate = probe / filename
+        if candidate.is_file():
+            value = candidate.read_text().strip()
+            if value:
+                rel = probe.relative_to(mount).as_posix()
+                return value, "/" if rel == "." else "/" + rel
+        if probe == mount:
+            return "", ""
+        probe = probe.parent
+
+
 def collect_cgroup_v2() -> dict[str, Any]:
     mount = Path("/sys/fs/cgroup")
     unified = any(" - cgroup2 " in line for line in Path("/proc/self/mountinfo").read_text().splitlines())
@@ -164,17 +274,24 @@ def collect_cgroup_v2() -> dict[str, Any]:
             relative = line[3:].strip().lstrip("/")
             break
     current = mount / relative if relative else mount
-    cpus = current / "cpuset.cpus.effective"
-    mems = current / "cpuset.mems.effective"
     controllers = current / "cgroup.controllers"
     if not controllers.is_file():
         controllers = mount / "cgroup.controllers"
+    effective_cpus, effective_cpus_source = nearest_nonempty_cgroup_value(
+        current, mount, "cpuset.cpus.effective"
+    )
+    effective_mems, effective_mems_source = nearest_nonempty_cgroup_value(
+        current, mount, "cpuset.mems.effective"
+    )
     return {
         "unified": unified,
         "cgroup_path": "/" + relative if relative else "/",
         "controllers": controllers.read_text().split() if controllers.is_file() else [],
-        "effective_cpus": cpus.read_text().strip() if cpus.is_file() else "",
-        "effective_memory_nodes": mems.read_text().strip() if mems.is_file() else "",
+        "effective_cpus": effective_cpus,
+        "effective_cpus_source_cgroup": effective_cpus_source,
+        "effective_memory_nodes": effective_mems,
+        "effective_memory_nodes_source_cgroup": effective_mems_source,
+        "cpuset_resolution_semantics": "NEAREST_NONEMPTY_EFFECTIVE_ANCESTOR_WHEN_LEAF_EMPTY",
     }
 
 
@@ -211,10 +328,51 @@ def main() -> int:
     cgroup = collect_cgroup_v2()
     violations = manager_violations(manager.get("assignments", []), survival)
     cpu_counts = hardware.get("cpu", {}).get("physical_cores_by_package", {})
-    qualifying_gpu = [d for d in hardware.get("gpu", {}).get("devices", []) if d.get("qualifies_portable_floor")]
-    hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and len(qualifying_gpu) >= 1
+    accelerator_devices = hardware.get("accelerators", {}).get("devices", [])
+    accelerator_inventory_ok = isinstance(accelerator_devices, list) and all(
+        isinstance(device, dict)
+        and bool(device.get("stable_id") or device.get("device_uuid") or device.get("pci_bdf"))
+        for device in accelerator_devices
+    )
+    hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and accelerator_inventory_ok
     negatives = negative_tests()
-    status = "PASS" if hardware_ok and manager.get("returncode") == 0 and not violations and cgroup.get("unified") and cgroup.get("effective_cpus") and cgroup.get("effective_memory_nodes") and all(negatives.values()) else "FAIL"
+    checks = {
+        "cpu_baseline_pass": bool(cpu_counts) and min(cpu_counts.values()) >= 8,
+        "accelerator_inventory_schema_pass": accelerator_inventory_ok,
+        "manager_collection_pass": manager.get("returncode") == 0,
+        "manager_neutrality_pass": not violations,
+        "cgroup_v2_pass": bool(
+            cgroup.get("unified")
+            and cgroup.get("effective_cpus")
+            and cgroup.get("effective_memory_nodes")
+        ),
+        "negative_tests_pass": all(negatives.values()),
+    }
+    failure_codes = {
+        "cpu_baseline_pass": "CAP006_CPU_BASELINE_UNPROVEN",
+        "accelerator_inventory_schema_pass": "CAP006_ACCELERATOR_INVENTORY_INVALID",
+        "manager_collection_pass": "CAP006_MANAGER_COLLECTION_FAILED",
+        "manager_neutrality_pass": "CAP006_MANAGER_NEUTRALITY_VIOLATION",
+        "cgroup_v2_pass": "CAP006_CGROUP_V2_UNPROVEN",
+        "negative_tests_pass": "CAP006_NEGATIVE_MATRIX_FAILED",
+    }
+    failed_check_codes = [failure_codes[key] for key, passed in checks.items() if not passed]
+    if cgroup.get("unified") and not cgroup.get("effective_cpus"):
+        failed_check_codes.append("CAP006_EFFECTIVE_CPUSET_UNRESOLVED")
+    if cgroup.get("unified") and not cgroup.get("effective_memory_nodes"):
+        failed_check_codes.append("CAP006_EFFECTIVE_MEMSET_UNRESOLVED")
+    per_package = [int(value) for value in cpu_counts.values()] if isinstance(cpu_counts, dict) else []
+    check_summary = {
+        **checks,
+        "failed_check_codes": failed_check_codes,
+        "cpu_package_count": hardware.get("cpu", {}).get("package_count"),
+        "minimum_physical_cores": min(per_package) if per_package else None,
+        "accelerator_device_count": len(accelerator_devices) if isinstance(accelerator_devices, list) else None,
+        "effective_cpu_set_present": bool(cgroup.get("effective_cpus")),
+        "effective_memory_nodes_present": bool(cgroup.get("effective_memory_nodes")),
+        "failed_negative_test_codes": sorted(key for key, passed in negatives.items() if not passed),
+    }
+    status = "PASS" if all(checks.values()) else "FAIL"
     receipt = {
         "schema": "fa3.hrb-systemd-manager-current-host-receipt.v1",
         "status": status,
@@ -230,13 +388,45 @@ def main() -> int:
         "manager_violations": violations,
         "cgroup_v2": cgroup,
         "negative_tests": negatives,
+        "check_summary": check_summary,
         "capability_count_after": 143,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "global_promotion_claim": False,
+        "accelerator_inventory_semantics": "OPTIONAL_0_TO_N_CPU_ONLY_HOST_CONFORMANT",
     }
     writej(receipt_path, receipt)
     print(json.dumps(receipt, indent=2))
+    if status != "PASS":
+        failures: list[str] = []
+        if not hardware_ok:
+            failures.append(
+                "portable hardware baseline not proven "
+                f"(cpu_cores_by_package={cpu_counts}, accelerator_inventory_valid={accelerator_inventory_ok})"
+            )
+        if manager.get("returncode") != 0:
+            failures.append(
+                f"systemd-analyze cat-config failed rc={manager.get('returncode')}: "
+                f"{str(manager.get('stderr') or '').strip()[:500]}"
+            )
+        for violation in violations[:8]:
+            failures.append(
+                "systemd manager neutrality violation "
+                f"{violation.get('key')}={violation.get('value')} "
+                f"source={violation.get('source')} reason={violation.get('reason')}"
+            )
+        if not cgroup.get("unified"):
+            failures.append("unified cgroup v2 not proven")
+        if not cgroup.get("effective_cpus"):
+            failures.append("effective cgroup cpuset is empty")
+        if not cgroup.get("effective_memory_nodes"):
+            failures.append("effective cgroup memory-node set is empty")
+        failed_negatives = sorted(k for k, ok in negatives.items() if not ok)
+        if failed_negatives:
+            failures.append(f"manager-neutrality negative tests failed: {failed_negatives}")
+        if not failures:
+            failures.append("HRB/systemd manager current-host receipt did not satisfy PASS criteria")
+        print("; ".join(failures), file=sys.stderr)
     return 0 if status == "PASS" else 2
 
 

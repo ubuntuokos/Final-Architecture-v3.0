@@ -1,0 +1,23 @@
+name: FA3 Session Vault Current-Host Closure
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: PYTHONPATH=. python -m unittest tests.test_session_vault_current_host -v
+      - name: Committed real current-host receipt passes
+        run: PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root .
+      - name: Missing receipt remains fail-closed
+        run: |
+          set +e
+          PYTHONPATH=src python src/fa3_session_vault_current_host_gate.py --root . --receipt evidence/receipts/session-vault-current-host-missing.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2

@@ -9,7 +9,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Iterable, Optional
+from typing import Any, Iterable, Optional
+
+from fa3_accelerator_execution_path import execution_path_matches
 
 
 class Origin(str, Enum):
@@ -94,6 +96,11 @@ class AcceleratorSnapshot:
     safety_headroom_bytes: int = 0
     role: str = "compute"
     healthy: bool = True
+    vendor: Optional[str] = None
+    stable_device_id: Optional[str] = None
+    pci_bdf: Optional[str] = None
+    kernel_driver: Optional[str] = None
+    execution_paths: tuple[dict[str, Any], ...] = ()
 
     def __post_init__(self) -> None:
         if self.total_memory_bytes < 0 or self.safety_headroom_bytes < 0:
@@ -120,6 +127,7 @@ class WorkloadRequest:
     required_memory_bytes: int
     accelerator_kind: Optional[str] = None
     preferred_accelerator_id: Optional[str] = None
+    execution_requirement: Optional[dict[str, Any]] = None
 
     def __post_init__(self) -> None:
         if self.required_memory_bytes < 0:
@@ -184,15 +192,36 @@ def _compute_risk(snapshot: AcceleratorSnapshot) -> str:
     return "LOW"
 
 
+def _supports_execution(snapshot: AcceleratorSnapshot, request: WorkloadRequest) -> bool:
+    if request.execution_requirement in (None, {}):
+        return True
+    return any(
+        execution_path_matches(request.execution_requirement, path)
+        for path in snapshot.execution_paths
+    )
+
+
 def _find_alternative(request: WorkloadRequest, candidates: Iterable[AcceleratorSnapshot], exclude_id: str) -> Optional[AcceleratorSnapshot]:
     viable = [s for s in candidates if s.accelerator_id != exclude_id and s.healthy
               and (request.accelerator_kind is None or s.kind == request.accelerator_kind)
+              and _supports_execution(s, request)
               and s.effective_available_memory_bytes >= request.required_memory_bytes]
     return max(viable, key=lambda s: s.effective_available_memory_bytes, default=None)
 
 
 def evaluate_request(snapshot: AcceleratorSnapshot, request: WorkloadRequest, *, candidates: Iterable[AcceleratorSnapshot] = (), conflict_id: str = "pending") -> Optional[ConflictRecord]:
     """Return a conflict only when a user/policy decision is materially needed."""
+    if not _supports_execution(snapshot, request):
+        assessment = Assessment("CRITICAL", "UNKNOWN", "UNKNOWN", "accelerator execution path is incompatible with workload requirement")
+        alt = _find_alternative(request, candidates, snapshot.accelerator_id)
+        recommendation = (
+            Recommendation(DecisionAction.MOVE_FA3, alt.accelerator_id, "Use another execution-compatible accelerator.")
+            if alt is not None
+            else Recommendation(DecisionAction.WAIT, None, "No execution-compatible alternative accelerator is currently available.")
+        )
+        return ConflictRecord(conflict_id, snapshot.accelerator_id, AcceleratorState.USER_DECISION_REQUIRED,
+                              snapshot.clients, request, assessment, recommendation, WorkloadState.PENDING_USER_DECISION)
+
     if not snapshot.healthy:
         assessment = Assessment("CRITICAL", "UNKNOWN", "UNKNOWN", "accelerator is unhealthy")
         alt = _find_alternative(request, candidates, snapshot.accelerator_id)

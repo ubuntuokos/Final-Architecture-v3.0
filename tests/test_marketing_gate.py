@@ -45,6 +45,16 @@ class MarketingGateTests(unittest.TestCase):
         }
         self.assertFalse(native_hungarian_content_valid(bad))
 
+    def test_hungarian_content_requires_layered_quality_receipt(self):
+        content = run_reference_e2e()["content"]
+        self.assertTrue(native_hungarian_content_valid(content))
+        bad = json.loads(json.dumps(content))
+        bad["quality_receipt"]["dimensions"]["terminology"] = False
+        self.assertFalse(native_hungarian_content_valid(bad))
+        bad = json.loads(json.dumps(content))
+        bad["quality_receipt"]["single_metric_authority"] = True
+        self.assertFalse(native_hungarian_content_valid(bad))
+
     def test_suppressed_recipient_rejected(self):
         intent = {
             "via_central_mcp": True,

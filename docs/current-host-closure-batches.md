@@ -19,8 +19,25 @@ The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*
 
 ## Current materialization frontier
 
-After MAT-001, explicit registration coverage is **33/429 obligations** across eleven fully materialized capabilities. MAT-001 contributes CAP-001 through CAP-005 (15 obligations) on top of the prior 18 obligations.
+The repository-side materialization stage is complete: explicit registration coverage is **429/429 obligations** across all **143 capabilities**. Every capability has an explicit positive, negative and rollback qualification definition, qualification-constituent producer and capability-test executor.
 
-MAT-001 being materialized does **not** mean those capabilities have passed runtime closure. Their first real execution batch is `EXEC-001`, selected from the registry-derived planner and executed only by the self-hosted `fa3-current-host` runner. Until that physical execution produces valid qualification constituents, test results, bundles, attestations and capability receipts, their Evidence Registry state remains pending.
+The 117 capabilities that were still unmaterialized after MAT-004 are bound through `canonical/current-host-capability-proof-recipes.json` to explicit real-host proof primitives. Registration alone cannot produce PASS: missing Bforartists/Blender, PyTorch3D, CUDA, FFmpeg, KDE/Wayland or other recipe dependencies causes the corresponding real current-host obligation to fail closed.
 
-The next deterministic materialization batch is **MAT-002 = CAP-006, CAP-007, CAP-008, CAP-009, CAP-010**.
+There is no remaining `MAT-*` batch. `next_materialization_batch` is `null`, and all 143 capabilities are now execution-ready in deterministic `EXEC-*` batches.
+
+Materialization still does **not** mean runtime closure. The next stage is physical execution of all execution batches on the non-root self-hosted `fa3-current-host` runner, followed by qualification bundles, attestations, handoff and the existing promotion-safety chain. Until those real executions succeed, Evidence Registry runtime records remain pending and global promotion remains fail-closed.
+
+
+## External RT3D engine scope
+
+CAP-027 is provider-neutral `Realtime / Virtual Production Interchange`. Proprietary RT3D engines excluded by canonical policy are not discovered, installed, registered, launched, evidenced or promoted by FA3. Users may operate such software independently outside FA3.
+
+## Fail-closed producer diagnostics
+
+When a registered qualification constituent producer rejects execution, the orchestrator preserves only the producer's bounded structured `REJECTED/findings` payload alongside the return code. Raw stdout/stderr is not promoted. Partial constituent/source-artifact trees are still removed on any blocking producer failure, and diagnostic preservation never converts rejection into PASS or promotion evidence.
+
+## Resource Fabric hardware-discovery evidence
+
+CAP-006 current-host qualification must accept an empty accelerator inventory for a CPU-only host and enumerate 0..N typed accelerators without a vendor or runtime allowlist. Accelerator names, memory sizes, architecture values and runtime capabilities remain evidence inputs, not global eligibility floors. Only a workload that explicitly requires an accelerator may demand a compatible discovered device and current scope-bound HRB lease; provider-specific CUDA, ROCm, Level Zero/oneAPI or other runtime checks remain workload scoped.
+
+For cgroup v2 cpuset evidence, an empty leaf effective value must not be interpreted as zero available CPU or memory nodes when the effective allowance is inherited. The collector records the nearest non-empty effective ancestor together with its cgroup source path. This is discovery evidence only; HRB remains the exclusive admission and placement authority.

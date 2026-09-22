@@ -80,7 +80,27 @@ def evaluate(root: Path) -> dict[str, Any]:
         check("preload-optional", "FA3-PROVIDER-PRELOAD-001" in provider_ids and providers[3].get("status") == "OPTIONAL_REFERENCE_PROVIDER" and providers[3].get("new_architectural_authority") is False, "preload is optional non-authoritative page-cache projection"),
         check("legacy-schedulers-not-baseline", all(x in decision.get("explicitly_not_baseline", []) for x in ["PDS", "BMQ", "MuQSS", "PREEMPT_RT"]), "legacy/RT schedulers are not required baseline"),
         check("page-cache-prefetch-subgate", page_cache_ref.get("result") == "PASS" and page_cache_ref.get("gateset_id") == "FA3-PAGE-CACHE-PREFETCH-GATESET-001", "provider-neutral page-cache/prefetch subgate passes and is bound below HRB"),
-        check("enforcement-complete", enforcement.get("fail_closed") is True and enforcement.get("mandatory_rule_count") == 46 and len(enforcement.get("rules", [])) == 46 and invariants == enforced, "all 46 HRB contract invariants are enforced fail-closed"),
+        check(
+            "execution-path-binding",
+            {
+                "HRB_ACCELERATOR_ASSIGNMENT_BINDS_COMPATIBLE_EXECUTION_PATH",
+                "PHYSICAL_DEVICE_PRESENCE_IS_NOT_SUFFICIENT_FOR_ACCELERATOR_ADMISSION",
+                "TRANSLATION_BACKEND_REQUIRES_EXPLICIT_WORKLOAD_POLICY",
+                "NO_SILENT_ACCELERATOR_BACKEND_SUBSTITUTION",
+            }.issubset(invariants)
+            and profile.get("accelerator_execution_path_policy",{}).get("assignment_binds_device_and_execution_path") is True
+            and profile.get("accelerator_execution_path_policy",{}).get("translation_requires_explicit_workload_policy") is True
+            and profile.get("accelerator_execution_path_policy",{}).get("silent_backend_substitution") is False,
+            "HRB binds device plus compatible execution path and denies implicit translation/backend substitution",
+        ),
+        check(
+            "enforcement-complete",
+            enforcement.get("fail_closed") is True
+            and enforcement.get("mandatory_rule_count") == len(invariants)
+            and len(enforcement.get("rules", [])) == len(invariants)
+            and invariants == enforced,
+            f"all {len(invariants)} HRB contract invariants are enforced fail-closed",
+        ),
         check("current-host-claim-honest", enforcement.get("current_host_runtime_promotion_claim") is False and "REFERENCE_CONFORMANCE_ONLY" in decision.get("current_host_claim", ""), "no uncollected current-host locality PASS is claimed"),
     ]
     passed = all(c["status"] == "PASS" for c in checks)

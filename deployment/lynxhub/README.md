@@ -4,7 +4,7 @@ These files materialize `FA3-PROVIDER-LYNXHUB-001` around an existing verified `
 
 - `systemd/user/lynxhub.service`: single on-demand dashboard unit; not enableable.
 - `systemd/user/ai-creative-ops.target`: optional desktop-session grouping target.
-- `bin/lynxhub-launch`: Wayland-first, sandbox-preserving Electron launcher.
+- `bin/lynxhub-launch`: Wayland-preferred, X11-compatible, sandbox-preserving Electron launcher.
 - `bin/lynxhub-start`: argument-free desktop entry bridge.
 - `bin/lynxhub-action`: fixed action-ID allowlist; no free-form shell.
 - `applications/*.desktop.in`: per-user effective launcher overriding the vendor `--no-sandbox` entry.

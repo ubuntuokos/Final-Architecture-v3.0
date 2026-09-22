@@ -30,13 +30,15 @@
     },
     "consent": {
       "schema": "fa3.voice-consent-proof.v2",
-      "required": ["status", "scope", "subject_authorized", "purpose", "provenance_ref", "issued_at", "expires_at", "revocation_ref"],
+      "required": ["status", "scope", "subject_authorized", "purpose", "provenance_ref", "issuer_ref", "jurisdiction", "legal_basis_ref", "signature_ref", "derived_asset_lineage_ref", "retention_policy_ref", "issued_at", "expires_at", "revocation_ref"],
       "rules": [
         "status MUST equal GRANTED at admission and execution time",
         "scope MUST include VOICE_SYNTHESIS and VOICE_CLONING when applicable",
         "purpose MUST cover the requested output use",
         "subject_authorized MUST be true",
-        "provenance_ref and revocation_ref MUST be non-empty",
+        "provenance_ref, issuer_ref, jurisdiction, legal_basis_ref, signature_ref and revocation_ref MUST be non-empty",
+        "derived voice assets MUST bind derived_asset_lineage_ref and retention_policy_ref",
+        "revocation or expiry MUST produce an auditable deletion receipt before retained derived assets may be considered closed",
         "expired or revoked consent MUST fail closed",
         "provider MUST NOT mint, infer, extend or persist consent"
       ]

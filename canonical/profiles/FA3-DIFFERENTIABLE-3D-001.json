@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-DIFFERENTIABLE-3D-001",
   "name": "Differentiable 3D Geometry, Neural Rendering & Reconstruction Execution",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "CONDITIONAL_MUST",
@@ -23,7 +23,9 @@
     "FA3-DIFFERENTIABLE-3D-CONTRACTS-001"
   ],
   "providers": [
-    "FA3-PROVIDER-PYTORCH3D-001"
+    "FA3-PROVIDER-KAOLIN-001",
+    "FA3-PROVIDER-PYTORCH3D-001",
+    "FA3-PROVIDER-NVDIFFRAST-001"
   ],
   "capability_surface": [
     "3d.mesh.fit",
@@ -52,7 +54,18 @@
     "EXPLICIT_EXECUTION_DEVICE_AND_NO_SILENT_FALLBACK",
     "HRB_LEASE_REQUIRED_FOR_ACCELERATOR_EXECUTION",
     "RUNTIME_COMPATIBILITY_AND_SOURCE_BUILD_RECEIPTS_REQUIRED",
-    "CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION"
+    "CURRENT_HOST_EVIDENCE_REQUIRED_BEFORE_RUNTIME_PROMOTION",
+    "CAP_032_CORE_CURRENT_HOST_PROOF_MUST_NOT_REQUIRE_A_SINGLE_DIFFERENTIABLE_PROVIDER",
+    "NVDIFFRAST_NON_COMMERCIAL_LICENSE_SURFACE_NOT_PRODUCTION_BASELINE"
   ],
-  "implementation_status": "CANONICAL_REFERENCE_GATE_MATERIALIZED_CURRENT_HOST_RUNTIME_PENDING"
+  "implementation_status": "CANONICAL_PROVIDER_FABRIC_REFERENCE_MATERIALIZED_SPECIALIZED_PROVIDER_RUNTIME_CONDITIONAL",
+  "provider_selection_policy": {
+    "core_cap032_runtime_hard_dependency": false,
+    "provider_selection": "OPERATION_CAPABILITY_LICENSE_RUNTIME_COMPATIBILITY_AND_HRB_ADMISSION",
+    "silent_provider_fallback": false,
+    "open3d_general_metric_reconstruction_provider": "FA3-PROVIDER-OPEN3D-001",
+    "preferred_differentiable_provider": "FA3-PROVIDER-KAOLIN-001",
+    "compatibility_provider": "FA3-PROVIDER-PYTORCH3D-001",
+    "research_only_raster_backend": "FA3-PROVIDER-NVDIFFRAST-001"
+  }
 }

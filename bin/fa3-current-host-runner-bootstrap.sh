@@ -15,19 +15,23 @@ UNIT_PATH="$UNIT_DIR/$UNIT_NAME"
 DROPIN_DIR="$UNIT_DIR/$UNIT_NAME.d"
 DROPIN_PATH="$DROPIN_DIR/20-fa3-hrb-acquire.conf"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-host-admission-bridge.sh"
 VALIDATOR_CLIENT="/usr/local/bin/fa3-host-resource-broker-validator"
 VALIDATOR_HELPER="/usr/local/libexec/fa3-host-resource-broker-validate-root"
 ACQUIRE_CLIENT="/usr/local/bin/fa3-host-resource-broker-acquire"
 ACQUIRE_HELPER="/usr/local/libexec/fa3-host-resource-broker-acquire-root"
 ACQUIRE_TEMPLATE="/usr/local/bin/fa3-host-resource-broker-acquire --workload {workload} --lease-output {lease} --accelerator-uuid {gpu_uuid}"
+SECRET_BRIDGE_INSTALLER="$SCRIPT_DIR/fa3-install-secret-broker-current-host-bridge.sh"
+SECRET_BRIDGE_CLIENT="/usr/local/bin/fa3-secret-broker-current-host-bridge"
+SECRET_BRIDGE_HELPER="/usr/local/libexec/fa3-secret-broker-current-host-root"
 
 if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   echo "FAIL: current-host runner must not run as root" >&2
   exit 20
 fi
 
-for cmd in curl tar sha256sum python3 systemctl sudo; do
+for cmd in curl tar sha256sum python3 systemctl loginctl sudo; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL: missing prerequisite: $cmd" >&2; exit 21; }
 done
 
@@ -40,6 +44,18 @@ if [[ ! -x "$VALIDATOR_CLIENT" ]] \
   sudo "$BRIDGE_INSTALLER" --user "$USER"
 fi
 
+ensure_secret_broker_current_host_bridge() {
+  if [[ ! -x "$SECRET_BRIDGE_CLIENT" ]] \
+    || [[ ! -x "$SECRET_BRIDGE_HELPER" ]] \
+    || ! FA3_REPO_ROOT="$REPO_ROOT" "$SECRET_BRIDGE_CLIENT" doctor >/dev/null 2>&1; then
+    echo "INFO: installing commit-bound Secret Broker current-host privileged bridge"
+    sudo "$SECRET_BRIDGE_INSTALLER" --user "$USER"
+  fi
+  FA3_REPO_ROOT="$REPO_ROOT" "$SECRET_BRIDGE_CLIENT" doctor >/dev/null
+}
+
+ensure_secret_broker_current_host_bridge
+
 ensure_acquire_environment() {
   mkdir -p "$UNIT_DIR" "$DROPIN_DIR"
   chmod 700 "$UNIT_DIR" "$DROPIN_DIR"
@@ -48,6 +64,17 @@ ensure_acquire_environment() {
 Environment="FA3_HRB_ACQUIRE_COMMAND=$ACQUIRE_TEMPLATE"
 EOF
   chmod 600 "$DROPIN_PATH"
+}
+
+ensure_linger() {
+  local linger
+  linger="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
+  if [[ "$linger" != "yes" ]]; then
+    echo "INFO: enabling systemd user linger for boot-persistent current-host runner"
+    sudo loginctl enable-linger "$USER"
+  fi
+  linger="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
+  [[ "$linger" == "yes" ]] || { echo "FAIL: systemd user linger is not enabled for $USER" >&2; exit 31; }
 }
 
 write_service_unit() {
@@ -77,6 +104,7 @@ EOF
 }
 
 activate_service() {
+  ensure_linger
   write_service_unit
   ensure_acquire_environment
   systemctl --user daemon-reload
@@ -232,11 +260,5 @@ popd >/dev/null
 unset RUNNER_TOKEN FA3_GITHUB_RUNNER_TOKEN
 activate_service
 
-if command -v loginctl >/dev/null 2>&1; then
-  LINGER="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
-  if [[ "$LINGER" != "yes" ]]; then
-    echo "NOTICE: enable boot-persistent user service with: sudo loginctl enable-linger '$USER'" >&2
-  fi
-fi
-
+ensure_linger
 exec "$SCRIPT_DIR/fa3-current-host-runner-doctor"

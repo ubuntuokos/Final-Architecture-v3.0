@@ -47,6 +47,9 @@ PATHS = {
     "current_host_enforcement": "canonical/runtime-hardening-current-host-enforcement.json",
     "current_host_decision": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
     "current_host_reference": "canonical/references/FA3-RUNTIME-HARDENING-CURRENT-HOST-UPSTREAM-REFERENCE-2026-09-19.json",
+    "secret_broker_contract": "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
+    "reconciliation": "canonical/decisions/FA3-DEC-MODERNIZATION-RECONCILIATION-2026-09-20.json",
+    "hardware_decision": "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
 }
 
 
@@ -246,7 +249,7 @@ def gate(root: Path) -> dict[str, Any]:
         "runtime_launcher_resource_authority": "DENY",
         "environment_variable_resource_authority": "DENY",
         "arbitrary_agent_host_subprocess": "DENY",
-        "accelerated_neural_media_claim": "ZERO_HOST_ROUND_TRIP",
+        "accelerated_neural_media_claim": "CLASSIFIED_AS_ZERO_COPY_PROVEN_TRANSFER_MINIMIZED_OR_NOT_ZERO_COPY",
         "shadow_can_assign_promoted": "DENY",
         "production_acceptance_criteria": "19_OF_19_PLUS_CURRENT_HOST_PASS",
     }
@@ -277,8 +280,10 @@ def gate(root: Path) -> dict[str, Any]:
     media_policy = media_profile.get("accelerated_ai_frame_policy", {})
     if (
         media_profile.get("zero_host_roundtrip_profile_id") != "FA3-MEDIA-GPU-ZEROCOPY-001"
-        or media_policy.get("claim_semantics") != "ZERO_HOST_ROUND_TRIP"
-        or media_policy.get("primary_nvidia_ai_frame_executor") != "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+        or media_policy.get("claim_semantics") != "CLASSIFIED_MEMORY_RESIDENCY_EVIDENCE"
+        or media_policy.get("optional_nvidia_ai_frame_executor") != "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+        or media_policy.get("universal_pcie_percentage_threshold") != "FORBIDDEN"
+        or media_policy.get("non_claiming_or_cpu_only_path") != "VALID_WITHOUT_ACCELERATOR_PROVIDER"
         or media_profile.get("primary_low_level_executor") != "FA3-PROVIDER-FFMPEG-001"
     ):
         findings.append(finding("HARDEN-010", "Neural-media executor roles or residency semantics drift"))
@@ -342,6 +347,8 @@ def gate(root: Path) -> dict[str, Any]:
         and host_rules.get("github_hosted_substitution") == "DENY"
         and host_rules.get("sandbox_compatibility_smoke_as_production_isolation") == "DENY"
         and host_rules.get("shadow_promotion_authority") == "DENY"
+        and host_rules.get("universal_pcie_percentage_threshold") == "DENY"
+        and host_rules.get("media_surface_applicability") == "CONDITIONAL_ON_ZERO_HOST_ROUND_TRIP_CLAIM"
     ):
         findings.append(finding("HARDEN-020", "Runtime hardening current-host enforcement drift"))
     if not (
@@ -358,6 +365,45 @@ def gate(root: Path) -> dict[str, Any]:
         and policy.get("runtime_hardening_current_host_global_promotion_claim") is False
     ):
         findings.append(finding("HARDEN-022", "Global policy current-host hardening binding drift"))
+
+    secret_broker = data["secret_broker_contract"]
+    delivery = secret_broker.get("delivery", {})
+    secret_evidence = secret_broker.get("evidence", {})
+    if not (
+        secret_broker.get("provider_neutral") is True
+        and secret_broker.get("authority") == "FA3-AUTH-SECRETS-001"
+        and secret_broker.get("capability_count") == CAPABILITY_COUNT
+        and secret_broker.get("new_capabilities") == 0
+        and secret_broker.get("new_architectural_authorities") == 0
+        and delivery.get("world_writable_socket_forbidden") is True
+        and delivery.get("peer_credential_validation_required") is True
+        and delivery.get("nonce_and_replay_protection_required") is True
+        and delivery.get("lease_ttl_bound_to_cgroup_and_pidfd_liveness") is True
+        and delivery.get("production_test_secret_under_run_secrets_forbidden") is True
+        and secret_evidence.get("durable_or_externally_verifiable_receipts") == "ASYMMETRIC_SIGNATURE_REQUIRED"
+        and secret_evidence.get("hmac_as_external_evidence_authority_forbidden") is True
+    ):
+        findings.append(finding("HARDEN-023", "Provider-neutral secret broker contract drift"))
+
+    reconciliation = data["reconciliation"]
+    baseline = reconciliation.get("baseline", {})
+    closure = reconciliation.get("closure_semantics", {})
+    rejected = set(reconciliation.get("rejected", []))
+    if not (
+        reconciliation.get("status") == "ACCEPTED_MATERIALIZED"
+        and baseline.get("capability_count_before") == baseline.get("capability_count_after") == CAPABILITY_COUNT
+        and baseline.get("acceptance_criteria_before") == baseline.get("acceptance_criteria_after") == 19
+        and baseline.get("new_architectural_authorities") == 0
+        and "GLOBAL_NVIDIA_CUDA_NVML_RTX_SM86_GPU_SKU_INDEX_UUID_OR_VRAM_BASELINE" in rejected
+        and "EXPANDING_NINETEEN_ACCEPTANCE_CRITERIA_TO_TWENTY_TWO" in rejected
+        and closure.get("global_promotion_claim") is False
+        and closure.get("fabricated_current_host_pass_forbidden") is True
+        and data["hardware_decision"].get("capability_count_after") == CAPABILITY_COUNT
+        and policy.get("secret_broker_contract_id") == secret_broker.get("id")
+        and policy.get("modernization_reconciliation_decision_id") == reconciliation.get("id")
+        and policy.get("modernization_acceptance_criteria_count") == 19
+    ):
+        findings.append(finding("HARDEN-024", "Modernization reconciliation invariant drift"))
 
     regression_rows = regressions()
     failed = [x["name"] for x in regression_rows if x["result"] != "PASS"]

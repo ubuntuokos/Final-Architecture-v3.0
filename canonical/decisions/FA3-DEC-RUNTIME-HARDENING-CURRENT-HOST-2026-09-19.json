@@ -3,19 +3,19 @@
   "id": "FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19",
   "date": "2026-09-19",
   "status": "CANONICAL_CLOSED",
-  "subject": "Current-host evidence closure for runtime isolation/agent sandbox, PyNvVideoCodec zero-host-round-trip, Hungarian AQC and Shadow execution",
+  "subject": "Current-host evidence closure for runtime isolation/agent sandbox, provider-scoped media residency claims, Hungarian AQC and Shadow execution",
   "decision": "MATERIALIZE_FAIL_CLOSED_CURRENT_HOST_COLLECTORS_GATE_AND_SELF_HOSTED_WORKFLOW_WITHOUT_CLAIMING_UNEXECUTED_RUNTIME_PASS",
   "parent_decision": "FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19",
   "conformance_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-CONFORMANCE-001",
   "gate_id": "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001",
   "required_surfaces": [
     "RUNTIME_ISOLATION_AGENT_SANDBOX",
-    "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+    "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
     "HU_AQC",
     "PROMOTION_SHADOW"
   ],
   "upstream_evidence_basis": {
-    "pynvvideocodec": "NVIDIA PyNvVideoCodec 2.2+ device-memory DLPack interoperability",
+    "pynvvideocodec": "optional NVIDIA provider adapter for device-memory DLPack interoperability; not a global baseline",
     "gvisor": "gVisor rootless runsc do is compatibility smoke only; production OCI isolation requires stronger proof"
   },
   "current_host_runtime_status": "PENDING_REAL_SELF_HOSTED_EXECUTION",
@@ -23,5 +23,25 @@
   "global_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "refinements_2026_09_19": [
+    "LOW_PCIE_UTILIZATION_IS_NOT_ZERO_COPY_PROOF",
+    "PCIE_TELEMETRY_IS_SUPPORTING_COPY_BUDGET_ONLY",
+    "FRAME_COPY_TRACE_REQUIRED_FOR_ZERO_HOST_ROUND_TRIP",
+    "INSTALLED_QUADLET_AND_ACTUAL_RUNSC_RUNTIME_BOTH_REQUIRED",
+    "NVPROXY_DRIVER_ABI_REQUIRED_ONLY_WHEN_GPU_PROJECTED_INTO_GVISOR",
+    "CURRENT_HOST_SURFACE_EVIDENCE_NORMALIZED_WITH_FA3_EVIDENCE_ENVELOPE",
+    "COMPONENT_PASS_DOES_NOT_ASSIGN_GLOBAL_PROMOTION"
+    ,"MEDIA_RESIDENCY_SURFACE_CONDITIONAL_ON_EXPLICIT_CLAIM"
+    ,"UNIVERSAL_PCIE_PERCENTAGE_THRESHOLD_FORBIDDEN"
+    ,"CPU_ONLY_AND_NON_CLAIMING_WORKLOADS_REQUIRE_NO_ACCELERATOR_PROVIDER"
+  ],
+  "forbidden_shortcuts": [
+    "HARDCODED_GPU_INDEX",
+    "HARDCODED_GPU_SKU_PCIE_CAPACITY",
+    "500MS_PCIE_POLLING_FOR_THIS_GATE",
+    "CONSTANT_BOOLEAN_AGENT_PRIVILEGE_TEST",
+    "PCIE_BELOW_5_PERCENT_EQUALS_ZERO_COPY",
+    "PROMOTED_MODERNIZED_CORE_FROM_COMPONENT_GATE"
+  ]
 }

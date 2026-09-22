@@ -15,6 +15,16 @@
     "direct_pageindex_cloud_from_local_provider": "DENY",
     "openkb_authority": "DENY",
     "condb_authority": "DENY",
-    "media_binary_in_knowledge_store": "DENY"
+    "media_binary_in_knowledge_store": "DENY",
+    "external_reference_source_execution_authority": "DENY",
+    "retrieved_text_direct_execution": "DENY",
+    "runbook_object_required_for_knowledge_derived_action": "REQUIRED",
+    "runbook_object_direct_execution": "DENY",
+    "runbook_execution_boundary": "FA3-AUTH-MCP-GATEWAY-001",
+    "community_source_provenance": "REQUIRED",
+    "community_source_revision_or_digest_binding": "REQUIRED",
+    "community_source_freshness_assessment": "REQUIRED_BEFORE_VERIFIED",
+    "community_source_target_compatibility_assessment": "REQUIRED_BEFORE_VERIFIED",
+    "inline_secret_material_in_knowledge_or_runbook": "DENY"
   }
 }

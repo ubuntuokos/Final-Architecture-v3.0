@@ -1,0 +1,57 @@
+name: FA3 Hardware Discovery Descriptors
+
+on:
+  pull_request:
+    paths:
+      - 'canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json'
+      - 'canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-HARDWARE-BASELINE-001.json'
+      - 'canonical/hardware-portability-enforcement.json'
+      - 'src/fa3_hardware_discovery.py'
+      - 'src/fa3_cpu_thread_budget.py'
+      - 'src/fa3_accelerator_execution_path.py'
+      - 'src/fa3_resource_admission_policy.py'
+      - 'src/fa3_accelerator_guard.py'
+      - 'src/fa3_accelerator_guard_gate.py'
+      - 'src/fa3_accelerator_guard_probe.py'
+      - 'src/fa3_accelerator_backend_probe.py'
+      - 'tests/test_accelerator_backend_probe.py'
+      - 'canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-ACCEL-GUARD-001.json'
+      - 'tests/test_accelerator_guard.py'
+      - 'canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json'
+      - 'canonical/FA3-WORKLOAD-RESOURCE-ENVELOPE-001.json'
+      - 'canonical/FA3-RESOURCE-ADMISSION-CONTRACTS-001.json'
+      - 'src/fa3_hardware_portability_gate.py'
+      - 'src/fa3_cpu_numa_threading_gate.py'
+      - 'tests/test_hardware_discovery_descriptors.py'
+      - 'tests/test_hardware_portability_gate.py'
+      - 'tests/test_cpu_numa_threading_gate.py'
+      - '.github/workflows/fa3-hardware-discovery-descriptors.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  descriptor-reference-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python syntax
+        run: |
+          python -m py_compile             src/fa3_hardware_discovery.py             src/fa3_cpu_thread_budget.py             src/fa3_hardware_portability_gate.py             src/fa3_cpu_numa_threading_gate.py
+      - name: Descriptor and portability regressions
+        run: |
+          python -m unittest             tests.test_hardware_discovery_descriptors             tests.test_hardware_portability_gate             tests.test_cpu_numa_threading_gate
+      - name: Canonical hardware portability gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_hardware_portability_gate.py --root "$GITHUB_WORKSPACE"
+      - name: CPU NUMA threading gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_cpu_numa_threading_gate.py --root "$GITHUB_WORKSPACE"

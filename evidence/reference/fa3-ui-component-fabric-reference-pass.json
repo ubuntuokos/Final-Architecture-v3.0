@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-UI-COMPONENT-FABRIC-REFERENCE-PASS-2026-09-19",
+  "date": "2026-09-19",
+  "gate_id": "FA3-GATE-UI-COMPONENT-FABRIC-001",
+  "profile_id": "FA3-UI-COMPONENT-FABRIC-001",
+  "reference_source_id": "FA3-REFERENCE-UIVERSE-GALAXY-001",
+  "status": "PASS",
+  "scope": "STATIC_CANONICAL_AND_REFERENCE_SOURCE_REGRESSION",
+  "command": "PYTHONPATH=. python src/fa3_ui_component_fabric_gate.py && PYTHONPATH=. python -m unittest tests.test_ui_component_fabric_gate -v",
+  "claims": [
+    "UI_COMPONENT_FABRIC_REFERENCE_PASS",
+    "UIVERSE_GALAXY_REFERENCE_PINNED",
+    "UIVERSE_GALAXY_IS_REFERENCE_ONLY",
+    "NO_RUNTIME_DEPENDENCY",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "CAPABILITY_COUNT_UNCHANGED"
+  ],
+  "non_claims": [
+    "CURRENT_HOST_RUNTIME_PASS",
+    "INDIVIDUAL_COMPONENT_PRODUCTION_ADMISSION",
+    "GLOBAL_FA3_PROMOTION",
+    "PROVIDER_RUNTIME_E2E"
+  ],
+  "checks": [
+    "profile/contract/decision/gate/reference/evidence linkage",
+    "FA3-DESKTOP-001 parent projection preserved",
+    "143 capability count preserved",
+    "zero new architectural authorities",
+    "Galaxy revision pinned",
+    "no build/runtime/submodule/network dependency",
+    "automatic and raw production import denied",
+    "tokenization/accessibility/security/provenance requirements present",
+    "individual component admission remains separate"
+  ],
+  "current_host_runtime_claim": false,
+  "individual_component_production_admitted": false
+}

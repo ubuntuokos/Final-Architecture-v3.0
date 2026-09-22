@@ -1,8 +1,8 @@
 {
   "schema": "fa3.profile-record.v1",
   "id": "FA3-HW-MGPU-001",
-  "name": "Heterogeneous Multi-GPU Placement & Accelerator Binding Profile",
-  "version": "1.0.2",
+  "name": "Heterogeneous Multi-Accelerator Placement & Binding Profile",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -32,20 +32,23 @@
     "PLACEMENT_PROVIDER_CANNOT_REPLACE_HRB_AUTHORITY",
     "FALLBACK_AND_PREEMPTION_EXPLICIT",
     "NUMA_TOPOLOGY_MUST_BE_CONSIDERED_WHEN_RELEVANT",
-    "ACCELERATOR_CARDINALITY_DYNAMIC_1_TO_N",
-    "FIXED_GPU_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN",
-    "NEWER_NVIDIA_GPU_CAPABILITIES_REMAIN_ELIGIBLE_SUBJECT_TO_LIVE_RUNTIME_COMPATIBILITY",
-    "GPU_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY"
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "MULTI_ACCELERATOR_PLACEMENT_APPLIES_ONLY_WHEN_WORKLOAD_REQUIRES_AND_AT_LEAST_TWO_COMPATIBLE_DEVICES_EXIST",
+    "FIXED_ACCELERATOR_COUNT_OR_RUNTIME_ORDINAL_FORBIDDEN",
+    "ACCELERATOR_VENDOR_AND_RUNTIME_API_ARE_WORKLOAD_PROVIDER_SCOPED",
+    "ACCELERATOR_VENDOR_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "cardinality_policy": {
-    "minimum_qualifying_gpu_count": 1,
-    "maximum_qualifying_gpu_count": "UNBOUNDED_BY_FA3",
+    "minimum_qualifying_accelerator_count": 0,
+    "maximum_qualifying_accelerator_count": "UNBOUNDED_BY_FA3",
     "enumeration": "LIVE_DISCOVERY",
-    "fixed_runtime_index_identity": false
+    "fixed_runtime_index_identity": false,
+    "cpu_only_host_conforms": true,
+    "activation_condition": "WORKLOAD_REQUIRES_ACCELERATOR_AND_COMPATIBLE_DISCOVERED_SET_IS_NONEMPTY"
   },
   "reconciliation": {
-    "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
-    "date": "2026-09-16"
+    "id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+    "date": "2026-09-20"
   }
 }

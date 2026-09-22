@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-CPU-NUMA-THREADING-001",
   "name": "NUMA-Aware CPU Threading, Affinity & Math Runtime Governance",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -53,17 +53,16 @@
     "pytorch": "intra-op and inter-op budgets are separate and must be applied before parallel work begins"
   },
   "explicitly_forbidden_as_global_baseline": [
-    "CORES=$(nproc) exported to every OpenMP BLAS and framework pool",
-    "OMP_NUM_THREADS=88",
-    "NUMEXPR_NUM_THREADS=44",
-    "torch.set_num_interop_threads(44)",
+    "nproc exported to every OpenMP BLAS and framework pool",
+    "fixed OMP thread count copied from any host",
+    "fixed NumExpr thread count copied from any host",
+    "fixed PyTorch intra-op or inter-op count copied from any host",
     "numactl --interleave=all",
     "static CPU ID lists",
     "static NUMA node IDs",
     "global KMP_AFFINITY or KMP_BLOCKTIME",
     "environment variables acting as resource authority"
   ],
-  "reference_deployment": "FA3-T7910-CPU-NUMA-REFERENCE-2026-09-02",
   "current_host_gate": "FA3-GATE-CPU-NUMA-THREADING-CURRENT-HOST-001",
-  "implementation_status": "CANONICAL_REFERENCE_RUNTIME_AND_FAIL_CLOSED_GATE_PASS_CURRENT_HOST_COLLECTOR_AND_GATE_MATERIALIZED_REAL_E2E_PENDING"
+  "implementation_status": "CANONICAL_VENDOR_NEUTRAL_RUNTIME_AND_FAIL_CLOSED_CURRENT_HOST_GATE_MATERIALIZED_FRESH_E2E_PENDING"
 }

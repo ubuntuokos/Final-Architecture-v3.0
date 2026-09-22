@@ -43,7 +43,7 @@ class FFmpegAIGateTests(unittest.TestCase):
             "observed_provider": "cuda",
             "hrb_lease_valid": True,
             "gpu_uuid": "GPU-uuid",
-            "pci_bdf": "0000:05:00.0",
+            "pci_bdf": "0000:3b:00.0",
             "ordinal_resolved_from_uuid_bdf": True,
         }
         self.assertTrue(accelerator_execution_allowed(good))

@@ -25,15 +25,18 @@
     "NO_SILENT_ACCELERATOR_FALLBACK",
     "HARDWARE_DISCOVERY_NOT_PLACEMENT_AUTHORITY",
     "CPU_MINIMUM_1_PACKAGE_8_PHYSICAL_CORES",
-    "GPU_MINIMUM_NVIDIA_CUDA_COMPUTE_CAPABILITY_8_6_OR_NEWER",
-    "GPU_SKU_OR_MARKETING_SERIES_IS_NOT_ADMISSION_AUTHORITY",
-    "NEWER_HARDWARE_MUST_NOT_BE_REJECTED_BY_MODEL_PIN",
+    "NO_GLOBAL_ACCELERATOR_PRESENCE_REQUIREMENT",
+    "CPU_ONLY_HOST_AND_WORKLOAD_BASELINE_CONFORMANT",
+    "CPU_ONLY_WORKLOAD_MUST_NOT_REQUEST_ACCELERATOR_LEASE",
+    "ACCELERATOR_REQUIRED_WORKLOAD_REQUIRES_COMPATIBLE_DEVICE_AND_HRB_LEASE",
+    "ACCELERATOR_VENDOR_SKU_OR_MARKETING_SERIES_IS_NOT_GLOBAL_ADMISSION_AUTHORITY",
+    "WORKLOAD_PROVIDER_CAPABILITY_NEGOTIATION_DETERMINES_ACCELERATOR_COMPATIBILITY",
     "CPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "GPU_CARDINALITY_DYNAMIC_1_TO_N",
-    "NO_FIXED_CPU_GPU_COUNT_OR_TOPOLOGY_IDENTITY",
+    "ACCELERATOR_CARDINALITY_DYNAMIC_0_TO_N",
+    "NO_FIXED_CPU_ACCELERATOR_COUNT_OR_TOPOLOGY_IDENTITY",
     "LIVE_DISCOVERY_AND_REVALIDATION_REQUIRED"
   ],
-  "version": "1.2.0",
+  "version": "1.4.0",
   "portable_minimum_envelope": {
     "cpu": {
       "package_count_min": 1,
@@ -41,15 +44,29 @@
       "vendor_model_agnostic": true,
       "package_count_max": null
     },
-    "gpu": {
-      "qualifying_device_count_min": 1,
-      "vendor": "NVIDIA",
-      "cuda_compute_capability_min": 8.6,
+    "accelerator": {
+      "qualifying_device_count_min": 0,
+      "vendor_pin": "FORBIDDEN",
+      "global_runtime_api_pin": "FORBIDDEN",
+      "global_vendor_capability_floor": "FORBIDDEN",
+      "workload_runtime_compatibility_required": true,
+      "provider_capability_negotiation_required": true,
+      "supported_reference_vendor_families": [
+        "NVIDIA",
+        "AMD",
+        "INTEL"
+      ],
+      "supported_reference_platform_families": [
+        "NVIDIA_DGX"
+      ],
       "sku_series_is_admission_authority": false,
       "product_line_agnostic": true,
-      "exact_sku_vram_sm_agnostic": true,
+      "exact_sku_vram_arch_agnostic": true,
       "marketing_identity_required": false,
-      "qualifying_device_count_max": null
+      "qualifying_device_count_max": null,
+      "cpu_only_host_conforms": true,
+      "cpu_only_workload_requires_lease": false,
+      "required_workload_admission": "COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE"
     },
     "current_host_exact_tuple": "EVIDENCE_ONLY"
   },
@@ -57,8 +74,11 @@
     "FA3-HARDWARE-DISCOVERY-CONTRACTS-001"
   ],
   "reconciliation": {
-    "id": "FA3-HARDWARE-FABRIC-RECONCILIATION-001",
-    "date": "2026-09-16",
-    "legacy_rtx_series_floor": "SUPERSEDED_BY_CUDA_COMPUTE_CAPABILITY_FLOOR"
+    "id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+    "date": "2026-09-20",
+    "legacy_hardware_audit_artifacts": "REMOVED",
+    "legacy_host_specific_records": "REMOVED",
+    "global_accelerator_floor": "ZERO_ACCELERATORS_CPU_ONLY_CONFORMANT",
+    "accelerator_workload_admission": "WORKLOAD_PROVIDER_CAPABILITY_NEGOTIATION_AND_HRB_LEASE"
   }
 }

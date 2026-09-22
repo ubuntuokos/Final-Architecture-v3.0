@@ -58,33 +58,6 @@
       "snapshot_required_before_execution": true
     }
   },
-  "hardware_reference": {
-    "workstation": "Dell Precision T7910 reference host",
-    "cpu": "2x Intel Xeon E5-2696 v4 @ 2.20GHz",
-    "physical_cores": 44,
-    "logical_cpus": 88,
-    "expected_numa_domains": 2,
-    "static_cpu_or_numa_numbering_forbidden": true,
-    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
-    "compute_gpu_reference": "NVIDIA RTX 3080 12GB class unless live discovery differs",
-    "gpu_identity_requires_live_uuid_pci_vram_discovery": true,
-    "local_candidate_classes": {
-      "stable_audio_3_medium": "CANDIDATE_FITS_12GB_CLASS_SUBJECT_TO_REAL_E2E",
-      "sf3d": "CANDIDATE_APPROX_6GB_UPSTREAM_REFERENCE_SUBJECT_TO_REAL_E2E",
-      "spar3d_low_vram": "CANDIDATE_APPROX_7GB_UPSTREAM_REFERENCE_SUBJECT_TO_REAL_E2E"
-    },
-    "validation_required": [
-      "SD3.5 local variants",
-      "Arbor",
-      "ReLi3D"
-    ],
-    "remote_distributed_first": [
-      "Stable Layers",
-      "SD3.5 NVIDIA NIM"
-    ],
-    "nvidia_nim_note": "Official 2026-08-12 SD3.5 NIM targets enterprise/data-center Ada and Blackwell; current RTX 3080 class host is not a local-default route.",
-    "tensorrt_note": "Official 2026-06-12 SD3.5 TensorRT announcement targets RTX 40/50 plus Ada/Blackwell RTX PRO; do not infer RTX 3080 current-host support."
-  },
   "runtime_policy": {
     "environment": "ISOLATED_PIP_VENV_OR_CONTAINER",
     "conda_mamba_baseline": false,
@@ -105,14 +78,14 @@
     "STABILITY_IMMUTABLE_REPO_MODEL_RUNTIME_PINS_REQUIRED",
     "STABILITY_HRB_REQUIRED_FOR_ACCELERATOR_PLACEMENT",
     "STABILITY_LIVE_TOPOLOGY_DISCOVERY_OVERRIDES_STATIC_CPU_GPU_NUMBERING",
-    "STABILITY_T7910_REFERENCE_CPU_IS_E5_2696_V4_NOT_E5_2697_V4",
+    "STABILITY_HOST_CPU_MODEL_OR_TOPOLOGY_MUST_NOT_BE_GLOBAL_REQUIREMENT",
     "STABILITY_NO_SILENT_DEVICE_PROVIDER_OR_CLOUD_FALLBACK",
-    "STABILITY_CURRENT_HOST_12GB_GPU_ROUTE_MUST_BE_EXPLICITLY_ADMITTED",
+    "STABILITY_ACCELERATOR_MEMORY_REQUIREMENTS_WORKLOAD_DERIVED_AND_HRB_ADMITTED",
     "STABLE_AUDIO_3_REQUIRED_SUPPORTED_AUDIO_PROVIDER",
     "STABLE_AUDIO_DAW_INTEGRATION_PROFILE_REQUIRED_PROVIDER_PLUGIN_OPTIONAL",
     "SD35_REQUIRED_SUPPORTED_IMAGE_PROVIDER",
     "SD35_NVIDIA_NIM_IS_DEPLOYMENT_PROVIDER_NOT_ROUTING_AUTHORITY",
-    "SD35_NIM_NOT_CURRENT_HOST_LOCAL_DEFAULT_ON_RTX3080_CLASS_HARDWARE",
+    "SD35_NIM_LOCAL_DEFAULT_REQUIRES_LIVE_PROVIDER_COMPATIBILITY_AND_HRB_ADMISSION",
     "SPAR3D_PRIMARY_STABILITY_SINGLE_IMAGE_3D_RECONSTRUCTION_PROVIDER",
     "SF3D_REQUIRED_LOWER_VRAM_FALLBACK_PROVIDER",
     "ARBOR_REQUIRED_CONSTRAINED_TEXT_TO_3D_PROVIDER",
@@ -122,5 +95,29 @@
     "STABLE_LAYERS_REQUIRED_SUPPORTED_REMOTE_DISTRIBUTED_FIRST_DECOMPOSITION_PROVIDER",
     "STABILITY_PROVIDER_RUNTIME_ISOLATED_PIP_VENV_OR_CONTAINER_NO_CONDA_BASELINE",
     "STABILITY_CURRENT_HOST_PROMOTION_REQUIRES_REAL_E2E_EVIDENCE"
-  ]
+  ],
+  "hardware_policy": {
+    "global_baseline": "FA3-HARDWARE-BASELINE-001",
+    "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+    "cpu_model_or_topology_pin": "FORBIDDEN",
+    "accelerator_vendor_sku_vram_arch_pin": "FORBIDDEN_AS_GLOBAL_BASELINE",
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "accelerator_requirements": "WORKLOAD_PROVIDER_CAPABILITY_NEGOTIATION_PLUS_HRB_ADMISSION",
+    "local_candidate_classes": {
+      "stable_audio_3_medium": "WORKLOAD_MEMORY_REQUIREMENT_PROVIDER_DECLARED_AND_HRB_ADMITTED",
+      "sf3d": "UPSTREAM_PROVIDER_MEMORY_REQUIREMENT_SUBJECT_TO_REAL_E2E",
+      "spar3d_low_vram": "UPSTREAM_PROVIDER_MEMORY_REQUIREMENT_SUBJECT_TO_REAL_E2E"
+    },
+    "validation_required": [
+      "SD3.5 local variants",
+      "Arbor",
+      "ReLi3D"
+    ],
+    "remote_distributed_first": [
+      "Stable Layers",
+      "SD3.5 NVIDIA NIM"
+    ],
+    "nvidia_nim_note": "Provider-local NIM compatibility follows its immutable upstream support matrix and live HRB admission; no current-host SKU inference.",
+    "tensorrt_note": "TensorRT compatibility follows the immutable provider support matrix and live discovered accelerator capabilities; no legacy-host inference."
+  }
 }

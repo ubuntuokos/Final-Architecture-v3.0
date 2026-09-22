@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="48.0.2"
+ASSET="wasmtime-v${VERSION}-x86_64-linux.tar.xz"
+EXPECTED_SHA256="f2b0ad1ce9253f2f9a38793c2c42cd1cba4e90b27dc40d685eaf723dc8438d94"
+URL="https://github.com/bytecodealliance/wasmtime/releases/download/v${VERSION}/${ASSET}"
+ROOT="${FA3_WASMTIME_ROOT:-$PWD/.fa3-current-host/tooling/wasmtime-v${VERSION}}"
+BIN_DIR="$ROOT/bin"
+TARGET="$BIN_DIR/wasmtime"
+
+if [[ -x "$TARGET" ]]; then
+  actual="$("$TARGET" --version | awk '{print $2}' | sed 's/^v//')"
+  if [[ "$actual" == "$VERSION" ]]; then
+    printf '%s\n' "$BIN_DIR"
+    exit 0
+  fi
+  rm -rf "$ROOT"
+fi
+
+mkdir -p "$ROOT" "$BIN_DIR"
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+archive="$tmpdir/$ASSET"
+
+if command -v curl >/dev/null 2>&1; then
+  curl --fail --location --silent --show-error --retry 3 --connect-timeout 15 "$URL" -o "$archive"
+elif command -v wget >/dev/null 2>&1; then
+  wget -q --tries=3 --timeout=30 -O "$archive" "$URL"
+else
+  echo "FAIL: curl or wget required to bootstrap Wasmtime" >&2
+  exit 31
+fi
+
+actual_sha256="$(sha256sum "$archive" | awk '{print $1}')"
+if [[ "$actual_sha256" != "$EXPECTED_SHA256" ]]; then
+  echo "FAIL: Wasmtime archive digest mismatch: $actual_sha256" >&2
+  exit 32
+fi
+
+tar -xJf "$archive" -C "$tmpdir"
+src="$tmpdir/wasmtime-v${VERSION}-x86_64-linux/wasmtime"
+[[ -x "$src" ]] || { echo "FAIL: Wasmtime executable missing from archive" >&2; exit 33; }
+install -m 0755 "$src" "$TARGET"
+
+reported="$("$TARGET" --version | awk '{print $2}' | sed 's/^v//')"
+[[ "$reported" == "$VERSION" ]] || { echo "FAIL: Wasmtime version mismatch: $reported" >&2; exit 34; }
+
+printf '%s\n' "$BIN_DIR"

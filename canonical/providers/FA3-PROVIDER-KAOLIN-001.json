@@ -1,0 +1,87 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-KAOLIN-001",
+  "name": "NVIDIAGameWorks/kaolin",
+  "status": "ACCEPTED_PREFERRED_DIFFERENTIABLE_3D_PROVIDER_CONDITIONAL_RUNTIME",
+  "provider_role": "DIFFERENTIABLE_3D_GEOMETRY_NEURAL_RENDERING_METRICS_AND_GAUSSIAN_EXECUTION_PROVIDER",
+  "classification": [
+    "PREFERRED_DIFFERENTIABLE_PROVIDER",
+    "LOCAL_FIRST",
+    "OFFICIAL_VERSIONED_WHEELS_AVAILABLE",
+    "APACHE_2_0_DEFAULT_PACKAGE",
+    "CUDA_ACCELERATED",
+    "NOT_CAP032_GLOBAL_HARD_DEPENDENCY"
+  ],
+  "profile_ids": [
+    "FA3-DIFFERENTIABLE-3D-001"
+  ],
+  "contract_ids": [
+    "FA3-GEOMETRY-CONTRACTS-001",
+    "FA3-DIFFERENTIABLE-3D-CONTRACTS-001"
+  ],
+  "capability_bindings": [
+    "CAP-032"
+  ],
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream": {
+    "repository": "NVIDIAGameWorks/kaolin",
+    "verified_on": "2026-09-19",
+    "release_reference": "v0.18.0",
+    "release_date": "2026-08-08",
+    "release_commit_short": "06ffb7d",
+    "default_license": "Apache-2.0",
+    "documented_pytorch_max": "2.8.0",
+    "documented_cuda_max": "12.9",
+    "blackwell_compatibility": true
+  },
+  "capability_surface": [
+    "mesh_pointcloud_voxel_and_spc_operations",
+    "geometry_metrics_and_losses",
+    "differentiable_rendering",
+    "camera_and_transform_utilities",
+    "gaussian_splat_representation",
+    "usd_obj_gltf_ply_interchange",
+    "neural_3d_research_primitives"
+  ],
+  "license_boundary": {
+    "default_import_surface": "APACHE_2_0",
+    "production_allowed_prefixes": [
+      "kaolin.ops",
+      "kaolin.rep",
+      "kaolin.io",
+      "kaolin.metrics",
+      "kaolin.render",
+      "kaolin.physics"
+    ],
+    "denied_production_prefixes": [
+      "kaolin.non_commercial"
+    ],
+    "non_commercial_surface_policy": "REFERENCE_OR_RESEARCH_ONLY_UNLESS_SEPARATELY_LICENSED"
+  },
+  "activation": {
+    "mode": "CONDITIONAL_BY_DIFFERENTIABLE_3D_JOB",
+    "global_current_host_hard_dependency": false,
+    "requires_hrb_lease_for_accelerator_execution": true,
+    "silent_provider_or_cpu_fallback": false,
+    "runtime_network_fetch": false
+  },
+  "production_policy": {
+    "role": "PREFERRED_DIFFERENTIABLE_PROVIDER",
+    "exact_torch_cuda_wheel_or_source_tuple_required": true,
+    "provider_specific_runtime_evidence_required_before_promotion": true,
+    "global_promotion_claim": false
+  },
+  "authority_boundaries": {
+    "geometry_semantics": false,
+    "dcc_scene_and_final_asset": false,
+    "workflow": false,
+    "host_resource": false,
+    "device_routing": false,
+    "security": false,
+    "evidence": false
+  }
+}

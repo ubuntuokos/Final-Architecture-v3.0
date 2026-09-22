@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       execute_current_host:
-        description: 'Execute the real T7910 FFmpeg neural-media E2E'
+        description: 'Execute the real current-host FFmpeg neural-media E2E'
         required: true
         default: false
         type: boolean
@@ -59,7 +59,7 @@ jobs:
         run: ./bin/fa3-enforce release-projection
 
   current-host:
-    name: ffmpeg-ai-current-host / real-t7910-e2e
+    name: ffmpeg-ai-current-host / real-current-host-e2e
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.execute_current_host }}
     needs: regression
     runs-on: [self-hosted, linux, x64, fa3-current-host]

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_pytorch3d_provider import SOURCE_REVISION, validate_build_candidate
+from fa3_resource_admission_current_host_gate import validate_receipt as validate_resource_admission_receipt
 
 
 def sha256_file(path: Path) -> str:
@@ -49,7 +50,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sbom", type=Path, required=True)
     parser.add_argument("--provenance", type=Path, required=True)
     parser.add_argument("--build-receipt", type=Path, required=True)
-    parser.add_argument("--hrb-receipt", type=Path, required=True)
+    parser.add_argument("--admission-receipt", type=Path, required=True)
     parser.add_argument("--receipt", type=Path, default=ROOT / "evidence/receipts/pytorch3d-current-host.json")
     return parser.parse_args()
 
@@ -69,7 +70,7 @@ def main() -> int:
     try:
         source = args.source_dir.resolve()
         python = (args.venv / "bin/python").resolve()
-        for path in (source, python, args.wheel, args.sbom, args.provenance, args.build_receipt, args.hrb_receipt):
+        for path in (source, python, args.wheel, args.sbom, args.provenance, args.build_receipt, args.admission_receipt):
             if not path.exists():
                 raise RuntimeError(f"required path missing: {path}")
         source_revision = run(["git", "rev-parse", "HEAD"], cwd=source).stdout.strip()
@@ -79,7 +80,7 @@ def main() -> int:
             raise RuntimeError("Conda environment is active; isolated pip venv is required")
 
         build = load_json(args.build_receipt)
-        hrb = load_json(args.hrb_receipt)
+        admission_receipt = load_json(args.admission_receipt)
         if build.get("source_revision") != SOURCE_REVISION:
             raise RuntimeError("build receipt source revision mismatch")
         if build.get("wheel_sha256") != sha256_file(args.wheel):
@@ -91,10 +92,17 @@ def main() -> int:
         build_admission = validate_build_candidate(build)
         if build_admission["result"] != "PASS":
             raise RuntimeError(f"build candidate admission failed: {build_admission}")
-        if not hrb.get("lease_id") or hrb.get("accelerator_role") != "COMPUTE":
-            raise RuntimeError("valid HRB compute lease receipt required")
-        if not hrb.get("device_uuid") or not hrb.get("pci_bdf"):
-            raise RuntimeError("HRB receipt requires UUID and PCI BDF stable identity")
+        admission_findings = validate_resource_admission_receipt(admission_receipt)
+        if admission_findings:
+            raise RuntimeError(f"CURRENT_HOST_ADMISSION validation failed: {admission_findings}")
+        if admission_receipt.get("result", {}).get("status") != "PASS":
+            raise RuntimeError("CURRENT_HOST_ADMISSION receipt is not PASS")
+        admission_payload = admission_receipt.get("payload", {})
+        if admission_payload.get("accelerator_required") is not True:
+            raise RuntimeError("PyTorch3D runtime requires accelerator-bound CURRENT_HOST_ADMISSION")
+        hrb = admission_payload.get("hrb_lease_identity", {})
+        if not hrb.get("lease_id") or not hrb.get("accelerator_uuid") or not hrb.get("pci_bus_id"):
+            raise RuntimeError("validated admission receipt lacks HRB UUID/PCI BDF lease binding")
 
         probe = run([str(python), str(ROOT / "src/fa3_pytorch3d_runtime_probe.py")], cwd=Path("/tmp"))
         probe_report = json.loads(probe.stdout.strip().splitlines()[-1])
@@ -123,8 +131,9 @@ def main() -> int:
                 "hrb_lease": {
                     "lease_id": hrb["lease_id"],
                     "accelerator_role": hrb["accelerator_role"],
-                    "device_uuid": hrb["device_uuid"],
-                    "pci_bdf": hrb["pci_bdf"],
+                    "device_uuid": hrb["accelerator_uuid"],
+                    "pci_bdf": hrb["pci_bus_id"],
+                    "current_host_admission_evidence_id": admission_receipt.get("evidence_id"),
                 },
                 "build_admission": build_admission,
                 "runtime_probe": probe_report,

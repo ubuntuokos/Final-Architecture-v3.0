@@ -11,15 +11,6 @@
   "receipt": "evidence/receipts/ffmpeg-ai-current-host.json",
   "collector": "evidence/collect-ffmpeg-ai-current-host.py",
   "gate": "src/fa3_ffmpeg_ai_current_host_gate.py",
-  "reference_host": {
-    "machine": "Dell Precision Tower 7910",
-    "cpu_model_contains": "E5-2696 v4",
-    "packages": 2,
-    "physical_cores": 44,
-    "logical_cpus": 88,
-    "numa_domains": 2,
-    "semantics": "REFERENCE_ASSERTION_NOT_PORTABLE_DEFAULT"
-  },
   "required_external_inputs": [
     {
       "type": "HRB_PLACEMENT_RECEIPT",
@@ -96,5 +87,15 @@
   "global_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "host_hardware_policy": {
+    "source": "LIVE_DISCOVERY_ONLY",
+    "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+    "cpu_packages_min": 1,
+    "physical_cores_per_qualifying_cpu_min": 8,
+    "cpu_vendor_model_pin": "FORBIDDEN",
+    "fixed_cpu_numa_topology": "FORBIDDEN",
+    "accelerator_requirement": "FFMPEG_CUDA_NVENC_PROVIDER_SCOPED_AND_HRB_ADMITTED",
+    "legacy_host_evidence_accepted": false
+  }
 }

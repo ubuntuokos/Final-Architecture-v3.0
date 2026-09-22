@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+  "date": "2026-09-20",
+  "status": "ACCEPTED_MATERIALIZED",
+  "title": "FA3 vendor-neutral hardware audit and fresh current-host evidence policy",
+  "decision": "SINGLE_CURRENT_VENDOR_NEUTRAL_HARDWARE_AUDIT_NO_LEGACY_HOST_BASELINE",
+  "profile_id": "FA3-HARDWARE-BASELINE-001",
+  "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "parent_profile_id": "FA3-HW-001",
+  "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "accepted": [
+    "global hardware policy is vendor-neutral and workload/provider capability based",
+    "minimum one CPU package with at least eight physical cores per qualifying CPU",
+    "zero to N accelerators with dynamic discovery and no global accelerator minimum",
+    "CPU-only hosts and CPU-only workloads conform without accelerator discovery or leases",
+    "an accelerator-required workload must obtain an HRB lease for a compatible discovered device",
+    "NVIDIA AMD and Intel accelerator families are supported without becoming global admission authorities",
+    "NVIDIA DGX is supported as a platform family and not as a separate authority",
+    "CUDA ROCm Level Zero oneAPI and other vendor runtime requirements are workload/provider scoped only",
+    "HRB remains the exclusive resource admission placement reservation and lease authority",
+    "Wayland/X11 and desktop portability are independent cross-cutting gates",
+    "current-host hardware evidence must be freshly collected for the host being validated"
+  ],
+  "forbidden": [
+    "legacy reference-host identity",
+    "specific workstation or server model as canonical requirement",
+    "specific CPU model socket count CPU-ID list or NUMA layout",
+    "specific GPU accelerator SKU fixed count VRAM architecture PCI BDF or runtime ordinal",
+    "global accelerator vendor requirement",
+    "global accelerator-presence requirement for CPU-only hosts or workloads",
+    "global CUDA ROCm Level Zero oneAPI or vendor-specific architecture floor",
+    "promoting static repository PASS to physical current-host PASS",
+    "reusing prior-host physical evidence as evidence for a different or later host state"
+  ],
+  "supported_reference_families": {
+    "accelerator_vendors": [
+      "NVIDIA",
+      "AMD",
+      "INTEL"
+    ],
+    "platform_families": [
+      "NVIDIA_DGX"
+    ],
+    "semantics": "REFERENCE_SUPPORT_ONLY_NOT_ADMISSION_ALLOWLIST"
+  },
+  "authority": {
+    "discovery": "NON_AUTHORITY_CAPABILITY",
+    "resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "evidence_policy": {
+    "legacy_hardware_audit_artifacts": "REMOVE_FROM_REPOSITORY",
+    "legacy_host_specific_records": "REMOVE_FROM_REPOSITORY",
+    "current_host_receipts": "FRESH_PER_HOST_STATE",
+    "static_pass_is_current_host_pass": false,
+    "global_promotion_claim": false
+  },
+  "workload_admission_policy": {
+    "accelerator_cardinality_global": "0_TO_N",
+    "cpu_only_workload_requests_accelerator_lease": false,
+    "accelerator_required_workload": "REQUIRES_COMPATIBLE_DISCOVERED_DEVICE_AND_HRB_LEASE",
+    "missing_required_accelerator": "FAIL_CLOSED_NO_SILENT_CPU_OR_OTHER_DEVICE_FALLBACK"
+  }
+}

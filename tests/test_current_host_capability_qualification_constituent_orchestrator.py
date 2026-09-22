@@ -10,7 +10,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_current_host_capability_qualification_constituent_orchestrator import orchestrate
+from fa3_current_host_capability_qualification_constituent_orchestrator import (
+    _structured_rejection_findings,
+    orchestrate,
+)
 
 QID = "FA3-QUAL-CAP-001-POS-001"
 CID = "CAP001-POS-ALL"
@@ -79,6 +82,12 @@ class QualificationConstituentOrchestratorTests(unittest.TestCase):
         adapter = root / "src/cap001_positive_producer.py"
         if mode == "exit-fail":
             adapter.write_text("raise SystemExit(7)\n")
+        elif mode == "structured-reject":
+            adapter.write_text(
+                "import json,sys\n"
+                f"print(json.dumps({{'schema':'fa3.qualification-producer-rejection.v1','status':'REJECTED','producer_id':'{PID}','qualification_id':'{QID}','constituent_id':'{CID}','subject_id':'CAP-001','stage':'COLLECTOR','reason_codes':['CAP006_CGROUP_V2_UNPROVEN'],'summary':{{'cgroup_v2_pass':False}}}}), file=sys.stderr)\n"
+                "raise SystemExit(2)\n"
+            )
         else:
             outside = mode == "outside"
             wrong = mode == "wrong-status"
@@ -215,6 +224,46 @@ print(json.dumps(verdict))
             ))
         finally:
             td.cleanup()
+
+    @unittest.skipIf(hasattr(os, "geteuid") and os.geteuid() == 0, "real current-host execution must be non-root")
+    def test_structured_registered_producer_rejection_is_preserved(self):
+        td, root = self._root(mode="structured-reject")
+        try:
+            self._host(root)
+            report = orchestrate(root, execute=True)
+            self.assertEqual(report["orchestrator_integrity"], "FAIL")
+            details = [
+                detail
+                for finding in report["blocking_findings"]
+                for detail in finding.get("findings", [])
+            ]
+            self.assertIn("producer adapter returncode 2", details)
+            self.assertIn("producer rejection: producer stage: COLLECTOR", details)
+            self.assertIn("producer rejection: producer reason code: CAP006_CGROUP_V2_UNPROVEN", details)
+            self.assertFalse((root / ".fa3-current-host/qualification-constituents").exists())
+        finally:
+            td.cleanup()
+
+    def test_rejection_channel_rejects_free_text_and_wrong_binding(self):
+        entry={"producer_id":PID,"qualification_id":QID,"constituent_id":CID,"subject_id":"CAP-001"}
+        free_text=json.dumps({"status":"REJECTED","findings":["secret=hunter2"]})
+        self.assertEqual(_structured_rejection_findings(free_text,entry),[])
+        wrong=json.dumps({
+            "schema":"fa3.qualification-producer-rejection.v1","status":"REJECTED",
+            "producer_id":"OTHER","qualification_id":QID,"constituent_id":CID,
+            "subject_id":"CAP-001","stage":"COLLECTOR",
+            "reason_codes":["CAP006_CGROUP_V2_UNPROVEN"],"summary":{},
+        })
+        self.assertEqual(_structured_rejection_findings(wrong,entry),[])
+
+    def test_rejection_channel_rejects_unknown_code_and_summary_field(self):
+        entry={"producer_id":PID,"qualification_id":QID,"constituent_id":CID,"subject_id":"CAP-001"}
+        base={
+            "schema":"fa3.qualification-producer-rejection.v1","status":"REJECTED",
+            **entry,"stage":"COLLECTOR","reason_codes":["CAP006_CGROUP_V2_UNPROVEN"],"summary":{},
+        }
+        self.assertEqual(_structured_rejection_findings(json.dumps({**base,"reason_codes":["UNKNOWN"]}),entry),[])
+        self.assertEqual(_structured_rejection_findings(json.dumps({**base,"summary":{"secret":"hunter2"}}),entry),[])
 
     @unittest.skipIf(hasattr(os, "geteuid") and os.geteuid() == 0, "real current-host execution must be non-root")
     def test_missing_host_fingerprint_blocks_execution(self):

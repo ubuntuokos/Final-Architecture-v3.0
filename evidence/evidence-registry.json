@@ -42,13 +42,11 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03",
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
         "FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json",
         "evidence/reference/page-cache-prefetch-ci-2026-09-11.json"
       ],
       "expires_at": null,
@@ -57,10 +55,12 @@
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       },
       "page_cache_prefetch_projection_status": {
         "profile_id": "FA3-HOST-RESOURCE-BROKER-001",
@@ -152,7 +152,8 @@
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
-        "evidence/reference/marketing-ci-2026-08-31.json"
+        "evidence/reference/marketing-ci-2026-08-31.json",
+        "evidence/reference/secret-broker-current-host-2026-09-21.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -162,6 +163,17 @@
         "gate_id": "FA3-GATE-MARKETING-001",
         "runtime_status": "PENDING_CURRENT_HOST",
         "ci_reference_pass_does_not_promote_runtime": true
+      },
+      "secret_broker_projection_status": {
+        "profile_id": "FA3-SECRET-BROKER-001",
+        "conformance_id": "FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001",
+        "gate_id": "FA3-GATE-SECRET-BROKER-CURRENT-HOST-001",
+        "current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-21.json",
+        "runtime_status": "CURRENT_HOST_ADMITTED",
+        "production_runtime_admitted": true,
+        "component_scope": "FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",
+        "global_promotion_claim": false,
+        "optional_adapter_admission": "SEPARATE_EVIDENCE_REQUIRED"
       }
     },
     {
@@ -376,16 +388,14 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -416,9 +426,8 @@
         "profile_id": "FA3-CPU-NUMA-THREADING-001",
         "contract_id": "FA3-CPU-NUMA-THREADING-CONTRACTS-001",
         "gate_id": "FA3-CPU-NUMA-THREADING-GATESET-001",
-        "reference_evidence": "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
         "runtime_activation_status": "CANONICAL_REFERENCE_PASS_CURRENT_HOST_THREADING_E2E_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_T7910_EXECUTION",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
         "promotion_semantics": "REFERENCE_PASS_DOES_NOT_PROMOTE_CURRENT_HOST_RUNTIME"
       },
       "ffmpeg_ai_projection_status": {
@@ -460,10 +469,12 @@
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -1501,7 +1512,7 @@
     {
       "evidence_id": "EVID-CAP-027-CURRENT-HOST",
       "subject_id": "CAP-027",
-      "subject": "Unreal/Realtime Production",
+      "subject": "Realtime / Virtual Production Interchange",
       "obligation": "MANDATORY",
       "activation": "PROFILE",
       "design_conformance": "DESIGN-CONFORMANT",
@@ -1528,9 +1539,10 @@
         "GC-09",
         "FA3-REG-001",
         "FA3-REG-002",
-        "FA3-REG-003"
+        "FA3-REG-003",
+        "FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19"
       ],
-      "source": "v2.0.20 §15 + v3.0.11 overlays",
+      "source": "v3.0.11 overlays + external RT3D engine exclusion",
       "evidence_artifacts": [],
       "expires_at": null,
       "blocking": true
@@ -1618,8 +1630,8 @@
         "reference_evidence": "evidence/reference/loop-engineering-ci-2026-09-03.json",
         "portable_hardware_floor": {
           "cpu": "MIN_1_PACKAGE_AND_MIN_8_PHYSICAL_CORES_PER_CPU",
-          "gpu": "MIN_NVIDIA_RTX_30_SERIES_OR_NEWER",
-          "newer_rtx_generations_allowed": true,
+          "accelerator": "OPTIONAL_0_TO_N_CPU_ONLY_CONFORMANT_WORKLOAD_REQUIRED_HRB_LEASE",
+          "provider_specific_compatibility_is_workload_scoped": true,
           "concrete_cpu_or_gpu_model_pin": false,
           "current_host_exact_hardware": "EVIDENCE_ONLY"
         }
@@ -1768,7 +1780,8 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-PYTORCH3D-2026-09-11"
+        "FA3-DEC-PYTORCH3D-2026-09-11",
+        "FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -1786,7 +1799,23 @@
         "runtime_status": "PENDING_CURRENT_HOST",
         "production_admitted": false,
         "current_host_runtime_evidence": "PENDING_REAL_SOURCE_BUILD_CUDA_KERNEL_RENDER_METRIC_LIFECYCLE_AND_ROLLBACK_E2E",
-        "reference_pass_does_not_promote_runtime": true
+        "reference_pass_does_not_promote_runtime": true,
+        "cap032_global_runtime_hard_dependency": false,
+        "runtime_promotion_required_for_cap032_core_closure": false
+      },
+      "metric_3d_provider_fabric_status": {
+        "core_primitive": "metric_3d_reconstruction",
+        "core_current_host_proof": "PENDING_REAL_CURRENT_HOST_EXECUTION",
+        "global_single_provider_hard_dependency": false,
+        "provider_selection": "EXPLICIT_TYPED_JOB_ADMISSION_NO_SILENT_FALLBACK",
+        "providers": {
+          "open3d": "FA3-PROVIDER-OPEN3D-001",
+          "kaolin": "FA3-PROVIDER-KAOLIN-001",
+          "pytorch3d": "FA3-PROVIDER-PYTORCH3D-001",
+          "nvdiffrast": "FA3-PROVIDER-NVDIFFRAST-001"
+        },
+        "nvdiffrast_production_admitted": false,
+        "global_promotion_claim": false
       }
     },
     {
@@ -2995,23 +3024,22 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
-      ],
+      "evidence_artifacts": [],
       "expires_at": null,
       "blocking": true,
       "hardware_portability_projection_status": {
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -3049,23 +3077,22 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
-      ],
+      "evidence_artifacts": [],
       "expires_at": null,
       "blocking": true,
       "hardware_portability_projection_status": {
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -3142,23 +3169,22 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
-      ],
+      "evidence_artifacts": [],
       "expires_at": null,
       "blocking": true,
       "hardware_portability_projection_status": {
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -5940,23 +5966,22 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
-      ],
+      "evidence_artifacts": [],
       "expires_at": null,
       "blocking": true,
       "hardware_portability_projection_status": {
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -6244,15 +6269,13 @@
         "FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03",
         "FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -6309,10 +6332,12 @@
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -6534,23 +6559,22 @@
         "FA3-REG-001",
         "FA3-REG-002",
         "FA3-REG-003",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
-      "evidence_artifacts": [
-        "evidence/reference/cpu-numa-threading-ci-2026-09-02.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
-      ],
+      "evidence_artifacts": [],
       "expires_at": null,
       "blocking": true,
       "hardware_portability_projection_status": {
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     },
     {
@@ -6592,13 +6616,12 @@
         "FA3-REG-003",
         "FA3-DEC-INFERENCE-PORTABILITY-2026-08-31",
         "FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03",
-        "FA3-DEC-HARDWARE-PORTABILITY-2026-09-03"
+        "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/hardware-portability-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -6632,10 +6655,12 @@
         "profile_id": "FA3-HARDWARE-BASELINE-001",
         "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
         "gate_id": "FA3-HARDWARE-PORTABILITY-GATESET-001",
-        "reference_evidence": "evidence/reference/hardware-portability-ci-2026-09-03.json",
-        "runtime_status": "CANONICAL_REPOSITORY_AUDIT_PASS_CURRENT_HOST_DYNAMIC_DISCOVERY_PENDING",
-        "current_host_runtime_evidence": "PENDING_REAL_CURRENT_HOST_EXECUTION",
-        "ci_reference_pass_does_not_promote_runtime": true
+        "runtime_status": "VENDOR_NEUTRAL_CANONICAL_AUDIT_CURRENT_HOST_FRESH_EVIDENCE_PENDING",
+        "current_host_runtime_evidence": "PENDING_FRESH_CURRENT_HOST_EXECUTION",
+        "ci_reference_pass_does_not_promote_runtime": true,
+        "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+        "legacy_host_evidence_accepted": false,
+        "static_pass_is_current_host_pass": false
       }
     }
   ],
@@ -6712,7 +6737,7 @@
     "security_issue_672": "OPEN_CONFIRMED_AT_PIN",
     "acl_issue_890": "CLOSED_EXPLICIT_BINDING_PATTERN_ACCEPTED",
     "license_issue_1073": "OPEN_BLOCKING_COMPONENT_LICENSE_CLARITY",
-    "hardware_reference": "Dell T7910 / 2x E5-2696 v4 / 44C-88T / expected 2 NUMA; live discovery + HRB admission; no static GPU ordinal",
+    "hardware_reference": "fresh live CPU/NUMA topology + HRB admission; no static accelerator ordinal",
     "current_host_runtime_evidence": "NOT_CLAIMED",
     "current_host_runtime_promotion_claim": false,
     "production_provider_admission": false,
@@ -6771,6 +6796,10 @@
     "current_host_status": "PORTABLE_REAL_CURRENT_HOST_PROVIDER_E2E_PENDING",
     "hardware_portability_profile_id": "FA3-HARDWARE-BASELINE-001",
     "hardware_discovery_contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
-    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE"
+    "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE",
+    "contract_version": "1.2.0",
+    "execution_backend_semantics": "BACKEND_NEUTRAL_CURRENTLY_MATERIALIZED_CUDA_PROVIDERS",
+    "global_backend_floor": "NONE",
+    "current_host_evidence_scope": "NVIDIA_CUDA_PROVIDER_FAMILY_ONLY_UNTIL_GENERIC_PROVIDER_E2E_EXISTS"
   }
 }

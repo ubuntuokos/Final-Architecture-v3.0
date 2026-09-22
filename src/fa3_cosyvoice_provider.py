@@ -58,10 +58,16 @@ def validate_consent(req:dict[str,Any])->None:
         raise PolicyDenied("voice consent is not GRANTED/authorized")
     scope=proof.get("scope")
     scopes={scope} if isinstance(scope,str) else set(scope or [])
-    if "VOICE_SYNTHESIS" not in scopes:
-        raise PolicyDenied("consent scope must include VOICE_SYNTHESIS")
-    if not str(proof.get("provenance_ref","")).strip():
-        raise PolicyDenied("consent provenance_ref is required")
+    if not {"VOICE_SYNTHESIS", "VOICE_CLONING"}.issubset(scopes):
+        raise PolicyDenied("consent scope must include VOICE_SYNTHESIS and VOICE_CLONING")
+    required_refs = (
+        "purpose", "provenance_ref", "issuer_ref", "jurisdiction", "legal_basis_ref",
+        "signature_ref", "derived_asset_lineage_ref", "retention_policy_ref",
+        "issued_at", "expires_at", "revocation_ref",
+    )
+    missing = [key for key in required_refs if not str(proof.get(key, "")).strip()]
+    if missing:
+        raise PolicyDenied("consent proof fields missing: " + ", ".join(missing))
 
 def validate_reference_audio(req:dict[str,Any])->Path:
     p=Path(str(req.get("reference_audio_path",""))).expanduser()

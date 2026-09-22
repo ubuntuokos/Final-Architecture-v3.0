@@ -21,6 +21,27 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         report = gate(ROOT)
         self.assertEqual("PASS", report["result"], report)
 
+    def test_reconcile_runs_on_main_push(self):
+        workflow = (ROOT / ".github/workflows/fa3-release-projection-reconcile.yml").read_text(encoding="utf-8")
+        self.assertIn('      - "main"', workflow)
+        self.assertIn("!contains(github.event.head_commit.message, '[projection]')", workflow)
+        self.assertNotIn("pull-requests: write", workflow)
+        self.assertNotIn("GH_TOKEN: ${{ github.token }}", workflow)
+        self.assertIn("Validate existing protected-main projection", workflow)
+        self.assertIn("if: github.ref_name == 'main'", workflow)
+        self.assertIn("if ./bin/fa3-enforce release-projection; then", workflow)
+        self.assertIn('echo "valid=true" >> "$GITHUB_OUTPUT"', workflow)
+        self.assertIn("steps.main_projection.outputs.valid != 'true'", workflow)
+        self.assertIn("Validate existing branch projection", workflow)
+        self.assertIn("steps.branch_projection.outputs.valid != 'true'", workflow)
+        self.assertIn("PR branch projection is stale", workflow)
+        self.assertNotIn('git push origin "HEAD:${GITHUB_REF_NAME}"', workflow)
+        self.assertIn('if [ "${GITHUB_REF_NAME}" = "main" ]; then', workflow)
+        self.assertIn('recovery_branch="automation/release-projection-recovery-${GITHUB_SHA:0:12}"', workflow)
+        self.assertIn("Protected main projection failed validation", workflow)
+        self.assertNotIn("gh pr create", workflow)
+        self.assertNotIn('git push origin "HEAD:main"', workflow)
+
     def _copy_repo(self):
         projection = json.loads((ROOT / PROJECTION_PATH).read_text(encoding="utf-8"))
         snapshot_head = projection["source_snapshot"]["pre_projection_head_sha"]
@@ -740,7 +761,27 @@ class ReleaseProjectionGateTests(unittest.TestCase):
             path = dst / "evidence/evidence-registry.json"
             obj = json.loads(path.read_text(encoding="utf-8"))
             cap006 = next(item for item in obj["records"] if item["subject_id"] == "CAP-006")
-            cap006["source_decision_ids"].remove("FA3-DEC-HARDWARE-PORTABILITY-2026-09-03")
+            cap006["source_decision_ids"].remove("FA3-DEC-HARDWARE-AUDIT-2026-09-20")
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-037"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_hardware_portability_cpu_only_baseline_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "canonical/profiles/FA3-HW-001.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            accelerator = obj["minimum_portable_hardware_envelope"]["accelerator"]
+            accelerator["minimum_qualifying_device_count"] = 1
+            accelerator["cpu_only_host_conforms"] = False
             path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
             report = self._gate_copy(dst, facts)
             self.assertEqual("FAIL", report["result"])

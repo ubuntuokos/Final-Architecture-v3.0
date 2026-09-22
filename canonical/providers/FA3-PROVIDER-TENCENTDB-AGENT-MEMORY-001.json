@@ -90,13 +90,15 @@
   },
   "hardware_policy": {
     "portable_defaults": "LIVE_DISCOVERY_ONLY_NO_STATIC_CPU_NUMA_GPU_ORDINALS",
-    "current_host_reference": "Dell Precision T7910; 2x Intel Xeon E5-2696 v4; 44 physical cores / 88 logical CPUs; expected two NUMA domains",
+    "current_host_reference": "REMOVED_LEGACY_HOST_REFERENCE_FRESH_LIVE_DISCOVERY_ONLY",
     "current_host_reference_is_portable_constant": false,
     "cpu_numa_admission": "HRB_PHYSICAL_CORE_FIRST_CGROUP_V2_LIVE_TOPOLOGY",
     "accelerator_admission": "MODEL_ROUTER_PLUS_HRB_LEASE_WITH_LIVE_GPU_UUID_AND_PCI_BDF",
     "static_cuda_ordinal_as_identity": false,
     "provider_direct_device_selection": false,
-    "background_work": "BOUNDED_BACKPRESSURED_HRB_ADMITTED"
+    "background_work": "BOUNDED_BACKPRESSURED_HRB_ADMITTED",
+    "hardware_profile": "FA3-HARDWARE-BASELINE-001",
+    "hardware_audit_decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20"
   },
   "prohibited_authority_roles": [
     "FA3_MEMORY_AUTHORITY",

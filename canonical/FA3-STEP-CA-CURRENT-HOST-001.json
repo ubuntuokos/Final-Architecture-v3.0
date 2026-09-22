@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.step-ca-current-host-conformance.v1",
+  "id": "FA3-STEP-CA-CURRENT-HOST-001",
+  "provider_id": "FA3-PROVIDER-STEP-CA-001",
+  "profile_id": "FA3-TRUST-PKI-001",
+  "status": "MATERIALIZED_PENDING_REAL_CURRENT_HOST_EXECUTION",
+  "fail_closed": true,
+  "document_only_pass_forbidden": true,
+  "synthetic_evidence_allowed": false,
+  "supported_runtime_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "phases": [
+    "SUPPLY_CHAIN_PREPARE",
+    "PRIVILEGED_RUNTIME_INSTALL",
+    "OFFLINE_ROOT_CEREMONY",
+    "ONLINE_INTERMEDIATE_ACTIVATION",
+    "ACME_MTLS_SSH_E2E",
+    "BACKUP_RESTORE_DRILL",
+    "CURRENT_HOST_GATE"
+  ],
+  "server_pin": {
+    "repository": "smallstep/certificates",
+    "version": "0.30.2",
+    "commit": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31"
+  },
+  "test_client_pin": {
+    "repository": "smallstep/cli",
+    "version": "0.30.6",
+    "commit": "f662820e1343708130115e52a13a4c0dd03c115b",
+    "role": "CURRENT_HOST_TEST_AND_ENROLLMENT_CLIENT_ONLY",
+    "architectural_authority": false
+  },
+  "receipts": {
+    "supply_chain": ".fa3-current-host/step-ca/bootstrap/supply-chain.json",
+    "root_ceremony": "evidence/receipts/step-ca-root-ceremony.json",
+    "activation": "/var/lib/fa3-step-ca/evidence/activation.json",
+    "e2e": "evidence/runtime/step-ca-current-host/e2e.json",
+    "backup_restore": "evidence/runtime/step-ca-current-host/backup-restore.json",
+    "composite": "evidence/receipts/step-ca-current-host.json"
+  },
+  "promotion": {
+    "provider_runtime_promotion_requires_composite_pass": true,
+    "global_fa3_promotion_claim": false,
+    "current_state": "NOT_PROMOTED"
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143,
+  "root_ceremony": {
+    "runner": "bin/fa3-step-ca-root-ceremony.sh",
+    "custody": "FA3_SESSION_VAULT_LUKS2_IMAGE",
+    "state_image": "~/.local/share/fa3/state/fa3-state.img",
+    "root_private_key_transfer": "FORBIDDEN",
+    "root_password_transfer": "FORBIDDEN",
+    "online_bundle": "$XDG_RUNTIME_DIR/fa3-step-ca-transfer",
+    "online_bundle_lifecycle": "PURGED_AFTER_SUCCESSFUL_ACTIVATION",
+    "network_isolation_required": false
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/schemas/step-ca-current-host-receipt.v1.json",
+  "title": "FA3 step-ca current-host composite receipt",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "provider_id",
+    "status",
+    "evidence_level",
+    "synthetic",
+    "supply_chain",
+    "root_ceremony",
+    "activation",
+    "runtime",
+    "e2e",
+    "backup_restore",
+    "runtime_promotion_eligible",
+    "global_promotion_claim"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.step-ca-current-host-receipt.v1"
+    },
+    "provider_id": {
+      "const": "FA3-PROVIDER-STEP-CA-001"
+    },
+    "status": {
+      "const": "PASS"
+    },
+    "evidence_level": {
+      "const": "CURRENT_HOST_PRODUCTION_E2E_PASS"
+    },
+    "synthetic": {
+      "const": false
+    },
+    "runtime_promotion_eligible": {
+      "const": true
+    },
+    "global_promotion_claim": {
+      "const": false
+    }
+  }
+}

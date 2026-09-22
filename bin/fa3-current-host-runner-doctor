@@ -19,7 +19,7 @@ if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
   exit 30
 fi
 
-for cmd in python3 systemctl gh sudo grep; do
+for cmd in python3 systemctl loginctl gh sudo grep; do
   command -v "$cmd" >/dev/null 2>&1 || { echo "FAIL: missing prerequisite: $cmd" >&2; exit 31; }
 done
 
@@ -43,6 +43,8 @@ INSTALLED_VERSION="$($RUNNER_ROOT/bin/Runner.Listener --version | tail -n1 | tr 
 [[ "$INSTALLED_VERSION" == "$RUNNER_VERSION" ]] || { echo "FAIL: runner version drift: $INSTALLED_VERSION" >&2; exit 34; }
 
 systemctl --user is-active --quiet "$UNIT_NAME" || { echo "FAIL: $UNIT_NAME is not active" >&2; exit 35; }
+LINGER="$(loginctl show-user "$USER" -p Linger --value 2>/dev/null || true)"
+[[ "$LINGER" == "yes" ]] || { echo "FAIL: systemd user linger is not enabled for $USER" >&2; exit 45; }
 
 TMP="$(mktemp)"
 trap 'rm -f "$TMP"' EXIT
@@ -96,6 +98,7 @@ receipt = {
     "labels": sorted(raw_labels),
     "required_labels_present": True,
     "systemd_user_service_active": True,
+    "systemd_user_linger_enabled": True,
     "hrb_validator_bridge_ready": True,
     "hrb_acquire_bridge_ready": True,
     "hrb_acquire_adapter_dropin_ready": True,

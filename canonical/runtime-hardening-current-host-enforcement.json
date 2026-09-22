@@ -18,6 +18,19 @@
     "shadow_authoritative_output": "DENY",
     "shadow_external_side_effects": "DENY",
     "shadow_promotion_authority": "DENY",
-    "global_promotion_effect": "NONE"
+    "global_promotion_effect": "NONE",
+    "installed_quadlet_required": "PASS",
+    "actual_runsc_runtime_required": "PASS",
+    "nvproxy_driver_abi_when_gpu_projected": "PASS",
+    "pcie_copy_budget_role": "ADVISORY_NOT_ZERO_COPY_OR_PROMOTION_PROOF",
+    "universal_pcie_percentage_threshold": "DENY",
+    "frame_copy_trace_required_for_zero_copy_proven": "PROVIDER_SPECIFIC_TRACE_WITH_HOST_DEVICE_TRANSFER_COUNTS",
+    "media_surface_applicability": "CONDITIONAL_ON_ZERO_HOST_ROUND_TRIP_CLAIM",
+    "fa3_evidence_envelope_required": "PASS",
+    "real_execution_preflight": "REQUIRED_PASS_BEFORE_COLLECTORS",
+    "preflight_receipt": ".fa3-current-host/runtime-hardening/preflight.json",
+    "preflight_as_surface_pass": "DENY",
+    "preflight_as_global_promotion": "DENY",
+    "network_pull_during_preflight_or_execution": "DENY"
   }
 }

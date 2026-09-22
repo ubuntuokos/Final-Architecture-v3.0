@@ -21,14 +21,15 @@ def base_receipt():
         "resource_authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
         "systemd_provider_id": "FA3-PROVIDER-SYSTEMD-CGROUPV2-001",
         "hardware_discovery": {
-            "cardinality_semantics": "DYNAMIC_1_TO_N",
+            "cpu_cardinality_semantics": "DYNAMIC_1_TO_N",
+            "accelerator_cardinality_semantics": "DYNAMIC_0_TO_N",
             "host_identity_semantics": "EVIDENCE_ONLY_NOT_CANONICAL_IDENTITY",
             "cpu": {"package_count": 1, "physical_cores_by_package": {"0": 8}},
-            "gpu": {"devices": [{"qualifies_portable_floor": True, "device_uuid": "GPU-X", "pci_bdf": "0000:01:00.0"}]},
+            "accelerators": {"devices": []},
         },
         "systemd_manager": {"source": "SYSTEMD_ANALYZE_CAT_CONFIG", "returncode": 0, "assignments": []},
         "host_survival_policy": {},
-        "cgroup_v2": {"unified": True, "cgroup_path": "/", "controllers": ["cpu", "cpuset", "memory"], "effective_cpus": "0-7", "effective_memory_nodes": "0"},
+        "cgroup_v2": {"unified": True, "cgroup_path": "/user.slice/test.scope", "controllers": ["cpu", "cpuset", "memory"], "effective_cpus": "0-7", "effective_cpus_source_cgroup": "/user.slice", "effective_memory_nodes": "0", "effective_memory_nodes_source_cgroup": "/", "cpuset_resolution_semantics": "NEAREST_NONEMPTY_EFFECTIVE_ANCESTOR_WHEN_LEAF_EMPTY"},
         "negative_tests": {
             "global_cpu_affinity_denied": True,
             "global_numa_policy_denied": True,
@@ -51,19 +52,56 @@ class HrbSystemdManagerCurrentHostTests(unittest.TestCase):
         self.assertTrue(hardware_floor_valid(receipt["hardware_discovery"]))
         self.assertEqual(validate_receipt(receipt), [])
 
+    def test_cpu_only_host_passes_with_empty_accelerator_inventory(self):
+        receipt = base_receipt()
+        self.assertEqual(receipt["hardware_discovery"]["accelerators"]["devices"], [])
+        self.assertTrue(hardware_floor_valid(receipt["hardware_discovery"]))
+        self.assertEqual(validate_receipt(receipt), [])
+
     def test_larger_dynamic_host_passes(self):
         receipt = base_receipt()
         receipt["hardware_discovery"]["cpu"] = {"package_count": 4, "physical_cores_by_package": {"0": 32, "1": 32, "2": 64, "3": 64}}
-        receipt["hardware_discovery"]["gpu"]["devices"] = [{"qualifies_portable_floor": True} for _ in range(8)]
+        receipt["hardware_discovery"]["accelerators"]["devices"] = [
+            {
+                "vendor": "NVIDIA",
+                "cuda_compute_capability": 8.9,
+                "eligible_for_workload_admission": True,
+                "device_uuid": f"GPU-{idx}",
+                "pci_bdf": f"0000:{idx + 1:02x}:00.0",
+                "name_evidence_only": f"GPU fixture {idx}",
+            }
+            for idx in range(8)
+        ]
         self.assertEqual(validate_receipt(receipt), [])
 
-    def test_under_floor_cpu_or_no_qualifying_gpu_fails(self):
+    def test_accelerator_marketing_name_and_cuda_capability_are_not_global_authority(self):
+        receipt = base_receipt()
+        receipt["hardware_discovery"]["accelerators"]["devices"] = [{
+            "stable_id": "provider-device-x",
+            "vendor": "FUTURE_VENDOR",
+            "name_evidence_only": "Unrecognized Marketing Name",
+            "cuda_compute_capability": None,
+            "eligible_for_workload_admission": True,
+        }]
+        self.assertEqual(validate_receipt(receipt), [])
+
+    def test_cgroup_effective_set_provenance_is_required(self):
+        receipt = base_receipt()
+        receipt["cgroup_v2"]["effective_cpus_source_cgroup"] = ""
+        self.assertTrue(any(x["code"] == "HRB-SYSD-HOST-006" for x in validate_receipt(receipt)))
+
+    def test_under_floor_cpu_fails_but_empty_accelerator_inventory_passes(self):
         receipt = base_receipt()
         receipt["hardware_discovery"]["cpu"]["physical_cores_by_package"]["0"] = 7
         self.assertTrue(validate_receipt(receipt))
         receipt = base_receipt()
-        receipt["hardware_discovery"]["gpu"]["devices"] = []
-        self.assertTrue(validate_receipt(receipt))
+        receipt["hardware_discovery"]["accelerators"]["devices"] = []
+        self.assertEqual(validate_receipt(receipt), [])
+
+    def test_accelerator_without_stable_identity_fails_receipt_integrity(self):
+        receipt = base_receipt()
+        receipt["hardware_discovery"]["accelerators"]["devices"] = [{"vendor": "FUTURE_VENDOR"}]
+        self.assertTrue(any(x["code"] == "HRB-SYSD-HOST-002" for x in validate_receipt(receipt)))
 
     def test_concrete_machine_pin_fails(self):
         receipt = base_receipt()

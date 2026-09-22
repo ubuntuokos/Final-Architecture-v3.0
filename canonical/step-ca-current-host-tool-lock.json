@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.step-ca-current-host-tool-lock.v1",
+  "id": "FA3-STEP-CA-CURRENT-HOST-TOOL-LOCK-001",
+  "status": "CANONICAL",
+  "server": {
+    "repository": "smallstep/certificates",
+    "version": "0.30.2",
+    "tag": "v0.30.2",
+    "commit": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
+    "checksums_sha256": "5076defb1b4759f270fd85a31fc7e4756ddf2551237249aa12739f5be1544f98",
+    "artifacts": {
+      "amd64": {
+        "asset": "step-ca_linux_0.30.2_amd64.tar.gz",
+        "sha256": "126615795bafe3f2d3f890e2d628fa6e2857315fb48d0671d34b23047cc37d73",
+        "bundle_sha256": "10d2a667781a8c1fd4aaf45faafe6dcf830ca60e5c9456b7ce242225ae91260c"
+      },
+      "arm64": {
+        "asset": "step-ca_linux_0.30.2_arm64.tar.gz",
+        "sha256": "43f79d1b0b8cab9895dbadd46b0a014006f682a6b1341e1fadf0be31d4b9f4b4",
+        "bundle_sha256": "57f7814370c5ba0f6d84525eec6e73fc116beec589cb16ccc8403e012266930c"
+      }
+    }
+  },
+  "test_client": {
+    "repository": "smallstep/cli",
+    "version": "0.30.6",
+    "tag": "v0.30.6",
+    "commit": "f662820e1343708130115e52a13a4c0dd03c115b",
+    "checksums_sha256": "f546be6b4ccd74e9939d374390f2f0053949f447bf314e8dbd1572ad05493862",
+    "artifacts": {
+      "amd64": {
+        "asset": "step_linux_0.30.6_amd64.tar.gz",
+        "sha256": "e44a5dc5f880a694b24a0f2941a69a81b0bc6ee053170fdfde18453d4d5816de",
+        "bundle_sha256": "d8f8e032e25bf897b05164b7f3c9ddbe3f004099a33e7166ecaea457f7a40f5c"
+      },
+      "arm64": {
+        "asset": "step_linux_0.30.6_arm64.tar.gz",
+        "sha256": "eff511c3e6797039702e74fada62b10b079e413742f925703e5b7d810e611619",
+        "bundle_sha256": "fdb33d602d7541b002bca55094da3cb8f161878227a60afc97372a2bc438efed"
+      }
+    },
+    "role": "CURRENT_HOST_TEST_AND_ENROLLMENT_CLIENT_ONLY",
+    "authority": false
+  },
+  "sigstore": {
+    "certificate_identity_regexp": "https://github\\.com/smallstep/workflows/.*",
+    "certificate_oidc_issuer": "https://token.actions.githubusercontent.com"
+  },
+  "update_policy": "CONTROLLED_FAIL_CLOSED",
+  "bootstrap_verifier": {
+    "repository": "sigstore/cosign",
+    "version": "3.1.2",
+    "tag": "v3.1.2",
+    "commit": "193d2153431f8bb0d945a4c1ee721872f73add67",
+    "tag_object": "dc80df70da727f4abdd843640594025584a270ae",
+    "tag_signature_verified_by_github": true,
+    "checksums_sha256": "3ef5d389c3f508b96025fd1b92744a305c46e95951c91242b57467567d5622db",
+    "trust_bootstrap": "REPO_PINNED_BINARY_AND_CHECKSUMS_DIGEST",
+    "artifacts": {
+      "amd64": {
+        "asset": "cosign-linux-amd64",
+        "sha256": "f7622ed3cf22e55e1ae6377c080979ff77a22da9981c11df222a2e444991e7cf"
+      },
+      "arm64": {
+        "asset": "cosign-linux-arm64",
+        "sha256": "90e7ae0b5dfd60f20816b52c012addf7fc055ebcc7bea4ce81c428ca8518c302"
+      }
+    },
+    "role": "SUPPLY_CHAIN_VERIFIER_ONLY",
+    "authority": false
+  }
+}

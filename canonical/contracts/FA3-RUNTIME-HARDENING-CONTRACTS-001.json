@@ -31,9 +31,15 @@
     "explicit_mounts_only": true
   },
   "media": {
-    "accelerated_neural_claim": "ZERO_HOST_ROUND_TRIP",
-    "host_round_trip_during_neural_segment_max": 0,
-    "copy_telemetry_required": true
+    "claim_classification": [
+      "ZERO_COPY_PROVEN",
+      "TRANSFER_MINIMIZED",
+      "NOT_ZERO_COPY"
+    ],
+    "zero_host_round_trip_claim_requires_explicit_proof": true,
+    "host_round_trip_during_claimed_zero_host_segment_max": 0,
+    "provider_specific_copy_telemetry_required_for_zero_copy_proven": true,
+    "no_zero_copy_claim_is_valid_on_cpu_only_or_non_claiming_workloads": true
   },
   "hu_aqc": {
     "dimensions_must_be_independent": true,
@@ -45,5 +51,36 @@
     "external_side_effects": false,
     "promotion_authority": false,
     "production_gate_bypass": false
+  },
+  "frame_copy_telemetry": {
+    "schema": "fa3.accelerator-copy-trace.v1",
+    "accepted_collectors": [
+      "CUPTI",
+      "NSIGHT_SYSTEMS",
+      "CUDA_ACTIVITY_TRACE",
+      "ROCPROFILER",
+      "LEVEL_ZERO_TRACE",
+      "VULKAN_TRACE",
+      "PROVIDER_NATIVE_TRACE"
+    ],
+    "neural_segment_frame_count_min": 1,
+    "host_to_device_frame_copy_count_max": 0,
+    "device_to_host_frame_copy_count_max": 0,
+    "host_frame_round_trips_max": 0,
+    "dlpack_shared_gpu_memory_required": true,
+    "full_pipeline_true_zero_copy_claim_requires_separate_proof": true
+  },
+  "pcie_copy_budget": {
+    "role": "ADVISORY_TRANSFER_TELEMETRY_NOT_ZERO_COPY_OR_PROMOTION_PROOF",
+    "universal_percentage_threshold": "FORBIDDEN",
+    "workload_calibrated_threshold_requires_declared_baseline": true,
+    "capacity_source_when_available": "LIVE_NEGOTIATED_LINK_CHARACTERISTICS",
+    "hardcoded_gpu_ordinal_forbidden": true,
+    "hardcoded_gpu_sku_link_capacity_forbidden": true
+  },
+  "evidence_normalization": {
+    "envelope_id": "FA3-EVIDENCE-ENVELOPE-001",
+    "current_host_surfaces_require_payload_sha256": true,
+    "component_pass_never_implies_global_promotion": true
   }
 }

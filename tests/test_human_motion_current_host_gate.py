@@ -32,7 +32,7 @@ def receipt() -> dict:
             "valid": True,
             "authority_id": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
             "device_uuid": "GPU-abc",
-            "pci_bdf": "0000:05:00.0",
+            "pci_bdf": "0000:3b:00.0",
             "expires_at": (now + timedelta(hours=1)).isoformat(),
             "static_runtime_ordinal_as_identity": False,
             "compute_role_admitted": True,
@@ -40,7 +40,7 @@ def receipt() -> dict:
             "compute_eligible": True,
             "display_role": False,
         },
-        "gpu": {"uuid": "GPU-abc", "pci_bdf": "0000:05:00.0", "display_active": False, "numa_node": 0},
+        "gpu": {"uuid": "GPU-abc", "pci_bdf": "0000:3b:00.0", "display_active": False, "numa_node": 0},
         "hardware_conformance": {
             "hrb_compute_role_admitted": True,
             "non_display_gpu": True,
@@ -101,7 +101,7 @@ class HumanMotionCurrentHostTests(unittest.TestCase):
         self.assertTrue(any(x["code"] == "HM-HOST-012" for x in validate_receipt(r)))
 
     def test_uuid_bdf_live_identity_is_mandatory(self):
-        r = receipt(); r["gpu"]["pci_bdf"] = "0000:a5:00.0"
+        r = receipt(); r["gpu"]["pci_bdf"] = "0000:65:00.0"
         self.assertTrue(any(x["code"] == "HM-HOST-013" for x in validate_receipt(r)))
         r = receipt(); r["hrb"]["static_runtime_ordinal_as_identity"] = True
         self.assertTrue(any(x["code"] == "HM-HOST-013" for x in validate_receipt(r)))

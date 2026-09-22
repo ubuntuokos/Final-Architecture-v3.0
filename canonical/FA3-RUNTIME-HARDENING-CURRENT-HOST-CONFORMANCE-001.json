@@ -28,27 +28,35 @@
         "CGROUP_V2_PRESENT",
         "ROOTLESS_OCI_REAL_EXECUTION_PASS",
         "WASMTIME_WASI_REAL_EXECUTION_PASS",
-        "GVISOR_PRODUCTION_OCI_ISOLATION_PROOF_PASS"
+        "INSTALLED_QUADLET_FAIL_CLOSED_POLICY_PASS",
+        "ACTUAL_CONTAINER_RUNTIME_RUNSC_PASS",
+        "NVPROXY_DRIVER_ABI_PASS_IF_GPU_PROJECTED",
+        "FA3_EVIDENCE_ENVELOPE_PAYLOAD_SHA256_PASS"
       ],
       "compatibility_smoke_is_production_pass": false
     },
     {
-      "id": "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+      "id": "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
       "profiles": [
         "FA3-MEDIA-GPU-ZEROCOPY-001"
       ],
-      "provider": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+      "applicability": "CONDITIONAL_ON_EXPLICIT_ZERO_HOST_ROUND_TRIP_CLAIM",
+      "provider": "SELECTED_PROVIDER_ADAPTER; PYNVVIDEOCODEC_IS_OPTIONAL_NVIDIA_REFERENCE",
       "receipt": "evidence/receipts/media-gpu-zerocopy-current-host.json",
       "collector": "evidence/collect-media-gpu-zerocopy-current-host.py",
       "pass_requires": [
-        "FRESH_HRB_UUID_BDF_BINDING",
-        "PYNVVIDEOCODEC_DEVICE_MEMORY_DECODE",
-        "DLPACK_GPU_POINTER_IDENTITY",
-        "PYTORCH_CUDA_DEVICE_MATCH",
-        "PCIE_COPY_TELEMETRY_CAPTURED",
-        "ZERO_FRAME_HOST_ROUND_TRIPS_IN_NEURAL_SEGMENT"
+        "FRESH_RESOURCE_ADMISSION_EVIDENCE_ENVELOPE",
+        "PROVIDER_COMPATIBLE_HRB_BINDING",
+        "PROVIDER_MEMORY_DOMAIN_PROOF",
+        "PROVIDER_SPECIFIC_POINTER_OR_BUFFER_IDENTITY_WHEN_AVAILABLE",
+        "ADVISORY_TRANSFER_TELEMETRY_WITHOUT_UNIVERSAL_PERCENTAGE_THRESHOLD",
+        "PROVIDER_SPECIFIC_FRAME_COPY_TRACE_PASS",
+        "ZERO_FRAME_HOST_ROUND_TRIPS_IN_NEURAL_SEGMENT",
+        "FA3_EVIDENCE_ENVELOPE_PAYLOAD_SHA256_PASS"
       ],
-      "full_pipeline_zero_copy_claim": false
+      "full_pipeline_zero_copy_claim": false,
+      "pcie_copy_budget_is_zero_copy_proof": false,
+      "not_applicable_receipt_allowed_when_no_zero_host_round_trip_claim": true
     },
     {
       "id": "HU_AQC",
@@ -84,10 +92,21 @@
     }
   ],
   "admission": {
-    "all_surfaces_must_pass_for_scoped_current_host_hardening_pass": true,
+    "all_applicable_surfaces_must_pass_for_scoped_current_host_hardening_pass": true,
     "missing_dependency_status": "PENDING_CURRENT_HOST",
     "hosted_ci_may_claim_current_host_pass": false,
     "document_only_promotion_forbidden": true,
     "production_global_promotion_criteria_unchanged": "CURRENT_HOST_PASS_PLUS_19_OF_19_ACCEPTANCE_PLUS_EXISTING_CANONICAL_PROMOTION_GATE"
+  },
+  "execution_preflight": {
+    "required": true,
+    "entrypoint": "src/fa3_runtime_hardening_current_host_preflight.py",
+    "receipt": ".fa3-current-host/runtime-hardening/preflight.json",
+    "pass_status": "READY_FOR_REAL_EXECUTION",
+    "required_before_collectors": true,
+    "preflight_pass_is_surface_pass": false,
+    "preflight_pass_is_current_host_hardening_pass": false,
+    "preflight_pass_is_global_promotion": false,
+    "network_pull_allowed": false
   }
 }

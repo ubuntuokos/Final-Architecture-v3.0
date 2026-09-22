@@ -3,7 +3,7 @@
   "id": "FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07",
   "date": "2026-09-07",
   "status": "CANONICAL_CLOSED",
-  "title": "SillyTavern as an optional KDE6/Wayland desktop conversation client using its upstream Electron lifecycle",
+  "title": "SillyTavern as an optional Linux desktop conversation client with KDE/Wayland reference and X11 compatibility",
   "decision": "ACCEPT_OPTIONAL_SILLYTAVERN_KDE_DESKTOP_CLIENT_PROVIDER",
   "profile_id": "FA3-SILLYTAVERN-KDE-DESKTOP-001",
   "provider_id": "FA3-PROVIDER-SILLYTAVERN-KDE-001",
@@ -12,7 +12,7 @@
   "capability_projection": [
     "CAP-008"
   ],
-  "canonical_classification": "OPTIONAL local KDE6/Wayland conversation desktop client; replaceable, on-demand and non-authoritative",
+  "canonical_classification": "OPTIONAL local Linux conversation desktop client; KDE/Wayland reference, X11 compatible, replaceable, on-demand and non-authoritative",
   "implementation_decision": "USE_UPSTREAM_ELECTRON_WRAPPER_WITH_FA3_KDE_USER_INTEGRATION_NOT_SECOND_PYSIDE_QWEBENGINE_WRAPPER",
   "conversation_reconciliation": {
     "accepted": [
@@ -53,7 +53,7 @@
   "capability_count_before": 143,
   "capability_count_after": 143,
   "runtime_dependency_added": false,
-  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_KDE_WAYLAND_E2E",
+  "runtime_activation_status": "NOT_PROMOTED_PENDING_CURRENT_HOST_DESKTOP_E2E",
   "current_host_runtime_promotion_claimed": false,
   "provider_runtime_required_for_global_promotion_when_disabled": false,
   "upstream_finding": "SillyTavern 1.18.0 already contains src/electron/index.js and src/electron/start.sh. The Electron entrypoint starts the SillyTavern server and loads its event-derived URL in BrowserWindow, so a second PySide6/QWebEngine wrapper is unnecessary.",
@@ -69,7 +69,7 @@
     "SILLYTAVERN_KDE_USER_SESSION_ON_DEMAND_ONLY",
     "SILLYTAVERN_KDE_ELECTRON_OWNS_SERVER_CHILD_LIFECYCLE",
     "SILLYTAVERN_KDE_LOOPBACK_EVENT_DERIVED_URL_NO_FIXED_PORT",
-    "SILLYTAVERN_KDE_KDE6_WAYLAND_FIRST_CLASS",
+    "SILLYTAVERN_KDE_WAYLAND_PREFERRED_X11_SUPPORTED",
     "SILLYTAVERN_KDE_ELECTRON_SANDBOX_DISABLE_FORBIDDEN",
     "SILLYTAVERN_KDE_NO_FIXED_GPU_IDENTITY_OR_COUNT",
     "SILLYTAVERN_KDE_MODEL_ROUTING_AUTHORITY_PRESERVED",
