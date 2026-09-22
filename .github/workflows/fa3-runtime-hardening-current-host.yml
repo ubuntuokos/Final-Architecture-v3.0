@@ -53,13 +53,18 @@ on:
         required: false
         default: false
         type: boolean
+      require_media_claim:
+        description: 'Require provider-scoped ZERO_COPY_PROVEN evidence; false keeps the conditional media surface NOT_APPLICABLE'
+        required: false
+        default: false
+        type: boolean
       resource_admission_receipt:
         description: 'Validated CURRENT_HOST_ADMISSION Evidence Envelope for the neural-media workload'
         required: false
         default: 'evidence/receipts/resource-admission-current-host.json'
         type: string
       frame_trace:
-        description: 'Normalized fa3.cuda-copy-trace.v1 from CUPTI, Nsight Systems, or CUDA activity tracing'
+        description: 'Normalized fa3.accelerator-copy-trace.v1 from the selected provider trace adapter'
         required: false
         default: '.fa3-current-host/input/media-zero-frame-trace.json'
         type: string
@@ -177,13 +182,18 @@ jobs:
             --quadlet "${{ inputs.quadlet }}"
             --agent-container "${{ inputs.agent_container }}"
             --host-attestation-ref "${{ inputs.host_attestation_ref }}"
-            --resource-admission-receipt "${{ inputs.resource_admission_receipt }}"
-            --frame-trace "${{ inputs.frame_trace }}"
-            --input-video "${{ inputs.input_video }}"
             --hu-aqc-audio "${{ inputs.hu_aqc_audio }}"
             --hu-aqc-metrics "${{ inputs.hu_aqc_metrics }}"
           )
           if [[ "${{ inputs.sandbox_gpu }}" == "true" ]]; then args+=(--sandbox-gpu); fi
+          if [[ "${{ inputs.require_media_claim }}" == "true" ]]; then
+            args+=(
+              --require-media-claim
+              --resource-admission-receipt "${{ inputs.resource_admission_receipt }}"
+              --frame-trace "${{ inputs.frame_trace }}"
+              --input-video "${{ inputs.input_video }}"
+            )
+          fi
           PYTHONPATH=src python3 src/fa3_runtime_hardening_current_host_preflight.py "${args[@]}"
 
       - name: Collect runtime isolation and sandbox evidence
@@ -203,6 +213,7 @@ jobs:
           echo "sandbox_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect PyNvVideoCodec zero-host-round-trip evidence
+        if: ${{ inputs.require_media_claim }}
         shell: bash
         run: |
           set +e
@@ -211,8 +222,7 @@ jobs:
             --input-video "${{ inputs.input_video }}" \
             --resource-admission-receipt "${{ inputs.resource_admission_receipt }}" \
             --frame-trace "${{ inputs.frame_trace }}" \
-            --sampling-interval 0.02 \
-            --pcie-budget-ratio 0.05
+            --sampling-interval 0.02
           echo "media_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
       - name: Collect Hungarian AQC evidence
@@ -234,8 +244,13 @@ jobs:
             --sandbox-receipt evidence/receipts/runtime-isolation-sandbox-current-host.json
           echo "shadow_collector_rc=$?" >> "$GITHUB_ENV"
           exit 0
-      - name: Enforce all four current-host surfaces
-        run: ./bin/fa3-enforce runtime-hardening-current-host --require-evidence
+      - name: Enforce all applicable current-host surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--require-evidence)
+          if [[ "${{ inputs.require_media_claim }}" == "true" ]]; then args+=(--require-media-claim); fi
+          ./bin/fa3-enforce runtime-hardening-current-host "${args[@]}"
       - name: Upload current-host evidence
         if: always()
         uses: actions/upload-artifact@v4

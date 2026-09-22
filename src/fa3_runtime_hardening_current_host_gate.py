@@ -155,13 +155,29 @@ def _materialization_check(root: Path) -> tuple[list[dict[str, Any]], dict[str, 
     return findings, data
 
 
-def gate(root: Path, *, require_evidence: bool = False, receipt_dir: Path | None = None) -> dict[str, Any]:
+def gate(
+    root: Path,
+    *,
+    require_evidence: bool = False,
+    require_media_claim: bool = False,
+    receipt_dir: Path | None = None,
+) -> dict[str, Any]:
     root = root.resolve()
     findings, _ = _materialization_check(root)
     surface_reports: dict[str, Any] = {}
     all_evidence_pass = True
 
     for key, rel in RECEIPT_PATHS.items():
+        if key == "media_accelerator_memory_residency" and not require_media_claim:
+            surface_reports[key] = {
+                "path": str((receipt_dir / Path(rel).name) if receipt_dir else (root / rel)),
+                "present": False,
+                "pass": False,
+                "satisfied": True,
+                "status": "NOT_APPLICABLE",
+                "reasons": ["no zero-host-round-trip claim requested for this run"],
+            }
+            continue
         path = (receipt_dir / Path(rel).name) if receipt_dir else (root / rel)
         if not path.is_file():
             ok = False
@@ -178,6 +194,7 @@ def gate(root: Path, *, require_evidence: bool = False, receipt_dir: Path | None
             "path": str(path),
             "present": path.is_file(),
             "pass": ok,
+            "satisfied": ok,
             "status": "PASS" if ok else "PENDING_OR_FAIL",
             "reasons": reasons,
         }
@@ -200,6 +217,7 @@ def gate(root: Path, *, require_evidence: bool = False, receipt_dir: Path | None
         "result": "PASS" if not findings else "FAIL",
         "status": scoped_status,
         "require_evidence": require_evidence,
+        "require_media_claim": require_media_claim,
         "blocking_findings": len(findings),
         "findings": findings,
         "surfaces": surface_reports,
@@ -219,11 +237,13 @@ def main() -> int:
     p = argparse.ArgumentParser(description="FA3 runtime-hardening current-host gate")
     p.add_argument("--root", default=str(Path(__file__).resolve().parents[1]))
     p.add_argument("--require-evidence", action="store_true")
+    p.add_argument("--require-media-claim", action="store_true")
     p.add_argument("--receipt-dir")
     a = p.parse_args()
     report = gate(
         Path(a.root),
         require_evidence=a.require_evidence,
+        require_media_claim=a.require_media_claim,
         receipt_dir=Path(a.receipt_dir).resolve() if a.receipt_dir else None,
     )
     print(json.dumps(report, indent=2, ensure_ascii=False))

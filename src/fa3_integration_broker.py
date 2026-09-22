@@ -123,6 +123,23 @@ def validate_approval(proposal: dict[str, Any]) -> tuple[bool, str]:
     mutations = proposal.get("mutations")
     if not isinstance(mutations, list) or not mutations:
         return False, "mutations missing"
+    context = proposal.get("context")
+    if not isinstance(context, dict):
+        return False, "context missing"
+    if context.get("base_commit") != base:
+        return False, "context base_commit does not match approved_base_sha"
+    target = context.get("target_capability")
+    if not isinstance(target, str) or not re.fullmatch(r"CAP-[0-9]{3}", target):
+        return False, "target_capability invalid"
+    write_set = context.get("declared_write_set")
+    if not isinstance(write_set, list) or not write_set or not all(isinstance(x, str) for x in write_set):
+        return False, "declared_write_set missing"
+    test_plan = context.get("test_plan")
+    if not isinstance(test_plan, list) or not test_plan or not all(isinstance(x, str) and x.strip() for x in test_plan):
+        return False, "test_plan missing"
+    limits = proposal.get("circuit_breaker_limits")
+    if not isinstance(limits, dict):
+        return False, "circuit_breaker_limits missing"
     return True, "PASS"
 
 
@@ -194,11 +211,19 @@ def validate_mutations(repo: Path, proposal: dict[str, Any]) -> list[str]:
         declared.append(path)
     if len(declared) != len(set(declared)):
         raise IntegrationDenied("duplicate mutation path denied")
+    write_set = proposal.get("context", {}).get("declared_write_set", [])
+    normalized_write_set = [normalize_repo_path(repo, value) for value in write_set]
+    if len(normalized_write_set) != len(set(normalized_write_set)):
+        raise IntegrationDenied("duplicate declared_write_set path denied")
+    if set(normalized_write_set) != set(declared):
+        raise IntegrationDenied(
+            f"declared_write_set differs from mutation set: {sorted(normalized_write_set)} != {sorted(declared)}"
+        )
     return declared
 
 
 def _write_event(ledger_root: Path, proposal: dict[str, Any], event: dict[str, Any]) -> Path:
-    bucket = "integrated" if event["status"] == "INTEGRATED" else "failed"
+    bucket = "prepared" if event["status"] == "PR_READY" else "failed"
     target_dir = ledger_root / bucket
     target_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
@@ -264,6 +289,11 @@ class FA3IntegrationBroker:
         base = approval["approved_base_sha"]
         prop_id = proposal["proposal_id"]
         branch = f"fa3/integration/{prop_id}"
+        if _run(
+            ["git", "-C", str(self.repo), "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"],
+            check=False,
+        ).returncode == 0:
+            raise IntegrationDenied(f"candidate branch already exists: {branch}")
         lock_path = _lock_path(self.repo)
         lock_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -274,6 +304,7 @@ class FA3IntegrationBroker:
                 temp = Path(td)
                 candidate = temp / "candidate"
                 trusted = temp / "trusted-base"
+                prepared = False
                 try:
                     _git(self.repo, "worktree", "add", "--detach", str(trusted), base)
                     _git(self.repo, "worktree", "add", "-b", branch, str(candidate), base)
@@ -334,28 +365,34 @@ class FA3IntegrationBroker:
                         raise IntegrationDenied("approved proposal digest changed during integration")
 
                     _main_preconditions(self.repo, base)
-                    _git(self.repo, "update-ref", "refs/heads/main", result_sha, base)
-                    _git(self.repo, "reset", "--hard", result_sha)
+                    if _git(self.repo, "rev-parse", "refs/heads/main").strip() != base:
+                        raise IntegrationDenied("protected main changed during candidate preparation")
 
                     event_path = _write_event(
                         self.ledger,
                         proposal,
                         {
-                            "status": "INTEGRATED",
+                            "status": "PR_READY",
                             "approved_base_sha": base,
+                            "candidate_branch": branch,
                             "result_sha": result_sha,
                             "changed_paths": sorted(declared),
                             "trusted_gate_output_sha256": trusted_gate_sha,
                             "candidate_gate_output_sha256": candidate_gate_sha,
                             "proposal_mutated": False,
+                            "main_mutated": False,
+                            "protected_branch_submission_required": True,
                         },
                     )
+                    prepared = True
                     return {
                         "result": "PASS",
-                        "status": "INTEGRATED",
+                        "status": "PR_READY",
                         "proposal_id": prop_id,
+                        "candidate_branch": branch,
                         "result_sha": result_sha,
                         "event_path": str(event_path),
+                        "protected_branch_submission_required": True,
                     }
                 finally:
                     for worktree in (candidate, trusted):
@@ -365,7 +402,8 @@ class FA3IntegrationBroker:
                                 check=False,
                             )
                     _run(["git", "-C", str(self.repo), "worktree", "prune"], check=False)
-                    _run(["git", "-C", str(self.repo), "branch", "-D", branch], check=False)
+                    if not prepared:
+                        _run(["git", "-C", str(self.repo), "branch", "-D", branch], check=False)
 
     def process_once(self) -> dict[str, Any]:
         results: list[dict[str, Any]] = []

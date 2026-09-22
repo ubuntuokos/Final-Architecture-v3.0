@@ -43,6 +43,17 @@ def run_regressions():
         "text": "Készíts valódi magyar kampányt természetes megfogalmazással.",
         "quality_gate": "CAP-125",
         "quality_pass": True,
+        "quality_receipt": {
+            "language_identified": "hu-HU",
+            "single_metric_authority": False,
+            "dimensions": {
+                "grammar_style": True,
+                "terminology": True,
+                "register": True,
+                "policy": True,
+            },
+            "human_review_required": False,
+        },
     }
     good_delivery = {
         "via_central_mcp": True,
@@ -118,6 +129,9 @@ def canonical_check(root):
         and contracts.get("capability_count") == 143
         and contracts.get("consent_and_delivery", {}).get("suppression_and_unsubscribe_fail_closed") is True
         and contracts.get("publication", {}).get("human_approval_required_for_public_campaign_launch") is True
+        and contracts.get("localization", {}).get("quality_receipt_required") is True
+        and contracts.get("localization", {}).get("single_metric_authority_forbidden") is True
+        and set(contracts.get("localization", {}).get("quality_dimensions", [])) == {"language_identification", "grammar_style", "terminology", "register", "policy"}
     ):
         findings.append(finding("MKT-CANON-002", "Marketing provider-neutral/consent/publication contract drift"))
     if not (

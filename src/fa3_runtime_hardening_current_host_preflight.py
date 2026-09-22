@@ -14,9 +14,13 @@ from typing import Any
 from fa3_resource_evidence_normalization_gate import validate_evidence_envelope
 from fa3_runtime_hardening_current_host import repo_head, sha256_file, utcnow, write_json
 
-REQUIRED_COMMANDS = ("git", "podman", "wasmtime", "runsc", "nvidia-smi")
-REQUIRED_PYTHON_MODULES = ("pynvml", "PyNvVideoCodec", "torch")
-FRAME_TRACE_COLLECTORS = {"CUPTI", "NSIGHT_SYSTEMS", "CUDA_ACTIVITY_TRACE"}
+REQUIRED_COMMANDS = ("git", "podman", "wasmtime", "runsc")
+NVIDIA_MEDIA_COMMANDS = ("nvidia-smi",)
+NVIDIA_MEDIA_PYTHON_MODULES = ("pynvml", "PyNvVideoCodec", "torch")
+FRAME_TRACE_COLLECTORS = {
+    "CUPTI", "NSIGHT_SYSTEMS", "CUDA_ACTIVITY_TRACE",
+    "ROCPROFILER", "LEVEL_ZERO_TRACE", "VULKAN_TRACE", "PROVIDER_NATIVE_TRACE",
+}
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -86,7 +90,7 @@ def validate_frame_trace(path: Path) -> tuple[list[str], dict[str, Any]]:
     except Exception as exc:
         return [f"frame-copy trace unreadable: {exc}"], {}
     findings: list[str] = []
-    if trace.get("schema") != "fa3.cuda-copy-trace.v1":
+    if trace.get("schema") != "fa3.accelerator-copy-trace.v1":
         findings.append("frame-copy trace schema mismatch")
     if trace.get("status") != "PASS":
         findings.append("frame-copy trace is not PASS")
@@ -105,8 +109,8 @@ def validate_frame_trace(path: Path) -> tuple[list[str], dict[str, Any]]:
         findings.append("frame-copy trace contains no neural frames")
     if h2d != 0 or d2h != 0 or round_trips != 0:
         findings.append("frame-copy trace reports host frame transfer")
-    if segment.get("dlpack_shared_gpu_memory") is not True:
-        findings.append("frame-copy trace does not prove DLPack shared GPU memory")
+    if segment.get("shared_accelerator_memory") is not True:
+        findings.append("frame-copy trace does not prove shared accelerator memory")
     if trace.get("full_pipeline_zero_copy_claim") is True and trace.get("full_pipeline_zero_copy_proven") is not True:
         findings.append("unproven full-pipeline zero-copy claim")
     return findings, trace
@@ -186,14 +190,15 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
     if hasattr(os, "geteuid") and os.geteuid() == 0:
         findings.append("current-host execution must be rootless")
 
-    commands = {name: shutil.which(name) for name in REQUIRED_COMMANDS}
+    required_commands = list(REQUIRED_COMMANDS)
+    if args.require_media_claim or args.sandbox_gpu:
+        required_commands.extend(NVIDIA_MEDIA_COMMANDS)
+    commands = {name: shutil.which(name) for name in required_commands}
     missing_commands = [name for name, path in commands.items() if not path]
     findings.extend(f"required command missing: {name}" for name in missing_commands)
 
-    python_modules = {
-        name: importlib.util.find_spec(name) is not None
-        for name in REQUIRED_PYTHON_MODULES
-    }
+    required_modules = list(NVIDIA_MEDIA_PYTHON_MODULES) if args.require_media_claim else []
+    python_modules = {name: importlib.util.find_spec(name) is not None for name in required_modules}
     findings.extend(
         f"required Python module missing: {name}"
         for name, present in python_modules.items()
@@ -222,26 +227,30 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
     if not host_attestation_ref:
         findings.append("host_attestation_ref missing")
 
-    resource_path = Path(args.resource_admission_receipt).expanduser().resolve()
-    resource_findings, resource_env = validate_resource_admission(resource_path)
-    findings.extend(resource_findings)
-    resource_host_ref = str(resource_env.get("execution_context", {}).get("host_attestation_ref") or "")
-    if host_attestation_ref and resource_host_ref and host_attestation_ref != resource_host_ref:
-        findings.append("workflow host_attestation_ref does not match resource-admission evidence")
-
-    frame_trace_path = Path(args.frame_trace).expanduser().resolve()
-    frame_findings, frame_trace = validate_frame_trace(frame_trace_path)
-    findings.extend(frame_findings)
-
-    input_video = Path(args.input_video).expanduser().resolve()
+    resource_path = Path(args.resource_admission_receipt).expanduser().resolve() if args.resource_admission_receipt else None
+    frame_trace_path = Path(args.frame_trace).expanduser().resolve() if args.frame_trace else None
+    input_video = Path(args.input_video).expanduser().resolve() if args.input_video else None
+    resource_env: dict[str, Any] = {}
+    frame_trace: dict[str, Any] = {}
+    if args.require_media_claim:
+        if resource_path is None or frame_trace_path is None or input_video is None:
+            findings.append("media claim requires resource admission, frame trace and input video")
+        else:
+            resource_findings, resource_env = validate_resource_admission(resource_path)
+            findings.extend(resource_findings)
+            resource_host_ref = str(resource_env.get("execution_context", {}).get("host_attestation_ref") or "")
+            if host_attestation_ref and resource_host_ref and host_attestation_ref != resource_host_ref:
+                findings.append("workflow host_attestation_ref does not match resource-admission evidence")
+            frame_findings, frame_trace = validate_frame_trace(frame_trace_path)
+            findings.extend(frame_findings)
+            findings.extend(validate_file(input_video, "approved input video"))
     hu_audio = Path(args.hu_aqc_audio).expanduser().resolve()
     hu_metrics = Path(args.hu_aqc_metrics).expanduser().resolve()
-    findings.extend(validate_file(input_video, "approved input video"))
     findings.extend(validate_file(hu_audio, "Hungarian AQC PCM16 WAV"))
     findings.extend(validate_json_file(hu_metrics, "Hungarian AQC scorer bundle"))
 
-    driver = host_driver_version()
-    if not driver:
+    driver = host_driver_version() if args.sandbox_gpu else ""
+    if args.sandbox_gpu and not driver:
         findings.append("NVIDIA driver version unavailable")
     nvproxy_findings, nvproxy = validate_nvproxy(driver, bool(args.sandbox_gpu))
     findings.extend(nvproxy_findings)
@@ -295,13 +304,14 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
         },
         "evidence_inputs": {
             "host_attestation_ref": host_attestation_ref,
-            "resource_admission_receipt": str(resource_path),
-            "resource_admission_sha256": sha256_file(resource_path) if resource_path.is_file() else None,
-            "frame_trace": str(frame_trace_path),
-            "frame_trace_sha256": sha256_file(frame_trace_path) if frame_trace_path.is_file() else None,
+            "media_claim_required": bool(args.require_media_claim),
+            "resource_admission_receipt": str(resource_path) if resource_path else None,
+            "resource_admission_sha256": sha256_file(resource_path) if resource_path and resource_path.is_file() else None,
+            "frame_trace": str(frame_trace_path) if frame_trace_path else None,
+            "frame_trace_sha256": sha256_file(frame_trace_path) if frame_trace_path and frame_trace_path.is_file() else None,
             "frame_trace_collector": frame_trace.get("collector", {}),
-            "input_video": str(input_video),
-            "input_video_sha256": sha256_file(input_video) if input_video.is_file() else None,
+            "input_video": str(input_video) if input_video else None,
+            "input_video_sha256": sha256_file(input_video) if input_video and input_video.is_file() else None,
             "hu_aqc_audio": str(hu_audio),
             "hu_aqc_audio_sha256": sha256_file(hu_audio) if hu_audio.is_file() else None,
             "hu_aqc_metrics": str(hu_metrics),
@@ -313,7 +323,8 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
             "preflight_pass_is_global_promotion": False,
             "network_pull_allowed": False,
             "current_host_collectors_still_required": True,
-            "all_four_surface_gate_still_required": True,
+            "all_applicable_surface_gate_required": True,
+            "media_surface_conditional_on_explicit_claim": True,
         },
     }
     output = Path(args.output)
@@ -331,9 +342,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--agent-container", required=True)
     p.add_argument("--host-attestation-ref", required=True)
     p.add_argument("--sandbox-gpu", action="store_true")
-    p.add_argument("--resource-admission-receipt", required=True)
-    p.add_argument("--frame-trace", required=True)
-    p.add_argument("--input-video", required=True)
+    p.add_argument("--require-media-claim", action="store_true")
+    p.add_argument("--resource-admission-receipt", default="")
+    p.add_argument("--frame-trace", default="")
+    p.add_argument("--input-video", default="")
     p.add_argument("--hu-aqc-audio", required=True)
     p.add_argument("--hu-aqc-metrics", required=True)
     p.add_argument("--output", default=".fa3-current-host/runtime-hardening/preflight.json")

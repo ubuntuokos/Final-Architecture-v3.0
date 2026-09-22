@@ -53,7 +53,7 @@ GlobalArgs=--runtime=runsc
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "trace.json"
             trace = {
-                "schema": "fa3.cuda-copy-trace.v1",
+                "schema": "fa3.accelerator-copy-trace.v1",
                 "status": "PASS",
                 "collector": {"kind": "CUPTI", "version": "test"},
                 "neural_segment": {
@@ -61,7 +61,7 @@ GlobalArgs=--runtime=runsc
                     "host_to_device_frame_copy_count": 0,
                     "device_to_host_frame_copy_count": 0,
                     "host_frame_round_trips": 0,
-                    "dlpack_shared_gpu_memory": True,
+                    "shared_accelerator_memory": True,
                 },
                 "full_pipeline_zero_copy_claim": False,
                 "full_pipeline_zero_copy_proven": False,
@@ -75,7 +75,7 @@ GlobalArgs=--runtime=runsc
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "trace.json"
             trace = {
-                "schema": "fa3.cuda-copy-trace.v1",
+                "schema": "fa3.accelerator-copy-trace.v1",
                 "status": "PASS",
                 "collector": {"kind": "NVML_PCIE", "version": "test"},
                 "neural_segment": {
@@ -83,7 +83,7 @@ GlobalArgs=--runtime=runsc
                     "host_to_device_frame_copy_count": 0,
                     "device_to_host_frame_copy_count": 0,
                     "host_frame_round_trips": 0,
-                    "dlpack_shared_gpu_memory": True,
+                    "shared_accelerator_memory": True,
                 },
             }
             path.write_text(json.dumps(trace), encoding="utf-8")
@@ -94,7 +94,7 @@ GlobalArgs=--runtime=runsc
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "trace.json"
             trace = {
-                "schema": "fa3.cuda-copy-trace.v1",
+                "schema": "fa3.accelerator-copy-trace.v1",
                 "status": "PASS",
                 "collector": {"kind": "NSIGHT_SYSTEMS", "version": "test"},
                 "neural_segment": {
@@ -102,7 +102,7 @@ GlobalArgs=--runtime=runsc
                     "host_to_device_frame_copy_count": 0,
                     "device_to_host_frame_copy_count": 1,
                     "host_frame_round_trips": 0,
-                    "dlpack_shared_gpu_memory": True,
+                    "shared_accelerator_memory": True,
                 },
             }
             path.write_text(json.dumps(trace), encoding="utf-8")

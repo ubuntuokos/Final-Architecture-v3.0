@@ -29,19 +29,29 @@ class SecretBrokerTests(unittest.TestCase):
             root=Path(td);vault=root/"vault";pol=root/"policy";audit=root/"audit.jsonl";pol.mkdir()
             broker=b.Broker(vault,pol,audit)
             broker.store.put("github/token",b"TOP-SECRET-CANARY","MACHINE_SERVICE_SECRET","API_TOKEN")
-            user=pwd.getpwuid(os.getuid()).pw_name
+            user="fa3-test-consumer"
             policy={"schema":"fa3.secret-projection-policy.v1","secret_id":"github/token","classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN",
                     "allowed_consumers":[{"consumer_id":"TEST-CONSUMER","allowed_unix_users":[user],"allowed_executables":[],"allowed_systemd_units":[]}],
                     "allowed_projections":["UDS_SINGLE_SECRET"],"exportable":False}
             (pol/"github.json").write_text(json.dumps(policy))
-            ok=broker.handle({"op":"get","secret_id":"github/token","consumer_id":"TEST-CONSUMER","projection":"UDS_SINGLE_SECRET"},os.getuid(),os.getgid(),os.getpid())
-            self.assertTrue(ok["ok"]);self.assertEqual(b"TOP-SECRET-CANARY",base64.b64decode(ok["secret_b64"]))
-            denied=broker.handle({"op":"get","secret_id":"github/token","consumer_id":"OTHER","projection":"UDS_SINGLE_SECRET"},os.getuid(),os.getgid(),os.getpid())
+            with mock.patch.object(b,"_username",return_value=user):
+                ok=broker.handle({"op":"get","secret_id":"github/token","consumer_id":"TEST-CONSUMER","projection":"UDS_SINGLE_SECRET"},os.getuid(),os.getgid(),os.getpid())
+                self.assertTrue(ok["ok"]);self.assertEqual(b"TOP-SECRET-CANARY",base64.b64decode(ok["secret_b64"]))
+                denied=broker.handle({"op":"get","secret_id":"github/token","consumer_id":"OTHER","projection":"UDS_SINGLE_SECRET"},os.getuid(),os.getgid(),os.getpid())
             self.assertFalse(denied["ok"])
             log=audit.read_text()
             self.assertNotIn("TOP-SECRET-CANARY",log)
             self.assertIn("secret_ref_sha256",log)
             self.assertIn('"secret_values_collected":false',log)
+
+    def test_machine_service_policy_rejects_root_consumer(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);pol=root/"policy";pol.mkdir()
+            policy={"schema":"fa3.secret-projection-policy.v1","secret_id":"github/token","classification":"MACHINE_SERVICE_SECRET","secret_kind":"API_TOKEN",
+                    "allowed_consumers":[{"consumer_id":"TEST-CONSUMER","allowed_unix_users":["root"],"allowed_executables":[],"allowed_systemd_units":[]}],
+                    "allowed_projections":["UDS_SINGLE_SECRET"],"exportable":False}
+            (pol/"github.json").write_text(json.dumps(policy))
+            self.assertIsNone(b.PolicyStore(pol).get("github/token"))
     def test_admin_rotate_list_and_revoke(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);broker=b.Broker(root/"v",root/"p",root/"a")

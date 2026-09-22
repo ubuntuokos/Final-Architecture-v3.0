@@ -17,7 +17,7 @@ GATE_ID = "FA3-RUNTIME-HARDENING-CURRENT-HOST-GATESET-001"
 
 RECEIPT_PATHS = {
     "runtime_isolation_agent_sandbox": "evidence/receipts/runtime-isolation-sandbox-current-host.json",
-    "media_gpu_zero_host_round_trip": "evidence/receipts/media-gpu-zerocopy-current-host.json",
+    "media_accelerator_memory_residency": "evidence/receipts/media-gpu-zerocopy-current-host.json",
     "hu_aqc": "evidence/receipts/hu-aqc-current-host.json",
     "promotion_shadow": "evidence/receipts/promotion-shadow-current-host.json",
 }
@@ -216,84 +216,56 @@ def _version_tuple(raw: Any) -> tuple[int, ...]:
     return tuple(parts)
 
 
-def validate_media_zero_receipt(receipt: Any, *, root: Path) -> tuple[bool, list[str]]:
+def validate_media_residency_receipt(receipt: Any, *, root: Path) -> tuple[bool, list[str]]:
     reasons = _base_reasons(
         receipt,
         root=root,
-        schema="fa3.media-gpu-zerocopy-current-host-receipt.v1",
-        surface="MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+        schema="fa3.media-accelerator-residency-current-host-receipt.v1",
+        surface="MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
     )
     if not isinstance(receipt, dict):
         return False, reasons
     if receipt.get("result") != "PASS" or receipt.get("status") != "CURRENT_HOST_PASS":
         reasons.append("media collector is not CURRENT_HOST_PASS")
     hrb = receipt.get("hrb_binding", {})
-    provider = receipt.get("pynvvideocodec", {})
-    dlpack = receipt.get("dlpack", {})
+    provider_id = receipt.get("provider_id")
+    residency = receipt.get("memory_residency", {})
     telemetry = receipt.get("copy_telemetry", {})
     if not (
         hrb.get("status") == "PASS"
-        and hrb.get("gpu_uuid")
-        and hrb.get("pci_bdf")
-        and isinstance(hrb.get("gpu_index"), int)
+        and hrb.get("stable_accelerator_id")
+        and hrb.get("provider_binding")
     ):
-        reasons.append("fresh HRB UUID/BDF binding is not proven")
+        reasons.append("fresh provider-compatible HRB accelerator binding is not proven")
+    if not isinstance(provider_id, str) or not provider_id.startswith("FA3-PROVIDER-"):
+        reasons.append("provider adapter identity missing")
     if not (
-        provider.get("status") == "PASS"
-        and _version_tuple(provider.get("version")) >= (2, 2)
-        and provider.get("device_memory_decode") is True
-        and provider.get("module_sha256")
+        residency.get("status") == "PASS"
+        and residency.get("provider_memory_domain")
+        and residency.get("shared_buffer_identity") is True
+        and residency.get("host_frame_round_trips") == 0
     ):
-        reasons.append("PyNvVideoCodec 2.2+ device-memory decode is not proven")
-    if not (
-        dlpack.get("status") == "PASS"
-        and dlpack.get("cuda_device_type") is True
-        and dlpack.get("pointer_identity") is True
-        and dlpack.get("torch_tensor_is_cuda") is True
-        and dlpack.get("torch_cuda_device_match") is True
-        and dlpack.get("host_frame_round_trips") == 0
-    ):
-        reasons.append("DLPack zero-host-round-trip proof is incomplete")
-    if not (
-        telemetry.get("present") is True
-        and telemetry.get("scope") == "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE"
-        and telemetry.get("semantics") == "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF"
-        and telemetry.get("capacity_source") == "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH"
-        and isinstance(telemetry.get("samples"), list)
-        and len(telemetry.get("samples")) >= 10
-    ):
-        reasons.append("PCIe copy-budget telemetry is missing or has invalid semantics")
-    else:
-        try:
-            interval = float(telemetry.get("sampling_interval_seconds"))
-            ratio = float(telemetry.get("budget_ratio"))
-            budget = float(telemetry.get("budget_kb_s"))
-            max_rx = float(telemetry.get("max_rx_kb_s"))
-            max_tx = float(telemetry.get("max_tx_kb_s"))
-            if not (0 < interval <= 0.025):
-                reasons.append("PCIe sampling interval exceeds 25ms")
-            if not (0 < ratio <= 0.05):
-                reasons.append("PCIe copy budget ratio exceeds 5%")
-            if budget <= 0 or max_rx >= budget or max_tx >= budget:
-                reasons.append("PCIe copy budget exceeded or invalid")
-        except (TypeError, ValueError):
-            reasons.append("PCIe copy-budget numeric fields invalid")
+        reasons.append("provider memory-residency proof is incomplete")
+    if telemetry and telemetry.get("semantics") != "ADVISORY_TRANSFER_TELEMETRY_NOT_ZERO_COPY_PROOF":
+        reasons.append("transfer telemetry improperly claims zero-copy authority")
     trace = receipt.get("frame_copy_trace", {})
     segment = trace.get("neural_segment", {}) if isinstance(trace, dict) else {}
     if not (
-        trace.get("schema") == "fa3.cuda-copy-trace.v1"
+        trace.get("schema") == "fa3.accelerator-copy-trace.v1"
         and trace.get("status") == "PASS"
-        and trace.get("collector", {}).get("kind") in {"CUPTI", "NSIGHT_SYSTEMS", "CUDA_ACTIVITY_TRACE"}
+        and bool(trace.get("collector", {}).get("kind"))
         and int(segment.get("frame_count", 0)) > 0
         and int(segment.get("host_to_device_frame_copy_count", -1)) == 0
         and int(segment.get("device_to_host_frame_copy_count", -1)) == 0
         and int(segment.get("host_frame_round_trips", -1)) == 0
-        and segment.get("dlpack_shared_gpu_memory") is True
+        and segment.get("shared_accelerator_memory") is True
     ):
-        reasons.append("GPU frame-copy trace does not prove zero host frame round-trips")
+        reasons.append("provider frame-copy trace does not prove zero host frame round-trips")
+    if receipt.get("classification") != "ZERO_COPY_PROVEN":
+        reasons.append("receipt classification is not ZERO_COPY_PROVEN")
     if receipt.get("full_pipeline_zero_copy_claim") is not False:
         reasons.append("unsupported full-pipeline zero-copy claim")
-    reasons.extend(_nested_evidence_envelope_reasons(receipt, surface="MEDIA_GPU_ZERO_HOST_ROUND_TRIP"))
+    reasons.extend(_nested_evidence_envelope_reasons(receipt, surface="MEDIA_ACCELERATOR_MEMORY_RESIDENCY"))
     return not reasons, reasons
 
 
@@ -366,7 +338,7 @@ def validate_shadow_receipt(receipt: Any, *, root: Path) -> tuple[bool, list[str
 
 VALIDATORS: dict[str, Callable[..., tuple[bool, list[str]]]] = {
     "runtime_isolation_agent_sandbox": validate_runtime_sandbox_receipt,
-    "media_gpu_zero_host_round_trip": validate_media_zero_receipt,
+    "media_accelerator_memory_residency": validate_media_residency_receipt,
     "hu_aqc": validate_hu_aqc_receipt,
     "promotion_shadow": validate_shadow_receipt,
 }

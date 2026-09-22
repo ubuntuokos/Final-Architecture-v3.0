@@ -8,6 +8,14 @@ VERDICT_SCHEMA="fa3.capability-current-host-qualification-constituent-verdict.v1
 CAPABILITIES=("CAP-006","CAP-007","CAP-008","CAP-009","CAP-010")
 MODES=("positive","negative","rollback")
 NAMES={c:f"{c.lower().replace('-','')}-mat002-evidence.json" for c in CAPABILITIES}
+REJECTION_SCHEMA="fa3.qualification-producer-rejection.v1"
+
+class ProducerRejection(RuntimeError):
+    def __init__(self,stage:str,reason_codes:list[str],summary:dict[str,Any]|None=None):
+        super().__init__(stage)
+        self.stage=stage
+        self.reason_codes=reason_codes
+        self.summary=summary or {}
 
 def sha(b:bytes)->str:return hashlib.sha256(b).hexdigest()
 def sha_file(p:Path)->str:return sha(p.read_bytes())
@@ -41,6 +49,27 @@ def exact_rollback(scope:Path,name:str,baseline:bytes,fault:bytes)->dict[str,Any
     p=scope/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(baseline);pre=sha_file(p);p.write_bytes(fault);mut=sha_file(p);p.write_bytes(baseline);post=sha_file(p)
     if pre!=post or pre==mut:raise RuntimeError("exact rollback proof failed")
     return {"pre_sha256":pre,"mutated_sha256":mut,"post_sha256":post,"rollback_hash_equal":True}
+
+def hrb_failure_summary(receipt_path:Path)->dict[str,Any]:
+    try:receipt=load(receipt_path)
+    except Exception:return {"failed_check_codes":["CAP006_RECEIPT_UNAVAILABLE"]}
+    summary=receipt.get("check_summary")
+    if not isinstance(summary,dict):return {"failed_check_codes":["CAP006_CHECK_SUMMARY_UNAVAILABLE"]}
+    allowed={
+        "cpu_baseline_pass","accelerator_inventory_schema_pass","manager_collection_pass",
+        "manager_neutrality_pass","cgroup_v2_pass","negative_tests_pass","failed_check_codes",
+        "cpu_package_count","minimum_physical_cores","accelerator_device_count",
+        "effective_cpu_set_present","effective_memory_nodes_present","failed_negative_test_codes",
+    }
+    return {key:summary[key] for key in sorted(allowed) if key in summary}
+
+def hrb_gate_failure_codes(root:Path)->list[str]:
+    try:payload=load(root/"reports/hrb-systemd-manager-current-host-gate-report.json")
+    except Exception:return ["CAP006_GATE_REPORT_UNAVAILABLE"]
+    rows=payload.get("findings")
+    if not isinstance(rows,list):return ["CAP006_GATE_REPORT_INVALID"]
+    codes=[str(row.get("code")) for row in rows if isinstance(row,dict) and row.get("code")]
+    return codes[:8] or ["CAP006_GATE_REJECTED"]
 
 def workspace_allowed(candidate:Path,approved_root:Path,home:Path,model_roots:tuple[Path,...]=())->bool:
     candidate,approved_root,home=candidate.resolve(),approved_root.resolve(),home.resolve()
@@ -87,9 +116,13 @@ def cap006(root:Path,scope:Path,mode:str)->dict[str,Any]:
         return {"mode":mode,"status":"PASS",**exact_rollback(scope,"resource-policy.json",b'{"authority":"HRB","admission":"DENY_BY_DEFAULT"}\n',b'{"authority":"APPLICATION","admission":"ALLOW_ALL"}\n')}
     receipt=scope/"hrb-systemd-manager-current-host.json"
     p=cmd([sys.executable,str(collector),"--root",str(root),"--receipt",str(receipt)],90)
-    if p.returncode:raise RuntimeError(f"HRB collector failed rc={p.returncode}: {p.stderr[-2000:]}")
+    if p.returncode:
+        summary=hrb_failure_summary(receipt)
+        codes=summary.get("failed_check_codes")
+        if not isinstance(codes,list) or not codes:codes=["CAP006_COLLECTOR_REJECTED"]
+        raise ProducerRejection("COLLECTOR",codes,summary)
     g=cmd([sys.executable,str(gate),"--root",str(root),"--receipt",str(receipt)],60)
-    if g.returncode:raise RuntimeError(f"HRB gate failed rc={g.returncode}: {g.stderr[-2000:]}")
+    if g.returncode:raise ProducerRejection("GATE",hrb_gate_failure_codes(root))
     ev=load(receipt)
     return {"mode":mode,"status":"PASS","evidence_level":ev.get("evidence_level"),"resource_authority_id":ev.get("resource_authority_id"),"cgroup_v2":ev.get("cgroup_v2"),"manager_violations":ev.get("manager_violations")}
 
@@ -202,6 +235,22 @@ def main()->int:
         art=scope/NAMES[x.capability];write(art,{"schema":"fa3.mat002-runtime-knowledge-current-host-evidence.v1","subject_id":x.capability,"test_kind":env("FA3_TEST_KIND"),"test_id":env("FA3_TEST_ID"),"qualification_id":env("FA3_QUALIFICATION_ID"),"constituent_id":env("FA3_CONSTITUENT_ID"),"execution_scope":"CURRENT_HOST","current_host":True,"synthetic":False,"ci_reference_only":False,"provider_receipt_only":False,"component_receipt_only":False,"generic_host_collection_only":False,"global_promotion_claim":False,"result":result})
         verdict={"schema":VERDICT_SCHEMA,"producer_id":x.producer_id,"qualification_id":env("FA3_QUALIFICATION_ID"),"constituent_id":env("FA3_CONSTITUENT_ID"),"subject_id":x.capability,"test_kind":env("FA3_TEST_KIND"),"test_id":env("FA3_TEST_ID"),"status":"PASS","execution_scope":"CURRENT_HOST","current_host":True,"synthetic":False,"ci_reference_only":False,"provider_receipt_only":False,"component_receipt_only":False,"generic_host_collection_only":False,"global_promotion_claim":False,"source_evidence_class":env("FA3_SOURCE_EVIDENCE_CLASS"),"covers_source_decision_ids":coverage,"source_artifact_path":art.relative_to(root).as_posix(),"source_artifact_sha256":sha_file(art)}
         print(json.dumps(verdict,ensure_ascii=False,separators=(",",":")));return 0
-    except Exception as e:
-        print(json.dumps({"status":"REJECTED","findings":[str(e)]}),file=sys.stderr);return 2
+    except ProducerRejection as e:
+        rejection={
+            "schema":REJECTION_SCHEMA,"status":"REJECTED","producer_id":x.producer_id,
+            "qualification_id":os.environ.get("FA3_QUALIFICATION_ID"),
+            "constituent_id":os.environ.get("FA3_CONSTITUENT_ID"),
+            "subject_id":os.environ.get("FA3_CAPABILITY_ID"),"stage":e.stage,
+            "reason_codes":e.reason_codes[:8],"summary":e.summary,
+        }
+        print(json.dumps(rejection,sort_keys=True,separators=(",",":")),file=sys.stderr);return 2
+    except Exception:
+        rejection={
+            "schema":REJECTION_SCHEMA,"status":"REJECTED","producer_id":x.producer_id,
+            "qualification_id":os.environ.get("FA3_QUALIFICATION_ID"),
+            "constituent_id":os.environ.get("FA3_CONSTITUENT_ID"),
+            "subject_id":os.environ.get("FA3_CAPABILITY_ID"),"stage":"PRODUCER",
+            "reason_codes":["MAT002_EXECUTION_REJECTED"],"summary":{},
+        }
+        print(json.dumps(rejection,sort_keys=True,separators=(",",":")),file=sys.stderr);return 2
 if __name__=="__main__":raise SystemExit(main())

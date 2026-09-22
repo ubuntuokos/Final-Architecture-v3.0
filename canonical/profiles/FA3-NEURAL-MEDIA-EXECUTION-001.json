@@ -53,11 +53,10 @@
     "portable_baseline": "LIVE_DISCOVERY_AND_HRB_ADMISSION",
     "fixed_cpu_or_numa_ids_forbidden": true,
     "static_cuda_ordinal_as_canonical_identity_forbidden": true,
-    "accelerator_identity": [
-      "GPU_UUID",
-      "PCI_BDF"
-    ],
-    "hrb_lease_required": true,
+    "accelerator_identity": "PROVIDER_COMPATIBLE_STABLE_IDENTITY_FROM_LIVE_DISCOVERY",
+    "resource_admission_required": true,
+    "accelerator_lease_required_only_when_accelerator_requested": true,
+    "cpu_only_path_requires_no_accelerator_lease": true,
     "codec_feature_discovery_required": true,
     "global_profile": "FA3-HARDWARE-BASELINE-001",
     "host_identity_pin": "FORBIDDEN",
@@ -84,17 +83,25 @@
     "libvmaf_cuda": "CONDITIONAL_BUILD_AND_LICENSE_ADMISSION"
   },
   "capability_count": 143,
-  "implementation_status": "CANONICAL_CONTRACT_PROVIDERS_ZERO_HOST_ROUNDTRIP_GATE_MATERIALIZED_CURRENT_HOST_E2E_PENDING",
+  "implementation_status": "CANONICAL_PROVIDER_NEUTRAL_RESIDENCY_CLASSIFICATION_MATERIALIZED_CURRENT_HOST_PROVIDER_EVIDENCE_PENDING",
   "zero_host_roundtrip_profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
-  "primary_nvidia_ai_frame_executor": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+  "optional_nvidia_ai_frame_executor": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
   "accelerated_ai_frame_policy": {
     "profile_id": "FA3-MEDIA-GPU-ZEROCOPY-001",
-    "claim_semantics": "ZERO_HOST_ROUND_TRIP",
-    "primary_nvidia_ai_frame_executor": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "claim_semantics": "CLASSIFIED_MEMORY_RESIDENCY_EVIDENCE",
+    "claim_classification": [
+      "ZERO_COPY_PROVEN",
+      "TRANSFER_MINIMIZED",
+      "NOT_ZERO_COPY"
+    ],
+    "provider_selection": "WORKLOAD_CAPABILITY_PLUS_HRB_ADMISSION",
+    "optional_nvidia_ai_frame_executor": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
     "secondary_neural_adapter": "FA3-PROVIDER-VS-MLRT-001",
     "ffmpeg_role": "REQUIRED_DEMUX_MUX_AUDIO_METADATA_NATIVE_FILTERS_PACKAGING_AND_COMPATIBILITY",
     "ffmpeg_dnn_role": "SUPPORTED_COMPATIBILITY_PATH_NOT_PRIMARY_NVIDIA_AI_FRAME_PATH",
     "host_frame_round_trips_during_neural_segment_max": 0,
-    "copy_telemetry_required": true
+    "copy_telemetry_required_for_zero_copy_proven": true,
+    "universal_pcie_percentage_threshold": "FORBIDDEN",
+    "non_claiming_or_cpu_only_path": "VALID_WITHOUT_ACCELERATOR_PROVIDER"
   }
 }

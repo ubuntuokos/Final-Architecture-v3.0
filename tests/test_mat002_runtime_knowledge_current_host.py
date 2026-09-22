@@ -12,6 +12,8 @@ from fa3_mat002_runtime_knowledge_current_host import (
     agent_task_allowed,
     deliberation_valid,
     expected_source_decisions,
+    hrb_failure_summary,
+    hrb_gate_failure_codes,
     knowledge_note_allowed,
     validate_exact_coverage,
     workspace_allowed,
@@ -63,6 +65,28 @@ class Mat002RuntimeKnowledgeCurrentHostTests(unittest.TestCase):
 
     def test_mat002_capability_set_is_exact_second_batch(self):
         self.assertEqual(CAPABILITIES,("CAP-006","CAP-007","CAP-008","CAP-009","CAP-010"))
+
+    def test_hrb_failure_summary_is_allowlisted_and_vendor_neutral(self):
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/"receipt.json"
+            path.write_text(json.dumps({"check_summary":{
+                "cpu_baseline_pass":True,"accelerator_inventory_schema_pass":True,
+                "accelerator_device_count":0,"failed_check_codes":[],
+                "device_uuid":"must-not-leak","vendor":"must-not-leak",
+            }})+"\n",encoding="utf-8")
+            summary=hrb_failure_summary(path)
+            self.assertEqual(summary["accelerator_device_count"],0)
+            self.assertTrue(summary["accelerator_inventory_schema_pass"])
+            self.assertNotIn("device_uuid",summary)
+            self.assertNotIn("vendor",summary)
+
+    def test_hrb_missing_receipt_and_gate_report_fail_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            self.assertEqual(hrb_failure_summary(root/"missing.json"),{
+                "failed_check_codes":["CAP006_RECEIPT_UNAVAILABLE"]
+            })
+            self.assertEqual(hrb_gate_failure_codes(root),["CAP006_GATE_REPORT_UNAVAILABLE"])
 
 if __name__=="__main__":
     unittest.main()
