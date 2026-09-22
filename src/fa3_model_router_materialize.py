@@ -64,20 +64,37 @@ def canonical_provider_ok(root: Path, provider_id: str) -> bool:
     )
 
 
+def _current_host_level(value: Any) -> bool:
+    level = str(value or "").strip()
+    return (
+        level.startswith("CURRENT_HOST_")
+        and "NOT_ADMITTED" not in level
+        and "FAIL" not in level
+        and "UNAVAILABLE" not in level
+    )
+
+
 def receipt_proves_provider(path: Path, provider_id: str) -> bool:
     if not path.is_file():
         return False
     rec = loadj(path)
-    if rec.get("status") == "PASS":
-        providers = rec.get("providers")
-        if isinstance(providers, dict):
-            item = providers.get(provider_id)
-            if isinstance(item, dict) and item.get("status") == "PASS":
-                return True
-    if rec.get("result") == "PASS" or rec.get("status") == "PASS":
-        if rec.get("provider_id") == provider_id:
-            return True
-    return False
+    if rec.get("status") != "PASS" and rec.get("result") != "PASS":
+        return False
+
+    providers = rec.get("providers")
+    if isinstance(providers, dict):
+        item = providers.get(provider_id)
+        return (
+            isinstance(item, dict)
+            and item.get("provider_id", provider_id) == provider_id
+            and item.get("status") == "PASS"
+            and _current_host_level(item.get("evidence_level"))
+        )
+
+    return (
+        rec.get("provider_id") == provider_id
+        and _current_host_level(rec.get("evidence_level"))
+    )
 
 
 def auth_header(candidate: dict[str, Any]) -> dict[str, str]:
