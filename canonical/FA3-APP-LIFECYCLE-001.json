@@ -58,5 +58,16 @@
   },
   "supersedes": [
     "eager installation of optional AI Studio applications"
-  ]
+  ],
+  "ai_runtime_wake_policy": {
+    "policy_profile": "FA3-AI-COMMS-001",
+    "sleeping_application_default": "DENY",
+    "explicit_user_directive_required": true,
+    "security_emergency_exception": "SECURITY_EMERGENCY_WAKE",
+    "security_exception_requires_pre_authorized_security_target": true,
+    "security_exception_least_privilege_required": true,
+    "security_exception_immediate_user_notification_required": true,
+    "protected_cross_app_gateway_remains_required": true,
+    "model_router_alone_grants_wake_authority": false
+  }
 }
