@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-AI-COMMS-2026-09-22",
+  "date": "2026-09-22",
+  "status": "CANONICAL_CLOSED",
+  "subject": "Human-auditable model-to-model and agent-to-agent communication",
+  "decision": "MANDATE_HUMAN_AUDITABLE_COMMUNICATION_AND_FORBID_PRIVATE_MODEL_LANGUAGE",
+  "profile_id": "FA3-AI-COMMS-001",
+  "contract_family": "FA3-AI-COMMS-CONTRACTS-001",
+  "gate_id": "FA3-AI-COMMS-GATESET-001",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_dependency_created": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "model_router_reconciliation": {
+    "authority_id": "FA3-AUTH-MODEL-ROUTER-001",
+    "authority_reused": true,
+    "parallel_router_created": false,
+    "semantic_policy_authority_granted_to_router": false,
+    "applies_to_pr_351": true
+  },
+  "language_fabric_reconciliation": {
+    "language_bridge_may_translate_or_normalize": true,
+    "language_bridge_may_create_private_model_language": false,
+    "language_bridge_may_expand_authority": false,
+    "applies_to_pr_186": true
+  },
+  "runtime_enforcement": {
+    "developer_agent_coordination_publish_boundary": "MANDATORY",
+    "unknown_communication_mode": "DENY",
+    "missing_authoritative_human_text": "DENY",
+    "private_codebook_or_opaque_semantic_channel": "DENY",
+    "unversioned_structured_protocol": "DENY"
+  },
+  "evidence_claim": "REFERENCE_STATIC_AND_RUNTIME_REGRESSION_EVIDENCE_ONLY_NO_CURRENT_HOST_PROMOTION"
+}

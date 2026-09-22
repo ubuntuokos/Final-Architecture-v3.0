@@ -65,6 +65,19 @@ DAC_COLLECTOR_PATH = "evidence/collect-developer-agent-coordination-e2e.py"
 DAC_EXAMPLE_PATH = "examples/developer-agent-coordination-request.json"
 DAC_RUNNER_PATH = "bin/fa3-developer-agent-coordination-e2e"
 DAC_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_CI_REFERENCE_E2E_REQUIRED"
+AI_COMMS_PROFILE_ID = "FA3-AI-COMMS-001"
+AI_COMMS_CONTRACT_ID = "FA3-AI-COMMS-CONTRACTS-001"
+AI_COMMS_DECISION_ID = "FA3-DEC-AI-COMMS-2026-09-22"
+AI_COMMS_GATE_ID = "FA3-AI-COMMS-GATESET-001"
+AI_COMMS_PROFILE_PATH = "canonical/profiles/FA3-AI-COMMS-001.json"
+AI_COMMS_CONTRACT_PATH = "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json"
+AI_COMMS_DECISION_PATH = "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json"
+AI_COMMS_ENFORCEMENT_PATH = "canonical/ai-comms-enforcement.json"
+AI_COMMS_RUNTIME_PATH = "src/fa3_ai_comms.py"
+AI_COMMS_GATE_PATH = "src/fa3_ai_comms_gate.py"
+AI_COMMS_TEST_PATH = "tests/test_ai_comms.py"
+AI_COMMS_WORKFLOW_PATH = ".github/workflows/fa3-ai-comms-gate.yml"
+AI_COMMS_RECONCILIATION_STATUS = "GLOBAL_PROJECTION_RECONCILED_P0_HUMAN_AUDITABLE_GATE_REQUIRED"
 CODEX_PROVIDER_ID = "FA3-PROVIDER-CODEX-001"
 CODEX_GATE_ID = "FA3-CODEX-GATESET-001"
 CODEX_CONTRACT_ID = "FA3-CODEX-ADAPTER-CONTRACTS-001"
@@ -1069,8 +1082,11 @@ def gate(root: Path):
         or dac_contract.get("capability_count") != CAPABILITY_COUNT
         or dac_conformance.get("id") != "FA3-DEVELOPER-AGENT-COORDINATION-RUNTIME-CONFORMANCE-001"
         or dac_conformance.get("runtime_id") != DAC_RUNTIME_ID
-        or dac_conformance.get("runtime_version") != "0.1.0"
+        or dac_conformance.get("runtime_version") != "0.2.0"
         or dac_conformance.get("status") != "REFERENCE_RUNTIME"
+        or dac_contract.get("communication_policy") != AI_COMMS_PROFILE_ID
+        or dac.get("runtime_version") != "0.2.0"
+        or dac.get("communication_policy") != AI_COMMS_PROFILE_ID
         or dac_conformance.get("executable_e2e", {}).get("current_host_production_claim") is not False
         or dac_decision.get("status") != "CANONICAL_CLOSED"
         or dac_decision.get("new_capabilities") != 0
@@ -1083,6 +1099,87 @@ def gate(root: Path):
                 reconciliation_status=dac.get("reconciliation_status"),
                 missing_overlay_members=missing_dac_overlay_members,
                 missing_manifest_paths=dac_manifest_missing,
+            )
+        )
+
+    ai_comms = projection.get("ai_comms_reconciliation", {})
+    required_ai_comms_manifest_paths = {
+        AI_COMMS_PROFILE_PATH,
+        AI_COMMS_CONTRACT_PATH,
+        AI_COMMS_DECISION_PATH,
+        AI_COMMS_ENFORCEMENT_PATH,
+        AI_COMMS_RUNTIME_PATH,
+        AI_COMMS_GATE_PATH,
+        AI_COMMS_TEST_PATH,
+        AI_COMMS_WORKFLOW_PATH,
+        "bin/fa3-enforce",
+        "src/fa3_enforce.py",
+        "canonical/enforcement-policy.json",
+    }
+    missing_ai_comms_overlay_members = []
+    for key, required in {
+        "profile_records": AI_COMMS_PROFILE_PATH,
+        "contract_records": AI_COMMS_CONTRACT_PATH,
+        "decision_records": AI_COMMS_DECISION_PATH,
+    }.items():
+        if required not in inventory.get(key, []):
+            missing_ai_comms_overlay_members.append({"inventory": key, "path": required})
+    ai_comms_manifest_missing = sorted(required_ai_comms_manifest_paths - manifest_paths)
+    ai_comms_profile = loadj(root / AI_COMMS_PROFILE_PATH) if (root / AI_COMMS_PROFILE_PATH).is_file() else {}
+    ai_comms_contract = loadj(root / AI_COMMS_CONTRACT_PATH) if (root / AI_COMMS_CONTRACT_PATH).is_file() else {}
+    ai_comms_decision = loadj(root / AI_COMMS_DECISION_PATH) if (root / AI_COMMS_DECISION_PATH).is_file() else {}
+    ai_comms_enforcement = loadj(root / AI_COMMS_ENFORCEMENT_PATH) if (root / AI_COMMS_ENFORCEMENT_PATH).is_file() else {}
+    cap028_ai_comms = next((item for item in records if item.get("subject_id") == "CAP-028"), {})
+    if (
+        ai_comms.get("profile_id") != AI_COMMS_PROFILE_ID
+        or ai_comms.get("contract_id") != AI_COMMS_CONTRACT_ID
+        or ai_comms.get("decision_id") != AI_COMMS_DECISION_ID
+        or ai_comms.get("gate_id") != AI_COMMS_GATE_ID
+        or ai_comms.get("reconciliation_status") != AI_COMMS_RECONCILIATION_STATUS
+        or ai_comms.get("priority") != "P0"
+        or ai_comms.get("requirement") != "MUST"
+        or ai_comms.get("fail_closed") is not True
+        or ai_comms.get("private_model_language_forbidden") is not True
+        or ai_comms.get("human_readable_semantics_authoritative") is not True
+        or ai_comms.get("model_router_reused") is not True
+        or ai_comms.get("parallel_model_router_created") is not False
+        or ai_comms.get("current_host_production_claim") is not False
+        or ai_comms.get("new_capabilities") != 0
+        or ai_comms.get("new_architectural_authorities") != 0
+        or ai_comms.get("capability_count_after") != CAPABILITY_COUNT
+        or AI_COMMS_GATE_ID not in projection_gates
+        or AI_COMMS_GATE_ID not in policy_gates
+        or missing_ai_comms_overlay_members
+        or ai_comms_manifest_missing
+        or ai_comms_profile.get("id") != AI_COMMS_PROFILE_ID
+        or ai_comms_profile.get("status") != "CANONICAL"
+        or ai_comms_profile.get("priority") != "P0"
+        or ai_comms_profile.get("requirement") != "MUST"
+        or ai_comms_profile.get("new_capability") is not False
+        or ai_comms_profile.get("new_architectural_authority") is not False
+        or ai_comms_profile.get("capability_count") != CAPABILITY_COUNT
+        or "PRIVATE_MODEL_LANGUAGE_FORBIDDEN" not in ai_comms_profile.get("invariants", [])
+        or ai_comms_contract.get("id") != AI_COMMS_CONTRACT_ID
+        or ai_comms_contract.get("parent_profile") != AI_COMMS_PROFILE_ID
+        or "PRIVATE_MODEL_LANGUAGE" not in ai_comms_contract.get("forbidden_semantics", [])
+        or ai_comms_decision.get("id") != AI_COMMS_DECISION_ID
+        or ai_comms_decision.get("status") != "CANONICAL_CLOSED"
+        or ai_comms_decision.get("new_capabilities") != 0
+        or ai_comms_decision.get("new_architectural_authorities") != 0
+        or ai_comms_decision.get("model_router_reconciliation", {}).get("authority_reused") is not True
+        or ai_comms_decision.get("model_router_reconciliation", {}).get("parallel_router_created") is not False
+        or ai_comms_enforcement.get("gate_id") != AI_COMMS_GATE_ID
+        or ai_comms_enforcement.get("fail_closed") is not True
+        or ai_comms_enforcement.get("current_host_production_promotion_claim") is not False
+        or AI_COMMS_DECISION_ID not in cap028_ai_comms.get("source_decision_ids", [])
+    ):
+        findings.append(
+            finding(
+                "FA3-RELEASE-PROJECTION-111",
+                "AI communication human-auditable/private-language prohibition release reconciliation mismatch",
+                reconciliation_status=ai_comms.get("reconciliation_status"),
+                missing_overlay_members=missing_ai_comms_overlay_members,
+                missing_manifest_paths=ai_comms_manifest_missing,
             )
         )
 
@@ -2943,6 +3040,7 @@ def gate(root: Path):
             "autogpt_reconciliation": autogpt.get("reconciliation_status"),
             "autogpt_runtime_activation_status": autogpt.get("runtime_activation_status"),
             "developer_agent_coordination_reconciliation": dac.get("reconciliation_status"),
+            "ai_comms_reconciliation": ai_comms.get("reconciliation_status"),
             "codex_reconciliation": codex.get("reconciliation_status"),
             "codex_current_host_production_e2e": codex.get("current_host_production_e2e"),
             "ai_infra_guard_reconciliation": aisec.get("reconciliation_status"),

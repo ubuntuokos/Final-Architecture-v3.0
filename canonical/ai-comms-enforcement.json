@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.ai-comms-enforcement.v1",
+  "gate_id": "FA3-AI-COMMS-GATESET-001",
+  "profile_id": "FA3-AI-COMMS-001",
+  "contract_family": "FA3-AI-COMMS-CONTRACTS-001",
+  "decision_id": "FA3-DEC-AI-COMMS-2026-09-22",
+  "fail_closed": true,
+  "mandatory_rule_count": 15,
+  "p0_invariants": [
+    "COMM_HUMAN_AUDITABLE_SEMANTICS_REQUIRED",
+    "COMM_PRIVATE_MODEL_LANGUAGE_FORBIDDEN",
+    "COMM_EMERGENT_CODEBOOK_FORBIDDEN",
+    "COMM_MODEL_ONLY_SLANG_FORBIDDEN",
+    "COMM_OPAQUE_SEMANTIC_CHANNEL_FORBIDDEN",
+    "COMM_HUMAN_READABLE_TEXT_REQUIRED",
+    "COMM_DECLARED_HUMAN_LANGUAGE_REQUIRED",
+    "COMM_STRUCTURED_SCHEMA_VERSIONED_REQUIRED",
+    "COMM_STRUCTURED_PAYLOAD_SUPPLEMENTAL_ONLY",
+    "COMM_NEW_SHORTHAND_MUST_BE_DEFINED",
+    "COMM_PROVENANCE_REQUIRED",
+    "COMM_UNKNOWN_MODE_FAIL_CLOSED",
+    "COMM_PROVIDER_CANNOT_CREATE_PROTOCOL_AUTHORITY",
+    "COMM_LANGUAGE_BRIDGE_NON_AUTHORITY",
+    "COMM_MODEL_ROUTER_REUSED_NO_PARALLEL_ROUTER"
+  ],
+  "runtime_integration": {
+    "module": "src/fa3_ai_comms.py",
+    "developer_agent_coordination_boundary": "Coordinator.publish_message",
+    "deny_before_persistence": true
+  },
+  "executable_gate": "./bin/fa3-enforce ai-comms",
+  "reference_runtime_required": true,
+  "current_host_production_promotion_claim": false
+}
