@@ -23,7 +23,18 @@ jobs:
           PY="$(command -v python3.13 || true)"
           test -n "$PY" || { echo "python3.13 required for current-host lock target" >&2; exit 2; }
           TMP="$(mktemp -d)"
-          trap 'jobs -pr | xargs -r kill >/dev/null 2>&1 || true; rm -rf "$TMP"' EXIT
+          cleanup() {
+            rc=$?
+            if [ "$rc" -ne 0 ] && [ -s "$TMP/litellm.log" ]; then
+              echo "FA3_LITELLM_FINAL_LOG_BEGIN"
+              cat "$TMP/litellm.log" || true
+              echo "FA3_LITELLM_FINAL_LOG_END"
+            fi
+            jobs -pr | xargs -r kill >/dev/null 2>&1 || true
+            rm -rf "$TMP"
+            exit "$rc"
+          }
+          trap cleanup EXIT
           "$PY" -m venv "$TMP/resolver"
           "$TMP/resolver/bin/python" -m pip install --disable-pip-version-check --upgrade 'pip==26.0.1'
           cat >"$TMP/roots.txt" <<'REQ'
