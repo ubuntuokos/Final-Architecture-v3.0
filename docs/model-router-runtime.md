@@ -28,3 +28,11 @@ The provider ID must already have a canonical provider record delegating model r
 Baseline routes are local-only. Non-loopback provider endpoints are rejected. External/cloud routing therefore requires a separate explicit policy materialization rather than a silent fallback.
 
 The generated LiteLLM configuration and selection receipt live under the user runtime directory and are rebuilt on router restart. They are evidence, not canonical configuration.
+
+## Current-host evidence chain
+
+Before the central router is admitted, the current-host workflow refreshes Model Manager provider evidence and validates it with the provider-specific gate. Optional serving providers are independent: an unavailable Ollama runtime does not invalidate an admitted LM Studio runtime, and vice versa.
+
+The router never becomes Host Resource Broker authority and never owns accelerator placement. Provider/runtime execution remains subject to the existing FA3 resource-admission and HRB boundaries; the router receipt is component evidence and does not claim global promotion or accelerator admission.
+
+The runtime provider registry contains current-host endpoint eligibility, route scope and priority only. It is not canonical provider/model policy. The concrete physical model ID is discovered from the selected live provider's OpenAI-compatible `/models` catalog at service start.
