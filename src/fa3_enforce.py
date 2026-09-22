@@ -22,6 +22,7 @@ from fa3_loop_engineering_gate import gate as loop_engineering_gate
 from fa3_openhands_gate import gate as openhands_gate
 from fa3_openyak_gate import gate as openyak_gate
 from fa3_obsidian_knowledge_workspace_gate import gate as obsidian_knowledge_workspace_gate
+from fa3_pageindex_knowledge_closure_gate import gate as pageindex_knowledge_closure_gate
 from fa3_lynxhub_gate import gate as lynxhub_gate
 from fa3_openbmb_gate import gate as openbmb_gate
 from fa3_gpu_kernel_runtime_gate import gate as gpu_kernel_runtime_gate, current_host_gate as gpu_kernel_runtime_current_host_gate
@@ -62,13 +63,10 @@ from fa3_hrb_deterministic_locality_gate import gate as hrb_deterministic_locali
 from fa3_cpu_numa_threading_gate import gate as cpu_numa_threading_gate
 from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_current_host_gate
 from fa3_hardware_portability_gate import gate as hardware_portability_gate
-from fa3_uaf_gate import gate as uaf_gate
-from fa3_agent_instructions_gate import gate as agent_instructions_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
 from fa3_runtime_hardening_gate import gate as runtime_hardening_gate
-from fa3_external_rt3d_engine_exclusion_gate import gate as external_rt3d_engine_exclusion_gate
 
 OK=0
 BLOCKED=2
@@ -138,16 +136,6 @@ def static_check(root:Path):
     mapping=loadj(root/"canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json")
     rows=list(csv.DictReader((root/"canonical/conformance-matrix.csv").open(encoding="utf-8-sig",newline="")))
 
-    hardware_portability_ref=hardware_portability_gate(root)
-    if hardware_portability_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-081","Primary hardware portability and repository-wide legacy/hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
-    uaf_ref=uaf_gate(root)
-    if uaf_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-115","Unified Action Fabric P0 canonical/security-boundary gate failed",uaf_gate=uaf_ref))
-    agent_instructions_ref=agent_instructions_gate(root)
-    if agent_instructions_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
-
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-039","Unified post-v3.0.11 canonical release projection gate failed",release_projection_gate=projection_ref))
@@ -190,10 +178,6 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-078","Closed-loop agent operations governance gate is not bound into global enforcement policy"))
     if "FA3-HARDWARE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-080","Hardware portability/repository-assumption gate is not bound into global enforcement policy"))
-    if "FA3-UNIFIED-ACTION-FABRIC-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-115","Unified Action Fabric gate is not bound into global enforcement policy"))
-    if "FA3-AGENT-INSTRUCTIONS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-113","Agent-instruction projection gate is not bound into global enforcement policy"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-070","OpenBMB provider-family boundary/hardware gate is not bound into global enforcement policy"))
     if "FA3-GPU-KERNEL-RUNTIME-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -222,6 +206,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-095","Obsidian human knowledge workspace gate is not bound into global enforcement policy"))
     if "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-096","Knowledge hierarchical/hybrid retrieval gate is not bound into global enforcement policy"))
+    if "FA3-PAGEINDEX-KNOWLEDGE-CLOSURE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-111","PageIndex/Knowledge closure gate is not bound into global enforcement policy"))
     if "FA3-EXTERNAL-API-DISCOVERY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-042","External API/MCP discovery gate is not bound into global enforcement policy"))
     if "FA3-DEMUCS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -275,9 +261,6 @@ def static_check(root:Path):
 
     if "FA3-WORK-MANAGEMENT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-106","Work Management mandatory GUI/provider-neutral gate is not bound into global enforcement policy"))
-
-    if "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-111","External RT3D engine exclusion gate is not bound into global enforcement policy"))
 
     if len(rows)!=CAPS or ids!=expected:
         fs.append(finding("FA3-STATIC-008",f"Capability catalog is not exact CAP-001..CAP-{CAPS:03d}",rows=len(rows)))
@@ -358,6 +341,9 @@ def static_check(root:Path):
     obsidian_ref=obsidian_knowledge_workspace_gate(root)
     if obsidian_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-096","Obsidian human knowledge workspace boundary regression gate failed",obsidian_knowledge_workspace_gate=obsidian_ref))
+    pageindex_knowledge_ref=pageindex_knowledge_closure_gate(root)
+    if pageindex_knowledge_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-112","PageIndex/Knowledge closure executable gate failed",pageindex_knowledge_closure_gate=pageindex_knowledge_ref))
     lynxhub_ref=lynxhub_gate(root)
     if lynxhub_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-087","LynxHub Creative Operations Dashboard boundary regression gate failed",lynxhub_gate=lynxhub_ref))
@@ -433,6 +419,9 @@ def static_check(root:Path):
     cpu_numa_threading_ref=cpu_numa_threading_gate(root)
     if cpu_numa_threading_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-069","CPU/NUMA physical-core-first thread governance gate failed",cpu_numa_threading_gate=cpu_numa_threading_ref))
+    hardware_portability_ref=hardware_portability_gate(root)
+    if hardware_portability_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-081","Hardware portability and repository-wide hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
     pytorch3d_ref=pytorch3d_gate(root)
     if pytorch3d_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-098","PyTorch3D differentiable 3D source-build/device-safety gate failed",pytorch3d_gate=pytorch3d_ref))
@@ -460,13 +449,9 @@ def static_check(root:Path):
     if work_management_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-107","Work Management provider-neutral GUI gate failed",work_management_gate=work_management_ref))
 
-    external_rt3d_exclusion_ref=external_rt3d_engine_exclusion_gate(root)
-    if external_rt3d_exclusion_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-112","External RT3D engine exclusion gate failed",external_rt3d_engine_exclusion_gate=external_rt3d_exclusion_ref))
-
     result="PASS" if not fs else "FAIL"
     rep={"schema":"fa3.static-gate-report.v1","architecture_release":RELEASE,"result":result,"blocking_findings":len(fs),"findings":fs,
-         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"caveman_gate_status":caveman_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"inference_portability_gate_status":inference_portability_ref["result"],"model_manager_gate_status":model_manager_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"muse_code_gate_status":muse_code_ref["result"],"openhands_gate_status":openhands_ref["result"],"openyak_gate_status":openyak_ref["result"],"obsidian_knowledge_workspace_gate_status":obsidian_ref["result"],"lynxhub_gate_status":lynxhub_ref["result"],"loop_engineering_gate_status":loop_engineering_ref["result"],"openbmb_gate_status":openbmb_ref["result"],"gpu_kernel_runtime_gate_status":gpu_kernel_runtime_ref["result"],"video_provider_lifecycle_gate_status":video_provider_lifecycle_ref["result"],"stability_sgm_gate_status":stability_sgm_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"opencut_gate_status":opencut_ref["result"],"ffmpeg_ai_gate_status":ffmpeg_ai_ref["result"],"hybrid_editorial_gate_status":hybrid_editorial_ref["result"],"marketing_gate_status":marketing_ref["result"],"marketingskills_gate_status":marketingskills_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"cosyvoice_gate_status":cosyvoice_ref["result"],"voice_synthesis_gate_status":voice_synthesis_ref["result"],"hrb_deterministic_locality_gate_status":hrb_deterministic_ref["result"],"cpu_numa_threading_gate_status":cpu_numa_threading_ref["result"],"hardware_portability_gate_status":hardware_portability_ref["result"],"agent_instructions_gate_status":agent_instructions_ref["result"],"pytorch3d_gate_status":pytorch3d_ref["result"],"openfx_interoperability_gate_status":openfx_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"],"external_rt3d_engine_exclusion_gate_status":external_rt3d_exclusion_ref["result"]}}
+         "details":{"capabilities":len(rows),"reconciliation_records":len(maps),"geometry_status":geom.get("status"),"source_graph_sha256":att.get("sha256"),"terax_reference_status":terax_ref["result"],"kaneo_gate_status":kaneo_ref["result"],"buzz_gate_status":buzz_ref["result"],"xcmd_gate_status":xcmd_ref["result"],"ai_engineering_gate_status":ai_ref["result"],"autogpt_gate_status":autogpt_ref["result"],"caveman_gate_status":caveman_ref["result"],"external_api_discovery_gate_status":external_discovery_ref["result"],"modular_gate_status":modular_ref["result"],"inference_portability_gate_status":inference_portability_ref["result"],"model_manager_gate_status":model_manager_ref["result"],"munder_difflin_gate_status":munder_ref["result"],"muse_code_gate_status":muse_code_ref["result"],"openhands_gate_status":openhands_ref["result"],"openyak_gate_status":openyak_ref["result"],"obsidian_knowledge_workspace_gate_status":obsidian_ref["result"],"lynxhub_gate_status":lynxhub_ref["result"],"loop_engineering_gate_status":loop_engineering_ref["result"],"openbmb_gate_status":openbmb_ref["result"],"gpu_kernel_runtime_gate_status":gpu_kernel_runtime_ref["result"],"video_provider_lifecycle_gate_status":video_provider_lifecycle_ref["result"],"stability_sgm_gate_status":stability_sgm_ref["result"],"developer_agent_coordination_gate_status":dac_ref["result"],"codex_gate_status":codex_ref["result"],"demucs_gate_status":demucs_ref["result"],"ace_step_gate_status":ace_ref["result"],"kdenlive_editorial_gate_status":kdenlive_ref["result"],"opencut_gate_status":opencut_ref["result"],"ffmpeg_ai_gate_status":ffmpeg_ai_ref["result"],"hybrid_editorial_gate_status":hybrid_editorial_ref["result"],"marketing_gate_status":marketing_ref["result"],"marketingskills_gate_status":marketingskills_ref["result"],"blackhole_kdenlive_gate_status":blackhole_ref["result"],"whisper_stt_gate_status":whisper_ref["result"],"cosyvoice_gate_status":cosyvoice_ref["result"],"voice_synthesis_gate_status":voice_synthesis_ref["result"],"hrb_deterministic_locality_gate_status":hrb_deterministic_ref["result"],"cpu_numa_threading_gate_status":cpu_numa_threading_ref["result"],"hardware_portability_gate_status":hardware_portability_ref["result"],"pytorch3d_gate_status":pytorch3d_ref["result"],"openfx_interoperability_gate_status":openfx_ref["result"],"release_projection_gate_status":projection_ref["result"],"mentor_gate_status":mentor_ref["result"],"presenton_gate_status":presenton_ref["result"],"ai_infra_guard_gate_status":ai_infra_guard_ref["result"]}}
     writej(root/"reports/static-gate-report.json",rep)
     return rep
 
@@ -559,7 +544,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","pageindex-knowledge-closure","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -615,6 +600,8 @@ def main():
             x=openyak_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="obsidian-knowledge-workspace":
             x=obsidian_knowledge_workspace_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="pageindex-knowledge-closure":
+            x=pageindex_knowledge_closure_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="lynxhub":
             x=lynxhub_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="openbmb":

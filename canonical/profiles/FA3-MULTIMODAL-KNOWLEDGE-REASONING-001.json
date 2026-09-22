@@ -1,0 +1,43 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-MULTIMODAL-KNOWLEDGE-REASONING-001",
+  "name": "Multimodal Knowledge Reasoning Projection",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-MULTIMODAL-KNOWLEDGE-CONTRACTS-001",
+    "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001"
+  ],
+  "modalities": {
+    "image": [
+      "SourceRegion",
+      "CrossModalRelation"
+    ],
+    "video": [
+      "MediaSegment",
+      "TemporalSpan",
+      "CrossModalRelation"
+    ],
+    "audio": [
+      "TranscriptProjection",
+      "MediaSegment",
+      "TemporalSpan",
+      "CrossModalRelation"
+    ]
+  },
+  "invariants": [
+    "BINARY_MEDIA_NOT_STORED_IN_KNOWLEDGE_INDEX",
+    "ORIGINAL_MEDIA_ARTIFACT_REMAINS_AUTHORITATIVE",
+    "DERIVED_TEXT_REGION_SEGMENT_HAS_ARTIFACT_REF_AND_HASH",
+    "TEMPORAL_AND_SPATIAL_LOCATORS_PRESERVED",
+    "MULTIMODAL_PROJECTION_IS_REBUILDABLE"
+  ],
+  "runtime_status": "MATERIALIZED"
+}

@@ -53,37 +53,39 @@ Item {
                 columnSpacing: 10
                 rowSpacing: 10
                 Card {
-                    Layout.fillWidth: true; Layout.preferredHeight: 122
+                    Layout.fillWidth: true; Layout.preferredHeight: 136
                     ColumnLayout { anchors.fill: parent; anchors.margins: 12
                         Label { text: "PageIndex Local"; color: root.textPrimary; font.bold: true }
                         Label { text: "PREFERRED LOCAL"; color: root.green; font.pixelSize: 8; font.bold: true }
                         Label { Layout.fillWidth: true; text: "Tree index + reasoning retrieval · FA3 Model Router loopback only"; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
+                        Label { text: "Evidence-backed state · canonical records"; color: root.orange; font.pixelSize: 8; font.bold: true }
+                    }
+                }
+                Card {
+                    Layout.fillWidth: true; Layout.preferredHeight: 136
+                    ColumnLayout { anchors.fill: parent; anchors.margins: 12
+                        Label { text: "PageIndex MCP Cloud"; color: root.textPrimary; font.bold: true }
+                        Label { text: "OPTIONAL CLOUD"; color: root.cyan; font.pixelSize: 8; font.bold: true }
+                        Label { Layout.fillWidth: true; text: "Explicit upload approval + CAP-140 egress + Central MCP Gateway"; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
+                        Label { text: "PENDING_CURRENT_HOST · NO DIRECT BYPASS"; color: root.magenta; font.pixelSize: 8; font.bold: true }
+                    }
+                }
+                Card {
+                    Layout.fillWidth: true; Layout.preferredHeight: 136
+                    ColumnLayout { anchors.fill: parent; anchors.margins: 12
+                        Label { text: "OpenKB"; color: root.textPrimary; font.bold: true }
+                        Label { text: "OPTIONAL COMPILER"; color: root.orange; font.pixelSize: 8; font.bold: true }
+                        Label { Layout.fillWidth: true; text: "Materialized derived knowledge compiler; nem source authority."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
                         Label { text: "PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 8; font.bold: true }
                     }
                 }
                 Card {
-                    Layout.fillWidth: true; Layout.preferredHeight: 122
-                    ColumnLayout { anchors.fill: parent; anchors.margins: 12
-                        Label { text: "PageIndex MCP Cloud"; color: root.textPrimary; font.bold: true }
-                        Label { text: "OPTIONAL CLOUD"; color: root.cyan; font.pixelSize: 8; font.bold: true }
-                        Label { Layout.fillWidth: true; text: "Explicit upload approval + Central MCP Gateway"; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
-                        Label { text: "NO DIRECT BYPASS"; color: root.magenta; font.pixelSize: 8; font.bold: true }
-                    }
-                }
-                Card {
-                    Layout.fillWidth: true; Layout.preferredHeight: 122
-                    ColumnLayout { anchors.fill: parent; anchors.margins: 12
-                        Label { text: "OpenKB"; color: root.textPrimary; font.bold: true }
-                        Label { text: "REFERENCE / COMPILER"; color: root.orange; font.pixelSize: 8; font.bold: true }
-                        Label { Layout.fillWidth: true; text: "Concept/entity/wiki compilation pattern; nem source authority."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
-                    }
-                }
-                Card {
-                    Layout.fillWidth: true; Layout.preferredHeight: 122
+                    Layout.fillWidth: true; Layout.preferredHeight: 136
                     ColumnLayout { anchors.fill: parent; anchors.margins: 12
                         Label { text: "ConDB"; color: root.textPrimary; font.bold: true }
-                        Label { text: "REFERENCE / CACHE"; color: root.orange; font.pixelSize: 8; font.bold: true }
-                        Label { Layout.fillWidth: true; text: "Tree-search + KV-cache acceleration; derived és rebuildable."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
+                        Label { text: "OPTIONAL CACHE"; color: root.orange; font.pixelSize: 8; font.bold: true }
+                        Label { Layout.fillWidth: true; text: "Materialized tree-search/cache accelerator; derived és rebuildable."; color: root.textMuted; wrapMode: Text.WordWrap; font.pixelSize: 9 }
+                        Label { text: "PENDING_CURRENT_HOST"; color: root.orange; font.pixelSize: 8; font.bold: true }
                     }
                 }
             }
@@ -151,11 +153,20 @@ Item {
                 Layout.preferredHeight: 180
                 ColumnLayout {
                     anchors.fill: parent; anchors.margins: 14
-                    Label { text: "Canonical Knowledge records"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
+                    Label { text: "Evidence-backed provider / canonical states"; color: root.textPrimary; font.pixelSize: 13; font.bold: true }
                     ListView {
                         Layout.fillWidth: true; Layout.fillHeight: true
                         clip: true
-                        model: fa3Repository.searchRecords("KNOWLEDGE")
+                        model: {
+                            var rows = []
+                            var terms = ["KNOWLEDGE", "PAGEINDEX", "OPENKB", "CONDB"]
+                            for (var i = 0; i < terms.length; ++i) {
+                                var part = fa3Repository.searchRecords(terms[i])
+                                for (var j = 0; j < part.length; ++j)
+                                    rows.push(part[j])
+                            }
+                            return rows
+                        }
                         delegate: ItemDelegate {
                             width: ListView.view.width
                             height: 38

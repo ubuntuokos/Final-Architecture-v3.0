@@ -1,0 +1,109 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-KNOWLEDGE-COMPILATION-CONTRACTS-001",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "subprofile": "FA3-KNOWLEDGE-COMPILATION-001",
+  "provider_neutral": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "capability_count": 143,
+  "contracts": {
+    "KnowledgeClaim": {
+      "required": [
+        "claim_id",
+        "statement",
+        "source_refs",
+        "provenance_edges",
+        "confidence"
+      ],
+      "derived": true
+    },
+    "KnowledgeEntity": {
+      "required": [
+        "entity_id",
+        "entity_type",
+        "canonical_name",
+        "source_refs",
+        "provenance_edges"
+      ],
+      "derived": true
+    },
+    "KnowledgeRelation": {
+      "required": [
+        "relation_id",
+        "from_ref",
+        "predicate",
+        "to_ref",
+        "source_refs",
+        "provenance_edges"
+      ],
+      "derived": true
+    },
+    "KnowledgeConcept": {
+      "required": [
+        "concept_id",
+        "name",
+        "summary",
+        "source_refs",
+        "provenance_edges"
+      ],
+      "derived": true
+    },
+    "TemporalAssertion": {
+      "required": [
+        "assertion_id",
+        "subject_ref",
+        "valid_time",
+        "statement",
+        "source_refs",
+        "provenance_edges"
+      ],
+      "derived": true
+    },
+    "ContradictionRecord": {
+      "required": [
+        "contradiction_id",
+        "left_claim_ref",
+        "right_claim_ref",
+        "status",
+        "source_refs"
+      ],
+      "derived": true,
+      "authority": "ADVISORY_ONLY"
+    },
+    "ProvenanceEdge": {
+      "required": [
+        "edge_id",
+        "source_ref",
+        "source_sha256",
+        "locator",
+        "derivation",
+        "derived_ref"
+      ]
+    },
+    "CompilationReceipt": {
+      "required": [
+        "receipt_id",
+        "provider_id",
+        "source_refs",
+        "source_hashes",
+        "derived_refs",
+        "provenance_edges",
+        "status"
+      ],
+      "append_only": true
+    },
+    "DerivedKnowledgeProjection": {
+      "required": [
+        "projection_id",
+        "projection_kind",
+        "content_sha256",
+        "source_refs",
+        "provenance_edges"
+      ],
+      "derived": true,
+      "rebuildable": true
+    }
+  },
+  "authority_rule": "FA3-JOURNAL-001_AND_ORIGINAL_ARTIFACTS_REMAIN_AUTHORITATIVE"
+}

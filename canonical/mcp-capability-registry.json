@@ -102,12 +102,16 @@
           "adapter_id": "fa3.adapter.pageindex.local.index",
           "state": "PENDING_CURRENT_HOST",
           "priority": 20,
-          "transport": "python-inprocess",
+          "transport": "unix-user-service",
           "approval_override": "policy",
           "evidence_ref": null,
           "gate_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
           "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
-          "network_egress": "DENY_DIRECT_PROVIDER_EGRESS"
+          "network_egress": "DENY_DIRECT_PROVIDER_EGRESS",
+          "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+          "model_route_mode": "LOGICAL_ALIAS",
+          "physical_backend_pin": "DENY",
+          "physical_model_pin": "DENY"
         },
         {
           "provider_id": "FA3-PROVIDER-PAGEINDEX-MCP-001",
@@ -117,7 +121,12 @@
           "transport": "stdio",
           "approval_override": "explicit",
           "evidence_ref": null,
-          "gate_id": "FA3-GATE-PAGEINDEX-MCP-001"
+          "gate_id": "FA3-GATE-PAGEINDEX-MCP-001",
+          "asset_egress_mode": "LOCAL_FILE_UPLOAD",
+          "asset_egress_profile": "FA3-ASSET-EGRESS-POLICY-001",
+          "asset_egress_destination_uri": "https://app.pageindex.ai/mcp",
+          "asset_egress_data_class": "USER_DOCUMENT",
+          "asset_egress_purpose": "PageIndex Cloud document indexing"
         }
       ]
     },
@@ -135,12 +144,16 @@
           "adapter_id": "fa3.adapter.pageindex.local.retrieve",
           "state": "PENDING_CURRENT_HOST",
           "priority": 20,
-          "transport": "python-inprocess",
+          "transport": "unix-user-service",
           "approval_override": "policy",
           "evidence_ref": null,
           "gate_id": "FA3-KNOWLEDGE-HYBRID-RETRIEVAL-GATESET-001",
           "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
-          "network_egress": "DENY_DIRECT_PROVIDER_EGRESS"
+          "network_egress": "DENY_DIRECT_PROVIDER_EGRESS",
+          "current_host_gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+          "model_route_mode": "LOGICAL_ALIAS",
+          "physical_backend_pin": "DENY",
+          "physical_model_pin": "DENY"
         },
         {
           "provider_id": "FA3-PROVIDER-PAGEINDEX-MCP-001",

@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.pageindex-local.current-host-admission-evidence.v1",
+  "id": "FA3-EVIDENCE-PAGEINDEX-LOCAL-CURRENT-HOST-2026-09-19",
+  "conformance_id": "FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001",
+  "gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+  "provider_id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+  "capability_ids": [
+    "fa3.document.index",
+    "fa3.document.retrieve"
+  ],
+  "adapter_ids": [
+    "fa3.adapter.pageindex.local.index",
+    "fa3.adapter.pageindex.local.retrieve"
+  ],
+  "decision": "ADMIT_FOR_FINAL_CURRENT_HOST_VALIDATION",
+  "promotion_scope": "COMPONENT_ONLY",
+  "global_promotion_claim": false,
+  "candidate_evidence": {
+    "result": "PASS",
+    "status": "CANDIDATE_PASS",
+    "captured_at": "2026-09-18T23:22:10.155Z",
+    "workflow_run_id": 35404877967,
+    "workflow_job_id": 105792491555,
+    "workflow_artifact_id": 10571723397,
+    "workflow_artifact_digest": "sha256:56a604f1323dcf20b9da03e287fec2d73b2d8508524d9c104f96b3d67a0e04b1",
+    "receipt_sha256": "df7ee114331df5798fb6e337b0d41e7af84f30287509825497d59bd9296091c1",
+    "repository_source_head": "001f7ff52438701243751a2ac6feeea627fbf497",
+    "repository_checkout_head": "0109dd71ed97246ed515ebb440906a13ead488ca",
+    "canonical_binding_state": "PENDING_CURRENT_HOST",
+    "service_left_enabled": false,
+    "sample_pdf_sha256": "98567ab57edf3ab630e6a1534c4b4953742a8499baac0c4bacef62e7129c0ba7",
+    "runtime_manifest": {
+      "upstream_commit": "9a8dd6658278fec90347e8ac3388a205305667a3",
+      "pageindex_version": "0.2.10",
+      "pyproject_sha256": "e8a0610c45ac95bcbba044078402cabb08c4f5154c577c81704d3d19258abe14",
+      "resolved_requirements_sha256": "b990ad60fa152153eafa53fd85d516bd19f0dd3ce7fe238cbd7643bf4f739f01",
+      "python": "3.13.15"
+    },
+    "checks": {
+      "gateway_ready": true,
+      "model_router_loopback_verified": true,
+      "nonloopback_model_route_denied": true,
+      "path_escape_denied": true,
+      "real_pdf_index": true,
+      "metadata_retrieval": true,
+      "structure_retrieval": true,
+      "page_retrieval": true,
+      "reason_retrieval": true,
+      "central_gateway_provider_receipts": true,
+      "retrieval_plan_trace_passport": true,
+      "pinned_source_clean": true,
+      "pageindex_version_verified": true,
+      "isolated_venv_verified": true,
+      "systemd_egress_hardening": true,
+      "persistent_services_active": true,
+      "persistent_services_enabled": true,
+      "canonical_registry_unchanged": true
+    }
+  },
+  "admission_conditions": [
+    "canonical provider and MCP registry bindings may be CONNECTED only because candidate current-host evidence PASS is immutable-bound here",
+    "final admitted head must produce fresh CURRENT_HOST_PASS on fa3-current-host",
+    "final admitted run must leave fa3-pageindex-model-router.service, fa3-pageindex-local.service and fa3-mcp-gateway.service enabled and active",
+    "final receipt must report canonical_binding_state CONNECTED and service_left_enabled true",
+    "global FA3 promotion remains unclaimed"
+  ]
+}

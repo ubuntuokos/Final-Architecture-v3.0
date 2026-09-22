@@ -1,0 +1,22 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-PAGEINDEX-KNOWLEDGE-CLOSURE-001",
+  "gateset_id": "FA3-PAGEINDEX-KNOWLEDGE-CLOSURE-GATESET-001",
+  "profile_id": "FA3-KNOWLEDGE-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "executable": "./bin/fa3-enforce pageindex-knowledge-closure",
+  "requirements": [
+    "KNOWLEDGE_ROOT_UNCHANGED",
+    "KNOWLEDGE_COMPILATION_CONTRACTS_COMPLETE",
+    "JOURNAL_DERIVATION_BRIDGE_NON_AUTHORITATIVE",
+    "MULTIMODAL_BINARY_EXCLUSION",
+    "OPENKB_PROVIDER_NON_AUTHORITATIVE",
+    "CONDB_REBUILDABLE_NON_AUTHORITATIVE",
+    "CAP140_ASSET_EGRESS_DEFAULT_DENY",
+    "PAGEINDEX_LOCAL_AND_CLOUD_DISTINCT",
+    "CAPABILITY_COUNT_143",
+    "AUTHORITY_DELTA_ZERO"
+  ],
+  "global_promotion_claim": false
+}

@@ -141,6 +141,7 @@ def main() -> int:
     if index_receipt.get("result_status") != "success":
         raise SystemExit("real PageIndex process_document invocation failed")
     checks["GATEWAY_INDEX_INVOCATION"] = "PASS"
+    checks["ASSET_EGRESS_DECISION"] = "PASS" if str(index_receipt.get("asset_egress_decision_id", "")).startswith("FA3-EGRESS-") else "FAIL"
     indexed_result = index_receipt.get("result", {})
     document_name = indexed_result.get("document_name") if isinstance(indexed_result, dict) else None
     if not isinstance(document_name, str) or not document_name:

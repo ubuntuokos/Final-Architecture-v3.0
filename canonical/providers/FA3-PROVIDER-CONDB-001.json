@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-CONDB-001",
+  "name": "VectifyAI/ConDB Rebuildable Context Acceleration",
+  "status": "MATERIALIZED_CURRENT_HOST_PENDING",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "subprofile": "FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001",
+  "provider_role": "OPTIONAL_REBUILDABLE_TREE_RETRIEVAL_ACCELERATOR",
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "authority_delta": 0,
+  "upstream": {
+    "repository": "VectifyAI/ConDB",
+    "commit": "62da030426b3eee96a77b464e7007cdf8530c42e",
+    "package": "pageindex-condb",
+    "license": "Apache-2.0"
+  },
+  "accepted_inputs": [
+    "PageIndex-compatible document tree",
+    "FA3 HierarchicalNode tree",
+    "custom hierarchical JSON projection"
+  ],
+  "storage": "LOCAL_SQLITE_REBUILDABLE_CACHE",
+  "model_access": "FA3_MODEL_ROUTER_LOOPBACK_ONLY",
+  "direct_external_model_provider": "DENY",
+  "durable_knowledge_authority": "DENY",
+  "journal_authority": "DENY",
+  "memory_authority": "DENY",
+  "runtime_status": "PENDING_CURRENT_HOST",
+  "global_runtime_promotion_claim": false
+}

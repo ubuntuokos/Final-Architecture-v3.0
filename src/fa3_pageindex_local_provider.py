@@ -22,8 +22,8 @@ class PageIndexLocalConfig:
     storage_path: Path
     allowed_roots: tuple[Path, ...]
     model_router_base_url: str
-    index_model: str
-    chat_model: str
+    index_route: str
+    reason_route: str
 
     def validate(self) -> None:
         if not self.storage_path.is_absolute():
@@ -35,8 +35,9 @@ class PageIndexLocalConfig:
             raise GatewayDenied("PAGEINDEX_LOCAL_MODEL_ROUTER_EGRESS", "PageIndex Local may use only a loopback FA3 Model Router")
         if parsed.username or parsed.password or parsed.query or parsed.fragment:
             raise GatewayDenied("PAGEINDEX_LOCAL_MODEL_ROUTER_INVALID", "Model Router URL may not contain credentials/query/fragment")
-        if not self.index_model.strip() or not self.chat_model.strip():
-            raise GatewayDenied("PAGEINDEX_LOCAL_MODEL_INVALID", "index_model and chat_model are required")
+        for name, value in (("index_route", self.index_route), ("reason_route", self.reason_route)):
+            if not value.strip() or "://" in value or any(ch.isspace() for ch in value):
+                raise GatewayDenied("PAGEINDEX_LOCAL_MODEL_ROUTE_INVALID", f"{name} must be a logical Model Router route alias")
 
 
 class PageIndexLocalProvider:
@@ -58,8 +59,8 @@ class PageIndexLocalProvider:
             index_backend = {"api_base": self.config.model_router_base_url, "api_key": ROUTER_SENTINEL}
             chat_backend = {"base_url": self.config.model_router_base_url, "api_key": ROUTER_SENTINEL}
             self._client = self._factory()(
-                index={"mode": "local", "model": f"openai/{self.config.index_model}", "backend": index_backend, "storage_path": str(self.config.storage_path)},
-                chat={"mode": "local", "model": f"openai/{self.config.chat_model}", "backend": chat_backend},
+                index={"mode": "local", "model": f"openai/{self.config.index_route}", "backend": index_backend, "storage_path": str(self.config.storage_path)},
+                chat={"mode": "local", "model": f"openai/{self.config.reason_route}", "backend": chat_backend},
             )
         return self._client
 
@@ -97,7 +98,8 @@ class PageIndexLocalProvider:
                 "provider": PROVIDER_ID,
                 "derived": True,
             },
-            "network_egress": "MODEL_ROUTER_LOOPBACK_ONLY",
+            "network_egress": "CENTRAL_MODEL_ROUTER_ONLY",
+            "model_route": self.config.index_route,
         }
 
     def retrieve(self, arguments: dict[str, Any]) -> dict[str, Any]:
@@ -127,7 +129,8 @@ class PageIndexLocalProvider:
             "operation": operation,
             "doc_id": doc_id,
             "result": payload,
-            "network_egress": "MODEL_ROUTER_LOOPBACK_ONLY",
+            "network_egress": "CENTRAL_MODEL_ROUTER_ONLY",
+            "model_route": self.config.reason_route if operation == "reason" else None,
             "global_promotion_claim": False,
         }
 

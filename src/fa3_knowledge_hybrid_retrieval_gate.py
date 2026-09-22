@@ -50,7 +50,7 @@ def gate(root: Path) -> dict[str, Any]:
     if provider.get("id") != PROVIDER_ID or provider.get("architectural_authority") is not False:
         findings.append(finding("KNOWLEDGE-005","PageIndex Local provider identity/authority drift"))
     local=provider.get("local_runtime",{})
-    if local.get("model_access") != "FA3_MODEL_ROUTER_LOOPBACK_ONLY" or local.get("direct_external_model_provider") != "DENY" or local.get("pageindex_api_key") != "DENY":
+    if local.get("model_access") != "FA3_CENTRAL_MODEL_ROUTER_ONLY" or local.get("model_router_authority") != "FA3-AUTH-MODEL-ROUTER-001" or local.get("physical_backend_binding") != "ROUTER_RUNTIME_DECISION_ONLY" or local.get("physical_model_binding") != "ROUTER_RUNTIME_DECISION_ONLY" or local.get("direct_external_model_provider") != "DENY" or local.get("pageindex_api_key") != "DENY":
         findings.append(finding("KNOWLEDGE-006","PageIndex Local direct egress/credential boundary drift"))
     if page_ref.get("commit") != "9a8dd6658278fec90347e8ac3388a205305667a3":
         findings.append(finding("KNOWLEDGE-007","PageIndex Local upstream pin drift"))

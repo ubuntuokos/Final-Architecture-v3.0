@@ -1,0 +1,47 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MULTIMODAL-KNOWLEDGE-CONTRACTS-001",
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "subprofile": "FA3-MULTIMODAL-KNOWLEDGE-REASONING-001",
+  "provider_neutral": true,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "contracts": {
+    "MultimodalProjectionRequest": {
+      "required": [
+        "artifact_ref",
+        "artifact_sha256",
+        "media_type",
+        "derived_descriptors"
+      ]
+    },
+    "TranscriptProjection": {
+      "required": [
+        "artifact_ref",
+        "artifact_sha256",
+        "text",
+        "start_ms",
+        "end_ms"
+      ],
+      "derived": true
+    },
+    "MultimodalProjectionReceipt": {
+      "required": [
+        "receipt_id",
+        "artifact_ref",
+        "artifact_sha256",
+        "derived_refs",
+        "provenance_edges",
+        "status"
+      ],
+      "append_only": true
+    }
+  },
+  "forbidden_fields": [
+    "binary",
+    "bytes",
+    "base64",
+    "raw_payload",
+    "inline_media"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-PAGEINDEX-LOCAL-CURRENT-HOST-001",
+  "gateset_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+  "provider_id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "entrypoint": "./bin/fa3-enforce pageindex-local-current-host",
+  "receipt": "evidence/receipts/pageindex-local-current-host.json",
+  "requirements": [
+    "PINNED_SOURCE_CLEAN",
+    "PAGEINDEX_VERSION_0_2_10",
+    "ISOLATED_VENV",
+    "CENTRAL_MODEL_ROUTER_AUTHORITY_RECEIPT",
+    "LOGICAL_MODEL_ROUTES_NO_PHYSICAL_PIN",
+    "MODEL_ROUTER_LOOPBACK_ONLY",
+    "PAGEINDEX_OWNED_MODEL_ROUTER_DENIED",
+    "DIRECT_EXTERNAL_EGRESS_DENIED",
+    "REAL_PDF_INDEX",
+    "REAL_STRUCTURE_RETRIEVAL",
+    "REAL_PAGE_RETRIEVAL",
+    "REAL_REASON_QUERY",
+    "CENTRAL_MCP_GATEWAY_MEDIATION",
+    "NEGATIVE_PATH_SCOPE",
+    "RETRIEVAL_TRACE_AND_CONTEXT_PASSPORT",
+    "NO_DOCUMENT_ONLY_PROMOTION"
+  ],
+  "global_promotion_claim": false
+}

@@ -73,15 +73,16 @@ class KnowledgeHybridRetrievalTests(unittest.TestCase):
                 storage_path=root/"store",
                 allowed_roots=(root,),
                 model_router_base_url="http://127.0.0.1:18791/v1",
-                index_model="index-model",
-                chat_model="chat-model",
+                index_route="fa3-pageindex-index",
+                reason_route="fa3-pageindex-reason",
             )
             index_adapter,retrieve_adapter=build_adapters(config,client_factory=FakeClient)
             indexed=index_adapter.handler({"source":str(pdf)})
             self.assertEqual("doc-local",indexed["doc_id"])
             reason=retrieve_adapter.handler({"operation":"reason","doc_id":"doc-local","query":"why"})
             self.assertEqual("answer:why",reason["result"])
-            self.assertEqual("MODEL_ROUTER_LOOPBACK_ONLY",reason["network_egress"])
+            self.assertEqual("CENTRAL_MODEL_ROUTER_ONLY",reason["network_egress"])
+            self.assertEqual("fa3-pageindex-reason",reason["model_route"])
 
     def test_local_provider_path_escape_denied(self):
         with tempfile.TemporaryDirectory() as allowed, tempfile.TemporaryDirectory() as outside:

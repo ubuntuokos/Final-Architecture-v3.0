@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.pageindex-local-current-host-enforcement.v1",
+  "gate_id": "FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001",
+  "provider_id": "FA3-PROVIDER-PAGEINDEX-LOCAL-001",
+  "fail_closed": true,
+  "upstream_commit": "9a8dd6658278fec90347e8ac3388a205305667a3",
+  "pageindex_version": "0.2.10",
+  "pre_admission_state": "PENDING_CURRENT_HOST",
+  "admitted_state": "CONNECTED",
+  "model_route": "FA3_CENTRAL_MODEL_ROUTER_ONLY",
+  "provider_transport": "UNIX_USER_SERVICE",
+  "direct_cloud_egress": "DENY",
+  "current_host_receipt": "evidence/receipts/pageindex-local-current-host.json",
+  "global_promotion_claim": false,
+  "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "model_router_endpoint_source": "FA3_MODEL_ROUTER_URL",
+  "logical_routes": {
+    "index": "fa3-pageindex-index",
+    "reason": "fa3-pageindex-reason"
+  },
+  "pageindex_owned_model_router": "DENY",
+  "physical_backend_pin": "DENY",
+  "physical_model_pin": "DENY",
+  "router_current_host_receipt_required": true
+}

@@ -67,6 +67,14 @@ jobs:
           chmod +x bin/fa3-enforce
           PYTHONPATH=src python -m unittest discover -s tests -v
           ./bin/fa3-enforce release-projection
+      - name: Upload regenerated projection for author commit
+        if: (github.ref_name == 'main' && steps.main_projection.outputs.valid != 'true') || (github.ref_name != 'main' && steps.branch_projection.outputs.valid != 'true')
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-reconciled-release-projection
+          path: canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json
+          if-no-files-found: error
+          retention-days: 7
       - name: Preserve reconciled projection safely
         if: (github.ref_name == 'main' && steps.main_projection.outputs.valid != 'true') || (github.ref_name != 'main' && steps.branch_projection.outputs.valid != 'true')
         shell: bash
@@ -92,6 +100,13 @@ jobs:
             exit 1
           fi
 
-          echo "::error::PR branch projection is stale. The regenerated workspace copy is valid, but CI must not push a GITHUB_TOKEN-authored PR-head commit because required status checks would not run on that new head."
-          echo "::error::Commit the regenerated projection through the normal author/agent branch update, then rerun protected checks."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${projection}"
+          git commit -m "FA3: reconcile unified release projection [projection]"
+
+          recovery_branch="automation/release-projection-recovery-${GITHUB_SHA:0:12}"
+          git push --force-with-lease origin "HEAD:refs/heads/${recovery_branch}"
+          echo "::error::PR branch projection is stale. The validated projection was preserved on ${recovery_branch} without mutating the PR head."
+          echo "::error::Copy only the reconciled projection blob onto the author/agent PR branch, then rerun protected checks."
           exit 2

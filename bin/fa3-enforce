@@ -2,6 +2,16 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+if [[ "${1:-}" == "pageindex-local-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_local_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
+if [[ "${1:-}" == "pageindex-knowledge-closure" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_pageindex_knowledge_closure_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "secret-broker-current-host" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_secret_broker_current_host_gate.py" --root "$ROOT" "$@"

@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-KNOWLEDGE-COMPILATION-001",
+  "name": "Derived Knowledge Compilation Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "parent_profile": "FA3-KNOWLEDGE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-KNOWLEDGE-COMPILATION-CONTRACTS-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-OPENKB-001"
+  ],
+  "source_authorities": [
+    "FA3-JOURNAL-001",
+    "ORIGINAL_ARTIFACTS"
+  ],
+  "invariants": [
+    "COMPILED_KNOWLEDGE_IS_DERIVED_AND_REBUILDABLE",
+    "CLAIM_ENTITY_RELATION_CONCEPT_TEMPORAL_CONTRADICTION_PROVENANCE_REQUIRED",
+    "SOURCE_HASH_AND_LOCATOR_REQUIRED",
+    "COMPILER_PROVIDER_NOT_SOURCE_AUTHORITY",
+    "NO_DERIVED_PROJECTION_MUTATES_AUTHORITATIVE_SOURCE",
+    "JOURNAL_TO_KNOWLEDGE_BRIDGE_APPEND_ONLY_LINEAGE"
+  ],
+  "runtime_status": "MATERIALIZED_CURRENT_HOST_PENDING"
+}

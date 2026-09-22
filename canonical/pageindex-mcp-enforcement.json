@@ -20,5 +20,10 @@
   "current_host_report_path": "reports/pageindex-mcp-current-host-gate-report.json",
   "global_promotion_claim": false,
   "production_execution": "CLEAN_PINNED_SOURCE_BUILD_ONLY",
-  "floating_npx_execution": "DENY"
+  "floating_npx_execution": "DENY",
+  "asset_egress_profile": "FA3-ASSET-EGRESS-POLICY-001",
+  "asset_egress_capability": "CAP-140",
+  "gateway_generated_egress_decision_required": true,
+  "source_sha256_required": true,
+  "asset_egress_destination_uri": "https://app.pageindex.ai/mcp"
 }
