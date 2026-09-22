@@ -107,8 +107,13 @@ def gate(root:Path,receipt_path:Path|None=None,require_evidence:bool=False)->dic
             for key in REQUIRED_FLAGS:
                 if rec.get("checks",{}).get(key) is not True: fs.append(finding("PIL-HOST-005","required evidence flag missing",flag=key))
             router=rec.get("model_router",{})
-            if router.get("authority")!="FA3-AUTH-MODEL-ROUTER-001" or len(router.get("logical_routes",[]))<2:
-                fs.append(finding("PIL-HOST-008","central Model Router evidence is missing or not authority-bound"))
+            route_bindings=router.get("route_bindings",{})
+            if (router.get("authority")!="FA3-AUTH-MODEL-ROUTER-001"
+                or len(router.get("logical_routes",[]))<2
+                or router.get("runtime_selected") is not True
+                or not isinstance(route_bindings,dict)
+                or any(not isinstance(v,dict) or not v.get("provider_id") or not v.get("runtime_id") or not v.get("model") or v.get("selection")!="RUNTIME_DISCOVERED" for v in route_bindings.values())):
+                fs.append(finding("PIL-HOST-008","central Model Router evidence is missing, not authority-bound, or lacks runtime route provenance"))
             if conf.get("status")=="CURRENT_HOST_ADMITTED":
                 if rec.get("status")!="CURRENT_HOST_PASS" or rec.get("canonical_binding_state")!="CONNECTED" or rec.get("service_left_enabled") is not True:
                     fs.append(finding("PIL-HOST-006","admitted state requires live persistent CURRENT_HOST_PASS"))

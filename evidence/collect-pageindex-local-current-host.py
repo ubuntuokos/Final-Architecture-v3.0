@@ -18,14 +18,29 @@ def load_router_receipt(path:Path,router_url:str,index_route:str,reason_route:st
     if not path.is_file(): raise SystemExit(f"Central FA3 Model Router current-host receipt missing: {path}")
     rec=json.loads(path.read_text(encoding="utf-8"))
     routes=rec.get("logical_routes",[])
+    if rec.get("schema")!="fa3.model-router-current-host-receipt.v1":
+        raise SystemExit("Central Model Router receipt schema mismatch")
     if rec.get("authority")!=ROUTER_AUTHORITY or rec.get("result")!="PASS" or rec.get("provider_neutral") is not True:
         raise SystemExit("Central Model Router receipt does not prove provider-neutral FA3 routing authority")
     if str(rec.get("endpoint","")).rstrip("/")!=router_url.rstrip("/"):
         raise SystemExit("Central Model Router receipt endpoint does not match FA3_MODEL_ROUTER_URL")
-    if not isinstance(routes,list) or not {index_route,reason_route}.issubset(set(routes)):
+    required={index_route,reason_route}
+    if not isinstance(routes,list) or not required.issubset(set(routes)):
         raise SystemExit("Central Model Router receipt does not admit the required PageIndex logical routes")
-    if rec.get("physical_backend_pinned") is not False or rec.get("physical_model_pinned") is not False:
+    if rec.get("physical_backend_pinned") is not False or rec.get("physical_model_pinned") is not False or rec.get("runtime_selected") is not True:
         raise SystemExit("Central Model Router receipt must prove runtime-selected, non-pinned backend/model routing")
+    if rec.get("service_active") is not True or rec.get("selection_receipt_verified") is not True:
+        raise SystemExit("Central Model Router receipt does not prove active service plus verified runtime selection")
+    bindings=rec.get("route_bindings",{})
+    probes=rec.get("route_probes",{})
+    if not isinstance(bindings,dict) or not isinstance(probes,dict):
+        raise SystemExit("Central Model Router receipt route provenance is malformed")
+    for route in required:
+        binding=bindings.get(route,{})
+        probe=probes.get(route,{})
+        if (not binding.get("provider_id") or not binding.get("runtime_id") or not binding.get("model")
+            or binding.get("selection")!="RUNTIME_DISCOVERED" or probe.get("result")!="PASS"):
+            raise SystemExit(f"Central Model Router route lacks executed runtime provenance: {route}")
     return rec
 def main()->int:
     ap=argparse.ArgumentParser()
@@ -79,7 +94,7 @@ def main()->int:
         checks["pageindex_owned_model_router_absent"]=subprocess.run(["systemctl","--user","is-active","--quiet","fa3-pageindex-model-router.service"]).returncode!=0
         checks["canonical_registry_unchanged"]=hashlib.sha256(canonical.read_bytes()).hexdigest()==hashlib.sha256(original).hexdigest()
         passed=all(checks.values())
-        receipt={"schema":"fa3.pageindex-local.current-host-evidence.v2","conformance_id":"FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001","gate_id":"FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001","provider_id":PROVIDER,"result":"PASS" if passed else "FAIL","status":"CURRENT_HOST_PASS" if passed and source_state=="CONNECTED" else "CANDIDATE_PASS" if passed else "FAIL","captured_at":dt.datetime.now(dt.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00","Z"),"repository_head":subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True).strip(),"canonical_binding_state":source_state,"service_left_enabled":bool(passed and source_state=="CONNECTED"),"sample_pdf_sha256":sample_sha,"runtime_manifest":manifest,"model_router":{"authority":ROUTER_AUTHORITY,"endpoint":router_url,"logical_routes":[index_route,reason_route],"receipt_path":str(router_receipt_path),"receipt_sha256":hashlib.sha256(router_receipt_path.read_bytes()).hexdigest(),"physical_backend":router_receipt.get("executed_backend"),"physical_model":router_receipt.get("executed_model")},"checks":checks,"retrieval_plan":probe.get("retrieval_plan"),"retrieval_trace":probe.get("retrieval_trace"),"context_passport":probe.get("context_passport"),"global_promotion_claim":False}
+        receipt={"schema":"fa3.pageindex-local.current-host-evidence.v2","conformance_id":"FA3-PAGEINDEX-LOCAL-RUNTIME-CONFORMANCE-001","gate_id":"FA3-PAGEINDEX-LOCAL-CURRENT-HOST-GATESET-001","provider_id":PROVIDER,"result":"PASS" if passed else "FAIL","status":"CURRENT_HOST_PASS" if passed and source_state=="CONNECTED" else "CANDIDATE_PASS" if passed else "FAIL","captured_at":dt.datetime.now(dt.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00","Z"),"repository_head":subprocess.check_output(["git","-C",str(ROOT),"rev-parse","HEAD"],text=True).strip(),"canonical_binding_state":source_state,"service_left_enabled":bool(passed and source_state=="CONNECTED"),"sample_pdf_sha256":sample_sha,"runtime_manifest":manifest,"model_router":{"authority":ROUTER_AUTHORITY,"endpoint":router_url,"logical_routes":[index_route,reason_route],"receipt_path":str(router_receipt_path),"receipt_sha256":hashlib.sha256(router_receipt_path.read_bytes()).hexdigest(),"runtime_selected":router_receipt.get("runtime_selected"),"route_bindings":{route:router_receipt.get("route_bindings",{}).get(route) for route in (index_route,reason_route)}},"checks":checks,"retrieval_plan":probe.get("retrieval_plan"),"retrieval_trace":probe.get("retrieval_trace"),"context_passport":probe.get("context_passport"),"global_promotion_claim":False}
         out=ROOT/a.output; out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(receipt,indent=2,ensure_ascii=False)+"\n",encoding="utf-8"); print(json.dumps(receipt,indent=2,ensure_ascii=False))
     finally:
         if tmp_registry: tmp_registry.unlink(missing_ok=True)
