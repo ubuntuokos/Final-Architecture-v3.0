@@ -66,7 +66,18 @@ jobs:
         run: |
           set -o pipefail
           PYTHONPATH=src python3 src/fa3_pageindex_local_current_host_gate.py --root . --require-evidence --receipt evidence/receipts/pageindex-local-current-host.json | tee reports/pageindex-local/gate.txt
+      - name: Capture PageIndex service diagnostics
+        if: always()
+        run: |
+          mkdir -p reports/pageindex-local
+          systemctl --user status fa3-pageindex-local.service --no-pager > reports/pageindex-local/pageindex-local-status.txt 2>&1 || true
+          systemctl --user status fa3-pageindex-model-router.service --no-pager > reports/pageindex-local/model-router-status.txt 2>&1 || true
+          systemctl --user status fa3-mcp-gateway.service --no-pager > reports/pageindex-local/mcp-gateway-status.txt 2>&1 || true
+          journalctl --user -u fa3-pageindex-local.service -n 250 --no-pager > reports/pageindex-local/pageindex-local-journal.txt 2>&1 || true
+          journalctl --user -u fa3-pageindex-model-router.service -n 250 --no-pager > reports/pageindex-local/model-router-journal.txt 2>&1 || true
+          journalctl --user -u fa3-mcp-gateway.service -n 250 --no-pager > reports/pageindex-local/mcp-gateway-journal.txt 2>&1 || true
       - name: Upload evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fa3-pageindex-local-current-host

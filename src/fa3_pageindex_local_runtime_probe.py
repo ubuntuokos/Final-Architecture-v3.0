@@ -46,7 +46,8 @@ def probe(sock:Path,pdf:Path,allowed_root:Path)->dict[str,Any]:
     bad=invoke(sock,"fa3.document.index",{"source":str(allowed_root.parent/"outside.pdf")})
     checks["path_escape_denied"]=bad.get("reason_code")=="PAGEINDEX_LOCAL_SCOPE_DENIED"
     idx=invoke(sock,"fa3.document.index",{"source":str(pdf)})
-    if idx.get("result_status")!="success": raise RuntimeError("real PageIndex index failed")
+    if idx.get("result_status")!="success":
+        raise RuntimeError("real PageIndex index failed: "+json.dumps(idx,ensure_ascii=False,sort_keys=True))
     doc_id=str(idx.get("result",{}).get("doc_id","")); checks["real_pdf_index"]=bool(doc_id)
     meta=invoke(sock,"fa3.document.retrieve",{"operation":"metadata","doc_id":doc_id})
     structure=invoke(sock,"fa3.document.retrieve",{"operation":"structure","doc_id":doc_id})
