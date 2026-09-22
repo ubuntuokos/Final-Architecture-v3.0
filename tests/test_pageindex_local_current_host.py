@@ -47,7 +47,9 @@ class PageIndexLocalCurrentHostTests(unittest.TestCase):
         self.assertIn("RuntimeDirectory=fa3-pageindex-local",unit)
         self.assertNotIn("RuntimeDirectory=fa3\n",unit)
         self.assertNotIn("After=default.target",router)
-        self.assertIn("%t/fa3-pageindex-local/pageindex-local.sock",installer)
+        dedicated="%t/fa3-pageindex-local/pageindex-local.sock"
+        self.assertGreaterEqual(installer.count(dedicated),2)
+        self.assertNotIn("%t/fa3/pageindex-local.sock",installer)
         self.assertIn("restart fa3-pageindex-local.service",installer)
     def test_gateway_adapter_requires_absolute_socket(self):
         with self.assertRaises(Exception): build_adapters(Path("relative.sock"))

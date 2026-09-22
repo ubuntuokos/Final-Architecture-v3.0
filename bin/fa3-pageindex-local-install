@@ -65,7 +65,7 @@ After=fa3-pageindex-local.service
 
 [Service]
 Environment="FA3_MCP_ADAPTER_FACTORIES=fa3_os_mcp_adapter:create_adapters,fa3_pageindex_local_gateway_adapter:factory_from_env"
-Environment="FA3_PAGEINDEX_LOCAL_SOCKET=%t/fa3/pageindex-local.sock"
+Environment="FA3_PAGEINDEX_LOCAL_SOCKET=%t/fa3-pageindex-local/pageindex-local.sock"
 EOF
 systemctl --user daemon-reload
 systemd-analyze --user verify "$UNIT_DIR/fa3-pageindex-model-router.service" "$UNIT_DIR/fa3-pageindex-local.service" "$UNIT_DIR/fa3-mcp-gateway.service"
