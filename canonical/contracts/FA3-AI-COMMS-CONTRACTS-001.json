@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AI-COMMS-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AI-COMMS-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "HumanAuditableMessageEnvelope",
+    "CommunicationProvenance",
+    "DefinedTerm",
+    "CanonicalStructuredPayload"
+  ],
+  "human_auditable_message_envelope": {
+    "required_fields": [
+      "communication_mode",
+      "language_tag",
+      "human_readable_text",
+      "human_readable_authoritative"
+    ],
+    "human_readable_authoritative_must_equal": true,
+    "allowed_communication_modes": [
+      "HUMAN_LANGUAGE",
+      "CANONICAL_STRUCTURED"
+    ],
+    "canonical_structured_required_fields": [
+      "schema_id",
+      "structured_payload",
+      "structured_payload_semantics"
+    ],
+    "structured_payload_semantics_must_equal": "SUPPLEMENTAL_TO_HUMAN_TEXT",
+    "new_shorthand_definition_field": "defined_terms",
+    "message_identity_external_fields": [
+      "message_id",
+      "task_id",
+      "sender",
+      "recipient",
+      "hop",
+      "max_hops"
+    ]
+  },
+  "semantic_rules": {
+    "human_readable_text": "AUTHORITATIVE_COMPLETE_SEMANTIC_REPRESENTATION",
+    "structured_payload": "SUPPLEMENTAL_MACHINE_READABLE_REPRESENTATION_ONLY",
+    "defined_terms": "EVERY_NEWLY_INTRODUCED_SHORTHAND_OR_ABBREVIATION_MUST_HAVE_A_HUMAN_READABLE_EXPANSION",
+    "language_tag": "DECLARED_HUMAN_LANGUAGE_BCP47_LIKE_TAG_REQUIRED",
+    "unknown_or_ambiguous_mode": "FAIL_CLOSED"
+  },
+  "forbidden_semantics": [
+    "PRIVATE_MODEL_LANGUAGE",
+    "EMERGENT_AGENT_CODEBOOK",
+    "MODEL_ONLY_SLANG",
+    "UNDEFINED_MUTABLE_SHORTHAND",
+    "OPAQUE_ENCODING_AS_PRIMARY_SEMANTIC_CHANNEL",
+    "PRIVATE_TOKEN_DICTIONARY",
+    "SECRET_SEMANTIC_ALIAS_MAP",
+    "UNVERSIONED_STRUCTURED_PROTOCOL",
+    "STRUCTURED_PAYLOAD_WITHOUT_AUTHORITATIVE_HUMAN_TEXT",
+    "PROVIDER_DEFINED_COMMUNICATION_AUTHORITY",
+    "LANGUAGE_BRIDGE_DEFINED_PRIVATE_PROTOCOL",
+    "PARALLEL_COMPONENT_OWNED_MODEL_ROUTER"
+  ],
+  "audit_requirements": [
+    "SENDER_AND_RECIPIENT_ATTRIBUTABLE",
+    "MESSAGE_ID_AND_TASK_ID_PRESERVED_BY_COORDINATION_LAYER",
+    "COMMUNICATION_MODE_RECORDED",
+    "LANGUAGE_TAG_RECORDED",
+    "HUMAN_TEXT_DIGESTABLE",
+    "SCHEMA_ID_RECORDED_WHEN_STRUCTURED",
+    "FAILURE_REASON_RECORDED_ON_DENIAL"
+  ]
+}
