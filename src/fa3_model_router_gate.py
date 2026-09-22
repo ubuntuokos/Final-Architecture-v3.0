@@ -44,6 +44,7 @@ def gate(root: Path) -> dict[str, Any]:
         "baseline": root / "deployment/litellm/config.yaml",
         "service": root / "deployment/model-router/fa3-model-router.service.in",
         "materializer": root / "src/fa3_model_router_materialize.py",
+        "provider_discovery": root / "src/fa3_model_router_provider_discovery.py",
         "collector": root / "evidence/collect-model-router-current-host.py",
         "host_gate": root / "src/fa3_model_router_current_host_gate.py",
         "installer": root / "bin/fa3-model-router-install",
@@ -60,6 +61,7 @@ def gate(root: Path) -> dict[str, Any]:
     baseline = paths["baseline"].read_text(encoding="utf-8")
     service = paths["service"].read_text(encoding="utf-8")
     materializer = paths["materializer"].read_text(encoding="utf-8")
+    provider_discovery = paths["provider_discovery"].read_text(encoding="utf-8")
 
     if authority.get("id") != AUTHORITY or authority.get("status") != "CANONICAL":
         findings.append(finding("MR-001", "central Model Router authority record mismatch"))
@@ -108,6 +110,15 @@ def gate(root: Path) -> dict[str, Any]:
     )
     if any(token not in materializer for token in required_materializer):
         findings.append(finding("MR-016", "runtime materializer lacks provider admission/discovery/selection invariants"))
+    required_discovery = (
+        "FA3-PROVIDER-LM-STUDIO-MODEL-001",
+        "FA3-PROVIDER-OLLAMA-MODEL-001",
+        "CURRENT_HOST_LIVE_ENDPOINT_DISCOVERY",
+        "provider_neutral",
+        "physical_model_pins",
+    )
+    if any(token not in provider_discovery for token in required_discovery):
+        findings.append(finding("MR-017", "current-host provider discovery does not preserve admitted/live/provider-neutral boundaries"))
     return {
         "schema": "fa3.model-router-gate.v1",
         "gate_id": GATE_ID,
