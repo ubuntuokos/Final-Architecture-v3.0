@@ -35,7 +35,8 @@ P0_RULES = [
     "CANDIDATE_GATE_ALSO_REQUIRED",
     "GATE_SELF_MODIFICATION_DENIED",
     "EXPLICIT_STAGING_ONLY_NO_GIT_ADD_DOT",
-    "MAIN_UPDATE_COMPARE_AND_SWAP",
+    "PROTECTED_MAIN_UPDATE_FORBIDDEN",
+    "CANDIDATE_BRANCH_PR_SUBMISSION_REQUIRED",
     "REPOSITORY_INTEGRATION_LOCK_REQUIRED",
     "CLEAN_MAIN_WORKTREE_REQUIRED",
     "INTEGRATION_EVIDENCE_APPEND_ONLY",
@@ -154,7 +155,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("IB-REF-012", "Podman secret-isolation current-host binding drift"))
 
     required_source_tokens = [
-        "worktree", "apply", "--check", "update-ref", "refs/heads/main",
+        "worktree", "apply", "--check", "PR_READY", "protected_branch_submission_required",
         "proposal_path.read_bytes() != proposal_bytes", "LOCK_EX",
         "GIT_TERMINAL_PROMPT", "core.hooksPath=/dev/null",
     ]
@@ -162,6 +163,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("IB-REF-010", "broker hardening source invariants missing"))
     if '"git", "add", "."' in source:
         findings.append(_finding("IB-REF-011", "forbidden git add dot reintroduced"))
+    if '"update-ref", "refs/heads/main"' in source or '"reset", "--hard", result_sha' in source:
+        findings.append(_finding("IB-REF-013", "broker may not update the protected main ref"))
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
 
@@ -208,7 +211,13 @@ def run_reference_e2e() -> dict[str, Any]:
             "schema": "fa3.agent-task-proposal.v1",
             "proposal_id": "prop-20260919-001",
             "origin_agent": "FA3-PROVIDER-TEST-001",
-            "context": {"task_scope": "reference broker integration"},
+            "context": {
+                "task_scope": "reference broker integration",
+                "target_capability": "CAP-028",
+                "base_commit": base,
+                "declared_write_set": ["work/item.txt"],
+                "test_plan": ["trusted static gate", "candidate static gate"],
+            },
             "approval_state": {
                 "status": "APPROVED_BY_HUMAN",
                 "approved_by": "reference-human",
@@ -227,6 +236,10 @@ def run_reference_e2e() -> dict[str, Any]:
                     "+approved\n"
                 ),
             }],
+            "circuit_breaker_limits": {
+                "max_execution_seconds": 300,
+                "max_file_mutations": 1,
+            },
         }
         proposal["approval_state"]["proposal_digest_sha256"] = proposal_digest(proposal)
         path = approved / "prop-20260919-001.json"
@@ -234,9 +247,18 @@ def run_reference_e2e() -> dict[str, Any]:
         before = path.read_bytes()
         result = FA3IntegrationBroker(repo).process_once()
         after = path.read_bytes()
-        integrated = (
+        candidate_branch = "fa3/integration/prop-20260919-001"
+        candidate_text = subprocess.run(
+            ["git", "-C", str(repo), "show", f"{candidate_branch}:work/item.txt"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+        prepared = (
             result["result"] == "PASS"
-            and (repo / "work/item.txt").read_text(encoding="utf-8") == "approved\n"
+            and result["items"][0]["status"] == "PR_READY"
+            and (repo / "work/item.txt").read_text(encoding="utf-8") == "baseline\n"
+            and candidate_text == "approved\n"
             and before == after
         )
 
@@ -256,12 +278,16 @@ def run_reference_e2e() -> dict[str, Any]:
             "trusted_gate_self_modification_denied": protected_denied,
             "declared_patch_path_mismatch_denied": mismatch_denied,
         }
-        ok = integrated and all(negatives.values())
+        ok = prepared and all(negatives.values())
         return {
             "schema": "fa3.integration-broker-reference-e2e.v1",
             "result": "PASS" if ok else "FAIL",
             "status": "CI_REFERENCE_RUNTIME_E2E_PASS" if ok else "FAIL",
-            "positive_flow": {"integrated": integrated, "proposal_immutable": before == after},
+            "positive_flow": {
+                "pr_ready": prepared,
+                "main_unchanged": (repo / "work/item.txt").read_text(encoding="utf-8") == "baseline\n",
+                "proposal_immutable": before == after,
+            },
             "negative_cases": negatives,
             "current_host_production_claim": False,
         }

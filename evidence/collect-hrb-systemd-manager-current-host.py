@@ -336,7 +336,43 @@ def main() -> int:
     )
     hardware_ok = bool(cpu_counts) and min(cpu_counts.values()) >= 8 and accelerator_inventory_ok
     negatives = negative_tests()
-    status = "PASS" if hardware_ok and manager.get("returncode") == 0 and not violations and cgroup.get("unified") and cgroup.get("effective_cpus") and cgroup.get("effective_memory_nodes") and all(negatives.values()) else "FAIL"
+    checks = {
+        "cpu_baseline_pass": bool(cpu_counts) and min(cpu_counts.values()) >= 8,
+        "accelerator_inventory_schema_pass": accelerator_inventory_ok,
+        "manager_collection_pass": manager.get("returncode") == 0,
+        "manager_neutrality_pass": not violations,
+        "cgroup_v2_pass": bool(
+            cgroup.get("unified")
+            and cgroup.get("effective_cpus")
+            and cgroup.get("effective_memory_nodes")
+        ),
+        "negative_tests_pass": all(negatives.values()),
+    }
+    failure_codes = {
+        "cpu_baseline_pass": "CAP006_CPU_BASELINE_UNPROVEN",
+        "accelerator_inventory_schema_pass": "CAP006_ACCELERATOR_INVENTORY_INVALID",
+        "manager_collection_pass": "CAP006_MANAGER_COLLECTION_FAILED",
+        "manager_neutrality_pass": "CAP006_MANAGER_NEUTRALITY_VIOLATION",
+        "cgroup_v2_pass": "CAP006_CGROUP_V2_UNPROVEN",
+        "negative_tests_pass": "CAP006_NEGATIVE_MATRIX_FAILED",
+    }
+    failed_check_codes = [failure_codes[key] for key, passed in checks.items() if not passed]
+    if cgroup.get("unified") and not cgroup.get("effective_cpus"):
+        failed_check_codes.append("CAP006_EFFECTIVE_CPUSET_UNRESOLVED")
+    if cgroup.get("unified") and not cgroup.get("effective_memory_nodes"):
+        failed_check_codes.append("CAP006_EFFECTIVE_MEMSET_UNRESOLVED")
+    per_package = [int(value) for value in cpu_counts.values()] if isinstance(cpu_counts, dict) else []
+    check_summary = {
+        **checks,
+        "failed_check_codes": failed_check_codes,
+        "cpu_package_count": hardware.get("cpu", {}).get("package_count"),
+        "minimum_physical_cores": min(per_package) if per_package else None,
+        "accelerator_device_count": len(accelerator_devices) if isinstance(accelerator_devices, list) else None,
+        "effective_cpu_set_present": bool(cgroup.get("effective_cpus")),
+        "effective_memory_nodes_present": bool(cgroup.get("effective_memory_nodes")),
+        "failed_negative_test_codes": sorted(key for key, passed in negatives.items() if not passed),
+    }
+    status = "PASS" if all(checks.values()) else "FAIL"
     receipt = {
         "schema": "fa3.hrb-systemd-manager-current-host-receipt.v1",
         "status": status,
@@ -352,6 +388,7 @@ def main() -> int:
         "manager_violations": violations,
         "cgroup_v2": cgroup,
         "negative_tests": negatives,
+        "check_summary": check_summary,
         "capability_count_after": 143,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,

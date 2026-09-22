@@ -1595,7 +1595,7 @@
     "HOST_SUBPROCESS_ARBITRARY_AGENT_EXECUTION_FORBIDDEN",
     "AGENT_SANDBOX_NETWORK_DENY_DEFAULT",
     "AGENT_EPHEMERAL_WORKSPACE_REQUIRED",
-    "NVIDIA_ACCELERATED_AI_MEDIA_ZERO_HOST_ROUND_TRIP_REQUIRED",
+    "CLAIMED_ACCELERATOR_MEMORY_RESIDENCY_REQUIRES_PROVIDER_SCOPED_ZERO_COPY_PROOF",
     "FFMPEG_MEDIA_CORE_RETAINED_DNN_NOT_PRIMARY_NVIDIA_AI_FRAME_PATH",
     "HUNGARIAN_AQC_MULTI_SIGNAL_FAIL_CLOSED",
     "NISQA_NONCOMMERCIAL_PRETRAINED_WEIGHTS_NOT_COMMERCIAL_BASELINE",
@@ -1632,7 +1632,8 @@
     "CANDIDATE_GATE_ALSO_REQUIRED",
     "GATE_SELF_MODIFICATION_DENIED",
     "EXPLICIT_STAGING_ONLY_NO_GIT_ADD_DOT",
-    "MAIN_UPDATE_COMPARE_AND_SWAP",
+    "PROTECTED_MAIN_UPDATE_FORBIDDEN",
+    "CANDIDATE_BRANCH_PR_SUBMISSION_REQUIRED",
     "REPOSITORY_INTEGRATION_LOCK_REQUIRED",
     "CLEAN_MAIN_WORKTREE_REQUIRED",
     "INTEGRATION_EVIDENCE_APPEND_ONLY",
@@ -1658,5 +1659,12 @@
   "agent_instruction_projection_gate_id": "FA3-AGENT-INSTRUCTIONS-GATESET-001",
   "agent_instruction_projection_authority": "NON_CANONICAL_PROJECTION",
   "agent_instruction_projection_fail_closed": true,
-  "agent_instruction_projection_current_host_claim": false
+  "agent_instruction_projection_current_host_claim": false,
+  "secret_broker_contract_id": "FA3-SECRET-BROKER-CONTRACTS-001",
+  "secret_broker_authority": "FA3-AUTH-SECRETS-001",
+  "secret_broker_provider_neutral": true,
+  "modernization_reconciliation_decision_id": "FA3-DEC-MODERNIZATION-RECONCILIATION-2026-09-20",
+  "modernization_capability_count": 143,
+  "modernization_acceptance_criteria_count": 19,
+  "modernization_global_promotion_claim": false
 }

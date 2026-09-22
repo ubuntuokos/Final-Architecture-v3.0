@@ -4,7 +4,7 @@ This closure materializes real current-host evidence collection for the cross-cu
 
 ## Required surfaces
 
-The current-host gate is PASS only when all four surfaces are fresh, bound to the checked repository HEAD, non-synthetic, and individually PASS.
+The current-host gate is PASS only when every applicable surface is fresh, bound to the checked repository HEAD, non-synthetic, and individually PASS. The media-residency surface is conditional: CPU-only and non-claiming workloads do not require an accelerator or an accelerator provider.
 
 ### 1. Runtime isolation + agent sandbox
 
@@ -15,14 +15,15 @@ The current-host gate is PASS only when all four surfaces are fresh, bound to th
 
 runsc --rootless do is deliberately not accepted as production isolation proof because it exposes the host filesystem read-only by default. A production proof must demonstrate an explicit mount allowlist, default-deny network behavior and ephemeral writable state.
 
-### 2. PyNvVideoCodec zero-host-round-trip neural segment
+### 2. Conditional accelerator memory-residency claim
 
-- A fresh HRB UUID + PCI BDF binding must map to the same live NVIDIA GPU.
-- PyNvVideoCodec 2.2+ must decode with device memory.
-- The decoded frame must export DLPack and the PyTorch tensor must have identical GPU pointer identity.
+- The selected provider must bind to a compatible accelerator through a fresh HRB lease.
+- A provider-specific trace must prove memory-domain and shared-buffer identity.
 - No frame may be converted to CPU memory.
-- PCIe Rx/Tx telemetry is captured around a GPU-only neural-segment exercise.
+- Transfer telemetry is advisory and no universal PCIe percentage threshold is an admission decision.
 - No claim is made that demux, compressed-input transport, decoding, encoding, or the complete media pipeline is literally copy-free.
+
+PyNvVideoCodec remains an optional NVIDIA adapter for this proof. It is not a global runtime-hardening dependency.
 
 ### 3. Hungarian AQC
 
@@ -48,21 +49,21 @@ The preflight requires:
 
 - a PASS runner-doctor receipt proving the labeled runner is online;
 - rootless execution;
-- local `podman`, `wasmtime`, `runsc` and `nvidia-smi`;
-- locally importable `pynvml`, `PyNvVideoCodec` and `torch`;
+- local `podman`, `wasmtime` and `runsc`;
+- `nvidia-smi`, `pynvml`, `PyNvVideoCodec` and `torch` only when the optional NVIDIA media claim is explicitly requested;
 - an installed digest-pinned agent Quadlet with `Network=none`, read-only root, no-new-privileges, drop-all capabilities, `Pull=never` and `runsc`;
 - a running agent container whose actual Podman inspection resolves to `runsc`;
 - an immutable, already preloaded OCI image. Network pulling remains forbidden;
 - an exact host-attestation reference;
-- a valid PASS `CURRENT_HOST_ADMISSION` Evidence Envelope with HRB accelerator UUID/BDF binding;
-- a PASS `fa3.cuda-copy-trace.v1` produced by CUPTI, Nsight Systems or CUDA activity tracing, with zero frame H2D/D2H transfers and zero host frame round-trips;
-- the approved local media input;
+- a valid PASS `CURRENT_HOST_ADMISSION` Evidence Envelope with provider-compatible HRB accelerator binding only when the media claim is requested;
+- when an explicit zero-host-round-trip claim is requested, a PASS `fa3.accelerator-copy-trace.v1` produced by the selected provider trace adapter, with zero frame H2D/D2H transfers and zero host frame round-trips;
+- the approved local media input only when the media claim is requested;
 - the Hungarian PCM16 AQC audio and JSON scorer bundle;
 - nvproxy driver compatibility when GPU projection into the gVisor sandbox is explicitly requested.
 
 The result is written to `.fa3-current-host/runtime-hardening/preflight.json`.
 
-A preflight PASS means only `READY_FOR_REAL_EXECUTION`. It is not one of the four runtime-hardening surface PASS receipts, does not promote the component, and cannot claim global FA3 promotion.
+A preflight PASS means only `READY_FOR_REAL_EXECUTION`. It is not a runtime-hardening surface PASS receipt, does not promote the component, and cannot claim global FA3 promotion.
 
 ## Operator execution
 

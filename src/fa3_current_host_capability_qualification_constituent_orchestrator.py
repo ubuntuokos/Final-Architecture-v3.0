@@ -26,6 +26,25 @@ ORCHESTRATOR_ID = "FA3-CURRENT-HOST-QUALIFICATION-CONSTITUENT-ORCHESTRATOR-001"
 HOST_FINGERPRINT = ".fa3-current-host/global-closure/host/host-fingerprint.json"
 SOURCE_ROOT = ".fa3-current-host/qualification-source-artifacts"
 CONSTITUENT_ROOT = ".fa3-current-host/qualification-constituents"
+REJECTION_SCHEMA = "fa3.qualification-producer-rejection.v1"
+REJECTION_STAGES = {"COLLECTOR", "GATE", "PRODUCER"}
+REJECTION_REASON_CODES = {
+    "CAP006_CPU_BASELINE_UNPROVEN", "CAP006_ACCELERATOR_INVENTORY_INVALID",
+    "CAP006_MANAGER_COLLECTION_FAILED", "CAP006_MANAGER_NEUTRALITY_VIOLATION",
+    "CAP006_CGROUP_V2_UNPROVEN", "CAP006_EFFECTIVE_CPUSET_UNRESOLVED",
+    "CAP006_EFFECTIVE_MEMSET_UNRESOLVED", "CAP006_NEGATIVE_MATRIX_FAILED",
+    "CAP006_RECEIPT_UNAVAILABLE", "CAP006_CHECK_SUMMARY_UNAVAILABLE",
+    "CAP006_COLLECTOR_REJECTED", "CAP006_GATE_REPORT_UNAVAILABLE",
+    "CAP006_GATE_REPORT_INVALID", "CAP006_GATE_REJECTED", "MAT002_EXECUTION_REJECTED",
+    "HRB-SYSTEMD-001", "HRB-SYSTEMD-002", "HRB-SYSTEMD-003", "HRB-SYSTEMD-004",
+    "HRB-SYSTEMD-005", "HRB-SYSTEMD-006", "HRB-SYSTEMD-007", "HRB-SYSTEMD-008",
+}
+REJECTION_SUMMARY_KEYS = {
+    "cpu_baseline_pass", "accelerator_inventory_schema_pass", "manager_collection_pass",
+    "manager_neutrality_pass", "cgroup_v2_pass", "negative_tests_pass", "failed_check_codes",
+    "cpu_package_count", "minimum_physical_cores", "accelerator_device_count",
+    "effective_cpu_set_present", "effective_memory_nodes_present", "failed_negative_test_codes",
+}
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -47,8 +66,8 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def _structured_rejection_findings(stderr: str) -> list[str]:
-    """Extract bounded findings only from a registered producer's structured REJECTED verdict."""
+def _structured_rejection_findings(stderr: str, entry: dict[str, Any]) -> list[str]:
+    """Extract only schema-bound codes and bounded scalar summaries from a registered producer."""
     for raw in reversed(stderr.splitlines()):
         line = raw.strip()
         if not line:
@@ -57,17 +76,26 @@ def _structured_rejection_findings(stderr: str) -> list[str]:
             obj = json.loads(line)
         except json.JSONDecodeError:
             continue
-        if not isinstance(obj, dict) or obj.get("status") != "REJECTED":
+        if not isinstance(obj, dict) or obj.get("schema") != REJECTION_SCHEMA or obj.get("status") != "REJECTED":
             continue
-        findings = obj.get("findings")
-        if not isinstance(findings, list):
+        if any(obj.get(key) != entry.get(key) for key in ("producer_id","qualification_id","constituent_id","subject_id")):
             return []
-        safe: list[str] = []
-        for item in findings:
-            if isinstance(item, str) and item.strip():
-                safe.append(item.strip()[:2000])
-            if len(safe) >= 8:
-                break
+        if obj.get("stage") not in REJECTION_STAGES:
+            return []
+        codes=obj.get("reason_codes")
+        if not isinstance(codes,list) or not 1 <= len(codes) <= 8 or any(code not in REJECTION_REASON_CODES for code in codes):
+            return []
+        summary=obj.get("summary",{})
+        if not isinstance(summary,dict) or any(key not in REJECTION_SUMMARY_KEYS for key in summary):
+            return []
+        for value in summary.values():
+            if isinstance(value,list):
+                if len(value)>8 or any(not isinstance(item,str) or len(item)>80 for item in value):return []
+            elif value is not None and not isinstance(value,(bool,int)):
+                return []
+        safe=[f"producer stage: {obj['stage']}"]
+        safe.extend(f"producer reason code: {code}" for code in codes)
+        if summary:safe.append("producer summary: "+json.dumps(summary,sort_keys=True,separators=(",",":")))
         return safe
     return []
 
@@ -242,7 +270,7 @@ def _execute(
         findings = [f"producer adapter returncode {proc.returncode}"]
         findings.extend(
             f"producer rejection: {detail}"
-            for detail in _structured_rejection_findings(proc.stderr)
+            for detail in _structured_rejection_findings(proc.stderr, entry)
         )
         return None, findings
     try:

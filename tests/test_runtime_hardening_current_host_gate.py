@@ -7,7 +7,7 @@ from src.fa3_runtime_hardening_current_host import (
     repo_head,
     utcnow,
     validate_hu_aqc_receipt,
-    validate_media_zero_receipt,
+    validate_media_residency_receipt,
     validate_runtime_sandbox_receipt,
     validate_shadow_receipt,
 )
@@ -87,6 +87,18 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
             report = gate(ROOT, require_evidence=True, receipt_dir=Path(td))
         self.assertEqual(report["result"], "FAIL")
         self.assertEqual(report["status"], "PENDING_CURRENT_HOST")
+        self.assertEqual(report["blocking_findings"], 3)
+        self.assertEqual(report["surfaces"]["media_accelerator_memory_residency"]["status"], "NOT_APPLICABLE")
+
+    def test_media_evidence_is_required_only_when_accelerator_residency_is_claimed(self):
+        with tempfile.TemporaryDirectory() as td:
+            report = gate(
+                ROOT,
+                require_evidence=True,
+                require_media_claim=True,
+                receipt_dir=Path(td),
+            )
+        self.assertEqual(report["result"], "FAIL")
         self.assertEqual(report["blocking_findings"], 4)
 
     def test_runtime_sandbox_requires_production_gvisor_proof_not_smoke_only(self):
@@ -147,36 +159,40 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
         ok, reasons = validate_runtime_sandbox_receipt(receipt, root=ROOT)
         self.assertTrue(ok, reasons)
 
-    def test_media_zero_copy_requires_pointer_identity_and_never_overclaims_full_pipeline(self):
+    def test_media_residency_requires_provider_proof_and_never_overclaims_full_pipeline(self):
         receipt = base(
-            "fa3.media-gpu-zerocopy-current-host-receipt.v1",
-            "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+            "fa3.media-accelerator-residency-current-host-receipt.v1",
+            "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
         )
         receipt.update({
-            "hrb_binding": {"status": "PASS", "gpu_uuid": "GPU-test", "pci_bdf": "0000:01:00.0", "gpu_index": 0},
+            "provider_id": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+            "hrb_binding": {
+                "status": "PASS",
+                "stable_accelerator_id": "GPU-test",
+                "provider_binding": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+            },
             "pynvvideocodec": {
                 "status": "PASS", "version": "2.2.3", "device_memory_decode": True,
                 "module_sha256": "a" * 64,
             },
-            "dlpack": {
-                "status": "PASS", "cuda_device_type": True, "pointer_identity": True,
-                "torch_tensor_is_cuda": True, "torch_cuda_device_match": True,
+            "memory_residency": {
+                "status": "PASS",
+                "provider_memory_domain": "CUDA_DEVICE",
+                "shared_buffer_identity": True,
                 "host_frame_round_trips": 0,
             },
             "copy_telemetry": {
                 "present": True,
                 "scope": "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE",
-                "semantics": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+                "semantics": "ADVISORY_TRANSFER_TELEMETRY_NOT_ZERO_COPY_PROOF",
                 "capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
                 "sampling_interval_seconds": 0.02,
-                "budget_ratio": 0.05,
-                "budget_kb_s": 1000000.0,
                 "max_rx_kb_s": 1000.0,
                 "max_tx_kb_s": 2000.0,
                 "samples": [{"rx_kb_s": 1000.0, "tx_kb_s": 2000.0}] * 10,
             },
             "frame_copy_trace": {
-                "schema": "fa3.cuda-copy-trace.v1",
+                "schema": "fa3.accelerator-copy-trace.v1",
                 "status": "PASS",
                 "collector": {"kind": "CUPTI", "version": "test"},
                 "neural_segment": {
@@ -184,20 +200,21 @@ class RuntimeHardeningCurrentHostTests(unittest.TestCase):
                     "host_to_device_frame_copy_count": 0,
                     "device_to_host_frame_copy_count": 0,
                     "host_frame_round_trips": 0,
-                    "dlpack_shared_gpu_memory": True,
+                    "shared_accelerator_memory": True,
                 },
             },
+            "classification": "ZERO_COPY_PROVEN",
             "full_pipeline_zero_copy_claim": False,
         })
-        receipt["evidence_envelope"] = envelope("MEDIA_GPU_ZERO_HOST_ROUND_TRIP")
-        ok, reasons = validate_media_zero_receipt(receipt, root=ROOT)
+        receipt["evidence_envelope"] = envelope("MEDIA_ACCELERATOR_MEMORY_RESIDENCY")
+        ok, reasons = validate_media_residency_receipt(receipt, root=ROOT)
         self.assertTrue(ok, reasons)
         bad = copy.deepcopy(receipt)
-        bad["dlpack"]["pointer_identity"] = False
-        self.assertFalse(validate_media_zero_receipt(bad, root=ROOT)[0])
+        bad["memory_residency"]["shared_buffer_identity"] = False
+        self.assertFalse(validate_media_residency_receipt(bad, root=ROOT)[0])
         bad = copy.deepcopy(receipt)
         bad["full_pipeline_zero_copy_claim"] = True
-        self.assertFalse(validate_media_zero_receipt(bad, root=ROOT)[0])
+        self.assertFalse(validate_media_residency_receipt(bad, root=ROOT)[0])
 
     def test_hu_aqc_rejects_single_metric_or_failed_dimension(self):
         receipt = base("fa3.hu-aqc-current-host-receipt.v1", "HU_AQC")

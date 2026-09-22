@@ -54,7 +54,11 @@
     "primary_locale": "hu-HU",
     "fallback_locale": "en",
     "native_hungarian_generation_required": true,
-    "translation_only_pipeline_forbidden": true
+    "translation_only_pipeline_forbidden": true,
+    "quality_receipt_required": true,
+    "quality_dimensions": ["language_identification", "grammar_style", "terminology", "register", "policy"],
+    "single_metric_authority_forbidden": true,
+    "human_review_must_pass_when_required": true
   },
   "delegation": {
     "central_mcp_required": true,

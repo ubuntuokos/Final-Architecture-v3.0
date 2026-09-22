@@ -17,7 +17,13 @@ class IntegrationBrokerTests(unittest.TestCase):
             "schema": b.PROPOSAL_SCHEMA,
             "proposal_id": "prop-20260919-123",
             "origin_agent": "FA3-PROVIDER-TEST-001",
-            "context": {"task_scope": "test"},
+            "context": {
+                "task_scope": "test",
+                "target_capability": "CAP-028",
+                "base_commit": "a" * 40,
+                "declared_write_set": ["docs/x.txt"],
+                "test_plan": ["static gate"],
+            },
             "approval_state": {
                 "status": b.APPROVED,
                 "approved_by": "human",
@@ -29,6 +35,10 @@ class IntegrationBrokerTests(unittest.TestCase):
                 "file_path": "docs/x.txt",
                 "diff": "diff --git a/docs/x.txt b/docs/x.txt\n--- a/docs/x.txt\n+++ b/docs/x.txt\n@@ -1 +1 @@\n-a\n+b\n",
             }],
+            "circuit_breaker_limits": {
+                "max_execution_seconds": 300,
+                "max_file_mutations": 1,
+            },
         }
         proposal["approval_state"]["proposal_digest_sha256"] = b.proposal_digest(proposal)
         return proposal
@@ -59,7 +69,8 @@ class IntegrationBrokerTests(unittest.TestCase):
     def test_reference_e2e_passes_and_keeps_proposal_immutable(self):
         report = g.run_reference_e2e()
         self.assertEqual("PASS", report["result"], report)
-        self.assertTrue(report["positive_flow"]["integrated"])
+        self.assertTrue(report["positive_flow"]["pr_ready"])
+        self.assertTrue(report["positive_flow"]["main_unchanged"])
         self.assertTrue(report["positive_flow"]["proposal_immutable"])
         self.assertTrue(all(report["negative_cases"].values()))
 

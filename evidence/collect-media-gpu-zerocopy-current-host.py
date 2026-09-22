@@ -94,7 +94,7 @@ def _resource_binding(path: Path) -> tuple[str, str, str]:
     return uuid, bdf, host_ref
 
 
-def _nvml_copy_budget(gpu_uuid: str, workload, *, interval: float, ratio: float) -> tuple[dict[str, Any], str]:
+def _nvml_transfer_telemetry(gpu_uuid: str, workload, *, interval: float) -> tuple[dict[str, Any], str]:
     import pynvml
     pynvml.nvmlInit()
     try:
@@ -127,21 +127,19 @@ def _nvml_copy_budget(gpu_uuid: str, workload, *, interval: float, ratio: float)
         capacity = max(capacities)
         if capacity <= 0:
             raise RuntimeError("unsupported PCIe link generation")
-        budget = capacity * ratio
         max_tx = max(s["tx_kb_s"] for s in samples)
         max_rx = max(s["rx_kb_s"] for s in samples)
         return {
             "present": True,
             "scope": "NEURAL_SEGMENT_AFTER_DEVICE_MEMORY_DECODE",
-            "semantics": "SUPPORTING_COPY_BUDGET_NOT_ZERO_COPY_PROOF",
+            "semantics": "ADVISORY_TRANSFER_TELEMETRY_NOT_ZERO_COPY_PROOF",
             "capacity_source": "LIVE_NEGOTIATED_PCIE_LINK_GEN_WIDTH",
             "sampling_interval_seconds": interval,
-            "budget_ratio": ratio,
-            "budget_kb_s": budget,
             "max_tx_kb_s": max_tx,
             "max_rx_kb_s": max_rx,
+            "max_observed_link_ratio": max(max_tx, max_rx) / capacity,
             "samples": samples,
-            "status": "PASS" if max_tx < budget and max_rx < budget else "FAIL",
+            "status": "OBSERVED_NOT_ADMISSION_DECISION",
         }, ""
     finally:
         pynvml.nvmlShutdown()
@@ -165,11 +163,11 @@ def collect(
     frame_trace: Path,
     output: Path,
     sampling_interval: float,
-    budget_ratio: float,
 ) -> dict[str, Any]:
     receipt: dict[str, Any] = {
-        "schema": "fa3.media-gpu-zerocopy-current-host-receipt.v1",
-        "surface": "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+        "schema": "fa3.media-accelerator-residency-current-host-receipt.v1",
+        "surface": "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
+        "provider_id": "FA3-PROVIDER-PYNVVIDEOCODEC-001",
         "repository_head": repo_head(root),
         "captured_at": utcnow(),
         "synthetic": False,
@@ -188,6 +186,8 @@ def collect(
         receipt["hrb_binding"] = {
             "status": "PASS", "receipt_sha256": sha256_file(resource_admission_receipt),
             "gpu_uuid": uuid, "pci_bdf": bdf, "gpu_index": gpu_index,
+            "stable_accelerator_id": uuid,
+            "provider_binding": "NVIDIA_UUID_PLUS_PCI_BDF",
         }
 
         import PyNvVideoCodec as nvc
@@ -217,18 +217,18 @@ def collect(
                 tensor.add_(0)
             torch.cuda.synchronize(gpu_index)
 
-        telemetry, _ = _nvml_copy_budget(uuid, workload, interval=sampling_interval, ratio=budget_ratio)
+        telemetry, _ = _nvml_transfer_telemetry(uuid, workload, interval=sampling_interval)
         trace = load_json(frame_trace)
         segment = trace.get("neural_segment", {})
         trace_ok = (
-            trace.get("schema") == "fa3.cuda-copy-trace.v1"
+            trace.get("schema") == "fa3.accelerator-copy-trace.v1"
             and trace.get("status") == "PASS"
             and trace.get("collector", {}).get("kind") in {"CUPTI", "NSIGHT_SYSTEMS", "CUDA_ACTIVITY_TRACE"}
             and int(segment.get("frame_count", 0)) > 0
             and int(segment.get("host_to_device_frame_copy_count", -1)) == 0
             and int(segment.get("device_to_host_frame_copy_count", -1)) == 0
             and int(segment.get("host_frame_round_trips", -1)) == 0
-            and segment.get("dlpack_shared_gpu_memory") is True
+            and segment.get("shared_accelerator_memory") is True
         )
         if not trace_ok:
             raise RuntimeError("frame-copy trace does not prove zero host round-trips")
@@ -244,8 +244,15 @@ def collect(
             "torch_tensor_is_cuda": bool(tensor.is_cuda), "torch_device_index": tensor.device.index,
             "torch_cuda_device_match": tensor.device.index == gpu_index, "host_frame_round_trips": 0,
         }
+        receipt["memory_residency"] = {
+            "status": "PASS",
+            "provider_memory_domain": "CUDA_DEVICE_MEMORY",
+            "shared_buffer_identity": frame_ptr == tensor_ptr,
+            "host_frame_round_trips": 0,
+        }
         receipt["copy_telemetry"] = telemetry
         receipt["frame_copy_trace"] = trace
+        receipt["classification"] = "ZERO_COPY_PROVEN"
 
         payload = {
             "repository_head": receipt["repository_head"],
@@ -254,7 +261,7 @@ def collect(
             "copy_telemetry": telemetry,
             "frame_copy_trace_sha256": sha256_file(frame_trace),
         }
-        passed = telemetry.get("status") == "PASS" and trace_ok
+        passed = trace_ok
         receipt["evidence_envelope"] = {
             "schema_id": "FA3-EVIDENCE-ENVELOPE-001",
             "schema_version": "1.0.0",
@@ -285,8 +292,8 @@ def collect(
             "integrity": {"payload_sha256": _canonical_payload_hash(payload)},
             "result": {
                 "status": "PASS" if passed else "BLOCKED",
-                "scope": "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
-                "claims": ["CURRENT_HOST_GPU_ZERO_HOST_ROUND_TRIP_PASS"] if passed else [],
+                "scope": "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
+                "claims": ["CURRENT_HOST_PROVIDER_SCOPED_ZERO_COPY_PROVEN"] if passed else [],
                 "non_claims": ["GLOBAL_FA3_PROMOTION", "FULL_PIPELINE_TRUE_ZERO_COPY"],
             },
             "payload_schema_id": "fa3.media-zero-host-envelope-payload.v1",
@@ -312,15 +319,12 @@ def main() -> int:
     p.add_argument("--resource-admission-receipt", required=True)
     p.add_argument("--frame-trace", required=True)
     p.add_argument("--sampling-interval", type=float, default=0.02)
-    p.add_argument("--pcie-budget-ratio", type=float, default=0.05)
     p.add_argument("--output", default="evidence/receipts/media-gpu-zerocopy-current-host.json")
     a = p.parse_args()
     if hasattr(os, "geteuid") and os.geteuid() == 0:
         raise SystemExit("collector must run rootless")
     if not (0 < a.sampling_interval <= 0.025):
         raise SystemExit("--sampling-interval must be <= 0.025")
-    if not (0 < a.pcie_budget_ratio <= 0.05):
-        raise SystemExit("--pcie-budget-ratio must be <= 0.05")
     root = Path(a.root).resolve()
     output = Path(a.output)
     if not output.is_absolute():
@@ -332,7 +336,6 @@ def main() -> int:
         frame_trace=Path(a.frame_trace).resolve(),
         output=output,
         sampling_interval=a.sampling_interval,
-        budget_ratio=a.pcie_budget_ratio,
     )
     print(json.dumps(receipt, indent=2, ensure_ascii=False))
     return 0 if receipt["result"] == "PASS" else 2

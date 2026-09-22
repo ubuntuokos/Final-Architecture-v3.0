@@ -724,7 +724,7 @@ def gate(root: Path):
         or runtime_hardening.get("current_host_runtime_promotion_claim") is not False
         or runtime_hardening.get("current_host_surfaces") != [
             "RUNTIME_ISOLATION_AGENT_SANDBOX",
-            "MEDIA_GPU_ZERO_HOST_ROUND_TRIP",
+            "MEDIA_ACCELERATOR_MEMORY_RESIDENCY",
             "HU_AQC",
             "PROMOTION_SHADOW",
         ]
