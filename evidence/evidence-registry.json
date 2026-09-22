@@ -1580,7 +1580,8 @@
         "FA3-DEC-AUTOGPT-2026-08-30",
         "FA3-DEC-CODEX-ADAPTER-2026-08-31",
         "FA3-DEC-OPENHANDS-2026-09-01",
-        "FA3-DEC-LOOP-ENGINEERING-2026-09-03"
+        "FA3-DEC-LOOP-ENGINEERING-2026-09-03",
+        "FA3-DEC-AI-COMMS-2026-09-22"
       ],
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
@@ -1635,6 +1636,18 @@
           "concrete_cpu_or_gpu_model_pin": false,
           "current_host_exact_hardware": "EVIDENCE_ONLY"
         }
+      },
+      "ai_comms_policy_projection_status": {
+        "profile_id": "FA3-AI-COMMS-001",
+        "contract_id": "FA3-AI-COMMS-CONTRACTS-001",
+        "decision_id": "FA3-DEC-AI-COMMS-2026-09-22",
+        "gate_id": "FA3-AI-COMMS-GATESET-001",
+        "classification": "P0_CROSS_CUTTING_COMMUNICATION_POLICY",
+        "reconciliation_status": "GLOBAL_EVIDENCE_REGISTRY_RECONCILED_REFERENCE_GATE_REQUIRED",
+        "private_model_language_forbidden": true,
+        "human_readable_semantics_authoritative": true,
+        "current_host_runtime_evidence": "NOT_CLAIMED",
+        "global_runtime_promotion_effect": "POLICY_GATE_ONLY_NO_RUNTIME_PROMOTION"
       }
     },
     {
