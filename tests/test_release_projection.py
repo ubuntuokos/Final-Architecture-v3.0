@@ -273,6 +273,43 @@ class ReleaseProjectionGateTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_ai_comms_projection_reconciliation_fails_closed(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / PROJECTION_PATH
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            obj["ai_comms_reconciliation"]["private_model_language_forbidden"] = False
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-111"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
+    def test_ai_comms_cap028_decision_lineage_is_required(self):
+        td, dst, facts = self._copy_repo()
+        try:
+            path = dst / "evidence/evidence-registry.json"
+            obj = json.loads(path.read_text(encoding="utf-8"))
+            cap028 = next(item for item in obj["records"] if item["subject_id"] == "CAP-028")
+            cap028["source_decision_ids"].remove("FA3-DEC-AI-COMMS-2026-09-22")
+            path.write_text(json.dumps(obj, indent=2) + "\n", encoding="utf-8")
+            report = self._gate_copy(dst, facts)
+            self.assertEqual("FAIL", report["result"])
+            self.assertTrue(
+                any(
+                    item["code"] == "FA3-RELEASE-PROJECTION-111"
+                    for item in report["findings"]
+                )
+            )
+        finally:
+            td.cleanup()
+
     def test_squash_lineage_requires_release_surface_equivalence(self):
         td, dst, facts = self._copy_repo()
         try:
