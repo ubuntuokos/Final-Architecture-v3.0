@@ -47,6 +47,10 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
             findings.append(finding("MRH-006", "receipt does not prove runtime-selected non-pinned routing"))
         probes = rec.get("route_probes", {})
         bindings = rec.get("route_bindings", {})
+        provider_evidence = rec.get("provider_admission_evidence_sha256", {})
+        if not isinstance(provider_evidence, dict) or not provider_evidence:
+            findings.append(finding("MRH-015", "selected-provider admission evidence binding is missing"))
+            provider_evidence = {}
         for route in REQUIRED_ROUTES:
             probe = probes.get(route, {}) if isinstance(probes, dict) else {}
             binding = bindings.get(route, {}) if isinstance(bindings, dict) else {}
@@ -54,6 +58,10 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
                 findings.append(finding("MRH-007", "logical route execution did not PASS", route=route))
             if not binding.get("provider_id") or not binding.get("runtime_id") or not binding.get("model"):
                 findings.append(finding("MRH-008", "logical route lacks selected provider/runtime/model provenance", route=route))
+            provider_id = str(binding.get("provider_id", "")).strip()
+            digest = str(provider_evidence.get(provider_id, "")).strip().lower()
+            if provider_id and (len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest)):
+                findings.append(finding("MRH-015", "logical route provider is not bound to valid current-host admission evidence", route=route, provider_id=provider_id))
             if binding.get("selection") != "RUNTIME_DISCOVERED":
                 findings.append(finding("MRH-009", "route binding was not runtime-discovered", route=route))
         try:

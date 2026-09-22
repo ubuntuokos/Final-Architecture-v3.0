@@ -104,6 +104,22 @@ def main() -> int:
     bindings=selection.get("route_bindings",{})
     if not isinstance(bindings,dict) or not set(REQUIRED_ROUTES).issubset(bindings):
         raise CollectionDenied("router selection receipt lacks required logical routes")
+    admission_hashes=selection.get("admission_receipt_sha256",{})
+    if not isinstance(admission_hashes,dict):
+        raise CollectionDenied("router selection receipt lacks provider admission evidence binding")
+    selected_provider_ids={
+        str(binding.get("provider_id","")).strip()
+        for binding in bindings.values()
+        if isinstance(binding,dict) and str(binding.get("provider_id","")).strip()
+    }
+    provider_evidence={}
+    for provider_id in sorted(selected_provider_ids):
+        digest=str(admission_hashes.get(provider_id,"")).strip().lower()
+        if len(digest)!=64 or any(ch not in "0123456789abcdef" for ch in digest):
+            raise CollectionDenied(f"selected provider lacks valid admission evidence digest: {provider_id}")
+        provider_evidence[provider_id]=digest
+    if not provider_evidence:
+        raise CollectionDenied("router selection receipt has no selected-provider admission evidence")
     models, models_latency = request_json("GET",args.endpoint.rstrip("/")+"/v1/models",token,timeout=15)
     model_ids={str(row.get("id")) for row in models.get("data",[]) if isinstance(row,dict) and row.get("id")}
     if not set(REQUIRED_ROUTES).issubset(model_ids):
@@ -154,6 +170,7 @@ def main() -> int:
         "models_endpoint_latency_ms":round(models_latency,3),
         "selection_receipt_sha256":sha256_file(selection_path),
         "selection_receipt_verified":True,
+        "provider_admission_evidence_sha256":provider_evidence,
         "physical_backend_pinned":False,
         "physical_model_pinned":False,
         "runtime_selected":True,

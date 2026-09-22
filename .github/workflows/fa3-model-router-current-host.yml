@@ -7,6 +7,7 @@ on:
       - "canonical/model-router-enforcement.json"
       - "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json"
       - "canonical/model-manager-current-host-enforcement.json"
+      - "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
       - "deployment/model-router/**"
       - "src/fa3_model_router_*.py"
       - "src/fa3_model_manager_current_host_gate.py"
@@ -136,6 +137,8 @@ jobs:
               b=r["route_bindings"][route]
               assert b["selection"]=="RUNTIME_DISCOVERED"
               assert b["provider_id"] and b["runtime_id"] and b["model"]
+              digest=r["provider_admission_evidence_sha256"].get(b["provider_id"],"")
+              assert len(digest)==64 and all(ch in "0123456789abcdef" for ch in digest.lower())
           PY
       - name: Upload evidence
         if: always()
