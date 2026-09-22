@@ -1,0 +1,73 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "hardware.describe",
+  "version": "1.0.0",
+  "description": "Project the existing FA3 Hardware Discovery descriptors without creating placement authority.",
+  "input_schema": {
+    "type": "object",
+    "properties": {},
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "cpu",
+      "accelerators"
+    ],
+    "properties": {
+      "cpu": {
+        "type": "object"
+      },
+      "accelerators": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": false,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "none"
+    }
+  },
+  "provider": {
+    "selection": "capability-match"
+  },
+  "evidence": {
+    "required": true
+  }
+}

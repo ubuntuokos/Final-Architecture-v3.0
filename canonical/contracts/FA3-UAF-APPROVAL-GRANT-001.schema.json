@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-UAF-APPROVAL-GRANT-001.schema.json",
+  "x-fa3-contract-id": "FA3-UAF-APPROVAL-GRANT-001",
+  "title": "FA3 UAF Approval Grant",
+  "type": "object",
+  "required": [
+    "schema",
+    "approval_id",
+    "principal_ref",
+    "action_id",
+    "action_version",
+    "argument_digest",
+    "context_digest",
+    "expires_at",
+    "single_use"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.uaf.approval-grant.v1"
+    },
+    "approval_id": {
+      "type": "string"
+    },
+    "principal_ref": {
+      "type": "string"
+    },
+    "action_id": {
+      "type": "string"
+    },
+    "action_version": {
+      "type": "string"
+    },
+    "argument_digest": {
+      "type": "string"
+    },
+    "context_digest": {
+      "type": "string"
+    },
+    "expires_at": {
+      "type": "string"
+    },
+    "single_use": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false
+}

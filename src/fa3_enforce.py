@@ -62,6 +62,7 @@ from fa3_hrb_deterministic_locality_gate import gate as hrb_deterministic_locali
 from fa3_cpu_numa_threading_gate import gate as cpu_numa_threading_gate
 from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_current_host_gate
 from fa3_hardware_portability_gate import gate as hardware_portability_gate
+from fa3_uaf_gate import gate as uaf_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
@@ -140,6 +141,9 @@ def static_check(root:Path):
     hardware_portability_ref=hardware_portability_gate(root)
     if hardware_portability_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-081","Primary hardware portability and repository-wide legacy/hardcoded-assumption gate failed",hardware_portability_gate=hardware_portability_ref))
+    uaf_ref=uaf_gate(root)
+    if uaf_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-115","Unified Action Fabric P0 canonical/security-boundary gate failed",uaf_gate=uaf_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
@@ -186,6 +190,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-078","Closed-loop agent operations governance gate is not bound into global enforcement policy"))
     if "FA3-HARDWARE-PORTABILITY-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-080","Hardware portability/repository-assumption gate is not bound into global enforcement policy"))
+    if "FA3-UNIFIED-ACTION-FABRIC-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-115","Unified Action Fabric gate is not bound into global enforcement policy"))
     if "FA3-AGENT-INSTRUCTIONS-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-113","Agent-instruction projection gate is not bound into global enforcement policy"))
     if "FA3-OPENBMB-GATESET-001" not in pol.get("mandatory_reference_gates",[]):

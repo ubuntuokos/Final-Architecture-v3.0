@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "title": "Unified Action & Capability Fabric",
+  "priority": "P0",
+  "requirement": "MUST",
+  "status": "CANONICAL",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_neutral": true,
+  "fail_closed": true,
+  "role": "NON_AUTHORITY_EXECUTION_CONTRACT_AND_DISPATCH_FABRIC",
+  "canonical_contract": "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001",
+  "mcp_boundary": "FA3-MCP-GATEWAY-001",
+  "hrb_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+  "secret_boundary": "FA3-SECRET-BROKER-001",
+  "evidence_boundary": "FA3-EVIDENCE-ENVELOPE-001",
+  "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+  "exposure_adapters": [
+    "GUI",
+    "AGENT",
+    "CLI",
+    "MCP",
+    "A2A",
+    "AUTOMATION",
+    "HTTP_OPTIONAL"
+  ],
+  "migration": "INCREMENTAL_COMPATIBILITY_ADAPTERS_NO_BIG_BANG_REWRITE",
+  "production_admission": "STATIC_CORE_IMPLEMENTED_CURRENT_HOST_AND_SURFACE_MIGRATION_SEPARATE"
+}

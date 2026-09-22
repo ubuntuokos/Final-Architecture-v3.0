@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-UNIFIED-ACTION-FABRIC-2026-09-21",
+  "date": "2026-09-21",
+  "status": "FINAL",
+  "decision": "MATERIALIZE_VENDOR_NEUTRAL_FA3_NATIVE_UNIFIED_ACTION_FABRIC_WITH_SINGLE_ACTION_CONTRACT_AND_ADAPTER_EXPOSURES",
+  "profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "contract": "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "adopt": [
+    "single canonical action contract",
+    "shared typed input/output schema",
+    "common GUI/agent/CLI/MCP/A2A/automation execution semantics",
+    "context-aware invocation",
+    "digest-bound approval pattern",
+    "structured result locator pattern"
+  ],
+  "adapt": [
+    "Agent-Native concepts into provider-neutral polyglot FA3 contracts",
+    "MCP exposure behind existing Central MCP Gateway",
+    "resource requests into existing HRB authority",
+    "credentials into existing Secret Broker projection leases",
+    "hardware requirements into existing Hardware Discovery plus HRB flow"
+  ],
+  "reject": [
+    "Agent-Native runtime dependency",
+    "TypeScript or React requirement",
+    "PostgreSQL requirement",
+    "parallel MCP gateway",
+    "parallel resource authority",
+    "parallel secret authority",
+    "parallel hardware detector",
+    "direct agent or GUI provider bypass"
+  ],
+  "migration": "INCREMENTAL_BRIDGE_FIRST_REMOVE_DIRECT_PATHS_ONLY_AFTER_PARITY_EVIDENCE",
+  "current_host_status": "PENDING_SEPARATE_RUNTIME_CLOSURE",
+  "global_promotion_claim": false
+}

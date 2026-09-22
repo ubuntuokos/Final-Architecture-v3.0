@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-UAF-ACTION-REQUEST-001.schema.json",
+  "x-fa3-contract-id": "FA3-UAF-ACTION-REQUEST-001",
+  "title": "FA3 UAF Action Request",
+  "type": "object",
+  "required": [
+    "schema",
+    "request_id",
+    "trace_id",
+    "action_id",
+    "arguments",
+    "principal",
+    "context"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.uaf.action-request.v1"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "arguments": {
+      "type": "object"
+    },
+    "principal": {
+      "type": "object"
+    },
+    "context": {
+      "type": "object"
+    },
+    "approval": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "secret_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "additionalProperties": false
+}
