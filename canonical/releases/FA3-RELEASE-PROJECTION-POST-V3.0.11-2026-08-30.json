@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "2889eb8eec9f8961e040ef7ff190d0d02abad0e2",
-    "pre_projection_root_tree_sha": "b3dc1d2cd5d6eb29eeb25538a2d2c0cf7ca4c432",
-    "pre_projection_canonical_tree_sha": "0e445a107fa56449b128b4693cefef8c61e17a6b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 595,
-    "total_post_baseline_commits": 595,
-    "delta_file_count": 1636,
-    "delta_added_files": 1631,
+    "pre_projection_head_sha": "fdaf246bf12bf76b49dca1387d83bcc7218644a6",
+    "pre_projection_root_tree_sha": "d2c1797c596497bc6590bfa763d62bc7fb56696a",
+    "pre_projection_canonical_tree_sha": "52590504bbc991d747e89bf537f82eb85976c2a2",
+    "commits_ahead_of_v3_0_11_conformance_commit": 608,
+    "total_post_baseline_commits": 608,
+    "delta_file_count": 1657,
+    "delta_added_files": 1652,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 777,
-    "evidence_files_in_post_baseline_delta": 137,
-    "source_files_in_post_baseline_delta": 210,
-    "test_files_in_post_baseline_delta": 187,
-    "workflow_files_in_post_baseline_delta": 73,
+    "canonical_files_in_post_baseline_delta": 780,
+    "evidence_files_in_post_baseline_delta": 138,
+    "source_files_in_post_baseline_delta": 214,
+    "test_files_in_post_baseline_delta": 191,
+    "workflow_files_in_post_baseline_delta": 75,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -207,6 +207,7 @@
       "canonical/profiles/FA3-JOURNAL-ARCHIVE-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
+      "canonical/profiles/FA3-LLM-GATEWAY-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MCP-GATEWAY-001.json",
       "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
@@ -810,7 +811,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1629,
+  "manifest_entry_count": 1650,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -1009,7 +1010,17 @@
     },
     {
       "path": ".github/workflows/fa3-model-manager-current-host.yml",
-      "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645",
+      "git_blob_sha": "6cec6b2974142ffcf24574cc89e7bf9dbf574dc3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-router-current-host.yml",
+      "git_blob_sha": "78cfeecac32c2efab07bfab4c5fc12b9ed7ee72b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-router-gate.yml",
+      "git_blob_sha": "082dd7769bce8971b2039b5fcbbd306e5e10dbcc",
       "baseline_delta_status": "added"
     },
     {
@@ -1074,7 +1085,7 @@
     },
     {
       "path": ".github/workflows/fa3-release-projection-reconcile.yml",
-      "git_blob_sha": "a90a9d7d0727b74cf4d056d18b9dcce9f8282ee4",
+      "git_blob_sha": "3e99f837cff5b9b50b07df46e7d85d749d30e3d4",
       "baseline_delta_status": "added"
     },
     {
@@ -1544,7 +1555,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "66d880ef98061c31669e0aebe81947097966c331",
+      "git_blob_sha": "21ee103f3b371e66f68ba2e4fafc8174d96a09d2",
       "baseline_delta_status": "modified"
     },
     {
@@ -1645,6 +1656,21 @@
     {
       "path": "bin/fa3-model-manager-current-host.sh",
       "git_blob_sha": "bacd3a7f7b552f69c88fa59fe2c83ce7bed948c2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-current-host.sh",
+      "git_blob_sha": "95e00bc32710b3faf538d1fd58db75da4c43ac12",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-install",
+      "git_blob_sha": "8970b6f6ee13fef33d9174f8de08b653b53d8450",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-serve",
+      "git_blob_sha": "0b7b9c6fee6905debbb1e55a73aeabf344a1e3d7",
       "baseline_delta_status": "added"
     },
     {
@@ -3108,6 +3134,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-AUTH-MODEL-ROUTER-001.json",
+      "git_blob_sha": "7dfde3128168ef48d77a0efe022aab96a3bcf98c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-BLACKHOLE-KDENLIVE-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "07fb187f01204ca24a2e867e2595c5030dc6e29b",
       "baseline_delta_status": "added"
@@ -3669,7 +3700,7 @@
     },
     {
       "path": "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "ca932e0437d49c2c6b8f4b60b327db15b4606ecd",
+      "git_blob_sha": "bd031cd7f64f3bea4ff55d6e1ec4ada07135b00b",
       "baseline_delta_status": "added"
     },
     {
@@ -4039,7 +4070,7 @@
     },
     {
       "path": "canonical/model-manager-current-host-enforcement.json",
-      "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf",
+      "git_blob_sha": "324fa59fc342139ad1517c3f519998f9737cf93d",
       "baseline_delta_status": "added"
     },
     {
@@ -4060,6 +4091,11 @@
     {
       "path": "canonical/model-manager-v2-enforcement.json",
       "git_blob_sha": "319851a7a550bad71b19f522aa17590c6e5389e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/model-router-enforcement.json",
+      "git_blob_sha": "3d45c27795579e59051563b35a72d635d95a3ada",
       "baseline_delta_status": "added"
     },
     {
@@ -4355,6 +4391,11 @@
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "git_blob_sha": "8efa33569635deede2f23f5e3756404580ea8043",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-LLM-GATEWAY-001.json",
+      "git_blob_sha": "353cb86a3cd4b3c525f3df02da01ecc635400f7e",
       "baseline_delta_status": "added"
     },
     {
@@ -5718,6 +5759,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/litellm/config.yaml",
+      "git_blob_sha": "1d0d92e91a42433d292bb30780f15555b86d85d5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/lynxhub/applications/ai.kindabrazy.lynxhub.desktop.in",
       "git_blob_sha": "deaba29c5c51849c4f8f90076024efae0266a37b",
       "baseline_delta_status": "added"
@@ -5765,6 +5811,16 @@
     {
       "path": "deployment/mcp-gateway/fa3-mcp-gateway.service",
       "git_blob_sha": "ddd8330d6f209f3a44ea882fd2f9f06c22192406",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-router/fa3-model-router.service.in",
+      "git_blob_sha": "d1578967dc39e3e7b33d82b7a46a48a9fdf5173d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-router/routes.json",
+      "git_blob_sha": "19f132ef01f2905a24aec7a893174ede99b26c32",
       "baseline_delta_status": "added"
     },
     {
@@ -5965,6 +6021,11 @@
     {
       "path": "docs/model-manager-current-host.md",
       "git_blob_sha": "3d10e043b2d618acf3bb4ff591a7565a0faeeed5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/model-router-runtime.md",
+      "git_blob_sha": "5ee713389fbb71fd8bdc1b449e3264e5de2c9af7",
       "baseline_delta_status": "added"
     },
     {
@@ -6239,7 +6300,12 @@
     },
     {
       "path": "evidence/collect-model-manager-current-host.py",
-      "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012",
+      "git_blob_sha": "1f6ce56679b52f2530d83a976e287bfc97e28435",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-model-router-current-host.py",
+      "git_blob_sha": "70be8d89d3c8fc4d33607209ff258105f617e5b5",
       "baseline_delta_status": "added"
     },
     {
@@ -7549,7 +7615,7 @@
     },
     {
       "path": "src/fa3_model_manager_current_host_gate.py",
-      "git_blob_sha": "ad9429deaaccdea50d764998ff323605595d29b3",
+      "git_blob_sha": "3e5a04affad8a379482b55c9425e6c78b99bc552",
       "baseline_delta_status": "added"
     },
     {
@@ -7570,6 +7636,26 @@
     {
       "path": "src/fa3_model_manager_v2_gate.py",
       "git_blob_sha": "1b8879c681ba91f9c483e1b91c63bbdebbfb84e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_current_host_gate.py",
+      "git_blob_sha": "0d82276f789f06bcc7dd0b51f26df4cd61f404ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_gate.py",
+      "git_blob_sha": "1174e6ba8bc0a7eb83b7c471c0cb83aa837d33d2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_materialize.py",
+      "git_blob_sha": "737dc4870a0640140ab22b2b089be3fc029c8ffe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_provider_discovery.py",
+      "git_blob_sha": "8e82d77e35cee6b928d856800b2497c6242ab53c",
       "baseline_delta_status": "added"
     },
     {
@@ -8563,6 +8649,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_model_manager_current_host_gate.py",
+      "git_blob_sha": "68cf2dda4a0215fa0f0fc1d592c500bdbf73a636",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_model_manager_gate.py",
       "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821",
       "baseline_delta_status": "added"
@@ -8575,6 +8666,21 @@
     {
       "path": "tests/test_model_manager_v2_gate.py",
       "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_gate.py",
+      "git_blob_sha": "0d3816ef4e0ce76aa06ed29e7543055bc365cf61",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_materialize.py",
+      "git_blob_sha": "6d4637e2ac4520a319366b897fab1e49392469e8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_provider_discovery.py",
+      "git_blob_sha": "b4683bc63e803d58f784b1d33e2565731560c701",
       "baseline_delta_status": "added"
     },
     {
