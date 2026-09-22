@@ -56,7 +56,12 @@ class DeveloperAgentCoordinationTests(unittest.TestCase):
             repo = Path(td) / "repo"
             d._init_fixture_repo(repo, {"work/a.txt": "baseline\n"})
             control = Path(td) / "control"
-            coordinator = d.Coordinator(repo, control)
+            coordinator = d.Coordinator(
+                repo,
+                control,
+                communication_topology_policy=d.developer_coordination_topology_policy(),
+                participant_roles={"model-a": "worker", "model-b": "worker"},
+            )
             message = d.AgentMessage(
                 message_id="msg-private",
                 task_id="TASK-PRIVATE",
@@ -76,6 +81,36 @@ class DeveloperAgentCoordinationTests(unittest.TestCase):
             with self.assertRaises(d.CoordinationDenied):
                 coordinator.publish_message(message)
             self.assertFalse((control / "mailboxes/model-b/msg-private.json").exists())
+
+    def test_undeclared_model_participant_is_denied_before_message_persistence(self):
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            d._init_fixture_repo(repo, {"work/a.txt": "baseline\n"})
+            control = Path(td) / "control"
+            coordinator = d.Coordinator(
+                repo,
+                control,
+                communication_topology_policy=d.developer_coordination_topology_policy(),
+                participant_roles={"model-a": "worker", "model-b": "worker"},
+            )
+            message = d.AgentMessage(
+                message_id="msg-undeclared",
+                task_id="TASK-UNDECLARED",
+                sender="model-a",
+                recipient="model-c",
+                act="inform",
+                hop=0,
+                max_hops=4,
+                payload={
+                    "communication_mode": "HUMAN_LANGUAGE",
+                    "language_tag": "en-US",
+                    "human_readable_text": "Attempt to contact an undeclared participant.",
+                    "human_readable_authoritative": True,
+                },
+            )
+            with self.assertRaises(d.CoordinationDenied):
+                coordinator.publish_message(message)
+            self.assertFalse((control / "mailboxes/model-c/msg-undeclared.json").exists())
 
     def test_reference_runtime_e2e_passes(self):
         report = d.run_reference_e2e()
