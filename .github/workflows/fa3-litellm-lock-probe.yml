@@ -1,0 +1,58 @@
+name: FA3 LiteLLM Lock Probe
+
+on:
+  push:
+    paths:
+      - ".github/workflows/fa3-litellm-lock-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Resolve exact LiteLLM proxy wheel set without installation
+        shell: bash
+        run: |
+          set -euo pipefail
+          PY=""
+          for candidate in python3.13 python3.12 python3.11 python3.10 python3; do
+            if command -v "$candidate" >/dev/null 2>&1; then
+              if "$candidate" - <<'PY' >/dev/null 2>&1
+          import sys
+          raise SystemExit(0 if (3,10) <= sys.version_info[:2] < (3,15) else 1)
+          PY
+              then PY="$(command -v "$candidate")"; break; fi
+            fi
+          done
+          test -n "$PY"
+          echo "LOCK_PYTHON=$("$PY" -c 'import sys; print(sys.version.split()[0])')"
+          TMP="$(mktemp -d)"
+          trap 'rm -rf "$TMP"' EXIT
+          "$PY" -m venv "$TMP/venv"
+          "$TMP/venv/bin/python" -m pip install --disable-pip-version-check --upgrade 'pip==26.0.1'
+          "$TMP/venv/bin/python" -m pip install \
+            --dry-run --ignore-installed --only-binary=:all: \
+            --index-url https://pypi.org/simple \
+            --report "$TMP/report.json" \
+            'litellm[proxy]==1.102.0'
+          "$TMP/venv/bin/python" - "$TMP/report.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1],encoding="utf-8"))
+          print("FA3_LITELLM_LOCK_BEGIN")
+          for item in sorted(p["install"],key=lambda x:x["metadata"]["name"].lower()):
+              meta=item["metadata"]
+              info=item.get("download_info",{}).get("archive_info",{})
+              hashes=info.get("hashes",{})
+              sha=hashes.get("sha256")
+              if not sha:
+                  raise SystemExit(f"missing sha256 for {meta['name']}=={meta['version']}")
+              print(f"{meta['name']}=={meta['version']} --hash=sha256:{sha}")
+          print("FA3_LITELLM_LOCK_END")
+          print("FA3_LITELLM_LOCK_COUNT="+str(len(p["install"])))
+          PY
