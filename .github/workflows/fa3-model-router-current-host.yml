@@ -80,6 +80,13 @@ jobs:
             echo "BLOCKED: FA3_MODEL_ROUTER_MASTER_KEY_FILE/current-host credential is missing" >&2
             exit 2
           }
+      - name: Refresh provider-specific current-host admission evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 evidence/collect-model-manager-current-host.py --root .
+          PYTHONPATH=src python3 src/fa3_model_manager_current_host_gate.py --root .
+
       - name: Materialize and prove central Model Router
         shell: bash
         run: |
