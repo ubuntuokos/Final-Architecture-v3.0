@@ -106,6 +106,9 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
         "generated": True,
         "provider_neutral": True,
         "physical_model_pins": False,
+        "provider_set_exhaustive": False,
+        "discovery_scope": "BUILTIN_REFERENCE_ADAPTERS_ONLY",
+        "explicit_admitted_runtime_registry_supported": True,
         "providers": rows,
         "observed_candidates": observed,
     }
