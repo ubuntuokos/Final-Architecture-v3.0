@@ -46,11 +46,12 @@ The existing `FA3-GUI-RUNTIME-CONFORMANCE-001` therefore remains `PENDING_CURREN
 
 ## Reference validation result
 
-Reference validation is **PASS** for tested head `79a71114a3d9c5a83fe8431039c3862e01d8136d`:
+Reference validation is **PASS** for tested source head `0f54030a5ab54dd0d43a634d9f93779821431d7d`:
 
-- FA3 GUI Gate run **35902144865**;
-- static-contract job **107320747988**: PASS;
-- Qt6 reference-build job **107320748620**: PASS.
+- FA3 GUI Gate run **35911064167**;
+- static-contract job **107350714237**: PASS;
+- installer source-contract executable regression: **PASS**;
+- Qt6 reference-build job **107350713871**: PASS.
 
 This reference PASS is deliberately not a current-host Wayland/X11 visual/runtime PASS.
 

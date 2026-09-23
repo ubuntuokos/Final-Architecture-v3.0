@@ -7,19 +7,20 @@
   "decision_id": "FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23",
   "status": "PASS",
   "scope": "STATIC_CONTRACT_UNIT_REGRESSION_AND_QT6_REFERENCE_BUILD",
-  "tested_head": "79a71114a3d9c5a83fe8431039c3862e01d8136d",
+  "tested_head": "0f54030a5ab54dd0d43a634d9f93779821431d7d",
   "workflow": {
     "name": "FA3 GUI Gate",
-    "run_id": 35902144865,
+    "run_id": 35911064167,
     "conclusion": "success",
     "static_contract_job": {
-      "id": 107320747988,
+      "id": 107350714237,
       "conclusion": "success"
     },
     "qt_reference_build_job": {
-      "id": 107320748620,
+      "id": 107350713871,
       "conclusion": "success"
-    }
+    },
+    "installer_source_contract_step": "PASS"
   },
   "claims": [
     "GUI_RECONCILIATION_STATIC_GATE_PASS",
@@ -32,7 +33,8 @@
     "WORK_MANAGEMENT_ROUTE_REPAIR_REFERENCE_PASS",
     "ACCELERATOR_GUARD_ROUTE_REPAIR_REFERENCE_PASS",
     "CAPABILITY_COUNT_UNCHANGED_143",
-    "NO_NEW_ARCHITECTURAL_AUTHORITY"
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "INSTALLER_SOURCE_CONTRACT_EXECUTABLE_REGRESSION_PASS"
   ],
   "non_claims": [
     "CURRENT_HOST_RUNTIME_PASS",
