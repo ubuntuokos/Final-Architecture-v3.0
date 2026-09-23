@@ -1,0 +1,69 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+  "date": "2026-09-23",
+  "status": "PINNED_REFERENCE_SNAPSHOT",
+  "purpose": "Post-Hardware-Fabric inference portability reconciliation and provider release reference",
+  "snapshots": [
+    {
+      "provider_id": "FA3-PROVIDER-OPENVINO-001",
+      "repository": "openvinotoolkit/openvino",
+      "commit": "99c81491cc302313c8937d3533c4fb6458b54e7a",
+      "observed_release": "2026.4.0",
+      "release_date": "2026-09-16"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-ONNXRUNTIME-001",
+      "repository": "microsoft/onnxruntime",
+      "commit": "f2c39fe2f838cf35ce7da92824f5a5e3ee6e88a7",
+      "observed_release": "1.30.0",
+      "release_date": "2026-09-10"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-TENSORRT-001",
+      "repository": "NVIDIA/TensorRT",
+      "commit": "98adec82349b3ae22aa3f753d733b9a1a84d497d",
+      "observed_release": "11.3.0.99",
+      "cuda_build_reference": "13.4",
+      "release_commit_date": "2026-09-22"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+      "repository": "NVIDIA/TensorRT-RTX",
+      "commit": "058c78afdd026df518529e859605501e2a72a5ac",
+      "observed_release": "1.6.1.120"
+    },
+    {
+      "provider_id": "FA3-PROVIDER-TENSORRT-RTX-001",
+      "repository": "NVIDIA/TensorRT-RTX-EP-ABI",
+      "commit": "afe88d1fb5fec4e8e1dc37d96097b737c8321c74",
+      "observed_release": "0.4.2",
+      "role": "STANDALONE_EP_ABI_REFERENCE"
+    },
+    {
+      "component": "CUDA Toolkit",
+      "observed_release": "13.4.2",
+      "observed_status": "GA",
+      "release_month": "2026-09",
+      "role": "PROVIDER_SCOPED_NVIDIA_RUNTIME_REFERENCE"
+    }
+  ],
+  "release_semantics": {
+    "latest_observed_versions_are_automatic_production_pins": false,
+    "provider_runtime_activation_requires_current_host_support_matrix_and_e2e": true,
+    "cuda_is_global_hardware_requirement": false,
+    "tensor_rt_11_3_cuda_13_4_is_nvidia_provider_scoped": true,
+    "openvino_2026_4_is_intel_provider_reference_not_global_runtime": true,
+    "onnxruntime_1_30_ep_plugins_remain_replaceable": true
+  },
+  "architecture_reconciliation": {
+    "hardware_discovery": "0_TO_N_ACCELERATORS_CPU_ONLY_VALID",
+    "hrb": "EXCLUSIVE_DEVICE_EXECUTION_PATH_ADMISSION_PLACEMENT_RESERVATION_LEASE",
+    "uaf": "AGENT_NATIVE_TYPED_ACTION_NO_DIRECT_PROVIDER_BYPASS",
+    "ai_comms": "EXECUTION_BACKEND_DOES_NOT_EXPAND_AI_PARTICIPANT_SET",
+    "model_router": "LOGICAL_MODEL_PROVIDER_RUNTIME_ROUTING_AUTHORITY_ONLY",
+    "decision_fabric_jev": "OPTIONAL_BOUNDED_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY"
+  },
+  "promotion_semantics": "REFERENCE_ONLY_NOT_CURRENT_HOST_RUNTIME_PROMOTION",
+  "floating_main_allowed_as_promotion_evidence": false
+}

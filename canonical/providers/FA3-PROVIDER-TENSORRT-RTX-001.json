@@ -16,8 +16,8 @@
   "observed_release": "1.6.1.120",
   "ep_abi": {
     "repository": "NVIDIA/TensorRT-RTX-EP-ABI",
-    "snapshot_commit": "7bc9addc928590802c4d95589ac3caa07a9cf517",
-    "observed_release": "0.4.0",
+    "snapshot_commit": "afe88d1fb5fec4e8e1dc37d96097b737c8321c74",
+    "observed_release": "0.4.2",
     "canonical_integration": "STANDALONE_EP_ABI_PLUGIN"
   },
   "canonical_root": false,
@@ -71,5 +71,14 @@
     "evidence_path": "evidence/reference/inference-cache-hardening-ci-2026-09-07.json"
   },
   "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_AND_EP_ABI_REQUIRED_AT_ADMISSION",
-  "current_host_production_evidence": "NOT_CLAIMED"
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "latest_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+  "cuda_13_4_reference_status": "GA_CURRENT_REFERENCE_NOT_AUTOMATIC_RUNTIME_PROMOTION",
+  "hardware_execution_binding": {
+    "accelerator_vendor_scope": "NVIDIA_RTX_PROVIDER_SCOPED",
+    "backend_class": "native",
+    "device_bound_backend_required": true,
+    "hrb_lease_required": true,
+    "gpu_sku_and_cuda_context_fields_provider_scoped_only": true
+  }
 }

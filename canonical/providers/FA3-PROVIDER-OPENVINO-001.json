@@ -11,8 +11,8 @@
   ],
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
   "upstream_repository": "openvinotoolkit/openvino",
-  "upstream_snapshot_commit": "71a64cffaf01cdd66610b1ffc7fe817dd4aa6924",
-  "observed_release": "2026.3.1",
+  "upstream_snapshot_commit": "99c81491cc302313c8937d3533c4fb6458b54e7a",
+  "observed_release": "2026.4.0",
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -48,5 +48,12 @@
     "openvino_ir_to_onnx_general_reverse_conversion": "FORBIDDEN"
   },
   "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_REQUIRED_AT_ADMISSION",
-  "current_host_production_evidence": "NOT_CLAIMED"
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "latest_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+  "hardware_execution_binding": {
+    "cpu": "NO_ACCELERATOR_LEASE_REQUIRED",
+    "intel_gpu_npu": "DEVICE_BOUND_BACKEND_PLUS_HRB_LEASE_REQUIRED",
+    "discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "silent_device_or_backend_substitution": false
+  }
 }

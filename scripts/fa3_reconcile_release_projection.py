@@ -120,7 +120,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
     def prefixed(prefix: str):
         return sorted(path for path in paths if path.startswith(prefix))
 
-    projection["last_reconciled_at"] = "2026-09-07"
+    projection["last_reconciled_at"] = run(root, "show", "-s", "--format=%cs", snapshot)
     projection["source_snapshot"] = {
         "snapshot_semantics": SNAPSHOT_SEMANTICS,
         "baseline_commit_sha": base,
@@ -169,6 +169,29 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
     }
+    projection["inference_portability_2026_09_23_reconciliation"] = {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+        "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23",
+        "reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+        "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+        "subgate_id": "FA3-INFERENCE-PORTABILITY-RECONCILIATION-001",
+        "reference_evidence": "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json",
+        "capability_bindings": ["CAP-005", "CAP-006", "CAP-137", "CAP-143"],
+        "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+        "hrb_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "uaf_profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+        "ai_comms_profile": "FA3-AI-COMMS-001",
+        "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+        "decision_fabric_jev": "OPTIONAL_ADVISORY_NO_CANDIDATE_EXPANSION",
+        "reconciliation_status": "GLOBAL_PROJECTION_RECONCILED_REFERENCE_PASS_PROVIDER_RUNTIME_ADMISSION_SEPARATE",
+        "current_host_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
+
     projection["marketing_agent_native_reconciliation"] = {
         "profile_id": "FA3-MARKETING-001",
         "contract_id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
