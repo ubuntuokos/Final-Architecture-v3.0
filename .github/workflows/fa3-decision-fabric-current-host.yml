@@ -1,0 +1,66 @@
+name: FA3 Decision Fabric Current-Host
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**DECISION-FABRIC**'
+      - 'canonical/**JEV**'
+      - 'canonical/profiles/FA3-CONTEXT-SELECTION-001.json'
+      - 'src/fa3_decision*.py'
+      - 'src/fa3_context_selection.py'
+      - 'src/fa3_jev_decision_provider.py'
+      - 'bin/fa3-decision-current-host'
+      - '.github/workflows/fa3-decision-fabric-current-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**DECISION-FABRIC**'
+      - 'canonical/**JEV**'
+      - 'canonical/profiles/FA3-CONTEXT-SELECTION-001.json'
+      - 'src/fa3_decision*.py'
+      - 'src/fa3_context_selection.py'
+      - 'src/fa3_jev_decision_provider.py'
+      - 'bin/fa3-decision-current-host'
+      - '.github/workflows/fa3-decision-fabric-current-host.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    name: decision-fabric-current-host / real
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          clean: true
+      - name: Static boundary gate
+        run: PYTHONPATH=src python3 src/fa3_decision_fabric_gate.py --root .
+      - name: Real current-host positive / negative / rollback
+        run: |
+          rm -f evidence/current-host/decision-fabric-current-host.json
+          PYTHONPATH=src python3 src/fa3_decision_current_host_gate.py --root .
+      - name: Validate receipt scope
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("evidence/current-host/decision-fabric-current-host.json")
+          d=json.loads(p.read_text())
+          assert d["result"]=="PASS"
+          assert d["physical_current_host"] is True
+          assert d["global_promotion_claim"] is False
+          assert d["checks"]["positive"]["pass"] is True
+          assert d["checks"]["negative"]["pass"] is True
+          assert d["checks"]["rollback"]["pass"] is True
+          assert d["checks"]["hardware"]["pass"] is True
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fa3-decision-fabric-current-host
+          path: evidence/current-host/decision-fabric-current-host.json
+          if-no-files-found: error
