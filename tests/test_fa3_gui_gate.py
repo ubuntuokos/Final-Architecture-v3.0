@@ -138,9 +138,9 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("accelerators: window.acceleratorProjection(fa3Devices.inventory)", main)
         self.assertIn("Generic Linux · Wayland primary / X11 supported", main)
 
-        for token in ["Imported Packs · Agency Agents", "DISABLED_NOT_ADMITTED", "nincs közvetlen provider execution"]:
+        for token in ["Imported Packs · Agency Agents", "12 canonical FA3 role + 5 canonical template", "runtime/provider külön admission", "nincs közvetlen provider execution"]:
             self.assertIn(token, main)
-        for token in ["agency-agents.imported-pack", "FA3-PROVIDER-AGENCY-AGENTS-001", "READ_ONLY_REFERENCE", "agents.action-center"]:
+        for token in ["agency-agents.imported-pack", "FA3-PROVIDER-AGENCY-AGENTS-001", "FA3-AGENT-DEFINITION-REGISTRY-001", "READ_ONLY_CANONICAL_DEFINITIONS", "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE", "agents.action-center"]:
             self.assertIn(token, registry)
 
     def test_mcp_control_chat_is_authority_gated_and_integrated(self):
