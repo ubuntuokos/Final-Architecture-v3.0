@@ -16,7 +16,7 @@
   "p0_invariants": [
     "PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED",
     "PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION",
-    "PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_REFERENCE_MATCHED",
+    "PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED",
     "CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE",
     "ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE",
     "NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT",
@@ -34,5 +34,7 @@
   "current_host_obligation_delta": 0,
   "existing_429_closure_reopened": false,
   "global_promotion_claim": false,
-  "capability_count": 143
+  "capability_count": 143,
+  "runtime_admission_pin_required": true,
+  "latest_reference_is_admission_pin": false
 }

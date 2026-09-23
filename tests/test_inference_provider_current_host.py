@@ -24,8 +24,10 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
 
     def provider(self,pid="FA3-PROVIDER-OPENVINO-001"):
         return {
-          "provider_id":pid,"provider_version":"1.0","expected_reference_version":"1.0",
-          "version_match":True,"present":True,"status":"ADMITTED","admitted_scopes":["CPU"],
+          "provider_id":pid,"provider_version":"1.0","reference_version":"1.1",
+          "reference_version_match":False,
+          "admission_pin":{"result":"PASS","provider_version":"1.0","immutable":True},
+          "admission_pin_match":True,"present":True,"status":"ADMITTED","admitted_scopes":["CPU"],
           "scopes":{"CPU":self.cpu_scope()},"direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
           "auto_install_performed":False,"network_model_fetch_performed":False,"global_promotion_claim":False,
         }
@@ -58,8 +60,13 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
         self.assertFalse(scope_valid({**s,"hardware_binding":{"accelerator":True,"hrb_lease":{"result":"MISSING"}}}))
         self.assertFalse(scope_valid({**s,"support_matrix":{"result":"MISSING"}}))
 
-    def test_admission_requires_exact_reference_version(self):
-        p=self.provider(); p["version_match"]=False
+    def test_reference_version_mismatch_does_not_override_explicit_pin(self):
+        p=self.provider()
+        self.assertFalse(p["reference_version_match"])
+        self.assertTrue(provider_receipt_valid(p))
+
+    def test_admission_requires_explicit_immutable_runtime_pin(self):
+        p=self.provider(); p["admission_pin"]={"result":"MISSING","provider_version":None}; p["admission_pin_match"]=False
         self.assertFalse(provider_receipt_valid(p))
 
     def test_direct_probe_cannot_be_application_path(self):
@@ -89,7 +96,8 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
     def test_absent_provider_is_valid_non_admission(self):
         p={
           "provider_id":"FA3-PROVIDER-TENSORRT-001","provider_version":None,
-          "expected_reference_version":"11.3.0.99","version_match":False,"present":False,
+          "reference_version":"11.3.0.99","reference_version_match":False,
+          "admission_pin":{"result":"MISSING","provider_version":None},"admission_pin_match":False,"present":False,
           "status":"NOT_PRESENT","admitted_scopes":[],"scopes":{},
           "direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
           "auto_install_performed":False,"network_model_fetch_performed":False,"global_promotion_claim":False,

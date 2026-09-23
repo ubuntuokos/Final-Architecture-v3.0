@@ -29,7 +29,8 @@
   "current_host_obligation_delta": 0,
   "decisions": [
     "Provider absence is an explicit inventory result and does not fail global FA3 unless that provider is explicitly required for the admission run.",
-    "Provider production admission is scope-bound and requires real current-host execution at the exact recorded runtime version.",
+    "Provider production admission is scope-bound and requires real current-host execution at the exact recorded runtime version and an explicit immutable admission pin.",
+    "Latest observed/reference provider versions are compatibility references only and never become production admission pins automatically.",
     "CPU inference admission never requires an accelerator lease; accelerator inference requires the exact device-bound HRB lease and hardware evidence.",
     "NVIDIA accelerator admission additionally requires an explicit support-matrix receipt; reference-version observation alone is insufficient.",
     "Admission harnesses may probe providers directly only for qualification and never establish an application routing path around the Model Router.",

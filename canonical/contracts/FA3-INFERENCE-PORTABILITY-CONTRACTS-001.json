@@ -36,7 +36,8 @@
     "ExecutionBackendDriftEvent",
     "ProviderCurrentHostAdmissionReceipt",
     "ProviderScopeAdmissionReceipt",
-    "ProviderSupportMatrixReceipt"
+    "ProviderSupportMatrixReceipt",
+    "ProviderRuntimePinReceipt"
   ],
   "required_semantics": {
     "interchange": "ONNX_PRIMARY_WHEN_SUPPORTED_NOT_UNIVERSAL_RUNTIME",
@@ -216,8 +217,8 @@
   "current_host_provider_admission_required_fields": [
     "provider_id",
     "provider_version",
-    "expected_reference_version",
-    "version_match",
+    "reference_version",
+    "reference_version_match",
     "present",
     "status",
     "admitted_scopes",
@@ -225,7 +226,9 @@
     "direct_probe_scope",
     "auto_install_performed",
     "network_model_fetch_performed",
-    "global_promotion_claim"
+    "global_promotion_claim",
+    "admission_pin",
+    "admission_pin_match"
   ],
   "provider_scope_admission_required_fields": [
     "scope_id",
@@ -250,6 +253,9 @@
     "automatic_install": "FORBIDDEN",
     "network_model_fetch": "FORBIDDEN",
     "tensorrt_rtx": "RUNTIME_CACHE_OBSERVABILITY_REQUIRED_FOR_PRODUCTION_ADMISSION",
-    "global_promotion_claim": false
+    "global_promotion_claim": false,
+    "latest_reference": "COMPATIBILITY_REFERENCE_ONLY_NEVER_AUTOMATIC_PRODUCTION_PIN",
+    "runtime_admission_pin": "EXPLICIT_IMMUTABLE_PROVIDER_RUNTIME_PIN_RECEIPT_REQUIRED_FOR_ANY_ADMITTED_SCOPE",
+    "reference_version_mismatch": "NONBLOCKING_WHEN_EXPLICIT_ADMISSION_PIN_AND_REQUIRED_SUPPORT_MATRIX_PASS"
   }
 }

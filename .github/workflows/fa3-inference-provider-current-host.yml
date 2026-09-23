@@ -42,6 +42,11 @@ on:
         required: false
         default: ""
         type: string
+      runtime_pin_receipt:
+        description: "Optional absolute path to an explicit immutable provider runtime-pin receipt on the runner"
+        required: false
+        default: ""
+        type: string
 
 concurrency:
   group: fa3-inference-provider-current-host-${{ github.ref }}
@@ -70,11 +75,13 @@ jobs:
           REQUIRED: ${{ inputs.required_providers || '' }}
           HRB_LEASE: ${{ inputs.hrb_lease || '' }}
           MATRIX: ${{ inputs.support_matrix_receipt || '' }}
+          PIN: ${{ inputs.runtime_pin_receipt || '' }}
         run: |
           set -euo pipefail
           args=(--root .)
           if [ -n "$HRB_LEASE" ]; then args+=(--hrb-lease "$HRB_LEASE"); fi
           if [ -n "$MATRIX" ]; then args+=(--support-matrix-receipt "$MATRIX"); fi
+          if [ -n "$PIN" ]; then args+=(--runtime-pin-receipt "$PIN"); fi
           if [ -n "$REQUIRED" ]; then
             IFS=',' read -ra ids <<< "$REQUIRED"
             for id in "${ids[@]}"; do
@@ -103,7 +110,7 @@ jobs:
           r=json.loads(Path("evidence/receipts/inference-provider-current-host.json").read_text())
           print("result:",r["result"])
           for pid,p in r["providers"].items():
-              print(pid,p["status"],"version=",p.get("provider_version"),"admitted_scopes=",p.get("admitted_scopes"))
+              print(pid,p["status"],"version=",p.get("provider_version"),"reference=",p.get("reference_version"),"reference_match=",p.get("reference_version_match"),"pin=",p.get("admission_pin",{}).get("result"),"admitted_scopes=",p.get("admitted_scopes"))
           assert r["global_promotion_claim"] is False
           assert r["existing_429_closure_reopened"] is False
           PY

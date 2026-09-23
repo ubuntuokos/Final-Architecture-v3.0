@@ -126,7 +126,7 @@ def _module_info(module: str) -> dict[str,Any]:
     return {"present":True,**data}
 
 
-def _expected_version(root: Path, provider_id: str) -> str:
+def _reference_version(root: Path, provider_id: str) -> str:
     p=root/"canonical/providers"/f"{provider_id}.json"
     d=json.loads(p.read_text(encoding="utf-8"))
     if provider_id=="FA3-PROVIDER-TENSORRT-001":
@@ -240,6 +240,29 @@ def _validate_hrb_lease(path: Path | None, hrb_bin: str) -> dict[str,Any]:
         return {"result":"FAIL","reason_code":"HRB_LEASE_INVALID","error_class":type(exc).__name__}
 
 
+def _runtime_pin(path: Path | None, provider_id: str, installed_version: str) -> dict[str,Any]:
+    if path is None:
+        return {"result":"MISSING","provider_version":None}
+    try:
+        d=json.loads(path.read_text(encoding="utf-8"))
+        if d.get("schema")!="fa3.inference-provider-runtime-pin-receipt.v1":
+            raise ValueError("schema")
+        entry=(d.get("providers") or {}).get(provider_id)
+        if not isinstance(entry,dict) or entry.get("result")!="PASS" or entry.get("immutable") is not True:
+            raise ValueError("provider")
+        if str(entry.get("provider_version",""))!=installed_version:
+            raise ValueError("version")
+        if not isinstance(entry.get("source_refs"),list) or not entry.get("source_refs"):
+            raise ValueError("source refs")
+        return {
+          "result":"PASS","receipt_id":str(d.get("receipt_id","")),
+          "provider_version":installed_version,"entry_sha256":canonical_sha(entry),
+          "immutable":True,"entry":entry,
+        }
+    except Exception as exc:
+        return {"result":"FAIL","reason_code":"RUNTIME_PIN_RECEIPT_INVALID","error_class":type(exc).__name__}
+
+
 def _support_matrix(path: Path | None, provider_id: str, version: str, lease: dict[str,Any]) -> dict[str,Any]:
     if path is None:
         return {"result":"MISSING"}
@@ -328,7 +351,7 @@ def _decision_advisory(root: Path, present: list[str]) -> dict[str,Any]:
     return trace
 
 
-def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support_matrix_path: Path | None, hrb_bin: str) -> dict[str,Any]:
+def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support_matrix_path: Path | None, runtime_pin_path: Path | None, hrb_bin: str) -> dict[str,Any]:
     root=root.resolve()
     runtime_dir=root/"evidence/runtime/inference-provider-current-host"/datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     runtime_dir.mkdir(parents=True,exist_ok=True)
@@ -342,15 +365,18 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
     lease=_validate_hrb_lease(hrb_lease_path,hrb_bin)
     for pid,(module,cli_name) in specs.items():
         mi=_module_info(module)
-        expected=_expected_version(root,pid)
+        reference=_reference_version(root,pid)
         version=str(mi.get("version","")) if mi.get("present") else ""
-        version_match=bool(version and version==expected)
+        reference_version_match=bool(version and version==reference)
+        pin=_runtime_pin(runtime_pin_path,pid,version) if version else {"result":"MISSING","provider_version":None}
+        admission_pin_match=bool(version and pin.get("result")=="PASS" and pin.get("provider_version")==version)
         scopes={}
         admitted=[]
         base={
           "schema":"fa3.inference-provider-current-host-provider-receipt.v1",
           "provider_id":pid,"present":bool(mi.get("present")),"provider_version":version or None,
-          "expected_reference_version":expected,"version_match":version_match,
+          "reference_version":reference,"reference_version_match":reference_version_match,
+          "admission_pin":pin,"admission_pin_match":admission_pin_match,
           "module":mi,"cli":{"name":cli_name,"path":shutil.which(cli_name) if cli_name else None},
           "direct_probe_scope":DIRECT_PROBE_SCOPE,"auto_install_performed":False,
           "network_model_fetch_performed":False,"global_promotion_claim":False,
@@ -361,22 +387,22 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
 
         if pid=="FA3-PROVIDER-OPENVINO-001":
             e2e=_cpu_openvino_e2e()
-            ok=version_match and e2e.get("result")=="PASS"
+            ok=admission_pin_match and e2e.get("result")=="PASS"
             scopes["CPU"]={
               "scope_id":"CPU","execution_kind":"CPU","status":"ADMITTED" if ok else "PRESENT_NOT_ADMITTED",
               "evidence_level":EVIDENCE_LEVEL if ok else None,"e2e":e2e,
-              "runtime_pin":version,"model_probe_sha256":"PROGRAMMATIC_OPENVINO_IDENTITY_GRAPH",
+              "runtime_pin":pin,"model_probe_sha256":"PROGRAMMATIC_OPENVINO_IDENTITY_GRAPH",
               "hardware_binding":{"accelerator":False,"hrb_lease":None},"support_matrix":{"result":"NOT_REQUIRED_CPU_SCOPE"}
             }
             if ok: admitted.append("CPU")
 
         elif pid=="FA3-PROVIDER-ONNXRUNTIME-001":
             e2e=_ort_child("CPUExecutionProvider")
-            ok=version_match and e2e.get("result")=="PASS"
+            ok=admission_pin_match and e2e.get("result")=="PASS"
             scopes["CPU_EP"]={
               "scope_id":"CPU_EP","execution_kind":"CPU","status":"ADMITTED" if ok else "PRESENT_NOT_ADMITTED",
               "evidence_level":EVIDENCE_LEVEL if ok else None,"e2e":e2e,
-              "runtime_pin":version,"model_probe_sha256":hashlib.sha256(embedded_onnx_identity()).hexdigest(),
+              "runtime_pin":pin,"model_probe_sha256":hashlib.sha256(embedded_onnx_identity()).hexdigest(),
               "hardware_binding":{"accelerator":False,"hrb_lease":None},"support_matrix":{"result":"NOT_REQUIRED_CPU_SCOPE"}
             }
             if ok: admitted.append("CPU_EP")
@@ -384,10 +410,10 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
             if cuda_possible:
                 sm=_support_matrix(support_matrix_path,pid,version,lease)
                 ge2e=_ort_child("CUDAExecutionProvider",lease.get("accelerator_uuid")) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
-                gok=version_match and lease.get("result")=="PASS" and sm.get("result")=="PASS" and ge2e.get("result")=="PASS"
+                gok=admission_pin_match and lease.get("result")=="PASS" and sm.get("result")=="PASS" and ge2e.get("result")=="PASS"
                 scopes["CUDA_EP"]={
                   "scope_id":"CUDA_EP","execution_kind":"ACCELERATOR","status":"ADMITTED" if gok else "PRESENT_NOT_ADMITTED",
-                  "evidence_level":EVIDENCE_LEVEL if gok else None,"e2e":ge2e,"runtime_pin":version,
+                  "evidence_level":EVIDENCE_LEVEL if gok else None,"e2e":ge2e,"runtime_pin":pin,
                   "model_probe_sha256":hashlib.sha256(embedded_onnx_identity()).hexdigest(),
                   "hardware_binding":{"accelerator":True,"hrb_lease":lease},"support_matrix":sm
                 }
@@ -396,10 +422,10 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
         elif pid=="FA3-PROVIDER-TENSORRT-001":
             sm=_support_matrix(support_matrix_path,pid,version,lease)
             e2e=_trtexec_e2e(runtime_dir,lease.get("accelerator_uuid")) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
-            ok=version_match and lease.get("result")=="PASS" and sm.get("result")=="PASS" and e2e.get("result")=="PASS"
+            ok=admission_pin_match and lease.get("result")=="PASS" and sm.get("result")=="PASS" and e2e.get("result")=="PASS"
             scopes["NVIDIA_GPU_NATIVE"]={
               "scope_id":"NVIDIA_GPU_NATIVE","execution_kind":"ACCELERATOR","status":"ADMITTED" if ok else "PRESENT_NOT_ADMITTED",
-              "evidence_level":EVIDENCE_LEVEL if ok else None,"e2e":e2e,"runtime_pin":version,
+              "evidence_level":EVIDENCE_LEVEL if ok else None,"e2e":e2e,"runtime_pin":pin,
               "model_probe_sha256":e2e.get("model_probe_sha256"),"hardware_binding":{"accelerator":True,"hrb_lease":lease},"support_matrix":sm
             }
             if ok: admitted.append("NVIDIA_GPU_NATIVE")
@@ -410,14 +436,14 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
             # Diagnostic execution alone cannot satisfy production cache-observability requirements.
             scopes["NVIDIA_RTX_NATIVE"]={
               "scope_id":"NVIDIA_RTX_NATIVE","execution_kind":"ACCELERATOR","status":"PRESENT_NOT_ADMITTED",
-              "evidence_level":None,"e2e":e2e,"runtime_pin":version,
+              "evidence_level":None,"e2e":e2e,"runtime_pin":pin,
               "model_probe_sha256":e2e.get("model_probe_sha256"),"hardware_binding":{"accelerator":True,"hrb_lease":lease},
               "support_matrix":sm,"runtime_cache_observability":{"result":"REQUIRED_SEPARATE_CACHE_USE_RECEIPT"}
             }
 
         base["scopes"]=scopes
         base["admitted_scopes"]=admitted
-        base["status"]="ADMITTED" if admitted else ("PRESENT_VERSION_MISMATCH" if not version_match else "PRESENT_NOT_ADMITTED")
+        base["status"]="ADMITTED" if admitted else ("PRESENT_UNPINNED" if not admission_pin_match else "PRESENT_NOT_ADMITTED")
         out[pid]=base
 
     provider_dir=root/"evidence/receipts/inference-provider-current-host"
@@ -458,6 +484,7 @@ def main() -> int:
     ap.add_argument("--require-provider",action="append",default=[])
     ap.add_argument("--hrb-lease")
     ap.add_argument("--support-matrix-receipt")
+    ap.add_argument("--runtime-pin-receipt")
     ap.add_argument("--hrb-bin",default="/usr/local/bin/fa3-host-resource-broker")
     args=ap.parse_args()
     required=set(args.require_provider)
@@ -469,6 +496,7 @@ def main() -> int:
       required,
       Path(args.hrb_lease).resolve() if args.hrb_lease else None,
       Path(args.support_matrix_receipt).resolve() if args.support_matrix_receipt else None,
+      Path(args.runtime_pin_receipt).resolve() if args.runtime_pin_receipt else None,
       args.hrb_bin,
     )
     print(json.dumps(rec,indent=2,ensure_ascii=False))

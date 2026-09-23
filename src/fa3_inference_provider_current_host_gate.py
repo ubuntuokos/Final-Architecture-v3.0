@@ -18,7 +18,7 @@ DECISION_ID="FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23"
 AGGREGATE_RECEIPT="evidence/receipts/inference-provider-current-host.json"
 REFERENCE_EVIDENCE="evidence/reference/inference-provider-current-host-materialization-ci-2026-09-23.json"
 PROVIDERS=['FA3-PROVIDER-OPENVINO-001','FA3-PROVIDER-ONNXRUNTIME-001','FA3-PROVIDER-TENSORRT-001','FA3-PROVIDER-TENSORRT-RTX-001']
-RULES=['PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED','PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION','PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_REFERENCE_MATCHED','CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE','ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE','NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT','DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES','DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING','NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION','MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS','TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY','CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION']
+RULES=['PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED','PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION','PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED','CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE','ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE','NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT','DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES','DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING','NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION','MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS','TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY','CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION']
 CAPABILITY_COUNT=module_active_capability_count(__file__)
 EVIDENCE_LEVEL="CURRENT_HOST_PROVIDER_SCOPE_PRODUCTION_E2E_PASS"
 
@@ -65,7 +65,7 @@ def scope_valid(scope: dict[str,Any]) -> bool:
 
 
 def provider_receipt_valid(rec: dict[str,Any]) -> bool:
-    required={"provider_id","provider_version","expected_reference_version","version_match","present","status","admitted_scopes","scopes","direct_probe_scope","auto_install_performed","network_model_fetch_performed","global_promotion_claim"}
+    required={"provider_id","provider_version","reference_version","reference_version_match","admission_pin","admission_pin_match","present","status","admitted_scopes","scopes","direct_probe_scope","auto_install_performed","network_model_fetch_performed","global_promotion_claim"}
     if not required.issubset(rec) or rec.get("provider_id") not in PROVIDERS:
         return False
     if rec.get("direct_probe_scope")!="ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH":
@@ -81,7 +81,7 @@ def provider_receipt_valid(rec: dict[str,Any]) -> bool:
     if any(not scope_valid(s) for s in scopes.values() if isinstance(s,dict)):
         return False
     if admitted:
-        if rec.get("present") is not True or rec.get("version_match") is not True or rec.get("status")!="ADMITTED":
+        if rec.get("present") is not True or rec.get("admission_pin_match") is not True or rec.get("status")!="ADMITTED":
             return False
         for name in admitted:
             if scopes[name].get("status")!="ADMITTED":
