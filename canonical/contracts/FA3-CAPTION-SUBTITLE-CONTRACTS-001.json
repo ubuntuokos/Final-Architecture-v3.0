@@ -32,15 +32,44 @@
   ],
   "caption_document": {
     "schema": "fa3.caption-document.v1",
-    "required": ["schema", "revision", "timebase", "tracks", "provenance"],
+    "required": [
+      "schema",
+      "revision",
+      "timebase",
+      "tracks",
+      "provenance"
+    ],
     "timebase": "explicit milliseconds or rational media timebase",
-    "cue_required": ["id", "start_ms", "end_ms", "text"],
+    "cue_required": [
+      "id",
+      "start_ms",
+      "end_ms",
+      "text"
+    ],
     "source_text_preserved_when_translation_exists": true,
     "immutable_parent_digest_required_after_revision_1": true
   },
   "format_policy": {
-    "import": ["SRT", "WebVTT", "ASS", "SSA", "SBV", "TTML", "MicroDVD", "MPL2", "FA3 Caption JSON"],
-    "export": ["SRT", "WebVTT", "ASS", "SSA", "SBV", "TTML", "FA3 Caption JSON"],
+    "import": [
+      "SRT",
+      "WebVTT",
+      "ASS",
+      "SSA",
+      "SBV",
+      "TTML",
+      "MicroDVD",
+      "MPL2",
+      "FA3 Caption JSON"
+    ],
+    "export": [
+      "SRT",
+      "WebVTT",
+      "ASS",
+      "SSA",
+      "SBV",
+      "TTML",
+      "FA3 Caption JSON"
+    ],
     "canonical_format": "FA3 Caption JSON semantics, not a provider-native subtitle format",
     "lossy_export_receipt_required": true
   },
@@ -87,5 +116,31 @@
   },
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count": 143
+  "capability_count": 143,
+  "uaf": {
+    "profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action_ids": [
+      "caption.import",
+      "caption.edit",
+      "caption.sync",
+      "caption.qc",
+      "caption.export",
+      "caption.translate",
+      "caption.hardsub.recover",
+      "caption.overlay.project",
+      "caption.editorial.project",
+      "narration.plan",
+      "narration.synthesize",
+      "narration.mix",
+      "audio-description.plan"
+    ],
+    "native_provider": "FA3-PROVIDER-CAPTION-NATIVE-001",
+    "direct_agent_provider_bypass_forbidden": true,
+    "provider_dependent_actions": {
+      "caption.translate": "existing language/model routing",
+      "caption.hardsub.recover": "admitted OCR provider required",
+      "narration.synthesize": "FA3-VOICE-001",
+      "narration.mix": "existing media/audio fabric"
+    }
+  }
 }

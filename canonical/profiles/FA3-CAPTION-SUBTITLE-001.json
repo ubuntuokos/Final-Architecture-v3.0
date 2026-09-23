@@ -10,8 +10,15 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "capabilities": ["CAP-017", "CAP-115", "CAP-117", "CAP-121"],
-  "contracts": ["FA3-CAPTION-SUBTITLE-CONTRACTS-001"],
+  "capabilities": [
+    "CAP-017",
+    "CAP-115",
+    "CAP-117",
+    "CAP-121"
+  ],
+  "contracts": [
+    "FA3-CAPTION-SUBTITLE-CONTRACTS-001"
+  ],
   "dependencies": [
     "FA3-STT-MEDIA-001",
     "FA3-VOICE-001",
@@ -57,8 +64,19 @@
     ]
   },
   "format_adapters": {
-    "first_class": ["SRT", "WebVTT", "ASS", "SSA", "SBV", "TTML", "FA3 Caption JSON"],
-    "compatibility": ["MicroDVD", "MPL2"],
+    "first_class": [
+      "SRT",
+      "WebVTT",
+      "ASS",
+      "SSA",
+      "SBV",
+      "TTML",
+      "FA3 Caption JSON"
+    ],
+    "compatibility": [
+      "MicroDVD",
+      "MPL2"
+    ],
     "lossy_export_requires_explicit_receipt": true
   },
   "workflows": [
@@ -97,7 +115,12 @@
     "human_readable_ai_communication_required": true
   },
   "narration_policy": {
-    "modes": ["NARRATION", "VOICE_OVER", "DUBBING", "AUDIO_DESCRIPTION_READY"],
+    "modes": [
+      "NARRATION",
+      "VOICE_OVER",
+      "DUBBING",
+      "AUDIO_DESCRIPTION_READY"
+    ],
     "subtitle_text_is_source_record": true,
     "silent_text_rewrite_for_timing_forbidden": true,
     "timing_repair_order": [
@@ -133,5 +156,28 @@
     "upstream_references": "REFERENCE_ONLY",
     "distribution_profile": "FA3-DISTRIBUTION-COMPLIANCE-001"
   },
-  "implementation_status": "CANONICAL_NATIVE_RUNTIME_AND_REFERENCE_GUI_MATERIALIZED_CURRENT_HOST_PENDING"
+  "implementation_status": "CANONICAL_NATIVE_RUNTIME_AND_REFERENCE_GUI_MATERIALIZED_CURRENT_HOST_PENDING",
+  "native_provider": "FA3-PROVIDER-CAPTION-NATIVE-001",
+  "uaf_actions": [
+    "caption.import",
+    "caption.edit",
+    "caption.sync",
+    "caption.qc",
+    "caption.export",
+    "caption.translate",
+    "caption.hardsub.recover",
+    "caption.overlay.project",
+    "caption.editorial.project",
+    "narration.plan",
+    "narration.synthesize",
+    "narration.mix",
+    "audio-description.plan"
+  ],
+  "current_host": {
+    "gate_id": "FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001",
+    "application_e2e_level": "CURRENT_HOST_APPLICATION_E2E_PASS",
+    "voice_provider_audio_e2e": "SEPARATE_EXISTING_VOICE_PROVIDER_ADMISSION",
+    "hardsub_ocr_e2e": "SEPARATE_OCR_PROVIDER_ADMISSION",
+    "global_promotion_claim": false
+  }
 }

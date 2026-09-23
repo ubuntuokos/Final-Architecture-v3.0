@@ -18,7 +18,11 @@ def gate(root:Path)->dict:
     findings=[]
     def chk(ok:bool,code:str,message:str):
         if not ok: findings.append({"code":code,"severity":"P0","message":message})
-    for rel in (PROFILE,CONTRACT,DECISION,REFERENCE,ENFORCEMENT,"src/fa3_caption_subtitle.py","src/fa3_caption_studio_server.py","bin/fa3-caption-studio","bin/fa3-narration-studio","apps/fa3-control-center/qml/SubtitleStudioPage.qml","apps/fa3-control-center/qml/NarrationStudioPage.qml"):
+    for rel in (PROFILE,CONTRACT,DECISION,REFERENCE,ENFORCEMENT,"src/fa3_caption_subtitle.py","src/fa3_caption_studio_server.py","bin/fa3-caption-studio","bin/fa3-narration-studio","apps/fa3-control-center/qml/SubtitleStudioPage.qml","apps/fa3-control-center/qml/NarrationStudioPage.qml",
+                "src/fa3_caption_workflows.py", "src/fa3_caption_uaf.py",
+                "src/fa3_caption_subtitle_current_host_gate.py",
+                "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+                ".github/workflows/fa3-caption-subtitle-current-host.yml"):
         chk((root/rel).exists(),"CAPSUB-001",f"missing materialization path: {rel}")
     if findings: return {"schema":"fa3.caption-subtitle-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
 
@@ -71,6 +75,15 @@ def gate(root:Path)->dict:
     for token in ('label: "Subtitle Studio"; pageIndex: 35','label: "Narration Studio"; pageIndex: 36',"SubtitleStudioPage {","NarrationStudioPage {"):
         chk(token in main,"CAPSUB-029",f"Control Center wiring missing: {token}")
     chk("qml/SubtitleStudioPage.qml" in cmake and "qml/NarrationStudioPage.qml" in cmake,"CAPSUB-030","QML resource registration missing")
+    expected_actions={"caption.import","caption.edit","caption.sync","caption.qc","caption.export","caption.translate","caption.hardsub.recover","caption.overlay.project","caption.editorial.project","narration.plan","narration.synthesize","narration.mix","audio-description.plan"}
+    chk(set(p.get("uaf_actions",[]))==expected_actions,"CAPSUB-031","UAF caption/narration action inventory drift")
+    chk(p.get("native_provider")=="FA3-PROVIDER-CAPTION-NATIVE-001","CAPSUB-032","native provider binding missing")
+    provider=load(root,"canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json")
+    chk(provider.get("architectural_authority") is False and provider.get("provider_selection_authority") is False and provider.get("distribution_class")=="FA3_NATIVE","CAPSUB-033","native provider authority/distribution drift")
+    action_files={x.stem for x in (root/"canonical/actions").glob("*.json")}
+    chk(expected_actions.issubset(action_files),"CAPSUB-034","caption/narration UAF action contract missing")
+    ch=p.get("current_host",{})
+    chk(ch.get("gate_id")=="FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001" and ch.get("global_promotion_claim") is False,"CAPSUB-035","current-host boundary drift")
     return {"schema":"fa3.caption-subtitle-gate-report.v1","gate_id":GATE_ID,"profile_id":p.get("id"),"result":"PASS" if not findings else "FAIL","current_host_status":"PENDING_CURRENT_HOST","findings":findings}
 
 def main()->int:

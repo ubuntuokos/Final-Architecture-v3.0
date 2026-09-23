@@ -1,0 +1,33 @@
+name: FA3 Caption Subtitle Current-Host
+on:
+  workflow_dispatch:
+  push:
+    branches: ["fa3/**", "main"]
+    paths:
+      - 'src/fa3_caption_*'
+      - 'canonical/actions/caption.*'
+      - 'canonical/actions/narration.*'
+      - 'canonical/actions/audio-description.plan.json'
+      - 'canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json'
+      - 'bin/fa3-caption-studio'
+      - 'bin/fa3-narration-studio'
+      - '.github/workflows/fa3-caption-subtitle-current-host.yml'
+permissions:
+  contents: read
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false, fetch-depth: 0}
+      - name: Current-host caption and UAF application E2E
+        run: |
+          chmod +x bin/fa3-caption-studio bin/fa3-narration-studio
+          PYTHONPATH=src python3 src/fa3_caption_subtitle_current_host_gate.py --root .
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-caption-subtitle-current-host
+          path: reports/caption-subtitle-current-host.json
+          if-no-files-found: error
