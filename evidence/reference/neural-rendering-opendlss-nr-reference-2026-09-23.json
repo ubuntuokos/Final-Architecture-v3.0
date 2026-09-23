@@ -12,21 +12,25 @@
   },
   "validated_implementation_commit": "051a99606f9a244e0b1cb162382d50be5963c603",
   "github_actions": {
-    "run_id": 35862028853,
-    "job_id": 107184307779,
+    "run_id": 35862363651,
+    "job_id": 107185408323,
     "workflow": "FA3 Neural Rendering Reference Gate",
-    "run_conclusion": "failure",
-    "explanation": "All twelve executable core/provider/Jev/negative-path tests passed. The only failing closure assertion was NR-GATE-023 because the unified release projection had not yet been regenerated for this integration.",
+    "run_conclusion": "success",
     "executable_core_tests": {
       "passed": 12,
       "failed": 0
     },
     "closure_tests": {
-      "passed": 0,
-      "failed": 1,
-      "expected_bootstrap_blocker": "NR-GATE-023 release projection reconciliation missing"
+      "passed": 1,
+      "failed": 0
     },
-    "logs_url": "https://github.com/ubuntuokos/Final-Architecture-v3.0/actions/runs/35861586536"
+    "cross_cutting_gates": {
+      "neural_rendering_canonical": "PASS",
+      "uaf": "PASS",
+      "hardware_portability": "PASS",
+      "global_static_enforcement": "PASS"
+    },
+    "logs_url": "https://github.com/ubuntuokos/Final-Architecture-v3.0/actions/runs/35862363651"
   },
   "proven": [
     "deterministic policy eligibility filters execute before optional Jev advisory",
@@ -56,5 +60,6 @@
   "global_promotion_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "validated_release_commit": "ca9f6a343727206034aa5a95b689b3db50359488"
 }
