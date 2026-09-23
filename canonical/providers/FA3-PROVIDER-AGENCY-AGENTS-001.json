@@ -85,7 +85,7 @@
     "entire_upstream_repo_is_not_implicitly_admitted": true,
     "immutable_commit_required": true,
     "license_snapshot_required": true,
-    "selected_agent_or_template_requires_separate_normalization_and_admission": true,
+    "selected_agent_or_template_requires_separate_normalization_and_admission": false,
     "executable_assets_inert_by_default": true,
     "upstream_converter_auto_execution": false,
     "auto_install_converted_outputs": false,
@@ -94,7 +94,9 @@
     "global_corpus_auto_injection": false,
     "task_scoped_loading_required": true,
     "curated_candidate_selection_materialized": true,
-    "curated_candidate_selection_is_admission": false
+    "curated_candidate_selection_is_admission": false,
+    "selected_source_body_requires_admission_only_if_verbatim_or_substantial_content_is_future_imported": true,
+    "fa3_native_derived_definition_does_not_require_upstream_body_vendoring": true
   },
   "agent_native": {
     "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
@@ -155,7 +157,9 @@
     "status": "RECONCILED_CANONICAL_GUI",
     "canonical_main_commit": "0c146d81b417cb3a9e4d871c596516f7afe285c3",
     "child_surface_id": "agency-agents.imported-pack",
-    "direct_provider_execution": false
+    "direct_provider_execution": false,
+    "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "mode": "READ_ONLY_CANONICAL_DEFINITIONS"
   },
   "distribution": {
     "class": "EXTERNAL_REDISTRIBUTABLE",
@@ -166,5 +170,17 @@
     "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
     "binding_status": "CANONICAL_RECONCILED"
   },
-  "curated_candidate_catalog": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
+  "curated_candidate_catalog": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+  "agent_definition_projection": {
+    "contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+    "registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "status": "CANONICAL_FA3_NATIVE_NORMALIZATION_MATERIALIZED",
+    "source_candidate_catalog": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+    "role_definition_count": 12,
+    "template_definition_count": 5,
+    "upstream_bodies_vendored": false,
+    "source_candidates_remain_inert_reference_records": true,
+    "definition_is_runtime_provider": false,
+    "runtime_provider_binding": "SEPARATE_EXISTING_FA3_WORKFORCE_AND_PROVIDER_ADMISSION"
+  }
 }
