@@ -12,9 +12,9 @@
   ],
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
   "upstream_repository": "NVIDIA/TensorRT",
-  "upstream_snapshot_commit": "c93b7d4893184af4882f9f1862e13a5c64b8677d",
-  "observed_release_tag": "v11.2",
-  "documented_runtime_release": "11.2.1",
+  "upstream_snapshot_commit": "98adec82349b3ae22aa3f753d733b9a1a84d497d",
+  "observed_release_tag": "v11.3",
+  "documented_runtime_release": "11.3.0.99",
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -37,5 +37,16 @@
   "support_matrix_admission_required": true,
   "production_build": "REPRODUCIBLE_API_CONFIG_REQUIRED_TRTEXEC_DIAGNOSTIC_ALLOWED",
   "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_REQUIRED_AT_ADMISSION",
-  "current_host_production_evidence": "NOT_CLAIMED"
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "cuda_build_reference": "13.4",
+  "latest_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+  "custom_plugin_api_baseline": "IPluginV3",
+  "ipluginv2_status": "REMOVED_IN_TENSORRT_11_CURRENT_REFERENCE",
+  "hardware_execution_binding": {
+    "accelerator_vendor_scope": "NVIDIA_PROVIDER_SCOPED",
+    "backend_class": "native",
+    "device_bound_backend_required": true,
+    "hrb_lease_required": true,
+    "provider_specific_cuda_sm_fields_not_global_baseline": true
+  }
 }

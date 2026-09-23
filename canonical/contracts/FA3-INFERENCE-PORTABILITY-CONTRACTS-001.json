@@ -25,7 +25,15 @@
     "EnginePortabilityPolicy",
     "ProviderRuntimePin",
     "TensorRTRTXRuntimeCacheDescriptor",
-    "RuntimeCacheUseReceipt"
+    "RuntimeCacheUseReceipt",
+    "InferenceExecutionRequest",
+    "InferenceBackendCandidate",
+    "InferenceBackendEligibilitySet",
+    "ModelResolutionBinding",
+    "InferenceExecutionResolution",
+    "InferenceExecutionReceipt",
+    "AgentNativeInferenceInvocation",
+    "ExecutionBackendDriftEvent"
   ],
   "required_semantics": {
     "interchange": "ONNX_PRIMARY_WHEN_SUPPORTED_NOT_UNIVERSAL_RUNTIME",
@@ -39,7 +47,19 @@
     "production_versions": "PINNED_SUPPORT_MATRIX_VALIDATED_NO_LATEST_AUTO_UPGRADE",
     "tensorrt_rtx_runtime_cache": "STRICT_ENVIRONMENT_COMPATIBILITY_OR_TRANSPARENT_JIT_REBUILD_MUST_BE_OBSERVED",
     "runtime_cache_observability": "CACHE_HIT_MISS_AND_JIT_REBUILD_MUST_BE_EVIDENCE_VISIBLE",
-    "tensorrt_rtx_timing_cache": "DEPRECATED_API_NOT_CANONICAL_RUNTIME_CACHE_AND_NOT_FOR_NEW_INTEGRATIONS"
+    "tensorrt_rtx_timing_cache": "DEPRECATED_API_NOT_CANONICAL_RUNTIME_CACHE_AND_NOT_FOR_NEW_INTEGRATIONS",
+    "hardware_discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001_PROVIDER_NEUTRAL_0_TO_N_ACCELERATOR_DISCOVERY",
+    "hrb_execution_path": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001_EXCLUSIVE_ADMISSION_PLACEMENT_RESERVATION_LEASE",
+    "cpu_only_host": "VALID_GLOBAL_CONFORMANCE",
+    "accelerator_backend_binding": "DEVICE_BOUND_AVAILABLE_COMPATIBLE_REQUIRED",
+    "translation_backend": "EXPLICIT_WORKLOAD_OPT_IN_ONLY",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001_ONLY",
+    "execution_backend_selection": "DISTINCT_FROM_LOGICAL_MODEL_ROUTING",
+    "agent_native": "FA3_UNIFIED_ACTION_FABRIC_TYPED_ACTION_REQUIRED",
+    "agent_direct_provider_bypass": "FORBIDDEN",
+    "ai_participant_topology": "EXECUTION_PROVIDER_AND_BACKEND_ARE_NOT_AI_PARTICIPANTS_AND_CANNOT_EXPAND_PARTICIPANT_SET",
+    "decision_fabric_jev": "OPTIONAL_ADVISORY_AFTER_DETERMINISTIC_PREFILTER_NO_CANDIDATE_EXPANSION",
+    "external_cloud_fallback": "EXPLICIT_PREAUTHORIZED_POLICY_ONLY"
   },
   "engine_cache_fingerprint_required_fields": [
     "source_model_hash",
@@ -126,5 +146,68 @@
     "ENGINE_PORTABILITY_MODE_EXPLICIT_AND_EVIDENCED",
     "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
     "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
+  ],
+  "version": "1.1.0",
+  "accelerator_backend_eligibility_required_fields": [
+    "accelerator_id",
+    "backend",
+    "backend_class",
+    "binding_scope",
+    "detected",
+    "available",
+    "compatibility_result",
+    "hardware_discovery_receipt_id"
+  ],
+  "inference_execution_receipt_required_fields": [
+    "model_resolution_binding_id",
+    "model_artifact_id",
+    "provider_id",
+    "execution_backend",
+    "backend_class",
+    "hardware_discovery_receipt_id",
+    "backend_compatibility_receipt_id",
+    "hrb_lease_id_when_accelerated",
+    "uaf_action_receipt_id_when_agent_initiated",
+    "ai_comms_topology_receipt_id_when_model_to_model",
+    "fallback_policy_result",
+    "result"
+  ],
+  "provider_scoped_hardware_fields": [
+    "cuda_version",
+    "cuda_driver_version",
+    "compute_capability",
+    "sm",
+    "gpu_sku",
+    "rocm_version",
+    "hip_version",
+    "level_zero_version",
+    "xpu_device_family",
+    "npu_device_family"
+  ],
+  "global_hardware_baseline_forbidden_fields": [
+    "accelerator_vendor_pin",
+    "gpu_sku_pin",
+    "compute_capability_floor",
+    "cuda_required",
+    "rocm_required",
+    "level_zero_required",
+    "accelerator_min_1"
+  ],
+  "reconciliation_invariants_2026_09_23": [
+    "INFERENCE_ACCELERATOR_CARDINALITY_0_TO_N_AND_CPU_ONLY_CONFORMANT",
+    "INFERENCE_ACCELERATOR_BACKEND_MUST_BE_DEVICE_BOUND_AND_AVAILABLE",
+    "INFERENCE_HRB_LEASE_BINDS_EXACT_ACCELERATOR_EXECUTION_PATH",
+    "INFERENCE_BACKEND_DISAPPEARANCE_INVALIDATES_LEASE_AND_DERIVED_ARTIFACTS",
+    "INFERENCE_NO_SILENT_DEVICE_BACKEND_OR_TRANSLATION_SUBSTITUTION",
+    "INFERENCE_PROVIDER_SPECIFIC_HARDWARE_FIELDS_ARE_PROVIDER_SCOPED_ONLY",
+    "INFERENCE_MODEL_ROUTER_REMAINS_LOGICAL_MODEL_PROVIDER_ROUTING_AUTHORITY",
+    "INFERENCE_EXECUTION_PROVIDER_DOES_NOT_EXPAND_AI_PARTICIPANT_SET",
+    "INFERENCE_AGENT_NATIVE_INVOCATION_REQUIRES_TYPED_UAF_ACTION",
+    "INFERENCE_AGENT_NATIVE_CANNOT_BYPASS_ROUTER_HRB_SECURITY_OR_PROVIDER_ADAPTER",
+    "INFERENCE_DECISION_FABRIC_JEV_ADVISORY_CANNOT_EXPAND_ELIGIBLE_CANDIDATES",
+    "INFERENCE_EXECUTION_RECEIPT_BINDS_MODEL_PROVIDER_BACKEND_AND_RESOURCE_EVIDENCE",
+    "INFERENCE_EXTERNAL_OR_CLOUD_FALLBACK_REQUIRES_EXPLICIT_PREAUTHORIZED_POLICY",
+    "INFERENCE_REFERENCE_VERSION_ADVANCE_IS_NOT_RUNTIME_PROMOTION",
+    "INFERENCE_EP_AND_BACKEND_SELECTION_REMAINS_DISTINCT_FROM_MODEL_ROUTING"
   ]
 }
