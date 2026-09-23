@@ -965,7 +965,7 @@ ApplicationWindow {
                         {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
                         {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
                         {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan},
-                        {title: "Imported Packs · Agency Agents", subtitle: "12 agent + 5 template immutable candidate · REFERENCE ONLY · DISABLED_NOT_ADMITTED. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "REFERENCE", tone: window.cyan, routeId: "agents.action-center"}
+                        {title: "Imported Packs · Agency Agents", subtitle: "12 canonical FA3 role + 5 canonical template · upstream body nincs vendorizálva · runtime/provider külön admission. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "CANONICAL", tone: window.cyan, routeId: "agents.action-center"}
                     ]
                 }
 
