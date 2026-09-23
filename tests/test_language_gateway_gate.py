@@ -28,8 +28,10 @@ class LanguageGatewayGateTests(unittest.TestCase):
     def test_language_status_taxonomy_is_fail_closed(self):
         for status in ("NATIVE", "VALIDATED", "BRIDGED"):
             self.assertTrue(language_capability_is_operable(status))
-        for status in ("UNVERIFIED", "UNSUPPORTED", "UNKNOWN"):
+        for status in ("UNVERIFIED", "UNSUPPORTED"):
             self.assertFalse(language_capability_is_operable(status))
+        with self.assertRaises(LanguagePolicyDenied):
+            language_capability_is_operable("UNKNOWN")
 
     def test_full_reference_gate_passes_without_production_claim(self):
         report = gate(ROOT)
