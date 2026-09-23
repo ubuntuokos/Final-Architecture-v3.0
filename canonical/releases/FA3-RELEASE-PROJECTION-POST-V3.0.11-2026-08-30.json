@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "55e6d3bb07932ce72228e8398059bb5d90958402",
-    "pre_projection_root_tree_sha": "13ca9112419460c1484164b9601b378fd0bc3e22",
-    "pre_projection_canonical_tree_sha": "d2ec8d7f4ad97f8082c0e7fa7e3b551b1df5627b",
-    "commits_ahead_of_v3_0_11_conformance_commit": 766,
-    "total_post_baseline_commits": 766,
-    "delta_file_count": 1788,
-    "delta_added_files": 1783,
+    "pre_projection_head_sha": "5496b7aa44b1abfe0faf4bafd67e9b6708d1f142",
+    "pre_projection_root_tree_sha": "1ac53e3af79f7addad9c0107c3b7dc8fd01b46a3",
+    "pre_projection_canonical_tree_sha": "84611358d4dec23f11dfbd00a03fa28fbf280259",
+    "commits_ahead_of_v3_0_11_conformance_commit": 583,
+    "total_post_baseline_commits": 583,
+    "delta_file_count": 1795,
+    "delta_added_files": 1790,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,10 +45,10 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 836,
+    "canonical_files_in_post_baseline_delta": 840,
     "evidence_files_in_post_baseline_delta": 143,
-    "source_files_in_post_baseline_delta": 240,
-    "test_files_in_post_baseline_delta": 207,
+    "source_files_in_post_baseline_delta": 241,
+    "test_files_in_post_baseline_delta": 208,
     "workflow_files_in_post_baseline_delta": 82,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
@@ -183,6 +183,7 @@
       "canonical/profiles/FA3-AI-SEC-VALIDATION-001.json",
       "canonical/profiles/FA3-AUDIO-SEPARATION-001.json",
       "canonical/profiles/FA3-BLACKHOLE-KDENLIVE-001.json",
+      "canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json",
       "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "canonical/profiles/FA3-COACH-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
@@ -266,6 +267,7 @@
       "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
+      "canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
       "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
@@ -364,6 +366,7 @@
       "canonical/decisions/FA3-DEC-ANY-GUARDRAIL-2026-09-07.json",
       "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
+      "canonical/decisions/FA3-DEC-BROWSER-ACTION-RUNTIME-JEV-ULTRAFAST-2026-09-23.json",
       "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
       "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
       "canonical/decisions/FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13.json",
@@ -842,7 +845,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1781,
+  "manifest_entry_count": 1788,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -2740,6 +2743,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/actions/browser.action.execute.json",
+      "git_blob_sha": "f8f7268cc16752bc11e3c67ba9729aea63834197",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/actions/hardware.describe.json",
       "git_blob_sha": "4faae020fb64b8666509d5dad8fb977de8f6532f",
       "baseline_delta_status": "added"
@@ -2992,6 +3000,11 @@
     {
       "path": "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
       "git_blob_sha": "059746681913822173109262ea19762f86b013f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json",
+      "git_blob_sha": "41118e8097762202c8e7cba2c39cfe85888874d4",
       "baseline_delta_status": "added"
     },
     {
@@ -3421,7 +3434,7 @@
     },
     {
       "path": "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
-      "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe",
+      "git_blob_sha": "7d98ecf7fd60ea3015e6f6cdf0da939378db3182",
       "baseline_delta_status": "added"
     },
     {
@@ -3527,6 +3540,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
       "git_blob_sha": "10577c781d955c84fb4ce3eda73b08779a3a7db3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BROWSER-ACTION-RUNTIME-JEV-ULTRAFAST-2026-09-23.json",
+      "git_blob_sha": "e46a6b665e476904d1bb68d518398ebc870efda5",
       "baseline_delta_status": "added"
     },
     {
@@ -4590,6 +4608,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json",
+      "git_blob_sha": "3517269bb3c7d407a0ab47bb176fa78412ba1520",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "git_blob_sha": "b8ebc0f5078c89a2858cb7b9302c23026f7f5b06",
       "baseline_delta_status": "added"
@@ -4931,7 +4954,7 @@
     },
     {
       "path": "canonical/profiles/FA3-WEB-AI-001.json",
-      "git_blob_sha": "eb5767914fb8d7452cacb15e4f95ea3c6532fa56",
+      "git_blob_sha": "cf1a13ae70ff8bb91243eace6f7790a89321899e",
       "baseline_delta_status": "added"
     },
     {
@@ -5081,7 +5104,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json",
-      "git_blob_sha": "5ae68c7bdf0be044c73e658010c38a3426cc9597",
+      "git_blob_sha": "89eddb997a2a49355867252e44c10c8bac32dd58",
       "baseline_delta_status": "added"
     },
     {
@@ -6101,7 +6124,7 @@
     },
     {
       "path": "canonical/third-party/FA3-JEV-CODE-REUSE-001.json",
-      "git_blob_sha": "ce62dc9979fbf1fcfbb9cc66e05a2328f445d239",
+      "git_blob_sha": "dc8cf515d89f7592fdaf51cdcb9a200c2b59947b",
       "baseline_delta_status": "added"
     },
     {
@@ -6357,6 +6380,11 @@
     {
       "path": "docs/FA3-UNIFIED-ACTION-FABRIC-001.md",
       "git_blob_sha": "91c76548ed1cced64a94e50b1860f41944e8e7d9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/browser-action-runtime.md",
+      "git_blob_sha": "d28b3b9a58f848ea3747260853e1e673266f6252",
       "baseline_delta_status": "added"
     },
     {
@@ -7545,6 +7573,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_browser_action_runtime.py",
+      "git_blob_sha": "7642cdd7214712ffa6390cee971bab58390da488",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_buzz_gate.py",
       "git_blob_sha": "3bb2f1c9427dc0a2f57547067d7036eed301c180",
       "baseline_delta_status": "added"
@@ -7981,7 +8014,7 @@
     },
     {
       "path": "src/fa3_jev_decision_provider.py",
-      "git_blob_sha": "d88cfa76dd87ff4b36225bcb80ff5cb530e24a14",
+      "git_blob_sha": "d3ab6a104e8430a61ef8a7ee844e6ab8508b408c",
       "baseline_delta_status": "added"
     },
     {
@@ -8725,6 +8758,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_browser_action_runtime.py",
+      "git_blob_sha": "c55ee703769dad4f0524a4ac46610cbd6f73fe01",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_buzz_gate.py",
       "git_blob_sha": "021ba7f5a79ef7e83bd5187c30146cd8b94c19b3",
       "baseline_delta_status": "added"
@@ -8901,7 +8939,7 @@
     },
     {
       "path": "tests/test_decision_fabric.py",
-      "git_blob_sha": "baa92a392f85518a4db5b01d6b01d18732e3d166",
+      "git_blob_sha": "6db7e7f61a2cdaa5952e4dd06cff23997790ae27",
       "baseline_delta_status": "added"
     },
     {
