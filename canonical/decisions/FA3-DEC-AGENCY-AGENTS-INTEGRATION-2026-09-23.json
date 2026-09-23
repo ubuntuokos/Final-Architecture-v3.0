@@ -36,8 +36,7 @@
   },
   "open_reconciliations": [
     "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED",
-    "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION",
-    "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR"
+    "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION"
   ],
   "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
   "current_host_runtime_claim": false,
@@ -52,7 +51,9 @@
       "provider_target_class": "EXTERNAL_REDISTRIBUTABLE",
       "provider_release_bundle_status": "EXCLUDED",
       "upstream_reference_target_class": "REFERENCE_ONLY",
-      "hard_dependency_before_parallel_change_merges": false
+      "hard_dependency_before_parallel_change_merges": false,
+      "status": "RECONCILED_CANONICAL_MAIN",
+      "main_commit": "53df1a20262449863c629f18ee587c9e947c4feb"
     },
     "gui": {
       "target_surface_route": "agents.workflows",
