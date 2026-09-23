@@ -18,6 +18,9 @@ AGENT_PROFILE = "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json"
 SKILL_PROFILE = "canonical/profiles/FA3-SKILL-FABRIC-001.json"
 DECISION_PROFILE = "canonical/profiles/FA3-DECISION-FABRIC-001.json"
 SKILL_DISCOVERY_CONTRACT = "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
+UPSTREAM_REFERENCE = "canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json"
+DISTRIBUTION_REGISTRY = "canonical/distribution-registry.json"
+RECONCILER = "scripts/fa3_reconcile_release_projection.py"
 ENFORCEMENT = "canonical/enforcement-policy.json"
 WORKFLOW = ".github/workflows/fa3-quality-anti-slop.yml"
 PERMANENT_WORKFLOW = ".github/workflows/fa3-permanent-enforcement.yml"
@@ -68,7 +71,7 @@ def _validate_skill_file(root: Path, skill: str) -> tuple[bool, str]:
 def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     checks: list[dict[str, str]] = []
-    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
+    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
     missing = [x for x in required if not (root / x).is_file()]
     checks.append(check("core-records-present", not missing, f"missing={missing}"))
     if missing:
@@ -84,6 +87,8 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     skill_profile = loadj(root, SKILL_PROFILE)
     decision_profile = loadj(root, DECISION_PROFILE)
     skill_discovery_contract = loadj(root, SKILL_DISCOVERY_CONTRACT)
+    upstream_reference = loadj(root, UPSTREAM_REFERENCE)
+    distribution_registry = loadj(root, DISTRIBUTION_REGISTRY)
     enforcement = loadj(root, ENFORCEMENT)
 
     profile_ok = (
@@ -125,6 +130,20 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
         and decision.get("authority_effect", {}).get("new_authority") is False
     )
     checks.append(check("decision-provenance", decision_ok, "upstream is inspiration/provenance only; FA3 implementation is native"))
+
+    distribution_rows = {x.get("subject_id"): x for x in distribution_registry.get("records", []) if isinstance(x, dict)}
+    provenance_ok = (
+        upstream_reference.get("id") == "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23"
+        and upstream_reference.get("observed_commit") == "0e384b7bff3301c8ec56dea300330772fed28e6a"
+        and upstream_reference.get("observed_version") == "3.2.15"
+        and upstream_reference.get("distribution_class") == "REFERENCE_ONLY"
+        and upstream_reference.get("runtime_dependency") is False
+        and upstream_reference.get("installation_required") is False
+        and not any(upstream_reference.get("imported", {}).values())
+        and distribution_rows.get("FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23", {}).get("class") == "REFERENCE_ONLY"
+        and distribution_rows.get("FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23", {}).get("release_bundle_status") == "EXCLUDED"
+    )
+    checks.append(check("upstream-reference-distribution", provenance_ok, "anti-slop upstream is immutable REFERENCE_ONLY provenance with zero imported payload"))
 
     gate_ok = (
         gate.get("id") == "FA3-GATE-QUALITY-ANTI-SLOP-001"
@@ -207,12 +226,14 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     perm_text = (root / PERMANENT_WORKFLOW).read_text(encoding="utf-8")
     gui_text = (root / GUI_WORKFLOW).read_text(encoding="utf-8")
     workflow_text = (root / WORKFLOW).read_text(encoding="utf-8")
+    reconciler_text = (root / RECONCILER).read_text(encoding="utf-8")
     workflow_ok = (
         "quality-anti-slop" in bin_text and "fa3_quality_gate.py" in bin_text
         and "./bin/fa3-enforce quality-anti-slop" in perm_text
         and "quality-anti-slop-gate-report.json" in perm_text
         and "fa3_quality_gate.py" in gui_text
         and "src/fa3_quality_filter.py" in workflow_text and "tests.test_quality_filter" in workflow_text
+        and "quality_anti_slop_reconciliation" in reconciler_text
     )
     checks.append(check("workflow-bindings", workflow_ok, "standalone, GUI and permanent enforcement paths are wired"))
 
