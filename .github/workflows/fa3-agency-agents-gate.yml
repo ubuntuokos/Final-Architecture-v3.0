@@ -11,6 +11,10 @@ on:
       - "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json"
       - "canonical/agency-agents-enforcement.json"
       - "canonical/FA3-GATE-AGENCY-AGENTS-001.json"
+      - "canonical/distribution-registry.json"
+      - "canonical/distribution-manifest.json"
+      - "canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json"
+      - "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json"
       - "canonical/enforcement-policy.json"
       - "src/fa3_agency_agents_gate.py"
       - "src/fa3_enforce.py"
@@ -29,6 +33,10 @@ on:
       - "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json"
       - "canonical/agency-agents-enforcement.json"
       - "canonical/FA3-GATE-AGENCY-AGENTS-001.json"
+      - "canonical/distribution-registry.json"
+      - "canonical/distribution-manifest.json"
+      - "canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json"
+      - "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json"
       - "canonical/enforcement-policy.json"
       - "src/fa3_agency_agents_gate.py"
       - "src/fa3_enforce.py"
@@ -62,6 +70,15 @@ jobs:
       - name: Agency Agents fail-closed gate
         run: PYTHONPATH=src python3 src/fa3_agency_agents_gate.py --root .
 
+      - name: Distribution manifest derivation check
+        run: python3 src/fa3_distribution_manifest.py --check
+
+      - name: Distribution Compliance regression
+        run: PYTHONPATH=src python3 src/fa3_distribution_compliance_gate.py --root .
+
+      - name: External-record distribution adoption gate
+        run: PYTHONPATH=src python3 src/fa3_distribution_adoption_gate.py --root . --base-ref origin/main
+
       - name: Agent Native scoped instruction regression
         run: PYTHONPATH=src python3 src/fa3_agent_instructions_gate.py --root .
 
@@ -84,5 +101,8 @@ jobs:
         if: always()
         with:
           name: fa3-agency-agents-reference-provider-gate
-          path: reports/agency-agents-gate-report.json
+          path: |
+            reports/agency-agents-gate-report.json
+            reports/distribution-compliance-gate-report.json
+            reports/distribution-adoption-gate-report.json
           if-no-files-found: error
