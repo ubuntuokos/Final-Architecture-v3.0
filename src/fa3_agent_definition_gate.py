@@ -164,6 +164,7 @@ def gate(root: Path) -> dict[str, Any]:
     findings: list[dict[str, Any]] = []
     count = load_active_release_baseline(root).capability_count
 
+    profile = loadj(root / "canonical/profiles/FA3-AGENT-DEFINITION-001.json")
     contract = loadj(root / "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json")
     registry = loadj(root / "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json")
     agent_exec = loadj(root / "canonical/profiles/FA3-AGENT-EXEC-001.json")
@@ -174,9 +175,25 @@ def gate(root: Path) -> dict[str, Any]:
     distribution = loadj(root / "canonical/distribution-registry.json")
 
     if not (
+        profile.get("id") == "FA3-AGENT-DEFINITION-001"
+        and profile.get("status") == "CANONICAL"
+        and profile.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and profile.get("relationship") == "SUBPROFILE-OF"
+        and profile.get("provider_neutral") is True
+        and profile.get("new_capability") is False
+        and profile.get("new_architectural_authority") is False
+        and profile.get("capability_count") == count
+        and profile.get("contract_family") == CONTRACT_ID
+        and profile.get("registry") == REGISTRY_ID
+        and profile.get("gate_id") == GATESET_ID
+    ):
+        findings.append(finding("DEF-CANON-000", "agent definition profile governance drift"))
+
+    if not (
         contract.get("id") == CONTRACT_ID
         and contract.get("status") == "CANONICAL"
-        and contract.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and contract.get("parent_profile") == "FA3-AGENT-DEFINITION-001"
+        and contract.get("parent_execution_profile") == "FA3-AGENT-EXEC-001"
         and contract.get("provider_neutral") is True
         and contract.get("new_capability") is False
         and contract.get("new_architectural_authority") is False
@@ -204,7 +221,9 @@ def gate(root: Path) -> dict[str, Any]:
         and registry.get("status") == "CANONICAL"
         and registry.get("canonical_registry_authority") == "FA3-REGISTRY-001"
         and registry.get("contract_family") == CONTRACT_ID
-        and registry.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and registry.get("profile_id") == "FA3-AGENT-DEFINITION-001"
+        and registry.get("parent_profile") == "FA3-AGENT-DEFINITION-001"
+        and registry.get("parent_execution_profile") == "FA3-AGENT-EXEC-001"
         and registry.get("provider_neutral") is True
         and registry.get("new_capability") is False
         and registry.get("new_architectural_authority") is False
@@ -242,7 +261,9 @@ def gate(root: Path) -> dict[str, Any]:
 
     role_projection = workforce.get("role_definition_projection", {})
     if not (
-        role_projection.get("registry_id") == REGISTRY_ID
+        role_projection.get("profile_id") == "FA3-AGENT-DEFINITION-001"
+        and role_projection.get("registry_id") == REGISTRY_ID
+        and role_projection.get("contract_id") == CONTRACT_ID
         and role_projection.get("may_decorate_selected_specialist") is True
         and role_projection.get("may_expand_specialist_set") is False
         and role_projection.get("may_select_provider") is False
