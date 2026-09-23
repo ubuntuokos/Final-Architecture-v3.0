@@ -9,6 +9,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "canonical/FA3-DESKTOP-PLASMA-001.json",
     "src/fa3_current_host_capability_qualification_constituent_orchestrator.py",
     "src/fa3_current_host_capability_test_orchestrator.py",
+    "src/fa3_current_host_closure_assertion.py",
     "src/fa3_mat001_foundation_current_host.py",
     "src/fa3_mat002_runtime_knowledge_current_host.py",
     "src/fa3_mat003_interaction_creative_current_host.py",
@@ -23,6 +24,7 @@ EXECUTION_SENSITIVE_PATHS = {
     "evidence/collect-hrb-systemd-manager-current-host.py",
     "bin/fa3-current-host-runner-doctor",
     "tests/test_current_host_capability_qualification_constituent_orchestrator.py",
+    "tests/test_current_host_closure_assertion.py",
     "tests/test_mat002_runtime_knowledge_current_host.py",
     "tests/test_mat003_interaction_creative_current_host.py",
     "tests/test_desktop_portability.py",
@@ -61,6 +63,15 @@ class GlobalCurrentHostWorkflowTriggerTests(unittest.TestCase):
             [],
             "a main-push-triggering current-host change must also be validated on pull_request",
         )
+
+
+    def test_runtime_closure_assertion_is_testable_and_does_not_require_static_gate_pass(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn(
+            "PYTHONPATH=src python3 src/fa3_current_host_closure_assertion.py --root .",
+            text,
+        )
+        self.assertNotIn("assert acceptance['static_gate'] == 'PASS'", text)
 
 
 if __name__ == "__main__":
