@@ -27,6 +27,7 @@ WORKFLOW = ".github/workflows/fa3-quality-anti-slop.yml"
 PERMANENT_WORKFLOW = ".github/workflows/fa3-permanent-enforcement.yml"
 GUI_WORKFLOW = ".github/workflows/fa3-gui-gate.yml"
 BIN_ENFORCE = "bin/fa3-enforce"
+CANONICAL_ENFORCER = "src/fa3_enforce.py"
 GATESET_ID = "FA3-QUALITY-ANTI-SLOP-GATESET-001"
 PROFILE_ID = "FA3-QUALITY-ANTI-SLOP-001"
 CONTRACT_ID = "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001"
@@ -72,7 +73,7 @@ def _validate_skill_file(root: Path, skill: str) -> tuple[bool, str]:
 def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     checks: list[dict[str, str]] = []
-    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, DISTRIBUTION_MANIFEST, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
+    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, DISTRIBUTION_MANIFEST, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE, CANONICAL_ENFORCER]
     missing = [x for x in required if not (root / x).is_file()]
     checks.append(check("core-records-present", not missing, f"missing={missing}"))
     if missing:
@@ -227,12 +228,16 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     checks.append(check("permanent-enforcement-binding", enforcement_ok, "quality gate is mandatory; external installer/runtime mutation paths are disabled"))
 
     bin_text = (root / BIN_ENFORCE).read_text(encoding="utf-8")
+    canonical_enforcer_text = (root / CANONICAL_ENFORCER).read_text(encoding="utf-8")
     perm_text = (root / PERMANENT_WORKFLOW).read_text(encoding="utf-8")
     gui_text = (root / GUI_WORKFLOW).read_text(encoding="utf-8")
     workflow_text = (root / WORKFLOW).read_text(encoding="utf-8")
     reconciler_text = (root / RECONCILER).read_text(encoding="utf-8")
     workflow_ok = (
         "quality-anti-slop" in bin_text and "fa3_quality_gate.py" in bin_text
+        and "from fa3_quality_gate import evaluate as quality_anti_slop_gate" in canonical_enforcer_text
+        and "quality_anti_slop_ref=quality_anti_slop_gate(root)" in canonical_enforcer_text
+        and "FA3-STATIC-124" in canonical_enforcer_text
         and "./bin/fa3-enforce quality-anti-slop" in perm_text
         and "quality-anti-slop-gate-report.json" in perm_text
         and "fa3_quality_gate.py" in gui_text
