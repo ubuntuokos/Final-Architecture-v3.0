@@ -237,14 +237,15 @@ def validate() -> list[str]:
     if not (
         agency_pack.get("provider_id") == "FA3-PROVIDER-AGENCY-AGENTS-001"
         and agency_pack.get("candidate_catalog_id") == "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
-        and agency_pack.get("mode") == "READ_ONLY_REFERENCE"
-        and agency_pack.get("activation_status") == "DISABLED_NOT_ADMITTED"
+        and agency_pack.get("agent_definition_registry_id") == "FA3-AGENT-DEFINITION-REGISTRY-001"
+        and agency_pack.get("mode") == "READ_ONLY_CANONICAL_DEFINITIONS"
+        and agency_pack.get("activation_status") == "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE"
         and agency_pack.get("execution_intent_route") == "agents.action-center"
         and agency_pack.get("direct_provider_execution") is False
         and agency_pack.get("authority") is False
     ):
         failures.append("gui-agency-agents-imported-pack-boundary-invalid")
-    for token in ["Imported Packs · Agency Agents", "DISABLED_NOT_ADMITTED", "nincs közvetlen provider execution"]:
+    for token in ["Imported Packs · Agency Agents", "12 canonical FA3 role + 5 canonical template", "runtime/provider külön admission", "nincs közvetlen provider execution"]:
         if token not in qml:
             failures.append(f"qml-agency-agents-imported-pack-missing:{token}")
     if "Generic Linux · Wayland primary / X11 supported" not in qml:
