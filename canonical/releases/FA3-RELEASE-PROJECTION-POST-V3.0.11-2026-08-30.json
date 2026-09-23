@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "53cfbde4e416148e0042e4c8c2ed56fab7c69628",
-    "pre_projection_root_tree_sha": "c924e7b44bcb10ef2c88aef3f52fb072daf634f3",
-    "pre_projection_canonical_tree_sha": "d18b43e006c24563e9f8f4de41ec945ab05c5794",
-    "commits_ahead_of_v3_0_11_conformance_commit": 584,
-    "total_post_baseline_commits": 584,
-    "delta_file_count": 1799,
-    "delta_added_files": 1794,
+    "pre_projection_head_sha": "58a44ba741311a5df880ca640e79e6778e43f90c",
+    "pre_projection_root_tree_sha": "b5bdfb75564fb51b9b5a477a77b7b1fba13632f0",
+    "pre_projection_canonical_tree_sha": "d600ccf1617331ec0b7941b090900674155b799f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 588,
+    "total_post_baseline_commits": 588,
+    "delta_file_count": 1800,
+    "delta_added_files": 1795,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 842,
+    "canonical_files_in_post_baseline_delta": 843,
     "evidence_files_in_post_baseline_delta": 143,
     "source_files_in_post_baseline_delta": 242,
     "test_files_in_post_baseline_delta": 208,
@@ -846,7 +846,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1792,
+  "manifest_entry_count": 1793,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -2886,6 +2886,11 @@
     {
       "path": "canonical/any-guardrail-runtime-enforcement.json",
       "git_blob_sha": "122f8ee3457c0c48cbcb53dfa2d59da7009e7230",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-BROWSER-ACTION-RUNTIME-DECISION-ASSESSMENT-2026-09-23.json",
+      "git_blob_sha": "4296d2f890ac279be1212db0d45824d80ca10552",
       "baseline_delta_status": "added"
     },
     {
@@ -7815,7 +7820,7 @@
     },
     {
       "path": "src/fa3_decision_fabric_gate.py",
-      "git_blob_sha": "3c9fe72dc576249e6922970534c5f76bf4bd916d",
+      "git_blob_sha": "4b924ff430366a88ef5a8910ae921fa29350df8a",
       "baseline_delta_status": "added"
     },
     {
@@ -8960,7 +8965,7 @@
     },
     {
       "path": "tests/test_decision_fabric.py",
-      "git_blob_sha": "6db7e7f61a2cdaa5952e4dd06cff23997790ae27",
+      "git_blob_sha": "cd3c47a34cbf4b07bfa9e6467e9a0d77f389c2e5",
       "baseline_delta_status": "added"
     },
     {
