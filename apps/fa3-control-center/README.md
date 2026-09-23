@@ -6,7 +6,7 @@ The application is deliberately a **projection and intent surface**, not a new F
 
 ## Views
 
-Command Center; Projects & Workspaces; AI Studio; Agents & Workflows; Models & Providers; Architecture Explorer; Resources; Security & Approvals; Observability; **Napló / Journal**; Evidence; Integrations; System.
+The navigation is grouped by semantic operator intent rather than implementation history: **Home**, **Create**, **Agents**, **Models & Data**, **Decision & Context**, **Integrations**, **Governance**, and **System**. Stable route IDs decouple search/shortcuts/navigation from StackLayout indices.
 
 AI Studio includes Image, Video, Animation, 3D/VFX, Audio, Music, and Story/Screenplay projections.
 
@@ -38,3 +38,12 @@ For Kubuntu/Ubuntu use `deployment/fa3-gui/install.sh`.
 ## Authority boundary
 
 Mutating privileged intent is expressed as a draft typed ChangeSet and must be submitted through an existing FA3 adapter/approval path. The GUI must never bypass identity, policy, MCP/tool mediation, workflow durability, model routing, Host Resource Broker admission, systemd/cgroup enforcement, evidence/provenance, secrets, or promotion authorities.
+
+
+## Agent Native and Decision Fabric GUI reconciliation
+
+Agent-native operations are projected through the provider-neutral Unified Action Fabric. The Control Center includes an **Agent Action Center** that reads canonical `canonical/actions/*.json` UAF contracts and may only stage `DRAFT_NOT_SUBMITTED` intent. It cannot directly invoke providers.
+
+Decision Fabric remains advisory and authority-neutral. Decision Fabric, Decision Inspector, Project Radar and Context Inspector are grouped under **Decision & Context** while preserving their separate canonical/runtime boundaries.
+
+Work Management and Accelerator Guard no longer expose dead shell signals: refresh/intents are explicitly wired, with mutating intent remaining draft-only and HRB/policy/provider authorities external.

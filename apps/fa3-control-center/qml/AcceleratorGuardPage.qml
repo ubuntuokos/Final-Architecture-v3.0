@@ -19,6 +19,7 @@ Item {
     property var accelerators: []
     property var activeConflict: null
     property string guardMode: "RECOMMEND"
+    property string operationNotice: ""
 
     signal refreshRequested()
     signal decisionRequested(string conflictId, string action, string targetAcceleratorId, bool remember)
@@ -60,6 +61,15 @@ Item {
             text: "A Guard technikai kockázatot értékel és ajánlást ad. Konfliktus esetén alapértelmezetten nem dönt a felhasználó helyett, és nem állít le külső vagy FA3 workloadot hallgatólagosan."
             color: root.textMuted
             font.pixelSize: 10
+        }
+
+        Label {
+            visible: root.operationNotice.length > 0
+            Layout.fillWidth: true
+            text: root.operationNotice
+            color: root.accent
+            font.pixelSize: 9
+            wrapMode: Text.WrapAnywhere
         }
 
         Rectangle {

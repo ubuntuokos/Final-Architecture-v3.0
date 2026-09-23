@@ -1,0 +1,49 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-GUI-RECONCILIATION-REFERENCE-PASS-2026-09-23",
+  "date": "2026-09-23",
+  "gate_id": "FA3-GATE-GUI-001",
+  "profile_id": "FA3-DESKTOP-001",
+  "decision_id": "FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23",
+  "status": "PASS",
+  "scope": "STATIC_CONTRACT_UNIT_REGRESSION_AND_QT6_REFERENCE_BUILD",
+  "tested_head": "0f54030a5ab54dd0d43a634d9f93779821431d7d",
+  "workflow": {
+    "name": "FA3 GUI Gate",
+    "run_id": 35911064167,
+    "conclusion": "success",
+    "static_contract_job": {
+      "id": 107350714237,
+      "conclusion": "success"
+    },
+    "qt_reference_build_job": {
+      "id": 107350713871,
+      "conclusion": "success"
+    },
+    "installer_source_contract_step": "PASS"
+  },
+  "claims": [
+    "GUI_RECONCILIATION_STATIC_GATE_PASS",
+    "GUI_RECONCILIATION_UNIT_REGRESSION_PASS",
+    "QT6_REFERENCE_CONFIGURE_PASS",
+    "QT6_REFERENCE_BUILD_PASS",
+    "SEMANTIC_ROUTE_REGISTRY_REFERENCE_PASS",
+    "AGENT_ACTION_CENTER_REFERENCE_PASS",
+    "DECISION_CONTEXT_GROUPING_REFERENCE_PASS",
+    "WORK_MANAGEMENT_ROUTE_REPAIR_REFERENCE_PASS",
+    "ACCELERATOR_GUARD_ROUTE_REPAIR_REFERENCE_PASS",
+    "CAPABILITY_COUNT_UNCHANGED_143",
+    "NO_NEW_ARCHITECTURAL_AUTHORITY",
+    "INSTALLER_SOURCE_CONTRACT_EXECUTABLE_REGRESSION_PASS"
+  ],
+  "non_claims": [
+    "CURRENT_HOST_RUNTIME_PASS",
+    "CURRENT_HOST_WAYLAND_VISUAL_PASS",
+    "CURRENT_HOST_X11_VISUAL_PASS",
+    "LIVE_RESOURCE_TELEMETRY_PASS",
+    "UI_COMPONENT_FABRIC_FULL_VISUAL_ACCESSIBILITY_PROMOTION",
+    "GLOBAL_FA3_PROMOTION"
+  ],
+  "current_host_runtime_claim": false,
+  "global_promotion_claim": false
+}

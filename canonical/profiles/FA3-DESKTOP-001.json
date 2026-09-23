@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-DESKTOP-001",
   "name": "FA3 Desktop Studio, Control Center & Operations Projection",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -11,7 +11,9 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "capability_projection": ["CAP-057"],
+  "capability_projection": [
+    "CAP-057"
+  ],
   "contract": "FA3-DESKTOP-CONTRACTS-001",
   "reference_implementation": "apps/fa3-control-center",
   "scope": [
@@ -25,7 +27,12 @@
     "SECURITY_POLICY_APPROVAL_AND_SECRETS_METADATA_PROJECTION",
     "OBSERVABILITY_METRICS_TRACES_PROVENANCE_EVIDENCE",
     "INTEGRATIONS_AND_SYSTEM_STATUS",
-    "TYPED_CHANGESET_DRAFT_CREATION"
+    "TYPED_CHANGESET_DRAFT_CREATION",
+    "SEMANTIC_NAVIGATION_AND_STABLE_ROUTE_REGISTRY",
+    "AGENT_NATIVE_UNIFIED_ACTION_FABRIC_PROJECTION",
+    "DECISION_FABRIC_CONTEXT_INSPECTION_PROJECTION",
+    "CANONICAL_APPLICATION_CATALOG_SEARCH",
+    "UI_COMPONENT_FABRIC_CONFORMANCE_PROJECTION"
   ],
   "excluded_scope": [
     "IDENTITY_AUTHORITY",
@@ -49,14 +56,19 @@
     "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "host_enforcement": "SYSTEMD_UNIFIED_CGROUP_V2_ONLY",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "canonical_registry": "FA3-REGISTRY-001"
+    "canonical_registry": "FA3-REGISTRY-001",
+    "agent_action_execution": "FA3-UNIFIED-ACTION-FABRIC-001_CONTRACT_LAYER_ONLY_EXISTING_AUTHORITIES_REMAIN_EXTERNAL",
+    "decision_fabric": "FA3-DECISION-FABRIC-001_ADVISORY_NON_AUTHORITY"
   },
   "runtime": {
     "native_desktop": true,
     "toolkit": "Qt 6 / QML",
-    "display_protocol": "WAYLAND_PRIMARY",
+    "display_protocol": "WAYLAND_PRIMARY_X11_SUPPORTED",
     "browser_shell": false,
     "direct_privileged_executor": false,
-    "draft_changeset_only": true
+    "draft_changeset_only": true,
+    "x11_compatibility_required": true,
+    "generic_linux_portability_required": true,
+    "stable_route_registry": "FA3-GUI-SURFACE-REGISTRY-001"
   }
 }

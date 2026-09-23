@@ -35,6 +35,74 @@ ApplicationWindow {
     property string shortcutSettings: String(fa3Preferences.value("shortcuts/settings", "Ctrl+,"))
     property string shortcutToggleStatus: String(fa3Preferences.value("shortcuts/toggleStatus", "Ctrl+Shift+S"))
 
+    // Stable semantic routes. StackLayout indices remain an implementation detail.
+    property var routeTable: ({
+        "home.command-center": 0,
+        "models.remote-ai": 1,
+        "home.projects": 2,
+        "create.ai-studio": 3,
+        "agents.workflows": 4,
+        "models.providers": 5,
+        "models.manager": 6,
+        "global.search": 7,
+        "governance.architecture": 8,
+        "system.resources": 9,
+        "governance.security": 10,
+        "governance.observability": 11,
+        "governance.journal": 12,
+        "governance.evidence": 13,
+        "integrations.root": 14,
+        "system.settings": 15,
+        "system.runtime": 16,
+        "models.rtd": 17,
+        "models.checkpoints": 20,
+        "models.external-providers": 21,
+        "governance.tokens": 22,
+        "global.language": 23,
+        "home.work-management": 24,
+        "system.accelerator-guard": 25,
+        "integrations.fa3-os": 26,
+        "integrations.mcp-gateway": 27,
+        "create.knowledge": 28,
+        "governance.trust": 29,
+        "governance.session-vault": 30,
+        "decision.fabric": 31,
+        "decision.inspector": 32,
+        "decision.project-radar": 33,
+        "decision.context-inspector": 34,
+        "agents.action-center": 35
+    })
+
+    function routeIndex(routeId) {
+        var value = routeTable[routeId]
+        return value === undefined ? -1 : Number(value)
+    }
+
+    function navigate(routeId) {
+        var index = routeIndex(routeId)
+        if (index < 0) return false
+        closeTransientWorkspaces()
+        selectedIndex = index
+        return true
+    }
+
+    function acceleratorProjection(inventory) {
+        var out = []
+        for (var i = 0; i < inventory.length; ++i) {
+            var row = inventory[i]
+            if (row.kind !== "GPU" && row.kind !== "NPU") continue
+            out.push({
+                id: row.id || row.title || "accelerator",
+                kind: row.kind || "ACCELERATOR",
+                role: "discovered",
+                usageText: "telemetry adapter pending",
+                clientsText: row.detail || "no attributed clients",
+                state: row.status || "DISCOVERED"
+            })
+        }
+        return out
+    }
+
     function accentForTheme(name) {
         if (name === "Cyan") return "#22d3ee"
         if (name === "Green") return "#35e0a1"
@@ -71,110 +139,93 @@ ApplicationWindow {
     }
 
     function openLanguageControl() {
-        closeTransientWorkspaces()
-        selectedIndex = 23
+        navigate("global.language")
         if (languageDrawer.opened) languageDrawer.close()
     }
 
     property var uiSearchIndex: [
-        {title: "Dashboard", detail: "Command Center és rendszerállapot", category: "FUNCTION", pageIndex: 0},
-        {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", pageIndex: 1},
-        {title: "RTD Providers", detail: "Real-Time Data provider-ek, frissesség, policy és provenance", category: "FUNCTION", pageIndex: 17},
-        {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", pageIndex: 2},
-        {title: "Knowledge & Retrieval", detail: "Hierarchical + hybrid retrieval, PageIndex Local, trace és provenance", category: "FUNCTION", pageIndex: 28},
-        {title: "Work Management", detail: "Kaneo + Kanboard provider-neutral projects, boards, tasks és automation", category: "FUNCTION", pageIndex: 24},
-        {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", pageIndex: 24},
-        {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", pageIndex: 25},
-        {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", pageIndex: 3},
-        {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", pageIndex: 3},
-        {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", pageIndex: 3},
-        {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", pageIndex: 3},
-        {title: "3D / VFX", detail: "AI Studio 3D és VFX", category: "FUNCTION", pageIndex: 3},
-        {title: "Audio", detail: "AI Studio audio", category: "FUNCTION", pageIndex: 3},
-        {title: "Music", detail: "AI Studio zenei workflow", category: "FUNCTION", pageIndex: 3},
-        {title: "Story / Screenplay", detail: "Történet és forgatókönyv", category: "FUNCTION", pageIndex: 3},
-        {title: "Marketing", detail: "Marketing és publikációs workflow", category: "FUNCTION", pageIndex: 3},
-        {title: "Weboldal", detail: "Webes publikáció", category: "FUNCTION", pageIndex: 3},
-        {title: "Prezentáció", detail: "Prezentáció készítés és export", category: "FUNCTION", pageIndex: 3},
-        {title: "Agents & Workflows", detail: "Agentek, taskok és durable workflow-k", category: "FUNCTION", pageIndex: 4},
-        {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", pageIndex: 5},
-        {title: "Model Manager", detail: "Modellek felderítése és nyilvántartása", category: "FUNCTION", pageIndex: 6},
-        {title: "Checkpoint Manager", detail: "Checkpoint, LoRA, VAE és adapter artifact governance", category: "FUNCTION", pageIndex: 20},
-        {title: "External Providers Setup", detail: "Külső/fizetős provider engedélyezés, budget és credential state", category: "FUNCTION", pageIndex: 21},
-        {title: "Token Control Center", detail: "Credential és AI token governance, budget, audit és költség", category: "FUNCTION", pageIndex: 22},
-        {title: "Tolmács", detail: "Nyelvi híd ember, FA3 és AI modellek között", category: "FUNCTION", pageIndex: 23},
-        {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", pageIndex: 6},
-        {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", pageIndex: 8},
-        {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", pageIndex: 9},
-        {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", pageIndex: 10},
-        {title: "Observability", detail: "Metrics, traces és provenance", category: "FUNCTION", pageIndex: 11},
-        {title: "Napló / Journal", detail: "Rendszer-, beszélgetés- és projektnapló", category: "FUNCTION", pageIndex: 12},
-        {title: "FA3 OS", detail: "Aktivitás, workstream, privacy és provenance kontextus", category: "FUNCTION", pageIndex: 26},
-        {title: "Evidence", detail: "Conformance és promotion evidence", category: "FUNCTION", pageIndex: 13},
-        {title: "Integrations", detail: "Desktop, MCP és provider integrációk", category: "FUNCTION", pageIndex: 14},
-        {title: "MCP Gateway", detail: "Central MCP Gateway registry, routing, policy és security operátori felület", category: "FUNCTION", pageIndex: 27},
-        {title: "Trust & Certificates", detail: "Belső PKI, machine identity, ACME, mTLS és SSH certificate állapot", category: "FUNCTION", pageIndex: 29},
-        {title: "Session Vault / Kulcsvault", detail: "LUKS2 key-vault image, automatikus jelszókezelős feloldás és kulcskezelés", category: "FUNCTION", pageIndex: 30},
-        {title: "Decision Fabric", detail: "Provider-neutral bounded semantic decision fabric", category: "FUNCTION", pageIndex: 31},
-        {title: "Decision Inspector", detail: "Read-only append-only Decision Trace inspection", category: "FUNCTION", pageIndex: 32},
-        {title: "External Project Radar", detail: "Pinned Jev ecosystem source, license and reuse radar", category: "FUNCTION", pageIndex: 33},
-        {title: "Context Inspector", detail: "PROTECTED / ACTIVE / HIDDEN / ARCHIVED context projection", category: "FUNCTION", pageIndex: 34},
-        {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", pageIndex: 14},
-        {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", pageIndex: 15},
-        {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", pageIndex: 16},
-        {title: "Megjelenés", detail: "Téma, sűrűség és betűméret", category: "SETTING", pageIndex: 15},
-        {title: "Erőforrás-policy", detail: "CPU/GPU/NPU/NUMA preferenciák", category: "SETTING", pageIndex: 15},
-        {title: "Hálózat", detail: "Lokális szolgáltatások és egress policy", category: "SETTING", pageIndex: 15},
-        {title: "Biztonság", detail: "Security policy és approval beállítások", category: "SETTING", pageIndex: 15},
-        {title: "Frissítések", detail: "FA3 komponens- és provider-frissítések", category: "SETTING", pageIndex: 15},
-        {title: "Naplózás", detail: "Retention, export és archive preferenciák", category: "SETTING", pageIndex: 15},
-        {title: "Appearance", detail: "Színes téma és Navigation Bar position", category: "SETTING", pageIndex: 15},
-        {title: "Chat Style", detail: "Chat nézet, tipográfia és message-flow", category: "SETTING", pageIndex: 15},
-        {title: "Reasoning", detail: "Reasoning blokk megjelenítési preferenciák", category: "SETTING", pageIndex: 15},
-        {title: "Gyorsbillentyűk", detail: "FA3 Control Center shortcut beállítások", category: "SETTING", pageIndex: 15},
-        {title: "CPU GPU NPU DGX", detail: "Compute és accelerator policy", category: "SETTING", pageIndex: 15},
-        {title: "Webkamera Nyomtató Scanner", detail: "Periféria felderítés és adapter policy", category: "SETTING", pageIndex: 15},
-        {title: "MIDI GIMP Ardour", detail: "MIDI és control-surface mapping", category: "SETTING", pageIndex: 15}
+        {title: "Dashboard", detail: "Command Center és rendszerállapot", category: "FUNCTION", routeId: "home.command-center"},
+        {title: "Remote AI Hub", detail: "Távoli AI-kapacitás és hosted execution", category: "FUNCTION", routeId: "models.remote-ai"},
+        {title: "RTD Providers", detail: "Real-Time Data provider-ek, frissesség, policy és provenance", category: "FUNCTION", routeId: "models.rtd"},
+        {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", routeId: "home.projects"},
+        {title: "Knowledge & Retrieval", detail: "Hierarchical + hybrid retrieval, PageIndex Local, trace és provenance", category: "FUNCTION", routeId: "create.knowledge"},
+        {title: "Work Management", detail: "Kaneo + Kanboard provider-neutral projects, boards, tasks és automation", category: "FUNCTION", routeId: "home.work-management"},
+        {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", routeId: "home.work-management"},
+        {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", routeId: "system.accelerator-guard"},
+        {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "3D / VFX", detail: "AI Studio 3D és VFX", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Audio", detail: "AI Studio audio", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Music", detail: "AI Studio zenei workflow", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Story / Screenplay", detail: "Történet és forgatókönyv", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Marketing", detail: "Marketing és publikációs workflow", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Weboldal", detail: "Webes publikáció", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Prezentáció", detail: "Prezentáció készítés és export", category: "FUNCTION", routeId: "create.ai-studio"},
+        {title: "Agent Action Center", detail: "Agent Native / UAF action contractok, approval és evidence flow", category: "FUNCTION", routeId: "agents.action-center"},
+        {title: "Agents & Workflows", detail: "Agentek, taskok és durable workflow-k", category: "FUNCTION", routeId: "agents.workflows"},
+        {title: "Models & Providers", detail: "Provider registry és inference felületek", category: "FUNCTION", routeId: "models.providers"},
+        {title: "Model Manager", detail: "Modellek felderítése és nyilvántartása", category: "FUNCTION", routeId: "models.manager"},
+        {title: "Checkpoint Manager", detail: "Checkpoint, LoRA, VAE és adapter artifact governance", category: "FUNCTION", routeId: "models.checkpoints"},
+        {title: "External Providers Setup", detail: "Külső/fizetős provider engedélyezés, budget és credential state", category: "FUNCTION", routeId: "models.external-providers"},
+        {title: "Token Control Center", detail: "Credential és AI token governance, budget, audit és költség", category: "FUNCTION", routeId: "governance.tokens"},
+        {title: "Tolmács", detail: "Nyelvi híd ember, FA3 és AI modellek között", category: "FUNCTION", routeId: "global.language"},
+        {title: "LLM Fit", detail: "Model Manager hardver- és kompatibilitási felület", category: "FUNCTION", routeId: "models.manager"},
+        {title: "Architecture", detail: "Canonical architektúra böngésző", category: "FUNCTION", routeId: "governance.architecture"},
+        {title: "Resources", detail: "CPU/GPU/NPU/NUMA erőforrások", category: "FUNCTION", routeId: "system.resources"},
+        {title: "Security & Approvals", detail: "Policy, approval és security evidence", category: "FUNCTION", routeId: "governance.security"},
+        {title: "Observability", detail: "Metrics, traces és provenance", category: "FUNCTION", routeId: "governance.observability"},
+        {title: "Napló / Journal", detail: "Rendszer-, beszélgetés- és projektnapló", category: "FUNCTION", routeId: "governance.journal"},
+        {title: "FA3 OS", detail: "Aktivitás, workstream, privacy és provenance kontextus", category: "FUNCTION", routeId: "integrations.fa3-os"},
+        {title: "Evidence", detail: "Conformance és promotion evidence", category: "FUNCTION", routeId: "governance.evidence"},
+        {title: "Integrations", detail: "Desktop, MCP és provider integrációk", category: "FUNCTION", routeId: "integrations.root"},
+        {title: "MCP Gateway", detail: "Central MCP Gateway registry, routing, policy és security operátori felület", category: "FUNCTION", routeId: "integrations.mcp-gateway"},
+        {title: "Trust & Certificates", detail: "Belső PKI, machine identity, ACME, mTLS és SSH certificate állapot", category: "FUNCTION", routeId: "governance.trust"},
+        {title: "Session Vault / Kulcsvault", detail: "LUKS2 key-vault image, automatikus jelszókezelős feloldás és kulcskezelés", category: "FUNCTION", routeId: "governance.session-vault"},
+        {title: "Decision Fabric", detail: "Provider-neutral bounded semantic decision fabric", category: "FUNCTION", routeId: "decision.fabric"},
+        {title: "Decision Inspector", detail: "Read-only append-only Decision Trace inspection", category: "FUNCTION", routeId: "decision.inspector"},
+        {title: "External Project Radar", detail: "Pinned Jev ecosystem source, license and reuse radar", category: "FUNCTION", routeId: "decision.project-radar"},
+        {title: "Context Inspector", detail: "PROTECTED / ACTIVE / HIDDEN / ARCHIVED context projection", category: "FUNCTION", routeId: "decision.context-inspector"},
+        {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", routeId: "integrations.root"},
+        {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", routeId: "system.settings"},
+        {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", routeId: "system.runtime"},
+        {title: "Megjelenés", detail: "Téma, sűrűség és betűméret", category: "SETTING", routeId: "system.settings"},
+        {title: "Erőforrás-policy", detail: "CPU/GPU/NPU/NUMA preferenciák", category: "SETTING", routeId: "system.settings"},
+        {title: "Hálózat", detail: "Lokális szolgáltatások és egress policy", category: "SETTING", routeId: "system.settings"},
+        {title: "Biztonság", detail: "Security policy és approval beállítások", category: "SETTING", routeId: "system.settings"},
+        {title: "Frissítések", detail: "FA3 komponens- és provider-frissítések", category: "SETTING", routeId: "system.settings"},
+        {title: "Naplózás", detail: "Retention, export és archive preferenciák", category: "SETTING", routeId: "system.settings"},
+        {title: "Appearance", detail: "Színes téma és Navigation Bar position", category: "SETTING", routeId: "system.settings"},
+        {title: "Chat Style", detail: "Chat nézet, tipográfia és message-flow", category: "SETTING", routeId: "system.settings"},
+        {title: "Reasoning", detail: "Reasoning blokk megjelenítési preferenciák", category: "SETTING", routeId: "system.settings"},
+        {title: "Gyorsbillentyűk", detail: "FA3 Control Center shortcut beállítások", category: "SETTING", routeId: "system.settings"},
+        {title: "CPU GPU NPU DGX", detail: "Compute és accelerator policy", category: "SETTING", routeId: "system.settings"},
+        {title: "Webkamera Nyomtató Scanner", detail: "Periféria felderítés és adapter policy", category: "SETTING", routeId: "system.settings"},
+        {title: "MIDI GIMP Ardour", detail: "MIDI és control-surface mapping", category: "SETTING", routeId: "system.settings"}
     ]
 
-    // User-facing applications represented inside FA3. This catalog is deliberately
-    // independent from the host XDG/.desktop application inventory.
-    property var fa3ApplicationIndex: [
-        {title: "ComfyUI", detail: "FA3 image/video generation frontend · Shared Models", pageIndex: 20},
-        {title: "Automatic1111", detail: "FA3 Stable Diffusion frontend · Shared Models", pageIndex: 20},
-        {title: "Forge", detail: "FA3 Stable Diffusion Forge frontend · Shared Models", pageIndex: 20},
-        {title: "Fooocus", detail: "FA3 image generation frontend · Shared Models", pageIndex: 20},
-        {title: "Krita", detail: "FA3 creative editor integration", pageIndex: 14},
-        {title: "GIMP", detail: "FA3 creative editor integration", pageIndex: 14},
-        {title: "Kdenlive", detail: "FA3 video editor integration", pageIndex: 14},
-        {title: "Bforartist", detail: "FA3 3D/DCC integration", pageIndex: 14},
-        {title: "Blender", detail: "FA3 3D/DCC integration", pageIndex: 14},
-        {title: "Natron", detail: "FA3 compositing integration", pageIndex: 14},
-        {title: "Gaffer", detail: "FA3 compositing/look-dev integration", pageIndex: 14},
-        {title: "Goose", detail: "FA3 agent client integration", pageIndex: 14},
-        {title: "Open WebUI", detail: "FA3 local AI client integration", pageIndex: 14},
-        {title: "OpenYak", detail: "FA3 desktop agent workbench integration", pageIndex: 14},
-        {title: "n8n", detail: "FA3 workflow orchestration application", pageIndex: 4},
-        {title: "Temporal", detail: "FA3 durable workflow runtime", pageIndex: 4},
-        {title: "Ollama", detail: "FA3 local model runtime/provider", pageIndex: 5},
-        {title: "LM Studio", detail: "FA3 local model client/provider", pageIndex: 5}
-    ]
-
+    // User-facing applications come from the canonical AI Studio app catalog.
+    // No independent hard-coded GUI application registry is maintained here.
     function searchFa3Applications(query) {
         var needle = query.trim().toLowerCase()
         var out = []
-        for (var i = 0; i < fa3ApplicationIndex.length; ++i) {
-            var app = fa3ApplicationIndex[i]
-            var haystack = (app.title + " " + app.detail).toLowerCase()
+        var apps = fa3AppCatalog.applications
+        for (var i = 0; i < apps.length; ++i) {
+            var app = apps[i]
+            var title = app.name || app.id || "FA3 application"
+            var detail = app.description || app.category || "Canonical FA3 application"
+            var haystack = (title + " " + detail + " " + (app.category || "")).toLowerCase()
             if (needle.length === 0 || haystack.indexOf(needle) >= 0) {
                 out.push({
-                    id: app.title,
-                    title: app.title,
-                    subtitle: app.detail,
-                    status: "FA3 APP",
+                    id: app.id || title,
+                    title: title,
+                    subtitle: detail,
+                    status: app.runtime_state || app.admission || "FA3 APP",
                     category: "APPLICATION",
                     sourceType: "APPLICATION",
-                    pageIndex: app.pageIndex,
+                    routeId: "create.ai-studio",
+                    pageIndex: routeIndex("create.ai-studio"),
                     path: ""
                 })
             }
@@ -218,7 +269,7 @@ ApplicationWindow {
                 continue
             var haystack = (entry.title + " " + entry.detail).toLowerCase()
             if (needle.length === 0 || haystack.indexOf(needle) >= 0) {
-                out.push({id: entry.title, title: entry.title, subtitle: entry.detail, status: "FA3 UI", category: entry.category, sourceType: entry.category, pageIndex: entry.pageIndex, path: ""})
+                out.push({id: entry.title, title: entry.title, subtitle: entry.detail, status: "FA3 UI", category: entry.category, sourceType: entry.category, routeId: entry.routeId, pageIndex: routeIndex(entry.routeId), path: ""})
             }
         }
         return out
@@ -237,14 +288,14 @@ ApplicationWindow {
                 if (projectId.length === 0 || seenProjects[projectId])
                     continue
                 seenProjects[projectId] = true
-                out.push({id: projectId, title: projectId, subtitle: p.summary || p.details || "Projekt naplóbejegyzés", status: p.lifecycle || "PROJECT", category: "PROJECT", sourceType: "PROJECT", pageIndex: 2, path: ""})
+                out.push({id: projectId, title: projectId, subtitle: p.summary || p.details || "Projekt naplóbejegyzés", status: p.lifecycle || "PROJECT", category: "PROJECT", sourceType: "PROJECT", routeId: "home.projects", pageIndex: routeIndex("home.projects"), path: ""})
             }
         }
         if (scope === "ALL" || scope === "CONVERSATION") {
             var conversationRows = fa3Journal.filteredEvents("CONVERSATION", needle)
             for (i = conversationRows.length - 1; i >= 0; --i) {
                 var c = conversationRows[i]
-                out.push({id: c.id || "CONVERSATION", title: c.summary || "Beszélgetés", subtitle: c.details || c.source || "Conversation journal", status: c.lifecycle || "RECORDED", category: "CONVERSATION", sourceType: "CONVERSATION", pageIndex: 12, path: ""})
+                out.push({id: c.id || "CONVERSATION", title: c.summary || "Beszélgetés", subtitle: c.details || c.source || "Conversation journal", status: c.lifecycle || "RECORDED", category: "CONVERSATION", sourceType: "CONVERSATION", routeId: "governance.journal", pageIndex: routeIndex("governance.journal"), path: ""})
                 if (out.length >= 300) break
             }
         }
@@ -312,11 +363,11 @@ ApplicationWindow {
     }
 
     Shortcut { sequence: "Ctrl+Shift+L"; context: Qt.ApplicationShortcut; onActivated: window.openLanguageControl() }
-    Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 0 } }
-    Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 2 } }
-    Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 3 } }
-    Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 7 } }
-    Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: { window.closeTransientWorkspaces(); window.selectedIndex = 15 } }
+    Shortcut { sequence: window.shortcutDashboard; context: Qt.ApplicationShortcut; onActivated: window.navigate("home.command-center") }
+    Shortcut { sequence: window.shortcutProjects; context: Qt.ApplicationShortcut; onActivated: window.navigate("home.projects") }
+    Shortcut { sequence: window.shortcutAiStudio; context: Qt.ApplicationShortcut; onActivated: window.navigate("create.ai-studio") }
+    Shortcut { sequence: window.shortcutSearch; context: Qt.ApplicationShortcut; onActivated: window.navigate("global.search") }
+    Shortcut { sequence: window.shortcutSettings; context: Qt.ApplicationShortcut; onActivated: window.navigate("system.settings") }
     Shortcut { sequence: window.shortcutToggleStatus; context: Qt.ApplicationShortcut; onActivated: { window.statusStripVisible = !window.statusStripVisible; fa3Preferences.setValue("appearance/statusStripVisible", window.statusStripVisible) } }
 
     component Panel: Rectangle {
@@ -355,8 +406,8 @@ ApplicationWindow {
     component NavButton: Rectangle {
         property string iconText: "•"
         property string label: ""
-        property int pageIndex: 0
-        property bool active: window.selectedIndex === pageIndex
+        property string routeId: "home.command-center"
+        property bool active: window.selectedIndex === window.routeIndex(routeId)
         Layout.fillWidth: true
         implicitHeight: window.compactNavigation ? 32 : 36
         radius: 6
@@ -386,7 +437,7 @@ ApplicationWindow {
             id: navMouse
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: { window.closeTransientWorkspaces(); window.selectedIndex = parent.pageIndex }
+            onClicked: window.navigate(parent.routeId)
         }
     }
 
@@ -607,46 +658,60 @@ ApplicationWindow {
                         anchors.rightMargin: 9
 
                         Item { Layout.preferredHeight: 8 }
+                        Label { text: "HOME"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "⌂"; label: "Dashboard"; routeId: "home.command-center" }
+                        NavButton { iconText: "▣"; label: "Projects"; routeId: "home.projects" }
+                        NavButton { iconText: "✓"; label: "Work Management"; routeId: "home.work-management" }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "CREATE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "✦"; label: "AI Studio"; routeId: "create.ai-studio" }
+                        NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "AGENTS"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "⚙"; label: "Agent Action Center"; routeId: "agents.action-center" }
+                        NavButton { iconText: "⌘"; label: "Agents & Workflows"; routeId: "agents.workflows" }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "MODELS & DATA"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "◫"; label: "Models & Providers"; routeId: "models.providers" }
+                        NavButton { iconText: "▦"; label: "Model Manager"; routeId: "models.manager" }
+                        NavButton { iconText: "◧"; label: "Checkpoint Manager"; routeId: "models.checkpoints" }
+                        NavButton { iconText: "☁"; label: "Remote AI Hub"; routeId: "models.remote-ai" }
+                        NavButton { iconText: "◉"; label: "RTD Providers"; routeId: "models.rtd" }
+                        NavButton { iconText: "⇄"; label: "External Providers Setup"; routeId: "models.external-providers" }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "DECISION & CONTEXT"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "◇"; label: "Decision Fabric"; routeId: "decision.fabric" }
+                        NavButton { iconText: "⊙"; label: "Decision Inspector"; routeId: "decision.inspector" }
+                        NavButton { iconText: "▤"; label: "Context Inspector"; routeId: "decision.context-inspector" }
+                        NavButton { iconText: "⌕"; label: "External Project Radar"; routeId: "decision.project-radar" }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "INTEGRATIONS"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "↔"; label: "Integrations"; routeId: "integrations.root" }
+                        NavButton { iconText: "⇄"; label: "MCP Gateway"; routeId: "integrations.mcp-gateway" }
+                        NavButton { iconText: "◎"; label: "FA3 OS"; routeId: "integrations.fa3-os" }
+
+                        Item { Layout.preferredHeight: 8 }
+                        Label { text: "GOVERNANCE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
+                        NavButton { iconText: "◆"; label: "Security & Approvals"; routeId: "governance.security" }
+                        NavButton { iconText: "#"; label: "Token Control Center"; routeId: "governance.tokens" }
+                        NavButton { iconText: "⌾"; label: "Trust & Certificates"; routeId: "governance.trust" }
+                        NavButton { iconText: "▣"; label: "Session Vault / Kulcsvault"; routeId: "governance.session-vault" }
+                        NavButton { iconText: "✓"; label: "Evidence"; routeId: "governance.evidence" }
+                        NavButton { iconText: "⌁"; label: "Observability"; routeId: "governance.observability" }
+                        NavButton { iconText: "◇"; label: "Architecture"; routeId: "governance.architecture" }
+                        NavButton { iconText: "≡"; label: "Napló / Journal"; routeId: "governance.journal" }
+
+                        Item { Layout.preferredHeight: 8 }
                         Label { text: "SYSTEM"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "⌂"; label: "Dashboard"; pageIndex: 0 }
-                        NavButton { iconText: "☁"; label: "Remote AI Hub"; pageIndex: 1 }
-                        NavButton { iconText: "⇄"; label: "External Providers Setup"; pageIndex: 21 }
-                        NavButton { iconText: "◉"; label: "RTD Providers"; pageIndex: 17 }
-                        NavButton { iconText: "▣"; label: "Projects"; pageIndex: 2 }
-                        NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; pageIndex: 28 }
-                        NavButton { iconText: "✓"; label: "Work Management"; pageIndex: 24 }
-                        NavButton { iconText: "⚡"; label: "Accelerator Guard"; pageIndex: 25 }
-                        NavButton { iconText: "⌘"; label: "Agents & Workflows"; pageIndex: 4 }
-                        NavButton { iconText: "◫"; label: "Models & Providers"; pageIndex: 5 }
-                        NavButton { iconText: "▦"; label: "Model Manager"; pageIndex: 6 }
-                        NavButton { iconText: "◧"; label: "Checkpoint Manager"; pageIndex: 20 }
-                        NavButton { iconText: "#"; label: "Token Control Center"; pageIndex: 22 }
-                        NavButton { iconText: "⌕"; label: "Keresés"; pageIndex: 7 }
-                        NavButton { iconText: "文"; label: "Tolmács"; pageIndex: 23 }
-                        NavButton { iconText: "◇"; label: "Architecture"; pageIndex: 8 }
-                        NavButton { iconText: "⚙"; label: "Rendszerbeállítások"; pageIndex: 15 }
-                        NavButton { iconText: "ⓘ"; label: "System"; pageIndex: 16 }
-
-                        Item { Layout.preferredHeight: 8 }
-                        Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }
-                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
-                        NavButton { iconText: "⇄"; label: "MCP Gateway"; pageIndex: 27 }
-                        NavButton { iconText: "⌾"; label: "Trust & Certificates"; pageIndex: 29 }
-                        NavButton { iconText: "▣"; label: "Session Vault / Kulcsvault"; pageIndex: 30 }
-                        NavButton { iconText: "◇"; label: "Decision Fabric"; pageIndex: 31 }
-                        NavButton { iconText: "⊙"; label: "Decision Inspector"; pageIndex: 32 }
-                        NavButton { iconText: "⌕"; label: "External Project Radar"; pageIndex: 33 }
-
-                        Item { Layout.preferredHeight: 8 }
-                        Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
-                        NavButton { iconText: "▤"; label: "Resources"; pageIndex: 9 }
-                        NavButton { iconText: "◆"; label: "Security & Approvals"; pageIndex: 10 }
-                        NavButton { iconText: "⌁"; label: "Observability"; pageIndex: 11 }
-                        NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 12 }
-                        NavButton { iconText: "◎"; label: "FA3 OS"; pageIndex: 26 }
-                        NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 13 }
-                        NavButton { iconText: "▤"; label: "Context Inspector"; pageIndex: 34 }
+                        NavButton { iconText: "▤"; label: "Resources"; routeId: "system.resources" }
+                        NavButton { iconText: "⚡"; label: "Accelerator Guard"; routeId: "system.accelerator-guard" }
+                        NavButton { iconText: "⚙"; label: "Rendszerbeállítások"; routeId: "system.settings" }
+                        NavButton { iconText: "ⓘ"; label: "System"; routeId: "system.runtime" }
                     }
                 }
 
@@ -663,7 +728,7 @@ ApplicationWindow {
                         spacing: 4
                         RowLayout {
                             Rectangle { width: 7; height: 7; radius: 4; color: window.green }
-                            Label { text: "SYSTEM ONLINE"; color: window.green; font.pixelSize: 8; font.bold: true }
+                            Label { text: "CONTROL CENTER ACTIVE"; color: window.green; font.pixelSize: 8; font.bold: true }
                         }
                         Label { text: fa3Repository.hostName; color: window.textPrimary; font.pixelSize: 10; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
                         Label { text: "Kernel " + fa3Repository.kernelVersion; color: window.textMuted; font.pixelSize: 8; Layout.fillWidth: true; elide: Text.ElideRight }
@@ -801,6 +866,15 @@ ApplicationWindow {
                                     color: parent.hovered ? "#132a42" : "#0d1c2f"
                                     border.color: window.accent
                                 }
+                            }
+
+                            ToolButton {
+                                Layout.minimumWidth: 100
+                                Layout.preferredHeight: 32
+                                text: "⌕  Keresés"
+                                onClicked: window.navigate("global.search")
+                                ToolTip.visible: hovered
+                                ToolTip.text: "Globális FA3 keresés · " + window.shortcutSearch
                             }
 
                             Item { Layout.fillWidth: true }
@@ -1061,6 +1135,8 @@ ApplicationWindow {
                                     height: 62
                                     background: Rectangle { color: hovered ? window.panelRaised : "transparent"; radius: 5 }
                                     onDoubleClicked: {
+                                        if (modelData.routeId && window.navigate(modelData.routeId))
+                                            return
                                         if (modelData.pageIndex !== undefined && modelData.pageIndex >= 0)
                                             window.selectedIndex = modelData.pageIndex
                                         else if (modelData.sourceType === "CANONICAL" && modelData.path)
@@ -1257,7 +1333,7 @@ ApplicationWindow {
                     orange: window.orange
                     magenta: window.magenta
                     onOpenMcpControlRequested: function(targetId) { window.openMcpChat(targetId) }
-                    onOpenMcpGatewayRequested: function() { window.closeTransientWorkspaces(); window.selectedIndex = 27 }
+                    onOpenMcpGatewayRequested: function() { window.navigate("integrations.mcp-gateway") }
                 }
 
                 SystemSettingsPage {
@@ -1311,7 +1387,7 @@ ApplicationWindow {
                                 Label { text: "Mutation policy"; color: window.textMuted }
                                 Label { text: "Privileged changes: Draft ChangeSet only"; color: window.textPrimary }
                                 Label { text: "Display target"; color: window.textMuted }
-                                Label { text: "KDE Plasma / Wayland"; color: window.textPrimary }
+                                Label { text: "Generic Linux · Wayland primary / X11 supported"; color: window.textPrimary }
                             }
                         }
                     }
@@ -1414,6 +1490,7 @@ ApplicationWindow {
                 }
 
                 WorkManagementPage {
+                    id: workManagementPage
                     panel: window.panel
                     panelRaised: window.panelRaised
                     border: window.border
@@ -1423,9 +1500,27 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    onRefreshRequested: {
+                        fa3Repository.refresh()
+                        operationNotice = "Canonical projection refreshed. Provider runtime remains adapter/evidence-gated."
+                    }
+                    onCreateWorkItemRequested: operationNotice = fa3Repository.createDraftChangeSet(
+                        "WORK_MANAGEMENT", "work-item.create", "FA3-WORK-MANAGEMENT-PROJECTION-001",
+                        "GUI DRAFT intent only; admitted work-management adapter and authorization are still required.")
+                    onTransitionRequested: function(canonicalWorkItemId, requestedState) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "WORK_MANAGEMENT", "work-item.transition." + requestedState, canonicalWorkItemId,
+                            "GUI DRAFT transition intent; provider events cannot authorize state transitions.")
+                    }
+                    onProviderConfigureRequested: function(providerId) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "WORK_MANAGEMENT", "provider.configure", providerId,
+                            "GUI DRAFT provider configuration intent; SecretRef, policy and provider admission remain external.")
+                    }
                 }
 
                 AcceleratorGuardPage {
+                    id: acceleratorGuardPage
                     panel: window.panel
                     panelRaised: window.panelRaised
                     border: window.border
@@ -1435,6 +1530,18 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                    accelerators: window.acceleratorProjection(fa3Devices.inventory)
+                    onRefreshRequested: {
+                        fa3Devices.refresh()
+                        fa3Repository.refresh()
+                        operationNotice = "Hardware discovery refreshed. Utilization/conflict state remains telemetry-adapter gated."
+                    }
+                    onDecisionRequested: function(conflictId, action, targetAcceleratorId, remember) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "ACCELERATOR_GUARD", "accelerator.decision." + action,
+                            conflictId + (targetAcceleratorId.length > 0 ? ("@" + targetAcceleratorId) : ""),
+                            "GUI DRAFT decision intent; HRB/policy remain authoritative. remember=" + remember)
+                    }
                 }
 
                 Fa3OsPage {
@@ -1543,6 +1650,25 @@ ApplicationWindow {
                     green: window.green
                     orange: window.orange
                     magenta: window.magenta
+                }
+
+                AgentActionCenterPage {
+                    id: agentActionCenter
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onStageActionIntentRequested: function(actionId) {
+                        operationNotice = fa3Repository.createDraftChangeSet(
+                            "UNIFIED_ACTION_FABRIC", "uaf.action.intent", actionId,
+                            "Agent Native GUI DRAFT only; contract lookup, authorization/approval, provider admission, HRB/Secret Broker and evidence remain mandatory.")
+                    }
+                    onNavigateRequested: function(routeId) { window.navigate(routeId) }
                 }
             }
 
