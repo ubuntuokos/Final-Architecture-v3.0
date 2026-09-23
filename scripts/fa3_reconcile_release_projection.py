@@ -251,6 +251,7 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
         "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
         "decision_id": "FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+        "decision_assessment_id": "FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
         "gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
         "rule_registry_id": "FA3-QUALITY-RULE-REGISTRY-001",
         "upstream_reference_id": "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23",
