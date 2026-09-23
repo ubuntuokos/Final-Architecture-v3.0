@@ -197,6 +197,12 @@ class BrowserCdpSession:
             text=parameters.get("text")
             if not isinstance(text,str) or len(text)>32768: raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","bounded TYPE_TEXT text required")
             eid=json.dumps(str(target_id));self.evaluate(f"(() => {{const el=(window.__fa3BrowserActionMap||{{}})[{eid}];if(!el)return false;el.focus();return true;}})()");self._command("Input.insertText",{"text":text})
+        elif operation=="SELECT":
+            value=parameters.get("value")
+            if not isinstance(value,str) or len(value)>4096: raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","bounded SELECT value required")
+            eid,val=json.dumps(str(target_id)),json.dumps(value)
+            changed=self.evaluate(f"""(() => {{const el=(window.__fa3BrowserActionMap||{{}})[{eid}];if(!el||el.tagName!=="SELECT")return false;el.value={val};el.dispatchEvent(new Event("input",{{bubbles:true}}));el.dispatchEvent(new Event("change",{{bubbles:true}}));return el.value==={val};}})()""")
+            if changed is not True: raise BrowserActionDenied("BROWSER-EXECUTION-FAILED","SELECT value unavailable")
         elif operation=="PRESS_KEY":
             key=parameters.get("key");allowed={"Enter","Tab","Escape","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Backspace","Delete","Home","End","PageUp","PageDown"}
             if key not in allowed: raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","key not allowlisted")
