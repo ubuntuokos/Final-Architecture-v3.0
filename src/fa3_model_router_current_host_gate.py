@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 AUTHORITY = "FA3-AUTH-MODEL-ROUTER-001"
 GATE_ID = "FA3-MODEL-ROUTER-CURRENT-HOST-GATESET-001"
 REQUIRED_ROUTES = {"fa3-text-primary","fa3-text-secondary","fa3-pageindex-index","fa3-pageindex-reason"}
+OLLAMA_PROVIDER_ID = "FA3-PROVIDER-OLLAMA-MODEL-001"
 
 
 def loadj(path: Path) -> dict[str, Any]:
@@ -64,6 +65,18 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
                 findings.append(finding("MRH-015", "logical route provider is not bound to valid current-host admission evidence", route=route, provider_id=provider_id))
             if binding.get("selection") != "RUNTIME_DISCOVERED":
                 findings.append(finding("MRH-009", "route binding was not runtime-discovered", route=route))
+            if provider_id == OLLAMA_PROVIDER_ID:
+                proof = probe.get("provider_runtime_proof", {}) if isinstance(probe, dict) else {}
+                if not (
+                    isinstance(proof, dict)
+                    and proof.get("proof_kind") == "OLLAMA_PS_CPU_ONLY"
+                    and proof.get("provider_id") == OLLAMA_PROVIDER_ID
+                    and proof.get("runtime_id") == binding.get("runtime_id")
+                    and proof.get("model") == binding.get("model")
+                    and int(proof.get("size_vram", -1)) == 0
+                    and int(proof.get("num_gpu_request", -1)) == 0
+                ):
+                    findings.append(finding("MRH-016", "Ollama route lacks live CPU-only execution proof", route=route))
         try:
             captured = dt.datetime.fromisoformat(str(rec.get("captured_at","")).replace("Z","+00:00"))
             age = dt.datetime.now(dt.timezone.utc) - captured.astimezone(dt.timezone.utc)
