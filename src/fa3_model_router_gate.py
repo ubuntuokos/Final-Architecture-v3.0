@@ -20,6 +20,7 @@ REQUIRED_RULES = {
     "CANONICAL_ROUTES_MUST_NOT_PIN_PHYSICAL_PROVIDER",
     "CANONICAL_ROUTES_MUST_NOT_PIN_PHYSICAL_MODEL",
     "RUNTIME_PROVIDER_REQUIRES_CURRENT_HOST_ADMISSION_RECEIPT",
+    "CURRENT_HOST_SERVING_ENDPOINT_MUST_MATCH_ADMISSION_RUNTIME_INSTANCE",
     "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
     "CURRENT_HOST_ROUTER_RECEIPT_REQUIRED_FOR_CONSUMER_ADMISSION",
 }
@@ -116,13 +117,15 @@ def gate(root: Path) -> dict[str, Any]:
         "decision_fabric",
         "deterministic_admission_already_applied",
         "decision_advisory_changes_authority",
+        "runtime_handoff",
     )
     if any(token not in materializer for token in required_materializer):
         findings.append(finding("MR-016", "runtime materializer lacks provider admission/discovery/selection invariants"))
     required_discovery = (
         "FA3-PROVIDER-LM-STUDIO-MODEL-001",
         "FA3-PROVIDER-OLLAMA-MODEL-001",
-        "CURRENT_HOST_LIVE_ENDPOINT_DISCOVERY",
+        "CURRENT_HOST_ADMISSION_HANDOFF_DISCOVERY",
+        "runtime_instance_bound",
         "provider_neutral",
         "physical_model_pins",
         "preferred_models",
