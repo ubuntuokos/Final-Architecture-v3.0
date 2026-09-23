@@ -33,6 +33,17 @@ class TestModelRouterSelection(unittest.TestCase):
         self.assertEqual(selected["fa3-pageindex-index"]["runtime_id"],"r1")
         self.assertEqual(selected["fa3-pageindex-reason"]["runtime_id"],"r2")
         self.assertEqual(selected["fa3-pageindex-index"]["selection"],"RUNTIME_DISCOVERED")
+        self.assertFalse(selected["fa3-pageindex-index"]["provider_failover_performed"])
+
+    def test_no_silent_provider_to_provider_fallback(self):
+        routes=[{"route":"fa3-text-primary"}]
+        candidates=[
+            {"provider_id":"P1","runtime_id":"r1","api_base":"http://127.0.0.1:1/v1","priority":10,"routes":["*"]},
+            {"provider_id":"P2","runtime_id":"r2","api_base":"http://127.0.0.1:2/v1","priority":5,"routes":["*"]},
+        ]
+        catalogs={"r1":["embed-only"],"r2":["chat-capable"]}
+        with self.assertRaises(MaterializationDenied):
+            select_bindings(routes,candidates,catalogs)
 
 
 if __name__=="__main__":
