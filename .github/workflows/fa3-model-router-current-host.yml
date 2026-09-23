@@ -58,7 +58,35 @@ jobs:
           "$venv/bin/litellm" --version
           echo "$venv/bin" >> "$GITHUB_PATH"
 
-      - name: Refresh provider-specific current-host admission evidence
+      - name: Resolve provider registry source
+        id: provider_source
+        shell: bash
+        env:
+          PROVIDERS_INPUT: ${{ inputs.providers_file || '' }}
+        run: |
+          set -euo pipefail
+          providers="$PROVIDERS_INPUT"
+          if [ -z "$providers" ]; then
+            providers="${FA3_MODEL_ROUTER_PROVIDERS:-}"
+          fi
+          if [ -z "$providers" ] && [ -s "${HOME}/.config/fa3/model-router/providers.json" ]; then
+            providers="${HOME}/.config/fa3/model-router/providers.json"
+          fi
+
+          if [ -n "$providers" ]; then
+            test -s "$providers" || { echo "BLOCKED: configured provider-neutral runtime registry is missing/empty" >&2; exit 2; }
+            mode="explicit_admitted_registry"
+          else
+            mode="builtin_reference_discovery"
+          fi
+
+          {
+            echo "mode=$mode"
+            echo "providers=$providers"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Refresh built-in provider-specific current-host admission evidence
+        if: steps.provider_source.outputs.mode == 'builtin_reference_discovery'
         shell: bash
         run: |
           set -euo pipefail
@@ -69,19 +97,17 @@ jobs:
         id: runtime
         shell: bash
         env:
-          PROVIDERS_INPUT: ${{ inputs.providers_file || '' }}
+          PROVIDER_MODE: ${{ steps.provider_source.outputs.mode }}
+          PROVIDERS_SOURCE: ${{ steps.provider_source.outputs.providers }}
           CREDENTIAL_INPUT: ${{ inputs.credential_file || '' }}
           PORT_INPUT: ${{ inputs.port || '' }}
         run: |
           set -euo pipefail
-          providers="$PROVIDERS_INPUT"
+          providers="$PROVIDERS_SOURCE"
           credential="$CREDENTIAL_INPUT"
           port="$PORT_INPUT"
 
-          if [ -z "$providers" ]; then
-            providers="${FA3_MODEL_ROUTER_PROVIDERS:-}"
-          fi
-          if [ -z "$providers" ]; then
+          if [ "$PROVIDER_MODE" = "builtin_reference_discovery" ]; then
             providers="${RUNNER_TEMP}/fa3-model-router-providers.json"
             python3 src/fa3_model_router_provider_discovery.py --root . --output "$providers"
           fi
@@ -110,6 +136,7 @@ jobs:
             echo "providers=$providers"
             echo "credential=$credential"
             echo "port=$port"
+            echo "provider_mode=$PROVIDER_MODE"
           } >> "$GITHUB_OUTPUT"
 
       - name: Materialize and prove central Model Router
@@ -132,10 +159,14 @@ jobs:
           assert r["physical_backend_pinned"] is False
           assert r["physical_model_pinned"] is False
           assert r["runtime_selected"] is True
+          assert r["global_promotion_claim"] is False
+          assert r["global_release_promotion_claim"] is False
+          assert r["full_429_runtime_closure_claim"] is False
           assert {"fa3-pageindex-index","fa3-pageindex-reason"}.issubset(r["logical_routes"])
           for route in ("fa3-pageindex-index","fa3-pageindex-reason"):
               b=r["route_bindings"][route]
               assert b["selection"]=="RUNTIME_DISCOVERED"
+              assert b.get("provider_failover_performed") is False
               assert b["provider_id"] and b["runtime_id"] and b["model"]
               digest=r["provider_admission_evidence_sha256"].get(b["provider_id"],"")
               assert len(digest)==64 and all(ch in "0123456789abcdef" for ch in digest.lower())
