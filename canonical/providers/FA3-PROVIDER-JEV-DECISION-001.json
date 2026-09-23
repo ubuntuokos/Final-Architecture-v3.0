@@ -1,0 +1,24 @@
+{
+  "schema": "fa3.provider.v1",
+  "id": "FA3-PROVIDER-JEV-DECISION-001",
+  "profile": "FA3-DECISION-FABRIC-001",
+  "type": "JEV_OPTIONAL",
+  "status": "OPTIONAL_EXTERNAL_ADMISSION_PENDING",
+  "architectural_authority": false,
+  "mandatory": false,
+  "external_service": true,
+  "explicit_enable_required": true,
+  "credential_source": "CENTRAL_SECRET_BROKER_PROJECTION_ONLY",
+  "physical_model_pin": false,
+  "silent_local_to_cloud_fallback": "DENY",
+  "direct_application_calls": "DENY",
+  "canonical_api_mapping": {
+    "SELECT_ONE": "choice",
+    "BOOLEAN": "noul",
+    "SCORE": "score",
+    "STOP_CONTINUE": "noul",
+    "RANK": "derived_from_bounded_choice_or_scores",
+    "RELEVANCE": "noul_or_score",
+    "MULTI_LABEL": "parallel_noul"
+  }
+}
