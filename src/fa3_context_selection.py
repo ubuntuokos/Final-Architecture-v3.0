@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 from fa3_decision_fabric import DecisionFabric
@@ -164,3 +166,20 @@ def verify_projection(projection: dict[str, Any]) -> None:
         digest = row.get("source_sha256")
         if not isinstance(text, str) or hashlib.sha256(text.encode()).hexdigest() != digest:
             raise ValueError("context source digest mismatch")
+
+
+def default_projection_path() -> Path:
+    state_home = os.environ.get("XDG_STATE_HOME")
+    base = Path(state_home) if state_home else Path.home() / ".local" / "state"
+    return base / "fa3" / "context-projection.json"
+
+
+def write_projection(projection: dict[str, Any], path: Path | None = None) -> Path:
+    verify_projection(projection)
+    target = path or default_projection_path()
+    target.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    temporary = target.with_suffix(target.suffix + ".tmp")
+    temporary.write_text(json.dumps(projection, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.chmod(temporary, 0o600)
+    temporary.replace(target)
+    return target
