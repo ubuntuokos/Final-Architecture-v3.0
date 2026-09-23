@@ -36,13 +36,29 @@
   },
   "open_reconciliations": [
     "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED",
-    "FA3_GUI_IMPORTED_PACK_SURFACE_RECONCILIATION_PENDING",
-    "FUTURE_EXTERNAL_REDISTRIBUTABLE_SOURCE_INTAKE_BINDING_PENDING_CANONICAL_MAIN_MATERIALIZATION"
+    "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION",
+    "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR"
   ],
   "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
   "current_host_runtime_claim": false,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_before": 143,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "parallel_change_reconciliation": {
+    "skill_distribution": {
+      "target_profile": "FA3-DISTRIBUTION-COMPLIANCE-001",
+      "target_contract": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+      "provider_target_class": "EXTERNAL_REDISTRIBUTABLE",
+      "provider_release_bundle_status": "EXCLUDED",
+      "upstream_reference_target_class": "REFERENCE_ONLY",
+      "hard_dependency_before_parallel_change_merges": false
+    },
+    "gui": {
+      "target_surface_route": "agents.workflows",
+      "imported_pack_view": "CHILD_VIEW",
+      "execution_intent_target": "agents.action-center",
+      "new_top_level_route": false
+    }
+  }
 }
