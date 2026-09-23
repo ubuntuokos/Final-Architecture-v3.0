@@ -39,5 +39,32 @@
   "capability_count_before": 143,
   "capability_count_after": 143,
   "new_capabilities": 0,
-  "new_architectural_authorities": 0
+  "new_architectural_authorities": 0,
+  "hardware_audit_compliance": {
+    "status": "PASS",
+    "contract_id": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "DYNAMIC_0_TO_N",
+    "global_accelerator_vendor_pin": "FORBIDDEN",
+    "global_runtime_api_pin": "FORBIDDEN",
+    "current_host_evidence_is_global_requirement": false,
+    "note": "Skill discovery, distribution classification and compliance gates require no accelerator and do not introduce hardware-specific assumptions."
+  },
+  "agent_native_and_decision_fabric_compliance": {
+    "agent_native_uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "decision_fabric": "FA3-DECISION-FABRIC-001",
+    "context_selection": "FA3-CONTEXT-SELECTION-001",
+    "decision_provider_role": "ADVISORY_ONLY_AFTER_DETERMINISTIC_ELIGIBILITY",
+    "candidate_expansion": "DENY",
+    "skill_granted_execution_authority": "DENY",
+    "tool_model_resource_secret_authority_expansion": "DENY"
+  },
+  "commercial_distribution_compliance": {
+    "distribution_profile": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "external_redistributable_supported": true,
+    "external_redistributable_auto_bundle": false,
+    "unknown_required_license_fact": "FAIL_CLOSED",
+    "third_party_obligations_machine_tracked": true
+  }
 }
