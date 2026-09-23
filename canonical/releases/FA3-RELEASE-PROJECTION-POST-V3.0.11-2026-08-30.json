@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "6046195d715297defefee0cfd66b201f8ae65a0b",
-    "pre_projection_root_tree_sha": "bfb4b4d34fbbae8f20599263ff4f509f516831b1",
-    "pre_projection_canonical_tree_sha": "388bc81dffa55c7d99753b81ab16a33c11516e8c",
-    "commits_ahead_of_v3_0_11_conformance_commit": 582,
-    "total_post_baseline_commits": 582,
-    "delta_file_count": 1701,
-    "delta_added_files": 1696,
+    "pre_projection_head_sha": "f775d6120188dad6d972ab483a9e1fed30bada9a",
+    "pre_projection_root_tree_sha": "c5bb2f53171817189a4b2e357215845769889511",
+    "pre_projection_canonical_tree_sha": "db7c5df825247915b8aa9f6fdbbd6ab93fdd266f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 580,
+    "total_post_baseline_commits": 580,
+    "delta_file_count": 1711,
+    "delta_added_files": 1706,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 812,
-    "evidence_files_in_post_baseline_delta": 141,
-    "source_files_in_post_baseline_delta": 221,
-    "test_files_in_post_baseline_delta": 197,
-    "workflow_files_in_post_baseline_delta": 76,
+    "canonical_files_in_post_baseline_delta": 816,
+    "evidence_files_in_post_baseline_delta": 143,
+    "source_files_in_post_baseline_delta": 222,
+    "test_files_in_post_baseline_delta": 198,
+    "workflow_files_in_post_baseline_delta": 77,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -388,6 +388,7 @@
       "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
       "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23.json",
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23.json",
       "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
       "canonical/decisions/FA3-DEC-INTEGRATION-BROKER-2026-09-19.json",
@@ -580,6 +581,7 @@
       "evidence/reference/hybrid-editorial-ci-2026-08-31.json",
       "evidence/reference/inference-cache-hardening-ci-2026-09-07.json",
       "evidence/reference/inference-portability-ci-2026-08-31.json",
+      "evidence/reference/inference-portability-current-host-pending.json",
       "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json",
       "evidence/reference/kanboard-ci-2026-08-30.json",
       "evidence/reference/kaneo-v2.22.0.json",
@@ -701,7 +703,8 @@
     "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
     "FA3-AGENT-INSTRUCTIONS-GATESET-001",
     "FA3-UNIFIED-ACTION-FABRIC-GATESET-001",
-    "FA3-NEURAL-RENDERING-GATESET-001"
+    "FA3-NEURAL-RENDERING-GATESET-001",
+    "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -827,7 +830,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1694,
+  "manifest_entry_count": 1704,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -965,6 +968,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-inference-portability-current-host.yml",
+      "git_blob_sha": "578b68f0970e900091cbdcb772870274aee097be",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-inspector-gate.yml",
       "git_blob_sha": "3cb4f49ded3f0ae13e87628664e7199950e97dfe",
       "baseline_delta_status": "added"
@@ -1081,7 +1089,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "6758e11d1fe94ee5dcbe0022c5d61b82103c5cc5",
+      "git_blob_sha": "497302661abdbea02b34f2f244c6f7bc3b62122e",
       "baseline_delta_status": "added"
     },
     {
@@ -2800,6 +2808,11 @@
       "baseline_delta_status": "unchanged"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23.json",
+      "git_blob_sha": "a3848924bd020f135f8896392c8e725714cf73b5",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23.json",
       "git_blob_sha": "23aa7fdacd342cfc53fadccdcac566671f1d9ecc",
       "baseline_delta_status": "unchanged"
@@ -3236,7 +3249,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "26a2d9532374c957c1196df7e317912759ac3a15",
+      "git_blob_sha": "13af231b540071a8b0be7047b66a466d836cb62a",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -3760,6 +3773,11 @@
       "baseline_delta_status": "unchanged"
     },
     {
+      "path": "canonical/FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001.json",
+      "git_blob_sha": "f45837cd4e584f738f720040b657ad84c2611b1b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-INSPECTION-CONFORMANCE-MATRIX-001.json",
       "git_blob_sha": "b41b8df6b198e42aa7f53384c0a76f33201061d3",
       "baseline_delta_status": "unchanged"
@@ -4088,6 +4106,11 @@
       "path": "canonical/inference-cache-hardening-enforcement.json",
       "git_blob_sha": "dfe9c8f1cff67ffacc79dfb971d6b8ca97a82224",
       "baseline_delta_status": "unchanged"
+    },
+    {
+      "path": "canonical/inference-portability-current-host-enforcement.json",
+      "git_blob_sha": "bbe6f6de8244b67e2c0c996eae77cf84938cefb3",
+      "baseline_delta_status": "added"
     },
     {
       "path": "canonical/inference-portability-enforcement.json",
@@ -5760,6 +5783,11 @@
       "baseline_delta_status": "unchanged"
     },
     {
+      "path": "canonical/schemas/inference-portability-current-host-receipt.v1.json",
+      "git_blob_sha": "2e2468b72c9ced9b531c347fc07564a798b1e820",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/schemas/secret-broker-current-host-receipt.v1.json",
       "git_blob_sha": "e01a3bd339c0cd574a8d67eca973c7729b58109f",
       "baseline_delta_status": "unchanged"
@@ -6155,6 +6183,11 @@
       "baseline_delta_status": "unchanged"
     },
     {
+      "path": "docs/inference-portability-current-host.md",
+      "git_blob_sha": "27edc5a4097c5f9d994a70c3e0bceeecc4b60fe6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/lavasr-integration.md",
       "git_blob_sha": "f55bdd2474edc3913c1335d096076372b26f6a61",
       "baseline_delta_status": "unchanged"
@@ -6415,6 +6448,11 @@
       "baseline_delta_status": "unchanged"
     },
     {
+      "path": "evidence/collect-inference-portability-current-host.py",
+      "git_blob_sha": "57e636186fab6babdcce8b5b4fd14776ab163352",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-kdenlive-audio-conditioning-current-host.py",
       "git_blob_sha": "14a934c6d15623620882b058d28f121565abd29b",
       "baseline_delta_status": "unchanged"
@@ -6531,7 +6569,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "e3b8078a4763f94815259b198048a1a14e525c14",
+      "git_blob_sha": "b0c61a8ff7253b23103972acbe8f9a61c0d1c1bb",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -6733,6 +6771,11 @@
       "path": "evidence/reference/inference-portability-ci-2026-08-31.json",
       "git_blob_sha": "5f07389017d71a11ce3a1376c8d2d16594389446",
       "baseline_delta_status": "unchanged"
+    },
+    {
+      "path": "evidence/reference/inference-portability-current-host-pending.json",
+      "git_blob_sha": "47d55b3459904318cb4221f1334b39b044ef6d95",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json",
@@ -7071,7 +7114,7 @@
     },
     {
       "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "5d4c7818285d1c4c8acbcb7db9a178650bd00cfa",
+      "git_blob_sha": "3d1119c5bfdcf4987dba998619a50a30e3de7b86",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -7121,7 +7164,7 @@
     },
     {
       "path": "README.md",
-      "git_blob_sha": "f323576424d668c51cb8f2cdde0fcf28b062b552",
+      "git_blob_sha": "f771c1532fc590558d2745a26bfbb3d93289ada8",
       "baseline_delta_status": "added"
     },
     {
@@ -7131,7 +7174,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "fc17cd780b212d700f82b55eee12282bbdb6aec1",
+      "git_blob_sha": "dffcd4e1e78ffdffdbb1e19f402483666b4d3a06",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -7456,7 +7499,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "467a64148c2bdee4f32aa6451ca110885f9483cd",
+      "git_blob_sha": "4a76a22975441f3b634a44aa7569d67f89ba995b",
       "baseline_delta_status": "unchanged"
     },
     {
@@ -7598,6 +7641,11 @@
       "path": "src/fa3_inference_cache_hardening_gate.py",
       "git_blob_sha": "fc5380a7bbd3474530d1ac1edced7aa8aae16278",
       "baseline_delta_status": "unchanged"
+    },
+    {
+      "path": "src/fa3_inference_portability_current_host_gate.py",
+      "git_blob_sha": "f8cb893bf217ab00bde2658a3c6b8d8750f5148c",
+      "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_inference_portability_gate.py",
@@ -8683,6 +8731,11 @@
       "path": "tests/test_inference_cache_hardening_gate.py",
       "git_blob_sha": "e610ecff0e87ab5cffad8eeff66e5cf46fb58680",
       "baseline_delta_status": "unchanged"
+    },
+    {
+      "path": "tests/test_inference_portability_current_host_gate.py",
+      "git_blob_sha": "afa6835466329a8a9cc535acb52df43ed0d1da33",
+      "baseline_delta_status": "added"
     },
     {
       "path": "tests/test_inference_portability_gate.py",
@@ -10883,5 +10936,35 @@
     "existing_429_closure_reopened": false,
     "current_host_obligation_delta": 0,
     "provider_runtime_admission_separate": true
+  },
+  "inference_portability_current_host_reconciliation": {
+    "profile_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001",
+    "parent_profile_id": "FA3-INFERENCE-PORTABILITY-001",
+    "gate_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001",
+    "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23",
+    "pending_reference_evidence": "evidence/reference/inference-portability-current-host-pending.json",
+    "provider_ids": [
+      "FA3-PROVIDER-OPENVINO-001",
+      "FA3-PROVIDER-ONNXRUNTIME-001",
+      "FA3-PROVIDER-TENSORRT-001",
+      "FA3-PROVIDER-TENSORRT-RTX-001"
+    ],
+    "capability_bindings": [
+      "CAP-005",
+      "CAP-006",
+      "CAP-137",
+      "CAP-143"
+    ],
+    "binding_class": "NON_OBLIGATION_BEARING_PROVIDER_SPECIFIC_CURRENT_HOST_PRE_ADMISSION",
+    "optional_provider_absence_is_failure": false,
+    "cpu_only_host_global_conformance": true,
+    "production_route_requires_model_router_e2e": true,
+    "provider_runtime_promotion_claim": false,
+    "global_promotion_claim": false,
+    "existing_429_closure_reopened": false,
+    "current_host_obligation_delta": 0,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
   }
 }
