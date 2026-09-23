@@ -70,7 +70,7 @@ def sanitize_backend_message(value: Any) -> str:
     return text[:500]
 
 
-def classify_http_error(status: int, raw: bytes) -> tuple[str, str, str, str]:
+def classify_http_error(status: int, raw: bytes) -> tuple[str, str, str, str, str]:
     fingerprint = hashlib.sha256(raw).hexdigest()
     error_type = ""
     error_code = ""
