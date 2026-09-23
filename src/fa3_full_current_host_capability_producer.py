@@ -430,39 +430,118 @@ def proof_media_video(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     return {"artifact_sha256": sha_file(out), "codec": stream.get("codec_name"), "width": 128, "height": 72, "network_fetch": False}
 
 
+DESKTOP_WAYLAND_REQUIRED_CAPABILITIES = (
+    "linux_host",
+    "xdg_runtime",
+    "dbus_session",
+    "uri_open",
+    "local_gui_session",
+)
+
+
+def desktop_wayland_scoped_admission(
+    report: dict[str, Any],
+    session_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    capabilities = report.get("capabilities")
+    if not isinstance(capabilities, dict):
+        return {
+            "result": "FAIL",
+            "reason": "DESKTOP_CAPABILITIES_MISSING",
+            "required_capabilities": {},
+            "full_desktop_admission_result": report.get("result"),
+            "secret_backend_status": None,
+        }
+
+    required = {
+        key: capabilities.get(key) == "PASS"
+        for key in DESKTOP_WAYLAND_REQUIRED_CAPABILITIES
+    }
+    required["xdg_desktop_portal"] = capabilities.get("xdg_desktop_portal") == "PASS"
+
+    desktop = report.get("desktop") if isinstance(report.get("desktop"), dict) else {}
+    session = report.get("session") if isinstance(report.get("session"), dict) else {}
+    session_checks = {
+        "desktop_kde_plasma": desktop.get("desktop") == "KDE_PLASMA",
+        "session_wayland": session.get("type") == "wayland",
+        "active_local_graphical_session": session_evidence.get(
+            "active_local_graphical_session_proven"
+        ) is True,
+        "wayland_socket": session_evidence.get("wayland_socket_proven") is True,
+        "kde_bus_identity": session_evidence.get("kde_bus_identity_proven") is True,
+        "portal_bus_identity": session_evidence.get("portal_bus_identity_proven") is True,
+    }
+
+    failed = sorted(
+        [key for key, ok in required.items() if not ok]
+        + [key for key, ok in session_checks.items() if not ok]
+    )
+    full_required_failures = sorted(
+        key
+        for key in (
+            "linux_host",
+            "xdg_runtime",
+            "dbus_session",
+            "uri_open",
+            "secret_backend",
+            "local_gui_session",
+        )
+        if capabilities.get(key) == "FAIL"
+    )
+    non_scoped_full_failures = [
+        key for key in full_required_failures if key != "secret_backend"
+    ]
+    if non_scoped_full_failures:
+        failed.extend(
+            f"full_desktop_failure:{key}" for key in non_scoped_full_failures
+        )
+
+    return {
+        "result": "PASS" if not failed else "FAIL",
+        "required_capabilities": required,
+        "session_checks": session_checks,
+        "failed_checks": failed,
+        "full_desktop_admission_result": report.get("result"),
+        "full_desktop_required_failures": full_required_failures,
+        "secret_backend_status": capabilities.get("secret_backend"),
+        "secret_backend_used_for_desktop_wayland_admission": False,
+        "scope_semantics": "DESKTOP_WAYLAND_SESSION_PROOF_NOT_FULL_DESKTOP_ADMISSION",
+    }
+
+
 def proof_desktop_wayland(scope: Path, cap: str, subject: str) -> dict[str, Any]:
     scope.mkdir(parents=True, exist_ok=True)
-    from fa3_desktop_admission import collect_runtime_probes, evaluate_desktop
-    session_env = dict(os.environ)
-    systemctl = shutil.which("systemctl")
-    if systemctl:
-        proc = cmd([systemctl, "--user", "show-environment"], 10)
-        if proc.returncode == 0:
-            wanted = {
-                "XDG_CURRENT_DESKTOP",
-                "DESKTOP_SESSION",
-                "XDG_SESSION_TYPE",
-                "XDG_RUNTIME_DIR",
-                "DBUS_SESSION_BUS_ADDRESS",
-                "WAYLAND_DISPLAY",
-                "DISPLAY",
-            }
-            for line in proc.stdout.splitlines():
-                if "=" not in line:
-                    continue
-                key, value = line.split("=", 1)
-                if key in wanted and value and not session_env.get(key):
-                    session_env[key] = value
-    report = evaluate_desktop(session_env, collect_runtime_probes(session_env), require_gui=True)
-    if report.get("result") != "PASS":
-        raise RuntimeError(f"desktop admission failed: {report}")
-    if report.get("desktop", {}).get("desktop") != "KDE_PLASMA":
-        raise RuntimeError("KDE Plasma session not proven")
-    if report.get("session", {}).get("type") != "wayland":
-        raise RuntimeError("Wayland session not proven")
+    from fa3_desktop_admission import (
+        collect_runtime_probes,
+        discover_current_user_session_environment,
+        evaluate_desktop,
+    )
+
+    session_context = discover_current_user_session_environment()
+    session_env = session_context["environment"]
+    report = evaluate_desktop(
+        session_env,
+        collect_runtime_probes(session_env),
+        require_gui=True,
+    )
+    scoped = desktop_wayland_scoped_admission(
+        report,
+        session_context["evidence"],
+    )
+    if scoped.get("result") != "PASS":
+        raise RuntimeError(
+            f"desktop/Wayland scoped admission failed for {cap}: {scoped}; "
+            f"full_desktop_admission={report}"
+        )
+
     return {
         "desktop": report.get("desktop"),
         "session": report.get("session"),
+        "desktop_wayland_scope": scoped,
+        "full_desktop_admission_result": report.get("result"),
+        "secret_backend_status": report.get("capabilities", {}).get("secret_backend"),
+        "secret_backend_used_for_desktop_wayland_admission": False,
+        "session_discovery": session_context["evidence"],
         "private_kde_api_used": False,
         "privileged": False,
     }
