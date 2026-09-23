@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.inference-provider-runtime-descriptor-receipt.v1",
+  "receipt_id": "FA3-ORT-CPU-RUNTIME-DESCRIPTOR-CURRENT-HOST-2026-09-23",
+  "providers": {
+    "FA3-PROVIDER-ONNXRUNTIME-001": {
+      "result": "PASS",
+      "environment_id": "FA3-CURRENT-HOST-SYSTEM-PYTHON314-ORT-1.23",
+      "discovery_scope": "EXPLICIT_RUNTIME_ENVIRONMENT",
+      "python_executable": "/usr/bin/python3.14",
+      "python_executable_sha256": "93f35f734d000a629c6bd3fe9c533aa5c56bc37dcdb681a616f8d5c0b096e165",
+      "source_refs": [
+        "FA3-INFERENCE-PROVIDER-CURRENT-HOST-RUN-11",
+        "PR-370-RUNTIME-IDENTITY-HARDENING",
+        "PHYSICAL-CURRENT-HOST-OBSERVATION-2026-09-23"
+      ],
+      "host_wide_absence_claim": false
+    }
+  }
+}
