@@ -113,3 +113,78 @@ class Fa3DecisionAdapters:
             "rollout": "SHADOW",
             "final_policy_owner": "FA3-CREATIVE-STUDIO",
         }, provider_id)
+
+
+    def journal_relevance(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RELEVANCE",
+            "purpose": "Rank authoritative Journal entries only for current active-context projection",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {"source_authority": "FA3-JOURNAL-001", "may_delete": False, "may_rewrite": False},
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "EXISTING_BEHAVIOR",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-JOURNAL-001",
+        }, provider_id)
+
+    def current_host_triage(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RANK",
+            "purpose": "Prioritize already identified logs, tests or evidence regions for engineering triage",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {
+                "may_skip_mandatory_gate": False,
+                "may_convert_fail_to_pass": False,
+                "evidence_authority": "FA3-AUTH-OBS-EVIDENCE-001",
+            },
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "EXISTING_BEHAVIOR",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-AUTH-OBS-EVIDENCE-001",
+        }, provider_id)
+
+    def document_relevance(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RELEVANCE",
+            "purpose": "Rank pre-existing document passages, citations or review candidates",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {"may_change_content_provenance": False},
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "EXISTING_BEHAVIOR",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-DOCUMENT-FABRIC",
+        }, provider_id)
+
+    def inspector_triage(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RANK",
+            "purpose": "Prioritize evidence adequacy, inconsistency or coverage-gap candidates without producing an inspection verdict",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {"may_self_attest": False, "may_promote": False},
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "EXISTING_BEHAVIOR",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-INSPECTOR-001",
+        }, provider_id)
+
+    def mentor_option_rank(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RANK",
+            "purpose": "Rank already proposed advisory options; ranking is not a decision or authorization",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {"advisory_only": True},
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "NO_DECISION",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-MENTOR-001",
+        }, provider_id)
