@@ -56,7 +56,7 @@ def gate(root: Path) -> dict:
             principal={"id":"current-host:test"},
             context=ExecutionContext("caption-current-host",application="FA3-SUBTITLE-STUDIO-001"),
         ))
-        check("CAPSUB-CH-007",result.status=="PASS" and result.provider_id=="FA3-PROVIDER-CAPTION-NATIVE-001","UAF native provider execution")
+        check("CAPSUB-CH-007",result.status=="success" and result.provider_id=="FA3-PROVIDER-CAPTION-NATIVE-001" and result.output.get("status")=="PASS","UAF native provider execution")
         check("CAPSUB-CH-008",bool(evidence),"UAF execution evidence emitted")
     except Exception as exc:
         check("CAPSUB-CH-UAF",False,f"UAF native-provider E2E failed: {exc}")

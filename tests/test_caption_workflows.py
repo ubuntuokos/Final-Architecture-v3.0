@@ -10,7 +10,7 @@ from fa3_caption_workflows import (
     build_hardsub_recovery_request, caption_quality_report, edit_cue,
     execute_native_action, synchronize_document,
 )
-from fa3_uaf import ActionRegistry
+from fa3_uaf import ActionDispatcher, ActionRegistry, ActionRequest, ExecutionContext, ProviderRegistry
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -33,6 +33,22 @@ class CaptionWorkflowTests(unittest.TestCase):
     def test_audio_description_only_finds_gaps(self):
         r=build_audio_description_gap_plan(self.doc(),8000,min_gap_ms=1000)
         self.assertTrue(r["gaps"]); self.assertFalse(r["generated_description_text"])
+    def test_uaf_dispatcher_status_semantics(self):
+        registry=ActionRegistry.from_directory(ROOT/"canonical/actions")
+        providers=ProviderRegistry(); providers.register(build_native_provider())
+        evidence=[]
+        dispatcher=ActionDispatcher(registry,providers,authorize=lambda req,contract: True,evidence_sink=evidence.append)
+        result=dispatcher.execute(ActionRequest(
+            action_id="caption.qc",
+            arguments={"document":self.doc()},
+            principal={"id":"test:user"},
+            context=ExecutionContext("ctx-caption",application="FA3-SUBTITLE-STUDIO-001"),
+        ))
+        self.assertEqual("success",result.status)
+        self.assertEqual("PASS",result.output["status"])
+        self.assertEqual("FA3-PROVIDER-CAPTION-NATIVE-001",result.provider_id)
+        self.assertTrue(evidence)
+
     def test_uaf_contracts_and_native_provider(self):
         registry=ActionRegistry.from_directory(ROOT/"canonical/actions")
         ids={c.action_id for c in registry.list()}
