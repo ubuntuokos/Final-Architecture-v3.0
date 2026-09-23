@@ -70,6 +70,9 @@ jobs:
       - name: Agency Agents fail-closed gate
         run: PYTHONPATH=src python3 src/fa3_agency_agents_gate.py --root .
 
+      - name: Agent Definition admission regression
+        run: PYTHONPATH=src python3 src/fa3_agent_definition_gate.py --root .
+
       - name: Distribution manifest derivation check
         run: python3 src/fa3_distribution_manifest.py --check
 
