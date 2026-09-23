@@ -1,0 +1,40 @@
+name: FA3 Browser CDP Provider
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-BROWSER-CDP-001.json'
+      - 'canonical/FA3-GATE-BROWSER-CDP-PROVIDER-001.json'
+      - 'canonical/browser-cdp-**'
+      - 'canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json'
+      - 'src/fa3_browser_*.py'
+      - 'tests/test_browser_*.py'
+      - '.github/workflows/fa3-browser-cdp-*.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-BROWSER-CDP-001.json'
+      - 'canonical/FA3-GATE-BROWSER-CDP-PROVIDER-001.json'
+      - 'canonical/browser-cdp-**'
+      - 'canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json'
+      - 'src/fa3_browser_*.py'
+      - 'tests/test_browser_*.py'
+      - '.github/workflows/fa3-browser-cdp-*.yml'
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax
+        run: python -m py_compile src/fa3_browser_action_runtime.py src/fa3_browser_cdp_provider.py src/fa3_browser_cdp_gate.py src/fa3_browser_cdp_current_host_gate.py tests/test_browser_cdp_provider.py
+      - name: Unit and integration tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_browser_cdp_provider tests.test_browser_action_runtime
+      - name: Static provider gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_browser_cdp_gate.py --root .
