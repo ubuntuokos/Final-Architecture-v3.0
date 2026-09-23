@@ -23,13 +23,27 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
         }
 
     def provider(self,pid="FA3-PROVIDER-OPENVINO-001"):
+        probe={
+          "environment_id":"TEST_ENV","discovery_scope":"EXPLICIT_RUNTIME_ENVIRONMENT",
+          "python_executable":"/usr/bin/python3","python_executable_sha256":"1"*64,
+          "cli_path":None,"cli_sha256":None,"source_refs":["TEST"],"descriptor_receipt_id":"TEST-DESC",
+          "host_wide_absence_claim":False,
+        }
+        identity={
+          "environment_id":"TEST_ENV","python_executable":"/usr/bin/python3",
+          "python_executable_sha256":"1"*64,"module_file":"/tmp/provider.so",
+          "module_file_sha256":"2"*64,"cli_path":None,"cli_sha256":None,
+        }
         return {
           "provider_id":pid,"provider_version":"1.0","reference_version":"1.1",
           "reference_version_match":False,
-          "admission_pin":{"result":"PASS","provider_version":"1.0","immutable":True},
-          "admission_pin_match":True,"present":True,"status":"ADMITTED","admitted_scopes":["CPU"],
-          "scopes":{"CPU":self.cpu_scope()},
-          "probe_environment":{"environment_id":"TEST_ENV","discovery_scope":"EXPLICIT_RUNTIME_ENVIRONMENT","python_executable":sys.executable,"cli_path":None,"source_refs":["TEST"],"descriptor_receipt_id":"TEST-DESC","host_wide_absence_claim":False},
+          "admission_pin":{"result":"PASS","provider_version":"1.0","immutable":True,"identity_match":True,
+                           "entry":{"runtime_identity":dict(identity)}},
+          "admission_pin_match":True,"admission_identity_match":True,"runtime_identity":identity,
+          "present":True,"status":"ADMITTED","admitted_scopes":["CPU"],"scopes":{"CPU":self.cpu_scope()},
+          "probe_environment":probe,
+          "module":{"present":True,"module_file":"/tmp/provider.so","module_file_sha256":"2"*64},
+          "cli":{"name":None,"path":None,"sha256":None},
           "host_wide_absence_claim":False,
           "direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
           "auto_install_performed":False,"network_model_fetch_performed":False,"global_promotion_claim":False,
@@ -100,9 +114,18 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
         p={
           "provider_id":"FA3-PROVIDER-TENSORRT-001","provider_version":None,
           "reference_version":"11.3.0.99","reference_version_match":False,
-          "admission_pin":{"result":"MISSING","provider_version":None},"admission_pin_match":False,"present":False,
-          "status":"NOT_PRESENT_IN_PROBE_ENVIRONMENT","admitted_scopes":[],"scopes":{},
-          "probe_environment":{"environment_id":"CURRENT_RUNNER_ENVIRONMENT","discovery_scope":"DEFAULT_RUNNER_ENVIRONMENT_ONLY","python_executable":sys.executable,"cli_path":None,"source_refs":["TEST"],"descriptor_receipt_id":None,"host_wide_absence_claim":False},
+          "admission_pin":{"result":"MISSING","provider_version":None,"identity_match":False},"admission_pin_match":False,
+          "admission_identity_match":False,
+          "runtime_identity":{"environment_id":"CURRENT_RUNNER_ENVIRONMENT","python_executable":sys.executable,
+                              "python_executable_sha256":"3"*64,"module_file":None,"module_file_sha256":None,
+                              "cli_path":None,"cli_sha256":None},
+          "present":False,"status":"NOT_PRESENT_IN_PROBE_ENVIRONMENT","admitted_scopes":[],"scopes":{},
+          "probe_environment":{"environment_id":"CURRENT_RUNNER_ENVIRONMENT","discovery_scope":"DEFAULT_RUNNER_ENVIRONMENT_ONLY",
+                               "python_executable":sys.executable,"python_executable_sha256":"3"*64,
+                               "cli_path":None,"cli_sha256":None,"source_refs":["TEST"],"descriptor_receipt_id":None,
+                               "host_wide_absence_claim":False},
+          "module":{"present":False,"error_class":"IMPORT_FAILED","python_executable":sys.executable},
+          "cli":{"name":"trtexec","path":None,"sha256":None},
           "host_wide_absence_claim":False,
           "direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
           "auto_install_performed":False,"network_model_fetch_performed":False,"global_promotion_claim":False,
@@ -115,6 +138,31 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
 
     def test_probe_environment_scope_is_required(self):
         p=self.provider(); p["probe_environment"]["discovery_scope"]="HOST_WIDE_SCAN"
+        self.assertFalse(provider_receipt_valid(p))
+
+    def test_runtime_identity_digest_is_required(self):
+        p=self.provider()
+        p["probe_environment"]["python_executable_sha256"]=None
+        self.assertFalse(provider_receipt_valid(p))
+
+    def test_runtime_pin_must_match_observed_execution_identity(self):
+        p=self.provider()
+        p["runtime_identity"]["python_executable_sha256"]="4"*64
+        p["probe_environment"]["python_executable_sha256"]="4"*64
+        self.assertFalse(provider_receipt_valid(p))
+
+    def test_tensorrt_cli_execution_identity_must_be_pinned(self):
+        p=self.provider("FA3-PROVIDER-TENSORRT-001")
+        p["runtime_identity"]["cli_path"]="/opt/fa3/trtexec"
+        p["runtime_identity"]["cli_sha256"]="5"*64
+        p["probe_environment"]["cli_path"]="/opt/fa3/trtexec"
+        p["probe_environment"]["cli_sha256"]="5"*64
+        p["cli"]={"name":"trtexec","path":"/opt/fa3/trtexec","sha256":"5"*64}
+        p["admission_pin"]["entry"]["runtime_identity"]=dict(p["runtime_identity"])
+        self.assertTrue(provider_receipt_valid(p))
+        p["runtime_identity"]["cli_sha256"]="6"*64
+        p["probe_environment"]["cli_sha256"]="6"*64
+        p["cli"]["sha256"]="6"*64
         self.assertFalse(provider_receipt_valid(p))
 
     def test_embedded_onnx_probe_is_deterministic_nonempty(self):

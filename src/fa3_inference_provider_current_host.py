@@ -49,6 +49,15 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def _resolved_executable_identity(value: str | None, label: str) -> dict[str,Any]:
+    if not value:
+        return {"path":None,"sha256":None}
+    p=Path(value).expanduser().resolve()
+    if not p.is_file() or not os.access(p,os.X_OK):
+        raise RuntimeError(f"{label} executable invalid: {p}")
+    return {"path":str(p),"sha256":sha256_file(p)}
+
+
 def run(argv: list[str], timeout: int = 120, env: dict[str,str] | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(argv,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout,check=False,env=env)
 
@@ -108,11 +117,15 @@ def embedded_onnx_identity() -> bytes:
 
 
 def _default_probe_environment(cli_name: str | None) -> dict[str,Any]:
+    py=_resolved_executable_identity(sys.executable,"python")
+    cli=_resolved_executable_identity(shutil.which(cli_name) if cli_name else None,"provider CLI")
     return {
       "environment_id":"CURRENT_RUNNER_ENVIRONMENT",
       "discovery_scope":"DEFAULT_RUNNER_ENVIRONMENT_ONLY",
-      "python_executable":sys.executable,
-      "cli_path":shutil.which(cli_name) if cli_name else None,
+      "python_executable":py["path"],
+      "python_executable_sha256":py["sha256"],
+      "cli_path":cli["path"],
+      "cli_sha256":cli["sha256"],
       "source_refs":["SELF_HOSTED_RUNNER_CHECKOUT_ENVIRONMENT"],
       "descriptor_receipt_id":None,
       "host_wide_absence_claim":False,
@@ -142,19 +155,27 @@ def _runtime_probe_descriptors(path: Path | None, specs: dict[str,tuple[str,str|
             raise RuntimeError(f"runtime descriptor source refs missing for {pid}")
         py=entry.get("python_executable")
         cli=entry.get("cli_path")
-        if py is not None:
-            py=str(Path(py).expanduser().resolve())
-            if not Path(py).is_file() or not os.access(py,os.X_OK):
-                raise RuntimeError(f"runtime descriptor python executable invalid for {pid}")
-        if cli is not None:
-            cli=str(Path(cli).expanduser().resolve())
-            if not Path(cli).is_file() or not os.access(cli,os.X_OK):
-                raise RuntimeError(f"runtime descriptor CLI invalid for {pid}")
+        if py is None and cli is None:
+            raise RuntimeError(f"runtime descriptor has no executable probe target for {pid}")
+        py_ident=_resolved_executable_identity(str(py) if py is not None else None,"python")
+        cli_ident=_resolved_executable_identity(str(cli) if cli is not None else None,"provider CLI")
+        expected_py_sha=str(entry.get("python_executable_sha256","")).lower() if py is not None else ""
+        expected_cli_sha=str(entry.get("cli_sha256","")).lower() if cli is not None else ""
+        if py is not None and expected_py_sha!=py_ident["sha256"]:
+            raise RuntimeError(f"runtime descriptor python executable identity mismatch for {pid}")
+        if cli is not None and expected_cli_sha!=cli_ident["sha256"]:
+            raise RuntimeError(f"runtime descriptor CLI identity mismatch for {pid}")
+        if py is None and entry.get("python_executable_sha256") not in (None,""):
+            raise RuntimeError(f"runtime descriptor python digest has no executable for {pid}")
+        if cli is None and entry.get("cli_sha256") not in (None,""):
+            raise RuntimeError(f"runtime descriptor CLI digest has no executable for {pid}")
         result[pid]={
           "environment_id":env_id,
           "discovery_scope":"EXPLICIT_RUNTIME_ENVIRONMENT",
-          "python_executable":py,
-          "cli_path":cli,
+          "python_executable":py_ident["path"],
+          "python_executable_sha256":py_ident["sha256"],
+          "cli_path":cli_ident["path"],
+          "cli_sha256":cli_ident["sha256"],
           "source_refs":[str(x) for x in refs],
           "descriptor_receipt_id":str(d.get("receipt_id")),
           "host_wide_absence_claim":False,
@@ -297,9 +318,9 @@ def _validate_hrb_lease(path: Path | None, hrb_bin: str) -> dict[str,Any]:
         return {"result":"FAIL","reason_code":"HRB_LEASE_INVALID","error_class":type(exc).__name__}
 
 
-def _runtime_pin(path: Path | None, provider_id: str, installed_version: str) -> dict[str,Any]:
+def _runtime_pin(path: Path | None, provider_id: str, installed_version: str, runtime_identity: dict[str,Any]) -> dict[str,Any]:
     if path is None:
-        return {"result":"MISSING","provider_version":None}
+        return {"result":"MISSING","provider_version":None,"identity_match":False}
     try:
         d=json.loads(path.read_text(encoding="utf-8"))
         if d.get("schema")!="fa3.inference-provider-runtime-pin-receipt.v1":
@@ -311,13 +332,22 @@ def _runtime_pin(path: Path | None, provider_id: str, installed_version: str) ->
             raise ValueError("version")
         if not isinstance(entry.get("source_refs"),list) or not entry.get("source_refs"):
             raise ValueError("source refs")
+        identity=entry.get("runtime_identity")
+        if not isinstance(identity,dict) or identity!=runtime_identity:
+            raise ValueError("runtime identity")
+        for key in ("python_executable_sha256","module_file_sha256"):
+            if not re.fullmatch(r"[0-9a-f]{64}",str(identity.get(key) or "")):
+                raise ValueError(key)
+        if provider_id in {"FA3-PROVIDER-TENSORRT-001","FA3-PROVIDER-TENSORRT-RTX-001"}:
+            if not identity.get("cli_path") or not re.fullmatch(r"[0-9a-f]{64}",str(identity.get("cli_sha256") or "")):
+                raise ValueError("cli identity")
         return {
           "result":"PASS","receipt_id":str(d.get("receipt_id","")),
           "provider_version":installed_version,"entry_sha256":canonical_sha(entry),
-          "immutable":True,"entry":entry,
+          "immutable":True,"identity_match":True,"entry":entry,
         }
     except Exception as exc:
-        return {"result":"FAIL","reason_code":"RUNTIME_PIN_RECEIPT_INVALID","error_class":type(exc).__name__}
+        return {"result":"FAIL","reason_code":"RUNTIME_PIN_RECEIPT_INVALID","error_class":type(exc).__name__,"identity_match":False}
 
 
 def _support_matrix(path: Path | None, provider_id: str, version: str, lease: dict[str,Any]) -> dict[str,Any]:
@@ -424,11 +454,21 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
         python_executable=probe.get("python_executable")
         cli_path=probe.get("cli_path")
         mi=_module_info(module,python_executable)
+        runtime_identity={
+          "environment_id":probe.get("environment_id"),
+          "python_executable":python_executable,
+          "python_executable_sha256":probe.get("python_executable_sha256"),
+          "module_file":mi.get("module_file") if mi.get("present") else None,
+          "module_file_sha256":mi.get("module_file_sha256") if mi.get("present") else None,
+          "cli_path":cli_path,
+          "cli_sha256":probe.get("cli_sha256"),
+        }
         reference=_reference_version(root,pid)
         version=str(mi.get("version","")) if mi.get("present") else ""
         reference_version_match=bool(version and version==reference)
-        pin=_runtime_pin(runtime_pin_path,pid,version) if version else {"result":"MISSING","provider_version":None}
-        admission_pin_match=bool(version and pin.get("result")=="PASS" and pin.get("provider_version")==version)
+        pin=_runtime_pin(runtime_pin_path,pid,version,runtime_identity) if version else {"result":"MISSING","provider_version":None,"identity_match":False}
+        admission_identity_match=bool(pin.get("result")=="PASS" and pin.get("identity_match") is True)
+        admission_pin_match=bool(version and admission_identity_match and pin.get("provider_version")==version)
         if pid in {"FA3-PROVIDER-TENSORRT-001","FA3-PROVIDER-TENSORRT-RTX-001"}:
             present=bool(mi.get("present") or cli_path)
         else:
@@ -440,8 +480,9 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
           "provider_id":pid,"present":present,"provider_version":version or None,
           "reference_version":reference,"reference_version_match":reference_version_match,
           "admission_pin":pin,"admission_pin_match":admission_pin_match,
+          "admission_identity_match":admission_identity_match,"runtime_identity":runtime_identity,
           "probe_environment":probe,"host_wide_absence_claim":False,
-          "module":mi,"cli":{"name":cli_name,"path":cli_path},
+          "module":mi,"cli":{"name":cli_name,"path":cli_path,"sha256":probe.get("cli_sha256")},
           "direct_probe_scope":DIRECT_PROBE_SCOPE,"auto_install_performed":False,
           "network_model_fetch_performed":False,"global_promotion_claim":False,
         }

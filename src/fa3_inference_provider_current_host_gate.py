@@ -18,7 +18,7 @@ DECISION_ID="FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23"
 AGGREGATE_RECEIPT="evidence/receipts/inference-provider-current-host.json"
 REFERENCE_EVIDENCE="evidence/reference/inference-provider-current-host-materialization-ci-2026-09-23.json"
 PROVIDERS=['FA3-PROVIDER-OPENVINO-001','FA3-PROVIDER-ONNXRUNTIME-001','FA3-PROVIDER-TENSORRT-001','FA3-PROVIDER-TENSORRT-RTX-001']
-RULES=['PROVIDER_ABSENCE_IS_PROBE_ENVIRONMENT_SCOPED_AND_NEVER_HOST_WIDE_BY_DEFAULT','PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION','PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED','CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE','ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE','NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT','DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES','DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING','NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION','MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS','TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY','CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION']
+RULES=['PROVIDER_ABSENCE_IS_PROBE_ENVIRONMENT_SCOPED_AND_NEVER_HOST_WIDE_BY_DEFAULT','PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION','PROVIDER_RUNTIME_VERSION_AND_EXECUTION_IDENTITY_ARE_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED','CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE','ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE','NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT','DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES','DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING','NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION','MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS','TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY','CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION']
 CAPABILITY_COUNT=module_active_capability_count(__file__)
 EVIDENCE_LEVEL="CURRENT_HOST_PROVIDER_SCOPE_PRODUCTION_E2E_PASS"
 
@@ -46,6 +46,42 @@ def advisory_valid(trace: Any, present: set[str]) -> bool:
     return trace.get("status")=="DECIDED" and isinstance(ranked,list) and set(ranked)==present and len(ranked)==len(present)
 
 
+def _sha256_value(value: Any) -> bool:
+    return isinstance(value,str) and len(value)==64 and all(c in "0123456789abcdef" for c in value)
+
+
+def runtime_identity_valid(rec: dict[str,Any]) -> bool:
+    probe=rec.get("probe_environment")
+    identity=rec.get("runtime_identity")
+    module=rec.get("module")
+    cli=rec.get("cli")
+    if not all(isinstance(x,dict) for x in (probe,identity,module,cli)):
+        return False
+    if identity.get("environment_id")!=probe.get("environment_id"):
+        return False
+    for path_key,sha_key in (("python_executable","python_executable_sha256"),("cli_path","cli_sha256")):
+        if identity.get(path_key)!=probe.get(path_key) or identity.get(sha_key)!=probe.get(sha_key):
+            return False
+        path=probe.get(path_key)
+        digest=probe.get(sha_key)
+        if path is None:
+            if digest not in (None,""):
+                return False
+        elif not str(path).strip() or not _sha256_value(digest):
+            return False
+    if module.get("present") is True:
+        if identity.get("module_file")!=module.get("module_file") or identity.get("module_file_sha256")!=module.get("module_file_sha256"):
+            return False
+        if not str(identity.get("module_file") or "").strip() or not _sha256_value(identity.get("module_file_sha256")):
+            return False
+    else:
+        if identity.get("module_file") not in (None,"") or identity.get("module_file_sha256") not in (None,""):
+            return False
+    if cli.get("path")!=identity.get("cli_path") or cli.get("sha256")!=identity.get("cli_sha256"):
+        return False
+    return True
+
+
 def scope_valid(scope: dict[str,Any]) -> bool:
     required={"scope_id","execution_kind","status","evidence_level","e2e","runtime_pin","model_probe_sha256","hardware_binding","support_matrix"}
     if not required.issubset(scope):
@@ -65,7 +101,7 @@ def scope_valid(scope: dict[str,Any]) -> bool:
 
 
 def provider_receipt_valid(rec: dict[str,Any]) -> bool:
-    required={"provider_id","provider_version","reference_version","reference_version_match","admission_pin","admission_pin_match","present","status","admitted_scopes","scopes","probe_environment","host_wide_absence_claim","direct_probe_scope","auto_install_performed","network_model_fetch_performed","global_promotion_claim"}
+    required={"provider_id","provider_version","reference_version","reference_version_match","admission_pin","admission_pin_match","admission_identity_match","runtime_identity","present","status","admitted_scopes","scopes","probe_environment","module","cli","host_wide_absence_claim","direct_probe_scope","auto_install_performed","network_model_fetch_performed","global_promotion_claim"}
     if not required.issubset(rec) or rec.get("provider_id") not in PROVIDERS:
         return False
     if rec.get("direct_probe_scope")!="ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH":
@@ -76,6 +112,8 @@ def provider_receipt_valid(rec: dict[str,Any]) -> bool:
     if probe.get("discovery_scope") not in {"DEFAULT_RUNNER_ENVIRONMENT_ONLY","EXPLICIT_RUNTIME_ENVIRONMENT"}:
         return False
     if probe.get("host_wide_absence_claim") is not False or rec.get("host_wide_absence_claim") is not False:
+        return False
+    if not runtime_identity_valid(rec):
         return False
     if rec.get("auto_install_performed") is not False or rec.get("network_model_fetch_performed") is not False or rec.get("global_promotion_claim") is not False:
         return False
@@ -90,8 +128,14 @@ def provider_receipt_valid(rec: dict[str,Any]) -> bool:
     if rec.get("present") is False and rec.get("status")!="NOT_PRESENT_IN_PROBE_ENVIRONMENT":
         return False
     if admitted:
-        if rec.get("present") is not True or rec.get("admission_pin_match") is not True or rec.get("status")!="ADMITTED":
+        pin=rec.get("admission_pin") or {}
+        if rec.get("present") is not True or rec.get("admission_pin_match") is not True or rec.get("admission_identity_match") is not True or rec.get("status")!="ADMITTED":
             return False
+        if pin.get("result")!="PASS" or pin.get("identity_match") is not True or (pin.get("entry") or {}).get("runtime_identity")!=rec.get("runtime_identity"):
+            return False
+        if rec.get("provider_id") in {"FA3-PROVIDER-TENSORRT-001","FA3-PROVIDER-TENSORRT-RTX-001"}:
+            if not rec.get("runtime_identity",{}).get("cli_path") or not _sha256_value(rec.get("runtime_identity",{}).get("cli_sha256")):
+                return False
         for name in admitted:
             if scopes[name].get("status")!="ADMITTED":
                 return False
@@ -164,6 +208,8 @@ def materialization_gate(root: Path) -> dict[str,Any]:
       and sem.get("decision_fabric")=="ADVISORY_ONLY_CANNOT_ADD_CANDIDATES_OR_AUTHORIZE_EXECUTION"
       and sem.get("provider_absence")=="NOT_PRESENT_IN_PROBE_ENVIRONMENT_ONLY"
       and sem.get("host_wide_absence_claim")=="FORBIDDEN_FROM_SINGLE_PROBE_ENVIRONMENT"
+      and sem.get("runtime_probe_identity_binding")=="RESOLVED_EXECUTABLE_PATH_PLUS_SHA256_REQUIRED"
+      and sem.get("runtime_admission_pin_identity")=="EXACT_ENVIRONMENT_INTERPRETER_PROVIDER_MODULE_AND_EXECUTION_BINARY_MATCH_REQUIRED"
       and "ProviderRuntimeProbeDescriptorReceipt" in contract.get("contracts",[])
     ):
         findings.append(finding("INFER-HOST-MAT-014","contract current-host semantics drift"))
