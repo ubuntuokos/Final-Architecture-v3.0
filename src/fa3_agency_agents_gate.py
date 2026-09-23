@@ -323,6 +323,10 @@ def canonical_check(root: Path) -> dict[str, Any]:
         "skill_admission": root / "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
         "uaf": root / "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
         "decision_fabric": root / "canonical/profiles/FA3-DECISION-FABRIC-001.json",
+        "distribution_profile": root / "canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json",
+        "distribution_contract": root / "canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json",
+        "distribution_registry": root / "canonical/distribution-registry.json",
+        "distribution_manifest": root / "canonical/distribution-manifest.json",
     }
     missing = [name for name, path in paths.items() if not path.is_file()]
     if missing:
@@ -344,6 +348,10 @@ def canonical_check(root: Path) -> dict[str, Any]:
     skill_admission = _load(paths["skill_admission"])
     uaf = _load(paths["uaf"])
     decision_fabric = _load(paths["decision_fabric"])
+    distribution_profile = _load(paths["distribution_profile"])
+    distribution_contract = _load(paths["distribution_contract"])
+    distribution_registry = _load(paths["distribution_registry"])
+    distribution_manifest = _load(paths["distribution_manifest"])
 
     if not (
         provider.get("id") == PROVIDER_ID
@@ -395,8 +403,10 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and decision.get("current_host_runtime_claim") is False
         and "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED" in decision.get("open_reconciliations", [])
         and "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION" in decision.get("open_reconciliations", [])
-        and "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR" in decision.get("open_reconciliations", [])
+        and "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR" not in decision.get("open_reconciliations", [])
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("provider_target_class") == "EXTERNAL_REDISTRIBUTABLE"
+        and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("status") == "RECONCILED_CANONICAL_MAIN"
+        and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("main_commit") == "53df1a20262449863c629f18ee587c9e947c4feb"
         and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("target_surface_route") == "agents.workflows"
         and decision.get("curated_candidate_selection", {}).get("catalog_id") == CATALOG_ID
         and decision.get("curated_candidate_selection", {}).get("status") == "MATERIALIZED_NOT_ADMITTED"
@@ -493,12 +503,41 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and distribution.get("class") == "EXTERNAL_REDISTRIBUTABLE"
         and distribution.get("release_bundle_status") == "EXCLUDED"
         and distribution.get("inclusion_requires_distribution_decision_receipt") is True
+        and distribution.get("profile_id") == "FA3-DISTRIBUTION-COMPLIANCE-001"
+        and distribution.get("contract_id") == "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
+        and distribution.get("binding_status") == "CANONICAL_RECONCILED"
         and surface.get("canonical_target_route") == "agents.workflows"
         and surface.get("view_kind") == "IMPORTED_PACK_CHILD_VIEW"
         and surface.get("execution_intent_route") == "agents.action-center"
         and surface.get("new_top_level_navigation_route_required") is False
+        and contract.get("supply_chain", {}).get("distribution_profile_binding") == "FA3-DISTRIBUTION-COMPLIANCE-001"
+        and contract.get("supply_chain", {}).get("distribution_contract_binding") == "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
+        and contract.get("supply_chain", {}).get("distribution_compliance_status") == "CANONICAL_RECONCILED"
     ):
         findings.append(_finding("AGA-CANON-010", "Agent Native, Decision Fabric, AI-Comms, Skill Fabric, distribution or GUI reconciliation drift"))
+
+    records = {row.get("subject_id"): row for row in distribution_registry.get("records", [])}
+    provider_dist = records.get(PROVIDER_ID, {})
+    reference_dist = records.get(REFERENCE_ID, {})
+    manifest_excluded = {
+        row.get("subject_id"): row
+        for row in distribution_manifest.get("excluded", [])
+    }
+    if not (
+        distribution_profile.get("id") == "FA3-DISTRIBUTION-COMPLIANCE-001"
+        and distribution_profile.get("status") == "CANONICAL"
+        and distribution_contract.get("id") == "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
+        and distribution_contract.get("status") == "CANONICAL"
+        and provider_dist.get("class") == "EXTERNAL_REDISTRIBUTABLE"
+        and provider_dist.get("release_bundle_status") == "EXCLUDED"
+        and provider_dist.get("inclusion_requires_distribution_decision_receipt") is True
+        and reference_dist.get("class") == "REFERENCE_ONLY"
+        and reference_dist.get("release_bundle_status") == "EXCLUDED"
+        and manifest_excluded.get(PROVIDER_ID, {}).get("class") == "EXTERNAL_REDISTRIBUTABLE"
+        and manifest_excluded.get(REFERENCE_ID, {}).get("class") == "REFERENCE_ONLY"
+        and distribution_manifest.get("included_external_count") == 0
+    ):
+        findings.append(_finding("AGA-CANON-012", "canonical Distribution Compliance registry/manifest binding drift"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
@@ -521,7 +560,7 @@ def gate(root: Path) -> dict[str, Any]:
         "curated_candidate_selection": "MATERIALIZED_NOT_ADMITTED",
         "curated_agent_template_admission": "PENDING_DISTRIBUTION_AND_CONTENT_ADMISSION",
         "gui_surface_reconciliation": "PENDING",
-        "external_redistributable_binding": "PRECLASSIFIED_EXTERNAL_REDISTRIBUTABLE_PENDING_PARALLEL_CANONICAL_BINDING",
+        "external_redistributable_binding": "CANONICAL_RECONCILED_EXTERNAL_REDISTRIBUTABLE_BUNDLE_EXCLUDED",
         "current_host_runtime_claim": False,
         "global_promotion_claim": False,
     }
