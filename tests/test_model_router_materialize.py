@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
 
-from fa3_model_router_materialize import MaterializationDenied, choose_model, select_bindings
+from fa3_model_router_materialize import MaterializationDenied, choose_model, render_litellm, select_bindings
 
 
 class _DecisionFabricStub:
@@ -48,6 +48,41 @@ class TestModelRouterSelection(unittest.TestCase):
         self.assertEqual(selected["fa3-pageindex-index"]["runtime_id"],"r1")
         self.assertEqual(selected["fa3-pageindex-reason"]["runtime_id"],"r2")
         self.assertEqual(selected["fa3-pageindex-index"]["selection"],"RUNTIME_DISCOVERED")
+
+    def test_litellm_provider_options_are_preserved_without_routing_override(self):
+        routes=[{"route":"fa3-text-primary"}]
+        candidates=[{
+            "provider_id":"P1",
+            "runtime_id":"r1",
+            "api_base":"http://127.0.0.1:11434",
+            "priority":10,
+            "routes":["*"],
+            "litellm_provider":"ollama_chat",
+            "litellm_options":{"num_gpu":0,"num_ctx":512},
+        }]
+        selected=select_bindings(routes,candidates,{"r1":["gemma3:1b"]})
+        binding=selected["fa3-text-primary"]
+        self.assertEqual(binding["litellm_options"],{"num_gpu":0,"num_ctx":512})
+        rendered=render_litellm(selected)
+        self.assertIn('model: "ollama_chat/gemma3:1b"',rendered)
+        self.assertIn('api_base: "http://127.0.0.1:11434"',rendered)
+        self.assertIn("num_gpu: 0",rendered)
+        self.assertNotIn("FA3_MODEL_ROUTER_BACKEND_DUMMY_KEY",rendered)
+
+    def test_reserved_litellm_option_fails_closed(self):
+        with self.assertRaises(MaterializationDenied):
+            select_bindings(
+                [{"route":"fa3-text-primary"}],
+                [{
+                    "provider_id":"P1",
+                    "runtime_id":"r1",
+                    "api_base":"http://127.0.0.1:11434",
+                    "priority":10,
+                    "routes":["*"],
+                    "litellm_options":{"model":"forbidden"},
+                }],
+                {"r1":["gemma3:1b"]},
+            )
 
     def test_decision_fabric_active_may_only_choose_pre_admitted_candidate(self):
         routes=[{"route":"fa3-pageindex-index"}]
