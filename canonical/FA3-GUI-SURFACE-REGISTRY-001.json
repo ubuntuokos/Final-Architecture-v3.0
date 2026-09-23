@@ -76,14 +76,15 @@
         {
           "surface_id": "agency-agents.imported-pack",
           "title": "Agency Agents",
-          "projection": "EXTERNAL_AGENT_PACK_REFERENCE",
+          "projection": "CANONICAL_AGENT_DEFINITION_REFERENCE",
           "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
           "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
-          "mode": "READ_ONLY_REFERENCE",
-          "activation_status": "DISABLED_NOT_ADMITTED",
+          "mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+          "activation_status": "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE",
           "execution_intent_route": "agents.action-center",
           "direct_provider_execution": false,
-          "authority": false
+          "authority": false,
+          "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001"
         }
       ]
     },
