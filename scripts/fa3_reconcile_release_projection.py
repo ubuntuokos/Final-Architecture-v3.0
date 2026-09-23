@@ -232,6 +232,21 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "capability_count_after": capability_count,
     }
 
+    projection["skill_distribution_fabric_reconciliation"] = {
+        "skill_profile_id": "FA3-SKILL-FABRIC-001",
+        "distribution_profile_id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+        "decision_id": "FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23",
+        "skill_gate_id": "FA3-SKILL-FABRIC-GATESET-001",
+        "distribution_gate_id": "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001",
+        "autoskills_reference_id": "FA3-AUTOSKILLS-UPSTREAM-REFERENCE-2026-09-23",
+        "autoskills_distribution_class": "REFERENCE_ONLY",
+        "external_redistributable_supported": True,
+        "auto_bundle_external_redistributable": False,
+        "capability_count_after": capability_count,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+    }
+
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
     for record in ls.split("\0"):
