@@ -10,6 +10,18 @@ on:
       - 'canonical/FA3-GATE-QUALITY-ANTI-SLOP-001.json'
       - 'canonical/quality/FA3-QUALITY-RULE-REGISTRY-001.json'
       - 'canonical/skill-registry.json'
+      - 'canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json'
+      - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/profiles/FA3-DECISION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json'
+      - 'src/fa3_skill_discovery.py'
+      - 'tests/test_skill_discovery.py'
+      - 'canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json'
+      - 'canonical/profiles/FA3-SKILL-FABRIC-001.json'
+      - 'canonical/profiles/FA3-DECISION-FABRIC-001.json'
+      - 'canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json'
+      - 'src/fa3_skill_discovery.py'
+      - 'tests/test_skill_discovery.py'
       - 'canonical/enforcement-policy.json'
       - 'skills/fa3-quality-*/**'
       - 'src/fa3_quality_filter.py'
@@ -67,6 +79,8 @@ jobs:
 
       - name: Native quality unit tests
         run: PYTHONPATH=src python -m unittest tests.test_quality_filter -v
+      - name: Skill discovery regression
+        run: PYTHONPATH=src python -m unittest tests.test_skill_discovery -v
 
       - name: Canonical quality gate
         run: PYTHONPATH=src python src/fa3_quality_gate.py --root .
