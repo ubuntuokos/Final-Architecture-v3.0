@@ -75,6 +75,26 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
         finally:
             tmp.cleanup()
 
+    def test_ollama_uses_native_cpu_only_litellm_adapter(self):
+        tmp, root = self._root({
+            discovery.LM_STUDIO_PROVIDER_ID: {"status": "UNAVAILABLE_OR_FAILED"},
+            discovery.OLLAMA_PROVIDER_ID: {"status": "PASS", "selected_model": "gemma3:1b"},
+        })
+        try:
+            output = root / "providers.json"
+            with patch.object(discovery, "models_live", return_value=True):
+                registry = discovery.discover(root, output, 0.1)
+            self.assertEqual(len(registry["providers"]), 1)
+            row = registry["providers"][0]
+            self.assertEqual(row["provider_id"], discovery.OLLAMA_PROVIDER_ID)
+            self.assertEqual(row["api_base"], "http://127.0.0.1:11434")
+            self.assertEqual(row["litellm_provider"], "ollama_chat")
+            self.assertEqual(row["litellm_options"]["num_gpu"], 0)
+            self.assertEqual(row["litellm_options"]["num_ctx"], 512)
+            self.assertEqual(row["preferred_models"], ["gemma3:1b"])
+        finally:
+            tmp.cleanup()
+
     def test_no_admitted_live_provider_fails_closed(self):
         tmp, root = self._root({
             discovery.LM_STUDIO_PROVIDER_ID: {"status": "UNAVAILABLE_OR_FAILED"},
