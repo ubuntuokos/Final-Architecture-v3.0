@@ -13,11 +13,15 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
 
-SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v3"
+SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v4"
 ALIAS = "org.kde.secretservicecompat"
 STANDARD = "org.freedesktop.secrets"
 OBJECT_PATH = "/org/freedesktop/secrets"
 STANDARD_INTERFACE = "org.freedesktop.Secret.Service"
+KDE_REFERENCE_BUS_NAMES = (
+    "org.kde.kwalletd6",
+    "org.kde.kwalletd5",
+)
 
 
 def _parse_kde_bool(raw: str | None, default: bool) -> tuple[bool, str]:
@@ -193,7 +197,7 @@ def _exec_basename(raw: str | None) -> str | None:
 
 def _dbus_activation_descriptors(env: Mapping[str, str]) -> list[dict[str, Any]]:
     descriptors: list[dict[str, Any]] = []
-    targets = {ALIAS, STANDARD}
+    targets = {ALIAS, STANDARD, *KDE_REFERENCE_BUS_NAMES}
     for scope, root in _activation_search_roots(env):
         if not root.is_dir():
             continue
@@ -222,6 +226,104 @@ def _dbus_activation_descriptors(env: Mapping[str, str]) -> list[dict[str, Any]]
                 }
             )
     return descriptors[:16]
+
+
+def _systemd_unit_search_roots(env: Mapping[str, str]) -> list[tuple[str, Path]]:
+    roots: list[tuple[str, Path]] = []
+    runtime_dir = env.get("XDG_RUNTIME_DIR")
+    if runtime_dir:
+        roots.append(("USER_RUNTIME", Path(runtime_dir) / "systemd/user"))
+    config_home = env.get("XDG_CONFIG_HOME")
+    if config_home:
+        roots.append(("USER_CONFIG", Path(config_home) / "systemd/user"))
+    elif env.get("HOME"):
+        roots.append(("USER_CONFIG", Path(env["HOME"]) / ".config/systemd/user"))
+    roots.extend(
+        [
+            ("ADMIN_RUNTIME", Path("/run/systemd/user")),
+            ("ADMIN", Path("/etc/systemd/user")),
+            ("LOCAL_VENDOR", Path("/usr/local/lib/systemd/user")),
+            ("VENDOR", Path("/usr/lib/systemd/user")),
+            ("VENDOR_COMPAT", Path("/lib/systemd/user")),
+        ]
+    )
+    seen: set[str] = set()
+    result: list[tuple[str, Path]] = []
+    for scope, path in roots:
+        key = str(path)
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append((scope, path))
+    return result
+
+
+def _unit_entry_descriptor(scope: str, path: Path) -> dict[str, Any] | None:
+    try:
+        if not os.path.lexists(path):
+            return None
+        is_symlink = path.is_symlink()
+        is_regular = path.is_file() and not is_symlink
+        is_dev_null_mask = False
+        if is_symlink:
+            try:
+                is_dev_null_mask = os.path.realpath(path) == "/dev/null"
+            except OSError:
+                is_dev_null_mask = False
+        return {
+            "scope": scope,
+            "entry_present": True,
+            "entry_type": "SYMLINK" if is_symlink else "REGULAR_FILE" if is_regular else "OTHER",
+            "is_dev_null_mask": is_dev_null_mask,
+            "path_emitted": False,
+            "symlink_target_emitted": False,
+            "content_read": False,
+        }
+    except OSError:
+        return {
+            "scope": scope,
+            "entry_present": True,
+            "entry_type": "UNREADABLE",
+            "is_dev_null_mask": False,
+            "path_emitted": False,
+            "symlink_target_emitted": False,
+            "content_read": False,
+        }
+
+
+def _systemd_user_mask_origins(
+    env: Mapping[str, str],
+    units: list[str] | set[str] | tuple[str, ...],
+) -> dict[str, Any]:
+    roots = _systemd_unit_search_roots(env)
+    rows: list[dict[str, Any]] = []
+    for unit in sorted({str(unit) for unit in units if str(unit).endswith(".service")}):
+        entries: list[dict[str, Any]] = []
+        for scope, root in roots:
+            descriptor = _unit_entry_descriptor(scope, root / unit)
+            if descriptor is not None:
+                entries.append(descriptor)
+        masking_scopes = [
+            str(entry["scope"])
+            for entry in entries
+            if entry.get("is_dev_null_mask") is True
+        ]
+        rows.append(
+            {
+                "unit": unit,
+                "entries": entries,
+                "masking_scopes": masking_scopes,
+                "effective_mask_origin": masking_scopes[0] if masking_scopes else None,
+            }
+        )
+    return {
+        "unit_count": len(rows),
+        "units": rows,
+        "scope_precedence": [scope for scope, _ in roots],
+        "paths_emitted": False,
+        "symlink_targets_emitted": False,
+        "unit_contents_read": False,
+    }
 
 
 def _systemd_user_service_diagnostic(
@@ -282,6 +384,7 @@ def _systemd_user_service_diagnostic(
         "list_unit_files_returncode": None if unit_files is None else unit_files.returncode,
         "candidate_count": len(candidate_units),
         "units": units,
+        "mask_origins": _systemd_user_mask_origins(env, candidate_units),
         "raw_journal_collected": False,
         "process_argv_collected": False,
         "environment_collected": False,
