@@ -12,6 +12,7 @@ from fa3_decision_fabric import (
     ProviderResult,
     RuleDecisionProvider,
 )
+from fa3_decision_fabric_gate import gate as decision_fabric_gate
 from fa3_jev_decision_provider import JevDecisionProvider
 from fa3_local_decision_provider import LocalSemanticDecisionProvider
 from fa3_decision_trace import DecisionTraceStore
@@ -36,6 +37,10 @@ class FailingProvider:
 
 
 class DecisionFabricTests(unittest.TestCase):
+    def test_repository_decision_gate_accepts_enforcement_scanner_sources(self):
+        report = decision_fabric_gate(ROOT)
+        self.assertEqual("PASS", report["result"], report["findings"])
+
     def test_rule_provider_selects_only_candidate(self):
         fabric = DecisionFabric([RuleDecisionProvider()])
         trace = fabric.decide({
