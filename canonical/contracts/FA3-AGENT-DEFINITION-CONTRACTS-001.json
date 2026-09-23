@@ -1,0 +1,115 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral": true,
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-028",
+    "CAP-080"
+  ],
+  "registry": "FA3-AGENT-DEFINITION-REGISTRY-001",
+  "related_contracts": [
+    "FA3-AGENT-EXEC-CONTRACTS-001",
+    "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+    "FA3-AGENT-INSTRUCTION-CONTRACTS-001",
+    "FA3-AI-COMMS-CONTRACTS-001",
+    "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+    "FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001"
+  ],
+  "contracts": [
+    "AgentDefinitionSourceDescriptor",
+    "AgentDefinitionDescriptor",
+    "AgentDefinitionAdmissionRequest",
+    "AgentDefinitionAdmissionReceipt",
+    "AgentRoleProjection",
+    "AgentTeamTemplate",
+    "AgentRunbookTemplate",
+    "AgentDefinitionDeprecationReceipt"
+  ],
+  "definition_semantics": {
+    "definition_plane": "ROLE_CONTEXT_COMPETENCY_AND_BEHAVIORAL_GUIDANCE_METADATA_ONLY",
+    "security_identity_authority": false,
+    "authorization_authority": false,
+    "capability_grant_authority": false,
+    "tool_permission_authority": false,
+    "model_or_provider_routing_authority": false,
+    "host_resource_authority": false,
+    "durable_workflow_authority": false,
+    "evidence_authority": false,
+    "workforce_specialist_authority": false,
+    "canonical_registry_authority": "FA3-REGISTRY-001"
+  },
+  "source_requirements": {
+    "immutable_source_identity_required": true,
+    "repository_and_commit_required_for_external_source": true,
+    "source_blob_or_content_hash_required": true,
+    "provenance_required": true,
+    "license_distribution_classification_required_for_external_source": true,
+    "floating_main_master_latest_forbidden": true,
+    "upstream_verbatim_body_required": false,
+    "upstream_verbatim_body_default": "DO_NOT_VENDOR",
+    "fa3_native_normalization_allowed": true
+  },
+  "admission_requirements": {
+    "human_readable_summary_required": true,
+    "source_body_status_required": true,
+    "authority_grants_must_be_empty": true,
+    "capability_grants_must_be_empty": true,
+    "tool_grants_must_be_empty": true,
+    "model_provider_grants_must_be_empty": true,
+    "capability_intents_are_non_authorizing": true,
+    "tool_intents_are_non_authorizing": true,
+    "anti_capabilities_required": true,
+    "risk_class_required": true,
+    "human_gate_policy_required": true,
+    "communication_contract": "FA3-AI-COMMS-001",
+    "private_model_language_forbidden": true,
+    "emergent_codebook_forbidden": true,
+    "direct_provider_execution_forbidden": true,
+    "direct_model_provider_selection_forbidden": true,
+    "candidate_set_expansion_forbidden": true,
+    "raw_secret_material_forbidden": true,
+    "current_host_runtime_claim_forbidden_for_definition_only": true
+  },
+  "runtime_projection": {
+    "definition_is_not_runtime": true,
+    "runtime_provider_selected_separately": true,
+    "runtime_provider_requires_existing_admission": true,
+    "model_selected_by": "FA3-AUTH-MODEL-ROUTER-001",
+    "tools_mediated_by": "FA3-AUTH-MCP-GATEWAY-001_OR_FA3-UNIFIED-ACTION-FABRIC-001",
+    "host_resources_admitted_by": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "authorization_by": "FA3-AUTH-SECURITY-GOV-001_OR_AUTH-HUMAN",
+    "evidence_by": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "workforce_projection": {
+    "role_definition_may_decorate_selected_specialist": true,
+    "role_definition_may_expand_specialist_set": false,
+    "role_definition_may_select_provider": false,
+    "role_definition_may_override_hard_filters": false,
+    "role_definition_may_expand_authorized_ai_participant_set": false
+  },
+  "template_projection": {
+    "runbook_is_not_durable_workflow_authority": true,
+    "runbook_maps_to_existing_agent_task_and_delegation_contracts": true,
+    "handoff_maps_to_existing_agent_message_result_escalation_contracts": true,
+    "mutation_requires_existing_authorization_or_approval": true,
+    "automatic_execution": false
+  },
+  "failure_policy": {
+    "unknown_source_identity": "FAIL_CLOSED",
+    "missing_distribution_classification": "FAIL_CLOSED",
+    "nonempty_authority_grants": "FAIL_CLOSED",
+    "nonempty_capability_tool_or_model_grants": "FAIL_CLOSED",
+    "direct_provider_or_model_routing": "FAIL_CLOSED",
+    "private_agent_language": "FAIL_CLOSED",
+    "source_body_unreviewed_and_vendored": "FAIL_CLOSED",
+    "runtime_claim_from_definition_metadata": "FAIL_CLOSED"
+  }
+}
