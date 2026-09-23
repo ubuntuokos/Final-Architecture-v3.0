@@ -225,8 +225,59 @@ class PlasmaSecretServiceDiagnosticTests(unittest.TestCase):
         self.assertEqual(report["admission_effect"], "NONE_DIAGNOSTIC_ONLY")
         self.assertEqual(report["promotion_effect"], "NONE_DIAGNOSTIC_ONLY")
         self.assertTrue(report["ksecretd_binary_present"])
+        self.assertTrue(report["kwalletd_enabled_effective"])
         self.assertFalse(report["ksecretd_enabled_effective"])
+        self.assertFalse(report["ksecretd_runtime_enabled_effective"])
+        self.assertEqual(
+            report["ksecretd_runtime_enablement_basis"],
+            ["Wallet.Enabled", "KSecretD.Enabled"],
+        )
         self.assertTrue(report["fdo_secrets_api_enabled_effective"])
+        self.assertNotIn("DO_NOT_LEAK", repr(report))
+        self.assertNotIn("Password", repr(report))
+
+    @patch("fa3_plasma_secret_service_diagnostic._name_owner_diagnostic")
+    @patch("fa3_plasma_secret_service_diagnostic._introspection_diagnostic")
+    @patch("fa3_plasma_secret_service_diagnostic._user_bus_names", return_value=set())
+    @patch("fa3_plasma_secret_service_diagnostic.shutil.which")
+    def test_global_wallet_disable_makes_ksecretd_runtime_effectively_disabled(
+        self, which, _names, introspect, owner
+    ):
+        which.side_effect = lambda name: "/usr/bin/ksecretd" if name == "ksecretd" else None
+        owner.return_value = {
+            "queried": False,
+            "reason": "WELL_KNOWN_NAME_NOT_LIVE",
+            "returncode": None,
+            "owner_parse_ok": False,
+            "unique_owner": None,
+            "stdout_shape": None,
+        }
+        introspect.return_value = {
+            "queried": False,
+            "returncode": None,
+            "xml_parse_ok": False,
+            "standard_interface_present": False,
+            "interface_names": [],
+            "stderr_summary": "",
+        }
+        with tempfile.TemporaryDirectory() as td:
+            home = Path(td)
+            config = home / ".config"
+            config.mkdir()
+            (config / "kwalletrc").write_text(
+                "[Wallet]\\nEnabled=false\\nPassword=DO_NOT_LEAK\\n"
+                "[KSecretD]\\nEnabled=true\\n"
+                "[org.freedesktop.secrets]\\napiEnabled=true\\n",
+                encoding="utf-8",
+            )
+            report = collect_plasma_secret_service_diagnostic(
+                {"HOME": str(home), "DBUS_SESSION_BUS_ADDRESS": "unix:path=/tmp/fake"}
+            )
+        self.assertFalse(report["kwalletd_enabled_effective"])
+        self.assertEqual(report["kwalletd_enabled_source"], "EXPLICIT_CONFIG")
+        self.assertTrue(report["ksecretd_enabled_effective"])
+        self.assertTrue(report["fdo_secrets_api_enabled_effective"])
+        self.assertFalse(report["ksecretd_runtime_enabled_effective"])
         self.assertNotIn("DO_NOT_LEAK", repr(report))
         self.assertNotIn("Password", repr(report))
 
@@ -272,8 +323,11 @@ class PlasmaSecretServiceDiagnosticTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             report = collect_plasma_secret_service_diagnostic({"HOME": td})
         self.assertFalse(report["config_file_present"])
+        self.assertTrue(report["kwalletd_enabled_effective"])
+        self.assertEqual(report["kwalletd_enabled_source"], "UPSTREAM_DEFAULT")
         self.assertTrue(report["ksecretd_enabled_effective"])
         self.assertEqual(report["ksecretd_enabled_source"], "UPSTREAM_DEFAULT")
+        self.assertTrue(report["ksecretd_runtime_enabled_effective"])
         self.assertTrue(report["fdo_secrets_api_enabled_effective"])
         self.assertTrue(report["reference_alias_live"])
         self.assertFalse(report["standard_secret_service_live"])
