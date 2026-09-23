@@ -155,14 +155,29 @@ def route_allowed(candidate: dict[str, Any], route: str) -> bool:
     return isinstance(allowed, list) and (route in allowed or "*" in allowed)
 
 
-def select_bindings(routes: list[dict[str, Any]], candidates: list[dict[str, Any]], catalogs: dict[str, list[str]]) -> dict[str, dict[str, Any]]:
+def select_bindings(
+    routes: list[dict[str, Any]],
+    candidates: list[dict[str, Any]],
+    catalogs: dict[str, list[str]],
+    *,
+    decision_fabric: Any = None,
+    decision_provider_id: str = "FA3-PROVIDER-DECISION-RULES-001",
+    decision_rollout: str = "SHADOW",
+    decision_state: Any = None,
+) -> dict[str, dict[str, Any]]:
+    """Select runtime bindings while keeping the central Router authoritative.
+
+    Admission, route scope and live-catalog filtering are deterministic and happen
+    before any Decision Fabric call. The optional Decision Fabric sees only the
+    resulting bounded eligible set. SHADOW/ADVISORY never changes routing.
+    """
     ordered = sorted(candidates, key=lambda c: (-int(c.get("priority", 0)), str(c.get("runtime_id", ""))))
     out: dict[str, dict[str, Any]] = {}
     for route in routes:
         name = str(route.get("route", "")).strip()
         if not name:
             raise MaterializationDenied("logical route name is empty")
-        selected = None
+        eligible: list[dict[str, Any]] = []
         failures: list[str] = []
         for candidate in ordered:
             if not route_allowed(candidate, name):
@@ -174,7 +189,7 @@ def select_bindings(routes: list[dict[str, Any]], candidates: list[dict[str, Any
                 if not preferred:
                     preferred = candidate.get("preferred_models", [])
                 model = choose_model(catalogs.get(runtime_id, []), preferred if isinstance(preferred, list) else [])
-                selected = {
+                eligible.append({
                     "route": name,
                     "provider_id": candidate["provider_id"],
                     "runtime_id": runtime_id,
@@ -183,12 +198,67 @@ def select_bindings(routes: list[dict[str, Any]], candidates: list[dict[str, Any
                     "model": model,
                     "api_key_env": candidate.get("api_key_env"),
                     "selection": "RUNTIME_DISCOVERED",
-                }
-                break
+                    "_priority": int(candidate.get("priority", 0)),
+                })
             except MaterializationDenied as exc:
                 failures.append(f"{runtime_id}:{exc}")
-        if selected is None:
+        if not eligible:
             raise MaterializationDenied(f"no admitted runtime can satisfy logical route {name}: {' | '.join(failures)}")
+
+        selected = eligible[0]
+        decision_trace = None
+        if decision_fabric is not None:
+            decision_candidates = [
+                {
+                    "id": f"{item['runtime_id']}::{item['model']}",
+                    "description": f"admitted runtime/model candidate for logical route {name}",
+                    "metadata": {
+                        "priority": item["_priority"],
+                        "provider_id": item["provider_id"],
+                        "runtime_id": item["runtime_id"],
+                        "model_id": item["model"],
+                    },
+                }
+                for item in eligible
+            ]
+            try:
+                decision_trace = decision_fabric.decide(
+                    {
+                        "contract": "RANK",
+                        "purpose": "Rank only pre-admitted, route-compatible, live-catalog Model Router candidates",
+                        "candidates": decision_candidates,
+                        "constraints": {},
+                        "policy_context": {
+                            "routing_authority": AUTHORITY,
+                            "deterministic_admission_already_applied": True,
+                            "logical_route": name,
+                        },
+                        "evidence_refs": [],
+                        "state": decision_state,
+                        "failure_policy": "EXISTING_BEHAVIOR",
+                        "rollout": decision_rollout,
+                        "final_policy_owner": AUTHORITY,
+                    },
+                    decision_provider_id,
+                )
+            except Exception as exc:
+                # A provider escaping the bounded candidate set is a policy
+                # violation, not a reason to silently choose its proposal.
+                raise MaterializationDenied(f"Decision Fabric advisory rejected for {name}: {type(exc).__name__}") from exc
+
+            if decision_rollout == "ACTIVE" and decision_trace.get("status") == "DECIDED":
+                ranked = (decision_trace.get("result") or {}).get("ranked", [])
+                if ranked:
+                    by_id = {f"{item['runtime_id']}::{item['model']}": item for item in eligible}
+                    proposed = ranked[0]
+                    if proposed not in by_id:
+                        raise MaterializationDenied("Decision Fabric attempted to escape pre-admitted Model Router candidate set")
+                    selected = by_id[proposed]
+
+        selected = {key: value for key, value in selected.items() if key != "_priority"}
+        if decision_trace is not None:
+            selected["decision_advisory"] = decision_trace
+            selected["decision_advisory_changes_authority"] = False
         out[name] = selected
     return out
 
