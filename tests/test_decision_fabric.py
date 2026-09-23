@@ -16,6 +16,7 @@ from fa3_jev_decision_provider import JevDecisionProvider
 from fa3_local_decision_provider import LocalSemanticDecisionProvider
 from fa3_decision_trace import DecisionTraceStore
 from fa3_hybrid_retrieval import decision_rerank
+from fa3_decision_adapters import Fa3DecisionAdapters
 
 
 class ExpandingProvider:
@@ -201,6 +202,34 @@ class DecisionFabricTests(unittest.TestCase):
         self.assertTrue(out["decision_rerank_applied"])
         self.assertEqual([x["candidate_id"] for x in out["candidates"]], ["high", "low"])
         self.assertEqual({x["candidate_id"] for x in out["candidates"]}, {"low", "high"})
+
+
+    def test_coach_and_ideation_adapters_remain_advisory(self):
+        adapters = Fa3DecisionAdapters(DecisionFabric())
+        coach = adapters.coach_next_step(
+            [
+                {"id": "ask-user", "metadata": {"priority": 2}},
+                {"id": "review-blocker", "metadata": {"priority": 1}},
+            ],
+            state={"goal": "test"},
+            provider_id="FA3-PROVIDER-DECISION-RULES-001",
+        )
+        self.assertFalse(coach["authority"])
+        self.assertFalse(coach["candidate_set_expanded"])
+        self.assertEqual(coach["final_policy_owner"], "USER_AND_FA3-COACH-001")
+        self.assertEqual(set(coach["result"]["ranked"]), {"ask-user", "review-blocker"})
+
+        ideation = adapters.ideation_option_rank(
+            [
+                {"id": "option-a", "metadata": {"priority": 1}},
+                {"id": "option-b", "metadata": {"priority": 2}},
+            ],
+            state={"question": "test"},
+            provider_id="FA3-PROVIDER-DECISION-RULES-001",
+        )
+        self.assertFalse(ideation["authority"])
+        self.assertEqual(ideation["final_policy_owner"], "USER_OR_EXISTING_FA3_DECISION_AUTHORITY_ONLY")
+        self.assertEqual(set(ideation["result"]["ranked"]), {"option-a", "option-b"})
 
     def test_no_accelerator_environment_is_required(self):
         old = {k: os.environ.get(k) for k in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK")}
