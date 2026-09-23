@@ -2,7 +2,7 @@
   "schema": "fa3.authority-record.v1",
   "id": "FA3-AUTH-MODEL-ROUTER-001",
   "name": "Central Provider-Neutral Model Router Authority",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -21,7 +21,7 @@
     "logical route ownership",
     "admitted runtime candidate filtering",
     "runtime model selection",
-    "policy-equivalent provider fallback",
+    "closed runtime candidate-set selection",
     "route-to-provider-to-model provenance",
     "router current-host evidence"
   ],
@@ -31,7 +31,13 @@
     "model trust admission",
     "accelerator placement or leasing",
     "secret source of truth",
-    "workflow orchestration"
+    "workflow orchestration",
+    "AI participant-set authorization",
+    "inter-model or inter-agent communication authorization",
+    "agent, tool, skill, MCP, workflow or resource creation",
+    "Decision Fabric execution or policy authority",
+    "global release promotion",
+    "application wake authority"
   ],
   "authority_bindings": {
     "model_inventory": "FA3-MODEL-MANAGER-001",
@@ -39,7 +45,9 @@
     "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
-    "gateway_data_plane": "FA3-LLM-GATEWAY-001"
+    "gateway_data_plane": "FA3-LLM-GATEWAY-001",
+    "ai_communication_policy": "FA3-AI-COMMS-001",
+    "typed_action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001"
   },
   "routing_invariants": {
     "logical_routes_are_canonical": true,
@@ -50,7 +58,16 @@
     "runtime_selection_receipt_required": true,
     "silent_local_to_cloud_fallback": "FORBIDDEN",
     "default_external_egress": "DENY",
-    "pageindex_owned_model_router": "FORBIDDEN"
+    "pageindex_owned_model_router": "FORBIDDEN",
+    "silent_provider_to_provider_fallback": "FORBIDDEN",
+    "routing_grants_ai_communication_authority": false,
+    "routing_may_expand_application_participant_set": false,
+    "consumer_direct_provider_or_physical_model_path": "FORBIDDEN",
+    "agent_native_model_access": "CENTRAL_MODEL_ROUTER_ONLY",
+    "decision_fabric_model_access": "CENTRAL_MODEL_ROUTER_ONLY",
+    "decision_fabric_physical_provider_or_model_selection": "FORBIDDEN",
+    "builtin_provider_adapter_discovery_is_exhaustive": false,
+    "explicit_admitted_runtime_registry_supported": true
   },
   "current_host": {
     "route_registry": "deployment/model-router/routes.json",
@@ -63,5 +80,52 @@
     "workflow": ".github/workflows/fa3-model-router-current-host.yml",
     "receipt": "evidence/receipts/model-router-current-host.json"
   },
-  "fail_closed": true
+  "fail_closed": true,
+  "consumer_boundaries": {
+    "agent_native": {
+      "mode": "CONSUMER_ORCHESTRATION_ONLY",
+      "typed_action_contracts": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "model_access": "CENTRAL_MODEL_ROUTER_ONLY",
+      "direct_provider_or_physical_model_access": "FORBIDDEN",
+      "may_create_routing_authority": false
+    },
+    "decision_fabric": {
+      "mode": "BOUNDED_ADVISORY_ONLY",
+      "deterministic_first": true,
+      "shadow_first": true,
+      "candidate_set": "CLOSED_POLICY_SUPPLIED",
+      "candidate_set_autonomous_expansion": "FORBIDDEN",
+      "model_access": "CENTRAL_MODEL_ROUTER_ONLY",
+      "physical_provider_or_model_selection": "FORBIDDEN",
+      "execution_authority": false,
+      "policy_authority": false,
+      "routing_authority": false,
+      "resource_authority": false,
+      "evidence_authority": false
+    },
+    "pageindex": {
+      "model_access": "CENTRAL_MODEL_ROUTER_ONLY",
+      "private_model_router": "FORBIDDEN"
+    },
+    "ai_communication": {
+      "policy": "FA3-AI-COMMS-001",
+      "closed_application_participant_set_preserved": true,
+      "router_grants_communication_authority": false,
+      "router_may_expand_participant_set": false
+    }
+  },
+  "evidence_boundaries": {
+    "router_current_host_pass_scope": "COMPONENT_CURRENT_HOST_ONLY",
+    "full_429_runtime_closure_claim": false,
+    "global_release_promotion_claim": false,
+    "provider_or_component_receipt_substitutes_global_evidence": false
+  },
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_supported_when_capability_allows": true,
+    "required_accelerator_vendor": null,
+    "required_accelerator_runtime": null,
+    "resource_placement_and_accelerator_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "silent_resource_fallback": "FORBIDDEN"
+  }
 }
