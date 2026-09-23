@@ -120,7 +120,7 @@ def auth_header(candidate: dict[str, Any]) -> dict[str, str]:
 
 
 def fetch_models(candidate: dict[str, Any], timeout: float) -> list[str]:
-    api_base = str(candidate["api_base"]).rstrip("/")
+    api_base = str(candidate.get("catalog_api_base") or candidate["api_base"]).rstrip("/")
     url = api_base + "/models"
     req = urllib.request.Request(url, method="GET", headers={"Accept": "application/json", **auth_header(candidate)})
     try:
@@ -306,9 +306,11 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
         provider_id = str(row.get("provider_id", "")).strip()
         runtime_id = str(row.get("runtime_id", "")).strip()
         api_base = str(row.get("api_base", "")).strip().rstrip("/")
-        if not provider_id or not runtime_id or not api_base:
-            raise MaterializationDenied("enabled runtime provider entry lacks provider_id/runtime_id/api_base")
-        if not loopback_origin(api_base):
+        catalog_api_base = str(row.get("catalog_api_base") or api_base).strip().rstrip("/")
+        admission_api_base = str(row.get("admission_api_base") or catalog_api_base).strip().rstrip("/")
+        if not provider_id or not runtime_id or not api_base or not catalog_api_base or not admission_api_base:
+            raise MaterializationDenied("enabled runtime provider entry lacks provider_id/runtime_id/api_base/catalog_api_base/admission_api_base")
+        if not all(loopback_origin(value) for value in (api_base, catalog_api_base, admission_api_base)):
             raise MaterializationDenied(f"baseline current-host router rejects non-loopback provider endpoint: {runtime_id}")
         if not canonical_provider_ok(root, provider_id):
             raise MaterializationDenied(f"provider is not canonically bound to central Model Router authority: {provider_id}")
@@ -318,12 +320,14 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
         receipt = Path(receipt_value).expanduser()
         if not receipt.is_absolute():
             receipt = (root / receipt).resolve()
-        if not receipt_proves_provider(receipt, provider_id, api_base):
-            raise MaterializationDenied(f"current-host admission receipt does not prove provider: {provider_id}")
+        if not receipt_proves_provider(receipt, provider_id, admission_api_base):
+            raise MaterializationDenied(f"current-host admission receipt does not prove provider instance: {provider_id}")
         copy = dict(row)
         copy["provider_id"] = provider_id
         copy["runtime_id"] = runtime_id
         copy["api_base"] = api_base
+        copy["catalog_api_base"] = catalog_api_base
+        copy["admission_api_base"] = admission_api_base
         copy["_admission_receipt"] = str(receipt)
         candidates.append(copy)
         receipt_hashes[provider_id] = sha256_file(receipt)
