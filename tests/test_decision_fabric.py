@@ -13,6 +13,9 @@ from fa3_decision_fabric import (
     RuleDecisionProvider,
 )
 from fa3_jev_decision_provider import JevDecisionProvider
+from fa3_local_decision_provider import LocalSemanticDecisionProvider
+from fa3_decision_trace import DecisionTraceStore
+from fa3_hybrid_retrieval import decision_rerank
 
 
 class ExpandingProvider:
@@ -118,6 +121,86 @@ class DecisionFabricTests(unittest.TestCase):
             "final_policy_owner": "TEST",
         }, provider.provider_id)
         self.assertEqual(trace["status"], "NO_DECISION")
+
+    def test_local_semantic_provider_uses_logical_router_route(self):
+        def transport(payload):
+            self.assertEqual(payload["model"], "fa3-text-primary")
+            return {
+                "choices": [
+                    {"message": {"content": '{"selected":"b","confidence":0.88}'}}
+                ]
+            }
+
+        provider = LocalSemanticDecisionProvider(
+            explicitly_enabled=True,
+            token="test-only",
+            transport=transport,
+        )
+        fabric = DecisionFabric([provider])
+        trace = fabric.decide({
+            "contract": "SELECT_ONE",
+            "purpose": "choose bounded candidate",
+            "candidates": [{"id": "a"}, {"id": "b"}],
+            "constraints": {},
+            "policy_context": {},
+            "evidence_refs": [],
+            "failure_policy": "FAIL_CLOSED",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001",
+        }, provider.provider_id)
+        self.assertEqual(trace["result"]["selected"], "b")
+        self.assertEqual(trace["provider_meta"]["logical_route"], "fa3-text-primary")
+        self.assertFalse(trace["provider_meta"]["physical_model_pinned"])
+        self.assertFalse(trace["provider_meta"]["physical_backend_pinned"])
+
+    def test_trace_store_is_append_only_projection(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            store = DecisionTraceStore(Path(tmp) / "decision-traces.jsonl")
+            fabric = DecisionFabric(trace_writer=store.append)
+            first = fabric.decide({
+                "contract": "BOOLEAN",
+                "purpose": "trace-one",
+                "candidates": [],
+                "constraints": {"value": True},
+                "policy_context": {},
+                "evidence_refs": [],
+                "failure_policy": "NO_DECISION",
+                "rollout": "ACTIVE",
+                "final_policy_owner": "TEST",
+            })
+            second = fabric.decide({
+                "contract": "BOOLEAN",
+                "purpose": "trace-two",
+                "candidates": [],
+                "constraints": {"value": False},
+                "policy_context": {},
+                "evidence_refs": [],
+                "failure_policy": "NO_DECISION",
+                "rollout": "ACTIVE",
+                "final_policy_owner": "TEST",
+            })
+            rows = store.tail(10)
+            self.assertEqual([x["decision_id"] for x in rows], [first["decision_id"], second["decision_id"]])
+
+    def test_knowledge_decision_rerank_cannot_add_candidates(self):
+        trace = {
+            "schema": "fa3.retrieval-trace.v1",
+            "trace_id": "trace",
+            "plan_id": "plan",
+            "stages": [],
+            "candidates": [
+                {"candidate_id": "low", "source_id": "s", "locator": "1", "score": 0.1, "evidence_refs": []},
+                {"candidate_id": "high", "source_id": "s", "locator": "2", "score": 0.9, "evidence_refs": []},
+            ],
+            "provider_receipts": [],
+            "evidence_refs": [],
+            "authority_snapshot": {"knowledge_root": "FA3-KNOWLEDGE-001"},
+            "derived": True,
+        }
+        out = decision_rerank(trace, rollout="ACTIVE")
+        self.assertTrue(out["decision_rerank_applied"])
+        self.assertEqual([x["candidate_id"] for x in out["candidates"]], ["high", "low"])
+        self.assertEqual({x["candidate_id"] for x in out["candidates"]}, {"low", "high"})
 
     def test_no_accelerator_environment_is_required(self):
         old = {k: os.environ.get(k) for k in ("CUDA_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "ZE_AFFINITY_MASK")}
