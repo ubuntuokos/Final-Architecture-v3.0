@@ -1,0 +1,206 @@
+name: FA3 Central Model Router Current-Host E2E
+
+on:
+  push:
+    paths:
+      - "canonical/FA3-AUTH-MODEL-ROUTER-001.json"
+      - "canonical/model-router-enforcement.json"
+      - "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json"
+      - "canonical/model-manager-current-host-enforcement.json"
+      - "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json"
+      - "deployment/model-router/**"
+      - "src/fa3_model_router_*.py"
+      - "src/fa3_model_manager_current_host_gate.py"
+      - "evidence/collect-model-router-current-host.py"
+      - "evidence/collect-model-manager-current-host.py"
+      - "bin/fa3-model-router-*"
+      - ".github/workflows/fa3-model-router-current-host.yml"
+  workflow_dispatch:
+    inputs:
+      providers_file:
+        description: "Optional absolute current-host runtime provider registry JSON; defaults to runner FA3_MODEL_ROUTER_PROVIDERS or ~/.config/fa3/model-router/providers.json"
+        required: false
+        default: ""
+        type: string
+      credential_file:
+        description: "Optional absolute 0600/0400 central Model Router credential file; defaults to runner FA3_MODEL_ROUTER_MASTER_KEY_FILE"
+        required: false
+        default: ""
+        type: string
+      port:
+        description: "Loopback port for the central router; defaults to runner FA3_MODEL_ROUTER_PORT or 4000"
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  group: fa3-model-router-current-host-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Bootstrap pinned LiteLLM data plane
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v systemctl
+          venv="${RUNNER_TEMP}/fa3-model-router-venv"
+          python3 -m venv "$venv"
+          "$venv/bin/python" -m pip install --disable-pip-version-check "litellm[proxy]==1.101.0"
+          "$venv/bin/litellm" --version
+          echo "$venv/bin" >> "$GITHUB_PATH"
+
+      - name: Refresh provider-specific current-host admission evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 evidence/collect-model-manager-current-host.py --root . --preserve-serving-runtime
+          PYTHONPATH=src python3 src/fa3_model_manager_current_host_gate.py --root .
+
+      - name: Resolve provider-neutral runtime inputs
+        id: runtime
+        shell: bash
+        env:
+          PROVIDERS_INPUT: ${{ inputs.providers_file || '' }}
+          CREDENTIAL_INPUT: ${{ inputs.credential_file || '' }}
+          PORT_INPUT: ${{ inputs.port || '' }}
+        run: |
+          set -euo pipefail
+          providers="$PROVIDERS_INPUT"
+          credential="$CREDENTIAL_INPUT"
+          port="$PORT_INPUT"
+
+          if [ -z "$providers" ]; then
+            providers="${FA3_MODEL_ROUTER_PROVIDERS:-}"
+          fi
+          if [ -z "$providers" ]; then
+            providers="${RUNNER_TEMP}/fa3-model-router-providers.json"
+            python3 src/fa3_model_router_provider_discovery.py --root . --output "$providers"
+          fi
+
+          if [ -z "$credential" ]; then
+            credential="${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}"
+          fi
+          if [ -z "$credential" ]; then
+            credential="${RUNNER_TEMP}/fa3-model-router-master-key"
+            python3 - "$credential" <<'PY'
+          import secrets, sys
+          from pathlib import Path
+          p=Path(sys.argv[1])
+          p.write_text("sk-fa3-" + secrets.token_urlsafe(48) + "\n", encoding="utf-8")
+          p.chmod(0o600)
+          PY
+          fi
+
+          if [ -z "$port" ]; then port="${FA3_MODEL_ROUTER_PORT:-4000}"; fi
+
+          test -s "$providers" || { echo "BLOCKED: no provider-neutral runtime registry" >&2; exit 2; }
+          test -s "$credential" || { echo "BLOCKED: no router credential" >&2; exit 2; }
+          command -v litellm
+
+          {
+            echo "providers=$providers"
+            echo "credential=$credential"
+            echo "port=$port"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Materialize and prove central Model Router
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash bin/fa3-model-router-current-host.sh \
+            --providers "${{ steps.runtime.outputs.providers }}" \
+            --credential-file "${{ steps.runtime.outputs.credential }}" \
+            --port "${{ steps.runtime.outputs.port }}"
+      - name: Assert provider-neutral current-host receipt
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/receipts/model-router-current-host.json").read_text())
+          assert r["result"]=="PASS"
+          assert r["provider_neutral"] is True
+          assert r["physical_backend_pinned"] is False
+          assert r["physical_model_pinned"] is False
+          assert r["runtime_selected"] is True
+          assert {"fa3-pageindex-index","fa3-pageindex-reason"}.issubset(r["logical_routes"])
+          for route in ("fa3-pageindex-index","fa3-pageindex-reason"):
+              b=r["route_bindings"][route]
+              assert b["selection"]=="RUNTIME_DISCOVERED"
+              assert b["provider_id"] and b["runtime_id"] and b["model"]
+              digest=r["provider_admission_evidence_sha256"].get(b["provider_id"],"")
+              assert len(digest)==64 and all(ch in "0123456789abcdef" for ch in digest.lower())
+              if b["provider_id"]=="FA3-PROVIDER-OLLAMA-MODEL-001":
+                  proof=r["route_probes"][route]["provider_runtime_proof"]
+                  assert proof["proof_kind"]=="OLLAMA_PS_CPU_ONLY"
+                  assert proof["runtime_id"]==b["runtime_id"]
+                  assert proof["model"]==b["model"]
+                  assert proof["size_vram"]==0
+                  assert proof["num_gpu_request"]==0
+          PY
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-model-router-current-host-evidence
+          path: |
+            evidence/receipts/model-router-current-host.json
+            reports/model-router-current-host-gate-report.json
+      - name: Cleanup bound current-host runtimes
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          systemctl --user stop fa3-model-router.service >/dev/null 2>&1 || true
+          python3 - <<'PY'
+          import json, os, signal, time
+          from pathlib import Path
+
+          receipt=Path("evidence/receipts/model-manager-current-host.json")
+          if not receipt.is_file():
+              raise SystemExit(0)
+          data=json.loads(receipt.read_text(encoding="utf-8"))
+          for item in (data.get("providers") or {}).values():
+              if not isinstance(item,dict):
+                  continue
+              handoff=item.get("runtime_handoff")
+              if not isinstance(handoff,dict) or handoff.get("preserved") is not True:
+                  continue
+              pid=handoff.get("process_id")
+              expected=handoff.get("process_start_ticks")
+              if not isinstance(pid,int) or pid<=0 or not isinstance(expected,int):
+                  continue
+              stat=Path(f"/proc/{pid}/stat")
+              try:
+                  raw=stat.read_text(encoding="utf-8")
+                  tail=raw[raw.rfind(")")+2:].split()
+                  actual=int(tail[19])
+              except Exception:
+                  continue
+              if actual != expected:
+                  continue
+              try:
+                  os.killpg(pid,signal.SIGTERM)
+              except ProcessLookupError:
+                  continue
+              for _ in range(50):
+                  if not stat.exists():
+                      break
+                  time.sleep(0.1)
+              if stat.exists():
+                  try: os.killpg(pid,signal.SIGKILL)
+                  except ProcessLookupError: pass
+          PY

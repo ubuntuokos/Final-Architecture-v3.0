@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-DECISION-FABRIC-CONTRACTS-001",
+  "profile": "FA3-DECISION-FABRIC-001",
+  "provider_neutral": true,
+  "request": {
+    "required": ["contract", "purpose", "candidates", "constraints", "policy_context", "evidence_refs"],
+    "contract_enum": ["SELECT_ONE", "BOOLEAN", "SCORE", "RANK", "MULTI_LABEL", "RELEVANCE", "STOP_CONTINUE"],
+    "candidate_ids_unique": true,
+    "candidate_set_must_be_pre_authorized": true,
+    "provider_may_add_candidate": false
+  },
+  "result": {
+    "required": ["status", "result", "provider", "authority", "candidate_set_expanded"],
+    "status_enum": ["DECIDED", "NO_DECISION", "HUMAN_CONFIRM", "DENIED", "PROVIDER_UNAVAILABLE"],
+    "authority_must_be_false": true,
+    "candidate_set_expanded_must_be_false": true,
+    "selected_ids_must_be_subset_of_request_candidates": true
+  },
+  "failure_policies": ["FAIL_CLOSED", "RULE_FALLBACK", "EXISTING_BEHAVIOR", "HUMAN_CONFIRM", "NO_DECISION"],
+  "rollout_states": ["SHADOW", "ADVISORY", "ACTIVE"],
+  "security": {
+    "may_grant_permission": false,
+    "may_expand_scope": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false,
+    "may_obtain_secret": false,
+    "may_obtain_hrb_lease": false
+  }
+}

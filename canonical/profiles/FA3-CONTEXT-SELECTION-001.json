@@ -1,0 +1,30 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-CONTEXT-SELECTION-001",
+  "title": "Extractive Context Selection, Recall and Evidence Preservation",
+  "priority": "P0",
+  "requirement": "MUST_IF_AI_CONTEXT_USED",
+  "status": "CANONICAL",
+  "parent": "FA3-DECISION-FABRIC-001",
+  "architectural_authority": false,
+  "states": ["PROTECTED", "ACTIVE", "HIDDEN", "ARCHIVED"],
+  "hidden_is_deleted": false,
+  "archived_is_deleted": false,
+  "generative_summary_may_replace_source_evidence": false,
+  "restore_supported": true,
+  "protected_classes": [
+    "canonical_decision",
+    "user_constraint",
+    "user_correction",
+    "security_evidence",
+    "error",
+    "command",
+    "source_provenance",
+    "current_host_evidence",
+    "unresolved_blocker",
+    "approval_record"
+  ],
+  "source_authorities_preserved": ["FA3-JOURNAL-001", "ORIGINAL_ARTIFACTS"],
+  "capability_delta": 0,
+  "authority_delta": 0
+}

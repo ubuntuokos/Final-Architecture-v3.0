@@ -211,6 +211,121 @@
       "approval": "session",
       "hrb_required": true,
       "providers": []
+    },
+    {
+      "capability_id": "fa3.decision.select",
+      "risk_class": "R0",
+      "side_effects": [
+        "application-read"
+      ],
+      "approval": "policy",
+      "hrb_required": false,
+      "providers": [
+        {
+          "provider_id": "FA3-PROVIDER-DECISION-RULES-001",
+          "adapter_id": "fa3.adapter.decision.rules.select",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 10,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-GATE-DECISION-FABRIC-001",
+          "execution_authority": false,
+          "candidate_set_expansion": "DENY"
+        }
+      ]
+    },
+    {
+      "capability_id": "fa3.decision.score",
+      "risk_class": "R0",
+      "side_effects": [
+        "application-read"
+      ],
+      "approval": "policy",
+      "hrb_required": false,
+      "providers": [
+        {
+          "provider_id": "FA3-PROVIDER-DECISION-RULES-001",
+          "adapter_id": "fa3.adapter.decision.rules.score",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 10,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-GATE-DECISION-FABRIC-001",
+          "execution_authority": false,
+          "candidate_set_expansion": "DENY"
+        }
+      ]
+    },
+    {
+      "capability_id": "fa3.decision.rank",
+      "risk_class": "R0",
+      "side_effects": [
+        "application-read"
+      ],
+      "approval": "policy",
+      "hrb_required": false,
+      "providers": [
+        {
+          "provider_id": "FA3-PROVIDER-DECISION-RULES-001",
+          "adapter_id": "fa3.adapter.decision.rules.rank",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 10,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-GATE-DECISION-FABRIC-001",
+          "execution_authority": false,
+          "candidate_set_expansion": "DENY"
+        }
+      ]
+    },
+    {
+      "capability_id": "fa3.decision.check",
+      "risk_class": "R0",
+      "side_effects": [
+        "application-read"
+      ],
+      "approval": "policy",
+      "hrb_required": false,
+      "providers": [
+        {
+          "provider_id": "FA3-PROVIDER-DECISION-RULES-001",
+          "adapter_id": "fa3.adapter.decision.rules.check",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 10,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-GATE-DECISION-FABRIC-001",
+          "execution_authority": false,
+          "candidate_set_expansion": "DENY"
+        }
+      ]
+    },
+    {
+      "capability_id": "fa3.decision.inspect",
+      "risk_class": "R0",
+      "side_effects": [
+        "application-read"
+      ],
+      "approval": "policy",
+      "hrb_required": false,
+      "providers": [
+        {
+          "provider_id": "FA3-PROVIDER-DECISION-RULES-001",
+          "adapter_id": "fa3.adapter.decision.trace.inspect",
+          "state": "PENDING_CURRENT_HOST",
+          "priority": 10,
+          "transport": "python-inprocess",
+          "approval_override": "policy",
+          "evidence_ref": null,
+          "gate_id": "FA3-GATE-DECISION-FABRIC-001",
+          "execution_authority": false,
+          "candidate_set_expansion": "DENY"
+        }
+      ]
     }
   ],
   "canonical_gateway_profile": "FA3-MCP-GATEWAY-001",

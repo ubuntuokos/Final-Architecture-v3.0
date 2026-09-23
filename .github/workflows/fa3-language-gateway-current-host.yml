@@ -1,0 +1,108 @@
+name: FA3 Language Gateway Current-Host E2E
+
+on:
+  workflow_dispatch:
+    inputs:
+      primary_language:
+        description: "Primary FA3 system language (BCP47, e.g. hu-HU)"
+        required: true
+        type: string
+      secondary_language:
+        description: "Distinct Secondary FA3 system language (BCP47, e.g. en-US)"
+        required: true
+        type: string
+      model_alias:
+        description: "Central FA3 Model Router logical route alias"
+        required: true
+        default: "fa3-text-primary"
+        type: string
+      gateway_url:
+        description: "Loopback central FA3 Model Router / LiteLLM data-plane origin"
+        required: true
+        default: "http://127.0.0.1:4000"
+        type: string
+      primary_sample_file:
+        description: "Absolute current-host UTF-8 conformance sample path in the Primary language"
+        required: true
+        type: string
+      secondary_sample_file:
+        description: "Absolute current-host UTF-8 conformance sample path in the Secondary language"
+        required: true
+        type: string
+      credential_file:
+        description: "Optional absolute 0600/0400 central Model Router credential file path; otherwise runner env is used"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  language-gateway-current-host:
+    name: language-gateway-current-host / real-e2e
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify current-host prerequisites
+        shell: bash
+        env:
+          CREDENTIAL_FILE_INPUT: ${{ inputs.credential_file }}
+        run: |
+          set -euo pipefail
+          test "$(id -u)" -ne 0
+          command -v python3
+          command -v git
+          test -f "${{ inputs.primary_sample_file }}"
+          test -f "${{ inputs.secondary_sample_file }}"
+          if [ -n "$CREDENTIAL_FILE_INPUT" ]; then
+            test -f "$CREDENTIAL_FILE_INPUT"
+          else
+            test -n "${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}${FA3_MODEL_ROUTER_MASTER_KEY:-}${FA3_LITELLM_MASTER_KEY_FILE:-}${FA3_LITELLM_MASTER_KEY:-}"
+          fi
+      - name: Run central Model Router data-plane and Language Bridge E2E
+        shell: bash
+        env:
+          CREDENTIAL_FILE_INPUT: ${{ inputs.credential_file }}
+        run: |
+          set -euo pipefail
+          args=(
+            --primary-language "${{ inputs.primary_language }}"
+            --secondary-language "${{ inputs.secondary_language }}"
+            --primary-sample-file "${{ inputs.primary_sample_file }}"
+            --secondary-sample-file "${{ inputs.secondary_sample_file }}"
+            --model-alias "${{ inputs.model_alias }}"
+            --gateway-url "${{ inputs.gateway_url }}"
+          )
+          if [ -n "$CREDENTIAL_FILE_INPUT" ]; then
+            args+=(--credential-file "$CREDENTIAL_FILE_INPUT")
+          fi
+          bash bin/fa3-language-gateway-current-host.sh "${args[@]}"
+      - name: Assert evidence remains transport/conformance scoped
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path('evidence/receipts/language-gateway-current-host.json').read_text())
+          report = json.loads(Path('reports/language-gateway-current-host-gate-report.json').read_text())
+          assert receipt['status'] == 'PASS'
+          assert receipt['production_promotion_claim'] is False
+          assert receipt['translation_quality_claim'] is False
+          assert receipt['evidence_limits']['hrb_backend_admission_proven'] is False
+          assert receipt['evidence_limits']['model_registry_backend_admission_proven'] is False
+          assert report['result'] == 'PASS'
+          PY
+      - name: Upload current-host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-language-gateway-current-host-evidence
+          path: |
+            evidence/receipts/language-gateway-current-host.json
+            evidence/runtime/language-gateway-current-host/
+            reports/language-gateway-current-host-gate-report.json

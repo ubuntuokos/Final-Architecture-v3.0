@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PROVIDERS="${FA3_MODEL_ROUTER_PROVIDERS:-$HOME/.config/fa3/model-router/providers.json}"
+CREDENTIAL="${FA3_MODEL_ROUTER_MASTER_KEY_FILE:-}"
+PORT="${FA3_MODEL_ROUTER_PORT:-4000}"
+START=0
+STOP=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --providers) PROVIDERS="$2"; shift 2;;
+    --credential-file) CREDENTIAL="$2"; shift 2;;
+    --port) PORT="$2"; shift 2;;
+    --start) START=1; shift;;
+    --stop) STOP=1; shift;;
+    *) echo "unknown argument: $1" >&2; exit 2;;
+  esac
+done
+
+UNIT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user"
+UNIT="$UNIT_DIR/fa3-model-router.service"
+
+if [[ "$STOP" -eq 1 ]]; then
+  systemctl --user disable --now fa3-model-router.service >/dev/null 2>&1 || true
+  exit 0
+fi
+
+[[ -s "$PROVIDERS" ]] || { echo "runtime provider registry missing: $PROVIDERS" >&2; exit 2; }
+[[ -n "$CREDENTIAL" && -f "$CREDENTIAL" ]] || { echo "router credential file is required" >&2; exit 2; }
+mode="$(stat -c '%a' "$CREDENTIAL")"
+[[ "$mode" == "600" || "$mode" == "400" ]] || { echo "router credential file must be 0600 or 0400" >&2; exit 2; }
+[[ "$PORT" =~ ^[0-9]+$ ]] && (( PORT >= 1024 && PORT <= 65535 )) || { echo "invalid router port" >&2; exit 2; }
+
+PYTHON="$(command -v python3)"
+LITELLM="$(command -v litellm || true)"
+[[ -n "$LITELLM" ]] || { echo "LiteLLM executable not found in PATH" >&2; exit 2; }
+
+mkdir -p "$UNIT_DIR"
+python3 - "$ROOT" "$PROVIDERS" "$CREDENTIAL" "$PORT" "$PYTHON" "$LITELLM" "$UNIT" <<'PY'
+from pathlib import Path
+import sys
+root,providers,credential,port,python,litellm,unit=sys.argv[1:]
+text=(Path(root)/"deployment/model-router/fa3-model-router.service.in").read_text(encoding="utf-8")
+repl={
+    "%ROOT%":root,
+    "%PROVIDERS%":str(Path(providers).expanduser().resolve()),
+    "%CREDENTIAL%":str(Path(credential).expanduser().resolve()),
+    "%PORT%":port,
+    "%PYTHON%":python,
+    "%LITELLM%":litellm,
+}
+for key,value in repl.items():
+    text=text.replace(key,value)
+Path(unit).write_text(text,encoding="utf-8")
+PY
+chmod 0600 "$UNIT"
+
+systemctl --user daemon-reload
+systemctl --user enable fa3-model-router.service >/dev/null
+if [[ "$START" -eq 1 ]]; then
+  systemctl --user restart fa3-model-router.service
+  runtime_root="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fa3-model-router"
+  selection_receipt="$runtime_root/selection.json"
+  ready=0
+  for _ in {1..120}; do
+    if systemctl --user is-active --quiet fa3-model-router.service && [[ -s "$selection_receipt" ]]; then
+      if python3 - "$PORT" "$CREDENTIAL" <<'PY'
+import json
+import sys
+import urllib.request
+from pathlib import Path
+
+port, credential = sys.argv[1:]
+try:
+    token = Path(credential).read_text(encoding="utf-8").strip()
+    if not token:
+        raise RuntimeError("empty token")
+    req = urllib.request.Request(
+        f"http://127.0.0.1:{port}/v1/models",
+        headers={"Authorization": f"Bearer {token}", "Accept": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=2.0) as response:
+        payload = json.loads(response.read(4 * 1024 * 1024).decode("utf-8"))
+    if int(response.status) != 200 or not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
+        raise RuntimeError("not ready")
+except Exception:
+    raise SystemExit(1)
+PY
+      then
+        ready=1
+        break
+      fi
+    fi
+    sleep 0.5
+  done
+  if [[ "$ready" -ne 1 ]]; then
+    echo "Model Router readiness failed: active service + selection receipt + authenticated /v1/models were not all proven" >&2
+    systemctl --user status --no-pager fa3-model-router.service >&2 || true
+    journalctl --user -u fa3-model-router.service -n 80 --no-pager >&2 || true
+    exit 2
+  fi
+fi
+echo "FA3 central Model Router installed: http://127.0.0.1:$PORT"

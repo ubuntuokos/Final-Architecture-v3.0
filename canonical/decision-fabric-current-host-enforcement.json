@@ -1,0 +1,18 @@
+{
+  "schema": "fa3.decision-fabric-current-host-enforcement.v1",
+  "gate_id": "FA3-GATE-DECISION-FABRIC-CURRENT-HOST-001",
+  "profile_id": "FA3-DECISION-FABRIC-001",
+  "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+  "positive_required": true,
+  "negative_required": true,
+  "rollback_required": true,
+  "cpu_only_path_required": true,
+  "external_jev_e2e_required_for_fabric_pass": false,
+  "external_jev_e2e_is_separate_provider_admission": true,
+  "synthetic_current_host_pass": "DENY",
+  "github_hosted_current_host_pass": "DENY",
+  "candidate_set_expansion": "DENY",
+  "authority_delta": 0,
+  "capability_delta": 0,
+  "global_promotion_claim": false
+}

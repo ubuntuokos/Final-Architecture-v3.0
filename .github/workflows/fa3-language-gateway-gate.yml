@@ -1,0 +1,84 @@
+name: FA3 Language Gateway Gate
+
+on:
+  pull_request:
+    paths:
+      - "canonical/profiles/FA3-LANGUAGE-*.json"
+      - "canonical/profiles/FA3-LLM-GATEWAY-001.json"
+      - "canonical/FA3-LANGUAGE-BRIDGE-001.json"
+      - "canonical/language-gateway-enforcement.json"
+      - "deployment/litellm/**"
+      - "src/fa3_language_gateway_gate.py"
+      - "src/fa3_canonical_language_gate.py"
+      - "src/fa3_language_bridge.py"
+      - "src/fa3_language_gateway_current_host_gate.py"
+      - "evidence/collect-language-gateway-current-host.py"
+      - "tests/test_language_gateway_gate.py"
+      - "tests/test_canonical_language_gate.py"
+      - "tests/test_language_bridge.py"
+      - "tests/test_language_gateway_current_host_gate.py"
+      - "apps/fa3-control-center/qml/LanguageControlPage.qml"
+      - "canonical/profiles/FA3-VOICE-001.json"
+      - "bin/fa3-enforce"
+      - "bin/fa3-language-gateway-current-host.sh"
+      - ".github/workflows/fa3-language-gateway-gate.yml"
+      - ".github/workflows/fa3-language-gateway-current-host.yml"
+  push:
+    branches: [main]
+    paths:
+      - "canonical/profiles/FA3-LANGUAGE-*.json"
+      - "canonical/profiles/FA3-LLM-GATEWAY-001.json"
+      - "canonical/FA3-LANGUAGE-BRIDGE-001.json"
+      - "canonical/language-gateway-enforcement.json"
+      - "deployment/litellm/**"
+      - "src/fa3_language_gateway_gate.py"
+      - "src/fa3_canonical_language_gate.py"
+      - "src/fa3_language_bridge.py"
+      - "src/fa3_language_gateway_current_host_gate.py"
+      - "evidence/collect-language-gateway-current-host.py"
+      - "tests/test_language_gateway_gate.py"
+      - "tests/test_canonical_language_gate.py"
+      - "tests/test_language_bridge.py"
+      - "tests/test_language_gateway_current_host_gate.py"
+      - "apps/fa3-control-center/qml/LanguageControlPage.qml"
+      - "canonical/profiles/FA3-VOICE-001.json"
+      - "bin/fa3-enforce"
+      - "bin/fa3-language-gateway-current-host.sh"
+      - ".github/workflows/fa3-language-gateway-gate.yml"
+      - ".github/workflows/fa3-language-gateway-current-host.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reference-conformance:
+    name: language-gateway / P0
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile gates, collector and reference runtime
+        run: |
+          python3 -m py_compile \
+            src/fa3_canonical_language_gate.py \
+            src/fa3_language_gateway_gate.py \
+            src/fa3_language_bridge.py \
+            src/fa3_language_gateway_current_host_gate.py \
+            evidence/collect-language-gateway-current-host.py
+      - name: Run executable P0 gate
+        run: ./bin/fa3-enforce language-gateway
+      - name: Run regression tests
+        run: |
+          PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_*language*.py' -v
+      - name: Assert no current-host promotion claim
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('reports/language-gateway-gate-report.json')
+          report = json.loads(p.read_text())
+          assert report['result'] == 'PASS'
+          assert report['current_host_production_claim'] is False
+          assert report['current_host_status'] == 'PENDING_CURRENT_HOST'
+          assert report['bridge_reference_conformance']['current_host_production_claim'] is False
+          assert report['bridge_reference_conformance']['translation_quality_claim'] is False
+          PY

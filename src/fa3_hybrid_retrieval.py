@@ -5,6 +5,9 @@ import hashlib
 import json
 from typing import Any
 
+from fa3_decision_fabric import DecisionFabric
+from fa3_decision_adapters import Fa3DecisionAdapters
+
 STRATEGY_ORDER = ("metadata", "hierarchical", "lexical", "vector", "tree_reasoning", "rerank", "evidence_fusion")
 
 
@@ -126,3 +129,60 @@ def context_passport(trace: dict[str, Any]) -> dict[str, Any]:
         "rebuildable": True,
         "authority": "FA3-KNOWLEDGE-001",
     }
+
+
+def decision_rerank(
+    trace: dict[str, Any],
+    *,
+    fabric: DecisionFabric | None = None,
+    provider_id: str = "FA3-PROVIDER-DECISION-RULES-001",
+    rollout: str = "SHADOW",
+) -> dict[str, Any]:
+    """Optionally rerank an existing RetrievalTrace through the Decision Fabric.
+
+    The retrieval candidate set is closed before this call. In SHADOW mode the
+    original ordering is preserved and only the Decision Trace is attached.
+    """
+    if trace.get("schema") != "fa3.retrieval-trace.v1":
+        raise ValueError("invalid trace")
+    fabric = fabric or DecisionFabric()
+    adapters = Fa3DecisionAdapters(fabric)
+    candidates = []
+    by_id: dict[str, dict[str, Any]] = {}
+    for row in trace.get("candidates", []):
+        cid = str(row.get("candidate_id", "")).strip()
+        if not cid:
+            raise ValueError("retrieval candidate missing candidate_id")
+        by_id[cid] = row
+        candidates.append({
+            "id": cid,
+            "description": f"{row.get('source_id', '')}#{row.get('locator', '')}",
+            "metadata": {
+                "relevance": float(row.get("score", 0.0)),
+                "priority": int(round(float(row.get("score", 0.0)) * 1000000)),
+            },
+        })
+    decision = adapters.knowledge_rerank(
+        candidates,
+        state={
+            "query_plan": trace.get("plan_id"),
+            "evidence_refs": trace.get("evidence_refs", []),
+        },
+        provider_id=provider_id,
+    )
+    decision["rollout"] = rollout
+    out = dict(trace)
+    out["decision_rerank_trace"] = decision
+    out["decision_rerank_applied"] = False
+    if rollout != "ACTIVE" or decision.get("status") != "DECIDED":
+        return out
+    ranked = (decision.get("result") or {}).get("ranked", [])
+    if not isinstance(ranked, list):
+        return out
+    allowed = set(by_id)
+    if any(cid not in allowed for cid in ranked):
+        raise ValueError("Decision Fabric attempted retrieval candidate expansion")
+    remainder = [cid for cid in by_id if cid not in ranked]
+    out["candidates"] = [by_id[cid] for cid in ranked + remainder]
+    out["decision_rerank_applied"] = True
+    return out

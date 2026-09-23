@@ -1,0 +1,67 @@
+{
+  "schema": "fa3.authority-record.v1",
+  "id": "FA3-AUTH-MODEL-ROUTER-001",
+  "name": "Central Provider-Neutral Model Router Authority",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "materializes_existing_authority": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "data_plane": {
+    "profile": "FA3-LLM-GATEWAY-001",
+    "reference_runtime": "LiteLLM Proxy",
+    "single_routing_plane": true,
+    "parallel_private_model_routers": "FORBIDDEN"
+  },
+  "responsibilities": [
+    "logical route ownership",
+    "admitted runtime candidate filtering",
+    "runtime model selection",
+    "policy-equivalent provider fallback",
+    "route-to-provider-to-model provenance",
+    "router current-host evidence"
+  ],
+  "non_responsibilities": [
+    "model inventory ownership",
+    "model installation or physical storage",
+    "model trust admission",
+    "accelerator placement or leasing",
+    "secret source of truth",
+    "workflow orchestration"
+  ],
+  "authority_bindings": {
+    "model_inventory": "FA3-MODEL-MANAGER-001",
+    "model_artifact_admission": "FA3-MODEL-ARTIFACT-SECURITY-001",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "gateway_data_plane": "FA3-LLM-GATEWAY-001"
+  },
+  "routing_invariants": {
+    "logical_routes_are_canonical": true,
+    "physical_provider_in_canonical_route": "FORBIDDEN",
+    "physical_model_in_canonical_route": "FORBIDDEN",
+    "runtime_candidate_requires_current_host_admission": true,
+    "runtime_candidate_requires_canonical_provider_record": true,
+    "runtime_selection_receipt_required": true,
+    "silent_local_to_cloud_fallback": "FORBIDDEN",
+    "default_external_egress": "DENY",
+    "pageindex_owned_model_router": "FORBIDDEN"
+  },
+  "current_host": {
+    "route_registry": "deployment/model-router/routes.json",
+    "runtime_provider_registry": "USER_RUNTIME_CONFIGURATION_NOT_COMMITTED",
+    "materializer": "src/fa3_model_router_materialize.py",
+    "service_template": "deployment/model-router/fa3-model-router.service.in",
+    "installer": "bin/fa3-model-router-install",
+    "collector": "evidence/collect-model-router-current-host.py",
+    "gate": "src/fa3_model_router_current_host_gate.py",
+    "workflow": ".github/workflows/fa3-model-router-current-host.yml",
+    "receipt": "evidence/receipts/model-router-current-host.json"
+  },
+  "fail_closed": true
+}

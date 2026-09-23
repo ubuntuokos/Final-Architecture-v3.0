@@ -1,0 +1,25 @@
+{
+  "schema": "fa3.decision-fabric-enforcement.v1",
+  "gate_id": "FA3-GATE-DECISION-FABRIC-001",
+  "profile_id": "FA3-DECISION-FABRIC-001",
+  "adoption_gate_id": "FA3-GATE-JEV-ADOPTION-001",
+  "fail_closed": true,
+  "rules": {
+    "architectural_authority_delta": 0,
+    "capability_delta": 0,
+    "direct_application_jev_call": "DENY",
+    "candidate_set_expansion": "DENY",
+    "unapproved_candidate_selection": "DENY",
+    "direct_secret_access": "DENY",
+    "direct_hrb_lease": "DENY",
+    "direct_tool_execution": "DENY",
+    "model_router_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "mcp_authority": "FA3-AUTH-MCP-GATEWAY-001",
+    "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "semantic_rollout_default": "SHADOW",
+    "human_auditable_communication": "REQUIRED",
+    "provider_failure_high_risk": "FAIL_CLOSED",
+    "silent_local_to_cloud_fallback": "DENY",
+    "project_radar_check_for_new_projects": "REQUIRED"
+  }
+}

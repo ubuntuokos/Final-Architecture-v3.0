@@ -9,8 +9,9 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
 from fa3_model_manager_provider_adapter import (
     EVIDENCE_LEVEL,HF_PROVIDER_ID,LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID,
-    RUNTIME_ID,find_binary,regression_check,safe_child_env,select_lmstudio_model,
-    select_ollama_models,sha256_bytes,sha256_file,valid_revision,
+    RUNTIME_ID,find_binary,ollama_models_from_systemd_environment,provider_failure_code,
+    regression_check,safe_child_env,select_lmstudio_model,select_ollama_models,
+    sha256_bytes,sha256_file,valid_revision,
 )
 
 MAX_HASH_FILE_BYTES=16*1024*1024
@@ -62,6 +63,12 @@ def free_port()->int:
     with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
         s.bind(("127.0.0.1",0))
         return int(s.getsockname()[1])
+
+def process_start_ticks(pid:int)->int:
+    raw=Path(f"/proc/{pid}/stat").read_text(encoding="utf-8")
+    tail=raw[raw.rfind(")")+2:].split()
+    if len(tail)<20: raise RuntimeError("process stat is incomplete")
+    return int(tail[19])
 
 def hf_cache_candidates()->list[Path]:
     out:list[Path]=[]
@@ -182,16 +189,79 @@ def collect_lmstudio(runtime_dir:Path)->dict[str,Any]:
             unload=run([str(lms),"unload",LM_IDENTIFIER],180,env)
             if unload.returncode!=0: raise RuntimeError("LM Studio test model cleanup/unload failed")
 
+def _service_process_ollama_models(scope_args:list[str])->str|None:
+    result=run(["systemctl",*scope_args,"show","ollama.service","--property=MainPID","--value"],15)
+    if result.returncode!=0: return None
+    try: pid=int(result.stdout.strip())
+    except Exception: return None
+    if pid<=0: return None
+    try:
+        raw=Path(f"/proc/{pid}/environ").read_bytes().replace(b"\0",b" ").decode("utf-8","replace")
+    except OSError:
+        return None
+    return ollama_models_from_systemd_environment(raw)
+
+def _environment_file_ollama_models(scope_args:list[str])->list[str]:
+    result=run(["systemctl",*scope_args,"show","ollama.service","--property=EnvironmentFiles","--value"],15)
+    if result.returncode!=0: return []
+    paths=[]
+    for token in result.stdout.replace("("," ").replace(")"," ").split():
+        if token.startswith("/"): paths.append(token)
+    values=[]
+    for raw_path in paths:
+        try:
+            for line in Path(raw_path).read_text(encoding="utf-8").splitlines():
+                stripped=line.strip()
+                if not stripped or stripped.startswith("#"): continue
+                value=ollama_models_from_systemd_environment(stripped)
+                if value: values.append(value)
+        except OSError:
+            continue
+    return values
+
+def discover_ollama_models_dir()->tuple[Path|None,str]:
+    candidates:list[tuple[str,str]]=[]
+    direct=os.environ.get("OLLAMA_MODELS","").strip()
+    if direct: candidates.append(("RUNNER_ENV",direct))
+    for source,argv in (
+        ("SYSTEMD_USER_MANAGER",["systemctl","--user","show-environment"]),
+        ("SYSTEMD_USER_UNIT",["systemctl","--user","show","ollama.service","--property=Environment","--value"]),
+        ("SYSTEMD_SYSTEM_MANAGER",["systemctl","show-environment"]),
+        ("SYSTEMD_SYSTEM_UNIT",["systemctl","show","ollama.service","--property=Environment","--value"]),
+    ):
+        result=run(argv,15)
+        if result.returncode!=0: continue
+        value=ollama_models_from_systemd_environment(result.stdout)
+        if value: candidates.append((source,value))
+    for source,scope in (("SYSTEMD_USER_PROCESS",["--user"]),("SYSTEMD_SYSTEM_PROCESS",[])):
+        value=_service_process_ollama_models(scope)
+        if value: candidates.append((source,value))
+    for source,scope in (("SYSTEMD_USER_ENVFILE",["--user"]),("SYSTEMD_SYSTEM_ENVFILE",[])):
+        for value in _environment_file_ollama_models(scope):
+            candidates.append((source,value))
+    candidates.extend([
+        ("OLLAMA_USER_DEFAULT",str(Path.home()/".ollama/models")),
+        ("OLLAMA_XDG_DEFAULT",str(Path.home()/".local/share/ollama/models")),
+    ])
+    for source,value in candidates:
+        try: path=Path(value).expanduser().resolve()
+        except Exception: continue
+        if path.is_dir(): return path,source
+    return None,"OLLAMA_DEFAULT"
+
 def start_ollama_cpu(runtime_dir:Path):
     ollama=find_binary("ollama")
     if ollama is None: raise RuntimeError("Ollama binary not found")
     port=free_port(); base=f"http://127.0.0.1:{port}"
     env=safe_child_env()
+    models_dir,models_source=discover_ollama_models_dir()
+    if models_dir is not None: env["OLLAMA_MODELS"]=str(models_dir)
     env.update({
         "OLLAMA_HOST":f"127.0.0.1:{port}","OLLAMA_KEEP_ALIVE":"0",
         "OLLAMA_MAX_LOADED_MODELS":"1","OLLAMA_NUM_PARALLEL":"1",
-        "CUDA_VISIBLE_DEVICES":"","ROCR_VISIBLE_DEVICES":"",
-        "HIP_VISIBLE_DEVICES":"","GPU_DEVICE_ORDINAL":"",
+        "CUDA_VISIBLE_DEVICES":"-1","ROCR_VISIBLE_DEVICES":"-1",
+        "HIP_VISIBLE_DEVICES":"-1","GPU_DEVICE_ORDINAL":"-1",
+        "GGML_VK_VISIBLE_DEVICES":"-1","OLLAMA_VULKAN":"0",
     })
     log_fh=(runtime_dir/"ollama-cpu.log").open("w",encoding="utf-8")
     proc=subprocess.Popen([str(ollama),"serve"],stdout=log_fh,stderr=subprocess.STDOUT,text=True,env=env,start_new_session=True)
@@ -202,27 +272,34 @@ def start_ollama_cpu(runtime_dir:Path):
             raise RuntimeError(f"ephemeral Ollama exited rc={proc.returncode}")
         try:
             http_json(base+"/api/version",timeout=5); log_fh.flush()
-            return ollama,proc,base
+            models_fingerprint=sha256_bytes(str(models_dir).encode("utf-8")) if models_dir is not None else None
+            return ollama,proc,base,models_source,models_fingerprint
         except Exception as exc:
             last=exc; time.sleep(0.5)
     log_fh.close()
     raise RuntimeError(f"ephemeral Ollama readiness timeout: {last}")
 
-def collect_ollama(runtime_dir:Path)->dict[str,Any]:
-    ollama,proc,base=start_ollama_cpu(runtime_dir)
+def collect_ollama(runtime_dir:Path,preserve_runtime:bool=False)->dict[str,Any]:
+    ollama,proc,base,models_source,models_fingerprint=start_ollama_cpu(runtime_dir)
+    preserved=False
     try:
         version=http_json(base+"/api/version",timeout=10)
         tags=http_json(base+"/api/tags",timeout=30)
-        candidates=select_ollama_models(tags,limit=5)
+        candidates=select_ollama_models(tags,limit=50)
         if not candidates: raise RuntimeError("no digest-addressed local Ollama model found")
         failures=[]
         for row in candidates:
             name=str(row.get("name") or row.get("model"))
             try:
+                show=http_json(base+"/api/show",{"model":name},timeout=30)
+                capabilities=show.get("capabilities") if isinstance(show,dict) else None
+                if isinstance(capabilities,list) and "completion" not in capabilities:
+                    failures.append("NON_COMPLETION_CAPABILITY")
+                    continue
                 response=http_json(base+"/api/generate",{
                     "model":name,"prompt":"Reply briefly with FA3_OLLAMA_E2E_PASS.",
                     "stream":False,"keep_alive":"5m",
-                    "options":{"num_ctx":512,"num_predict":8,"temperature":0},
+                    "options":{"num_ctx":512,"num_predict":8,"temperature":0,"num_gpu":0},
                 },timeout=600)
                 text=str(response.get("response","")) if isinstance(response,dict) else ""
                 if not text.strip(): raise RuntimeError("empty generate response")
@@ -232,8 +309,7 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
                 size_vram=running[0].get("size_vram")
                 if size_vram is None or int(size_vram)!=0:
                     raise RuntimeError(f"CPU-only proof failed: size_vram={size_vram}")
-                http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=120)
-                return {
+                result={
                     "provider_id":OLLAMA_PROVIDER_ID,"status":"PASS",
                     "evidence_level":"CURRENT_HOST_RUNTIME_E2E_PASS",
                     "ollama_version":version.get("version") if isinstance(version,dict) else None,
@@ -243,27 +319,70 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
                     "selected_model_details":row.get("details"),
                     "generate_response_sha256":sha256_bytes(text.encode("utf-8")),
                     "generate_response_length":len(text.strip()),"size_vram":int(size_vram),
+                    "model_store_source":models_source,
+                    "model_store_path_sha256":models_fingerprint,
                     "accelerator_visibility":"HIDDEN_FOR_CPU_SMOKE",
                     "network_model_pull_performed":False,"accelerator_execution_claimed":False,
                     "candidate_failures_before_success":failures,
+                    "cpu_only_server_controls":{
+                        "accelerator_device_selection":"BLOCKED",
+                        "vulkan_disabled":True,
+                        "per_request_num_gpu":0,
+                    },
                 }
+                if preserve_runtime:
+                    result["runtime_handoff"]={
+                        "preserved":True,
+                        "api_base":base+"/v1",
+                        "openai_api_base":base+"/v1",
+                        "native_api_base":base,
+                        "process_id":proc.pid,
+                        "process_start_ticks":process_start_ticks(proc.pid),
+                        "server_cpu_only":True,
+                        "accelerator_visibility":"BLOCKED_FOR_SERVER_LIFETIME",
+                        "provider_binary_sha256":sha256_file(ollama),
+                    }
+                    preserved=True
+                else:
+                    http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=120)
+                return result
             except Exception as exc:
-                failures.append(f"{name}: {type(exc).__name__}: {exc}")
+                failures.append(type(exc).__name__)
                 try: http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=30)
                 except Exception: pass
         raise RuntimeError("no local Ollama model completed CPU-only generate: "+" | ".join(failures[-3:]))
     finally:
-        try: os.killpg(proc.pid,15)
-        except ProcessLookupError: pass
-        try: proc.wait(timeout=15)
-        except subprocess.TimeoutExpired:
-            try: os.killpg(proc.pid,9)
+        if not preserved:
+            try: os.killpg(proc.pid,15)
             except ProcessLookupError: pass
-            proc.wait(timeout=5)
+            try: proc.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                try: os.killpg(proc.pid,9)
+                except ProcessLookupError: pass
+                proc.wait(timeout=5)
+
+def attempt_provider(provider_id:str,fn)->dict[str,Any]:
+    try:
+        result=fn()
+        if not isinstance(result,dict) or result.get("provider_id")!=provider_id or result.get("status")!="PASS":
+            raise RuntimeError("provider collector did not return a bound PASS result")
+        return result
+    except Exception as exc:
+        fingerprint=sha256_bytes(f"{type(exc).__name__}:{exc}".encode("utf-8"))
+        return {
+            "provider_id":provider_id,
+            "status":"UNAVAILABLE_OR_FAILED",
+            "evidence_level":"CURRENT_HOST_PROVIDER_NOT_ADMITTED",
+            "error_type":type(exc).__name__,
+            "reason_code":provider_failure_code(provider_id,exc),
+            "error_fingerprint_sha256":fingerprint,
+            "production_admission_claim":False,
+        }
 
 def main()->int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--root",default=str(ROOT))
+    ap.add_argument("--preserve-serving-runtime",action="store_true")
     args=ap.parse_args()
     root=Path(args.root).resolve()
     if platform.system()!="Linux" or platform.machine().lower() not in {"x86_64","amd64"}:
@@ -277,34 +396,65 @@ def main()->int:
     regressions=regression_check()
     if regressions.get("result")!="PASS": raise RuntimeError("provider adapter regression failed")
     receipt={
-        "schema":"fa3.model-manager-current-host-receipt.v1","runtime_id":RUNTIME_ID,
+        "schema":"fa3.model-manager-current-host-receipt.v2","runtime_id":RUNTIME_ID,
         "status":"FAIL","evidence_level":"CURRENT_HOST_MODEL_PROVIDER_E2E_FAIL",
         "started_at":utc_now(),"host":host_fingerprint(),"adapter_regression":regressions,
-        "execution_policy":{"local_artifacts_only":True,"network_download_or_pull":False,"cpu_first":True,"accelerator_execution_claimed":False,"accelerator_requires_hrb_for_separate_evidence":True},
+        "execution_policy":{
+            "local_artifacts_only":True,
+            "network_download_or_pull":False,
+            "cpu_first":True,
+            "accelerator_execution_claimed":False,
+            "accelerator_requires_hrb_for_separate_evidence":True,
+            "optional_provider_absence_blocks_other_provider_admission":False,
+        },
         "providers":{},"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143,
     }
-    try:
-        receipt["providers"][HF_PROVIDER_ID]=collect_hf()
-        receipt["providers"][LM_STUDIO_PROVIDER_ID]=collect_lmstudio(runtime_dir)
-        receipt["providers"][OLLAMA_PROVIDER_ID]=collect_ollama(runtime_dir)
-        receipt["status"]="PASS"; receipt["evidence_level"]=EVIDENCE_LEVEL
-        receipt["completed_at"]=utc_now()
-        receipt["promotion_effect"]="PROVIDER_SPECIFIC_CURRENT_HOST_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED"
-        writej(receipt_path,receipt)
-        writej(runtime_dir/"summary.json",{
-            "runtime_id":RUNTIME_ID,"status":"PASS","evidence_level":EVIDENCE_LEVEL,
-            "completed_at":receipt["completed_at"],
-            "provider_statuses":{k:v.get("status") for k,v in receipt["providers"].items()},
-            "receipt_sha256":sha256_file(receipt_path),
-        })
-        print(json.dumps(receipt,indent=2,ensure_ascii=False))
-        return 0
-    except Exception as exc:
-        receipt["completed_at"]=utc_now()
-        receipt["error_type"]=type(exc).__name__; receipt["error"]=str(exc)
-        writej(receipt_path,receipt)
-        print(json.dumps(receipt,indent=2,ensure_ascii=False),file=sys.stderr)
-        return 2
+
+    receipt["providers"][HF_PROVIDER_ID]=attempt_provider(HF_PROVIDER_ID,collect_hf)
+    receipt["providers"][LM_STUDIO_PROVIDER_ID]=attempt_provider(LM_STUDIO_PROVIDER_ID,lambda:collect_lmstudio(runtime_dir))
+    receipt["providers"][OLLAMA_PROVIDER_ID]=attempt_provider(
+        OLLAMA_PROVIDER_ID,
+        lambda:collect_ollama(runtime_dir,preserve_runtime=args.preserve_serving_runtime),
+    )
+
+    serving_ids=(LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID)
+    admitted=[pid for pid,item in receipt["providers"].items() if item.get("status")=="PASS"]
+    serving=[pid for pid in serving_ids if receipt["providers"].get(pid,{}).get("status")=="PASS"]
+    unavailable=[pid for pid,item in receipt["providers"].items() if item.get("status")!="PASS"]
+    receipt["admitted_provider_ids"]=admitted
+    receipt["serving_provider_ids"]=serving
+    receipt["unavailable_provider_ids"]=unavailable
+    receipt["provider_coverage"]="COMPLETE" if not unavailable else "PARTIAL"
+    receipt["combined_pass_semantics"]="AT_LEAST_ONE_REAL_LOCAL_SERVING_RUNTIME_PASS"
+    receipt["completed_at"]=utc_now()
+
+    if serving:
+        receipt["status"]="PASS"
+        receipt["evidence_level"]=EVIDENCE_LEVEL
+        receipt["promotion_effect"]="PROVIDER_SPECIFIC_CURRENT_HOST_EVIDENCE_ONLY_OPTIONAL_PROVIDER_FAILURES_DO_NOT_PROMOTE_OR_BLOCK_OTHER_PROVIDERS"
+        rc=0
+    else:
+        receipt["status"]="FAIL"
+        receipt["evidence_level"]="CURRENT_HOST_MODEL_PROVIDER_E2E_FAIL"
+        receipt["promotion_effect"]="NO_LOCAL_SERVING_RUNTIME_ADMITTED"
+        rc=2
+
+    writej(receipt_path,receipt)
+    writej(runtime_dir/"summary.json",{
+        "runtime_id":RUNTIME_ID,
+        "status":receipt["status"],
+        "evidence_level":receipt["evidence_level"],
+        "completed_at":receipt["completed_at"],
+        "provider_statuses":{k:v.get("status") for k,v in receipt["providers"].items()},
+        "admitted_provider_ids":admitted,
+        "serving_provider_ids":serving,
+        "unavailable_provider_ids":unavailable,
+        "provider_coverage":receipt["provider_coverage"],
+        "receipt_sha256":sha256_file(receipt_path),
+    })
+    stream=sys.stdout if rc==0 else sys.stderr
+    print(json.dumps(receipt,indent=2,ensure_ascii=False),file=stream)
+    return rc
 
 if __name__=="__main__":
     raise SystemExit(main())

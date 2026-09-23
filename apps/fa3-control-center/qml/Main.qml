@@ -115,6 +115,10 @@ ApplicationWindow {
         {title: "MCP Gateway", detail: "Central MCP Gateway registry, routing, policy és security operátori felület", category: "FUNCTION", pageIndex: 27},
         {title: "Trust & Certificates", detail: "Belső PKI, machine identity, ACME, mTLS és SSH certificate állapot", category: "FUNCTION", pageIndex: 29},
         {title: "Session Vault / Kulcsvault", detail: "LUKS2 key-vault image, automatikus jelszókezelős feloldás és kulcskezelés", category: "FUNCTION", pageIndex: 30},
+        {title: "Decision Fabric", detail: "Provider-neutral bounded semantic decision fabric", category: "FUNCTION", pageIndex: 31},
+        {title: "Decision Inspector", detail: "Read-only append-only Decision Trace inspection", category: "FUNCTION", pageIndex: 32},
+        {title: "External Project Radar", detail: "Pinned Jev ecosystem source, license and reuse radar", category: "FUNCTION", pageIndex: 33},
+        {title: "Context Inspector", detail: "PROTECTED / ACTIVE / HIDDEN / ARCHIVED context projection", category: "FUNCTION", pageIndex: 34},
         {title: "MCP Control Chat", detail: "GIMP, Krita, Blender, Kdenlive, OpenShot és más MCP-vezérelt alkalmazások természetes nyelvű orchestration felülete", category: "FUNCTION", pageIndex: 14},
         {title: "Rendszerbeállítások", detail: "FA3 GUI és host beállítások", category: "FUNCTION", pageIndex: 15},
         {title: "System", detail: "Runtime és platform információ", category: "FUNCTION", pageIndex: 16},
@@ -630,6 +634,9 @@ ApplicationWindow {
                         NavButton { iconText: "⇄"; label: "MCP Gateway"; pageIndex: 27 }
                         NavButton { iconText: "⌾"; label: "Trust & Certificates"; pageIndex: 29 }
                         NavButton { iconText: "▣"; label: "Session Vault / Kulcsvault"; pageIndex: 30 }
+                        NavButton { iconText: "◇"; label: "Decision Fabric"; pageIndex: 31 }
+                        NavButton { iconText: "⊙"; label: "Decision Inspector"; pageIndex: 32 }
+                        NavButton { iconText: "⌕"; label: "External Project Radar"; pageIndex: 33 }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "MONITOR"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
@@ -639,6 +646,7 @@ ApplicationWindow {
                         NavButton { iconText: "≡"; label: "Napló / Journal"; pageIndex: 12 }
                         NavButton { iconText: "◎"; label: "FA3 OS"; pageIndex: 26 }
                         NavButton { iconText: "✓"; label: "Evidence"; pageIndex: 13 }
+                        NavButton { iconText: "▤"; label: "Context Inspector"; pageIndex: 34 }
                     }
                 }
 
@@ -1483,6 +1491,51 @@ ApplicationWindow {
                 SessionVaultPage {
                     panel: window.panel
                     panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                DecisionFabricPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                DecisionInspectorPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                }
+
+                ProjectRadarPage {
+                    panel: window.panel
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                }
+
+                ContextInspectorPage {
+                    panel: window.panel
                     border: window.border
                     textPrimary: window.textPrimary
                     textMuted: window.textMuted

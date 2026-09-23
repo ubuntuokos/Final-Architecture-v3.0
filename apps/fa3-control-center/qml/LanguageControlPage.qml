@@ -18,6 +18,27 @@ Item {
     readonly property string profileId: "FA3-GUI-LANGUAGE-CONTROL-001"
     readonly property string bridgeId: "FA3-LANGUAGE-BRIDGE-001"
 
+    property string primaryLanguage: String(preferences.value("languageControl/primaryLanguage", ""))
+    property string secondaryLanguage: String(preferences.value("languageControl/secondaryLanguage", ""))
+    property string additionalLanguages: String(preferences.value("languageControl/additionalLanguages", ""))
+    readonly property bool systemLanguageValid: primaryLanguage.length > 0 && secondaryLanguage.length > 0 && primaryLanguage !== secondaryLanguage
+
+    function setPrimaryLanguage(value) {
+        const normalized = String(value).trim()
+        if (normalized.length === 0 || normalized === secondaryLanguage) return false
+        primaryLanguage = normalized
+        save("languageControl/primaryLanguage", normalized)
+        return true
+    }
+
+    function setSecondaryLanguage(value) {
+        const normalized = String(value).trim()
+        if (normalized.length === 0 || normalized === primaryLanguage) return false
+        secondaryLanguage = normalized
+        save("languageControl/secondaryLanguage", normalized)
+        return true
+    }
+
     property string inputLanguage: String(preferences.value("languageControl/userLanguage", "auto"))
     property string outputLanguage: String(preferences.value("languageControl/outputLanguage", "same-as-input"))
     property bool preferNative: Boolean(preferences.value("languageControl/preferNative", true))
@@ -95,6 +116,64 @@ Item {
                     color: root.accent
                     font.pixelSize: 9
                     font.bold: true
+                }
+            }
+
+            Card {
+                Layout.leftMargin: 18
+                Layout.rightMargin: 18
+                Layout.preferredHeight: 250
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 14
+                    spacing: 8
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Rendszernyelvek"; color: root.textPrimary; font.pixelSize: 13; font.bold: true; Layout.fillWidth: true }
+                        Label { text: root.systemLanguageValid ? "VALID" : "INCOMPLETE"; color: root.systemLanguageValid ? root.green : root.orange; font.pixelSize: 9; font.bold: true }
+                    }
+                    Label { text: "Pontosan egy Primary és egy ettől különböző Secondary rendszernyelv kötelező. Nincs globálisan hardcoded felhasználói nyelv."; color: root.textMuted; font.pixelSize: 9; wrapMode: Text.WordWrap; Layout.fillWidth: true }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Primary"; color: root.textMuted; Layout.preferredWidth: 130 }
+                        TextField {
+                            Layout.fillWidth: true
+                            placeholderText: "pl. hu-HU"
+                            text: root.primaryLanguage
+                            onEditingFinished: root.setPrimaryLanguage(text)
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Secondary"; color: root.textMuted; Layout.preferredWidth: 130 }
+                        TextField {
+                            Layout.fillWidth: true
+                            placeholderText: "pl. en-US"
+                            text: root.secondaryLanguage
+                            onEditingFinished: root.setSecondaryLanguage(text)
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "Additional"; color: root.textMuted; Layout.preferredWidth: 130 }
+                        TextField {
+                            Layout.fillWidth: true
+                            placeholderText: "0..N BCP47, vesszővel elválasztva"
+                            text: root.additionalLanguages
+                            onEditingFinished: {
+                                root.additionalLanguages = text.trim()
+                                root.save("languageControl/additionalLanguages", root.additionalLanguages)
+                            }
+                        }
+                    }
+                    Label {
+                        visible: !root.systemLanguageValid
+                        text: "PENDING: Primary és Secondary értéket kell megadni, és a kettő nem lehet azonos."
+                        color: root.orange
+                        font.pixelSize: 9
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                    }
                 }
             }
 
