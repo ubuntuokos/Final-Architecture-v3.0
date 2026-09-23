@@ -71,7 +71,21 @@
       "route_id": "agents.workflows",
       "title": "Agents & Workflows",
       "group": "AGENTS",
-      "projection": "AGENT_WORKFLOW_STATUS"
+      "projection": "AGENT_WORKFLOW_STATUS",
+      "children": [
+        {
+          "surface_id": "agency-agents.imported-pack",
+          "title": "Agency Agents",
+          "projection": "EXTERNAL_AGENT_PACK_REFERENCE",
+          "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+          "candidate_catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+          "mode": "READ_ONLY_REFERENCE",
+          "activation_status": "DISABLED_NOT_ADMITTED",
+          "execution_intent_route": "agents.action-center",
+          "direct_provider_execution": false,
+          "authority": false
+        }
+      ]
     },
     {
       "route_id": "models.providers",
