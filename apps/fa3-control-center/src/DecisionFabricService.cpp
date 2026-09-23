@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QProcessEnvironment>
 #include <QRegularExpression>
+#include <QSaveFile>
 #include <QStandardPaths>
 #include <QTextStream>
 
@@ -181,4 +182,40 @@ void DecisionFabricService::refresh()
     loadTraces();
     loadRadar();
     loadContext();
+}
+
+
+bool DecisionFabricService::restoreContextItem(const QString &itemId)
+{
+    if (itemId.isEmpty()) return false;
+    QFile file(contextPath());
+    if (!file.open(QIODevice::ReadOnly)) return false;
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &error);
+    file.close();
+    if (error.error != QJsonParseError::NoError || !doc.isObject()) return false;
+
+    QJsonObject root = doc.object();
+    QJsonArray items = root.value(QStringLiteral("items")).toArray();
+    bool changed = false;
+    for (qsizetype i = 0; i < items.size(); ++i) {
+        QJsonObject row = items.at(i).toObject();
+        if (row.value(QStringLiteral("id")).toString() == itemId
+            && row.value(QStringLiteral("state")).toString() == QStringLiteral("HIDDEN")) {
+            row.insert(QStringLiteral("state"), QStringLiteral("ACTIVE"));
+            items.replace(i, row);
+            changed = true;
+            break;
+        }
+    }
+    if (!changed) return false;
+    root.insert(QStringLiteral("items"), items);
+    root.insert(QStringLiteral("restore_applied"), itemId);
+    QSaveFile out(contextPath());
+    if (!out.open(QIODevice::WriteOnly)) return false;
+    out.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+    if (out.write(QJsonDocument(root).toJson(QJsonDocument::Indented)) < 0) return false;
+    if (!out.commit()) return false;
+    loadContext();
+    return true;
 }
