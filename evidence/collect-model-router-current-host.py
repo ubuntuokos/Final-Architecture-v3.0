@@ -19,6 +19,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 AUTHORITY = "FA3-AUTH-MODEL-ROUTER-001"
 GATE_ID = "FA3-MODEL-ROUTER-CURRENT-HOST-GATESET-001"
+OLLAMA_PROVIDER_ID = "FA3-PROVIDER-OLLAMA-MODEL-001"
 REQUIRED_ROUTES = ("fa3-text-primary","fa3-text-secondary","fa3-pageindex-index","fa3-pageindex-reason")
 
 
@@ -146,6 +147,69 @@ def request_json(method: str, url: str, token: str, body: dict[str, Any] | None 
     return parsed, elapsed
 
 
+def request_local_json(url: str, timeout: float = 30.0) -> dict[str, Any]:
+    req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "FA3-Model-Router-E2E/1"})
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    try:
+        with opener.open(req, timeout=timeout) as response:
+            raw = response.read(8 * 1024 * 1024)
+            status = int(response.status)
+    except (urllib.error.URLError, urllib.error.HTTPError) as exc:
+        raise CollectionDenied(f"provider runtime verification failed: {type(exc).__name__}") from exc
+    if status < 200 or status >= 300:
+        raise CollectionDenied(f"provider runtime verification returned HTTP {status}")
+    try:
+        parsed = json.loads(raw.decode("utf-8"))
+    except Exception as exc:
+        raise CollectionDenied("provider runtime verification returned invalid JSON") from exc
+    if not isinstance(parsed, dict):
+        raise CollectionDenied("provider runtime verification returned non-object JSON")
+    return parsed
+
+
+def provider_runtime_proof(binding: dict[str, Any]) -> dict[str, Any]:
+    provider_id = str(binding.get("provider_id", "")).strip()
+    runtime_id = str(binding.get("runtime_id", "")).strip()
+    model = str(binding.get("model", "")).strip()
+    if provider_id != OLLAMA_PROVIDER_ID:
+        return {
+            "provider_id": provider_id,
+            "runtime_id": runtime_id,
+            "model": model,
+            "proof_kind": "ROUTER_RESPONSE_ONLY",
+        }
+    api_base = str(binding.get("api_base", "")).rstrip("/")
+    parsed = urlparse(api_base)
+    if parsed.scheme not in {"http", "https"} or (parsed.hostname or "").lower() not in {"127.0.0.1", "::1", "localhost"}:
+        raise CollectionDenied("Ollama runtime verification endpoint must be loopback")
+    ps = request_local_json(api_base + "/api/ps", timeout=30)
+    rows = ps.get("models")
+    matches = [
+        row for row in rows
+        if isinstance(row, dict)
+        and str(row.get("name") or row.get("model") or "").strip() == model
+    ] if isinstance(rows, list) else []
+    if len(matches) != 1:
+        raise CollectionDenied("Ollama current-host runtime proof did not find the selected model")
+    try:
+        size_vram = int(matches[0].get("size_vram"))
+    except Exception as exc:
+        raise CollectionDenied("Ollama current-host runtime proof lacks size_vram") from exc
+    if size_vram != 0:
+        raise CollectionDenied(f"Ollama current-host execution was not CPU-only: size_vram={size_vram}")
+    options = binding.get("litellm_options")
+    if not isinstance(options, dict) or int(options.get("num_gpu", -1)) != 0:
+        raise CollectionDenied("Ollama route binding does not carry num_gpu=0")
+    return {
+        "provider_id": provider_id,
+        "runtime_id": runtime_id,
+        "model": model,
+        "proof_kind": "OLLAMA_PS_CPU_ONLY",
+        "size_vram": 0,
+        "num_gpu_request": 0,
+    }
+
+
 def main() -> int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--endpoint",default=os.environ.get("FA3_MODEL_ROUTER_URL","http://127.0.0.1:4000"))
@@ -211,11 +275,13 @@ def main() -> int:
                 content=str(msg.get("content","")).strip()
         if not content:
             raise CollectionDenied(f"logical route returned empty content: {route}")
+        proof = provider_runtime_proof(bindings[route])
         probes[route]={
             "result":"PASS",
             "latency_ms":round(latency,3),
             "response_sha256":"sha256:"+hashlib.sha256(content.encode("utf-8")).hexdigest(),
             "response_model":str(response.get("model","")),
+            "provider_runtime_proof":proof,
         }
     active=subprocess.run(["systemctl","--user","is-active","--quiet","fa3-model-router.service"]).returncode==0
     if not active:
