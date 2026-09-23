@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8bd878765feb8bade18f12b373b11ecc6d882f07",
-    "pre_projection_root_tree_sha": "46155511b08a8539558080aab5e54761c4af4592",
-    "pre_projection_canonical_tree_sha": "07101257eec9abcadc14ac0fe97e166aaa03a8b9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 574,
-    "total_post_baseline_commits": 574,
-    "delta_file_count": 1639,
-    "delta_added_files": 1634,
+    "pre_projection_head_sha": "4071cdf6edc4ce6c74fa8a832ce3b6755c71d364",
+    "pre_projection_root_tree_sha": "c86b00392733b8e0476c1ede6ec3864c32a9a9a6",
+    "pre_projection_canonical_tree_sha": "a6f7954ab6ddefc852e1916bc72b995ad46661d5",
+    "commits_ahead_of_v3_0_11_conformance_commit": 658,
+    "total_post_baseline_commits": 658,
+    "delta_file_count": 1704,
+    "delta_added_files": 1699,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 777,
-    "evidence_files_in_post_baseline_delta": 138,
-    "source_files_in_post_baseline_delta": 211,
-    "test_files_in_post_baseline_delta": 188,
-    "workflow_files_in_post_baseline_delta": 73,
+    "canonical_files_in_post_baseline_delta": 794,
+    "evidence_files_in_post_baseline_delta": 139,
+    "source_files_in_post_baseline_delta": 225,
+    "test_files_in_post_baseline_delta": 194,
+    "workflow_files_in_post_baseline_delta": 77,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -65,6 +65,8 @@
       "canonical/providers/FA3-PROVIDER-CODEX-001.json",
       "canonical/providers/FA3-PROVIDER-COSYVOICE-001.json",
       "canonical/providers/FA3-PROVIDER-CPMCU-001.json",
+      "canonical/providers/FA3-PROVIDER-DECISION-LOCAL-001.json",
+      "canonical/providers/FA3-PROVIDER-DECISION-RULES-001.json",
       "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "canonical/providers/FA3-PROVIDER-DEMUCS-001.json",
       "canonical/providers/FA3-PROVIDER-DITTOFEED-001.json",
@@ -78,6 +80,7 @@
       "canonical/providers/FA3-PROVIDER-HF-MODEL-STORE-001.json",
       "canonical/providers/FA3-PROVIDER-IDEATION-ADVISORY-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
+      "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json",
       "canonical/providers/FA3-PROVIDER-JOURNAL-LOCAL-001.json",
       "canonical/providers/FA3-PROVIDER-KANBOARD-001.json",
       "canonical/providers/FA3-PROVIDER-KANEO-001.json",
@@ -182,13 +185,16 @@
       "canonical/profiles/FA3-CLOSED-LOOP-AGENT-OPERATIONS-001.json",
       "canonical/profiles/FA3-COACH-001.json",
       "canonical/profiles/FA3-COMPOSITING-001.json",
+      "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
       "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "canonical/profiles/FA3-CREATIVE-OPERATIONS-DASHBOARD-001.json",
       "canonical/profiles/FA3-CUDA-PY-001.json",
+      "canonical/profiles/FA3-DECISION-FABRIC-001.json",
       "canonical/profiles/FA3-DESKTOP-001.json",
       "canonical/profiles/FA3-DESKTOP-AGENT-WORKBENCH-001.json",
       "canonical/profiles/FA3-DIFFERENTIABLE-3D-001.json",
       "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
+      "canonical/profiles/FA3-EXTERNAL-PROJECT-RADAR-001.json",
       "canonical/profiles/FA3-GPU-KERNEL-RUNTIME-001.json",
       "canonical/profiles/FA3-HARDWARE-BASELINE-001.json",
       "canonical/profiles/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-001.json",
@@ -207,6 +213,7 @@
       "canonical/profiles/FA3-JOURNAL-ARCHIVE-001.json",
       "canonical/profiles/FA3-KDENLIVE-EDITORIAL-001.json",
       "canonical/profiles/FA3-KNOWLEDGE-001.json",
+      "canonical/profiles/FA3-LLM-GATEWAY-001.json",
       "canonical/profiles/FA3-MARKETING-001.json",
       "canonical/profiles/FA3-MCP-GATEWAY-001.json",
       "canonical/profiles/FA3-MEDIA-GPU-ZEROCOPY-001.json",
@@ -264,6 +271,9 @@
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
+      "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
+      "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
+      "canonical/contracts/FA3-DECISION-FABRIC-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
       "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
@@ -384,6 +394,8 @@
       "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
       "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
       "canonical/decisions/FA3-DEC-INTEGRATION-BROKER-2026-09-19.json",
+      "canonical/decisions/FA3-DEC-JEV-ADOPTION-RULE-2026-09-23.json",
+      "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json",
       "canonical/decisions/FA3-DEC-JOURNAL-ARCHIVE-2026-09-13.json",
       "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
       "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
@@ -811,7 +823,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1632,
+  "manifest_entry_count": 1697,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -881,6 +893,16 @@
     {
       "path": ".github/workflows/fa3-current-host.yml",
       "git_blob_sha": "b00149c9f2c3ea81ead4850449e174a2153f9fec",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-decision-fabric-current-host.yml",
+      "git_blob_sha": "68189cb27926731079e1b2c0fe316bd4a7aff1ef",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-decision-fabric.yml",
+      "git_blob_sha": "459445fb0f18aad1e95bbae77a3fb54ce358787d",
       "baseline_delta_status": "added"
     },
     {
@@ -1010,7 +1032,17 @@
     },
     {
       "path": ".github/workflows/fa3-model-manager-current-host.yml",
-      "git_blob_sha": "2cbbcb50e015d992c5a59559ee8909d0ed79e645",
+      "git_blob_sha": "6cec6b2974142ffcf24574cc89e7bf9dbf574dc3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-router-current-host.yml",
+      "git_blob_sha": "40e2070fdf2180c4ebf054bedb91e7d2d7064874",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-model-router-gate.yml",
+      "git_blob_sha": "4483010e28b723c00cba98ab806a7bd690da4286",
       "baseline_delta_status": "added"
     },
     {
@@ -1075,7 +1107,7 @@
     },
     {
       "path": ".github/workflows/fa3-release-projection-reconcile.yml",
-      "git_blob_sha": "a90a9d7d0727b74cf4d056d18b9dcce9f8282ee4",
+      "git_blob_sha": "3e99f837cff5b9b50b07df46e7d85d749d30e3d4",
       "baseline_delta_status": "added"
     },
     {
@@ -1189,8 +1221,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "README.md",
+      "git_blob_sha": "c9d21b834bc68d8cec5127b203ef504a49d3ba08",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "d4e637758a9affa85f38e20e5d86d91cb6f69d21",
+      "git_blob_sha": "c949c7176503b451b0e00df4d30e779573bfcb7b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/README.md",
+      "git_blob_sha": "5245bdd04f169687252cb5b5cd07e14fdf572258",
       "baseline_delta_status": "added"
     },
     {
@@ -1219,8 +1261,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/qml/ContextInspectorPage.qml",
+      "git_blob_sha": "75fc1d969072211389a5fd740693f0d067cfc04b",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/qml/DashboardPage.qml",
       "git_blob_sha": "94edee5f904c8c9356690a2ba71b4246559db674",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/DecisionFabricPage.qml",
+      "git_blob_sha": "77336859b4718ca65e804dfc1c3f3ac62ea62885",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/DecisionInspectorPage.qml",
+      "git_blob_sha": "52d923271ea606b2e0acb5c9354193adf7d10618",
       "baseline_delta_status": "added"
     },
     {
@@ -1260,7 +1317,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "1bedfc1190e95511a17e0e13aa2bebd6f5289881",
+      "git_blob_sha": "f67ff23ffd29a3ebfccf918d658049a980270d8b",
       "baseline_delta_status": "added"
     },
     {
@@ -1271,6 +1328,11 @@
     {
       "path": "apps/fa3-control-center/qml/ModelsProvidersPage.qml",
       "git_blob_sha": "83a03f23b1a86b7147afb9740f54c0c9fb22317a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/ProjectRadarPage.qml",
+      "git_blob_sha": "6e0c844de978ad6e74869972beec44f6ee132815",
       "baseline_delta_status": "added"
     },
     {
@@ -1309,11 +1371,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "apps/fa3-control-center/README.md",
-      "git_blob_sha": "5245bdd04f169687252cb5b5cd07e14fdf572258",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "apps/fa3-control-center/src/AppCatalogService.cpp",
       "git_blob_sha": "b21254ff665b85d5e648c5b02594acf0292481cc",
       "baseline_delta_status": "added"
@@ -1334,6 +1391,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "apps/fa3-control-center/src/DecisionFabricService.cpp",
+      "git_blob_sha": "06d414de9f529beca3dc5b989db79fe4d2a7265b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/DecisionFabricService.h",
+      "git_blob_sha": "7b4d8d934172f496da7093e42ec38b32b8efc11d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
       "git_blob_sha": "c69b71970fcf07297aac2bb1f9487beff08536ae",
       "baseline_delta_status": "added"
@@ -1351,11 +1418,6 @@
     {
       "path": "apps/fa3-control-center/src/JournalService.h",
       "git_blob_sha": "aa345ac29958a34846e8ca159df21a2f8a2190a0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "apps/fa3-control-center/src/main.cpp",
-      "git_blob_sha": "453b75fd2e3210b7bf4ddb384f502bd04f95f32d",
       "baseline_delta_status": "added"
     },
     {
@@ -1416,6 +1478,11 @@
     {
       "path": "apps/fa3-control-center/src/SystemDeviceModel.h",
       "git_blob_sha": "c9983d2ea290aee58229145b296eed8bf07438fd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/src/main.cpp",
+      "git_blob_sha": "b17ebe25d32d1608ccb1e4c539157be60e5ac103",
       "baseline_delta_status": "added"
     },
     {
@@ -1519,6 +1586,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-decision",
+      "git_blob_sha": "27b7fd2302828d97bd84efd6a620d89fe2db28a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-decision-current-host",
+      "git_blob_sha": "0d13c0b5ce3a4814f6c792e2fa4859996e34a3d9",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-demucs-bootstrap.sh",
       "git_blob_sha": "3ac8de1863a06d9c1c8b2740d127e8bfa1461bb5",
       "baseline_delta_status": "added"
@@ -1545,7 +1622,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "66d880ef98061c31669e0aebe81947097966c331",
+      "git_blob_sha": "ab84cd9c562e6076cdde8feb01ab0add43b20b7f",
       "baseline_delta_status": "modified"
     },
     {
@@ -1604,6 +1681,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-jev-radar",
+      "git_blob_sha": "c344e1eda57ea5dfd45c3c1ad6eb6ffee00e4a07",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-lavasr-bootstrap.sh",
       "git_blob_sha": "11f4db3c6a07847fca461a526eb9b7d599828033",
       "baseline_delta_status": "added"
@@ -1646,6 +1728,21 @@
     {
       "path": "bin/fa3-model-manager-current-host.sh",
       "git_blob_sha": "bacd3a7f7b552f69c88fa59fe2c83ce7bed948c2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-current-host.sh",
+      "git_blob_sha": "95e00bc32710b3faf538d1fd58db75da4c43ac12",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-install",
+      "git_blob_sha": "8970b6f6ee13fef33d9174f8de08b653b53d8450",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-model-router-serve",
+      "git_blob_sha": "0b7b9c6fee6905debbb1e55a73aeabf344a1e3d7",
       "baseline_delta_status": "added"
     },
     {
@@ -1814,1278 +1911,8 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "canonical/ace-step-enforcement.json",
-      "git_blob_sha": "eeeea47eca02cc97e1e997c772d3dbe2f3c1e0ad",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/actions/hardware.describe.json",
-      "git_blob_sha": "4faae020fb64b8666509d5dad8fb977de8f6532f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/actions/system.capabilities.list.json",
-      "git_blob_sha": "d1f8a0cba73f97de4575274b588859d0336db333",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/actions/system.providers.list.json",
-      "git_blob_sha": "3bde5d8eb3f7ba9d48496b63ac3c87fcac175751",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "canonical/AGENTS.md",
       "git_blob_sha": "108be3f11ea14ad7f5fab7026e37b8c18c8ee067",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/ai-comms-enforcement.json",
-      "git_blob_sha": "d4cad1d7301da5658ce6adeff51c90ab69153be2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/ai-engineering-from-scratch-enforcement.json",
-      "git_blob_sha": "d8dbe6cb2591397e22bc709dc3c89f562a176d51",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/ai-infra-guard-enforcement.json",
-      "git_blob_sha": "4e3bd976c90e42e157f3dd0bcc431b3f2ba4b603",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/ai-infra-guard-runtime-admission.json",
-      "git_blob_sha": "10b88023129e3db503eeae83feee04cb1bc912ae",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/any-guardrail-runtime-enforcement.json",
-      "git_blob_sha": "122f8ee3457c0c48cbcb53dfa2d59da7009e7230",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/autogpt-enforcement.json",
-      "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/autogpt-runtime-admission.json",
-      "git_blob_sha": "8e89f4307d0546728b7221cf08feba19118bbc31",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/blackhole-kdenlive-enforcement.json",
-      "git_blob_sha": "e3105b8c08fdefea1b4ab5d2d326c12c16c17e30",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/buzz-enforcement.json",
-      "git_blob_sha": "51b86183e62f89eea2f45fbcd8583a83b5620a9e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/buzz-runtime-admission-enforcement.json",
-      "git_blob_sha": "e889f7d61916c07906a4862895881f11ae3687e2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/buzz-runtime-admission.json",
-      "git_blob_sha": "bb72304264d17cd197ab47e75cebed025eed4081",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/caveman-enforcement.json",
-      "git_blob_sha": "4912893e8000c53aed8aace0d490091d820a04d8",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/coach-enforcement.json",
-      "git_blob_sha": "0a5449fa92e63041006d8f5ce2e966bc4d8d7db4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/codex-enforcement.json",
-      "git_blob_sha": "3b3bf1fca43b06581c349353c98deb7c76260259",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/codex-runtime-admission.json",
-      "git_blob_sha": "53642081846c37762027f3fd843cee4102e40a6a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/conformance-matrix.csv",
-      "git_blob_sha": "7405e24441ba2980b993ef27f9d9b5fd3d8097bc",
-      "baseline_delta_status": "modified"
-    },
-    {
-      "path": "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
-      "git_blob_sha": "c677a3e9780ce940885829266f0961807cfaec41",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
-      "git_blob_sha": "8af93429cf03e9a81766eb4f636f602237673de2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
-      "git_blob_sha": "5d9eee9a6db0cb6444a144683bd21bde8b13bf04",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
-      "git_blob_sha": "005081e1a7bd0220c8afdb4f9ee0e05c6329cd09",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json",
-      "git_blob_sha": "7e8afdf789a0be38baff920c9564b620fe6c7fa0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001.json",
-      "git_blob_sha": "ceb583391cc214f44dce0c90ae6d542eb58bc621",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
-      "git_blob_sha": "51f01b5bf41392d22e55ec25b4265eaa6088e5fd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
-      "git_blob_sha": "ebc4fd5aa831ebe913e593bcf1d21aa0cc7a607c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
-      "git_blob_sha": "31f2d2b68c5df8272fceb3c757ebdf1982673e3c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
-      "git_blob_sha": "637cc2897b3cda28a5e7223cda15e90bfb2880cf",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
-      "git_blob_sha": "1466d12666b5f961a5a413203cd1d0f8fa202f72",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
-      "git_blob_sha": "059746681913822173109262ea19762f86b013f0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
-      "git_blob_sha": "8447cc860b72b9904ff003334af57cd230bb6c68",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
-      "git_blob_sha": "4fd60d797233ba59263be8733f5d593e48434301",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
-      "git_blob_sha": "3f20d4e48f8d5ed72c82ce3960eb0ba6812841dd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-COACH-CONTRACTS-001.json",
-      "git_blob_sha": "4981af2afc0cbeec7f97ac4767211b7456400f7d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
-      "git_blob_sha": "4bb27142d2a85509395ed154e71ee3101e142bd4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
-      "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
-      "git_blob_sha": "00600d4dcc1719d44a486cac08e2118fef20506a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
-      "git_blob_sha": "aa1e82077914a78908c6fb18cf56d2aff59d5212",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
-      "git_blob_sha": "7912b9ec13708a36fe7dad7672c556871c865f45",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
-      "git_blob_sha": "60bb0ab3a84f78fdb05e79dc37363ed5a269a624",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
-      "git_blob_sha": "cc6745296d83ed2b379df427cfe20fbae86951cc",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
-      "git_blob_sha": "787b2e336a5ea442411672bf674b1131e6465691",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
-      "git_blob_sha": "d0a6b45f71c1d625293f73de970454c271b0b1f3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
-      "git_blob_sha": "addaa9fa3171128d6f1b8d0ad238471dc5d6d8c5",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "e8fc452d32379e99e59c1d5d4f39815a1416c1db",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "110adf6335693c741b33c5db5c77870f988c1961",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
-      "git_blob_sha": "abdc230dfa8a3ef7d26f446151d96af2c377e3ed",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
-      "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
-      "git_blob_sha": "5134e53be7e414b7b856b649216f557807892969",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
-      "git_blob_sha": "68cc3c495ba8a575ede05589825a35602a2207f6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
-      "git_blob_sha": "c89a1720f48b292addbefbc0dd5789bee6fcbc9e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json",
-      "git_blob_sha": "241524cd0c712a1befaf2a44ad98f0597d0bb49d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "1f202a6ce302fbdf073bad6d91bb83cdf1e0ab22",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001.json",
-      "git_blob_sha": "88e7db89c537cf592ed15603eb7f51bc5de7b9bf",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001.json",
-      "git_blob_sha": "1a0506fec443899534e1497206bbb45e530b4cfa",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HUMAN-MOTION-CONTRACTS-001.json",
-      "git_blob_sha": "fdf3b5841d1a4a6a8da7ac43f1629999e2b310bf",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
-      "git_blob_sha": "dc1530f47c0fa9068fe92137d24d2ea37f31cdee",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
-      "git_blob_sha": "c9a43d35dcc68d3411eae7807aff24f09e478819",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
-      "git_blob_sha": "d17168ac4af0d934c1d88796149356e3df5f8971",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-IDEATION-ADVISORY-CONTRACTS-001.json",
-      "git_blob_sha": "f9e931016f4ce15bff7e764655b55380220be602",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
-      "git_blob_sha": "942eba735023c9e9393e4439a8c42520d9c5eb61",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
-      "git_blob_sha": "1baf182d76898a4d5ab7542f382d5955c1d7ecc6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json",
-      "git_blob_sha": "a2a8b83e7595f512e7c05b5c4a6adb100fa5587a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-JOURNAL-CONTRACTS-001.json",
-      "git_blob_sha": "3bf757b8aad93c7c79eb400adde327e43e4785a6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
-      "git_blob_sha": "5452b4b1fefd866ddbf051a35ed854ec2ade17f4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
-      "git_blob_sha": "9009afeb2fd0d923f1fd375a5152b74be1c44a5b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
-      "git_blob_sha": "94dabda5df5a88f656346a83de40b445486a6d86",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json",
-      "git_blob_sha": "7ca20f5c85d2e626f8443204b418819fcb253bf7",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
-      "git_blob_sha": "aa43a3ac7ae553eac72da88dddf66948db1944d5",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
-      "git_blob_sha": "9a08bd9a5f107484cb9cb326fc19ff45c00c2a86",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
-      "git_blob_sha": "79f99b3bab6c09f26da121adfe051fe24926df4c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
-      "git_blob_sha": "febeac3ebda284100b874b5b119ff08bd97bb496",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
-      "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
-      "git_blob_sha": "5553d68b42ec22de980da96940fd4e10bf125c6f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
-      "git_blob_sha": "417986fca3c9e46f8fffac6d1eae5eccc2c192ea",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
-      "git_blob_sha": "b1792a889135a7698f1306eb7f9a902d91e8fcfc",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
-      "git_blob_sha": "05f3baf64aeca83d8ddeb1454c291d42bf3864b4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
-      "git_blob_sha": "b53782ec660a96cc0bfbf5abae563d2ad9354dd0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "82eece0230d8aefe44e6d740d74e96d89ab98e35",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
-      "git_blob_sha": "b59b58917732838ec6c2be46d6c07b23d78994fe",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
-      "git_blob_sha": "3963bda8bcd0ac45e5674f95a296c0c986129a85",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-OS-EVENT-001.schema.json",
-      "git_blob_sha": "3123d193104e96b95216dd33138fb8372258d8b1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
-      "git_blob_sha": "ea3964ee1a16addf4e3b954cf648a5a902ede46a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
-      "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
-      "git_blob_sha": "c55b9b55194055baab137656d92990e23391c69d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
-      "git_blob_sha": "e22785b8439631d6cffa5e680c553fd810563139",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
-      "git_blob_sha": "4605710589dfcd5ce3fcb875fcd1336be458d9e7",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
-      "git_blob_sha": "51f9ce60085e21256b390f896e98074227026670",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
-      "git_blob_sha": "9255f6909d07bbffca22ee65b4fdaedb92c36ebb",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
-      "git_blob_sha": "c8b64d5c3a0eb6df06c463d7ef295d8cea4ca785",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
-      "git_blob_sha": "9c0bd81f0f4744ccc331220c81ff218e32250e76",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
-      "git_blob_sha": "06102cafa3cbbf47d6d05bc54a5bfe3f0a0035ea",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-STT-CONTRACTS-001.json",
-      "git_blob_sha": "2df98b48e175ab6109a02bd392fb1ce3ba76e904",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
-      "git_blob_sha": "3c709dde055ea3add0cdd601fc4e7560d8d1e0a3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-TRUST-PKI-CONTRACTS-001.json",
-      "git_blob_sha": "3937ef9d0dcd3cbb02bdb2c608c541523b80d867",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-ACTION-CONTRACT-001.schema.json",
-      "git_blob_sha": "ddc1b8d46337f2535c3bb8206bf154d3cc0f55ce",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-ACTION-REQUEST-001.schema.json",
-      "git_blob_sha": "ec9cbbc09fb6f115854e2f17e40f800079545c82",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-ACTION-RESULT-001.schema.json",
-      "git_blob_sha": "b0466f15459cf62b2f1f2acc088f099547d8478f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-APPROVAL-GRANT-001.schema.json",
-      "git_blob_sha": "1e0ede3f4c18be0b0839b114a85a0b5fa000db5c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-EVIDENCE-RECEIPT-001.schema.json",
-      "git_blob_sha": "85a345646a7be45ed4d2e9f3672399585338092e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-EXECUTION-CONTEXT-001.schema.json",
-      "git_blob_sha": "236c0d8e7c0d2ac0be556add4cfea627889ad4cf",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UAF-PROVIDER-DESCRIPTOR-001.schema.json",
-      "git_blob_sha": "b8aaea8102319d4e5fbfdb8a0eba1eaa66d4e339",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
-      "git_blob_sha": "eeff7b27825e9f086b3bbf3954e5f16394cbd9d7",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
-      "git_blob_sha": "01ab3bc8694c9eec6ea186223ccbd9884a2a0102",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
-      "git_blob_sha": "257cbaed10d878f14a9bec3f8d445f81641486dd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
-      "git_blob_sha": "30cae0edaf816e2000e29bf76903ced3b9f7564a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
-      "git_blob_sha": "666fb5aee13246b04ce5e3183fb280cbf6e2a07c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
-      "git_blob_sha": "9847b94fad40a9c62297ffeeb6ca8b2502c3d85c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
-      "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-WORK-ITEM-PROJECTION-CONTRACTS-001.json",
-      "git_blob_sha": "ee54e1fd2fe9353581d392ed1de2633b15df475d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json",
-      "git_blob_sha": "bc93cdb3529005bcee12388f9530b057b0cc338e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/conversation-reconciliation-enforcement.json",
-      "git_blob_sha": "2d2daf0c9b868f5fd2fb4484c6872413082eb753",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/cosyvoice-enforcement.json",
-      "git_blob_sha": "591bc1e852d7f530afcf88645c2cf4c5861dd173",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/cpu-numa-threading-current-host-enforcement.json",
-      "git_blob_sha": "e1cc59e877252e483e6f6c0614e53a98067e31a4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/cpu-numa-threading-enforcement.json",
-      "git_blob_sha": "9e1e05058a959aeabdf62fe0a0d876f366eaacb8",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/current-host-capability-proof-recipes.json",
-      "git_blob_sha": "eb5475b681ea6140884ab10b0081a06bf135c214",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/current-host-capability-qualification-constituent-producers.json",
-      "git_blob_sha": "78c5649e78707eaa961a2b5484df097596637881",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/current-host-capability-test-executors.json",
-      "git_blob_sha": "440041f3dd96d6a876bd580adad0a1234ec3c748",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/current-host-capability-test-qualifications.json",
-      "git_blob_sha": "0bec1d0b97ae0d92a54856c8bab55d0acfb8f357",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/current-host-runner-enforcement.json",
-      "git_blob_sha": "2571ad312d67c77736f822b1c247f48b4dfe3cb6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
-      "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
-      "git_blob_sha": "c33f176ea0b612884b4464777e44e30518a2d695",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json",
-      "git_blob_sha": "2a65311f5202d3b82dfc4eecae2dc8ebc6c1130f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
-      "git_blob_sha": "8f4d4db0266a79ce03644d7b6cdbfc28a01d306a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
-      "git_blob_sha": "f077db9216a7a68d75b242d7f7d1b836fe3ff464",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-ANY-GUARDRAIL-2026-09-07.json",
-      "git_blob_sha": "84a19055f2016121cea95904e96a4600b7931da1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
-      "git_blob_sha": "51026b2102376f15d02d8502d2363fceeffcb054",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
-      "git_blob_sha": "10577c781d955c84fb4ce3eda73b08779a3a7db3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
-      "git_blob_sha": "79377d831e000f9444b3c297acdf268f59eb4e03",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
-      "git_blob_sha": "17d3a1aa93d8f6df228b4a1e8adb020202989e40",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13.json",
-      "git_blob_sha": "a143e93c3de70d16f8c26d7737628febc040557b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
-      "git_blob_sha": "6f521d55c73c93c543087327d37c5c8b0629ec0e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CENTRAL-MCP-GATEWAY-2026-09-18.json",
-      "git_blob_sha": "1a07301d4a0f9424db853e0b38cb0da4bfcb43b4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-COACH-2026-09-12.json",
-      "git_blob_sha": "d22fb67f977b1fef68e58d1dc7d104af07ec5977",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
-      "git_blob_sha": "027f08a82917729ed557f55750870e7fa8c342a0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
-      "git_blob_sha": "fa93edeb77ef5f46806c7e447abfed58115163d6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
-      "git_blob_sha": "a62273f04b63ab7867d5e3fb0622b99555957b36",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
-      "git_blob_sha": "31f1871e70c8d1bd459a2a43e600928544806050",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
-      "git_blob_sha": "c54d9c13355d647d54ddd3eae12be849767d3de6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
-      "git_blob_sha": "1302266141ab997cac26912dfae6d27106eeffb3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json",
-      "git_blob_sha": "f56db0e524d16c93e6e78920c8aad96f37009cca",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
-      "git_blob_sha": "653ec04496425762247cade59532117467c122dd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
-      "git_blob_sha": "1de93ac36349a16c32d452f8429ece7ee241f3c8",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-DESKTOP-SECRET-BACKEND-ADAPTER-2026-09-19.json",
-      "git_blob_sha": "91f8cf9f767e8279b0565c6368af76a46ee149c7",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
-      "git_blob_sha": "f91a5253c9325776c16000d08adb8f7d2ac06667",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
-      "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19.json",
-      "git_blob_sha": "4ac4ac760646b18189dc193200eb58596482e442",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
-      "git_blob_sha": "9064f27db6ed42f18cb344d3abf099f90af522fc",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
-      "git_blob_sha": "ff1f40523212dee9b5ba976614540686b00866f6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
-      "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
-      "git_blob_sha": "b931091ad4a77980be0e885843b528b2c9e0a08b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-GIMP-LOCAL-AI-2026-09-08.json",
-      "git_blob_sha": "7e0b30e8359d0361483668079ccc8d44878611b8",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
-      "git_blob_sha": "1a57e5aaba75e224671ed34f3e90604afe97b044",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
-      "git_blob_sha": "0406f630c371568d5a174b89eab2d9348876e4ea",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
-      "git_blob_sha": "6c408d5909e38a450edf2312137fd7ab0f32c61a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
-      "git_blob_sha": "e2ab178151aaf9f908dbcbadd243359eb9ddac9c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
-      "git_blob_sha": "604f9b1318262767a0c35f645406a662001a9bbd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
-      "git_blob_sha": "7b967b920f3727f88b2d25c52fe9b1ac84b6222d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
-      "git_blob_sha": "0be08c3a5bbc03f903ad31eb05b0288ff4e5aa10",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
-      "git_blob_sha": "b508a6badf0c8b2396b09c9a577dc3935c3659bd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
-      "git_blob_sha": "165926022b0e846ac4273b1d677f5da2514c7789",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
-      "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
-      "git_blob_sha": "c7b8702bd39f4a1c3935f37fb5972851122d9778",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
-      "git_blob_sha": "51a8422da7bb139c1c5701cf47e06dcdefda69eb",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
-      "git_blob_sha": "7f03a1f335c8a5fe08afafc7eea26ef2947c3ef4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
-      "git_blob_sha": "153ce0eb83fd817d10739a3213df54eaf579f005",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-INTEGRATION-BROKER-2026-09-19.json",
-      "git_blob_sha": "3f18e4b94b453afdb438549705119bb384db5abc",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-JOURNAL-ARCHIVE-2026-09-13.json",
-      "git_blob_sha": "10263411688d03673a6c5aaa760ab1e56087fc50",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
-      "git_blob_sha": "2518731105772ffeab8930a025dd9ffe2b74ded0",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
-      "git_blob_sha": "28c32e95bf84d87611971b94ac0cb3eb15357395",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KANEO-UPSTREAM-RECONCILIATION-2026-09-12.json",
-      "git_blob_sha": "4cf2d52036ce199069b15862577c06e45c4ef75f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
-      "git_blob_sha": "28ff7b1c1a9fb189b5f71d31b4a761957784ec2b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
-      "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
-      "git_blob_sha": "e9ab32ccb42d7f423b12d2851c88b862c5fc93bf",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json",
-      "git_blob_sha": "a373e897a143dd528af56c6c15c352f23f4f1d82",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
-      "git_blob_sha": "d5fa12afae024c6347063eadc0ae368156842769",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
-      "git_blob_sha": "df0f5193dec308a875c0320b86926e8df64b9310",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
-      "git_blob_sha": "717e0fc2d070d0aa49e0353ca5ac0c9e88b7e2ff",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
-      "git_blob_sha": "434c9ee664c77a7b61307820bcf678cb83ca1dfa",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
-      "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
-      "git_blob_sha": "18f964fb351350ef435f0c65b82ba5e857d151f6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
-      "git_blob_sha": "b3b0535d3cb70b8100e8a7b759108a95dc4e32df",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
-      "git_blob_sha": "a930c955adcc26daefaff33ea66768e1d50bd90a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19.json",
-      "git_blob_sha": "6eaf82c7c16577d07cf65e9b4d00513b136157de",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
-      "git_blob_sha": "f58a6514a664603bfb3548c46d742d3f3cbfeb7e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
-      "git_blob_sha": "8780f277a4477c69763d35afda7f902626f195de",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
-      "git_blob_sha": "162622a1e55cea2efe05bb3a8253862f25d00993",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
-      "git_blob_sha": "ef6253c9633d5ba986d9f28abf620fab8959b337",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
-      "git_blob_sha": "b0d28828549cc56c8653096d3c45bc3db3c4e6dd",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
-      "git_blob_sha": "c32a5714525769fa67959612b8260efa887a55ee",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json",
-      "git_blob_sha": "f10c32996b40e8ce3f8748c908f859dc7f193041",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
-      "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
-      "git_blob_sha": "4a5d2244060d3cd9559b5519136a27dd6b89af54",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
-      "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
-      "git_blob_sha": "f5c100b96dfd50d411b3dae6f472c33d2fa18575",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODERNIZATION-RECONCILIATION-2026-09-20.json",
-      "git_blob_sha": "57ec151786eb6ce6353b7ca7ba86c573a379b2a1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
-      "git_blob_sha": "2a12815133fa388068f2bae239f4b511661d8455",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
-      "git_blob_sha": "94db56ed72c9a9e738caf3627fd5fede9890d5c3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MUSE-CODE-2026-09-01.json",
-      "git_blob_sha": "09ca8dd10b9f07d30256c00db34cb70befae4baa",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MUSE-IMAGE-2026-08-30.json",
-      "git_blob_sha": "bc3110e791915e23f424dd933fcaf50d84b670af",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-MYNA-2026-08-30.json",
-      "git_blob_sha": "b6ab4b834f00f41b40fad39171d7955319b7c038",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-NATRON-2026-08-30.json",
-      "git_blob_sha": "4afe220e63f369a980382fe5c99807cc92e5093a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
-      "git_blob_sha": "af6823754fa31d909f97c8fdb0babd81af0b0017",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
-      "git_blob_sha": "aed7c49c22ac9db7ed26fbeffafac1da4ce80189",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
-      "git_blob_sha": "2bf8e012382ac00f6c6e717924ccaaab8c905159",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
-      "git_blob_sha": "efd8bfffcaa97d393fe799ceb116be8b02bfd305",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
-      "git_blob_sha": "d248db812e1221662cf69d043f5dcc94bfbf7c8a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
-      "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
-      "git_blob_sha": "14fa84e3eb852bf7535a3d6bf3ca6553b4ae8164",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
-      "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
-      "git_blob_sha": "59b6648068aaa00afc05d2e594bd096acdc47723",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
-      "git_blob_sha": "d40df46553dda7564afad30ea23aa303844ebbf4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
-      "git_blob_sha": "73c3fdea5ce7d2a10fd49f11514262e08ff5281d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
-      "git_blob_sha": "1d0a560051d687f61227a0d45adb16551817ac9b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
-      "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
-      "git_blob_sha": "a738df84a7106a1407bdce9dc39e8c05e4f4dc3e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
-      "git_blob_sha": "989d6c8125dce6642a45fb089b60cea8e7b525e9",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json",
-      "git_blob_sha": "79f3c800638506236d13cb54651525d4bc23ac2c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
-      "git_blob_sha": "1db2a2f58c476bd1e53e31fc4caba9ef35911498",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json",
-      "git_blob_sha": "476614b667915c61c34f10089c82773a7851f2f2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
-      "git_blob_sha": "55f34c9e58d5f01fed4280077f09e63b0efa1caf",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-RESOURCE-EVIDENCE-NORMALIZATION-2026-09-14.json",
-      "git_blob_sha": "cf61354f8275ed0fd9cbb729d337c5ee706a1034",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
-      "git_blob_sha": "7f6588f2fe94e79d2d6208d716ec945dcdd58804",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
-      "git_blob_sha": "6cb7d58da9067edce7efb234bd84eee5ebfefa8c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
-      "git_blob_sha": "c2f3d1b5e06d591ab6fec152f8508d179379c09f",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
-      "git_blob_sha": "ce5c8c67267920f965e39279d5314e071ce629bb",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
-      "git_blob_sha": "353fc24c008f3b53a5d1ca3cc133b28fa69aa826",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
-      "git_blob_sha": "0cb47640141c2bbb7bd27fc804009aa702712885",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
-      "git_blob_sha": "b52b71dd90b4bfa35bab43c3937133a6a05e6963",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
-      "git_blob_sha": "90833460362f8e17af8e74dc46e63b98535b41e1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
-      "git_blob_sha": "9cac163cd77afd4dffa6f1d29fb6702d98c0e6d3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
-      "git_blob_sha": "30914ec1a33af0002c1a54d193640c6916db720d",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
-      "git_blob_sha": "c84046b39362984b04076ce1030b7cee3ac0c790",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json",
-      "git_blob_sha": "338d21252772f519ce755e0b16a6afc7d60020bb",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20.json",
-      "git_blob_sha": "32e5c073e116bc4a978c7ab64377492d1fb92da1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20.json",
-      "git_blob_sha": "b4c0851a5f1a96e140efd344d5b2d545ec445242",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
-      "git_blob_sha": "afc982ff443bafea67e7299353a78a482a6485d2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
-      "git_blob_sha": "2d3e614a5c703742e67510b9a09d2a9393155f11",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-UNIFIED-ACTION-FABRIC-2026-09-21.json",
-      "git_blob_sha": "c55ad85c4c535f42d68da8b9b6c3971cd1a21431",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
-      "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
-      "git_blob_sha": "185d00dc1ad0f3f5db23a1531091de44458fb9f1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12.json",
-      "git_blob_sha": "0a3e452eb968adaa0d820cfd4ad47e0b7c4465be",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
-      "git_blob_sha": "8bf10431218e60a257eedd6c16bc88a2e9d440b5",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
-      "git_blob_sha": "d3862ed33df419e5eb60632c8aa4101c09b41f89",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
-      "git_blob_sha": "b070452e56599b71a8d762b883ae914b5834b32a",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17.json",
-      "git_blob_sha": "f0cafc0766ba5f5ca31bdb59fd1c65c176979652",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
-      "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/demucs-enforcement.json",
-      "git_blob_sha": "15141596a26529193198f52297b50fd4674068c3",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/developer-agent-coordination-enforcement.json",
-      "git_blob_sha": "2329bb71ab4a3f3780b8906db9bc02b9889c31f4",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "3b6d620eed3177e5d7a128825b10697a5a281d4c",
-      "baseline_delta_status": "modified"
-    },
-    {
-      "path": "canonical/external-api-discovery-enforcement.json",
-      "git_blob_sha": "6886a361f89b5568e52cdc81fe598e2dbfe0ee19",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json",
-      "git_blob_sha": "6b7d2b6163e0f4d88d26317573d5e51138f6f28a",
       "baseline_delta_status": "added"
     },
     {
@@ -3106,6 +1933,11 @@
     {
       "path": "canonical/FA3-APP-REQUEST-001.json",
       "git_blob_sha": "46bf2df1d04fb47722c8aec73c5a67ed5ec66273",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-AUTH-MODEL-ROUTER-001.json",
+      "git_blob_sha": "7dfde3128168ef48d77a0efe022aab96a3bcf98c",
       "baseline_delta_status": "added"
     },
     {
@@ -3670,7 +2502,7 @@
     },
     {
       "path": "canonical/FA3-MODEL-MANAGER-RUNTIME-CONFORMANCE-001.json",
-      "git_blob_sha": "ca932e0437d49c2c6b8f4b60b327db15b4606ecd",
+      "git_blob_sha": "bd031cd7f64f3bea4ff55d6e1ec4ada07135b00b",
       "baseline_delta_status": "added"
     },
     {
@@ -3686,11 +2518,6 @@
     {
       "path": "canonical/FA3-OPENFX-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "6f5d2b82c7756cadc472e87e8e6f298844fd1f83",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "canonical/fa3-os-event-privacy-enforcement.json",
-      "git_blob_sha": "054e89e663e46046c68312722b39fdb53782d57d",
       "baseline_delta_status": "added"
     },
     {
@@ -3826,6 +2653,1321 @@
     {
       "path": "canonical/FA3-WORKLOAD-RESOURCE-ENVELOPE-001.json",
       "git_blob_sha": "e9a1c15f84c6ae92d0736c0c50d4b93e48ea9c8c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/ace-step-enforcement.json",
+      "git_blob_sha": "eeeea47eca02cc97e1e997c772d3dbe2f3c1e0ad",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/hardware.describe.json",
+      "git_blob_sha": "4faae020fb64b8666509d5dad8fb977de8f6532f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/system.capabilities.list.json",
+      "git_blob_sha": "d1f8a0cba73f97de4575274b588859d0336db333",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/system.providers.list.json",
+      "git_blob_sha": "3bde5d8eb3f7ba9d48496b63ac3c87fcac175751",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/ai-comms-enforcement.json",
+      "git_blob_sha": "d4cad1d7301da5658ce6adeff51c90ab69153be2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/ai-engineering-from-scratch-enforcement.json",
+      "git_blob_sha": "d8dbe6cb2591397e22bc709dc3c89f562a176d51",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/ai-infra-guard-enforcement.json",
+      "git_blob_sha": "4e3bd976c90e42e157f3dd0bcc431b3f2ba4b603",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/ai-infra-guard-runtime-admission.json",
+      "git_blob_sha": "10b88023129e3db503eeae83feee04cb1bc912ae",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/any-guardrail-runtime-enforcement.json",
+      "git_blob_sha": "122f8ee3457c0c48cbcb53dfa2d59da7009e7230",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/assessments/FA3-JEV-DECISION-FABRIC-2026-09-23.json",
+      "git_blob_sha": "6ec684d154412c8381afb1e5248904085d030e93",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/autogpt-enforcement.json",
+      "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/autogpt-runtime-admission.json",
+      "git_blob_sha": "8e89f4307d0546728b7221cf08feba19118bbc31",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/blackhole-kdenlive-enforcement.json",
+      "git_blob_sha": "e3105b8c08fdefea1b4ab5d2d326c12c16c17e30",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/buzz-enforcement.json",
+      "git_blob_sha": "51b86183e62f89eea2f45fbcd8583a83b5620a9e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/buzz-runtime-admission-enforcement.json",
+      "git_blob_sha": "e889f7d61916c07906a4862895881f11ae3687e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/buzz-runtime-admission.json",
+      "git_blob_sha": "bb72304264d17cd197ab47e75cebed025eed4081",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/caveman-enforcement.json",
+      "git_blob_sha": "4912893e8000c53aed8aace0d490091d820a04d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/coach-enforcement.json",
+      "git_blob_sha": "0a5449fa92e63041006d8f5ce2e966bc4d8d7db4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/codex-enforcement.json",
+      "git_blob_sha": "3b3bf1fca43b06581c349353c98deb7c76260259",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/codex-runtime-admission.json",
+      "git_blob_sha": "53642081846c37762027f3fd843cee4102e40a6a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/conformance-matrix.csv",
+      "git_blob_sha": "7405e24441ba2980b993ef27f9d9b5fd3d8097bc",
+      "baseline_delta_status": "modified"
+    },
+    {
+      "path": "canonical/contracts/FA3-ACCEL-GUARD-CONTRACTS-001.json",
+      "git_blob_sha": "c677a3e9780ce940885829266f0961807cfaec41",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AGENT-EXEC-CONTRACTS-001.json",
+      "git_blob_sha": "8af93429cf03e9a81766eb4f636f602237673de2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
+      "git_blob_sha": "5d9eee9a6db0cb6444a144683bd21bde8b13bf04",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
+      "git_blob_sha": "005081e1a7bd0220c8afdb4f9ee0e05c6329cd09",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json",
+      "git_blob_sha": "7e8afdf789a0be38baff920c9564b620fe6c7fa0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AI-GUARDRAIL-RUNTIME-CONTRACTS-001.json",
+      "git_blob_sha": "ceb583391cc214f44dce0c90ae6d542eb58bc621",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AI-IMAGE-EDITING-CONTRACTS-001.json",
+      "git_blob_sha": "51f01b5bf41392d22e55ec25b4265eaa6088e5fd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AI-SECURITY-VALIDATION-CONTRACTS-001.json",
+      "git_blob_sha": "ebc4fd5aa831ebe913e593bcf1d21aa0cc7a607c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AUDIO-PREFLIGHT-CONTRACTS-001.json",
+      "git_blob_sha": "31f2d2b68c5df8272fceb3c757ebdf1982673e3c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AUDIO-RESTORATION-BWE-CONTRACTS-001.json",
+      "git_blob_sha": "637cc2897b3cda28a5e7223cda15e90bfb2880cf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-AUDIO-SEPARATION-CONTRACTS-001.json",
+      "git_blob_sha": "1466d12666b5f961a5a413203cd1d0f8fa202f72",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-BLACKHOLE-KDENLIVE-CONTRACTS-001.json",
+      "git_blob_sha": "059746681913822173109262ea19762f86b013f0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-BROWSER-LOCAL-VIDEO-COMPOSITING-CONTRACTS-001.json",
+      "git_blob_sha": "8447cc860b72b9904ff003334af57cd230bb6c68",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-BUZZ-RUNTIME-ADMISSION-CONTRACTS-001.json",
+      "git_blob_sha": "4fd60d797233ba59263be8733f5d593e48434301",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CLOSED-LOOP-AGENT-OPERATIONS-CONTRACTS-001.json",
+      "git_blob_sha": "3f20d4e48f8d5ed72c82ce3960eb0ba6812841dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-COACH-CONTRACTS-001.json",
+      "git_blob_sha": "4981af2afc0cbeec7f97ac4767211b7456400f7d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
+      "git_blob_sha": "4bb27142d2a85509395ed154e71ee3101e142bd4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
+      "git_blob_sha": "106b83debda51814c9286bbd5ac7d9f4b6783a46",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
+      "git_blob_sha": "00600d4dcc1719d44a486cac08e2118fef20506a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
+      "git_blob_sha": "aa1e82077914a78908c6fb18cf56d2aff59d5212",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
+      "git_blob_sha": "7912b9ec13708a36fe7dad7672c556871c865f45",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
+      "git_blob_sha": "60bb0ab3a84f78fdb05e79dc37363ed5a269a624",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
+      "git_blob_sha": "bacc59726bd92c46474a551965fec60b8df3cf88",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
+      "git_blob_sha": "486de2f202d108151d165325909d0e43ec94f9d9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DECISION-FABRIC-CONTRACTS-001.json",
+      "git_blob_sha": "eb8063337b975d2150fb6e990ba311b272eaf4d3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DESKTOP-AGENT-WORKBENCH-CONTRACTS-001.json",
+      "git_blob_sha": "cc6745296d83ed2b379df427cfe20fbae86951cc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DESKTOP-CONTRACTS-001.json",
+      "git_blob_sha": "787b2e336a5ea442411672bf674b1131e6465691",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json",
+      "git_blob_sha": "d0a6b45f71c1d625293f73de970454c271b0b1f3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DIFFERENTIABLE-3D-CONTRACTS-001.json",
+      "git_blob_sha": "addaa9fa3171128d6f1b8d0ad238471dc5d6d8c5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-DURABLE-REPLAYABLE-MULTI-AGENT-EXECUTION-CONTRACTS-001.json",
+      "git_blob_sha": "e8fc452d32379e99e59c1d5d4f39815a1416c1db",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-EXTERNAL-API-DISCOVERY-CONTRACTS-001.json",
+      "git_blob_sha": "110adf6335693c741b33c5db5c77870f988c1961",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GENERATIVE-PIPELINE-MULTIVIEW-CONTRACTS-001.json",
+      "git_blob_sha": "abdc230dfa8a3ef7d26f446151d96af2c377e3ed",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GEOMETRY-CONTRACTS-001.json",
+      "git_blob_sha": "11b2305e37d50bcc3bd81f6dfb37b17cce6071b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-GPU-KERNEL-RUNTIME-CONTRACTS-001.json",
+      "git_blob_sha": "5134e53be7e414b7b856b649216f557807892969",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HARDWARE-DISCOVERY-CONTRACTS-001.json",
+      "git_blob_sha": "68cc3c495ba8a575ede05589825a35602a2207f6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HARNESS-DRIVEN-AUTONOMOUS-DEVELOPMENT-CONTRACTS-001.json",
+      "git_blob_sha": "c89a1720f48b292addbefbc0dd5789bee6fcbc9e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HIERARCHICAL-HYBRID-RETRIEVAL-CONTRACTS-001.json",
+      "git_blob_sha": "241524cd0c712a1befaf2a44ad98f0597d0bb49d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json",
+      "git_blob_sha": "1f202a6ce302fbdf073bad6d91bb83cdf1e0ab22",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HUMAN-CREDENTIAL-VAULT-CONTRACTS-001.json",
+      "git_blob_sha": "88e7db89c537cf592ed15603eb7f51bc5de7b9bf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HUMAN-KNOWLEDGE-WORKSPACE-CONTRACTS-001.json",
+      "git_blob_sha": "1a0506fec443899534e1497206bbb45e530b4cfa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HUMAN-MOTION-CONTRACTS-001.json",
+      "git_blob_sha": "fdf3b5841d1a4a6a8da7ac43f1629999e2b310bf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HW-CONTRACTS-001.json",
+      "git_blob_sha": "dc1530f47c0fa9068fe92137d24d2ea37f31cdee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HW-MGPU-CONTRACTS-001.json",
+      "git_blob_sha": "c9a43d35dcc68d3411eae7807aff24f09e478819",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-HYBRID-EDITORIAL-CONTRACTS-001.json",
+      "git_blob_sha": "d17168ac4af0d934c1d88796149356e3df5f8971",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-IDEATION-ADVISORY-CONTRACTS-001.json",
+      "git_blob_sha": "f9e931016f4ce15bff7e764655b55380220be602",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
+      "git_blob_sha": "942eba735023c9e9393e4439a8c42520d9c5eb61",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
+      "git_blob_sha": "1baf182d76898a4d5ab7542f382d5955c1d7ecc6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json",
+      "git_blob_sha": "a2a8b83e7595f512e7c05b5c4a6adb100fa5587a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-JOURNAL-CONTRACTS-001.json",
+      "git_blob_sha": "3bf757b8aad93c7c79eb400adde327e43e4785a6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
+      "git_blob_sha": "5452b4b1fefd866ddbf051a35ed854ec2ade17f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-KDENLIVE-EDITORIAL-CONTRACTS-001.json",
+      "git_blob_sha": "9009afeb2fd0d923f1fd375a5152b74be1c44a5b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-KNOWLEDGE-CONTRACTS-001.json",
+      "git_blob_sha": "94dabda5df5a88f656346a83de40b445486a6d86",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-KNOWLEDGE-RUNBOOK-INTERFACE-001.json",
+      "git_blob_sha": "7ca20f5c85d2e626f8443204b418819fcb253bf7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
+      "git_blob_sha": "aa43a3ac7ae553eac72da88dddf66948db1944d5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
+      "git_blob_sha": "9a08bd9a5f107484cb9cb326fc19ff45c00c2a86",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
+      "git_blob_sha": "79f99b3bab6c09f26da121adfe051fe24926df4c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
+      "git_blob_sha": "febeac3ebda284100b874b5b119ff08bd97bb496",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
+      "git_blob_sha": "51f584267c46c3434ea7f0140422567ca6091da0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
+      "git_blob_sha": "5553d68b42ec22de980da96940fd4e10bf125c6f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MMG-CONTEXT-IR-CONTRACTS-001.json",
+      "git_blob_sha": "417986fca3c9e46f8fffac6d1eae5eccc2c192ea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MODEL-ARTIFACT-SECURITY-CONTRACTS-001.json",
+      "git_blob_sha": "b1792a889135a7698f1306eb7f9a902d91e8fcfc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
+      "git_blob_sha": "05f3baf64aeca83d8ddeb1454c291d42bf3864b4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
+      "git_blob_sha": "b53782ec660a96cc0bfbf5abae563d2ad9354dd0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
+      "git_blob_sha": "82eece0230d8aefe44e6d740d74e96d89ab98e35",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
+      "git_blob_sha": "b59b58917732838ec6c2be46d6c07b23d78994fe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
+      "git_blob_sha": "3963bda8bcd0ac45e5674f95a296c0c986129a85",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-OS-EVENT-001.schema.json",
+      "git_blob_sha": "3123d193104e96b95216dd33138fb8372258d8b1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-PAGEINDEX-MCP-CONTRACTS-001.json",
+      "git_blob_sha": "ea3964ee1a16addf4e3b954cf648a5a902ede46a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-PRESENTON-CONTRACTS-001.json",
+      "git_blob_sha": "da0bd8f8a9c5c6e7f7b1454d5027a5b06410da38",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-RUNTIME-HARDENING-CONTRACTS-001.json",
+      "git_blob_sha": "c55b9b55194055baab137656d92990e23391c69d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SCS-CONTRACTS-001.json",
+      "git_blob_sha": "e22785b8439631d6cffa5e680c553fd810563139",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
+      "git_blob_sha": "4605710589dfcd5ce3fcb875fcd1336be458d9e7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
+      "git_blob_sha": "51f9ce60085e21256b390f896e98074227026670",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
+      "git_blob_sha": "9255f6909d07bbffca22ee65b4fdaedb92c36ebb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
+      "git_blob_sha": "c8b64d5c3a0eb6df06c463d7ef295d8cea4ca785",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
+      "git_blob_sha": "9c0bd81f0f4744ccc331220c81ff218e32250e76",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
+      "git_blob_sha": "06102cafa3cbbf47d6d05bc54a5bfe3f0a0035ea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-STT-CONTRACTS-001.json",
+      "git_blob_sha": "2df98b48e175ab6109a02bd392fb1ce3ba76e904",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-STT-MEDIA-CONTRACTS-001.json",
+      "git_blob_sha": "3c709dde055ea3add0cdd601fc4e7560d8d1e0a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-TRUST-PKI-CONTRACTS-001.json",
+      "git_blob_sha": "3937ef9d0dcd3cbb02bdb2c608c541523b80d867",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-ACTION-CONTRACT-001.schema.json",
+      "git_blob_sha": "ddc1b8d46337f2535c3bb8206bf154d3cc0f55ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-ACTION-REQUEST-001.schema.json",
+      "git_blob_sha": "ec9cbbc09fb6f115854e2f17e40f800079545c82",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-ACTION-RESULT-001.schema.json",
+      "git_blob_sha": "b0466f15459cf62b2f1f2acc088f099547d8478f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-APPROVAL-GRANT-001.schema.json",
+      "git_blob_sha": "1e0ede3f4c18be0b0839b114a85a0b5fa000db5c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-EVIDENCE-RECEIPT-001.schema.json",
+      "git_blob_sha": "85a345646a7be45ed4d2e9f3672399585338092e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-EXECUTION-CONTEXT-001.schema.json",
+      "git_blob_sha": "236c0d8e7c0d2ac0be556add4cfea627889ad4cf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UAF-PROVIDER-DESCRIPTOR-001.schema.json",
+      "git_blob_sha": "b8aaea8102319d4e5fbfdb8a0eba1eaa66d4e339",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UI-COMPONENT-FABRIC-CONTRACTS-001.json",
+      "git_blob_sha": "eeff7b27825e9f086b3bbf3954e5f16394cbd9d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
+      "git_blob_sha": "01ab3bc8694c9eec6ea186223ccbd9884a2a0102",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-VIDEO-CONTRACTS-001.json",
+      "git_blob_sha": "257cbaed10d878f14a9bec3f8d445f81641486dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-VIDEO-PROVIDER-LIFECYCLE-BACKEND-CACHE-CONTRACTS-001.json",
+      "git_blob_sha": "30cae0edaf816e2000e29bf76903ced3b9f7564a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-VIDEO-TIMELINE-PROVIDER-CONTRACTS-001.json",
+      "git_blob_sha": "666fb5aee13246b04ce5e3183fb280cbf6e2a07c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-VOICE-CONTRACTS-001.json",
+      "git_blob_sha": "9847b94fad40a9c62297ffeeb6ca8b2502c3d85c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-WEB-AI-CONTRACTS-001.json",
+      "git_blob_sha": "9e6b230d6d8cec7cb8af082d186914d45cd0cffe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-WORK-ITEM-PROJECTION-CONTRACTS-001.json",
+      "git_blob_sha": "ee54e1fd2fe9353581d392ed1de2633b15df475d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-WORKSPACE-SCOPED-AGENT-CONTEXT-CONTRACTS-001.json",
+      "git_blob_sha": "bc93cdb3529005bcee12388f9530b057b0cc338e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/conversation-reconciliation-enforcement.json",
+      "git_blob_sha": "2d2daf0c9b868f5fd2fb4484c6872413082eb753",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/cosyvoice-enforcement.json",
+      "git_blob_sha": "591bc1e852d7f530afcf88645c2cf4c5861dd173",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/cpu-numa-threading-current-host-enforcement.json",
+      "git_blob_sha": "e1cc59e877252e483e6f6c0614e53a98067e31a4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/cpu-numa-threading-enforcement.json",
+      "git_blob_sha": "9e1e05058a959aeabdf62fe0a0d876f366eaacb8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-capability-proof-recipes.json",
+      "git_blob_sha": "eb5475b681ea6140884ab10b0081a06bf135c214",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-capability-qualification-constituent-producers.json",
+      "git_blob_sha": "78c5649e78707eaa961a2b5484df097596637881",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-capability-test-executors.json",
+      "git_blob_sha": "440041f3dd96d6a876bd580adad0a1234ec3c748",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-capability-test-qualifications.json",
+      "git_blob_sha": "0bec1d0b97ae0d92a54856c8bab55d0acfb8f357",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/current-host-runner-enforcement.json",
+      "git_blob_sha": "2571ad312d67c77736f822b1c247f48b4dfe3cb6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decision-fabric-current-host-enforcement.json",
+      "git_blob_sha": "2e60bb80891b100e275ccc1c01b2241df4ef9316",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decision-fabric-enforcement.json",
+      "git_blob_sha": "8d2eec22e7ba7f85bf761318c2cdc3efddf397a5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
+      "git_blob_sha": "4affddd67c79e6e5cd24f12cc2d55202c2cbd9e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
+      "git_blob_sha": "c33f176ea0b612884b4464777e44e30518a2d695",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json",
+      "git_blob_sha": "2a65311f5202d3b82dfc4eecae2dc8ebc6c1130f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
+      "git_blob_sha": "8f4d4db0266a79ce03644d7b6cdbfc28a01d306a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-AI-INFRA-GUARD-2026-08-30.json",
+      "git_blob_sha": "f077db9216a7a68d75b242d7f7d1b836fe3ff464",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-ANY-GUARDRAIL-2026-09-07.json",
+      "git_blob_sha": "84a19055f2016121cea95904e96a4600b7931da1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-AUTOGPT-2026-08-30.json",
+      "git_blob_sha": "51026b2102376f15d02d8502d2363fceeffcb054",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BLACKHOLE-KDENLIVE-DEMUCS-2026-08-30.json",
+      "git_blob_sha": "10577c781d955c84fb4ce3eda73b08779a3a7db3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BUZZ-2026-08-30.json",
+      "git_blob_sha": "79377d831e000f9444b3c297acdf268f59eb4e03",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-BUZZ-RUNTIME-ADMISSION-2026-09-07.json",
+      "git_blob_sha": "17d3a1aa93d8f6df228b4a1e8adb020202989e40",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CAPABILITY-COUNT-DEHARDCODE-2026-09-13.json",
+      "git_blob_sha": "a143e93c3de70d16f8c26d7737628febc040557b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CAVEMAN-2026-08-30.json",
+      "git_blob_sha": "6f521d55c73c93c543087327d37c5c8b0629ec0e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CENTRAL-MCP-GATEWAY-2026-09-18.json",
+      "git_blob_sha": "1a07301d4a0f9424db853e0b38cb0da4bfcb43b4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-COACH-2026-09-12.json",
+      "git_blob_sha": "d22fb67f977b1fef68e58d1dc7d104af07ec5977",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CODEGRAFF-AGENT-EXEC-2026-08-30.json",
+      "git_blob_sha": "027f08a82917729ed557f55750870e7fa8c342a0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CODEX-ADAPTER-2026-08-31.json",
+      "git_blob_sha": "fa93edeb77ef5f46806c7e447abfed58115163d6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CONVERSATION-RECONCILIATION-2026-08-30.json",
+      "git_blob_sha": "a62273f04b63ab7867d5e3fb0622b99555957b36",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CORE-BASELINE-RECONCILIATION-2026-08-30.json",
+      "git_blob_sha": "31f1871e70c8d1bd459a2a43e600928544806050",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-COSYVOICE-2026-08-31.json",
+      "git_blob_sha": "c54d9c13355d647d54ddd3eae12be849767d3de6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CPU-NUMA-THREADING-2026-09-02.json",
+      "git_blob_sha": "1302266141ab997cac26912dfae6d27106eeffb3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json",
+      "git_blob_sha": "f56db0e524d16c93e6e78920c8aad96f37009cca",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-CURRENT-HOST-RUNNER-2026-09-11.json",
+      "git_blob_sha": "653ec04496425762247cade59532117467c122dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-DEMUCS-2026-08-29.json",
+      "git_blob_sha": "1de93ac36349a16c32d452f8429ece7ee241f3c8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-DESKTOP-SECRET-BACKEND-ADAPTER-2026-09-19.json",
+      "git_blob_sha": "91f8cf9f767e8279b0565c6368af76a46ee149c7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-DEVELOPER-AGENT-COORDINATION-2026-08-30.json",
+      "git_blob_sha": "f91a5253c9325776c16000d08adb8f7d2ac06667",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-EXTERNAL-API-DISCOVERY-2026-08-30.json",
+      "git_blob_sha": "98ec020688ed95b13f445f5dada329b6af2135ac",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-EXTERNAL-RT3D-ENGINE-EXCLUSION-2026-09-19.json",
+      "git_blob_sha": "4ac4ac760646b18189dc193200eb58596482e442",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-CURRENT-HOST-2026-09-03.json",
+      "git_blob_sha": "9064f27db6ed42f18cb344d3abf099f90af522fc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-FFMPEG-AI-MEDIA-2026-09-03.json",
+      "git_blob_sha": "ff1f40523212dee9b5ba976614540686b00866f6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GEOMETRY-RECONCILIATION-2026-08-26.json",
+      "git_blob_sha": "d98030982da3c904c81b76d69096092e444925d0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GIMP-COMFYUI-INTEROP-2026-09-09.json",
+      "git_blob_sha": "b931091ad4a77980be0e885843b528b2c9e0a08b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GIMP-LOCAL-AI-2026-09-08.json",
+      "git_blob_sha": "7e0b30e8359d0361483668079ccc8d44878611b8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GPU-KERNEL-RUNTIME-DEEPGEMM-2026-09-03.json",
+      "git_blob_sha": "1a57e5aaba75e224671ed34f3e90604afe97b044",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GTCRN-SPEECH-ENHANCEMENT-2026-09-09.json",
+      "git_blob_sha": "0406f630c371568d5a174b89eab2d9348876e4ea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
+      "git_blob_sha": "6c408d5909e38a450edf2312137fd7ab0f32c61a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HARDWARE-AUDIT-2026-09-20.json",
+      "git_blob_sha": "e2ab178151aaf9f908dbcbadd243359eb9ddac9c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HOST-BOOTSTRAP-ADMISSION-ORCHESTRATOR-2026-09-15.json",
+      "git_blob_sha": "604f9b1318262767a0c35f645406a662001a9bbd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HRB-DETERMINISTIC-LOCALITY-2026-09-02.json",
+      "git_blob_sha": "7b967b920f3727f88b2d25c52fe9b1ac84b6222d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HRB-SYSTEMD-MANAGER-CURRENT-HOST-2026-09-09.json",
+      "git_blob_sha": "0be08c3a5bbc03f903ad31eb05b0288ff4e5aa10",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HUMAN-MOTION-CURRENT-HOST-2026-09-12.json",
+      "git_blob_sha": "b508a6badf0c8b2396b09c9a577dc3935c3659bd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HUMAN-MOTION-HARDWARE-CONFORMANCE-2026-09-12.json",
+      "git_blob_sha": "165926022b0e846ac4273b1d677f5da2514c7789",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-HYBRID-EDITORIAL-2026-08-31.json",
+      "git_blob_sha": "d02f95b83e131bee1bf95fd95e18c9afa68eadf8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-IDEATION-ADVISORY-2026-09-12.json",
+      "git_blob_sha": "c7b8702bd39f4a1c3935f37fb5972851122d9778",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-INFERENCE-CACHE-HARDENING-2026-09-07.json",
+      "git_blob_sha": "51a8422da7bb139c1c5701cf47e06dcdefda69eb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-2026-08-31.json",
+      "git_blob_sha": "7f03a1f335c8a5fe08afafc7eea26ef2947c3ef4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-INSPECTOR-2026-09-12.json",
+      "git_blob_sha": "153ce0eb83fd817d10739a3213df54eaf579f005",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-INTEGRATION-BROKER-2026-09-19.json",
+      "git_blob_sha": "3f18e4b94b453afdb438549705119bb384db5abc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-JEV-ADOPTION-RULE-2026-09-23.json",
+      "git_blob_sha": "db1c30ce2ec3cc91bd81be3a6dd66ef8e888675b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-JEV-CONSOLIDATION-2026-09-23.json",
+      "git_blob_sha": "48445d3f58c60c56bfd0a33fb81ba18e52b33d9d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-JOURNAL-ARCHIVE-2026-09-13.json",
+      "git_blob_sha": "10263411688d03673a6c5aaa760ab1e56087fc50",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KANBOARD-2026-08-30.json",
+      "git_blob_sha": "2518731105772ffeab8930a025dd9ffe2b74ded0",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KANEO-2026-08-29.json",
+      "git_blob_sha": "28c32e95bf84d87611971b94ac0cb3eb15357395",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KANEO-UPSTREAM-RECONCILIATION-2026-09-12.json",
+      "git_blob_sha": "4cf2d52036ce199069b15862577c06e45c4ef75f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KDENLIVE-AUDIO-CONDITIONING-2026-09-11.json",
+      "git_blob_sha": "28ff7b1c1a9fb189b5f71d31b4a761957784ec2b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KDENLIVE-EDITORIAL-CONSOLIDATION-2026-08-30.json",
+      "git_blob_sha": "d8e8e21c1fec383626337e8830f91ccaab6be211",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-HYBRID-RETRIEVAL-2026-09-18.json",
+      "git_blob_sha": "e9ab32ccb42d7f423b12d2851c88b862c5fc93bf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KNOWLEDGE-RUNBOOK-BOUNDARY-2026-09-20.json",
+      "git_blob_sha": "a373e897a143dd528af56c6c15c352f23f4f1d82",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-KRITA-AI-IMAGE-EDITING-2026-09-11.json",
+      "git_blob_sha": "d5fa12afae024c6347063eadc0ae368156842769",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-LAVASR-2026-09-09.json",
+      "git_blob_sha": "df0f5193dec308a875c0320b86926e8df64b9310",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
+      "git_blob_sha": "717e0fc2d070d0aa49e0353ca5ac0c9e88b7e2ff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
+      "git_blob_sha": "434c9ee664c77a7b61307820bcf678cb83ca1dfa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
+      "git_blob_sha": "65faabf40b711986a0cbb50f9cc16c43bea3e70a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
+      "git_blob_sha": "18f964fb351350ef435f0c65b82ba5e857d151f6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
+      "git_blob_sha": "b3b0535d3cb70b8100e8a7b759108a95dc4e32df",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
+      "git_blob_sha": "a930c955adcc26daefaff33ea66768e1d50bd90a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-METRIC-3D-PROVIDER-FABRIC-2026-09-19.json",
+      "git_blob_sha": "6eaf82c7c16577d07cf65e9b4d00513b136157de",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-PROJECTION-2026-08-30.json",
+      "git_blob_sha": "f58a6514a664603bfb3548c46d742d3f3cbfeb7e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-RUNTIME-ADMISSION-2026-09-07.json",
+      "git_blob_sha": "8780f277a4477c69763d35afda7f902626f195de",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MINIMAX-H3-SERVICE-ACCESS-2026-09-07.json",
+      "git_blob_sha": "162622a1e55cea2efe05bb3a8253862f25d00993",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-2026-09-08.json",
+      "git_blob_sha": "ef6253c9633d5ba986d9f28abf620fab8959b337",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MMG-CONTEXT-IR-REFERENCE-2026-09-09.json",
+      "git_blob_sha": "b0d28828549cc56c8653096d3c45bc3db3c4e6dd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-2026-09-07.json",
+      "git_blob_sha": "c32a5714525769fa67959612b8260efa887a55ee",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-ARTIFACT-SECURITY-CURRENT-HOST-2026-09-08.json",
+      "git_blob_sha": "f10c32996b40e8ce3f8748c908f859dc7f193041",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-CURRENT-HOST-2026-09-01.json",
+      "git_blob_sha": "3c060f07ac08885c1c159fdc37c1892558a60fea",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-INVENTORY-CURRENT-HOST-2026-09-05.json",
+      "git_blob_sha": "4a5d2244060d3cd9559b5519136a27dd6b89af54",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-STABILITY-MATRIX-2026-08-31.json",
+      "git_blob_sha": "a98ac27f4ec7b978ccb83716484c046ef6b71d48",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODEL-MANAGER-V2-2026-09-01.json",
+      "git_blob_sha": "f5c100b96dfd50d411b3dae6f472c33d2fa18575",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODERNIZATION-RECONCILIATION-2026-09-20.json",
+      "git_blob_sha": "57ec151786eb6ce6353b7ca7ba86c573a379b2a1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MODULAR-2026-08-30.json",
+      "git_blob_sha": "2a12815133fa388068f2bae239f4b511661d8455",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MUNDER-DIFFLIN-2026-08-30.json",
+      "git_blob_sha": "94db56ed72c9a9e738caf3627fd5fede9890d5c3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MUSE-CODE-2026-09-01.json",
+      "git_blob_sha": "09ca8dd10b9f07d30256c00db34cb70befae4baa",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MUSE-IMAGE-2026-08-30.json",
+      "git_blob_sha": "bc3110e791915e23f424dd933fcaf50d84b670af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-MYNA-2026-08-30.json",
+      "git_blob_sha": "b6ab4b834f00f41b40fad39171d7955319b7c038",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-NATRON-2026-08-30.json",
+      "git_blob_sha": "4afe220e63f369a980382fe5c99807cc92e5093a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
+      "git_blob_sha": "af6823754fa31d909f97c8fdb0babd81af0b0017",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
+      "git_blob_sha": "aed7c49c22ac9db7ed26fbeffafac1da4ce80189",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
+      "git_blob_sha": "2bf8e012382ac00f6c6e717924ccaaab8c905159",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
+      "git_blob_sha": "efd8bfffcaa97d393fe799ceb116be8b02bfd305",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENFX-INTEROPERABILITY-2026-09-11.json",
+      "git_blob_sha": "d248db812e1221662cf69d043f5dcc94bfbf7c8a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENHANDS-2026-09-01.json",
+      "git_blob_sha": "0eef6d32e080ba17e188515476198c6ba0ed0c6d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENMODELDB-PROVIDER-2026-09-13.json",
+      "git_blob_sha": "14fa84e3eb852bf7535a3d6bf3ca6553b4ae8164",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENVID-BROWSER-LOCAL-COMPOSITING-2026-09-04.json",
+      "git_blob_sha": "dee07d2cca1e8531ed77bde9b0dd9d7b30d7bd6b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-OPENYAK-DESKTOP-WORKBENCH-2026-09-05.json",
+      "git_blob_sha": "59b6648068aaa00afc05d2e594bd096acdc47723",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PAGE-CACHE-PREFETCH-2026-09-11.json",
+      "git_blob_sha": "d40df46553dda7564afad30ea23aa303844ebbf4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PAGEINDEX-MCP-2026-09-18.json",
+      "git_blob_sha": "73c3fdea5ce7d2a10fd49f11514262e08ff5281d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PKU-YUAN-VIDEO-PROVIDER-LIFECYCLE-2026-09-03.json",
+      "git_blob_sha": "1d0a560051d687f61227a0d45adb16551817ac9b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PRESENTON-2026-08-30.json",
+      "git_blob_sha": "ecf7ce49cfb49faa3717f0c4b759578118382c6b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PYRIT-2026-09-12.json",
+      "git_blob_sha": "a738df84a7106a1407bdce9dc39e8c05e4f4dc3e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-PYTORCH3D-2026-09-11.json",
+      "git_blob_sha": "989d6c8125dce6642a45fb089b60cea8e7b525e9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-QUALITY-EXTENSIONS-PINNING-VALIDATION-2026-09-14.json",
+      "git_blob_sha": "79f3c800638506236d13cb54651525d4bc23ac2c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-RAGFLOW-2026-08-30.json",
+      "git_blob_sha": "1db2a2f58c476bd1e53e31fc4caba9ef35911498",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-RELEASE-BASELINE-EVIDENCE-SCOPE-2026-09-13.json",
+      "git_blob_sha": "476614b667915c61c34f10089c82773a7851f2f2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-RESOURCE-ADMISSION-CURRENT-HOST-2026-09-14.json",
+      "git_blob_sha": "55f34c9e58d5f01fed4280077f09e63b0efa1caf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-RESOURCE-EVIDENCE-NORMALIZATION-2026-09-14.json",
+      "git_blob_sha": "cf61354f8275ed0fd9cbb729d337c5ee706a1034",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-CURRENT-HOST-2026-09-19.json",
+      "git_blob_sha": "7f6588f2fe94e79d2d6208d716ec945dcdd58804",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-RUNTIME-HARDENING-SHADOW-2026-09-19.json",
+      "git_blob_sha": "6cb7d58da9067edce7efb234bd84eee5ebfefa8c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SECRET-BROKER-ENCRYPTED-VAULT-2026-09-20.json",
+      "git_blob_sha": "c2f3d1b5e06d591ab6fec152f8508d179379c09f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SESSION-VAULT-2026-09-20.json",
+      "git_blob_sha": "ce5c8c67267920f965e39279d5314e071ce629bb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SILLYTAVERN-KDE-DESKTOP-2026-09-07.json",
+      "git_blob_sha": "353fc24c008f3b53a5d1ca3cc133b28fa69aa826",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SKILL-FABRIC-MENGTO-CLOSURE-2026-09-17.json",
+      "git_blob_sha": "0cb47640141c2bbb7bd27fc804009aa702712885",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-SOMA-GEM-X-2026-09-12.json",
+      "git_blob_sha": "b52b71dd90b4bfa35bab43c3937133a6a05e6963",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STABILITY-MATRIX-LIFECYCLE-2026-09-06.json",
+      "git_blob_sha": "90833460362f8e17af8e74dc46e63b98535b41e1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STABILITY-PORTFOLIO-2026-09-02.json",
+      "git_blob_sha": "9cac163cd77afd4dffa6f1d29fb6702d98c0e6d3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STABILITY-SGM-2026-09-01.json",
+      "git_blob_sha": "30914ec1a33af0002c1a54d193640c6916db720d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STABLE-AUDIO-3-HARDENING-2026-09-08.json",
+      "git_blob_sha": "c84046b39362984b04076ce1030b7cee3ac0c790",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STEP-CA-CURRENT-HOST-2026-09-20.json",
+      "git_blob_sha": "338d21252772f519ce755e0b16a6afc7d60020bb",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STEP-CA-RUNTIME-PROMOTION-2026-09-20.json",
+      "git_blob_sha": "32e5c073e116bc4a978c7ab64377492d1fb92da1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-STEP-CA-TRUST-PKI-2026-09-20.json",
+      "git_blob_sha": "b4c0851a5f1a96e140efd344d5b2d545ec445242",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-TENCENTDB-AGENT-MEMORY-2026-09-03.json",
+      "git_blob_sha": "afc982ff443bafea67e7299353a78a482a6485d2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-UI-COMPONENT-FABRIC-UIVERSE-GALAXY-2026-09-19.json",
+      "git_blob_sha": "2d3e614a5c703742e67510b9a09d2a9393155f11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-UNIFIED-ACTION-FABRIC-2026-09-21.json",
+      "git_blob_sha": "c55ad85c4c535f42d68da8b9b6c3971cd1a21431",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-UNIFIED-POST-V3.0.11-PROJECTION-2026-08-30.json",
+      "git_blob_sha": "a2ba925e268d41d35752ba30d4f8beddb3a96a86",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-VAULTWARDEN-2026-08-30.json",
+      "git_blob_sha": "185d00dc1ad0f3f5db23a1531091de44458fb9f1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-VAULTWARDEN-HARDENING-2026-09-12.json",
+      "git_blob_sha": "0a3e452eb968adaa0d820cfd4ad47e0b7c4465be",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-VIDEO-H3-2026-08-30.json",
+      "git_blob_sha": "8bf10431218e60a257eedd6c16bc88a2e9d440b5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-VOICE-SYNTHESIS-PORTFOLIO-2026-09-01.json",
+      "git_blob_sha": "d3862ed33df419e5eb60632c8aa4101c09b41f89",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-WHISPER-STT-MATERIALIZATION-2026-08-30.json",
+      "git_blob_sha": "b070452e56599b71a8d762b883ae914b5834b32a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-WORK-MANAGEMENT-GUI-2026-09-17.json",
+      "git_blob_sha": "f0cafc0766ba5f5ca31bdb59fd1c65c176979652",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-XCMD-2026-08-30.json",
+      "git_blob_sha": "0dcb8593cde4bca4ffef3706783425ba80d08403",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/demucs-enforcement.json",
+      "git_blob_sha": "15141596a26529193198f52297b50fd4674068c3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/developer-agent-coordination-enforcement.json",
+      "git_blob_sha": "2329bb71ab4a3f3780b8906db9bc02b9889c31f4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/enforcement-policy.json",
+      "git_blob_sha": "3b6d620eed3177e5d7a128825b10697a5a281d4c",
+      "baseline_delta_status": "modified"
+    },
+    {
+      "path": "canonical/external-api-discovery-enforcement.json",
+      "git_blob_sha": "6886a361f89b5568e52cdc81fe598e2dbfe0ee19",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/fa3-os-event-privacy-enforcement.json",
+      "git_blob_sha": "054e89e663e46046c68312722b39fdb53782d57d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/fa3_legacy_gap_to_registry_mapping_2026-08-26.json",
+      "git_blob_sha": "6b7d2b6163e0f4d88d26317573d5e51138f6f28a",
       "baseline_delta_status": "added"
     },
     {
@@ -3995,7 +4137,7 @@
     },
     {
       "path": "canonical/mcp-capability-registry.json",
-      "git_blob_sha": "ecfdeded045bb7bbc25ecdca9ac62a252d1f8196",
+      "git_blob_sha": "e56c23057f82889dc8c6ef1429f94d6dccb51464",
       "baseline_delta_status": "added"
     },
     {
@@ -4040,7 +4182,7 @@
     },
     {
       "path": "canonical/model-manager-current-host-enforcement.json",
-      "git_blob_sha": "c67fa3ee876b6b0502b3d2629eae49df6f305ddf",
+      "git_blob_sha": "324fa59fc342139ad1517c3f519998f9737cf93d",
       "baseline_delta_status": "added"
     },
     {
@@ -4061,6 +4203,11 @@
     {
       "path": "canonical/model-manager-v2-enforcement.json",
       "git_blob_sha": "319851a7a550bad71b19f522aa17590c6e5389e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/model-router-enforcement.json",
+      "git_blob_sha": "3d45c27795579e59051563b35a72d635d95a3ada",
       "baseline_delta_status": "added"
     },
     {
@@ -4234,6 +4381,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/profiles/FA3-CONTEXT-SELECTION-001.json",
+      "git_blob_sha": "d517377d7141549b15eea3a564590eee3d087747",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/profiles/FA3-CPU-NUMA-THREADING-001.json",
       "git_blob_sha": "40f50736c504590dc8bec74b9de36ec3642920f2",
       "baseline_delta_status": "added"
@@ -4246,6 +4398,11 @@
     {
       "path": "canonical/profiles/FA3-CUDA-PY-001.json",
       "git_blob_sha": "4be76ad1bf18a493da965bfe5bf976ab3310cad5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-DECISION-FABRIC-001.json",
+      "git_blob_sha": "e5c1de104c63d5f00233fbd5566ba9e3f377df24",
       "baseline_delta_status": "added"
     },
     {
@@ -4266,6 +4423,11 @@
     {
       "path": "canonical/profiles/FA3-EXTERNAL-API-DISCOVERY-001.json",
       "git_blob_sha": "52efeb7ec1d632beb1a726fef4c67a4d380ac5af",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-EXTERNAL-PROJECT-RADAR-001.json",
+      "git_blob_sha": "2969459d4482bc894978b250e244cc9341c85e97",
       "baseline_delta_status": "added"
     },
     {
@@ -4356,6 +4518,11 @@
     {
       "path": "canonical/profiles/FA3-KNOWLEDGE-001.json",
       "git_blob_sha": "8efa33569635deede2f23f5e3756404580ea8043",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-LLM-GATEWAY-001.json",
+      "git_blob_sha": "353cb86a3cd4b3c525f3df02da01ecc635400f7e",
       "baseline_delta_status": "added"
     },
     {
@@ -4594,6 +4761,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/providers/FA3-PROVIDER-DECISION-LOCAL-001.json",
+      "git_blob_sha": "eb3cccc40ad84957b5255c6f33e081de19d59b7f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-DECISION-RULES-001.json",
+      "git_blob_sha": "fc2cea92e6d8e6efbd1770230bc3f9c32a599b58",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/providers/FA3-PROVIDER-DEEPGEMM-001.json",
       "git_blob_sha": "d693cb9c3a22d5994b92aa63045e9724b5bc4b0d",
       "baseline_delta_status": "added"
@@ -4656,6 +4833,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-INSPECTOR-LOCAL-001.json",
       "git_blob_sha": "eaf7315885c3f82890639e46a9dfaa860214b5c5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json",
+      "git_blob_sha": "5ae68c7bdf0be044c73e658010c38a3426cc9597",
       "baseline_delta_status": "added"
     },
     {
@@ -5719,6 +5901,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/litellm/config.yaml",
+      "git_blob_sha": "1d0d92e91a42433d292bb30780f15555b86d85d5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/lynxhub/README.md",
+      "git_blob_sha": "0c24237a386405017429371074570e2e0e9a0695",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/lynxhub/applications/ai.kindabrazy.lynxhub.desktop.in",
       "git_blob_sha": "deaba29c5c51849c4f8f90076024efae0266a37b",
       "baseline_delta_status": "added"
@@ -5744,11 +5936,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/lynxhub/README.md",
-      "git_blob_sha": "0c24237a386405017429371074570e2e0e9a0695",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "deployment/lynxhub/systemd/user/ai-creative-ops.target",
       "git_blob_sha": "c787cd86d5749188eda0c28eeb9eb9200ddf85cf",
       "baseline_delta_status": "added"
@@ -5769,8 +5956,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "deployment/model-router/fa3-model-router.service.in",
+      "git_blob_sha": "d1578967dc39e3e7b33d82b7a46a48a9fdf5173d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/model-router/routes.json",
+      "git_blob_sha": "19f132ef01f2905a24aec7a893174ede99b26c32",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "deployment/model-security/yara/fa3-model-security.yar",
       "git_blob_sha": "2b39c7b42824ced2382e0c8a17e76b8a78d76eba",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/presenton/README.md",
+      "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892",
       "baseline_delta_status": "added"
     },
     {
@@ -5794,8 +5996,8 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/presenton/README.md",
-      "git_blob_sha": "5ca39dc296718149bec82991ebf4f297c240f892",
+      "path": "deployment/secrets/README.md",
+      "git_blob_sha": "279cffc345fdba60271251573e9297a8311b36f2",
       "baseline_delta_status": "added"
     },
     {
@@ -5824,13 +6026,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/secrets/README.md",
-      "git_blob_sha": "279cffc345fdba60271251573e9297a8311b36f2",
+      "path": "deployment/secrets/run-fa3-machine\\x2dstate.mount",
+      "git_blob_sha": "8f9f535b472e2d183e86dea3480d7bdc13b930c2",
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/secrets/run-fa3-machine\\x2dstate.mount",
-      "git_blob_sha": "8f9f535b472e2d183e86dea3480d7bdc13b930c2",
+      "path": "deployment/sillytavern-kde/README.md",
+      "git_blob_sha": "834e57e82a56f1c7c7949c6ae5c4c7329fccd486",
       "baseline_delta_status": "added"
     },
     {
@@ -5849,11 +6051,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/sillytavern-kde/README.md",
-      "git_blob_sha": "834e57e82a56f1c7c7949c6ae5c4c7329fccd486",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "deployment/sillytavern-kde/sillytavern-kde.env.example",
       "git_blob_sha": "a6b83a9cae9b4dab52aef4c63e06e5f11314c5f1",
       "baseline_delta_status": "added"
@@ -5861,6 +6058,11 @@
     {
       "path": "deployment/sillytavern-kde/systemd/user/sillytavern-kde.service",
       "git_blob_sha": "228976847af181366fb1349a30a3fb6abed82b0a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "deployment/step-ca/README.md",
+      "git_blob_sha": "58f0d1d5ffae9a3da6d17f44f2cda95abc46439a",
       "baseline_delta_status": "added"
     },
     {
@@ -5874,8 +6076,23 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "deployment/step-ca/README.md",
-      "git_blob_sha": "58f0d1d5ffae9a3da6d17f44f2cda95abc46439a",
+      "path": "docs/FA3-JOURNAL-ARCHIVE-001.md",
+      "git_blob_sha": "c3eef92dba9cb6af1552510b227e90f83284cdc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-KNOWLEDGE-HYBRID-RETRIEVAL-001.md",
+      "git_blob_sha": "7b56b3d61659252fc5a7a45e3536377796936e1c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-MCP-GATEWAY-001.md",
+      "git_blob_sha": "9bac85eb14ccc2d709cccb7b851513843678f501",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-UNIFIED-ACTION-FABRIC-001.md",
+      "git_blob_sha": "91c76548ed1cced64a94e50b1860f41944e8e7d9",
       "baseline_delta_status": "added"
     },
     {
@@ -5906,26 +6123,6 @@
     {
       "path": "docs/desktop-portability.md",
       "git_blob_sha": "85a80dd3f81737fcedb638f0f24432c7538a0128",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "docs/FA3-JOURNAL-ARCHIVE-001.md",
-      "git_blob_sha": "c3eef92dba9cb6af1552510b227e90f83284cdc1",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "docs/FA3-KNOWLEDGE-HYBRID-RETRIEVAL-001.md",
-      "git_blob_sha": "7b56b3d61659252fc5a7a45e3536377796936e1c",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "docs/FA3-MCP-GATEWAY-001.md",
-      "git_blob_sha": "9bac85eb14ccc2d709cccb7b851513843678f501",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "docs/FA3-UNIFIED-ACTION-FABRIC-001.md",
-      "git_blob_sha": "91c76548ed1cced64a94e50b1860f41944e8e7d9",
       "baseline_delta_status": "added"
     },
     {
@@ -5966,6 +6163,11 @@
     {
       "path": "docs/model-manager-current-host.md",
       "git_blob_sha": "3d10e043b2d618acf3bb4ff591a7565a0faeeed5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/model-router-runtime.md",
+      "git_blob_sha": "5ee713389fbb71fd8bdc1b449e3264e5de2c9af7",
       "baseline_delta_status": "added"
     },
     {
@@ -6114,6 +6316,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/FA3-ACCEL-GUARD-001-design-evidence.json",
+      "git_blob_sha": "c6ba314ea4f55299c72fda768a8196bdc286d7a2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
+      "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/collect-ai-infra-guard-current-host.py",
       "git_blob_sha": "a6fec4b79499f7937dc30d34f5de4bc5ff30fec5",
       "baseline_delta_status": "added"
@@ -6240,7 +6452,12 @@
     },
     {
       "path": "evidence/collect-model-manager-current-host.py",
-      "git_blob_sha": "d227eb6273bbd59ec4661858310d368daa696012",
+      "git_blob_sha": "1f6ce56679b52f2530d83a976e287bfc97e28435",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-model-router-current-host.py",
+      "git_blob_sha": "7058cb5ac7b6f5b353ec4e4cef83dec46b72c440",
       "baseline_delta_status": "added"
     },
     {
@@ -6319,18 +6536,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "evidence/FA3-ACCEL-GUARD-001-design-evidence.json",
-      "git_blob_sha": "c6ba314ea4f55299c72fda768a8196bdc286d7a2",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
-      "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "evidence/receipts/.gitkeep",
       "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/FA3-EVIDENCE-AI-IMAGE-EDITING-001.json",
+      "git_blob_sha": "674a03fb01154e00bfff76eddfb9b851fcd9325d",
       "baseline_delta_status": "added"
     },
     {
@@ -6405,7 +6617,8 @@
     },
     {
       "path": "evidence/reference/current-host-143-audit-2026-09-23.json",
-      "git_blob_sha": "7c0f7cba249ac3e4cf9d8b2fbe9ef78dd7453284"
+      "git_blob_sha": "7c0f7cba249ac3e4cf9d8b2fbe9ef78dd7453284",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/demucs-provider-ci-2026-08-30.json",
@@ -6420,11 +6633,6 @@
     {
       "path": "evidence/reference/fa3-coach-reference-pending.json",
       "git_blob_sha": "e60a7c04ed057b22dd65951a2895bc2188b1f7e6",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "evidence/reference/FA3-EVIDENCE-AI-IMAGE-EDITING-001.json",
-      "git_blob_sha": "674a03fb01154e00bfff76eddfb9b851fcd9325d",
       "baseline_delta_status": "added"
     },
     {
@@ -6838,13 +7046,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "fa3-current-host/manifest.json",
-      "git_blob_sha": "5d4c7818285d1c4c8acbcb7db9a178650bd00cfa",
+      "path": "fa3-current-host/README.md",
+      "git_blob_sha": "c6f86e6f2e111ea2e9ea61fbf320b09be442a9a3",
       "baseline_delta_status": "added"
     },
     {
-      "path": "fa3-current-host/README.md",
-      "git_blob_sha": "c6f86e6f2e111ea2e9ea61fbf320b09be442a9a3",
+      "path": "fa3-current-host/manifest.json",
+      "git_blob_sha": "5d4c7818285d1c4c8acbcb7db9a178650bd00cfa",
       "baseline_delta_status": "added"
     },
     {
@@ -6888,8 +7096,43 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "README.md",
-      "git_blob_sha": "c9d21b834bc68d8cec5127b203ef504a49d3ba08",
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/README.md",
+      "git_blob_sha": "c3468a61e2fb368dd78031a5e6b35b61d8d1c5e4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/VERIFICATION.md",
+      "git_blob_sha": "33c969a29bb02586ebc12841706ab24206d40fb5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/manifest.json",
+      "git_blob_sha": "b28328cbd93fcecf22b8c1a2f8add576f850148b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/public/llms-full.txt",
+      "git_blob_sha": "b3e826d04784c6f1bd5c0a7377e2c0d0093760ca",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/public/llms.txt",
+      "git_blob_sha": "13928ea4b3721999bd8016bb4f1c18d97b48db35",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/src/data/radar.json",
+      "git_blob_sha": "efdd9ca2eb841c9c69ebc2a7550086f621935bff",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "research/external-project-radar/jev/upstream/a27922ad457389775f4fe4eadcf688afc9d36d83/src/data/taxonomy.json",
+      "git_blob_sha": "b7d5a43cac3f93820db37c4a1487cad20d8081ce",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "scripts/fa3-app-provisioner.py",
+      "git_blob_sha": "794dbfb69b909946ac27fefcdc29a2da87fca35f",
       "baseline_delta_status": "added"
     },
     {
@@ -6908,11 +7151,6 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "scripts/fa3-app-provisioner.py",
-      "git_blob_sha": "794dbfb69b909946ac27fefcdc29a2da87fca35f",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "src/AGENTS.md",
       "git_blob_sha": "d8fa77ce850b513b96b6259a40139a0354bc019e",
       "baseline_delta_status": "added"
@@ -6928,6 +7166,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_accelerator_guard.py",
+      "git_blob_sha": "a5070953e9ec518b6e45f4a767e3c0f2ba42ef60",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_accelerator_guard_gate.py",
       "git_blob_sha": "f099c2c3fdacf8cc58174f545d2ccf3496b48193",
       "baseline_delta_status": "added"
@@ -6938,18 +7181,8 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_accelerator_guard.py",
-      "git_blob_sha": "a5070953e9ec518b6e45f4a767e3c0f2ba42ef60",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "src/fa3_acestep_gate.py",
       "git_blob_sha": "c8b19821389d79a13f839be84bfdf7b3a67f152e",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_agent_instructions_gate.py",
-      "git_blob_sha": "aeaac1c93dadd318e1c6524950fcf5b54b64539a",
       "baseline_delta_status": "added"
     },
     {
@@ -6958,13 +7191,18 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_ai_comms_gate.py",
-      "git_blob_sha": "b1af80121350c8652f1d07d937a3c09b6168ec45",
+      "path": "src/fa3_agent_instructions_gate.py",
+      "git_blob_sha": "aeaac1c93dadd318e1c6524950fcf5b54b64539a",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ai_comms.py",
       "git_blob_sha": "7e7b7a25df0d38fba980fe78bec24b615eba6d1d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_ai_comms_gate.py",
+      "git_blob_sha": "b1af80121350c8652f1d07d937a3c09b6168ec45",
       "baseline_delta_status": "added"
     },
     {
@@ -6998,13 +7236,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_blackhole_kdenlive_gate.py",
-      "git_blob_sha": "221089e98fb737be37811215dfc6a1b0a4beff81",
+      "path": "src/fa3_blackhole_kdenlive.py",
+      "git_blob_sha": "c06151c2b905661d6cb64648dd6367be8b92ed94",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_blackhole_kdenlive.py",
-      "git_blob_sha": "c06151c2b905661d6cb64648dd6367be8b92ed94",
+      "path": "src/fa3_blackhole_kdenlive_gate.py",
+      "git_blob_sha": "221089e98fb737be37811215dfc6a1b0a4beff81",
       "baseline_delta_status": "added"
     },
     {
@@ -7018,13 +7256,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_buzz_runtime_admission_gate.py",
-      "git_blob_sha": "06bd9c4fe35227320a77165ab8a60ef3621e5d7d",
+      "path": "src/fa3_buzz_runtime_admission.py",
+      "git_blob_sha": "3e3e1996ac993239e49cec23373785ee447f9c74",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_buzz_runtime_admission.py",
-      "git_blob_sha": "3e3e1996ac993239e49cec23373785ee447f9c74",
+      "path": "src/fa3_buzz_runtime_admission_gate.py",
+      "git_blob_sha": "06bd9c4fe35227320a77165ab8a60ef3621e5d7d",
       "baseline_delta_status": "added"
     },
     {
@@ -7073,13 +7311,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_coach_gate.py",
-      "git_blob_sha": "a04795265b327cca15d7934f205201345ca7380f",
+      "path": "src/fa3_coach.py",
+      "git_blob_sha": "1b12d3d082f713d9d24151e129b743bbd817fa0e",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_coach.py",
-      "git_blob_sha": "1b12d3d082f713d9d24151e129b743bbd817fa0e",
+      "path": "src/fa3_coach_gate.py",
+      "git_blob_sha": "a04795265b327cca15d7934f205201345ca7380f",
       "baseline_delta_status": "added"
     },
     {
@@ -7090,6 +7328,11 @@
     {
       "path": "src/fa3_codex_gate.py",
       "git_blob_sha": "ba3d6f05859b3acda88c8c0d0e724473ec9a074c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_context_selection.py",
+      "git_blob_sha": "e9ce72355ba17baa0aa6c16f85d72338a5afd93a",
       "baseline_delta_status": "added"
     },
     {
@@ -7115,6 +7358,11 @@
     {
       "path": "src/fa3_cpu_thread_budget.py",
       "git_blob_sha": "01e8e3692558a797039de5f09b8b2338e40f2399",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_current_host.py",
+      "git_blob_sha": "9f896cfbfbe02f0f56229590a12abacf82727fe2",
       "baseline_delta_status": "added"
     },
     {
@@ -7188,8 +7436,33 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_current_host.py",
-      "git_blob_sha": "9f896cfbfbe02f0f56229590a12abacf82727fe2",
+      "path": "src/fa3_decision_adapters.py",
+      "git_blob_sha": "4a8a0b691a80f032d699382505e73b0295717489",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_decision_adoption_gate.py",
+      "git_blob_sha": "a5c82ec9b6cd694c5d41904d42a1d080770a0b91",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_decision_current_host_gate.py",
+      "git_blob_sha": "94588a92c9947c6e9b6dab2cfe9b5f338b795f51",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_decision_fabric.py",
+      "git_blob_sha": "16fc73f30979e14f9310c48ec633b05c3738e4a5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_decision_fabric_gate.py",
+      "git_blob_sha": "af13fe89f4ae16a4a719f7171b207cbd243fbc3a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_decision_trace.py",
+      "git_blob_sha": "703000041acd24c5c4c8ae421c3b56448a41ab66",
       "baseline_delta_status": "added"
     },
     {
@@ -7213,13 +7486,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_developer_agent_coordination_gate.py",
-      "git_blob_sha": "5b0ff08772e53076590dc79f0d7bc251c83d753b",
+      "path": "src/fa3_developer_agent_coordination.py",
+      "git_blob_sha": "9533a73b726d1744d28cf7eb040d671c53ff40e6",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_developer_agent_coordination.py",
-      "git_blob_sha": "9533a73b726d1744d28cf7eb040d671c53ff40e6",
+      "path": "src/fa3_developer_agent_coordination_gate.py",
+      "git_blob_sha": "5b0ff08772e53076590dc79f0d7bc251c83d753b",
       "baseline_delta_status": "added"
     },
     {
@@ -7238,18 +7511,23 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_external_project_radar.py",
+      "git_blob_sha": "97e9cf5488d341fa0cf0b69865f77e7928562f63",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_external_rt3d_engine_exclusion_gate.py",
       "git_blob_sha": "ea9a90686daab52ef2df06877de103f28144b763",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_ffmpeg_ai_current_host_gate.py",
-      "git_blob_sha": "45911ca6b2f9cab4bcb53f386bd1fc276c1b840f",
+      "path": "src/fa3_ffmpeg_ai_current_host.py",
+      "git_blob_sha": "026491661bdf58ab7db14bcb70f77409a93a0779",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_ffmpeg_ai_current_host.py",
-      "git_blob_sha": "026491661bdf58ab7db14bcb70f77409a93a0779",
+      "path": "src/fa3_ffmpeg_ai_current_host_gate.py",
+      "git_blob_sha": "45911ca6b2f9cab4bcb53f386bd1fc276c1b840f",
       "baseline_delta_status": "added"
     },
     {
@@ -7323,13 +7601,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_human_motion_current_host_gate.py",
-      "git_blob_sha": "d02a0b50d095c2579e11980f8eaa5a5d814e702d",
+      "path": "src/fa3_human_motion_current_host.py",
+      "git_blob_sha": "c7f70780a56b97f480451aebe34fea0182f3426a",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_human_motion_current_host.py",
-      "git_blob_sha": "c7f70780a56b97f480451aebe34fea0182f3426a",
+      "path": "src/fa3_human_motion_current_host_gate.py",
+      "git_blob_sha": "d02a0b50d095c2579e11980f8eaa5a5d814e702d",
       "baseline_delta_status": "added"
     },
     {
@@ -7349,17 +7627,17 @@
     },
     {
       "path": "src/fa3_hybrid_retrieval.py",
-      "git_blob_sha": "3b88ce6b11263ff0cf6434ec7326f1568e6aabee",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_ideation_advisory_gate.py",
-      "git_blob_sha": "b546bf6cc1c3c72c4699e930f839c98400290589",
+      "git_blob_sha": "aa51133b2f32ec5929a418a808c363d2960f4529",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_ideation_advisory.py",
       "git_blob_sha": "01aa30d2ba3cc6be25e621968cf7265c50be2bd7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_ideation_advisory_gate.py",
+      "git_blob_sha": "b546bf6cc1c3c72c4699e930f839c98400290589",
       "baseline_delta_status": "added"
     },
     {
@@ -7373,13 +7651,18 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_inspector.py",
+      "git_blob_sha": "b2e6abfc3bb2842dd0b35fcac99a19517dc3aec2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_inspector_gate.py",
       "git_blob_sha": "618574029e45b20733a352a62f2c8c6188539234",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_inspector.py",
-      "git_blob_sha": "b2e6abfc3bb2842dd0b35fcac99a19517dc3aec2",
+      "path": "src/fa3_integration_broker.py",
+      "git_blob_sha": "ca32c82f90c6ad1a1ed6ca04231e424f6042994f",
       "baseline_delta_status": "added"
     },
     {
@@ -7388,8 +7671,8 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_integration_broker.py",
-      "git_blob_sha": "ca32c82f90c6ad1a1ed6ca04231e424f6042994f",
+      "path": "src/fa3_jev_decision_provider.py",
+      "git_blob_sha": "d88cfa76dd87ff4b36225bcb80ff5cb530e24a14",
       "baseline_delta_status": "added"
     },
     {
@@ -7435,6 +7718,11 @@
     {
       "path": "src/fa3_lavasr_provider.py",
       "git_blob_sha": "4f78ca4392d9ad33f70842a415a5cbe434dc42a7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_local_decision_provider.py",
+      "git_blob_sha": "0740efacb8198682b5eeff50b8edcfc8dd39f487",
       "baseline_delta_status": "added"
     },
     {
@@ -7488,6 +7776,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_mcp_gateway.py",
+      "git_blob_sha": "25b52d7ba2af9dca5902c24f1adda7b30f366fe2",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_mcp_gateway_gate.py",
       "git_blob_sha": "9239339e83ec1d59bda533a697281f3c5eff0f44",
       "baseline_delta_status": "added"
@@ -7495,11 +7788,6 @@
     {
       "path": "src/fa3_mcp_gateway_server.py",
       "git_blob_sha": "f1ac900b93ca3d665c587627d774d10a44ebf8b7",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_mcp_gateway.py",
-      "git_blob_sha": "25b52d7ba2af9dca5902c24f1adda7b30f366fe2",
       "baseline_delta_status": "added"
     },
     {
@@ -7523,13 +7811,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_mmg_context_ir_gate.py",
-      "git_blob_sha": "c951f26e14242926cbc5e5e52e77f2b284891784",
+      "path": "src/fa3_mmg_context_ir.py",
+      "git_blob_sha": "36d5b4ce0651d8708f7eeec812d1bfa419771e55",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_mmg_context_ir.py",
-      "git_blob_sha": "36d5b4ce0651d8708f7eeec812d1bfa419771e55",
+      "path": "src/fa3_mmg_context_ir_gate.py",
+      "git_blob_sha": "c951f26e14242926cbc5e5e52e77f2b284891784",
       "baseline_delta_status": "added"
     },
     {
@@ -7559,7 +7847,7 @@
     },
     {
       "path": "src/fa3_model_manager_current_host_gate.py",
-      "git_blob_sha": "ad9429deaaccdea50d764998ff323605595d29b3",
+      "git_blob_sha": "3e5a04affad8a379482b55c9425e6c78b99bc552",
       "baseline_delta_status": "added"
     },
     {
@@ -7580,6 +7868,26 @@
     {
       "path": "src/fa3_model_manager_v2_gate.py",
       "git_blob_sha": "1b8879c681ba91f9c483e1b91c63bbdebbfb84e2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_current_host_gate.py",
+      "git_blob_sha": "37b741cff41220b03fd27ec17423e640649800b4",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_gate.py",
+      "git_blob_sha": "1174e6ba8bc0a7eb83b7c471c0cb83aa837d33d2",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_materialize.py",
+      "git_blob_sha": "737dc4870a0640140ab22b2b089be3fc029c8ffe",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_model_router_provider_discovery.py",
+      "git_blob_sha": "8e82d77e35cee6b928d856800b2497c6242ab53c",
       "baseline_delta_status": "added"
     },
     {
@@ -7628,13 +7936,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_openfx_interop_gate.py",
-      "git_blob_sha": "73731a913062715449a5ebb389751469f962c011",
+      "path": "src/fa3_openfx_interop.py",
+      "git_blob_sha": "2f758569efde1d38b9791118caae407f536be391",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_openfx_interop.py",
-      "git_blob_sha": "2f758569efde1d38b9791118caae407f536be391",
+      "path": "src/fa3_openfx_interop_gate.py",
+      "git_blob_sha": "73731a913062715449a5ebb389751469f962c011",
       "baseline_delta_status": "added"
     },
     {
@@ -7683,13 +7991,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_os_runtime_gate.py",
-      "git_blob_sha": "45649283df2a850cf3799cc7a5182bb36346e6b4",
+      "path": "src/fa3_os_runtime.py",
+      "git_blob_sha": "cae5f5568ac533658b5a62a01d34f3f06d5e9d02",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_os_runtime.py",
-      "git_blob_sha": "cae5f5568ac533658b5a62a01d34f3f06d5e9d02",
+      "path": "src/fa3_os_runtime_gate.py",
+      "git_blob_sha": "45649283df2a850cf3799cc7a5182bb36346e6b4",
       "baseline_delta_status": "added"
     },
     {
@@ -7803,6 +8111,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_runtime_hardening.py",
+      "git_blob_sha": "56e5c75542d3cccf81eceb6a6259611187d28c94",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_runtime_hardening_current_host.py",
+      "git_blob_sha": "47b0dd94d197e1b2014ff1cadd7c5daf4404ed4d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_runtime_hardening_current_host_gate.py",
       "git_blob_sha": "134f0118913841f47c81452f844eca490c65da14",
       "baseline_delta_status": "added"
@@ -7813,18 +8131,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_runtime_hardening_current_host.py",
-      "git_blob_sha": "47b0dd94d197e1b2014ff1cadd7c5daf4404ed4d",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "src/fa3_runtime_hardening_gate.py",
       "git_blob_sha": "60498287cc22b323ba37223b953ce558d2566e7e",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_runtime_hardening.py",
-      "git_blob_sha": "56e5c75542d3cccf81eceb6a6259611187d28c94",
+      "path": "src/fa3_secret_broker.py",
+      "git_blob_sha": "245bcd6887a9508e95a535306c2fdbc7a203a221",
       "baseline_delta_status": "added"
     },
     {
@@ -7835,11 +8148,6 @@
     {
       "path": "src/fa3_secret_broker_gate.py",
       "git_blob_sha": "f74523d3f8ccbabd03dd8e9050a18f32be6de4c7",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "src/fa3_secret_broker.py",
-      "git_blob_sha": "245bcd6887a9508e95a535306c2fdbc7a203a221",
       "baseline_delta_status": "added"
     },
     {
@@ -7908,13 +8216,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_uaf_gate.py",
-      "git_blob_sha": "272d607d703922ade671065b64202ed8337db698",
+      "path": "src/fa3_uaf.py",
+      "git_blob_sha": "e33130fab4b37ad3a797700b29c4f22ea30ae325",
       "baseline_delta_status": "added"
     },
     {
-      "path": "src/fa3_uaf.py",
-      "git_blob_sha": "e33130fab4b37ad3a797700b29c4f22ea30ae325",
+      "path": "src/fa3_uaf_gate.py",
+      "git_blob_sha": "272d607d703922ade671065b64202ed8337db698",
       "baseline_delta_status": "added"
     },
     {
@@ -8210,6 +8518,11 @@
     {
       "path": "tests/test_current_host_runtime_resolver.py",
       "git_blob_sha": "dd27becdafb151473c118b0a210605c3d0b18b06",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_decision_fabric.py",
+      "git_blob_sha": "8f72e8c1d9cf594007db92766d3709ad52dbab95",
       "baseline_delta_status": "added"
     },
     {
@@ -8548,6 +8861,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_mmg_context_ir.py",
+      "git_blob_sha": "db3ba97981d4c602003998bcf862611b5feff3aa",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_mmg_context_ir_gate.py",
       "git_blob_sha": "28768a0875dfcc031f424907d3916fe188a50ff2",
       "baseline_delta_status": "added"
@@ -8555,11 +8873,6 @@
     {
       "path": "tests/test_mmg_context_ir_reference.py",
       "git_blob_sha": "49f21b45b838669ca8d41d3cca848b25c3386e29",
-      "baseline_delta_status": "added"
-    },
-    {
-      "path": "tests/test_mmg_context_ir.py",
-      "git_blob_sha": "db3ba97981d4c602003998bcf862611b5feff3aa",
       "baseline_delta_status": "added"
     },
     {
@@ -8578,6 +8891,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_model_manager_current_host_gate.py",
+      "git_blob_sha": "68cf2dda4a0215fa0f0fc1d592c500bdbf73a636",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_model_manager_gate.py",
       "git_blob_sha": "60c3864c3f30f658f2c4558e3f1565a095c33821",
       "baseline_delta_status": "added"
@@ -8590,6 +8908,26 @@
     {
       "path": "tests/test_model_manager_v2_gate.py",
       "git_blob_sha": "ca4e7401215acff963626bfceb748d85ddccd31c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_current_host_gate.py",
+      "git_blob_sha": "749fac391a99f22d19a59ea8d2e75256f63a901f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_gate.py",
+      "git_blob_sha": "0d3816ef4e0ce76aa06ed29e7543055bc365cf61",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_materialize.py",
+      "git_blob_sha": "6d4637e2ac4520a319366b897fab1e49392469e8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_model_router_provider_discovery.py",
+      "git_blob_sha": "b4683bc63e803d58f784b1d33e2565731560c701",
       "baseline_delta_status": "added"
     },
     {
@@ -8753,6 +9091,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_secret_broker.py",
+      "git_blob_sha": "f6b39f215f7c9aa514ef39c64879a6994a86ce73",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_secret_broker_current_host.py",
       "git_blob_sha": "dd4c7a2552b2299f315d1b7eb927726c9b0ad890",
       "baseline_delta_status": "added"
@@ -8763,23 +9106,18 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "tests/test_secret_broker.py",
-      "git_blob_sha": "f6b39f215f7c9aa514ef39c64879a6994a86ce73",
-      "baseline_delta_status": "added"
-    },
-    {
       "path": "tests/test_secret_leak_negative.py",
       "git_blob_sha": "e78787f215938b36591219f4b8f7bcbee303f0ed",
       "baseline_delta_status": "added"
     },
     {
-      "path": "tests/test_session_vault_current_host.py",
-      "git_blob_sha": "485518e016f2e30b37d936812c2874cc32e19faa",
+      "path": "tests/test_session_vault.py",
+      "git_blob_sha": "a243782e7c723f10a519a0d6d4ce2754a1514bf3",
       "baseline_delta_status": "added"
     },
     {
-      "path": "tests/test_session_vault.py",
-      "git_blob_sha": "a243782e7c723f10a519a0d6d4ce2754a1514bf3",
+      "path": "tests/test_session_vault_current_host.py",
+      "git_blob_sha": "485518e016f2e30b37d936812c2874cc32e19faa",
       "baseline_delta_status": "added"
     },
     {
@@ -8843,13 +9181,13 @@
       "baseline_delta_status": "added"
     },
     {
-      "path": "tests/test_uaf_gate.py",
-      "git_blob_sha": "05dfca28303804a7008fa0df91b029a9d760d31c",
+      "path": "tests/test_uaf.py",
+      "git_blob_sha": "9855875fe84a3abcfec5d12db096cfc6ad4fbfe1",
       "baseline_delta_status": "added"
     },
     {
-      "path": "tests/test_uaf.py",
-      "git_blob_sha": "9855875fe84a3abcfec5d12db096cfc6ad4fbfe1",
+      "path": "tests/test_uaf_gate.py",
+      "git_blob_sha": "05dfca28303804a7008fa0df91b029a9d760d31c",
       "baseline_delta_status": "added"
     },
     {
@@ -9169,7 +9507,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-23",
+  "last_reconciled_at": "2026-09-07",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
