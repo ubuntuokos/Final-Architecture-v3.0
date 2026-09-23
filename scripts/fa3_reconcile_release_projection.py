@@ -192,6 +192,27 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "capability_count_after": capability_count,
     }
 
+    projection["inference_portability_current_host_reconciliation"] = {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001",
+        "parent_profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "gate_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001",
+        "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23",
+        "pending_reference_evidence": "evidence/reference/inference-portability-current-host-pending.json",
+        "provider_ids": ["FA3-PROVIDER-OPENVINO-001","FA3-PROVIDER-ONNXRUNTIME-001","FA3-PROVIDER-TENSORRT-001","FA3-PROVIDER-TENSORRT-RTX-001"],
+        "capability_bindings": ["CAP-005","CAP-006","CAP-137","CAP-143"],
+        "binding_class": "NON_OBLIGATION_BEARING_PROVIDER_SPECIFIC_CURRENT_HOST_PRE_ADMISSION",
+        "optional_provider_absence_is_failure": False,
+        "cpu_only_host_global_conformance": True,
+        "production_route_requires_model_router_e2e": True,
+        "provider_runtime_promotion_claim": False,
+        "global_promotion_claim": False,
+        "existing_429_closure_reopened": False,
+        "current_host_obligation_delta": 0,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
+
     projection["marketing_agent_native_reconciliation"] = {
         "profile_id": "FA3-MARKETING-001",
         "contract_id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",

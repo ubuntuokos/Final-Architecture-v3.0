@@ -36,6 +36,7 @@ from fa3_integration_broker_gate import gate as integration_broker_gate
 from fa3_codex_gate import gate as codex_gate, current_host_gate as codex_current_host_gate
 from fa3_modular_gate import gate as modular_gate
 from fa3_inference_portability_gate import gate as inference_portability_gate
+from fa3_inference_portability_current_host_gate import gate as inference_current_host_gate
 from fa3_model_manager_gate import gate as model_manager_gate
 from fa3_model_manager_current_host_gate import gate as model_manager_current_host_gate
 from fa3_modular_runtime import run_executable_conformance as modular_provider_conformance
@@ -585,7 +586,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","inference-current-host","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -671,6 +672,8 @@ def main():
             x=modular_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="inference-portability":
             x=inference_portability_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="inference-current-host":
+            x=inference_current_host_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="model-manager":
             x=model_manager_gate(root); print(json.dumps(x,indent=2)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="model-manager-current-host":

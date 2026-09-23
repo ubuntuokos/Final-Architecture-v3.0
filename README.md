@@ -1235,3 +1235,8 @@ The global hardware baseline remains valid with **0..N accelerators** and CPU-on
 Agent-initiated inference must use a typed UAF action. Neither agents, execution providers, inference backends nor Jev may bypass Model Router/HRB/security boundaries or expand an application's authorized AI participant set. Decision Fabric/Jev may only advise within a deterministically prefiltered eligible candidate set.
 
 Current pinned compatibility references are OpenVINO 2026.4.0, ONNX Runtime 1.30.0, TensorRT 11.3.0.99 with CUDA 13.4 provider-scoped compatibility, TensorRT-RTX 1.6.1.120 and TensorRT-RTX EP ABI 0.4.2. Reference updates do not promote a provider runtime.
+
+
+## Inference provider current-host pre-admission
+
+`FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001` materializes a read-only self-hosted provider inventory and smoke surface for OpenVINO, ONNX Runtime, TensorRT and TensorRT-RTX. Optional provider absence is not a global failure; CPU-only hosts remain conformant. Provider presence and CPU smoke evidence do not imply production admission. Accelerated runtime PASS requires DEVICE-bound backend evidence plus a fresh HRB lease and real E2E, while full production promotion additionally requires the canonical Model Router → provider adapter → backend route. The surface adds no capability or authority and does not reopen the proven 429/429 current-host closure.

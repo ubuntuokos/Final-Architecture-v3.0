@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fa3.inference-portability-current-host-receipt.v1",
+  "title": "FA3 Inference Portability Current-Host Receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "collector_id",
+    "captured_at",
+    "current_host",
+    "synthetic",
+    "ci_reference_only",
+    "collection_policy",
+    "host",
+    "hardware",
+    "providers",
+    "result"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.inference-portability-current-host-receipt.v1"
+    },
+    "collector_id": {
+      "const": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-COLLECTOR-001"
+    },
+    "captured_at": {
+      "type": "string"
+    },
+    "current_host": {
+      "const": true
+    },
+    "synthetic": {
+      "const": false
+    },
+    "ci_reference_only": {
+      "const": false
+    },
+    "collection_policy": {
+      "type": "object"
+    },
+    "host": {
+      "type": "object"
+    },
+    "hardware": {
+      "type": "object"
+    },
+    "providers": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "result": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

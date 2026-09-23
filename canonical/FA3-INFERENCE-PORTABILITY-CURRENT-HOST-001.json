@@ -1,0 +1,81 @@
+{
+  "schema": "fa3.current-host-provider-admission-profile.v1",
+  "id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001",
+  "title": "Inference Portability Current-Host Provider Pre-Admission",
+  "status": "IMPLEMENTATION_PROJECTION",
+  "priority": "P0",
+  "requirement": "MUST-IF-CURRENT-HOST-INFERENCE-PROVIDER-ADMISSION",
+  "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
+  "parent_gate": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "architectural_authority": false,
+  "provider_optional": true,
+  "provider_absence_semantics": "ABSENT_OPTIONAL_NOT_GLOBAL_FAILURE",
+  "cpu_only_host_conforms": true,
+  "collection_mode": "READ_ONLY_NO_INSTALL_NO_DOWNLOAD_NO_PROVIDER_MUTATION",
+  "runtime_evidence_scope": [
+    "installed distribution/module identity",
+    "provider version",
+    "provider-declared available execution devices/providers",
+    "live vendor-neutral accelerator physical inventory",
+    "isolated CPU smoke where supported and dependencies are already installed",
+    "accelerator path readiness without runtime promotion unless HRB-bound E2E exists"
+  ],
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "hardware_discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "ai_comms": "FA3-AI-COMMS-001"
+  },
+  "promotion_boundary": {
+    "import_or_distribution_presence": "NOT_ADMISSION",
+    "cpu_smoke": "COMPONENT_RUNTIME_SMOKE_ONLY_NOT_PRODUCTION_ROUTE",
+    "accelerator_discovery": "NOT_ADMISSION",
+    "accelerator_runtime_pass": "REQUIRES_DEVICE_BOUND_BACKEND_PLUS_CURRENT_HRB_LEASE_PLUS_REAL_E2E",
+    "production_provider_runtime_pass": "REQUIRES_CANONICAL_MODEL_ROUTER_TO_PROVIDER_ADAPTER_TO_BACKEND_E2E",
+    "global_promotion": false,
+    "existing_429_closure_reopened": false
+  },
+  "gate_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001",
+  "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23",
+  "pending_evidence": "evidence/reference/inference-portability-current-host-pending.json",
+  "invariants": [
+    "INFERENCE_CURRENT_HOST_OPTIONAL_PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE",
+    "INFERENCE_CURRENT_HOST_DISCOVERY_MUST_NOT_INSTALL_DOWNLOAD_OR_MUTATE_PROVIDER_RUNTIME",
+    "INFERENCE_CURRENT_HOST_CPU_ONLY_HOST_REMAINS_GLOBALLY_CONFORMANT",
+    "INFERENCE_CURRENT_HOST_PROVIDER_PRESENCE_IS_NOT_RUNTIME_ADMISSION",
+    "INFERENCE_CURRENT_HOST_EXACT_RUNTIME_IDENTITY_MUST_BE_RECORDED",
+    "INFERENCE_CURRENT_HOST_REFERENCE_VERSION_MATCH_IS_NOT_AUTOMATIC_PROMOTION",
+    "INFERENCE_CURRENT_HOST_OPENVINO_ACCELERATOR_PATH_REQUIRES_DEVICE_BOUND_BACKEND_AND_HRB",
+    "INFERENCE_CURRENT_HOST_ORT_ACCELERATOR_EP_REQUIRES_DEVICE_BOUND_BACKEND_AND_HRB",
+    "INFERENCE_CURRENT_HOST_TENSORRT_REQUIRES_ACCELERATOR_HRB_E2E_FOR_RUNTIME_PASS",
+    "INFERENCE_CURRENT_HOST_TENSORRT_RTX_REQUIRES_ACCELERATOR_HRB_E2E_FOR_RUNTIME_PASS",
+    "INFERENCE_CURRENT_HOST_EXECUTION_PROVIDER_CANNOT_BECOME_MODEL_ROUTER",
+    "INFERENCE_CURRENT_HOST_PROBE_IS_NOT_AGENT_NATIVE_ACTION_OR_AUTHORITY",
+    "INFERENCE_CURRENT_HOST_BACKEND_DISCOVERY_CANNOT_EXPAND_AI_PARTICIPANT_SET",
+    "INFERENCE_CURRENT_HOST_PRODUCTION_PROMOTION_REQUIRES_CANONICAL_MODEL_ROUTER_ROUTE_E2E",
+    "INFERENCE_CURRENT_HOST_NO_SILENT_CPU_DEVICE_BACKEND_OR_CLOUD_FALLBACK",
+    "INFERENCE_CURRENT_HOST_RECEIPT_MUST_BIND_RELEASE_AND_HOST_EVIDENCE",
+    "INFERENCE_CURRENT_HOST_PROVIDER_EVIDENCE_DOES_NOT_REOPEN_429_CLOSURE",
+    "INFERENCE_CURRENT_HOST_SELF_HOSTED_EXECUTION_REQUIRED_FOR_RUNTIME_EVIDENCE",
+    "INFERENCE_CURRENT_HOST_SMOKE_MODEL_IS_EPHEMERAL_TEST_ARTIFACT_NOT_MODEL_REGISTRY_PROMOTION",
+    "INFERENCE_CURRENT_HOST_ABSENT_OR_UNADMITTED_PROVIDER_HAS_ZERO_PRODUCTION_CLAIM"
+  ]
+}

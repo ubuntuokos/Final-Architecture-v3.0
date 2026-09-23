@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.inference-portability-current-host.reference-evidence.v1",
+  "id": "FA3-EVID-INFERENCE-PORTABILITY-CURRENT-HOST-PENDING-001",
+  "date": "2026-09-23",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001",
+  "gate_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001",
+  "status": "PENDING_REAL_SELF_HOSTED_PROVIDER_INVENTORY",
+  "materialization": "EXECUTABLE",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "optional_provider_absence_is_failure": false,
+  "current_host_obligation_delta": 0,
+  "existing_429_closure_reopened": false,
+  "current_host_provider_runtime_promotion_claim": false,
+  "global_promotion_claim": false,
+  "reason": "Real provider inventory and smoke evidence must be produced by the labeled self-hosted FA3 current-host runner. Accelerated provider runtime PASS additionally requires a DEVICE-bound compatible backend, fresh HRB authorization/lease and real accelerator execution. Full production provider promotion requires the canonical Model Router route and is not inferred from this pre-admission surface."
+}

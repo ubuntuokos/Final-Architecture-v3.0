@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize provider-specific current-host inference pre-admission without reopening global capability closure",
+  "change_type": "CURRENT_HOST_IMPLEMENTATION_PROJECTION_NO_NEW_CAPABILITY_NO_NEW_AUTHORITY",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001",
+  "parent_profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "gate_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "capability_source_decision_projection": "NON_OBLIGATION_BEARING_PROVIDER_SPECIFIC_CURRENT_HOST_PRE_ADMISSION",
+  "current_host_obligation_delta": 0,
+  "existing_429_closure_reopened": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "decisions": [
+    "Optional provider absence does not fail global FA3 current-host conformance.",
+    "The collector is read-only and must not install, download or mutate provider runtimes.",
+    "Provider import/distribution presence is discovery evidence only, never runtime admission.",
+    "OpenVINO and ONNX Runtime may perform isolated CPU smoke tests when already installed; a CPU smoke is component evidence, not Model Router production-route evidence.",
+    "Any accelerated execution path requires a DEVICE-bound compatible backend and fresh HRB authorization/lease; no accelerator runtime PASS is inferred from CUDA/EP/provider discovery.",
+    "TensorRT and TensorRT-RTX cannot receive current-host runtime PASS without real accelerator E2E bound to HRB evidence.",
+    "Full production provider promotion additionally requires canonical Model Router -> provider adapter -> backend execution evidence; the currently open Model Router PR is not assumed merged.",
+    "This implementation projection does not reopen or alter the proven global 429/429 capability closure."
+  ],
+  "current_host_runtime_promotion": "PENDING_PROVIDER_SPECIFIC_EVIDENCE",
+  "global_promotion_claim": false
+}

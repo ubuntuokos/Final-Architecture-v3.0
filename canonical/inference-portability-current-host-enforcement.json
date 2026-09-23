@@ -1,0 +1,190 @@
+{
+  "schema": "fa3.inference-portability-current-host-enforcement.v1",
+  "id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-ENFORCEMENT-001",
+  "gate_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-GATESET-001",
+  "profile_id": "FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001",
+  "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "fail_closed": true,
+  "receipt_schema": "fa3.inference-portability-current-host-receipt.v1",
+  "collector": "evidence/collect-inference-portability-current-host.py",
+  "self_hosted_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "collection": {
+    "read_only": true,
+    "network_fetch_allowed": false,
+    "package_install_allowed": false,
+    "provider_mutation_allowed": false,
+    "secret_collection": "PROHIBITED"
+  },
+  "optional_provider_absence_is_failure": false,
+  "cpu_only_host_global_conformance": true,
+  "accelerator_runtime_pass_requires": [
+    "DEVICE_BOUND_BACKEND",
+    "CURRENT_SCOPE_BOUND_HRB_LEASE",
+    "REAL_ACCELERATOR_E2E"
+  ],
+  "production_provider_runtime_pass_requires": [
+    "CANONICAL_MODEL_ROUTER_RESOLUTION",
+    "PROVIDER_ADAPTER",
+    "BACKEND_COMPATIBILITY_RECEIPT",
+    "REAL_E2E"
+  ],
+  "mandatory_rule_count": 20,
+  "p0_invariants": [
+    "INFERENCE_CURRENT_HOST_OPTIONAL_PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE",
+    "INFERENCE_CURRENT_HOST_DISCOVERY_MUST_NOT_INSTALL_DOWNLOAD_OR_MUTATE_PROVIDER_RUNTIME",
+    "INFERENCE_CURRENT_HOST_CPU_ONLY_HOST_REMAINS_GLOBALLY_CONFORMANT",
+    "INFERENCE_CURRENT_HOST_PROVIDER_PRESENCE_IS_NOT_RUNTIME_ADMISSION",
+    "INFERENCE_CURRENT_HOST_EXACT_RUNTIME_IDENTITY_MUST_BE_RECORDED",
+    "INFERENCE_CURRENT_HOST_REFERENCE_VERSION_MATCH_IS_NOT_AUTOMATIC_PROMOTION",
+    "INFERENCE_CURRENT_HOST_OPENVINO_ACCELERATOR_PATH_REQUIRES_DEVICE_BOUND_BACKEND_AND_HRB",
+    "INFERENCE_CURRENT_HOST_ORT_ACCELERATOR_EP_REQUIRES_DEVICE_BOUND_BACKEND_AND_HRB",
+    "INFERENCE_CURRENT_HOST_TENSORRT_REQUIRES_ACCELERATOR_HRB_E2E_FOR_RUNTIME_PASS",
+    "INFERENCE_CURRENT_HOST_TENSORRT_RTX_REQUIRES_ACCELERATOR_HRB_E2E_FOR_RUNTIME_PASS",
+    "INFERENCE_CURRENT_HOST_EXECUTION_PROVIDER_CANNOT_BECOME_MODEL_ROUTER",
+    "INFERENCE_CURRENT_HOST_PROBE_IS_NOT_AGENT_NATIVE_ACTION_OR_AUTHORITY",
+    "INFERENCE_CURRENT_HOST_BACKEND_DISCOVERY_CANNOT_EXPAND_AI_PARTICIPANT_SET",
+    "INFERENCE_CURRENT_HOST_PRODUCTION_PROMOTION_REQUIRES_CANONICAL_MODEL_ROUTER_ROUTE_E2E",
+    "INFERENCE_CURRENT_HOST_NO_SILENT_CPU_DEVICE_BACKEND_OR_CLOUD_FALLBACK",
+    "INFERENCE_CURRENT_HOST_RECEIPT_MUST_BIND_RELEASE_AND_HOST_EVIDENCE",
+    "INFERENCE_CURRENT_HOST_PROVIDER_EVIDENCE_DOES_NOT_REOPEN_429_CLOSURE",
+    "INFERENCE_CURRENT_HOST_SELF_HOSTED_EXECUTION_REQUIRED_FOR_RUNTIME_EVIDENCE",
+    "INFERENCE_CURRENT_HOST_SMOKE_MODEL_IS_EPHEMERAL_TEST_ARTIFACT_NOT_MODEL_REGISTRY_PROMOTION",
+    "INFERENCE_CURRENT_HOST_ABSENT_OR_UNADMITTED_PROVIDER_HAS_ZERO_PRODUCTION_CLAIM"
+  ],
+  "current_host_obligation_delta": 0,
+  "existing_429_closure_reopened": false,
+  "global_promotion_claim": false,
+  "rules": [
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_OPTIONAL_PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host optional provider absence is not global failure"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_DISCOVERY_MUST_NOT_INSTALL_DOWNLOAD_OR_MUTATE_PROVIDER_RUNTIME",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host discovery must not install download or mutate provider runtime"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_CPU_ONLY_HOST_REMAINS_GLOBALLY_CONFORMANT",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host cpu only host remains globally conformant"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_PROVIDER_PRESENCE_IS_NOT_RUNTIME_ADMISSION",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host provider presence is not runtime admission"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_EXACT_RUNTIME_IDENTITY_MUST_BE_RECORDED",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host exact runtime identity must be recorded"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_REFERENCE_VERSION_MATCH_IS_NOT_AUTOMATIC_PROMOTION",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host reference version match is not automatic promotion"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_OPENVINO_ACCELERATOR_PATH_REQUIRES_DEVICE_BOUND_BACKEND_AND_HRB",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host openvino accelerator path requires device bound backend and hrb"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_ORT_ACCELERATOR_EP_REQUIRES_DEVICE_BOUND_BACKEND_AND_HRB",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host ort accelerator ep requires device bound backend and hrb"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_TENSORRT_REQUIRES_ACCELERATOR_HRB_E2E_FOR_RUNTIME_PASS",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host tensorrt requires accelerator hrb e2e for runtime pass"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_TENSORRT_RTX_REQUIRES_ACCELERATOR_HRB_E2E_FOR_RUNTIME_PASS",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host tensorrt rtx requires accelerator hrb e2e for runtime pass"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_EXECUTION_PROVIDER_CANNOT_BECOME_MODEL_ROUTER",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host execution provider cannot become model router"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_PROBE_IS_NOT_AGENT_NATIVE_ACTION_OR_AUTHORITY",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host probe is not agent native action or authority"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_BACKEND_DISCOVERY_CANNOT_EXPAND_AI_PARTICIPANT_SET",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host backend discovery cannot expand ai participant set"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_PRODUCTION_PROMOTION_REQUIRES_CANONICAL_MODEL_ROUTER_ROUTE_E2E",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host production promotion requires canonical model router route e2e"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_NO_SILENT_CPU_DEVICE_BACKEND_OR_CLOUD_FALLBACK",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host no silent cpu device backend or cloud fallback"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_RECEIPT_MUST_BIND_RELEASE_AND_HOST_EVIDENCE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host receipt must bind release and host evidence"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_PROVIDER_EVIDENCE_DOES_NOT_REOPEN_429_CLOSURE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host provider evidence does not reopen 429 closure"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_SELF_HOSTED_EXECUTION_REQUIRED_FOR_RUNTIME_EVIDENCE",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host self hosted execution required for runtime evidence"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_SMOKE_MODEL_IS_EPHEMERAL_TEST_ARTIFACT_NOT_MODEL_REGISTRY_PROMOTION",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host smoke model is ephemeral test artifact not model registry promotion"
+    },
+    {
+      "invariant": "INFERENCE_CURRENT_HOST_ABSENT_OR_UNADMITTED_PROVIDER_HAS_ZERO_PRODUCTION_CLAIM",
+      "priority": "P0",
+      "mandatory": true,
+      "description": "inference current host absent or unadmitted provider has zero production claim"
+    }
+  ]
+}

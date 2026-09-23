@@ -1,0 +1,70 @@
+name: FA3 Inference Portability Current Host
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001.json'
+      - 'canonical/inference-portability-current-host-enforcement.json'
+      - 'canonical/decisions/FA3-DEC-INFERENCE-PORTABILITY-CURRENT-HOST-2026-09-23.json'
+      - 'canonical/providers/FA3-PROVIDER-OPENVINO-001.json'
+      - 'canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TENSORRT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json'
+      - 'evidence/collect-inference-portability-current-host.py'
+      - 'src/fa3_inference_portability_current_host_gate.py'
+      - '.github/workflows/fa3-inference-portability-current-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-INFERENCE-PORTABILITY-CURRENT-HOST-001.json'
+      - 'canonical/inference-portability-current-host-enforcement.json'
+      - 'evidence/collect-inference-portability-current-host.py'
+      - 'src/fa3_inference_portability_current_host_gate.py'
+      - '.github/workflows/fa3-inference-portability-current-host.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  current-host-pre-admission:
+    name: inference-provider-pre-admission / current-host
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Syntax and static materialization gate
+        run: |
+          python3 -m py_compile evidence/collect-inference-portability-current-host.py src/fa3_inference_portability_current_host_gate.py
+          PYTHONPATH=src python3 src/fa3_inference_portability_current_host_gate.py
+      - name: Collect read-only provider inventory and smoke evidence
+        run: |
+          mkdir -p reports/inference-current-host
+          PYTHONPATH=src python3 evidence/collect-inference-portability-current-host.py \
+            --output reports/inference-current-host/receipt.json | tee reports/inference-current-host/collector-summary.json
+      - name: Validate real current-host receipt
+        run: |
+          PYTHONPATH=src python3 src/fa3_inference_portability_current_host_gate.py \
+            --receipt reports/inference-current-host/receipt.json | tee reports/inference-current-host/gate.json
+      - name: Record non-secret host facts
+        run: |
+          {
+            echo '=== uname ==='
+            uname -a
+            echo '=== python ==='
+            python3 --version
+            echo '=== runner ==='
+            printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-}"
+            echo '=== pci accelerator classes ==='
+            lspci -Dnn 2>/dev/null | grep -Ei 'VGA|3D|Display|Processing accelerators' || true
+          } > reports/inference-current-host/host-facts.txt
+      - name: Upload scoped evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-inference-portability-current-host
+          if-no-files-found: error
+          path: reports/inference-current-host/
