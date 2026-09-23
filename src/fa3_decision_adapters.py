@@ -188,3 +188,50 @@ class Fa3DecisionAdapters:
             "rollout": "SHADOW",
             "final_policy_owner": "FA3-MENTOR-001",
         }, provider_id)
+
+    def coach_next_step(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RANK",
+            "purpose": "Rank only already-proposed coaching next steps or checkpoint options; user commitments remain user-owned",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {"advisory_only": True, "may_create_commitment": False, "may_execute": False},
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "NO_DECISION",
+            "rollout": "SHADOW",
+            "final_policy_owner": "USER_AND_FA3-COACH-001",
+        }, provider_id)
+
+    def ideation_option_rank(self, candidates: list[dict[str, Any]], *, state: Any, provider_id: str) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "RANK",
+            "purpose": "Rank already-generated ideation/advisory options by stated criteria without converting a recommendation into a decision",
+            "candidates": candidates,
+            "constraints": {},
+            "policy_context": {"recommendation_not_decision": True, "may_authorize": False, "may_execute": False},
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "NO_DECISION",
+            "rollout": "SHADOW",
+            "final_policy_owner": "USER_OR_EXISTING_FA3_DECISION_AUTHORITY_ONLY",
+        }, provider_id)
+
+    def language_semantic_validation(self, *, state: Any, provider_id: str, threshold: float = 0.5) -> dict[str, Any]:
+        return self.fabric.decide({
+            "contract": "BOOLEAN",
+            "purpose": "Provide a semantic validation signal for a derived translation or language adaptation without changing source authority",
+            "candidates": [],
+            "constraints": {"threshold": threshold},
+            "policy_context": {
+                "source_authority_changed": False,
+                "private_model_language_allowed": False,
+                "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+            },
+            "evidence_refs": [],
+            "state": state,
+            "failure_policy": "FAIL_CLOSED",
+            "rollout": "SHADOW",
+            "final_policy_owner": "FA3-LANGUAGE-FABRIC-001",
+        }, provider_id)
+
