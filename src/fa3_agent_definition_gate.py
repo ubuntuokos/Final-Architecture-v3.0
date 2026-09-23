@@ -173,6 +173,9 @@ def gate(root: Path) -> dict[str, Any]:
     uaf = loadj(root / "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json")
     workforce = loadj(root / "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json")
     distribution = loadj(root / "canonical/distribution-registry.json")
+    enforcement = loadj(root / "canonical/agent-definition-enforcement.json")
+    gate_record = loadj(root / "canonical/FA3-GATE-AGENT-DEFINITION-001.json")
+    policy = loadj(root / "canonical/enforcement-policy.json")
 
     if not (
         profile.get("id") == "FA3-AGENT-DEFINITION-001"
@@ -201,6 +204,47 @@ def gate(root: Path) -> dict[str, Any]:
         and contract.get("registry") == REGISTRY_ID
     ):
         findings.append(finding("DEF-CANON-001", "agent definition contract governance drift"))
+
+    if not (
+        enforcement.get("gate_id") == GATE_ID
+        and enforcement.get("gateset_id") == GATESET_ID
+        and enforcement.get("profile_id") == "FA3-AGENT-DEFINITION-001"
+        and enforcement.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and enforcement.get("contract_id") == CONTRACT_ID
+        and enforcement.get("registry_id") == REGISTRY_ID
+        and enforcement.get("fail_closed") is True
+        and enforcement.get("capability_count") == count
+        and enforcement.get("new_capability") is False
+        and enforcement.get("new_architectural_authority") is False
+        and isinstance(enforcement.get("mandatory_rules"), list)
+        and len(enforcement.get("mandatory_rules", [])) >= 12
+    ):
+        findings.append(finding("DEF-CANON-001A", "agent definition enforcement record drift"))
+
+    if not (
+        gate_record.get("id") == GATE_ID
+        and gate_record.get("gateset_id") == GATESET_ID
+        and gate_record.get("profile_id") == "FA3-AGENT-DEFINITION-001"
+        and gate_record.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and gate_record.get("contract_id") == CONTRACT_ID
+        and gate_record.get("registry_id") == REGISTRY_ID
+        and gate_record.get("fail_closed") is True
+        and gate_record.get("mandatory_rules") == enforcement.get("mandatory_rules")
+        and gate_record.get("regression_case_count") == 12
+        and gate_record.get("current_host_runtime_evidence") is False
+    ):
+        findings.append(finding("DEF-CANON-001B", "agent definition executable gate record drift"))
+
+    if not (
+        GATESET_ID in policy.get("mandatory_reference_gates", [])
+        and policy.get("agent_definition_profile_id") == "FA3-AGENT-DEFINITION-001"
+        and policy.get("agent_definition_parent_profile") == "FA3-AGENT-EXEC-001"
+        and policy.get("agent_definition_contract_id") == CONTRACT_ID
+        and policy.get("agent_definition_registry_id") == REGISTRY_ID
+        and policy.get("agent_definition_gate_id") == GATESET_ID
+        and policy.get("agent_definition_mandatory_p0_rules") == enforcement.get("mandatory_rules")
+    ):
+        findings.append(finding("DEF-CANON-001C", "agent definition global enforcement binding drift"))
 
     sem = contract.get("definition_semantics", {})
     if any(sem.get(k) is not False for k in (
