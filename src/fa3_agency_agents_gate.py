@@ -508,16 +508,16 @@ def canonical_check(root: Path) -> dict[str, Any]:
         decision.get("id") == DECISION_ID
         and decision.get("provider_id") == PROVIDER_ID
         and decision.get("upstream_pin") == UPSTREAM_PIN
-        and decision.get("status") == "CANONICAL_IMPLEMENTED_STATIC_GATES_OPEN_RUNTIME_AND_RELEASE_VALIDATION"
+        and decision.get("status") == "CANONICAL_STATIC_MATERIALIZED_GUI_CURRENT_HOST_PENDING"
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
         and decision.get("capability_count_after") == count
         and decision.get("current_host_runtime_claim") is False
-        and set(decision.get("open_reconciliations", [])) == {
-            "LATEST_UNIFIED_RELEASE_PROJECTION_REGENERATION_PENDING",
-            "FRESH_PERMANENT_CI_AFTER_AGENT_DEFINITION_AND_GUI_BINDING_PENDING",
-            "GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING",
-        }
+        and decision.get("open_reconciliations") == ["GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING"]
+        and decision.get("validation_policy", {}).get("unified_release_projection") == "MANAGED_BY_REPOSITORY_RECONCILER_MUST_PASS_BEFORE_MERGE"
+        and decision.get("validation_policy", {}).get("fresh_reference_ci") == "MANDATORY_BEFORE_MERGE"
+        and decision.get("validation_policy", {}).get("reference_ci_is_runtime_promotion") is False
+        and decision.get("validation_policy", {}).get("metadata_only_agent_definitions_require_current_host_runtime_evidence") is False
         and decision.get("gui_runtime_validation", {}).get("conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
         and decision.get("gui_runtime_validation", {}).get("status") == "PENDING_CURRENT_HOST"
         and decision.get("gui_runtime_validation", {}).get("production_admitted") is False
