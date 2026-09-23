@@ -11,6 +11,7 @@ on:
       - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
       - 'src/fa3_current_host_evidence_audit.py'
+      - 'src/fa3_current_host_closure_assertion.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'src/fa3_current_host_capability_attest.py'
       - 'src/fa3_current_host_capability_test_bundle.py'
@@ -45,6 +46,7 @@ on:
       - 'bin/fa3-enforce'
       - 'bin/fa3-bootstrap-wasmtime'
       - 'tests/test_current_host_evidence_audit.py'
+      - 'tests/test_current_host_closure_assertion.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
       - 'tests/test_current_host_capability_test_bundle.py'
@@ -85,6 +87,7 @@ on:
       - 'canonical/FA3-DESKTOP-PLASMA-001.json'
       - 'canonical/decisions/FA3-DEC-CURRENT-HOST-FULL-MATERIALIZATION-2026-09-19.json'
       - 'src/fa3_current_host_evidence_audit.py'
+      - 'src/fa3_current_host_closure_assertion.py'
       - 'src/fa3_current_host_capability_handoff.py'
       - 'src/fa3_current_host_capability_attest.py'
       - 'src/fa3_current_host_capability_test_bundle.py'
@@ -113,6 +116,7 @@ on:
       - 'src/fa3_pytorch3d_build_readiness.py'
       - 'tests/test_pytorch3d_build_readiness.py'
       - 'tests/test_current_host_evidence_audit.py'
+      - 'tests/test_current_host_closure_assertion.py'
       - 'tests/test_current_host_capability_handoff.py'
       - 'tests/test_current_host_capability_attest.py'
       - 'tests/test_current_host_capability_test_bundle.py'
@@ -215,6 +219,7 @@ jobs:
             src/fa3_current_host_capability_attest.py \
             src/fa3_current_host_capability_handoff.py \
             src/fa3_current_host_evidence_audit.py \
+            src/fa3_current_host_closure_assertion.py \
             src/fa3_hrb_systemd_manager_current_host_gate.py \
             evidence/collect-hrb-systemd-manager-current-host.py \
             tests/test_hrb_systemd_manager_current_host_gate.py \
@@ -243,7 +248,8 @@ jobs:
             tests/test_current_host_capability_test_bundle.py \
             tests/test_current_host_capability_attest.py \
             tests/test_current_host_capability_handoff.py \
-            tests/test_current_host_evidence_audit.py
+            tests/test_current_host_evidence_audit.py \
+            tests/test_current_host_closure_assertion.py
           ./bin/fa3-current-host verify
       - name: Batch planner and selector regressions on pristine checkout
         run: |
@@ -317,7 +323,8 @@ jobs:
             tests.test_current_host_capability_test_bundle \
             tests.test_current_host_capability_attest \
             tests.test_current_host_capability_handoff \
-            tests.test_current_host_evidence_audit -v
+            tests.test_current_host_evidence_audit \
+            tests.test_current_host_closure_assertion -v
       - name: Audit explicit capability-level qualification definitions
         run: |
           PYTHONPATH=src python src/fa3_current_host_capability_test_qualification_audit.py --root .
@@ -701,97 +708,10 @@ jobs:
           set -e
           if [ "$acceptance_rc" -ne 0 ] && [ "$acceptance_rc" -ne 2 ]; then exit "$acceptance_rc"; fi
           if [ "$promotion_rc" -ne 0 ] && [ "$promotion_rc" -ne 2 ]; then exit "$promotion_rc"; fi
-      - name: Assert fail-closed closure semantics
+      - name: Assert runtime closure and promotion separation
         shell: bash
         run: |
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          producer_audit=json.loads(Path('reports/current-host-capability-qualification-constituent-producer-audit.json').read_text())
-          producer_orchestrator=json.loads(Path('reports/current-host-capability-qualification-constituent-orchestrator.json').read_text())
-          executor=json.loads(Path('reports/current-host-capability-test-executor-audit.json').read_text())
-          orchestrator=json.loads(Path('reports/current-host-capability-test-orchestrator.json').read_text())
-          assembler=json.loads(Path('reports/current-host-capability-test-bundle-assembler.json').read_text())
-          producer=json.loads(Path('reports/current-host-capability-attestation-producer.json').read_text())
-          handoff=json.loads(Path('reports/current-host-capability-handoff.json').read_text())
-          audit=json.loads(Path('reports/current-host-evidence-audit.json').read_text())
-          acceptance=json.loads(Path('acceptance/acceptance-report.json').read_text())
-          promotion=json.loads(Path('promotion/runtime-status.json').read_text())
-          assert producer_audit['audit_integrity'] == 'PASS', producer_audit
-          assert producer_audit['registered_producer_count'] + producer_audit['pending_producer_count'] == producer_audit['required_constituent_count'], producer_audit
-          assert producer_audit['global_promotion_claim'] is False, producer_audit
-          assert producer_orchestrator['orchestrator_integrity'] == 'PASS', producer_orchestrator
-          assert producer_orchestrator['execution_requested'] is True, producer_orchestrator
-          assert producer_orchestrator['constituents_materialized'] == producer_orchestrator['selected_producer_count'], producer_orchestrator
-          assert producer_orchestrator['constituents_materialized'] == int(__import__('os').environ['FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT']), producer_orchestrator
-          assert producer_orchestrator['provider_receipts_promoted'] == 0, producer_orchestrator
-          assert producer_orchestrator['component_receipts_promoted'] == 0, producer_orchestrator
-          assert producer_orchestrator['global_promotion_claim'] is False, producer_orchestrator
-          assert executor['audit_integrity'] == 'PASS', executor
-          assert executor['required_test_obligation_count'] == 429, executor
-          assert executor['registered_executor_count'] + executor['pending_executor_count'] == 429, executor
-          assert executor['provider_receipts_promoted'] == 0, executor
-          assert executor['generic_host_evidence_promoted'] == 0, executor
-          assert executor['global_promotion_claim'] is False, executor
-          assert orchestrator['orchestrator_integrity'] == 'PASS', orchestrator
-          assert orchestrator['execution_requested'] is True, orchestrator
-          assert orchestrator['results_materialized'] == orchestrator['selected_executor_count'], orchestrator
-          assert orchestrator['results_materialized'] == int(__import__('os').environ['FA3_CURRENT_HOST_SELECTED_OBLIGATION_COUNT']), orchestrator
-          assert orchestrator['provider_receipts_promoted'] == 0, orchestrator
-          assert orchestrator['generic_host_evidence_promoted'] == 0, orchestrator
-          assert orchestrator['global_promotion_claim'] is False, orchestrator
-          assert assembler['assembler_integrity'] == 'PASS', assembler
-          assert assembler['provider_receipts_promoted'] == 0, assembler
-          assert assembler['generic_host_evidence_promoted'] == 0, assembler
-          assert assembler['global_promotion_claim'] is False, assembler
-          assert producer['producer_integrity'] == 'PASS', producer
-          assert producer['provider_receipts_promoted'] == 0, producer
-          assert producer['generic_host_evidence_promoted'] == 0, producer
-          assert producer['global_promotion_claim'] is False, producer
-          assert handoff['handoff_integrity'] == 'PASS', handoff
-          assert handoff['provider_receipts_promoted'] == 0, handoff
-          assert handoff['generic_host_evidence_promoted'] == 0, handoff
-          assert handoff['global_promotion_claim'] is False, handoff
-          assert audit['audit_integrity'] == 'PASS', audit
-          assert audit['registry_pass_count'] + audit['registry_pending_count'] == 143, audit
-          assert acceptance['static_gate'] == 'PASS', acceptance
-          assert acceptance['criteria_total'] == 19, acceptance
-          if audit['runtime_closure'] == 'PASS':
-              assert executor['coverage_status'] == 'COMPLETE_429_OF_429', executor
-              assert executor['registered_executor_count'] == 429, executor
-              assert orchestrator['results_materialized'] == 429, orchestrator
-              assert assembler['bundles_materialized'] == 143, assembler
-              assert producer['attestations_materialized'] == 143, producer
-              assert handoff['receipts_materialized'] == 143, handoff
-              assert acceptance['status'] == 'PASS' and acceptance['criteria_passed'] == 19, acceptance
-              assert promotion['actual_state'] == 'PROMOTED' and promotion['promotion_allowed'] is True, promotion
-          else:
-              assert acceptance['status'] == 'DENIED', acceptance
-              assert promotion['actual_state'] == 'PROMOTION_BLOCKED' and promotion['promotion_allowed'] is False, promotion
-          print(json.dumps({
-              'executor_coverage': executor['coverage_status'],
-              'registered_executors': executor['registered_executor_count'],
-              'pending_executors': executor['pending_executor_count'],
-              'orchestrator': orchestrator['status'],
-              'test_results_materialized': orchestrator['results_materialized'],
-              'bundle_assembler': assembler['materialization_status'],
-              'bundles_materialized': assembler['bundles_materialized'],
-              'pending_capability_tests': assembler['pending_capability_count'],
-              'producer': producer['materialization_status'],
-              'attestations_materialized': producer['attestations_materialized'],
-              'handoff': handoff['materialization_status'],
-              'receipts_materialized': handoff['receipts_materialized'],
-              'runtime_closure': audit['runtime_closure'],
-              'registry_pass_count': audit['registry_pass_count'],
-              'registry_pending_count': audit['registry_pending_count'],
-              'qualified_current_host_receipt_count': audit['qualified_current_host_receipt_count'],
-              'static_gate': acceptance['static_gate'],
-              'acceptance': acceptance['status'],
-              'criteria_passed': acceptance['criteria_passed'],
-              'criteria_total': acceptance['criteria_total'],
-              'promotion': promotion['actual_state'],
-          }, indent=2))
-          PY
+          PYTHONPATH=src python3 src/fa3_current_host_closure_assertion.py --root .
       - name: Upload real current-host closure evidence
         if: always()
         uses: actions/upload-artifact@v4
