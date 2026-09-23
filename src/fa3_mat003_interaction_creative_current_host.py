@@ -445,6 +445,125 @@ def computer_use_intent_allowed(intent: dict[str, Any]) -> bool:
     )
 
 
+CAP013_SCOPED_REQUIRED_CAPABILITIES = (
+    "linux_host",
+    "xdg_runtime",
+    "dbus_session",
+    "uri_open",
+    "local_gui_session",
+)
+
+
+def cap013_authority_scope(root: Path) -> dict[str, Any]:
+    registry = load(repo_file(root, "evidence/evidence-registry.json"))
+    records = registry.get("records")
+    if not isinstance(records, list):
+        raise RuntimeError("evidence registry records missing")
+    by_id = {
+        row.get("subject_id"): row
+        for row in records
+        if isinstance(row, dict) and isinstance(row.get("subject_id"), str)
+    }
+    cap013 = by_id.get("CAP-013")
+    cap003 = by_id.get("CAP-003")
+    if not isinstance(cap013, dict) or not isinstance(cap003, dict):
+        raise RuntimeError("CAP-013/CAP-003 evidence registry records missing")
+
+    cap013_owners = set(cap013.get("authority_owners") or [])
+    cap003_owners = set(cap003.get("authority_owners") or [])
+    cap013_sources = set(cap013.get("source_decision_ids") or [])
+    if (
+        cap013.get("subject") != "KDE/Wayland Computer Use"
+        or "AUTH-SECRETS" in cap013_owners
+        or "AUTH-SECRETS" not in cap003_owners
+        or "FA3-DESKTOP-001" not in cap013_sources
+    ):
+        raise RuntimeError(
+            "CAP-013 authority scope drift: "
+            f"cap013_subject={cap013.get('subject')!r} "
+            f"cap013_owners={sorted(cap013_owners)} "
+            f"cap003_owners={sorted(cap003_owners)} "
+            f"cap013_sources={sorted(cap013_sources)}"
+        )
+    return {
+        "cap013_subject": cap013.get("subject"),
+        "cap013_authority_owners": sorted(cap013_owners),
+        "secrets_authority_owner": "CAP-003",
+        "secret_backend_required_for_cap013": False,
+        "desktop_projection_source_present": True,
+    }
+
+
+def cap013_computer_use_desktop_admission(
+    report: dict[str, Any],
+    session_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    capabilities = report.get("capabilities")
+    if not isinstance(capabilities, dict):
+        return {
+            "result": "FAIL",
+            "reason": "DESKTOP_CAPABILITIES_MISSING",
+            "required_capabilities": {},
+            "full_desktop_admission_result": report.get("result"),
+            "secret_backend_status": None,
+        }
+
+    required = {
+        key: capabilities.get(key) == "PASS"
+        for key in CAP013_SCOPED_REQUIRED_CAPABILITIES
+    }
+    required["xdg_desktop_portal"] = capabilities.get("xdg_desktop_portal") == "PASS"
+
+    desktop = report.get("desktop") if isinstance(report.get("desktop"), dict) else {}
+    session = report.get("session") if isinstance(report.get("session"), dict) else {}
+    session_checks = {
+        "desktop_kde_plasma": desktop.get("desktop") == "KDE_PLASMA",
+        "session_wayland": session.get("type") == "wayland",
+        "active_local_graphical_session": session_evidence.get(
+            "active_local_graphical_session_proven"
+        ) is True,
+        "wayland_socket": session_evidence.get("wayland_socket_proven") is True,
+        "kde_bus_identity": session_evidence.get("kde_bus_identity_proven") is True,
+        "portal_bus_identity": session_evidence.get("portal_bus_identity_proven") is True,
+    }
+
+    failed = sorted(
+        [key for key, ok in required.items() if not ok]
+        + [key for key, ok in session_checks.items() if not ok]
+    )
+    full_required_failures = sorted(
+        key
+        for key in (
+            "linux_host",
+            "xdg_runtime",
+            "dbus_session",
+            "uri_open",
+            "secret_backend",
+            "local_gui_session",
+        )
+        if capabilities.get(key) == "FAIL"
+    )
+    non_scoped_full_failures = [
+        key for key in full_required_failures if key != "secret_backend"
+    ]
+    if non_scoped_full_failures:
+        failed.extend(
+            f"full_desktop_failure:{key}" for key in non_scoped_full_failures
+        )
+
+    return {
+        "result": "PASS" if not failed else "FAIL",
+        "required_capabilities": required,
+        "session_checks": session_checks,
+        "failed_checks": failed,
+        "full_desktop_admission_result": report.get("result"),
+        "full_desktop_required_failures": full_required_failures,
+        "secret_backend_status": capabilities.get("secret_backend"),
+        "secret_backend_used_for_cap013_admission": False,
+        "scope_semantics": "CAP013_COMPUTER_USE_ONLY_NOT_FULL_DESKTOP_ADMISSION",
+    }
+
+
 def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
     for rel in (
         "canonical/FA3-DESKTOP-BASE-001.json",
@@ -490,11 +609,16 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
         evaluate_desktop,
     )
 
+    authority_scope = cap013_authority_scope(root)
     session_context = discover_current_user_session_environment()
     session_env = session_context["environment"]
     probes = collect_runtime_probes(session_env)
     report = evaluate_desktop(session_env, probes, require_gui=True)
-    if report.get("result") != "PASS":
+    scoped_admission = cap013_computer_use_desktop_admission(
+        report,
+        session_context["evidence"],
+    )
+    if scoped_admission.get("result") != "PASS":
         diagnostic = None
         if (
             report.get("desktop", {}).get("desktop") == "KDE_PLASMA"
@@ -505,13 +629,10 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
             )
             diagnostic = collect_plasma_secret_service_diagnostic(session_env)
         raise RuntimeError(
-            f"desktop admission failed: {report}; "
+            f"CAP-013 scoped desktop admission failed: {scoped_admission}; "
+            f"full_desktop_admission={report}; "
             f"plasma_secret_service_diagnostic={diagnostic}"
         )
-    if report.get("desktop", {}).get("desktop") != "KDE_PLASMA":
-        raise RuntimeError(f"KDE Plasma current-user session not proven: {report.get('desktop')}")
-    if report.get("session", {}).get("type") != "wayland":
-        raise RuntimeError(f"Wayland session not proven: {report.get('session')}")
 
     busctl = shutil.which("busctl")
     if not busctl:
@@ -545,10 +666,16 @@ def cap013(root: Path, scope: Path, mode: str) -> dict[str, Any]:
         "status": "PASS",
         "desktop": report.get("desktop"),
         "session": report.get("session"),
+        "authority_scope": authority_scope,
+        "computer_use_desktop_scope": scoped_admission,
+        "full_desktop_admission_result": report.get("result"),
+        "secret_backend_status": report.get("capabilities", {}).get("secret_backend"),
+        "secret_backend_used_for_cap013_admission": False,
         "required_capabilities": {
             key: value
             for key, value in report.get("capabilities", {}).items()
-            if value == "PASS"
+            if key in CAP013_SCOPED_REQUIRED_CAPABILITIES
+            and value == "PASS"
         },
         "portal_present": portal_present,
         "kwin_present": kwin_present,
