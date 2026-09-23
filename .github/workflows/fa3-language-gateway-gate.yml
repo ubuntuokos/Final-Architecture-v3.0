@@ -68,11 +68,7 @@ jobs:
         run: ./bin/fa3-enforce language-gateway
       - name: Run regression tests
         run: |
-          python3 -m unittest \
-            tests.test_canonical_language_gate \
-            tests.test_language_gateway_gate \
-            tests.test_language_bridge \
-            tests.test_language_gateway_current_host_gate -v
+          PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_*language*.py' -v
       - name: Assert no current-host promotion claim
         run: |
           python3 - <<'PY'
