@@ -1,0 +1,57 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL_IMPLEMENTED_STATIC_AND_REFERENCE",
+  "subject": "Unified materialization of Caption/Subtitle Fabric, standalone Subtitle Studio, embedded subtitle workspaces and Subtitle-to-Narration/Dubbing Studio",
+  "decision": "IMPLEMENT_ALL_SURFACES_IN_ONE_MATERIALIZATION_WITH_SHARED_CANONICAL_CAPTION_IR",
+  "profile_id": "FA3-CAPTION-SUBTITLE-001",
+  "contract_id": "FA3-CAPTION-SUBTITLE-CONTRACTS-001",
+  "gate_id": "FA3-CAPTION-SUBTITLE-GATESET-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "application_decisions": {
+    "standalone_subtitle_studio": "REQUIRED",
+    "embedded_subtitle_workspace": "REQUIRED",
+    "standalone_narration_studio": "REQUIRED",
+    "shared_backend_and_caption_ir": "REQUIRED",
+    "duplicate_stt_voice_editorial_authority": "FORBIDDEN"
+  },
+  "narration_scope": [
+    "single-voice narration",
+    "speaker-mapped voice-over",
+    "multi-speaker dubbing planning",
+    "audio-description-ready gap planning"
+  ],
+  "licensing_strategy": {
+    "new_implementation": "FA3_NATIVE",
+    "external_code_copy": "NONE_IN_INITIAL_MATERIALIZATION",
+    "external_projects": "REFERENCE_ONLY_UNLESS_SEPARATELY_ADMITTED_LATER",
+    "commercial_distribution_gate": "FA3-DISTRIBUTION-COMPLIANCE-001"
+  },
+  "agent_native_and_jev": {
+    "agent_native": "SUPPORTED_ONLY_THROUGH_UAF_TYPED_ACTIONS",
+    "decision_fabric": "OPTIONAL_BOUNDED_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY",
+    "candidate_set_expansion": false,
+    "provider_or_model_self_enrollment": false,
+    "human_auditable_ai_communication": "MANDATORY"
+  },
+  "hardware_audit": {
+    "decision": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
+    "compliance": "PASS_BY_DESIGN",
+    "cpu_only_valid": true,
+    "accelerators": "0..N",
+    "vendor_specific_global_requirement": false,
+    "accelerator_execution": "HRB_LEASE_REQUIRED",
+    "host_or_device_identity_pin": false,
+    "wayland_only_requirement": false,
+    "x11_support_preserved": true
+  },
+  "runtime_promotion": {
+    "static_and_reference_materialization": "IMPLEMENTED",
+    "current_host_gui_and_end_to_end_voice_execution": "PENDING_CURRENT_HOST",
+    "document_only_runtime_promotion": "FORBIDDEN"
+  }
+}

@@ -86,6 +86,8 @@ ApplicationWindow {
         {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", pageIndex: 24},
         {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", pageIndex: 25},
         {title: "AI Studio", detail: "Kreatív és publikációs pipeline", category: "FUNCTION", pageIndex: 3},
+        {title: "Subtitle Studio", detail: "Fókuszált felirat authoring, sync, QC és formátumkezelés", category: "FUNCTION", pageIndex: 35},
+        {title: "Narration Studio", detail: "Feliratból narráció, voice-over és dubbing tervezés", category: "FUNCTION", pageIndex: 36},
         {title: "Image", detail: "AI Studio kép pipeline", category: "FUNCTION", pageIndex: 3},
         {title: "Video", detail: "AI Studio videó pipeline", category: "FUNCTION", pageIndex: 3},
         {title: "Animation", detail: "AI Studio animáció", category: "FUNCTION", pageIndex: 3},
@@ -630,6 +632,8 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }
+                        NavButton { iconText: "CC"; label: "Subtitle Studio"; pageIndex: 35 }
+                        NavButton { iconText: "VO"; label: "Narration Studio"; pageIndex: 36 }
                         NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
                         NavButton { iconText: "⇄"; label: "MCP Gateway"; pageIndex: 27 }
                         NavButton { iconText: "⌾"; label: "Trust & Certificates"; pageIndex: 29 }
@@ -1544,6 +1548,27 @@ ApplicationWindow {
                     orange: window.orange
                     magenta: window.magenta
                 }
+                SubtitleStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                }
+
+                NarrationStudioPage {
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.magenta
+                    green: window.green
+                    orange: window.orange
+                }
+
             }
 
             Rectangle {
