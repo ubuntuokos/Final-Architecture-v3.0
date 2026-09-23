@@ -26,6 +26,7 @@ public:
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE QVariantMap canonicalSnapshot() const;
+    Q_INVOKABLE bool restoreContextItem(const QString &itemId);
 
 signals:
     void stateChanged();
