@@ -61,9 +61,9 @@ The provider is inert reference content and has no fixed host hardware requireme
 ## Deliberately open reconciliation items
 
 1. **Curated agent/template admission:** the whole upstream repository is not automatically admitted. Individual personas, runbooks or extracted procedures still need scoped normalization/admission before enabled use.
-2. **GUI:** the Imported Packs / Agency Agents surface must be reconciled with the ongoing FA3 GUI Decision Fabric + Agent Native work. This provider change does not modify GUI files.
-3. **External redistribution taxonomy:** the planned `EXTERNAL_REDISTRIBUTABLE` source-intake classification is not yet canonical on current `main`; the Agency Agents record is designed for later binding but does not invent that authority early.
+2. **GUI:** parallel GUI reconciliation defines semantic routes `agents.workflows` and `agents.action-center`. Agency Agents is pre-bound to an **Imported Pack child view under `agents.workflows`**, with executable intents routed to the existing Agent Action Center. No new top-level route is introduced here, and this provider change does not modify GUI files.
+3. **Distribution compliance:** the parallel Skill/Distribution work defines `FA3-DISTRIBUTION-COMPLIANCE-001` and the `EXTERNAL_REDISTRIBUTABLE` class. Agency Agents is preclassified for that target as `EXTERNAL_REDISTRIBUTABLE` while remaining `release_bundle_status=EXCLUDED`; the upstream-reference record is `REFERENCE_ONLY`. The binding stays pending until that parallel canonical work lands on `main`, and product-bundle inclusion would still require the canonical distribution decision receipt.
 4. **Release projection:** the unified projection is regenerated through the repository reconciler; it is not edited manually here.
 5. **Runtime/current-host:** this provider intentionally has no upstream runtime dependency. Any future executable adapter or converted runtime package requires separate admission and evidence.
 
-These are not silently treated as PASS and therefore prevent calling the overall integration fully closed.
+These are not silently treated as PASS and therefore prevent calling the overall integration fully closed. In particular, the parallel GUI and Distribution Compliance pull requests are treated as reconciliation dependencies, not copied into this branch.
