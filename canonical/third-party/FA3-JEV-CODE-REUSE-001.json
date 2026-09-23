@@ -14,7 +14,9 @@
     "distribution_impact_review": "REQUIRED",
     "foreign_authority_import": "DENY",
     "unknown_license_source_copy": "DENY",
-    "automatic_external_install": "DENY"
+    "automatic_external_install": "DENY",
+    "distribution_class_required": true,
+    "release_bundle_decision_receipt_required_for_external_inclusion": true
   },
   "preferred_permissive_licenses": [
     "MIT",
@@ -57,10 +59,16 @@
       "security_review": "PASS",
       "distribution_impact_review": "PASS",
       "imports_architectural_authority": false,
-      "automatic_external_install": false
+      "automatic_external_install": false,
+      "distribution_class": "REFERENCE_ONLY",
+      "product_bundle_allowed": false,
+      "pattern_reimplementation_only": true
     }
   ],
   "note": "Jev-derived external projects may contribute permissively licensed patterns or reviewed code only through this provenance registry. The jev-ultrafast entry is an FA3-native pattern reimplementation, not a vendored runtime dependency.",
   "capability_delta": 0,
-  "authority_delta": 0
+  "authority_delta": 0,
+  "distribution_compliance_contract": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+  "distribution_class": "REFERENCE_ONLY",
+  "product_bundle_allowed": false
 }

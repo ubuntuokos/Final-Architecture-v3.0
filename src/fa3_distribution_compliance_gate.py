@@ -2,10 +2,10 @@
 from __future__ import annotations
 import argparse, copy, json, re
 from pathlib import Path
-from typing import Any
+from typing import Any\nfrom fa3_distribution_manifest import canonical_manifest
 PROFILE="canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json"
 CONTRACT="canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json"
-REGISTRY="canonical/distribution-registry.json"
+REGISTRY="canonical/distribution-registry.json"\nMANIFEST="canonical/distribution-manifest.json"
 GATE_ID="FA3-GATE-DISTRIBUTION-COMPLIANCE-001"; GATESET_ID="FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
 CLASSES=("FA3_NATIVE","EXTERNAL_REDISTRIBUTABLE","USER_LOCAL_EXTERNAL","REFERENCE_ONLY","BLOCKED")
 SHA256=re.compile(r"^[0-9a-f]{64}$")
@@ -64,12 +64,13 @@ def run_regressions() -> dict[str, Any]:
     cases=[{"case_id":f"DIST-{i:03d}","status":"PASS" if ok else "FAIL"} for i,ok in enumerate(checks,1)]
     return {"result":"PASS" if all(checks) else "FAIL","total":len(cases),"passed":sum(c["status"]=="PASS" for c in cases),"cases":cases}
 def canonical_check(root: Path) -> list[str]:
-    findings=[]; p=loadj(root/PROFILE); ct=loadj(root/CONTRACT); r=loadj(root/REGISTRY)
+    findings=[]; p=loadj(root/PROFILE); ct=loadj(root/CONTRACT); r=loadj(root/REGISTRY); manifest=loadj(root/MANIFEST)
     if not (p.get("id")=="FA3-DISTRIBUTION-COMPLIANCE-001" and p.get("status")=="CANONICAL"
       and p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==143):
         findings.append("distribution profile governance drift")
     if ct.get("distribution_classes")!=list(CLASSES): findings.append("distribution class contract drift")
     if r.get("id")!="FA3-DISTRIBUTION-REGISTRY-001": findings.append("distribution registry identity drift")
+    if manifest != canonical_manifest(r): findings.append("canonical distribution manifest drift")
     for rec in r.get("records",[]):
         if rec.get("class") not in CLASSES: findings.append(f"invalid distribution class: {rec.get('subject_id')}")
         if rec.get("class") in ("REFERENCE_ONLY","USER_LOCAL_EXTERNAL","BLOCKED") and rec.get("release_bundle_status")!="EXCLUDED":

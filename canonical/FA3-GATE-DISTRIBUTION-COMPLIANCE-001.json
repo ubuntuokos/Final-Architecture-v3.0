@@ -10,5 +10,8 @@
   "new_architectural_authority": false,
   "capability_count": 143,
   "executable": "PYTHONPATH=src python src/fa3_distribution_compliance_gate.py --root .",
-  "report_path": "reports/distribution-compliance-gate-report.json"
+  "report_path": "reports/distribution-compliance-gate-report.json",
+  "adoption_executable": "PYTHONPATH=src python src/fa3_distribution_adoption_gate.py --root . --base-ref origin/main",
+  "canonical_manifest_path": "canonical/distribution-manifest.json",
+  "future_external_record_classification_required": true
 }

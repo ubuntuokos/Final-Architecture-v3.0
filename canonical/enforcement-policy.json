@@ -1792,5 +1792,12 @@
     "BLOCKED"
   ],
   "external_redistributable_supported": true,
-  "external_redistributable_auto_bundle": false
+  "external_redistributable_auto_bundle": false,
+  "distribution_adoption_gate_required_for_new_provider_reference_or_third_party": true,
+  "distribution_manifest_path": "canonical/distribution-manifest.json",
+  "distribution_future_record_scope": [
+    "canonical/providers/*.json",
+    "canonical/references/*.json",
+    "canonical/third-party/*.json"
+  ]
 }
