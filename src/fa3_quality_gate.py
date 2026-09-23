@@ -14,6 +14,10 @@ CONTRACT = "canonical/contracts/FA3-QUALITY-ANTI-SLOP-CONTRACTS-001.json"
 DECISION = "canonical/decisions/FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.json"
 GATE_RECORD = "canonical/FA3-GATE-QUALITY-ANTI-SLOP-001.json"
 SKILL_REGISTRY = "canonical/skill-registry.json"
+AGENT_PROFILE = "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json"
+SKILL_PROFILE = "canonical/profiles/FA3-SKILL-FABRIC-001.json"
+DECISION_PROFILE = "canonical/profiles/FA3-DECISION-FABRIC-001.json"
+SKILL_DISCOVERY_CONTRACT = "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
 ENFORCEMENT = "canonical/enforcement-policy.json"
 WORKFLOW = ".github/workflows/fa3-quality-anti-slop.yml"
 PERMANENT_WORKFLOW = ".github/workflows/fa3-permanent-enforcement.yml"
@@ -64,7 +68,7 @@ def _validate_skill_file(root: Path, skill: str) -> tuple[bool, str]:
 def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     checks: list[dict[str, str]] = []
-    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
+    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
     missing = [x for x in required if not (root / x).is_file()]
     checks.append(check("core-records-present", not missing, f"missing={missing}"))
     if missing:
@@ -76,6 +80,10 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     gate = loadj(root, GATE_RECORD)
     registry = loadj(root, RULE_REGISTRY)
     skill_registry = loadj(root, SKILL_REGISTRY)
+    agent_profile = loadj(root, AGENT_PROFILE)
+    skill_profile = loadj(root, SKILL_PROFILE)
+    decision_profile = loadj(root, DECISION_PROFILE)
+    skill_discovery_contract = loadj(root, SKILL_DISCOVERY_CONTRACT)
     enforcement = loadj(root, ENFORCEMENT)
 
     profile_ok = (
@@ -168,6 +176,21 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
         for sid in SKILLS
     )
     checks.append(check("skill-registry-bindings", reg_ok, "five FA3-native task-scoped quality skills admitted"))
+
+    integration_ok = (
+        agent_profile.get("generated_deliverable_quality", {}).get("profile_id") == PROFILE_ID
+        and agent_profile.get("generated_deliverable_quality", {}).get("core_filter_required_for_generated_deliverables") is True
+        and agent_profile.get("generated_deliverable_quality", {}).get("skill_context_cannot_create_authority") is True
+        and skill_profile.get("integration_bindings", {}).get("quality_filter") == PROFILE_ID
+        and skill_profile.get("selection_and_composition", {}).get("quality_skill_candidates_deterministically_prefiltered") is True
+        and skill_profile.get("selection_and_composition", {}).get("quality_skill_global_auto_injection") is False
+        and decision_profile.get("quality_skill_selection_binding", {}).get("consumer_profile") == PROFILE_ID
+        and decision_profile.get("quality_skill_selection_binding", {}).get("candidate_expansion") == "DENY"
+        and decision_profile.get("quality_skill_selection_binding", {}).get("design_authority") is False
+        and skill_discovery_contract.get("eligibility_semantics", {}).get("task_class_filter_supported") is True
+        and skill_discovery_contract.get("eligibility_semantics", {}).get("task_scoped_skill_without_matching_task_class_ineligible") is True
+    )
+    checks.append(check("agent-skill-decision-bindings", integration_ok, "Agent Native, Skill Fabric and Decision Fabric use deterministic task-scoped quality selection"))
 
     mandatory = enforcement.get("mandatory_reference_gates", [])
     enforcement_ok = (
