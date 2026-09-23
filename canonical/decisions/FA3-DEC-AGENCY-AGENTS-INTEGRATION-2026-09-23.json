@@ -35,8 +35,7 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
   "open_reconciliations": [
-    "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED",
-    "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION"
+    "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED"
   ],
   "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
   "current_host_runtime_claim": false,
@@ -58,12 +57,12 @@
     "gui": {
       "target_surface_route": "agents.workflows",
       "imported_pack_view": "CHILD_VIEW",
+      "child_surface_id": "agency-agents.imported-pack",
       "execution_intent_target": "agents.action-center",
       "new_top_level_route": false,
-      "status": "PENDING_PR_371_RECONCILIATION",
-      "pr": 371,
-      "observed_head": "0a4d6d60465c6ecc011c6d0d46170404b59fb961",
-      "observed_mergeable": false
+      "direct_provider_execution": false,
+      "status": "RECONCILED_CANONICAL_MAIN",
+      "merged_gui_commit": "0c146d81b417cb3a9e4d871c596516f7afe285c3"
     }
   },
   "curated_candidate_selection": {
