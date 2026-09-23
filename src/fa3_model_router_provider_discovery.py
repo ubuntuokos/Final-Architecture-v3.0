@@ -72,15 +72,28 @@ def models_live(api_base: str, timeout: float) -> bool:
         return False
 
 
-def candidate(provider_id: str, runtime_id: str, api_base: str, receipt: Path, preferred_model: str | None = None) -> dict[str, Any]:
+def candidate(
+    provider_id: str,
+    runtime_id: str,
+    api_base: str,
+    receipt: Path,
+    *,
+    catalog_api_base: str,
+    admission_api_base: str,
+    litellm_provider: str,
+    preferred_model: str | None = None,
+    litellm_options: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     row = {
         "provider_id": provider_id,
         "runtime_id": runtime_id,
         "api_base": api_base.rstrip("/"),
+        "catalog_api_base": catalog_api_base.rstrip("/"),
+        "admission_api_base": admission_api_base.rstrip("/"),
         "enabled": True,
         "priority": 50,
         "routes": ["*"],
-        "litellm_provider": "openai",
+        "litellm_provider": litellm_provider,
         "admission_receipt": str(receipt),
         "selection_origin": "CURRENT_HOST_ADMISSION_HANDOFF_DISCOVERY",
         "runtime_instance_bound": True,
@@ -88,6 +101,8 @@ def candidate(provider_id: str, runtime_id: str, api_base: str, receipt: Path, p
     if preferred_model:
         row["preferred_models"] = [preferred_model]
         row["model_preference_origin"] = "CURRENT_HOST_ADMISSION_EVIDENCE"
+    if litellm_options:
+        row["litellm_options"] = dict(litellm_options)
     return row
 
 
@@ -108,16 +123,12 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
         {
             "provider_id": LM_STUDIO_PROVIDER_ID,
             "runtime_id": "lm-studio-live",
-            "catalog_api_base": os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
-            "runtime_api_base": os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
             "litellm_provider": "openai",
             "litellm_options": {},
         },
         {
             "provider_id": OLLAMA_PROVIDER_ID,
             "runtime_id": "ollama-live",
-            "catalog_api_base": os.environ.get("FA3_OLLAMA_OPENAI_API_BASE", "http://127.0.0.1:11434/v1"),
-            "runtime_api_base": os.environ.get("FA3_OLLAMA_API_BASE", "http://127.0.0.1:11434"),
             "litellm_provider": "ollama_chat",
             "litellm_options": {"num_gpu": 0, "num_ctx": 512},
         },
@@ -125,17 +136,23 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
 
     rows: list[dict[str, Any]] = []
     observed: list[dict[str, Any]] = []
-    for provider_id, runtime_id, default_api_base in endpoint_candidates:
+    for endpoint in endpoint_candidates:
+        provider_id = str(endpoint["provider_id"])
+        runtime_id = str(endpoint["runtime_id"])
         item = providers.get(provider_id)
         admitted = isinstance(item, dict) and item.get("status") == "PASS"
-        bound_api_base = runtime_handoff_endpoint(item) if admitted else None
-        api_base = bound_api_base or default_api_base
-        instance_bound = bound_api_base is not None
-        live = bool(admitted and instance_bound and models_live(api_base, timeout))
+        handoff_api_base = runtime_handoff_endpoint(item) if admitted else None
+        instance_bound = handoff_api_base is not None
+        catalog_api_base = handoff_api_base or ""
+        runtime_api_base = catalog_api_base
+        if provider_id == OLLAMA_PROVIDER_ID and catalog_api_base.endswith("/v1"):
+            runtime_api_base = catalog_api_base[:-3]
+        live = bool(admitted and instance_bound and models_live(catalog_api_base, timeout))
         observed.append({
             "provider_id": provider_id,
             "runtime_id": runtime_id,
-            "api_base": api_base,
+            "catalog_api_base": catalog_api_base,
+            "runtime_api_base": runtime_api_base,
             "admitted": admitted,
             "runtime_instance_bound": instance_bound,
             "live_openai_models_endpoint": live,
@@ -147,7 +164,17 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
                     preferred_model = str(item.get("selected_model") or "").strip()
                 elif provider_id == LM_STUDIO_PROVIDER_ID:
                     preferred_model = str(item.get("selected_model_key") or "").strip()
-            rows.append(candidate(provider_id, runtime_id, api_base, receipt, preferred_model or None))
+            rows.append(candidate(
+                provider_id,
+                runtime_id,
+                runtime_api_base,
+                receipt,
+                catalog_api_base=catalog_api_base,
+                admission_api_base=catalog_api_base,
+                litellm_provider=str(endpoint["litellm_provider"]),
+                preferred_model=preferred_model or None,
+                litellm_options=endpoint.get("litellm_options") if isinstance(endpoint.get("litellm_options"), dict) else None,
+            ))
 
     if not rows:
         raise RuntimeError(
