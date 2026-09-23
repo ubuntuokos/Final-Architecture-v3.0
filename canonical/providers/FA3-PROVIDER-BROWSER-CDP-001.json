@@ -1,0 +1,70 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-BROWSER-CDP-001",
+  "name": "FA3 Native CDP Browser Execution Provider",
+  "status": "ACCEPTED_OPTIONAL_CURRENT_HOST_CANDIDATE",
+  "provider_role": "BOUNDED_LOCAL_BROWSER_EXECUTION_PROVIDER",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "BROWSER_EXECUTION_PROVIDER",
+    "UAF_ACTION_PROVIDER",
+    "LOCAL_LOOPBACK_PROVIDER",
+    "CURRENT_HOST_EVIDENCE_GATED_PROVIDER"
+  ],
+  "parent_profile": "FA3-BROWSER-ACTION-RUNTIME-001",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "global_runtime_promotion_required_when_disabled": false,
+  "runtime_activation_requires_current_host_conformance": true,
+  "runtime_activation_status": "EVIDENCE_GATED_NOT_GLOBALLY_PROMOTED",
+  "action_ids": [
+    "browser.action.execute"
+  ],
+  "cpu_only_supported": true,
+  "transport": {
+    "protocol": "CDP",
+    "bind": "LOOPBACK_ONLY",
+    "remote_cdp": "DENY",
+    "browser_binary_selection": "CURRENT_HOST_DISCOVERY",
+    "browser_family_requirement": "CHROMIUM_COMPATIBLE_CDP_PROVIDER_ONLY_NOT_GLOBAL_BASELINE",
+    "headless_mode": "CURRENT_HOST_PROVIDER_SELECTION",
+    "accelerator_required": false,
+    "browser_sandbox_disable": "DENY"
+  },
+  "execution_boundaries": {
+    "action_source": "FA3_BROWSER_ACTION_SPACE_ONLY",
+    "arbitrary_selector_from_model": "DENY",
+    "arbitrary_script_from_model": "DENY",
+    "stale_binding_execution": "DENY",
+    "blind_mutation_retry": "DENY",
+    "independent_outcome_verification": true,
+    "page_content_trust": "UNTRUSTED_EXTERNAL_CONTENT"
+  },
+  "authority_boundaries": {
+    "browser_action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "authorization_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "host_resource": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001"
+  },
+  "prohibited_authority_roles": [
+    "FA3_BROWSER_POLICY_AUTHORITY",
+    "FA3_AUTHORIZATION_AUTHORITY",
+    "FA3_MCP_AUTHORITY",
+    "FA3_HOST_RESOURCE_AUTHORITY",
+    "FA3_EVIDENCE_AUTHORITY",
+    "FA3_MODEL_ROUTING_AUTHORITY",
+    "FA3_SECRETS_AUTHORITY",
+    "FA3_CANONICAL_REGISTRY_AUTHORITY"
+  ],
+  "normative_constraint": "The CDP provider SHALL remain an optional loopback-only UAF execution adapter. It SHALL NOT construct decision candidates, accept model-generated selectors/scripts, bypass authorization/HRB/evidence gates, select models/providers, disable the browser sandbox, or claim global runtime promotion from static evidence."
+}
