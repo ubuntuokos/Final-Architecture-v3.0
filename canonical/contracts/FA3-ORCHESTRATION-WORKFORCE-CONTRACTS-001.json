@@ -1,0 +1,139 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-ORCHESTRATION-WORKFORCE-CONTRACTS-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "contracts": [
+    {
+      "id": "FA3-ORCH-CONTRACT-001",
+      "name": "Director Coordination Boundary",
+      "requirement": "MUST",
+      "rule": "The Director MAY classify, decompose, match and delegate work but MUST NOT self-authorize security, resources, models, tools, durable lifecycle or evidence."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-002",
+      "name": "Competency and Anti-Capability",
+      "requirement": "MUST",
+      "rule": "Every selectable specialist MUST declare strong/supported capabilities, anti-capabilities, authority scope and prohibited authority roles."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-003",
+      "name": "Hard Filters Before Scoring",
+      "requirement": "MUST",
+      "rule": "Domain, anti-capability, authority, security, resource, conformance and activation filters MUST execute before preference or AI-assisted ranking."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-004",
+      "name": "Durable Lifecycle Singularity",
+      "requirement": "MUST",
+      "rule": "Temporal remains the sole global durable workflow lifecycle authority. Other workflow providers MAY own delegated local execution state only."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-005",
+      "name": "Resource Authority",
+      "requirement": "MUST",
+      "rule": "GPU/NPU/CPU/RAM/VRAM/NUMA placement and admission are governed by FA3 HRB; accelerator conflicts are mediated by ACCEL-GUARD with RECOMMEND as default."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-006",
+      "name": "Human Escalation",
+      "requirement": "MUST",
+      "rule": "Ambiguous, consequential or conflicting decisions MUST be escalated to the user unless an explicit prior user policy authorizes automatic action."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-007",
+      "name": "Provider-Neutral Plan IR",
+      "requirement": "MUST",
+      "rule": "Canonical cross-domain plans MUST use FA3-owned provider-neutral contracts. CrewAI, Temporal, Conductor, LangGraph, OMA, Kestra, Pipecat, n8n and Haystack native objects are adapter outputs only."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-008",
+      "name": "Promotion Evidence",
+      "requirement": "MUST",
+      "rule": "A design-accepted specialist with PENDING_CURRENT_HOST status MUST NOT be selected for runtime execution that requires current-host promotion."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-009",
+      "name": "Independent Security and Evidence",
+      "requirement": "MUST",
+      "rule": "A specialist MUST NOT approve its own security policy, evidence sufficiency, release promotion or authority expansion."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-010",
+      "name": "Deterministic Fallback",
+      "requirement": "MUST",
+      "rule": "Fallback selection MUST repeat the same hard filters; fallback status MUST NOT bypass anti-capabilities, authority boundaries or runtime evidence."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-011",
+      "name": "Unified Action Fabric Execution Boundary",
+      "requirement": "MUST",
+      "rule": "Agent, GUI, CLI, MCP, A2A and automation initiated orchestration execution MUST enter through FA3-UNIFIED-ACTION-FABRIC-001. The Workforce and provider SPI MUST NOT become direct provider execution authorities."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-012",
+      "name": "Bounded Decision Fabric Advisory",
+      "requirement": "MUST",
+      "rule": "Decision Fabric MAY advise specialist ranking only after deterministic eligibility filtering, MUST NOT add candidates, grant permission, admit providers, obtain resources or become final policy authority."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-013",
+      "name": "Human-Auditable AI Communication",
+      "requirement": "MUST",
+      "rule": "All model-to-model and agent-to-agent communication crossing the workforce boundary MUST conform to FA3-AI-COMMS-001 with authoritative human-readable semantics; private model languages, emergent codebooks and model-only slang are forbidden."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-014",
+      "name": "Closed AI Participant Topology",
+      "requirement": "MUST",
+      "rule": "A specialist or provider MUST NOT add models, agents or providers outside the application's pre-authorized AI participant set. Model/provider/runtime routing remains FA3-AUTH-MODEL-ROUTER-001 authority."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-015",
+      "name": "Horizontal Hardware and Resource Boundary",
+      "requirement": "MUST",
+      "rule": "Hardware discovery is provider-neutral and non-authoritative; HRB remains the exclusive host-resource admission, placement, reservation and lease authority. HRB is not a workforce specialist provider."
+    },
+    {
+      "id": "FA3-ORCH-CONTRACT-016",
+      "name": "Evidence-Bound Runtime Admission",
+      "requirement": "MUST",
+      "rule": "Static provider status is informative only. External runtime execution requires a provider- and scope-bound CURRENT_HOST_PRODUCTION_E2E_PASS admission receipt with runtime identity evidence; no receipt means fail closed."
+    }
+  ],
+  "work_request_contract": {
+    "required_fields": [
+      "task_id",
+      "domain",
+      "required_capabilities"
+    ],
+    "optional_fields": [
+      "required_authorities",
+      "forbidden_specialists",
+      "runtime_execution",
+      "human_approval_required",
+      "metadata",
+      "authorized_ai_participants",
+      "resource_requirements",
+      "decision_advisory",
+      "application_id"
+    ]
+  },
+  "route_decision_contract": {
+    "terminal_states": [
+      "ROUTED",
+      "HUMAN_ESCALATION"
+    ],
+    "must_explain_rejections": true,
+    "must_name_specialist_when_routed": true,
+    "must_attach_horizontal_gates": true,
+    "must_attach_uaf_boundary": true,
+    "must_preserve_authorized_ai_participant_set": true,
+    "decision_fabric_role": "OPTIONAL_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY_NO_CANDIDATE_EXPANSION",
+    "runtime_admission": "SCOPE_BOUND_EVIDENCE_RECEIPT_REQUIRED_FOR_EXTERNAL_PROVIDER"
+  },
+  "version": "2.0.0"
+}

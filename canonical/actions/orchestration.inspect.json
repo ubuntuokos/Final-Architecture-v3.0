@@ -1,0 +1,138 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "orchestration.inspect",
+  "version": "1.0.0",
+  "description": "Read the governed state and evidence references of an orchestration plan or execution without mutating it.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "operation_id"
+    ],
+    "properties": {
+      "operation_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "task_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "plan_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "route_decision_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "specialist_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "provider_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "provider_projection_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "current_host_admission_receipt_ref": {
+        "type": "string",
+        "minLength": 1
+      },
+      "authorized_ai_participants": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "reason": {
+        "type": "string"
+      },
+      "context_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "provider_id": {
+        "type": "string"
+      },
+      "plan_ref": {
+        "type": "string"
+      },
+      "execution_ref": {
+        "type": "string"
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": false,
+    "idempotent": true,
+    "retry_safe": true,
+    "long_running": false
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "FA3-ORCHESTRATION-WORKFORCE-001"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true
+  }
+}
