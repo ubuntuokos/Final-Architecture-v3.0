@@ -3,7 +3,7 @@
   "id": "FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23",
   "title": "Integrate Agency Agents as an immutable non-authoritative agent catalog, persona and runbook reference provider",
   "date": "2026-09-23",
-  "status": "CANONICAL_IMPLEMENTED_STATIC_GATES_OPEN_RUNTIME_AND_RELEASE_VALIDATION",
+  "status": "CANONICAL_STATIC_MATERIALIZED_GUI_CURRENT_HOST_PENDING",
   "decision": "ADMIT_AS_OPTIONAL_IMMUTABLE_REFERENCE_PROVIDER_WITH_FA3_NATIVE_NORMALIZATION",
   "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
   "parent_profile": "FA3-AGENT-EXEC-001",
@@ -35,8 +35,6 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
   "open_reconciliations": [
-    "LATEST_UNIFIED_RELEASE_PROJECTION_REGENERATION_PENDING",
-    "FRESH_PERMANENT_CI_AFTER_AGENT_DEFINITION_AND_GUI_BINDING_PENDING",
     "GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING"
   ],
   "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
@@ -90,5 +88,12 @@
     "current_host_receipt_present": false,
     "agency_surface_static_reconciliation": "RECONCILED",
     "agency_surface_runtime_promotion_claim": false
+  },
+  "validation_policy": {
+    "unified_release_projection": "MANAGED_BY_REPOSITORY_RECONCILER_MUST_PASS_BEFORE_MERGE",
+    "fresh_reference_ci": "MANDATORY_BEFORE_MERGE",
+    "reference_ci_is_runtime_promotion": false,
+    "gui_current_host_evidence_required_for_gui_runtime_promotion": true,
+    "metadata_only_agent_definitions_require_current_host_runtime_evidence": false
   }
 }
