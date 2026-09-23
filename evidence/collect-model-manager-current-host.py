@@ -334,6 +334,8 @@ def collect_ollama(runtime_dir:Path,preserve_runtime:bool=False)->dict[str,Any]:
                     result["runtime_handoff"]={
                         "preserved":True,
                         "api_base":base+"/v1",
+                        "openai_api_base":base+"/v1",
+                        "native_api_base":base,
                         "process_id":proc.pid,
                         "process_start_ticks":process_start_ticks(proc.pid),
                         "server_cpu_only":True,
