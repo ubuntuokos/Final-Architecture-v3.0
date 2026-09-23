@@ -442,10 +442,13 @@ ApplicationWindow {
     }
 
     component ModuleCard: Panel {
+        id: moduleCard
         property string title: ""
         property string subtitle: ""
         property string badge: "READY"
         property color tone: window.accent
+        property string routeId: ""
+        property bool navigable: routeId.length > 0
         implicitWidth: 250
         implicitHeight: 126
         ColumnLayout {
@@ -473,6 +476,13 @@ ApplicationWindow {
                 Layout.fillHeight: true
             }
         }
+        MouseArea {
+            anchors.fill: parent
+            enabled: moduleCard.navigable
+            hoverEnabled: moduleCard.navigable
+            cursorShape: moduleCard.navigable ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: window.navigate(moduleCard.routeId)
+        }
     }
 
     component ModulePage: ScrollView {
@@ -498,6 +508,7 @@ ApplicationWindow {
                         subtitle: modelData.subtitle || ""
                         badge: modelData.badge || "READY"
                         tone: modelData.tone || window.accent
+                        routeId: modelData.routeId || ""
                     }
                 }
             }
@@ -953,7 +964,8 @@ ApplicationWindow {
                         {title: "Durable Workflows", subtitle: "Temporal authority állapot és futások.", badge: "READ", tone: window.green},
                         {title: "Tasks", subtitle: "Current tasks, approvals és blockers.", badge: "QUEUE", tone: window.orange},
                         {title: "Tool Execution", subtitle: "Central MCP mediation és policy outcome.", badge: "GATED", tone: window.magenta},
-                        {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan}
+                        {title: "RTD Data Sources", subtitle: "Workflow-szintű élő adatforrás-kötések az RTD Providers policy- és freshness-határán keresztül.", badge: "DATA", tone: window.cyan},
+                        {title: "Imported Packs · Agency Agents", subtitle: "12 agent + 5 template immutable candidate · REFERENCE ONLY · DISABLED_NOT_ADMITTED. Kattintás csak az Agent Action Centerhez navigál; nincs közvetlen provider execution.", badge: "REFERENCE", tone: window.cyan, routeId: "agents.action-center"}
                     ]
                 }
 
