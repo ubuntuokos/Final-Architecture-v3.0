@@ -52,6 +52,7 @@ from fa3_ffmpeg_ai_current_host_gate import gate as ffmpeg_ai_current_host_gate
 from fa3_hybrid_editorial_gate import gate as hybrid_editorial_gate
 from fa3_marketing_gate import gate as marketing_gate
 from fa3_marketing_agent_native_gate import gate as marketing_agent_native_gate
+from fa3_caption_subtitle_gate import gate as caption_subtitle_gate
 from fa3_marketingskills_gate import gate as marketingskills_gate
 from fa3_skill_fabric_gate import gate as skill_fabric_gate
 from fa3_distribution_compliance_gate import gate as distribution_compliance_gate
@@ -160,6 +161,9 @@ def static_check(root:Path):
     marketing_agent_native_ref=marketing_agent_native_gate(root)
     if marketing_agent_native_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-118","Marketing Agent Native / bounded advisory gate failed",marketing_agent_native_gate=marketing_agent_native_ref))
+    caption_subtitle_ref=caption_subtitle_gate(root)
+    if caption_subtitle_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-124","Caption/Subtitle/Narration Fabric canonical/runtime-reference gate failed",caption_subtitle_gate=caption_subtitle_ref))
     neural_rendering_ref=neural_rendering_gate(root)
     if neural_rendering_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-119","Neural Rendering / OpenDLSS-NR provider projection gate failed",neural_rendering_gate=neural_rendering_ref))
@@ -273,6 +277,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-056","Marketing/Hungarian-first executable gate is not bound into global enforcement policy"))
     if "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-118","Marketing Agent Native gate is not bound into global enforcement policy"))
+    if "FA3-CAPTION-SUBTITLE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-124","Caption/Subtitle/Narration Fabric gate is not bound into global enforcement policy"))
     if "FA3-NEURAL-RENDERING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-119","Neural Rendering gate is not bound into global enforcement policy"))
     if "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -725,6 +731,8 @@ def main():
             x=marketing_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="marketing-agent-native":
             x=marketing_agent_native_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="caption-subtitle":
+            x=caption_subtitle_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="marketingskills":
             x=marketingskills_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="skill-fabric":

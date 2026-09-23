@@ -232,6 +232,25 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "capability_count_after": capability_count,
     }
 
+    projection["caption_subtitle_reconciliation"] = {
+        "profile_id": "FA3-CAPTION-SUBTITLE-001",
+        "contract_id": "FA3-CAPTION-SUBTITLE-CONTRACTS-001",
+        "decision_id": "FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23",
+        "gate_id": "FA3-CAPTION-SUBTITLE-GATESET-001",
+        "native_provider_id": "FA3-PROVIDER-CAPTION-NATIVE-001",
+        "action_count": 13,
+        "reference_evidence": "evidence/reference/caption-subtitle-ci-2026-09-23.json",
+        "reference_evidence_status": "STATIC_AND_REFERENCE_PASS_NOT_PROVIDER_RUNTIME",
+        "current_host_gate_id": "FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001",
+        "current_host_application_status": "PENDING_CURRENT_HOST_APPLICATION_E2E",
+        "voice_provider_audio_runtime": "SEPARATE_FA3_VOICE_ADMISSION",
+        "hardsub_ocr_runtime": "PENDING_ADMITTED_OCR_PROVIDER",
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
+
     projection["skill_distribution_fabric_reconciliation"] = {
         "skill_profile_id": "FA3-SKILL-FABRIC-001",
         "distribution_profile_id": "FA3-DISTRIBUTION-COMPLIANCE-001",

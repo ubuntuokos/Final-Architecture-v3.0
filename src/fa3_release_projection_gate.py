@@ -3101,6 +3101,52 @@ def gate(root: Path):
             missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
         ))
 
+    caption_subtitle = projection.get("caption_subtitle_reconciliation", {})
+    caption_subtitle_paths = {
+        "canonical/FA3-GATE-CAPTION-SUBTITLE-001.json",
+        "canonical/profiles/FA3-CAPTION-SUBTITLE-001.json",
+        "canonical/contracts/FA3-CAPTION-SUBTITLE-CONTRACTS-001.json",
+        "canonical/decisions/FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23.json",
+        "canonical/references/FA3-CAPTION-SUBTITLE-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/caption-subtitle-enforcement.json",
+        "canonical/providers/FA3-PROVIDER-CAPTION-NATIVE-001.json",
+        "evidence/reference/caption-subtitle-ci-2026-09-23.json",
+        "src/fa3_caption_subtitle.py",
+        "src/fa3_caption_workflows.py",
+        "src/fa3_caption_uaf.py",
+        "src/fa3_caption_studio_server.py",
+        "src/fa3_caption_subtitle_gate.py",
+        "src/fa3_caption_subtitle_current_host_gate.py",
+        "bin/fa3-caption-studio",
+        "bin/fa3-narration-studio",
+        ".github/workflows/fa3-caption-subtitle.yml",
+        ".github/workflows/fa3-caption-subtitle-current-host.yml",
+    }
+    if (
+        caption_subtitle.get("profile_id") != "FA3-CAPTION-SUBTITLE-001"
+        or caption_subtitle.get("contract_id") != "FA3-CAPTION-SUBTITLE-CONTRACTS-001"
+        or caption_subtitle.get("decision_id") != "FA3-DEC-CAPTION-NARRATION-STUDIOS-2026-09-23"
+        or caption_subtitle.get("gate_id") != "FA3-CAPTION-SUBTITLE-GATESET-001"
+        or caption_subtitle.get("native_provider_id") != "FA3-PROVIDER-CAPTION-NATIVE-001"
+        or caption_subtitle.get("action_count") != 13
+        or caption_subtitle.get("reference_evidence_status") != "STATIC_AND_REFERENCE_PASS_NOT_PROVIDER_RUNTIME"
+        or caption_subtitle.get("current_host_gate_id") != "FA3-CAPTION-SUBTITLE-CURRENT-HOST-GATESET-001"
+        or caption_subtitle.get("voice_provider_audio_runtime") != "SEPARATE_FA3_VOICE_ADMISSION"
+        or caption_subtitle.get("hardsub_ocr_runtime") != "PENDING_ADMITTED_OCR_PROVIDER"
+        or caption_subtitle.get("global_promotion_claim") is not False
+        or caption_subtitle.get("new_capabilities") != 0
+        or caption_subtitle.get("new_architectural_authorities") != 0
+        or caption_subtitle.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-CAPTION-SUBTITLE-GATESET-001" not in projection_gates
+        or "FA3-CAPTION-SUBTITLE-GATESET-001" not in policy_gates
+        or not caption_subtitle_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-124",
+            "Caption/Subtitle/Narration Fabric reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(caption_subtitle_paths - manifest_paths),
+        ))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -3138,6 +3184,7 @@ def gate(root: Path):
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
             "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
+            "caption_subtitle_reconciliation": caption_subtitle.get("current_host_application_status"),
             "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
