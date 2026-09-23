@@ -266,7 +266,15 @@ def reference_check(root: Path) -> dict[str, Any]:
     bad=[]
     for cap in CAPABILITY_IDS:
         rec=records.get(cap,{})
-        if DECISION_ID not in rec.get("source_decision_ids",[]) or EVIDENCE_PATH not in rec.get("evidence_artifacts",[]):
+        binding=rec.get("inference_portability_reconciliation_2026_09_23",{})
+        if (
+            DECISION_ID in rec.get("source_decision_ids",[])
+            or EVIDENCE_PATH not in rec.get("evidence_artifacts",[])
+            or binding.get("decision_id") != DECISION_ID
+            or binding.get("decision_binding_class") != "NON_OBLIGATION_BEARING_CROSS_CUTTING_RECONCILIATION"
+            or binding.get("existing_429_closure_reopened") is not False
+            or binding.get("provider_runtime_admission_separate") is not True
+        ):
             bad.append(cap)
     if bad:
         findings.append(_finding("INFER-RECON-018","Evidence Registry reconciliation binding drift",capability_ids=bad))
