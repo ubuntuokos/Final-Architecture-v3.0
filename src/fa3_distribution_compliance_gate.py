@@ -2,10 +2,12 @@
 from __future__ import annotations
 import argparse, copy, json, re
 from pathlib import Path
-from typing import Any\nfrom fa3_distribution_manifest import canonical_manifest
+from typing import Any
+from fa3_distribution_manifest import canonical_manifest
 PROFILE="canonical/profiles/FA3-DISTRIBUTION-COMPLIANCE-001.json"
 CONTRACT="canonical/contracts/FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001.json"
-REGISTRY="canonical/distribution-registry.json"\nMANIFEST="canonical/distribution-manifest.json"
+REGISTRY="canonical/distribution-registry.json"
+MANIFEST="canonical/distribution-manifest.json"
 GATE_ID="FA3-GATE-DISTRIBUTION-COMPLIANCE-001"; GATESET_ID="FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
 CLASSES=("FA3_NATIVE","EXTERNAL_REDISTRIBUTABLE","USER_LOCAL_EXTERNAL","REFERENCE_ONLY","BLOCKED")
 SHA256=re.compile(r"^[0-9a-f]{64}$")
