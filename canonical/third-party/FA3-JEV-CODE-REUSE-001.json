@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.third-party-code-reuse.v1",
+  "id": "FA3-JEV-CODE-REUSE-001",
+  "scope": "JEV_DERIVED_EXTERNAL_PROJECTS",
+  "status": "CANONICAL",
+  "policy": {
+    "source_commit_pin": "REQUIRED",
+    "source_paths": "REQUIRED",
+    "license_identifier": "REQUIRED",
+    "license_text_or_upstream_license_ref": "REQUIRED",
+    "spdx_attribution": "REQUIRED",
+    "local_modifications": "REQUIRED",
+    "security_review": "REQUIRED",
+    "distribution_impact_review": "REQUIRED",
+    "foreign_authority_import": "DENY",
+    "unknown_license_source_copy": "DENY",
+    "automatic_external_install": "DENY"
+  },
+  "preferred_permissive_licenses": [
+    "MIT",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "0BSD"
+  ],
+  "entries": [],
+  "note": "No third-party runtime source has been copied by the initial Decision Fabric materialization. Jev ecosystem projects are currently pattern/reference sources unless an entry is added here.",
+  "capability_delta": 0,
+  "authority_delta": 0
+}
