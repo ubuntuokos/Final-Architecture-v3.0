@@ -47,6 +47,8 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical/assessments/FA3-JEV-DECISION-FABRIC-2026-09-23.json",
         "canonical/decision-fabric-current-host-enforcement.json",
         "canonical/mcp-capability-registry.json",
+        "canonical/third-party/FA3-JEV-CODE-REUSE-001.json",
+        "src/fa3_jev_reuse_gate.py",
     ]
     for rel in required:
         if not (root / rel).is_file():
