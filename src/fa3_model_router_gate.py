@@ -35,6 +35,12 @@ REQUIRED_RULES = {
     "HRB_REMAINS_SOLE_RESOURCE_PLACEMENT_ACCELERATOR_AUTHORITY",
     "SECRET_AUTHORITY_REMAINS_SEPARATE_FROM_MODEL_ROUTER",
     "HARDWARE_AUDIT_VENDOR_NEUTRAL_NO_ACCELERATOR_VENDOR_REQUIREMENT",
+    "CROSS_APP_AI_COMMUNICATION_DEFAULT_DENY_NOT_MODEL_ROUTER_AUTHORITY",
+    "SECURITY_EMERGENCY_WAKE_CANNOT_BYPASS_ROUTER_OR_PROTECTED_GATEWAY",
+    "AI_TO_AI_AUTHORITATIVE_SEMANTICS_MUST_REMAIN_HUMAN_AUDITABLE",
+    "PRIVATE_MODEL_LANGUAGE_CODEBOOK_OR_SLANG_FORBIDDEN",
+    "JEV_DECISION_FABRIC_APPLICABILITY_ASSESSMENT_REQUIRED",
+    "JEV_ADAPTER_ONLY_AFTER_MODEL_ROUTER_CLOSURE",
     "CURRENT_HOST_ROUTER_RECEIPT_REQUIRED_FOR_CONSUMER_ADMISSION",
 }
 
@@ -162,11 +168,37 @@ def gate(root: Path) -> dict[str, Any]:
         and decision_fabric.get("candidate_set_autonomous_expansion") == "FORBIDDEN"
         and decision_fabric.get("model_access") == "CENTRAL_MODEL_ROUTER_ONLY"
         and decision_fabric.get("physical_provider_or_model_selection") == "FORBIDDEN"
+        and decision_fabric.get("context_envelope_required") is True
+        and decision_fabric.get("decision_receipt_required") is True
+        and decision_fabric.get("provenance_required") is True
+        and decision_fabric.get("failure_policy_required") is True
+        and decision_fabric.get("hitl_escalation_supported") is True
+        and decision_fabric.get("project_radar_review_required") is True
         and ai_comms.get("policy") == "FA3-AI-COMMS-001"
         and ai_comms.get("router_grants_communication_authority") is False
         and ai_comms.get("router_may_expand_participant_set") is False
+        and ai_comms.get("cross_application_default") == "DENY"
+        and ai_comms.get("protected_gateway_required_for_cross_app") is True
+        and ai_comms.get("router_is_cross_app_communication_gateway") is False
+        and ai_comms.get("security_emergency_wake_bypass") is False
+        and ai_comms.get("human_auditable_authoritative_semantics_required") is True
+        and ai_comms.get("private_model_language_codebook_or_slang") == "FORBIDDEN"
     ):
         findings.append(finding("MR-019", "Agent Native / Decision Fabric / AI communication consumer boundaries drift"))
+
+    jev = authority.get("decision_fabric_applicability", {})
+    if not (
+        jev.get("assessment_status") == "COMPLETED"
+        and jev.get("applicable_to_router_core") is False
+        and jev.get("applicable_to_router_consumers") is True
+        and jev.get("integration_timing") == "AFTER_MODEL_ROUTER_CLOSURE"
+        and jev.get("closed_candidate_set") == "NONE_IN_ROUTER_CORE"
+        and jev.get("shadow_mode_for_future_adapter") is True
+        and jev.get("admission_gate_required") is True
+        and jev.get("provenance_license_security_supply_chain_gate_required") is True
+        and jev.get("project_radar_review_required") is True
+    ):
+        findings.append(finding("MR-024", "Jev / Decision Fabric applicability assessment is incomplete or leaks into Router core"))
 
     evidence_boundaries = authority.get("evidence_boundaries", {})
     if not (
