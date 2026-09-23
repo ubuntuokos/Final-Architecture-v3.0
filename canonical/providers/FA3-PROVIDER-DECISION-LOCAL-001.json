@@ -10,5 +10,13 @@
   "physical_provider_pin": false,
   "resource_access": "HRB_ONLY_WHEN_REQUIRED",
   "cpu_only_path_required": true,
-  "direct_external_model_provider": "DENY"
+  "direct_external_model_provider": "DENY",
+  "runtime_module": "src/fa3_local_decision_provider.py",
+  "explicit_enable_required": true,
+  "logical_route": "fa3-text-primary",
+  "model_router_endpoint": "LOOPBACK_OPENAI_COMPATIBLE_DATA_PLANE",
+  "credential_source": "CENTRAL_SECRET_BROKER_OR_MODEL_ROUTER_CREDENTIAL_PROJECTION_ONLY",
+  "mandatory": false,
+  "silent_local_to_cloud_fallback": "DENY",
+  "direct_application_calls": "DENY"
 }
