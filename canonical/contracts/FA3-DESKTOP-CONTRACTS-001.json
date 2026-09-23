@@ -1,14 +1,16 @@
 {
   "schema": "fa3.contract-family.v1",
   "id": "FA3-DESKTOP-CONTRACTS-001",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "profile": "FA3-DESKTOP-001",
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "capability_projection": ["CAP-057"],
+  "capability_projection": [
+    "CAP-057"
+  ],
   "contracts": [
     "DesktopNavigationDescriptor",
     "CanonicalReadProjection",
@@ -20,14 +22,23 @@
     "ChangeSetSubmissionIntent",
     "WorkspaceDescriptor",
     "StudioModuleDescriptor",
-    "OperatorNotification"
+    "OperatorNotification",
+    "GuiSurfaceRegistry",
+    "AgentActionContractReadProjection",
+    "AgentActionIntentDraft",
+    "DecisionAdviceReadProjection",
+    "DecisionTraceReadProjection",
+    "ContextInspectionProjection"
   ],
   "read_model": {
     "canonical_repository": "READ_ONLY",
     "evidence_store": "READ_ONLY",
     "host_telemetry": "READ_ONLY",
     "provider_runtime_state": "READ_ONLY",
-    "policy_and_approval_state": "READ_ONLY"
+    "policy_and_approval_state": "READ_ONLY",
+    "uaf_action_contracts": "READ_ONLY",
+    "decision_trace": "READ_ONLY",
+    "context_projection": "READ_ONLY"
   },
   "mutation_model": {
     "local_draft_changeset": "ALLOW",
@@ -39,7 +50,10 @@
     "direct_model_runtime_control": "FORBIDDEN",
     "direct_policy_or_secret_mutation": "FORBIDDEN",
     "sudo_su_pkexec": "FORBIDDEN",
-    "free_form_shell": "FORBIDDEN"
+    "free_form_shell": "FORBIDDEN",
+    "direct_uaf_provider_execution": "FORBIDDEN",
+    "decision_fabric_authorization": "FORBIDDEN",
+    "decision_fabric_candidate_expansion": "FORBIDDEN"
   },
   "navigation_baseline": [
     "Command Center",
@@ -70,12 +84,46 @@
     "kde_plasma_first_class": true,
     "xwayland_is_not_required": true,
     "browser_runtime_required": false,
-    "root_process": "FORBIDDEN"
+    "root_process": "FORBIDDEN",
+    "generic_linux_portable": true,
+    "x11_supported": true
   },
   "evidence": {
     "static_contract_gate": true,
     "qt_compile_gate": true,
     "current_host_runtime_receipt_required_for_runtime_promotion": true,
     "reference_compile_pass_claims_current_host_runtime": false
+  },
+  "navigation_groups": [
+    "HOME",
+    "CREATE",
+    "AGENTS",
+    "MODELS & DATA",
+    "DECISION & CONTEXT",
+    "INTEGRATIONS",
+    "GOVERNANCE",
+    "SYSTEM"
+  ],
+  "stable_routing": {
+    "registry": "FA3-GUI-SURFACE-REGISTRY-001",
+    "semantic_route_id_required": true,
+    "stack_layout_index_is_implementation_detail": true,
+    "search_shortcuts_and_navigation_must_resolve_via_route_id": true
+  },
+  "agent_native": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action_contract_source": "canonical/actions/*.json",
+    "gui_role": "READ_PROJECTION_AND_DRAFT_INTENT_ONLY",
+    "direct_provider_bypass": "FORBIDDEN",
+    "execution_authority": false,
+    "approval_authority": false,
+    "evidence_authority": false
+  },
+  "decision_fabric": {
+    "profile": "FA3-DECISION-FABRIC-001",
+    "gui_role": "ADVISORY_AND_INSPECTION_ONLY",
+    "authorization_authority": false,
+    "candidate_expansion": "FORBIDDEN",
+    "decision_trace_mutation": "FORBIDDEN"
   }
 }

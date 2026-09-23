@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL_MATERIALIZED_PENDING_REFERENCE_CI_AND_CURRENT_HOST_VISUAL",
+  "subject": "FA3 GUI reconciliation after Decision Fabric/Jev and Agent Native/UAF adoption",
+  "decision": "RECONCILE_AND_MATERIALIZE",
+  "profile_id": "FA3-DESKTOP-001",
+  "contract_id": "FA3-DESKTOP-CONTRACTS-001",
+  "gate_id": "FA3-GATE-GUI-001",
+  "surface_registry_id": "FA3-GUI-SURFACE-REGISTRY-001",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "final_navigation_groups": [
+    "HOME",
+    "CREATE",
+    "AGENTS",
+    "MODELS & DATA",
+    "DECISION & CONTEXT",
+    "INTEGRATIONS",
+    "GOVERNANCE",
+    "SYSTEM"
+  ],
+  "materialized_work": [
+    "STABLE_SEMANTIC_ROUTE_IDS",
+    "SEMANTIC_NAVIGATION_REORGANIZATION",
+    "AGENT_ACTION_CENTER_FROM_CANONICAL_UAF_ACTION_CONTRACTS",
+    "DECISION_AND_CONTEXT_SURFACE_GROUPING",
+    "CANONICAL_AI_STUDIO_APP_CATALOG_SEARCH_REPLACES_MANUAL_APP_INDEX",
+    "WORK_MANAGEMENT_DEAD_SIGNAL_REPAIR_WITH_DRAFT_ONLY_INTENT",
+    "ACCELERATOR_GUARD_DEVICE_DISCOVERY_AND_DRAFT_DECISION_WIRING",
+    "GENERIC_LINUX_WAYLAND_PRIMARY_X11_SUPPORTED_LABELING",
+    "GUI_GATE_EXPANSION_FOR_JEV_AGENT_NATIVE_AND_ROUTE_REGISTRY"
+  ],
+  "agent_native": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "flow": "SURFACE_TO_ACTION_CONTRACT_TO_AUTHORIZATION_APPROVAL_TO_PROVIDER_COMPATIBILITY_TO_HRB_SECRET_BROKER_WHEN_REQUIRED_TO_EXECUTION_TO_EVIDENCE",
+    "gui_may_execute_provider_directly": false,
+    "gui_may_self_approve": false,
+    "gui_mutating_intent": "DRAFT_NOT_SUBMITTED_ONLY"
+  },
+  "decision_fabric": {
+    "profile": "FA3-DECISION-FABRIC-001",
+    "role": "BOUNDED_ADVISORY_AND_INSPECTION",
+    "candidate_expansion": false,
+    "authorization_authority": false,
+    "model_routing_authority": false,
+    "tool_authority": false,
+    "resource_authority": false
+  },
+  "hardware_audit": {
+    "compliant": true,
+    "vendor_neutral": true,
+    "accelerator_cardinality": "0..N",
+    "no_static_gpu_or_vendor_pin": true,
+    "gui_hardware_observation_is_non_authoritative": true,
+    "hrb_remains_resource_authority": true
+  },
+  "desktop_portability": {
+    "wayland": "PRIMARY",
+    "x11": "SUPPORTED_COMPATIBILITY_PATH",
+    "kde_plasma": "TIER_1_REFERENCE_NOT_CORE_DEPENDENCY",
+    "other_xdg_desktops": "SUPPORTED_BY_GENERIC_LINUX_BOUNDARY"
+  },
+  "mandatory_before_runtime_promotion": [
+    "QT_REFERENCE_BUILD_PASS_FOR_RECONCILED_HEAD",
+    "STATIC_GUI_GATE_PASS_FOR_RECONCILED_HEAD",
+    "UI_COMPONENT_FABRIC_DESIGN_TOKEN_ACCESSIBILITY_AND_VISUAL_REGRESSION_CLOSURE",
+    "CURRENT_HOST_WAYLAND_OR_X11_INTERACTIVE_SMOKE_RECEIPT",
+    "CURRENT_HOST_VISUAL_NAVIGATION_AND_ACTION_FLOW_RECEIPT",
+    "NO_FABRICATED_RUNTIME_OR_TELEMETRY_STATE"
+  ]
+}

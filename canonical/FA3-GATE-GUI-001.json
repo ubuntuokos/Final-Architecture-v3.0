@@ -6,13 +6,18 @@
   "contract_id": "FA3-DESKTOP-CONTRACTS-001",
   "priority": "P0",
   "fail_closed": true,
-  "rule_count": 20,
+  "rule_count": 31,
   "executable": "PYTHONPATH=src python src/fa3_gui_gate.py",
-  "reference_evidence": "evidence/reference/fa3-gui-reference-pass.json",
+  "reference_evidence": "evidence/reference/fa3-gui-reconciliation-reference-pending.json",
   "qt_reference_build_required": true,
   "current_host_runtime_required_for_reference_pass": false,
   "current_host_runtime_required_for_runtime_promotion": true,
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "surface_registry_id": "FA3-GUI-SURFACE-REGISTRY-001",
+  "reconciliation_decision_id": "FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23",
+  "agent_action_center_required": true,
+  "semantic_route_registry_required": true,
+  "previous_reference_evidence": "evidence/reference/fa3-gui-reference-pass.json"
 }

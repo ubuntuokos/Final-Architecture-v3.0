@@ -12,6 +12,14 @@ REQUIRED = {
     "decision": ROOT / "canonical/decisions/FA3-DEC-GUI-2026-09-12.json",
     "gate": ROOT / "canonical/FA3-GATE-GUI-001.json",
     "runtime": ROOT / "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+    "reconciliation_decision": ROOT / "canonical/decisions/FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23.json",
+    "surface_registry": ROOT / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+    "uaf_contract": ROOT / "canonical/contracts/FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001.json",
+    "decision_fabric_profile": ROOT / "canonical/profiles/FA3-DECISION-FABRIC-001.json",
+    "ui_component_profile": ROOT / "canonical/profiles/FA3-UI-COMPONENT-FABRIC-001.json",
+    "action_center_qml": ROOT / "apps/fa3-control-center/qml/AgentActionCenterPage.qml",
+    "work_management_qml": ROOT / "apps/fa3-control-center/qml/WorkManagementPage.qml",
+    "accelerator_guard_qml": ROOT / "apps/fa3-control-center/qml/AcceleratorGuardPage.qml",
     "cmake": ROOT / "apps/fa3-control-center/CMakeLists.txt",
     "main_cpp": ROOT / "apps/fa3-control-center/src/main.cpp",
     "model_cpp": ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
@@ -40,7 +48,8 @@ REQUIRED = {
     "installer": ROOT / "deployment/fa3-gui/install.sh",
 }
 
-NAVIGATION = ["Command Center", "RTD Providers", "Projects", "AI Studio", "Agents & Workflows", "Models & Providers", "Checkpoint Manager", "External Providers Setup", "Token Control Center", "Architecture", "Resources", "Security & Approvals", "Observability", "Evidence", "Integrations", "MCP Gateway", "Knowledge & Retrieval", "System"]
+NAVIGATION = ["Dashboard", "Projects", "Work Management", "AI Studio", "Knowledge & Retrieval", "Agent Action Center", "Agents & Workflows", "Models & Providers", "Model Manager", "Checkpoint Manager", "Remote AI Hub", "RTD Providers", "External Providers Setup", "Decision Fabric", "Decision Inspector", "Context Inspector", "External Project Radar", "Integrations", "MCP Gateway", "FA3 OS", "Security & Approvals", "Token Control Center", "Trust & Certificates", "Session Vault / Kulcsvault", "Evidence", "Observability", "Architecture", "Napló / Journal", "Resources", "Accelerator Guard", "Rendszerbeállítások", "System"]
+NAVIGATION_GROUPS = ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]
 FORBIDDEN_BACKEND_TOKENS = ["QProcess", "std::system(", "popen(", "/bin/sh", "/bin/bash", "pkexec", "setuid("]
 
 
@@ -59,6 +68,11 @@ def validate() -> list[str]:
     decision = load_json(REQUIRED["decision"])
     gate = load_json(REQUIRED["gate"])
     runtime = load_json(REQUIRED["runtime"])
+    reconciliation = load_json(REQUIRED["reconciliation_decision"])
+    surface_registry = load_json(REQUIRED["surface_registry"])
+    uaf_contract = load_json(REQUIRED["uaf_contract"])
+    decision_fabric = load_json(REQUIRED["decision_fabric_profile"])
+    ui_component = load_json(REQUIRED["ui_component_profile"])
 
     checks = [
         (profile.get("id") == "FA3-DESKTOP-001", "profile-id"),
@@ -75,12 +89,34 @@ def validate() -> list[str]:
         (gate.get("fail_closed") is True, "gate-fail-closed"),
         (runtime.get("status") == "PENDING_CURRENT_HOST", "runtime-not-falsely-promoted"),
         (runtime.get("production_admitted") is False, "runtime-production-not-admitted"),
+        (reconciliation.get("new_capabilities") == 0, "reconciliation-no-new-capability"),
+        (reconciliation.get("new_architectural_authorities") == 0, "reconciliation-no-new-authority"),
+        (reconciliation.get("capability_count_after") == 143, "reconciliation-capability-count"),
+        (reconciliation.get("agent_native", {}).get("gui_may_execute_provider_directly") is False, "reconciliation-no-direct-agent-provider"),
+        (reconciliation.get("decision_fabric", {}).get("authorization_authority") is False, "reconciliation-decision-no-authorization"),
+        (reconciliation.get("decision_fabric", {}).get("candidate_expansion") is False, "reconciliation-decision-no-candidate-expansion"),
+        (reconciliation.get("hardware_audit", {}).get("accelerator_cardinality") == "0..N", "reconciliation-hardware-cardinality"),
+        (surface_registry.get("new_architectural_authority") is False, "surface-registry-no-authority"),
+        (surface_registry.get("capability_count") == 143, "surface-registry-capability-count"),
+        (uaf_contract.get("new_architectural_authority") is False, "uaf-no-new-authority"),
+        (decision_fabric.get("new_architectural_authority") is False, "decision-fabric-no-new-authority"),
+        (ui_component.get("parent_profile") == "FA3-DESKTOP-001", "ui-component-parent"),
     ]
     failures.extend(name for ok, name in checks if not ok)
 
     qml = REQUIRED["qml"].read_text(encoding="utf-8")
     for label in NAVIGATION:
         if label not in qml: failures.append(f"qml-navigation-missing:{label}")
+    for group in NAVIGATION_GROUPS:
+        if f'text: "{group}"' not in qml: failures.append(f"qml-navigation-group-missing:{group}")
+    route_ids = [surface.get("route_id") for surface in surface_registry.get("surfaces", [])]
+    if len(route_ids) != len(set(route_ids)): failures.append("surface-registry-duplicate-route-id")
+    for route_id in route_ids:
+        if route_id and f'"{route_id}"' not in qml: failures.append(f"qml-route-missing:{route_id}")
+    if "property int pageIndex" in qml[qml.find("component NavButton"):qml.find("component ModuleCard")]:
+        failures.append("qml-navbutton-still-index-coupled")
+    if "function navigate(routeId)" not in qml or "property var routeTable" not in qml:
+        failures.append("qml-stable-route-dispatch-missing")
     studio_qml = REQUIRED["studio_qml"].read_text(encoding="utf-8")
     for module in ["Image", "Video", "Animation", "3D / VFX", "Audio", "Music", "Story / Screenplay", "Office", "Marketing", "Weboldal", "Prezentáció"]:
         if module not in studio_qml: failures.append(f"qml-studio-module-missing:{module}")
@@ -93,8 +129,10 @@ def validate() -> list[str]:
     if "id: llmFitButton" not in qml or "property bool llmFitExpanded" not in qml or "nincs terminálindítás" not in qml: failures.append("qml-model-manager-llmfit-surface-missing")
     if "id: searchScope" not in qml or "FA3 alkalmazások" not in qml or "FA3 funkciók" not in qml or "Beállítások" not in qml or "unifiedSearchResults" not in qml:
         failures.append("qml-unified-search-scopes-missing")
-    if "property var fa3ApplicationIndex" not in qml or "function searchFa3Applications" not in qml or "var apps = searchFa3Applications(needle)" not in qml:
+    if "function searchFa3Applications" not in qml or "fa3AppCatalog.applications" not in qml or "var apps = searchFa3Applications(needle)" not in qml:
         failures.append("qml-fa3-application-search-missing")
+    if "property var fa3ApplicationIndex" in qml:
+        failures.append("qml-stale-independent-application-index-present")
     if "fa3Repository.searchInstalledApplications(needle)" in qml:
         failures.append("qml-host-application-search-leak")
     if "id: architectureScope" not in qml or "Canonical Core" not in qml or "Execution Fabric" not in qml or "Evidence & Release" not in qml or "architectureResults" not in qml: failures.append("qml-architecture-semantic-view-missing")
@@ -164,12 +202,12 @@ def validate() -> list[str]:
         failures.append("mcp-gateway-page-contract-invalid")
     for token in ["QNetworkAccessManager", "/healthz", "/readyz", "/capabilities", "directQmlExecutionAllowed"]:
         if token not in mcp_gateway_service: failures.append(f"mcp-gateway-readonly-service-missing:{token}")
-    if "McpGatewayPage" not in qml or 'pageIndex: 27' not in qml:
+    if "McpGatewayPage" not in qml or 'routeId: "integrations.mcp-gateway"' not in qml:
         failures.append("qml-mcp-gateway-page-wiring-missing")
     knowledge_qml = REQUIRED["knowledge_qml"].read_text(encoding="utf-8")
     for token in ["Knowledge & Retrieval", "FA3-KNOWLEDGE-001", "Hierarchical + Hybrid", "PageIndex Local", "OpenKB", "ConDB", "RetrievalPlan", "RetrievalTrace", "ContextPassport", "No fabricated CONNECTED/PASS"]:
         if token not in knowledge_qml: failures.append(f"qml-knowledge-surface-missing:{token}")
-    if "KnowledgePage" not in qml or 'pageIndex: 28' not in qml:
+    if "KnowledgePage" not in qml or 'routeId: "create.knowledge"' not in qml:
         failures.append("qml-knowledge-page-wiring-missing")
     if 'setContextProperty("fa3McpGateway"' not in REQUIRED["main_cpp"].read_text(encoding="utf-8"):
         failures.append("mcp-gateway-service-qml-wiring-missing")
@@ -177,10 +215,26 @@ def validate() -> list[str]:
     token_qml = REQUIRED["token_control_qml"].read_text(encoding="utf-8")
     for token in ["Token Control Center", "FA3-TOKEN-GOVERNANCE-001", "Credentialek", "AI tokenhasználat", "Budgetek", "Költségek", "Audit", "Riasztások", "Házirendek", "VAULT / BROKER", "Plaintext secret storage forbidden"]:
         if token not in token_qml: failures.append(f"qml-token-control-center-missing:{token}")
-    for token in ["CheckpointManagerPage", "ExternalProvidersSetupPage", "TokenControlCenterPage", 'pageIndex: 20', 'pageIndex: 21', 'pageIndex: 22']:
+    for token in ["CheckpointManagerPage", "ExternalProvidersSetupPage", "TokenControlCenterPage", 'routeId: "models.checkpoints"', 'routeId: "models.external-providers"', 'routeId: "governance.tokens"']:
         if token not in qml: failures.append(f"qml-management-center-wiring-missing:{token}")
 
+    action_qml = REQUIRED["action_center_qml"].read_text(encoding="utf-8")
+    for token in ["Agent Action Center", "Unified Action Fabric", "Stage DRAFT action intent", "Decision Fabric advisory", "fa3Repository.searchActions", "Ez nem UAF execution"]:
+        if token not in action_qml: failures.append(f"qml-agent-action-center-missing:{token}")
+    work_qml = REQUIRED["work_management_qml"].read_text(encoding="utf-8")
+    accel_qml = REQUIRED["accelerator_guard_qml"].read_text(encoding="utf-8")
+    for token in ["onRefreshRequested", "onCreateWorkItemRequested", "onTransitionRequested", "onProviderConfigureRequested"]:
+        if token not in qml: failures.append(f"qml-work-management-handler-missing:{token}")
+    for token in ["accelerators: window.acceleratorProjection(fa3Devices.inventory)", "onRefreshRequested", "onDecisionRequested"]:
+        if token not in qml: failures.append(f"qml-accelerator-guard-handler-missing:{token}")
+    if "operationNotice" not in work_qml or "operationNotice" not in accel_qml:
+        failures.append("qml-draft-intent-feedback-missing")
+    if "Generic Linux · Wayland primary / X11 supported" not in qml:
+        failures.append("qml-desktop-portability-label-missing")
+
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
+    if "searchActions" not in model_cpp or "canonical/actions" not in model_cpp:
+        failures.append("backend-uaf-action-catalog-search-missing")
     if "DRAFT_NOT_SUBMITTED" not in model_cpp: failures.append("backend-draft-status-missing")
     if '"direct_execution_allowed", false' not in model_cpp: failures.append("backend-direct-execution-denial-missing")
     if '"canonical_write_allowed", false' not in model_cpp: failures.append("backend-canonical-write-denial-missing")
@@ -202,7 +256,7 @@ def validate() -> list[str]:
     cmake = REQUIRED["cmake"].read_text(encoding="utf-8")
     if "Qt6" not in cmake or "qt_add_qml_module" not in cmake: failures.append("qt6-qml-build-contract-missing")
     if "PrintSupport" not in cmake or "PreferenceStore.cpp" not in cmake or "SystemDeviceModel.cpp" not in cmake: failures.append("settings-device-build-wiring-missing")
-    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml"]:
+    for token in ["QuickDialogs2", "ChatFileService.cpp", "HelpBubble.qml", "McpControlService.cpp", "IntegrationsPage.qml", "McpGatewayService.cpp", "McpGatewayPage.qml", "KnowledgePage.qml", "AgentActionCenterPage.qml"]:
         if token not in cmake: failures.append(f"chat-file-build-wiring-missing:{token}")
     installer = REQUIRED["installer"].read_text(encoding="utf-8")
     if "qml6-module-qtquick-dialogs" not in installer: failures.append("chat-file-installer-dialogs-missing")

@@ -35,22 +35,24 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("ModelLibraryService.cpp", cmake)
         self.assertIn("Qt6::Network", cmake)
 
-    def test_integrations_follows_ai_studio_and_application_search_is_fa3_scoped(self):
+    def test_application_search_uses_canonical_catalog_and_navigation_uses_routes(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        catalog = (ROOT / "canonical/FA3-AI-STUDIO-APP-CATALOG-001.json").read_text(encoding="utf-8")
 
-        self.assertIn("property var fa3ApplicationIndex", main)
+        self.assertNotIn("property var fa3ApplicationIndex", main)
         self.assertIn("function searchFa3Applications", main)
+        self.assertIn("fa3AppCatalog.applications", main)
         self.assertIn("var apps = searchFa3Applications(needle)", main)
         self.assertNotIn("fa3Repository.searchInstalledApplications(needle)", main)
         self.assertIn('{label: "FA3 alkalmazások", value: "APPLICATION"}', main)
-        self.assertNotIn('{label: "Telepített alkalmazások", value: "APPLICATION"}', main)
-        for app in ["ComfyUI", "Automatic1111", "Forge", "Fooocus", "Krita", "GIMP", "Kdenlive", "Open WebUI", "OpenYak", "Ollama", "LM Studio"]:
-            self.assertIn('title: "' + app + '"', main)
+        for app in ["ComfyUI", "InvokeAI", "Kdenlive", "Bforartists", "Natron", "Gaffer", "Demucs", "DeepFilterNet", "Mautic", "Twenty", "listmonk"]:
+            self.assertIn('"name": "' + app + '"', catalog)
 
-        studio = 'NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }'
-        integrations = 'NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }'
-        self.assertEqual(1, main.count(integrations))
-        self.assertIn(studio + "\n                        " + integrations, main)
+        self.assertIn('property var routeTable', main)
+        self.assertIn('function navigate(routeId)', main)
+        self.assertIn('routeId: "create.ai-studio"', main)
+        self.assertIn('routeId: "integrations.root"', main)
+        self.assertNotIn('property int pageIndex: 0', main[main.index("component NavButton"):main.index("component ModuleCard")])
 
     def test_language_control_is_restored_as_global_drawer(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
@@ -72,7 +74,8 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn('text: "文/A  Tolmács"', main)
         self.assertIn('Layout.minimumWidth: 118', main)
         self.assertIn('function openLanguageControl()', main)
-        self.assertIn('label: "Tolmács"; pageIndex: 23', main)
+        self.assertIn('function openLanguageControl()', main)
+        self.assertIn('navigate("global.language")', main)
         self.assertGreaterEqual(main.count('LanguageControlPage {'), 2)
         self.assertIn('onActivated: window.openLanguageControl()', main)
         self.assertIn('onClicked: window.openLanguageControl()', main)
@@ -94,6 +97,27 @@ class Fa3GuiGateTests(unittest.TestCase):
 
         self.assertNotIn('Layout.preferredHeight: root.isMcpMode() ? 126 : 104', chat)
         self.assertNotIn('Layout.preferredHeight: root.viewMode === "Compact" ? 116 : 154', chat)
+
+    def test_agent_native_decision_fabric_and_dead_signal_reconciliation(self):
+        main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
+        action = (ROOT / "apps/fa3-control-center/qml/AgentActionCenterPage.qml").read_text(encoding="utf-8")
+        model = (ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.cpp").read_text(encoding="utf-8")
+        registry = (ROOT / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json").read_text(encoding="utf-8")
+
+        for group in ["HOME", "CREATE", "AGENTS", "MODELS & DATA", "DECISION & CONTEXT", "INTEGRATIONS", "GOVERNANCE", "SYSTEM"]:
+            self.assertIn('text: "' + group + '"', main)
+        for route in ["agents.action-center", "decision.fabric", "decision.inspector", "decision.context-inspector", "decision.project-radar"]:
+            self.assertIn('"' + route + '"', main)
+            self.assertIn('"route_id": "' + route + '"', registry)
+
+        for token in ["Agent Action Center", "Stage DRAFT action intent", "Ez nem UAF execution", "Decision Fabric advisory"]:
+            self.assertIn(token, action)
+        self.assertIn("searchActions", model)
+        self.assertIn("canonical/actions", model)
+        for token in ["onCreateWorkItemRequested", "onTransitionRequested", "onProviderConfigureRequested", "onDecisionRequested"]:
+            self.assertIn(token, main)
+        self.assertIn("accelerators: window.acceleratorProjection(fa3Devices.inventory)", main)
+        self.assertIn("Generic Linux · Wayland primary / X11 supported", main)
 
     def test_mcp_control_chat_is_authority_gated_and_integrated(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
