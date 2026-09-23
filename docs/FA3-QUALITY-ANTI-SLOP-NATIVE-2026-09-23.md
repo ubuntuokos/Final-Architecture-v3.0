@@ -57,7 +57,8 @@ Existing untouched legacy artifacts are not mass-rewritten. New and changed in-s
 Observed on 2026-09-23:
 
 - repository: `miqdadbadjuber/anti-slop`;
-- observed package version: 3.2.14;
+- observed package version: 3.2.15;
+- immutable upstream commit: `0e384b7bff3301c8ec56dea300330772fed28e6a`;
 - license: MIT;
 - upstream code copied into the FA3 native implementation: none;
 - required upstream runtime dependency: none.
