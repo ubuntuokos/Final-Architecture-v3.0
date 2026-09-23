@@ -38,8 +38,8 @@ def models_live(api_base: str, timeout: float) -> bool:
         return False
 
 
-def candidate(provider_id: str, runtime_id: str, api_base: str, receipt: Path) -> dict[str, Any]:
-    return {
+def candidate(provider_id: str, runtime_id: str, api_base: str, receipt: Path, preferred_model: str | None = None) -> dict[str, Any]:
+    row = {
         "provider_id": provider_id,
         "runtime_id": runtime_id,
         "api_base": api_base.rstrip("/"),
@@ -50,6 +50,10 @@ def candidate(provider_id: str, runtime_id: str, api_base: str, receipt: Path) -
         "admission_receipt": str(receipt),
         "selection_origin": "CURRENT_HOST_LIVE_ENDPOINT_DISCOVERY",
     }
+    if preferred_model:
+        row["preferred_models"] = [preferred_model]
+        row["model_preference_origin"] = "CURRENT_HOST_ADMISSION_EVIDENCE"
+    return row
 
 
 def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
@@ -92,7 +96,13 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
             "live_openai_models_endpoint": live,
         })
         if live:
-            rows.append(candidate(provider_id, runtime_id, api_base, receipt))
+            preferred_model = ""
+            if isinstance(item, dict):
+                if provider_id == OLLAMA_PROVIDER_ID:
+                    preferred_model = str(item.get("selected_model") or "").strip()
+                elif provider_id == LM_STUDIO_PROVIDER_ID:
+                    preferred_model = str(item.get("selected_model_key") or "").strip()
+            rows.append(candidate(provider_id, runtime_id, api_base, receipt, preferred_model or None))
 
     if not rows:
         raise RuntimeError(

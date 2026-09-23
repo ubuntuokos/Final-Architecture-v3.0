@@ -24,7 +24,7 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
 
     def test_only_admitted_and_live_providers_are_emitted(self):
         tmp, root = self._root({
-            discovery.LM_STUDIO_PROVIDER_ID: {"status": "PASS"},
+            discovery.LM_STUDIO_PROVIDER_ID: {"status": "PASS", "selected_model_key": "runtime-proven-model"},
             discovery.OLLAMA_PROVIDER_ID: {"status": "UNAVAILABLE_OR_FAILED"},
         })
         try:
@@ -38,6 +38,9 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
             self.assertEqual(row["provider_id"], discovery.LM_STUDIO_PROVIDER_ID)
             self.assertEqual(row["priority"], 50)
             self.assertEqual(row["selection_origin"], "CURRENT_HOST_LIVE_ENDPOINT_DISCOVERY")
+            self.assertEqual(row["preferred_models"], ["runtime-proven-model"])
+            self.assertEqual(row["model_preference_origin"], "CURRENT_HOST_ADMISSION_EVIDENCE")
+            self.assertFalse(registry["physical_model_pins"])
         finally:
             tmp.cleanup()
 
