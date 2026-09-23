@@ -11,6 +11,8 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from fa3_decision_fabric import DecisionFabric, ProviderResult
+
 from fa3_uaf import (
     ActionContract,
     ActionDispatcher,
@@ -72,6 +74,14 @@ def request(action_id: str = "test.echo") -> ActionRequest:
         principal={"id": "user:test"},
         context=ExecutionContext("ctx-1"),
     )
+
+
+class PreferP2DecisionProvider:
+    provider_id = "TEST-PREFER-P2"
+    semantic = True
+
+    def decide(self, request):
+        return ProviderResult("DECIDED", {"selected": "P2"}, 1.0)
 
 
 class UafTests(unittest.TestCase):
@@ -294,6 +304,28 @@ class UafTests(unittest.TestCase):
         ))
         self.assertIn("hardware.describe", result.output["actions"])
         self.assertEqual(1, len(receipts))
+    def test_decision_fabric_can_only_choose_connected_authorized_provider(self) -> None:
+        providers = ProviderRegistry()
+        providers.register(CallableProvider(
+            ProviderDescriptor("P1", ("test.echo",), priority=10),
+            lambda req, lease, secrets: {"echo": req.arguments["value"]},
+        ))
+        providers.register(CallableProvider(
+            ProviderDescriptor("P2", ("test.echo",), priority=20),
+            lambda req, lease, secrets: {"echo": req.arguments["value"]},
+        ))
+        dispatcher = ActionDispatcher(
+            ActionRegistry([contract()]),
+            providers,
+            authorize=lambda req, action: True,
+            evidence_sink=lambda receipt: None,
+            decision_fabric=DecisionFabric([PreferP2DecisionProvider()]),
+            decision_provider_id="TEST-PREFER-P2",
+            decision_rollout="ACTIVE",
+        )
+        result = dispatcher.execute(request())
+        self.assertEqual("P2", result.provider_id)
+        self.assertEqual("success", result.status)
 
 
 if __name__ == "__main__":
