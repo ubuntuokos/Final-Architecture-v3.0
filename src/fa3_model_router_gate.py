@@ -107,6 +107,9 @@ def gate(root: Path) -> dict[str, Any]:
         "select_bindings",
         "physical_backend_pinned",
         "physical_model_pinned",
+        "decision_fabric",
+        "deterministic_admission_already_applied",
+        "decision_advisory_changes_authority",
     )
     if any(token not in materializer for token in required_materializer):
         findings.append(finding("MR-016", "runtime materializer lacks provider admission/discovery/selection invariants"))
