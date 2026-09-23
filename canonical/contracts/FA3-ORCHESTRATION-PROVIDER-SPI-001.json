@@ -1,0 +1,61 @@
+{
+  "schema": "fa3.provider-spi-contract.v1",
+  "id": "FA3-ORCHESTRATION-PROVIDER-SPI-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "purpose": "Defines the fail-closed adapter seam from an FA3-selected specialist and typed UAF action into a non-canonical provider projection. The SPI never authorizes or directly executes a provider.",
+  "input_contract": "fa3.orchestration-route-decision.v1 + fa3.work-request.v1 + typed UAF action contract",
+  "output_contract": "fa3.orchestration-provider-projection.v2",
+  "mandatory_rules": [
+    "CANONICAL_INPUT_REMAINS_PROVIDER_NEUTRAL",
+    "ADAPTER_OUTPUT_IS_NON_CANONICAL_PROVIDER_SPECIFIC_PROJECTION",
+    "ADAPTER_CANNOT_EXPAND_SPECIALIST_AUTHORITY_SCOPE",
+    "ADAPTER_CANNOT_BYPASS_HORIZONTAL_AUTHORITIES",
+    "DESIGN_COMPILATION_MAY_EXIST_WHILE_RUNTIME_IS_FAIL_CLOSED",
+    "UNKNOWN_PROVIDER_FAILS_CLOSED",
+    "PROVIDER_NATIVE_DEPENDENCY_IMPORT_IS_NOT_REQUIRED_FOR_DESIGN_COMPILATION",
+    "RUNTIME_CONNECTOR_MUST_PRODUCE_EXECUTABLE_EVIDENCE_BEFORE_PROMOTION",
+    "RUNTIME_EXECUTION_REQUIRES_TYPED_UAF_ACTION",
+    "DIRECT_AGENT_OR_SURFACE_PROVIDER_BYPASS_FORBIDDEN",
+    "RUNTIME_ADMISSION_REQUIRES_SCOPE_BOUND_CURRENT_HOST_RECEIPT",
+    "STATIC_RUNTIME_STATUS_IS_NOT_ADMISSION_AUTHORITY",
+    "PROVIDER_CANNOT_EXPAND_AUTHORIZED_AI_PARTICIPANT_SET",
+    "PROVIDER_CANNOT_ROUTE_MODELS_OR_CREATE_PARALLEL_MODEL_ROUTER",
+    "AI_COMMUNICATION_REQUIRES_FA3_AI_COMMS",
+    "DECISION_FABRIC_ADVISORY_CANNOT_EXPAND_CANDIDATES",
+    "HARDWARE_DISCOVERY_AND_HRB_REMAIN_EXTERNAL_HORIZONTAL_BOUNDARIES"
+  ],
+  "adapter_kinds": {
+    "EXISTING_FA3_TEMPORAL_AUTHORITY": "temporal.workflow-intent/v1",
+    "FA3-PROVIDER-CREWAI-001": "crewai.team-intent/v1",
+    "FA3-PROVIDER-CONDUCTOR-001": "conductor.job-graph-intent/v1",
+    "FA3-PROVIDER-OPEN-MULTI-AGENT-001": "oma.team-intent/v1",
+    "FA3-PROVIDER-LANGGRAPH-001": "langgraph.graph-intent/v1",
+    "FA3-PROVIDER-KESTRA-001": "kestra.event-flow-intent/v1",
+    "FA3-PROVIDER-PIPECAT-001": "pipecat.realtime-pipeline-intent/v1",
+    "FA3-PROVIDER-N8N-001": "n8n.integration-flow-intent/v1",
+    "FA3-PROVIDER-HAYSTACK-001": "haystack.knowledge-pipeline-intent/v1"
+  },
+  "version": "2.0.0",
+  "execution_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "action_prefix": "orchestration.",
+    "direct_provider_invocation": false,
+    "provider_projection_is_executable_authority": false
+  },
+  "runtime_admission": {
+    "contract": "FA3-ORCHESTRATION-PROVIDER-CURRENT-HOST-ADMISSION-001",
+    "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "scope_bound": true,
+    "runtime_identity_required": true,
+    "global_promotion_claim": false
+  },
+  "ai_communication": {
+    "profile": "FA3-AI-COMMS-001",
+    "authoritative_human_readable_semantics": true,
+    "provider_private_protocol_authority": false
+  }
+}

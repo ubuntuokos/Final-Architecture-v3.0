@@ -1,0 +1,72 @@
+{
+  "schema": "fa3.work-request.v2",
+  "goal": "Produce a governed multimodal media project while preserving current FA3 UAF, AI communication, hardware/resource and evidence boundaries.",
+  "tasks": [
+    {
+      "task_id": "creative",
+      "domain": "media-production",
+      "required_capabilities": [
+        "media_production_planning",
+        "creative_team_planning"
+      ],
+      "authorized_ai_participants": [
+        "primary-model",
+        "creative-partner-model"
+      ],
+      "resource_requirements": {
+        "accelerator": {
+          "required": false,
+          "cardinality": "0..N"
+        }
+      }
+    },
+    {
+      "task_id": "transcode",
+      "domain": "media-job",
+      "required_capabilities": [
+        "adaptive_job_graph",
+        "media_batch_job"
+      ],
+      "authorized_ai_participants": [],
+      "resource_requirements": {
+        "accelerator": {
+          "required": false,
+          "cardinality": "0..N"
+        }
+      }
+    },
+    {
+      "task_id": "ingest",
+      "domain": "event-ingest",
+      "required_capabilities": [
+        "event_ingest",
+        "file_arrival_trigger"
+      ],
+      "authorized_ai_participants": [],
+      "resource_requirements": {
+        "accelerator": {
+          "required": false,
+          "cardinality": "0..N"
+        }
+      }
+    },
+    {
+      "task_id": "live-avatar",
+      "domain": "realtime-multimodal",
+      "required_capabilities": [
+        "realtime_multimodal",
+        "audio_video_streaming"
+      ],
+      "authorized_ai_participants": [
+        "primary-model",
+        "realtime-partner-model"
+      ],
+      "resource_requirements": {
+        "accelerator": {
+          "required": false,
+          "cardinality": "0..N"
+        }
+      }
+    }
+  ]
+}
