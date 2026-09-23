@@ -7,104 +7,270 @@
   "bindings": [
     {
       "consumer": "FA3-AUTH-MODEL-ROUTER-001",
-      "allowed_contracts": ["RANK", "SCORE", "MULTI_LABEL"],
-      "purposes": ["task classification", "capability fit", "complexity", "latency sensitivity", "reasoning demand"],
+      "allowed_contracts": [
+        "RANK",
+        "SCORE",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "task classification",
+        "capability fit",
+        "complexity",
+        "latency sensitivity",
+        "reasoning demand"
+      ],
       "final_policy_owner": "FA3-AUTH-MODEL-ROUTER-001",
       "activation_dependency": "CENTRAL_MODEL_ROUTER_RUNTIME_ADMITTED",
       "may_route_directly": false
     },
     {
       "consumer": "FA3-KNOWLEDGE-001",
-      "allowed_contracts": ["RELEVANCE", "RANK", "STOP_CONTINUE"],
-      "purposes": ["retrieval rerank", "evidence relevance", "search stop signal", "cache suitability"],
+      "allowed_contracts": [
+        "RELEVANCE",
+        "RANK",
+        "STOP_CONTINUE"
+      ],
+      "purposes": [
+        "retrieval rerank",
+        "evidence relevance",
+        "search stop signal",
+        "cache suitability"
+      ],
       "final_policy_owner": "FA3-KNOWLEDGE-001",
       "source_authority_changed": false
     },
     {
       "consumer": "FA3-JOURNAL-001",
-      "allowed_contracts": ["RELEVANCE", "RANK"],
-      "purposes": ["active-context projection"],
+      "allowed_contracts": [
+        "RELEVANCE",
+        "RANK"
+      ],
+      "purposes": [
+        "active-context projection"
+      ],
       "final_policy_owner": "FA3-JOURNAL-001",
       "may_delete_or_rewrite_authoritative_entries": false
     },
     {
       "consumer": "FA3-AUTH-MCP-GATEWAY-001",
-      "allowed_contracts": ["SELECT_ONE", "SCORE", "RANK", "BOOLEAN", "RELEVANCE"],
-      "purposes": ["typed decision capability exposure"],
+      "allowed_contracts": [
+        "SELECT_ONE",
+        "SCORE",
+        "RANK",
+        "BOOLEAN",
+        "RELEVANCE"
+      ],
+      "purposes": [
+        "typed decision capability exposure"
+      ],
       "final_policy_owner": "FA3-AUTH-MCP-GATEWAY-001",
       "may_execute_tools": false
     },
     {
       "consumer": "FA3-UNIFIED-ACTION-FABRIC-001",
-      "allowed_contracts": ["SELECT_ONE", "RANK", "STOP_CONTINUE"],
-      "purposes": ["tool selection", "skill selection", "specialist selection", "workflow branch", "retry classification"],
+      "allowed_contracts": [
+        "SELECT_ONE",
+        "RANK",
+        "STOP_CONTINUE"
+      ],
+      "purposes": [
+        "tool selection",
+        "skill selection",
+        "specialist selection",
+        "workflow branch",
+        "retry classification"
+      ],
       "final_policy_owner": "FA3-UNIFIED-ACTION-FABRIC-001",
       "may_execute": false
     },
     {
       "consumer": "FA3-SCS-001",
-      "allowed_contracts": ["SCORE", "BOOLEAN", "MULTI_LABEL"],
-      "purposes": ["semantic risk evidence", "prompt injection suspicion", "package/script intent", "credential leakage suspicion"],
+      "allowed_contracts": [
+        "SCORE",
+        "BOOLEAN",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "semantic risk evidence",
+        "prompt injection suspicion",
+        "package/script intent",
+        "credential leakage suspicion"
+      ],
       "final_policy_owner": "FA3-SCS-001",
       "may_grant_permission": false,
       "high_risk_failure_policy": "FAIL_CLOSED"
     },
     {
       "consumer": "FA3-CURRENT-HOST-CLOSURE",
-      "allowed_contracts": ["RELEVANCE", "RANK", "MULTI_LABEL"],
-      "purposes": ["failure classification", "log relevance", "test relevance", "evidence-region ranking"],
+      "allowed_contracts": [
+        "RELEVANCE",
+        "RANK",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "failure classification",
+        "log relevance",
+        "test relevance",
+        "evidence-region ranking"
+      ],
       "final_policy_owner": "FA3-AUTH-OBS-EVIDENCE-001",
       "may_skip_mandatory_gate": false,
       "may_convert_fail_to_pass": false
     },
     {
       "consumer": "FA3-WEB-AI-001",
-      "allowed_contracts": ["SELECT_ONE", "BOOLEAN", "SCORE"],
-      "purposes": ["bounded browser action", "completion", "risk signal"],
+      "allowed_contracts": [
+        "SELECT_ONE",
+        "BOOLEAN",
+        "SCORE"
+      ],
+      "purposes": [
+        "bounded browser action",
+        "completion",
+        "risk signal"
+      ],
       "final_policy_owner": "FA3-WEB-AI-001",
       "execution_after_policy_check_only": true
     },
     {
       "consumer": "FA3-STT-001",
-      "allowed_contracts": ["BOOLEAN", "STOP_CONTINUE", "MULTI_LABEL"],
-      "purposes": ["utterance completeness", "command completeness", "topic boundary", "sensitive checkpoint"],
+      "allowed_contracts": [
+        "BOOLEAN",
+        "STOP_CONTINUE",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "utterance completeness",
+        "command completeness",
+        "topic boundary",
+        "sensitive checkpoint"
+      ],
       "final_policy_owner": "FA3-STT-001",
       "signal_only": true
     },
     {
       "consumer": "FA3-VOICE-001",
-      "allowed_contracts": ["BOOLEAN", "STOP_CONTINUE"],
-      "purposes": ["turn taking", "continuation", "interruption classification"],
+      "allowed_contracts": [
+        "BOOLEAN",
+        "STOP_CONTINUE"
+      ],
+      "purposes": [
+        "turn taking",
+        "continuation",
+        "interruption classification"
+      ],
       "final_policy_owner": "FA3-VOICE-001",
       "signal_only": true
     },
     {
       "consumer": "FA3-CREATIVE-STUDIO",
-      "allowed_contracts": ["SELECT_ONE", "RANK", "RELEVANCE"],
-      "purposes": ["workspace suggestion", "tool recommendation", "preset recommendation", "export/render preset recommendation"],
+      "allowed_contracts": [
+        "SELECT_ONE",
+        "RANK",
+        "RELEVANCE"
+      ],
+      "purposes": [
+        "workspace suggestion",
+        "tool recommendation",
+        "preset recommendation",
+        "export/render preset recommendation"
+      ],
       "final_policy_owner": "FA3-CREATIVE-STUDIO",
       "recommendation_only": true
     },
     {
       "consumer": "FA3-DOCUMENT-FABRIC",
-      "allowed_contracts": ["RELEVANCE", "RANK", "MULTI_LABEL"],
-      "purposes": ["source passage relevance", "citation candidate", "review priority", "duplicate passage classification"],
+      "allowed_contracts": [
+        "RELEVANCE",
+        "RANK",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "source passage relevance",
+        "citation candidate",
+        "review priority",
+        "duplicate passage classification"
+      ],
       "final_policy_owner": "FA3-DOCUMENT-FABRIC",
       "may_change_content_provenance_class": false
     },
     {
       "consumer": "FA3-INSPECTOR-001",
-      "allowed_contracts": ["RELEVANCE", "RANK", "MULTI_LABEL"],
-      "purposes": ["evidence adequacy triage", "inconsistency signal", "coverage gap prioritization"],
+      "allowed_contracts": [
+        "RELEVANCE",
+        "RANK",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "evidence adequacy triage",
+        "inconsistency signal",
+        "coverage gap prioritization"
+      ],
       "final_policy_owner": "FA3-INSPECTOR-001",
       "may_self_attest": false
     },
     {
       "consumer": "FA3-MENTOR-001",
-      "allowed_contracts": ["RANK", "RELEVANCE"],
-      "purposes": ["option prioritization"],
+      "allowed_contracts": [
+        "RANK",
+        "RELEVANCE"
+      ],
+      "purposes": [
+        "option prioritization"
+      ],
       "final_policy_owner": "FA3-MENTOR-001",
       "advisory_only": true
+    },
+    {
+      "consumer": "FA3-COACH-001",
+      "allowed_contracts": [
+        "RANK",
+        "SELECT_ONE",
+        "STOP_CONTINUE"
+      ],
+      "purposes": [
+        "pre-authorized next-step ranking",
+        "checkpoint option ranking",
+        "blocker classification"
+      ],
+      "final_policy_owner": "USER_AND_FA3-COACH-001",
+      "advisory_only": true,
+      "may_create_commitment": false,
+      "may_execute": false
+    },
+    {
+      "consumer": "FA3-IDEATION-ADVISORY-001",
+      "allowed_contracts": [
+        "RANK",
+        "RELEVANCE",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "candidate option categorization",
+        "evidence relevance",
+        "trade-off option ranking"
+      ],
+      "final_policy_owner": "USER_OR_EXISTING_FA3_DECISION_AUTHORITY_ONLY",
+      "recommendation_not_decision": true,
+      "may_authorize": false,
+      "may_execute": false
+    },
+    {
+      "consumer": "FA3-LANGUAGE-FABRIC-001",
+      "allowed_contracts": [
+        "BOOLEAN",
+        "SCORE",
+        "MULTI_LABEL"
+      ],
+      "purposes": [
+        "ambiguous language-confidence signal",
+        "derived text semantic-validation signal",
+        "mediation checkpoint classification"
+      ],
+      "final_policy_owner": "FA3-LANGUAGE-FABRIC-001",
+      "source_authority_changed": false,
+      "private_model_language_allowed": false,
+      "model_routing_authority": "FA3-AUTH-MODEL-ROUTER-001"
     }
   ],
   "universal_denials": [
