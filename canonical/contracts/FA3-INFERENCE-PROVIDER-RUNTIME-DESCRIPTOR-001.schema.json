@@ -60,8 +60,42 @@
             },
             "host_wide_absence_claim": {
               "const": false
+            },
+            "python_executable_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "cli_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
             }
-          }
+          },
+          "dependentRequired": {
+            "python_executable": [
+              "python_executable_sha256"
+            ],
+            "python_executable_sha256": [
+              "python_executable"
+            ],
+            "cli_path": [
+              "cli_sha256"
+            ],
+            "cli_sha256": [
+              "cli_path"
+            ]
+          },
+          "anyOf": [
+            {
+              "required": [
+                "python_executable"
+              ]
+            },
+            {
+              "required": [
+                "cli_path"
+              ]
+            }
+          ]
         },
         "FA3-PROVIDER-ONNXRUNTIME-001": {
           "type": "object",
@@ -101,8 +135,42 @@
             },
             "host_wide_absence_claim": {
               "const": false
+            },
+            "python_executable_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "cli_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
             }
-          }
+          },
+          "dependentRequired": {
+            "python_executable": [
+              "python_executable_sha256"
+            ],
+            "python_executable_sha256": [
+              "python_executable"
+            ],
+            "cli_path": [
+              "cli_sha256"
+            ],
+            "cli_sha256": [
+              "cli_path"
+            ]
+          },
+          "anyOf": [
+            {
+              "required": [
+                "python_executable"
+              ]
+            },
+            {
+              "required": [
+                "cli_path"
+              ]
+            }
+          ]
         },
         "FA3-PROVIDER-TENSORRT-001": {
           "type": "object",
@@ -142,8 +210,42 @@
             },
             "host_wide_absence_claim": {
               "const": false
+            },
+            "python_executable_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "cli_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
             }
-          }
+          },
+          "dependentRequired": {
+            "python_executable": [
+              "python_executable_sha256"
+            ],
+            "python_executable_sha256": [
+              "python_executable"
+            ],
+            "cli_path": [
+              "cli_sha256"
+            ],
+            "cli_sha256": [
+              "cli_path"
+            ]
+          },
+          "anyOf": [
+            {
+              "required": [
+                "python_executable"
+              ]
+            },
+            {
+              "required": [
+                "cli_path"
+              ]
+            }
+          ]
         },
         "FA3-PROVIDER-TENSORRT-RTX-001": {
           "type": "object",
@@ -183,8 +285,42 @@
             },
             "host_wide_absence_claim": {
               "const": false
+            },
+            "python_executable_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "cli_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
             }
-          }
+          },
+          "dependentRequired": {
+            "python_executable": [
+              "python_executable_sha256"
+            ],
+            "python_executable_sha256": [
+              "python_executable"
+            ],
+            "cli_path": [
+              "cli_sha256"
+            ],
+            "cli_sha256": [
+              "cli_path"
+            ]
+          },
+          "anyOf": [
+            {
+              "required": [
+                "python_executable"
+              ]
+            },
+            {
+              "required": [
+                "cli_path"
+              ]
+            }
+          ]
         }
       }
     }

@@ -37,13 +37,15 @@
     "Admission harnesses may probe providers directly only for qualification and never establish an application routing path around the Model Router.",
     "Decision Fabric may advise ordering over the deterministic present-provider set but cannot add providers, grant admission or authorize execution.",
     "No admission run may install providers automatically or download a model from the network.",
-    "TensorRT-RTX production admission additionally requires runtime-cache hit/miss/JIT observability consistent with the cache-hardening contract."
+    "TensorRT-RTX production admission additionally requires runtime-cache hit/miss/JIT observability consistent with the cache-hardening contract.",
+    "Runtime admission identity is bound to the resolved probe environment, interpreter, imported provider module and execution CLI binary using SHA-256; executable path or version text alone is not runtime identity."
   ],
   "runtime_promotion": "PROVIDER_SCOPE_ONLY_NO_GLOBAL_PROMOTION_CLAIM",
   "runtime_probe_environment": {
     "default": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
     "nondefault": "EXPLICIT_PROVIDER_RUNTIME_DESCRIPTOR_REQUIRED",
     "host_wide_absence_claim": false,
-    "automatic_environment_scanning": false
+    "automatic_environment_scanning": false,
+    "executable_identity_binding": "RESOLVED_PATH_PLUS_SHA256_REQUIRED"
   }
 }

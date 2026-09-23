@@ -231,7 +231,9 @@
     "admission_pin",
     "admission_pin_match",
     "probe_environment",
-    "host_wide_absence_claim"
+    "host_wide_absence_claim",
+    "runtime_identity",
+    "admission_identity_match"
   ],
   "provider_scope_admission_required_fields": [
     "scope_id",
@@ -263,6 +265,8 @@
     "runtime_probe_environment": "EXPLICIT_DESCRIPTOR_OR_DEFAULT_RUNNER_ENVIRONMENT",
     "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
     "host_wide_absence_claim": "FORBIDDEN_FROM_SINGLE_PROBE_ENVIRONMENT",
-    "automatic_environment_scanning": "FORBIDDEN"
+    "automatic_environment_scanning": "FORBIDDEN",
+    "runtime_probe_identity_binding": "RESOLVED_EXECUTABLE_PATH_PLUS_SHA256_REQUIRED",
+    "runtime_admission_pin_identity": "EXACT_ENVIRONMENT_INTERPRETER_PROVIDER_MODULE_AND_EXECUTION_BINARY_MATCH_REQUIRED"
   }
 }
