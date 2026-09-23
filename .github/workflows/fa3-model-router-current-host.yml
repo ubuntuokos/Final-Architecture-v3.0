@@ -139,6 +139,13 @@ jobs:
               assert b["provider_id"] and b["runtime_id"] and b["model"]
               digest=r["provider_admission_evidence_sha256"].get(b["provider_id"],"")
               assert len(digest)==64 and all(ch in "0123456789abcdef" for ch in digest.lower())
+              if b["provider_id"]=="FA3-PROVIDER-OLLAMA-MODEL-001":
+                  proof=r["route_probes"][route]["provider_runtime_proof"]
+                  assert proof["proof_kind"]=="OLLAMA_PS_CPU_ONLY"
+                  assert proof["runtime_id"]==b["runtime_id"]
+                  assert proof["model"]==b["model"]
+                  assert proof["size_vram"]==0
+                  assert proof["num_gpu_request"]==0
           PY
       - name: Upload evidence
         if: always()
