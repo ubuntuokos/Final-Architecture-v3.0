@@ -107,6 +107,9 @@ def main() -> int:
     admission_hashes=selection.get("admission_receipt_sha256",{})
     if not isinstance(admission_hashes,dict):
         raise CollectionDenied("router selection receipt lacks provider admission evidence binding")
+    for route, binding in bindings.items():
+        if not isinstance(binding, dict) or binding.get("provider_failover_performed") is not False:
+            raise CollectionDenied(f"logical route does not prove no provider failover: {route}")
     selected_provider_ids={
         str(binding.get("provider_id","")).strip()
         for binding in bindings.values()
@@ -177,6 +180,8 @@ def main() -> int:
         "service_active":True,
         "captured_at":dt.datetime.now(dt.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00","Z"),
         "repository_head":head,
+        "full_429_runtime_closure_claim":False,
+        "global_release_promotion_claim":False,
         "global_promotion_claim":False,
     }
     out=ROOT/args.output
