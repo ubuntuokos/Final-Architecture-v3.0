@@ -25,6 +25,10 @@ on:
       - '.github/workflows/fa3-decision-fabric-current-host.yml'
   workflow_dispatch:
 
+concurrency:
+  group: fa3-decision-fabric-current-host-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
