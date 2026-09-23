@@ -39,6 +39,7 @@ public:
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE QVariantList searchRecords(const QString &query) const;
+    Q_INVOKABLE QVariantList searchActions(const QString &query) const;
     Q_INVOKABLE QVariantList searchInstalledApplications(const QString &query) const;
     Q_INVOKABLE QVariantList recordsByCategory(const QString &category) const;
     Q_INVOKABLE QString createDraftChangeSet(const QString &scope, const QString &action, const QString &target, const QString &rationale);
