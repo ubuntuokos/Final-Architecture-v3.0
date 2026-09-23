@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-WEB-AI-001",
   "name": "Browser-Resident AI Execution, Capability Discovery & Hybrid Fallback Profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -27,7 +27,12 @@
     "LOCAL_REMOTE_HYBRID_FALLBACK_EXPLICIT_AND_POLICY_GATED",
     "NO_SILENT_DATA_EGRESS_ON_FALLBACK",
     "BROWSER_MODEL_IDENTITY_AND_PROVENANCE_REQUIRED",
-    "BROWSER_ADAPTER_CANNOT_BYPASS_CENTRAL_GATEWAY_OR_ROUTER"
+    "BROWSER_ADAPTER_CANNOT_BYPASS_CENTRAL_GATEWAY_OR_ROUTER",
+    "BROWSER_ACTION_SPACE_BOUNDED",
+    "STALE_DECISION_EXECUTION_DENIED",
+    "BROWSER_MUTATION_NOT_BLINDLY_RETRIED",
+    "DONE_REQUIRES_INDEPENDENT_VERIFICATION",
+    "PAGE_CONTENT_UNTRUSTED"
   ],
   "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
   "neural_rendering_projection": {
@@ -40,5 +45,17 @@
     "requires_typed_capability_receipt": true,
     "model_provenance_required": true,
     "silent_remote_fallback_or_egress": false
+  },
+  "subprofiles": [
+    "FA3-BROWSER-ACTION-RUNTIME-001"
+  ],
+  "browser_action_runtime": {
+    "profile_id": "FA3-BROWSER-ACTION-RUNTIME-001",
+    "status": "CANONICAL",
+    "authority": false,
+    "cpu_only_supported": true,
+    "provider_neutral": true,
+    "decision_fabric": "FA3-DECISION-FABRIC-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001"
   }
 }

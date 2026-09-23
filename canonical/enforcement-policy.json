@@ -86,7 +86,9 @@
     "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
     "FA3-AGENT-INSTRUCTIONS-GATESET-001",
     "FA3-UNIFIED-ACTION-FABRIC-GATESET-001",
-    "FA3-NEURAL-RENDERING-GATESET-001"
+    "FA3-NEURAL-RENDERING-GATESET-001",
+    "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
+    "FA3-BROWSER-CDP-PROVIDER-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -1766,5 +1768,15 @@
   ],
   "inference_portability_uaf_profile_id": "FA3-UNIFIED-ACTION-FABRIC-001",
   "inference_portability_ai_comms_profile_id": "FA3-AI-COMMS-001",
-  "inference_portability_decision_fabric_jev_semantics": "OPTIONAL_ADVISORY_NO_CANDIDATE_EXPANSION_NO_AUTHORITY"
+  "inference_portability_decision_fabric_jev_semantics": "OPTIONAL_ADVISORY_NO_CANDIDATE_EXPANSION_NO_AUTHORITY",
+  "browser_action_runtime_profile_id": "FA3-BROWSER-ACTION-RUNTIME-001",
+  "browser_action_runtime_gate_id": "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
+  "browser_action_runtime_enforcement_class": "P0_CROSS_CUTTING_STATIC_GATE",
+  "browser_action_runtime_global_static_required": true,
+  "browser_cdp_provider_id": "FA3-PROVIDER-BROWSER-CDP-001",
+  "browser_cdp_provider_gate_id": "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
+  "browser_cdp_provider_enforcement_class": "P0_OPTIONAL_PROVIDER_STATIC_GATE",
+  "browser_cdp_provider_global_static_required": true,
+  "browser_cdp_current_host_evidence_required_for_activation": true,
+  "browser_cdp_global_requirement": false
 }

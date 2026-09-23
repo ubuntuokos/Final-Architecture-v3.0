@@ -1,0 +1,31 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-BROWSER-ACTION-RUNTIME-JEV-ULTRAFAST-2026-09-23",
+  "status": "CANONICAL",
+  "date": "2026-09-23",
+  "decision": "ADOPT_PATTERNS_AS_FA3_NATIVE_PROVIDER_NEUTRAL_BROWSER_RUNTIME",
+  "upstream": {
+    "repository": "browser-use/jev-ultrafast",
+    "commit": "1231850a0bf1a0c0341fe408ef1668dbbfdfac46",
+    "license": "MIT"
+  },
+  "adopts": [
+    "ATOMIC_BROWSER_OBSERVATION",
+    "DYNAMIC_INDEXED_ACTION_SPACE",
+    "OPERATION_SPECIFIC_TARGETS",
+    "STALE_PAGE_GUARD",
+    "ACTIONABILITY_AND_OCCLUSION_GUARDS",
+    "MUTATION_RETRY_DENIAL",
+    "TYPE_TEXT_SEPARATION",
+    "INDEPENDENT_DONE_VERIFICATION"
+  ],
+  "rejects": [
+    "DIRECT_EXTERNAL_MODEL_ROUTING_FROM_DECISION_PROVIDER",
+    "FOREIGN_BROWSER_AUTHORITY",
+    "FIXED_PROVIDER_OR_MODEL_PIN",
+    "SILENT_REMOTE_FALLBACK",
+    "PAGE_CONTENT_AS_INSTRUCTION_AUTHORITY"
+  ],
+  "capability_delta": 0,
+  "authority_delta": 0
+}

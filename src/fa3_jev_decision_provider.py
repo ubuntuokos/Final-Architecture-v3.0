@@ -1,45 +1,41 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json
 import os
-import urllib.error
-import urllib.request
-from typing import Any
+from typing import Any, Callable
 
 from fa3_decision_fabric import DecisionRequest, ProviderResult, ProviderUnavailable
 
+MODEL_ROUTER_AUTHORITY = "FA3-AUTH-MODEL-ROUTER-001"
+DEFAULT_LOGICAL_ROUTE = "fa3-decision-jev"
+
 
 class JevDecisionProvider:
+    """Jev semantic adapter bound to the central FA3 Model Router."""
+
     provider_id = "FA3-PROVIDER-JEV-DECISION-001"
     semantic = True
 
     def __init__(
         self,
         *,
-        endpoint: str | None = None,
-        api_key: str | None = None,
-        model: str | None = None,
+        logical_route: str = DEFAULT_LOGICAL_ROUTE,
         explicitly_enabled: bool | None = None,
-        timeout: float = 30.0,
+        router_transport: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
     ) -> None:
-        self.endpoint = endpoint or os.environ.get(
-            "FA3_JEV_API_URL", "https://api.typesafe.ai/v1/systemone"
-        )
-        self.api_key = api_key or os.environ.get("TYPESAFE_API_KEY")
-        self.model = model or os.environ.get("FA3_JEV_MODEL")
+        self.logical_route = str(logical_route).strip() or DEFAULT_LOGICAL_ROUTE
         if explicitly_enabled is None:
             explicitly_enabled = os.environ.get("FA3_JEV_ENABLE") == "1"
         self.explicitly_enabled = bool(explicitly_enabled)
-        self.timeout = timeout
+        self.router_transport = router_transport
 
     def _check_admission(self) -> None:
         if not self.explicitly_enabled:
             raise ProviderUnavailable("Jev provider is not explicitly enabled")
-        if not self.api_key:
-            raise ProviderUnavailable("Jev credential unavailable")
-        if not self.model:
-            raise ProviderUnavailable("Jev physical model is intentionally not canonically pinned; FA3_JEV_MODEL required")
+        if self.router_transport is None:
+            raise ProviderUnavailable(
+                "Jev provider requires a central Model Router transport binding"
+            )
 
     @staticmethod
     def _criteria(request: DecisionRequest) -> dict[str, str]:
@@ -48,7 +44,7 @@ class JevDecisionProvider:
             for candidate in request.candidates
         }
 
-    def _payload(self, request: DecisionRequest) -> tuple[dict[str, Any], str]:
+    def _native_request(self, request: DecisionRequest) -> tuple[dict[str, Any], str]:
         state = request.state if request.state is not None else {
             "purpose": request.purpose,
             "policy_context": request.policy_context,
@@ -56,7 +52,6 @@ class JevDecisionProvider:
         }
         purpose = request.purpose
         questions: dict[str, Any] = {}
-
         if request.contract == "SELECT_ONE":
             questions["decision"] = {
                 "type": "choice",
@@ -65,14 +60,15 @@ class JevDecisionProvider:
             }
             mode = "choice"
         elif request.contract in {"BOOLEAN", "STOP_CONTINUE"}:
-            questions["decision"] = {
-                "type": "noul",
-                "instructions": purpose,
-            }
+            questions["decision"] = {"type": "noul", "instructions": purpose}
             mode = "noul"
         elif request.contract == "SCORE":
             levels = request.constraints.get("levels")
-            if not isinstance(levels, list) or not 2 <= len(levels) <= 10 or any(not isinstance(x, str) for x in levels):
+            if (
+                not isinstance(levels, list)
+                or not 2 <= len(levels) <= 10
+                or any(not isinstance(x, str) for x in levels)
+            ):
                 raise ValueError("Jev SCORE requires 2..10 string levels")
             questions["decision"] = {
                 "type": "score",
@@ -84,57 +80,69 @@ class JevDecisionProvider:
             for candidate in request.candidates:
                 questions[candidate.id] = {
                     "type": "noul",
-                    "instructions": f"{purpose}. Candidate: {candidate.description or candidate.id}",
+                    "instructions": (
+                        f"{purpose}. Candidate: "
+                        f"{candidate.description or candidate.id}"
+                    ),
                 }
             mode = "parallel_noul"
         else:
             raise ValueError(f"unsupported Jev mapping: {request.contract}")
-
-        return {
-            "model": self.model,
-            "state": state,
-            "questions": questions,
-        }, mode
+        return {"state": state, "questions": questions}, mode
 
     def decide(self, request: DecisionRequest) -> ProviderResult:
         self._check_admission()
-        payload, mode = self._payload(request)
-        req = urllib.request.Request(
-            self.endpoint,
-            data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
-            headers={
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json",
-                "Accept": "application/json",
+        native_request, mode = self._native_request(request)
+        envelope = {
+            "schema": "fa3.model-router.native-decision-request.v1",
+            "authority": MODEL_ROUTER_AUTHORITY,
+            "logical_route": self.logical_route,
+            "protocol": "jev-systemone-v1",
+            "request": native_request,
+            "constraints": {
+                "physical_provider_selection": "MODEL_ROUTER_ONLY",
+                "physical_model_selection": "MODEL_ROUTER_ONLY",
+                "silent_fallback": "DENY",
             },
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as response:
-                raw = json.loads(response.read().decode("utf-8"))
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
-            raise ProviderUnavailable(f"Jev request failed: {type(exc).__name__}") from exc
-
+        }
+        raw = self.router_transport(envelope)  # type: ignore[misc]
+        if not isinstance(raw, dict):
+            raise ValueError("Model Router transport must return an object")
         answers = raw.get("answers")
         if not isinstance(answers, dict):
             raise ValueError("Jev response missing answers")
-
+        routing = raw.get("_fa3_routing") or {}
+        if not isinstance(routing, dict):
+            raise ValueError("invalid Model Router routing receipt")
+        if routing.get("authority", MODEL_ROUTER_AUTHORITY) != MODEL_ROUTER_AUTHORITY:
+            raise ValueError("Jev transport routing authority mismatch")
         meta = {
-            "remote_model": raw.get("model"),
-            "usage": raw.get("usage", {}),
-            "external_provider": True,
+            "logical_route": self.logical_route,
+            "model_router_authority": MODEL_ROUTER_AUTHORITY,
+            "physical_backend_pinned": False,
+            "physical_model_pinned": False,
+            "routing_receipt_ref": routing.get("receipt_ref"),
+            "runtime_provider_id": routing.get("provider_id"),
+            "runtime_model_id": routing.get("model_id"),
+            "external_provider": bool(routing.get("external_provider", True)),
             "global_promotion_claim": False,
         }
-
         if mode == "choice":
             ans = answers.get("decision", {})
-            chosen = ans.get("choice")
             probabilities = ans.get("probabilities", {})
             return ProviderResult(
                 "DECIDED",
-                {"selected": chosen},
-                float(ans["confidence"]) if isinstance(ans.get("confidence"), (int, float)) else None,
-                {k: float(v) for k, v in probabilities.items() if isinstance(v, (int, float))},
+                {"selected": ans.get("choice")},
+                float(ans["confidence"])
+                if isinstance(ans.get("confidence"), (int, float))
+                else None,
+                {
+                    k: float(v)
+                    for k, v in probabilities.items()
+                    if isinstance(v, (int, float))
+                }
+                if isinstance(probabilities, dict)
+                else {},
                 meta,
             )
         if mode == "noul":
@@ -144,7 +152,9 @@ class JevDecisionProvider:
                 raise ValueError("Jev noul answer invalid")
             value = float(p) >= float(request.constraints.get("threshold", 0.5))
             key = "continue" if request.contract == "STOP_CONTINUE" else "value"
-            return ProviderResult("DECIDED", {key: value, "probability": float(p)}, None, {}, meta)
+            return ProviderResult(
+                "DECIDED", {key: value, "probability": float(p)}, None, {}, meta
+            )
         if mode == "score":
             ans = answers.get("decision", {})
             score = ans.get("score")
@@ -154,11 +164,18 @@ class JevDecisionProvider:
             return ProviderResult(
                 "DECIDED",
                 {"score": float(score), "legend": ans.get("legend", {})},
-                float(ans["confidence"]) if isinstance(ans.get("confidence"), (int, float)) else None,
-                {str(k): float(v) for k, v in probs.items() if isinstance(v, (int, float))},
+                float(ans["confidence"])
+                if isinstance(ans.get("confidence"), (int, float))
+                else None,
+                {
+                    str(k): float(v)
+                    for k, v in probs.items()
+                    if isinstance(v, (int, float))
+                }
+                if isinstance(probs, dict)
+                else {},
                 meta,
             )
-
         scores: dict[str, float] = {}
         for candidate in request.candidates:
             ans = answers.get(candidate.id, {})
@@ -169,7 +186,9 @@ class JevDecisionProvider:
         ranked = sorted(scores, key=lambda cid: (-scores[cid], cid))
         if request.contract == "MULTI_LABEL":
             threshold = float(request.constraints.get("threshold", 0.5))
-            result = {"selected": [cid for cid in ranked if scores[cid] >= threshold]}
+            result = {
+                "selected": [cid for cid in ranked if scores[cid] >= threshold]
+            }
         else:
             result = {"ranked": ranked}
         return ProviderResult("DECIDED", result, None, scores, meta)

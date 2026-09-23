@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.enforcement.v1",
+  "id": "FA3-BROWSER-CDP-PROVIDER-ENFORCEMENT-001",
+  "status": "CANONICAL",
+  "gate_id": "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
+  "gate": "src/fa3_browser_cdp_gate.py",
+  "tests": [
+    "tests/test_browser_cdp_provider.py",
+    "tests/test_browser_action_runtime.py"
+  ],
+  "workflow": ".github/workflows/fa3-browser-cdp-provider.yml",
+  "fail_closed": true,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

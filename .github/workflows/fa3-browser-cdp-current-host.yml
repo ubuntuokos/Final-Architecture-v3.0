@@ -1,0 +1,77 @@
+name: FA3 Browser CDP Current-Host E2E
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-BROWSER-CDP-001.json'
+      - 'canonical/browser-cdp-current-host-enforcement.json'
+      - 'canonical/actions/browser.action.execute.json'
+      - 'src/fa3_browser_action_runtime.py'
+      - 'src/fa3_browser_cdp_provider.py'
+      - 'src/fa3_browser_cdp_current_host_gate.py'
+      - '.github/workflows/fa3-browser-cdp-current-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/providers/FA3-PROVIDER-BROWSER-CDP-001.json'
+      - 'canonical/browser-cdp-current-host-enforcement.json'
+      - 'canonical/actions/browser.action.execute.json'
+      - 'src/fa3_browser_action_runtime.py'
+      - 'src/fa3_browser_cdp_provider.py'
+      - 'src/fa3_browser_cdp_current_host_gate.py'
+      - '.github/workflows/fa3-browser-cdp-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      browser_binary:
+        description: 'Optional explicit Chromium-compatible browser binary'
+        required: false
+        default: ''
+        type: string
+concurrency:
+  group: fa3-browser-cdp-current-host-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          clean: true
+      - name: Static provider boundary gate
+        run: PYTHONPATH=src python3 src/fa3_browser_cdp_gate.py --root .
+      - name: Real physical browser positive negative rollback
+        shell: bash
+        env:
+          BROWSER_INPUT: ${{ inputs.browser_binary || '' }}
+        run: |
+          set -euo pipefail
+          rm -f evidence/receipts/browser-cdp-current-host.json
+          args=(--root .)
+          if [ -n "$BROWSER_INPUT" ]; then args+=(--browser-binary "$BROWSER_INPUT"); fi
+          PYTHONPATH=src python3 src/fa3_browser_cdp_current_host_gate.py "${args[@]}"
+      - name: Validate physical current-host receipt
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('evidence/receipts/browser-cdp-current-host.json').read_text())
+          assert r['result']=='PASS', r
+          assert r['physical_current_host'] is True
+          assert r['synthetic'] is False
+          assert r['current_host_provider_admitted'] is True
+          assert r['global_promotion_claim'] is False
+          assert r['checks']['positive']['pass'] is True
+          assert r['checks']['negative']['stale_observation_denied'] is True
+          assert r['checks']['rollback']['pass'] is True
+          assert r['browser']['cdp_loopback_only'] is True
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-browser-cdp-current-host
+          path: evidence/receipts/browser-cdp-current-host.json
+          if-no-files-found: warn

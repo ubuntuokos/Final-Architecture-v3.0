@@ -1,0 +1,21 @@
+{
+  "schema": "fa3.gate.v1",
+  "id": "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "fail_closed": true,
+  "profile": "FA3-BROWSER-ACTION-RUNTIME-001",
+  "implementation": "src/fa3_browser_action_gate.py",
+  "checks": [
+    "NO_CAPABILITY_OR_AUTHORITY_DELTA",
+    "CPU_ONLY_PORTABILITY",
+    "BOUNDED_ACTION_SPACE",
+    "STALE_DECISION_DENIAL",
+    "NO_BLIND_MUTATION_RETRY",
+    "DONE_INDEPENDENT_VERIFICATION",
+    "PAGE_CONTENT_UNTRUSTED",
+    "JEV_MODEL_ROUTER_BOUNDARY",
+    "THIRD_PARTY_PROVENANCE",
+    "UAF_ACTION_EVIDENCE"
+  ]
+}
