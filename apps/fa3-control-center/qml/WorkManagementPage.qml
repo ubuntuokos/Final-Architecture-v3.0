@@ -18,6 +18,7 @@ Item {
     property var workItems: []
     property var activityRows: []
     property string projectionState: "ADAPTER-GATED"
+    property string operationNotice: ""
 
     signal refreshRequested()
     signal createWorkItemRequested()
@@ -72,6 +73,15 @@ Item {
                 font.pixelSize: 10
                 text: "Ez provider-neutral operátori projekció, nem authority. A state transition és automation műveletek külön FA3 authorization döntést igényelnek. A GUI hardver-megfigyelése nem admission authority; az alap Work Management workload CPU-lightweight. GPU/NPU csak explicit workload-igény esetén, HRB admission + friss lease után használható."
             }
+        }
+
+        Label {
+            visible: root.operationNotice.length > 0
+            Layout.fillWidth: true
+            text: root.operationNotice
+            color: root.accent
+            font.pixelSize: 9
+            wrapMode: Text.WrapAnywhere
         }
 
         TabBar {

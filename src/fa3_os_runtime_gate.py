@@ -15,6 +15,9 @@ PARENT_PROFILE_ID = "FA3-OS-001"
 CONFORMANCE_ID = "FA3-OS-RUNTIME-CONFORMANCE-001"
 JOURNAL_AUTHORITY = "FA3-JOURNAL-001"
 GUI_PAGE_INDEX = 26
+GUI_ROUTE_ID = "integrations.fa3-os"
+WORK_MANAGEMENT_ROUTE_ID = "home.work-management"
+ACCELERATOR_GUARD_ROUTE_ID = "system.accelerator-guard"
 
 PROFILE_PATH = Path("canonical/profiles/FA3-OS-RUNTIME-001.json")
 ROOT_PROFILE_PATH = Path("canonical/profiles/FA3-OS-001.json")
@@ -69,7 +72,9 @@ def gate(root: Path) -> dict[str, Any]:
     _require(profile.get("runtime_gate") == GATE_ID, findings, "FA3-OS-RUNTIME-GATE-001", "Runtime gate binding drift")
     _require(profile.get("current_host_conformance") == CONFORMANCE_ID, findings, "FA3-OS-RUNTIME-HOST-001", "Current-host conformance binding drift")
     _require(PROFILE_ID in set(parent.get("subprofiles", [])), findings, "FA3-OS-RUNTIME-PARENT-001", "FA3 OS root does not project the runtime subprofile")
-    _require(profile.get("gui_surface", {}).get("page_index") == GUI_PAGE_INDEX, findings, "FA3-OS-RUNTIME-GUI-000", "Runtime profile GUI page index drift", expected=GUI_PAGE_INDEX)
+    gui_surface = profile.get("gui_surface", {})
+    _require(gui_surface.get("page_index") == GUI_PAGE_INDEX, findings, "FA3-OS-RUNTIME-GUI-000", "Runtime profile GUI page index drift", expected=GUI_PAGE_INDEX)
+    _require(gui_surface.get("semantic_route_id") == GUI_ROUTE_ID, findings, "FA3-OS-RUNTIME-GUI-000A", "Runtime profile semantic GUI route drift", expected=GUI_ROUTE_ID)
 
     projection = profile.get("projection_policy", {})
     _require(projection.get("authoritative_history") is False and projection.get("rebuildable") is True, findings, "FA3-OS-RUNTIME-PROJ-001", "Derived projection authority boundary drift")
@@ -121,8 +126,9 @@ def gate(root: Path) -> dict[str, Any]:
     main_qml = (root / GUI_MAIN_PATH).read_text(encoding="utf-8")
     cmake = (root / GUI_CMAKE_PATH).read_text(encoding="utf-8")
     page = (root / GUI_PAGE_PATH).read_text(encoding="utf-8")
-    _require(f'label: "FA3 OS"; pageIndex: {GUI_PAGE_INDEX}' in main_qml, findings, "FA3-OS-RUNTIME-GUI-001", "FA3 OS first-class navigation item missing")
-    _require('title: "FA3 OS"' in main_qml and f"pageIndex: {GUI_PAGE_INDEX}" in main_qml, findings, "FA3-OS-RUNTIME-GUI-002", "FA3 OS global search route missing")
+    _require(f'label: "FA3 OS"; routeId: "{GUI_ROUTE_ID}"' in main_qml, findings, "FA3-OS-RUNTIME-GUI-001", "FA3 OS first-class navigation item missing")
+    _require('title: "FA3 OS"' in main_qml and f'routeId: "{GUI_ROUTE_ID}"' in main_qml, findings, "FA3-OS-RUNTIME-GUI-002", "FA3 OS global search route missing")
+    _require(f'"{GUI_ROUTE_ID}": {GUI_PAGE_INDEX}' in main_qml, findings, "FA3-OS-RUNTIME-GUI-002A", "FA3 OS semantic route is not bound to the expected internal slot")
     _require("Fa3OsPage {" in main_qml, findings, "FA3-OS-RUNTIME-GUI-003", "FA3 OS page is not mounted in the Control Center")
     _require("qml/Fa3OsPage.qml" in cmake, findings, "FA3-OS-RUNTIME-GUI-004", "FA3 OS page is not packaged by CMake")
     if conformance_status == "CURRENT_HOST_ADMITTED":
@@ -131,8 +137,8 @@ def gate(root: Path) -> dict[str, Any]:
     else:
         _require("CURRENT HOST E2E PENDING" in page, findings, "FA3-OS-RUNTIME-GUI-005", "GUI does not expose the current-host evidence boundary")
     _require("fa3Journal.filteredEvents" in page, findings, "FA3-OS-RUNTIME-GUI-006", "GUI timeline is not bound to the canonical Journal projection")
-    _require('label: "Work Management"; pageIndex: 24' in main_qml, findings, "FA3-OS-RUNTIME-GUI-007", "Work Management route was displaced by FA3 OS")
-    _require('label: "Accelerator Guard"; pageIndex: 25' in main_qml, findings, "FA3-OS-RUNTIME-GUI-008", "Accelerator Guard route was displaced by FA3 OS")
+    _require(f'label: "Work Management"; routeId: "{WORK_MANAGEMENT_ROUTE_ID}"' in main_qml and f'"{WORK_MANAGEMENT_ROUTE_ID}": 24' in main_qml, findings, "FA3-OS-RUNTIME-GUI-007", "Work Management semantic route was displaced by FA3 OS")
+    _require(f'label: "Accelerator Guard"; routeId: "{ACCELERATOR_GUARD_ROUTE_ID}"' in main_qml and f'"{ACCELERATOR_GUARD_ROUTE_ID}": 25' in main_qml, findings, "FA3-OS-RUNTIME-GUI-008", "Accelerator Guard semantic route was displaced by FA3 OS")
 
     runtime_result = run_reference_conformance()
     if runtime_result.get("result") != "PASS":

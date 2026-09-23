@@ -199,12 +199,14 @@ def gate(root: Path) -> dict[str, Any]:
         fs.append(finding("WM-013", "Work Management gate is not globally bound"))
 
     required_main = [
-        'label: "Work Management"; pageIndex: 24',
+        'label: "Work Management"; routeId: "home.work-management"',
         'title: "Work Management"',
         'WorkManagementPage {',
-        'label: "Accelerator Guard"; pageIndex: 25',
+        'label: "Accelerator Guard"; routeId: "system.accelerator-guard"',
         'title: "Accelerator Guard"',
         'AcceleratorGuardPage {',
+        '"home.work-management": 24',
+        '"system.accelerator-guard": 25',
     ]
     absent = [item for item in required_main if item not in main_qml]
     if absent or 'label: "Kaneo"' in main_qml or 'label: "Kanboard"' in main_qml:
@@ -230,7 +232,12 @@ def gate(root: Path) -> dict[str, Any]:
         "capability_count": CAPABILITY_COUNT,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
-        "gui": {"work_management_page_index": 24, "accelerator_guard_page_index": 25},
+        "gui": {
+            "work_management_route_id": "home.work-management",
+            "work_management_page_index": 24,
+            "accelerator_guard_route_id": "system.accelerator-guard",
+            "accelerator_guard_page_index": 25,
+        },
     }
     out = root / "reports/work-management-gate-report.json"
     out.parent.mkdir(parents=True, exist_ok=True)

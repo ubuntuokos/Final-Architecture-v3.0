@@ -23,7 +23,9 @@
       "AUTOMATIONS",
       "ACTIVITY",
       "PROVIDERS"
-    ]
+    ],
+    "route_id": "home.work-management",
+    "stack_layout_index_is_implementation_detail": true
   },
   "provider_bindings": [
     {
@@ -71,7 +73,9 @@
     "menu_label": "Accelerator Guard",
     "page_index": 25,
     "mandatory_gui_reachability": true,
-    "reason": "Existing canonical decision surface was build-registered but not reachable from Main.qml navigation."
+    "reason": "Existing canonical decision surface was build-registered but not reachable from Main.qml navigation.",
+    "route_id": "system.accelerator-guard",
+    "stack_layout_index_is_implementation_detail": true
   },
   "provider_failure_semantics": {
     "canonical_work_item_identity_survives_provider_outage": true,
