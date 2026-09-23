@@ -10,11 +10,32 @@ REGISTRY="canonical/distribution-registry.json"
 MANIFEST="canonical/distribution-manifest.json"
 GATE_ID="FA3-GATE-DISTRIBUTION-COMPLIANCE-001"; GATESET_ID="FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
 CLASSES=("FA3_NATIVE","EXTERNAL_REDISTRIBUTABLE","USER_LOCAL_EXTERNAL","REFERENCE_ONLY","BLOCKED")
+DISTRIBUTION_SCOPE_DIRS=("canonical/providers","canonical/references","canonical/third-party")
 SHA256=re.compile(r"^[0-9a-f]{64}$")
 def loadj(path: Path) -> dict[str, Any]:
     obj=json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(obj,dict): raise ValueError("top-level object required")
     return obj
+def declared_distribution_records(root: Path) -> list[dict[str, Any]]:
+    records=[]
+    for scope in DISTRIBUTION_SCOPE_DIRS:
+        base=root/scope
+        if not base.is_dir(): continue
+        for path in sorted(base.rglob("*.json")):
+            try: row=loadj(path)
+            except Exception: continue
+            dist=row.get("distribution") if isinstance(row.get("distribution"),dict) else {}
+            cls=dist.get("class") or row.get("distribution_class")
+            if not cls: continue
+            subject_id=row.get("id") or row.get("subject_id")
+            status=dist.get("release_bundle_status")
+            if status not in ("INCLUDED","EXCLUDED"):
+                allowed=dist.get("product_bundle_allowed")
+                if allowed is None: allowed=row.get("product_bundle_allowed")
+                status="INCLUDED" if allowed is True else "EXCLUDED"
+            records.append({"subject_id":subject_id,"class":cls,"release_bundle_status":status,
+                            "path":path.relative_to(root).as_posix()})
+    return records
 def good_external_descriptor() -> dict[str, Any]:
     return {"artifact_id":"example.external.skill","origin":"EXTERNAL","source":{"repository":"example/project","commit":"1"*40},
       "hash_attestation":{"sha256":"a"*64},
@@ -73,7 +94,27 @@ def canonical_check(root: Path) -> list[str]:
     if ct.get("distribution_classes")!=list(CLASSES): findings.append("distribution class contract drift")
     if r.get("id")!="FA3-DISTRIBUTION-REGISTRY-001": findings.append("distribution registry identity drift")
     if manifest != canonical_manifest(r): findings.append("canonical distribution manifest drift")
-    for rec in r.get("records",[]):
+    registry_records=r.get("records",[])
+    registry_by_id={}
+    for rec in registry_records:
+        sid=rec.get("subject_id")
+        if not sid: findings.append("distribution registry record missing subject_id"); continue
+        if sid in registry_by_id: findings.append(f"duplicate distribution registry subject_id: {sid}")
+        registry_by_id[sid]=rec
+    for declared in declared_distribution_records(root):
+        sid=declared.get("subject_id")
+        if not sid:
+            findings.append(f"distribution-declared canonical record missing id: {declared.get('path')}")
+            continue
+        reg=registry_by_id.get(sid)
+        if not reg:
+            findings.append(f"distribution-declared canonical record missing from registry: {sid}")
+            continue
+        if reg.get("class")!=declared.get("class"):
+            findings.append(f"distribution class registry drift: {sid}")
+        if reg.get("release_bundle_status")!=declared.get("release_bundle_status"):
+            findings.append(f"distribution bundle-status registry drift: {sid}")
+    for rec in registry_records:
         if rec.get("class") not in CLASSES: findings.append(f"invalid distribution class: {rec.get('subject_id')}")
         if rec.get("class") in ("REFERENCE_ONLY","USER_LOCAL_EXTERNAL","BLOCKED") and rec.get("release_bundle_status")!="EXCLUDED":
             findings.append(f"non-redistributable record included: {rec.get('subject_id')}")
