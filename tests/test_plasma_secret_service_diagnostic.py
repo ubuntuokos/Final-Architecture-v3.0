@@ -265,9 +265,9 @@ class PlasmaSecretServiceDiagnosticTests(unittest.TestCase):
             config = home / ".config"
             config.mkdir()
             (config / "kwalletrc").write_text(
-                "[Wallet]\\nEnabled=false\\nPassword=DO_NOT_LEAK\\n"
-                "[KSecretD]\\nEnabled=true\\n"
-                "[org.freedesktop.secrets]\\napiEnabled=true\\n",
+                "[Wallet]\nEnabled=false\nPassword=DO_NOT_LEAK\n"
+                "[KSecretD]\nEnabled=true\n"
+                "[org.freedesktop.secrets]\napiEnabled=true\n",
                 encoding="utf-8",
             )
             report = collect_plasma_secret_service_diagnostic(
