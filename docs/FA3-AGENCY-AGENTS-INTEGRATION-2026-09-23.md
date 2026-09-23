@@ -58,26 +58,54 @@ Persona and skill are separate concepts. A reusable procedure extracted from Age
 
 The provider is inert reference content and has no fixed host hardware requirement. Any later executable adapter remains subject to the existing vendor-neutral Hardware Discovery / HRB rules and cannot introduce accelerator vendor, SKU, runtime or device-count requirements.
 
-## Curated candidate set
+## Curated source set and FA3-native Agent Definitions
 
-The first FA3-specific curation pass is materialized in `FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001`.
+`FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001` records 12 agent-role sources and 5 template sources by immutable upstream path/blob identity. These source records remain **inert reference provenance**; they are not runnable agents and do not grant authority.
 
-It selects 12 agent-role sources and 5 template sources by immutable upstream path/blob identity. The selection covers multi-agent architecture, AI engineering, CI/DevOps, evidence-oriented QA, production-readiness review, performance/API/workflow testing, AppSec, compliance research, spatial UI, 3D scene visualization, the four upstream scenario runbooks and the NEXUS handoff template set.
+The usable FA3 semantic layer is now materialized separately through:
 
-This is **selection, not admission**:
+- `FA3-AGENT-DEFINITION-CONTRACTS-001`
+- `FA3-AGENT-DEFINITION-REGISTRY-001`
+- `FA3-AGENT-DEFINITION-GATESET-001`
 
-- no persona or runbook body is vendored;
-- every candidate is `DISABLED_NOT_ADMITTED`;
-- authority/tool/model grants are empty;
-- Distribution Compliance and content admission receipts are still required before materialization;
-- the catalog cannot create a canonical agent identity or execution authority.
+The registry contains 12 canonical FA3 role definitions and 5 canonical FA3 templates, with exact 1:1 source-candidate lineage. The upstream persona/runbook bodies are **not vendored**. FA3 stores its own human-readable role/template summaries, competency intents, anti-capabilities, risk/human-gate metadata and immutable provenance.
+
+The separation is strict:
+
+- source candidate ≠ security identity;
+- Agent Definition ≠ runtime provider;
+- Agent Definition ≠ workforce specialist authority;
+- no authority/capability/tool/model/secret/resource grant may originate from a definition;
+- definitions may only decorate an already eligible workforce specialist and cannot expand the specialist or AI-participant set;
+- runtime provider selection, model routing, authorization, resource admission and evidence remain with their existing FA3 authorities;
+- any future verbatim/substantial upstream-content import would require a separate Distribution Compliance/content-admission path.
+
+## GUI reconciliation
+
+PR #371 is merged on canonical `main`. Agency Agents is projected as a read-only child of `agents.workflows`:
+
+- surface: `agency-agents.imported-pack`;
+- source catalog: `FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001`;
+- canonical definitions: `FA3-AGENT-DEFINITION-REGISTRY-001`;
+- execution-intent destination: `agents.action-center`;
+- direct provider execution: forbidden;
+- GUI authority: none.
+
+The GUI displays the 12+5 canonical definitions but does not claim that an execution runtime/provider has been admitted by this provider.
+
+## Distribution state
+
+Distribution Compliance is canonical and reconciled:
+
+- `FA3-PROVIDER-AGENCY-AGENTS-001` → `EXTERNAL_REDISTRIBUTABLE / EXCLUDED`;
+- immutable upstream reference → `REFERENCE_ONLY / EXCLUDED`;
+- FA3-native Agent Definition metadata is not an upstream-body bundle;
+- product-bundle inclusion of external Agency content would still require a canonical Distribution Decision Receipt.
 
 ## Deliberately open reconciliation items
 
-1. **Curated agent/template admission:** the whole upstream repository is not automatically admitted. Individual personas, runbooks or extracted procedures still need scoped normalization/admission before enabled use.
-2. **GUI:** PR #371 defines semantic routes `agents.workflows` and `agents.action-center`, but after the newer main changes it is currently unresolved and requires reconciliation. Agency Agents is bound only to the intended semantic shape: an **Imported Pack child view under `agents.workflows`**, with executable intents routed to the existing Agent Action Center. No new top-level route is introduced here and no competing GUI files are copied into this branch.
-3. **Candidate content admission:** Distribution Compliance itself is now canonical on `main` and the Agency provider/reference are registered as `EXTERNAL_REDISTRIBUTABLE / EXCLUDED` and `REFERENCE_ONLY / EXCLUDED`. What remains open is per-candidate distribution/content admission before persona/runbook bodies may be materialized or bundled. Product-bundle inclusion still requires the canonical distribution decision receipt.
-4. **Release projection:** the unified projection must be regenerated again after the latest candidate/distribution/GUI-state changes; it is not edited manually.
-5. **Runtime/current-host:** this provider intentionally has no upstream runtime dependency. Any future executable adapter or converted runtime package requires separate admission and evidence.
+1. **Unified release projection:** it must be regenerated/adopted after the Agent Definition, Workforce and GUI binding changes. The projection is never hand-edited.
+2. **Fresh permanent CI:** the new Agency + Agent Definition + Workforce + GUI cross-gates must pass together on the latest topic head after projection reconciliation.
+3. **GUI physical current-host evidence:** `FA3-GUI-RUNTIME-CONFORMANCE-001` remains `PENDING_CURRENT_HOST`; `evidence/receipts/fa3-gui-current-host.json` is absent. Static/reference GUI PASS must not be promoted into a physical desktop-runtime claim.
 
-These items are not silently treated as PASS and therefore the overall integration remains deliberately open. Distribution Compliance is reconciled; the unresolved dependencies are now candidate content admission, GUI #371 reconciliation, the latest release projection, and any future executable runtime materialization.
+The overall integration therefore remains intentionally **open**. The Agency source/reference, distribution classification, FA3-native definition normalization and static GUI surface are materialized; release-projection adoption, fresh cross-gate CI and real GUI current-host evidence remain outstanding.
