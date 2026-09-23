@@ -1,0 +1,13 @@
+{
+  "schema": "fa3.model-router-routes.v1",
+  "authority": "FA3-AUTH-MODEL-ROUTER-001",
+  "selection_policy": "CURRENT_ADMITTED_RUNTIME",
+  "physical_provider_pins": false,
+  "physical_model_pins": false,
+  "routes": [
+    {"route":"fa3-text-primary","task":"chat","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"},
+    {"route":"fa3-text-secondary","task":"chat","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"},
+    {"route":"fa3-pageindex-index","task":"knowledge-index-assist","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"},
+    {"route":"fa3-pageindex-reason","task":"knowledge-reasoning","locality":"LOCAL_ONLY","external_fallback":"DENY","required_runtime_api":"OPENAI_COMPATIBLE_CHAT"}
+  ]
+}
