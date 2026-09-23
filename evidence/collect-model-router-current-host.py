@@ -6,6 +6,7 @@ import datetime as dt
 import hashlib
 import json
 import os
+import re
 import stat
 import subprocess
 import time
@@ -59,6 +60,54 @@ def read_token(path_value: str | None) -> str:
     return token
 
 
+def sanitize_backend_message(value: Any) -> str:
+    text = " ".join(str(value or "").split())
+    text = re.sub(r"(?i)\\bBearer\\s+[^\\s,;]+", "Bearer <REDACTED>", text)
+    text = re.sub(r"(?i)\\bsk-[A-Za-z0-9._-]+", "sk-<REDACTED>", text)
+    text = re.sub(r"(?i)(api[_ -]?key|token|secret|password)(\\s*[:=]\\s*)[^\\s,;]+", r"\\1\\2<REDACTED>", text)
+    text = re.sub(r"https?://[^\\s\"']+", "<URL>", text)
+    text = re.sub(r"(?:/home|/run/user|/tmp|/var/tmp)/[^\\s\"']+", "<PATH>", text)
+    return text[:500]
+
+
+def classify_http_error(status: int, raw: bytes) -> tuple[str, str, str, str]:
+    fingerprint = hashlib.sha256(raw).hexdigest()
+    error_type = ""
+    error_code = ""
+    message = ""
+    try:
+        parsed = json.loads(raw.decode("utf-8", errors="replace"))
+        if isinstance(parsed, dict):
+            error = parsed.get("error")
+            if isinstance(error, dict):
+                error_type = sanitize_backend_message(error.get("type"))
+                error_code = sanitize_backend_message(error.get("code"))
+                message = sanitize_backend_message(error.get("message"))
+            elif error is not None:
+                message = sanitize_backend_message(error)
+            if not message:
+                message = sanitize_backend_message(parsed.get("message") or parsed.get("detail"))
+    except Exception:
+        pass
+
+    low = message.lower()
+    if "model" in low and ("not found" in low or "does not exist" in low):
+        reason = "ROUTER_BACKEND_MODEL_NOT_FOUND"
+    elif "does not support" in low or "unsupported" in low:
+        reason = "ROUTER_BACKEND_MODEL_CAPABILITY_FAILED"
+    elif "api key" in low or "credential" in low or "authentication" in low or "unauthorized" in low:
+        reason = "ROUTER_BACKEND_AUTH_FAILED"
+    elif "timeout" in low or "timed out" in low:
+        reason = "ROUTER_BACKEND_TIMEOUT"
+    elif "connection" in low or "connect" in low or "refused" in low:
+        reason = "ROUTER_BACKEND_CONNECTION_FAILED"
+    elif "invalid" in low or status in {400, 404, 409, 422}:
+        reason = "ROUTER_BACKEND_REQUEST_REJECTED"
+    else:
+        reason = "ROUTER_BACKEND_HTTP_FAILED"
+    return reason, error_type, error_code, message, fingerprint
+
+
 def request_json(method: str, url: str, token: str, body: dict[str, Any] | None = None, timeout: float = 30.0) -> tuple[dict[str, Any], float]:
     data = None if body is None else json.dumps(body).encode("utf-8")
     req = urllib.request.Request(url, data=data, method=method)
@@ -71,8 +120,23 @@ def request_json(method: str, url: str, token: str, body: dict[str, Any] | None 
         with urllib.request.urlopen(req, timeout=timeout) as response:
             raw = response.read(8 * 1024 * 1024)
             status = int(response.status)
-    except (urllib.error.URLError, urllib.error.HTTPError) as exc:
-        raise CollectionDenied(f"router request failed: {url}: {exc}") from exc
+    except urllib.error.HTTPError as exc:
+        raw = exc.read(64 * 1024)
+        reason, error_type, error_code, message, fingerprint = classify_http_error(int(exc.code), raw)
+        detail = (
+            f"reason_code={reason} http_status={int(exc.code)} "
+            f"error_type={error_type or 'UNKNOWN'} error_code={error_code or 'UNKNOWN'} "
+            f"error_fingerprint_sha256={fingerprint}"
+        )
+        if message:
+            detail += f" safe_message={message}"
+        raise CollectionDenied(f"router request failed: {detail}") from exc
+    except urllib.error.URLError as exc:
+        fingerprint = hashlib.sha256(str(exc.reason).encode("utf-8", errors="replace")).hexdigest()
+        raise CollectionDenied(
+            "router request failed: reason_code=ROUTER_TRANSPORT_FAILED "
+            f"error_fingerprint_sha256={fingerprint}"
+        ) from exc
     elapsed = (time.monotonic() - start) * 1000
     if status < 200 or status >= 300:
         raise CollectionDenied(f"router returned HTTP {status}")
