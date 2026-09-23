@@ -78,7 +78,11 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
     def test_ollama_uses_native_cpu_only_litellm_adapter(self):
         tmp, root = self._root({
             discovery.LM_STUDIO_PROVIDER_ID: {"status": "UNAVAILABLE_OR_FAILED"},
-            discovery.OLLAMA_PROVIDER_ID: {"status": "PASS", "selected_model": "gemma3:1b"},
+            discovery.OLLAMA_PROVIDER_ID: {
+                "status": "PASS",
+                "selected_model": "gemma3:1b",
+                "runtime_handoff": self._handoff("http://127.0.0.1:11434/v1"),
+            },
         })
         try:
             output = root / "providers.json"
@@ -91,6 +95,9 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
             self.assertEqual(row["litellm_provider"], "ollama_chat")
             self.assertEqual(row["litellm_options"]["num_gpu"], 0)
             self.assertEqual(row["litellm_options"]["num_ctx"], 512)
+            self.assertEqual(row["catalog_api_base"], "http://127.0.0.1:11434/v1")
+            self.assertEqual(row["admission_api_base"], "http://127.0.0.1:11434/v1")
+            self.assertTrue(row["runtime_instance_bound"])
             self.assertEqual(row["preferred_models"], ["gemma3:1b"])
         finally:
             tmp.cleanup()
