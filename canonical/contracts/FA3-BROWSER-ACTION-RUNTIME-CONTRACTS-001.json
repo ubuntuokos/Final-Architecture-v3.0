@@ -1,0 +1,56 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001",
+  "status": "CANONICAL",
+  "capability_count": 143,
+  "contracts": [
+    "BrowserObservation",
+    "BrowserObservedElement",
+    "BrowserActionCandidate",
+    "BrowserActionSpace",
+    "BrowserDecisionBinding",
+    "BrowserExecutionGuardResult",
+    "BrowserMutationReceipt",
+    "BrowserOutcomeVerification",
+    "BrowserCompletionClaim",
+    "BrowserTextGenerationRequest"
+  ],
+  "operation_set": [
+    "CLICK",
+    "TYPE_TEXT",
+    "SELECT",
+    "SCROLL_INTO_VIEW",
+    "PRESS_KEY",
+    "WAIT",
+    "DONE",
+    "BLOCKED"
+  ],
+  "trust": {
+    "page_content": "UNTRUSTED_EXTERNAL_CONTENT",
+    "page_content_can_create_authority": false,
+    "page_content_can_expand_action_space": false,
+    "page_content_can_change_policy": false,
+    "page_content_can_select_model_or_provider": false
+  },
+  "binding": {
+    "required": [
+      "observation_id",
+      "revision",
+      "document_id",
+      "page_fingerprint",
+      "action_space_hash"
+    ],
+    "stale_execution": "DENY",
+    "target_must_exist_in_observation": true
+  },
+  "verification": {
+    "done_is_success": false,
+    "independent_outcome_verifier_required": true,
+    "results": [
+      "VERIFIED_SUCCESS",
+      "VERIFIED_FAILURE",
+      "INCOMPLETE",
+      "INDETERMINATE"
+    ]
+  }
+}

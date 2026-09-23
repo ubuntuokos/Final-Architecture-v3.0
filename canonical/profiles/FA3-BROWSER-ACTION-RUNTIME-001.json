@@ -1,0 +1,80 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-BROWSER-ACTION-RUNTIME-001",
+  "name": "Deterministic Browser Observation, Bounded Action & Verification Runtime",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-BROWSER-AUTOMATION-USED",
+  "parent_profile": "FA3-WEB-AI-001",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "provider_neutral": true,
+  "cpu_only_supported": true,
+  "mandatory_accelerator": false,
+  "mandatory_cloud_dependency": false,
+  "mandatory_jev_dependency": false,
+  "authorities": {
+    "decision": "FA3-DECISION-FABRIC-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "capability_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
+  },
+  "contracts": [
+    "FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001"
+  ],
+  "invariants": [
+    "BROWSER_RUNTIME_IS_EXECUTION_DOMAIN_NOT_AUTHORITY",
+    "BROWSER_ACTION_SPACE_BOUNDED",
+    "MODEL_CANNOT_EMIT_EXECUTABLE_BROWSER_CODE",
+    "MODEL_CANNOT_EMIT_UNOBSERVED_TARGET",
+    "STALE_DECISION_EXECUTION_DENIED",
+    "BROWSER_MUTATION_NOT_BLINDLY_RETRIED",
+    "DONE_REQUIRES_INDEPENDENT_VERIFICATION",
+    "PAGE_CONTENT_UNTRUSTED",
+    "TYPE_TEXT_MODEL_SELECTION_DELEGATES_TO_CENTRAL_MODEL_ROUTER",
+    "CPU_ONLY_SUPPORTED",
+    "NO_SILENT_LOCAL_REMOTE_FALLBACK",
+    "NO_FOREIGN_ARCHITECTURAL_AUTHORITY_IMPORT"
+  ],
+  "lifecycle": [
+    "OBSERVE",
+    "NORMALIZE",
+    "INDEX",
+    "BUILD_BOUNDED_ACTION_SET",
+    "DECIDE",
+    "REVALIDATE",
+    "AUTHORIZE",
+    "EXECUTE",
+    "VERIFY",
+    "EVIDENCE",
+    "OBSERVE_AGAIN"
+  ],
+  "mutation_policy": {
+    "blind_retry": "DENY",
+    "uncertain_outcome": "OBSERVE_AND_VERIFY_BEFORE_ANY_NEW_MUTATION"
+  },
+  "completion_policy": {
+    "agent_done": "COMPLETION_CLAIM_ONLY",
+    "success": "INDEPENDENT_VERIFIER_REQUIRED"
+  },
+  "rollout": [
+    "SHADOW",
+    "ADVISORY",
+    "BOUNDED_EXECUTION",
+    "CURRENT_HOST_PROVEN"
+  ],
+  "upstream_reference": {
+    "repository": "browser-use/jev-ultrafast",
+    "commit": "1231850a0bf1a0c0341fe408ef1668dbbfdfac46",
+    "license": "MIT",
+    "reuse_mode": "FA3_NATIVE_REIMPLEMENTATION_OF_PATTERNS_WITH_EXPLICIT_PROVENANCE"
+  }
+}
