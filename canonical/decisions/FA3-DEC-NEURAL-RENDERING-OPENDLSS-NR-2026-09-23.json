@@ -50,7 +50,8 @@
     "repository_license": "MIT",
     "commit_signature_verified": false,
     "signature_status": "UPSTREAM_COMMIT_UNSIGNED",
-    "source_admission": "PINNED_REFERENCE_ACCEPTED_PRODUCTION_REQUIRES_FA3_SUPPLY_CHAIN_SCAN_AND_ATTESTATION"
+    "source_admission": "PINNED_REFERENCE_ACCEPTED_PRODUCTION_REQUIRES_FA3_SUPPLY_CHAIN_SCAN_AND_ATTESTATION",
+    "reference_record": "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json"
   },
   "jev": {
     "role": "OPTIONAL_BOUNDED_ADVISORY_NOT_AUTHORITY",
@@ -58,7 +59,9 @@
     "candidate_expansion_forbidden": true,
     "advisory_outage": "DETERMINISTIC_SELECTION_MAY_CONTINUE_WITHOUT_JEV",
     "provider_execution_failure": "FAIL_CLOSED_NEW_UAF_SELECTION_REQUIRED",
-    "project_radar_provenance_required": true
+    "project_radar_provenance_required": true,
+    "adapter_module": "src/fa3_neural_rendering_jev_adapter.py",
+    "model_backed_advisory_route": "FA3_MODEL_ROUTER_ONLY_WHEN_JEV_USES_A_MODEL"
   },
   "agent_native": {
     "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",

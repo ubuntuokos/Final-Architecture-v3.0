@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; SRC=ROOT/"src"
 if str(SRC) not in sys.path: sys.path.insert(0,str(SRC))
 from fa3_neural_rendering import NeuralRenderingError,SelectionRequest,select_provider,validate_execution_preflight
+from fa3_neural_rendering_jev_adapter import JevAdvisoryError,JevRequest,advise
 
 def candidate(ident,admitted=True,execution_class="HOST_NATIVE_ACCELERATED",priority=0):
     return {"id":ident,"execution_class":execution_class,"policy_eligible":True,"provider_admitted":admitted,
@@ -28,6 +29,17 @@ class NeuralRenderingTests(unittest.TestCase):
         with self.assertRaises(NeuralRenderingError) as c:
             validate_execution_preflight(selected_provider_id="p",executed_provider_id="p",execution_class="HOST_NATIVE_ACCELERATED",model_artifact_ref="m",supply_chain_receipt_ref="s",evidence_context_ref="e")
         self.assertEqual("NR-HRB-LEASE-MISSING",c.exception.code)
+    def test_jev_model_backed_advisory_stays_bounded(self):
+        req=JevRequest(operation_id="op-jev",eligible_candidate_ids=("a","b"),context_refs=("ctx:1",),provenance_refs=("prov:1",))
+        r=advise(req,invoke_via_fa3_model_router=lambda payload:{"ranked_candidate_ids":["b","a"],"human_readable_reason":"b has the requested execution class"})
+        self.assertEqual("JEV_VIA_FA3_MODEL_ROUTER",r["implementation"]); self.assertEqual(["b","a"],r["ranked_candidate_ids"]); self.assertFalse(r["authority"])
+
+    def test_jev_router_result_cannot_expand_candidates(self):
+        req=JevRequest(operation_id="op-jev-2",eligible_candidate_ids=("a","b"))
+        with self.assertRaises(JevAdvisoryError) as c:
+            advise(req,invoke_via_fa3_model_router=lambda payload:{"ranked_candidate_ids":["a","b","c"]})
+        self.assertEqual("JEV-NR-CANDIDATE-EXPANSION",c.exception.code)
+
     def test_browser_execution_requires_web_ai_receipt(self):
         with self.assertRaises(NeuralRenderingError) as c:
             validate_execution_preflight(selected_provider_id="p",executed_provider_id="p",execution_class="BROWSER_WEBGPU",model_artifact_ref="m",supply_chain_receipt_ref="s",evidence_context_ref="e")

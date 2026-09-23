@@ -30,7 +30,8 @@
     "upstream_runtime_dependency": false,
     "direct_agent_provider_bypass_forbidden": true,
     "direct_gui_provider_bypass_forbidden": true,
-    "mcp_exposure_behind_central_gateway": true
+    "mcp_exposure_behind_central_gateway": true,
+    "action_boundary_validation": "FA3-UAF-ACTION-CONTRACT-001.schema.json"
   },
   "decision_fabric": {
     "jev_role": "OPTIONAL_ADVISORY_PROVIDER_NOT_AUTHORITY",
@@ -40,7 +41,10 @@
     "candidate_expansion_forbidden": true,
     "decision_receipt_required": true,
     "context_selected_and_rejected_refs_required": true,
-    "project_radar_provenance_required": true
+    "project_radar_provenance_required": true,
+    "adapter_module": "src/fa3_neural_rendering_jev_adapter.py",
+    "model_backed_advisory_must_use": "FA3-AUTH-MODEL-ROUTER-001",
+    "direct_model_provider_calls_forbidden": true
   },
   "execution_policy": {
     "selected_provider_must_equal_executed_provider": true,
