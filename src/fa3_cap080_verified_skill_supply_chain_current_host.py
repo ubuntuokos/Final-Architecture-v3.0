@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from fa3_marketingskills_gate import (
+from fa3_skill_fabric_gate import (
     gate as skill_gate,
     good_package,
     good_use_receipt,
@@ -155,8 +155,8 @@ def _run_positive(root: Path, scope: Path) -> dict[str, Any]:
         raise RuntimeError("canonical skill admission gate failed")
     if report.get("current_host_runtime_claim") is not False:
         raise RuntimeError("reference gate attempted current-host provider runtime claim")
-    if regressions.get("result") != "PASS" or regressions.get("total") != 32 or regressions.get("passed") != 32:
-        raise RuntimeError("32-case skill admission regression matrix not PASS")
+    if regressions.get("result") != "PASS" or regressions.get("total", 0) < 45 or regressions.get("passed") != regressions.get("total"):
+        raise RuntimeError("provider-neutral skill fabric regression matrix not PASS")
     if not package_admission_allowed(package):
         raise RuntimeError("known-valid skill package was rejected")
     if not skill_use_allowed(use):
@@ -206,12 +206,36 @@ def _run_negative(root: Path, scope: Path) -> dict[str, Any]:
     if skill_use_allowed(use):
         raise RuntimeError("tool intent bypassing Central MCP was admitted")
 
+    skipped = copy.deepcopy(base)
+    skipped["review"]["skipped"] = True
+    if package_admission_allowed(skipped):
+        raise RuntimeError("skipped review was admitted")
+
+    noncommercial = copy.deepcopy(base)
+    noncommercial["license"]["commercial_use"] = "DENY"
+    if package_admission_allowed(noncommercial):
+        raise RuntimeError("non-commercial skill was admitted as redistributable")
+
+    runtime_fetch = copy.deepcopy(base)
+    runtime_fetch["execution"]["remote_fetch_during_activation"] = True
+    if package_admission_allowed(runtime_fetch):
+        raise RuntimeError("runtime remote skill fetch was admitted")
+
+    expanded = good_use_receipt()
+    expanded["candidate_expanded_after_eligibility"] = True
+    if skill_use_allowed(expanded):
+        raise RuntimeError("post-eligibility candidate expansion was admitted")
+
     evidence = {
         "dependency_cycle_rejected": True,
         "path_traversal_rejected": True,
         "direct_credential_access_rejected": True,
         "active_execution_rejected": True,
         "central_mcp_bypass_rejected": True,
+        "skipped_review_rejected": True,
+        "noncommercial_redistribution_rejected": True,
+        "runtime_remote_fetch_rejected": True,
+        "candidate_expansion_rejected": True,
     }
     _write_json(scope / "verified-skill-package-negative.json", evidence)
     return {"mode": "negative", "status": "PASS", **evidence}

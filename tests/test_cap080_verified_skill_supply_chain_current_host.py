@@ -23,8 +23,8 @@ class Cap080VerifiedSkillSupplyChainCurrentHostTests(unittest.TestCase):
             result = _run_positive(ROOT, Path(td))
             self.assertEqual(result["status"], "PASS")
             self.assertEqual(result["canonical_gate"], "PASS")
-            self.assertEqual(result["regression_total"], 32)
-            self.assertEqual(result["regression_passed"], 32)
+            self.assertGreaterEqual(result["regression_total"], 45)
+            self.assertEqual(result["regression_passed"], result["regression_total"])
             self.assertTrue(result["case_ids_exact"])
             self.assertTrue(result["positive_package_admitted"])
             self.assertTrue(result["positive_use_receipt_admitted"])
@@ -39,6 +39,10 @@ class Cap080VerifiedSkillSupplyChainCurrentHostTests(unittest.TestCase):
             self.assertTrue(result["direct_credential_access_rejected"])
             self.assertTrue(result["active_execution_rejected"])
             self.assertTrue(result["central_mcp_bypass_rejected"])
+            self.assertTrue(result["skipped_review_rejected"])
+            self.assertTrue(result["noncommercial_redistribution_rejected"])
+            self.assertTrue(result["runtime_remote_fetch_rejected"])
+            self.assertTrue(result["candidate_expansion_rejected"])
 
     def test_rollback_restores_exact_admissible_descriptor(self):
         with tempfile.TemporaryDirectory(dir=ROOT) as td:

@@ -88,7 +88,9 @@
     "FA3-UNIFIED-ACTION-FABRIC-GATESET-001",
     "FA3-NEURAL-RENDERING-GATESET-001",
     "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
-    "FA3-BROWSER-CDP-PROVIDER-GATESET-001"
+    "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
+    "FA3-SKILL-FABRIC-GATESET-001",
+    "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
   "openbmb_provider_ids": [
@@ -1778,5 +1780,24 @@
   "browser_cdp_provider_enforcement_class": "P0_OPTIONAL_PROVIDER_STATIC_GATE",
   "browser_cdp_provider_global_static_required": true,
   "browser_cdp_current_host_evidence_required_for_activation": true,
-  "browser_cdp_global_requirement": false
+  "browser_cdp_global_requirement": false,
+  "skill_fabric_gate_id": "FA3-SKILL-FABRIC-GATESET-001",
+  "distribution_compliance_gate_id": "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001",
+  "skill_distribution_decision_id": "FA3-DEC-SKILL-DISCOVERY-DISTRIBUTION-FABRIC-2026-09-23",
+  "distribution_classes": [
+    "FA3_NATIVE",
+    "EXTERNAL_REDISTRIBUTABLE",
+    "USER_LOCAL_EXTERNAL",
+    "REFERENCE_ONLY",
+    "BLOCKED"
+  ],
+  "external_redistributable_supported": true,
+  "external_redistributable_auto_bundle": false,
+  "distribution_adoption_gate_required_for_new_provider_reference_or_third_party": true,
+  "distribution_manifest_path": "canonical/distribution-manifest.json",
+  "distribution_future_record_scope": [
+    "canonical/providers/*.json",
+    "canonical/references/*.json",
+    "canonical/third-party/*.json"
+  ]
 }
