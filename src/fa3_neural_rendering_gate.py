@@ -33,6 +33,8 @@ def validate(root:Path)->list[dict[str,Any]]:
       "web_ai":root/"canonical/profiles/FA3-WEB-AI-001.json",
       "evidence_registry":root/"evidence/evidence-registry.json",
       "reference":root/"evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
+      "upstream_reference":root/"canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
+      "jev_adapter":root/"src/fa3_neural_rendering_jev_adapter.py",
       "projection":root/"canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
       "adapter":root/"src/fa3_opendlss_nr_provider.py","decision_impl":root/"src/fa3_neural_rendering.py"}
     for name,path in paths.items():
