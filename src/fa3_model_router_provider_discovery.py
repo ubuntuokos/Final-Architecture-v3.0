@@ -33,28 +33,51 @@ def process_start_ticks(pid: int) -> int | None:
         return None
 
 
-def runtime_handoff_endpoint(item: Any) -> str | None:
+def _loopback_base(value: str) -> bool:
+    parsed = urlparse(value)
+    return parsed.scheme == "http" and (parsed.hostname or "").lower() in {"127.0.0.1", "localhost", "::1"}
+
+
+def _same_origin(left: str, right: str) -> bool:
+    a, b = urlparse(left), urlparse(right)
+    return (
+        a.scheme == b.scheme
+        and (a.hostname or "").lower() == (b.hostname or "").lower()
+        and a.port == b.port
+    )
+
+
+def runtime_handoff_endpoints(item: Any, provider_id: str) -> tuple[str, str] | None:
     if not isinstance(item, dict):
         return None
     handoff = item.get("runtime_handoff")
     if not isinstance(handoff, dict):
         return None
-    api_base = str(handoff.get("api_base") or "").strip().rstrip("/")
-    parsed = urlparse(api_base)
+
+    openai_base = str(handoff.get("openai_api_base") or handoff.get("api_base") or "").strip().rstrip("/")
+    native_base = str(handoff.get("native_api_base") or "").strip().rstrip("/")
+    if not native_base and provider_id == OLLAMA_PROVIDER_ID and openai_base.endswith("/v1"):
+        native_base = openai_base[:-3].rstrip("/")
+    if not native_base:
+        native_base = openai_base
+
     pid = handoff.get("process_id")
     ticks = handoff.get("process_start_ticks")
     if not (
         handoff.get("preserved") is True
         and handoff.get("server_cpu_only") is True
         and handoff.get("accelerator_visibility") == "BLOCKED_FOR_SERVER_LIFETIME"
-        and parsed.scheme == "http"
-        and (parsed.hostname or "").lower() in {"127.0.0.1", "localhost", "::1"}
+        and openai_base
+        and native_base
+        and _loopback_base(openai_base)
+        and _loopback_base(native_base)
+        and _same_origin(openai_base, native_base)
         and isinstance(pid, int) and pid > 0
         and isinstance(ticks, int) and ticks > 0
         and process_start_ticks(pid) == ticks
     ):
         return None
-    return api_base
+    return openai_base, native_base
 
 
 def models_live(api_base: str, timeout: float) -> bool:
@@ -75,25 +98,24 @@ def models_live(api_base: str, timeout: float) -> bool:
 def candidate(
     provider_id: str,
     runtime_id: str,
-    api_base: str,
+    runtime_api_base: str,
+    catalog_api_base: str,
     receipt: Path,
     *,
-    catalog_api_base: str,
-    admission_api_base: str,
     litellm_provider: str,
+    litellm_options: dict[str, Any],
     preferred_model: str | None = None,
-    litellm_options: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     row = {
         "provider_id": provider_id,
         "runtime_id": runtime_id,
-        "api_base": api_base.rstrip("/"),
+        "api_base": runtime_api_base.rstrip("/"),
         "catalog_api_base": catalog_api_base.rstrip("/"),
-        "admission_api_base": admission_api_base.rstrip("/"),
         "enabled": True,
         "priority": 50,
         "routes": ["*"],
         "litellm_provider": litellm_provider,
+        "litellm_options": dict(litellm_options),
         "admission_receipt": str(receipt),
         "selection_origin": "CURRENT_HOST_ADMISSION_HANDOFF_DISCOVERY",
         "runtime_instance_bound": True,
@@ -101,8 +123,6 @@ def candidate(
     if preferred_model:
         row["preferred_models"] = [preferred_model]
         row["model_preference_origin"] = "CURRENT_HOST_ADMISSION_EVIDENCE"
-    if litellm_options:
-        row["litellm_options"] = dict(litellm_options)
     return row
 
 
@@ -116,19 +136,23 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
     if not isinstance(providers, dict):
         raise RuntimeError("Model Manager current-host provider evidence missing")
 
-    # Provider-specific endpoint knowledge lives only in this adapter.
-    # The central router consumes the generated generic registry and does not
-    # encode an Ollama/LM Studio preference or model pin.
+    # Provider-specific protocol knowledge stays in this adapter. A provider can
+    # be auto-emitted only when the exact still-running process proven by the
+    # current-host admission receipt supplies its endpoints.
     endpoint_candidates = [
         {
             "provider_id": LM_STUDIO_PROVIDER_ID,
             "runtime_id": "lm-studio-live",
+            "observed_catalog_default": os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
+            "observed_runtime_default": os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
             "litellm_provider": "openai",
             "litellm_options": {},
         },
         {
             "provider_id": OLLAMA_PROVIDER_ID,
             "runtime_id": "ollama-live",
+            "observed_catalog_default": os.environ.get("FA3_OLLAMA_OPENAI_API_BASE", "http://127.0.0.1:11434/v1"),
+            "observed_runtime_default": os.environ.get("FA3_OLLAMA_API_BASE", "http://127.0.0.1:11434"),
             "litellm_provider": "ollama_chat",
             "litellm_options": {"num_gpu": 0, "num_ctx": 512},
         },
@@ -136,45 +160,46 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
 
     rows: list[dict[str, Any]] = []
     observed: list[dict[str, Any]] = []
-    for endpoint in endpoint_candidates:
-        provider_id = str(endpoint["provider_id"])
-        runtime_id = str(endpoint["runtime_id"])
+    for descriptor in endpoint_candidates:
+        provider_id = str(descriptor["provider_id"])
+        runtime_id = str(descriptor["runtime_id"])
         item = providers.get(provider_id)
         admitted = isinstance(item, dict) and item.get("status") == "PASS"
-        handoff_api_base = runtime_handoff_endpoint(item) if admitted else None
-        instance_bound = handoff_api_base is not None
-        catalog_api_base = handoff_api_base or ""
-        runtime_api_base = catalog_api_base
-        if provider_id == OLLAMA_PROVIDER_ID and catalog_api_base.endswith("/v1"):
-            runtime_api_base = catalog_api_base[:-3]
+        endpoints = runtime_handoff_endpoints(item, provider_id) if admitted else None
+        instance_bound = endpoints is not None
+        if endpoints is not None:
+            catalog_api_base, runtime_api_base = endpoints
+        else:
+            catalog_api_base = str(descriptor["observed_catalog_default"]).rstrip("/")
+            runtime_api_base = str(descriptor["observed_runtime_default"]).rstrip("/")
         live = bool(admitted and instance_bound and models_live(catalog_api_base, timeout))
         observed.append({
             "provider_id": provider_id,
             "runtime_id": runtime_id,
             "catalog_api_base": catalog_api_base,
-            "runtime_api_base": runtime_api_base,
+            "api_base": runtime_api_base,
             "admitted": admitted,
             "runtime_instance_bound": instance_bound,
             "live_openai_models_endpoint": live,
         })
-        if live:
-            preferred_model = ""
-            if isinstance(item, dict):
-                if provider_id == OLLAMA_PROVIDER_ID:
-                    preferred_model = str(item.get("selected_model") or "").strip()
-                elif provider_id == LM_STUDIO_PROVIDER_ID:
-                    preferred_model = str(item.get("selected_model_key") or "").strip()
-            rows.append(candidate(
-                provider_id,
-                runtime_id,
-                runtime_api_base,
-                receipt,
-                catalog_api_base=catalog_api_base,
-                admission_api_base=catalog_api_base,
-                litellm_provider=str(endpoint["litellm_provider"]),
-                preferred_model=preferred_model or None,
-                litellm_options=endpoint.get("litellm_options") if isinstance(endpoint.get("litellm_options"), dict) else None,
-            ))
+        if not live:
+            continue
+
+        preferred_model = ""
+        if provider_id == OLLAMA_PROVIDER_ID:
+            preferred_model = str(item.get("selected_model") or "").strip()
+        elif provider_id == LM_STUDIO_PROVIDER_ID:
+            preferred_model = str(item.get("selected_model_key") or "").strip()
+        rows.append(candidate(
+            provider_id,
+            runtime_id,
+            runtime_api_base,
+            catalog_api_base,
+            receipt,
+            litellm_provider=str(descriptor["litellm_provider"]),
+            litellm_options=dict(descriptor["litellm_options"]),
+            preferred_model=preferred_model or None,
+        ))
 
     if not rows:
         raise RuntimeError(
