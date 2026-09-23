@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from fa3_decision_fabric import DecisionFabric, RuleDecisionProvider
 from fa3_jev_decision_provider import JevDecisionProvider
+from fa3_local_decision_provider import LocalSemanticDecisionProvider
 from fa3_decision_trace import DecisionTraceStore
 
 
@@ -24,6 +25,8 @@ def main() -> int:
     providers = [RuleDecisionProvider()]
     if args.provider == "FA3-PROVIDER-JEV-DECISION-001":
         providers.append(JevDecisionProvider())
+    if args.provider == "FA3-PROVIDER-DECISION-LOCAL-001":
+        providers.append(LocalSemanticDecisionProvider())
     trace_store = DecisionTraceStore()
     fabric = DecisionFabric(providers, trace_writer=trace_store.append)
     trace = fabric.decide(request, args.provider)
