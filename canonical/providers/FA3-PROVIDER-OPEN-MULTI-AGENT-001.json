@@ -89,5 +89,13 @@
     "accelerator_cardinality": "0..N",
     "cpu_only_host_valid": true,
     "global_vendor_pin": null
+  },
+  "distribution_class": "USER_LOCAL_EXTERNAL",
+  "product_bundle_allowed": false,
+  "distribution": {
+    "class": "USER_LOCAL_EXTERNAL",
+    "release_bundle_status": "EXCLUDED",
+    "rationale": "External orchestration runtime is user-local and replaceable. FA3 distributes its own provider-neutral contracts/adapters but does not bundle or imply redistribution rights for this upstream runtime.",
+    "runtime_admission_separate": true
   }
 }
