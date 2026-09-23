@@ -33,6 +33,9 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
                 registry = discovery.discover(root, output, 0.1)
             self.assertTrue(registry["provider_neutral"])
             self.assertFalse(registry["physical_model_pins"])
+            self.assertFalse(registry["provider_set_exhaustive"])
+            self.assertEqual(registry["discovery_scope"], "BUILTIN_REFERENCE_ADAPTERS_ONLY")
+            self.assertTrue(registry["explicit_admitted_runtime_registry_supported"])
             self.assertEqual(len(registry["providers"]), 1)
             row = registry["providers"][0]
             self.assertEqual(row["provider_id"], discovery.LM_STUDIO_PROVIDER_ID)
