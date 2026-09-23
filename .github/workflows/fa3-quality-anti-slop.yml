@@ -66,6 +66,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: fa3-native-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
