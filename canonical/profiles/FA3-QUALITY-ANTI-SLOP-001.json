@@ -1,0 +1,121 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-QUALITY-ANTI-SLOP-001",
+  "name": "AI-Generated Experience & Content Quality Assurance Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "provider_neutral": true,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_delta": 0,
+  "authority_delta": 0,
+  "profile_kind": "CROSS_CUTTING_QUALITY_FILTER",
+  "purpose": "Reject generic, fabricated, inaccessible or mechanically AI-shaped deliverables while preserving FA3 application-specific design direction and all existing authorities.",
+  "design_boundary": {
+    "quality_filter_is_style_guide": false,
+    "quality_filter_may_choose_brand_direction": false,
+    "precedence": [
+      "CANONICAL_FA3_POLICY",
+      "APPLICATION_DESIGN_CONTRACT",
+      "FA3_QUALITY_FILTER",
+      "AGENT_SUGGESTION"
+    ],
+    "application_design_contract_remains_authoritative_for_visual_direction": true
+  },
+  "tiers": {
+    "HARD_GATE": "Unambiguous prohibited output; cannot be waived by task-local justification.",
+    "PURPOSE_GATE": "Technique is permitted only with an explicit auditable FA3-QUALITY-JUSTIFY annotation.",
+    "QUALITY_LOCK": "Non-blocking consistency finding unless another canonical policy makes it blocking."
+  },
+  "concerns": [
+    "CORE",
+    "UI",
+    "COPY",
+    "HUMAN",
+    "RESPONSIVE",
+    "CODE",
+    "FA3"
+  ],
+  "activation": {
+    "core_filter_for_generated_deliverables": true,
+    "specialized_concerns_task_scoped": true,
+    "deterministic_eligibility_precedes_decision_fabric": true,
+    "decision_fabric_role": "ADVISORY_SELECTION_WITHIN_PREFILTERED_CANDIDATES",
+    "decision_fabric_candidate_expansion": "DENY",
+    "global_everything_context": "DENY"
+  },
+  "skill_bindings": [
+    "fa3-quality-ui",
+    "fa3-quality-copy",
+    "fa3-quality-human",
+    "fa3-quality-responsive",
+    "fa3-quality-code"
+  ],
+  "upstream_relationship": {
+    "source": "miqdadbadjuber/anti-slop",
+    "relationship": "PATTERN_AND_METHOD_INSPIRATION_ONLY",
+    "upstream_runtime_dependency": false,
+    "upstream_installer_used": false,
+    "upstream_agent_entry_file_mutation_used": false,
+    "vendored_upstream_repository": false,
+    "copied_upstream_rule_text": false,
+    "native_FA3_implementation": true
+  },
+  "authority_boundaries": {
+    "identity": false,
+    "authorization": false,
+    "tool_execution": false,
+    "mcp_gateway": false,
+    "workflow": false,
+    "model_routing": false,
+    "resource_governance": false,
+    "secrets": false,
+    "memory": false,
+    "evidence_authority": false,
+    "design_authority": false
+  },
+  "integration_bindings": {
+    "skill_fabric": "FA3-SKILL-FABRIC-001",
+    "decision_fabric": "FA3-DECISION-FABRIC-001",
+    "agent_instructions": "FA3-AGENT-INSTRUCTIONS-001",
+    "uaf": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "gui_gate": "FA3-GUI-GATESET-001",
+    "ai_comms": "FA3-AI-COMMS-001",
+    "supply_chain": "FA3-SCS-001",
+    "distribution": "FA3-DISTRIBUTION-COMPLIANCE-001"
+  },
+  "delivery_gate": {
+    "blocking_findings_must_be_zero": true,
+    "hard_gate_failure": "FAIL",
+    "unjustified_purpose_gate": "FAIL",
+    "quality_lock": "WARN",
+    "report_required": true,
+    "report_schema": "fa3.quality-report.v1"
+  },
+  "fa3_specific_invariants": [
+    "FAKE_CAPABILITY_CLAIMS_FORBIDDEN",
+    "FAKE_PROVIDER_OR_MODEL_CLAIMS_FORBIDDEN",
+    "FAKE_TELEMETRY_AND_METRICS_FORBIDDEN",
+    "DEAD_OR_PLACEHOLDER_GUI_DELIVERY_FORBIDDEN",
+    "AUTHORITY_BYPASS_COPY_OR_UI_FORBIDDEN",
+    "SILENT_FALLBACK_REPRESENTATION_FORBIDDEN",
+    "UNVERIFIED_PASS_OR_VERIFIED_CLAIMS_FORBIDDEN",
+    "QUALITY_FILTER_CANNOT_CREATE_FEATURE_SCOPE",
+    "QUALITY_FILTER_CANNOT_OVERRIDE_APPLICATION_DESIGN_CONTRACT",
+    "QUALITY_SKILLS_CANNOT_GRANT_AUTHORITY"
+  ],
+  "hardware": {
+    "cpu_only_supported": true,
+    "accelerator_required": false,
+    "exact_vendor_or_sku_pin": false
+  },
+  "commercial_distribution": {
+    "external_runtime_component": false,
+    "native_FA3_code": true,
+    "additional_upstream_runtime_license_administration": false
+  }
+}
