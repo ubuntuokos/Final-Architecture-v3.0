@@ -74,26 +74,38 @@ def _current_host_level(value: Any) -> bool:
     )
 
 
-def receipt_proves_provider(path: Path, provider_id: str) -> bool:
+def receipt_proves_provider(path: Path, provider_id: str, api_base: str) -> bool:
     if not path.is_file():
         return False
     rec = loadj(path)
     if rec.get("status") != "PASS" and rec.get("result") != "PASS":
         return False
+    expected = api_base.rstrip("/")
 
     providers = rec.get("providers")
     if isinstance(providers, dict):
         item = providers.get(provider_id)
-        return (
+        if not (
             isinstance(item, dict)
             and item.get("provider_id", provider_id) == provider_id
             and item.get("status") == "PASS"
             and _current_host_level(item.get("evidence_level"))
+        ):
+            return False
+        handoff = item.get("runtime_handoff")
+        return (
+            isinstance(handoff, dict)
+            and handoff.get("preserved") is True
+            and handoff.get("server_cpu_only") is True
+            and handoff.get("accelerator_visibility") == "BLOCKED_FOR_SERVER_LIFETIME"
+            and str(handoff.get("api_base") or "").strip().rstrip("/") == expected
         )
 
+    endpoint = str(rec.get("api_base") or rec.get("endpoint") or "").strip().rstrip("/")
     return (
         rec.get("provider_id") == provider_id
         and _current_host_level(rec.get("evidence_level"))
+        and endpoint == expected
     )
 
 
@@ -290,7 +302,7 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
         receipt = Path(receipt_value).expanduser()
         if not receipt.is_absolute():
             receipt = (root / receipt).resolve()
-        if not receipt_proves_provider(receipt, provider_id):
+        if not receipt_proves_provider(receipt, provider_id, api_base):
             raise MaterializationDenied(f"current-host admission receipt does not prove provider: {provider_id}")
         copy = dict(row)
         copy["provider_id"] = provider_id
