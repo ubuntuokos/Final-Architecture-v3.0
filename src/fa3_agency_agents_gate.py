@@ -412,6 +412,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         "decision": root / "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
         "reference": root / "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
         "catalog": root / "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json",
+        "agent_definition_profile": root / "canonical/profiles/FA3-AGENT-DEFINITION-001.json",
         "agent_definition_contract": root / "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
         "agent_definition_registry": root / "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json",
         "gui_surface_registry": root / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
@@ -440,6 +441,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
     decision = _load(paths["decision"])
     reference = _load(paths["reference"])
     catalog = _load(paths["catalog"])
+    agent_definition_profile = _load(paths["agent_definition_profile"])
     agent_definition_contract = _load(paths["agent_definition_contract"])
     agent_definition_registry = _load(paths["agent_definition_registry"])
     gui_surface_registry = _load(paths["gui_surface_registry"])
@@ -560,9 +562,15 @@ def canonical_check(root: Path) -> dict[str, Any]:
     if not candidate_catalog_valid(catalog):
         findings.append(_finding("AGA-CANON-011", "curated source catalog drift or unsafe source activation"))
     if not (
-        agent_definition_contract.get("id") == AGENT_DEFINITION_CONTRACT_ID
+        agent_definition_profile.get("id") == "FA3-AGENT-DEFINITION-001"
+        and agent_definition_profile.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and agent_definition_profile.get("status") == "CANONICAL"
+        and agent_definition_profile.get("new_capability") is False
+        and agent_definition_profile.get("new_architectural_authority") is False
+        and agent_definition_contract.get("id") == AGENT_DEFINITION_CONTRACT_ID
         and agent_definition_contract.get("status") == "CANONICAL"
-        and agent_definition_contract.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and agent_definition_contract.get("parent_profile") == "FA3-AGENT-DEFINITION-001"
+        and agent_definition_contract.get("parent_execution_profile") == "FA3-AGENT-EXEC-001"
         and agent_definition_contract.get("provider_neutral") is True
         and agent_definition_contract.get("new_capability") is False
         and agent_definition_contract.get("new_architectural_authority") is False
@@ -659,6 +667,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and surface.get("runtime_conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
         and surface.get("current_host_runtime_status") == "PENDING_CURRENT_HOST"
         and surface.get("current_host_runtime_claim") is False
+        and provider.get("agent_definition_projection", {}).get("profile_id") == "FA3-AGENT-DEFINITION-001"
         and provider.get("agent_definition_projection", {}).get("contract_id") == AGENT_DEFINITION_CONTRACT_ID
         and provider.get("agent_definition_projection", {}).get("registry_id") == AGENT_DEFINITION_REGISTRY_ID
         and provider.get("agent_definition_projection", {}).get("status") == "CANONICAL_FA3_NATIVE_NORMALIZATION_MATERIALIZED"
