@@ -162,36 +162,30 @@ def select_bindings(routes: list[dict[str, Any]], candidates: list[dict[str, Any
         name = str(route.get("route", "")).strip()
         if not name:
             raise MaterializationDenied("logical route name is empty")
-        selected = None
-        failures: list[str] = []
-        for candidate in ordered:
-            if not route_allowed(candidate, name):
-                continue
-            runtime_id = str(candidate["runtime_id"])
-            try:
-                preferred_map = candidate.get("route_preferred_models", {})
-                preferred = preferred_map.get(name, []) if isinstance(preferred_map, dict) else []
-                if not preferred:
-                    preferred = candidate.get("preferred_models", [])
-                model = choose_model(catalogs.get(runtime_id, []), preferred if isinstance(preferred, list) else [])
-                selected = {
-                    "route": name,
-                    "provider_id": candidate["provider_id"],
-                    "runtime_id": runtime_id,
-                    "api_base": candidate["api_base"],
-                    "litellm_provider": candidate.get("litellm_provider", "openai"),
-                    "model": model,
-                    "api_key_env": candidate.get("api_key_env"),
-                    "selection": "RUNTIME_DISCOVERED",
-                }
-                break
-            except MaterializationDenied as exc:
-                failures.append(f"{runtime_id}:{exc}")
-        if selected is None:
-            raise MaterializationDenied(f"no admitted runtime can satisfy logical route {name}: {' | '.join(failures)}")
-        out[name] = selected
+        eligible = [candidate for candidate in ordered if route_allowed(candidate, name)]
+        if not eligible:
+            raise MaterializationDenied(f"no admitted runtime candidate is policy-allowed for logical route {name}")
+        # Fail closed after selecting the highest-priority policy-allowed runtime.
+        # Trying a second provider automatically would be a silent provider->provider fallback.
+        candidate = eligible[0]
+        runtime_id = str(candidate["runtime_id"])
+        preferred_map = candidate.get("route_preferred_models", {})
+        preferred = preferred_map.get(name, []) if isinstance(preferred_map, dict) else []
+        if not preferred:
+            preferred = candidate.get("preferred_models", [])
+        model = choose_model(catalogs.get(runtime_id, []), preferred if isinstance(preferred, list) else [])
+        out[name] = {
+            "route": name,
+            "provider_id": candidate["provider_id"],
+            "runtime_id": runtime_id,
+            "api_base": candidate["api_base"],
+            "litellm_provider": candidate.get("litellm_provider", "openai"),
+            "model": model,
+            "api_key_env": candidate.get("api_key_env"),
+            "selection": "RUNTIME_DISCOVERED",
+            "provider_failover_performed": False,
+        }
     return out
-
 
 def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
     obj = loadj(providers_file)
