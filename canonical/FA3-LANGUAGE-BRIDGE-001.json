@@ -1,0 +1,168 @@
+{
+  "schema": "fa3.language-bridge.projection.v1",
+  "id": "FA3-LANGUAGE-BRIDGE-001",
+  "name": "Language Bridge Runtime Projection",
+  "version": "1.1.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-IF-MEDIATION-REQUIRED",
+  "profile_id": "FA3-LANGUAGE-FABRIC-001",
+  "policy_id": "FA3-LANGUAGE-POLICY-001",
+  "admission_id": "FA3-LANGUAGE-ADMISSION-001",
+  "gui_projection_id": "FA3-GUI-LANGUAGE-CONTROL-001",
+  "architectural_authority": false,
+  "new_capability": false,
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "runtime_pipeline": [
+    "FA3-LB-DETECTION",
+    "FA3-LB-DATA-CLASS-ROUTER",
+    "FA3-LB-TERMINOLOGY",
+    "FA3-LB-PROTECTED-TOKEN-GUARD",
+    "FA3-LB-MODEL-LANGUAGE-ROUTER",
+    "FA3-LB-PROMPT-ADAPTER",
+    "FA3-LB-TEXT-TRANSLATION",
+    "FA3-LB-SPEECH-MEDIATION",
+    "FA3-LB-RESPONSE-ADAPTER",
+    "FA3-LB-SEMANTIC-VALIDATOR",
+    "FA3-LB-PROVENANCE-EVIDENCE"
+  ],
+  "components": {
+    "FA3-LB-DETECTION": {
+      "role": "language and locale detection",
+      "output": ["source_language", "confidence"],
+      "unknown_or_low_confidence": "FAIL_CLOSED_OR_REQUIRE_EXPLICIT_LANGUAGE"
+    },
+    "FA3-LB-TEXT-TRANSLATION": {
+      "role": "provider-neutral text translation and bidirectional adaptation",
+      "provider_required": false,
+      "local_first": true,
+      "translation_is_derived_projection": true
+    },
+    "FA3-LB-SPEECH-MEDIATION": {
+      "role": "speech language mediation through admitted STT/TTS capabilities",
+      "direct_provider_ownership_of_voice_or_stt_authority": false,
+      "stt_profile": "FA3-STT-001",
+      "tts_profile": "FA3-VOICE-001"
+    },
+    "FA3-LB-TERMINOLOGY": {
+      "role": "versioned terminology and glossary projection",
+      "canonical_term_identity_required": true,
+      "provider_may_mutate_canonical_terms": false
+    },
+    "FA3-LB-MODEL-LANGUAGE-ROUTER": {
+      "role": "project admitted model/application language capability into routing intent",
+      "capability_source": "FA3-LANGUAGE-ADMISSION-001",
+      "provider_selection_authority": "existing FA3 model/provider routing authority",
+      "native_and_mediated_support_must_remain_distinct": true
+    },
+    "FA3-LB-PROMPT-ADAPTER": {
+      "role": "adapt prompt language without changing task authority or tool permissions",
+      "may_expand_capabilities_or_authorization": false,
+      "source_intent_must_be_preserved": true
+    },
+    "FA3-LB-RESPONSE-ADAPTER": {
+      "role": "adapt response to requested output language",
+      "original_execution_result_remains_traceable": true,
+      "adapted_output_is_derived": true
+    },
+    "FA3-LB-SEMANTIC-VALIDATOR": {
+      "role": "validate semantic equivalence, terminology and protected-token preservation",
+      "critical_or_low_confidence_translation_requires_validation": true,
+      "validation_failure": "FAIL_CLOSED"
+    },
+    "FA3-LB-PROTECTED-TOKEN-GUARD": {
+      "role": "protect non-translatable and structurally sensitive spans",
+      "protected_classes": [
+        "code blocks",
+        "inline code",
+        "identifiers",
+        "file paths",
+        "URLs",
+        "email addresses",
+        "API names",
+        "model identifiers",
+        "provider identifiers",
+        "hashes and digests",
+        "JSON/YAML/XML keys and structure",
+        "units and typed numeric literals",
+        "explicit glossary terms"
+      ],
+      "round_trip_integrity_required": true,
+      "mutation_or_loss": "FAIL_CLOSED"
+    },
+    "FA3-LB-DATA-CLASS-ROUTER": {
+      "role": "apply data classification before translation-provider selection",
+      "classes": ["PUBLIC", "INTERNAL", "CONFIDENTIAL", "SECRET"],
+      "SECRET": {"external_provider": "DENY"},
+      "CONFIDENTIAL": {"external_provider": "EXPLICIT_POLICY_ONLY"},
+      "INTERNAL": {"external_provider": "POLICY_GATED"},
+      "PUBLIC": {"external_provider": "POLICY_GATED"}
+    },
+    "FA3-LB-PROVENANCE-EVIDENCE": {
+      "role": "emit attributable mediation receipt",
+      "required_fields": [
+        "source_language",
+        "target_language",
+        "route",
+        "provider_identity_if_used",
+        "native_or_mediated",
+        "input_digest",
+        "output_digest",
+        "terminology_revision",
+        "protected_token_validation",
+        "semantic_validation",
+        "data_classification"
+      ],
+      "document_only_current_host_pass_forbidden": true
+    }
+  },
+  "contracts": {
+    "input_authority": "original source remains authoritative",
+    "translation_semantics": "derived projection with provenance",
+    "native_vs_mediated": "must remain distinguishable",
+    "unknown_route": "FAIL_CLOSED",
+    "secret_external_translation": "DENY",
+    "provider_selection": "admitted provider only",
+    "language_context": ["user_language", "work_language", "output_language", "source_language?"],
+    "structured_content_protection": ["code blocks", "identifiers", "URLs", "structured data", "protected terminology"],
+    "translation_cannot_grant_tool_or_execution_authority": true,
+    "provider_or_model_fallback_is_not_language_fallback": true
+  },
+  "activation": {
+    "required_when": "selected admitted application/model cannot natively or directly satisfy the required request language",
+    "not_required_when": "validated native/direct route satisfies the request language and policy",
+    "language_specific_assets": "on-demand according to selected primary/secondary/additional language requirements"
+  },
+  "provider_policy": {
+    "mandatory_vendor": null,
+    "local_first": true,
+    "cloud_allowed_only_when_explicitly_enabled_and_policy_admitted": true,
+    "language_need_may_force_external_provider": false,
+    "silent_provider_fallback": false
+  },
+  "evidence": {
+    "semantic_validation_required": true,
+    "route_and_provider_identity_required": true,
+    "source_and_output_language_required": true,
+    "protected_token_integrity_required": true,
+    "terminology_revision_required": true,
+    "data_classification_required": true,
+    "current_host_runtime_pass_may_be_document_derived": false
+  },
+  "acceptance_gates": [
+    {"id": "LB-001", "requirement": "source language is explicit or detected above admitted confidence; otherwise fail closed"},
+    {"id": "LB-002", "requirement": "native and mediated language capability are reported separately and never conflated"},
+    {"id": "LB-003", "requirement": "original source remains authoritative and every translation/adaptation is derived with lineage"},
+    {"id": "LB-004", "requirement": "protected tokens and structured content survive mediation with round-trip integrity"},
+    {"id": "LB-005", "requirement": "terminology/glossary revision is explicit and terminology preservation is validated"},
+    {"id": "LB-006", "requirement": "prompt adaptation preserves user intent and cannot expand tools, capabilities or authorization"},
+    {"id": "LB-007", "requirement": "semantic validation is required for critical or low-confidence mediation and validation failure blocks output"},
+    {"id": "LB-008", "requirement": "data classification is evaluated before provider routing; SECRET external translation is denied"},
+    {"id": "LB-009", "requirement": "language fallback remains distinct from model, provider and infrastructure fallback; no silent domain crossing"},
+    {"id": "LB-010", "requirement": "speech mediation delegates to admitted STT/TTS profiles and does not create a parallel voice or STT authority"},
+    {"id": "LB-011", "requirement": "mediation evidence binds languages, route/provider, digests, terminology, protected-token and validation outcomes"},
+    {"id": "LB-012", "requirement": "reference or documentation evidence cannot claim current-host Language Bridge production PASS"}
+  ],
+  "fail_closed": true
+}
