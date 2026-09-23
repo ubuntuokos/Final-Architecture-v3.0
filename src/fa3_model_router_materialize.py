@@ -201,12 +201,28 @@ def select_bindings(
                 if not preferred:
                     preferred = candidate.get("preferred_models", [])
                 model = choose_model(catalogs.get(runtime_id, []), preferred if isinstance(preferred, list) else [])
+                raw_options = candidate.get("litellm_options", {})
+                if raw_options is None:
+                    raw_options = {}
+                if not isinstance(raw_options, dict):
+                    raise MaterializationDenied(f"runtime provider litellm_options must be an object: {runtime_id}")
+                reserved = {"model", "api_base", "api_key", "custom_llm_provider"}
+                if reserved.intersection(raw_options):
+                    raise MaterializationDenied(f"runtime provider litellm_options contains reserved routing fields: {runtime_id}")
+                litellm_options: dict[str, Any] = {}
+                for key, value in raw_options.items():
+                    if not isinstance(key, str) or not key.strip():
+                        raise MaterializationDenied(f"runtime provider litellm_options contains invalid key: {runtime_id}")
+                    if not isinstance(value, (str, int, float, bool)) and value is not None:
+                        raise MaterializationDenied(f"runtime provider litellm_options contains non-scalar value: {runtime_id}:{key}")
+                    litellm_options[key] = value
                 eligible.append({
                     "route": name,
                     "provider_id": candidate["provider_id"],
                     "runtime_id": runtime_id,
                     "api_base": candidate["api_base"],
                     "litellm_provider": candidate.get("litellm_provider", "openai"),
+                    "litellm_options": litellm_options,
                     "model": model,
                     "api_key_env": candidate.get("api_key_env"),
                     "selection": "RUNTIME_DISCOVERED",
@@ -316,7 +332,7 @@ def validate_candidates(root: Path, providers_file: Path) -> tuple[list[dict[str
     return candidates, receipt_hashes
 
 
-def yaml_quote(value: str) -> str:
+def yaml_quote(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
@@ -334,10 +350,14 @@ def render_litellm(bindings: dict[str, dict[str, Any]]) -> str:
             f"      model: {yaml_quote(prefix + '/' + model)}",
             f"      api_base: {yaml_quote(str(item['api_base']))}",
         ]
+        options = item.get("litellm_options", {})
+        if isinstance(options, dict):
+            for key, value in sorted(options.items()):
+                lines.append(f"      {key}: {yaml_quote(value)}")
         env_name = str(item.get("api_key_env") or "").strip()
         if env_name:
             lines.append(f"      api_key: os.environ/{env_name}")
-        else:
+        elif prefix not in {"ollama", "ollama_chat"}:
             lines.append("      api_key: os.environ/FA3_MODEL_ROUTER_BACKEND_DUMMY_KEY")
     lines += [
         "router_settings:",
