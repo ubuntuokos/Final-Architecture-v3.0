@@ -514,7 +514,13 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and set(decision.get("open_reconciliations", [])) == {
             "LATEST_UNIFIED_RELEASE_PROJECTION_REGENERATION_PENDING",
             "FRESH_PERMANENT_CI_AFTER_AGENT_DEFINITION_AND_GUI_BINDING_PENDING",
+            "GUI_CURRENT_HOST_RUNTIME_PROMOTION_PENDING",
         }
+        and decision.get("gui_runtime_validation", {}).get("conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
+        and decision.get("gui_runtime_validation", {}).get("status") == "PENDING_CURRENT_HOST"
+        and decision.get("gui_runtime_validation", {}).get("production_admitted") is False
+        and decision.get("gui_runtime_validation", {}).get("current_host_receipt_present") is False
+        and decision.get("gui_runtime_validation", {}).get("agency_surface_runtime_promotion_claim") is False
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("provider_target_class") == "EXTERNAL_REDISTRIBUTABLE"
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("status") == "RECONCILED_CANONICAL_MAIN"
         and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("target_surface_route") == "agents.workflows"
@@ -648,6 +654,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and surface.get("agent_definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
         and surface.get("mode") == "READ_ONLY_CANONICAL_DEFINITIONS"
         and surface.get("direct_provider_execution") is False
+        and surface.get("runtime_conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
+        and surface.get("current_host_runtime_status") == "PENDING_CURRENT_HOST"
+        and surface.get("current_host_runtime_claim") is False
         and provider.get("agent_definition_projection", {}).get("contract_id") == AGENT_DEFINITION_CONTRACT_ID
         and provider.get("agent_definition_projection", {}).get("registry_id") == AGENT_DEFINITION_REGISTRY_ID
         and provider.get("agent_definition_projection", {}).get("status") == "CANONICAL_FA3_NATIVE_NORMALIZATION_MATERIALIZED"
@@ -671,6 +680,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and child.get("execution_intent_route") == "agents.action-center"
         and child.get("direct_provider_execution") is False
         and child.get("authority") is False
+        and child.get("current_host_runtime_status") == "PENDING_CURRENT_HOST"
+        and child.get("runtime_conformance_id") == "FA3-GUI-RUNTIME-CONFORMANCE-001"
+        and child.get("runtime_promotion_claim") is False
     ):
         findings.append(_finding("AGA-CANON-014", "Agency GUI imported-pack projection drift"))
 
@@ -718,6 +730,7 @@ def gate(root: Path) -> dict[str, Any]:
         "curated_source_selection": "MATERIALIZED_INERT_REFERENCE_ONLY",
         "agent_definition_normalization": "CANONICAL_12_ROLE_5_TEMPLATE_NO_UPSTREAM_BODY_VENDORED",
         "gui_surface_reconciliation": "RECONCILED_CANONICAL_GUI_READ_ONLY_DEFINITIONS",
+        "gui_current_host_runtime": "PENDING_CURRENT_HOST_RECEIPT_REQUIRED",
         "runtime_provider_admission": "SEPARATE_NOT_CLAIMED_BY_REFERENCE_PROVIDER",
         "external_redistributable_binding": "CANONICAL_RECONCILED_EXTERNAL_REDISTRIBUTABLE_BUNDLE_EXCLUDED",
         "current_host_runtime_claim": False,
