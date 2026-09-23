@@ -1,0 +1,66 @@
+name: FA3 Agent Definition Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json"
+      - "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json"
+      - "canonical/agent-definition-enforcement.json"
+      - "canonical/FA3-GATE-AGENT-DEFINITION-001.json"
+      - "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agent_definition_gate.py"
+      - "src/fa3_orchestration_workforce_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agent_definition_gate.py"
+      - ".github/workflows/fa3-agent-definition-gate.yml"
+  push:
+    branches: ["main", "fa3/**"]
+    paths:
+      - "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json"
+      - "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json"
+      - "canonical/agent-definition-enforcement.json"
+      - "canonical/FA3-GATE-AGENT-DEFINITION-001.json"
+      - "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agent_definition_gate.py"
+      - "src/fa3_orchestration_workforce_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agent_definition_gate.py"
+      - ".github/workflows/fa3-agent-definition-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  agent-definition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_agent_definition_gate.py src/fa3_enforce.py
+      - name: Agent Definition unit tests
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agent_definition_gate.py' -v
+      - name: Agent Definition fail-closed gate
+        run: PYTHONPATH=src python3 src/fa3_agent_definition_gate.py --root .
+      - name: Orchestration Workforce regression
+        run: PYTHONPATH=src python3 src/fa3_orchestration_workforce_gate.py --root .
+      - name: Agent Native instruction regression
+        run: PYTHONPATH=src python3 src/fa3_agent_instructions_gate.py --root .
+      - name: Human-auditable AI communication regression
+        run: PYTHONPATH=src python3 src/fa3_ai_comms_gate.py --root .
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-agent-definition-gate
+          path: reports/agent-definition-gate-report.json
+          if-no-files-found: error
