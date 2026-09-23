@@ -9,8 +9,9 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
 from fa3_model_manager_provider_adapter import (
     EVIDENCE_LEVEL,HF_PROVIDER_ID,LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID,
-    RUNTIME_ID,find_binary,regression_check,safe_child_env,select_lmstudio_model,
-    select_ollama_models,sha256_bytes,sha256_file,valid_revision,
+    RUNTIME_ID,find_binary,ollama_models_from_systemd_environment,regression_check,
+    safe_child_env,select_lmstudio_model,select_ollama_models,sha256_bytes,sha256_file,
+    valid_revision,
 )
 
 MAX_HASH_FILE_BYTES=16*1024*1024
@@ -182,11 +183,31 @@ def collect_lmstudio(runtime_dir:Path)->dict[str,Any]:
             unload=run([str(lms),"unload",LM_IDENTIFIER],180,env)
             if unload.returncode!=0: raise RuntimeError("LM Studio test model cleanup/unload failed")
 
+def discover_ollama_models_dir()->tuple[Path|None,str]:
+    candidates:list[tuple[str,str]]=[]
+    direct=os.environ.get("OLLAMA_MODELS","").strip()
+    if direct: candidates.append(("RUNNER_ENV",direct))
+    for source,argv in (
+        ("SYSTEMD_USER_UNIT",["systemctl","--user","show","ollama.service","--property=Environment","--value"]),
+        ("SYSTEMD_SYSTEM_UNIT",["systemctl","show","ollama.service","--property=Environment","--value"]),
+    ):
+        result=run(argv,15)
+        if result.returncode!=0: continue
+        value=ollama_models_from_systemd_environment(result.stdout)
+        if value: candidates.append((source,value))
+    for source,value in candidates:
+        try: path=Path(value).expanduser().resolve()
+        except Exception: continue
+        if path.is_dir(): return path,source
+    return None,"OLLAMA_DEFAULT"
+
 def start_ollama_cpu(runtime_dir:Path):
     ollama=find_binary("ollama")
     if ollama is None: raise RuntimeError("Ollama binary not found")
     port=free_port(); base=f"http://127.0.0.1:{port}"
     env=safe_child_env()
+    models_dir,models_source=discover_ollama_models_dir()
+    if models_dir is not None: env["OLLAMA_MODELS"]=str(models_dir)
     env.update({
         "OLLAMA_HOST":f"127.0.0.1:{port}","OLLAMA_KEEP_ALIVE":"0",
         "OLLAMA_MAX_LOADED_MODELS":"1","OLLAMA_NUM_PARALLEL":"1",
@@ -202,14 +223,15 @@ def start_ollama_cpu(runtime_dir:Path):
             raise RuntimeError(f"ephemeral Ollama exited rc={proc.returncode}")
         try:
             http_json(base+"/api/version",timeout=5); log_fh.flush()
-            return ollama,proc,base
+            models_fingerprint=sha256_bytes(str(models_dir).encode("utf-8")) if models_dir is not None else None
+            return ollama,proc,base,models_source,models_fingerprint
         except Exception as exc:
             last=exc; time.sleep(0.5)
     log_fh.close()
     raise RuntimeError(f"ephemeral Ollama readiness timeout: {last}")
 
 def collect_ollama(runtime_dir:Path)->dict[str,Any]:
-    ollama,proc,base=start_ollama_cpu(runtime_dir)
+    ollama,proc,base,models_source,models_fingerprint=start_ollama_cpu(runtime_dir)
     try:
         version=http_json(base+"/api/version",timeout=10)
         tags=http_json(base+"/api/tags",timeout=30)
@@ -243,6 +265,8 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
                     "selected_model_details":row.get("details"),
                     "generate_response_sha256":sha256_bytes(text.encode("utf-8")),
                     "generate_response_length":len(text.strip()),"size_vram":int(size_vram),
+                    "model_store_source":models_source,
+                    "model_store_path_sha256":models_fingerprint,
                     "accelerator_visibility":"HIDDEN_FOR_CPU_SMOKE",
                     "network_model_pull_performed":False,"accelerator_execution_claimed":False,
                     "candidate_failures_before_success":failures,

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, json, os, re, shutil
+import hashlib, json, os, re, shlex, shutil
 from pathlib import Path
 from typing import Any
 
@@ -31,6 +31,16 @@ def safe_child_env(base:dict[str,str]|None=None)->dict[str,str]:
         if key in _PROXY_KEYS or any(marker in upper for marker in _SECRET_MARKERS): continue
         if key in keep or key.startswith("LMS_"): out[key]=value
     return out
+
+def ollama_models_from_systemd_environment(raw:Any)->str|None:
+    if not isinstance(raw,str) or not raw.strip(): return None
+    try: tokens=shlex.split(raw)
+    except ValueError: return None
+    for token in tokens:
+        if token.startswith("OLLAMA_MODELS="):
+            value=token.split("=",1)[1].strip()
+            if value: return value
+    return None
 
 def find_binary(name:str,extra:list[Path]|None=None)->Path|None:
     hit=shutil.which(name); candidates=[]
@@ -88,6 +98,8 @@ def regression_check()->dict[str,Any]:
     env=safe_child_env({"PATH":"/usr/bin","HOME":"/tmp","HF_TOKEN":"secret","OPENAI_API_KEY":"secret","HTTPS_PROXY":"http://proxy","XDG_RUNTIME_DIR":"/run/user/1000","OLLAMA_MODELS":"/models"})
     cases["secret_proxy_env_removed"]="HF_TOKEN" not in env and "OPENAI_API_KEY" not in env and "HTTPS_PROXY" not in env
     cases["runtime_paths_preserved"]=env.get("XDG_RUNTIME_DIR")=="/run/user/1000" and env.get("OLLAMA_MODELS")=="/models"
+    cases["systemd_ollama_models_parse"]=ollama_models_from_systemd_environment('OLLAMA_HOST=127.0.0.1:11434 "OLLAMA_MODELS=/srv/ollama models"')=="/srv/ollama models"
+    cases["systemd_ollama_models_missing"]=ollama_models_from_systemd_environment("OLLAMA_HOST=127.0.0.1:11434") is None
     return {"schema":"fa3.model-manager-provider-adapter-regression.v1","result":"PASS" if all(cases.values()) else "FAIL","passed":sum(cases.values()),"total":len(cases),"cases":cases}
 
 if __name__=="__main__": print(json.dumps(regression_check(),indent=2))
