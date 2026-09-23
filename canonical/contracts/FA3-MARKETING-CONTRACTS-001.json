@@ -93,5 +93,30 @@
     "executable_directives_inert_by_default": true,
     "direct_tool_or_external_mutation_from_skill_forbidden": true,
     "central_mcp_required_for_tool_intent": true
+  },
+  "agent_native_action_fabric": {
+    "profile_id": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "decision_fabric_contract_id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+    "actions": [
+      "marketing.contact.project",
+      "marketing.contact.reconcile",
+      "marketing.consent.record",
+      "marketing.suppression.apply",
+      "marketing.segment.preview",
+      "marketing.campaign.draft",
+      "marketing.campaign.validate",
+      "marketing.campaign.approve",
+      "marketing.campaign.schedule",
+      "marketing.campaign.pause",
+      "marketing.newsletter.prepare",
+      "marketing.newsletter.dispatch",
+      "marketing.delivery.reconcile",
+      "marketing.experiment.record",
+      "marketing.analytics.project"
+    ],
+    "direct_provider_bypass_forbidden": true,
+    "secret_values_are_opaque_refs_only": true,
+    "provider_runtime_admission_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "static_or_reference_evidence_is_production_pass": false
   }
 }

@@ -1,0 +1,60 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL_IMPLEMENTED_STATIC_AND_REFERENCE",
+  "subject": "Agent-native Mautic, Twenty and listmonk materialization with bounded Jev advisory decisions",
+  "decision": "IMPLEMENT_AS_UAF_OVERLAY_WITH_FAIL_CLOSED_PROVIDER_ADMISSION",
+  "extends": [
+    "FA3-DEC-MARKETING-2026-08-31"
+  ],
+  "replaces_unmerged_design": {
+    "pull_request": 65,
+    "head_commit": "cac05cb1",
+    "reason": "current-main UAF, Secret Broker, bounded advisory and evidence-boundary reconciliation"
+  },
+  "profile_id": "FA3-MARKETING-001",
+  "uaf_profile_id": "FA3-UNIFIED-ACTION-FABRIC-001",
+  "contract_ids": [
+    "FA3-MARKETING-CONTRACTS-001",
+    "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+    "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001"
+  ],
+  "provider_roles": {
+    "FA3-PROVIDER-TWENTY-001": "CRM_WORKSPACE_PROJECTION_NOT_CANONICAL_CUSTOMER_OR_CONSENT_AUTHORITY",
+    "FA3-PROVIDER-MAUTIC-001": "MARKETING_AUTOMATION_PROJECTION_NOT_CAMPAIGN_AUTHORITY",
+    "FA3-PROVIDER-LISTMONK-001": "NEWSLETTER_DELIVERY_PROVIDER_WITH_PRE_SEND_CONSENT_AND_SUPPRESSION_CHECK",
+    "jev": "OPTIONAL_ADVISORY_IMPLEMENTATION_NOT_AUTHORITY_AND_NOT_REQUIRED_RUNTIME_DEPENDENCY"
+  },
+  "mandatory_path": [
+    "SURFACE",
+    "UAF_ACTION_CONTRACT",
+    "AUTHORIZATION_AND_APPLICABLE_HUMAN_APPROVAL",
+    "DETERMINISTIC_POLICY_FILTER",
+    "OPTIONAL_BOUNDED_DECISION_ADVISORY",
+    "HRB_AND_SECRET_BROKER_WHEN_REQUIRED",
+    "PROVIDER_ADAPTER",
+    "EVIDENCE_ENVELOPE_AND_DECISION_RECEIPT"
+  ],
+  "current_host_admission": {
+    "runner_labels": ["self-hosted", "linux", "x64", "fa3-current-host"],
+    "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "static_or_reference_evidence_is_production_pass": false,
+    "provider_runtime_status": "PENDING_CURRENT_HOST_PRODUCTION_E2E",
+    "global_promotion_claim": false
+  },
+  "desktop_portability": {
+    "wayland_preferred": true,
+    "x11_supported": true,
+    "kde_only_core_forbidden": true
+  },
+  "hardware_portability": {
+    "cpu_only_mandatory": true,
+    "accelerator_cardinality": "0..N",
+    "vendor_or_sku_global_assumption_forbidden": true,
+    "hrb_is_resource_authority": true
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

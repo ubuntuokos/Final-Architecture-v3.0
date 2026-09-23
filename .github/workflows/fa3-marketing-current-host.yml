@@ -1,0 +1,53 @@
+name: FA3 Marketing Current Host Admission
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-marketing-current-host
+  cancel-in-progress: false
+
+jobs:
+  static-admission:
+    name: static-admission
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Agent Native and current-host gate regressions
+        run: PYTHONPATH=src python -m unittest tests.test_marketing_agent_native_gate tests.test_marketing_current_host_gate_v2 -v
+      - name: Static/reference boundary
+        run: ./bin/fa3-enforce marketing-agent-native
+
+  current-host-production-e2e:
+    name: current-host-production-e2e
+    needs: static-admission
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+          persist-credentials: false
+      - name: Execute administrator-admitted runtime driver
+        run: |
+          test -x /usr/local/libexec/fa3/marketing-current-host-e2e
+          /usr/local/libexec/fa3/marketing-current-host-e2e --output evidence/receipts/marketing-current-host.json
+      - name: Verify real provider receipt
+        run: ./bin/fa3-enforce marketing-current-host --receipt evidence/receipts/marketing-current-host.json
+      - name: Upload redacted admission receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-marketing-current-host-admission
+          path: evidence/receipts/marketing-current-host.json
+          if-no-files-found: error
+          retention-days: 30
