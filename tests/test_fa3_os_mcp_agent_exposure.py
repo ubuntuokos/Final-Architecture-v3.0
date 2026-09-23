@@ -163,5 +163,13 @@ class AgentExposureTests(unittest.TestCase):
         self.assertIn('"--pipe"', collector)
 
 
+    def test_current_host_collector_uses_run_unique_retrieval_scope(self) -> None:
+        collector = (ROOT / "evidence/collect-fa3-os-mcp-agent-exposure-current-host.py").read_text(encoding="utf-8")
+        self.assertIn("time.time_ns()", collector)
+        self.assertIn('project_id = f"{PROJECT}-{run_scope}"', collector)
+        self.assertIn('workstream_id = f"{WORKSTREAM}-{run_scope}"', collector)
+        self.assertIn("_payload(project_id=project_id, workstream_id=workstream_id)", collector)
+
+
 if __name__ == "__main__":
     unittest.main()
