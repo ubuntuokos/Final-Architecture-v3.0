@@ -261,6 +261,23 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
             except ProcessLookupError: pass
             proc.wait(timeout=5)
 
+def attempt_provider(provider_id:str,fn)->dict[str,Any]:
+    try:
+        result=fn()
+        if not isinstance(result,dict) or result.get("provider_id")!=provider_id or result.get("status")!="PASS":
+            raise RuntimeError("provider collector did not return a bound PASS result")
+        return result
+    except Exception as exc:
+        fingerprint=sha256_bytes(f"{type(exc).__name__}:{exc}".encode("utf-8"))
+        return {
+            "provider_id":provider_id,
+            "status":"UNAVAILABLE_OR_FAILED",
+            "evidence_level":"CURRENT_HOST_PROVIDER_NOT_ADMITTED",
+            "error_type":type(exc).__name__,
+            "error_fingerprint_sha256":fingerprint,
+            "production_admission_claim":False,
+        }
+
 def main()->int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--root",default=str(ROOT))
@@ -277,34 +294,62 @@ def main()->int:
     regressions=regression_check()
     if regressions.get("result")!="PASS": raise RuntimeError("provider adapter regression failed")
     receipt={
-        "schema":"fa3.model-manager-current-host-receipt.v1","runtime_id":RUNTIME_ID,
+        "schema":"fa3.model-manager-current-host-receipt.v2","runtime_id":RUNTIME_ID,
         "status":"FAIL","evidence_level":"CURRENT_HOST_MODEL_PROVIDER_E2E_FAIL",
         "started_at":utc_now(),"host":host_fingerprint(),"adapter_regression":regressions,
-        "execution_policy":{"local_artifacts_only":True,"network_download_or_pull":False,"cpu_first":True,"accelerator_execution_claimed":False,"accelerator_requires_hrb_for_separate_evidence":True},
+        "execution_policy":{
+            "local_artifacts_only":True,
+            "network_download_or_pull":False,
+            "cpu_first":True,
+            "accelerator_execution_claimed":False,
+            "accelerator_requires_hrb_for_separate_evidence":True,
+            "optional_provider_absence_blocks_other_provider_admission":False,
+        },
         "providers":{},"new_capabilities":0,"new_architectural_authorities":0,"capability_count_after":143,
     }
-    try:
-        receipt["providers"][HF_PROVIDER_ID]=collect_hf()
-        receipt["providers"][LM_STUDIO_PROVIDER_ID]=collect_lmstudio(runtime_dir)
-        receipt["providers"][OLLAMA_PROVIDER_ID]=collect_ollama(runtime_dir)
-        receipt["status"]="PASS"; receipt["evidence_level"]=EVIDENCE_LEVEL
-        receipt["completed_at"]=utc_now()
-        receipt["promotion_effect"]="PROVIDER_SPECIFIC_CURRENT_HOST_EVIDENCE_ONLY_GLOBAL_PROMOTION_UNCHANGED"
-        writej(receipt_path,receipt)
-        writej(runtime_dir/"summary.json",{
-            "runtime_id":RUNTIME_ID,"status":"PASS","evidence_level":EVIDENCE_LEVEL,
-            "completed_at":receipt["completed_at"],
-            "provider_statuses":{k:v.get("status") for k,v in receipt["providers"].items()},
-            "receipt_sha256":sha256_file(receipt_path),
-        })
-        print(json.dumps(receipt,indent=2,ensure_ascii=False))
-        return 0
-    except Exception as exc:
-        receipt["completed_at"]=utc_now()
-        receipt["error_type"]=type(exc).__name__; receipt["error"]=str(exc)
-        writej(receipt_path,receipt)
-        print(json.dumps(receipt,indent=2,ensure_ascii=False),file=sys.stderr)
-        return 2
+
+    receipt["providers"][HF_PROVIDER_ID]=attempt_provider(HF_PROVIDER_ID,collect_hf)
+    receipt["providers"][LM_STUDIO_PROVIDER_ID]=attempt_provider(LM_STUDIO_PROVIDER_ID,lambda:collect_lmstudio(runtime_dir))
+    receipt["providers"][OLLAMA_PROVIDER_ID]=attempt_provider(OLLAMA_PROVIDER_ID,lambda:collect_ollama(runtime_dir))
+
+    serving_ids=(LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID)
+    admitted=[pid for pid,item in receipt["providers"].items() if item.get("status")=="PASS"]
+    serving=[pid for pid in serving_ids if receipt["providers"].get(pid,{}).get("status")=="PASS"]
+    unavailable=[pid for pid,item in receipt["providers"].items() if item.get("status")!="PASS"]
+    receipt["admitted_provider_ids"]=admitted
+    receipt["serving_provider_ids"]=serving
+    receipt["unavailable_provider_ids"]=unavailable
+    receipt["provider_coverage"]="COMPLETE" if not unavailable else "PARTIAL"
+    receipt["combined_pass_semantics"]="AT_LEAST_ONE_REAL_LOCAL_SERVING_RUNTIME_PASS"
+    receipt["completed_at"]=utc_now()
+
+    if serving:
+        receipt["status"]="PASS"
+        receipt["evidence_level"]=EVIDENCE_LEVEL
+        receipt["promotion_effect"]="PROVIDER_SPECIFIC_CURRENT_HOST_EVIDENCE_ONLY_OPTIONAL_PROVIDER_FAILURES_DO_NOT_PROMOTE_OR_BLOCK_OTHER_PROVIDERS"
+        rc=0
+    else:
+        receipt["status"]="FAIL"
+        receipt["evidence_level"]="CURRENT_HOST_MODEL_PROVIDER_E2E_FAIL"
+        receipt["promotion_effect"]="NO_LOCAL_SERVING_RUNTIME_ADMITTED"
+        rc=2
+
+    writej(receipt_path,receipt)
+    writej(runtime_dir/"summary.json",{
+        "runtime_id":RUNTIME_ID,
+        "status":receipt["status"],
+        "evidence_level":receipt["evidence_level"],
+        "completed_at":receipt["completed_at"],
+        "provider_statuses":{k:v.get("status") for k,v in receipt["providers"].items()},
+        "admitted_provider_ids":admitted,
+        "serving_provider_ids":serving,
+        "unavailable_provider_ids":unavailable,
+        "provider_coverage":receipt["provider_coverage"],
+        "receipt_sha256":sha256_file(receipt_path),
+    })
+    stream=sys.stdout if rc==0 else sys.stderr
+    print(json.dumps(receipt,indent=2,ensure_ascii=False),file=stream)
+    return rc
 
 if __name__=="__main__":
     raise SystemExit(main())
