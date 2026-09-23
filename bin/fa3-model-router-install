@@ -61,15 +61,45 @@ systemctl --user daemon-reload
 systemctl --user enable fa3-model-router.service >/dev/null
 if [[ "$START" -eq 1 ]]; then
   systemctl --user restart fa3-model-router.service
-  for _ in {1..60}; do
-    if systemctl --user is-active --quiet fa3-model-router.service; then
-      break
+  runtime_root="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/fa3-model-router"
+  selection_receipt="$runtime_root/selection.json"
+  ready=0
+  for _ in {1..120}; do
+    if systemctl --user is-active --quiet fa3-model-router.service && [[ -s "$selection_receipt" ]]; then
+      if python3 - "$PORT" "$CREDENTIAL" <<'PY'
+import json
+import sys
+import urllib.request
+from pathlib import Path
+
+port, credential = sys.argv[1:]
+try:
+    token = Path(credential).read_text(encoding="utf-8").strip()
+    if not token:
+        raise RuntimeError("empty token")
+    req = urllib.request.Request(
+        f"http://127.0.0.1:{port}/v1/models",
+        headers={"Authorization": f"Bearer {token}", "Accept": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=2.0) as response:
+        payload = json.loads(response.read(4 * 1024 * 1024).decode("utf-8"))
+    if int(response.status) != 200 or not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
+        raise RuntimeError("not ready")
+except Exception:
+    raise SystemExit(1)
+PY
+      then
+        ready=1
+        break
+      fi
     fi
     sleep 0.5
   done
-  systemctl --user is-active --quiet fa3-model-router.service || {
+  if [[ "$ready" -ne 1 ]]; then
+    echo "Model Router readiness failed: active service + selection receipt + authenticated /v1/models were not all proven" >&2
     systemctl --user status --no-pager fa3-model-router.service >&2 || true
+    journalctl --user -u fa3-model-router.service -n 80 --no-pager >&2 || true
     exit 2
-  }
+  fi
 fi
 echo "FA3 central Model Router installed: http://127.0.0.1:$PORT"

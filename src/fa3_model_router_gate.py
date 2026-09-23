@@ -62,6 +62,7 @@ def gate(root: Path) -> dict[str, Any]:
     service = paths["service"].read_text(encoding="utf-8")
     materializer = paths["materializer"].read_text(encoding="utf-8")
     provider_discovery = paths["provider_discovery"].read_text(encoding="utf-8")
+    installer = paths["installer"].read_text(encoding="utf-8")
 
     if authority.get("id") != AUTHORITY or authority.get("status") != "CANONICAL":
         findings.append(finding("MR-001", "central Model Router authority record mismatch"))
@@ -100,6 +101,8 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("MR-014", "Model Router service does not materialize runtime selection before LiteLLM start"))
     if "IPAddressDeny=any" not in service or "IPAddressAllow=localhost" not in service:
         findings.append(finding("MR-015", "baseline Model Router service is not loopback-egress constrained"))
+    if "RuntimeDirectoryPreserve=restart" not in service or "selection.json" not in installer or "/v1/models" not in installer:
+        findings.append(finding("MR-018", "Model Router lifecycle readiness does not preserve/prove runtime selection state"))
     required_materializer = (
         "receipt_proves_provider",
         "canonical_provider_ok",
