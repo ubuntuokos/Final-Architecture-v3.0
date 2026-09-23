@@ -42,6 +42,33 @@ def ollama_models_from_systemd_environment(raw:Any)->str|None:
             if value: return value
     return None
 
+def provider_failure_code(provider_id:str,exc:Exception)->str:
+    message=str(exc)
+    if provider_id==LM_STUDIO_PROVIDER_ID:
+        checks=(
+            ("LM Studio lms CLI not found","LM_STUDIO_CLI_NOT_FOUND"),
+            ("lms --version failed","LM_STUDIO_VERSION_FAILED"),
+            ("no local LM Studio LLM model found","LM_STUDIO_LOCAL_CATALOG_EMPTY"),
+            ("LM Studio CPU resource estimate failed","LM_STUDIO_CPU_ESTIMATE_FAILED"),
+            ("LM Studio CPU-only model load failed","LM_STUDIO_CPU_LOAD_FAILED"),
+            ("LM Studio loaded-instance identity not found","LM_STUDIO_INSTANCE_NOT_FOUND"),
+            ("LM Studio one-shot inference failed","LM_STUDIO_INFERENCE_FAILED"),
+            ("LM Studio test model cleanup/unload failed","LM_STUDIO_CLEANUP_FAILED"),
+        )
+    elif provider_id==OLLAMA_PROVIDER_ID:
+        checks=(
+            ("Ollama binary not found","OLLAMA_BINARY_NOT_FOUND"),
+            ("ephemeral Ollama exited","OLLAMA_EPHEMERAL_SERVER_EXITED"),
+            ("ephemeral Ollama readiness timeout","OLLAMA_EPHEMERAL_SERVER_NOT_READY"),
+            ("no digest-addressed local Ollama model found","OLLAMA_LOCAL_CATALOG_EMPTY"),
+            ("no local Ollama model completed CPU-only generate","OLLAMA_CPU_INFERENCE_FAILED"),
+        )
+    else:
+        checks=()
+    for needle,code in checks:
+        if needle in message: return code
+    return "UNCLASSIFIED_RUNTIME_ERROR"
+
 def find_binary(name:str,extra:list[Path]|None=None)->Path|None:
     hit=shutil.which(name); candidates=[]
     if hit: candidates.append(Path(hit))

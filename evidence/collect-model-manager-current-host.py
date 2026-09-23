@@ -9,9 +9,9 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
 from fa3_model_manager_provider_adapter import (
     EVIDENCE_LEVEL,HF_PROVIDER_ID,LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID,
-    RUNTIME_ID,find_binary,ollama_models_from_systemd_environment,regression_check,
-    safe_child_env,select_lmstudio_model,select_ollama_models,sha256_bytes,sha256_file,
-    valid_revision,
+    RUNTIME_ID,find_binary,ollama_models_from_systemd_environment,provider_failure_code,
+    regression_check,safe_child_env,select_lmstudio_model,select_ollama_models,
+    sha256_bytes,sha256_file,valid_revision,
 )
 
 MAX_HASH_FILE_BYTES=16*1024*1024
@@ -183,18 +183,60 @@ def collect_lmstudio(runtime_dir:Path)->dict[str,Any]:
             unload=run([str(lms),"unload",LM_IDENTIFIER],180,env)
             if unload.returncode!=0: raise RuntimeError("LM Studio test model cleanup/unload failed")
 
+def _service_process_ollama_models(scope_args:list[str])->str|None:
+    result=run(["systemctl",*scope_args,"show","ollama.service","--property=MainPID","--value"],15)
+    if result.returncode!=0: return None
+    try: pid=int(result.stdout.strip())
+    except Exception: return None
+    if pid<=0: return None
+    try:
+        raw=Path(f"/proc/{pid}/environ").read_bytes().replace(b"\0",b" ").decode("utf-8","replace")
+    except OSError:
+        return None
+    return ollama_models_from_systemd_environment(raw)
+
+def _environment_file_ollama_models(scope_args:list[str])->list[str]:
+    result=run(["systemctl",*scope_args,"show","ollama.service","--property=EnvironmentFiles","--value"],15)
+    if result.returncode!=0: return []
+    paths=[]
+    for token in result.stdout.replace("("," ").replace(")"," ").split():
+        if token.startswith("/"): paths.append(token)
+    values=[]
+    for raw_path in paths:
+        try:
+            for line in Path(raw_path).read_text(encoding="utf-8").splitlines():
+                stripped=line.strip()
+                if not stripped or stripped.startswith("#"): continue
+                value=ollama_models_from_systemd_environment(stripped)
+                if value: values.append(value)
+        except OSError:
+            continue
+    return values
+
 def discover_ollama_models_dir()->tuple[Path|None,str]:
     candidates:list[tuple[str,str]]=[]
     direct=os.environ.get("OLLAMA_MODELS","").strip()
     if direct: candidates.append(("RUNNER_ENV",direct))
     for source,argv in (
+        ("SYSTEMD_USER_MANAGER",["systemctl","--user","show-environment"]),
         ("SYSTEMD_USER_UNIT",["systemctl","--user","show","ollama.service","--property=Environment","--value"]),
+        ("SYSTEMD_SYSTEM_MANAGER",["systemctl","show-environment"]),
         ("SYSTEMD_SYSTEM_UNIT",["systemctl","show","ollama.service","--property=Environment","--value"]),
     ):
         result=run(argv,15)
         if result.returncode!=0: continue
         value=ollama_models_from_systemd_environment(result.stdout)
         if value: candidates.append((source,value))
+    for source,scope in (("SYSTEMD_USER_PROCESS",["--user"]),("SYSTEMD_SYSTEM_PROCESS",[])):
+        value=_service_process_ollama_models(scope)
+        if value: candidates.append((source,value))
+    for source,scope in (("SYSTEMD_USER_ENVFILE",["--user"]),("SYSTEMD_SYSTEM_ENVFILE",[])):
+        for value in _environment_file_ollama_models(scope):
+            candidates.append((source,value))
+    candidates.extend([
+        ("OLLAMA_USER_DEFAULT",str(Path.home()/".ollama/models")),
+        ("OLLAMA_XDG_DEFAULT",str(Path.home()/".local/share/ollama/models")),
+    ])
     for source,value in candidates:
         try: path=Path(value).expanduser().resolve()
         except Exception: continue
@@ -298,6 +340,7 @@ def attempt_provider(provider_id:str,fn)->dict[str,Any]:
             "status":"UNAVAILABLE_OR_FAILED",
             "evidence_level":"CURRENT_HOST_PROVIDER_NOT_ADMITTED",
             "error_type":type(exc).__name__,
+            "reason_code":provider_failure_code(provider_id,exc),
             "error_fingerprint_sha256":fingerprint,
             "production_admission_claim":False,
         }
