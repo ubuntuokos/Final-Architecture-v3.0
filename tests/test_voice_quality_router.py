@@ -1,4 +1,13 @@
+from src.fa3_decision_fabric import DecisionFabric, ProviderResult
 from src.fa3_voice_quality_router import VoiceQualityRoutingDenied, resolve_quality_route
+
+
+class PreferPiperProvider:
+    provider_id = "TEST-PREFER-PIPER"
+    semantic = True
+
+    def decide(self, request):
+        return ProviderResult("DECIDED", {"selected": "FA3-PROVIDER-PIPER-001"}, 1.0)
 
 
 POLICY = {
@@ -87,3 +96,53 @@ def test_accelerator_provider_requires_hrb_lease():
     except VoiceQualityRoutingDenied:
         return
     raise AssertionError("accelerator provider must require HRB lease")
+
+
+def test_active_decision_hook_can_choose_only_preeligible_voice_provider():
+    receipt = resolve_quality_route(
+        policy=POLICY,
+        language="hu-HU",
+        requested_quality="STANDARD",
+        workflow=None,
+        admitted_provider_ids={"FA3-PROVIDER-XTTS-001", "FA3-PROVIDER-PIPER-001"},
+        provider_language_support={
+            "FA3-PROVIDER-XTTS-001": {"hu", "hu-HU"},
+            "FA3-PROVIDER-PIPER-001": {"hu", "hu-HU"},
+        },
+        hrb_accelerator_lease=True,
+        accelerator_provider_ids={"FA3-PROVIDER-XTTS-001"},
+        decision_fabric=DecisionFabric([PreferPiperProvider()]),
+        decision_provider_id="TEST-PREFER-PIPER",
+        decision_rollout="ACTIVE",
+    )
+    assert receipt["selected_provider_id"] == "FA3-PROVIDER-PIPER-001"
+    assert receipt["decision_fabric_applied"] is True
+
+
+def test_decision_hook_never_resurrects_ineligible_voice_provider():
+    class InvalidVoiceProvider:
+        provider_id = "TEST-INVALID"
+        semantic = True
+        def decide(self, request):
+            return ProviderResult("DECIDED", {"selected": "FA3-PROVIDER-PIPER-001"}, 1.0)
+
+    try:
+        resolve_quality_route(
+            policy=POLICY,
+            language="hu-HU",
+            requested_quality="PRODUCTION",
+            workflow="MARKETING_PRODUCTION",
+            admitted_provider_ids={"FA3-PROVIDER-XTTS-001", "FA3-PROVIDER-PIPER-001"},
+            provider_language_support={
+                "FA3-PROVIDER-XTTS-001": {"hu-HU"},
+                "FA3-PROVIDER-PIPER-001": {"hu-HU"},
+            },
+            hrb_accelerator_lease=True,
+            accelerator_provider_ids={"FA3-PROVIDER-XTTS-001"},
+            decision_fabric=DecisionFabric([InvalidVoiceProvider()]),
+            decision_provider_id="TEST-INVALID",
+            decision_rollout="ACTIVE",
+        )
+    except VoiceQualityRoutingDenied:
+        return
+    raise AssertionError("Decision Fabric must not resurrect deterministically ineligible voice provider")
