@@ -13,7 +13,8 @@
     "BrowserMutationReceipt",
     "BrowserOutcomeVerification",
     "BrowserCompletionClaim",
-    "BrowserTextGenerationRequest"
+    "BrowserTextGenerationRequest",
+    "BrowserExecutionParameters"
   ],
   "operation_set": [
     "CLICK",
@@ -52,5 +53,49 @@
       "INCOMPLETE",
       "INDETERMINATE"
     ]
+  },
+  "execution_parameters": {
+    "owner": "FA3-BROWSER-ACTION-RUNTIME-001",
+    "selected_after_decision": true,
+    "visible_to_decision_model": false,
+    "arbitrary_script": "DENY",
+    "arbitrary_selector": "DENY",
+    "allowed": {
+      "TYPE_TEXT": {
+        "required": [
+          "text"
+        ],
+        "max_length": 32768
+      },
+      "SELECT": {
+        "required": [
+          "value"
+        ],
+        "max_length": 4096
+      },
+      "PRESS_KEY": {
+        "allowlist": [
+          "Enter",
+          "Tab",
+          "Escape",
+          "ArrowUp",
+          "ArrowDown",
+          "ArrowLeft",
+          "ArrowRight",
+          "Backspace",
+          "Delete",
+          "Home",
+          "End",
+          "PageUp",
+          "PageDown"
+        ]
+      },
+      "WAIT": {
+        "milliseconds_range": [
+          0,
+          5000
+        ]
+      }
+    }
   }
 }
