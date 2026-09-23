@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,json,re
+import argparse,json,os,re
 from pathlib import Path
+from urllib.parse import urlparse
 from typing import Any
 from fa3_model_manager_provider_adapter import EVIDENCE_LEVEL,HF_PROVIDER_ID,LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID,PROVIDER_IDS,RUNTIME_ID
 
@@ -12,6 +13,33 @@ SERVING_PROVIDER_IDS={LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID}
 def loadj(path:Path)->dict[str,Any]: return json.loads(path.read_text(encoding="utf-8"))
 def finding(code:str,message:str,**extra:Any)->dict[str,Any]: return {"code":code,"severity":"P0","message":message,**extra}
 def digest64(value:Any)->bool: return isinstance(value,str) and re.fullmatch(r"(?:sha256:)?[0-9a-f]{64}",value) is not None
+
+def process_start_ticks(pid:int)->int|None:
+    try:
+        raw=Path(f"/proc/{pid}/stat").read_text(encoding="utf-8")
+        tail=raw[raw.rfind(")")+2:].split()
+        return int(tail[19]) if len(tail)>=20 else None
+    except Exception:
+        return None
+
+def validate_runtime_handoff(item:dict[str,Any])->bool:
+    handoff=item.get("runtime_handoff")
+    if handoff is None: return True
+    if not isinstance(handoff,dict): return False
+    parsed=urlparse(str(handoff.get("api_base","")))
+    pid=handoff.get("process_id")
+    ticks=handoff.get("process_start_ticks")
+    return (
+        handoff.get("preserved") is True
+        and handoff.get("server_cpu_only") is True
+        and handoff.get("accelerator_visibility")=="BLOCKED_FOR_SERVER_LIFETIME"
+        and parsed.scheme=="http"
+        and (parsed.hostname or "").lower() in {"127.0.0.1","localhost","::1"}
+        and isinstance(pid,int) and pid>0
+        and isinstance(ticks,int) and ticks>0
+        and process_start_ticks(pid)==ticks
+        and digest64(handoff.get("provider_binary_sha256"))
+    )
 
 def validate_hf(item:dict[str,Any])->bool:
     return (
@@ -52,6 +80,7 @@ def validate_ollama(item:dict[str,Any])->bool:
         and int(item.get("size_vram",-1))==0
         and item.get("network_model_pull_performed") is False
         and item.get("accelerator_execution_claimed") is False
+        and validate_runtime_handoff(item)
     )
 
 def valid_unavailable(item:dict[str,Any],provider_id:str)->bool:
