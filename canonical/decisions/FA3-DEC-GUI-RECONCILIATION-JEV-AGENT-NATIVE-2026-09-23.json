@@ -2,7 +2,7 @@
   "schema": "fa3.decision-record.v1",
   "id": "FA3-DEC-GUI-RECONCILIATION-JEV-AGENT-NATIVE-2026-09-23",
   "date": "2026-09-23",
-  "status": "CANONICAL_MATERIALIZED_PENDING_REFERENCE_CI_AND_CURRENT_HOST_VISUAL",
+  "status": "CANONICAL_MATERIALIZED_REFERENCE_PASS_CURRENT_HOST_VISUAL_PENDING",
   "subject": "FA3 GUI reconciliation after Decision Fabric/Jev and Agent Native/UAF adoption",
   "decision": "RECONCILE_AND_MATERIALIZE",
   "profile_id": "FA3-DESKTOP-001",
@@ -71,5 +71,13 @@
     "CURRENT_HOST_WAYLAND_OR_X11_INTERACTIVE_SMOKE_RECEIPT",
     "CURRENT_HOST_VISUAL_NAVIGATION_AND_ACTION_FLOW_RECEIPT",
     "NO_FABRICATED_RUNTIME_OR_TELEMETRY_STATE"
-  ]
+  ],
+  "reference_validation": {
+    "status": "PASS",
+    "tested_head": "79a71114a3d9c5a83fe8431039c3862e01d8136d",
+    "workflow_run_id": 35902144865,
+    "static_contract_job_id": 107320747988,
+    "qt_reference_build_job_id": 107320748620,
+    "current_host_runtime_claim": false
+  }
 }

@@ -7,7 +7,7 @@
   "production_admitted": false,
   "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
   "reference_gate_status": "PASS",
-  "reference_build_status": "CI_REQUIRED",
+  "reference_build_status": "PASS_RECONCILED_HEAD",
   "current_host_receipt": "evidence/receipts/fa3-gui-current-host.json",
   "current_host_receipt_present": false,
   "promotion_blockers": [
@@ -16,5 +16,11 @@
   ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
-  "capability_count_after": 143
+  "capability_count_after": 143,
+  "reference_validation": {
+    "tested_head": "79a71114a3d9c5a83fe8431039c3862e01d8136d",
+    "workflow_run_id": 35902144865,
+    "static_contract_job_id": 107320747988,
+    "qt_reference_build_job_id": 107320748620
+  }
 }

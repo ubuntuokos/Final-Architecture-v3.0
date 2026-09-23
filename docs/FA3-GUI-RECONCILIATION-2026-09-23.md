@@ -32,7 +32,7 @@ The GUI is vendor-neutral. Accelerator inventory is dynamic **0..N**. No NVIDIA/
 
 ## Required closure before GUI runtime promotion
 
-The structural reconciliation does **not** promote the GUI runtime. Promotion remains fail-closed until all of the following are attributable to the reconciled head:
+The structural reconciliation has **reference PASS** (static/unit + Qt6 reference build), but it does **not** promote the GUI runtime. Runtime promotion remains fail-closed until all of the following are attributable to a current-host visual/runtime receipt:
 
 - GUI static regression gate PASS;
 - Qt reference build PASS;
@@ -42,3 +42,14 @@ The structural reconciliation does **not** promote the GUI runtime. Promotion re
 - no fabricated telemetry, CONNECTED or PASS state.
 
 The existing `FA3-GUI-RUNTIME-CONFORMANCE-001` therefore remains `PENDING_CURRENT_HOST`.
+
+
+## Reference validation result
+
+Reference validation is **PASS** for tested head `79a71114a3d9c5a83fe8431039c3862e01d8136d`:
+
+- FA3 GUI Gate run **35902144865**;
+- static-contract job **107320747988**: PASS;
+- Qt6 reference-build job **107320748620**: PASS.
+
+This reference PASS is deliberately not a current-host Wayland/X11 visual/runtime PASS.
