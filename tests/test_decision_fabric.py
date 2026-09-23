@@ -103,11 +103,10 @@ class DecisionFabricTests(unittest.TestCase):
         verify_projection(restored)
         self.assertEqual({row["id"]: row for row in restored["items"]}["b"]["state"], "ACTIVE")
 
-    def test_jev_requires_explicit_admission_and_runtime_model(self):
+    def test_jev_requires_explicit_admission_and_model_router_transport(self):
         provider = JevDecisionProvider(
             explicitly_enabled=False,
-            api_key="test",
-            model="jev-test-not-called",
+            router_transport=lambda envelope: {},
         )
         fabric = DecisionFabric([provider])
         trace = fabric.decide({
@@ -122,6 +121,54 @@ class DecisionFabricTests(unittest.TestCase):
             "final_policy_owner": "TEST",
         }, provider.provider_id)
         self.assertEqual(trace["status"], "NO_DECISION")
+
+    def test_jev_transport_is_bound_to_central_model_router(self):
+        def transport(envelope):
+            self.assertEqual(
+                envelope["authority"], "FA3-AUTH-MODEL-ROUTER-001"
+            )
+            self.assertEqual(envelope["logical_route"], "fa3-decision-jev")
+            self.assertNotIn("model", envelope["request"])
+            return {
+                "answers": {
+                    "decision": {
+                        "choice": "b",
+                        "confidence": 0.91,
+                        "probabilities": {"a": 0.09, "b": 0.91},
+                    }
+                },
+                "_fa3_routing": {
+                    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+                    "receipt_ref": "evidence://router/test",
+                    "provider_id": "TEST-JEV-RUNTIME",
+                    "model_id": "runtime-selected-model",
+                    "external_provider": True,
+                },
+            }
+
+        provider = JevDecisionProvider(
+            explicitly_enabled=True,
+            router_transport=transport,
+        )
+        fabric = DecisionFabric([provider])
+        trace = fabric.decide({
+            "contract": "SELECT_ONE",
+            "purpose": "choose bounded candidate",
+            "candidates": [{"id": "a"}, {"id": "b"}],
+            "constraints": {},
+            "policy_context": {},
+            "evidence_refs": [],
+            "failure_policy": "FAIL_CLOSED",
+            "rollout": "ACTIVE",
+            "final_policy_owner": "FA3-WEB-AI-001",
+        }, provider.provider_id)
+        self.assertEqual("b", trace["result"]["selected"])
+        self.assertEqual(
+            "FA3-AUTH-MODEL-ROUTER-001",
+            trace["provider_meta"]["model_router_authority"],
+        )
+        self.assertFalse(trace["provider_meta"]["physical_model_pinned"])
+        self.assertFalse(trace["provider_meta"]["physical_backend_pinned"])
 
     def test_local_semantic_provider_uses_logical_router_route(self):
         def transport(payload):
