@@ -8,6 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 from src.fa3_mat003_interaction_creative_current_host import (
     CAPABILITIES,
     browser_target_allowed,
+    cap013_authority_scope,
+    cap013_computer_use_desktop_admission,
     computer_use_intent_allowed,
     exact_rollback,
     skill_package_allowed,
@@ -67,6 +69,68 @@ class Mat003InteractionCreativeCurrentHostTests(unittest.TestCase):
         self.assertIn("discover_current_user_session_environment", text)
         self.assertIn('"session_discovery": session_context["evidence"]', text)
         self.assertNotIn("def _systemd_user_environment", text)
+
+    def test_cap013_authority_scope_keeps_secrets_under_cap003(self):
+        scope = cap013_authority_scope(ROOT)
+        self.assertEqual(scope["cap013_subject"], "KDE/Wayland Computer Use")
+        self.assertNotIn("AUTH-SECRETS", scope["cap013_authority_owners"])
+        self.assertEqual(scope["secrets_authority_owner"], "CAP-003")
+        self.assertFalse(scope["secret_backend_required_for_cap013"])
+        self.assertTrue(scope["desktop_projection_source_present"])
+
+    def test_cap013_scoped_admission_allows_only_secret_backend_full_gate_failure(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA"},
+            "session": {"type": "wayland"},
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        session_evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": True,
+            "kde_bus_identity_proven": True,
+            "portal_bus_identity_proven": True,
+        }
+        scoped = cap013_computer_use_desktop_admission(report, session_evidence)
+        self.assertEqual(scoped["result"], "PASS")
+        self.assertEqual(scoped["full_desktop_admission_result"], "FAIL")
+        self.assertEqual(scoped["full_desktop_required_failures"], ["secret_backend"])
+        self.assertEqual(scoped["secret_backend_status"], "FAIL")
+        self.assertFalse(scoped["secret_backend_used_for_cap013_admission"])
+
+    def test_cap013_scoped_admission_still_fails_on_computer_use_prerequisite(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA"},
+            "session": {"type": "wayland"},
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "FAIL",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        session_evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": True,
+            "kde_bus_identity_proven": True,
+            "portal_bus_identity_proven": True,
+        }
+        scoped = cap013_computer_use_desktop_admission(report, session_evidence)
+        self.assertEqual(scoped["result"], "FAIL")
+        self.assertIn("dbus_session", scoped["failed_checks"])
+        self.assertIn("full_desktop_failure:dbus_session", scoped["failed_checks"])
 
     def _film_plan(self):
         return {

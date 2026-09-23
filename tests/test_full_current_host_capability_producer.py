@@ -5,6 +5,7 @@ from pathlib import Path
 
 from src.fa3_full_current_host_capability_producer import (
     common_request_allowed,
+    desktop_wayland_scoped_admission,
     exact_rollback,
     negative_proof,
     proof_agent_process,
@@ -100,6 +101,85 @@ class FullCurrentHostCapabilityProducerTests(unittest.TestCase):
             self.assertTrue(conditional["conditional_external_activation"])
             self.assertFalse(conditional["provider_execution_claim"])
             self.assertFalse(conditional["external_network"])
+
+    def test_desktop_wayland_recipe_scope_excludes_secret_authority(self):
+        recipes = recipe_map(self.root)
+        registry = json.loads(
+            (self.root / "evidence/evidence-registry.json").read_text(encoding="utf-8")
+        )
+        records = {row["subject_id"]: row for row in registry["records"]}
+        desktop_caps = sorted(
+            cap for cap, row in recipes.items() if row["primitive"] == "desktop_wayland"
+        )
+        self.assertEqual(
+            [
+                "CAP-044",
+                "CAP-057",
+                "CAP-062",
+                "CAP-090",
+                "CAP-093",
+                "CAP-096",
+                "CAP-101",
+                "CAP-105",
+                "CAP-142",
+            ],
+            desktop_caps,
+        )
+        for cap in desktop_caps:
+            self.assertNotIn("AUTH-SECRETS", records[cap]["authority_owners"], cap)
+
+    def test_desktop_wayland_scoped_admission_ignores_only_secret_backend_failure(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA"},
+            "session": {"type": "wayland"},
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        session_evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": True,
+            "kde_bus_identity_proven": True,
+            "portal_bus_identity_proven": True,
+        }
+        scoped = desktop_wayland_scoped_admission(report, session_evidence)
+        self.assertEqual("PASS", scoped["result"])
+        self.assertEqual(["secret_backend"], scoped["full_desktop_required_failures"])
+        self.assertEqual("FAIL", scoped["secret_backend_status"])
+        self.assertFalse(scoped["secret_backend_used_for_desktop_wayland_admission"])
+
+    def test_desktop_wayland_scoped_admission_remains_fail_closed_for_session_failure(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA"},
+            "session": {"type": "wayland"},
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "FAIL",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+                "xdg_desktop_portal": "PASS",
+            },
+        }
+        session_evidence = {
+            "active_local_graphical_session_proven": True,
+            "wayland_socket_proven": True,
+            "kde_bus_identity_proven": True,
+            "portal_bus_identity_proven": True,
+        }
+        scoped = desktop_wayland_scoped_admission(report, session_evidence)
+        self.assertEqual("FAIL", scoped["result"])
+        self.assertIn("dbus_session", scoped["failed_checks"])
+        self.assertIn("full_desktop_failure:dbus_session", scoped["failed_checks"])
 
     def test_exact_rollback_is_byte_identical(self):
         with tempfile.TemporaryDirectory() as td:
