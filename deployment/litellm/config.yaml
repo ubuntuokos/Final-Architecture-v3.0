@@ -1,0 +1,18 @@
+# FA3-LLM-GATEWAY-001 non-operational reference baseline.
+# FA3-AUTH-MODEL-ROUTER-001 is the single routing authority.
+# The operational LiteLLM model_list is generated at runtime by
+# src/fa3_model_router_materialize.py from admitted current-host providers.
+# Physical provider endpoints and model identifiers MUST NOT be committed here.
+
+model_list: []
+
+router_settings:
+  routing_strategy: simple-shuffle
+
+# Compatibility-only reference secret indirection. The operational generated
+# central-router config uses FA3_MODEL_ROUTER_MASTER_KEY.
+general_settings:
+  master_key: os.environ/FA3_LITELLM_MASTER_KEY
+
+# Language policy is deliberately NOT encoded here.
+# Cloud providers and silent local-to-cloud fallback are absent by design.
