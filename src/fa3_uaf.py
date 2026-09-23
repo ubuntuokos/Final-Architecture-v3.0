@@ -211,7 +211,15 @@ class ProviderRegistry:
     def list_descriptors(self) -> list[ProviderDescriptor]:
         return [self._providers[key].descriptor for key in sorted(self._providers)]
 
-    def select(self, action_id: str) -> ActionProvider:
+    def select(
+        self,
+        action_id: str,
+        *,
+        decision_fabric: Any = None,
+        decision_provider_id: str = "FA3-PROVIDER-DECISION-RULES-001",
+        decision_state: Any = None,
+        decision_rollout: str = "SHADOW",
+    ) -> ActionProvider:
         candidates = [
             provider
             for provider in self._providers.values()
@@ -229,7 +237,43 @@ class ProviderRegistry:
                 provider.descriptor.provider_id,
             )
         )
-        return candidates[0]
+        deterministic = candidates[0]
+        if decision_fabric is None:
+            return deterministic
+
+        trace = decision_fabric.decide(
+            {
+                "contract": "SELECT_ONE",
+                "purpose": "Select one already-connected UAF provider for an already-authorized action",
+                "candidates": [
+                    {
+                        "id": provider.descriptor.provider_id,
+                        "description": ",".join(provider.descriptor.capabilities),
+                        "metadata": {"priority": -provider.descriptor.priority},
+                    }
+                    for provider in candidates
+                ],
+                "constraints": {},
+                "policy_context": {
+                    "action_id": action_id,
+                    "execution_authority": "FA3-UNIFIED-ACTION-FABRIC-001",
+                    "authorization_already_required": True,
+                },
+                "evidence_refs": [],
+                "state": decision_state,
+                "failure_policy": "EXISTING_BEHAVIOR",
+                "rollout": decision_rollout,
+                "final_policy_owner": "FA3-UNIFIED-ACTION-FABRIC-001",
+            },
+            decision_provider_id,
+        )
+        if decision_rollout != "ACTIVE" or trace.get("status") != "DECIDED":
+            return deterministic
+        selected = (trace.get("result") or {}).get("selected")
+        for provider in candidates:
+            if provider.descriptor.provider_id == selected:
+                return provider
+        raise UafError("UAF-NO-COMPATIBLE-PROVIDER", "Decision Fabric selected a provider outside the connected candidate set")
 
 
 class ActionDispatcher:
@@ -249,6 +293,9 @@ class ActionDispatcher:
         ] | None = None,
         release_secret_lease: Callable[[Any], None] | None = None,
         evidence_sink: Callable[[dict[str, Any]], None] | None = None,
+        decision_fabric: Any = None,
+        decision_provider_id: str = "FA3-PROVIDER-DECISION-RULES-001",
+        decision_rollout: str = "SHADOW",
     ) -> None:
         self.registry = registry
         self.providers = providers
@@ -259,6 +306,9 @@ class ActionDispatcher:
         self.acquire_secret_lease = acquire_secret_lease
         self.release_secret_lease = release_secret_lease
         self.evidence_sink = evidence_sink
+        self.decision_fabric = decision_fabric
+        self.decision_provider_id = decision_provider_id
+        self.decision_rollout = decision_rollout
 
     def execute(self, request: ActionRequest) -> ActionResult:
         started = int(time.time())
@@ -284,7 +334,17 @@ class ActionDispatcher:
                     "UAF-APPROVAL-REQUIRED",
                     "approval authority did not confirm/consume grant",
                 )
-        provider = self.providers.select(request.action_id)
+        provider = self.providers.select(
+            request.action_id,
+            decision_fabric=self.decision_fabric,
+            decision_provider_id=self.decision_provider_id,
+            decision_state={
+                "request_id": request.request_id,
+                "context": request.context.as_dict(),
+                "principal": request.principal,
+            },
+            decision_rollout=self.decision_rollout,
+        )
         resource_lease: Any = None
         secret_leases: list[Any] = []
         try:
