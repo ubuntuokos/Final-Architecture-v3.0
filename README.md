@@ -1235,3 +1235,15 @@ The global hardware baseline remains valid with **0..N accelerators** and CPU-on
 Agent-initiated inference must use a typed UAF action. Neither agents, execution providers, inference backends nor Jev may bypass Model Router/HRB/security boundaries or expand an application's authorized AI participant set. Decision Fabric/Jev may only advise within a deterministically prefiltered eligible candidate set.
 
 Current pinned compatibility references are OpenVINO 2026.4.0, ONNX Runtime 1.30.0, TensorRT 11.3.0.99 with CUDA 13.4 provider-scoped compatibility, TensorRT-RTX 1.6.1.120 and TensorRT-RTX EP ABI 0.4.2. Reference updates do not promote a provider runtime.
+## FA3 Caption / Subtitle / Narration Fabric
+
+`FA3-CAPTION-SUBTITLE-001` materializes one shared provider-neutral caption fabric behind two focused standalone applications and reusable embedded workspaces:
+
+- **FA3 Subtitle Studio** — `./bin/fa3-caption-studio`; subtitle import, revisioned editing, synchronization/drift correction, deterministic QC and SRT/WebVTT/ASS/SSA/SBV/TTML/FA3-JSON interchange.
+- **FA3 Narration Studio** — `./bin/fa3-narration-studio`; subtitle-to-narration, voice-over, dubbing and audio-description-ready planning. Voice synthesis remains delegated to `FA3-VOICE-001`; the application never owns provider/model routing.
+- **Embedded surfaces** — the same caption semantics are projected into the FA3 Control Center and are available to QuickClip, Creative Studio and Kdenlive/editorial handoff without flattening editable caption state.
+
+Agent Native execution uses typed UAF actions. Decision Fabric may advise only inside an already eligible candidate set. Hardsub OCR fails closed until an OCR provider is separately admitted; static Caption Fabric PASS never implies OCR runtime or voice-provider production admission.
+
+Hardware semantics remain portable: CPU-only hosts are valid, accelerators are dynamic `0..N`, no vendor/SKU/CUDA/ROCm pin is introduced, and accelerated execution requires the existing Host Resource Broker lease boundary.
+

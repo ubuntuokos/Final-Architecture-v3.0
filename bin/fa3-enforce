@@ -82,6 +82,11 @@ if [[ "${1:-}" == "caption-subtitle" ]]; then
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_caption_subtitle_gate.py" --root "$ROOT" "$@"
 fi
 
+if [[ "${1:-}" == "caption-subtitle-current-host" ]]; then
+  shift
+  exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_caption_subtitle_current_host_gate.py" --root "$ROOT" "$@"
+fi
+
 if [[ "${1:-}" == "neural-rendering-current-host" ]]; then
   shift
   exec env PYTHONPATH="$ROOT/src${PYTHONPATH:+:$PYTHONPATH}" python3 "$ROOT/src/fa3_neural_rendering_current_host_gate.py" --root "$ROOT" "$@"
