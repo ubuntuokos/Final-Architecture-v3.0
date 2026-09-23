@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -14,6 +15,19 @@ import fa3_model_router_provider_discovery as discovery
 
 
 class TestModelRouterProviderDiscovery(unittest.TestCase):
+    def _handoff(self, api_base: str):
+        pid = os.getpid()
+        ticks = discovery.process_start_ticks(pid)
+        self.assertIsNotNone(ticks)
+        return {
+            "preserved": True,
+            "api_base": api_base,
+            "process_id": pid,
+            "process_start_ticks": ticks,
+            "server_cpu_only": True,
+            "accelerator_visibility": "BLOCKED_FOR_SERVER_LIFETIME",
+        }
+
     def _root(self, providers):
         tmp = tempfile.TemporaryDirectory()
         root = Path(tmp.name)
@@ -24,7 +38,11 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
 
     def test_only_admitted_and_live_providers_are_emitted(self):
         tmp, root = self._root({
-            discovery.LM_STUDIO_PROVIDER_ID: {"status": "PASS", "selected_model_key": "runtime-proven-model"},
+            discovery.LM_STUDIO_PROVIDER_ID: {
+                "status": "PASS",
+                "selected_model_key": "runtime-proven-model",
+                "runtime_handoff": self._handoff("http://127.0.0.1:1234/v1"),
+            },
             discovery.OLLAMA_PROVIDER_ID: {"status": "UNAVAILABLE_OR_FAILED"},
         })
         try:
@@ -37,10 +55,23 @@ class TestModelRouterProviderDiscovery(unittest.TestCase):
             row = registry["providers"][0]
             self.assertEqual(row["provider_id"], discovery.LM_STUDIO_PROVIDER_ID)
             self.assertEqual(row["priority"], 50)
-            self.assertEqual(row["selection_origin"], "CURRENT_HOST_LIVE_ENDPOINT_DISCOVERY")
+            self.assertEqual(row["selection_origin"], "CURRENT_HOST_ADMISSION_HANDOFF_DISCOVERY")
+            self.assertTrue(row["runtime_instance_bound"])
             self.assertEqual(row["preferred_models"], ["runtime-proven-model"])
             self.assertEqual(row["model_preference_origin"], "CURRENT_HOST_ADMISSION_EVIDENCE")
             self.assertFalse(registry["physical_model_pins"])
+        finally:
+            tmp.cleanup()
+
+    def test_admitted_but_unbound_provider_fails_closed(self):
+        tmp, root = self._root({
+            discovery.LM_STUDIO_PROVIDER_ID: {"status": "PASS", "selected_model_key": "runtime-proven-model"},
+            discovery.OLLAMA_PROVIDER_ID: {"status": "UNAVAILABLE_OR_FAILED"},
+        })
+        try:
+            with patch.object(discovery, "models_live", return_value=True):
+                with self.assertRaises(RuntimeError):
+                    discovery.discover(root, root / "providers.json", 0.1)
         finally:
             tmp.cleanup()
 
