@@ -1,7 +1,7 @@
 {
   "schema": "fa3.agency-agents-curated-candidate-catalog.v1",
   "id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
-  "status": "CURATED_CANDIDATES_NOT_ADMITTED",
+  "status": "CURATED_REFERENCE_SOURCES_NORMALIZED",
   "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
   "upstream_repository": "msitarzewski/agency-agents",
   "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
@@ -9,15 +9,17 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "persona_body_vendored": false,
-  "activation_default": "DISABLED_NOT_ADMITTED",
+  "activation_default": "INERT_REFERENCE_ONLY",
   "selection_policy": {
     "purpose": "Select a small FA3-relevant source set without importing the full Agency Agents corpus or creating execution authority.",
     "full_upstream_auto_import": false,
     "immutable_source_identity_required": true,
     "domain_fit_required": true,
     "existing_fa3_authority_overlap_must_be_mapped_not_duplicated": true,
-    "distribution_and_content_admission_required_before_materialization": true,
-    "activation_requires_separate_fa3_admission": true
+    "distribution_and_content_admission_required_before_materialization": false,
+    "activation_requires_separate_fa3_admission": true,
+    "verbatim_or_substantial_source_body_import_requires_separate_distribution_and_content_admission": true,
+    "fa3_native_derived_normalization_without_source_body_vendoring_allowed": true
   },
   "agents": [
     {
@@ -32,12 +34,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-MULTI-AGENT-SYSTEMS-ARCHITECT-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-002",
@@ -51,12 +56,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-AI-ENGINEERING-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-003",
@@ -70,12 +78,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-DEVOPS-AUTOMATION-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-004",
@@ -89,12 +100,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-EVIDENCE-COLLECTOR-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-005",
@@ -108,12 +122,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-READINESS-REVIEWER-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-006",
@@ -127,12 +144,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-PERFORMANCE-BENCHMARKER-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-007",
@@ -146,12 +166,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-API-TESTER-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-008",
@@ -165,12 +188,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-WORKFLOW-OPTIMIZER-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-009",
@@ -184,12 +210,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-APPLICATION-SECURITY-REVIEWER-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-010",
@@ -203,12 +232,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-COMPLIANCE-RESEARCHER-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-011",
@@ -222,12 +254,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-XR-INTERFACE-ARCHITECT-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-AGENT-012",
@@ -241,12 +276,15 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "persona_body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "tool_grants": [],
       "model_provider_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_definition_id": "FA3-AGENT-ROLE-3D-SCENE-VISUALIZATION-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     }
   ],
   "templates": [
@@ -262,10 +300,13 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_template_id": "FA3-AGENT-TEMPLATE-PROJECT-BUILD-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-TEMPLATE-002",
@@ -279,10 +320,13 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_template_id": "FA3-AGENT-TEMPLATE-FEATURE-DELIVERY-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-TEMPLATE-003",
@@ -296,10 +340,13 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_template_id": "FA3-AGENT-TEMPLATE-MARKETING-CAMPAIGN-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-TEMPLATE-004",
@@ -313,10 +360,13 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_template_id": "FA3-AGENT-TEMPLATE-INCIDENT-RESPONSE-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     },
     {
       "candidate_id": "AGA-CAND-TEMPLATE-005",
@@ -330,18 +380,25 @@
       "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
       "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
       "body_vendored": false,
-      "activation_status": "DISABLED_NOT_ADMITTED",
+      "activation_status": "INERT_REFERENCE_ONLY",
       "authority_grants": [],
       "distribution_gate_required": true,
-      "content_admission_required": true
+      "content_admission_required": false,
+      "content_admission_required_if_source_body_imported": true,
+      "normalized_template_id": "FA3-AGENT-TEMPLATE-HANDOFF-001",
+      "normalization_status": "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
     }
   ],
   "admission_state": {
     "candidate_selection": "MATERIALIZED",
     "source_bodies_imported": false,
-    "distribution_decision_receipts_issued": false,
-    "content_admission_receipts_issued": false,
-    "runtime_materialization": false,
+    "source_body_admission_receipts_issued": false,
+    "normalized_definition_materialization": true,
+    "definition_contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+    "definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "canonical_role_definition_count": 12,
+    "canonical_template_definition_count": 5,
+    "runtime_provider_materialization": false,
     "current_host_claim": false
   }
 }
