@@ -1,0 +1,66 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+  "profile": "FA3-MARKETING-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "upstream_runtime_dependency": false,
+  "jev_role": "OPTIONAL_ADVISORY_PROVIDER_NOT_AUTHORITY",
+  "contracts": [
+    "MarketingDecisionRequest",
+    "MarketingDecisionReceipt",
+    "MarketingContextEnvelope",
+    "MarketingSemanticValidation",
+    "MarketingProjectRadarEntry"
+  ],
+  "schema_records": [
+    "FA3-MARKETING-DECISION-RECEIPT-001.schema.json",
+    "FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json"
+  ],
+  "decision_kinds": [
+    "CONTEXT_SELECTION",
+    "CANDIDATE_RANKING",
+    "CLASSIFICATION",
+    "RETRY_STOP_CONTINUE",
+    "SEMANTIC_VALIDATION"
+  ],
+  "outcomes": [
+    "CONTINUE",
+    "RETRY",
+    "REASSIGN",
+    "ESCALATE",
+    "STOP_SUCCESS",
+    "STOP_BLOCKED",
+    "STOP_FAILED"
+  ],
+  "mandatory_invariants": [
+    "APPLICATION_OR_POLICY_SUPPLIES_A_NON_EMPTY_BOUNDED_CANDIDATE_SET",
+    "ADVISORY_PROVIDER_CANNOT_ADD_OR_AUTHORIZE_CANDIDATES",
+    "DETERMINISTIC_POLICY_FILTERS_RUN_BEFORE_OPTIONAL_ADVISORY_RANKING",
+    "JEV_IS_OPTIONAL_AND_CANNOT_BECOME_IDENTITY_POLICY_SECRET_WORKFLOW_OR_EVIDENCE_AUTHORITY",
+    "DECISION_RECEIPT_BINDS_INPUT_DIGEST_CANDIDATES_SELECTION_REJECTIONS_REASON_SCOPE_AND_IMPLEMENTATION",
+    "CONTEXT_ENVELOPE_RECORDS_SELECTED_AND_REJECTED_REFERENCES",
+    "ESCALATE_MEANS_HUMAN_REQUEST_AND_NEVER_AUTOMATIC_AUTHORIZATION",
+    "SEMANTIC_VALIDATION_FAILURE_FAILS_CLOSED",
+    "CHECKPOINTS_CARRY_DECISION_RECEIPTS",
+    "PROJECT_RADAR_ENTRIES_CARRY_PROVENANCE_AND_EVIDENCE_REFERENCES",
+    "AI_COMMUNICATION_REMAINS_HUMAN_READABLE",
+    "NO_DIRECT_PROVIDER_MUTATION_OUTSIDE_UAF"
+  ],
+  "selected_pattern_families": {
+    "context": ["fast-jev-compaction", "Winnow", "jev-pruner", "codex-jev-compaction"],
+    "routing": ["Firstmate", "Switchboard", "OpenChamber"],
+    "search_cache": ["jev-search", "GPTCache"],
+    "evidence": ["Jev Review", "jevgrep"],
+    "security": ["pkg-gate", "agentgateway"],
+    "provider_mcp": ["Jevbridge", "jev-mcp"],
+    "browser": ["cua", "jev-browser"],
+    "voice": ["OpenWhisper", "AIAvatarKit"],
+    "ui": ["json-render"]
+  },
+  "pattern_use": "EVALUATED_DESIGN_INPUT_ONLY_UNLESS_SEPARATELY_ADMITTED"
+}

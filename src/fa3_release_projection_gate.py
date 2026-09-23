@@ -3012,6 +3012,45 @@ def gate(root: Path):
                 )
             )
 
+    marketing_agent_native = projection.get("marketing_agent_native_reconciliation", {})
+    marketing_agent_native_paths = {
+        "canonical/FA3-GATE-MARKETING-AGENT-NATIVE-001.json",
+        "canonical/FA3-MARKETING-RUNTIME-CONFORMANCE-001.json",
+        "canonical/contracts/FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001.json",
+        "canonical/contracts/FA3-MARKETING-DECISION-RECEIPT-001.schema.json",
+        "canonical/contracts/FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json",
+        "canonical/decisions/FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23.json",
+        "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
+        "src/fa3_marketing_decision_fabric.py",
+        "src/fa3_marketing_uaf.py",
+        "src/fa3_marketing_agent_native_gate.py",
+        "src/fa3_marketing_current_host_gate.py",
+        ".github/workflows/fa3-marketing-current-host.yml",
+    }
+    if (
+        marketing_agent_native.get("profile_id") != "FA3-MARKETING-001"
+        or marketing_agent_native.get("contract_id") != "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001"
+        or marketing_agent_native.get("decision_id") != "FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23"
+        or marketing_agent_native.get("gate_id") != "FA3-MARKETING-AGENT-NATIVE-GATESET-001"
+        or marketing_agent_native.get("action_count") != 15
+        or marketing_agent_native.get("reference_evidence_status") != "STATIC_AND_REFERENCE_PASS_NOT_RUNTIME"
+        or marketing_agent_native.get("current_host_required_evidence_level") != "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        or marketing_agent_native.get("current_host_status") != "PENDING_CURRENT_HOST_PRODUCTION_E2E"
+        or marketing_agent_native.get("production_provider_admission") is not False
+        or marketing_agent_native.get("global_promotion_claim") is not False
+        or marketing_agent_native.get("new_capabilities") != 0
+        or marketing_agent_native.get("new_architectural_authorities") != 0
+        or marketing_agent_native.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in projection_gates
+        or "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in policy_gates
+        or not marketing_agent_native_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-118",
+            "Marketing Agent Native/Jev advisory reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
+        ))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -3048,6 +3087,7 @@ def gate(root: Path):
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
+            "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),

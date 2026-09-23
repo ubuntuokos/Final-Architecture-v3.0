@@ -169,6 +169,23 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
         "capability_count_after": capability_count,
     }
+    projection["marketing_agent_native_reconciliation"] = {
+        "profile_id": "FA3-MARKETING-001",
+        "contract_id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+        "decision_id": "FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23",
+        "gate_id": "FA3-MARKETING-AGENT-NATIVE-GATESET-001",
+        "action_count": 15,
+        "reference_evidence": "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
+        "reference_evidence_status": "STATIC_AND_REFERENCE_PASS_NOT_RUNTIME",
+        "current_host_conformance_id": "FA3-MARKETING-RUNTIME-CONFORMANCE-001",
+        "current_host_required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+        "current_host_status": "PENDING_CURRENT_HOST_PRODUCTION_E2E",
+        "production_provider_admission": False,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
 
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
