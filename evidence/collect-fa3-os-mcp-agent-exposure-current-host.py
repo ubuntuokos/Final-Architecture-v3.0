@@ -76,10 +76,16 @@ def _agent_invoke(socket_path: Path, payload: dict[str, Any]) -> tuple[int, dict
         Path(request_file).unlink(missing_ok=True)
 
 
-def _payload(*, actor: str = "FA3-AGENT-CURRENT-HOST-TEST", scoped: bool = True) -> dict[str, Any]:
+def _payload(
+    *,
+    actor: str = "FA3-AGENT-CURRENT-HOST-TEST",
+    scoped: bool = True,
+    project_id: str = PROJECT,
+    workstream_id: str = WORKSTREAM,
+) -> dict[str, Any]:
     arguments: dict[str, Any] = {"limit": 20}
     if scoped:
-        arguments.update({"project_id": PROJECT, "workstream_id": WORKSTREAM})
+        arguments.update({"project_id": project_id, "workstream_id": workstream_id})
     return {
         "actor_id": actor,
         "client_id": "fa3-agent-runtime",
@@ -107,16 +113,19 @@ def collect(output: Path) -> dict[str, Any]:
 
     journal = default_journal_path()
     journal.parent.mkdir(parents=True, exist_ok=True)
+    run_scope = f"{time.time_ns():x}-{os.getpid():x}"
+    project_id = f"{PROJECT}-{run_scope}"
+    workstream_id = f"{WORKSTREAM}-{run_scope}"
     event = ingest_event(
         {
             "source_kind": "FA3_NATIVE",
             "capture_kind": "APPLICATION_EVENT",
             "action": "AGENT_EXPOSURE_ADMISSION",
-            "subject": {"kind": "WORKSTREAM", "reference": WORKSTREAM},
+            "subject": {"kind": "WORKSTREAM", "reference": workstream_id},
             "application_id": "FA3 Current Host Admission",
-            "project_id": PROJECT,
+            "project_id": project_id,
             "session_id": "FA3-OS-MCP-ADMISSION",
-            "workstream_id": WORKSTREAM,
+            "workstream_id": workstream_id,
             "artifact_id": "FA3-OS-MCP-ADMISSION-EVENT",
             "provenance": {"source_class": "FA3_NATIVE", "source_reference": "agent-exposure-collector"},
             "confidence": 1.0,
@@ -139,10 +148,19 @@ def collect(output: Path) -> dict[str, Any]:
     health, readiness = _wait_socket(socket_path)
     socket_mode = stat.S_IMODE(socket_path.stat().st_mode)
 
-    direct_status, direct_body = unix_request(str(socket_path), "POST", "/invoke", _payload())
-    wrong_status, wrong_body = _agent_invoke(socket_path, _payload(actor="NOT-AN-FA3-AGENT"))
+    direct_status, direct_body = unix_request(
+        str(socket_path), "POST", "/invoke",
+        _payload(project_id=project_id, workstream_id=workstream_id),
+    )
+    wrong_status, wrong_body = _agent_invoke(
+        socket_path,
+        _payload(actor="NOT-AN-FA3-AGENT", project_id=project_id, workstream_id=workstream_id),
+    )
     scope_status, scope_body = _agent_invoke(socket_path, _payload(scoped=False))
-    ok_status, ok_body = _agent_invoke(socket_path, _payload())
+    ok_status, ok_body = _agent_invoke(
+        socket_path,
+        _payload(project_id=project_id, workstream_id=workstream_id),
+    )
 
     result = ok_body.get("result", {}) if isinstance(ok_body, dict) else {}
     audit_id = str(result.get("audit_event_id", ""))
