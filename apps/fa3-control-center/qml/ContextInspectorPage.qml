@@ -37,10 +37,17 @@ Item {
                         Label { text: modelData.kind || ""; color: root.textMuted; font.pixelSize: 9 }
                         Label { text: modelData.text || ""; color: root.textMuted; Layout.fillWidth: true; elide: Text.ElideRight; font.pixelSize: 9 }
                     }
-                    Label {
-                        text: modelData.state || "UNKNOWN"
-                        color: modelData.state === "PROTECTED" ? root.magenta : modelData.state === "ACTIVE" ? root.green : root.orange
-                        font.bold: true
+                    ColumnLayout {
+                        Label {
+                            text: modelData.state || "UNKNOWN"
+                            color: modelData.state === "PROTECTED" ? root.magenta : modelData.state === "ACTIVE" ? root.green : root.orange
+                            font.bold: true
+                        }
+                        Button {
+                            visible: modelData.state === "HIDDEN"
+                            text: "Restore to active context"
+                            onClicked: fa3DecisionFabric.restoreContextItem(modelData.id || "")
+                        }
                     }
                 }
             }
