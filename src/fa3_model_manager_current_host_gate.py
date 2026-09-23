@@ -26,15 +26,25 @@ def validate_runtime_handoff(item:dict[str,Any])->bool:
     handoff=item.get("runtime_handoff")
     if handoff is None: return True
     if not isinstance(handoff,dict): return False
-    parsed=urlparse(str(handoff.get("api_base","")))
+    openai_base=str(handoff.get("openai_api_base") or handoff.get("api_base") or "").strip().rstrip("/")
+    native_base=str(handoff.get("native_api_base") or "").strip().rstrip("/")
+    if not native_base and openai_base.endswith("/v1"):
+        native_base=openai_base[:-3].rstrip("/")
+    if not native_base:
+        native_base=openai_base
+    openai=urlparse(openai_base)
+    native=urlparse(native_base)
     pid=handoff.get("process_id")
     ticks=handoff.get("process_start_ticks")
     return (
         handoff.get("preserved") is True
         and handoff.get("server_cpu_only") is True
         and handoff.get("accelerator_visibility")=="BLOCKED_FOR_SERVER_LIFETIME"
-        and parsed.scheme=="http"
-        and (parsed.hostname or "").lower() in {"127.0.0.1","localhost","::1"}
+        and openai.scheme=="http"
+        and native.scheme=="http"
+        and (openai.hostname or "").lower() in {"127.0.0.1","localhost","::1"}
+        and (native.hostname or "").lower()==(openai.hostname or "").lower()
+        and native.port==openai.port
         and isinstance(pid,int) and pid>0
         and isinstance(ticks,int) and ticks>0
         and process_start_ticks(pid)==ticks
