@@ -18,6 +18,7 @@ AGENT_PROFILE = "canonical/profiles/FA3-AGENT-INSTRUCTIONS-001.json"
 SKILL_PROFILE = "canonical/profiles/FA3-SKILL-FABRIC-001.json"
 DECISION_PROFILE = "canonical/profiles/FA3-DECISION-FABRIC-001.json"
 SKILL_DISCOVERY_CONTRACT = "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
+DECISION_ASSESSMENT = "canonical/assessments/FA3-QUALITY-ANTI-SLOP-DECISION-ASSESSMENT-2026-09-23.json"
 UPSTREAM_REFERENCE = "canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json"
 DISTRIBUTION_REGISTRY = "canonical/distribution-registry.json"
 DISTRIBUTION_MANIFEST = "canonical/distribution-manifest.json"
@@ -73,7 +74,7 @@ def _validate_skill_file(root: Path, skill: str) -> tuple[bool, str]:
 def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     checks: list[dict[str, str]] = []
-    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, DISTRIBUTION_MANIFEST, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE, CANONICAL_ENFORCER]
+    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, DECISION_ASSESSMENT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, DISTRIBUTION_MANIFEST, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE, CANONICAL_ENFORCER]
     missing = [x for x in required if not (root / x).is_file()]
     checks.append(check("core-records-present", not missing, f"missing={missing}"))
     if missing:
@@ -89,6 +90,7 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     skill_profile = loadj(root, SKILL_PROFILE)
     decision_profile = loadj(root, DECISION_PROFILE)
     skill_discovery_contract = loadj(root, SKILL_DISCOVERY_CONTRACT)
+    decision_assessment = loadj(root, DECISION_ASSESSMENT)
     upstream_reference = loadj(root, UPSTREAM_REFERENCE)
     distribution_registry = loadj(root, DISTRIBUTION_REGISTRY)
     distribution_manifest = loadj(root, DISTRIBUTION_MANIFEST)
@@ -215,6 +217,24 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
         and skill_discovery_contract.get("eligibility_semantics", {}).get("task_scoped_skill_without_matching_task_class_ineligible") is True
     )
     checks.append(check("agent-skill-decision-bindings", integration_ok, "Agent Native, Skill Fabric and Decision Fabric use deterministic task-scoped quality selection"))
+
+    assessment_ok = (
+        decision_assessment.get("schema") == "fa3.decision-fabric-assessment.v1"
+        and "FA3-QUALITY-ANTI-SLOP-001" in decision_assessment.get("covered_ids", [])
+        and decision_assessment.get("assessment") == "RECOMMENDED"
+        and decision_assessment.get("project_radar_checked") is True
+        and decision_assessment.get("hardware_audit", {}).get("vendor_neutral") is True
+        and decision_assessment.get("hardware_audit", {}).get("cpu_only_viable") is True
+        and decision_assessment.get("hardware_audit", {}).get("global_accelerator_requirement") is False
+        and decision_assessment.get("security_boundary", {}).get("may_grant_permission") is False
+        and decision_assessment.get("security_boundary", {}).get("may_expand_candidate_set") is False
+        and decision_assessment.get("security_boundary", {}).get("may_create_agent") is False
+        and decision_assessment.get("security_boundary", {}).get("may_admit_model") is False
+        and decision_assessment.get("security_boundary", {}).get("may_admit_provider") is False
+        and decision_assessment.get("capability_delta") == 0
+        and decision_assessment.get("authority_delta") == 0
+    )
+    checks.append(check("decision-fabric-adoption-assessment", assessment_ok, "bounded semantic quality-skill selection is assessed without delegating gate or authority decisions"))
 
     mandatory = enforcement.get("mandatory_reference_gates", [])
     enforcement_ok = (
