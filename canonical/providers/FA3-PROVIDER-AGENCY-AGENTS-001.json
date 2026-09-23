@@ -92,7 +92,9 @@
     "auto_update": false,
     "new_commit_requires_readmission": true,
     "global_corpus_auto_injection": false,
-    "task_scoped_loading_required": true
+    "task_scoped_loading_required": true,
+    "curated_candidate_selection_materialized": true,
+    "curated_candidate_selection_is_admission": false
   },
   "agent_native": {
     "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
@@ -159,5 +161,6 @@
     "pending_contract_binding": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
     "pending_profile_binding": "FA3-DISTRIBUTION-COMPLIANCE-001",
     "pending_until_canonical_main_materialization": true
-  }
+  },
+  "curated_candidate_catalog": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
 }
