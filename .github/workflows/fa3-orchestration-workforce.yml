@@ -1,0 +1,52 @@
+name: FA3 Orchestration Workforce Gate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**ORCHESTRATION*'
+      - 'canonical/actions/orchestration.*.json'
+      - 'src/fa3_orchestration_*.py'
+      - 'tests/test_orchestration_workforce*.py'
+      - 'examples/orchestration-workforce-media.json'
+      - 'docs/FA3-ORCHESTRATION-WORKFORCE-001.md'
+      - 'bin/fa3-enforce'
+      - '.github/workflows/fa3-orchestration-workforce.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  workforce-contract:
+    name: orchestration-workforce / canonical
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false, fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m py_compile src/fa3_orchestration_workforce.py src/fa3_orchestration_provider_spi.py src/fa3_orchestration_workforce_gate.py
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_orchestration_workforce*.py' -v
+      - run: |
+          ./bin/fa3-enforce uaf
+          ./bin/fa3-enforce ai-comms
+          ./bin/fa3-enforce decision-fabric
+          ./bin/fa3-enforce orchestration-workforce
+      - run: ./bin/fa3-enforce decision-adoption --base-ref origin/main
+      - run: PYTHONPATH=src python src/fa3_orchestration_workforce.py --root . --request examples/orchestration-workforce-media.json > reports/orchestration-workforce-media-plan.json
+      - shell: bash
+        run: |
+          set +e
+          PYTHONPATH=src python src/fa3_orchestration_workforce.py --root . --request examples/orchestration-workforce-media.json --runtime > reports/orchestration-workforce-runtime-pending.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-orchestration-workforce-reports
+          path: |
+            reports/orchestration-workforce-gate-report.json
+            reports/orchestration-workforce-media-plan.json
+            reports/orchestration-workforce-runtime-pending.json

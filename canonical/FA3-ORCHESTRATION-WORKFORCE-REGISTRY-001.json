@@ -1,0 +1,662 @@
+{
+  "schema": "fa3.orchestration-workforce-registry.v1",
+  "id": "FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "selection_semantics": {
+    "algorithm": "HARD_FILTERS_THEN_DETERMINISTIC_SCORE",
+    "ai_recommendation_may_override_hard_filter": false,
+    "ambiguity_resolution": "HUMAN_ESCALATION",
+    "runtime_requires_current_host_evidence": true,
+    "fallback_repeats_all_hard_filters": true,
+    "decision_fabric": "OPTIONAL_ADVISORY_AFTER_DETERMINISTIC_ELIGIBILITY",
+    "decision_fabric_candidate_expansion": false,
+    "static_runtime_status_is_admission_authority": false,
+    "runtime_admission": "SCOPE_BOUND_CURRENT_HOST_EVIDENCE_RECEIPT",
+    "authorized_ai_participant_set_may_expand": false
+  },
+  "director": {
+    "id": "FA3-ORCHESTRATION-DIRECTOR-001",
+    "owned_by": "FA3",
+    "provider": null,
+    "architectural_authority": false,
+    "capabilities": [
+      "intent_classification",
+      "domain_decomposition",
+      "competency_matching",
+      "anti_capability_filtering",
+      "authority_scope_validation",
+      "delegation",
+      "cross_domain_plan_assembly",
+      "conflict_escalation",
+      "result_aggregation",
+      "candidate_set_construction",
+      "decision_advisory_request_construction",
+      "uaf_action_projection"
+    ]
+  },
+  "horizontal_authorities": [
+    {
+      "domain": "security_policy",
+      "authority": "FA3-AUTH-SECURITY-GOV-001"
+    },
+    {
+      "domain": "tool_mediation",
+      "authority": "FA3-AUTH-MCP-GATEWAY-001"
+    },
+    {
+      "domain": "model_routing",
+      "authority": "FA3-AUTH-MODEL-ROUTER-001"
+    },
+    {
+      "domain": "host_resource",
+      "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+    },
+    {
+      "domain": "accelerator_conflict",
+      "authority": "FA3-ACCEL-GUARD-001",
+      "default_mode": "RECOMMEND"
+    },
+    {
+      "domain": "human_approval",
+      "authority": "AUTH-HUMAN"
+    },
+    {
+      "domain": "evidence",
+      "authority": "FA3-AUTH-OBS-EVIDENCE-001"
+    },
+    {
+      "domain": "canonical_registry",
+      "authority": "FA3-REGISTRY-001"
+    }
+  ],
+  "specialists": [
+    {
+      "id": "FA3-SPECIALIST-DURABLE-LIFECYCLE-001",
+      "name": "Durable Workflow Lifecycle Manager",
+      "provider": "Temporal",
+      "provider_id": "EXISTING_FA3_TEMPORAL_AUTHORITY",
+      "priority": "P0",
+      "requirement": "MUST",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "EXISTING_CANONICAL_AUTHORITY",
+      "architectural_authority": true,
+      "authority_scope": [
+        "durable_lifecycle"
+      ],
+      "domains": [
+        "durable-workflow",
+        "cross-domain-lifecycle"
+      ],
+      "strong_capabilities": [
+        "durable_lifecycle",
+        "retry",
+        "timeout",
+        "durable_wait",
+        "signals",
+        "workflow_history",
+        "failure_recovery",
+        "child_workflows",
+        "cancellation"
+      ],
+      "supported_capabilities": [
+        "long_running_coordination"
+      ],
+      "anti_capabilities": [
+        "creative_direction",
+        "gpu_placement",
+        "model_selection",
+        "security_policy",
+        "tool_authority",
+        "realtime_media_transport"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 30
+    },
+    {
+      "id": "FA3-SPECIALIST-ROLE-TEAM-001",
+      "name": "Role-Based Collaborative Team Manager",
+      "provider": "CrewAI",
+      "provider_id": "FA3-PROVIDER-CREWAI-001",
+      "priority": "P0",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "role-team",
+        "creative-team",
+        "research-team",
+        "marketing-team"
+      ],
+      "strong_capabilities": [
+        "role_team_management",
+        "hierarchical_delegation",
+        "creative_team_planning",
+        "specialist_collaboration"
+      ],
+      "supported_capabilities": [
+        "flow_state",
+        "task_delegation",
+        "human_collaboration"
+      ],
+      "anti_capabilities": [
+        "durable_global_lifecycle",
+        "gpu_placement",
+        "npu_placement",
+        "security_policy",
+        "canonical_registry",
+        "realtime_media_transport",
+        "batch_render_execution",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 22
+    },
+    {
+      "id": "FA3-MEDIA-PRODUCTION-DIRECTOR-001",
+      "name": "Media Production Director",
+      "provider": "FA3_NATIVE_WITH_CREWAI_ADAPTER",
+      "provider_id": "FA3-PROVIDER-CREWAI-001",
+      "priority": "P0",
+      "requirement": "MUST",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "media-production"
+      ],
+      "strong_capabilities": [
+        "media_production_planning",
+        "creative_team_planning",
+        "cross_media_coordination",
+        "creative_direction_delegation"
+      ],
+      "supported_capabilities": [
+        "story_supervision",
+        "editorial_supervision",
+        "audio_supervision",
+        "visual_supervision",
+        "vfx_supervision",
+        "character_supervision"
+      ],
+      "anti_capabilities": [
+        "gpu_placement",
+        "npu_placement",
+        "security_policy",
+        "durable_global_lifecycle",
+        "direct_render_farm_scheduling",
+        "canonical_registry",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 35
+    },
+    {
+      "id": "FA3-SPECIALIST-ADAPTIVE-JOB-GRAPH-001",
+      "name": "Adaptive Bounded Job Graph Manager",
+      "provider": "Conductor",
+      "provider_id": "FA3-PROVIDER-CONDUCTOR-001",
+      "priority": "P1",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "adaptive-job",
+        "media-job",
+        "batch-render",
+        "transcoding"
+      ],
+      "strong_capabilities": [
+        "adaptive_job_graph",
+        "dynamic_fork",
+        "bounded_parallelism",
+        "media_batch_job",
+        "retry_restart_rerun",
+        "inspectable_execution_graph"
+      ],
+      "supported_capabilities": [
+        "human_task",
+        "worker_abstraction",
+        "subworkflow"
+      ],
+      "anti_capabilities": [
+        "creative_direction",
+        "gpu_placement",
+        "security_policy",
+        "global_durable_lifecycle_authority",
+        "canonical_registry",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 20
+    },
+    {
+      "id": "FA3-SPECIALIST-GOVERNED-AGENT-TEAM-001",
+      "name": "Governed and Auditable Agent Team Manager",
+      "provider": "Open Multi-Agent",
+      "provider_id": "FA3-PROVIDER-OPEN-MULTI-AGENT-001",
+      "priority": "P1",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "governed-agent-team",
+        "audit-heavy-agent-work"
+      ],
+      "strong_capabilities": [
+        "governed_agent_team",
+        "durable_approval",
+        "execution_journal",
+        "execution_receipt",
+        "deterministic_agent_scheduling",
+        "plan_replay"
+      ],
+      "supported_capabilities": [
+        "checkpoint_resume",
+        "budgeting",
+        "local_model_team_execution"
+      ],
+      "anti_capabilities": [
+        "gpu_placement",
+        "security_authority",
+        "global_durable_lifecycle_authority",
+        "canonical_registry",
+        "media_transport",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 18
+    },
+    {
+      "id": "FA3-SPECIALIST-STATEFUL-AGENT-GRAPH-001",
+      "name": "Stateful Agent Graph Manager",
+      "provider": "LangGraph",
+      "provider_id": "FA3-PROVIDER-LANGGRAPH-001",
+      "priority": "P1",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "stateful-agent-graph",
+        "agent-reasoning-graph"
+      ],
+      "strong_capabilities": [
+        "stateful_agent_graph",
+        "conditional_edges",
+        "cyclic_agent_flow",
+        "checkpoint",
+        "interrupt_resume",
+        "human_in_the_loop"
+      ],
+      "supported_capabilities": [
+        "agent_memory",
+        "streaming"
+      ],
+      "anti_capabilities": [
+        "gpu_placement",
+        "security_policy",
+        "integration_bus",
+        "global_durable_lifecycle_authority",
+        "canonical_registry",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 18
+    },
+    {
+      "id": "FA3-SPECIALIST-EVENT-INGEST-001",
+      "name": "Event and Ingest Pipeline Manager",
+      "provider": "Kestra",
+      "provider_id": "FA3-PROVIDER-KESTRA-001",
+      "priority": "P1",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "event-ingest",
+        "media-ingest",
+        "event-pipeline"
+      ],
+      "strong_capabilities": [
+        "event_ingest",
+        "file_arrival_trigger",
+        "queue_trigger",
+        "webhook_trigger",
+        "scheduled_trigger",
+        "pipeline_dispatch"
+      ],
+      "supported_capabilities": [
+        "declarative_workflow",
+        "worker_routing"
+      ],
+      "anti_capabilities": [
+        "creative_direction",
+        "gpu_placement",
+        "security_policy",
+        "global_durable_lifecycle_authority",
+        "realtime_media_transport",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 18
+    },
+    {
+      "id": "FA3-SPECIALIST-REALTIME-MULTIMODAL-001",
+      "name": "Realtime Multimodal Media Manager",
+      "provider": "Pipecat",
+      "provider_id": "FA3-PROVIDER-PIPECAT-001",
+      "priority": "P0",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "realtime-multimodal",
+        "voice-agent",
+        "realtime-avatar"
+      ],
+      "strong_capabilities": [
+        "realtime_multimodal",
+        "audio_video_streaming",
+        "voice_pipeline",
+        "barge_in",
+        "multimodal_transport",
+        "agent_handoff"
+      ],
+      "supported_capabilities": [
+        "parallel_fanout",
+        "distributed_realtime_agent"
+      ],
+      "anti_capabilities": [
+        "batch_render_execution",
+        "gpu_placement",
+        "security_policy",
+        "global_durable_lifecycle_authority",
+        "canonical_registry",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 25
+    },
+    {
+      "id": "FA3-SPECIALIST-INTEGRATION-001",
+      "name": "Integration and Business Automation Manager",
+      "provider": "n8n",
+      "provider_id": "FA3-PROVIDER-N8N-001",
+      "priority": "P0",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "integration",
+        "business-automation",
+        "external-service"
+      ],
+      "strong_capabilities": [
+        "integration_workflow",
+        "webhook",
+        "crm",
+        "email",
+        "external_api",
+        "human_business_workflow"
+      ],
+      "supported_capabilities": [
+        "visual_workflow",
+        "trigger_automation"
+      ],
+      "anti_capabilities": [
+        "gpu_placement",
+        "media_realtime_transport",
+        "security_policy",
+        "global_durable_lifecycle_authority",
+        "canonical_registry",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 22
+    },
+    {
+      "id": "FA3-SPECIALIST-KNOWLEDGE-001",
+      "name": "Knowledge, RAG and Context Pipeline Manager",
+      "provider": "Haystack",
+      "provider_id": "FA3-PROVIDER-HAYSTACK-001",
+      "priority": "P1",
+      "requirement": "SHOULD",
+      "enabled_for_design": true,
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "knowledge",
+        "rag",
+        "context-pipeline"
+      ],
+      "strong_capabilities": [
+        "rag_pipeline",
+        "retrieval",
+        "reranking",
+        "context_pipeline",
+        "citation_pipeline"
+      ],
+      "supported_capabilities": [
+        "agent_pipeline",
+        "memory_integration"
+      ],
+      "anti_capabilities": [
+        "gpu_placement",
+        "security_policy",
+        "creative_direction",
+        "global_durable_lifecycle_authority",
+        "canonical_registry",
+        "host_resource_admission",
+        "accelerator_placement",
+        "execution_path_selection",
+        "model_routing",
+        "ai_participant_set_expansion",
+        "direct_provider_execution"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 18
+    },
+    {
+      "id": "FA3-SPECIALIST-HEAVY-DATA-BATCH-RESERVE-001",
+      "name": "Heavy Data and ETL Batch Reserve",
+      "provider": "Apache Airflow",
+      "provider_id": "RESERVE_AIRFLOW",
+      "priority": "P2",
+      "requirement": "MAY",
+      "enabled_for_design": false,
+      "runtime_promotion_status": "RESERVE_DISABLED",
+      "architectural_authority": false,
+      "authority_scope": [],
+      "domains": [
+        "data-batch",
+        "etl"
+      ],
+      "strong_capabilities": [
+        "scheduled_batch",
+        "data_dag",
+        "etl_pipeline"
+      ],
+      "supported_capabilities": [
+        "distributed_worker"
+      ],
+      "anti_capabilities": [
+        "creative_direction",
+        "realtime_media_transport",
+        "gpu_placement",
+        "security_policy",
+        "global_durable_lifecycle_authority"
+      ],
+      "prohibited_authority_roles": [
+        "FA3_AUTHORIZATION_AUTHORITY",
+        "FA3_MCP_CAPABILITY_GATEWAY_AUTHORITY",
+        "FA3_MODEL_ROUTING_AUTHORITY",
+        "FA3_EVIDENCE_PROVENANCE_AUTHORITY",
+        "FA3_CANONICAL_REGISTRY_AUTHORITY",
+        "FA3_DURABLE_WORKFLOW_AUTHORITY",
+        "FA3_HOST_RESOURCE_AUTHORITY"
+      ],
+      "rank_bias": 0
+    }
+  ],
+  "version": "2.0.0",
+  "horizontal_fabrics": [
+    {
+      "domain": "action_execution",
+      "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+      "architectural_authority": false
+    },
+    {
+      "domain": "human_auditable_ai_communication",
+      "fabric": "FA3-AI-COMMS-001",
+      "architectural_authority": false
+    },
+    {
+      "domain": "semantic_advisory",
+      "fabric": "FA3-DECISION-FABRIC-001",
+      "role": "OPTIONAL_ADVISORY_NOT_AUTHORITY"
+    },
+    {
+      "domain": "hardware_discovery",
+      "fabric": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+      "architectural_authority": false
+    }
+  ]
+}

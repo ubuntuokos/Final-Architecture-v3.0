@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-OS-RUNTIME-001",
   "name": "FA3 OS Local Context Capture, Correlation & Episodic Memory Reference Runtime",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -27,7 +27,9 @@
     "menu_label": "FA3 OS",
     "page_route": "FA3_OS",
     "page_index": 26,
-    "mode": "READ_AND_REFERENCE_RUNTIME_STATUS"
+    "mode": "READ_AND_REFERENCE_RUNTIME_STATUS",
+    "semantic_route_id": "integrations.fa3-os",
+    "stack_layout_index_is_implementation_detail": true
   },
   "source_adapter_classes": [
     "EXPLICIT_MANUAL",

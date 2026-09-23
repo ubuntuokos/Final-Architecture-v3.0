@@ -176,6 +176,54 @@ QVariantList Fa3RepositoryModel::searchRecords(const QString &query) const
     return result;
 }
 
+QVariantList Fa3RepositoryModel::searchActions(const QString &query) const
+{
+    const auto needle = query.trimmed();
+    QVariantList result;
+    const QDir actionsDir(m_repoRoot + "/canonical/actions");
+    if (!actionsDir.exists()) return result;
+
+    QDirIterator it(actionsDir.absolutePath(), {"*.json"}, QDir::Files);
+    while (it.hasNext()) {
+        const auto absolutePath = it.next();
+        QFile file(absolutePath);
+        if (!file.open(QIODevice::ReadOnly)) continue;
+        QJsonParseError error;
+        const auto document = QJsonDocument::fromJson(file.readAll(), &error);
+        if (error.error != QJsonParseError::NoError || !document.isObject()) continue;
+        const auto object = document.object();
+        if (object.value("schema").toString() != QStringLiteral("fa3.uaf.action-contract.v1")) continue;
+
+        const auto semantics = object.value("semantics").toObject();
+        const auto security = object.value("security").toObject();
+        const auto resources = object.value("resources").toObject();
+        const auto provider = object.value("provider").toObject();
+        const auto evidence = object.value("evidence").toObject();
+
+        QVariantMap row;
+        row.insert("id", object.value("id").toString(QFileInfo(absolutePath).baseName()));
+        row.insert("description", object.value("description").toString());
+        row.insert("version", object.value("version").toString());
+        row.insert("mutating", semantics.value("mutating").toBool(false));
+        row.insert("longRunning", semantics.value("long_running").toBool(false));
+        row.insert("approval", security.value("approval").toString("none"));
+        row.insert("authorization", security.value("authorization").toString("required"));
+        row.insert("hrbRequired", resources.value("hrb_required").toBool(false));
+        row.insert("providerRole", provider.value("preferred_role").toString());
+        row.insert("decisionReceiptRequired", evidence.value("decision_receipt_required").toBool(false));
+        row.insert("path", QString("canonical/actions/%1").arg(QFileInfo(absolutePath).fileName()));
+
+        const auto haystack = QString("%1 %2 %3 %4")
+            .arg(row.value("id").toString(), row.value("description").toString(),
+                 row.value("approval").toString(), row.value("providerRole").toString());
+        if (needle.isEmpty() || haystack.contains(needle, Qt::CaseInsensitive)) {
+            result.append(row);
+            if (result.size() >= 300) break;
+        }
+    }
+    return result;
+}
+
 QVariantList Fa3RepositoryModel::searchInstalledApplications(const QString &query) const
 {
     const auto needle = query.trimmed();
