@@ -64,6 +64,12 @@ def free_port()->int:
         s.bind(("127.0.0.1",0))
         return int(s.getsockname()[1])
 
+def process_start_ticks(pid:int)->int:
+    raw=Path(f"/proc/{pid}/stat").read_text(encoding="utf-8")
+    tail=raw[raw.rfind(")")+2:].split()
+    if len(tail)<20: raise RuntimeError("process stat is incomplete")
+    return int(tail[19])
+
 def hf_cache_candidates()->list[Path]:
     out:list[Path]=[]
     if os.environ.get("HF_HUB_CACHE"): out.append(Path(os.environ["HF_HUB_CACHE"]))
@@ -253,8 +259,9 @@ def start_ollama_cpu(runtime_dir:Path):
     env.update({
         "OLLAMA_HOST":f"127.0.0.1:{port}","OLLAMA_KEEP_ALIVE":"0",
         "OLLAMA_MAX_LOADED_MODELS":"1","OLLAMA_NUM_PARALLEL":"1",
-        "CUDA_VISIBLE_DEVICES":"","ROCR_VISIBLE_DEVICES":"",
-        "HIP_VISIBLE_DEVICES":"","GPU_DEVICE_ORDINAL":"",
+        "CUDA_VISIBLE_DEVICES":"-1","ROCR_VISIBLE_DEVICES":"-1",
+        "HIP_VISIBLE_DEVICES":"-1","GPU_DEVICE_ORDINAL":"-1",
+        "GGML_VK_VISIBLE_DEVICES":"-1","OLLAMA_VULKAN":"0",
     })
     log_fh=(runtime_dir/"ollama-cpu.log").open("w",encoding="utf-8")
     proc=subprocess.Popen([str(ollama),"serve"],stdout=log_fh,stderr=subprocess.STDOUT,text=True,env=env,start_new_session=True)
@@ -272,8 +279,9 @@ def start_ollama_cpu(runtime_dir:Path):
     log_fh.close()
     raise RuntimeError(f"ephemeral Ollama readiness timeout: {last}")
 
-def collect_ollama(runtime_dir:Path)->dict[str,Any]:
+def collect_ollama(runtime_dir:Path,preserve_runtime:bool=False)->dict[str,Any]:
     ollama,proc,base,models_source,models_fingerprint=start_ollama_cpu(runtime_dir)
+    preserved=False
     try:
         version=http_json(base+"/api/version",timeout=10)
         tags=http_json(base+"/api/tags",timeout=30)
@@ -301,8 +309,7 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
                 size_vram=running[0].get("size_vram")
                 if size_vram is None or int(size_vram)!=0:
                     raise RuntimeError(f"CPU-only proof failed: size_vram={size_vram}")
-                http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=120)
-                return {
+                result={
                     "provider_id":OLLAMA_PROVIDER_ID,"status":"PASS",
                     "evidence_level":"CURRENT_HOST_RUNTIME_E2E_PASS",
                     "ollama_version":version.get("version") if isinstance(version,dict) else None,
@@ -317,20 +324,40 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
                     "accelerator_visibility":"HIDDEN_FOR_CPU_SMOKE",
                     "network_model_pull_performed":False,"accelerator_execution_claimed":False,
                     "candidate_failures_before_success":failures,
+                    "cpu_only_server_controls":{
+                        "accelerator_device_selection":"BLOCKED",
+                        "vulkan_disabled":True,
+                        "per_request_num_gpu":0,
+                    },
                 }
+                if preserve_runtime:
+                    result["runtime_handoff"]={
+                        "preserved":True,
+                        "api_base":base+"/v1",
+                        "process_id":proc.pid,
+                        "process_start_ticks":process_start_ticks(proc.pid),
+                        "server_cpu_only":True,
+                        "accelerator_visibility":"BLOCKED_FOR_SERVER_LIFETIME",
+                        "provider_binary_sha256":sha256_file(ollama),
+                    }
+                    preserved=True
+                else:
+                    http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=120)
+                return result
             except Exception as exc:
                 failures.append(type(exc).__name__)
                 try: http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=30)
                 except Exception: pass
         raise RuntimeError("no local Ollama model completed CPU-only generate: "+" | ".join(failures[-3:]))
     finally:
-        try: os.killpg(proc.pid,15)
-        except ProcessLookupError: pass
-        try: proc.wait(timeout=15)
-        except subprocess.TimeoutExpired:
-            try: os.killpg(proc.pid,9)
+        if not preserved:
+            try: os.killpg(proc.pid,15)
             except ProcessLookupError: pass
-            proc.wait(timeout=5)
+            try: proc.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                try: os.killpg(proc.pid,9)
+                except ProcessLookupError: pass
+                proc.wait(timeout=5)
 
 def attempt_provider(provider_id:str,fn)->dict[str,Any]:
     try:
@@ -353,6 +380,7 @@ def attempt_provider(provider_id:str,fn)->dict[str,Any]:
 def main()->int:
     ap=argparse.ArgumentParser()
     ap.add_argument("--root",default=str(ROOT))
+    ap.add_argument("--preserve-serving-runtime",action="store_true")
     args=ap.parse_args()
     root=Path(args.root).resolve()
     if platform.system()!="Linux" or platform.machine().lower() not in {"x86_64","amd64"}:
@@ -382,7 +410,10 @@ def main()->int:
 
     receipt["providers"][HF_PROVIDER_ID]=attempt_provider(HF_PROVIDER_ID,collect_hf)
     receipt["providers"][LM_STUDIO_PROVIDER_ID]=attempt_provider(LM_STUDIO_PROVIDER_ID,lambda:collect_lmstudio(runtime_dir))
-    receipt["providers"][OLLAMA_PROVIDER_ID]=attempt_provider(OLLAMA_PROVIDER_ID,lambda:collect_ollama(runtime_dir))
+    receipt["providers"][OLLAMA_PROVIDER_ID]=attempt_provider(
+        OLLAMA_PROVIDER_ID,
+        lambda:collect_ollama(runtime_dir,preserve_runtime=args.preserve_serving_runtime),
+    )
 
     serving_ids=(LM_STUDIO_PROVIDER_ID,OLLAMA_PROVIDER_ID)
     admitted=[pid for pid,item in receipt["providers"].items() if item.get("status")=="PASS"]
