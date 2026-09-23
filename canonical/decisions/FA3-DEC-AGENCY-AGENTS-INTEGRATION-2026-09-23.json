@@ -3,7 +3,7 @@
   "id": "FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23",
   "title": "Integrate Agency Agents as an immutable non-authoritative agent catalog, persona and runbook reference provider",
   "date": "2026-09-23",
-  "status": "CANONICAL_IMPLEMENTED_STATIC_GATE_PENDING_OPEN_RECONCILIATIONS",
+  "status": "CANONICAL_IMPLEMENTED_STATIC_GATES_OPEN_RUNTIME_AND_RELEASE_VALIDATION",
   "decision": "ADMIT_AS_OPTIONAL_IMMUTABLE_REFERENCE_PROVIDER_WITH_FA3_NATIVE_NORMALIZATION",
   "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
   "parent_profile": "FA3-AGENT-EXEC-001",
@@ -35,7 +35,8 @@
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001"
   },
   "open_reconciliations": [
-    "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED"
+    "LATEST_UNIFIED_RELEASE_PROJECTION_REGENERATION_PENDING",
+    "FRESH_PERMANENT_CI_AFTER_AGENT_DEFINITION_AND_GUI_BINDING_PENDING"
   ],
   "runtime_status": "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY",
   "current_host_runtime_claim": false,
@@ -62,16 +63,22 @@
       "new_top_level_route": false,
       "direct_provider_execution": false,
       "status": "RECONCILED_CANONICAL_MAIN",
-      "merged_gui_commit": "0c146d81b417cb3a9e4d871c596516f7afe285c3"
+      "merged_gui_commit": "0c146d81b417cb3a9e4d871c596516f7afe285c3",
+      "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001"
     }
   },
   "curated_candidate_selection": {
     "catalog_id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
-    "status": "MATERIALIZED_NOT_ADMITTED",
+    "status": "SOURCE_CANDIDATES_NORMALIZED_TO_FA3_NATIVE_DEFINITIONS",
     "agent_candidates": 12,
     "template_candidates": 5,
     "persona_bodies_vendored": false,
-    "activation_enabled": false,
-    "distribution_and_content_admission_still_required": true
+    "source_candidate_activation_enabled": false,
+    "definition_contract_id": "FA3-AGENT-DEFINITION-CONTRACTS-001",
+    "definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "canonical_role_definitions": 12,
+    "canonical_template_definitions": 5,
+    "runtime_provider_admission_performed": false,
+    "runtime_provider_admission_required_for_definition_metadata": false
   }
 }
