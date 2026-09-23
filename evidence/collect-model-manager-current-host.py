@@ -277,16 +277,21 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
     try:
         version=http_json(base+"/api/version",timeout=10)
         tags=http_json(base+"/api/tags",timeout=30)
-        candidates=select_ollama_models(tags,limit=5)
+        candidates=select_ollama_models(tags,limit=50)
         if not candidates: raise RuntimeError("no digest-addressed local Ollama model found")
         failures=[]
         for row in candidates:
             name=str(row.get("name") or row.get("model"))
             try:
+                show=http_json(base+"/api/show",{"model":name},timeout=30)
+                capabilities=show.get("capabilities") if isinstance(show,dict) else None
+                if isinstance(capabilities,list) and "completion" not in capabilities:
+                    failures.append("NON_COMPLETION_CAPABILITY")
+                    continue
                 response=http_json(base+"/api/generate",{
                     "model":name,"prompt":"Reply briefly with FA3_OLLAMA_E2E_PASS.",
                     "stream":False,"keep_alive":"5m",
-                    "options":{"num_ctx":512,"num_predict":8,"temperature":0},
+                    "options":{"num_ctx":512,"num_predict":8,"temperature":0,"num_gpu":0},
                 },timeout=600)
                 text=str(response.get("response","")) if isinstance(response,dict) else ""
                 if not text.strip(): raise RuntimeError("empty generate response")
@@ -314,7 +319,7 @@ def collect_ollama(runtime_dir:Path)->dict[str,Any]:
                     "candidate_failures_before_success":failures,
                 }
             except Exception as exc:
-                failures.append(f"{name}: {type(exc).__name__}: {exc}")
+                failures.append(type(exc).__name__)
                 try: http_json(base+"/api/generate",{"model":name,"keep_alive":0},timeout=30)
                 except Exception: pass
         raise RuntimeError("no local Ollama model completed CPU-only generate: "+" | ".join(failures[-3:]))
