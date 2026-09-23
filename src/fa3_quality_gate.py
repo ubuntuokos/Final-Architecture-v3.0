@@ -20,6 +20,7 @@ DECISION_PROFILE = "canonical/profiles/FA3-DECISION-FABRIC-001.json"
 SKILL_DISCOVERY_CONTRACT = "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json"
 UPSTREAM_REFERENCE = "canonical/references/FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23.json"
 DISTRIBUTION_REGISTRY = "canonical/distribution-registry.json"
+DISTRIBUTION_MANIFEST = "canonical/distribution-manifest.json"
 RECONCILER = "scripts/fa3_reconcile_release_projection.py"
 ENFORCEMENT = "canonical/enforcement-policy.json"
 WORKFLOW = ".github/workflows/fa3-quality-anti-slop.yml"
@@ -71,7 +72,7 @@ def _validate_skill_file(root: Path, skill: str) -> tuple[bool, str]:
 def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     checks: list[dict[str, str]] = []
-    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
+    required = [PROFILE, CONTRACT, DECISION, GATE_RECORD, RULE_REGISTRY, SKILL_REGISTRY, AGENT_PROFILE, SKILL_PROFILE, DECISION_PROFILE, SKILL_DISCOVERY_CONTRACT, UPSTREAM_REFERENCE, DISTRIBUTION_REGISTRY, DISTRIBUTION_MANIFEST, RECONCILER, ENFORCEMENT, WORKFLOW, PERMANENT_WORKFLOW, GUI_WORKFLOW, BIN_ENFORCE]
     missing = [x for x in required if not (root / x).is_file()]
     checks.append(check("core-records-present", not missing, f"missing={missing}"))
     if missing:
@@ -89,6 +90,7 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
     skill_discovery_contract = loadj(root, SKILL_DISCOVERY_CONTRACT)
     upstream_reference = loadj(root, UPSTREAM_REFERENCE)
     distribution_registry = loadj(root, DISTRIBUTION_REGISTRY)
+    distribution_manifest = loadj(root, DISTRIBUTION_MANIFEST)
     enforcement = loadj(root, ENFORCEMENT)
 
     profile_ok = (
@@ -142,6 +144,8 @@ def evaluate(root: Path, *, scope: str | None = None, changed_from: str | None =
         and not any(upstream_reference.get("imported", {}).values())
         and distribution_rows.get("FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23", {}).get("class") == "REFERENCE_ONLY"
         and distribution_rows.get("FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23", {}).get("release_bundle_status") == "EXCLUDED"
+        and any(x.get("subject_id") == "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23" and x.get("class") == "REFERENCE_ONLY" and x.get("release_bundle_status") == "EXCLUDED" for x in distribution_manifest.get("excluded", []))
+        and not any(x.get("subject_id") == "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23" for x in distribution_manifest.get("included", []))
     )
     checks.append(check("upstream-reference-distribution", provenance_ok, "anti-slop upstream is immutable REFERENCE_ONLY provenance with zero imported payload"))
 
