@@ -14,6 +14,18 @@ def distribution_of(row:dict[str,Any])->dict[str,Any]:
     if isinstance(d,dict):return d
     cls=row.get("distribution_class")
     return {"class":cls,"release_bundle_status":"INCLUDED" if row.get("product_bundle_allowed") is True else "EXCLUDED"}
+def canonical_registration(row:dict[str,Any],registry:dict[str,Any])->list[str]:
+    d=distribution_of(row);sid=row.get("id") or row.get("subject_id")
+    if not sid:return ["canonical external record id missing"]
+    matches=[r for r in registry.get("records",[]) if r.get("subject_id")==sid]
+    if len(matches)!=1:return [f"distribution registry requires exactly one matching record for {sid}"]
+    reg=matches[0];errors=[]
+    if reg.get("class")!=d.get("class"):errors.append(f"distribution registry class mismatch for {sid}")
+    status=d.get("release_bundle_status")
+    if status not in ("INCLUDED","EXCLUDED"):
+        status="INCLUDED" if (d.get("product_bundle_allowed") is True or row.get("product_bundle_allowed") is True) else "EXCLUDED"
+    if reg.get("release_bundle_status")!=status:errors.append(f"distribution registry bundle-status mismatch for {sid}")
+    return errors
 def validate_record(row:dict[str,Any])->list[str]:
     d=distribution_of(row);cls=d.get("class");errors=[]
     if cls not in CLASSES:return ["distribution class missing or invalid"]
@@ -34,9 +46,11 @@ def added_json(root:Path,base_ref:str)->list[str]:
         if len(parts)==2 and parts[0]=="A" and parts[1].endswith(".json"):out.append(parts[1])
     return out
 def gate(root:Path,base_ref:str)->dict[str,Any]:
-    root=Path(root).resolve();findings=[]
+    root=Path(root).resolve();findings=[];registry=load(root/"canonical/distribution-registry.json")
     for rel in added_json(root,base_ref):
-        try:row=load(root/rel);errors=validate_record(row)
+        try:
+            row=load(root/rel);errors=validate_record(row)
+            if not errors:errors.extend(canonical_registration(row,registry))
         except Exception as exc:errors=[str(exc)]
         if errors:findings.append({"code":"DIST-ADOPTION-001","path":rel,"errors":errors})
     return {"schema":"fa3.distribution-adoption-gate-report.v1","gate_id":"FA3-DISTRIBUTION-ADOPTION-GATE-001",
