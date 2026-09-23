@@ -130,6 +130,9 @@ def gate(root: Path) -> dict[str, Any]:
         "physical_model_pins",
         "preferred_models",
         "CURRENT_HOST_ADMISSION_EVIDENCE",
+        "ollama_chat",
+        "num_gpu",
+        "FA3_OLLAMA_OPENAI_API_BASE",
     )
     if any(token not in provider_discovery for token in required_discovery):
         findings.append(finding("MR-017", "current-host provider discovery does not preserve admitted/live/provider-neutral boundaries"))
