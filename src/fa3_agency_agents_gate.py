@@ -510,6 +510,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and surface.get("view_kind") == "IMPORTED_PACK_CHILD_VIEW"
         and surface.get("execution_intent_route") == "agents.action-center"
         and surface.get("new_top_level_navigation_route_required") is False
+        and surface.get("status") == "PENDING_PR_371_RECONCILIATION"
+        and surface.get("dependency_pr") == 371
         and contract.get("supply_chain", {}).get("distribution_profile_binding") == "FA3-DISTRIBUTION-COMPLIANCE-001"
         and contract.get("supply_chain", {}).get("distribution_contract_binding") == "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
         and contract.get("supply_chain", {}).get("distribution_compliance_status") == "CANONICAL_RECONCILED"
@@ -559,7 +561,7 @@ def gate(root: Path) -> dict[str, Any]:
         "full_upstream_content_admission": "NOT_PERFORMED",
         "curated_candidate_selection": "MATERIALIZED_NOT_ADMITTED",
         "curated_agent_template_admission": "PENDING_DISTRIBUTION_AND_CONTENT_ADMISSION",
-        "gui_surface_reconciliation": "PENDING",
+        "gui_surface_reconciliation": "PENDING_PR_371_RECONCILIATION",
         "external_redistributable_binding": "CANONICAL_RECONCILED_EXTERNAL_REDISTRIBUTABLE_BUNDLE_EXCLUDED",
         "current_host_runtime_claim": False,
         "global_promotion_claim": False,
