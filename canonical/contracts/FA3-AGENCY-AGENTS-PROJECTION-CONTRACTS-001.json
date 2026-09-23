@@ -33,7 +33,9 @@
     "persona_implies_model_provider": false,
     "source_tool_hints_are_intents_only": true,
     "canonical_capabilities_must_be_explicitly_bound_by_fa3": true,
-    "canonical_authorization_must_be_external": true
+    "canonical_authorization_must_be_external": true,
+    "candidate_catalog_is_activation_authority": false,
+    "candidate_selection_requires_separate_content_admission": true
   },
   "runbook_mapping": {
     "upstream_runbook_is_durable_workflow_authority": false,
@@ -106,5 +108,6 @@
     "new_top_level_route": false,
     "surface_is_authority": false,
     "mutation_semantics": "READ_ONLY_CATALOG_OR_DRAFT_INTENT_ONLY"
-  }
+  },
+  "curated_candidate_catalog": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
 }
