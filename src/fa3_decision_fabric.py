@@ -204,8 +204,9 @@ def _selected_ids(result: Any) -> set[str]:
 
 
 class DecisionFabric:
-    def __init__(self, providers: list[DecisionProvider] | None = None) -> None:
+    def __init__(self, providers: list[DecisionProvider] | None = None, trace_writer=None) -> None:
         self.providers: dict[str, DecisionProvider] = {}
+        self.trace_writer = trace_writer
         for provider in providers or [RuleDecisionProvider()]:
             self.register(provider)
 
@@ -259,6 +260,8 @@ class DecisionFabric:
             "provider_meta": provider_result.provider_meta,
             "global_promotion_claim": False,
         }
+        if self.trace_writer is not None:
+            self.trace_writer(trace)
         return trace
 
     def _failure(
@@ -277,7 +280,7 @@ class DecisionFabric:
             status = "NO_DECISION"
         else:
             status = "PROVIDER_UNAVAILABLE"
-        return {
+        trace = {
             "schema": "fa3.decision-trace.v1",
             "decision_id": str(uuid.uuid4()),
             "contract": request.contract,
@@ -300,3 +303,6 @@ class DecisionFabric:
             "error_class": type(exc).__name__,
             "global_promotion_claim": False,
         }
+        if self.trace_writer is not None:
+            self.trace_writer(trace)
+        return trace
