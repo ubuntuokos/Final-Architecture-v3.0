@@ -6,13 +6,14 @@ import configparser
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
 
-SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v2"
+SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v3"
 ALIAS = "org.kde.secretservicecompat"
 STANDARD = "org.freedesktop.secrets"
 OBJECT_PATH = "/org/freedesktop/secrets"
@@ -97,6 +98,194 @@ def _user_bus_names(env: Mapping[str, str]) -> set[str]:
     if proc is None or proc.returncode != 0:
         return set()
     return {line.split()[0] for line in proc.stdout.splitlines() if line.split()}
+
+
+_SYSTEMD_SHOW_PROPERTIES = (
+    "LoadState",
+    "ActiveState",
+    "SubState",
+    "Result",
+    "ExecMainCode",
+    "ExecMainStatus",
+    "UnitFileState",
+    "NRestarts",
+)
+_SECRET_UNIT_RE = re.compile(r"(?:ksecret|secretservice|secret-service|kwallet|freedesktop.*secret)", re.IGNORECASE)
+
+
+def _run_systemctl_user(
+    env: Mapping[str, str],
+    argv: list[str],
+    *,
+    timeout: int = 5,
+) -> subprocess.CompletedProcess[str] | None:
+    systemctl = shutil.which("systemctl")
+    if (
+        not systemctl
+        or Path(systemctl).name != "systemctl"
+        or not env.get("DBUS_SESSION_BUS_ADDRESS")
+    ):
+        return None
+    try:
+        return subprocess.run(
+            [systemctl, "--user", *argv],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            env=dict(env),
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def _systemd_show_fields(text: str) -> dict[str, Any]:
+    allowed = set(_SYSTEMD_SHOW_PROPERTIES)
+    out: dict[str, Any] = {}
+    for raw in (text or "").splitlines():
+        if "=" not in raw:
+            continue
+        key, value = raw.split("=", 1)
+        if key not in allowed:
+            continue
+        value = value.strip()
+        if key in {"ExecMainCode", "ExecMainStatus", "NRestarts"}:
+            try:
+                out[key] = int(value)
+            except ValueError:
+                out[key] = None
+        else:
+            out[key] = value[:128]
+    return out
+
+
+def _activation_search_roots(env: Mapping[str, str]) -> list[tuple[str, Path]]:
+    roots: list[tuple[str, Path]] = [
+        ("SYSTEM_USR_LOCAL", Path("/usr/local/share/dbus-1/services")),
+        ("SYSTEM_USR", Path("/usr/share/dbus-1/services")),
+    ]
+    data_home = env.get("XDG_DATA_HOME")
+    if data_home:
+        roots.append(("USER_XDG_DATA_HOME", Path(data_home) / "dbus-1/services"))
+    elif env.get("HOME"):
+        roots.append(("USER_DEFAULT_DATA_HOME", Path(env["HOME"]) / ".local/share/dbus-1/services"))
+    seen: set[str] = set()
+    out: list[tuple[str, Path]] = []
+    for scope, path in roots:
+        key = str(path)
+        if key not in seen:
+            seen.add(key)
+            out.append((scope, path))
+    return out
+
+
+def _exec_basename(raw: str | None) -> str | None:
+    if not raw:
+        return None
+    try:
+        parts = shlex.split(raw, posix=True)
+    except ValueError:
+        return None
+    if not parts:
+        return None
+    return Path(parts[0]).name[:128] or None
+
+
+def _dbus_activation_descriptors(env: Mapping[str, str]) -> list[dict[str, Any]]:
+    descriptors: list[dict[str, Any]] = []
+    targets = {ALIAS, STANDARD}
+    for scope, root in _activation_search_roots(env):
+        if not root.is_dir():
+            continue
+        for path in sorted(root.glob("*.service")):
+            parser = configparser.RawConfigParser(interpolation=None, strict=False)
+            try:
+                parser.read(path, encoding="utf-8")
+            except (OSError, configparser.Error, UnicodeError):
+                continue
+            section = "D-BUS Service"
+            if not parser.has_section(section):
+                continue
+            name = parser.get(section, "Name", fallback="").strip()
+            if name not in targets:
+                continue
+            systemd_service = parser.get(section, "SystemdService", fallback="").strip()
+            exec_raw = parser.get(section, "Exec", fallback="").strip()
+            descriptors.append(
+                {
+                    "name": name,
+                    "source_scope": scope,
+                    "service_file": path.name[:160],
+                    "systemd_service": systemd_service[:160] or None,
+                    "exec_basename": _exec_basename(exec_raw),
+                    "exec_arguments_emitted": False,
+                }
+            )
+    return descriptors[:16]
+
+
+def _systemd_user_service_diagnostic(
+    env: Mapping[str, str],
+    activation_descriptors: list[dict[str, Any]],
+) -> dict[str, Any]:
+    candidate_units: set[str] = {
+        str(item.get("systemd_service"))
+        for item in activation_descriptors
+        if isinstance(item.get("systemd_service"), str)
+        and str(item.get("systemd_service")).endswith(".service")
+    }
+
+    listed = _run_systemctl_user(
+        env,
+        ["list-units", "--all", "--type=service", "--no-legend", "--plain", "--no-pager"],
+    )
+    if listed is not None and listed.returncode == 0:
+        for raw in listed.stdout.splitlines():
+            parts = raw.split()
+            if parts and parts[0].endswith(".service") and _SECRET_UNIT_RE.search(parts[0]):
+                candidate_units.add(parts[0])
+
+    unit_files = _run_systemctl_user(
+        env,
+        ["list-unit-files", "--type=service", "--no-legend", "--no-pager"],
+    )
+    unit_file_states: dict[str, str] = {}
+    if unit_files is not None and unit_files.returncode == 0:
+        for raw in unit_files.stdout.splitlines():
+            parts = raw.split()
+            if not parts or not parts[0].endswith(".service"):
+                continue
+            unit = parts[0]
+            if _SECRET_UNIT_RE.search(unit) or unit in candidate_units:
+                candidate_units.add(unit)
+                unit_file_states[unit] = parts[1][:64] if len(parts) > 1 else ""
+
+    units: list[dict[str, Any]] = []
+    for unit in sorted(candidate_units)[:32]:
+        show_args = ["show", unit, "--no-pager"]
+        for prop in _SYSTEMD_SHOW_PROPERTIES:
+            show_args.extend(["--property", prop])
+        proc = _run_systemctl_user(env, show_args)
+        row: dict[str, Any] = {
+            "unit": unit,
+            "show_returncode": None if proc is None else proc.returncode,
+        }
+        if proc is not None and proc.returncode == 0:
+            row.update(_systemd_show_fields(proc.stdout))
+        if unit in unit_file_states and "UnitFileState" not in row:
+            row["UnitFileState"] = unit_file_states[unit]
+        units.append(row)
+
+    return {
+        "queried": listed is not None or unit_files is not None,
+        "list_units_returncode": None if listed is None else listed.returncode,
+        "list_unit_files_returncode": None if unit_files is None else unit_files.returncode,
+        "candidate_count": len(candidate_units),
+        "units": units,
+        "raw_journal_collected": False,
+        "process_argv_collected": False,
+        "environment_collected": False,
+    }
 
 
 def _redact_unique_names(text: str) -> str:
@@ -218,6 +407,11 @@ def collect_plasma_secret_service_diagnostic(
     standard_owner = _name_owner_diagnostic(supplied, STANDARD, live_names=names)
     alias_owner_name = alias_owner.get("unique_owner")
     standard_owner_name = standard_owner.get("unique_owner")
+    activation_descriptors = _dbus_activation_descriptors(supplied)
+    systemd_user_services = _systemd_user_service_diagnostic(
+        supplied,
+        activation_descriptors,
+    )
 
     return {
         "schema": SCHEMA,
@@ -254,6 +448,8 @@ def collect_plasma_secret_service_diagnostic(
             standard_owner_name if isinstance(standard_owner_name, str) else None,
             target_live=isinstance(standard_owner_name, str) and bool(standard_owner_name),
         ),
+        "dbus_activation_descriptors": activation_descriptors,
+        "systemd_user_services": systemd_user_services,
         **state,
     }
 
