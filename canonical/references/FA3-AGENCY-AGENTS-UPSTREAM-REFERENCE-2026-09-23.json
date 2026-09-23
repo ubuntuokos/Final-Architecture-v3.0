@@ -1,0 +1,55 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23",
+  "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+  "repository": "msitarzewski/agency-agents",
+  "immutable_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+  "observed_ref": "main",
+  "observed_date": "2026-09-23",
+  "license": {
+    "name": "MIT",
+    "blob_sha": "523078c01624b9b1b1c551e75054b9d3a9f953ab",
+    "copyright_line": "Copyright (c) 2025 AgentLand Contributors",
+    "redistribution_notice_observation": "MIT text requires the copyright and permission notice to be included in copies or substantial portions."
+  },
+  "observed_artifacts": {
+    "readme": {
+      "blob_sha": "a3a6c65b8eb5a3b0722ab504eed00e2d06494720"
+    },
+    "divisions": {
+      "path": "divisions.json",
+      "blob_sha": "a8e2f98413ec3ddf827d8bd5af5491d9b146b9ac",
+      "division_count": 18
+    },
+    "runbooks": {
+      "path": "strategy/runbooks.json",
+      "blob_sha": "9547fa4553263204a80639af2bd72f7064795a40",
+      "runbook_count": 4
+    },
+    "handoff_templates": {
+      "path": "strategy/coordination/handoff-templates.md",
+      "blob_sha": "71bff4dbe71d533d992aa7734093bd95cfb0968d"
+    },
+    "multi_agent_architect": {
+      "path": "engineering/engineering-multi-agent-systems-architect.md",
+      "blob_sha": "4ca4ebef41d7ec024158d8ed2a9221c2037a72cc"
+    },
+    "converter": {
+      "path": "scripts/convert.sh",
+      "blob_sha": "226dbc58639a9c2137af6acad220891fa63a8288",
+      "executable_source": true
+    },
+    "lint": {
+      "path": "scripts/lint-agents.sh",
+      "blob_sha": "086b386c59411a37161e828fc0349d116a6edd18"
+    }
+  },
+  "interpretation": {
+    "divisions_are_upstream_taxonomy_not_fa3_taxonomy": true,
+    "runbooks_are_templates_not_fa3_durable_workflow_authority": true,
+    "handoffs_are_pattern_sources_for_existing_fa3_coordination_contracts": true,
+    "converter_outputs_are_not_implicitly_trusted_or_installed": true,
+    "full_upstream_content_admission_performed": false,
+    "current_host_runtime_evidence_claimed": false
+  }
+}
