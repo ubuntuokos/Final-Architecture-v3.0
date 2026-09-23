@@ -1,0 +1,106 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL_IMPLEMENTED_STATIC_REFERENCE_CURRENT_HOST_PROVIDER_E2E_PENDING",
+  "subject": "Provider-neutral neural rendering and temporal reconstruction with conditional OpenDLSS-NR provider",
+  "decision": "MATERIALIZE_PROVIDER_NEUTRAL_NEURAL_RENDERING_FABRIC_WITH_OPENDLSS_NR_AS_CONDITIONAL_PROVIDER",
+  "profile_id": "FA3-NEURAL-RENDERING-001",
+  "contract_id": "FA3-NEURAL-RENDERING-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+  "gate_id": "FA3-NEURAL-RENDERING-GATESET-001",
+  "capability_bindings": [
+    "CAP-016",
+    "CAP-056",
+    "CAP-060",
+    "CAP-071",
+    "CAP-083",
+    "CAP-111",
+    "CAP-121",
+    "CAP-126",
+    "CAP-127",
+    "CAP-135",
+    "CAP-136"
+  ],
+  "accepted": [
+    "neural rendering is a governed cross-profile projection for Creative Studio media DCC RT3D and browser execution",
+    "OpenDLSS-NR is a replaceable conditional provider and never an FA3 architectural authority",
+    "upstream native Windows NVIDIA Ada-or-newer requirements remain provider-scoped and never become global hardware requirements",
+    "the browser WebGPU implementation is a separately governed Web-AI execution projection",
+    "upstream GLSL-reference versus PTX-optimized parity and watchdog-to-barrier recovery are admitted as provider implementation patterns subject to FA3 evidence",
+    "model weights are separate governed model artifacts with independent identity provenance license and output-rights admission",
+    "Jev may only advise over an already bounded policy-eligible candidate set and cannot create authorize or execute candidates",
+    "Agent Native usage is UAF-only through typed versioned actions with authorization approval HRB and evidence boundaries",
+    "selected-provider execution failure fails closed and requires a new governed selection request rather than silent fallback"
+  ],
+  "rejected": [
+    "OpenDLSS-NR as a canonical rendering authority",
+    "global NVIDIA CUDA Vulkan Windows Ada or fixed-GPU requirement",
+    "provider-owned hardware discovery placement resource lease model routing security policy secret or evidence authority",
+    "direct GUI agent MCP or automation invocation of the provider outside UAF",
+    "Jev as router workflow engine executor policy authority or runtime dependency",
+    "bundling or redistributing NVIDIA model weights without separately admitted rights",
+    "treating stage SHA-256 integrity as license authenticity trust or authorization",
+    "promoting upstream benchmarks parity statements or hosted CI as current-host production evidence",
+    "silent native-to-WebGPU GPU-to-CPU provider backend or precision fallback"
+  ],
+  "upstream": {
+    "repository": "maanHimself/OpenDLSS-NR",
+    "immutable_commit": "9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1",
+    "repository_license": "MIT",
+    "commit_signature_verified": false,
+    "signature_status": "UPSTREAM_COMMIT_UNSIGNED",
+    "source_admission": "PINNED_REFERENCE_ACCEPTED_PRODUCTION_REQUIRES_FA3_SUPPLY_CHAIN_SCAN_AND_ATTESTATION"
+  },
+  "jev": {
+    "role": "OPTIONAL_BOUNDED_ADVISORY_NOT_AUTHORITY",
+    "deterministic_policy_filter_runs_first": true,
+    "candidate_expansion_forbidden": true,
+    "advisory_outage": "DETERMINISTIC_SELECTION_MAY_CONTINUE_WITHOUT_JEV",
+    "provider_execution_failure": "FAIL_CLOSED_NEW_UAF_SELECTION_REQUIRED",
+    "project_radar_provenance_required": true
+  },
+  "agent_native": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "direct_provider_bypass": false,
+    "actions": [
+      "render.neural.evaluate",
+      "render.neural.execute",
+      "render.neural.browser.execute"
+    ],
+    "typed_versioned_contracts_required": true,
+    "human_or_policy_approval_required": true,
+    "action_receipt_and_evidence_required": true
+  },
+  "hardware_audit": {
+    "profile": "FA3-HARDWARE-BASELINE-001",
+    "accelerator_cardinality_global": "0..N",
+    "cpu_only_host_conformant": true,
+    "hrb_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "live_discovery_required_for_host_acceleration": true,
+    "provider_specific_requirements_are_not_global": true
+  },
+  "authority_boundaries": {
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "model_artifact_identity": "FA3-MODEL-REGISTRY-001",
+    "model_provider_routing_when_used": "FA3-AUTH-MODEL-ROUTER-001",
+    "browser_execution": "FA3-WEB-AI-001",
+    "security": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "ai_communication": "FA3-AI-COMMS-001"
+  },
+  "current_host": {
+    "existing_429_capability_closure_reopened": false,
+    "provider_runtime_required_when_disabled_or_ineligible": false,
+    "native_upstream_linux_current_host_assumption": false,
+    "production_provider_admission": false,
+    "provider_e2e_status": "PENDING_COMPATIBLE_CURRENT_HOST_EXECUTION",
+    "reference_or_static_pass_is_provider_e2e": false,
+    "global_promotion_claim": false
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

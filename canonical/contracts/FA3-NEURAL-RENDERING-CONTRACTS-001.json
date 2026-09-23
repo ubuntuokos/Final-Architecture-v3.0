@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-NEURAL-RENDERING-CONTRACTS-001",
+  "profile": "FA3-NEURAL-RENDERING-001",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "NeuralRenderRequest",
+    "NeuralRenderProviderCandidate",
+    "NeuralRenderContextEnvelope",
+    "NeuralRenderDecisionReceipt",
+    "NeuralRenderExecutionPlan",
+    "NeuralRenderExecutionReceipt",
+    "NeuralRenderModelAdmissionReceipt",
+    "NeuralRenderQualityReceipt",
+    "NeuralRenderEvidenceEnvelope"
+  ],
+  "action_ids": [
+    "render.neural.evaluate",
+    "render.neural.execute",
+    "render.neural.browser.execute"
+  ],
+  "agent_native": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "upstream_runtime_dependency": false,
+    "direct_agent_provider_bypass_forbidden": true,
+    "direct_gui_provider_bypass_forbidden": true,
+    "mcp_exposure_behind_central_gateway": true
+  },
+  "decision_fabric": {
+    "jev_role": "OPTIONAL_ADVISORY_PROVIDER_NOT_AUTHORITY",
+    "bounded_candidate_set_required": true,
+    "deterministic_policy_filter_first": true,
+    "advisory_must_return_exact_permutation": true,
+    "candidate_expansion_forbidden": true,
+    "decision_receipt_required": true,
+    "context_selected_and_rejected_refs_required": true,
+    "project_radar_provenance_required": true
+  },
+  "execution_policy": {
+    "selected_provider_must_equal_executed_provider": true,
+    "selected_execution_class_must_equal_executed_class": true,
+    "host_native_acceleration_requires_hrb_lease": true,
+    "browser_webgpu_requires_web_ai_capability_receipt": true,
+    "provider_failure": "FAIL_CLOSED",
+    "reselection": "NEW_UAF_ACTION_REQUIRED",
+    "implicit_cpu_gpu_backend_provider_precision_or_cloud_fallback": false
+  },
+  "model_policy": {
+    "model_registry_identity_required": true,
+    "provider_source_identity_not_model_identity": true,
+    "model_weight_artifact_identity_required": true,
+    "stage_sha256_integrity_supported": true,
+    "checksum_does_not_grant_trust_license_or_execution_authority": true,
+    "model_data_license_and_output_rights_gate_required": true,
+    "model_data_must_not_enter_repository_without_admitted_redistribution_rights": true
+  },
+  "geometry_boundary": {
+    "semantic_authority": "FA3-3D-GEOM-001",
+    "neural_renderer_may_consume_scene_render_outputs": true,
+    "neural_renderer_may_rewrite_geometry_semantics": false
+  },
+  "browser_boundary": {
+    "profile": "FA3-WEB-AI-001",
+    "browser_runtime_is_execution_domain_not_authority": true,
+    "silent_remote_fallback_or_egress_forbidden": true
+  },
+  "ai_communication": {
+    "profile": "FA3-AI-COMMS-001",
+    "authoritative_human_readable_reason_required": true,
+    "private_or_opaque_model_language_forbidden": true
+  },
+  "mandatory_invariants": [
+    "APPLICATION_OR_POLICY_SUPPLIES_NON_EMPTY_BOUNDED_CANDIDATE_SET",
+    "DETERMINISTIC_POLICY_FILTERS_RUN_BEFORE_OPTIONAL_JEV_ADVISORY",
+    "JEV_CANNOT_ADD_AUTHORIZE_EXECUTE_OR_MUTATE_CANDIDATES",
+    "AGENT_NATIVE_SURFACES_USE_UAF_TYPED_ACTIONS_ONLY",
+    "NO_DIRECT_AGENT_GUI_MCP_OR_AUTOMATION_PROVIDER_BYPASS",
+    "HRB_REMAINS_EXCLUSIVE_HOST_RESOURCE_AUTHORITY",
+    "GLOBAL_HARDWARE_BASELINE_REMAINS_VENDOR_NEUTRAL_AND_ACCELERATOR_0_TO_N",
+    "PROVIDER_SPECIFIC_NVIDIA_WINDOWS_VULKAN_PTX_REQUIREMENTS_REMAIN_PROVIDER_SCOPED",
+    "NO_SILENT_PROVIDER_BACKEND_DEVICE_PRECISION_CPU_OR_CLOUD_FALLBACK",
+    "EXECUTION_FAILURE_REQUIRES_NEW_GOVERNED_SELECTION",
+    "MODEL_SOURCE_WEIGHT_ARTIFACT_RUNTIME_AND_LICENSE_IDENTITIES_REMAIN_SEPARATE",
+    "REFERENCE_OR_UPSTREAM_CLAIMS_DO_NOT_PROMOTE_CURRENT_HOST_RUNTIME",
+    "FA3_3D_GEOM_001_REMAINS_SOLE_GEOMETRY_SEMANTIC_AUTHORITY",
+    "BROWSER_WEBGPU_PATH_REMAINS_UNDER_FA3_WEB_AI_001",
+    "AI_DECISION_AND_AGENT_COMMUNICATION_REMAINS_HUMAN_AUDITABLE"
+  ]
+}
