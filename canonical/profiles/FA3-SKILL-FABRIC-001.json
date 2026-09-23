@@ -92,7 +92,9 @@
     "deterministic_eligibility_before_advisory_selection": true,
     "decision_fabric_candidate_expansion_forbidden": true,
     "unadmitted_skill_activation_forbidden": true,
-    "task_scoped_materialization_required": true
+    "task_scoped_materialization_required": true,
+    "quality_skill_candidates_deterministically_prefiltered": true,
+    "quality_skill_global_auto_injection": false
   },
   "authority_boundaries": {
     "identity": false,
@@ -133,7 +135,9 @@
     "UNADMITTED_SKILL_ACTIVATION_FORBIDDEN",
     "TASK_SCOPED_SKILL_MATERIALIZATION_REQUIRED",
     "SKILL_DISTRIBUTION_CLASS_REQUIRED",
-    "REMOTE_RUNTIME_SKILL_FETCH_FORBIDDEN"
+    "REMOTE_RUNTIME_SKILL_FETCH_FORBIDDEN",
+    "QUALITY_SKILLS_TASK_SCOPED_AND_MINIMUM_MATCHING_SET",
+    "QUALITY_SKILLS_CANNOT_BECOME_DESIGN_OR_EXECUTION_AUTHORITY"
   ],
   "discovery_contract_id": "FA3-SKILL-DISCOVERY-CONTRACTS-001",
   "materialization_contract_id": "FA3-SKILL-MATERIALIZATION-CONTRACTS-001",
@@ -144,6 +148,7 @@
     "unified_action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
     "distribution_compliance": "FA3-DISTRIBUTION-COMPLIANCE-001",
     "supply_chain": "FA3-SCS-001",
-    "registry": "FA3-REGISTRY-001"
+    "registry": "FA3-REGISTRY-001",
+    "quality_filter": "FA3-QUALITY-ANTI-SLOP-001"
   }
 }
