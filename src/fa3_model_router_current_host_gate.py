@@ -64,6 +64,8 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
                 findings.append(finding("MRH-015", "logical route provider is not bound to valid current-host admission evidence", route=route, provider_id=provider_id))
             if binding.get("selection") != "RUNTIME_DISCOVERED":
                 findings.append(finding("MRH-009", "route binding was not runtime-discovered", route=route))
+            if binding.get("provider_failover_performed") is not False:
+                findings.append(finding("MRH-016", "route binding does not prove provider-failover denial", route=route))
         try:
             captured = dt.datetime.fromisoformat(str(rec.get("captured_at","")).replace("Z","+00:00"))
             age = dt.datetime.now(dt.timezone.utc) - captured.astimezone(dt.timezone.utc)
@@ -81,6 +83,8 @@ def gate(root: Path, receipt_path: Path | None = None) -> dict[str, Any]:
             findings.append(finding("MRH-013", "central router service/selection receipt not verified"))
         if rec.get("global_promotion_claim") is not False:
             findings.append(finding("MRH-014", "router receipt overclaims global promotion"))
+        if rec.get("global_release_promotion_claim") is not False or rec.get("full_429_runtime_closure_claim") is not False:
+            findings.append(finding("MRH-017", "component router evidence overclaims FULL-429 closure or release promotion"))
     except Exception as exc:
         findings.append(finding("MRH-000", "current-host router receipt missing or unreadable", error=repr(exc)))
     return {
