@@ -632,9 +632,9 @@ ApplicationWindow {
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "STUDIO"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; pageIndex: 3 }
+                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
                         NavButton { iconText: "CC"; label: "Subtitle Studio"; pageIndex: 35 }
                         NavButton { iconText: "VO"; label: "Narration Studio"; pageIndex: 36 }
-                        NavButton { iconText: "↔"; label: "Integrations"; pageIndex: 14 }
                         NavButton { iconText: "⇄"; label: "MCP Gateway"; pageIndex: 27 }
                         NavButton { iconText: "⌾"; label: "Trust & Certificates"; pageIndex: 29 }
                         NavButton { iconText: "▣"; label: "Session Vault / Kulcsvault"; pageIndex: 30 }
