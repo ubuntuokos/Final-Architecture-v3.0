@@ -3101,6 +3101,67 @@ def gate(root: Path):
             missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
         ))
 
+    agency_agent_definition = projection.get("agency_agents_agent_definition_reconciliation", {})
+    agency_agent_definition_paths = {
+        "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
+        "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json",
+        "canonical/profiles/FA3-AGENT-DEFINITION-001.json",
+        "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
+        "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json",
+        "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
+        "canonical/FA3-GATE-AGENT-DEFINITION-001.json",
+        "canonical/agency-agents-enforcement.json",
+        "canonical/agent-definition-enforcement.json",
+        "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
+        "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+        "canonical/FA3-ORCHESTRATION-WORKFORCE-REGISTRY-001.json",
+        "src/fa3_agency_agents_gate.py",
+        "src/fa3_agent_definition_gate.py",
+        "src/fa3_orchestration_workforce_gate.py",
+        "src/fa3_gui_gate.py",
+        "apps/fa3-control-center/qml/Main.qml",
+        ".github/workflows/fa3-agency-agents-gate.yml",
+        ".github/workflows/fa3-agent-definition-gate.yml",
+    }
+    if (
+        agency_agent_definition.get("source_provider_id") != "FA3-PROVIDER-AGENCY-AGENTS-001"
+        or agency_agent_definition.get("source_reference_id") != "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23"
+        or agency_agent_definition.get("candidate_catalog_id") != "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
+        or agency_agent_definition.get("profile_id") != "FA3-AGENT-DEFINITION-001"
+        or agency_agent_definition.get("contract_id") != "FA3-AGENT-DEFINITION-CONTRACTS-001"
+        or agency_agent_definition.get("registry_id") != "FA3-AGENT-DEFINITION-REGISTRY-001"
+        or agency_agent_definition.get("agency_gate_id") != "FA3-AGENCY-AGENTS-GATESET-001"
+        or agency_agent_definition.get("agent_definition_gate_id") != "FA3-AGENT-DEFINITION-GATESET-001"
+        or agency_agent_definition.get("canonical_role_definition_count") != 12
+        or agency_agent_definition.get("canonical_template_definition_count") != 5
+        or agency_agent_definition.get("upstream_bodies_vendored") is not False
+        or agency_agent_definition.get("source_distribution_class") != "EXTERNAL_REDISTRIBUTABLE"
+        or agency_agent_definition.get("source_release_bundle_status") != "EXCLUDED"
+        or agency_agent_definition.get("normalized_definition_distribution_class") != "FA3_NATIVE"
+        or agency_agent_definition.get("gui_surface_id") != "agency-agents.imported-pack"
+        or agency_agent_definition.get("gui_parent_route") != "agents.workflows"
+        or agency_agent_definition.get("gui_mode") != "READ_ONLY_CANONICAL_DEFINITIONS"
+        or agency_agent_definition.get("gui_current_host_status") != "PENDING_CURRENT_HOST"
+        or agency_agent_definition.get("gui_runtime_promotion_claim") is not False
+        or agency_agent_definition.get("runtime_provider_admission_by_reference_provider") is not False
+        or agency_agent_definition.get("global_promotion_claim") is not False
+        or agency_agent_definition.get("new_capabilities") != 0
+        or agency_agent_definition.get("new_architectural_authorities") != 0
+        or agency_agent_definition.get("capability_count_after") != CAPABILITY_COUNT
+        or agency_agent_definition.get("reconciliation_status") != "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
+        or "FA3-AGENCY-AGENTS-GATESET-001" not in projection_gates
+        or "FA3-AGENT-DEFINITION-GATESET-001" not in projection_gates
+        or "FA3-AGENCY-AGENTS-GATESET-001" not in policy_gates
+        or "FA3-AGENT-DEFINITION-GATESET-001" not in policy_gates
+        or not agency_agent_definition_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-120",
+            "Agency Agents / Agent Definition global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(agency_agent_definition_paths - manifest_paths),
+        ))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -3138,6 +3199,8 @@ def gate(root: Path):
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
             "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
+            "agency_agents_agent_definition_reconciliation": agency_agent_definition.get("reconciliation_status"),
+            "agency_agents_gui_current_host_status": agency_agent_definition.get("gui_current_host_status"),
             "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
