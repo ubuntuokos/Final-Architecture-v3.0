@@ -12,6 +12,7 @@ on:
       - 'src/fa3_context_selection.py'
       - 'src/fa3_external_project_radar.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_jev_reuse_gate.py'
       - 'src/fa3_local_decision_provider.py'
       - 'src/fa3_hybrid_retrieval.py'
       - 'tests/test_decision_fabric.py'
@@ -28,6 +29,7 @@ on:
       - 'src/fa3_context_selection.py'
       - 'src/fa3_external_project_radar.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_jev_reuse_gate.py'
       - 'src/fa3_local_decision_provider.py'
       - 'src/fa3_hybrid_retrieval.py'
       - 'tests/test_decision_fabric.py'
@@ -52,13 +54,15 @@ jobs:
           python-version: '3.12'
       - name: Syntax
         run: |
-          python -m py_compile             src/fa3_decision_fabric.py             src/fa3_decision_adapters.py             src/fa3_context_selection.py             src/fa3_external_project_radar.py             src/fa3_jev_decision_provider.py             src/fa3_local_decision_provider.py             src/fa3_decision_trace.py             src/fa3_decision_adoption_gate.py             src/fa3_hybrid_retrieval.py             src/fa3_decision_fabric_gate.py             src/fa3_decision_current_host_gate.py             tests/test_decision_fabric.py
+          python -m py_compile             src/fa3_decision_fabric.py             src/fa3_decision_adapters.py             src/fa3_context_selection.py             src/fa3_external_project_radar.py             src/fa3_jev_decision_provider.py             src/fa3_jev_reuse_gate.py             src/fa3_local_decision_provider.py             src/fa3_decision_trace.py             src/fa3_decision_adoption_gate.py             src/fa3_hybrid_retrieval.py             src/fa3_decision_fabric_gate.py             src/fa3_decision_current_host_gate.py             tests/test_decision_fabric.py
       - name: Canonical fail-closed gate
         run: PYTHONPATH=src python src/fa3_decision_fabric_gate.py --root .
       - name: Future-project adoption gate
         run: |
           git fetch origin main --depth=1
           PYTHONPATH=src python src/fa3_decision_adoption_gate.py --root . --base-ref origin/main
+      - name: Third-party reuse and distribution gate
+        run: PYTHONPATH=src python src/fa3_jev_reuse_gate.py --root .
       - name: Regression tests
         run: PYTHONPATH=src python -m unittest tests.test_decision_fabric -v
       - name: Pinned Jev radar snapshot validation
