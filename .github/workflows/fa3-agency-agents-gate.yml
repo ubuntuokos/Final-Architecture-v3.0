@@ -1,0 +1,86 @@
+name: FA3 Agency Agents Reference Provider Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json"
+      - "canonical/contracts/FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json"
+      - "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json"
+      - "canonical/agency-agents-enforcement.json"
+      - "canonical/FA3-GATE-AGENCY-AGENTS-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agency_agents_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agency_agents_gate.py"
+      - ".github/workflows/fa3-agency-agents-gate.yml"
+      - "docs/FA3-AGENCY-AGENTS-INTEGRATION-2026-09-23.md"
+  push:
+    branches:
+      - "main"
+      - "fa3/**"
+    paths:
+      - "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json"
+      - "canonical/contracts/FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001.json"
+      - "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json"
+      - "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json"
+      - "canonical/agency-agents-enforcement.json"
+      - "canonical/FA3-GATE-AGENCY-AGENTS-001.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agency_agents_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agency_agents_gate.py"
+      - ".github/workflows/fa3-agency-agents-gate.yml"
+      - "docs/FA3-AGENCY-AGENTS-INTEGRATION-2026-09-23.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  agency-agents:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_agency_agents_gate.py src/fa3_enforce.py
+
+      - name: Agency Agents unit tests
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_agency_agents_gate.py' -v
+
+      - name: Agency Agents fail-closed gate
+        run: PYTHONPATH=src python3 src/fa3_agency_agents_gate.py --root .
+
+      - name: Agent Native scoped instruction regression
+        run: PYTHONPATH=src python3 src/fa3_agent_instructions_gate.py --root .
+
+      - name: Human-auditable AI communication regression
+        run: PYTHONPATH=src python3 src/fa3_ai_comms_gate.py --root .
+
+      - name: Developer-agent coordination regression
+        run: PYTHONPATH=src python3 src/fa3_developer_agent_coordination_gate.py --root .
+
+      - name: Unified Action Fabric regression
+        run: PYTHONPATH=src python3 src/fa3_uaf_gate.py --root .
+
+      - name: Hardware Audit portability regression
+        run: PYTHONPATH=src python3 src/fa3_hardware_portability_gate.py --root .
+
+      - name: Diff whitespace check
+        run: git diff --check HEAD^ HEAD
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-agency-agents-reference-provider-gate
+          path: reports/agency-agents-gate-report.json
+          if-no-files-found: error
