@@ -50,7 +50,7 @@ def validate_assessment(row: dict[str, Any]) -> list[str]:
 
 def added_ids(root: Path, base_ref: str) -> dict[str, str]:
     proc = subprocess.run(
-        ["git", "diff", "--name-status", f"{base_ref}...HEAD", "--", "canonical/profiles", "canonical/providers"],
+        ["git", "diff", "--name-status", base_ref, "HEAD", "--", "canonical/profiles", "canonical/providers"],
         cwd=root,
         text=True,
         stdout=subprocess.PIPE,
