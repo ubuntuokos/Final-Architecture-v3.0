@@ -15,6 +15,8 @@ CONTRACT_ID = "FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23"
 REFERENCE_ID = "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23"
 CATALOG_ID = "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
+AGENT_DEFINITION_CONTRACT_ID = "FA3-AGENT-DEFINITION-CONTRACTS-001"
+AGENT_DEFINITION_REGISTRY_ID = "FA3-AGENT-DEFINITION-REGISTRY-001"
 GATE_ID = "FA3-GATE-AGENCY-AGENTS-001"
 GATESET_ID = "FA3-AGENCY-AGENTS-GATESET-001"
 UPSTREAM_PIN = "053ddbbf392a1688fc7043d81529f47ef2cf86c8"
@@ -132,14 +134,16 @@ def candidate_catalog_valid(catalog: dict[str, Any]) -> bool:
     if not (
         catalog.get("id") == CATALOG_ID
         and catalog.get("provider_id") == PROVIDER_ID
-        and catalog.get("status") == "CURATED_CANDIDATES_NOT_ADMITTED"
+        and catalog.get("status") == "CURATED_REFERENCE_SOURCES_NORMALIZED"
         and catalog.get("upstream_commit") == UPSTREAM_PIN
         and catalog.get("new_capability") is False
         and catalog.get("new_architectural_authority") is False
         and catalog.get("persona_body_vendored") is False
-        and catalog.get("activation_default") == "DISABLED_NOT_ADMITTED"
+        and catalog.get("activation_default") == "INERT_REFERENCE_ONLY"
         and catalog.get("selection_policy", {}).get("full_upstream_auto_import") is False
-        and catalog.get("selection_policy", {}).get("distribution_and_content_admission_required_before_materialization") is True
+        and catalog.get("selection_policy", {}).get("distribution_and_content_admission_required_before_materialization") is False
+        and catalog.get("selection_policy", {}).get("verbatim_or_substantial_source_body_import_requires_separate_distribution_and_content_admission") is True
+        and catalog.get("selection_policy", {}).get("fa3_native_derived_normalization_without_source_body_vendoring_allowed") is True
         and catalog.get("selection_policy", {}).get("activation_requires_separate_fa3_admission") is True
         and isinstance(agents, list) and len(agents) == 12
         and isinstance(templates, list) and len(templates) == 5
@@ -147,19 +151,24 @@ def candidate_catalog_valid(catalog: dict[str, Any]) -> bool:
         return False
 
     ids: list[str] = []
+    normalized_ids: list[str] = []
     for item in agents:
         ids.append(str(item.get("candidate_id", "")))
+        normalized_ids.append(str(item.get("normalized_definition_id", "")))
         source = item.get("source", {})
         if not (
             item.get("upstream_commit") == UPSTREAM_PIN
             and item.get("trust_class") == "UNTRUSTED_SCOPED_CONTEXT"
             and item.get("persona_body_vendored") is False
-            and item.get("activation_status") == "DISABLED_NOT_ADMITTED"
+            and item.get("activation_status") == "INERT_REFERENCE_ONLY"
             and item.get("authority_grants") == []
             and item.get("tool_grants") == []
             and item.get("model_provider_grants") == []
             and item.get("distribution_gate_required") is True
-            and item.get("content_admission_required") is True
+            and item.get("content_admission_required") is False
+            and item.get("content_admission_required_if_source_body_imported") is True
+            and item.get("normalization_status") == "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
+            and bool(item.get("normalized_definition_id"))
             and bool(item.get("fa3_target_role"))
             and bool(source.get("path"))
             and SHA40.fullmatch(str(source.get("blob_sha", ""))) is not None
@@ -167,15 +176,19 @@ def candidate_catalog_valid(catalog: dict[str, Any]) -> bool:
             return False
     for item in templates:
         ids.append(str(item.get("candidate_id", "")))
+        normalized_ids.append(str(item.get("normalized_template_id", "")))
         source = item.get("source", {})
         if not (
             item.get("upstream_commit") == UPSTREAM_PIN
             and item.get("trust_class") == "UNTRUSTED_SCOPED_CONTEXT"
             and item.get("body_vendored") is False
-            and item.get("activation_status") == "DISABLED_NOT_ADMITTED"
+            and item.get("activation_status") == "INERT_REFERENCE_ONLY"
             and item.get("authority_grants") == []
             and item.get("distribution_gate_required") is True
-            and item.get("content_admission_required") is True
+            and item.get("content_admission_required") is False
+            and item.get("content_admission_required_if_source_body_imported") is True
+            and item.get("normalization_status") == "CANONICAL_FA3_NATIVE_DEFINITION_MATERIALIZED"
+            and bool(item.get("normalized_template_id"))
             and bool(item.get("fa3_target_role"))
             and bool(source.get("path"))
             and SHA40.fullmatch(str(source.get("blob_sha", ""))) is not None
@@ -184,15 +197,102 @@ def candidate_catalog_valid(catalog: dict[str, Any]) -> bool:
     state = catalog.get("admission_state", {})
     return (
         len(ids) == len(set(ids))
+        and len(normalized_ids) == len(set(normalized_ids))
         and all(ids)
+        and all(normalized_ids)
         and state.get("candidate_selection") == "MATERIALIZED"
         and state.get("source_bodies_imported") is False
-        and state.get("distribution_decision_receipts_issued") is False
-        and state.get("content_admission_receipts_issued") is False
-        and state.get("runtime_materialization") is False
+        and state.get("source_body_admission_receipts_issued") is False
+        and state.get("normalized_definition_materialization") is True
+        and state.get("definition_contract_id") == AGENT_DEFINITION_CONTRACT_ID
+        and state.get("definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
+        and state.get("canonical_role_definition_count") == 12
+        and state.get("canonical_template_definition_count") == 5
+        and state.get("runtime_provider_materialization") is False
         and state.get("current_host_claim") is False
     )
 
+
+def normalized_definition_mapping_valid(catalog: dict[str, Any], registry: dict[str, Any]) -> bool:
+    definitions = registry.get("definitions", [])
+    templates = registry.get("templates", [])
+    if not (
+        registry.get("id") == AGENT_DEFINITION_REGISTRY_ID
+        and registry.get("contract_family") == AGENT_DEFINITION_CONTRACT_ID
+        and registry.get("status") == "CANONICAL"
+        and registry.get("provider_neutral") is True
+        and registry.get("new_capability") is False
+        and registry.get("new_architectural_authority") is False
+        and len(definitions) == 12
+        and len(templates) == 5
+        and registry.get("admission_summary", {}).get("upstream_persona_bodies_vendored") is False
+        and registry.get("admission_summary", {}).get("runtime_providers_admitted_by_this_registry") is False
+    ):
+        return False
+
+    role_sources = {
+        item.get("candidate_id"): (
+            item.get("normalized_definition_id"),
+            item.get("source", {}).get("path"),
+            item.get("source", {}).get("blob_sha"),
+            item.get("upstream_commit"),
+        )
+        for item in catalog.get("agents", [])
+    }
+    template_sources = {
+        item.get("candidate_id"): (
+            item.get("normalized_template_id"),
+            item.get("source", {}).get("path"),
+            item.get("source", {}).get("blob_sha"),
+            item.get("upstream_commit"),
+        )
+        for item in catalog.get("templates", [])
+    }
+
+    for row in definitions:
+        candidate_id = row.get("source_candidate_id")
+        expected = role_sources.get(candidate_id)
+        source = row.get("source", {})
+        if not expected or not (
+            row.get("definition_id") == expected[0]
+            and row.get("source_provider_id") == PROVIDER_ID
+            and source.get("path") == expected[1]
+            and source.get("blob_sha") == expected[2]
+            and source.get("commit") == expected[3] == UPSTREAM_PIN
+            and source.get("body_status") == "REFERENCE_ONLY_NOT_IMPORTED"
+            and str(source.get("normalization", "")).startswith("FA3_NATIVE_DERIVED")
+            and row.get("authority_grants") == []
+            and row.get("capability_grants") == []
+            and row.get("tool_grants") == []
+            and row.get("model_provider_grants") == []
+            and row.get("runtime_provider_binding") is None
+            and row.get("direct_provider_execution") is False
+            and row.get("candidate_set_expansion") is False
+            and row.get("private_model_language") is False
+            and row.get("execution_runtime_claim") is False
+        ):
+            return False
+
+    for row in templates:
+        candidate_id = row.get("source_candidate_id")
+        expected = template_sources.get(candidate_id)
+        source = row.get("source", {})
+        if not expected or not (
+            row.get("template_id") == expected[0]
+            and row.get("source_provider_id") == PROVIDER_ID
+            and source.get("path") == expected[1]
+            and source.get("blob_sha") == expected[2]
+            and source.get("commit") == expected[3] == UPSTREAM_PIN
+            and source.get("body_status") == "REFERENCE_ONLY_NOT_IMPORTED"
+            and str(source.get("normalization", "")).startswith("FA3_NATIVE_DERIVED")
+            and row.get("automatic_execution") is False
+            and row.get("durable_workflow_authority") is False
+            and row.get("provider_selection_authority") is False
+            and row.get("authority_grants") == []
+        ):
+            return False
+
+    return set(role_sources) == {row.get("source_candidate_id") for row in definitions} and set(template_sources) == {row.get("source_candidate_id") for row in templates}
 
 def _good_source() -> dict[str, Any]:
     return {
@@ -312,6 +412,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         "decision": root / "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
         "reference": root / "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
         "catalog": root / "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json",
+        "agent_definition_contract": root / "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json",
+        "agent_definition_registry": root / "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json",
+        "gui_surface_registry": root / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
         "enforcement": root / "canonical/agency-agents-enforcement.json",
         "gate": root / "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
         "policy": root / "canonical/enforcement-policy.json",
@@ -337,6 +440,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
     decision = _load(paths["decision"])
     reference = _load(paths["reference"])
     catalog = _load(paths["catalog"])
+    agent_definition_contract = _load(paths["agent_definition_contract"])
+    agent_definition_registry = _load(paths["agent_definition_registry"])
+    gui_surface_registry = _load(paths["gui_surface_registry"])
     enforcement = _load(paths["enforcement"])
     gate = _load(paths["gate"])
     policy = _load(paths["policy"])
