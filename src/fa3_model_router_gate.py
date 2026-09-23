@@ -118,6 +118,10 @@ def gate(root: Path) -> dict[str, Any]:
         "deterministic_admission_already_applied",
         "decision_advisory_changes_authority",
         "runtime_handoff",
+        "litellm_options",
+        "catalog_api_base",
+        "admission_api_base",
+        "reserved routing fields",
     )
     if any(token not in materializer for token in required_materializer):
         findings.append(finding("MR-016", "runtime materializer lacks provider admission/discovery/selection invariants"))
@@ -132,7 +136,8 @@ def gate(root: Path) -> dict[str, Any]:
         "CURRENT_HOST_ADMISSION_EVIDENCE",
         "ollama_chat",
         "num_gpu",
-        "FA3_OLLAMA_OPENAI_API_BASE",
+        "catalog_api_base",
+        "admission_api_base",
     )
     if any(token not in provider_discovery for token in required_discovery):
         findings.append(finding("MR-017", "current-host provider discovery does not preserve admitted/live/provider-neutral boundaries"))
