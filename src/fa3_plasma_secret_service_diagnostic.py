@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
 
-SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v3"
+SCHEMA = "fa3.plasma-secret-service-current-host-diagnostic.v4"
 ALIAS = "org.kde.secretservicecompat"
 STANDARD = "org.freedesktop.secrets"
 OBJECT_PATH = "/org/freedesktop/secrets"
@@ -59,13 +59,21 @@ def _read_config_state(env: Mapping[str, str]) -> dict[str, Any]:
         except (configparser.Error, OSError):
             return None
 
+    kwalletd_enabled, kwalletd_source = _parse_kde_bool(raw("Wallet", "Enabled"), True)
     ksecret_enabled, ksecret_source = _parse_kde_bool(raw("KSecretD", "Enabled"), True)
     fdo_enabled, fdo_source = _parse_kde_bool(raw("org.freedesktop.secrets", "apiEnabled"), True)
     return {
         "config_file_present": file_present,
         "config_parse_ok": parse_ok if file_present else None,
+        "kwalletd_enabled_effective": kwalletd_enabled,
+        "kwalletd_enabled_source": kwalletd_source,
         "ksecretd_enabled_effective": ksecret_enabled,
         "ksecretd_enabled_source": ksecret_source,
+        "ksecretd_runtime_enabled_effective": kwalletd_enabled and ksecret_enabled,
+        "ksecretd_runtime_enablement_basis": [
+            "Wallet.Enabled",
+            "KSecretD.Enabled",
+        ],
         "fdo_secrets_api_enabled_effective": fdo_enabled,
         "fdo_secrets_api_enabled_source": fdo_source,
     }
