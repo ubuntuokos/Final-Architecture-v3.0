@@ -1,0 +1,104 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LLM-GATEWAY-001",
+  "name": "Provider-Neutral LLM API Gateway",
+  "version": "1.2.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "reference_implementation": "LiteLLM Proxy",
+  "responsibilities": [
+    "API and provider normalization",
+    "gateway authentication and service authorization",
+    "virtual-key mediation",
+    "logical model aliases and deployment routing",
+    "policy-equivalent fallback and retry",
+    "rate limiting and budget accounting",
+    "guardrail integration hooks",
+    "gateway observability"
+  ],
+  "non_responsibilities": [
+    "model weight storage or installation",
+    "model trust/admission authority",
+    "hardware scheduling or accelerator leasing",
+    "secret source of truth",
+    "language translation or locale governance",
+    "general workflow orchestration"
+  ],
+  "authority_bindings": {
+    "provider_model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_governance": "FA3-AUTH-SECURITY-GOV-001",
+    "artifact_model_registry": "FA3-REG-ARTIFACT-MODEL-001",
+    "secrets": "FA3 Vault / existing secret authority"
+  },
+  "routing_policy": {
+    "default": "LOCAL_FIRST",
+    "privacy_default": "NO_EXTERNAL_EGRESS",
+    "external_paid_providers_default_enabled": false,
+    "external_provider_requires": [
+      "explicit system setting",
+      "provider allowlist",
+      "request privacy classification permits export",
+      "service authorization"
+    ],
+    "local_failure_may_silently_fallback_to_cloud": false,
+    "fallback_must_remain_in_policy_equivalent_domain": true,
+    "language_need_may_force_cloud": false
+  },
+  "security": {
+    "plaintext_secrets_in_config": "FORBIDDEN",
+    "runtime_secret_injection_required": true,
+    "client_header_forwarding_default": false,
+    "cors_is_security_boundary": false,
+    "service_network_identity_required": true,
+    "internal_backends_use_service_identity_or_internal_dns_not_container_localhost": true
+  },
+  "language_boundary": {
+    "gateway_is_language_neutral": true,
+    "hungarian_only_gateway": false,
+    "language_policy_owner": "FA3-LANGUAGE-POLICY-001",
+    "language_mediation_owner": "FA3-LANGUAGE-FABRIC-001"
+  },
+  "blackhole_boundary": {
+    "blackhole_is_one_gateway_client": true,
+    "all_fa3_llm_clients_must_route_through_blackhole": false
+  },
+  "current_host_evidence": {
+    "collector": "evidence/collect-language-gateway-current-host.py",
+    "runner": "bin/fa3-language-gateway-current-host.sh",
+    "gate": "src/fa3_language_gateway_current_host_gate.py",
+    "workflow": ".github/workflows/fa3-language-gateway-current-host.yml",
+    "receipt": "evidence/receipts/language-gateway-current-host.json",
+    "evidence_level": "CURRENT_HOST_GATEWAY_BRIDGE_E2E_PASS",
+    "requires_real_loopback_litellm": true,
+    "requires_authenticated_gateway": true,
+    "requires_distinct_primary_secondary_bidirectional_routes": true,
+    "requires_protected_token_roundtrip": true,
+    "requires_semantic_validation": true,
+    "may_claim_translation_quality": false,
+    "may_claim_underlying_backend_production_admission": false,
+    "may_claim_global_production_promotion": false,
+    "additional_evidence_for_production_promotion": [
+      "selected backend Model Registry admission",
+      "Host Resource Broker admission when accelerator execution is used",
+      "independent semantic validation or approved equivalent",
+      "locale-specific translation quality evidence",
+      "existing FA3 Acceptance and Promotion receipts"
+    ]
+  },
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true,
+  "model_router_materialization": {
+    "authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "role": "REFERENCE_DATA_PLANE_ONLY",
+    "single_routing_plane": true,
+    "operational_config": "GENERATED_AT_RUNTIME_BY_FA3_MODEL_ROUTER",
+    "committed_physical_provider_or_model_routes": "FORBIDDEN",
+    "runtime_selection_receipt_required": true
+  }
+}
