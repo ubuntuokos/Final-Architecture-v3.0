@@ -71,6 +71,7 @@ from fa3_browser_action_gate import gate as browser_action_runtime_gate
 from fa3_browser_cdp_gate import gate as browser_cdp_provider_gate
 from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
+from fa3_quality_gate import evaluate as quality_anti_slop_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
 from fa3_os_event_privacy_gate import gate as fa3_os_event_privacy_gate
@@ -166,6 +167,10 @@ def static_check(root:Path):
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
+
+    quality_anti_slop_ref=quality_anti_slop_gate(root)
+    if quality_anti_slop_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-124","Native anti-slop quality gate failed",quality_anti_slop_gate=quality_anti_slop_ref))
 
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
