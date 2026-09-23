@@ -683,6 +683,56 @@ def gate(root: Path):
     if projection.get("manifest_entry_count") != len(manifest) or len(manifest_paths) != len(manifest):
         findings.append(finding("FA3-RELEASE-PROJECTION-008", "Projection manifest cardinality/uniqueness mismatch"))
 
+    neural_rendering = projection.get("neural_rendering_reconciliation", {})
+    neural_rendering_paths = {
+        "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+        "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
+        "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
+        "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
+        "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/FA3-GATE-NEURAL-RENDERING-001.json",
+        "canonical/FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001.json",
+        "canonical/neural-rendering-enforcement.json",
+        "canonical/actions/render.neural.evaluate.json",
+        "canonical/actions/render.neural.execute.json",
+        "canonical/actions/render.neural.browser.execute.json",
+        "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
+        "src/fa3_neural_rendering.py",
+        "src/fa3_neural_rendering_jev_adapter.py",
+        "src/fa3_opendlss_nr_provider.py",
+        "src/fa3_neural_rendering_gate.py",
+        "src/fa3_neural_rendering_current_host_gate.py",
+        "tests/test_neural_rendering.py",
+        "tests/test_opendlss_nr_provider.py",
+        "tests/test_neural_rendering_current_host_gate.py",
+        "tests/test_neural_rendering_gate.py",
+        ".github/workflows/fa3-neural-rendering-reference.yml",
+        ".github/workflows/fa3-neural-rendering-current-host.yml",
+    }
+    if (
+        neural_rendering.get("profile_id") != "FA3-NEURAL-RENDERING-001"
+        or neural_rendering.get("contract_id") != "FA3-NEURAL-RENDERING-CONTRACTS-001"
+        or neural_rendering.get("decision_id") != "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23"
+        or neural_rendering.get("provider_id") != "FA3-PROVIDER-OPENDLSS-NR-001"
+        or neural_rendering.get("gate_id") != "FA3-NEURAL-RENDERING-GATESET-001"
+        or neural_rendering.get("reference_evidence_status") != "STATIC_REFERENCE_EXECUTABLE_PASS_NOT_PROVIDER_RUNTIME_E2E"
+        or neural_rendering.get("current_host_provider_e2e") != "PENDING_COMPATIBLE_CURRENT_HOST_EXECUTION"
+        or neural_rendering.get("production_provider_admission") is not False
+        or neural_rendering.get("global_promotion_claim") is not False
+        or neural_rendering.get("existing_429_capability_closure_reopened") is not False
+        or neural_rendering.get("new_capabilities") != 0
+        or neural_rendering.get("new_architectural_authorities") != 0
+        or neural_rendering.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-NEURAL-RENDERING-GATESET-001" not in projection_gates
+        or "FA3-NEURAL-RENDERING-GATESET-001" not in policy_gates
+        or not neural_rendering_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-119",
+            "Neural Rendering/OpenDLSS-NR global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(neural_rendering_paths - manifest_paths),
+        ))
+
     runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
     runtime_hardening_required_paths = {
         "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
@@ -3088,6 +3138,7 @@ def gate(root: Path):
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
             "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
+            "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),

@@ -1,0 +1,19 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-NEURAL-RENDERING-001",
+  "gateset_id": "FA3-NEURAL-RENDERING-GATESET-001",
+  "profile_id": "FA3-NEURAL-RENDERING-001",
+  "contract_id": "FA3-NEURAL-RENDERING-CONTRACTS-001",
+  "decision_id": "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23",
+  "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+  "mode": "STATIC_CANONICAL_AND_REFERENCE",
+  "fail_closed": true,
+  "executable": "PYTHONPATH=src python src/fa3_neural_rendering_gate.py --root .",
+  "global_command": "./bin/fa3-enforce neural-rendering",
+  "current_host_gate": "./bin/fa3-enforce neural-rendering-current-host",
+  "production_provider_admission_requires": "COMPATIBLE_CURRENT_HOST_PROVIDER_E2E_PLUS_SUPPLY_CHAIN_AND_MODEL_ARTIFACT_ADMISSION",
+  "static_pass_promotes_provider_runtime": false,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count": 143
+}

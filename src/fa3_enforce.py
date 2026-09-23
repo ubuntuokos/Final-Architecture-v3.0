@@ -65,6 +65,7 @@ from fa3_cpu_numa_threading_gate import gate as cpu_numa_threading_gate
 from fa3_cpu_numa_threading_current_host_gate import gate as cpu_numa_threading_current_host_gate
 from fa3_hardware_portability_gate import gate as hardware_portability_gate
 from fa3_uaf_gate import gate as uaf_gate
+from fa3_neural_rendering_gate import gate as neural_rendering_gate
 from fa3_agent_instructions_gate import gate as agent_instructions_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
@@ -149,6 +150,9 @@ def static_check(root:Path):
     marketing_agent_native_ref=marketing_agent_native_gate(root)
     if marketing_agent_native_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-118","Marketing Agent Native / bounded advisory gate failed",marketing_agent_native_gate=marketing_agent_native_ref))
+    neural_rendering_ref=neural_rendering_gate(root)
+    if neural_rendering_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-119","Neural Rendering / OpenDLSS-NR provider projection gate failed",neural_rendering_gate=neural_rendering_ref))
     agent_instructions_ref=agent_instructions_gate(root)
     if agent_instructions_ref["result"]!="PASS":
         fs.append(finding("FA3-STATIC-114","Repository agent-instruction projection governance gate failed",agent_instructions_gate=agent_instructions_ref))
@@ -255,6 +259,8 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-056","Marketing/Hungarian-first executable gate is not bound into global enforcement policy"))
     if "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-118","Marketing Agent Native gate is not bound into global enforcement policy"))
+    if "FA3-NEURAL-RENDERING-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-119","Neural Rendering gate is not bound into global enforcement policy"))
     if "FA3-MARKETINGSKILLS-SKILL-ADMISSION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-082","MarketingSkills skill-package admission gate is not bound into global enforcement policy"))
     if "FA3-WHISPER-STT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):

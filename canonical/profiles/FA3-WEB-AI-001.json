@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-WEB-AI-001",
   "name": "Browser-Resident AI Execution, Capability Discovery & Hybrid Fallback Profile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -29,5 +29,16 @@
     "BROWSER_MODEL_IDENTITY_AND_PROVENANCE_REQUIRED",
     "BROWSER_ADAPTER_CANNOT_BYPASS_CENTRAL_GATEWAY_OR_ROUTER"
   ],
-  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED"
+  "implementation_status": "CANONICAL_BASELINE_MATERIALIZED",
+  "neural_rendering_projection": {
+    "profile_id": "FA3-NEURAL-RENDERING-001",
+    "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+    "upstream_path": "ports/browser-webgpu",
+    "execution_class": "BROWSER_WEBGPU",
+    "status": "REFERENCE_PATH_PENDING_FA3_BROWSER_RUNTIME_EVIDENCE",
+    "authority": false,
+    "requires_typed_capability_receipt": true,
+    "model_provenance_required": true,
+    "silent_remote_fallback_or_egress": false
+  }
 }

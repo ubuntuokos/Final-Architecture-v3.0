@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-NEURAL-MEDIA-EXECUTION-001",
   "name": "Neural Media Filtering, Hardware-Accelerated Transcode, Frame-Server Interop & Quality-Governed Video Execution Profile",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST-CANONICAL-PROJECTION-RUNTIME-EVIDENCE-GATED",
@@ -32,7 +32,8 @@
   "reference_providers": [
     "FA3-PROVIDER-FFMPEG-001",
     "FA3-PROVIDER-VS-MLRT-001",
-    "FA3-PROVIDER-PYNVVIDEOCODEC-001"
+    "FA3-PROVIDER-PYNVVIDEOCODEC-001",
+    "FA3-PROVIDER-OPENDLSS-NR-001"
   ],
   "primary_low_level_executor": "FA3-PROVIDER-FFMPEG-001",
   "mandatory_flow": [
@@ -103,5 +104,18 @@
     "copy_telemetry_required_for_zero_copy_proven": true,
     "universal_pcie_percentage_threshold": "FORBIDDEN",
     "non_claiming_or_cpu_only_path": "VALID_WITHOUT_ACCELERATOR_PROVIDER"
+  },
+  "neural_rendering_projection": {
+    "profile_id": "FA3-NEURAL-RENDERING-001",
+    "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+    "role": "OPTIONAL_FRAME_NEURAL_RENDERER_AND_TEMPORAL_RECONSTRUCTION_PROVIDER",
+    "action_ids": [
+      "render.neural.evaluate",
+      "render.neural.execute"
+    ],
+    "selection": "UAF_POLICY_BOUNDED_DETERMINISTIC_FIRST_OPTIONAL_JEV_ADVISORY",
+    "host_acceleration": "LIVE_DISCOVERY_PLUS_HRB_LEASE",
+    "silent_provider_or_backend_fallback": false,
+    "provider_runtime_admission": "PENDING_COMPATIBLE_CURRENT_HOST_E2E"
   }
 }

@@ -1,0 +1,32 @@
+name: FA3 Neural Rendering Current Host
+on:
+  workflow_dispatch:
+    inputs:
+      provider_id:
+        description: "Exact provider id to request; leave empty to validate the optional-provider negative path"
+        required: false
+        default: ""
+permissions:
+  contents: read
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    env:
+      FA3_NEURAL_RENDERING_REQUEST_PROVIDER: ${{ inputs.provider_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Static admission first
+        run: |
+          chmod +x bin/fa3-enforce
+          ./bin/fa3-enforce neural-rendering
+      - name: Current-host optional-provider or provider-E2E gate
+        run: |
+          ./bin/fa3-enforce neural-rendering-current-host --provider-id "$FA3_NEURAL_RENDERING_REQUEST_PROVIDER" --output reports/neural-rendering-current-host-report.json
+      - name: Upload current-host report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-neural-rendering-current-host
+          path: reports/neural-rendering-current-host-report.json
