@@ -7,6 +7,7 @@ from fa3_agency_agents_gate import (
     agent_source_allowed,
     communication_allowed,
     candidate_catalog_valid,
+    normalized_definition_mapping_valid,
     converted_output_activation_allowed,
     coordination_projection_allowed,
     decision_input_allowed,
@@ -111,6 +112,17 @@ class AgencyAgentsGateTests(unittest.TestCase):
         activated = copy.deepcopy(catalog)
         activated["templates"][0]["activation_status"] = "ACTIVE"
         self.assertFalse(candidate_catalog_valid(activated))
+
+    def test_candidate_to_definition_mapping_is_exact(self):
+        import copy
+        import json
+        catalog = json.loads((ROOT / "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json").read_text(encoding="utf-8"))
+        registry = json.loads((ROOT / "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json").read_text(encoding="utf-8"))
+        self.assertTrue(candidate_catalog_valid(catalog))
+        self.assertTrue(normalized_definition_mapping_valid(catalog, registry))
+        drift = copy.deepcopy(registry)
+        drift["definitions"][0]["source"]["blob_sha"] = "0" * 40
+        self.assertFalse(normalized_definition_mapping_valid(catalog, drift))
 
     def test_canonical_gate_passes(self):
         report = gate(ROOT)
