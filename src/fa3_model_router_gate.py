@@ -48,6 +48,7 @@ def gate(root: Path) -> dict[str, Any]:
         "collector": root / "evidence/collect-model-router-current-host.py",
         "host_gate": root / "src/fa3_model_router_current_host_gate.py",
         "installer": root / "bin/fa3-model-router-install",
+        "serve": root / "bin/fa3-model-router-serve",
     }
     missing = [str(p.relative_to(root)) for p in paths.values() if not p.is_file()]
     if missing:
@@ -103,6 +104,8 @@ def gate(root: Path) -> dict[str, Any]:
         findings.append(finding("MR-015", "baseline Model Router service is not loopback-egress constrained"))
     if "RuntimeDirectoryPreserve=restart" not in service or "selection.json" not in installer or "/v1/models" not in installer:
         findings.append(finding("MR-018", "Model Router lifecycle readiness does not preserve/prove runtime selection state"))
+    if paths["serve"].stat().st_mode & 0o111 == 0:
+        findings.append(finding("MR-019", "Model Router service entrypoint is not executable"))
     required_materializer = (
         "receipt_proves_provider",
         "canonical_provider_ok",
