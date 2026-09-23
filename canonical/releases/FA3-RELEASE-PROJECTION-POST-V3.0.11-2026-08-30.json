@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "dba2ce47ffdcea9886fd644b4ed64ff270f84278",
-    "pre_projection_root_tree_sha": "f059761d3afdd86b9eb7d5ac1708be8d5f17c38c",
-    "pre_projection_canonical_tree_sha": "95e37aafe2792bc0d72a81f48e1754c113e0fdcd",
-    "commits_ahead_of_v3_0_11_conformance_commit": 585,
-    "total_post_baseline_commits": 585,
-    "delta_file_count": 1823,
-    "delta_added_files": 1818,
+    "pre_projection_head_sha": "b58d8e2a1ff0e3fa6dd8fccc1afb0ab9f855d374",
+    "pre_projection_root_tree_sha": "2d4c2d4d1148820b2a443d40bd90ed3debdb3330",
+    "pre_projection_canonical_tree_sha": "cbf8aad519a798bd618c4a642c1c09c40e91a9cf",
+    "commits_ahead_of_v3_0_11_conformance_commit": 588,
+    "total_post_baseline_commits": 588,
+    "delta_file_count": 1826,
+    "delta_added_files": 1821,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -46,10 +46,10 @@
   },
   "overlay_inventory": {
     "canonical_files_in_post_baseline_delta": 852,
-    "evidence_files_in_post_baseline_delta": 145,
+    "evidence_files_in_post_baseline_delta": 147,
     "source_files_in_post_baseline_delta": 247,
     "test_files_in_post_baseline_delta": 210,
-    "workflow_files_in_post_baseline_delta": 86,
+    "workflow_files_in_post_baseline_delta": 87,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -851,7 +851,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1816,
+  "manifest_entry_count": 1819,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -1121,6 +1121,11 @@
     {
       "path": ".github/workflows/fa3-neural-rendering-reference.yml",
       "git_blob_sha": "00193591643436b87fa1b577ce76510b3c96af27",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-onnxruntime-cpu-current-host-admission.yml",
+      "git_blob_sha": "9a47c9d33234d0982ca20712e2992bce47acd7ca",
       "baseline_delta_status": "added"
     },
     {
@@ -6726,6 +6731,16 @@
     {
       "path": "evidence/FA3-GATE-KDENLIVE-AUDIO-CONDITIONING-001.reference.json",
       "git_blob_sha": "4cbe04bffc1719f83b0d55961e3fc939f8ba3135",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/admission-inputs/inference/onnxruntime-cpu-current-host-20260923/runtime-descriptor.json",
+      "git_blob_sha": "2eef334021cc3164322d329b021c029409c42c32",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/admission-inputs/inference/onnxruntime-cpu-current-host-20260923/runtime-pin.json",
+      "git_blob_sha": "32e8eb9a0f001453d53cd3c13bcea9df2d72ea6c",
       "baseline_delta_status": "added"
     },
     {
