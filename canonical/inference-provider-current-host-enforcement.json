@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.inference-provider-current-host-enforcement.v1",
+  "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+  "materialization_subgate_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-MATERIALIZATION-001",
+  "current_host_gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+  "conformance_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+  "decision_id": "FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "fail_closed": true,
+  "mandatory_rule_count": 12,
+  "p0_invariants": [
+    "PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED",
+    "PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION",
+    "PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_REFERENCE_MATCHED",
+    "CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE",
+    "ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE",
+    "NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT",
+    "DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES",
+    "DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING",
+    "NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION",
+    "MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS",
+    "TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY",
+    "CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION"
+  ],
+  "static_reference_evidence": "evidence/reference/inference-provider-current-host-materialization-ci-2026-09-23.json",
+  "dynamic_aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
+  "provider_absence_global_failure": false,
+  "explicit_required_provider_failure": true,
+  "current_host_obligation_delta": 0,
+  "existing_429_closure_reopened": false,
+  "global_promotion_claim": false,
+  "capability_count": 143
+}

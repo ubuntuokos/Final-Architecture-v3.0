@@ -192,6 +192,28 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "capability_count_after": capability_count,
     }
 
+    projection["inference_provider_current_host_reconciliation"] = {
+        "conformance_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
+        "decision_id": "FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23",
+        "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
+        "materialization_subgate_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-MATERIALIZATION-001",
+        "current_host_gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+        "provider_ids": ["FA3-PROVIDER-OPENVINO-001","FA3-PROVIDER-ONNXRUNTIME-001","FA3-PROVIDER-TENSORRT-001","FA3-PROVIDER-TENSORRT-RTX-001"],
+        "reference_evidence": "evidence/reference/inference-provider-current-host-materialization-ci-2026-09-23.json",
+        "dynamic_aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
+        "reconciliation_status": "MATERIALIZED_SCOPE_BOUND_CURRENT_HOST_PROVIDER_ADMISSION_DYNAMIC_EVIDENCE",
+        "provider_absence_global_failure": False,
+        "source_decision_obligation": False,
+        "existing_429_closure_reopened": False,
+        "current_host_obligation_delta": 0,
+        "global_promotion_claim": False,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+        "capability_count_after": capability_count,
+    }
+
     projection["marketing_agent_native_reconciliation"] = {
         "profile_id": "FA3-MARKETING-001",
         "contract_id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",

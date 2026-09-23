@@ -1,0 +1,41 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23",
+  "date": "2026-09-23",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize scope-bound current-host admission for inference execution providers",
+  "change_type": "NO_NEW_CAPABILITY_NO_NEW_AUTHORITY_PROVIDER_CURRENT_HOST_ADMISSION",
+  "parent_profile_id": "FA3-INFERENCE-PORTABILITY-001",
+  "conformance_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+  "materialization_subgate_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-MATERIALIZATION-001",
+  "current_host_gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+  "provider_ids": [
+    "FA3-PROVIDER-OPENVINO-001",
+    "FA3-PROVIDER-ONNXRUNTIME-001",
+    "FA3-PROVIDER-TENSORRT-001",
+    "FA3-PROVIDER-TENSORRT-RTX-001"
+  ],
+  "capability_bindings": [
+    "CAP-005",
+    "CAP-006",
+    "CAP-137",
+    "CAP-143"
+  ],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "source_decision_obligation": false,
+  "existing_429_closure_reopened": false,
+  "current_host_obligation_delta": 0,
+  "decisions": [
+    "Provider absence is an explicit inventory result and does not fail global FA3 unless that provider is explicitly required for the admission run.",
+    "Provider production admission is scope-bound and requires real current-host execution at the exact recorded runtime version.",
+    "CPU inference admission never requires an accelerator lease; accelerator inference requires the exact device-bound HRB lease and hardware evidence.",
+    "NVIDIA accelerator admission additionally requires an explicit support-matrix receipt; reference-version observation alone is insufficient.",
+    "Admission harnesses may probe providers directly only for qualification and never establish an application routing path around the Model Router.",
+    "Decision Fabric may advise ordering over the deterministic present-provider set but cannot add providers, grant admission or authorize execution.",
+    "No admission run may install providers automatically or download a model from the network.",
+    "TensorRT-RTX production admission additionally requires runtime-cache hit/miss/JIT observability consistent with the cache-hardening contract."
+  ],
+  "runtime_promotion": "PROVIDER_SCOPE_ONLY_NO_GLOBAL_PROMOTION_CLAIM"
+}

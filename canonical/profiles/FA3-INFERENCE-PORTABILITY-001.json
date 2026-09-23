@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-INFERENCE-PORTABILITY-001",
   "name": "Provider-Neutral Model Interchange, Backend Compilation & Execution Provider Portability",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -70,7 +70,7 @@
     "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
     "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
   ],
-  "implementation_status": "CANONICAL_RECONCILED_WITH_HARDWARE_FABRIC_UAF_AI_COMMS_AND_ROUTER_BOUNDARIES_PROVIDER_RUNTIME_ADMISSION_SEPARATE",
+  "implementation_status": "CANONICAL_WITH_PROVIDER_SPECIFIC_CURRENT_HOST_ADMISSION_FRAMEWORK_RUNTIME_ADMISSION_SCOPE_BOUND",
   "hardware_execution_fabric": {
     "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
     "hrb_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
@@ -118,5 +118,19 @@
     "INFERENCE_EXTERNAL_OR_CLOUD_FALLBACK_REQUIRES_EXPLICIT_PREAUTHORIZED_POLICY",
     "INFERENCE_REFERENCE_VERSION_ADVANCE_IS_NOT_RUNTIME_PROMOTION",
     "INFERENCE_EP_AND_BACKEND_SELECTION_REMAINS_DISTINCT_FROM_MODEL_ROUTING"
-  ]
+  ],
+  "current_host_provider_admission": {
+    "conformance_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+    "materialization_subgate_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-MATERIALIZATION-001",
+    "current_host_gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+    "aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
+    "provider_absence_global_effect": "NONE_UNLESS_EXPLICITLY_REQUIRED",
+    "automatic_install": "FORBIDDEN",
+    "network_model_fetch": "FORBIDDEN",
+    "direct_provider_probe_scope": "ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
+    "model_router_consumption": "ONLY_ADMITTED_SCOPE_BOUND_RECEIPTS",
+    "decision_fabric_role": "BOUNDED_ADVISORY_OVER_DETERMINISTIC_PRESENT_PROVIDER_SET_NO_AUTHORITY",
+    "current_host_obligation_delta": 0,
+    "global_promotion_claim": false
+  }
 }

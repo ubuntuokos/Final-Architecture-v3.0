@@ -80,5 +80,20 @@
     "device_bound_backend_required": true,
     "hrb_lease_required": true,
     "gpu_sku_and_cuda_context_fields_provider_scoped_only": true
+  },
+  "current_host_admission": {
+    "framework_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+    "aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
+    "scope_ids": [
+      "NVIDIA_RTX_NATIVE"
+    ],
+    "default_mode": "DISCOVER_AND_PROVE_WITHOUT_INSTALL",
+    "provider_absence_is_global_failure": false,
+    "direct_probe_scope": "ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
+    "model_router_candidate_requirement": "SCOPE_BOUND_ADMITTED_RECEIPT_DIGEST_REQUIRED",
+    "automatic_install": false,
+    "network_model_fetch": false,
+    "global_promotion_claim": false
   }
 }

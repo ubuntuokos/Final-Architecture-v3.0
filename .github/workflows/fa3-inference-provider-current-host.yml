@@ -1,0 +1,120 @@
+name: FA3 Inference Provider Current-Host Admission
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/**INFERENCE**'
+      - 'canonical/providers/FA3-PROVIDER-OPENVINO-001.json'
+      - 'canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TENSORRT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json'
+      - 'src/fa3_inference_provider_current_host*.py'
+      - 'evidence/collect-inference-provider-current-host.py'
+      - 'tests/test_inference_provider_current_host.py'
+      - '.github/workflows/fa3-inference-provider-current-host.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'canonical/**INFERENCE**'
+      - 'canonical/providers/FA3-PROVIDER-OPENVINO-001.json'
+      - 'canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TENSORRT-001.json'
+      - 'canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json'
+      - 'src/fa3_inference_provider_current_host*.py'
+      - 'evidence/collect-inference-provider-current-host.py'
+      - 'tests/test_inference_provider_current_host.py'
+      - '.github/workflows/fa3-inference-provider-current-host.yml'
+  workflow_dispatch:
+    inputs:
+      required_providers:
+        description: "Comma-separated canonical provider IDs that must gain at least one admitted scope"
+        required: false
+        default: ""
+        type: string
+      hrb_lease:
+        description: "Optional absolute path to an existing validated HRB accelerator lease on the runner"
+        required: false
+        default: ""
+        type: string
+      support_matrix_receipt:
+        description: "Optional absolute path to a provider support-matrix receipt on the runner"
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  group: fa3-inference-provider-current-host-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          clean: true
+      - name: Canonical inference portability parent gate
+        run: |
+          chmod +x bin/fa3-enforce
+          ./bin/fa3-enforce inference-portability
+      - name: Collect provider current-host evidence without installation
+        shell: bash
+        env:
+          REQUIRED: ${{ inputs.required_providers || '' }}
+          HRB_LEASE: ${{ inputs.hrb_lease || '' }}
+          MATRIX: ${{ inputs.support_matrix_receipt || '' }}
+        run: |
+          set -euo pipefail
+          args=(--root .)
+          if [ -n "$HRB_LEASE" ]; then args+=(--hrb-lease "$HRB_LEASE"); fi
+          if [ -n "$MATRIX" ]; then args+=(--support-matrix-receipt "$MATRIX"); fi
+          if [ -n "$REQUIRED" ]; then
+            IFS=',' read -ra ids <<< "$REQUIRED"
+            for id in "${ids[@]}"; do
+              id="$(echo "$id" | xargs)"
+              [ -z "$id" ] || args+=(--require-provider "$id")
+            done
+          fi
+          set +e
+          PYTHONPATH=src python3 evidence/collect-inference-provider-current-host.py "${args[@]}"
+          rc=$?
+          set -e
+          # Inventory mode is expected to PASS. Explicit required-provider mode remains fail-closed.
+          if [ "$rc" -ne 0 ] && [ -n "$REQUIRED" ]; then exit "$rc"; fi
+          if [ "$rc" -ne 0 ]; then
+            echo "::error::inventory-only provider collection unexpectedly blocked"
+            exit "$rc"
+          fi
+      - name: Validate scope-bound admission receipt
+        run: PYTHONPATH=src python3 src/fa3_inference_provider_current_host_gate.py --root . --current-host
+      - name: Summarize provider state
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("evidence/receipts/inference-provider-current-host.json").read_text())
+          print("result:",r["result"])
+          for pid,p in r["providers"].items():
+              print(pid,p["status"],"version=",p.get("provider_version"),"admitted_scopes=",p.get("admitted_scopes"))
+          assert r["global_promotion_claim"] is False
+          assert r["existing_429_closure_reopened"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-inference-provider-current-host
+          path: |
+            evidence/receipts/inference-provider-current-host.json
+            evidence/receipts/inference-provider-current-host/*.json
+            evidence/runtime/inference-provider-current-host/**
+            reports/inference-provider-current-host-gate-report.json
+            reports/inference-provider-current-host-materialization-gate-report.json
+          if-no-files-found: warn
