@@ -32,7 +32,8 @@
     "WORK_MANAGEMENT_DEAD_SIGNAL_REPAIR_WITH_DRAFT_ONLY_INTENT",
     "ACCELERATOR_GUARD_DEVICE_DISCOVERY_AND_DRAFT_DECISION_WIRING",
     "GENERIC_LINUX_WAYLAND_PRIMARY_X11_SUPPORTED_LABELING",
-    "GUI_GATE_EXPANSION_FOR_JEV_AGENT_NATIVE_AND_ROUTE_REGISTRY"
+    "GUI_GATE_EXPANSION_FOR_JEV_AGENT_NATIVE_AND_ROUTE_REGISTRY",
+    "INSTALLER_SOURCE_CONTRACT_MIGRATED_TO_SEMANTIC_ROUTES"
   ],
   "agent_native": {
     "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
@@ -79,5 +80,12 @@
     "static_contract_job_id": 107320747988,
     "qt_reference_build_job_id": 107320748620,
     "current_host_runtime_claim": false
+  },
+  "installer_reconciliation": {
+    "status": "MATERIALIZED",
+    "source": "deployment/fa3-gui/install.sh",
+    "removed_stale_marker": "label: \"Keresés\"",
+    "semantic_route_contract_required": true,
+    "pageindex_nav_regression_guard": true
   }
 }

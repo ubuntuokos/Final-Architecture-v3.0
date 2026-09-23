@@ -23,14 +23,25 @@ required_markers=(
   'linkText: "CivitAI"'
   'linkText: "OpenModelDB"'
   'text: "Kérdezd: "'
+  'property var routeTable'
+  'function navigate(routeId)'
+  'routeId: "agents.action-center"'
+  'routeId: "decision.fabric"'
+  'routeId: "decision.inspector"'
+  'routeId: "decision.context-inspector"'
+  'routeId: "decision.project-radar"'
+  'routeId: "home.work-management"'
+  'routeId: "system.accelerator-guard"'
+  'routeId: "integrations.fa3-os"'
+  'text: "⌕  Keresés"'
   'label: "Model Manager"'
-  'label: "Keresés"'
   'label: "Rendszerbeállítások"'
   'title: "Weboldal"'
   'title: "Prezentáció"'
   'labelText: "CPU"'
   'labelText: "GPU"'
   'labelText: "NPU"'
+  'Generic Linux · Wayland primary / X11 supported'
   'import QtWebEngine'
   'openInternalWeb'
 )
@@ -41,6 +52,15 @@ for marker in "${required_markers[@]}"; do
     exit 3
   fi
 done
+
+nav_start="$(grep -n 'component NavButton' "$MAIN_QML" | head -n1 | cut -d: -f1 || true)"
+module_start="$(grep -n 'component ModuleCard' "$MAIN_QML" | head -n1 | cut -d: -f1 || true)"
+if [[ -n "$nav_start" && -n "$module_start" ]]; then
+  if sed -n "${nav_start},${module_start}p" "$MAIN_QML" | grep -Fq 'property int pageIndex'; then
+    echo "FA3 GUI source-contract check FAILED: NavButton is still coupled to pageIndex" >&2
+    exit 3
+  fi
+fi
 
 if grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then
   echo "FA3 GUI source-contract check FAILED: QuickLink still escapes to an external browser" >&2

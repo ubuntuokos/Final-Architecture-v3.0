@@ -20,6 +20,7 @@ REQUIRED = {
     "action_center_qml": ROOT / "apps/fa3-control-center/qml/AgentActionCenterPage.qml",
     "work_management_qml": ROOT / "apps/fa3-control-center/qml/WorkManagementPage.qml",
     "accelerator_guard_qml": ROOT / "apps/fa3-control-center/qml/AcceleratorGuardPage.qml",
+    "installer": ROOT / "deployment/fa3-gui/install.sh",
     "cmake": ROOT / "apps/fa3-control-center/CMakeLists.txt",
     "main_cpp": ROOT / "apps/fa3-control-center/src/main.cpp",
     "model_cpp": ROOT / "apps/fa3-control-center/src/Fa3RepositoryModel.cpp",
@@ -231,6 +232,25 @@ def validate() -> list[str]:
         failures.append("qml-draft-intent-feedback-missing")
     if "Generic Linux · Wayland primary / X11 supported" not in qml:
         failures.append("qml-desktop-portability-label-missing")
+
+    installer = REQUIRED["installer"].read_text(encoding="utf-8")
+    for token in [
+        'property var routeTable',
+        'function navigate(routeId)',
+        'routeId: "agents.action-center"',
+        'routeId: "decision.fabric"',
+        'routeId: "home.work-management"',
+        'routeId: "system.accelerator-guard"',
+        'routeId: "integrations.fa3-os"',
+        'text: "⌕  Keresés"',
+        'Generic Linux · Wayland primary / X11 supported',
+    ]:
+        if token not in installer:
+            failures.append(f"installer-semantic-route-contract-missing:{token}")
+    if 'label: "Keresés"' in installer:
+        failures.append("installer-stale-search-navigation-marker-present")
+    if "NavButton is still coupled to pageIndex" not in installer:
+        failures.append("installer-pageindex-drift-guard-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "searchActions" not in model_cpp or "canonical/actions" not in model_cpp:

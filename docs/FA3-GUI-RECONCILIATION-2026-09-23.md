@@ -53,3 +53,8 @@ Reference validation is **PASS** for tested head `79a71114a3d9c5a83fe8431039c386
 - Qt6 reference-build job **107320748620**: PASS.
 
 This reference PASS is deliberately not a current-host Wayland/X11 visual/runtime PASS.
+
+
+## Installer reconciliation
+
+The user-local installer source-contract preflight was migrated from the removed first-level `Keresés` navigation marker and brittle navigation assumptions to the semantic route contract. It now requires the stable route table, Agent Action Center, Decision & Context routes, Work Management, Accelerator Guard, FA3 OS, the global search toolbar and the Generic Linux / Wayland-primary / X11-supported portability label. It also fails closed if `NavButton` regresses to direct `pageIndex` coupling.

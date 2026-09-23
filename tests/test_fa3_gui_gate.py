@@ -98,6 +98,23 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertNotIn('Layout.preferredHeight: root.isMcpMode() ? 126 : 104', chat)
         self.assertNotIn('Layout.preferredHeight: root.viewMode === "Compact" ? 116 : 154', chat)
 
+    def test_installer_tracks_semantic_routes_not_removed_search_nav_item(self):
+        installer = (ROOT / "deployment/fa3-gui/install.sh").read_text(encoding="utf-8")
+        for token in [
+            'property var routeTable',
+            'function navigate(routeId)',
+            'routeId: "agents.action-center"',
+            'routeId: "decision.fabric"',
+            'routeId: "home.work-management"',
+            'routeId: "system.accelerator-guard"',
+            'routeId: "integrations.fa3-os"',
+            'text: "⌕  Keresés"',
+            'Generic Linux · Wayland primary / X11 supported',
+        ]:
+            self.assertIn(token, installer)
+        self.assertNotIn('label: "Keresés"', installer)
+        self.assertIn("NavButton is still coupled to pageIndex", installer)
+
     def test_agent_native_decision_fabric_and_dead_signal_reconciliation(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
         action = (ROOT / "apps/fa3-control-center/qml/AgentActionCenterPage.qml").read_text(encoding="utf-8")
