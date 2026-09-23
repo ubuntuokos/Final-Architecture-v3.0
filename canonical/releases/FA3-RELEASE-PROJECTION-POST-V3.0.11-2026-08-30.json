@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "534b059807380602b516c7e0a41c429999ce0280",
-    "pre_projection_root_tree_sha": "239a1af4f4d251e1be4075e90c3993f7d4cf15bc",
-    "pre_projection_canonical_tree_sha": "e9df67e1a8f74ca438f8ff32e76e1d9f708fea72",
-    "commits_ahead_of_v3_0_11_conformance_commit": 585,
-    "total_post_baseline_commits": 585,
-    "delta_file_count": 1797,
-    "delta_added_files": 1792,
+    "pre_projection_head_sha": "74e66c14b0ed1abd721982f5d7b9d88f225e6a75",
+    "pre_projection_root_tree_sha": "2478ac45e74d1ba54d996d0c2889cd99ba8ab7b8",
+    "pre_projection_canonical_tree_sha": "2ce9586e45f91014e32cce9d5e085e35e87878a3",
+    "commits_ahead_of_v3_0_11_conformance_commit": 587,
+    "total_post_baseline_commits": 587,
+    "delta_file_count": 1798,
+    "delta_added_files": 1793,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 839,
+    "canonical_files_in_post_baseline_delta": 840,
     "evidence_files_in_post_baseline_delta": 145,
     "source_files_in_post_baseline_delta": 242,
     "test_files_in_post_baseline_delta": 208,
@@ -301,6 +301,7 @@
       "canonical/contracts/FA3-IDEATION-ADVISORY-CONTRACTS-001.json",
       "canonical/contracts/FA3-IMGGEN-CONTRACTS-001.json",
       "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json",
       "canonical/contracts/FA3-INSPECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-JOURNAL-CONTRACTS-001.json",
       "canonical/contracts/FA3-KDENLIVE-AUDIO-CONDITIONING-CONTRACTS-001.json",
@@ -844,7 +845,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1790,
+  "manifest_entry_count": 1791,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -993,7 +994,7 @@
     },
     {
       "path": ".github/workflows/fa3-inference-provider-current-host.yml",
-      "git_blob_sha": "8c179cc076d29c552d09c1033c8fd404f51226ee",
+      "git_blob_sha": "ec27d90fcc049d5402765b4aca92f72073d2b9af",
       "baseline_delta_status": "added"
     },
     {
@@ -2493,7 +2494,7 @@
     },
     {
       "path": "canonical/FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001.json",
-      "git_blob_sha": "977a59f9214c4b94046cffd39cfc697f44fa5983",
+      "git_blob_sha": "3f9cb496fe210191c6e4084c27dd1e13cc02d011",
       "baseline_delta_status": "added"
     },
     {
@@ -3178,7 +3179,12 @@
     },
     {
       "path": "canonical/contracts/FA3-INFERENCE-PORTABILITY-CONTRACTS-001.json",
-      "git_blob_sha": "7d1234089aec5d327b914d8fffe878928b3b90eb",
+      "git_blob_sha": "25b11122de3950ade7ef57824a8ca3942a02924d",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json",
+      "git_blob_sha": "e656e775fcc244a030849acd87e58a01048e8b34",
       "baseline_delta_status": "added"
     },
     {
@@ -3733,7 +3739,7 @@
     },
     {
       "path": "canonical/decisions/FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23.json",
-      "git_blob_sha": "756d31bb04ff9be9d4c2fd42ed133898660e7d55",
+      "git_blob_sha": "a182bd7e77d86e81e40e91c7d34a22aead3907ce",
       "baseline_delta_status": "added"
     },
     {
@@ -4288,7 +4294,7 @@
     },
     {
       "path": "canonical/inference-provider-current-host-enforcement.json",
-      "git_blob_sha": "402e22588e8748308c55b716e3cbf76d4bf8ed10",
+      "git_blob_sha": "852627434d5cdc7e8de707f8220810b5e33c5af1",
       "baseline_delta_status": "added"
     },
     {
@@ -4738,7 +4744,7 @@
     },
     {
       "path": "canonical/profiles/FA3-INFERENCE-PORTABILITY-001.json",
-      "git_blob_sha": "c49ac39ab628f58937f9b56b461fff613204ae72",
+      "git_blob_sha": "df9e6902241412b07cc920b8882a88557a877b33",
       "baseline_delta_status": "added"
     },
     {
@@ -5293,7 +5299,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json",
-      "git_blob_sha": "4dfbb8fc789152e9e42b37833a82ecc4100be4a3",
+      "git_blob_sha": "7f5773e4c9e9be5d0d210c43595da13b9724dfb4",
       "baseline_delta_status": "added"
     },
     {
@@ -5333,7 +5339,7 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENVINO-001.json",
-      "git_blob_sha": "b6e756a8fbf936e984f4309291bc6b1a6cf41d6d",
+      "git_blob_sha": "c2e7f206d8ac724b9e43227f1270d2ebb82cb5a2",
       "baseline_delta_status": "added"
     },
     {
@@ -5498,12 +5504,12 @@
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TENSORRT-001.json",
-      "git_blob_sha": "9b9a0f576b30d12cc4b0884ece9c1e588fea3d53",
+      "git_blob_sha": "f2596e7470293b9aba21d285b0a705c584895495",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/providers/FA3-PROVIDER-TENSORRT-RTX-001.json",
-      "git_blob_sha": "689484034712093ae497b1835f653f29292c369b",
+      "git_blob_sha": "00d22a36baa316f99c961bfefa14a83e0c7778ca",
       "baseline_delta_status": "added"
     },
     {
@@ -7043,7 +7049,7 @@
     },
     {
       "path": "evidence/reference/inference-provider-current-host-materialization-ci-2026-09-23.json",
-      "git_blob_sha": "f3eabf16cc968ce0d3284edc53d3a18344876fb6",
+      "git_blob_sha": "9e5b07e568310d778b570ad8a6b1a581f8620c6b",
       "baseline_delta_status": "added"
     },
     {
@@ -7993,12 +7999,12 @@
     },
     {
       "path": "src/fa3_inference_provider_current_host.py",
-      "git_blob_sha": "2cee05bb6e45974dad03ad8fe351b50811f86bc7",
+      "git_blob_sha": "a24e3cc5aa35628c3e5a7baefd88e0bd2625a670",
       "baseline_delta_status": "added"
     },
     {
       "path": "src/fa3_inference_provider_current_host_gate.py",
-      "git_blob_sha": "8622e9f35ee97935d5a3ce5c4e8c007c114e21d2",
+      "git_blob_sha": "70a580e15d095b901c854ce4ed7a61aabcf05a76",
       "baseline_delta_status": "added"
     },
     {
@@ -9148,7 +9154,7 @@
     },
     {
       "path": "tests/test_inference_provider_current_host.py",
-      "git_blob_sha": "30decfe4cdb3c6a4d9692b53ff150a61cdf3699f",
+      "git_blob_sha": "56f30d47429318b966473c0e5e7a0bffe6e89212",
       "baseline_delta_status": "added"
     },
     {
