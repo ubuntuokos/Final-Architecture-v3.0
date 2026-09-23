@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-LANGUAGE-ADMISSION-001",
+  "name": "Application & Model Language Admission",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "depends_on": ["FA3-LANGUAGE-POLICY-001"],
+  "capability_status_enum": ["NATIVE", "VALIDATED", "BRIDGED", "UNVERIFIED", "UNSUPPORTED"],
+  "model_registry_language_metadata": {
+    "required": ["native", "validated", "bridge_compatible"],
+    "optional": ["unsupported"],
+    "native_support_may_not_be_inferred_from_multilingual_marketing_claims": true,
+    "bridge_support_may_not_rewrite_native_support": true
+  },
+  "application_registry_language_metadata": {
+    "required": ["ui_native", "model_io_native", "fa3_bridge_supported"],
+    "native_and_mediated_support_must_remain_distinct": true
+  },
+  "admission_rule": {
+    "pass_when_any": [
+      "validated native support for required request language",
+      "validated native support for one selected system language plus an admitted Language Fabric route",
+      "validated end-to-end bridge route preserving request semantics"
+    ],
+    "otherwise": "FAIL_CLOSED"
+  },
+  "selected_system_language_obligation": {
+    "primary_must_be_operable": true,
+    "secondary_must_be_operable": true,
+    "native_model_required": false,
+    "validated_language_capability_required": true,
+    "acceptable_mechanisms": ["NATIVE", "VALIDATED", "BRIDGED"]
+  },
+  "hungarian_policy": {
+    "hu_specific_assets_become_required_only_if_primary_or_secondary_is_hu_HU": true,
+    "requirement_is_validated_hungarian_capability_not_a_hungarian_specific_llm": true
+  },
+  "capability_count_delta": 0,
+  "authority_delta": 0,
+  "fail_closed": true
+}
