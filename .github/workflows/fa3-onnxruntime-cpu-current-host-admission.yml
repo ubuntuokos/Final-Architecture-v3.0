@@ -1,0 +1,111 @@
+name: FA3 ONNX Runtime CPU Current-Host Admission
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'evidence/admission-inputs/inference/onnxruntime-cpu-current-host-20260923/**'
+      - 'src/fa3_inference_provider_current_host*.py'
+      - 'evidence/collect-inference-provider-current-host.py'
+      - 'canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json'
+      - 'canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json'
+      - '.github/workflows/fa3-onnxruntime-cpu-current-host-admission.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'evidence/admission-inputs/inference/onnxruntime-cpu-current-host-20260923/**'
+      - 'src/fa3_inference_provider_current_host*.py'
+      - 'evidence/collect-inference-provider-current-host.py'
+      - 'canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json'
+      - 'canonical/providers/FA3-PROVIDER-ONNXRUNTIME-001.json'
+      - '.github/workflows/fa3-onnxruntime-cpu-current-host-admission.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: fa3-onnxruntime-cpu-current-host-admission-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ort-cpu-current-host:
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          clean: true
+
+      - name: Canonical inference portability parent gate
+        run: |
+          chmod +x bin/fa3-enforce
+          ./bin/fa3-enforce inference-portability
+
+      - name: Admit exact ONNX Runtime CPU environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python3 evidence/collect-inference-provider-current-host.py \
+            --root . \
+            --require-provider FA3-PROVIDER-ONNXRUNTIME-001 \
+            --runtime-descriptor-receipt evidence/admission-inputs/inference/onnxruntime-cpu-current-host-20260923/runtime-descriptor.json \
+            --runtime-pin-receipt evidence/admission-inputs/inference/onnxruntime-cpu-current-host-20260923/runtime-pin.json
+
+      - name: Validate scope-bound provider admission
+        run: PYTHONPATH=src python3 src/fa3_inference_provider_current_host_gate.py --root . --current-host
+
+      - name: Assert ORT CPU production admission boundaries
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          receipt = json.loads(Path("evidence/receipts/inference-provider-current-host.json").read_text())
+          pid = "FA3-PROVIDER-ONNXRUNTIME-001"
+          provider = receipt["providers"][pid]
+          scope = provider["scopes"]["CPU_EP"]
+
+          assert receipt["result"] == "PASS"
+          assert receipt["required_provider_ids"] == [pid]
+          assert receipt["missing_required_provider_ids"] == []
+          assert receipt["global_promotion_claim"] is False
+          assert receipt["existing_429_closure_reopened"] is False
+          assert receipt["current_host_obligation_delta"] == 0
+          assert receipt["auto_install_performed"] is False
+          assert receipt["network_model_fetch_performed"] is False
+          assert receipt["inventory_scope"] == "PROBE_ENVIRONMENT_SCOPED_NOT_HOST_WIDE"
+
+          assert provider["provider_version"] == "1.23"
+          assert provider["status"] == "ADMITTED"
+          assert provider["admitted_scopes"] == ["CPU_EP"]
+          assert provider["admission_pin"]["result"] == "PASS"
+          assert provider["admission_pin"]["immutable"] is True
+          assert provider["admission_pin_match"] is True
+          assert provider["admission_identity_match"] is True
+          assert provider["probe_environment"]["environment_id"] == "FA3-CURRENT-HOST-SYSTEM-PYTHON314-ORT-1.23"
+          assert provider["probe_environment"]["discovery_scope"] == "EXPLICIT_RUNTIME_ENVIRONMENT"
+          assert provider["host_wide_absence_claim"] is False
+
+          assert scope["status"] == "ADMITTED"
+          assert scope["execution_kind"] == "CPU"
+          assert scope["e2e"]["result"] == "PASS"
+          assert scope["hardware_binding"]["accelerator"] is False
+          assert scope["hardware_binding"]["hrb_lease"] is None
+          assert scope["support_matrix"]["result"] == "NOT_REQUIRED_CPU_SCOPE"
+          print("ORT CPU current-host production admission: PASS")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-onnxruntime-cpu-current-host-admission
+          path: |
+            evidence/receipts/inference-provider-current-host.json
+            evidence/receipts/inference-provider-current-host/FA3-PROVIDER-ONNXRUNTIME-001.json
+            reports/inference-provider-current-host-gate-report.json
+            reports/inference-provider-current-host-materialization-gate-report.json
+          if-no-files-found: error
