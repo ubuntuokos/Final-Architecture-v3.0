@@ -494,7 +494,11 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and contract.get("decision_boundary", {}).get("candidate_set_expansion") == "DENY"
         and contract.get("curated_candidate_catalog") == CATALOG_ID
         and contract.get("agent_mapping", {}).get("candidate_catalog_is_activation_authority") is False
-        and contract.get("agent_mapping", {}).get("candidate_selection_requires_separate_content_admission") is True
+        and contract.get("agent_mapping", {}).get("candidate_selection_requires_separate_content_admission") is False
+        and contract.get("agent_mapping", {}).get("fa3_native_definition_registry") == AGENT_DEFINITION_REGISTRY_ID
+        and contract.get("agent_mapping", {}).get("upstream_body_vendoring_required") is False
+        and contract.get("agent_mapping", {}).get("verbatim_future_import_requires_separate_distribution_and_content_admission") is True
+        and contract.get("normalization_targets", {}).get("agent_definition") == AGENT_DEFINITION_CONTRACT_ID
     ):
         findings.append(_finding("AGA-CANON-003", "normalization contract drift"))
 
@@ -502,23 +506,32 @@ def canonical_check(root: Path) -> dict[str, Any]:
         decision.get("id") == DECISION_ID
         and decision.get("provider_id") == PROVIDER_ID
         and decision.get("upstream_pin") == UPSTREAM_PIN
-        and decision.get("status") == "CANONICAL_IMPLEMENTED_STATIC_GATE_PENDING_OPEN_RECONCILIATIONS"
+        and decision.get("status") == "CANONICAL_IMPLEMENTED_STATIC_GATES_OPEN_RUNTIME_AND_RELEASE_VALIDATION"
         and decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
         and decision.get("capability_count_after") == count
         and decision.get("current_host_runtime_claim") is False
-        and "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED" in decision.get("open_reconciliations", [])
-        and "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION" in decision.get("open_reconciliations", [])
-        and "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR" not in decision.get("open_reconciliations", [])
+        and set(decision.get("open_reconciliations", [])) == {
+            "LATEST_UNIFIED_RELEASE_PROJECTION_REGENERATION_PENDING",
+            "FRESH_PERMANENT_CI_AFTER_AGENT_DEFINITION_AND_GUI_BINDING_PENDING",
+        }
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("provider_target_class") == "EXTERNAL_REDISTRIBUTABLE"
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("status") == "RECONCILED_CANONICAL_MAIN"
-        and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("main_commit") == "53df1a20262449863c629f18ee587c9e947c4feb"
         and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("target_surface_route") == "agents.workflows"
+        and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("status") == "RECONCILED_CANONICAL_MAIN"
+        and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("child_surface_id") == "agency-agents.imported-pack"
+        and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("agent_definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
         and decision.get("curated_candidate_selection", {}).get("catalog_id") == CATALOG_ID
-        and decision.get("curated_candidate_selection", {}).get("status") == "MATERIALIZED_NOT_ADMITTED"
+        and decision.get("curated_candidate_selection", {}).get("status") == "SOURCE_CANDIDATES_NORMALIZED_TO_FA3_NATIVE_DEFINITIONS"
         and decision.get("curated_candidate_selection", {}).get("agent_candidates") == 12
         and decision.get("curated_candidate_selection", {}).get("template_candidates") == 5
-        and decision.get("curated_candidate_selection", {}).get("activation_enabled") is False
+        and decision.get("curated_candidate_selection", {}).get("persona_bodies_vendored") is False
+        and decision.get("curated_candidate_selection", {}).get("source_candidate_activation_enabled") is False
+        and decision.get("curated_candidate_selection", {}).get("definition_contract_id") == AGENT_DEFINITION_CONTRACT_ID
+        and decision.get("curated_candidate_selection", {}).get("definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
+        and decision.get("curated_candidate_selection", {}).get("canonical_role_definitions") == 12
+        and decision.get("curated_candidate_selection", {}).get("canonical_template_definitions") == 5
+        and decision.get("curated_candidate_selection", {}).get("runtime_provider_admission_performed") is False
     ):
         findings.append(_finding("AGA-CANON-004", "decision or deliberately-open reconciliation state drift"))
 
@@ -539,7 +552,19 @@ def canonical_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("AGA-CANON-005", "immutable upstream reference observation drift"))
 
     if not candidate_catalog_valid(catalog):
-        findings.append(_finding("AGA-CANON-011", "curated candidate catalog drift or accidental admission"))
+        findings.append(_finding("AGA-CANON-011", "curated source catalog drift or unsafe source activation"))
+    if not (
+        agent_definition_contract.get("id") == AGENT_DEFINITION_CONTRACT_ID
+        and agent_definition_contract.get("status") == "CANONICAL"
+        and agent_definition_contract.get("parent_profile") == "FA3-AGENT-EXEC-001"
+        and agent_definition_contract.get("provider_neutral") is True
+        and agent_definition_contract.get("new_capability") is False
+        and agent_definition_contract.get("new_architectural_authority") is False
+        and agent_definition_contract.get("capability_count") == count
+        and agent_definition_contract.get("registry") == AGENT_DEFINITION_REGISTRY_ID
+        and normalized_definition_mapping_valid(catalog, agent_definition_registry)
+    ):
+        findings.append(_finding("AGA-CANON-013", "Agency source-to-Agent-Definition normalization drift"))
 
     rules = enforcement.get("rules", [])
     if not (
@@ -561,7 +586,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and gate.get("regression_case_count") == len(CASE_IDS)
         and gate.get("current_host_provider_runtime_evidence") is False
         and gate.get("candidate_catalog_id") == CATALOG_ID
-        and gate.get("candidate_catalog_status_required") == "CURATED_CANDIDATES_NOT_ADMITTED"
+        and gate.get("candidate_catalog_status_required") == "CURATED_REFERENCE_SOURCES_NORMALIZED"
+        and gate.get("agent_definition_contract_id") == AGENT_DEFINITION_CONTRACT_ID
+        and gate.get("agent_definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
     ):
         findings.append(_finding("AGA-CANON-007", "gate record drift"))
 
@@ -616,13 +643,36 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and surface.get("view_kind") == "IMPORTED_PACK_CHILD_VIEW"
         and surface.get("execution_intent_route") == "agents.action-center"
         and surface.get("new_top_level_navigation_route_required") is False
-        and surface.get("status") == "PENDING_PR_371_RECONCILIATION"
-        and surface.get("dependency_pr") == 371
+        and surface.get("status") == "RECONCILED_CANONICAL_GUI"
+        and surface.get("child_surface_id") == "agency-agents.imported-pack"
+        and surface.get("agent_definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
+        and surface.get("mode") == "READ_ONLY_CANONICAL_DEFINITIONS"
+        and surface.get("direct_provider_execution") is False
+        and provider.get("agent_definition_projection", {}).get("contract_id") == AGENT_DEFINITION_CONTRACT_ID
+        and provider.get("agent_definition_projection", {}).get("registry_id") == AGENT_DEFINITION_REGISTRY_ID
+        and provider.get("agent_definition_projection", {}).get("status") == "CANONICAL_FA3_NATIVE_NORMALIZATION_MATERIALIZED"
+        and provider.get("agent_definition_projection", {}).get("upstream_bodies_vendored") is False
+        and provider.get("agent_definition_projection", {}).get("definition_is_runtime_provider") is False
         and contract.get("supply_chain", {}).get("distribution_profile_binding") == "FA3-DISTRIBUTION-COMPLIANCE-001"
         and contract.get("supply_chain", {}).get("distribution_contract_binding") == "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
         and contract.get("supply_chain", {}).get("distribution_compliance_status") == "CANONICAL_RECONCILED"
     ):
         findings.append(_finding("AGA-CANON-010", "Agent Native, Decision Fabric, AI-Comms, Skill Fabric, distribution or GUI reconciliation drift"))
+
+    agent_surface = next((row for row in gui_surface_registry.get("surfaces", []) if row.get("route_id") == "agents.workflows"), {})
+    child = next((row for row in agent_surface.get("children", []) if row.get("surface_id") == "agency-agents.imported-pack"), {})
+    if not (
+        child.get("provider_id") == PROVIDER_ID
+        and child.get("candidate_catalog_id") == CATALOG_ID
+        and child.get("agent_definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
+        and child.get("projection") == "CANONICAL_AGENT_DEFINITION_REFERENCE"
+        and child.get("mode") == "READ_ONLY_CANONICAL_DEFINITIONS"
+        and child.get("activation_status") == "DEFINITION_AVAILABLE_RUNTIME_PROVIDER_SEPARATE"
+        and child.get("execution_intent_route") == "agents.action-center"
+        and child.get("direct_provider_execution") is False
+        and child.get("authority") is False
+    ):
+        findings.append(_finding("AGA-CANON-014", "Agency GUI imported-pack projection drift"))
 
     records = {row.get("subject_id"): row for row in distribution_registry.get("records", [])}
     provider_dist = records.get(PROVIDER_ID, {})
@@ -664,10 +714,11 @@ def gate(root: Path) -> dict[str, Any]:
         "result": result,
         "canonical": canonical,
         "regressions": regressions,
-        "full_upstream_content_admission": "NOT_PERFORMED",
-        "curated_candidate_selection": "MATERIALIZED_NOT_ADMITTED",
-        "curated_agent_template_admission": "PENDING_DISTRIBUTION_AND_CONTENT_ADMISSION",
-        "gui_surface_reconciliation": "PENDING_PR_371_RECONCILIATION",
+        "upstream_source_body_import": "NOT_PERFORMED_BY_DESIGN",
+        "curated_source_selection": "MATERIALIZED_INERT_REFERENCE_ONLY",
+        "agent_definition_normalization": "CANONICAL_12_ROLE_5_TEMPLATE_NO_UPSTREAM_BODY_VENDORED",
+        "gui_surface_reconciliation": "RECONCILED_CANONICAL_GUI_READ_ONLY_DEFINITIONS",
+        "runtime_provider_admission": "SEPARATE_NOT_CLAIMED_BY_REFERENCE_PROVIDER",
         "external_redistributable_binding": "CANONICAL_RECONCILED_EXTERNAL_REDISTRIBUTABLE_BUNDLE_EXCLUDED",
         "current_host_runtime_claim": False,
         "global_promotion_claim": False,
