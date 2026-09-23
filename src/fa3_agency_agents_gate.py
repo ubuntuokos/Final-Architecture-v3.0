@@ -605,6 +605,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and policy.get("agency_agents_gate_id") == GATESET_ID
         and policy.get("agency_agents_upstream_pin") == UPSTREAM_PIN
         and policy.get("agency_agents_runtime_status") == "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY"
+        and policy.get("agency_agents_agent_definition_contract_id") == AGENT_DEFINITION_CONTRACT_ID
+        and policy.get("agency_agents_agent_definition_registry_id") == AGENT_DEFINITION_REGISTRY_ID
         and policy.get("agency_agents_mandatory_p0_rules") == rules
     ):
         findings.append(_finding("AGA-CANON-008", "global enforcement binding drift"))
