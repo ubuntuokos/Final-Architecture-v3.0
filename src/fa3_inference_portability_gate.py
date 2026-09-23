@@ -3,6 +3,7 @@ from __future__ import annotations
 from fa3_release_baseline import module_active_capability_count
 from fa3_inference_cache_hardening_gate import gate as inference_cache_hardening_gate
 from fa3_inference_portability_reconciliation_gate import gate as inference_portability_reconciliation_gate
+from fa3_inference_provider_current_host_gate import materialization_gate as inference_provider_current_host_materialization_gate
 
 import argparse
 import json
@@ -415,10 +416,12 @@ def gate(root: Path) -> dict[str, Any]:
     regressions = run_regressions()
     cache_hardening = inference_cache_hardening_gate(root)
     reconciliation_2026_09_23 = inference_portability_reconciliation_gate(root)
+    provider_current_host_materialization = inference_provider_current_host_materialization_gate(root)
     ok = (
         reference["result"] == authority["result"] == regressions["result"] == "PASS"
         and cache_hardening["result"] == "PASS"
         and reconciliation_2026_09_23["result"] == "PASS"
+        and provider_current_host_materialization["result"] == "PASS"
     )
     report = {
         "schema":"fa3.inference-portability-gate-report.v1",
@@ -434,6 +437,7 @@ def gate(root: Path) -> dict[str, Any]:
         "regressions":regressions,
         "cache_hardening_subgate":cache_hardening,
         "reconciliation_2026_09_23_subgate":reconciliation_2026_09_23,
+        "provider_current_host_materialization_subgate":provider_current_host_materialization,
         "runtime_provider_required":False,
         "current_host_runtime_promotion_claim":False,
         "promotion_effect":"MANDATORY_CANONICAL_INVARIANTS_PROVIDER_RUNTIME_NOT_ADMITTED_BY_CI_REFERENCE_PASS",

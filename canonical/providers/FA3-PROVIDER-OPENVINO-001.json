@@ -55,5 +55,27 @@
     "intel_gpu_npu": "DEVICE_BOUND_BACKEND_PLUS_HRB_LEASE_REQUIRED",
     "discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
     "silent_device_or_backend_substitution": false
+  },
+  "current_host_admission": {
+    "framework_id": "FA3-INFERENCE-PROVIDER-CURRENT-HOST-CONFORMANCE-001",
+    "gate_id": "FA3-GATE-INFERENCE-PROVIDER-CURRENT-HOST-001",
+    "aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
+    "scope_ids": [
+      "CPU",
+      "INTEL_GPU",
+      "INTEL_NPU"
+    ],
+    "default_mode": "DISCOVER_AND_PROVE_WITHOUT_INSTALL",
+    "provider_absence_is_global_failure": false,
+    "direct_probe_scope": "ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
+    "model_router_candidate_requirement": "SCOPE_BOUND_ADMITTED_RECEIPT_DIGEST_REQUIRED",
+    "automatic_install": false,
+    "network_model_fetch": false,
+    "global_promotion_claim": false,
+    "runtime_probe_descriptor": "EXPLICIT_OR_DEFAULT_RUNNER_ENVIRONMENT",
+    "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
+    "absence_status": "NOT_PRESENT_IN_PROBE_ENVIRONMENT",
+    "host_wide_absence_claim": false,
+    "automatic_environment_scanning": false
   }
 }

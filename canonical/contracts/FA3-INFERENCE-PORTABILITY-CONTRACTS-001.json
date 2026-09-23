@@ -33,7 +33,12 @@
     "InferenceExecutionResolution",
     "InferenceExecutionReceipt",
     "AgentNativeInferenceInvocation",
-    "ExecutionBackendDriftEvent"
+    "ExecutionBackendDriftEvent",
+    "ProviderCurrentHostAdmissionReceipt",
+    "ProviderScopeAdmissionReceipt",
+    "ProviderSupportMatrixReceipt",
+    "ProviderRuntimePinReceipt",
+    "ProviderRuntimeProbeDescriptorReceipt"
   ],
   "required_semantics": {
     "interchange": "ONNX_PRIMARY_WHEN_SUPPORTED_NOT_UNIVERSAL_RUNTIME",
@@ -147,7 +152,7 @@
     "BACKEND_COMPATIBILITY_RECEIPT_REQUIRED_BEFORE_ACCELERATOR_EXECUTION",
     "PROVIDER_RUNTIME_PINNED_REPRODUCIBLE_NO_LATEST_AUTO_UPGRADE"
   ],
-  "version": "1.1.0",
+  "version": "1.2.0",
   "accelerator_backend_eligibility_required_fields": [
     "accelerator_id",
     "backend",
@@ -209,5 +214,55 @@
     "INFERENCE_EXTERNAL_OR_CLOUD_FALLBACK_REQUIRES_EXPLICIT_PREAUTHORIZED_POLICY",
     "INFERENCE_REFERENCE_VERSION_ADVANCE_IS_NOT_RUNTIME_PROMOTION",
     "INFERENCE_EP_AND_BACKEND_SELECTION_REMAINS_DISTINCT_FROM_MODEL_ROUTING"
-  ]
+  ],
+  "current_host_provider_admission_required_fields": [
+    "provider_id",
+    "provider_version",
+    "reference_version",
+    "reference_version_match",
+    "present",
+    "status",
+    "admitted_scopes",
+    "scopes",
+    "direct_probe_scope",
+    "auto_install_performed",
+    "network_model_fetch_performed",
+    "global_promotion_claim",
+    "admission_pin",
+    "admission_pin_match",
+    "probe_environment",
+    "host_wide_absence_claim"
+  ],
+  "provider_scope_admission_required_fields": [
+    "scope_id",
+    "execution_kind",
+    "status",
+    "evidence_level",
+    "e2e",
+    "runtime_pin",
+    "model_probe_sha256",
+    "hardware_binding",
+    "support_matrix"
+  ],
+  "current_host_admission_semantics": {
+    "provider_absence": "NOT_PRESENT_IN_PROBE_ENVIRONMENT_ONLY",
+    "production_admission": "REAL_EXECUTION_AND_EXACT_RUNTIME_IDENTITY_REQUIRED",
+    "cpu_scope": "NO_ACCELERATOR_LEASE",
+    "accelerator_scope": "EXACT_DEVICE_BOUND_HRB_LEASE_REQUIRED",
+    "nvidia_accelerator_scope": "SUPPORT_MATRIX_RECEIPT_REQUIRED",
+    "model_router": "CONSUMES_ONLY_ADMITTED_SCOPE_BOUND_RECEIPT_DIGESTS",
+    "decision_fabric": "ADVISORY_ONLY_CANNOT_ADD_CANDIDATES_OR_AUTHORIZE_EXECUTION",
+    "direct_provider_probe": "ALLOWED_ONLY_INSIDE_CURRENT_HOST_ADMISSION_HARNESS",
+    "automatic_install": "FORBIDDEN",
+    "network_model_fetch": "FORBIDDEN",
+    "tensorrt_rtx": "RUNTIME_CACHE_OBSERVABILITY_REQUIRED_FOR_PRODUCTION_ADMISSION",
+    "global_promotion_claim": false,
+    "latest_reference": "COMPATIBILITY_REFERENCE_ONLY_NEVER_AUTOMATIC_PRODUCTION_PIN",
+    "runtime_admission_pin": "EXPLICIT_IMMUTABLE_PROVIDER_RUNTIME_PIN_RECEIPT_REQUIRED_FOR_ANY_ADMITTED_SCOPE",
+    "reference_version_mismatch": "NONBLOCKING_WHEN_EXPLICIT_ADMISSION_PIN_AND_REQUIRED_SUPPORT_MATRIX_PASS",
+    "runtime_probe_environment": "EXPLICIT_DESCRIPTOR_OR_DEFAULT_RUNNER_ENVIRONMENT",
+    "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
+    "host_wide_absence_claim": "FORBIDDEN_FROM_SINGLE_PROBE_ENVIRONMENT",
+    "automatic_environment_scanning": "FORBIDDEN"
+  }
 }

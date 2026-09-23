@@ -44,6 +44,15 @@ def _write(path: Path, obj: dict[str, Any]) -> None:
 def _finding(code: str, message: str, **details: Any) -> dict[str, Any]:
     return {"code": code, "severity": "P0", "message": message, **details}
 
+def _version_at_least(raw: Any, minimum: tuple[int, int, int]) -> bool:
+    try:
+        parts=tuple(int(x) for x in str(raw).split("."))
+    except Exception:
+        return False
+    if len(parts) != 3 or parts[0] != minimum[0]:
+        return False
+    return parts >= minimum
+
 def backend_candidate_valid(obj: dict[str, Any]) -> bool:
     if obj.get("execution_kind") == "CPU":
         return bool(obj.get("compatibility_result") == "PASS" and not obj.get("hrb_lease_required", False))
@@ -188,7 +197,7 @@ def reference_check(root: Path) -> dict[str, Any]:
     evidence=_load(paths["evidence"]); registry=_load(paths["registry"]); projection=_load(paths["projection"])
 
     if not (
-        profile.get("version") == "1.1.0"
+        _version_at_least(profile.get("version"), (1,1,0))
         and profile.get("hardware_execution_fabric",{}).get("accelerator_cardinality") == "0..N"
         and profile.get("hardware_execution_fabric",{}).get("cpu_only_host_conforms") is True
         and profile.get("routing_and_invocation_boundaries",{}).get("model_routing_authority") == "FA3-AUTH-MODEL-ROUTER-001"
@@ -199,7 +208,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         findings.append(_finding("INFER-RECON-010","Profile reconciliation drift"))
 
     if not (
-        contract.get("version") == "1.1.0"
+        _version_at_least(contract.get("version"), (1,1,0))
         and "InferenceExecutionReceipt" in contract.get("contracts",[])
         and "AgentNativeInferenceInvocation" in contract.get("contracts",[])
         and contract.get("required_semantics",{}).get("model_routing") == "FA3-AUTH-MODEL-ROUTER-001_ONLY"
