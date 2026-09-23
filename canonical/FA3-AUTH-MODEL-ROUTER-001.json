@@ -101,7 +101,13 @@
       "policy_authority": false,
       "routing_authority": false,
       "resource_authority": false,
-      "evidence_authority": false
+      "evidence_authority": false,
+      "context_envelope_required": true,
+      "decision_receipt_required": true,
+      "provenance_required": true,
+      "failure_policy_required": true,
+      "hitl_escalation_supported": true,
+      "project_radar_review_required": true
     },
     "pageindex": {
       "model_access": "CENTRAL_MODEL_ROUTER_ONLY",
@@ -111,7 +117,13 @@
       "policy": "FA3-AI-COMMS-001",
       "closed_application_participant_set_preserved": true,
       "router_grants_communication_authority": false,
-      "router_may_expand_participant_set": false
+      "router_may_expand_participant_set": false,
+      "cross_application_default": "DENY",
+      "protected_gateway_required_for_cross_app": true,
+      "router_is_cross_app_communication_gateway": false,
+      "security_emergency_wake_bypass": false,
+      "human_auditable_authoritative_semantics_required": true,
+      "private_model_language_codebook_or_slang": "FORBIDDEN"
     }
   },
   "evidence_boundaries": {
@@ -127,5 +139,19 @@
     "required_accelerator_runtime": null,
     "resource_placement_and_accelerator_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
     "silent_resource_fallback": "FORBIDDEN"
+  },
+  "decision_fabric_applicability": {
+    "assessment_status": "COMPLETED",
+    "applicable_to_router_core": false,
+    "applicable_to_router_consumers": true,
+    "integration_timing": "AFTER_MODEL_ROUTER_CLOSURE",
+    "closed_candidate_set": "NONE_IN_ROUTER_CORE",
+    "authority_owner": "FA3-AUTH-MODEL-ROUTER-001_FOR_ROUTING_ONLY",
+    "failure_policy": "FAIL_CLOSED_NO_DECISION_FABRIC_ROUTING_AUTHORITY",
+    "deterministic_fallback": "ROUTER_CORE_REMAINS_DETERMINISTIC_WITHOUT_DECISION_FABRIC",
+    "shadow_mode_for_future_adapter": true,
+    "admission_gate_required": true,
+    "provenance_license_security_supply_chain_gate_required": true,
+    "project_radar_review_required": true
   }
 }
