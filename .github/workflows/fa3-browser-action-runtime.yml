@@ -1,0 +1,48 @@
+name: FA3 Browser Action Runtime
+on:
+  push:
+    paths:
+      - 'canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json'
+      - 'canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json'
+      - 'canonical/actions/browser.action.execute.json'
+      - 'canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json'
+      - 'canonical/third-party/FA3-JEV-CODE-REUSE-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'src/fa3_browser_action_runtime.py'
+      - 'src/fa3_browser_action_gate.py'
+      - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_enforce.py'
+      - 'tests/test_browser_action_runtime.py'
+      - 'tests/test_decision_fabric.py'
+      - '.github/workflows/fa3-browser-action-runtime.yml'
+  pull_request:
+    paths:
+      - 'canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json'
+      - 'canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json'
+      - 'canonical/actions/browser.action.execute.json'
+      - 'canonical/providers/FA3-PROVIDER-JEV-DECISION-001.json'
+      - 'canonical/third-party/FA3-JEV-CODE-REUSE-001.json'
+      - 'canonical/enforcement-policy.json'
+      - 'src/fa3_browser_action_runtime.py'
+      - 'src/fa3_browser_action_gate.py'
+      - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_enforce.py'
+      - 'tests/test_browser_action_runtime.py'
+      - 'tests/test_decision_fabric.py'
+      - '.github/workflows/fa3-browser-action-runtime.yml'
+jobs:
+  browser-action-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit and integration tests
+        env:
+          PYTHONPATH: src
+        run: python -m unittest tests.test_browser_action_runtime tests.test_decision_fabric
+      - name: Canonical gate
+        env:
+          PYTHONPATH: src
+        run: python src/fa3_browser_action_gate.py --root .

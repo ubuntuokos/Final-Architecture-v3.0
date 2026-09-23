@@ -115,7 +115,15 @@ def gate(root: Path) -> dict[str, Any]:
             if not path.is_file() or path.suffix not in {".py", ".cpp", ".h", ".qml", ".sh"} and path.parent.name != "bin":
                 continue
             rel = path.relative_to(root).as_posix()
-            if rel in {"src/fa3_jev_decision_provider.py", "src/fa3_decision_fabric_gate.py"}:
+            # Scanner/gate implementations may contain forbidden literals solely
+            # to detect them in executable application/provider sources. They are
+            # not execution paths and must not self-trigger the direct-Jev detector.
+            direct_jev_scan_exempt = {
+                "src/fa3_jev_decision_provider.py",
+                "src/fa3_decision_fabric_gate.py",
+                "src/fa3_browser_action_gate.py",
+            }
+            if rel in direct_jev_scan_exempt:
                 continue
             try:
                 text = path.read_text(encoding="utf-8")

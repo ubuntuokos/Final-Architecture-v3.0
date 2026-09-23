@@ -24,8 +24,43 @@
     "ISC",
     "0BSD"
   ],
-  "entries": [],
-  "note": "No third-party runtime source has been copied by the initial Decision Fabric materialization. Jev ecosystem projects are currently pattern/reference sources unless an entry is added here.",
+  "entries": [
+    {
+      "source_repository": "browser-use/jev-ultrafast",
+      "source_commit": "1231850a0bf1a0c0341fe408ef1668dbbfdfac46",
+      "source_paths": [
+        "README.md",
+        "AGENTS.md",
+        "jev_ultrafast/agent.py",
+        "jev_ultrafast/browser.py",
+        "jev_ultrafast/model.py",
+        "jev_ultrafast/questions.py"
+      ],
+      "local_paths": [
+        "canonical/profiles/FA3-BROWSER-ACTION-RUNTIME-001.json",
+        "canonical/contracts/FA3-BROWSER-ACTION-RUNTIME-CONTRACTS-001.json",
+        "src/fa3_browser_action_runtime.py",
+        "src/fa3_jev_decision_provider.py",
+        "tests/test_browser_action_runtime.py",
+        "docs/browser-action-runtime.md"
+      ],
+      "license": "MIT",
+      "license_ref": "https://github.com/browser-use/jev-ultrafast/blob/1231850a0bf1a0c0341fe408ef1668dbbfdfac46/LICENSE",
+      "spdx_attribution": "SPDX-License-Identifier: MIT; Copyright (c) 2026 Browser Use",
+      "local_modifications": [
+        "FA3-native provider-neutral reimplementation of observation/action-space/guard patterns; upstream runtime source is not vendored.",
+        "Direct model/provider/credential routing removed from the Jev decision adapter.",
+        "TYPE_TEXT generation bound to the central FA3 Model Router.",
+        "UAF, HRB, Security and Evidence authority boundaries retained.",
+        "Independent outcome verification and fail-closed mutation retry policy added."
+      ],
+      "security_review": "PASS",
+      "distribution_impact_review": "PASS",
+      "imports_architectural_authority": false,
+      "automatic_external_install": false
+    }
+  ],
+  "note": "Jev-derived external projects may contribute permissively licensed patterns or reviewed code only through this provenance registry. The jev-ultrafast entry is an FA3-native pattern reimplementation, not a vendored runtime dependency.",
   "capability_delta": 0,
   "authority_delta": 0
 }
