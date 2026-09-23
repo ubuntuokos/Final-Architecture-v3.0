@@ -62,7 +62,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 evidence/collect-model-manager-current-host.py --root .
+          python3 evidence/collect-model-manager-current-host.py --root . --preserve-serving-runtime
           PYTHONPATH=src python3 src/fa3_model_manager_current_host_gate.py --root .
 
       - name: Resolve provider-neutral runtime inputs
@@ -148,3 +148,48 @@ jobs:
           path: |
             evidence/receipts/model-router-current-host.json
             reports/model-router-current-host-gate-report.json
+      - name: Cleanup bound current-host runtimes
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          systemctl --user stop fa3-model-router.service >/dev/null 2>&1 || true
+          python3 - <<'PY'
+          import json, os, signal, time
+          from pathlib import Path
+
+          receipt=Path("evidence/receipts/model-manager-current-host.json")
+          if not receipt.is_file():
+              raise SystemExit(0)
+          data=json.loads(receipt.read_text(encoding="utf-8"))
+          for item in (data.get("providers") or {}).values():
+              if not isinstance(item,dict):
+                  continue
+              handoff=item.get("runtime_handoff")
+              if not isinstance(handoff,dict) or handoff.get("preserved") is not True:
+                  continue
+              pid=handoff.get("process_id")
+              expected=handoff.get("process_start_ticks")
+              if not isinstance(pid,int) or pid<=0 or not isinstance(expected,int):
+                  continue
+              stat=Path(f"/proc/{pid}/stat")
+              try:
+                  raw=stat.read_text(encoding="utf-8")
+                  tail=raw[raw.rfind(")")+2:].split()
+                  actual=int(tail[19])
+              except Exception:
+                  continue
+              if actual != expected:
+                  continue
+              try:
+                  os.killpg(pid,signal.SIGTERM)
+              except ProcessLookupError:
+                  continue
+              for _ in range(50):
+                  if not stat.exists():
+                      break
+                  time.sleep(0.1)
+              if stat.exists():
+                  try: os.killpg(pid,signal.SIGKILL)
+                  except ProcessLookupError: pass
+          PY
