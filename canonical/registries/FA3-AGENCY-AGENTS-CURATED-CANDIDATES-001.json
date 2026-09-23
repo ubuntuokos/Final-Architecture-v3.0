@@ -1,0 +1,347 @@
+{
+  "schema": "fa3.agency-agents-curated-candidate-catalog.v1",
+  "id": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001",
+  "status": "CURATED_CANDIDATES_NOT_ADMITTED",
+  "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+  "upstream_repository": "msitarzewski/agency-agents",
+  "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "persona_body_vendored": false,
+  "activation_default": "DISABLED_NOT_ADMITTED",
+  "selection_policy": {
+    "purpose": "Select a small FA3-relevant source set without importing the full Agency Agents corpus or creating execution authority.",
+    "full_upstream_auto_import": false,
+    "immutable_source_identity_required": true,
+    "domain_fit_required": true,
+    "existing_fa3_authority_overlap_must_be_mapped_not_duplicated": true,
+    "distribution_and_content_admission_required_before_materialization": true,
+    "activation_requires_separate_fa3_admission": true
+  },
+  "agents": [
+    {
+      "candidate_id": "AGA-CAND-AGENT-001",
+      "name": "Multi-Agent Systems Architect",
+      "source": {
+        "path": "engineering/engineering-multi-agent-systems-architect.md",
+        "blob_sha": "4ca4ebef41d7ec024158d8ed2a9221c2037a72cc"
+      },
+      "fa3_target_role": "AGENT_ARCHITECTURE_REVIEW_PATTERN",
+      "rationale": "Topology, context, HITL, failure recovery and observability patterns map to existing FA3 agent coordination without replacing it.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-002",
+      "name": "AI Engineer",
+      "source": {
+        "path": "engineering/engineering-ai-engineer.md",
+        "blob_sha": "a4a8f6d548894bafaf1dfe651f44f3e7179bf569"
+      },
+      "fa3_target_role": "MODEL_AND_AI_INTEGRATION_ENGINEERING_PATTERN",
+      "rationale": "Useful implementation and deployment heuristics under existing Model Router, UAF, HRB and provider admission boundaries.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-003",
+      "name": "DevOps Automator",
+      "source": {
+        "path": "engineering/engineering-devops-automator.md",
+        "blob_sha": "a9e7cac04c8e78e812d230aae9f9f676b20413ac"
+      },
+      "fa3_target_role": "BUILD_CI_DEPLOYMENT_AUTOMATION_PATTERN",
+      "rationale": "CI/CD and infrastructure automation patterns are useful when constrained to FA3 local-first, authorization and evidence rules.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-004",
+      "name": "Evidence Collector",
+      "source": {
+        "path": "testing/testing-evidence-collector.md",
+        "blob_sha": "187a2d010abb3439d91ea59aa75de8c5ee860560"
+      },
+      "fa3_target_role": "EVIDENCE_COLLECTION_AND_QA_PATTERN",
+      "rationale": "Evidence-first QA behavior is useful, but canonical evidence authority remains FA3-AUTH-OBS-EVIDENCE-001.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-005",
+      "name": "Reality Checker",
+      "source": {
+        "path": "testing/testing-reality-checker.md",
+        "blob_sha": "e534cfbd20d3115d5265387f19db7d3b25649421"
+      },
+      "fa3_target_role": "PRODUCTION_READINESS_REVIEW_PATTERN",
+      "rationale": "Adversarial readiness review can strengthen acceptance checks without becoming promotion authority.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-006",
+      "name": "Performance Benchmarker",
+      "source": {
+        "path": "testing/testing-performance-benchmarker.md",
+        "blob_sha": "1845fb5f30af4063440dbae22a67cd8554c4c9bf"
+      },
+      "fa3_target_role": "PERFORMANCE_MEASUREMENT_PATTERN",
+      "rationale": "Measurement and regression-analysis patterns fit FA3 evidence-bound benchmarking and hardware fingerprinting.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-007",
+      "name": "API Tester",
+      "source": {
+        "path": "testing/testing-api-tester.md",
+        "blob_sha": "1ea5e50cba0bc36a9a8ec8bfd9ca997d9e450a5c"
+      },
+      "fa3_target_role": "API_CONTRACT_VALIDATION_PATTERN",
+      "rationale": "API validation patterns fit MCP/UAF/provider adapter conformance without direct provider authority.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-008",
+      "name": "Workflow Optimizer",
+      "source": {
+        "path": "testing/testing-workflow-optimizer.md",
+        "blob_sha": "eecb0a47c0f295648f454687f9666bb6affe7a34"
+      },
+      "fa3_target_role": "WORKFLOW_ANALYSIS_AND_OPTIMIZATION_PATTERN",
+      "rationale": "Workflow improvement suggestions remain advisory to existing durable orchestration and Decision Fabric boundaries.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-009",
+      "name": "Application Security Engineer",
+      "source": {
+        "path": "security/security-appsec-engineer.md",
+        "blob_sha": "e5f82dc0ad7c164d03e156cf4696f5570273453e"
+      },
+      "fa3_target_role": "APPLICATION_SECURITY_REVIEW_PATTERN",
+      "rationale": "Threat modeling and secure-review procedures can inform FA3 security validation but never replace FA3-AUTH-SECURITY-GOV-001.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-010",
+      "name": "Legal Compliance Checker",
+      "source": {
+        "path": "support/support-legal-compliance-checker.md",
+        "blob_sha": "9afc088ff2a7c788781097d14ce3c3af89dd67cd"
+      },
+      "fa3_target_role": "COMPLIANCE_RESEARCH_AND_CHECKLIST_PATTERN",
+      "rationale": "Compliance research/checklists are advisory only and cannot make legal or distribution admission decisions.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-011",
+      "name": "XR Interface Architect",
+      "source": {
+        "path": "spatial-computing/xr-interface-architect.md",
+        "blob_sha": "3c9d16e6750cd13c4889dff5447d668fc021e0e5"
+      },
+      "fa3_target_role": "SPATIAL_UI_AND_RT3D_INTERACTION_REFERENCE",
+      "rationale": "Spatial interaction design is relevant to FA3 RT3D/virtual-production surfaces without creating a new RT3D authority.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-AGENT-012",
+      "name": "3D & Scene Developer",
+      "source": {
+        "path": "gis/gis-3d-scene-developer.md",
+        "blob_sha": "7350a782b4a0e14c89eac2fa39faba9de7230e67"
+      },
+      "fa3_target_role": "THREED_SCENE_VISUALIZATION_REFERENCE",
+      "rationale": "3D scene and point-cloud visualization patterns may complement FA3-3D-GEOM-001 while geometry authority remains unchanged.",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "persona_body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "tool_grants": [],
+      "model_provider_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    }
+  ],
+  "templates": [
+    {
+      "candidate_id": "AGA-CAND-TEMPLATE-001",
+      "kind": "RUNBOOK",
+      "name": "Startup MVP Build",
+      "source": {
+        "path": "strategy/runbooks/scenario-startup-mvp.md",
+        "blob_sha": "0c2afbc330fecbf8f852a19477bf3e48bcced137"
+      },
+      "fa3_target_role": "PROJECT_RUNBOOK_REFERENCE",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-TEMPLATE-002",
+      "kind": "RUNBOOK",
+      "name": "Enterprise Feature Development",
+      "source": {
+        "path": "strategy/runbooks/scenario-enterprise-feature.md",
+        "blob_sha": "ed37680287b7c1b060c179922c00488a6540a8e2"
+      },
+      "fa3_target_role": "CONTROLLED_FEATURE_DELIVERY_RUNBOOK_REFERENCE",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-TEMPLATE-003",
+      "kind": "RUNBOOK",
+      "name": "Multi-Channel Marketing Campaign",
+      "source": {
+        "path": "strategy/runbooks/scenario-marketing-campaign.md",
+        "blob_sha": "280263c7f917273b58e5f9ea28db79127a651908"
+      },
+      "fa3_target_role": "MARKETING_RUNBOOK_REFERENCE",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-TEMPLATE-004",
+      "kind": "RUNBOOK",
+      "name": "Incident Response",
+      "source": {
+        "path": "strategy/runbooks/scenario-incident-response.md",
+        "blob_sha": "fb519f53bb13d96d61047858381a7b1130720852"
+      },
+      "fa3_target_role": "INCIDENT_RESPONSE_RUNBOOK_REFERENCE",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    },
+    {
+      "candidate_id": "AGA-CAND-TEMPLATE-005",
+      "kind": "HANDOFF_PATTERN_SET",
+      "name": "NEXUS Handoff Templates",
+      "source": {
+        "path": "strategy/coordination/handoff-templates.md",
+        "blob_sha": "71bff4dbe71d533d992aa7734093bd95cfb0968d"
+      },
+      "fa3_target_role": "COORDINATION_MAPPING_REFERENCE",
+      "upstream_commit": "053ddbbf392a1688fc7043d81529f47ef2cf86c8",
+      "trust_class": "UNTRUSTED_SCOPED_CONTEXT",
+      "body_vendored": false,
+      "activation_status": "DISABLED_NOT_ADMITTED",
+      "authority_grants": [],
+      "distribution_gate_required": true,
+      "content_admission_required": true
+    }
+  ],
+  "admission_state": {
+    "candidate_selection": "MATERIALIZED",
+    "source_bodies_imported": false,
+    "distribution_decision_receipts_issued": false,
+    "content_admission_receipts_issued": false,
+    "runtime_materialization": false,
+    "current_host_claim": false
+  }
+}
