@@ -96,6 +96,46 @@ def bind_selected_action(space:dict[str,Any],selected_candidate_id:str)->dict[st
             "page_fingerprint":space["page_fingerprint"],"action_space_hash":space["action_space_hash"],
             "selected_candidate":row}
 
+ALLOWED_BROWSER_KEYS={"Enter","Tab","Escape","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Backspace","Delete","Home","End","PageUp","PageDown"}
+
+def attach_execution_parameters(binding:dict[str,Any],parameters:dict[str,Any]|None=None)->dict[str,Any]:
+    if not isinstance(binding,dict):
+        raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","binding object required")
+    params={} if parameters is None else parameters
+    if not isinstance(params,dict):
+        raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","parameters object required")
+    candidate=binding.get("selected_candidate")
+    if not isinstance(candidate,dict):
+        raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","selected candidate missing")
+    op=candidate.get("operation")
+    if op=="TYPE_TEXT":
+        allowed={"text"}
+        text=params.get("text")
+        if not isinstance(text,str) or len(text)>32768:
+            raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","TYPE_TEXT requires bounded text")
+    elif op=="SELECT":
+        allowed={"value"}
+        value=params.get("value")
+        if not isinstance(value,str) or len(value)>4096:
+            raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","SELECT requires bounded value")
+    elif op=="PRESS_KEY":
+        allowed={"key"}
+        if params.get("key") not in ALLOWED_BROWSER_KEYS:
+            raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","PRESS_KEY key is not allowlisted")
+    elif op=="WAIT":
+        allowed={"milliseconds"}
+        milliseconds=params.get("milliseconds",250)
+        if not isinstance(milliseconds,int) or not 0<=milliseconds<=5000:
+            raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","WAIT milliseconds outside 0..5000")
+        params={**params,"milliseconds":milliseconds}
+    else:
+        allowed=set()
+    if set(params)-allowed:
+        raise BrowserActionDenied("BROWSER-PARAMETERS-INVALID","unexpected execution parameter")
+    out=dict(binding)
+    out["execution_parameters"]=dict(params)
+    return out
+
 def decide_action(fabric:Any,space:dict[str,Any],*,purpose:str,
                   provider_id:str="FA3-PROVIDER-DECISION-RULES-001",
                   state:Any=None,rollout:str="SHADOW")->tuple[dict[str,Any],dict[str,Any]]:
