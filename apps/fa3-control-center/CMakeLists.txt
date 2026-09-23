@@ -29,6 +29,8 @@ qt_add_executable(fa3-control-center
     src/McpControlService.h
     src/McpGatewayService.cpp
     src/McpGatewayService.h
+    src/DecisionFabricService.cpp
+    src/DecisionFabricService.h
     src/SessionVaultService.cpp
     src/SessionVaultService.h
 )
@@ -55,6 +57,10 @@ set_source_files_properties(qml/McpGatewayPage.qml PROPERTIES QT_RESOURCE_ALIAS 
 set_source_files_properties(qml/KnowledgePage.qml PROPERTIES QT_RESOURCE_ALIAS KnowledgePage.qml)
 set_source_files_properties(qml/TrustCertificatesPage.qml PROPERTIES QT_RESOURCE_ALIAS TrustCertificatesPage.qml)
 set_source_files_properties(qml/SessionVaultPage.qml PROPERTIES QT_RESOURCE_ALIAS SessionVaultPage.qml)
+set_source_files_properties(qml/DecisionFabricPage.qml PROPERTIES QT_RESOURCE_ALIAS DecisionFabricPage.qml)
+set_source_files_properties(qml/DecisionInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS DecisionInspectorPage.qml)
+set_source_files_properties(qml/ProjectRadarPage.qml PROPERTIES QT_RESOURCE_ALIAS ProjectRadarPage.qml)
+set_source_files_properties(qml/ContextInspectorPage.qml PROPERTIES QT_RESOURCE_ALIAS ContextInspectorPage.qml)
 
 qt_add_qml_module(fa3-control-center
     URI FA3.ControlCenter
@@ -83,6 +89,10 @@ qt_add_qml_module(fa3-control-center
         qml/KnowledgePage.qml
         qml/TrustCertificatesPage.qml
         qml/SessionVaultPage.qml
+        qml/DecisionFabricPage.qml
+        qml/DecisionInspectorPage.qml
+        qml/ProjectRadarPage.qml
+        qml/ContextInspectorPage.qml
 )
 
 qt_add_resources(fa3-control-center "fa3_canonical_app_catalog"
