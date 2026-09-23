@@ -105,16 +105,22 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
     # The central router consumes the generated generic registry and does not
     # encode an Ollama/LM Studio preference or model pin.
     endpoint_candidates = [
-        (
-            LM_STUDIO_PROVIDER_ID,
-            "lm-studio-live",
-            os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
-        ),
-        (
-            OLLAMA_PROVIDER_ID,
-            "ollama-live",
-            os.environ.get("FA3_OLLAMA_API_BASE", "http://127.0.0.1:11434/v1"),
-        ),
+        {
+            "provider_id": LM_STUDIO_PROVIDER_ID,
+            "runtime_id": "lm-studio-live",
+            "catalog_api_base": os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
+            "runtime_api_base": os.environ.get("FA3_LM_STUDIO_API_BASE", "http://127.0.0.1:1234/v1"),
+            "litellm_provider": "openai",
+            "litellm_options": {},
+        },
+        {
+            "provider_id": OLLAMA_PROVIDER_ID,
+            "runtime_id": "ollama-live",
+            "catalog_api_base": os.environ.get("FA3_OLLAMA_OPENAI_API_BASE", "http://127.0.0.1:11434/v1"),
+            "runtime_api_base": os.environ.get("FA3_OLLAMA_API_BASE", "http://127.0.0.1:11434"),
+            "litellm_provider": "ollama_chat",
+            "litellm_options": {"num_gpu": 0, "num_ctx": 512},
+        },
     ]
 
     rows: list[dict[str, Any]] = []
