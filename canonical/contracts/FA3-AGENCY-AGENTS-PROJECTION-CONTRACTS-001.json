@@ -23,7 +23,8 @@
     "communication": "FA3-AI-COMMS-CONTRACTS-001",
     "skill_admission": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
     "action_execution": "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001",
-    "decision_advisory": "FA3-DECISION-FABRIC-001"
+    "decision_advisory": "FA3-DECISION-FABRIC-001",
+    "agent_definition": "FA3-AGENT-DEFINITION-CONTRACTS-001"
   },
   "agent_mapping": {
     "upstream_name_description_persona": "UNTRUSTED_TASK_SCOPED_CONTEXT",
@@ -35,7 +36,10 @@
     "canonical_capabilities_must_be_explicitly_bound_by_fa3": true,
     "canonical_authorization_must_be_external": true,
     "candidate_catalog_is_activation_authority": false,
-    "candidate_selection_requires_separate_content_admission": true
+    "candidate_selection_requires_separate_content_admission": false,
+    "fa3_native_definition_registry": "FA3-AGENT-DEFINITION-REGISTRY-001",
+    "upstream_body_vendoring_required": false,
+    "verbatim_future_import_requires_separate_distribution_and_content_admission": true
   },
   "runbook_mapping": {
     "upstream_runbook_is_durable_workflow_authority": false,
@@ -109,7 +113,9 @@
     "execution_intent_route": "agents.action-center",
     "new_top_level_route": false,
     "surface_is_authority": false,
-    "mutation_semantics": "READ_ONLY_CATALOG_OR_DRAFT_INTENT_ONLY"
+    "mutation_semantics": "READ_ONLY_CATALOG_OR_DRAFT_INTENT_ONLY",
+    "mode": "READ_ONLY_CANONICAL_DEFINITIONS",
+    "agent_definition_registry_id": "FA3-AGENT-DEFINITION-REGISTRY-001"
   },
   "curated_candidate_catalog": "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
 }
