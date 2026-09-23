@@ -14,6 +14,7 @@ from fa3_plasma_secret_service_diagnostic import (
     _parse_kde_bool,
     _redact_unique_names,
     _systemd_show_fields,
+    _systemd_user_mask_origins,
     _systemd_user_service_diagnostic,
     collect_plasma_secret_service_diagnostic,
 )
@@ -139,6 +140,57 @@ class PlasmaSecretServiceDiagnosticTests(unittest.TestCase):
         self.assertNotIn("DO_NOT_LEAK", repr(rows))
         self.assertNotIn("--password", repr(rows))
 
+    @patch("fa3_plasma_secret_service_diagnostic._systemd_unit_search_roots")
+    def test_mask_origin_classifies_user_mask_without_emitting_paths_or_targets(self, roots):
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            user = base / "user"
+            admin = base / "admin"
+            vendor = base / "vendor"
+            user.mkdir()
+            admin.mkdir()
+            vendor.mkdir()
+            (user / "kwalletd6.service").symlink_to("/dev/null")
+            (vendor / "kwalletd6.service").write_text(
+                "[Service]\nExecStart=/usr/bin/kwalletd6 --token DO_NOT_LEAK\n",
+                encoding="utf-8",
+            )
+            (admin / "plasma-kwallet-pam.service").symlink_to("/dev/null")
+            roots.return_value = [
+                ("USER_CONFIG", user),
+                ("ADMIN", admin),
+                ("VENDOR", vendor),
+            ]
+            report = _systemd_user_mask_origins(
+                {"HOME": "/home/private-user"},
+                ["kwalletd6.service", "plasma-kwallet-pam.service"],
+            )
+        by_unit = {row["unit"]: row for row in report["units"]}
+        self.assertEqual(by_unit["kwalletd6.service"]["effective_mask_origin"], "USER_CONFIG")
+        self.assertEqual(by_unit["kwalletd6.service"]["masking_scopes"], ["USER_CONFIG"])
+        self.assertEqual(by_unit["plasma-kwallet-pam.service"]["effective_mask_origin"], "ADMIN")
+        self.assertFalse(report["paths_emitted"])
+        self.assertFalse(report["symlink_targets_emitted"])
+        self.assertFalse(report["unit_contents_read"])
+        self.assertNotIn("/home/private-user", repr(report))
+        self.assertNotIn(str(base), repr(report))
+        self.assertNotIn("DO_NOT_LEAK", repr(report))
+        self.assertNotIn("/dev/null", repr(report))
+
+    @patch("fa3_plasma_secret_service_diagnostic._systemd_unit_search_roots")
+    def test_mask_origin_does_not_treat_regular_vendor_unit_as_mask(self, roots):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            root.mkdir(exist_ok=True)
+            (root / "kwalletd6.service").write_text("[Service]\n", encoding="utf-8")
+            roots.return_value = [("VENDOR", root)]
+            report = _systemd_user_mask_origins({}, ["kwalletd6.service"])
+        row = report["units"][0]
+        self.assertIsNone(row["effective_mask_origin"])
+        self.assertEqual(row["masking_scopes"], [])
+        self.assertEqual(row["entries"][0]["entry_type"], "REGULAR_FILE")
+        self.assertFalse(row["entries"][0]["is_dev_null_mask"])
+
     @patch("fa3_plasma_secret_service_diagnostic._run_systemctl_user")
     def test_systemd_user_diagnostic_reports_service_state_without_journal_or_argv(self, run_systemctl):
         def fake(_env, argv, **_kwargs):
@@ -179,6 +231,10 @@ class PlasmaSecretServiceDiagnosticTests(unittest.TestCase):
         self.assertFalse(report["raw_journal_collected"])
         self.assertFalse(report["process_argv_collected"])
         self.assertFalse(report["environment_collected"])
+        self.assertIn("mask_origins", report)
+        self.assertFalse(report["mask_origins"]["paths_emitted"])
+        self.assertFalse(report["mask_origins"]["symlink_targets_emitted"])
+        self.assertFalse(report["mask_origins"]["unit_contents_read"])
         self.assertNotIn("DO_NOT_LEAK", repr(report))
         self.assertNotIn("Environment", repr(report))
 
