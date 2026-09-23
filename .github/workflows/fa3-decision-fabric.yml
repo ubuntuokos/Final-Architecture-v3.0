@@ -12,6 +12,8 @@ on:
       - 'src/fa3_context_selection.py'
       - 'src/fa3_external_project_radar.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_local_decision_provider.py'
+      - 'src/fa3_hybrid_retrieval.py'
       - 'tests/test_decision_fabric.py'
       - 'research/external-project-radar/jev/**'
       - '.github/workflows/fa3-decision-fabric.yml'
@@ -26,6 +28,8 @@ on:
       - 'src/fa3_context_selection.py'
       - 'src/fa3_external_project_radar.py'
       - 'src/fa3_jev_decision_provider.py'
+      - 'src/fa3_local_decision_provider.py'
+      - 'src/fa3_hybrid_retrieval.py'
       - 'tests/test_decision_fabric.py'
       - 'research/external-project-radar/jev/**'
       - '.github/workflows/fa3-decision-fabric.yml'
@@ -48,7 +52,7 @@ jobs:
           python-version: '3.12'
       - name: Syntax
         run: |
-          python -m py_compile             src/fa3_decision_fabric.py             src/fa3_decision_adapters.py             src/fa3_context_selection.py             src/fa3_external_project_radar.py             src/fa3_jev_decision_provider.py             src/fa3_decision_fabric_gate.py             src/fa3_decision_current_host_gate.py             tests/test_decision_fabric.py
+          python -m py_compile             src/fa3_decision_fabric.py             src/fa3_decision_adapters.py             src/fa3_context_selection.py             src/fa3_external_project_radar.py             src/fa3_jev_decision_provider.py             src/fa3_local_decision_provider.py             src/fa3_decision_trace.py             src/fa3_decision_adoption_gate.py             src/fa3_hybrid_retrieval.py             src/fa3_decision_fabric_gate.py             src/fa3_decision_current_host_gate.py             tests/test_decision_fabric.py
       - name: Canonical fail-closed gate
         run: PYTHONPATH=src python src/fa3_decision_fabric_gate.py --root .
       - name: Future-project adoption gate
