@@ -7,7 +7,7 @@ GATE_ID="FA3-BROWSER-ACTION-RUNTIME-GATESET-001"
 UPSTREAM_REPO="browser-use/jev-ultrafast"
 UPSTREAM_COMMIT="1231850a0bf1a0c0341fe408ef1668dbbfdfac46"
 REQUIRED_INVARIANTS={"BROWSER_ACTION_SPACE_BOUNDED","MODEL_CANNOT_EMIT_EXECUTABLE_BROWSER_CODE","MODEL_CANNOT_EMIT_UNOBSERVED_TARGET","STALE_DECISION_EXECUTION_DENIED","BROWSER_MUTATION_NOT_BLINDLY_RETRIED","DONE_REQUIRES_INDEPENDENT_VERIFICATION","PAGE_CONTENT_UNTRUSTED","CPU_ONLY_SUPPORTED"}
-REQUIRED_CONTRACTS={"BrowserObservation","BrowserObservedElement","BrowserActionCandidate","BrowserActionSpace","BrowserDecisionBinding","BrowserExecutionGuardResult","BrowserMutationReceipt","BrowserOutcomeVerification","BrowserCompletionClaim","BrowserTextGenerationRequest"}
+REQUIRED_CONTRACTS={"BrowserObservation","BrowserObservedElement","BrowserActionCandidate","BrowserActionSpace","BrowserDecisionBinding","BrowserExecutionGuardResult","BrowserMutationReceipt","BrowserOutcomeVerification","BrowserCompletionClaim","BrowserTextGenerationRequest","BrowserExecutionParameters"}
 def load(path:Path)->dict[str,Any]:
     v=json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(v,dict): raise ValueError(f"object required: {path}")
