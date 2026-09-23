@@ -39,6 +39,14 @@ def gate(root: Path) -> dict[str, Any]:
         "src/fa3_external_project_radar.py",
         "src/fa3_jev_decision_provider.py",
         "src/fa3_decision_adapters.py",
+        "src/fa3_local_decision_provider.py",
+        "src/fa3_decision_trace.py",
+        "src/fa3_decision_adoption_gate.py",
+        "canonical/contracts/FA3-DECISION-CONSUMER-BINDINGS-001.json",
+        "canonical/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
+        "canonical/assessments/FA3-JEV-DECISION-FABRIC-2026-09-23.json",
+        "canonical/decision-fabric-current-host-enforcement.json",
+        "canonical/mcp-capability-registry.json",
     ]
     for rel in required:
         if not (root / rel).is_file():
