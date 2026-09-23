@@ -90,6 +90,7 @@
     "FA3-BROWSER-ACTION-RUNTIME-GATESET-001",
     "FA3-BROWSER-CDP-PROVIDER-GATESET-001",
     "FA3-SKILL-FABRIC-GATESET-001",
+    "FA3-QUALITY-ANTI-SLOP-GATESET-001",
     "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001"
   ],
   "openbmb_family_id": "FA3-PROVIDER-FAMILY-OPENBMB-001",
@@ -1799,5 +1800,11 @@
     "canonical/providers/*.json",
     "canonical/references/*.json",
     "canonical/third-party/*.json"
-  ]
+  ],
+  "quality_anti_slop_profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+  "quality_anti_slop_gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
+  "quality_anti_slop_rule_registry_id": "FA3-QUALITY-RULE-REGISTRY-001",
+  "quality_anti_slop_upstream_runtime_required": false,
+  "quality_anti_slop_installer_allowed": false,
+  "quality_anti_slop_entry_file_auto_mutation_allowed": false
 }
