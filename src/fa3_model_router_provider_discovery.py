@@ -7,6 +7,7 @@ import os
 import urllib.request
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 LM_STUDIO_PROVIDER_ID = "FA3-PROVIDER-LM-STUDIO-MODEL-001"
 OLLAMA_PROVIDER_ID = "FA3-PROVIDER-OLLAMA-MODEL-001"
@@ -21,6 +22,39 @@ def writej(path: Path, obj: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     path.chmod(0o600)
+
+
+def process_start_ticks(pid: int) -> int | None:
+    try:
+        raw = Path(f"/proc/{pid}/stat").read_text(encoding="utf-8")
+        tail = raw[raw.rfind(")") + 2:].split()
+        return int(tail[19]) if len(tail) >= 20 else None
+    except Exception:
+        return None
+
+
+def runtime_handoff_endpoint(item: Any) -> str | None:
+    if not isinstance(item, dict):
+        return None
+    handoff = item.get("runtime_handoff")
+    if not isinstance(handoff, dict):
+        return None
+    api_base = str(handoff.get("api_base") or "").strip().rstrip("/")
+    parsed = urlparse(api_base)
+    pid = handoff.get("process_id")
+    ticks = handoff.get("process_start_ticks")
+    if not (
+        handoff.get("preserved") is True
+        and handoff.get("server_cpu_only") is True
+        and handoff.get("accelerator_visibility") == "BLOCKED_FOR_SERVER_LIFETIME"
+        and parsed.scheme == "http"
+        and (parsed.hostname or "").lower() in {"127.0.0.1", "localhost", "::1"}
+        and isinstance(pid, int) and pid > 0
+        and isinstance(ticks, int) and ticks > 0
+        and process_start_ticks(pid) == ticks
+    ):
+        return None
+    return api_base
 
 
 def models_live(api_base: str, timeout: float) -> bool:
@@ -48,7 +82,8 @@ def candidate(provider_id: str, runtime_id: str, api_base: str, receipt: Path, p
         "routes": ["*"],
         "litellm_provider": "openai",
         "admission_receipt": str(receipt),
-        "selection_origin": "CURRENT_HOST_LIVE_ENDPOINT_DISCOVERY",
+        "selection_origin": "CURRENT_HOST_ADMISSION_HANDOFF_DISCOVERY",
+        "runtime_instance_bound": True,
     }
     if preferred_model:
         row["preferred_models"] = [preferred_model]
@@ -84,15 +119,19 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
 
     rows: list[dict[str, Any]] = []
     observed: list[dict[str, Any]] = []
-    for provider_id, runtime_id, api_base in endpoint_candidates:
+    for provider_id, runtime_id, default_api_base in endpoint_candidates:
         item = providers.get(provider_id)
         admitted = isinstance(item, dict) and item.get("status") == "PASS"
-        live = bool(admitted and models_live(api_base, timeout))
+        bound_api_base = runtime_handoff_endpoint(item) if admitted else None
+        api_base = bound_api_base or default_api_base
+        instance_bound = bound_api_base is not None
+        live = bool(admitted and instance_bound and models_live(api_base, timeout))
         observed.append({
             "provider_id": provider_id,
             "runtime_id": runtime_id,
             "api_base": api_base,
             "admitted": admitted,
+            "runtime_instance_bound": instance_bound,
             "live_openai_models_endpoint": live,
         })
         if live:
@@ -106,8 +145,8 @@ def discover(root: Path, output: Path, timeout: float) -> dict[str, Any]:
 
     if not rows:
         raise RuntimeError(
-            "no admitted live OpenAI-compatible local provider endpoint discovered; "
-            "supply --providers/FA3_MODEL_ROUTER_PROVIDERS for another admitted runtime"
+            "no admitted, runtime-instance-bound, live OpenAI-compatible local provider endpoint discovered; "
+            "supply --providers/FA3_MODEL_ROUTER_PROVIDERS for another instance-bound admitted runtime"
         )
 
     registry = {
