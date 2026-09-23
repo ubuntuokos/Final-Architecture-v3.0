@@ -1,0 +1,14 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-DISTRIBUTION-COMPLIANCE-001",
+  "gateset_id": "FA3-DISTRIBUTION-COMPLIANCE-GATESET-001",
+  "profile_id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+  "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "executable": "PYTHONPATH=src python src/fa3_distribution_compliance_gate.py --root .",
+  "report_path": "reports/distribution-compliance-gate-report.json"
+}

@@ -2,7 +2,7 @@
   "schema": "fa3.profile.v1",
   "id": "FA3-SKILL-FABRIC-001",
   "name": "Portable Skill, Procedure & Capability Composition Fabric",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST",
@@ -25,30 +25,60 @@
   },
   "skill_contract": {
     "primary_entrypoint": "SKILL.md",
-    "required_metadata": ["name", "description", "version", "trigger"],
-    "required_sections": ["use_when", "inputs", "procedure", "guardrails", "pitfalls", "acceptance_checks"],
-    "optional_assets": ["REFERENCES.md", "ARTICLE.md", "scripts/", "assets/", "demo/", "examples/"],
+    "required_metadata": [
+      "name",
+      "description",
+      "version",
+      "trigger"
+    ],
+    "required_sections": [
+      "use_when",
+      "inputs",
+      "procedure",
+      "guardrails",
+      "pitfalls",
+      "acceptance_checks"
+    ],
+    "optional_assets": [
+      "REFERENCES.md",
+      "ARTICLE.md",
+      "scripts/",
+      "assets/",
+      "demo/",
+      "examples/"
+    ],
     "long_explanation_outside_primary_entrypoint": true,
     "source_links_outside_primary_entrypoint_preferred": true,
     "project_specific_context_injected_separately": true
   },
   "lifecycle": [
+    "discover_project_or_workspace_without_execution",
+    "emit_ProjectStackFingerprint",
     "discover_or_author_candidate",
     "extract_reusable_capability_or_pattern",
     "check_existing_canonical_overlap",
     "normalize_skill_package",
     "admit_under_FA3_SKILL_PACKAGE_ADMISSION_CONTRACTS_001",
-    "register_version_digest_dependencies_and_triggers",
-    "select_minimum_eligible_skill_set",
-    "assemble_task_scoped_context",
+    "register_version_digest_dependencies_triggers_and_distribution_class",
+    "derive_deterministic_eligible_candidate_set",
+    "select_minimum_eligible_skill_set_via_context_selection_and_bounded_decision_fabric",
+    "emit_SkillSelectionReceipt",
+    "materialize_task_scoped_context",
+    "activate_only_for_bound_task_scope",
     "propose_tool_intent_if_needed",
     "route_execution_through_existing_authority",
     "verify_acceptance_checks",
-    "emit_skill_use_and_evidence_receipts"
+    "emit_skill_use_materialization_and_evidence_receipts"
   ],
   "extraction_ledger": {
     "required_for_external_pattern_sources": true,
-    "classifications": ["CAPABILITY_CANDIDATE", "PATTERN_CANDIDATE", "PROVIDER_CANDIDATE", "REJECT", "MERGE_WITH_EXISTING"],
+    "classifications": [
+      "CAPABILITY_CANDIDATE",
+      "PATTERN_CANDIDATE",
+      "PROVIDER_CANDIDATE",
+      "REJECT",
+      "MERGE_WITH_EXISTING"
+    ],
     "branding_and_provider_specific_details_are_not_canonical_by_default": true,
     "existing_authority_overlap_check_required": true
   },
@@ -58,7 +88,11 @@
     "global_everything_context_forbidden": true,
     "explicit_dependencies_required": true,
     "dependency_cycles_forbidden": true,
-    "composition_cannot_expand_authority": true
+    "composition_cannot_expand_authority": true,
+    "deterministic_eligibility_before_advisory_selection": true,
+    "decision_fabric_candidate_expansion_forbidden": true,
+    "unadmitted_skill_activation_forbidden": true,
+    "task_scoped_materialization_required": true
   },
   "authority_boundaries": {
     "identity": false,
@@ -77,7 +111,9 @@
     "external_skill_runtime_required": false,
     "vendored_upstream_repository_required": false,
     "FA3_native_skill_packages_allowed": true,
-    "pattern_can_be_reimplemented_natively": true
+    "pattern_can_be_reimplemented_natively": true,
+    "automatic_external_skill_download": false,
+    "remote_skill_fetch_during_task_activation": false
   },
   "mandatory_rules": [
     "SKILL_FABRIC_PROVIDER_NEUTRAL",
@@ -90,6 +126,24 @@
     "SKILL_MUTATION_REQUIRES_EXISTING_AUTHORIZATION_AND_HITL_WHERE_APPLICABLE",
     "EXTERNAL_PATTERN_SOURCE_INSTALLATION_NOT_REQUIRED",
     "UPSTREAM_BRANDING_NOT_CANONICAL_AUTHORITY",
-    "CAPABILITY_COUNT_REMAINS_143"
-  ]
+    "CAPABILITY_COUNT_REMAINS_143",
+    "PROJECT_STACK_DISCOVERY_IS_READ_ONLY_AND_NON_EXECUTING",
+    "DETERMINISTIC_SKILL_ELIGIBILITY_PRECEDES_ADVISORY_SELECTION",
+    "DECISION_FABRIC_CANNOT_EXPAND_SKILL_CANDIDATES",
+    "UNADMITTED_SKILL_ACTIVATION_FORBIDDEN",
+    "TASK_SCOPED_SKILL_MATERIALIZATION_REQUIRED",
+    "SKILL_DISTRIBUTION_CLASS_REQUIRED",
+    "REMOTE_RUNTIME_SKILL_FETCH_FORBIDDEN"
+  ],
+  "discovery_contract_id": "FA3-SKILL-DISCOVERY-CONTRACTS-001",
+  "materialization_contract_id": "FA3-SKILL-MATERIALIZATION-CONTRACTS-001",
+  "distribution_contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+  "integration_bindings": {
+    "context_selection": "FA3-CONTEXT-SELECTION-001",
+    "decision_fabric": "FA3-DECISION-FABRIC-001",
+    "unified_action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "distribution_compliance": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "supply_chain": "FA3-SCS-001",
+    "registry": "FA3-REGISTRY-001"
+  }
 }

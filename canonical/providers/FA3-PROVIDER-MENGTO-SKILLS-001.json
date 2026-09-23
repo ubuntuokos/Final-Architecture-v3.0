@@ -13,7 +13,13 @@
   "capability_count": 143,
   "profile_id": "FA3-SKILL-FABRIC-001",
   "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
-  "classification": ["OPTIONAL_PROVIDER", "REFERENCE_PROVIDER", "ARCHITECTURAL_PATTERN_SOURCE", "NON_AUTHORITY", "NO_RUNTIME_DEPENDENCY"],
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "REFERENCE_PROVIDER",
+    "ARCHITECTURAL_PATTERN_SOURCE",
+    "NON_AUTHORITY",
+    "NO_RUNTIME_DEPENDENCY"
+  ],
   "upstream": {
     "repository": "MengTo/Skills",
     "observed_commit": "5f47e389dac337a1bca5cddf376419248b3010f6",
@@ -70,5 +76,12 @@
     "legacy_direct_MengTo_import_requirement_superseded": true,
     "FA3_native_pattern_materialization_complete": true,
     "separate_MengTo_installation_needed": false
+  },
+  "distribution": {
+    "class": "REFERENCE_ONLY",
+    "release_bundle_status": "EXCLUDED",
+    "code_import_allowed": false,
+    "content_import_allowed": false,
+    "product_distribution_allowed": false
   }
 }

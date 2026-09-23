@@ -1,0 +1,34 @@
+{
+  "schema": "fa3.contract-family.v1",
+  "id": "FA3-SKILL-MATERIALIZATION-CONTRACTS-001",
+  "status": "CANONICAL",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "SkillSelectionReceipt",
+    "SkillMaterializationReceipt",
+    "SkillActivationLease",
+    "SkillUseReceipt"
+  ],
+  "states": [
+    "DISCOVERED",
+    "ADMISSION_PENDING",
+    "ADMITTED",
+    "ELIGIBLE",
+    "SELECTED",
+    "MATERIALIZED",
+    "ACTIVE_FOR_TASK",
+    "USED",
+    "EVIDENCED"
+  ],
+  "invariants": [
+    "MATERIALIZATION_IS_NOT_CANONICAL_AUTHORITY",
+    "ACTIVATION_REQUIRES_ADMITTED_DIGEST_BOUND_SKILL",
+    "ACTIVATION_IS_TASK_SCOPED",
+    "REFERENCE_ONLY_AND_BLOCKED_CANNOT_MATERIALIZE",
+    "REMOTE_FETCH_DURING_ACTIVATION_FORBIDDEN",
+    "USE_RECEIPT_BINDS_SELECTION_ADMISSION_AND_CONTENT_DIGEST"
+  ]
+}

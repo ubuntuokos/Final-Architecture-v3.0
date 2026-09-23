@@ -1,0 +1,16 @@
+{
+  "schema": "fa3.executable-gate.v1",
+  "id": "FA3-GATE-SKILL-FABRIC-001",
+  "gateset_id": "FA3-SKILL-FABRIC-GATESET-001",
+  "profile_id": "FA3-SKILL-FABRIC-001",
+  "contract_id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+  "status": "CANONICAL_EXECUTABLE",
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "executable": "PYTHONPATH=src python src/fa3_skill_fabric_gate.py --root .",
+  "report_path": "reports/skill-fabric-gate-report.json",
+  "provider_specific": false,
+  "current_host_runtime_claim": false
+}

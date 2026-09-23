@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-AUTOSKILLS-UPSTREAM-REFERENCE-2026-09-23",
+  "repository": "midudev/autoskills",
+  "observed_commit": "0ec725320d2137253ab2e68e7ba8a072148e741a",
+  "observed_date": "2026-09-23",
+  "license": {
+    "name": "CC-BY-NC-4.0",
+    "commercial_distribution_compatible_with_FA3_product": false
+  },
+  "disposition": "PATTERN_SOURCE",
+  "distribution_class": "REFERENCE_ONLY",
+  "imported": {
+    "code": false,
+    "content": false,
+    "registry": false,
+    "skills": false
+  },
+  "runtime_dependency": false,
+  "installation_required": false,
+  "product_bundle_allowed": false,
+  "adopted_patterns_reimplemented_natively": [
+    "deterministic_project_stack_discovery",
+    "eligible_skill_resolution",
+    "immutable_source_and_hash_binding",
+    "materialization_lock_state",
+    "agent_projection_adapters"
+  ],
+  "explicit_non_adoption": [
+    "autoskills_cli_dependency",
+    "autoskills_registry_distribution",
+    "automatic_external_skill_install",
+    "review_skipped_as_approved",
+    "noncommercial_content_redistribution"
+  ]
+}

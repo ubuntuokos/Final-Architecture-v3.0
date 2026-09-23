@@ -29,5 +29,11 @@
     "HTTP_OPTIONAL"
   ],
   "migration": "INCREMENTAL_COMPATIBILITY_ADAPTERS_NO_BIG_BANG_REWRITE",
-  "production_admission": "STATIC_CORE_IMPLEMENTED_CURRENT_HOST_AND_SURFACE_MIGRATION_SEPARATE"
+  "production_admission": "STATIC_CORE_IMPLEMENTED_CURRENT_HOST_AND_SURFACE_MIGRATION_SEPARATE",
+  "skill_fabric_binding": {
+    "profile_id": "FA3-SKILL-FABRIC-001",
+    "selection_receipt_optional_unless_skill_used": true,
+    "use_receipt_required_when_skill_used": true,
+    "skill_cannot_grant_tool_model_secret_or_resource_authority": true
+  }
 }
