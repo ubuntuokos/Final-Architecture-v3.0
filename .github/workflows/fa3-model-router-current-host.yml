@@ -33,6 +33,10 @@ on:
         default: ""
         type: string
 
+concurrency:
+  group: fa3-model-router-current-host-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
