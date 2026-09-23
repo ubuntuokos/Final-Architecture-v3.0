@@ -1,0 +1,99 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001",
+  "name": "Agency Agents Reference Normalization & Projection Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "provider_id": "FA3-PROVIDER-AGENCY-AGENTS-001",
+  "parent_profile": "FA3-AGENT-EXEC-001",
+  "provider_neutral_target_contracts": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "source_contracts": [
+    "AgencyAgentSourceDescriptor",
+    "AgencyDivisionMetadata",
+    "AgencyRunbookRoster",
+    "AgencyHandoffTemplate",
+    "AgencyConversionPattern"
+  ],
+  "normalization_targets": {
+    "agent_execution": "FA3-AGENT-EXEC-CONTRACTS-001",
+    "coordination": "FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001",
+    "communication": "FA3-AI-COMMS-CONTRACTS-001",
+    "skill_admission": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001",
+    "decision_advisory": "FA3-DECISION-FABRIC-001"
+  },
+  "agent_mapping": {
+    "upstream_name_description_persona": "UNTRUSTED_TASK_SCOPED_CONTEXT",
+    "persona_identity_is_security_identity": false,
+    "persona_implies_capability_grant": false,
+    "persona_implies_tool_grant": false,
+    "persona_implies_model_provider": false,
+    "source_tool_hints_are_intents_only": true,
+    "canonical_capabilities_must_be_explicitly_bound_by_fa3": true,
+    "canonical_authorization_must_be_external": true
+  },
+  "runbook_mapping": {
+    "upstream_runbook_is_durable_workflow_authority": false,
+    "roster_entry_maps_to": "AgentDelegation",
+    "task_maps_to": "AgentTask",
+    "phase_or_activation_maps_to": "POLICY_BOUNDED_COORDINATION_METADATA",
+    "mutations_require_existing_authorization_or_approval": true,
+    "durable_execution_delegates_to_existing_fa3_orchestration_authority": true,
+    "retry_policy_is_not_imported_as_authority": true
+  },
+  "handoff_mapping": {
+    "standard_handoff": "AgentMessage",
+    "qa_pass_or_fail": "AgentResult",
+    "escalation": "HumanEscalation",
+    "evidence_section": "ExecutionEvidence",
+    "integration_request": "IntegrationIntent",
+    "max_hops_explicit": true,
+    "message_persistence_requires_human_auditable_semantics": true
+  },
+  "conversion_mapping": {
+    "upstream_convert_sh_is_pattern_source_only": true,
+    "direct_converter_execution_on_production_path": false,
+    "generated_codex_cursor_openclaw_gemini_or_other_files_are_untrusted_until_separately_admitted": true,
+    "agent_native_projection_must_use_fa3_scoped_instruction_contract": true,
+    "runtime_specific_output_cannot_override_fa3_canonical_authority": true
+  },
+  "uaf_boundary": {
+    "all_executable_tool_actions_route_through_existing_uaf_or_mcp_authority": true,
+    "direct_provider_execution_from_imported_agent": false,
+    "discovery_is_authorization": false,
+    "secret_values_forbidden_in_imported_agent_context": true
+  },
+  "decision_boundary": {
+    "imported_catalog_may_supply_metadata_to_bounded_selection": true,
+    "candidate_set_source": "CALLING_FA3_AUTHORITY_ONLY",
+    "candidate_set_expansion": "DENY",
+    "imported_rank_or_persona_preference_is_not_policy_authorization": true,
+    "semantic_advisory_rollout_follows_existing_decision_fabric": true
+  },
+  "communication_boundary": {
+    "human_readable_text_is_authoritative": true,
+    "canonical_structured_payload_is_supplemental_only": true,
+    "private_model_language": "DENY",
+    "emergent_agent_codebook": "DENY",
+    "model_only_slang": "DENY"
+  },
+  "supply_chain": {
+    "immutable_upstream_commit_required": true,
+    "upstream_repository_not_implicitly_admitted": true,
+    "executable_assets_inert_by_default": true,
+    "new_upstream_commit_requires_readmission": true,
+    "license_and_provenance_required": true,
+    "redistributed_source_or_substantial_copy_must_preserve_applicable_mit_notice": true
+  },
+  "failure_policy": {
+    "missing_or_ambiguous_authority_binding": "FAIL_CLOSED",
+    "direct_tool_or_secret_bypass": "FAIL_CLOSED",
+    "non_human_auditable_agent_message": "FAIL_CLOSED",
+    "candidate_set_expansion": "FAIL_CLOSED",
+    "static_reference_content_failure": "REJECT_SOURCE_ITEM",
+    "optional_persona_metadata_failure": "OMIT_ITEM"
+  }
+}
