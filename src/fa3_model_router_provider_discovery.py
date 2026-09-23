@@ -111,6 +111,7 @@ def candidate(
         "runtime_id": runtime_id,
         "api_base": runtime_api_base.rstrip("/"),
         "catalog_api_base": catalog_api_base.rstrip("/"),
+        "admission_api_base": catalog_api_base.rstrip("/"),
         "enabled": True,
         "priority": 50,
         "routes": ["*"],
