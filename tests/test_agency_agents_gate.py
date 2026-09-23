@@ -6,6 +6,7 @@ from pathlib import Path
 from fa3_agency_agents_gate import (
     agent_source_allowed,
     communication_allowed,
+    candidate_catalog_valid,
     converted_output_activation_allowed,
     coordination_projection_allowed,
     decision_input_allowed,
@@ -98,6 +99,18 @@ class AgencyAgentsGateTests(unittest.TestCase):
         self.assertTrue(converted_output_activation_allowed(activation))
         activation["separate_admission_pass"] = False
         self.assertFalse(converted_output_activation_allowed(activation))
+
+    def test_curated_candidate_catalog_is_inert_and_fail_closed(self):
+        import copy
+        import json
+        catalog = json.loads((ROOT / "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json").read_text(encoding="utf-8"))
+        self.assertTrue(candidate_catalog_valid(catalog))
+        escalated = copy.deepcopy(catalog)
+        escalated["agents"][0]["authority_grants"] = ["FA3-AUTH-SECURITY-GOV-001"]
+        self.assertFalse(candidate_catalog_valid(escalated))
+        activated = copy.deepcopy(catalog)
+        activated["templates"][0]["activation_status"] = "ACTIVE"
+        self.assertFalse(candidate_catalog_valid(activated))
 
     def test_canonical_gate_passes(self):
         report = gate(ROOT)
