@@ -248,6 +248,8 @@ def gate(root: Path) -> dict[str, Any]:
         and role_projection.get("may_select_provider") is False
         and role_projection.get("may_override_hard_filters") is False
         and role_projection.get("may_expand_authorized_ai_participant_set") is False
+        and role_projection.get("may_grant_capability_tool_model_secret_or_resource_access") is False
+        and role_projection.get("runtime_provider_selection_remains_workforce_and_existing_admission") is True
     ):
         findings.append(finding("DEF-CANON-008", "workforce role-definition boundary missing or invalid"))
 
