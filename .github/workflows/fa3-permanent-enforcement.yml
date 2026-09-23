@@ -123,6 +123,8 @@ jobs:
         run: ./bin/fa3-enforce marketingskills
       - name: Agency Agents reference-provider normalization gate
         run: ./bin/fa3-enforce agency-agents
+      - name: Agent Definition admission gate
+        run: ./bin/fa3-enforce agent-definition
       - name: Blackhole Kdenlive integration gate
         run: ./bin/fa3-enforce blackhole-kdenlive
       - name: Whisper STT mandatory provider gate
@@ -209,6 +211,7 @@ jobs:
             reports/marketing-agent-native-gate-report.json
             reports/marketingskills-skill-admission-gate-report.json
             reports/agency-agents-gate-report.json
+            reports/agent-definition-gate-report.json
             reports/marketing-reference-e2e-report.json
             evidence/receipts/marketing-ci-reference-e2e.json
             reports/blackhole-kdenlive-gate-report.json
