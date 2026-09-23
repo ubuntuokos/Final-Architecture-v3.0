@@ -17,16 +17,17 @@ PYTHONPATH=src python3 src/fa3_current_host_batch_planner.py --root .
 
 The report is written to `reports/current-host-closure-batch-plan.json`. `EXEC-*` batches contain capabilities whose positive/negative/rollback obligations are fully materialized across all three registration layers. `MAT-*` batches identify the deterministic remaining capability materialization order.
 
-## Current materialization frontier
+## Current materialization and runtime-closure status
 
 The repository-side materialization stage is complete: explicit registration coverage is **429/429 obligations** across all **143 capabilities**. Every capability has an explicit positive, negative and rollback qualification definition, qualification-constituent producer and capability-test executor.
 
-The 117 capabilities that were still unmaterialized after MAT-004 are bound through `canonical/current-host-capability-proof-recipes.json` to explicit real-host proof primitives. Registration alone cannot produce PASS: missing Bforartists/Blender, PyTorch3D, CUDA, FFmpeg, KDE/Wayland or other recipe dependencies causes the corresponding real current-host obligation to fail closed.
+The 117 capabilities that were still unmaterialized after MAT-004 are bound through `canonical/current-host-capability-proof-recipes.json` to explicit real-host proof primitives. Registration alone cannot produce PASS: missing required runtime dependencies causes the corresponding real current-host obligation to fail closed.
 
-There is no remaining `MAT-*` batch. `next_materialization_batch` is `null`, and all 143 capabilities are now execution-ready in deterministic `EXEC-*` batches.
+There is no remaining `MAT-*` batch. `next_materialization_batch` is `null`, and all 143 capabilities are materialized in deterministic `EXEC-*` batches.
 
-Materialization still does **not** mean runtime closure. The next stage is physical execution of all execution batches on the non-root self-hosted `fa3-current-host` runner, followed by qualification bundles, attestations, handoff and the existing promotion-safety chain. Until those real executions succeed, Evidence Registry runtime records remain pending and global promotion remains fail-closed.
+Physical current-host runtime closure is also complete. `FA3 Global Current-Host Evidence Closure` run **#443** (run ID `35822104006`) succeeded on source main commit `4277829255fea114e3b082199e9736012445537e`. The verified result is **429/429 current-host obligations**, **143/143 bundles**, **143/143 attestations**, **143/143 qualified current-host receipts**, and **0 pending Evidence Registry runtime records**. The durable reference is `evidence/reference/current-host-143-audit-2026-09-23.json`.
 
+Runtime closure does **not** imply global release promotion. Release acceptance remains a separate fail-closed boundary: static/release acceptance, all 19 acceptance criteria and every mandatory promotion gate must independently PASS before promotion is allowed.
 
 ## External RT3D engine scope
 
@@ -34,7 +35,9 @@ CAP-027 is provider-neutral `Realtime / Virtual Production Interchange`. Proprie
 
 ## Fail-closed producer diagnostics
 
-When a registered qualification constituent producer rejects execution, the orchestrator preserves only the producer's bounded structured `REJECTED/findings` payload alongside the return code. Raw stdout/stderr is not promoted. Partial constituent/source-artifact trees are still removed on any blocking producer failure, and diagnostic preservation never converts rejection into PASS or promotion evidence.
+When a registered qualification constituent producer rejects execution, diagnostic propagation is limited to the schema-bound `fa3.qualification-producer-rejection.v1` envelope. The rejection must be bound to the registered producer/qualification/constituent/subject identities, use an allowlisted stage, use only allowlisted `reason_codes`, and contain only the bounded allowlisted `summary` fields and scalar/list types accepted by the orchestrator.
+
+The orchestrator may preserve sanitized reason-code and bounded-summary diagnostics alongside the producer return code. Raw stdout/stderr, arbitrary free-text findings and unbound producer data are not promoted. Partial constituent/source-artifact trees are removed on any blocking producer failure, and diagnostic preservation never converts rejection into PASS or promotion evidence.
 
 ## Resource Fabric hardware-discovery evidence
 

@@ -272,7 +272,8 @@
         "evidence/reference/model-manager-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
         "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
-        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json"
+        "evidence/reference/stability-matrix-lifecycle-ci-2026-09-06.json",
+        "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -343,6 +344,20 @@
         "deepgemm_status": "OPTIONAL_CONDITIONAL_PINNED_CAPABILITY_DESCRIPTOR",
         "exact_current_host_hardware": "EVIDENCE_ONLY_NON_NORMATIVE",
         "global_runtime_promotion_claim": false
+      },
+      "inference_portability_reconciliation_2026_09_23": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "subgate_id": "FA3-INFERENCE-PORTABILITY-RECONCILIATION-001",
+        "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+        "hrb_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "uaf_profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+        "ai_comms_profile": "FA3-AI-COMMS-001",
+        "current_host_provider_runtime_promotion_claim": false,
+        "global_capability_runtime_status_unchanged": true,
+        "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23",
+        "decision_binding_class": "NON_OBLIGATION_BEARING_CROSS_CUTTING_RECONCILIATION",
+        "existing_429_closure_reopened": false,
+        "provider_runtime_admission_separate": true
       }
     },
     {
@@ -395,7 +410,8 @@
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/hrb-deterministic-locality-ci-2026-09-02.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+        "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -475,6 +491,20 @@
         "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
         "legacy_host_evidence_accepted": false,
         "static_pass_is_current_host_pass": false
+      },
+      "inference_portability_reconciliation_2026_09_23": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "subgate_id": "FA3-INFERENCE-PORTABILITY-RECONCILIATION-001",
+        "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+        "hrb_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "uaf_profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+        "ai_comms_profile": "FA3-AI-COMMS-001",
+        "current_host_provider_runtime_promotion_claim": false,
+        "global_capability_runtime_status_unchanged": true,
+        "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23",
+        "decision_binding_class": "NON_OBLIGATION_BEARING_CROSS_CUTTING_RECONCILIATION",
+        "existing_429_closure_reopened": false,
+        "provider_runtime_admission_separate": true
       }
     },
     {
@@ -6288,7 +6318,8 @@
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
         "evidence/reference/ffmpeg-ai-ci-2026-09-03.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+        "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -6351,6 +6382,20 @@
         "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
         "legacy_host_evidence_accepted": false,
         "static_pass_is_current_host_pass": false
+      },
+      "inference_portability_reconciliation_2026_09_23": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "subgate_id": "FA3-INFERENCE-PORTABILITY-RECONCILIATION-001",
+        "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+        "hrb_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "uaf_profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+        "ai_comms_profile": "FA3-AI-COMMS-001",
+        "current_host_provider_runtime_promotion_claim": false,
+        "global_capability_runtime_status_unchanged": true,
+        "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23",
+        "decision_binding_class": "NON_OBLIGATION_BEARING_CROSS_CUTTING_RECONCILIATION",
+        "existing_429_closure_reopened": false,
+        "provider_runtime_admission_separate": true
       }
     },
     {
@@ -6634,7 +6679,8 @@
       "source": "v2.0.20 §15 + v3.0.11 overlays",
       "evidence_artifacts": [
         "evidence/reference/inference-portability-ci-2026-08-31.json",
-        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json"
+        "evidence/reference/gpu-kernel-runtime-ci-2026-09-03.json",
+        "evidence/reference/inference-portability-reconciliation-ci-2026-09-23.json"
       ],
       "expires_at": null,
       "blocking": true,
@@ -6674,6 +6720,20 @@
         "decision_id": "FA3-DEC-HARDWARE-AUDIT-2026-09-20",
         "legacy_host_evidence_accepted": false,
         "static_pass_is_current_host_pass": false
+      },
+      "inference_portability_reconciliation_2026_09_23": {
+        "profile_id": "FA3-INFERENCE-PORTABILITY-001",
+        "subgate_id": "FA3-INFERENCE-PORTABILITY-RECONCILIATION-001",
+        "hardware_discovery_contract": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001",
+        "hrb_contract": "FA3-HOST-RESOURCE-BROKER-CONTRACTS-001",
+        "uaf_profile": "FA3-UNIFIED-ACTION-FABRIC-001",
+        "ai_comms_profile": "FA3-AI-COMMS-001",
+        "current_host_provider_runtime_promotion_claim": false,
+        "global_capability_runtime_status_unchanged": true,
+        "decision_id": "FA3-DEC-INFERENCE-PORTABILITY-RECONCILIATION-2026-09-23",
+        "decision_binding_class": "NON_OBLIGATION_BEARING_CROSS_CUTTING_RECONCILIATION",
+        "existing_429_closure_reopened": false,
+        "provider_runtime_admission_separate": true
       }
     }
   ],

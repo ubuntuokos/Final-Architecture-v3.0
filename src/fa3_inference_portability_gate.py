@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from fa3_release_baseline import module_active_capability_count
+from fa3_inference_cache_hardening_gate import gate as inference_cache_hardening_gate
+from fa3_inference_portability_reconciliation_gate import gate as inference_portability_reconciliation_gate
 
 import argparse
 import json
@@ -282,13 +284,13 @@ def reference_check(root: Path) -> dict[str, Any]:
     if not (
         trt.get("engine_artifact_class") == "DERIVED_DISPOSABLE_TARGET_SPECIALIZED_ARTIFACT"
         and trt.get("support_matrix_admission_required") is True
-        and trt.get("documented_runtime_release") == "11.2.1"
+        and trt.get("documented_runtime_release") == "11.3.0.99"
     ):
         findings.append(_finding("INFER-REF-016","TensorRT engine/support-matrix invariant drift"))
     if not (
         trt_rtx.get("activation_mode") == "CONDITIONAL_RTX_DISABLED_BY_DEFAULT"
         and trt_rtx.get("ep_abi",{}).get("canonical_integration") == "STANDALONE_EP_ABI_PLUGIN"
-        and trt_rtx.get("ep_abi",{}).get("observed_release") == "0.4.0"
+        and trt_rtx.get("ep_abi",{}).get("observed_release") == "0.4.2"
         and trt_rtx.get("cuda_support_matrix_gate_required") is True
     ):
         findings.append(_finding("INFER-REF-017","TensorRT-RTX EP-ABI/admission invariant drift"))
@@ -411,7 +413,13 @@ def gate(root: Path) -> dict[str, Any]:
     reference = reference_check(root)
     authority = scan_canonical_authority_assignments(root)
     regressions = run_regressions()
-    ok = reference["result"] == authority["result"] == regressions["result"] == "PASS"
+    cache_hardening = inference_cache_hardening_gate(root)
+    reconciliation_2026_09_23 = inference_portability_reconciliation_gate(root)
+    ok = (
+        reference["result"] == authority["result"] == regressions["result"] == "PASS"
+        and cache_hardening["result"] == "PASS"
+        and reconciliation_2026_09_23["result"] == "PASS"
+    )
     report = {
         "schema":"fa3.inference-portability-gate-report.v1",
         "gate_id":GATE_ID,
@@ -424,6 +432,8 @@ def gate(root: Path) -> dict[str, Any]:
         "reference":reference,
         "authority_scan":authority,
         "regressions":regressions,
+        "cache_hardening_subgate":cache_hardening,
+        "reconciliation_2026_09_23_subgate":reconciliation_2026_09_23,
         "runtime_provider_required":False,
         "current_host_runtime_promotion_claim":False,
         "promotion_effect":"MANDATORY_CANONICAL_INVARIANTS_PROVIDER_RUNTIME_NOT_ADMITTED_BY_CI_REFERENCE_PASS",

@@ -12,8 +12,8 @@
   ],
   "parent_profile": "FA3-INFERENCE-PORTABILITY-001",
   "upstream_repository": "microsoft/onnxruntime",
-  "upstream_snapshot_commit": "540a28af7fc8bf24b7de54ce76c6ddd2f4588bca",
-  "observed_release": "1.29.0",
+  "upstream_snapshot_commit": "f2c39fe2f838cf35ce7da92824f5a5e3ee6e88a7",
+  "observed_release": "1.30.0",
   "canonical_root": false,
   "architectural_authority": false,
   "new_capability": false,
@@ -41,5 +41,12 @@
   "silent_cpu_fallback_forbidden": true,
   "io_binding_device_resident_path_preferred": true,
   "production_pin_policy": "IMMUTABLE_VALIDATED_VERSION_AND_EP_MATRIX_REQUIRED_AT_ADMISSION",
-  "current_host_production_evidence": "NOT_CLAIMED"
+  "current_host_production_evidence": "NOT_CLAIMED",
+  "latest_reference_id": "FA3-INFERENCE-PORTABILITY-UPSTREAM-REFERENCE-2026-09-23",
+  "hardware_execution_binding": {
+    "cpu_ep": "CPU_PATH_NO_ACCELERATOR_LEASE",
+    "accelerator_ep": "DEVICE_BOUND_BACKEND_PLUS_HRB_LEASE_REQUIRED",
+    "plugin_ep": "EP_ABI_DOES_NOT_BECOME_ROUTING_OR_RESOURCE_AUTHORITY",
+    "silent_execution_provider_fallback": false
+  }
 }

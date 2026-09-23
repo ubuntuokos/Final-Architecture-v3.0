@@ -1224,3 +1224,14 @@ The desktop reference is pinned to stable Linux Obsidian `1.13.7` (`obsidian_1.1
 ```
 
 Reference PASS is not current-host runtime promotion. Full design and operator boundaries: [`docs/obsidian-integration.md`](docs/obsidian-integration.md).
+
+
+## Inference portability reconciliation — 2026-09-23
+
+`FA3-INFERENCE-PORTABILITY-001` is reconciled with the vendor-neutral Hardware Resource Discovery & Execution Backend Fabric, the exclusive Host Resource Broker execution-path lease authority, Unified Action Fabric / Agent Native invocation semantics, the closed AI communication topology, the central Model Router boundary, and bounded Decision Fabric/Jev advisory semantics.
+
+The global hardware baseline remains valid with **0..N accelerators** and CPU-only hosts. CUDA, SM/compute capability, GPU SKU, ROCm/HIP, Level Zero/XPU and NPU details are provider-scoped compatibility evidence and never global hardware requirements. Accelerator inference requires a DEVICE-bound compatible execution backend plus an HRB lease; physical device presence alone is insufficient.
+
+Agent-initiated inference must use a typed UAF action. Neither agents, execution providers, inference backends nor Jev may bypass Model Router/HRB/security boundaries or expand an application's authorized AI participant set. Decision Fabric/Jev may only advise within a deterministically prefiltered eligible candidate set.
+
+Current pinned compatibility references are OpenVINO 2026.4.0, ONNX Runtime 1.30.0, TensorRT 11.3.0.99 with CUDA 13.4 provider-scoped compatibility, TensorRT-RTX 1.6.1.120 and TensorRT-RTX EP ABI 0.4.2. Reference updates do not promote a provider runtime.
