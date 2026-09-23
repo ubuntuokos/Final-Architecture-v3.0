@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from fa3_decision_fabric import DecisionError
+
 POLICY_PATH = Path("canonical/FA3-VOICE-QUALITY-ROUTING-001.json")
 
 
@@ -74,7 +76,8 @@ def resolve_quality_route(
     selected_provider_id = candidates[0]
     decision_trace = None
     if decision_fabric is not None:
-        decision_trace = decision_fabric.decide(
+        try:
+            decision_trace = decision_fabric.decide(
             {
                 "contract": "SELECT_ONE",
                 "purpose": "Choose one already-admitted voice provider satisfying deterministic locale/quality/HRB eligibility",
@@ -98,8 +101,10 @@ def resolve_quality_route(
                 "rollout": decision_rollout,
                 "final_policy_owner": "FA3-VOICE-QUALITY-ROUTING-001",
             },
-            decision_provider_id,
-        )
+                decision_provider_id,
+            )
+        except DecisionError as exc:
+            raise VoiceQualityRoutingDenied("Decision Fabric violated bounded voice candidate set") from exc
         if decision_rollout == "ACTIVE" and decision_trace.get("status") == "DECIDED":
             proposed = (decision_trace.get("result") or {}).get("selected")
             if proposed not in candidates:
