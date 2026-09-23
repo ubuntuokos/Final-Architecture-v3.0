@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+CHECK_SOURCE_CONTRACT_ONLY=0
+if [[ "${1:-}" == "--check-source-contract" ]]; then
+  CHECK_SOURCE_CONTRACT_ONLY=1
+  shift
+fi
+if [[ $# -ne 0 ]]; then
+  echo "Usage: $0 [--check-source-contract]" >&2
+  exit 2
+fi
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 APP_SRC="$REPO_ROOT/apps/fa3-control-center"
 MAIN_QML="$APP_SRC/qml/Main.qml"
@@ -65,6 +75,11 @@ fi
 if grep -Fq 'Qt.openUrlExternally(quickLinkRoot.targetUrl)' "$MAIN_QML"; then
   echo "FA3 GUI source-contract check FAILED: QuickLink still escapes to an external browser" >&2
   exit 3
+fi
+
+if [[ "$CHECK_SOURCE_CONTRACT_ONLY" -eq 1 ]]; then
+  echo "FA3 GUI source contract: PASS (${#required_markers[@]} required surfaces)"
+  exit 0
 fi
 
 if command -v git >/dev/null 2>&1 && git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then

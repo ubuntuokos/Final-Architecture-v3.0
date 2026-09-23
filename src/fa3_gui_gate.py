@@ -251,6 +251,8 @@ def validate() -> list[str]:
         failures.append("installer-stale-search-navigation-marker-present")
     if "NavButton is still coupled to pageIndex" not in installer:
         failures.append("installer-pageindex-drift-guard-missing")
+    if "--check-source-contract" not in installer or "CHECK_SOURCE_CONTRACT_ONLY" not in installer:
+        failures.append("installer-source-contract-check-mode-missing")
 
     model_cpp = REQUIRED["model_cpp"].read_text(encoding="utf-8")
     if "searchActions" not in model_cpp or "canonical/actions" not in model_cpp:

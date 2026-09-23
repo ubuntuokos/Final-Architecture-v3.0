@@ -35,6 +35,8 @@ jobs:
         run: PYTHONPATH=. python src/fa3_gui_gate.py
       - name: Run GUI unit regression
         run: PYTHONPATH=. python -m unittest tests.test_fa3_gui_gate -v
+      - name: Run installer source-contract regression
+        run: bash deployment/fa3-gui/install.sh --check-source-contract
 
   qt-reference-build:
     runs-on: ubuntu-latest

@@ -114,6 +114,8 @@ class Fa3GuiGateTests(unittest.TestCase):
             self.assertIn(token, installer)
         self.assertNotIn('label: "Keresés"', installer)
         self.assertIn("NavButton is still coupled to pageIndex", installer)
+        self.assertIn("--check-source-contract", installer)
+        self.assertIn("CHECK_SOURCE_CONTRACT_ONLY", installer)
 
     def test_agent_native_decision_fabric_and_dead_signal_reconciliation(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
