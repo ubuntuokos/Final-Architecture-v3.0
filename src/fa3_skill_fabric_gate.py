@@ -152,7 +152,7 @@ def run_regressions() -> dict[str,Any]:
       not skill_use_allowed(_mut(u,lambda x:x["resource_intent"].update(via_hrb=False))),
       not skill_use_allowed(_mut(u,lambda x:x["secret_intent"].update(via_secret_broker=False)))]
     cases=[{"case_id":f"SKF-{i:03d}","status":"PASS" if ok else "FAIL"} for i,ok in enumerate(checks,1)]
-    return {"result":"PASS" if all(checks) else "FAIL","total":len(cases),"passed":sum(c["status"]=="PASS" for c in cases),"cases":cases}
+    return {"result":"PASS" if all(checks) else "FAIL","total":len(cases),"passed":sum(c["status"]=="PASS" for c in cases),"case_ids_exact":[c["case_id"] for c in cases]==[f"SKF-{i:03d}" for i in range(1,len(cases)+1)],"cases":cases}
 def canonical_check(root: Path) -> list[str]:
     findings=[];p=loadj(root/PROFILE);ct=loadj(root/CONTRACT);d=loadj(root/DISCOVERY_CONTRACT);m=loadj(root/MATERIALIZATION_CONTRACT)
     if not (p.get("id")=="FA3-SKILL-FABRIC-001" and p.get("provider_neutral") is True and p.get("capability_count")==143 and p.get("new_capability") is False and p.get("new_architectural_authority") is False): findings.append("skill fabric governance drift")
