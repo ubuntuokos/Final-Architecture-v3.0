@@ -1,0 +1,39 @@
+name: FA3 Distribution Compliance
+
+on:
+  push:
+    branches:
+      - "main"
+      - "fa3/**"
+      - "feature/**"
+      - "feat/**"
+      - "fix/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  distribution-compliance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch comparison base
+        if: github.ref_name != 'main'
+        run: git fetch --no-tags origin main:refs/remotes/origin/main
+      - name: Validate canonical distribution compliance
+        run: |
+          PYTHONPATH=src python src/fa3_distribution_compliance_gate.py --root .
+          PYTHONPATH=src python src/fa3_distribution_manifest.py --check
+      - name: Require classification for newly added external records
+        if: github.ref_name != 'main'
+        run: PYTHONPATH=src python src/fa3_distribution_adoption_gate.py --root . --base-ref origin/main
+      - name: Run distribution tests
+        run: python -m unittest tests.test_distribution_compliance_gate tests.test_distribution_manifest tests.test_distribution_adoption_gate -v

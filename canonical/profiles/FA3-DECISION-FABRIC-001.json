@@ -15,8 +15,21 @@
   "cpu_only_supported": true,
   "mandatory_cloud_dependency": false,
   "mandatory_jev_dependency": false,
-  "contracts": ["SELECT_ONE", "BOOLEAN", "SCORE", "RANK", "MULTI_LABEL", "RELEVANCE", "STOP_CONTINUE"],
-  "provider_classes": ["DETERMINISTIC_RULES", "LOCAL_SEMANTIC", "JEV_OPTIONAL", "TEST"],
+  "contracts": [
+    "SELECT_ONE",
+    "BOOLEAN",
+    "SCORE",
+    "RANK",
+    "MULTI_LABEL",
+    "RELEVANCE",
+    "STOP_CONTINUE"
+  ],
+  "provider_classes": [
+    "DETERMINISTIC_RULES",
+    "LOCAL_SEMANTIC",
+    "JEV_OPTIONAL",
+    "TEST"
+  ],
   "candidate_set_source": "CALLING_FA3_AUTHORITY_ONLY",
   "candidate_set_expansion": "DENY",
   "final_execution_authority": false,
@@ -27,5 +40,24 @@
   "default_rollout": "SHADOW",
   "communication_contract": "FA3-AI-COMMS-CONTRACTS-001",
   "trace_contract": "FA3-DECISION-TRACE-001",
-  "failure_modes": ["FAIL_CLOSED", "RULE_FALLBACK", "EXISTING_BEHAVIOR", "HUMAN_CONFIRM", "NO_DECISION"]
+  "failure_modes": [
+    "FAIL_CLOSED",
+    "RULE_FALLBACK",
+    "EXISTING_BEHAVIOR",
+    "HUMAN_CONFIRM",
+    "NO_DECISION"
+  ],
+  "skill_selection_binding": {
+    "consumer_profile": "FA3-SKILL-FABRIC-001",
+    "candidate_source": "DETERMINISTIC_ELIGIBILITY_FILTER_ONLY",
+    "allowed_contracts": [
+      "SELECT_ONE",
+      "RANK",
+      "MULTI_LABEL",
+      "RELEVANCE"
+    ],
+    "candidate_expansion": "DENY",
+    "admission_authority": false,
+    "activation_authority": false
+  }
 }

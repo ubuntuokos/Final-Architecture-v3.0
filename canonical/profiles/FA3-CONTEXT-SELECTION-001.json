@@ -7,7 +7,12 @@
   "status": "CANONICAL",
   "parent": "FA3-DECISION-FABRIC-001",
   "architectural_authority": false,
-  "states": ["PROTECTED", "ACTIVE", "HIDDEN", "ARCHIVED"],
+  "states": [
+    "PROTECTED",
+    "ACTIVE",
+    "HIDDEN",
+    "ARCHIVED"
+  ],
   "hidden_is_deleted": false,
   "archived_is_deleted": false,
   "generative_summary_may_replace_source_evidence": false,
@@ -24,7 +29,16 @@
     "unresolved_blocker",
     "approval_record"
   ],
-  "source_authorities_preserved": ["FA3-JOURNAL-001", "ORIGINAL_ARTIFACTS"],
+  "source_authorities_preserved": [
+    "FA3-JOURNAL-001",
+    "ORIGINAL_ARTIFACTS"
+  ],
   "capability_delta": 0,
-  "authority_delta": 0
+  "authority_delta": 0,
+  "skill_context_binding": {
+    "skill_fabric": "FA3-SKILL-FABRIC-001",
+    "minimum_sufficient_context_required": true,
+    "unadmitted_skill_context_forbidden": true,
+    "source_and_digest_provenance_preserved": true
+  }
 }

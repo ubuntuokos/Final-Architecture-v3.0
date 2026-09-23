@@ -2,7 +2,7 @@
   "schema": "fa3.contract-set.v1",
   "id": "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
   "name": "Provider-Neutral Skill Package Admission Contracts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "CANONICAL",
   "provider_neutral": true,
   "new_capability": false,
@@ -17,7 +17,10 @@
     "SkillEvaluationSet",
     "SkillAdmissionReceipt",
     "SkillUseReceipt",
-    "SkillToolIntent"
+    "SkillToolIntent",
+    "SkillSelectionReceipt",
+    "SkillMaterializationReceipt",
+    "DistributionClassification"
   ],
   "descriptor_required_fields": [
     "package_id",
@@ -30,7 +33,14 @@
     "license.snapshot_present",
     "entrypoints",
     "dependencies",
-    "evaluation"
+    "evaluation",
+    "license.spdx_expression",
+    "license.evidence_digest",
+    "distribution.class",
+    "compatibility.apps",
+    "compatibility.agents",
+    "compatibility.task_classes",
+    "permissions"
   ],
   "admission_lifecycle": [
     "discover_candidate",
@@ -41,6 +51,7 @@
     "scan_executable_directives",
     "resolve_explicit_dependency_graph",
     "validate_license_and_provenance",
+    "classify_distribution_under_FA3_DISTRIBUTION_COMPLIANCE_CONTRACTS_001",
     "run_behavioral_positive_negative_adversarial_evals",
     "policy_decision",
     "emit_digest_bound_admission_receipt",
@@ -53,7 +64,8 @@
     "manifest_digest_required": true,
     "auto_pull_into_admitted_context_forbidden": true,
     "new_upstream_commit_requires_new_admission": true,
-    "remote_include_or_fetch_during_admission_forbidden": true
+    "remote_include_or_fetch_during_admission_forbidden": true,
+    "runtime_remote_skill_fetch_forbidden": true
   },
   "execution_safety": {
     "package_is_data_until_separately_authorized": true,
@@ -135,6 +147,41 @@
     "DISABLED_PROVIDER_ZERO_NEAR_ZERO_RUNTIME_COST",
     "REFERENCE_CI_NOT_RUNTIME_OR_MUTATION_ADMISSION",
     "PORTABLE_HARDWARE_NO_STATIC_HOST_SKU_ASSUMPTION",
-    "EXECUTABLE_HELPER_REQUIRES_EXISTING_SANDBOX_POLICY_AND_RESOURCE_BOUNDARY"
-  ]
+    "EXECUTABLE_HELPER_REQUIRES_EXISTING_SANDBOX_POLICY_AND_RESOURCE_BOUNDARY",
+    "SKILL_DISTRIBUTION_CLASS_REQUIRED",
+    "UNKNOWN_REQUIRED_LICENSE_FACT_FAILS_CLOSED",
+    "REFERENCE_ONLY_SKILL_RUNTIME_MATERIALIZATION_FORBIDDEN",
+    "USER_LOCAL_EXTERNAL_RELEASE_BUNDLE_FORBIDDEN",
+    "EXTERNAL_REDISTRIBUTABLE_REQUIRES_LICENSE_COMPATIBILITY_ATTESTATION",
+    "SKIPPED_REVIEW_CANNOT_PASS_ADMISSION",
+    "RUNTIME_REMOTE_SKILL_FETCH_FORBIDDEN",
+    "SKILL_PERMISSION_DECLARATION_DOES_NOT_GRANT_AUTHORITY"
+  ],
+  "distribution_governance": {
+    "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001",
+    "distribution_class_required": true,
+    "allowed_classes": [
+      "FA3_NATIVE",
+      "EXTERNAL_REDISTRIBUTABLE",
+      "USER_LOCAL_EXTERNAL",
+      "REFERENCE_ONLY",
+      "BLOCKED"
+    ],
+    "reference_only_runtime_materialization_forbidden": true,
+    "blocked_runtime_materialization_forbidden": true,
+    "user_local_external_release_bundle_forbidden": true,
+    "external_redistributable_requires_license_compatibility_attestation": true,
+    "unknown_required_license_fact_fails_closed": true
+  },
+  "review_governance": {
+    "skipped_review_may_pass": false,
+    "skipped_security_review_fails_closed": true,
+    "skipped_license_review_fails_closed": true,
+    "explicit_pass_required": true
+  },
+  "permission_governance": {
+    "declared_permissions_required": true,
+    "permission_declaration_does_not_grant_authority": true,
+    "network_filesystem_exec_secret_requests_route_through_existing_authorities": true
+  }
 }

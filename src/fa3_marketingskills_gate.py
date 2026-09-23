@@ -302,7 +302,7 @@ def canonical_check(root):
         and contract.get("new_capability") is False
         and contract.get("new_architectural_authority") is False
         and contract.get("capability_count") == 143
-        and contract.get("mandatory_rules") == RULES
+        and all(rule in contract.get("mandatory_rules", []) for rule in RULES)
         and contract.get("execution_safety", {}).get("executable_directives_inert_by_default") is True
         and contract.get("tool_governance", {}).get("central_mcp_gateway_required") is True
         and contract.get("evaluation", {}).get("adversarial_prompt_injection_eval_required") is True
