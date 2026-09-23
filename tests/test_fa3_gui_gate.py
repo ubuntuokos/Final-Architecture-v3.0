@@ -138,6 +138,11 @@ class Fa3GuiGateTests(unittest.TestCase):
         self.assertIn("accelerators: window.acceleratorProjection(fa3Devices.inventory)", main)
         self.assertIn("Generic Linux · Wayland primary / X11 supported", main)
 
+        for token in ["Imported Packs · Agency Agents", "DISABLED_NOT_ADMITTED", "nincs közvetlen provider execution"]:
+            self.assertIn(token, main)
+        for token in ["agency-agents.imported-pack", "FA3-PROVIDER-AGENCY-AGENTS-001", "READ_ONLY_REFERENCE", "agents.action-center"]:
+            self.assertIn(token, registry)
+
     def test_mcp_control_chat_is_authority_gated_and_integrated(self):
         main = (ROOT / "apps/fa3-control-center/qml/Main.qml").read_text(encoding="utf-8")
         chat = (ROOT / "apps/fa3-control-center/qml/ChatWorkspace.qml").read_text(encoding="utf-8")
