@@ -1,0 +1,130 @@
+{
+  "schema": "fa3.uaf.action-contract.v1",
+  "id": "render.neural.browser.execute",
+  "version": "1.0.0",
+  "description": "Execute an already selected browser WebGPU neural-rendering plan under FA3-WEB-AI capability, provenance and egress policy.",
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "operation_id",
+      "plan_ref",
+      "selected_provider_id",
+      "model_artifact_ref",
+      "web_ai_capability_receipt_ref",
+      "execution_class"
+    ],
+    "properties": {
+      "operation_id": {
+        "type": "string"
+      },
+      "candidate_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "context_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "plan_ref": {
+        "type": "string"
+      },
+      "selected_provider_id": {
+        "type": "string"
+      },
+      "model_artifact_ref": {
+        "type": "string"
+      },
+      "web_ai_capability_receipt_ref": {
+        "type": "string"
+      },
+      "execution_class": {
+        "type": "string",
+        "const": "BROWSER_WEBGPU"
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "provider_id",
+      "decision_receipt",
+      "evidence_refs"
+    ],
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "provider_id": {
+        "type": "string"
+      },
+      "decision_receipt": {
+        "type": "object"
+      },
+      "artifact_ref": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "evidence_refs": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "semantics": {
+    "mutating": true,
+    "idempotent": true,
+    "retry_safe": false,
+    "long_running": true
+  },
+  "exposure": {
+    "gui": true,
+    "agent": true,
+    "cli": true,
+    "mcp": true,
+    "a2a": true,
+    "automation": true,
+    "http": false
+  },
+  "security": {
+    "authentication": "required",
+    "authorization": "required",
+    "approval": "policy",
+    "audit": "required"
+  },
+  "resources": {
+    "hrb_required": false,
+    "cpu": {
+      "physical_cores": {
+        "minimum": 0
+      },
+      "logical_processors": null
+    },
+    "accelerator": {
+      "required": false,
+      "cardinality": "0..N"
+    },
+    "memory": {
+      "admission": "provider-declared"
+    }
+  },
+  "provider": {
+    "selection": "policy-bounded-capability-match",
+    "preferred_role": "BROWSER_WEBGPU_NEURAL_RENDERING_PROVIDER"
+  },
+  "evidence": {
+    "required": true,
+    "decision_receipt_required": true,
+    "current_host_claim": false
+  }
+}

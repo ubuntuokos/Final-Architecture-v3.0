@@ -1,0 +1,50 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23",
+  "date": "2026-09-23",
+  "repository": "https://github.com/maanHimself/OpenDLSS-NR",
+  "immutable_commit": "9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1",
+  "source_license": "MIT",
+  "commit_signature_verified": false,
+  "signature_verification_reason": "unsigned",
+  "source_code_scope": "REFERENCE_AND_CONDITIONAL_PROVIDER_SOURCE",
+  "model_weights_in_repository": false,
+  "nvidia_software_or_model_weights_in_repository": false,
+  "upstream_native_requirements": {
+    "platform": "Windows",
+    "accelerator": "NVIDIA Ada or newer",
+    "vulkan_extensions": [
+      "VK_KHR_cooperative_matrix",
+      "VK_NV_cooperative_matrix2",
+      "VK_EXT_shader_float8",
+      "VK_NV_cuda_kernel_launch"
+    ],
+    "provider_scoped_only": true
+  },
+  "upstream_browser_port": {
+    "path": "ports/browser-webgpu",
+    "execution_domain": "BROWSER_WEBGPU",
+    "tensor_cores_required": false,
+    "native_fp8_required": false,
+    "inline_ptx_required": false
+  },
+  "upstream_claims": {
+    "native_reference_route": "GLSL",
+    "native_optimized_route": "PTX",
+    "numerical_parity": "UPSTREAM_CLAIM_REFERENCE_ONLY",
+    "barrier_free_chain": "NOT_A_VULKAN_GUARANTEE",
+    "watchdog_and_barrier_fallback": "UPSTREAM_IMPLEMENTATION_PATTERN"
+  },
+  "fa3_admission": {
+    "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+    "production_source_archive_digest_required": true,
+    "security_scan_required": true,
+    "attestation_or_review_required": true,
+    "model_artifact_admission_separate": true,
+    "model_data_license_and_output_rights_separate": true,
+    "current_host_provider_e2e_required": true
+  },
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}

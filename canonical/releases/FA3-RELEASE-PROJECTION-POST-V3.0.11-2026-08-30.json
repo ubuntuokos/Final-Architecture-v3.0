@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "8bd878765feb8bade18f12b373b11ecc6d882f07",
-    "pre_projection_root_tree_sha": "46155511b08a8539558080aab5e54761c4af4592",
-    "pre_projection_canonical_tree_sha": "07101257eec9abcadc14ac0fe97e166aaa03a8b9",
-    "commits_ahead_of_v3_0_11_conformance_commit": 574,
-    "total_post_baseline_commits": 574,
-    "delta_file_count": 1639,
-    "delta_added_files": 1634,
+    "pre_projection_head_sha": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
+    "pre_projection_root_tree_sha": "988c341c68d34c1c11e874372d77e7ee35a6e00a",
+    "pre_projection_canonical_tree_sha": "017fccd5b1b1e7f9deb413867362cf93a0127b44",
+    "commits_ahead_of_v3_0_11_conformance_commit": 585,
+    "total_post_baseline_commits": 585,
+    "delta_file_count": 1695,
+    "delta_added_files": 1690,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 777,
-    "evidence_files_in_post_baseline_delta": 138,
-    "source_files_in_post_baseline_delta": 211,
-    "test_files_in_post_baseline_delta": 188,
-    "workflow_files_in_post_baseline_delta": 73,
+    "canonical_files_in_post_baseline_delta": 809,
+    "evidence_files_in_post_baseline_delta": 140,
+    "source_files_in_post_baseline_delta": 220,
+    "test_files_in_post_baseline_delta": 196,
+    "workflow_files_in_post_baseline_delta": 76,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENTCPM-001.json",
@@ -119,6 +119,7 @@
       "canonical/providers/FA3-PROVIDER-OPEN-SORA-PLAN-001.json",
       "canonical/providers/FA3-PROVIDER-OPEN3D-001.json",
       "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
+      "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
       "canonical/providers/FA3-PROVIDER-OPENHANDS-001.json",
       "canonical/providers/FA3-PROVIDER-OPENMODELDB-001.json",
       "canonical/providers/FA3-PROVIDER-OPENVID-001.json",
@@ -216,6 +217,7 @@
       "canonical/profiles/FA3-MODEL-MANAGER-001.json",
       "canonical/profiles/FA3-MUSIC-001.json",
       "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
+      "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
       "canonical/profiles/FA3-OS-001.json",
       "canonical/profiles/FA3-OS-POLICY-001.json",
       "canonical/profiles/FA3-OS-RUNTIME-001.json",
@@ -295,6 +297,9 @@
       "canonical/contracts/FA3-LOCAL-CONVERSATION-DESKTOP-CONTRACTS-001.json",
       "canonical/contracts/FA3-LOCAL-GENERATIVE-MEDIA-LIFECYCLE-CONTRACTS-001.json",
       "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json",
+      "canonical/contracts/FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001.json",
+      "canonical/contracts/FA3-MARKETING-DECISION-RECEIPT-001.schema.json",
       "canonical/contracts/FA3-MCP-GATEWAY-CONTRACTS-001.json",
       "canonical/contracts/FA3-MENTOR-CONTRACTS-001.json",
       "canonical/contracts/FA3-MINIMAX-H3-ADAPTER-CONTRACTS-001.json",
@@ -303,6 +308,7 @@
       "canonical/contracts/FA3-MODEL-MANAGER-CONTRACTS-001.json",
       "canonical/contracts/FA3-MUSIC-GENERATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENFX-INTEROPERABILITY-CONTRACTS-001.json",
       "canonical/contracts/FA3-OPENHANDS-DEVELOPER-EXECUTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-OS-EVENT-001.schema.json",
@@ -397,6 +403,7 @@
       "canonical/decisions/FA3-DEC-LOOP-ENGINEERING-2026-09-03.json",
       "canonical/decisions/FA3-DEC-LYNXHUB-CREATIVE-OPERATIONS-DASHBOARD-2026-09-05.json",
       "canonical/decisions/FA3-DEC-MARKETING-2026-08-31.json",
+      "canonical/decisions/FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23.json",
       "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "canonical/decisions/FA3-DEC-MENTOR-2026-08-30.json",
       "canonical/decisions/FA3-DEC-META-LLAMA-2026-08-30.json",
@@ -420,6 +427,7 @@
       "canonical/decisions/FA3-DEC-MYNA-2026-08-30.json",
       "canonical/decisions/FA3-DEC-NATRON-2026-08-30.json",
       "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
+      "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
       "canonical/decisions/FA3-DEC-OBSIDIAN-KNOWLEDGE-WORKSPACE-2026-09-07.json",
       "canonical/decisions/FA3-DEC-OPENBMB-2026-09-02.json",
       "canonical/decisions/FA3-DEC-OPENCUT-PROGRAMMABLE-EDITOR-2026-09-01.json",
@@ -504,6 +512,7 @@
       "canonical/references/FA3-OBSIDIAN-UPSTREAM-REFERENCE-2026-09-07.json",
       "canonical/references/FA3-OPENBMB-UPSTREAM-REFERENCE-2026-09-02.json",
       "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
+      "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
       "canonical/references/FA3-OPENFX-UPSTREAM-REFERENCE-2026-09-11.json",
       "canonical/references/FA3-OPENHANDS-UPSTREAM-REFERENCE-2026-09-01.json",
       "canonical/references/FA3-OPENKB-UPSTREAM-REFERENCE-2026-09-18.json",
@@ -575,6 +584,7 @@
       "evidence/reference/lavasr-reference-pass.json",
       "evidence/reference/loop-engineering-ci-2026-09-03.json",
       "evidence/reference/lynxhub-ci-2026-09-05.json",
+      "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
       "evidence/reference/marketing-ci-2026-08-31.json",
       "evidence/reference/marketingskills-skill-admission-ci-2026-09-03.json",
       "evidence/reference/mcp-current-host-pending.json",
@@ -588,6 +598,7 @@
       "evidence/reference/model-manager-v2-ci-2026-09-01.json",
       "evidence/reference/modular-provider-ci-2026-08-30.json",
       "evidence/reference/muse-code-ci-2026-09-01.json",
+      "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
       "evidence/reference/obsidian-knowledge-workspace-ci-2026-09-07.json",
       "evidence/reference/openbmb-ci-2026-09-02.json",
       "evidence/reference/opencut-ci-2026-09-01.json",
@@ -660,6 +671,7 @@
     "FA3-MODEL-MANAGER-GATESET-001",
     "FA3-HYBRID-EDITORIAL-GATESET-001",
     "FA3-MARKETING-GATESET-001",
+    "FA3-MARKETING-AGENT-NATIVE-GATESET-001",
     "FA3-COSYVOICE-GATESET-001",
     "FA3-HRB-DETERMINISTIC-LOCALITY-GATESET-001",
     "FA3-CPU-NUMA-THREADING-GATESET-001",
@@ -685,7 +697,8 @@
     "FA3-RUNTIME-HARDENING-GATESET-001",
     "FA3-EXTERNAL-RT3D-ENGINE-EXCLUSION-GATESET-001",
     "FA3-AGENT-INSTRUCTIONS-GATESET-001",
-    "FA3-UNIFIED-ACTION-FABRIC-GATESET-001"
+    "FA3-UNIFIED-ACTION-FABRIC-GATESET-001",
+    "FA3-NEURAL-RENDERING-GATESET-001"
   ],
   "evidence_registry": {
     "path": "evidence/evidence-registry.json",
@@ -811,7 +824,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1632,
+  "manifest_entry_count": 1688,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -979,6 +992,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-marketing-current-host.yml",
+      "git_blob_sha": "0a0b9eaf2026f5befdc6df314e101d11d7171e46",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-mcp-current-host.yml",
       "git_blob_sha": "f514a97f4ff2131c61559c28af853ee1905916db",
       "baseline_delta_status": "added"
@@ -1019,6 +1037,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-neural-rendering-current-host.yml",
+      "git_blob_sha": "8ea48ad24e5c28686358c5b8509f8a07fd8cfc81",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": ".github/workflows/fa3-neural-rendering-reference.yml",
+      "git_blob_sha": "00193591643436b87fa1b577ce76510b3c96af27",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-openmodeldb-provider-gate.yml",
       "git_blob_sha": "7bb5fff1361e3cde0fa9c097c7a4669098475c20",
       "baseline_delta_status": "added"
@@ -1050,7 +1078,7 @@
     },
     {
       "path": ".github/workflows/fa3-permanent-enforcement.yml",
-      "git_blob_sha": "7d2e698640125d17daa345e6604f779a5e0138ec",
+      "git_blob_sha": "a8858ad6cb39d18fb8598c09602ef989844c504f",
       "baseline_delta_status": "added"
     },
     {
@@ -1205,7 +1233,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/AiStudioPage.qml",
-      "git_blob_sha": "ded80348e12c70c3b49e0f8fd80ccdbbb0e52741",
+      "git_blob_sha": "298e4a4837be6a618857dc13fc07e5ae50ef9515",
       "baseline_delta_status": "added"
     },
     {
@@ -1545,7 +1573,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "66d880ef98061c31669e0aebe81947097966c331",
+      "git_blob_sha": "6fca5ad4c31c9ccd16c613effee0b443bab79675",
       "baseline_delta_status": "modified"
     },
     {
@@ -1661,6 +1689,11 @@
     {
       "path": "bin/fa3-modular-current-host.sh",
       "git_blob_sha": "52b52d079fce4612ef5619a86a26159a829a694a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "bin/fa3-opendlss-nr",
+      "git_blob_sha": "8b4487ea61228a68982d1a70268b19a180833999",
       "baseline_delta_status": "added"
     },
     {
@@ -1821,6 +1854,96 @@
     {
       "path": "canonical/actions/hardware.describe.json",
       "git_blob_sha": "4faae020fb64b8666509d5dad8fb977de8f6532f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.analytics.project.json",
+      "git_blob_sha": "cc8e92cfb866003195a5b43769610ce2f05ec5ed",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.campaign.approve.json",
+      "git_blob_sha": "be7936a4da5e621e9ed7259a0fb701400ddb7c18",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.campaign.draft.json",
+      "git_blob_sha": "e2678ddc87ac749831c2b17d05dc91b2f8a1b59b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.campaign.pause.json",
+      "git_blob_sha": "cb1be4d93cb82ec228828419bb753ea6659d28fd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.campaign.schedule.json",
+      "git_blob_sha": "1a13023e8aeb5ba835fafb862e91372c68ff8d66",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.campaign.validate.json",
+      "git_blob_sha": "021c934167d37492634a4f9dd4f2acdd8dcc3075",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.consent.record.json",
+      "git_blob_sha": "3a33e698397dce35b4127736f0a6b7883911d3a3",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.contact.project.json",
+      "git_blob_sha": "661c09ad61efcb008bb98c354833882e8e417aa7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.contact.reconcile.json",
+      "git_blob_sha": "c85da8bc1ccf37f2dec5a91ec264c1c0c8225693",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.delivery.reconcile.json",
+      "git_blob_sha": "cface085a5f8bd504d2ca1bc4778d600e22cf6d7",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.experiment.record.json",
+      "git_blob_sha": "d73dd84ba70de424ba5084a2d29e55e28ba6df11",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.newsletter.dispatch.json",
+      "git_blob_sha": "ae7f2b8258076ada6bac8c9dfe00d33f01166eaf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.newsletter.prepare.json",
+      "git_blob_sha": "23393e5f6e5e378bac0bea77f864e9a567686b3e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.segment.preview.json",
+      "git_blob_sha": "020f67adf151c2d80a7e88ce79661a3bf9c7aa09",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/marketing.suppression.apply.json",
+      "git_blob_sha": "9b0695f1fa3a4509d9af41fc919145ae5ae35d61",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/render.neural.browser.execute.json",
+      "git_blob_sha": "66604a174a3979634c6d685e1fe286e621ee8bc1",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/render.neural.evaluate.json",
+      "git_blob_sha": "dc81a93807e87d7e047b514fa825fef01e18bd67",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/render.neural.execute.json",
+      "git_blob_sha": "890014500254bb519c7295730cdc4b40b87152a5",
       "baseline_delta_status": "added"
     },
     {
@@ -2180,7 +2303,22 @@
     },
     {
       "path": "canonical/contracts/FA3-MARKETING-CONTRACTS-001.json",
-      "git_blob_sha": "79f99b3bab6c09f26da121adfe051fe24926df4c",
+      "git_blob_sha": "a18f53693770805d167377509c2d4fad9b6d3d02",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json",
+      "git_blob_sha": "337cf4328939a0d993217ac541225ca5dd70784f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001.json",
+      "git_blob_sha": "c93c51a4c49123382831cde8bbf56cc21f87a30b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-MARKETING-DECISION-RECEIPT-001.schema.json",
+      "git_blob_sha": "0c2b00664f11f67dc112fc372a74e3da3c557895",
       "baseline_delta_status": "added"
     },
     {
@@ -2221,6 +2359,11 @@
     {
       "path": "canonical/contracts/FA3-NEURAL-MEDIA-EXECUTION-CONTRACTS-001.json",
       "git_blob_sha": "82eece0230d8aefe44e6d740d74e96d89ab98e35",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
+      "git_blob_sha": "f966a81e4ed2529566542608de6e44dfa4e58829",
       "baseline_delta_status": "added"
     },
     {
@@ -2729,6 +2872,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/decisions/FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23.json",
+      "git_blob_sha": "8bd02609deabee8c18f0019b46fe72f113e39667",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/decisions/FA3-DEC-MARKETINGSKILLS-SKILL-ADMISSION-2026-09-03.json",
       "git_blob_sha": "18f964fb351350ef435f0c65b82ba5e857d151f6",
       "baseline_delta_status": "added"
@@ -2841,6 +2989,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-NEMOTRON-2026-08-27.json",
       "git_blob_sha": "af6823754fa31d909f97c8fdb0babd81af0b0017",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
+      "git_blob_sha": "96fb6b2b0d7c512eede55fc19abba3d663c83bc9",
       "baseline_delta_status": "added"
     },
     {
@@ -3075,7 +3228,7 @@
     },
     {
       "path": "canonical/enforcement-policy.json",
-      "git_blob_sha": "3b6d620eed3177e5d7a128825b10697a5a281d4c",
+      "git_blob_sha": "c3629762b5f50ed171996523bff53974dde206b0",
       "baseline_delta_status": "modified"
     },
     {
@@ -3354,6 +3507,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-GATE-MARKETING-AGENT-NATIVE-001.json",
+      "git_blob_sha": "24cb74e4be6b5f4f6095474eb7d9fa2b86977684",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-GATE-MARKETINGSKILLS-SKILL-ADMISSION-001.json",
       "git_blob_sha": "8d15f0ae0da84a67873dae7624673f769f99a2d4",
       "baseline_delta_status": "added"
@@ -3376,6 +3534,11 @@
     {
       "path": "canonical/FA3-GATE-MUSE-CODE-001.json",
       "git_blob_sha": "eb65b9bf131c914bb58ab5debe7fdab14ebdf217",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-NEURAL-RENDERING-001.json",
+      "git_blob_sha": "b8c4e0e280153b70cac1707624e6611d85f51bfb",
       "baseline_delta_status": "added"
     },
     {
@@ -3634,6 +3797,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-MARKETING-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "365e718c6a0683cbab19d08ba9d18cd50aa76f30",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-MCP-CONTROL-CHAT-001.json",
       "git_blob_sha": "9582fb8dbd999cb9599a7d05e2e891979551c44c",
       "baseline_delta_status": "added"
@@ -3681,6 +3849,11 @@
     {
       "path": "canonical/FA3-MODULAR-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "9df0c0aacf25f81444fbdd2981bb22cebb46e45c",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "2ff7d2bc27391b849e1c47ae95d7af4d4dbecdea",
       "baseline_delta_status": "added"
     },
     {
@@ -3790,7 +3963,7 @@
     },
     {
       "path": "canonical/FA3-UPSTREAM-LOCK-REGISTRY-001.json",
-      "git_blob_sha": "2f96bd2eb7d465930404ca6538d5589821a9de3f",
+      "git_blob_sha": "a462f459f1dcde53f35bf6e8b49babfed61f3af8",
       "baseline_delta_status": "added"
     },
     {
@@ -4079,6 +4252,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/neural-rendering-enforcement.json",
+      "git_blob_sha": "382e34410280d9344dd1d3507be8fc5f0a04940a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/obsidian-knowledge-workspace-enforcement.json",
       "git_blob_sha": "aa6775d8656ec53fc9c58426b499a4aaaed5a913",
       "baseline_delta_status": "added"
@@ -4360,7 +4538,7 @@
     },
     {
       "path": "canonical/profiles/FA3-MARKETING-001.json",
-      "git_blob_sha": "f5d1af933b37563c4987a6180c4d510e6141c809",
+      "git_blob_sha": "ce8fa3b82fe29c3e6540aaeec647e699dc2f4747",
       "baseline_delta_status": "added"
     },
     {
@@ -4400,7 +4578,12 @@
     },
     {
       "path": "canonical/profiles/FA3-NEURAL-MEDIA-EXECUTION-001.json",
-      "git_blob_sha": "4e555e6ea584e71fdaa1be6c82b41fda9ad170be",
+      "git_blob_sha": "28d2fc9a0563174a7ff2c97fa31ccf867a92722f",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+      "git_blob_sha": "fcaaa2bc8b9fab71c29d40360a16887a2b49549b",
       "baseline_delta_status": "added"
     },
     {
@@ -4520,7 +4703,7 @@
     },
     {
       "path": "canonical/profiles/FA3-WEB-AI-001.json",
-      "git_blob_sha": "10545927bd79ff388cbece004a51f1ede6ba15b4",
+      "git_blob_sha": "eb5767914fb8d7452cacb15e4f95ea3c6532fa56",
       "baseline_delta_status": "added"
     },
     {
@@ -4861,6 +5044,11 @@
     {
       "path": "canonical/providers/FA3-PROVIDER-OPENCUT-001.json",
       "git_blob_sha": "463584f890e6025bd1e1d8f2ea78caeb8d1e9fad",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
+      "git_blob_sha": "3001e11b232b57d0fa3669ab5129500d1725c92d",
       "baseline_delta_status": "added"
     },
     {
@@ -5306,6 +5494,11 @@
     {
       "path": "canonical/references/FA3-OPENCUT-UPSTREAM-REFERENCE-2026-09-01.json",
       "git_blob_sha": "da36e3529290852ed2768a2d463877e4686226ab",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
+      "git_blob_sha": "8318da3102a2270f4823c6f71a084138b2a3d9fa",
       "baseline_delta_status": "added"
     },
     {
@@ -5989,6 +6182,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/profiles/FA3-MARKETING-AGENT-NATIVE-JEV-PLAN-2026-09-23.md",
+      "git_blob_sha": "01a435ae6b08c0980b680497b77cc3d4387b4aa6",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/profiles/FA3-MCP-AUTHORITY-NONREGRESSION.md",
       "git_blob_sha": "afc9e664ea1d61cede6b605e3538b56d1a5b55c4",
       "baseline_delta_status": "added"
@@ -6315,7 +6513,7 @@
     },
     {
       "path": "evidence/evidence-registry.json",
-      "git_blob_sha": "d8cd902620fc8c8b3761110bdf756ac64bd91c00",
+      "git_blob_sha": "ad996d607d37a42277c11259446c6b48122d6ffb",
       "baseline_delta_status": "added"
     },
     {
@@ -6405,7 +6603,8 @@
     },
     {
       "path": "evidence/reference/current-host-143-audit-2026-09-23.json",
-      "git_blob_sha": "7c0f7cba249ac3e4cf9d8b2fbe9ef78dd7453284"
+      "git_blob_sha": "7c0f7cba249ac3e4cf9d8b2fbe9ef78dd7453284",
+      "baseline_delta_status": "added"
     },
     {
       "path": "evidence/reference/demucs-provider-ci-2026-08-30.json",
@@ -6548,6 +6747,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
+      "git_blob_sha": "bae07f6fd1ef49ef61d2245a4998ad29dff34e91",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "evidence/reference/marketing-ci-2026-08-31.json",
       "git_blob_sha": "da66e2ae408207ca7b11393c27ebac163e5eb567",
       "baseline_delta_status": "added"
@@ -6610,6 +6814,11 @@
     {
       "path": "evidence/reference/muse-code-ci-2026-09-01.json",
       "git_blob_sha": "bbb6a13ff60cb3213d0dc96575eafe35af056d84",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
+      "git_blob_sha": "742a90005f3cac42d084e934d7e76fe00f542ca4",
       "baseline_delta_status": "added"
     },
     {
@@ -6899,7 +7108,7 @@
     },
     {
       "path": "scripts/fa3_reconcile_release_projection.py",
-      "git_blob_sha": "4dc04201205b153554ad62706df26878fc756a84",
+      "git_blob_sha": "7d5a1f6a92975d5238b246b0ac5c9eacb08ec226",
       "baseline_delta_status": "added"
     },
     {
@@ -7224,7 +7433,7 @@
     },
     {
       "path": "src/fa3_enforce.py",
-      "git_blob_sha": "ead58de8b46a76e43be053e321f827e1de344753",
+      "git_blob_sha": "467a64148c2bdee4f32aa6451ca110885f9483cd",
       "baseline_delta_status": "modified"
     },
     {
@@ -7448,6 +7657,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_marketing_agent_native_gate.py",
+      "git_blob_sha": "8a017e4b47da9c07a99374a970e7cf2ee8d006fd",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_marketing_current_host_gate.py",
+      "git_blob_sha": "723092180c2a55435183c09868f73cb952478737",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_marketing_decision_fabric.py",
+      "git_blob_sha": "f329a8e882fc7ffc5c2fd1fd83b4a913ba5f5c0f",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_marketing_gate.py",
       "git_blob_sha": "4180a2ef411d4748d18ce264b5befb48d8ff5941",
       "baseline_delta_status": "added"
@@ -7455,6 +7679,11 @@
     {
       "path": "src/fa3_marketing_reference.py",
       "git_blob_sha": "3db7ed3d3e4ea747b95b04e93d2f396df183e025",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_marketing_uaf.py",
+      "git_blob_sha": "a447b29fc5d8dc1f7fd4d34febdba49926113a0e",
       "baseline_delta_status": "added"
     },
     {
@@ -7613,6 +7842,26 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_neural_rendering_current_host_gate.py",
+      "git_blob_sha": "844b2f4ca2139de00f530c92174df8693f8071c9",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_neural_rendering_gate.py",
+      "git_blob_sha": "a2f4418684f3dc8ca4b595ada72261be1c787ead",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_neural_rendering_jev_adapter.py",
+      "git_blob_sha": "868936d54d12b25b3f9ea17a47137c5f63ac2060",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_neural_rendering.py",
+      "git_blob_sha": "c0cfd5a9e39563eb02534d2928da024d3bd98f42",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_obsidian_knowledge_workspace_gate.py",
       "git_blob_sha": "a0e86e6afff9f7c190a01dcc6d83dff968df4b0e",
       "baseline_delta_status": "added"
@@ -7625,6 +7874,11 @@
     {
       "path": "src/fa3_opencut_gate.py",
       "git_blob_sha": "0973601e1f47dd70d7efb754fdb655d48a12d262",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_opendlss_nr_provider.py",
+      "git_blob_sha": "de6fa8d3d0a6840fe0b040750bc9ccff984d63ba",
       "baseline_delta_status": "added"
     },
     {
@@ -7769,7 +8023,7 @@
     },
     {
       "path": "src/fa3_release_projection_gate.py",
-      "git_blob_sha": "ba1bd430ac2924d8164291f7c8d525a3e544c766",
+      "git_blob_sha": "f5ddc0ada103375c045a90fb08db21d59261ce93",
       "baseline_delta_status": "added"
     },
     {
@@ -8488,8 +8742,28 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_marketing_agent_native_gate.py",
+      "git_blob_sha": "d84ff56a7fc9820deb31dc3d8e143264efc0e202",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_marketing_current_host_gate_v2.py",
+      "git_blob_sha": "dfb672431128a35d82aafed11c6d85b33c406148",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_marketing_decision_fabric.py",
+      "git_blob_sha": "3008ea29aaad21da803384799ff559b9d2cfc901",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_marketing_gate.py",
       "git_blob_sha": "4299bb51b909251a83aadcf1e77715a2239d7a02",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_marketing_uaf.py",
+      "git_blob_sha": "ddefa73995a9bab5046bb0724eaeca8be5231957",
       "baseline_delta_status": "added"
     },
     {
@@ -8618,6 +8892,21 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_neural_rendering_current_host_gate.py",
+      "git_blob_sha": "904597ccbb35ed74cfc1e87984d9962cbe31bb86",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_neural_rendering_gate.py",
+      "git_blob_sha": "e11e71a5a061e04db08b1e12cf2e05b3e6058c81",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_neural_rendering.py",
+      "git_blob_sha": "11b09e682bb34cd008dd15f5e4583a316a44dd52",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_obsidian_knowledge_workspace_gate.py",
       "git_blob_sha": "6a68084839e5323cf53ff80ed54caf8889c7c19f",
       "baseline_delta_status": "added"
@@ -8630,6 +8919,11 @@
     {
       "path": "tests/test_opencut_gate.py",
       "git_blob_sha": "d60475c05e46792970cd428c713ef826aea95577",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_opendlss_nr_provider.py",
+      "git_blob_sha": "2a434d05288de9b1041505786fd1358abde6ad30",
       "baseline_delta_status": "added"
     },
     {
@@ -9018,7 +9312,8 @@
     "FA3-PROVIDER-CAVEMAN-001 materialized under FA3-KNOWLEDGE-001 with a provider-neutral recoverable context-transformation contract, 15-rule executable fail-closed regression gate, PASS reference evidence and CAP-010/global inventory reconciliation; capability count remains 143 and Caveman receives no architectural authority or runtime promotion.",
     "2026-09-19 runtime hardening/shadow reconciliation: five cross-cutting P0 profiles, PyNvVideoCodec NVIDIA AI-frame provider projection, Hungarian multi-signal AQC, and non-authoritative Shadow execution were materialized with zero capability/authority delta; production promotion remains 19/19 plus current-host evidence.",
     "2026-09-19 runtime-hardening current-host closure materialization: four real self-hosted evidence surfaces and fail-closed admission gate added; no runtime PASS or global promotion is claimed before real execution.",
-    "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending."
+    "2026-09-19 CAP-028 current-host qualification: three explicit positive/negative/rollback obligations registered through the canonical qualifier, moving explicit executor coverage from 15/429 to 18/429 while real current-host PASS remains pending.",
+    "2026-09-23: FA3 Neural Rendering & Temporal Reconstruction projection reconciled with optional OpenDLSS-NR provider, bounded Jev advisory, Agent Native/UAF actions, vendor-neutral Hardware Audit/HRB boundaries, and no current-host provider-E2E promotion."
   ],
   "external_api_discovery": {
     "profile_id": "FA3-EXTERNAL-API-DISCOVERY-001",
@@ -9962,8 +10257,8 @@
     "repository_release_surface_complete": true,
     "self_excluded_path": "canonical/releases/FA3-RELEASE-PROJECTION-POST-V3.0.11-2026-08-30.json",
     "mutable_runtime_evidence_receipts_excluded": true,
-    "source_snapshot_anchor": "c81fda7f68fd2b79677ea9ace20550e7e89a506e",
-    "regenerated_from_branch_head": "c81fda7f68fd2b79677ea9ace20550e7e89a506e",
+    "source_snapshot_anchor": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
+    "regenerated_from_branch_head": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb",
     "buzz_reconciliation_generator": "tools/fa3_buzz_global_reconcile.py",
     "buzz_deterministic_regeneration_pass": true,
     "gtcrn_reconciliation_generator": "tools/fa3_gtcrn_global_reconcile.py",
@@ -9998,7 +10293,10 @@
     "fa3_os_snapshot_head": "c81fda7f68fd2b79677ea9ace20550e7e89a506e",
     "work_management_reconciliation_generator": "tools/fa3_work_management_global_reconcile.py",
     "work_management_deterministic_regeneration_pass": true,
-    "work_management_snapshot_head": "5e450c68fa5a4ffe1db21f97c390e6b46f0a97fe"
+    "work_management_snapshot_head": "5e450c68fa5a4ffe1db21f97c390e6b46f0a97fe",
+    "neural_rendering_reconciliation_generator": "FA3 controlled Git-object regeneration",
+    "neural_rendering_deterministic_regeneration_pass": true,
+    "neural_rendering_snapshot_head": "c487c9d9e245ad841c09b2148aaac2b5e96e0bbb"
   },
   "inference_cache_hardening_reconciliation": {
     "parent_gate_id": "FA3-INFERENCE-PORTABILITY-GATESET-001",
@@ -10477,5 +10775,49 @@
       "CAP-028"
     ],
     "release_projection_inclusion": "PROFILE_CONTRACT_DECISION_ENFORCEMENT_RUNTIME_GATE_TEST_WORKFLOW_GLOBAL_ENFORCEMENT_AND_MANIFEST"
+  },
+  "marketing_agent_native_reconciliation": {
+    "profile_id": "FA3-MARKETING-001",
+    "contract_id": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+    "decision_id": "FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23",
+    "gate_id": "FA3-MARKETING-AGENT-NATIVE-GATESET-001",
+    "action_count": 15,
+    "reference_evidence": "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
+    "reference_evidence_status": "STATIC_AND_REFERENCE_PASS_NOT_RUNTIME",
+    "current_host_conformance_id": "FA3-MARKETING-RUNTIME-CONFORMANCE-001",
+    "current_host_required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+    "current_host_status": "PENDING_CURRENT_HOST_PRODUCTION_E2E",
+    "production_provider_admission": false,
+    "global_promotion_claim": false,
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143
+  },
+  "neural_rendering_reconciliation": {
+    "profile_id": "FA3-NEURAL-RENDERING-001",
+    "contract_id": "FA3-NEURAL-RENDERING-CONTRACTS-001",
+    "decision_id": "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23",
+    "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+    "gate_id": "FA3-NEURAL-RENDERING-GATESET-001",
+    "upstream_reference": "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
+    "upstream_commit": "9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1",
+    "reference_evidence": "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
+    "reference_evidence_status": "STATIC_REFERENCE_EXECUTABLE_PASS_NOT_PROVIDER_RUNTIME_E2E",
+    "reference_run_id": 35862363651,
+    "reference_job_id": 107185408323,
+    "executable_reference_tests_passed": 12,
+    "current_host_provider_e2e": "PENDING_COMPATIBLE_CURRENT_HOST_EXECUTION",
+    "browser_webgpu_e2e": "PENDING_FA3_WEB_AI_RUNTIME_EVIDENCE",
+    "production_provider_admission": false,
+    "global_promotion_claim": false,
+    "existing_429_capability_closure_reopened": false,
+    "agent_native_boundary": "UAF_TYPED_ACTIONS_ONLY",
+    "jev_boundary": "OPTIONAL_BOUNDED_ADVISORY_DETERMINISTIC_FIRST_MODEL_BACKED_CALLS_VIA_FA3_MODEL_ROUTER_ONLY",
+    "hardware_boundary": "GLOBAL_VENDOR_NEUTRAL_ACCELERATOR_0_TO_N_PROVIDER_SPECIFIC_NATIVE_REQUIREMENTS_SCOPED",
+    "geometry_authority": "FA3-3D-GEOM-001",
+    "new_capabilities": 0,
+    "new_architectural_authorities": 0,
+    "capability_count_after": 143,
+    "reference_gate_conclusion": "SUCCESS"
   }
 }

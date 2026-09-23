@@ -50,6 +50,16 @@
       "revision": "6e8ec61405239cf3f37b2bbf260a587b7d2e4e31",
       "verification": "CHECKSUMS_PLUS_SIGSTORE_RELEASE_BUNDLE",
       "update_policy": "CONTROLLED"
+    },
+    "opendlss_nr": {
+      "provider_id": "FA3-PROVIDER-OPENDLSS-NR-001",
+      "kind": "git_commit",
+      "upstream": "https://github.com/maanHimself/OpenDLSS-NR.git",
+      "revision": "9d08f4184bbcb9d858e2fb7a7834ec0837a9d2f1",
+      "license": "MIT",
+      "upstream_commit_signature_verified": false,
+      "production_supply_chain_note": "PIN_IS_IMMUTABLE_BUT_UPSTREAM_COMMIT_IS_UNSIGNED; FA3 archive digest security scan and attestation/review required before production admission",
+      "update_policy": "CONTROLLED"
     }
   },
   "promotion_pipeline": [

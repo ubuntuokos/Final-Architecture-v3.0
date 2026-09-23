@@ -1,0 +1,92 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-NEURAL-RENDERING-001",
+  "name": "Neural Rendering & Temporal Reconstruction Fabric",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST-PROJECTION-PROVIDER-CONDITIONAL",
+  "canonical_root": false,
+  "provider_neutral": true,
+  "fail_closed": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-016",
+    "CAP-056",
+    "CAP-060",
+    "CAP-071",
+    "CAP-083",
+    "CAP-111",
+    "CAP-121",
+    "CAP-126",
+    "CAP-127",
+    "CAP-135",
+    "CAP-136"
+  ],
+  "contracts": [
+    "FA3-NEURAL-RENDERING-CONTRACTS-001"
+  ],
+  "dependencies": [
+    "FA3-NEURAL-MEDIA-EXECUTION-001",
+    "FA3-WEB-AI-001",
+    "FA3-GPU-KERNEL-RUNTIME-001",
+    "FA3-HARDWARE-BASELINE-001",
+    "FA3-HOST-RESOURCE-BROKER-001",
+    "FA3-MODEL-REGISTRY-001",
+    "FA3-UNIFIED-ACTION-FABRIC-001",
+    "FA3-AI-COMMS-001",
+    "FA3-3D-GEOM-001"
+  ],
+  "providers": [
+    "FA3-PROVIDER-OPENDLSS-NR-001"
+  ],
+  "surface_bindings": {
+    "creative_studio": "FRAME_AND_SHOT_NEURAL_RENDERING_PROJECTION",
+    "neural_media": "OPTIONAL_NEURAL_FRAME_PROCESSOR",
+    "dcc_rt3d": "POST_RENDER_FRAME_CONSUMER_NOT_SCENE_OR_GEOMETRY_AUTHORITY",
+    "web_ai": "BROWSER_WEBGPU_EXECUTION_PROJECTION",
+    "gpu_kernel_runtime": "HOST_ACCELERATION_CONSUMER_NOT_KERNEL_AUTHORITY"
+  },
+  "execution_classes": {
+    "HOST_NATIVE_ACCELERATED": "HRB_LEASE_AND_PROVIDER_CURRENT_HOST_E2E_REQUIRED",
+    "BROWSER_WEBGPU": "FA3_WEB_AI_CAPABILITY_AND_PROVENANCE_GATE_REQUIRED"
+  },
+  "provider_selection": {
+    "policy_bounded_candidates_only": true,
+    "deterministic_filter_first": true,
+    "jev_optional_advisory_only": true,
+    "exact_requested_provider_must_not_be_substituted": true,
+    "execution_failure_reselection": "NEW_UAF_REQUEST_REQUIRED",
+    "silent_fallback": false
+  },
+  "hardware_policy": {
+    "global_profile": "FA3-HARDWARE-BASELINE-001",
+    "accelerator_cardinality": "0..N",
+    "cpu_only_host_conformant": true,
+    "provider_absence_does_not_fail_global_host": true,
+    "host_acceleration_requires_live_discovery_and_hrb_lease": true,
+    "provider_vendor_platform_runtime_requirements_are_scoped": true,
+    "static_runtime_device_ordinal_forbidden": true
+  },
+  "model_artifact_policy": {
+    "registry": "FA3-MODEL-REGISTRY-001",
+    "provider_source_identity_separate_from_model_identity": true,
+    "weight_or_stage_artifact_identity_required": true,
+    "model_manifest_stage_integrity_verification_required": true,
+    "model_data_license_and_output_rights_admission_required": true,
+    "checksum_is_integrity_not_trust_or_license": true,
+    "runtime_network_model_fetch_forbidden": true
+  },
+  "authority": {
+    "host_resource_admission_placement_reservation_lease": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing_when_model_route_is_used": "FA3-AUTH-MODEL-ROUTER-001",
+    "geometry_semantics": "FA3-3D-GEOM-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "action_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "browser_domain": "FA3-WEB-AI-001"
+  },
+  "implementation_status": "CANONICAL_CONTROL_PLANE_REFERENCE_PROVIDER_AND_BOUNDED_JEV_ADAPTER_MATERIALIZED_PROVIDER_E2E_PENDING"
+}

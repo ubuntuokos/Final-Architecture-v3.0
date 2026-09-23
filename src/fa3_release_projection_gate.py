@@ -683,6 +683,56 @@ def gate(root: Path):
     if projection.get("manifest_entry_count") != len(manifest) or len(manifest_paths) != len(manifest):
         findings.append(finding("FA3-RELEASE-PROJECTION-008", "Projection manifest cardinality/uniqueness mismatch"))
 
+    neural_rendering = projection.get("neural_rendering_reconciliation", {})
+    neural_rendering_paths = {
+        "canonical/profiles/FA3-NEURAL-RENDERING-001.json",
+        "canonical/contracts/FA3-NEURAL-RENDERING-CONTRACTS-001.json",
+        "canonical/providers/FA3-PROVIDER-OPENDLSS-NR-001.json",
+        "canonical/decisions/FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23.json",
+        "canonical/references/FA3-OPENDLSS-NR-UPSTREAM-REFERENCE-2026-09-23.json",
+        "canonical/FA3-GATE-NEURAL-RENDERING-001.json",
+        "canonical/FA3-NEURAL-RENDERING-RUNTIME-CONFORMANCE-001.json",
+        "canonical/neural-rendering-enforcement.json",
+        "canonical/actions/render.neural.evaluate.json",
+        "canonical/actions/render.neural.execute.json",
+        "canonical/actions/render.neural.browser.execute.json",
+        "evidence/reference/neural-rendering-opendlss-nr-reference-2026-09-23.json",
+        "src/fa3_neural_rendering.py",
+        "src/fa3_neural_rendering_jev_adapter.py",
+        "src/fa3_opendlss_nr_provider.py",
+        "src/fa3_neural_rendering_gate.py",
+        "src/fa3_neural_rendering_current_host_gate.py",
+        "tests/test_neural_rendering.py",
+        "tests/test_opendlss_nr_provider.py",
+        "tests/test_neural_rendering_current_host_gate.py",
+        "tests/test_neural_rendering_gate.py",
+        ".github/workflows/fa3-neural-rendering-reference.yml",
+        ".github/workflows/fa3-neural-rendering-current-host.yml",
+    }
+    if (
+        neural_rendering.get("profile_id") != "FA3-NEURAL-RENDERING-001"
+        or neural_rendering.get("contract_id") != "FA3-NEURAL-RENDERING-CONTRACTS-001"
+        or neural_rendering.get("decision_id") != "FA3-DEC-NEURAL-RENDERING-OPENDLSS-NR-2026-09-23"
+        or neural_rendering.get("provider_id") != "FA3-PROVIDER-OPENDLSS-NR-001"
+        or neural_rendering.get("gate_id") != "FA3-NEURAL-RENDERING-GATESET-001"
+        or neural_rendering.get("reference_evidence_status") != "STATIC_REFERENCE_EXECUTABLE_PASS_NOT_PROVIDER_RUNTIME_E2E"
+        or neural_rendering.get("current_host_provider_e2e") != "PENDING_COMPATIBLE_CURRENT_HOST_EXECUTION"
+        or neural_rendering.get("production_provider_admission") is not False
+        or neural_rendering.get("global_promotion_claim") is not False
+        or neural_rendering.get("existing_429_capability_closure_reopened") is not False
+        or neural_rendering.get("new_capabilities") != 0
+        or neural_rendering.get("new_architectural_authorities") != 0
+        or neural_rendering.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-NEURAL-RENDERING-GATESET-001" not in projection_gates
+        or "FA3-NEURAL-RENDERING-GATESET-001" not in policy_gates
+        or not neural_rendering_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-119",
+            "Neural Rendering/OpenDLSS-NR global release reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(neural_rendering_paths - manifest_paths),
+        ))
+
     runtime_hardening = projection.get("runtime_hardening_reconciliation", {})
     runtime_hardening_required_paths = {
         "canonical/profiles/FA3-RUNTIME-ISOLATION-001.json",
@@ -3012,6 +3062,45 @@ def gate(root: Path):
                 )
             )
 
+    marketing_agent_native = projection.get("marketing_agent_native_reconciliation", {})
+    marketing_agent_native_paths = {
+        "canonical/FA3-GATE-MARKETING-AGENT-NATIVE-001.json",
+        "canonical/FA3-MARKETING-RUNTIME-CONFORMANCE-001.json",
+        "canonical/contracts/FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001.json",
+        "canonical/contracts/FA3-MARKETING-DECISION-RECEIPT-001.schema.json",
+        "canonical/contracts/FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json",
+        "canonical/decisions/FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23.json",
+        "evidence/reference/marketing-agent-native-ci-2026-09-23.json",
+        "src/fa3_marketing_decision_fabric.py",
+        "src/fa3_marketing_uaf.py",
+        "src/fa3_marketing_agent_native_gate.py",
+        "src/fa3_marketing_current_host_gate.py",
+        ".github/workflows/fa3-marketing-current-host.yml",
+    }
+    if (
+        marketing_agent_native.get("profile_id") != "FA3-MARKETING-001"
+        or marketing_agent_native.get("contract_id") != "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001"
+        or marketing_agent_native.get("decision_id") != "FA3-DEC-MARKETING-AGENT-NATIVE-JEV-2026-09-23"
+        or marketing_agent_native.get("gate_id") != "FA3-MARKETING-AGENT-NATIVE-GATESET-001"
+        or marketing_agent_native.get("action_count") != 15
+        or marketing_agent_native.get("reference_evidence_status") != "STATIC_AND_REFERENCE_PASS_NOT_RUNTIME"
+        or marketing_agent_native.get("current_host_required_evidence_level") != "CURRENT_HOST_PRODUCTION_E2E_PASS"
+        or marketing_agent_native.get("current_host_status") != "PENDING_CURRENT_HOST_PRODUCTION_E2E"
+        or marketing_agent_native.get("production_provider_admission") is not False
+        or marketing_agent_native.get("global_promotion_claim") is not False
+        or marketing_agent_native.get("new_capabilities") != 0
+        or marketing_agent_native.get("new_architectural_authorities") != 0
+        or marketing_agent_native.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in projection_gates
+        or "FA3-MARKETING-AGENT-NATIVE-GATESET-001" not in policy_gates
+        or not marketing_agent_native_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-118",
+            "Marketing Agent Native/Jev advisory reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
+        ))
+
     result = "PASS" if not findings else "FAIL"
     report = {
         "schema": "fa3.release-projection-gate-report.v1",
@@ -3048,6 +3137,8 @@ def gate(root: Path):
             "ai_infra_guard_current_host_runtime_evidence": aisec.get("current_host_runtime_evidence"),
             "hybrid_editorial_reconciliation": hybrid.get("reconciliation_status"),
             "marketing_reconciliation": marketing.get("reconciliation_status"),
+            "marketing_agent_native_reconciliation": marketing_agent_native.get("current_host_status"),
+            "neural_rendering_reconciliation": neural_rendering.get("current_host_provider_e2e"),
             "stability_sgm_reconciliation": stability_sgm.get("reconciliation_status"),
             "opencut_reconciliation": opencut.get("reconciliation_status"),
             "opencut_runtime_activation_status": opencut.get("runtime_activation_status"),

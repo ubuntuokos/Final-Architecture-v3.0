@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-MARKETING-CURRENT-HOST-EVIDENCE-002.schema.json",
+  "x-fa3-contract-id": "FA3-MARKETING-CURRENT-HOST-EVIDENCE-002",
+  "title": "FA3 Marketing Current Host Evidence v2",
+  "type": "object",
+  "required": [
+    "schema", "execution_context", "evidence_level", "synthetic",
+    "runner_labels", "provider_ids", "runtime_status", "tests",
+    "secret_values_collected", "capability_count",
+    "new_architectural_authorities", "current_host_commit_sha"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.marketing-current-host-evidence.v2"},
+    "execution_context": {"const": "CURRENT_HOST_REAL_EXECUTION"},
+    "evidence_level": {"const": "CURRENT_HOST_PRODUCTION_E2E_PASS"},
+    "synthetic": {"const": false},
+    "runner_labels": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "provider_ids": {"type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": {"type": "string"}},
+    "runtime_status": {"const": "CURRENT_HOST_PRODUCTION_E2E_PASS"},
+    "tests": {"type": "object"},
+    "secret_values_collected": {"const": false},
+    "capability_count": {"const": 143},
+    "new_architectural_authorities": {"const": 0},
+    "current_host_commit_sha": {"type": "string", "minLength": 7}
+  },
+  "additionalProperties": true
+}

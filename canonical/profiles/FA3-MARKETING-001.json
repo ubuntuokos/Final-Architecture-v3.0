@@ -2,7 +2,7 @@
   "schema": "fa3.profile-record.v1",
   "id": "FA3-MARKETING-001",
   "name": "AI-Assisted Marketing, Growth & Customer Engagement Profile",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "status": "CANONICAL",
   "priority": "P0",
   "requirement": "MUST_IF_MARKETING_USED",
@@ -25,7 +25,9 @@
   ],
   "contracts": [
     "FA3-MARKETING-CONTRACTS-001",
-    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001"
+    "FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001",
+    "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+    "FA3-UNIFIED-ACTION-FABRIC-CONTRACTS-001"
   ],
   "localization_policy": "FA3-MARKETING-I18N-001",
   "providers": {
@@ -62,6 +64,14 @@
     "prose_quality": "CAP-125_PROSE_QUALITY",
     "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
     "human_publication_approval": "AUTH-HUMAN"
+  },
+  "agent_native": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "direct_surface_or_agent_provider_bypass": false,
+    "action_prefix": "marketing.",
+    "decision_fabric": "FA3-MARKETING-DECISION-FABRIC-CONTRACTS-001",
+    "jev_role": "OPTIONAL_ADVISORY_PROVIDER_NOT_AUTHORITY",
+    "upstream_agent_native_runtime_dependency": false
   },
   "mandatory_flow": [
     "research_with_evidence",
@@ -101,13 +111,21 @@
     "MARKETINGSKILLS_UNTRUSTED_KNOWLEDGE_PATTERN_SOURCE_NOT_EXECUTION_AUTHORITY",
     "ATTRIBUTION_EXPERIMENT_LINEAGE_AND_EVIDENCE_REQUIRED",
     "PII_MINIMIZATION_AND_PURPOSE_LIMITATION_REQUIRED",
-    "PROVIDER_FAILURE_MUST_NOT_REPLACE_CANONICAL_STATE"
+    "PROVIDER_FAILURE_MUST_NOT_REPLACE_CANONICAL_STATE",
+    "ALL_MARKETING_MUTATIONS_ROUTE_THROUGH_UAF",
+    "BOUNDED_CANDIDATE_SET_CANNOT_BE_EXPANDED_BY_ADVISORY_PROVIDER",
+    "DETERMINISTIC_POLICY_FILTERS_PRECEDE_OPTIONAL_JEV_ADVISORY",
+    "DECISION_RECEIPTS_AND_CONTEXT_ENVELOPES_REQUIRED",
+    "CURRENT_HOST_PRODUCTION_E2E_PASS_IS_THE_PROVIDER_RUNTIME_ADMISSION_BOUNDARY",
+    "STATIC_OR_REFERENCE_EVIDENCE_MUST_NOT_CLAIM_PRODUCTION_PASS"
   ],
   "capability_count": 143,
   "implementation_status": {
     "canonical_materialization": "COMPLETE",
     "reference_e2e": "PASS",
-    "provider_current_host_runtime": "PENDING_CURRENT_HOST",
+    "agent_native_uaf_overlay": "STATIC_AND_REFERENCE_IMPLEMENTED",
+    "jev_advisory_contract": "STATIC_AND_REFERENCE_IMPLEMENTED_OPTIONAL",
+    "provider_current_host_runtime": "PENDING_CURRENT_HOST_PRODUCTION_E2E",
     "runtime_promotion_claim": false
   },
   "skill_package_governance": {
