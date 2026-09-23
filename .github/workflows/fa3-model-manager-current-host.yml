@@ -14,6 +14,7 @@ on:
       - evidence/collect-model-manager-current-host.py
       - bin/fa3-model-manager-current-host.sh
       - tests/test_model_manager_provider_adapter.py
+      - tests/test_model_manager_current_host_gate.py
 permissions:
   contents: read
 jobs:
@@ -32,12 +33,11 @@ jobs:
           set -euo pipefail
           test "$(id -u)" -ne 0
           command -v python3
-          test -d /ai-cache || test -d "$HOME/.cache/huggingface"
       - name: Adapter regressions
         shell: bash
         run: |
           set -euo pipefail
-          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest tests.test_model_manager_provider_adapter -v
+          PYTHONPATH="$GITHUB_WORKSPACE/src" python3 -m unittest             tests.test_model_manager_provider_adapter             tests.test_model_manager_current_host_gate -v
       - name: Run real local-only provider E2E
         shell: bash
         env:
