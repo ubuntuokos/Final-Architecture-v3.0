@@ -65,6 +65,33 @@ class TestModelRouterCurrentHostGate(unittest.TestCase):
         result=self.run_gate(receipt("test-head",include_evidence=True))
         self.assertEqual(result["result"],"PASS",result["findings"])
 
+    def test_ollama_requires_live_cpu_only_route_proof(self):
+        value=receipt("test-head",include_evidence=True)
+        ollama="FA3-PROVIDER-OLLAMA-MODEL-001"
+        value["provider_admission_evidence_sha256"]={ollama:"b"*64}
+        for route,binding in value["route_bindings"].items():
+            binding.update({
+                "provider_id":ollama,
+                "runtime_id":"ollama-handoff",
+                "model":"gemma3:1b",
+                "litellm_options":{"num_gpu":0,"num_ctx":512},
+            })
+            value["route_probes"][route]["provider_runtime_proof"]={
+                "provider_id":ollama,
+                "runtime_id":"ollama-handoff",
+                "model":"gemma3:1b",
+                "proof_kind":"OLLAMA_PS_CPU_ONLY",
+                "size_vram":0,
+                "num_gpu_request":0,
+            }
+        result=self.run_gate(value)
+        self.assertEqual(result["result"],"PASS",result["findings"])
+
+        value["route_probes"]["fa3-text-primary"]["provider_runtime_proof"]["size_vram"]=1
+        result=self.run_gate(value)
+        self.assertEqual(result["result"],"FAIL")
+        self.assertTrue(any(f["code"]=="MRH-016" for f in result["findings"]))
+
 
 if __name__=="__main__":
     unittest.main()
