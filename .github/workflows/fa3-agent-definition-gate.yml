@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - "canonical/profiles/FA3-AGENT-DEFINITION-001.json"
       - "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json"
       - "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json"
       - "canonical/agent-definition-enforcement.json"
@@ -18,6 +19,7 @@ on:
   push:
     branches: ["main", "fa3/**"]
     paths:
+      - "canonical/profiles/FA3-AGENT-DEFINITION-001.json"
       - "canonical/contracts/FA3-AGENT-DEFINITION-CONTRACTS-001.json"
       - "canonical/FA3-AGENT-DEFINITION-REGISTRY-001.json"
       - "canonical/agent-definition-enforcement.json"
