@@ -27,3 +27,7 @@ Key invariants:
 Canonical UAF actions: `orchestration.plan`, `orchestration.delegate`, `orchestration.execute`, `orchestration.cancel`, `orchestration.resume`, `orchestration.inspect`.
 
 The media reference plan no longer routes a fake HRB specialist task; resource requirements are carried horizontally to Hardware Discovery/HRB.
+## Distribution boundary
+
+CrewAI, Conductor, Open Multi-Agent, LangGraph, Kestra, Pipecat, n8n and Haystack are classified `USER_LOCAL_EXTERNAL` and are excluded from the FA3 product bundle. This classification does not grant runtime admission; current-host admission remains a separate evidence-bound decision.
+
