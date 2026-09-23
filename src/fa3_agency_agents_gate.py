@@ -14,6 +14,7 @@ PROVIDER_ID = "FA3-PROVIDER-AGENCY-AGENTS-001"
 CONTRACT_ID = "FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23"
 REFERENCE_ID = "FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23"
+CATALOG_ID = "FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001"
 GATE_ID = "FA3-GATE-AGENCY-AGENTS-001"
 GATESET_ID = "FA3-AGENCY-AGENTS-GATESET-001"
 UPSTREAM_PIN = "053ddbbf392a1688fc7043d81529f47ef2cf86c8"
@@ -123,6 +124,74 @@ def converted_output_activation_allowed(item: dict[str, Any]) -> bool:
         )
     except TypeError:
         return False
+
+
+def candidate_catalog_valid(catalog: dict[str, Any]) -> bool:
+    agents = catalog.get("agents", [])
+    templates = catalog.get("templates", [])
+    if not (
+        catalog.get("id") == CATALOG_ID
+        and catalog.get("provider_id") == PROVIDER_ID
+        and catalog.get("status") == "CURATED_CANDIDATES_NOT_ADMITTED"
+        and catalog.get("upstream_commit") == UPSTREAM_PIN
+        and catalog.get("new_capability") is False
+        and catalog.get("new_architectural_authority") is False
+        and catalog.get("persona_body_vendored") is False
+        and catalog.get("activation_default") == "DISABLED_NOT_ADMITTED"
+        and catalog.get("selection_policy", {}).get("full_upstream_auto_import") is False
+        and catalog.get("selection_policy", {}).get("distribution_and_content_admission_required_before_materialization") is True
+        and catalog.get("selection_policy", {}).get("activation_requires_separate_fa3_admission") is True
+        and isinstance(agents, list) and len(agents) == 12
+        and isinstance(templates, list) and len(templates) == 5
+    ):
+        return False
+
+    ids: list[str] = []
+    for item in agents:
+        ids.append(str(item.get("candidate_id", "")))
+        source = item.get("source", {})
+        if not (
+            item.get("upstream_commit") == UPSTREAM_PIN
+            and item.get("trust_class") == "UNTRUSTED_SCOPED_CONTEXT"
+            and item.get("persona_body_vendored") is False
+            and item.get("activation_status") == "DISABLED_NOT_ADMITTED"
+            and item.get("authority_grants") == []
+            and item.get("tool_grants") == []
+            and item.get("model_provider_grants") == []
+            and item.get("distribution_gate_required") is True
+            and item.get("content_admission_required") is True
+            and bool(item.get("fa3_target_role"))
+            and bool(source.get("path"))
+            and SHA40.fullmatch(str(source.get("blob_sha", ""))) is not None
+        ):
+            return False
+    for item in templates:
+        ids.append(str(item.get("candidate_id", "")))
+        source = item.get("source", {})
+        if not (
+            item.get("upstream_commit") == UPSTREAM_PIN
+            and item.get("trust_class") == "UNTRUSTED_SCOPED_CONTEXT"
+            and item.get("body_vendored") is False
+            and item.get("activation_status") == "DISABLED_NOT_ADMITTED"
+            and item.get("authority_grants") == []
+            and item.get("distribution_gate_required") is True
+            and item.get("content_admission_required") is True
+            and bool(item.get("fa3_target_role"))
+            and bool(source.get("path"))
+            and SHA40.fullmatch(str(source.get("blob_sha", ""))) is not None
+        ):
+            return False
+    state = catalog.get("admission_state", {})
+    return (
+        len(ids) == len(set(ids))
+        and all(ids)
+        and state.get("candidate_selection") == "MATERIALIZED"
+        and state.get("source_bodies_imported") is False
+        and state.get("distribution_decision_receipts_issued") is False
+        and state.get("content_admission_receipts_issued") is False
+        and state.get("runtime_materialization") is False
+        and state.get("current_host_claim") is False
+    )
 
 
 def _good_source() -> dict[str, Any]:
@@ -242,6 +311,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
         "contract": root / "canonical/contracts/FA3-AGENCY-AGENTS-PROJECTION-CONTRACTS-001.json",
         "decision": root / "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
         "reference": root / "canonical/references/FA3-AGENCY-AGENTS-UPSTREAM-REFERENCE-2026-09-23.json",
+        "catalog": root / "canonical/registries/FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001.json",
         "enforcement": root / "canonical/agency-agents-enforcement.json",
         "gate": root / "canonical/FA3-GATE-AGENCY-AGENTS-001.json",
         "policy": root / "canonical/enforcement-policy.json",
@@ -262,6 +332,7 @@ def canonical_check(root: Path) -> dict[str, Any]:
     contract = _load(paths["contract"])
     decision = _load(paths["decision"])
     reference = _load(paths["reference"])
+    catalog = _load(paths["catalog"])
     enforcement = _load(paths["enforcement"])
     gate = _load(paths["gate"])
     policy = _load(paths["policy"])
@@ -286,6 +357,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and provider.get("ingestion", {}).get("upstream_converter_auto_execution") is False
         and provider.get("runtime", {}).get("runtime_activation_status") == "REFERENCE_ONLY_NOT_RUNTIME_DEPENDENCY"
         and provider.get("runtime", {}).get("current_host_runtime_claim") is False
+        and provider.get("curated_candidate_catalog") == CATALOG_ID
+        and provider.get("ingestion", {}).get("curated_candidate_selection_materialized") is True
+        and provider.get("ingestion", {}).get("curated_candidate_selection_is_admission") is False
     ):
         findings.append(_finding("AGA-CANON-001", "provider identity, trust or runtime boundary drift"))
 
@@ -304,6 +378,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and contract.get("runbook_mapping", {}).get("upstream_runbook_is_durable_workflow_authority") is False
         and contract.get("conversion_mapping", {}).get("direct_converter_execution_on_production_path") is False
         and contract.get("decision_boundary", {}).get("candidate_set_expansion") == "DENY"
+        and contract.get("curated_candidate_catalog") == CATALOG_ID
+        and contract.get("agent_mapping", {}).get("candidate_catalog_is_activation_authority") is False
+        and contract.get("agent_mapping", {}).get("candidate_selection_requires_separate_content_admission") is True
     ):
         findings.append(_finding("AGA-CANON-003", "normalization contract drift"))
 
@@ -321,6 +398,11 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR" in decision.get("open_reconciliations", [])
         and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("provider_target_class") == "EXTERNAL_REDISTRIBUTABLE"
         and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("target_surface_route") == "agents.workflows"
+        and decision.get("curated_candidate_selection", {}).get("catalog_id") == CATALOG_ID
+        and decision.get("curated_candidate_selection", {}).get("status") == "MATERIALIZED_NOT_ADMITTED"
+        and decision.get("curated_candidate_selection", {}).get("agent_candidates") == 12
+        and decision.get("curated_candidate_selection", {}).get("template_candidates") == 5
+        and decision.get("curated_candidate_selection", {}).get("activation_enabled") is False
     ):
         findings.append(_finding("AGA-CANON-004", "decision or deliberately-open reconciliation state drift"))
 
@@ -339,6 +421,9 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and reference.get("distribution", {}).get("release_bundle_status") == "EXCLUDED"
     ):
         findings.append(_finding("AGA-CANON-005", "immutable upstream reference observation drift"))
+
+    if not candidate_catalog_valid(catalog):
+        findings.append(_finding("AGA-CANON-011", "curated candidate catalog drift or accidental admission"))
 
     rules = enforcement.get("rules", [])
     if not (
@@ -359,6 +444,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and gate.get("mandatory_rules") == rules
         and gate.get("regression_case_count") == len(CASE_IDS)
         and gate.get("current_host_provider_runtime_evidence") is False
+        and gate.get("candidate_catalog_id") == CATALOG_ID
+        and gate.get("candidate_catalog_status_required") == "CURATED_CANDIDATES_NOT_ADMITTED"
     ):
         findings.append(_finding("AGA-CANON-007", "gate record drift"))
 
@@ -431,7 +518,8 @@ def gate(root: Path) -> dict[str, Any]:
         "canonical": canonical,
         "regressions": regressions,
         "full_upstream_content_admission": "NOT_PERFORMED",
-        "curated_agent_template_admission": "PENDING",
+        "curated_candidate_selection": "MATERIALIZED_NOT_ADMITTED",
+        "curated_agent_template_admission": "PENDING_DISTRIBUTION_AND_CONTENT_ADMISSION",
         "gui_surface_reconciliation": "PENDING",
         "external_redistributable_binding": "PRECLASSIFIED_EXTERNAL_REDISTRIBUTABLE_PENDING_PARALLEL_CANONICAL_BINDING",
         "current_host_runtime_claim": False,
