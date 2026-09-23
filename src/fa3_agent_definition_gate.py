@@ -30,6 +30,7 @@ def finding(code: str, message: str, **details: Any) -> dict[str, Any]:
 
 def definition_valid(row: dict[str, Any]) -> bool:
     source = row.get("source", {})
+    distribution = row.get("distribution", {})
     return (
         bool(row.get("definition_id"))
         and row.get("status") == "CANONICAL_ROLE_DEFINITION"
@@ -37,6 +38,11 @@ def definition_valid(row: dict[str, Any]) -> bool:
         and SHA40.fullmatch(str(source.get("blob_sha", ""))) is not None
         and source.get("body_status") == "REFERENCE_ONLY_NOT_IMPORTED"
         and str(source.get("normalization", "")).startswith("FA3_NATIVE_DERIVED")
+        and distribution.get("source_class") == "EXTERNAL_REDISTRIBUTABLE"
+        and distribution.get("source_release_bundle_status") == "EXCLUDED"
+        and distribution.get("normalized_definition_distribution_class") == "FA3_NATIVE"
+        and distribution.get("upstream_body_embedded") is False
+        and distribution.get("external_source_content_in_product_bundle") is False
         and bool(row.get("summary"))
         and bool(row.get("competency_intents"))
         and bool(row.get("anti_capabilities"))
@@ -66,6 +72,11 @@ def template_valid(row: dict[str, Any]) -> bool:
         and SHA40.fullmatch(str(source.get("blob_sha", ""))) is not None
         and source.get("body_status") == "REFERENCE_ONLY_NOT_IMPORTED"
         and str(source.get("normalization", "")).startswith("FA3_NATIVE_DERIVED")
+        and distribution.get("source_class") == "EXTERNAL_REDISTRIBUTABLE"
+        and distribution.get("source_release_bundle_status") == "EXCLUDED"
+        and distribution.get("normalized_definition_distribution_class") == "FA3_NATIVE"
+        and distribution.get("upstream_body_embedded") is False
+        and distribution.get("external_source_content_in_product_bundle") is False
         and bool(row.get("summary"))
         and row.get("automatic_execution") is False
         and row.get("durable_workflow_authority") is False
@@ -289,6 +300,8 @@ def gate(root: Path) -> dict[str, Any]:
         summary.get("definition_count") == len(definitions)
         and summary.get("template_count") == len(templates)
         and summary.get("upstream_persona_bodies_vendored") is False
+        and summary.get("normalized_definition_distribution_class") == "FA3_NATIVE"
+        and summary.get("external_source_content_bundled") is False
         and summary.get("runtime_providers_admitted_by_this_registry") is False
         and summary.get("current_host_runtime_claim") is False
         and summary.get("global_promotion_claim") is False
