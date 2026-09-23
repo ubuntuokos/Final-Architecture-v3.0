@@ -58,6 +58,20 @@ Persona and skill are separate concepts. A reusable procedure extracted from Age
 
 The provider is inert reference content and has no fixed host hardware requirement. Any later executable adapter remains subject to the existing vendor-neutral Hardware Discovery / HRB rules and cannot introduce accelerator vendor, SKU, runtime or device-count requirements.
 
+## Curated candidate set
+
+The first FA3-specific curation pass is materialized in `FA3-AGENCY-AGENTS-CURATED-CANDIDATES-001`.
+
+It selects 12 agent-role sources and 5 template sources by immutable upstream path/blob identity. The selection covers multi-agent architecture, AI engineering, CI/DevOps, evidence-oriented QA, production-readiness review, performance/API/workflow testing, AppSec, compliance research, spatial UI, 3D scene visualization, the four upstream scenario runbooks and the NEXUS handoff template set.
+
+This is **selection, not admission**:
+
+- no persona or runbook body is vendored;
+- every candidate is `DISABLED_NOT_ADMITTED`;
+- authority/tool/model grants are empty;
+- Distribution Compliance and content admission receipts are still required before materialization;
+- the catalog cannot create a canonical agent identity or execution authority.
+
 ## Deliberately open reconciliation items
 
 1. **Curated agent/template admission:** the whole upstream repository is not automatically admitted. Individual personas, runbooks or extracted procedures still need scoped normalization/admission before enabled use.
