@@ -65,13 +65,14 @@ class GlobalCurrentHostWorkflowTriggerTests(unittest.TestCase):
         )
 
 
-    def test_runtime_closure_assertion_is_testable_and_does_not_require_static_gate_pass(self):
+    def test_real_execution_delegates_final_semantics_to_tested_assertion_module(self):
         text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("name: Assert runtime closure and promotion separation", text)
         self.assertIn(
             "PYTHONPATH=src python3 src/fa3_current_host_closure_assertion.py --root .",
             text,
         )
-        self.assertNotIn("assert acceptance['static_gate'] == 'PASS'", text)
+        self.assertNotIn("name: Assert fail-closed closure semantics", text)
 
 
 if __name__ == "__main__":
