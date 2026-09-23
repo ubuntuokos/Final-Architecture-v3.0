@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-DECISION-FABRIC-ASSESSMENT-001.schema.json",
+  "x-fa3-contract-id": "FA3-DECISION-FABRIC-ASSESSMENT-001",
+  "title": "FA3 Decision Fabric Applicability Assessment",
+  "type": "object",
+  "required": [
+    "schema",
+    "project_id",
+    "assessment",
+    "rationale",
+    "decision_points",
+    "project_radar_checked",
+    "hardware_audit",
+    "security_boundary"
+  ],
+  "properties": {
+    "schema": {"const": "fa3.decision-fabric-assessment.v1"},
+    "project_id": {"type": "string", "minLength": 1},
+    "assessment": {"enum": ["REQUIRED", "RECOMMENDED", "OPTIONAL", "NOT_APPLICABLE", "PROHIBITED"]},
+    "rationale": {"type": "string", "minLength": 1},
+    "decision_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "purpose", "contract", "candidate_source", "final_policy_owner", "failure_policy"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "purpose": {"type": "string", "minLength": 1},
+          "contract": {"enum": ["SELECT_ONE", "BOOLEAN", "SCORE", "RANK", "MULTI_LABEL", "RELEVANCE", "STOP_CONTINUE"]},
+          "candidate_source": {"type": "string", "minLength": 1},
+          "final_policy_owner": {"type": "string", "minLength": 1},
+          "failure_policy": {"enum": ["FAIL_CLOSED", "RULE_FALLBACK", "EXISTING_BEHAVIOR", "HUMAN_CONFIRM", "NO_DECISION"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "project_radar_checked": {"const": true},
+    "hardware_audit": {
+      "type": "object",
+      "required": ["vendor_neutral", "cpu_only_viable", "global_accelerator_requirement"],
+      "properties": {
+        "vendor_neutral": {"const": true},
+        "cpu_only_viable": {"const": true},
+        "global_accelerator_requirement": {"const": false}
+      }
+    },
+    "security_boundary": {
+      "type": "object",
+      "required": ["may_grant_permission", "may_expand_candidate_set", "may_create_agent", "may_admit_model", "may_admit_provider"],
+      "properties": {
+        "may_grant_permission": {"const": false},
+        "may_expand_candidate_set": {"const": false},
+        "may_create_agent": {"const": false},
+        "may_admit_model": {"const": false},
+        "may_admit_provider": {"const": false}
+      }
+    }
+  },
+  "additionalProperties": true
+}
