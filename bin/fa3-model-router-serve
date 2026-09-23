@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+LITELLM=""
+CONFIG=""
+CREDENTIAL=""
+PORT="4000"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --litellm) LITELLM="$2"; shift 2;;
+    --config) CONFIG="$2"; shift 2;;
+    --credential-file) CREDENTIAL="$2"; shift 2;;
+    --port) PORT="$2"; shift 2;;
+    *) echo "unknown argument: $1" >&2; exit 2;;
+  esac
+done
+[[ -x "$LITELLM" ]] || { echo "LiteLLM executable missing: $LITELLM" >&2; exit 2; }
+[[ -s "$CONFIG" ]] || { echo "generated LiteLLM config missing: $CONFIG" >&2; exit 2; }
+if [[ -n "$CREDENTIAL" ]]; then
+  [[ -f "$CREDENTIAL" ]] || { echo "router credential file missing" >&2; exit 2; }
+  mode="$(stat -c '%a' "$CREDENTIAL")"
+  [[ "$mode" == "600" || "$mode" == "400" ]] || { echo "router credential file must be mode 0600 or 0400" >&2; exit 2; }
+  export FA3_MODEL_ROUTER_MASTER_KEY
+  FA3_MODEL_ROUTER_MASTER_KEY="$(<"$CREDENTIAL")"
+fi
+: "${FA3_MODEL_ROUTER_MASTER_KEY:?FA3_MODEL_ROUTER_MASTER_KEY or --credential-file is required}"
+export FA3_MODEL_ROUTER_BACKEND_DUMMY_KEY="${FA3_MODEL_ROUTER_BACKEND_DUMMY_KEY:-fa3-local-runtime-nonsecret}"
+exec "$LITELLM" --config "$CONFIG" --host 127.0.0.1 --port "$PORT"
