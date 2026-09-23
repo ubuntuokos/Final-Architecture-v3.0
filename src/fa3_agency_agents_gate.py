@@ -317,7 +317,10 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and decision.get("capability_count_after") == count
         and decision.get("current_host_runtime_claim") is False
         and "CURATED_INDIVIDUAL_AGENT_AND_TEMPLATE_ADMISSION_NOT_YET_PERFORMED" in decision.get("open_reconciliations", [])
-        and "FA3_GUI_IMPORTED_PACK_SURFACE_RECONCILIATION_PENDING" in decision.get("open_reconciliations", [])
+        and "GUI_IMPORTED_PACK_CHILD_VIEW_UNDER_AGENTS_WORKFLOWS_PENDING_GUI_RECONCILIATION" in decision.get("open_reconciliations", [])
+        and "DISTRIBUTION_COMPLIANCE_CANONICAL_BINDING_PENDING_PARALLEL_SKILL_DISTRIBUTION_PR" in decision.get("open_reconciliations", [])
+        and decision.get("parallel_change_reconciliation", {}).get("skill_distribution", {}).get("provider_target_class") == "EXTERNAL_REDISTRIBUTABLE"
+        and decision.get("parallel_change_reconciliation", {}).get("gui", {}).get("target_surface_route") == "agents.workflows"
     ):
         findings.append(_finding("AGA-CANON-004", "decision or deliberately-open reconciliation state drift"))
 
@@ -332,6 +335,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and artifacts.get("converter", {}).get("executable_source") is True
         and reference.get("interpretation", {}).get("full_upstream_content_admission_performed") is False
         and reference.get("interpretation", {}).get("current_host_runtime_evidence_claimed") is False
+        and reference.get("distribution", {}).get("class") == "REFERENCE_ONLY"
+        and reference.get("distribution", {}).get("release_bundle_status") == "EXCLUDED"
     ):
         findings.append(_finding("AGA-CANON-005", "immutable upstream reference observation drift"))
 
@@ -386,6 +391,8 @@ def canonical_check(root: Path) -> dict[str, Any]:
     decision_boundary = provider.get("decision_fabric", {})
     comms = provider.get("ai_communication", {})
     skill = provider.get("skill_fabric", {})
+    distribution = provider.get("distribution", {})
+    surface = provider.get("surface_reconciliation", {})
     if not (
         agent_native.get("fabric") == "FA3-UNIFIED-ACTION-FABRIC-001"
         and agent_native.get("imported_persona_is_canonical_instruction_projection") is False
@@ -396,8 +403,15 @@ def canonical_check(root: Path) -> dict[str, Any]:
         and comms.get("private_model_language_forbidden") is True
         and skill.get("persona_is_not_skill") is True
         and skill.get("extracted_procedure_requires_separate_skill_admission") is True
+        and distribution.get("class") == "EXTERNAL_REDISTRIBUTABLE"
+        and distribution.get("release_bundle_status") == "EXCLUDED"
+        and distribution.get("inclusion_requires_distribution_decision_receipt") is True
+        and surface.get("canonical_target_route") == "agents.workflows"
+        and surface.get("view_kind") == "IMPORTED_PACK_CHILD_VIEW"
+        and surface.get("execution_intent_route") == "agents.action-center"
+        and surface.get("new_top_level_navigation_route_required") is False
     ):
-        findings.append(_finding("AGA-CANON-010", "Agent Native, Decision Fabric, AI-Comms or Skill Fabric reconciliation drift"))
+        findings.append(_finding("AGA-CANON-010", "Agent Native, Decision Fabric, AI-Comms, Skill Fabric, distribution or GUI reconciliation drift"))
 
     return {"result": "PASS" if not findings else "FAIL", "findings": findings}
 
@@ -419,7 +433,7 @@ def gate(root: Path) -> dict[str, Any]:
         "full_upstream_content_admission": "NOT_PERFORMED",
         "curated_agent_template_admission": "PENDING",
         "gui_surface_reconciliation": "PENDING",
-        "external_redistributable_binding": "PENDING_FUTURE_CANONICAL_SOURCE_INTAKE",
+        "external_redistributable_binding": "PRECLASSIFIED_EXTERNAL_REDISTRIBUTABLE_PENDING_PARALLEL_CANONICAL_BINDING",
         "current_host_runtime_claim": False,
         "global_promotion_claim": False,
     }
