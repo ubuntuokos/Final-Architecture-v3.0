@@ -28,7 +28,10 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
           "reference_version_match":False,
           "admission_pin":{"result":"PASS","provider_version":"1.0","immutable":True},
           "admission_pin_match":True,"present":True,"status":"ADMITTED","admitted_scopes":["CPU"],
-          "scopes":{"CPU":self.cpu_scope()},"direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
+          "scopes":{"CPU":self.cpu_scope()},
+          "probe_environment":{"environment_id":"TEST_ENV","discovery_scope":"EXPLICIT_RUNTIME_ENVIRONMENT","python_executable":sys.executable,"cli_path":None,"source_refs":["TEST"],"descriptor_receipt_id":"TEST-DESC","host_wide_absence_claim":False},
+          "host_wide_absence_claim":False,
+          "direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
           "auto_install_performed":False,"network_model_fetch_performed":False,"global_promotion_claim":False,
         }
 
@@ -98,11 +101,21 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
           "provider_id":"FA3-PROVIDER-TENSORRT-001","provider_version":None,
           "reference_version":"11.3.0.99","reference_version_match":False,
           "admission_pin":{"result":"MISSING","provider_version":None},"admission_pin_match":False,"present":False,
-          "status":"NOT_PRESENT","admitted_scopes":[],"scopes":{},
+          "status":"NOT_PRESENT_IN_PROBE_ENVIRONMENT","admitted_scopes":[],"scopes":{},
+          "probe_environment":{"environment_id":"CURRENT_RUNNER_ENVIRONMENT","discovery_scope":"DEFAULT_RUNNER_ENVIRONMENT_ONLY","python_executable":sys.executable,"cli_path":None,"source_refs":["TEST"],"descriptor_receipt_id":None,"host_wide_absence_claim":False},
+          "host_wide_absence_claim":False,
           "direct_probe_scope":"ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH",
           "auto_install_performed":False,"network_model_fetch_performed":False,"global_promotion_claim":False,
         }
         self.assertTrue(provider_receipt_valid(p))
+
+    def test_host_wide_absence_claim_is_rejected(self):
+        p=self.provider(); p["host_wide_absence_claim"]=True
+        self.assertFalse(provider_receipt_valid(p))
+
+    def test_probe_environment_scope_is_required(self):
+        p=self.provider(); p["probe_environment"]["discovery_scope"]="HOST_WIDE_SCAN"
+        self.assertFalse(provider_receipt_valid(p))
 
     def test_embedded_onnx_probe_is_deterministic_nonempty(self):
         a=embedded_onnx_identity(); b=embedded_onnx_identity()
@@ -115,6 +128,9 @@ class InferenceProviderCurrentHostTests(unittest.TestCase):
             self.assertEqual(d["current_host_admission"]["gate_id"],CURRENT_HOST_GATE_ID)
             self.assertFalse(d["current_host_admission"]["automatic_install"])
             self.assertFalse(d["current_host_admission"]["global_promotion_claim"])
+            self.assertFalse(d["current_host_admission"]["host_wide_absence_claim"])
+            self.assertFalse(d["current_host_admission"]["automatic_environment_scanning"])
+            self.assertEqual(d["current_host_admission"]["absence_status"],"NOT_PRESENT_IN_PROBE_ENVIRONMENT")
 
 if __name__=="__main__":
     unittest.main()

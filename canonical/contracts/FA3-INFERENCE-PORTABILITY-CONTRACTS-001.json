@@ -37,7 +37,8 @@
     "ProviderCurrentHostAdmissionReceipt",
     "ProviderScopeAdmissionReceipt",
     "ProviderSupportMatrixReceipt",
-    "ProviderRuntimePinReceipt"
+    "ProviderRuntimePinReceipt",
+    "ProviderRuntimeProbeDescriptorReceipt"
   ],
   "required_semantics": {
     "interchange": "ONNX_PRIMARY_WHEN_SUPPORTED_NOT_UNIVERSAL_RUNTIME",
@@ -228,7 +229,9 @@
     "network_model_fetch_performed",
     "global_promotion_claim",
     "admission_pin",
-    "admission_pin_match"
+    "admission_pin_match",
+    "probe_environment",
+    "host_wide_absence_claim"
   ],
   "provider_scope_admission_required_fields": [
     "scope_id",
@@ -242,7 +245,7 @@
     "support_matrix"
   ],
   "current_host_admission_semantics": {
-    "provider_absence": "VALID_INVENTORY_RESULT_UNLESS_PROVIDER_EXPLICITLY_REQUIRED",
+    "provider_absence": "NOT_PRESENT_IN_PROBE_ENVIRONMENT_ONLY",
     "production_admission": "REAL_EXECUTION_AND_EXACT_RUNTIME_IDENTITY_REQUIRED",
     "cpu_scope": "NO_ACCELERATOR_LEASE",
     "accelerator_scope": "EXACT_DEVICE_BOUND_HRB_LEASE_REQUIRED",
@@ -256,6 +259,10 @@
     "global_promotion_claim": false,
     "latest_reference": "COMPATIBILITY_REFERENCE_ONLY_NEVER_AUTOMATIC_PRODUCTION_PIN",
     "runtime_admission_pin": "EXPLICIT_IMMUTABLE_PROVIDER_RUNTIME_PIN_RECEIPT_REQUIRED_FOR_ANY_ADMITTED_SCOPE",
-    "reference_version_mismatch": "NONBLOCKING_WHEN_EXPLICIT_ADMISSION_PIN_AND_REQUIRED_SUPPORT_MATRIX_PASS"
+    "reference_version_mismatch": "NONBLOCKING_WHEN_EXPLICIT_ADMISSION_PIN_AND_REQUIRED_SUPPORT_MATRIX_PASS",
+    "runtime_probe_environment": "EXPLICIT_DESCRIPTOR_OR_DEFAULT_RUNNER_ENVIRONMENT",
+    "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
+    "host_wide_absence_claim": "FORBIDDEN_FROM_SINGLE_PROBE_ENVIRONMENT",
+    "automatic_environment_scanning": "FORBIDDEN"
   }
 }

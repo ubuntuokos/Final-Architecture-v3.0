@@ -18,7 +18,7 @@ DECISION_ID="FA3-DEC-INFERENCE-PROVIDER-CURRENT-HOST-2026-09-23"
 AGGREGATE_RECEIPT="evidence/receipts/inference-provider-current-host.json"
 REFERENCE_EVIDENCE="evidence/reference/inference-provider-current-host-materialization-ci-2026-09-23.json"
 PROVIDERS=['FA3-PROVIDER-OPENVINO-001','FA3-PROVIDER-ONNXRUNTIME-001','FA3-PROVIDER-TENSORRT-001','FA3-PROVIDER-TENSORRT-RTX-001']
-RULES=['PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED','PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION','PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED','CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE','ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE','NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT','DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES','DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING','NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION','MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS','TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY','CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION']
+RULES=['PROVIDER_ABSENCE_IS_PROBE_ENVIRONMENT_SCOPED_AND_NEVER_HOST_WIDE_BY_DEFAULT','PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION','PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED','CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE','ACCELERATOR_SCOPE_REQUIRES_EXACT_DEVICE_BOUND_HRB_LEASE','NVIDIA_ACCELERATOR_SCOPE_REQUIRES_EXPLICIT_SUPPORT_MATRIX_RECEIPT','DECISION_FABRIC_ADVISORY_MAY_NOT_EXPAND_OR_AUTHORIZE_PROVIDER_CANDIDATES','DIRECT_PROVIDER_PROBE_IS_ADMISSION_HARNESS_ONLY_NOT_APPLICATION_ROUTING','NO_AUTO_INSTALL_AND_NO_NETWORK_MODEL_FETCH_DURING_ADMISSION','MODEL_ROUTER_MAY_CONSUME_ONLY_SCOPE_BOUND_ADMITTED_PROVIDER_RECEIPTS','TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY','CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION']
 CAPABILITY_COUNT=module_active_capability_count(__file__)
 EVIDENCE_LEVEL="CURRENT_HOST_PROVIDER_SCOPE_PRODUCTION_E2E_PASS"
 
@@ -65,10 +65,17 @@ def scope_valid(scope: dict[str,Any]) -> bool:
 
 
 def provider_receipt_valid(rec: dict[str,Any]) -> bool:
-    required={"provider_id","provider_version","reference_version","reference_version_match","admission_pin","admission_pin_match","present","status","admitted_scopes","scopes","direct_probe_scope","auto_install_performed","network_model_fetch_performed","global_promotion_claim"}
+    required={"provider_id","provider_version","reference_version","reference_version_match","admission_pin","admission_pin_match","present","status","admitted_scopes","scopes","probe_environment","host_wide_absence_claim","direct_probe_scope","auto_install_performed","network_model_fetch_performed","global_promotion_claim"}
     if not required.issubset(rec) or rec.get("provider_id") not in PROVIDERS:
         return False
     if rec.get("direct_probe_scope")!="ADMISSION_HARNESS_ONLY_NOT_APPLICATION_PATH":
+        return False
+    probe=rec.get("probe_environment")
+    if not isinstance(probe,dict) or not str(probe.get("environment_id","")).strip():
+        return False
+    if probe.get("discovery_scope") not in {"DEFAULT_RUNNER_ENVIRONMENT_ONLY","EXPLICIT_RUNTIME_ENVIRONMENT"}:
+        return False
+    if probe.get("host_wide_absence_claim") is not False or rec.get("host_wide_absence_claim") is not False:
         return False
     if rec.get("auto_install_performed") is not False or rec.get("network_model_fetch_performed") is not False or rec.get("global_promotion_claim") is not False:
         return False
@@ -79,6 +86,8 @@ def provider_receipt_valid(rec: dict[str,Any]) -> bool:
     if any(name not in scopes for name in admitted):
         return False
     if any(not scope_valid(s) for s in scopes.values() if isinstance(s,dict)):
+        return False
+    if rec.get("present") is False and rec.get("status")!="NOT_PRESENT_IN_PROBE_ENVIRONMENT":
         return False
     if admitted:
         if rec.get("present") is not True or rec.get("admission_pin_match") is not True or rec.get("status")!="ADMITTED":
@@ -107,6 +116,7 @@ def materialization_gate(root: Path) -> dict[str,Any]:
       "evidence":root/REFERENCE_EVIDENCE,
       "collector":root/"src/fa3_inference_provider_current_host.py",
       "workflow":root/".github/workflows/fa3-inference-provider-current-host.yml",
+      "runtime_descriptor_schema":root/"canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json",
     }
     for key,p in paths.items():
         if not p.is_file():
@@ -141,6 +151,8 @@ def materialization_gate(root: Path) -> dict[str,Any]:
       pha.get("conformance_id")==CONFORMANCE_ID and pha.get("current_host_gate_id")==CURRENT_HOST_GATE_ID
       and pha.get("automatic_install")=="FORBIDDEN" and pha.get("network_model_fetch")=="FORBIDDEN"
       and pha.get("global_promotion_claim") is False
+      and pha.get("host_wide_absence_claim") is False
+      and pha.get("automatic_environment_scanning") is False
     ):
         findings.append(finding("INFER-HOST-MAT-013","profile current-host admission binding drift"))
     sem=contract.get("current_host_admission_semantics") or {}
@@ -150,6 +162,9 @@ def materialization_gate(root: Path) -> dict[str,Any]:
       and sem.get("direct_provider_probe")=="ALLOWED_ONLY_INSIDE_CURRENT_HOST_ADMISSION_HARNESS"
       and sem.get("model_router")=="CONSUMES_ONLY_ADMITTED_SCOPE_BOUND_RECEIPT_DIGESTS"
       and sem.get("decision_fabric")=="ADVISORY_ONLY_CANNOT_ADD_CANDIDATES_OR_AUTHORIZE_EXECUTION"
+      and sem.get("provider_absence")=="NOT_PRESENT_IN_PROBE_ENVIRONMENT_ONLY"
+      and sem.get("host_wide_absence_claim")=="FORBIDDEN_FROM_SINGLE_PROBE_ENVIRONMENT"
+      and "ProviderRuntimeProbeDescriptorReceipt" in contract.get("contracts",[])
     ):
         findings.append(finding("INFER-HOST-MAT-014","contract current-host semantics drift"))
     for pid in PROVIDERS:
@@ -159,6 +174,9 @@ def materialization_gate(root: Path) -> dict[str,Any]:
           ch.get("framework_id")==CONFORMANCE_ID and ch.get("gate_id")==CURRENT_HOST_GATE_ID
           and ch.get("automatic_install") is False and ch.get("network_model_fetch") is False
           and ch.get("global_promotion_claim") is False
+          and ch.get("host_wide_absence_claim") is False
+          and ch.get("automatic_environment_scanning") is False
+          and ch.get("absence_status")=="NOT_PRESENT_IN_PROBE_ENVIRONMENT"
         ):
             findings.append(finding("INFER-HOST-MAT-015","provider current-host binding drift",provider_id=pid))
     collector_text=paths["collector"].read_text(encoding="utf-8").lower()
@@ -192,6 +210,8 @@ def current_host_gate(root: Path, receipt_path: Path | None = None) -> dict[str,
         findings.append(finding("INFER-HOST-002","aggregate identity mismatch"))
     if rec.get("physical_current_host") is not True or rec.get("provider_neutral") is not True:
         findings.append(finding("INFER-HOST-003","receipt does not prove physical provider-neutral current-host execution"))
+    if rec.get("inventory_scope")!="PROBE_ENVIRONMENT_SCOPED_NOT_HOST_WIDE" or rec.get("host_wide_absence_claim") is not False:
+        findings.append(finding("INFER-HOST-014","receipt overstates provider absence beyond the probed runtime environment"))
     if rec.get("global_promotion_claim") is not False or rec.get("existing_429_closure_reopened") is not False or rec.get("current_host_obligation_delta")!=0:
         findings.append(finding("INFER-HOST-004","receipt overclaims global/current-host capability promotion"))
     if rec.get("auto_install_performed") is not False or rec.get("network_model_fetch_performed") is not False:

@@ -14,7 +14,7 @@
   "fail_closed": true,
   "mandatory_rule_count": 12,
   "p0_invariants": [
-    "PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED",
+    "PROVIDER_ABSENCE_IS_PROBE_ENVIRONMENT_SCOPED_AND_NEVER_HOST_WIDE_BY_DEFAULT",
     "PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION",
     "PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED",
     "CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE",
@@ -36,5 +36,8 @@
   "global_promotion_claim": false,
   "capability_count": 143,
   "runtime_admission_pin_required": true,
-  "latest_reference_is_admission_pin": false
+  "latest_reference_is_admission_pin": false,
+  "provider_absence_scope": "PROBE_ENVIRONMENT_ONLY",
+  "host_wide_absence_claim_allowed": false,
+  "runtime_probe_descriptor_schema": "canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json"
 }

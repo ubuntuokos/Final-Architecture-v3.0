@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json",
+  "x-fa3-contract-id": "ProviderRuntimeProbeDescriptorReceipt",
+  "title": "FA3 Inference Provider Runtime Probe Descriptor Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt_id",
+    "providers"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.inference-provider-runtime-descriptor-receipt.v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "providers": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "FA3-PROVIDER-OPENVINO-001": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "result",
+            "environment_id",
+            "discovery_scope",
+            "source_refs"
+          ],
+          "properties": {
+            "result": {
+              "const": "PASS"
+            },
+            "environment_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discovery_scope": {
+              "const": "EXPLICIT_RUNTIME_ENVIRONMENT"
+            },
+            "python_executable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cli_path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "host_wide_absence_claim": {
+              "const": false
+            }
+          }
+        },
+        "FA3-PROVIDER-ONNXRUNTIME-001": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "result",
+            "environment_id",
+            "discovery_scope",
+            "source_refs"
+          ],
+          "properties": {
+            "result": {
+              "const": "PASS"
+            },
+            "environment_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discovery_scope": {
+              "const": "EXPLICIT_RUNTIME_ENVIRONMENT"
+            },
+            "python_executable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cli_path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "host_wide_absence_claim": {
+              "const": false
+            }
+          }
+        },
+        "FA3-PROVIDER-TENSORRT-001": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "result",
+            "environment_id",
+            "discovery_scope",
+            "source_refs"
+          ],
+          "properties": {
+            "result": {
+              "const": "PASS"
+            },
+            "environment_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discovery_scope": {
+              "const": "EXPLICIT_RUNTIME_ENVIRONMENT"
+            },
+            "python_executable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cli_path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "host_wide_absence_claim": {
+              "const": false
+            }
+          }
+        },
+        "FA3-PROVIDER-TENSORRT-RTX-001": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "result",
+            "environment_id",
+            "discovery_scope",
+            "source_refs"
+          ],
+          "properties": {
+            "result": {
+              "const": "PASS"
+            },
+            "environment_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "discovery_scope": {
+              "const": "EXPLICIT_RUNTIME_ENVIRONMENT"
+            },
+            "python_executable": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cli_path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "host_wide_absence_claim": {
+              "const": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -107,7 +107,62 @@ def embedded_onnx_identity() -> bytes:
     return _fld_var(1,8)+_fld_str(2,"FA3")+_fld_bytes(7,graph)+_fld_bytes(8,opset)
 
 
-def _module_info(module: str) -> dict[str,Any]:
+def _default_probe_environment(cli_name: str | None) -> dict[str,Any]:
+    return {
+      "environment_id":"CURRENT_RUNNER_ENVIRONMENT",
+      "discovery_scope":"DEFAULT_RUNNER_ENVIRONMENT_ONLY",
+      "python_executable":sys.executable,
+      "cli_path":shutil.which(cli_name) if cli_name else None,
+      "source_refs":["SELF_HOSTED_RUNNER_CHECKOUT_ENVIRONMENT"],
+      "descriptor_receipt_id":None,
+      "host_wide_absence_claim":False,
+    }
+
+
+def _runtime_probe_descriptors(path: Path | None, specs: dict[str,tuple[str,str|None]]) -> dict[str,dict[str,Any]]:
+    result={pid:_default_probe_environment(cli_name) for pid,(_,cli_name) in specs.items()}
+    if path is None:
+        return result
+    d=json.loads(path.read_text(encoding="utf-8"))
+    if d.get("schema")!="fa3.inference-provider-runtime-descriptor-receipt.v1" or not str(d.get("receipt_id","")).strip():
+        raise RuntimeError("runtime descriptor receipt identity invalid")
+    entries=d.get("providers")
+    if not isinstance(entries,dict) or any(pid not in specs for pid in entries):
+        raise RuntimeError("runtime descriptor provider inventory invalid")
+    for pid,entry in entries.items():
+        if not isinstance(entry,dict) or entry.get("result")!="PASS":
+            raise RuntimeError(f"runtime descriptor invalid for {pid}")
+        env_id=str(entry.get("environment_id","")).strip()
+        if not env_id or entry.get("discovery_scope")!="EXPLICIT_RUNTIME_ENVIRONMENT":
+            raise RuntimeError(f"runtime descriptor environment invalid for {pid}")
+        if entry.get("host_wide_absence_claim") not in (None,False):
+            raise RuntimeError(f"runtime descriptor cannot claim host-wide absence for {pid}")
+        refs=entry.get("source_refs")
+        if not isinstance(refs,list) or not refs or any(not str(x).strip() for x in refs):
+            raise RuntimeError(f"runtime descriptor source refs missing for {pid}")
+        py=entry.get("python_executable")
+        cli=entry.get("cli_path")
+        if py is not None:
+            py=str(Path(py).expanduser().resolve())
+            if not Path(py).is_file() or not os.access(py,os.X_OK):
+                raise RuntimeError(f"runtime descriptor python executable invalid for {pid}")
+        if cli is not None:
+            cli=str(Path(cli).expanduser().resolve())
+            if not Path(cli).is_file() or not os.access(cli,os.X_OK):
+                raise RuntimeError(f"runtime descriptor CLI invalid for {pid}")
+        result[pid]={
+          "environment_id":env_id,
+          "discovery_scope":"EXPLICIT_RUNTIME_ENVIRONMENT",
+          "python_executable":py,
+          "cli_path":cli,
+          "source_refs":[str(x) for x in refs],
+          "descriptor_receipt_id":str(d.get("receipt_id")),
+          "host_wide_absence_claim":False,
+        }
+    return result
+
+
+def _module_info(module: str, python_executable: str | None) -> dict[str,Any]:
     code=(
       "import importlib,json,hashlib,pathlib;"
       f"m=importlib.import_module({module!r});"
@@ -116,14 +171,16 @@ def _module_info(module: str) -> dict[str,Any]:
       "\nif p and pathlib.Path(p).is_file():\n d=hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()\n"
       "print(json.dumps({'version':str(getattr(m,'__version__','UNKNOWN')),'module_file':p,'module_file_sha256':d}))"
     )
-    p=run([sys.executable,"-c",code],60)
+    if not python_executable:
+        return {"present":False,"error_class":"PYTHON_NOT_CONFIGURED","python_executable":None}
+    p=run([python_executable,"-c",code],60)
     if p.returncode:
-        return {"present":False,"error_class":"IMPORT_FAILED"}
+        return {"present":False,"error_class":"IMPORT_FAILED","python_executable":python_executable}
     try:
         data=json.loads(p.stdout.strip().splitlines()[-1])
     except Exception:
         return {"present":False,"error_class":"IMPORT_OUTPUT_INVALID"}
-    return {"present":True,**data}
+    return {"present":True,"python_executable":python_executable,**data}
 
 
 def _reference_version(root: Path, provider_id: str) -> str:
@@ -134,7 +191,7 @@ def _reference_version(root: Path, provider_id: str) -> str:
     return str(d.get("observed_release",""))
 
 
-def _cpu_openvino_e2e() -> dict[str,Any]:
+def _cpu_openvino_e2e(python_executable: str) -> dict[str,Any]:
     code=r'''
 import hashlib,json
 import numpy as np
@@ -155,13 +212,13 @@ if arr.shape!=(1,) or float(arr[0])!=0.0:
     raise SystemExit("unexpected inference output")
 print(json.dumps({"result":"PASS","devices":devices,"output_sha256":hashlib.sha256(arr.tobytes()).hexdigest()}))
 '''
-    p=run([sys.executable,"-c",code],120)
+    p=run([python_executable,"-c",code],120)
     if p.returncode:
         return {"result":"FAIL","reason_code":"OPENVINO_CPU_E2E_FAILED","stderr_sha256":hashlib.sha256(p.stderr.encode()).hexdigest()}
     return json.loads(p.stdout.strip().splitlines()[-1])
 
 
-def _ort_child(provider: str, cuda_uuid: str | None = None) -> dict[str,Any]:
+def _ort_child(provider: str, python_executable: str, cuda_uuid: str | None = None) -> dict[str,Any]:
     model_b64=base64.b64encode(embedded_onnx_identity()).decode()
     code=r'''
 import base64,hashlib,json,os
@@ -187,7 +244,7 @@ print(json.dumps({"result":"PASS","available_providers":available,"session_provi
     env["FA3_ORT_PROVIDER"]=provider
     if cuda_uuid:
         env["CUDA_VISIBLE_DEVICES"]=cuda_uuid
-    p=run([sys.executable,"-c",code],180,env)
+    p=run([python_executable,"-c",code],180,env)
     if p.returncode:
         return {"result":"FAIL","reason_code":"ORT_E2E_FAILED","stderr_sha256":hashlib.sha256(p.stderr.encode()).hexdigest()}
     return json.loads(p.stdout.strip().splitlines()[-1])
@@ -294,8 +351,7 @@ def _write_probe_model(runtime_dir: Path) -> tuple[Path,str]:
     return p,hashlib.sha256(data).hexdigest()
 
 
-def _trtexec_e2e(runtime_dir: Path, uuid: str) -> dict[str,Any]:
-    cli=shutil.which("trtexec")
+def _trtexec_e2e(runtime_dir: Path, uuid: str, cli: str | None) -> dict[str,Any]:
     if not cli:
         return {"result":"FAIL","reason_code":"TRTEXEC_NOT_AVAILABLE"}
     model,model_sha=_write_probe_model(runtime_dir)
@@ -309,8 +365,7 @@ def _trtexec_e2e(runtime_dir: Path, uuid: str) -> dict[str,Any]:
     return {"result":"PASS","model_probe_sha256":model_sha,"engine_sha256":sha256_file(engine),"log_sha256":sha256_file(log),"probe_method":"TRTEXEC_BUILD_AND_INFER"}
 
 
-def _trt_rtx_e2e(runtime_dir: Path, uuid: str) -> dict[str,Any]:
-    cli=shutil.which("tensorrt_rtx")
+def _trt_rtx_e2e(runtime_dir: Path, uuid: str, cli: str | None) -> dict[str,Any]:
     if not cli:
         return {"result":"FAIL","reason_code":"TENSORRT_RTX_CLI_NOT_AVAILABLE"}
     model,model_sha=_write_probe_model(runtime_dir)
@@ -351,7 +406,7 @@ def _decision_advisory(root: Path, present: list[str]) -> dict[str,Any]:
     return trace
 
 
-def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support_matrix_path: Path | None, runtime_pin_path: Path | None, hrb_bin: str) -> dict[str,Any]:
+def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support_matrix_path: Path | None, runtime_pin_path: Path | None, runtime_descriptor_path: Path | None, hrb_bin: str) -> dict[str,Any]:
     root=root.resolve()
     runtime_dir=root/"evidence/runtime/inference-provider-current-host"/datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     runtime_dir.mkdir(parents=True,exist_ok=True)
@@ -362,31 +417,40 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
       "FA3-PROVIDER-TENSORRT-RTX-001":("tensorrt_rtx","tensorrt_rtx"),
     }
     out={}
+    probe_envs=_runtime_probe_descriptors(runtime_descriptor_path,specs)
     lease=_validate_hrb_lease(hrb_lease_path,hrb_bin)
     for pid,(module,cli_name) in specs.items():
-        mi=_module_info(module)
+        probe=probe_envs[pid]
+        python_executable=probe.get("python_executable")
+        cli_path=probe.get("cli_path")
+        mi=_module_info(module,python_executable)
         reference=_reference_version(root,pid)
         version=str(mi.get("version","")) if mi.get("present") else ""
         reference_version_match=bool(version and version==reference)
         pin=_runtime_pin(runtime_pin_path,pid,version) if version else {"result":"MISSING","provider_version":None}
         admission_pin_match=bool(version and pin.get("result")=="PASS" and pin.get("provider_version")==version)
+        if pid in {"FA3-PROVIDER-TENSORRT-001","FA3-PROVIDER-TENSORRT-RTX-001"}:
+            present=bool(mi.get("present") or cli_path)
+        else:
+            present=bool(mi.get("present"))
         scopes={}
         admitted=[]
         base={
           "schema":"fa3.inference-provider-current-host-provider-receipt.v1",
-          "provider_id":pid,"present":bool(mi.get("present")),"provider_version":version or None,
+          "provider_id":pid,"present":present,"provider_version":version or None,
           "reference_version":reference,"reference_version_match":reference_version_match,
           "admission_pin":pin,"admission_pin_match":admission_pin_match,
-          "module":mi,"cli":{"name":cli_name,"path":shutil.which(cli_name) if cli_name else None},
+          "probe_environment":probe,"host_wide_absence_claim":False,
+          "module":mi,"cli":{"name":cli_name,"path":cli_path},
           "direct_probe_scope":DIRECT_PROBE_SCOPE,"auto_install_performed":False,
           "network_model_fetch_performed":False,"global_promotion_claim":False,
         }
-        if not mi.get("present"):
-            base.update({"status":"NOT_PRESENT","admitted_scopes":[],"scopes":{}})
+        if not present:
+            base.update({"status":"NOT_PRESENT_IN_PROBE_ENVIRONMENT","admitted_scopes":[],"scopes":{}})
             out[pid]=base; continue
 
         if pid=="FA3-PROVIDER-OPENVINO-001":
-            e2e=_cpu_openvino_e2e()
+            e2e=_cpu_openvino_e2e(str(python_executable))
             ok=admission_pin_match and e2e.get("result")=="PASS"
             scopes["CPU"]={
               "scope_id":"CPU","execution_kind":"CPU","status":"ADMITTED" if ok else "PRESENT_NOT_ADMITTED",
@@ -397,7 +461,7 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
             if ok: admitted.append("CPU")
 
         elif pid=="FA3-PROVIDER-ONNXRUNTIME-001":
-            e2e=_ort_child("CPUExecutionProvider")
+            e2e=_ort_child("CPUExecutionProvider",str(python_executable))
             ok=admission_pin_match and e2e.get("result")=="PASS"
             scopes["CPU_EP"]={
               "scope_id":"CPU_EP","execution_kind":"CPU","status":"ADMITTED" if ok else "PRESENT_NOT_ADMITTED",
@@ -409,7 +473,7 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
             cuda_possible="CUDAExecutionProvider" in (e2e.get("available_providers") or [])
             if cuda_possible:
                 sm=_support_matrix(support_matrix_path,pid,version,lease)
-                ge2e=_ort_child("CUDAExecutionProvider",lease.get("accelerator_uuid")) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
+                ge2e=_ort_child("CUDAExecutionProvider",str(python_executable),lease.get("accelerator_uuid")) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
                 gok=admission_pin_match and lease.get("result")=="PASS" and sm.get("result")=="PASS" and ge2e.get("result")=="PASS"
                 scopes["CUDA_EP"]={
                   "scope_id":"CUDA_EP","execution_kind":"ACCELERATOR","status":"ADMITTED" if gok else "PRESENT_NOT_ADMITTED",
@@ -421,7 +485,7 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
 
         elif pid=="FA3-PROVIDER-TENSORRT-001":
             sm=_support_matrix(support_matrix_path,pid,version,lease)
-            e2e=_trtexec_e2e(runtime_dir,lease.get("accelerator_uuid")) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
+            e2e=_trtexec_e2e(runtime_dir,lease.get("accelerator_uuid"),cli_path) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
             ok=admission_pin_match and lease.get("result")=="PASS" and sm.get("result")=="PASS" and e2e.get("result")=="PASS"
             scopes["NVIDIA_GPU_NATIVE"]={
               "scope_id":"NVIDIA_GPU_NATIVE","execution_kind":"ACCELERATOR","status":"ADMITTED" if ok else "PRESENT_NOT_ADMITTED",
@@ -432,7 +496,7 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
 
         elif pid=="FA3-PROVIDER-TENSORRT-RTX-001":
             sm=_support_matrix(support_matrix_path,pid,version,lease)
-            e2e=_trt_rtx_e2e(runtime_dir,lease.get("accelerator_uuid")) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
+            e2e=_trt_rtx_e2e(runtime_dir,lease.get("accelerator_uuid"),cli_path) if lease.get("result")=="PASS" and sm.get("result")=="PASS" else {"result":"NOT_RUN"}
             # Diagnostic execution alone cannot satisfy production cache-observability requirements.
             scopes["NVIDIA_RTX_NATIVE"]={
               "scope_id":"NVIDIA_RTX_NATIVE","execution_kind":"ACCELERATOR","status":"PRESENT_NOT_ADMITTED",
@@ -463,7 +527,13 @@ def collect(root: Path, required: set[str], hrb_lease_path: Path | None, support
       "conformance_id":CONFORMANCE_ID,"gate_id":GATE_ID,"result":result,
       "captured_at":now(),"repository_head":git_head(root),"host":host_fingerprint(),
       "physical_current_host":True,"provider_neutral":True,
-      "mode":"REQUIRED_ADMISSION" if required else "INVENTORY_AND_SAFE_CPU_PROBES",
+      "inventory_scope":"PROBE_ENVIRONMENT_SCOPED_NOT_HOST_WIDE",
+      "host_wide_absence_claim":False,
+      "runtime_descriptor_receipt":{
+        "provided":runtime_descriptor_path is not None,
+        "sha256":sha256_file(runtime_descriptor_path) if runtime_descriptor_path is not None else None,
+      },
+      "mode":"REQUIRED_ADMISSION" if required else "PROBE_ENVIRONMENT_INVENTORY_AND_SAFE_CPU_PROBES",
       "required_provider_ids":sorted(required),"missing_required_provider_ids":missing_required,
       "providers":out,"provider_receipt_sha256":receipt_hashes,
       "decision_fabric_advisory":advisory,
@@ -485,6 +555,7 @@ def main() -> int:
     ap.add_argument("--hrb-lease")
     ap.add_argument("--support-matrix-receipt")
     ap.add_argument("--runtime-pin-receipt")
+    ap.add_argument("--runtime-descriptor-receipt")
     ap.add_argument("--hrb-bin",default="/usr/local/bin/fa3-host-resource-broker")
     args=ap.parse_args()
     required=set(args.require_provider)
@@ -497,6 +568,7 @@ def main() -> int:
       Path(args.hrb_lease).resolve() if args.hrb_lease else None,
       Path(args.support_matrix_receipt).resolve() if args.support_matrix_receipt else None,
       Path(args.runtime_pin_receipt).resolve() if args.runtime_pin_receipt else None,
+      Path(args.runtime_descriptor_receipt).resolve() if args.runtime_descriptor_receipt else None,
       args.hrb_bin,
     )
     print(json.dumps(rec,indent=2,ensure_ascii=False))

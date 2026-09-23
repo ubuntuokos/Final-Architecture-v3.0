@@ -41,9 +41,9 @@
   ],
   "aggregate_receipt": "evidence/receipts/inference-provider-current-host.json",
   "provider_receipt_directory": "evidence/receipts/inference-provider-current-host",
-  "default_workflow_mode": "INVENTORY_AND_SAFE_CPU_PROBES",
+  "default_workflow_mode": "PROBE_ENVIRONMENT_INVENTORY_AND_SAFE_CPU_PROBES",
   "current_host_semantics": {
-    "provider_absence": "NOT_A_GLOBAL_FAILURE_UNLESS_REQUIRED",
+    "provider_absence": "NOT_PRESENT_IN_PROBE_ENVIRONMENT_ONLY_NEVER_HOST_WIDE_FROM_SINGLE_ENVIRONMENT",
     "explicit_required_provider_failure": "FAIL_CLOSED",
     "auto_install": "FORBIDDEN",
     "network_model_fetch": "FORBIDDEN",
@@ -56,7 +56,10 @@
     "model_router": "CONSUMER_OF_ADMITTED_RECEIPT_NOT_BYPASSED_BY_APPLICATION",
     "global_promotion_claim": false,
     "runtime_admission_pin": "EXPLICIT_IMMUTABLE_PROVIDER_RUNTIME_PIN_RECEIPT_REQUIRED",
-    "latest_observed_release": "NEVER_AUTOMATIC_PRODUCTION_PIN"
+    "latest_observed_release": "NEVER_AUTOMATIC_PRODUCTION_PIN",
+    "runtime_probe_environment": "EXPLICIT_DESCRIPTOR_OR_DEFAULT_RUNNER_ENVIRONMENT",
+    "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
+    "host_wide_absence_claim": "FORBIDDEN_WITHOUT_SEPARATE_COMPLETE_HOST_INVENTORY_AUTHORITY"
   },
   "builtin_reference_probes": {
     "openvino_cpu": "PYTHON_API_REAL_COMPILE_AND_INFER_IDENTITY_GRAPH",
@@ -66,7 +69,7 @@
     "tensorrt_rtx": "CLI_AOT_PLUS_GPU_JIT_WHEN_HRB_AND_SUPPORT_MATRIX_PRESENT_CACHE_OBSERVABILITY_STILL_REQUIRED"
   },
   "invariants": [
-    "PROVIDER_ABSENCE_IS_NOT_GLOBAL_FAILURE_UNLESS_EXPLICITLY_REQUIRED",
+    "PROVIDER_ABSENCE_IS_PROBE_ENVIRONMENT_SCOPED_AND_NEVER_HOST_WIDE_BY_DEFAULT",
     "PROVIDER_ADMISSION_CLAIM_REQUIRES_REAL_CURRENT_HOST_EXECUTION",
     "PROVIDER_RUNTIME_VERSION_IS_EXACTLY_RECORDED_AND_IMMUTABLE_ADMISSION_PIN_MATCHED",
     "CPU_SCOPE_MUST_NOT_REQUIRE_OR_CARRY_ACCELERATOR_LEASE",
@@ -79,5 +82,13 @@
     "TENSORRT_RTX_PRODUCTION_ADMISSION_REQUIRES_RUNTIME_CACHE_OBSERVABILITY",
     "CURRENT_HOST_PROVIDER_ADMISSION_NEVER_IMPLIES_GLOBAL_FA3_PROMOTION"
   ],
-  "current_host_status": "MATERIALIZED_DYNAMIC_PROVIDER_ADMISSION_NO_PROVIDER_PREPROMOTED"
+  "current_host_status": "MATERIALIZED_DYNAMIC_PROVIDER_ADMISSION_NO_PROVIDER_PREPROMOTED",
+  "runtime_probe_descriptor": {
+    "contract": "ProviderRuntimeProbeDescriptorReceipt",
+    "schema": "canonical/contracts/FA3-INFERENCE-PROVIDER-RUNTIME-DESCRIPTOR-001.schema.json",
+    "optional_for_default_runner_environment": true,
+    "explicit_for_nondefault_runtime_environment": true,
+    "automatic_environment_scanning": false,
+    "host_wide_absence_claim": false
+  }
 }

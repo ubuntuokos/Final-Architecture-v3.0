@@ -47,6 +47,11 @@ on:
         required: false
         default: ""
         type: string
+      runtime_descriptor_receipt:
+        description: "Optional descriptor for explicit provider venv/container/application runtime probe environments; absent means current runner Python/PATH only"
+        required: false
+        default: ""
+        type: string
 
 concurrency:
   group: fa3-inference-provider-current-host-${{ github.ref }}
@@ -76,12 +81,14 @@ jobs:
           HRB_LEASE: ${{ inputs.hrb_lease || '' }}
           MATRIX: ${{ inputs.support_matrix_receipt || '' }}
           PIN: ${{ inputs.runtime_pin_receipt || '' }}
+          RUNTIME_DESCRIPTOR: ${{ inputs.runtime_descriptor_receipt || '' }}
         run: |
           set -euo pipefail
           args=(--root .)
           if [ -n "$HRB_LEASE" ]; then args+=(--hrb-lease "$HRB_LEASE"); fi
           if [ -n "$MATRIX" ]; then args+=(--support-matrix-receipt "$MATRIX"); fi
           if [ -n "$PIN" ]; then args+=(--runtime-pin-receipt "$PIN"); fi
+          if [ -n "$RUNTIME_DESCRIPTOR" ]; then args+=(--runtime-descriptor-receipt "$RUNTIME_DESCRIPTOR"); fi
           if [ -n "$REQUIRED" ]; then
             IFS=',' read -ra ids <<< "$REQUIRED"
             for id in "${ids[@]}"; do
@@ -110,9 +117,11 @@ jobs:
           r=json.loads(Path("evidence/receipts/inference-provider-current-host.json").read_text())
           print("result:",r["result"])
           for pid,p in r["providers"].items():
-              print(pid,p["status"],"version=",p.get("provider_version"),"reference=",p.get("reference_version"),"reference_match=",p.get("reference_version_match"),"pin=",p.get("admission_pin",{}).get("result"),"admitted_scopes=",p.get("admitted_scopes"))
+              print(pid,p["status"],"env=",p.get("probe_environment",{}).get("environment_id"),"scope=",p.get("probe_environment",{}).get("discovery_scope"),"version=",p.get("provider_version"),"reference=",p.get("reference_version"),"reference_match=",p.get("reference_version_match"),"pin=",p.get("admission_pin",{}).get("result"),"admitted_scopes=",p.get("admitted_scopes"))
           assert r["global_promotion_claim"] is False
           assert r["existing_429_closure_reopened"] is False
+          assert r["inventory_scope"] == "PROBE_ENVIRONMENT_SCOPED_NOT_HOST_WIDE"
+          assert r["host_wide_absence_claim"] is False
           PY
       - uses: actions/upload-artifact@v4
         if: always()

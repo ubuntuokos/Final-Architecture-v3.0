@@ -134,6 +134,11 @@
     "global_promotion_claim": false,
     "runtime_pin_receipt": "EXPLICIT_REQUIRED_FOR_ANY_ADMITTED_SCOPE",
     "latest_reference_is_runtime_pin": false,
-    "reference_version_mismatch_effect": "OBSERVABLE_NONBLOCKING_IF_EXPLICIT_ADMISSION_PIN_AND_SUPPORT_POLICY_PASS"
+    "reference_version_mismatch_effect": "OBSERVABLE_NONBLOCKING_IF_EXPLICIT_ADMISSION_PIN_AND_SUPPORT_POLICY_PASS",
+    "runtime_probe_descriptor": "EXPLICIT_OR_DEFAULT_RUNNER_ENVIRONMENT",
+    "default_probe_scope": "CURRENT_RUNNER_PYTHON_AND_PATH_ONLY",
+    "host_wide_absence_claim": false,
+    "automatic_environment_scanning": false,
+    "absence_status": "NOT_PRESENT_IN_PROBE_ENVIRONMENT"
   }
 }
