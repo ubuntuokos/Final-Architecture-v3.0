@@ -100,6 +100,8 @@ def validate() -> list[str]:
                 runtime.get("status") == "CURRENT_HOST_PASS"
                 and runtime.get("production_admitted") is True
                 and runtime.get("current_host_receipt_present") is True
+                and runtime.get("admission_scope") == "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+                and runtime.get("secret_backend_admission") == "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
                 and (ROOT / str(runtime.get("current_host_receipt", ""))).is_file()
             ),
             "runtime-evidence-state-invalid",
