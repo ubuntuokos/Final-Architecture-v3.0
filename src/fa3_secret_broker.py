@@ -117,14 +117,17 @@ class ProjectionLeaseStore:
     def _save(self,x:dict[str,Any])->None:
         _atomic_write(self.path,(json.dumps(x,sort_keys=True,separators=(",",":"))+"\n").encode())
     def issue(self,*,grant_id:str,projection:str,consumer_identity_ref:dict[str,Any],expires_monotonic_ns:int,
-              boot_id:str,secret_ref_sha256:str,hrb_lease_id:str,hrb_generation:int,execution_binding:dict[str,Any])->dict[str,Any]:
-        if not grant_id or not hrb_lease_id or not isinstance(hrb_generation,int) or hrb_generation<1:
+              boot_id:str,secret_ref_sha256:str,hrb_lease_id:str,hrb_generation:int,
+              hrb_runtime_binding_sha256:str,execution_binding:dict[str,Any])->dict[str,Any]:
+        if (not grant_id or not hrb_lease_id or not isinstance(hrb_generation,int) or hrb_generation<1
+                or not re.fullmatch(r"[0-9a-f]{64}",hrb_runtime_binding_sha256)):
             raise ValueError("projection lease binding invalid")
         lease_id="spl-"+secrets.token_hex(16);x=self._load()
         item={"lease_id":lease_id,"grant_id":grant_id,"projection":projection,
               "consumer_identity_ref":consumer_identity_ref,"expires_monotonic_ns":expires_monotonic_ns,
               "boot_id":boot_id,"secret_ref_sha256":secret_ref_sha256,"hrb_lease_id":hrb_lease_id,
-              "hrb_generation":hrb_generation,"execution_binding":execution_binding,"state":"ACTIVE",
+              "hrb_generation":hrb_generation,"hrb_runtime_binding_sha256":hrb_runtime_binding_sha256,
+              "execution_binding":execution_binding,"state":"ACTIVE",
               "artifact":None,"secret_values_collected":False}
         x["leases"][lease_id]=item;self._save(x);return json.loads(json.dumps(item))
     def get(self,lease_id:str)->dict[str,Any]|None:
@@ -145,17 +148,19 @@ class ProjectionLeaseStore:
         if int(artifact.get("owner_uid",-1))!=uid or int(artifact.get("size",-1))<0 or int(artifact.get("size",-1))>MAX_SECRET_BYTES:
             raise ValueError("projection artifact owner/size invalid")
         item["artifact"]=artifact;self._save(x);return json.loads(json.dumps(item))
-    def revoke(self,lease_id:str,hrb_lease_id:str,hrb_generation:int)->dict[str,Any]:
+    def revoke(self,lease_id:str,hrb_lease_id:str,hrb_generation:int,hrb_runtime_binding_sha256:str)->dict[str,Any]:
         x=self._load();item=x["leases"].get(lease_id)
         if not item:raise KeyError("projection lease not found")
-        if item.get("hrb_lease_id")!=hrb_lease_id or item.get("hrb_generation")!=hrb_generation:
+        if (item.get("hrb_lease_id")!=hrb_lease_id or item.get("hrb_generation")!=hrb_generation
+                or item.get("hrb_runtime_binding_sha256")!=hrb_runtime_binding_sha256):
             raise PermissionError("projection lease HRB binding mismatch")
         if item.get("state") not in {"ACTIVE","REVOKED"}:raise ValueError("projection lease state invalid for revoke")
         item["state"]="REVOKED";self._save(x);return json.loads(json.dumps(item))
-    def zeroized(self,lease_id:str,hrb_lease_id:str,hrb_generation:int)->dict[str,Any]:
+    def zeroized(self,lease_id:str,hrb_lease_id:str,hrb_generation:int,hrb_runtime_binding_sha256:str)->dict[str,Any]:
         x=self._load();item=x["leases"].get(lease_id)
         if not item:raise KeyError("projection lease not found")
-        if item.get("hrb_lease_id")!=hrb_lease_id or item.get("hrb_generation")!=hrb_generation:
+        if (item.get("hrb_lease_id")!=hrb_lease_id or item.get("hrb_generation")!=hrb_generation
+                or item.get("hrb_runtime_binding_sha256")!=hrb_runtime_binding_sha256):
             raise PermissionError("projection lease HRB binding mismatch")
         if item.get("state")!="REVOKED":raise ValueError("projection lease must be revoked before zeroize acknowledgement")
         item["state"]="ZEROIZED";item["artifact"]=None;self._save(x);return json.loads(json.dumps(item))
@@ -232,12 +237,13 @@ class Broker:
                 self._audit(op,"_projection_lease",consumer or "HRB",uid,projection,"DENY_ADMIN_REQUIRED")
                 return {"ok":False,"error":"admin authorization required"}
             lease_id=str(req.get("projection_lease_id",""));hrb_lease_id=str(req.get("hrb_lease_id",""))
+            runtime_digest=str(req.get("runtime_binding_sha256",""))
             try:hrb_generation=int(req.get("hrb_generation",0))
             except (TypeError,ValueError):hrb_generation=0
             try:
-                item=(self.projection_leases.revoke(lease_id,hrb_lease_id,hrb_generation)
+                item=(self.projection_leases.revoke(lease_id,hrb_lease_id,hrb_generation,runtime_digest)
                       if op=="projection_revoke"
-                      else self.projection_leases.zeroized(lease_id,hrb_lease_id,hrb_generation))
+                      else self.projection_leases.zeroized(lease_id,hrb_lease_id,hrb_generation,runtime_digest))
             except Exception as exc:
                 self._audit(op,"_projection_lease",consumer or "HRB",uid,projection,"DENY_BINDING")
                 return {"ok":False,"error":str(exc)}
@@ -325,7 +331,9 @@ class Broker:
                     ttl=float(lease_req.get("ttl_seconds",0));generation=int(lease_req.get("hrb_generation",0))
                 except (TypeError,ValueError):
                     return {"ok":False,"error":"projection lease ttl/generation invalid"}
-                if ttl<=0 or generation<1 or not str(lease_req.get("hrb_lease_id","")):
+                runtime_digest=str(lease_req.get("runtime_binding_sha256",""))
+                if (ttl<=0 or generation<1 or not str(lease_req.get("hrb_lease_id",""))
+                        or not re.fullmatch(r"[0-9a-f]{64}",runtime_digest)):
                     return {"ok":False,"error":"projection lease ttl/HRB binding invalid"}
                 item=self.projection_leases.issue(
                     grant_id=str(lease_req.get("request_id","")),
@@ -336,13 +344,16 @@ class Broker:
                     secret_ref_sha256=hashlib.sha256(sid.encode()).hexdigest(),
                     hrb_lease_id=str(lease_req.get("hrb_lease_id","")),
                     hrb_generation=generation,
+                    hrb_runtime_binding_sha256=runtime_digest,
                     execution_binding=binding,
                 )
                 out["projection_lease"]={
                     "lease_id":item["lease_id"],"grant_id":item["grant_id"],"projection":item["projection"],
                     "consumer_identity_ref":item["consumer_identity_ref"],
                     "expires_at":"MONOTONIC_BOUND_CURRENT_BOOT","hrb_lease_id":item["hrb_lease_id"],
-                    "hrb_generation":item["hrb_generation"],"secret_values_collected":False,
+                    "hrb_generation":item["hrb_generation"],
+                    "runtime_binding_sha256":item["hrb_runtime_binding_sha256"],
+                    "secret_values_collected":False,
                 }
         return out
 
