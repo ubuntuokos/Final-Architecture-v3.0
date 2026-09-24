@@ -29,6 +29,16 @@
     "ACTIVATION_IS_TASK_SCOPED",
     "REFERENCE_ONLY_AND_BLOCKED_CANNOT_MATERIALIZE",
     "REMOTE_FETCH_DURING_ACTIVATION_FORBIDDEN",
-    "USE_RECEIPT_BINDS_SELECTION_ADMISSION_AND_CONTENT_DIGEST"
-  ]
+    "USE_RECEIPT_BINDS_SELECTION_ADMISSION_AND_CONTENT_DIGEST",
+    "IMPROVEMENT_CANDIDATE_CANNOT_REPLACE_ADMITTED_SKILL_IN_PLACE",
+    "IMPROVEMENT_CANDIDATE_REQUIRES_NEW_ADMISSION"
+  ],
+  "improvement_semantics": {
+    "admitted_skill_immutable": true,
+    "live_task_self_modification_forbidden": true,
+    "candidate_is_not_admitted": true,
+    "held_out_validation_required": true,
+    "security_reinspection_required": true,
+    "new_skill_package_admission_required": true
+  }
 }
