@@ -49,4 +49,3 @@ the existing Secret Backend / Session Vault evidence chain.
 If the Control Center startup implementation changes so that the non-configured
 vault path can touch Secret Backend before the guard, the materialization gate
 fails and a new physical proof scope is required.
-
