@@ -10,7 +10,7 @@ REQUIRED_CHECKS=[
     "runtime_model_discovery_pass","credential_authentication_enforced_pass","session_affinity_pass","intra_provider_rebind_pass",
  "cross_provider_silent_fallback_denied_pass","unadmitted_provider_denied_pass","unadmitted_credential_denied_pass",
  "protocol_lossless_or_declared_degradation_pass","security_relevant_schema_loss_denied_pass",
- "raw_secret_absent_from_logs_pass","raw_secret_absent_from_evidence_pass","rollback_pass",
+ "raw_secret_absent_from_logs_pass","raw_secret_absent_from_evidence_pass","rollback_pass","provisioning_cleanup_pass",
 ]
 FORBIDDEN_KEYS={"api_key","authorization","password","secret_value","credential_value","access_token","refresh_token","bearer_token"}
 
