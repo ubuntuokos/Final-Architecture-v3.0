@@ -16,6 +16,7 @@ from fa3_external_llm_catalog import (
 from fa3_release_baseline import module_active_capability_count
 
 GATE_ID = "FA3-GATE-EXTERNAL-LLM-CATALOG-001"
+GATESET_ID = "FA3-EXTERNAL-LLM-CATALOG-GATESET-001"
 PROFILE_ID = "FA3-EXTERNAL-LLM-CATALOG-001"
 CONTRACT_ID = "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001"
 DECISION_ID = "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24"
@@ -104,6 +105,8 @@ def reference_check(root: Path) -> dict[str, Any]:
         "assessment": root / "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json",
         "reference": root / "canonical/references/FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24.json",
         "enforcement": root / "canonical/external-llm-catalog-enforcement.json",
+        "executable_gate": root / "canonical/FA3-GATE-EXTERNAL-LLM-CATALOG-001.json",
+        "policy": root / "canonical/enforcement-policy.json",
         "evidence": root / "evidence/reference/external-llm-catalog-ci-2026-09-24.json",
         "model_router_enforcement": root / "canonical/model-router-enforcement.json",
         "surface_registry": root / "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
@@ -127,6 +130,8 @@ def reference_check(root: Path) -> dict[str, Any]:
     assessment = _load(paths["assessment"])
     reference = _load(paths["reference"])
     enforcement = _load(paths["enforcement"])
+    executable_gate = _load(paths["executable_gate"])
+    policy = _load(paths["policy"])
     evidence = _load(paths["evidence"])
     model_router = _load(paths["model_router_enforcement"])
     surface_registry = _load(paths["surface_registry"])
@@ -137,6 +142,7 @@ def reference_check(root: Path) -> dict[str, Any]:
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
         and profile.get("capability_count") == CAPABILITY_COUNT
+        and profile.get("gate_id") == GATESET_ID
         and profile.get("authority_bindings", {}).get("model_routing") == "FA3-AUTH-MODEL-ROUTER-001"
         and profile.get("runtime_policy", {}).get("silent_local_to_cloud_fallback") is False
         and profile.get("runtime_policy", {}).get("baseline_local_routes_remain_local_only") is True
@@ -204,8 +210,38 @@ def reference_check(root: Path) -> dict[str, Any]:
         "DECISION_FABRIC_CANNOT_EXPAND_OR_ADMIT_PROVIDER_SET",
         "GUI_PROVIDER_EXPLORER_IS_READ_ONLY_PLUS_DRAFT_INTENT",
     }
-    if enforcement.get("gate_id") != GATE_ID or not required_rules.issubset(set(enforcement.get("mandatory_rules", []))):
+    if (
+        enforcement.get("gate_id") != GATE_ID
+        or enforcement.get("gateset_id") != GATESET_ID
+        or not required_rules.issubset(set(enforcement.get("mandatory_rules", [])))
+    ):
         findings.append(_finding("ELLC-015", "mandatory enforcement rules incomplete"))
+
+    if not (
+        executable_gate.get("id") == GATE_ID
+        and executable_gate.get("gateset_id") == GATESET_ID
+        and executable_gate.get("status") == "CANONICAL_EXECUTABLE"
+        and executable_gate.get("profile_id") == PROFILE_ID
+        and executable_gate.get("contract_id") == CONTRACT_ID
+        and executable_gate.get("decision_id") == DECISION_ID
+        and executable_gate.get("reference_id") == REFERENCE_ID
+        and executable_gate.get("capability_count") == CAPABILITY_COUNT
+        and executable_gate.get("regression_case_count") == 12
+        and executable_gate.get("global_command") == "./bin/fa3-enforce external-llm-catalog"
+        and executable_gate.get("current_host_provider_runtime_evidence") is False
+    ):
+        findings.append(_finding("ELLC-015A", "canonical executable gate record drift"))
+
+    if not (
+        GATESET_ID in set(policy.get("mandatory_reference_gates", []))
+        and policy.get("external_llm_catalog_profile_id") == PROFILE_ID
+        and policy.get("external_llm_catalog_contract_id") == CONTRACT_ID
+        and policy.get("external_llm_catalog_gate_id") == GATESET_ID
+        and policy.get("external_llm_catalog_reference_id") == REFERENCE_ID
+        and policy.get("external_llm_catalog_silent_local_to_cloud_fallback") is False
+        and policy.get("external_llm_catalog_upstream_distribution_class") == "REFERENCE_ONLY"
+    ):
+        findings.append(_finding("ELLC-015B", "global enforcement policy binding drift"))
 
     if "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK" not in set(model_router.get("rules", [])):
         findings.append(_finding("ELLC-016", "existing Model Router no-silent-cloud-fallback invariant missing"))
