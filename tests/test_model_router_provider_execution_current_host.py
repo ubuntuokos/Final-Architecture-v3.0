@@ -32,7 +32,7 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("SupplementaryGroups=fa3-secret-clients",harness)
         self.assertIn("CURRENT_HOST_PASS",harness)
         self.assertIn("--preferred-model",harness)
-        self.assertIn("evidence/reference/secret-broker-current-host-2026-09-21.json",harness)
+        self.assertIn("evidence/reference/secret-broker-current-host-2026-09-24.json",harness)
         self.assertNotIn('/usr/local/libexec/fa3-secret-broker-current-host-root >/dev/null',harness)
         self.assertIn("/var/lib/fa3/state/fa3-machine-state.img",harness)
         self.assertIn("/etc/credstore.encrypted/fa3-machine-state-key.cred",harness)
