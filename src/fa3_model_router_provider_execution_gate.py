@@ -121,7 +121,7 @@ def gate(root: Path) -> dict[str, Any]:
         for token in ("https://api.openai.com/v1","/v1/models","/v1/chat/completions","fixed FA3 provider-execution probe content","credential_storage"):
             if token not in bridge_text:
                 f.append(finding("PEX-OPENAI-004",f"OpenAI loopback bridge contract token missing: {token}"))
-        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","gpt-6-luna","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty"):
+        for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","gpt-4o-mini","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty"):
             if token not in close_text:
                 f.append(finding("PEX-OPENAI-005",f"OpenAI closure harness contract token missing: {token}"))
     reg=regressions()
