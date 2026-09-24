@@ -28,6 +28,7 @@ from fa3_model_router_provider_execution import (
 CONFIG_SCHEMA = "fa3.model-router-provider-execution-current-host-config.v1"
 OUTPUT_SCHEMA = "fa3.model-router-provider-execution-live-probe.v1"
 SECRET_RECEIPT_SCHEMA = "fa3.secret-broker-current-host-receipt.v1"
+SECRET_REFERENCE_SCHEMA = "fa3.current-host-evidence-reference.v1"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -123,10 +124,25 @@ def project_secret(root: Path, *, secret_id: str, consumer_id: str, output: Path
 
 def validate_secret_receipt(path: Path) -> None:
     receipt = loadj(path)
-    if receipt.get("schema") != SECRET_RECEIPT_SCHEMA or receipt.get("result") != "PASS":
-        raise ProbeDenied("Secret Broker current-host receipt is not PASS")
-    if receipt.get("secret_values_collected") is not False:
-        raise ProbeDenied("Secret Broker receipt does not prove secret-value exclusion")
+    schema = receipt.get("schema")
+    if schema == SECRET_RECEIPT_SCHEMA:
+        if receipt.get("status") != "PASS" or receipt.get("secret_values_collected") is not False:
+            raise ProbeDenied("Secret Broker raw current-host receipt is not PASS")
+        return
+    if schema == SECRET_REFERENCE_SCHEMA:
+        source = receipt.get("source", {})
+        runtime = receipt.get("runtime", {})
+        if (
+            receipt.get("result") != "PASS"
+            or receipt.get("status") != "CURRENT_HOST_ADMITTED"
+            or receipt.get("production_admitted") is not True
+            or source.get("current_host_gate_result") != "PASS"
+            or source.get("current_host_gate_status") != "CURRENT_HOST_PASS"
+            or runtime.get("secret_values_collected") is not False
+        ):
+            raise ProbeDenied("Secret Broker durable current-host evidence is not admitted PASS")
+        return
+    raise ProbeDenied("unsupported Secret Broker current-host evidence schema")
 
 
 def discover_models(api_base: str, models_path: str, token: str, preferred: list[str]) -> list[str]:
