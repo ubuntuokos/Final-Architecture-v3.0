@@ -63,7 +63,17 @@ def loopback_origin(value: str) -> bool:
 
 
 def url_join(base: str, path: str) -> str:
-    return base.rstrip("/") + "/" + path.lstrip("/")
+    relative = path.strip()
+    if (
+        not relative
+        or relative.startswith("/")
+        or "://" in relative
+        or "?" in relative
+        or "#" in relative
+        or any(segment in {"", ".", ".."} for segment in relative.split("/"))
+    ):
+        raise ProbeDenied("provider endpoint path must be relative to api_base")
+    return base.rstrip("/") + "/" + relative
 
 
 def request_json(method: str, url: str, token: str, body: dict[str, Any] | None = None, timeout: float = 60.0) -> dict[str, Any]:
@@ -329,8 +339,8 @@ def main() -> int:
     preferred = cfg.get("preferred_models", [])
     if not isinstance(preferred, list) or any(not isinstance(v, str) for v in preferred):
         raise ProbeDenied("preferred_models must be a string array")
-    models_path = str(cfg.get("models_path", "/v1/models"))
-    chat_path = str(cfg.get("chat_path", "/v1/chat/completions"))
+    models_path = str(cfg.get("models_path", "models"))
+    chat_path = str(cfg.get("chat_path", "chat/completions"))
 
     temp_root = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")) / "fa3-provider-execution-current-host"
     temp_root.mkdir(parents=True, exist_ok=True)

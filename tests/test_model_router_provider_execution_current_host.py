@@ -1,4 +1,4 @@
-import json, tempfile, unittest, subprocess, sys
+import importlib.util, json, tempfile, unittest, subprocess, sys
 from pathlib import Path
 from fa3_model_router_provider_execution_current_host_gate import REQUIRED_CHECKS
 
@@ -26,6 +26,26 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("discover_working_chat_model",producer)
         self.assertIn("fa3.current-host-evidence-reference.v1",producer)
         self.assertEqual(schema["properties"]["credentials"]["minItems"],2)
+    def test_endpoint_paths_are_relative_to_api_base(self):
+        spec=importlib.util.spec_from_file_location(
+            "fa3_provider_execution_current_host",
+            ROOT/"bin/fa3-model-router-provider-execution-current-host.py",
+        )
+        self.assertIsNotNone(spec)
+        module=importlib.util.module_from_spec(spec)
+        self.assertIsNotNone(spec.loader)
+        spec.loader.exec_module(module)
+        self.assertEqual(
+            module.url_join("http://127.0.0.1:12345/v1","models"),
+            "http://127.0.0.1:12345/v1/models",
+        )
+        self.assertEqual(
+            module.url_join("http://127.0.0.1:12345/v1","chat/completions"),
+            "http://127.0.0.1:12345/v1/chat/completions",
+        )
+        with self.assertRaises(module.ProbeDenied):
+            module.url_join("http://127.0.0.1:12345/v1","/v1/models")
+
     def test_provisioning_harness_shell_syntax(self):
         subprocess.run(["bash","-n",str(ROOT/"bin/fa3-model-router-provider-execution-current-host-provision.sh")],check=True)
         harness=(ROOT/"bin/fa3-model-router-provider-execution-current-host-provision.sh").read_text(encoding="utf-8")
@@ -35,6 +55,10 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn('"allowed_executables":[]',harness)
         self.assertNotIn('"allowed_executables":[python_exe]',harness)
         self.assertIn('"allowed_systemd_units":[unit]',harness)
+        self.assertIn('"models_path":"models"',harness)
+        self.assertIn('"chat_path":"chat/completions"',harness)
+        self.assertNotIn('"models_path":"/v1/models"',harness)
+        self.assertNotIn('"chat_path":"/v1/chat/completions"',harness)
         self.assertIn("CURRENT_HOST_PASS",harness)
         self.assertIn("--preferred-model",harness)
         self.assertIn("evidence/reference/secret-broker-current-host-2026-09-24.json",harness)

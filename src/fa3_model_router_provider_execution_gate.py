@@ -96,6 +96,8 @@ def gate(root: Path) -> dict[str, Any]:
             f.append(finding("PEX-CH-007","provider probe must fail fast when installed Secret Broker runtime drifts from repository HEAD"))
         if '"allowed_executables":[]' not in provisioner_text or '"allowed_systemd_units":[unit]' not in provisioner_text or '"allowed_executables":[python_exe]' in provisioner_text:
             f.append(finding("PEX-CH-008","provider secret consumer must bind dedicated user to exact transient systemd unit"))
+        if '"models_path":"models"' not in provisioner_text or '"chat_path":"chat/completions"' not in provisioner_text or '"models_path":"/v1/models"' in provisioner_text or '"chat_path":"/v1/chat/completions"' in provisioner_text or 'cfg.get("models_path", "models")' not in producer_text or 'cfg.get("chat_path", "chat/completions")' not in producer_text:
+            f.append(finding("PEX-CH-009","provider endpoint paths must be relative to the admitted api_base"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
 

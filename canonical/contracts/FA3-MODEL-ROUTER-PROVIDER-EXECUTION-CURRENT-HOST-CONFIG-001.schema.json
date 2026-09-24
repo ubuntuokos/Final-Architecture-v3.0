@@ -20,8 +20,8 @@
     "consumer_id": {"type": "string", "minLength": 1},
     "provider_current_host_admission_receipt": {"type": "string", "minLength": 1},
     "secret_broker_current_host_receipt": {"type": "string", "minLength": 1},
-    "models_path": {"type": "string", "minLength": 1},
-    "chat_path": {"type": "string", "minLength": 1},
+    "models_path": {"type": "string", "minLength": 1, "pattern": "^[^/][^?#]*$"},
+    "chat_path": {"type": "string", "minLength": 1, "pattern": "^[^/][^?#]*$"},
     "preferred_models": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "credentials": {
       "type": "array",
