@@ -253,3 +253,170 @@ def admit_remote_execution(assertions: dict[str, bool]) -> dict[str, Any]:
 
 def trust_signal(*, interaction_score: float, interaction_count: int) -> dict[str, Any]:
     return {"score":float(interaction_score),"count":int(interaction_count),"authorization":False,"capability_grant":False,"remote_spawn_grant":False,"semantics":"ADVISORY_ONLY"}
+
+
+LIFECYCLE_EVENT_TYPES = {
+    "TASK_PREPARED", "TASK_STARTED", "DELEGATION_CREATED", "CLAIM_ACQUIRED",
+    "ACTION_STARTED", "ACTION_COMPLETED", "DELEGATION_COMPLETED", "CLAIM_RELEASED",
+    "TASK_COMPLETED", "TASK_FAILED", "TASK_CANCELLED",
+}
+
+
+def project_lifecycle_event(
+    *,
+    event_id: str,
+    event_type: str,
+    task_id: str,
+    run_id: str,
+    timestamp: str,
+    human_readable_text: str,
+    evidence_ids: list[str] | None = None,
+) -> dict[str, Any]:
+    if event_type not in LIFECYCLE_EVENT_TYPES:
+        raise FederationContractError("unsupported federation lifecycle event")
+    if not all(isinstance(v, str) and v for v in (event_id, task_id, run_id, timestamp, human_readable_text)):
+        raise FederationContractError("lifecycle event identity/text fields required")
+    _parse_utc(timestamp, "timestamp")
+    evidence = list(evidence_ids or [])
+    if any(not isinstance(x, str) or not x for x in evidence):
+        raise FederationContractError("invalid lifecycle evidence id")
+    return {
+        "schema": "fa3.federation-lifecycle-event-projection.v1",
+        "event_id": event_id,
+        "event_type": event_type,
+        "task_id": task_id,
+        "run_id": run_id,
+        "timestamp": timestamp,
+        "human_readable_text": human_readable_text,
+        "evidence_ids": evidence,
+        "journal_authority": "FA3-JOURNAL-001",
+        "loop_ledger_profile": "FA3-CLOSED-LOOP-AGENT-OPERATIONS-001",
+        "authorization": False,
+        "durable_orchestration_authority": False,
+    }
+
+
+def build_execution_trajectory(
+    *,
+    trajectory_id: str,
+    events: list[dict[str, Any]],
+    outcome: str,
+    evidence_ids: list[str],
+) -> dict[str, Any]:
+    allowed = {"SUCCESS", "PARTIAL", "FAILURE", "CANCELLED", "INCONCLUSIVE"}
+    if not isinstance(trajectory_id, str) or not trajectory_id:
+        raise FederationContractError("trajectory_id required")
+    if outcome not in allowed:
+        raise FederationContractError("unsupported trajectory outcome")
+    if not events:
+        raise FederationContractError("trajectory requires source events")
+    task_ids = {x.get("task_id") for x in events}
+    run_ids = {x.get("run_id") for x in events}
+    event_ids = [x.get("event_id") for x in events]
+    if len(task_ids) != 1 or None in task_ids or len(run_ids) != 1 or None in run_ids:
+        raise FederationContractError("trajectory source events must share task/run identity")
+    if len(event_ids) != len(set(event_ids)) or any(not isinstance(x, str) or not x for x in event_ids):
+        raise FederationContractError("trajectory event identity invalid")
+    if not evidence_ids or any(not isinstance(x, str) or not x for x in evidence_ids):
+        raise FederationContractError("trajectory outcome evidence required")
+    return {
+        "schema": "fa3.execution-trajectory.v1",
+        "trajectory_id": trajectory_id,
+        "task_id": next(iter(task_ids)),
+        "run_id": next(iter(run_ids)),
+        "event_ids": event_ids,
+        "started_at": events[0].get("timestamp"),
+        "ended_at": events[-1].get("timestamp"),
+        "outcome": outcome,
+        "evidence_ids": list(evidence_ids),
+        "source_event_provenance_preserved": True,
+        "evidence_authority": False,
+        "memory_authority": False,
+    }
+
+
+def create_pattern_candidate(
+    *,
+    candidate_id: str,
+    trajectory: dict[str, Any],
+    proposal: dict[str, Any],
+    authority_grants: list[str] | None = None,
+    capability_grants: list[str] | None = None,
+) -> dict[str, Any]:
+    if not candidate_id or trajectory.get("schema") != "fa3.execution-trajectory.v1":
+        raise FederationContractError("valid trajectory-bound pattern candidate required")
+    if not trajectory.get("evidence_ids"):
+        raise FederationContractError("pattern candidate requires outcome evidence lineage")
+    if authority_grants or capability_grants:
+        raise FederationContractError("learned pattern cannot grant authority or capability")
+    return {
+        "schema": "fa3.pattern-candidate.v1",
+        "candidate_id": candidate_id,
+        "trajectory_id": trajectory["trajectory_id"],
+        "task_id": trajectory["task_id"],
+        "proposal": dict(proposal),
+        "source_evidence_ids": list(trajectory["evidence_ids"]),
+        "state": "REVIEW_REQUIRED",
+        "authority_grants": [],
+        "capability_grants": [],
+        "automatic_promotion": False,
+    }
+
+
+def review_pattern_candidate(
+    candidate: dict[str, Any],
+    *,
+    review_state: str,
+    review_evidence_ids: list[str],
+    risk_class: str,
+    human_approved: bool,
+) -> dict[str, Any]:
+    if candidate.get("schema") != "fa3.pattern-candidate.v1":
+        raise FederationContractError("pattern candidate required")
+    if review_state not in {"APPROVED", "REJECTED"}:
+        raise FederationContractError("explicit pattern review state required")
+    if not review_evidence_ids:
+        raise FederationContractError("pattern review evidence required")
+    high_risk = risk_class.upper() in {"HIGH", "CRITICAL"}
+    if review_state == "APPROVED" and high_risk and human_approved is not True:
+        raise FederationContractError("high-risk pattern promotion requires human approval")
+    return {
+        "schema": "fa3.pattern-promotion-receipt.v1",
+        "candidate_id": candidate["candidate_id"],
+        "state": "PROMOTED" if review_state == "APPROVED" else "REJECTED",
+        "review_evidence_ids": list(review_evidence_ids),
+        "risk_class": risk_class.upper(),
+        "human_approved": bool(human_approved),
+        "memory_mutation_authority": False,
+        "authorization_expansion": False,
+        "capability_expansion": False,
+    }
+
+
+def admit_adaptive_worker(
+    *,
+    trigger_mode: str,
+    early_exit: bool,
+    budget_gate: bool,
+    noop_path: bool,
+    temporal_bound: bool,
+    uaf_bound: bool,
+    hrb_bound: bool,
+    hidden_resident_worker: bool,
+) -> dict[str, Any]:
+    if hidden_resident_worker:
+        raise FederationContractError("hidden resident adaptive worker authority forbidden")
+    if not all((temporal_bound, uaf_bound, hrb_bound)):
+        raise FederationContractError("adaptive worker must reuse Temporal/UAF/HRB boundaries")
+    if trigger_mode not in {"EVENT_DRIVEN", "CHANGE_WATCH", "ADAPTIVE_POLLING", "FIXED_POLLING"}:
+        raise FederationContractError("unsupported adaptive worker trigger")
+    if trigger_mode in {"ADAPTIVE_POLLING", "FIXED_POLLING"} and not all((early_exit, budget_gate, noop_path)):
+        raise FederationContractError("polling adaptive worker requires early-exit budget and no-op path")
+    return {
+        "status": "ADMITTED",
+        "trigger_mode": trigger_mode,
+        "durable_lifecycle": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+        "execution_boundary": "FA3-UNIFIED-ACTION-FABRIC-001",
+        "resource_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+        "provider_authority": False,
+    }
