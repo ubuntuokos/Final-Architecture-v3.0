@@ -17,6 +17,7 @@ on:
       - "bin/fa3-reuse-assess"
       - "tests/test_reuse_discovery_gate.py"
       - ".github/workflows/fa3-reuse-discovery.yml"
+      - "reports/reuse-discovery-ci-retrigger-*.txt"
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -40,12 +41,22 @@ jobs:
         run: python -m py_compile src/fa3_reuse_catalog.py src/fa3_reuse_resolver.py src/fa3_reuse_assessment.py src/fa3_reuse_gate.py
       - name: Reuse discovery regressions
         run: PYTHONPATH=src python -m unittest tests.test_reuse_discovery_gate -v
+      - name: Full repository unit regression
+        run: PYTHONPATH=src python -m unittest discover -s tests -v
       - name: Hardware audit remains vendor-neutral
         run: ./bin/fa3-enforce hardware-portability
-      - name: Reuse discovery fail-closed gate
-        run: ./bin/fa3-enforce reuse-discovery
+      - name: Unified release projection
+        run: ./bin/fa3-enforce release-projection
       - name: Distribution compliance regression
         run: ./bin/fa3-enforce distribution-compliance
+      - name: Integration broker regression
+        run: ./bin/fa3-enforce integration-broker
+      - name: GUI canonical regression
+        run: PYTHONPATH=. python src/fa3_gui_gate.py
+      - name: Reuse discovery fail-closed gate
+        run: ./bin/fa3-enforce reuse-discovery
+      - name: Global static enforcement
+        run: ./bin/fa3-enforce static
       - name: Diff whitespace
         run: git diff --check HEAD^ HEAD
       - uses: actions/upload-artifact@v4
@@ -53,4 +64,7 @@ jobs:
         with:
           name: fa3-reuse-discovery-gate
           if-no-files-found: error
-          path: reports/reuse-discovery-gate-report.json
+          path: |
+            reports/reuse-discovery-gate-report.json
+            reports/release-projection-gate-report.json
+            reports/static-gate-report.json
