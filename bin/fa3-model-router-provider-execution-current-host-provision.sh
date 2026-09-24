@@ -15,7 +15,6 @@ RUN_ROOT="/run/fa3/model-router-provider-execution"
 SOURCE="$RUN_ROOT/current-host-source.json"
 CONFIG="$RUN_ROOT/current-host-config.json"
 RUNTIME_DIR="$RUN_ROOT/runtime"
-SECRET_RECEIPT_RUNTIME="/run/fa3/current-host-secret-broker/secret-broker-current-host.json"
 SECRET_RECEIPT_REFERENCE="$ROOT/evidence/reference/secret-broker-current-host-2026-09-21.json"
 SECRET_RECEIPT="$SECRET_RECEIPT_REFERENCE"
 CREATED_USER=false
@@ -102,6 +101,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
+echo "Validating admitted Secret Broker current-host evidence..."
 [[ -s "$SECRET_RECEIPT_REFERENCE" ]] || {
   echo "durable Secret Broker current-host admission evidence missing" >&2
   exit 2
@@ -126,10 +126,14 @@ if (
 PY
 
 if ! systemctl is-active --quiet fa3-secrets.target; then
+  echo "Starting production Secret Broker lifecycle..."
   /usr/local/sbin/fa3-secrets-lifecycle start >/dev/null
   LIFECYCLE_STARTED=true
+else
+  echo "Production Secret Broker lifecycle already active."
 fi
 /usr/local/bin/fa3-secretctl health >/dev/null
+echo "Secret Broker live health: PASS"
 
 if getent passwd "$PROBE_USER" >/dev/null; then
   echo "probe identity already exists; refusing to reuse it" >&2
