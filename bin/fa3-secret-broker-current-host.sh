@@ -13,8 +13,9 @@ if systemctl is-active --quiet fa3-secrets.target \
   || systemctl is-active --quiet fa3-secret-broker.service \
   || systemctl is-active --quiet "$MOUNT_UNIT" \
   || systemctl is-active --quiet fa3-secret-vault.service \
-  || mountpoint -q /run/fa3/machine-state; then
-  echo "current-host E2E requires the production secrets lifecycle to be CLOSED" >&2
+  || mountpoint -q /run/fa3/machine-state \
+  || [[ -e /dev/mapper/fa3-machine-state ]]; then
+  echo "current-host E2E requires the production secrets lifecycle and mapper to be CLOSED" >&2
   exit 2
 fi
 for stale_path in /dev/mapper/fa3-machine-state-e2e-*; do
