@@ -175,9 +175,9 @@ x=json.loads(Path(receipt_path).read_text(encoding="utf-8"))
 head=subprocess.check_output(["git","-C",root,"rev-parse","HEAD"],text=True).strip()
 checks=x.get("checks",{})
 if (
-    x.get("schema")!="fa3.model-router-provider-execution-current-host-receipt.v1"
+    x.get("schema")!="fa3.model-router-provider-execution-current-host.v1"
     or x.get("result")!="PASS"
-    or x.get("evidence_level")!="CURRENT_HOST_REAL_PROVIDER_EXECUTION_PASS"
+    or x.get("evidence_level")!="CURRENT_HOST_REAL_PROVIDER_EXECUTION_E2E_PASS"
     or x.get("repository_head")!=head
     or x.get("provider_id")!=provider_id
     or x.get("raw_secret_present") is not False
