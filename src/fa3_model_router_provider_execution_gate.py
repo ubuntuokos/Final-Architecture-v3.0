@@ -96,10 +96,10 @@ def gate(root: Path) -> dict[str, Any]:
             f.append(finding("PEX-CH-007","provider probe must fail fast when installed Secret Broker runtime drifts from repository HEAD"))
         if '"allowed_executables":[]' not in provisioner_text or '"allowed_systemd_units":[unit]' not in provisioner_text or '"allowed_executables":[python_exe]' in provisioner_text:
             f.append(finding("PEX-CH-008","provider secret consumer must bind dedicated user to exact transient systemd unit"))
-        if '"models_path":"models"' not in provisioner_text or '"chat_path":"chat/completions"' not in provisioner_text or '"models_path":"/v1/models"' in provisioner_text or '"chat_path":"/v1/chat/completions"' in provisioner_text or 'cfg.get("models_path", "models")' not in producer_text or 'cfg.get("chat_path", "chat/completions")' not in producer_text:
+        if '"identity_path":"me"' not in provisioner_text or '"models_path":"models"' not in provisioner_text or '"chat_path":"chat/completions"' not in provisioner_text or '"identity_path":"/v1/me"' in provisioner_text or '"models_path":"/v1/models"' in provisioner_text or '"chat_path":"/v1/chat/completions"' in provisioner_text or 'cfg.get("identity_path", "me")' not in producer_text or 'cfg.get("models_path", "models")' not in producer_text or 'cfg.get("chat_path", "chat/completions")' not in producer_text:
             f.append(finding("PEX-CH-009","provider endpoint paths must be relative to the admitted api_base"))
-        if "credential_upstream_preflight" not in producer_text or "parse_provider_error" not in producer_text or 'error.get("message")' in producer_text or "credential_a_upstream_preflight_pass" not in producer_text or "credential_b_upstream_preflight_pass" not in producer_text:
-            f.append(finding("PEX-CH-010","two-credential upstream preflight with sanitized provider diagnostics is required"))
+        if "credential_identity_preflight" not in producer_text or "credential_upstream_preflight" not in producer_text or "parse_provider_error" not in producer_text or 'error.get("message")' in producer_text or "credential_a_identity_preflight_pass" not in producer_text or "credential_b_identity_preflight_pass" not in producer_text or "credential_a_upstream_preflight_pass" not in producer_text or "credential_b_upstream_preflight_pass" not in producer_text:
+            f.append(finding("PEX-CH-010","two-credential identity/catalog preflight with sanitized provider diagnostics is required"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
 
@@ -131,7 +131,7 @@ def gate(root: Path) -> dict[str, Any]:
             and openai_policy.get("secret_boundary",{}).get("authority")=="FA3-SECRET-BROKER-001"
         ):
             f.append(finding("PEX-OPENAI-003","OpenAI explicit external policy drift"))
-        for token in ("https://api.openai.com/v1","/v1/models","/v1/chat/completions","fixed FA3 provider-execution probe content","credential_storage"):
+        for token in ("https://api.openai.com/v1","/v1/me","/v1/models","/v1/chat/completions","fixed FA3 provider-execution probe content","credential_storage"):
             if token not in bridge_text:
                 f.append(finding("PEX-OPENAI-004",f"OpenAI loopback bridge contract token missing: {token}"))
         for token in ("FA3-PROVIDER-OPENAI-API-001","FA3-OPENAI-API-EXTERNAL-POLICY-001","runtime discovery from this API project","fa3-model-router-provider-execution-current-host-provision.sh","/dev/tty","PROVISION_RC=$?","closure PASS withheld","fa3.model-router-provider-execution-current-host.v1","CURRENT_HOST_REAL_PROVIDER_EXECUTION_E2E_PASS","provisioning_cleanup_pass",'PROVIDER_RUN_ROOT="/run/fa3/model-router-provider-execution"','PROVIDER_RECEIPT="$PROVIDER_RUN_ROOT/current-host-receipt.json"'):
