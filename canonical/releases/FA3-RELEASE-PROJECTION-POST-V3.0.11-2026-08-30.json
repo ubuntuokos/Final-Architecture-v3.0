@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "29634ae3c24d372a01f6141e53ed3e0627f0a01e",
-    "pre_projection_root_tree_sha": "1e500429e4cb00832d48dd4f2be97640dbc2855a",
-    "pre_projection_canonical_tree_sha": "1cfa569a77bf49cf63252e30ca3e897e7ae1d6f6",
-    "commits_ahead_of_v3_0_11_conformance_commit": 829,
-    "total_post_baseline_commits": 829,
-    "delta_file_count": 2044,
-    "delta_added_files": 2039,
+    "pre_projection_head_sha": "80d72d8e3ec8999520bb84e780b315ba5d99e900",
+    "pre_projection_root_tree_sha": "88374b69e1edb98eee5af406e4ddd1bbb006fde4",
+    "pre_projection_canonical_tree_sha": "f604a79462ff39629aa998759a7e5729ddd71c3f",
+    "commits_ahead_of_v3_0_11_conformance_commit": 599,
+    "total_post_baseline_commits": 599,
+    "delta_file_count": 2046,
+    "delta_added_files": 2041,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,7 +45,7 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 973,
+    "canonical_files_in_post_baseline_delta": 975,
     "evidence_files_in_post_baseline_delta": 155,
     "source_files_in_post_baseline_delta": 271,
     "test_files_in_post_baseline_delta": 227,
@@ -285,6 +285,7 @@
       "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-RUNNER-CONTRACT-001.schema.json",
+      "canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
       "canonical/contracts/FA3-AGENT-WORKSPACE-001.schema.json",
@@ -376,6 +377,7 @@
       "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
@@ -919,7 +921,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2037,
+  "manifest_entry_count": 2039,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -3547,6 +3549,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json",
+      "git_blob_sha": "c61a41429f3305f4983031f254d35be7018222b8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
       "git_blob_sha": "a8bcddb39ceb18aaeef002159690456730c3d8de",
       "baseline_delta_status": "added"
@@ -3999,6 +4006,11 @@
     {
       "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
       "git_blob_sha": "ba3f326caf27275d0633b9ba416bac276d2e50c8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json",
+      "git_blob_sha": "6984680905d266bbb64238b70186cc8421ee6333",
       "baseline_delta_status": "added"
     },
     {
