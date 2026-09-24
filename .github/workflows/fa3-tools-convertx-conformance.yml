@@ -69,7 +69,7 @@ jobs:
           python src/fa3_gui_gate.py
           deployment/fa3-gui/install.sh --check-source-contract
       - name: Native quality gate for changed artifacts
-        run: ./bin/fa3-enforce quality-anti-slop --changed --base-ref origin/main
+        run: ./bin/fa3-enforce quality-anti-slop --changed-from origin/main
       - name: Assert no current-host or production claim from hosted CI
         run: |
           python - <<'PY'
