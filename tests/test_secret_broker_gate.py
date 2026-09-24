@@ -130,13 +130,17 @@ class SecretBrokerGateTests(unittest.TestCase):
 
     def test_lifecycle_start_requires_broker_readiness_and_health(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
-        expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","VAULT_MOUNT_WRITABLE","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
+        expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","VAULT_MOUNT_WRITABLE","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_TRANSPORT_BOUNDARY_VALIDATED","BROKER_HEALTH_PASS"}
         self.assertEqual(expected,set(profile["lifecycle"]["start_completion_requires"]))
         self.assertEqual("FAIL_CLOSED_ROLLBACK_TO_CLOSED",profile["lifecycle"]["start_readiness_timeout"])
         lifecycle=(ROOT/"libexec/fa3-secrets-lifecycle.sh").read_text()
         self.assertIn("wait_broker_ready",lifecycle)
         self.assertIn('[[ -S "$BROKER_SOCKET" ]]',lifecycle)
         self.assertIn('"$BROKER_HEALTH_CLI" --socket "$BROKER_SOCKET" health',lifecycle)
+        self.assertIn("assert_broker_transport_boundary",lifecycle)
+        self.assertIn('"fa3-secret-clients"',lifecycle)
+        self.assertIn('"660"',lifecycle)
+        self.assertIn('"750"',lifecycle)
         self.assertIn("broker readiness/health timeout",lifecycle)
         self.assertIn("systemctl stop fa3-secrets.target",lifecycle)
         current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
