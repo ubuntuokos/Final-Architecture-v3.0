@@ -7,7 +7,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from fa3_gui_current_host import qpa_for_session, safe_child_environment  # noqa: E402
+from fa3_gui_current_host import (  # noqa: E402
+    gui_desktop_runtime_scoped_admission,
+    qpa_for_session,
+    safe_child_environment,
+)
 from fa3_gui_current_host_gate import gate, validate_receipt  # noqa: E402
 
 
@@ -21,7 +25,7 @@ def good_receipt() -> dict:
         "active_local_graphical_session": True,
         "supported_session_type": True,
         "display_endpoint_proven": True,
-        "desktop_admission_pass": True,
+        "desktop_runtime_scope_admission_pass": True,
         "same_source_binary_present": True,
         "explicit_native_qpa": True,
         "offscreen_or_minimal_forbidden": True,
@@ -58,7 +62,27 @@ def good_receipt() -> dict:
             "display_endpoint_proven": True,
             "qpa_platform": "wayland",
         },
-        "desktop_admission": {"result": "PASS", "mode": "LOCAL_GUI"},
+        "desktop_admission": {
+            "result": "FAIL",
+            "mode": "LOCAL_GUI",
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+            },
+        },
+        "desktop_runtime_scope": {
+            "result": "PASS",
+            "full_desktop_admission_result": "FAIL",
+            "full_desktop_required_failures": ["secret_backend"],
+            "secret_backend_status": "FAIL",
+            "secret_backend_used_for_gui_runtime_admission": False,
+            "secrets_authority_owner": "CAP-003",
+            "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
+        },
         "build": {"status": "PASS", "binary_sha256": "c" * 64},
         "launch": {
             "attempted": True,
@@ -76,6 +100,7 @@ def good_receipt() -> dict:
             "webengine_sandbox_disabled": False,
             "offscreen_or_minimal_platform_used": False,
             "secret_material_recorded": False,
+            "secret_backend_promoted_by_gui_receipt": False,
         },
         "checks": checks,
         "capability_count": 143,
@@ -111,6 +136,63 @@ class GuiCurrentHostTests(unittest.TestCase):
 
     def test_valid_receipt_passes(self):
         self.assertEqual(validate_receipt(good_receipt()), [])
+
+    def test_gui_scoped_admission_allows_only_secret_backend_full_failure(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "KDE_PLASMA"},
+            "session": {"type": "wayland"},
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "PASS",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+            },
+        }
+        evidence = {
+            "active_local_graphical_session_proven": True,
+            "runtime_dir_proven": True,
+            "user_bus_socket_proven": True,
+        }
+        scoped = gui_desktop_runtime_scoped_admission(report, evidence)
+        self.assertEqual(scoped["result"], "PASS")
+        self.assertEqual(scoped["full_desktop_required_failures"], ["secret_backend"])
+        self.assertEqual(scoped["secret_backend_status"], "FAIL")
+        self.assertFalse(scoped["secret_backend_used_for_gui_runtime_admission"])
+        self.assertEqual(scoped["secrets_authority_owner"], "CAP-003")
+
+    def test_gui_scoped_admission_rejects_non_secret_desktop_failure(self):
+        report = {
+            "result": "FAIL",
+            "desktop": {"desktop": "GENERIC_XDG"},
+            "session": {"type": "x11"},
+            "capabilities": {
+                "linux_host": "PASS",
+                "xdg_runtime": "PASS",
+                "dbus_session": "FAIL",
+                "uri_open": "PASS",
+                "secret_backend": "FAIL",
+                "local_gui_session": "PASS",
+            },
+        }
+        evidence = {
+            "active_local_graphical_session_proven": True,
+            "runtime_dir_proven": True,
+            "user_bus_socket_proven": True,
+        }
+        scoped = gui_desktop_runtime_scoped_admission(report, evidence)
+        self.assertEqual(scoped["result"], "FAIL")
+        self.assertIn("dbus_session", scoped["failed_checks"])
+        self.assertIn("full_desktop_failure:dbus_session", scoped["failed_checks"])
+
+    def test_receipt_cannot_turn_secret_backend_into_gui_owned_promotion(self):
+        receipt = good_receipt()
+        receipt["security"]["secret_backend_promoted_by_gui_receipt"] = True
+        receipt["desktop_runtime_scope"]["secret_backend_used_for_gui_runtime_admission"] = True
+        errors = validate_receipt(receipt)
+        self.assertTrue(any("Secret Backend" in item for item in errors))
 
     def test_offscreen_or_global_promotion_claim_fails(self):
         receipt = good_receipt()
