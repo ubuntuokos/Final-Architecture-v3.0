@@ -30,13 +30,16 @@ Production promotion still requires a real current-host PASS plus the normal FA3
 
 ## Physical credential provisioning
 
-Credential-bearing closure is intentionally not auto-provisioned from CI. After the PR head is stable, an operator with two **real credentials for the same already-admitted, loopback, Bearer-authenticated provider** runs:
+Credential-bearing closure is intentionally not auto-provisioned from CI. The generic harness remains available for any already-admitted loopback Bearer-authenticated provider, but OpenAI now has an explicit bounded current-host evidence adapter.
+
+For OpenAI, the operator runs only:
 
 ```bash
-sudo bash bin/fa3-model-router-provider-execution-current-host-provision.sh \
-  --provider-id <FA3-PROVIDER-ID> \
-  --api-base http://127.0.0.1:<port>/v1 \
-  --admission-receipt /absolute/path/to/provider-current-host.json
+sudo bash bin/fa3-openai-provider-execution-current-host-close.sh
 ```
 
-The harness reads both credential values only from `/dev/tty`, stores them temporarily under the Secret Broker as distinct `SecretReference` objects, restricts projection to a dedicated transient probe identity/unit, performs the real before/after-rebind provider calls, writes the secret-free live probe to `/run/fa3/model-router-provider-execution/current-host-source.json`, and removes the temporary credential objects/policies afterwards. An unauthenticated provider endpoint cannot satisfy the gate.
+The wrapper starts a transient loopback-only adapter for `FA3-PROVIDER-OPENAI-API-001`, verifies that a deliberately invalid Bearer token is rejected by the real OpenAI upstream, writes a current-host adapter admission receipt, and then invokes the generic provider-execution provisioning harness. The preferred evidence model is `gpt-6-luna`; if that exact model is not available to the project, the probe fails closed instead of silently choosing another model.
+
+The adapter is evidence-scope only. It does not enable normal application routing, does not alter baseline local routes, and does not create a local-to-cloud fallback. External egress is bounded by `FA3-OPENAI-API-EXTERNAL-POLICY-001` to `https://api.openai.com/v1` for `GET /v1/models` and `POST /v1/chat/completions`. The bridge accepts only fixed FA3 provider-execution probe content.
+
+The generic harness reads both credential values only from `/dev/tty`, stores them temporarily under the Secret Broker as distinct `SecretReference` objects, restricts projection to a dedicated transient probe identity/unit, performs the real before/after-rebind provider calls, writes the secret-free live probe to `/run/fa3/model-router/provider-execution/current-host-source.json`, and removes the temporary credential objects/policies afterwards. An unauthenticated provider endpoint cannot satisfy the gate.
