@@ -11,7 +11,7 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "regression_case_count": 13,
+  "regression_case_count": 14,
   "case_ids": [
     "VALID_TASK",
     "RAW_SECRET_REJECTED",
@@ -25,7 +25,8 @@
     "ADVISORY_CANNOT_EXPAND_RUNNER_SET",
     "RESUME_REQUIRES_FRESH_HRB_LEASE",
     "AX_PROJECTION_HAS_NO_MODEL_AUTHORITY",
-    "FANOUT_LIMITS_REQUIRED"
+    "FANOUT_LIMITS_REQUIRED",
+    "ORCHESTRATION_ROUTE_COMPILES_TO_UAF_WORKLOAD"
   ],
   "executable": "PYTHONPATH=src python3 src/fa3_agent_workload_gate.py --root .",
   "global_command": "./bin/fa3-enforce agent-workload-runtime",
@@ -60,5 +61,7 @@
     "upstream_reference_class": "REFERENCE_ONLY",
     "google_ax_provider_class": "EXTERNAL_REDISTRIBUTABLE",
     "release_bundle_status": "EXCLUDED"
-  }
+  },
+  "current_host_conformance_id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001",
+  "current_host_gate_id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-GATESET-001"
 }

@@ -140,5 +140,16 @@
     "gui_projection": "AGENT_WORKLOADS_CHILD_VIEW",
     "direct_gui_mutation": false
   },
-  "gate_id": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001"
+  "gate_id": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001",
+  "current_host_conformance_id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001",
+  "current_host_gate_id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-GATESET-001",
+  "current_host_status": "PENDING_CURRENT_HOST",
+  "orchestration_binding": {
+    "profile_id": "FA3-ORCHESTRATION-WORKFORCE-001",
+    "route_decision_schema": "fa3.orchestration-route-decision.v1",
+    "required_route_status": "ROUTED",
+    "action_ref": "orchestration.execute",
+    "task_local_execution_projection": true,
+    "durable_workflow_authority": false
+  }
 }

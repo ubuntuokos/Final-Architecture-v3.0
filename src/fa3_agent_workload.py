@@ -191,3 +191,43 @@ def project_to_ax(task: dict[str, Any], workspace: dict[str, Any], envelope: dic
         "gateway":{"kind":"Gateway","default":"DENY","egress":copy.deepcopy(envelope.get("egress",[]))},
         "model_intent_forwarding":{"authority":"FA3-AUTH-MODEL-ROUTER-001","physical_provider_pin":False},
     }
+
+
+def compile_orchestration_workload(
+    route_decision: dict[str, Any],
+    *,
+    agent_definition_ref: str,
+    workspace_refs: list[str],
+    network_envelope_ref: str,
+    model_intent: dict[str, Any],
+    fanout_limits: dict[str, Any],
+    root_task_id: str | None = None,
+    work_item_ref: str | None = None,
+) -> dict[str, Any]:
+    if route_decision.get("schema") != "fa3.orchestration-route-decision.v1":
+        raise WorkloadContractError("orchestration route schema mismatch")
+    if route_decision.get("status") != "ROUTED" or route_decision.get("uaf_execution_required") is not True:
+        raise WorkloadContractError("only UAF-bound ROUTED orchestration decisions can compile to workloads")
+    resource = route_decision.get("resource_boundary", {})
+    if resource.get("resource_authority") != "FA3-AUTH-HOST-RESOURCE-BROKER-001":
+        raise WorkloadContractError("orchestration resource authority drift")
+    task_id = str(route_decision.get("task_id", "")).strip()
+    if not task_id:
+        raise WorkloadContractError("orchestration task_id missing")
+    task = {
+        "schema": TASK_SCHEMA,
+        "task_id": task_id,
+        "root_task_id": root_task_id or task_id,
+        "parent_task_id": None,
+        "work_item_ref": work_item_ref,
+        "action_ref": "orchestration.execute",
+        "agent_definition_ref": agent_definition_ref,
+        "workspace_refs": list(workspace_refs),
+        "resource_requirements": copy.deepcopy(resource.get("requirements", {})),
+        "network_envelope_ref": network_envelope_ref,
+        "model_intent": copy.deepcopy(model_intent),
+        "authorized_ai_participants": list(route_decision.get("authorized_ai_participants", [])),
+        "fanout_limits": copy.deepcopy(fanout_limits),
+        "provenance_refs": [],
+    }
+    return validate_task(task)

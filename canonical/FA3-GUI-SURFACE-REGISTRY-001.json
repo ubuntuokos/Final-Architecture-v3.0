@@ -43,7 +43,13 @@
       "title": "Work Management",
       "group": "HOME",
       "projection": "WORK_MANAGEMENT",
-      "mutation": "DRAFT_ONLY"
+      "mutation": "DRAFT_ONLY",
+      "child_views": [
+        "agent-workloads"
+      ],
+      "agent_workload_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+      "provider_neutral": true,
+      "direct_runtime_execution": false
     },
     {
       "route_id": "create.ai-studio",

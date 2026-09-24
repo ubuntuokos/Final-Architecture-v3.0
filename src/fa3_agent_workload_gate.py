@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from fa3_agent_workload import (
-    WorkloadContractError, project_to_ax, resume_requirements, select_runner,
+    WorkloadContractError, compile_orchestration_workload, project_to_ax, resume_requirements, select_runner,
     suspension_semantics, transition_allowed, validate_checkpoint, validate_network_envelope,
     validate_task, validate_workspace,
 )
@@ -75,6 +75,15 @@ def regression_cases() -> dict[str, Any]:
       ("RESUME_REQUIRES_FRESH_HRB_LEASE", expect_error(lambda: resume_requirements(cp,"LEASE-1",previous_hrb_lease_ref="LEASE-1")) and resume_requirements(cp,"LEASE-2",previous_hrb_lease_ref="LEASE-1")["old_lease_reused"] is False),
       ("AX_PROJECTION_HAS_NO_MODEL_AUTHORITY", projection["authority"] is False and projection["canonical_ir"] is False and projection["task"]["model_resource_emitted"] is False and projection["model_intent_forwarding"]["authority"]=="FA3-AUTH-MODEL-ROUTER-001"),
       ("FANOUT_LIMITS_REQUIRED", expect_error(lambda: validate_task(bad_fan))),
+      ("ORCHESTRATION_ROUTE_COMPILES_TO_UAF_WORKLOAD",
+       compile_orchestration_workload(
+          {"schema":"fa3.orchestration-route-decision.v1","task_id":"orch-1","status":"ROUTED","uaf_execution_required":True,
+           "resource_boundary":{"resource_authority":"FA3-AUTH-HOST-RESOURCE-BROKER-001","requirements":{"cpu_physical_cores":1}},
+           "authorized_ai_participants":["agent:def:1"]},
+          agent_definition_ref="agent:def:1",workspace_refs=["ws:1"],network_envelope_ref="net:1",
+          model_intent={"capability":"coding"},
+          fanout_limits={"max_children":2,"max_depth":1,"max_concurrent_children":1,"max_runtime_seconds":300,"max_retries":1,"max_tool_calls":10,"max_model_requests":10},
+       )["action_ref"]=="orchestration.execute"),
     ]
     return {"result":"PASS" if all(ok for _,ok in cases) else "FAIL","cases":[{"id":cid,"pass":bool(ok)} for cid,ok in cases]}
 
@@ -97,11 +106,18 @@ def gate(root: Path) -> dict[str, Any]:
       "dist_registry":root/"canonical/distribution-registry.json",
       "dist_manifest":root/"canonical/distribution-manifest.json",
       "evidence":root/"evidence/reference/agent-workload-runtime-ci-2026-09-24.json",
+      "orchestration":root/"canonical/profiles/FA3-ORCHESTRATION-WORKFORCE-001.json",
+      "work_management":root/"canonical/FA3-WORK-MANAGEMENT-PROJECTION-001.json",
+      "surface_registry":root/"canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
+      "work_qml":root/"apps/fa3-control-center/qml/WorkManagementPage.qml",
+      "current_host":root/"canonical/FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001.json",
+      "current_host_gate":root/"canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-001.json",
     }
     for name,path in paths.items():
         if not path.is_file(): findings.append(finding("AWR-001","required file missing",name=name,path=path.as_posix()))
     if findings: return {"schema":"fa3.agent-workload-runtime-gate.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
-    p,c,d,a,r,reg,native,podman,ax,enf,g,pol,dr,dm,ev=[load(paths[k]) for k in ("profile","contract","decision","assessment","reference","registry","native","podman","ax","enforcement","gate","policy","dist_registry","dist_manifest","evidence")]
+    p,c,d,a,r,reg,native,podman,ax,enf,g,pol,dr,dm,ev,orch,wm,surfaces,ch,chgate=[load(paths[k]) for k in ("profile","contract","decision","assessment","reference","registry","native","podman","ax","enforcement","gate","policy","dist_registry","dist_manifest","evidence","orchestration","work_management","surface_registry","current_host","current_host_gate")]
+    work_qml=paths["work_qml"].read_text(encoding="utf-8")
     checks=[
       (p.get("id")==PROFILE_ID and p.get("priority")=="P0" and p.get("requirement")=="MUST","AWR-010","profile identity/priority drift"),
       (p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==cap and p.get("capability_bindings")==["CAP-028"],"AWR-011","capability/authority baseline drift"),
@@ -117,6 +133,10 @@ def gate(root: Path) -> dict[str, Any]:
       (g.get("id")==GATE_ID and g.get("gateset_id")==GATESET_ID and g.get("regression_case_count")==13 and g.get("current_host_runtime_evidence") is False,"AWR-021","executable gate record drift"),
       (GATESET_ID in set(pol.get("mandatory_reference_gates",[])) and pol.get("agent_workload_runtime_profile_id")==PROFILE_ID and pol.get("agent_workload_runtime_reference_id")==REFERENCE_ID,"AWR-022","global enforcement policy binding missing"),
       (ev.get("status")=="PASS" and ev.get("evidence_class")=="REFERENCE_STATIC_CONFORMANCE" and ev.get("current_host_runtime_promotion_claim") is False,"AWR-023","reference evidence semantics drift"),
+      ("FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001" in orch.get("contracts",[]) and orch.get("authority_boundaries",{}).get("workload_execution")=="FA3-AGENT-WORKLOAD-RUNTIME-001_NON_AUTHORITY_TASK_LOCAL_EXECUTION_PROJECTION" and "AGENT_WORKLOAD_RUNTIME_IS_TASK_LOCAL_EXECUTION_PROJECTION_NOT_DURABLE_WORKFLOW_AUTHORITY" in orch.get("invariants",[]),"AWR-032","Orchestration Workforce workload-runtime binding drift"),
+      (wm.get("agent_workload_projection",{}).get("profile_id")==PROFILE_ID and wm.get("agent_workload_projection",{}).get("work_item_identity_distinct") is True and wm.get("agent_workload_projection",{}).get("mutation_semantics")=="DRAFT_UAF_INTENT_ONLY" and wm.get("agent_workload_projection",{}).get("direct_runner_execution_from_gui") is False,"AWR-033","Work Management workload projection boundary drift"),
+      (any(s.get("route_id")=="home.work-management" and "agent-workloads" in s.get("child_views",[]) and s.get("direct_runtime_execution") is False for s in surfaces.get("surfaces",[])) and "Agent Workloads" in work_qml and "typed UAF draft intent" in work_qml and "nem gyárt RUNNING / PASS / CONNECTED" in work_qml,"AWR-034","GUI workload projection drift or fabricated-state guard missing"),
+      (ch.get("id")=="FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001" and ch.get("status")=="PENDING_CURRENT_HOST" and ch.get("production_admitted") is False and ch.get("required_runner_labels")==["self-hosted","linux","x64","fa3-current-host"] and chgate.get("current_host_evidence_required") is True,"AWR-035","current-host fail-closed conformance materialization drift"),
     ]
     for ok,code,msg in checks:
         if not ok: findings.append(finding(code,msg))

@@ -1,0 +1,62 @@
+{
+  "schema": "fa3.agent-workload-runtime-current-host-conformance.v1",
+  "id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001",
+  "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "status": "PENDING_CURRENT_HOST",
+  "production_admitted": false,
+  "capability_count": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "evidence_level_required": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "receipt": "evidence/receipts/agent-workload-runtime-current-host.json",
+  "resource_admission": {
+    "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "fresh_scope_bound_authorization_required": true,
+    "accepted_parent_gate": "FA3-RESOURCE-ADMISSION-CURRENT-HOST-GATESET-001",
+    "workload_id": "fa3-agent-workload-native-current-host",
+    "generic_cpu_authorization_bootstrap_status": "PENDING_EXISTING_HRB_GENERIC_NON_ACCELERATOR_AUTHORIZATION_MATERIALIZATION",
+    "accelerator_lease_is_not_substitute_for_cpu_only_authorization": true
+  },
+  "native_runner": {
+    "provider_id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+    "required_tests": [
+      "NON_ROOT_EXECUTION",
+      "CGROUP_V2",
+      "SYSTEMD_USER_TRANSIENT_SCOPE",
+      "REAL_PROCESS_PAUSE_RESUME",
+      "CLEANUP",
+      "STATIC_GATE",
+      "FRESH_HRB_ADMISSION"
+    ],
+    "production_status": "PENDING_CURRENT_HOST"
+  },
+  "podman_runner": {
+    "provider_id": "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
+    "optional_subclaim": true,
+    "immutable_image_digest_required": true,
+    "rootless_required": true,
+    "network_none_test_required": true,
+    "production_status": "PENDING_CURRENT_HOST"
+  },
+  "google_ax": {
+    "provider_id": "FA3-PROVIDER-GOOGLE-AX-001",
+    "tested_by_this_harness": false,
+    "separate_cluster_e2e_required": true,
+    "production_status": "PENDING_CURRENT_HOST_OR_CLUSTER"
+  },
+  "non_claims": [
+    "GLOBAL_FA3_PROMOTION",
+    "GOOGLE_AX_PRODUCTION_ADMISSION",
+    "PODMAN_PRODUCTION_ADMISSION_UNLESS_EXPLICITLY_PROVEN",
+    "PROCESS_CHECKPOINT_SUPPORT",
+    "VM_CHECKPOINT_SUPPORT"
+  ],
+  "automatic_promotion": false,
+  "global_promotion_claim": false
+}
