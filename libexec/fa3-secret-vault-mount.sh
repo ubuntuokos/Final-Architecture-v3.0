@@ -98,6 +98,10 @@ close_mapper(){
     echo "invalid FA3_MAPPER_CLOSE_ATTEMPTS: $attempts" >&2
     return 2
   }
+  [[ "$delay" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
+    echo "invalid FA3_MAPPER_CLOSE_DELAY: $delay" >&2
+    return 2
+  }
 
   if mountpoint -q "$MNT"; then
     echo "refusing LUKS close while vault mount is active: $MNT" >&2
