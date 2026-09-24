@@ -139,12 +139,17 @@ echo "Validating admitted Secret Broker current-host evidence..."
   exit 2
 }
 
-python3 - "$SECRET_RECEIPT_REFERENCE" <<'PY'
+python3 - "$SECRET_RECEIPT_REFERENCE" "$ROOT/canonical/FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001.json" "$ROOT/canonical/FA3-GATE-SECRET-BROKER-001.json" "$ROOT/canonical/secret-broker-enforcement.json" <<'PY'
 import json,sys
 from pathlib import Path
-r=json.loads(Path(sys.argv[1]).read_text())
+evidence_path=Path(sys.argv[1])
+r=json.loads(evidence_path.read_text())
+conformance=json.loads(Path(sys.argv[2]).read_text())
+gate=json.loads(Path(sys.argv[3]).read_text())
+enforcement=json.loads(Path(sys.argv[4]).read_text())
 source=r.get("source",{})
 runtime=r.get("runtime",{})
+active_ref="evidence/reference/secret-broker-current-host-2026-09-24.json"
 if (
     r.get("schema")!="fa3.current-host-evidence-reference.v1"
     or r.get("result")!="PASS"
@@ -153,8 +158,18 @@ if (
     or source.get("current_host_gate_result")!="PASS"
     or source.get("current_host_gate_status")!="CURRENT_HOST_PASS"
     or runtime.get("secret_values_collected") is not False
+    or runtime.get("mount_options")!=["rw","nodev","nosuid","noexec"]
+    or r.get("checks",{}).get("systemd_vault_rw_mount_pass") is not True
+    or r.get("checks",{}).get("systemd_broker_write_read_revoke_pass") is not True
+    or conformance.get("status")!="CURRENT_HOST_ADMITTED"
+    or conformance.get("production_runtime_promoted") is not True
+    or conformance.get("current_host_evidence_ref")!=active_ref
+    or gate.get("production_runtime_promoted") is not True
+    or gate.get("current_host_evidence_ref")!=active_ref
+    or enforcement.get("production_runtime_promoted") is not True
+    or enforcement.get("current_host_evidence_ref")!=active_ref
 ):
-    raise SystemExit("durable Secret Broker current-host admission evidence is not a valid PASS")
+    raise SystemExit("fresh active Secret Broker current-host admission evidence is required")
 PY
 
 if ! systemctl is-active --quiet fa3-secrets.target; then
