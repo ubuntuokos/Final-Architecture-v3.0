@@ -3101,6 +3101,57 @@ def gate(root: Path):
             missing_manifest_paths=sorted(marketing_agent_native_paths - manifest_paths),
         ))
 
+    gui_current_host = projection.get("gui_current_host_closure_reconciliation", {})
+    gui_current_host_paths = {
+        "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
+        "canonical/gui-current-host-enforcement.json",
+        "src/fa3_gui_current_host.py",
+        "src/fa3_gui_current_host_gate.py",
+        "evidence/collect-gui-current-host.py",
+        ".github/workflows/fa3-gui-current-host.yml",
+        "tests/test_fa3_gui_current_host.py",
+    }
+    gui_state_pending = (
+        gui_current_host.get("status") == "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN"
+        and gui_current_host.get("current_host_receipt_present") is False
+        and gui_current_host.get("production_admitted") is False
+        and gui_current_host.get("runtime_promotion_claim") is False
+        and gui_current_host.get("reconciliation_status")
+        == "EXECUTABLE_CLOSURE_MATERIALIZED_CURRENT_HOST_PENDING"
+    )
+    gui_state_pass = (
+        gui_current_host.get("status") == "CURRENT_HOST_PASS"
+        and gui_current_host.get("current_host_receipt_present") is True
+        and gui_current_host.get("production_admitted") is True
+        and gui_current_host.get("runtime_promotion_claim") is True
+        and gui_current_host.get("reconciliation_status")
+        == "CURRENT_HOST_PHYSICAL_GUI_RUNTIME_PASS"
+    )
+    if (
+        gui_current_host.get("profile_id") != "FA3-DESKTOP-001"
+        or gui_current_host.get("conformance_id") != "FA3-GUI-RUNTIME-CONFORMANCE-001"
+        or gui_current_host.get("gate_id") != "FA3-GUI-CURRENT-HOST-GATESET-001"
+        or gui_current_host.get("gate_record_id") != "FA3-GATE-GUI-CURRENT-HOST-001"
+        or gui_current_host.get("workflow") != ".github/workflows/fa3-gui-current-host.yml"
+        or gui_current_host.get("collector") != "evidence/collect-gui-current-host.py"
+        or gui_current_host.get("required_evidence_level")
+        != "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS"
+        or not (gui_state_pending or gui_state_pass)
+        or gui_current_host.get("global_promotion_claim") is not False
+        or gui_current_host.get("new_capabilities") != 0
+        or gui_current_host.get("new_architectural_authorities") != 0
+        or gui_current_host.get("capability_count_after") != CAPABILITY_COUNT
+        or "FA3-GUI-CURRENT-HOST-GATESET-001" not in projection_gates
+        or "FA3-GUI-CURRENT-HOST-GATESET-001" not in policy_gates
+        or not gui_current_host_paths.issubset(manifest_paths)
+    ):
+        findings.append(finding(
+            "FA3-RELEASE-PROJECTION-121",
+            "GUI physical current-host closure reconciliation invariant mismatch",
+            missing_manifest_paths=sorted(gui_current_host_paths - manifest_paths),
+        ))
+
     agency_agent_definition = projection.get("agency_agents_agent_definition_reconciliation", {})
     agency_agent_definition_paths = {
         "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -3142,14 +3193,27 @@ def gate(root: Path):
         or agency_agent_definition.get("gui_surface_id") != "agency-agents.imported-pack"
         or agency_agent_definition.get("gui_parent_route") != "agents.workflows"
         or agency_agent_definition.get("gui_mode") != "READ_ONLY_CANONICAL_DEFINITIONS"
-        or agency_agent_definition.get("gui_current_host_status") != "PENDING_CURRENT_HOST"
-        or agency_agent_definition.get("gui_runtime_promotion_claim") is not False
+        or (
+            (
+                agency_agent_definition.get("gui_current_host_status") == "PENDING_CURRENT_HOST"
+                and agency_agent_definition.get("gui_runtime_promotion_claim") is False
+                and agency_agent_definition.get("reconciliation_status")
+                == "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
+                and gui_state_pending
+            )
+            or (
+                agency_agent_definition.get("gui_current_host_status") == "CURRENT_HOST_PASS"
+                and agency_agent_definition.get("gui_runtime_promotion_claim") is True
+                and agency_agent_definition.get("reconciliation_status")
+                == "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_CURRENT_HOST_PASS"
+                and gui_state_pass
+            )
+        ) is not True
         or agency_agent_definition.get("runtime_provider_admission_by_reference_provider") is not False
         or agency_agent_definition.get("global_promotion_claim") is not False
         or agency_agent_definition.get("new_capabilities") != 0
         or agency_agent_definition.get("new_architectural_authorities") != 0
         or agency_agent_definition.get("capability_count_after") != CAPABILITY_COUNT
-        or agency_agent_definition.get("reconciliation_status") != "CANONICAL_SOURCE_NORMALIZED_TO_FA3_DEFINITIONS_GUI_STATIC_RECONCILED_CURRENT_HOST_PENDING"
         or "FA3-AGENCY-AGENTS-GATESET-001" not in projection_gates
         or "FA3-AGENT-DEFINITION-GATESET-001" not in projection_gates
         or "FA3-AGENCY-AGENTS-GATESET-001" not in policy_gates
