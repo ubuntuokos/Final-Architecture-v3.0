@@ -128,5 +128,15 @@
     "document_or_static_pass_is_production": false,
     "current_status": "PENDING_CROSS_HOST_PRODUCTION_E2E"
   },
-  "gate_id": "FA3-AGENT-FEDERATION-GATESET-001"
+  "gate_id": "FA3-AGENT-FEDERATION-GATESET-001",
+  "adaptive_coordination_contract": "FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001",
+  "adaptive_coordination": {
+    "lifecycle_events": "PROJECT_TO_FA3_JOURNAL_AND_EXISTING_CLOSED_LOOP_LEDGER",
+    "trajectory_learning": "EVIDENCE_BOUND_REVIEWED_PATTERN_CANDIDATES_ONLY",
+    "decision_fabric_role": "ADVISORY_RANKING_ONLY",
+    "persistent_pattern_storage": "EXISTING_MEMORY_GOVERNANCE_ONLY",
+    "background_execution": "TEMPORAL_PLUS_UAF_PLUS_HRB_EXISTING_AUTHORITIES_ONLY",
+    "hidden_resident_worker_authority": false,
+    "automatic_pattern_promotion": false
+  }
 }
