@@ -38,3 +38,19 @@ class ProviderExecutionTests(unittest.TestCase):
         r=execution_receipt(CredentialCandidate("p","secretref:p/a","HEALTHY",True),logical_route="x",physical_model="y",selection_reason="z")
         self.assertNotIn("credential_ref",r); self.assertFalse(r["raw_credential_present"])
 if __name__=="__main__": unittest.main()
+
+
+class ProviderExecutionCoreClosureTests(unittest.TestCase):
+    def test_core_closure_is_provider_independent(self):
+        import json
+        from pathlib import Path
+        root=Path(__file__).resolve().parents[1]
+        closure=json.loads((root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json").read_text())
+        current=json.loads((root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json").read_text())
+        openai=json.loads((root/"canonical/providers/FA3-PROVIDER-OPENAI-API-001.json").read_text())
+        self.assertEqual(closure["status"],"CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS")
+        self.assertFalse(closure["physical_provider_evidence"]["blocks_core_closure"])
+        self.assertFalse(closure["provider_admission_model"]["generic_core_recertification_per_provider"])
+        self.assertFalse(current["blocks_core_closure"])
+        self.assertEqual(openai["current_host_production_evidence"],"PENDING_EXTERNAL_BILLING")
+        self.assertFalse(openai["provider_execution_core_closure_dependency"])

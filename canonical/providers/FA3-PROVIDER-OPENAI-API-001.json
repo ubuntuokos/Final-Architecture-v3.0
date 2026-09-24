@@ -19,8 +19,8 @@
   "new_architectural_authority": false,
   "capability_count": 143,
   "requirement": "OPTIONAL",
-  "runtime_activation_status": "EVIDENCE_ONLY_EXPLICIT_OPERATOR_ACTIVATION_PENDING_REAL_CURRENT_HOST_PROVIDER_EXECUTION_PASS",
-  "current_host_production_evidence": "NOT_YET_CLAIMED",
+  "runtime_activation_status": "EVIDENCE_ONLY_EXPLICIT_OPERATOR_ACTIVATION_PENDING_EXTERNAL_BILLING",
+  "current_host_production_evidence": "PENDING_EXTERNAL_BILLING",
   "normal_application_routing_enabled": false,
   "global_runtime_promotion_required_when_disabled": false,
   "fa3_usage_policy": {
@@ -47,5 +47,18 @@
     "release_bundle_status": "EXCLUDED",
     "product_bundle_allowed": false,
     "classification_basis": "Remote OpenAI service and user-owned API credentials are never redistributed in the FA3 product bundle"
+  },
+  "provider_execution_core_closure_dependency": false,
+  "current_host_evidence_status": {
+    "tested_head": "4c90056bbec6647c54adb834ddd764698e5776e8",
+    "credential_a_upstream_preflight": "PASS",
+    "credential_b_upstream_preflight": "PASS",
+    "model_catalog_access": "PASS",
+    "real_inference": "BLOCKED",
+    "blocker_http_status": 429,
+    "blocker_type": "insufficient_quota",
+    "blocker_code": "credit_balance_exhausted",
+    "blocker_scope": "EXTERNAL_API_BILLING",
+    "core_reopen": false
   }
 }

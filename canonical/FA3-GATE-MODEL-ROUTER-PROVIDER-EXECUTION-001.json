@@ -28,9 +28,12 @@
     "NO_UPSTREAM_ANTIGRAVITY_CODE_ASSET_OR_RUNTIME_DEPENDENCY",
     "NO_PLAINTEXT_PROVIDER_SECRET_IN_LOG_OR_EVIDENCE",
     "CURRENT_HOST_CREDENTIAL_AUTHENTICATION_MUST_BE_EFFECTIVE",
-    "CURRENT_HOST_PASS_DOES_NOT_IMPLY_GLOBAL_PROMOTION"
+    "CURRENT_HOST_PASS_DOES_NOT_IMPLY_GLOBAL_PROMOTION",
+    "PER_PROVIDER_PHYSICAL_ADMISSION_DOES_NOT_BLOCK_CORE_CANONICAL_CLOSURE"
   ],
   "executable": "PYTHONPATH=src python3 src/fa3_model_router_provider_execution_gate.py --root .",
   "report_path": "reports/model-router-provider-execution-gate-report.json",
-  "current_host_runtime_evidence": false
+  "current_host_runtime_evidence": false,
+  "core_closure_record": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json",
+  "core_closure_required": true
 }

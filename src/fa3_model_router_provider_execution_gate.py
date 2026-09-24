@@ -61,9 +61,11 @@ def gate(root: Path) -> dict[str, Any]:
     gui=loadj(root/"canonical/FA3-GUI-SURFACE-REGISTRY-001.json")
     policy=loadj(root/"canonical/enforcement-policy.json")
     current_host=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001.json")
+    core_closure=loadj(root/"canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json")
     if router.get("id")!="FA3-AUTH-MODEL-ROUTER-001" or router.get("data_plane",{}).get("single_routing_plane") is not True: f.append(finding("PEX-CANON-001","single Model Router authority drift"))
     if gateway.get("id")!="FA3-LLM-GATEWAY-001" or gateway.get("model_router_materialization",{}).get("role")!="REFERENCE_DATA_PLANE_ONLY": f.append(finding("PEX-CANON-002","LiteLLM data-plane boundary drift"))
-    if p.get("parent_authority")!="FA3-AUTH-MODEL-ROUTER-001" or p.get("new_architectural_authority") is not False or p.get("capability_count")!=143: f.append(finding("PEX-CANON-003","provider execution profile governance drift"))
+    if p.get("parent_authority")!="FA3-AUTH-MODEL-ROUTER-001" or p.get("new_architectural_authority") is not False or p.get("capability_count")!=143 or p.get("core_closure_status")!="CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS" or p.get("provider_physical_admission_reopens_core") is not False: f.append(finding("PEX-CANON-003","provider execution profile governance/closure drift"))
+    if core_closure.get("status")!="CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS" or core_closure.get("current_host_real_provider_execution_claim") is not False or core_closure.get("physical_provider_evidence",{}).get("blocks_core_closure") is not False or core_closure.get("provider_admission_model",{}).get("generic_core_recertification_per_provider") is not False: f.append(finding("PEX-CANON-006","provider execution core closure split drift"))
     if proto.get("parent_profile")!="FA3-LLM-GATEWAY-001" or proto.get("new_architectural_authority") is not False: f.append(finding("PEX-CANON-004","protocol compatibility boundary drift"))
     if enf.get("credential_policy",{}).get("raw_value_in_config") is not False or enf.get("credential_policy",{}).get("decision_fabric_secret_access") is not False: f.append(finding("PEX-SEC-001","credential secrecy boundary drift"))
     if enf.get("cross_provider_policy",{}).get("automatic_silent_transition") is not False: f.append(finding("PEX-ROUTE-001","silent cross-provider transition enabled"))
@@ -77,7 +79,7 @@ def gate(root: Path) -> dict[str, Any]:
     surface=next((r for r in model_route.get("children",[]) if r.get("surface_id")=="models.provider-execution"),{})
     if surface.get("direct_provider_execution") is not False or surface.get("direct_credential_entry") is not False or surface.get("credential_values_visible") is not False or surface.get("authority") is not False: f.append(finding("PEX-GUI-001","Provider Execution GUI boundary drift"))
     if GATESET_ID not in policy.get("mandatory_reference_gates",[]): f.append(finding("PEX-GLOBAL-001","provider execution gate not bound into global enforcement"))
-    if current_host.get("status")!="EXECUTABLE_CURRENT_HOST_PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_E2E" or current_host.get("synthetic_or_mock_provider_pass")!="FORBIDDEN" or current_host.get("global_promotion_claim") is not False: f.append(finding("PEX-CH-001","current-host fail-closed closure drift"))
+    if current_host.get("status")!="OPTIONAL_PROVIDER_PHYSICAL_EVIDENCE_MATERIALIZED_NOT_CORE_BLOCKING" or current_host.get("blocks_core_closure") is not False or current_host.get("synthetic_or_mock_provider_pass")!="FORBIDDEN" or current_host.get("global_promotion_claim") is not False: f.append(finding("PEX-CH-001","current-host provider-evidence/core-closure separation drift"))
     producer=root/"bin/fa3-model-router-provider-execution-current-host.py"
     config_schema=root/"canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
     workflow=root/".github/workflows/fa3-model-router-provider-execution-current-host.yml"
@@ -118,6 +120,7 @@ def gate(root: Path) -> dict[str, Any]:
         close_text=openai_close.read_text(encoding="utf-8")
         if not (
             openai_provider.get("architectural_authority") is False
+            and openai_provider.get("provider_execution_core_closure_dependency") is False
             and openai_provider.get("normal_application_routing_enabled") is False
             and openai_provider.get("fa3_usage_policy",{}).get("silent_local_to_cloud_fallback")=="FORBIDDEN"
             and openai_provider.get("authority_boundaries",{}).get("model_routing")=="FA3-AUTH-MODEL-ROUTER-001"
@@ -145,7 +148,7 @@ def gate(root: Path) -> dict[str, Any]:
             f.append(finding("PEX-OPENAI-007","provider provisioner stale probe identity/SecretRef/policy recovery boundary missing"))
     reg=regressions()
     if reg["result"]!="PASS": f.append(finding("PEX-REG-001","provider execution regression matrix failed"))
-    return {"schema":"fa3.gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"regressions":reg,"current_host_claim":False}
+    return {"schema":"fa3.gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"regressions":reg,"core_closure":"CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS" if not f else "FAIL","current_host_claim":False}
 
 def main() -> int:
     ap=argparse.ArgumentParser()

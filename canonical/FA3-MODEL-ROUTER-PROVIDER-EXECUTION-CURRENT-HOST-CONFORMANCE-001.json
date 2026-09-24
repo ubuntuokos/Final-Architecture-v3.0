@@ -1,7 +1,7 @@
 {
   "schema": "fa3.model-router-provider-execution-current-host-conformance.v1",
   "id": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFORMANCE-001",
-  "status": "EXECUTABLE_CURRENT_HOST_PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_E2E",
+  "status": "OPTIONAL_PROVIDER_PHYSICAL_EVIDENCE_MATERIALIZED_NOT_CORE_BLOCKING",
   "priority": "P0",
   "requirement": "MUST-IF-PROVIDER-EXECUTION-PROMOTED",
   "parent_profile": "FA3-MODEL-ROUTER-PROVIDER-EXECUTION-001",
@@ -25,6 +25,8 @@
   ],
   "required_checks": [
     "real_provider_request_pass",
+    "credential_b_upstream_preflight_pass",
+    "credential_a_upstream_preflight_pass",
     "runtime_model_discovery_pass",
     "credential_authentication_enforced_pass",
     "session_affinity_pass",
@@ -72,13 +74,20 @@
     "invalid_bearer_rejection_required": true,
     "two_real_credentials_required": true,
     "global_promotion_claim": false,
-    "model_selection": "RUNTIME_API_PROJECT_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE"
+    "model_selection": "RUNTIME_API_PROJECT_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE",
+    "current_host_status": "PENDING_EXTERNAL_BILLING",
+    "credential_a_catalog_preflight": "PASS_ON_4c90056bbec6647c54adb834ddd764698e5776e8",
+    "credential_b_catalog_preflight": "PASS_ON_4c90056bbec6647c54adb834ddd764698e5776e8",
+    "terminal_blocker": "429 insufficient_quota/credit_balance_exhausted"
   },
   "dependency_status": {
     "secret_broker_current_host": "CURRENT_HOST_ADMITTED",
     "active_reference": "evidence/reference/secret-broker-current-host-2026-09-24.json",
     "tested_source_commit": "d18ba667f1e07c2f347d009713b865ce760b88ca",
     "superseded_reference_denied": "evidence/reference/secret-broker-current-host-2026-09-21.json",
-    "provider_execution_physical_e2e": "PENDING_REAL_OPENAI_TWO_CREDENTIAL_EXECUTION"
-  }
+    "provider_execution_physical_e2e": "OPENAI_EXTERNAL_BILLING_BLOCKED_OPTIONAL_PROVIDER_EVIDENCE_PENDING",
+    "core_closure": "CLOSED_STATIC_DETERMINISTIC_REGRESSION_PASS"
+  },
+  "blocks_core_closure": false,
+  "core_closure_record": "canonical/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CORE-CLOSURE-001.json"
 }
