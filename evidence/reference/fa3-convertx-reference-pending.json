@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVIDENCE-CONVERTX-REFERENCE-001",
+  "profile_id": "FA3-FILE-CONVERSION-001",
+  "provider_id": "FA3-PROVIDER-CONVERTX-001",
+  "conformance_id": "FA3-CONVERTX-RUNTIME-CONFORMANCE-001",
+  "adapter_contract_id": "FA3-CONVERTX-ADAPTER-CONTRACTS-001",
+  "evidence_scope": "REFERENCE_DESIGN_AND_CI_ONLY",
+  "status": "PENDING_CURRENT_HOST",
+  "reference_checks": [
+    "provider-neutral generic file conversion profile materialized",
+    "ConvertX provider remains quarantined and replaceable",
+    "deny-by-default conversion allowlist materialized",
+    "candidate and ACTIVE production pair states are separated",
+    "candidate validation is explicitly allowed before provider promotion but never enables production routing",
+    "deterministic internal provider converter mapping is materialized",
+    "v0.18.0 loopback-only internal web-flow adapter contract materialized",
+    "v0.18.0 candidate HTTP executor materialized",
+    "candidate executor never derives upstream user identity from JWT and uses server-issued result links",
+    "XeLaTeX explicitly denied",
+    "fail-closed adapter and regression gate materialized",
+    "Control Center Tools surface exposes status without direct provider execution",
+    "GitHub-hosted static conformance may PASS without current-host promotion",
+    "typed file conversion UAF actions materialized",
+    "Control Center Tools semantic route stages DRAFT_NOT_SUBMITTED UAF intent only",
+    "ConvertX distribution classified USER_LOCAL_EXTERNAL and excluded from the FA3 release bundle",
+    "Decision Fabric is bounded to optional intent advisory and has no provider-selection authority"
+  ],
+  "runtime_claimed": false,
+  "production_admitted": false,
+  "machine_execution_enabled": false,
+  "missing_runtime_evidence": [
+    "materialized HRB non-accelerator CPU/memory current-host authorization from existing FA3 resource governance",
+    "digest-pinned ConvertX production worker materialization",
+    "real current-host resource-admission-backed candidate execution",
+    "real input to real output conversion with output SHA-256 evidence",
+    "outbound network denial verification on the candidate worker",
+    "path traversal regression on the candidate worker",
+    "archive bomb and malformed-media resource-limit regressions",
+    "pair-specific evidence before CANDIDATE to ACTIVE transition",
+    "current-host receipt with CURRENT_HOST_PRODUCTION_E2E_PASS"
+  ],
+  "resource_admission_boundary": {
+    "authoritative_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "current_bootstrap_state": "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED",
+    "accelerator_lease_usable_as_cpu_memory_substitute": false,
+    "convertx_creates_new_authority": false
+  },
+  "promotion_effect": "NONE_UNTIL_REAL_CURRENT_HOST_RECEIPT_PASS",
+  "note": "This record intentionally contains no runtime PASS. Static CI, UAF materialization and candidate-adapter conformance cannot promote ConvertX out of QUARANTINED state or activate any CANDIDATE pair. Current-host production execution remains blocked until the existing HRB authority materializes non-accelerator CPU/memory authorization and real E2E evidence exists."
+}

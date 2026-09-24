@@ -1,0 +1,46 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-TOOLS-FILE-CONVERSION-RECONCILIATION-2026-09-24",
+  "covered_ids": [
+    "FA3-TOOLS-FABRIC-001",
+    "FA3-FILE-CONVERSION-001",
+    "FA3-PROVIDER-CONVERTX-001"
+  ],
+  "assessment": "OPTIONAL",
+  "rationale": "Tools and file conversion already use deterministic intent admission and SPECIALIZED_PROVIDER_FIRST routing. Decision Fabric may optionally advise intent/category interpretation only over an FA3-defined candidate set; it must not select or admit ConvertX, expand conversion pairs, authorize execution, acquire resources or activate production routing.",
+  "decision_points": [
+    {
+      "id": "tools-intent-advisory",
+      "purpose": "advise classification among the exact FA3-defined Tools intent candidates when deterministic text mapping is ambiguous",
+      "contract": "SELECT_ONE",
+      "candidate_source": "FA3-TOOLS-FABRIC-001 canonical intent set",
+      "final_policy_owner": "FA3-TOOLS-FABRIC-001 / FA3-FILE-CONVERSION-001 / UAF",
+      "failure_policy": "RULE_FALLBACK"
+    }
+  ],
+  "not_delegated": [
+    "provider selection or admission",
+    "conversion-pair allowlist expansion",
+    "CANDIDATE to ACTIVE transition",
+    "execution authorization or approval",
+    "HRB resource admission",
+    "security or sandbox policy",
+    "evidence promotion"
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "shadow_mode_required": true,
+  "capability_delta": 0,
+  "authority_delta": 0
+}

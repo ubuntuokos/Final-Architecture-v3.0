@@ -1,0 +1,118 @@
+{
+  "schema": "fa3.tools-fabric.v1",
+  "id": "FA3-TOOLS-FABRIC-001",
+  "name": "FA3 Tools Fabric",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "class": "USER_FACING_CAPABILITY_AGGREGATION",
+  "execution_authority": false,
+  "policy_authority": false,
+  "purpose": "Task-oriented GUI aggregation for utility workflows without creating a parallel execution or policy authority.",
+  "categories": [
+    {
+      "id": "DIGITALIZATION",
+      "label_hu": "Digitalizálás",
+      "intents": [
+        "digitalize.audio",
+        "digitalize.image",
+        "digitalize.video"
+      ],
+      "rule": "Capture/ingest remains distinct from conversion."
+    },
+    {
+      "id": "CONVERSION",
+      "label_hu": "Konvertálás",
+      "intents": [
+        "convert.universal",
+        "convert.document",
+        "convert.image",
+        "convert.audio",
+        "convert.video",
+        "convert.asset3d"
+      ],
+      "canonical_execution_profile": "FA3-FILE-CONVERSION-001"
+    },
+    {
+      "id": "TRANSFER",
+      "label_hu": "Fájl küldés / fogadás",
+      "intents": [
+        "transfer.send",
+        "transfer.receive",
+        "transfer.sync"
+      ]
+    },
+    {
+      "id": "ARCHIVE_BACKUP",
+      "label_hu": "Archiválás / Biztonsági mentés",
+      "intents": [
+        "archive.compress",
+        "archive.extract",
+        "backup.create",
+        "backup.restore",
+        "backup.snapshot"
+      ]
+    },
+    {
+      "id": "DOWNLOADS",
+      "label_hu": "Letöltések",
+      "intents": [
+        "download.general",
+        "download.media",
+        "download.queue"
+      ]
+    },
+    {
+      "id": "FILE_UTILITIES",
+      "label_hu": "Fájlműveletek",
+      "intents": [
+        "file.hash",
+        "file.verify",
+        "file.metadata",
+        "file.duplicates"
+      ]
+    }
+  ],
+  "gui_contract": {
+    "surface": "FA3 Control Center",
+    "route_id": "create.tools",
+    "group": "CREATE",
+    "task_first_navigation": true,
+    "provider_names_are_secondary": true,
+    "quarantined_provider_launch_forbidden": true,
+    "mutation": "DRAFT_ONLY",
+    "direct_execution": false
+  },
+  "routing_contract": {
+    "flow": [
+      "GUI_OR_AGENT_INTENT",
+      "UAF_ACTION_CONTRACT",
+      "IDENTITY_AUTHORIZATION_APPROVAL",
+      "DETERMINISTIC_SPECIALIZED_PROVIDER_FIRST_ROUTING",
+      "HARDWARE_COMPATIBILITY",
+      "HRB_RESOURCE_ADMISSION",
+      "PROVIDER_ADAPTER",
+      "EXECUTION",
+      "EVIDENCE"
+    ],
+    "execution_fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "provider_selection": "DETERMINISTIC_SPECIALIZED_PROVIDER_FIRST",
+    "decision_fabric_role": "OPTIONAL_INTENT_ADVISORY_ONLY",
+    "direct_provider_bypass": false,
+    "direct_gui_execution": false,
+    "direct_agent_execution": false,
+    "fail_closed_on_unknown_intent": true
+  },
+  "authority": {
+    "new_architectural_authorities": 0,
+    "inherits_existing_policy_and_resource_authorities": true
+  },
+  "version": "2.0.0",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "uaf_actions": [
+    "file.convert.plan",
+    "file.convert.execute",
+    "file.convert.inspect"
+  ]
+}

@@ -71,7 +71,8 @@ ApplicationWindow {
         "decision.project-radar": 33,
         "decision.context-inspector": 34,
         "agents.action-center": 35,
-        "system.updates": 36
+        "system.updates": 36,
+        "create.tools": 37
     })
 
     function routeIndex(routeId) {
@@ -150,6 +151,7 @@ ApplicationWindow {
         {title: "RTD Providers", detail: "Real-Time Data provider-ek, frissesség, policy és provenance", category: "FUNCTION", routeId: "models.rtd"},
         {title: "Projects & Workspaces", detail: "Projektek, assetek és knowledge-contextus", category: "FUNCTION", routeId: "home.projects"},
         {title: "Knowledge & Retrieval", detail: "Hierarchical + hybrid retrieval, PageIndex Local, trace és provenance", category: "FUNCTION", routeId: "create.knowledge"},
+        {title: "Tools", detail: "Provider-semleges utility és fájlkonverziós UAF draft felület", category: "FUNCTION", routeId: "create.tools"},
         {title: "Work Management", detail: "Kaneo + Kanboard provider-neutral projects, boards, tasks és automation", category: "FUNCTION", routeId: "home.work-management"},
         {title: "Tasks & Boards", detail: "Provider-neutral work-item projection és reconciliation", category: "FUNCTION", routeId: "home.work-management"},
         {title: "Accelerator Guard", detail: "GPU/NPU contention és explicit user arbitration", category: "FUNCTION", routeId: "system.accelerator-guard"},
@@ -680,6 +682,7 @@ ApplicationWindow {
                         Label { text: "CREATE"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
                         NavButton { iconText: "✦"; label: "AI Studio"; routeId: "create.ai-studio" }
                         NavButton { iconText: "⌘"; label: "Knowledge & Retrieval"; routeId: "create.knowledge" }
+                        NavButton { iconText: "▦"; label: "Tools"; routeId: "create.tools" }
 
                         Item { Layout.preferredHeight: 8 }
                         Label { text: "AGENTS"; color: "#50667e"; font.pixelSize: 8; font.bold: true; Layout.leftMargin: 10 }
@@ -1699,6 +1702,23 @@ ApplicationWindow {
                     magenta: window.magenta
                     onStageActionIntentRequested: function(actionId, target, rationale) {
                         operationNotice = fa3Repository.createDraftChangeSet("UPDATE_FABRIC", actionId, target, rationale)
+                    }
+                }
+
+                ToolsPage {
+                    id: toolsPage
+                    panel: window.panel
+                    panelRaised: window.panelRaised
+                    border: window.border
+                    textPrimary: window.textPrimary
+                    textMuted: window.textMuted
+                    accent: window.accent
+                    green: window.green
+                    orange: window.orange
+                    magenta: window.magenta
+                    onStageActionIntentRequested: function(actionId, target, rationale) {
+                        toolsPage.operationNotice = fa3Repository.createDraftChangeSet(
+                            "TOOLS_FABRIC", actionId, target, rationale)
                     }
                 }
             }

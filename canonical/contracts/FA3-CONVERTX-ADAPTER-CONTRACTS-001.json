@@ -1,0 +1,134 @@
+{
+  "schema": "fa3.convertx-adapter-contracts.v1",
+  "id": "FA3-CONVERTX-ADAPTER-CONTRACTS-001",
+  "provider_id": "FA3-PROVIDER-CONVERTX-001",
+  "profile_id": "FA3-FILE-CONVERSION-001",
+  "upstream_reference": {
+    "repository": "https://github.com/C4illin/ConvertX",
+    "release": "v0.18.0",
+    "contract_type": "PINNED_INTERNAL_WEB_FLOW",
+    "official_public_api": false,
+    "automatic_compatibility_with_future_releases": false
+  },
+  "scope": "CANDIDATE_VALIDATION_ONLY",
+  "production_routing": false,
+  "endpoint_policy": {
+    "base_url": "LOOPBACK_ONLY",
+    "allowed_schemes": [
+      "http",
+      "https"
+    ],
+    "allowed_hosts": [
+      "127.0.0.1",
+      "localhost",
+      "::1"
+    ],
+    "allowed_routes": [
+      {
+        "method": "GET",
+        "path": "/",
+        "purpose": "bootstrap auth and job cookies"
+      },
+      {
+        "method": "POST",
+        "path": "/upload",
+        "purpose": "upload one staged input file"
+      },
+      {
+        "method": "POST",
+        "path": "/convert",
+        "purpose": "start exactly one allowlisted conversion"
+      },
+      {
+        "method": "POST",
+        "path": "/progress/:jobId",
+        "purpose": "poll server-rendered result fragment"
+      },
+      {
+        "method": "GET",
+        "path": "/download/:userId/:jobId/:fileName",
+        "purpose": "download exactly one result discovered from progress output"
+      }
+    ],
+    "other_routes": "DENY"
+  },
+  "bootstrap_contract": {
+    "runtime_requires_allow_unauthenticated": true,
+    "runtime_requires_account_registration_disabled": true,
+    "runtime_requires_untrusted_external_exposure_disabled": true,
+    "required_cookie": "jobId",
+    "auth_cookie_is_transport_state_only": true,
+    "jwt_payload_parsing_by_fa3": false
+  },
+  "request_contract": {
+    "single_input_file_only": true,
+    "input_is_regular_file": true,
+    "input_symlink": "DENY",
+    "staged_upload_name_generated_by_fa3": true,
+    "multipart_field": "file",
+    "convert_form_fields": {
+      "convert_to": "<provider_target>,<provider_converter>",
+      "file_names": "JSON_ARRAY_OF_SINGLE_STAGED_FILENAME"
+    },
+    "provider_converter_source": "FA3-CONVERTX-CONVERSION-ALLOWLIST-001",
+    "provider_target_source": "FA3-CONVERTX-CONVERSION-ALLOWLIST-001",
+    "arbitrary_converter_selection": false,
+    "arbitrary_provider_arguments": false,
+    "arbitrary_upstream_options": false
+  },
+  "result_contract": {
+    "completion_source": "POST /progress/:jobId",
+    "download_uri_source": "SERVER_RENDERED_RESULT_HREF",
+    "client_side_user_id_derivation": false,
+    "client_side_output_filename_prediction": false,
+    "download_route_must_match_job_id": true,
+    "download_route_must_be_same_loopback_origin": true,
+    "single_result_required": true,
+    "output_symlink": "DENY",
+    "output_overwrite": "DENY",
+    "output_size_limit_required": true,
+    "sha256_required": true
+  },
+  "limits": {
+    "request_timeout_seconds_default": 15,
+    "conversion_timeout_seconds_default": 120,
+    "poll_interval_seconds_default": 1,
+    "max_output_bytes_default": 268435456,
+    "redirects_outside_same_loopback_origin": "DENY"
+  },
+  "security": {
+    "xelatex": "DENY",
+    "unknown_pair": "DENY",
+    "non_loopback_endpoint": "DENY",
+    "missing_job_cookie": "DENY",
+    "unexpected_download_link": "DENY",
+    "multiple_result_links": "DENY",
+    "path_traversal_in_result_uri": "DENY",
+    "resource_admission_before_real_execution": "REQUIRED",
+    "container_egress_denial_proof_for_current_host_pass": "REQUIRED",
+    "candidate_validation_does_not_enable_production": true
+  },
+  "materialization": {
+    "executor": "src/fa3_convertx_v018_http.py",
+    "tests": "tests/test_convertx_v018_http.py",
+    "status": "MATERIALIZED_REFERENCE_EXECUTOR",
+    "runtime_evidence": "PENDING_CURRENT_HOST"
+  },
+  "fail_closed": true,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "version": "2.0.0",
+  "execution_boundary": {
+    "fabric": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "provider_projection_is_execution_authority": false,
+    "direct_gui_provider_bypass": false,
+    "direct_agent_provider_bypass": false,
+    "direct_mcp_provider_bypass": false,
+    "direct_n8n_provider_bypass": false
+  },
+  "resource_boundary": {
+    "authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "non_accelerator_current_host_authorization": "HRB_NON_ACCELERATOR_AUTHORIZATION_UNMATERIALIZED",
+    "accelerator_lease_may_substitute_for_cpu_memory_authorization": false
+  }
+}
