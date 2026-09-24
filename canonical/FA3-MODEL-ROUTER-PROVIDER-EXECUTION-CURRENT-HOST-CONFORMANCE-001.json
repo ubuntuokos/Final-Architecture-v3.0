@@ -25,6 +25,7 @@
   ],
   "required_checks": [
     "real_provider_request_pass",
+    "runtime_model_discovery_pass",
     "credential_authentication_enforced_pass",
     "session_affinity_pass",
     "intra_provider_rebind_pass",
@@ -53,7 +54,7 @@
     "direct_provider_access": "CURRENT_HOST_EVIDENCE_HARNESS_ONLY_NOT_APPLICATION_PATH",
     "credential_authentication": "INVALID_BEARER_MUST_BE_REJECTED_401_OR_403_BEFORE_PASS",
     "provisioning": "INTERACTIVE_TTY_ONLY_REAL_CREDENTIALS_TEMPORARY_SECRETREF_POLICIES_AND_PROBE_IDENTITY_CLEANED",
-    "preferred_model": "EXPLICIT_PREFERRED_MODEL_MUST_EXIST_OR_FAIL_CLOSED"
+    "preferred_model": "OPTIONAL_OPERATOR_OVERRIDE_ONLY; OTHERWISE_RUNTIME_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE"
   },
   "provisioning_harness": "bin/fa3-model-router-provider-execution-current-host-provision.sh",
   "openai_evidence_adapter": {
@@ -64,9 +65,10 @@
     "normal_application_routing_enabled": false,
     "credential_storage": false,
     "remote_origin": "https://api.openai.com/v1",
-    "preferred_probe_model": "gpt-4o-mini",
+    "preferred_probe_model": null,
     "invalid_bearer_rejection_required": true,
     "two_real_credentials_required": true,
-    "global_promotion_claim": false
+    "global_promotion_claim": false,
+    "model_selection": "RUNTIME_API_PROJECT_CATALOG_PLUS_LIVE_CHAT_COMPATIBILITY_PROBE"
   }
 }
