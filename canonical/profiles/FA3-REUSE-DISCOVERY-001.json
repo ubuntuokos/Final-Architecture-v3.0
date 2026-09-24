@@ -1,0 +1,75 @@
+{
+  "schema": "fa3.profile-record.v1",
+  "id": "FA3-REUSE-DISCOVERY-001",
+  "name": "Capability, Contract, Pattern & Implementation Reuse Discovery Profile",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "relationship": {
+    "type": "CROSS-CUTTING-OVERLAY",
+    "parent": "FA3-REGISTRY-001"
+  },
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "contracts": [
+    "FA3-REUSE-DISCOVERY-CONTRACTS-001",
+    "FA3-APPLICATION-INTENT-001",
+    "FA3-REUSABLE-PATTERN-001",
+    "FA3-REUSE-ASSESSMENT-001"
+  ],
+  "catalog": "FA3-REUSE-CATALOG-001",
+  "source_federation": [
+    "FA3-REGISTRY-001",
+    "canonical/mcp-capability-registry.json",
+    "canonical/profiles",
+    "canonical/contracts",
+    "canonical/providers",
+    "canonical/actions",
+    "canonical/references",
+    "canonical/patterns",
+    "canonical/third-party",
+    "FA3-GUI-SURFACE-REGISTRY-001",
+    "FA3-DISTRIBUTION-REGISTRY-001",
+    "FA3-JEV-CODE-REUSE-001",
+    "External Project Radar"
+  ],
+  "lifecycle": [
+    "INTENT",
+    "DISCOVER",
+    "FILTER",
+    "ASSESS_REUSE",
+    "IDENTIFY_GAPS",
+    "CHECK_AUTHORITY",
+    "CHECK_COEXISTENCE",
+    "CHECK_HARDWARE",
+    "PROPOSE",
+    "ADMIT",
+    "IMPLEMENT"
+  ],
+  "agent_native_projection": {
+    "contract": "ReuseContext",
+    "output": "ReuseProposal",
+    "proposal_is_admission": false,
+    "candidate_set_expansion": false
+  },
+  "decision_fabric": {
+    "applicability": "RECOMMENDED_ONLY_FOR_RANKING_AMONG_DETERMINISTICALLY_ELIGIBLE_CANDIDATES",
+    "candidate_expansion": "DENY",
+    "policy_override": "DENY",
+    "license_security_override": "DENY"
+  },
+  "hardware_audit": {
+    "profile_id": "FA3-HARDWARE-BASELINE-001",
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "implementation_status": "MATERIALIZED_STATIC_ADMISSION_PENDING_CI_REFERENCE_EVIDENCE",
+  "current_host_runtime_promotion_claim": false
+}

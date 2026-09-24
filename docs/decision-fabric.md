@@ -82,7 +82,13 @@ External code may be copied only after per-project license, provenance, security
 
 ## New-project adoption
 
-Every new FA3 profile/provider or material capability extension must carry an `FA3-DECISION-FABRIC-ASSESSMENT-001` assessment with one of:
+### Reuse Discovery
+
+Every new FA3 application, provider, profile, derived implementation, GUI module, Agent Native component or material extension must first pass `FA3-REUSE-DISCOVERY-001`.
+
+The project records an `FA3-APPLICATION-INTENT-001` intent and a machine-readable `FA3-REUSE-ASSESSMENT-001`. Existing capabilities, contracts, providers, patterns, GUI projections and references are discovered before gap analysis. A new implementation is permitted only for a real documented gap or an explicitly bounded provider-local mechanism. Reuse Discovery cannot admit a provider, grant authority or promote runtime state.
+
+After deterministic reuse eligibility filtering, every new FA3 profile/provider or material capability extension must carry an `FA3-DECISION-FABRIC-ASSESSMENT-001` assessment with one of:
 
 `REQUIRED`, `RECOMMENDED`, `OPTIONAL`, `NOT_APPLICABLE`, `PROHIBITED`.
 

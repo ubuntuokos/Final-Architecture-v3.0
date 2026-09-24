@@ -1,0 +1,33 @@
+{
+  "schema": "fa3.decision-fabric-assessment.v1",
+  "project_id": "FA3-REUSE-DISCOVERY-2026-09-24",
+  "covered_ids": [
+    "FA3-REUSE-DISCOVERY-001"
+  ],
+  "assessment": "RECOMMENDED",
+  "rationale": "Candidate eligibility, license/security exclusion, authority collision and coexistence filtering are deterministic. Decision Fabric may only rank the already eligible candidate set when several compatible reuse options remain.",
+  "decision_points": [
+    {
+      "id": "REUSE-CANDIDATE-RANKING",
+      "candidate_source": "DETERMINISTIC_REUSE_RESOLVER",
+      "final_policy_owner": "CALLING_FA3_PROJECT_ADMISSION_PATH",
+      "failure_policy": "NO_RANKING_USE_DETERMINISTIC_ORDER"
+    }
+  ],
+  "project_radar_checked": true,
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "global_accelerator_requirement": false,
+    "accelerator_cardinality": "0..N"
+  },
+  "security_boundary": {
+    "may_grant_permission": false,
+    "may_expand_candidate_set": false,
+    "may_create_agent": false,
+    "may_admit_model": false,
+    "may_admit_provider": false
+  },
+  "capability_delta": 0,
+  "authority_delta": 0
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-REUSE-ASSESSMENT-001.schema.json",
+  "x-fa3-contract-id": "FA3-REUSE-ASSESSMENT-001",
+  "title": "FA3 Reuse Assessment",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "project_id",
+    "intent_id",
+    "intent_path",
+    "covered_ids",
+    "result",
+    "selected_reuse",
+    "rejected_candidates",
+    "pattern_reuse",
+    "existing_authority_bindings",
+    "gaps",
+    "hardware_audit",
+    "coexistence",
+    "implementation_readiness"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.reuse-assessment.v1"
+    },
+    "id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "intent_id": {
+      "type": "string"
+    },
+    "intent_path": {
+      "type": "string"
+    },
+    "covered_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "result": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "selected_reuse": {
+      "type": "array"
+    },
+    "rejected_candidates": {
+      "type": "array"
+    },
+    "pattern_reuse": {
+      "type": "array"
+    },
+    "existing_authority_bindings": {
+      "type": "object"
+    },
+    "gaps": {
+      "type": "array"
+    },
+    "hardware_audit": {
+      "type": "object"
+    },
+    "coexistence": {
+      "type": "object"
+    },
+    "implementation_readiness": {
+      "enum": [
+        "READY_FOR_NORMAL_ADMISSION",
+        "PENDING_GAPS",
+        "BLOCKED"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

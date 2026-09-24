@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-APPLICATION-INTENT-001.schema.json",
+  "x-fa3-contract-id": "FA3-APPLICATION-INTENT-001",
+  "title": "FA3 Application / Component Intent",
+  "type": "object",
+  "required": [
+    "schema",
+    "id",
+    "project_id",
+    "project_type",
+    "goal",
+    "required_capabilities",
+    "optional_capabilities",
+    "problem_classes",
+    "hardware_audit",
+    "namespace_claims",
+    "proposed_authority_roles"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.application-intent.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_type": {
+      "enum": [
+        "APPLICATION",
+        "PROVIDER",
+        "PROFILE",
+        "DERIVED_IMPLEMENTATION",
+        "GUI_MODULE",
+        "AGENT_NATIVE_COMPONENT",
+        "WORKFLOW",
+        "INTEGRATION",
+        "MATERIAL_EXTENSION"
+      ]
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "optional_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "problem_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "input_modalities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_modalities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execution_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data_classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "proposed_authority_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "declared_new_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "declared_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "hardware_audit": {
+      "type": "object"
+    },
+    "namespace_claims": {
+      "type": "object"
+    },
+    "security_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "integration_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gui_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

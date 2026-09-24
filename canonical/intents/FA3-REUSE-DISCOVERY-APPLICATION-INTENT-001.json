@@ -1,0 +1,52 @@
+{
+  "schema": "fa3.application-intent.v1",
+  "id": "FA3-REUSE-DISCOVERY-APPLICATION-INTENT-001",
+  "project_id": "FA3-REUSE-DISCOVERY-001",
+  "project_type": "PROFILE",
+  "goal": "Prevent blank-page FA3 architecture by deterministically discovering reusable canonical capabilities, contracts, providers, patterns and references before implementation.",
+  "required_capabilities": [],
+  "optional_capabilities": [
+    "fa3.decision.rank"
+  ],
+  "problem_classes": [
+    "architecture-reuse",
+    "capability-discovery",
+    "duplicate-authority-prevention",
+    "software-coexistence",
+    "project-admission"
+  ],
+  "input_modalities": [
+    "CANONICAL_METADATA"
+  ],
+  "output_modalities": [
+    "MACHINE_READABLE_ASSESSMENT"
+  ],
+  "execution_classes": [
+    "CPU_LIGHTWEIGHT"
+  ],
+  "proposed_authority_roles": [],
+  "declared_new_capabilities": [],
+  "declared_gaps": [
+    "GENERALIZED_REUSE_DISCOVERY_PROFILE_AND_DETERMINISTIC_RESOLVER"
+  ],
+  "hardware_audit": {
+    "vendor_neutral": true,
+    "cpu_only_viable": true,
+    "accelerator_cardinality": "0..N",
+    "global_accelerator_requirement": false,
+    "live_discovery_authority": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "namespace_claims": {
+    "package_prefix": "fa3-reuse",
+    "service_prefix": "fa3-reuse",
+    "config_root": "$XDG_CONFIG_HOME/fa3/reuse",
+    "cache_root": "$XDG_CACHE_HOME/fa3/reuse",
+    "runtime_root": "$XDG_RUNTIME_DIR/fa3/reuse",
+    "socket_namespace": "fa3/reuse",
+    "data_root": "$XDG_DATA_HOME/fa3/reuse",
+    "desktop_prefix": "org.fa3.reuse",
+    "requires_upstream_uninstall": false,
+    "global_environment_mutation": false,
+    "claims_default_port": false
+  }
+}
