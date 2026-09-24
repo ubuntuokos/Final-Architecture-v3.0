@@ -36,6 +36,8 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("/var/lib/fa3/state/fa3-machine-state.img",harness)
         self.assertIn("/etc/credstore.encrypted/fa3-machine-state-key.cred",harness)
         self.assertIn("sudo /usr/local/sbin/fa3-secret-vault-init",harness)
+        self.assertIn("cmp -s",harness)
+        self.assertIn("sudo bash bin/fa3-secret-broker-install",harness)
         marker="python3 - \"$SECRET_RECEIPT_REFERENCE\" <<'PY'\n"
         self.assertIn(marker,harness)
         embedded=harness.split(marker,1)[1].split("\nPY\n",1)[0]
