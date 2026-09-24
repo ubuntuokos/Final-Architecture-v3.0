@@ -75,6 +75,7 @@ from fa3_quality_gate import evaluate as quality_anti_slop_gate
 from fa3_agency_agents_gate import gate as agency_agents_gate
 from fa3_agent_definition_gate import gate as agent_definition_gate
 from fa3_external_llm_catalog_gate import reference_check as external_llm_catalog_gate
+from fa3_model_router_provider_execution_gate import gate as model_router_provider_execution_gate
 from fa3_agent_workload_gate import gate as agent_workload_runtime_gate
 from fa3_agent_workload_current_host_gate import gate as agent_workload_runtime_current_host_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
