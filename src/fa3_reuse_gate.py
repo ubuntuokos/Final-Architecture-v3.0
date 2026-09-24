@@ -10,8 +10,8 @@ from typing import Any
 from fa3_reuse_assessment import assess_intent
 from fa3_reuse_catalog import build_catalog
 from fa3_reuse_resolver import bounded_rank
+from fa3_release_baseline import load_active_release_baseline
 
-CAPABILITY_COUNT = 143
 PROFILE = "canonical/profiles/FA3-REUSE-DISCOVERY-001.json"
 CONTRACT = "canonical/contracts/FA3-REUSE-DISCOVERY-CONTRACTS-001.json"
 CATALOG = "canonical/FA3-REUSE-CATALOG-001.json"
@@ -109,6 +109,7 @@ def post_adoption_new_project_check(root: Path) -> dict[str, Any]:
 
 def gate(root: Path) -> dict[str, Any]:
     root = root.resolve()
+    capability_count = load_active_release_baseline(root).capability_count
     findings: list[dict[str, Any]] = []
     required = [
         PROFILE, CONTRACT, CATALOG, DECISION, GATE_RECORD, ENFORCEMENT,
@@ -147,7 +148,7 @@ def gate(root: Path) -> dict[str, Any]:
         profile.get("id") == "FA3-REUSE-DISCOVERY-001"
         and profile.get("new_capability") is False
         and profile.get("new_architectural_authority") is False
-        and profile.get("capability_count") == CAPABILITY_COUNT
+        and profile.get("capability_count") == capability_count
         and profile.get("current_host_runtime_promotion_claim") is False
     ):
         findings.append(finding("REUSE-002", "profile capability/authority/promotion boundary drift"))
@@ -155,7 +156,7 @@ def gate(root: Path) -> dict[str, Any]:
     if not (
         decision.get("new_capabilities") == 0
         and decision.get("new_architectural_authorities") == 0
-        and decision.get("capability_count_after") == CAPABILITY_COUNT
+        and decision.get("capability_count_after") == capability_count
         and decision.get("current_host_runtime_promotion_claim") is False
     ):
         findings.append(finding("REUSE-003", "decision baseline delta drift"))
@@ -165,7 +166,7 @@ def gate(root: Path) -> dict[str, Any]:
         and catalog_policy.get("derived") is True
         and catalog_policy.get("rebuildable") is True
         and catalog_policy.get("canonical_source_of_truth") is False
-        and catalog_policy.get("capability_count") == CAPABILITY_COUNT
+        and catalog_policy.get("capability_count") == capability_count
     ):
         findings.append(finding("REUSE-004", "derived reuse catalog authority boundary drift"))
 
@@ -173,7 +174,7 @@ def gate(root: Path) -> dict[str, Any]:
         contract.get("provider_neutral") is True
         and contract.get("new_capability") is False
         and contract.get("new_architectural_authority") is False
-        and contract.get("capability_count") == CAPABILITY_COUNT
+        and contract.get("capability_count") == capability_count
     ):
         findings.append(finding("REUSE-005", "contract family boundary drift"))
 
@@ -267,7 +268,7 @@ def gate(root: Path) -> dict[str, Any]:
         "FA3-REUSE-DISCOVERY-GATESET-001" in release.get("mandatory_reference_gates", [])
         and rec.get("profile_id") == "FA3-REUSE-DISCOVERY-001"
         and rec.get("catalog_id") == "FA3-REUSE-CATALOG-001"
-        and rec.get("capability_count_after") == CAPABILITY_COUNT
+        and rec.get("capability_count_after") == capability_count
         and rec.get("new_capabilities") == 0
         and rec.get("new_architectural_authorities") == 0
         and rec.get("global_promotion_claim") is False
@@ -299,7 +300,7 @@ def gate(root: Path) -> dict[str, Any]:
         "golden_project": generated,
         "adoption_enforcement": adoption,
         "reference_evidence_status": evidence.get("status"),
-        "capability_count": CAPABILITY_COUNT,
+        "capability_count": capability_count,
         "new_capabilities": 0,
         "new_architectural_authorities": 0,
         "current_host_runtime_promotion_claim": False,
