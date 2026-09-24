@@ -1,0 +1,45 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-OPENAI-API-001",
+  "name": "OpenAI API External LLM Provider via FA3 Loopback Evidence Adapter",
+  "status": "OPTIONAL_EXTERNAL_PROVIDER_EXPLICIT_POLICY_CURRENT_HOST_EVIDENCE_ONLY",
+  "provider_role": "EXTERNAL_LLM_API_PROVIDER_FOR_EXPLICIT_POLICY_GATED_MODEL_ROUTER_USE",
+  "classification": [
+    "OPTIONAL_PROVIDER",
+    "EXTERNAL_CLOUD_PROVIDER",
+    "OPENAI_PROTOCOL_PROVIDER",
+    "CURRENT_HOST_LOOPBACK_ADAPTER_REQUIRED"
+  ],
+  "parent_profile": "FA3-EXTERNAL-LLM-CATALOG-001",
+  "service_origin": "https://api.openai.com",
+  "observed_at": "2026-09-24",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "requirement": "OPTIONAL",
+  "runtime_activation_status": "EVIDENCE_ONLY_EXPLICIT_OPERATOR_ACTIVATION_PENDING_REAL_CURRENT_HOST_PROVIDER_EXECUTION_PASS",
+  "current_host_production_evidence": "NOT_YET_CLAIMED",
+  "normal_application_routing_enabled": false,
+  "global_runtime_promotion_required_when_disabled": false,
+  "fa3_usage_policy": {
+    "model_routing": "DELEGATE_TO_EXISTING_FA3_MODEL_ROUTER",
+    "secret_source_of_truth": "FA3-SECRET-BROKER-001_ONLY",
+    "external_egress": "EXPLICIT_POLICY_ONLY",
+    "external_egress_policy": "FA3-OPENAI-API-EXTERNAL-POLICY-001",
+    "baseline_local_route": "FORBIDDEN",
+    "silent_local_to_cloud_fallback": "FORBIDDEN",
+    "current_host_evidence_adapter": "LOOPBACK_ONLY",
+    "credential_storage_in_adapter": "FORBIDDEN",
+    "provider_execution_probe": "FIXED_NON_USER_CONTENT_ONLY"
+  },
+  "authority_boundaries": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "host_resource_admission_placement": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "FA3-SECRET-BROKER-001",
+    "evidence_promotion": "FA3-AUTH-OBS-EVIDENCE-001",
+    "registry": "FA3-REGISTRY-001"
+  }
+}
