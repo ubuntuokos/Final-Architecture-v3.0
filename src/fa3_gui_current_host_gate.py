@@ -220,6 +220,7 @@ def gate(
         "workflow": root / ".github/workflows/fa3-gui-current-host.yml",
         "runtime": root / "src/fa3_gui_current_host.py",
         "collector": root / "evidence/collect-gui-current-host.py",
+        "current_host_manifest": root / "fa3-current-host/manifest.json",
     }
     errors: list[str] = []
     for name, path in paths.items():
@@ -234,6 +235,7 @@ def gate(
     workflow = paths["workflow"].read_text(encoding="utf-8")
     runtime_text = paths["runtime"].read_text(encoding="utf-8")
     collector_text = paths["collector"].read_text(encoding="utf-8")
+    current_host_manifest = load(paths["current_host_manifest"])
 
     if not (
         conformance.get("id") == CONFORMANCE_ID
@@ -273,6 +275,48 @@ def gate(
         errors.append(
             "GUI current-host state is neither fail-closed pending nor evidence-promoted PASS"
         )
+
+    required_manifest_paths = {
+        ".github/workflows/fa3-gui-current-host.yml",
+        "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+        "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
+        "canonical/gui-current-host-enforcement.json",
+        "docs/FA3-GUI-CURRENT-HOST-CLOSURE-001.md",
+        "evidence/collect-gui-current-host.py",
+        "src/fa3_gui_current_host.py",
+        "src/fa3_gui_current_host_gate.py",
+        "tests/test_fa3_gui_current_host.py",
+    }
+    manifest_required = set(current_host_manifest.get("required_repository_paths", []))
+    gui_surface = next(
+        (
+            item
+            for item in current_host_manifest.get("registered_current_host_surfaces", [])
+            if item.get("name") == "gui-control-center"
+        ),
+        {},
+    )
+    expected_collection_status = (
+        "REAL_CURRENT_HOST_PASS_GUI_PROCESS_RUNTIME_ONLY"
+        if promoted
+        else "EXECUTABLE_CLOSURE_MATERIALIZED_REAL_EXECUTION_PENDING"
+    )
+    if not required_manifest_paths.issubset(manifest_required):
+        errors.append(
+            "current-host manifest missing GUI closure repository paths: "
+            + ",".join(sorted(required_manifest_paths - manifest_required))
+        )
+    if not (
+        gui_surface.get("collector") == "evidence/collect-gui-current-host.py"
+        and gui_surface.get("gate") == "gui-current-host"
+        and gui_surface.get("workflow") == ".github/workflows/fa3-gui-current-host.yml"
+        and gui_surface.get("receipt") == "evidence/receipts/fa3-gui-current-host.json"
+        and gui_surface.get("collection_status") == expected_collection_status
+        and gui_surface.get("production_runtime_promoted") is promoted
+        and gui_surface.get("global_promotion_claim") is False
+        and gui_surface.get("secret_backend_authority_owner") == "CAP-003"
+    ):
+        errors.append("current-host manifest GUI surface binding drift")
 
     if not (
         gate_record.get("id") == GATE_RECORD_ID
