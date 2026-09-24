@@ -107,6 +107,8 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         and gui_conformance.get("production_admitted") is True
         and gui_conformance.get("current_host_receipt_present") is True
         and gui_conformance.get("promotion_blockers") == []
+        and gui_conformance.get("admission_scope") == "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+        and gui_conformance.get("secret_backend_admission") == "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
     )
 
     base = projection.get("base_release_commit")
@@ -281,6 +283,11 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "workflow": ".github/workflows/fa3-gui-current-host.yml",
         "collector": "evidence/collect-gui-current-host.py",
         "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
+        "admission_scope": gui_conformance.get("admission_scope"),
+        "secret_backend_admission": gui_conformance.get("secret_backend_admission"),
+        "secret_backend_authority_owner": "CAP-003",
+        "secret_backend_used_for_gui_runtime_admission": False,
+        "tested_source_commit": gui_conformance.get("tested_source_commit"),
         "status": gui_conformance.get("status"),
         "current_host_receipt_present": gui_conformance.get("current_host_receipt_present") is True,
         "production_admitted": gui_conformance.get("production_admitted") is True,
