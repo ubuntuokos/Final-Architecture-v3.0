@@ -144,6 +144,8 @@ def discover_model(api_base: str, models_path: str, token: str, preferred: list[
     for wanted in preferred:
         if wanted in models:
             return wanted
+    if preferred:
+        raise ProbeDenied("none of the explicitly preferred provider models is available")
     return models[0]
 
 
