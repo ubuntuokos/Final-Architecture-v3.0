@@ -74,6 +74,7 @@ from fa3_agent_instructions_gate import gate as agent_instructions_gate
 from fa3_quality_gate import evaluate as quality_anti_slop_gate
 from fa3_agency_agents_gate import gate as agency_agents_gate
 from fa3_agent_definition_gate import gate as agent_definition_gate
+from fa3_external_llm_catalog_gate import reference_check as external_llm_catalog_gate
 from fa3_gui_current_host_gate import gate as gui_current_host_gate
 from fa3_pytorch3d_gate import gate as pytorch3d_gate
 from fa3_openfx_interop_gate import gate as openfx_interop_gate
@@ -182,7 +183,10 @@ def static_check(root:Path):
         fs.append(finding("FA3-STATIC-126","Agent Definition admission gate failed",agent_definition_gate=agent_definition_ref))
     gui_current_host_ref=gui_current_host_gate(root)
     if gui_current_host_ref["result"]!="PASS":
-        fs.append(finding("FA3-STATIC-127","GUI current-host closure materialization gate failed",gui_current_host_gate=gui_current_host_ref))
+        fs.append(finding("FA3-STATIC-128","GUI current-host closure materialization gate failed",gui_current_host_gate=gui_current_host_ref))
+    external_llm_catalog_ref=external_llm_catalog_gate(root)
+    if external_llm_catalog_ref["result"]!="PASS":
+        fs.append(finding("FA3-STATIC-127","External LLM Catalog discovery/admission-boundary gate failed",external_llm_catalog_gate=external_llm_catalog_ref))
 
     projection_ref=release_projection_gate(root)
     if projection_ref["result"]!="PASS":
@@ -303,7 +307,9 @@ def static_check(root:Path):
     if "FA3-AGENT-DEFINITION-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-126","Agent Definition gate is not bound into global enforcement policy"))
     if "FA3-GUI-CURRENT-HOST-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
-        fs.append(finding("FA3-STATIC-127","GUI current-host closure gate is not bound into global enforcement policy"))
+        fs.append(finding("FA3-STATIC-128","GUI current-host closure gate is not bound into global enforcement policy"))
+    if "FA3-EXTERNAL-LLM-CATALOG-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
+        fs.append(finding("FA3-STATIC-127","External LLM Catalog gate is not bound into global enforcement policy"))
     if "FA3-WHISPER-STT-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
         fs.append(finding("FA3-STATIC-026","Whisper STT provider gate is not bound into global enforcement policy"))
     if "FA3-MENTOR-GATESET-001" not in pol.get("mandatory_reference_gates",[]):
@@ -632,7 +638,7 @@ def main():
     ap=argparse.ArgumentParser(description="FINAL ARCHITECTURE v3.0 permanent enforcement")
     ap.add_argument("--root",default=str(Path(__file__).resolve().parents[1]))
     ap.add_argument("--ci-only",action="store_true",help="For Terax gate: validate immutable reference + executable regressions without claiming current-host evidence")
-    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","skill-fabric","distribution-compliance","agency-agents","agent-definition","gui-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
+    ap.add_argument("command",choices=("static","release-projection","runtime","terax","kaneo","kanboard","work-management","buzz","xcmd","ai-engineering","external-api-discovery","autogpt","caveman","stability-matrix-lifecycle","obsidian-knowledge-workspace","ai-infra-guard","ai-infra-guard-current-host","munder-difflin","munder-difflin-executable","muse-code","loop-engineering","hardware-portability","pytorch3d","openfx-interoperability","openhands","openyak","lynxhub","openbmb","gpu-kernel-runtime","gpu-kernel-runtime-current-host","tencentdb-agent-memory","video-provider-lifecycle","stability-sgm","stability-portfolio","ai-comms","developer-agent-coordination","integration-broker","codex","codex-current-host","modular","inference-portability","model-manager","model-manager-current-host","modular-provider","modular-current-host","demucs","demucs-provider","demucs-current-host","acestep","kdenlive-editorial","opencut","ffmpeg-ai","ffmpeg-ai-current-host","hybrid-editorial","marketing","marketing-agent-native","marketingskills","skill-fabric","distribution-compliance","agency-agents","agent-definition","external-llm-catalog","gui-current-host","blackhole-kdenlive","whisper-stt","whisper-stt-provider","cosyvoice","cosyvoice-current-host","voice-synthesis","hrb-deterministic-locality","cpu-numa-threading","cpu-numa-threading-current-host","mentor","presenton","presenton-current-host","fa3-os-event-privacy","runtime-hardening","acceptance","promote","all","status"))
     a=ap.parse_args()
     root=Path(a.root).resolve()
     try:
@@ -758,6 +764,8 @@ def main():
             x=agency_agents_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="agent-definition":
             x=agent_definition_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
+        if a.command=="external-llm-catalog":
+            x=external_llm_catalog_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="gui-current-host":
             x=gui_current_host_gate(root); print(json.dumps(x,indent=2,ensure_ascii=False)); return OK if x["result"]=="PASS" else BLOCKED
         if a.command=="blackhole-kdenlive":
