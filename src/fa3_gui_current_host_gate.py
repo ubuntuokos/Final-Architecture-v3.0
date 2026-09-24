@@ -391,6 +391,11 @@ def gate(
         and gui_surface.get("production_runtime_promoted") is promoted
         and gui_surface.get("global_promotion_claim") is False
         and gui_surface.get("secret_backend_authority_owner") == "CAP-003"
+        and gui_surface.get("tested_path") == "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+        and gui_surface.get("secret_backend_required_for_tested_path") is False
+        and gui_surface.get("secret_backend_authority") == "AUTH-SECRETS"
+        and gui_surface.get("secret_backend_capability") == "CAP-003"
+        and gui_surface.get("secret_backend_pass_claimed") is False
     ):
         errors.append("current-host manifest GUI surface binding drift")
 
