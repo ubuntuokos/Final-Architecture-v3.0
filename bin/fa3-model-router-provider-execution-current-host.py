@@ -9,6 +9,7 @@ import os
 import re
 import stat
 import subprocess
+import sys
 import tempfile
 import time
 import urllib.error
@@ -32,10 +33,41 @@ OUTPUT_SCHEMA = "fa3.model-router-provider-execution-live-probe.v1"
 SECRET_RECEIPT_SCHEMA = "fa3.secret-broker-current-host-receipt.v1"
 SECRET_REFERENCE_SCHEMA = "fa3.current-host-evidence-reference.v1"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+DIAGNOSTIC_TOKEN = re.compile(r"^[A-Za-z0-9_.:-]{1,128}$")
 
 
 class ProbeDenied(RuntimeError):
     pass
+
+
+class ProviderHTTPError(ProbeDenied):
+    def __init__(self, status: int, error_type: str = "unspecified", error_code: str = "unspecified") -> None:
+        self.status = int(status)
+        self.error_type = error_type
+        self.error_code = error_code
+        super().__init__(
+            f"provider request failed with HTTP {self.status} "
+            f"type={self.error_type} code={self.error_code}"
+        )
+
+
+def safe_diagnostic_token(value: Any) -> str:
+    if isinstance(value, str):
+        token = value.strip()
+        if DIAGNOSTIC_TOKEN.fullmatch(token):
+            return token
+    return "unspecified"
+
+
+def parse_provider_error(raw: bytes) -> tuple[str, str]:
+    try:
+        value = json.loads(raw.decode("utf-8"))
+    except Exception:
+        return "unspecified", "unspecified"
+    if not isinstance(value, dict) or not isinstance(value.get("error"), dict):
+        return "unspecified", "unspecified"
+    error = value["error"]
+    return safe_diagnostic_token(error.get("type")), safe_diagnostic_token(error.get("code"))
 
 
 def loadj(path: Path) -> dict[str, Any]:
@@ -89,8 +121,9 @@ def request_json(method: str, url: str, token: str, body: dict[str, Any] | None 
             raw = response.read(8 * 1024 * 1024)
             status = int(response.status)
     except urllib.error.HTTPError as exc:
-        _ = exc.read(64 * 1024)
-        raise ProbeDenied(f"provider request failed with HTTP {int(exc.code)}") from exc
+        raw_error = exc.read(64 * 1024)
+        error_type, error_code = parse_provider_error(raw_error)
+        raise ProviderHTTPError(int(exc.code), error_type, error_code) from exc
     except urllib.error.URLError as exc:
         raise ProbeDenied(f"provider transport failed: {type(exc.reason).__name__}") from exc
     if status < 200 or status >= 300:
@@ -186,8 +219,7 @@ def validate_secret_receipt(path: Path) -> None:
     raise ProbeDenied("unsupported Secret Broker current-host evidence schema")
 
 
-def discover_models(api_base: str, models_path: str, token: str, preferred: list[str]) -> list[str]:
-    payload = request_json("GET", url_join(api_base, models_path), token, timeout=30.0)
+def models_from_payload(payload: dict[str, Any], preferred: list[str]) -> list[str]:
     rows = payload.get("data")
     if not isinstance(rows, list):
         raise ProbeDenied("provider model catalog lacks OpenAI-compatible data list")
@@ -212,6 +244,33 @@ def discover_models(api_base: str, models_path: str, token: str, preferred: list
     if not candidates:
         raise ProbeDenied("provider model catalog exposes no plausible chat candidate")
     return candidates
+
+
+def discover_models(api_base: str, models_path: str, token: str, preferred: list[str]) -> list[str]:
+    payload = request_json("GET", url_join(api_base, models_path), token, timeout=30.0)
+    return models_from_payload(payload, preferred)
+
+
+def credential_upstream_preflight(api_base: str, models_path: str, token: str, label: str) -> dict[str, Any] | None:
+    try:
+        payload = request_json("GET", url_join(api_base, models_path), token, timeout=30.0)
+    except ProviderHTTPError as exc:
+        print(
+            f"Credential {label} upstream preflight: FAIL "
+            f"HTTP {exc.status} type={exc.error_type} code={exc.error_code}",
+            file=sys.stderr,
+            flush=True,
+        )
+        return None
+    except ProbeDenied:
+        print(
+            f"Credential {label} upstream preflight: FAIL transport_or_protocol",
+            file=sys.stderr,
+            flush=True,
+        )
+        return None
+    print(f"Credential {label} upstream preflight: PASS", file=sys.stderr, flush=True)
+    return payload
 
 
 def discover_working_chat_model(api_base: str, chat_path: str, token: str, candidates: list[str]) -> tuple[str, str]:
@@ -264,9 +323,10 @@ def credential_authentication_enforced(api_base: str, chat_path: str, model: str
             },
             timeout=30.0,
         )
-    except ProbeDenied as exc:
-        message = str(exc)
-        return "HTTP 401" in message or "HTTP 403" in message
+    except ProviderHTTPError as exc:
+        return exc.status in {401, 403}
+    except ProbeDenied:
+        return False
     return False
 
 
@@ -358,8 +418,14 @@ def main() -> int:
             secret_files.append(path)
             secret_values.append(project_secret(root, secret_id=secret_id, consumer_id=consumer_id, output=path))
 
-        token0 = decode_token(secret_values[0])
-        catalog_candidates = discover_models(api_base, models_path, token0, preferred)
+        tokens = [decode_token(value) for value in secret_values]
+        preflight_a = credential_upstream_preflight(api_base, models_path, tokens[0], "A")
+        preflight_b = credential_upstream_preflight(api_base, models_path, tokens[1], "B")
+        checks["credential_a_upstream_preflight_pass"] = preflight_a is not None
+        checks["credential_b_upstream_preflight_pass"] = preflight_b is not None
+        if preflight_a is None or preflight_b is None:
+            raise ProbeDenied("provider credential preflight failed; inspect sanitized status above")
+        catalog_candidates = models_from_payload(preflight_a, preferred)
         checks["credential_authentication_enforced_pass"] = credential_authentication_enforced(
             api_base, chat_path, catalog_candidates[0]
         )

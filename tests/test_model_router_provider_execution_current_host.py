@@ -12,6 +12,8 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("cross_provider_silent_fallback_denied_pass",REQUIRED_CHECKS)
         self.assertIn("raw_secret_absent_from_evidence_pass",REQUIRED_CHECKS)
         self.assertIn("credential_authentication_enforced_pass",REQUIRED_CHECKS)
+        self.assertIn("credential_a_upstream_preflight_pass",REQUIRED_CHECKS)
+        self.assertIn("credential_b_upstream_preflight_pass",REQUIRED_CHECKS)
         self.assertIn("runtime_model_discovery_pass",REQUIRED_CHECKS)
     def test_no_mock_semantic_in_required_checks(self):
         self.assertFalse(any("mock" in name or "synthetic" in name for name in REQUIRED_CHECKS))
@@ -24,8 +26,37 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertNotIn('str(root / "bin/fa3-secretctl")',producer)
         self.assertIn("credential_authentication_enforced",producer)
         self.assertIn("discover_working_chat_model",producer)
+        self.assertIn("credential_upstream_preflight",producer)
+        self.assertIn("parse_provider_error",producer)
+        self.assertNotIn('error.get("message")',producer)
         self.assertIn("fa3.current-host-evidence-reference.v1",producer)
         self.assertEqual(schema["properties"]["credentials"]["minItems"],2)
+    def test_sanitized_provider_error_excludes_message_and_untrusted_tokens(self):
+        spec=importlib.util.spec_from_file_location(
+            "fa3_provider_execution_current_host_error_test",
+            ROOT/"bin/fa3-model-router-provider-execution-current-host.py",
+        )
+        self.assertIsNotNone(spec)
+        module=importlib.util.module_from_spec(spec)
+        self.assertIsNotNone(spec.loader)
+        spec.loader.exec_module(module)
+        raw=json.dumps({
+            "error":{
+                "message":"sensitive account-specific text sk-DO-NOT-LOG",
+                "type":"ip_not_authorized",
+                "code":"invalid_api_key",
+            }
+        }).encode()
+        self.assertEqual(
+            module.parse_provider_error(raw),
+            ("ip_not_authorized","invalid_api_key"),
+        )
+        raw=json.dumps({"error":{"type":"bad token with spaces","code":{"nested":True}}}).encode()
+        self.assertEqual(
+            module.parse_provider_error(raw),
+            ("unspecified","unspecified"),
+        )
+
     def test_endpoint_paths_are_relative_to_api_base(self):
         spec=importlib.util.spec_from_file_location(
             "fa3_provider_execution_current_host",

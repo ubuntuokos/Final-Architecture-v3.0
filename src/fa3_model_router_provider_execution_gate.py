@@ -98,6 +98,8 @@ def gate(root: Path) -> dict[str, Any]:
             f.append(finding("PEX-CH-008","provider secret consumer must bind dedicated user to exact transient systemd unit"))
         if '"models_path":"models"' not in provisioner_text or '"chat_path":"chat/completions"' not in provisioner_text or '"models_path":"/v1/models"' in provisioner_text or '"chat_path":"/v1/chat/completions"' in provisioner_text or 'cfg.get("models_path", "models")' not in producer_text or 'cfg.get("chat_path", "chat/completions")' not in producer_text:
             f.append(finding("PEX-CH-009","provider endpoint paths must be relative to the admitted api_base"))
+        if "credential_upstream_preflight" not in producer_text or "parse_provider_error" not in producer_text or 'error.get("message")' in producer_text or "credential_a_upstream_preflight_pass" not in producer_text or "credential_b_upstream_preflight_pass" not in producer_text:
+            f.append(finding("PEX-CH-010","two-credential upstream preflight with sanitized provider diagnostics is required"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
 
