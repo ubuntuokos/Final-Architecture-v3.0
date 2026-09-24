@@ -23,9 +23,13 @@ assert_mount_common(){
   fstype="$(findmnt -rn -T "$MNT" -o FSTYPE)"
   [[ "$fstype" == "ext4" ]] || { echo "mounted vault filesystem must be ext4" >&2; return 2; }
   opts="$(findmnt -rn -T "$MNT" -o OPTIONS)"
-  for o in nodev nosuid noexec; do
+  for o in rw nodev nosuid noexec; do
     grep -qw "$o" <<<"${opts//,/ }" || { echo "mount option missing: $o" >&2; return 2; }
   done
+  if grep -qw ro <<<"${opts//,/ }"; then
+    echo "vault mount must be writable during active Secret Broker lifecycle" >&2
+    return 2
+  fi
   owner="$(stat -c '%U:%G' "$MNT")"
   mode="$(stat -c '%a' "$MNT")"
   [[ "$owner" == "fa3-secret-broker:fa3-secret-broker" ]] || { echo "vault root ownership mismatch: $owner" >&2; return 2; }
