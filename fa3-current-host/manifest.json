@@ -145,7 +145,17 @@
     "canonical/session-vault-current-host-enforcement.json",
     "canonical/schemas/session-vault-current-host-receipt.v1.json",
     "src/fa3_session_vault_current_host_gate.py",
-    "tests/test_session_vault_current_host.py"
+    "tests/test_session_vault_current_host.py",
+    ".github/workflows/fa3-gui-current-host.yml",
+    "canonical/FA3-GUI-RUNTIME-CONFORMANCE-001.json",
+    "canonical/FA3-GATE-GUI-CURRENT-HOST-001.json",
+    "canonical/gui-current-host-enforcement.json",
+    "docs/FA3-GUI-CURRENT-HOST-CLOSURE-001.md",
+    "evidence/collect-gui-current-host.py",
+    "evidence/receipts/fa3-gui-current-host.json",
+    "src/fa3_gui_current_host.py",
+    "src/fa3_gui_current_host_gate.py",
+    "tests/test_fa3_gui_current_host.py"
   ],
   "registered_current_host_surfaces": [
     {
@@ -309,6 +319,19 @@
       "global_promotion_claim": false,
       "receipt": "evidence/receipts/session-vault-current-host.json",
       "production_runtime_promoted": false
+    },
+    {
+      "name": "gui-control-center",
+      "collector": "evidence/collect-gui-current-host.py",
+      "gate": "gui-current-host",
+      "workflow": ".github/workflows/fa3-gui-current-host.yml",
+      "activation": "REAL_LOCAL_WAYLAND_OR_X11_SESSION_SAME_SOURCE_QT6_BUILD_REQUIRED",
+      "collection_status": "REAL_CURRENT_HOST_PASS_GUI_PROCESS_RUNTIME_ONLY",
+      "global_promotion_claim": false,
+      "receipt": "evidence/receipts/fa3-gui-current-host.json",
+      "production_runtime_promoted": true,
+      "secret_backend_status": "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED",
+      "secret_backend_authority_owner": "CAP-003"
     }
   ],
   "global_gate_sequence": [
