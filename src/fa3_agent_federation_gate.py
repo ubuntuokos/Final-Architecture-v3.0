@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from fa3_agent_federation import ClaimLedger, FederationContractError, ReplayGuard, admit_remote_execution, circuit_transition_allowed, derive_child_budget, payload_digest, trust_signal, validate_envelope
+from fa3_agent_federation import ClaimLedger, FederationContractError, ReplayGuard, admit_adaptive_worker, admit_remote_execution, build_execution_trajectory, circuit_transition_allowed, create_pattern_candidate, derive_child_budget, payload_digest, project_lifecycle_event, review_pattern_candidate, trust_signal, validate_envelope
 from fa3_release_baseline import load_active_release_baseline
 
 PROFILE_ID="FA3-AGENT-FEDERATION-001"
@@ -55,6 +55,16 @@ def regression_cases() -> dict[str, Any]:
     expired_claim=ledger.current("work:1",now=111) is None
     admitted={"peer_identity_verified":True,"security_authorized":True,"agent_runtime_admitted":True,"uaf_route_present":True,"remote_hrb_admission_present":True,"provider_runtime_admission_present":True}
     missing_hrb=dict(admitted); missing_hrb["remote_hrb_admission_present"]=False
+    ev1=project_lifecycle_event(event_id="ev-1",event_type="TASK_STARTED",task_id="t-adapt",run_id="r-adapt",timestamp=(now-timedelta(seconds=2)).isoformat(),human_readable_text="Task started",evidence_ids=["e-start"])
+    ev2=project_lifecycle_event(event_id="ev-2",event_type="TASK_COMPLETED",task_id="t-adapt",run_id="r-adapt",timestamp=(now-timedelta(seconds=1)).isoformat(),human_readable_text="Task completed",evidence_ids=["e-end"])
+    trajectory=build_execution_trajectory(trajectory_id="traj-1",events=[ev1,ev2],outcome="SUCCESS",evidence_ids=["e-outcome"])
+    candidate=create_pattern_candidate(candidate_id="pat-1",trajectory=trajectory,proposal={"routing_hint":"prefer-specialist"})
+    promoted=review_pattern_candidate(candidate,review_state="APPROVED",review_evidence_ids=["e-review"],risk_class="LOW",human_approved=False)
+    high_risk_without_human=expect_error(lambda: review_pattern_candidate(candidate,review_state="APPROVED",review_evidence_ids=["e-review"],risk_class="HIGH",human_approved=False))
+    self_promote=expect_error(lambda: create_pattern_candidate(candidate_id="pat-bad",trajectory=trajectory,proposal={},authority_grants=["FAKE_AUTHORITY"]))
+    worker=admit_adaptive_worker(trigger_mode="EVENT_DRIVEN",early_exit=False,budget_gate=False,noop_path=False,temporal_bound=True,uaf_bound=True,hrb_bound=True,hidden_resident_worker=False)
+    bad_worker=expect_error(lambda: admit_adaptive_worker(trigger_mode="EVENT_DRIVEN",early_exit=False,budget_gate=False,noop_path=False,temporal_bound=False,uaf_bound=True,hrb_bound=True,hidden_resident_worker=False))
+    bad_polling=expect_error(lambda: admit_adaptive_worker(trigger_mode="FIXED_POLLING",early_exit=False,budget_gate=False,noop_path=False,temporal_bound=True,uaf_bound=True,hrb_bound=True,hidden_resident_worker=False))
     cases=[
       ("VALID_SIGNED_ENVELOPE",valid["message_id"]=="m-1"),
       ("FORGED_SIGNATURE_REJECTED",expect_error(lambda: validate_envelope(forged,verifier,now=now))),
@@ -70,22 +80,29 @@ def regression_cases() -> dict[str, Any]:
       ("REMOTE_EXECUTION_CHAIN_REQUIRED",admit_remote_execution(admitted)["status"]=="ADMITTED" and expect_error(lambda: admit_remote_execution(missing_hrb))),
       ("TRUST_SIGNAL_NOT_AUTHORIZATION",trust_signal(interaction_score=1.0,interaction_count=100)["authorization"] is False),
       ("LOCAL_PROTOCOL_NOT_CROSS_HOST_PROMOTION",True),
+      ("LIFECYCLE_EVENT_NON_AUTHORITY",ev1["authorization"] is False and ev1["journal_authority"]=="FA3-JOURNAL-001"),
+      ("TRAJECTORY_LINEAGE_REQUIRED",trajectory["event_ids"]==["ev-1","ev-2"] and trajectory["evidence_ids"]==["e-outcome"]),
+      ("PATTERN_SELF_PROMOTION_REJECTED",self_promote and candidate["automatic_promotion"] is False),
+      ("HIGH_RISK_PATTERN_HUMAN_GATE_REQUIRED",high_risk_without_human and promoted["state"]=="PROMOTED"),
+      ("ADAPTIVE_WORKER_BOUNDARY_REQUIRED",worker["status"]=="ADMITTED" and bad_worker),
+      ("UNBOUNDED_POLLING_REJECTED",bad_polling),
     ]
     return {"result":"PASS" if all(ok for _,ok in cases) else "FAIL","cases":[{"id":cid,"pass":bool(ok)} for cid,ok in cases]}
 
 def gate(root: Path) -> dict[str, Any]:
     root=root.resolve(); findings=[]; cap=load_active_release_baseline(root).capability_count
-    paths={"profile":root/"canonical/profiles/FA3-AGENT-FEDERATION-001.json","contract":root/"canonical/contracts/FA3-AGENT-FEDERATION-CONTRACTS-001.json","decision":root/"canonical/decisions/FA3-DEC-CAP070-AGENT-FEDERATION-2026-09-24.json","reference":root/"canonical/references/FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24.json","enforcement":root/"canonical/agent-federation-enforcement.json","gate":root/"canonical/FA3-GATE-AGENT-FEDERATION-001.json","policy":root/"canonical/enforcement-policy.json","coordination":root/"canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json","ai_comms":root/"canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json","workload":root/"canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json","evidence":root/"evidence/evidence-registry.json","recipes":root/"canonical/current-host-capability-proof-recipes.json","qualifications":root/"canonical/current-host-capability-test-qualifications.json"}
+    paths={"profile":root/"canonical/profiles/FA3-AGENT-FEDERATION-001.json","contract":root/"canonical/contracts/FA3-AGENT-FEDERATION-CONTRACTS-001.json","adaptive":root/"canonical/contracts/FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001.json","decision":root/"canonical/decisions/FA3-DEC-CAP070-AGENT-FEDERATION-2026-09-24.json","reference":root/"canonical/references/FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24.json","enforcement":root/"canonical/agent-federation-enforcement.json","gate":root/"canonical/FA3-GATE-AGENT-FEDERATION-001.json","policy":root/"canonical/enforcement-policy.json","coordination":root/"canonical/contracts/FA3-DEVELOPER-AGENT-COORDINATION-CONTRACTS-001.json","ai_comms":root/"canonical/contracts/FA3-AI-COMMS-CONTRACTS-001.json","workload":root/"canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json","evidence":root/"evidence/evidence-registry.json","recipes":root/"canonical/current-host-capability-proof-recipes.json","qualifications":root/"canonical/current-host-capability-test-qualifications.json"}
     for name,path in paths.items():
         if not path.is_file(): findings.append(finding("FED-001","required file missing",name=name,path=path.as_posix()))
     if findings: return {"schema":"fa3.agent-federation-gate-report.v1","gate_id":GATE_ID,"result":"FAIL","findings":findings}
-    p,c,d,r,enf,g,pol,coord,comms,work,evidence,recipes,quals=[load(paths[k]) for k in ("profile","contract","decision","reference","enforcement","gate","policy","coordination","ai_comms","workload","evidence","recipes","qualifications")]
+    p,c,adaptive,d,r,enf,g,pol,coord,comms,work,evidence,recipes,quals=[load(paths[k]) for k in ("profile","contract","adaptive","decision","reference","enforcement","gate","policy","coordination","ai_comms","workload","evidence","recipes","qualifications")]
     checks=[
       (p.get("id")==PROFILE_ID and p.get("priority")=="P0" and p.get("requirement")=="MUST","FED-010","profile identity/priority drift"),
       (p.get("new_capability") is False and p.get("new_architectural_authority") is False and p.get("capability_count")==cap and p.get("capability_bindings")==["CAP-070"],"FED-011","capability/authority baseline drift"),
       (p.get("authority_boundaries",{}).get("host_resources")=="FA3-AUTH-HOST-RESOURCE-BROKER-001" and p.get("authority_boundaries",{}).get("action_execution")=="FA3-UNIFIED-ACTION-FABRIC-001" and p.get("authority_boundaries",{}).get("model_routing")=="FA3-AUTH-MODEL-ROUTER-001" and p.get("authority_boundaries",{}).get("tool_mediation")=="FA3-AUTH-MCP-GATEWAY-001","FED-012","authority boundary drift"),
       (p.get("coordination_claims",{}).get("claim_is_hrb_resource_lease") is False and p.get("coordination_claims",{}).get("claim_may_allocate_cpu_gpu_ram_vram_numa") is False,"FED-013","coordination claim confused with HRB lease"),
       (c.get("id")==CONTRACT_ID and c.get("provider_neutral") is True and c.get("capability_bindings")==["CAP-070"],"FED-014","contract baseline drift"),
+      (adaptive.get("id")=="FA3-AGENT-FEDERATION-ADAPTIVE-CONTRACTS-001" and adaptive.get("existing_authority_projection_only") is True and adaptive.get("new_architectural_authority") is False and adaptive.get("pattern_learning",{}).get("automatic_pattern_promotion_with_review") is None and adaptive.get("adaptive_worker",{}).get("hidden_resident_worker_authority") is False,"FED-014A","adaptive coordination boundary drift"),
       (c.get("trust",{}).get("automatic_authorization_expansion") is False and c.get("remote_execution_admission",{}).get("trust_level_alone_sufficient") is False,"FED-015","trust became authorization"),
       (d.get("id")==DECISION_ID and d.get("new_capabilities")==0 and d.get("new_architectural_authorities")==0 and d.get("global_promotion_claim") is False,"FED-016","decision capability/authority/promotion drift"),
       (r.get("id")==REFERENCE_ID and r.get("repository")=="ruvnet/ruflo" and r.get("commit")=="0a96fb8857dabd343d71d76c3ca703100a2923bc" and r.get("license")=="MIT" and r.get("fa3_adoption",{}).get("upstream_runtime_dependency") is False,"FED-017","Ruflo provenance or adoption boundary drift"),
