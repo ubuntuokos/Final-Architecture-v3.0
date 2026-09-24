@@ -3,7 +3,7 @@ import copy
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from src.fa3_agent_federation import ClaimLedger, FederationContractError, ReplayGuard, admit_remote_execution, derive_child_budget, payload_digest, validate_envelope
+from src.fa3_agent_federation import ClaimLedger, FederationContractError, ReplayGuard, admit_adaptive_worker, admit_remote_execution, build_execution_trajectory, create_pattern_candidate, derive_child_budget, payload_digest, project_lifecycle_event, review_pattern_candidate, validate_envelope
 from src.fa3_agent_federation_gate import gate, regression_cases
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -37,5 +37,27 @@ class AgentFederationTests(unittest.TestCase):
         a={"peer_identity_verified":True,"security_authorized":True,"agent_runtime_admitted":True,"uaf_route_present":True,"remote_hrb_admission_present":True,"provider_runtime_admission_present":True}
         self.assertEqual("ADMITTED",admit_remote_execution(a)["status"]); a["security_authorized"]=False
         with self.assertRaises(FederationContractError): admit_remote_execution(a)
+
+
+    def test_adaptive_learning_is_reviewed_and_non_authoritative(self):
+        now="2026-09-24T17:00:00+00:00"
+        e1=project_lifecycle_event(event_id="e1",event_type="TASK_STARTED",task_id="t",run_id="r",timestamp=now,human_readable_text="start",evidence_ids=["a"])
+        e2=project_lifecycle_event(event_id="e2",event_type="TASK_COMPLETED",task_id="t",run_id="r",timestamp=now,human_readable_text="done",evidence_ids=["b"])
+        trajectory=build_execution_trajectory(trajectory_id="tr",events=[e1,e2],outcome="SUCCESS",evidence_ids=["outcome"])
+        candidate=create_pattern_candidate(candidate_id="pc",trajectory=trajectory,proposal={"hint":"reuse"})
+        self.assertFalse(candidate["automatic_promotion"])
+        with self.assertRaises(FederationContractError):
+            create_pattern_candidate(candidate_id="bad",trajectory=trajectory,proposal={},capability_grants=["CAP-X"])
+        with self.assertRaises(FederationContractError):
+            review_pattern_candidate(candidate,review_state="APPROVED",review_evidence_ids=["review"],risk_class="HIGH",human_approved=False)
+        receipt=review_pattern_candidate(candidate,review_state="APPROVED",review_evidence_ids=["review"],risk_class="LOW",human_approved=False)
+        self.assertEqual("PROMOTED",receipt["state"])
+        self.assertFalse(receipt["authorization_expansion"])
+
+    def test_adaptive_worker_reuses_existing_boundaries(self):
+        admitted=admit_adaptive_worker(trigger_mode="EVENT_DRIVEN",early_exit=False,budget_gate=False,noop_path=False,temporal_bound=True,uaf_bound=True,hrb_bound=True,hidden_resident_worker=False)
+        self.assertEqual("ADMITTED",admitted["status"])
+        with self.assertRaises(FederationContractError):
+            admit_adaptive_worker(trigger_mode="FIXED_POLLING",early_exit=False,budget_gate=False,noop_path=False,temporal_bound=True,uaf_bound=True,hrb_bound=True,hidden_resident_worker=False)
 
 if __name__=="__main__": unittest.main()
