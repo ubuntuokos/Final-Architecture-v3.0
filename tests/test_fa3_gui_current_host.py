@@ -29,6 +29,7 @@ def good_receipt() -> dict:
         "supported_session_type": True,
         "display_endpoint_proven": True,
         "desktop_runtime_scope_admission_pass": True,
+        "secret_independent_tested_path": True,
         "same_source_binary_present": True,
         "explicit_native_qpa": True,
         "offscreen_or_minimal_forbidden": True,
@@ -84,10 +85,27 @@ def good_receipt() -> dict:
             "full_desktop_admission_result": "FAIL",
             "full_desktop_required_failures": ["secret_backend"],
             "secret_backend_status": "FAIL",
+            "secret_backend_required_for_tested_path": False,
+            "secret_backend_authority": "AUTH-SECRETS",
+            "secret_backend_capability": "CAP-003",
+            "secret_backend_pass_claimed": False,
             "secret_backend_used_for_gui_runtime_admission": False,
             "secrets_authority_owner": "CAP-003",
             "scope_semantics": "GUI_PROCESS_RUNTIME_PROOF_NOT_SECRET_BACKEND_ADMISSION",
         },
+        "tested_path": {
+            "id": "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED",
+            "secret_dependency": "NONE",
+            "session_vault_configuration": "NOT_CONFIGURED",
+            "session_vault_image_present_before_launch": False,
+            "session_vault_image_present_after_launch": False,
+            "secret_lookup_required": False,
+        },
+        "secret_backend_status": "FAIL",
+        "secret_backend_required_for_tested_path": False,
+        "secret_backend_authority": "AUTH-SECRETS",
+        "secret_backend_capability": "CAP-003",
+        "secret_backend_pass_claimed": False,
         "build": {"status": "PASS", "binary_sha256": "c" * 64},
         "launch": {
             "attempted": True,
@@ -166,6 +184,10 @@ class GuiCurrentHostTests(unittest.TestCase):
         self.assertEqual(scoped["full_desktop_required_failures"], ["secret_backend"])
         self.assertEqual(scoped["secret_backend_status"], "FAIL")
         self.assertFalse(scoped["secret_backend_used_for_gui_runtime_admission"])
+        self.assertFalse(scoped["secret_backend_required_for_tested_path"])
+        self.assertEqual(scoped["secret_backend_authority"], "AUTH-SECRETS")
+        self.assertEqual(scoped["secret_backend_capability"], "CAP-003")
+        self.assertFalse(scoped["secret_backend_pass_claimed"])
         self.assertEqual(scoped["secrets_authority_owner"], "CAP-003")
 
     def test_gui_scoped_admission_rejects_non_secret_desktop_failure(self):
@@ -198,6 +220,27 @@ class GuiCurrentHostTests(unittest.TestCase):
         receipt["desktop_runtime_scope"]["secret_backend_used_for_gui_runtime_admission"] = True
         errors = validate_receipt(receipt, root=ROOT)
         self.assertTrue(any("Secret Backend" in item for item in errors))
+
+    def test_receipt_rejects_secret_backend_pass_claim_for_secret_independent_path(self):
+        receipt = good_receipt()
+        receipt["secret_backend_pass_claimed"] = True
+        receipt["desktop_runtime_scope"]["secret_backend_pass_claimed"] = True
+        errors = validate_receipt(receipt, root=ROOT)
+        self.assertTrue(any("Secret Backend PASS" in item for item in errors))
+
+    def test_receipt_rejects_secret_dependent_path_mislabeled_independent(self):
+        receipt = good_receipt()
+        receipt["secret_backend_required_for_tested_path"] = True
+        receipt["desktop_runtime_scope"]["secret_backend_required_for_tested_path"] = True
+        errors = validate_receipt(receipt, root=ROOT)
+        self.assertTrue(any("requires Secret Backend" in item for item in errors))
+
+    def test_receipt_rejects_configured_session_vault_path(self):
+        receipt = good_receipt()
+        receipt["tested_path"]["session_vault_image_present_before_launch"] = True
+        receipt["checks"]["secret_independent_tested_path"] = False
+        errors = validate_receipt(receipt, root=ROOT)
+        self.assertTrue(any("secret-independent" in item for item in errors))
 
     def test_explicit_fresh_receipt_is_independent_of_canonical_tested_source(self):
         receipt = good_receipt()
@@ -262,6 +305,10 @@ class GuiCurrentHostTests(unittest.TestCase):
         )
         self.assertIn(
             "github.event.pull_request.head.repo.full_name == github.repository",
+            text,
+        )
+        self.assertIn(
+            "--tested-path CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED",
             text,
         )
         for token in ("sudo ", "pkexec ", "apt-get ", "curl ", "wget "):
