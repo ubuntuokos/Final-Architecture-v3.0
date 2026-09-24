@@ -1,0 +1,23 @@
+{
+  "schema": "fa3.current-host-gate-record.v1",
+  "id": "FA3-GATE-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-001",
+  "gateset_id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-GATESET-001",
+  "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "conformance_id": "FA3-AGENT-WORKLOAD-RUNTIME-CURRENT-HOST-CONFORMANCE-001",
+  "mode": "CURRENT_HOST",
+  "fail_closed": true,
+  "current_host_evidence_required": true,
+  "required_evidence_level": "CURRENT_HOST_PRODUCTION_E2E_PASS",
+  "required_runner_labels": [
+    "self-hosted",
+    "linux",
+    "x64",
+    "fa3-current-host"
+  ],
+  "receipt": "evidence/receipts/agent-workload-runtime-current-host.json",
+  "executable": "PYTHONPATH=src python3 src/fa3_agent_workload_current_host_gate.py --root .",
+  "static_check": "PYTHONPATH=src python3 src/fa3_agent_workload_current_host_gate.py --root . --static-only",
+  "production_admission_scope": "NATIVE_RUNNER_ON_EVIDENCED_HOST_AND_RUN_ONLY",
+  "google_ax_promotion_effect": "NONE",
+  "global_promotion_claim": false
+}
