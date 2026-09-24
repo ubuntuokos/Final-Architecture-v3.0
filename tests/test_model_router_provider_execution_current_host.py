@@ -11,6 +11,7 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("cross_provider_silent_fallback_denied_pass",REQUIRED_CHECKS)
         self.assertIn("raw_secret_absent_from_evidence_pass",REQUIRED_CHECKS)
         self.assertIn("credential_authentication_enforced_pass",REQUIRED_CHECKS)
+        self.assertIn("runtime_model_discovery_pass",REQUIRED_CHECKS)
     def test_no_mock_semantic_in_required_checks(self):
         self.assertFalse(any("mock" in name or "synthetic" in name for name in REQUIRED_CHECKS))
     def test_real_producer_and_two_credential_contract_are_materialized(self):
@@ -19,6 +20,7 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("receipt_proves_provider",producer)
         self.assertIn("fa3-secretctl",producer)
         self.assertIn("credential_authentication_enforced",producer)
+        self.assertIn("discover_working_chat_model",producer)
         self.assertEqual(schema["properties"]["credentials"]["minItems"],2)
     def test_provisioning_harness_shell_syntax(self):
         subprocess.run(["bash","-n",str(ROOT/"bin/fa3-model-router-provider-execution-current-host-provision.sh")],check=True)
@@ -38,6 +40,9 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("https://api.openai.com/v1",bridge)
         self.assertIn("fixed FA3 provider-execution probe content",bridge)
         self.assertIn("FA3-PROVIDER-OPENAI-API-001",closer)
+        self.assertIn("runtime discovery from this API project",closer)
+        self.assertIn("FA3_OPENAI_PROBE_MODEL",closer)
+        self.assertNotIn("gpt-4o-mini",closer)
         self.assertIn("/dev/tty",closer)
         self.assertFalse(provider["normal_application_routing_enabled"])
         self.assertEqual("FA3-SECRET-BROKER-001",provider["authority_boundaries"]["secrets"])
