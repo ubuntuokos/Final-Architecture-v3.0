@@ -211,9 +211,8 @@ for sid in "$SECRET_ID_A" "$SECRET_ID_B"; do
     /usr/local/bin/fa3-secretctl delete "$sid" >/dev/null
     STALE_PROBE_STATE=true
   fi
-  if /usr/local/sbin/fa3-secret-policyctl show "$sid" >/dev/null 2>&1; then
-    echo "stale reserved provider-execution policy detected: $sid"
-    /usr/local/sbin/fa3-secret-policyctl remove "$sid" >/dev/null
+  if /usr/local/sbin/fa3-secret-policyctl remove "$sid" >/dev/null 2>&1; then
+    echo "stale reserved provider-execution policy detected and removed: $sid"
     STALE_PROBE_STATE=true
   fi
 done
@@ -230,8 +229,8 @@ if /usr/local/bin/fa3-secretctl admin-metadata "$SECRET_ID_A" >/dev/null 2>&1 ||
   echo "stale reserved provider-execution SecretRef recovery failed" >&2
   exit 2
 fi
-if /usr/local/sbin/fa3-secret-policyctl show "$SECRET_ID_A" >/dev/null 2>&1 || /usr/local/sbin/fa3-secret-policyctl show "$SECRET_ID_B" >/dev/null 2>&1; then
-  echo "stale reserved provider-execution policy recovery failed" >&2
+if /usr/local/sbin/fa3-secret-policyctl remove "$SECRET_ID_A" >/dev/null 2>&1 || /usr/local/sbin/fa3-secret-policyctl remove "$SECRET_ID_B" >/dev/null 2>&1; then
+  echo "stale reserved provider-execution policy recovery was incomplete" >&2
   exit 2
 fi
 
