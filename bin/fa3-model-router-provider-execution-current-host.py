@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -17,6 +18,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from fa3_model_router_materialize import receipt_proves_provider
+from fa3_secret_broker import DEFAULT_SOCKET, request as secret_broker_request
 from fa3_model_router_provider_execution import (
     CredentialCandidate,
     ExecutionDenied,
@@ -93,33 +95,62 @@ def request_json(method: str, url: str, token: str, body: dict[str, Any] | None 
 
 
 def project_secret(root: Path, *, secret_id: str, consumer_id: str, output: Path) -> bytes:
-    output.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(
-        [
-            str(root / "bin/fa3-secretctl"),
-            "get",
-            secret_id,
-            "--consumer",
-            consumer_id,
-            "--projection",
-            "UDS_SINGLE_SECRET",
-            "--output",
-            str(output),
-        ],
-        check=True,
-        stdin=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+    # The broker authorizes the actual Unix-socket peer. Keep the request in
+    # this already policy-bound non-root producer process instead of spawning a
+    # second CLI process whose peer executable identity may differ.
+    _ = root
+    response = secret_broker_request(
+        Path(DEFAULT_SOCKET),
+        {
+            "op": "get",
+            "secret_id": secret_id,
+            "consumer_id": consumer_id,
+            "projection": "UDS_SINGLE_SECRET",
+        },
     )
+    if response.get("ok") is not True:
+        raise ProbeDenied("Secret Broker policy-bound projection denied")
+
+    encoded = response.pop("secret_b64", None)
+    if not isinstance(encoded, str):
+        raise ProbeDenied("Secret Broker projection omitted credential payload")
+    try:
+        value = bytearray(base64.b64decode(encoded, validate=True))
+    except Exception as exc:
+        raise ProbeDenied("Secret Broker projection returned invalid credential encoding") from exc
+    finally:
+        del encoded
+        response.clear()
+
+    if not value or len(value) > 512 * 1024:
+        for idx in range(len(value)):
+            value[idx] = 0
+        raise ProbeDenied("projected credential size outside allowed range")
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".fa3-provider-secret-", dir=str(output.parent))
+    try:
+        os.fchmod(fd, 0o600)
+        with os.fdopen(fd, "wb", closefd=True) as handle:
+            handle.write(value)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(tmp, output)
+    finally:
+        for idx in range(len(value)):
+            value[idx] = 0
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+
     if not output.is_file() or output.is_symlink():
         raise ProbeDenied("Secret Broker projection did not produce a regular file")
     mode = stat.S_IMODE(output.stat().st_mode)
     if mode & 0o077:
         raise ProbeDenied("projected credential file is not private")
-    value = output.read_bytes()
-    if not value or len(value) > 512 * 1024:
+    projected = output.read_bytes()
+    if not projected or len(projected) > 512 * 1024:
         raise ProbeDenied("projected credential size outside allowed range")
-    return value
+    return projected
 
 
 def validate_secret_receipt(path: Path) -> None:
