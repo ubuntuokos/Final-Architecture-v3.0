@@ -132,7 +132,18 @@ class ProjectionLeaseStore:
     def bind_artifact(self,lease_id:str,artifact:dict[str,Any],uid:int)->dict[str,Any]:
         x=self._load();item=x["leases"].get(lease_id)
         if not item or item.get("state")!="ACTIVE":raise ValueError("projection lease not active")
+        if item.get("boot_id")!=Path("/proc/sys/kernel/random/boot_id").read_text().strip():raise ValueError("projection lease boot changed")
+        if time.monotonic_ns()>=int(item.get("expires_monotonic_ns",0)):raise ValueError("projection lease expired")
         if int(item.get("consumer_identity_ref",{}).get("uid",-1))!=uid:raise PermissionError("projection lease peer mismatch")
+        required={"path","st_dev","st_ino","owner_uid","owner_gid","size"}
+        if set(artifact)!=required:raise ValueError("projection artifact descriptor fields invalid")
+        p=Path(str(artifact.get("path","")))
+        if not p.is_absolute():
+            raise ValueError("projection artifact path must be absolute")
+        try:p.relative_to("/run")
+        except ValueError as exc:raise ValueError("projection artifact path must be below /run") from exc
+        if int(artifact.get("owner_uid",-1))!=uid or int(artifact.get("size",-1))<0 or int(artifact.get("size",-1))>MAX_SECRET_BYTES:
+            raise ValueError("projection artifact owner/size invalid")
         item["artifact"]=artifact;self._save(x);return json.loads(json.dumps(item))
     def revoke(self,lease_id:str,hrb_lease_id:str,hrb_generation:int)->dict[str,Any]:
         x=self._load();item=x["leases"].get(lease_id)
