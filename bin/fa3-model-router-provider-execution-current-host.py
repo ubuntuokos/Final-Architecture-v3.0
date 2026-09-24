@@ -129,7 +129,7 @@ def validate_secret_receipt(path: Path) -> None:
         raise ProbeDenied("Secret Broker receipt does not prove secret-value exclusion")
 
 
-def discover_model(api_base: str, models_path: str, token: str, preferred: list[str]) -> str:
+def discover_models(api_base: str, models_path: str, token: str, preferred: list[str]) -> list[str]:
     payload = request_json("GET", url_join(api_base, models_path), token, timeout=30.0)
     rows = payload.get("data")
     if not isinstance(rows, list):
@@ -141,12 +141,31 @@ def discover_model(api_base: str, models_path: str, token: str, preferred: list[
     })
     if not models:
         raise ProbeDenied("provider model catalog is empty")
-    for wanted in preferred:
-        if wanted in models:
-            return wanted
     if preferred:
-        raise ProbeDenied("none of the explicitly preferred provider models is available")
-    return models[0]
+        selected = [wanted for wanted in preferred if wanted in models]
+        if not selected:
+            raise ProbeDenied("none of the explicitly preferred provider models is available")
+        return selected
+
+    blocked_tokens = (
+        "embed", "embedding", "rerank", "whisper", "tts", "speech",
+        "audio", "transcribe", "moderation", "image", "realtime",
+    )
+    candidates = [model for model in models if not any(token in model.lower() for token in blocked_tokens)]
+    if not candidates:
+        raise ProbeDenied("provider model catalog exposes no plausible chat candidate")
+    return candidates
+
+
+def discover_working_chat_model(api_base: str, chat_path: str, token: str, candidates: list[str]) -> tuple[str, str]:
+    failures: list[str] = []
+    for model in candidates[:32]:
+        try:
+            return model, run_chat(api_base, chat_path, token, model)
+        except ProbeDenied as exc:
+            failures.append(f"{model}:{str(exc)}")
+    suffix = " | ".join(failures[-5:]) if failures else "no candidates attempted"
+    raise ProbeDenied("no catalog-discovered chat model accepted the fixed FA3 probe: " + suffix)
 
 
 def run_chat(api_base: str, chat_path: str, token: str, model: str) -> str:
@@ -283,9 +302,9 @@ def main() -> int:
             secret_values.append(project_secret(root, secret_id=secret_id, consumer_id=consumer_id, output=path))
 
         token0 = decode_token(secret_values[0])
-        physical_model = discover_model(api_base, models_path, token0, preferred)
+        catalog_candidates = discover_models(api_base, models_path, token0, preferred)
         checks["credential_authentication_enforced_pass"] = credential_authentication_enforced(
-            api_base, chat_path, physical_model
+            api_base, chat_path, catalog_candidates[0]
         )
         if not checks["credential_authentication_enforced_pass"]:
             raise ProbeDenied("provider endpoint does not enforce bearer credential authentication")
@@ -298,8 +317,12 @@ def main() -> int:
 
         lease1 = manager.select(provider_id=provider_id, session_id=session_id, now=1.0)
         ref1, raw1 = resolve_selected_token(lease1, refs, secret_values)
-        response_hashes.append(run_chat(api_base, chat_path, decode_token(raw1), physical_model))
+        physical_model, first_response_hash = discover_working_chat_model(
+            api_base, chat_path, decode_token(raw1), catalog_candidates
+        )
+        response_hashes.append(first_response_hash)
         checks["real_provider_request_pass"] = True
+        checks["runtime_model_discovery_pass"] = True
 
         lease2 = manager.select(provider_id=provider_id, session_id=session_id, now=2.0)
         checks["session_affinity_pass"] = (
