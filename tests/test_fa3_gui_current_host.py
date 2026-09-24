@@ -12,6 +12,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from fa3_gui_current_host import (  # noqa: E402
     gui_desktop_runtime_scoped_admission,
     qpa_for_session,
+    runtime_surface_git_blobs,
     safe_child_environment,
 )
 from fa3_gui_current_host_gate import gate, validate_receipt  # noqa: E402
@@ -51,6 +52,8 @@ def good_receipt() -> dict:
             "repository_exact": True,
             "source_commit": "a" * 40,
             "source_commit_exact": True,
+            "runtime_surface_policy": "EXACT_TRACKED_GIT_BLOBS",
+            "runtime_surface_git_blobs": runtime_surface_git_blobs(ROOT),
         },
         "host": {
             "runner_class": "fa3-current-host",
@@ -137,7 +140,7 @@ class GuiCurrentHostTests(unittest.TestCase):
         self.assertNotIn("API_KEY", env)
 
     def test_valid_receipt_passes(self):
-        self.assertEqual(validate_receipt(good_receipt()), [])
+        self.assertEqual(validate_receipt(good_receipt(), root=ROOT), [])
 
     def test_gui_scoped_admission_allows_only_secret_backend_full_failure(self):
         report = {
@@ -193,7 +196,7 @@ class GuiCurrentHostTests(unittest.TestCase):
         receipt = good_receipt()
         receipt["security"]["secret_backend_promoted_by_gui_receipt"] = True
         receipt["desktop_runtime_scope"]["secret_backend_used_for_gui_runtime_admission"] = True
-        errors = validate_receipt(receipt)
+        errors = validate_receipt(receipt, root=ROOT)
         self.assertTrue(any("Secret Backend" in item for item in errors))
 
     def test_explicit_fresh_receipt_is_independent_of_canonical_tested_source(self):
@@ -210,7 +213,7 @@ class GuiCurrentHostTests(unittest.TestCase):
         receipt["session"]["qpa_platform"] = "offscreen"
         receipt["launch"]["qpa_platform"] = "offscreen"
         receipt["global_fa3_promotion_claim"] = True
-        errors = validate_receipt(receipt)
+        errors = validate_receipt(receipt, root=ROOT)
         self.assertTrue(any("QPA" in item for item in errors))
         self.assertTrue(any("global FA3 promotion" in item for item in errors))
 
@@ -220,7 +223,19 @@ class GuiCurrentHostTests(unittest.TestCase):
         receipt["launch"]["process_alive_after_smoke"] = False
         receipt["checks"]["process_survived_smoke_window"] = False
         receipt["checks"]["smoke_window_minimum_5s"] = False
-        self.assertTrue(validate_receipt(receipt))
+        self.assertTrue(validate_receipt(receipt, root=ROOT))
+
+    def test_runtime_surface_blob_drift_fails(self):
+        receipt = good_receipt()
+        blobs = receipt["source_binding"]["runtime_surface_git_blobs"]
+        self.assertTrue(blobs)
+        key = next(iter(blobs))
+        blobs[key] = "0" * 40
+        errors = validate_receipt(receipt, root=ROOT)
+        self.assertTrue(
+            any("runtime surface Git-blob map" in item for item in errors),
+            errors,
+        )
 
     def test_repository_materialization_gate_matches_canonical_runtime_state(self):
         result = gate(ROOT)
