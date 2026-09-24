@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse, json
 from pathlib import Path
 from typing import Any
-from fa3_model_router_provider_execution import CredentialCandidate, ExecutionDenied, choose_credential, rebind_action, protocol_projection_status, execution_receipt
+from fa3_model_router_provider_execution import CredentialCandidate, ExecutionDenied, ProviderExecutionManager, choose_credential, rebind_action, protocol_projection_status, execution_receipt
 
 GATESET_ID="FA3-MODEL-ROUTER-PROVIDER-EXECUTION-GATESET-001"
 
@@ -35,6 +35,16 @@ def regressions() -> dict[str, Any]:
     checks.append(("PEX-009",protocol_projection_status(unsupported_fields={"maxLength"},security_relevant_fields=set())=="TRANSLATABLE_WITH_DECLARED_DEGRADATION"))
     receipt=execution_receipt(good[0],logical_route="chat-primary",physical_model="runtime-discovered",selection_reason="TEST")
     checks.append(("PEX-010","credential_ref_sha256" in receipt and "credential_ref" not in receipt and receipt["raw_credential_present"] is False))
+    mgr=ProviderExecutionManager(good,lease_ttl_seconds=60,circuit_threshold=2,circuit_cooldown_seconds=10)
+    first=mgr.select(provider_id="FA3-PROVIDER-X-001",session_id="s1",now=1.0)
+    second=mgr.select(provider_id="FA3-PROVIDER-X-001",session_id="s1",now=2.0)
+    checks.append(("PEX-011",first["credential_ref_sha256"]==second["credential_ref_sha256"] and second["reused_session_binding"] is True))
+    rebound=mgr.record_failure(session_id="s1",error_class="RATE_LIMIT",now=3.0,retry_after_seconds=20)
+    checks.append(("PEX-012",rebound["action"]=="INTRA_PROVIDER_REBIND" and rebound["cross_provider_transition"] is False and rebound["old_credential_ref_sha256"]!=rebound["new_credential_ref_sha256"]))
+    one=ProviderExecutionManager([CredentialCandidate("P","secretref:p/only","HEALTHY",True)],circuit_threshold=1)
+    one.select(provider_id="P",session_id="s2",now=1.0)
+    cb=one.record_failure(session_id="s2",error_class="PROVIDER_5XX",now=2.0)
+    checks.append(("PEX-013",cb["action"]=="MODEL_ROUTER_REEVALUATION_REQUIRED" and cb["cross_provider_transition"] is False))
     return {"result":"PASS" if all(v for _,v in checks) else "FAIL","total":len(checks),"passed":sum(v for _,v in checks),"cases":[{"case_id":k,"status":"PASS" if v else "FAIL"} for k,v in checks]}
 
 def gate(root: Path) -> dict[str, Any]:
