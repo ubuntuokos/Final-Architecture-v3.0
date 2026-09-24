@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.decision.v1",
+  "id": "FA3-DEC-CAP070-AGENT-FEDERATION-2026-09-24",
+  "date": "2026-09-24",
+  "status": "FINAL",
+  "title": "Materialize CAP-070 as FA3-native secure agent federation",
+  "decision": "DERIVE_RUFLO_FEDERATION_PATTERNS_INTO_EXISTING_CAP070_WITHOUT_IMPORTING_RUFLO_RUNTIME_OR_CREATING_NEW_AUTHORITY",
+  "profile_id": "FA3-AGENT-FEDERATION-001",
+  "contract_id": "FA3-AGENT-FEDERATION-CONTRACTS-001",
+  "source_reference_id": "FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24",
+  "capability_count_before": 143,
+  "capability_count_after": 143,
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "upstream_runtime_dependency": false,
+  "mandatory_outcomes": [
+    "SIGNED_PEER_ENVELOPES",
+    "REPLAY_TTL_AND_HOP_PROTECTION",
+    "BOUNDED_DELEGATION_BUDGET",
+    "LOGICAL_COORDINATION_CLAIMS_WITH_TTL_HANDOFF_RELEASE",
+    "PEER_CIRCUIT_BREAKER",
+    "REMOTE_EXECUTION_REUSES_EXISTING_FA3_AUTHORITIES",
+    "LOCAL_PROTOCOL_AND_CROSS_HOST_PRODUCTION_EVIDENCE_DISTINGUISHED"
+  ],
+  "explicit_non_goals": [
+    "IMPORT_RUFLO_ORCHESTRATOR",
+    "IMPORT_RUFLO_MEMORY_AUTHORITY",
+    "IMPORT_RUFLO_PLUGIN_MARKETPLACE",
+    "CREATE_PARALLEL_MODEL_ROUTER",
+    "CREATE_PARALLEL_RESOURCE_AUTHORITY",
+    "CLAIM_CURRENT_CROSS_HOST_RUNTIME_PROMOTION"
+  ],
+  "runtime_status": "PENDING_CROSS_HOST_PRODUCTION_E2E",
+  "current_host_local_protocol_status": "NOT_YET_EXECUTED",
+  "global_promotion_claim": false
+}
