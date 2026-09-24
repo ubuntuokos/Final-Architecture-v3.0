@@ -9,4 +9,8 @@ class SkillDiscoveryTests(unittest.TestCase):
             fp=fingerprint(p);self.assertFalse(fp["execution_performed"]);self.assertFalse(fp["network_used"]);self.assertIn("typescript",fp["languages"]);self.assertIn("react",fp["frameworks"]);self.assertIn("nextjs",fp["frameworks"])
             recs=[{"skill_id":"react-x","admission_status":"ADMITTED","eligibility":{"frameworks":["react"]}},{"skill_id":"vue-x","admission_status":"ADMITTED","eligibility":{"frameworks":["vue"]}},{"skill_id":"unadmitted","admission_status":"PENDING","eligibility":{"frameworks":["react"]}}]
             self.assertEqual(eligible_skill_ids(fp,recs),["react-x"])
+            task_recs=[{"skill_id":"fa3-quality-ui","admission_status":"ADMITTED","eligibility":{"task_classes":["ui","gui"]}},{"skill_id":"fa3-quality-code","admission_status":"ADMITTED","eligibility":{"task_classes":["code"]}}]
+            self.assertEqual(eligible_skill_ids(fp,task_recs),[])
+            self.assertEqual(eligible_skill_ids(fp,task_recs,["ui"]),["fa3-quality-ui"])
+            self.assertEqual(eligible_skill_ids(fp,task_recs,["code"]),["fa3-quality-code"])
 if __name__=="__main__":unittest.main()

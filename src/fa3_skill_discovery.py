@@ -35,12 +35,13 @@ def fingerprint(root:Path,max_files:int=10000)->dict[str,Any]:
                     for pkg,label in (("django","django"),("fastapi","fastapi"),("flask","flask")):
                         if pkg in lower:frameworks.add(label)
     return {"schema":"fa3.project-stack-fingerprint.v1","detector_version":DETECTOR_VERSION,"languages":sorted(languages),"frameworks":sorted(frameworks),"manifests":sorted(manifests),"evidence_digest":_sha("\n".join(sorted(evidence)).encode()),"scanned_files":count,"execution_performed":False,"network_used":False}
-def eligible_skill_ids(fp:dict[str,Any],skill_records:list[dict[str,Any]])->list[str]:
-    langs=set(fp.get("languages",[]));frameworks=set(fp.get("frameworks",[]));out=[]
+def eligible_skill_ids(fp:dict[str,Any],skill_records:list[dict[str,Any]],task_classes:list[str]|None=None)->list[str]:
+    langs=set(fp.get("languages",[]));frameworks=set(fp.get("frameworks",[]));tasks={x.lower() for x in (task_classes or [])};out=[]
     for r in skill_records:
         if r.get("admission_status")!="ADMITTED":continue
-        e=r.get("eligibility",{});rl=set(e.get("languages",[]));rf=set(e.get("frameworks",[]))
+        e=r.get("eligibility",{});rl=set(e.get("languages",[]));rf=set(e.get("frameworks",[]));rt={str(x).lower() for x in e.get("task_classes",[])}
         if rl and not rl.issubset(langs):continue
         if rf and not rf.issubset(frameworks):continue
+        if rt and not (tasks and rt.intersection(tasks)):continue
         out.append(r["skill_id"])
     return sorted(out)

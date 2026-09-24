@@ -247,6 +247,24 @@ def reconcile(root: Path, projection_rel: str, policy_rel: str) -> dict:
         "new_architectural_authorities": 0,
     }
 
+    projection["quality_anti_slop_reconciliation"] = {
+        "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+        "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
+        "decision_id": "FA3-DEC-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+        "decision_assessment_id": "FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23",
+        "gate_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
+        "rule_registry_id": "FA3-QUALITY-RULE-REGISTRY-001",
+        "upstream_reference_id": "FA3-ANTI-SLOP-UPSTREAM-REFERENCE-2026-09-23",
+        "upstream_distribution_class": "REFERENCE_ONLY",
+        "native_quality_skill_count": 5,
+        "upstream_runtime_dependency": False,
+        "upstream_installer_dependency": False,
+        "current_host_runtime_promotion_claim": False,
+        "capability_count_after": capability_count,
+        "new_capabilities": 0,
+        "new_architectural_authorities": 0,
+    }
+
     ls = run_z(root, "ls-tree", "-rz", "--full-tree", snapshot)
     manifest = []
     for record in ls.split("\0"):

@@ -1,0 +1,17 @@
+{
+  "schema": "fa3.gate-record.v1",
+  "id": "FA3-GATE-QUALITY-ANTI-SLOP-001",
+  "gateset_id": "FA3-QUALITY-ANTI-SLOP-GATESET-001",
+  "profile_id": "FA3-QUALITY-ANTI-SLOP-001",
+  "contract_id": "FA3-QUALITY-ANTI-SLOP-CONTRACTS-001",
+  "rule_registry_id": "FA3-QUALITY-RULE-REGISTRY-001",
+  "priority": "P0",
+  "fail_closed": true,
+  "static_enforcement": true,
+  "current_host_runtime_required": false,
+  "executable": "PYTHONPATH=src python3 src/fa3_quality_gate.py --root .",
+  "report": "reports/quality-anti-slop-gate-report.json",
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143
+}
