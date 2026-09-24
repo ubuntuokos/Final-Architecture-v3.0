@@ -1,6 +1,11 @@
 name: FA3 Model Router Provider Execution Current Host
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - fa3/antigravity-derived-provider-execution-20260924
+    paths:
+      - '.github/fa3-model-router-provider-execution-current-host.trigger'
 jobs:
   real-provider-e2e:
     runs-on: [self-hosted, linux, x64, fa3-current-host]
