@@ -13,26 +13,28 @@ qt_add_executable(fa3-control-center
     src/main.cpp
     src/AppCatalogService.cpp
     src/AppCatalogService.h
+    src/ChatFileService.cpp
+    src/ChatFileService.h
+    src/DecisionFabricService.cpp
+    src/DecisionFabricService.h
+    src/ExternalLlmCatalogModel.cpp
+    src/ExternalLlmCatalogModel.h
     src/Fa3RepositoryModel.cpp
     src/Fa3RepositoryModel.h
     src/JournalService.cpp
     src/JournalService.h
-    src/PreferenceStore.cpp
-    src/PreferenceStore.h
-    src/SystemDeviceModel.cpp
-    src/SystemDeviceModel.h
-    src/ChatFileService.cpp
-    src/ChatFileService.h
     src/ModelLibraryService.cpp
     src/ModelLibraryService.h
     src/McpControlService.cpp
     src/McpControlService.h
     src/McpGatewayService.cpp
     src/McpGatewayService.h
-    src/DecisionFabricService.cpp
-    src/DecisionFabricService.h
+    src/PreferenceStore.cpp
+    src/PreferenceStore.h
     src/SessionVaultService.cpp
     src/SessionVaultService.h
+    src/SystemDeviceModel.cpp
+    src/SystemDeviceModel.h
 )
 
 set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
@@ -40,6 +42,7 @@ set_source_files_properties(qml/DashboardPage.qml PROPERTIES QT_RESOURCE_ALIAS D
 set_source_files_properties(qml/JournalPage.qml PROPERTIES QT_RESOURCE_ALIAS JournalPage.qml)
 set_source_files_properties(qml/WebWorkspace.qml PROPERTIES QT_RESOURCE_ALIAS WebWorkspace.qml)
 set_source_files_properties(qml/ModelsProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS ModelsProvidersPage.qml)
+set_source_files_properties(qml/ProviderExplorerView.qml PROPERTIES QT_RESOURCE_ALIAS ProviderExplorerView.qml)
 set_source_files_properties(qml/AiStudioPage.qml PROPERTIES QT_RESOURCE_ALIAS AiStudioPage.qml)
 set_source_files_properties(qml/SystemSettingsPage.qml PROPERTIES QT_RESOURCE_ALIAS SystemSettingsPage.qml)
 set_source_files_properties(qml/RtdProvidersPage.qml PROPERTIES QT_RESOURCE_ALIAS RtdProvidersPage.qml)
@@ -74,6 +77,7 @@ qt_add_qml_module(fa3-control-center
         qml/JournalPage.qml
         qml/WebWorkspace.qml
         qml/ModelsProvidersPage.qml
+        qml/ProviderExplorerView.qml
         qml/AiStudioPage.qml
         qml/SystemSettingsPage.qml
         qml/RtdProvidersPage.qml

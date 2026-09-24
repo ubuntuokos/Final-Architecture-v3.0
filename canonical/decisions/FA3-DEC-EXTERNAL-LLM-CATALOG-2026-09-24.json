@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.decision-record.v1",
+  "id": "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24",
+  "date": "2026-09-24",
+  "status": "CANONICAL_CLOSED",
+  "title": "Materialize provider-neutral external LLM discovery without creating a cloud fallback or routing authority",
+  "change_type": "PROFILE_AND_REFERENCE_SOURCE_MATERIALIZATION_NO_AUTHORITY_DELTA",
+  "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+  "contract_id": "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001",
+  "reference_id": "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24",
+  "capability_bindings": ["CAP-005", "CAP-140"],
+  "new_capabilities": 0,
+  "new_architectural_authorities": 0,
+  "capability_count_after": 143,
+  "decisions": [
+    "External LLM catalogs are discovery and capability-intelligence sources, never model-routing or provider-admission authorities.",
+    "The FreeLLM upstream is a replaceable reference source pinned to an observed immutable commit for evidence; its floating main branch may be consulted only as non-authoritative discovery input.",
+    "The normalized runtime catalog is generated user/runtime state and must not become canonical physical provider or model policy.",
+    "The source parser initializes every provider at DISCOVERED and cannot mark a provider VERIFIED, ADMITTED or ENABLED.",
+    "Provider activation requires separate FA3 provider identity, security/privacy/egress admission, credential-handle admission where needed, provider runtime or remote admission evidence, and a live model/capability probe.",
+    "The existing FA3-AUTH-MODEL-ROUTER-001 remains the only model/provider/runtime routing authority and LiteLLM remains a data plane.",
+    "Baseline logical routes remain LOCAL_ONLY with external fallback denied; external/cloud use requires a separately materialized explicit policy.",
+    "Decision Fabric may advise ranking only inside the deterministically admitted external-provider set and cannot add candidates, admit providers, authorize egress, obtain credentials or override Model Router.",
+    "Provider Explorer is a child surface of Models & Providers and may display discovery metadata or create a DRAFT admission intent only.",
+    "No upstream README, API key link or free-tier claim is copied into FA3 as secret material, trust evidence or automatic entitlement."
+  ],
+  "promotion_blockers": [
+    "MISSING_CANONICAL_FA3_PROVIDER_ID",
+    "MISSING_SECURITY_PRIVACY_ADMISSION",
+    "MISSING_EXPLICIT_EXTERNAL_EGRESS_POLICY",
+    "MISSING_REQUIRED_CREDENTIAL_HANDLE",
+    "MISSING_PROVIDER_ADMISSION_RECEIPT",
+    "MISSING_LIVE_MODEL_OR_CAPABILITY_PROBE",
+    "INVALID_CATALOG_STATE_TRANSITION",
+    "SILENT_LOCAL_TO_CLOUD_FALLBACK"
+  ],
+  "current_host_runtime_promotion_claim": false
+}

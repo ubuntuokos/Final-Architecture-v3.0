@@ -1,0 +1,95 @@
+{
+  "schema": "fa3.contract-set.v1",
+  "id": "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001",
+  "name": "External LLM Catalog Discovery, Normalization & Admission Boundary Contracts",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+  "provider_neutral": true,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "source_contract": {
+    "immutable_revision_required_for_evidence": true,
+    "source_bytes_sha256_recorded_on_normalization": true,
+    "source_metadata_is_untrusted_discovery_input": true,
+    "source_signature_or_branch_protection_absence_is_not_ignored": true,
+    "network_fetch_is_not_implicit": true,
+    "new_upstream_revision_requires_new_observation": true
+  },
+  "normalized_provider_fields": [
+    "external_provider_key",
+    "provider_name",
+    "discovery_state",
+    "free_tier_kind",
+    "free_models",
+    "max_context",
+    "modalities",
+    "registration_requirement",
+    "base_url",
+    "source_attribution"
+  ],
+  "state_machine": {
+    "ordered_states": ["DISCOVERED", "OBSERVED", "VERIFIED", "ADMITTED", "ENABLED"],
+    "parser_initial_state": "DISCOVERED",
+    "state_skip": "DENY",
+    "catalog_source_may_set_verified_or_higher": false,
+    "admitted_requires_fa3_provider_id": true,
+    "admitted_requires_admission_receipt": true,
+    "enabled_requires_explicit_external_route_policy": true
+  },
+  "credential_boundary": {
+    "api_key_value": "FORBIDDEN",
+    "bearer_token_value": "FORBIDDEN",
+    "secret_value": "FORBIDDEN",
+    "credential_reference_in_source_catalog": "FORBIDDEN",
+    "credential_reference_after_separate_admission": "ALLOWED_OPAQUE_HANDLE_ONLY",
+    "gui_credential_storage": "FORBIDDEN"
+  },
+  "admission_boundary": {
+    "catalog_discovery_is_provider_admission": false,
+    "free_tier_is_provider_admission": false,
+    "openai_compatible_claim_is_provider_admission": false,
+    "provider_base_url_is_trust_identity": false,
+    "required_before_runtime_eligibility": [
+      "canonical_fa3_provider_identity",
+      "security_and_privacy_policy_admission",
+      "explicit_external_egress_policy",
+      "credential_handle_if_required",
+      "provider_or_remote_current-environment_admission_receipt",
+      "live_models_or_equivalent_capability_probe"
+    ],
+    "runtime_routing_authority": "FA3-AUTH-MODEL-ROUTER-001",
+    "silent_local_to_cloud_fallback": "DENY"
+  },
+  "decision_boundary": {
+    "profile": "FA3-DECISION-FABRIC-001",
+    "input_set": "ALREADY_DETERMINISTICALLY_ADMITTED_EXTERNAL_PROVIDERS_ONLY",
+    "allowed_advisory_dimensions": [
+      "cost_class",
+      "remaining_quota",
+      "latency",
+      "context_window",
+      "modality",
+      "privacy_class",
+      "jurisdiction",
+      "rate_limit",
+      "provider_health",
+      "credential_available",
+      "model_capability",
+      "current_entitlement"
+    ],
+    "candidate_set_expansion": "DENY",
+    "provider_admission": "DENY",
+    "egress_authorization": "DENY",
+    "model_router_override": "DENY"
+  },
+  "failure_policy": {
+    "malformed_source": "FAIL_CLOSED",
+    "missing_immutable_revision": "FAIL_CLOSED_FOR_EVIDENCED_SNAPSHOT",
+    "credential_like_value_in_catalog": "FAIL_CLOSED",
+    "invalid_state_transition": "FAIL_CLOSED",
+    "missing_admission_evidence": "NOT_RUNTIME_ELIGIBLE",
+    "source_unavailable": "KEEP_LAST_VALID_LOCAL_RUNTIME_CATALOG_NO_AUTO_PROMOTION"
+  }
+}

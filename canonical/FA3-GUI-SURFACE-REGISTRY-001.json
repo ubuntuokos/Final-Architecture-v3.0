@@ -95,7 +95,22 @@
       "route_id": "models.providers",
       "title": "Models & Providers",
       "group": "MODELS & DATA",
-      "projection": "MODEL_PROVIDER_STATUS"
+      "projection": "MODEL_PROVIDER_STATUS",
+      "children": [
+        {
+          "surface_id": "models.provider-explorer",
+          "title": "Provider Explorer",
+          "projection": "EXTERNAL_LLM_PROVIDER_DISCOVERY",
+          "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+          "mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+          "execution_intent_route": "models.external-providers",
+          "direct_provider_execution": false,
+          "direct_credential_entry": false,
+          "direct_router_mutation": false,
+          "authority": false,
+          "runtime_promotion_claim": false
+        }
+      ]
     },
     {
       "route_id": "models.manager",
