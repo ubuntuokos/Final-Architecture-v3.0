@@ -39,6 +39,7 @@ P0 = [
     "GUI_CURRENT_HOST_PROCESS_CLEANUP_REQUIRED",
     "GUI_CURRENT_HOST_RECEIPT_SECRET_FREE",
     "GUI_CURRENT_HOST_SECRET_BACKEND_SEPARATE_AUTHORITY_NOT_PROMOTED",
+    "GUI_CURRENT_HOST_TESTED_PATH_SECRET_INDEPENDENCE_EXPLICIT",
     "GUI_CURRENT_HOST_PASS_NOT_GLOBAL_FA3_PROMOTION",
     "GUI_CURRENT_HOST_CAPABILITY_AND_AUTHORITY_COUNT_INVARIANT",
 ]
@@ -55,6 +56,7 @@ def validate_receipt(receipt: dict[str, Any], *, root: Path | None = None) -> li
     session = receipt.get("session", {})
     desktop = receipt.get("desktop_admission", {})
     desktop_scope = receipt.get("desktop_runtime_scope", {})
+    tested_path = receipt.get("tested_path", {})
     build = receipt.get("build", {})
     launch = receipt.get("launch", {})
     security = receipt.get("security", {})
@@ -117,8 +119,40 @@ def validate_receipt(receipt: dict[str, Any], *, root: Path | None = None) -> li
             "GUI runtime scope improperly depends on Secret Backend",
         ),
         (
-            desktop_scope.get("secrets_authority_owner") == "CAP-003",
+            desktop_scope.get("secret_backend_required_for_tested_path") is False
+            and receipt.get("secret_backend_required_for_tested_path") is False,
+            "tested GUI path unexpectedly requires Secret Backend",
+        ),
+        (
+            desktop_scope.get("secret_backend_authority") == "AUTH-SECRETS"
+            and receipt.get("secret_backend_authority") == "AUTH-SECRETS",
             "Secret Backend authority ownership drift",
+        ),
+        (
+            desktop_scope.get("secret_backend_capability") == "CAP-003"
+            and receipt.get("secret_backend_capability") == "CAP-003"
+            and desktop_scope.get("secrets_authority_owner") == "CAP-003",
+            "Secret Backend capability ownership drift",
+        ),
+        (
+            desktop_scope.get("secret_backend_pass_claimed") is False
+            and receipt.get("secret_backend_pass_claimed") is False,
+            "GUI receipt falsely claims Secret Backend PASS",
+        ),
+        (
+            receipt.get("secret_backend_status")
+            == desktop_scope.get("secret_backend_status")
+            == desktop.get("capabilities", {}).get("secret_backend"),
+            "Secret Backend status is not faithfully projected",
+        ),
+        (
+            tested_path.get("id") == "CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED"
+            and tested_path.get("secret_dependency") == "NONE"
+            and tested_path.get("session_vault_configuration") == "NOT_CONFIGURED"
+            and tested_path.get("session_vault_image_present_before_launch") is False
+            and tested_path.get("session_vault_image_present_after_launch") is False
+            and tested_path.get("secret_lookup_required") is False,
+            "tested GUI path is not proven secret-independent",
         ),
         (
             not (
@@ -172,6 +206,10 @@ def validate_receipt(receipt: dict[str, Any], *, root: Path | None = None) -> li
         (
             security.get("secret_backend_promoted_by_gui_receipt") is False,
             "GUI receipt falsely promotes Secret Backend",
+        ),
+        (
+            checks.get("secret_independent_tested_path") is True,
+            "secret-independent tested-path check not PASS",
         ),
         (bool(checks) and all(checks.values()), "receipt P0 check set not all PASS"),
         (receipt.get("capability_count") == CAPABILITY_COUNT, "capability count drift"),
@@ -295,6 +333,24 @@ def gate(
         errors.append(
             "GUI current-host state is neither fail-closed pending nor evidence-promoted PASS"
         )
+
+    session_vault_cpp_path = root / "apps/fa3-control-center/src/SessionVaultService.cpp"
+    main_cpp_path = root / "apps/fa3-control-center/src/main.cpp"
+    if not session_vault_cpp_path.is_file() or not main_cpp_path.is_file():
+        errors.append("Control Center Session Vault startup source missing")
+    else:
+        session_vault_cpp = session_vault_cpp_path.read_text(encoding="utf-8")
+        main_cpp = main_cpp_path.read_text(encoding="utf-8")
+        guard = "if (!configured() || m_unlocked)"
+        secret_lookup = 'p.start(QStringLiteral("secret-tool")'
+        if not (
+            "SessionVaultService sessionVault;" in main_cpp
+            and "QTimer::singleShot(0, this, [this]() { tryAutoUnlock(); });" in session_vault_cpp
+            and guard in session_vault_cpp
+            and secret_lookup in session_vault_cpp
+            and session_vault_cpp.index(guard) < session_vault_cpp.index(secret_lookup)
+        ):
+            errors.append("secret-independent Session Vault startup guard drift")
 
     required_manifest_paths = {
         ".github/workflows/fa3-gui-current-host.yml",
