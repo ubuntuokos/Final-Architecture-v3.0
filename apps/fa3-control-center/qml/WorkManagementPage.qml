@@ -17,6 +17,7 @@ Item {
 
     property var workItems: []
     property var activityRows: []
+    property var agentWorkloads: []
     property string projectionState: "ADAPTER-GATED"
     property string operationNotice: ""
 
@@ -90,6 +91,7 @@ Item {
             TabButton { text: "Overview" }
             TabButton { text: "Projects / Boards / Tasks" }
             TabButton { text: "Automations" }
+            TabButton { text: "Agent Workloads" }
             TabButton { text: "Activity" }
             TabButton { text: "Providers" }
         }
@@ -193,6 +195,52 @@ Item {
                         Label { anchors.fill: parent; anchors.margins: 14; wrapMode: Text.WordWrap; color: root.textMuted; text: "Provider automation state: ADAPTER-GATED · integration-wide credential nem kerülheti meg a project/workspace/capability scope-ot." }
                     }
                     Item { Layout.fillHeight: true }
+                }
+            }
+
+            Item {
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 8
+                    Label { text: "Agent Workloads"; color: root.textPrimary; font.pixelSize: 15; font.bold: true }
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Read-only provider-neutral execution projection. A Work Item és az Agent Workload Task külön identity; a kapcsolat csak opcionális work_item_ref. Lifecycle művelet innen nem fut közvetlenül: csak typed UAF draft intent engedélyezhető az Agent Action Centeren keresztül."
+                    }
+                    Label {
+                        visible: root.agentWorkloads.length === 0
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        color: root.textMuted
+                        text: "Nincs betöltött Agent Workload runtime evidence. PENDING vagy ismeretlen állapotból a GUI nem gyárt RUNNING / PASS / CONNECTED státuszt."
+                    }
+                    ListView {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        clip: true
+                        model: root.agentWorkloads
+                        spacing: 4
+                        delegate: Rectangle {
+                            width: ListView.view.width
+                            height: 72
+                            radius: 6
+                            color: root.panel
+                            border.color: root.border
+                            RowLayout {
+                                anchors.fill: parent
+                                anchors.margins: 10
+                                ColumnLayout {
+                                    Layout.fillWidth: true
+                                    Label { text: modelData.task_id || "Agent workload"; color: root.textPrimary; font.bold: true }
+                                    Label { text: (modelData.work_item_ref || "no work-item link") + " · " + (modelData.runner_provider || "runner pending"); color: root.textMuted; font.pixelSize: 9 }
+                                    Label { text: "HRB: " + (modelData.hrb_state || "UNKNOWN") + " · evidence: " + (modelData.evidence_state || "PENDING"); color: root.textMuted; font.pixelSize: 9 }
+                                }
+                                Label { text: modelData.phase || "UNKNOWN"; color: root.accent; font.bold: true }
+                            }
+                        }
+                    }
                 }
             }
 

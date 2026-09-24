@@ -1,0 +1,78 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-GOOGLE-AX-001",
+  "name": "Google AX Optional Agent Workload Runtime Provider",
+  "status": "CANONICAL_OPTIONAL_PROVIDER_CURRENT_HOST_OR_CLUSTER_PENDING",
+  "provider_role": "OPTIONAL_EXTERNAL_CLUSTER_EXECUTION_PROVIDER",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "parent_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "contract": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+  "authority_boundaries": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "journal": "FA3-JOURNAL-001",
+    "registry": "FA3-REGISTRY-001",
+    "hardware_discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001_NON_AUTHORITY",
+    "agent_definition": "FA3-AGENT-DEFINITION-001_NON_AUTHORITY"
+  },
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "current_host_runtime_claim": false,
+  "activation_mode": "OPTIONAL_DISABLED_BY_DEFAULT",
+  "upstream_reference": "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24",
+  "immutable_component_tuple": {
+    "repository": "google/ax",
+    "commit": "e6211f84a9e30dd309304167b8f1d51cbdaf8dab",
+    "api": "ax.io/v1alpha1"
+  },
+  "translation": {
+    "fa3_agent_workload_task_to_ax_task": true,
+    "fa3_agent_workspace_to_ax_workspace": true,
+    "execution_network_envelope_to_ax_gateway": true,
+    "ax_model_to_fa3_model_resource": false,
+    "canonical_ax_schema": false,
+    "fa3_model_intent_remains_model_router_owned": true
+  },
+  "runner_bridge": {
+    "custom_runner_supported_upstream": true,
+    "fa3_runner_bridge_planned": true,
+    "debug_requires_fa3_authorization": true
+  },
+  "upstream_infrastructure": {
+    "kubernetes": true,
+    "redis": true,
+    "agent_substrate": true,
+    "mandatory_for_fa3": false
+  },
+  "capabilities": {
+    "pause": true,
+    "application_checkpoint": true,
+    "process_checkpoint": "UPSTREAM_SUBSTRATE_DEPENDENT",
+    "vm_checkpoint": "UPSTREAM_SUBSTRATE_DEPENDENT",
+    "network_namespace": true,
+    "filesystem_isolation": true,
+    "accelerator_passthrough": "PROVIDER_AND_HRB_ADMISSION_REQUIRED"
+  },
+  "runtime_activation_status": "PENDING_CURRENT_HOST_OR_CLUSTER",
+  "distribution": {
+    "class": "EXTERNAL_REDISTRIBUTABLE",
+    "release_bundle_status": "EXCLUDED",
+    "classification_basis": "Pinned google/ax LICENSE is Apache-2.0 at immutable commit; any FA3 product-bundle inclusion remains a separate distribution-compliance decision with NOTICE/license obligations.",
+    "inclusion_requires_distribution_decision_receipt": true,
+    "profile_id": "FA3-DISTRIBUTION-COMPLIANCE-001",
+    "contract_id": "FA3-DISTRIBUTION-COMPLIANCE-CONTRACTS-001"
+  }
+}

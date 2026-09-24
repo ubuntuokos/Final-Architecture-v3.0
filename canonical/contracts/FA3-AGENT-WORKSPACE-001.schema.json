@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-WORKSPACE-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-WORKSPACE-001",
+  "title": "FA3 Agent Workspace",
+  "type": "object",
+  "required": [
+    "schema",
+    "workspace_id",
+    "sources"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-workspace.v1"
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "bootstrap_goal": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "bootstrap_mode": {
+      "enum": [
+        "NONE",
+        "TYPED_PLAN_REQUIRED"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "fa3.agent-runtime-provider-registry.v1",
+  "id": "FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001",
+  "status": "CANONICAL",
+  "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "capability_count": 143,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "deterministic_hard_filters_before_advisory": true,
+  "provider_self_admission": false,
+  "providers": [
+    {
+      "provider_id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+      "role": "LOCAL_TRUSTED_RUNNER",
+      "activation": "CURRENT_HOST_PENDING",
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "priority": 20
+    },
+    {
+      "provider_id": "FA3-PROVIDER-AGENT-RUNNER-PODMAN-001",
+      "role": "LOCAL_SANDBOX_RUNNER",
+      "activation": "CURRENT_HOST_PENDING",
+      "runtime_promotion_status": "PENDING_CURRENT_HOST",
+      "priority": 10
+    },
+    {
+      "provider_id": "FA3-PROVIDER-GOOGLE-AX-001",
+      "role": "OPTIONAL_CLUSTER_RUNNER",
+      "activation": "OPTIONAL_DISABLED_BY_DEFAULT",
+      "runtime_promotion_status": "PENDING_CURRENT_HOST_OR_CLUSTER",
+      "priority": 100
+    }
+  ],
+  "advisory_policy": {
+    "decision_fabric": "OPTIONAL",
+    "candidate_source": "DETERMINISTIC_ALREADY_ELIGIBLE_SET",
+    "candidate_expansion": false
+  }
+}
