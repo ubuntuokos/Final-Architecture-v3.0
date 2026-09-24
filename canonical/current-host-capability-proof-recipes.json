@@ -606,11 +606,17 @@
       "activation": "JOB",
       "primitive": "agent_process",
       "execution_scope": "CURRENT_HOST",
-      "network_policy": "NONE",
+      "network_policy": "LOOPBACK_ONLY",
       "external_side_effects_allowed": false,
       "human_approval_required": false,
       "global_promotion_claim": false,
-      "dependency_failure_semantics": "REJECTED_NOT_PASS"
+      "dependency_failure_semantics": "REJECTED_NOT_PASS",
+      "local_protocol_evidence_only": true,
+      "local_protocol_evidence_level": "LOCAL_MULTI_NODE_PROTOCOL_PASS",
+      "local_protocol_pass_is_cross_host_production": false,
+      "cross_host_production_e2e_required": true,
+      "cross_host_production_evidence_level": "CROSS_HOST_PRODUCTION_E2E_PASS",
+      "minimum_distinct_host_identities_for_cross_host_promotion": 2
     },
     {
       "capability_id": "CAP-071",
