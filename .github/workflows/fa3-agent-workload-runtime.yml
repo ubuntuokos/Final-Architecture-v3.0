@@ -1,0 +1,69 @@
+name: FA3 Agent Workload Runtime Gate
+
+on:
+  push:
+    branches: ["fa3/**"]
+    paths:
+      - "canonical/profiles/FA3-AGENT-WORKLOAD-RUNTIME-001.json"
+      - "canonical/contracts/FA3-AGENT-WORKLOAD-*.json"
+      - "canonical/contracts/FA3-EXECUTION-NETWORK-ENVELOPE-001.schema.json"
+      - "canonical/references/FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24.json"
+      - "canonical/decisions/FA3-DEC-AGENT-WORKLOAD-RUNTIME-AX-DERIVED-2026-09-24.json"
+      - "canonical/assessments/FA3-AGENT-WORKLOAD-RUNTIME-DECISION-ASSESSMENT-2026-09-24.json"
+      - "canonical/providers/FA3-PROVIDER-AGENT-RUNNER-*.json"
+      - "canonical/providers/FA3-PROVIDER-GOOGLE-AX-001.json"
+      - "canonical/FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001.json"
+      - "canonical/FA3-GATE-AGENT-WORKLOAD-RUNTIME-001.json"
+      - "canonical/agent-workload-runtime-enforcement.json"
+      - "canonical/actions/agent.workload.*.json"
+      - "canonical/actions/agent.workspace.materialize.json"
+      - "canonical/distribution-registry.json"
+      - "canonical/distribution-manifest.json"
+      - "canonical/enforcement-policy.json"
+      - "src/fa3_agent_workload.py"
+      - "src/fa3_agent_workload_gate.py"
+      - "src/fa3_enforce.py"
+      - "tests/test_agent_workload_runtime_gate.py"
+      - "evidence/reference/agent-workload-runtime-ci-2026-09-24.json"
+      - "docs/FA3-AGENT-WORKLOAD-RUNTIME-001.md"
+      - ".github/workflows/fa3-agent-workload-runtime.yml"
+      - ".github/workflows/fa3-permanent-enforcement.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  agent-workload-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_agent_workload.py src/fa3_agent_workload_gate.py
+      - name: Unit and fail-closed regressions
+        run: PYTHONPATH=src python3 -m unittest tests.test_agent_workload_runtime_gate -v
+      - name: Agent Workload Runtime canonical gate
+        run: ./bin/fa3-enforce agent-workload-runtime
+      - name: Existing UAF regression
+        run: ./bin/fa3-enforce uaf
+      - name: Existing Distribution Compliance regression
+        run: ./bin/fa3-enforce distribution-compliance
+      - name: Existing Orchestration Workforce regression
+        run: PYTHONPATH=src python3 src/fa3_orchestration_workforce_gate.py --root .
+      - name: Diff whitespace check
+        run: git diff --check HEAD^ HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-agent-workload-runtime-gate
+          path: reports/agent-workload-runtime-gate-report.json
+          if-no-files-found: error

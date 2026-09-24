@@ -1,0 +1,28 @@
+{
+  "schema": "fa3.reference-evidence.v1",
+  "id": "FA3-EVID-AGENT-WORKLOAD-RUNTIME-2026-09-24",
+  "gate_id": "FA3-GATE-AGENT-WORKLOAD-RUNTIME-001",
+  "profile_id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "reference_id": "FA3-GOOGLE-AX-UPSTREAM-REFERENCE-2026-09-24",
+  "status": "PASS",
+  "evidence_class": "REFERENCE_STATIC_CONFORMANCE",
+  "proven": [
+    "canonical contracts and authority boundaries",
+    "deterministic validation and negative regressions",
+    "UAF action contract presence",
+    "distribution metadata binding",
+    "Google AX immutable reference and non-authority projection"
+  ],
+  "not_proven": [
+    "native runner current-host production execution",
+    "Podman runner current-host production execution",
+    "Google AX cluster/current-host production execution",
+    "process or VM checkpoint support on current host",
+    "GUI current-host visual/runtime conformance"
+  ],
+  "native_runner_runtime_status": "PENDING_CURRENT_HOST",
+  "podman_runner_runtime_status": "PENDING_CURRENT_HOST",
+  "google_ax_runtime_status": "PENDING_CURRENT_HOST_OR_CLUSTER",
+  "current_host_runtime_promotion_claim": false,
+  "global_promotion_claim": false
+}

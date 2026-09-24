@@ -1,0 +1,144 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "name": "Declarative Agent Workload, Workspace, Sandbox & Lifecycle Runtime",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P0",
+  "requirement": "MUST",
+  "canonical_root": false,
+  "domain_root": false,
+  "relationship": "CROSS_CUTTING_EXECUTION_PROFILE",
+  "provider_neutral": true,
+  "cpu_only_supported": true,
+  "mandatory_cloud_dependency": false,
+  "mandatory_kubernetes_dependency": false,
+  "mandatory_google_ax_dependency": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": [
+    "CAP-028"
+  ],
+  "contract_id": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+  "decision_id": "FA3-DEC-AGENT-WORKLOAD-RUNTIME-AX-DERIVED-2026-09-24",
+  "provider_registry_id": "FA3-AGENT-RUNTIME-PROVIDER-REGISTRY-001",
+  "authority_boundaries": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "journal": "FA3-JOURNAL-001",
+    "registry": "FA3-REGISTRY-001",
+    "hardware_discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001_NON_AUTHORITY",
+    "agent_definition": "FA3-AGENT-DEFINITION-001_NON_AUTHORITY"
+  },
+  "canonical_primitives": [
+    "AGENT_WORKLOAD_TASK",
+    "AGENT_WORKSPACE",
+    "EXECUTION_NETWORK_ENVELOPE",
+    "RUNNER_SPI",
+    "CHECKPOINT_MANIFEST"
+  ],
+  "lifecycle": {
+    "phases": [
+      "DECLARED",
+      "VALIDATING",
+      "ADMISSION_PENDING",
+      "ADMITTED",
+      "PREPARING",
+      "STARTING",
+      "RUNNING",
+      "PAUSING",
+      "PAUSED",
+      "RESUMING",
+      "SUSPENDING",
+      "SUSPENDED",
+      "TERMINATING",
+      "TERMINATED",
+      "COMPLETED",
+      "FAILED",
+      "REJECTED",
+      "LEASE_EXPIRED",
+      "LEASE_REVOKED",
+      "CHECKPOINT_INCOMPATIBLE",
+      "POLICY_REVOKED"
+    ],
+    "pause_is_not_durable_suspend": true,
+    "unsupported_suspend_must_fail_explicitly": true,
+    "resume_requires_fresh_resource_admission": true,
+    "old_hrb_lease_reuse_on_resume": false
+  },
+  "workspace_policy": {
+    "immutable_git_revision_required_for_production": true,
+    "skills_require_skill_fabric_admission": true,
+    "mcp_access_must_use_central_gateway": true,
+    "plain_language_goal_is_not_shell_authority": true,
+    "bootstrap_requires_typed_uaf_plan": true
+  },
+  "network_policy": {
+    "default": "DENY",
+    "explicit_egress_only": true,
+    "direct_model_provider_bypass": false,
+    "direct_external_tool_bypass": false,
+    "envelope_is_authority": false
+  },
+  "checkpoint_policy": {
+    "secret_values_forbidden": true,
+    "secret_handles_detached_before_checkpoint": true,
+    "fresh_secret_projection_after_resume": true,
+    "modes": [
+      "APPLICATION",
+      "PROCESS",
+      "VM"
+    ],
+    "capability_claim_must_match_runner": true
+  },
+  "runner_policy": {
+    "provider_self_admission": false,
+    "silent_sandbox_downgrade": false,
+    "capability_descriptor_required": true,
+    "current_host_runtime_promotion_requires_scope_bound_evidence": true,
+    "static_reference_pass_is_not_runtime_admission": true
+  },
+  "fanout_policy": {
+    "limits_required": [
+      "max_children",
+      "max_depth",
+      "max_concurrent_children",
+      "max_runtime_seconds",
+      "max_retries",
+      "max_tool_calls",
+      "max_model_requests"
+    ],
+    "workload_may_not_raise_own_limits": true
+  },
+  "decision_fabric": {
+    "profile": "FA3-DECISION-FABRIC-001",
+    "role": "BOUNDED_ADVISORY_RUNNER_RANKING_ONLY",
+    "candidate_source": "DETERMINISTIC_ALREADY_ELIGIBLE_RUNNER_SET",
+    "candidate_set_expansion": "DENY",
+    "may_authorize": false,
+    "may_admit_provider": false,
+    "may_allocate_resources": false
+  },
+  "google_ax": {
+    "role": "OPTIONAL_EXTERNAL_EXECUTION_PROVIDER",
+    "canonical_ir": false,
+    "model_resource_is_not_fa3_model_authority": true,
+    "gateway_resource_is_not_fa3_mcp_or_network_authority": true,
+    "runtime_status": "PENDING_CURRENT_HOST_OR_CLUSTER",
+    "upstream_api_maturity": "V1ALPHA1_BREAKING_CHANGES_EXPECTED"
+  },
+  "work_management": {
+    "work_item_is_not_agent_workload_task": true,
+    "task_may_reference_work_item": true,
+    "gui_projection": "AGENT_WORKLOADS_CHILD_VIEW",
+    "direct_gui_mutation": false
+  },
+  "gate_id": "FA3-AGENT-WORKLOAD-RUNTIME-GATESET-001"
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-WORKLOAD-TASK-001",
+  "title": "FA3 Agent Workload Task",
+  "type": "object",
+  "required": [
+    "schema",
+    "task_id",
+    "root_task_id",
+    "action_ref",
+    "agent_definition_ref",
+    "resource_requirements",
+    "network_envelope_ref",
+    "model_intent",
+    "authorized_ai_participants",
+    "fanout_limits"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-workload-task.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "root_task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_task_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "work_item_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "action_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_definition_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workspace_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "resource_requirements": {
+      "type": "object"
+    },
+    "network_envelope_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model_intent": {
+      "type": "object"
+    },
+    "authorized_ai_participants": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fanout_limits": {
+      "type": "object",
+      "required": [
+        "max_children",
+        "max_depth",
+        "max_concurrent_children",
+        "max_runtime_seconds",
+        "max_retries",
+        "max_tool_calls",
+        "max_model_requests"
+      ]
+    },
+    "provenance_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "additionalProperties": false
+}

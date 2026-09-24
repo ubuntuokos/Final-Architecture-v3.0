@@ -1,0 +1,51 @@
+{
+  "schema": "fa3.provider-record.v1",
+  "id": "FA3-PROVIDER-AGENT-RUNNER-NATIVE-001",
+  "name": "FA3 Native Agent Workload Runner",
+  "status": "CANONICAL_REFERENCE_IMPLEMENTED_CURRENT_HOST_PENDING",
+  "provider_role": "LOCAL_TRUSTED_SYSTEMD_CGROUPV2_RUNNER",
+  "canonical_root": false,
+  "architectural_authority": false,
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_projection": [
+    "CAP-028"
+  ],
+  "parent_profile": "FA3-AGENT-WORKLOAD-RUNTIME-001",
+  "contract": "FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001",
+  "authority_boundaries": {
+    "durable_workflow": "TEMPORAL_EXISTING_GLOBAL_DURABLE_ORCHESTRATION_AUTHORITY",
+    "action_execution": "FA3-UNIFIED-ACTION-FABRIC-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001",
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "tool_mediation": "FA3-AUTH-MCP-GATEWAY-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "journal": "FA3-JOURNAL-001",
+    "registry": "FA3-REGISTRY-001",
+    "hardware_discovery": "FA3-HARDWARE-DISCOVERY-CONTRACTS-001_NON_AUTHORITY",
+    "agent_definition": "FA3-AGENT-DEFINITION-001_NON_AUTHORITY"
+  },
+  "runtime_activation_requires_current_host_conformance": true,
+  "current_host_runtime_evidence": false,
+  "current_host_runtime_claim": false,
+  "activation_mode": "BUILTIN_DISABLED_UNTIL_CURRENT_HOST_ADMISSION",
+  "execution_projection": {
+    "systemd_transient_scope": true,
+    "unified_cgroup_v2": true,
+    "hrb_projection_required": true,
+    "unsandboxed_untrusted_code_forbidden": true
+  },
+  "capabilities": {
+    "pause": true,
+    "application_checkpoint": true,
+    "process_checkpoint": false,
+    "vm_checkpoint": false,
+    "network_namespace": false,
+    "filesystem_isolation": false,
+    "accelerator_passthrough": "HRB_LEASE_ONLY"
+  },
+  "runtime_activation_status": "PENDING_CURRENT_HOST"
+}

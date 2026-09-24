@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fa3.local/contracts/FA3-AGENT-CHECKPOINT-MANIFEST-001.schema.json",
+  "x-fa3-contract-id": "FA3-AGENT-CHECKPOINT-MANIFEST-001",
+  "title": "FA3 Agent Checkpoint Manifest",
+  "type": "object",
+  "required": [
+    "schema",
+    "task_id",
+    "task_spec_digest",
+    "mode",
+    "secret_material_present",
+    "secret_handles_detached",
+    "runner_identity"
+  ],
+  "properties": {
+    "schema": {
+      "const": "fa3.agent-checkpoint-manifest.v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_spec_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "APPLICATION",
+        "PROCESS",
+        "VM"
+      ]
+    },
+    "secret_material_present": {
+      "const": false
+    },
+    "secret_handles_detached": {
+      "const": true
+    },
+    "runner_identity": {
+      "type": "object"
+    },
+    "previous_hrb_lease_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}
