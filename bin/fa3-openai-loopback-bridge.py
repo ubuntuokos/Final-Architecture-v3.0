@@ -31,6 +31,33 @@ def bearer(header: str | None) -> str:
     return token
 
 
+
+def normalize_probe_body(raw: bytes) -> bytes:
+    try:
+        obj = json.loads(raw.decode("utf-8"))
+    except Exception as exc:
+        raise BridgeError("invalid JSON probe body") from exc
+    if not isinstance(obj, dict) or not isinstance(obj.get("model"), str) or not obj["model"].strip():
+        raise BridgeError("probe model is required")
+    messages = obj.get("messages")
+    negative = [
+        {"role": "user", "content": "FA3 credential enforcement negative probe."}
+    ]
+    positive = [
+        {"role": "system", "content": "Return a short FA3 provider execution probe acknowledgement."},
+        {"role": "user", "content": "FA3 current-host provider execution probe."},
+    ]
+    if messages not in (negative, positive):
+        raise BridgeError("only fixed FA3 provider-execution probe content is allowed")
+    if obj.get("temperature") != 0:
+        raise BridgeError("probe temperature must be zero")
+    max_tokens = obj.pop("max_tokens", None)
+    if max_tokens not in (1, 32):
+        raise BridgeError("probe token bound is invalid")
+    obj["max_completion_tokens"] = max_tokens
+    return json.dumps(obj, separators=(",", ":")).encode("utf-8")
+
+
 class Handler(http.server.BaseHTTPRequestHandler):
     server_version = "FA3OpenAILoopback/1"
 
@@ -69,6 +96,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 self._json(413, {"error": {"message": "request size denied"}})
                 return
             body = self.rfile.read(length)
+            try:
+                body = normalize_probe_body(body)
+            except BridgeError as exc:
+                self._json(400, {"error": {"message": str(exc)}})
+                return
 
         req = urllib.request.Request(
             UPSTREAM_BASE + path.removeprefix("/v1"),
