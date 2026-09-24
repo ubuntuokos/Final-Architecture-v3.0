@@ -35,6 +35,18 @@ command -v systemctl >/dev/null || { echo "systemctl missing" >&2; exit 2; }
   exit 2
 }
 
+if getent passwd fa3-provider-exec-probe >/dev/null; then
+  if systemctl is-active --quiet fa3-provider-exec-probe.service \
+    || pgrep -u fa3-provider-exec-probe >/dev/null 2>&1; then
+    echo "provider execution probe identity is active; refusing cleanup or reuse" >&2
+    exit 2
+  fi
+  echo "stale provider execution probe identity detected from an interrupted prior run" >&2
+  echo "safe recovery: sudo userdel fa3-provider-exec-probe" >&2
+  echo "then rerun this closure command" >&2
+  exit 2
+fi
+
 install -d -m0755 "$RUN_ROOT"
 install -m0555 "$ROOT/bin/fa3-openai-loopback-bridge.py" "$BRIDGE_COPY"
 
