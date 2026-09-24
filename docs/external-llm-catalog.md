@@ -32,6 +32,13 @@ python3 src/fa3_external_llm_catalog.py normalize \
 
 The output records SHA-256 of the exact source bytes and is runtime/user state, not canonical provider policy.
 
+Canonical/static conformance is also available through the permanent enforcement entrypoint:
+
+```bash
+./bin/fa3-enforce external-llm-catalog
+```
+
+
 ## Credential and privacy boundary
 
 Catalog files must not contain API-key, bearer-token, password or other credential values. A later admitted provider may reference an opaque credential handle only after the existing FA3 secrets boundary admits it.
