@@ -21,6 +21,7 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("fa3-secretctl",producer)
         self.assertIn("credential_authentication_enforced",producer)
         self.assertIn("discover_working_chat_model",producer)
+        self.assertIn("fa3.current-host-evidence-reference.v1",producer)
         self.assertEqual(schema["properties"]["credentials"]["minItems"],2)
     def test_provisioning_harness_shell_syntax(self):
         subprocess.run(["bash","-n",str(ROOT/"bin/fa3-model-router-provider-execution-current-host-provision.sh")],check=True)
@@ -30,7 +31,9 @@ class CurrentHostReceiptContractTests(unittest.TestCase):
         self.assertIn("SupplementaryGroups=fa3-secret-clients",harness)
         self.assertIn("CURRENT_HOST_PASS",harness)
         self.assertIn("--preferred-model",harness)
-        marker="python3 - \"$SECRET_RECEIPT\" <<'PY'\n"
+        self.assertIn("evidence/reference/secret-broker-current-host-2026-09-21.json",harness)
+        self.assertNotIn('/usr/local/libexec/fa3-secret-broker-current-host-root >/dev/null',harness)
+        marker="python3 - \"$SECRET_RECEIPT_REFERENCE\" <<'PY'\n"
         self.assertIn(marker,harness)
         embedded=harness.split(marker,1)[1].split("\nPY\n",1)[0]
         compile(embedded,"secret-receipt-validator","exec")
