@@ -162,6 +162,8 @@ def _walk_forbidden(obj: Any, path: str = "$") -> list[str]:
     if isinstance(obj, dict):
         for key, value in obj.items():
             lower = str(key).lower()
+            if lower == "contains_secret_values" and value is False:
+                continue
             if any(fragment in lower for fragment in FORBIDDEN_KEY_FRAGMENTS):
                 findings.append(f"{path}.{key}: forbidden credential-value field")
             findings.extend(_walk_forbidden(value, f"{path}.{key}"))
