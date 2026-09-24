@@ -87,7 +87,8 @@ jobs:
             --root . \
             --executable .fa3-current-host/gui/build/fa3-control-center \
             --output reports/gui-current-host/current-host-receipt.json \
-            --smoke-seconds 8
+            --smoke-seconds 8 \
+            --tested-path CONTROL_CENTER_STARTUP_SESSION_VAULT_UNCONFIGURED
       - name: Validate physical receipt fail-closed
         env:
           PYTHONPATH: src
