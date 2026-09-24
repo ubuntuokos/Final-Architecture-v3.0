@@ -25,6 +25,7 @@ POLICY_A=""
 POLICY_B=""
 SECRET_A_CREATED=false
 SECRET_B_CREATED=false
+TMP=""
 
 usage() {
   cat <<'EOF'
@@ -97,17 +98,40 @@ if not receipt_proves_provider(Path(sys.argv[1]),sys.argv[2],sys.argv[3]):
 PY
 
 cleanup() {
-  set +e
+  local failed=0
   unset CRED_A CRED_B
-  if [[ "$SECRET_B_CREATED" == true ]]; then /usr/local/bin/fa3-secretctl delete "$SECRET_ID_B" >/dev/null 2>&1 || true; fi
-  if [[ "$SECRET_A_CREATED" == true ]]; then /usr/local/bin/fa3-secretctl delete "$SECRET_ID_A" >/dev/null 2>&1 || true; fi
-  if [[ -n "$POLICY_B" ]]; then /usr/local/sbin/fa3-secret-policyctl remove "$SECRET_ID_B" >/dev/null 2>&1 || true; fi
-  if [[ -n "$POLICY_A" ]]; then /usr/local/sbin/fa3-secret-policyctl remove "$SECRET_ID_A" >/dev/null 2>&1 || true; fi
-  if [[ "$LIFECYCLE_STARTED" == true ]]; then /usr/local/sbin/fa3-secrets-lifecycle exit >/dev/null 2>&1 || true; fi
-  rm -rf "$CONFIG" "$RUNTIME_DIR"
-  if [[ "$CREATED_USER" == true ]]; then userdel "$PROBE_USER" >/dev/null 2>&1 || true; fi
+  if [[ "$SECRET_B_CREATED" == true ]]; then
+    /usr/local/bin/fa3-secretctl delete "$SECRET_ID_B" >/dev/null 2>&1 || { echo "cleanup failed: SecretRef B" >&2; failed=1; }
+  fi
+  if [[ "$SECRET_A_CREATED" == true ]]; then
+    /usr/local/bin/fa3-secretctl delete "$SECRET_ID_A" >/dev/null 2>&1 || { echo "cleanup failed: SecretRef A" >&2; failed=1; }
+  fi
+  if [[ -n "$POLICY_B" ]]; then
+    /usr/local/sbin/fa3-secret-policyctl remove "$SECRET_ID_B" >/dev/null 2>&1 || { echo "cleanup failed: policy B" >&2; failed=1; }
+  fi
+  if [[ -n "$POLICY_A" ]]; then
+    /usr/local/sbin/fa3-secret-policyctl remove "$SECRET_ID_A" >/dev/null 2>&1 || { echo "cleanup failed: policy A" >&2; failed=1; }
+  fi
+  if [[ "$LIFECYCLE_STARTED" == true ]]; then
+    /usr/local/sbin/fa3-secrets-lifecycle exit >/dev/null 2>&1 || { echo "cleanup failed: Secret Broker lifecycle exit" >&2; failed=1; }
+  fi
+  rm -rf "$CONFIG" "$RUNTIME_DIR" || { echo "cleanup failed: runtime files" >&2; failed=1; }
+  if [[ -n "$TMP" ]]; then rm -rf "$TMP" || { echo "cleanup failed: temporary policy directory" >&2; failed=1; }; fi
+  if [[ "$CREATED_USER" == true ]]; then
+    userdel "$PROBE_USER" >/dev/null 2>&1 || { echo "cleanup failed: probe identity" >&2; failed=1; }
+  fi
+  return "$failed"
 }
-trap cleanup EXIT INT TERM
+
+exit_cleanup() {
+  local rc=$?
+  trap - EXIT INT TERM
+  cleanup || rc=2
+  exit "$rc"
+}
+trap exit_cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 echo "Validating admitted Secret Broker current-host evidence..."
 [[ -s "$SECRET_RECEIPT_REFERENCE" ]] || {
@@ -165,7 +189,6 @@ fi
 
 PYTHON_EXE="$(readlink -f "$(command -v python3)")"
 TMP="$(mktemp -d)"
-trap 'rm -rf "$TMP"; cleanup' EXIT INT TERM
 POLICY_A="$TMP/a.json"
 POLICY_B="$TMP/b.json"
 
@@ -256,6 +279,23 @@ systemd-run --quiet --wait --pipe --collect \
 [[ -s "$SOURCE" ]] || { echo "provider execution live probe was not produced" >&2; exit 2; }
 chown root:root "$SOURCE"
 chmod 0600 "$SOURCE"
+
+if ! cleanup; then
+  echo "provider execution provisioning cleanup failed; PASS withheld" >&2
+  exit 2
+fi
+trap - EXIT INT TERM
+
+python3 - "$SOURCE" <<'PY'
+import json,sys
+from pathlib import Path
+p=Path(sys.argv[1])
+x=json.loads(p.read_text())
+checks=x.setdefault("checks",{})
+checks["provisioning_cleanup_pass"]=True
+p.write_text(json.dumps(x,indent=2)+"\n")
+p.chmod(0o600)
+PY
 
 SANITIZED="$RUN_ROOT/current-host-receipt.json"
 python3 "$ROOT/evidence/collect-model-router-provider-execution-current-host.py" \
