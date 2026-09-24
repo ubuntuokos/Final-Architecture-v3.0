@@ -3,14 +3,17 @@
   "id": "FA3-GUI-RUNTIME-CONFORMANCE-001",
   "profile_id": "FA3-DESKTOP-001",
   "implementation": "apps/fa3-control-center",
-  "status": "CURRENT_HOST_PASS",
-  "production_admitted": true,
+  "status": "EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_RUN",
+  "production_admitted": false,
   "required_evidence_level": "CURRENT_HOST_ADMITTED_DESKTOP_SESSION_RUNTIME_PASS",
   "reference_gate_status": "PASS",
   "reference_build_status": "PASS_RECONCILED_SOURCE_HEAD",
   "current_host_receipt": "evidence/receipts/fa3-gui-current-host.json",
-  "current_host_receipt_present": true,
-  "promotion_blockers": [],
+  "current_host_receipt_present": false,
+  "promotion_blockers": [
+    "CURRENT_HOST_QT6_BUILD_RECEIPT_MISSING",
+    "CURRENT_HOST_ADMITTED_WAYLAND_OR_X11_INTERACTIVE_SMOKE_RECEIPT_MISSING"
+  ],
   "new_capabilities": 0,
   "new_architectural_authorities": 0,
   "capability_count_after": 143,
@@ -36,10 +39,11 @@
     "gui_runtime_pass_is_global_fa3_promotion": false,
     "offscreen_or_minimal_smoke_accepted": false
   },
-  "tested_source_commit": "8b8cfc3a598f426ed8fe98a95f0ae7dbd42f7e9b",
+  "tested_source_commit": null,
   "admission_scope": "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY",
   "secret_backend_admission": "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED",
-  "current_host_validation": {
+  "current_host_validation": null,
+  "previous_current_host_validation": {
     "result": "PASS",
     "workflow_run_id": 35956407725,
     "job_id": 107495706657,
