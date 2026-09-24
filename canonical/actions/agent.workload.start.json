@@ -1,7 +1,7 @@
 {
   "schema": "fa3.uaf.action-contract.v1",
   "id": "agent.workload.start",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Start an admitted agent workload through Security/UAF and fresh HRB admission before runner execution.",
   "input_schema": {
     "type": "object",
@@ -9,7 +9,8 @@
       "operation_id",
       "workload_id",
       "task_spec_ref",
-      "runtime_admission_receipt_ref"
+      "runtime_admission_receipt_ref",
+      "execution_plan_ref"
     ],
     "properties": {
       "operation_id": {
@@ -30,6 +31,10 @@
       },
       "reason": {
         "type": "string"
+      },
+      "execution_plan_ref": {
+        "type": "string",
+        "minLength": 1
       }
     },
     "additionalProperties": false
@@ -67,7 +72,9 @@
     "mutating": true,
     "idempotent": true,
     "retry_safe": true,
-    "long_running": true
+    "long_running": true,
+    "execution_plan_required": true,
+    "task_spec_digest_binding_required": true
   },
   "exposure": {
     "gui": true,

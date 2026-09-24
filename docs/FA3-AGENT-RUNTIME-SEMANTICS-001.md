@@ -17,6 +17,10 @@ This mandatory child profile adopts selected Google ADK 2.x execution patterns a
 9. Session/event integrity: existing active session, matching thread and event-id deduplication.
 10. Artifact confinement: relative-path, max-size and atomic monotonic version checks.
 
+## Runtime wiring
+
+`src/fa3_agent_workload.py::compile_execution_plan` now compiles an admitted workload task, validated workflow graph, explicit Model Router capability descriptor and workload limits into `fa3.agent-execution-plan.v1`. The plan binds the task-spec digest and initializes the hard execution ledger. Both `agent.workload.start` and `agent.workload.resume` require an `execution_plan_ref`; a runner must not start or resume from the task specification alone.
+
 ## Not adopted
 
 ADK runtime/orchestration authority, ADK memory/session backend authority, ADK deployment authority, automatic cross-provider model failover, LiveKit/voice integration, a parallel ADK skill registry, and a parallel ADK evidence/evaluation authority.

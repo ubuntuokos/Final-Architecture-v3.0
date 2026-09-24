@@ -113,5 +113,15 @@
     "artifact_versioning": "ATOMIC_MONOTONIC"
   },
   "upstream_runtime_dependency": false,
-  "current_host_runtime_claim": false
+  "current_host_runtime_claim": false,
+  "runtime_wiring": {
+    "execution_plan_schema": "fa3.agent-execution-plan.v1",
+    "compiler": "src/fa3_agent_workload.py::compile_execution_plan",
+    "start_action": "agent.workload.start",
+    "resume_action": "agent.workload.resume",
+    "start_requires_execution_plan_ref": true,
+    "resume_requires_execution_plan_ref": true,
+    "task_spec_digest_binding_required": true,
+    "runner_must_not_start_from_task_spec_alone": true
+  }
 }

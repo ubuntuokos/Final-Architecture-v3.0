@@ -11,7 +11,7 @@
   "new_capability": false,
   "new_architectural_authority": false,
   "capability_count": 143,
-  "regression_case_count": 18,
+  "regression_case_count": 20,
   "executable": "PYTHONPATH=src python3 src/fa3_adk2_runtime_gate.py --root .",
   "report_path": "reports/adk2-derived-agent-runtime-gate-report.json",
   "current_host_runtime_evidence": false,
@@ -35,6 +35,8 @@
     "SESSION_EVENT_IDS_DEDUPLICATED",
     "ARTIFACT_WRITES_CONFINED_TO_DECLARED_RELATIVE_SCOPE",
     "ARTIFACT_MAX_SIZE_ENFORCED",
-    "ARTIFACT_VERSION_UPDATE_ATOMIC_MONOTONIC"
+    "ARTIFACT_VERSION_UPDATE_ATOMIC_MONOTONIC",
+    "RUNNER_START_AND_RESUME_REQUIRE_EXECUTION_PLAN",
+    "EXECUTION_PLAN_BINDS_TASK_SPEC_DIGEST"
   ]
 }

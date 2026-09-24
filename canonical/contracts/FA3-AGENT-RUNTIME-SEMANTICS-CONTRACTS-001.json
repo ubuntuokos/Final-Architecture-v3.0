@@ -13,7 +13,8 @@
     "FA3-AGENT-WORKFLOW-GRAPH-001.schema.json",
     "FA3-MODEL-CAPABILITY-DESCRIPTOR-001.schema.json",
     "FA3-AGENT-EXECUTION-LEDGER-001.schema.json",
-    "FA3-TOOL-CONFIRMATION-001.schema.json"
+    "FA3-TOOL-CONFIRMATION-001.schema.json",
+    "FA3-AGENT-EXECUTION-PLAN-001.schema.json"
   ],
   "runtime_contracts": [
     "WorkflowGraph",
@@ -24,7 +25,8 @@
     "RelayedAgentOutput",
     "NormalizedMcpResult",
     "SessionAppend",
-    "ArtifactWrite"
+    "ArtifactWrite",
+    "ExecutionPlan"
   ],
   "invariants": [
     "NO_NEW_AGENT_OR_ORCHESTRATION_AUTHORITY",
@@ -46,7 +48,9 @@
     "SESSION_EVENT_IDS_DEDUPLICATED",
     "ARTIFACT_WRITES_CONFINED_TO_DECLARED_RELATIVE_SCOPE",
     "ARTIFACT_MAX_SIZE_ENFORCED",
-    "ARTIFACT_VERSION_UPDATE_ATOMIC_MONOTONIC"
+    "ARTIFACT_VERSION_UPDATE_ATOMIC_MONOTONIC",
+    "RUNNER_START_AND_RESUME_REQUIRE_EXECUTION_PLAN",
+    "EXECUTION_PLAN_BINDS_TASK_SPEC_DIGEST"
   ],
   "failure_policy": {
     "invalid_graph": "FAIL_CLOSED",
@@ -60,6 +64,7 @@
     "mcp_extension_outside_meta": "FAIL_CLOSED",
     "unknown_or_cross_thread_session_append": "FAIL_CLOSED",
     "duplicate_event": "FAIL_CLOSED",
-    "artifact_scope_escape_or_oversize": "FAIL_CLOSED"
+    "artifact_scope_escape_or_oversize": "FAIL_CLOSED",
+    "missing_or_task_mismatched_execution_plan": "FAIL_CLOSED"
   }
 }

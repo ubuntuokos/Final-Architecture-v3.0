@@ -46,7 +46,8 @@
     "WORKFLOW_GRAPH",
     "EXECUTION_LEDGER",
     "MODEL_CAPABILITY_DESCRIPTOR",
-    "TOOL_CONFIRMATION_RECEIPT"
+    "TOOL_CONFIRMATION_RECEIPT",
+    "EXECUTION_PLAN"
   ],
   "lifecycle": {
     "phases": [
@@ -163,7 +164,8 @@
     "source_reference": "FA3-GOOGLE-ADK2-UPSTREAM-REFERENCE-2026-09-24",
     "upstream_runtime_dependency": false,
     "authority_delta": 0,
-    "capability_delta": 0
+    "capability_delta": 0,
+    "execution_plan_required_before_runner_start": true
   },
   "graph_execution_policy": {
     "graph_is_task_local_execution_ir": true,
