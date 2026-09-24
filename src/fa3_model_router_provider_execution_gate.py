@@ -77,7 +77,17 @@ def gate(root: Path) -> dict[str, Any]:
     surface=next((r for r in model_route.get("children",[]) if r.get("surface_id")=="models.provider-execution"),{})
     if surface.get("direct_provider_execution") is not False or surface.get("direct_credential_entry") is not False or surface.get("credential_values_visible") is not False or surface.get("authority") is not False: f.append(finding("PEX-GUI-001","Provider Execution GUI boundary drift"))
     if GATESET_ID not in policy.get("mandatory_reference_gates",[]): f.append(finding("PEX-GLOBAL-001","provider execution gate not bound into global enforcement"))
-    if current_host.get("status")!="EXECUTABLE_CURRENT_HOST_CLOSURE_MATERIALIZED_PENDING_REAL_PROVIDER_E2E" or current_host.get("synthetic_or_mock_provider_pass")!="FORBIDDEN" or current_host.get("global_promotion_claim") is not False: f.append(finding("PEX-CH-001","current-host fail-closed closure drift"))
+    if current_host.get("status")!="EXECUTABLE_CURRENT_HOST_PRODUCER_MATERIALIZED_PENDING_REAL_PROVIDER_E2E" or current_host.get("synthetic_or_mock_provider_pass")!="FORBIDDEN" or current_host.get("global_promotion_claim") is not False: f.append(finding("PEX-CH-001","current-host fail-closed closure drift"))
+    producer=root/"bin/fa3-model-router-provider-execution-current-host.py"
+    config_schema=root/"canonical/contracts/FA3-MODEL-ROUTER-PROVIDER-EXECUTION-CURRENT-HOST-CONFIG-001.schema.json"
+    workflow=root/".github/workflows/fa3-model-router-provider-execution-current-host.yml"
+    if not producer.is_file() or not config_schema.is_file(): f.append(finding("PEX-CH-002","current-host producer/config contract missing"))
+    else:
+        producer_text=producer.read_text(encoding="utf-8")
+        schema=loadj(config_schema)
+        if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential producer boundary missing"))
+    workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
+    if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
     reg=regressions()
     if reg["result"]!="PASS": f.append(finding("PEX-REG-001","provider execution regression matrix failed"))
     return {"schema":"fa3.gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"regressions":reg,"current_host_claim":False}
