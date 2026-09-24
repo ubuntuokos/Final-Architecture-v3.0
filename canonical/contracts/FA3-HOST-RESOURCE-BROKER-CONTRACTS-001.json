@@ -324,7 +324,14 @@
       ],
       "persistent_projection_path_scope": "ABSOLUTE_BELOW_RUN_ONLY",
       "zeroize_max_bytes": 524288,
-      "artifact_substitution": "FAIL_CLOSED"
+      "artifact_substitution": "FAIL_CLOSED",
+      "runtime_binding_digest_required": true,
+      "runtime_binding_digest_semantics": "SHA256_CANONICAL_TRUSTED_HRB_RUNTIME_BINDING",
+      "projection_lease_binding_required": [
+        "hrb_lease_id",
+        "hrb_generation",
+        "runtime_binding_sha256"
+      ]
     },
     "failure_semantics": {
       "delete_lease_on_kill_failure": false,
@@ -380,7 +387,8 @@
       "CPU_ONLY_WORKLOAD_MUST_NOT_REQUIRE_ACCELERATOR_ASSIGNMENT",
       "SHARED_ACCELERATOR_EVICTION_MUST_NOT_RESET_GLOBAL_DEVICE",
       "HRB_TTL_EVICTION_MUST_REVOKE_PROJECTION_LEASE_NOT_UNDERLYING_SECRET",
-      "SECRET_PROJECTION_ZEROIZE_TARGET_REQUIRES_IMMUTABLE_FILE_IDENTITY"
+      "SECRET_PROJECTION_ZEROIZE_TARGET_REQUIRES_IMMUTABLE_FILE_IDENTITY",
+      "SECRET_PROJECTION_LEASE_MUST_MATCH_HRB_ID_GENERATION_AND_RUNTIME_BINDING_DIGEST"
     ]
   }
 }
