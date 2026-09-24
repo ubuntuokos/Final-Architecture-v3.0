@@ -1,0 +1,99 @@
+name: FA3 HRB Lease Lifecycle
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'canonical/FA3-GATE-HRB-LEASE-LIFECYCLE-001.json'
+      - 'canonical/contracts/FA3-HOST-RESOURCE-BROKER-CONTRACTS-001.json'
+      - 'canonical/profiles/FA3-HOST-RESOURCE-BROKER-001.json'
+      - 'src/fa3_hrb_lease_lifecycle.py'
+      - 'src/fa3_hrb_lease_lifecycle_gate.py'
+      - 'src/fa3_hrb_lease_lifecycle_current_host_gate.py'
+      - 'src/fa3_secret_broker.py'
+      - 'bin/fa3-secretctl'
+      - 'evidence/collect-hrb-lease-lifecycle-current-host.py'
+      - 'tests/test_hrb_lease_lifecycle.py'
+      - 'tests/test_hrb_lease_lifecycle_gate.py'
+      - 'tests/test_hrb_lease_lifecycle_current_host_gate.py'
+      - 'tests/test_hrb_secret_projection_lifecycle.py'
+      - '.github/workflows/fa3-hrb-lease-lifecycle.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fa3-hrb-lease-lifecycle-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reference:
+    name: hrb-lease-lifecycle / reference
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            src/fa3_hrb_lease_lifecycle.py \
+            src/fa3_hrb_lease_lifecycle_gate.py \
+            src/fa3_hrb_lease_lifecycle_current_host_gate.py \
+            src/fa3_secret_broker.py \
+            bin/fa3-secretctl \
+            evidence/collect-hrb-lease-lifecycle-current-host.py
+      - name: HRB lease lifecycle regressions
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m unittest -v \
+            tests.test_hrb_lease_lifecycle \
+            tests.test_hrb_lease_lifecycle_gate \
+            tests.test_hrb_lease_lifecycle_current_host_gate \
+            tests.test_hrb_secret_projection_lifecycle \
+            tests.test_hrb_deterministic_locality_gate \
+            tests.test_secret_broker
+      - name: Canonical HRB lifecycle gate
+        run: PYTHONPATH=src python src/fa3_hrb_lease_lifecycle_gate.py --root .
+
+  current-host:
+    name: hrb-lease-lifecycle / dedicated-ttl-current-host
+    needs: reference
+    runs-on: [self-hosted, linux, x64, fa3-current-host]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Current-host preflight syntax
+        run: |
+          python -m py_compile \
+            src/fa3_hrb_lease_lifecycle.py \
+            src/fa3_hrb_lease_lifecycle_current_host_gate.py \
+            evidence/collect-hrb-lease-lifecycle-current-host.py
+      - name: Collect dedicated harmless TTL eviction evidence
+        run: |
+          PYTHONPATH=src python evidence/collect-hrb-lease-lifecycle-current-host.py \
+            --root . \
+            --ttl-seconds 2
+      - name: Validate current-host evidence fail closed
+        run: PYTHONPATH=src python src/fa3_hrb_lease_lifecycle_current_host_gate.py --root .
+      - name: Upload HRB lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa3-hrb-lease-lifecycle-current-host
+          path: |
+            evidence/receipts/hrb-lease-lifecycle-current-host.json
+            reports/hrb-lease-lifecycle-current-host-gate-report.json
