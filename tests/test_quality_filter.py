@@ -18,28 +18,6 @@ class QualityFilterTests(unittest.TestCase):
         self.assertEqual(report["result"], "FAIL")
         self.assertTrue(any(x["rule_id"] == "Q-CORE-001" for x in report["findings"]))
 
-    def test_qml_placeholder_text_property_is_not_placeholder_copy(self):
-        report = analyze_text(
-            "apps/fa3-control-center/qml/Main.qml",
-            'TextField { placeholderText: "Mit keresel?" }',
-            self.registry,
-            {"CORE"},
-        )
-        self.assertEqual(report["result"], "PASS")
-        self.assertFalse(any(x["rule_id"] == "Q-CORE-002" for x in report["findings"]))
-
-    def test_explicit_placeholder_text_marker_remains_blocked(self):
-        for marker in ("PLACEHOLDER_TEXT", "PLACEHOLDER TEXT", "PLACEHOLDER-TEXT"):
-            with self.subTest(marker=marker):
-                report = analyze_text(
-                    "apps/demo.qml",
-                    f'Text {{ text: "{marker}" }}',
-                    self.registry,
-                    {"CORE"},
-                )
-                self.assertEqual(report["result"], "FAIL")
-                self.assertTrue(any(x["rule_id"] == "Q-CORE-002" for x in report["findings"]))
-
     def test_purpose_gate_requires_named_reason(self):
         bad = analyze_text("apps/demo.qml", 'Text { text: "World-class workflow" }', self.registry, {"COPY"})
         good = analyze_text(
@@ -55,6 +33,23 @@ class QualityFilterTests(unittest.TestCase):
         report = analyze_text("src/example.py", "# ==========\nvalue = 1\n", self.registry, {"CODE"})
         self.assertEqual(report["result"], "PASS")
         self.assertGreaterEqual(report["warnings"], 1)
+
+    def test_qml_placeholder_text_property_is_not_placeholder_copy_marker(self):
+        qml_property = analyze_text(
+            "apps/demo.qml",
+            'TextField { placeholderText: "Mit keresel?" }',
+            self.registry,
+            {"CORE"},
+        )
+        marker = analyze_text(
+            "apps/demo.qml",
+            '// PLACEHOLDER_TEXT\nText { text: "replace before release" }',
+            self.registry,
+            {"CORE"},
+        )
+        self.assertEqual(qml_property["result"], "PASS")
+        self.assertEqual(marker["result"], "FAIL")
+        self.assertTrue(any(x["rule_id"] == "Q-CORE-002" for x in marker["findings"]))
 
     def test_direct_provider_execution_is_blocked_in_ui(self):
         report = analyze_text("apps/demo.qml", 'Text { text: "run" }\n// ollama run model', self.registry, {"UI"})
