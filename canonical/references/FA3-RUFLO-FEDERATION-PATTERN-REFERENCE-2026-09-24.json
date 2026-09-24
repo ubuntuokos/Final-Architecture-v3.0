@@ -1,0 +1,36 @@
+{
+  "schema": "fa3.external-pattern-reference.v1",
+  "id": "FA3-RUFLO-FEDERATION-PATTERN-REFERENCE-2026-09-24",
+  "status": "REFERENCE_ONLY",
+  "repository": "ruvnet/ruflo",
+  "repository_url": "https://github.com/ruvnet/ruflo",
+  "commit": "0a96fb8857dabd343d71d76c3ca703100a2923bc",
+  "observed_release": "v3.44.0",
+  "license": "MIT",
+  "observed_path": "docs/federation/README.md",
+  "observed_patterns": [
+    "SIGNED_PEER_IDENTITY_AND_MANIFEST",
+    "CROSS_INSTALLATION_AGENT_PEERING",
+    "PER_PEER_BUDGET",
+    "PEER_CIRCUIT_BREAKER",
+    "AUDITABLE_PEER_STATE",
+    "AUTHENTICATED_ENCRYPTED_TRANSPORT",
+    "OPTIONAL_NETWORK_OVERLAY",
+    "REMOTE_AGENT_HANDOFF"
+  ],
+  "fa3_adoption": {
+    "mode": "DERIVE_PATTERNS_IMPLEMENT_FA3_NATIVE",
+    "upstream_runtime_dependency": false,
+    "upstream_source_vendored": false,
+    "upstream_plugin_admitted": false,
+    "new_authority": false,
+    "capability_binding": "CAP-070",
+    "deviations": [
+      "TRUST_SCORE_NEVER_AUTO_PROMOTES_FA3_AUTHORIZATION",
+      "REMOTE_SPAWN_REQUIRES_EXISTING_FA3_AUTHORITY_CHAIN",
+      "COORDINATION_CLAIMS_NEVER_REPLACE_HRB_LEASES",
+      "AI_COMMS_HUMAN_AUDITABILITY_REMAINS_MANDATORY",
+      "LOCAL_PROTOCOL_TEST_NEVER_COUNTS_AS_CROSS_HOST_PRODUCTION_E2E"
+    ]
+  }
+}
