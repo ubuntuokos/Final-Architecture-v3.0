@@ -115,6 +115,15 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertFalse(cap3["secret_broker_projection_status"]["production_runtime_admitted"])
         self.assertFalse(cap3["secret_broker_projection_status"]["global_promotion_claim"])
 
+    def test_current_host_receipt_schema_requires_rw_and_systemd_write_proof(self):
+        schema=json.loads((ROOT/"canonical/schemas/secret-broker-current-host-receipt.v1.json").read_text())
+        self.assertEqual(["rw","nodev","nosuid","noexec"],schema["properties"]["mount_options"]["const"])
+        required=set(schema["properties"]["checks"]["required"])
+        self.assertIn("systemd_vault_rw_mount_pass",required)
+        self.assertIn("systemd_broker_write_read_revoke_pass",required)
+        self.assertTrue(schema["properties"]["checks"]["properties"]["systemd_vault_rw_mount_pass"]["const"])
+        self.assertTrue(schema["properties"]["checks"]["properties"]["systemd_broker_write_read_revoke_pass"]["const"])
+
     def test_lifecycle_start_requires_broker_readiness_and_health(self):
         profile=json.loads((ROOT/"canonical/profiles/FA3-SECRET-BROKER-001.json").read_text())
         expected={"SECRETS_TARGET_ACTIVE","MAPPER_SERVICE_ACTIVE","SYSTEMD_MOUNT_UNIT_ACTIVE","VAULT_MOUNT_VALIDATED","VAULT_MOUNT_WRITABLE","LUKS_MAPPING_OPEN","BROKER_SERVICE_ACTIVE","BROKER_SOCKET_PRESENT","BROKER_HEALTH_PASS"}
@@ -177,6 +186,8 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("SOURCE_COMMIT",helper)
         self.assertIn("privileged bridge source drift",client)
         self.assertIn("/usr/local/bin/fa3-secret-broker-current-host-bridge run",workflow)
+        self.assertIn("collect-secret-broker-current-host-reference.py",workflow)
+        self.assertIn("secret-broker-current-host-reference-candidate.json",workflow)
         self.assertNotIn('run: sudo FA3_REPO_ROOT',workflow)
         self.assertEqual("DEDICATED_EPHEMERAL_NON_ROOT",boundary["broker_admin_e2e_identity"])
         self.assertEqual({"fa3-secret-admin","fa3-secret-clients"},set(boundary["broker_admin_required_groups"]))
@@ -195,6 +206,7 @@ class SecretBrokerGateTests(unittest.TestCase):
         self.assertIn("fa3-secret-broker-current-host.lock",current_host)
         self.assertIn("fa3-machine-state-e2e-*",current_host)
         self.assertIn("preserving E2E backing image because systemd mount/mapper cleanup is incomplete",current_host)
+        self.assertIn("/dev/mapper/fa3-machine-state",current_host)
 
     def test_current_host_reference_collector_requires_new_evidence_matrix(self):
         collector=ROOT/"evidence/collect-secret-broker-current-host-reference.py"
