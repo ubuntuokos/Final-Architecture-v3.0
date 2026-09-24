@@ -85,8 +85,11 @@ def gate(root: Path) -> dict[str, Any]:
     if not producer.is_file() or not config_schema.is_file() or not provisioner.is_file(): f.append(finding("PEX-CH-002","current-host producer/config/provisioning contract missing"))
     else:
         producer_text=producer.read_text(encoding="utf-8")
+        provisioner_text=provisioner.read_text(encoding="utf-8")
         schema=loadj(config_schema)
-        if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or "credential_authentication_enforced" not in producer_text or "discover_working_chat_model" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential/auth-enforcement producer boundary missing"))
+        if "receipt_proves_provider" not in producer_text or "fa3-secretctl" not in producer_text or "credential_authentication_enforced" not in producer_text or "discover_working_chat_model" not in producer_text or "fa3.current-host-evidence-reference.v1" not in producer_text or schema.get("properties",{}).get("credentials",{}).get("minItems")!=2: f.append(finding("PEX-CH-003","real provider/Secret Broker/two-credential/auth-enforcement producer boundary missing"))
+        if "evidence/reference/secret-broker-current-host-2026-09-21.json" not in provisioner_text or "/usr/local/libexec/fa3-secret-broker-current-host-root >/dev/null" in provisioner_text:
+            f.append(finding("PEX-CH-005","provider probe must reuse admitted Secret Broker evidence instead of rerunning full Secret Broker qualification"))
     workflow_text=workflow.read_text(encoding="utf-8") if workflow.is_file() else ""
     if "fa3-model-router-provider-execution-current-host.py" not in workflow_text or "FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG" not in workflow_text: f.append(finding("PEX-CH-004","current-host workflow does not invoke producer/config path"))
 
