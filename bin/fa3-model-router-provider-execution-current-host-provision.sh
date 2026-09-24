@@ -295,11 +295,11 @@ systemd-run --quiet --wait --pipe --collect \
 chown root:root "$SOURCE"
 chmod 0600 "$SOURCE"
 
+trap - EXIT INT TERM
 if ! cleanup; then
   echo "provider execution provisioning cleanup failed; PASS withheld" >&2
   exit 2
 fi
-trap - EXIT INT TERM
 
 python3 - "$SOURCE" <<'PY'
 import json,sys
