@@ -20,4 +20,10 @@ Raw provider credentials remain exclusively under `FA3-SECRET-BROKER-001`. Canon
 
 ## Evidence
 
-The repository gate provides deterministic positive/negative reference regressions only. It does not claim real current-host provider execution. Production promotion requires separate current-host route execution evidence and normal FA3 acceptance/promotion receipts.
+The repository gate provides deterministic positive/negative reference regressions and a fail-closed current-host producer. It does not claim real current-host provider execution by itself.
+
+The real current-host producer is `bin/fa3-model-router-provider-execution-current-host.py`. It accepts only a loopback provider instance already proven by an existing current-host provider-admission receipt, requires an existing Secret Broker current-host PASS receipt, and requires at least two distinct `SecretReference` credentials projected through `fa3-secretctl`. It performs real provider requests before and after a deterministic rate-limit state-machine injection so the intra-provider rebind is exercised without fabricating a provider failure. Direct provider access in this script is evidence-harness-only and is not an application routing path.
+
+The workflow may consume an externally staged live-probe receipt or create one from `FA3_PROVIDER_EXECUTION_CURRENT_HOST_CONFIG`. If neither is available it fails closed. Raw credentials are never written to canonical state or evidence; temporary Secret Broker projections are removed before `rollback_pass` can be asserted.
+
+Production promotion still requires a real current-host PASS plus the normal FA3 acceptance/promotion receipts. A repository/reference PASS never upgrades current-host or global production status.
