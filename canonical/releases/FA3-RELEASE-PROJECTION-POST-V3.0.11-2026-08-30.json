@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "04ef86f9d4b86c82622ea733597b7945f1cce058",
-    "pre_projection_root_tree_sha": "e517ce4e604fca48e4ec98f0d43e0aaa81d9f56e",
-    "pre_projection_canonical_tree_sha": "cdcfeb58aaf4fc3a91696f2c9875b5f1929e41e7",
-    "commits_ahead_of_v3_0_11_conformance_commit": 715,
-    "total_post_baseline_commits": 715,
-    "delta_file_count": 1954,
-    "delta_added_files": 1949,
+    "pre_projection_head_sha": "b36305c6c7c2292b7cd3b4c3316131776e1491f8",
+    "pre_projection_root_tree_sha": "9e1baece3ae0bb2b599d291e01e5e14e31283865",
+    "pre_projection_canonical_tree_sha": "bf095ca0e8460e0716fca4c8b1f2a9bf19eee0c6",
+    "commits_ahead_of_v3_0_11_conformance_commit": 595,
+    "total_post_baseline_commits": 595,
+    "delta_file_count": 1976,
+    "delta_added_files": 1971,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,11 +45,11 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 923,
-    "evidence_files_in_post_baseline_delta": 148,
-    "source_files_in_post_baseline_delta": 263,
-    "test_files_in_post_baseline_delta": 221,
-    "workflow_files_in_post_baseline_delta": 94,
+    "canonical_files_in_post_baseline_delta": 933,
+    "evidence_files_in_post_baseline_delta": 150,
+    "source_files_in_post_baseline_delta": 266,
+    "test_files_in_post_baseline_delta": 224,
+    "workflow_files_in_post_baseline_delta": 95,
     "provider_records": [
       "canonical/providers/FA3-PROVIDER-ACE-STEP-001.json",
       "canonical/providers/FA3-PROVIDER-AGENCY-AGENTS-001.json",
@@ -291,6 +291,7 @@
       "canonical/contracts/FA3-CODEX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-COMPOSITING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
+      "canonical/contracts/FA3-CONVERTX-ADAPTER-CONTRACTS-001.json",
       "canonical/contracts/FA3-CPU-NUMA-THREADING-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-DESKTOP-GENERATIVE-INTEROP-CONTRACTS-001.json",
       "canonical/contracts/FA3-CREATIVE-OPERATIONS-DASHBOARD-CONTRACTS-001.json",
@@ -613,6 +614,7 @@
       "evidence/reference/demucs-provider-ci-2026-08-30.json",
       "evidence/reference/demucs-v4.1.0.json",
       "evidence/reference/fa3-coach-reference-pending.json",
+      "evidence/reference/fa3-convertx-reference-pending.json",
       "evidence/reference/fa3-gui-reconciliation-reference-pass.json",
       "evidence/reference/fa3-gui-reference-pass.json",
       "evidence/reference/fa3-ideation-advisory-reference-pending.json",
@@ -887,7 +889,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1947,
+  "manifest_entry_count": 1969,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -1325,6 +1327,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": ".github/workflows/fa3-tools-convertx-conformance.yml",
+      "git_blob_sha": "4388eb8aca4335570a34c91f0bd3fdebb0c12fba",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": ".github/workflows/fa3-ui-component-fabric-gate.yml",
       "git_blob_sha": "a6f8a7a31dce4302277c267e76303d59265a836b",
       "baseline_delta_status": "added"
@@ -1381,7 +1388,7 @@
     },
     {
       "path": "apps/fa3-control-center/CMakeLists.txt",
-      "git_blob_sha": "8070e56ad1d478ff2af1db7c4b7871bec1e9af03",
+      "git_blob_sha": "c482fd3a14f3dd20c9c865c2fd8209781e5e8f22",
       "baseline_delta_status": "added"
     },
     {
@@ -1476,7 +1483,7 @@
     },
     {
       "path": "apps/fa3-control-center/qml/Main.qml",
-      "git_blob_sha": "cb584ae84dd029cbbe597a9416098f5316292b58",
+      "git_blob_sha": "27dd364834ae7aa8f311c158db394606ddf64806",
       "baseline_delta_status": "added"
     },
     {
@@ -1512,6 +1519,11 @@
     {
       "path": "apps/fa3-control-center/qml/TokenControlCenterPage.qml",
       "git_blob_sha": "f309e20a95065a2e3f37e970b30a069ce307ecfc",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "apps/fa3-control-center/qml/ToolsPage.qml",
+      "git_blob_sha": "4f8d0f834d9ac30092decd59e26654cecdecd78e",
       "baseline_delta_status": "added"
     },
     {
@@ -1730,6 +1742,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "bin/fa3-convertx-gate",
+      "git_blob_sha": "63a09c7c677d5aa7a50d8cc0d1eb514fd85c8677",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "bin/fa3-cosyvoice",
       "git_blob_sha": "6ebb64169bec8d9eeb33e712f4629989a681803f",
       "baseline_delta_status": "added"
@@ -1801,7 +1818,7 @@
     },
     {
       "path": "bin/fa3-enforce",
-      "git_blob_sha": "d8538e46343d0f2fcd4b57c48b367d7197d8a4ff",
+      "git_blob_sha": "c154b4b025790c2e01e6403d73abae0ce60d1a13",
       "baseline_delta_status": "modified"
     },
     {
@@ -2170,6 +2187,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-CONVERTX-CONVERSION-ALLOWLIST-001.json",
+      "git_blob_sha": "f13d6bc7fdaa3b474465187e6b600cbe8ee2fe08",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-CONVERTX-RUNTIME-CONFORMANCE-001.json",
+      "git_blob_sha": "5fe27ba6e5546ec5d9c08c26c13882ff84339e03",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-COSYVOICE-MODEL-ALLOWLIST-001.json",
       "git_blob_sha": "f595d0db2b478e58db914795b4fc48ade376d528",
       "baseline_delta_status": "added"
@@ -2242,6 +2269,11 @@
     {
       "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "009f194101184e93e87ae45474d38f2597648b83",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-FILE-CONVERSION-001.json",
+      "git_blob_sha": "8dcd900e98564671f434cc6c0335167cbb749aad",
       "baseline_delta_status": "added"
     },
     {
@@ -2656,7 +2688,7 @@
     },
     {
       "path": "canonical/FA3-GUI-SURFACE-REGISTRY-001.json",
-      "git_blob_sha": "6262b45cfe9872f822db025ceed40223c1bedf3e",
+      "git_blob_sha": "06e51ec490e87b80f4fcd9b424d0bdef7d515958",
       "baseline_delta_status": "added"
     },
     {
@@ -2825,6 +2857,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-PROVIDER-CONVERTX-001.json",
+      "git_blob_sha": "780b23b663b3a4e78014eb05c0edee84138d4183",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-PYRIT-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "be4dfb51d2bc65bc6ac8a5e2ede9220d08add6d9",
       "baseline_delta_status": "added"
@@ -2905,6 +2942,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-TOOLS-FABRIC-001.json",
+      "git_blob_sha": "154dd213a8f6909e96f34eb2a25f1d5394b6e8e3",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-UI-COMPONENT-FABRIC-EVIDENCE-ACCEPTANCE-001.json",
       "git_blob_sha": "97c9213a5ace740b7f41a7a7a5b6609bf7e12274",
       "baseline_delta_status": "added"
@@ -2982,6 +3024,21 @@
     {
       "path": "canonical/actions/development.snapshot.json",
       "git_blob_sha": "d0fbbbc1046cc799941f8d21829ec886df365fbf",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/file.convert.execute.json",
+      "git_blob_sha": "3c5c015376935a13ac8c59d91396d7a814bbe47e",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/file.convert.inspect.json",
+      "git_blob_sha": "abf88749ecf69dec9a46e101e8415e24a01d8ef5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/actions/file.convert.plan.json",
+      "git_blob_sha": "a51ef236419a44d563754b604524d619ba015a93",
       "baseline_delta_status": "added"
     },
     {
@@ -3225,6 +3282,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/assessments/FA3-TOOLS-FILE-CONVERSION-DECISION-ASSESSMENT-2026-09-24.json",
+      "git_blob_sha": "aebc06c456253c2086833e8267f96b23030dc95a",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/autogpt-enforcement.json",
       "git_blob_sha": "d37e0b786d9c6cd66b4f6a6c56ba63543d276756",
       "baseline_delta_status": "added"
@@ -3402,6 +3464,11 @@
     {
       "path": "canonical/contracts/FA3-CONTEXT-TRANSFORM-CONTRACTS-001.json",
       "git_blob_sha": "00600d4dcc1719d44a486cac08e2118fef20506a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-CONVERTX-ADAPTER-CONTRACTS-001.json",
+      "git_blob_sha": "53bd4dd843cbb33b5dac09d47af1676d5a1485f2",
       "baseline_delta_status": "added"
     },
     {
@@ -4616,12 +4683,12 @@
     },
     {
       "path": "canonical/distribution-manifest.json",
-      "git_blob_sha": "caffd4bdbc17ea40192a83ac251ecdc95f3b3dda",
+      "git_blob_sha": "3c730c8496c88a6f27fa9c74cb5289d4d7947bcc",
       "baseline_delta_status": "added"
     },
     {
       "path": "canonical/distribution-registry.json",
-      "git_blob_sha": "129f01643eae161241697397ab24c46a60a4f24c",
+      "git_blob_sha": "f1943de24733fb3c51c78fa08669b748fbf28fcc",
       "baseline_delta_status": "added"
     },
     {
@@ -6746,7 +6813,7 @@
     },
     {
       "path": "deployment/fa3-gui/install.sh",
-      "git_blob_sha": "f6896ca37a2989cc64eb5130188d3dfec0e26499",
+      "git_blob_sha": "8720b9c7f3a96226f5643cb405f225339a691b7d",
       "baseline_delta_status": "added"
     },
     {
@@ -6972,6 +7039,11 @@
     {
       "path": "docs/FA3-QUALITY-ANTI-SLOP-NATIVE-2026-09-23.md",
       "git_blob_sha": "68931811e8eede3c873241918f0ef553c5d8c519",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "docs/FA3-TOOLS-CONVERTX-INTEGRATION.md",
+      "git_blob_sha": "557699fa0464b400e5d5ff9a4ab9e32139351c76",
       "baseline_delta_status": "added"
     },
     {
@@ -7257,6 +7329,11 @@
     {
       "path": "evidence/collect-codex-current-host.py",
       "git_blob_sha": "1b16f9552dab0fc33d553a3aa844dfb3e9003077",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/collect-convertx-current-host.py",
+      "git_blob_sha": "2282a619ac53c1a52b5b00dbd280f8e76f146204",
       "baseline_delta_status": "added"
     },
     {
@@ -7562,6 +7639,11 @@
     {
       "path": "evidence/reference/fa3-coach-reference-pending.json",
       "git_blob_sha": "e60a7c04ed057b22dd65951a2895bc2188b1f7e6",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/fa3-convertx-reference-pending.json",
+      "git_blob_sha": "9b3907994b2b67f87779994f6ebdf81100d7b06c",
       "baseline_delta_status": "added"
     },
     {
@@ -8357,6 +8439,21 @@
     {
       "path": "src/fa3_context_selection.py",
       "git_blob_sha": "47d3499d12a193c97d118ac36a4038efc459045b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_convertx_adapter.py",
+      "git_blob_sha": "0ab24e531bb76e11046a30c376862d32ff7cc669",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_convertx_gate.py",
+      "git_blob_sha": "95b011b00956073aab58aa0ee1222fe730193ba5",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "src/fa3_convertx_v018_http.py",
+      "git_blob_sha": "d51c953d5515332d0d49c7e180d0dcea27cbc63f",
       "baseline_delta_status": "added"
     },
     {
@@ -9630,6 +9727,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "tests/test_convertx_gate.py",
+      "git_blob_sha": "20628f93346ffe21edc1f3abeeb8fe3844fa2f5b",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_convertx_v018_http.py",
+      "git_blob_sha": "7465ace3a64ce3ee5ef30d65d980162dd20de24e",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "tests/test_cosyvoice_gate.py",
       "git_blob_sha": "e0f5a057376fd50850f61fa29abe8a6a68f3debd",
       "baseline_delta_status": "added"
@@ -10492,6 +10599,11 @@
     {
       "path": "tests/test_terax_integration.py",
       "git_blob_sha": "33cbb33824bf351f7188c04c8833fb7a16c4bdde",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "tests/test_tools_fabric.py",
+      "git_blob_sha": "8e80432c39ccf55f20ba0a6eef58f0c156081f8c",
       "baseline_delta_status": "added"
     },
     {
