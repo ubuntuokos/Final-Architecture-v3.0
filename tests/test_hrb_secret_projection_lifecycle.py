@@ -45,6 +45,7 @@ class SecretProjectionLifecycleTests(unittest.TestCase):
     def test_projection_store_is_hrb_generation_bound(self):
         with tempfile.TemporaryDirectory() as td:
             store = ProjectionLeaseStore(Path(td) / "projection-leases.json")
+            digest = "d" * 64
             item = store.issue(
                 grant_id="grant-1",
                 projection="FILE_OR_FD_BASED",
@@ -54,13 +55,16 @@ class SecretProjectionLifecycleTests(unittest.TestCase):
                 secret_ref_sha256="a" * 64,
                 hrb_lease_id="hrb-1",
                 hrb_generation=7,
+                hrb_runtime_binding_sha256=digest,
                 execution_binding={"cgroup_v2_path": "/x", "pidfd_subject_ref": {"pid": os.getpid(), "start_time_ticks": 1}},
             )
             with self.assertRaises(PermissionError):
-                store.revoke(item["lease_id"], "hrb-1", 8)
-            revoked = store.revoke(item["lease_id"], "hrb-1", 7)
+                store.revoke(item["lease_id"], "hrb-1", 8, digest)
+            with self.assertRaises(PermissionError):
+                store.revoke(item["lease_id"], "hrb-1", 7, "e" * 64)
+            revoked = store.revoke(item["lease_id"], "hrb-1", 7, digest)
             self.assertEqual(revoked["state"], "REVOKED")
-            zeroized = store.zeroized(item["lease_id"], "hrb-1", 7)
+            zeroized = store.zeroized(item["lease_id"], "hrb-1", 7, digest)
             self.assertEqual(zeroized["state"], "ZEROIZED")
             self.assertIsNone(zeroized["artifact"])
 
@@ -69,6 +73,7 @@ class SecretProjectionLifecycleTests(unittest.TestCase):
         def request(payload):
             calls.append(dict(payload))
             self.assertNotIn("secret_id", payload)
+            self.assertRegex(str(payload.get("runtime_binding_sha256","")), r"^[0-9a-f]{64}$")
             if payload["op"] == "projection_revoke":
                 return {"ok": True, "state": "REVOKED", "zeroize_target": None}
             if payload["op"] == "projection_zeroized":
