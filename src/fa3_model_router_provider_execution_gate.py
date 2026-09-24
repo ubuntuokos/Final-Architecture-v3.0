@@ -133,8 +133,8 @@ def gate(root: Path) -> dict[str, Any]:
                 f.append(finding("PEX-OPENAI-005",f"OpenAI closure harness contract token missing: {token}"))
         if "/run/fa3/model-router/provider-execution/current-host-receipt.json" in close_text or "trap cleanup EXIT INT TERM" in close_text:
             f.append(finding("PEX-OPENAI-006","OpenAI closure harness stale-receipt or non-exiting signal trap regression"))
-        if "stale provider execution probe identity detected" not in close_text or "systemctl is-active --quiet fa3-provider-exec-probe.service" not in close_text or "pgrep -u fa3-provider-exec-probe" not in close_text or "sudo userdel fa3-provider-exec-probe" not in close_text:
-            f.append(finding("PEX-OPENAI-007","OpenAI closure harness stale probe identity recovery boundary missing"))
+        if "stale provider execution probe identity detected" not in provisioner_text or 'systemctl is-active --quiet "$PROBE_UNIT"' not in provisioner_text or 'pgrep -u "$PROBE_USER"' not in provisioner_text or 'userdel "$PROBE_USER"' not in provisioner_text or "stale reserved provider-execution SecretRef detected" not in provisioner_text or "stale reserved provider-execution policy detected" not in provisioner_text:
+            f.append(finding("PEX-OPENAI-007","provider provisioner stale probe identity/SecretRef/policy recovery boundary missing"))
     reg=regressions()
     if reg["result"]!="PASS": f.append(finding("PEX-REG-001","provider execution regression matrix failed"))
     return {"schema":"fa3.gate-report.v1","gate_id":GATESET_ID,"result":"PASS" if not f else "FAIL","findings":f,"regressions":reg,"current_host_claim":False}
