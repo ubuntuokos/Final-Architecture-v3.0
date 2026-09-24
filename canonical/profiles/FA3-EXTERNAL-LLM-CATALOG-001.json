@@ -1,0 +1,77 @@
+{
+  "schema": "fa3.profile.v1",
+  "id": "FA3-EXTERNAL-LLM-CATALOG-001",
+  "name": "External LLM Provider Discovery & Capability Intelligence",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "priority": "P1",
+  "requirement": "MUST_IF_EXTERNAL_LLM_DISCOVERY_IS_USED",
+  "new_capability": false,
+  "new_architectural_authority": false,
+  "capability_count": 143,
+  "capability_bindings": ["CAP-005", "CAP-140"],
+  "contract_id": "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001",
+  "decision_id": "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24",
+  "authority_bindings": {
+    "model_routing": "FA3-AUTH-MODEL-ROUTER-001",
+    "security_policy": "FA3-AUTH-SECURITY-GOV-001",
+    "secrets": "EXISTING_FA3_SECRETS_AUTHORITY_ONLY",
+    "registry": "FA3-REGISTRY-001",
+    "evidence": "FA3-AUTH-OBS-EVIDENCE-001",
+    "host_resources": "FA3-AUTH-HOST-RESOURCE-BROKER-001"
+  },
+  "source_policy": {
+    "sources_are_replaceable": true,
+    "source_is_not_trust_anchor": true,
+    "immutable_observed_revision_required_for_evidenced_snapshot": true,
+    "floating_source_may_be_used_for_discovery_only": true,
+    "automatic_source_to_runtime_activation": false,
+    "automatic_network_refresh": false,
+    "source_failure_or_drift_must_not_replace_canonical_state": true
+  },
+  "normalized_state_machine": [
+    "DISCOVERED",
+    "OBSERVED",
+    "VERIFIED",
+    "ADMITTED",
+    "ENABLED"
+  ],
+  "runtime_policy": {
+    "baseline_local_routes_remain_local_only": true,
+    "silent_local_to_cloud_fallback": false,
+    "external_route_requires_explicit_policy_materialization": true,
+    "admitted_provider_requires_canonical_fa3_provider_identity": true,
+    "admitted_provider_requires_separate_admission_receipt": true,
+    "credential_values_forbidden_in_catalog": true,
+    "credential_reference_only_after_separate_secret_broker_admission": true,
+    "live_model_catalog_probe_required_before_runtime_use": true,
+    "litellm_is_data_plane_not_routing_authority": true
+  },
+  "decision_fabric": {
+    "profile": "FA3-DECISION-FABRIC-001",
+    "role": "BOUNDED_ADVISORY_RANKING_ONLY",
+    "candidate_source": "DETERMINISTIC_ALREADY_ADMITTED_EXTERNAL_PROVIDER_SET",
+    "candidate_set_expansion": "DENY",
+    "may_admit_provider": false,
+    "may_authorize_egress": false,
+    "may_supply_credentials": false,
+    "may_override_model_router": false
+  },
+  "runtime_catalog": {
+    "schema": "fa3.external-llm-runtime-catalog.v1",
+    "default_path": "~/.local/share/fa3/external-llm-catalog/catalog.json",
+    "canonical_file": false,
+    "generated_runtime_state": true,
+    "contains_secret_values": false
+  },
+  "gui_projection": {
+    "route": "models.providers",
+    "child_surface_id": "models.provider-explorer",
+    "title": "Provider Explorer",
+    "mode": "READ_ONLY_DISCOVERY_AND_DRAFT_ADMISSION_INTENT",
+    "direct_provider_enable": false,
+    "direct_credential_entry": false,
+    "direct_model_router_mutation": false
+  },
+  "reference_sources": ["FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24"]
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "fa3.upstream-reference.v1",
+  "id": "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24",
+  "observed_at": "2026-09-24",
+  "repository": "open-free-llm-api/awesome-freellm-apis",
+  "branch": "main",
+  "commit": "4a91e1d93a6df0753ade804f75b4e17fbad89886",
+  "readme_blob_sha": "6efd805b95fe690a9276a664c632bb3a6e170e79",
+  "license_blob_sha": "eac465657bf303c7359081715cec9a695c62f554",
+  "license": "MIT",
+  "observed_repository_facts": {
+    "repository_public": true,
+    "default_branch": "main",
+    "default_branch_protected": false,
+    "observed_commit_verified_signature": false,
+    "observed_commit_message": "chore: sync README from freellm.net data [skip ci]",
+    "readme_claimed_free_api_count": "508+",
+    "readme_claimed_provider_count": 31,
+    "readme_claimed_refresh_frequency": "DAILY",
+    "readme_data_origin": "freellm.net",
+    "repository_contains_separate_canonical_provider_database": false
+  },
+  "fa3_interpretation": {
+    "role": "REPLACEABLE_EXTERNAL_DISCOVERY_SOURCE_ONLY",
+    "trust_anchor": false,
+    "runtime_provider": false,
+    "routing_authority": false,
+    "provider_admission_authority": false,
+    "credential_authority": false,
+    "free_tier_claim_is_admission_evidence": false,
+    "readme_snapshot_may_seed_discovery": true,
+    "source_revision_must_be_recorded": true,
+    "source_bytes_sha256_must_be_recorded_by_normalizer": true,
+    "provider_terms_privacy_and_entitlement_require_separate_validation": true
+  },
+  "floating_latest_allowed_as_promotion_evidence": false,
+  "current_host_runtime_promotion_claim": false
+}

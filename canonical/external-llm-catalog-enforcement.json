@@ -1,0 +1,42 @@
+{
+  "schema": "fa3.external-llm-catalog-enforcement.v1",
+  "gate_id": "FA3-GATE-EXTERNAL-LLM-CATALOG-001",
+  "profile_id": "FA3-EXTERNAL-LLM-CATALOG-001",
+  "contract_id": "FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001",
+  "decision_id": "FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24",
+  "reference_id": "FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24",
+  "fail_closed": true,
+  "current_host_runtime_promotion_claim": false,
+  "mandatory_rules": [
+    "EXTERNAL_LLM_SOURCE_IS_DISCOVERY_ONLY_NOT_TRUST_AUTHORITY",
+    "EVIDENCED_SOURCE_SNAPSHOT_REQUIRES_IMMUTABLE_REVISION",
+    "NORMALIZER_RECORDS_SOURCE_BYTES_SHA256",
+    "NORMALIZER_INITIAL_STATE_DISCOVERED_ONLY",
+    "CATALOG_CANNOT_CONTAIN_SECRET_VALUES",
+    "FREE_TIER_CLAIM_IS_NOT_PROVIDER_ADMISSION",
+    "INVALID_STATE_TRANSITION_FAILS_CLOSED",
+    "ADMITTED_PROVIDER_REQUIRES_CANONICAL_FA3_PROVIDER_ID_AND_RECEIPT",
+    "EXTERNAL_ROUTE_REQUIRES_EXPLICIT_EGRESS_POLICY",
+    "LIVE_MODEL_OR_CAPABILITY_PROBE_REQUIRED_BEFORE_RUNTIME_USE",
+    "MODEL_ROUTER_REMAINS_SINGLE_ROUTING_AUTHORITY",
+    "LITELLM_REMAINS_DATA_PLANE_ONLY",
+    "NO_SILENT_LOCAL_TO_CLOUD_FALLBACK",
+    "DECISION_FABRIC_CANNOT_EXPAND_OR_ADMIT_PROVIDER_SET",
+    "GUI_PROVIDER_EXPLORER_IS_READ_ONLY_PLUS_DRAFT_INTENT"
+  ],
+  "runtime_eligibility_requires": [
+    "state_is_admitted_or_enabled",
+    "canonical_fa3_provider_id",
+    "admission_receipt",
+    "explicit_external_policy",
+    "credential_handle_if_required",
+    "live_capability_probe"
+  ],
+  "gui_policy": {
+    "surface": "Models & Providers / Provider Explorer",
+    "direct_enable": false,
+    "direct_credential_entry": false,
+    "direct_router_mutation": false,
+    "allowed_mutation": "DRAFT_PROVIDER_ADMISSION_INTENT_ONLY"
+  }
+}

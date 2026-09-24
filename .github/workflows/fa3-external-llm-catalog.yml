@@ -1,0 +1,93 @@
+name: FA3 External LLM Catalog Gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "canonical/profiles/FA3-EXTERNAL-LLM-CATALOG-001.json"
+      - "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json"
+      - "canonical/references/FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24.json"
+      - "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json"
+      - "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json"
+      - "canonical/external-llm-catalog-enforcement.json"
+      - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
+      - "src/fa3_external_llm_catalog.py"
+      - "src/fa3_external_llm_catalog_gate.py"
+      - "tests/test_external_llm_catalog_gate.py"
+      - "tests/fixtures/freellm-readme-mini.md"
+      - "evidence/reference/external-llm-catalog-ci-2026-09-24.json"
+      - "apps/fa3-control-center/qml/ProviderExplorerView.qml"
+      - "apps/fa3-control-center/qml/ModelsProvidersPage.qml"
+      - "apps/fa3-control-center/src/ExternalLlmCatalogModel.cpp"
+      - "apps/fa3-control-center/src/ExternalLlmCatalogModel.h"
+      - "apps/fa3-control-center/src/main.cpp"
+      - "apps/fa3-control-center/CMakeLists.txt"
+      - "docs/external-llm-catalog.md"
+      - ".github/workflows/fa3-external-llm-catalog.yml"
+  push:
+    branches:
+      - "main"
+      - "fa3/**"
+    paths:
+      - "canonical/profiles/FA3-EXTERNAL-LLM-CATALOG-001.json"
+      - "canonical/contracts/FA3-EXTERNAL-LLM-CATALOG-CONTRACTS-001.json"
+      - "canonical/references/FA3-FREELLM-UPSTREAM-REFERENCE-2026-09-24.json"
+      - "canonical/decisions/FA3-DEC-EXTERNAL-LLM-CATALOG-2026-09-24.json"
+      - "canonical/assessments/FA3-EXTERNAL-LLM-CATALOG-DECISION-ASSESSMENT-2026-09-24.json"
+      - "canonical/external-llm-catalog-enforcement.json"
+      - "canonical/FA3-GUI-SURFACE-REGISTRY-001.json"
+      - "src/fa3_external_llm_catalog.py"
+      - "src/fa3_external_llm_catalog_gate.py"
+      - "tests/test_external_llm_catalog_gate.py"
+      - "tests/fixtures/freellm-readme-mini.md"
+      - "evidence/reference/external-llm-catalog-ci-2026-09-24.json"
+      - "apps/fa3-control-center/qml/ProviderExplorerView.qml"
+      - "apps/fa3-control-center/qml/ModelsProvidersPage.qml"
+      - "apps/fa3-control-center/src/ExternalLlmCatalogModel.cpp"
+      - "apps/fa3-control-center/src/ExternalLlmCatalogModel.h"
+      - "apps/fa3-control-center/src/main.cpp"
+      - "apps/fa3-control-center/CMakeLists.txt"
+      - "docs/external-llm-catalog.md"
+      - ".github/workflows/fa3-external-llm-catalog.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-llm-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Syntax check
+        run: python3 -m py_compile src/fa3_external_llm_catalog.py src/fa3_external_llm_catalog_gate.py
+
+      - name: External LLM catalog unit tests
+        run: PYTHONPATH=src python3 -m unittest tests.test_external_llm_catalog_gate -v
+
+      - name: External LLM catalog fail-closed gate
+        run: PYTHONPATH=src python3 src/fa3_external_llm_catalog_gate.py --root .
+
+      - name: Existing Model Router regression
+        run: PYTHONPATH=src python3 src/fa3_model_router_gate.py --root .
+
+      - name: Existing GUI reconciliation regression
+        run: PYTHONPATH=src python3 -m unittest tests.test_fa3_gui_gate -v
+
+      - name: Diff whitespace check
+        run: git diff --check HEAD^ HEAD
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fa3-external-llm-catalog-gate
+          path: reports/external-llm-catalog-gate-report.json
+          if-no-files-found: error
