@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "29634ae3c24d372a01f6141e53ed3e0627f0a01e",
-    "pre_projection_root_tree_sha": "1e500429e4cb00832d48dd4f2be97640dbc2855a",
-    "pre_projection_canonical_tree_sha": "1cfa569a77bf49cf63252e30ca3e897e7ae1d6f6",
-    "commits_ahead_of_v3_0_11_conformance_commit": 829,
-    "total_post_baseline_commits": 829,
-    "delta_file_count": 2044,
-    "delta_added_files": 2039,
+    "pre_projection_head_sha": "04aff1bf399aadb899afb85d9ae167d554dbc54c",
+    "pre_projection_root_tree_sha": "7c898264dea8d9ff3d8d9d682266bde6f1c697e8",
+    "pre_projection_canonical_tree_sha": "bd98c3548371f7bb25f2cd7fb07d6c9f815d0608",
+    "commits_ahead_of_v3_0_11_conformance_commit": 605,
+    "total_post_baseline_commits": 605,
+    "delta_file_count": 2052,
+    "delta_added_files": 2047,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,8 +45,8 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 973,
-    "evidence_files_in_post_baseline_delta": 155,
+    "canonical_files_in_post_baseline_delta": 979,
+    "evidence_files_in_post_baseline_delta": 156,
     "source_files_in_post_baseline_delta": 271,
     "test_files_in_post_baseline_delta": 227,
     "workflow_files_in_post_baseline_delta": 99,
@@ -285,6 +285,7 @@
       "canonical/contracts/FA3-AGENT-INSTRUCTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-MEMORY-ASSET-GOVERNANCE-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-RUNNER-CONTRACT-001.schema.json",
+      "canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
       "canonical/contracts/FA3-AGENT-WORKLOAD-TASK-001.schema.json",
       "canonical/contracts/FA3-AGENT-WORKSPACE-001.schema.json",
@@ -374,8 +375,11 @@
       "canonical/contracts/FA3-SECRET-BROKER-CONTRACTS-001.json",
       "canonical/contracts/FA3-SESSION-VAULT-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-DISCOVERY-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
+      "canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json",
       "canonical/contracts/FA3-SPEECH-ENHANCEMENT-CONTRACTS-001.json",
       "canonical/contracts/FA3-STABILITY-PORTFOLIO-CONTRACTS-001.json",
       "canonical/contracts/FA3-STORAGE-FUSE-CONTRACTS-001.json",
@@ -403,6 +407,7 @@
       "canonical/decisions/FA3-DEC-ACE-STEP-2026-08-30.json",
       "canonical/decisions/FA3-DEC-ACE-STEP-HARDENING-2026-09-10.json",
       "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
+      "canonical/decisions/FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24.json",
       "canonical/decisions/FA3-DEC-AGENT-WORKLOAD-RUNTIME-AX-DERIVED-2026-09-24.json",
       "canonical/decisions/FA3-DEC-AI-COMMS-2026-09-22.json",
       "canonical/decisions/FA3-DEC-AI-ENGINEERING-FROM-SCRATCH-2026-08-30.json",
@@ -622,6 +627,7 @@
       "evidence/reference/FA3-EVIDENCE-AI-IMAGE-EDITING-001.json",
       "evidence/reference/ace-step-2026-08-30.json",
       "evidence/reference/ace-step-upstream-2026-09-10.json",
+      "evidence/reference/agent-skills-ecosystem-reference-2026-09-24.json",
       "evidence/reference/agent-workload-runtime-ci-2026-09-24.json",
       "evidence/reference/ai-infra-guard-ci-2026-08-31.json",
       "evidence/reference/autogpt-ci-2026-08-30.json",
@@ -919,7 +925,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 2037,
+  "manifest_entry_count": 2045,
   "manifest": [
     {
       "path": ".githooks/pre-commit",
@@ -2347,6 +2353,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/FA3-EXTERNAL-SKILL-RADAR-001.json",
+      "git_blob_sha": "7f36f2611523237ec5120b020b6c4a72257a306c",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/FA3-FFMPEG-AI-RUNTIME-CONFORMANCE-001.json",
       "git_blob_sha": "009f194101184e93e87ae45474d38f2597648b83",
       "baseline_delta_status": "added"
@@ -3547,6 +3558,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-AGENT-SKILLS-COMPAT-CONTRACTS-001.json",
+      "git_blob_sha": "c61a41429f3305f4983031f254d35be7018222b8",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-AGENT-WORKLOAD-RUNTIME-CONTRACTS-001.json",
       "git_blob_sha": "a8bcddb39ceb18aaeef002159690456730c3d8de",
       "baseline_delta_status": "added"
@@ -3992,6 +4008,16 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "canonical/contracts/FA3-SKILL-EVALUATION-CONTRACTS-001.json",
+      "git_blob_sha": "65a924ca0edcd8040df9914a55b4a0aaa51370d8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SKILL-IMPROVEMENT-CONTRACTS-001.json",
+      "git_blob_sha": "de9585ab973648ac85ede23c9aa321b5eb0eb187",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "canonical/contracts/FA3-SKILL-MATERIALIZATION-CONTRACTS-001.json",
       "git_blob_sha": "ed1056a93ae71c3c38420cc1458740d7b1de1350",
       "baseline_delta_status": "added"
@@ -3999,6 +4025,11 @@
     {
       "path": "canonical/contracts/FA3-SKILL-PACKAGE-ADMISSION-CONTRACTS-001.json",
       "git_blob_sha": "ba3f326caf27275d0633b9ba416bac276d2e50c8",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/contracts/FA3-SKILL-SECURITY-INSPECTION-CONTRACTS-001.json",
+      "git_blob_sha": "6984680905d266bbb64238b70186cc8421ee6333",
       "baseline_delta_status": "added"
     },
     {
@@ -4179,6 +4210,11 @@
     {
       "path": "canonical/decisions/FA3-DEC-AGENCY-AGENTS-INTEGRATION-2026-09-23.json",
       "git_blob_sha": "c812cdf6a5a1ed61ea3ffd5a8dd6df595fd29b8a",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/decisions/FA3-DEC-AGENT-SKILLS-ECOSYSTEM-2026-09-24.json",
+      "git_blob_sha": "6081849c306a1a74ddc01a6b831b0ad8ec693372",
       "baseline_delta_status": "added"
     },
     {
@@ -7332,6 +7368,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "docs/FA3-SKILL-FABRIC-AGENT-SKILLS-EXPANSION-2026-09-24.md",
+      "git_blob_sha": "eb13335a04a5b89a92003ef28737c3386f24160d",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "docs/FA3-UNIFIED-ACTION-FABRIC-001.md",
       "git_blob_sha": "91c76548ed1cced64a94e50b1860f41944e8e7d9",
       "baseline_delta_status": "added"
@@ -7869,6 +7910,11 @@
     {
       "path": "evidence/reference/ace-step-upstream-2026-09-10.json",
       "git_blob_sha": "d87a79a718b752ba8eb91e644e024a9e0833b680",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "evidence/reference/agent-skills-ecosystem-reference-2026-09-24.json",
+      "git_blob_sha": "fb6b8d626749119c13078aadfe06f2952ac5bbf7",
       "baseline_delta_status": "added"
     },
     {
