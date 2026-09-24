@@ -34,6 +34,23 @@ class QualityFilterTests(unittest.TestCase):
         self.assertEqual(report["result"], "PASS")
         self.assertGreaterEqual(report["warnings"], 1)
 
+    def test_qml_placeholder_text_property_is_not_placeholder_copy_marker(self):
+        qml_property = analyze_text(
+            "apps/demo.qml",
+            'TextField { placeholderText: "Mit keresel?" }',
+            self.registry,
+            {"CORE"},
+        )
+        marker = analyze_text(
+            "apps/demo.qml",
+            '// PLACEHOLDER_TEXT\nText { text: "replace before release" }',
+            self.registry,
+            {"CORE"},
+        )
+        self.assertEqual(qml_property["result"], "PASS")
+        self.assertEqual(marker["result"], "FAIL")
+        self.assertTrue(any(x["rule_id"] == "Q-CORE-002" for x in marker["findings"]))
+
     def test_direct_provider_execution_is_blocked_in_ui(self):
         report = analyze_text("apps/demo.qml", 'Text { text: "run" }\n// ollama run model', self.registry, {"UI"})
         self.assertEqual(report["result"], "FAIL")
