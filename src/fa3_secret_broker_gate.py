@@ -89,6 +89,8 @@ def check()->dict:
     req('sudo -n "$HELPER"' in bridge_client and "privileged bridge source drift" in bridge_client and "git -C" in bridge_client,"SB-023M")
     req("/usr/local/bin/fa3-secret-broker-current-host-bridge doctor" in bridge_workflow and "/usr/local/bin/fa3-secret-broker-current-host-bridge run" in bridge_workflow and "sudo FA3_REPO_ROOT" not in bridge_workflow,"SB-023N")
     req("fa3-install-secret-broker-current-host-bridge.sh" in bootstrap and "fa3-secret-broker-current-host-bridge" in bootstrap,"SB-023O")
+    collector=(ROOT/"evidence/collect-secret-broker-current-host-reference.py")
+    req(collector.is_file() and "systemd_vault_rw_mount_pass" in collector.read_text() and "systemd_broker_write_read_revoke_pass" in collector.read_text() and "privileged bridge source commit does not match repository HEAD" in collector.read_text(),"SB-023S")
     current_host=(ROOT/"bin/fa3-secret-broker-current-host.sh").read_text()
     privilege=p.get("current_host_privilege_boundary",{})
     req(privilege.get("broker_admin_e2e_identity")=="DEDICATED_EPHEMERAL_NON_ROOT" and set(privilege.get("broker_admin_required_groups",[]))=={"fa3-secret-admin","fa3-secret-clients"} and privilege.get("root_peer_admin_assumption_for_e2e")=="FORBIDDEN" and privilege.get("broker_admin_e2e_cleanup")=="REMOVE_BEFORE_RECEIPT","SB-023P")
