@@ -168,12 +168,15 @@
         "profile_id": "FA3-SECRET-BROKER-001",
         "conformance_id": "FA3-SECRET-BROKER-RUNTIME-CONFORMANCE-001",
         "gate_id": "FA3-GATE-SECRET-BROKER-CURRENT-HOST-001",
-        "current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-21.json",
-        "runtime_status": "CURRENT_HOST_ADMITTED",
-        "production_runtime_admitted": true,
+        "current_host_evidence": null,
+        "runtime_status": "CURRENT_HOST_REQUALIFICATION_REQUIRED",
+        "production_runtime_admitted": false,
         "component_scope": "FA3_SECRET_BROKER_CORE_CURRENT_HOST_ONLY",
         "global_promotion_claim": false,
-        "optional_adapter_admission": "SEPARATE_EVIDENCE_REQUIRED"
+        "optional_adapter_admission": "SEPARATE_EVIDENCE_REQUIRED",
+        "superseded_current_host_evidence": "evidence/reference/secret-broker-current-host-2026-09-21.json",
+        "requalification_reason": "RW_SYSTEMD_VAULT_AND_CLEAN_MAPPER_SHUTDOWN_NOT_PROVEN_BY_SUPERSEDED_EVIDENCE",
+        "required_next_evidence": "FRESH_EXACT_SOURCE_CURRENT_HOST_E2E_WITH_SYSTEMD_PUT_GET_REVOKE_AND_FINAL_CLOSED_STATE"
       }
     },
     {
