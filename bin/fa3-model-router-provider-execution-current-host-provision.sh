@@ -63,7 +63,7 @@ done
 [[ "$SECRET_ID_A" != "$SECRET_ID_B" ]] || { echo "credential SecretReferences must be distinct" >&2; exit 2; }
 [[ -r /dev/tty && -w /dev/tty ]] || { echo "interactive /dev/tty is required" >&2; exit 2; }
 
-for cmd in python3 systemctl systemd-run getent useradd userdel readlink install cmp; do
+for cmd in python3 systemctl systemd-run getent useradd userdel readlink install cmp pgrep; do
   command -v "$cmd" >/dev/null || { echo "missing prerequisite: $cmd" >&2; exit 2; }
 done
 for path in /usr/local/bin/fa3-secretctl /usr/local/sbin/fa3-secret-policyctl /usr/local/sbin/fa3-secrets-lifecycle /usr/local/libexec/fa3-secret-vault-mount /usr/local/libexec/fa3-secret-broker-current-host-root; do
@@ -190,17 +190,57 @@ fi
 /usr/local/bin/fa3-secretctl health >/dev/null
 echo "Secret Broker live health: PASS"
 
-if getent passwd "$PROBE_USER" >/dev/null; then
-  echo "probe identity already exists; refusing to reuse it" >&2
+if systemctl is-active --quiet "$PROBE_UNIT"; then
+  echo "provider execution probe unit is already active; refusing concurrent recovery" >&2
   exit 2
 fi
+if getent passwd "$PROBE_USER" >/dev/null && pgrep -u "$PROBE_USER" >/dev/null 2>&1; then
+  echo "provider execution probe identity has live processes; refusing stale-state recovery" >&2
+  exit 2
+fi
+
+STALE_PROBE_STATE=false
+if getent passwd "$PROBE_USER" >/dev/null; then
+  echo "stale provider execution probe identity detected"
+  STALE_PROBE_STATE=true
+fi
+
+for sid in "$SECRET_ID_A" "$SECRET_ID_B"; do
+  if /usr/local/bin/fa3-secretctl admin-metadata "$sid" >/dev/null 2>&1; then
+    echo "stale reserved provider-execution SecretRef detected: $sid"
+    /usr/local/bin/fa3-secretctl delete "$sid" >/dev/null
+    STALE_PROBE_STATE=true
+  fi
+  if /usr/local/sbin/fa3-secret-policyctl show "$sid" >/dev/null 2>&1; then
+    echo "stale reserved provider-execution policy detected: $sid"
+    /usr/local/sbin/fa3-secret-policyctl remove "$sid" >/dev/null
+    STALE_PROBE_STATE=true
+  fi
+done
+
+if [[ "$STALE_PROBE_STATE" == true ]] && getent passwd "$PROBE_USER" >/dev/null; then
+  userdel "$PROBE_USER"
+fi
+
+if getent passwd "$PROBE_USER" >/dev/null; then
+  echo "stale provider execution probe identity recovery failed" >&2
+  exit 2
+fi
+if /usr/local/bin/fa3-secretctl admin-metadata "$SECRET_ID_A" >/dev/null 2>&1 || /usr/local/bin/fa3-secretctl admin-metadata "$SECRET_ID_B" >/dev/null 2>&1; then
+  echo "stale reserved provider-execution SecretRef recovery failed" >&2
+  exit 2
+fi
+if /usr/local/sbin/fa3-secret-policyctl show "$SECRET_ID_A" >/dev/null 2>&1 || /usr/local/sbin/fa3-secret-policyctl show "$SECRET_ID_B" >/dev/null 2>&1; then
+  echo "stale reserved provider-execution policy recovery failed" >&2
+  exit 2
+fi
+
+if [[ "$STALE_PROBE_STATE" == true ]]; then
+  echo "Stale provider execution probe state cleanup: PASS"
+fi
+
 useradd --system --no-create-home --shell /usr/sbin/nologin --groups fa3-secret-clients "$PROBE_USER"
 CREATED_USER=true
-
-if /usr/local/bin/fa3-secretctl admin-metadata "$SECRET_ID_A" >/dev/null 2>&1 || /usr/local/bin/fa3-secretctl admin-metadata "$SECRET_ID_B" >/dev/null 2>&1; then
-  echo "one or both probe SecretReference ids already exist; refusing to overwrite" >&2
-  exit 2
-fi
 
 PYTHON_EXE="$(readlink -f "$(command -v python3)")"
 TMP="$(mktemp -d)"
