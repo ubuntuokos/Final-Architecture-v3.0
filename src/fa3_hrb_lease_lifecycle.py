@@ -380,6 +380,7 @@ class SecretBrokerProjectionLifecycleHook:
             refs = []
         if not isinstance(refs, list):
             return False
+        runtime_digest = _sha256_hex(_canonical(lease.get("runtime_binding", {})))
         for ref in refs:
             if not isinstance(ref, dict) or set(ref) != {"projection_lease_id"}:
                 return False
@@ -391,6 +392,7 @@ class SecretBrokerProjectionLifecycleHook:
                 "projection_lease_id": projection_lease_id,
                 "hrb_lease_id": lease.get("lease_id"),
                 "hrb_generation": lease.get("generation"),
+                "runtime_binding_sha256": runtime_digest,
                 "consumer_id": "FA3-HRB-LEASE-LIFECYCLE",
                 "projection": "OPAQUE_SECRET_PROJECTION_LEASE",
             })
@@ -404,6 +406,7 @@ class SecretBrokerProjectionLifecycleHook:
                 "projection_lease_id": projection_lease_id,
                 "hrb_lease_id": lease.get("lease_id"),
                 "hrb_generation": lease.get("generation"),
+                "runtime_binding_sha256": runtime_digest,
                 "consumer_id": "FA3-HRB-LEASE-LIFECYCLE",
                 "projection": "OPAQUE_SECRET_PROJECTION_LEASE",
             })
@@ -659,7 +662,9 @@ class LeaseLedger:
 
             if not adapter.block_restart(binding):
                 self.fail_and_quarantine(record, "SYSTEMD_RESTART_BLOCK_FAILED")
-                evidence.append(self._event(record, failures + ["SYSTEMD_RESTART_BLOCK_FAILED"]))
+                event = evidence.append(self._event(record, failures + ["SYSTEMD_RESTART_BLOCK_FAILED"]))
+                record["final_evidence_event_sha256"] = event["event_sha256"]
+                self._resign(record)
                 return json.loads(json.dumps(record))
 
             try:
@@ -671,7 +676,9 @@ class LeaseLedger:
             ok, reason = adapter.verify_binding(binding)
             if not ok:
                 self.fail_and_quarantine(record, "RUNTIME_BINDING_MISMATCH:" + reason)
-                evidence.append(self._event(record, failures + ["RUNTIME_BINDING_MISMATCH:" + reason]))
+                event = evidence.append(self._event(record, failures + ["RUNTIME_BINDING_MISMATCH:" + reason]))
+                record["final_evidence_event_sha256"] = event["event_sha256"]
+                self._resign(record)
                 return json.loads(json.dumps(record))
 
             self._transition(record, "EVICTING")
@@ -780,13 +787,28 @@ class SystemdCgroupV2ScopeAdapter:
         return proc.returncode == 0
 
     def group_kill(self, binding: dict[str, Any]) -> str:
-        path = _safe_cgroup_path(binding["cgroup_v2_identity"]["path"])
+        try:
+            path = _safe_cgroup_path(binding["cgroup_v2_identity"]["path"])
+        except LeaseBindingError:
+            pid = int(binding["pidfd_subject_reference"]["pid"])
+            try:
+                current_start = _proc_start_ticks(pid)
+            except Exception:
+                return "CGROUP_ALREADY_DEAD_AFTER_SYSTEMD_TERMINATION"
+            if current_start != int(binding["pidfd_subject_reference"]["start_time_ticks"]):
+                return "CGROUP_ALREADY_DEAD_AFTER_SYSTEMD_TERMINATION"
+            raise
         kill_file = path / "cgroup.kill"
         if kill_file.is_file() and os.access(kill_file, os.W_OK):
             kill_file.write_text("1\n", encoding="ascii")
             return "CGROUP_V2_CGROUP_KILL"
         proc = self._systemctl("kill", "--kill-whom=all", "--signal=KILL", binding["systemd_unit_scope"])
         if proc.returncode != 0:
+            try:
+                if not (path / "cgroup.procs").read_text().strip():
+                    return "CGROUP_ALREADY_DEAD_AFTER_SYSTEMD_TERMINATION"
+            except Exception:
+                pass
             raise LeaseBindingError("group-level kill failed")
         return "SYSTEMD_KILL_ALL_CGROUP_SCOPE"
 
