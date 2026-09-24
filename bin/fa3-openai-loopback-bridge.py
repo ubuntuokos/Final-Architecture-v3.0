@@ -51,6 +51,7 @@ def normalize_probe_body(raw: bytes) -> bytes:
         raise BridgeError("only fixed FA3 provider-execution probe content is allowed")
     if obj.get("temperature") != 0:
         raise BridgeError("probe temperature must be zero")
+    obj.pop("temperature", None)
     max_tokens = obj.pop("max_tokens", None)
     if max_tokens not in (1, 32):
         raise BridgeError("probe token bound is invalid")
