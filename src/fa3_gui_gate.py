@@ -331,7 +331,8 @@ def main() -> int:
         for failure in failures: print(f" - {failure}")
         return 1
     print("FA3 GUI gate: PASS")
-    print("profile=FA3-DESKTOP-001 capabilities=143 new_authorities=0 runtime=PENDING_CURRENT_HOST")
+    runtime = load_json(REQUIRED["runtime"])
+    print(f"profile=FA3-DESKTOP-001 capabilities=143 new_authorities=0 runtime={runtime.get('status')}")
     return 0
 
 
