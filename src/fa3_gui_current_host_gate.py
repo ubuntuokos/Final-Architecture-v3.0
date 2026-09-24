@@ -36,6 +36,7 @@ P0 = [
     "GUI_CURRENT_HOST_MINIMUM_SMOKE_WINDOW_5_SECONDS",
     "GUI_CURRENT_HOST_PROCESS_CLEANUP_REQUIRED",
     "GUI_CURRENT_HOST_RECEIPT_SECRET_FREE",
+    "GUI_CURRENT_HOST_SECRET_BACKEND_SEPARATE_AUTHORITY_NOT_PROMOTED",
     "GUI_CURRENT_HOST_PASS_NOT_GLOBAL_FA3_PROMOTION",
     "GUI_CURRENT_HOST_CAPABILITY_AND_AUTHORITY_COUNT_INVARIANT",
 ]
@@ -270,6 +271,8 @@ def gate(
         and conformance.get("current_host_receipt_present") is True
         and conformance.get("promotion_blockers") == []
         and SHA40.fullmatch(str(conformance.get("tested_source_commit", ""))) is not None
+        and conformance.get("admission_scope") == "GUI_CONTROL_CENTER_PROCESS_RUNTIME_ONLY"
+        and conformance.get("secret_backend_admission") == "FAIL_SEPARATE_AUTHORITY_NOT_PROMOTED"
     )
     if not (pending or promoted):
         errors.append(
