@@ -10,13 +10,13 @@
   "source_snapshot": {
     "snapshot_semantics": "PRE_MAINTENANCE_CANONICAL_MAIN_ANCHOR",
     "baseline_commit_sha": "1d8a3ffaa2b4d11abcc6003250ff66b4798eef60",
-    "pre_projection_head_sha": "72e539de790ca18a22e562d2cac79df1bc568c96",
-    "pre_projection_root_tree_sha": "c18bcad4e504158af41497de63097b3c2e7784cc",
-    "pre_projection_canonical_tree_sha": "de5a8be4c574916efb866d292bacb2726c12740d",
-    "commits_ahead_of_v3_0_11_conformance_commit": 590,
-    "total_post_baseline_commits": 590,
-    "delta_file_count": 1885,
-    "delta_added_files": 1880,
+    "pre_projection_head_sha": "367c04abb51bfb74e2f99650e3f87998d35660e5",
+    "pre_projection_root_tree_sha": "2a92a9e11adf4c8d9ab09997bc41c29d7dc427b0",
+    "pre_projection_canonical_tree_sha": "8b5ec0f62dc56b38ec044a439256b30ada27a6fd",
+    "commits_ahead_of_v3_0_11_conformance_commit": 592,
+    "total_post_baseline_commits": 592,
+    "delta_file_count": 1887,
+    "delta_added_files": 1882,
     "delta_modified_files": 5,
     "delta_removed_files": 0,
     "delta_other_files": 0
@@ -45,9 +45,9 @@
     "geometry_relationship": "SUBPROFILE-OF"
   },
   "overlay_inventory": {
-    "canonical_files_in_post_baseline_delta": 889,
+    "canonical_files_in_post_baseline_delta": 890,
     "evidence_files_in_post_baseline_delta": 148,
-    "source_files_in_post_baseline_delta": 255,
+    "source_files_in_post_baseline_delta": 256,
     "test_files_in_post_baseline_delta": 217,
     "workflow_files_in_post_baseline_delta": 89,
     "provider_records": [
@@ -874,7 +874,7 @@
     "projected_runtime_state": "PROMOTION_BLOCKED_UNTIL_ALL_REQUIRED_EVIDENCE_AND_ACCEPTANCE_PASS",
     "provider_or_reference_ci_pass_does_not_imply_global_runtime_promotion": true
   },
-  "manifest_entry_count": 1878,
+  "manifest_entry_count": 1880,
   "manifest": [
     {
       "path": ".github/workflows/AGENTS.md",
@@ -2259,6 +2259,11 @@
     {
       "path": "canonical/FA3-GATE-HRB-DETERMINISTIC-LOCALITY-001.json",
       "git_blob_sha": "305931e1158c46167f403b588c37ae3e7690bf21",
+      "baseline_delta_status": "added"
+    },
+    {
+      "path": "canonical/FA3-GATE-HRB-LEASE-LIFECYCLE-001.json",
+      "git_blob_sha": "468452c6b98b18a44e82feeedfa4f5ae49f3161f",
       "baseline_delta_status": "added"
     },
     {
@@ -8332,6 +8337,11 @@
       "baseline_delta_status": "added"
     },
     {
+      "path": "src/fa3_hrb_lease_lifecycle.py",
+      "git_blob_sha": "afd4520540cf379616ae7b157df0fcfa012ed330",
+      "baseline_delta_status": "added"
+    },
+    {
       "path": "src/fa3_hrb_systemd_manager_current_host_gate.py",
       "git_blob_sha": "bd7343912b9cc403b19ee64dee1f405655548b6f",
       "baseline_delta_status": "added"
@@ -10464,7 +10474,7 @@
     "new_architectural_authorities": 0,
     "capability_count_after": 143
   },
-  "last_reconciled_at": "2026-09-23",
+  "last_reconciled_at": "2026-09-24",
   "inference_portability_reconciliation": {
     "profile_id": "FA3-INFERENCE-PORTABILITY-001",
     "contract_id": "FA3-INFERENCE-PORTABILITY-CONTRACTS-001",
