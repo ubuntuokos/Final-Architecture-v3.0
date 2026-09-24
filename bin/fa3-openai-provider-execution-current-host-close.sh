@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROVIDER_ID="FA3-PROVIDER-OPENAI-API-001"
-PREFERRED_MODEL="${FA3_OPENAI_PROBE_MODEL:-gpt-6-luna}"
+PREFERRED_MODEL="${FA3_OPENAI_PROBE_MODEL:-gpt-4o-mini}"
 RUN_ROOT="/run/fa3/openai-provider"
 BRIDGE_COPY="$RUN_ROOT/fa3-openai-loopback-bridge.py"
 ADMISSION_RECEIPT="$RUN_ROOT/openai-current-host-admission.json"
