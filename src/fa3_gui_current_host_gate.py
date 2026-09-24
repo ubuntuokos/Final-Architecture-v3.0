@@ -364,7 +364,7 @@ def gate(
             receipt_errors = validate_receipt(receipt)
             errors.extend(f"receipt: {item}" for item in receipt_errors)
             evidence_state = "PASS" if not receipt_errors else "FAIL"
-            if promoted and not receipt_errors:
+            if promoted and receipt_path is None and not receipt_errors:
                 if (
                     conformance.get("tested_source_commit")
                     != receipt.get("source_binding", {}).get("source_commit")
