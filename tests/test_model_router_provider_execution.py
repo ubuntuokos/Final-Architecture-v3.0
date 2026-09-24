@@ -37,9 +37,6 @@ class ProviderExecutionTests(unittest.TestCase):
     def test_receipt_redacts_reference(self):
         r=execution_receipt(CredentialCandidate("p","secretref:p/a","HEALTHY",True),logical_route="x",physical_model="y",selection_reason="z")
         self.assertNotIn("credential_ref",r); self.assertFalse(r["raw_credential_present"])
-if __name__=="__main__": unittest.main()
-
-
 class ProviderExecutionCoreClosureTests(unittest.TestCase):
     def test_core_closure_is_provider_independent(self):
         import json
@@ -54,3 +51,19 @@ class ProviderExecutionCoreClosureTests(unittest.TestCase):
         self.assertFalse(current["blocks_core_closure"])
         self.assertEqual(openai["current_host_production_evidence"],"PENDING_EXTERNAL_BILLING")
         self.assertFalse(openai["provider_execution_core_closure_dependency"])
+
+    def test_provider_gui_finalization_obligation_is_durable(self):
+        import json
+        from pathlib import Path
+        root=Path(__file__).resolve().parents[1]
+        gui=json.loads((root/"canonical/FA3-GUI-SURFACE-REGISTRY-001.json").read_text())
+        route=next(x for x in gui["surfaces"] if x.get("route_id")=="models.providers")
+        obligation=route["provider_gui_completion_obligation"]
+        self.assertEqual(obligation["status"],"MANDATORY_ON_PROVIDER_GUI_FINALIZATION")
+        self.assertTrue(obligation["provider_specific_admission_evidence_required"])
+        self.assertFalse(obligation["core_recertification_required"])
+        self.assertIn("OPENAI_EXTERNAL_BILLING_CURRENT_HOST_E2E",obligation["required_followups"])
+        self.assertIn("GOOGLE_GEMINI_PROVIDER_ADMISSION_IF_SELECTED",obligation["required_followups"])
+        self.assertIn("GITHUB_COPILOT_PROVIDER_ADMISSION_IF_SELECTED",obligation["required_followups"])
+
+if __name__=="__main__": unittest.main()

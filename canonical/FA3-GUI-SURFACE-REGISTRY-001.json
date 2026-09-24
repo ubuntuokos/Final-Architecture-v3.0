@@ -128,10 +128,24 @@
           "direct_router_mutation": false,
           "credential_values_visible": false,
           "authority": false,
-          "current_host_runtime_status": "PENDING_CURRENT_HOST",
-          "runtime_promotion_claim": false
+          "current_host_runtime_status": "PROVIDER_SPECIFIC_EVIDENCE_SEPARATE_CORE_CLOSED",
+          "runtime_promotion_claim": false,
+          "gui_finalization_obligation": "MUST_RECONCILE_PROVIDER_ADMISSION_BACKLOG"
         }
-      ]
+      ],
+      "provider_gui_completion_obligation": {
+        "status": "MANDATORY_ON_PROVIDER_GUI_FINALIZATION",
+        "requirement": "RECONCILE_AND_FINISH_PENDING_PROVIDER_ADMISSION_AND_CURRENT_HOST_EVIDENCE_WORK",
+        "unresolved_item_policy": "EXPLICIT_BLOCKER_STATUS_REQUIRED; SILENT_OMISSION_FORBIDDEN",
+        "required_followups": [
+          "OPENAI_EXTERNAL_BILLING_CURRENT_HOST_E2E",
+          "GOOGLE_GEMINI_PROVIDER_ADMISSION_IF_SELECTED",
+          "GITHUB_COPILOT_PROVIDER_ADMISSION_IF_SELECTED",
+          "OTHER_SELECTED_EXTERNAL_PROVIDER_ADMISSIONS"
+        ],
+        "core_recertification_required": false,
+        "provider_specific_admission_evidence_required": true
+      }
     },
     {
       "route_id": "models.manager",
